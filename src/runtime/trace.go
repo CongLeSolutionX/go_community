@@ -161,12 +161,17 @@ var trace struct {
 	buf     traceBufPtr // global trace buffer, used when running without a p
 }
 
-// traceLockInit initializes global trace locks.
-func traceLockInit() {
+// traceInit initializes the tracer subsystem and performs basic consistency checks.
+func traceInit() {
 	lockInit(&trace.bufLock, lockRankTraceBuf)
 	lockInit(&trace.stringsLock, lockRankTraceStrings)
 	lockInit(&trace.lock, lockRankTrace)
 	lockInit(&trace.stackTab.lock, lockRankTraceStackTab)
+
+	// Make sure the wait reason mapping makes sense.
+	if len(waitReasonToTraceEv) != len(waitReasonStrings) {
+		throw("mismatch between waitReasonTraceEv and waitReasonStrings")
+	}
 }
 
 // traceBufHeader is per-P tracing buffer.
@@ -473,7 +478,7 @@ top:
 			}
 
 			return true
-		}, nil, waitReasonTraceReaderBlocked, traceEvGoBlock, 2)
+		}, nil, waitReasonTraceReaderBlocked, 2)
 		goto top
 	}
 
@@ -1544,8 +1549,62 @@ func traceGoPreempt() {
 	traceEvent(traceEvGoPreempt, 1)
 }
 
-func traceGoPark(traceEv byte, skip int) {
-	traceEvent(traceEv, skip)
+// debugTraceGoParkWaitReason causes an immediate crash if an invalid
+// waitReason is passed to traceGoPark.
+const debugTraceGoParkWaitReason = false
+
+func traceGoPark(reason waitReason, skip int) {
+	ev := waitReasonToTraceEv[reason]
+	if ev == traceEvNone {
+		if debugTraceGoParkWaitReason {
+			print("runtime: reason=", reason, "\n")
+			throw("invalid waitReason passed to traceGoPark")
+		}
+		return
+	}
+	traceEvent(ev, skip)
+}
+
+// waitReasonToTraceEv maps a waitReason to a traceEv*.
+//
+// Those entries marked traceEvNone are waitReasons that
+// are used in stack traces to indicate certain runtime
+// states (to maintain the invariant that a waitreason is
+// set if a G is in _Gwaiting) but that otherwise do not
+// represent a state transition the tracer cares about.
+var waitReasonToTraceEv = [...]byte{
+	waitReasonZero:                  traceEvNone,
+	waitReasonGCAssistMarking:       traceEvNone,
+	waitReasonIOWait:                traceEvGoBlockNet,
+	waitReasonChanReceiveNilChan:    traceEvGoStop,
+	waitReasonChanSendNilChan:       traceEvGoStop,
+	waitReasonDumpingHeap:           traceEvNone,
+	waitReasonGarbageCollection:     traceEvNone,
+	waitReasonGarbageCollectionScan: traceEvNone,
+	waitReasonPanicWait:             traceEvGoStop,
+	waitReasonSelect:                traceEvGoBlockSelect,
+	waitReasonSelectNoCases:         traceEvGoStop,
+	waitReasonGCAssistWait:          traceEvGoBlockGC,
+	waitReasonGCSweepWait:           traceEvGoBlock,
+	waitReasonGCScavengeWait:        traceEvGoBlock,
+	waitReasonChanReceive:           traceEvGoBlockRecv,
+	waitReasonChanSend:              traceEvGoBlockSend,
+	waitReasonFinalizerWait:         traceEvGoBlock,
+	waitReasonForceGCIdle:           traceEvGoBlock,
+	waitReasonSemacquire:            traceEvGoBlockSync,
+	waitReasonSleep:                 traceEvGoSleep,
+	waitReasonSyncCondWait:          traceEvGoBlockCond,
+	waitReasonSyncMutexLock:         traceEvGoBlockSync,
+	waitReasonSyncRWMutexRLock:      traceEvGoBlockSync,
+	waitReasonSyncRWMutexLock:       traceEvGoBlockSync,
+	waitReasonTraceReaderBlocked:    traceEvGoBlock,
+	waitReasonWaitForGCCycle:        traceEvGoBlock,
+	waitReasonGCWorkerIdle:          traceEvGoBlock,
+	waitReasonGCWorkerActive:        traceEvNone,
+	waitReasonPreempted:             traceEvGoBlock,
+	waitReasonDebugCall:             traceEvGoBlock,
+	waitReasonGCMarkTermination:     traceEvNone,
+	waitReasonStoppingTheWorld:      traceEvNone,
 }
 
 func traceGoUnpark(gp *g, skip int) {

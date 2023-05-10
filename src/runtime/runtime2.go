@@ -580,7 +580,6 @@ type m struct {
 	nextwaitm     muintptr    // next m waiting for lock
 	waitunlockf   func(*g, unsafe.Pointer) bool
 	waitlock      unsafe.Pointer
-	waittraceev   byte
 	waittraceskip int
 	startingtrace bool
 	syscalltick   uint32
@@ -1052,6 +1051,7 @@ type ancestorInfo struct {
 
 // A waitReason explains why a goroutine has been stopped.
 // See gopark. Do not re-use waitReasons, add new ones.
+// If you add a new waitReason, update waitReasonToTraceEv.
 type waitReason uint8
 
 const (

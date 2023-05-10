@@ -273,7 +273,7 @@ func main() {
 		}
 	}
 	if panicking.Load() != 0 {
-		gopark(nil, nil, waitReasonPanicWait, traceEvGoStop, 1)
+		gopark(nil, nil, waitReasonPanicWait, 1)
 	}
 	runExitHooks(0)
 
@@ -308,7 +308,7 @@ func forcegchelper() {
 			throw("forcegc: phase error")
 		}
 		forcegc.idle.Store(true)
-		goparkunlock(&forcegc.lock, waitReasonForceGCIdle, traceEvGoBlock, 1)
+		goparkunlock(&forcegc.lock, waitReasonForceGCIdle, 1)
 		// this goroutine is explicitly resumed by sysmon
 		if debug.gctrace > 0 {
 			println("GC forced")
@@ -367,7 +367,7 @@ func goschedIfBusy() {
 // Reason explains why the goroutine has been parked. It is displayed in stack
 // traces and heap dumps. Reasons should be unique and descriptive. Do not
 // re-use reasons, add new ones.
-func gopark(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason waitReason, traceEv byte, traceskip int) {
+func gopark(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason waitReason, traceskip int) {
 	if reason != waitReasonSleep {
 		checkTimeouts() // timeouts may expire while two goroutines keep the scheduler busy
 	}
@@ -380,7 +380,6 @@ func gopark(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason w
 	mp.waitlock = lock
 	mp.waitunlockf = unlockf
 	gp.waitreason = reason
-	mp.waittraceev = traceEv
 	mp.waittraceskip = traceskip
 	releasem(mp)
 	// can't do anything that might move the G between Ms here.
@@ -389,8 +388,8 @@ func gopark(unlockf func(*g, unsafe.Pointer) bool, lock unsafe.Pointer, reason w
 
 // Puts the current goroutine into a waiting state and unlocks the lock.
 // The goroutine can be made runnable again by calling goready(gp).
-func goparkunlock(lock *mutex, reason waitReason, traceEv byte, traceskip int) {
-	gopark(parkunlock_c, unsafe.Pointer(lock), reason, traceEv, traceskip)
+func goparkunlock(lock *mutex, reason waitReason, traceskip int) {
+	gopark(parkunlock_c, unsafe.Pointer(lock), reason, traceskip)
 }
 
 func goready(gp *g, traceskip int) {
@@ -692,7 +691,6 @@ func schedinit() {
 	lockInit(&reflectOffs.lock, lockRankReflectOffs)
 	lockInit(&finlock, lockRankFin)
 	lockInit(&cpuprof.lock, lockRankCpuprof)
-	traceLockInit()
 	// Enforce that this lock is always a leaf lock.
 	// All of this lock's critical sections should be
 	// extremely short.
@@ -731,6 +729,7 @@ func schedinit() {
 	goenvs()
 	parsedebugvars()
 	gcinit()
+	traceInit()
 
 	// if disableMemoryProfiling is set, update MemProfileRate to 0 to turn off memprofile.
 	// Note: parsedebugvars may update MemProfileRate, but when disableMemoryProfiling is
@@ -3542,7 +3541,7 @@ func park_m(gp *g) {
 	mp := getg().m
 
 	if traceEnabled() {
-		traceGoPark(mp.waittraceev, mp.waittraceskip)
+		traceGoPark(gp.waitreason, mp.waittraceskip)
 	}
 
 	// N.B. Not using casGToWaiting here because the waitreason is
@@ -3613,7 +3612,7 @@ func gopreempt_m(gp *g) {
 //go:systemstack
 func preemptPark(gp *g) {
 	if traceEnabled() {
-		traceGoPark(traceEvGoBlock, 0)
+		traceGoPark(waitReasonPreempted, 0)
 	}
 	status := readgstatus(gp)
 	if status&^_Gscan != _Grunning {
