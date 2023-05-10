@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8a103e_76b7d8f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-10T21:57:56Z",
+      "side": 1,
+      "message": "Reworded. Thanks.",
+      "parentUuid": "ac451288_9b9aeb5a",
+      "revId": "6877528f54cf277e555f96029051dcdaea9aca6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f71eb40_1040da35",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12e7cf27_032bf500",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 3054,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-10T21:57:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d38b186c_6330c77f",
+      "revId": "6877528f54cf277e555f96029051dcdaea9aca6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fb4aed6_a0ccd92a",
@@ -85,6 +121,24 @@
       "writtenOn": "2023-05-09T20:15:10Z",
       "side": 1,
       "message": "In person, we were discussing how it would be really nice for many reasons if the compiler could import the runtime package (outside of compiling the runtime packages themselves) and match up these names with the linknamed exports from the runtime and just get their escape information (and maybe inline bodies!) from the export data.",
+      "revId": "6877528f54cf277e555f96029051dcdaea9aca6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81c64127_12791413",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 3742,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-10T21:57:56Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ll explore that (in a separate CL; we can undo the markings here when we get that work).",
+      "parentUuid": "0fb4aed6_a0ccd92a",
       "revId": "6877528f54cf277e555f96029051dcdaea9aca6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
