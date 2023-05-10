@@ -104,6 +104,24 @@
       "parentUuid": "1a2b2c45_287d1f22",
       "revId": "d6652a0f99de12a2fbde88bb297dbe87dcb4efc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67909b5_3104b6fd",
+        "filename": "src/strings/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-10T20:42:01Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "5d4041b9_2bb219fe",
+      "revId": "d6652a0f99de12a2fbde88bb297dbe87dcb4efc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
