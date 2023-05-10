@@ -326,6 +326,20 @@ func TestJSONAndTextHandlers(t *testing.T) {
 			wantText:  `source=handler_test.go:$LINE msg=message`,
 			wantJSON:  `{"source":{"function":"log/slog.TestJSONAndTextHandlers","file":"handler_test.go","line":$LINE},"msg":"message"}`,
 		},
+		{
+			name: "replace built-in with group",
+			replace: func(_ []string, a Attr) Attr {
+				if a.Key == TimeKey {
+					return Group(TimeKey, "mins", 3, "secs", 2)
+				}
+				if a.Key == LevelKey {
+					return Attr{}
+				}
+				return a
+			},
+			wantText: `time.mins=3 time.secs=2 msg=message`,
+			wantJSON: `{"time":{"mins":3,"secs":2},"msg":"message"}`,
+		},
 	} {
 		r := NewRecord(testTime, LevelInfo, "message", callerPC(2))
 		line := strconv.Itoa(r.source().Line)

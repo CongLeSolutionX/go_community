@@ -112,6 +112,8 @@ func (h *defaultHandler) Handle(ctx context.Context, r Record) error {
 	buf.WriteString(r.Message)
 	state := h.ch.newHandleState(buf, true, " ", nil)
 	defer state.free()
+	state.prefix = buffer.New()
+	defer state.prefix.Free()
 	state.appendNonBuiltIns(r)
 	return h.output(r.PC, *buf)
 }
@@ -251,6 +253,8 @@ func (h *commonHandler) withGroup(name string) *commonHandler {
 func (h *commonHandler) handle(r Record) error {
 	state := h.newHandleState(buffer.New(), true, "", nil)
 	defer state.free()
+	state.prefix = buffer.New()
+	defer state.prefix.Free()
 	if h.json {
 		state.buf.WriteByte('{')
 	}
@@ -309,8 +313,6 @@ func (s *handleState) appendNonBuiltIns(r Record) {
 	}
 	// Attrs in Record -- unlike the built-in ones, they are in groups started
 	// from WithGroup.
-	s.prefix = buffer.New()
-	defer s.prefix.Free()
 	s.prefix.WriteString(s.h.groupPrefix)
 	s.openGroups()
 	r.Attrs(func(a Attr) bool {
