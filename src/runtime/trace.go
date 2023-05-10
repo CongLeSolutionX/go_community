@@ -169,6 +169,11 @@ type gTraceState struct {
 	lastP          puintptr // last P emitted an event for this goroutine
 }
 
+// mTraceState is per-M state for the tracer.
+type mTraceState struct {
+	startingTrace bool // this M is in TraceStart, potentially before traceEnabled is true
+}
+
 // traceInit initializes the tracer subsystem and performs basic consistency checks.
 func traceInit() {
 	lockInit(&trace.bufLock, lockRankTraceBuf)
@@ -257,10 +262,10 @@ func StartTrace() error {
 	// That would lead to an inconsistent trace:
 	// - either GoSysExit appears before EvGoInSyscall,
 	// - or GoSysExit appears for a goroutine for which we don't emit EvGoInSyscall below.
-	// To instruct traceEvent that it must not ignore events below, we set startingtrace.
+	// To instruct traceEvent that it must not ignore events below, we set trace.startingTrace.
 	// trace.enabled is set afterwards once we have emitted all preliminary events.
 	mp := getg().m
-	mp.startingtrace = true
+	mp.trace.startingTrace = true
 
 	// Obtain current stack ID to use in all traceEvGoCreate events below.
 	stkBuf := make([]uintptr, traceStackSize)
@@ -329,7 +334,7 @@ func StartTrace() error {
 	trace.strings = make(map[string]uint64)
 
 	trace.seqGC = 0
-	mp.startingtrace = false
+	mp.trace.startingTrace = false
 	trace.enabled = true
 
 	// Register runtime goroutine labels.
@@ -703,7 +708,7 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 	// during tracing in exitsyscall is resolved by locking trace.bufLock in traceLockBuffer.
 	//
 	// Note trace_userTaskCreate runs the same check.
-	if !trace.enabled && !mp.startingtrace {
+	if !trace.enabled && !mp.trace.startingTrace {
 		traceReleaseBuffer(mp, pid)
 		return
 	}
@@ -1701,7 +1706,7 @@ func trace_userTaskCreate(id, parentID uint64, taskType string) {
 
 	// Same as in traceEvent.
 	mp, pid, bufp := traceAcquireBuffer()
-	if !trace.enabled && !mp.startingtrace {
+	if !trace.enabled && !mp.trace.startingTrace {
 		traceReleaseBuffer(mp, pid)
 		return
 	}
@@ -1723,7 +1728,7 @@ func trace_userRegion(id, mode uint64, name string) {
 	}
 
 	mp, pid, bufp := traceAcquireBuffer()
-	if !trace.enabled && !mp.startingtrace {
+	if !trace.enabled && !mp.trace.startingTrace {
 		traceReleaseBuffer(mp, pid)
 		return
 	}
@@ -1740,7 +1745,7 @@ func trace_userLog(id uint64, category, message string) {
 	}
 
 	mp, pid, bufp := traceAcquireBuffer()
-	if !trace.enabled && !mp.startingtrace {
+	if !trace.enabled && !mp.trace.startingTrace {
 		traceReleaseBuffer(mp, pid)
 		return
 	}
