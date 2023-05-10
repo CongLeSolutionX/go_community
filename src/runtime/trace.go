@@ -1664,7 +1664,9 @@ func traceGoSysCall() {
 	traceEvent(traceEvGoSysCall, skip)
 }
 
-func traceGoSysExit(ts int64) {
+func traceGoSysExit() {
+	gp := getg().m.curg
+	ts := gp.trace.sysExitTicks
 	if ts != 0 && ts < trace.ticksStart {
 		// There is a race between the code that initializes sysexitticks
 		// (in exitsyscall, which runs without a P, and therefore is not
@@ -1677,7 +1679,7 @@ func traceGoSysExit(ts int64) {
 		// aka right now), and assign a fresh time stamp to keep the log consistent.
 		ts = 0
 	}
-	gp := getg().m.curg
+	gp.trace.sysExitTicks = 0
 	gp.trace.seq++
 	gp.trace.lastP = gp.m.p
 	traceEvent(traceEvGoSysExit, -1, gp.goid, gp.trace.seq, uint64(ts)/traceTickDiv)
