@@ -107,6 +107,24 @@
       "parentUuid": "96e2dc15_d9d7876d",
       "revId": "db93d2506c83a8adce404c68af72347771307228",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e699b22b_2a3592f9",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-10T19:23:30Z",
+      "side": 1,
+      "message": "I agree that goroot_executable looks pretty redundant with this test. It\u0027s not exactly the same since moved_goroot actually really moves the GOROOT, but it\u0027s pretty close. Can we just delete moved_goroot?\n\nIt\u0027s kind of hard to move this logic down into a Go test. If we\u0027re actually moving GOROOT, it certainly has to run sequentially relative to all other tests. And at least currently it uses the fmt test, and we don\u0027t have a good way to invoke one test package from another (though we could report it as a single \"fmt worked\" or \"fmt failed\" test).\n\nIn some sense, this should be \"fmt:movedgoroot\", but maybe that\u0027s too weird?",
+      "parentUuid": "d8238f1c_b490f256",
+      "revId": "db93d2506c83a8adce404c68af72347771307228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
