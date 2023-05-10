@@ -105,6 +105,23 @@
       "message": "Sorry for the excess chit-chat -- this CL is adequate; the problem is caused because filtering\n\n  1001 ; 0101 \u0026\u0026 0001\n  \nwith \"001\" blocks evaluation of 0001 so 1001 looks like a singleton, and thus a not-actually-disambiguating hash matches as \"just one match\".  Computing them all ahead of time prevents this.  The true fix is in bisect.",
       "revId": "96788caeb1a6f53dfaef3ff65a6c21bf036f142d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74876157_078b9f4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-10T14:44:19Z",
+      "side": 1,
+      "message": "I believe you found the real problem instead.",
+      "revId": "96788caeb1a6f53dfaef3ff65a6c21bf036f142d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
