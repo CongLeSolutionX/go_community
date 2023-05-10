@@ -59,6 +59,30 @@
       },
       "revId": "67cfb6ac4e80216fd8ac5825d22eeeba9097ad90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d508c0a_d1cfd8ef",
+        "filename": "src/runtime/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-05-10T17:27:50Z",
+      "side": 1,
+      "message": "Also fixed a similar comment in reflect/type.go",
+      "parentUuid": "b864108c_26ffcd08",
+      "range": {
+        "startLine": 20,
+        "startChar": 3,
+        "endLine": 20,
+        "endChar": 42
+      },
+      "revId": "67cfb6ac4e80216fd8ac5825d22eeeba9097ad90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
