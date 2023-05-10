@@ -122,6 +122,23 @@
       "message": "I believe you found the real problem instead.",
       "revId": "96788caeb1a6f53dfaef3ff65a6c21bf036f142d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0339881a_0a51eaff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-10T18:29:38Z",
+      "side": 1,
+      "message": "I understand now. The old code is an invalid test case: the changes need to be independent. You can\u0027t have one that \"unlocks\" a decision about another.",
+      "revId": "96788caeb1a6f53dfaef3ff65a6c21bf036f142d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
