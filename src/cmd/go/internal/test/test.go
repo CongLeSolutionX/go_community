@@ -157,6 +157,9 @@ In addition to the build flags, the flags handled by 'go test' itself are:
 	    Convert test output to JSON suitable for automated processing.
 	    See 'go doc test2json' for the encoding details.
 
+	-label label
+	    Add :label to package names printed in test results.
+
 	-o file
 	    Compile the test binary to the named file.
 	    The test still runs (unless -c or -i is specified).
@@ -273,6 +276,9 @@ control the execution of any test:
 	-json
 	    Log verbose output and test results in JSON. This presents the
 	    same information as the -v flag in a machine-readable format.
+
+	-label label
+	    Add :label to package names printed in test results.
 
 	-list regexp
 	    List tests, benchmarks, fuzz tests, or examples matching the regular
@@ -539,6 +545,7 @@ var (
 	testCoverProfile string                            // -coverprofile flag
 	testFuzz         string                            // -fuzz flag
 	testJSON         bool                              // -json flag
+	testLabel        string                            // -label flag
 	testList         string                            // -list flag
 	testO            string                            // -o flag
 	testOutputDir    outputdirFlag                     // -outputdir flag
@@ -912,7 +919,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 			} else {
 				base.Errorf("%s", str)
 			}
-			fmt.Printf("FAIL\t%s [setup failed]\n", p.ImportPath)
+			printTestStatus(os.Stdout, "FAIL", p, " [setup failed]")
 			continue
 		}
 		builds = append(builds, buildTest)
@@ -1221,7 +1228,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 		// We were unable to build the binary.
 		a.Failed = false
 		a.TestOutput = new(bytes.Buffer)
-		fmt.Fprintf(a.TestOutput, "FAIL\t%s [build failed]\n", a.Package.ImportPath)
+		printTestStatus(a.TestOutput, "FAIL", a.Package, " [build failed]")
 		base.SetExitStatus(1)
 
 		// release next test to start
@@ -1232,7 +1239,11 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	var stdout io.Writer = os.Stdout
 	var err error
 	if testJSON {
-		json := test2json.NewConverter(lockedStdout{}, a.Package.ImportPath, test2json.Timestamp)
+		pkgName := a.Package.ImportPath
+		if testLabel != "" {
+			pkgName += ":" + testLabel
+		}
+		json := test2json.NewConverter(lockedStdout{}, pkgName, test2json.Timestamp)
 		defer func() {
 			json.Exited(err)
 			json.Close()
@@ -1244,7 +1255,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	close(r.next)
 
 	if p := a.Package; len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
-		fmt.Fprintf(stdout, "?   \t%s\t[no test files]\n", p.ImportPath)
+		printTestStatus(stdout, "?", p, "\t[no test files]")
 		return nil
 	}
 
@@ -1436,7 +1447,7 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 			// line we're about to print (https://golang.org/issue/49317).
 			cmd.Stdout.Write([]byte("\n"))
 		}
-		fmt.Fprintf(cmd.Stdout, "ok  \t%s\t%s%s%s\n", a.Package.ImportPath, t, coveragePercentage(out), norun)
+		printTestStatus(cmd.Stdout, "ok", a.Package, "\t%s%s%s", t, coveragePercentage(out), norun)
 		r.c.saveOutput(a)
 	} else {
 		base.SetExitStatus(1)
@@ -1466,17 +1477,34 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 		// not a pipe.
 		// TODO(golang.org/issue/29062): tests that exit with status 0 without
 		// printing a final result should fail.
-		prefix := ""
 		if testJSON || testV.json {
-			prefix = "\x16"
+			fmt.Fprintf(cmd.Stdout, "\x16")
 		}
-		fmt.Fprintf(cmd.Stdout, "%sFAIL\t%s\t%s\n", prefix, a.Package.ImportPath, t)
+		printTestStatus(cmd.Stdout, "FAIL", a.Package, "\t%s", t)
 	}
 
 	if cmd.Stdout != &buf {
 		buf.Reset() // cmd.Stdout was going to os.Stdout already
 	}
 	return nil
+}
+
+// printTestStatus prints a final test status line to w. status is either "ok",
+// "FAIL", or "?". extra is a format string for anything that should be printed
+// after the package name. If extra is non-empty, it must start with either "\t"
+// or " " (sadly, we're historically inconsistent about which separator we use).
+func printTestStatus(w io.Writer, status string, p *load.Package, extra string, args ...any) {
+	var b bytes.Buffer
+	fmt.Fprintf(&b, "%-4s\t%s", status, p.ImportPath)
+	if testLabel != "" {
+		b.WriteByte(':')
+		b.WriteString(testLabel)
+	}
+	if extra != "" {
+		fmt.Fprintf(&b, extra, args...)
+	}
+	b.WriteByte('\n')
+	w.Write(b.Bytes())
 }
 
 // tryCache is called just before the link attempt,
@@ -1539,6 +1567,15 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 			c.disableCache = true
 			return false
 		}
+	}
+	if testLabel != "" {
+		// This is handled by go test itself, but affects the package printed in
+		// the final test status line. If everything else is the same, the label
+		// doesn't actually affect anything else, so we could try to rewrite the
+		// final status line more carefully, but generally test labels are
+		// supposed to be used for different configurations, so it doesn't seem
+		// worth the effort.
+		cacheArgs = append(cacheArgs, "-label="+testLabel)
 	}
 
 	// The test cache result fetch is a two-level lookup.
