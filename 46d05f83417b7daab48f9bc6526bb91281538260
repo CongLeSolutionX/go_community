@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69949e3a_66b8df94",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-11T20:02:00Z",
+      "side": 0,
+      "message": "We don\u0027t guarantee it completely, but we do guarantee that we won\u0027t generate _incorrect_ code.\n\nSuppose we have this code:\n\n```\ntype IfaceA interface {\n  foo() int\n  bar()\n}\n\ntype IfaceB interface {\n  foo() int\n  baz()\n}\n\ntype A struct{}\n\nfunc (A) foo() int { return 0 }\nfunc (A) bar() {}\n\ntype B struct{}\n\nfunc (B) foo() int { return 0 }\nfunc (B) bar() {}\n\nfunc add(a IfaceA, b IfaceB) int {\n  return a.foo() + b.foo()\n}\n```\n\nThat is, the interfaces and concrete types are mutually incompatible.\n\nWhat will happen in findHotConcreteCallee when evaluating the `a.foo()` call:\n\n1. The interface type of the call (`interfaceCallType`) is `IfaceA`.\n\n2. The WeightedCG will identify both `A.foo` (let\u0027s assume weight 10) and `B.foo` (let\u0027s assume weight 5) as candidates because we can\u0027t distinguish between the two calls within the line in the profile.\n\n3. `A.foo` is hottest so we consider it first.\n\n4. `typeOfMethodParent` for `A.foo` is `A`. `A` implements `IfaceA`, so we specialize the call to `A.foo`.\n\nNow what happens when evaluating the `b.foo()` call:\n\n1. The interface type of the call is `IfaceB`.\n\n2. The WeightedCG will identify both `A.foo` and `B.foo` again.\n\n3. `A.foo` is hottest so we consider it first.\n\n4. `typeOfMethodParent` for `A.foo` is `A`. `A` does not implement `IfaceA`, so we skip it.\n\n5. `B.foo` is next hottest.\n\n6. `typeOfMethodParent` for `B.foo` is `B`. `B` implements `IfaceB`, so we specialize the call to `B.foo`.\n\nThus, we end up with the desired specializations for both calls.\n\n----\n\nNow, that was the easy case because all of the types were mutually exclusive and thus unambiguous.\n\nThis won\u0027t work as well if it is more ambiguous. An obvious case of this is if the addition is of two different `IfaceA` values.\n\n```\nfunc add(a, b IfaceA) int {\n  return a.foo() + b.foo()\n}\n```\n\nSuppose `a` is always a concrete `A` (weight 10), and `b` is always some other concrete type `AA` (weight 5).\n\nThe algorithm above will select to specialize to `A.foo` for both calls. This isn\u0027t the right specialization for the second call, but it is still _correct code_. i.e., it is perfectly fine to emit a `c, ok :\u003d b.(AA)` type assertion even if it never ends up being true.\n\n-----\n\nDoes this make sense? Do you see cases I missed?",
+      "parentUuid": "dd534047_eda0eb43",
+      "range": {
+        "startLine": 485,
+        "startChar": 1,
+        "endLine": 489,
+        "endChar": 2
+      },
+      "revId": "46d05f83417b7daab48f9bc6526bb91281538260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5aafe1fe_b0af2186",
         "filename": "src/cmd/compile/internal/pgo/specialize.go",
         "patchSetId": 1

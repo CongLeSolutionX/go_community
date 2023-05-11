@@ -185,6 +185,30 @@
       },
       "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb65fa0_1004ffc9",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-11T20:02:00Z",
+      "side": 1,
+      "message": "The latest version actually takes a different approach: if the hottest callee is unavailable (i.e., no IR because not in the transitive deps), then we won\u0027t specialize at all.\n\nInitially, I just skipped missing callees, so I\u0027d specialize to the second-hottest callee (if available). I decided to adjust since the second-hottest could be quite cold (hottest might be 99% of weight, second hottest 1%), and thus not worth specializing.\n\nOTOH, maybe a hybrid approach is better. If #1 is 45% and #2 is 40%, then there is probably still value in specializing for #2.\n\n(I haven\u0027t done any profiling to validate which of these options is better empirically.)",
+      "parentUuid": "3ef92184_7778241b",
+      "range": {
+        "startLine": 533,
+        "startChar": 12,
+        "endLine": 535,
+        "endChar": 23
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
