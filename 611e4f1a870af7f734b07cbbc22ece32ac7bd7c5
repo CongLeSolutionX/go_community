@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb519f2_8aa3a651",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-11T12:28:37Z",
+      "side": 1,
+      "message": "Ah, got it! I had somehow overlooked the `dir +\u003d sep` above. 🤦‍♂️",
+      "parentUuid": "4acb735b_fc31cef4",
+      "revId": "611e4f1a870af7f734b07cbbc22ece32ac7bd7c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b7b77d3_e0b0c67a",
@@ -540,6 +558,30 @@
       "side": 1,
       "message": "`64` doesn\u0027t have any special meaning, it was there to avoid escaping `buf` for small inputs, which are quite common in the runtime. Calculating `n` in advance also has it\u0027s advantages, though, as we are sure that we will only allocate once. Thoughts?",
       "parentUuid": "2455ebff_a5f6d416",
+      "range": {
+        "startLine": 86,
+        "startChar": 24,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "611e4f1a870af7f734b07cbbc22ece32ac7bd7c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6566f8d_ceba9958",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-11T12:28:37Z",
+      "side": 1,
+      "message": "Ah, avoiding the escape for small inputs makes sense. Can we get the best of both worlds?\n\nDoes the small alloc escape if you do something like this?\n```\n// Stack-allocate the buffer for small strings by using a hard-coded length,\n// but if we are likely to need to allocate a larger heap-allocated buffer,\n// pre-size it to avoid the need to resize during decoding.\nbuf :\u003d make([]byte, 0, 64)\nif maxLen \u003e cap(buf) {\n\tbuf \u003d make([]byte, 0, maxLen)\n}\n```",
+      "parentUuid": "652260a7_f18bc3fe",
       "range": {
         "startLine": 86,
         "startChar": 24,
