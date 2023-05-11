@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "178c81f7_51495ef2",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-11T20:03:40Z",
+      "side": 0,
+      "message": "Minor typo above. For the `b.foo()` case above, step 4 should say:\n\n4. `typeOfMethodParent` for `A.foo` is `A`. `A` does not implement `IfaceB`, so we skip it.",
+      "parentUuid": "69949e3a_66b8df94",
+      "range": {
+        "startLine": 485,
+        "startChar": 1,
+        "endLine": 489,
+        "endChar": 2
+      },
+      "revId": "46d05f83417b7daab48f9bc6526bb91281538260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5aafe1fe_b0af2186",
         "filename": "src/cmd/compile/internal/pgo/specialize.go",
         "patchSetId": 1
