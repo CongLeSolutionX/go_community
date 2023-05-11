@@ -143,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54e4e4c6_e114b07c",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-11T20:07:56Z",
+      "side": 1,
+      "message": "Can you go into more detail about this? The key to NodeMap is {Caller, Callee, CallLineOffset}. How could there be duplicate entries? Wouldn\u0027t those duplicate entries have the same key?",
+      "parentUuid": "235752e4_3a2dc136",
+      "range": {
+        "startLine": 366,
+        "startChar": 19,
+        "endLine": 366,
+        "endChar": 34
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d428c0a1_54a2808c",
         "filename": "src/cmd/compile/internal/pgo/irgraph.go",
         "patchSetId": 1
