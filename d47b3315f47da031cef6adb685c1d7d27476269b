@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8948fe9_8f897a5a",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-11T22:11:46Z",
+      "side": 1,
+      "message": "I don\u0027t think R2 gets clobbered by any direct calls back into Go today. In all buildmodes, R2 should be preserved in runtime.asmcgocall.\n\nThough, the cases where external objects call into Go should be few and surgical.",
+      "parentUuid": "21c9b4eb_d622437b",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba9036e9_1c99c0b4",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 2
