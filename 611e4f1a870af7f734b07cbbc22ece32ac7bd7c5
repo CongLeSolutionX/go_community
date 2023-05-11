@@ -618,6 +618,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "573a6994_3292f252",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-11T14:25:30Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve also modified a little your suggestion for counting the max length.\n\nThat\u0027s probably ok, but seems a little unnecessary to me. The runes for which [`utf8.RuneLen`](https://cs.opensource.google/go/go/+/refs/tags/go1.20.4:src/unicode/utf8/utf8.go;l\u003d319-337;drc\u003dfd2e1e743a86a53a30427cf3606543ecc9bd60bd) returns -1 are:\n- `r \u003c 0` (not possible because `uint16` code units are nonnegative by definition),\n- `surrogateMin \u003c\u003d r \u0026\u0026 r \u003c\u003d surrogateMax` (for which we use a 3-byte encoding), and\n- `r \u003e MaxRune` (not possible because `utf8.MaxRune \u003e math.MaxUint16`).\n\n\u003e Did you skip the 4-bytes case on purpose?\n\nI did! The only runes that require 4 bytes to encode in UTF-8 are U+10000 and above, and those cannot be represented as a single `uint16` code unit.",
+      "parentUuid": "87c3e398_f8a18238",
+      "range": {
+        "startLine": 86,
+        "startChar": 24,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "611e4f1a870af7f734b07cbbc22ece32ac7bd7c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a73be256_86cdad4d",
         "filename": "src/syscall/wtf8_windows.go",
         "patchSetId": 6
