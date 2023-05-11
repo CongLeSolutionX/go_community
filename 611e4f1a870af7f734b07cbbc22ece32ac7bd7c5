@@ -594,6 +594,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "87c3e398_f8a18238",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-05-11T13:38:02Z",
+      "side": 1,
+      "message": "That hybrid approach does work 😊 I\u0027ve added a test that checks the allocations in a couple of cases.\n\nI\u0027ve also modified a little your suggestion for counting the max length. Did you skip the 4-bytes case on purpose?",
+      "parentUuid": "c6566f8d_ceba9958",
+      "range": {
+        "startLine": 86,
+        "startChar": 24,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "611e4f1a870af7f734b07cbbc22ece32ac7bd7c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a73be256_86cdad4d",
         "filename": "src/syscall/wtf8_windows.go",
         "patchSetId": 6
