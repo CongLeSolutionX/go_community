@@ -1,0 +1,32 @@
+go test -short -label abcd errors
+stdout '^ok  \terrors:abcd'
+
+! go test -label abcd m/fail m/buildfail m/empty
+stdout '^FAIL\tm/fail:abcd'
+stdout '^FAIL\tm/buildfail:abcd \[build failed\]'
+stdout '^\?   \tm/empty:abcd\t\[no test files\]'
+
+# Check that the label appears in the JSON Package field
+go test -short -label abcd -json errors
+stdout '"Package":"errors:abcd"'
+stdout '"Action":"start","Package":"errors:abcd"'
+stdout '"Action":"run","Package":"errors:abcd"'
+# Check that the labe appears in the text output embedded in the JSON
+stdout '"Output":"ok  \\terrors:abcd\\t.*\\n"'
+
+-- go.mod --
+module m
+
+go 1.16
+-- fail/fail_test.go --
+package fail
+
+func TestFail(t *testing.T) {
+    t.Fatal("fail")
+}
+-- buildfail/buildfail_test.go --
+package buildfail
+
+const x = 1 / 0
+-- empty/empty.go --
+package empty

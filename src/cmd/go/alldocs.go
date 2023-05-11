@@ -3034,6 +3034,9 @@
 //	    Log verbose output and test results in JSON. This presents the
 //	    same information as the -v flag in a machine-readable format.
 //
+//	-label label
+//	    Add :label to package names printed in test results.
+//
 //	-list regexp
 //	    List tests, benchmarks, fuzz tests, or examples matching the regular
 //	    expression. No tests, benchmarks, fuzz tests, or examples will be run.
