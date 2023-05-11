@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c56fc01_316326c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-11T17:07:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72691624_14c45680",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc6c3bbe_0c0e272a",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-11T14:30:50Z",
       "side": 1,
       "message": "Which \"they\"? The caller or callee?",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d9c617_096480a8",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-11T17:07:36Z",
+      "side": 1,
+      "message": "The caller (an external object could contain both types of functions.)",
+      "parentUuid": "bc6c3bbe_0c0e272a",
       "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcfeeb19_53236cad",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-11T17:07:36Z",
+      "side": 1,
+      "message": "All local symbols share the same TOC pointer. Not all use it, or need it set up in R2 on entry. I\u0027ll try to clarify the comment.",
+      "parentUuid": "b3473d6d_92e8f9cd",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b24113d9_5080508e",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-05-11T14:30:50Z",
       "side": 1,
       "message": "If the Go symbol is not PIC is this really true (what happens when non-PIC Go symbol calls cgo.)",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b237cea8_ae039ecc",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-11T17:07:36Z",
+      "side": 1,
+      "message": "This cannot be a Go symbol, this is processing an R_PPC64_REL24 relocation within an external object.",
+      "parentUuid": "b24113d9_5080508e",
       "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0bc1a46_bc1b564f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-11T17:07:36Z",
+      "side": 1,
+      "message": "That is the only one. Though, maybe case 3 should be improved to generate code based on buildmode and GOPPC64 (this also applies to regular call stubs too).",
+      "parentUuid": "ba9036e9_1c99c0b4",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "293bd295_de9a0c3f",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 2
@@ -99,6 +189,24 @@
       "writtenOn": "2023-05-11T14:30:50Z",
       "side": 1,
       "message": "What is position dependent? The targ address or the PLT. I don\u0027t see how that affects the code.",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "664ae83f_99c20c0f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-11T17:07:36Z",
+      "side": 1,
+      "message": "targ@plt. s/This/This stub/.",
+      "parentUuid": "293bd295_de9a0c3f",
       "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
