@@ -1778,6 +1778,9 @@
 //	    Convert test output to JSON suitable for automated processing.
 //	    See 'go doc test2json' for the encoding details.
 //
+//	-label label
+//	    Add :label to package names printed in test results.
+//
 //	-o file
 //	    Compile the test binary to the named file.
 //	    The test still runs (unless -c or -i is specified).
@@ -3033,6 +3036,9 @@
 //	-json
 //	    Log verbose output and test results in JSON. This presents the
 //	    same information as the -v flag in a machine-readable format.
+//
+//	-label label
+//	    Add :label to package names printed in test results.
 //
 //	-list regexp
 //	    List tests, benchmarks, fuzz tests, or examples matching the regular

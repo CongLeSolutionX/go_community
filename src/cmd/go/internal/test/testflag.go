@@ -34,6 +34,7 @@ func init() {
 	work.AddCoverFlags(CmdTest, &testCoverProfile)
 	cf.Var((*base.StringsFlag)(&work.ExecCmd), "exec", "")
 	cf.BoolVar(&testJSON, "json", false, "")
+	cf.StringVar(&testLabel, "label", "", "")
 	cf.Var(&testVet, "vet", "")
 
 	// Register flags to be forwarded to the test binary. We retain variables for
