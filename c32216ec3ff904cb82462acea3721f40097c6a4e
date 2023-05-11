@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8c611a5_9108a75b",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 3174,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-11T21:50:46Z",
+      "side": 1,
+      "message": "Added feature gating flag.",
+      "revId": "c32216ec3ff904cb82462acea3721f40097c6a4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
