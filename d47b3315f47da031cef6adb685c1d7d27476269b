@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21c9b4eb_d622437b",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-05-11T20:50:35Z",
+      "side": 1,
+      "message": "What I was trying to say is, if the caller (not Go) calls into a Go symbol, I think you are saying that R2 is always preserved. But what if the Go callee is a non-PIC symbol that then calls into cgo which clobbers R2. I think that can happen? The cgo C code would initialize its own R2 and not try to the save the caller\u0027s R2.",
+      "parentUuid": "b237cea8_ae039ecc",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba9036e9_1c99c0b4",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 2
@@ -172,6 +190,24 @@
       "side": 1,
       "message": "That is the only one. Though, maybe case 3 should be improved to generate code based on buildmode and GOPPC64 (this also applies to regular call stubs too).",
       "parentUuid": "ba9036e9_1c99c0b4",
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "452bcd15_7ddc9f14",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-05-11T20:50:35Z",
+      "side": 1,
+      "message": "OK now I reread it, it sounds OK.",
+      "parentUuid": "b0bc1a46_bc1b564f",
       "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
