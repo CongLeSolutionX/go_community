@@ -40,6 +40,7 @@ func cmdtest() {
 			"Special exception: if the string begins with '!', the match is inverted.")
 	flag.BoolVar(&t.msan, "msan", false, "run in memory sanitizer builder mode")
 	flag.BoolVar(&t.asan, "asan", false, "run in address sanitizer builder mode")
+	flag.BoolVar(&t.json, "json", false, "report test results in JSON")
 
 	xflagparse(-1) // any number of args
 	if noRebuild {
@@ -69,6 +70,7 @@ type tester struct {
 	short      bool
 	cgoEnabled bool
 	partial    bool
+	json       bool
 
 	tests        []distTest
 	timeoutScale int
@@ -399,6 +401,9 @@ func (opts *goTest) buildArgs(t *tester) (goCmd string, build, run, pkgs, testFl
 	}
 	if opts.variant != "" {
 		run = append(run, "-label="+opts.variant)
+	}
+	if t.json {
+		run = append(run, "-json")
 	}
 
 	if opts.gcflags != "" {
