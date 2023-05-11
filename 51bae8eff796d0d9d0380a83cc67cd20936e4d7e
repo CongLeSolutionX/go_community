@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eeb87b4d_dae49e20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-11T00:01:51Z",
+      "side": 1,
+      "message": "Design doc for reference: https://go.dev/cl/493637",
+      "parentUuid": "635b7f70_857778ae",
+      "range": {
+        "startLine": 19,
+        "startChar": 57,
+        "endLine": 21,
+        "endChar": 57
+      },
+      "revId": "51bae8eff796d0d9d0380a83cc67cd20936e4d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f09d503_b3b05845",
         "filename": "src/internal/fuzz/encoding.go",
         "patchSetId": 1
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I don\u0027t see why `Mutate` should be allowed to return an error at all. That\u0027s the sort of major design decision that needs to be hammered out in proposal review.",
       "parentUuid": "2a3b0523_c26a2dae",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "51bae8eff796d0d9d0380a83cc67cd20936e4d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7abfc5b_f6ec27ce",
+        "filename": "src/internal/fuzz/encoding.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-11T00:01:51Z",
+      "side": 1,
+      "message": "\u003e That\u0027s the sort of major design decision that needs to be hammered out in proposal review.\n\nGood point. I added some discussion in the design doc.  I\u0027ll leave this unresolved until the dust settles on the design.",
+      "parentUuid": "39d50c68_56ed942f",
       "range": {
         "startLine": 24,
         "startChar": 44,
