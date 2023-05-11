@@ -108,6 +108,24 @@
       "message": "Since the caller sums up `runeLen` to figure out the length to allocate, I think it would be cleaner not to allow `runeLen` to ever return -1.\n\n(It never does for any `rune` derived from a `uint16` code unit, but that fact is not locally obvious here.)",
       "revId": "e3f7dd5bd584f542dd9ffd944cb6165888395ddc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d4d3f6_b6672547",
+        "filename": "src/syscall/wtf8_windows.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-05-11T15:27:03Z",
+      "side": 1,
+      "message": "Having this logic in a separate function adds more complexity than it solves, will move it back to `UTF16ToString`",
+      "parentUuid": "67e62f7b_a05a14b4",
+      "revId": "e3f7dd5bd584f542dd9ffd944cb6165888395ddc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
