@@ -163,6 +163,24 @@
       "message": "We don\u0027t need a function here.  unsafe.Sizeof is a constant, so it should work to write\n\ntype _ [unsafe.Sizeof(C.struct___res_state{}) - unsafe.Sizeof(unix.ResState{})]",
       "revId": "b3a85248c0b6b118c093a12280e0971d28811276",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fabc4311_6d26d52f",
+        "filename": "src/net/cgo_unix_cgo_darwin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-05-11T08:05:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a0ba9d85_4fce45ce",
+      "revId": "b3a85248c0b6b118c093a12280e0971d28811276",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
