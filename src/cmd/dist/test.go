@@ -298,7 +298,7 @@ type goTest struct {
 	runOnHost bool // When cross-compiling, run this test on the host instead of guest
 
 	// variant, if non-empty, is a name used to distinguish different
-	// configurations of the same test package(s).
+	// configurations of the same test package(s). Passed as -label
 	variant string
 
 	// We have both pkg and pkgs as a convenience. Both may be set, in which
@@ -396,6 +396,9 @@ func (opts *goTest) buildArgs(t *tester) (goCmd string, build, run, pkgs, testFl
 	}
 	if opts.cpu != "" {
 		run = append(run, "-cpu="+opts.cpu)
+	}
+	if opts.variant != "" {
+		run = append(run, "-label="+opts.variant)
 	}
 
 	if opts.gcflags != "" {
