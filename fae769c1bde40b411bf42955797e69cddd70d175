@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "282c7509_f45bdc6f",
+        "filename": "src/maps/maps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-12T16:44:14Z",
+      "side": 1,
+      "message": "That\u0027s not what I mean. I mean that there is an allocation in each iteration of this loop. That allocation cost is going to swamp the improvement in time that this CL provides.\n\nIt would be nice to have a way to pass in a preallocated slice to Keys that it fills in, instead of allocating a new one. Then you could do:\n\nslice :\u003d make([]int, len(m1))\nfor i :\u003d 0; i \u003c b.N; i++ {\n    Keys(m1, slice)\n}\n\nOf course that isn\u0027t the API, but you could provide an alternate unexported API that the benchmark could call instead. So you could have:\n\nfunc Keys[M ~map[K]V, K comparable, V any](m M) []K {\n\tr :\u003d make([]K, 0, len(m))\n\tkeys(m, unsafe.Pointer(\u0026r))\n\treturn r\n}\nfunc keysForBenchmarking[M ~map[K]V, K comparable, V any](m M, s []K) {\n\tkeys(m, unsafe.Pointer(\u0026s))\n}",
+      "parentUuid": "5f72da87_9be22dd7",
+      "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "adfebc94_f8bbbe50",
         "filename": "src/runtime/map.go",
         "patchSetId": 7
