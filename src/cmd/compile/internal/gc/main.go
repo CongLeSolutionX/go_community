@@ -21,6 +21,7 @@ import (
 	"cmd/compile/internal/pgo"
 	"cmd/compile/internal/pkginit"
 	"cmd/compile/internal/reflectdata"
+	"cmd/compile/internal/specialize"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/staticinit"
@@ -261,6 +262,8 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		if err != nil {
 			log.Fatalf("%s: PGO error: %v", base.Flag.PgoProfile, err)
 		}
+
+		specialize.SpecializePackage(profile)
 	}
 
 	// Inlining
