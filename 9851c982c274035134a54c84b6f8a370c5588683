@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b653a19_1922b4f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-12T16:02:52Z",
+      "side": 1,
+      "message": "Thanks, but this change needs a regression test. Can you add one in `cmd/go/testdata/script`? (See the README there for a description of the test format.)",
+      "revId": "9851c982c274035134a54c84b6f8a370c5588683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69a5741e_613a5ef1",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1908,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-12T16:02:52Z",
+      "side": 1,
+      "message": "(nit) s/invalidPathErr/invalidPath/",
+      "range": {
+        "startLine": 1908,
+        "startChar": 5,
+        "endLine": 1908,
+        "endChar": 19
+      },
+      "revId": "9851c982c274035134a54c84b6f8a370c5588683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
