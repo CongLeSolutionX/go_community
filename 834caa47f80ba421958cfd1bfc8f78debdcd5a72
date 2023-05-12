@@ -72,6 +72,24 @@
       "message": "Can we go ahead and merge this change?",
       "revId": "834caa47f80ba421958cfd1bfc8f78debdcd5a72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb2ca69_c5d3c944",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-12T17:20:47Z",
+      "side": 1,
+      "message": "It needs a second reviewer, per https://go.dev/wiki/GerritAccess.  It\u0027s on the list and someone should take a look soon.",
+      "parentUuid": "30bc6962_450dc2d4",
+      "revId": "834caa47f80ba421958cfd1bfc8f78debdcd5a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
