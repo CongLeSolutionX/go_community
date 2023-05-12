@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3540c3_c96517dc",
+        "filename": "src/maps/maps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-12T05:00:03Z",
+      "side": 1,
+      "message": "change to 840.",
+      "parentUuid": "8225cb1f_f5686d67",
+      "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "088e05af_faa4a499",
@@ -68,6 +86,24 @@
       "writtenOn": "2023-05-02T23:29:17Z",
       "side": 1,
       "message": "I suspect this is going to be entirely allocation limited, which means it will be hard to distinguish the iterator-filling vs. runtime-filling code.\n\nIt would be nice to have an allocation-free path to test both of these, but the API doesn\u0027t allow that, unfortunately. Maybe some internal API could do that (by preallocating the result key array, perhaps?).",
+      "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f72da87_9be22dd7",
+        "filename": "src/maps/maps_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-12T05:00:03Z",
+      "side": 1,
+      "message": "change to prealloc at maps package.",
+      "parentUuid": "088e05af_faa4a499",
       "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -95,6 +131,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d5fdcd1_73f25730",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1459,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-12T05:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adfebc94_f8bbbe50",
+      "range": {
+        "startLine": 1454,
+        "startChar": 0,
+        "endLine": 1459,
+        "endChar": 2
+      },
+      "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be3b1645_6c60f98a",
@@ -108,6 +168,24 @@
       "writtenOn": "2023-05-02T23:29:17Z",
       "side": 1,
       "message": "The regular map iterator not only starts at a random bucket, but also at a random offset within the bucket. We should probably keep doing that.\nEspecially for the 1-bucket maps handled above. Otherwise the iteration order would be deterministic.",
+      "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61627f7d_261f19c6",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1460,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-12T05:00:03Z",
+      "side": 1,
+      "message": "bucket and offset are random now.",
+      "parentUuid": "be3b1645_6c60f98a",
       "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -129,6 +207,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb9725d9_61dfc73e",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-12T05:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebaf6292_cc7d5793",
+      "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df02b280_4f787038",
@@ -142,6 +238,24 @@
       "writtenOn": "2023-05-02T23:29:17Z",
       "side": 1,
       "message": "It would use less stack to do this as a loop instead of a recursion.",
+      "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82615f69_75d41aad",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-12T05:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df02b280_4f787038",
       "revId": "fae769c1bde40b411bf42955797e69cddd70d175",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
