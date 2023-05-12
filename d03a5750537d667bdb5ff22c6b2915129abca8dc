@@ -59,6 +59,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea32022b_b9fff5f6",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-12T15:26:53Z",
+      "side": 1,
+      "message": "!overlap(s[i:tot], v) is a bit more precise.",
+      "revId": "d03a5750537d667bdb5ff22c6b2915129abca8dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d7fab86_45653d50",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-12T15:26:53Z",
+      "side": 1,
+      "message": "I\u0027m thinking that there might be a better way to handle overlap than just punt to alloc+copy. That\u0027s going to lead to a lot of allocation. Instead, we can use the slice array itself as temporary storage. Here\u0027s a half-baked idea:\n\nSo let\u0027s say we want to do:\n\n    s \u003d ... some slice of 10 elements ...\n    Insert(s, 2, s[6:9]).\n\nFirst we take s[2:10] and copy it to s[5:13]. Because that overlaps with our source slice v, we can just adjust where the source slice is. It started at s[6:9] but now it is at s[9:12]. So just use that second location as the source for the second copy.\n\nOf course it gets complicated if various parts partially overlap and/or hang off the end.",
+      "revId": "d03a5750537d667bdb5ff22c6b2915129abca8dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6fa44b64_94535c18",
         "filename": "src/slices/slices.go",
         "patchSetId": 3
