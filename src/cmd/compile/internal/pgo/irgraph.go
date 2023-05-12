@@ -51,21 +51,43 @@ import (
 	"os"
 )
 
-// IRGraph is the key data structure that is built from profile. It is
-// essentially a call graph with nodes pointing to IRs of functions and edges
-// carrying weights and callsite information. The graph is bidirectional that
-// helps in removing nodes efficiently.
+// IRGraph is a call graph with nodes pointing to IRs of functions and edges
+// carrying weights and callsite information.
+//
+// The graph is bidirectional which helps in adding and removing nodes
+// efficiently.
+//
+// Nodes for indirect calls may have missing IR (IRNode.AST == nil) if the node
+// is not visible from this package (e.g., not in the transitive deps). Keeping
+// these nodes allows determining the hottest edge from a call even if that
+// callee is not available.
+//
+// TODO(prattmic): Consider merging this data structure with Graph. This is
+// effectively a copy of Graph aggregated to line number and pointing to IR.
 type IRGraph struct {
 	// Nodes of the graph
-	IRNodes  map[string]*IRNode
-	OutEdges IREdgeMap
-	InEdges  IREdgeMap
+	IRNodes map[string]*IRNode
 }
 
-// IRNode represents a node in the IRGraph.
+// IRNode represents a node (function) in the IRGraph.
 type IRNode struct {
 	// Pointer to the IR of the Function represented by this node.
 	AST *ir.Func
+	// Symbol name of the Function represented by this node. Populated only
+	// if AST == nil.
+	SymbolName string
+
+	// Set of out-edges in the callgraph. The map uniquely identifies each
+	// edge based on the callsite and callee, for fast lookup.
+	OutEdges map[NodeMapKey]*IREdge
+}
+
+// Name returns the symbol name of this function.
+func (i *IRNode) Name() string {
+	if i.AST != nil {
+		return ir.LinkFuncName(i.AST)
+	}
+	return i.SymbolName
 }
 
 // IREdgeMap maps an IRNode to its successors.
@@ -82,6 +104,8 @@ type IREdge struct {
 
 // NodeMapKey represents a hash key to identify unique call-edges in profile
 // and in IR. Used for deduplication of call edges found in profile.
+//
+// TODO(prattmic): rename to something more descriptive.
 type NodeMapKey struct {
 	CallerName     string
 	CalleeName     string
@@ -100,6 +124,20 @@ type CallSiteInfo struct {
 	LineOffset int // Line offset from function start line.
 	Caller     *ir.Func
 	Callee     *ir.Func
+}
+
+// IfaceInfo captures interface method call-site information.
+type IfaceInfo struct {
+	CallerName     string
+	CallSiteOffset int // Line offset from function start line.
+}
+
+// CalleeInfo stores the sole hot-callee and its frequency. It also contains additional callee targets in CalleeMap.
+type CalleeInfo struct {
+	HotCallee     string
+	HotCalleeFreq int64
+	// CalleeMap stores all callees recorded in profile, for a given interface method call.
+	CalleeMap map[string]int64
 }
 
 // Profile contains the processed PGO profile and weighted call graph used for
@@ -142,7 +180,7 @@ func New(profileFile string) (*Profile, error) {
 		// Samples count is the raw data collected, and CPU nanoseconds is just
 		// a scaled version of it, so either one we can find is fine.
 		if (s.Type == "samples" && s.Unit == "count") ||
-			(s.Type == "cpu" && s.Unit == "nanoseconds") {
+		(s.Type == "cpu" && s.Unit == "nanoseconds") {
 			valueIndex = i
 			break
 		}
@@ -157,7 +195,7 @@ func New(profileFile string) (*Profile, error) {
 	})
 
 	p := &Profile{
-		NodeMap: make(map[NodeMapKey]*Weights),
+		NodeMap:         make(map[NodeMapKey]*Weights),
 		WeightedCG: &IRGraph{
 			IRNodes: make(map[string]*IRNode),
 		},
@@ -242,29 +280,40 @@ func (p *Profile) processprofileGraph(g *graph.Graph) error {
 // initializeIRGraph builds the IRGraph by visiting all the ir.Func in decl list
 // of a package.
 func (p *Profile) initializeIRGraph() {
+	// The set of functions in typecheck.Target.Decls.
+	targetDeclFuncs := make(map[string]struct{})
+
 	// Bottomup walk over the function to create IRGraph.
 	ir.VisitFuncsBottomUp(typecheck.Target.Decls, func(list []*ir.Func, recursive bool) {
-		for _, n := range list {
-			p.VisitIR(n)
+		for _, fn := range list {
+			name := ir.LinkFuncName(fn)
+			targetDeclFuncs[name] = struct{}{}
+
+			p.VisitIR(fn, name)
 		}
 	})
+
+	// Add additional edges for indirect calls. This must be done second so
+	// that IRNodes is fully populated (see the dummy node TODO in
+	// addIndirectEdges).
+	//
+	// TODO(prattmic): VisitIR above populates the graph via direct calls
+	// discovered via the IR. addIndirectEdges populates the graph via
+	// calls discovered via the profile. This combination of opposite
+	// approaches is a bit awkward, particularly because direct calls are
+	// discoverable via the profile as well. Unify these into a single
+	// approach.
+	p.addIndirectEdges(targetDeclFuncs)
 }
 
 // VisitIR traverses the body of each ir.Func and use NodeMap to determine if
 // we need to add an edge from ir.Func and any node in the ir.Func body.
-func (p *Profile) VisitIR(fn *ir.Func) {
+func (p *Profile) VisitIR(fn *ir.Func, name string) {
 	g := p.WeightedCG
 
 	if g.IRNodes == nil {
 		g.IRNodes = make(map[string]*IRNode)
 	}
-	if g.OutEdges == nil {
-		g.OutEdges = make(map[*IRNode][]*IREdge)
-	}
-	if g.InEdges == nil {
-		g.InEdges = make(map[*IRNode][]*IREdge)
-	}
-	name := ir.LinkFuncName(fn)
 	node, ok := g.IRNodes[name]
 	if !ok {
 		node = &IRNode{
@@ -317,21 +366,100 @@ func (p *Profile) addIREdge(callerNode *IRNode, callerName string, call ir.Node,
 		Weight:         weight,
 		CallSiteOffset: nodeinfo.CallSiteOffset,
 	}
-	g.OutEdges[callerNode] = append(g.OutEdges[callerNode], edge)
-	g.InEdges[calleeNode] = append(g.InEdges[calleeNode], edge)
+
+	if callerNode.OutEdges == nil {
+		callerNode.OutEdges = make(map[NodeMapKey]*IREdge)
+	}
+	callerNode.OutEdges[nodeinfo] = edge
 }
 
-// createIRGraphEdge traverses the nodes in the body of ir.Func and add edges between callernode which points to the ir.Func and the nodes in the body.
+// addIndirectEdges adds indirect call edges found in the profile to the graph,
+// to be used for specialization.
+//
+// targetDeclFuncs is the set of functions in typecheck.Target.Decls. Only
+// edges from these functions will be added.
+//
+// Specialization is only applied to typecheck.Target.Decls functions, so there
+// is no need to add edges from other functions.
+//
+// N.B. despite the name, addIndirectEdges will add any edges discovered via
+// the profile. We don't know for sure that they are indirect, but assume they
+// are since direct calls would already be added. (e.g., direct calls that have
+// been deleted from source since the profile was taken would be added here).
+//
+// TODO(prattmic): Specialization runs before inlining, so we can't specialize
+// calls inside inlined call bodies. If we did add that, we'd need edges from
+// inlined bodies as well.
+func (p *Profile) addIndirectEdges(targetDeclFuncs map[string]struct{}) {
+	g := p.WeightedCG
+
+	for key, weights := range p.NodeMap {
+		// Skip any callers not in the local build. We can't specialize
+		// them anyway.
+		if _, ok := targetDeclFuncs[key.CallerName]; !ok {
+			continue
+		}
+
+		callerNode, ok := g.IRNodes[key.CallerName]
+		if !ok {
+			panic(fmt.Sprintf("local function %s missing from IRNodes", key.CallerName))
+		}
+
+		// Already handled this edge?
+		if _, ok := callerNode.OutEdges[key]; ok {
+			continue
+		}
+
+		calleeNode, ok := g.IRNodes[key.CalleeName]
+		if !ok {
+			// IR is missing for this callee. Most likely this is
+			// because the callee isn't in the transitive deps of
+			// this package.
+			//
+			// Record this call anyway. If this is the hottest,
+			// then we want to skip specialization rather than
+			// specializing to the second most common callee.
+			//
+			// TODO(prattmic): VisitIR populates IRNodes with all
+			// of the functions discovered via local package
+			// function declarations and calls. Thus we could miss
+			// functions that are available in export data of
+			// transitive deps, but aren't directly reachable. We
+			// need to do a lookup directly from package export
+			// data to get complete coverage.
+			calleeNode = &IRNode{
+				SymbolName: key.CalleeName,
+				// TODO: weights? We don't need them.
+			}
+			// Add dummy node back to IRNodes. We don't need this
+			// directly, but PrintWeightedCallGraphDOT uses these
+			// to print nodes.
+			g.IRNodes[key.CalleeName] = calleeNode
+		}
+		edge := &IREdge{
+			Src:            callerNode,
+			Dst:            calleeNode,
+			Weight:         weights.EWeight,
+			CallSiteOffset: key.CallSiteOffset,
+		}
+
+		if callerNode.OutEdges == nil {
+			callerNode.OutEdges = make(map[NodeMapKey]*IREdge)
+		}
+		callerNode.OutEdges[key] = edge
+	}
+}
+
+// createIRGraphEdge traverses the nodes in the body of ir.Func and adds edges
+// between the callernode which points to the ir.Func and the nodes in the
+// body.
 func (p *Profile) createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string) {
-	var doNode func(ir.Node) bool
-	doNode = func(n ir.Node) bool {
+	ir.VisitList(fn.Body, func(n ir.Node) {
 		switch n.Op() {
-		default:
-			ir.DoChildren(n, doNode)
 		case ir.OCALLFUNC:
 			call := n.(*ir.CallExpr)
 			// Find the callee function from the call site and add the edge.
-			callee := inlCallee(call.X)
+			callee := DirectCallee(call.X)
 			if callee != nil {
 				p.addIREdge(callernode, name, n, callee)
 			}
@@ -341,9 +469,7 @@ func (p *Profile) createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string
 			callee := ir.MethodExprName(call.X).Func
 			p.addIREdge(callernode, name, n, callee)
 		}
-		return false
-	}
-	doNode(fn)
+	})
 }
 
 // WeightInPercentage converts profile weights to a percentage.
@@ -366,19 +492,22 @@ func (p *Profile) PrintWeightedCallGraphDOT(edgeThreshold float64) {
 	})
 
 	// Determine nodes of DOT.
+	//
+	// Note that ir.Func may be nil for functions not visible from this
+	// package.
 	nodes := make(map[string]*ir.Func)
 	for name := range funcs {
 		if n, ok := p.WeightedCG.IRNodes[name]; ok {
-			for _, e := range p.WeightedCG.OutEdges[n] {
-				if _, ok := nodes[ir.LinkFuncName(e.Src.AST)]; !ok {
-					nodes[ir.LinkFuncName(e.Src.AST)] = e.Src.AST
+			for _, e := range n.OutEdges {
+				if _, ok := nodes[e.Src.Name()]; !ok {
+					nodes[e.Src.Name()] = e.Src.AST
 				}
-				if _, ok := nodes[ir.LinkFuncName(e.Dst.AST)]; !ok {
-					nodes[ir.LinkFuncName(e.Dst.AST)] = e.Dst.AST
+				if _, ok := nodes[e.Dst.Name()]; !ok {
+					nodes[e.Dst.Name()] = e.Dst.AST
 				}
 			}
-			if _, ok := nodes[ir.LinkFuncName(n.AST)]; !ok {
-				nodes[ir.LinkFuncName(n.AST)] = n.AST
+			if _, ok := nodes[n.Name()]; !ok {
+				nodes[n.Name()] = n.AST
 			}
 		}
 	}
@@ -386,11 +515,15 @@ func (p *Profile) PrintWeightedCallGraphDOT(edgeThreshold float64) {
 	// Print nodes.
 	for name, ast := range nodes {
 		if _, ok := p.WeightedCG.IRNodes[name]; ok {
-			color := "black"
-			if ast.Inl != nil {
-				fmt.Printf("\"%v\" [color=%v,label=\"%v,inl_cost=%d\"];\n", ir.LinkFuncName(ast), color, ir.LinkFuncName(ast), ast.Inl.Cost)
+			style := "solid"
+			if ast == nil {
+				style = "dashed"
+			}
+
+			if ast != nil && ast.Inl != nil {
+				fmt.Printf("\"%v\" [color=black, style=%s, label=\"%v,inl_cost=%d\"];\n", name, style, name, ast.Inl.Cost)
 			} else {
-				fmt.Printf("\"%v\" [color=%v, label=\"%v\"];\n", ir.LinkFuncName(ast), color, ir.LinkFuncName(ast))
+				fmt.Printf("\"%v\" [color=black, style=%s, label=\"%v\"];\n", name, style, name)
 			}
 		}
 	}
@@ -399,15 +532,19 @@ func (p *Profile) PrintWeightedCallGraphDOT(edgeThreshold float64) {
 		for _, f := range list {
 			name := ir.LinkFuncName(f)
 			if n, ok := p.WeightedCG.IRNodes[name]; ok {
-				for _, e := range p.WeightedCG.OutEdges[n] {
+				for _, e := range n.OutEdges {
+					style := "solid"
+					if e.Dst.AST == nil {
+						style = "dashed"
+					}
+					color := "black"
 					edgepercent := WeightInPercentage(e.Weight, p.TotalEdgeWeight)
 					if edgepercent > edgeThreshold {
-						fmt.Printf("edge [color=red, style=solid];\n")
-					} else {
-						fmt.Printf("edge [color=black, style=solid];\n")
+						color = "red"
 					}
 
-					fmt.Printf("\"%v\" -> \"%v\" [label=\"%.2f\"];\n", ir.LinkFuncName(n.AST), ir.LinkFuncName(e.Dst.AST), edgepercent)
+					fmt.Printf("edge [color=%s, style=%s];\n", color, style)
+					fmt.Printf("\"%v\" -> \"%v\" [label=\"%.2f\"];\n", n.Name(), e.Dst.Name(), edgepercent)
 				}
 			}
 		}
@@ -415,8 +552,11 @@ func (p *Profile) PrintWeightedCallGraphDOT(edgeThreshold float64) {
 	fmt.Printf("}\n")
 }
 
-// inlCallee is same as the implementation for inl.go with one change. The change is that we do not invoke CanInline on a closure.
-func inlCallee(fn ir.Node) *ir.Func {
+// DirectCallee takes a function-typed expression and returns the underlying
+// function that it refers to if statically known. Otherwise, it returns nil.
+//
+// Equivalent to inline.inlCallee without calling CanInline on closures.
+func DirectCallee(fn ir.Node) *ir.Func {
 	fn = ir.StaticValue(fn)
 	switch fn.Op() {
 	case ir.OMETHEXPR:
