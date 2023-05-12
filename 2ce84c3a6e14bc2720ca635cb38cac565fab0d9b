@@ -50,6 +50,24 @@
       "message": "Since f cannot escape, I would perhaps do this only if cause !\u003d nil (when f is needed). That is, the \u0027if\u0027 below could be moved to line 424.\n\nIt may not matter in the end (the method is likely going to be type-checked anyway, but it seems a bit more principled perhaps).",
       "revId": "2ce84c3a6e14bc2720ca635cb38cac565fab0d9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a93edd64_1b160ad3",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-12T15:26:38Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll send a follow-up.\n\nThe method will definitely be type-checked anyway, by packageObjects.",
+      "parentUuid": "5bdc5924_d76f775c",
+      "revId": "2ce84c3a6e14bc2720ca635cb38cac565fab0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
