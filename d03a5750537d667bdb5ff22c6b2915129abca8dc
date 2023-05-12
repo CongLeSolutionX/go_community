@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae18d756_88e9aa32",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-12T15:39:14Z",
+      "side": 1,
+      "message": "If the source slice lives in the about-to-be overwritten part just past the length of s (in the example above, say it was s[10:13]), then we can first do:\n\nswap(s[2:5], s[10:13])\n\nWhere swap does the obvious thing. Then we can recurse with i\u003d5, as our source v is now in the correct destination, and the part we just swapped out is now the source that needs inserting.\n\nAgain it gets tricky on the last recursive op when overlap occurs.",
+      "parentUuid": "2d7fab86_45653d50",
+      "revId": "d03a5750537d667bdb5ff22c6b2915129abca8dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6fa44b64_94535c18",
         "filename": "src/slices/slices.go",
         "patchSetId": 3
