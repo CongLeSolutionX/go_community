@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1f6e4ce_d6234f05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-05-12T08:30:11Z",
+      "side": 1,
+      "message": "Will do, just in case. There are a bunch of other places where we call `utf16.Decode` instead of `syscall.UTF16ToString`, will change them too.",
+      "parentUuid": "45bbd4a7_c1882407",
+      "revId": "a475ca89a6ceea6391bf5b5c0a645b4137fd5e3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21116112_12585a0f",
@@ -116,6 +134,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d624ae6d_526b52dc",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-05-12T08:30:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21116112_12585a0f",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 3
+      },
+      "revId": "a475ca89a6ceea6391bf5b5c0a645b4137fd5e3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9770a858_e0b3464b",
@@ -129,6 +171,30 @@
       "writtenOn": "2023-05-11T16:26:46Z",
       "side": 1,
       "message": "Oh! This could avoid an extra allocation for the `string` using the same trick as `strings.Builder`: since we know the `[]byte` isn\u0027t aliased by any other slice, we can construct it directly from the slice:\n\n```\nbuf :\u003d decodeWTF16(s, make([]byte, 0, maxLen))\nreturn unsafe.String(unsafe.SliceData(buf), len(buf))\n```\n\nThen we don\u0027t have to care about stack-allocating `buf`, because the `string` is presumably going to heap-allocate anyway. (The returned `string` certainly can\u0027t refer to a slice allocated in the `UTF16ToString` stack frame either way. 😅)",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 35
+      },
+      "revId": "a475ca89a6ceea6391bf5b5c0a645b4137fd5e3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d49a0da_d22d7e7a",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-05-12T08:30:11Z",
+      "side": 1,
+      "message": "Neat!",
+      "parentUuid": "9770a858_e0b3464b",
       "range": {
         "startLine": 82,
         "startChar": 0,
