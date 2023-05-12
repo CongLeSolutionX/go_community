@@ -5,6 +5,8 @@
 // Package slices defines various functions useful with slices of any type.
 package slices
 
+import "unsafe"
+
 // Equal reports whether two slices are equal: the same length and all
 // elements equal. If the lengths are different, Equal returns false.
 // Otherwise, the elements are compared in increasing index order, and the
@@ -82,7 +84,7 @@ func ContainsFunc[E any](s []E, f func(E) bool) bool {
 // This function is O(len(s) + len(v)).
 func Insert[S ~[]E, E any](s S, i int, v ...E) S {
 	tot := len(s) + len(v)
-	if tot <= cap(s) {
+	if tot <= cap(s) && !overlap(s[:tot], v) {
 		s2 := s[:tot]
 		copy(s2[i+len(v):], s[i:])
 		copy(s2[i:], v)
@@ -97,6 +99,12 @@ func Insert[S ~[]E, E any](s S, i int, v ...E) S {
 	copy(s2[i:], v)
 	copy(s2[i+len(v):], s[i:])
 	return s2
+}
+
+func overlap[S ~[]E, E any](x1, x2 S) bool {
+	return len(x1) > 0 && len(x2) > 0 &&
+		uintptr(unsafe.Pointer(&x1[0])) <= uintptr(unsafe.Pointer(&x2[len(x2)-1])) &&
+		uintptr(unsafe.Pointer(&x2[0])) <= uintptr(unsafe.Pointer(&x1[len(x1)-1]))
 }
 
 // Delete removes the elements s[i:j] from s, returning the modified slice.
@@ -144,7 +152,7 @@ func DeleteFunc[S ~[]E, E any](s S, del func(E) bool) S {
 func Replace[S ~[]E, E any](s S, i, j int, v ...E) S {
 	_ = s[i:j] // verify that i:j is a valid subslice
 	tot := len(s[:i]) + len(v) + len(s[j:])
-	if tot <= cap(s) {
+	if tot <= cap(s) && !overlap(s[:tot], v) {
 		s2 := s[:tot]
 		copy(s2[i+len(v):], s[j:])
 		copy(s2[i:], v)
