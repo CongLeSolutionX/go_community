@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69bd5209_e9d03475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-12T20:21:37Z",
+      "side": 1,
+      "message": "Can you rerun the benchmark? The allocs part should change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 66
+      },
+      "revId": "bf4627c1d2f80738cf1f32f2996792561fe0ff26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076a913f_9fcd406c",
+        "filename": "src/maps/maps_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-12T20:21:37Z",
+      "side": 1,
+      "message": "Could you use a new map in a local variable instead of modifying m1?",
+      "revId": "bf4627c1d2f80738cf1f32f2996792561fe0ff26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
