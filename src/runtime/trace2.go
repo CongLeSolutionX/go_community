@@ -110,14 +110,34 @@ const (
 )
 
 const (
-	// Timestamps in trace are cputicks/traceTickDiv.
-	// This makes absolute values of timestamp diffs smaller,
-	// and so they are encoded in less number of bytes.
-	// 64 on x86 is somewhat arbitrary (one tick is ~20ns on a 3GHz machine).
+	// Timestamps in trace are produced through either nanotime or cputicks
+	// and divided by traceTimeDiv. nanotime is used everywhere except on
+	// platforms where osHasLowResClock is true, because the system clock
+	// isn't granular enough to get useful information out of a trace in
+	// many cases.
+	//
+	// This makes absolute values of timestamp diffs smaller, and so they are
+	// encoded in fewer bytes.
+	//
+	// The target resolution in all cases is 64 nanoseconds.
+	// This is based on the fact that fundamentally the execution tracer won't emit
+	// events more frequently than roughly every 200 ns or so, because that's roughly
+	// how long it takes to call through the scheduler.
+	// We could be more aggressive and bump this up to 128 ns while still getting
+	// useful data, but the extra bit doesn't save us that much and the headroom is
+	// nice to have.
+	//
+	// Hitting this target resolution is easy in the nanotime case: just pick a
+	// division of 64. In the cputicks case it's a bit more complex.
+	//
+	// For x86, on a 3 GHz machine, we'd want to divide by 3*64 to hit our target.
+	// To keep the division operation efficient, we round that up to 4*64, or 256.
+	// Given what cputicks represents, we use this on all other platforms except
+	// for PowerPC.
 	// The suggested increment frequency for PowerPC's time base register is
-	// 512 MHz according to Power ISA v2.07 section 6.2, so we use 16 on ppc64
+	// 512 MHz according to Power ISA v2.07 section 6.2, so we use 32 on ppc64
 	// and ppc64le.
-	traceTimeDiv = 16 + 48*(goarch.Is386|goarch.IsAmd64)
+	traceTimeDiv = (1-osHasLowResClockInt)*64 + osHasLowResClockInt*(256-224*(goarch.IsPpc64|goarch.IsPpc64le))
 	// Maximum number of PCs in a single stack trace.
 	// Since events contain only stack id rather than whole stack trace,
 	// we can allow quite large values here.
@@ -618,7 +638,12 @@ newFull:
 	// Write footer with timer frequency.
 	if !trace.footerWritten {
 		trace.footerWritten = true
-		freq := (float64(trace.endTicks-trace.startTicks) / traceTimeDiv) / (float64(trace.endNanotime-trace.startNanotime) / 1e9)
+		var freq float64 // "time" per sec, where "time" is the timestamp unit.
+		if osHasLowResClock {
+			freq = (float64(trace.endTicks-trace.startTicks) / traceTimeDiv) / (float64(trace.endNanotime-trace.startNanotime) / 1e9)
+		} else {
+			freq = float64(traceTimeDiv)
+		}
 		if freq <= 0 {
 			throw("trace: ReadTrace got invalid frequency")
 		}
@@ -846,7 +871,7 @@ func traceCPUSample(gp *g, pp *p, stk []uintptr) {
 	}
 
 	// Match the clock used in traceEventLocked
-	now := traceClockNow()
+	now := cputicks()
 	// The "header" here is the ID of the P that was running the profiled code,
 	// followed by the ID of the goroutine. (For normal CPU profiling, it's
 	// usually the number of samples with the given stack.) Near syscalls, pp
@@ -1805,5 +1830,8 @@ type traceTime uint64
 //
 //go:nosplit
 func traceClockNow() traceTime {
-	return traceTime(cputicks() / traceTimeDiv)
+	if osHasLowResClock {
+		return traceTime(cputicks() / traceTimeDiv)
+	}
+	return traceTime(nanotime() / traceTimeDiv)
 }
