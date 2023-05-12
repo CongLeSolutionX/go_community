@@ -1226,12 +1226,27 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		v.Fatalf("Flag* ops should never make it to codegen %v", v.LongString())
 	case ssa.OpAMD64AddTupleFirst32, ssa.OpAMD64AddTupleFirst64:
 		v.Fatalf("AddTupleFirst* should never make it to codegen %v", v.LongString())
-	case ssa.OpAMD64REPSTOSQ:
+	case ssa.OpAMD64REPSTOSQ, ssa.OpAMD64REPSTOSL, ssa.OpAMD64REPSTOSW, ssa.OpAMD64REPSTOSB,
+		ssa.OpAMD64REPMOVSQ, ssa.OpAMD64REPMOVSL, ssa.OpAMD64REPMOVSW, ssa.OpAMD64REPMOVSB:
 		s.Prog(x86.AREP)
-		s.Prog(x86.ASTOSQ)
-	case ssa.OpAMD64REPMOVSQ:
-		s.Prog(x86.AREP)
-		s.Prog(x86.AMOVSQ)
+		switch v.Op {
+		case ssa.OpAMD64REPSTOSQ:
+			s.Prog(x86.ASTOSQ)
+		case ssa.OpAMD64REPSTOSL:
+			s.Prog(x86.ASTOSL)
+		case ssa.OpAMD64REPSTOSW:
+			s.Prog(x86.ASTOSW)
+		case ssa.OpAMD64REPSTOSB:
+			s.Prog(x86.ASTOSB)
+		case ssa.OpAMD64REPMOVSQ:
+			s.Prog(x86.AMOVSQ)
+		case ssa.OpAMD64REPMOVSL:
+			s.Prog(x86.AMOVSL)
+		case ssa.OpAMD64REPMOVSW:
+			s.Prog(x86.AMOVSW)
+		case ssa.OpAMD64REPMOVSB:
+			s.Prog(x86.AMOVSB)
+		}
 	case ssa.OpAMD64LoweredNilCheck:
 		// Issue a load which will fault if the input is nil.
 		// TODO: We currently use the 2-byte instruction TESTB AX, (reg).

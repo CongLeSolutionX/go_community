@@ -16,25 +16,33 @@ type T struct {
 
 func (t *T) f() {
 	// amd64:-".*runtime.memclrNoHeapPointers"
-	// amd64:"DUFFZERO"
+	// amd64/v1,amd64/v2:"DUFFZERO"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	for i := range t.a {
 		t.a[i] = 0
 	}
 
 	// amd64:-".*runtime.memclrNoHeapPointers"
-	// amd64:"DUFFZERO"
+	// amd64/v1,amd64/v2:"DUFFZERO"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	for i := range *t.a {
 		t.a[i] = 0
 	}
 
 	// amd64:-".*runtime.memclrNoHeapPointers"
-	// amd64:"DUFFZERO"
+	// amd64/v1,amd64/v2:"DUFFZERO"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	for i := range t.a {
 		(*t.a)[i] = 0
 	}
 
 	// amd64:-".*runtime.memclrNoHeapPointers"
-	// amd64:"DUFFZERO"
+	// amd64/v1,amd64/v2:"DUFFZERO"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	for i := range *t.a {
 		(*t.a)[i] = 0
 	}

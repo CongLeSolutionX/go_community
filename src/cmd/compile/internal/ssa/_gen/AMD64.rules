@@ -256,6 +256,71 @@
 (Store {t} ptr val mem) && t.Size() == 2 => (MOVWstore ptr val mem)
 (Store {t} ptr val mem) && t.Size() == 1 => (MOVBstore ptr val mem)
 
+// On newer CPUs REP is always faster than anything not very trivial,
+// use GOAMD64 >= 3 as a hint for thoses.
+// Skip powers of two smaller than 16 as they compile to a single mov action.
+(Move [c] dst src mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& c % 8 == 0
+	&& logLargeCopy(v, c)
+	=> (REPMOVSQ dst src (MOVQconst [c/8]) mem)
+(Move [c] dst src mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& c % 4 == 0
+	&& ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers())
+		|| (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers()))
+	&& logLargeCopy(v, c)
+	=> (REPMOVSL dst src (MOVQconst [c/4]) mem)
+(Move [c] dst src mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& c % 2 == 0
+	&& ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers())
+		|| (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers()))
+	&& logLargeCopy(v, c)
+	=> (REPMOVSW dst src (MOVQconst [c/2]) mem)
+(Move [c] dst src mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers())
+		|| (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers()))
+	&& logLargeCopy(v, c)
+	=> (REPMOVSB dst src (MOVQconst [c]) mem)
+(Zero [c] dst mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& c % 8 == 0
+	=> (REPSTOSQ dst (MOVQconst [c/8]) (MOVQconst [0]) mem)
+(Zero [c] dst mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& c % 4 == 0
+	&& dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()
+	=> (REPSTOSL dst (MOVQconst [c/4]) (MOVQconst [0]) mem)
+(Zero [c] dst mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& c % 2 == 0
+	&& dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()
+	=> (REPSTOSW dst (MOVQconst [c/2]) (MOVQconst [0]) mem)
+(Zero [c] dst mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& !(c & (c-1) == 0 && c <= 16)
+	&& dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()
+	=> (REPSTOSB dst (MOVQconst [c]) (MOVQconst [0]) mem)
+(CALLstatic {sym} dst c mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& isSameCall(sym, "runtime.memclrNoHeapPointers")
+	=> (MakeResult (REPSTOSB <mem.Type> dst c (MOVQconst [0]) mem))
+(CALLstatic {sym} dst c mem)
+	&& buildcfg.GOAMD64 >= 3
+	&& isSameCall(sym, "runtime.memclrPointers")
+	=> (MakeResult (REPSTOSQ <mem.Type> dst c (MOVQconst [0]) mem))
+
+(SelectN [n] r:(MakeResult ___)) => r.Args[n]
+
 // Lowering moves
 (Move [0] _ _ mem) => mem
 (Move [1] dst src mem) => (MOVBstore dst (MOVBload src mem) mem)

@@ -83,6 +83,8 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpAMD64BTRQconst(v)
 	case OpAMD64BTSQconst:
 		return rewriteValueAMD64_OpAMD64BTSQconst(v)
+	case OpAMD64CALLstatic:
+		return rewriteValueAMD64_OpAMD64CALLstatic(v)
 	case OpAMD64CMOVLCC:
 		return rewriteValueAMD64_OpAMD64CMOVLCC(v)
 	case OpAMD64CMOVLCS:
@@ -3867,6 +3869,55 @@ func rewriteValueAMD64_OpAMD64BTSQconst(v *Value) bool {
 		d := auxIntToInt64(v_0.AuxInt)
 		v.reset(OpAMD64MOVQconst)
 		v.AuxInt = int64ToAuxInt(d | (1 << uint32(c)))
+		return true
+	}
+	return false
+}
+func rewriteValueAMD64_OpAMD64CALLstatic(v *Value) bool {
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (CALLstatic {sym} dst c mem)
+	// cond: buildcfg.GOAMD64 >= 3 && isSameCall(sym, "runtime.memclrNoHeapPointers")
+	// result: (MakeResult (REPSTOSB <mem.Type> dst c (MOVQconst [0]) mem))
+	for {
+		if len(v.Args) != 3 {
+			break
+		}
+		sym := auxToCall(v.Aux)
+		mem := v.Args[2]
+		dst := v.Args[0]
+		c := v.Args[1]
+		if !(buildcfg.GOAMD64 >= 3 && isSameCall(sym, "runtime.memclrNoHeapPointers")) {
+			break
+		}
+		v.reset(OpMakeResult)
+		v0 := b.NewValue0(v.Pos, OpAMD64REPSTOSB, mem.Type)
+		v1 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v1.AuxInt = int64ToAuxInt(0)
+		v0.AddArg4(dst, c, v1, mem)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (CALLstatic {sym} dst c mem)
+	// cond: buildcfg.GOAMD64 >= 3 && isSameCall(sym, "runtime.memclrPointers")
+	// result: (MakeResult (REPSTOSQ <mem.Type> dst c (MOVQconst [0]) mem))
+	for {
+		if len(v.Args) != 3 {
+			break
+		}
+		sym := auxToCall(v.Aux)
+		mem := v.Args[2]
+		dst := v.Args[0]
+		c := v.Args[1]
+		if !(buildcfg.GOAMD64 >= 3 && isSameCall(sym, "runtime.memclrPointers")) {
+			break
+		}
+		v.reset(OpMakeResult)
+		v0 := b.NewValue0(v.Pos, OpAMD64REPSTOSQ, mem.Type)
+		v1 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v1.AuxInt = int64ToAuxInt(0)
+		v0.AddArg4(dst, c, v1, mem)
+		v.AddArg(v0)
 		return true
 	}
 	return false
@@ -27139,6 +27190,74 @@ func rewriteValueAMD64_OpMove(v *Value) bool {
 	b := v.Block
 	config := b.Func.Config
 	typ := &b.Func.Config.Types
+	// match: (Move [c] dst src mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && c % 8 == 0 && logLargeCopy(v, c)
+	// result: (REPMOVSQ dst src (MOVQconst [c/8]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		src := v_1
+		mem := v_2
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && c%8 == 0 && logLargeCopy(v, c)) {
+			break
+		}
+		v.reset(OpAMD64REPMOVSQ)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c / 8)
+		v.AddArg4(dst, src, v0, mem)
+		return true
+	}
+	// match: (Move [c] dst src mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && c % 4 == 0 && ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) || (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers())) && logLargeCopy(v, c)
+	// result: (REPMOVSL dst src (MOVQconst [c/4]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		src := v_1
+		mem := v_2
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && c%4 == 0 && ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) || (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers())) && logLargeCopy(v, c)) {
+			break
+		}
+		v.reset(OpAMD64REPMOVSL)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c / 4)
+		v.AddArg4(dst, src, v0, mem)
+		return true
+	}
+	// match: (Move [c] dst src mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && c % 2 == 0 && ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) || (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers())) && logLargeCopy(v, c)
+	// result: (REPMOVSW dst src (MOVQconst [c/2]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		src := v_1
+		mem := v_2
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && c%2 == 0 && ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) || (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers())) && logLargeCopy(v, c)) {
+			break
+		}
+		v.reset(OpAMD64REPMOVSW)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c / 2)
+		v.AddArg4(dst, src, v0, mem)
+		return true
+	}
+	// match: (Move [c] dst src mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) || (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers())) && logLargeCopy(v, c)
+	// result: (REPMOVSB dst src (MOVQconst [c]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		src := v_1
+		mem := v_2
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && ((dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) || (src.Type.Kind() == types.TPTR && !src.Type.Elem().HasPointers())) && logLargeCopy(v, c)) {
+			break
+		}
+		v.reset(OpAMD64REPMOVSB)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c)
+		v.AddArg4(dst, src, v0, mem)
+		return true
+	}
 	// match: (Move [0] _ _ mem)
 	// result: mem
 	for {
@@ -29513,6 +29632,17 @@ func rewriteValueAMD64_OpSelectN(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (SelectN [n] r:(MakeResult ___))
+	// result: r.Args[n]
+	for {
+		n := auxIntToInt64(v.AuxInt)
+		r := v_0
+		if r.Op != OpMakeResult {
+			break
+		}
+		v.copyOf(r.Args[n])
+		return true
+	}
 	// match: (SelectN [0] call:(CALLstatic {sym} s1:(MOVQstoreconst _ [sc] s2:(MOVQstore _ src s3:(MOVQstore _ dst mem)))))
 	// cond: sc.Val64() >= 0 && isSameCall(sym, "runtime.memmove") && s1.Uses == 1 && s2.Uses == 1 && s3.Uses == 1 && isInlinableMemmove(dst, src, sc.Val64(), config) && clobber(s1, s2, s3, call)
 	// result: (Move [sc.Val64()] dst src mem)
@@ -29749,6 +29879,78 @@ func rewriteValueAMD64_OpZero(v *Value) bool {
 	b := v.Block
 	config := b.Func.Config
 	typ := &b.Func.Config.Types
+	// match: (Zero [c] dst mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && c % 8 == 0
+	// result: (REPSTOSQ dst (MOVQconst [c/8]) (MOVQconst [0]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		mem := v_1
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && c%8 == 0) {
+			break
+		}
+		v.reset(OpAMD64REPSTOSQ)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c / 8)
+		v1 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v1.AuxInt = int64ToAuxInt(0)
+		v.AddArg4(dst, v0, v1, mem)
+		return true
+	}
+	// match: (Zero [c] dst mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && c % 4 == 0 && dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()
+	// result: (REPSTOSL dst (MOVQconst [c/4]) (MOVQconst [0]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		mem := v_1
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && c%4 == 0 && dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) {
+			break
+		}
+		v.reset(OpAMD64REPSTOSL)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c / 4)
+		v1 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v1.AuxInt = int64ToAuxInt(0)
+		v.AddArg4(dst, v0, v1, mem)
+		return true
+	}
+	// match: (Zero [c] dst mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && c % 2 == 0 && dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()
+	// result: (REPSTOSW dst (MOVQconst [c/2]) (MOVQconst [0]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		mem := v_1
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && c%2 == 0 && dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) {
+			break
+		}
+		v.reset(OpAMD64REPSTOSW)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c / 2)
+		v1 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v1.AuxInt = int64ToAuxInt(0)
+		v.AddArg4(dst, v0, v1, mem)
+		return true
+	}
+	// match: (Zero [c] dst mem)
+	// cond: buildcfg.GOAMD64 >= 3 && !(c & (c-1) == 0 && c <= 16) && dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()
+	// result: (REPSTOSB dst (MOVQconst [c]) (MOVQconst [0]) mem)
+	for {
+		c := auxIntToInt64(v.AuxInt)
+		dst := v_0
+		mem := v_1
+		if !(buildcfg.GOAMD64 >= 3 && !(c&(c-1) == 0 && c <= 16) && dst.Type.Kind() == types.TPTR && !dst.Type.Elem().HasPointers()) {
+			break
+		}
+		v.reset(OpAMD64REPSTOSB)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(c)
+		v1 := b.NewValue0(v.Pos, OpAMD64MOVQconst, typ.UInt64)
+		v1.AuxInt = int64ToAuxInt(0)
+		v.AddArg4(dst, v0, v1, mem)
+		return true
+	}
 	// match: (Zero [0] _ mem)
 	// result: mem
 	for {

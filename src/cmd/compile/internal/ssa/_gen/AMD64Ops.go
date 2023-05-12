@@ -903,6 +903,48 @@ func init() {
 			},
 			faultOnNilArg0: true,
 		},
+		// arg0 = address of memory to zero
+		// arg1 = # of 4-byte words to zero
+		// arg2 = value to store (will always be zero)
+		// arg3 = mem
+		// returns mem
+		{
+			name:      "REPSTOSL",
+			argLength: 4,
+			reg: regInfo{
+				inputs:   []regMask{buildReg("DI"), buildReg("CX"), buildReg("AX")},
+				clobbers: buildReg("DI CX"),
+			},
+			faultOnNilArg0: true,
+		},
+		// arg0 = address of memory to zero
+		// arg1 = # of 2-byte words to zero
+		// arg2 = value to store (will always be zero)
+		// arg3 = mem
+		// returns mem
+		{
+			name:      "REPSTOSW",
+			argLength: 4,
+			reg: regInfo{
+				inputs:   []regMask{buildReg("DI"), buildReg("CX"), buildReg("AX")},
+				clobbers: buildReg("DI CX"),
+			},
+			faultOnNilArg0: true,
+		},
+		// arg0 = address of memory to zero
+		// arg1 = # of bytes to zero
+		// arg2 = value to store (will always be zero)
+		// arg3 = mem
+		// returns mem
+		{
+			name:      "REPSTOSB",
+			argLength: 4,
+			reg: regInfo{
+				inputs:   []regMask{buildReg("DI"), buildReg("CX"), buildReg("AX")},
+				clobbers: buildReg("DI CX"),
+			},
+			faultOnNilArg0: true,
+		},
 
 		// With a register ABI, the actual register info for these instructions (i.e., what is used in regalloc) is augmented with per-call-site bindings of additional arguments to specific in and out registers.
 		{name: "CALLstatic", argLength: -1, reg: regInfo{clobbers: callerSave}, aux: "CallOff", clobberFlags: true, call: true},                                              // call static function aux.(*obj.LSym).  last arg=mem, auxint=argsize, returns mem
@@ -936,6 +978,51 @@ func init() {
 		// returns memory
 		{
 			name:      "REPMOVSQ",
+			argLength: 4,
+			reg: regInfo{
+				inputs:   []regMask{buildReg("DI"), buildReg("SI"), buildReg("CX")},
+				clobbers: buildReg("DI SI CX"),
+			},
+			faultOnNilArg0: true,
+			faultOnNilArg1: true,
+		},
+		// arg0 = destination pointer
+		// arg1 = source pointer
+		// arg2 = # of 4-byte words to copy
+		// arg3 = mem
+		// returns memory
+		{
+			name:      "REPMOVSL",
+			argLength: 4,
+			reg: regInfo{
+				inputs:   []regMask{buildReg("DI"), buildReg("SI"), buildReg("CX")},
+				clobbers: buildReg("DI SI CX"),
+			},
+			faultOnNilArg0: true,
+			faultOnNilArg1: true,
+		},
+		// arg0 = destination pointer
+		// arg1 = source pointer
+		// arg2 = # of 2-byte words to copy
+		// arg3 = mem
+		// returns memory
+		{
+			name:      "REPMOVSW",
+			argLength: 4,
+			reg: regInfo{
+				inputs:   []regMask{buildReg("DI"), buildReg("SI"), buildReg("CX")},
+				clobbers: buildReg("DI SI CX"),
+			},
+			faultOnNilArg0: true,
+			faultOnNilArg1: true,
+		},
+		// arg0 = destination pointer
+		// arg1 = source pointer
+		// arg2 = # of bytes to copy
+		// arg3 = mem
+		// returns memory
+		{
+			name:      "REPMOVSB",
 			argLength: 4,
 			reg: regInfo{
 				inputs:   []regMask{buildReg("DI"), buildReg("SI"), buildReg("CX")},

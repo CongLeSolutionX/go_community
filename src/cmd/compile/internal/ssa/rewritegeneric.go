@@ -27377,34 +27377,15 @@ func rewriteValuegeneric_OpSelectN(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
-	// match: (SelectN [0] (MakeResult x ___))
-	// result: x
+	// match: (SelectN [n] r:(MakeResult ___))
+	// result: r.Args[n]
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 || v_0.Op != OpMakeResult || len(v_0.Args) < 1 {
+		n := auxIntToInt64(v.AuxInt)
+		r := v_0
+		if r.Op != OpMakeResult {
 			break
 		}
-		x := v_0.Args[0]
-		v.copyOf(x)
-		return true
-	}
-	// match: (SelectN [1] (MakeResult x y ___))
-	// result: y
-	for {
-		if auxIntToInt64(v.AuxInt) != 1 || v_0.Op != OpMakeResult || len(v_0.Args) < 2 {
-			break
-		}
-		y := v_0.Args[1]
-		v.copyOf(y)
-		return true
-	}
-	// match: (SelectN [2] (MakeResult x y z ___))
-	// result: z
-	for {
-		if auxIntToInt64(v.AuxInt) != 2 || v_0.Op != OpMakeResult || len(v_0.Args) < 3 {
-			break
-		}
-		z := v_0.Args[2]
-		v.copyOf(z)
+		v.copyOf(r.Args[n])
 		return true
 	}
 	// match: (SelectN [0] call:(StaticCall {sym} sptr (Const64 [c]) mem))

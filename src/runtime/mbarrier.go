@@ -369,5 +369,5 @@ func reflect_typedarrayclear(typ *_type, ptr unsafe.Pointer, len int) {
 func memclrHasPointers(ptr unsafe.Pointer, n uintptr) {
 	// Pass nil for the type since we don't have one here anyway.
 	bulkBarrierPreWrite(uintptr(ptr), 0, n, nil)
-	memclrNoHeapPointers(ptr, n)
+	doMemclrWithPointers(ptr, n)
 }

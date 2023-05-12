@@ -1035,12 +1035,18 @@ const (
 	OpAMD64MOVQstoreconstidx8
 	OpAMD64DUFFZERO
 	OpAMD64REPSTOSQ
+	OpAMD64REPSTOSL
+	OpAMD64REPSTOSW
+	OpAMD64REPSTOSB
 	OpAMD64CALLstatic
 	OpAMD64CALLtail
 	OpAMD64CALLclosure
 	OpAMD64CALLinter
 	OpAMD64DUFFCOPY
 	OpAMD64REPMOVSQ
+	OpAMD64REPMOVSL
+	OpAMD64REPMOVSW
+	OpAMD64REPMOVSB
 	OpAMD64InvertFlags
 	OpAMD64LoweredGetG
 	OpAMD64LoweredGetClosurePtr
@@ -13650,6 +13656,45 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:           "REPSTOSL",
+		argLen:         4,
+		faultOnNilArg0: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 128}, // DI
+				{1, 2},   // CX
+				{2, 1},   // AX
+			},
+			clobbers: 130, // CX DI
+		},
+	},
+	{
+		name:           "REPSTOSW",
+		argLen:         4,
+		faultOnNilArg0: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 128}, // DI
+				{1, 2},   // CX
+				{2, 1},   // AX
+			},
+			clobbers: 130, // CX DI
+		},
+	},
+	{
+		name:           "REPSTOSB",
+		argLen:         4,
+		faultOnNilArg0: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 128}, // DI
+				{1, 2},   // CX
+				{2, 1},   // AX
+			},
+			clobbers: 130, // CX DI
+		},
+	},
+	{
 		name:         "CALLstatic",
 		auxType:      auxCallOff,
 		argLen:       -1,
@@ -13715,6 +13760,48 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:           "REPMOVSQ",
+		argLen:         4,
+		faultOnNilArg0: true,
+		faultOnNilArg1: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 128}, // DI
+				{1, 64},  // SI
+				{2, 2},   // CX
+			},
+			clobbers: 194, // CX SI DI
+		},
+	},
+	{
+		name:           "REPMOVSL",
+		argLen:         4,
+		faultOnNilArg0: true,
+		faultOnNilArg1: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 128}, // DI
+				{1, 64},  // SI
+				{2, 2},   // CX
+			},
+			clobbers: 194, // CX SI DI
+		},
+	},
+	{
+		name:           "REPMOVSW",
+		argLen:         4,
+		faultOnNilArg0: true,
+		faultOnNilArg1: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 128}, // DI
+				{1, 64},  // SI
+				{2, 2},   // CX
+			},
+			clobbers: 194, // CX SI DI
+		},
+	},
+	{
+		name:           "REPMOVSB",
 		argLen:         4,
 		faultOnNilArg0: true,
 		faultOnNilArg1: true,

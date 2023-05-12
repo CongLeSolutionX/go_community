@@ -19,7 +19,10 @@ import "unsafe"
 // Some of the clears get inlined, see #56997
 
 func SliceClear(s []int) []int {
-	// amd64:`.*memclrNoHeapPointers`
+	// amd64/v1,amd64/v2:`.*memclrNoHeapPointers`
+	// amd64/v3:-`.*memclrNoHeapPointers`
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// ppc64x:`.*memclrNoHeapPointers`
 	for i := range s {
 		s[i] = 0
@@ -46,7 +49,9 @@ func SliceExtensionConst(s []int) []int {
 	// amd64:-`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
-	// amd64:"MOVUPS\tX15"
+	// amd64/v1,amd64/v2:"MOVUPS\tX15"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// ppc64x:-`.*runtime\.memclrNoHeapPointers`
 	// ppc64x:-`.*runtime\.makeslice`
 	// ppc64x:-`.*runtime\.panicmakeslicelen`
@@ -57,7 +62,9 @@ func SliceExtensionConstInt64(s []int) []int {
 	// amd64:-`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
-	// amd64:"MOVUPS\tX15"
+	// amd64/v1,amd64/v2:"MOVUPS\tX15"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// ppc64x:-`.*runtime\.memclrNoHeapPointers`
 	// ppc64x:-`.*runtime\.makeslice`
 	// ppc64x:-`.*runtime\.panicmakeslicelen`
@@ -68,7 +75,9 @@ func SliceExtensionConstUint64(s []int) []int {
 	// amd64:-`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
-	// amd64:"MOVUPS\tX15"
+	// amd64/v1,amd64/v2:"MOVUPS\tX15"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// ppc64x:-`.*runtime\.memclrNoHeapPointers`
 	// ppc64x:-`.*runtime\.makeslice`
 	// ppc64x:-`.*runtime\.panicmakeslicelen`
@@ -79,7 +88,9 @@ func SliceExtensionConstUint(s []int) []int {
 	// amd64:-`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
-	// amd64:"MOVUPS\tX15"
+	// amd64/v1,amd64/v2:"MOVUPS\tX15"
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// ppc64x:-`.*runtime\.memclrNoHeapPointers`
 	// ppc64x:-`.*runtime\.makeslice`
 	// ppc64x:-`.*runtime\.panicmakeslicelen`
@@ -103,7 +114,10 @@ func SliceExtensionPointer(s []*int, l int) []*int {
 }
 
 func SliceExtensionVar(s []byte, l int) []byte {
-	// amd64:`.*runtime\.memclrNoHeapPointers`
+	// amd64/v1,amd64/v2:`.*memclrNoHeapPointers`
+	// amd64/v3:-`.*memclrNoHeapPointers`
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// amd64:-`.*runtime\.makeslice`
 	// ppc64x:`.*runtime\.memclrNoHeapPointers`
 	// ppc64x:-`.*runtime\.makeslice`
@@ -111,21 +125,30 @@ func SliceExtensionVar(s []byte, l int) []byte {
 }
 
 func SliceExtensionVarInt64(s []byte, l int64) []byte {
-	// amd64:`.*runtime\.memclrNoHeapPointers`
+	// amd64/v1,amd64/v2:`.*memclrNoHeapPointers`
+	// amd64/v3:-`.*memclrNoHeapPointers`
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:`.*runtime\.panicmakeslicelen`
 	return append(s, make([]byte, l)...)
 }
 
 func SliceExtensionVarUint64(s []byte, l uint64) []byte {
-	// amd64:`.*runtime\.memclrNoHeapPointers`
+	// amd64/v1,amd64/v2:`.*memclrNoHeapPointers`
+	// amd64/v3:-`.*memclrNoHeapPointers`
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:`.*runtime\.panicmakeslicelen`
 	return append(s, make([]byte, l)...)
 }
 
 func SliceExtensionVarUint(s []byte, l uint) []byte {
-	// amd64:`.*runtime\.memclrNoHeapPointers`
+	// amd64/v1,amd64/v2:`.*memclrNoHeapPointers`
+	// amd64/v3:-`.*memclrNoHeapPointers`
+	// amd64/v3:"REP"
+	// amd64/v3:"STOS"
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:`.*runtime\.panicmakeslicelen`
 	return append(s, make([]byte, l)...)

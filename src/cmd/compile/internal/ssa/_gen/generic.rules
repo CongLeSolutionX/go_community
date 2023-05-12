@@ -2036,9 +2036,7 @@
 (Sqrt (Const64F [c])) && !math.IsNaN(math.Sqrt(c)) => (Const64F [math.Sqrt(c)])
 
 // for rewriting results of some late-expanded rewrites (below)
-(SelectN [0] (MakeResult x ___)) => x
-(SelectN [1] (MakeResult x y ___)) => y
-(SelectN [2] (MakeResult x y z ___)) => z
+(SelectN [n] r:(MakeResult ___)) => r.Args[n]
 
 // for late-expanded calls, recognize newobject and remove zeroing and nilchecks
 (Zero (SelectN [0] call:(StaticLECall _ _)) mem:(SelectN [1] call))
