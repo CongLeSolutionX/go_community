@@ -33,6 +33,24 @@
       "message": "Sorry about the broken build 😞.\n\nWhat\u0027s the best way to proceed? Resubmit this patch under a new CL with the fixes for the windows build?\n\nThanks!",
       "revId": "bc9e21351c2b9f0802304198860afbd4f1381e75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09593998_1e69b5c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-12T13:49:39Z",
+      "side": 1,
+      "message": "Yup. Usually we reuse ~the same commit message, with an extra note that this is a redo of CL 481617 with something fixed.",
+      "parentUuid": "915e1b8d_f9122aa4",
+      "revId": "bc9e21351c2b9f0802304198860afbd4f1381e75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
