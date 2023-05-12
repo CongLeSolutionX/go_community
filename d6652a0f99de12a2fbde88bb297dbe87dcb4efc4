@@ -122,6 +122,24 @@
       "parentUuid": "5d4041b9_2bb219fe",
       "revId": "d6652a0f99de12a2fbde88bb297dbe87dcb4efc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b2f972_cd218cc4",
+        "filename": "src/strings/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-12T17:40:12Z",
+      "side": 1,
+      "message": "Personally I think \"does not support Write calls\" is clearer. But this is fine. Thanks.",
+      "parentUuid": "b67909b5_3104b6fd",
+      "revId": "d6652a0f99de12a2fbde88bb297dbe87dcb4efc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
