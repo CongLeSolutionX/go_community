@@ -280,6 +280,7 @@ func TestInsert(t *testing.T) {
 	if got := Insert(s, 0); !Equal(got, s) {
 		t.Errorf("Insert(%v, 0) = %v, want %v", s, got, s)
 	}
+
 	for _, test := range insertTests {
 		copy := Clone(test.s)
 		if got := Insert(copy, test.i, test.add...); !Equal(got, test.want) {
@@ -299,6 +300,16 @@ func TestInsert(t *testing.T) {
 		if n > count/2 {
 			t.Errorf("too many allocations inserting %d elements: got %v, want less than %d", count, n, count/2)
 		}
+	}
+}
+
+func TestInsertOverlap(t *testing.T) {
+	a := []int{1, 2, 3, 4, 5, 6, 7, 8}
+	want := []int{1, 2, 5, 6, 3, 4}
+	b := a[:4]
+	c := a[4:6]
+	if got := Insert(b, 2, c...); !Equal(got, want) {
+		t.Errorf("Insert with overlap slice failed, want %v, got %v", want, got)
 	}
 }
 
@@ -659,6 +670,16 @@ func TestReplacePanics(t *testing.T) {
 		if !panics(func() { Replace(ss, test.i, test.j, vv...) }) {
 			t.Errorf("Replace %s: should have panicked", test.name)
 		}
+	}
+}
+
+func TestReplaceOverlap(t *testing.T) {
+	a := []int{1, 2, 3, 4, 5, 6, 7, 8}
+	want := []int{1, 2, 5, 6, 3, 4}
+	b := a[:4]
+	c := a[4:6]
+	if got := Replace(b, 2, 2, c...); !Equal(got, want) {
+		t.Errorf("Replace with overlap slice failed, want %v, got %v", want, got)
 	}
 }
 
