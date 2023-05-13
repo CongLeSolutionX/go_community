@@ -16,6 +16,24 @@
       "message": "Here\u0027s a playground showing behavior IRL: https://go.dev/play/p/NzJf-DA9DSa?v\u003dgotip\n\nSpecifically:\n```\nfmt.Printf(\"Str07\u003d%07s[EOL]\\n\", \"Hello\")\n//\u003d\u003e Str07\u003d00Hello[EOL]\n```\n\nFWIW, the actual behavior is what I want and what I intuitively expected, so I was surprised when I read the docs, but then pleasantly re-surprised to find the docs were wrong when I actually tried it.",
       "revId": "4be826b79b06d499a172922f83305cfe4d3cf112",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f359fa1_953571a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-13T09:10:56Z",
+      "side": 1,
+      "message": "It\u0027s not that simple. See https://go.dev/play/p/_-73vYP6W4p for instance.\n\nThis is not the thing to fix. The documentation is correct at least some of the time and describes the intention. I believe it\u0027s just a bug that it\u0027s not all the time.",
+      "parentUuid": "8129242d_6d40f31c",
+      "revId": "4be826b79b06d499a172922f83305cfe4d3cf112",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
