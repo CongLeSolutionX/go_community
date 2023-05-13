@@ -202,6 +202,11 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 	printed := false
 	pkgOpts := load.PackageOpts{IgnoreImports: true}
 	for _, pkg := range load.PackagesAndErrors(ctx, pkgOpts, args) {
+		if pkg.Error != nil {
+			base.Errorf("%v", pkg.Error)
+			continue
+		}
+
 		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
 			if !printed {
 				fmt.Fprintf(os.Stderr, "go: not generating in packages in dependency modules\n")
@@ -222,6 +227,7 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		}
 	}
+	base.ExitIfErrors()
 }
 
 // generate runs the generation directives for a single file.
