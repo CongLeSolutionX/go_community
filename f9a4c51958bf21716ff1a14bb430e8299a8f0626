@@ -59,6 +59,30 @@
       },
       "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad97d7a_10c4e23b",
+        "filename": "src/cmd/compile/internal/ssa/_gen/MIPS64.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-13T12:49:08Z",
+      "side": 1,
+      "message": "The previous errors were caused by sign extension performed by MIPS64 by default (you can see that the errors occurred in test cases where negative values of floating-point numbers were taken, and the higher bits were filled with 0xffffffff). So I have to use ZeroExt32to64 to ensure the upper 32 bits are filled with zeros.\nThe val will be moved form FPR to GPR, so I think it\u0027s a float32 value. After the move action, val in GPR will be a word value, and it can be treated as a integer value. This is just my thinking.\nAfter all, if you want, I will change it. Thanks.",
+      "parentUuid": "4ae98bd1_e914e12e",
+      "range": {
+        "startLine": 365,
+        "startChar": 65,
+        "endLine": 365,
+        "endChar": 109
+      },
+      "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
