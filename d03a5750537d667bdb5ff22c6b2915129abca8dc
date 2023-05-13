@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af8e0712_16bfc7c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62824
+      },
+      "writtenOn": "2023-05-13T03:33:56Z",
+      "side": 1,
+      "message": "This fix changes the behaviour of `slices.Insert`, the old behaviour creates a new backing array when the `tot \u003e cap(s)` while this patch creates a new backing array when `tot \u003e cap(s)` or `s[:tot]` overlaps with `v`. And I don\u0027t think the new behaviour is a desirable one.",
+      "parentUuid": "c37380b6_9b98ff35",
+      "revId": "d03a5750537d667bdb5ff22c6b2915129abca8dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea32022b_b9fff5f6",
         "filename": "src/slices/slices.go",
         "patchSetId": 3
