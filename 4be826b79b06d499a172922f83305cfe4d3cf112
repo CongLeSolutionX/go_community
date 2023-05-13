@@ -34,6 +34,24 @@
       "parentUuid": "8129242d_6d40f31c",
       "revId": "4be826b79b06d499a172922f83305cfe4d3cf112",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab92a4e3_94f55884",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62818
+      },
+      "writtenOn": "2023-05-13T21:05:06Z",
+      "side": 1,
+      "message": "You\u0027re right, it is way more involved than the simple combos that I\u0027m used to using. It had not occurred to me to use a decimal point in a string verb, but I now see the remark earlier in the docs:\n\u003e \"For strings [...], precision limits the length of the input to be formatted.\"\n\nThe ambiguity between width/precision and the `0` flag is unfortunate, but I think the integer from your example is even weirder than the string (I\u0027m still having trouble puzzling out the logic for integers re: width/precision), so let\u0027s leave `%d` out of the discussion for now.\n\nSimplifying your example to make it easier to refer to:\n```\nfmt.Printf(\"%0.24s\\n\", \"Hello, 世界\")\n```\n\nJust from the output, it\u0027s impossible to say whether the `0` is interpreted as a flag or a width, because width defaults to 0, so there\u0027s no padding to be done anyway, because 0 is less than the runes in the string \"Hello, 世界\". All of `\"% 0.24s\"` / `\"%.24s\"` / `\"% .24s\"` have the same result, for the same reason. (And ofc 24 is greater than the number of runes in the string, so no truncation is applied.)\n\nAdd some actual padding though: `fmt.Printf(\"^%07.5s$\\n\", \"Hello, 世界\")`, and you get `^00Hello$`. Here the `0` is interpreted as a flag, because (AFAICT) it can be; i.e., greedily. Precision\u003d5 truncates string down to \"Hello\", Width\u003d7 necessitates padding, and `0` makes it pad with DIGIT ZERO instead of SPACE. See https://go.dev/play/p/IrGbSnommZu\n\nAm I misunderstanding something?",
+      "parentUuid": "3f359fa1_953571a1",
+      "revId": "4be826b79b06d499a172922f83305cfe4d3cf112",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
