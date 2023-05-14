@@ -52,6 +52,24 @@
       "parentUuid": "3f359fa1_953571a1",
       "revId": "4be826b79b06d499a172922f83305cfe4d3cf112",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b22139a4_2c9cf97c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-14T23:23:01Z",
+      "side": 1,
+      "message": "As I said, it\u0027s a bug that should be fixed. The solution is not to change the documentation that states the desired, correct behavior, which is to ignore the zero flag.\n\nPlease drop this change.\n\nThe zero flag comes from C\u0027s printf, and yes it\u0027s confusing.",
+      "parentUuid": "ab92a4e3_94f55884",
+      "revId": "4be826b79b06d499a172922f83305cfe4d3cf112",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
