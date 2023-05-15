@@ -619,6 +619,7 @@ var depsRules = `
 	internal/coverage/cmerge
 	< internal/coverage/cformat;
 
+    encoding/json,
 	runtime/debug,
 	internal/coverage/calloc,
 	internal/coverage/cformat,
