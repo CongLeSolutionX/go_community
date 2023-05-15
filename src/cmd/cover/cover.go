@@ -301,7 +301,162 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 	return f
 }
 
+<<<<<<< HEAD   (22c788 [release-branch.go1.19] cmd/cgo: error out if the source pat)
 func annotate(name string) {
+=======
+func mkCounterVarName(idx int) string {
+	return fmt.Sprintf("%s_%d", *varVar, idx)
+}
+
+func mkPackageIdVar() string {
+	return *varVar + "P"
+}
+
+func mkMetaVar() string {
+	return *varVar + "M"
+}
+
+func mkPackageIdExpression() string {
+	ppath := pkgconfig.PkgPath
+	if hcid := coverage.HardCodedPkgID(ppath); hcid != -1 {
+		return fmt.Sprintf("uint32(%d)", uint32(hcid))
+	}
+	return mkPackageIdVar()
+}
+
+func (f *File) preFunc(fn ast.Node, fname string) {
+	f.fn.units = f.fn.units[:0]
+
+	// create a new counter variable for this function.
+	cv := mkCounterVarName(len(f.pkg.counterLengths))
+	f.fn.counterVar = cv
+}
+
+func (f *File) postFunc(fn ast.Node, funcname string, flit bool, body *ast.BlockStmt) {
+
+	// Tack on single counter write if we are in "perfunc" mode.
+	singleCtr := ""
+	if pkgconfig.Granularity == "perfunc" {
+		singleCtr = "; " + f.newCounter(fn.Pos(), fn.Pos(), 1)
+	}
+
+	// record the length of the counter var required.
+	nc := len(f.fn.units) + coverage.FirstCtrOffset
+	f.pkg.counterLengths = append(f.pkg.counterLengths, nc)
+
+	// FIXME: for windows, do we want "\" and not "/"? Need to test here.
+	// Currently filename is formed as packagepath + "/" + basename.
+	fnpos := f.fset.Position(fn.Pos())
+	ppath := pkgconfig.PkgPath
+	filename := ppath + "/" + filepath.Base(fnpos.Filename)
+
+	// The convention for cmd/cover is that if the go command that
+	// kicks off coverage specifies a local import path (e.g. "go test
+	// -cover ./thispackage"), the tool will capture full pathnames
+	// for source files instead of relative paths, which tend to work
+	// more smoothly for "go tool cover -html". See also issue #56433
+	// for more details.
+	if pkgconfig.Local {
+		filename = f.name
+	}
+
+	// Hand off function to meta-data builder.
+	fd := coverage.FuncDesc{
+		Funcname: funcname,
+		Srcfile:  filename,
+		Units:    f.fn.units,
+		Lit:      flit,
+	}
+	funcId := f.mdb.AddFunc(fd)
+
+	hookWrite := func(cv string, which int, val string) string {
+		return fmt.Sprintf("%s[%d] = %s", cv, which, val)
+	}
+	if *mode == "atomic" {
+		hookWrite = func(cv string, which int, val string) string {
+			return fmt.Sprintf("%sStoreUint32(&%s[%d], %s)",
+				atomicPackagePrefix(), cv, which, val)
+		}
+	}
+
+	// Generate the registration hook sequence for the function. This
+	// sequence looks like
+	//
+	//   counterVar[0] = <num_units>
+	//   counterVar[1] = pkgId
+	//   counterVar[2] = fnId
+	//
+	cv := f.fn.counterVar
+	regHook := hookWrite(cv, 0, strconv.Itoa(len(f.fn.units))) + " ; " +
+		hookWrite(cv, 1, mkPackageIdExpression()) + " ; " +
+		hookWrite(cv, 2, strconv.Itoa(int(funcId))) + singleCtr
+
+	// Insert the registration sequence into the function. We want this sequence to
+	// appear before any counter updates, so use a hack to ensure that this edit
+	// applies before the edit corresponding to the prolog counter update.
+
+	boff := f.offset(body.Pos())
+	ipos := f.fset.File(body.Pos()).Pos(boff)
+	ip := f.offset(ipos)
+	f.edit.Replace(ip, ip+1, string(f.content[ipos-1])+regHook+" ; ")
+
+	f.fn.counterVar = ""
+}
+
+func annotate(names []string) {
+	var p *Package
+	if *pkgcfg != "" {
+		pp := pkgconfig.PkgPath
+		pn := pkgconfig.PkgName
+		mp := pkgconfig.ModulePath
+		mdb, err := encodemeta.NewCoverageMetaDataBuilder(pp, pn, mp)
+		if err != nil {
+			log.Fatalf("creating coverage meta-data builder: %v\n", err)
+		}
+		p = &Package{
+			mdb: mdb,
+		}
+	}
+	// TODO: process files in parallel here if it matters.
+	for k, name := range names {
+		if strings.ContainsAny(name, "\r\n") {
+			// annotateFile uses '//line' directives, which don't permit newlines.
+			log.Fatalf("cover: input path contains newline character: %q", name)
+		}
+
+		last := false
+		if k == len(names)-1 {
+			last = true
+		}
+
+		fd := os.Stdout
+		isStdout := true
+		if *pkgcfg != "" {
+			var err error
+			fd, err = os.Create(outputfiles[k])
+			if err != nil {
+				log.Fatalf("cover: %s", err)
+			}
+			isStdout = false
+		} else if *output != "" {
+			var err error
+			fd, err = os.Create(*output)
+			if err != nil {
+				log.Fatalf("cover: %s", err)
+			}
+			isStdout = false
+		}
+		p.annotateFile(name, fd, last)
+		if !isStdout {
+			if err := fd.Close(); err != nil {
+				log.Fatalf("cover: %s", err)
+			}
+		}
+	}
+}
+
+func (p *Package) annotateFile(name string, fd io.Writer, last bool) {
+>>>>>>> CHANGE (f1752e [release-branch.go1.20] cmd/cover: error out if a requested )
 	fset := token.NewFileSet()
 	content, err := os.ReadFile(name)
 	if err != nil {
@@ -332,6 +487,7 @@ func annotate(name string) {
 	ast.Walk(file, file.astFile)
 	newContent := file.edit.Bytes()
 
+<<<<<<< HEAD   (22c788 [release-branch.go1.19] cmd/cgo: error out if the source pat)
 	fd := os.Stdout
 	if *output != "" {
 		var err error
@@ -342,6 +498,14 @@ func annotate(name string) {
 	}
 
 	fmt.Fprintf(fd, "//line %s:1\n", name)
+=======
+	if strings.ContainsAny(name, "\r\n") {
+		// This should have been checked by the caller already, but we double check
+		// here just to be sure we haven't missed a caller somewhere.
+		panic(fmt.Sprintf("annotateFile: name contains unexpected newline character: %q", name))
+	}
+	fmt.Fprintf(fd, "//line %s:1:1\n", name)
+>>>>>>> CHANGE (f1752e [release-branch.go1.20] cmd/cover: error out if a requested )
 	fd.Write(newContent)
 
 	// After printing the source tree, add some declarations for the counters etc.
