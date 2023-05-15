@@ -1,18 +1,15 @@
-// Copyright 2021 The Go Authors. All rights reserved.
+// Copyright 2023 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 //go:build dragonfly || freebsd || linux || netbsd || (openbsd && mips64)
 
-package net
+package unix
 
-import (
-	"internal/syscall/unix"
-	"syscall"
-)
+import "syscall"
 
-func fcntl(fd int, cmd int, arg int) (int, error) {
-	r, _, e := syscall.Syscall(unix.FcntlSyscall, uintptr(fd), uintptr(cmd), uintptr(arg))
+func Fcntl(fd int, cmd int, arg int) (int, error) {
+	r, _, e := syscall.Syscall(FcntlSyscall, uintptr(fd), uintptr(cmd), uintptr(arg))
 	if e != 0 {
 		return int(r), syscall.Errno(e)
 	}

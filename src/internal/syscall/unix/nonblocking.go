@@ -13,9 +13,9 @@ import "syscall"
 var FcntlSyscall uintptr = syscall.SYS_FCNTL
 
 func IsNonblock(fd int) (nonblocking bool, err error) {
-	flag, _, e1 := syscall.Syscall(FcntlSyscall, uintptr(fd), uintptr(syscall.F_GETFL), 0)
-	if e1 != 0 {
-		return false, e1
+	flags, err := Fcntl(fd, syscall.F_GETFL, 0)
+	if err != nil {
+		return false, err
 	}
-	return flag&syscall.O_NONBLOCK != 0, nil
+	return flags&syscall.O_NONBLOCK != 0, nil
 }
