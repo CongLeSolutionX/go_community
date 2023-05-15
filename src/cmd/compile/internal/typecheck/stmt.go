@@ -588,6 +588,7 @@ func tcSwitchType(n *ir.SwitchStmt) {
 			}
 
 			var missing, have *types.Field
+			var ambig bool
 			var ptr int
 			if ir.IsNil(n1) { // case nil:
 				if nilCase != nil {
@@ -604,10 +605,16 @@ func tcSwitchType(n *ir.SwitchStmt) {
 				base.ErrorfAt(ncase.Pos(), errors.NotAType, "%L is not a type", n1)
 				continue
 			}
-			if !n1.Type().IsInterface() && !implements(n1.Type(), t, &missing, &have, &ptr) {
+			if !n1.Type().IsInterface() && !implements(n1.Type(), t, &missing, &have, &ambig, &ptr) {
 				if have != nil {
 					base.ErrorfAt(ncase.Pos(), errors.ImpossibleAssert, "impossible type switch case: %L cannot have dynamic type %v"+
 						" (wrong type for %v method)\n\thave %v%S\n\twant %v%S", guard.X, n1.Type(), missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
+				} else if missing != nil && !missing.IsMethod() {
+					base.ErrorfAt(ncase.Pos(), errors.ImpossibleAssert, "impossible type switch case: %L cannot have dynamic type %v"+
+						" (%v is a field, not an interface)", guard.X, n1.Type(), missing.Sym)
+				} else if ambig {
+					base.ErrorfAt(ncase.Pos(), errors.ImpossibleAssert, "impossible type switch case: %L cannot have dynamic type %v"+
+						" (%v method is ambiguous)", guard.X, n1.Type(), missing.Sym)
 				} else if ptr != 0 {
 					base.ErrorfAt(ncase.Pos(), errors.ImpossibleAssert, "impossible type switch case: %L cannot have dynamic type %v"+
 						" (%v method has pointer receiver)", guard.X, n1.Type(), missing.Sym)

@@ -374,6 +374,7 @@ func Assignop1(src, dst *types.Type) (ir.Op, string) {
 	if dst.IsInterface() && src.Kind() != types.TNIL {
 		var missing, have *types.Field
 		var ptr int
+		var ambig bool
 		if src.IsShape() {
 			// Shape types implement things they have already
 			// been typechecked to implement, even if they
@@ -385,7 +386,7 @@ func Assignop1(src, dst *types.Type) (ir.Op, string) {
 			// to interface type, not just type arguments themselves.
 			return ir.OCONVIFACE, ""
 		}
-		if implements(src, dst, &missing, &have, &ptr) {
+		if implements(src, dst, &missing, &have, &ambig, &ptr) {
 			return ir.OCONVIFACE, ""
 		}
 
@@ -397,6 +398,10 @@ func Assignop1(src, dst *types.Type) (ir.Op, string) {
 		} else if have != nil && have.Sym == missing.Sym {
 			why = fmt.Sprintf(":\n\t%v does not implement %v (wrong type for %v method)\n"+
 				"\t\thave %v%S\n\t\twant %v%S", src, dst, missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
+		} else if missing != nil && !missing.IsMethod() {
+			why = fmt.Sprintf(":\n\t%v does not implement %v (%v is a field, not an interface)", src, dst, missing.Sym)
+		} else if ambig {
+			why = fmt.Sprintf(":\n\t%v does not implement %v (%v method is ambiguous)", src, dst, missing.Sym)
 		} else if ptr != 0 {
 			why = fmt.Sprintf(":\n\t%v does not implement %v (%v method has pointer receiver)", src, dst, missing.Sym)
 		} else if have != nil {
@@ -417,8 +422,9 @@ func Assignop1(src, dst *types.Type) (ir.Op, string) {
 	if src.IsInterface() && dst.Kind() != types.TBLANK {
 		var missing, have *types.Field
 		var ptr int
+		var ambig bool
 		var why string
-		if implements(dst, src, &missing, &have, &ptr) {
+		if implements(dst, src, &missing, &have, &ambig, &ptr) {
 			why = ": need type assertion"
 		}
 		return ir.OXXX, why
@@ -691,40 +697,30 @@ func expand1(t *types.Type, top bool) {
 	t.SetRecur(false)
 }
 
-func ifacelookdot(s *types.Sym, t *types.Type, ignorecase bool) (m *types.Field, followptr bool) {
+func ifacelookdot(s *types.Sym, t *types.Type, ignorecase bool) (m *types.Field, ambig bool) {
 	if t == nil {
 		return nil, false
 	}
 
 	path, ambig := dotpath(s, t, &m, ignorecase)
 	if path == nil {
-		if ambig {
-			base.Errorf("%v.%v is ambiguous", t, s)
-		}
-		return nil, false
-	}
-
-	for _, d := range path {
-		if d.field.Type.IsPtr() {
-			followptr = true
-			break
-		}
+		return nil, ambig
 	}
 
 	if !m.IsMethod() {
-		base.Errorf("%v.%v is a field, not a method", t, s)
-		return nil, followptr
+		return nil, false
 	}
 
-	return m, followptr
+	return m, false
 }
 
 // implements reports whether t implements the interface iface. t can be
 // an interface, a type parameter, or a concrete type. If implements returns
 // false, it stores a method of iface that is not implemented in *m. If the
 // method name matches but the type is wrong, it additionally stores the type
-// of the method (on t) in *samename.
-func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool {
+// of the method (on t) in *samename. If the method name is ambiguous, it sets
+// ambig to true.
+func implements(t, iface *types.Type, m, samename **types.Field, ambig *bool, ptr *int) bool {
 	t0 := t
 	if t == nil {
 		return false
@@ -740,6 +736,7 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 			if i == len(tms) {
 				*m = im
 				*samename = nil
+				*ambig = false
 				*ptr = 0
 				return false
 			}
@@ -747,6 +744,7 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 			if !types.Identical(tm.Type, im.Type) {
 				*m = im
 				*samename = tm
+				*ambig = false
 				*ptr = 0
 				return false
 			}
@@ -768,7 +766,7 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 		}
 		if i == len(tms) {
 			*m = im
-			*samename, _ = ifacelookdot(im.Sym, t, true)
+			*samename, *ambig = ifacelookdot(im.Sym, t, true)
 			*ptr = 0
 			return false
 		}
@@ -776,6 +774,7 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 		if tm.Nointerface() || !types.Identical(tm.Type, im.Type) {
 			*m = im
 			*samename = tm
+			*ambig = false
 			*ptr = 0
 			return false
 		}
@@ -791,6 +790,7 @@ func implements(t, iface *types.Type, m, samename **types.Field, ptr *int) bool 
 
 			*m = im
 			*samename = nil
+			*ambig = false
 			*ptr = 1
 			return false
 		}
