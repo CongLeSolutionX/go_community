@@ -72,6 +72,30 @@
       "message": "I like all the code comments, looks clean and concise.",
       "revId": "d7da5052fd12fd02f85438d77529ba210ff8ff3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "883d2df6_9137fc6e",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-15T21:14:47Z",
+      "side": 1,
+      "message": "\u003e \"desireable\" is a possible misspelling of \"desirable\".\n\nPlease fix.",
+      "parentUuid": "9e36c925_0fb70eb2",
+      "range": {
+        "startLine": 395,
+        "startChar": 26,
+        "endLine": 395,
+        "endChar": 36
+      },
+      "revId": "d7da5052fd12fd02f85438d77529ba210ff8ff3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
