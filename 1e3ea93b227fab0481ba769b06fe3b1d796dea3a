@@ -33,6 +33,24 @@
       "message": "Why is this a good idea?  Why not just do something reasonable for len(e.errs) \u003d\u003d 0, as the current code does?",
       "revId": "1e3ea93b227fab0481ba769b06fe3b1d796dea3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e8991dd_4e3ef04b",
+        "filename": "src/errors/join.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 62853
+      },
+      "writtenOn": "2023-05-15T12:50:08Z",
+      "side": 1,
+      "message": "\"Join returns nil if every value in errs is nil.\"\n\nThe comment above is from errors.Join.\nSo the return of errors.Join has two cases:\n1. nil, the string representation is \"\u003cnil\u003e\".\n2. a *joinError, the \"errs\" in it must not be empty.\n\nIt\u0027s unnecessary to handle the empty errs of e, even though it seems unreasonable.",
+      "parentUuid": "585c6d5a_897fa16f",
+      "revId": "1e3ea93b227fab0481ba769b06fe3b1d796dea3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
