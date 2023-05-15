@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9138bd_2e26c150",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-15T21:15:09Z",
+      "side": 1,
+      "message": "Blerg, sorry. I meant to mention in the commit message that I had gone ahead and regularized some of the cgo test names because doing so keeps things simpler and AFAIK nothing depends on these names. I\u0027ll add that to the commit message.",
+      "parentUuid": "b4174c61_cb4ecbfb",
+      "range": {
+        "startLine": 1125,
+        "startChar": 32,
+        "endLine": 1125,
+        "endChar": 33
+      },
+      "revId": "d402e6c9978f6fd9a014bc78fa5af01fadb06d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ff4cf1c_0eddcf01",
@@ -78,6 +102,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b3d8f0_acb6cdc1",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-15T21:15:09Z",
+      "side": 1,
+      "message": "See above. (Also, yes, this particular change was intentional to normalize the variant naming.)",
+      "parentUuid": "8ff4cf1c_0eddcf01",
+      "revId": "d402e6c9978f6fd9a014bc78fa5af01fadb06d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f8a9e44_073defff",
@@ -91,6 +133,24 @@
       "writtenOn": "2023-05-15T20:53:15Z",
       "side": 1,
       "message": "I understand these are rename for the better too.\n\nIt makes sense to optimize for more readable and better variant values, if we\u0027re going to switch to new variant names as dist test names soon anyway. It is possible to maintain old dist test names by keeping the first cgoTest parameter \u0027name\u0027 and adding variant as second, but fine not to worry.",
+      "revId": "d402e6c9978f6fd9a014bc78fa5af01fadb06d5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebe75ef5_ec597cbc",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1234,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-15T21:15:09Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "3f8a9e44_073defff",
       "revId": "d402e6c9978f6fd9a014bc78fa5af01fadb06d5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
