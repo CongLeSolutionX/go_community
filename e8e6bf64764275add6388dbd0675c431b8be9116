@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6962b710_d0762da7",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-05-15T20:53:15Z",
+      "side": 0,
+      "message": "Now that subdir is \"testnocgo\" rather than \"nocgo\" like before, its test names will gain the extra \"test\". This seems negligible and harmless though.",
+      "range": {
+        "startLine": 1174,
+        "startChar": 26,
+        "endLine": 1174,
+        "endChar": 30
+      },
+      "revId": "e8e6bf64764275add6388dbd0675c431b8be9116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
