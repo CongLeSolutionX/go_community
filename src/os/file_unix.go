@@ -149,6 +149,11 @@ func newFile(fd uintptr, name string, kind newFileKind) *File {
 
 	pollable := kind == kindOpenFile || kind == kindPipe || kind == kindNonBlock
 
+	flags, err := unix.Fcntl(int(fd), syscall.F_GETFL, 0)
+	if err == nil {
+		f.appendMode = flags&syscall.O_APPEND != 0
+	}
+
 	// If the caller passed a non-blocking filedes (kindNonBlock),
 	// we assume they know what they are doing so we allow it to be
 	// used with kqueue.
