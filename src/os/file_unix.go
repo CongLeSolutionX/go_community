@@ -179,6 +179,10 @@ func newFile(fd uintptr, name string, kind newFileKind) *File {
 				pollable = false
 			}
 		}
+	} else if kind == kindNewFile || kind == kindNonBlock {
+		if flags, err := unix.Fcntl(int(fd), syscall.F_GETFL, 0); err == nil {
+			f.appendMode = flags&syscall.O_APPEND != 0
+		}
 	}
 
 	clearNonBlock := false
