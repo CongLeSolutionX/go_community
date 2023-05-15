@@ -106,6 +106,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6146db5d_494c1a10",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-15T17:08:20Z",
+      "side": 1,
+      "message": "on second thought, maybe this should be encoded instead as a \"0\" adviseUnused?\n\nthen the logic, I think, becomes clearer. something like (in pseudocode):\n\n    const madviseUnsupported \u003d 0\n    \n    switch adviseUnused.Load() {\n    case _MADV_FREE:\n        // ... do MADV_FREE.\n        if success {\n            return\n        }\n        // On failure ...\n        adviseUnused.Store(_MADV_DONTNEED)\n        fallthrough\n    case _MADV_DONTNEED\n        // ... do MADV_FREE.\n        if success {\n            return\n        }\n        // On ENOSYS ...\n        adviseUnused.Store(madviseUnsupported)\n        fallthrough\n    case madviseUnsupported:\n        // Remap.\n        mmap(v, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_FIXED|_MAP_PRIVATE, -1, 0)\n    }",
+      "parentUuid": "c3da9a01_cadba4b8",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 10
+      },
+      "revId": "7b4cbe3c7b4cd0af7028b9dd83280322739936f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ceab7c1d_86623102",
         "filename": "src/runtime/mem_linux.go",
         "patchSetId": 1
