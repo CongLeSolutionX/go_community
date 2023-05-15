@@ -16,6 +16,115 @@
       "message": "Hi @mknyszek@google.com @iant@golang.org @austin@google.com\n\nping...",
       "revId": "7b4cbe3c7b4cd0af7028b9dd83280322739936f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb08fdd5_6ccac778",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-15T15:49:52Z",
+      "side": 1,
+      "message": "sorry, I left these comments in a draft state and forgot to send them.",
+      "revId": "7b4cbe3c7b4cd0af7028b9dd83280322739936f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0048deff_91892c43",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-15T15:49:52Z",
+      "side": 1,
+      "message": "while we\u0027re here, making this an atomic.Uint32 would be a nice cleanup, if you\u0027re so inclined.",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "7b4cbe3c7b4cd0af7028b9dd83280322739936f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3da9a01_cadba4b8",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-15T15:49:52Z",
+      "side": 1,
+      "message": "nit: maybe \"adviseUnusedUnsupported\"? it\u0027s long, but it\u0027s only used in one place, and it\u0027s very clear.",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 10
+      },
+      "revId": "7b4cbe3c7b4cd0af7028b9dd83280322739936f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a33b859_55ca1774",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-15T15:49:52Z",
+      "side": 1,
+      "message": "this can be an atomic.Bool.",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "7b4cbe3c7b4cd0af7028b9dd83280322739936f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceab7c1d_86623102",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-15T15:49:52Z",
+      "side": 1,
+      "message": "duplicating this is a bit unfortunate (it\u0027s only one line but there\u0027s quite a bit of detail here).\n\n\nI\u0027ll come back later with some suggestions, but I\u0027d like to remove this duplication before landing it. even just a wrapper function for this (e.g. \"remap\" or something) would help.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 80
+      },
+      "revId": "7b4cbe3c7b4cd0af7028b9dd83280322739936f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
