@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2db6386_37bef1b1",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-15T21:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75cad65a_8e7fe5c8",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 9
+      },
+      "revId": "fc3d47a3908597ac4b65c6e2a73bd347d358bb8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "161aa269_5f0d5347",
@@ -114,6 +138,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2d6d9084_5ff29692",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-15T21:36:26Z",
+      "side": 1,
+      "message": "That\u0027s an interesting idea. Right now we don\u0027t have a notion of default invocation or not, but I\u0027m planning to add one as part of implementing Bryan\u0027s suggestion that we print any non-default commands dist runs. At that point it would be relatively easy to consistency check against the variant.\n\nI\u0027ve noted this as a TODO on my branch to implement that.",
+      "parentUuid": "161aa269_5f0d5347",
+      "revId": "fc3d47a3908597ac4b65c6e2a73bd347d358bb8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8a110bc8_19b67130",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 2
@@ -125,6 +167,24 @@
       "writtenOn": "2023-05-15T21:21:41Z",
       "side": 1,
       "message": "I understand the variant here needs to be set to avoid duplicate variant names. But for purpose of test IDs (variant name + \".\" + test name), it will be better if we get rid of it later, so that they would be like:\n\n- cmd/internal/testdir.Test/typeparam/issue47684.go\n- cmd/internal/testdir.Test/typeparam/issue47684b.go\n\nInstead of ending up being:\n\n- cmd/internal/testdir:5_10.Test/typeparam/issue47684.go\n- cmd/internal/testdir:6_10.Test/typeparam/issue47684b.go\n\nThat is to say I think the shard number isn\u0027t a significant test variant.",
+      "revId": "fc3d47a3908597ac4b65c6e2a73bd347d358bb8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "318328fd_7dacee5e",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-15T21:36:26Z",
+      "side": 1,
+      "message": "Oh, that\u0027s really interesting.\n\nThe only way I can think to do this, but still keep reasonable consistency checks, it to add another field to goTest that says \"I pinky swear I don\u0027t need a variant name for this.\" Any better ideas?",
+      "parentUuid": "8a110bc8_19b67130",
       "revId": "fc3d47a3908597ac4b65c6e2a73bd347d358bb8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
