@@ -62,6 +62,7 @@ func (f *File) ParseGo(abspath string, src []byte) {
 	// In ast1, find the import "C" line and get any extra C preamble.
 	sawC := false
 	for _, decl := range ast1.Decls {
+<<<<<<< HEAD   (100848 [release-branch.go1.20] cmd/cgo: correct _cgo_flags output)
 		d, ok := decl.(*ast.GenDecl)
 		if !ok {
 			continue
@@ -70,6 +71,33 @@ func (f *File) ParseGo(abspath string, src []byte) {
 			s, ok := spec.(*ast.ImportSpec)
 			if !ok || s.Path.Value != `"C"` {
 				continue
+=======
+		switch decl := decl.(type) {
+		case *ast.GenDecl:
+			for _, spec := range decl.Specs {
+				s, ok := spec.(*ast.ImportSpec)
+				if !ok || s.Path.Value != `"C"` {
+					continue
+				}
+				sawC = true
+				if s.Name != nil {
+					error_(s.Path.Pos(), `cannot rename import "C"`)
+				}
+				cg := s.Doc
+				if cg == nil && len(decl.Specs) == 1 {
+					cg = decl.Doc
+				}
+				if cg != nil {
+					if strings.ContainsAny(abspath, "\r\n") {
+						// This should have been checked when the file path was first resolved,
+						// but we double check here just to be sure.
+						fatalf("internal error: ParseGo: abspath contains unexpected newline character: %q", abspath)
+					}
+					f.Preamble += fmt.Sprintf("#line %d %q\n", sourceLine(cg), abspath)
+					f.Preamble += commentText(cg) + "\n"
+					f.Preamble += "#line 1 \"cgo-generated-wrapper\"\n"
+				}
+>>>>>>> CHANGE (c48228 cmd/cgo: error out if the source path used in line directive)
 			}
 			sawC = true
 			if s.Name != nil {
