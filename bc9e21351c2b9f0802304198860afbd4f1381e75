@@ -51,6 +51,23 @@
       "parentUuid": "915e1b8d_f9122aa4",
       "revId": "bc9e21351c2b9f0802304198860afbd4f1381e75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "962366ec_cdda7025",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-15T10:58:15Z",
+      "side": 1,
+      "message": "Working on a redo in https://go-review.googlesource.com/c/go/+/494857.",
+      "revId": "bc9e21351c2b9f0802304198860afbd4f1381e75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
