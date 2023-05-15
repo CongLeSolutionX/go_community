@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56d4082_760b1e43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-05-15T17:10:49Z",
+      "side": 1,
+      "message": "This is a rollback of https://go-review.googlesource.com/113996.\n\nIt\u0027s possible the change in CL 113996 is no longer necessary, since defers should no longer come with a noticeable performance penalty, but any change here should state that it\u0027s reverting 113996, rename shouldRedirectRLocked back to shouldRedirect, and confirm that the revert does not result in a regression in the benchmark referenced in 113996\u0027s description.",
+      "revId": "1628e9e1e86a05d8f3c39df66e79a2b7d82d9242",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
