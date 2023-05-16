@@ -85,6 +85,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ca53cf8_ca7bacac",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-16T22:50:23Z",
+      "side": 1,
+      "message": "This should have said: happy to change, but I think what we have is fine",
+      "parentUuid": "78014348_c4ce320e",
+      "range": {
+        "startLine": 382,
+        "startChar": 60,
+        "endLine": 382,
+        "endChar": 67
+      },
+      "revId": "bc1efa9d97717ad4dda3455cd61916d20f2a80b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5e7e8eb_d2275947",
@@ -122,6 +146,30 @@
       "side": 1,
       "message": "Indeed. Mostly because this also requires that funcInst returns a []*operand. Will refactor in a separate CL.",
       "parentUuid": "b5e7e8eb_d2275947",
+      "range": {
+        "startLine": 426,
+        "startChar": 18,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "bc1efa9d97717ad4dda3455cd61916d20f2a80b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06c99fbf_1e24b813",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-16T22:50:23Z",
+      "side": 1,
+      "message": "Looked into this. This could be done if we consistently would return an operand for types, not just here, but from funcInst, from typeList, from varType, etc. and also feed a []*operand to infer etc. which currently expect a type list. Or we could pack/unpack for now where we don\u0027t have an []*operand.\n\nUsing an []*operand for type lists may save allocations, but it would need to be done very consistently. It has the disadvantage that we lose some type safety. Probably not worth risking before the freeze.",
+      "parentUuid": "aff880a1_f78ac5e0",
       "range": {
         "startLine": 426,
         "startChar": 18,
