@@ -7,6 +7,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"go/ast"
@@ -17,10 +18,12 @@ import (
 	"internal/diff"
 	"io"
 	"io/fs"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"runtime"
 	"runtime/pprof"
+	"strconv"
 	"strings"
 
 	"golang.org/x/sync/semaphore"
@@ -269,21 +272,9 @@ func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) e
 			if info == nil {
 				panic("-w should not have been allowed with stdin")
 			}
-			// make a temporary backup before overwriting original
+
 			perm := info.Mode().Perm()
-			bakname, err := backupFile(filename+".", src, perm)
-			if err != nil {
-				return err
-			}
-			fdSem <- true
-			err = os.WriteFile(filename, res, perm)
-			<-fdSem
-			if err != nil {
-				os.Rename(bakname, filename)
-				return err
-			}
-			err = os.Remove(bakname)
-			if err != nil {
+			if err := writeFile(filename, src, res, perm); err != nil {
 				return err
 			}
 		}
@@ -467,28 +458,111 @@ func fileWeight(path string, info fs.FileInfo) int64 {
 	return info.Size()
 }
 
+// writeFile updates a file with the new formatted data.
+func writeFile(filename string, orig, formatted []byte, perm fs.FileMode) error {
+	// Make a temporary backup file before rewriting the original file.
+	bakname, err := backupFile(filename, orig, perm)
+	if err != nil {
+		return err
+	}
+	defer os.Remove(bakname)
+
+	fdSem <- true
+	defer func() { <-fdSem }()
+
+	fout, err := os.OpenFile(filename, os.O_WRONLY|os.O_TRUNC, perm)
+	if err != nil {
+		if errors.Is(err, fs.ErrPermission) {
+			// A permission failure implies that the file
+			// is unchanged, so no need to restore from backup.
+			return err
+		}
+
+		// It seems at least possible that the file changed.
+		// Restore from backup.
+		os.Rename(bakname, filename)
+		return err
+	}
+	defer fout.Close()
+
+	n, err := fout.Write(formatted)
+	if err != nil {
+		// Rewriting the file failed.
+
+		if n == 0 {
+			// Original file unchanged.
+			return err
+		}
+
+		// Try to restore the original contents.
+
+		no, erro := fout.WriteAt(orig, 0)
+		if erro != nil {
+			// That failed too.  Restore from backup.
+			os.Rename(bakname, filename)
+			return err
+		}
+
+		if no < n {
+			// Original file is shorter. Truncate.
+			erro = fout.Truncate(int64(no))
+			if erro != nil {
+				// Truncation failed.  Restore from backup.
+				os.Rename(bakname, filename)
+				return err
+			}
+		}
+
+		if fout.Close() != nil {
+			// Closing file failed.  Restore from backup.
+			os.Rename(bakname, filename)
+			return err
+		}
+
+		// Original contents restored.
+		return err
+	}
+
+	if err := fout.Close(); err != nil {
+		// Closing file failed.  Restore from backup.
+		os.Rename(bakname, filename)
+		return err
+	}
+
+	// File updated.
+	return nil
+}
+
 // backupFile writes data to a new file named filename<number> with permissions perm,
-// with <number randomly chosen such that the file name is unique. backupFile returns
+// with <number> randomly chosen such that the file name is unique. backupFile returns
 // the chosen file name.
 func backupFile(filename string, data []byte, perm fs.FileMode) (string, error) {
 	fdSem <- true
 	defer func() { <-fdSem }()
 
-	// create backup file
-	f, err := os.CreateTemp(filepath.Dir(filename), filepath.Base(filename))
-	if err != nil {
-		return "", err
+	nextRandom := func() string {
+		return strconv.Itoa(rand.Int())
 	}
-	bakname := f.Name()
-	err = f.Chmod(perm)
-	if err != nil {
-		f.Close()
-		os.Remove(bakname)
-		return bakname, err
+
+	dir, base := filepath.Split(filename)
+	var (
+		bakname string
+		f       *os.File
+	)
+	for {
+		bakname = filepath.Join(dir, base+"."+nextRandom())
+		var err error
+		f, err = os.OpenFile(bakname, os.O_RDWR|os.O_CREATE|os.O_EXCL, perm)
+		if err == nil {
+			break
+		}
+		if err != nil && !os.IsExist(err) {
+			return "", err
+		}
 	}
 
 	// write data to backup file
-	_, err = f.Write(data)
+	_, err := f.Write(data)
 	if err1 := f.Close(); err == nil {
 		err = err1
 	}
