@@ -53,6 +53,24 @@
       "message": "We\u0027ve had complaints in the past about too many system calls when opening a file, as in CL 451997 for issue #56843.  There are a lot of ordinary cases where we know for sure that O_APPEND is not set, such as any call to os.Open or os.Create.  So I think we should try to skip this fcntl call when we know that the file is not in append mode.",
       "revId": "2f46a0a9d5465c909e32d6158aa061513666878c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "484d2268_57302d3d",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-05-16T06:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c5428a0_7a26176a",
+      "revId": "2f46a0a9d5465c909e32d6158aa061513666878c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
