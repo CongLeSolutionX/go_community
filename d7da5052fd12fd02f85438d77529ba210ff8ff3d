@@ -96,6 +96,23 @@
       },
       "revId": "d7da5052fd12fd02f85438d77529ba210ff8ff3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "132d8106_79f15e48",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-16T00:19:36Z",
+      "side": 1,
+      "message": "I don\u0027t think that the current unsafe package docs promise that this will always work.  Should we at least call that out in the comment?  Something like \"This is technically not valid but will work with current implementations. If the implementations change to possibly move the slices while executing this function, this will have to change.\"",
+      "revId": "d7da5052fd12fd02f85438d77529ba210ff8ff3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
