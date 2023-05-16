@@ -111,8 +111,18 @@ type newFileKind int
 
 const (
 	kindNewFile newFileKind = iota
+<<<<<<< HEAD   (600636 [release-branch.go1.20] crypto/rsa: use BoringCrypto for 409)
+=======
+	// kindOpenFile means that the descriptor was opened using
+	// Open, Create, or OpenFile (without O_NONBLOCK).
+>>>>>>> CHANGE (f77772 os: if descriptor is non-blocking, retain that in Fd method)
 	kindOpenFile
 	kindPipe
+<<<<<<< HEAD   (600636 [release-branch.go1.20] crypto/rsa: use BoringCrypto for 409)
+=======
+	// kindNonBlock means that the descriptor is already in
+	// non-blocking mode.
+>>>>>>> CHANGE (f77772 os: if descriptor is non-blocking, retain that in Fd method)
 	kindNonBlock
 )
 
@@ -171,7 +181,9 @@ func newFile(fd uintptr, name string, kind newFileKind) *File {
 	clearNonBlock := false
 	if pollable {
 		if kind == kindNonBlock {
-			f.nonblock = true
+			// The descriptor is already in non-blocking mode.
+			// We only set f.nonblock if we put the file into
+			// non-blocking mode.
 		} else if err := syscall.SetNonblock(fdi, true); err == nil {
 			f.nonblock = true
 			clearNonBlock = true
@@ -247,7 +259,18 @@ func openFileNolog(name string, flag int, perm FileMode) (*File, error) {
 		syscall.CloseOnExec(r)
 	}
 
+<<<<<<< HEAD   (600636 [release-branch.go1.20] crypto/rsa: use BoringCrypto for 409)
 	return newFile(uintptr(r), name, kindOpenFile), nil
+=======
+	kind := kindOpenFile
+	if unix.HasNonblockFlag(flag) {
+		kind = kindNonBlock
+	}
+
+	f := newFile(uintptr(r), name, kind)
+	f.pfd.SysFile = s
+	return f, nil
+>>>>>>> CHANGE (f77772 os: if descriptor is non-blocking, retain that in Fd method)
 }
 
 func (file *file) close() error {
