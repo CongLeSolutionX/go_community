@@ -10,7 +10,7 @@
 mkdir $WORK/covdata
 
 go test -cover -gocoverdir=$WORK/covdata
-stdout 'hello\s+coverage:\s+50.0%\s+of\s+statements'
+stdout '^coverage:\s+50.0%\s+of\s+statements'
 
 go tool covdata percent -i=$WORK/covdata
 stdout '\s*hello\s+coverage:'
