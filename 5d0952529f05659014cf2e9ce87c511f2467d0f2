@@ -53,6 +53,24 @@
       "message": "I believe this applies to PGO devirtualization as well.",
       "revId": "5d0952529f05659014cf2e9ce87c511f2467d0f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d801e11_a3096383",
+        "filename": "src/cmd/compile/internal/devirtualize/devirtualize.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T20:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c93c3086_65cd89f3",
+      "revId": "5d0952529f05659014cf2e9ce87c511f2467d0f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
