@@ -223,8 +223,24 @@ func reportCoverageNoTestPkg(b *work.Builder, p *load.Package, a *work.Action, s
 // by the "go tool cover" step as part of the build action for
 // a given "go test -cover" run action.
 func buildActionMetaDir(runAct *work.Action, p *load.Package) (string, error) {
-	for i := range runAct.Deps {
-		pred := runAct.Deps[i]
+	// We expect one of two cases here: either a build action as a
+	// prededessor (in the simple case) or the 'writeMetaFiles' dummy
+	// action (in the case where -coverpkg=... is in effect).
+
+	// Try to locate the "write-meta-files" action first. If we find it,
+	// use that as the action to examine for the correct "build" action
+	// predecessor. If we don't find the meta-action, just examine
+	// the preds of the run action.
+	cur := runAct
+	for i := range cur.Deps {
+		pred := cur.Deps[i]
+		if pred.Mode == writeMetaActMode {
+			cur = pred
+			break
+		}
+	}
+	for i := range cur.Deps {
+		pred := cur.Deps[i]
 		if pred.Mode != "build" || pred.Package == nil {
 			continue
 		}
