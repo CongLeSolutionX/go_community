@@ -51,6 +51,24 @@
       "parentUuid": "585c6d5a_897fa16f",
       "revId": "1e3ea93b227fab0481ba769b06fe3b1d796dea3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17e5b1e_510682a2",
+        "filename": "src/errors/join.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-16T05:08:04Z",
+      "side": 1,
+      "message": "OK, thanks, but I still don\u0027t think this is worth doing.",
+      "parentUuid": "8e8991dd_4e3ef04b",
+      "revId": "1e3ea93b227fab0481ba769b06fe3b1d796dea3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
