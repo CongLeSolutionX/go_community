@@ -281,6 +281,30 @@
       },
       "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87285ff5_4a6e8388",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T16:39:17Z",
+      "side": 1,
+      "message": "Yeah, for sure, multiple targets are a possibility. We\u0027ll need to do more analysis to find the right balance. For now I will leave it at one.",
+      "parentUuid": "9afe6bc7_3e7346e3",
+      "range": {
+        "startLine": 533,
+        "startChar": 12,
+        "endLine": 535,
+        "endChar": 23
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -96,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7436868d_b37a36b9",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T16:39:17Z",
+      "side": 0,
+      "message": "Line 487 in https://go-review.googlesource.com/c/go/+/492436/4/src/cmd/compile/internal/specialize/specialize.go#487.\n\nBasically, we ask the typechecker if `var i IfaceB \u003d A{}` is a valid assignment, which is only valid if `A` implements `IfaceB`.",
+      "parentUuid": "ff1fe90f_a9c29eee",
+      "range": {
+        "startLine": 485,
+        "startChar": 1,
+        "endLine": 489,
+        "endChar": 2
+      },
+      "revId": "46d05f83417b7daab48f9bc6526bb91281538260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aafe1fe_b0af2186",
