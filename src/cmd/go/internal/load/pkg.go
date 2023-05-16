@@ -230,6 +230,7 @@ type PackageInternal struct {
 	CoverMode         string               // preprocess Go source files with the coverage tool in this mode
 	CoverVars         map[string]*CoverVar // variables created by coverage analysis
 	CoverageCfg       string               // coverage info config file path (passed to compiler)
+	WriteCovMeta      bool                 // emit meta-data file fragment during cmd/cover invocation for pkg
 	OmitDebug         bool                 // tell linker not to write debug information
 	GobinSubdir       bool                 // install target would be subdir of GOBIN
 	BuildInfo         string               // add this info to package main
