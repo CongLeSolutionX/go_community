@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "131344f8_4d819e93",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2deaad3a_3692668e",
+      "range": {
+        "startLine": 334,
+        "startChar": 10,
+        "endLine": 334,
+        "endChar": 83
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3f54e85_36ce35a0",
@@ -108,6 +132,30 @@
       "writtenOn": "2023-05-08T16:25:38Z",
       "side": 1,
       "message": "Should we move this ahead of line 345? I have not looked at the cost of LinkFuncName.",
+      "range": {
+        "startLine": 348,
+        "startChar": 3,
+        "endLine": 350,
+        "endChar": 4
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "159f7333_0ddb4b1a",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a3f54e85_36ce35a0",
       "range": {
         "startLine": 348,
         "startChar": 3,
@@ -189,6 +237,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c68224_fa6dc61a",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Marking resolved for now. Let me know if you have more thoughts.",
+      "parentUuid": "27a4302f_a874109c",
+      "range": {
+        "startLine": 366,
+        "startChar": 19,
+        "endLine": 366,
+        "endChar": 34
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d428c0a1_54a2808c",
@@ -202,6 +274,30 @@
       "writtenOn": "2023-05-08T16:25:38Z",
       "side": 1,
       "message": "same here. Iterating over NodeMap can be expensive.",
+      "range": {
+        "startLine": 375,
+        "startChar": 21,
+        "endLine": 375,
+        "endChar": 36
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d9f06f_7b91b301",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d428c0a1_54a2808c",
       "range": {
         "startLine": 375,
         "startChar": 21,

@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f820bb92_ddd0167f",
+        "filename": "src/cmd/compile/internal/base/debug.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Done. This is probably better. The main downside is that there are now two types of devirtualization, so debug output needs to disambiguate (I use \"PGO devirtualize\" in most messages).",
+      "parentUuid": "333574e8_46967141",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 57,
+        "endChar": 14
+      },
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d42d89a_0e223199",
@@ -91,6 +115,30 @@
       "writtenOn": "2023-05-16T16:23:52Z",
       "side": 1,
       "message": "Maybe say non-empty string (which reads better)?",
+      "range": {
+        "startLine": 357,
+        "startChar": 28,
+        "endLine": 357,
+        "endChar": 33
+      },
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4655e57_ed6ebbc8",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d42d89a_0e223199",
       "range": {
         "startLine": 357,
         "startChar": 28,
@@ -118,6 +166,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "367eaf0d_ab382b5e",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Dropped, good catch. After CL 494655, there were no more uses of the in-edges.",
+      "parentUuid": "29639e3d_a90242dc",
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2231650f_6a15f7f0",
@@ -131,6 +197,24 @@
       "writtenOn": "2023-05-16T16:23:52Z",
       "side": 1,
       "message": "Maybe comment that this is used for an indirect call. Otherwise \"the sole hot-callee\" is bit hard to understand.",
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10cef6c9_45421d59",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "This is unused. Dropped.",
+      "parentUuid": "2231650f_6a15f7f0",
       "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -152,6 +236,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74808dad_d3474644",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da34383_4688d396",
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c963216_ea5fc5e3",
@@ -169,6 +271,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ae4b3d1_2fe96fc8",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c963216_ea5fc5e3",
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae3afccc_c245cf66",
@@ -182,6 +302,24 @@
       "writtenOn": "2023-05-16T16:23:52Z",
       "side": 1,
       "message": "Anything common between this and the devirtualize package? Could we put them in the same package, or we actually need two (which sounds somewhat confusing)?",
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4cd77c1_01bc6216",
+        "filename": "src/cmd/compile/internal/specialize/specialize.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "There isn\u0027t much to share as the existing devirtualize package is so short, but it probably still makes sense to put them together.",
+      "parentUuid": "ae3afccc_c245cf66",
       "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -211,6 +349,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "815a6df2_50274ce0",
+        "filename": "src/cmd/compile/internal/test/pgo_specialize_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "I should update the test. You wrote it to specifically test that multiple calls on the same line weren\u0027t matched, but the test source should be rewritten now that we don\u0027t need that (instead we should test differentiating different interfaces on the same line e.g.).",
+      "parentUuid": "60e26a53_80a8472e",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 2
+      },
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a40a6d6_351ede0f",
         "filename": "src/cmd/compile/internal/test/testdata/pgo/specialize/shape.go",
         "patchSetId": 4
@@ -223,6 +385,30 @@
       "side": 1,
       "message": "\u003e \"calcuates\" is a possible misspelling of \"calculates\".\n\nUnresolved.",
       "parentUuid": "8a58cb59_91276eeb",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 17
+      },
+      "revId": "348aefde7950928421bfa843a97f37a8a6a62347",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1224dc74_4294d943",
+        "filename": "src/cmd/compile/internal/test/testdata/pgo/specialize/shape.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-16T19:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a40a6d6_351ede0f",
       "range": {
         "startLine": 33,
         "startChar": 8,
