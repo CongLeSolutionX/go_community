@@ -2075,7 +2075,7 @@ func (b *Builder) writeCoverPkgInputs(a *Action, pconfigfile string, covoutputsf
 		Local:       p.Internal.Local,
 	}
 	if genCovMetaFile(a) {
-		pcfg.EmitMetaFile = covMetaDestPath(a)
+		pcfg.EmitMetaFile = CovMetaDestPath(a)
 	}
 	if a.Package.Module != nil {
 		pcfg.ModulePath = a.Package.Module.Path

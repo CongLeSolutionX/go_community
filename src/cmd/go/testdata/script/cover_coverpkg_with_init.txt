@@ -1,0 +1,120 @@
+
+# Testcase inspired by issue #58770, intended to verify that we're
+# doing the right thing when running "go test -coverpkg=./... ./..."
+# on a collection of packages where some have init functions and some
+# do not, some have tests and some do not.
+
+[short] skip
+[!GOEXPERIMENT:coverageredesign] skip
+
+# Verify correct statements percentages. We have a total of 9 statements
+# in the packages matched by "./..."; package "a" (for example) has two
+# statements so we expect 22.2% stmts covered. Go 1.19 would print 44.4%
+# here (due to force importing of all ./... packages); prior to the fix
+# for #58770 Go 1.20 would show 100% coverage.  For package "x" (no tests)
+# check for 0% stmts covered (as opposed to "no test files").
+
+go test -count=1 -coverprofile=cov.dat -coverpkg=./... ./...
+stdout '^\s*\?\s+M/n\s+\[no test files\]'
+stdout '^\s*M/x\s+coverage: 0.0% of statements'
+stdout '^ok\s+M/a\s+\S+\s+coverage: 22.2% of statements in ./...'
+stdout '^ok\s+M/b\s+\S+\s+coverage: 22.2% of statements in ./...'
+stdout '^ok\s+M/main\s+\S+\s+coverage: 77.8% of statements in ./...'
+
+# Check for selected elements in the collected coverprofile as well.
+
+go tool cover -func=cov.dat
+stdout '^M/x/x.go:3:\s+XFunc\s+0.0%'
+stdout '^M/b/b.go:7:\s+BFunc\s+100.0%'
+stdout '^total:\s+\(statements\)\s+77.8%'
+
+-- go.mod --
+module M
+
+go 1.21
+-- a/a.go --
+package a
+
+func init() {
+	println("package 'a' init: launch the missiles!")
+}
+
+func AFunc() int {
+	return 42
+}
+-- a/a_test.go --
+package a
+
+import "testing"
+
+func TestA(t *testing.T) {
+	if AFunc() != 42 {
+		t.Fatalf("bad!")
+	}
+}
+-- b/b.go --
+package b
+
+func init() {
+	println("package 'b' init: release the kraken")
+}
+
+func BFunc() int {
+	return -42
+}
+-- b/b_test.go --
+package b
+
+import "testing"
+
+func TestB(t *testing.T) {
+	if BFunc() != -42 {
+		t.Fatalf("bad!")
+	}
+}
+-- main/main.go --
+package main
+
+import (
+	"M/a"
+	"M/b"
+)
+
+func MFunc() string {
+	return "42"
+}
+
+func M2Func() int {
+	return a.AFunc() + b.BFunc()
+}
+
+func init() {
+	println("package 'main' init")
+}
+
+func main() {
+	println(a.AFunc() + b.BFunc())
+}
+-- main/main_test.go --
+package main
+
+import "testing"
+
+func TestMain(t *testing.T) {
+	if MFunc() != "42" {
+		t.Fatalf("bad!")
+	}
+	if M2Func() != 0 {
+		t.Fatalf("also bad!")
+	}
+}
+-- n/n.go --
+package n
+
+type N int
+-- x/x.go --
+package x
+
+func XFunc() int {
+	return 2 * 2
+}
