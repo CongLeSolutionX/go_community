@@ -16,6 +16,24 @@
       "message": "Benchmark:\n\nBenchmarkServeMux-8\nold    26017 ns/op\t   17280 B/op\t     360 allocs/op\nnew    25420 ns/op\t   17280 B/op\t     360 allocs/op\ndelta  +2.29%       \n\nBenchmarkServeMux_SkipServe-8\nold     14834 ns/op\nnew     15386 ns/op\ndelta   -3.72%\n\n\nThis is a benchmark test, and compared to [CL113996](https://go-review.googlesource.com/113996), there is indeed some performance loss, but it is minimal. However, this approach improves code readability and maintainability. If performance is the sole concern, you can use the following implementation, which will yield better performance. Currently,i think the performance overhead primarily comes from the `defer` method.\n\n\n```go\nfunc (mux *ServeMux) shouldRedirectRLocked(host, path string) bool {\n\tp :\u003d []string{path, host + path}\n\tmux.mu.RLock()\n\tfor _, c :\u003d range p {\n\t\tif _, exist :\u003d mux.m[c]; exist {\n\t\t\treturn false\n\t\t}\n\t}\n\n\tn :\u003d len(path)\n\tif n \u003d\u003d 0 {\n\t\treturn false\n\t}\n\tfor _, c :\u003d range p {\n\t\tif _, exist :\u003d mux.m[c+\"/\"]; exist {\n\t\t\treturn path[n-1] !\u003d \u0027/\u0027\n\t\t}\n\t}\n\tmux.mu.RUnlock()\n\treturn false\n}\n\n```\nBenchmarkServeMux-8   \t   46423\t     24877 ns/op\t   17280 B/op\t     360 allocs/op\nBenchmarkServeMux_SkipServe-8   \t   80197\t     14792 ns/op\t       0 B/op\t       0 allocs/op",
       "revId": "2358275369e9eb9f4c9b07a6421bdd13ea3f49d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3001b1fa_08bb0087",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60058
+      },
+      "writtenOn": "2023-05-16T08:47:24Z",
+      "side": 1,
+      "message": "@dneil@google.com",
+      "parentUuid": "4414ef8e_a90e2ac9",
+      "revId": "2358275369e9eb9f4c9b07a6421bdd13ea3f49d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
