@@ -98,6 +98,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f611c8bd_a083aa3e",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-16T21:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883d2df6_9137fc6e",
+      "range": {
+        "startLine": 395,
+        "startChar": 26,
+        "endLine": 395,
+        "endChar": 36
+      },
+      "revId": "d7da5052fd12fd02f85438d77529ba210ff8ff3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "132d8106_79f15e48",
@@ -111,6 +135,24 @@
       "writtenOn": "2023-05-16T00:19:36Z",
       "side": 1,
       "message": "I don\u0027t think that the current unsafe package docs promise that this will always work.  Should we at least call that out in the comment?  Something like \"This is technically not valid but will work with current implementations. If the implementations change to possibly move the slices while executing this function, this will have to change.\"",
+      "revId": "d7da5052fd12fd02f85438d77529ba210ff8ff3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5df432a7_8ec4e6cb",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-16T21:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "132d8106_79f15e48",
       "revId": "d7da5052fd12fd02f85438d77529ba210ff8ff3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
