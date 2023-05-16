@@ -9,6 +9,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"internal/coverage"
 	"internal/platform"
 	"io"
 	"io/fs"
@@ -547,7 +548,16 @@ var (
 	testTimeout      time.Duration                     // -timeout flag
 	testV            testVFlag                         // -v flag
 	testVet          = vetFlag{flags: defaultVetFlags} // -vet flag
+	testWriteMetaAct *work.Action
 )
+
+// writeMetaActMode is the name of the pseudo-action "write coverage meta
+// data files list file" action used as part of "go test -coverpkg=...".
+const writeMetaActMode = "write meta file"
+
+// Name of file written by the dummy action above. This file name is
+// known to the coverage runtime support routines.
+const writeMetaActTarget = coverage.MetaFilesFileName
 
 type testVFlag struct {
 	on   bool // -v is set in some form
@@ -865,6 +875,22 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		// patterns.
 		plist := load.TestPackageList(ctx, pkgOpts, pkgs)
 		testCoverPkgs = load.SelectCoverPackages(plist, match, "test")
+
+		// Tag all packages with the 'WriteCovMeta' flag if
+		// more than one package matches the -coverpkg pattern.
+		if len(testCoverPkgs) > 1 {
+			// create a singleton "write metafiles" action.
+			// see the header comment for injectWriteMetaAction
+			// below for more on this.
+			testWriteMetaAct = &work.Action{
+				Mode:   writeMetaActMode,
+				Actor:  work.ActorFunc(work.WriteMetaFilesFile),
+				Target: writeMetaActTarget,
+			}
+			for _, p := range testCoverPkgs {
+				p.Internal.WriteCovMeta = true
+			}
+		}
 	}
 
 	// Inform the compiler that it should instrument the binary at
@@ -902,15 +928,21 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	if cfg.BuildCover && cfg.BuildCoverMode == "atomic" {
+	if cfg.BuildCover {
 		for _, p := range pkgs {
 			// sync/atomic import is inserted by the cover tool if we're
 			// using atomic mode (and not compiling sync/atomic package itself).
 			// See #18486 and #57445. Note that this needs to be done
 			// prior to any of the builderTest invocations below.
-			if cfg.BuildCover && cfg.BuildCoverMode == "atomic" &&
+			if cfg.BuildCoverMode == "atomic" &&
 				p.ImportPath != "sync/atomic" {
 				load.EnsureImport(p, "sync/atomic")
+			}
+			// Tag package with the 'WriteCovMeta' flag if
+			// it has no tests, so that we get a static
+			// meta-data file from the cover step.
+			if len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
+				p.Internal.WriteCovMeta = true
 			}
 		}
 	}
@@ -932,6 +964,10 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		builds = append(builds, buildTest)
 		runs = append(runs, runTest)
 		prints = append(prints, printTest)
+	}
+
+	if testWriteMetaAct != nil {
+		injectWriteMetaAction(b, pkgs, runs)
 	}
 
 	// Order runs for coordinating start JSON prints.
@@ -1347,6 +1383,11 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 			base.Fatalf("failed to create temporary dir: %v", err)
 		}
 		coverdirArg = append(coverdirArg, "-test.gocoverdir="+tGoCoverDir)
+		if testWriteMetaAct != nil {
+			if err := b.CopyMetaFilesFile(testWriteMetaAct, tGoCoverDir); err != nil {
+				return err
+			}
+		}
 		// Even though we are passing the -test.gocoverdir option to
 		// the test binary, also set GOCOVERDIR as well. This is
 		// intended to help with tests that run "go build" to build
@@ -1936,4 +1977,53 @@ func testBinaryName(p *load.Package) string {
 	}
 
 	return elem + ".test"
+}
+
+// injectWriteMetaAction modifies a "go test -coverpkg=..." action graph
+// to inject dependences to ensure that all compile actions finish before
+// all "run" actions. Motivating example: supposed we have a top
+// level directory with three package subdirs, "a", "b", and "c", and
+// from the top level, a user runs "go test -coverpkg=./... ./...".
+// This will result in (roughly) the following action graph:
+//
+//	build("a")       build("b")         build("c")
+//	    |               |                   |
+//	link("a.test")   link("b.test")     link("c.test")
+//	    |               |                   |
+//	run("a.test")    run("b.test")      run("c.test")
+//	    |               |                   |
+//	  print          print              print
+//
+// When -coverpkg=<pattern> is in effect, we want to express the
+// coverage percentage for each package as a fraction of *all* the
+// statements that match the pattern, hence if "c" doesn't import "a",
+// we need to pass as meta-data file for "a" (emitted during the
+// package "a" build) to the package "c" run action, so that it can
+// be incorporated with "c"'s regular metadata. To do this, we
+// add edges from each compile action to a "writeMeta" action, then
+// from the writeMeta action to each run action. Updated graph:
+//
+//	build("a")       build("b")         build("c")
+//	    |   \       /   |               /   |
+//	    |    v     v    |              /    |
+//	    |   writemeta <-|-------------+     |
+//	    |         |||   |                   |
+//	    |         ||\   |                   |
+//	link("a.test")/\ \  link("b.test")      link("c.test")
+//	    |        /  \ +-|--------------+    |
+//	    |       /    \  |               \   |
+//	    |      v      v |                v  |
+//	run("a.test")    run("b.test")      run("c.test")
+//	    |               |                   |
+//	  print          print              print
+func injectWriteMetaAction(b *work.Builder, pkgs []*load.Package, runs []*work.Action) {
+	for _, r := range runs {
+		p := r.Package
+		if p.Internal.CoverMode == "" {
+			continue
+		}
+		r.Deps = append(r.Deps, testWriteMetaAct)
+		build := b.CompileAction(work.ModeBuild, work.ModeBuild, p)
+		testWriteMetaAct.Deps = append(testWriteMetaAct.Deps, build)
+	}
 }
