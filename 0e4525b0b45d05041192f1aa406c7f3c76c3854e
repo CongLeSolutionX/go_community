@@ -257,6 +257,30 @@
       },
       "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9afe6bc7_3e7346e3",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 62319
+      },
+      "writtenOn": "2023-05-16T16:32:35Z",
+      "side": 1,
+      "message": "In thie case of 45% and 40%, we could specialize to multiple target with a nested if-else. However, we need to ensure the branch overheads are eliminated via subsequent optimizations.",
+      "parentUuid": "fdb65fa0_1004ffc9",
+      "range": {
+        "startLine": 533,
+        "startChar": 12,
+        "endLine": 535,
+        "endChar": 23
+      },
+      "revId": "0e4525b0b45d05041192f1aa406c7f3c76c3854e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
