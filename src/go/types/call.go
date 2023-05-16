@@ -482,17 +482,6 @@ func (check *Checker) genericExprList(elist []ast.Expr) (resList []*operand, tar
 func (check *Checker) arguments(call *ast.CallExpr, sig *Signature, targs []Type, xlist []ast.Expr, args []*operand, atargs [][]Type, atxlist [][]ast.Expr) (rsig *Signature) {
 	rsig = sig
 
-	// TODO(gri) try to eliminate this extra verification loop
-	for _, a := range args {
-		switch a.mode {
-		case typexpr:
-			check.errorf(a, NotAnExpr, "%s used as value", a)
-			return
-		case invalid:
-			return
-		}
-	}
-
 	// Function call argument/parameter count requirements
 	//
 	//               | standard call    | dotdotdot call |
