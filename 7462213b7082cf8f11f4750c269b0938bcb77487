@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e79a2dc6_96ce469e",
+        "filename": "src/cmd/go/gotoolchain.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-16T20:47:06Z",
+      "side": 1,
+      "message": "That assumes we know how to convert to semver, which is maybe questionable. I don\u0027t anticipate switching to go1.23.0-rc.1 (and especially not go1.23.0-1 as some people suggest) - too much finicky syntax to remember for basically no purpose. Even so, the fix I put in for \u0027rc1\u0027 vs \u0027rc2\u0027 handles go1.23.0-rc.1 as well.",
+      "parentUuid": "bfb82a7f_9e8bc84b",
+      "revId": "7462213b7082cf8f11f4750c269b0938bcb77487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f93470e_939fbe7c",
@@ -106,6 +124,30 @@
       "writtenOn": "2023-05-16T15:08:29Z",
       "side": 1,
       "message": "It should be the case that `go1.21rc2` \u003e `go1.21rc1`, but here I think we would treat them as equal.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 358,
+        "endChar": 2
+      },
+      "revId": "7462213b7082cf8f11f4750c269b0938bcb77487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "199ce01b_5f1a1336",
+        "filename": "src/cmd/go/gotoolchain.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-16T20:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f93470e_939fbe7c",
       "range": {
         "startLine": 355,
         "startChar": 0,
@@ -133,6 +175,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7a5cae6_98228666",
+        "filename": "src/cmd/go/gotoolchain_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-16T20:47:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "54ca502c_e6f55bf6",
+      "revId": "7462213b7082cf8f11f4750c269b0938bcb77487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf2100d4_8062f641",
@@ -150,6 +210,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a982228c_f66df2bc",
+        "filename": "src/cmd/go/gotoolchain_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-16T20:47:06Z",
+      "side": 1,
+      "message": "Done and fixed. Also put in special code for alpha and beta in case they ever come back.",
+      "parentUuid": "cf2100d4_8062f641",
+      "revId": "7462213b7082cf8f11f4750c269b0938bcb77487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a39078fb_b5349fd0",
@@ -163,6 +241,24 @@
       "writtenOn": "2023-05-16T15:08:29Z",
       "side": 1,
       "message": "Given #57631, also test versions like `go1.23.0` vs. `go1.23` vs. `go1.23rc1`?",
+      "revId": "7462213b7082cf8f11f4750c269b0938bcb77487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7349d008_1d0b7e65",
+        "filename": "src/cmd/go/gotoolchain_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-16T20:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a39078fb_b5349fd0",
       "revId": "7462213b7082cf8f11f4750c269b0938bcb77487",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
