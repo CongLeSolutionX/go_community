@@ -13,6 +13,7 @@ import (
 	"strings"
 	"testing"
 	"text/scanner"
+	"time"
 )
 
 var update = flag.Bool("update", false, "update .golden files")
@@ -192,4 +193,52 @@ func TestBackupFile(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Logf("Created: %s", name)
+}
+
+func TestPermissions(t *testing.T) {
+	dir := t.TempDir()
+	fn := filepath.Join(dir, "perm.go")
+
+	// Create a file that needs formatting without write permission.
+	if err := os.WriteFile(filepath.Join(fn), []byte("  package main"), 0o400); err != nil {
+		t.Fatal(err)
+	}
+
+	// Set mtime of the file in the past.
+	past := time.Now().Add(-time.Hour)
+	if err := os.Chtimes(fn, past, past); err != nil {
+		t.Fatal(err)
+	}
+
+	info, err := os.Stat(fn)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	defer func() { *write = false }()
+	*write = true
+
+	initParserMode()
+	initRewrite()
+
+	const maxWeight = 2 << 20
+	var buf, errBuf strings.Builder
+	s := newSequencer(maxWeight, &buf, &errBuf)
+	s.Add(fileWeight(fn, info), func(r *reporter) error {
+		return processFile(fn, info, nil, r)
+	})
+	if errBuf.Len() > 0 {
+		t.Log(errBuf)
+	}
+	if s.GetExitCode() == 0 {
+		t.Fatal("rewrite of read-only file succeeded unexpectedly")
+	}
+
+	info, err = os.Stat(fn)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !info.ModTime().Equal(past) {
+		t.Errorf("after rewrite mod time is %v, want %v", info.ModTime(), past)
+	}
 }

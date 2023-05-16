@@ -7,6 +7,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"go/ast"
@@ -17,10 +18,12 @@ import (
 	"internal/diff"
 	"io"
 	"io/fs"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"runtime"
 	"runtime/pprof"
+	"strconv"
 	"strings"
 
 	"golang.org/x/sync/semaphore"
@@ -278,10 +281,23 @@ func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) e
 			fdSem <- true
 			err = os.WriteFile(filename, res, perm)
 			<-fdSem
+
 			if err != nil {
-				os.Rename(bakname, filename)
+				if !errors.Is(err, fs.ErrPermission) {
+					// Some write failure.
+					// Restore from backup.
+					os.Rename(bakname, filename)
+				} else {
+					// A permission error.
+					// Assume nothing was written.
+					// Restoring from backup might
+					// clobber the owner of the
+					// original file.
+					os.Remove(bakname)
+				}
 				return err
 			}
+
 			err = os.Remove(bakname)
 			if err != nil {
 				return err
@@ -468,27 +484,35 @@ func fileWeight(path string, info fs.FileInfo) int64 {
 }
 
 // backupFile writes data to a new file named filename<number> with permissions perm,
-// with <number randomly chosen such that the file name is unique. backupFile returns
+// with <number> randomly chosen such that the file name is unique. backupFile returns
 // the chosen file name.
 func backupFile(filename string, data []byte, perm fs.FileMode) (string, error) {
 	fdSem <- true
 	defer func() { <-fdSem }()
 
-	// create backup file
-	f, err := os.CreateTemp(filepath.Dir(filename), filepath.Base(filename))
-	if err != nil {
-		return "", err
+	nextRandom := func() string {
+		return strconv.Itoa(rand.Int())
 	}
-	bakname := f.Name()
-	err = f.Chmod(perm)
-	if err != nil {
-		f.Close()
-		os.Remove(bakname)
-		return bakname, err
+
+	dir, base := filepath.Split(filename)
+	var (
+		bakname string
+		f       *os.File
+	)
+	for {
+		bakname = filepath.Join(dir, base+"."+nextRandom())
+		var err error
+		f, err = os.OpenFile(bakname, os.O_RDWR|os.O_CREATE|os.O_EXCL, perm)
+		if err == nil {
+			break
+		}
+		if err != nil && !os.IsExist(err) {
+			return "", err
+		}
 	}
 
 	// write data to backup file
-	_, err = f.Write(data)
+	_, err := f.Write(data)
 	if err1 := f.Close(); err == nil {
 		err = err1
 	}
