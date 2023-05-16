@@ -78,6 +78,30 @@
       },
       "revId": "efa8685b525a25b4e78742782dfea418c26221b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e81ab55b_c645d4d6",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-16T19:28:12Z",
+      "side": 1,
+      "message": "OK, I did a somewhat different version of this.",
+      "parentUuid": "46aad8b1_4a3bf6c8",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 33
+      },
+      "revId": "efa8685b525a25b4e78742782dfea418c26221b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
