@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78014348_c4ce320e",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-16T22:29:47Z",
+      "side": 1,
+      "message": "yes - happy change",
+      "parentUuid": "8d863add_32d2bcf4",
+      "range": {
+        "startLine": 382,
+        "startChar": 60,
+        "endLine": 382,
+        "endChar": 67
+      },
+      "revId": "bc1efa9d97717ad4dda3455cd61916d20f2a80b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5e7e8eb_d2275947",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-05-16T20:58:07Z",
       "side": 1,
       "message": "I don\u0027t understand why we use operands for results, but not for type arguments. It would simplify the signature to return `(results []*operand, targLists [][]*operand)`.",
+      "range": {
+        "startLine": 426,
+        "startChar": 18,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "bc1efa9d97717ad4dda3455cd61916d20f2a80b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff880a1_f78ac5e0",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-16T22:29:47Z",
+      "side": 1,
+      "message": "Indeed. Mostly because this also requires that funcInst returns a []*operand. Will refactor in a separate CL.",
+      "parentUuid": "b5e7e8eb_d2275947",
       "range": {
         "startLine": 426,
         "startChar": 18,
@@ -107,6 +155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a6cf2ca_d9be8c91",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-16T22:29:47Z",
+      "side": 1,
+      "message": "Not sure why. Here, g has the right type in context.",
+      "parentUuid": "3e3f7990_ed37dbff",
+      "range": {
+        "startLine": 389,
+        "startChar": 74,
+        "endLine": 389,
+        "endChar": 75
+      },
+      "revId": "bc1efa9d97717ad4dda3455cd61916d20f2a80b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06437e51_bd306bc9",
@@ -130,6 +202,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ff3d61_a05f09c1",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-16T22:29:47Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "06437e51_bd306bc9",
+      "range": {
+        "startLine": 396,
+        "startChar": 94,
+        "endLine": 396,
+        "endChar": 95
+      },
+      "revId": "bc1efa9d97717ad4dda3455cd61916d20f2a80b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0daa7d9_af52a130",
@@ -143,6 +239,30 @@
       "writtenOn": "2023-05-16T20:58:07Z",
       "side": 1,
       "message": "Do we have sufficient coverage of inference failures? It seems like we should have some cases here where inference fails for various reasons.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "bc1efa9d97717ad4dda3455cd61916d20f2a80b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b92c57b_866c395a",
+        "filename": "src/internal/types/testdata/fixedbugs/issue59958.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-16T22:29:47Z",
+      "side": 1,
+      "message": "We definitely need more tests for failure cases, not just inference failures, but also other failures that might impact inference (or genericExprList). I intend to add more tests but would like to get this code into the code base so people can start playing with it. We can add tests (and fixes) after the freeze.",
+      "parentUuid": "c0daa7d9_af52a130",
       "range": {
         "startLine": 22,
         "startChar": 0,
