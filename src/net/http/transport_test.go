@@ -6731,3 +6731,26 @@ func testHandlerAbortRacesBodyRead(t *testing.T, mode testMode) {
 	}
 	wg.Wait()
 }
+
+func TestCanceledRequestRacesBodyClose(t *testing.T) { run(t, testCanceledRequestRacesBodyClose) }
+func testCanceledRequestRacesBodyClose(t *testing.T, mode testMode) {
+	requestReceived := make(chan struct{})
+	requestCanceled := make(chan struct{})
+	ts := newClientServerTest(t, mode, HandlerFunc(func(rw ResponseWriter, req *Request) {
+		close(requestReceived)
+		<-requestCanceled
+	})).ts
+
+	ctx, cancel := context.WithCancel(context.Background())
+	go func() {
+		<-requestReceived
+		cancel()
+	}()
+	req, _ := NewRequestWithContext(ctx, "POST", ts.URL, strings.NewReader(`body`))
+	resp, err := ts.Client().Do(req)
+	if err == nil {
+		t.Errorf("Do unexpectedly succeeded")
+		resp.Body.Close()
+	}
+	close(requestCanceled)
+}

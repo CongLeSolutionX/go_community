@@ -609,6 +609,13 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 		}
 
 		// Failed. Clean up and determine whether to retry.
+		if b, ok := req.Body.(*readTrackingBody); ok {
+			// Issue #60041: If we passed this request to pconn.alt,
+			// the HTTP/2 RoundTrip may attempt to close the body
+			// after returning. Mark the body as "abandoned", which
+			// blocks further Read or Close calls on it.
+			b.abandon()
+		}
 		if http2isNoCachedConnError(err) {
 			if t.removeIdleConn(pconn) {
 				t.decConnsPerHost(pconn.cacheKey)
@@ -626,7 +633,7 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 				// Issue 49621: Close the request body if pconn.roundTrip
 				// didn't do so already. This can happen if the pconn
 				// write loop exits without reading the write request.
-				req.closeBody()
+				b.ReadCloser.Close()
 			}
 			return nil, err
 		}
@@ -644,18 +651,39 @@ var errCannotRewind = errors.New("net/http: cannot rewind body after connection 
 
 type readTrackingBody struct {
 	io.ReadCloser
-	didRead  bool
-	didClose bool
+
+	mu        sync.Mutex
+	didRead   bool
+	didClose  bool
+	abandoned bool
 }
 
 func (r *readTrackingBody) Read(data []byte) (int, error) {
+	r.mu.Lock()
+	if r.abandoned {
+		r.mu.Unlock()
+		return 0, errors.New("read from body after request was retried")
+	}
 	r.didRead = true
+	r.mu.Unlock()
 	return r.ReadCloser.Read(data)
 }
 
 func (r *readTrackingBody) Close() error {
+	r.mu.Lock()
+	if r.abandoned {
+		r.mu.Unlock()
+		return nil
+	}
 	r.didClose = true
+	r.mu.Unlock()
 	return r.ReadCloser.Close()
+}
+
+func (r *readTrackingBody) abandon() {
+	r.mu.Lock()
+	r.abandoned = true
+	r.mu.Unlock()
 }
 
 // setupRewindBody returns a new request with a custom body wrapper
@@ -676,11 +704,17 @@ func setupRewindBody(req *Request) *Request {
 // rewindBody takes care of closing req.Body when appropriate
 // (in all cases except when rewindBody returns req unmodified).
 func rewindBody(req *Request) (rewound *Request, err error) {
-	if req.Body == nil || req.Body == NoBody || (!req.Body.(*readTrackingBody).didRead && !req.Body.(*readTrackingBody).didClose) {
+	if req.Body == nil || req.Body == NoBody {
 		return req, nil // nothing to rewind
 	}
-	if !req.Body.(*readTrackingBody).didClose {
-		req.closeBody()
+	rtbody := req.Body.(*readTrackingBody)
+	if !rtbody.didRead && !rtbody.didClose {
+		newReq := *req
+		newReq.Body = &readTrackingBody{ReadCloser: rtbody.ReadCloser}
+		return &newReq, nil
+	}
+	if !rtbody.didClose {
+		rtbody.ReadCloser.Close()
 	}
 	if req.GetBody == nil {
 		return nil, errCannotRewind
