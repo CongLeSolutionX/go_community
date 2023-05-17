@@ -34,6 +34,24 @@
       "parentUuid": "1dd0185d_ee724295",
       "revId": "1245ff3bf1bf5977f99a27a7967f4982cbd8cea1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cfde3c9_db835f2f",
+        "filename": "src/net/http/httptest/recorder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-05-17T20:51:38Z",
+      "side": 1,
+      "message": "Sorry, lost track of this CL among other things.\n\nThis looks pretty reasonable to me. Since this is an exported API change, it\u0027ll need an accepted proposal to proceed.",
+      "parentUuid": "7a39ef82_6b4df67a",
+      "revId": "1245ff3bf1bf5977f99a27a7967f4982cbd8cea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
