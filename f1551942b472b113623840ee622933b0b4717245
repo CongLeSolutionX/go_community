@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a574d641_f3a09e75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62319
+      },
+      "writtenOn": "2023-05-17T15:38:35Z",
+      "side": 1,
+      "message": "Attention Michael Pratt",
+      "revId": "f1551942b472b113623840ee622933b0b4717245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da3b8901_02b27302",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 62319
+      },
+      "writtenOn": "2023-05-17T15:38:35Z",
+      "side": 1,
+      "message": "`defer` constructs in a callee will prevent their inlining. Could we also add a check to make sure that the concrete method does not have a `defer` statement in the body? Please see below:\n\ninl.go:: 618-623\n```\ncase ir.OGO,\n\t\tir.ODEFER,\n\t\tir.ODCLTYPE, // can\u0027t print yet\n\t\tir.OTAILCALL:\n\t\tv.reason \u003d \"unhandled op \" + n.Op().String()\n\t\treturn true\n```",
+      "range": {
+        "startLine": 150,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 31
+      },
+      "revId": "f1551942b472b113623840ee622933b0b4717245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84073b24_69b0f53d",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 62319
+      },
+      "writtenOn": "2023-05-17T15:38:35Z",
+      "side": 1,
+      "message": "remove this?",
+      "range": {
+        "startLine": 435,
+        "startChar": 2,
+        "endLine": 435,
+        "endChar": 31
+      },
+      "revId": "f1551942b472b113623840ee622933b0b4717245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
