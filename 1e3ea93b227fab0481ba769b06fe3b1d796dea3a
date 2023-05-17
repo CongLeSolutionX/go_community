@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "264a4035_2dd37e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62853
+      },
+      "writtenOn": "2023-05-17T14:39:28Z",
+      "side": 1,
+      "message": "For the case of one error, I did a simple test. This error is created from a string of length 1024.\n\n```text\ngoos: darwin\ngoarch: arm64\nBenchmark_Old_Error-8            5531764               208.1 ns/op          2048 B/op          2 allocs/op\nBenchmark_New_Error-8           510634675                2.181 ns/op           0 B/op          0 allocs/op\n```",
+      "parentUuid": "f4cff67c_f7c4f183",
+      "revId": "1e3ea93b227fab0481ba769b06fe3b1d796dea3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "585c6d5a_897fa16f",
