@@ -199,12 +199,15 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 			}
 		}
 
-		if mode == invalid && under(x.typ) != Typ[Invalid] {
-			code := InvalidCap
-			if id == _Len {
-				code = InvalidLen
+		if mode == invalid {
+			// avoid error if underlying type is invalid
+			if under(x.typ) != Typ[Invalid] {
+				code := InvalidCap
+				if id == _Len {
+					code = InvalidLen
+				}
+				check.errorf(x, code, invalidArg+"%s for %s", x, bin.name)
 			}
-			check.errorf(x, code, invalidArg+"%s for %s", x, bin.name)
 			return
 		}
 
@@ -849,6 +852,7 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 		unreachable()
 	}
 
+	assert(x.mode != invalid)
 	return true
 }
 
