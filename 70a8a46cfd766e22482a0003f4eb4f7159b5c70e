@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa15b9f4_4942a3f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-05-17T00:04:06Z",
+      "side": 1,
+      "message": "A bit heavy-handed, but given how finalizers work this is the only way I could find to avoid all flakiness.",
+      "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

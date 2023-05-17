@@ -89,6 +89,24 @@
       "message": "The other tests of finalizers in this package run the garbage collector more times.  See, for example, testPool in pool_test.go.  Finalizers are not reliable, so we should do something similar here.",
       "revId": "26c524f23690b5caba6b90a35951e59af1b06c2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06012b0d_77c95032",
+        "filename": "src/sync/oncefunc_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-05-17T00:04:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3662f49f_78fdced6",
+      "revId": "26c524f23690b5caba6b90a35951e59af1b06c2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
