@@ -59,6 +59,30 @@
       },
       "revId": "bc2437f11b4c8e9f40965de80091b771a5b30c79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "123d7803_b23a889c",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-17T21:30:39Z",
+      "side": 1,
+      "message": "Sorry, I meant \"restoring file\".",
+      "parentUuid": "ce5eeb55_6a01a892",
+      "range": {
+        "startLine": 481,
+        "startChar": 37,
+        "endLine": 481,
+        "endChar": 69
+      },
+      "revId": "bc2437f11b4c8e9f40965de80091b771a5b30c79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
