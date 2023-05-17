@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9a5b425_50751bec",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-17T18:24:47Z",
+      "side": 1,
+      "message": "I left a TODO to this effect in shouldPGODevirt. That is, shouldPGODevirt is currently very conservative and won\u0027t reject almost anything.\n\nEventually we hope to get escape analysis benefits from devirtualization (even without inlining), in which case we wouldn\u0027t want to reject things just because they can\u0027t inline.\n\nBut we aren\u0027t there yet. Today, the benefit comes mostly from inlining, so I think it might make sense to reject more things that can\u0027t inline.\n\nHowever, I don\u0027t think we should add we should add ad-hoc checks here that try to approximate what the inliner will do. Instead, we should integrate directly with the inliner implementation (e.g., inline.CanInline).\n\nThat might take some refactoring and I\u0027m not sure we have time for that at the moment (it should be a follow-up CL), but it shouldn\u0027t be fundamentally problematic since this pass literally runs immediately before inlining.",
+      "parentUuid": "da3b8901_02b27302",
+      "range": {
+        "startLine": 150,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 31
+      },
+      "revId": "f1551942b472b113623840ee622933b0b4717245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84073b24_69b0f53d",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-05-17T15:38:35Z",
       "side": 1,
       "message": "remove this?",
+      "range": {
+        "startLine": 435,
+        "startChar": 2,
+        "endLine": 435,
+        "endChar": 31
+      },
+      "revId": "f1551942b472b113623840ee622933b0b4717245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5e0a180_7bbbd0d1",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-17T18:24:47Z",
+      "side": 1,
+      "message": "This is intended to note that we are in the equal case. I\u0027ve rewritten to be more clear.",
+      "parentUuid": "84073b24_69b0f53d",
       "range": {
         "startLine": 435,
         "startChar": 2,
