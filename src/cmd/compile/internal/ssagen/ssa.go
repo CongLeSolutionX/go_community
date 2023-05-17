@@ -114,6 +114,7 @@ func InitConfig() {
 	ir.Syms.GCWriteBarrier[7] = typecheck.LookupRuntimeFunc("gcWriteBarrier8")
 	ir.Syms.Goschedguarded = typecheck.LookupRuntimeFunc("goschedguarded")
 	ir.Syms.Growslice = typecheck.LookupRuntimeFunc("growslice")
+	ir.Syms.GrowsliceByte = typecheck.LookupRuntimeFunc("growslicebyte")
 	ir.Syms.Memmove = typecheck.LookupRuntimeFunc("memmove")
 	ir.Syms.Msanread = typecheck.LookupRuntimeFunc("msanread")
 	ir.Syms.Msanwrite = typecheck.LookupRuntimeFunc("msanwrite")
@@ -3459,8 +3460,16 @@ func (s *state) append(n *ir.CallExpr, inplace bool) *ssa.Value {
 
 	// Call growslice
 	s.startBlock(grow)
-	taddr := s.expr(n.X)
-	r := s.rtcall(ir.Syms.Growslice, true, []*types.Type{n.Type()}, p, l, c, nargs, taddr)
+	var r []*ssa.Value
+
+	// specialize growslice based on the type
+	switch {
+	case et.Size() == 1 && !et.HasPointers():
+		r = s.rtcall(ir.Syms.GrowsliceByte, true, []*types.Type{n.Type()}, p, l, c, nargs)
+	default:
+		taddr := s.expr(n.X)
+		r = s.rtcall(ir.Syms.Growslice, true, []*types.Type{n.Type()}, p, l, c, nargs, taddr)
+	}
 
 	// Decompose output slice
 	p = s.newValue1(ssa.OpSlicePtr, pt, r[0])

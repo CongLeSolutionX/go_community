@@ -129,9 +129,17 @@ func walkAppend(n *ir.CallExpr, init *ir.Nodes, dst ir.Node) ir.Node {
 // growslice(ptr *T, newLen, oldCap, num int, <type>) (ret []T)
 func walkGrowslice(slice *ir.Name, init *ir.Nodes, oldPtr, newLen, oldCap, num ir.Node) *ir.CallExpr {
 	elemtype := slice.Type().Elem()
-	fn := typecheck.LookupRuntime("growslice")
-	fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)
-	return mkcall1(fn, slice.Type(), init, oldPtr, newLen, oldCap, num, reflectdata.TypePtr(elemtype))
+	switch {
+	case elemtype.Size() == 1 && !elemtype.HasPointers():
+		fn := typecheck.LookupRuntime("growslicebyte")
+		fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)
+		return mkcall1(fn, slice.Type(), init, oldPtr, newLen, oldCap, num)
+	default:
+		fn := typecheck.LookupRuntime("growslice")
+		fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)
+		return mkcall1(fn, slice.Type(), init, oldPtr, newLen, oldCap, num, reflectdata.TypePtr(elemtype))
+	}
+
 }
 
 // walkClear walks an OCLEAR node.
