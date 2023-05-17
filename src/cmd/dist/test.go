@@ -1082,6 +1082,7 @@ func (t *tester) registerCgoTests(heading string) {
 	}
 
 	cgoTest("auto", "test", "auto", "")
+	cgoTest("auto", "testtls", "auto", "")
 
 	// Stub out various buildmode=pie tests  on alpine until 54354 resolved.
 	builderName := os.Getenv("GO_BUILDER_NAME")
@@ -1115,7 +1116,6 @@ func (t *tester) registerCgoTests(heading string) {
 		gt := cgoTest("external-g0", "test", "external", "")
 		gt.env = append(gt.env, "CGO_CFLAGS=-g0 -fdiagnostics-color")
 
-		cgoTest("auto", "testtls", "auto", "")
 		cgoTest("external", "testtls", "external", "")
 		switch {
 		case os == "aix":
