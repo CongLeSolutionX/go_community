@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d013e5c_77d73ba5",
+        "filename": "src/cmd/go/internal/generate/generate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 62829
+      },
+      "writtenOn": "2023-05-17T20:18:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d8cf8c7_0b97cb46",
+      "revId": "dbd934e7aeefe0dcaeb549205ad361c81dcbfbcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4aaad65d_2dd76b8e",
@@ -104,6 +122,30 @@
       "writtenOn": "2023-05-17T13:55:33Z",
       "side": 1,
       "message": "This should probably be after the `pkg.Module.Main` check: we shouldn\u0027t report errors for packages that we would normally skip.\n\n(Whether we should even skip those packages in the first place is a separate question; see #29751.)",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 0
+      },
+      "revId": "dbd934e7aeefe0dcaeb549205ad361c81dcbfbcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cf5494c_709a4148",
+        "filename": "src/cmd/go/internal/generate/generate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 62829
+      },
+      "writtenOn": "2023-05-17T20:18:33Z",
+      "side": 1,
+      "message": "I moved this check after main module check. But I\u0027m not sure if `go generate` should fail when some files in a package are processed successfully but some not. With current implementation, the generator will process all files and exist with error after that.",
+      "parentUuid": "4aaad65d_2dd76b8e",
       "range": {
         "startLine": 205,
         "startChar": 0,
