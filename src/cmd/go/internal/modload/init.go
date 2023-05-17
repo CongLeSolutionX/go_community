@@ -107,6 +107,8 @@ type MainModuleSet struct {
 
 	modFiles map[module.Version]*modfile.File
 
+	workFile *modfile.WorkFile
+
 	modContainingCWD module.Version
 
 	workFileGoVersion string
@@ -200,6 +202,10 @@ func (mms *MainModuleSet) ModFile(m module.Version) *modfile.File {
 	return mms.modFiles[m]
 }
 
+func (mms *MainModuleSet) WorkFile() *modfile.WorkFile {
+	return mms.workFile
+}
+
 func (mms *MainModuleSet) Len() int {
 	if mms == nil {
 		return 0
@@ -234,6 +240,15 @@ func (mms *MainModuleSet) GoVersion() string {
 	default:
 		return modFileGoVersion(mms.ModFile(mms.mustGetSingleMainModule()))
 	}
+}
+
+// GoStatement returns the go Statement from the go.mod in single module mode
+// or from go.work in workspace mode.
+func (mms *MainModuleSet) GoStatement() *modfile.Go {
+	if inWorkspaceMode() {
+		return mms.workFile.Go
+	}
+	return mms.ModFile(MainModules.mustGetSingleMainModule()).Go
 }
 
 func (mms *MainModuleSet) WorkFileReplaceMap() map[module.Version]module.Version {
@@ -492,7 +507,13 @@ func Enabled() bool {
 }
 
 func VendorDir() string {
-	return filepath.Join(MainModules.ModRoot(MainModules.mustGetSingleMainModule()), "vendor")
+	if inWorkspaceMode() {
+		return filepath.Join(filepath.Dir(WorkFilePath()), "vendor")
+	}
+	if modRoot := MainModules.ModRoot(MainModules.mustGetSingleMainModule()); modRoot != "" {
+		return filepath.Join(MainModules.ModRoot(MainModules.mustGetSingleMainModule()), "vendor")
+	}
+	return ""
 }
 
 func inWorkspaceMode() bool {
@@ -574,11 +595,11 @@ func (goModDirtyError) Error() string {
 
 var errGoModDirty error = goModDirtyError{}
 
-func loadWorkFile(path string) (goVersion string, modRoots []string, replaces []*modfile.Replace, err error) {
+func loadWorkFile(path string) (goVersion string, modRoots []string, replaces []*modfile.Replace, workFile *modfile.WorkFile, err error) {
 	workDir := filepath.Dir(path)
 	wf, err := ReadWorkFile(path)
 	if err != nil {
-		return "", nil, nil, err
+		return "", nil, nil, nil, err
 	}
 	if wf.Go != nil {
 		goVersion = wf.Go.Version
@@ -591,13 +612,13 @@ func loadWorkFile(path string) (goVersion string, modRoots []string, replaces []
 		}
 
 		if seen[modRoot] {
-			return "", nil, nil, fmt.Errorf("path %s appears multiple times in workspace", modRoot)
+			return "", nil, nil, nil, fmt.Errorf("path %s appears multiple times in workspace", modRoot)
 		}
 		seen[modRoot] = true
 		modRoots = append(modRoots, modRoot)
 	}
 
-	return goVersion, modRoots, wf.Replace, nil
+	return goVersion, modRoots, wf.Replace, wf, nil
 }
 
 // ReadWorkFile reads and parses the go.work file at the given path.
@@ -670,12 +691,13 @@ func LoadModFile(ctx context.Context) *Requirements {
 
 	Init()
 	var (
+		workFile          *modfile.WorkFile
 		workFileGoVersion string
 		workFileReplaces  []*modfile.Replace
 	)
 	if inWorkspaceMode() {
 		var err error
-		workFileGoVersion, modRoots, workFileReplaces, err = loadWorkFile(workFilePath)
+		workFileGoVersion, modRoots, workFileReplaces, workFile, err = loadWorkFile(workFilePath)
 		if err != nil {
 			base.Fatalf("reading go.work: %v", err)
 		}
@@ -710,7 +732,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 		// make MainModules.Len() == 0 mean that we're in module mode but not inside
 		// any module.
 		mainModule := module.Version{Path: "command-line-arguments"}
-		MainModules = makeMainModules([]module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil}, "", nil)
+		MainModules = makeMainModules([]module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil}, nil, "", nil)
 		goVersion := LatestGoVersion()
 		rawGoVersion.Store(mainModule, goVersion)
 		pruning := pruningForGoVersion(goVersion)
@@ -755,26 +777,31 @@ func LoadModFile(ctx context.Context) *Requirements {
 		}
 	}
 
-	MainModules = makeMainModules(mainModules, modRoots, modFiles, indices, workFileGoVersion, workFileReplaces)
+	MainModules = makeMainModules(mainModules, modRoots, modFiles, indices, workFile, workFileGoVersion, workFileReplaces)
 	setDefaultBuildMod() // possibly enable automatic vendoring
 	rs := requirementsFromModFiles(ctx, modFiles)
 
+	if cfg.BuildMod == "vendor" {
+		readVendorList(VendorDir())
+		var indexes []*modFileIndex
+		var modFiles []*modfile.File
+		var modRoots []string
+		for _, m := range MainModules.Versions() {
+			indexes = append(indexes, MainModules.Index(m))
+			modFiles = append(modFiles, MainModules.ModFile(m))
+			modRoots = append(modRoots, MainModules.ModRoot(m))
+		}
+		checkVendorConsistency(indexes, modFiles, modRoots)
+		rs.initVendor(vendorList)
+	}
+
 	if inWorkspaceMode() {
-		// We don't need to do anything for vendor or update the mod file so
-		// return early.
+		// We don't need to update the mod file so return early.
 		requirements = rs
 		return rs
 	}
 
 	mainModule := MainModules.mustGetSingleMainModule()
-
-	if cfg.BuildMod == "vendor" {
-		readVendorList(mainModule)
-		index := MainModules.Index(mainModule)
-		modFile := MainModules.ModFile(mainModule)
-		checkVendorConsistency(index, modFile)
-		rs.initVendor(vendorList)
-	}
 
 	if rs.hasRedundantRoot() {
 		// If any module path appears more than once in the roots, we know that the
@@ -858,7 +885,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 	fmt.Fprintf(os.Stderr, "go: creating new go.mod: module %s\n", modPath)
 	modFile := new(modfile.File)
 	modFile.AddModuleStmt(modPath)
-	MainModules = makeMainModules([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, "", nil)
+	MainModules = makeMainModules([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, nil, "", nil)
 	addGoStmt(modFile, modFile.Module.Mod, LatestGoVersion()) // Add the go directive before converted module requirements.
 
 	convertedFrom, err := convertLegacyConfig(modFile, modRoot)
@@ -993,7 +1020,7 @@ func AllowMissingModuleImports() {
 
 // makeMainModules creates a MainModuleSet and associated variables according to
 // the given main modules.
-func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile.File, indices []*modFileIndex, workFileGoVersion string, workFileReplaces []*modfile.Replace) *MainModuleSet {
+func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile.File, indices []*modFileIndex, workFile *modfile.WorkFile, workFileGoVersion string, workFileReplaces []*modfile.Replace) *MainModuleSet {
 	for _, m := range ms {
 		if m.Version != "" {
 			panic("mainModulesCalled with module.Version with non empty Version field: " + fmt.Sprintf("%#v", m))
@@ -1007,6 +1034,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		modRoot:            map[module.Version]string{},
 		modFiles:           map[module.Version]*modfile.File{},
 		indices:            map[module.Version]*modFileIndex{},
+		workFile:           workFile,
 		workFileGoVersion:  workFileGoVersion,
 		workFileReplaceMap: toReplaceMap(workFileReplaces),
 		highestReplaced:    map[string]string{},
@@ -1107,36 +1135,41 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 			panic(fmt.Errorf("requirementsFromModFiles called with %v modfiles outside workspace mode", len(modFiles)))
 		}
 		modFile := modFiles[0]
-		roots = make([]module.Version, 0, len(modFile.Require))
-		mm := MainModules.mustGetSingleMainModule()
-		for _, r := range modFile.Require {
-			if index := MainModules.Index(mm); index != nil && index.exclude[r.Mod] {
-				if cfg.BuildMod == "mod" {
-					fmt.Fprintf(os.Stderr, "go: dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
-				} else {
-					fmt.Fprintf(os.Stderr, "go: ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
-				}
-				continue
-			}
-
-			roots = append(roots, r.Mod)
-			if !r.Indirect {
-				direct[r.Mod.Path] = true
-			}
-		}
+		roots, direct = rootsFromModFile(MainModules.mustGetSingleMainModule(), modFile)
 	}
 	module.Sort(roots)
 	rs := newRequirements(pruning, roots, direct)
 	return rs
 }
 
+func rootsFromModFile(m module.Version, modFile *modfile.File) (roots []module.Version, direct map[string]bool) {
+	direct = make(map[string]bool)
+	roots = make([]module.Version, 0, len(modFile.Require))
+	for _, r := range modFile.Require {
+		if index := MainModules.Index(m); index != nil && index.exclude[r.Mod] {
+			if cfg.BuildMod == "mod" {
+				fmt.Fprintf(os.Stderr, "go: dropping requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+			} else {
+				fmt.Fprintf(os.Stderr, "go: ignoring requirement on excluded version %s %s\n", r.Mod.Path, r.Mod.Version)
+			}
+			continue
+		}
+
+		roots = append(roots, r.Mod)
+		if !r.Indirect {
+			direct[r.Mod.Path] = true
+		}
+	}
+	return roots, direct
+}
+
 // setDefaultBuildMod sets a default value for cfg.BuildMod if the -mod flag
 // wasn't provided. setDefaultBuildMod may be called multiple times.
 func setDefaultBuildMod() {
 	if cfg.BuildModExplicit {
-		if inWorkspaceMode() && cfg.BuildMod != "readonly" {
-			base.Fatalf("go: -mod may only be set to readonly when in workspace mode, but it is set to %q"+
-				"\n\tRemove the -mod flag to use the default readonly value,"+
+		if inWorkspaceMode() && cfg.BuildMod != "readonly" && cfg.BuildMod != "vendor" {
+			base.Fatalf("go: -mod may only be set to readonly or vendor when in workspace mode, but it is set to %q"+
+				"\n\tRemove the -mod flag to use the default readonly value, "+
 				"\n\tor set GOWORK=off to disable workspace mode.", cfg.BuildMod)
 		}
 		// Don't override an explicit '-mod=' argument.
@@ -1171,25 +1204,51 @@ func setDefaultBuildMod() {
 		return
 	}
 
-	if len(modRoots) == 1 && !inWorkspaceMode() {
-		index := MainModules.GetSingleIndexOrNil()
-		if fi, err := fsys.Stat(filepath.Join(modRoots[0], "vendor")); err == nil && fi.IsDir() {
+	if len(modRoots) >= 1 {
+		var goVersionV string
+		var versionSource string
+		if inWorkspaceMode() {
+			versionSource = "go.work"
+			var goVersion string
+			if wfg := MainModules.WorkFile().Go; wfg != nil {
+				goVersion = wfg.Version
+			}
+			if goVersion != "" {
+				goVersionV = "v" + goVersion
+			}
+		} else {
+			versionSource = "go.mod"
+			index := MainModules.GetSingleIndexOrNil()
+			if index != nil {
+				goVersionV = index.goVersionV
+			}
+		}
+		vendorDir := ""
+		if workFilePath != "" {
+			vendorDir = filepath.Join(filepath.Dir(workFilePath), "vendor")
+		} else {
+			if len(modRoots) != 1 {
+				panic(fmt.Errorf("outside workspace mode, but have %v modRoots", modRoots))
+			}
+			vendorDir = filepath.Join(modRoots[0], "vendor")
+		}
+		if fi, err := fsys.Stat(vendorDir); err == nil && fi.IsDir() {
 			modGo := "unspecified"
-			if index != nil && index.goVersionV != "" {
-				if semver.Compare(index.goVersionV, "v1.14") >= 0 {
+			if goVersionV != "" {
+				if semver.Compare(goVersionV, "v1.14") >= 0 {
 					// The Go version is at least 1.14, and a vendor directory exists.
 					// Set -mod=vendor by default.
 					cfg.BuildMod = "vendor"
-					cfg.BuildModReason = "Go version in go.mod is at least 1.14 and vendor directory exists."
+					cfg.BuildModReason = "Go version in " + versionSource + " is at least 1.14 and vendor directory exists."
 					return
 				} else {
-					modGo = index.goVersionV[1:]
+					modGo = goVersionV[1:]
 				}
 			}
 
 			// Since a vendor directory exists, we should record why we didn't use it.
 			// This message won't normally be shown, but it may appear with import errors.
-			cfg.BuildModReason = fmt.Sprintf("Go version in go.mod is %s, so vendor directory was not used.", modGo)
+			cfg.BuildModReason = fmt.Sprintf("Go version in "+versionSource+" is %s, so vendor directory was not used.", modGo)
 		}
 	}
 
