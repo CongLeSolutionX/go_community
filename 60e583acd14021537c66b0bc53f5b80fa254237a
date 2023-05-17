@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "635bc6e4_e330fbd8",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-17T13:53:52Z",
+      "side": 1,
+      "message": "Please add a comment explaining why this is go:noinline.  Thanks.",
+      "revId": "60e583acd14021537c66b0bc53f5b80fa254237a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
