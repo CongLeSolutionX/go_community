@@ -1083,6 +1083,7 @@ func (t *tester) registerCgoTests(heading string) {
 
 	cgoTest("auto", "test", "auto", "")
 	cgoTest("auto", "testtls", "auto", "")
+	cgoTest("auto", "testnocgo", "auto", "")
 
 	// Stub out various buildmode=pie tests  on alpine until 54354 resolved.
 	builderName := os.Getenv("GO_BUILDER_NAME")
@@ -1165,7 +1166,6 @@ func (t *tester) registerCgoTests(heading string) {
 				// TODO(#56629): Why does this fail on netbsd-arm?
 				cgoTest("static", "testtls", "external", "static", staticCheck)
 			}
-			cgoTest("auto", "testnocgo", "auto", "", staticCheck)
 			cgoTest("external", "testnocgo", "external", "", staticCheck)
 			if goos != "android" {
 				cgoTest("static", "testnocgo", "external", "static", staticCheck)
