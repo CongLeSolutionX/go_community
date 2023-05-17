@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e15688c_8fe6b81f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-17T21:39:41Z",
+      "side": 1,
+      "message": "LGTM overall, with Matthew\u0027s comments addressed. Thanks!",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af513b57_6f04d387",
@@ -120,6 +137,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c82bb45_33d70e3d",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-17T21:39:41Z",
+      "side": 1,
+      "message": "We visit the children first. At that point this hasn\u0027t set, so we will still edit the call for a GoDeferStmt? Or I missed something...",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e33558a4_45858982",
         "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
         "patchSetId": 10
@@ -136,6 +170,29 @@
         "startChar": 3,
         "endLine": 129,
         "endChar": 13
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bfca679_59ac2a99",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-17T21:39:41Z",
+      "side": 1,
+      "message": "Typo?",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 27
       },
       "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -327,6 +384,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "577de900_813de8a7",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-17T21:39:41Z",
+      "side": 1,
+      "message": "Maybe move this comment earlier? Otherwise the OINCALL in the comment above looks confusing.\n\nWill this confuse the inliner somehow? I thought the inliner does not expect OINLCALL nodes?\n\nThinking more about the inliner: this rewrite increases the size of the AST, so it makes the caller more unlikely to be inlined. Should we do anything to compensate?",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dd20eb9d_d95a5da9",
         "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
         "patchSetId": 10
@@ -459,6 +533,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cc728b6_b380ef0b",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-17T21:39:41Z",
+      "side": 1,
+      "message": "Also, maybe we want to consider the weight relative to the whole profile? If there is one dominate callee, but the call is in a very cold code path, there is probably no need to devirtualize. (Unlike static devirtualization, which doesn\u0027t seem to hurt even in cold code path, this increase binary size.)",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 31
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e9b30d6_11c9320f",
         "filename": "src/cmd/compile/internal/gc/main.go",
         "patchSetId": 10
@@ -539,6 +636,29 @@
       "writtenOn": "2023-05-17T18:57:59Z",
       "side": 1,
       "message": "Why are we interested in collecting this?\n\nAlso, it looks like this map is redundant with \"g.IRNodes[name].AST !\u003d nil\"?",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be66254d_4e5d1acc",
+        "filename": "src/cmd/compile/internal/test/pgo_devirtualize_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-17T21:39:41Z",
+      "side": 1,
+      "message": "Should this be separate components of filepath.Join?",
+      "range": {
+        "startLine": 114,
+        "startChar": 30,
+        "endLine": 114,
+        "endChar": 55
+      },
       "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
