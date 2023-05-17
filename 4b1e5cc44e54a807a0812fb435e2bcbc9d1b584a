@@ -67,6 +67,24 @@
       "message": "What about all the assembly code we have that saves and restores R2?\n\nAre there any existing meaningful tests for this case, like -buildmode\u003dpie with GOPPC64\u003dpower10.",
       "revId": "4b1e5cc44e54a807a0812fb435e2bcbc9d1b584a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "336ac39e_8be413c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-17T13:43:35Z",
+      "side": 1,
+      "message": "Yes, we have some linker tests for the trampolines and one pass of the cgo tests is notoc + pie. I believe there is also a runtime test for pie too. This also affects \n\nThe only thing which isn\u0027t explicitly tested is CGO_CFLAGS\u003d\"-mcpu\u003dpower10 ...\". However, that is a more of a linker test.",
+      "parentUuid": "11526fd7_b97df0e1",
+      "revId": "4b1e5cc44e54a807a0812fb435e2bcbc9d1b584a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
