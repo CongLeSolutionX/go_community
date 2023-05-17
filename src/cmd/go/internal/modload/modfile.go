@@ -549,7 +549,7 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 			module: module.Version{Path: m.Path},
 		}
 
-		readVendorList(MainModules.mustGetSingleMainModule())
+		readVendorList(VendorDir())
 		if vendorVersion[m.Path] != m.Version {
 			// This module is not vendored, so packages cannot be loaded from it and
 			// it cannot be relevant to the build.
