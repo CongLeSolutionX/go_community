@@ -1,0 +1,34 @@
+# This is a test that if one of the main modules replaces the other
+# the vendor consistency checks still pass. (The replacement is ignored
+# because it is of a main module, so we should ignore it when we iterate
+# over all replacements to check that they all appear in vendor/modules.txt)
+
+go work vendor
+go list all # make sure the consistency checks pass
+! stderr .
+
+-- go.work --
+go 1.21
+
+use (
+    a
+    b
+)
+-- a/go.mod --
+module example.com/a
+
+go 1.21
+
+require example.com/b v0.0.0
+
+replace example.com/b => ../b
+-- a/a.go --
+package a
+
+import _ "example.com/b"
+-- b/go.mod --
+module example.com/b
+
+go 1.21
+-- b/b.go --
+package b
