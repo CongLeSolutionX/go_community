@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c37828_01cd172f",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-17T18:57:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0575add2_02479c40",
+      "revId": "41dc3fbfe28865ec013e383f196b9e826e66210e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d40de987_1bac52d4",
@@ -97,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "165a7ae2_f065dfe6",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-17T18:57:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d40de987_1bac52d4",
+      "range": {
+        "startLine": 481,
+        "startChar": 0,
+        "endLine": 483,
+        "endChar": 30
+      },
+      "revId": "41dc3fbfe28865ec013e383f196b9e826e66210e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "daeff8f2_cc208513",
@@ -110,6 +152,30 @@
       "writtenOn": "2023-05-17T18:34:32Z",
       "side": 1,
       "message": "If we were to open the file without `O_TRUNC`, then I don\u0027t think we would need to bother with further restoration if `WriteAt` fails.\n\nThe original `Write` seems most likely to fail with either `ENOSPC`, or some other error on the first syscall. If it fails with `ENOSPC`, then the `WriteAt` is all but certain to write at least `n` bytes, which is enough to fix the file. If it fails due to some other error (such as the filesystem becoming completely unavailable, or a sandbox permission error), then the `Rename` attempts seem equally unlikely to succeed.",
+      "range": {
+        "startLine": 501,
+        "startChar": 0,
+        "endLine": 502,
+        "endChar": 31
+      },
+      "revId": "41dc3fbfe28865ec013e383f196b9e826e66210e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbea212f_e845fb32",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-17T18:57:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daeff8f2_cc208513",
       "range": {
         "startLine": 501,
         "startChar": 0,
