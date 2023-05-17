@@ -95,6 +95,30 @@
       },
       "revId": "b4f308419c121f3a29786d55e86d4e3b7014a751",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c56b37e_fff205ef",
+        "filename": "src/cmd/cgo/internal/testcshared/cshared_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-17T18:51:43Z",
+      "side": 1,
+      "message": "Thanks. Deleted",
+      "parentUuid": "3ee420c0_c945b640",
+      "range": {
+        "startLine": 740,
+        "startChar": 0,
+        "endLine": 740,
+        "endChar": 8
+      },
+      "revId": "b4f308419c121f3a29786d55e86d4e3b7014a751",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
