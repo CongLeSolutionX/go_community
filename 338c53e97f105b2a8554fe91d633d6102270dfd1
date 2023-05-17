@@ -338,6 +338,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3dccf958_17e9cf60",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T22:03:59Z",
+      "side": 1,
+      "message": "Sorry, \"then\" not \"true\".\n\nAlso, \"Stmt\" instead of \"Block\" is fine with me too, if you prefer to keep the variables typed as ir.Node instead. (Just \"Node\" is too general to add any meaning to these variable names.)",
+      "parentUuid": "7fb074ec_0f54add1",
+      "range": {
+        "startLine": 326,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 23
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b24fde19_33b273c8",
         "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
         "patchSetId": 10
