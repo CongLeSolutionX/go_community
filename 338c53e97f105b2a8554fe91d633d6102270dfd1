@@ -103,6 +103,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "529213cb_fa093ce8",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "Is there any tooling that depends on the JSON output?",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e33558a4_45858982",
         "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
         "patchSetId": 10
@@ -119,6 +136,29 @@
         "startChar": 3,
         "endLine": 129,
         "endChar": 13
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "468e7bd6_827a7502",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "why pass both n and call? aren\u0027t they the same?",
+      "range": {
+        "startLine": 159,
+        "startChar": 25,
+        "endLine": 159,
+        "endChar": 32
       },
       "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -143,6 +183,276 @@
         "endLine": 216,
         "endChar": 33
       },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f9ffd1_ad202164",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "I think the receiver needs to be spilled to a temporary variable too, or else if it contains side effects they\u0027ll be repeated when the type assertion fails. (Assuming compilation doesn\u0027t just break, due to the IR AST becoming a DAG.)",
+      "range": {
+        "startLine": 276,
+        "startChar": 13,
+        "endLine": 276,
+        "endChar": 16
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f8a86d6_2dcfc14c",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "Please use an AssignListStmt instead to assign the receiver and arguments all in a single statement. That will ensure we don\u0027t unnecessarily sequence order of evaluation.\n\nAlso, I\u0027d prefer you use typecheck.Expr/typecheck.Stmt as appropriate instead of SetTypecheck(1)",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 24
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d3b4b98_a2452a81",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: It\u0027s a little sketchy reusing the same []ir.Node for both calls, because any rewrites that happen to one call will affect both. I\u0027d suggest creating a new slice with the same contents.",
+      "range": {
+        "startLine": 324,
+        "startChar": 53,
+        "endLine": 324,
+        "endChar": 60
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fb074ec_0f54add1",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: \"var trueBlock, elseBlock ir.Nodes\"?",
+      "range": {
+        "startLine": 326,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 23
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b24fde19_33b273c8",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "It\u0027s fine to create an OAS2 for the 1-value cases, so you just need to special case for no results.",
+      "range": {
+        "startLine": 331,
+        "startChar": 1,
+        "endLine": 331,
+        "endChar": 8
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b8715e4_95c14298",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: this typecheck.Expr is unnecessary, but harmless",
+      "range": {
+        "startLine": 351,
+        "startChar": 13,
+        "endLine": 351,
+        "endChar": 27
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd20eb9d_d95a5da9",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: I\u0027d call this \"methodRecvType\" or something. \"Parent\" isn\u0027t a spec term, so at the call sites I assumed this function had something to do with the PGO graph node hierarchy.",
+      "range": {
+        "startLine": 372,
+        "startChar": 3,
+        "endLine": 372,
+        "endChar": 21
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64bcab0f_ec68485b",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: interfaceCallRecvType\n\nAlso, change n to *ir.CallExpr if possible.",
+      "range": {
+        "startLine": 384,
+        "startChar": 5,
+        "endLine": 384,
+        "endChar": 22
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "508fdee2_dd594b47",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: \"indirect call\"?",
+      "range": {
+        "startLine": 403,
+        "startChar": 3,
+        "endLine": 403,
+        "endChar": 11
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c935aafd_93893167",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: change the parameter type to *ir.CallExpr? At the caller you\u0027ve already asserted n to *ir.CallExpr as call.",
+      "range": {
+        "startLine": 405,
+        "startChar": 13,
+        "endLine": 405,
+        "endChar": 32
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8eec5f0_f07b1314",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "nit: I usually write these conditions like `if l !\u003d r { return l \u003c r }`",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 3
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a19c792_a608dbd7",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:32:53Z",
+      "side": 1,
+      "message": "Since it\u0027s arbitrary anyway, I\u0027d probably lean towards flipping the comparison so that we always take the lexicographically first candidate, rather than the last.",
       "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
