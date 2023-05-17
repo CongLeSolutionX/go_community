@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48bb91e5_5e6eeb26",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:01:40Z",
+      "side": 1,
+      "message": "nit: change to Fatalf while you\u0027re here",
+      "range": {
+        "startLine": 540,
+        "startChar": 8,
+        "endLine": 540,
+        "endChar": 14
+      },
+      "revId": "0bf6329331cc53079787935a80f60112cf43d3a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7fc15fe_ffedcd6e",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-17T19:01:40Z",
+      "side": 1,
+      "message": "nit: I\u0027d suggest:\n\n```\nfunc Implements(t, iface *types.Type) bool\nfunc ImplementsExplain(t, iface *types.Type) string\n```\n\ninstead.",
+      "range": {
+        "startLine": 693,
+        "startChar": 87,
+        "endLine": 693,
+        "endChar": 102
+      },
+      "revId": "0bf6329331cc53079787935a80f60112cf43d3a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
