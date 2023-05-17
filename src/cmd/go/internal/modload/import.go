@@ -318,30 +318,36 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 		mods = append(mods, module.Version{})
 	}
 	// -mod=vendor is special.
-	// Everything must be in the main module or the main module's vendor directory.
+	// Everything must be in the main modules or the main module's or workspace's vendor directory.
 	if cfg.BuildMod == "vendor" {
-		mainModule := MainModules.mustGetSingleMainModule()
-		modRoot := MainModules.ModRoot(mainModule)
 		var mainErr error
-		if modRoot != "" {
-			mainDir, mainOK, err := dirInModule(path, MainModules.PathPrefix(mainModule), modRoot, true)
-			mainErr = err
-			if mainOK {
-				mods = append(mods, mainModule)
-				dirs = append(dirs, mainDir)
-				roots = append(roots, modRoot)
+		for _, mainModule := range MainModules.Versions() {
+			modRoot := MainModules.ModRoot(mainModule)
+			if modRoot != "" {
+				mainDir, mainOK, err := dirInModule(path, MainModules.PathPrefix(mainModule), modRoot, true)
+				if mainErr == nil {
+					mainErr = err
+				}
+				if mainOK {
+					mods = append(mods, mainModule)
+					dirs = append(dirs, mainDir)
+					roots = append(roots, modRoot)
+				}
 			}
-			vendorDir, vendorOK, _ := dirInModule(path, "", filepath.Join(modRoot, "vendor"), false)
+		}
+		vendorDir := VendorDir()
+		if vendorDir != "" {
+			vendorDir, vendorOK, _ := dirInModule(path, "", VendorDir(), false)
 			if vendorOK {
-				readVendorList(mainModule)
+				readVendorList(VendorDir())
 				mods = append(mods, vendorPkgModule[path])
 				dirs = append(dirs, vendorDir)
-				roots = append(roots, modRoot)
+				roots = append(roots, filepath.Dir(vendorDir))
 			}
 		}
 
 		if len(dirs) > 1 {
-			return module.Version{}, modRoot, "", nil, &AmbiguousImportError{importPath: path, Dirs: dirs}
+			return module.Version{}, "", "", nil, &AmbiguousImportError{importPath: path, Dirs: dirs}
 		}
 
 		if mainErr != nil {
@@ -349,7 +355,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 		}
 
 		if len(dirs) == 0 {
-			return module.Version{}, modRoot, "", nil, &ImportMissingError{Path: path}
+			return module.Version{}, "", "", nil, &ImportMissingError{Path: path}
 		}
 
 		return mods[0], roots[0], dirs[0], nil, nil
