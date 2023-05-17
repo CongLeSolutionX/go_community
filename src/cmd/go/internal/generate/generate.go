@@ -210,6 +210,10 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 			continue
 		}
 
+		if pkg.Error != nil {
+			base.Errorf("%v", pkg.Error)
+		}
+
 		for _, file := range pkg.InternalGoFiles() {
 			if !generate(file) {
 				break
@@ -222,6 +226,7 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		}
 	}
+	base.ExitIfErrors()
 }
 
 // generate runs the generation directives for a single file.

@@ -6,30 +6,36 @@ go install echo.go
 env PATH=$GOBIN${:}$PATH
 
 # Test go generate for directory with no go files
-go generate ./nogo
+! go generate ./nogo
 ! stdout 'Fail'
+stderr 'no Go files'
+
+# Test go  generate for module which doesn't exist should fail
+! go generate m/nothing
+stderr 'package m/nothing is not in GOROOT'
 
 # Test go generate for package where all .go files are excluded by build
 # constraints
-go generate -v ./excluded
+! go generate -v ./excluded
 ! stdout 'Fail'
-! stderr 'go' # -v shouldn't list any files
+stderr 'build constraints exclude all Go files'
 
 # Test go generate for "package" with no package clause in any file
-go generate ./nopkg
+! go generate ./nopkg
 stdout 'Success a'
+stderr 'EOF'
 ! stdout 'Fail'
 
 # Test go generate for package with inconsistent package clauses
 # $GOPACKAGE should depend on each file's package clause
-go generate ./inconsistent
+! go generate ./inconsistent
 stdout 'Success a'
 stdout 'Success b'
 stdout -count=2 'Success c'
 ! stdout 'Fail'
 
 # Test go generate for syntax errors before and after package clauses
-go generate ./syntax
+! go generate ./syntax
 stdout 'Success a'
 stdout 'Success b'
 ! stdout 'Fail'
