@@ -37,9 +37,26 @@ import (
 
 func init() {
 	obj.RegisterRegister(obj.RBaseARM, MAXREG, rconv)
+	obj.RegisterAconvFunc("arm", nil, nil, aconvShift)
 	obj.RegisterOpcode(obj.ABaseARM, Anames)
 	obj.RegisterRegisterList(obj.RegListARMLo, obj.RegListARMHi, rlconv)
 	obj.RegisterOpSuffix("arm", obj.CConvARM)
+}
+
+func aconvShift(a *obj.Addr) string {
+	var ret string
+	v := int(a.Offset)
+	ops := "<<>>->@>"
+	op := ops[((v>>5)&3)<<1:]
+	if v&(1<<4) != 0 {
+		ret = fmt.Sprintf("R%d%c%cR%d", v&15, op[0], op[1], (v>>8)&15)
+	} else {
+		ret = fmt.Sprintf("R%d%c%c%d", v&15, op[0], op[1], (v>>7)&31)
+	}
+	if a.Reg != 0 {
+		ret += fmt.Sprintf("(%v)", rconv(int(a.Reg)))
+	}
+	return ret
 }
 
 func rconv(r int) string {
