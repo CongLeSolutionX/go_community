@@ -56,10 +56,26 @@ var strcond = [16]string{
 
 func init() {
 	obj.RegisterRegister(obj.RBaseARM64, REG_SPECIAL+1024, rconv)
+	obj.RegisterAconvFunc("arm64", aconvReg, nil, aconvShift)
 	obj.RegisterOpcode(obj.ABaseARM64, Anames)
 	obj.RegisterRegisterList(obj.RegListARM64Lo, obj.RegListARM64Hi, rlconv)
 	obj.RegisterOpSuffix("arm64", obj.CConvARM)
 	obj.RegisterSpecialOperands(int64(SPOP_BEGIN), int64(SPOP_END), SPCconv)
+}
+
+func aconvReg(a *obj.Addr) string {
+	if REG_ELEM <= a.Reg && a.Reg < REG_ELEM_END {
+		return fmt.Sprintf("%s[%d]", rconv(int(a.Reg)), a.Index)
+	}
+	return fmt.Sprintf("%s", rconv(int(a.Reg)))
+}
+
+func aconvShift(a *obj.Addr) string {
+	v := int(a.Offset)
+	ops := "<<>>->@>"
+	op := ops[((v>>22)&3)<<1:]
+	r := (v >> 16) & 31
+	return fmt.Sprintf("%s%c%c%d", rconv(r+obj.RBaseARM64), op[0], op[1], (v>>10)&63)
 }
 
 func arrange(a int) string {

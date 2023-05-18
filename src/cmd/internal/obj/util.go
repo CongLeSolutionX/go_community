@@ -245,6 +245,7 @@ func WriteDconv(w io.Writer, p *Prog, a *Addr) {
 }
 
 func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
+	conv := aconvMap[buildcfg.GOARCH]
 	switch a.Type {
 	default:
 		fmt.Fprintf(w, "type=%d", a.Type)
@@ -256,12 +257,8 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		}
 
 	case TYPE_REG:
-		// TODO(rsc): This special case is for x86 instructions like
-		//	PINSRQ	CX,$1,X6
-		// where the $1 is included in the p->to Addr.
-		// Move into a new field.
-		if a.Offset != 0 && (a.Reg < RBaseARM64 || a.Reg >= RBaseMIPS) {
-			fmt.Fprintf(w, "$%d,%v", a.Offset, Rconv(int(a.Reg)))
+		if conv.aconvReg != nil {
+			fmt.Fprintf(w, conv.aconvReg(a))
 			return
 		}
 
@@ -270,10 +267,6 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 			fmt.Fprintf(w, "(%v)(REG)", Rconv(int(a.Reg)))
 		} else {
 			io.WriteString(w, Rconv(int(a.Reg)))
-		}
-		if (RBaseARM64+1<<10+1<<9) /* arm64.REG_ELEM */ <= a.Reg &&
-			a.Reg < (RBaseARM64+1<<11) /* arm64.REG_ELEM_END */ {
-			fmt.Fprintf(w, "[%d]", a.Index)
 		}
 
 	case TYPE_BRANCH:
@@ -293,7 +286,6 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		a.WriteNameTo(w)
 		if a.Index != REG_NONE {
 			if a.Scale == 0 {
-				// arm64 shifted or extended register offset, scale = 0.
 				fmt.Fprintf(w, "(%v)", Rconv(int(a.Index)))
 			} else {
 				fmt.Fprintf(w, "(%v*%d)", Rconv(int(a.Index)), int(a.Scale))
@@ -330,26 +322,10 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		a.writeNameTo(w, abiDetail)
 
 	case TYPE_SHIFT:
-		v := int(a.Offset)
-		ops := "<<>>->@>"
-		switch buildcfg.GOARCH {
-		case "arm":
-			op := ops[((v>>5)&3)<<1:]
-			if v&(1<<4) != 0 {
-				fmt.Fprintf(w, "R%d%c%cR%d", v&15, op[0], op[1], (v>>8)&15)
-			} else {
-				fmt.Fprintf(w, "R%d%c%c%d", v&15, op[0], op[1], (v>>7)&31)
-			}
-			if a.Reg != 0 {
-				fmt.Fprintf(w, "(%v)", Rconv(int(a.Reg)))
-			}
-		case "arm64":
-			op := ops[((v>>22)&3)<<1:]
-			r := (v >> 16) & 31
-			fmt.Fprintf(w, "%s%c%c%d", Rconv(r+RBaseARM64), op[0], op[1], (v>>10)&63)
-		default:
+		if conv.aconvShift == nil {
 			panic("TYPE_SHIFT is not supported on " + buildcfg.GOARCH)
 		}
+		fmt.Fprintf(w, conv.aconvShift(a))
 
 	case TYPE_REGREG:
 		fmt.Fprintf(w, "(%v, %v)", Rconv(int(a.Reg)), Rconv(int(a.Offset)))
@@ -482,6 +458,18 @@ func RegisterOpSuffix(arch string, cconv func(uint8) string) {
 		arch:  arch,
 		cconv: cconv,
 	})
+}
+
+type aconvFuncList struct {
+	aconvReg   func(*Addr) string
+	aconvMem   func(*Addr) string
+	aconvShift func(*Addr) string
+}
+
+var aconvMap map[string]aconvFuncList = make(map[string]aconvFuncList)
+
+func RegisterAconvFunc(arch string, aconvReg, aconvMem, aconvShift func(*Addr) string) {
+	aconvMap[arch] = aconvFuncList{aconvReg, aconvMem, aconvShift}
 }
 
 type regSet struct {
