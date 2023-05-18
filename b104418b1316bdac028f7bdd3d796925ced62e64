@@ -76,6 +76,30 @@
       },
       "revId": "b104418b1316bdac028f7bdd3d796925ced62e64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "587f86ab_8dee7590",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-18T13:53:27Z",
+      "side": 1,
+      "message": "Probably yes: the implied alternative would be something like `errors.Is`, which would be a lot more complex here because the `syscall.Errno` values we would be checking for are not used on Windows and not even defined on Plan 9.",
+      "parentUuid": "4bba0f1d_c3a567f8",
+      "range": {
+        "startLine": 781,
+        "startChar": 0,
+        "endLine": 782,
+        "endChar": 37
+      },
+      "revId": "b104418b1316bdac028f7bdd3d796925ced62e64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
