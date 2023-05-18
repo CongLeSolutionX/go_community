@@ -53,6 +53,24 @@
       "message": "Expand the skip message a bit to explain why the test shouldn\u0027t be run in coverage mode?",
       "revId": "89f8844f04c139951db6cf382883d0d4d660f069",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82dab1d8_1c4765a6",
+        "filename": "src/cmd/cgo/internal/test/issue18146.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-05-18T17:54:11Z",
+      "side": 1,
+      "message": "For this and other testpoints, the main problem is not simply \"go test -cover\" but \"go test -coverpkg\u003dall\". On my workstation:\n\n```\n$ go test  -count\u003d1 -run\u003dTest18146 \nPASS\nok  \tcmd/cgo/internal/test\t0.478s\n$ go test -cover -count\u003d1 -run\u003dTest18146 \nPASS\n\tcmd/cgo/internal/test\tcoverage: 0.9% of statements\nok  \tcmd/cgo/internal/test\t1.655s\n$ go test -coverpkg\u003dall -count\u003d1 -run\u003dTest18146 -v\n\u003d\u003d\u003d RUN   Test18146\n--- PASS: Test18146 (246.13s)\n... lots of output...\nok  \tcmd/cgo/internal/test\t260.604s\n$\n```\n\nDuring this period my machine becomes *very* sluggish (load average goes up to 200-300 according to \"top\"). Add in a few other similar badly behaved tests in a \"go test -coverpkg\u003dall std\" run, and things pretty much grind to a halt.\n\nTurning off the test entirely for coverage is not great in that it\u0027s entirely possible this test tickles some piece of code in the runtime that doesn\u0027t get covered otherwise. \n\nI think the crux of the problem is reusing the test binary (which is built for coverage)-- on further reflection perhaps the right thing to do is use some other binary instead in that case.",
+      "parentUuid": "fc3a01c5_86732678",
+      "revId": "89f8844f04c139951db6cf382883d0d4d660f069",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
