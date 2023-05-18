@@ -59,6 +59,30 @@
       },
       "revId": "50b0086a56e300a9c43000ee335e1d3387bc984c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46b254c3_7d673e9b",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-05-18T18:58:11Z",
+      "side": 1,
+      "message": "Looks like it does pass with a 16m timeout. On my machine (which is fairly speedy):\n\n```\n$ go test -count\u003d1 -run\u003dTestZip64LargeDirectory archive/zip\nok  \tarchive/zip\t26.149s\nthanm@cetina:/ssd2/go/src$ go test -cover -count\u003d1 -run\u003dTestZip64LargeDirectory archive/zip\nok  \tarchive/zip\t63.662s\tcoverage: 23.3% of statements\n$ go test  -coverpkg\u003dall -count\u003d1 -run\u003dTestZip64LargeDirectory archive/zip\nok  \tarchive/zip\t411.351s\tcoverage: 23.3% of statements in all\n$ go test -timeout\u003d60m -covermode\u003datomic -coverpkg\u003dall -count\u003d1 -run\u003dTestZip64LargeDirectory archive/zip\nok  \tarchive/zip\t978.111s\tcoverage: 23.3% of statements in all\n$\n\n```\n\nso seems likely this is the issue. Perhaps this CL is not the right way to go after all, I can try to attack the problem by increasing GO_TEST_TIMEOUT_SCALE in \"dist test\" if coverage is in effect. Right now I\u0027m using 2x in http://go.dev/cl/395897, sounds like maybe 10x or 20x might be better.\n\nThanks.",
+      "parentUuid": "0be07b32_ba4ed1bd",
+      "range": {
+        "startLine": 511,
+        "startChar": 37,
+        "endLine": 511,
+        "endChar": 45
+      },
+      "revId": "50b0086a56e300a9c43000ee335e1d3387bc984c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
