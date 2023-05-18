@@ -1294,9 +1294,9 @@ func stopTheWorldWithSema() {
 		}
 	}
 	// stop idle P's
-	now := nanotime()
+	//now := nanotime()
 	for {
-		pp, _ := pidleget(now)
+		pp, _ := pidleget(0)
 		if pp == nil {
 			break
 		}
@@ -3105,6 +3105,9 @@ top:
 		list := netpoll(delay) // block until new work is available
 		sched.pollUntil.Store(0)
 		sched.lastpoll.Store(now)
+		// We wrote down the last poll time, so this stale "now" value
+		// no longer has a use. Clear it defensively.
+		now = 0
 		if faketime != 0 && list.empty() {
 			// Using fake time and nothing is ready; stop M.
 			// When all M's stop, checkdead will call timejump.
@@ -3112,7 +3115,7 @@ top:
 			goto top
 		}
 		lock(&sched.lock)
-		pp, _ := pidleget(now)
+		pp, now := pidleget(0)
 		unlock(&sched.lock)
 		if pp == nil {
 			injectglist(&list)
@@ -3132,6 +3135,7 @@ top:
 			}
 			goto top
 		}
+		_ = now // Defensively keep around the refreshed "now."
 	} else if pollUntil != 0 && netpollinited() {
 		pollerPollUntil := sched.pollUntil.Load()
 		if pollerPollUntil == 0 || pollerPollUntil > pollUntil {
