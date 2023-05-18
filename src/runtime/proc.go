@@ -1294,9 +1294,9 @@ func stopTheWorldWithSema() {
 		}
 	}
 	// stop idle P's
-	now := nanotime()
+	//now := nanotime()
 	for {
-		pp, _ := pidleget(now)
+		pp, _ := pidleget(0)
 		if pp == nil {
 			break
 		}
@@ -3103,8 +3103,10 @@ top:
 			delay = 0
 		}
 		list := netpoll(delay) // block until new work is available
+		// Refresh now again, after potentially blocking.
+		now = nanotime()
 		sched.pollUntil.Store(0)
-		sched.lastpoll.Store(now)
+		sched.lastpoll.Store(uint64(now))
 		if faketime != 0 && list.empty() {
 			// Using fake time and nothing is ready; stop M.
 			// When all M's stop, checkdead will call timejump.
