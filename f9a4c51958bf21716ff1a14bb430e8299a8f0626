@@ -124,6 +124,40 @@
       },
       "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e8561fc_3a7959d7",
+        "filename": "src/cmd/compile/internal/ssa/_gen/MIPS64Ops.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-18T15:22:49Z",
+      "side": 1,
+      "message": "It would be good to specify the extension here. Presumably this sign extends, which is why you need the zero extension in the rules?",
+      "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45b8e939_b8d39a3b",
+        "filename": "test/codegen/math.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-18T15:22:49Z",
+      "side": 1,
+      "message": "I don\u0027t think these tests are really specific enough, as MOVV is also the opcode for a load?\n(Make sure these fail if you turn your rewrites off.)",
+      "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
