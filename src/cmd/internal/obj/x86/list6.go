@@ -31,6 +31,7 @@
 package x86
 
 import (
+	"bytes"
 	"cmd/internal/obj"
 	"fmt"
 )
@@ -241,10 +242,25 @@ var Register = []string{
 
 func init() {
 	obj.RegisterRegister(REG_AL, REG_AL+len(Register), rconv)
+	obj.RegisterAconvFunc("amd64", aconvReg, nil, nil)
 	obj.RegisterOpcode(obj.ABaseAMD64, Anames)
 	obj.RegisterRegisterList(obj.RegListX86Lo, obj.RegListX86Hi, rlconv)
 	obj.RegisterOpSuffix("386", opSuffixString)
 	obj.RegisterOpSuffix("amd64", opSuffixString)
+}
+
+func aconvReg(a *obj.Addr) string {
+	if a.Offset != 0 {
+		return fmt.Sprintf("$%d,%s", a.Offset, rconv(int(a.Reg)))
+	}
+	w := new(bytes.Buffer)
+	if a.Name != obj.NAME_NONE || a.Sym != nil {
+		a.WriteNameTo(w)
+		fmt.Fprintf(w, "(%v)(REG)", rconv(int(a.Reg)))
+	} else {
+		fmt.Fprintf(w, "%s", rconv(int(a.Reg)))
+	}
+	return w.String()
 }
 
 func rconv(r int) string {

@@ -2105,7 +2105,7 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			}
 			p.To.Type = obj.TYPE_BRANCH
 			p.To.Name = obj.NAME_EXTERN
-			p.To.Sym = ctxt.Lookup("runtime.retpoline" + obj.Rconv(int(p.To.Reg)))
+			p.To.Sym = ctxt.Lookup("runtime.retpoline" + rconv(int(p.To.Reg)))
 			p.To.Reg = 0
 			p.To.Offset = 0
 		}
