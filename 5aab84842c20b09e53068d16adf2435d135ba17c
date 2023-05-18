@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b4a8a8f_dc9a0551",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-18T14:53:48Z",
+      "side": 1,
+      "message": "Thanks.\n\nCould you please make the corresponding changes in src/cmd/compile/internal/types2?",
+      "revId": "5aab84842c20b09e53068d16adf2435d135ba17c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
