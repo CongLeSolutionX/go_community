@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4d4d98ef_bdbee8ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-18T16:41:39Z",
+      "side": 1,
+      "message": "This seems like it is adding more complexity to account for extra complexity in `http2`. I wonder if we can go in the other direction, and change `http2` to obey the invariant that all calls to `Close` on the request body complete before `RoundTrip` returns.\n\nI see a `waitDone` helper in the `RoundTrip` method:\nhttps://cs.opensource.google/go/x/net/+/refs/heads/master:http2/transport.go;l\u003d1161-1170;drc\u003dc63010009c802314a29324ce49987897f9838e29\n\nArguably the request isn\u0027t really “done” until the outstanding calls have returned, so maybe that function should wait for them too? Maybe something like:\n\n```\n\twaitDone :\u003d func() error {\n\t\tdefer func() {\n\t\t\tif cs.reqBodyClosed !\u003d nil {\n\t\t\t\t\u003c-cs.reqBodyClosed\n\t\t\t}\n\t\t}()\n\t\tselect {\n\t\tcase \u003c-cs.donec:\n\t\t\treturn nil\n\t\tcase \u003c-ctx.Done():\n\t\t\treturn ctx.Err()\n\t\tcase \u003c-cs.reqCancel:\n\t\t\treturn errRequestCanceled\n\t\t}\n\t}\n```\n\nBut then I worry about that `ctx.Done()` case — if `ctx` is canceled, are we guaranteed that `doRequest` has finished before `waitDone` is called?",
+      "revId": "983f6d03e4fa26cc67de7f6f5d95624d502dc8f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9cbf46f_5840fc20",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
