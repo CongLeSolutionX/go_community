@@ -916,7 +916,7 @@ func TestDialListenerAddr(t *testing.T) {
 	// The documentation for Dial says ‘if the host is empty or a literal
 	// unspecified IP address, as in ":80", "0.0.0.0:80" or "[::]:80" for TCP and
 	// UDP, "", "0.0.0.0" or "::" for IP, the local system is assumed.’
-	// In #18806, it was decided that that should include the local tcp4 host
+	// In #18806, it was decided that should include the local tcp4 host
 	// even if the string is in the tcp6 format.
 	dialAddr := "[::]:" + port
 	c, err := Dial("tcp4", dialAddr)
