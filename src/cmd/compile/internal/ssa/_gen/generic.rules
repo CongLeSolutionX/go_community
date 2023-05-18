@@ -2622,6 +2622,10 @@
 (SelectN [1] (StaticCall {sym} _ newLen:(Const(64|32)) _ _ _)) && v.Type.IsInteger() && isSameCall(sym, "runtime.growslicebyte") => newLen
 (SliceLen (SelectN [0] (StaticLECall {sym} _ newLen:(Const(64|32)) _ _ _))) && isSameCall(sym, "runtime.growslicestr") => newLen
 (SelectN [1] (StaticCall {sym} _ newLen:(Const(64|32)) _ _ _)) && v.Type.IsInteger() && isSameCall(sym, "runtime.growslicestr") => newLen
+(SliceLen (SelectN [0] (StaticLECall {sym} _ newLen:(Const(64|32)) _ _ _))) && isSameCall(sym, "runtime.growslice32") => newLen
+(SelectN [1] (StaticCall {sym} _ newLen:(Const(64|32)) _ _ _)) && v.Type.IsInteger() && isSameCall(sym, "runtime.growslice32") => newLen
+(SliceLen (SelectN [0] (StaticLECall {sym} _ newLen:(Const(64|32)) _ _ _))) && isSameCall(sym, "runtime.growslice64") => newLen
+(SelectN [1] (StaticCall {sym} _ newLen:(Const(64|32)) _ _ _)) && v.Type.IsInteger() && isSameCall(sym, "runtime.growslice64") => newLen
 
 // Collapse moving A -> B -> C into just A -> C.
 // Later passes (deadstore, elim unread auto) will remove the A -> B move, if possible.

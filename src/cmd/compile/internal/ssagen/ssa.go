@@ -116,6 +116,8 @@ func InitConfig() {
 	ir.Syms.Growslice = typecheck.LookupRuntimeFunc("growslice")
 	ir.Syms.GrowsliceByte = typecheck.LookupRuntimeFunc("growslicebyte")
 	ir.Syms.GrowsliceStr = typecheck.LookupRuntimeFunc("growslicestr")
+	ir.Syms.Growslice32 = typecheck.LookupRuntimeFunc("growslice32")
+	ir.Syms.Growslice64 = typecheck.LookupRuntimeFunc("growslice64")
 	ir.Syms.Memmove = typecheck.LookupRuntimeFunc("memmove")
 	ir.Syms.Msanread = typecheck.LookupRuntimeFunc("msanread")
 	ir.Syms.Msanwrite = typecheck.LookupRuntimeFunc("msanwrite")
@@ -3467,6 +3469,10 @@ func (s *state) append(n *ir.CallExpr, inplace bool) *ssa.Value {
 	switch {
 	case et.Size() == 1 && !et.HasPointers():
 		r = s.rtcall(ir.Syms.GrowsliceByte, true, []*types.Type{n.Type()}, p, l, c, nargs)
+	case et.Size() == 4 && !et.HasPointers():
+		r = s.rtcall(ir.Syms.Growslice32, true, []*types.Type{n.Type()}, p, l, c, nargs)
+	case et.Size() == 8 && !et.HasPointers():
+		r = s.rtcall(ir.Syms.Growslice64, true, []*types.Type{n.Type()}, p, l, c, nargs)
 	case et.Kind() == types.TSTRING:
 		r = s.rtcall(ir.Syms.GrowsliceStr, true, []*types.Type{n.Type()}, p, l, c, nargs)
 	default:

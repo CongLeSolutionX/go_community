@@ -30,6 +30,8 @@ var Syms struct {
 	Growslice         *obj.LSym
 	GrowsliceByte     *obj.LSym
 	GrowsliceStr      *obj.LSym
+	Growslice32       *obj.LSym
+	Growslice64       *obj.LSym
 	Memmove           *obj.LSym
 	Msanread          *obj.LSym
 	Msanwrite         *obj.LSym
