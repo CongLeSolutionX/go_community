@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9003b09_7f5aa4b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-05-18T23:07:05Z",
+      "side": 1,
+      "message": "The HTTP/2 RoundTripper can return before closing the request body under normal conditions, when the server responds with response headers before fully consuming the request.\n\nHowever, I realize now that we can guarantee that the body is closed synchronously when returning an error from RoundTrip, which is the case we care about here.\n\nhttps://go.dev/cl/496335",
+      "parentUuid": "4d4d98ef_bdbee8ec",
+      "revId": "983f6d03e4fa26cc67de7f6f5d95624d502dc8f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9cbf46f_5840fc20",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
