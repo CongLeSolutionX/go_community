@@ -134,6 +134,10 @@ func walkGrowslice(slice *ir.Name, init *ir.Nodes, oldPtr, newLen, oldCap, num i
 		fn := typecheck.LookupRuntime("growslicebyte")
 		fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)
 		return mkcall1(fn, slice.Type(), init, oldPtr, newLen, oldCap, num)
+	case elemtype.Kind() == types.TSTRING:
+		fn := typecheck.LookupRuntime("growslicestr")
+		fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)
+		return mkcall1(fn, slice.Type(), init, oldPtr, newLen, oldCap, num)
 	default:
 		fn := typecheck.LookupRuntime("growslice")
 		fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)

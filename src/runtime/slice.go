@@ -312,6 +312,64 @@ func growslicebyte(oldPtr unsafe.Pointer, newLen, oldCap, num int) slice {
 	return slice{p, newLen, newcap}
 }
 
+// growslicestr is a specialized function of growslice for []string.
+func growslicestr(oldPtr unsafe.Pointer, newLen, oldCap, num int) slice {
+	const et_size = unsafe.Sizeof("")
+	const et_ptrbytes = goarch.PtrSize
+
+	oldLen := newLen - num
+	if raceenabled {
+		callerpc := getcallerpc()
+		racereadrangepc(oldPtr, uintptr(oldLen*int(et_size)), callerpc, abi.FuncPCABIInternal(growslicestr))
+	}
+	if msanenabled {
+		msanread(oldPtr, uintptr(oldLen*int(et_size)))
+	}
+	if asanenabled {
+		asanread(oldPtr, uintptr(oldLen*int(et_size)))
+	}
+
+	if newLen < 0 {
+		panic(errorString("growslicestr: len out of range"))
+	}
+
+	newcap := nextslicecap(newLen, oldCap)
+
+	lenmem := uintptr(oldLen) * et_size
+	capmem := roundupsize(uintptr(newcap) * et_size)
+	overflow := uintptr(newcap) > (maxAlloc / et_size)
+	newcap = int(capmem / et_size)
+	capmem = uintptr(newcap) * et_size
+
+	// The check of overflow in addition to capmem > maxAlloc is needed
+	// to prevent an overflow which can be used to trigger a segfault
+	// on 32bit architectures with this example program:
+	//
+	// type T [1<<27 + 1]int64
+	//
+	// var d T
+	// var s []T
+	//
+	// func main() {
+	//   s = append(s, d, d, d, d)
+	//   print(len(s), "\n")
+	// }
+	if overflow || capmem > maxAlloc {
+		panic(errorString("growslicestr: len out of range"))
+	}
+
+	// Note: can't use rawmem (which avoids zeroing of memory), because then GC can scan uninitialized memory.
+	p := mallocgc(capmem, stringType, true)
+	if lenmem > 0 && writeBarrier.enabled {
+		// Only shade the pointers in oldPtr since we know the destination slice p
+		// only contains nil pointers because it has been cleared during alloc.
+		bulkBarrierPreWriteSrcOnly(uintptr(p), uintptr(oldPtr), lenmem-et_size+et_ptrbytes)
+	}
+	memmove(p, oldPtr, lenmem)
+
+	return slice{p, newLen, newcap}
+}
+
 // nextslicecap computes the next appropriate slice length.
 func nextslicecap(newLen, oldCap int) int {
 	newcap := oldCap
@@ -356,6 +414,8 @@ func reflect_growslice(et *_type, old slice, num int) slice {
 	switch {
 	case et.Size_ == 1: // && et.PtrBytes == 0, which is given when size=1
 		new = growslicebyte(old.array, old.cap+num, old.cap, num)
+	case et == stringType:
+		new = growslicestr(old.array, old.cap+num, old.cap, num)
 	default:
 		new = growslice(old.array, old.cap+num, old.cap, num, et)
 	}

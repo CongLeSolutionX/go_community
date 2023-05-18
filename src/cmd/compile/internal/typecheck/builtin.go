@@ -150,6 +150,7 @@ var runtimeDecls = [...]struct {
 	{"makeslicecopy", funcTag, 115},
 	{"growslice", funcTag, 117},
 	{"growslicebyte", funcTag, 118},
+	{"growslicestr", funcTag, 118},
 	{"unsafeslicecheckptr", funcTag, 119},
 	{"panicunsafeslicelen", funcTag, 9},
 	{"panicunsafeslicenilptr", funcTag, 9},

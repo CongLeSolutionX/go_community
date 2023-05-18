@@ -29,6 +29,7 @@ var Syms struct {
 	Goschedguarded    *obj.LSym
 	Growslice         *obj.LSym
 	GrowsliceByte     *obj.LSym
+	GrowsliceStr      *obj.LSym
 	Memmove           *obj.LSym
 	Msanread          *obj.LSym
 	Msanwrite         *obj.LSym
