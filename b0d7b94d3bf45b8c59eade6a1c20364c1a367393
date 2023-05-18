@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c04da97d_bc5ec656",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-18T14:11:37Z",
+      "side": 1,
+      "message": "Was supposed to be \"much\". Fixed.",
+      "parentUuid": "5858ef36_3758f45c",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "b0d7b94d3bf45b8c59eade6a1c20364c1a367393",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15d7a478_f63ed3a8",
