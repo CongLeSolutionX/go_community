@@ -16,6 +16,24 @@
       "message": "I don\u0027t think this is correct in general. POSIX `fnctl`¹ allows any value other than -1 on success for most `fcntl` calls.\n\nIf certain platforms are more restrictive, this should be build-constrained to only those platforms. (Or, if there is some other reason this is ok, a detailed doc comment or code comment would be helpful.)\n\n¹https://pubs.opengroup.org/onlinepubs/9699919799/functions/fcntl.html",
       "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d111851_2e34afc4",
+        "filename": "src/internal/syscall/unix/fcntl_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-19T01:01:47Z",
+      "side": 1,
+      "message": "It may not be true in general but it\u0027s the best we can do right now.  The runtime.fcntl function returns either a non-negative value on success or a negative errno value on failure.  I think the upshot is that runtime.fcntl, and this function, may only be called with fcntl codes that do not return negative values on success.  That\u0027s OK because these are internal functions.\n\nThe alternative is to rewrite all the runtime.fcntl implementations to return two values.  Maybe someday.",
+      "parentUuid": "6b1bb2bd_45ae3073",
+      "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
