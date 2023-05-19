@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d79d85f_c73e4d71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 33866
+      },
+      "writtenOn": "2023-05-19T09:32:27Z",
+      "side": 1,
+      "message": "Great feature, but I feel that it would be nicer for devs actually using it to have customMutator be public.",
+      "revId": "34031358fcfcfa46fe7697e42588978eee4323de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa52c1e0_c00e019a",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 33866
+      },
+      "writtenOn": "2023-05-19T09:32:27Z",
+      "side": 1,
+      "message": "As a userland dev, I find it strange to have that interface, which custom types used for Fuzz() may now implement be private and in an internal package. I would have expected it to be exposed so that devs implement such user types can actually validate their their types implement the interface.",
+      "revId": "34031358fcfcfa46fe7697e42588978eee4323de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68f9e5a6_6b0d8011",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 33866
+      },
+      "writtenOn": "2023-05-19T09:32:27Z",
+      "side": 1,
+      "message": "Same remark as where the interface is defined. It feels like this interface should be public, and that would also shorten this comment by just referring to it by name.",
+      "revId": "34031358fcfcfa46fe7697e42588978eee4323de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
