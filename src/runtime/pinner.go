@@ -27,17 +27,34 @@ type Pinner struct {
 // local variable. If one of these conditions is not met, Pin will panic.
 func (p *Pinner) Pin(pointer any) {
 	if p.pinner == nil {
-		p.pinner = new(pinner)
-		p.refs = p.refStore[:0]
-		SetFinalizer(p.pinner, func(i *pinner) {
-			if len(i.refs) != 0 {
-				i.unpin() // only required to make the test idempotent
-				pinnerLeakPanic()
-			}
-		})
+		// Check the pinner cache first.
+		mp := acquirem()
+		if pp := mp.p.ptr(); pp != nil {
+			p.pinner = pp.pinnerCache
+			pp.pinnerCache = nil
+		}
+		releasem(mp)
+
+		if p.pinner == nil {
+			// Didn't get anything from the pinner cache.
+			p.pinner = new(pinner)
+			p.refs = make([]unsafe.Pointer, 0, 8)
+
+			// We set this finalizer once and never clear it. Thus, if the
+			// pinner gets cached, we'll reuse it, along with its finalizer.
+			// This lets us avoid the relatively expensive SetFinalizer call
+			// when reusing from the cache. The finalizer however has to be
+			// resilient to an empty pinner being finalized, which is done
+			// by checking p.refs' length.
+			SetFinalizer(p.pinner, func(i *pinner) {
+				if len(i.refs) != 0 {
+					i.unpin() // only required to make the test idempotent
+					pinnerLeakPanic()
+				}
+			})
+		}
 	}
 	ptr := pinnerGetPtr(&pointer)
-
 	setPinned(ptr, true)
 	p.refs = append(p.refs, ptr)
 }
@@ -45,6 +62,16 @@ func (p *Pinner) Pin(pointer any) {
 // Unpin all pinned objects of the Pinner.
 func (p *Pinner) Unpin() {
 	p.pinner.unpin()
+
+	mp := acquirem()
+	if pp := mp.p.ptr(); pp != nil && pp.pinnerCache == nil {
+		// Put the pinner back in the cache, but only if the
+		// cache is empty. We want users that use Pinners in
+		// more complex ways to be able to reuse them.
+		pp.pinnerCache = p.pinner
+		p.pinner = nil
+	}
+	releasem(mp)
 }
 
 const (
