@@ -70,6 +70,24 @@
       "parentUuid": "6da6dfc3_cb12a2a1",
       "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd69c6fc_49bf287c",
+        "filename": "src/internal/syscall/unix/fcntl_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-19T03:05:02Z",
+      "side": 1,
+      "message": "This file is build-constrained to `unix`, not `linux`.\n\nPOSIX specifies only “Value other than -1” for most `fcntl` commands.",
+      "parentUuid": "eb03e430_aec46573",
+      "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
