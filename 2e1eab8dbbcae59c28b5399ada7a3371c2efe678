@@ -70,6 +70,23 @@
       "message": "Thanks.",
       "revId": "2e1eab8dbbcae59c28b5399ada7a3371c2efe678",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcbc0e4a_5e7fd631",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2023-05-19T08:46:53Z",
+      "side": 1,
+      "message": "I don\u0027t have submitter access, someone else has to submit. Should I ask for submitter access?",
+      "revId": "2e1eab8dbbcae59c28b5399ada7a3371c2efe678",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
