@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deeaffda_db35612c",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-05-19T23:02:23Z",
+      "side": 0,
+      "message": "This test almost had a new name. That name would\u0027ve been:\n\n```diff\n-t.addTest(\"moved_goroot\", \"moved GOROOT\", func(dt *distTest) error {\n+name :\u003d testName(\"fmt\", \"moved_goroot\")\n+t.addTest(name, \"moved GOROOT\", func(dt *distTest) error {\n```\n\n(Leaving this note for posterity.)",
+      "range": {
+        "startLine": 732,
+        "startChar": 12,
+        "endLine": 732,
+        "endChar": 26
+      },
+      "revId": "29d5272da8ca0ba8291ba8c83ed8bb5c802a1d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
