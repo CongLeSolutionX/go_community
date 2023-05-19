@@ -97,6 +97,30 @@
       },
       "revId": "2769d50dc4c927cfeaf2b79c5bf09027539fb2ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84ad3ca4_a51bd7d9",
+        "filename": "src/runtime/sys_freebsd_riscv64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-19T22:54:14Z",
+      "side": 1,
+      "message": "Thanks for catching that.  Done.",
+      "parentUuid": "2559278a_81f99f39",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 437,
+        "endChar": 23
+      },
+      "revId": "2769d50dc4c927cfeaf2b79c5bf09027539fb2ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
