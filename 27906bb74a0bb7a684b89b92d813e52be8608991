@@ -88,6 +88,24 @@
       "parentUuid": "eb03e430_aec46573",
       "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29832d87_26590ff5",
+        "filename": "src/internal/syscall/unix/fcntl_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-19T03:12:59Z",
+      "side": 1,
+      "message": "I promise that it\u0027s not a problem.\n\nBut, OK, I\u0027ll work on it.  You will have to review it.",
+      "parentUuid": "fd69c6fc_49bf287c",
+      "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
