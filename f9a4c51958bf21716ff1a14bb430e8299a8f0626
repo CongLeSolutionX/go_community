@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "652ed1c6_c6d6d559",
+        "filename": "src/cmd/compile/internal/ssa/_gen/MIPS64Ops.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-19T04:08:03Z",
+      "side": 1,
+      "message": "This instrcuion only moves data from FPR to GPR. And MIPS64 always do sign extension performed on a non-64-bit value, so I think we can\u0027t specify the extension here, but only to zero extension in the rules.",
+      "parentUuid": "2e8561fc_3a7959d7",
+      "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45b8e939_b8d39a3b",
@@ -156,6 +174,24 @@
       "writtenOn": "2023-05-18T15:22:49Z",
       "side": 1,
       "message": "I don\u0027t think these tests are really specific enough, as MOVV is also the opcode for a load?\n(Make sure these fail if you turn your rewrites off.)",
+      "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "651ef02d_c3e95070",
+        "filename": "test/codegen/math.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-19T04:08:03Z",
+      "side": 1,
+      "message": "I tried revert this rewrite on my local, and it did not cause test fail. Should i revert change on `math.go` and update pachset?",
+      "parentUuid": "45b8e939_b8d39a3b",
       "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
