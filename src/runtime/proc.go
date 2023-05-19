@@ -5085,6 +5085,7 @@ func (pp *p) destroy() {
 		pp.sudogbuf[i] = nil
 	}
 	pp.sudogcache = pp.sudogbuf[:0]
+	pp.pinnerCache = nil
 	for j := range pp.deferpoolbuf {
 		pp.deferpoolbuf[j] = nil
 	}

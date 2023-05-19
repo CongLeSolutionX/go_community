@@ -27,14 +27,25 @@ type Pinner struct {
 // local variable. If one of these conditions is not met, Pin will panic.
 func (p *Pinner) Pin(pointer any) {
 	if p.pinner == nil {
-		p.pinner = new(pinner)
-		p.refs = p.refStore[:0]
-		SetFinalizer(p.pinner, func(i *pinner) {
-			if len(i.refs) != 0 {
-				i.unpin() // only required to make the test idempotent
-				pinnerLeakPanic()
-			}
-		})
+		// Check the pinner cache first.
+		mp := acquirem()
+		if pp := mp.p.ptr(); pp != nil {
+			p.pinner = pp.pinnerCache
+			pp.pinnerCache = nil
+		}
+		releasem(mp)
+
+		if p.pinner == nil {
+			// Didn't get anything from the pinner cache.
+			p.pinner = new(pinner)
+			p.refs = p.refStore[:0]
+			SetFinalizer(p.pinner, func(i *pinner) {
+				if len(i.refs) != 0 {
+					i.unpin() // only required to make the test idempotent
+					pinnerLeakPanic()
+				}
+			})
+		}
 	}
 	ptr := pinnerGetPtr(&pointer)
 
@@ -45,6 +56,17 @@ func (p *Pinner) Pin(pointer any) {
 // Unpin all pinned objects of the Pinner.
 func (p *Pinner) Unpin() {
 	p.pinner.unpin()
+
+	mp := acquirem()
+	if pp := mp.p.ptr(); pp != nil {
+		// Put the pinner back in the cache. We overwrite
+		// any other cached pinner but that's OK; the GC will
+		// clean it up.
+		pp.pinnerCache = p.pinner
+	}
+	releasem(mp)
+
+	p.pinner = nil
 }
 
 const (
@@ -65,8 +87,7 @@ func (p *pinner) unpin() {
 		setPinned(p.refs[i], false)
 		p.refs[i] = nil
 	}
-	p.refStore = [pinnerRefStoreSize]unsafe.Pointer{}
-	p.refs = p.refStore[:0]
+	p.refs = p.refs[:0]
 }
 
 func pinnerGetPtr(i *any) unsafe.Pointer {
