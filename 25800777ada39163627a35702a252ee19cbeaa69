@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "218ff902_22438ba5",
+        "filename": "src/maps/maps.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-19T17:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2a058df_7344ab9e",
+      "range": {
+        "startLine": 40,
+        "startChar": 69,
+        "endLine": 40,
+        "endChar": 70
+      },
+      "revId": "25800777ada39163627a35702a252ee19cbeaa69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "124a5f87_e4dddee8",
@@ -103,6 +127,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abd59643_7f9bc067",
+        "filename": "src/maps/maps.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-19T17:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "124a5f87_e4dddee8",
+      "range": {
+        "startLine": 41,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "25800777ada39163627a35702a252ee19cbeaa69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e9b7802_1d1898e2",
@@ -116,6 +164,24 @@
       "writtenOn": "2023-05-19T17:03:42Z",
       "side": 1,
       "message": "That valuesForBenchmarking bug mentioned in the previous comment got me thinking that this test is a bit underpowered because it doesn\u0027t distinguish keys and values.  If values called runtime.keys this test wouldn\u0027t notice. Perhaps do m[i] \u003d i*i here (and similar in TestKeys)?",
+      "revId": "25800777ada39163627a35702a252ee19cbeaa69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e3d4f89_bbb6e214",
+        "filename": "src/maps/maps_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-05-19T17:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e9b7802_1d1898e2",
       "revId": "25800777ada39163627a35702a252ee19cbeaa69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
