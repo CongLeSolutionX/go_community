@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a2cc24a_de5a562d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-19T18:29:29Z",
+      "side": 1,
+      "message": "For transparency, #58671 is \"likely accept\" at this point. To avoid a stampede on Wednesday, which is both the next proposal review and when the 1.21 freeze starts, we\u0027re allowing in CLs for \"likely accept\" proposals with the plan to roll them back if they don\u0027t move to \"accept\".",
+      "revId": "4088e97fc2234c85ee436e1a8e6a74468f9c63fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
