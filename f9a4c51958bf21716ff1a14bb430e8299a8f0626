@@ -179,6 +179,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f03c7a2_f29bd129",
+        "filename": "src/cmd/compile/internal/ssa/_gen/MIPS64Ops.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-19T17:50:21Z",
+      "side": 1,
+      "message": "Get it. Add explanation in comment. Thank you for your suggestion.",
+      "parentUuid": "ceb2bd63_2882a373",
+      "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45b8e939_b8d39a3b",
@@ -228,6 +246,24 @@
       "side": 1,
       "message": "No, I think you just need to make the test regexp more specific. It should have a move from a float register to an int register.\nLike the arm64 example, maybe?\n\nMOVV\\tF.*, R.*",
       "parentUuid": "651ef02d_c3e95070",
+      "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bf952da_7eb60a50",
+        "filename": "test/codegen/math.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-19T17:50:21Z",
+      "side": 1,
+      "message": "UPdated. Thank you for your suggestion.",
+      "parentUuid": "9d74c2a0_b3ff4f91",
       "revId": "f9a4c51958bf21716ff1a14bb430e8299a8f0626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
