@@ -34,6 +34,24 @@
       "parentUuid": "6b1bb2bd_45ae3073",
       "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6da6dfc3_cb12a2a1",
+        "filename": "src/internal/syscall/unix/fcntl_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-19T02:32:42Z",
+      "side": 1,
+      "message": "\u003e runtime.fcntl, and this function, may only be called with fcntl codes that do not return negative values on success. That\u0027s OK because these are internal functions.\n\nThey are internal, yes, but that difference between POSIX `fcntl` and this `unix.Fcntl` needs to be clearly documented — both to avoid someone adding a future use of this `Fcntl` for cases that may return negative values, and to avoid having someone later come along and copy this `go:linkname` pattern for something that _isn\u0027t_ internal (such as `x/sys/unix.fcntl`).\n\nAt the moment, this `Fcntl` isn\u0027t documented at all, let alone documented as different in any meaningful way from POSIX `fcntl`.",
+      "parentUuid": "2d111851_2e34afc4",
+      "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
