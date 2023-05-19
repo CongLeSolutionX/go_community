@@ -192,6 +192,13 @@ func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type, 
 // If the provided cause is non-nil, it may be set to an error string
 // explaining why V does not implement (or satisfy, for constraints) T.
 func (check *Checker) implements(pos token.Pos, V, T Type, constraint bool, cause *string) bool {
+	return check.implementsImpl(pos, V, T, constraint, Identical, cause)
+}
+
+// implementsImpl is the implementation of implements. It takes an equivalent
+// function as an additional argument, which is used to control how types are
+// compared. For now equivalent is only used to compare method signatures.
+func (check *Checker) implementsImpl(pos token.Pos, V, T Type, constraint bool, equivalent func(x, y Type) bool, cause *string) bool {
 	Vu := under(V)
 	Tu := under(T)
 	if Vu == Typ[Invalid] || Tu == Typ[Invalid] {
@@ -243,7 +250,7 @@ func (check *Checker) implements(pos token.Pos, V, T Type, constraint bool, caus
 	}
 
 	// V must implement T's methods, if any.
-	if m, _ := check.missingMethod(V, T, true, Identical, cause); m != nil /* !Implements(V, T) */ {
+	if m, _ := check.missingMethod(V, T, true, equivalent, cause); m != nil /* !Implements(V, T) */ {
 		if cause != nil {
 			*cause = check.sprintf("%s does not %s %s %s", V, verb, T, *cause)
 		}

@@ -69,6 +69,7 @@ const (
 // corresponding types inferred for each type parameter.
 // A unifier is created by calling newUnifier.
 type unifier struct {
+	check *Checker
 	// handles maps each type parameter to its inferred type through
 	// an indirection *Type called (inferred type) "handle".
 	// Initially, each type parameter has its own, separate handle,
@@ -86,7 +87,7 @@ type unifier struct {
 // and corresponding type argument lists. The type argument list may be shorter
 // than the type parameter list, and it may contain nil types. Matching type
 // parameters and arguments must have the same index.
-func newUnifier(tparams []*TypeParam, targs []Type) *unifier {
+func (check *Checker) newUnifier(tparams []*TypeParam, targs []Type) *unifier {
 	assert(len(tparams) >= len(targs))
 	handles := make(map[*TypeParam]*Type, len(tparams))
 	// Allocate all handles up-front: in a correct program, all type parameters
@@ -100,7 +101,7 @@ func newUnifier(tparams []*TypeParam, targs []Type) *unifier {
 		}
 		handles[x] = &t
 	}
-	return &unifier{handles, 0}
+	return &unifier{check, handles, 0}
 }
 
 // unify attempts to unify x and y and reports whether it succeeded.
@@ -356,6 +357,31 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 			u.tracef("%s ≡ %s (swap)", y, x)
 		}
 		x, y = y, x
+	}
+
+	if u.check.conf._EnableInterfaceInference {
+		ix := isNonTypeParamInterface(x)
+		iy := isNonTypeParamInterface(y)
+		switch {
+		case ix && iy:
+			saved := make(map[*TypeParam]*Type, len(u.handles))
+			for tpar, h := range u.handles {
+				saved[tpar] = h
+			}
+
+			if u.check.implementsImpl(nopos, x, y, false, u.unify, nil) {
+				return true
+			}
+
+			u.handles = saved
+			fallthrough
+
+		case iy:
+			return u.check.implementsImpl(nopos, x, y, false, u.unify, nil)
+
+		case ix:
+			return u.check.implementsImpl(nopos, y, x, false, u.unify, nil)
+		}
 	}
 
 	switch x := x.(type) {
