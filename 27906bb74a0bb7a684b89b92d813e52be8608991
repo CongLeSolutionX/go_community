@@ -52,6 +52,24 @@
       "parentUuid": "2d111851_2e34afc4",
       "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb03e430_aec46573",
+        "filename": "src/internal/syscall/unix/fcntl_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-19T03:01:01Z",
+      "side": 1,
+      "message": "According to \"man fcntl\" on Linux, the only way you can get a negative value on a successful call is if one of the flags returned by F_GETFD or F_GETFL has a negative value.  Or, if somebody uses F_ADD_SEALS to add a negative seal, it can be returned by F_GET_SEALS.  But the flags and valid seals are all defined by the kernel, and none of them are negative.  At least not on Linux.",
+      "parentUuid": "6da6dfc3_cb12a2a1",
+      "revId": "27906bb74a0bb7a684b89b92d813e52be8608991",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
