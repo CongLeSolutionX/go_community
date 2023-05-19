@@ -76,6 +76,30 @@
       },
       "revId": "6e0569f1c9eff6b20c8d90af00f4e37361a30b50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea802e50_134cfe40",
+        "filename": "src/cmd/cgo/internal/testso/overlaydir_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-19T01:35:50Z",
+      "side": 1,
+      "message": "This is one of the many cleanups I\u0027d like to do.",
+      "parentUuid": "46c6b81b_c3d2c8a4",
+      "range": {
+        "startLine": 16,
+        "startChar": 47,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "6e0569f1c9eff6b20c8d90af00f4e37361a30b50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
