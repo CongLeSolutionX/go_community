@@ -87,6 +87,24 @@
       "message": "I don\u0027t have submitter access, someone else has to submit. Should I ask for submitter access?",
       "revId": "2e1eab8dbbcae59c28b5399ada7a3371c2efe678",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ab88d31_8fdf765c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-05-19T12:07:28Z",
+      "side": 1,
+      "message": "Happy to nominate you for +2 (release team will need to approve) if you would like. Seems like it would make sense, you send CLs fairly regularly.",
+      "parentUuid": "bcbc0e4a_5e7fd631",
+      "revId": "2e1eab8dbbcae59c28b5399ada7a3371c2efe678",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
