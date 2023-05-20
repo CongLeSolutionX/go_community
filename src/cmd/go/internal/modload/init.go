@@ -22,6 +22,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
+	"cmd/go/internal/gover"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modconv"
 	"cmd/go/internal/modfetch"
@@ -730,7 +731,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 		// any module.
 		mainModule := module.Version{Path: "command-line-arguments"}
 		MainModules = makeMainModules([]module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil}, "", nil)
-		goVersion := LatestGoVersion()
+		goVersion := gover.Local()
 		rawGoVersion.Store(mainModule, goVersion)
 		pruning := pruningForGoVersion(goVersion)
 		if inWorkspaceMode() {
@@ -806,11 +807,11 @@ func LoadModFile(ctx context.Context) *Requirements {
 		}
 	}
 
-	if MainModules.Index(mainModule).goVersionV == "" && rs.pruning != workspace {
+	if MainModules.Index(mainModule).goVersion == "" && rs.pruning != workspace {
 		// TODO(#45551): Do something more principled instead of checking
 		// cfg.CmdName directly here.
 		if cfg.BuildMod == "mod" && cfg.CmdName != "mod graph" && cfg.CmdName != "mod why" {
-			addGoStmt(MainModules.ModFile(mainModule), mainModule, LatestGoVersion())
+			addGoStmt(MainModules.ModFile(mainModule), mainModule, gover.Local())
 
 			// We need to add a 'go' version to the go.mod file, but we must assume
 			// that its existing contents match something between Go 1.11 and 1.16.
@@ -878,7 +879,7 @@ func CreateModFile(ctx context.Context, modPath string) {
 	modFile := new(modfile.File)
 	modFile.AddModuleStmt(modPath)
 	MainModules = makeMainModules([]module.Version{modFile.Module.Mod}, []string{modRoot}, []*modfile.File{modFile}, []*modFileIndex{nil}, "", nil)
-	addGoStmt(modFile, modFile.Module.Mod, LatestGoVersion()) // Add the go directive before converted module requirements.
+	addGoStmt(modFile, modFile.Module.Mod, gover.Local()) // Add the go directive before converted module requirements.
 
 	convertedFrom, err := convertLegacyConfig(modFile, modRoot)
 	if convertedFrom != "" {
@@ -928,7 +929,7 @@ func CreateWorkFile(ctx context.Context, workFile string, modDirs []string) {
 		base.Fatalf("go: %s already exists", workFile)
 	}
 
-	goV := LatestGoVersion() // Use current Go version by default
+	goV := gover.Local() // Use current Go version by default
 	workF := new(modfile.WorkFile)
 	workF.Syntax = new(modfile.FileSyntax)
 	workF.AddGoStmt(goV)
@@ -1194,15 +1195,15 @@ func setDefaultBuildMod() {
 		index := MainModules.GetSingleIndexOrNil()
 		if fi, err := fsys.Stat(filepath.Join(modRoots[0], "vendor")); err == nil && fi.IsDir() {
 			modGo := "unspecified"
-			if index != nil && index.goVersionV != "" {
-				if semver.Compare(index.goVersionV, "v1.14") >= 0 {
+			if index != nil && index.goVersion != "" {
+				if gover.Compare(index.goVersion, "1.14") >= 0 {
 					// The Go version is at least 1.14, and a vendor directory exists.
 					// Set -mod=vendor by default.
 					cfg.BuildMod = "vendor"
 					cfg.BuildModReason = "Go version in go.mod is at least 1.14 and vendor directory exists."
 					return
 				} else {
-					modGo = index.goVersionV[1:]
+					modGo = index.goVersion
 				}
 			}
 
@@ -1525,7 +1526,7 @@ func commitRequirements(ctx context.Context) (err error) {
 	if modFile.Go == nil || modFile.Go.Version == "" {
 		modFile.AddGoStmt(modFileGoVersion(modFile))
 	}
-	if semver.Compare("v"+modFileGoVersion(modFile), separateIndirectVersionV) < 0 {
+	if gover.Compare(modFileGoVersion(modFile), separateIndirectVersion) < 0 {
 		modFile.SetRequire(list)
 	} else {
 		modFile.SetRequireSeparateIndirect(list)
@@ -1641,7 +1642,7 @@ func keepSums(ctx context.Context, ld *loader, rs *Requirements, which whichSums
 			// However, we didn't do so before Go 1.21, and the bug is relatively
 			// minor, so we maintain the previous (buggy) behavior in 'go mod tidy' to
 			// avoid introducing unnecessary churn.
-			if !ld.Tidy || semver.Compare("v"+ld.GoVersion, tidyGoModSumVersionV) >= 0 {
+			if !ld.Tidy || gover.Compare(ld.GoVersion, tidyGoModSumVersion) >= 0 {
 				r := resolveReplacement(pkg.mod)
 				keep[modkey(r)] = true
 			}
