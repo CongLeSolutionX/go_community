@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/gover"
 	"cmd/go/internal/modcmd"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/work"
@@ -86,7 +87,7 @@ func switchGoToolchain() {
 			// toolchain line wins by itself
 			gotoolchain = toolchain
 		} else if goVers != "" {
-			gotoolchain = toolchainMax(min, "go"+goVers)
+			gotoolchain = gover.Max(min, "go"+goVers)
 		} else {
 			gotoolchain = min
 		}
@@ -262,4 +263,25 @@ func modGoToolchain() (goVers, toolchain string) {
 		}
 	}
 	return
+}
+
+var (
+	nl           = []byte("\n")
+	comment      = []byte("//")
+	goKey        = []byte("go")
+	toolchainKey = []byte("toolchain")
+)
+
+// parseKey checks whether line begings with key ("go" or "toolchain").
+// If so, it returns the remainder of the line (the argument).
+func parseKey(line, key []byte) string {
+	if !bytes.HasPrefix(line, key) {
+		return ""
+	}
+	line = bytes.TrimPrefix(line, key)
+	if len(line) == 0 || (line[0] != ' ' && line[0] != '\t') {
+		return ""
+	}
+	line, _, _ = bytes.Cut(line, comment) // strip comments
+	return string(bytes.TrimSpace(line))
 }

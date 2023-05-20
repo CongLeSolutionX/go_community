@@ -17,6 +17,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
+	"cmd/go/internal/gover"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/par"
@@ -28,30 +29,30 @@ import (
 )
 
 const (
-	// narrowAllVersionV is the Go version (plus leading "v") at which the
+	// narrowAllVersionV is the Go version at which the
 	// module-module "all" pattern no longer closes over the dependencies of
 	// tests outside of the main module.
-	narrowAllVersionV = "v1.16"
+	narrowAllVersion = "go1.16"
 
-	// ExplicitIndirectVersionV is the Go version (plus leading "v") at which a
+	// ExplicitIndirectVersionV is the Go version at which a
 	// module's go.mod file is expected to list explicit requirements on every
 	// module that provides any package transitively imported by that module.
 	//
 	// Other indirect dependencies of such a module can be safely pruned out of
 	// the module graph; see https://golang.org/ref/mod#graph-pruning.
-	ExplicitIndirectVersionV = "v1.17"
+	ExplicitIndirectVersion = "go1.17"
 
-	// separateIndirectVersionV is the Go version (plus leading "v") at which
+	// separateIndirectVersionV is the Go version at which
 	// "// indirect" dependencies are added in a block separate from the direct
 	// ones. See https://golang.org/issue/45965.
-	separateIndirectVersionV = "v1.17"
+	separateIndirectVersion = "go1.17"
 
-	// tidyGoModSumVersionV is the Go version (plus leading "v") at which
+	// tidyGoModSumVersion is the Go version at which
 	// 'go mod tidy' preserves go.mod checksums needed to build test dependencies
 	// of packages in "all", so that 'go test all' can be run without checksum
 	// errors.
 	// See https://go.dev/issue/56222.
-	tidyGoModSumVersionV = "v1.21"
+	tidyGoModSumVersion = "go1.21"
 )
 
 // ReadModFile reads and parses the mod file at gomod. ReadModFile properly applies the
@@ -144,7 +145,7 @@ func (p modPruning) String() string {
 }
 
 func pruningForGoVersion(goVersion string) modPruning {
-	if semver.Compare("v"+goVersion, ExplicitIndirectVersionV) < 0 {
+	if gover.Compare(goVersion, ExplicitIndirectVersion) < 0 {
 		// The go.mod file does not duplicate relevant information about transitive
 		// dependencies, so they cannot be pruned out.
 		return unpruned

@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package gover
 
 import "testing"
 
-var toolchainCmpTests = []struct {
+var compareTests = []struct {
 	x   string
 	y   string
 	out int
@@ -15,6 +15,7 @@ var toolchainCmpTests = []struct {
 	{"x", "x", 0},
 	{"", "x", -1},
 	{"go1.5", "go1.6", -1},
+	{"1.5", "1.6", -1}, // "go" is optional
 	{"go1.5", "go1.10", -1},
 	{"go1.6", "go1.6.1", -1},
 	{"go1.999", "devel go1.4", -1},
@@ -35,15 +36,15 @@ var toolchainCmpTests = []struct {
 	{"go1.19.0-beta.2", "go1.19.0-rc.1", -1},
 }
 
-func TestToolchainCmp(t *testing.T) {
-	for _, tt := range toolchainCmpTests {
-		out := toolchainCmp(tt.x, tt.y)
+func TestCompare(t *testing.T) {
+	for _, tt := range compareTests {
+		out := Compare(tt.x, tt.y)
 		if out != tt.out {
-			t.Errorf("toolchainCmp(%q, %q) = %d, want %d", tt.x, tt.y, out, tt.out)
+			t.Errorf("Compare(%q, %q) = %d, want %d", tt.x, tt.y, out, tt.out)
 		}
-		out = toolchainCmp(tt.y, tt.x)
+		out = Compare(tt.y, tt.x)
 		if out != -tt.out {
-			t.Errorf("toolchainCmp(%q, %q) = %d, want %d", tt.y, tt.x, out, -tt.out)
+			t.Errorf("Compare(%q, %q) = %d, want %d", tt.y, tt.x, out, -tt.out)
 		}
 	}
 }

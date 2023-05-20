@@ -2,46 +2,28 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package gover
 
 import (
-	"bytes"
 	"strings"
 )
 
-var (
-	nl           = []byte("\n")
-	comment      = []byte("//")
-	goKey        = []byte("go")
-	toolchainKey = []byte("toolchain")
-)
-
-// parseKey checks whether line begings with key ("go" or "toolchain").
-// If so, it returns the remainder of the line (the argument).
-func parseKey(line, key []byte) string {
-	if !bytes.HasPrefix(line, key) {
-		return ""
-	}
-	line = bytes.TrimPrefix(line, key)
-	if len(line) == 0 || (line[0] != ' ' && line[0] != '\t') {
-		return ""
-	}
-	line, _, _ = bytes.Cut(line, comment) // strip comments
-	return string(bytes.TrimSpace(line))
-}
-
-// toolchainMax returns the max of x and y as toolchain names
+// Max returns the max of x and y as toolchain names
 // like go1.19.4, comparing the versions.
-func toolchainMax(x, y string) string {
-	if toolchainCmp(x, y) >= 0 {
+func Max(x, y string) string {
+	if Compare(x, y) >= 0 {
 		return x
 	}
 	return y
 }
 
-// toolchainCmp returns -1, 0, or +1 depending on whether
+// Compare returns -1, 0, or +1 depending on whether
 // x < y, x == y, or x > y, interpreted as toolchain versions.
-func toolchainCmp(x, y string) int {
+// The versions x and y may begin with a "go" prefix, as in "go1.21",
+// or not, as in "1.21".
+// All versions not beginning with "go1" or "1" (for example, "devel ...")
+// compare equal and greater than versions that do have those prefixes.
+func Compare(x, y string) int {
 	if x == y {
 		return 0
 	}
@@ -51,17 +33,17 @@ func toolchainCmp(x, y string) int {
 	if x == "" {
 		return -1
 	}
-	if !strings.HasPrefix(x, "go1") && !strings.HasPrefix(y, "go1") {
-		return 0
-	}
-	if !strings.HasPrefix(x, "go1") {
-		return +1
-	}
-	if !strings.HasPrefix(y, "go1") {
-		return -1
-	}
 	x = strings.TrimPrefix(x, "go")
 	y = strings.TrimPrefix(y, "go")
+	if !strings.HasPrefix(x, "1") && !strings.HasPrefix(y, "1") {
+		return 0
+	}
+	if !strings.HasPrefix(x, "1") {
+		return +1
+	}
+	if !strings.HasPrefix(y, "1") {
+		return -1
+	}
 	for x != "" || y != "" {
 		if x == y {
 			return 0

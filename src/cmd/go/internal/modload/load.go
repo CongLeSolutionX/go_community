@@ -113,6 +113,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
+	"cmd/go/internal/gover"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modindex"
@@ -1008,12 +1009,12 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			ld.TidyCompatibleVersion = ld.GoVersion
 		}
 
-		if semver.Compare("v"+ld.GoVersion, tidyGoModSumVersionV) < 0 {
+		if gover.Compare(ld.GoVersion, tidyGoModSumVersion) < 0 {
 			ld.skipImportModFiles = true
 		}
 	}
 
-	if semver.Compare("v"+ld.GoVersion, narrowAllVersionV) < 0 && !ld.UseVendorAll {
+	if gover.Compare(ld.GoVersion, narrowAllVersion) < 0 && !ld.UseVendorAll {
 		// The module's go version explicitly predates the change in "all" for graph
 		// pruning, so continue to use the older interpretation.
 		ld.allClosesOverTests = true
