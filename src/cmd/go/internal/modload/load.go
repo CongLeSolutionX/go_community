@@ -1160,7 +1160,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 	// Tidy the build list, if applicable, before we report errors.
 	// (The process of tidying may remove errors from irrelevant dependencies.)
 	if ld.Tidy {
-		rs, err := tidyRoots(ctx, ld.requirements, ld.pkgs)
+		rs, err := tidyRoots(ctx, ld.requirements, ld.pkgs, ld.GoVersion)
 		if err != nil {
 			ld.errorf("go: %v\n", err)
 			base.ExitIfErrors()
@@ -1363,7 +1363,7 @@ func (ld *loader) updateRequirements(ctx context.Context) (changed bool, err err
 		// roots can only increase and the set of roots can only expand. The set
 		// of extant root paths is finite and the set of versions of each path is
 		// finite, so the iteration *must* reach a stable fixed-point.
-		tidy, err := tidyRoots(ctx, rs, ld.pkgs)
+		tidy, err := tidyRoots(ctx, rs, ld.pkgs, ld.GoVersion)
 		if err != nil {
 			return false, err
 		}
