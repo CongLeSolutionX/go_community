@@ -8,11 +8,6 @@ package main
 
 import (
 	"bytes"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/modcmd"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/work"
 	"context"
 	"fmt"
 	"internal/godebug"
@@ -24,6 +19,12 @@ import (
 	"runtime"
 	"strings"
 	"syscall"
+
+	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/gover"
+	"cmd/go/internal/modcmd"
+	"cmd/go/internal/modload"
 )
 
 const (
@@ -75,7 +76,7 @@ func switchGoToolchain() {
 			base.Fatalf("invalid GOTOOLCHAIN %q: invalid minimum version %q", gotoolchain, min)
 		}
 	} else {
-		min = work.RuntimeVersion
+		min = "go" + gover.Local()
 	}
 
 	pathOnly := gotoolchain == "path"
@@ -85,14 +86,16 @@ func switchGoToolchain() {
 		if toolchain != "" {
 			// toolchain line wins by itself
 			gotoolchain = toolchain
-		} else if goVers != "" {
-			gotoolchain = toolchainMax(min, "go"+goVers)
 		} else {
-			gotoolchain = min
+			v := strings.TrimPrefix(min, "go")
+			if gover.Compare(v, goVers) < 0 {
+				v = goVers
+			}
+			gotoolchain = "go" + v
 		}
 	}
 
-	if gotoolchain == "local" || gotoolchain == work.RuntimeVersion {
+	if gotoolchain == "local" || gotoolchain == "go"+gover.Local() {
 		// Let the current binary handle the command.
 		return
 	}
@@ -262,4 +265,25 @@ func modGoToolchain() (goVers, toolchain string) {
 		}
 	}
 	return
+}
+
+var (
+	nl           = []byte("\n")
+	comment      = []byte("//")
+	goKey        = []byte("go")
+	toolchainKey = []byte("toolchain")
+)
+
+// parseKey checks whether line begings with key ("go" or "toolchain").
+// If so, it returns the remainder of the line (the argument).
+func parseKey(line, key []byte) string {
+	if !bytes.HasPrefix(line, key) {
+		return ""
+	}
+	line = bytes.TrimPrefix(line, key)
+	if len(line) == 0 || (line[0] != ' ' && line[0] != '\t') {
+		return ""
+	}
+	line, _, _ = bytes.Cut(line, comment) // strip comments
+	return string(bytes.TrimSpace(line))
 }
