@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dd0216a_72f0701d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Thanks for the thorough review!",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af513b57_6f04d387",
@@ -85,6 +102,30 @@
       "writtenOn": "2023-05-17T18:57:59Z",
       "side": 1,
       "message": "Document what these strings contain? E.g., I\u0027m not sure if Pos is \"file:line\" or something else. I\u0027m guessing Pkg is a package path, and Caller is a linkname?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95349bb0_a49e4d62",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "More documentation added.\n\nNote that this type is only used for the debug json output used by CL 494717. I\u0027ve commented more about that below.",
+      "parentUuid": "af513b57_6f04d387",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -118,6 +159,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "734c1fa7_7970266b",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Added comments. It could be an enum, but it doesn\u0027t seem too important for a debugging message.",
+      "parentUuid": "c0e046f4_e1c5ba29",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 44
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "529213cb_fa093ce8",
@@ -131,6 +196,24 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "Is there any tooling that depends on the JSON output?",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "762d2837_f7cdc6e5",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "I have a tool that analyzes this output to summarize the impact of the optimizations in CL 494717.\n\nI haven\u0027t been planning to check it in anywhere, but having this data available seemed sufficiently useful that I left the logging in this CL. It could easily move to an unsubmitted follow-up CL for cherry-picking. If does stay in it might make sense to eventually integrate it with the existing logopt json output.",
+      "parentUuid": "529213cb_fa093ce8",
       "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -152,6 +235,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f67a17_981023e2",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Good catch, thanks.",
+      "parentUuid": "6c82bb45_33d70e3d",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e33558a4_45858982",
@@ -165,6 +266,30 @@
       "writtenOn": "2023-05-17T18:57:59Z",
       "side": 1,
       "message": "nit: unless print order matters, I\u0027d recommend base.WarnfAt.",
+      "range": {
+        "startLine": 129,
+        "startChar": 3,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c778003b_7fc2d08f",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Print order does matter. This message is basically just a header to provide context for the several messages that findHotConcreteCallee will print to explain why it chose what it did.\n\nIt looks like:\n\n```\nsort/zsortinterface.go:12:33: PGO devirtualize considering call data.Less(j, j - 1)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.partsByVarOffset.Less (weight 28) (missing IR): hottest so far\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.sortvalues.Less (weight 380) (missing IR): hottest so far\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/dwarfgen.varsAndDecls.Less (weight 20): too cold (hottest 380)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/types2.inSourceOrder.Less (weight 11): too cold (hottest 380)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.partitionByArgClass.Less (weight 513) (missing IR): hottest so far\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/dwarfgen.varsByScope.Less (weight 10): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e runtime.asyncPreempt (weight 29): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/types.MethodsByName.Less (weight 2): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/types.byPath.Less (weight 2): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/reflectdata.typesByString.Less (weight 17): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/internal/obj.BySymName.Less (weight 43): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssagen.byStackVar.Less (weight 22): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/internal/dwarf.byChildIndex.Less (weight 13): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/internal/obj.relocByOff.Less (weight 185): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.bySourcePos.Less (weight 3): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.partitionByDom.Less (weight 36): too cold (hottest 513)\nsort/zsortinterface.go:12:33 call sort.insertionSort:2: hottest callee cmd/compile/internal/ssa.partitionByArgClass.Less (weight 513)\n```",
+      "parentUuid": "e33558a4_45858982",
       "range": {
         "startLine": 129,
         "startChar": 3,
@@ -198,6 +323,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07e2c521_e95edc14",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bfca679_59ac2a99",
+      "range": {
+        "startLine": 149,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 27
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "468e7bd6_827a7502",
@@ -211,6 +360,30 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "why pass both n and call? aren\u0027t they the same?",
+      "range": {
+        "startLine": 159,
+        "startChar": 25,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a33521a6_5bf93c8f",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "468e7bd6_827a7502",
       "range": {
         "startLine": 159,
         "startChar": 25,
@@ -244,6 +417,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76d8f2d3_76900201",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95044ca6_676a28fe",
+      "range": {
+        "startLine": 216,
+        "startChar": 10,
+        "endLine": 216,
+        "endChar": 33
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8f9ffd1_ad202164",
@@ -257,6 +454,30 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "I think the receiver needs to be spilled to a temporary variable too, or else if it contains side effects they\u0027ll be repeated when the type assertion fails. (Assuming compilation doesn\u0027t just break, due to the IR AST becoming a DAG.)",
+      "range": {
+        "startLine": 276,
+        "startChar": 13,
+        "endLine": 276,
+        "endChar": 16
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b40e66a3_eb585736",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8f9ffd1_ad202164",
       "range": {
         "startLine": 276,
         "startChar": 13,
@@ -290,6 +511,53 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b65cb3_e70aa512",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done.\n\n\u003e Also, I\u0027d prefer you use typecheck.Expr/typecheck.Stmt as appropriate instead of SetTypecheck(1)\n\nMore than happy too! I actually had more of these before but removed them because most other places in the compiler seemed to be avoiding them. They definitely instill more confidence.",
+      "parentUuid": "3f8a86d6_2dcfc14c",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 24
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad317991_e1390510",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "typecheck.Stmt doesn\u0027t handle OAS2DOTTYPE. Am I understanding correctly that I should just use OAS2 and typecheck automatically adjusts this based on the rhs?\n\n(Same below with OAS2FUNC).",
+      "range": {
+        "startLine": 318,
+        "startChar": 43,
+        "endLine": 318,
+        "endChar": 57
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d3b4b98_a2452a81",
@@ -303,6 +571,30 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "nit: It\u0027s a little sketchy reusing the same []ir.Node for both calls, because any rewrites that happen to one call will affect both. I\u0027d suggest creating a new slice with the same contents.",
+      "range": {
+        "startLine": 324,
+        "startChar": 53,
+        "endLine": 324,
+        "endChar": 60
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32ef0dc0_c2db03e1",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done. I assume this concern applies to `retvars` as well?",
+      "parentUuid": "4d3b4b98_a2452a81",
       "range": {
         "startLine": 324,
         "startChar": 53,
@@ -360,6 +652,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d806e60c_9c307d77",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dccf958_17e9cf60",
+      "range": {
+        "startLine": 326,
+        "startChar": 5,
+        "endLine": 326,
+        "endChar": 23
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b24fde19_33b273c8",
@@ -373,6 +689,30 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "It\u0027s fine to create an OAS2 for the 1-value cases, so you just need to special case for no results.",
+      "range": {
+        "startLine": 331,
+        "startChar": 1,
+        "endLine": 331,
+        "endChar": 8
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c4d1727_d4a10a77",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b24fde19_33b273c8",
       "range": {
         "startLine": 331,
         "startChar": 1,
@@ -406,6 +746,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29d56f36_f0ce3c37",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b8715e4_95c14298",
+      "range": {
+        "startLine": 351,
+        "startChar": 13,
+        "endLine": 351,
+        "endChar": 27
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "577de900_813de8a7",
@@ -423,6 +787,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a85e1b78_cb0fe863",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Comment moved.\n\nI don\u0027t think this is fundamentally problematic for the inliner, it doesn\u0027t have much special handling of OINCALL. (It does revisit inlined calls for further inlining, but that shouldn\u0027t be relevant here.)\n\nYour comment about AST size is interesting. It is certainly true that this will make the caller less likely to be inlined. OTOH, these callers are likely hot, which means PGO will raise their budget considerably, which I suspect mostly mitigates this. It does warrant further investigation though, so I\u0027ve left a comment.",
+      "parentUuid": "577de900_813de8a7",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd20eb9d_d95a5da9",
@@ -436,6 +818,30 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "nit: I\u0027d call this \"methodRecvType\" or something. \"Parent\" isn\u0027t a spec term, so at the call sites I assumed this function had something to do with the PGO graph node hierarchy.",
+      "range": {
+        "startLine": 372,
+        "startChar": 3,
+        "endLine": 372,
+        "endChar": 21
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39b2507d_65f33976",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd20eb9d_d95a5da9",
       "range": {
         "startLine": 372,
         "startChar": 3,
@@ -469,6 +875,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ca7768_a989d25a",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64bcab0f_ec68485b",
+      "range": {
+        "startLine": 384,
+        "startChar": 5,
+        "endLine": 384,
+        "endChar": 22
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "508fdee2_dd594b47",
@@ -482,6 +912,30 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "nit: \"indirect call\"?",
+      "range": {
+        "startLine": 403,
+        "startChar": 3,
+        "endLine": 403,
+        "endChar": 11
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b00b581_4bff6c00",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "508fdee2_dd594b47",
       "range": {
         "startLine": 403,
         "startChar": 3,
@@ -515,6 +969,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd828745_07cd6336",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c935aafd_93893167",
+      "range": {
+        "startLine": 405,
+        "startChar": 13,
+        "endLine": 405,
+        "endChar": 32
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8eec5f0_f07b1314",
@@ -528,6 +1006,30 @@
       "writtenOn": "2023-05-17T19:32:53Z",
       "side": 1,
       "message": "nit: I usually write these conditions like `if l !\u003d r { return l \u003c r }`",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 3
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77c54b12_0bfe4025",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8eec5f0_f07b1314",
       "range": {
         "startLine": 428,
         "startChar": 0,
@@ -555,6 +1057,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "910ad325_e5510baf",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a19c792_a608dbd7",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cc728b6_b380ef0b",
@@ -568,6 +1088,30 @@
       "writtenOn": "2023-05-17T21:39:41Z",
       "side": 1,
       "message": "Also, maybe we want to consider the weight relative to the whole profile? If there is one dominate callee, but the call is in a very cold code path, there is probably no need to devirtualize. (Unlike static devirtualization, which doesn\u0027t seem to hurt even in cold code path, this increase binary size.)",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 31
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e452cc_47400439",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Agreed. Added to the TODO.",
+      "parentUuid": "3cc728b6_b380ef0b",
       "range": {
         "startLine": 453,
         "startChar": 0,
@@ -603,6 +1147,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "befcd234_d4a4d9ad",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "I could. I kept it separate because it is logically separate from reading the profile. It is mostly a coincidence that it happens to come right after reading the profile.\n\nIn fact, on further thought, it is a bit odd that one of the inputs (the profile) is read so far into compilation, after type checking e.g. It might make sense to eventually move that earlier.\n\nThat said, I can move this inside the above block if you feel strongly.",
+      "parentUuid": "6e9b30d6_11c9320f",
+      "range": {
+        "startLine": 266,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 21
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bcf0f11a_0432ac6b",
         "filename": "src/cmd/compile/internal/pgo/irgraph.go",
         "patchSetId": 10
@@ -614,6 +1182,30 @@
       "writtenOn": "2023-05-17T18:57:59Z",
       "side": 1,
       "message": "\"Symbol name\" is a bit ambiguous within the compiler. It makes me think types.Sym, which is a language-level concept.\n\nI\u0027d recommend something with an \"l\" in it: lsym, linkname, linker symbol, etc.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e5419e9_ce53b87b",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcf0f11a_0432ac6b",
       "range": {
         "startLine": 73,
         "startChar": 4,
@@ -647,6 +1239,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f1c7dcc_baed7554",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51b755ed_6259aee7",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 36
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6026409f_d72b4613",
@@ -664,6 +1280,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6f59182_54bfc926",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "The profile contains calls from the whole program, but there is no reason to add edges from the whole program to the graph since we will only be doing devirtualization on callers in the local package build. Thus addIndirectEdges skips any functions not in the local package build.\n\nGood point about redundancy [1]. I\u0027ve removed targetDeclFuncs in favor of just checking IRNodes.\n\n[1] It\u0027s not quite redundant, as addIndirectEdges also adds to IRNodes in the loop. I\u0027ve refactored to account for that.",
+      "parentUuid": "6026409f_d72b4613",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be66254d_4e5d1acc",
@@ -677,6 +1311,30 @@
       "writtenOn": "2023-05-17T21:39:41Z",
       "side": 1,
       "message": "Should this be separate components of filepath.Join?",
+      "range": {
+        "startLine": 114,
+        "startChar": 30,
+        "endLine": 114,
+        "endChar": 55
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb8c070a_10efc9d1",
+        "filename": "src/cmd/compile/internal/test/pgo_devirtualize_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-20T01:20:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be66254d_4e5d1acc",
       "range": {
         "startLine": 114,
         "startChar": 30,
