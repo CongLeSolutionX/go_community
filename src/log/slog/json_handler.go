@@ -66,8 +66,7 @@ func (h *JSONHandler) WithGroup(name string) Handler {
 // and the value of [Level.String] is output.
 //
 // If the AddSource option is set and source information is available,
-// the key is "source"
-// and the value is output as "FILE:LINE".
+// the key is "source".
 //
 // The message's key is "msg".
 //
