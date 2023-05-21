@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9cacebc_a8b5b963",
+        "filename": "test/codegen/math.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-21T08:22:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9e64cf91_f075091c",
+      "revId": "a07ad4722d41d532ba98222f19f0e8959abd3136",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0af4d531_15e884dc",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-05-20T15:33:48Z",
       "side": 1,
       "message": "I think mips64/hardfloat should fix the trybot.",
+      "revId": "a07ad4722d41d532ba98222f19f0e8959abd3136",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ace7903_6a295967",
+        "filename": "test/codegen/math.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-21T08:22:04Z",
+      "side": 1,
+      "message": "Patchset 8 uploaded.",
+      "parentUuid": "0af4d531_15e884dc",
       "revId": "a07ad4722d41d532ba98222f19f0e8959abd3136",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
