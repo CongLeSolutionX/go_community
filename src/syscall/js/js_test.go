@@ -391,6 +391,19 @@ func TestValueOf(t *testing.T) {
 	}
 }
 
+func TestValueOfWithValueObjects(t *testing.T) {
+	zero := js.ValueOf(0)
+	a := js.ValueOf([]js.Value{zero, js.ValueOf(array{0, 42, 0}), zero})
+	if got := a.Index(1).Index(1).Int(); got != 42 {
+		t.Errorf("got %v, want %v", got, 42)
+	}
+
+	o := js.ValueOf(map[string]js.Value{"x": js.ValueOf(object{"y": 42})})
+	if got := o.Get("x").Get("y").Int(); got != 42 {
+		t.Errorf("got %v, want %v", got, 42)
+	}
+}
+
 func TestZeroValue(t *testing.T) {
 	var v js.Value
 	if !v.IsUndefined() {
