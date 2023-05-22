@@ -673,6 +673,29 @@ type Config struct {
 	// session resumption. It is only used by clients.
 	ClientSessionCache ClientSessionCache
 
+	// UnwrapSession is called on the server to turn a ticket/identity into a
+	// usable session. It is used with [Config.WrapSession], and it involves
+	// decrypting the ticket or using the identity as a handle to recover a
+	// serialized [SessionState], and calling [ParseSessionState].
+	//
+	// If UnwrapSession returns an error, the connection is terminated. If it
+	// returns (nil, nil), the session is ignored. crypto/tls may still choose
+	// not to resume the returned session.
+	UnwrapSession func(identity []byte, cs ConnectionState) (*SessionState, error)
+
+	// WrapSession is called on the server to produce a session ticket or
+	// identity. It usually involves calling SessionState.Bytes and encrypting
+	// its return value, or storing it and returning a handle for it.
+	//
+	// If WrapSession returns an error, the connection is terminated.
+	//
+	// Warning: the return value will be exposed on the wire and to clients in
+	// plaintext. The application is in charge of encrypting and authenticating
+	// it (and rotating keys) or returning high-entropy identifiers. Failing to
+	// do so correctly can compromise current, previous, and future connections
+	// depending on the protocol version.
+	WrapSession func(ConnectionState, *SessionState) ([]byte, error)
+
 	// MinVersion contains the minimum TLS version that is acceptable.
 	//
 	// By default, TLS 1.2 is currently used as the minimum when acting as a
@@ -794,6 +817,8 @@ func (c *Config) Clone() *Config {
 		SessionTicketsDisabled:      c.SessionTicketsDisabled,
 		SessionTicketKey:            c.SessionTicketKey,
 		ClientSessionCache:          c.ClientSessionCache,
+		UnwrapSession:               c.UnwrapSession,
+		WrapSession:                 c.WrapSession,
 		MinVersion:                  c.MinVersion,
 		MaxVersion:                  c.MaxVersion,
 		CurvePreferences:            c.CurvePreferences,
