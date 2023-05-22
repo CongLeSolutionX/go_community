@@ -648,6 +648,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "695a471c_d902188f",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-22T19:23:25Z",
+      "side": 1,
+      "message": "Acknowledged (already changed all cases to OAS2 in PS13).",
+      "parentUuid": "47ad7bb2_633b830c",
+      "range": {
+        "startLine": 318,
+        "startChar": 43,
+        "endLine": 318,
+        "endChar": 57
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d3b4b98_a2452a81",

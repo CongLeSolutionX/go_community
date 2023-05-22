@@ -70,6 +70,24 @@
       "message": "nit: remove",
       "revId": "62af7b18cc4c47bf09433a7207a2c774b5bdc168",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a9c474_057ec99b",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-22T19:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4072d4d3_ec3f1e98",
+      "revId": "62af7b18cc4c47bf09433a7207a2c774b5bdc168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
