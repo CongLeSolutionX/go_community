@@ -45,7 +45,8 @@ type Conn struct {
 	// connection so far. If renegotiation is disabled then this is either
 	// zero or one.
 	handshakes       int
-	didResume        bool // whether this connection was a session resumption
+	didResume        bool   // whether this connection was a session resumption
+	sessionExtra     []byte // SessionState.Extra from the resumed session
 	cipherSuite      uint16
 	ocspResponse     []byte   // stapled OCSP response
 	scts             [][]byte // signed certificate timestamps from server
@@ -1589,6 +1590,7 @@ func (c *Conn) connectionStateLocked() ConnectionState {
 	state.Version = c.vers
 	state.NegotiatedProtocol = c.clientProtocol
 	state.DidResume = c.didResume
+	state.Session = c.sessionExtra
 	state.NegotiatedProtocolIsMutual = true
 	state.ServerName = c.serverName
 	state.CipherSuite = c.cipherSuite
