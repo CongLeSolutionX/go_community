@@ -175,8 +175,9 @@ func raceSymbolizeCode(ctx *symbolizeCodeContext) {
 		u, uf := newInlineUnwinder(fi, pc, nil)
 		for ; uf.valid(); uf = u.next(uf) {
 			sf := u.srcFunc(uf)
-			if sf.funcID == abi.FuncIDWrapper {
-				// ignore wrappers
+			if sf.funcID == abi.FuncIDWrapper && u.isInlined(uf) {
+				// ignore wrappers, unless we're at the outermost frame of u, in
+				// which case we'll take a wrapper over nothing.
 				continue
 			}
 
