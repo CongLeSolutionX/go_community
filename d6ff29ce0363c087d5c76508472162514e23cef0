@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee294a8_38206a1f",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-05-22T17:50:14Z",
+      "side": 1,
+      "message": "\"...and it involves\" is indirect and confusing.\n\nHow about something like:\n\n```\n// UnwrapSession is called on the server to turn a ticket/identity\n// previously produced by [WrapSession] into usable session.\n//\n// UnwrapSession will usually either decrypt and deserialize a session\n// state in the ticket, or use the ticket as a handle to recover a previously\n// stored state. It may use [ParseSessionState] to deserialize a stored\n// session state.\n```",
+      "revId": "d6ff29ce0363c087d5c76508472162514e23cef0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f5565e0_86d9b602",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-05-22T17:50:14Z",
+      "side": 1,
+      "message": "Too many \"it\"s referring to different things. How about something like:\n\n```\n// WrapSession is called on the server to produce a session ticket/identity.\n//\n// WrapSession will usually serialize the session state with\n// [SessionState.Bytes]. It may encrypt the serialized state and use it\n// as the ticket directly, or store the state and return a handle for it.\n```",
+      "revId": "d6ff29ce0363c087d5c76508472162514e23cef0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
