@@ -72,6 +72,24 @@
       "message": "I presume this changes when https://go.dev/issue/60107 is implemented, since we can then send multiple tickets per connection?",
       "revId": "1d6a94d668cc470e2d33b36abe9f12a517000602",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2c153c_2a5058c4",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-22T18:08:55Z",
+      "side": 1,
+      "message": "CL 496995 is leaving that restriction to minimize changes late in the cycle, since it\u0027s not needed for quic-go. It\u0027s not too hard to add if you have a preference, but we can also add it in Go 1.22.",
+      "parentUuid": "8f6dd305_f57e9b52",
+      "revId": "1d6a94d668cc470e2d33b36abe9f12a517000602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
