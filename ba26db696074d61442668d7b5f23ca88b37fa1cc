@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f6d090c_7ecddca3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62978
+      },
+      "writtenOn": "2023-05-22T09:46:07Z",
+      "side": 1,
+      "message": "Filed a github issue: #60337",
+      "revId": "ba26db696074d61442668d7b5f23ca88b37fa1cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
