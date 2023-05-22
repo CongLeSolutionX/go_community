@@ -16,6 +16,24 @@
       "message": "I think this should say something about the standard library.  For types outside of the standard library this is just a suggestion, not a rule.  Thanks.",
       "revId": "2c976550fd3802aee76768c4bde304e01405f3cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73708f83_ec022f34",
+        "filename": "src/encoding/encoding.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2023-05-22T17:10:34Z",
+      "side": 1,
+      "message": "I chose \"Go project\" to include both the standard library and the x/ repos which is maintained under effectively the same policy.\nIs it more appropriate to scope it to just the standard library?",
+      "parentUuid": "61577d4c_65291fe4",
+      "revId": "2c976550fd3802aee76768c4bde304e01405f3cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
