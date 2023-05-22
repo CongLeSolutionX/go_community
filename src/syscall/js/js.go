@@ -137,16 +137,18 @@ func Global() Value {
 
 // ValueOf returns x as a JavaScript value:
 //
-//	| Go                     | JavaScript             |
-//	| ---------------------- | ---------------------- |
-//	| js.Value               | [its value]            |
-//	| js.Func                | function               |
-//	| nil                    | null                   |
-//	| bool                   | boolean                |
-//	| integers and floats    | number                 |
-//	| string                 | string                 |
-//	| []interface{}          | new array              |
-//	| map[string]interface{} | new object             |
+//	| Go                     | JavaScript                                              |
+//	| ---------------------- | ------------------------------------------------------- |
+//	| js.Value               | [its value]                                             |
+//	| js.Func                | function                                                |
+//	| nil                    | null                                                    |
+//	| bool                   | boolean                                                 |
+//	| integers and floats    | number                                                  |
+//	| string                 | string                                                  |
+//	| []any                  | new array recursively mapping elements using [ValueOf]  |
+//	| []js.Value             | new array containing the elements                       |
+//	| map[string]any         | new object recursively mapping elements using [ValueOf] |
+//	| map[string]js.Value    | new object containing the elements                      |
 //
 // Panics if x is not one of the expected types.
 func ValueOf(x any) Value {
@@ -199,10 +201,22 @@ func ValueOf(x any) Value {
 			a.SetIndex(i, s)
 		}
 		return a
+	case []Value:
+		a := arrayConstructor.New(len(x))
+		for i, s := range x {
+			a.setIndex(i, s)
+		}
+		return a
 	case map[string]any:
 		o := objectConstructor.New()
 		for k, v := range x {
 			o.Set(k, v)
+		}
+		return o
+	case map[string]Value:
+		o := objectConstructor.New()
+		for k, v := range x {
+			o.set(k, v)
 		}
 		return o
 	default:
@@ -303,10 +317,14 @@ func (v Value) Set(p string, x any) {
 	if vType := v.Type(); !vType.isObject() {
 		panic(&ValueError{"Value.Set", vType})
 	}
-	xv := ValueOf(x)
-	valueSet(v.ref, p, xv.ref)
+	v.set(p, ValueOf(x))
+}
+
+// set is like Set but it doesn't do sanity checks.
+func (v Value) set(p string, x Value) {
+	valueSet(v.ref, p, x.ref)
 	runtime.KeepAlive(v)
-	runtime.KeepAlive(xv)
+	runtime.KeepAlive(x)
 }
 
 //go:wasmimport gojs syscall/js.valueSet
@@ -345,10 +363,14 @@ func (v Value) SetIndex(i int, x any) {
 	if vType := v.Type(); !vType.isObject() {
 		panic(&ValueError{"Value.SetIndex", vType})
 	}
-	xv := ValueOf(x)
-	valueSetIndex(v.ref, i, xv.ref)
+	v.setIndex(i, ValueOf(x))
+}
+
+// setIndex is like SetIndex but it doesn't do sanity checks.
+func (v Value) setIndex(i int, x Value) {
+	valueSetIndex(v.ref, i, x.ref)
 	runtime.KeepAlive(v)
-	runtime.KeepAlive(xv)
+	runtime.KeepAlive(x)
 }
 
 //go:wasmimport gojs syscall/js.valueSetIndex
