@@ -16,6 +16,24 @@
       "message": "Filed a github issue: #60337",
       "revId": "ba26db696074d61442668d7b5f23ca88b37fa1cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a14efa97_e2c49556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-05-22T10:13:54Z",
+      "side": 1,
+      "message": "You can add:\n```\nFixes #60337\n```\nin your patch description and gopherbot will do the linking for you and close the issue if this gets merged :)",
+      "parentUuid": "5f6d090c_7ecddca3",
+      "revId": "ba26db696074d61442668d7b5f23ca88b37fa1cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
