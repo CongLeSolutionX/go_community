@@ -53,6 +53,24 @@
       "message": "Looks unused?",
       "revId": "bba317484213f06d719fb228a6faba2f28ecacb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae8592c_b0295a51",
+        "filename": "src/cmd/go/testdata/script/mod_tidy_issue60313.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-22T20:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad9b5b1b_55c421b6",
+      "revId": "bba317484213f06d719fb228a6faba2f28ecacb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
