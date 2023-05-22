@@ -34,6 +34,24 @@
       "parentUuid": "5b27db3b_077ed934",
       "revId": "71f7a12374a3a81bc46d89ec51c012cae5291360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55f6b712_b4f8e1ac",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-05-22T20:05:48Z",
+      "side": 1,
+      "message": "The server decodes the transport parameters in the Unwrap callback. It can just save them there, can\u0027t it?",
+      "parentUuid": "f0aec799_eebc574a",
+      "revId": "71f7a12374a3a81bc46d89ec51c012cae5291360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
