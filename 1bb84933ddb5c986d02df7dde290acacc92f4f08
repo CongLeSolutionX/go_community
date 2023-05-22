@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1988def8_33f880e3",
+        "filename": "src/log/slog/json_handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-05-22T19:10:30Z",
+      "side": 1,
+      "message": "\"and the value is a record of type [Source].\"",
+      "range": {
+        "startLine": 69,
+        "startChar": 22,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "1bb84933ddb5c986d02df7dde290acacc92f4f08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
