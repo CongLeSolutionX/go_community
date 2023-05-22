@@ -79,6 +79,8 @@ and the changes are applied in the order given.
 
 The -go=version flag sets the expected Go language version.
 
+The -toolchain=name flag sets the Go toolchain to use.
+
 The -print flag prints the final go.mod in its text format instead of
 writing it back to go.mod.
 
@@ -91,12 +93,13 @@ writing it back to go.mod. The JSON output corresponds to these Go types:
 	}
 
 	type GoMod struct {
-		Module  ModPath
-		Go      string
-		Require []Require
-		Exclude []Module
-		Replace []Replace
-		Retract []Retract
+		Module    ModPath
+		Go        string
+		Toolchain string
+		Require   []Require
+		Exclude   []Module
+		Replace   []Replace
+		Retract   []Retract
 	}
 
 	type ModPath struct {
@@ -135,12 +138,13 @@ See https://golang.org/ref/mod#go-mod-edit for more about 'go mod edit'.
 }
 
 var (
-	editFmt    = cmdEdit.Flag.Bool("fmt", false, "")
-	editGo     = cmdEdit.Flag.String("go", "", "")
-	editJSON   = cmdEdit.Flag.Bool("json", false, "")
-	editPrint  = cmdEdit.Flag.Bool("print", false, "")
-	editModule = cmdEdit.Flag.String("module", "", "")
-	edits      []func(*modfile.File) // edits specified in flags
+	editFmt       = cmdEdit.Flag.Bool("fmt", false, "")
+	editGo        = cmdEdit.Flag.String("go", "", "")
+	editToolchain = cmdEdit.Flag.String("toolchain", "", "")
+	editJSON      = cmdEdit.Flag.Bool("json", false, "")
+	editPrint     = cmdEdit.Flag.Bool("print", false, "")
+	editModule    = cmdEdit.Flag.String("module", "", "")
+	edits         []func(*modfile.File) // edits specified in flags
 )
 
 type flagFunc func(string)
@@ -166,13 +170,13 @@ func init() {
 }
 
 func runEdit(ctx context.Context, cmd *base.Command, args []string) {
-	anyFlags :=
-		*editModule != "" ||
-			*editGo != "" ||
-			*editJSON ||
-			*editPrint ||
-			*editFmt ||
-			len(edits) > 0
+	anyFlags := *editModule != "" ||
+		*editGo != "" ||
+		*editToolchain != "" ||
+		*editJSON ||
+		*editPrint ||
+		*editFmt ||
+		len(edits) > 0
 
 	if !anyFlags {
 		base.Fatalf("go: no flags specified (see 'go help mod edit').")
@@ -203,6 +207,11 @@ func runEdit(ctx context.Context, cmd *base.Command, args []string) {
 			base.Fatalf(`go mod: invalid -go option; expecting something like "-go %s"`, gover.Local())
 		}
 	}
+	if *editToolchain != "" {
+		if !modfile.ToolchainRE.MatchString(*editToolchain) {
+			base.Fatalf(`go mod: invalid -toolchain option; expecting something like "-toolchain go%s"`, gover.Local())
+		}
+	}
 
 	data, err := lockedfile.Read(gomod)
 	if err != nil {
@@ -220,6 +229,11 @@ func runEdit(ctx context.Context, cmd *base.Command, args []string) {
 
 	if *editGo != "" {
 		if err := modFile.AddGoStmt(*editGo); err != nil {
+			base.Fatalf("go: internal error: %v", err)
+		}
+	}
+	if *editToolchain != "" {
+		if err := modFile.AddToolchainStmt(*editToolchain); err != nil {
 			base.Fatalf("go: internal error: %v", err)
 		}
 	}
@@ -460,12 +474,13 @@ func flagDropRetract(arg string) {
 
 // fileJSON is the -json output data structure.
 type fileJSON struct {
-	Module  editModuleJSON
-	Go      string `json:",omitempty"`
-	Require []requireJSON
-	Exclude []module.Version
-	Replace []replaceJSON
-	Retract []retractJSON
+	Module    editModuleJSON
+	Go        string `json:",omitempty"`
+	Toolchain string `json:",omitempty"`
+	Require   []requireJSON
+	Exclude   []module.Version
+	Replace   []replaceJSON
+	Retract   []retractJSON
 }
 
 type editModuleJSON struct {
@@ -501,6 +516,9 @@ func editPrintJSON(modFile *modfile.File) {
 	}
 	if modFile.Go != nil {
 		f.Go = modFile.Go.Version
+	}
+	if modFile.Toolchain != nil {
+		f.Toolchain = modFile.Toolchain.Name
 	}
 	for _, r := range modFile.Require {
 		f.Require = append(f.Require, requireJSON{Path: r.Mod.Path, Version: r.Mod.Version, Indirect: r.Indirect})
