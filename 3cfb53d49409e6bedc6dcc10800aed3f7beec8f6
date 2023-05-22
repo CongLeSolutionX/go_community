@@ -72,6 +72,24 @@
       "message": "The href strings normally use double quotes, any reason to use single quotes here?",
       "revId": "3cfb53d49409e6bedc6dcc10800aed3f7beec8f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "038c2ce0_8dc1e3ad",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-05-22T17:41:59Z",
+      "side": 1,
+      "message": "Nope. Fixed.",
+      "parentUuid": "2c438056_eed1de04",
+      "revId": "3cfb53d49409e6bedc6dcc10800aed3f7beec8f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
