@@ -230,12 +230,80 @@ func SetEnvs(e []string) { envs = e }
 
 // For benchmarking.
 
-func BenchSetType(n int, x any) {
+// blockWrapper is a wrapper type that ensures a T is placed within a
+// large object. This is necessary for safely benchmarking things
+// that manipulate the heap bitmap, like heapBitsSetType. More
+// specifically, it prevents concurrent writes to the heap bitmap
+// from some other thread using the same span concurrently for
+// allocation.
+type blockWrapper[T any] struct {
+	value T
+	_     [_MaxSmallSize]byte // Ensure we're a large object.
+}
+
+func BenchSetType[T any](n int, resetTimer func()) {
+	x := new(blockWrapper[T])
+
 	// Escape x to ensure it is allocated on the heap, as we are
 	// working on the heap bits here.
 	Escape(x)
+
+	// Benchmark setting the type bits for just the internal T of the block.
+	benchSetType(n, &x.value, resetTimer)
+}
+
+// arrayBlockWrapper is like blockWrapper, but the interior value is intended
+// to be used as a backing store for a slice.
+type arrayBlockWrapper[T any] struct {
+	value [32]T
+	_     [_MaxSmallSize]byte // Ensure we're a large object.
+}
+
+// arrayLargeBlockWrapper is like arrayBlockWrapper, but the interior array
+// accomodates many more elements.
+type arrayLargeBlockWrapper[T any] struct {
+	value [1024]T
+	_     [_MaxSmallSize]byte // Ensure we're a large object.
+}
+
+func BenchSetTypeSlice[T any](n int, resetTimer func(), len int) {
+	// We have two separate cases here because we want to avoid
+	// tests on big types but relatively small slices to avoid generating
+	// an allocation that's really big. This will likely force a GC which will
+	// skew the test results.
+	var y []T
+	if len <= 32 {
+		x := new(arrayBlockWrapper[T])
+		// Escape x to ensure it is allocated on the heap, as we are
+		// working on the heap bits here.
+		Escape(x)
+		y = x.value[:len:len]
+	} else {
+		x := new(arrayLargeBlockWrapper[T])
+		// Escape x to ensure it is allocated on the heap, as we are
+		// working on the heap bits here.
+		Escape(x)
+		y = x.value[:len:len]
+	}
+	// Benchmark setting the type for a slice created from the array
+	// of T within the arrayBlock.
+	benchSetType(n, y, resetTimer)
+}
+
+// benchSetType is the implementation of the BenchSetType* functions.
+// x must be allocated within a large object span.
+func benchSetType(n int, x any, resetTimer func()) {
 	e := *efaceOf(&x)
 	t := e._type
+
+	// The plan now is to call heapBitsSetType on the interior
+	// pointer. This will write just a subset of the bitmap. Because
+	// Block ensures that x.Value is contained within a large object,
+	// we can be sure there'll be no other thread manipulating the heap
+	// bitmap for this span.
+	//
+	// Note: the type constraint on Block ensures that we only ever
+	// see a kindPtr or kindSlice here.
 	var size uintptr
 	var p unsafe.Pointer
 	switch t.Kind_ & kindMask {
@@ -251,13 +319,19 @@ func BenchSetType(n int, x any) {
 		t = (*slicetype)(unsafe.Pointer(t)).Elem
 		size = t.Size_ * slice.len
 		p = slice.ptr
+	default:
+		panic("broken benchmark; unexpected type kind")
 	}
 	allocSize := roundupsize(size)
+	resetTimer()
 	systemstack(func() {
 		for i := 0; i < n; i++ {
 			heapBitsSetType(uintptr(p), allocSize, size, t)
 		}
 	})
+
+	// Make sure x doesn't get freed, since we're taking a uintptr.
+	KeepAlive(x)
 }
 
 const PtrSize = goarch.PtrSize

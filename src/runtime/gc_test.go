@@ -308,35 +308,35 @@ func TestGCTestPointerClass(t *testing.T) {
 }
 
 func BenchmarkSetTypePtr(b *testing.B) {
-	benchSetType(b, new(*byte))
+	runtime.BenchSetType[*byte](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypePtr8(b *testing.B) {
-	benchSetType(b, new([8]*byte))
+	runtime.BenchSetType[[8]*byte](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypePtr16(b *testing.B) {
-	benchSetType(b, new([16]*byte))
+	runtime.BenchSetType[[16]*byte](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypePtr32(b *testing.B) {
-	benchSetType(b, new([32]*byte))
+	runtime.BenchSetType[[32]*byte](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypePtr64(b *testing.B) {
-	benchSetType(b, new([64]*byte))
+	runtime.BenchSetType[[64]*byte](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypePtr126(b *testing.B) {
-	benchSetType(b, new([126]*byte))
+	runtime.BenchSetType[[126]*byte](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypePtr128(b *testing.B) {
-	benchSetType(b, new([128]*byte))
+	runtime.BenchSetType[[128]*byte](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypePtrSlice(b *testing.B) {
-	benchSetType(b, make([]*byte, 1<<10))
+	runtime.BenchSetTypeSlice[*byte](b.N, b.ResetTimer, 1<<10)
 }
 
 type Node1 struct {
@@ -345,11 +345,11 @@ type Node1 struct {
 }
 
 func BenchmarkSetTypeNode1(b *testing.B) {
-	benchSetType(b, new(Node1))
+	runtime.BenchSetType[Node1](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode1Slice(b *testing.B) {
-	benchSetType(b, make([]Node1, 32))
+	runtime.BenchSetTypeSlice[Node1](b.N, b.ResetTimer, 32)
 }
 
 type Node8 struct {
@@ -358,11 +358,11 @@ type Node8 struct {
 }
 
 func BenchmarkSetTypeNode8(b *testing.B) {
-	benchSetType(b, new(Node8))
+	runtime.BenchSetType[Node8](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode8Slice(b *testing.B) {
-	benchSetType(b, make([]Node8, 32))
+	runtime.BenchSetTypeSlice[Node8](b.N, b.ResetTimer, 32)
 }
 
 type Node64 struct {
@@ -371,11 +371,11 @@ type Node64 struct {
 }
 
 func BenchmarkSetTypeNode64(b *testing.B) {
-	benchSetType(b, new(Node64))
+	runtime.BenchSetType[Node64](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode64Slice(b *testing.B) {
-	benchSetType(b, make([]Node64, 32))
+	runtime.BenchSetTypeSlice[Node64](b.N, b.ResetTimer, 32)
 }
 
 type Node64Dead struct {
@@ -384,11 +384,11 @@ type Node64Dead struct {
 }
 
 func BenchmarkSetTypeNode64Dead(b *testing.B) {
-	benchSetType(b, new(Node64Dead))
+	runtime.BenchSetType[Node64Dead](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode64DeadSlice(b *testing.B) {
-	benchSetType(b, make([]Node64Dead, 32))
+	runtime.BenchSetTypeSlice[Node64Dead](b.N, b.ResetTimer, 32)
 }
 
 type Node124 struct {
@@ -397,11 +397,11 @@ type Node124 struct {
 }
 
 func BenchmarkSetTypeNode124(b *testing.B) {
-	benchSetType(b, new(Node124))
+	runtime.BenchSetType[Node124](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode124Slice(b *testing.B) {
-	benchSetType(b, make([]Node124, 32))
+	runtime.BenchSetTypeSlice[Node124](b.N, b.ResetTimer, 32)
 }
 
 type Node126 struct {
@@ -410,11 +410,11 @@ type Node126 struct {
 }
 
 func BenchmarkSetTypeNode126(b *testing.B) {
-	benchSetType(b, new(Node126))
+	runtime.BenchSetType[Node126](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode126Slice(b *testing.B) {
-	benchSetType(b, make([]Node126, 32))
+	runtime.BenchSetTypeSlice[Node126](b.N, b.ResetTimer, 32)
 }
 
 type Node128 struct {
@@ -423,11 +423,11 @@ type Node128 struct {
 }
 
 func BenchmarkSetTypeNode128(b *testing.B) {
-	benchSetType(b, new(Node128))
+	runtime.BenchSetType[Node128](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode128Slice(b *testing.B) {
-	benchSetType(b, make([]Node128, 32))
+	runtime.BenchSetTypeSlice[Node128](b.N, b.ResetTimer, 32)
 }
 
 type Node130 struct {
@@ -436,11 +436,11 @@ type Node130 struct {
 }
 
 func BenchmarkSetTypeNode130(b *testing.B) {
-	benchSetType(b, new(Node130))
+	runtime.BenchSetType[Node130](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode130Slice(b *testing.B) {
-	benchSetType(b, make([]Node130, 32))
+	runtime.BenchSetTypeSlice[Node130](b.N, b.ResetTimer, 32)
 }
 
 type Node1024 struct {
@@ -449,24 +449,11 @@ type Node1024 struct {
 }
 
 func BenchmarkSetTypeNode1024(b *testing.B) {
-	benchSetType(b, new(Node1024))
+	runtime.BenchSetType[Node1024](b.N, b.ResetTimer)
 }
 
 func BenchmarkSetTypeNode1024Slice(b *testing.B) {
-	benchSetType(b, make([]Node1024, 32))
-}
-
-func benchSetType(b *testing.B, x any) {
-	v := reflect.ValueOf(x)
-	t := v.Type()
-	switch t.Kind() {
-	case reflect.Pointer:
-		b.SetBytes(int64(t.Elem().Size()))
-	case reflect.Slice:
-		b.SetBytes(int64(t.Elem().Size()) * int64(v.Len()))
-	}
-	b.ResetTimer()
-	runtime.BenchSetType(b.N, x)
+	runtime.BenchSetTypeSlice[Node1024](b.N, b.ResetTimer, 32)
 }
 
 func BenchmarkAllocation(b *testing.B) {
