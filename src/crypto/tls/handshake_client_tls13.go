@@ -355,6 +355,7 @@ func (hs *clientHandshakeStateTLS13) processServerHello() error {
 
 	hs.usingPSK = true
 	c.didResume = true
+	c.sessionExtra = hs.session.Extra
 	c.peerCertificates = hs.session.peerCertificates
 	c.activeCertHandles = hs.session.activeCertHandles
 	c.verifiedChains = hs.session.verifiedChains

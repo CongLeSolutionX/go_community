@@ -348,6 +348,7 @@ func (hs *serverHandshakeStateTLS13) checkForResumption() error {
 		}
 
 		c.didResume = true
+		c.sessionExtra = sessionState.Extra
 		if err := c.processCertsFromClient(sessionState.certificate()); err != nil {
 			return err
 		}

@@ -224,6 +224,9 @@ type ConnectionState struct {
 	// previous session with a session ticket or similar mechanism.
 	DidResume bool
 
+	// Session is the [SessionState.Extra] field from a resumed session, if any.
+	Session []byte
+
 	// CipherSuite is the cipher suite negotiated for the connection (e.g.
 	// TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_AES_128_GCM_SHA256).
 	CipherSuite uint16
