@@ -136,6 +136,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "005202bb_d695e2ac",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-22T19:13:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "95349bb0_a49e4d62",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0e046f4_e1c5ba29",
@@ -218,6 +242,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b93c551_52e95129",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-22T19:13:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "762d2837_f7cdc6e5",
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c82bb45_33d70e3d",
@@ -290,6 +332,30 @@
       "side": 1,
       "message": "Print order does matter. This message is basically just a header to provide context for the several messages that findHotConcreteCallee will print to explain why it chose what it did.\n\nIt looks like:\n\n```\nsort/zsortinterface.go:12:33: PGO devirtualize considering call data.Less(j, j - 1)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.partsByVarOffset.Less (weight 28) (missing IR): hottest so far\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.sortvalues.Less (weight 380) (missing IR): hottest so far\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/dwarfgen.varsAndDecls.Less (weight 20): too cold (hottest 380)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/types2.inSourceOrder.Less (weight 11): too cold (hottest 380)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.partitionByArgClass.Less (weight 513) (missing IR): hottest so far\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/dwarfgen.varsByScope.Less (weight 10): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e runtime.asyncPreempt (weight 29): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/types.MethodsByName.Less (weight 2): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/types.byPath.Less (weight 2): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/reflectdata.typesByString.Less (weight 17): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/internal/obj.BySymName.Less (weight 43): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssagen.byStackVar.Less (weight 22): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/internal/dwarf.byChildIndex.Less (weight 13): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/internal/obj.relocByOff.Less (weight 185): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.bySourcePos.Less (weight 3): too cold (hottest 513)\nsort/zsortinterface.go:12:33: edge sort.insertionSort:2 -\u003e cmd/compile/internal/ssa.partitionByDom.Less (weight 36): too cold (hottest 513)\nsort/zsortinterface.go:12:33 call sort.insertionSort:2: hottest callee cmd/compile/internal/ssa.partitionByArgClass.Less (weight 513)\n```",
       "parentUuid": "e33558a4_45858982",
+      "range": {
+        "startLine": 129,
+        "startChar": 3,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d081308_3da193a4",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-22T19:13:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c778003b_7fc2d08f",
       "range": {
         "startLine": 129,
         "startChar": 3,
@@ -548,6 +614,30 @@
       "writtenOn": "2023-05-20T01:20:59Z",
       "side": 1,
       "message": "typecheck.Stmt doesn\u0027t handle OAS2DOTTYPE. Am I understanding correctly that I should just use OAS2 and typecheck automatically adjusts this based on the rhs?\n\n(Same below with OAS2FUNC).",
+      "range": {
+        "startLine": 318,
+        "startChar": 43,
+        "endLine": 318,
+        "endChar": 57
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47ad7bb2_633b830c",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-22T19:13:26Z",
+      "side": 1,
+      "message": "Correct, just create an OAS2 node. typecheck will change it appropriately.",
+      "parentUuid": "ad317991_e1390510",
       "range": {
         "startLine": 318,
         "startChar": 43,
@@ -1159,6 +1249,30 @@
       "side": 1,
       "message": "I could. I kept it separate because it is logically separate from reading the profile. It is mostly a coincidence that it happens to come right after reading the profile.\n\nIn fact, on further thought, it is a bit odd that one of the inputs (the profile) is read so far into compilation, after type checking e.g. It might make sense to eventually move that earlier.\n\nThat said, I can move this inside the above block if you feel strongly.",
       "parentUuid": "6e9b30d6_11c9320f",
+      "range": {
+        "startLine": 266,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 21
+      },
+      "revId": "338c53e97f105b2a8554fe91d633d6102270dfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e44801b1_7dfe098d",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-22T19:13:26Z",
+      "side": 1,
+      "message": "No strong preference.",
+      "parentUuid": "befcd234_d4a4d9ad",
       "range": {
         "startLine": 266,
         "startChar": 4,
