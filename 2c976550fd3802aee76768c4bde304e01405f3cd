@@ -34,6 +34,24 @@
       "parentUuid": "61577d4c_65291fe4",
       "revId": "2c976550fd3802aee76768c4bde304e01405f3cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d17f7c1_8efdb69e",
+        "filename": "src/encoding/encoding.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-22T17:14:34Z",
+      "side": 1,
+      "message": "Good point about the x/ repos, but I still don\u0027t want to imply that this is a rule for other libraries.  Perhaps \"The policy for packages maintained by the Go project is....\"",
+      "parentUuid": "73708f83_ec022f34",
+      "revId": "2c976550fd3802aee76768c4bde304e01405f3cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
