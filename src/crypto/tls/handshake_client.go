@@ -171,6 +171,7 @@ func (c *Conn) clientHandshake(ctx context.Context) (err error) {
 	// This may be a renegotiation handshake, in which case some fields
 	// need to be reset.
 	c.didResume = false
+	c.sessionExtra = nil
 
 	hello, ecdheKey, err := c.makeClientHello()
 	if err != nil {
@@ -763,6 +764,7 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 
 	// Restore master secret and certificates from previous state
 	hs.masterSecret = hs.session.secret
+	c.sessionExtra = hs.session.Extra
 	c.peerCertificates = hs.session.peerCertificates
 	c.activeCertHandles = hs.c.activeCertHandles
 	c.verifiedChains = hs.session.verifiedChains

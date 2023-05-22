@@ -33,6 +33,7 @@ type SessionState struct {
 	//       uint16 cipher_suite;
 	//       uint64 created_at;
 	//       opaque secret<1..2^8-1>;
+	//       opaque extra<0..2^24-1>;
 	//       CertificateEntry certificate_list<0..2^24-1>;
 	//       select (SessionState.type) {
 	//           case server: /* empty */;
@@ -49,6 +50,14 @@ type SessionState struct {
 	//       };
 	//   } SessionState;
 	//
+
+	// Extra is ignored by crypto/tls, but is encoded by [SessionState.Bytes],
+	// parsed by [ParseSessionState], and exposed as [ConnectionState.Session].
+	//
+	// This allows [Config.UnwrapSession]/[Config.WrapSession] and
+	// [ClientSessionCache] wrappers to store and retrieve additional data. If
+	// Extra is already set, a wrapper has to preserve the previous value.
+	Extra []byte
 
 	version     uint16
 	isClient    bool
@@ -89,6 +98,9 @@ func (s *SessionState) Bytes() ([]byte, error) {
 	addUint64(&b, s.createdAt)
 	b.AddUint8LengthPrefixed(func(b *cryptobyte.Builder) {
 		b.AddBytes(s.secret)
+	})
+	b.AddUint24LengthPrefixed(func(b *cryptobyte.Builder) {
+		b.AddBytes(s.Extra)
 	})
 	marshalCertificate(&b, s.certificate())
 	if s.isClient {
@@ -144,6 +156,7 @@ func ParseSessionState(data []byte) (*SessionState, error) {
 		!s.ReadUint16(&ss.cipherSuite) ||
 		!readUint64(&s, &ss.createdAt) ||
 		!readUint8LengthPrefixed(&s, &ss.secret) ||
+		!readUint24LengthPrefixed(&s, &ss.Extra) ||
 		len(ss.secret) == 0 ||
 		!unmarshalCertificate(&s, &cert) {
 		return nil, errors.New("tls: invalid session encoding")

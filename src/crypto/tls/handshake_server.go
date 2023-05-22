@@ -471,6 +471,7 @@ func (hs *serverHandshakeState) checkForResumption() error {
 		return nil
 	}
 
+	c.sessionExtra = sessionState.Extra
 	hs.sessionState = sessionState
 	hs.suite = suite
 	c.didResume = true
