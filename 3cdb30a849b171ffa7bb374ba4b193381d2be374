@@ -100,6 +100,29 @@
       },
       "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8294695d_73e3f162",
+        "filename": "src/internal/types/testdata/fixedbugs/issue57192.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-23T19:45:56Z",
+      "side": 1,
+      "message": "Hmm. What about the following example:\n\n```\ntype S struct {\n\tF I1[int]\n}\n```\n\nWill that unify against `struct{ F I2[int] }`?\n\nI.e. this relaxed unification only works at the top-level.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
