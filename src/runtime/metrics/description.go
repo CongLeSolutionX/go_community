@@ -194,6 +194,11 @@ var allDesc = []Description{
 		Cumulative:  true,
 	},
 	{
+		Name:        "/gc/global/scannable:bytes",
+		Description: "The total amount of global variable space that is scannable.",
+		Kind:        KindUint64,
+	},
+	{
 		Name: "/gc/heap/allocs-by-size:bytes",
 		Description: "Distribution of heap allocations by approximate size. " +
 			"Bucket counts increase monotonically. " +

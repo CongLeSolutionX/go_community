@@ -147,6 +147,9 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/gc/cycles/total:gc-cycles
 		Count of all completed GC cycles.
 
+	/gc/global/scannable:bytes
+		The total amount of global variable space that is scannable.
+
 	/gc/heap/allocs-by-size:bytes
 		Distribution of heap allocations by approximate size.
 		Bucket counts increase monotonically. Note that this does not
