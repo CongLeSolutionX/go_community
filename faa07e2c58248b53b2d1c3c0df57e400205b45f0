@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a6b9b6f_0b5cdaac",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T15:37:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c841b902_737db7a9",
+      "revId": "faa07e2c58248b53b2d1c3c0df57e400205b45f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eddc591_9c73457a",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5179679_69d0e223",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T15:37:33Z",
+      "side": 1,
+      "message": "Thanks, yes, this was from before the switch to \"big decimal\". Fixed.",
+      "parentUuid": "2eddc591_9c73457a",
+      "revId": "faa07e2c58248b53b2d1c3c0df57e400205b45f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f520564_8af89ab5",
@@ -85,6 +121,30 @@
       "writtenOn": "2023-05-23T14:59:00Z",
       "side": 1,
       "message": "Might be worth commenting that we do not expect to ever issue a prerelease with an explicit minor version number.",
+      "range": {
+        "startLine": 142,
+        "startChar": 9,
+        "endLine": 142,
+        "endChar": 19
+      },
+      "revId": "faa07e2c58248b53b2d1c3c0df57e400205b45f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ac70c37_3059c5c2",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T15:37:33Z",
+      "side": 1,
+      "message": "Done. (I thought about allowing it but it breaks the math.)",
+      "parentUuid": "0f520564_8af89ab5",
       "range": {
         "startLine": 142,
         "startChar": 9,
@@ -131,6 +191,30 @@
       "writtenOn": "2023-05-23T15:21:45Z",
       "side": 1,
       "message": "Reviewed them anyway, and I think they\u0027re correct.",
+      "parentUuid": "85f21a33_be6d10f1",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 1
+      },
+      "revId": "faa07e2c58248b53b2d1c3c0df57e400205b45f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7cd7a00_9ca3335c",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T15:37:33Z",
+      "side": 1,
+      "message": "That requires me to remember that I wrote those.\nAs a friend used to say, \"you\u0027re using me against me!\"\n\nDone. 😊",
       "parentUuid": "85f21a33_be6d10f1",
       "range": {
         "startLine": 181,
