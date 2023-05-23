@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de286835_68fd4c8a",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aca1c5b1_9874ce6b",
+      "range": {
+        "startLine": 122,
+        "startChar": 3,
+        "endLine": 122,
+        "endChar": 8
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d63d1e3_58070ae4",
@@ -87,6 +111,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaba57db_4cc2c3aa",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d63d1e3_58070ae4",
+      "range": {
+        "startLine": 123,
+        "startChar": 66,
+        "endLine": 123,
+        "endChar": 69
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8425b56c_c96af612",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b720d9_9091e252",
+      "range": {
+        "startLine": 123,
+        "startChar": 61,
+        "endLine": 123,
+        "endChar": 65
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a03aaff5_0c17a759",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-05-23T08:55:39Z",
       "side": 1,
       "message": "whether",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 15
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac178b0_a7f9e92e",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a03aaff5_0c17a759",
       "range": {
         "startLine": 126,
         "startChar": 13,
@@ -133,6 +229,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c8492d5_f42f5cb7",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f09c7d7b_f3d0b752",
+      "range": {
+        "startLine": 126,
+        "startChar": 67,
+        "endLine": 127,
+        "endChar": 42
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3313186_1ecdced1",
@@ -146,6 +266,24 @@
       "writtenOn": "2023-05-23T08:55:39Z",
       "side": 1,
       "message": "Move the paragraph about what it does above the one about how it fails, it\u0027s context needed to understand the attacks.",
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c3d08ad_bf521d62",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3313186_1ecdced1",
       "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -173,6 +311,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8fac37e_65eea8b0",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51e6de33_fcadf6c8",
+      "range": {
+        "startLine": 143,
+        "startChar": 49,
+        "endLine": 143,
+        "endChar": 50
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66826764_e0cf93eb",
@@ -186,6 +348,24 @@
       "writtenOn": "2023-05-23T08:55:39Z",
       "side": 1,
       "message": "I think these will not render well in a godoc.",
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c413c97_c9399335",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-05-23T16:31:10Z",
+      "side": 1,
+      "message": "Put them in a markdown list, think it\u0027ll work a bit better...",
+      "parentUuid": "66826764_e0cf93eb",
       "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
