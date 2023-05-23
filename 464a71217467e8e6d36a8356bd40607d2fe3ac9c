@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44b1e154_23bd352c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-23T23:51:31Z",
+      "side": 1,
+      "message": "I like the user-visible formatting of the error messages here. (Like rfindley, my terminal doesn\u0027t hyperlink \"[go.dev/e/foo]\" by default, but I\u0027ll look into configuring that if necessary.)\n\nCompiler flag spelling is fine.\n\nFor the go/types API though, I\u0027d lean in the direction of a boolean to *suppress* the error URL. I\u0027d imagine most tools want to include the URL by default, and only fancier tooling like gopls might have some out-of-band way to provide that URL to the user.",
+      "revId": "464a71217467e8e6d36a8356bd40607d2fe3ac9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "939020dc_d55831a6",
