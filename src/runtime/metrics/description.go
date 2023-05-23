@@ -194,6 +194,11 @@ var allDesc = []Description{
 		Cumulative:  true,
 	},
 	{
+		Name:        "/gc/global/scannable:bytes",
+		Description: "The total amount of global variable space that is scannable.",
+		Kind:        KindUint64,
+	},
+	{
 		Name: "/gc/gomemlimit:bytes",
 		Description: "Go runtime memory limit configured by the user, otherwise " +
 			"math.MaxInt64. This value is set by the GOMEMLIMIT environment variable, and " +

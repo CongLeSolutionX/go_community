@@ -147,6 +147,9 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/gc/cycles/total:gc-cycles
 		Count of all completed GC cycles.
 
+	/gc/global/scannable:bytes
+		The total amount of global variable space that is scannable.
+
 	/gc/gomemlimit:bytes
 		Go runtime memory limit configured by the user, otherwise
 		math.MaxInt64. This value is set by the GOMEMLIMIT environment
