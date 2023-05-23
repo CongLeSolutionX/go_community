@@ -46,6 +46,30 @@
       },
       "revId": "1e797a7660808991e6ea5f689de2c1b2aadde49d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d684094e_b28bb455",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T19:00:07Z",
+      "side": 1,
+      "message": "I prefer the \"GC expects to scan\" because that\u0027s more technically correct in how it\u0027s used, but TBH this is also fine. globals barely change.",
+      "parentUuid": "8d19da6b_9212e1da",
+      "range": {
+        "startLine": 299,
+        "startChar": 58,
+        "endLine": 299,
+        "endChar": 75
+      },
+      "revId": "1e797a7660808991e6ea5f689de2c1b2aadde49d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
