@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "738eddb6_f21c3b2d",
+        "filename": "src/cmd/go/gotoolchain.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T02:49:58Z",
+      "side": 1,
+      "message": "Yes, as discussed, it\u0027s now the case that \"go 1.21\" means the development branch, and 1.21 \u003c 1.21rc1 \u003c 1.21.0.",
+      "parentUuid": "c65f62f8_9b17465f",
+      "revId": "449bf876bea10ecd066255716efd8235f101ed89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04fb55a5_0f992799",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bda16f7_57099670",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T02:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fb55a5_0f992799",
+      "revId": "449bf876bea10ecd066255716efd8235f101ed89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ddd7e43_66c38919",
@@ -104,6 +140,30 @@
       "writtenOn": "2023-05-22T19:14:22Z",
       "side": 1,
       "message": "What does this function return for pre-release versions (like `go1.21rc1`)?\n\n(A sentence in the doc comment and a test showing interesting edge-cases would be helpful — I think it currently returns the pre-release version unchanged?)",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 14
+      },
+      "revId": "449bf876bea10ecd066255716efd8235f101ed89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df65cc34_14139bb2",
+        "filename": "src/cmd/go/internal/gover/latest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T02:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ddd7e43_66c38919",
       "range": {
         "startLine": 36,
         "startChar": 0,
