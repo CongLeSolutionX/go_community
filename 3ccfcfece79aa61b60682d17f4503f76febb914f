@@ -91,6 +91,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9cf56283_8a5e4298",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T22:00:22Z",
+      "side": 1,
+      "message": "(nit) maybe `file.ReadSeeker` here, to expose any extension methods masked by the struct?",
+      "range": {
+        "startLine": 486,
+        "startChar": 18,
+        "endLine": 486,
+        "endChar": 22
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6978357e_80e3a3e5",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T22:00:22Z",
+      "side": 1,
+      "message": "(nit) remove either the `return` or the `else` (redundant)",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e3f2a8_1d0429a0",
         "filename": "src/cmd/go/internal/cache/prog.go",
         "patchSetId": 8
@@ -119,6 +159,97 @@
       "writtenOn": "2023-05-23T21:41:25Z",
       "side": 1,
       "message": "Most of our programs use quoted.Split from cmd/internal/quoted for this. Let\u0027s use that here too.",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aff20959_51f2dc6d",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T22:00:22Z",
+      "side": 1,
+      "message": "Do we really need these checks to be explicit? I would expect `exec.Cmd.Start` to take care of them anyway.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 2
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a42fd88_bb42ed3c",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T22:00:22Z",
+      "side": 1,
+      "message": "For hermetic testing and for tracing, this whole structure should probably have `Context` plumbing, and `Close` should wait for the command and `readLoop` to complete.",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec09fd4_bf82b410",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T22:00:22Z",
+      "side": 1,
+      "message": "I think it\u0027s ok to print to stderr during cache startup to let the user know what\u0027s going on, but we shouldn\u0027t make any assumptions about the speed of the subprocess. (For example, maybe it has to build a larger cached binary on first startup, which could take longer than 5s.)",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb62e0d_85b18488",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T22:00:22Z",
+      "side": 1,
+      "message": "I would expect the program to be able to close its pipes when it completes the `Close` command, at which point I think will get an EOF from `c.stdout`.\n\nWe should, however, verify that `c.inFlight` is empty when the stream breaks.",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "903805b7_33ea8bf9",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T22:00:22Z",
+      "side": 1,
+      "message": "`base.Fatalf` if there is no in-flight operation with the given ID?\n(I would rather not mask bugs in the implementation, since we may have to work harder to maintain compatibility with those bugs going forward.)",
       "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
