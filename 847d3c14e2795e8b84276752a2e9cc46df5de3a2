@@ -39,6 +39,30 @@
       },
       "revId": "847d3c14e2795e8b84276752a2e9cc46df5de3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a99baf72_b5df37a6",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T18:53:53Z",
+      "side": 1,
+      "message": "I\u0027ve updated the description (before reading your comment) to:\n\n\u003e The number of bytes of stack that were scanned last GC cycle.\n\nThis is copied from the comment on `lastStackScan`. Let me know if that also works.",
+      "parentUuid": "ef8a1fbb_024e89f5",
+      "range": {
+        "startLine": 299,
+        "startChar": 16,
+        "endLine": 299,
+        "endChar": 83
+      },
+      "revId": "847d3c14e2795e8b84276752a2e9cc46df5de3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
