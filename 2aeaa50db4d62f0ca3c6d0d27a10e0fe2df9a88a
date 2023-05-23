@@ -119,6 +119,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9892496_0f2d5686",
+        "filename": "src/runtime/metrics.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T18:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00ac43e9_2f16e5e0",
+      "range": {
+        "startLine": 251,
+        "startChar": 3,
+        "endLine": 251,
+        "endChar": 24
+      },
+      "revId": "2aeaa50db4d62f0ca3c6d0d27a10e0fe2df9a88a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24dde3f8_a476aecf",
@@ -142,6 +166,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23ea9c42_18152dee",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T18:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24dde3f8_a476aecf",
+      "range": {
+        "startLine": 250,
+        "startChar": 70,
+        "endLine": 250,
+        "endChar": 71
+      },
+      "revId": "2aeaa50db4d62f0ca3c6d0d27a10e0fe2df9a88a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c59005e_2e74e10e",
@@ -155,6 +203,30 @@
       "writtenOn": "2023-05-23T15:27:25Z",
       "side": 1,
       "message": "please also point out that this is the value passed to SetGCPercent, and what the default value is.",
+      "range": {
+        "startLine": 184,
+        "startChar": 56,
+        "endLine": 184,
+        "endChar": 57
+      },
+      "revId": "2aeaa50db4d62f0ca3c6d0d27a10e0fe2df9a88a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a250dfa7_e8a40d66",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T18:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c59005e_2e74e10e",
       "range": {
         "startLine": 184,
         "startChar": 56,
