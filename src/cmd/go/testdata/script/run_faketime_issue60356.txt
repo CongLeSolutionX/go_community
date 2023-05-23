@@ -1,0 +1,30 @@
+[short] skip
+
+go build -o unfaketime.exe runtime/testdata/unfaketime
+
+go test -tags=faketime -exec=${PWD}/unfaketime.exe -timeout=10s .
+
+-- go.mod --
+module example
+go 1.14
+-- main_test.go --
+package main
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
+)
+
+func TestHttptest(t *testing.T) {
+	t0 := time.Now()
+	srv := httptest.NewServer(http.HandlerFunc(http.NotFound))
+	t.Logf("%v: request send", time.Since(t0))
+	req, _ := http.NewRequest("POST", srv.URL, nil)
+	if _, err := http.DefaultClient.Do(req); err != nil {
+		 t.Fatalf("Do: %v", err)
+	}
+	time.Sleep(time.Second)
+	t.Logf("%v: request sent", time.Since(t0))
+}
