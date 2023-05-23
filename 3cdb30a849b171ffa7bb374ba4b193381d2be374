@@ -126,6 +126,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b7395af_4f0f9181",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-23T19:52:39Z",
+      "side": 1,
+      "message": "Got it, OK. Then see my other comment about making unification too lax in places where we require identical-unification not assignable-unification.",
+      "parentUuid": "8906cee5_91a2589b",
+      "range": {
+        "startLine": 627,
+        "startChar": 5,
+        "endLine": 627,
+        "endChar": 61
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8294695d_73e3f162",
