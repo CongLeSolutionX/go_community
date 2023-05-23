@@ -194,6 +194,11 @@ var allDesc = []Description{
 		Cumulative:  true,
 	},
 	{
+		Name:        "/gc/global/scannable:bytes",
+		Description: "The total amount of global variable space that is scannable.",
+		Kind:        KindUint64,
+	},
+	{
 		Name: "/gc/gogc:percent",
 		Description: "Heap size target percentage configured by the user, otherwise 100. This " +
 			"value is set by the GOGC environment variable, and the runtime/debug.SetGCPercent " +
