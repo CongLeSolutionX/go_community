@@ -173,6 +173,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "449bc86d_3ccce5c0",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-23T21:39:37Z",
+      "side": 1,
+      "message": "Ah. Yeah, I think we should leave as is.",
+      "parentUuid": "aa9261e7_36e8a2d1",
+      "range": {
+        "startLine": 617,
+        "startChar": 26,
+        "endLine": 617,
+        "endChar": 28
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88535fb6_b3b02420",
