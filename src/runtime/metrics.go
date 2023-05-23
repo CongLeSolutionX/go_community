@@ -248,6 +248,12 @@ func initMetrics() {
 				out.scalar = in.sysStats.heapGoal
 			},
 		},
+		"/gc/heap/goal:percent": {
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindUint64
+				out.scalar = uint64(gcController.gcPercent.Load())
+			},
+		},
 		"/gc/heap/limit:bytes": {
 			compute: func(in *statAggregate, out *metricValue) {
 				out.kind = metricKindUint64

@@ -246,6 +246,11 @@ var allDesc = []Description{
 		Kind:        KindUint64,
 	},
 	{
+		Name:        "/gc/heap/goal:percent",
+		Description: "Heap size target percentage used to trigger collection.",
+		Kind:        KindUint64,
+	},
+	{
 		Name:        "/gc/heap/limit:bytes",
 		Description: "Heap memory limit configured by the user, otherwise max int64.",
 		Kind:        KindUint64,
