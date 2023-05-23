@@ -131,6 +131,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "664b600f_5efd30f4",
+        "filename": "src/cmd/go/gotoolchain.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T03:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25c2352b_222c88e0",
+      "revId": "1f1a7384cf71692e365e7b54c9f5cbe190de31fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "874af99e_7b400c84",
