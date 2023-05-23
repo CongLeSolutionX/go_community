@@ -291,6 +291,11 @@ var allDesc = []Description{
 		Cumulative:  true,
 	},
 	{
+		Name:        "/gc/stack/scannable:bytes",
+		Description: "The amount of allocated goroutine stack space in use by goroutines.",
+		Kind:        KindUint64,
+	},
+	{
 		Name:        "/gc/stack/starting-size:bytes",
 		Description: "The stack size of new goroutines.",
 		Kind:        KindUint64,
