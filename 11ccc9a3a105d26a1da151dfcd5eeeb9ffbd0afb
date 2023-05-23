@@ -76,6 +76,30 @@
       },
       "revId": "11ccc9a3a105d26a1da151dfcd5eeeb9ffbd0afb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a292611_3dc9faca",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-23T19:01:32Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s confusing, but that\u0027s right. Copied your comment in.",
+      "parentUuid": "b039aeee_a05eec42",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 52
+      },
+      "revId": "11ccc9a3a105d26a1da151dfcd5eeeb9ffbd0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
