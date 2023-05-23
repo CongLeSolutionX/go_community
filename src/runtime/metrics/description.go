@@ -246,6 +246,11 @@ var allDesc = []Description{
 		Kind:        KindUint64,
 	},
 	{
+		Name:        "/gc/heap/limit:bytes",
+		Description: "Heap memory limit configured by the user, otherwise max int64.",
+		Kind:        KindUint64,
+	},
+	{
 		Name:        "/gc/heap/live:bytes",
 		Description: "Heap memory occupied by live objects that were marked by the previous GC.",
 		Kind:        KindUint64,
