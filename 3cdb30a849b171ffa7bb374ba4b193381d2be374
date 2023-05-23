@@ -76,6 +76,30 @@
       },
       "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28077e8d_8af3c12d",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-23T19:43:46Z",
+      "side": 1,
+      "message": "Duh, sorry I said one thing but was thinking another.\n\nI meant I don\u0027t see the difference between the case of two interfaces, and one.\n\nIn this example, I would expect `I1[int]` to unify against `I1[string]`, just as it does with `I2[string]`",
+      "parentUuid": "88535fb6_b3b02420",
+      "range": {
+        "startLine": 627,
+        "startChar": 5,
+        "endLine": 627,
+        "endChar": 61
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
