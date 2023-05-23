@@ -16,6 +16,29 @@
       "message": "Thanks for review 🙇🏻‍♂️\n\nRenamed from `/gc/stack/scannable:bytes` to `/gc/scan/stack:bytes` and switched from `maxStackScan` to `lastStackScan` and updated the comment accordingly.",
       "revId": "847d3c14e2795e8b84276752a2e9cc46df5de3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef8a1fbb_024e89f5",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T18:32:12Z",
+      "side": 1,
+      "message": "since we already have a metric for this, I\u0027d like to be more specific. maybe: \"The amount of allocated goroutine stack space the GC expects to scan.\"\n\nit\u0027s OK to include implementation details; runtime/metrics\u0027 users must be robust to changing metrics.",
+      "range": {
+        "startLine": 299,
+        "startChar": 16,
+        "endLine": 299,
+        "endChar": 83
+      },
+      "revId": "847d3c14e2795e8b84276752a2e9cc46df5de3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
