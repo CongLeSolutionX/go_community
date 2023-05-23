@@ -59,6 +59,30 @@
       },
       "revId": "e5f07efd1db812c100bb14c9b29146525c7a3975",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f950015c_81e76933",
+        "filename": "src/runtime/metrics.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T18:20:01Z",
+      "side": 1,
+      "message": "\u003e `/gc/scan/heap:bytes`\n\nWould this use `heapMarked`? If yes, it would be the same metric as `/gc/heap/live:bytes`.\n\nI\u0027ll rename the prefix of these metrics to `/gc/scan/` for now, but wait for your reply before doing `/gc/scan/heap:bytes` and `/gc/scan/total:bytes`.",
+      "parentUuid": "08b18a0f_5c7408e9",
+      "range": {
+        "startLine": 192,
+        "startChar": 3,
+        "endLine": 192,
+        "endChar": 29
+      },
+      "revId": "e5f07efd1db812c100bb14c9b29146525c7a3975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
