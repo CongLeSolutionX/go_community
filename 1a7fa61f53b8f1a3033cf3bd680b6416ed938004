@@ -158,6 +158,24 @@
       "parentUuid": "22fa8f51_eb237901",
       "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c31d26_43ebb358",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 54801
+      },
+      "writtenOn": "2023-05-23T21:32:45Z",
+      "side": 1,
+      "message": "But this does not only affect the cached pinner, but all instances. If people keep a Pinner around, it would never release the ref memory, even after an `Unpin()`. That\u0027s exactly why I did the reset to `p.refStore[:0]`.",
+      "parentUuid": "bb724f6b_dbf65f88",
+      "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
