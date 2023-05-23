@@ -22,6 +22,30 @@
       },
       "revId": "1e797a7660808991e6ea5f689de2c1b2aadde49d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d19da6b_9212e1da",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T18:57:32Z",
+      "side": 1,
+      "message": "I copied this description from `globalsScan` (and did the same for `/gc/scan/stack:bytes` now). Let me know if you still want to change it.",
+      "parentUuid": "15ab3c8b_442bdfd2",
+      "range": {
+        "startLine": 299,
+        "startChar": 58,
+        "endLine": 299,
+        "endChar": 75
+      },
+      "revId": "1e797a7660808991e6ea5f689de2c1b2aadde49d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

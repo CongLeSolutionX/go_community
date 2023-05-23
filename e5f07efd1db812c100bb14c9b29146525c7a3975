@@ -107,6 +107,30 @@
       },
       "revId": "e5f07efd1db812c100bb14c9b29146525c7a3975",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab068ac_4b91223e",
+        "filename": "src/runtime/metrics.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T18:57:32Z",
+      "side": 1,
+      "message": "\u003e I was thinking heapScan\n\nMakes sense,- Done.\n\n\u003e I also think maybe https://go.dev/doc/gc-guide should be updated to reference these metrics.\n\nI can take a shot at a follow-up CL. Does this have to play by the freeze rules? I\u0027m trying to stay up until this CL stack is merged, but I don\u0027t think I can stay long enough to do the guide tonight as well 😅",
+      "parentUuid": "a4503911_e9c368ea",
+      "range": {
+        "startLine": 192,
+        "startChar": 3,
+        "endLine": 192,
+        "endChar": 29
+      },
+      "revId": "e5f07efd1db812c100bb14c9b29146525c7a3975",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
