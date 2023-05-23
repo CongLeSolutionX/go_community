@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eac90beb_8d92049e",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-23T20:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45f45da_b7bc4c65",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 15
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af047e9a_ba7552d0",
@@ -91,6 +115,30 @@
       "writtenOn": "2023-05-23T20:28:36Z",
       "side": 1,
       "message": "If x is Named, so is y, IIRC? i.e. this can just be y :\u003d y.(*Named).",
+      "range": {
+        "startLine": 617,
+        "startChar": 26,
+        "endLine": 617,
+        "endChar": 28
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "066dc1e3_8e944f18",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-23T20:55:14Z",
+      "side": 1,
+      "message": "No. This is a switch on the first type and we always need to check the 2nd type as well. See all the other cases.",
+      "parentUuid": "af047e9a_ba7552d0",
       "range": {
         "startLine": 617,
         "startChar": 26,
@@ -186,6 +234,30 @@
       "side": 1,
       "message": "Got it, OK. Then see my other comment about making unification too lax in places where we require identical-unification not assignable-unification.",
       "parentUuid": "8906cee5_91a2589b",
+      "range": {
+        "startLine": 627,
+        "startChar": 5,
+        "endLine": 627,
+        "endChar": 61
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a08431d2_41051d57",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-23T20:55:14Z",
+      "side": 1,
+      "message": "I think you are correct and we possibly have a bug in type inference in the special case: https://github.com/golang/go/issues/60377 . Will address separately.",
+      "parentUuid": "8b7395af_4f0f9181",
       "range": {
         "startLine": 627,
         "startChar": 5,
