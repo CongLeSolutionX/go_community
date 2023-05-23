@@ -1,0 +1,51 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70baf449_4807f6a7",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T16:32:50Z",
+      "side": 1,
+      "message": "If an unrecovered panic occurs in a test or benchmark, we intentionally allow it to propagate all the way out and crash the program. An unrecovered panic indicates that a significant program invariant has been violated, in which case the benchmark results would be dubious anyway.\n\nPlease move this `recover` into the goroutine closure in `run1`. Other callers of `runN` should not be recovering panics.",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 4
+      },
+      "revId": "16937930657241e95409dc09fcb3f1afdd438ac0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dc862dc_b332992e",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T16:32:50Z",
+      "side": 1,
+      "message": "\u003e \"paniced\" is a possible misspelling of \"panicked\".\n\nPlease fix.",
+      "parentUuid": "566b9505_5da3c619",
+      "range": {
+        "startLine": 253,
+        "startChar": 26,
+        "endLine": 253,
+        "endChar": 33
+      },
+      "revId": "16937930657241e95409dc09fcb3f1afdd438ac0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
