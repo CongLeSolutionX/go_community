@@ -70,6 +70,30 @@
       },
       "revId": "ef2bb813c82d5a96bb0993be83a34bfccb5f8c77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "798e8176_3f1511e5",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T21:32:00Z",
+      "side": 0,
+      "message": "well OK, one case where it might be useful is if the pooling isn\u0027t enough. for instance, to make multiple pinners for objects of different lifetimes for a single cgo call. but maybe the better solution in that case is to make this pinner cache work more like a general sync.Pool.",
+      "parentUuid": "47b1a705_859abe8f",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 50
+      },
+      "revId": "ef2bb813c82d5a96bb0993be83a34bfccb5f8c77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
