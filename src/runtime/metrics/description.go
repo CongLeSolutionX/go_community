@@ -253,6 +253,11 @@ var allDesc = []Description{
 		Kind:        KindUint64,
 	},
 	{
+		Name:        "/gc/heap/goal:percent",
+		Description: "Heap size target percentage used to trigger collection.",
+		Kind:        KindUint64,
+	},
+	{
 		Name:        "/gc/heap/live:bytes",
 		Description: "Heap memory occupied by live objects that were marked by the previous GC.",
 		Kind:        KindUint64,

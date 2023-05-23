@@ -185,6 +185,9 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/gc/heap/goal:bytes
 		Heap size target for the end of the GC cycle.
 
+	/gc/heap/goal:percent
+		Heap size target percentage used to trigger collection.
+
 	/gc/heap/live:bytes
 		Heap memory occupied by live objects that were marked by the
 		previous GC.
