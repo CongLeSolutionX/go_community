@@ -57,6 +57,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c45f45da_b7bc4c65",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-23T20:28:36Z",
+      "side": 1,
+      "message": "Let\u0027s keep the Checker out of the unifier. Just pass in check.conf.EnableInterfaceInference, or move it to a constant (see comment on next CL).",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 15
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af047e9a_ba7552d0",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-23T20:28:36Z",
+      "side": 1,
+      "message": "If x is Named, so is y, IIRC? i.e. this can just be y :\u003d y.(*Named).",
+      "range": {
+        "startLine": 617,
+        "startChar": 26,
+        "endLine": 617,
+        "endChar": 28
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88535fb6_b3b02420",
         "filename": "src/cmd/compile/internal/types2/unify.go",
         "patchSetId": 8
@@ -187,6 +233,30 @@
       "side": 1,
       "message": "It presumably would. But it will fail at instantiation and/or assignment time.",
       "parentUuid": "8294695d_73e3f162",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "922f09f5_a3ba02d6",
+        "filename": "src/internal/types/testdata/fixedbugs/issue57192.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-23T20:28:36Z",
+      "side": 1,
+      "message": "Ok, I agree this seems OK. Error messages may be confusing though.",
+      "parentUuid": "a7b9683b_34116b84",
       "range": {
         "startLine": 9,
         "startChar": 0,
