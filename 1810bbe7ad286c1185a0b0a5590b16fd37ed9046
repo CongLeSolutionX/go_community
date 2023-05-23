@@ -70,6 +70,24 @@
       "message": "I think we may also need to trim a trailing newline from the line here. (See #60361.)",
       "revId": "1810bbe7ad286c1185a0b0a5590b16fd37ed9046",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46486dd4_517f98c6",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-23T17:43:08Z",
+      "side": 1,
+      "message": "Deleted this function instead, now that CanGetenv does the right thing. 😊",
+      "parentUuid": "b620c5c1_34932e36",
+      "revId": "1810bbe7ad286c1185a0b0a5590b16fd37ed9046",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
