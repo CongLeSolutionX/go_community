@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36ce2a6_5b5bda46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T15:49:41Z",
+      "side": 1,
+      "message": "thanks!",
+      "revId": "4fa9660add18071c39eadbf6da7f50f705164a10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f2efa67_427baef8",
@@ -56,6 +73,99 @@
         "startChar": 16,
         "endLine": 249,
         "endChar": 36
+      },
+      "revId": "4fa9660add18071c39eadbf6da7f50f705164a10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267aef2a_41e0d6bd",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T15:49:41Z",
+      "side": 1,
+      "message": "I asked around the team and I think we\u0027d like to paint this bikeshed:\n\n\"/gc/gomemlimit:bytes\"",
+      "parentUuid": "3f2efa67_427baef8",
+      "range": {
+        "startLine": 249,
+        "startChar": 16,
+        "endLine": 249,
+        "endChar": 36
+      },
+      "revId": "4fa9660add18071c39eadbf6da7f50f705164a10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acbb4f69_08d61b23",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T15:49:41Z",
+      "side": 1,
+      "message": "nit: math.MaxInt64",
+      "range": {
+        "startLine": 250,
+        "startChar": 68,
+        "endLine": 250,
+        "endChar": 77
+      },
+      "revId": "4fa9660add18071c39eadbf6da7f50f705164a10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f14616_8f72260b",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T15:49:41Z",
+      "side": 1,
+      "message": "I think we should add a sentence explaining how it might be set. specifically:\n\n\"This value is set by the GOMEMLIMIT environment variable, and the runtime/debug.SetMemoryLimit function.\"",
+      "range": {
+        "startLine": 250,
+        "startChar": 77,
+        "endLine": 250,
+        "endChar": 78
+      },
+      "revId": "4fa9660add18071c39eadbf6da7f50f705164a10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc852642_e5bf4e5c",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T15:49:41Z",
+      "side": 1,
+      "message": "nit: Go runtime memory limit",
+      "range": {
+        "startLine": 250,
+        "startChar": 16,
+        "endLine": 250,
+        "endChar": 22
       },
       "revId": "4fa9660add18071c39eadbf6da7f50f705164a10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
