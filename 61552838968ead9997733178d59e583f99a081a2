@@ -16,6 +16,24 @@
       "message": "Looking at this more closely, is there a good reason to use names other than the actual hardware instruction names (and is there other non-Go examples of this)?\n\nThe only use of REV (at least in the assemblers) is seemingly arm/arm64, where it is the native instruction. Given that the behaviour is slightly obscure, it seems that using WSBH, DSBH and DSHD would make it easier for someone trying to line this up with MIPS documentation and/or assembly.",
       "revId": "61552838968ead9997733178d59e583f99a081a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb95e341_ad0d5386",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-23T10:05:31Z",
+      "side": 1,
+      "message": "Because such instructions in this CL are used to reverse value like REV too. And I have also used these instructions to intrinsify ReverseBytes on MIPS64. (test result can be see on #60072).\nHowever, due to golang requirement to support MIPS III or higher, I can\u0027t submit CL with ReverseBytes until golang accepts different MIPS ISA levels. I can only add support for such instructions in ssa backend like CL 167680 first.",
+      "parentUuid": "eebcd975_490936b5",
+      "revId": "61552838968ead9997733178d59e583f99a081a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
