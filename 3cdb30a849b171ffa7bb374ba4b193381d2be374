@@ -171,6 +171,30 @@
       },
       "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b9683b_34116b84",
+        "filename": "src/internal/types/testdata/fixedbugs/issue57192.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-23T19:53:08Z",
+      "side": 1,
+      "message": "It presumably would. But it will fail at instantiation and/or assignment time.",
+      "parentUuid": "8294695d_73e3f162",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
