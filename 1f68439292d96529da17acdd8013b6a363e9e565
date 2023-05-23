@@ -72,6 +72,24 @@
       "message": "It\u0027s not clear what to do when this errors.\n\nTo save the QUIC transport parameters alongside the ticket, a QUIC stack would wrap a ClientSessionCache that was provided by the implementation. This is how such a wrapping function could look like:\n```\nfunc (c clientSessionCache) Get(key string) (*tls.ClientSessionState, bool) {\n\tcs, ok :\u003d c.wrapped.Get(key)\n\tif !ok || cs \u003d\u003d nil {\n\t\treturn cs, ok\n\t}\n\tticket, state, err :\u003d cs.ResumptionState()\n\tif err !\u003d nil {\n\t\t// It\u0027s not clear why this would error.\n\t\t// Do we need to remove the ticket from the session cache,\n\t\t// so we don\u0027t run into this error over and over again?\n\t\treturn nil, false\n\t}\n\tif state.EarlyData {\n\t\t// restore QUIC transport parameters stored in state.Extra\n\t}\n\tsession, err :\u003d tls.NewResumptionState(ticket, state)\n\tif err !\u003d nil {\n\t\t// It\u0027s not clear why this would error.\n\t\t// Do we need to remove the ticket from the session cache,\n\t\t// so we don\u0027t run into this error over and over again?\n\t\tc.wrapped.Put(key, cs)\n\t\treturn nil, false\n\t}\n\treturn session, true\n}\n```",
       "revId": "1f68439292d96529da17acdd8013b6a363e9e565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39a0dbdb_38b95ffa",
+        "filename": "src/crypto/tls/ticket.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:24:05Z",
+      "side": 1,
+      "message": "I can\u0027t think of a reason this would error in this use, but doing a Put(nil) on the underlying cache sounds like a good defensive idea.\n\nThe error return is there for when/if we repurpose these for external PSKs, where we\u0027ll want to do validation and ResumptionState will have nothing to return.",
+      "parentUuid": "61d60bfb_ec81dea4",
+      "revId": "1f68439292d96529da17acdd8013b6a363e9e565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
