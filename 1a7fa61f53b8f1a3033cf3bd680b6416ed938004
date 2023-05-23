@@ -176,6 +176,24 @@
       "parentUuid": "bb724f6b_dbf65f88",
       "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41a072fa_5329f258",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T22:33:08Z",
+      "side": 1,
+      "message": "yeah, I think that\u0027s a real issue. I think that\u0027s enough to warrant not removing refStore and dropping refs on an unpin.",
+      "parentUuid": "f1c31d26_43ebb358",
+      "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

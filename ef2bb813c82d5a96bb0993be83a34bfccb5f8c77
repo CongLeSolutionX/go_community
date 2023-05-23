@@ -142,6 +142,30 @@
       },
       "revId": "ef2bb813c82d5a96bb0993be83a34bfccb5f8c77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e0cd00_05d21862",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T22:33:08Z",
+      "side": 0,
+      "message": "\u003e I think you over-optimize now for the cases single serial pinners\n\nthe motivating use-case (iovec, io_uring), AFAICT, could benefit from this optimization, judging by your examples on the issue. I think that\u0027s basically all we have to go on right now.\n\nnonetheless, pooling at least the *pinner will help every case at least a little. even if there are multiple Pinners with multiple lifetimes, you get to save one of those allocations. (and again, we should probably be pooling them more generally, but that\u0027s too complex of a change for right now.)\n\nI do think refStore has to be there for other reasons anyway, so I\u0027ll make sure to leave that be. as per my other comment, I\u0027m not going to try and keep refs around.",
+      "parentUuid": "96124aeb_74a1d749",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 50
+      },
+      "revId": "ef2bb813c82d5a96bb0993be83a34bfccb5f8c77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
