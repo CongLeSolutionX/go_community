@@ -1160,9 +1160,16 @@ func requirementsFromModFiles(ctx context.Context, modFiles []*modfile.File) *Re
 func setDefaultBuildMod() {
 	if cfg.BuildModExplicit {
 		if inWorkspaceMode() && cfg.BuildMod != "readonly" {
-			base.Fatalf("go: -mod may only be set to readonly when in workspace mode, but it is set to %q"+
-				"\n\tRemove the -mod flag to use the default readonly value,"+
-				"\n\tor set GOWORK=off to disable workspace mode.", cfg.BuildMod)
+			switch cfg.CmdName {
+			case "work sync", "mod graph", "mod verify", "mod why":
+				// These commands run with BuildMod set to mod, but they don't take the
+				// -mod flag, so we should never get here.
+				panic("in workspace mode and -mod was set explicitly, but command doesn't support setting -mod")
+			default:
+				base.Fatalf("go: -mod may only be set to readonly when in workspace mode, but it is set to %q"+
+					"\n\tRemove the -mod flag to use the default readonly value,"+
+					"\n\tor set GOWORK=off to disable workspace mode.", cfg.BuildMod)
+			}
 		}
 		// Don't override an explicit '-mod=' argument.
 		return
