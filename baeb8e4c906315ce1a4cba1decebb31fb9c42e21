@@ -16,6 +16,178 @@
       "message": "Coming up with the correct wording here is... painful. I tried to tread the line between stern warning and useful context, but 🤷, happy to take any suggestions.",
       "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aca1c5b1_9874ce6b",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "make",
+      "range": {
+        "startLine": 122,
+        "startChar": 3,
+        "endLine": 122,
+        "endChar": 8
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d63d1e3_58070ae4",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 123,
+        "startChar": 66,
+        "endLine": 123,
+        "endChar": 69
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b720d9_9091e252",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "DecryptPKCS1v15SessionKey",
+      "range": {
+        "startLine": 123,
+        "startChar": 61,
+        "endLine": 123,
+        "endChar": 65
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a03aaff5_0c17a759",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "whether",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 15
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09c7d7b_f3d0b752",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "are defeated",
+      "range": {
+        "startLine": 126,
+        "startChar": 67,
+        "endLine": 127,
+        "endChar": 42
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3313186_1ecdced1",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "Move the paragraph about what it does above the one about how it fails, it\u0027s context needed to understand the attacks.",
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51e6de33_fcadf6c8",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "also",
+      "range": {
+        "startLine": 143,
+        "startChar": 49,
+        "endLine": 143,
+        "endChar": 50
+      },
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66826764_e0cf93eb",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-23T08:55:39Z",
+      "side": 1,
+      "message": "I think these will not render well in a godoc.",
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
