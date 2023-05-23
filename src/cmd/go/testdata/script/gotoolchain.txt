@@ -49,6 +49,10 @@ cp go119toolchain1999 go.mod
 go version
 stdout go1.999
 
+cp go1999toolchainlocal go.mod
+! go build
+stderr 'xxx'
+
 # toolchain line in go.work
 cp empty go.mod
 cp go119toolchain1999 go.work
@@ -206,9 +210,9 @@ go 1.19
 go 1.19
 toolchain go1.999testpath
 
--- go1999toolchain119 --
-go 1.999testpath
-toolchain go1.19
+-- go1999toolchainlocal --
+go 1.999
+toolchain local
 
 -- go1.999testpath.go --
 package main
