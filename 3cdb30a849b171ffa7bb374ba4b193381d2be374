@@ -104,6 +104,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8906cee5_91a2589b",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-23T19:51:06Z",
+      "side": 1,
+      "message": "Understood. But we won\u0027t be able to infer the P in I1[P] matching against I1[int] if P is not used anywhere. Currently we can do that.\n\nThat is, the current proposal remains backward-compatible. Yes, it can\u0027t do what you\u0027re suggesting but we couldn\u0027t do that before either.",
+      "parentUuid": "28077e8d_8af3c12d",
+      "range": {
+        "startLine": 627,
+        "startChar": 5,
+        "endLine": 627,
+        "endChar": 61
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8294695d_73e3f162",
         "filename": "src/internal/types/testdata/fixedbugs/issue57192.go",
         "patchSetId": 8
