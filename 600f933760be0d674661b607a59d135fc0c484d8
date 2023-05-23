@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee120842_ac6ea923",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-05-23T20:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95a4cd31_5366956a",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7236d084_a39db5f0",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c00b414_3d1b5e6a",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-05-23T20:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7236d084_a39db5f0",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2bb4130_42b4e8eb",
@@ -65,6 +101,24 @@
       "writtenOn": "2023-04-25T00:01:14Z",
       "side": 1,
       "message": "Add \"the\" before \"[database/sql.DB.Close] method\".",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48a86adc_ae88c5a1",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-05-23T20:07:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2bb4130_42b4e8eb",
       "revId": "600f933760be0d674661b607a59d135fc0c484d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
