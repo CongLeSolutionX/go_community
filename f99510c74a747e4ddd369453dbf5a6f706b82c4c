@@ -16,6 +16,24 @@
       "message": "As a general comment to this change I want to rescue my reply to @mknyszek@google.com in another comment from CL 497475:\n\n\u003e the issue is an allocation has costs beyond just the mallocgc. yeah, the mallocgc itself for 64 bytes is relatively fast and doesn\u0027t matter much (especially if they\u0027re held for a long time; the easy case), but they create a constant stream of new garbage that increases the rate of garbage collection (if even only slightly).\n\nI see, and I\u0027m a bit surprised TBH, I expected that repeatedly allocating and releasing just 64 byte would be idempotent also in Go (as it is in libc malloc).\n\n\u003e in such cases, an external sync.Pool is a workaround, but the problem is letting that become an idiom, which only complicates the code. internally pooling prevents that idiom from taking root.\n\nBut in order to avoid this idiom you would have to make this implementation detail an explicit promise of the API contract. Did you ever do that in other cases? Otherwise people would still use their own sync.Pool additionally. But I rather believe people would simply use them in the local scope or context data structure, and then you can still introduce the optimization later, if it turns out to be of significance.\n\n\u003e in the short term, it\u0027s probably no big deal. pinning is probably going to be very rare to begin, and relatively rare later. but if we make cgo calls faster, then this could quickly become the dominant source of overheads.\n\nPinner only makes sense in cases where it is significantly faster than to simply copy the memory into non-Go memory, so I guess for quite big chunks of memory. I wonder how much these optimizations would still matter in these scenarios.",
       "revId": "f99510c74a747e4ddd369453dbf5a6f706b82c4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd281036_8a088645",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54801
+      },
+      "writtenOn": "2023-05-23T21:45:20Z",
+      "side": 1,
+      "message": "So, in other words: if this behavior and optimization is not mentioned in the docs, I don\u0027t see how it would stop people from keeping their own copies from pinner around or even using a sync.Pool for it.",
+      "parentUuid": "ef881eaf_78ada4b6",
+      "revId": "f99510c74a747e4ddd369453dbf5a6f706b82c4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
