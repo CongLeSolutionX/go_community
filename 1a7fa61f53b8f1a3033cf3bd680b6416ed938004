@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9d984a71_192ad029",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T21:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a832793_689d36f4",
+      "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fc5e61f1_1559e510",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3e6244f_baf8492b",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T21:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86f42b83_d572762f",
+      "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22fa8f51_eb237901",
@@ -102,6 +138,24 @@
       "writtenOn": "2023-05-23T20:36:24Z",
       "side": 1,
       "message": "Is it a problem that we might wind up pooling a pinner with a very large refs slice? Maybe there should be some bound, above which we either reset it to refStore or just throw it out? (A watermark would be perfect for this, but is definitely more complicated than we want to do.)",
+      "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb724f6b_dbf65f88",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-23T21:21:49Z",
+      "side": 1,
+      "message": "the refs slice would have to be very, very big for it to matter I think. the difference is surviving an extra GC cycle, because we discard the cache every cycle.\n\nI don\u0027t expect it to be a problem in practice, but I\u0027m fine with setting some very high threshold (1024?). WDYT?",
+      "parentUuid": "22fa8f51_eb237901",
       "revId": "1a7fa61f53b8f1a3033cf3bd680b6416ed938004",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
