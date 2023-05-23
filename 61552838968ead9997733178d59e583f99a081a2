@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eebcd975_490936b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-05-23T08:00:28Z",
+      "side": 1,
+      "message": "Looking at this more closely, is there a good reason to use names other than the actual hardware instruction names (and is there other non-Go examples of this)?\n\nThe only use of REV (at least in the assemblers) is seemingly arm/arm64, where it is the native instruction. Given that the behaviour is slightly obscure, it seems that using WSBH, DSBH and DSHD would make it easier for someone trying to line this up with MIPS documentation and/or assembly.",
+      "revId": "61552838968ead9997733178d59e583f99a081a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
