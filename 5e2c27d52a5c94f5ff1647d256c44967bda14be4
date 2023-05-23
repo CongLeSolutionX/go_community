@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b37563_7c2faea2",
+        "filename": "src/runtime/metrics.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-23T10:46:10Z",
+      "side": 1,
+      "message": "Maybe this should be lastStackScan?\n\nhttps://github.com/golang/go/blob/e4e8f9b8ffff9d1bcbaaf4b98307d0b88c26678f/src/runtime/mgcpacer.go#L1204",
+      "revId": "5e2c27d52a5c94f5ff1647d256c44967bda14be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
