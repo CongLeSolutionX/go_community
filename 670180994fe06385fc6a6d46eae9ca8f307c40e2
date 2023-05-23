@@ -127,6 +127,24 @@
       "parentUuid": "792975d5_d39e5861",
       "revId": "670180994fe06385fc6a6d46eae9ca8f307c40e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae3642c9_9dc4e079",
+        "filename": "src/cmd/go/internal/modload/mvs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-23T17:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "792975d5_d39e5861",
+      "revId": "670180994fe06385fc6a6d46eae9ca8f307c40e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
