@@ -149,6 +149,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa9261e7_36e8a2d1",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-23T21:24:38Z",
+      "side": 1,
+      "message": "I\u0027m referring to the comment above: \"// If we have at least one defined type, there is one in y.\"\n\nBut a type assertion is cleaner anyway.",
+      "parentUuid": "066dc1e3_8e944f18",
+      "range": {
+        "startLine": 617,
+        "startChar": 26,
+        "endLine": 617,
+        "endChar": 28
+      },
+      "revId": "3cdb30a849b171ffa7bb374ba4b193381d2be374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88535fb6_b3b02420",
