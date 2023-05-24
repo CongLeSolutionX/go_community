@@ -597,6 +597,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3efa2edd_16971159",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:11:48Z",
+      "side": 1,
+      "message": "I added a big TODO here. That okay for now? I\u0027d prefer that to be a separate change as it\u0027ll touch enough other stuff.\n\nFor now I\u0027m not too concerned about this because a cacheprog not implementing \"get\" is a hypothetical fringe use case.",
+      "parentUuid": "d1e153f8_0b78585c",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90d227d9_4b7a18d0",
         "filename": "src/cmd/go/internal/cache/prog.go",
         "patchSetId": 8
@@ -608,6 +626,30 @@
       "writtenOn": "2023-05-24T02:45:55Z",
       "side": 1,
       "message": "Pass in the Context. (We ought to have it around for tracing anyway.)",
+      "range": {
+        "startLine": 290,
+        "startChar": 48,
+        "endLine": 290,
+        "endChar": 83
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa04ab1b_1b62a04d",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:11:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90d227d9_4b7a18d0",
       "range": {
         "startLine": 290,
         "startChar": 48,
@@ -631,6 +673,24 @@
       "writtenOn": "2023-05-24T02:45:55Z",
       "side": 1,
       "message": "I don\u0027t think we should return `entryNotFoundError` for protocol or communication errors. If the cache program is buggy or crashy, I\u0027d rather we surface that so that the user can fix it than quietly degrade to rebuilding a bunch of dependencies that should have been in cache.",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e96b5df4_69f51774",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:11:48Z",
+      "side": 1,
+      "message": "Changed to err, with a TODO to audit all the callers, same as the other TODO.",
+      "parentUuid": "af4cafe9_89e6293b",
       "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -671,6 +731,30 @@
       "writtenOn": "2023-05-24T02:45:55Z",
       "side": 1,
       "message": "If we need to get an error back, name the method Flush instead of Close and pass in a `Context`?\n\nProbably `(*ProgCache).Close` itself should close the `stdin` pipe, wait for `readLoop` to reach `EOF`, and then call `c.cmd.Wait` to clean up the process.",
+      "range": {
+        "startLine": 371,
+        "startChar": 29,
+        "endLine": 371,
+        "endChar": 96
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64758557_f13808c1",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:11:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c53c3871_4dd42b90",
       "range": {
         "startLine": 371,
         "startChar": 29,
