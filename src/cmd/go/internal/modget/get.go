@@ -43,6 +43,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
+	"cmd/go/internal/toolchain"
 	"cmd/go/internal/work"
 
 	"golang.org/x/mod/modfile"
@@ -379,6 +380,9 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	oldReqs := reqsFromGoMod(modload.ModFile())
 
 	if err := modload.WriteGoMod(ctx); err != nil {
+		if tooNew, ok := err.(*gover.TooNewError); ok {
+			tryVersion(ctx, tooNew.GoVersion)
+		}
 		base.Fatalf("go: %v", err)
 	}
 
@@ -1211,6 +1215,20 @@ func (r *resolver) resolveQueries(ctx context.Context, queries []*query) (change
 	for {
 		prevResolved := resolved
 
+		// If we found modules that were too new, find the max of the required versions
+		// and then try to switch to a newer toolchain.
+		goVers := ""
+		for _, q := range queries {
+			for _, cs := range q.candidates {
+				if e, ok := cs.err.(*gover.TooNewError); ok && gover.Compare(goVers, e.GoVersion) < 0 {
+					goVers = e.GoVersion
+				}
+			}
+		}
+		if goVers != "" {
+			tryVersion(ctx, goVers)
+		}
+
 		for _, q := range queries {
 			unresolved := q.candidates[:0]
 
@@ -1884,4 +1902,30 @@ func isNoSuchModuleVersion(err error) bool {
 func isNoSuchPackageVersion(err error) bool {
 	var noPackage *modload.PackageNotInModuleError
 	return isNoSuchModuleVersion(err) || errors.As(err, &noPackage)
+}
+
+// tryVersion tries to switch to a Go toolchain appropriate for version,
+// which was either found in a go.mod file of a dependency or resolved
+// on the command line from go@v.
+func tryVersion(ctx context.Context, version string) {
+	if !gover.IsValid(version) || !toolchain.CanSwitch() || gover.Compare(version, gover.Local()) <= 0 {
+		return
+	}
+	if gover.IsLang(version) {
+		// Use the closest version >= version, preferring real releases over prereleases.
+		// This means "1.22" resolves to "1.22rc1" until "1.22rc2" comes out,
+		// and then resolves to "1.22rc2" until "1.22.0" comes out,
+		// and then resolves to "1.22.0" forever after.
+		allowed := modload.CheckAllowed
+		noneSelected := func(path string) (version string) { return "none" }
+		_, m, err := modload.QueryPattern(ctx, "go", ">="+version, noneSelected, allowed)
+		if err != nil {
+			base.Errorf("go: resolving %s: %v", version, err)
+			return
+		}
+		version = m.Mod.Version
+	}
+	gv := "go" + version
+	fmt.Fprintf(os.Stderr, "go: switching to %v\n", gv)
+	toolchain.SwitchTo(gv)
 }

@@ -10,7 +10,10 @@
 // depending on the module path.
 package gover
 
-import "cmp"
+import (
+	"cmp"
+	"os"
+)
 
 // A version is a parsed Go version: major[.minor[.patch]][kind[pre]]
 // The numbers are the original decimal strings to avoid integer overflows
@@ -76,6 +79,11 @@ func Lang(x string) string {
 	return v.major + "." + v.minor
 }
 
+// IsPrerelease reports whether v denotes a Go prerelease version.
+func IsPrerelease(x string) bool {
+	return parse(x).kind != ""
+}
+
 // Prev returns the Go major release immediately preceding v,
 // or v itself if v is the first Go major release (1.0) or not a supported
 // Go version.
@@ -129,7 +137,11 @@ func parse(x string) version {
 	if x == "" {
 		// Patch missing is same as "0" for older versions.
 		// Starting in Go 1.21, patch missing is different from explicit .0.
-		if cmpInt(v.minor, "21") < 0 {
+		// If we're testing (TestVersion != "") then TESTGO_VERSION_LANG=1 disables this.
+		// This lets us use releases like Go 1.3 as if they were more like Go 1.21 in version semantics,
+		// since at time of writing Go 1.21 is not yet released. Once there are some Go 1.21 point releases
+		// we could remove the TestVersion ... condition and change the tests to use 1.21.
+		if cmpInt(v.minor, "21") < 0 && (TestVersion == "" || os.Getenv("TESTGO_VERSION_LANG") != "1") {
 			v.patch = "0"
 		}
 		return v
