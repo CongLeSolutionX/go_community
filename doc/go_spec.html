@@ -7531,6 +7531,51 @@ The precise behavior is implementation-dependent.
 </p>
 
 
+<h3 id="Min_and_max">Min and max</h3>
+
+<p>
+The built-in functions <code>min</code> and <code>max</code> determine the
+smallest (or largest, respectively) value of the given arguments.
+The functions accept an arbitrary but fixed number of arguments (no slices),
+but there must be at least one argument.
+Arguments must support the <code>&lt;</code> operation
+</p>
+
+<p>
+For numeric arguments, <code>min</code> and <code>max</code> are
+commutative and associative:
+</p>
+
+<pre>
+min(x)            == x
+min(x, y)         == min(y, x)
+min(min(x, y), z) == min(x, min(y, z))
+</pre>
+
+<p>
+For string arguments, the result is the first argument (from left to right)
+that is smaller (or larger, respectively) then all the other arguments.
+</p>
+
+<p>
+For floating-point operands, the following special cases apply:
+</p>
+
+<pre>
+x, y         min(x, y)    max(x, y)
+
+1, 2         1            2
+-2, 1        -2           1
+-0, 0        -0           0
+0, Inf       0            Inf
+-Inf, 0      -Inf         0
+-Inf, Inf    -Inf         Inf
+1, Inf       1            Inf
+-Inf, 1      -Inf         1
+NaN, 1       NaN          NaN
+NaN, Inf     NaN          NaN
+</pre>
+
 <h3 id="Allocation">Allocation</h3>
 
 <p>
