@@ -376,6 +376,17 @@ Go code may not store a Go pointer in C memory. C code may store Go
 pointers in C memory, subject to the rule above: it must stop storing
 the Go pointer when the C function returns.
 
+Some of the rules above may be relaxed by pinning Go memory using the
+runtime package's Pinner type (https://pkg.go.dev/runtime#Pinner).
+
+Go pointers to pinned Go memory may be stored in C memory by Go code or
+C code for the duration of the pin. Note however that even pinned Go
+pointers still must not be stored in Go memory by C code. Go code may
+also pass a Go pointer to C that points to Go memory containing Go
+pointers, provided all those Go pointers are pinned. This rule applies
+transitively to all pinned Go memory that is reachable from Go pointers
+passed to C.
+
 These rules are checked dynamically at runtime. The checking is
 controlled by the cgocheck setting of the GODEBUG environment
 variable. The default setting is GODEBUG=cgocheck=1, which implements
