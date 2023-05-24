@@ -52,6 +52,24 @@
       "parentUuid": "ef881eaf_78ada4b6",
       "revId": "f99510c74a747e4ddd369453dbf5a6f706b82c4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8950b6c_9c751f27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54801
+      },
+      "writtenOn": "2023-05-24T13:59:46Z",
+      "side": 1,
+      "message": "\u003e \u003e But in order to avoid this idiom you would have to make this implementation detail an explicit promise of the API contract.\n\u003e \n\u003e I\u0027m not sure I agree. the \"obvious\" use of Pinner is to create one in the local scope as-needed. carrying it around in a context is almost always going to be extra work, so I imagine the reasons why it would end up in a context in the first place is because either it has a complex lifetime (which can\u0027t really be helped), or someone identified the Pinner as a performance issue.\n\nOk, so you assume people would only use that idiom after seeing real performance issues. My experience tells me, people tend to rather do premature optimization, than to do actual benchmarking. (I\u0027m also looking at myself. ;-) )\n\n\u003e \u003e Pinner only makes sense in cases where it is significantly faster than to simply copy the memory into non-Go memory, so I guess for quite big chunks of memory.\n\u003e \n\u003e shouldn\u0027t Pinner be fast enough to begin with to make copying not have to be a real choice at all? (at least not for performance reasons; defensive copying exists after all)\n\nWell, if that is feasible, sure, it\u0027s great if it is _really_ significantly faster for _all_ use-cases, without adding too much cost (in terms of complexity). What I mean is, that\u0027s very tough competition. I once did benchmarks with my own PtrGuard implementation (which admittedly is probably more expensive than Pinner, because it creates a no-op Go routine for the pinning), and I was shocked how fast the copying was, and that the break-even for writev/readv (iovec) was around 64 * 32kB buffers. (I think I will do the same benchmark with Pinner again, I\u0027m curious.)\n\n\u003e the main concern I have with external pooling or reuse for performance reasons as an idiom is that it can defeat future optimizations.\n\u003e \n\u003e say for example users do start using sync.Pool for their Pinners, to reduce the number of memory allocations made. if one day we are able to, for example, stack-allocate a *pinner and its refs (the only reason we can\u0027t right now is SetFinalizer, but that\u0027s at least solvable), then downstream users are limited from being able to take advantage of that if they\u0027ve already designed their programs around pooling and/or reusing Pinners.\n\u003e \n\u003e I don\u0027t think we need to promise that Pinners are fast in the API; they should just be fast. right now, I think they\u0027re fast _enough_ given the cost of a cgo call, as long as we can keep the allocation count low.\n\nSure, I totally get why you want to avoid the idiom, I\u0027m just more pessimistic that \"pinners are just fast\" will be enough to avoid them. People (sometimes) read docs, but rarely do benchmarks. ;-) I guess we will see. :-)",
+      "parentUuid": "82f0f900_2ea200e7",
+      "revId": "f99510c74a747e4ddd369453dbf5a6f706b82c4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
