@@ -53,6 +53,24 @@
       "message": "Use a doc link here.\n\nSome of the rules above may be relaxed by pinning Go memory using [runtime.Pinner].",
       "revId": "b3812d3139a6a80ec4810be3c18b958e36c8d856",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd95109_0a77b0ac",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-24T22:28:21Z",
+      "side": 1,
+      "message": "Done, but also I made an attempt at a broader rewrite for better clarity in various scenarios (e.g. is it OK for a Go function to return a pinned Go pointer to C? yes.)\n\nI\u0027m not sure how well of a job I did though. please take a look and let me know what you think. if you think this is too subtle, I can switch back to the old version which is a smaller delta, and just try to cover a few additional cases explicitly.",
+      "parentUuid": "9da8c037_0ff329ad",
+      "revId": "b3812d3139a6a80ec4810be3c18b958e36c8d856",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
