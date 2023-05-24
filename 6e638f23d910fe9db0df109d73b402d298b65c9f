@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce5673ae_0f24c064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-24T14:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79685119_3cc1d120",
+      "revId": "6e638f23d910fe9db0df109d73b402d298b65c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63837778_fda8f019",
@@ -97,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abf6ed33_d618cd2a",
+        "filename": "src/crypto/internal/bigmod/nat.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-24T14:35:59Z",
+      "side": 1,
+      "message": "\"Both operands\" is used all over the place, when there are two Nats I think it\u0027s clear (unlike when it referred to a Nat and a Modulus).",
+      "parentUuid": "63837778_fda8f019",
+      "range": {
+        "startLine": 683,
+        "startChar": 17,
+        "endLine": 683,
+        "endChar": 30
+      },
+      "revId": "6e638f23d910fe9db0df109d73b402d298b65c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10ac93aa_bd93497e",
@@ -110,6 +152,30 @@
       "writtenOn": "2023-05-19T16:48:37Z",
       "side": 1,
       "message": "Isn\u0027t this square-and-multiply?",
+      "range": {
+        "startLine": 754,
+        "startChar": 4,
+        "endLine": 754,
+        "endChar": 18
+      },
+      "revId": "6e638f23d910fe9db0df109d73b402d298b65c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c1377c_ba9dc81c",
+        "filename": "src/crypto/internal/bigmod/nat.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-24T14:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10ac93aa_bd93497e",
       "range": {
         "startLine": 754,
         "startChar": 4,
