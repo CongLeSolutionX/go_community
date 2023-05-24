@@ -643,6 +643,7 @@ an identifier denoting a constant,
 a <a href="#Constant_expressions">constant expression</a>,
 a <a href="#Conversions">conversion</a> with a result that is a constant, or
 the result value of some built-in functions such as
+<code>min</code> or <code>max</code> applied to ordered constants,
 <code>unsafe.Sizeof</code> applied to <a href="#Package_unsafe">certain values</a>,
 <code>cap</code> or <code>len</code> applied to
 <a href="#Length_and_capacity">some expressions</a>,
@@ -7530,6 +7531,69 @@ create a map with initial space to hold <code>n</code> map elements.
 The precise behavior is implementation-dependent.
 </p>
 
+
+<h3 id="Min_and_max">Min and max</h3>
+
+<p>
+The built-in functions <code>min</code> and <code>max</code> compute the
+smallest&mdash;or largest, respectively&mdash;value of a fixed number of
+arguments of <a href="#Comparison_operators">ordered types</a>.
+There must be at least one argument and slices are not permitted.
+</p>
+
+<p>
+The same type rules as for <a href="#Operators">operators</a> apply:
+for ordered arguments <code>x</code> and <code>y</code>,
+<code>min(x, y)</code> is valid if <code>x + y</code> is valid,
+and the type of <code>min(x, y)</code> is the type of <code>x + y</code>.
+Similarly, if all arguments are constant, the result is constant.
+</p>
+
+<pre>
+var x, y int
+m := min(x)                 // m == x
+m := min(x, y)              // m is the smaller of x and y
+m := max(x, y, 10)          // m is the larger of x and y but at least 10
+c := max(1, 2.0, 10)        // c == 10.0 (floating-point kind)
+f := max(0, float32(x))     // type of f is float32
+var s []string
+_ = min(s...)               // invalid: slice arguments are not permitted
+t := max("", "foo", "bar")  // t == "foo" (string kind)
+</pre>
+
+<p>
+For numeric arguments, <code>min</code> and <code>max</code> are
+commutative and associative:
+</p>
+
+<pre>
+min(x, y)    == min(y, x)
+min(x, y, z) == min(min(x, y), z) == min(x, min(y, z))
+</pre>
+
+<p>
+For floating-point arguments negative zero, NaN, and infinity the following rules apply:
+</p>
+
+<pre>
+   x        y    min(x, y)    max(x, y)
+
+  -0.0    0.0         -0.0          0.0
+  -Inf      y         -Inf            y    // for any non-NaN y value
+  +Inf      y            y         +Inf    // for any non-NaN y value
+   NaN      y          NaN          NaN    // for any y value
+</pre>
+	
+<p>
+For string arguments, the result is the first argument from left to right
+with the smallest&mdash;or largest, respectively&mdash;string value,
+compared lexically byte-wise:
+</p>
+
+<pre>
+min(x, y)    == if x <= y then x else y
+min(x, y, z) == min(min(x, y), z)
+</pre>
 
 <h3 id="Allocation">Allocation</h3>
 
