@@ -4,8 +4,8 @@
 
 //go:build js || wasip1
 
-package main
+package toolchain
 
 // nop for systems that don't even define syscall.Exec, like js/wasm.
-func switchGoToolchain() {
+func Switch(strings) {
 }

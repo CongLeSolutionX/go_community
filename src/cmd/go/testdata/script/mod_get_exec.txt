@@ -1,0 +1,29 @@
+env TESTGO_VERSION=go1.20
+env TESTGO_VERSION_SWITCH=1
+
+cp go.mod.new go.mod
+go get rsc.io/needgo121 rsc.io/needgo122 rsc.io/needgo123 rsc.io/needall
+stderr '^go: switching to go1.23.99$'
+stderr '^go: added rsc.io/needall v0.0.1'
+grep 'go 1.23.99' go.mod
+
+[!net:golang.org] skip
+
+env GOPROXY=https://proxy.golang.org/
+env GOSUMDB=
+env TESTGO_VERSION=go1.1
+env TESTGO_VERSION_SWITCH=
+
+cp go.mod.new go.mod
+go list -json -m -versions -mod=mod go@1.2
+stdout '"Version": "1.2.2"'
+
+cp go.mod.new go.mod
+? go get rsc.io/tmp/usego12@f84876e
+stderr '^go: switching to go1.2.2 for 1.2$'
+
+-- go.mod.new --
+module m
+
+-- p.go --
+package p
