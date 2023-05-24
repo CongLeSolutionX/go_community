@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c03c1de4_d9c77222",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-05-24T22:25:23Z",
+      "side": 1,
+      "message": "This issue was closed on Apr 18, but I see there was discussion here afterwards and CL is approved now.\n\nSince this still says \"Fixes #59555.\", can you please add a comment to the issue to include the final consensus that happened here? Or otherwise this can be updated to \"For #59555.\" if this CL isn\u0027t really fixing that issue anymore but doing something related. Thanks.",
+      "revId": "232edca049a8a0828a04bda9f64ccc1f1473b8fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
