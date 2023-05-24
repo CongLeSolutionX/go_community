@@ -1572,8 +1572,8 @@ func commitRequirements(ctx context.Context) (err error) {
 		modFile.AddGoStmt(v)
 	}
 	if gover.Compare(modFile.Go.Version, gover.Local()) > 0 {
-		// TODO: Reinvoke the newer toolchain if GOTOOLCHAIN=auto.
-		base.Fatalf("go: %v", &gover.TooNewError{What: "updating go.mod", GoVersion: modFile.Go.Version})
+		// We cannot assume that we know how to update a go.mod to a newer version.
+		return &gover.TooNewError{What: "updating go.mod", GoVersion: modFile.Go.Version}
 	}
 
 	// If toolchain is older than go version, drop it.
