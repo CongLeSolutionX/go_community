@@ -157,7 +157,7 @@ func (rs *Requirements) String() string {
 func (rs *Requirements) initVendor(vendorList []module.Version) {
 	rs.graphOnce.Do(func() {
 		mg := &ModuleGraph{
-			g: mvs.NewGraph(cmpVersion, MainModules.Versions()),
+			g: mvs.NewGraph(cmpVersion, MainModules.GraphRoots()),
 		}
 
 		if MainModules.Len() != 1 {
@@ -305,7 +305,7 @@ func readModGraph(ctx context.Context, pruning modPruning, roots []module.Versio
 		mu       sync.Mutex // guards mg.g and hasError during loading
 		hasError bool
 		mg       = &ModuleGraph{
-			g: mvs.NewGraph(cmpVersion, MainModules.Versions()),
+			g: mvs.NewGraph(cmpVersion, MainModules.GraphRoots()),
 		}
 	)
 	if pruning != workspace {
@@ -470,6 +470,13 @@ func (mg *ModuleGraph) BuildList() []module.Version {
 		mg.buildList = slices.Clip(mg.g.BuildList())
 	})
 	return mg.buildList
+}
+
+// ClearToolchain removes the go -> toolchain links from the graph.
+// We use it during go get toolchain@none, because no one really
+// wants to remove go entirely from the graph.
+func (mg *ModuleGraph) ClearToolchain() {
+	mg.g.ClearToolchain()
 }
 
 func (mg *ModuleGraph) findError() error {
@@ -709,9 +716,9 @@ func (c Conflict) String() string {
 func tidyRoots(ctx context.Context, rs *Requirements, pkgs []*loadPkg) (*Requirements, error) {
 	mainModule := MainModules.mustGetSingleMainModule()
 	if rs.pruning == unpruned {
-		return tidyUnprunedRoots(ctx, mainModule, rs.direct, pkgs)
+		return tidyUnprunedRoots(ctx, mainModule, rs, pkgs)
 	}
-	return tidyPrunedRoots(ctx, mainModule, rs.direct, pkgs)
+	return tidyPrunedRoots(ctx, mainModule, rs, pkgs)
 }
 
 func updateRoots(ctx context.Context, direct map[string]bool, rs *Requirements, pkgs []*loadPkg, add []module.Version, rootsImported bool) (*Requirements, error) {
@@ -757,11 +764,15 @@ func updateWorkspaceRoots(ctx context.Context, rs *Requirements, add []module.Ve
 // To ensure that the loading process eventually converges, the caller should
 // add any needed roots from the tidy root set (without removing existing untidy
 // roots) until the set of roots has converged.
-func tidyPrunedRoots(ctx context.Context, mainModule module.Version, direct map[string]bool, pkgs []*loadPkg) (*Requirements, error) {
+func tidyPrunedRoots(ctx context.Context, mainModule module.Version, old *Requirements, pkgs []*loadPkg) (*Requirements, error) {
 	var (
 		roots      []module.Version
 		pathIsRoot = map[string]bool{mainModule.Path: true}
 	)
+	if v, ok := old.rootSelected("go"); ok {
+		roots = append(roots, module.Version{Path: "go", Version: v})
+		pathIsRoot["go"] = true
+	}
 	// We start by adding roots for every package in "all".
 	//
 	// Once that is done, we may still need to add more roots to cover upgraded or
@@ -788,7 +799,7 @@ func tidyPrunedRoots(ctx context.Context, mainModule module.Version, direct map[
 		queued[pkg] = true
 	}
 	gover.ModSort(roots)
-	tidy := newRequirements(pruned, roots, direct)
+	tidy := newRequirements(pruned, roots, old.direct)
 
 	for len(queue) > 0 {
 		roots = tidy.rootModules
@@ -1197,7 +1208,7 @@ func spotCheckRoots(ctx context.Context, rs *Requirements, mods map[module.Versi
 // the selected version of every module that provided or lexically could have
 // provided a package in pkgs, and includes the selected version of every such
 // module in direct as a root.
-func tidyUnprunedRoots(ctx context.Context, mainModule module.Version, direct map[string]bool, pkgs []*loadPkg) (*Requirements, error) {
+func tidyUnprunedRoots(ctx context.Context, mainModule module.Version, old *Requirements, pkgs []*loadPkg) (*Requirements, error) {
 	var (
 		// keep is a set of of modules that provide packages or are needed to
 		// disambiguate imports.
@@ -1225,6 +1236,9 @@ func tidyUnprunedRoots(ctx context.Context, mainModule module.Version, direct ma
 		// without its sum. See #47738.
 		altMods = map[string]string{}
 	)
+	if v, ok := old.rootSelected("go"); ok {
+		keep = append(keep, module.Version{Path: "go", Version: v})
+	}
 	for _, pkg := range pkgs {
 		if !pkg.fromExternalModule() {
 			continue
@@ -1232,7 +1246,7 @@ func tidyUnprunedRoots(ctx context.Context, mainModule module.Version, direct ma
 		if m := pkg.mod; !keptPath[m.Path] {
 			keep = append(keep, m)
 			keptPath[m.Path] = true
-			if direct[m.Path] && !inRootPaths[m.Path] {
+			if old.direct[m.Path] && !inRootPaths[m.Path] {
 				rootPaths = append(rootPaths, m.Path)
 				inRootPaths[m.Path] = true
 			}
@@ -1275,7 +1289,7 @@ func tidyUnprunedRoots(ctx context.Context, mainModule module.Version, direct ma
 		}
 	}
 
-	return newRequirements(unpruned, min, direct), nil
+	return newRequirements(unpruned, min, old.direct), nil
 }
 
 // updateUnprunedRoots returns a set of root requirements that includes the selected

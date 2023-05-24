@@ -85,6 +85,17 @@ func (g *Graph) Require(m module.Version, reqs []module.Version) {
 	}
 }
 
+// ClearToolchain removes the go -> toolchain links from the graph.
+// We use it during go get toolchain@none, because no one really
+// wants to remove go entirely from the graph.
+func (g *Graph) ClearToolchain() {
+	for m := range g.required {
+		if m.Path == "go" {
+			g.required[m] = nil
+		}
+	}
+}
+
 // RequiredBy returns the slice of requirements passed to Require for m, if any,
 // with its capacity reduced to its length.
 // If Require has not been called for m, RequiredBy(m) returns ok=false.

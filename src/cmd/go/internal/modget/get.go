@@ -505,6 +505,11 @@ func newResolver(ctx context.Context, queries []*query) *resolver {
 		}
 	}
 
+	// go get toolchain@none should not imply go@none: no one wants that.
+	if r.nonesByPath["toolchain"] != nil {
+		mg.ClearToolchain()
+	}
+
 	return r
 }
 
@@ -1646,6 +1651,9 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 
 	// Collect changes in modules matched by command line arguments.
 	for path, reason := range r.resolvedVersion {
+		if gover.IsToolchain(path) {
+			continue
+		}
 		old := r.initialVersion[path]
 		new := reason.version
 		if old != new && (old != "" || new != "none") {
@@ -1655,6 +1663,9 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 
 	// Collect changes to explicit requirements in go.mod.
 	for _, req := range oldReqs {
+		if gover.IsToolchain(req.Path) {
+			continue
+		}
 		path := req.Path
 		old := req.Version
 		new := r.buildListVersion[path]
@@ -1663,6 +1674,9 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 		}
 	}
 	for _, req := range newReqs {
+		if gover.IsToolchain(req.Path) {
+			continue
+		}
 		path := req.Path
 		old := r.initialVersion[path]
 		new := req.Version
@@ -1671,13 +1685,51 @@ func (r *resolver) reportChanges(oldReqs, newReqs []module.Version) {
 		}
 	}
 
+	// Toolchain diffs are easier than requirements: diff old and new directly.
+	toolchainVersions := func(reqs []module.Version) (goV, toolchain string) {
+		for _, req := range reqs {
+			if req.Path == "go" {
+				goV = req.Version
+			}
+			if req.Path == "toolchain" {
+				toolchain = req.Version
+			}
+		}
+		return
+	}
+	oldGo, oldToolchain := toolchainVersions(oldReqs)
+	newGo, newToolchain := toolchainVersions(newReqs)
+	if oldGo != newGo {
+		changes["go"] = change{"go", oldGo, newGo}
+	}
+	if oldToolchain != newToolchain {
+		changes["toolchain"] = change{"toolchain", oldToolchain, newToolchain}
+	}
+
 	sortedChanges := make([]change, 0, len(changes))
 	for _, c := range changes {
 		sortedChanges = append(sortedChanges, c)
 	}
 	sort.Slice(sortedChanges, func(i, j int) bool {
-		return sortedChanges[i].path < sortedChanges[j].path
+		pi := sortedChanges[i].path
+		pj := sortedChanges[j].path
+		if pi == pj {
+			return false
+		}
+		// go first; toolchain second
+		switch {
+		case pi == "go":
+			return true
+		case pj == "go":
+			return false
+		case pi == "toolchain":
+			return true
+		case pj == "toolchain":
+			return false
+		}
+		return pi < pj
 	})
+
 	for _, c := range sortedChanges {
 		if c.old == "" {
 			fmt.Fprintf(os.Stderr, "go: added %s %s\n", c.path, c.new)
@@ -1795,9 +1847,15 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 }
 
 func reqsFromGoMod(f *modfile.File) []module.Version {
-	reqs := make([]module.Version, len(f.Require))
+	reqs := make([]module.Version, len(f.Require), 2+len(f.Require))
 	for i, r := range f.Require {
 		reqs[i] = r.Mod
+	}
+	if f.Go != nil {
+		reqs = append(reqs, module.Version{Path: "go", Version: f.Go.Version})
+	}
+	if f.Toolchain != nil {
+		reqs = append(reqs, module.Version{Path: "toolchain", Version: f.Toolchain.Name})
 	}
 	return reqs
 }
