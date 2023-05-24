@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe005ed_482f721c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-24T00:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d862b9bf_57d6a62a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "387b7e8b7fc22fc74128bffa848d5ef683d13546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb28417_7216288a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-24T00:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a418886_11bb0232",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "387b7e8b7fc22fc74128bffa848d5ef683d13546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdd478a1_832097c8",
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7586275_6bf9d9b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-24T00:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdd478a1_832097c8",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "387b7e8b7fc22fc74128bffa848d5ef683d13546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06c968ca_54c2c64f",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-05-22T16:27:30Z",
       "side": 1,
       "message": "can you provide more information as to where you ran this? (CPU, GOMAXPROCS setting, etc.) just for reproducibility.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "387b7e8b7fc22fc74128bffa848d5ef683d13546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36f59b90_293a5075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-24T00:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06c968ca_54c2c64f",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -160,6 +256,30 @@
       "writtenOn": "2023-05-22T16:27:30Z",
       "side": 1,
       "message": "nit: you can just make this anonymous (\"_\"). same for pad1.",
+      "range": {
+        "startLine": 285,
+        "startChar": 1,
+        "endLine": 285,
+        "endChar": 5
+      },
+      "revId": "387b7e8b7fc22fc74128bffa848d5ef683d13546",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f43ac336_4993f448",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-24T00:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba2b661e_e35b0352",
       "range": {
         "startLine": 285,
         "startChar": 1,
