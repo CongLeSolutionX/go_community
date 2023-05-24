@@ -70,6 +70,24 @@
       "parentUuid": "82f0f900_2ea200e7",
       "revId": "f99510c74a747e4ddd369453dbf5a6f706b82c4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9146396d_e4b5fe58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-24T15:00:42Z",
+      "side": 1,
+      "message": "I see where you\u0027re coming from. I still think optimizing for this case is worth it; it\u0027s not a large change to begin with.\n\nI also changed the CL to not drop the inner pinner unconditionally. if there\u0027s already a pinner in the cache, Unpin leaves it on the Pinner. this was an oversight on my part; previously the CL would defeat any attempt to reuse the Pinner. now, however, those cases should work about as well as it did before this CL, just now this one case incurs substantially less overhead.",
+      "parentUuid": "e8950b6c_9c751f27",
+      "revId": "f99510c74a747e4ddd369453dbf5a6f706b82c4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
