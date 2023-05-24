@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f8a679b_784ff981",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 54801
+      },
+      "writtenOn": "2023-05-24T15:52:42Z",
+      "side": 1,
+      "message": "Good catch! I also didn\u0027t notice. 🤦‍♂️ (The dangers of block-moving.)",
+      "parentUuid": "9fea9d35_deaa4062",
+      "revId": "5b612648ce49c5e5d72a9aafe157bda2a50aab06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ea38bf1_5fc1a666",
