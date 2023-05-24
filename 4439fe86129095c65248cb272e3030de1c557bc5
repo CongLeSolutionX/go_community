@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8bb92d5_967abe3a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 7663,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-24T20:48:02Z",
+      "side": 1,
+      "message": "Seems like an unnecessary extra blank line.",
+      "revId": "4439fe86129095c65248cb272e3030de1c557bc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
