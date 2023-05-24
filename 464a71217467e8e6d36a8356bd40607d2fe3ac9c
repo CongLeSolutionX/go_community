@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac40fbd_88596221",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-24T00:02:44Z",
+      "side": 1,
+      "message": "Note that tools already have access to the error code if need be. Also, we don\u0027t have time for a proposal to make the respective API change for 1.21. Which leaves the door open to changing this as we gain some experience.\n\nWhats important for now is that we get the URL from the compiler.",
+      "parentUuid": "44b1e154_23bd352c",
+      "revId": "464a71217467e8e6d36a8356bd40607d2fe3ac9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "939020dc_d55831a6",
