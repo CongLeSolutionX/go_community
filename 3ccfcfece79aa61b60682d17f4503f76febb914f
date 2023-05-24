@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "165d99d4_04382d84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-24T02:59:16Z",
+      "side": 1,
+      "message": "A follow-up change seems ok. Probably it could just be a thin JSON wrapper around the real `cache.DiskCache`?",
+      "parentUuid": "8b6f82ab_144c2b2b",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d80fbd23_4a43f8b3",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 8
