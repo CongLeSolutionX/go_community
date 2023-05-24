@@ -383,14 +383,21 @@ func minusInverseModW(x uint) uint {
 
 // NewModulusFromBig creates a new Modulus from a [big.Int].
 //
-// The Int must be odd. The number of significant bits must be leakable.
-func NewModulusFromBig(n *big.Int) *Modulus {
+// The Int must be odd and more than zero. The number of significant bits must be leakable.
+func NewModulusFromBig(n *big.Int) (*Modulus, error) {
+	if b := n.Bits(); len(b) == 0 {
+		return nil, errors.New("modulus must be >= 0")
+	} else if b[0]&1 != 1 {
+		return nil, errors.New("modulus must be odd")
+	}
+	if n.Sign() <= 0 {
+	}
 	m := &Modulus{}
 	m.nat = NewNat().setBig(n)
 	m.leading = _W - bitLen(m.nat.limbs[len(m.nat.limbs)-1])
 	m.m0inv = minusInverseModW(m.nat.limbs[0])
 	m.rr = rr(m)
-	return m
+	return m, nil
 }
 
 // bitLen is a version of bits.Len that only leaks the bit length of n, but not
