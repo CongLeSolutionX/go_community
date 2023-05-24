@@ -4,7 +4,8 @@
 
 //go:build !js && !wasip1
 
-package main
+// Package toolchain implements dynamic switching of Go toolchains.
+package toolchain
 
 import (
 	"context"
@@ -51,10 +52,11 @@ const (
 	gotoolchainSwitchEnv = "GOTOOLCHAIN_INTERNAL_SWITCH"
 )
 
-// switchGoToolchain invokes a different Go toolchain if directed by
+// Switch invokes a different Go toolchain if directed by
 // the GOTOOLCHAIN environment variable or the user's configuration
 // or go.mod file.
-func switchGoToolchain() {
+// It must be called early in startup.
+func Switch() {
 	log.SetPrefix("go: ")
 	defer log.SetPrefix("")
 
@@ -93,7 +95,6 @@ func switchGoToolchain() {
 		minToolchain = "go" + minVers
 	}
 
-	pathOnly := gotoolchain == "path"
 	if gotoolchain == "auto" || gotoolchain == "path" {
 		gotoolchain = minToolchain
 
@@ -155,6 +156,33 @@ func switchGoToolchain() {
 		base.Fatalf("invalid GOTOOLCHAIN %q", gotoolchain)
 	}
 
+	SwitchTo(gotoolchain)
+}
+
+// SwitchTo invokes the specified Go toolchain or else prints an error and exits the process.
+// If $GOTOOLCHAIN is set to path or min+path, SwitchTo only considers the PATH
+// as a source of Go toolchains. Otherwise SwitchTo tries the PATH but then downloads
+// a toolchain if necessary.
+func SwitchTo(gotoolchain string) {
+	log.SetPrefix("go: ")
+
+	env := cfg.Getenv("GOTOOLCHAIN")
+	pathOnly := env == "path" || strings.HasSuffix(env, "+path")
+
+	// For testing, if TESTGO_VERSION is already in use
+	// (only happens in the cmd/go test binary)
+	// and TESTGO_VERSION_SWITCH=1 is set,
+	// "switch" toolchains by changing TESTGO_VERSION
+	// and reinvoking the current binary.
+	if gover.TestVersion != "" && os.Getenv("TESTGO_VERSION_SWITCH") == "1" {
+		os.Setenv("TESTGO_VERSION", gotoolchain)
+		exe, err := os.Executable()
+		if err != nil {
+			base.Fatalf("%v", err)
+		}
+		execGoToolchain(gotoolchain, os.Getenv("GOROOT"), exe)
+	}
+
 	// Look in PATH for the toolchain before we download one.
 	// This allows custom toolchains as well as reuse of toolchains
 	// already installed using go install golang.org/dl/go1.2.3@latest.
@@ -169,6 +197,7 @@ func switchGoToolchain() {
 	}
 
 	// Set up modules without an explicit go.mod, to download distribution.
+	modload.Reset()
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NoRoot
 	modload.Init()
@@ -261,7 +290,6 @@ func execGoToolchain(gotoolchain, dir, exe string) {
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
-		fmt.Fprintln(os.Stderr, cmd.Args)
 		err := cmd.Run()
 		if err != nil {
 			if e, ok := err.(*exec.ExitError); ok && e.ProcessState != nil {
