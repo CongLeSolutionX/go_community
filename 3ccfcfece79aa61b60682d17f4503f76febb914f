@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b6f82ab_144c2b2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "I have one at https://github.com/bradfitz/go-tool-cache but I probably won\u0027t have time to integrate it into std tests. I was hoping that by its GOEXPERIMENTal status it might need one in-tree until it becomes un-experimented.\n\nOr maybe I could add it in a follow-up change?",
+      "parentUuid": "f4af9987_a39855e4",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d80fbd23_4a43f8b3",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 8
@@ -102,6 +120,24 @@
       "writtenOn": "2023-05-23T21:41:25Z",
       "side": 1,
       "message": "Clever trick. I don\u0027t think I\u0027ve seen this before.",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd9befc0_1be9418f",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d80fbd23_4a43f8b3",
       "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -129,6 +165,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0ebe727_23124c28",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cf56283_8a5e4298",
+      "range": {
+        "startLine": 486,
+        "startChar": 18,
+        "endLine": 486,
+        "endChar": 22
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6978357e_80e3a3e5",
@@ -142,6 +202,24 @@
       "writtenOn": "2023-05-23T22:00:22Z",
       "side": 1,
       "message": "(nit) remove either the `return` or the `else` (redundant)",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2b82948_085f299e",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Whoops. I don\u0027t remember this being here, but I do remember rebase conflicts here once. This might\u0027ve snuck in. Gone.",
+      "parentUuid": "6978357e_80e3a3e5",
       "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -226,6 +304,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd11fbd_a3c7e354",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92e3f2a8_1d0429a0",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9339feb7_213f3285",
@@ -243,6 +339,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "277b244d_93b9af95",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9339feb7_213f3285",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aff20959_51f2dc6d",
@@ -256,6 +370,30 @@
       "writtenOn": "2023-05-23T22:00:22Z",
       "side": 1,
       "message": "Do we really need these checks to be explicit? I would expect `exec.Cmd.Start` to take care of them anyway.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 2
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0da0a3f3_3fe0e380",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aff20959_51f2dc6d",
       "range": {
         "startLine": 148,
         "startChar": 0,
@@ -300,6 +438,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "196ed95b_d9ac67ce",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec09fd4_bf82b410",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cb62e0d_85b18488",
@@ -330,6 +486,24 @@
       "writtenOn": "2023-05-23T22:00:22Z",
       "side": 1,
       "message": "`base.Fatalf` if there is no in-flight operation with the given ID?\n(I would rather not mask bugs in the implementation, since we may have to work harder to maintain compatibility with those bugs going forward.)",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e556b19_1df56c0a",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T02:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "903805b7_33ea8bf9",
       "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
