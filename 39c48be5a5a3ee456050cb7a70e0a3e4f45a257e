@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bdd315b_258b712d",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-24T22:41:44Z",
+      "side": 1,
+      "message": "s/stored in C code/stored in C memory/",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4ed6c74_223c4715",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-24T22:41:44Z",
+      "side": 1,
+      "message": "Perhaps s/stop storing the Go pointer/remove the Go pointer from C memory/ .",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
