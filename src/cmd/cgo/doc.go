@@ -350,31 +350,57 @@ pointers, depending on the element types. All the discussion below
 about Go pointers applies not just to pointer types, but also to other
 types that include Go pointers.
 
+All Go pointers passed to C must point to pinned Go memory. Go pointers
+passed as function arguments to C functions have their memory implicitly
+pinned for the duration of the call. Go pointers' memory must be pinned
+for as long as C code has access to it. Whether Go memory is pinned is
+a dynamic property of that memory region; it has nothing to do with the
+type of the pointer.
+
+Go values created by calling new, by taking the address of a composite
+literal, or by taking the address of a local variable may also have their
+memory pinned using [runtime.Pinner]. This type may be used to manage
+the duration of the memory's pinned status, potentially beyond the
+duration of a C function call. Memory may be pinned more than once, but
+must be unpinned exactly the same number of times it has been pinned.
+
 Go code may pass a Go pointer to C provided the Go memory to which it
-points does not contain any Go pointers. The C code must preserve
-this property: it must not store any Go pointers in Go memory, even
-temporarily. When passing a pointer to a field in a struct, the Go
-memory in question is the memory occupied by the field, not the entire
-struct. When passing a pointer to an element in an array or slice,
-the Go memory in question is the entire array or the entire backing
-array of the slice.
+points does not contain any Go pointers to memory that is unpinned. When
+passing a pointer to a field in a struct, the Go memory in question is
+the memory occupied by the field, not the entire struct. When passing a
+pointer to an element in an array or slice, the Go memory in question is
+the entire array or the entire backing array of the slice.
 
-C code may not keep a copy of a Go pointer after the call returns.
-This includes the _GoString_ type, which, as noted above, includes a
-Go pointer; _GoString_ values may not be retained by C code.
+C code must not store any Go pointers in Go memory, even temporarily,
+regardless of whether the Go memory it points to is pinned.
 
-A Go function called by C code may not return a Go pointer (which
+C code may not keep a copy of a Go pointer after the call returns,
+unless the memory it points to is pinned with [runtime.Pinner] and the
+Pinner is not unpinned while the Go pointer is stored in C code.
+This implies that C code may not keep a copy of a string, slice,
+channel, and so forth, because they cannot be pinned with
+[runtime.Pinner].
+
+The _GoString_ type also may not be pinned with [runtime.Pinner].
+Because it includes a Go pointer, the memory it points to is only pinned
+for the duration of the call; _GoString_ values may not be retained by C
+code.
+
+A Go function called by C code must return a pinned Go pointer (which
 implies that it may not return a string, slice, channel, and so
 forth). A Go function called by C code may take C pointers as
-arguments, and it may store non-pointer or C pointer data through
-those pointers, but it may not store a Go pointer in memory pointed to
-by a C pointer. A Go function called by C code may take a Go pointer
-as an argument, but it must preserve the property that the Go memory
-to which it points does not contain any Go pointers.
+arguments, and it may store non-pointer, C pointer, or pinned Go pointer
+data through those pointers, but it may not store an unpinned Go pointer
+in memory pointed to by a C pointer (which again, implies that it may
+not store a string, slice, channel, and so forth). A Go function called
+by C code may take a Go pointer but it must preserve the property that
+the Go memory to which it points is pinned.
 
-Go code may not store a Go pointer in C memory. C code may store Go
-pointers in C memory, subject to the rule above: it must stop storing
-the Go pointer when the C function returns.
+Go code may not store an unpinned Go pointer in C memory. C code may
+store pinned Go pointers in C memory. If Go code does not keep Go memory
+whose pointer is stored in C memory pinned beyond the duration of a
+C function call, it must stop storing the Go pointer when the C function
+returns.
 
 These rules are checked dynamically at runtime. The checking is
 controlled by the cgocheck setting of the GODEBUG environment
