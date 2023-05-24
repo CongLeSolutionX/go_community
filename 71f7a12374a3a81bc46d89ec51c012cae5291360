@@ -88,6 +88,24 @@
       "parentUuid": "4e930e96_4f35a297",
       "revId": "71f7a12374a3a81bc46d89ec51c012cae5291360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536e91a1_22bc09bd",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-05-24T10:52:19Z",
+      "side": 1,
+      "message": "On the server side: While the client can send multiple tickets, only the first ticket can be used for 0-RTT. Since `UnwrapSession` is called in the order the tickets were sent in the ClientHello, the QUIC stack knows that if 0-RTT is accepted, the transport parameters extracted in the first call to that function are the ones in use.\n\nOn the client side: crypto/tls currently only uses a single session ticket, so the QUIC stack knows which transport parameters are in use. Only once crypto/tls starts using multiple session ticket do we need a way to tell which one is used.\n\nTo summarize, with the current changes, the QUIC stack doesn\u0027t need the `Extra` field on the `ConnectionState`. It would probably make sense to remove it for now, and add some API in a future CL.",
+      "parentUuid": "5e4fa0a9_c7261176",
+      "revId": "71f7a12374a3a81bc46d89ec51c012cae5291360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
