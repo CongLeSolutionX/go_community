@@ -125,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87aa092_0a9c0a17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s basically what that repo above is. (except I had to reimplement some internal things since it\u0027s out of tree)",
+      "parentUuid": "165d99d4_04382d84",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d80fbd23_4a43f8b3",
@@ -265,6 +283,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3181e3e2_6793585d",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b9efeb_15d317ee",
+      "range": {
+        "startLine": 113,
+        "startChar": 17,
+        "endLine": 113,
+        "endChar": 39
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06fd8af6_537be8dc",
@@ -282,6 +324,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50914ce9_271b120d",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06fd8af6_537be8dc",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9c20c7d_6dc6f5a0",
@@ -295,6 +355,30 @@
       "writtenOn": "2023-05-24T02:45:55Z",
       "side": 1,
       "message": "Yes, please: is this the mtime, the atime, something else?\n\n(Ideally I would prefer to use a `time.Time` in UTC, instead of nanos, to avoid questions about epochs, but if the overhead of marshaling and unmarshaling is too high, please at least document the epoch for this field.)",
+      "range": {
+        "startLine": 123,
+        "startChar": 38,
+        "endLine": 123,
+        "endChar": 65
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29cbfdcd_09389e59",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Hah, right? https://github.com/golang/go/blob/go1.20.4/src/cmd/go/internal/cache/cache.go#L146-L150\n\nNot much in the way of docs anywhere. It was on my list to figure out but I forgot.\n\nMostly I didn\u0027t use time.Time because it can\u0027t do omitempty. (grrr) So I use an integer in protest.\n\nBut my integer sucks too, because maybe JSON clients (because JavaScript) can only deal with integers up to 1\u003c\u003c53-1 (that fit in a float64 without losing accuracy), which means:\n\nhttps://go.dev/play/p/JHBhqjgXfz1\n\n... nanoseconds only worked for four and a half months into 1970.\n\nI\u0027ll just use a time.Time.",
+      "parentUuid": "e9c20c7d_6dc6f5a0",
       "range": {
         "startLine": 123,
         "startChar": 38,
@@ -439,6 +523,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "569e0d26_df1cca08",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a42fd88_bb42ed3c",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aec09fd4_bf82b410",
@@ -487,6 +589,24 @@
       "writtenOn": "2023-05-23T22:00:22Z",
       "side": 1,
       "message": "I would expect the program to be able to close its pipes when it completes the `Close` command, at which point I think will get an EOF from `c.stdout`.\n\nWe should, however, verify that `c.inFlight` is empty when the stream breaks.",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cfc0be4_11ad9914",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cb62e0d_85b18488",
       "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -613,6 +733,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "343b24f9_488fa3ac",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3efa2edd_16971159",
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90d227d9_4b7a18d0",
@@ -732,6 +870,30 @@
       "side": 1,
       "message": "I try not to touch unrelated code in changes that are already too big if it\u0027s far enough away.\n\nIf I were touching these lines, sure.",
       "parentUuid": "0f60e40a_68889f49",
+      "range": {
+        "startLine": 330,
+        "startChar": 27,
+        "endLine": 330,
+        "endChar": 29
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49cc6b05_ad276750",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:31:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6c13f0f8_7dcf910a",
       "range": {
         "startLine": 330,
         "startChar": 27,
