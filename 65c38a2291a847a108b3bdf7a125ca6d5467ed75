@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0574b5a1_84ab5315",
+        "filename": "src/cmd/go/testdata/script/generate_invalid.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 62829
+      },
+      "writtenOn": "2023-05-24T21:50:05Z",
+      "side": 1,
+      "message": "Agree, so I kept only cases with no go files (don\u0027t exit with error if files are excluded) or if specified import doesn\u0027t exist.",
+      "parentUuid": "5285079a_4af61055",
+      "revId": "65c38a2291a847a108b3bdf7a125ca6d5467ed75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d43a5c44_7233c208",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-24T03:06:24Z",
       "side": 1,
       "message": "What is this error message?\n\nPlease add leading and trailing anchors and match on the full stderr text so that we can make sure it is clear and accurate.",
+      "revId": "65c38a2291a847a108b3bdf7a125ca6d5467ed75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75f622b1_b552cf22",
+        "filename": "src/cmd/go/testdata/script/generate_invalid.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 62829
+      },
+      "writtenOn": "2023-05-24T21:50:05Z",
+      "side": 1,
+      "message": "I reverted this test change according to your previous comment.",
+      "parentUuid": "d43a5c44_7233c208",
       "revId": "65c38a2291a847a108b3bdf7a125ca6d5467ed75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
