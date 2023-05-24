@@ -1,0 +1,16 @@
+
+
+
+-- g_test.go --
+package godebug
+
+import _ "testing"'
+-- overlay.json --
+{
+    "Replace": {
+        "f.go": "overlay/f_go",
+        "dir/g.go": "overlay/dir_g_go",
+        "dir2/i.go": "overlay/dir2_i_go",
+        "dir3/bad.go": ""
+    }
+}
