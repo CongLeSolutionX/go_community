@@ -92,6 +92,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c975c43a_9c0c1b6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-24T00:06:59Z",
+      "side": 1,
+      "message": "Yes, gopls would want to extract the URL and serve it in a separate field of the diagnostic.\n\nBut I think the API should be to enable the error, not suppress.",
+      "parentUuid": "44b1e154_23bd352c",
+      "revId": "464a71217467e8e6d36a8356bd40607d2fe3ac9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "939020dc_d55831a6",
@@ -129,6 +147,30 @@
       "side": 1,
       "message": "rsc@ suggested that we don\u0027t do that because we want to keep this as short as possible...",
       "parentUuid": "939020dc_d55831a6",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 32
+      },
+      "revId": "464a71217467e8e6d36a8356bd40607d2fe3ac9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b353db30_11d86b70",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-24T00:06:59Z",
+      "side": 1,
+      "message": "Hmm. I think it\u0027s worth it. But I don\u0027t feel that strongly.\n\nI looked for precedent in rustc and tsc, and they both use error codes...",
+      "parentUuid": "27ab5873_00e4232f",
       "range": {
         "startLine": 57,
         "startChar": 21,
