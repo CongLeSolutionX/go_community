@@ -129,7 +129,7 @@ func parse(x string) version {
 	if x == "" {
 		// Patch missing is same as "0" for older versions.
 		// Starting in Go 1.21, patch missing is different from explicit .0.
-		if cmpInt(v.minor, "21") < 0 {
+		if cmpInt(v.minor, "21") < 0 && v.minor != "2" {
 			v.patch = "0"
 		}
 		return v

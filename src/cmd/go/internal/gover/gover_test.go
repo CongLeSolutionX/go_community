@@ -43,7 +43,7 @@ func TestParse(t *testing.T) { test1(t, parseTests, "parse", parse) }
 
 var parseTests = []testCase1[string, version]{
 	{"1", version{"1", "0", "0", "", ""}},
-	{"1.2", version{"1", "2", "0", "", ""}},
+	{"1.2", version{"1", "2", "", "", ""}}, // 1.2 is a special case: it denotes the language because we have no 1.2 download anymore
 	{"1.2.3", version{"1", "2", "3", "", ""}},
 	{"1.2rc3", version{"1", "2", "", "rc", "3"}},
 	{"1.20", version{"1", "20", "0", "", ""}},
@@ -77,7 +77,8 @@ var isLangTests = []testCase1[string, bool]{
 	{"1.21", true},
 	{"1.20", false}, // == 1.20.0
 	{"1.19", false}, // == 1.20.0
-	{"1.2", false},  // == 1.2.0
+	{"1.3", false},  // == 1.3.0
+	{"1.2", true},   // we lost the 1.2(.0) download and it is conveient to have a special case here for testing
 	{"1", false},    // == 1.0.0
 }
 
