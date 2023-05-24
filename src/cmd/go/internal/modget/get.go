@@ -43,6 +43,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
+	"cmd/go/internal/toolchain"
 	"cmd/go/internal/work"
 
 	"golang.org/x/mod/modfile"
@@ -1210,6 +1211,20 @@ func (r *resolver) resolveQueries(ctx context.Context, queries []*query) (change
 	resolved := 0
 	for {
 		prevResolved := resolved
+
+		// If we found modules that were too new, find the max of the required versions
+		// and then try to switch to a newer toolchain.
+		goVers := ""
+		for _, q := range queries {
+			for _, cs := range q.candidates {
+				if e, ok := cs.err.(*gover.TooNewError); ok && gover.Compare(goVers, e.GoVersion) < 0 {
+					goVers = e.GoVersion
+				}
+			}
+		}
+		if goVers != "" {
+			toolchain.TryVersion(goVers)
+		}
 
 		for _, q := range queries {
 			unresolved := q.candidates[:0]
