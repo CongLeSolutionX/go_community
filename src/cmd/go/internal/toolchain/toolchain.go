@@ -2,15 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !wasip1
-
-package main
+// Package toolchain implements dynamic switching of Go toolchains.
+package toolchain
 
 import (
 	"context"
 	"fmt"
 	"go/build"
-	"internal/godebug"
 	"io/fs"
 	"log"
 	"os"
@@ -18,7 +16,6 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
-	"syscall"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
@@ -51,10 +48,11 @@ const (
 	gotoolchainSwitchEnv = "GOTOOLCHAIN_INTERNAL_SWITCH"
 )
 
-// switchGoToolchain invokes a different Go toolchain if directed by
+// Switch invokes a different Go toolchain if directed by
 // the GOTOOLCHAIN environment variable or the user's configuration
 // or go.mod file.
-func switchGoToolchain() {
+// It must be called early in startup.
+func Switch() {
 	log.SetPrefix("go: ")
 	defer log.SetPrefix("")
 
@@ -93,7 +91,6 @@ func switchGoToolchain() {
 		minToolchain = "go" + minVers
 	}
 
-	pathOnly := gotoolchain == "path"
 	if gotoolchain == "auto" || gotoolchain == "path" {
 		gotoolchain = minToolchain
 
@@ -155,6 +152,39 @@ func switchGoToolchain() {
 		base.Fatalf("invalid GOTOOLCHAIN %q", gotoolchain)
 	}
 
+	SwitchTo(gotoolchain)
+}
+
+// CanSwitch reports whether the GOTOOLCHAIN setting permits switching toolchains.
+func CanSwitch() bool {
+	env := cfg.Getenv("GOTOOLCHAIN")
+	return env == "auto" || env == "path" || strings.HasSuffix(env, "+auto") || strings.HasSuffix(env, "+path")
+}
+
+// SwitchTo invokes the specified Go toolchain or else prints an error and exits the process.
+// If $GOTOOLCHAIN is set to path or min+path, SwitchTo only considers the PATH
+// as a source of Go toolchains. Otherwise SwitchTo tries the PATH but then downloads
+// a toolchain if necessary.
+func SwitchTo(gotoolchain string) {
+	log.SetPrefix("go: ")
+
+	env := cfg.Getenv("GOTOOLCHAIN")
+	pathOnly := env == "path" || strings.HasSuffix(env, "+path")
+
+	// For testing, if TESTGO_VERSION is already in use
+	// (only happens in the cmd/go test binary)
+	// and TESTGO_VERSION_SWITCH=1 is set,
+	// "switch" toolchains by changing TESTGO_VERSION
+	// and reinvoking the current binary.
+	if gover.TestVersion != "" && os.Getenv("TESTGO_VERSION_SWITCH") == "1" {
+		os.Setenv("TESTGO_VERSION", gotoolchain)
+		exe, err := os.Executable()
+		if err != nil {
+			base.Fatalf("%v", err)
+		}
+		execGoToolchain(gotoolchain, os.Getenv("GOROOT"), exe)
+	}
+
 	// Look in PATH for the toolchain before we download one.
 	// This allows custom toolchains as well as reuse of toolchains
 	// already installed using go install golang.org/dl/go1.2.3@latest.
@@ -169,6 +199,7 @@ func switchGoToolchain() {
 	}
 
 	// Set up modules without an explicit go.mod, to download distribution.
+	modload.Reset()
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NoRoot
 	modload.Init()
@@ -236,46 +267,6 @@ func switchGoToolchain() {
 
 	// Reinvoke the go command.
 	execGoToolchain(gotoolchain, dir, filepath.Join(dir, "bin/go"))
-}
-
-// execGoToolchain execs the Go toolchain with the given name (gotoolchain),
-// GOROOT directory, and go command executable.
-// The GOROOT directory is empty if we are invoking a command named
-// gotoolchain found in $PATH.
-func execGoToolchain(gotoolchain, dir, exe string) {
-	os.Setenv(gotoolchainSwitchEnv, "1")
-	if dir == "" {
-		os.Unsetenv("GOROOT")
-	} else {
-		os.Setenv("GOROOT", dir)
-	}
-
-	// On Windows, there is no syscall.Exec, so the best we can do
-	// is run a subprocess and exit with the same status.
-	// Doing the same on Unix would be a problem because it wouldn't
-	// propagate signals and such, but there are no signals on Windows.
-	// We also use the exec case when GODEBUG=gotoolchainexec=0,
-	// to allow testing this code even when not on Windows.
-	if godebug.New("#gotoolchainexec").Value() == "0" || runtime.GOOS == "windows" {
-		cmd := exec.Command(exe, os.Args[1:]...)
-		cmd.Stdin = os.Stdin
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		fmt.Fprintln(os.Stderr, cmd.Args)
-		err := cmd.Run()
-		if err != nil {
-			if e, ok := err.(*exec.ExitError); ok && e.ProcessState != nil {
-				if e.ProcessState.Exited() {
-					os.Exit(e.ProcessState.ExitCode())
-				}
-				base.Fatalf("exec %s: %s", gotoolchain, e.ProcessState)
-			}
-			base.Fatalf("exec %s: %s", exe, err)
-		}
-		os.Exit(0)
-	}
-	err := syscall.Exec(exe, os.Args, os.Environ())
-	base.Fatalf("exec %s: %v", gotoolchain, err)
 }
 
 // modGoToolchain finds the enclosing go.work or go.mod file
