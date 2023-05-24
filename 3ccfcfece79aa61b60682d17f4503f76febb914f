@@ -720,6 +720,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c13f0f8_7dcf910a",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-24T03:12:48Z",
+      "side": 1,
+      "message": "I try not to touch unrelated code in changes that are already too big if it\u0027s far enough away.\n\nIf I were touching these lines, sure.",
+      "parentUuid": "0f60e40a_68889f49",
+      "range": {
+        "startLine": 330,
+        "startChar": 27,
+        "endLine": 330,
+        "endChar": 29
+      },
+      "revId": "3ccfcfece79aa61b60682d17f4503f76febb914f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c53c3871_4dd42b90",
         "filename": "src/cmd/go/internal/cache/prog.go",
         "patchSetId": 8
