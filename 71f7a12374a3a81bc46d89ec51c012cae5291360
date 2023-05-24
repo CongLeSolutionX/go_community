@@ -106,6 +106,24 @@
       "parentUuid": "5e4fa0a9_c7261176",
       "revId": "71f7a12374a3a81bc46d89ec51c012cae5291360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51dd3173_14290e4a",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-05-24T12:40:25Z",
+      "side": 1,
+      "message": "It sounds like we are not sure about how to do this best. We don\u0027t need it for Go 1.21 since we only send one ticket at this time, so let\u0027s punt on it until we have had more time.\n\nI removed ConnectionState.Session.",
+      "parentUuid": "536e91a1_22bc09bd",
+      "revId": "71f7a12374a3a81bc46d89ec51c012cae5291360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
