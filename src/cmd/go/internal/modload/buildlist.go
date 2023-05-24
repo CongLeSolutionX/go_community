@@ -607,7 +607,10 @@ func EditBuildList(ctx context.Context, add, mustSelect []module.Version) (chang
 
 // OverrideRoots edits the global requirement roots by replacing the specific module versions.
 func OverrideRoots(ctx context.Context, replace []module.Version) {
-	rs := requirements
+	requirements = overrideRoots(ctx, requirements, replace)
+}
+
+func overrideRoots(ctx context.Context, rs *Requirements, replace []module.Version) *Requirements {
 	drop := make(map[string]bool)
 	for _, m := range replace {
 		drop[m.Path] = true
@@ -620,7 +623,7 @@ func OverrideRoots(ctx context.Context, replace []module.Version) {
 	}
 	roots = append(roots, replace...)
 	gover.ModSort(roots)
-	requirements = newRequirements(rs.pruning, roots, rs.direct)
+	return newRequirements(rs.pruning, roots, rs.direct)
 }
 
 // A ConstraintError describes inconsistent constraints in EditBuildList
