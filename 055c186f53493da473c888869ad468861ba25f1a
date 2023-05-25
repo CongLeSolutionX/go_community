@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc095ba0_e1e2a14f",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-25T16:41:34Z",
+      "side": 1,
+      "message": "per chat with Russ, I\u0027d like for this to be inverted (heapObjectsCantMove \u003d true) so I can test whether the symbol still exists with linkname. Otherwise the assume-no-moving-gc package silently does nothing if this gets deleted in the future.\n\nI sent https://github.com/go4org/unsafe-assume-no-moving-gc/pull/10 assuming for now that rename will take place.",
+      "revId": "055c186f53493da473c888869ad468861ba25f1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
