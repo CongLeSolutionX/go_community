@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36d2a55d_31e34388",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-25T19:06:27Z",
+      "side": 1,
+      "message": "\"and\"?",
+      "range": {
+        "startLine": 364,
+        "startChar": 68,
+        "endLine": 364,
+        "endChar": 71
+      },
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d63cb82e_d4e0bffd",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-25T19:06:27Z",
+      "side": 1,
+      "message": "Would it make more sense to flip this around? Something like \"C code may keep a copy of a Go pointer only as long as the memory it points to is pinned.\"",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bdd315b_258b712d",
         "filename": "src/cmd/cgo/doc.go",
         "patchSetId": 2
@@ -14,6 +54,29 @@
       "writtenOn": "2023-05-24T22:41:44Z",
       "side": 1,
       "message": "s/stored in C code/stored in C memory/",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df328a1c_52b65b51",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-25T19:06:27Z",
+      "side": 1,
+      "message": "And this must be transitively true, right?  (Elsewhere, \"points\" is used non-transitively.)",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 43
+      },
       "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
