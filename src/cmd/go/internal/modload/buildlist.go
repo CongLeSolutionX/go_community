@@ -722,6 +722,7 @@ func tidyRoots(ctx context.Context, rs *Requirements, pkgs []*loadPkg) (*Require
 }
 
 func updateRoots(ctx context.Context, direct map[string]bool, rs *Requirements, pkgs []*loadPkg, add []module.Version, rootsImported bool) (*Requirements, error) {
+	fmt.Fprintf(os.Stderr, "UPDATE %v\n", add)
 	switch rs.pruning {
 	case unpruned:
 		return updateUnprunedRoots(ctx, direct, rs, add)
