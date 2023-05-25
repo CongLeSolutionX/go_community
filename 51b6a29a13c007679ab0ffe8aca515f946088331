@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6789a739_9bee6931",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-25T03:23:39Z",
+      "side": 1,
+      "message": "applied TO constant arguments",
+      "revId": "51b6a29a13c007679ab0ffe8aca515f946088331",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
