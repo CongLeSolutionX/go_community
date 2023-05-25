@@ -137,3 +137,32 @@ func ExampleScanner_emptyFinalToken() {
 	}
 	// Output: "1" "2" "3" "4" ""
 }
+
+// Use a Scanner with a custom split function to parse a comma-separated
+// list with an empty final value but stops at the token "STOP".
+func ExampleScanner_earlyStop() {
+	const input = "1,2,STOP,4,"
+	scanner := bufio.NewScanner(strings.NewReader(input))
+	onComma := func(data []byte, atEOF bool) (advance int, token []byte, err error) {
+		for i := 0; i < len(data); i++ {
+			if data[i] == ',' {
+				// if the token is "STOP", ignore the rest
+				if string(data[:i]) == "STOP" {
+					return i + 1, nil, bufio.ErrFinalToken
+				}
+				return i + 1, data[:i], nil
+			}
+		}
+		return 0, data, bufio.ErrFinalToken
+	}
+	scanner.Split(onComma)
+	for scanner.Scan() {
+		fmt.Printf("Got a token %q\n", scanner.Text())
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "reading input:", err)
+	}
+	// Output:
+	// Got a token "1"
+	// Got a token "2"
+}
