@@ -16,6 +16,91 @@
       "message": "I believe this is ready for review now.\nAs usual for spec changes, I am looking for at least two +2\u0027s.\nThanks.",
       "revId": "ef720ce978af0434dc42b9168bda3a61e09dc4d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f9c2c1c_4b0621e3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-25T01:50:12Z",
+      "side": 1,
+      "message": "i\u0027d drop the \"ordered\" here because it sounds like it qualifies whether the result is constant and it adds no information, as min and max only apply to ordered values.",
+      "revId": "ef720ce978af0434dc42b9168bda3a61e09dc4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2064d2d_d333fbaa",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 7541,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-25T01:50:12Z",
+      "side": 1,
+      "message": "There must be at least one argument, and no argument may be a slice.",
+      "revId": "ef720ce978af0434dc42b9168bda3a61e09dc4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b64e2074_3d136372",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 7546,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-25T01:50:12Z",
+      "side": 1,
+      "message": "link to \"ordered\"",
+      "revId": "ef720ce978af0434dc42b9168bda3a61e09dc4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6963233b_e0996071",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 7547,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-25T01:50:12Z",
+      "side": 1,
+      "message": "mention max, maybe parenthetically, in this sentence.",
+      "revId": "ef720ce978af0434dc42b9168bda3a61e09dc4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2643aa1_e8dfbd47",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 7590,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-25T01:50:12Z",
+      "side": 1,
+      "message": "too many \"respectively\"s. how about\n\nFor string arguments the result for min is the first argument with the smallest (or for max, largest) value, ...",
+      "revId": "ef720ce978af0434dc42b9168bda3a61e09dc4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
