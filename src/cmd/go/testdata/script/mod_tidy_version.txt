@@ -87,6 +87,34 @@ cp go.mod.orig go.mod
 go mod tidy -go=''
 cmpenv go.mod go.mod.latest
 
+# Repeat with go get go@ instead of mod tidy.
+env TESTGO_VERSION=go1.20
+
+# Go 1.16 -> 1.17 should be a no-op.
+cp go.mod.116 go.mod
+go get go@1.16
+cmp go.mod go.mod.116
+
+# Go 1.17 -> 1.16 should leave b (go get is not tidy).
+cp go.mod.117 go.mod
+go get go@1.16
+cmp go.mod go.mod.116from117
+
+# Go 1.15 -> 1.16 should leave d (go get is not tidy).
+cp go.mod.115 go.mod
+go get go@1.16
+cmp go.mod go.mod.116from115
+
+# Go 1.16 -> 1.17 should add b.
+cp go.mod.116 go.mod
+go get go@1.17
+cmp go.mod go.mod.117
+
+# Go 1.16 -> 1.15 should add d
+cp go.mod.116 go.mod
+go get go@1.15
+go mod edit -toolchain=none # TODO adding toolchain@none above should be allowed
+cmp go.mod go.mod.115
 
 
 -- go.mod --
@@ -118,6 +146,28 @@ import _ "example.net/a"
 module example.com/m
 
 go 1.15
+
+require example.net/a v0.1.0
+
+require (
+	example.net/c v0.1.0 // indirect
+	example.net/d v0.1.0 // indirect
+)
+
+replace (
+	example.net/a v0.1.0 => ./a
+	example.net/a v0.2.0 => ./a
+	example.net/b v0.1.0 => ./b
+	example.net/b v0.2.0 => ./b
+	example.net/c v0.1.0 => ./c
+	example.net/c v0.2.0 => ./c
+	example.net/d v0.1.0 => ./d
+	example.net/d v0.2.0 => ./d
+)
+-- go.mod.116from115 --
+module example.com/m
+
+go 1.16
 
 require example.net/a v0.1.0
 
@@ -181,6 +231,28 @@ replace (
 module example.com/m
 
 go 1.17
+
+require example.net/a v0.1.0
+
+require (
+	example.net/b v0.1.0 // indirect
+	example.net/c v0.1.0 // indirect
+)
+
+replace (
+	example.net/a v0.1.0 => ./a
+	example.net/a v0.2.0 => ./a
+	example.net/b v0.1.0 => ./b
+	example.net/b v0.2.0 => ./b
+	example.net/c v0.1.0 => ./c
+	example.net/c v0.2.0 => ./c
+	example.net/d v0.1.0 => ./d
+	example.net/d v0.2.0 => ./d
+)
+-- go.mod.116from117 --
+module example.com/m
+
+go 1.16
 
 require example.net/a v0.1.0
 

@@ -1544,11 +1544,20 @@ func commitRequirements(ctx context.Context) (err error) {
 	}
 	modFilePath := modFilePath(MainModules.ModRoot(mainModule))
 
+Again:
 	var list []*modfile.Require
 	toolchain := ""
 	for _, m := range requirements.rootModules {
 		if m.Path == "go" {
 			forceGoStmt(modFile, mainModule, m.Version)
+			if pruning := pruningForGoVersion(m.Version); pruning != requirements.pruning {
+				rs, err := convertPruning(ctx, requirements, pruning)
+				if err != nil {
+					return err
+				}
+				requirements = rs
+				goto Again
+			}
 			continue
 		}
 		if m.Path == "toolchain" {
