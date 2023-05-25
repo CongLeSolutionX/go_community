@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e20019_2fe00fbd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-25T20:49:16Z",
+      "side": 1,
+      "message": "thanks all. I did some additional editing to remove redundant sentences. I tried to be more consistent about not calling pointers pinned, also.",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36d2a55d_31e34388",
@@ -14,6 +31,30 @@
       "writtenOn": "2023-05-25T19:06:27Z",
       "side": 1,
       "message": "\"and\"?",
+      "range": {
+        "startLine": 364,
+        "startChar": 68,
+        "endLine": 364,
+        "endChar": 71
+      },
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e50c89ea_d4939a77",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-25T20:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36d2a55d_31e34388",
       "range": {
         "startLine": 364,
         "startChar": 68,
@@ -41,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45f8e06e_0ce6d717",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-25T20:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d63cb82e_d4e0bffd",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bdd315b_258b712d",
@@ -54,6 +113,24 @@
       "writtenOn": "2023-05-24T22:41:44Z",
       "side": 1,
       "message": "s/stored in C code/stored in C memory/",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a207afbd_ca453e69",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-25T20:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bdd315b_258b712d",
       "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -81,6 +158,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16ff7436_c295563f",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-25T20:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df328a1c_52b65b51",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 43
+      },
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4ed6c74_223c4715",
@@ -94,6 +195,24 @@
       "writtenOn": "2023-05-24T22:41:44Z",
       "side": 1,
       "message": "Perhaps s/stop storing the Go pointer/remove the Go pointer from C memory/ .",
+      "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e279fce3_9559bca8",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-05-25T20:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4ed6c74_223c4715",
       "revId": "39c48be5a5a3ee456050cb7a70e0a3e4f45a257e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
