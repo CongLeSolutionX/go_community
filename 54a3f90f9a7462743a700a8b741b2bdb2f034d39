@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac9f16d1_0e41f93d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2023-05-25T05:26:52Z",
+      "side": 1,
+      "message": "I want to apply for a freeze exception for this, since it is for something that changed during this cycle and it\u0027s very low risk: just moving some code out to a new function.",
+      "revId": "54a3f90f9a7462743a700a8b741b2bdb2f034d39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
