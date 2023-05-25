@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e9dd0f6_e55c139f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53173
+      },
+      "writtenOn": "2023-05-25T02:11:33Z",
+      "side": 1,
+      "message": "To be clear, I know this is a tiny change, and the submission was close to the deadline, but I am happy with shipping it with the next version and do not intend to ask for a freeze exception.",
+      "revId": "c7447d1e28371e3213e02e0160cc34e26e7a7f4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
