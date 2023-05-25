@@ -141,14 +141,14 @@ func issue10260() {
 
 	_ = i2 /* ERROR "impossible type assertion: i2.(*T1)\n\t*T1 does not implement I2 (wrong type for method foo)\n\t\thave foo()\n\t\twant foo(int)" */ .(*T1)
 
-	i1 = i0 /* ERRORx `cannot use i0 .* as I1 value in assignment: I0 does not implement I1 \(missing method foo\)` */
+	i1 = i0 /* ERROR `cannot use i0 (variable of type I0) as I1 value in assignment: need type assertion` */
 	i1 = t0 /* ERRORx `.* t0 .* as I1 .*: \*T0 does not implement I1 \(missing method foo\)` */
 	i1 = i2 /* ERRORx `.* i2 .* as I1 .*: I2 does not implement I1 \(wrong type for method foo\)\n\t\thave foo\(int\)\n\t\twant foo\(\)` */
 	i1 = t2 /* ERRORx `.* t2 .* as I1 .*: \*T2 does not implement I1 \(wrong type for method foo\)\n\t\thave foo\(int\)\n\t\twant foo\(\)` */
 	i2 = i1 /* ERRORx `.* i1 .* as I2 .*: I1 does not implement I2 \(wrong type for method foo\)\n\t\thave foo\(\)\n\t\twant foo\(int\)` */
 	i2 = t1 /* ERRORx `.* t1 .* as I2 .*: \*T1 does not implement I2 \(wrong type for method foo\)\n\t\thave foo\(\)\n\t\twant foo\(int\)` */
 
-	_ = func() I1 { return i0 /* ERRORx `cannot use i0 .* as I1 value in return statement: I0 does not implement I1 \(missing method foo\)` */ }
+	_ = func() I1 { return i0 /* ERROR `cannot use i0 (variable of type I0) as I1 value in return statement: need type assertion` */ }
 	_ = func() I1 { return t0 /* ERRORx `.* t0 .* as I1 .*: \*T0 does not implement I1 \(missing method foo\)` */ }
 	_ = func() I1 { return i2 /* ERRORx `.* i2 .* as I1 .*: I2 does not implement I1 \(wrong type for method foo\)\n\t\thave foo\(int\)\n\t\twant foo\(\)` */ }
 	_ = func() I1 { return t2 /* ERRORx `.* t2 .* as I1 .*: \*T2 does not implement I1 \(wrong type for method foo\)\n\t\thave foo\(int\)\n\t\twant foo\(\)` */ }
@@ -158,16 +158,16 @@ func issue10260() {
 	// a few more - less exhaustive now
 
 	f := func(I1, I2){}
-	f(i0 /* ERROR "missing method foo" */ , i1 /* ERROR "wrong type for method foo" */ )
+	f(i0 /* ERROR "cannot use i0 (variable of type I0) as I1 value in argument to f: need type assertion" */ , i1 /* ERROR "wrong type for method foo" */ )
 
-	_ = [...]I1{i0 /* ERRORx `cannot use i0 .* as I1 value in array or slice literal: I0 does not implement I1 \(missing method foo\)` */ }
+	_ = [...]I1{i0 /* ERROR `cannot use i0 (variable of type I0) as I1 value in array or slice literal: need type assertion` */ }
 	_ = [...]I1{i2 /* ERRORx `cannot use i2 .* as I1 value in array or slice literal: I2 does not implement I1 \(wrong type for method foo\)\n\t\thave foo\(int\)\n\t\twant foo\(\)` */ }
-	_ = []I1{i0 /* ERROR "missing method foo" */ }
+	_ = []I1{i0 /* ERROR "cannot use i0 (variable of type I0) as I1 value in array or slice literal: need type assertion" */ }
 	_ = []I1{i2 /* ERROR "wrong type for method foo" */ }
-	_ = map[int]I1{0: i0 /* ERROR "missing method foo" */ }
+	_ = map[int]I1{0: i0 /* ERROR "cannot use i0 (variable of type I0) as I1 value in map literal: need type assertion" */ }
 	_ = map[int]I1{0: i2 /* ERROR "wrong type for method foo" */ }
 
-	make(chan I1) <- i0 /* ERROR "missing method foo" */
+	make(chan I1) <- i0 /* ERROR "cannot use i0 (variable of type I0) as I1 value in send: need type assertion" */
 	make(chan I1) <- i2 /* ERROR "wrong type for method foo" */
 }
 
