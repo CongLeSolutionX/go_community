@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9169870e_afe6ca4c",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-25T00:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af91226_941a0234",
+      "revId": "8af1d4866bfdc8710b4f897c9c875581e93c9093",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0294638_fa083bbc",
@@ -95,6 +113,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e9fc12a_4775cb6f",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-25T00:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0294638_fa083bbc",
+      "range": {
+        "startLine": 206,
+        "startChar": 3,
+        "endLine": 206,
+        "endChar": 96
+      },
+      "revId": "8af1d4866bfdc8710b4f897c9c875581e93c9093",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37c16a7a_a6b2dcea",
@@ -108,6 +150,30 @@
       "writtenOn": "2023-05-24T17:53:17Z",
       "side": 1,
       "message": "Just use `c.ctx` for sending the `Close` message, I think. (I don\u0027t see why hanging in `Close` should be handled any differently from hanging in `Put` or `Get`.)",
+      "range": {
+        "startLine": 409,
+        "startChar": 0,
+        "endLine": 416,
+        "endChar": 2
+      },
+      "revId": "8af1d4866bfdc8710b4f897c9c875581e93c9093",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e332b81_026ab100",
+        "filename": "src/cmd/go/internal/cache/prog.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-05-25T00:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37c16a7a_a6b2dcea",
       "range": {
         "startLine": 409,
         "startChar": 0,
