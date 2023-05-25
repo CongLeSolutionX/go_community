@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a70b813c_9546be96",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 7541,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-25T18:47:48Z",
+      "side": 1,
+      "message": "Do we need the \"(with ordered elements)\" parenthetical?  It\u0027s not permitted even if it doesn\u0027t have ordered elements.",
+      "revId": "530a790e9e718ce6fc58ac030ec68db268c4cfbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
