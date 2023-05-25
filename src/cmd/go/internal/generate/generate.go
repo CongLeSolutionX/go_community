@@ -210,6 +210,19 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 			continue
 		}
 
+		if pkg.Error != nil {
+			// return error if no Go files in package (don't error if files are excluded) or
+			// if import doesn't exist.
+			var (
+				errNoGo   *load.NoGoError
+				errImport *modload.ImportMissingError
+			)
+			if errors.As(pkg.Error, &errNoGo) && len(errNoGo.Package.IgnoredGoFiles) == 0 ||
+				errors.As(pkg.Error, &errImport) {
+				base.Errorf("%v", pkg.Error)
+			}
+		}
+
 		for _, file := range pkg.InternalGoFiles() {
 			if !generate(file) {
 				break
@@ -222,6 +235,7 @@ func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		}
 	}
+	base.ExitIfErrors()
 }
 
 // generate runs the generation directives for a single file.
