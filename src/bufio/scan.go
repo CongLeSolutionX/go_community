@@ -48,7 +48,9 @@ type Scanner struct {
 //
 // Scanning stops if the function returns an error, in which case some of
 // the input may be discarded. If that error is ErrFinalToken, scanning
-// stops with no error.
+// stops with no error. A non-nil token delivered with ErrFinalToken
+// will be the last token, and a nil token with ErrFinalToken
+// immediately stops the scanning.
 //
 // Otherwise, the Scanner advances the input. If the token is not nil,
 // the Scanner returns it to the user. If the token is nil, the
@@ -116,6 +118,8 @@ func (s *Scanner) Text() string {
 // ErrFinalToken is a special sentinel error value. It is intended to be
 // returned by a Split function to indicate that the token being delivered
 // with the error is the last token and scanning should stop after this one.
+// However, if the token delivered with this error is nil, the scanning
+// stops without a final token.
 // After ErrFinalToken is received by Scan, scanning stops with no error.
 // The value is useful to stop processing early or when it is necessary to
 // deliver a final empty token. One could achieve the same behavior
@@ -125,7 +129,7 @@ var ErrFinalToken = errors.New("final token")
 
 // Scan advances the Scanner to the next token, which will then be
 // available through the Bytes or Text method. It returns false when the
-// scan stops, either by reaching the end of the input or an error.
+// there are no more tokens, either by reaching the end of the input or an error.
 // After Scan returns false, the Err method will return any error that
 // occurred during scanning, except that if it was io.EOF, Err
 // will return nil.
@@ -148,7 +152,10 @@ func (s *Scanner) Scan() bool {
 				if err == ErrFinalToken {
 					s.token = token
 					s.done = true
-					return true
+					// When token is not nil, it means the scanning stops
+					// with a trailing token, and thus the return value
+					// should be true to indicate the existence of the token.
+					return token != nil
 				}
 				s.setErr(err)
 				return false
