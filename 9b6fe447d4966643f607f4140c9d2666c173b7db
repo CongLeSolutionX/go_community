@@ -78,6 +78,30 @@
       },
       "revId": "9b6fe447d4966643f607f4140c9d2666c173b7db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66bbb991_b1d33c16",
+        "filename": "src/internal/types/testdata/fixedbugs/issue60377.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-25T19:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64bc5fce_1a6c3a12",
+      "range": {
+        "startLine": 69,
+        "startChar": 16,
+        "endLine": 69,
+        "endChar": 20
+      },
+      "revId": "9b6fe447d4966643f607f4140c9d2666c173b7db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
