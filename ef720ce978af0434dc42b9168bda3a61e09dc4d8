@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80137b6_73f371c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-25T01:02:48Z",
+      "side": 1,
+      "message": "I believe this is ready for review now.\nAs usual for spec changes, I am looking for at least two +2\u0027s.\nThanks.",
+      "revId": "ef720ce978af0434dc42b9168bda3a61e09dc4d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
