@@ -10,7 +10,7 @@ package p
 type T interface{ m[ /* ERROR "must have no type parameters" */ P any]() }
 
 func _(t T) {
-	var _ interface{ m[ /* ERROR "must have no type parameters" */ P any](); n() } = t /* ERROR "does not implement" */
+	var _ interface{ m[ /* ERROR "must have no type parameters" */ P any](); n() } = t /* ERROR "cannot use t (variable of type T) as interface{m(); n()} value in variable declaration: need type assertion" */
 }
 
 type S struct{}
