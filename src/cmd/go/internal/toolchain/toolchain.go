@@ -58,12 +58,14 @@ func Switch() {
 
 	sw := os.Getenv(gotoolchainSwitchEnv)
 	os.Unsetenv(gotoolchainSwitchEnv)
+	// The sw == "1" check is delayed until later so that we still fill in gover.Startup for use in errors.
 
-	if !modload.WillBeEnabled() || sw == "1" {
+	if !modload.WillBeEnabled() {
 		return
 	}
 
 	gotoolchain := cfg.Getenv("GOTOOLCHAIN")
+	gover.Startup.GOTOOLCHAIN = gotoolchain
 	if gotoolchain == "" {
 		// cfg.Getenv should fall back to $GOROOT/go.env,
 		// so this should not happen, unless a packager
@@ -73,7 +75,6 @@ func Switch() {
 		// and diagnose the problem.
 		return
 	}
-	gover.Startup.GOTOOLCHAIN = gotoolchain
 
 	var minToolchain, minVers string
 	if x, y, ok := strings.Cut(gotoolchain, "+"); ok { // go1.2.3+auto
@@ -107,6 +108,7 @@ func Switch() {
 			}
 		} else {
 			file, goVers, toolchain := modGoToolchain()
+			gover.Startup.AutoFile = file
 			if toolchain == "local" {
 				// Local means always use the default local toolchain,
 				// which is already set, so nothing to do here.
@@ -120,24 +122,31 @@ func Switch() {
 				// That's what people who use toolchain local want:
 				// only ever use the toolchain configured in the local system
 				// (including its environment and go env -w file).
-			} else if toolchain != "" {
-				// Accept toolchain only if it is >= our min.
-				toolVers := gover.FromToolchain(toolchain)
-				if gover.Compare(toolVers, minVers) >= 0 {
-					gotoolchain = toolchain
-				}
+				gover.Startup.AutoToolchain = toolchain
+				gotoolchain = "local"
 			} else {
+				if toolchain != "" {
+					// Accept toolchain only if it is >= our min.
+					toolVers := gover.FromToolchain(toolchain)
+					if toolVers == "" || (!strings.HasPrefix(toolchain, "go") && !strings.Contains(toolchain, "-go")) {
+						base.Fatalf("invalid toolchain %q in %s", toolchain, base.ShortPath(file))
+					}
+					if gover.Compare(toolVers, minVers) >= 0 {
+						gotoolchain = toolchain
+						minVers = toolVers
+						gover.Startup.AutoToolchain = toolchain
+					}
+				}
 				if gover.Compare(goVers, minVers) > 0 {
 					gotoolchain = "go" + goVers
+					gover.Startup.AutoGoVersion = goVers
+					gover.Startup.AutoToolchain = "" // in case we are overriding it for being too old
 				}
 			}
-			gover.Startup.AutoFile = file
-			gover.Startup.AutoGoVersion = goVers
-			gover.Startup.AutoToolchain = toolchain
 		}
 	}
 
-	if gotoolchain == "local" || gotoolchain == "go"+gover.Local() {
+	if sw == "1" || gotoolchain == "local" || gotoolchain == "go"+gover.Local() {
 		// Let the current binary handle the command.
 		return
 	}
@@ -146,8 +155,6 @@ func Switch() {
 	// We want to allow things like go1.20.3 but also gccgo-go1.20.3.
 	// We want to disallow mistakes / bad ideas like GOTOOLCHAIN=bash,
 	// since we will find that in the path lookup.
-	// gover.FromToolchain has already done this check (except for the 1)
-	// but doing it again makes sure we don't miss it on unexpected code paths.
 	if !strings.HasPrefix(gotoolchain, "go1") && !strings.Contains(gotoolchain, "-go1") {
 		base.Fatalf("invalid GOTOOLCHAIN %q", gotoolchain)
 	}
