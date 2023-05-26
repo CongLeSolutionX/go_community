@@ -256,6 +256,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "549e14f7_d421d534",
+        "filename": "src/cmd/go/internal/toolchain/version.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-26T01:02:13Z",
+      "side": 1,
+      "message": "I would expect that when we reinvoke the command with the original arguments it should repeat the work up to this point and generally arrive at the same effective Go version. What happens if we drop `AddGoVersionArg` and always reinvoke with the original `os.Args[1:]` as-is?",
+      "parentUuid": "fede5ce5_902ee3c2",
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a186b21_c20e55de",
         "filename": "src/cmd/go/internal/toolchain/version.go",
         "patchSetId": 4
