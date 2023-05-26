@@ -3004,6 +3004,11 @@ func setPGOProfilePath(pkgs []*Package) {
 // CheckPackageErrors prints errors encountered loading pkgs and their
 // dependencies, then exits with a non-zero status if any errors were found.
 func CheckPackageErrors(pkgs []*Package) {
+	// Before we start running other commands, including
+	// potentially the arbitrary executables we're about to build (during 'go test' or 'go run'),
+	// clear the toolchain switch counter so it doesn't leak into those programs.
+	base.ClearSwitchEnv()
+
 	var anyIncomplete bool
 	for _, pkg := range pkgs {
 		if pkg.Incomplete {
