@@ -53,6 +53,8 @@ func init() {
 }
 
 func runTool(ctx context.Context, cmd *base.Command, args []string) {
+	base.ClearSwitchEnv()
+
 	if len(args) == 0 {
 		listTools()
 		return

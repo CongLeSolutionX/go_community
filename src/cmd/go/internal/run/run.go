@@ -214,6 +214,7 @@ func buildRunProgram(b *work.Builder, ctx context.Context, a *work.Action) error
 		}
 	}
 
+	base.ClearSwitchEnv()
 	base.RunStdin(cmdline)
 	return nil
 }
