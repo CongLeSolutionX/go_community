@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "880b26ce_a2523275",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-05-26T17:05:22Z",
+      "side": 1,
+      "message": "Sorry, I forgot to explicitly unset it.\n\n(Is the trybot just a delay and a nuisance for doc-only changes, or is there some other cost?)",
+      "parentUuid": "1eebdf28_67088448",
+      "revId": "9a34d008bb2816e5a5fb4bd54607a17405e643f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9be378c_fb4658fc",
@@ -49,6 +67,41 @@
       "writtenOn": "2023-05-26T17:02:28Z",
       "side": 1,
       "message": "Is this a part of your change?",
+      "revId": "9a34d008bb2816e5a5fb4bd54607a17405e643f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed1dabbe_694bdcac",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-05-26T17:05:22Z",
+      "side": 1,
+      "message": "Yes, xmllint reports that the previous ID conflicts with L83.",
+      "parentUuid": "b9be378c_fb4658fc",
+      "revId": "9a34d008bb2816e5a5fb4bd54607a17405e643f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b57d41e_b74282a2",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-05-26T17:05:22Z",
+      "side": 1,
+      "message": "Resolving another conflict here.",
       "revId": "9a34d008bb2816e5a5fb4bd54607a17405e643f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
