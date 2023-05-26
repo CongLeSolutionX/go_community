@@ -89,6 +89,24 @@
       "parentUuid": "f3c1e86d_f11e4312",
       "revId": "e388f7a693d33b7a1f5e2cc41a2346714d17c168",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74450e02_9b78e455",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-05-26T19:07:19Z",
+      "side": 1,
+      "message": "Looks like mkalldocs.sh was converted to a Go program, but there are still some references to it. Sent CL 498715 for that.",
+      "parentUuid": "192501b1_4a623fa1",
+      "revId": "e388f7a693d33b7a1f5e2cc41a2346714d17c168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
