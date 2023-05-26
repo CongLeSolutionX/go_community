@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71a97e4b_d6b14b60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "So I made a draft to get discussion rolling. It is probably far from finished and has some code in wrong places, but the idea was that it allows others to experiment a bit with this approach and allow us to have more effective discussion.\n\nI currently modified *_unix files directly, but this should probably be done in *_linux only files. It was easier this way for now.\n\nThis works (based on documentation) from Linux 5.4 on. Not sure if this then counts as a breaking change or if we have to implement fallbacks then. Also, can Go build things based on target Linux version? Like use *_unix files for \u003c 5.4 and *_linux files for \u003e\u003d 5.4?\n\nDuring tests I have observed that some testprogram.exe continues to run even if all tests report success. Not sure if this is related to this PR.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "926e1fe3_7417d0ab",
+        "filename": "src/os/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "This is changing behavior on Linux. I think it makes things better (you get a handle from the start to the end, so there is no chance that you send a signal to a wrong process which happens to get a recycled PID), but not sure if we can do that.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a60063d_2fcb8b60",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "Is this a breaking change? It says it is system-dependent, but probably people got used to it returning WaitStatus. Siginfo has much clearer information here, but can we change this?\n\nMaybe WaitStatus should be changed into an interface with functions currently exposed by WaitStatus? Siginfo in this PR also implements those functions.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f3d281c_f5a51fdd",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "Those constants and Siginfo is just temporary here. I do not know where it should be eventually. Siginfo is defined in the unix package, but CLD_* constants are not.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17f762ec_2035f6fb",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "This is additional method which WaitStatus does not have. Maybe we should add it there as well.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b463b645_44ac06a0",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "This change could be done independently from pidfd introduction (just use pid instead of pidfd) to address #60321. It minimizes how often wait returns (just on exit) and then loops again if process did not really exit. I think this change should be done regardless.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "788c81bc_48401803",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "This should use Wait4 and then construct Siginfo manually?",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6228c653_34a8959e",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "I have no idea why pid1 is even stored in original code and why there is check with zero. pid1 could not be zero at this point. So I just removed pid1.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d0bcd2d_56eee58e",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "This is an extra goody we get with pidfd: we can be sure we are sending a signal really to a process we want and not to some other process with recycled pid if the process happened to die and we didn\u0027t notice.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71540d81_0a0a5980",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "We should probably do some atomic handling of p.handle like it is done on Windows? Like replacing it with nil here in atomic manner. And similarly where it gets assigned.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee884352_50193c21",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "To keep it backwards compatible, we could maybe not reveal the error here if process does not exist anymore, just on the next attempt at using it. And maybe provide some other function to check if handle is open.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d5c0b1d_fd785f87",
+        "filename": "src/os/wait_waitid.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "I have zero idea if I am using this internal package correctly. But hopefully this does not block the thread which is one of main advantages of using pidfd. Another i that this really returns only when process exits.\n\nI hope Read does retry on signal automatically. So that a signal cannot interrupt waiting here.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e66a4490_5e3333f2",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "Just temporary here. They are available in unix package. Not sure where they should go.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39fc9dc7_7d5e337a",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-05-26T16:29:32Z",
+      "side": 1,
+      "message": "This is racy. Proper implementation should go into forkExec and if clone3 is used you can ask the kernel to give you pidfd when process is created. Then you really know you have the right pidfd handle without worrying about PID recycling. But it would require more changes to forkExec which I have not been comfortable of doing at this point.",
+      "revId": "22cc28afc120d49eb8f98d28ff41f679fe3fe7b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
