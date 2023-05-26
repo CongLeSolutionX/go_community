@@ -44,3 +44,14 @@ func AppendPATH(base []string) []string {
 	}
 	return append(base, pathVar+"="+cfg.GOROOTbin+string(os.PathListSeparator)+path)
 }
+
+// Copied from ../toolchain/toolchain.go.
+const gotoolchainCountEnv = "GOTOOLCHAIN_INTERNAL_SWITCH_COUNT"
+
+// ClearSwitchEnv clears the internal environment variable counting
+// toolchain switch depth. See ../toolchain/toolchain.go for details.
+// All the commands that run user code should call ClearSwitchEnv
+// before doing so (go run, go test, go tool).
+func ClearSwitchEnv() {
+	os.Unsetenv(gotoolchainCountEnv)
+}
