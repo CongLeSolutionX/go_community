@@ -15,6 +15,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 
 	"cmd/go/internal/base"
@@ -47,7 +48,40 @@ const (
 	// did not believe it could handle its own version and then
 	// reinvoked itself.
 	gotoolchainSwitchEnv = "GOTOOLCHAIN_INTERNAL_SWITCH"
+
+	// gotoolchainCountEnv is a special environment variable
+	// that is incremented during each toolchain switch, to detect loops.
+	// It is cleared before invoking programs in 'go run', 'go test', 'go generate', and 'go tool'
+	// by invoking them in an environment filtered with FilterEnv,
+	// so user programs should not see this in their environment.
+	gotoolchainCountEnv = "GOTOOLCHAIN_INTERNAL_SWITCH_COUNT"
+
+	// maxSwitch is the maximum toolchain switching depth.
+	// Most uses should never see more than three.
+	// (Perhaps one for the initial GOTOOLCHAIN dispatch,
+	// a second for go get doing an upgrade, and a third if
+	// for some reason the chosen upgrade version is too small
+	// by a little.)
+	// When the count reaches maxSwitch - 10, we start logging
+	// the switched versions for debugging before crashing with
+	// a fatal error upon reaching maxSwitch.
+	// That should be enough to see the repetition.
+	maxSwitch = 100
 )
+
+// FilterEnv returns a copy of env with internal GOTOOLCHAIN environment
+// variables filtered out.
+func FilterEnv(env []string) []string {
+	// Note: Don't need to filter out gotoolchainSwitchEnv because Switch does that.
+	var out []string
+	for _, e := range env {
+		if strings.HasPrefix(e, gotoolchainCountEnv+"=") {
+			continue
+		}
+		out = append(out, e)
+	}
+	return out
+}
 
 // Switch invokes a different Go toolchain if directed by
 // the GOTOOLCHAIN environment variable or the user's configuration
@@ -244,6 +278,15 @@ func HasPath() bool {
 // a toolchain if necessary.
 func SwitchTo(gotoolchain string) {
 	log.SetPrefix("go: ")
+
+	count, _ := strconv.Atoi(os.Getenv(gotoolchainCountEnv))
+	if count >= maxSwitch-10 {
+		fmt.Fprintf(os.Stderr, "go: switching from go%v to %v [depth %d]\n", gover.Local(), gotoolchain, count)
+	}
+	if count >= maxSwitch {
+		base.Fatalf("too many toolchain switches")
+	}
+	os.Setenv(gotoolchainCountEnv, fmt.Sprint(count+1))
 
 	env := cfg.Getenv("GOTOOLCHAIN")
 	pathOnly := env == "path" || strings.HasSuffix(env, "+path")
