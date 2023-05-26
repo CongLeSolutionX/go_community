@@ -209,8 +209,8 @@ func invoke(cmd *base.Command, args []string) {
 	// the same default computation of these as we do,
 	// but in practice there might be skew
 	// This makes sure we all agree.
-	cfg.OrigEnv = os.Environ()
-	cfg.CmdEnv = envcmd.MkEnv()
+	cfg.OrigEnv = toolchain.FilterEnv(os.Environ())
+	cfg.CmdEnv = toolchain.FilterEnv(envcmd.MkEnv())
 	for _, env := range cfg.CmdEnv {
 		if os.Getenv(env.Name) != env.Value {
 			os.Setenv(env.Name, env.Value)
