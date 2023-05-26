@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d3fc4c5_4249fb53",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-26T00:10:36Z",
+      "side": 1,
+      "message": "Removed the special case. It was a bad idea.",
+      "parentUuid": "2ba0eb0c_1f4d1ad7",
+      "range": {
+        "startLine": 132,
+        "startChar": 31,
+        "endLine": 132,
+        "endChar": 48
+      },
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bcdd156_809df60c",
@@ -91,6 +115,30 @@
       "writtenOn": "2023-05-25T18:34:23Z",
       "side": 1,
       "message": "I think `Switch` itself is now portable? (Only `SwitchTo` calls `execGoToolchain`.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61990439_e3fca03c",
+        "filename": "src/cmd/go/internal/toolchain/toolchain_stub.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-26T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bcdd156_809df60c",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -118,6 +166,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9457fd8e_25d12f92",
+        "filename": "src/cmd/go/internal/toolchain/toolchain_stub.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-26T00:10:36Z",
+      "side": 1,
+      "message": "Done (in execGoToolchain).",
+      "parentUuid": "0c57911f_d855c484",
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7583f68_e0717700",
@@ -131,6 +197,24 @@
       "writtenOn": "2023-05-25T18:34:23Z",
       "side": 1,
       "message": "(incomplete comment)",
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dac1c4e_2cb3ce3d",
+        "filename": "src/cmd/go/internal/toolchain/version.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-26T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7583f68_e0717700",
       "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -154,6 +238,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fede5ce5_902ee3c2",
+        "filename": "src/cmd/go/internal/toolchain/version.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-26T00:10:36Z",
+      "side": 1,
+      "message": "This is documented now although there is still a problem, as you noted. There is also a problem if the command is \"go get -u (no arguments)\" since adding go@version changes from \"no arguments\" to \"yes arguments\" mode.. I need to do something better.",
+      "parentUuid": "aefcd551_7d3ca5aa",
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a186b21_c20e55de",
         "filename": "src/cmd/go/internal/toolchain/version.go",
         "patchSetId": 4
@@ -165,6 +267,24 @@
       "writtenOn": "2023-05-25T18:34:23Z",
       "side": 1,
       "message": "I\u0027m surprised to see a calls to `base.Errorf` preceding calls to `SwitchTo` here: if `SwitchTo` is changed to call `base.ExitIfErrors` at any point this will cause the program to fail, and if `SwitchTo` itself fails it should already set the exit status appropriately.\n\nCan these be `fmt.Sprintf(os.Stderr, …)` instead?",
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e177932_55738166",
+        "filename": "src/cmd/go/internal/toolchain/version.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-26T00:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a186b21_c20e55de",
       "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -182,6 +302,24 @@
       "writtenOn": "2023-05-25T19:19:58Z",
       "side": 1,
       "message": "Can we use `GOPROXY\u003ddirect` with a `vcs-test.golang.org` repo (`src/cmd/go/testdata/vcstest`) instead of an `rsc.io` repo here?\n\nI\u0027ve been trying to make the tests more self-contained, and contributor CLs for bug fixes necessarily can\u0027t include updates to real `rsc.io` modules.",
+      "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50d49646_fbfd9a5e",
+        "filename": "src/cmd/go/testdata/script/mod_get_exec.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-26T00:10:36Z",
+      "side": 1,
+      "message": "I spent much of the afternoon rewriting these tests, including to make them self-contained.",
+      "parentUuid": "ed8c3a14_de7138a2",
       "revId": "064129dae22b0160d9de18d8873c8b1dad19ec3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
