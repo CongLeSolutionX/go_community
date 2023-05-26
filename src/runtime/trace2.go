@@ -615,7 +615,7 @@ func readTrace0() (buf []byte, park bool) {
 	if !trace.headerWritten {
 		trace.headerWritten = true
 		unlock(&trace.lock)
-		return []byte("go 1.21 trace\x00\x00\x00"), false
+		return []byte("go 1.22 trace\x00\x00\x00"), false
 	}
 	// Wait for new data.
 	if trace.fullHead == 0 && !trace.shutdown {
