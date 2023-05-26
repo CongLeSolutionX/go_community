@@ -36,6 +36,7 @@ import (
 	"cmd/go/internal/gover"
 	"cmd/go/internal/robustio"
 	"cmd/go/internal/search"
+	"cmd/go/internal/toolchain"
 	"cmd/go/internal/vcs"
 	"cmd/go/internal/vcweb/vcstest"
 	"cmd/go/internal/web"
@@ -115,6 +116,7 @@ func TestMain(m *testing.M) {
 		if v := os.Getenv("TESTGO_TOOLCHAIN_VERSION"); v != "" {
 			work.ToolchainVersion = v
 		}
+		toolchain.TestVersionSwitch, _ = strconv.Atoi(os.Getenv("TESTGO_VERSION_SWITCH"))
 
 		if testGOROOT := os.Getenv("TESTGO_GOROOT"); testGOROOT != "" {
 			// Disallow installs to the GOROOT from which testgo was built.
