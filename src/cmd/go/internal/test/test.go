@@ -955,6 +955,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	base.ClearSwitchEnv()
 	b.Do(ctx, root)
 }
 
