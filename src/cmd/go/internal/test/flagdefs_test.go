@@ -7,6 +7,7 @@ package test
 import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/test/internal/genflags"
+	"fmt"
 	"internal/testenv"
 	"maps"
 	"os"
@@ -45,9 +46,12 @@ func TestPassFlagToTest(t *testing.T) {
 }
 
 func TestPassAnalyzersToVet(t *testing.T) {
-	testenv.MustHaveGoBuild(t) // runs 'go tool vet -flags'
+	//testenv.MustHaveGoBuild(t) // runs 'go tool vet -flags'
 
+	println(111222)
 	wantNames, err := genflags.VetAnalyzers()
+	println("wantNames:", wantNames)
+	fmt.Printf("%#v", wantNames)
 	if err != nil {
 		t.Fatal(err)
 	}
