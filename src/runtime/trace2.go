@@ -40,41 +40,32 @@ const (
 	traceEvGoCreate          = 13 // goroutine creation [timestamp, new goroutine id, new stack id, stack id]
 	traceEvGoStart           = 14 // goroutine starts running [timestamp, goroutine id, seq]
 	traceEvGoEnd             = 15 // goroutine ends [timestamp]
-	traceEvGoStop            = 16 // goroutine stops (like in select{}) [timestamp, stack]
-	traceEvGoSched           = 17 // goroutine calls Gosched [timestamp, stack]
-	traceEvGoPreempt         = 18 // goroutine is preempted [timestamp, stack]
-	traceEvGoSleep           = 19 // goroutine calls Sleep [timestamp, stack]
-	traceEvGoBlock           = 20 // goroutine blocks [timestamp, stack]
-	traceEvGoUnblock         = 21 // goroutine is unblocked [timestamp, goroutine id, seq, stack]
-	traceEvGoBlockSend       = 22 // goroutine blocks on chan send [timestamp, stack]
-	traceEvGoBlockRecv       = 23 // goroutine blocks on chan recv [timestamp, stack]
-	traceEvGoBlockSelect     = 24 // goroutine blocks on select [timestamp, stack]
-	traceEvGoBlockSync       = 25 // goroutine blocks on Mutex/RWMutex [timestamp, stack]
-	traceEvGoBlockCond       = 26 // goroutine blocks on Cond [timestamp, stack]
-	traceEvGoBlockNet        = 27 // goroutine blocks on network [timestamp, stack]
-	traceEvGoSysCall         = 28 // syscall enter [timestamp, stack]
-	traceEvGoSysExit         = 29 // syscall exit [timestamp, goroutine id, seq, real timestamp]
-	traceEvGoSysBlock        = 30 // syscall blocks [timestamp]
-	traceEvGoWaiting         = 31 // denotes that goroutine is blocked when tracing starts [timestamp, goroutine id]
-	traceEvGoInSyscall       = 32 // denotes that goroutine is in syscall when tracing starts [timestamp, goroutine id]
-	traceEvHeapAlloc         = 33 // gcController.heapLive change [timestamp, heap_alloc]
-	traceEvHeapGoal          = 34 // gcController.heapGoal() (formerly next_gc) change [timestamp, heap goal in bytes]
-	traceEvTimerGoroutine    = 35 // not currently used; previously denoted timer goroutine [timer goroutine id]
-	traceEvFutileWakeup      = 36 // not currently used; denotes that the previous wakeup of this goroutine was futile [timestamp]
-	traceEvString            = 37 // string dictionary entry [ID, length, string]
-	traceEvGoStartLocal      = 38 // goroutine starts running on the same P as the last event [timestamp, goroutine id]
-	traceEvGoUnblockLocal    = 39 // goroutine is unblocked on the same P as the last event [timestamp, goroutine id, stack]
-	traceEvGoSysExitLocal    = 40 // syscall exit on the same P as the last event [timestamp, goroutine id, real timestamp]
-	traceEvGoStartLabel      = 41 // goroutine starts running with label [timestamp, goroutine id, seq, label string id]
-	traceEvGoBlockGC         = 42 // goroutine blocks on GC assist [timestamp, stack]
-	traceEvGCMarkAssistStart = 43 // GC mark assist start [timestamp, stack]
-	traceEvGCMarkAssistDone  = 44 // GC mark assist done [timestamp]
-	traceEvUserTaskCreate    = 45 // trace.NewTask [timestamp, internal task id, internal parent task id, name string, stack]
-	traceEvUserTaskEnd       = 46 // end of a task [timestamp, internal task id, stack]
-	traceEvUserRegion        = 47 // trace.WithRegion [timestamp, internal task id, mode(0:start, 1:end), name string, stack]
-	traceEvUserLog           = 48 // trace.Log [timestamp, internal task id, key string id, stack, value string]
-	traceEvCPUSample         = 49 // CPU profiling sample [timestamp, real timestamp, real P id (-1 when absent), goroutine id, stack]
-	traceEvCount             = 50
+	traceEvGoSched           = 16 // goroutine calls Gosched [timestamp, stack]
+	traceEvGoPreempt         = 17 // goroutine is preempted [timestamp, stack]
+	traceEvGoBlock           = 18 // goroutine blocks [timestamp, reason, stack]
+	traceEvGoUnblock         = 19 // goroutine is unblocked [timestamp, goroutine id, seq, stack]
+	traceEvGoSysCall         = 20 // syscall enter [timestamp, stack]
+	traceEvGoSysExit         = 21 // syscall exit [timestamp, goroutine id, seq, real timestamp]
+	traceEvGoSysBlock        = 22 // syscall blocks [timestamp]
+	traceEvGoWaiting         = 23 // denotes that goroutine is blocked when tracing starts [timestamp, goroutine id]
+	traceEvGoInSyscall       = 24 // denotes that goroutine is in syscall when tracing starts [timestamp, goroutine id]
+	traceEvHeapAlloc         = 25 // gcController.heapLive change [timestamp, heap_alloc]
+	traceEvHeapGoal          = 26 // gcController.heapGoal() (formerly next_gc) change [timestamp, heap goal in bytes]
+	traceEvTimerGoroutine    = 27 // not currently used; previously denoted timer goroutine [timer goroutine id]
+	traceEvFutileWakeup      = 28 // not currently used; denotes that the previous wakeup of this goroutine was futile [timestamp]
+	traceEvString            = 29 // string dictionary entry [ID, length, string]
+	traceEvGoStartLocal      = 30 // goroutine starts running on the same P as the last event [timestamp, goroutine id]
+	traceEvGoUnblockLocal    = 31 // goroutine is unblocked on the same P as the last event [timestamp, goroutine id, stack]
+	traceEvGoSysExitLocal    = 32 // syscall exit on the same P as the last event [timestamp, goroutine id, real timestamp]
+	traceEvGoStartLabel      = 33 // goroutine starts running with label [timestamp, goroutine id, seq, label string id]
+	traceEvGCMarkAssistStart = 34 // GC mark assist start [timestamp, stack]
+	traceEvGCMarkAssistDone  = 35 // GC mark assist done [timestamp]
+	traceEvUserTaskCreate    = 36 // trace.NewTask [timestamp, internal task id, internal parent task id, name string, stack]
+	traceEvUserTaskEnd       = 37 // end of a task [timestamp, internal task id, stack]
+	traceEvUserRegion        = 38 // trace.WithRegion [timestamp, internal task id, mode(0:start, 1:end), name string, stack]
+	traceEvUserLog           = 39 // trace.Log [timestamp, internal task id, key string id, stack, value string]
+	traceEvCPUSample         = 40 // CPU profiling sample [timestamp, real timestamp, real P id (-1 when absent), goroutine id, stack]
+	traceEvCount             = 41
 	// Byte is used but only 6 bits are available for event type.
 	// The remaining 2 bits are used to specify the number of arguments.
 	// That means, the max event type value is 63.
@@ -89,24 +80,22 @@ const (
 // distinct by name may *not* be distinct by value.
 type traceBlockReason uint8
 
-// For maximal efficiency, just map the trace block reason directly to a trace
-// event.
 const (
-	traceBlockGeneric         traceBlockReason = traceEvGoBlock
-	traceBlockForever                          = traceEvGoStop
-	traceBlockNet                              = traceEvGoBlockNet
-	traceBlockSelect                           = traceEvGoBlockSelect
-	traceBlockCondWait                         = traceEvGoBlockCond
-	traceBlockSync                             = traceEvGoBlockSync
-	traceBlockChanSend                         = traceEvGoBlockSend
-	traceBlockChanRecv                         = traceEvGoBlockRecv
-	traceBlockGCMarkAssist                     = traceEvGoBlockGC
-	traceBlockGCSweep                          = traceEvGoBlock
-	traceBlockSystemGoroutine                  = traceEvGoBlock
-	traceBlockPreempted                        = traceEvGoBlock
-	traceBlockDebugCall                        = traceEvGoBlock
-	traceBlockUntilGCEnds                      = traceEvGoBlock
-	traceBlockSleep                            = traceEvGoSleep
+	traceBlockGeneric traceBlockReason = iota
+	traceBlockForever
+	traceBlockNet
+	traceBlockSelect
+	traceBlockCondWait
+	traceBlockSync
+	traceBlockChanSend
+	traceBlockChanRecv
+	traceBlockGCMarkAssist
+	traceBlockGCSweep
+	traceBlockSystemGoroutine
+	traceBlockPreempted
+	traceBlockDebugCall
+	traceBlockUntilGCEnds
+	traceBlockSleep
 )
 
 const (
@@ -1626,9 +1615,7 @@ func traceGoPreempt() {
 }
 
 func traceGoPark(reason traceBlockReason, skip int) {
-	// Convert the block reason directly to a trace event type.
-	// See traceBlockReason for more information.
-	traceEvent(byte(reason), skip)
+	traceEvent(traceEvGoBlock, skip, uint64(reason))
 }
 
 func traceGoUnpark(gp *g, skip int) {
