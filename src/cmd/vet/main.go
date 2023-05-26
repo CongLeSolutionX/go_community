@@ -9,6 +9,7 @@ import (
 
 	"golang.org/x/tools/go/analysis/unitchecker"
 
+	"golang.org/x/tools/go/analysis/passes/appends"
 	"golang.org/x/tools/go/analysis/passes/asmdecl"
 	"golang.org/x/tools/go/analysis/passes/assign"
 	"golang.org/x/tools/go/analysis/passes/atomic"
@@ -45,6 +46,7 @@ func main() {
 	objabi.AddVersionFlag()
 
 	unitchecker.Main(
+		appends.Analyzer,
 		asmdecl.Analyzer,
 		assign.Analyzer,
 		atomic.Analyzer,
