@@ -2343,7 +2343,7 @@ func cleanPath(p string) string {
 	if p[0] != '/' {
 		p = "/" + p
 	}
-	np := path.Clean(p)
+	np := pathClean(p)
 	// path.Clean removes trailing slash except for root;
 	// put the trailing slash back if necessary.
 	if p[len(p)-1] == '/' && np != "/" {
@@ -2355,6 +2355,10 @@ func cleanPath(p string) string {
 		}
 	}
 	return np
+}
+
+func pathClean(p string) string {
+	return path.Clean(p)
 }
 
 // stripHostPort returns h without any trailing ":<port>".
@@ -2409,6 +2413,12 @@ func (mux *ServeMux) redirectToPathSlash(host, path string, u *url.URL) (*url.UR
 // path+"/". This should happen if a handler is registered for path+"/" but
 // not path -- see comments at ServeMux.
 func (mux *ServeMux) shouldRedirectRLocked(host, path string) bool {
+	// fast path
+	if !mux.hosts {
+		if _, exist := mux.m[path]; exist {
+			return false
+		}
+	}
 	p := []string{path, host + path}
 
 	for _, c := range p {
