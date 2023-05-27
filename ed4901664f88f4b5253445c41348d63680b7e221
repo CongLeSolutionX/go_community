@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfb082ce_bfe77c53",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-05-27T23:14:34Z",
+      "side": 1,
+      "message": "yes, \u003d\u003d is correct here, but i prefer the defensive programming of \u003e\u003d. after too many years programming with corrupted data and other bugs. i\u0027d rather you left it as is, because the existing code is not wrong. there is no need to change it.\n\ni may be the only person who feels this way, though.",
+      "revId": "ed4901664f88f4b5253445c41348d63680b7e221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
