@@ -53,6 +53,177 @@
       "message": "Friendly ping @iant@golang.org\nThanks!",
       "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "477b5238_0af38ec8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "Here are some notes.  Thanks.  This is too late for 1.21, so it will have to be for 1.22.\n\nThis CL needs some documentation in cmd/cgo/doc.go.",
+      "parentUuid": "f64a56a3_59166366",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c6c731c_e4f0c873",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "This doesn\u0027t look to me like a place to use a regexp.  It looks like a place to use strings.Fields.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79cb792_74bc2343",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "Let\u0027s just use map[string]bool, it\u0027s easier to use and read.  There aren\u0027t going to be hundreds of these so the efficiency doesn\u0027t matter.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f95dad84_fc0dd3ab",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "You can use the new maps.Copy function here.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7350e9d3_600e8193",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "I don\u0027t see an obvious reason to put this in the !*gccgo clause.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c364360_23c27ea6",
+        "filename": "src/cmd/go/internal/modindex/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "Let\u0027s just use strings.Fields, as the code below does.  No need for a regexp.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3487b959_e71a4f9f",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1693,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "strings.Fields",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e377f47_75704a26",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "I _think_ this can be a panic rather than a throw.\n\nA better message might be \"function marked with #cgo nocallback called back into Go\".",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ece3d741_a339195e",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "Why do we care about signals here?",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e37c5cc4_dda0526e",
+        "filename": "src/runtime/testdata/testprogcgo/CgoNoCallback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T22:49:50Z",
+      "side": 1,
+      "message": "This ought to work on all GOOS values.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
