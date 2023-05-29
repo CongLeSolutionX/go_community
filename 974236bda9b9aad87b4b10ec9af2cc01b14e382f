@@ -33,6 +33,24 @@
       "message": "New version calls GetComputerName API with n set to 0. But old version sets n to MAX_COMPUTERNAME_LENGTH + 1. I suspect new version of syscall.ComputerName always return error. No?\n\nMaybe it is a good idea to add test for syscall.ComputerName.",
       "revId": "974236bda9b9aad87b4b10ec9af2cc01b14e382f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa60b43_668d913d",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-05-29T09:50:11Z",
+      "side": 1,
+      "message": "Good catch. Submitted a fix and a test for that: https://go-review.googlesource.com/c/go/+/499035",
+      "parentUuid": "b945e3bf_6ff32f4a",
+      "revId": "974236bda9b9aad87b4b10ec9af2cc01b14e382f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
