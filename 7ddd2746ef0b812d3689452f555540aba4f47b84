@@ -76,6 +76,30 @@
       },
       "revId": "7ddd2746ef0b812d3689452f555540aba4f47b84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb4e6f38_0170ee06",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-29T23:24:42Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "af0ed87f_6724b624",
+      "range": {
+        "startLine": 576,
+        "startChar": 15,
+        "endLine": 581,
+        "endChar": 14
+      },
+      "revId": "7ddd2746ef0b812d3689452f555540aba4f47b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
