@@ -33,6 +33,24 @@
       "message": "It\u0027s probably worth mentioning here (and likely in the comment of the new functions) how this interplays with cmp.Compare -- in fact their semantics seem to mismatch in some ways, which annoying given that both functions are called Compare",
       "revId": "d57ebde91ffd9088d7303a8c41079c27f78df0f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6006ed6e_dc698447",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-05-30T13:02:52Z",
+      "side": 1,
+      "message": "... I know this CL was submitted so it\u0027s too late to comment here, so I\u0027m making a similar comment on CL 498776",
+      "parentUuid": "9e0210e3_d7b508e6",
+      "revId": "d57ebde91ffd9088d7303a8c41079c27f78df0f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
