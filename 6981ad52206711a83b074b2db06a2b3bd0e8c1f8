@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39a90cdd_18d2d3aa",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-30T16:17:38Z",
+      "side": 1,
+      "message": "Does this change pass the tests?  It seems to me that this means that Clone([]byte{}) will return nil, which is incorrect.  It must return a non-nil empty slice.",
+      "revId": "6981ad52206711a83b074b2db06a2b3bd0e8c1f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
