@@ -53,6 +53,23 @@
       "message": "Thanks for the update!",
       "revId": "651220dadf2d3480ebbf19c85fb484900ad0d4de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38177ac6_382e6ae7",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-05-30T13:05:40Z",
+      "side": 1,
+      "message": "Nit: do we typically make specific version promises like this one in release notes? Should it just say \"In a future Go release, ...\"?",
+      "revId": "651220dadf2d3480ebbf19c85fb484900ad0d4de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
