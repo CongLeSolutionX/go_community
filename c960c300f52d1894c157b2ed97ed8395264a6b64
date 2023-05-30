@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d3fa311_f4e5c4b3",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-30T17:46:24Z",
+      "side": 1,
+      "message": "Ah, this is a missing toolchain switch in `modload.LoadModGraph`, which should (but currently does not) fail if the requested (or effective) `goVersion` is too new.\n\nThat needs a fair amount of plumbing, but I have a pending CL that implements it. I\u0027ll clean that up and mail it in a bit.\n\n(In the meantime, perhaps make this a TODO to remove the tryVersion call when LoadModGraph correctly catches the problem?)",
+      "parentUuid": "15ad81a7_7f50b1b9",
+      "revId": "c960c300f52d1894c157b2ed97ed8395264a6b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ea39b5d_76e4b25c",
         "filename": "src/cmd/go/internal/toolchain/version.go",
         "patchSetId": 5
