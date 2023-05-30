@@ -72,6 +72,24 @@
       "message": "We will eventually need to check for a `*gover.TooNewError` here, I think.\n\n(The edits we make to the build list may cause other transitive upgrades or downgrades that pull in a requirement for a higher Go version.)",
       "revId": "a3eba7fc5e647e62e3091dc9600c9b65c6f1b8a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a2dbaa_14780eb9",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1823,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T13:52:51Z",
+      "side": 1,
+      "message": "Going to leave that for a future CL.",
+      "parentUuid": "605c7172_c9553e9b",
+      "revId": "a3eba7fc5e647e62e3091dc9600c9b65c6f1b8a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

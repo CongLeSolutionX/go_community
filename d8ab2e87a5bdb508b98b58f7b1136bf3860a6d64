@@ -72,6 +72,24 @@
       "message": "Fail explicitly here if `CanSwitch()` is false?",
       "revId": "d8ab2e87a5bdb508b98b58f7b1136bf3860a6d64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72848189_8cdf23df",
+        "filename": "src/cmd/go/internal/toolchain/toolchain.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T13:52:51Z",
+      "side": 1,
+      "message": "CanSwitch was a bad name. Changed to HasAuto and HasPath.\nSwitchTo can be called at startup when GOTOOLCHAIN\u003dgo1.2.3 \neven though CanSwitch was returning false for that.",
+      "parentUuid": "097ee945_0eb4cb09",
+      "revId": "d8ab2e87a5bdb508b98b58f7b1136bf3860a6d64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15ad81a7_7f50b1b9",
+        "filename": "src/cmd/go/internal/modget/get.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T13:52:51Z",
+      "side": 1,
+      "message": "This happens during \"go get go@newversion\".\nAdded a comment.",
+      "parentUuid": "07f7cb1f_38523a83",
+      "revId": "c960c300f52d1894c157b2ed97ed8395264a6b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ea39b5d_76e4b25c",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc171cb3_9d404356",
+        "filename": "src/cmd/go/internal/toolchain/version.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T13:52:51Z",
+      "side": 1,
+      "message": "I knew this code was not long for this world. It\u0027s gone.",
+      "parentUuid": "0ea39b5d_76e4b25c",
+      "revId": "c960c300f52d1894c157b2ed97ed8395264a6b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa221436_aaac36fc",
@@ -85,6 +121,24 @@
       "writtenOn": "2023-05-26T01:02:13Z",
       "side": 1,
       "message": "I would expect to see `modload.Query` instead of `QueryPattern` here, since we\u0027re searching for a specific module version rather than packages matching a pattern.\n\n(That said, `QueryPattern` shouldn\u0027t be doing much more work for a path with only one component...)",
+      "revId": "c960c300f52d1894c157b2ed97ed8395264a6b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67dbea4_c1e5058d",
+        "filename": "src/cmd/go/internal/toolchain/version.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T13:52:51Z",
+      "side": 1,
+      "message": "I knew this code was not long for this world. It\u0027s gone.",
+      "parentUuid": "aa221436_aaac36fc",
       "revId": "c960c300f52d1894c157b2ed97ed8395264a6b64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
