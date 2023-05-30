@@ -95,6 +95,24 @@
       "message": "I wonder if `runTool` should be adjusting `$PATH` the way that `go test` and `go generate` do. If the tool calls out to a `go` command, we really want it to be exactly this one.\n\nSo instead of clearing the switch environment, maybe we should adjust `PATH` (using `base.AppendPATH`) and also set `GOTOOLCHAIN\u003dlocal` to prevent further switches entirely?",
       "revId": "f2ea5ed8fd0e4a97d4052bf23e45eaff1c42984a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd2ebc24_c7fc80bb",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T13:52:51Z",
+      "side": 1,
+      "message": "Perhaps but I don\u0027t think we should do it in this CL, and perhaps not even for Go 1.21.",
+      "parentUuid": "c7ea3b0a_9bc3e1fc",
+      "revId": "f2ea5ed8fd0e4a97d4052bf23e45eaff1c42984a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
