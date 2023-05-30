@@ -58,7 +58,7 @@ func FuzzDecode(f *testing.F) {
 			got := img1.Bounds()
 			want := img.Bounds()
 			if !got.Eq(want) {
-				t.Fatalf("roundtripped image bounds have changed, got: %s, want: %s", got, want)
+				t.Errorf("roundtripped image bounds have changed, got: %s, want: %s", got, want)
 			}
 		}
 	})
