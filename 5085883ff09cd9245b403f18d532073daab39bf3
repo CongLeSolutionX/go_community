@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08a37f99_52eb054d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-30T21:39:50Z",
+      "side": 1,
+      "message": "These are fuzzing tests.  There is no reason to continue.",
+      "revId": "5085883ff09cd9245b403f18d532073daab39bf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
