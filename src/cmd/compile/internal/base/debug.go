@@ -56,6 +56,7 @@ type DebugFlags struct {
 	PGOInlineBudget       int    `help:"inline budget for hot functions" concurrent:"ok"`
 	WrapGlobalMapDbg      int    `help:"debug trace output for global map init wrapping"`
 	WrapGlobalMapCtl      int    `help:"global map init wrap control (0 => default, 1 => off, 2 => stress mode, no size cutoff)"`
+	PPC64Bad              int    `help:"build bad function"`
 
 	ConcurrentOk bool // true if only concurrentOk flags seen
 }

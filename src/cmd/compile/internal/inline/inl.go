@@ -31,6 +31,7 @@ import (
 	"go/constant"
 	"sort"
 	"strconv"
+	"strings"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
@@ -1005,9 +1006,24 @@ func inlineCostOK(n *ir.CallExpr, caller, callee *ir.Func, bigCaller bool) (bool
 		return false, inlineHotMaxBudget
 	}
 
-	if !base.DebugHashMatchPos(n.Pos()) {
+	pos := base.Ctxt.InnermostPos(n.Pos())
+	if !strings.HasSuffix(pos.Filename(), "cmd/compile/internal/ssa/expand_calls.go") {
 		return false, maxCost
 	}
+	if pos.Line() != 550 {
+		return false, maxCost
+	}
+	if pos.Col() != 22 {
+		return false, maxCost
+	}
+	if base.Debug.PPC64Bad == 0 {
+		return false, maxCost
+	}
+	fmt.Printf("Allowing inline at %s:%d:%d\n", pos.Filename(), pos.Line(), pos.Col())
+
+	//if !base.DebugHashMatchPos(n.Pos()) {
+	//	return false, maxCost
+	//}
 
 	if base.Debug.PGODebug > 0 {
 		fmt.Printf("hot-budget check allows inlining for call %s (cost %d) at %v in function %s\n", ir.PkgFuncName(callee), callee.Inl.Cost, ir.Line(n), ir.PkgFuncName(caller))
