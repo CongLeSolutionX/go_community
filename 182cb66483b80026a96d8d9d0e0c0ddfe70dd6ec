@@ -90,6 +90,24 @@
       "parentUuid": "c34e8d04_cd1a8547",
       "revId": "182cb66483b80026a96d8d9d0e0c0ddfe70dd6ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8550774_9c15dcfc",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-05-30T14:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc25e5_972070ea",
+      "revId": "182cb66483b80026a96d8d9d0e0c0ddfe70dd6ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
