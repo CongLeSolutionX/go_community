@@ -15,6 +15,7 @@ package runtime
 import (
 	"internal/abi"
 	"internal/goarch"
+	"internal/goos"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -994,7 +995,7 @@ func traceStackID(mp *m, pcBuf []uintptr, skip int) uint64 {
 // tracefpunwindoff returns true if frame pointer unwinding for the tracer is
 // disabled via GODEBUG or not supported by the architecture.
 func tracefpunwindoff() bool {
-	return debug.tracefpunwindoff != 0 || (goarch.ArchFamily != goarch.AMD64 && goarch.ArchFamily != goarch.ARM64)
+	return debug.tracefpunwindoff != 0 || (goarch.ArchFamily != goarch.AMD64 && goarch.ArchFamily != goarch.ARM64) || goos.IsPlan9 == 1
 }
 
 // fpTracebackPCs populates pcBuf with the return addresses for each frame and
