@@ -72,6 +72,24 @@
       "message": "I don\u0027t think the call to `base.ClearSwitchEnv` will have an effect on the test subprocess, since that uses `cfg.OrigEnv` instead.\n\nPerhaps we should filter the switch environment variable out of `cfg.OrigEnv` instead of modifying the process-wide environment? It looks like `OrigEnv` is used in exactly the places where we want to reset the switch count. 🤔\n\nBarring that, I think a `func([]string) []string` that returns an environment slice would be easier to follow than mutating the process environment. (I am concerned about typestate bugs in the switch counts.)",
       "revId": "d824043ae91f02bb7d90c03d255a412c25ef228c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b8b4199_dde64910",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T19:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ae28368_3d82f900",
+      "revId": "d824043ae91f02bb7d90c03d255a412c25ef228c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
