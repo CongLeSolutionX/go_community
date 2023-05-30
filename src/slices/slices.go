@@ -343,7 +343,7 @@ func Clone[S ~[]E, E any](s S) S {
 	if s == nil {
 		return nil
 	}
-	return append(S([]E{}), s...)
+	return append(S(nil), s...)
 }
 
 // Compact replaces consecutive runs of equal elements with a single copy.
