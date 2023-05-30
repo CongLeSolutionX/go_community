@@ -137,6 +137,24 @@
       "parentUuid": "c7ea3b0a_9bc3e1fc",
       "revId": "f2ea5ed8fd0e4a97d4052bf23e45eaff1c42984a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63246d78_fb5aa1b6",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-30T15:18:34Z",
+      "side": 1,
+      "message": "I don\u0027t believe we have any \u0027go tool\u0027 that themselves run go commands, except maybe \u0027go tool pprof\u0027. I think we can leave dealing with those to the Go 1.22 cycle.\n\nAlso, for the review record, we discussed go test and go generate off-Gerrit last week and concluded they should not set GOTOOLCHAIN\u003dlocal:\n\nIf the go:generate rule is something like go run p@latest, then it probably does need to be able to fetch a new toolchain. And if the current go is the first one in $PATH it should only need to switch versions if the version required by the generator is newer than the version indicated for the CWD.\n\nIf we\u0027re running go test, we already know (by invariant) that the main module\u0027s go version is \u003e\u003d the go version in whatever module we found the test, so the main module\u0027s toolchain should not need to switch again unless the test is using go run pkg@version on some version that its own go.mod doesn\u0027t support.\n\nSo in both of those cases we probably do actually want to allow an upgrade.",
+      "parentUuid": "fd2ebc24_c7fc80bb",
+      "revId": "f2ea5ed8fd0e4a97d4052bf23e45eaff1c42984a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
