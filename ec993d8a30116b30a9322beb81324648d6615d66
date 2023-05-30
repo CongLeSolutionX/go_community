@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bddfe0a_b254a2c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "1.22 is also good, early review comments are welcome, thank you!",
+      "parentUuid": "477b5238_0af38ec8",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c6c731c_e4f0c873",
@@ -90,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41640624_49b48ae0",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c6c731c_e4f0c873",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b79cb792_74bc2343",
@@ -103,6 +139,24 @@
       "writtenOn": "2023-05-29T22:49:50Z",
       "side": 1,
       "message": "Let\u0027s just use map[string]bool, it\u0027s easier to use and read.  There aren\u0027t going to be hundreds of these so the efficiency doesn\u0027t matter.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a94d1fe7_ed66e799",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b79cb792_74bc2343",
       "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -126,6 +180,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b1dbb00_5bd7b4af",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "I had a try, but got error: \"package maps is not in GOROOT\", when Building Go toolchain1.\nSeems it depends a higher bootstrap Go version, and we could do this change when we upgraded the bootstrap go version, right?",
+      "parentUuid": "f95dad84_fc0dd3ab",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7350e9d3_600e8193",
         "filename": "src/cmd/cgo/out.go",
         "patchSetId": 1
@@ -137,6 +209,24 @@
       "writtenOn": "2023-05-29T22:49:50Z",
       "side": 1,
       "message": "I don\u0027t see an obvious reason to put this in the !*gccgo clause.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c16f682_46cf2b93",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7350e9d3_600e8193",
       "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -158,6 +248,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6dd16c0_fe0a4a7b",
+        "filename": "src/cmd/go/internal/modindex/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c364360_23c27ea6",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3487b959_e71a4f9f",
@@ -171,6 +279,24 @@
       "writtenOn": "2023-05-29T22:49:50Z",
       "side": 1,
       "message": "strings.Fields",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "180d61aa_a5e4365f",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1693,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3487b959_e71a4f9f",
       "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -192,6 +318,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf317a8a_d6acbcb1",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e377f47_75704a26",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ece3d741_a339195e",
@@ -209,6 +353,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37c310cd_f2eb8057",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done. sorry, just from a copy \u0026 paste.",
+      "parentUuid": "ece3d741_a339195e",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e37c5cc4_dda0526e",
@@ -222,6 +384,24 @@
       "writtenOn": "2023-05-29T22:49:50Z",
       "side": 1,
       "message": "This ought to work on all GOOS values.",
+      "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3fc70bd_6e84f9ee",
+        "filename": "src/runtime/testdata/testprogcgo/CgoNoCallback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-05-30T06:56:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e37c5cc4_dda0526e",
       "revId": "ec993d8a30116b30a9322beb81324648d6615d66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
