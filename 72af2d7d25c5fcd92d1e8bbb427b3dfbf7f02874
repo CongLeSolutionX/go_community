@@ -70,6 +70,24 @@
       "message": "FWIW, I think we can *arguably* call this a bug fix to justify it for this release, but I think it\u0027s fine to defer for the next release cycle too.",
       "revId": "72af2d7d25c5fcd92d1e8bbb427b3dfbf7f02874",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be8a3583_04f26e55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-05-30T18:19:43Z",
+      "side": 1,
+      "message": "Treating as a bug would be ok with me (it is a fairly minor change). Will defer to Bryan on that.",
+      "parentUuid": "164337e3_3ec20c94",
+      "revId": "72af2d7d25c5fcd92d1e8bbb427b3dfbf7f02874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
