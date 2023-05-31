@@ -16,6 +16,41 @@
       "message": "These are fuzzing tests.  There is no reason to continue.",
       "revId": "5085883ff09cd9245b403f18d532073daab39bf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56eb78d4_98b5c062",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-05-31T03:08:07Z",
+      "side": 1,
+      "message": "duration of fuzzing test should be determined by -fuzztime.\n\n\nIf a fuzz test fails, more failing testcases gives us the broader picture of what me have missed.\n\nIt makes sense to use .Fatalf when building corpus. \n\nBut the stmt i changed involves the functioning of 3 functionalities - Encode,Decode and Eq. It would be difficult to find the bugs with just 1 testcase",
+      "parentUuid": "08a37f99_52eb054d",
+      "revId": "5085883ff09cd9245b403f18d532073daab39bf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bbe8094_a77d2724",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-05-31T03:08:07Z",
+      "side": 1,
+      "message": "duration of fuzzing test should be determined by -fuzztime.\n\n\nIf a fuzz test fails, more failing testcases gives us the broader picture of what me have missed.\n\nIt makes sense to use .Fatalf while building corpus. \n\nBut the stmt I changed involves the functioning of 3 functionalities - Encode,Decode and Eq. It would be difficult to find the bugs with just failing 1 testcase",
+      "revId": "5085883ff09cd9245b403f18d532073daab39bf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
