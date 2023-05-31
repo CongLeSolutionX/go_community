@@ -34,6 +34,24 @@
       "parentUuid": "22c36802_04f23c2e",
       "revId": "bae8b4a268be65a7150e3884249d9e710e5bc2ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeb89515_36158040",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-31T21:32:47Z",
+      "side": 1,
+      "message": "You are correct that that part of the sentence is not very precise. Its purpose is only to serve as a hint that there is this extra mechanism available; the reader can always follow the reference to get the precise explanation.\n\nTrying to make it exact here very likely will lead to a duplication of what is said elsewhere.",
+      "parentUuid": "8c2d4c05_1c882f91",
+      "revId": "bae8b4a268be65a7150e3884249d9e710e5bc2ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
