@@ -89,6 +89,23 @@
       "message": "CL LGTM. Will change to +2 once the proposal is accepted.",
       "revId": "dcf5a934656fbdc7f277ee1bc88113e6d68e6070",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f46d5e1_cd3be84a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-05-31T17:13:03Z",
+      "side": 1,
+      "message": "The proposal was accepted. Not sure whether this qualifies for the go1.21 release though.",
+      "revId": "dcf5a934656fbdc7f277ee1bc88113e6d68e6070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
