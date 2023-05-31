@@ -106,6 +106,24 @@
       "message": "The proposal was accepted. Not sure whether this qualifies for the go1.21 release though.",
       "revId": "dcf5a934656fbdc7f277ee1bc88113e6d68e6070",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b1cd4e_c8175844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-31T18:46:53Z",
+      "side": 1,
+      "message": "I think it needs freeze exception approval at this point. I\u0027m weakly in favor because it\u0027s trivial and safe; but it\u0027s also been long enough already that it doesn\u0027t seem unreasonable to wait another cycle.",
+      "parentUuid": "0f46d5e1_cd3be84a",
+      "revId": "dcf5a934656fbdc7f277ee1bc88113e6d68e6070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
