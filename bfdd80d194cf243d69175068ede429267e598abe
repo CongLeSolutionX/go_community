@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44f66b1c_56d56e39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-31T20:25:07Z",
+      "side": 1,
+      "message": "Write the pull request title as\n\nimage/jpeg, image/png: replace Fatal with Error in tests\n\nThen you can delete the entire first comment of the GitHub pull request.  (See https://go.dev/wiki/CommitMessage, or the instructions in the first comment of the pull request.)",
+      "revId": "bfdd80d194cf243d69175068ede429267e598abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d1afdfa_1a68ef1c",
+        "filename": "src/image/jpeg/fuzz_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-31T20:25:07Z",
+      "side": 1,
+      "message": "For these cases, you need to call continue after the Errorf; we can\u0027t keep executing the test.",
+      "revId": "bfdd80d194cf243d69175068ede429267e598abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
