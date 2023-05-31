@@ -16,6 +16,24 @@
       "message": "Nit: should there be some punctuation here after \"methods\"? : or -",
       "revId": "23cb2f9a0267dd6ab86cd1f28aa52a66f44a4d1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ece32f37_37ff7f61",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-05-31T19:08:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9104832_6ffcc280",
+      "revId": "23cb2f9a0267dd6ab86cd1f28aa52a66f44a4d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
