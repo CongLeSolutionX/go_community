@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6387483_e32dc849",
+        "filename": "src/cmd/go/internal/toolchain/toolchain.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-31T14:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ad31c0e_4012fa72",
+      "revId": "2a0ef20e5d62052a3902656267af9368504a0eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c27023b4_2b28f12a",
@@ -72,6 +90,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c3e92d0_5a0ad17a",
+        "filename": "src/cmd/go/internal/toolchain/toolchain.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-31T14:53:18Z",
+      "side": 1,
+      "message": "I think the only case we care about is TooNewError. If we get err \u003d\u003d nil then we\u0027re all set and if we get any other error, then we can let ordinary startup happen and report that in the due course of time. Perhaps I am wrong about that - if we have go install -unknownflags m@v and there is a transient network error, maybe we want to report that early instead of late? But doing so would require recreating exactly the same error messages that go install would give, which seems difficult. Unless we just let go install run and don\u0027t worry about the potential flag issue, which seems like the lesser problem. Updated the comment and the code a bit.",
+      "parentUuid": "c27023b4_2b28f12a",
+      "revId": "2a0ef20e5d62052a3902656267af9368504a0eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3206817_29ccf731",
+        "filename": "src/cmd/go/internal/toolchain/toolchain.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-31T14:53:18Z",
+      "side": 1,
+      "message": "The only case we care about is TooNewError. Everything else should let the current toolchain proceed (it will hit the same error",
+      "parentUuid": "c27023b4_2b28f12a",
+      "revId": "2a0ef20e5d62052a3902656267af9368504a0eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ce7bb88_69d525c2",
@@ -85,6 +139,30 @@
       "writtenOn": "2023-05-31T14:16:30Z",
       "side": 1,
       "message": "I think this test would be easier to follow with strings (maybe with a `switch` on the caller side?) instead of numbers for this variable.\n\nSomething like:\n\n```\nenv TESTGO_VERSION_SWITCH\u003dswitch\ngo version\nstdout go1.21.99\n\nenv TESTGO_VERSION_SWITCH\u003dkeep\n! go version\nstderr \u0027^go: toolchain go1.21.1 invoked to provide go1.21.99$\u0027\n\nenv TESTGO_VERSION_SWITCH\u003dloop\n! go version\nstderr -count\u003d10 …\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "2a0ef20e5d62052a3902656267af9368504a0eea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52bfa65b_2e5324b6",
+        "filename": "src/cmd/go/testdata/script/gotoolchain_loop.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-05-31T14:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce7bb88_69d525c2",
       "range": {
         "startLine": 10,
         "startChar": 26,
