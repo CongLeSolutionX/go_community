@@ -138,8 +138,12 @@ func newRequirements(pruning modPruning, rootModules []module.Version, direct ma
 	// Allow unsorted root modules, because go and toolchain
 	// are treated as the final graph roots but not trimmed from the build list,
 	// so they always appear at the beginning of the list.
-	rootModules = slices.Clip(slices.Clone(rootModules))
-	gover.ModSort(rootModules)
+	r := slices.Clip(slices.Clone(rootModules))
+	gover.ModSort(r)
+	if !reflect.DeepEqual(r, rootModules) {
+		fmt.Fprintln(os.Stderr, "RM", rootModules)
+		panic("unsorted")
+	}
 
 	rs := &Requirements{
 		pruning:        pruning,
@@ -168,7 +172,7 @@ func (rs *Requirements) String() string {
 func (rs *Requirements) initVendor(vendorList []module.Version) {
 	rs.graphOnce.Do(func() {
 		mg := &ModuleGraph{
-			g: mvs.NewGraph(cmpVersion, MainModules.GraphRoots(nil)),
+			g: mvs.NewGraph(cmpVersion, MainModules.Versions()),
 		}
 
 		if MainModules.Len() != 1 {
@@ -251,7 +255,6 @@ func (rs *Requirements) hasRedundantRoot() bool {
 // If the requirements of any relevant module fail to load, Graph also
 // returns a non-nil error of type *mvs.BuildListError.
 func (rs *Requirements) Graph(ctx context.Context) (*ModuleGraph, error) {
-	mustHaveGoRoot(rs.rootModules)
 	rs.graphOnce.Do(func() {
 		mg, mgErr := readModGraph(ctx, rs.pruning, rs.rootModules, nil)
 		rs.graph.Store(&cachedGraph{mg, mgErr})
@@ -314,11 +317,17 @@ func readModGraph(ctx context.Context, pruning modPruning, roots []module.Versio
 		})
 	}
 
+	var graphRoots []module.Version
+	if inWorkspaceMode() {
+		graphRoots = roots
+	} else {
+		graphRoots = MainModules.Versions()
+	}
 	var (
 		mu       sync.Mutex // guards mg.g and hasError during loading
 		hasError bool
 		mg       = &ModuleGraph{
-			g: mvs.NewGraph(cmpVersion, MainModules.GraphRoots(roots)),
+			g: mvs.NewGraph(cmpVersion, graphRoots),
 		}
 	)
 
@@ -745,7 +754,6 @@ func (c Conflict) String() string {
 // both retain the same versions of all packages in pkgs and satisfy the
 // graph-pruning invariants (if applicable).
 func tidyRoots(ctx context.Context, rs *Requirements, pkgs []*loadPkg) (*Requirements, error) {
-	mustHaveGoRoot(rs.rootModules)
 	mainModule := MainModules.mustGetSingleMainModule()
 	if rs.pruning == unpruned {
 		return tidyUnprunedRoots(ctx, mainModule, rs, pkgs)
@@ -1245,7 +1253,6 @@ func spotCheckRoots(ctx context.Context, rs *Requirements, mods map[module.Versi
 // provided a package in pkgs, and includes the selected version of every such
 // module in direct as a root.
 func tidyUnprunedRoots(ctx context.Context, mainModule module.Version, old *Requirements, pkgs []*loadPkg) (*Requirements, error) {
-	mustHaveGoRoot(old.rootModules)
 	var (
 		// keep is a set of of modules that provide packages or are needed to
 		// disambiguate imports.
@@ -1275,9 +1282,11 @@ func tidyUnprunedRoots(ctx context.Context, mainModule module.Version, old *Requ
 	)
 	if v, ok := old.rootSelected("go"); ok {
 		keep = append(keep, module.Version{Path: "go", Version: v})
+		keptPath["go"] = true
 	}
 	if v, ok := old.rootSelected("toolchain"); ok {
 		keep = append(keep, module.Version{Path: "toolchain", Version: v})
+		keptPath["toolchain"] = true
 	}
 	for _, pkg := range pkgs {
 		if !pkg.fromExternalModule() {

@@ -14,6 +14,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"sync"
@@ -26,7 +27,6 @@ import (
 	"cmd/go/internal/modconv"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/search"
-	"cmd/go/internal/slices"
 
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
@@ -90,6 +90,7 @@ type MainModuleSet struct {
 	// versions are the module.Version values of each of the main modules.
 	// For each of them, the Path fields are ordinary module paths and the Version
 	// fields are empty strings.
+	// versions is clipped (len=cap).
 	versions []module.Version
 
 	// modRoot maps each module in versions to its absolute filesystem path.
@@ -131,27 +132,6 @@ func (mms *MainModuleSet) Versions() []module.Version {
 		return nil
 	}
 	return mms.versions
-}
-
-// GraphRoots returns the graph roots for the main module set.
-// Callers should not modify the returned slice.
-// This function is the same as Versions except that in workspace
-// mode it adds "go" and "toolchain" versions from either roots
-// or the mms.
-func (mms *MainModuleSet) GraphRoots(roots []module.Version) []module.Version {
-	goVersion := mms.GoVersion()
-	toolchain := mms.Toolchain()
-	for _, m := range roots {
-		if m.Path == "go" {
-			goVersion = m.Version
-		}
-		if m.Path == "toolchain" {
-			toolchain = m.Version
-		}
-	}
-	return append(mms.versions,
-		module.Version{Path: "go", Version: goVersion},
-		module.Version{Path: "toolchain", Version: toolchain})
 }
 
 func (mms *MainModuleSet) Contains(path string) bool {
@@ -252,6 +232,7 @@ func (mms *MainModuleSet) GoVersion() string {
 		if f == nil {
 			// Special case: we are outside a module, like 'go run x.go'.
 			// Assume the local Go version.
+			// TODO(#49228): Clean this up; see loadModFile.
 			return gover.Local()
 		}
 		if f.Go != nil {
@@ -275,6 +256,7 @@ func (mms *MainModuleSet) Toolchain() string {
 		if f == nil {
 			// Special case: we are outside a module, like 'go run x.go'.
 			// Assume the local Go version.
+			// TODO(#49228): Clean this up; see loadModFile.
 			return gover.LocalToolchain()
 		}
 		if f.Toolchain != nil {
