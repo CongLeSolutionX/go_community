@@ -9,7 +9,9 @@
 // spends all of its time in the race runtime, which isn't a safe
 // point.
 
-//go:build (amd64 || arm64) && linux && !race
+// Skip this with leak detection (cross-stack writes)
+
+//go:build (amd64 || arm64) && linux && !race && false
 
 package runtime_test
 

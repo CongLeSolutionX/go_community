@@ -23,6 +23,9 @@ const cgoWriteBarrierFail = "unpinned Go pointer stored into non-Go memory"
 //go:nosplit
 //go:nowritebarrier
 func cgoCheckPtrWrite(dst *unsafe.Pointer, src unsafe.Pointer) {
+	publishPtrWrite(dst, src)
+	return
+
 	if !mainStarted {
 		// Something early in startup hates this function.
 		// Don't start doing any actual checking until the
@@ -92,6 +95,10 @@ func cgoCheckMemmove2(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
 	if typ.PtrBytes == 0 {
 		return
 	}
+
+	publishMemmove(dst, src, size) // XXX Only need typ.PtrBytes
+	return
+
 	if !cgoIsGoPointer(src) {
 		return
 	}
@@ -113,6 +120,10 @@ func cgoCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
 	if typ.PtrBytes == 0 {
 		return
 	}
+
+	publishMemmove(dst, src, typ.Size_*uintptr(n))
+	return
+
 	if !cgoIsGoPointer(src) {
 		return
 	}

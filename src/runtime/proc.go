@@ -726,7 +726,7 @@ func schedinit() {
 	mallocinit()
 	godebug := getGodebugEarly()
 	initPageTrace(godebug) // must run after mallocinit but before anything allocates
-	cpuinit(godebug)       // must run before alginit
+	cpuinit(godebug)       // must run after mallocinit, before alginit
 	alginit()              // maps, hash, fastrand must not be used before this call
 	fastrandinit()         // must run before mcommoninit
 	mcommoninit(gp.m, -1)
@@ -4454,6 +4454,14 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 	if fn == nil {
 		fatal("go of nil func value")
 	}
+
+	// Publish all arguments and captures going into the new goroutine. (fn
+	// cannot be on the stack because it gets passed as the context into the new
+	// goroutine.)
+	//
+	// TODO: This shouldn't be necessary because we'll leak fn to the g context
+	// anyway, though it may be helpful for tracking leak reasons anyway.
+	publishObject(unsafe.Pointer(fn), "go")
 
 	mp := acquirem() // disable preemption because we hold M and P in local vars.
 	pp := mp.p.ptr()

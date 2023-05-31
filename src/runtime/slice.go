@@ -100,7 +100,7 @@ func makeslice(et *_type, len, cap int) unsafe.Pointer {
 		panicmakeslicecap()
 	}
 
-	return mallocgc(mem, et, true)
+	return mallocgc1(mem, et, true, getcallerpc())
 }
 
 func makeslice64(et *_type, len64, cap64 int64) unsafe.Pointer {
@@ -263,7 +263,7 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 
 	var p unsafe.Pointer
 	if et.PtrBytes == 0 {
-		p = mallocgc(capmem, nil, false)
+		p = mallocgc1(capmem, nil, false, getcallerpc())
 		// The append() that calls growslice is going to overwrite from oldLen to newLen.
 		// Only clear the part that will not be overwritten.
 		// The reflect_growslice() that calls growslice will manually clear

@@ -23,6 +23,9 @@ type rtype struct {
 }
 
 func (t rtype) string() string {
+	if t.Type == nil {
+		return "<nil>"
+	}
 	s := t.nameOff(t.Str).Name()
 	if t.TFlag&abi.TFlagExtraStar != 0 {
 		return s[1:]

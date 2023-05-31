@@ -946,6 +946,10 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 // Small objects are allocated from the per-P cache's free lists.
 // Large objects (> 32 kB) are allocated straight from the heap.
 func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
+	return mallocgc1(size, typ, needzero, getcallerpc())
+}
+
+func mallocgc1(size uintptr, typ *_type, needzero bool, mallocPC uintptr) unsafe.Pointer {
 	if gcphase == _GCmarktermination {
 		throw("mallocgc called with gcphase == _GCmarktermination")
 	}
@@ -1023,6 +1027,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	// In some cases block zeroing can profitably (for latency reduction purposes)
 	// be delayed till preemption is possible; delayedZeroing tracks that state.
 	delayedZeroing := false
+	isTiny := false
 	if size <= maxSmallSize {
 		if noscan && size < maxTinySize {
 			// Tiny allocator.
@@ -1097,6 +1102,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				c.tinyoffset = size
 			}
 			size = maxTinySize
+			isTiny = true
 		} else {
 			var sizeclass uint8
 			if size <= smallSizeMax-8 {
@@ -1180,6 +1186,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	if gcphase != _GCoff {
 		gcmarknewobject(span, uintptr(x), size)
 	}
+	ownerMalloc(x, span, isTiny, typ, mallocPC)
 
 	if raceenabled {
 		racemalloc(x, size)
@@ -1321,7 +1328,7 @@ func memclrNoHeapPointersChunked(size uintptr, x unsafe.Pointer) {
 // compiler (both frontend and SSA backend) knows the signature
 // of this function.
 func newobject(typ *_type) unsafe.Pointer {
-	return mallocgc(typ.Size_, typ, true)
+	return mallocgc1(typ.Size_, typ, true, getcallerpc())
 }
 
 //go:linkname reflect_unsafe_New reflect.unsafe_New
@@ -1337,13 +1344,13 @@ func reflectlite_unsafe_New(typ *_type) unsafe.Pointer {
 // newarray allocates an array of n elements of type typ.
 func newarray(typ *_type, n int) unsafe.Pointer {
 	if n == 1 {
-		return mallocgc(typ.Size_, typ, true)
+		return mallocgc1(typ.Size_, typ, true, getcallerpc())
 	}
 	mem, overflow := math.MulUintptr(typ.Size_, uintptr(n))
 	if overflow || mem > maxAlloc || n < 0 {
 		panic(plainError("runtime: allocation size out of range"))
 	}
-	return mallocgc(mem, typ, true)
+	return mallocgc1(mem, typ, true, getcallerpc())
 }
 
 //go:linkname reflect_unsafe_NewArray reflect.unsafe_NewArray

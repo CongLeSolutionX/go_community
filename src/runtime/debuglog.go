@@ -24,7 +24,7 @@ import (
 // debugLogBytes is the size of each per-M ring buffer. This is
 // allocated off-heap to avoid blowing up the M and hence the GC'd
 // heap size.
-const debugLogBytes = 16 << 10
+const debugLogBytes = 256 << 10
 
 // debugLogStringLimit is the maximum number of bytes in a string.
 // Above this, the string will be truncated with "..(n more bytes).."
@@ -175,6 +175,8 @@ const (
 	debugLogConstString
 	debugLogStringOverflow
 
+	debugLogIndent
+
 	debugLogPC
 	debugLogTraceback
 )
@@ -320,6 +322,16 @@ func (l *dlogger) s(x string) *dlogger {
 			l.w.uvarint(uint64(len(x) - len(b)))
 		}
 	}
+	return l
+}
+
+//go:nosplit
+func (l *dlogger) indent(x int) *dlogger {
+	if !dlogEnabled {
+		return l
+	}
+	l.w.byte(debugLogIndent)
+	l.w.uvarint(uint64(x))
 	return l
 }
 
@@ -671,6 +683,12 @@ func (r *debugLogReader) printVal() bool {
 
 	case debugLogStringOverflow:
 		print("..(", r.uvarint(), " more bytes)..")
+
+	case debugLogIndent:
+		x := int(r.uvarint())
+		for i := 0; i < x; i++ {
+			print(" ")
+		}
 
 	case debugLogPC:
 		printDebugLogPC(uintptr(r.uvarint()), false)

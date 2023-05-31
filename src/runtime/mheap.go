@@ -11,6 +11,7 @@ package runtime
 import (
 	"internal/cpu"
 	"internal/goarch"
+	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -501,6 +502,8 @@ type mspan struct {
 	// initialized (see also the assignment of freeIndexForScan in
 	// mallocgc, and issue 54596).
 	freeIndexForScan uintptr
+
+	owners [pageSize / goarch.PtrSize]ownerID // goroutine ID; 0 for escaped
 }
 
 func (s *mspan) base() uintptr {
@@ -698,7 +701,7 @@ func spanOf(p uintptr) *mspan {
 		}
 	}
 	l2 := mheap_.arenas[ri.l1()]
-	if arenaL1Bits != 0 && l2 == nil { // Should never happen if there's no L1.
+	if /*arenaL1Bits != 0 &&*/ l2 == nil { // Should never happen if there's no L1 unless we're in early init
 		return nil
 	}
 	ha := l2[ri.l2()]
@@ -760,6 +763,9 @@ func (h *mheap) init() {
 	h.specialReachableAlloc.init(unsafe.Sizeof(specialReachable{}), nil, nil, &memstats.other_sys)
 	h.specialPinCounterAlloc.init(unsafe.Sizeof(specialPinCounter{}), nil, nil, &memstats.other_sys)
 	h.arenaHintAlloc.init(unsafe.Sizeof(arenaHint{}), nil, nil, &memstats.other_sys)
+
+	publishStackAlloc.init(unsafe.Sizeof(publishStack{}), nil, nil, &memstats.other_sys)
+	publishStackAlloc.zero = false
 
 	// Don't zero mspan allocations. Background sweeping can
 	// inspect a span concurrently with allocating it, so it's
@@ -1693,6 +1699,11 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.gcmarkBits = nil
 	span.pinnerBits = nil
 	span.state.set(mSpanDead)
+	if goexperiment.CgoCheck2 {
+		for i := range span.owners {
+			span.owners[i] = 0
+		}
+	}
 	lockInit(&span.speciallock, lockRankMspanSpecial)
 }
 
@@ -1940,6 +1951,11 @@ type specialfinalizer struct {
 
 // Adds a finalizer to the object p. Returns true if it succeeded.
 func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *ptrtype) bool {
+	// Publish p. We're eventually going to put this in the finalizer queue,
+	// which will otherwise look like the sweeping goroutine reached this
+	// pointer without it being published.
+	publishObject(p, "finalizer")
+
 	lock(&mheap_.speciallock)
 	s := (*specialfinalizer)(mheap_.specialfinalizeralloc.alloc())
 	unlock(&mheap_.speciallock)

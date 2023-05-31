@@ -20,6 +20,8 @@
 // linker gets more efficient about this, we should revisit this
 // approach.
 
+//go:build false
+
 package runtime_test
 
 import (

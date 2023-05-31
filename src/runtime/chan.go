@@ -19,6 +19,7 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"runtime/internal/math"
 	"unsafe"
@@ -343,6 +344,9 @@ func sendDirect(t *_type, sg *sudog, src unsafe.Pointer) {
 	// No need for cgo write barrier checks because dst is always
 	// Go memory.
 	memmove(dst, src, t.Size_)
+	if goexperiment.CgoCheck2 {
+		publishChan(getg(), dst, t)
+	}
 }
 
 func recvDirect(t *_type, sg *sudog, dst unsafe.Pointer) {
@@ -352,6 +356,9 @@ func recvDirect(t *_type, sg *sudog, dst unsafe.Pointer) {
 	src := sg.elem
 	typeBitsBulkBarrier(t, uintptr(dst), uintptr(src), t.Size_)
 	memmove(dst, src, t.Size_)
+	if goexperiment.CgoCheck2 {
+		publishChan(sg.g, src, t)
+	}
 }
 
 func closechan(c *hchan) {
@@ -636,6 +643,11 @@ func recv(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func(), skip int) {
 			typedmemmove(c.elemtype, ep, qp)
 		}
 		// copy data from sender to queue
+		//
+		// sg.elem may point to sg.g's stack and currently be owned by sg.g. Do
+		// a remote publish before copying into the buffer, since right now we
+		// know who the current owner is.
+		publishChan(sg.g, sg.elem, c.elemtype)
 		typedmemmove(c.elemtype, qp, sg.elem)
 		c.recvx++
 		if c.recvx == c.dataqsiz {
