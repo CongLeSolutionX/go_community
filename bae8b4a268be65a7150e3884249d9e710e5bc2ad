@@ -16,6 +16,24 @@
       "message": "I don\u0027t think this change is needed: The reference to the \"multi-valued assignment form of the receive operator\" is meant as a hint that the receive operator has this capability, it\u0027s not meant as a precise specification of it. That specification is in the section on the receive operator (and there\u0027s a link). Here we are here in the section defining channel types, where we simply give an overview of some of the channel-related operations. There\u0027s no need to duplicate the details of the receive operator.\n\nPlease abandon. Thanks.",
       "revId": "bae8b4a268be65a7150e3884249d9e710e5bc2ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c2d4c05_1c882f91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2023-05-31T21:22:42Z",
+      "side": 1,
+      "message": "`reports whether a received value was sent before the channel was closed` confused me when I read the text. But I could be wrong because I\u0027m not a native English speaker. Thank you for reviewing this CL! I\u0027m going to abandon it.",
+      "parentUuid": "22c36802_04f23c2e",
+      "revId": "bae8b4a268be65a7150e3884249d9e710e5bc2ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
