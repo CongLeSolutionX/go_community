@@ -1263,6 +1263,7 @@ func versionLess(a, b string) bool {
 // provide a package that was previously unresolved.
 func (ld *loader) updateRequirements(ctx context.Context) (changed bool, err error) {
 	rs := ld.requirements
+	mustHaveGoRoot(rs.rootModules)
 
 	// direct contains the set of modules believed to provide packages directly
 	// imported by the main module.
