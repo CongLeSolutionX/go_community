@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b827383_3a3dca0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62829
+      },
+      "writtenOn": "2023-06-01T08:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5ae0914_9f9fe2e1",
+      "revId": "dbd934e7aeefe0dcaeb549205ad361c81dcbfbcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d8cf8c7_0b97cb46",
@@ -146,6 +164,30 @@
       "side": 1,
       "message": "I moved this check after main module check. But I\u0027m not sure if `go generate` should fail when some files in a package are processed successfully but some not. With current implementation, the generator will process all files and exist with error after that.",
       "parentUuid": "4aaad65d_2dd76b8e",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 0
+      },
+      "revId": "dbd934e7aeefe0dcaeb549205ad361c81dcbfbcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa99d963_57690efa",
+        "filename": "src/cmd/go/internal/generate/generate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 62829
+      },
+      "writtenOn": "2023-06-01T08:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cf5494c_709a4148",
       "range": {
         "startLine": 205,
         "startChar": 0,
