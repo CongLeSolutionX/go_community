@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "39b16bb2_d01966dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-01T20:11:31Z",
+      "side": 1,
+      "message": "Thanks for the clarification. I tried that its not working so i am closing and opening a fresh pr from gerrit directly instead of github.\n\nSorry for the inconvenience\n\nReally appreciate ur time and patience",
+      "parentUuid": "5259c03f_fcef0470",
+      "revId": "bfdd80d194cf243d69175068ede429267e598abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1cc054db_2d0e8541",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
