@@ -176,7 +176,6 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	reqs.Switch(ctx)
-	base.ExitIfErrors()
 
 	// Update the work file.
 	for absDir, keepDir := range keepDirs {

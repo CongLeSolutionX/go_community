@@ -384,14 +384,12 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	oldReqs := reqsFromGoMod(modload.ModFile())
 
 	if err := modload.WriteGoMod(ctx, opts); err != nil {
-		if tooNew := (*gover.TooNewError)(nil); errors.As(err, &tooNew) {
-			// This can happen for 'go get go@newversion'
-			// when all the required modules are old enough
-			// but the command line is not.
-			// TODO(bcmills): modload.EditBuildList should catch this instead.
-			toolchain.TryVersion(ctx, tooNew.GoVersion)
-		}
-		base.Fatal(err)
+		// A TooNewError can happen for 'go get go@newversion'
+		// when all the required modules are old enough
+		// but the command line is not.
+		// TODO(bcmills): modload.EditBuildList should catch this instead,
+		// and then this can be changed to base.Fatal(err).
+		toolchain.SwitchOrFatal(ctx, err)
 	}
 
 	newReqs := reqsFromGoMod(modload.ModFile())
@@ -492,10 +490,7 @@ func newResolver(ctx context.Context, queries []*query) *resolver {
 	// methods.
 	mg, err := modload.LoadModGraph(ctx, "")
 	if err != nil {
-		if tooNew := (*gover.TooNewError)(nil); errors.As(err, &tooNew) {
-			toolchain.TryVersion(ctx, tooNew.GoVersion)
-		}
-		base.Fatal(err)
+		toolchain.SwitchOrFatal(ctx, err)
 	}
 
 	buildList := mg.BuildList()
@@ -1230,16 +1225,14 @@ func (r *resolver) resolveQueries(ctx context.Context, queries []*query) (change
 
 		// If we found modules that were too new, find the max of the required versions
 		// and then try to switch to a newer toolchain.
-		goVers := ""
+		var reqs toolchain.Reqs
 		for _, q := range queries {
 			for _, cs := range q.candidates {
-				if e := (*gover.TooNewError)(nil); errors.As(cs.err, &e) {
-					goVers = gover.Max(goVers, e.GoVersion)
-				}
+				reqs.AddError(cs.err)
 			}
 		}
-		if goVers != "" {
-			toolchain.TryVersion(ctx, goVers)
+		if reqs.GoVersion != "" {
+			toolchain.TryVersion(ctx, reqs.GoVersion)
 		}
 
 		for _, q := range queries {
@@ -1835,9 +1828,8 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 
 	changed, err := modload.EditBuildList(ctx, additions, resolved)
 	if err != nil {
-		if tooNew := (*gover.TooNewError)(nil); errors.As(err, &tooNew) {
-			toolchain.TryVersion(ctx, tooNew.GoVersion)
-			base.Fatal(err)
+		if errors.Is(err, gover.ErrTooNew) {
+			toolchain.SwitchOrFatal(ctx, err)
 		}
 
 		var constraint *modload.ConstraintError
@@ -1883,10 +1875,7 @@ func (r *resolver) updateBuildList(ctx context.Context, additions []module.Versi
 
 	mg, err := modload.LoadModGraph(ctx, "")
 	if err != nil {
-		if tooNew := (*gover.TooNewError)(nil); errors.As(err, &tooNew) {
-			toolchain.TryVersion(ctx, tooNew.GoVersion)
-		}
-		base.Fatal(err)
+		toolchain.SwitchOrFatal(ctx, err)
 	}
 
 	r.buildList = mg.BuildList()

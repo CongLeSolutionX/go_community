@@ -83,7 +83,6 @@ func CreateWorkFile(ctx context.Context, workFile string, modDirs []string) {
 		wf.AddUse(modload.ToDirectoryPath(dir), f.Module.Mod.Path)
 	}
 	reqs.Switch(ctx)
-	base.ExitIfErrors()
 	reqs.UpdateGoWork(wf)
 	modload.UpdateWorkFile(wf)
 	modload.WriteWorkFile(workFile, wf)

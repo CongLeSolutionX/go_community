@@ -59,7 +59,6 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 	if err != nil {
 		reqs.AddError(err)
 		reqs.Switch(ctx)
-		base.ExitIfErrors()
 	}
 	mustSelectFor := map[module.Version][]module.Version{}
 

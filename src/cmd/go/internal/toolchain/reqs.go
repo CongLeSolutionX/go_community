@@ -24,7 +24,7 @@ import (
 // calling Switch identifies whether a toolchain switch is
 // necessary and does that switch if possible.
 // If the switch cannot be performed, then Switch prints
-// all the added errors using base.Error and then returns.
+// all the added errors using base.Error and then exits.
 type Reqs struct {
 	// UseToolchainLines controls whether the
 	// Reqs should treat toolchain lines
@@ -85,16 +85,21 @@ func (r *Reqs) AddGoMod(mf *modfile.File) {
 // requiring one have been observed. If it fails to switch, it emits (using base.Error)
 // all the errors that have been queued using r.Error.
 //
-// Switch should almost always be followed by a call to base.ExitIfErrors,
-// since it may have emitted many errors that have been delayed until now.
+// If any errors have been queued and the version switch fails,
+// Switch exits the Go process after printing those errors.
 func (r *Reqs) Switch(ctx context.Context) {
 	// Switch to newer Go toolchain if necessary and possible.
 	v := gover.Max(gover.FromToolchain(r.Toolchain), r.GoVersion)
 	if gover.Compare(v, gover.Local()) > 0 {
 		TryVersion(ctx, v)
+
+		if len(r.Errors) == 0 {
+			// TODO!!!
+			r.Errors = append(r.Errors, &gover.TooNewError{What: "module toolchain", GoVersion: v})
+		}
 	}
 
-	// Emit any errors now, since the version switch didn't happen.
+	// Emit errors now, since the version switch didn't happen.
 	for _, err := range r.Errors {
 		base.Error(err)
 	}
@@ -116,7 +121,7 @@ func (r *Reqs) UpdateGoWork(wf *modfile.WorkFile) {
 	}
 
 	// Compute max of input goVers, toolchain and what's in the file.
-	oldGo := gover.DefaultGoModVersion
+	oldGo := gover.DefaultGoWorkVersion
 	if wf.Go != nil {
 		oldGo = wf.Go.Version
 	}
@@ -152,4 +157,13 @@ func (r *Reqs) UpdateGoWork(wf *modfile.WorkFile) {
 	} else {
 		wf.AddToolchainStmt(toolchain)
 	}
+}
+
+// SwitchOrFatal attempts a toolchain switch based on the information in err
+// and otherwise falls back to base.Fatal(err).
+func SwitchOrFatal(ctx context.Context, err error) {
+	var r Reqs
+	r.AddError(err)
+	r.Switch(ctx)
+	// base.ExitIfErrors happened in Switch
 }
