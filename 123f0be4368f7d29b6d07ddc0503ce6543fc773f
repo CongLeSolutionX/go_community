@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f1be9e8_7f2e7907",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-06-01T13:29:54Z",
+      "side": 1,
+      "message": "Strictly speaking it\u0027s not the compiler that does this, it\u0027s cmd/cgo, which doesn\u0027t have type information, which is why it\u0027s possible to sneak around the check by using a type alias. Perhaps this is too narrow a distinction, but could we put this in a section on cgo or the go command? \n\nEither way, we can phrase it more broadly (and frame it more positively) as:\n\n\"In files that import \"C\", the Go toolchain now correctly reports errors for attempts to declare Go methods on C types.\"",
+      "revId": "123f0be4368f7d29b6d07ddc0503ce6543fc773f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
