@@ -13,7 +13,6 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/toolchain"
 	"context"
-	"errors"
 
 	"golang.org/x/mod/module"
 )
@@ -55,12 +54,13 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("go: no go.work file found\n\t(run 'go work init' first or specify path using GOWORK environment variable)")
 	}
 
-	workGraph, err := modload.LoadModGraph(ctx, "")
-	if tooNew := (*gover.TooNewError)(nil); errors.As(err, &tooNew) {
-		toolchain.TryVersion(ctx, tooNew.GoVersion)
-		base.Fatal(err)
+	reqs := &toolchain.Reqs{UseToolchainLines: true}
+	_, err := modload.LoadModGraph(ctx, "")
+	if err != nil {
+		reqs.AddError(err)
+		reqs.Switch(ctx)
+		base.ExitIfErrors()
 	}
-	_ = workGraph
 	mustSelectFor := map[module.Version][]module.Version{}
 
 	mms := modload.MainModules
@@ -112,29 +112,33 @@ func runSync(ctx context.Context, cmd *base.Command, args []string) {
 		// requested the relevant module versions explicitly.
 		changed, err := modload.EditBuildList(ctx, nil, mustSelectFor[m])
 		if err != nil {
-			base.Errorf("go: %v", err)
-		}
-		if !changed {
+			reqs.AddError(err)
 			continue
 		}
-
-		modload.LoadPackages(ctx, modload.PackageOpts{
-			Tags:                     imports.AnyTags(),
-			Tidy:                     true,
-			VendorModulesInGOROOTSrc: true,
-			ResolveMissingImports:    false,
-			LoadTests:                true,
-			AllowErrors:              true,
-			SilenceMissingStdImports: true,
-			SilencePackageErrors:     true,
-		}, "all")
-		modload.WriteGoMod(ctx, modload.WriteOpts{})
+		if changed {
+			modload.LoadPackages(ctx, modload.PackageOpts{
+				Tags:                     imports.AnyTags(),
+				Tidy:                     true,
+				VendorModulesInGOROOTSrc: true,
+				ResolveMissingImports:    false,
+				LoadTests:                true,
+				AllowErrors:              true,
+				SilenceMissingStdImports: true,
+				SilencePackageErrors:     true,
+			}, "all")
+			modload.WriteGoMod(ctx, modload.WriteOpts{})
+		}
+		reqs.AddGoMod(mms.ModFile(m))
 	}
+
+	reqs.Switch(ctx)
+	base.ExitIfErrors()
 
 	wf, err := modload.ReadWorkFile(workFilePath)
 	if err != nil {
 		base.Fatal(err)
 	}
+	reqs.UpdateGoWork(wf)
 	modload.UpdateWorkFile(wf)
 	if err := modload.WriteWorkFile(workFilePath, wf); err != nil {
 		base.Fatal(err)

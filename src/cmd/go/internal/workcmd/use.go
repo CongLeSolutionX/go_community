@@ -7,15 +7,17 @@
 package workcmd
 
 import (
-	"cmd/go/internal/base"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/modload"
-	"cmd/go/internal/str"
 	"context"
 	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
+
+	"cmd/go/internal/base"
+	"cmd/go/internal/fsys"
+	"cmd/go/internal/modload"
+	"cmd/go/internal/str"
+	"cmd/go/internal/toolchain"
 )
 
 var cmdUse = &base.Command{
@@ -79,13 +81,16 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 	// all entries for the absolute path should be removed.
 	keepDirs := make(map[string]string)
 
+	reqs := &toolchain.Reqs{UseToolchainLines: true}
+
 	// lookDir updates the entry in keepDirs for the directory dir,
 	// which is either absolute or relative to the current working directory
 	// (not necessarily the directory containing the workfile).
 	lookDir := func(dir string) {
 		absDir, dir := pathRel(workDir, dir)
 
-		fi, err := fsys.Stat(filepath.Join(absDir, "go.mod"))
+		file := filepath.Join(absDir, "go.mod")
+		fi, err := fsys.Stat(file)
 		if err != nil {
 			if os.IsNotExist(err) {
 				keepDirs[absDir] = ""
@@ -97,7 +102,15 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 
 		if !fi.Mode().IsRegular() {
 			base.Errorf("go: %v is not regular", filepath.Join(dir, "go.mod"))
+			return
 		}
+
+		_, mf, err := modload.ReadModFile(file, nil)
+		if err != nil {
+			reqs.AddError(err)
+			return
+		}
+		reqs.AddGoMod(mf)
 
 		if dup := keepDirs[absDir]; dup != "" && dup != dir {
 			base.Errorf(`go: already added "%s" as "%s"`, dir, dup)
@@ -162,8 +175,10 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	reqs.Switch(ctx)
 	base.ExitIfErrors()
 
+	// Update the work file.
 	for absDir, keepDir := range keepDirs {
 		nKept := 0
 		for _, dir := range haveDirs[absDir] {
@@ -182,6 +197,7 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 			workFile.AddUse(keepDir, "")
 		}
 	}
+	reqs.UpdateGoWork(workFile)
 	modload.UpdateWorkFile(workFile)
 	modload.WriteWorkFile(gowork, workFile)
 }

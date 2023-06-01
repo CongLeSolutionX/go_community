@@ -1,0 +1,56 @@
+env TESTGO_VERSION=go1.50
+
+# Create basic modules and work space.
+mkdir m1
+go mod init -C m1
+go mod edit -C m1 -go=1.22.0 -toolchain=go1.23.0
+mkdir m2
+go mod init -C m2
+go mod edit -C m2 -go=1.22.1 -toolchain=go1.22.3
+mkdir m3
+go mod init -C m3
+go mod edit -C m3 -go=1.22.0 -toolchain=go1.24rc1
+go work init
+grep '^go 1.50$' go.work
+! grep toolchain go.work
+
+# work use with older modules should leave go 1.50 in the go.work.
+go work use ./m1
+grep '^go 1.50$' go.work
+! grep toolchain go.work
+
+# work use with newer modules should bump go and toolchain,
+# including updating to a newer toolchain as needed.
+env TESTGO_VERSION=go1.21
+env TESTGO_VERSION_SWITCH=switch
+rm go.work
+go work init
+go work use ./m1
+! stderr '^go: switching to go1.22.9$'
+stderr '^go: switching to go1.23.9$'
+grep '^go 1.22.0$' go.work
+grep '^toolchain go1.23.9$' go.work
+
+# work use with an even newer module should bump go again.
+go work use ./m2
+! stderr switching
+grep '^go 1.22.1$' go.work
+grep '^toolchain go1.23.9$' go.work  # unchanged
+
+# work use with an even newer module should bump toolchain again.
+go work use ./m3
+cat go.work
+# TODO: This is somewhat paradoxical: we update the toolchain but don't switch,
+# because the go.mod file is not "too new".
+! stderr '^go: switching to go1.24rc1$'
+grep '^go 1.22.1$' go.work # unchanged
+grep '^toolchain go1.24rc1$' go.work
+
+rm go.work
+go work init
+go work edit -go=1.21
+go work use ./m3
+stderr '^go: switching to go1.24rc1$'
+cat go.work
+grep '^go 1.22.0$' go.work
+grep '^toolchain go1.24rc1$' go.work

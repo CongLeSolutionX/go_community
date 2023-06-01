@@ -7,13 +7,15 @@
 package workcmd
 
 import (
+	"context"
+	"os"
+	"path/filepath"
+
 	"cmd/go/internal/base"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/gover"
 	"cmd/go/internal/modload"
-	"context"
-	"os"
-	"path/filepath"
+	"cmd/go/internal/toolchain"
 
 	"golang.org/x/mod/modfile"
 )
@@ -62,6 +64,7 @@ func CreateWorkFile(ctx context.Context, workFile string, modDirs []string) {
 		base.Fatalf("go: %s already exists", workFile)
 	}
 
+	reqs := &toolchain.Reqs{UseToolchainLines: true}
 	goV := gover.Local() // Use current Go version by default
 	wf := new(modfile.WorkFile)
 	wf.Syntax = new(modfile.FileSyntax)
@@ -73,11 +76,15 @@ func CreateWorkFile(ctx context.Context, workFile string, modDirs []string) {
 			if os.IsNotExist(err) {
 				base.Fatalf("go: creating workspace file: no go.mod file exists in directory %v", dir)
 			}
-			base.Fatalf("go: error parsing go.mod in directory %s: %v", dir, err)
+			reqs.AddError(err)
+			continue
 		}
+		reqs.AddGoMod(f)
 		wf.AddUse(modload.ToDirectoryPath(dir), f.Module.Mod.Path)
 	}
-
+	reqs.Switch(ctx)
+	base.ExitIfErrors()
+	reqs.UpdateGoWork(wf)
 	modload.UpdateWorkFile(wf)
 	modload.WriteWorkFile(workFile, wf)
 }
