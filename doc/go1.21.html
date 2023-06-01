@@ -261,9 +261,9 @@ Do not send CLs removing the interior tags from such phrases.
 
 <h2 id="compiler">Compiler</h2>
 
-<!-- CL 490819 -->
-<p>
-  <!-- cmd/cgo: reject attempts to declare methods on C types -->
+<p><!-- CL 490819 -->
+  The compiler will disallow declaring methods on types from package
+  <code>C</code> (imported with <code>import "C"</code>) in cgo code.
 </p>
 
 <!-- CL 461315 -->
