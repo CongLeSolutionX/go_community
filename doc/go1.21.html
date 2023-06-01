@@ -554,12 +554,10 @@ Do not send CLs removing the interior tags from such phrases.
 
 <dl id="math/big"><dt><a href="/pkg/math/big/">math/big</a></dt>
   <dd>
-    <p><!-- https://go.dev/issue/56984 -->
-      TODO: <a href="https://go.dev/issue/56984">https://go.dev/issue/56984</a>: add Int.Float64 conversion (was initially: {ToInt64,ToUint64,Float64})
-    </p>
-
-    <p><!-- CL 453115 -->
-      TODO: <a href="https://go.dev/cl/453115">https://go.dev/cl/453115</a>: math/big: add Int.Float64 conversion; modified api/next/56984.txt
+    <p> <!-- https://go.dev/issue/56984, CL 453115 -->
+      The new <code>Float64</code> method of <a href="/pkg/math/big/#Int"><code><c>Int</code></a>
+      returns the nearest floating-point value to a multiprecision integer,
+      along with an indication of any rounding that occurred.
     </p>
   </dd>
 </dl><!-- math/big -->
