@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5259c03f_fcef0470",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-01T19:39:34Z",
+      "side": 1,
+      "message": "First I\u0027ll say: please read the instructions that are in that comment.  We put them there to help people.\n\nThat said, the commit message in Gerrit, which you can see at https://go.dev/cl/499336, is a copy of the title of the GitHub pull request plus a copy of the first comment in the GitHub pull request.  I am suggesting that you remove all the text that is currently, so that the first comment in the GitHub pull request is empty.  Then the commit message in Gerrit will be just the title of the pull request.  Thanks.",
+      "parentUuid": "c6bbdcc9_14f7e25f",
+      "revId": "bfdd80d194cf243d69175068ede429267e598abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1cc054db_2d0e8541",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
