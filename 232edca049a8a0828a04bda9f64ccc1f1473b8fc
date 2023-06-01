@@ -51,6 +51,23 @@
       "message": "I changed the issue to reflect it.",
       "revId": "232edca049a8a0828a04bda9f64ccc1f1473b8fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa5278d_6d6046c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-01T17:49:32Z",
+      "side": 1,
+      "message": "As the issue is marked as Go 1.21, I think we can submit this. Thanks.",
+      "revId": "232edca049a8a0828a04bda9f64ccc1f1473b8fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
