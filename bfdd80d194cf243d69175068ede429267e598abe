@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c6bbdcc9_14f7e25f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-01T19:31:59Z",
+      "side": 1,
+      "message": "Sorry i lost u? What do u mean by this stmt? \"you can delete the entire first comment of the GitHub pull request\"\n\n- do u mean that i need to delete the 1st comment in the github PR?\n- do u mean that i need to update the commit msg?\n\nPlease clarify",
+      "parentUuid": "2f1c4f5e_a75bbb10",
+      "revId": "bfdd80d194cf243d69175068ede429267e598abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1cc054db_2d0e8541",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
