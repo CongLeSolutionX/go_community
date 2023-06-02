@@ -394,6 +394,17 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 
 	newReqs := reqsFromGoMod(modload.ModFile())
 	r.reportChanges(oldReqs, newReqs)
+
+	if gowork := modload.FindGoWork(base.Cwd()); gowork != "" {
+		wf, err := modload.ReadWorkFile(gowork)
+		if err == nil {
+			reqs := &toolchain.Reqs{UseToolchainLines: true}
+			reqs.AddGoMod(modload.ModFile())
+			// TODO: Only if changes are needed.
+			reqs.UpdateGoWork(wf)
+			modload.WriteWorkFile(gowork, wf)
+		}
+	}
 }
 
 // parseArgs parses command-line arguments and reports errors.
