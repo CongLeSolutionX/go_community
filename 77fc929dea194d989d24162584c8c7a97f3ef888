@@ -125,6 +125,24 @@
       "parentUuid": "50d65b2f_04a9d92d",
       "revId": "77fc929dea194d989d24162584c8c7a97f3ef888",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d75c0df_044d8cad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-02T15:48:09Z",
+      "side": 1,
+      "message": "No worries.  Thanks for the fast fix.",
+      "parentUuid": "4750e4c4_7dd9e4d2",
+      "revId": "77fc929dea194d989d24162584c8c7a97f3ef888",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
