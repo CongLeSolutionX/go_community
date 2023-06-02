@@ -107,6 +107,24 @@
       "parentUuid": "54a3167d_d7da81e6",
       "revId": "77fc929dea194d989d24162584c8c7a97f3ef888",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4750e4c4_7dd9e4d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-06-02T11:48:53Z",
+      "side": 1,
+      "message": "Heh, I actually wrote a release note for this feature in the first draft, then synced up and got a conflict with the (weirdly verbatim identical) release note I had written a week ago, and resolved the conflict, while totally forgetting the point of this CL was to remove the To prefix, which the old release note had. Fixed now.\n\nMore haste, less speed is a lesson I will never learn.\n\nThanks for your patience.",
+      "parentUuid": "50d65b2f_04a9d92d",
+      "revId": "77fc929dea194d989d24162584c8c7a97f3ef888",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
