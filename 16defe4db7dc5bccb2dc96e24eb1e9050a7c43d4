@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ead7bd8_fa6887fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62853
+      },
+      "writtenOn": "2023-06-05T15:03:57Z",
+      "side": 1,
+      "message": "If the risk does exist, can I request a freeze exception to review?",
+      "revId": "16defe4db7dc5bccb2dc96e24eb1e9050a7c43d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
