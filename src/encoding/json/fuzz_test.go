@@ -28,10 +28,10 @@ func FuzzUnmarshalJSON(f *testing.F) {
 }`))
 
 	f.Fuzz(func(t *testing.T, b []byte) {
-		for _, typ := range []func() interface{}{
-			func() interface{} { return new(interface{}) },
-			func() interface{} { return new(map[string]interface{}) },
-			func() interface{} { return new([]interface{}) },
+		for _, typ := range []func() any{
+			func() any { return new(any) },
+			func() any { return new(map[string]any) },
+			func() any { return new([]any) },
 		} {
 			i := typ()
 			if err := Unmarshal(b, i); err != nil {
@@ -80,4 +80,65 @@ func FuzzDecoderToken(f *testing.F) {
 			}
 		}
 	})
+}
+
+func FuzzEqual(f *testing.F) {
+
+	s1 := `{"name":"Hiro","email":"laciferin@gmail.com","age":19}`
+	s2 := `{"name":"Hiro","age":19,"email":"laciferin@gmail.com"}`
+
+	f.Add([]byte(s1))
+	f.Add([]byte(s2))
+
+	var validJSON = func(sN ...[]byte) (err error) {
+
+		ptr := new(struct{})
+
+		for _, s := range sN {
+			if err = Unmarshal(s, ptr); err != nil {
+				return
+			}
+		}
+		return
+	}
+
+	f.Fuzz(func(t *testing.T, s1 []byte) {
+
+		if err := validJSON(s1); err != nil {
+			return
+		}
+
+		tt := testType[[]byte]{
+			s1: s1,
+			s2: s1,
+			sN: [][]byte{
+				s1,
+			},
+			want: true,
+		}
+
+		testEqual(t, tt)
+	})
+	/*
+		f.Fuzz(func(t *testing.T, b []byte) {
+			for _, typ := range []func() any{
+				func() any { return new(any) },
+				func() any { return new(map[string]any) },
+				func() any { return new([]any) },
+			} {
+				i := typ()
+				if err := Unmarshal(b, i); err != nil {
+					return
+				}
+
+				tt := testType[[]byte]{
+					s1:   b,
+					s2:   b,
+					want: true,
+				}
+
+				testEqual(t, tt)
+
+			}
+		})*/
 }
