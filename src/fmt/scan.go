@@ -51,7 +51,7 @@ type ScanState interface {
 // Scanner is implemented by any value that has a Scan method, which scans
 // the input for the representation of a value and stores the result in the
 // receiver, which must be a pointer to be useful. The Scan method is called
-// for any argument to Scan, Scanf, or Scanln that implements it.
+// for any argument to [Scan], [Scanf], or [Scanln] that implements it.
 type Scanner interface {
 	Scan(state ScanState, verb rune) error
 }
@@ -64,7 +64,7 @@ func Scan(a ...any) (n int, err error) {
 	return Fscan(os.Stdin, a...)
 }
 
-// Scanln is similar to Scan, but stops scanning at a newline and
+// Scanln is similar to [Scan], but stops scanning at a newline and
 // after the final item there must be a newline or EOF.
 func Scanln(a ...any) (n int, err error) {
 	return Fscanln(os.Stdin, a...)
@@ -100,7 +100,7 @@ func Sscan(str string, a ...any) (n int, err error) {
 	return Fscan((*stringReader)(&str), a...)
 }
 
-// Sscanln is similar to Sscan, but stops scanning at a newline and
+// Sscanln is similar to [Sscan], but stops scanning at a newline and
 // after the final item there must be a newline or EOF.
 func Sscanln(str string, a ...any) (n int, err error) {
 	return Fscanln((*stringReader)(&str), a...)
@@ -125,7 +125,7 @@ func Fscan(r io.Reader, a ...any) (n int, err error) {
 	return
 }
 
-// Fscanln is similar to Fscan, but stops scanning at a newline and
+// Fscanln is similar to [Fscan], but stops scanning at a newline and
 // after the final item there must be a newline or EOF.
 func Fscanln(r io.Reader, a ...any) (n int, err error) {
 	s, old := newScanState(r, false, true)
