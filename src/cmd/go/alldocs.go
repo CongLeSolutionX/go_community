@@ -671,6 +671,14 @@
 //
 //	go get example.com/mod@none
 //
+// To upgrade the minimum required Go version to the latest released Go version:
+//
+//	go get go@latest
+//
+// To upgrade the Go toolchain to the latest patch release of the current Go toolchain:
+//
+//	go get toolchain@patch
+//
 // See https://golang.org/ref/mod#go-get for details.
 //
 // In earlier versions of Go, 'go get' was used to build and install packages.
@@ -704,6 +712,9 @@
 // from a repository.
 //
 // For more about modules, see https://golang.org/ref/mod.
+//
+// For more about using 'go get' to update the minimum Go version and
+// suggested Go toolchain, see https://go.dev/doc/toolchain.
 //
 // For more about specifying packages, see 'go help packages'.
 //
@@ -2173,7 +2184,7 @@
 //		The operating system for which to compile code.
 //		Examples are linux, darwin, windows, netbsd.
 //	GOPATH
-//		For more details see: 'go help gopath'.
+//		Controls where various files are stored. See: 'go help gopath'.
 //	GOPROXY
 //		URL of Go module proxy. See https://golang.org/ref/mod#environment-variables
 //		and https://golang.org/ref/mod#module-proxy for details.
@@ -2187,6 +2198,8 @@
 //	GOSUMDB
 //		The name of checksum database to use and optionally its public key and
 //		URL. See https://golang.org/ref/mod#authenticating.
+//	GOTOOLCHAIN
+//		Controls which Go toolchain is used. See 'go help toolchain'.
 //	GOTMPDIR
 //		The directory where the go command will write
 //		temporary source files, packages, and binaries.
