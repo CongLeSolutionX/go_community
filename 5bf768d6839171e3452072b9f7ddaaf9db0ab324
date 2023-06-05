@@ -16,6 +16,24 @@
       "message": "Thanks. The current Error method has certain risks: when the capacity of the returned string exceeds the bounds, it will cause a memory leak (although the possibility is very small). I don\u0027t know if this is worth fixing right away.",
       "revId": "5bf768d6839171e3452072b9f7ddaaf9db0ab324",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18bef0f1_f8cdc7ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-05T16:08:22Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I don\u0027t understand the risk here.  It seems to me that the bound on string capacity is so large that a program that exceeds them will crash because it is unable to allocate memory.",
+      "parentUuid": "d80d9f4d_a4b85b2b",
+      "revId": "5bf768d6839171e3452072b9f7ddaaf9db0ab324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
