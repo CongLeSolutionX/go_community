@@ -34,7 +34,7 @@ const (
 )
 
 // State represents the printer state passed to custom formatters.
-// It provides access to the io.Writer interface plus information about
+// It provides access to the [io.Writer] interface plus information about
 // the flags and options for the operand's format specifier.
 type State interface {
 	// Write is the function to call to emit formatted output to be printed.
@@ -49,8 +49,8 @@ type State interface {
 }
 
 // Formatter is implemented by any value that has a Format method.
-// The implementation controls how State and rune are interpreted,
-// and may call Sprint() or Fprint(f) etc. to generate its output.
+// The implementation controls how [State] and rune are interpreted,
+// and may call [Sprint](f) or [Fprint](f) etc. to generate its output.
 type Formatter interface {
 	Format(f State, verb rune)
 }
@@ -73,10 +73,10 @@ type GoStringer interface {
 }
 
 // FormatString returns a string representing the fully qualified formatting
-// directive captured by the State, followed by the argument verb. (State does not
+// directive captured by the [State], followed by the argument verb. (State does not
 // itself contain the verb.) The result has a leading percent sign followed by any
 // flags, the width, and the precision. Missing flags, width, and precision are
-// omitted. This function allows a Formatter to reconstruct the original
+// omitted. This function allows a [Formatter] to reconstruct the original
 // directive triggering the call to Format.
 func FormatString(state State, verb rune) string {
 	var tmp [16]byte // Use a local buffer.

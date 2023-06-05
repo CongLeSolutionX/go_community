@@ -169,15 +169,15 @@ Except when printed using the verbs %T and %p, special
 formatting considerations apply for operands that implement
 certain interfaces. In order of application:
 
-1. If the operand is a reflect.Value, the operand is replaced by the
+1. If the operand is a [reflect.Value], the operand is replaced by the
 concrete value that it holds, and printing continues with the next rule.
 
-2. If an operand implements the Formatter interface, it will
+2. If an operand implements the [Formatter] interface, it will
 be invoked. In this case the interpretation of verbs and flags is
 controlled by that implementation.
 
 3. If the %v verb is used with the # flag (%#v) and the operand
-implements the GoStringer interface, that will be invoked.
+implements the [GoStringer] interface, that will be invoked.
 
 If the format (which is implicitly %v for Println etc.) is valid
 for a string (%s %q %x %X), or is %v but not %#v,
@@ -219,7 +219,7 @@ formatting methods such as Error or String on unexported fields.
 
 # Explicit argument indexes
 
-In Printf, Sprintf, and Fprintf, the default behavior is for each
+In [Printf], [Sprintf], and [Fprintf], the default behavior is for each
 formatting verb to format successive arguments passed in the call.
 However, the notation [n] immediately before the verb indicates that the
 nth one-indexed argument is to be formatted instead. The same notation
@@ -287,9 +287,9 @@ string, "<nil>".
 # Scanning
 
 An analogous set of functions scans formatted text to yield
-values.  Scan, Scanf and Scanln read from os.Stdin; Fscan,
-Fscanf and Fscanln read from a specified io.Reader; Sscan,
-Sscanf and Sscanln read from an argument string.
+values.  [Scan], [Scanf] and [Scanln] read from [os.Stdin]; [Fscan],
+[Fscanf] and [Fscanln] read from a specified [io.Reader]; [Sscan],
+[Sscanf] and [Sscanln] read from an argument string.
 
 Scan, Fscan, Sscan treat newlines in the input as spaces.
 
