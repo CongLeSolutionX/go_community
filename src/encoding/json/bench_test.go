@@ -539,3 +539,27 @@ func BenchmarkNumberIsValidRegexp(b *testing.B) {
 		jsonNumberRegexp.MatchString(s)
 	}
 }
+
+func BenchmarkEq(b *testing.B) {
+	s1 := `{"key1": "value1", "key2": "value2"}`
+	s2 := `{"key2": "value2", "key1": "value1"}`
+	for i := 0; i < b.N; i++ {
+		Eq(s1, s2)
+	}
+}
+
+func BenchmarkEqual(b *testing.B) {
+	s1 := `{"key1": "value1", "key2": "value2"}`
+	s2 := `{"key2": "value2", "key1": "value1"}`
+	for n := 0; n < b.N; n++ {
+		Equal(s1, s2)
+	}
+}
+
+func BenchmarkDeeplyEqual(b *testing.B) {
+	s1 := `{"key1": "value1", "key2": "value2"}`
+	s2 := `{"key2": "value2", "key1": "value1"}`
+	for n := 0; n < b.N; n++ {
+		DeeplyEqual(s1, s2)
+	}
+}
