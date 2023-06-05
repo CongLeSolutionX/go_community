@@ -20,14 +20,11 @@ import (
 //
 //	FromToolchain("go1.2.3") == "1.2.3"
 //	FromToolchain("go1.2.3-bigcorp") == "1.2.3"
-//	FromToolchain("gccgo-go1.23rc4") == "1.23rc4"
 //	FromToolchain("invalid") == ""
 func FromToolchain(name string) string {
 	var v string
 	if strings.HasPrefix(name, "go") {
 		v = name[2:]
-	} else if i := strings.Index(name, "-go"); i >= 0 {
-		v = name[i+3:]
 	} else {
 		return ""
 	}
