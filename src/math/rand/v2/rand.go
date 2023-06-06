@@ -18,6 +18,7 @@
 package rand
 
 import (
+	"math/bits"
 	_ "unsafe" // for go:linkname
 )
 
@@ -83,12 +84,18 @@ func (r *Rand) Int63n(n int64) int64 {
 	if n&(n-1) == 0 { // n is power of two, can mask
 		return r.Int63() & (n - 1)
 	}
-	max := int64((1 << 63) - 1 - (1<<63)%uint64(n))
-	v := r.Int63()
-	for v > max {
-		v = r.Int63()
+
+	// For implementation details, see:
+	// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
+	// https://lemire.me/blog/2016/06/30/fast-random-shuffling
+	hi, lo := bits.Mul64(r.Uint64(), uint64(n))
+	if lo < uint64(n) {
+		thresh := uint64(-n) % uint64(n)
+		for lo < thresh {
+			hi, lo = bits.Mul64(r.Uint64(), uint64(n))
+		}
 	}
-	return v % n
+	return int64(hi)
 }
 
 // Int31n returns, as an int32, a non-negative pseudo-random number in the half-open interval [0,n).
@@ -104,18 +111,14 @@ func (r *Rand) Int31n(n int32) int32 {
 	// For implementation details, see:
 	// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
 	// https://lemire.me/blog/2016/06/30/fast-random-shuffling
-	v := r.Uint32()
-	prod := uint64(v) * uint64(n)
-	low := uint32(prod)
-	if low < uint32(n) {
+	hi, lo := bits.Mul32(r.Uint32(), uint32(n))
+	if lo < uint32(n) {
 		thresh := uint32(-n) % uint32(n)
-		for low < thresh {
-			v = r.Uint32()
-			prod = uint64(v) * uint64(n)
-			low = uint32(prod)
+		for lo < thresh {
+			hi, lo = bits.Mul32(r.Uint32(), uint32(n))
 		}
 	}
-	return int32(prod >> 32)
+	return int32(hi)
 }
 
 // Intn returns, as an int, a non-negative pseudo-random number in the half-open interval [0,n).
