@@ -34,6 +34,24 @@
       "parentUuid": "54d50048_f2045e20",
       "revId": "fa60c381ed06c12f9c27a7b50ca44c5f84f7f0f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca5d02c_254b0f08",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-06-06T19:43:33Z",
+      "side": 1,
+      "message": "good catch. this appears to be a real problem, but only affects gccgo. gccgo isn\u0027t released at the same time anyway, so it doesn\u0027t impact the minor releases (or their security fixes).\n\ndid you run into this problem yourself, or did you just happen to notice this? thanks.",
+      "parentUuid": "54d50048_f2045e20",
+      "revId": "fa60c381ed06c12f9c27a7b50ca44c5f84f7f0f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
