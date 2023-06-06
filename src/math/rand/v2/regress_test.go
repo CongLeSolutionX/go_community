@@ -120,7 +120,7 @@ func TestRegress(t *testing.T) {
 			} else {
 				want := regressGolden[p]
 				if m.Name == "Int" {
-					want = int64(int(uint(want.(int64)) << 1 >> 1))
+					want = int64(int(uint(want.(int64)) &^ (1 << 63)))
 				}
 				if !reflect.DeepEqual(out, want) {
 					t.Errorf("r.%s(%s) = %v, want %v", m.Name, argstr, out, want)
