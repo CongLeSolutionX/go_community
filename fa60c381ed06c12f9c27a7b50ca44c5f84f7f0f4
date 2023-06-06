@@ -70,6 +70,24 @@
       "parentUuid": "4ca5d02c_254b0f08",
       "revId": "fa60c381ed06c12f9c27a7b50ca44c5f84f7f0f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d8ed07_86db56be",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-06-06T19:58:12Z",
+      "side": 1,
+      "message": "Thanks.  https://go.dev/cl/501297, https://go.dev/cl/501298.",
+      "parentUuid": "bcef3cdd_e3a57254",
+      "revId": "fa60c381ed06c12f9c27a7b50ca44c5f84f7f0f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
