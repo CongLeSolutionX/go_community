@@ -51,6 +51,40 @@
       "parentUuid": "addc0281_8034f2fd",
       "revId": "16defe4db7dc5bccb2dc96e24eb1e9050a7c43d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "409b2000_aac4c581",
+        "filename": "src/errors/join.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-06-06T00:04:05Z",
+      "side": 1,
+      "message": "This doubles the number of `Error` calls.\n\nIt\u0027s not obvious to me that the tradeoff here is a good one; it certainly won\u0027t be universally correct.",
+      "revId": "16defe4db7dc5bccb2dc96e24eb1e9050a7c43d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db6ac446_36b4eb09",
+        "filename": "src/errors/join.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-06-06T00:04:05Z",
+      "side": 1,
+      "message": "If we were doing this, a simpler and cleaner approach would be to skip preallocating the slice on overflow and let the runtime handle the panic.",
+      "revId": "16defe4db7dc5bccb2dc96e24eb1e9050a7c43d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
