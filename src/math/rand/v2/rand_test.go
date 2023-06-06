@@ -418,7 +418,6 @@ func TestUniformFactorial(t *testing.T) {
 				fn   func() int
 			}{
 				{name: "Int31n", fn: func() int { return int(r.Int31n(int32(nfact))) }},
-				{name: "int31n", fn: func() int { return int(Int31nForTest(r, int32(nfact))) }},
 				{name: "Perm", fn: func() int { return encodePerm(r.Perm(n)) }},
 				{name: "Shuffle", fn: func() int {
 					// Generate permutation using Shuffle.
@@ -437,8 +436,8 @@ func TestUniformFactorial(t *testing.T) {
 					// See https://en.wikipedia.org/wiki/Pearson%27s_chi-squared_test and
 					// https://www.johndcook.com/Beautiful_Testing_ch10.pdf.
 					nsamples := 10 * nfact
-					if nsamples < 200 {
-						nsamples = 200
+					if nsamples < 500 {
+						nsamples = 500
 					}
 					samples := make([]float64, nsamples)
 					for i := range samples {
