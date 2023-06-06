@@ -16,6 +16,57 @@
       "message": "Thank you so much!",
       "revId": "c4ebe945a8697fbd69b07b838373f02a4b4db4ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a7cd173_e1e3b504",
+        "filename": "src/errors/join.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-06-06T22:24:34Z",
+      "side": 1,
+      "message": "Since this is just an optimization for the len\u003d\u003d1 case, it can be\n\n```\nif len(e.errs) \u003d\u003d 1 {\n  return e.errs[0].Error()\n}\n```",
+      "revId": "c4ebe945a8697fbd69b07b838373f02a4b4db4ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6b980a_1b4642c5",
+        "filename": "src/errors/join.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-06-06T22:24:34Z",
+      "side": 1,
+      "message": "Stale comment: We never preallocate the slice.",
+      "revId": "c4ebe945a8697fbd69b07b838373f02a4b4db4ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b507ef9_ee7e068b",
+        "filename": "src/errors/join.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-06-06T22:24:34Z",
+      "side": 1,
+      "message": "Is there a reason this is a TODO rather than doing it now?",
+      "revId": "c4ebe945a8697fbd69b07b838373f02a4b4db4ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
