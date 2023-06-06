@@ -53,6 +53,24 @@
       "message": "FWIW, I don\u0027t mind submitting this CL but I am going to restore it in my cleanup CL. People occasionally cd into a command directory and run \u0027go build\u0027, and we want clean to remove those. Feel free to resolve and submit.",
       "revId": "7abe5b2ae3fad74948f69c9bc02ba0ca46631746",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25160958_7751597b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-06-06T15:32:30Z",
+      "side": 1,
+      "message": "That makes sense to delete those, but unless I\u0027m totally misreading this, the *only* binary it will delete is cmd/cgo/cgo. It makes a lot of sense that if we\u0027re going to walk the tree, we should delete cmd binaries sitting around, but I wouldn\u0027t call that \"restoring\" this code. 😊",
+      "parentUuid": "fa8d599f_9115253e",
+      "revId": "7abe5b2ae3fad74948f69c9bc02ba0ca46631746",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
