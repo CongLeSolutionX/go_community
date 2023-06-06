@@ -493,6 +493,21 @@ Do not send CLs removing the interior tags from such phrases.
   </dd>
 </dl><!-- crypto/sha256 -->
 
+<dl id="crypto/tls"><dt><a href="/pkg/crypto/tls/">crypto/tls</a></dt>
+  <dd>
+    <p><!-- https://go.dev/issue/60105 -->
+      The new <a href="/pkg/crypto/tls/#Config.WrapSession"><code>Config.WrapSession</code></a>
+      <a href="/pkg/crypto/tls/#Config.UnwrapSession"><code>Config.UnwrapSession</code></a>
+      hooks give applications control over the contents of session tickets.
+    </p>
+    <p><!-- https://go.dev/issue/44886 -->
+      The new <a href="/pkg/crypto/tls/#QUICConn"><code>QUICConn</code></a> type
+      provides support for QUIC implementations. Note that this is not itself
+      a QUIC implementation.
+    </p>
+  </dd>
+</dl><!-- crypto/tls -->
+
 <dl id="crypto/x509"><dt><a href="/pkg/crypto/x509/">crypto/x509</a></dt>
   <dd>
     <p><!-- https://go.dev/issue/53573, CL 468875 -->
