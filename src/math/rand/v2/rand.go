@@ -30,23 +30,14 @@ type Source interface {
 	Uint64() uint64
 }
 
-// NewSource returns a new pseudo-random Source seeded with the given value.
-// Unlike the default Source used by top-level functions, this source is not
-// safe for concurrent use by multiple goroutines.
-// The returned Source implements Source64.
-func NewSource(seed int64) Source {
-	return newSource(seed)
-}
-
-func newSource(seed int64) *rngSource {
-	var rng rngSource
-	rng.Seed(seed)
-	return &rng
-}
-
 // A Rand is a source of random numbers.
 type Rand struct {
 	src Source
+}
+
+// Background
+func Global() *Rand {
+	return globalRand
 }
 
 // New returns a new Rand that uses random values from src
@@ -229,7 +220,7 @@ func fastrand64() uint64
 type fastSource struct{}
 
 func (*fastSource) Int64() int64 {
-	return int64(fastrand64() & rngMask)
+	return int64(fastrand64() << 1 >> 1)
 }
 
 func (*fastSource) Uint64() uint64 {
