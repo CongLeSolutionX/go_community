@@ -702,7 +702,7 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 				if traceInference {
 					u.tracef("core %s ≡ %s", x, y)
 				}
-				return u.nify(cx, y, mode, p)
+				return u.nify(cx, y, 0, p) // must not use exact unification
 			}
 		}
 		// x != y and there's nothing to do
