@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b566a5bb_04432058",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-06-06T21:29:57Z",
+      "side": 1,
+      "message": "I think these are the 3 big ones. I\u0027m not sure if I missed anything.",
+      "range": {
+        "startLine": 882,
+        "startChar": 6,
+        "endLine": 884,
+        "endChar": 18
+      },
+      "revId": "362add02ba5d98af650e3d85d11b4faafd650771",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
