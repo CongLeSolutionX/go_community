@@ -417,7 +417,7 @@ func TestUniformFactorial(t *testing.T) {
 				name string
 				fn   func() int
 			}{
-				{name: "Int31n", fn: func() int { return int(r.Int31n(int32(nfact))) }},
+				{name: "Int32N", fn: func() int { return int(r.Int32N(int32(nfact))) }},
 				{name: "Perm", fn: func() int { return encodePerm(r.Perm(n)) }},
 				{name: "Shuffle", fn: func() int {
 					// Generate permutation using Shuffle.
@@ -484,19 +484,19 @@ func BenchmarkSourceUint64(b *testing.B) {
 	Sink = uint64(t)
 }
 
-func BenchmarkGlobalInt63(b *testing.B) {
+func BenchmarkGlobalInt64(b *testing.B) {
 	var t int64
 	for n := b.N; n > 0; n-- {
-		t += Int63()
+		t += Int64()
 	}
 	Sink = uint64(t)
 }
 
-func BenchmarkGlobalInt63Parallel(b *testing.B) {
+func BenchmarkGlobalInt64Parallel(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		var t int64
 		for pb.Next() {
-			t += Int63()
+			t += Int64()
 		}
 		atomic.AddUint64(&Sink, uint64(t))
 	})
@@ -520,11 +520,11 @@ func BenchmarkGlobalUint64Parallel(b *testing.B) {
 	})
 }
 
-func BenchmarkInt63(b *testing.B) {
+func BenchmarkInt64(b *testing.B) {
 	r := New(NewSource(1))
 	var t int64
 	for n := b.N; n > 0; n-- {
-		t += r.Int63()
+		t += r.Int64()
 	}
 	Sink = uint64(t)
 }
@@ -538,29 +538,29 @@ func BenchmarkUint64(b *testing.B) {
 	Sink = t
 }
 
-func BenchmarkIntn1000(b *testing.B) {
+func BenchmarkIntN1000(b *testing.B) {
 	r := New(NewSource(1))
 	var t int
 	for n := b.N; n > 0; n-- {
-		t += r.Intn(1000)
+		t += r.IntN(1000)
 	}
 	Sink = uint64(t)
 }
 
-func BenchmarkInt63n1000(b *testing.B) {
+func BenchmarkInt64N1000(b *testing.B) {
 	r := New(NewSource(1))
 	var t int64
 	for n := b.N; n > 0; n-- {
-		t += r.Int63n(1000)
+		t += r.Int64N(1000)
 	}
 	Sink = uint64(t)
 }
 
-func BenchmarkInt31n1000(b *testing.B) {
+func BenchmarkInt32N1000(b *testing.B) {
 	r := New(NewSource(1))
 	var t int32
 	for n := b.N; n > 0; n-- {
-		t += r.Int31n(1000)
+		t += r.Int32N(1000)
 	}
 	Sink = uint64(t)
 }
@@ -637,9 +637,18 @@ func BenchmarkConcurrent(b *testing.B) {
 		go func() {
 			defer wg.Done()
 			for n := b.N; n > 0; n-- {
-				Int63()
+				Int64()
 			}
 		}()
 	}
 	wg.Wait()
+}
+
+func TestN(t *testing.T) {
+	for i := 0; i < 1000; i++ {
+		v := N(10)
+		if v < 0 || v >= 10 {
+			t.Fatalf("N(10) returned %d", v)
+		}
+	}
 }
