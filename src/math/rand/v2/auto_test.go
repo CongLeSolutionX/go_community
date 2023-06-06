@@ -26,10 +26,10 @@ func TestAuto(t *testing.T) {
 	// Strictly speaking, we should look for them in order,
 	// but this is good enough and not significantly more
 	// likely to have a false positive.
-	Seed(1)
+	r := New(NewSource(1))
 	found := 0
 	for i := 0; i < 1000; i++ {
-		x := Int64()
+		x := r.Int64()
 		if x == out[found] {
 			found++
 			if found == len(out) {
