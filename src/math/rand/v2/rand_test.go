@@ -15,6 +15,7 @@ import (
 	"os"
 	"runtime"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"testing/iotest"
 )
@@ -564,85 +565,147 @@ func TestUniformFactorial(t *testing.T) {
 
 // Benchmarks
 
-func BenchmarkInt63Threadsafe(b *testing.B) {
+var Sink uint64
+
+func BenchmarkSourceUint64(b *testing.B) {
+	s := NewSource(1).(Source64)
+	var t uint64
 	for n := b.N; n > 0; n-- {
-		Int63()
+		t += s.Uint64()
 	}
+	Sink = uint64(t)
 }
 
-func BenchmarkInt63ThreadsafeParallel(b *testing.B) {
+func BenchmarkGlobalInt63(b *testing.B) {
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += Int63()
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkGlobalInt63Parallel(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
+		var t int64
 		for pb.Next() {
-			Int63()
+			t += Int63()
 		}
+		atomic.AddUint64(&Sink, uint64(t))
 	})
 }
 
-func BenchmarkInt63Unthreadsafe(b *testing.B) {
-	r := New(NewSource(1))
+func BenchmarkGlobalUint64(b *testing.B) {
+	var t uint64
 	for n := b.N; n > 0; n-- {
-		r.Int63()
+		t += Uint64()
 	}
+	Sink = t
+}
+
+func BenchmarkGlobalUint64Parallel(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		var t uint64
+		for pb.Next() {
+			t += Uint64()
+		}
+		atomic.AddUint64(&Sink, t)
+	})
+}
+
+func BenchmarkInt63(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int63()
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkUint64(b *testing.B) {
+	r := New(NewSource(1))
+	var t uint64
+	for n := b.N; n > 0; n-- {
+		t += r.Uint64()
+	}
+	Sink = t
 }
 
 func BenchmarkIntn1000(b *testing.B) {
 	r := New(NewSource(1))
+	var t int
 	for n := b.N; n > 0; n-- {
-		r.Intn(1000)
+		t += r.Intn(1000)
 	}
+	Sink = uint64(t)
 }
 
 func BenchmarkInt63n1000(b *testing.B) {
 	r := New(NewSource(1))
+	var t int64
 	for n := b.N; n > 0; n-- {
-		r.Int63n(1000)
+		t += r.Int63n(1000)
 	}
+	Sink = uint64(t)
 }
 
 func BenchmarkInt31n1000(b *testing.B) {
 	r := New(NewSource(1))
+	var t int32
 	for n := b.N; n > 0; n-- {
-		r.Int31n(1000)
+		t += r.Int31n(1000)
 	}
+	Sink = uint64(t)
 }
 
 func BenchmarkFloat32(b *testing.B) {
 	r := New(NewSource(1))
+	var t float32
 	for n := b.N; n > 0; n-- {
-		r.Float32()
+		t += r.Float32()
 	}
+	Sink = uint64(t)
 }
 
 func BenchmarkFloat64(b *testing.B) {
 	r := New(NewSource(1))
+	var t float64
 	for n := b.N; n > 0; n-- {
-		r.Float64()
+		t += r.Float64()
 	}
+	Sink = uint64(t)
 }
 
 func BenchmarkPerm3(b *testing.B) {
 	r := New(NewSource(1))
+	var t int
 	for n := b.N; n > 0; n-- {
-		r.Perm(3)
+		t += r.Perm(3)[0]
 	}
+	Sink = uint64(t)
+
 }
 
 func BenchmarkPerm30(b *testing.B) {
 	r := New(NewSource(1))
+	var t int
 	for n := b.N; n > 0; n-- {
-		r.Perm(30)
+		t += r.Perm(30)[0]
 	}
+	Sink = uint64(t)
 }
 
 func BenchmarkPerm30ViaShuffle(b *testing.B) {
 	r := New(NewSource(1))
+	var t int
 	for n := b.N; n > 0; n-- {
 		p := make([]int, 30)
 		for i := range p {
 			p[i] = i
 		}
 		r.Shuffle(30, func(i, j int) { p[i], p[j] = p[j], p[i] })
+		t += p[0]
 	}
+	Sink = uint64(t)
 }
 
 // BenchmarkShuffleOverhead uses a minimal swap function
@@ -650,8 +713,8 @@ func BenchmarkPerm30ViaShuffle(b *testing.B) {
 func BenchmarkShuffleOverhead(b *testing.B) {
 	r := New(NewSource(1))
 	for n := b.N; n > 0; n-- {
-		r.Shuffle(52, func(i, j int) {
-			if i < 0 || i >= 52 || j < 0 || j >= 52 {
+		r.Shuffle(30, func(i, j int) {
+			if i < 0 || i >= 30 || j < 0 || j >= 30 {
 				b.Fatalf("bad swap(%d, %d)", i, j)
 			}
 		})
