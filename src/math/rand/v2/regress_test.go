@@ -25,22 +25,21 @@ func TestRegress(t *testing.T) {
 	var int32s = []int32{1, 10, 32, 1 << 20, 1<<20 + 1, 1000000000, 1 << 30, 1<<31 - 2, 1<<31 - 1}
 	var int64s = []int64{1, 10, 32, 1 << 20, 1<<20 + 1, 1000000000, 1 << 30, 1<<31 - 2, 1<<31 - 1, 1000000000000000000, 1 << 60, 1<<63 - 2, 1<<63 - 1}
 	var permSizes = []int{0, 1, 5, 8, 9, 10, 16}
-	r := New(NewSource(0))
 
-	rv := reflect.ValueOf(r)
-	n := rv.NumMethod()
+	n := reflect.TypeOf(New(NewSource(0))).NumMethod()
 	p := 0
 	if *printgolden {
 		fmt.Printf("var regressGolden = []interface{}{\n")
 	}
 	for i := 0; i < n; i++ {
+		r := New(NewSource(0))
+		rv := reflect.ValueOf(r)
 		m := rv.Type().Method(i)
 		mv := rv.Method(i)
 		mt := mv.Type()
 		if mt.NumOut() == 0 {
 			continue
 		}
-		r.Seed(0)
 		for repeat := 0; repeat < 20; repeat++ {
 			var args []reflect.Value
 			var argstr string
