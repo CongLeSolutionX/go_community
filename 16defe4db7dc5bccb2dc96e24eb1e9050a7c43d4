@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bcb825e_749dd350",
+        "filename": "src/errors/join.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 62853
+      },
+      "writtenOn": "2023-06-06T04:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "409b2000_aac4c581",
+      "revId": "16defe4db7dc5bccb2dc96e24eb1e9050a7c43d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db6ac446_36b4eb09",
@@ -83,6 +101,24 @@
       "writtenOn": "2023-06-06T00:04:05Z",
       "side": 1,
       "message": "If we were doing this, a simpler and cleaner approach would be to skip preallocating the slice on overflow and let the runtime handle the panic.",
+      "revId": "16defe4db7dc5bccb2dc96e24eb1e9050a7c43d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cc1a6fb_6a7874ba",
+        "filename": "src/errors/join.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 62853
+      },
+      "writtenOn": "2023-06-06T04:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db6ac446_36b4eb09",
       "revId": "16defe4db7dc5bccb2dc96e24eb1e9050a7c43d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
