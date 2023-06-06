@@ -100,24 +100,10 @@ func (r *Rand) Int31n(n int32) int32 {
 	if n&(n-1) == 0 { // n is power of two, can mask
 		return r.Int31() & (n - 1)
 	}
-	max := int32((1 << 31) - 1 - (1<<31)%uint32(n))
-	v := r.Int31()
-	for v > max {
-		v = r.Int31()
-	}
-	return v % n
-}
 
-// int31n returns, as an int32, a non-negative pseudo-random number in the half-open interval [0,n).
-// n must be > 0, but int31n does not check this; the caller must ensure it.
-// int31n exists because Int31n is inefficient, but Go 1 compatibility
-// requires that the stream of values produced by math/rand/v2 remain unchanged.
-// int31n can thus only be used internally, by newly introduced APIs.
-//
-// For implementation details, see:
-// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
-// https://lemire.me/blog/2016/06/30/fast-random-shuffling
-func (r *Rand) int31n(n int32) int32 {
+	// For implementation details, see:
+	// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
+	// https://lemire.me/blog/2016/06/30/fast-random-shuffling
 	v := r.Uint32()
 	prod := uint64(v) * uint64(n)
 	low := uint32(prod)
@@ -220,7 +206,7 @@ func (r *Rand) Shuffle(n int, swap func(i, j int)) {
 		swap(i, j)
 	}
 	for ; i > 0; i-- {
-		j := int(r.int31n(int32(i + 1)))
+		j := int(r.Int31n(int32(i + 1)))
 		swap(i, j)
 	}
 }
