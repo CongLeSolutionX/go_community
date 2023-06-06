@@ -59,21 +59,16 @@ func New(src Source) *Rand {
 func (r *Rand) Int63() int64 { return int64(r.src.Uint64() << 1 >> 1) }
 
 // Uint32 returns a pseudo-random 32-bit value as a uint32.
-func (r *Rand) Uint32() uint32 { return uint32(r.Int63() >> 31) }
+func (r *Rand) Uint32() uint32 { return uint32(r.src.Uint64() >> 32) }
 
 // Uint64 returns a pseudo-random 64-bit value as a uint64.
-func (r *Rand) Uint64() uint64 {
-	return r.src.Uint64()
-}
+func (r *Rand) Uint64() uint64 { return r.src.Uint64() }
 
 // Int31 returns a non-negative pseudo-random 31-bit integer as an int32.
-func (r *Rand) Int31() int32 { return int32(r.Int63() >> 32) }
+func (r *Rand) Int31() int32 { return int32(r.src.Uint64() >> 33) }
 
 // Int returns a non-negative pseudo-random int.
-func (r *Rand) Int() int {
-	u := uint(r.Int63())
-	return int(u << 1 >> 1) // clear sign bit if int == int32
-}
+func (r *Rand) Int() int { return int(uint(r.src.Uint64()) << 1 >> 1) }
 
 // Int63n returns, as an int64, a non-negative pseudo-random number in the half-open interval [0,n).
 // It panics if n <= 0.
@@ -81,21 +76,34 @@ func (r *Rand) Int63n(n int64) int64 {
 	if n <= 0 {
 		panic("invalid argument to Int63n")
 	}
-	if n&(n-1) == 0 { // n is power of two, can mask
-		return r.Int63() & (n - 1)
-	}
+	return int64(r.uint64n(uint64(n)))
+}
 
+// Uint64n returns, as a uint64, a non-negative pseudo-random number in the half-open interval [0,n).
+// It panics if n == 0.
+func (r *Rand) Uint64n(n uint64) uint64 {
+	if n == 0 {
+		panic("invalid argument to Uint64n")
+	}
+	return r.uint64n(n)
+}
+
+// uint64n is the no-bounds-checks version of Uint64n.
+func (r *Rand) uint64n(n uint64) uint64 {
+	if n&(n-1) == 0 { // n is power of two, can mask
+		return r.Uint64() & (n - 1)
+	}
 	// For implementation details, see:
 	// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
 	// https://lemire.me/blog/2016/06/30/fast-random-shuffling
-	hi, lo := bits.Mul64(r.Uint64(), uint64(n))
-	if lo < uint64(n) {
-		thresh := uint64(-n) % uint64(n)
+	hi, lo := bits.Mul64(r.Uint64(), n)
+	if lo < n {
+		thresh := (-n) % n
 		for lo < thresh {
-			hi, lo = bits.Mul64(r.Uint64(), uint64(n))
+			hi, lo = bits.Mul64(r.Uint64(), n)
 		}
 	}
-	return int64(hi)
+	return hi
 }
 
 // Int31n returns, as an int32, a non-negative pseudo-random number in the half-open interval [0,n).
@@ -104,21 +112,34 @@ func (r *Rand) Int31n(n int32) int32 {
 	if n <= 0 {
 		panic("invalid argument to Int31n")
 	}
-	if n&(n-1) == 0 { // n is power of two, can mask
-		return r.Int31() & (n - 1)
-	}
+	return int32(r.uint32n(uint32(n)))
+}
 
+// Uint32n returns, as a uint32, a non-negative pseudo-random number in the half-open interval [0,n).
+// It panics if n == 0.
+func (r *Rand) Uint32n(n uint32) uint32 {
+	if n == 0 {
+		panic("invalid argument to Uint32n")
+	}
+	return r.uint32n(n)
+}
+
+// uint32n is the no-bounds-checks version of Uint32n.
+func (r *Rand) uint32n(n uint32) uint32 {
+	if n&(n-1) == 0 { // n is power of two, can mask
+		return r.Uint32() & (n - 1)
+	}
 	// For implementation details, see:
 	// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
 	// https://lemire.me/blog/2016/06/30/fast-random-shuffling
-	hi, lo := bits.Mul32(r.Uint32(), uint32(n))
-	if lo < uint32(n) {
-		thresh := uint32(-n) % uint32(n)
+	hi, lo := bits.Mul32(r.Uint32(), n)
+	if lo < n {
+		thresh := (-n) % n
 		for lo < thresh {
-			hi, lo = bits.Mul32(r.Uint32(), uint32(n))
+			hi, lo = bits.Mul32(r.Uint32(), n)
 		}
 	}
-	return int32(hi)
+	return hi
 }
 
 // Intn returns, as an int, a non-negative pseudo-random number in the half-open interval [0,n).
@@ -127,10 +148,22 @@ func (r *Rand) Intn(n int) int {
 	if n <= 0 {
 		panic("invalid argument to Intn")
 	}
-	if n <= 1<<31-1 {
-		return int(r.Int31n(int32(n)))
+	if n <= 1<<32-1 {
+		return int(r.uint32n(uint32(n)))
 	}
-	return int(r.Int63n(int64(n)))
+	return int(r.uint64n(uint64(n)))
+}
+
+// Uintn returns, as a uint, a non-negative pseudo-random number in the half-open interval [0,n).
+// It panics if n == 0.
+func (r *Rand) Uintn(n uint) uint {
+	if n == 0 {
+		panic("invalid argument to Uintn")
+	}
+	if n <= 1<<32-1 {
+		return uint(r.uint32n(uint32(n)))
+	}
+	return uint(r.uint64n(uint64(n)))
 }
 
 // Float64 returns, as a float64, a pseudo-random number in the half-open interval [0.0,1.0).
@@ -205,11 +238,11 @@ func (r *Rand) Shuffle(n int, swap func(i, j int)) {
 	// Nevertheless, the right API signature accepts an int n, so handle it as best we can.
 	i := n - 1
 	for ; i > 1<<31-1-1; i-- {
-		j := int(r.Int63n(int64(i + 1)))
+		j := int(r.uint64n(uint64(i + 1)))
 		swap(i, j)
 	}
 	for ; i > 0; i-- {
-		j := int(r.Int31n(int32(i + 1)))
+		j := int(r.uint32n(uint32(i + 1)))
 		swap(i, j)
 	}
 }
