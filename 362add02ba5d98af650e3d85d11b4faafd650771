@@ -59,6 +59,30 @@
       },
       "revId": "362add02ba5d98af650e3d85d11b4faafd650771",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d3b7264_363d4490",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-06-07T14:10:11Z",
+      "side": 1,
+      "message": "Maybe just say \"textual stack traces\" and give these as some examples?",
+      "parentUuid": "b566a5bb_04432058",
+      "range": {
+        "startLine": 882,
+        "startChar": 6,
+        "endLine": 884,
+        "endChar": 18
+      },
+      "revId": "362add02ba5d98af650e3d85d11b4faafd650771",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
