@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e2a6978_1f656d31",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-06-07T13:50:49Z",
+      "side": 0,
+      "message": "I don\u0027t fully understand the rebuildall block, so I don\u0027t fully understand why it\u0027s okay to not do this any more. At least tooldir and VERSION.cache still exist and won\u0027t get caught by the header check. pkg/obj is created during bootstrapping, and while an uninterrupted bootstrap should delete that on its own, I can see the logic that clean should also delete it.\n\nIf this is safe to drop, perhaps explain why in the commit message.",
+      "revId": "0ddd067be6b9a76680a22d97765827e1e98c5ca9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
