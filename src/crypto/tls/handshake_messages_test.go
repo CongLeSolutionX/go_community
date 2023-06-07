@@ -355,7 +355,10 @@ func (*SessionState) Generate(rand *rand.Rand, size int) reflect.Value {
 	s.cipherSuite = uint16(rand.Intn(math.MaxUint16))
 	s.createdAt = uint64(rand.Int63())
 	s.secret = randomBytes(rand.Intn(100)+1, rand)
-	s.Extra = randomBytes(rand.Intn(100), rand)
+	s.Extra = make([][]byte, rand.Intn(5))
+	for i := range s.Extra {
+		s.Extra[i] = randomBytes(rand.Intn(100), rand)
+	}
 	if rand.Intn(10) > 5 {
 		s.EarlyData = true
 	}
