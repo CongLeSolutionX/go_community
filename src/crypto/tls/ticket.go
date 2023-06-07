@@ -27,13 +27,15 @@ type SessionState struct {
 	//
 	//   Certificate CertificateChain<0..2^24-1>;
 	//
+	//   opaque Extra<1..2^24-1>;
+	//
 	//   struct {
 	//       uint16 version;
 	//       SessionStateType type;
 	//       uint16 cipher_suite;
 	//       uint64 created_at;
 	//       opaque secret<1..2^8-1>;
-	//       opaque extra<0..2^24-1>;
+	//       Extra extra_list<0..2^24-1>;
 	//       uint8 ext_master_secret = { 0, 1 };
 	//       uint8 early_data = { 0, 1 };
 	//       CertificateEntry certificate_list<0..2^24-1>;
@@ -65,9 +67,9 @@ type SessionState struct {
 	// data.
 	//
 	// If Extra is already set, the implementation must preserve the previous
-	// value across a round-trip, for example by appending and stripping a
-	// fixed-length suffix.
-	Extra []byte
+	// value across a round-trip, for example by appending and removing a new []byte,
+	// treating Extra as a stack.
+	Extra [][]byte
 
 	// EarlyData indicates whether the ticket can be used for 0-RTT in a QUIC
 	// connection. The application may set this to false if it is true to
@@ -115,7 +117,11 @@ func (s *SessionState) Bytes() ([]byte, error) {
 		b.AddBytes(s.secret)
 	})
 	b.AddUint24LengthPrefixed(func(b *cryptobyte.Builder) {
-		b.AddBytes(s.Extra)
+		for _, e := range s.Extra {
+			b.AddUint24LengthPrefixed(func(b *cryptobyte.Builder) {
+				b.AddBytes(e)
+			})
+		}
 	})
 	if s.extMasterSecret {
 		b.AddUint8(1)
@@ -176,16 +182,27 @@ func ParseSessionState(data []byte) (*SessionState, error) {
 	s := cryptobyte.String(data)
 	var typ, extMasterSecret, earlyData uint8
 	var cert Certificate
+	var extraList cryptobyte.String
 	if !s.ReadUint16(&ss.version) ||
 		!s.ReadUint8(&typ) ||
 		(typ != 1 && typ != 2) ||
 		!s.ReadUint16(&ss.cipherSuite) ||
 		!readUint64(&s, &ss.createdAt) ||
 		!readUint8LengthPrefixed(&s, &ss.secret) ||
-		!readUint24LengthPrefixed(&s, &ss.Extra) ||
-		!s.ReadUint8(&extMasterSecret) ||
-		!s.ReadUint8(&earlyData) ||
 		len(ss.secret) == 0 ||
+		!s.ReadUint24LengthPrefixed(&extraList) {
+		return nil, errors.New("tls: invalid session encoding")
+	}
+	ss.Extra = [][]byte{}
+	for !extraList.Empty() {
+		var b []byte
+		if !readUint24LengthPrefixed(&extraList, &b) {
+			return nil, errors.New("tls: invalid session encoding")
+		}
+		ss.Extra = append(ss.Extra, b)
+	}
+	if !s.ReadUint8(&extMasterSecret) ||
+		!s.ReadUint8(&earlyData) ||
 		!unmarshalCertificate(&s, &cert) {
 		return nil, errors.New("tls: invalid session encoding")
 	}
