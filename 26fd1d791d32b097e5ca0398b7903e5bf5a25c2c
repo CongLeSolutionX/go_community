@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f92464df_3925c421",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-07T00:01:48Z",
+      "side": 1,
+      "message": "Thanks, but we prefer to leave the organization as is.\n\n(I have tried out the suggested change: simply moving the paragraph doesn\u0027t look right in the table of types. It would need some careful adjustments. But more importantly, the comma-ok version is a special case, which why it is handled at the end as a special case. Similar to how we do it for channel receives.)\n\nPlease abandon.",
+      "revId": "26fd1d791d32b097e5ca0398b7903e5bf5a25c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
