@@ -140,6 +140,10 @@ func TestScripts(t *testing.T) {
 		if rel == "README" {
 			return nil
 		}
+		if strings.HasPrefix(rel, ".") {
+			// Ignore .DS_Store and similar files.
+			return nil
+		}
 
 		t.Run(filepath.ToSlash(rel), func(t *testing.T) {
 			t.Parallel()
