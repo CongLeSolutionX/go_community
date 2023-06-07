@@ -72,6 +72,24 @@
       "message": "appending and removing a new []byte, treating Extra as a stack.",
       "revId": "206b43336301bae8b23c4ab2c8b199b110405716",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbe66209_784b4a32",
+        "filename": "src/crypto/tls/ticket.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-06-07T20:50:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38216e2e_6c4f0697",
+      "revId": "206b43336301bae8b23c4ab2c8b199b110405716",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
