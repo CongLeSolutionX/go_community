@@ -70,6 +70,24 @@
       "message": "I conflicted you with CL 501675, sorry. (I was on a plane.) I like the doc in mine a little better: instead of suggesting a stack, it asks applications to just be able to find their slices in the list, so ordering doesn\u0027t have to be right every time, and so wrappers don\u0027t have to remove entries.",
       "revId": "24ad19e5dd21e076ad06e9800183744dc97bc137",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76a7e312_60b90b6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-06-07T22:57:41Z",
+      "side": 1,
+      "message": "I\u0027m happy to abandon this one in favor of yours.",
+      "parentUuid": "0a73841f_f804d6f6",
+      "revId": "24ad19e5dd21e076ad06e9800183744dc97bc137",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
