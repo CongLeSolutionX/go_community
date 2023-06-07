@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc232c1a_1bb8cade",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-06-07T19:20:43Z",
+      "side": 1,
+      "message": "Should this be in \u003ccode\u003e font?",
+      "range": {
+        "startLine": 884,
+        "startChar": 42,
+        "endLine": 884,
+        "endChar": 49
+      },
+      "revId": "7c85295e6d32aa5b6012fac717e42ae38f302325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
