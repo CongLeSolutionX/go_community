@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c4f572_4d23685c",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-07T14:12:44Z",
+      "side": 1,
+      "message": "The other way we could handle this is by having `toolchain.Switch` change back to the original working directory before reinvoking the command. That would allow us to preserve the invariant that the reinvoked command sees the exact same command line as the original.\n\nArguably `GOTOOLCHAIN\u003dgo1.19.10 go build -C foo .` should fail with a flag error (as `go1.19.10` would have), rather than succeed: otherwise using `GOTOOLCHAIN` to test scripts with older Go versions may mask erroneous use of the `-C` flag.",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 95
+      },
+      "revId": "96d8d3eb3294e85972aed190aec1806ef3c30712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "107f1f41_40813365",
+        "filename": "src/cmd/go/testdata/script/chdir.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-07T14:12:44Z",
+      "side": 1,
+      "message": "It probably also needs to be first (or flag parsing needs to be changed) in Go 1.20 as well; see #60392.",
+      "revId": "96d8d3eb3294e85972aed190aec1806ef3c30712",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
