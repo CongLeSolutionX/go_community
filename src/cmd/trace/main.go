@@ -288,7 +288,7 @@ p  { color: grey85; font-size:85%; }
   The visualization allows you to navigate events at scales ranging from several
   seconds to a handful of nanoseconds.
 
-  Consult the documentation for the Chromium <a href='https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/'>Trace Event Profiling Tool<a/>
+  Consult the documentation for the Chromium <a href='https://www.chromium.org/developers/how-tos/trace-event-profiling-tool/'>Trace Event Profiling Tool</a>
   for help navigating the view.
 </p>
 

@@ -285,7 +285,7 @@ var templMMU = `<!doctype html>
             for (var i = 0; i < worst.length; i++) {
               details.append($('<br>'));
               var text = worst[i].MutatorUtil.toFixed(3) + ' at time ' + niceDuration(worst[i].Time);
-              details.append($('<a/>').text(text).attr('href', worst[i].URL));
+              details.append($('</a>').text(text).attr('href', worst[i].URL));
             }
          });
       }
