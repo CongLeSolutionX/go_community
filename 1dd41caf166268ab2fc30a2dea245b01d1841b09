@@ -72,6 +72,23 @@
       "message": "Thanks for preparing this CL, Cuong.\n\nI don\u0027t understand how it addresses the issue though. The new code doesn\u0027t appear functionally any different than the old code, except that it would panic instead of Fatalf.\n\nDid you verify that all.bash passes when this is backported to release-branch.go1.20?",
       "revId": "1dd41caf166268ab2fc30a2dea245b01d1841b09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ce5d60_43d618b6",
+        "filename": "test/fixedbugs/issue60601.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-08T20:07:05Z",
+      "side": 1,
+      "message": "I suggest this test instead, to be somewhat simpler but also more comprehensive:\n\n```\nfunc f[T any]() int64 {\n\treturn 1 \u003c\u003c unsafe.Sizeof(*new(T))\n}\n\nfunc g() {\n\tf[[62]byte]()\n\tf[[63]byte]()\n\tf[[64]byte]()\n\tf[[100]byte]()\n\tf[[1e6]byte]()\n}\n```",
+      "revId": "1dd41caf166268ab2fc30a2dea245b01d1841b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
