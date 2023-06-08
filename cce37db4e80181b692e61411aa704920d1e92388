@@ -76,6 +76,30 @@
       },
       "revId": "cce37db4e80181b692e61411aa704920d1e92388",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0a2638_5dc4f0b8",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-06-08T15:09:34Z",
+      "side": 1,
+      "message": "Thanks for the review. I\u0027ll go with your second suggestion.",
+      "parentUuid": "d058d6a9_bd3fb51f",
+      "range": {
+        "startLine": 325,
+        "startChar": 95,
+        "endLine": 326,
+        "endChar": 110
+      },
+      "revId": "cce37db4e80181b692e61411aa704920d1e92388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
