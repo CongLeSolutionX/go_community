@@ -21,16 +21,14 @@ func ConstType(n Node) constant.Kind {
 // IntVal returns v converted to int64.
 // Note: if t is uint64, very large values will be converted to negative int64.
 func IntVal(t *types.Type, v constant.Value) int64 {
-	if t.IsUnsigned() {
-		if x, ok := constant.Uint64Val(v); ok {
-			return int64(x)
-		}
-	} else {
-		if x, ok := constant.Int64Val(v); ok {
-			return x
-		}
+	if x, ok := constant.Int64Val(v); ok && t.IsSigned() {
+		return x
 	}
-	base.Fatalf("%v out of range for %v", v, t)
+	// types2 have already errored about any spec-required overflows,
+	// so overflows can happen here, see issue #60601.
+	if x, ok := constant.Uint64Val(v); ok {
+		return int64(x)
+	}
 	panic("unreachable")
 }
 
