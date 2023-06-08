@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7254e01d_39835616",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 12859
+      },
+      "writtenOn": "2023-06-08T12:45:47Z",
+      "side": 1,
+      "message": "Should that be s/\\.String/.X/?\nThat is, the field is named \"X\", not \"String\".",
+      "revId": "77fec18b2f1ab772366a3c3bbb660e456067c096",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "921fd34a_33b9cd91",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 12859
+      },
+      "writtenOn": "2023-06-08T12:45:47Z",
+      "side": 1,
+      "message": "If \"Valid\" is false, is it necessary to zero the stored value?\n\nSince \"value\" was nil, should we set \"Valid\" to true here, as in the resulting zero value is the valid interpretation of the caller\u0027s argument?",
+      "revId": "77fec18b2f1ab772366a3c3bbb660e456067c096",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
