@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e158a9dd_fffe18a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-06-09T07:40:46Z",
+      "side": 1,
+      "message": "Your test case trigger another overflow error in `typecheck.EvalConst`.",
+      "parentUuid": "76023f39_1bcf485c",
+      "revId": "1dd41caf166268ab2fc30a2dea245b01d1841b09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f7ce5d60_43d618b6",
         "filename": "test/fixedbugs/issue60601.go",
         "patchSetId": 2
