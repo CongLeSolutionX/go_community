@@ -76,6 +76,30 @@
       },
       "revId": "5cabee5206f42ad5a6a1d6ca40c48971b4dfc446",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "834fcacf_77dc8b56",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-09T18:48:21Z",
+      "side": 1,
+      "message": "Upon further reflection:\n- This is indeed still not quite right.\n- The behavior in (and before) this CL is “sometimes cruft gets added to the `go.sum` file for no apparent reason, but `go mod tidy` removes it”, which is unfortunate but not hugely terrible.\n- A proper fix is going to involve a fair amount of cleanup and plumbing.\n- This CL does fix the failure mode reported in #60667.\n\nSo I think we should go with this for now, and perhaps try to clean it up for 1.22 or later.",
+      "parentUuid": "52dbdb33_c525a390",
+      "range": {
+        "startLine": 1904,
+        "startChar": 0,
+        "endLine": 1907,
+        "endChar": 18
+      },
+      "revId": "5cabee5206f42ad5a6a1d6ca40c48971b4dfc446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
