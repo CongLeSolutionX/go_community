@@ -247,6 +247,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	spfix := obj.Appendp(last, c.newprog)
 	spfix.As = obj.ANOP
 	spfix.Spadj = -framesize
+	c.cursym.Func().StackGrowthTrailerStart = spfix
 
 	pcdata := c.ctxt.EmitEntryStackMap(c.cursym, spfix, c.newprog)
 	pcdata = c.ctxt.StartUnsafePoint(pcdata, c.newprog)
@@ -278,6 +279,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 
 	// BL	runtime.morestack(SB)
 	call := obj.Appendp(debug, c.newprog)
+	c.cursym.Func().StackGrowthCall = call
 	call.As = ABL
 	call.To.Type = obj.TYPE_BRANCH
 	morestack := "runtime.morestack"
