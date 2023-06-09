@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10945daa_48a8c956",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-06-09T04:07:27Z",
+      "side": 1,
+      "message": "Thanks for the review! I [updated the design doc](https://go.dev/cl/501537) to explain why it is private. (If you disagree with the rationale, please feel free to comment.)",
+      "parentUuid": "5d79d85f_c73e4d71",
+      "revId": "34031358fcfcfa46fe7697e42588978eee4323de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa52c1e0_c00e019a",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2594f75_851a2170",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-06-09T04:07:27Z",
+      "side": 1,
+      "message": "Acknowledged.  I added a link to the design doc here so that future code readers can see the rationale.",
+      "parentUuid": "fa52c1e0_c00e019a",
+      "revId": "34031358fcfcfa46fe7697e42588978eee4323de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68f9e5a6_6b0d8011",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-19T09:32:27Z",
       "side": 1,
       "message": "Same remark as where the interface is defined. It feels like this interface should be public, and that would also shorten this comment by just referring to it by name.",
+      "revId": "34031358fcfcfa46fe7697e42588978eee4323de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad823846_fa0279f5",
+        "filename": "src/testing/fuzz.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-06-09T04:07:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "68f9e5a6_6b0d8011",
       "revId": "34031358fcfcfa46fe7697e42588978eee4323de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
