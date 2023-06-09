@@ -16,6 +16,24 @@
       "message": "FWIW, this page isn\u0027t particularly useful anymore. https://github.com/catapult-project/catapult/blob/3cf15a9b47a0f81ff31921349a845275dc92f5b4/tracing/docs/getting-started.md would be a more relevant link.",
       "revId": "8bfe839c5f514ae7a466889d74262c9e7d89742f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8747b73e_0daa09b0",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-06-09T01:49:46Z",
+      "side": 0,
+      "message": "Thanks!",
+      "parentUuid": "78425e77_d171e9db",
+      "revId": "8bfe839c5f514ae7a466889d74262c9e7d89742f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
