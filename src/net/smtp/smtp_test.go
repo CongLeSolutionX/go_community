@@ -10,6 +10,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"internal/fakenet"
 	"internal/testenv"
 	"io"
 	"net"
@@ -19,6 +20,10 @@ import (
 	"testing"
 	"time"
 )
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+}
 
 type authTest struct {
 	auth       Auth

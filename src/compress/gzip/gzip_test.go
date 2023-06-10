@@ -7,11 +7,17 @@ package gzip
 import (
 	"bufio"
 	"bytes"
+	"internal/fakenet"
+	"internal/testenv"
 	"io"
 	"reflect"
 	"testing"
 	"time"
 )
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+}
 
 // TestEmpty tests that an empty payload still forms a valid GZIP stream.
 func TestEmpty(t *testing.T) {

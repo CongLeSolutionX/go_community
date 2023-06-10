@@ -300,6 +300,12 @@ func HasSrc() bool {
 	return true
 }
 
+// HasFakeNetwork reporst whether the current system has an in-memory
+// network stack which may be used to run tests against.
+func HasFakeNetwork() bool {
+	return runtime.GOOS == "js" || runtime.GOOS == "wasip1"
+}
+
 // HasExternalNetwork reports whether the current system can use
 // external (non-localhost) networks.
 func HasExternalNetwork() bool {

@@ -7,6 +7,7 @@ package pprof
 import (
 	"bytes"
 	"fmt"
+	"internal/fakenet"
 	"internal/profile"
 	"internal/testenv"
 	"io"
@@ -20,6 +21,14 @@ import (
 	"testing"
 	"time"
 )
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+	// This global variable must be created after configuring the fake network
+	// stack otherwise the call to net.Listen that it makes may fail on targets
+	// that do not support real networking.
+	srv = httptest.NewServer(nil)
+}
 
 // TestDescriptions checks that the profile names under runtime/pprof package
 // have a key in the description map.
@@ -220,7 +229,7 @@ func TestDeltaProfile(t *testing.T) {
 	}
 }
 
-var srv = httptest.NewServer(nil)
+var srv *httptest.Server
 
 func query(endpoint string) (*profile.Profile, error) {
 	url := srv.URL + endpoint

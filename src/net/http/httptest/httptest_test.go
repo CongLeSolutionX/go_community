@@ -6,6 +6,8 @@ package httptest
 
 import (
 	"crypto/tls"
+	"internal/fakenet"
+	"internal/testenv"
 	"io"
 	"net/http"
 	"net/url"
@@ -13,6 +15,10 @@ import (
 	"strings"
 	"testing"
 )
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+}
 
 func TestNewRequest(t *testing.T) {
 	for _, tt := range [...]struct {
