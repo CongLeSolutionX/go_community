@@ -357,6 +357,9 @@ var depsRules = `
 	internal/bytealg, internal/intern, internal/itoa, math/bits, sort, strconv
 	< net/netip;
 
+	sync/atomic
+	< internal/fakenet;
+
 	# net is unavoidable when doing any networking,
 	# so large dependencies must be kept out.
 	# This is a long-looking list but most of these
@@ -366,6 +369,7 @@ var depsRules = `
 	golang.org/x/net/lif,
 	golang.org/x/net/route,
 	internal/godebug,
+	internal/fakenet,
 	internal/nettrace,
 	internal/poll,
 	internal/singleflight,
@@ -586,7 +590,7 @@ var depsRules = `
 	internal/fuzz, internal/testlog, runtime/pprof, regexp
 	< testing/internal/testdeps;
 
-	OS, flag, testing, internal/cfg, internal/platform, internal/goroot
+	OS, flag, testing, internal/cfg, internal/platform, internal/goroot, internal/fakenet
 	< internal/testenv;
 
 	OS, encoding/base64

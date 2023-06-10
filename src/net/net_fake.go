@@ -10,8 +10,10 @@ package net
 
 import (
 	"context"
+	"internal/fakenet"
 	"io"
 	"os"
+	"runtime"
 	"sync"
 	"syscall"
 	"time"
@@ -46,6 +48,13 @@ type fakeNetFD struct {
 // socket returns a network file descriptor that is ready for
 // asynchronous I/O using the network poller.
 func socket(ctx context.Context, net string, family, sotype, proto int, ipv6only bool, laddr, raddr sockaddr, ctrlCtxFn func(context.Context, string, string, syscall.RawConn) error) (*netFD, error) {
+	// WASI preview 1 has limited socket support, we don't want to pretend that
+	// the application can tap into the fakeNetFD capabilities and make it look
+	// like the program is able to do networking when in fact it would be using
+	// the in-memory facilities.
+	if !fakenet.IsEnabled() && runtime.GOOS == "wasip1" {
+		return nil, syscall.EPROTONOSUPPORT
+	}
 	fd := &netFD{family: family, sotype: sotype, net: net}
 	if laddr != nil && raddr == nil {
 		return fakelistener(fd, laddr)

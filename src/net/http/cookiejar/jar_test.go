@@ -6,6 +6,8 @@ package cookiejar
 
 import (
 	"fmt"
+	"internal/fakenet"
+	"internal/testenv"
 	"net/http"
 	"net/url"
 	"sort"
@@ -13,6 +15,10 @@ import (
 	"testing"
 	"time"
 )
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+}
 
 // tNow is the synthetic current time used as now during testing.
 var tNow = time.Date(2013, 1, 1, 12, 0, 0, 0, time.UTC)
