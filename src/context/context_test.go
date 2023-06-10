@@ -10,8 +10,16 @@ package context
 // that calls it. Otherwise, write a regular test in a test.go file in package context_test.
 
 import (
+	"internal/fakenet"
 	"time"
 )
+
+func init() {
+	// internal/testenv has a dependency on the context package, so we cannot
+	// import it in this test. Instead, we unconditionally enable the fake
+	// network facility for platforms which have no real network stack.
+	fakenet.SetEnabled(true)
+}
 
 type testingT interface {
 	Deadline() (time.Time, bool)

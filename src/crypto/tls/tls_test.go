@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"internal/fakenet"
 	"internal/testenv"
 	"io"
 	"math"
@@ -97,6 +98,10 @@ var keyPairTests = []struct {
 	{"ECDSA", ecdsaCertPEM, ecdsaKeyPEM},
 	{"RSA", rsaCertPEM, rsaKeyPEM},
 	{"RSA-untyped", rsaCertPEM, keyPEM}, // golang.org/issue/4477
+}
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
 }
 
 func TestX509KeyPair(t *testing.T) {

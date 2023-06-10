@@ -6,6 +6,8 @@ package json
 
 import (
 	"bytes"
+	"internal/fakenet"
+	"internal/testenv"
 	"io"
 	"log"
 	"net"
@@ -16,6 +18,10 @@ import (
 	"strings"
 	"testing"
 )
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+}
 
 // Test values for the stream test.
 // One of each JSON kind.

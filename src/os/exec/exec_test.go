@@ -14,6 +14,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"internal/fakenet"
 	"internal/poll"
 	"internal/testenv"
 	"io"
@@ -41,6 +42,8 @@ import (
 var haveUnexpectedFDs bool
 
 func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+
 	godebug := os.Getenv("GODEBUG")
 	if godebug != "" {
 		godebug += ","

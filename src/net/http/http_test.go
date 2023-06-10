@@ -8,6 +8,7 @@ package http
 
 import (
 	"bytes"
+	"internal/fakenet"
 	"internal/testenv"
 	"io/fs"
 	"net/url"
@@ -18,6 +19,10 @@ import (
 	"strings"
 	"testing"
 )
+
+func init() {
+	fakenet.SetEnabled(testenv.HasFakeNetwork())
+}
 
 func TestForeachHeaderElement(t *testing.T) {
 	tests := []struct {
