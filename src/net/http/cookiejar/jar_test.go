@@ -12,6 +12,10 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	// Import the package to for the side effect of configuring the fake network
+	// stack on platforms that need it.
+	_ "internal/testenv"
 )
 
 // tNow is the synthetic current time used as now during testing.

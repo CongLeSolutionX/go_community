@@ -12,6 +12,10 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+
+	// Import the package to for the side effect of configuring the fake network
+	// stack on platforms that need it.
+	_ "internal/testenv"
 )
 
 func TestNewRequest(t *testing.T) {
