@@ -70,6 +70,24 @@
       "message": "it’s \"min\"",
       "revId": "2bbce813accfbaf07980b2f62d8005f11861462d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe341fe1_b04bbf92",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-11T00:30:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0fd0b31c_0b970d03",
+      "revId": "2bbce813accfbaf07980b2f62d8005f11861462d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
