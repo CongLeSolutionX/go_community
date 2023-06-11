@@ -180,6 +180,27 @@ int main(int argc, char *argv[])
 	}
 }
 
+func FuzzGetwd_Panic(f *testing.F) {
+	// Regression test for https://github.com/golang/go/issues/60051.
+
+	f.Add("foo")
+	f.Add(strings.Repeat("a", 300))
+
+	f.Fuzz(func(t *testing.T, dirname string) {
+		dirname = filepath.Join(f.TempDir(), dirname)
+		err := os.Mkdir(dirname)
+		if err != nil {
+			t.Skipf("Mkdir failed: %v", err)
+		}
+		err = os.Chdir(dirname)
+		if err != nil {
+			t.Skipf("Chdir failed: %v", err)
+		}
+
+		Getwd()
+	})
+}
+
 func FuzzUTF16FromString(f *testing.F) {
 	f.Add("hi")           // ASCII
 	f.Add("â")            // latin1
