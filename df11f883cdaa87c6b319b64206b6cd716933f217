@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52fc171c_707746bd",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-12T19:33:49Z",
+      "side": 1,
+      "message": "```suggestion\n// Copyright 2023 The Go Authors. All rights reserved.\n// Use of this source code is governed by a BSD-style\n// license that can be found in the LICENSE file.\n\npackage hidden\n```",
+      "parentUuid": "dc4a0986_cf94318e",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "df11f883cdaa87c6b319b64206b6cd716933f217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2146133e_e1d82e62",
+        "filename": "src/cmd/go/internal/hidden/hidden_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-12T19:33:49Z",
+      "side": 1,
+      "message": "```suggestion\n// Copyright 2023 The Go Authors. All rights reserved.\n// Use of this source code is governed by a BSD-style\n// license that can be found in the LICENSE file.\n\npackage hidden\n```",
+      "revId": "df11f883cdaa87c6b319b64206b6cd716933f217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c28a5e6c_27da9dee",
+        "filename": "src/cmd/go/internal/hidden/hidden_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-12T19:33:49Z",
+      "side": 1,
+      "message": "If we\u0027re not going to implement this on Windows yet, let\u0027s change `vcstest_test.go` back to `strings.HasPrefix(rel, \".\")` for now and leave the `hidden` package for a separate change.",
+      "revId": "df11f883cdaa87c6b319b64206b6cd716933f217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
