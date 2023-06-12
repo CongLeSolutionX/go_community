@@ -100,6 +100,30 @@
       },
       "revId": "5cabee5206f42ad5a6a1d6ca40c48971b4dfc446",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "736c3e43_c2e36aa6",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-12T17:45:05Z",
+      "side": 1,
+      "message": "Filed as #60748.",
+      "parentUuid": "834fcacf_77dc8b56",
+      "range": {
+        "startLine": 1904,
+        "startChar": 0,
+        "endLine": 1907,
+        "endChar": 18
+      },
+      "revId": "5cabee5206f42ad5a6a1d6ca40c48971b4dfc446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
