@@ -107,6 +107,24 @@
       "parentUuid": "8c9e279e_345d9a5d",
       "revId": "ecef396b33c694b22850f61f476fc5e760f032f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "245140ab_1967f54d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-06-12T17:51:45Z",
+      "side": 1,
+      "message": "I added the comment that it fixes #60739 but I\u0027ll make the fix for #60012 in a separate CL.",
+      "parentUuid": "8c9e279e_345d9a5d",
+      "revId": "ecef396b33c694b22850f61f476fc5e760f032f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
