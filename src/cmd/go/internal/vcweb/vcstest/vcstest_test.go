@@ -5,6 +5,7 @@
 package vcstest_test
 
 import (
+	"cmd/go/internal/hidden"
 	"cmd/go/internal/vcweb"
 	"errors"
 	"flag"
@@ -138,6 +139,9 @@ func TestScripts(t *testing.T) {
 			return err
 		}
 		if rel == "README" {
+			return nil
+		}
+		if hidden.IsHidden(path) {
 			return nil
 		}
 
