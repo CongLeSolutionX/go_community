@@ -8,6 +8,7 @@ package signal_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -40,8 +41,17 @@ func ExampleNotifyContext() {
 	case <-ctx.Done():
 		fmt.Println(ctx.Err()) // prints "context canceled"
 		stop()                 // stop receiving signal notifications as soon as possible.
+
+		cause := context.Cause(ctx)
+		fmt.Println(cause) // prints "context canceled by signal interrupt"
+		var cse *signal.CanceledBySignalError
+		if errors.As(cause, &cse) {
+			fmt.Println("Signal:", cse.Signal) // prints "Signal: interrupt"
+		}
 	}
 
 	// Output:
 	// context canceled
+	// context canceled by signal interrupt
+	// Signal: interrupt
 }

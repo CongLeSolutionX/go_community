@@ -259,6 +259,18 @@ func process(sig os.Signal) {
 	}
 }
 
+// CanceledBySignalError represents the error can be retrieved via context.Cause
+// on the context returned by NotifyContext to inspect which signal caused the
+// cancellation.
+type CanceledBySignalError struct {
+	// The signal caused the context cancellation.
+	Signal os.Signal
+}
+
+func (cse *CanceledBySignalError) Error() string {
+	return "context canceled by signal " + cse.Signal.String()
+}
+
 // NotifyContext returns a copy of the parent context that is marked done
 // (its Done channel is closed) when one of the listed signals arrives,
 // when the returned stop function is called, or when the parent context's
@@ -275,7 +287,7 @@ func process(sig os.Signal) {
 // call stop as soon as the operations running in this Context complete and
 // signals no longer need to be diverted to the context.
 func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Context, stop context.CancelFunc) {
-	ctx, cancel := context.WithCancel(parent)
+	ctx, cancel := context.WithCancelCause(parent)
 	c := &signalCtx{
 		Context: ctx,
 		cancel:  cancel,
@@ -286,8 +298,8 @@ func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Co
 	if ctx.Err() == nil {
 		go func() {
 			select {
-			case <-c.ch:
-				c.cancel()
+			case sig := <-c.ch:
+				c.cancel(&CanceledBySignalError{Signal: sig})
 			case <-c.Done():
 			}
 		}()
@@ -298,13 +310,13 @@ func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Co
 type signalCtx struct {
 	context.Context
 
-	cancel  context.CancelFunc
+	cancel  context.CancelCauseFunc
 	signals []os.Signal
 	ch      chan os.Signal
 }
 
 func (c *signalCtx) stop() {
-	c.cancel()
+	c.cancel(nil)
 	Stop(c.ch)
 }
 

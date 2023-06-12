@@ -9,6 +9,7 @@ package signal
 import (
 	"bytes"
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"internal/testenv"
@@ -711,6 +712,15 @@ func TestNotifyContextNotifications(t *testing.T) {
 		wg.Wait()
 		<-ctx.Done()
 		fmt.Println("received SIGINT")
+		cause := context.Cause(ctx)
+		var cse *CanceledBySignalError
+		if errors.As(cause, &cse) {
+			if cse.Signal != syscall.SIGINT {
+				t.Errorf("CanceledBySignalError.Signal got %q, want %q", cse.Signal, syscall.SIGINT)
+			}
+		} else {
+			t.Errorf("context.Cause(ctx) = %q, not of type *CanceledBySignalError", cause)
+		}
 		// Sleep to give time to simultaneous signals to reach the process.
 		// These signals must be ignored given stop() is not called on this code.
 		// We want to guarantee a SIGINT doesn't cause a premature termination of the program.
@@ -786,6 +796,9 @@ func TestNotifyContextStop(t *testing.T) {
 		if got := c.Err(); got != context.Canceled {
 			t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
 		}
+		if got := context.Cause(c); got != context.Canceled {
+			t.Errorf("context.Cause(c) = %q, want %q", got, context.Canceled)
+		}
 	case <-time.After(time.Second):
 		t.Errorf("timed out waiting for context to be done after calling stop")
 	}
@@ -806,6 +819,9 @@ func TestNotifyContextCancelParent(t *testing.T) {
 	case <-c.Done():
 		if got := c.Err(); got != context.Canceled {
 			t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
+		}
+		if got := context.Cause(c); got != context.Canceled {
+			t.Errorf("context.Cause(c) = %q, want %q", got, context.Canceled)
 		}
 	case <-time.After(time.Second):
 		t.Errorf("timed out waiting for parent context to be canceled")
@@ -828,6 +844,9 @@ func TestNotifyContextPrematureCancelParent(t *testing.T) {
 	case <-c.Done():
 		if got := c.Err(); got != context.Canceled {
 			t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
+		}
+		if got := context.Cause(c); got != context.Canceled {
+			t.Errorf("context.Cause(c) = %q, want %q", got, context.Canceled)
 		}
 	case <-time.After(time.Second):
 		t.Errorf("timed out waiting for parent context to be canceled")
@@ -856,6 +875,9 @@ func TestNotifyContextSimultaneousStop(t *testing.T) {
 	case <-c.Done():
 		if got := c.Err(); got != context.Canceled {
 			t.Errorf("c.Err() = %q, want %q", got, context.Canceled)
+		}
+		if got := context.Cause(c); got != context.Canceled {
+			t.Errorf("context.Cause(c) = %q, want %q", got, context.Canceled)
 		}
 	case <-time.After(time.Second):
 		t.Errorf("expected context to be canceled")
