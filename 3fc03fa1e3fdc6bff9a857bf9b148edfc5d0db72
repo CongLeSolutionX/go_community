@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be195464_51ac2722",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 63314
+      },
+      "writtenOn": "2023-06-12T12:08:47Z",
+      "side": 1,
+      "message": "Long path support always require *both* system-wide enabling and app opt-in, as documented in https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs\u003dpowershell#enable-long-paths-in-windows-10-version-1607-and-later, so this bit of information is relevant.\n\nIf Go doesn\u0027t force-enabled long path support and doesn\u0027t use the usual app manifest approach for opting in, the GetCurrentDirectory API would never return a number larger than 256.",
+      "parentUuid": "85738a42_29f5bbf4",
+      "revId": "3fc03fa1e3fdc6bff9a857bf9b148edfc5d0db72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8776a08_10249292",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-06-12T07:27:07Z",
       "side": 1,
       "message": "I don\u0027t think `Getwd` is complex enough to deserve a fuzz test. Can it be tested with a simple test?",
+      "revId": "3fc03fa1e3fdc6bff9a857bf9b148edfc5d0db72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a7c05e_ab7bc8ba",
+        "filename": "src/syscall/syscall_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 63314
+      },
+      "writtenOn": "2023-06-12T12:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8776a08_10249292",
       "revId": "3fc03fa1e3fdc6bff9a857bf9b148edfc5d0db72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
