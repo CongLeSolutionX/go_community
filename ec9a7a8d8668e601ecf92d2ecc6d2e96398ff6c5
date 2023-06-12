@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf40e59_57fd6024",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-06-12T20:18:21Z",
+      "side": 1,
+      "message": "\"TODO(#60254)\" would be preferable (there\u0027s no strong convention on this, but this is common and much shorter 😊)",
+      "range": {
+        "startLine": 997,
+        "startChar": 3,
+        "endLine": 997,
+        "endChar": 31
+      },
+      "revId": "ec9a7a8d8668e601ecf92d2ecc6d2e96398ff6c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
