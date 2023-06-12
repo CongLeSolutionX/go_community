@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ecd439e_69efd65f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-06-12T04:57:42Z",
+      "side": 1,
+      "message": "refactors* I think.",
+      "revId": "ca56e3dba4833076daf3bd965262e7490a3973d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76109c9e_2cfcdd66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-06-12T04:57:42Z",
+      "side": 1,
+      "message": "TRY\u003dwazero",
+      "revId": "ca56e3dba4833076daf3bd965262e7490a3973d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e125f3e_1370d113",
+        "filename": "src/net/file_wasip1_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-06-12T04:57:42Z",
+      "side": 1,
+      "message": "```suggestion\n// the public interface by constructing an *os.File from a file descriptor opened\n```",
+      "revId": "ca56e3dba4833076daf3bd965262e7490a3973d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80770f1a_b6a2054b",
+        "filename": "src/net/file_wasip1_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-06-12T04:57:42Z",
+      "side": 1,
+      "message": "```suggestion\n// has an end-to-end test in src/runtime/internal/wasitest, here we are only\n```",
+      "revId": "ca56e3dba4833076daf3bd965262e7490a3973d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
