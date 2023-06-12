@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eddd2058_96e9ef70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-06-12T20:05:48Z",
+      "side": 1,
+      "message": "The fake network facility was needed for tests in net sub-packages; I created an indirection layer with the internal/fakenet package to support enabling the functionality only in tests.\n\nI modified internal/testenv so that it would automatically enable fakenet on the platforms that need it. This required importing the package in test packages that originally did not import it.\n\nI kept the check for `runtime.GOOS \u003d\u003d \"wasip1\"` so that we don\u0027t affect GOOS\u003djs yet with this change, I would like to tackle #60012 separately because disabling fakenet on this target might break programs that were depending on it.",
+      "revId": "f33dbbcbee27088e17a9b8f005185d085163ae95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
