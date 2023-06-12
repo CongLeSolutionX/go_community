@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="allowReplaceRegexp" value="MIT: Copyright &lt;year&gt; The &lt;group&gt; Authors" />
+    <option name="notice" value="MIT: Copyright 2023 The Go Authors" />
+    <option name="myName" value="MIT" />
+  </copyright>
+</component>
