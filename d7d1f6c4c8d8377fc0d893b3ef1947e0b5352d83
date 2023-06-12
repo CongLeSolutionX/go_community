@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f260c63e_9e1d721d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-06-12T20:48:59Z",
+      "side": 1,
+      "message": "The latest changes incorporate feedback from Johan, I updated the commit message to include a description of the reason why we are adding the internal/fakenet package.",
+      "revId": "d7d1f6c4c8d8377fc0d893b3ef1947e0b5352d83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
