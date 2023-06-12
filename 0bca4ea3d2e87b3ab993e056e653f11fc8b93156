@@ -53,6 +53,24 @@
       "message": "Just so I\u0027m clear here,\n\nThis CL needs to go in tip, then backport to 1.20.\nWe don\u0027t need 1.19 because unified IR is off by default.\nThen there is something additional that needs to go in for 1.20? The repro here https://github.com/golang/go/issues/60601#issuecomment-1576473805 would not be affected by this CL, right? But the test is in this CL, so we need to do that additional CL for 1.20 first?",
       "revId": "0bca4ea3d2e87b3ab993e056e653f11fc8b93156",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e5c043_ce3fb209",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-06-12T16:46:07Z",
+      "side": 1,
+      "message": "Yes, when backporting to go1.20, we need to add this patch: https://go-review.googlesource.com/c/go/+/501735/comments/0b7d8130_d0f21d4e\n\nOn tip, it\u0027s the effect of removing typecheck.EvalConst entirely. The above patch just do the minimal: do not eval const for literal shifts (e.g: `1 \u003c\u003c unsafe.Sizeof(...)`) or binary operators where {over,under}flows can happen. That the easiest (and maybe safest) patch that I think we can backport to go1.20",
+      "parentUuid": "cf24ed67_6e80fa4b",
+      "revId": "0bca4ea3d2e87b3ab993e056e653f11fc8b93156",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
