@@ -71,6 +71,24 @@
       "parentUuid": "22fff921_d360c9d7",
       "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf5ba4e3_e7354834",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-06-13T15:24:43Z",
+      "side": 1,
+      "message": "You could try extending these tests:\n\nhttps://go.googlesource.com/debug/+/1313148ef665cc9adabb651710efe75b8d14009d/dwtest/dwloc_test.go\n\nThere is already some harness/infrastructure set up there for variable location testing.",
+      "parentUuid": "c808ac13_f6f3ff4b",
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
