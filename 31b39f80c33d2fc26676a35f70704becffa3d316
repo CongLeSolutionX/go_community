@@ -53,6 +53,24 @@
       "message": "Do you think you could devise a test case?  I know there is a bug, not sure how easy it would be to put a test together.",
       "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c808ac13_f6f3ff4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-06-13T15:14:47Z",
+      "side": 1,
+      "message": "I had looked around a bit and generally didn\u0027t see any tests for location lists. Are there any? Some test scaffolding would definitely help.\nOtherwise, perhaps you have suggestions on how you\u0027d write a test.\nFWIW, I did test this manually by staring at the assembly and by using delve to trap on stack growth.",
+      "parentUuid": "22fff921_d360c9d7",
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
