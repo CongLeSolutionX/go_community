@@ -89,6 +89,24 @@
       "message": "How do we know for sure that laddr !\u003d nil here?",
       "revId": "013da5ea938699cff8d628ddc00fdd9805c3e430",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de291f1f_a1b8d660",
+        "filename": "src/net/net_fake.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-06-13T20:58:52Z",
+      "side": 1,
+      "message": "It might be nil, but it\u0027s always of type *TCPAddr, so the type assertion never panics. This is verified by the Listen:tcp and ListenTCP:tcp tests in net_fake_test.go, which call `Dial(\"tcp\", ...)` and `DialTCP(\"tcp\", nil, ...)`.",
+      "parentUuid": "dc5b1c39_49db1840",
+      "revId": "013da5ea938699cff8d628ddc00fdd9805c3e430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
