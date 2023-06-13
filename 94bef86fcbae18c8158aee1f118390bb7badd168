@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d000be_38694c3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-13T15:34:06Z",
+      "side": 1,
+      "message": "Minor: we don\u0027t use markdown in CL description. Just pasting as plain text is fine. Thanks.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "94bef86fcbae18c8158aee1f118390bb7badd168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "632a4348_e0d628f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-13T15:34:06Z",
+      "side": 1,
+      "message": "Thanks for the CL.",
+      "revId": "94bef86fcbae18c8158aee1f118390bb7badd168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb5a76a1_5a0e5b4d",
+        "filename": "src/runtime/cgo/libcgo.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-13T15:34:06Z",
+      "side": 1,
+      "message": "While it is correct without the parentheses, I feel it is clearer to have them. Maybe we could suppress the warning somehow.",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 45
+      },
+      "revId": "94bef86fcbae18c8158aee1f118390bb7badd168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
