@@ -59,6 +59,30 @@
       },
       "revId": "5e46e0665343ca62c55d9775d09e9ff55f604ec1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30e9bcc_272f43f3",
+        "filename": "src/net/fd_wasip1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-06-13T20:47:10Z",
+      "side": 1,
+      "message": "It\u0027s still used, for the default switch case. Are you suggesting that we panic instead?",
+      "parentUuid": "b3cef451_86ae6b45",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 56
+      },
+      "revId": "5e46e0665343ca62c55d9775d09e9ff55f604ec1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
