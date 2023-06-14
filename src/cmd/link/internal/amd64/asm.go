@@ -37,7 +37,6 @@ import (
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"debug/elf"
-	"fmt"
 	"log"
 )
 
@@ -253,8 +252,12 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 			return true
 		}
 		if r.Type() == objabi.R_PCREL && ldr.SymType(s) == sym.STEXT && target.IsDarwin() {
-			fmt.Println("XXX adddynrel", ldr.SymName(s), ldr.SymName(targ))
+			// Loading the address of a dynamic symbol. Rewrite to use GOT.
 			// turn LEAQ symbol address to MOVQ of GOT entry
+			if r.Add() != 0 {
+				ldr.Errorf(s, "unexpected nonzero addend for dynamic symbol %s", ldr.SymName(targ))
+				return false
+			}
 			su := ldr.MakeSymbolUpdater(s)
 			if r.Off() >= 2 && su.Data()[r.Off()-2] == 0x8d {
 				su.MakeWritable()
@@ -268,7 +271,8 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 				}
 				return true
 			}
-			log.Fatal("R_PCREL reloc to SDYNIMPORT symbol not preceded by LEAQ instruction")
+			ldr.Errorf(s, "unexpected R_PCREL reloc for dynamic symbol %s: not preceded by LEAQ instruction", ldr.SymName(targ))
+			return false
 		}
 		if target.IsExternal() {
 			// External linker will do this relocation.

@@ -39,7 +39,6 @@ import (
 	"debug/elf"
 	"fmt"
 	"log"
-	"os"
 )
 
 func gentext(ctxt *ld.Link, ldr *loader.Loader) {
@@ -79,7 +78,6 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		targType = ldr.SymType(targ)
 	}
 
-	//	fmt.Printf("adddynrel: top: targ type %v, reloc type %v: sym: %v, targ: %v\n", targType, r.Type(), ldr.SymName(s), ldr.SymName(targ))
 	const pcrel = 1
 	switch r.Type() {
 	default:
@@ -285,8 +283,6 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	relocs := ldr.Relocs(s)
 	r = relocs.At(rIdx)
 
-	//	fmt.Println("adddynrel: mid ", r.Type(), targType, ldr.SymName(s), ldr.SymName(targ))
-
 	switch r.Type() {
 	case objabi.R_CALL,
 		objabi.R_PCREL,
@@ -312,7 +308,12 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 
 	case objabi.R_ADDRARM64:
 		if targType == sym.SDYNIMPORT && ldr.SymType(s) == sym.STEXT && target.IsDarwin() {
+			// Loading the address of a dynamic symbol. Rewrite to use GOT.
 			// turn MOVD $sym (adrp+add) into MOVD sym@GOT (adrp+ldr)
+			if r.Add() != 0 {
+				ldr.Errorf(s, "unexpected nonzero addend for dynamic symbol %s", ldr.SymName(targ))
+				return false
+			}
 			su := ldr.MakeSymbolUpdater(s)
 			data := ldr.Data(s)
 			off := r.Off()
@@ -862,8 +863,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		objabi.R_ARM64_PCREL_LDST64:
 		t := ldr.SymAddr(rs) + r.Add() - ((ldr.SymValue(s) + int64(r.Off())) &^ 0xfff)
 		if t >= 1<<32 || t < -1<<32 {
-			fmt.Fprintf(os.Stderr, "mach: %lx + %lx .. %lx\n", ldr.SymAddr(rs), r.Add(), ldr.SymValue(s))
-			ldr.Errorf(s, "1 program too large, address relocation distance = %d", t)
+			ldr.Errorf(s, "program too large, address relocation distance = %d", t)
 		}
 
 		var o0, o1 uint32
@@ -977,7 +977,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 			// patch instruction: adrp
 			t := ldr.SymAddr(rs) + r.Add() - ((ldr.SymValue(s) + int64(r.Off())) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
-				ldr.Errorf(s, "2 program too large, address relocation distance = %d", t)
+				ldr.Errorf(s, "program too large, address relocation distance = %d", t)
 			}
 			var o0 uint32
 			o0 |= (uint32((t>>12)&3) << 29) | (uint32((t>>12>>2)&0x7ffff) << 5)
@@ -1002,7 +1002,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 			// patch instruction: adrp
 			t := ldr.SymAddr(rs) + r.Add() - ((ldr.SymValue(s) + int64(r.Off())) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
-				ldr.Errorf(s, "3 program too large, address relocation distance = %d", t)
+				ldr.Errorf(s, "program too large, address relocation distance = %d", t)
 			}
 			o0 := (uint32((t>>12)&3) << 29) | (uint32((t>>12>>2)&0x7ffff) << 5)
 			return val | int64(o0), noExtReloc, isOk
