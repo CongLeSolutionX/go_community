@@ -997,6 +997,8 @@ const (
 	// Breakpoint
 	ABRRK
 
+	AKDSA
+
 	// end marker
 	ALAST
 
