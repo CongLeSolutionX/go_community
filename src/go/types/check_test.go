@@ -38,6 +38,7 @@ import (
 	"go/parser"
 	"go/scanner"
 	"go/token"
+	"internal/buildcfg"
 	"internal/testenv"
 	"internal/types/errors"
 	"os"
@@ -383,6 +384,12 @@ func TestIssue47243_TypedRHS(t *testing.T) {
 }
 
 func TestCheck(t *testing.T) {
+	old := buildcfg.Experiment.Range
+	defer func() {
+		buildcfg.Experiment.Range = old
+	}()
+	buildcfg.Experiment.Range = true
+
 	DefPredeclaredTestFuncs()
 	testDirFiles(t, "../../internal/types/testdata/check", false)
 }
