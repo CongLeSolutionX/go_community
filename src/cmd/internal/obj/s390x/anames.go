@@ -207,6 +207,7 @@ var Anames = []string{
 	"STCKE",
 	"STCKF",
 	"CLEAR",
+	"KDSA",
 	"VA",
 	"VAB",
 	"VAH",
