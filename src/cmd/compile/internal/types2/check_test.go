@@ -34,6 +34,7 @@ import (
 	"cmd/compile/internal/syntax"
 	"flag"
 	"fmt"
+	"internal/buildcfg"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -355,6 +356,12 @@ func TestIssue47243_TypedRHS(t *testing.T) {
 }
 
 func TestCheck(t *testing.T) {
+	old := buildcfg.Experiment.Range
+	defer func() {
+		buildcfg.Experiment.Range = old
+	}()
+	buildcfg.Experiment.Range = true
+
 	DefPredeclaredTestFuncs()
 	testDirFiles(t, "../../../../internal/types/testdata/check", 50, false) // TODO(gri) narrow column tolerance
 }
