@@ -438,6 +438,9 @@ var optab = []Optab{
 
 	// VRR-f
 	{i: 122, as: AVLVGP, a1: C_REG, a2: C_REG, a6: C_VREG},
+
+	// KDSA
+	{i: 124, as: AKDSA, a1: C_REG, a6: C_REG},
 }
 
 var oprange [ALAST & obj.AMask][]Optab
@@ -2629,6 +2632,10 @@ const (
 	op_VUPLL  uint32 = 0xE7D4 // 	VRR-a	VECTOR UNPACK LOGICAL LOW
 	op_VUPL   uint32 = 0xE7D6 // 	VRR-a	VECTOR UNPACK LOW
 	op_VMSL   uint32 = 0xE7B8 // 	VRR-d	VECTOR MULTIPLY SUM LOGICAL
+
+	// added in z15
+	op_KDSA uint32 = 0xB93A // FORMAT_RRE        COMPUTE DIGITAL SIGNATURE AUTHENTICATION (KDSA)
+
 )
 
 func oclass(a *obj.Addr) int {
@@ -4366,6 +4373,13 @@ func (c *ctxtz) asmout(p *obj.Prog, asm *[]byte) {
 		op, _, _ := vop(p.As)
 		m4 := c.regoff(&p.From)
 		zVRRc(op, uint32(p.To.Reg), uint32(p.Reg), uint32(p.GetFrom3().Reg), 0, 0, uint32(m4), asm)
+
+	case 124: // KDSA sign and verify
+		if p.To.Reg&1 != 0 || p.To.Reg == REG_R0 {
+			c.ctxt.Diag("must be an even-numbered register but should not be R0 register")
+		}
+		zRRE(op_KDSA, uint32(p.From.Reg), uint32(p.To.Reg), asm)
+
 	}
 }
 
