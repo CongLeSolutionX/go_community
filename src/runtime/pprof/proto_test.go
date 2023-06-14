@@ -134,6 +134,21 @@ func testPCs(t *testing.T) (addr1, addr2 uint64, map1, map2 *profile.Mapping) {
 	case "js", "wasip1":
 		addr1 = uint64(abi.FuncPCABIInternal(f1))
 		addr2 = uint64(abi.FuncPCABIInternal(f2))
+	case "darwin":
+		addr1 = uint64(abi.FuncPCABIInternal(f1))
+		addr2 = uint64(abi.FuncPCABIInternal(f2))
+		fake := &profile.Mapping{ID: 1, HasFunctions: true}
+		map1, map2 = fake, fake
+		first := true
+		machVMInfo(func(lo, hi, offset uint64, file, buildID string) {
+			if first {
+				map1 = &profile.Mapping{ID: 1, Start: lo, Limit: hi, File: file, BuildID: buildID, HasFunctions: true}
+				map2 = map1
+			}
+			// May see multiple text segments if rosetta is used for running
+			// the go toolchain itself.
+			first = false
+		})
 	default:
 		addr1 = uint64(abi.FuncPCABIInternal(f1))
 		addr2 = uint64(abi.FuncPCABIInternal(f2))
