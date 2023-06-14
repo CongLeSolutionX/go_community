@@ -817,9 +817,9 @@ func rangeloops1() {
 		rc <-chan int
 	)
 
-	for range x /* ERROR "cannot range over" */ {}
-	for _ = range x /* ERROR "cannot range over" */ {}
-	for i := range x /* ERROR "cannot range over" */ {}
+	for range x {}
+	for _ = range x {}
+	for i := range x { _ = i }
 
 	for range a {}
 	for i := range a {
@@ -953,10 +953,10 @@ func issue10148() {
 	for y /* ERROR "declared and not used" */ := range "" {
 		_ = "" /* ERROR "mismatched types untyped string and untyped int" */ + 1
 	}
-	for range 1 /* ERROR "cannot range over 1" */ {
+	for range 1.5 /* ERROR "cannot range over 1.5" */ {
 		_ = "" /* ERROR "mismatched types untyped string and untyped int" */ + 1
 	}
-	for y := range 1 /* ERROR "cannot range over 1" */ {
+	for y := range 1.5 /* ERROR "cannot range over 1.5" */ {
 		_ = "" /* ERROR "mismatched types untyped string and untyped int" */ + 1
 	}
 }
