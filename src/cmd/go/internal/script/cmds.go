@@ -362,7 +362,7 @@ func Env() Cmd {
 			Args:    "[key[=value]...]",
 			Detail: []string{
 				"With no arguments, print the script environment to the log.",
-				"Otherwise, add the listed key=value pairs to the environment or print the listed keys.",
+				"Otherwise, add the listed key=value pairs to the environment or print the listed keys; a value of `stdout` (with back-quotes) will assign the contents of the stdout buffer from the most recent command.",
 			},
 		},
 		func(s *State, args ...string) (WaitFunc, error) {
@@ -379,7 +379,13 @@ func Env() Cmd {
 						fmt.Fprintf(out, "%s=%s\n", env, s.envMap[env])
 						continue
 					}
-					if err := s.Setenv(env[:i], env[i+1:]); err != nil {
+					// special case for "env FOO=`stdout`" --
+					val := env[i+1:]
+					if env[i+1:] == "`stdout`" {
+						stdout := strings.TrimSpace(s.Stdout())
+						val = strings.ReplaceAll(stdout, "\n", " ")
+					}
+					if err := s.Setenv(env[:i], val); err != nil {
 						return nil, err
 					}
 				}

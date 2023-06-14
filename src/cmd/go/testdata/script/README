@@ -257,7 +257,9 @@ env [key[=value]...]
 
 	With no arguments, print the script environment to the log.
 	Otherwise, add the listed key=value pairs to the environment
-	or print the listed keys.
+	or print the listed keys; a value of `stdout` (with
+	back-quotes) will assign the contents of the stdout buffer
+	from the most recent command.
 
 exec program [args...] [&]
 	run an executable program with arguments
