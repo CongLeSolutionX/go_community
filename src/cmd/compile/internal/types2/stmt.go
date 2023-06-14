@@ -969,7 +969,7 @@ func (check *Checker) rangeStmt(inner stmtContext, s *syntax.ForStmt, rclause *s
 
 // RangeKeyVal returns the key and value types for a range over typ.
 func RangeKeyVal(typ Type) (Type, Type) {
-	key, val, _, _ := rangeKeyVal(typ)
+	key, val, _, _, _ := rangeKeyVal(typ)
 	return key, val
 }
 
