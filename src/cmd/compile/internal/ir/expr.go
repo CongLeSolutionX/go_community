@@ -147,12 +147,13 @@ func (n *BinaryExpr) SetOp(op Op) {
 type CallExpr struct {
 	miniExpr
 	origNode
-	X         Node
-	Args      Nodes
-	RType     Node    `mknode:"-"` // see reflectdata/helpers.go
-	KeepAlive []*Name // vars to be kept alive until call returns
-	IsDDD     bool
-	NoInline  bool
+	X          Node
+	Args       Nodes
+	DeferAt Node
+	RType      Node    `mknode:"-"` // see reflectdata/helpers.go
+	KeepAlive  []*Name // vars to be kept alive until call returns
+	IsDDD      bool
+	NoInline   bool
 }
 
 func NewCallExpr(pos src.XPos, op Op, fun Node, args []Node) *CallExpr {

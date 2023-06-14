@@ -215,7 +215,7 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 //	defer func() { f(x1, y1) }()
 func (e *escape) goDeferStmt(n *ir.GoDeferStmt) {
 	k := e.heapHole()
-	if n.Op() == ir.ODEFER && e.loopDepth == 1 {
+	if n.Op() == ir.ODEFER && e.loopDepth == 1 && n.DeferAt == nil {
 		// Top-level defer arguments don't escape to the heap,
 		// but they do need to last until they're invoked.
 		k = e.later(e.discardHole())
