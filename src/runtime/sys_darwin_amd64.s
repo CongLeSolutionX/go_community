@@ -795,4 +795,12 @@ TEXT runtime·syscall_x509(SB),NOSPLIT,$16
 
 TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
 	CALL	libc_issetugid(SB)
+
+TEXT runtime·mach_task_self(SB),NOSPLIT,$0
+    MOVD $libc_mach_task_self_(SB), DI
+    MOVD 0(DI), DI 
+    MOVD DI, ret+8(SP)
+    RET
+
+TEXT runtime·mach_vm_region_trampoline(SB),NOSPLIT,$0
 	RET

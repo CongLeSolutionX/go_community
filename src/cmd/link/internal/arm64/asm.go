@@ -39,6 +39,7 @@ import (
 	"debug/elf"
 	"fmt"
 	"log"
+	"os"
 )
 
 func gentext(ctxt *ld.Link, ldr *loader.Loader) {
@@ -78,6 +79,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		targType = ldr.SymType(targ)
 	}
 
+	//	fmt.Printf("adddynrel: top: targ type %v, reloc type %v: sym: %v, targ: %v\n", targType, r.Type(), ldr.SymName(s), ldr.SymName(targ))
 	const pcrel = 1
 	switch r.Type() {
 	default:
@@ -283,6 +285,8 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	relocs := ldr.Relocs(s)
 	r = relocs.At(rIdx)
 
+	//	fmt.Println("adddynrel: mid ", r.Type(), targType, ldr.SymName(s), ldr.SymName(targ))
+
 	switch r.Type() {
 	case objabi.R_CALL,
 		objabi.R_PCREL,
@@ -305,6 +309,35 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 		su.SetRelocSym(rIdx, syms.PLT)
 		su.SetRelocAdd(rIdx, int64(ldr.SymPlt(targ)))
 		return true
+
+	case objabi.R_ADDRARM64:
+		if targType == sym.SDYNIMPORT && ldr.SymType(s) == sym.STEXT && target.IsDarwin() {
+			// turn MOVD $sym (adrp+add) into MOVD sym@GOT (adrp+ldr)
+			su := ldr.MakeSymbolUpdater(s)
+			data := ldr.Data(s)
+			off := r.Off()
+			if int(off+8) > len(data) {
+				ldr.Errorf(s, "unexpected R_ADDRARM64 reloc for dynamic symbol %s", ldr.SymName(targ))
+				return false
+			}
+			o := target.Arch.ByteOrder.Uint32(data[off+4:])
+			if o>>24 == 0x91 { // add
+				// rewrite to ldr
+				o = (0xf9 << 24) | 1<<22 | (o & (1<<22 - 1))
+				su.MakeWritable()
+				su.SetUint32(target.Arch, int64(off+4), o)
+				if target.IsInternal() {
+					ld.AddGotSym(target, ldr, syms, targ, 0)
+					su.SetRelocSym(rIdx, syms.GOT)
+					su.SetRelocAdd(rIdx, int64(ldr.SymGot(targ)))
+					su.SetRelocType(rIdx, objabi.R_ARM64_PCREL_LDST64)
+				} else {
+					su.SetRelocType(rIdx, objabi.R_ARM64_GOTPCREL)
+				}
+				return true
+			}
+			ldr.Errorf(s, "unexpected R_ADDRARM64 reloc for dynamic symbol %s", ldr.SymName(targ))
+		}
 
 	case objabi.R_ADDR:
 		if ldr.SymType(s) == sym.STEXT && target.IsElf() {
@@ -829,7 +862,8 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		objabi.R_ARM64_PCREL_LDST64:
 		t := ldr.SymAddr(rs) + r.Add() - ((ldr.SymValue(s) + int64(r.Off())) &^ 0xfff)
 		if t >= 1<<32 || t < -1<<32 {
-			ldr.Errorf(s, "program too large, address relocation distance = %d", t)
+			fmt.Fprintf(os.Stderr, "mach: %lx + %lx .. %lx\n", ldr.SymAddr(rs), r.Add(), ldr.SymValue(s))
+			ldr.Errorf(s, "1 program too large, address relocation distance = %d", t)
 		}
 
 		var o0, o1 uint32
@@ -943,7 +977,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 			// patch instruction: adrp
 			t := ldr.SymAddr(rs) + r.Add() - ((ldr.SymValue(s) + int64(r.Off())) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
-				ldr.Errorf(s, "program too large, address relocation distance = %d", t)
+				ldr.Errorf(s, "2 program too large, address relocation distance = %d", t)
 			}
 			var o0 uint32
 			o0 |= (uint32((t>>12)&3) << 29) | (uint32((t>>12>>2)&0x7ffff) << 5)
@@ -968,7 +1002,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 			// patch instruction: adrp
 			t := ldr.SymAddr(rs) + r.Add() - ((ldr.SymValue(s) + int64(r.Off())) &^ 0xfff)
 			if t >= 1<<32 || t < -1<<32 {
-				ldr.Errorf(s, "program too large, address relocation distance = %d", t)
+				ldr.Errorf(s, "3 program too large, address relocation distance = %d", t)
 			}
 			o0 := (uint32((t>>12)&3) << 29) | (uint32((t>>12>>2)&0x7ffff) << 5)
 			return val | int64(o0), noExtReloc, isOk
