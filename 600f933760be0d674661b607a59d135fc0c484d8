@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cff31d9_566fc402",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-06-14T09:23:34Z",
+      "side": 1,
+      "message": "Here is a command to list them (with this patch applied):\n\n( cd src/database/sql; echo \u0027\u003d\u003d\u003d\u003d database/sql \u003d\u003d\u003d\u003d\u0027; go doc -all . | grep \u0027\\[[^]]\u0027; cd driver; echo \u0027\u003d\u003d\u003d\u003d database/sql/driver \u003d\u003d\u003d\u003d\u0027; go doc -all . | grep \u0027\\[[^]]\u0027)\n\nI could remove the unresolved links, but I think that the most interesting parts of the database/sql API is documented in interfaces.",
+      "parentUuid": "fe8415af_2b608860",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95a4cd31_5366956a",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 2
