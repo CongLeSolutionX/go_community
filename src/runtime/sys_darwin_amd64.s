@@ -798,7 +798,7 @@ TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
 
 TEXT runtime·mach_task_self(SB),NOSPLIT,$0
     MOVD $libc_mach_task_self_(SB), DI
-    MOVD 0(DI), DI 
+    MOVD 0(DI), DI
     MOVD DI, ret+8(SP)
     RET
 
