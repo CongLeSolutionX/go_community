@@ -69,6 +69,24 @@
       "parentUuid": "7e12c28a_52ea3473",
       "revId": "257ac520e84ed32d9ac0f432c825caec65ae9f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d8d179_8d54173b",
+        "filename": "src/os/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-14T22:14:12Z",
+      "side": 1,
+      "message": "Do you not like the text that I suggested?",
+      "parentUuid": "a72c73d3_3b6e4392",
+      "revId": "257ac520e84ed32d9ac0f432c825caec65ae9f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
