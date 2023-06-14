@@ -768,12 +768,14 @@ TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
 	BL	libc_issetugid(SB)
 	RET
 
+// mach_task_self returns the value of mach_task_self_ symbol from libc.
 TEXT runtime·mach_task_self(SB),NOSPLIT,$0
     MOVD $libc_mach_task_self_(SB), R0
-    MOVD 0(R0), R0
-    MOVD R0, ret+8(SP)
+    MOVW 0(R0), R0
+    MOVW R0, ret+0(FP)
     RET
 
+// mach_vm_region_trampoline calls mach_vm_region from libc.
 TEXT runtime·mach_vm_region_trampoline(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, (RSP)
@@ -787,8 +789,8 @@ TEXT runtime·mach_vm_region_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0  	// target_task
 
 	BL	libc_mach_vm_region(SB)
+	MOVW R0, ret+0(FP)
 
 	MOVD	(RSP), R2	// pop structure pointer
 	ADD	$16, RSP
 	RET
-
