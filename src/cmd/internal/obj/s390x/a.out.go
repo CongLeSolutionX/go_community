@@ -480,6 +480,8 @@ const (
 	// macros
 	ACLEAR
 
+	AKDSA
+
 	// vector
 	AVA
 	AVAB
