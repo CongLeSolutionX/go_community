@@ -91,6 +91,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acffa13a_03cb4227",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-06-14T01:13:15Z",
+      "side": 1,
+      "message": "Thanks for fixing the typo!",
+      "revId": "013da5ea938699cff8d628ddc00fdd9805c3e430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc5b1c39_49db1840",
@@ -157,6 +174,30 @@
       "writtenOn": "2023-06-14T00:50:39Z",
       "side": 1,
       "message": "(minor) Typo in error text.\n\n```suggestion\n\t\t\tt.Errorf(\"Addr is not *UnixAddr: %T\", addr)\n```",
+      "range": {
+        "startLine": 196,
+        "startChar": 25,
+        "endLine": 196,
+        "endChar": 33
+      },
+      "revId": "013da5ea938699cff8d628ddc00fdd9805c3e430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "326bdca5_ef3bc0a9",
+        "filename": "src/net/net_fake_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-06-14T01:13:15Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "18e7b007_c8184405",
       "range": {
         "startLine": 196,
         "startChar": 25,
