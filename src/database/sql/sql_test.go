@@ -1803,6 +1803,18 @@ func TestNullStringParam(t *testing.T) {
 	nullTestRun(t, spec)
 }
 
+func TestGenericNullStringParam(t *testing.T) {
+	spec := nullTestSpec{"nullstring", "string", [6]nullTestRow{
+		{Null[string]{"aqua", true}, "", Null[string]{"aqua", true}},
+		{Null[string]{"brown", false}, "", Null[string]{"", false}},
+		{"chartreuse", "", Null[string]{"chartreuse", true}},
+		{Null[string]{"darkred", true}, "", Null[string]{"darkred", true}},
+		{Null[string]{"eel", false}, "", Null[string]{"", false}},
+		{"foo", Null[string]{"black", false}, nil},
+	}}
+	nullTestRun(t, spec)
+}
+
 func TestNullInt64Param(t *testing.T) {
 	spec := nullTestSpec{"nullint64", "int64", [6]nullTestRow{
 		{NullInt64{31, true}, 1, NullInt64{31, true}},
