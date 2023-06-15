@@ -16,12 +16,17 @@ import (
 
 func TestVMInfo(t *testing.T) {
 	var begin, end, offset uint64
+	first := true
 	machVMInfo(func(lo, hi, off uint64, file, buildID string) {
-		begin = lo
-		end = hi
-		offset = off
+		if first {
+			begin = lo
+			end = hi
+			offset = off
+		}
+		// May see multiple text segments if rosetta is used for running
+		// the go toolchain itself.
+		first = false
 	})
-
 	lo, hi := useVMMap(t)
 	if got, want := begin, lo; got != want {
 		t.Errorf("got %x, want %x", got, want)

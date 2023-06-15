@@ -16,6 +16,8 @@ func isWritable(protection int32) bool {
 	return (protection & _VM_PROT_WRITE) != 0
 }
 
+// machVMInfo uses the mach_vm_region region system call to add mapping entries
+// for the text region of the running process.
 func machVMInfo(addMapping func(lo, hi, offset uint64, file, buildID string)) bool {
 	var addr uint64 = 0x1
 	var page_size uint64 = 0x0

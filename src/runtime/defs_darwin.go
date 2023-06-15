@@ -174,4 +174,3 @@ type MachVMSize C.mach_vm_size_t
 type MachVMRegionFlavour C.vm_region_flavor_t
 type MachVMRegionInfo C.vm_region_info_t
 type MachMsgTypeNumber C.mach_msg_type_number_t
-type MachVMRegionBasicInfoData C.vm_region_basic_info_data_t
