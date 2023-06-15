@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of June 14, 2023",
+	"Subtitle": "Version of June 15, 2023",
 	"Path": "/ref/spec"
 }-->
 
@@ -4403,10 +4403,101 @@ r := apply(bytes, func(byte) byte { … })  // both type arguments inferred from
 For a generic type, all type arguments must always be provided explicitly.
 </p>
 
+<h3>Type inference (Go 1.21)</h3>
+
+<p>
+<em>NOTE: This chapter is work in progress.
+When complete, it will replace the existing chapter on type inference, below.</em>
+</p>
+
+<p>
+Uses of generic functions may omit some or all type arguments if they can be deduced,
+or <i>inferred</i>, from the context within which these functions appear.
+To that effect, <i>type inference</i> attempts to solve a set of type equations for
+the type parameters via <code>unification</code> (see below).
+One, or possibly multiple generic functions may contribute type parameters and
+corresponding type equations.
+Type inference infers the type arguments for the type parameters of all these
+functions simultaneously.
+</p>
+
+<p>
+Type inference succeeds if it can infer the type arguments for all type parameters
+in question.
+In this case, and no different from when type arguments are provided explicitly,
+it is still necessary to substitute the type arguments for their corresponding
+type parameters and to verify that each type argument
+<a href="#Implementing_an_interface">implements</a> its corresponding constraint.
+It is possible for an inferred type argument to fail to implement a constraint,
+in which case instantiation fails.
+Type inference fails if it cannot infer all type arguments needed, for instance
+because there is not enough context information available (not enough equations),
+or because of type equations that cannot be satisfied.
+In this case an error is reported and the program is invalid.
+</p>
+
+<p>
+A type equation arises for every pair of types that are expected to match, for
+instance because a value of one type must be assignable to a variable of the other
+type, because element types of two matching composite types must be identical, or
+because a type constraint equates a type parameter with its constraint in some way.
+For instance, given
+</p>
+
+<pre>
+func g[S ~[]E, E any](s S) { … }
+type Slice []int
+var s Slice
+g(s)   // same as g[Slice](s)
+</pre>
+
+<p>
+the type <code>Slice</code> of <code>s</code> must be assignable to the function
+parameter type <code>S</code> for the program to be valid.
+This can be expressed via the type equation <code>Slice ≅ S</code>,
+where <code>≅</code> stands for "is assignable to".
+Similarly, inferring from the constraint for type parameter <code>S</code>,
+the underlying type of <code>S</code> must be identical to <code>[]E</code>.
+This can be expressed as <code>under(S) ≡ []E</code> where <code>≡</code> stands
+for "is identical to".
+This leads to a set of two equations
+</p>
+
+<pre>
+	Slice ≅ S        (1)
+	under(S) ≡ []E   (2)
+</pre>
+
+<p>
+which now can be solved for the type parameters <code>S</code> and <code>E</code>.
+From (1) one can infer that <code>S</code> is <code>Slice</code> (or possibly
+<code>[]int</code> because <code>Slice</code> can be assigned to <code>[]int</code>);
+and (2) requires that <code>under(S)</code>, which is <code>[]int</code>, must be
+identical to <code>[]E</code>; hence <code>E</code> must be <code>int</code>.
+Thus, for these two equations, type inference infers
+</p>
+
+<pre>
+	S ➞ Slice
+	E ➞ int
+</pre>
+
+<p>
+More generally, using a generic function with an omitted or partial type parameter
+list gives rise to a set of type equations as follows:
+</p>
+
+<ul>
+<li>
+...
+</li>
+</ul>
+
+
 <h3 id="Type_inference">Type inference</h3>
 
 <p>
-<em>NOTE: This section is not yet up-to-date for Go 1.21.</em>
+<em>NOTE: This section is not up-to-date for Go 1.21.</em>
 </p>
 
 <p>
