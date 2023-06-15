@@ -368,17 +368,13 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 						o = 0
 					}
 				} else if target.IsDarwin() {
-					if ldr.SymType(rs) != sym.SHOSTOBJ && ldr.SymType(s) != sym.SINITARR {
-						// ld-prime drops the offset in data for SINITARR. We need to use
-						// symbol-targeted relocation. See also machoreloc1.
-						o += ldr.SymValue(rs)
-					}
+					// nothing to do
 				} else if target.IsWindows() {
 					// nothing to do
 				} else if target.IsAIX() {
 					o = ldr.SymValue(rs) + xadd
 				} else {
-					st.err.Errorf(s, "unhandled pcrel relocation to %s on %v", ldr.SymName(rs), target.HeadType)
+					st.err.Errorf(s, "unhandled R_ADDR relocation to %s on %v", ldr.SymName(rs), target.HeadType)
 				}
 
 				break
