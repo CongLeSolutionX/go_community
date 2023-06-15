@@ -87,6 +87,24 @@
       "parentUuid": "a72c73d3_3b6e4392",
       "revId": "257ac520e84ed32d9ac0f432c825caec65ae9f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fac8b404_9bd60053",
+        "filename": "src/os/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 62848
+      },
+      "writtenOn": "2023-06-15T05:55:08Z",
+      "side": 1,
+      "message": "My main issue is that p.Signal(0) doesn\u0027t work. The correct line would be p.Signal(syscall.Signal(0)). Adding to that, the proposed line does not inform the user that no signal is actually sent (seeing how quit-happy most signals are, that was at least something I was worried about initially).",
+      "parentUuid": "21d8d179_8d54173b",
+      "revId": "257ac520e84ed32d9ac0f432c825caec65ae9f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
