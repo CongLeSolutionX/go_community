@@ -7,7 +7,13 @@
 package main_test
 
 import (
+	"bufio"
+	"context"
+	"internal/testenv"
+	"io"
 	"os"
+	"os/exec"
+	"strings"
 	"syscall"
 	"testing"
 )
@@ -32,4 +38,74 @@ func TestGoBuildUmask(t *testing.T) {
 	if mode := fi.Mode(); mode&0077 != 0 {
 		t.Fatalf("wrote x with mode=%v, wanted no 0077 bits", mode)
 	}
+}
+
+// TestTestInterrupt verifies the fix for issue #60203.
+//
+// If the whole process group for a 'go test' invocation receives
+// SIGINT (as would be sent by pressing ^C on a console),
+// it should return quickly, not deadlock.
+func TestTestInterrupt(t *testing.T) {
+	if testing.Short() {
+		t.Skipf("skipping in short mode: test executes many subprocesses")
+	}
+	// Don't run this test in parallel, for the same reason.
+
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.setenv("GOROOT", testGOROOT)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cmd := testenv.CommandContext(t, ctx, tg.goTool(), "test", "std", "-short", "-count=1")
+	cmd.Dir = tg.execDir
+	cmd.Env = tg.env
+
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Setpgid: true,
+	}
+	cmd.Cancel = func() error {
+		pgid := cmd.Process.Pid
+		return syscall.Kill(-pgid, syscall.SIGINT)
+	}
+
+	pipe, err := cmd.StdoutPipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Logf("running %v", cmd)
+	if err := cmd.Start(); err != nil {
+		t.Fatal(err)
+	}
+
+	stdout := new(strings.Builder)
+	r := bufio.NewReader(pipe)
+	line, err := r.ReadString('\n')
+	if err != nil {
+		t.Fatal(err)
+	}
+	stdout.WriteString(line)
+
+	// The output line for some test was written, so we know things are in progress.
+	//
+	// Cancel the rest of the run by sending SIGINT to the process group:
+	// it should finish up and exit with a nonzero status,
+	// not have to be killed with SIGKILL.
+	cancel()
+
+	io.Copy(stdout, r)
+	if stdout.Len() > 0 {
+		t.Logf("stdout:\n%s", stdout)
+	}
+	err = cmd.Wait()
+
+	ee, _ := err.(*exec.ExitError)
+	if ee != nil && len(ee.Stderr) > 0 {
+		t.Logf("stderr:\n%s", ee.Stderr)
+	}
+	if ee == nil || !ee.Exited() {
+		t.Fatalf("did not exit when interrupted: %v", err)
+	}
+
+	t.Logf("successfully interrupted")
 }
