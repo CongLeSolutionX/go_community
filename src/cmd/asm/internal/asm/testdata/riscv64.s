@@ -211,6 +211,14 @@ start:
 	RDTIME		X5				// f32210c0
 	RDINSTRET	X5				// f32220c0
 
+	// 11.2: Floating-Point Control and Status Register
+	FRFLAGS	X14					// 73271000
+	FRRM	X14					// 73272000
+	FRCSR	X14					// 73273000
+	FSFLAGS	X14					// 73101700
+	FSRM	X14					// 73102700
+	FSCSR	X14					// 73103700
+
 	// 11.5: Single-Precision Load and Store Instructions
 	FLW	(X5), F0				// 07a00200
 	FLW	4(X5), F0				// 07a04200
