@@ -556,7 +556,13 @@ func (ctxt *Link) domacho() {
 	// also address this.)
 	//
 	// See issue #18190.
-	if ctxt.BuildMode == BuildModePlugin {
+	//
+	// XXX Hack: always don't export them. ld-prime with -flat_namespace
+	// resolves relocations weirdly if they are exported.
+	// For cgo, we don't need them to be exported anyway (unless with shared
+	// build mode, which we don't support on darwin).
+	// What about SWIG?
+	if ctxt.BuildMode == BuildModePlugin || true {
 		for _, name := range []string{"_cgo_topofstack", "__cgo_topofstack", "_cgo_panic", "crosscall2"} {
 			// Most of these are data symbols or C
 			// symbols, so they have symbol version 0.
