@@ -1,0 +1,74 @@
+[short] skip 'builds and runs a Go program and starts building many tests'
+[!unix] skip 'requires Setpgid and interprocess signals'
+
+go run .
+
+-- go.mod --
+module example
+-- main.go --
+package main
+
+import (
+	"bufio"
+	"context"
+	"io"
+	"log"
+	"os"
+	"os/exec"
+	"strings"
+	"syscall"
+)
+
+func main() {
+	goCmd, err := exec.LookPath("go")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+
+	cmd := exec.CommandContext(ctx, goCmd, "test", "std")
+
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Setpgid: true,
+	}
+	cmd.Cancel = func() error {
+		pgid := cmd.Process.Pid
+		return syscall.Kill(-pgid, syscall.SIGINT)
+	}
+
+	cmd.Stderr = os.Stderr
+	pipe, err := cmd.StdoutPipe()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+
+	log.Printf("running %v", cmd)
+	if err := cmd.Start(); err != nil {
+		log.Fatal(err)
+	}
+
+	r := bufio.NewReader(pipe)
+	for {
+		s, err := r.ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
+		os.Stdout.WriteString(s)
+
+		if strings.HasPrefix(s, "ok") {
+			// First test completed, so we know things are in progress.
+			cancel()
+			break
+		}
+	}
+
+	io.Copy(os.Stdout, r)
+	err = cmd.Wait()  // Should not hang.
+	if ee, ok := err.(*exec.ExitError); !ok || !ee.Exited() {
+		log.Fatalf("did not exit when interrupted: %v", cmd, err)
+	}
+
+	log.Printf("successfully interrupted")
+}

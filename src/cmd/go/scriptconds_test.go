@@ -6,10 +6,12 @@ package main_test
 
 import (
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/imports"
 	"cmd/go/internal/script"
 	"cmd/go/internal/script/scripttest"
 	"errors"
 	"fmt"
+	"go/build/constraint"
 	"internal/buildcfg"
 	"internal/platform"
 	"internal/testenv"
@@ -57,6 +59,7 @@ func scriptConditions() map[string]script.Cond {
 	add("race", sysCondition("-race", platform.RaceDetectorSupported, true))
 	add("symlink", lazyBool("testenv.HasSymlink()", testenv.HasSymlink))
 	add("trimpath", script.OnceCondition("test binary was built with -trimpath", isTrimpath))
+	add("unix", script.Condition("GOOS is a unix", goosIsUnix))
 
 	return conds
 }
@@ -106,6 +109,12 @@ func hasBuildmode(s *script.State, mode string) (bool, error) {
 	GOOS, _ := s.LookupEnv("GOOS")
 	GOARCH, _ := s.LookupEnv("GOARCH")
 	return platform.BuildModeSupported(runtime.Compiler, mode, GOOS, GOARCH), nil
+}
+
+func goosIsUnix(s *script.State) (bool, error) {
+	GOOS, _ := s.LookupEnv("GOOS")
+	isUnix := imports.Eval(&constraint.TagExpr{Tag: "unix"}, map[string]bool{GOOS: true}, false)
+	return isUnix, nil
 }
 
 var scriptNetEnabled sync.Map // testing.TB → already enabled
