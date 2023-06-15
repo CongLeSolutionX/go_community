@@ -70,6 +70,23 @@
       "message": "Thanks. I verified that this does fix the crash for the linux-arm64 -race -cover test.",
       "revId": "1f0535dc3c1f3ec1b7764aa59d99ba77d1944dc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "086f3d9d_96b931e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-06-15T23:14:12Z",
+      "side": 1,
+      "message": "FYI, this may very well also be the fix for https://github.com/golang/go/issues/59369 .\nI was never able to get any traction on that bug since it is Alpine linux only.",
+      "revId": "1f0535dc3c1f3ec1b7764aa59d99ba77d1944dc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
