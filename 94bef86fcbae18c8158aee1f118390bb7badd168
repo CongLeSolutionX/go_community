@@ -212,6 +212,30 @@
       },
       "revId": "94bef86fcbae18c8158aee1f118390bb7badd168",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2a640cc_bedacef6",
+        "filename": "src/runtime/cgo/libcgo.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-15T00:41:23Z",
+      "side": 1,
+      "message": "If this only happens with C++, which I think is true, then I don\u0027t think it\u0027s worth fixing at all.  The fix is to not compile this code with a C++ compiler.",
+      "parentUuid": "9fa64722_1a71ac2d",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 45
+      },
+      "revId": "94bef86fcbae18c8158aee1f118390bb7badd168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
