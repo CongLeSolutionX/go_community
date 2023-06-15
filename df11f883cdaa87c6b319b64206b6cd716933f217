@@ -66,6 +66,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "106dc903_9628cace",
+        "filename": "src/cmd/go/internal/hidden/hidden_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-15T20:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2146133e_e1d82e62",
+      "revId": "df11f883cdaa87c6b319b64206b6cd716933f217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c28a5e6c_27da9dee",
