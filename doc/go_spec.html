@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of June 14, 2023",
+	"Subtitle": "Version of June 29, 2023",
 	"Path": "/ref/spec"
 }-->
 
@@ -4406,7 +4406,320 @@ For a generic type, all type arguments must always be provided explicitly.
 <h3 id="Type_inference">Type inference</h3>
 
 <p>
-<em>NOTE: This section is not yet up-to-date for Go 1.21.</em>
+A use of a generic function may omit some or all type arguments if they can be deduced,
+or <i>inferred</i> from the context within which the function is used, or the constraints
+of the function's type parameters.
+Type inference succeeds if it can infer the omitted type arguments
+and <a href="#Instantiations">instantiation</a> succeeds.
+Otherwise, type inference fails and the program is invalid.
+</p>
+
+<p>
+When a value (which may be a generic function) is assigned to a variable (which may be
+a parameter of a generic function), the value must be <a href="#Assignability">assignable</a>
+to the variable.
+This establishes a relationship between the type of the value and the type of the variable.
+If either of these two types is or contains type parameters, type inference attempts to deduce
+type arguments for these type parameters such that the assignability requirement is satisfied
+if the type arguments are substituted foe their respective type parameters.
+Similarly, type inference uses the fact that a type argument must
+<a href="#Satisfying_a_type_constraint">satisfy</a> its respective constraint.
+</p>
+
+<p>
+Each such pair of matched types can be represented as a <i>type equation</i> containing
+one or multiple type parameters, from one or possibly multiple generic functions.
+Type inference infers the type arguments for these type parameters by solving
+the equations for the respective type parameters.
+</p>
+
+<p>
+For example, given
+</p>
+
+<pre>
+func g[S ~[]E, E any](S) S { … }
+type Slice []int
+var s Slice
+s = g(s)   // same as s = g[Slice, int](s)
+</pre>
+
+<p>
+the variable <code>s</code> of type <code>Slice</code> must be assignable to ("match")
+the function parameter type <code>S</code> for the program to be valid.
+This can be expressed via the type equation <code>Slice ≡ S</code>,
+where <code>≡</code> stands for "matches per assignability rules".
+Similarly, inferring from the constraint for type parameter <code>S</code>,
+the underlying type of <code>S</code> must be identical to <code>[]E</code>.
+This can be expressed as <code>S ≡ []E</code> because assignability allows a
+(possibly) <a href="#Type_definitions">defined type</a> <code>S</code> to be
+assigned to an underlying type with the same structure.
+This leads to a set of two equations
+</p>
+
+<pre>
+	Slice ≡ S     (1)
+	S     ≡ []E   (2)
+</pre>
+
+<p>
+which now can be solved for the type parameters <code>S</code> and <code>E</code>.
+From (1) a compiler can infer that the type argument for <code>S</code> is <code>Slice</code>.
+Any slice type whose underlying type is <code>[]int</code> would work for <code>S</code> 
+because of assignability rules, but the <code>Slice</code> type is given and thus the obvious choice.
+It is also the necessary choice to ensure that the result of calling <code>g</code> is the same as the
+argument type, as expressed by the signature of <code>g</code>.
+Similarly, because the underlying type of <code>Slice</code> is <code>[]int</code>
+and <code>[]int</code> must be identical to <code>[]E</code>, a compiler can infer
+that <code>E</code> must be <code>int</code>.
+Thus, for these two equations, type inference infers
+</p>
+
+<pre>
+	S ➞ Slice
+	E ➞ int
+</pre>
+
+<p>
+Assignability is directional: a value of a type <code>T<sub>2</sub></code> may be assigned
+to variable of type <code>T<sub>1</sub></code> but not vice versa.
+For simplicity, type equations do not reflect this property; <code>≡</code> is symmetric.
+In other words, the equation <code>T<sub>1</sub> ≡ T<sub>2</sub></code> is treated the same
+as the equation <code>T<sub>2</sub> ≡ T<sub>1</sub></code>.
+As a result, in rare cases type inference may infer a type argument even though no valid
+type argument exists.
+Such programs are invalid either way but a compiler may report an assignment rather
+than a type inference error.
+</p>
+
+<p>
+Generally, using a generic function with an omitted or partial type parameter
+list gives rise to a set of type equations and type parameters, depending on
+context.
+(If all type arguments are provided explicitly, a function can be instantiated
+at which point it is not generic anymore, and type inference is not needed.)
+</p>
+
+<p>
+The type parameters to solve for are the type parameters of
+all the generic functions that need to be instantiated in each case.
+These type parameters are called the <i>bound</i> type parameters.
+There may be type parameters from other, already instantiated functions.
+Those type parameters may still occur in type equations, but the equations
+are not solved for them.
+</p>
+
+<p>
+Type inference supports the following cases (type argument lists are omitted for clarity):
+</p>
+
+<ul>
+<li>
+	<p>
+	A function call <code>f(a<sub>0</sub>, a<sub>1</sub>, …)</code> where
+	<code>f</code> or a function argument <code>a<sub>i</sub></code> is
+	a generic function:
+	<br>
+	Each function argument <code>a<sub>i</sub></code>
+	must be assignable to its corresponding parameter <code>p<sub>i</sub></code>.
+	Each such pair where <code>a<sub>i</sub></code> is not an
+	<a href="#Constants">untyped constant</a> and at least one of
+	<code>a<sub>i</sub></code> or <code>p<sub>i</sub></code>
+	contains a bound type parameter yields an equation
+	<code>typeof(p<sub>i</sub>) ≡ typeof(a<sub>i</sub>)</code>.
+	If <code>a<sub>i</code> is an untyped constant <code>c</code> and <code>p<sub>i</sub></code>
+	is a bound type parameter <code>P<sub>j</sub></code>,
+	the pair <code>(a<sub>i</sub>, P<sub>j</sub>)</code>
+	is collected separately from the type equations.
+	</p>
+</li>
+<li>
+	<p>
+	An assignment <code>v = f</code> of a generic function <code>f</code> to a
+	(non-generic) variable <code>v</code> of function type:
+	<br>
+	The function <code>f</code> must be assignable to <code>v</code>,
+	yielding the equation <code>typeof(v) ≡ typeof(f)</code>.
+	</p>
+</li>
+<li>
+	<p>
+	A return statement <code>return …, f, … </code> where <code>f</code> is a
+	generic function returned as a result to a (non-generic) result variable
+	of function type.
+	<br>
+	The function <code>f</code> must be assignable to its corresponding result parameter
+	<code>r</code>, yielding the equation <code>typeof(r) ≡ typeof(f)</code>.
+	</p>
+</li>
+</ul>
+
+<p>
+Additionally, each type parameter <code>P</code> and corresponding type constraint
+<code>C</code> for which a <a href="#Core_types">core type</a> <code>core(C)</code>
+exists yields the type equation <code>P ≡ core(C)</code>.
+</p>
+
+<p>
+Type inference proceeds in two phases:
+</p>
+
+<ol>
+<li>
+	<p>
+	The type equations are solved for the bound type parameters using
+	<a href="#Unification">Type unification</a>.
+	If an equation cannot be solved due to conflicting types,
+	type inference fails.
+	</p>
+</li>
+<li>
+	<p>
+	For each type parameter <code>P</code> for which no type argument has been
+	inferred yet and for which pairs <code>(c, P)</code> with that type parameter exist,
+	determine the <a href="#Constant_expressions">constant kind</a> of the constants in
+	all those pairs the same way as for <a href="#Constant_expressions">constant expressions</a>.
+	The type argument for <code>P</code> is the <a href="#Constants">default type</a> for the
+	determined constant kind.
+	If a constant kind cannot be determined due to conflicting constants,
+	type inference fails.
+	</p>
+</li>
+</ol>
+
+<p>
+If not all type arguments have been found after these two phases, type inference fails.
+</p>
+
+<p>
+If the two phases are successful, each type parameter is mapped to to a type argument:
+</p>
+
+<pre>
+P<sub>i</sub> ➞ A<sub>i</sub>
+</pre>
+
+<p>
+Each such type argument <code>A<sub>i</sub></code> may be a composite type,
+containing other type parameters <code>P<sub>i</sub></code> as element types
+(or even be just another type parameter).
+In a process of repeated simplification, the type parameters in each type
+argument are substituted with the respective type arguments for those type
+parameters until each type argument is free of type parameters.
+</p>
+
+<p>
+If not all type parameters are mapped to a type argument,
+or if type arguments contain cyclic references to themselves,
+simplification and thus type inference fails.
+Otherwise, type inference succeeds.
+</p>
+
+<h4 id="Type_unification">Type unification</h4>
+
+<p>
+<em>NOTE: This chapter is work in progress.</em>
+</p>
+
+<p>
+Type inference solves type equations through <i>type unification</i>:
+the types on the LHS and RHS of each equation are made to match, if possible,
+by finding suitable type arguments (substitutions) for the bound type parameters.
+Unification succeeds if the type equations become tautologies after substituting
+the inferred type arguments for their respective type parameters.
+</p>
+
+<p>
+Unification comes in two forms: <i>exact</i> and <i>inexact</i>.
+Two types unify exactly if ...
+
+
+When matching types from assignments, unification is inexact because
+assignability does not require type identity.
+For instance, <code>Slice</code> (from the earlier example) unifies
+inexactly with <code>[]int</code> because a value of either type can
+be assigned to variable of the other type even though the types are not
+identical.
+When matching element types, unification must be exact, because element
+types must be identical for the enclosing types to be assignable (or identical).
+In the example above, the element type of <code>Slice</code> is <code>int</code>,
+and it must be identical with the element type of <code>[]int</code>.
+Unification does not consider the direction of an assignment and thus is
+symmetric: swapping the LHS and RHS of a type equation leads to the same
+unification result.
+</p>
+
+<p>
+The precise unification rules are as follows.
+Given the LHS and RHS types of a type equation:
+</p>
+
+<ul>
+<li>
+	If both types are identical, they are unified.
+</li>
+<li>
+	If both types are type parameters,
+	... (TODO: fill in the blanks).
+</li>
+<li>
+	If at least one of the types is not a defined
+	type and also not an interface and unification is inexact,
+	the types unify if their underlying types unify.
+</li>
+</ul>
+
+<p>
+In all other cases, both types must have the same type structure to unify.
+Specifically:
+</p>
+
+<ul>
+<li>
+	Array types unify if they have the same length, and their element types unify exactly.
+</li>
+<li>
+	Slice types unify if their element types unify exactly.
+</li>
+<li>
+	Struct types unify if they have the same sequence of fields,
+	corresponding fields have the same names and identical tags,
+	and the field types unify exactly.
+</li>
+<li>
+	Pointer types unify if their element types unify exactly.
+</li>
+<li>
+	Function types unify if they have the same number of parameters and
+	result values, either both functions are variadic or neither is,
+	and corresponding parameter and result types unify exactly.
+</li>
+<li>
+	TODO: interface types
+</li>
+<li>
+	Map types unify if their key and element types unify exactly.
+</li>
+<li>
+	Channel types unify if their element types unify exactly.
+	If unification is exact, the channel directions must be identical;
+	channel directions are ingnored for inexact unification.
+</li>
+<li>
+	TODO: free type parameters
+</li>
+</ul>
+
+<p>
+In all other cases unification, and thus type inference, fails.
+</p>
+
+<h3>Type inference</h3>
+
+<p>
+<em>NOTE: This chapter is describing type inference before 1.21.
+It will be removed eventually in favor of the previous chapter.
+</em>
 </p>
 
 <p>
