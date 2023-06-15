@@ -1516,6 +1516,14 @@ var encodings = [ALAST & obj.AMask]encoding{
 	ARDTIME & obj.AMask:    iIEncoding,
 	ARDINSTRET & obj.AMask: iIEncoding,
 
+	// 11.2: Floating-Point Control and Status Register
+	AFRCSR & obj.AMask:   iIEncoding,
+	AFRFLAGS & obj.AMask: iIEncoding,
+	AFRRM & obj.AMask:    iIEncoding,
+	AFSCSR & obj.AMask:   iIEncoding,
+	AFSFLAGS & obj.AMask: iIEncoding,
+	AFSRM & obj.AMask:    iIEncoding,
+
 	// 11.5: Single-Precision Load and Store Instructions
 	AFLW & obj.AMask: iFEncoding,
 	AFSW & obj.AMask: sFEncoding,
@@ -2091,6 +2099,12 @@ func instructionsForProg(p *obj.Prog) []*instruction {
 	case AFENCE:
 		ins.rd, ins.rs1, ins.rs2 = REG_ZERO, REG_ZERO, obj.REG_NONE
 		ins.imm = 0x0ff
+
+	case AFRFLAGS, AFRRM, AFRCSR:
+		ins.rd, ins.rs1, ins.rs2 = uint32(p.From.Reg), REG_ZERO, obj.REG_NONE
+
+	case AFSFLAGS, AFSRM, AFSCSR:
+		ins.rd, ins.rs1, ins.rs2 = REG_ZERO, uint32(p.From.Reg), obj.REG_NONE
 
 	case AFCVTWS, AFCVTLS, AFCVTWUS, AFCVTLUS, AFCVTWD, AFCVTLD, AFCVTWUD, AFCVTLUD:
 		// Set the rounding mode in funct3 to round to zero.
