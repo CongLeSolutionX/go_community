@@ -105,6 +105,24 @@
       "parentUuid": "21d8d179_8d54173b",
       "revId": "257ac520e84ed32d9ac0f432c825caec65ae9f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a877db8_f61bf21f",
+        "filename": "src/os/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-15T23:49:38Z",
+      "side": 1,
+      "message": "Oh, yeah, I forgot that p.Signal takes an interface as an argument.  That said, I don\u0027t think it\u0027s necessary to stress that no signal is sent.  That seems like a detail.  So we can write p.Signal(syscall.Signal(0)) as you suggest.\n\nMy concerns about your text is 1) it doesn\u0027t actually explain what to do (the syscall package does not define a \"0-signal\"); 2) it uses unnecessary passive voice (\"can be sent\"); 3) it\u0027s longer than necessary.\n\nThanks.",
+      "parentUuid": "fac8b404_9bd60053",
+      "revId": "257ac520e84ed32d9ac0f432c825caec65ae9f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
