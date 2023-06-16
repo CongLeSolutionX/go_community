@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "409586e0_a55731b4",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-06-16T12:09:26Z",
+      "side": 0,
+      "message": "Taking another look: MOVL is a 4 byte load, not an 8-byte load, correct? Given that we the smallest atomic op width is 4 bytes, perhaps this is still ok?\n\nAgree that we need the change for arm64 from movd to something smaller.",
+      "range": {
+        "startLine": 336,
+        "startChar": 1,
+        "endLine": 336,
+        "endChar": 5
+      },
+      "revId": "30b17f4f97d37f654c5090001c5b44c331b00d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
