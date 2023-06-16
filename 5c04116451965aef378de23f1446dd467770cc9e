@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed0e9d3a_2d88658a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-16T20:44:22Z",
+      "side": 1,
+      "message": "We don\u0027t need this line in the change description.  Please remove it.  Thanks.",
+      "revId": "5c04116451965aef378de23f1446dd467770cc9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68a00ca4_fbc6abb5",
+        "filename": "src/os/exec_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-16T20:44:22Z",
+      "side": 1,
+      "message": "This should be t.Error with a meaningful error message.",
+      "revId": "5c04116451965aef378de23f1446dd467770cc9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
