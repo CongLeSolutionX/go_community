@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ab4f0d_854809d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 62848
+      },
+      "writtenOn": "2023-06-16T21:10:59Z",
+      "side": 1,
+      "message": "Sorry, I only removed it from the commit message. I have now updated the Pull Request as well.",
+      "parentUuid": "ed0e9d3a_2d88658a",
+      "revId": "5c04116451965aef378de23f1446dd467770cc9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68a00ca4_fbc6abb5",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-16T20:44:22Z",
       "side": 1,
       "message": "This should be t.Error with a meaningful error message.",
+      "revId": "5c04116451965aef378de23f1446dd467770cc9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d04818_ebee5e03",
+        "filename": "src/os/exec_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 62848
+      },
+      "writtenOn": "2023-06-16T21:10:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68a00ca4_fbc6abb5",
       "revId": "5c04116451965aef378de23f1446dd467770cc9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
