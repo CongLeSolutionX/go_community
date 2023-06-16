@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae58f575_0a29fbf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-16T18:00:30Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "e1489d0e_defcba23",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "a61496f70f74727df477379d66cef09ea7977aae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "642df0d4_79361ec3",
@@ -96,6 +120,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0ee9b6_2f2d66c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-16T18:00:30Z",
+      "side": 1,
+      "message": "If it\u0027s easy to run scheduling benchmarks that use network connections with this CL, let\u0027s do that.  Otherwise I\u0027m inclined to wait until 1.22.  Thanks.",
+      "parentUuid": "94b80af9_a1b2bb90",
+      "revId": "a61496f70f74727df477379d66cef09ea7977aae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a96cb51f_9f25be1a",
@@ -109,6 +151,30 @@
       "writtenOn": "2023-06-16T14:13:19Z",
       "side": 1,
       "message": "while we\u0027re here, this might be clearer as\n\nnew :\u003d pdNil",
+      "range": {
+        "startLine": 589,
+        "startChar": 2,
+        "endLine": 589,
+        "endChar": 17
+      },
+      "revId": "a61496f70f74727df477379d66cef09ea7977aae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "355f34e7_85160a23",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-16T18:00:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a96cb51f_9f25be1a",
       "range": {
         "startLine": 589,
         "startChar": 2,
