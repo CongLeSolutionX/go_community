@@ -22,6 +22,30 @@
       },
       "revId": "30b17f4f97d37f654c5090001c5b44c331b00d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb0711f2_959cab82",
+        "filename": "src/runtime/race_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-16T14:08:38Z",
+      "side": 0,
+      "message": "It is 4 byte. So it doesn\u0027t currently fail on AMD64. But it doesn\u0027t need to load 4 bytes anyway, and if in the future we have narrower atomics, we won\u0027t run into this problem.",
+      "parentUuid": "409586e0_a55731b4",
+      "range": {
+        "startLine": 336,
+        "startChar": 1,
+        "endLine": 336,
+        "endChar": 5
+      },
+      "revId": "30b17f4f97d37f654c5090001c5b44c331b00d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
