@@ -39,19 +39,13 @@ func ExampleNotifyContext() {
 	case <-time.After(time.Second):
 		fmt.Println("missed signal")
 	case <-ctx.Done():
-		fmt.Println(ctx.Err()) // prints "context canceled"
-		stop()                 // stop receiving signal notifications as soon as possible.
-
 		cause := context.Cause(ctx)
-		fmt.Println(cause) // prints "context canceled by signal interrupt"
-		var cse *signal.CanceledBySignalError
-		if errors.As(cause, &cse) {
-			fmt.Println("Signal:", cse.Signal) // prints "Signal: interrupt"
+		if errors.Is(cause, os.SignalError{Signal: os.Interrupt}) {
+			fmt.Println(cause)
 		}
+		stop() // stop receiving signal notifications as soon as possible.
 	}
 
 	// Output:
-	// context canceled
-	// context canceled by signal interrupt
-	// Signal: interrupt
+	// canceled by interrupt signal
 }
