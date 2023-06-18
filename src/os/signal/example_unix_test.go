@@ -38,10 +38,22 @@ func ExampleNotifyContext() {
 	case <-time.After(time.Second):
 		fmt.Println("missed signal")
 	case <-ctx.Done():
+<<<<<<< PATCH SET (bf891b os/signal: suggestions for NotifyContext cancelation signal )
+		cause := context.Cause(ctx)
+		if errors.Is(cause, os.SignalError{Signal: os.Interrupt}) {
+			fmt.Println(cause)
+		}
+		stop() // stop receiving signal notifications as soon as possible.
+=======
 		fmt.Println(ctx.Err()) // prints "context canceled"
 		stop()                 // stop receiving signal notifications as soon as possible.
+>>>>>>> BASE      (ed8cba cmd/asm: add s390x crypto related instructions)
 	}
 
 	// Output:
+<<<<<<< PATCH SET (bf891b os/signal: suggestions for NotifyContext cancelation signal )
+	// canceled by interrupt signal
+=======
 	// context canceled
+>>>>>>> BASE      (ed8cba cmd/asm: add s390x crypto related instructions)
 }

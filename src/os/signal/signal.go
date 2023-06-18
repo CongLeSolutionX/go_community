@@ -286,8 +286,13 @@ func NotifyContext(parent context.Context, signals ...os.Signal) (ctx context.Co
 	if ctx.Err() == nil {
 		go func() {
 			select {
+<<<<<<< PATCH SET (bf891b os/signal: suggestions for NotifyContext cancelation signal )
+			case sig := <-c.ch:
+				c.cancel(os.SignalError{Signal: sig})
+=======
 			case <-c.ch:
 				c.cancel()
+>>>>>>> BASE      (ed8cba cmd/asm: add s390x crypto related instructions)
 			case <-c.Done():
 			}
 		}()

@@ -710,7 +710,14 @@ func TestNotifyContextNotifications(t *testing.T) {
 		}
 		wg.Wait()
 		<-ctx.Done()
+<<<<<<< PATCH SET (bf891b os/signal: suggestions for NotifyContext cancelation signal )
+		err := context.Cause(ctx)
+		if e := err.(os.SignalError); e.Signal == syscall.SIGINT {
+			fmt.Println(err)
+		}
+=======
 		fmt.Println("received SIGINT")
+>>>>>>> BASE      (ed8cba cmd/asm: add s390x crypto related instructions)
 		// Sleep to give time to simultaneous signals to reach the process.
 		// These signals must be ignored given stop() is not called on this code.
 		// We want to guarantee a SIGINT doesn't cause a premature termination of the program.
@@ -753,7 +760,7 @@ func TestNotifyContextNotifications(t *testing.T) {
 			if err != nil {
 				t.Errorf("ran test with -check_notify_ctx_notification and it failed with %v.\nOutput:\n%s", err, out)
 			}
-			if want := []byte("received SIGINT\n"); !bytes.Contains(out, want) {
+			if want := []byte("canceled by interrupt signal\n"); !bytes.Contains(out, want) {
 				t.Errorf("got %q, wanted %q", out, want)
 			}
 		})
