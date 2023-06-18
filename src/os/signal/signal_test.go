@@ -9,7 +9,6 @@ package signal
 import (
 	"bytes"
 	"context"
-	"errors"
 	"flag"
 	"fmt"
 	"internal/testenv"
@@ -711,15 +710,9 @@ func TestNotifyContextNotifications(t *testing.T) {
 		}
 		wg.Wait()
 		<-ctx.Done()
-		fmt.Println("received SIGINT")
-		cause := context.Cause(ctx)
-		var cse *CanceledBySignalError
-		if errors.As(cause, &cse) {
-			if cse.Signal != syscall.SIGINT {
-				t.Errorf("CanceledBySignalError.Signal got %q, want %q", cse.Signal, syscall.SIGINT)
-			}
-		} else {
-			t.Errorf("context.Cause(ctx) = %q, not of type *CanceledBySignalError", cause)
+		err := context.Cause(ctx)
+		if e := err.(os.SignalError); e.Signal == syscall.SIGINT {
+			fmt.Println(err)
 		}
 		// Sleep to give time to simultaneous signals to reach the process.
 		// These signals must be ignored given stop() is not called on this code.
@@ -763,7 +756,7 @@ func TestNotifyContextNotifications(t *testing.T) {
 			if err != nil {
 				t.Errorf("ran test with -check_notify_ctx_notification and it failed with %v.\nOutput:\n%s", err, out)
 			}
-			if want := []byte("received SIGINT\n"); !bytes.Contains(out, want) {
+			if want := []byte("canceled by interrupt signal\n"); !bytes.Contains(out, want) {
 				t.Errorf("got %q, wanted %q", out, want)
 			}
 		})
