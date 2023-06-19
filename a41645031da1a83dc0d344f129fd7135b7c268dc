@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f21ac3e_dd8dc40f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 63448
+      },
+      "writtenOn": "2023-06-19T23:30:48Z",
+      "side": 1,
+      "message": "Will change but is permit the right word? The flag is not forbidden but just leads to a behavior different from Go 1.19.",
+      "parentUuid": "7c258d56_9fffaf20",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84401530_c0bd15c1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2023-06-19T21:37:22Z",
       "side": 1,
       "message": "Add some line breaks in this paragraph.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be1ffc8_f437cacd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 63448
+      },
+      "writtenOn": "2023-06-19T23:30:48Z",
+      "side": 1,
+      "message": "Please see https://github.com/golang/go/blob/bc21d6a4fcf2c957a3f279fa8725e16df6586864/src/cmd/go/internal/work/exec.go#L3189-L3217 that was introduced in https://go-review.googlesource.com/c/go/+/475375.\n\nWhen encountering -fdebug-prefix-map\u003d the Go compiler started to emit the preferlinkext section(?). The Go linker will use this hint to link externally (when linkmode\u003dauto).",
+      "parentUuid": "84401530_c0bd15c1",
       "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
