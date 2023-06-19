@@ -59,6 +59,7 @@ var validCompilerFlags = []*lazyregexp.Regexp{
 	re(`-f(no-)builtin-[a-zA-Z0-9_]*`),
 	re(`-f(no-)?common`),
 	re(`-f(no-)?constant-cfstrings`),
+	re(`-fdebug-prefix-map=(.+)`),
 	re(`-fdiagnostics-show-note-include-stack`),
 	re(`-f(no-)?eliminate-unused-debug-types`),
 	re(`-f(no-)?exceptions`),
