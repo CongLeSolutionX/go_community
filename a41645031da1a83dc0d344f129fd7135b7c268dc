@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c258d56_9fffaf20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-19T21:37:22Z",
+      "side": 1,
+      "message": "This isn\u0027t a good description of the change.\n\ncmd/go: permit -fdebug-prefix-map\u003d option when compiling",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84401530_c0bd15c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-19T21:37:22Z",
+      "side": 1,
+      "message": "I don\u0027t understand what this has to do with external linking.  What is causing the tool to choose external linking based on whether this option is listed in cmd/go/internal/work/security.go?  Thanks.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5ca5594_b9eac2e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-19T21:37:22Z",
+      "side": 1,
+      "message": "Add some line breaks in this paragraph.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d45c6c7_5dfb08f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-19T21:37:22Z",
+      "side": 1,
+      "message": "Omit the colon.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b990921e_5128b0c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-19T21:37:22Z",
+      "side": 1,
+      "message": "Remove all this text, as the text itself explains.  Thanks.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "740ac01c_608b52b3",
+        "filename": "src/cmd/go/internal/work/security.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-19T21:37:22Z",
+      "side": 1,
+      "message": "We should not use .+ here, as that permits any character at all.  I think it would be OK to write\n\n-fdebug-prefix-map\u003d([^@]+)\u003d([^@]+)\n\nWe should also match -ffile-prefix-map in the same way.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
