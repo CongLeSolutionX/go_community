@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bdd8a9c_2aa6a374",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2023-06-19T17:55:37Z",
+      "side": 1,
+      "message": "For the record: this package was deleted before being released (CL 382460), pending further discussion.",
+      "revId": "4dd5f0994f2e2079582876db4af1cba95fe3b6c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
