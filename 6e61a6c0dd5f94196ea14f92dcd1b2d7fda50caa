@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c51d9f5_840a2a70",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-20T21:41:32Z",
+      "side": 1,
+      "message": "I\u0027m worried about missing checks on the caller here.\n\nBefore this change, we only call `VendorDir` when either creating the directory itself (which requires a main module or workspace), or processing a `*load.Package` package with a non-nil `Module` field (which implies that the package was loaded from either a module directory or a module recorded in `vendor/modules.txt`). In both of those cases, the location of the vendor directory is well-defined.\n\nI would like to either maintain the invariant that `VendorDir` is only called when the vendor directory is well-defined (implying that we should panic if it isn\u0027t), or change the `VendorDir` signature to return an explicit boolean instead of the empty string (so that we don\u0027t accidentally try to work with an invalid directory on the caller side).",
+      "parentUuid": "b41ac024_f7ba0fd3",
+      "revId": "6e61a6c0dd5f94196ea14f92dcd1b2d7fda50caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "590868ac_dc1b951a",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 11
