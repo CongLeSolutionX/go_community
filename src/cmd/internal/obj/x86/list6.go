@@ -259,6 +259,6 @@ func rlconv(bits int64) string {
 	return fmt.Sprintf("[%s-%s]", rconv(reg0), rconv(reg1))
 }
 
-func opSuffixString(s uint8) string {
+func opSuffixString(p *obj.Prog, s uint8) string {
 	return "." + opSuffix(s).String()
 }

@@ -78,21 +78,21 @@ const (
 )
 
 // CConv formats opcode suffix bits (Prog.Scond).
-func CConv(s uint8) string {
+func CConv(p *Prog, s uint8) string {
 	if s == 0 {
 		return ""
 	}
 	for i := range opSuffixSpace {
 		sset := &opSuffixSpace[i]
 		if sset.arch == buildcfg.GOARCH {
-			return sset.cconv(s)
+			return sset.cconv(p, s)
 		}
 	}
 	return fmt.Sprintf("SC???%d", s)
 }
 
 // CConvARM formats ARM opcode suffix bits (mostly condition codes).
-func CConvARM(s uint8) string {
+func CConvARM(p *Prog, s uint8) string {
 	// TODO: could be great to move suffix-related things into
 	// ARM asm backends some day.
 	// obj/x86 can be used as an example.
@@ -159,7 +159,7 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 		return
 	}
 
-	sc := CConv(p.Scond)
+	sc := CConv(p, p.Scond)
 
 	io.WriteString(w, p.As.String())
 	io.WriteString(w, sc)
@@ -468,7 +468,7 @@ func offConv(off int64) string {
 // as long as they register proper cconv function for it.
 type opSuffixSet struct {
 	arch  string
-	cconv func(suffix uint8) string
+	cconv func(p *Prog, suffix uint8) string
 }
 
 var opSuffixSpace []opSuffixSet
@@ -477,7 +477,7 @@ var opSuffixSpace []opSuffixSet
 // when compiling for GOARCH=arch.
 //
 // cconv is never called with 0 argument.
-func RegisterOpSuffix(arch string, cconv func(uint8) string) {
+func RegisterOpSuffix(arch string, cconv func(*Prog, uint8) string) {
 	opSuffixSpace = append(opSuffixSpace, opSuffixSet{
 		arch:  arch,
 		cconv: cconv,
