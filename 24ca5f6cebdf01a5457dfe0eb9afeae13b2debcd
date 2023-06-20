@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b7424d2_82d1e46f",
+        "filename": "src/cmd/go/testdata/script/vet_flags.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-20T15:43:38Z",
+      "side": 0,
+      "message": "The `go test` commands below this point don\u0027t pass the `-a` flag — will they print the `vet` commands even if the vet output is already cached, as when running `go test -count\u003d2 -run\u003dTestScript/vet_flags cmd/go`.\n\n(If they do always print those commands today, that may be a symptom of #58571 and/or #49267.)",
+      "revId": "24ca5f6cebdf01a5457dfe0eb9afeae13b2debcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
