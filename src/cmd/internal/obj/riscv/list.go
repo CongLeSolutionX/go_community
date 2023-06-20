@@ -13,6 +13,7 @@ import (
 func init() {
 	obj.RegisterRegister(obj.RBaseRISCV, REG_END, RegName)
 	obj.RegisterOpcode(obj.ABaseRISCV, Anames)
+	obj.RegisterOpSuffix("riscv64", opSuffixString)
 }
 
 func RegName(r int) string {
@@ -30,4 +31,15 @@ func RegName(r int) string {
 	default:
 		return fmt.Sprintf("Rgok(%d)", r-obj.RBaseRISCV)
 	}
+}
+
+func opSuffixString(s uint8) string {
+	if s&C_ROUND != 0 {
+		si := s &^ C_ROUND
+		if si != RM_RTZ {
+			return "." + opSuffix(si).String()
+		}
+		return ""
+	}
+	return ""
 }
