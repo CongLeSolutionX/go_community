@@ -602,6 +602,45 @@ const (
 	ALAST
 )
 
+// C_ROUND condition flag of rounding mode
+const C_ROUND uint8 = 1 << 7
+
+// opSuffix using uint8 to fit into p.Scond
+type opSuffix uint8
+
+const (
+	RM_RNE uint8 = iota
+	RM_RTZ
+	RM_RDN
+	RM_RUP
+	RM_RMM
+)
+
+func (o opSuffix) String() string {
+	switch uint8(o) {
+	case RM_RNE:
+		return "RNE"
+	case RM_RTZ:
+		return "RTZ"
+	case RM_RDN:
+		return "RDN"
+	case RM_RUP:
+		return "RUP"
+	case RM_RMM:
+		return "RMM"
+	default:
+		return "<invalid>"
+	}
+}
+
+var opSuffixTable = map[string]uint8{
+	"RNE": RM_RNE,
+	"RTZ": RM_RTZ,
+	"RDN": RM_RDN,
+	"RUP": RM_RUP,
+	"RMM": RM_RMM,
+}
+
 // All unary instructions which write to their arguments (as opposed to reading
 // from them) go here. The assembly parser uses this information to populate
 // its AST in a semantically reasonable way.

@@ -28,6 +28,7 @@ import (
 	"internal/abi"
 	"log"
 	"math/bits"
+	"strings"
 )
 
 func buildop(ctxt *obj.Link) {}
@@ -2153,8 +2154,12 @@ func instructionsForProg(p *obj.Prog) []*instruction {
 		ins.imm = 0x0ff
 
 	case AFCVTWS, AFCVTLS, AFCVTWUS, AFCVTLUS, AFCVTWD, AFCVTLD, AFCVTWUD, AFCVTLUD:
-		// Set the rounding mode in funct3 to round to zero.
-		ins.funct3 = 1
+		// Set the default rounding mode in funct3 to round to zero.
+		if p.Scond&C_ROUND == 0 {
+			ins.funct3 = uint32(RM_RTZ)
+		} else {
+			ins.funct3 = uint32(p.Scond &^ C_ROUND)
+		}
 
 	case AFNES, AFNED:
 		// Replace FNE[SD] with FEQ[SD] and NOT.
@@ -2331,6 +2336,15 @@ func assemble(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 func isUnsafePoint(p *obj.Prog) bool {
 	return p.Mark&USES_REG_TMP == USES_REG_TMP || p.From.Reg == REG_TMP || p.To.Reg == REG_TMP || p.Reg == REG_TMP
+}
+
+func ParseSuffix(prog *obj.Prog, cond string) error {
+	bits, ok := opSuffixTable[strings.TrimPrefix(cond, ".")]
+	if !ok {
+		return fmt.Errorf("unknown suffix: %q", cond)
+	}
+	prog.Scond = bits | C_ROUND
+	return nil
 }
 
 var LinkRISCV64 = obj.LinkArch{
