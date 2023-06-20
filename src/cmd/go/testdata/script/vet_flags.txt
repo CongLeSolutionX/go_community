@@ -52,8 +52,6 @@ env GOFLAGS='-unsafeptr'
 stderr 'go: parsing \$GOFLAGS: unknown flag -unsafeptr'
 env GOFLAGS=
 
-env GOCACHE=$WORK/gocache
-
 # "go test" on a user package should by default enable an explicit list of analyzers.
 go test -x -run=none .
 stderr '[/\\]vet'$GOEXE'["]? .* -errorsas .* ["]?\$WORK[/\\][^ ]*[/\\]vet\.cfg'
