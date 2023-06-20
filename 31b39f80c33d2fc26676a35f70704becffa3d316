@@ -125,6 +125,24 @@
       "parentUuid": "5c74e0eb_9d0fbd56",
       "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d659fe7c_cfb79686",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-06-20T15:47:00Z",
+      "side": 1,
+      "message": "resolved by other CL, let\u0027s unblock this one.",
+      "parentUuid": "fb899697_d30c4c8d",
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
