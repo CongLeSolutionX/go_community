@@ -136,8 +136,9 @@ import (
 //			shifttype = 0, 1, 2, 3 for <<, >>, ->, @>
 //			count = (reg&15)<<8 | 1<<4 for a register shift count, (n&31)<<7 for an integer constant.
 //		On ARM64:
-//			offset = (reg&31)<<16 | shifttype<<22 | (count&63)<<10
-//			shifttype = 0, 1, 2 for <<, >>, ->
+//			Addr.Reg = reg
+//			Addr.Index = shifttype<<6 | shift
+//			shifttype = 0, 1, 2, 3 for <<, >>, ->, @>
 //
 //	(reg, reg)
 //		A destination register pair. When used as the last argument of an instruction,
@@ -154,7 +155,13 @@ import (
 //		On ARM:
 //			offset = bit mask of registers in list; R0 is low bit.
 //		On ARM64:
-//			offset = register count (Q:size) | arrangement (opcode) | first register
+//			offset encoding form:
+//			+-----+-----+-----------+-------+-------+----------------+-------------+----------------+
+//			| ... |  1  |    ...    | Scale | Index | register count | arrangement | first register |
+//			+-----+-----+-----------+-------+-------+----------------+-------------+----------------+
+//			63    61    60          31    27 26   23 22            20 19         16 15              0
+//
+//			offset = 1 << 60 | scale << 27 | index << 23 | register count << 20 | arrangement (opcode) << 16 | first register
 //		On 386/AMD64:
 //			reg = range low register
 //			offset = 2 packed registers + kind tag (see x86.EncodeRegisterRange)
@@ -171,26 +178,41 @@ import (
 //			index = second register
 //			scale = 1
 //
-//	reg.[US]XT[BHWX]
+//	reg.[US]XT[BHWX](<<amount)
 //		Register extension for ARM64
 //		Encoding:
 //			type = TYPE_REG
-//			reg = REG_[US]XT[BHWX] + register + shift amount
-//			offset = ((reg&31) << 16) | (exttype << 13) | (amount<<10)
+//			Addr.Reg = reg
+//			Addr.Index = extension type << 6 | amount
+//
+//	reg.[SD].[US]XTW(<<amount)
+//		Arrangement register extension for ARM64
+//		Encoding:
+//			type = TYPE_REG
+//			Addr.Reg = reg
+//			Addr.Index = arrangement << 11 | extension type << 6 | amount
 //
 //	reg.<T>
 //		Register arrangement for ARM64 SIMD register
 //		e.g.: V1.S4, V2.S2, V7.D2, V2.H4, V6.B16
 //		Encoding:
 //			type = TYPE_REG
-//			reg = REG_ARNG + register + arrangement
+//			Addr.Reg = reg
+//			Addr.Index = arrangement << 11
 //
 //	reg.<T>[index]
 //		Register element for ARM64
 //		Encoding:
 //			type = TYPE_REG
-//			reg = REG_ELEM + register + arrangement
-//			index = element index
+//			Addr.Reg = reg
+//			Addr.Index = arrangement << 11 | RTYP_INDEX << 6 | index
+//
+//	reg[index]
+//		Register index for ARM64
+//		Encoding:
+//			type = TYPE_REG
+//			Addr.Reg = reg
+//			Addr.Index = RTYP_REGINDEX << 6 | index
 
 type Addr struct {
 	Reg    int16

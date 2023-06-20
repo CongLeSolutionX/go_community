@@ -497,7 +497,7 @@ func (p *Parser) asmJump(op obj.As, cond string, a []obj.Addr) {
 				return
 			}
 			prog.From = a[0]
-			prog.Reg = p.getRegister(prog, op, &a[1])
+			prog.AddRestSource(a[1])
 			target = &a[2]
 			break
 		}
@@ -628,7 +628,7 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 			}
 		} else if p.arch.Family == sys.ARM64 && arch.IsARM64CMP(op) {
 			prog.From = a[0]
-			prog.Reg = p.getRegister(prog, op, &a[1])
+			prog.AddRestSource(a[1])
 			break
 		} else if p.arch.Family == sys.MIPS || p.arch.Family == sys.MIPS64 {
 			if arch.IsMIPSCMP(op) || arch.IsMIPSMUL(op) {
@@ -704,7 +704,7 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 					p.errorf("invalid addressing modes for third operand to %s instruction, must be register", op)
 					return
 				}
-				prog.RegTo2 = a[2].Reg
+				prog.AddRestDest(a[2])
 			case arch.IsARM64TBL(op):
 				// one of its inputs does not fit into prog.Reg.
 				prog.From = a[0]
@@ -724,7 +724,7 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 				prog.AddRestDest(a[2])
 			default:
 				prog.From = a[0]
-				prog.Reg = p.getRegister(prog, op, &a[1])
+				prog.AddRestSource(a[1])
 				prog.To = a[2]
 			}
 		case sys.I386:
@@ -810,7 +810,7 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 		}
 		if p.arch.Family == sys.ARM64 {
 			prog.From = a[0]
-			prog.Reg = p.getRegister(prog, op, &a[1])
+			prog.AddRestSource(a[1])
 			prog.AddRestSource(a[2])
 			prog.To = a[3]
 			break

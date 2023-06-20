@@ -94,7 +94,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.As = ASUB
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = 8
-		p.Reg = REGSP
+		p.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REGFP
 
@@ -178,7 +178,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.As = ACMP
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REGRT1
-		p.Reg = REGSP
+		p.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 	} else if framesize <= abi.StackBig {
 		// large stack: SP-framesize < stackguard-StackSmall
 		//	SUB	$(framesize-StackSmall), SP, RT2
@@ -188,7 +188,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.As = ASUB
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = int64(framesize) - abi.StackSmall
-		p.Reg = REGSP
+		p.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REGRT2
 
@@ -196,7 +196,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.As = ACMP
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REGRT1
-		p.Reg = REGRT2
+		p.AddRestSource(obj.Addr{Reg: REGRT2, Type: obj.TYPE_REG})
 	} else {
 		// Such a large stack we need to protect against underflow.
 		// The runtime guarantees SP > objabi.StackBig, but
@@ -214,7 +214,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.As = ASUBS
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = int64(framesize) - abi.StackSmall
-		p.Reg = REGSP
+		p.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REGRT2
 
@@ -227,7 +227,7 @@ func (c *ctxt7) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.As = ACMP
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REGRT1
-		p.Reg = REGRT2
+		p.AddRestSource(obj.Addr{Reg: REGRT2, Type: obj.TYPE_REG})
 	}
 
 	// BLS	do-morestack
@@ -617,7 +617,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q1.As = ASUB
 				q1.From.Type = obj.TYPE_CONST
 				q1.From.Offset = int64(c.autosize)
-				q1.Reg = REGSP
+				q1.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 				q1.To.Type = obj.TYPE_REG
 				q1.To.Reg = REG_R20
 
@@ -706,7 +706,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q1.As = ASUB
 			q1.From.Type = obj.TYPE_CONST
 			q1.From.Offset = 8
-			q1.Reg = REGSP
+			q1.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 			q1.To.Type = obj.TYPE_REG
 			q1.To.Reg = REGFP
 
@@ -773,7 +773,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q.As = AADD
 				q.From.Type = obj.TYPE_CONST
 				q.From.Offset = int64(c.autosize) + 8
-				q.Reg = REGSP
+				q.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 				q.To.Type = obj.TYPE_REG
 				q.To.Reg = REG_R20
 
@@ -782,7 +782,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q.As = ACMP
 				q.From.Type = obj.TYPE_REG
 				q.From.Reg = REGRT2
-				q.Reg = REG_R20
+				q.AddRestSource(obj.Addr{Reg: REG_R20, Type: obj.TYPE_REG})
 
 				// BNE end
 				q = obj.Appendp(q, c.newprog)
@@ -795,7 +795,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q.As = AADD
 				q.From.Type = obj.TYPE_CONST
 				q.From.Offset = 8
-				q.Reg = REGSP
+				q.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 				q.To.Type = obj.TYPE_REG
 				q.To.Reg = REG_R20
 
@@ -838,7 +838,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					p.As = ASUB
 					p.From.Type = obj.TYPE_CONST
 					p.From.Offset = 8
-					p.Reg = REGSP
+					p.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 					p.To.Type = obj.TYPE_REG
 					p.To.Reg = REGFP
 				}
@@ -958,7 +958,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q2.As = ASTP
 			q2.From.Type = obj.TYPE_REGREG
 			q2.From.Reg = REGFP
-			q2.From.Offset = int64(REG_R27)
+			q2.From.Offset = REG_R27
 			q2.To.Type = obj.TYPE_MEM
 			q2.To.Reg = REGSP
 			q2.To.Offset = -24
@@ -969,7 +969,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q3.As = ASUB
 			q3.From.Type = obj.TYPE_CONST
 			q3.From.Offset = 24
-			q3.Reg = REGSP
+			q3.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 			q3.To.Type = obj.TYPE_REG
 			q3.To.Reg = REGFP
 
@@ -978,7 +978,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q5.As = ASUB
 			q5.From.Type = obj.TYPE_CONST
 			q5.From.Offset = 8
-			q5.Reg = REGSP
+			q5.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 			q5.To.Type = obj.TYPE_REG
 			q5.To.Reg = REGFP
 			q1.From.SetTarget(q5)
@@ -1009,7 +1009,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q2.As = ASTP
 			q2.From.Type = obj.TYPE_REGREG
 			q2.From.Reg = REGFP
-			q2.From.Offset = int64(REG_R27)
+			q2.From.Offset = REG_R27
 			q2.To.Type = obj.TYPE_MEM
 			q2.To.Reg = REGSP
 			q2.To.Offset = -24
@@ -1020,7 +1020,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q3.As = ASUB
 			q3.From.Type = obj.TYPE_CONST
 			q3.From.Offset = 24
-			q3.Reg = REGSP
+			q3.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 			q3.To.Type = obj.TYPE_REG
 			q3.To.Reg = REGFP
 
@@ -1029,7 +1029,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q5.As = ASUB
 			q5.From.Type = obj.TYPE_CONST
 			q5.From.Offset = 8
-			q5.Reg = REGSP
+			q5.AddRestSource(obj.Addr{Reg: REGSP, Type: obj.TYPE_REG})
 			q5.To.Type = obj.TYPE_REG
 			q5.To.Reg = REGFP
 			q1.From.SetTarget(q5)
@@ -1050,23 +1050,21 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 		}
-		if p.From.Type == obj.TYPE_SHIFT && (p.To.Reg == REG_RSP || p.Reg == REG_RSP) {
-			offset := p.From.Offset
-			op := offset & (3 << 22)
-			if op != SHIFT_LL {
-				ctxt.Diag("illegal combination: %v", p)
+		if p.From.Type == obj.TYPE_SHIFT {
+			r2 := get2ndSource(p)
+			if p.To.Reg == REG_RSP || (r2 != nil && r2.Reg == REG_RSP) {
+				_, op, _ := DecodeIndex(p.From.Index)
+				if op != RTYP_LSL {
+					ctxt.Diag("illegal combination: %v", p)
+				}
+				p.From.Type = obj.TYPE_REG
+				typ := int16(RTYP_EXT_UXTX)
+				amount := p.From.Index & 63
+				if isADDWop(p.As) {
+					typ = RTYP_EXT_UXTW
+				}
+				p.From.Index = typ<<6 | amount
 			}
-			r := (offset >> 16) & 31
-			shift := (offset >> 10) & 63
-			if shift > 4 {
-				// the shift amount is out of range, in order to avoid repeated error
-				// reportings, don't call ctxt.Diag, because asmout case 27 has the
-				// same check.
-				shift = 7
-			}
-			p.From.Type = obj.TYPE_REG
-			p.From.Reg = int16(REG_LSL + r + (shift&7)<<5)
-			p.From.Offset = 0
 		}
 	}
 }

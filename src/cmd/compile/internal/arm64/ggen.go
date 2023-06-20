@@ -37,7 +37,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, _ *uint32) *obj.Prog
 		}
 		p = pp.Append(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGSP, 0, obj.TYPE_REG, arm64.REG_R20, 0)
 		p = pp.Append(p, arm64.AADD, obj.TYPE_CONST, 0, 8+off, obj.TYPE_REG, arm64.REG_R20, 0)
-		p.Reg = arm64.REG_R20
+		p.AddRestSource(obj.Addr{Reg: arm64.REG_R20, Type: obj.TYPE_REG})
 		p = pp.Append(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = ir.Syms.Duffzero
@@ -50,15 +50,15 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, _ *uint32) *obj.Prog
 		p = pp.Append(p, arm64.AMOVD, obj.TYPE_CONST, 0, 8+off-8, obj.TYPE_REG, rtmp, 0)
 		p = pp.Append(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGSP, 0, obj.TYPE_REG, arm64.REGRT1, 0)
 		p = pp.Append(p, arm64.AADD, obj.TYPE_REG, rtmp, 0, obj.TYPE_REG, arm64.REGRT1, 0)
-		p.Reg = arm64.REGRT1
+		p.AddRestSource(obj.Addr{Reg: arm64.REGRT1, Type: obj.TYPE_REG})
 		p = pp.Append(p, arm64.AMOVD, obj.TYPE_CONST, 0, cnt, obj.TYPE_REG, rtmp, 0)
 		p = pp.Append(p, arm64.AADD, obj.TYPE_REG, rtmp, 0, obj.TYPE_REG, arm64.REGRT2, 0)
-		p.Reg = arm64.REGRT1
+		p.AddRestSource(obj.Addr{Reg: arm64.REGRT1, Type: obj.TYPE_REG})
 		p = pp.Append(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGZERO, 0, obj.TYPE_MEM, arm64.REGRT1, int64(types.PtrSize))
 		p.Scond = arm64.C_XPRE
 		p1 := p
 		p = pp.Append(p, arm64.ACMP, obj.TYPE_REG, arm64.REGRT1, 0, obj.TYPE_NONE, 0, 0)
-		p.Reg = arm64.REGRT2
+		p.AddRestSource(obj.Addr{Reg: arm64.REGRT2, Type: obj.TYPE_REG})
 		p = pp.Append(p, arm64.ABNE, obj.TYPE_NONE, 0, 0, obj.TYPE_BRANCH, 0, 0)
 		p.To.SetTarget(p1)
 	}

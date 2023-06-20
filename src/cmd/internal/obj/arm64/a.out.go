@@ -146,31 +146,46 @@ const (
 	REG_RSP = REG_V31 + 32 // to differentiate ZR/SP, REG_RSP&0x1f = 31
 )
 
-// bits 0-4 indicates register: Vn
-// bits 5-8 indicates arrangement: <T>
+// All register types for arm64
 const (
-	REG_ARNG = obj.RBaseARM64 + 1<<10 + iota<<9 // Vn.<T>
-	REG_ELEM                                    // Vn.<T>[index]
-	REG_ELEM_END
+	RTYP_NORMAL     = iota // Rn, Vn.B
+	RTYP_INDEX             // Vn.<T>[index]
+	RTYP_REGINDEX          // Rn[index]
+	RTYP_LSL               // Rn<<num
+	RTYP_LSR               // Rn>>num
+	RTYP_ASR               // Rn->ASR
+	RTYP_ROR               // Rn@>num
+	RTYP_EXT_UXTB          // Rn.UXTB<<num
+	RTYP_EXT_UXTH          // Rn.UXTH<<num
+	RTYP_EXT_UXTW          // Rn.UXTW<<num
+	RTYP_EXT_UXTX          // Rn.UXTX<<num
+	RTYP_EXT_SXTB          // Rn.SXTB<<num
+	RTYP_EXT_SXTH          // Rn.SXTH<<num
+	RTYP_EXT_SXTW          // Rn.SXTW<<num
+	RTYP_EXT_SXTX          // Rn.SXTX<<num
+	RTYP_MEM_ROFF          // (Rn)(Rm)
+	RTYP_MEM_IMMEXT        // (const*VL)(Rn)
+	RTYP_SVE_PM            // Pg/M
+	RTYP_SVE_PZ            // Pg/Z
 )
 
-// Not registers, but flags that can be combined with regular register
-// constants to indicate extended register conversion. When checking,
-// you should subtract obj.RBaseARM64 first. From this difference, bit 11
-// indicates extended register, bits 8-10 select the conversion mode.
-// REG_LSL is the index shift specifier, bit 9 indicates shifted offset register.
-const REG_LSL = obj.RBaseARM64 + 1<<9
-const REG_EXT = obj.RBaseARM64 + 1<<11
-
+// Arrangement types
 const (
-	REG_UXTB = REG_EXT + iota<<8
-	REG_UXTH
-	REG_UXTW
-	REG_UXTX
-	REG_SXTB
-	REG_SXTH
-	REG_SXTW
-	REG_SXTX
+	ARNG_NONE = iota // no arrangement: Rn/Vn
+	ARNG_8B
+	ARNG_16B
+	ARNG_1D
+	ARNG_4H
+	ARNG_8H
+	ARNG_2S
+	ARNG_4S
+	ARNG_2D
+	ARNG_1Q
+	ARNG_B
+	ARNG_H
+	ARNG_S
+	ARNG_D
+	ARNG_Q
 )
 
 // Special registers, after subtracting obj.RBaseARM64, bit 12 indicates
@@ -455,6 +470,9 @@ const (
 	C_UOREG32K
 	C_UOREG64K
 	C_LOREG
+
+	C_MEMIMMEXT // (const*VL)(Rn)
+	C_REGINDEX  // Rn[index]
 
 	C_ADDR // TODO(aram): explain difference from C_VCONADDR
 
@@ -1027,24 +1045,6 @@ const (
 	SHIFT_LR  = 1 << 22
 	SHIFT_AR  = 2 << 22
 	SHIFT_ROR = 3 << 22
-)
-
-// Arrangement for ARM64 SIMD instructions
-const (
-	// arrangement types
-	ARNG_8B = iota
-	ARNG_16B
-	ARNG_1D
-	ARNG_4H
-	ARNG_8H
-	ARNG_2S
-	ARNG_4S
-	ARNG_2D
-	ARNG_1Q
-	ARNG_B
-	ARNG_H
-	ARNG_S
-	ARNG_D
 )
 
 //go:generate stringer -type SpecialOperand -trimprefix SPOP_

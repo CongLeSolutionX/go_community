@@ -78,20 +78,15 @@ func storeByType(t *types.Type) obj.As {
 	panic("bad store type")
 }
 
-// makeshift encodes a register shifted by a constant, used as an Offset in Prog.
-func makeshift(v *ssa.Value, reg int16, typ int64, s int64) int64 {
-	if s < 0 || s >= 64 {
-		v.Fatalf("shift out of range: %d", s)
-	}
-	return int64(reg&31)<<16 | typ | (s&63)<<10
-}
-
 // genshift generates a Prog for r = r0 op (r1 shifted by n).
 func genshift(s *ssagen.State, v *ssa.Value, as obj.As, r0, r1, r int16, typ int64, n int64) *obj.Prog {
 	p := s.Prog(as)
 	p.From.Type = obj.TYPE_SHIFT
-	p.From.Offset = makeshift(v, r1, typ, n)
-	p.Reg = r0
+	p.From.Reg = r1
+	p.From.Index = int16(typ)<<6 | int16(n)&63
+	if r0 != 0 {
+		p.AddRestSource(obj.Addr{Reg: r0, Type: obj.TYPE_REG})
+	}
 	if r != 0 {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
@@ -107,15 +102,15 @@ func genIndexedOperand(op ssa.Op, base, idx int16) obj.Addr {
 	switch op {
 	case ssa.OpARM64MOVDloadidx8, ssa.OpARM64MOVDstoreidx8, ssa.OpARM64MOVDstorezeroidx8,
 		ssa.OpARM64FMOVDloadidx8, ssa.OpARM64FMOVDstoreidx8:
-		mop.Index = arm64.REG_LSL | 3<<5 | idx&31
+		mop.Offset = arm64.RTYP_LSL<<6 | 3
 	case ssa.OpARM64MOVWloadidx4, ssa.OpARM64MOVWUloadidx4, ssa.OpARM64MOVWstoreidx4, ssa.OpARM64MOVWstorezeroidx4,
 		ssa.OpARM64FMOVSloadidx4, ssa.OpARM64FMOVSstoreidx4:
-		mop.Index = arm64.REG_LSL | 2<<5 | idx&31
+		mop.Offset = arm64.RTYP_LSL<<6 | 2
 	case ssa.OpARM64MOVHloadidx2, ssa.OpARM64MOVHUloadidx2, ssa.OpARM64MOVHstoreidx2, ssa.OpARM64MOVHstorezeroidx2:
-		mop.Index = arm64.REG_LSL | 1<<5 | idx&31
-	default: // not shifted
-		mop.Index = idx
+		mop.Offset = arm64.RTYP_LSL<<6 | 1
 	}
+	mop.Offset = mop.Offset<<16 | int64(idx)
+	mop.Index |= arm64.RTYP_MEM_ROFF << 6
 	return mop
 }
 
@@ -223,7 +218,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = r2
-		p.Reg = r1
+		p.AddRestSource(obj.Addr{Reg: r1, Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
 	case ssa.OpARM64FMADDS,
@@ -243,7 +238,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		rm := v.Args[1].Reg()
 		rn := v.Args[2].Reg()
 		p := s.Prog(v.Op.Asm())
-		p.Reg = ra
+		p.AddRestSource(obj.Addr{Reg: ra, Type: obj.TYPE_REG})
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = rm
 		p.AddRestSourceReg(rn)
@@ -262,21 +257,21 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
-		p.Reg = v.Args[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpARM64ADDSconstflags:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
-		p.Reg = v.Args[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg0()
 	case ssa.OpARM64ADCzerocarry:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = arm64.REGZERO
-		p.Reg = arm64.REGZERO
+		p.AddRestSource(obj.Addr{Reg: arm64.REGZERO, Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpARM64ADCSflags,
@@ -289,7 +284,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = r2
-		p.Reg = r1
+		p.AddRestSource(obj.Addr{Reg: r1, Type: obj.TYPE_REG})
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
 	case ssa.OpARM64NEGSflags:
@@ -309,18 +304,18 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
+		p.AddRestSource(obj.Addr{Reg: v.Args[1].Reg(), Type: obj.TYPE_REG})
 		p.AddRestSourceReg(v.Args[0].Reg())
-		p.Reg = v.Args[1].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpARM64MVNshiftLL, ssa.OpARM64NEGshiftLL:
-		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_LL, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.RTYP_LSL, v.AuxInt)
 	case ssa.OpARM64MVNshiftRL, ssa.OpARM64NEGshiftRL:
-		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_LR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.RTYP_LSR, v.AuxInt)
 	case ssa.OpARM64MVNshiftRA, ssa.OpARM64NEGshiftRA:
-		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_AR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.RTYP_ASR, v.AuxInt)
 	case ssa.OpARM64MVNshiftRO:
-		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_ROR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.RTYP_ROR, v.AuxInt)
 	case ssa.OpARM64ADDshiftLL,
 		ssa.OpARM64SUBshiftLL,
 		ssa.OpARM64ANDshiftLL,
@@ -329,7 +324,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssa.OpARM64EONshiftLL,
 		ssa.OpARM64ORNshiftLL,
 		ssa.OpARM64BICshiftLL:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_LL, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.RTYP_LSL, v.AuxInt)
 	case ssa.OpARM64ADDshiftRL,
 		ssa.OpARM64SUBshiftRL,
 		ssa.OpARM64ANDshiftRL,
@@ -338,7 +333,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssa.OpARM64EONshiftRL,
 		ssa.OpARM64ORNshiftRL,
 		ssa.OpARM64BICshiftRL:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_LR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.RTYP_LSR, v.AuxInt)
 	case ssa.OpARM64ADDshiftRA,
 		ssa.OpARM64SUBshiftRA,
 		ssa.OpARM64ANDshiftRA,
@@ -347,14 +342,14 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssa.OpARM64EONshiftRA,
 		ssa.OpARM64ORNshiftRA,
 		ssa.OpARM64BICshiftRA:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_AR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.RTYP_ASR, v.AuxInt)
 	case ssa.OpARM64ANDshiftRO,
 		ssa.OpARM64ORshiftRO,
 		ssa.OpARM64XORshiftRO,
 		ssa.OpARM64EONshiftRO,
 		ssa.OpARM64ORNshiftRO,
 		ssa.OpARM64BICshiftRO:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_ROR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.RTYP_ROR, v.AuxInt)
 	case ssa.OpARM64MOVDconst:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
@@ -373,7 +368,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_FCONST
 		p.From.Val = math.Float64frombits(0)
-		p.Reg = v.Args[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 	case ssa.OpARM64CMP,
 		ssa.OpARM64CMPW,
 		ssa.OpARM64CMN,
@@ -385,7 +380,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[1].Reg()
-		p.Reg = v.Args[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 	case ssa.OpARM64CMPconst,
 		ssa.OpARM64CMPWconst,
 		ssa.OpARM64CMNconst,
@@ -395,15 +390,15 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
-		p.Reg = v.Args[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 	case ssa.OpARM64CMPshiftLL, ssa.OpARM64CMNshiftLL, ssa.OpARM64TSTshiftLL:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.SHIFT_LL, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.RTYP_LSL, v.AuxInt)
 	case ssa.OpARM64CMPshiftRL, ssa.OpARM64CMNshiftRL, ssa.OpARM64TSTshiftRL:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.SHIFT_LR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.RTYP_LSR, v.AuxInt)
 	case ssa.OpARM64CMPshiftRA, ssa.OpARM64CMNshiftRA, ssa.OpARM64TSTshiftRA:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.SHIFT_AR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.RTYP_ASR, v.AuxInt)
 	case ssa.OpARM64TSTshiftRO:
-		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.SHIFT_ROR, v.AuxInt)
+		genshift(s, v, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), 0, arm64.RTYP_ROR, v.AuxInt)
 	case ssa.OpARM64MOVDaddr:
 		p := s.Prog(arm64.AMOVD)
 		p.From.Type = obj.TYPE_ADDR
@@ -558,8 +553,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt >> 8
+		p.AddRestSource(obj.Addr{Reg: v.Args[1].Reg(), Type: obj.TYPE_REG})
 		p.AddRestSourceConst(v.AuxInt & 0xff)
-		p.Reg = v.Args[1].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpARM64SBFIZ,
@@ -569,8 +564,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt >> 8
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 		p.AddRestSourceConst(v.AuxInt & 0xff)
-		p.Reg = v.Args[0].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpARM64LoweredAtomicExchange64,
@@ -597,7 +592,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p1.From.Reg = r1
 		p1.To.Type = obj.TYPE_MEM
 		p1.To.Reg = r0
-		p1.RegTo2 = arm64.REGTMP
+		p1.AddRestDest(obj.Addr{Reg: arm64.REGTMP, Type: obj.TYPE_REG})
 		p2 := s.Prog(arm64.ACBNZ)
 		p2.From.Type = obj.TYPE_REG
 		p2.From.Reg = arm64.REGTMP
@@ -619,7 +614,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Reg = r1
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = r0
-		p.RegTo2 = out
+		p.AddRestDest(obj.Addr{Reg: out, Type: obj.TYPE_REG})
 
 	case ssa.OpARM64LoweredAtomicAdd64,
 		ssa.OpARM64LoweredAtomicAdd32:
@@ -651,7 +646,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p2.From.Reg = out
 		p2.To.Type = obj.TYPE_MEM
 		p2.To.Reg = r0
-		p2.RegTo2 = arm64.REGTMP
+		p2.AddRestDest(obj.Addr{Reg: arm64.REGTMP, Type: obj.TYPE_REG})
 		p3 := s.Prog(arm64.ACBNZ)
 		p3.From.Type = obj.TYPE_REG
 		p3.From.Reg = arm64.REGTMP
@@ -673,7 +668,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Reg = r1
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = r0
-		p.RegTo2 = out
+		p.AddRestDest(obj.Addr{Reg: out, Type: obj.TYPE_REG})
 		p1 := s.Prog(arm64.AADD)
 		p1.From.Type = obj.TYPE_REG
 		p1.From.Reg = r1
@@ -707,7 +702,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p1 := s.Prog(cmp)
 		p1.From.Type = obj.TYPE_REG
 		p1.From.Reg = r1
-		p1.Reg = arm64.REGTMP
+		p1.AddRestSource(obj.Addr{Reg: arm64.REGTMP, Type: obj.TYPE_REG})
 		p2 := s.Prog(arm64.ABNE)
 		p2.To.Type = obj.TYPE_BRANCH
 		p3 := s.Prog(st)
@@ -715,7 +710,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p3.From.Reg = r2
 		p3.To.Type = obj.TYPE_MEM
 		p3.To.Reg = r0
-		p3.RegTo2 = arm64.REGTMP
+		p3.AddRestDest(obj.Addr{Reg: arm64.REGTMP, Type: obj.TYPE_REG})
 		p4 := s.Prog(arm64.ACBNZ)
 		p4.From.Type = obj.TYPE_REG
 		p4.From.Reg = arm64.REGTMP
@@ -762,13 +757,13 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p1.From.Reg = arm64.REGTMP
 		p1.To.Type = obj.TYPE_MEM
 		p1.To.Reg = r0
-		p1.RegTo2 = r2
+		p1.AddRestDest(obj.Addr{Reg: r2, Type: obj.TYPE_REG})
 
 		// CMP  	Rarg1, Rtmp
 		p2 := s.Prog(cmp)
 		p2.From.Type = obj.TYPE_REG
 		p2.From.Reg = r1
-		p2.Reg = arm64.REGTMP
+		p2.AddRestSource(obj.Addr{Reg: arm64.REGTMP, Type: obj.TYPE_REG})
 
 		// CSET 	EQ, Rout
 		p3 := s.Prog(arm64.ACSET)
@@ -809,7 +804,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p2.From.Reg = out
 		p2.To.Type = obj.TYPE_MEM
 		p2.To.Reg = r0
-		p2.RegTo2 = arm64.REGTMP
+		p2.AddRestDest(obj.Addr{Reg: arm64.REGTMP, Type: obj.TYPE_REG})
 		p3 := s.Prog(arm64.ACBNZ)
 		p3.From.Type = obj.TYPE_REG
 		p3.From.Reg = arm64.REGTMP
@@ -838,7 +833,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p1.From.Reg = arm64.REGTMP
 		p1.To.Type = obj.TYPE_MEM
 		p1.To.Reg = r0
-		p1.RegTo2 = out
+		p1.AddRestDest(obj.Addr{Reg: out, Type: obj.TYPE_REG})
 
 		// AND       Rarg1, Rout
 		p2 := s.Prog(arm64.AAND)
@@ -863,7 +858,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Reg = r1
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = r0
-		p.RegTo2 = out
+		p.AddRestDest(obj.Addr{Reg: out, Type: obj.TYPE_REG})
 
 		// ORR       Rarg1, Rout
 		p2 := s.Prog(arm64.AORR)
@@ -957,13 +952,16 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 	case ssa.OpARM64VCNT:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = (v.Args[0].Reg()-arm64.REG_F0)&31 + arm64.REG_ARNG + ((arm64.ARNG_8B & 15) << 5)
+		p.From.Reg = v.Args[0].Reg()
+		p.From.Index = arm64.ARNG_8B << 11
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = (v.Reg()-arm64.REG_F0)&31 + arm64.REG_ARNG + ((arm64.ARNG_8B & 15) << 5)
+		p.To.Reg = v.Reg()
+		p.To.Index = arm64.ARNG_8B << 11
 	case ssa.OpARM64VUADDLV:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = (v.Args[0].Reg()-arm64.REG_F0)&31 + arm64.REG_ARNG + ((arm64.ARNG_8B & 15) << 5)
+		p.From.Reg = v.Args[0].Reg()
+		p.From.Index = arm64.ARNG_8B << 11
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg() - arm64.REG_F0 + arm64.REG_V0
 	case ssa.OpARM64CSEL, ssa.OpARM64CSEL0:
@@ -975,7 +973,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Type = obj.TYPE_SPECIAL // assembler encodes conditional bits in Offset
 		condCode := condBits[ssa.Op(v.AuxInt)]
 		p.From.Offset = int64(condCode)
-		p.Reg = v.Args[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 		p.AddRestSourceReg(r1)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
@@ -984,7 +982,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Type = obj.TYPE_SPECIAL // assembler encodes conditional bits in Offset
 		condCode := condBits[ssa.Op(v.AuxInt)]
 		p.From.Offset = int64(condCode)
-		p.Reg = v.Args[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: v.Args[0].Reg(), Type: obj.TYPE_REG})
 		p.AddRestSourceReg(v.Args[1].Reg())
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
@@ -1018,7 +1016,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p2 := s.Prog(arm64.ACMP)
 		p2.From.Type = obj.TYPE_REG
 		p2.From.Reg = v.Args[1].Reg()
-		p2.Reg = arm64.REG_R16
+		p2.AddRestSource(obj.Addr{Reg: arm64.REG_R16, Type: obj.TYPE_REG})
 		p3 := s.Prog(arm64.ABLE)
 		p3.To.Type = obj.TYPE_BRANCH
 		p3.To.SetTarget(p)
@@ -1053,7 +1051,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p3 := s.Prog(arm64.ACMP)
 		p3.From.Type = obj.TYPE_REG
 		p3.From.Reg = v.Args[2].Reg()
-		p3.Reg = arm64.REG_R16
+		p3.AddRestSource(obj.Addr{Reg: arm64.REG_R16, Type: obj.TYPE_REG})
 		p4 := s.Prog(arm64.ABLE)
 		p4.To.Type = obj.TYPE_BRANCH
 		p4.To.SetTarget(p)
@@ -1258,7 +1256,7 @@ func ssaGenBlock(s *ssagen.State, b, next *ssa.Block) {
 		p := s.Prog(arm64.ACMP)
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = 0
-		p.Reg = arm64.REG_R0
+		p.AddRestSource(obj.Addr{Reg: arm64.REG_R0, Type: obj.TYPE_REG})
 		p = s.Prog(arm64.ABNE)
 		p.To.Type = obj.TYPE_BRANCH
 		s.Branches = append(s.Branches, ssagen.Branch{P: p, B: b.Succs[1].Block()})
@@ -1322,7 +1320,7 @@ func ssaGenBlock(s *ssagen.State, b, next *ssa.Block) {
 		}
 		p.From.Offset = b.AuxInt
 		p.From.Type = obj.TYPE_CONST
-		p.Reg = b.Controls[0].Reg()
+		p.AddRestSource(obj.Addr{Reg: b.Controls[0].Reg(), Type: obj.TYPE_REG})
 
 	case ssa.BlockARM64LEnoov:
 		s.CombJump(b, next, &leJumps)
