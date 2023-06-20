@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b41ac024_f7ba0fd3",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-20T18:16:47Z",
+      "side": 1,
+      "message": "We have a test case where -mod\u003dvendor works with no modroot (as long as there are no dependencies). See script/vendor_outside_module.txt\n\nAdded a comment.",
+      "parentUuid": "8196129f_7a76a013",
+      "revId": "6e61a6c0dd5f94196ea14f92dcd1b2d7fda50caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "590868ac_dc1b951a",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 11
@@ -87,6 +105,24 @@
       "writtenOn": "2023-06-16T22:24:20Z",
       "side": 1,
       "message": "Is it possible that we have no `modRoots` here (in `NoRoot` mode)?",
+      "revId": "6e61a6c0dd5f94196ea14f92dcd1b2d7fda50caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd57dd0f_958b4b93",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-20T18:16:47Z",
+      "side": 1,
+      "message": "We check at line 1372 that len(modRoots) \u003e\u003d 1. (Before this change, we checked that it was 1, so we excluded the no modroots case previously too)",
+      "parentUuid": "590868ac_dc1b951a",
       "revId": "6e61a6c0dd5f94196ea14f92dcd1b2d7fda50caa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
