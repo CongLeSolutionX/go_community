@@ -209,7 +209,7 @@ next:
 		for {
 			tok = p.nextToken()
 			if len(operands) == 0 && len(items) == 0 {
-				if p.arch.InFamily(sys.ARM, sys.ARM64, sys.AMD64, sys.I386) && tok == '.' {
+				if p.arch.InFamily(sys.ARM, sys.ARM64, sys.AMD64, sys.I386, sys.RISCV64) && tok == '.' {
 					// Suffixes: ARM conditionals or x86 modifiers.
 					tok = p.nextToken()
 					str := p.lex.Text()
