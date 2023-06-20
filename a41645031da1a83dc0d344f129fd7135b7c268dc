@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d200cd64_f931ab3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-20T15:19:20Z",
+      "side": 1,
+      "message": "This change does have the (secondary?) effect of permitting `-fdebug-prefix-map` in `#cgo` directives within the cgo preamble. That was not permitted before, but maybe it\u0027s ok?\n\n(The alternative would be to add yet another list of compiler flags: those known to be compatible with internal linking but still not allowed in `#cgo` directives.)\n\nWith the behavior of this change as it stands, perhaps the description should begin with something like:\n\n```\ncmd/go: recognize -fdebug-prefix-map in CFLAGS\n\nThis change allows internal linking when -fdebug-prefix-map\nis set in CGO_CFLAGS, as is done in bazelbuild/rules_go when\nbuilding cgo code.\n\nAs a side effect, it also allows -fdebug-prefix-map to appear\nin #cgo directives in source code. We don\u0027t know of any cases\nwhere that is actually useful, but it appears to be harmless\nand simplifies the implementation of the internal linking change.\n```",
+      "parentUuid": "7f21ac3e_dd8dc40f",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84401530_c0bd15c1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
