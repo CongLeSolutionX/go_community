@@ -28,7 +28,10 @@
 
 package riscv
 
-import "cmd/internal/obj"
+import (
+	"cmd/internal/obj"
+	"fmt"
+)
 
 //go:generate go run ../stringer.go -i $GOFILE -o anames.go -p riscv
 
@@ -605,6 +608,51 @@ const (
 
 	// End marker
 	ALAST
+)
+
+// opSuffix encoding to uint8 which fit into p.Scond
+var rmSuffixSet = map[string]uint8{
+	"RNE": RM_RNE,
+	"RTZ": RM_RTZ,
+	"RDN": RM_RDN,
+	"RUP": RM_RUP,
+	"RMM": RM_RMM,
+}
+
+const rmSuffixBit uint8 = 1 << 7
+
+func rmSuffixEncode(s string) (e uint8, err error) {
+	if s == "" {
+		return RM_RTZ | rmSuffixBit, nil
+	}
+	e, ok := rmSuffixSet[s]
+	if !ok {
+		err = fmt.Errorf("invalid encoding for suffix:%q", s)
+	}
+	e |= rmSuffixBit
+	return
+}
+
+func rmSuffixSetString(u uint8) (s string, err error) {
+
+	if u&rmSuffixBit != 0 {
+		u &^= rmSuffixBit
+	}
+	for k, v := range rmSuffixSet {
+		if v == u {
+			return k, nil
+		}
+	}
+	err = fmt.Errorf("unknown suffix opcode:%d", u)
+	return
+}
+
+const (
+	RM_RNE uint8 = iota
+	RM_RTZ
+	RM_RDN
+	RM_RUP
+	RM_RMM
 )
 
 // All unary instructions which write to their arguments (as opposed to reading
