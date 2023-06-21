@@ -95,11 +95,12 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 			if l.isName(ir.PPARAM) {
 				if (logopt.Enabled() || base.Flag.LowerM >= 2) && !l.escapes {
 					if base.Flag.LowerM >= 2 {
-						fmt.Printf("%s: parameter %v leaks to %s with derefs=%d:\n", base.FmtPos(l.n.Pos()), l.n, b.explainLoc(root), derefs)
+						fmt.Printf("%s: parameter %v leaks to %s for %v with derefs=%d:\n", base.FmtPos(l.n.Pos()), l.n, b.explainLoc(root), ir.FuncName(l.curfn), derefs)
 					}
 					explanation := b.explainPath(root, l)
 					if logopt.Enabled() {
 						var e_curfn *ir.Func // TODO(mdempsky): Fix.
+						// TODO: why is e_curfn used instead of l.curfn?
 						logopt.LogOpt(l.n.Pos(), "leak", "escape", ir.FuncName(e_curfn),
 							fmt.Sprintf("parameter %v leaks to %s with derefs=%d", l.n, b.explainLoc(root), derefs), explanation)
 					}
@@ -113,11 +114,12 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 			if addressOf && !l.escapes {
 				if logopt.Enabled() || base.Flag.LowerM >= 2 {
 					if base.Flag.LowerM >= 2 {
-						fmt.Printf("%s: %v escapes to heap:\n", base.FmtPos(l.n.Pos()), l.n)
+						fmt.Printf("%s: %v escapes to heap in %v:\n", base.FmtPos(l.n.Pos()), l.n, ir.FuncName(l.curfn))
 					}
 					explanation := b.explainPath(root, l)
 					if logopt.Enabled() {
 						var e_curfn *ir.Func // TODO(mdempsky): Fix.
+						// TODO: why is e_curfn used instead of l.curfn?
 						logopt.LogOpt(l.n.Pos(), "escape", "escape", ir.FuncName(e_curfn), fmt.Sprintf("%v escapes to heap", l.n), explanation)
 					}
 				}
@@ -181,7 +183,7 @@ func (b *batch) explainFlow(pos string, dst, srcloc *location, derefs int, notes
 	}
 	print := base.Flag.LowerM >= 2
 
-	flow := fmt.Sprintf("   flow: %s = %s%v:", b.explainLoc(dst), ops, b.explainLoc(srcloc))
+	flow := fmt.Sprintf("   flow: %s ← %s%v:", b.explainLoc(dst), ops, b.explainLoc(srcloc))
 	if print {
 		fmt.Printf("%s:%s\n", pos, flow)
 	}
@@ -212,16 +214,16 @@ func (b *batch) explainFlow(pos string, dst, srcloc *location, derefs int, notes
 
 func (b *batch) explainLoc(l *location) string {
 	if l == &b.heapLoc {
-		return "{heap}"
+		return "<heap>"
 	}
 	if l.n == nil {
 		// TODO(mdempsky): Omit entirely.
-		return "{temp}"
+		return "<temp>"
 	}
 	if l.n.Op() == ir.ONAME {
 		return fmt.Sprintf("%v", l.n)
 	}
-	return fmt.Sprintf("{storage for %v}", l.n)
+	return fmt.Sprintf("<storage for %v>", l.n)
 }
 
 // outlives reports whether values stored in l may survive beyond
