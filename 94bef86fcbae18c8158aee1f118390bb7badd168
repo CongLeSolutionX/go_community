@@ -236,6 +236,30 @@
       },
       "revId": "94bef86fcbae18c8158aee1f118390bb7badd168",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8348251_8ed937fd",
+        "filename": "src/runtime/cgo/libcgo.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 63349
+      },
+      "writtenOn": "2023-06-21T06:09:23Z",
+      "side": 1,
+      "message": "Yes, agreed, so I close the MR.",
+      "parentUuid": "a2a640cc_bedacef6",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 45
+      },
+      "revId": "94bef86fcbae18c8158aee1f118390bb7badd168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
