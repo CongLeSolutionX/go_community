@@ -105,6 +105,132 @@
       },
       "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc0dde63_e7c774a2",
+        "filename": "src/cmd/go/testdata/script/work_vendor_main_module_replaced.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T20:21:38Z",
+      "side": 1,
+      "message": "This is a nice control case, but it needs an experiment case too.\n\nIf we drop the `replace` directive in `a/go.mod`, does that cause the consistency check to fail? (Why or why not?)",
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe466536_65301743",
+        "filename": "src/cmd/go/testdata/script/work_vendor_modules_txt_consistent.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T20:21:38Z",
+      "side": 1,
+      "message": "Probably we should log only one of these two lines. 😅\n\n(Perhaps we should also use `cmp stderr` instead of `stderr`, so that we can check the complete error messages — and detect unnecessary duplication — for all of these cases?)",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 115
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff072c1e_80147354",
+        "filename": "src/cmd/go/testdata/script/work_vendor_modules_txt_consistent.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T20:21:38Z",
+      "side": 1,
+      "message": "This seems potentially problematic, or at least a little bit confusing — there is no indication that the `p` here is a file path rather than a module path.\n\nI think this is a previously-buried bug in `canonicalizeReplacePath`: perhaps it should use `ToDirectoryPath` on the resulting path to ensure that the `Path` field in a `module.Version` always refers unambiguously to exactly one of a file path or a module path?\n\n(I notice that `canonicalizeReplacePath` always returns the path unchanged when `WorkFilePath()` is empty, so this probably would not have been visible before outside of `go list`. Probably better to fix it now before it leaks into files that may be committed to version control.)",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1721b94a_32bfef05",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T20:21:38Z",
+      "side": 1,
+      "message": "These replacements have no effect since they\u0027re not in the workspace, right?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92d3d3b6_cd4b2db1",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune_all.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T20:21:38Z",
+      "side": 1,
+      "message": "(nit) Maybe `go list -f \u0027{{with .Module}}{{.Path}} {{.Version}}{{end}}\u0027 all` instead of listing the modules individually?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3ca553_cd7cd83d",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune_all.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T20:21:38Z",
+      "side": 1,
+      "message": "(nit) `go run` might be a little overkill, given that we\u0027re already check the `Dir` for all of these dependencies. (Or maybe use `go list -deps example.com/p` instead of listing the dependency packages individually above?)",
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
