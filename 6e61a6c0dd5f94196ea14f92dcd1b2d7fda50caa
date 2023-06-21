@@ -161,6 +161,24 @@
       "parentUuid": "590868ac_dc1b951a",
       "revId": "6e61a6c0dd5f94196ea14f92dcd1b2d7fda50caa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd361b52_82e1e053",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T18:03:56Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cd57dd0f_958b4b93",
+      "revId": "6e61a6c0dd5f94196ea14f92dcd1b2d7fda50caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

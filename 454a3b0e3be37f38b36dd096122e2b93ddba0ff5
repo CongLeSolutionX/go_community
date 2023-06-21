@@ -40,6 +40,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d267ce3a_e762397f",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T18:03:56Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me why we need both `(*MainModuleSet).GoStatement` and `(*MainModuleSet).GoVersion` — they produce the same result when a `go` version is present (which by now is “basically always”).\n\nIf it\u0027s important that we know whether the Go version was explicit, perhaps `GoVersion` should return a `(string, bool)` to indicate that (instead of just a `string`)?",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52b76207_1ee42d88",
         "filename": "src/cmd/go/internal/modcmd/vendor.go",
         "patchSetId": 12
@@ -69,6 +86,29 @@
       "side": 1,
       "message": "Does this work? I moved the workfile replacements first, and then we list the replacements that are not overridden from each of the go.mod files.",
       "parentUuid": "52b76207_1ee42d88",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "651ae693_062eee81",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T18:03:56Z",
+      "side": 1,
+      "message": "We previously had the invariant that all of the modules in `rs.rootModules` are present in `mg.g` even in `vendor` mode. I think we have lost that property here.\n\nIn particular, I believe we have lost the `go` and/or` toolchain` roots added from the `go.work` file (although I would not want to fix that by hard-coding those specific targets here).\n\nPerhaps in workspace mode we need to call `mvs.NewGraph` with `rs.rootModules` instead of `MainModules.Versions()`?",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 39
+      },
       "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -139,6 +179,46 @@
       "side": 1,
       "message": "That\u0027s VendorDir(), right?",
       "parentUuid": "37694cc9_04d4a8c3",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f2868a8_3783f931",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T18:03:56Z",
+      "side": 1,
+      "message": "I wonder if the `go` and `toolchain` roots should be included in the slice returned by `rootsFromModFile`. That would provide a somewhat more realistic graph with workspace vendoring, although it\u0027s not obvious to me whether that realism is strictly necessary.",
+      "range": {
+        "startLine": 1295,
+        "startChar": 0,
+        "endLine": 1306,
+        "endChar": 2
+      },
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2112f78_ff8f0780",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-21T18:03:56Z",
+      "side": 1,
+      "message": "A comment on the `2+` here would be helpful here — this extra padding is for the `go` and/or `toolchain` requirements added in `requirementsFromModFiles`, but that fact is no local local within the same scope.",
       "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
