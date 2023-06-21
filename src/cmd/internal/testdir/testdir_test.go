@@ -215,9 +215,13 @@ var stdlibImportcfgString string
 
 func stdlibImportcfg() string {
 	stdlibImportcfgStringOnce.Do(func() {
-		output, err := exec.Command(goTool, "list", "-export", "-f", "{{if .Export}}packagefile {{.ImportPath}}={{.Export}}{{end}}", "std").Output()
+		cmd := exec.Command(goTool, "list", "-export", "-f", "{{if .Export}}packagefile {{.ImportPath}}={{.Export}}{{end}}", "std")
+		output, err := cmd.Output()
+		if ee, ok := err.(*exec.ExitError); ok {
+			log.Fatalf("'go list' failed: exit code %d: %s", ee.ExitCode(), ee.Stderr)
+		}
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("'go list' failed: %v", err)
 		}
 		stdlibImportcfgString = string(output)
 	})
