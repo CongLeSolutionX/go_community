@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "47e6f2a1_d5a0b65f",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-21T17:54:12Z",
+      "side": 1,
+      "message": "Does this work? I moved the workfile replacements first, and then we list the replacements that are not overridden from each of the go.mod files.",
+      "parentUuid": "52b76207_1ee42d88",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9544ed4d_954a893f",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a678fb7_6a023db7",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-21T17:54:12Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "9544ed4d_954a893f",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37694cc9_04d4a8c3",
@@ -85,6 +121,24 @@
       "writtenOn": "2023-06-20T21:41:32Z",
       "side": 1,
       "message": "The call to `filepath.Dir` here looks a little suspect.\nThat return value appears to only be used here:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modload/load.go;l\u003d1805;drc\u003dce8146ed3361f584ba79427ac6c6d6fe9c297bea\n\nIt is fed as an input to `modload.scanDir`, which passes it to `modindex.GetPackage`. `GetPackage` calls `GetModule`, which then [returns an error](https://cs.opensource.google/go/go/+/refs/heads/master:src/cmd/go/internal/modindex/read.go;l\u003d156-161;drc\u003d98617fd23fa799173c33741987d41ee64cbb2a4f), causing `GetPackage` to fall back to per-package indexing. It isn\u0027t clear to me what the per-package indexer does with that information or whether there may be a bug there.\n\nAt any rate: I think I would find this less confusing if the path added to `roots` is the same as the third (`mdir`) argument passed to `dirInModule`, since that is the case for all of the other calls to `dirInModule` here.",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acf88e9f_b5dc8b34",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-21T17:54:12Z",
+      "side": 1,
+      "message": "That\u0027s VendorDir(), right?",
+      "parentUuid": "37694cc9_04d4a8c3",
       "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
