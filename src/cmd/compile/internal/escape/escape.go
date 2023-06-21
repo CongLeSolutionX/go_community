@@ -81,6 +81,102 @@ import (
 // That is, we don't distinguish x.f from x.g, or u[0] from u[1],
 // u[2], etc. However, we do record the implicit dereference involved
 // in indexing a slice.
+//
+// While constructing the graph, in some cases we make early escape
+// deductions (either as optimizations, or as conservative simplifications
+// such as by not following some ODOTPTR or ODEREF dereferences).
+
+// Examples.
+//
+// We illustrate the basic workings of escape analysis with some examples
+// and the corresponding debug output from -gcflags=-m=2.
+//
+// Example 1: Simple Flow to Result
+//
+//   func f1(inptr *int) (outptr *int) {
+// 	 	localptr := inptr
+// 	 	return localptr
+//   }
+//
+//   ./f1.go:3:  parameter inptr leaks to outptr for f1 with derefs=0:
+//   ./f1.go:3:    flow: localptr ← inptr:
+//   ./f1.go:3:      from localptr := inptr (assign) at ./f1.go:4
+//   ./f1.go:3:    flow: outptr ← localptr:
+//   ./f1.go:3:      from return localptr (return) at ./f1.go:5
+//
+// As the debug log shows, escape analysis follows the flow of the inptr parameter,
+// first to localptr and then to the outptr result.
+//
+// The "flow:" lines in the log show the abstracted data flow from location to location.
+//
+// The "from" lines show details about each flow, most often as actual Go snippets (though
+// possibly transformed from the original code to include temporary variables and so on).
+//
+// Whether the input to f1 ultimately escapes to the heap depends on the call site,
+// including how the result is used. Escape analysis creates a parameter tag
+// recording that f1's first parameter flows to its first result with no dereferences,
+// as shown in the first line of the log above.
+//
+// Example 2: Simple Escape
+//
+//   func f2() *Foo {
+//   	foo := Foo{}
+//   	return &foo
+//   }
+//
+//   ./f2.go:4:  foo escapes to heap in f2:
+//   ./f2.go:4:    flow: ~r0 ← &foo:
+//   ./f2.go:4:      from &foo (address-of) at ./f2.go:5
+//   ./f2.go:4:      from return &foo (return) at ./f2.go:5
+//
+// The log shows the address of foo flows to the return variable denoted by ~r0.
+// Invariant (2) from above states a pointer to a stack object cannot outlive
+// the stack object, and hence foo escapes to the heap here.
+//
+// Example 3: Cascading Escape
+//
+// Next we blend Example 1 and Example 2:
+//
+//   func f3(inptr *int) *Foo {
+//   	foo := Foo{}
+//   	foo.ptr = inptr
+//   	return &foo
+//   }
+//
+//   ./f3.go:3:  parameter inptr leaks to foo for f3 with derefs=0:
+//   ./f3.go:3:    flow: foo ← inptr:
+//   ./f3.go:3:      from foo.ptr = inptr (assign) at ./f3.go:5
+//
+// Just as in Example 2, foo escapes to the heap (identical logs ellided).
+// In contrast to Example 1, inptr now flows to foo. Invariant (1) above
+// states we cannot store a pointer to a stack object in the heap,
+// and hence inptr must also be heap allocated.
+//
+// The current implementation first notices that foo escapes to the heap, and then
+// later observes that inptr has a path to that escaping location in walkOne. TODO: confirm.
+//
+// Example 4: Static Call Sites
+//
+// Finally, we invoke Example 1 and Example 3:
+//
+//   func f4(inptr *int) {
+//   	var in1 int
+//   	var in3 int
+//   	_ = f1(&in1) // call "simple flow to result" example
+//   	_ = f3(&in3) // call "cascaded escape" example
+//   }
+//
+// When f1 and f3 are inlined, escape analysis concludes nothing escapes. If we
+// disable inlining or imagine f1 and f3 are too complex to inline, we get:
+//
+//   ./f4.go:5:  in3 escapes to heap in f4:
+//   ./f4.go:5:    flow: <heap> ← &in3:
+//   ./f4.go:5:      from &in3 (address-of) at ./f4.go:7
+//   ./f4.go:5:      from f3(&in3) (call parameter) at ./f4.go:7
+//
+// Escape analysis deduces in1 does not escape based on having earlier recorded that
+// f1's parameter flows to its result and then concluding f1's result does not escape in f4.
+// On the other hand, f3's parameter was recorded as escaping to the heap, so in3 escapes.
 
 // A batch holds escape analysis state that's shared across an entire
 // batch of functions being analyzed at once.
