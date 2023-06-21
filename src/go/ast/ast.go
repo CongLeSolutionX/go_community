@@ -287,7 +287,7 @@ type (
 	Ident struct {
 		NamePos token.Pos // identifier position
 		Name    string    // identifier name
-		Obj     *Object   // denoted object; or nil
+		Obj     *Object   // denoted object, or nil. Deprecated: see Object.
 	}
 
 	// An Ellipsis node stands for the "..." type in a
