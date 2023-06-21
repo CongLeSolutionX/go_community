@@ -92,6 +92,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6b6ef26f_0083dfe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-06-21T22:23:38Z",
+      "side": 1,
+      "message": "Sure. Let me know if you want a ping when 1.21 is out.\nAnd thanks for reviewing!",
+      "parentUuid": "9be185d5_1876e15c",
+      "revId": "c074e4d2069152a0543e05f3a1b6185d202fa7cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eda44a49_a3a682fe",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 1
