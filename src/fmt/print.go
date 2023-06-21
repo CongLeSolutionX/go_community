@@ -120,12 +120,6 @@ func (bp *buffer) writeRune(r rune) {
 type pp struct {
 	buf buffer
 
-	// arg holds the current item, as an interface{}.
-	arg any
-
-	// value is used instead of arg for reflect values.
-	value reflect.Value
-
 	// fmt is used to format basic items such as integers or strings.
 	fmt fmt
 
@@ -175,8 +169,6 @@ func (p *pp) free() {
 		p.wrappedErrs = nil
 	}
 
-	p.arg = nil
-	p.value = reflect.Value{}
 	p.wrappedErrs = p.wrappedErrs[:0]
 	ppFree.Put(p)
 }
@@ -378,20 +370,20 @@ func (p *pp) unknownType(v reflect.Value) {
 	p.buf.writeByte('?')
 }
 
-func (p *pp) badVerb(verb rune) {
+func (p *pp) badVerb(eface any, value reflect.Value, verb rune) {
 	p.erroring = true
 	p.buf.writeString(percentBangString)
 	p.buf.writeRune(verb)
 	p.buf.writeByte('(')
 	switch {
-	case p.arg != nil:
-		p.buf.writeString(reflect.TypeOf(p.arg).String())
+	case eface != nil:
+		p.buf.writeString(reflect.TypeOf(eface).String())
 		p.buf.writeByte('=')
-		p.printArg(p.arg, 'v')
-	case p.value.IsValid():
-		p.buf.writeString(p.value.Type().String())
+		p.printArg(eface, 'v')
+	case value.IsValid():
+		p.buf.writeString(value.Type().String())
 		p.buf.writeByte('=')
-		p.printValue(p.value, 'v', 0)
+		p.printValue(value, 'v', 0)
 	default:
 		p.buf.writeString(nilAngleString)
 	}
@@ -399,12 +391,12 @@ func (p *pp) badVerb(verb rune) {
 	p.erroring = false
 }
 
-func (p *pp) fmtBool(v bool, verb rune) {
+func (p *pp) fmtBool(eface any, value reflect.Value, v bool, verb rune) {
 	switch verb {
 	case 't', 'v':
 		p.fmt.fmtBoolean(v)
 	default:
-		p.badVerb(verb)
+		p.badVerb(eface, value, verb)
 	}
 }
 
@@ -418,7 +410,7 @@ func (p *pp) fmt0x64(v uint64, leading0x bool) {
 }
 
 // fmtInteger formats a signed or unsigned integer.
-func (p *pp) fmtInteger(v uint64, isSigned bool, verb rune) {
+func (p *pp) fmtInteger(eface any, value reflect.Value, v uint64, isSigned bool, verb rune) {
 	switch verb {
 	case 'v':
 		if p.fmt.sharpV && !isSigned {
@@ -443,13 +435,13 @@ func (p *pp) fmtInteger(v uint64, isSigned bool, verb rune) {
 	case 'U':
 		p.fmt.fmtUnicode(v)
 	default:
-		p.badVerb(verb)
+		p.badVerb(eface, value, verb)
 	}
 }
 
 // fmtFloat formats a float. The default precision for each verb
 // is specified as last argument in the call to fmt_float.
-func (p *pp) fmtFloat(v float64, size int, verb rune) {
+func (p *pp) fmtFloat(eface any, value reflect.Value, v float64, size int, verb rune) {
 	switch verb {
 	case 'v':
 		p.fmt.fmtFloat(v, size, 'g', -1)
@@ -460,32 +452,32 @@ func (p *pp) fmtFloat(v float64, size int, verb rune) {
 	case 'F':
 		p.fmt.fmtFloat(v, size, 'f', 6)
 	default:
-		p.badVerb(verb)
+		p.badVerb(eface, value, verb)
 	}
 }
 
 // fmtComplex formats a complex number v with
 // r = real(v) and j = imag(v) as (r+ji) using
 // fmtFloat for r and j formatting.
-func (p *pp) fmtComplex(v complex128, size int, verb rune) {
+func (p *pp) fmtComplex(eface any, value reflect.Value, v complex128, size int, verb rune) {
 	// Make sure any unsupported verbs are found before the
 	// calls to fmtFloat to not generate an incorrect error string.
 	switch verb {
 	case 'v', 'b', 'g', 'G', 'x', 'X', 'f', 'F', 'e', 'E':
 		oldPlus := p.fmt.plus
 		p.buf.writeByte('(')
-		p.fmtFloat(real(v), size/2, verb)
+		p.fmtFloat(eface, value, real(v), size/2, verb)
 		// Imaginary part always has a sign.
 		p.fmt.plus = true
-		p.fmtFloat(imag(v), size/2, verb)
+		p.fmtFloat(eface, value, imag(v), size/2, verb)
 		p.buf.writeString("i)")
 		p.fmt.plus = oldPlus
 	default:
-		p.badVerb(verb)
+		p.badVerb(eface, value, verb)
 	}
 }
 
-func (p *pp) fmtString(v string, verb rune) {
+func (p *pp) fmtString(eface any, value reflect.Value, v string, verb rune) {
 	switch verb {
 	case 'v':
 		if p.fmt.sharpV {
@@ -502,7 +494,7 @@ func (p *pp) fmtString(v string, verb rune) {
 	case 'q':
 		p.fmt.fmtQ(v)
 	default:
-		p.badVerb(verb)
+		p.badVerb(eface, value, verb)
 	}
 }
 
@@ -546,13 +538,13 @@ func (p *pp) fmtBytes(v []byte, verb rune, typeString string) {
 	}
 }
 
-func (p *pp) fmtPointer(value reflect.Value, verb rune) {
+func (p *pp) fmtPointer(eface any, value reflect.Value, verb rune) {
 	var u uintptr
 	switch value.Kind() {
 	case reflect.Chan, reflect.Func, reflect.Map, reflect.Pointer, reflect.Slice, reflect.UnsafePointer:
 		u = uintptr(value.UnsafePointer())
 	default:
-		p.badVerb(verb)
+		p.badVerb(eface, value, verb)
 		return
 	}
 
@@ -578,9 +570,9 @@ func (p *pp) fmtPointer(value reflect.Value, verb rune) {
 	case 'p':
 		p.fmt0x64(uint64(u), !p.fmt.sharp)
 	case 'b', 'o', 'd', 'x', 'X':
-		p.fmtInteger(uint64(u), unsigned, verb)
+		p.fmtInteger(eface, value, uint64(u), unsigned, verb)
 	default:
-		p.badVerb(verb)
+		p.badVerb(eface, value, verb)
 	}
 }
 
@@ -618,15 +610,15 @@ func (p *pp) catchPanic(arg any, verb rune, method string) {
 	}
 }
 
-func (p *pp) handleMethods(verb rune) (handled bool) {
+func (p *pp) handleMethods(eface any, value reflect.Value, verb rune) (handled bool) {
 	if p.erroring {
 		return
 	}
 	if verb == 'w' {
 		// It is invalid to use %w other than with Errorf or with a non-error arg.
-		_, ok := p.arg.(error)
+		_, ok := eface.(error)
 		if !ok || !p.wrapErrs {
-			p.badVerb(verb)
+			p.badVerb(eface, value, verb)
 			return true
 		}
 		// If the arg is a Formatter, pass 'v' as the verb to it.
@@ -634,18 +626,18 @@ func (p *pp) handleMethods(verb rune) (handled bool) {
 	}
 
 	// Is it a Formatter?
-	if formatter, ok := p.arg.(Formatter); ok {
+	if formatter, ok := eface.(Formatter); ok {
 		handled = true
-		defer p.catchPanic(p.arg, verb, "Format")
+		defer p.catchPanic(eface, verb, "Format")
 		formatter.Format(p, verb)
 		return
 	}
 
 	// If we're doing Go syntax and the argument knows how to supply it, take care of it now.
 	if p.fmt.sharpV {
-		if stringer, ok := p.arg.(GoStringer); ok {
+		if stringer, ok := eface.(GoStringer); ok {
 			handled = true
-			defer p.catchPanic(p.arg, verb, "GoString")
+			defer p.catchPanic(eface, verb, "GoString")
 			// Print the result of GoString unadorned.
 			p.fmt.fmtS(stringer.GoString())
 			return
@@ -660,17 +652,17 @@ func (p *pp) handleMethods(verb rune) (handled bool) {
 			// The duplication in the bodies is necessary:
 			// setting handled and deferring catchPanic
 			// must happen before calling the method.
-			switch v := p.arg.(type) {
+			switch v := eface.(type) {
 			case error:
 				handled = true
-				defer p.catchPanic(p.arg, verb, "Error")
-				p.fmtString(v.Error(), verb)
+				defer p.catchPanic(eface, verb, "Error")
+				p.fmtString(eface, value, v.Error(), verb)
 				return
 
 			case Stringer:
 				handled = true
-				defer p.catchPanic(p.arg, verb, "String")
-				p.fmtString(v.String(), verb)
+				defer p.catchPanic(eface, verb, "String")
+				p.fmtString(eface, value, v.String(), verb)
 				return
 			}
 		}
@@ -678,16 +670,13 @@ func (p *pp) handleMethods(verb rune) (handled bool) {
 	return false
 }
 
-func (p *pp) printArg(arg any, verb rune) {
-	p.arg = arg
-	p.value = reflect.Value{}
-
-	if arg == nil {
+func (p *pp) printArg(eface any, verb rune) {
+	if eface == nil {
 		switch verb {
 		case 'T', 'v':
 			p.fmt.padString(nilAngleString)
 		default:
-			p.badVerb(verb)
+			p.badVerb(eface, reflect.Value{}, verb)
 		}
 		return
 	}
@@ -696,64 +685,64 @@ func (p *pp) printArg(arg any, verb rune) {
 	// %T (the value's type) and %p (its address) are special; we always do them first.
 	switch verb {
 	case 'T':
-		p.fmt.fmtS(reflect.TypeOf(arg).String())
+		p.fmt.fmtS(reflect.TypeOf(eface).String())
 		return
 	case 'p':
-		p.fmtPointer(reflect.ValueOf(arg), 'p')
+		p.fmtPointer(eface, reflect.ValueOf(eface), 'p')
 		return
 	}
 
 	// Some types can be done without reflection.
-	switch f := arg.(type) {
+	switch f := eface.(type) {
 	case bool:
-		p.fmtBool(f, verb)
+		p.fmtBool(eface, reflect.Value{}, f, verb)
 	case float32:
-		p.fmtFloat(float64(f), 32, verb)
+		p.fmtFloat(eface, reflect.Value{}, float64(f), 32, verb)
 	case float64:
-		p.fmtFloat(f, 64, verb)
+		p.fmtFloat(eface, reflect.Value{}, f, 64, verb)
 	case complex64:
-		p.fmtComplex(complex128(f), 64, verb)
+		p.fmtComplex(eface, reflect.Value{}, complex128(f), 64, verb)
 	case complex128:
-		p.fmtComplex(f, 128, verb)
+		p.fmtComplex(eface, reflect.Value{}, f, 128, verb)
 	case int:
-		p.fmtInteger(uint64(f), signed, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), signed, verb)
 	case int8:
-		p.fmtInteger(uint64(f), signed, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), signed, verb)
 	case int16:
-		p.fmtInteger(uint64(f), signed, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), signed, verb)
 	case int32:
-		p.fmtInteger(uint64(f), signed, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), signed, verb)
 	case int64:
-		p.fmtInteger(uint64(f), signed, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), signed, verb)
 	case uint:
-		p.fmtInteger(uint64(f), unsigned, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), unsigned, verb)
 	case uint8:
-		p.fmtInteger(uint64(f), unsigned, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), unsigned, verb)
 	case uint16:
-		p.fmtInteger(uint64(f), unsigned, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), unsigned, verb)
 	case uint32:
-		p.fmtInteger(uint64(f), unsigned, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), unsigned, verb)
 	case uint64:
-		p.fmtInteger(f, unsigned, verb)
+		p.fmtInteger(eface, reflect.Value{}, f, unsigned, verb)
 	case uintptr:
-		p.fmtInteger(uint64(f), unsigned, verb)
+		p.fmtInteger(eface, reflect.Value{}, uint64(f), unsigned, verb)
 	case string:
-		p.fmtString(f, verb)
+		p.fmtString(eface, reflect.Value{}, f, verb)
 	case []byte:
 		p.fmtBytes(f, verb, "[]byte")
 	case reflect.Value:
 		// Handle extractable values with special methods
 		// since printValue does not handle them at depth 0.
 		if f.IsValid() && f.CanInterface() {
-			p.arg = f.Interface()
-			if p.handleMethods(verb) {
+			eface = f.Interface() // TODO(thepudds): Avoid this. Currently causes f to escape.
+			if p.handleMethods(eface, reflect.Value{}, verb) {
 				return
 			}
 		}
 		p.printValue(f, verb, 0)
 	default:
 		// If the type is not simple, it might have methods.
-		if !p.handleMethods(verb) {
+		if !p.handleMethods(eface, reflect.Value{}, verb) {
 			// Need to use reflection, since the type had no
 			// interface methods that could be used for formatting.
 			p.printValue(reflect.ValueOf(f), verb, 0)
@@ -766,13 +755,11 @@ func (p *pp) printArg(arg any, verb rune) {
 func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 	// Handle values with special methods if not already handled by printArg (depth == 0).
 	if depth > 0 && value.IsValid() && value.CanInterface() {
-		p.arg = value.Interface()
-		if p.handleMethods(verb) {
+		eface := value.Interface() // TODO(thepudds): Avoid this. Currently causes value to escape.
+		if p.handleMethods(eface, value, verb) {
 			return
 		}
 	}
-	p.arg = nil
-	p.value = value
 
 	switch f := value; value.Kind() {
 	case reflect.Invalid:
@@ -783,25 +770,25 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 			case 'v':
 				p.buf.writeString(nilAngleString)
 			default:
-				p.badVerb(verb)
+				p.badVerb(nil, value, verb)
 			}
 		}
 	case reflect.Bool:
-		p.fmtBool(f.Bool(), verb)
+		p.fmtBool(nil, value, f.Bool(), verb)
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		p.fmtInteger(uint64(f.Int()), signed, verb)
+		p.fmtInteger(nil, value, uint64(f.Int()), signed, verb)
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-		p.fmtInteger(f.Uint(), unsigned, verb)
+		p.fmtInteger(nil, value, f.Uint(), unsigned, verb)
 	case reflect.Float32:
-		p.fmtFloat(f.Float(), 32, verb)
+		p.fmtFloat(nil, value, f.Float(), 32, verb)
 	case reflect.Float64:
-		p.fmtFloat(f.Float(), 64, verb)
+		p.fmtFloat(nil, value, f.Float(), 64, verb)
 	case reflect.Complex64:
-		p.fmtComplex(f.Complex(), 64, verb)
+		p.fmtComplex(nil, value, f.Complex(), 64, verb)
 	case reflect.Complex128:
-		p.fmtComplex(f.Complex(), 128, verb)
+		p.fmtComplex(nil, value, f.Complex(), 128, verb)
 	case reflect.String:
-		p.fmtString(f.String(), verb)
+		p.fmtString(nil, value, f.String(), verb)
 	case reflect.Map:
 		if p.fmt.sharpV {
 			p.buf.writeString(f.Type().String())
@@ -924,7 +911,7 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 		}
 		fallthrough
 	case reflect.Chan, reflect.Func, reflect.UnsafePointer:
-		p.fmtPointer(f, verb)
+		p.fmtPointer(nil, f, verb)
 	default:
 		p.unknownType(f)
 	}
