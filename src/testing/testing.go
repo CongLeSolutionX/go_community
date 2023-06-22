@@ -71,30 +71,47 @@
 //
 // A sample benchmark function looks like this:
 //
-//	func BenchmarkRandInt(b *testing.B) {
-//	    for i := 0; i < b.N; i++ {
-//	        rand.Int()
+//	func BenchmarkCountSpecial(b *testing.B) {
+//	    input := make([]int, 10000)
+//	    for i := 0; i < len(input); i++ {
+//	        input[i] = rand.Intn(500)
 //	    }
+//	    b.ResetTimer()
+//
+//	    result := 0
+//	    for i := 0; i < b.N; i++ {
+//	        result += countSpecial(input)
+//	    }
+//
+//	    runtime.KeepAlive(result)
 //	}
+//
+//	// countSpecial is an artificial example of a function we want to benchmark
+//	func countSpecial(nums []int) int {
+//	    result := 0
+//	    for _, n := range nums {
+//	        if n >= 100 && n < 200 {
+//	            result += 1
+//	        }
+//	    }
+//	    return result
+//	}
+//
+// Collecting all counts in a result and calling runtime.KeepAlive(result)
+// prevents the compiler from optimizing away the result of the calculation
+// (which it could do if its result was not assigned anywhere that's preserved
+// after the benchmark is done).
 //
 // The benchmark function must run the target code b.N times.
-// During benchmark execution, b.N is adjusted until the benchmark function lasts
-// long enough to be timed reliably. The output
+// During benchmark execution, b.N is adjusted until the benchmark function
+// lasts long enough to be timed reliably. The output
 //
-//	BenchmarkRandInt-8   	68453040	        17.8 ns/op
+//	BenchmarkCountSpecial-8   	209419	         5593 ns/op
 //
-// means that the loop ran 68453040 times at a speed of 17.8 ns per loop.
+// means that the loop ran 209419 times at a speed of 5593 ns per loop.
 //
-// If a benchmark needs some expensive setup before running, the timer
-// may be reset:
-//
-//	func BenchmarkBigLen(b *testing.B) {
-//	    big := NewBig()
-//	    b.ResetTimer()
-//	    for i := 0; i < b.N; i++ {
-//	        big.Len()
-//	    }
-//	}
+// Since the setup step could be potentially costly, the benchmark timer is
+// reset with b.ResetTimer() before moving on to the benchmark loop.
 //
 // If a benchmark needs to test performance in a parallel setting, it may use
 // the RunParallel helper function; such benchmarks are intended to be used with
