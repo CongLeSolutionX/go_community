@@ -81,7 +81,7 @@ var HexEncoding = NewEncoding(encodeHex)
 // be contained in the encoding's alphabet and must be a rune equal or
 // below '\xff'.
 func (enc Encoding) WithPadding(padding rune) *Encoding {
-	if padding == '\r' || padding == '\n' || padding > 0xff {
+	if padding < NoPadding || padding == '\r' || padding == '\n' || padding > 0xff {
 		panic("invalid padding")
 	}
 
