@@ -699,7 +699,7 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	pkgs = load.PackagesAndErrors(ctx, pkgOpts, pkgArgs)
 	load.CheckPackageErrors(pkgs)
 	if len(pkgs) == 0 {
-		base.Fatalf("no packages to test")
+		return // No packages to test.
 	}
 
 	if testFuzz != "" {

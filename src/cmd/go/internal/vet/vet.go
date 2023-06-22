@@ -88,7 +88,7 @@ func runVet(ctx context.Context, cmd *base.Command, args []string) {
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, pkgArgs)
 	load.CheckPackageErrors(pkgs)
 	if len(pkgs) == 0 {
-		base.Fatalf("no packages to vet")
+		return // No packages to vet.
 	}
 
 	b := work.NewBuilder("")
