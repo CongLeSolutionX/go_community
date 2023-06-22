@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b13fe127_885f74ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2023-06-22T18:30:38Z",
+      "side": 1,
+      "message": "While the current example with rand.Int() likely won\u0027t be optimized away, it\u0027s a very peculiar property of the rand.Int() function itself and gives users a very false sense of security - invoking a function the same way in a loop, ignoring its return value.\n\nThe goal of the CL is two-fold: (1) partially address #27400 by adding documentation and (2) replacing the example with a less dangerous one (though I\u0027m not sure whether using Sink vs. runtime.KeepAlive is the right strategy and am open to other opinions)",
+      "revId": "ad7dd81e858e2a5a3c55ebc9b1faf3bc47da57db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
