@@ -71,19 +71,27 @@
 //
 // A sample benchmark function looks like this:
 //
-//	func BenchmarkRandInt(b *testing.B) {
+//	// Sink makes sure the result of our benchmark is assigned to an exported
+//	// variable to prevent compiler optimizations from removing the hex.Encode
+//	// call due to not having externally observable side effects.
+//	var Sink []byte
+//
+//	func BenchmarkEncode(b *testing.B) {
+//	    src := []byte{2, 3, 5, 7, 11, 13, 17, 19}
+//	    Sink = make([]byte, hex.EncodedLen(len(src)))
+//
 //	    for i := 0; i < b.N; i++ {
-//	        rand.Int()
+//	        hex.Encode(Sink, src)
 //	    }
 //	}
 //
 // The benchmark function must run the target code b.N times.
-// During benchmark execution, b.N is adjusted until the benchmark function lasts
-// long enough to be timed reliably. The output
+// During benchmark execution, b.N is adjusted until the benchmark function
+// lasts long enough to be timed reliably. The output
 //
-//	BenchmarkRandInt-8   	68453040	        17.8 ns/op
+//	BenchmarkEncode-8   	180933814	         6.614 ns/op
 //
-// means that the loop ran 68453040 times at a speed of 17.8 ns per loop.
+// means that the loop ran 180933814 times at a speed of 6.6 ns per loop.
 //
 // If a benchmark needs some expensive setup before running, the timer
 // may be reset:
