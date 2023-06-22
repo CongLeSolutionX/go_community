@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2392bce_cf16e90e",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-22T18:45:50Z",
+      "side": 1,
+      "message": "I think `runtime.KeepAlive` would be clearer and more robust than using an exported package variable. At least in theory, a link-time optimization (or whole-program compiler) could discover than `Sink` is never read, consider stores to that variable dead, and DCE all of the code leading up to those stores.\n\nThat is: this pattern makes assumptions about the capabilities of the compiler and toolchain that are not required in the language spec and not subject to the Go 1 compatibility policy.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "d7b0ffda136b001e870fd4b7feebbb3a2cfe31d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "224c6f82_1fe043cf",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-22T18:45:50Z",
+      "side": 1,
+      "message": "s/:\u003d/\u003d/\n\n(or else this turns into a local variable and gets DCE\u0027d.)",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 81,
+        "endChar": 14
+      },
+      "revId": "d7b0ffda136b001e870fd4b7feebbb3a2cfe31d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
