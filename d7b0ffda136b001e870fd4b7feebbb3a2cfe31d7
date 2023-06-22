@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1cf9b904_01848da7",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-22T20:20:00Z",
+      "side": 1,
+      "message": "\u003e Can we be sure that a sufficiently smart compiler won\u0027t notice that we keep writing the same thing into the same slice (`dest`) and replace the loop by a single invocation? Should we make an effort to write into difference destinations and/or read from different sources?\n\nI can\u0027t be sure of that, which is why I proposed #48768. 😅\n\nBut I could imagine a documentation change to `runtime.KeepAlive` that would promise to also keep alive any writes leading to the current value at that point. If that promise were added, then we could call `runtime.KeepAlive(dest)` at the end of each iteration to guarantee that the dead stores aren\u0027t eliminated.",
+      "parentUuid": "76ffdf46_77b62925",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "d7b0ffda136b001e870fd4b7feebbb3a2cfe31d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "224c6f82_1fe043cf",
         "filename": "src/testing/testing.go",
         "patchSetId": 4
