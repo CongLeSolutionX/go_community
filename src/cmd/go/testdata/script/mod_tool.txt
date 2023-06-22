@@ -1,0 +1,17 @@
+! grep 'tool m2' go.mod
+
+go mod edit -tool m2
+grep 'tool example.com/tool' go.mod
+
+go mod edit -droptool m2
+! grep 'tool example.com/tool' go.mod
+
+-- go.mod --
+module m
+go 1.10
+
+replace example.com/tool v1.0.0 => ./tool
+
+-- tool/go.mod --
+module m2
+go 1.23
