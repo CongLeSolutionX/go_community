@@ -170,7 +170,8 @@ require x.3 v1.99.0
 			"Low": "v1.3.0",
 			"High": "v1.4.0"
 		}
-	]
+	],
+	"Tool": null
 }
 -- $WORK/go.mod.edit3 --
 module x.x/y/z
@@ -292,7 +293,8 @@ retract (
 			"High": "v1.0.2",
 			"Rationale": "c"
 		}
-	]
+	],
+	"Tool": null
 }
 -- $WORK/go.mod.deprecation --
 // Deprecated: and the new one is not ready yet
@@ -306,7 +308,8 @@ module m
 	"Require": null,
 	"Exclude": null,
 	"Replace": null,
-	"Retract": null
+	"Retract": null,
+	"Tool": null
 }
 -- $WORK/go.mod.empty --
 -- $WORK/go.mod.empty.json --
@@ -317,5 +320,6 @@ module m
 	"Require": null,
 	"Exclude": null,
 	"Replace": null,
-	"Retract": null
+	"Retract": null,
+	"Tool": null
 }
