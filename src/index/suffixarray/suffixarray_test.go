@@ -466,33 +466,6 @@ func testSA(t *testing.T, x []byte, build func([]byte) []int) bool {
 	return true
 }
 
-var (
-	benchdata = make([]byte, 1e6)
-	benchrand = make([]byte, 1e6)
-)
-
-// Of all possible inputs, the random bytes have the least amount of substring
-// repetition, and the repeated bytes have the most. For most algorithms,
-// the running time of every input will be between these two.
-func benchmarkNew(b *testing.B, random bool) {
-	b.ReportAllocs()
-	b.StopTimer()
-	data := benchdata
-	if random {
-		data = benchrand
-		if data[0] == 0 {
-			for i := range data {
-				data[i] = byte(rand.Intn(256))
-			}
-		}
-	}
-	b.StartTimer()
-	b.SetBytes(int64(len(data)))
-	for i := 0; i < b.N; i++ {
-		New(data)
-	}
-}
-
 func makeText(name string) ([]byte, error) {
 	var data []byte
 	switch name {
