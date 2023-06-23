@@ -122,9 +122,10 @@ const (
 	MH_OBJECT  = 0x1
 	MH_EXECUTE = 0x2
 
-	MH_NOUNDEFS = 0x1
-	MH_DYLDLINK = 0x4
-	MH_PIE      = 0x200000
+	MH_NOUNDEFS                = 0x1
+	MH_DYLDLINK                = 0x4
+	MH_SUBSECTIONS_VIA_SYMBOLS = 0x2000
+	MH_PIE                     = 0x200000
 )
 
 const (
@@ -376,6 +377,9 @@ func machowrite(ctxt *Link, arch *sys.Arch, out *OutBuf, linkmode LinkMode) int 
 	if ctxt.IsPIE() && linkmode == LinkInternal {
 		flags |= MH_PIE | MH_DYLDLINK
 	}
+	if linkmode == LinkExternal {
+		flags |= MH_SUBSECTIONS_VIA_SYMBOLS // XXX
+	}
 	out.Write32(flags) /* flags */
 	if arch.PtrSize == 8 {
 		out.Write32(0) /* reserved */
@@ -619,6 +623,10 @@ func machoshbits(ctxt *Link, mseg *MachoSeg, sect *sym.Section, segname string) 
 	} else {
 		msect.off = 0
 		msect.flag |= S_ZEROFILL
+	}
+
+	if sect.Name == ".bss" || sect.Name == ".noptrbss" { // XXX
+		msect.name = "__common"
 	}
 
 	if sect.Rwx&1 != 0 {
