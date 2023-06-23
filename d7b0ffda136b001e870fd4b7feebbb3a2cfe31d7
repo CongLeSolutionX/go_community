@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd04b92e_4ebd13ba",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2023-06-23T13:48:54Z",
+      "side": 1,
+      "message": "I went ahead and changed the example to something that returns a scalar, which can then be easily collected into an aggregate and a KeepAlive on that aggregate \n\nIt\u0027s difficult to find stdlib examples that will actually be optimized away (typically because of implementation complexity which prevents inlining), so I\u0027m using an artificial example here. The benefit is that this benchmark is actually giving wrong results w/o the KeepAlive, and correct results with it.",
+      "parentUuid": "1cf9b904_01848da7",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "d7b0ffda136b001e870fd4b7feebbb3a2cfe31d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "224c6f82_1fe043cf",
         "filename": "src/testing/testing.go",
         "patchSetId": 4
