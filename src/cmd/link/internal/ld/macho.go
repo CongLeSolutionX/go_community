@@ -122,9 +122,10 @@ const (
 	MH_OBJECT  = 0x1
 	MH_EXECUTE = 0x2
 
-	MH_NOUNDEFS = 0x1
-	MH_DYLDLINK = 0x4
-	MH_PIE      = 0x200000
+	MH_NOUNDEFS                = 0x1
+	MH_DYLDLINK                = 0x4
+	MH_SUBSECTIONS_VIA_SYMBOLS = 0x2000
+	MH_PIE                     = 0x200000
 )
 
 const (
@@ -200,6 +201,12 @@ const (
 	PLATFORM_TVOS     MachoPlatform = 3
 	PLATFORM_WATCHOS  MachoPlatform = 4
 	PLATFORM_BRIDGEOS MachoPlatform = 5
+)
+
+// symbol description
+const (
+	N_NO_DEAD_STRIP = 0x20
+	N_ALT_ENTRY     = 0x200
 )
 
 // rebase table opcode
@@ -375,6 +382,9 @@ func machowrite(ctxt *Link, arch *sys.Arch, out *OutBuf, linkmode LinkMode) int 
 	}
 	if ctxt.IsPIE() && linkmode == LinkInternal {
 		flags |= MH_PIE | MH_DYLDLINK
+	}
+	if linkmode == LinkExternal {
+		flags |= MH_SUBSECTIONS_VIA_SYMBOLS // XXX
 	}
 	out.Write32(flags) /* flags */
 	if arch.PtrSize == 8 {
@@ -619,6 +629,10 @@ func machoshbits(ctxt *Link, mseg *MachoSeg, sect *sym.Section, segname string) 
 	} else {
 		msect.off = 0
 		msect.flag |= S_ZEROFILL
+	}
+
+	if sect.Name == ".bss" || sect.Name == ".noptrbss" { // XXX
+		msect.name = "__common"
 	}
 
 	if sect.Rwx&1 != 0 {
@@ -1086,7 +1100,13 @@ func machosymtab(ctxt *Link) {
 			} else {
 				symtab.AddUint8(uint8(ldr.SymSect(o).Extnum))
 			}
-			symtab.AddUint16(ctxt.Arch, 0) // desc
+			var desc uint16
+			if ctxt.IsExternal() {
+				desc = N_NO_DEAD_STRIP
+				// XXX we probably also want N_ALT_ENTRY, but setting it causes
+				// ld-prime to drop debug STAB symbols.
+			}
+			symtab.AddUint16(ctxt.Arch, desc) // desc
 			symtab.AddUintXX(ctxt.Arch, uint64(ldr.SymAddr(s)), ctxt.Arch.PtrSize)
 		}
 	}
