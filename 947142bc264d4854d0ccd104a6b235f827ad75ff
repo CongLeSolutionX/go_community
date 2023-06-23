@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2209892_09a62b38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-23T20:34:14Z",
+      "side": 1,
+      "message": "I\u0027m a bit hesitant to commit to runtime.KeepAlive being our plan for making benchmarks more reliable.  It does work as far as I know.  But KeepAlive is a fairly special-purpose function that was invented for use with finalizers, and not really for any other purpose.  If we want to start using it for benchmarks, then we should add that to the KeepAlive documentation.",
+      "revId": "947142bc264d4854d0ccd104a6b235f827ad75ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c65980d_337d88b0",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-06-23T20:34:14Z",
+      "side": 1,
+      "message": "for i :\u003d range input",
+      "revId": "947142bc264d4854d0ccd104a6b235f827ad75ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
