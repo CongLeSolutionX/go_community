@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "681e9921_dbd11838",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-06-24T18:15:19Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "bdf0750f92c5bf29523982a156ebf3486508b803",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed202482_ec4f2bfa",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-06-24T18:15:19Z",
+      "side": 1,
+      "message": "(optional) Maybe it can be slightly shorter by saying \"the new RevocationListEntry field\". That is, to drop the \"RevocationList.\" prefix when describing the new field name.\n\n```suggestion\n      \u003ca href\u003d\"/pkg/crypto/x509/#RevocationList.RevokedCertificates\"\u003e\u003ccode\u003eRevocationList.RevokedCertificates\u003c/code\u003e\u003c/a\u003e has been deprecated and replaced with the new \u003ca href\u003d\"/pkg/crypto/x509/#RevocationList.RevokedCertificateEntries\"\u003e\u003ccode\u003eRevokedCertificateEntries\u003c/code\u003e\u003c/a\u003e field, which is a slice of \u003ca href\u003d\"/pkg/crypto/x509/#RevocationListEntry\"\u003e\u003ccode\u003eRevocationListEntry\u003c/code\u003e\u003c/a\u003e. \u003ca href\u003d\"/pkg/crypto/x509/#RevocationListEntry\"\u003e\u003ccode\u003eRevocationListEntry\u003c/code\u003e\u003c/a\u003e contains all of the fields in \u003ca href\u003d\"/pkg/crypto/x509/#pkix.RevokedCertificate\"\u003e\u003ccode\u003epkix.RevokedCertificate\u003c/code\u003e\u003c/a\u003e, as well as the revocation reason code.\n```",
+      "revId": "bdf0750f92c5bf29523982a156ebf3486508b803",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
