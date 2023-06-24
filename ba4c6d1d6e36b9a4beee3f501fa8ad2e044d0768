@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c80b61d_5d3ad808",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-06-24T01:01:16Z",
+      "side": 1,
+      "message": "Thank you for fixing this.\n\nSorry that I am late to the party.\n\nAlex",
+      "revId": "ba4c6d1d6e36b9a4beee3f501fa8ad2e044d0768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3946836_62472a78",
+        "filename": "src/syscall/syscall_windows_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-06-24T01:01:16Z",
+      "side": 1,
+      "message": "Why this test is skipped, if os.MkdirAll fails?\n\nTests with skips sucks. How do we know that this particular test ever went beyond line 194 ? The only way to verify I know of is to manually run the test and see its output.",
+      "revId": "ba4c6d1d6e36b9a4beee3f501fa8ad2e044d0768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a594ed3d_9b0df4b0",
+        "filename": "src/syscall/syscall_windows_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-06-24T01:01:16Z",
+      "side": 1,
+      "message": "Why this test is skipped, if os.Chdir fails?",
+      "revId": "ba4c6d1d6e36b9a4beee3f501fa8ad2e044d0768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c41f0c_4d9549b2",
+        "filename": "src/syscall/syscall_windows_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-06-24T01:01:16Z",
+      "side": 1,
+      "message": "Should you be checking syscall.Getwd return value? This is what https://go.dev/play/p/RHM2HplmUvJ does that you quoted at https://github.com/golang/go/issues/60051#issue-1700641049 .",
+      "revId": "ba4c6d1d6e36b9a4beee3f501fa8ad2e044d0768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

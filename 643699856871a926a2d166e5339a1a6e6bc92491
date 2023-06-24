@@ -94,6 +94,30 @@
       },
       "revId": "643699856871a926a2d166e5339a1a6e6bc92491",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ff15d58_8f565939",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-06-24T01:01:16Z",
+      "side": 1,
+      "message": "This code assumes that GetCurrentDirectory never returns error, if its second parameter is not nil. But I don\u0027t see that stated anywhere in the docs https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getcurrentdirectory . Did I miss anything?",
+      "parentUuid": "a1412ecb_174a8ca2",
+      "range": {
+        "startLine": 538,
+        "startChar": 59,
+        "endLine": 540,
+        "endChar": 30
+      },
+      "revId": "643699856871a926a2d166e5339a1a6e6bc92491",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
