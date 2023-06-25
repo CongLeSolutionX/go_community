@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "812fcf85_af028a75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-06-25T12:19:20Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-riscv64",
+      "revId": "5b104826e0a32c99882771d1c6eb466b14f9f8bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
