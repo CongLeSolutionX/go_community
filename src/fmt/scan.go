@@ -441,7 +441,7 @@ func (s *ss) SkipSpace() {
 }
 
 // token returns the next space-delimited string from the input. It
-// skips white space. For Scanln, it stops at newlines. For Scan,
+// skips white space. For Scanln, it stops at newlines. For Scan and Scanf,
 // newlines are treated as spaces.
 func (s *ss) token(skipSpace bool, f func(rune) bool) []byte {
 	if skipSpace {
@@ -452,6 +452,9 @@ func (s *ss) token(skipSpace bool, f func(rune) bool) []byte {
 		r := s.getRune()
 		if r == eof {
 			break
+		}
+		if r == '\r' && s.peek("\n") {
+			continue
 		}
 		if !f(r) {
 			s.UnreadRune()

@@ -481,6 +481,14 @@ var multiTests = []ScanfMultiTest{
 
 	// Fixed bugs
 	{"%v%v", "FALSE23", args(&truth, &i), args(false, 23), ""},
+
+	// Final %s
+	{"%d", "5", args(&intVal), args(5), ""},
+	{"%d", "5\r\n", args(&intVal), args(5), ""},
+	{"%d", "5\n", args(&intVal), args(5), ""},
+	{"%s", "    word", args(&stringVal), args("word"), ""},
+	{"%s", "    word\r\n", args(&stringVal), args("word"), ""},
+	{"%s", "    word\n", args(&stringVal), args("word"), ""},
 }
 
 var readers = []struct {
