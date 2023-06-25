@@ -440,6 +440,8 @@ func rewriteValueRISCV64(v *Value) bool {
 		return rewriteValueRISCV64_OpRISCV64AND(v)
 	case OpRISCV64ANDI:
 		return rewriteValueRISCV64_OpRISCV64ANDI(v)
+	case OpRISCV64FADDD:
+		return rewriteValueRISCV64_OpRISCV64FADDD(v)
 	case OpRISCV64FMADDD:
 		return rewriteValueRISCV64_OpRISCV64FMADDD(v)
 	case OpRISCV64FMSUBD:
@@ -448,6 +450,8 @@ func rewriteValueRISCV64(v *Value) bool {
 		return rewriteValueRISCV64_OpRISCV64FNMADDD(v)
 	case OpRISCV64FNMSUBD:
 		return rewriteValueRISCV64_OpRISCV64FNMSUBD(v)
+	case OpRISCV64FSUBD:
+		return rewriteValueRISCV64_OpRISCV64FSUBD(v)
 	case OpRISCV64MOVBUload:
 		return rewriteValueRISCV64_OpRISCV64MOVBUload(v)
 	case OpRISCV64MOVBUreg:
@@ -3316,6 +3320,27 @@ func rewriteValueRISCV64_OpRISCV64ANDI(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueRISCV64_OpRISCV64FADDD(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	// match: (FADDD (FMULD x y) a)
+	// result: (FMADDD x y a)
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			if v_0.Op != OpRISCV64FMULD {
+				continue
+			}
+			y := v_0.Args[1]
+			x := v_0.Args[0]
+			a := v_1
+			v.reset(OpRISCV64FMADDD)
+			v.AddArg3(x, y, a)
+			return true
+		}
+		break
+	}
+	return false
+}
 func rewriteValueRISCV64_OpRISCV64FMADDD(v *Value) bool {
 	v_2 := v.Args[2]
 	v_1 := v.Args[1]
@@ -3492,6 +3517,37 @@ func rewriteValueRISCV64_OpRISCV64FNMSUBD(v *Value) bool {
 		}
 		v.reset(OpRISCV64FNMADDD)
 		v.AddArg3(x, y, z)
+		return true
+	}
+	return false
+}
+func rewriteValueRISCV64_OpRISCV64FSUBD(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	// match: (FSUBD (FMULD x y) a)
+	// result: (FMSUBD x y a)
+	for {
+		if v_0.Op != OpRISCV64FMULD {
+			break
+		}
+		y := v_0.Args[1]
+		x := v_0.Args[0]
+		a := v_1
+		v.reset(OpRISCV64FMSUBD)
+		v.AddArg3(x, y, a)
+		return true
+	}
+	// match: (FSUBD a (FMULD x y))
+	// result: (FNMSUBD x y a)
+	for {
+		a := v_0
+		if v_1.Op != OpRISCV64FMULD {
+			break
+		}
+		y := v_1.Args[1]
+		x := v_1.Args[0]
+		v.reset(OpRISCV64FNMSUBD)
+		v.AddArg3(x, y, a)
 		return true
 	}
 	return false

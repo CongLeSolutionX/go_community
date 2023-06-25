@@ -100,6 +100,9 @@
 (Abs ...) => (FABSD ...)
 
 (FMA ...) => (FMADDD ...)
+(FADDD (FMULD  x y) a) => (FMADDD  x y a)
+(FSUBD (FMULD  x y) a) => (FMSUBD  x y a)
+(FSUBD a (FMULD  x y)) => (FNMSUBD x y a)
 
 // Sign and zero extension.
 
