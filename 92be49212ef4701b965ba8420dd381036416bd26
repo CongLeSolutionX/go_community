@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db170bcb_c016f651",
+        "filename": "src/cmd/cgo/internal/test/issue18146.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-26T16:31:25Z",
+      "side": 1,
+      "message": "As far as I can tell, this change should increase — not decrease — the overall cost of the test.\n\nIn the baseline, each attempt of the test spawns a subprocess, which itself spawns a bunch of threads and concurrently re-execs itself.\n\nIn PS12, _each of those attempts_ first runs a `go build` command to build a new subcommand to exec — so we end up with ~1000 additional calls to `go build` that run all the way through the compiler and linker. I don\u0027t understand how that can plausibly cost less than running a trivial portion of an existing binary with test coverage enabled.\n\n----\n\nThat aside, since this test intentionally exhausts the kernel\u0027s thread resources I don\u0027t see how we can make it inexpensive. (The behavior under resource exhaustion is the point of the test.)\n\nIf the test slows down the user\u0027s machine too much, perhaps we should only run it by default on the Go builders (`testenv.Builder() !\u003d \"\"`), or find some way to artificially reduce the resources available to the test to make it fail faster?",
+      "revId": "92be49212ef4701b965ba8420dd381036416bd26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
