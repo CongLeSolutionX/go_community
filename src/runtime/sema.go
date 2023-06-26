@@ -368,7 +368,6 @@ Found:
 		} else {
 			t.waittail = nil
 		}
-		t.acquiretime = now
 		s.waitlink = nil
 		s.waittail = nil
 	} else {
