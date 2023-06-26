@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7089af97_33b4567b",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "I don\u0027t know if it\u0027s important, but this seems to be one of the few places we have different behavior if there\u0027s no go version. Since go versions are present most of the time, is it ok to just assume it exists? That would simplify things for sure.",
+      "parentUuid": "d267ce3a_e762397f",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52b76207_1ee42d88",
         "filename": "src/cmd/go/internal/modcmd/vendor.go",
         "patchSetId": 12
@@ -121,6 +139,30 @@
       "writtenOn": "2023-06-21T18:03:56Z",
       "side": 1,
       "message": "We previously had the invariant that all of the modules in `rs.rootModules` are present in `mg.g` even in `vendor` mode. I think we have lost that property here.\n\nIn particular, I believe we have lost the `go` and/or` toolchain` roots added from the `go.work` file (although I would not want to fix that by hard-coding those specific targets here).\n\nPerhaps in workspace mode we need to call `mvs.NewGraph` with `rs.rootModules` instead of `MainModules.Versions()`?",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b60f969d_93d013b3",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "would this be fixed if we had `rootsFromModFile` add in the `go` and `toolchain` roots?",
+      "parentUuid": "651ae693_062eee81",
       "range": {
         "startLine": 215,
         "startChar": 0,
@@ -244,6 +286,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e6bdadf_61139894",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "I tried adding them here. The code is pretty awkward because we also want to add them in the workspace case.",
+      "parentUuid": "2f2868a8_3783f931",
+      "range": {
+        "startLine": 1295,
+        "startChar": 0,
+        "endLine": 1306,
+        "endChar": 2
+      },
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d2112f78_ff8f0780",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 12
@@ -255,6 +321,24 @@
       "writtenOn": "2023-06-21T18:03:56Z",
       "side": 1,
       "message": "A comment on the `2+` here would be helpful here — this extra padding is for the `go` and/or `toolchain` requirements added in `requirementsFromModFiles`, but that fact is no local local within the same scope.",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3079efbe_ce47c358",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2112f78_ff8f0780",
       "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

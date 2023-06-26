@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d6b8777_26597310",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f36d14_1a58b7e6",
+      "range": {
+        "startLine": 585,
+        "startChar": 5,
+        "endLine": 585,
+        "endChar": 20
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a71b4bc_b361dc00",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-06-21T19:14:36Z",
       "side": 1,
       "message": "FWIW, I think it would also be ok to just consider the check to be trivially passed if there are no modules to be checked. (That might simplify the `NoRoot` case somewhat? Not sure.)\n\nMight at least be worth leaving a comment here about whether there are any specific concerns.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 2
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0c5ce61_0b39a508",
+        "filename": "src/cmd/go/internal/modload/vendor.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Added a comment.",
+      "parentUuid": "6a71b4bc_b361dc00",
       "range": {
         "startLine": 148,
         "startChar": 0,
@@ -109,6 +157,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f99feecd_732a3ada",
+        "filename": "src/cmd/go/internal/modload/vendor.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "How\u0027s this?\n\nOne potential issue is that in the error below (line 232), if we say it\u0027s replaced in the go.mod, we have to choose between giving a path relative to the go.mod (which is probably less confusing because we\u0027re saying it\u0027s replaced by X in go.mod) or a path relative to the workspace (what we\u0027re actually comparing it to)",
+      "parentUuid": "c3e1990d_3b2bf88b",
+      "range": {
+        "startLine": 229,
+        "startChar": 94,
+        "endLine": 229,
+        "endChar": 111
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc0dde63_e7c774a2",
         "filename": "src/cmd/go/testdata/script/work_vendor_main_module_replaced.txt",
         "patchSetId": 13
@@ -120,6 +192,24 @@
       "writtenOn": "2023-06-21T20:21:38Z",
       "side": 1,
       "message": "This is a nice control case, but it needs an experiment case too.\n\nIf we drop the `replace` directive in `a/go.mod`, does that cause the consistency check to fail? (Why or why not?)",
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a45437_d31dbd95",
+        "filename": "src/cmd/go/testdata/script/work_vendor_main_module_replaced.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Added a test case.",
+      "parentUuid": "dc0dde63_e7c774a2",
       "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -147,6 +237,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2cc2cc_01c34ca9",
+        "filename": "src/cmd/go/testdata/script/work_vendor_modules_txt_consistent.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe466536_65301743",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 115
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff072c1e_80147354",
@@ -160,6 +274,30 @@
       "writtenOn": "2023-06-21T20:21:38Z",
       "side": 1,
       "message": "This seems potentially problematic, or at least a little bit confusing — there is no indication that the `p` here is a file path rather than a module path.\n\nI think this is a previously-buried bug in `canonicalizeReplacePath`: perhaps it should use `ToDirectoryPath` on the resulting path to ensure that the `Path` field in a `module.Version` always refers unambiguously to exactly one of a file path or a module path?\n\n(I notice that `canonicalizeReplacePath` always returns the path unchanged when `WorkFilePath()` is empty, so this probably would not have been visible before outside of `go list`. Probably better to fix it now before it leaks into files that may be committed to version control.)",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd165edb_2c3945fb",
+        "filename": "src/cmd/go/testdata/script/work_vendor_modules_txt_consistent.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff072c1e_80147354",
       "range": {
         "startLine": 32,
         "startChar": 26,
@@ -195,6 +333,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b5c829e_97d03598",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Ah right! Done.",
+      "parentUuid": "1721b94a_32bfef05",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92d3d3b6_cd4b2db1",
         "filename": "src/cmd/go/testdata/script/work_vendor_prune_all.txt",
         "patchSetId": 13
@@ -206,6 +368,30 @@
       "writtenOn": "2023-06-21T20:21:38Z",
       "side": 1,
       "message": "(nit) Maybe `go list -f \u0027{{with .Module}}{{.Path}} {{.Version}}{{end}}\u0027 all` instead of listing the modules individually?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a2324b1_51733eba",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune_all.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d3d3b6_cd4b2db1",
       "range": {
         "startLine": 6,
         "startChar": 0,
@@ -229,6 +415,24 @@
       "writtenOn": "2023-06-21T20:21:38Z",
       "side": 1,
       "message": "(nit) `go run` might be a little overkill, given that we\u0027re already check the `Dir` for all of these dependencies. (Or maybe use `go list -deps example.com/p` instead of listing the dependency packages individually above?)",
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88168679_1682ee62",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune_all.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-26T19:36:58Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "eb3ca553_cd7cd83d",
       "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
