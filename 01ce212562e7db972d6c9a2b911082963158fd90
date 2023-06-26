@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bae2573_9a7fb7fa",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-26T18:26:05Z",
+      "side": 1,
+      "message": "```suggestion\n// IsHidden reports whether path is hidden by default in user interfaces\n// on the current platform.\n```",
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "831b2148_01a72850",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-26T18:26:05Z",
+      "side": 1,
+      "message": "For platform-independent functions with platform-dependent implementations, we usually put the exported function (and, importantly, its doc comment!) in a non-platform-specific file, and have it call an unexported function for the implementation.\n\nThat way, the doc comment and function signature are guaranteed to remain consistent across all platforms.",
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29a8d79e_910b3040",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-26T18:26:05Z",
+      "side": 1,
+      "message": "(nit) We try to avoid Latin abbreviations like `e.g.` in Go documentation. Use “such as” or “for example” instead.",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "951eaa85_41bca8d0",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-26T18:26:05Z",
+      "side": 1,
+      "message": "I think this function needs to return a `bool, error` — on Windows, it is possible that a system call needed to determine the hidden attribute could fail, in which case we don\u0027t want to claim that the file is either hidden or non-hidden.",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3341c2fb_87475968",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-26T18:26:05Z",
+      "side": 1,
+      "message": "I don\u0027t think this first part of the condition is helpful: whether the file is hidden depends on its basename, not the path leading up to that name.\n\n(On Linux, `/home/bcmills/.config` should be considered hidden, but `/home/bcmills/.config/go` should not be: if my current working directory is `/home/bcmills/.config` and I run `ls`, I will see the `go` subdirectory.)",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e06abe04_f0079bd6",
+        "filename": "src/cmd/go/internal/hidden/hidden_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-26T18:26:05Z",
+      "side": 1,
+      "message": "Either implement the needed behavior here, or fill out the remainder of the TODO?",
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
