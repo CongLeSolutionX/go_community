@@ -88,6 +88,7 @@ func FusedAdd64(x, y, z float64) float64 {
 	// s390x:"FMADD\t"
 	// ppc64x:"FMADD\t"
 	// arm64:"FMADDD"
+	// riscv64:"FMADDD\t"
 	return x*y + z
 }
 
