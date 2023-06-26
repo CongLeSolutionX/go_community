@@ -440,6 +440,8 @@ func rewriteValueRISCV64(v *Value) bool {
 		return rewriteValueRISCV64_OpRISCV64AND(v)
 	case OpRISCV64ANDI:
 		return rewriteValueRISCV64_OpRISCV64ANDI(v)
+	case OpRISCV64FADDD:
+		return rewriteValueRISCV64_OpRISCV64FADDD(v)
 	case OpRISCV64FMADDD:
 		return rewriteValueRISCV64_OpRISCV64FMADDD(v)
 	case OpRISCV64FMSUBD:
@@ -3313,6 +3315,31 @@ func rewriteValueRISCV64_OpRISCV64ANDI(v *Value) bool {
 		v.AuxInt = int64ToAuxInt(x & y)
 		v.AddArg(z)
 		return true
+	}
+	return false
+}
+func rewriteValueRISCV64_OpRISCV64FADDD(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	// match: (FADDD a (FMULD x y))
+	// cond: a.Block.Func.useFMA(v)
+	// result: (FMADDD x y a)
+	for {
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			a := v_0
+			if v_1.Op != OpRISCV64FMULD {
+				continue
+			}
+			y := v_1.Args[1]
+			x := v_1.Args[0]
+			if !(a.Block.Func.useFMA(v)) {
+				continue
+			}
+			v.reset(OpRISCV64FMADDD)
+			v.AddArg3(x, y, a)
+			return true
+		}
+		break
 	}
 	return false
 }
