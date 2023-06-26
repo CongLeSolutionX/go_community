@@ -185,7 +185,11 @@ func (b *B) runN(n int) {
 	// Try to get a comparable environment for each run
 	// by clearing garbage from previous runs.
 	runtime.GC()
-	b.raceErrors = -race.Errors()
+	if b.parent == nil {
+		b.lastRaceErrors.Store(int64(race.Errors()))
+	} else {
+		b.lastRaceErrors.Store(b.parent.checkRaces())
+	}
 	b.N = n
 	b.parallelism = 1
 	b.ResetTimer()
@@ -194,10 +198,7 @@ func (b *B) runN(n int) {
 	b.StopTimer()
 	b.previousN = n
 	b.previousDuration = b.duration
-	b.raceErrors += race.Errors()
-	if b.raceErrors > 0 {
-		b.Errorf("race detected during execution of benchmark")
-	}
+	b.checkRaces()
 }
 
 func min(x, y int64) int64 {
@@ -568,6 +569,7 @@ func runBenchmarks(importPath string, matchString func(pat, str string) (bool, e
 		main.chatty = newChattyPrinter(main.w)
 	}
 	main.runN(1)
+	main.checkRaces()
 	return !main.failed
 }
 
