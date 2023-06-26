@@ -693,6 +693,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = ir.Syms.Duffcopy
 		p.To.Offset = v.AuxInt
+	case ssa.OpRISCV64LoweredRound32F, ssa.OpRISCV64LoweredRound64F:
+		// input is already rounded
 
 	case ssa.OpClobber, ssa.OpClobberReg:
 		// TODO: implement for clobberdead experiment. Nop is ok for now.
