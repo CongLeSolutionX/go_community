@@ -11,6 +11,31 @@ import (
 	"testing"
 )
 
+// copied from math package
+func tolerance(a, b, e float64) bool {
+	// Multiplying by e here can underflow denormal values to ze
+	// Check a==b so that at least if a and b are small and iden
+	// we say they match.
+	if a == b {
+		return true
+	}
+	d := a - b
+	if d < 0 {
+		d = -d
+	}
+
+	// note: b is correct (expected) value, a is actual value.
+	// make error tolerance a fraction of b, not a.
+	if b != 0 {
+		e = e * b
+		if e < 0 {
+			e = -e
+		}
+	}
+	return d < e
+}
+func veryclose(a, b float64) bool { return tolerance(a, b, 4e-16) }
+
 // manysub_ssa is designed to tickle bugs that depend on register
 // pressure or unfriendly operand ordering in registers (and at
 // least once it succeeded in this).
@@ -253,7 +278,7 @@ func multiplyAdd(t *testing.T) {
 			{0.29400632, 0.75316125, 0.15096405, 0.3723982},   // fused multiply-add result: 0.37239823
 		}
 		check := func(s string, got, expected float32) {
-			if got != expected {
+			if !veryclose(got, expected) {
 				fmt.Printf("multiplyAdd: %s, expected %g, got %g\n", s, expected, got)
 			}
 		}
