@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca805d8b_2f9ac6a2",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-27T01:22:49Z",
+      "side": 1,
+      "message": "makes sense!. But i don\u0027t know how to implement it without redeclaration error.",
+      "parentUuid": "831b2148_01a72850",
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29a8d79e_910b3040",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-06-26T18:26:05Z",
       "side": 1,
       "message": "(nit) We try to avoid Latin abbreviations like `e.g.` in Go documentation. Use “such as” or “for example” instead.",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60233d88_34eb70dd",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-27T01:22:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29a8d79e_910b3040",
       "range": {
         "startLine": 13,
         "startChar": 3,
@@ -81,6 +123,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eccee327_aa58545a",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-27T01:22:49Z",
+      "side": 1,
+      "message": "yes it makes sense for sys calls",
+      "parentUuid": "951eaa85_41bca8d0",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3341c2fb_87475968",
@@ -104,6 +170,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dad6358_4b920dad",
+        "filename": "src/cmd/go/internal/hidden/hidden_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-27T01:22:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3341c2fb_87475968",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e06abe04_f0079bd6",
@@ -117,6 +207,24 @@
       "writtenOn": "2023-06-26T18:26:05Z",
       "side": 1,
       "message": "Either implement the needed behavior here, or fill out the remainder of the TODO?",
+      "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ade1d4_43be385b",
+        "filename": "src/cmd/go/internal/hidden/hidden_windows.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-06-27T01:22:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e06abe04_f0079bd6",
       "revId": "01ce212562e7db972d6c9a2b911082963158fd90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
