@@ -1,0 +1,416 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d8deb96_98fd4783",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Add \"Fixes #50891\" (or \"For #50891\" if you think there is more to be done). Thanks.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f16ee7c8_d02547a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Thanks very much for the CL. Looks good overall. Some comments, mostly minor. Thanks.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcdfbb67_e6850733",
+        "filename": "src/runtime/defs_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Should we use VM_REGION_BASIC_INFO_64 instead? (It probably works implicitly, but maybe it is better to do it explicitly.)",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "208f0a84_e3f9bd43",
+        "filename": "src/runtime/pprof/defs_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Minor: move this comment up before the package statement, and use // style comments. Thanks.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 2
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9b344f3_bfc3f845",
+        "filename": "src/runtime/pprof/proto_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "I think we probably could read the file path using proc_regionfilename or some other API. It is fine to not worry about the build ID.\n\n(As this CL is already large it is fine to be a separate CL.)",
+      "range": {
+        "startLine": 13,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 50
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62870eb2_4dd028b5",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "I think this is the memory region\u0027s size, not page size.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e21985_c7480539",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure why we need prev_xxx variables. We should be able to get the info for each region then add it in the same iteration, just need to update addr to past the current region at the end of each iteration. The loop below is a bit hard to follow: why we get the info of a region then add the _previous_ region to the mappings?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa7a28fb_04d8001f",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "We probably want to return true if we added something? So the caller won\u0027t add a dummy entry.",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 15
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4530220_f7b1a16d",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure we need to check the writable bit.",
+      "range": {
+        "startLine": 53,
+        "startChar": 5,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "778f93bf_f854950c",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Just curious, do you understand the meaning of the offset? With my toy C program it _sometimes_ is the segment\u0027s file offset, sometimes not... (I guess in our case it doesn\u0027t matter mcuh as the text segment is usually at offset 0.)",
+      "range": {
+        "startLine": 54,
+        "startChar": 38,
+        "endLine": 54,
+        "endChar": 54
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "246f57db_47107ffc",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t really need to be nosplit?",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7568a72_d5f5ac7c",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Could these just be pointer types? address and size probably can be *uint64 or *uintptr. info could be unsafe.Pointer. So we don\u0027t lose the pointer-ness for the GC. And it is clear that this function actually writes to those memory locations.",
+      "range": {
+        "startLine": 558,
+        "startChar": 20,
+        "endLine": 558,
+        "endChar": 52
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "194479c4_c64e9b39",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "I think this is just the memory ragion\u0027s size, not page size?",
+      "range": {
+        "startLine": 558,
+        "startChar": 29,
+        "endLine": 558,
+        "endChar": 38
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8ef3dd3_dd937920",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "It seems to look nicer putting this close brace to the next line.",
+      "range": {
+        "startLine": 584,
+        "startChar": 27,
+        "endLine": 584,
+        "endChar": 28
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74bd6ae3_efcca31b",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Minor: use tab between the instruction opcode and operands. Thanks.",
+      "range": {
+        "startLine": 802,
+        "startChar": 5,
+        "endLine": 802,
+        "endChar": 6
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a65ff9_830d4757",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Why this is needed? It looks like this will clobber the saved frame pointer or return address of this frame.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3218eea5_a5f69cdc",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Minor: use tabs for indentation, and between the instruction opcode and operands. Thanks.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be5160f4_daef3911",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "Also here.",
+      "range": {
+        "startLine": 788,
+        "startChar": 5,
+        "endLine": 788,
+        "endChar": 9
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed97c873_de60a98b",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "And here.",
+      "range": {
+        "startLine": 792,
+        "startChar": 5,
+        "endLine": 792,
+        "endChar": 6
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62d54102_7d527f05",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-27T19:25:46Z",
+      "side": 1,
+      "message": "This seems not necessary? We probably don\u0027t need to push the structure pointer.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
