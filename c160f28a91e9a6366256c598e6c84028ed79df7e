@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a090f778_076e19b2",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 16951
+      },
+      "writtenOn": "2023-06-27T16:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "996ce98d_401db8bf",
+      "revId": "c160f28a91e9a6366256c598e6c84028ed79df7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5561a7af_c3599327",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-24T18:06:22Z",
       "side": 1,
       "message": "RequireAndVerifyClientCert is repeated twice. Perhaps this was meant to be RequireAnyClientCert:\n\n```suggestion\n          \u003ca href\u003d\"/pkg/crypto/tls/#RequireAnyClientCert\"\u003e\u003c/code\u003eRequireAnyClientCert\u003c/code\u003e\u003c/a\u003e or\n```",
+      "revId": "c160f28a91e9a6366256c598e6c84028ed79df7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcec4eb_ef0f4993",
+        "filename": "doc/go1.21.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 16951
+      },
+      "writtenOn": "2023-06-27T16:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5561a7af_c3599327",
       "revId": "c160f28a91e9a6366256c598e6c84028ed79df7e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
