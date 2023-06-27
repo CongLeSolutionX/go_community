@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16fc885a_bcf172ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T09:23:33Z",
+      "side": 1,
+      "message": "That sounds a good idea. If then I think it may need more changes in the instructions encoding phrase. \n\nI will have a try on this, thanks~",
+      "parentUuid": "c8446c8e_0add0ab5",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a27b78d3_48b28c92",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2023-06-26T19:07:09Z",
       "side": 1,
       "message": "This is fine but consider using Addr.Scale (see below)?",
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af6ccfcd_1e099169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T09:23:33Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a27b78d3_48b28c92",
       "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c81a70f_b78a6a0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T09:23:33Z",
+      "side": 1,
+      "message": "Because `offset` sounds more reasonable for this field so I put all the info in it.\n\nGot it, I will do it later, thanks~",
+      "parentUuid": "31d5488e_37b962e9",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 34
+      },
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8da90433_643a95be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -77,6 +143,30 @@
       "writtenOn": "2023-06-26T19:07:09Z",
       "side": 1,
       "message": "Can we use Addr.Index for the register number, Addr.Scale for arrangement/type/amount? The Addr.Scale bit fields can be the same as the TYPE_REG case above.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 66
+      },
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc6ed775_308c2271",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T09:23:33Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8da90433_643a95be",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -112,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb41ab2a_f21065a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T09:23:33Z",
+      "side": 1,
+      "message": "Since the range of register list in different architectures is different. The register list in arm64 is in range of `[RegListARM64Lo, RegListARM64Hi]` so the indicate bit is `1\u003c\u003c60`, see the definition in util.go.\n```\n// Each architecture is allotted a distinct subspace: [Lo, Hi) for declaring its\n// arch-specific register list numbers.\nconst (\n\tRegListARMLo \u003d 0\n\tRegListARMHi \u003d 1 \u003c\u003c 16\n\n\t// arm64 uses the 60th bit to differentiate from other archs\n\tRegListARM64Lo \u003d 1 \u003c\u003c 60\n\tRegListARM64Hi \u003d 1\u003c\u003c61 - 1\n\n\t// x86 uses the 61th bit to differentiate from other archs\n\tRegListX86Lo \u003d 1 \u003c\u003c 61\n\tRegListX86Hi \u003d 1\u003c\u003c62 - 1\n)\n```",
+      "parentUuid": "90b6b8ab_ab28ae8a",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 20
+      },
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e3b75362_eb3057dc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -123,6 +237,24 @@
       "writtenOn": "2023-06-26T19:07:09Z",
       "side": 1,
       "message": "Are they Addr.Scale, Addr.Index, or the bit fields above? I think we should use Addr.Scale and Addr.Index.",
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e57d0243_66156518",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T09:23:33Z",
+      "side": 1,
+      "message": "The `Scale` \u0026 `Index` is just a number here, which is different from what we have defined above.\n\nAnd yes, we can use `Addr.Scale` \u0026 `Addr.Index` in this case, thanks~",
+      "parentUuid": "e3b75362_eb3057dc",
       "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
