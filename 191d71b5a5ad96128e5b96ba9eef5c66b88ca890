@@ -53,6 +53,24 @@
       "message": "This is fine if we really want to do this. But reading the later CLs I don\u0027t see why we really need this. If we don\u0027t do this, what the problem will be? Thanks.",
       "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d48b64d_ac5ff787",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T07:30:39Z",
+      "side": 1,
+      "message": "You\u0027re right, currently we just set scale to zero and never use it. So nothing will change if we don\u0027t do this.\n\nWe did use the scale field to encode some format information in the first design of register encoding, but we deprecated it after some revision(as you just reviewed in CL 506118).\n\nSince we are not in the final decision so I keep this patch, if we won\u0027t use scale in the future we can abandon this patch later.\n\nThanks~!",
+      "parentUuid": "0b8bda73_adead100",
+      "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
