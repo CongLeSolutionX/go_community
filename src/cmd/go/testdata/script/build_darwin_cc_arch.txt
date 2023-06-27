@@ -3,8 +3,8 @@
 [!GOOS:darwin] skip
 [!cgo] skip
 
-# clear CC, in case user sets it
-env CC=
+# reset CC, in case user sets it
+env CC=clang
 
 env CGO_ENABLED=1
 
