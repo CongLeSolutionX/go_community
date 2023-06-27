@@ -16,6 +16,24 @@
       "message": "This comment doesn\u0027t seem to belong to this CL.",
       "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc913d06_dbf72170",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-27T10:04:52Z",
+      "side": 0,
+      "message": "I\u0027m afraid I don\u0027t get you, do you mean that I should do it in a separate CL?\n\nI remove this comment since the logic is not for arm64 only, it also works for other architectures.",
+      "parentUuid": "02d67f97_d1a9bb0c",
+      "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
