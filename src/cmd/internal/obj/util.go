@@ -283,6 +283,11 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		a.writeNameTo(w, abiDetail)
 
 	case TYPE_MEM:
+		if conv.aconvMem != nil {
+			fmt.Fprintf(w, conv.aconvMem(a))
+			return
+		}
+
 		a.WriteNameTo(w)
 		if a.Index != REG_NONE {
 			if a.Scale == 0 {
