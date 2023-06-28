@@ -101,6 +101,7 @@ var filemap = map[string]action{
 	"const.go":        func(f *ast.File) { fixTokenPos(f) },
 	"context.go":      nil,
 	"context_test.go": nil,
+	"gcsizes.go":      nil,
 	"gccgosizes.go":   nil,
 	"hilbert_test.go": func(f *ast.File) { renameImportPath(f, `"cmd/compile/internal/types2"`, `"go/types"`) },
 	"infer.go": func(f *ast.File) {

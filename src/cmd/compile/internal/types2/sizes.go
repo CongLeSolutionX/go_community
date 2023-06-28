@@ -226,28 +226,6 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 	return s.WordSize // catch-all
 }
 
-// common architecture word sizes and alignments
-var gcArchSizes = map[string]*StdSizes{
-	"386":      {4, 4},
-	"amd64":    {8, 8},
-	"amd64p32": {4, 8},
-	"arm":      {4, 4},
-	"arm64":    {8, 8},
-	"loong64":  {8, 8},
-	"mips":     {4, 4},
-	"mipsle":   {4, 4},
-	"mips64":   {8, 8},
-	"mips64le": {8, 8},
-	"ppc64":    {8, 8},
-	"ppc64le":  {8, 8},
-	"riscv64":  {8, 8},
-	"s390x":    {8, 8},
-	"sparc64":  {8, 8},
-	"wasm":     {8, 8},
-	// When adding more architectures here,
-	// update the doc string of SizesFor below.
-}
-
 // SizesFor returns the Sizes used by a compiler for an architecture.
 // The result is nil if a compiler/architecture pair is not known.
 //
@@ -258,7 +236,7 @@ func SizesFor(compiler, arch string) Sizes {
 	var m map[string]*StdSizes
 	switch compiler {
 	case "gc":
-		m = gcArchSizes
+		return sizesFor(compiler, arch)
 	case "gccgo":
 		m = gccgoArchSizes
 	default:
