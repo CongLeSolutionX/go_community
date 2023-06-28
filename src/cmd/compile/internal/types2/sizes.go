@@ -24,6 +24,12 @@ type Sizes interface {
 	Sizeof(T Type) int64
 }
 
+// If go122gcSizes is set, StdSizes uses alignment padding for array and
+// struct sizes as required by gc; otherwise it uses the historical size
+// computation of the type checker for these types.
+// TODO(gri) remove flag and respective dead code for Go 1.22
+const go122gcSizes = true
+
 // StdSizes is a convenience type for creating commonly used Sizes.
 // It makes the following simplifying assumptions:
 //
@@ -227,7 +233,7 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 }
 
 // common architecture word sizes and alignments
-var gcArchSizes = map[string]*StdSizes{
+var gcArchSizes = map[string]*gcSizes{
 	"386":      {4, 4},
 	"amd64":    {8, 8},
 	"amd64p32": {4, 8},
@@ -255,20 +261,17 @@ var gcArchSizes = map[string]*StdSizes{
 // "386", "amd64", "amd64p32", "arm", "arm64", "loong64", "mips", "mipsle",
 // "mips64", "mips64le", "ppc64", "ppc64le", "riscv64", "s390x", "sparc64", "wasm".
 func SizesFor(compiler, arch string) Sizes {
-	var m map[string]*StdSizes
 	switch compiler {
 	case "gc":
-		m = gcArchSizes
+		return gcSizesFor(compiler, arch)
 	case "gccgo":
-		m = gccgoArchSizes
-	default:
-		return nil
+		s, ok := gccgoArchSizes[arch]
+		if !ok {
+			return nil
+		}
+		return s
 	}
-	s, ok := m[arch]
-	if !ok {
-		return nil
-	}
-	return s
+	return nil
 }
 
 // stdSizes is used if Config.Sizes == nil.
