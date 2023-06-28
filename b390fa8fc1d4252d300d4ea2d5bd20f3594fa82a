@@ -90,6 +90,24 @@
       "parentUuid": "a6018ba1_b85fb1e7",
       "revId": "b390fa8fc1d4252d300d4ea2d5bd20f3594fa82a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5845dc73_91563bf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-06-28T07:17:40Z",
+      "side": 1,
+      "message": "A simple search: https://github.com/search?q\u003dtypes.StdSizes+language%3AGo\u0026type\u003dcode\u0026ref\u003dadvsearch\u0026p\u003d1\n\nSounds like we should just add a gcSizes field to StdSizes, set it to non-nil when compiler is \"gc\".\n\nHow do you think?",
+      "parentUuid": "80d437ad_fef5df9c",
+      "revId": "b390fa8fc1d4252d300d4ea2d5bd20f3594fa82a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
