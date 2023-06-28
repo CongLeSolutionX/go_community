@@ -724,7 +724,12 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 				prog.AddRestDest(a[2])
 			default:
 				prog.From = a[0]
-				prog.Reg = p.getRegister(prog, op, &a[1])
+				if a[1].Index == 0 {
+					// no type/arrangement information, store as prog.Reg
+					prog.Reg = p.getRegister(prog, op, &a[1])
+				} else {
+					prog.AddRestSource(a[1])
+				}
 				prog.To = a[2]
 			}
 		case sys.I386:
@@ -810,7 +815,12 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 		}
 		if p.arch.Family == sys.ARM64 {
 			prog.From = a[0]
-			prog.Reg = p.getRegister(prog, op, &a[1])
+			if a[1].Index == 0 {
+				// no type/arrangement information, store as prog.Reg
+				prog.Reg = p.getRegister(prog, op, &a[1])
+			} else {
+				prog.AddRestSource(a[1])
+			}
 			prog.AddRestSource(a[2])
 			prog.To = a[3]
 			break

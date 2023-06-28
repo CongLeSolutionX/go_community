@@ -283,6 +283,11 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		a.writeNameTo(w, abiDetail)
 
 	case TYPE_MEM:
+		if conv.aconvMem != nil {
+			fmt.Fprintf(w, conv.aconvMem(a))
+			return
+		}
+
 		a.WriteNameTo(w)
 		if a.Index != REG_NONE {
 			if a.Scale == 0 {
@@ -334,7 +339,10 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		fmt.Fprintf(w, "%v, %v", Rconv(int(a.Offset)), Rconv(int(a.Reg)))
 
 	case TYPE_REGLIST:
-		io.WriteString(w, RLconv(a.Offset))
+		if conv.aconvRegList == nil {
+			io.WriteString(w, fmt.Sprintf("RL???%d", a.Offset))
+		}
+		io.WriteString(w, conv.aconvRegList(a))
 
 	case TYPE_SPECIAL:
 		io.WriteString(w, SPCconv(a.Offset))
@@ -461,15 +469,16 @@ func RegisterOpSuffix(arch string, cconv func(uint8) string) {
 }
 
 type aconvFuncList struct {
-	aconvReg   func(*Addr) string
-	aconvMem   func(*Addr) string
-	aconvShift func(*Addr) string
+	aconvReg     func(*Addr) string
+	aconvMem     func(*Addr) string
+	aconvShift   func(*Addr) string
+	aconvRegList func(*Addr) string
 }
 
 var aconvMap map[string]aconvFuncList = make(map[string]aconvFuncList)
 
-func RegisterAconvFunc(arch string, aconvReg, aconvMem, aconvShift func(*Addr) string) {
-	aconvMap[arch] = aconvFuncList{aconvReg, aconvMem, aconvShift}
+func RegisterAconvFunc(arch string, aconvReg, aconvMem, aconvShift, aconvRegList func(*Addr) string) {
+	aconvMap[arch] = aconvFuncList{aconvReg, aconvMem, aconvShift, aconvRegList}
 }
 
 type regSet struct {
@@ -530,38 +539,6 @@ type regListSet struct {
 }
 
 var regListSpace []regListSet
-
-// Each architecture is allotted a distinct subspace: [Lo, Hi) for declaring its
-// arch-specific register list numbers.
-const (
-	RegListARMLo = 0
-	RegListARMHi = 1 << 16
-
-	// arm64 uses the 60th bit to differentiate from other archs
-	RegListARM64Lo = 1 << 60
-	RegListARM64Hi = 1<<61 - 1
-
-	// x86 uses the 61th bit to differentiate from other archs
-	RegListX86Lo = 1 << 61
-	RegListX86Hi = 1<<62 - 1
-)
-
-// RegisterRegisterList binds a pretty-printer (RLconv) for register list
-// numbers to a given register list number range. Lo is inclusive,
-// hi exclusive (valid register list are lo through hi-1).
-func RegisterRegisterList(lo, hi int64, rlconv func(int64) string) {
-	regListSpace = append(regListSpace, regListSet{lo, hi, rlconv})
-}
-
-func RLconv(list int64) string {
-	for i := range regListSpace {
-		rls := &regListSpace[i]
-		if rls.lo <= list && list < rls.hi {
-			return rls.RLconv(list)
-		}
-	}
-	return fmt.Sprintf("RL???%d", list)
-}
 
 // Special operands
 type spcSet struct {

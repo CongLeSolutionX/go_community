@@ -505,7 +505,7 @@ var optab = []Optab{
 	{AVMOVI, C_ADDCON, C_NONE, C_NONE, C_ARNG, C_NONE, 86, 4, 0, 0, 0},
 	{AVFMLA, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVEXT, C_VCON, C_ARNG, C_ARNG, C_ARNG, C_NONE, 94, 4, 0, 0, 0},
-	{AVTBL, C_ARNG, C_NONE, C_LIST, C_ARNG, C_NONE, 100, 4, 0, 0, 0},
+	{AVTBL, C_ARNG, C_LIST, C_NONE, C_ARNG, C_NONE, 100, 4, 0, 0, 0},
 	{AVUSHR, C_VCON, C_ARNG, C_NONE, C_ARNG, C_NONE, 95, 4, 0, 0, 0},
 	{AVZIP1, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVUSHLL, C_VCON, C_ARNG, C_NONE, C_ARNG, C_NONE, 102, 4, 0, 0, 0},
@@ -1254,7 +1254,8 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 func (c *ctxt7) isUnsafePoint(p *obj.Prog) bool {
 	// If p explicitly uses REGTMP, it's unsafe to preempt, because the
 	// preemption sequence clobbers REGTMP.
-	return p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP ||
+	s2 := get2ndSource(p)
+	return p.From.Reg == REGTMP || p.To.Reg == REGTMP || p.Reg == REGTMP || (p.Reg == obj.REG_NONE && s2 != nil && s2.Reg == REGTMP) ||
 		p.From.Type == obj.TYPE_REGREG && p.From.Offset == REGTMP ||
 		p.To.Type == obj.TYPE_REGREG && p.To.Offset == REGTMP
 }
@@ -1505,10 +1506,6 @@ func isMOVop(op obj.As) bool {
 		return true
 	}
 	return false
-}
-
-func isRegShiftOrExt(a *obj.Addr) bool {
-	return (a.Index-obj.RBaseARM64)&REG_EXT != 0 || (a.Index-obj.RBaseARM64)&REG_LSL != 0
 }
 
 // Maximum PC-relative displacement.
@@ -1836,27 +1833,48 @@ func movcon(v int64) int {
 	return -1
 }
 
-func rclass(r int16) int {
-	switch {
-	case REG_R0 <= r && r <= REG_R30: // not 31
-		return C_REG
-	case r == REGZERO:
-		return C_ZREG
-	case REG_F0 <= r && r <= REG_F31:
-		return C_FREG
-	case REG_V0 <= r && r <= REG_V31:
-		return C_VREG
-	case r == REGSP:
-		return C_RSP
-	case r >= REG_ARNG && r < REG_ELEM:
-		return C_ARNG
-	case r >= REG_ELEM && r < REG_ELEM_END:
-		return C_ELEM
-	case r >= REG_UXTB && r < REG_SPECIAL,
-		r >= REG_LSL && r < REG_ARNG:
-		return C_EXTREG
-	case r >= REG_SPECIAL:
+func rclass(arng, typ, r int16) int {
+	// check special register first
+	if r >= REG_SPECIAL {
 		return C_SPR
+	}
+	switch typ {
+	case RTYP_NORMAL:
+		if arng != ARNG_NONE {
+			// can not be Rn.<T>, Fn.<T>
+			if (r >= REG_R0 && r <= REG_R31) || (r >= REG_F0 && r <= REG_F31) {
+				return C_GOK
+			}
+			return C_ARNG
+		}
+		switch {
+		case REG_R0 <= r && r <= REG_R30: // not 31
+			return C_REG
+		case r == REGZERO:
+			return C_ZREG
+		case REG_F0 <= r && r <= REG_F31:
+			return C_FREG
+		case REG_V0 <= r && r <= REG_V31:
+			return C_VREG
+		case r == REGSP:
+			return C_RSP
+		}
+	case RTYP_INDEX:
+		if arng != ARNG_NONE {
+			return C_ELEM
+		} else {
+			return C_REGINDEX
+		}
+	case RTYP_EXT_UXTB,
+		RTYP_EXT_UXTH,
+		RTYP_EXT_UXTW,
+		RTYP_EXT_UXTX,
+		RTYP_EXT_SXTB,
+		RTYP_EXT_SXTH,
+		RTYP_EXT_SXTW,
+		RTYP_EXT_SXTX,
+		RTYP_EXT_LSL:
+		return C_EXTREG
 	}
 	return C_GOK
 }
@@ -2032,12 +2050,13 @@ func (c *ctxt7) loadStorePairClass(p *obj.Prog, lsc int, v int64) int {
 }
 
 func (c *ctxt7) aclass(a *obj.Addr) int {
+	arng, typ, _ := DecodeIndex(a.Index)
 	switch a.Type {
 	case obj.TYPE_NONE:
 		return C_NONE
 
 	case obj.TYPE_REG:
-		return rclass(a.Reg)
+		return rclass(int16(arng), int16(typ), a.Reg)
 
 	case obj.TYPE_REGREG:
 		return C_PAIR
@@ -2094,16 +2113,13 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 			return autoclass(c.instoffset)
 
 		case obj.NAME_NONE:
-			if a.Index != 0 {
-				if a.Offset != 0 {
-					if isRegShiftOrExt(a) {
-						// extended or shifted register offset, (Rn)(Rm.UXTW<<2) or (Rn)(Rm<<2).
-						return C_ROFF
-					}
-					return C_GOK
-				}
-				// register offset, (Rn)(Rm)
+			if typ == RTYP_MEM_ROFF {
 				return C_ROFF
+			} else if typ == RTYP_MEM_IMMEXT {
+				// (const*VL)(Rn)
+				return C_MEMIMMEXT
+			} else if typ != RTYP_NORMAL {
+				return C_GOK
 			}
 			c.instoffset = a.Offset
 			return oregclass(c.instoffset)
@@ -2268,16 +2284,26 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 	}
 
 	a2 := C_NONE
-	if p.Reg != 0 {
-		a2 = rclass(p.Reg)
+	if p.Reg != obj.REG_NONE {
+		a2 = rclass(0, 0, p.Reg)
+	} else if r2 := get2ndSource(p); r2 != nil {
+		a2 = int(r2.Class)
+		if a2 == 0 {
+			a2 = c.aclass(r2)
+			r2.Class = int8(a2)
+		}
 	}
 
 	a3 := C_NONE
-	if p.GetFrom3() != nil {
-		a3 = int(p.GetFrom3().Class)
+	r3 := get2ndSource(p)
+	if p.Reg == obj.REG_NONE {
+		r3 = get3rdSource(p)
+	}
+	if r3 != nil {
+		a3 = int(r3.Class)
 		if a3 == 0 {
-			a3 = c.aclass(p.GetFrom3())
-			p.GetFrom3().Class = int8(a3)
+			a3 = c.aclass(r3)
+			r3.Class = int8(a3)
 		}
 	}
 
@@ -2299,7 +2325,7 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 
 	a5 := C_NONE
 	if p.RegTo2 != 0 {
-		a5 = rclass(p.RegTo2)
+		a5 = rclass(0, 0, p.RegTo2)
 	} else if p.GetTo2() != nil {
 		a5 = int(p.GetTo2().Class)
 		if a5 == 0 {
@@ -3385,36 +3411,62 @@ func (c *ctxt7) checkindex(p *obj.Prog, index, maxindex int) {
 	}
 }
 
+func (c *ctxt7) isRegisterOffset(p *obj.Prog, a *obj.Addr) bool {
+	_, typ, _ := DecodeIndex(a.Index)
+	return typ == RTYP_MEM_ROFF
+}
+
 /* checkoffset checks whether the immediate offset is valid for VLD[1-4].P and VST[1-4].P */
 func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
-	var offset, list, n, expect int64
+	var offset, n, expect int64
+	var arng, regcnt uint32
+	var isroff bool
 	switch as {
 	case AVLD1, AVLD2, AVLD3, AVLD4, AVLD1R, AVLD2R, AVLD3R, AVLD4R:
 		offset = p.From.Offset
-		list = p.To.Offset
+		isroff = c.isRegisterOffset(p, &p.From)
+		_, arng, regcnt, _, _, _ = c.decodeRegList(p, &p.To)
 	case AVST1, AVST2, AVST3, AVST4:
 		offset = p.To.Offset
-		list = p.From.Offset
+		isroff = c.isRegisterOffset(p, &p.To)
+		_, arng, regcnt, _, _, _ = c.decodeRegList(p, &p.From)
 	default:
 		c.ctxt.Diag("invalid operation on op %v", p.As)
 	}
-	opcode := (list >> 12) & 15
-	q := (list >> 30) & 1
-	size := (list >> 10) & 3
-	if offset == 0 {
-		return
-	}
-	switch opcode {
-	case 0x7:
-		n = 1 // one register
-	case 0xa:
-		n = 2 // two registers
-	case 0x6:
-		n = 3 // three registers
-	case 0x2:
-		n = 4 // four registers
+	n = int64(regcnt)
+
+	var q, size uint32
+
+	switch arng {
+	case ARNG_8B:
+		size = 0
+		q = 0
+	case ARNG_16B:
+		size = 0
+		q = 1
+	case ARNG_4H:
+		size = 1
+		q = 0
+	case ARNG_8H:
+		size = 1
+		q = 1
+	case ARNG_2S:
+		size = 2
+		q = 0
+	case ARNG_4S:
+		size = 2
+		q = 1
+	case ARNG_1D:
+		size = 3
+		q = 0
+	case ARNG_2D:
+		size = 3
+		q = 1
 	default:
-		c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
+		c.ctxt.Diag("invalid arrangement in ARM64 register list")
+	}
+	if isroff || offset == 0 {
+		return
 	}
 
 	switch as {
@@ -3448,9 +3500,7 @@ func (c *ctxt7) checkoffset(p *obj.Prog, as obj.As) {
 
 /* checkShiftAmount checks whether the index shift amount is valid */
 /* for load with register offset instructions */
-func (c *ctxt7) checkShiftAmount(p *obj.Prog, a *obj.Addr) {
-	var amount int16
-	amount = (a.Index >> 5) & 7
+func (c *ctxt7) checkShiftAmount(p *obj.Prog, amount uint32) {
 	switch p.As {
 	case AMOVB, AMOVBU:
 		if amount != 0 {
@@ -3473,6 +3523,262 @@ func (c *ctxt7) checkShiftAmount(p *obj.Prog, a *obj.Addr) {
 	}
 }
 
+// get2ndSource returns the second source operand in arm64.
+// TODO(internal_review): if we are using prog.Reg, change this function
+func get2ndSource(p *obj.Prog) *obj.Addr {
+	return p.GetFrom3()
+}
+
+// get3rdSource returns the third source operand in arm64.
+// TODO(internal_review): same as get2ndSource
+func get3rdSource(p *obj.Prog) *obj.Addr {
+	first := true
+	for i, v := range p.RestArgs {
+		if v.Pos == obj.Source {
+			if first {
+				first = false
+			} else {
+				return &p.RestArgs[i].Addr
+			}
+		}
+	}
+	return nil
+}
+
+// decodeRegShift decodes register with shift
+// Rn<<amount
+func (c *ctxt7) decodeRegShift(p *obj.Prog, a *obj.Addr) (reg int16, shift, amount uint32) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	arng, shift, amount := DecodeIndex(a.Index)
+	if a.Type != obj.TYPE_SHIFT || arng != ARNG_NONE || shift < SHIFT_LL || shift > SHIFT_ROR {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\tRn[<<|>>|->|@>]shift\n\tgot:\t%s\t%v", p, obj.Dconv(p, a), a)
+	}
+	return a.Reg, shift, amount
+}
+
+// decodeRegARNG decodes register with arrangement
+// Vn.<T>
+func (c *ctxt7) decodeRegARNG(p *obj.Prog, a *obj.Addr) (reg int16, arng uint32) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+		return 0, 0
+	}
+	var typ uint32
+	arng, typ, _ = DecodeIndex(a.Index)
+	if a.Type != obj.TYPE_REG || (a.Index&^int16(arng<<11)) != 0 || arng == ARNG_NONE || typ != RTYP_NORMAL {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\tVn.<T>\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	reg = a.Reg
+	return
+}
+
+// decodeRegIndex decodes register with index
+// Rn[index]
+func (c *ctxt7) decodeRegIndex(p *obj.Prog, a *obj.Addr) (reg int16, index uint32) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	arng, typ, index := DecodeIndex(a.Index)
+	if a.Type != obj.TYPE_REG || typ != RTYP_INDEX || arng != ARNG_NONE {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\tRn[index]\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	return a.Reg, index
+}
+
+// decodeRegArngIndex decodes register with arrangement & index
+// Vn.<T>[index]
+func (c *ctxt7) decodeRegArngIndex(p *obj.Prog, a *obj.Addr) (reg int16, arng, index uint32) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	var typ uint32
+	arng, typ, index = DecodeIndex(a.Index)
+	if a.Type != obj.TYPE_REG || typ != RTYP_INDEX || arng == ARNG_NONE {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\tVn.<T>[index]\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	reg = a.Reg
+	return
+}
+
+// decodeRegExt decodes register with extension
+// Rn.UXTB<<amount
+func (c *ctxt7) decodeRegExt(p *obj.Prog, a *obj.Addr) (reg int16, ext, amount uint32) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	if a.Type != obj.TYPE_REG && a.Type != obj.TYPE_SHIFT {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\tRn.EXT(<<amount)\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	reg = a.Reg
+	_, ext, amount = DecodeIndex(a.Index)
+	return
+}
+
+// decodeRegReg decodes pair register
+// (Rn1, Rn2)
+func (c *ctxt7) decodeRegReg(p *obj.Prog, a *obj.Addr) (r1, r2 int16) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	if a.Type != obj.TYPE_REGREG {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\t(Rn1, Rn2)\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	return a.Reg, int16(a.Offset)
+}
+
+// decodeRegOffImm decodes register with constant offset
+// imm(Rn)
+func (c *ctxt7) decodeRegOffImm(p *obj.Prog, a *obj.Addr) (reg int16, arng, offset uint32) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	typ := (a.Index >> 6) & 0xf
+	if a.Type != obj.TYPE_MEM || typ != RTYP_NORMAL {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\timm(Rn)\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	reg = a.Reg
+	arng, _, _ = DecodeIndex(a.Index)
+	offset = uint32(c.regoff(a))
+	return
+}
+
+// decodeRegOffReg decodes register offset with register
+// (Rn)(Rm), (Rn)(Rm.EXT<<amount)
+func (c *ctxt7) decodeRegOffReg(p *obj.Prog, a *obj.Addr) (r1, r2 int16, arng1, arng2, ext, amount uint32) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	off := a.Offset
+	r1 = a.Reg
+	r2 = int16(off & 0xffff)
+	var typ uint32
+	arng1, typ, _ = DecodeIndex(a.Index)
+	if a.Type != obj.TYPE_MEM || typ != RTYP_MEM_ROFF {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\t(Rn)(Rm)\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	arng2, ext, amount = DecodeIndex(int16(off >> 16))
+	if ext == RTYP_NORMAL &&
+		// For these memory opcodes, the extension should be set to LSL by default.
+		// AFMOVB should be included also when we support it in the assembler.
+		(p.As == AMOVD || p.As == AMOVW || p.As == AMOVH || p.As == AMOVHU || p.As == AMOVWU ||
+			p.As == AMOVB || p.As == AMOVBU || p.As == AFMOVS || p.As == AFMOVD ||
+			p.As == AFMOVQ || p.As == APRFM) {
+		ext = RTYP_EXT_LSL
+	}
+	return
+}
+
+// decodeRegList decodes register list
+func (c *ctxt7) decodeRegList(p *obj.Prog, a *obj.Addr) (reg int16, arng, regcnt, index, scale uint32, hasIndex bool) {
+	if a == nil {
+		c.ctxt.Diag("nil register in decoding %v", p)
+	}
+	if a.Type != obj.TYPE_REGLIST {
+		c.ctxt.Diag("invalid type of decoded register in %v:\n\texpect:\t[Vn1, Vn2, ...]\n\tgot:\t%s\t%v, ", p, obj.Dconv(p, a), a)
+	}
+	var typ uint32
+	reg = a.Reg
+	arng, typ, index = DecodeIndex(a.Index)
+	hasIndex = typ == RTYP_INDEX
+	regcnt = uint32(a.Offset)
+	scale = uint32(a.Scale)
+	return
+}
+
+func (c *ctxt7) encodeReg(reg int16) uint32 {
+	return uint32(reg) & 31
+}
+
+// encodeGRegShift encodes general register with shift amount
+func (c *ctxt7) encodeGRegShift(rm int16, typ, amount uint32) uint32 {
+	return typ<<22 | c.encodeReg(rm)<<16 | amount<<10
+}
+
+// func encodeGRegExt encodes the general register with extension
+func (c *ctxt7) encodeGRegExt(op obj.As, rm int16, typ, amount uint32, ismem bool) uint32 {
+	if typ == RTYP_EXT_LSL {
+		if !ismem {
+			if isADDWop(op) {
+				typ = RTYP_EXT_UXTW
+			} else {
+				typ = RTYP_EXT_UXTX
+			}
+		} else {
+			// (Rn)(Rm<<amount)
+			typ = RTYP_EXT_UXTX
+		}
+	}
+
+	if ismem {
+		if amount == 0 {
+			// According to the arm64 specification, for instructions MOVB, MOVBU and FMOVB,
+			// the extension amount must be 0, encoded in "S" as 0 if omitted, or as 1 if present.
+			// But in Go, we don't distinguish between Rn.UXTW and Rn.UXTW<<0, so we encode it as
+			// that does not present. This makes no difference to the function of the instruction.
+			// This is also true for extensions LSL, SXTW and SXTX.
+			amount = 2
+		} else {
+			amount = 6
+		}
+	}
+	typ -= RTYP_EXT_UXTB
+	if typ < 0 || typ > 7 {
+		c.ctxt.Diag("invalid type of encoded register")
+	}
+	return roff(c.encodeReg(rm), typ, amount)
+}
+
+// encodeVRegList encodes the V register list
+// [V1.8B, V2.8B, ...]
+func (c *ctxt7) encodeVRegList(firstreg int16, arng, regcnt uint32) uint32 {
+	enc := c.encodeReg(firstreg)
+	switch regcnt {
+	case 1:
+		enc |= 0x7 << 12
+	case 2:
+		enc |= 0xa << 12
+	case 3:
+		enc |= 0x6 << 12
+	case 4:
+		enc |= 0x2 << 12
+	default:
+		c.ctxt.Diag("invalid register numbers in ARM64 register list")
+	}
+	var size, q uint32
+	switch arng {
+	case ARNG_8B:
+		size = 0
+		q = 0
+	case ARNG_16B:
+		size = 0
+		q = 1
+	case ARNG_4H:
+		size = 1
+		q = 0
+	case ARNG_8H:
+		size = 1
+		q = 1
+	case ARNG_2S:
+		size = 2
+		q = 0
+	case ARNG_4S:
+		size = 2
+		q = 1
+	case ARNG_1D:
+		size = 3
+		q = 0
+	case ARNG_2D:
+		size = 3
+		q = 1
+	default:
+		c.ctxt.Diag("invalid arrangement in ARM64 register list")
+	}
+	enc |= q<<30 | size<<10
+	return enc
+}
+
 func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	var os [5]uint32
 	o1 := uint32(0)
@@ -3493,16 +3799,16 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 1: /* op Rm,[Rn],Rd; default Rn=Rd -> op Rm<<0,[Rn,]Rd (shifted register) */
 		o1 = c.oprrr(p, p.As)
 
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		r := int(p.Reg)
+		rf := p.From.Reg
+		rt := p.To.Reg
+		r := p.Reg
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
 		}
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		o1 |= (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 2: /* add/sub $(uimm12|uimm24)[,R],R; cmp $(uimm12|uimm24),R */
 		if p.To.Reg == REG_RSP && isADDSop(p.As) {
@@ -3526,27 +3832,26 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 3: /* op R<<n[,R],R (shifted register) */
 		o1 = c.oprrr(p, p.As)
 
-		amount := (p.From.Offset >> 10) & 63
+		rm, shift, amount := c.decodeRegShift(p, &p.From)
 		is64bit := o1 & (1 << 31)
 		if is64bit == 0 && amount >= 32 {
 			c.ctxt.Diag("shift amount out of range 0 to 31: %v", p)
 		}
-		shift := (p.From.Offset >> 22) & 3
-		if (shift > 2 || shift < 0) && (isADDop(p.As) || isADDWop(p.As) || isNEGop(p.As)) {
+		if (shift > SHIFT_AR || shift < SHIFT_LL) && (isADDop(p.As) || isADDWop(p.As) || isNEGop(p.As)) {
 			c.ctxt.Diag("unsupported shift operator: %v", p)
 		}
-		o1 |= uint32(p.From.Offset) /* includes reg, op, etc */
-		rt := int(p.To.Reg)
+		o1 |= c.encodeGRegShift(rm, shift, amount)
+		rt := p.To.Reg
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
 		}
-		r := int(p.Reg)
+		r := p.Reg
 		if p.As == AMVN || p.As == AMVNW || isNEGop(p.As) {
 			r = REGZERO
 		} else if r == obj.REG_NONE {
 			r = rt
 		}
-		o1 |= (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 4: /* mov $addcon, R; mov $recon, R; mov $racon, R; mov $addcon2, R */
 		rt, r := p.To.Reg, o.param
@@ -3645,11 +3950,11 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 9: /* lsl Rm,[Rn],Rd -> lslv Rm, Rn, Rd */
 		o1 = c.oprrr(p, p.As)
 
-		r := int(p.Reg)
+		r := p.Reg
 		if r == obj.REG_NONE {
-			r = int(p.To.Reg)
+			r = p.To.Reg
 		}
-		o1 |= (uint32(p.From.Reg&31) << 16) | (uint32(r&31) << 5) | uint32(p.To.Reg&31)
+		o1 |= c.encodeReg(p.From.Reg)<<16 | c.encodeReg(r)<<5 | c.encodeReg(p.To.Reg)
 
 	case 10: /* brk/hvc/.../svc [$con] */
 		o1 = c.opimm(p, p.As)
@@ -3707,7 +4012,6 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if num == 0 {
 			c.ctxt.Diag("invalid constant: %v", p)
 		}
-
 		rt, r, rf := p.To.Reg, p.Reg, int16(REGTMP)
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
@@ -3720,9 +4024,8 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			o |= LSL0_64
 		} else {
 			o = c.oprrr(p, p.As)
-			o |= uint32(rf&31) << 16 /* shift is 0 */
-			o |= uint32(r&31) << 5
-			o |= uint32(rt & 31)
+			o |= c.encodeReg(rf) << 16 /* shift is 0 */
+			o |= c.encodeReg(r)<<5 | c.encodeReg(rt)
 		}
 
 		os[num] = o
@@ -3753,67 +4056,65 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 15: /* mul/mneg/umulh/umull r,[r,]r; madd/msub/fmadd/fmsub/fnmadd/fnmsub Rm,Ra,Rn,Rd */
 		o1 = c.oprrr(p, p.As)
 
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		var r int
-		var ra int
-		if p.From3Type() == obj.TYPE_REG {
-			r = int(p.GetFrom3().Reg)
-			ra = int(p.Reg)
-			if ra == obj.REG_NONE {
-				ra = REGZERO
-			}
+		rf := p.From.Reg
+		rt := p.To.Reg
+		r3 := get2ndSource(p)
+		var r int16
+		var ra int16
+		if r3 != nil && r3.Type == obj.TYPE_REG {
+			r = r3.Reg
+			ra = p.Reg
 		} else {
-			r = int(p.Reg)
+			r = p.Reg
 			if r == obj.REG_NONE {
 				r = rt
 			}
 			ra = REGZERO
 		}
 
-		o1 |= (uint32(rf&31) << 16) | (uint32(ra&31) << 10) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(ra)<<10 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 16: /* XremY R[,R],R -> XdivY; XmsubY */
 		o1 = c.oprrr(p, p.As)
 
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		r := int(p.Reg)
+		rf := p.From.Reg
+		rt := p.To.Reg
+		r := p.Reg
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		o1 |= (uint32(rf&31) << 16) | (uint32(r&31) << 5) | REGTMP&31
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | REGTMP&31
 		o2 = c.oprrr(p, AMSUBW)
 		o2 |= o1 & (1 << 31) /* same size */
-		o2 |= (uint32(rf&31) << 16) | (uint32(r&31) << 10) | (REGTMP & 31 << 5) | uint32(rt&31)
+		o2 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<10 | (REGTMP&31)<<5 | c.encodeReg(rt)
 
 	case 17: /* op Rm,[Rn],Rd; default Rn=ZR */
 		o1 = c.oprrr(p, p.As)
 
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		r := int(p.Reg)
+		rf := p.From.Reg
+		rt := p.To.Reg
+		r := p.Reg
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
 		}
 		if r == obj.REG_NONE {
 			r = REGZERO
 		}
-		o1 |= (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 18: /* csel cond,Rn,Rm,Rd; cinc/cinv/cneg cond,Rn,Rd; cset cond,Rd */
 		o1 = c.oprrr(p, p.As)
 
 		cond := SpecialOperand(p.From.Offset)
-		if cond < SPOP_EQ || cond > SPOP_NV || (cond == SPOP_AL || cond == SPOP_NV) && p.From3Type() == obj.TYPE_NONE {
+		r3 := get2ndSource(p)
+		if cond < SPOP_EQ || cond > SPOP_NV || (cond == SPOP_AL || cond == SPOP_NV) && (r3 == nil || r3.Type == obj.TYPE_NONE) {
 			c.ctxt.Diag("invalid condition: %v", p)
 		} else {
 			cond -= SPOP_EQ
 		}
-
-		r := int(p.Reg)
-		var rf int = r
-		if p.From3Type() == obj.TYPE_NONE {
+		r := p.Reg
+		rf := r
+		if r3 == nil || r3.Type == obj.TYPE_NONE {
 			/* CINC/CINV/CNEG or CSET/CSETM*/
 			if r == obj.REG_NONE {
 				/* CSET/CSETM */
@@ -3822,14 +4123,14 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			}
 			cond ^= 1
 		} else {
-			rf = int(p.GetFrom3().Reg) /* CSEL */
+			rf = r3.Reg /* CSEL */
 		}
 
-		rt := int(p.To.Reg)
-		o1 |= (uint32(rf&31) << 16) | (uint32(cond&15) << 12) | (uint32(r&31) << 5) | uint32(rt&31)
+		rt := p.To.Reg
+		o1 |= c.encodeReg(rf)<<16 | uint32(cond&15)<<12 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 19: /* CCMN cond, (Rm|uimm5),Rn, uimm4 -> ccmn Rn,Rm,uimm4,cond */
-		nzcv := int(p.To.Offset)
+		nzcv := uint32(p.To.Offset)
 
 		cond := SpecialOperand(p.From.Offset)
 		if cond < SPOP_EQ || cond > SPOP_NV {
@@ -3837,16 +4138,17 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		} else {
 			cond -= SPOP_EQ
 		}
-		var rf int
-		if p.GetFrom3().Type == obj.TYPE_REG {
+		var rf int16
+		r3 := get2ndSource(p)
+		if r3 != nil && r3.Type == obj.TYPE_REG {
 			o1 = c.oprrr(p, p.As)
-			rf = int(p.GetFrom3().Reg) /* Rm */
+			rf = r3.Reg /* Rm */
 		} else {
 			o1 = c.opirr(p, p.As)
-			rf = int(p.GetFrom3().Offset & 0x1F)
+			rf = int16(r3.Offset & 0x1F)
 		}
 
-		o1 |= (uint32(rf&31) << 16) | (uint32(cond&15) << 12) | (uint32(p.Reg&31) << 5) | uint32(nzcv)
+		o1 |= c.encodeReg(rf)<<16 | uint32(cond&15)<<12 | c.encodeReg(p.Reg)<<5 | nzcv
 
 	case 20: /* movT R,O(R) -> strT */
 		v := c.regoff(&p.To)
@@ -3883,9 +4185,9 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("constrained unpredictable behavior: %v", p)
 		}
 
-		v := int32(p.From.Offset)
+		rf, _, v := c.decodeRegOffImm(p, &p.From)
 
-		if v < -256 || v > 255 {
+		if int32(v) < -256 || int32(v) > 255 {
 			c.ctxt.Diag("offset out of range [-256,255]: %v", p)
 		}
 		o1 = c.opldr(p, p.As)
@@ -3894,16 +4196,16 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		} else {
 			o1 |= 3 << 10
 		}
-		o1 |= ((uint32(v) & 0x1FF) << 12) | (uint32(p.From.Reg&31) << 5) | uint32(p.To.Reg&31)
+		o1 |= (v&0x1FF)<<12 | c.encodeReg(rf)<<5 | c.encodeReg(p.To.Reg)
 
 	case 23: /* movT R,(R)O!; movT O(R)!, R -> strT */
 		if p.To.Reg != REGSP && p.From.Reg == p.To.Reg {
 			c.ctxt.Diag("constrained unpredictable behavior: %v", p)
 		}
 
-		v := int32(p.To.Offset)
+		rt, _, v := c.decodeRegOffImm(p, &p.To)
 
-		if v < -256 || v > 255 {
+		if int32(v) < -256 || int32(v) > 255 {
 			c.ctxt.Diag("offset out of range [-256,255]: %v", p)
 		}
 		o1 = c.opstr(p, p.As)
@@ -3912,37 +4214,36 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		} else {
 			o1 |= 3 << 10
 		}
-		o1 |= ((uint32(v) & 0x1FF) << 12) | (uint32(p.To.Reg&31) << 5) | uint32(p.From.Reg&31)
+		o1 |= (v&0x1FF)<<12 | c.encodeReg(rt)<<5 | c.encodeReg(p.From.Reg)
 
 	case 24: /* mov/mvn Rs,Rd -> add $0,Rs,Rd or orr Rs,ZR,Rd */
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
+		rf := p.From.Reg
+		rt := p.To.Reg
 		if rf == REGSP || rt == REGSP {
 			if p.As == AMVN || p.As == AMVNW {
 				c.ctxt.Diag("illegal SP reference\n%v", p)
 			}
 			o1 = c.opirr(p, p.As)
-			o1 |= (uint32(rf&31) << 5) | uint32(rt&31)
+			o1 |= c.encodeReg(rf)<<5 | c.encodeReg(rt)
 		} else {
 			o1 = c.oprrr(p, p.As)
-			o1 |= (uint32(rf&31) << 16) | (REGZERO & 31 << 5) | uint32(rt&31)
+			o1 |= c.encodeReg(rf)<<16 | (REGZERO&31)<<5 | c.encodeReg(rt)
 		}
 
 	case 25: /* negX Rs, Rd -> subX Rs<<0, ZR, Rd */
 		o1 = c.oprrr(p, p.As)
 
-		rf := int(p.From.Reg)
-		if rf == C_NONE {
-			rf = int(p.To.Reg)
+		rt := p.To.Reg
+		rf := p.From.Reg
+		if rf == obj.REG_NONE {
+			rf = rt
 		}
-		rt := int(p.To.Reg)
-		o1 |= (uint32(rf&31) << 16) | (REGZERO & 31 << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(rf)<<16 | (REGZERO&31)<<5 | c.encodeReg(rt)
 
 	case 26: /* op Vn, Vd; op Vn.<T>, Vd.<T> */
 		o1 = c.oprrr(p, p.As)
 		cf := c.aclass(&p.From)
-		af := (p.From.Reg >> 5) & 15
-		at := (p.To.Reg >> 5) & 15
+		var af, at uint32
 		var sz int16
 		switch p.As {
 		case AAESD, AAESE, AAESIMC, AAESMC:
@@ -3954,37 +4255,39 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		if cf == C_ARNG {
+			_, af = c.decodeRegARNG(p, &p.From)
+			_, at = c.decodeRegARNG(p, &p.To)
 			if p.As == ASHA1H {
 				c.ctxt.Diag("invalid operands: %v", p)
 			} else {
-				if af != sz || af != at {
+				if af != uint32(sz) || af != at {
 					c.ctxt.Diag("invalid arrangement: %v", p)
 				}
 			}
 		}
-		o1 |= uint32(p.From.Reg&31)<<5 | uint32(p.To.Reg&31)
+		o1 |= c.encodeReg(p.From.Reg)<<5 | c.encodeReg(p.To.Reg)
 
 	case 27: /* op Rm<<n[,Rn],Rd (extended register) */
 		if p.To.Reg == REG_RSP && isADDSop(p.As) {
 			c.ctxt.Diag("illegal destination register: %v\n", p)
 		}
-		rt, r, rf := p.To.Reg, p.Reg, p.From.Reg
+		rt, r := p.To.Reg, p.Reg
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
 		}
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		if (p.From.Reg-obj.RBaseARM64)&REG_EXT != 0 ||
-			(p.From.Reg >= REG_LSL && p.From.Reg < REG_ARNG) {
-			amount := (p.From.Reg >> 5) & 7
-			if amount > 4 {
+		rm, ext, amount := c.decodeRegExt(p, &p.From)
+		if ext != RTYP_NORMAL {
+			// extension
+			if amount < 0 || amount > 4 {
 				c.ctxt.Diag("shift amount out of range 0 to 4: %v", p)
 			}
 			o1 = c.opxrrr(p, p.As, rt, r, obj.REG_NONE, true)
-			o1 |= c.encRegShiftOrExt(p, &p.From, p.From.Reg) /* includes reg, op, etc */
+			o1 |= c.encodeGRegExt(p.As, rm, ext, amount, false)
 		} else {
-			o1 = c.opxrrr(p, p.As, rt, r, rf, false)
+			o1 = c.opxrrr(p, p.As, rt, r, rm, false)
 		}
 
 	case 28: /* logop $vcon, [R], R (64 bit literal) */
@@ -4006,18 +4309,18 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if num == 0 {
 			c.ctxt.Diag("invalid constant: %v", p)
 		}
-		rt := int(p.To.Reg)
+		rt := p.To.Reg
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
 		}
-		r := int(p.Reg)
+		r := p.Reg
 		if r == obj.REG_NONE {
 			r = rt
 		}
 		o = c.oprrr(p, p.As)
 		o |= REGTMP & 31 << 16 /* shift is 0 */
-		o |= uint32(r&31) << 5
-		o |= uint32(rt & 31)
+		o |= c.encodeReg(r) << 5
+		o |= c.encodeReg(rt)
 
 		os[num] = o
 		o1 = os[0]
@@ -4041,7 +4344,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		} else {
 			o1 = c.oprrr(p, p.As)
 		}
-		o1 |= uint32(p.From.Reg&31)<<5 | uint32(p.To.Reg&31)
+		o1 |= c.encodeReg(p.From.Reg)<<5 | c.encodeReg(p.To.Reg)
 
 	case 30: /* movT R,L(R) -> strT */
 		// If offset L fits in a 12 bit unsigned immediate:
@@ -4097,7 +4400,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("REGTMP used in large offset store: %v", p)
 		}
 		o1 = c.omovlit(AMOVD, p, &p.To, REGTMP)
-		o2 = c.olsxrr(p, int32(c.opstrr(p, p.As, false)), int(p.From.Reg), int(r), REGTMP)
+		o2 = c.olsxrr(c.opstrr(p, p.As, false), p.From.Reg, r, REGTMP)
 
 	case 31: /* movT L(R), R -> ldrT */
 		// If offset L fits in a 12 bit unsigned immediate:
@@ -4153,7 +4456,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("REGTMP used in large offset load: %v", p)
 		}
 		o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
-		o2 = c.olsxrr(p, int32(c.opldrr(p, p.As, false)), int(p.To.Reg), int(r), REGTMP)
+		o2 = c.olsxrr(c.opldrr(p, p.As, false), p.To.Reg, r, REGTMP)
 
 	case 32: /* mov $con, R -> movz/movn */
 		o1 = c.omovconst(p.As, p, &p.From, int(p.To.Reg))
@@ -4175,9 +4478,9 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if ((uint64(d) >> uint(s*16)) >> 16) != 0 {
 			c.ctxt.Diag("requires uimm16\n%v", p)
 		}
-		rt := int(p.To.Reg)
+		rt := p.To.Reg
 
-		o1 |= uint32((((d >> uint(s*16)) & 0xFFFF) << 5) | int64((uint32(s)&3)<<21) | int64(rt&31))
+		o1 |= uint32((d>>uint(s*16))&0xFFFF)<<5 | uint32(s)&3<<21 | c.encodeReg(rt)
 
 	case 34: /* mov $lacon,R */
 		o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
@@ -4204,7 +4507,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 |= v
-		o1 |= uint32(p.To.Reg & 31)
+		o1 |= c.encodeReg(p.To.Reg)
 
 	case 36: /* mov R,SPR */
 		o1 = c.oprrr(p, AMSR)
@@ -4222,7 +4525,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 |= v
-		o1 |= uint32(p.From.Reg & 31)
+		o1 |= c.encodeReg(p.From.Reg)
 
 	case 37: /* mov $con,PSTATEfield -> MSR [immediate] */
 		if (uint64(p.From.Offset) &^ uint64(0xF)) != 0 {
@@ -4261,7 +4564,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 39: /* cbz R, rel */
 		o1 = c.opirr(p, p.As)
 
-		o1 |= uint32(p.From.Reg & 31)
+		o1 |= c.encodeReg(p.From.Reg)
 		o1 |= uint32(c.brdist(p, 0, 19, 2) << 5)
 
 	case 40: /* tbz */
@@ -4273,20 +4576,21 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		o1 |= ((uint32(v) & 0x20) << (31 - 5)) | ((uint32(v) & 0x1F) << 19)
 		o1 |= uint32(c.brdist(p, 0, 14, 2) << 5)
-		o1 |= uint32(p.Reg & 31)
+		o1 |= c.encodeReg(p.Reg)
 
 	case 41: /* eret, nop, others with no operands */
 		o1 = c.op0(p, p.As)
 
 	case 42: /* bfm R,r,s,R */
-		o1 = c.opbfm(p, p.As, p.From.Offset, p.GetFrom3().Offset, p.Reg, p.To.Reg)
+		r3 := get2ndSource(p)
+		o1 = c.opbfm(p, p.As, p.From.Offset, r3.Offset, p.Reg, p.To.Reg)
 
 	case 43: /* bfm aliases */
 		rt, rf := p.To.Reg, p.Reg
 		if rf == obj.REG_NONE {
 			rf = rt
 		}
-		r, s := p.From.Offset, p.GetFrom3().Offset
+		r, s := p.From.Offset, get2ndSource(p).Offset
 		switch p.As {
 		case ABFI:
 			if r != 0 {
@@ -4348,7 +4652,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 	case 44: /* extr $b, Rn, Rm, Rd */
-		o1 = c.opextr(p, p.As, p.From.Offset, p.GetFrom3().Reg, p.Reg, p.To.Reg)
+		o1 = c.opextr(p, p.As, p.From.Offset, get2ndSource(p).Reg, p.Reg, p.To.Reg)
 
 	case 45: /* sxt/uxt[bhw] R,R; movT R,R -> sxtT R,R */
 		as := p.As
@@ -4398,8 +4702,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 46: /* cls */
 		o1 = c.opbit(p, p.As)
 
-		o1 |= uint32(p.From.Reg&31) << 5
-		o1 |= uint32(p.To.Reg & 31)
+		o1 |= c.encodeReg(p.From.Reg)<<5 | c.encodeReg(p.To.Reg)
 
 	case 47: // SWPx/LDADDx/LDCLRx/LDEORx/LDORx/CASx Rs, (Rb), Rt
 		rs := p.From.Reg
@@ -4412,7 +4715,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = atomicLDADD[p.As] | atomicSWP[p.As]
-		o1 |= uint32(rs&31)<<16 | uint32(rb&31)<<5 | uint32(rt&31)
+		o1 |= c.encodeReg(rs)<<16 | c.encodeReg(rb)<<5 | c.encodeReg(rt)
 
 	case 48: /* ADD $C_ADDCON2, Rm, Rd */
 		// NOTE: this case does not use REGTMP. If it ever does,
@@ -4431,15 +4734,15 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 49: /* op Vm.<T>, Vn, Vd */
 		o1 = c.oprrr(p, p.As)
 		cf := c.aclass(&p.From)
-		af := (p.From.Reg >> 5) & 15
+		rf, af := c.decodeRegARNG(p, &p.From)
 		sz := ARNG_4S
 		if p.As == ASHA512H || p.As == ASHA512H2 {
 			sz = ARNG_2D
 		}
-		if cf == C_ARNG && af != int16(sz) {
+		if cf == C_ARNG && af != uint32(sz) {
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		o1 |= uint32(p.From.Reg&31)<<16 | uint32(p.Reg&31)<<5 | uint32(p.To.Reg&31)
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(p.Reg)<<5 | c.encodeReg(p.To.Reg)
 
 	case 50: /* sys/sysl */
 		o1 = c.opirr(p, p.As)
@@ -4449,7 +4752,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		o1 |= uint32(p.From.Offset)
 		if p.To.Type == obj.TYPE_REG {
-			o1 |= uint32(p.To.Reg & 31)
+			o1 |= c.encodeReg(p.To.Reg)
 		} else {
 			o1 |= 0x1F
 		}
@@ -4468,11 +4771,11 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	case 53: /* and/or/eor/bic/tst/... $bitcon, Rn, Rd */
 		a := p.As
-		rt := int(p.To.Reg)
+		rt := p.To.Reg
 		if p.To.Type == obj.TYPE_NONE {
 			rt = REGZERO
 		}
-		r := int(p.Reg)
+		r := p.Reg
 		if r == obj.REG_NONE {
 			r = rt
 		}
@@ -4492,20 +4795,20 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			mode = 32
 		}
 		o1 = c.opirr(p, a)
-		o1 |= bitconEncode(v, mode) | uint32(r&31)<<5 | uint32(rt&31)
+		o1 |= bitconEncode(v, mode) | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 54: /* floating point arith */
 		o1 = c.oprrr(p, p.As)
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		r := int(p.Reg)
+		rf := p.From.Reg
+		rt := p.To.Reg
+		r := p.Reg
 		if (o1&(0x1F<<24)) == (0x1E<<24) && (o1&(1<<11)) == 0 { /* monadic */
 			r = rf
 			rf = 0
 		} else if r == obj.REG_NONE {
 			r = rt
 		}
-		o1 |= (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 55: /* floating-point constant */
 		var rf int
@@ -4517,20 +4820,19 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if p.As == AFMOVD {
 			o1 |= 1 << 22
 		}
-		o1 |= (uint32(rf&0xff) << 13) | uint32(p.To.Reg&31)
+		o1 |= (uint32(rf&0xff) << 13) | c.encodeReg(p.To.Reg)
 
 	case 56: /* floating point compare */
 		o1 = c.oprrr(p, p.As)
 
-		var rf int
+		var rf int16
 		if p.From.Type == obj.TYPE_FCONST {
 			o1 |= 8 /* zero */
 			rf = 0
 		} else {
-			rf = int(p.From.Reg)
+			rf = p.From.Reg
 		}
-		rt := int(p.Reg)
-		o1 |= uint32(rf&31)<<16 | uint32(rt&31)<<5
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(p.Reg)<<5
 
 	case 57: /* floating point conditional compare */
 		o1 = c.oprrr(p, p.As)
@@ -4546,28 +4848,29 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if nzcv&^0xF != 0 {
 			c.ctxt.Diag("implausible condition\n%v", p)
 		}
-		rf := int(p.Reg)
-		if p.GetFrom3() == nil || p.GetFrom3().Reg < REG_F0 || p.GetFrom3().Reg > REG_F31 {
+		rf := p.Reg
+		r3 := get2ndSource(p)
+		if r3 == nil || r3.Reg < REG_F0 || r3.Reg > REG_F31 {
 			c.ctxt.Diag("illegal FCCMP\n%v", p)
 			break
 		}
-		rt := int(p.GetFrom3().Reg)
-		o1 |= uint32(rf&31)<<16 | uint32(cond&15)<<12 | uint32(rt&31)<<5 | uint32(nzcv)
+		rt := r3.Reg
+		o1 |= c.encodeReg(rf)<<16 | uint32(cond&15)<<12 | c.encodeReg(rt)<<5 | uint32(nzcv)
 
 	case 58: /* ldar/ldarb/ldarh/ldaxp/ldxp/ldaxr/ldxr */
 		o1 = c.opload(p, p.As)
 
 		o1 |= 0x1F << 16
-		o1 |= uint32(p.From.Reg&31) << 5
+		o1 |= c.encodeReg(p.From.Reg) << 5
 		if p.As == ALDXP || p.As == ALDXPW || p.As == ALDAXP || p.As == ALDAXPW {
 			if int(p.To.Reg) == int(p.To.Offset) {
 				c.ctxt.Diag("constrained unpredictable behavior: %v", p)
 			}
-			o1 |= uint32(p.To.Offset&31) << 10
+			r1, r2 := c.decodeRegReg(p, &p.To)
+			o1 |= c.encodeReg(r2)<<10 | c.encodeReg(r1)
 		} else {
-			o1 |= 0x1F << 10
+			o1 |= 0x1F<<10 | c.encodeReg(p.To.Reg)
 		}
-		o1 |= uint32(p.To.Reg & 31)
 
 	case 59: /* stxr/stlxr/stxp/stlxp */
 		s := p.RegTo2
@@ -4588,15 +4891,18 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		o1 = c.opstore(p, p.As)
 
-		if p.RegTo2 != obj.REG_NONE {
-			o1 |= uint32(p.RegTo2&31) << 16
+		if s != obj.REG_NONE {
+			o1 |= c.encodeReg(s) << 16
 		} else {
 			o1 |= 0x1F << 16
 		}
+		rt := p.To.Reg
 		if isSTXPop(p.As) {
-			o1 |= uint32(p.From.Offset&31) << 10
+			r1, r2 := c.decodeRegReg(p, &p.From)
+			o1 |= c.encodeReg(r2)<<10 | c.encodeReg(rt)<<5 | c.encodeReg(r1)
+		} else {
+			o1 |= c.encodeReg(rt)<<5 | c.encodeReg(p.From.Reg)
 		}
-		o1 |= uint32(p.To.Reg&31)<<5 | uint32(p.From.Reg&31)
 
 	case 60: /* adrp label,r */
 		d := c.brdist(p, 12, 21, 0)
@@ -4636,23 +4942,22 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		} else {
 			o2 = c.oprrr(p, p.As)
 			o2 |= uint32(rf&31) << 16 /* shift is 0 */
-			o2 |= uint32(r&31) << 5
-			o2 |= uint32(rt & 31)
+			o2 |= c.encodeReg(r)<<5 | c.encodeReg(rt)
 		}
 
 	case 63: /* op Vm.<t>, Vn.<T>, Vd.<T> */
 		o1 |= c.oprrr(p, p.As)
-		af := (p.From.Reg >> 5) & 15
-		at := (p.To.Reg >> 5) & 15
-		ar := (p.Reg >> 5) & 15
+		rf, af := c.decodeRegARNG(p, &p.From)
+		rt, at := c.decodeRegARNG(p, &p.To)
+		r, ar := c.decodeRegARNG(p, get2ndSource(p))
 		sz := ARNG_4S
 		if p.As == ASHA512SU1 {
 			sz = ARNG_2D
 		}
-		if af != at || af != ar || af != int16(sz) {
+		if af != at || af != ar || af != uint32(sz) {
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		o1 |= uint32(p.From.Reg&31)<<16 | uint32(p.Reg&31)<<5 | uint32(p.To.Reg&31)
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	/* reloc ops */
 	case 64: /* movT R,addr -> adrp + movT R, (REGTMP) */
@@ -4721,7 +5026,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("invalid load of 32-bit address: %v", p)
 		}
 		o1 = ADR(1, 0, uint32(p.To.Reg))
-		o2 = c.opirr(p, AADD) | uint32(p.To.Reg&31)<<5 | uint32(p.To.Reg&31)
+		o2 = c.opirr(p, AADD) | c.encodeReg(p.To.Reg)<<5 | c.encodeReg(p.To.Reg)
 		rel := obj.Addrel(c.cursym)
 		rel.Off = int32(c.pc)
 		rel.Siz = 8
@@ -4731,7 +5036,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	case 69: /* LE model movd $tlsvar, reg -> movz reg, 0 + reloc */
 		o1 = c.opirr(p, AMOVZ)
-		o1 |= uint32(p.To.Reg & 31)
+		o1 |= c.encodeReg(p.To.Reg)
 		rel := obj.Addrel(c.cursym)
 		rel.Off = int32(c.pc)
 		rel.Siz = 4
@@ -4765,17 +5070,14 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rel.Type = objabi.R_ARM64_GOTPCREL
 
 	case 72: /* vaddp/vand/vcmeq/vorr/vadd/veor/vfmla/vfmls/vbit/vbsl/vcmtst/vsub/vbif/vuzip1/vuzip2/vrax1 Vm.<T>, Vn.<T>, Vd.<T> */
-		af := int((p.From.Reg >> 5) & 15)
-		af3 := int((p.Reg >> 5) & 15)
-		at := int((p.To.Reg >> 5) & 15)
-		if af != af3 || af != at {
+		rf, af := c.decodeRegARNG(p, &p.From)
+		rf2, af2 := c.decodeRegARNG(p, get2ndSource(p))
+		rt, at := c.decodeRegARNG(p, &p.To)
+		if af != af2 || af != at {
 			c.ctxt.Diag("operand mismatch: %v", p)
 			break
 		}
 		o1 = c.oprrr(p, p.As)
-		rf := int((p.From.Reg) & 31)
-		rt := int((p.To.Reg) & 31)
-		r := int((p.Reg) & 31)
 
 		Q := 0
 		size := 0
@@ -4840,36 +5142,35 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			Q = 0
 		}
 
-		o1 |= (uint32(Q&1) << 30) | (uint32(size&3) << 22) | (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= uint32(Q&1)<<30 | uint32(size&3)<<22 | c.encodeReg(rf)<<16 | c.encodeReg(rf2)<<5 | c.encodeReg(rt)
 
 	case 73: /* vmov V.<T>[index], R */
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		imm5 := 0
+		rf, arng, index := c.decodeRegArngIndex(p, &p.From)
+		rt := p.To.Reg
+		var imm5 uint32
 		o1 = 7<<25 | 0xf<<10
-		index := int(p.From.Index)
-		switch (p.From.Reg >> 5) & 15 {
+		switch arng {
 		case ARNG_B:
-			c.checkindex(p, index, 15)
+			c.checkindex(p, int(index), 15)
 			imm5 |= 1
 			imm5 |= index << 1
 		case ARNG_H:
-			c.checkindex(p, index, 7)
+			c.checkindex(p, int(index), 7)
 			imm5 |= 2
 			imm5 |= index << 2
 		case ARNG_S:
-			c.checkindex(p, index, 3)
+			c.checkindex(p, int(index), 3)
 			imm5 |= 4
 			imm5 |= index << 3
 		case ARNG_D:
-			c.checkindex(p, index, 1)
+			c.checkindex(p, int(index), 1)
 			imm5 |= 8
 			imm5 |= index << 4
 			o1 |= 1 << 30
 		default:
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (imm5&0x1f)<<16 | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 74:
 		//	add $O, R, Rtmp or sub $O, R, Rtmp
@@ -4999,104 +5300,101 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o3 = c.opldpstp(p, o, 0, REGTMP, rf1, rf2, 0)
 
 	case 78: /* vmov R, V.<T>[index] */
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		imm5 := 0
+		rf := p.From.Reg
+		rt, arng, index := c.decodeRegArngIndex(p, &p.To)
+		var imm5 uint32
 		o1 = 1<<30 | 7<<25 | 7<<10
-		index := int(p.To.Index)
-		switch (p.To.Reg >> 5) & 15 {
+		switch arng {
 		case ARNG_B:
-			c.checkindex(p, index, 15)
+			c.checkindex(p, int(index), 15)
 			imm5 |= 1
 			imm5 |= index << 1
 		case ARNG_H:
-			c.checkindex(p, index, 7)
+			c.checkindex(p, int(index), 7)
 			imm5 |= 2
 			imm5 |= index << 2
 		case ARNG_S:
-			c.checkindex(p, index, 3)
+			c.checkindex(p, int(index), 3)
 			imm5 |= 4
 			imm5 |= index << 3
 		case ARNG_D:
-			c.checkindex(p, index, 1)
+			c.checkindex(p, int(index), 1)
 			imm5 |= 8
 			imm5 |= index << 4
 		default:
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (imm5&0x1f)<<16 | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 79: /* vdup Vn.<T>[index], Vd.<T> */
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
+		rf, _, index := c.decodeRegArngIndex(p, &p.From)
+		rt, arng := c.decodeRegARNG(p, &p.To)
 		o1 = 7<<25 | 1<<10
-		var imm5, Q int
-		index := int(p.From.Index)
-		switch (p.To.Reg >> 5) & 15 {
+		var imm5, Q uint32
+		switch arng {
 		case ARNG_16B:
-			c.checkindex(p, index, 15)
+			c.checkindex(p, int(index), 15)
 			Q = 1
 			imm5 = 1
 			imm5 |= index << 1
 		case ARNG_2D:
-			c.checkindex(p, index, 1)
+			c.checkindex(p, int(index), 1)
 			Q = 1
 			imm5 = 8
 			imm5 |= index << 4
 		case ARNG_2S:
-			c.checkindex(p, index, 3)
+			c.checkindex(p, int(index), 3)
 			Q = 0
 			imm5 = 4
 			imm5 |= index << 3
 		case ARNG_4H:
-			c.checkindex(p, index, 7)
+			c.checkindex(p, int(index), 7)
 			Q = 0
 			imm5 = 2
 			imm5 |= index << 2
 		case ARNG_4S:
-			c.checkindex(p, index, 3)
+			c.checkindex(p, int(index), 3)
 			Q = 1
 			imm5 = 4
 			imm5 |= index << 3
 		case ARNG_8B:
-			c.checkindex(p, index, 15)
+			c.checkindex(p, int(index), 15)
 			Q = 0
 			imm5 = 1
 			imm5 |= index << 1
 		case ARNG_8H:
-			c.checkindex(p, index, 7)
+			c.checkindex(p, int(index), 7)
 			Q = 1
 			imm5 = 2
 			imm5 |= index << 2
 		default:
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		o1 |= (uint32(Q&1) << 30) | (uint32(imm5&0x1f) << 16)
-		o1 |= (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (Q&1)<<30 | (imm5&0x1f)<<16
+		o1 |= c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 80: /* vmov/vdup V.<T>[index], Vn */
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		imm5 := 0
-		index := int(p.From.Index)
+		rf, arng, index := c.decodeRegArngIndex(p, &p.From)
+		rt := p.To.Reg
+		var imm5 uint32
 		switch p.As {
 		case AVMOV, AVDUP:
 			o1 = 1<<30 | 15<<25 | 1<<10
-			switch (p.From.Reg >> 5) & 15 {
+			switch arng {
 			case ARNG_B:
-				c.checkindex(p, index, 15)
+				c.checkindex(p, int(index), 15)
 				imm5 |= 1
 				imm5 |= index << 1
 			case ARNG_H:
-				c.checkindex(p, index, 7)
+				c.checkindex(p, int(index), 7)
 				imm5 |= 2
 				imm5 |= index << 2
 			case ARNG_S:
-				c.checkindex(p, index, 3)
+				c.checkindex(p, int(index), 3)
 				imm5 |= 4
 				imm5 |= index << 3
 			case ARNG_D:
-				c.checkindex(p, index, 1)
+				c.checkindex(p, int(index), 1)
 				imm5 |= 8
 				imm5 |= index << 4
 			default:
@@ -5105,37 +5403,39 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		default:
 			c.ctxt.Diag("unsupported op %v", p.As)
 		}
-		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (imm5&0x1f)<<16 | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 81: /* vld[1-4]|vld[1-4]r (Rn), [Vt1.<T>, Vt2.<T>, ...] */
 		c.checkoffset(p, p.As)
-		r := int(p.From.Reg)
+		r := p.From.Reg
 		o1 = c.oprrr(p, p.As)
 		if o.scond == C_XPOST {
 			o1 |= 1 << 23
-			if p.From.Index == 0 {
+			if !c.isRegisterOffset(p, &p.From) {
 				// immediate offset variant
 				o1 |= 0x1f << 16
 			} else {
 				// register offset variant
-				if isRegShiftOrExt(&p.From) {
+				_, r2, _, arng, ext, _ := c.decodeRegOffReg(p, &p.From)
+				if arng != ARNG_NONE || ext != RTYP_NORMAL {
 					c.ctxt.Diag("invalid extended register op: %v\n", p)
 				}
-				o1 |= uint32(p.From.Index&0x1f) << 16
+				o1 |= c.encodeReg(r2) << 16
 			}
 		}
-		o1 |= uint32(p.To.Offset)
+		reg, arng, regcnt, _, _, _ := c.decodeRegList(p, &p.To)
+		o1 |= c.encodeVRegList(reg, arng, regcnt)
 		// cmd/asm/internal/arch/arm64.go:ARM64RegisterListOffset
 		// add opcode(bit 12-15) for vld1, mask it off if it's not vld1
 		o1 = c.maskOpvldvst(p, o1)
-		o1 |= uint32(r&31) << 5
+		o1 |= c.encodeReg(r) << 5
 
 	case 82: /* vmov/vdup Rn, Vd.<T> */
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
+		rf := p.From.Reg
+		rt, arng := c.decodeRegARNG(p, &p.To)
 		o1 = 7<<25 | 3<<10
 		var imm5, Q uint32
-		switch (p.To.Reg >> 5) & 15 {
+		switch arng {
 		case ARNG_16B:
 			Q = 1
 			imm5 = 1
@@ -5161,17 +5461,15 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
 		o1 |= (Q & 1 << 30) | (imm5 & 0x1f << 16)
-		o1 |= (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 83: /* vmov Vn.<T>, Vd.<T> */
-		af := int((p.From.Reg >> 5) & 15)
-		at := int((p.To.Reg >> 5) & 15)
+		rf, af := c.decodeRegARNG(p, &p.From)
+		rt, at := c.decodeRegARNG(p, &p.To)
 		if af != at {
 			c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
 		o1 = c.oprrr(p, p.As)
-		rf := int((p.From.Reg) & 31)
-		rt := int((p.To.Reg) & 31)
 
 		var Q, size uint32
 		switch af {
@@ -5210,43 +5508,44 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		if p.As == AVMOV {
-			o1 |= uint32(rf&31) << 16
+			o1 |= c.encodeReg(rf) << 16
 		}
 
 		if p.As == AVRBIT {
 			size = 1
 		}
 
-		o1 |= (Q&1)<<30 | (size&3)<<22 | uint32(rf&31)<<5 | uint32(rt&31)
+		o1 |= (Q&1)<<30 | (size&3)<<22 | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 84: /* vst[1-4] [Vt1.<T>, Vt2.<T>, ...], (Rn) */
 		c.checkoffset(p, p.As)
-		r := int(p.To.Reg)
+		r := p.To.Reg
 		o1 = 3 << 26
 		if o.scond == C_XPOST {
 			o1 |= 1 << 23
-			if p.To.Index == 0 {
+			if !c.isRegisterOffset(p, &p.To) {
 				// immediate offset variant
 				o1 |= 0x1f << 16
 			} else {
 				// register offset variant
-				if isRegShiftOrExt(&p.To) {
+				_, r2, _, arng, ext, _ := c.decodeRegOffReg(p, &p.To)
+				if arng != ARNG_NONE || ext != RTYP_NORMAL {
 					c.ctxt.Diag("invalid extended register: %v\n", p)
 				}
-				o1 |= uint32(p.To.Index&31) << 16
+				o1 |= c.encodeReg(r2) << 16
 			}
 		}
-		o1 |= uint32(p.From.Offset)
+		reg, arng, regcnt, _, _, _ := c.decodeRegList(p, &p.From)
+		o1 |= c.encodeVRegList(reg, arng, regcnt)
 		// cmd/asm/internal/arch/arm64.go:ARM64RegisterListOffset
 		// add opcode(bit 12-15) for vst1, mask it off if it's not vst1
 		o1 = c.maskOpvldvst(p, o1)
-		o1 |= uint32(r&31) << 5
+		o1 |= c.encodeReg(r) << 5
 
 	case 85: /* vaddv/vuaddlv Vn.<T>, Vd*/
-		af := int((p.From.Reg >> 5) & 15)
 		o1 = c.oprrr(p, p.As)
-		rf := int((p.From.Reg) & 31)
-		rt := int((p.To.Reg) & 31)
+		rf, af := c.decodeRegARNG(p, &p.From)
+		rt := p.To.Reg
 		Q := 0
 		size := 0
 		switch af {
@@ -5268,15 +5567,14 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		default:
 			c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
-		o1 |= (uint32(Q&1) << 30) | (uint32(size&3) << 22) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (uint32(Q&1) << 30) | (uint32(size&3) << 22) | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 86: /* vmovi $imm8, Vd.<T>*/
-		at := int((p.To.Reg >> 5) & 15)
 		r := int(p.From.Offset)
 		if r > 255 || r < 0 {
 			c.ctxt.Diag("immediate constant out of range: %v\n", p)
 		}
-		rt := int((p.To.Reg) & 31)
+		rt, at := c.decodeRegARNG(p, &p.To)
 		Q := 0
 		switch at {
 		case ARNG_8B:
@@ -5287,7 +5585,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
 		o1 = 0xf<<24 | 0xe<<12 | 1<<10
-		o1 |= (uint32(Q&1) << 30) | (uint32((r>>5)&7) << 16) | (uint32(r&0x1f) << 5) | uint32(rt&31)
+		o1 |= (uint32(Q&1) << 30) | (uint32((r>>5)&7) << 16) | (uint32(r&0x1f) << 5) | c.encodeReg(rt)
 
 	case 87: /* stp (r,r), addr(SB) -> adrp + add + stp */
 		rf1, rf2 := p.From.Reg, int16(p.From.Offset)
@@ -5329,13 +5627,13 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			break
 		}
 
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		r := int(p.Reg)
+		rf := p.From.Reg
+		rt := p.To.Reg
+		r := p.Reg
 		if r == obj.REG_NONE {
 			r = rt
 		}
-		o1 |= (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	// This is supposed to be something that stops execution.
 	// It's not supposed to be reached, ever, but if it is, we'd
@@ -5346,8 +5644,10 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = 0xbea71700
 
 	case 91: /* prfm imm(Rn), <prfop | $imm5> */
-		imm := uint32(p.From.Offset)
-		r := p.From.Reg
+		r, arng, imm := c.decodeRegOffImm(p, &p.From)
+		if arng != RTYP_NORMAL {
+			c.ctxt.Diag("invalid register type")
+		}
 		var v uint32
 		var ok bool
 		if p.To.Type == obj.TYPE_CONST {
@@ -5361,53 +5661,50 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = c.opirr(p, p.As)
-		o1 |= (uint32(r&31) << 5) | (uint32((imm>>3)&0xfff) << 10) | (uint32(v & 31))
+		o1 |= c.encodeReg(r)<<5 | (uint32((imm>>3)&0xfff) << 10) | (uint32(v & 31))
 
 	case 92: /* vmov Vn.<T>[index], Vd.<T>[index] */
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		imm4 := 0
-		imm5 := 0
+		rf, af, index2 := c.decodeRegArngIndex(p, &p.From)
+		rt, at, index1 := c.decodeRegArngIndex(p, &p.To)
+		var imm4, imm5 uint32
 		o1 = 3<<29 | 7<<25 | 1<<10
-		index1 := int(p.To.Index)
-		index2 := int(p.From.Index)
-		if ((p.To.Reg >> 5) & 15) != ((p.From.Reg >> 5) & 15) {
+		if at != af {
 			c.ctxt.Diag("operand mismatch: %v", p)
 		}
-		switch (p.To.Reg >> 5) & 15 {
+		switch at {
 		case ARNG_B:
-			c.checkindex(p, index1, 15)
-			c.checkindex(p, index2, 15)
+			c.checkindex(p, int(index1), 15)
+			c.checkindex(p, int(index2), 15)
 			imm5 |= 1
 			imm5 |= index1 << 1
 			imm4 |= index2
 		case ARNG_H:
-			c.checkindex(p, index1, 7)
-			c.checkindex(p, index2, 7)
+			c.checkindex(p, int(index1), 7)
+			c.checkindex(p, int(index2), 7)
 			imm5 |= 2
 			imm5 |= index1 << 2
 			imm4 |= index2 << 1
 		case ARNG_S:
-			c.checkindex(p, index1, 3)
-			c.checkindex(p, index2, 3)
+			c.checkindex(p, int(index1), 3)
+			c.checkindex(p, int(index2), 3)
 			imm5 |= 4
 			imm5 |= index1 << 3
 			imm4 |= index2 << 2
 		case ARNG_D:
-			c.checkindex(p, index1, 1)
-			c.checkindex(p, index2, 1)
+			c.checkindex(p, int(index1), 1)
+			c.checkindex(p, int(index2), 1)
 			imm5 |= 8
 			imm5 |= index1 << 4
 			imm4 |= index2 << 3
 		default:
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(imm4&0xf) << 11) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (imm5&0x1f)<<16 | (imm4&0xf)<<11 | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 93: /* vpmull{2} Vm.<Tb>, Vn.<Tb>, Vd.<Ta> */
-		af := uint8((p.From.Reg >> 5) & 15)
-		at := uint8((p.To.Reg >> 5) & 15)
-		a := uint8((p.Reg >> 5) & 15)
+		rf, af := c.decodeRegARNG(p, &p.From)
+		rt, at := c.decodeRegARNG(p, &p.To)
+		r, a := c.decodeRegARNG(p, get2ndSource(p))
 		if af != a {
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
@@ -5426,15 +5723,12 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = c.oprrr(p, p.As)
-		rf := int((p.From.Reg) & 31)
-		rt := int((p.To.Reg) & 31)
-		r := int((p.Reg) & 31)
-		o1 |= ((Q & 1) << 30) | ((size & 3) << 22) | (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= ((Q & 1) << 30) | ((size & 3) << 22) | c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 94: /* vext $imm4, Vm.<T>, Vn.<T>, Vd.<T> */
-		af := int(((p.GetFrom3().Reg) >> 5) & 15)
-		at := int((p.To.Reg >> 5) & 15)
-		a := int((p.Reg >> 5) & 15)
+		rf, af := c.decodeRegARNG(p, get3rdSource(p))
+		rt, at := c.decodeRegARNG(p, &p.To)
+		r, a := c.decodeRegARNG(p, get2ndSource(p))
 		index := int(p.From.Offset)
 
 		if af != a || af != at {
@@ -5460,15 +5754,11 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = c.opirr(p, p.As)
-		rf := int((p.GetFrom3().Reg) & 31)
-		rt := int((p.To.Reg) & 31)
-		r := int((p.Reg) & 31)
-
-		o1 |= ((Q & 1) << 30) | (uint32(r&31) << 16) | (uint32(index&15) << 11) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= ((Q & 1) << 30) | c.encodeReg(r)<<16 | (uint32(index&15) << 11) | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 95: /* vushr/vshl/vsri/vsli/vusra $shift, Vn.<T>, Vd.<T> */
-		at := int((p.To.Reg >> 5) & 15)
-		af := int((p.Reg >> 5) & 15)
+		rt, at := c.decodeRegARNG(p, &p.To)
+		rf, af := c.decodeRegARNG(p, get2ndSource(p))
 		shift := int(p.From.Offset)
 
 		if af != at {
@@ -5519,24 +5809,19 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = c.opirr(p, p.As)
-		rt := int((p.To.Reg) & 31)
-		rf := int((p.Reg) & 31)
-
-		o1 |= ((Q & 1) << 30) | (uint32(imm&0x7f) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= ((Q & 1) << 30) | (uint32(imm&0x7f) << 16) | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 96: /* vst1 Vt1.<T>[index], offset(Rn) */
-		af := int((p.From.Reg >> 5) & 15)
-		rt := int((p.From.Reg) & 31)
-		rf := int((p.To.Reg) & 31)
-		r := int(p.To.Index & 31)
-		index := int(p.From.Index)
+		rt, af, index := c.decodeRegArngIndex(p, &p.From)
+		rf := c.encodeReg(p.To.Reg)
+		r := uint32(p.To.Offset & 31)
 		offset := c.regoff(&p.To)
 
 		if o.scond == C_XPOST {
-			if (p.To.Index != 0) && (offset != 0) {
+			if offset != 0 && p.To.Offset != int64(offset) {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
-			if p.To.Index == 0 && offset == 0 {
+			if p.To.Offset == 0 && offset == 0 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
 		}
@@ -5545,11 +5830,11 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			r = 31
 		}
 
-		var Q, S, size int
+		var Q, S, size uint32
 		var opcode uint32
 		switch af {
 		case ARNG_B:
-			c.checkindex(p, index, 15)
+			c.checkindex(p, int(index), 15)
 			if o.scond == C_XPOST && offset != 0 && offset != 1 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5558,7 +5843,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = index & 3
 			opcode = 0
 		case ARNG_H:
-			c.checkindex(p, index, 7)
+			c.checkindex(p, int(index), 7)
 			if o.scond == C_XPOST && offset != 0 && offset != 2 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5567,7 +5852,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = (index & 1) << 1
 			opcode = 2
 		case ARNG_S:
-			c.checkindex(p, index, 3)
+			c.checkindex(p, int(index), 3)
 			if o.scond == C_XPOST && offset != 0 && offset != 4 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5576,7 +5861,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = 0
 			opcode = 4
 		case ARNG_D:
-			c.checkindex(p, index, 1)
+			c.checkindex(p, int(index), 1)
 			if o.scond == C_XPOST && offset != 0 && offset != 8 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5594,21 +5879,23 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			o1 |= 26 << 23
 		}
 
-		o1 |= (uint32(Q&1) << 30) | (uint32(r&31) << 16) | ((opcode & 7) << 13) | (uint32(S&1) << 12) | (uint32(size&3) << 10) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (uint32(Q&1) << 30) | r<<16 | ((opcode & 7) << 13) | (uint32(S&1) << 12) | (uint32(size&3) << 10) | rf<<5 | c.encodeReg(rt)
 
 	case 97: /* vld1 offset(Rn), vt.<T>[index] */
-		at := int((p.To.Reg >> 5) & 15)
-		rt := int((p.To.Reg) & 31)
-		rf := int((p.From.Reg) & 31)
-		r := int(p.From.Index & 31)
-		index := int(p.To.Index)
+		rt, at, index := c.decodeRegArngIndex(p, &p.To)
+		var rf, r int16
+		if c.isRegisterOffset(p, &p.From) {
+			rf, r, _, _, _, _ = c.decodeRegOffReg(p, &p.From)
+		} else {
+			rf, _, _ = c.decodeRegOffImm(p, &p.From)
+		}
 		offset := c.regoff(&p.From)
 
 		if o.scond == C_XPOST {
-			if (p.From.Index != 0) && (offset != 0) {
+			if offset != 0 && p.From.Offset != int64(offset) {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
-			if p.From.Index == 0 && offset == 0 {
+			if p.From.Offset == 0 && offset == 0 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
 		}
@@ -5617,13 +5904,10 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			r = 31
 		}
 
-		Q := 0
-		S := 0
-		size := 0
-		var opcode uint32
+		var opcode, Q, S, size uint32
 		switch at {
 		case ARNG_B:
-			c.checkindex(p, index, 15)
+			c.checkindex(p, int(index), 15)
 			if o.scond == C_XPOST && offset != 0 && offset != 1 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5632,7 +5916,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = index & 3
 			opcode = 0
 		case ARNG_H:
-			c.checkindex(p, index, 7)
+			c.checkindex(p, int(index), 7)
 			if o.scond == C_XPOST && offset != 0 && offset != 2 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5641,7 +5925,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = (index & 1) << 1
 			opcode = 2
 		case ARNG_S:
-			c.checkindex(p, index, 3)
+			c.checkindex(p, int(index), 3)
 			if o.scond == C_XPOST && offset != 0 && offset != 4 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5650,7 +5934,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			size = 0
 			opcode = 4
 		case ARNG_D:
-			c.checkindex(p, index, 1)
+			c.checkindex(p, int(index), 1)
 			if o.scond == C_XPOST && offset != 0 && offset != 8 {
 				c.ctxt.Diag("invalid offset: %v", p)
 			}
@@ -5671,44 +5955,50 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= (uint32(Q&1) << 30) | (uint32(r&31) << 16) | ((opcode & 7) << 13) | (uint32(S&1) << 12) | (uint32(size&3) << 10) | (uint32(rf&31) << 5) | uint32(rt&31)
 
 	case 98: /* MOVD (Rn)(Rm.SXTW[<<amount]),Rd */
-		if isRegShiftOrExt(&p.From) {
+		r1, r2, a1, a2, ext, amount := c.decodeRegOffReg(p, &p.From)
+		if a1 != a2 || a1 != RTYP_NORMAL {
+			c.ctxt.Diag("invalid register type")
+		}
+		if ext != RTYP_NORMAL {
 			// extended or shifted offset register.
-			c.checkShiftAmount(p, &p.From)
+			c.checkShiftAmount(p, amount)
 
 			o1 = c.opldrr(p, p.As, true)
-			o1 |= c.encRegShiftOrExt(p, &p.From, p.From.Index) /* includes reg, op, etc */
+			o1 |= c.encodeGRegExt(p.As, r2, ext, amount, true)
 		} else {
 			// (Rn)(Rm), no extension or shift.
 			o1 = c.opldrr(p, p.As, false)
-			o1 |= uint32(p.From.Index&31) << 16
+			o1 |= c.encodeReg(r2) << 16
 		}
-		o1 |= uint32(p.From.Reg&31) << 5
-		rt := int(p.To.Reg)
-		o1 |= uint32(rt & 31)
+		o1 |= c.encodeReg(r1) << 5
+		o1 |= c.encodeReg(p.To.Reg)
 
 	case 99: /* MOVD Rt, (Rn)(Rm.SXTW[<<amount]) */
-		if isRegShiftOrExt(&p.To) {
+		r1, r2, a1, a2, ext, amount := c.decodeRegOffReg(p, &p.To)
+		if a1 != a2 || a1 != RTYP_NORMAL {
+			c.ctxt.Diag("invalid register type")
+		}
+		if ext != RTYP_NORMAL {
 			// extended or shifted offset register.
-			c.checkShiftAmount(p, &p.To)
+			c.checkShiftAmount(p, amount)
 
 			o1 = c.opstrr(p, p.As, true)
-			o1 |= c.encRegShiftOrExt(p, &p.To, p.To.Index) /* includes reg, op, etc */
+			o1 |= c.encodeGRegExt(p.As, r2, ext, amount, true)
 		} else {
 			// (Rn)(Rm), no extension or shift.
 			o1 = c.opstrr(p, p.As, false)
-			o1 |= uint32(p.To.Index&31) << 16
+			o1 |= c.encodeReg(r2) << 16
 		}
-		o1 |= uint32(p.To.Reg&31) << 5
-		rf := int(p.From.Reg)
-		o1 |= uint32(rf & 31)
+		o1 |= c.encodeReg(r1) << 5
+		o1 |= c.encodeReg(p.From.Reg)
 
 	case 100: /* VTBL/VTBX Vn.<T>, [Vt1.<T>, Vt2.<T>, ...], Vd.<T> */
-		af := int((p.From.Reg >> 5) & 15)
-		at := int((p.To.Reg >> 5) & 15)
+		rf, af := c.decodeRegARNG(p, &p.From)
+		rt, at := c.decodeRegARNG(p, &p.To)
 		if af != at {
 			c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
-		var q, len uint32
+		var q uint32
 		switch af {
 		case ARNG_8B:
 			q = 0
@@ -5717,22 +6007,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		default:
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		rf := int(p.From.Reg)
-		rt := int(p.To.Reg)
-		offset := int(p.GetFrom3().Offset)
-		opcode := (offset >> 12) & 15
-		switch opcode {
-		case 0x7:
-			len = 0 // one register
-		case 0xa:
-			len = 1 // two register
-		case 0x6:
-			len = 2 // three registers
-		case 0x2:
-			len = 3 // four registers
-		default:
-			c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
-		}
+		r, _, regcnt, _, _, _ := c.decodeRegList(p, get2ndSource(p))
 		var op uint32
 		switch p.As {
 		case AVTBL:
@@ -5740,18 +6015,20 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		case AVTBX:
 			op = 1
 		}
-		o1 = q<<30 | 0xe<<24 | len<<13 | op<<12
-		o1 |= (uint32(rf&31) << 16) | uint32(offset&31)<<5 | uint32(rt&31)
+		o1 = q<<30 | 0xe<<24 | (regcnt-1)<<13 | op<<12
+		o1 |= c.encodeReg(rf)<<16 | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 102: /* vushll, vushll2, vuxtl, vuxtl2 */
 		o1 = c.opirr(p, p.As)
-		rf := p.Reg
-		af := uint8((p.Reg >> 5) & 15)
-		at := uint8((p.To.Reg >> 5) & 15)
+		var rf int16
+		var af uint32
+		if r2 := get2ndSource(p); r2 != nil {
+			rf, af = c.decodeRegARNG(p, r2)
+		}
+		rt, at := c.decodeRegARNG(p, &p.To)
 		shift := int(p.From.Offset)
 		if p.As == AVUXTL || p.As == AVUXTL2 {
-			rf = p.From.Reg
-			af = uint8((p.From.Reg >> 5) & 15)
+			rf, af = c.decodeRegARNG(p, &p.From)
 			shift = 0
 		}
 
@@ -5776,13 +6053,13 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if !(0 <= shift && shift <= int(width-1)) {
 			c.ctxt.Diag("shift amount out of range: %v\n", p)
 		}
-		o1 |= uint32(immh)<<19 | uint32(shift)<<16 | uint32(rf&31)<<5 | uint32(p.To.Reg&31)
+		o1 |= uint32(immh)<<19 | uint32(shift)<<16 | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 103: /* VEOR3/VBCAX Va.B16, Vm.B16, Vn.B16, Vd.B16 */
-		ta := (p.From.Reg >> 5) & 15
-		tm := (p.Reg >> 5) & 15
-		td := (p.To.Reg >> 5) & 15
-		tn := ((p.GetFrom3().Reg) >> 5) & 15
+		ra, ta := c.decodeRegARNG(p, &p.From)
+		rd, td := c.decodeRegARNG(p, &p.To)
+		rm, tm := c.decodeRegARNG(p, get2ndSource(p))
+		rn, tn := c.decodeRegARNG(p, get3rdSource(p))
 
 		if ta != tm || ta != tn || ta != td || ta != ARNG_16B {
 			c.ctxt.Diag("invalid arrangement: %v", p)
@@ -5790,16 +6067,12 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = c.oprrr(p, p.As)
-		ra := int(p.From.Reg)
-		rm := int(p.Reg)
-		rn := int(p.GetFrom3().Reg)
-		rd := int(p.To.Reg)
-		o1 |= uint32(rm&31)<<16 | uint32(ra&31)<<10 | uint32(rn&31)<<5 | uint32(rd)&31
+		o1 |= c.encodeReg(rm)<<16 | c.encodeReg(ra)<<10 | c.encodeReg(rn)<<5 | c.encodeReg(rd)
 
 	case 104: /* vxar $imm4, Vm.<T>, Vn.<T>, Vd.<T> */
-		af := ((p.GetFrom3().Reg) >> 5) & 15
-		at := (p.To.Reg >> 5) & 15
-		a := (p.Reg >> 5) & 15
+		rf, af := c.decodeRegARNG(p, get3rdSource(p))
+		rt, at := c.decodeRegARNG(p, &p.To)
+		r, a := c.decodeRegARNG(p, get2ndSource(p))
 		index := int(p.From.Offset)
 
 		if af != a || af != at {
@@ -5817,16 +6090,12 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = c.opirr(p, p.As)
-		rf := (p.GetFrom3().Reg) & 31
-		rt := (p.To.Reg) & 31
-		r := (p.Reg) & 31
-
-		o1 |= (uint32(r&31) << 16) | (uint32(index&63) << 10) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= c.encodeReg(r)<<16 | (uint32(index&63) << 10) | c.encodeReg(rf)<<5 | c.encodeReg(rt)
 
 	case 105: /* vuaddw{2} Vm.<Tb>, Vn.<Ta>, Vd.<Ta> */
-		af := uint8((p.From.Reg >> 5) & 15)
-		at := uint8((p.To.Reg >> 5) & 15)
-		a := uint8((p.Reg >> 5) & 15)
+		rf, af := c.decodeRegARNG(p, &p.From)
+		rt, at := c.decodeRegARNG(p, &p.To)
+		r, a := c.decodeRegARNG(p, get2ndSource(p))
 		if at != a {
 			c.ctxt.Diag("invalid arrangement: %v", p)
 			break
@@ -5848,10 +6117,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		o1 = c.oprrr(p, p.As)
-		rf := int((p.From.Reg) & 31)
-		rt := int((p.To.Reg) & 31)
-		r := int((p.Reg) & 31)
-		o1 |= ((Q & 1) << 30) | ((size & 3) << 22) | (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= ((Q & 1) << 30) | ((size & 3) << 22) | (c.encodeReg(rf) << 16) | c.encodeReg(r)<<5 | c.encodeReg(rt)
 
 	case 106: // CASPx (Rs, Rs+1), (Rb), (Rt, Rt+1)
 		rs := p.From.Reg
@@ -5883,7 +6149,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if rt == REG_RSP {
 			c.ctxt.Diag("illegal destination register: %v\n", p)
 		}
-		o1 |= enc | uint32(rs&31)<<16 | uint32(rb&31)<<5 | uint32(rt&31)
+		o1 |= enc | c.encodeReg(rs)<<16 | c.encodeReg(rb)<<5 | c.encodeReg(rt)
 
 	case 107: /* tlbi, dc */
 		op, ok := sysInstFields[SpecialOperand(p.From.Offset)]
@@ -5895,10 +6161,11 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if op.hasOperand2 {
 			if p.To.Reg == obj.REG_NONE {
 				c.ctxt.Diag("missing register at operand 2: %v\n", p)
+				return
 			}
-			o1 |= uint32(p.To.Reg & 0x1F)
+			o1 |= c.encodeReg(p.To.Reg)
 		} else {
-			if p.To.Reg != obj.REG_NONE || p.Reg != obj.REG_NONE {
+			if p.To.Reg != obj.REG_NONE || get2ndSource(p) != nil {
 				c.ctxt.Diag("extraneous register at operand 2: %v\n", p)
 			}
 			o1 |= uint32(0x1F)
@@ -7204,8 +7471,8 @@ func (c *ctxt7) olsr12u(p *obj.Prog, o uint32, v int32, rn, rt int16) uint32 {
 		c.ctxt.Diag("offset out of range: %d\n%v", v, p)
 	}
 	o |= uint32(v&0xFFF) << 10
-	o |= uint32(rn&31) << 5
-	o |= uint32(rt & 31)
+	o |= c.encodeReg(rn) << 5
+	o |= c.encodeReg(rt)
 	o |= 1 << 24
 	return o
 }
@@ -7218,8 +7485,8 @@ func (c *ctxt7) olsr9s(p *obj.Prog, o uint32, v int32, rn, rt int16) uint32 {
 		c.ctxt.Diag("offset out of range: %d\n%v", v, p)
 	}
 	o |= uint32((v & 0x1FF) << 12)
-	o |= uint32(rn&31) << 5
-	o |= uint32(rt & 31)
+	o |= c.encodeReg(rn) << 5
+	o |= c.encodeReg(rt)
 	return o
 }
 
@@ -7283,11 +7550,11 @@ func (c *ctxt7) opldr(p *obj.Prog, a obj.As) uint32 {
 
 // olsxrr attaches register operands to a load/store opcode supplied in o.
 // The result either encodes a load of r from (r1+r2) or a store of r to (r1+r2).
-func (c *ctxt7) olsxrr(p *obj.Prog, o int32, r int, r1 int, r2 int) uint32 {
-	o |= int32(r1&31) << 5
-	o |= int32(r2&31) << 16
-	o |= int32(r & 31)
-	return uint32(o)
+func (c *ctxt7) olsxrr(o uint32, r, r1, r2 int16) uint32 {
+	o |= c.encodeReg(r1) << 5
+	o |= c.encodeReg(r2) << 16
+	o |= c.encodeReg(r)
+	return o
 }
 
 // opldrr returns the ARM64 opcode encoding corresponding to the obj.As opcode
@@ -7359,7 +7626,7 @@ func (c *ctxt7) oaddi(p *obj.Prog, a obj.As, v int32, rd, rn int16) uint32 {
 		op |= 1 << 22
 	}
 
-	op |= (uint32(v&0xFFF) << 10) | (uint32(rn&31) << 5) | uint32(rd&31)
+	op |= (uint32(v&0xFFF) << 10) | c.encodeReg(rn)<<5 | c.encodeReg(rd)
 
 	return op
 }
@@ -7455,7 +7722,7 @@ func (c *ctxt7) omovconst(as obj.As, p *obj.Prog, a *obj.Addr, rt int) (o1 uint3
 			as1 = AORR
 		}
 		o1 = c.opirr(p, as1)
-		o1 |= bitconEncode(uint64(a.Offset), mode) | uint32(REGZERO&31)<<5 | uint32(rt&31)
+		o1 |= bitconEncode(uint64(a.Offset), mode) | uint32(REGZERO&31)<<5 | c.encodeReg(int16(rt))
 		return o1
 	}
 
@@ -7513,7 +7780,7 @@ func (c *ctxt7) omovlconst(as obj.As, p *obj.Prog, a *obj.Addr, rt int, os []uin
 		zeroCount := int(0)
 		negCount := int(0)
 		for i = 0; i < 4; i++ {
-			immh[i] = uint64((d >> uint(i*16)) & 0xffff)
+			immh[i] = uint64((d >> (i * 16)) & 0xffff)
 			if immh[i] == 0 {
 				zeroCount++
 			} else if immh[i] == 0xffff {
@@ -7654,7 +7921,7 @@ func (c *ctxt7) opbfm(p *obj.Prog, a obj.As, r, s int64, rf, rt int16) uint32 {
 		c.ctxt.Diag("illegal bit number\n%v", p)
 	}
 	o |= (uint32(s) & 0x3F) << 10
-	o |= (uint32(rf&31) << 5) | uint32(rt&31)
+	o |= c.encodeReg(rf)<<5 | c.encodeReg(rt)
 	return o
 }
 
@@ -7670,9 +7937,9 @@ func (c *ctxt7) opextr(p *obj.Prog, a obj.As, v int64, rn, rm, rt int16) uint32 
 		c.ctxt.Diag("illegal bit number\n%v", p)
 	}
 	o |= uint32(v) << 10
-	o |= uint32(rn&31) << 5
-	o |= uint32(rm&31) << 16
-	o |= uint32(rt & 31)
+	o |= c.encodeReg(rn) << 5
+	o |= c.encodeReg(rm) << 16
+	o |= c.encodeReg(rt)
 	return o
 }
 
@@ -7810,80 +8077,11 @@ func movesize(a obj.As) int {
 }
 
 // rm is the Rm register value, o is the extension, amount is the left shift value.
-func roff(rm int16, o uint32, amount int16) uint32 {
-	return uint32(rm&31)<<16 | o<<13 | uint32(amount)<<10
-}
-
-// encRegShiftOrExt returns the encoding of shifted/extended register, Rx<<n and Rx.UXTW<<n, etc.
-func (c *ctxt7) encRegShiftOrExt(p *obj.Prog, a *obj.Addr, r int16) uint32 {
-	var num, rm int16
-	num = (r >> 5) & 7
-	rm = r & 31
-	switch {
-	case REG_UXTB <= r && r < REG_UXTH:
-		return roff(rm, 0, num)
-	case REG_UXTH <= r && r < REG_UXTW:
-		return roff(rm, 1, num)
-	case REG_UXTW <= r && r < REG_UXTX:
-		if a.Type == obj.TYPE_MEM {
-			if num == 0 {
-				// According to the arm64 specification, for instructions MOVB, MOVBU and FMOVB,
-				// the extension amount must be 0, encoded in "S" as 0 if omitted, or as 1 if present.
-				// But in Go, we don't distinguish between Rn.UXTW and Rn.UXTW<<0, so we encode it as
-				// that does not present. This makes no difference to the function of the instruction.
-				// This is also true for extensions LSL, SXTW and SXTX.
-				return roff(rm, 2, 2)
-			} else {
-				return roff(rm, 2, 6)
-			}
-		} else {
-			return roff(rm, 2, num)
-		}
-	case REG_UXTX <= r && r < REG_SXTB:
-		return roff(rm, 3, num)
-	case REG_SXTB <= r && r < REG_SXTH:
-		return roff(rm, 4, num)
-	case REG_SXTH <= r && r < REG_SXTW:
-		return roff(rm, 5, num)
-	case REG_SXTW <= r && r < REG_SXTX:
-		if a.Type == obj.TYPE_MEM {
-			if num == 0 {
-				return roff(rm, 6, 2)
-			} else {
-				return roff(rm, 6, 6)
-			}
-		} else {
-			return roff(rm, 6, num)
-		}
-	case REG_SXTX <= r && r < REG_SPECIAL:
-		if a.Type == obj.TYPE_MEM {
-			if num == 0 {
-				return roff(rm, 7, 2)
-			} else {
-				return roff(rm, 7, 6)
-			}
-		} else {
-			return roff(rm, 7, num)
-		}
-	case REG_LSL <= r && r < REG_ARNG:
-		if a.Type == obj.TYPE_MEM { // (R1)(R2<<1)
-			if num == 0 {
-				return roff(rm, 3, 2)
-			} else {
-				return roff(rm, 3, 6)
-			}
-		} else if isADDWop(p.As) {
-			return roff(rm, 2, num)
-		}
-		return roff(rm, 3, num)
-	default:
-		c.ctxt.Diag("unsupported register extension type.")
-	}
-
-	return 0
+func roff(rm uint32, o uint32, amount uint32) uint32 {
+	return rm<<16 | o<<13 | amount<<10
 }
 
 // pack returns the encoding of the "Q" field and two arrangement specifiers.
-func pack(q uint32, arngA, arngB uint8) uint32 {
-	return uint32(q)<<16 | uint32(arngA)<<8 | uint32(arngB)
+func pack(q uint32, arngA, arngB uint32) uint32 {
+	return q<<16 | arngA<<8 | arngB
 }

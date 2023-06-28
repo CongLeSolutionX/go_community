@@ -186,18 +186,8 @@ func arm64RegisterNumber(name string, n int16) (int16, bool) {
 	return 0, false
 }
 
-// ARM64RegisterShift constructs an ARM64 register with shift operation.
-func ARM64RegisterShift(reg, op, count int16) (int64, error) {
-	// the base register of shift operations must be general register.
-	if reg > arm64.REG_R31 || reg < arm64.REG_R0 {
-		return 0, errors.New("invalid register for shift operation")
-	}
-	return int64(reg&31)<<16 | int64(op)<<22 | int64(uint16(count)), nil
-}
-
 // ARM64RegisterExtension constructs an ARM64 register with extension or arrangement.
 func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, isIndex bool) error {
-	Rnum := (reg & 31) + int16(num<<5)
 	if isAmount {
 		if num < 0 || num > 7 {
 			return errors.New("index shift amount is out of range")
@@ -212,123 +202,144 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 			if a.Type == obj.TYPE_MEM {
 				return errors.New("invalid shift for the register offset addressing mode")
 			}
-			a.Reg = arm64.REG_UXTB + Rnum
+			a.Reg = reg
+			a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_UXTB, num)
 		case "UXTH":
 			if a.Type == obj.TYPE_MEM {
 				return errors.New("invalid shift for the register offset addressing mode")
 			}
-			a.Reg = arm64.REG_UXTH + Rnum
+			a.Reg = reg
+			a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_UXTH, num)
 		case "UXTW":
 			// effective address of memory is a base register value and an offset register value.
 			if a.Type == obj.TYPE_MEM {
-				a.Index = arm64.REG_UXTW + Rnum
+				a.Offset = int64(arm64.EncodeIndex(0, arm64.RTYP_EXT_UXTW, num))<<16 | int64(reg)
+				a.Index |= arm64.RTYP_MEM_ROFF << 6
 			} else {
-				a.Reg = arm64.REG_UXTW + Rnum
+				a.Reg = reg
+				a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_UXTW, num)
 			}
 		case "UXTX":
 			if a.Type == obj.TYPE_MEM {
 				return errors.New("invalid shift for the register offset addressing mode")
 			}
-			a.Reg = arm64.REG_UXTX + Rnum
+			a.Reg = reg
+			a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_UXTX, num)
 		case "SXTB":
 			if a.Type == obj.TYPE_MEM {
 				return errors.New("invalid shift for the register offset addressing mode")
 			}
-			a.Reg = arm64.REG_SXTB + Rnum
+			a.Reg = reg
+			a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_SXTB, num)
 		case "SXTH":
 			if a.Type == obj.TYPE_MEM {
 				return errors.New("invalid shift for the register offset addressing mode")
 			}
-			a.Reg = arm64.REG_SXTH + Rnum
+			a.Reg = reg
+			a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_SXTH, num)
 		case "SXTW":
 			if a.Type == obj.TYPE_MEM {
-				a.Index = arm64.REG_SXTW + Rnum
+				a.Offset = int64(arm64.EncodeIndex(0, arm64.RTYP_EXT_SXTW, num))<<16 | int64(reg)
+				a.Index |= arm64.RTYP_MEM_ROFF << 6
 			} else {
-				a.Reg = arm64.REG_SXTW + Rnum
+				a.Reg = reg
+				a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_SXTW, num)
 			}
 		case "SXTX":
 			if a.Type == obj.TYPE_MEM {
-				a.Index = arm64.REG_SXTX + Rnum
+				a.Offset = int64(arm64.EncodeIndex(0, arm64.RTYP_EXT_SXTX, num))<<16 | int64(reg)
+				a.Index |= arm64.RTYP_MEM_ROFF << 6
 			} else {
-				a.Reg = arm64.REG_SXTX + Rnum
+				a.Reg = reg
+				a.Index = arm64.EncodeIndex(0, arm64.RTYP_EXT_SXTX, num)
 			}
 		case "LSL":
-			a.Index = arm64.REG_LSL + Rnum
+			a.Offset = int64(arm64.EncodeIndex(0, arm64.RTYP_EXT_LSL, num))<<16 | int64(reg)
+			a.Index |= arm64.RTYP_MEM_ROFF << 6
 		default:
 			return errors.New("unsupported general register extension type: " + ext)
 
 		}
 	} else if reg <= arm64.REG_V31 && reg >= arm64.REG_V0 {
+		a.Reg = reg
 		switch ext {
 		case "B8":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_8B & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_8B, 0, 0)
 		case "B16":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_16B & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_16B, 0, 0)
 		case "H4":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_4H & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_4H, 0, 0)
 		case "H8":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_8H & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_8H, 0, 0)
 		case "S2":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_2S & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_2S, 0, 0)
 		case "S4":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_4S & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_4S, 0, 0)
 		case "D1":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_1D & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_1D, 0, 0)
 		case "D2":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_2D & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_2D, 0, 0)
 		case "Q1":
 			if isIndex {
 				return errors.New("invalid register extension")
 			}
-			a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_1Q & 15) << 5)
+			a.Index = arm64.EncodeIndex(arm64.ARNG_1Q, 0, 0)
 		case "B":
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_B & 15) << 5)
-			a.Index = num
+			a.Index = arm64.EncodeIndex(arm64.ARNG_B, arm64.RTYP_INDEX, num)
 		case "H":
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_H & 15) << 5)
-			a.Index = num
+			a.Index = arm64.EncodeIndex(arm64.ARNG_H, arm64.RTYP_INDEX, num)
 		case "S":
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_S & 15) << 5)
-			a.Index = num
+			a.Index = arm64.EncodeIndex(arm64.ARNG_S, arm64.RTYP_INDEX, num)
 		case "D":
 			if !isIndex {
 				return nil
 			}
-			a.Reg = arm64.REG_ELEM + (reg & 31) + ((arm64.ARNG_D & 15) << 5)
-			a.Index = num
+			a.Index = arm64.EncodeIndex(arm64.ARNG_D, arm64.RTYP_INDEX, num)
+		case "B4":
+			if !isIndex {
+				a.Index = arm64.EncodeIndex(arm64.ARNG_4B, 0, 0)
+			} else {
+				a.Index = arm64.EncodeIndex(arm64.ARNG_4B, arm64.RTYP_INDEX, num)
+			}
+		case "H2":
+			if !isIndex {
+				a.Index = arm64.EncodeIndex(arm64.ARNG_2H, 0, 0)
+			} else {
+				a.Index = arm64.EncodeIndex(arm64.ARNG_2H, arm64.RTYP_INDEX, num)
+			}
 		default:
 			return errors.New("unsupported simd register extension type: " + ext)
 		}
@@ -338,9 +349,8 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 	return nil
 }
 
-// ARM64RegisterArrangement constructs an ARM64 vector register arrangement.
-func ARM64RegisterArrangement(reg int16, name, arng string) (int64, error) {
-	var curQ, curSize uint16
+// ARM64RegisterArrangement resolves an ARM64 vector register arrangement.
+func ARM64RegisterArrangement(reg int16, name, arng string) (int, error) {
 	if name[0] != 'V' {
 		return 0, errors.New("expect V0 through V31; found: " + name)
 	}
@@ -349,53 +359,48 @@ func ARM64RegisterArrangement(reg int16, name, arng string) (int64, error) {
 	}
 	switch arng {
 	case "B8":
-		curSize = 0
-		curQ = 0
+		return arm64.ARNG_8B, nil
 	case "B16":
-		curSize = 0
-		curQ = 1
+		return arm64.ARNG_16B, nil
 	case "H4":
-		curSize = 1
-		curQ = 0
+		return arm64.ARNG_4H, nil
 	case "H8":
-		curSize = 1
-		curQ = 1
+		return arm64.ARNG_8H, nil
 	case "S2":
-		curSize = 2
-		curQ = 0
+		return arm64.ARNG_2S, nil
 	case "S4":
-		curSize = 2
-		curQ = 1
+		return arm64.ARNG_4S, nil
 	case "D1":
-		curSize = 3
-		curQ = 0
+		return arm64.ARNG_1D, nil
 	case "D2":
-		curSize = 3
-		curQ = 1
+		return arm64.ARNG_2D, nil
+	case "B":
+		return arm64.ARNG_B, nil
+	case "H":
+		return arm64.ARNG_H, nil
+	case "S":
+		return arm64.ARNG_S, nil
+	case "D":
+		return arm64.ARNG_D, nil
 	default:
 		return 0, errors.New("invalid arrangement in ARM64 register list")
 	}
-	return (int64(curQ) & 1 << 30) | (int64(curSize&3) << 10), nil
 }
 
-// ARM64RegisterListOffset generates offset encoding according to AArch64 specification.
-func ARM64RegisterListOffset(firstReg, regCnt int, arrangement int64) (int64, error) {
-	offset := int64(firstReg)
-	switch regCnt {
-	case 1:
-		offset |= 0x7 << 12
-	case 2:
-		offset |= 0xa << 12
-	case 3:
-		offset |= 0x6 << 12
-	case 4:
-		offset |= 0x2 << 12
-	default:
-		return 0, errors.New("invalid register numbers in ARM64 register list")
+// ARM64RegisterListOffset generates offset encoding
+func ARM64RegisterListOffset(a *obj.Addr, firstreg, regCnt, arrangement, index, scale int) error {
+	if regCnt < 1 || regCnt > 4 {
+		return errors.New("invalid register numbers in ARM64 register list")
 	}
-	offset |= arrangement
-	// arm64 uses the 60th bit to differentiate from other archs
+	// Arm64 register list encoding scheme
 	// For more details, refer to: obj/arm64/list7.go
-	offset |= 1 << 60
-	return offset, nil
+	a.Reg = int16(firstreg)
+	if index == 0 {
+		a.Index = arm64.EncodeIndex(int16(arrangement), arm64.RTYP_NORMAL, int16(index))
+	} else {
+		a.Index = arm64.EncodeIndex(int16(arrangement), arm64.RTYP_INDEX, int16(index))
+	}
+	a.Scale = int16(scale)
+	a.Offset = int64(regCnt)
+	return nil
 }

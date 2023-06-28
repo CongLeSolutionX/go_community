@@ -116,6 +116,8 @@ var cnames7 = []string{
 	"UOREG64K",
 	"LOREGPOOL",
 	"LOREG",
+	"MEMIMMEXT",
+	"REGINDEX",
 	"ADDR",
 	"GOTADDR",
 	"TLS_LE",
