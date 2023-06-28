@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e10f9edb_89f8300b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d8deb96_98fd4783",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f16ee7c8_d02547a3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -31,6 +49,23 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "Thanks very much for the CL. Looks good overall. Some comments, mostly minor. Thanks.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6de97045_8622b2f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "I\u0027ve made the changes you asked for, except for the unsafe.Pointer since that doesn\u0027t seem to work.",
       "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7370a9d_6a115e77",
+        "filename": "src/runtime/defs_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcdfbb67_e6850733",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "208f0a84_e3f9bd43",
@@ -65,6 +118,30 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "Minor: move this comment up before the package statement, and use // style comments. Thanks.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 2
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93f3aa23_b9155068",
+        "filename": "src/runtime/pprof/defs_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "208f0a84_e3f9bd43",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -98,6 +175,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92650254_34caae04",
+        "filename": "src/runtime/pprof/proto_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9b344f3_bfc3f845",
+      "range": {
+        "startLine": 13,
+        "startChar": 39,
+        "endLine": 14,
+        "endChar": 50
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62870eb2_4dd028b5",
@@ -115,6 +216,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540dbfb2_f14aa6f6",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62870eb2_4dd028b5",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7e21985_c7480539",
@@ -128,6 +247,30 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "I\u0027m not sure why we need prev_xxx variables. We should be able to get the info for each region then add it in the same iteration, just need to update addr to past the current region at the end of each iteration. The loop below is a bit hard to follow: why we get the info of a region then add the _previous_ region to the mappings?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 18
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be1971f6_fa70165c",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7e21985_c7480539",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -161,6 +304,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37b2721_9382ae1d",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa7a28fb_04d8001f",
+      "range": {
+        "startLine": 50,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 15
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4530220_f7b1a16d",
@@ -174,6 +341,30 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "I\u0027m not sure we need to check the writable bit.",
+      "range": {
+        "startLine": 53,
+        "startChar": 5,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a1c80a3_379ef02c",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4530220_f7b1a16d",
       "range": {
         "startLine": 53,
         "startChar": 5,
@@ -209,6 +400,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66a543e6_47ef0e4e",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Not really! Doing so would require reading the dyld source code on github. I\u0027ve only seen it as zero, but I\u0027ve only looked at text segments. Happy to figure it out if you think it\u0027s worth the effort.",
+      "parentUuid": "778f93bf_f854950c",
+      "range": {
+        "startLine": 54,
+        "startChar": 38,
+        "endLine": 54,
+        "endChar": 54
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "246f57db_47107ffc",
         "filename": "src/runtime/sys_darwin.go",
         "patchSetId": 2
@@ -220,6 +435,24 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "I think this doesn\u0027t really need to be nosplit?",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cc4b7b8_35c2cea9",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "If you say so! I don\u0027t see that the overhead of the stack preamble would be a problem, nor do I think having the nosplit is a problem either. I\u0027ve taken it out.",
+      "parentUuid": "246f57db_47107ffc",
       "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -272,6 +505,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0f15d4f_913a2024",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "For reasons that I don\u0027t understand making info an unsafe.Pointer leads to crashes in the tests, no doubt because the memory gets recycled. Or rather, I don\u0027t understand how anything but uintptr would work reliably since my understanding is that the \u0027uintptr(unsafe.Pointer(\u0026thing))\u0027 essentially hides \u0026thing from GC until the calling function is done with thing, which seems like the only safe thing to do. What am I missing?\n\nAlso, having buf in for proc_regionfilename as an unsafe.Pointer seems to work, but I suspect that\u0027s just because it\u0027s a simpler function that executes quickly, so I left that as a uintptr.\n\nI\u0027m happy to do this any way that works, but I\u0027m struggling to understand what the correct behavior is here.",
+      "parentUuid": "c7568a72_d5f5ac7c",
+      "range": {
+        "startLine": 558,
+        "startChar": 20,
+        "endLine": 558,
+        "endChar": 52
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed4f31b7_24c71c6c",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "194479c4_c64e9b39",
+      "range": {
+        "startLine": 558,
+        "startChar": 29,
+        "endLine": 558,
+        "endChar": 38
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8ef3dd3_dd937920",
         "filename": "src/runtime/sys_darwin.go",
         "patchSetId": 2
@@ -283,6 +564,30 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "It seems to look nicer putting this close brace to the next line.",
+      "range": {
+        "startLine": 584,
+        "startChar": 27,
+        "endLine": 584,
+        "endChar": 28
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "525190a4_affd0417",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8ef3dd3_dd937920",
       "range": {
         "startLine": 584,
         "startChar": 27,
@@ -316,6 +621,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a819b116_16669cf3",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74bd6ae3_efcca31b",
+      "range": {
+        "startLine": 802,
+        "startChar": 5,
+        "endLine": 802,
+        "endChar": 6
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42a65ff9_830d4757",
@@ -329,6 +658,24 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "Why this is needed? It looks like this will clobber the saved frame pointer or return address of this frame.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aac59875_8b3855ad",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42a65ff9_830d4757",
       "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -350,6 +697,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80290d13_3a5a4511",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3218eea5_a5f69cdc",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be5160f4_daef3911",
@@ -363,6 +728,30 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "Also here.",
+      "range": {
+        "startLine": 788,
+        "startChar": 5,
+        "endLine": 788,
+        "endChar": 9
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98b2db1c_c8063afc",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be5160f4_daef3911",
       "range": {
         "startLine": 788,
         "startChar": 5,
@@ -396,6 +785,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcd13a95_94bdb303",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed97c873_de60a98b",
+      "range": {
+        "startLine": 792,
+        "startChar": 5,
+        "endLine": 792,
+        "endChar": 6
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62d54102_7d527f05",
@@ -409,6 +822,24 @@
       "writtenOn": "2023-06-27T19:25:46Z",
       "side": 1,
       "message": "This seems not necessary? We probably don\u0027t need to push the structure pointer.",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2414655e_9312c8a3",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-06-28T23:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62d54102_7d527f05",
       "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
