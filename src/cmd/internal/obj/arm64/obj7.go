@@ -982,7 +982,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q2.As = ASTP
 			q2.From.Type = obj.TYPE_REGREG
 			q2.From.Reg = REGFP
-			q2.From.Offset = int64(REG_R27)
+			q2.From.Offset = REG_R27
 			q2.To.Type = obj.TYPE_MEM
 			q2.To.Reg = REGSP
 			q2.To.Offset = -24
@@ -1033,7 +1033,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q2.As = ASTP
 			q2.From.Type = obj.TYPE_REGREG
 			q2.From.Reg = REGFP
-			q2.From.Offset = int64(REG_R27)
+			q2.From.Offset = REG_R27
 			q2.To.Type = obj.TYPE_MEM
 			q2.To.Reg = REGSP
 			q2.To.Offset = -24
@@ -1074,23 +1074,16 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 		}
-		if p.From.Type == obj.TYPE_SHIFT && (p.To.Reg == REG_RSP || p.Reg == REG_RSP) {
-			offset := p.From.Offset
-			op := offset & (3 << 22)
-			if op != SHIFT_LL {
-				ctxt.Diag("illegal combination: %v", p)
+		if p.From.Type == obj.TYPE_SHIFT {
+			if p.To.Reg == REG_RSP || p.Reg == REG_RSP {
+				_, op, _ := DecodeIndex(p.From.Index)
+				if op != SHIFT_LL {
+					ctxt.Diag("illegal combination: %v", p)
+				}
+				p.From.Type = obj.TYPE_REG
+				amount := p.From.Index & 63
+				p.From.Index = RTYP_EXT_LSL<<6 | amount
 			}
-			r := (offset >> 16) & 31
-			shift := (offset >> 10) & 63
-			if shift > 4 {
-				// the shift amount is out of range, in order to avoid repeated error
-				// reportings, don't call ctxt.Diag, because asmout case 27 has the
-				// same check.
-				shift = 7
-			}
-			p.From.Type = obj.TYPE_REG
-			p.From.Reg = int16(REG_LSL + r + (shift&7)<<5)
-			p.From.Offset = 0
 		}
 	}
 }

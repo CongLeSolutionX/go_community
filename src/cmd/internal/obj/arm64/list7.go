@@ -31,6 +31,7 @@
 package arm64
 
 import (
+	"bytes"
 	"cmd/internal/obj"
 	"fmt"
 )
@@ -56,68 +57,66 @@ var strcond = [16]string{
 
 func init() {
 	obj.RegisterRegister(obj.RBaseARM64, REG_SPECIAL+1024, rconv)
-	obj.RegisterAconvFunc("arm64", aconvReg, nil, aconvShift)
+	obj.RegisterAconvFunc("arm64", aconvReg, aconvMem, aconvShift, aconvRegList)
 	obj.RegisterOpcode(obj.ABaseARM64, Anames)
-	obj.RegisterRegisterList(obj.RegListARM64Lo, obj.RegListARM64Hi, rlconv)
 	obj.RegisterOpSuffix("arm64", obj.CConvARM)
 	obj.RegisterSpecialOperands(int64(SPOP_BEGIN), int64(SPOP_END), SPCconv)
 }
 
-func aconvReg(a *obj.Addr) string {
-	if REG_ELEM <= a.Reg && a.Reg < REG_ELEM_END {
-		return fmt.Sprintf("%s[%d]", rconv(int(a.Reg)), a.Index)
-	}
-	return fmt.Sprintf("%s", rconv(int(a.Reg)))
+func EncodeIndex(arng, types, amount int16) int16 {
+	return arng<<11 | types<<6 | amount
 }
 
-func aconvShift(a *obj.Addr) string {
-	v := int(a.Offset)
-	ops := "<<>>->@>"
-	op := ops[((v>>22)&3)<<1:]
-	r := (v >> 16) & 31
-	return fmt.Sprintf("%s%c%c%d", rconv(r+obj.RBaseARM64), op[0], op[1], (v>>10)&63)
+func DecodeIndex(index int16) (arng, types, amount uint32) {
+	arng = uint32(index>>11) & 0x1f
+	types = uint32(index>>6) & 0x1f
+	amount = uint32(index) & 0x3f
+	return
 }
 
-func arrange(a int) string {
+func arrange(a int16) string {
 	switch a {
+	case ARNG_4B:
+		return ".B4"
 	case ARNG_8B:
-		return "B8"
+		return ".B8"
 	case ARNG_16B:
-		return "B16"
+		return ".B16"
+	case ARNG_2H:
+		return ".H2"
 	case ARNG_4H:
-		return "H4"
+		return ".H4"
 	case ARNG_8H:
-		return "H8"
+		return ".H8"
 	case ARNG_2S:
-		return "S2"
+		return ".S2"
 	case ARNG_4S:
-		return "S4"
+		return ".S4"
 	case ARNG_1D:
-		return "D1"
+		return ".D1"
 	case ARNG_2D:
-		return "D2"
+		return ".D2"
 	case ARNG_B:
-		return "B"
+		return ".B"
 	case ARNG_H:
-		return "H"
+		return ".H"
 	case ARNG_S:
-		return "S"
+		return ".S"
 	case ARNG_D:
-		return "D"
+		return ".D"
 	case ARNG_1Q:
-		return "Q1"
+		return ".Q1"
 	default:
 		return ""
 	}
 }
 
 func rconv(r int) string {
-	ext := (r >> 5) & 7
-	if r == REGG {
-		return "g"
-	}
 	switch {
 	case REG_R0 <= r && r <= REG_R30:
+		if r == REGG {
+			return "g"
+		}
 		return fmt.Sprintf("R%d", r-REG_R0)
 	case r == REG_R31:
 		return "ZR"
@@ -127,68 +126,113 @@ func rconv(r int) string {
 		return fmt.Sprintf("V%d", r-REG_V0)
 	case r == REGSP:
 		return "RSP"
-	case REG_UXTB <= r && r < REG_UXTH:
-		if ext != 0 {
-			return fmt.Sprintf("%s.UXTB<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.UXTB", regname(r))
-		}
-	case REG_UXTH <= r && r < REG_UXTW:
-		if ext != 0 {
-			return fmt.Sprintf("%s.UXTH<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.UXTH", regname(r))
-		}
-	case REG_UXTW <= r && r < REG_UXTX:
-		if ext != 0 {
-			return fmt.Sprintf("%s.UXTW<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.UXTW", regname(r))
-		}
-	case REG_UXTX <= r && r < REG_SXTB:
-		if ext != 0 {
-			return fmt.Sprintf("%s.UXTX<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.UXTX", regname(r))
-		}
-	case REG_SXTB <= r && r < REG_SXTH:
-		if ext != 0 {
-			return fmt.Sprintf("%s.SXTB<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.SXTB", regname(r))
-		}
-	case REG_SXTH <= r && r < REG_SXTW:
-		if ext != 0 {
-			return fmt.Sprintf("%s.SXTH<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.SXTH", regname(r))
-		}
-	case REG_SXTW <= r && r < REG_SXTX:
-		if ext != 0 {
-			return fmt.Sprintf("%s.SXTW<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.SXTW", regname(r))
-		}
-	case REG_SXTX <= r && r < REG_SPECIAL:
-		if ext != 0 {
-			return fmt.Sprintf("%s.SXTX<<%d", regname(r), ext)
-		} else {
-			return fmt.Sprintf("%s.SXTX", regname(r))
-		}
-	// bits 0-4 indicate register, bits 5-7 indicate shift amount, bit 8 equals to 0.
-	case REG_LSL <= r && r < (REG_LSL+1<<8):
-		return fmt.Sprintf("R%d<<%d", r&31, (r>>5)&7)
-	case REG_ARNG <= r && r < REG_ELEM:
-		return fmt.Sprintf("V%d.%s", r&31, arrange((r>>5)&15))
-	case REG_ELEM <= r && r < REG_ELEM_END:
-		return fmt.Sprintf("V%d.%s", r&31, arrange((r>>5)&15))
+	default:
+		return fmt.Sprintf("badreg(%d)", r)
 	}
-	// Return system register name.
-	name, _, _ := SysRegEnc(int16(r))
-	if name != "" {
-		return name
+}
+
+func formatReg(reg, arng, typ, amount int16) string {
+	buf := new(bytes.Buffer)
+	fmt.Fprintf(buf, "%s%s", rconv(int(reg)), arrange(arng))
+
+	switch typ {
+	case RTYP_INDEX:
+		fmt.Fprintf(buf, "[%d]", amount)
+	case RTYP_EXT_LSL:
+		fmt.Fprintf(buf, "<<%d", amount)
+	case RTYP_EXT_UXTB:
+		fmt.Fprintf(buf, ".UXTB")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
+	case RTYP_EXT_UXTH:
+		fmt.Fprintf(buf, ".UXTH")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
+	case RTYP_EXT_UXTW:
+		fmt.Fprintf(buf, ".UXTW")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
+	case RTYP_EXT_UXTX:
+		fmt.Fprintf(buf, ".UXTX")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
+	case RTYP_EXT_SXTB:
+		fmt.Fprintf(buf, ".SXTB")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
+	case RTYP_EXT_SXTH:
+		fmt.Fprintf(buf, ".SXTH")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
+	case RTYP_EXT_SXTW:
+		fmt.Fprintf(buf, ".SXTW")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
+	case RTYP_EXT_SXTX:
+		fmt.Fprintf(buf, ".SXTX")
+		if amount != 0 {
+			fmt.Fprintf(buf, "<<%d", amount)
+		}
 	}
-	return fmt.Sprintf("badreg(%d)", r)
+	return buf.String()
+}
+
+func aconvReg(a *obj.Addr) string {
+	if a.Reg > REG_SPECIAL {
+		name, _, _ := SysRegEnc(int16(a.Reg))
+		if name != "" {
+			return name
+		}
+		return fmt.Sprintf("badreg(%d)", a.Reg)
+	}
+	arng, typ, amount := DecodeIndex(a.Index)
+	return formatReg(a.Reg, int16(arng), int16(typ), int16(amount))
+}
+
+func aconvShift(a *obj.Addr) string {
+	_, shift, amount := DecodeIndex(a.Index)
+	switch shift {
+	case SHIFT_LL:
+		return fmt.Sprintf("%s<<%d", rconv(int(a.Reg)), amount)
+	case SHIFT_LR:
+		return fmt.Sprintf("%s>>%d", rconv(int(a.Reg)), amount)
+	case SHIFT_AR:
+		return fmt.Sprintf("%s->%d", rconv(int(a.Reg)), amount)
+	case SHIFT_ROR:
+		return fmt.Sprintf("%s@>%d", rconv(int(a.Reg)), amount)
+	default:
+		return "R???"
+	}
+}
+
+func aconvMem(a *obj.Addr) string {
+	buf := new(bytes.Buffer)
+	if a.Name != obj.NAME_NONE {
+		a.WriteNameTo(buf)
+	} else {
+		arng, typ, amount := DecodeIndex(a.Index)
+		reg := formatReg(a.Reg, int16(arng), int16(typ), int16(amount))
+		if typ != RTYP_MEM_ROFF {
+			// const offset
+			if a.Offset != 0 {
+				fmt.Fprintf(buf, "%d(%s)", a.Offset, reg)
+			} else {
+				fmt.Fprintf(buf, "(%s)", reg)
+			}
+		} else {
+			// register offset
+			arng, typ, amount := DecodeIndex(int16(a.Offset >> 16))
+			fmt.Fprintf(buf, "(%s)(%s)", reg, formatReg(int16(a.Offset&0xffff), int16(arng), int16(typ), int16(amount)))
+		}
+	}
+	return buf.String()
 }
 
 func DRconv(a int) string {
@@ -201,71 +245,32 @@ func DRconv(a int) string {
 func SPCconv(a int64) string {
 	spc := SpecialOperand(a)
 	if spc >= SPOP_BEGIN && spc < SPOP_END {
-		return fmt.Sprintf("%s", spc)
+		return spc.String()
 	}
 	return "SPC_??"
 }
 
-func rlconv(list int64) string {
+func aconvRegList(a *obj.Addr) string {
 	str := ""
+	firstReg := a.Reg
+	arng, typ, index := DecodeIndex(a.Index)
+	regCnt := a.Offset
+	scale := a.Scale
 
-	// ARM64 register list follows ARM64 instruction decode schema
-	// | 31 | 30 | ... | 15 - 12 | 11 - 10 | ... |
-	// +----+----+-----+---------+---------+-----+
-	// |    | Q  | ... | opcode  |   size  | ... |
-
-	firstReg := int(list & 31)
-	opcode := (list >> 12) & 15
-	var regCnt int
-	var t string
-	switch opcode {
-	case 0x7:
-		regCnt = 1
-	case 0xa:
-		regCnt = 2
-	case 0x6:
-		regCnt = 3
-	case 0x2:
-		regCnt = 4
-	default:
-		regCnt = -1
-	}
-	// Q:size
-	arng := ((list>>30)&1)<<2 | (list>>10)&3
-	switch arng {
-	case 0:
-		t = "B8"
-	case 4:
-		t = "B16"
-	case 1:
-		t = "H4"
-	case 5:
-		t = "H8"
-	case 2:
-		t = "S2"
-	case 6:
-		t = "S4"
-	case 3:
-		t = "D1"
-	case 7:
-		t = "D2"
-	}
-	for i := 0; i < regCnt; i++ {
+	regbase := int(firstReg &^ 0x1f)
+	r := int(firstReg & 0x1f)
+	for i := 0; i < int(regCnt); i++ {
 		if str == "" {
 			str += "["
 		} else {
 			str += ","
 		}
-		str += fmt.Sprintf("V%d.", (firstReg+i)&31)
-		str += t
+		reg := (r+int(scale)*i)&31 + regbase
+		str += rconv(reg) + arrange(int16(arng))
 	}
 	str += "]"
-	return str
-}
-
-func regname(r int) string {
-	if r&31 == 31 {
-		return "ZR"
+	if typ == RTYP_INDEX {
+		return fmt.Sprintf("%s[%d]", str, index)
 	}
-	return fmt.Sprintf("R%d", r&31)
+	return str
 }

@@ -242,9 +242,8 @@ var Register = []string{
 
 func init() {
 	obj.RegisterRegister(REG_AL, REG_AL+len(Register), rconv)
-	obj.RegisterAconvFunc("amd64", aconvReg, nil, nil)
+	obj.RegisterAconvFunc("amd64", aconvReg, nil, nil, aconvRegList)
 	obj.RegisterOpcode(obj.ABaseAMD64, Anames)
-	obj.RegisterRegisterList(obj.RegListX86Lo, obj.RegListX86Hi, rlconv)
 	obj.RegisterOpSuffix("386", opSuffixString)
 	obj.RegisterOpSuffix("amd64", opSuffixString)
 }
@@ -270,8 +269,8 @@ func rconv(r int) string {
 	return fmt.Sprintf("Rgok(%d)", r-obj.RBaseAMD64)
 }
 
-func rlconv(bits int64) string {
-	reg0, reg1 := decodeRegisterRange(bits)
+func aconvRegList(a *obj.Addr) string {
+	reg0, reg1 := decodeRegisterRange(a.Offset)
 	return fmt.Sprintf("[%s-%s]", rconv(reg0), rconv(reg1))
 }
 
