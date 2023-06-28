@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95307316_163ac587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-06-28T01:42:29Z",
+      "side": 1,
+      "message": "I am not comfortable with this as a suggestion. Let\u0027s think more about this rather than make this change for Go 1.21.",
+      "revId": "583bdf6cb5ca4d2cf58fe8c6768f63850031cb21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
