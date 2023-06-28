@@ -92,6 +92,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dacca84_caaec7c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-28T17:11:49Z",
+      "side": 1,
+      "message": "Hm, good question. I don\u0027t know off-hand.\n(And iant@ is on vacation as of today.)\n\nBut all tools that rely on these sizes assume gc sizes. So I think the impact would only be tests. (But I don\u0027t know for sure.)\n\nCan you do the experiment? (New CL so we don\u0027t lose this one?)\nSuggestion:\n\nThe actual changes are only in two places (case for array and struct). Use (for now) a global constant to switch between what\u0027s there now and the gc computation. That is still a minimal change.\n\nIf we need both versions, we make that flag a component of the StdSizes struct. Otherwise we get rid of that code eventually.",
+      "parentUuid": "b6d773b1_965afa48",
+      "revId": "1254c30e06f7416911eaae221ba4e4624f5fdd1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32541275_1543b220",
