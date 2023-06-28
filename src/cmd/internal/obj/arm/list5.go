@@ -37,9 +37,8 @@ import (
 
 func init() {
 	obj.RegisterRegister(obj.RBaseARM, MAXREG, rconv)
-	obj.RegisterAconvFunc("arm", nil, nil, aconvShift)
+	obj.RegisterAconvFunc("arm", nil, nil, aconvShift, aconvRegList)
 	obj.RegisterOpcode(obj.ABaseARM, Anames)
-	obj.RegisterRegisterList(obj.RegListARMLo, obj.RegListARMHi, rlconv)
 	obj.RegisterOpSuffix("arm", obj.CConvARM)
 }
 
@@ -118,7 +117,8 @@ func DRconv(a int) string {
 	return fp
 }
 
-func rlconv(list int64) string {
+func aconvRegList(a *obj.Addr) string {
+	list := a.Offset
 	str := ""
 	for i := 0; i < 16; i++ {
 		if list&(1<<uint(i)) != 0 {

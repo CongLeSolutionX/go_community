@@ -136,8 +136,9 @@ import (
 //			shifttype = 0, 1, 2, 3 for <<, >>, ->, @>
 //			count = (reg&15)<<8 | 1<<4 for a register shift count, (n&31)<<7 for an integer constant.
 //		On ARM64:
-//			offset = (reg&31)<<16 | shifttype<<22 | (count&63)<<10
-//			shifttype = 0, 1, 2 for <<, >>, ->
+//			Addr.Reg = reg
+//			Addr.Index = shifttype<<6 | count
+//			shifttype = 0, 1, 2, 3 for <<, >>, ->, @>
 //
 //	(reg, reg)
 //		A destination register pair. When used as the last argument of an instruction,
@@ -154,10 +155,25 @@ import (
 //		On ARM:
 //			offset = bit mask of registers in list; R0 is low bit.
 //		On ARM64:
-//			offset = register count (Q:size) | arrangement (opcode) | first register
+//			e.g.: [ Vt1.<T>, Vt2.<T>, ..., Vtn.<T> ]
+//			a.Reg = Vt1
+//			a.Index = arrangement << 11 | RTYP_NORMAL << 6
+//			a.Offset = tn
+//			a.Scale = t2 - t1
+//
 //		On 386/AMD64:
 //			reg = range low register
 //			offset = 2 packed registers + kind tag (see x86.EncodeRegisterRange)
+//
+//	[reg, reg][index]
+//		Indexed register list for ARM64
+//		e.g.: [ Vt1.<T>, Vt2.<T>, ..., Vtn.<T> ][index]
+//		Encoding:
+//			type = TYPE_REGLIST
+//			a.Reg = Vt1
+//			a.Index = arrangement << 11 | RTYP_INDEX << 6 | index
+//			a.Offset = tn
+//			a.Scale = t2 - t1
 //
 //	reg, reg
 //		Register pair for ARM.
@@ -171,26 +187,103 @@ import (
 //			index = second register
 //			scale = 1
 //
-//	reg.[US]XT[BHWX]
+//	reg.[US]XT[BHWX](<<amount)
 //		Register extension for ARM64
 //		Encoding:
 //			type = TYPE_REG
-//			reg = REG_[US]XT[BHWX] + register + shift amount
-//			offset = ((reg&31) << 16) | (exttype << 13) | (amount<<10)
+//			Addr.Reg = reg
+//			Addr.Index = extension type << 6 | amount
 //
 //	reg.<T>
 //		Register arrangement for ARM64 SIMD register
 //		e.g.: V1.S4, V2.S2, V7.D2, V2.H4, V6.B16
 //		Encoding:
 //			type = TYPE_REG
-//			reg = REG_ARNG + register + arrangement
+//			Addr.Reg = reg
+//			Addr.Index = arrangement << 11
 //
 //	reg.<T>[index]
 //		Register element for ARM64
 //		Encoding:
 //			type = TYPE_REG
-//			reg = REG_ELEM + register + arrangement
-//			index = element index
+//			Addr.Reg = reg
+//			Addr.Index = arrangement << 11 | RTYP_INDEX << 6 | index
+//
+//	reg[index]
+//		Register index for ARM64
+//		Encoding:
+//			type = TYPE_REG
+//			Addr.Reg = reg
+//			Addr.Index = RTYP_INDEX << 6 | index
+//
+//	(reg1)(reg2)
+//		Register Offset
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg1
+//			Addr.Index = reg2
+//		On ARM64:
+//			type = TYPE_MEM
+//			Addr.Reg = reg1
+//			Addr.Index = RTYP_MEM_ROFF << 6
+//			Addr.Offset = reg2
+//
+//	(reg1)(reg2.[US]XT[BHWX](<<amount))
+//		Register offset for ARM64
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg1
+//			Addr.Index = RTYP_MEM_ROFF << 6
+//			Addr.Offset = extension type << 22 | amount << 16 | reg2
+//
+//	(const*VL)(reg)
+//		Const offset for ARM64
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg
+//			Addr.Index = RTYP_MEM_IMMEXT << 6
+//			Addr.Offset = const
+//
+//	(reg1)(reg2.<T>)
+//		Register offset for ARM64
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg1
+//			Addr.Index = RTYP_MEM_ROFF << 6
+//			Addr.Offset = arrangement << 27 | reg2
+//
+//	(reg1)(reg2.<T>.[US]XTW(<<amount))
+//		Register offset for ARM64
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg1
+//			Addr.Index = RTYP_MEM_ROFF << 6
+//			Addr.Offset = arrangement << 27 | extension type << 22 | amount << 16 | reg2
+//
+//	(const)(reg.<T>)
+//		Const offset for ARM64
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg
+//			Addr.Index = arrangement << 11
+//			Addr.Offset = const
+//
+//	(reg1.<T>)(reg2)
+//		Register offset for ARM64
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg1
+//			Addr.Index = arrangement << 11 | RTYP_MEM_ROFF
+//			Addr.Offset = reg2
+//
+//	(reg1.<T>)(reg2.<T>.[US]XTW(<<amount))
+//		Register offset for ARM64
+//		Encoding:
+//			type = TYPE_MEM
+//			Addr.Reg = reg1
+//			Addr.Index = T << 11 | RTYP_MEM_ROFF << 6
+//			Addr.Offset = T << 27 | extension type << 22 | amount << 16 | reg2
+//
 
 type Addr struct {
 	Reg    int16

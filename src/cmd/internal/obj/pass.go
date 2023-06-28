@@ -100,7 +100,7 @@ func checkaddr(ctxt *Link, p *Prog, a *Addr) {
 		return
 
 	case TYPE_SHIFT, TYPE_REGREG:
-		if a.Index != 0 || a.Scale != 0 || a.Name != 0 || a.Sym != nil || a.Val != nil {
+		if (ctxt.Arch.Name != "arm64" && a.Index != 0) || a.Scale != 0 || a.Name != 0 || a.Sym != nil || a.Val != nil {
 			break
 		}
 		return
