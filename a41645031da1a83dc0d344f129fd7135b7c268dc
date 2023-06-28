@@ -158,6 +158,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ee4c2fb_14d2e36c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-28T19:59:04Z",
+      "side": 1,
+      "message": "Thanks for the CL. LGTM with Ian and Bryan\u0027s comments addressed.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "740ac01c_608b52b3",
@@ -171,6 +188,23 @@
       "writtenOn": "2023-06-19T21:37:22Z",
       "side": 1,
       "message": "We should not use .+ here, as that permits any character at all.  I think it would be OK to write\n\n-fdebug-prefix-map\u003d([^@]+)\u003d([^@]+)\n\nWe should also match -ffile-prefix-map in the same way.",
+      "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0d17680_5359e53d",
+        "filename": "src/cmd/go/testdata/script/cgo_suspect_flag_force_external.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-28T19:59:04Z",
+      "side": 1,
+      "message": "Maybe add a comment mentioning that is -fdebug-prefix-map is permitted for internal linking.",
       "revId": "a41645031da1a83dc0d344f129fd7135b7c268dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
