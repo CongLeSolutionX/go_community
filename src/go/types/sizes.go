@@ -229,7 +229,7 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 }
 
 // common architecture word sizes and alignments
-var gcArchSizes = map[string]*StdSizes{
+var gcArchSizes = map[string]*gcSizes{
 	"386":      {4, 4},
 	"amd64":    {8, 8},
 	"amd64p32": {4, 8},
@@ -260,7 +260,7 @@ func SizesFor(compiler, arch string) Sizes {
 	var m map[string]*StdSizes
 	switch compiler {
 	case "gc":
-		m = gcArchSizes
+		return sizesFor(compiler, arch)
 	case "gccgo":
 		m = gccgoArchSizes
 	default:
