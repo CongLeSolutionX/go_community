@@ -70,6 +70,24 @@
       "message": "Please rebase on top of commit a3093eca64f9efc830c153c835291d751ea167f9 (CL 505915) — this should not be showing up as a diff in your change.",
       "revId": "3ee4352ade3f7b9a4477d1cfa6bb831b17a7504b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba48cc9d_5dda4d53",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 53590
+      },
+      "writtenOn": "2023-06-28T14:37:28Z",
+      "side": 1,
+      "message": "Thank you for your feedback. I have rebased my branch on top of commit a3093eca64f9efc830c153c835291d751ea167f9 as suggested.",
+      "parentUuid": "7b49b01c_8d76be67",
+      "revId": "3ee4352ade3f7b9a4477d1cfa6bb831b17a7504b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
