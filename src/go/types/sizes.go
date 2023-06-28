@@ -47,9 +47,15 @@ type Sizes interface {
 type StdSizes struct {
 	WordSize int64 // word size in bytes - must be >= 4 (32bits)
 	MaxAlign int64 // maximum alignment in bytes - must be >= 1
+
+	gcSizes *gcSizes
 }
 
 func (s *StdSizes) Alignof(T Type) (result int64) {
+	if s.gcSizes != nil {
+		return s.gcSizes.Alignof(T)
+	}
+
 	defer func() {
 		assert(result >= 1)
 	}()
@@ -126,6 +132,10 @@ func _IsSyncAtomicAlign64(T Type) bool {
 }
 
 func (s *StdSizes) Offsetsof(fields []*Var) []int64 {
+	if s.gcSizes != nil {
+		return s.gcSizes.Offsetsof(fields)
+	}
+
 	offsets := make([]int64, len(fields))
 	var offs int64
 	for i, f := range fields {
@@ -164,6 +174,10 @@ var basicSizes = [...]byte{
 }
 
 func (s *StdSizes) Sizeof(T Type) int64 {
+	if s.gcSizes != nil {
+		return s.gcSizes.Sizeof(T)
+	}
+
 	switch t := under(T).(type) {
 	case *Basic:
 		assert(isTyped(T))
@@ -230,22 +244,22 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 
 // common architecture word sizes and alignments
 var gcArchSizes = map[string]*StdSizes{
-	"386":      {4, 4},
-	"amd64":    {8, 8},
-	"amd64p32": {4, 8},
-	"arm":      {4, 4},
-	"arm64":    {8, 8},
-	"loong64":  {8, 8},
-	"mips":     {4, 4},
-	"mipsle":   {4, 4},
-	"mips64":   {8, 8},
-	"mips64le": {8, 8},
-	"ppc64":    {8, 8},
-	"ppc64le":  {8, 8},
-	"riscv64":  {8, 8},
-	"s390x":    {8, 8},
-	"sparc64":  {8, 8},
-	"wasm":     {8, 8},
+	"386":      {WordSize: 4, MaxAlign: 4},
+	"amd64":    {WordSize: 8, MaxAlign: 8},
+	"amd64p32": {WordSize: 4, MaxAlign: 8},
+	"arm":      {WordSize: 4, MaxAlign: 4},
+	"arm64":    {WordSize: 8, MaxAlign: 8},
+	"loong64":  {WordSize: 8, MaxAlign: 8},
+	"mips":     {WordSize: 4, MaxAlign: 4},
+	"mipsle":   {WordSize: 4, MaxAlign: 4},
+	"mips64":   {WordSize: 8, MaxAlign: 8},
+	"mips64le": {WordSize: 8, MaxAlign: 8},
+	"ppc64":    {WordSize: 8, MaxAlign: 8},
+	"ppc64le":  {WordSize: 8, MaxAlign: 8},
+	"riscv64":  {WordSize: 8, MaxAlign: 8},
+	"s390x":    {WordSize: 8, MaxAlign: 8},
+	"sparc64":  {WordSize: 8, MaxAlign: 8},
+	"wasm":     {WordSize: 8, MaxAlign: 8},
 	// When adding more architectures here,
 	// update the doc string of SizesFor below.
 }
@@ -269,6 +283,12 @@ func SizesFor(compiler, arch string) Sizes {
 	s, ok := m[arch]
 	if !ok {
 		return nil
+	}
+	if compiler == "gc" {
+		s.gcSizes = &gcSizes{
+			WordSize: s.WordSize,
+			MaxAlign: s.MaxAlign,
+		}
 	}
 	return s
 }
