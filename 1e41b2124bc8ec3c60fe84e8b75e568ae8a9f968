@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10fc4090_9bfe35b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-06-28T02:36:14Z",
+      "side": 1,
+      "message": "Oh sorry I missed a special case. We can\u0027t use `Index` for encoding `Rm` since there are such instructions in SVE:\n```\narm64 syntax: ADR \u003cZd\u003e.D, [\u003cZn\u003e.D, \u003cZm\u003e.D, SXTW{ \u003camount\u003e}]\n```\nGo syntax could be:\n```\ngo syntax: ZADR (Zn.D)(Zm.D.UXTW\u003c\u003camount), Zd.D\n```\n`Zn` has an arrangement so we have to encode the arrangement info in `Index`. In this case we can\u0027t use `Index` for other use.\n\nMaybe we can use `Scale` for the register number, and offset for the type info.",
+      "parentUuid": "8c81a70f_b78a6a0b",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 34
+      },
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8da90433_643a95be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
