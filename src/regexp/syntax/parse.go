@@ -1159,9 +1159,16 @@ func (p *parser) parsePerlFlags(s string) (rest string, err error) {
 	// support all three as well. EcmaScript 4 uses only the Python form.
 	//
 	// In both the open source world (via Code Search) and the
-	// Google source tree, (?P<expr>name) is the dominant form,
-	// so that's the one we implement. One is enough.
-	if len(t) > 4 && t[2] == 'P' && t[3] == '<' {
+	// Google source tree, (?P<expr>name) was the dominant form
+	// when this package was written. Since then, (?<expr>name) has
+	// become more popular, and some languages appear to support
+	// only that form (most notably Java), so we have added support for that too.
+	// (?'name'expr) is still very rare and unsupported here.
+	if len(t) > 4 && t[2] == 'P' && t[3] == '<' || len(t) > 3 && t[2] == '<' {
+		start := 3
+		if t[2] == 'P' {
+			start = 4
+		}
 		// Pull out name.
 		end := strings.IndexRune(t, '>')
 		if end < 0 {
@@ -1172,7 +1179,7 @@ func (p *parser) parsePerlFlags(s string) (rest string, err error) {
 		}
 
 		capture := t[:end+1] // "(?P<name>"
-		name := t[4:end]     // "name"
+		name := t[start:end] // "name"
 		if err = checkUTF8(name); err != nil {
 			return "", err
 		}

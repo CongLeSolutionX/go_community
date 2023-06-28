@@ -56,6 +56,7 @@ Grouping:
 
 	(re)           numbered capturing group (submatch)
 	(?P<name>re)   named & numbered capturing group (submatch)
+	(?<name>re)    alias for (?P<name>re)
 	(?:re)         non-capturing group
 	(?flags)       set flags within current group; non-capturing
 	(?flags:re)    set flags during re; non-capturing
