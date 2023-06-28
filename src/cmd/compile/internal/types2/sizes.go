@@ -24,6 +24,12 @@ type Sizes interface {
 	Sizeof(T Type) int64
 }
 
+// If go122gcSizes is set, StdSizes uses alignment padding for array and
+// struct sizes as required by gc; otherwise it uses the historical size
+// computation of the type checker for these types.
+// TODO(gri) remove flag and respective dead code for Go 1.22
+const go122gcSizes = true
+
 // StdSizes is a convenience type for creating commonly used Sizes.
 // It makes the following simplifying assumptions:
 //
@@ -187,20 +193,30 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 		if esize == 0 {
 			return 0 // 0-size element
 		}
-		// esize > 0
-		a := s.Alignof(t.elem)
-		ea := align(esize, a) // possibly < 0 if align overflows
-		if ea < 0 {
-			return -1
+		if !go122gcSizes {
+			// esize > 0
+			a := s.Alignof(t.elem)
+			ea := align(esize, a) // possibly < 0 if align overflows
+			if ea < 0 {
+				return -1
+			}
+			// ea >= 1
+			n1 := n - 1 // n1 >= 0
+			// Final size is ea*n1 + esize; and size must be <= maxInt64.
+			const maxInt64 = 1<<63 - 1
+			if n1 > 0 && ea > maxInt64/n1 {
+				return -1 // ea*n1 overflows
+			}
+			return ea*n1 + esize // may still overflow to < 0 which is ok
+		} else {
+			// esize > 0
+			// Final size is esize * n; and size must be <= maxInt64.
+			const maxInt64 = 1<<63 - 1
+			if esize > maxInt64/n {
+				return -1 // esize * n overflows
+			}
+			return esize * n
 		}
-		// ea >= 1
-		n1 := n - 1 // n1 >= 0
-		// Final size is ea*n1 + esize; and size must be <= maxInt64.
-		const maxInt64 = 1<<63 - 1
-		if n1 > 0 && ea > maxInt64/n1 {
-			return -1 // ea*n1 overflows
-		}
-		return ea*n1 + esize // may still overflow to < 0 which is ok
 	case *Slice:
 		return s.WordSize * 3
 	case *Struct:
@@ -214,7 +230,17 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 		if offs < 0 || size < 0 {
 			return -1 // type too large
 		}
-		return offs + size // may overflow to < 0 which is ok
+		if !go122gcSizes {
+			return offs + size // may overflow to < 0 which is ok
+		} else {
+			// gc: The last field of a non-zero-sized struct is not allowed to
+			// have size 0.
+			if offs > 0 && size == 0 {
+				size = 1
+			}
+			// gc: Size includes alignment padding.
+			return align(offs+size, s.Alignof(t)) // may overflow to < 0 which is ok
+		}
 	case *Interface:
 		// Type parameters lead to variable sizes/alignments;
 		// StdSizes.Sizeof won't be called for them.
