@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40649ca0_b638c44d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 4450,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-28T03:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7479215_007ed02e",
+      "revId": "6cfd4542b258b840aa37c5d41239cc6342f533b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf337dbb_79eae615",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-27T20:39:59Z",
       "side": 1,
       "message": "From (1) a compiler can infer that the type argument for S is Slice: Slice can be assigned to []int, and therefore Slice satisfies S\u0027s constraint ~[]int.",
+      "revId": "6cfd4542b258b840aa37c5d41239cc6342f533b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccba85dd_3e88c6fa",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 4468,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-28T03:17:51Z",
+      "side": 1,
+      "message": "This is saying something different. We don\u0027t care about constraint satisfaction here. But I agree that what I had before was not right either.\n\nSlightly rephrased.",
+      "parentUuid": "cf337dbb_79eae615",
       "revId": "6cfd4542b258b840aa37c5d41239cc6342f533b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f0dc6c6_339dd1d7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 4550,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-28T03:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36962a92_912fc860",
+      "revId": "6cfd4542b258b840aa37c5d41239cc6342f533b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1fa018d_6bf1081b",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-06-27T20:39:59Z",
       "side": 1,
       "message": "Link \"core type\" to the \"Core types\" section.",
+      "revId": "6cfd4542b258b840aa37c5d41239cc6342f533b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7048f09f_d14fdf59",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 4552,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-28T03:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1fa018d_6bf1081b",
       "revId": "6cfd4542b258b840aa37c5d41239cc6342f533b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

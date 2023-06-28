@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "093086fd_62a6c0db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-28T03:17:51Z",
+      "side": 1,
+      "message": "Existing points addressed. More to come.",
+      "revId": "7218e56cde6f5d1c84a53b19ba71277c71d7efeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
