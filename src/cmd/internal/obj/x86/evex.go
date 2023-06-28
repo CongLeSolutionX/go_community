@@ -241,8 +241,7 @@ func toDisp8(disp int32, p *obj.Prog, asmbuf *AsmBuf) (disp8 byte, ok bool) {
 // is intended to be stored inside obj.Addr.Offset with TYPE_REGLIST.
 func EncodeRegisterRange(reg0, reg1 int16) int64 {
 	return (int64(reg0) << 0) |
-		(int64(reg1) << 16) |
-		obj.RegListX86Lo
+		(int64(reg1) << 16)
 }
 
 // decodeRegisterRange unpacks [reg0-reg1] list from 64-bit value created by EncodeRegisterRange.

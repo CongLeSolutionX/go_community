@@ -260,9 +260,10 @@ func TestRegisterListEncDec(t *testing.T) {
 				test.printed, reg1, test.reg1)
 		}
 		wantPrinted := test.printed
-		if rlconv(enc) != wantPrinted {
+		addr := obj.Addr{Offset: enc}
+		if aconvRegList(&addr) != wantPrinted {
 			t.Errorf("%s string mismatch: have %s, want %s",
-				test.printed, rlconv(enc), wantPrinted)
+				test.printed, aconvRegList(&addr), wantPrinted)
 		}
 	}
 }

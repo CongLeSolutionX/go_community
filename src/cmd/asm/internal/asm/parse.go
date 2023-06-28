@@ -431,8 +431,7 @@ func (p *Parser) operand(a *obj.Addr) {
 	if tok.ScanToken == scanner.Ident && p.atStartOfRegister(name) {
 		if p.atRegisterShift() {
 			// ARM shifted register such as R1<<R2 or R1>>2.
-			a.Type = obj.TYPE_SHIFT
-			a.Offset = p.registerShift(tok.String(), prefix)
+			p.registerShift(a, tok.String(), prefix)
 			if p.peek() == '(' {
 				// Can only be a literal register here.
 				p.next()
@@ -647,10 +646,11 @@ func (p *Parser) register(name string, prefix rune) (r1, r2 int16, scale int8, o
 
 // registerShift parses an ARM/ARM64 shifted register reference and returns the encoded representation.
 // There is known to be a register (current token) and a shift operator (peeked token).
-func (p *Parser) registerShift(name string, prefix rune) int64 {
+func (p *Parser) registerShift(a *obj.Addr, name string, prefix rune) {
 	if prefix != 0 {
 		p.errorf("prefix %c not allowed for shifted register: $%s", prefix, name)
 	}
+	a.Type = obj.TYPE_SHIFT
 	// R1 op R2 or r1 op constant.
 	// op is:
 	//	"<<" == 0
@@ -659,7 +659,8 @@ func (p *Parser) registerShift(name string, prefix rune) int64 {
 	//	"@>" == 3
 	r1, ok := p.registerReference(name)
 	if !ok {
-		return 0
+		a.Offset = 0
+		return
 	}
 	var op int16
 	switch p.next().ScanToken {
@@ -695,7 +696,7 @@ func (p *Parser) registerShift(name string, prefix rune) int64 {
 			if x >= 64 {
 				p.errorf("register shift count too large: %s", str)
 			}
-			count = int16((x & 63) << 10)
+			count = int16(x & 63)
 		} else {
 			if x >= 32 {
 				p.errorf("register shift count too large: %s", str)
@@ -706,13 +707,10 @@ func (p *Parser) registerShift(name string, prefix rune) int64 {
 		p.errorf("unexpected %s in register shift", tok.String())
 	}
 	if p.arch.Family == sys.ARM64 {
-		off, err := arch.ARM64RegisterShift(r1, op, count)
-		if err != nil {
-			p.errorf(err.Error())
-		}
-		return off
+		a.Index = op<<6 | count
+		a.Reg = r1
 	} else {
-		return int64((r1 & 15) | op<<5 | count)
+		a.Offset = int64((r1 & 15) | op<<5 | count)
 	}
 }
 
@@ -977,7 +975,8 @@ func (p *Parser) registerIndirect(a *obj.Addr, prefix rune) {
 	a.Reg = r1
 	if r2 != 0 {
 		// TODO: Consistency in the encoding would be nice here.
-		if p.arch.InFamily(sys.ARM, sys.ARM64) {
+		switch p.arch.Family {
+		case sys.ARM, sys.ARM64:
 			// Special form
 			// ARM: destination register pair (R1, R2).
 			// ARM64: register pair (R1, R2) for LDP/STP.
@@ -988,9 +987,7 @@ func (p *Parser) registerIndirect(a *obj.Addr, prefix rune) {
 			a.Type = obj.TYPE_REGREG
 			a.Offset = int64(r2)
 			// Nothing may follow
-			return
-		}
-		if p.arch.Family == sys.PPC64 {
+		case sys.PPC64:
 			// Special form for PPC64: (R1+R2); alias for (R1)(R2).
 			if prefix != 0 || scale != 0 {
 				p.errorf("illegal address mode for register+register")
@@ -999,9 +996,9 @@ func (p *Parser) registerIndirect(a *obj.Addr, prefix rune) {
 			a.Type = obj.TYPE_MEM
 			a.Scale = 0
 			a.Index = r2
-			// Nothing may follow.
-			return
 		}
+		// Nothing may follow.
+		return
 	}
 	if r2 != 0 {
 		p.errorf("indirect through register pair")
@@ -1029,14 +1026,17 @@ func (p *Parser) registerIndirect(a *obj.Addr, prefix rune) {
 			if r2 != 0 {
 				p.errorf("unimplemented two-register form")
 			}
-			a.Index = r1
 			if scale != 0 && scale != 1 && (p.arch.Family == sys.ARM64 ||
 				p.arch.Family == sys.PPC64) {
 				// Support (R1)(R2) (no scaling) and (R1)(R2*1).
 				p.errorf("%s doesn't support scaled register format", p.arch.Name)
 			}
 			if p.arch.Family != sys.ARM64 {
+				a.Index = r1
 				a.Scale = int16(scale)
+			} else {
+				a.Offset = int64(r1)
+				a.Index = arm64.RTYP_MEM_ROFF << 6
 			}
 		}
 		p.get(')')
@@ -1082,7 +1082,7 @@ func (p *Parser) registerListARM(a *obj.Addr) {
 	// One range per loop.
 	var maxReg int
 	var bits uint16
-	var arrangement int64
+	var arrangement int
 	switch p.arch.Family {
 	case sys.ARM:
 		maxReg = 16
@@ -1092,8 +1092,10 @@ func (p *Parser) registerListARM(a *obj.Addr) {
 		p.errorf("unexpected register list")
 	}
 	firstReg := -1
-	nextReg := -1
+	lastReg := -1
 	regCnt := 0
+	scale := 0
+	index := 0
 ListLoop:
 	for {
 		tok := p.next()
@@ -1108,11 +1110,10 @@ ListLoop:
 		case sys.ARM64:
 			// Vn.T
 			name := tok.String()
-			r, ok := p.registerReference(name)
+			reg, ok := p.registerReference(name)
 			if !ok {
 				p.errorf("invalid register: %s", name)
 			}
-			reg := r - p.arch.Register["V0"]
 			p.get('.')
 			tok := p.next()
 			ext := tok.String()
@@ -1123,15 +1124,16 @@ ListLoop:
 			if firstReg == -1 {
 				// only record the first register and arrangement
 				firstReg = int(reg)
-				nextReg = firstReg
 				arrangement = curArrangement
 			} else if curArrangement != arrangement {
 				p.errorf("inconsistent arrangement in ARM64 register list")
-			} else if nextReg != int(reg) {
-				p.errorf("incontiguous register in ARM64 register list: %s", name)
+			} else if scale == 0 {
+				scale = (int(reg) - firstReg) & 31
+			} else if scale != (int(reg)-lastReg)&31 {
+				p.errorf("inconsistent scale in ARM64 register list: %s", name)
 			}
 			regCnt++
-			nextReg = (nextReg + 1) % 32
+			lastReg = int(reg)
 		case sys.ARM:
 			// Parse the upper and lower bounds.
 			lo := p.registerNumber(tok.String())
@@ -1158,16 +1160,29 @@ ListLoop:
 			p.get(',')
 		}
 	}
+	if p.peek() == '[' {
+		if p.arch.Family != sys.ARM64 {
+			p.errorf("unexpected register list")
+		}
+		p.get('[')
+		tok := p.get(scanner.Int)
+		idx, err := strconv.ParseInt(tok.String(), 10, 16)
+		if err != nil {
+			p.errorf("parsing index error in register list: %s", err.Error())
+		}
+		index = int(idx)
+		p.get(']')
+	}
+
 	a.Type = obj.TYPE_REGLIST
 	switch p.arch.Family {
 	case sys.ARM:
 		a.Offset = int64(bits)
 	case sys.ARM64:
-		offset, err := arch.ARM64RegisterListOffset(firstReg, regCnt, arrangement)
+		err := arch.ARM64RegisterListOffset(a, firstReg, regCnt, arrangement, index, scale)
 		if err != nil {
 			p.errorf(err.Error())
 		}
-		a.Offset = offset
 	default:
 		p.errorf("register list not supported on this architecture")
 	}

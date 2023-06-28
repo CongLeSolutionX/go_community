@@ -705,11 +705,6 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 					return
 				}
 				prog.RegTo2 = a[2].Reg
-			case arch.IsARM64TBL(op):
-				// one of its inputs does not fit into prog.Reg.
-				prog.From = a[0]
-				prog.AddRestSource(a[1])
-				prog.To = a[2]
 			case arch.IsARM64CASP(op):
 				prog.From = a[0]
 				prog.To = a[1]
@@ -724,7 +719,12 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 				prog.AddRestDest(a[2])
 			default:
 				prog.From = a[0]
-				prog.Reg = p.getRegister(prog, op, &a[1])
+				if p.isRegister(prog, op, &a[1]) {
+					// no type/arrangement information, store as prog.Reg
+					prog.Reg = p.getRegister(prog, op, &a[1])
+				} else {
+					prog.AddRestSource(a[1])
+				}
 				prog.To = a[2]
 			}
 		case sys.I386:
@@ -810,7 +810,12 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 		}
 		if p.arch.Family == sys.ARM64 {
 			prog.From = a[0]
-			prog.Reg = p.getRegister(prog, op, &a[1])
+			if p.isRegister(prog, op, &a[1]) {
+				// no type/arrangement information, store as prog.Reg
+				prog.Reg = p.getRegister(prog, op, &a[1])
+			} else {
+				prog.AddRestSource(a[1])
+			}
 			prog.AddRestSource(a[2])
 			prog.To = a[3]
 			break
@@ -945,8 +950,15 @@ func (p *Parser) getImmediate(prog *obj.Prog, op obj.As, addr *obj.Addr) int64 {
 
 // getRegister checks that addr represents a register and returns its value.
 func (p *Parser) getRegister(prog *obj.Prog, op obj.As, addr *obj.Addr) int16 {
-	if addr.Type != obj.TYPE_REG || addr.Offset != 0 || addr.Name != 0 || addr.Index != 0 {
+	if !p.isRegister(prog, op, addr) {
 		p.errorf("%s: expected register; found %s", op, obj.Dconv(prog, addr))
 	}
 	return addr.Reg
+}
+
+func (p *Parser) isRegister(prog *obj.Prog, op obj.As, addr *obj.Addr) bool {
+	if addr.Type != obj.TYPE_REG || addr.Offset != 0 || addr.Name != 0 || addr.Index != 0 {
+		return false
+	}
+	return true
 }

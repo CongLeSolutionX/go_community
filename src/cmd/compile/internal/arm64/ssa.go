@@ -78,19 +78,12 @@ func storeByType(t *types.Type) obj.As {
 	panic("bad store type")
 }
 
-// makeshift encodes a register shifted by a constant, used as an Offset in Prog.
-func makeshift(v *ssa.Value, reg int16, typ int64, s int64) int64 {
-	if s < 0 || s >= 64 {
-		v.Fatalf("shift out of range: %d", s)
-	}
-	return int64(reg&31)<<16 | typ | (s&63)<<10
-}
-
 // genshift generates a Prog for r = r0 op (r1 shifted by n).
 func genshift(s *ssagen.State, v *ssa.Value, as obj.As, r0, r1, r int16, typ int64, n int64) *obj.Prog {
 	p := s.Prog(as)
 	p.From.Type = obj.TYPE_SHIFT
-	p.From.Offset = makeshift(v, r1, typ, n)
+	p.From.Reg = r1
+	p.From.Index = int16(typ)<<6 | int16(n)&63
 	p.Reg = r0
 	if r != 0 {
 		p.To.Type = obj.TYPE_REG
@@ -107,15 +100,15 @@ func genIndexedOperand(op ssa.Op, base, idx int16) obj.Addr {
 	switch op {
 	case ssa.OpARM64MOVDloadidx8, ssa.OpARM64MOVDstoreidx8, ssa.OpARM64MOVDstorezeroidx8,
 		ssa.OpARM64FMOVDloadidx8, ssa.OpARM64FMOVDstoreidx8:
-		mop.Index = arm64.REG_LSL | 3<<5 | idx&31
+		mop.Offset = arm64.RTYP_EXT_LSL<<6 | 3
 	case ssa.OpARM64MOVWloadidx4, ssa.OpARM64MOVWUloadidx4, ssa.OpARM64MOVWstoreidx4, ssa.OpARM64MOVWstorezeroidx4,
 		ssa.OpARM64FMOVSloadidx4, ssa.OpARM64FMOVSstoreidx4:
-		mop.Index = arm64.REG_LSL | 2<<5 | idx&31
+		mop.Offset = arm64.RTYP_EXT_LSL<<6 | 2
 	case ssa.OpARM64MOVHloadidx2, ssa.OpARM64MOVHUloadidx2, ssa.OpARM64MOVHstoreidx2, ssa.OpARM64MOVHstorezeroidx2:
-		mop.Index = arm64.REG_LSL | 1<<5 | idx&31
-	default: // not shifted
-		mop.Index = idx
+		mop.Offset = arm64.RTYP_EXT_LSL<<6 | 1
 	}
+	mop.Offset = mop.Offset<<16 | int64(idx)
+	mop.Index |= arm64.RTYP_MEM_ROFF << 6
 	return mop
 }
 
@@ -961,13 +954,16 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 	case ssa.OpARM64VCNT:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = (v.Args[0].Reg()-arm64.REG_F0)&31 + arm64.REG_ARNG + ((arm64.ARNG_8B & 15) << 5)
+		p.From.Reg = v.Args[0].Reg() - arm64.REG_F0 + arm64.REG_V0
+		p.From.Index = arm64.ARNG_8B << 11
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = (v.Reg()-arm64.REG_F0)&31 + arm64.REG_ARNG + ((arm64.ARNG_8B & 15) << 5)
+		p.To.Reg = v.Reg() - arm64.REG_F0 + arm64.REG_V0
+		p.To.Index = arm64.ARNG_8B << 11
 	case ssa.OpARM64VUADDLV:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
-		p.From.Reg = (v.Args[0].Reg()-arm64.REG_F0)&31 + arm64.REG_ARNG + ((arm64.ARNG_8B & 15) << 5)
+		p.From.Reg = v.Args[0].Reg() - arm64.REG_F0 + arm64.REG_V0
+		p.From.Index = arm64.ARNG_8B << 11
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg() - arm64.REG_F0 + arm64.REG_V0
 	case ssa.OpARM64CSEL, ssa.OpARM64CSEL0:
