@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d773b1_965afa48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-06-28T17:00:57Z",
+      "side": 1,
+      "message": "But that would affect the computation for `gccgo`, too. Could this be problem?",
+      "parentUuid": "c8d92c00_739f26ac",
+      "revId": "1254c30e06f7416911eaae221ba4e4624f5fdd1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32541275_1543b220",
