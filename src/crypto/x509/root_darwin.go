@@ -1,133 +1,130 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2020 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
-
-//go:generate go run root_darwin_arm_gen.go -output root_darwin_armx.go
 
 package x509
 
 import (
-	"bytes"
-	"encoding/pem"
+	macOS "crypto/x509/internal/macos"
+	"errors"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"os/exec"
-	"strconv"
-	"sync"
-	"syscall"
 )
 
 func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate, err error) {
-	return nil, nil
-}
+	certs := macOS.CFArrayCreateMutable()
+	defer macOS.ReleaseCFArray(certs)
+	leaf, err := macOS.SecCertificateCreateWithData(c.Raw)
+	if err != nil {
+		return nil, errors.New("invalid leaf certificate")
+	}
+	macOS.CFArrayAppendValue(certs, leaf)
+	if opts.Intermediates != nil {
+		for _, lc := range opts.Intermediates.lazyCerts {
+			c, err := lc.getCert()
+			if err != nil {
+				return nil, err
+			}
+			sc, err := macOS.SecCertificateCreateWithData(c.Raw)
+			if err != nil {
+				return nil, err
+			}
+			macOS.CFArrayAppendValue(certs, sc)
+		}
+	}
 
-// This code is only used when compiling without cgo.
-// It is here, instead of root_nocgo_darwin.go, so that tests can check it
-// even if the tests are run with cgo enabled.
-// The linker will not include these unused functions in binaries built with cgo enabled.
-
-func execSecurityRoots() (*CertPool, error) {
-	cmd := exec.Command("/usr/bin/security", "find-certificate", "-a", "-p", "/System/Library/Keychains/SystemRootCertificates.keychain")
-	data, err := cmd.Output()
+	policies := macOS.CFArrayCreateMutable()
+	defer macOS.ReleaseCFArray(policies)
+	sslPolicy, err := macOS.SecPolicyCreateSSL(opts.DNSName)
 	if err != nil {
 		return nil, err
 	}
+	macOS.CFArrayAppendValue(policies, sslPolicy)
 
-	var (
-		mu    sync.Mutex
-		roots = NewCertPool()
-	)
-	add := func(cert *Certificate) {
-		mu.Lock()
-		defer mu.Unlock()
-		roots.AddCert(cert)
+	trustObj, err := macOS.SecTrustCreateWithCertificates(certs, policies)
+	if err != nil {
+		return nil, err
 	}
-	blockCh := make(chan *pem.Block)
-	var wg sync.WaitGroup
-	for i := 0; i < 4; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for block := range blockCh {
-				verifyCertWithSystem(block, add)
-			}
-		}()
-	}
-	for len(data) > 0 {
-		var block *pem.Block
-		block, data = pem.Decode(data)
-		if block == nil {
-			break
+	defer macOS.CFRelease(trustObj)
+
+	if !opts.CurrentTime.IsZero() {
+		dateRef := macOS.TimeToCFDateRef(opts.CurrentTime)
+		defer macOS.CFRelease(dateRef)
+		if err := macOS.SecTrustSetVerifyDate(trustObj, dateRef); err != nil {
+			return nil, err
 		}
-		if block.Type != "CERTIFICATE" || len(block.Headers) != 0 {
-			continue
-		}
-		blockCh <- block
 	}
-	close(blockCh)
-	wg.Wait()
-	return roots, nil
+
+	// TODO(roland): we may want to allow passing in SCTs via VerifyOptions and
+	// set them via SecTrustSetSignedCertificateTimestamps, since Apple will
+	// always enforce its SCT requirements, and there are still _some_ people
+	// using TLS or OCSP for that.
+
+	if ret, err := macOS.SecTrustEvaluateWithError(trustObj); err != nil {
+		switch ret {
+		case macOS.ErrSecCertificateExpired:
+			return nil, CertificateInvalidError{c, Expired, err.Error()}
+		case macOS.ErrSecHostNameMismatch:
+			return nil, HostnameError{c, opts.DNSName}
+		case macOS.ErrSecNotTrusted:
+			return nil, UnknownAuthorityError{Cert: c}
+		default:
+			return nil, fmt.Errorf("x509: %s", err)
+		}
+	}
+
+	chain := [][]*Certificate{{}}
+	numCerts := macOS.SecTrustGetCertificateCount(trustObj)
+	for i := 0; i < numCerts; i++ {
+		certRef, err := macOS.SecTrustGetCertificateAtIndex(trustObj, i)
+		if err != nil {
+			return nil, err
+		}
+		cert, err := exportCertificate(certRef)
+		if err != nil {
+			return nil, err
+		}
+		chain[0] = append(chain[0], cert)
+	}
+	if len(chain[0]) == 0 {
+		// This should _never_ happen, but to be safe
+		return nil, errors.New("x509: macOS certificate verification internal error")
+	}
+
+	if opts.DNSName != "" {
+		// If we have a DNS name, apply our own name verification
+		if err := chain[0][0].VerifyHostname(opts.DNSName); err != nil {
+			return nil, err
+		}
+	}
+
+	keyUsages := opts.KeyUsages
+	if len(keyUsages) == 0 {
+		keyUsages = []ExtKeyUsage{ExtKeyUsageServerAuth}
+	}
+
+	// If any key usage is acceptable then we're done.
+	for _, usage := range keyUsages {
+		if usage == ExtKeyUsageAny {
+			return chain, nil
+		}
+	}
+
+	if !checkChainForKeyUsage(chain[0], keyUsages) {
+		return nil, CertificateInvalidError{c, IncompatibleUsage, ""}
+	}
+
+	return chain, nil
 }
 
-func verifyCertWithSystem(block *pem.Block, add func(*Certificate)) {
-	data := pem.EncodeToMemory(block)
-	var cmd *exec.Cmd
-	if needsTmpFiles() {
-		f, err := ioutil.TempFile("", "cert")
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "can't create temporary file for cert: %v", err)
-			return
-		}
-		defer os.Remove(f.Name())
-		if _, err := f.Write(data); err != nil {
-			fmt.Fprintf(os.Stderr, "can't write temporary file for cert: %v", err)
-			return
-		}
-		if err := f.Close(); err != nil {
-			fmt.Fprintf(os.Stderr, "can't write temporary file for cert: %v", err)
-			return
-		}
-		cmd = exec.Command("/usr/bin/security", "verify-cert", "-c", f.Name(), "-l")
-	} else {
-		cmd = exec.Command("/usr/bin/security", "verify-cert", "-c", "/dev/stdin", "-l")
-		cmd.Stdin = bytes.NewReader(data)
+// exportCertificate returns a *Certificate for a SecCertificateRef.
+func exportCertificate(cert macOS.CFRef) (*Certificate, error) {
+	data, err := macOS.SecCertificateCopyData(cert)
+	if err != nil {
+		return nil, err
 	}
-	if cmd.Run() == nil {
-		// Non-zero exit means untrusted
-		cert, err := ParseCertificate(block.Bytes)
-		if err != nil {
-			return
-		}
-
-		add(cert)
-	}
+	return ParseCertificate(data)
 }
 
-var versionCache struct {
-	sync.Once
-	major int
-}
-
-// needsTmpFiles reports whether the OS is <= 10.11 (which requires real
-// files as arguments to the security command).
-func needsTmpFiles() bool {
-	versionCache.Do(func() {
-		release, err := syscall.Sysctl("kern.osrelease")
-		if err != nil {
-			return
-		}
-		for i, c := range release {
-			if c == '.' {
-				release = release[:i]
-				break
-			}
-		}
-		major, err := strconv.Atoi(release)
-		if err != nil {
-			return
-		}
-		versionCache.major = major
-	})
-	return versionCache.major <= 15
+func loadSystemRoots() (*CertPool, error) {
+	return &CertPool{systemPool: true}, nil
 }

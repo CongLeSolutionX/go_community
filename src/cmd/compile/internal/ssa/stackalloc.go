@@ -7,6 +7,8 @@
 package ssa
 
 import (
+	"cmd/compile/internal/ir"
+	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
 )
@@ -23,8 +25,6 @@ type stackAllocState struct {
 	values    []stackValState
 	interfere [][]ID // interfere[v.id] = values that interfere with v.
 	names     []LocalSlot
-	slots     []int
-	used      []bool
 
 	nArgSlot, // Number of Values sourced to arg slot
 	nNotNeed, // Number of Values not needing a stack slot
@@ -35,12 +35,12 @@ type stackAllocState struct {
 }
 
 func newStackAllocState(f *Func) *stackAllocState {
-	s := f.Config.stackAllocState
+	s := f.Cache.stackAllocState
 	if s == nil {
 		return new(stackAllocState)
 	}
 	if s.f != nil {
-		f.Config.Fatalf(src.NoXPos, "newStackAllocState called without previous free")
+		f.fe.Fatalf(src.NoXPos, "newStackAllocState called without previous free")
 	}
 	return s
 }
@@ -55,22 +55,17 @@ func putStackAllocState(s *stackAllocState) {
 	for i := range s.names {
 		s.names[i] = LocalSlot{}
 	}
-	for i := range s.slots {
-		s.slots[i] = 0
-	}
-	for i := range s.used {
-		s.used[i] = false
-	}
-	s.f.Config.stackAllocState = s
+	s.f.Cache.stackAllocState = s
 	s.f = nil
 	s.live = nil
 	s.nArgSlot, s.nNotNeed, s.nNamedSlot, s.nReuse, s.nAuto, s.nSelfInterfere = 0, 0, 0, 0, 0, 0
 }
 
 type stackValState struct {
-	typ      Type
+	typ      *types.Type
 	spill    *Value
 	needSlot bool
+	isArg    bool
 }
 
 // stackalloc allocates storage in the stack frame for
@@ -108,7 +103,8 @@ func (s *stackAllocState) init(f *Func, spillLive [][]ID) {
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			s.values[v.ID].typ = v.Type
-			s.values[v.ID].needSlot = !v.Type.IsMemory() && !v.Type.IsVoid() && !v.Type.IsFlags() && f.getHome(v.ID) == nil && !v.rematerializeable()
+			s.values[v.ID].needSlot = !v.Type.IsMemory() && !v.Type.IsVoid() && !v.Type.IsFlags() && f.getHome(v.ID) == nil && !v.rematerializeable() && !v.OnWasmStack
+			s.values[v.ID].isArg = hasAnyArgOp(v)
 			if f.pass.debug > stackDebug && s.values[v.ID].needSlot {
 				fmt.Printf("%s needs a stack slot\n", v)
 			}
@@ -137,24 +133,72 @@ func (s *stackAllocState) stackalloc() {
 		s.names = make([]LocalSlot, n)
 	}
 	names := s.names
+	empty := LocalSlot{}
 	for _, name := range f.Names {
 		// Note: not "range f.NamedValues" above, because
 		// that would be nondeterministic.
-		for _, v := range f.NamedValues[name] {
-			names[v.ID] = name
+		for _, v := range f.NamedValues[*name] {
+			if v.Op == OpArgIntReg || v.Op == OpArgFloatReg {
+				aux := v.Aux.(*AuxNameOffset)
+				// Never let an arg be bound to a differently named thing.
+				if name.N != aux.Name || name.Off != aux.Offset {
+					if f.pass.debug > stackDebug {
+						fmt.Printf("stackalloc register arg %s skipping name %s\n", v, name)
+					}
+					continue
+				}
+			} else if name.N.Class == ir.PPARAM && v.Op != OpArg {
+				// PPARAM's only bind to OpArg
+				if f.pass.debug > stackDebug {
+					fmt.Printf("stackalloc PPARAM name %s skipping non-Arg %s\n", name, v)
+				}
+				continue
+			}
+
+			if names[v.ID] == empty {
+				if f.pass.debug > stackDebug {
+					fmt.Printf("stackalloc value %s to name %s\n", v, *name)
+				}
+				names[v.ID] = *name
+			}
 		}
 	}
 
 	// Allocate args to their assigned locations.
 	for _, v := range f.Entry.Values {
-		if v.Op != OpArg {
+		if !hasAnyArgOp(v) {
 			continue
 		}
-		loc := LocalSlot{v.Aux.(GCNode), v.Type, v.AuxInt}
-		if f.pass.debug > stackDebug {
-			fmt.Printf("stackalloc %s to %s\n", v, loc.Name())
+		if v.Aux == nil {
+			f.Fatalf("%s has nil Aux\n", v.LongString())
 		}
-		f.setHome(v, loc)
+		if v.Op == OpArg {
+			loc := LocalSlot{N: v.Aux.(*ir.Name), Type: v.Type, Off: v.AuxInt}
+			if f.pass.debug > stackDebug {
+				fmt.Printf("stackalloc OpArg %s to %s\n", v, loc)
+			}
+			f.setHome(v, loc)
+			continue
+		}
+		// You might think this below would be the right idea, but you would be wrong.
+		// It almost works; as of 105a6e9518 - 2021-04-23,
+		// GOSSAHASH=11011011001011111 == cmd/compile/internal/noder.(*noder).embedded
+		// is compiled incorrectly.  I believe the cause is one of those SSA-to-registers
+		// puzzles that the register allocator untangles; in the event that a register
+		// parameter does not end up bound to a name, "fixing" it is a bad idea.
+		//
+		//if f.DebugTest {
+		//	if v.Op == OpArgIntReg || v.Op == OpArgFloatReg {
+		//		aux := v.Aux.(*AuxNameOffset)
+		//		loc := LocalSlot{N: aux.Name, Type: v.Type, Off: aux.Offset}
+		//		if f.pass.debug > stackDebug {
+		//			fmt.Printf("stackalloc Op%s %s to %s\n", v.Op, v, loc)
+		//		}
+		//		names[v.ID] = loc
+		//		continue
+		//	}
+		//}
+
 	}
 
 	// For each type, we keep track of all the stack slots we
@@ -162,36 +206,26 @@ func (s *stackAllocState) stackalloc() {
 	// TODO: share slots among equivalent types. We would need to
 	// only share among types with the same GC signature. See the
 	// type.Equal calls below for where this matters.
-	locations := map[Type][]LocalSlot{}
+	locations := map[*types.Type][]LocalSlot{}
 
 	// Each time we assign a stack slot to a value v, we remember
 	// the slot we used via an index into locations[v.Type].
-	slots := s.slots
-	if n := f.NumValues(); cap(slots) >= n {
-		slots = slots[:n]
-	} else {
-		slots = make([]int, n)
-		s.slots = slots
-	}
+	slots := f.Cache.allocIntSlice(f.NumValues())
+	defer f.Cache.freeIntSlice(slots)
 	for i := range slots {
 		slots[i] = -1
 	}
 
 	// Pick a stack slot for each value needing one.
-	var used []bool
-	if n := f.NumValues(); cap(s.used) >= n {
-		used = s.used[:n]
-	} else {
-		used = make([]bool, n)
-		s.used = used
-	}
+	used := f.Cache.allocBoolSlice(f.NumValues())
+	defer f.Cache.freeBoolSlice(used)
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if !s.values[v.ID].needSlot {
 				s.nNotNeed++
 				continue
 			}
-			if v.Op == OpArg {
+			if hasAnyArgOp(v) {
 				s.nArgSlot++
 				continue // already picked
 			}
@@ -204,18 +238,18 @@ func (s *stackAllocState) stackalloc() {
 			} else {
 				name = names[v.ID]
 			}
-			if name.N != nil && v.Type.Compare(name.Type) == CMPeq {
+			if name.N != nil && v.Type.Compare(name.Type) == types.CMPeq {
 				for _, id := range s.interfere[v.ID] {
 					h := f.getHome(id)
 					if h != nil && h.(LocalSlot).N == name.N && h.(LocalSlot).Off == name.Off {
 						// A variable can interfere with itself.
-						// It is rare, but but it can happen.
+						// It is rare, but it can happen.
 						s.nSelfInterfere++
 						goto noname
 					}
 				}
 				if f.pass.debug > stackDebug {
-					fmt.Printf("stackalloc %s to %s\n", v, name.Name())
+					fmt.Printf("stackalloc %s to %s\n", v, name)
 				}
 				s.nNamedSlot++
 				f.setHome(v, name)
@@ -246,13 +280,13 @@ func (s *stackAllocState) stackalloc() {
 			// If there is no unused stack slot, allocate a new one.
 			if i == len(locs) {
 				s.nAuto++
-				locs = append(locs, LocalSlot{N: f.Config.fe.Auto(v.Type), Type: v.Type, Off: 0})
+				locs = append(locs, LocalSlot{N: f.fe.Auto(v.Pos, v.Type), Type: v.Type, Off: 0})
 				locations[v.Type] = locs
 			}
 			// Use the stack variable at that index for v.
 			loc := locs[i]
 			if f.pass.debug > stackDebug {
-				fmt.Printf("stackalloc %s to %s\n", v, loc.Name())
+				fmt.Printf("stackalloc %s to %s\n", v, loc)
 			}
 			f.setHome(v, loc)
 			slots[v.ID] = i
@@ -376,7 +410,9 @@ func (s *stackAllocState) buildInterferenceGraph() {
 			if s.values[v.ID].needSlot {
 				live.remove(v.ID)
 				for _, id := range live.contents() {
-					if s.values[v.ID].typ.Compare(s.values[id].typ) == CMPeq {
+					// Note: args can have different types and still interfere
+					// (with each other or with other values). See issue 23522.
+					if s.values[v.ID].typ.Compare(s.values[id].typ) == types.CMPeq || hasAnyArgOp(v) || s.values[id].isArg {
 						s.interfere[v.ID] = append(s.interfere[v.ID], id)
 						s.interfere[id] = append(s.interfere[id], v.ID)
 					}
@@ -387,13 +423,15 @@ func (s *stackAllocState) buildInterferenceGraph() {
 					live.add(a.ID)
 				}
 			}
-			if v.Op == OpArg && s.values[v.ID].needSlot {
+			if hasAnyArgOp(v) && s.values[v.ID].needSlot {
 				// OpArg is an input argument which is pre-spilled.
 				// We add back v.ID here because we want this value
 				// to appear live even before this point. Being live
 				// all the way to the start of the entry block prevents other
 				// values from being allocated to the same slot and clobbering
 				// the input value before we have a chance to load it.
+
+				// TODO(register args) this is apparently not wrong for register args -- is it necessary?
 				live.add(v.ID)
 			}
 		}
@@ -409,4 +447,8 @@ func (s *stackAllocState) buildInterferenceGraph() {
 			}
 		}
 	}
+}
+
+func hasAnyArgOp(v *Value) bool {
+	return v.Op == OpArg || v.Op == OpArgIntReg || v.Op == OpArgFloatReg
 }

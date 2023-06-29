@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build cgo
-// +build darwin dragonfly freebsd linux netbsd solaris
+//go:build unix
 
 #include <pthread.h>
 #include <errno.h>
@@ -17,6 +16,14 @@
 static pthread_cond_t runtime_init_cond = PTHREAD_COND_INITIALIZER;
 static pthread_mutex_t runtime_init_mu = PTHREAD_MUTEX_INITIALIZER;
 static int runtime_init_done;
+
+// pthread_g is a pthread specific key, for storing the g that binded to the C thread.
+// The registered pthread_key_destructor will dropm, when the pthread-specified value g is not NULL,
+// while a C thread is exiting.
+static pthread_key_t pthread_g;
+static void pthread_key_destructor(void* g);
+uintptr_t x_cgo_pthread_key_created;
+void (*x_crosscall2_ptr)(void (*fn)(void *), void *, int, size_t);
 
 // The context function, used when tracing back C calls into Go.
 static void (*cgo_context_function)(struct context_arg*);
@@ -32,12 +39,18 @@ x_cgo_sys_thread_create(void* (*func)(void*), void* arg) {
 }
 
 uintptr_t
-_cgo_wait_runtime_init_done() {
+_cgo_wait_runtime_init_done(void) {
 	void (*pfn)(struct context_arg*);
 
 	pthread_mutex_lock(&runtime_init_mu);
 	while (runtime_init_done == 0) {
 		pthread_cond_wait(&runtime_init_cond, &runtime_init_mu);
+	}
+
+	// The key and x_cgo_pthread_key_created are for the whole program,
+	// whereas the specific and destructor is per thread.
+	if (x_cgo_pthread_key_created == 0 && pthread_key_create(&pthread_g, pthread_key_destructor) == 0) {
+		x_cgo_pthread_key_created = 1;
 	}
 
 	// TODO(iant): For the case of a new C thread calling into Go, such
@@ -62,8 +75,18 @@ _cgo_wait_runtime_init_done() {
 	return 0;
 }
 
+// Store the g into a thread-specific value associated with the pthread key pthread_g.
+// And pthread_key_destructor will dropm when the thread is exiting.
+void x_cgo_bindm(void* g) {
+	// We assume this will always succeed, otherwise, there might be extra M leaking,
+	// when a C thread exits after a cgo call.
+	// We only invoke this function once per thread in runtime.needAndBindM,
+	// and the next calls just reuse the bound m.
+	pthread_setspecific(pthread_g, g);
+}
+
 void
-x_cgo_notify_runtime_init_done(void* dummy) {
+x_cgo_notify_runtime_init_done(void* dummy __attribute__ ((unused))) {
 	pthread_mutex_lock(&runtime_init_mu);
 	runtime_init_done = 1;
 	pthread_cond_broadcast(&runtime_init_cond);
@@ -98,6 +121,10 @@ _cgo_try_pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*p
 
 	for (tries = 0; tries < 20; tries++) {
 		err = pthread_create(thread, attr, pfn, arg);
+		if (err == 0) {
+			pthread_detach(*thread);
+			return 0;
+		}
 		if (err != EAGAIN) {
 			return err;
 		}
@@ -106,4 +133,15 @@ _cgo_try_pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*p
 		nanosleep(&ts, nil);
 	}
 	return EAGAIN;
+}
+
+static void
+pthread_key_destructor(void* g) {
+	if (x_crosscall2_ptr != NULL) {
+		// fn == NULL means dropm.
+		// We restore g by using the stored g, before dropm in runtime.cgocallback,
+		// since the g stored in the TLS by Go might be cleared in some platforms,
+		// before this destructor invoked.
+		x_crosscall2_ptr(NULL, g, 0, 0);
+	}
 }

@@ -5,9 +5,12 @@
 // This file implements API tests across platforms and will never have a build
 // tag.
 
+//go:build !js && !wasip1
+
 package net
 
 import (
+	"internal/testenv"
 	"os"
 	"runtime"
 	"testing"
@@ -54,7 +57,7 @@ func TestTCPListenerSpecificMethods(t *testing.T) {
 	}
 
 	if f, err := ln.File(); err != nil {
-		condFatalf(t, "%v", err)
+		condFatalf(t, "file+net", "%v", err)
 	} else {
 		f.Close()
 	}
@@ -70,11 +73,8 @@ func TestTCPConnSpecificMethods(t *testing.T) {
 		t.Fatal(err)
 	}
 	ch := make(chan error, 1)
-	handler := func(ls *localServer, ln Listener) { transponder(ls.Listener, ch) }
-	ls, err := (&streamListener{Listener: ln}).newLocalServer()
-	if err != nil {
-		t.Fatal(err)
-	}
+	handler := func(ls *localServer, ln Listener) { ls.transponder(ls.Listener, ch) }
+	ls := (&streamListener{Listener: ln}).newLocalServer()
 	defer ls.teardown()
 	if err := ls.buildup(handler); err != nil {
 		t.Fatal(err)
@@ -139,14 +139,14 @@ func TestUDPConnSpecificMethods(t *testing.T) {
 		t.Fatal(err)
 	}
 	if _, _, err := c.WriteMsgUDP(wb, nil, c.LocalAddr().(*UDPAddr)); err != nil {
-		condFatalf(t, "%v", err)
+		condFatalf(t, c.LocalAddr().Network(), "%v", err)
 	}
 	if _, _, _, _, err := c.ReadMsgUDP(rb, nil); err != nil {
-		condFatalf(t, "%v", err)
+		condFatalf(t, c.LocalAddr().Network(), "%v", err)
 	}
 
 	if f, err := c.File(); err != nil {
-		condFatalf(t, "%v", err)
+		condFatalf(t, "file+net", "%v", err)
 	} else {
 		f.Close()
 	}
@@ -162,16 +162,16 @@ func TestUDPConnSpecificMethods(t *testing.T) {
 }
 
 func TestIPConnSpecificMethods(t *testing.T) {
-	if os.Getuid() != 0 {
-		t.Skip("must be root")
-	}
-
 	la, err := ResolveIPAddr("ip4", "127.0.0.1")
 	if err != nil {
 		t.Fatal(err)
 	}
 	c, err := ListenIP("ip4:icmp", la)
-	if err != nil {
+	if testenv.SyscallIsNotSupported(err) {
+		// May be inside a container that disallows creating a socket or
+		// not running as root.
+		t.Skipf("skipping: %v", err)
+	} else if err != nil {
 		t.Fatal(err)
 	}
 	defer c.Close()
@@ -184,7 +184,7 @@ func TestIPConnSpecificMethods(t *testing.T) {
 	c.SetWriteBuffer(2048)
 
 	if f, err := c.File(); err != nil {
-		condFatalf(t, "%v", err)
+		condFatalf(t, "file+net", "%v", err)
 	} else {
 		f.Close()
 	}
@@ -205,7 +205,7 @@ func TestUnixListenerSpecificMethods(t *testing.T) {
 		t.Skip("unix test")
 	}
 
-	addr := testUnixAddr()
+	addr := testUnixAddr(t)
 	la, err := ResolveUnixAddr("unix", addr)
 	if err != nil {
 		t.Fatal(err)
@@ -246,7 +246,7 @@ func TestUnixConnSpecificMethods(t *testing.T) {
 		t.Skip("unixgram test")
 	}
 
-	addr1, addr2, addr3 := testUnixAddr(), testUnixAddr(), testUnixAddr()
+	addr1, addr2, addr3 := testUnixAddr(t), testUnixAddr(t), testUnixAddr(t)
 
 	a1, err := ResolveUnixAddr("unixgram", addr1)
 	if err != nil {

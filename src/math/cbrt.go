@@ -19,10 +19,18 @@ package math
 // Cbrt returns the cube root of x.
 //
 // Special cases are:
+//
 //	Cbrt(±0) = ±0
 //	Cbrt(±Inf) = ±Inf
 //	Cbrt(NaN) = NaN
 func Cbrt(x float64) float64 {
+	if haveArchCbrt {
+		return archCbrt(x)
+	}
+	return cbrt(x)
+}
+
+func cbrt(x float64) float64 {
 	const (
 		B1             = 715094163                   // (682-0.03306235651)*2**20
 		B2             = 696219795                   // (664-0.03306235651)*2**20

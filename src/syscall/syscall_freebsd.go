@@ -14,6 +14,11 @@ package syscall
 
 import "unsafe"
 
+func Syscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)
+func Syscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
+func RawSyscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno)
+func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
+
 type SockaddrDatalink struct {
 	Len    uint8
 	Family uint8
@@ -66,14 +71,23 @@ func direntNamlen(buf []byte) (uint64, bool) {
 	return readInt(buf, unsafe.Offsetof(Dirent{}.Namlen), unsafe.Sizeof(Dirent{}.Namlen))
 }
 
-//sysnb pipe() (r int, w int, err error)
+func Pipe(p []int) error {
+	return Pipe2(p, 0)
+}
 
-func Pipe(p []int) (err error) {
+//sysnb pipe2(p *[2]_C_int, flags int) (err error)
+
+func Pipe2(p []int, flags int) error {
 	if len(p) != 2 {
 		return EINVAL
 	}
-	p[0], p[1], err = pipe()
-	return
+	var pp [2]_C_int
+	err := pipe2(&pp, flags)
+	if err == nil {
+		p[0] = int(pp[0])
+		p[1] = int(pp[1])
+	}
+	return err
 }
 
 func GetsockoptIPMreqn(fd, level, opt int) (*IPMreqn, error) {
@@ -106,19 +120,50 @@ func Accept4(fd, flags int) (nfd int, sa Sockaddr, err error) {
 }
 
 func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
-	var _p0 unsafe.Pointer
-	var bufsize uintptr
+	var (
+		_p0     unsafe.Pointer
+		bufsize uintptr
+	)
 	if len(buf) > 0 {
 		_p0 = unsafe.Pointer(&buf[0])
 		bufsize = unsafe.Sizeof(Statfs_t{}) * uintptr(len(buf))
 	}
 	r0, _, e1 := Syscall(SYS_GETFSSTAT, uintptr(_p0), bufsize, uintptr(flags))
-	use(unsafe.Pointer(_p0))
 	n = int(r0)
 	if e1 != 0 {
 		err = e1
 	}
 	return
+}
+
+func Stat(path string, st *Stat_t) (err error) {
+	return Fstatat(_AT_FDCWD, path, st, 0)
+}
+
+func Lstat(path string, st *Stat_t) (err error) {
+	return Fstatat(_AT_FDCWD, path, st, _AT_SYMLINK_NOFOLLOW)
+}
+
+func Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error) {
+	if basep == nil || unsafe.Sizeof(*basep) == 8 {
+		return getdirentries(fd, buf, (*uint64)(unsafe.Pointer(basep)))
+	}
+	// The syscall needs a 64-bit base. On 32-bit machines
+	// we can't just use the basep passed in. See #32498.
+	var base uint64 = uint64(*basep)
+	n, err = getdirentries(fd, buf, &base)
+	*basep = uintptr(base)
+	if base>>32 != 0 {
+		// We can't stuff the base back into a uintptr, so any
+		// future calls would be suspect. Generate an error.
+		// EIO is allowed by getdirentries.
+		err = EIO
+	}
+	return
+}
+
+func Mknod(path string, mode uint32, dev uint64) (err error) {
+	return mknodat(_AT_FDCWD, path, mode, dev)
 }
 
 /*
@@ -134,7 +179,6 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 //sys	Close(fd int) (err error)
 //sys	Dup(fd int) (nfd int, err error)
 //sys	Dup2(from int, to int) (err error)
-//sys	Exit(code int)
 //sys	Fchdir(fd int) (err error)
 //sys	Fchflags(fd int, flags int) (err error)
 //sys	Fchmod(fd int, mode uint32) (err error)
@@ -142,10 +186,11 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 //sys	Flock(fd int, how int) (err error)
 //sys	Fpathconf(fd int, name int) (val int, err error)
 //sys	Fstat(fd int, stat *Stat_t) (err error)
+//sys	Fstatat(fd int, path string, stat *Stat_t, flags int) (err error)
 //sys	Fstatfs(fd int, stat *Statfs_t) (err error)
 //sys	Fsync(fd int) (err error)
 //sys	Ftruncate(fd int, length int64) (err error)
-//sys	Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error)
+//sys	getdirentries(fd int, buf []byte, basep *uint64) (n int, err error)
 //sys	Getdtablesize() (size int)
 //sysnb	Getegid() (egid int)
 //sysnb	Geteuid() (uid int)
@@ -166,15 +211,14 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 //sys	Lchown(path string, uid int, gid int) (err error)
 //sys	Link(path string, link string) (err error)
 //sys	Listen(s int, backlog int) (err error)
-//sys	Lstat(path string, stat *Stat_t) (err error)
 //sys	Mkdir(path string, mode uint32) (err error)
 //sys	Mkfifo(path string, mode uint32) (err error)
-//sys	Mknod(path string, mode uint32, dev int) (err error)
+//sys	mknodat(fd int, path string, mode uint32, dev uint64) (err error)
 //sys	Nanosleep(time *Timespec, leftover *Timespec) (err error)
 //sys	Open(path string, mode int, perm uint32) (fd int, err error)
 //sys	Pathconf(path string, name int) (val int, err error)
-//sys	Pread(fd int, p []byte, offset int64) (n int, err error)
-//sys	Pwrite(fd int, p []byte, offset int64) (n int, err error)
+//sys	pread(fd int, p []byte, offset int64) (n int, err error)
+//sys	pwrite(fd int, p []byte, offset int64) (n int, err error)
 //sys	read(fd int, p []byte) (n int, err error)
 //sys	Readlink(path string, buf []byte) (n int, err error)
 //sys	Rename(from string, to string) (err error)
@@ -190,11 +234,10 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 //sys	Setpriority(which int, who int, prio int) (err error)
 //sysnb	Setregid(rgid int, egid int) (err error)
 //sysnb	Setreuid(ruid int, euid int) (err error)
-//sysnb	Setrlimit(which int, lim *Rlimit) (err error)
+//sysnb	setrlimit(which int, lim *Rlimit) (err error)
 //sysnb	Setsid() (pid int, err error)
 //sysnb	Settimeofday(tp *Timeval) (err error)
 //sysnb	Setuid(uid int) (err error)
-//sys	Stat(path string, stat *Stat_t) (err error)
 //sys	Statfs(path string, stat *Statfs_t) (err error)
 //sys	Symlink(path string, link string) (err error)
 //sys	Sync() (err error)
@@ -209,207 +252,6 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 //sys	readlen(fd int, buf *byte, nbuf int) (n int, err error) = SYS_READ
 //sys	writelen(fd int, buf *byte, nbuf int) (n int, err error) = SYS_WRITE
 //sys	accept4(fd int, rsa *RawSockaddrAny, addrlen *_Socklen, flags int) (nfd int, err error)
-
-/*
- * Unimplemented
- */
-// Profil
-// Sigaction
-// Sigprocmask
-// Getlogin
-// Sigpending
-// Sigaltstack
-// Ioctl
-// Reboot
-// Execve
-// Vfork
-// Sbrk
-// Sstk
-// Ovadvise
-// Mincore
-// Setitimer
-// Swapon
-// Select
-// Sigsuspend
-// Readv
-// Writev
-// Nfssvc
-// Getfh
-// Quotactl
-// Mount
-// Csops
-// Waitid
-// Add_profil
-// Kdebug_trace
-// Sigreturn
-// Mmap
-// Mlock
-// Munlock
-// Atsocket
-// Kqueue_from_portset_np
-// Kqueue_portset
-// Getattrlist
-// Setattrlist
-// Getdirentriesattr
-// Searchfs
-// Delete
-// Copyfile
-// Poll
-// Watchevent
-// Waitevent
-// Modwatch
-// Getxattr
-// Fgetxattr
-// Setxattr
-// Fsetxattr
-// Removexattr
-// Fremovexattr
-// Listxattr
-// Flistxattr
-// Fsctl
-// Initgroups
-// Posix_spawn
-// Nfsclnt
-// Fhopen
-// Minherit
-// Semsys
-// Msgsys
-// Shmsys
-// Semctl
-// Semget
-// Semop
-// Msgctl
-// Msgget
-// Msgsnd
-// Msgrcv
-// Shmat
-// Shmctl
-// Shmdt
-// Shmget
-// Shm_open
-// Shm_unlink
-// Sem_open
-// Sem_close
-// Sem_unlink
-// Sem_wait
-// Sem_trywait
-// Sem_post
-// Sem_getvalue
-// Sem_init
-// Sem_destroy
-// Open_extended
-// Umask_extended
-// Stat_extended
-// Lstat_extended
-// Fstat_extended
-// Chmod_extended
-// Fchmod_extended
-// Access_extended
-// Settid
-// Gettid
-// Setsgroups
-// Getsgroups
-// Setwgroups
-// Getwgroups
-// Mkfifo_extended
-// Mkdir_extended
-// Identitysvc
-// Shared_region_check_np
-// Shared_region_map_np
-// __pthread_mutex_destroy
-// __pthread_mutex_init
-// __pthread_mutex_lock
-// __pthread_mutex_trylock
-// __pthread_mutex_unlock
-// __pthread_cond_init
-// __pthread_cond_destroy
-// __pthread_cond_broadcast
-// __pthread_cond_signal
-// Setsid_with_pid
-// __pthread_cond_timedwait
-// Aio_fsync
-// Aio_return
-// Aio_suspend
-// Aio_cancel
-// Aio_error
-// Aio_read
-// Aio_write
-// Lio_listio
-// __pthread_cond_wait
-// Iopolicysys
-// Mlockall
-// Munlockall
-// __pthread_kill
-// __pthread_sigmask
-// __sigwait
-// __disable_threadsignal
-// __pthread_markcancel
-// __pthread_canceled
-// __semwait_signal
-// Proc_info
-// Stat64_extended
-// Lstat64_extended
-// Fstat64_extended
-// __pthread_chdir
-// __pthread_fchdir
-// Audit
-// Auditon
-// Getauid
-// Setauid
-// Getaudit
-// Setaudit
-// Getaudit_addr
-// Setaudit_addr
-// Auditctl
-// Bsdthread_create
-// Bsdthread_terminate
-// Stack_snapshot
-// Bsdthread_register
-// Workq_open
-// Workq_ops
-// __mac_execve
-// __mac_syscall
-// __mac_get_file
-// __mac_set_file
-// __mac_get_link
-// __mac_set_link
-// __mac_get_proc
-// __mac_set_proc
-// __mac_get_fd
-// __mac_set_fd
-// __mac_get_pid
-// __mac_get_lcid
-// __mac_get_lctx
-// __mac_set_lctx
-// Setlcid
-// Read_nocancel
-// Write_nocancel
-// Open_nocancel
-// Close_nocancel
-// Wait4_nocancel
-// Recvmsg_nocancel
-// Sendmsg_nocancel
-// Recvfrom_nocancel
-// Accept_nocancel
-// Msync_nocancel
-// Fcntl_nocancel
-// Select_nocancel
-// Fsync_nocancel
-// Connect_nocancel
-// Sigsuspend_nocancel
-// Readv_nocancel
-// Writev_nocancel
-// Sendto_nocancel
-// Pread_nocancel
-// Pwrite_nocancel
-// Waitid_nocancel
-// Poll_nocancel
-// Msgsnd_nocancel
-// Msgrcv_nocancel
-// Sem_wait_nocancel
-// Aio_suspend_nocancel
-// __sigwait_nocancel
-// __semwait_signal_nocancel
-// __mac_mount
-// __mac_get_mount
-// __mac_getfsstat
+//sys	utimensat(dirfd int, path string, times *[2]Timespec, flag int) (err error)
+//sys	getcwd(buf []byte) (n int, err error) = SYS___GETCWD
+//sys	sysctl(mib []_C_int, old *byte, oldlen *uintptr, new *byte, newlen uintptr) (err error) = SYS___SYSCTL

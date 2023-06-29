@@ -6,6 +6,11 @@
 
 package cipher
 
+import (
+	"crypto/internal/alias"
+	"crypto/subtle"
+)
+
 type cfb struct {
 	b       Block
 	next    []byte
@@ -16,6 +21,12 @@ type cfb struct {
 }
 
 func (x *cfb) XORKeyStream(dst, src []byte) {
+	if len(dst) < len(src) {
+		panic("crypto/cipher: output smaller than input")
+	}
+	if alias.InexactOverlap(dst[:len(src)], src) {
+		panic("crypto/cipher: invalid buffer overlap")
+	}
 	for len(src) > 0 {
 		if x.outUsed == len(x.out) {
 			x.b.Encrypt(x.out, x.next)
@@ -29,7 +40,7 @@ func (x *cfb) XORKeyStream(dst, src []byte) {
 			// able to match CTR/OFB performance.
 			copy(x.next[x.outUsed:], src)
 		}
-		n := xorBytes(dst, src, x.out[x.outUsed:])
+		n := subtle.XORBytes(dst, src, x.out[x.outUsed:])
 		if !x.decrypt {
 			copy(x.next[x.outUsed:], dst)
 		}

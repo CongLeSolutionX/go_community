@@ -8,7 +8,6 @@ package cgi
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
 	"io"
 	"net"
@@ -62,12 +61,12 @@ readlines:
 		}
 		linesRead++
 		trimmedLine := strings.TrimRight(line, "\r\n")
-		split := strings.SplitN(trimmedLine, "=", 2)
-		if len(split) != 2 {
-			t.Fatalf("Unexpected %d parts from invalid line number %v: %q; existing map=%v",
-				len(split), linesRead, line, m)
+		k, v, ok := strings.Cut(trimmedLine, "=")
+		if !ok {
+			t.Fatalf("Unexpected response from invalid line number %v: %q; existing map=%v",
+				linesRead, line, m)
 		}
-		m[split[0]] = split[1]
+		m[k] = v
 	}
 
 	for key, expected := range expectedMap {
@@ -114,7 +113,7 @@ func TestCGIBasicGet(t *testing.T) {
 		"param-a":               "b",
 		"param-foo":             "bar",
 		"env-GATEWAY_INTERFACE": "CGI/1.1",
-		"env-HTTP_HOST":         "example.com",
+		"env-HTTP_HOST":         "example.com:80",
 		"env-PATH_INFO":         "",
 		"env-QUERY_STRING":      "foo=bar&a=b",
 		"env-REMOTE_ADDR":       "1.2.3.4",
@@ -128,7 +127,7 @@ func TestCGIBasicGet(t *testing.T) {
 		"env-SERVER_PORT":       "80",
 		"env-SERVER_SOFTWARE":   "go",
 	}
-	replay := runCgiTest(t, h, "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
+	replay := runCgiTest(t, h, "GET /test.cgi?foo=bar&a=b HTTP/1.0\nHost: example.com:80\n\n", expectedMap)
 
 	if expected, got := "text/html", replay.Header().Get("Content-Type"); got != expected {
 		t.Errorf("got a Content-Type of %q; expected %q", got, expected)
@@ -409,7 +408,7 @@ func TestCopyError(t *testing.T) {
 	}
 
 	childRunning := func() bool {
-		return isProcessRunning(t, pid)
+		return isProcessRunning(pid)
 	}
 
 	if !childRunning() {
@@ -455,6 +454,23 @@ func TestDirUnix(t *testing.T) {
 	runCgiTest(t, h, "GET /test.cgi HTTP/1.0\nHost: example.com\n\n", expectedMap)
 }
 
+func findPerl(t *testing.T) string {
+	t.Helper()
+	perl, err := exec.LookPath("perl")
+	if err != nil {
+		t.Skip("Skipping test: perl not found.")
+	}
+	perl, _ = filepath.Abs(perl)
+
+	cmd := exec.Command(perl, "-e", "print 123")
+	cmd.Env = []string{"PATH=/garbage"}
+	out, err := cmd.Output()
+	if err != nil || string(out) != "123" {
+		t.Skipf("Skipping test: %s is not functional", perl)
+	}
+	return perl
+}
+
 func TestDirWindows(t *testing.T) {
 	if runtime.GOOS != "windows" {
 		t.Skip("Skipping windows specific test.")
@@ -462,13 +478,7 @@ func TestDirWindows(t *testing.T) {
 
 	cgifile, _ := filepath.Abs("testdata/test.cgi")
 
-	var perl string
-	var err error
-	perl, err = exec.LookPath("perl")
-	if err != nil {
-		t.Skip("Skipping test: perl not found.")
-	}
-	perl, _ = filepath.Abs(perl)
+	perl := findPerl(t)
 
 	cwd, _ := os.Getwd()
 	h := &Handler{
@@ -502,15 +512,10 @@ func TestDirWindows(t *testing.T) {
 }
 
 func TestEnvOverride(t *testing.T) {
+	check(t)
 	cgifile, _ := filepath.Abs("testdata/test.cgi")
 
-	var perl string
-	var err error
-	perl, err = exec.LookPath("perl")
-	if err != nil {
-		t.Skipf("Skipping test: perl not found.")
-	}
-	perl, _ = filepath.Abs(perl)
+	perl := findPerl(t)
 
 	cwd, _ := os.Getwd()
 	h := &Handler{
@@ -524,7 +529,7 @@ func TestEnvOverride(t *testing.T) {
 			"PATH=/wibble"},
 	}
 	expectedMap := map[string]string{
-		"cwd": cwd,
+		"cwd":                 cwd,
 		"env-SCRIPT_FILENAME": cgifile,
 		"env-REQUEST_URI":     "/foo/bar",
 		"env-PATH":            "/wibble",
@@ -534,7 +539,7 @@ func TestEnvOverride(t *testing.T) {
 
 func TestHandlerStderr(t *testing.T) {
 	check(t)
-	var stderr bytes.Buffer
+	var stderr strings.Builder
 	h := &Handler{
 		Path:   "testdata/test.cgi",
 		Root:   "/test.cgi",

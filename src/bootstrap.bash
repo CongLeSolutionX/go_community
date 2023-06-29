@@ -14,12 +14,21 @@
 #
 # Only changes that have been committed to Git (at least locally,
 # not necessary reviewed and submitted to master) are included in the tree.
+#
+# See also golang.org/x/build/cmd/genbootstrap, which is used
+# to generate bootstrap tgz files for builders.
 
 set -e
 
 if [ "$GOOS" = "" -o "$GOARCH" = "" ]; then
-	echo "usage: GOOS=os GOARCH=arch ./bootstrap.bash" >&2
+	echo "usage: GOOS=os GOARCH=arch ./bootstrap.bash [-force]" >&2
 	exit 2
+fi
+
+forceflag=""
+if [ "$1" = "-force" ]; then
+	forceflag=-force
+	shift
 fi
 
 targ="../../go-${GOOS}-${GOARCH}-bootstrap"
@@ -31,10 +40,11 @@ fi
 unset GOROOT
 src=$(cd .. && pwd)
 echo "#### Copying to $targ"
-cp -R "$src" "$targ"
+cp -Rp "$src" "$targ"
 cd "$targ"
 echo
 echo "#### Cleaning $targ"
+chmod -R +w .
 rm -f .gitignore
 if [ -e .git ]; then
 	git clean -f -d
@@ -43,7 +53,7 @@ echo
 echo "#### Building $targ"
 echo
 cd src
-./make.bash --no-banner
+./make.bash --no-banner $forceflag
 gohostos="$(../bin/go env GOHOSTOS)"
 gohostarch="$(../bin/go env GOHOSTARCH)"
 goos="$(../bin/go env GOOS)"
@@ -58,10 +68,12 @@ if [ "$goos" = "$gohostos" -a "$goarch" = "$gohostarch" ]; then
 	# prepare a clean toolchain for others.
 	true
 else
+	rm -f bin/go_${goos}_${goarch}_exec
 	mv bin/*_*/* bin
 	rmdir bin/*_*
 	rm -rf "pkg/${gohostos}_${gohostarch}" "pkg/tool/${gohostos}_${gohostarch}"
 fi
+
 rm -rf pkg/bootstrap pkg/obj .git
 
 echo ----

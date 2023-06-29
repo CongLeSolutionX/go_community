@@ -19,7 +19,7 @@ type serializedFileSet struct {
 }
 
 // Read calls decode to deserialize a file set into s; s must not be nil.
-func (s *FileSet) Read(decode func(interface{}) error) error {
+func (s *FileSet) Read(decode func(any) error) error {
 	var ss serializedFileSet
 	if err := decode(&ss); err != nil {
 		return err
@@ -30,24 +30,38 @@ func (s *FileSet) Read(decode func(interface{}) error) error {
 	files := make([]*File, len(ss.Files))
 	for i := 0; i < len(ss.Files); i++ {
 		f := &ss.Files[i]
-		files[i] = &File{s, f.Name, f.Base, f.Size, f.Lines, f.Infos}
+		files[i] = &File{
+			name:  f.Name,
+			base:  f.Base,
+			size:  f.Size,
+			lines: f.Lines,
+			infos: f.Infos,
+		}
 	}
 	s.files = files
-	s.last = nil
+	s.last.Store(nil)
 	s.mutex.Unlock()
 
 	return nil
 }
 
 // Write calls encode to serialize the file set s.
-func (s *FileSet) Write(encode func(interface{}) error) error {
+func (s *FileSet) Write(encode func(any) error) error {
 	var ss serializedFileSet
 
 	s.mutex.Lock()
 	ss.Base = s.base
 	files := make([]serializedFile, len(s.files))
 	for i, f := range s.files {
-		files[i] = serializedFile{f.name, f.base, f.size, f.lines, f.infos}
+		f.mutex.Lock()
+		files[i] = serializedFile{
+			Name:  f.name,
+			Base:  f.base,
+			Size:  f.size,
+			Lines: append([]int(nil), f.lines...),
+			Infos: append([]lineInfo(nil), f.infos...),
+		}
+		f.mutex.Unlock()
 	}
 	ss.Files = files
 	s.mutex.Unlock()

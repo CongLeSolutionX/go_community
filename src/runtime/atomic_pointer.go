@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"unsafe"
 )
@@ -13,24 +14,53 @@ import (
 // because while ptr does not escape, new does.
 // If new is marked as not escaping, the compiler will make incorrect
 // escape analysis decisions about the pointer value being stored.
-// Instead, these are wrappers around the actual atomics (casp1 and so on)
-// that use noescape to convey which arguments do not escape.
+
+// atomicwb performs a write barrier before an atomic pointer write.
+// The caller should guard the call with "if writeBarrier.enabled".
+//
+//go:nosplit
+func atomicwb(ptr *unsafe.Pointer, new unsafe.Pointer) {
+	slot := (*uintptr)(unsafe.Pointer(ptr))
+	buf := getg().m.p.ptr().wbBuf.get2()
+	buf[0] = *slot
+	buf[1] = uintptr(new)
+}
 
 // atomicstorep performs *ptr = new atomically and invokes a write barrier.
 //
 //go:nosplit
 func atomicstorep(ptr unsafe.Pointer, new unsafe.Pointer) {
-	writebarrierptr_prewrite((*uintptr)(ptr), uintptr(new))
+	if writeBarrier.enabled {
+		atomicwb((*unsafe.Pointer)(ptr), new)
+	}
+	if goexperiment.CgoCheck2 {
+		cgoCheckPtrWrite((*unsafe.Pointer)(ptr), new)
+	}
 	atomic.StorepNoWB(noescape(ptr), new)
 }
 
+// atomic_storePointer is the implementation of runtime/internal/UnsafePointer.Store
+// (like StoreNoWB but with the write barrier).
+//
 //go:nosplit
-func casp(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
-	// The write barrier is only necessary if the CAS succeeds,
-	// but since it needs to happen before the write becomes
-	// public, we have to do it conservatively all the time.
-	writebarrierptr_prewrite((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
-	return atomic.Casp1((*unsafe.Pointer)(noescape(unsafe.Pointer(ptr))), noescape(old), new)
+//go:linkname atomic_storePointer runtime/internal/atomic.storePointer
+func atomic_storePointer(ptr *unsafe.Pointer, new unsafe.Pointer) {
+	atomicstorep(unsafe.Pointer(ptr), new)
+}
+
+// atomic_casPointer is the implementation of runtime/internal/UnsafePointer.CompareAndSwap
+// (like CompareAndSwapNoWB but with the write barrier).
+//
+//go:nosplit
+//go:linkname atomic_casPointer runtime/internal/atomic.casPointer
+func atomic_casPointer(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
+	if writeBarrier.enabled {
+		atomicwb(ptr, new)
+	}
+	if goexperiment.CgoCheck2 {
+		cgoCheckPtrWrite(ptr, new)
+	}
+	return atomic.Casp1(ptr, old, new)
 }
 
 // Like above, but implement in terms of sync/atomic's uintptr operations.
@@ -43,7 +73,12 @@ func sync_atomic_StoreUintptr(ptr *uintptr, new uintptr)
 //go:linkname sync_atomic_StorePointer sync/atomic.StorePointer
 //go:nosplit
 func sync_atomic_StorePointer(ptr *unsafe.Pointer, new unsafe.Pointer) {
-	writebarrierptr_prewrite((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
+	if writeBarrier.enabled {
+		atomicwb(ptr, new)
+	}
+	if goexperiment.CgoCheck2 {
+		cgoCheckPtrWrite(ptr, new)
+	}
 	sync_atomic_StoreUintptr((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 }
 
@@ -53,7 +88,12 @@ func sync_atomic_SwapUintptr(ptr *uintptr, new uintptr) uintptr
 //go:linkname sync_atomic_SwapPointer sync/atomic.SwapPointer
 //go:nosplit
 func sync_atomic_SwapPointer(ptr *unsafe.Pointer, new unsafe.Pointer) unsafe.Pointer {
-	writebarrierptr_prewrite((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
+	if writeBarrier.enabled {
+		atomicwb(ptr, new)
+	}
+	if goexperiment.CgoCheck2 {
+		cgoCheckPtrWrite(ptr, new)
+	}
 	old := unsafe.Pointer(sync_atomic_SwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(new)))
 	return old
 }
@@ -64,6 +104,11 @@ func sync_atomic_CompareAndSwapUintptr(ptr *uintptr, old, new uintptr) bool
 //go:linkname sync_atomic_CompareAndSwapPointer sync/atomic.CompareAndSwapPointer
 //go:nosplit
 func sync_atomic_CompareAndSwapPointer(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
-	writebarrierptr_prewrite((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
+	if writeBarrier.enabled {
+		atomicwb(ptr, new)
+	}
+	if goexperiment.CgoCheck2 {
+		cgoCheckPtrWrite(ptr, new)
+	}
 	return sync_atomic_CompareAndSwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(old), uintptr(new))
 }

@@ -1,5 +1,5 @@
 // Inferno utils/5l/asm.c
-// https://bitbucket.org/inferno-os/inferno-os/src/default/utils/5l/asm.c
+// https://bitbucket.org/inferno-os/inferno-os/src/master/utils/5l/asm.c
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //	Portions Copyright © 1995-1997 C H Forsyth (forsyth@terzarima.net)
@@ -31,161 +31,125 @@
 package mips
 
 import (
-	"cmd/internal/obj"
+	"cmd/internal/objabi"
+	"cmd/internal/sys"
 	"cmd/link/internal/ld"
-	"fmt"
-	"log"
+	"cmd/link/internal/loader"
+	"cmd/link/internal/sym"
+	"debug/elf"
 )
 
-func gentext(ctxt *ld.Link) {
+func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 	return
 }
 
-func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
-	log.Fatalf("adddynrel not implemented")
+func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, ri int, sectoff int64) bool {
+	out.Write32(uint32(sectoff))
+
+	elfsym := ld.ElfSymForReloc(ctxt, r.Xsym)
+	switch r.Type {
+	default:
+		return false
+	case objabi.R_ADDR, objabi.R_DWARFSECREF:
+		if r.Size != 4 {
+			return false
+		}
+		out.Write32(uint32(elf.R_MIPS_32) | uint32(elfsym)<<8)
+	case objabi.R_ADDRMIPS:
+		out.Write32(uint32(elf.R_MIPS_LO16) | uint32(elfsym)<<8)
+	case objabi.R_ADDRMIPSU:
+		out.Write32(uint32(elf.R_MIPS_HI16) | uint32(elfsym)<<8)
+	case objabi.R_ADDRMIPSTLS:
+		out.Write32(uint32(elf.R_MIPS_TLS_TPREL_LO16) | uint32(elfsym)<<8)
+	case objabi.R_CALLMIPS, objabi.R_JMPMIPS:
+		out.Write32(uint32(elf.R_MIPS_26) | uint32(elfsym)<<8)
+	}
+
+	return true
+}
+
+func elfsetupplt(ctxt *ld.Link, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym) {
+	return
+}
+
+func machoreloc1(*sys.Arch, *ld.OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool {
 	return false
 }
 
-func elfreloc1(ctxt *ld.Link, r *ld.Reloc, sectoff int64) int {
-	return -1
-}
-
-func elfsetupplt(ctxt *ld.Link) {
-	return
-}
-
-func machoreloc1(s *ld.Symbol, r *ld.Reloc, sectoff int64) int {
-	return -1
-}
-
-func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
-	if ld.Linkmode == ld.LinkExternal {
-		return -1
-	}
-
-	switch r.Type {
-	case obj.R_CONST:
-		*val = r.Add
-		return 0
-
-	case obj.R_GOTOFF:
-		*val = ld.Symaddr(r.Sym) + r.Add - ld.Symaddr(ctxt.Syms.Lookup(".got", 0))
-		return 0
-
-	case obj.R_ADDRMIPS,
-		obj.R_ADDRMIPSU:
-		t := ld.Symaddr(r.Sym) + r.Add
-		o1 := ld.SysArch.ByteOrder.Uint32(s.P[r.Off:])
-		if r.Type == obj.R_ADDRMIPS {
-			*val = int64(o1&0xffff0000 | uint32(t)&0xffff)
-		} else {
-			*val = int64(o1&0xffff0000 | uint32((t+1<<15)>>16)&0xffff)
-		}
-		return 0
-
-	case obj.R_CALLMIPS,
-		obj.R_JMPMIPS:
-		// Low 26 bits = (S + A) >> 2
-		t := ld.Symaddr(r.Sym) + r.Add
-		o1 := ld.SysArch.ByteOrder.Uint32(s.P[r.Off:])
-		*val = int64(o1&0xfc000000 | uint32(t>>2)&^0xfc000000)
-		return 0
-	}
-
-	return -1
-}
-
-func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64) int64 {
-	return -1
-}
-
-func asmb(ctxt *ld.Link) {
-	if ctxt.Debugvlog != 0 {
-		ctxt.Logf("%5.2f asmb\n", obj.Cputime())
-	}
-
-	if ld.Iself {
-		ld.Asmbelfsetup()
-	}
-
-	sect := ld.Segtext.Sect
-	ld.Cseek(int64(sect.Vaddr - ld.Segtext.Vaddr + ld.Segtext.Fileoff))
-	ld.Codeblk(ctxt, int64(sect.Vaddr), int64(sect.Length))
-	for sect = sect.Next; sect != nil; sect = sect.Next {
-		ld.Cseek(int64(sect.Vaddr - ld.Segtext.Vaddr + ld.Segtext.Fileoff))
-		ld.Datblk(ctxt, int64(sect.Vaddr), int64(sect.Length))
-	}
-
-	if ld.Segrodata.Filelen > 0 {
-		if ctxt.Debugvlog != 0 {
-			ctxt.Logf("%5.2f rodatblk\n", obj.Cputime())
-		}
-
-		ld.Cseek(int64(ld.Segrodata.Fileoff))
-		ld.Datblk(ctxt, int64(ld.Segrodata.Vaddr), int64(ld.Segrodata.Filelen))
-	}
-
-	if ctxt.Debugvlog != 0 {
-		ctxt.Logf("%5.2f datblk\n", obj.Cputime())
-	}
-
-	ld.Cseek(int64(ld.Segdata.Fileoff))
-	ld.Datblk(ctxt, int64(ld.Segdata.Vaddr), int64(ld.Segdata.Filelen))
-
-	ld.Cseek(int64(ld.Segdwarf.Fileoff))
-	ld.Dwarfblk(ctxt, int64(ld.Segdwarf.Vaddr), int64(ld.Segdwarf.Filelen))
-
-	/* output symbol table */
-	ld.Symsize = 0
-
-	ld.Lcsize = 0
-	symo := uint32(0)
-	if !*ld.FlagS {
-		if !ld.Iself {
-			ld.Errorf(nil, "unsupported executable format")
-		}
-		if ctxt.Debugvlog != 0 {
-			ctxt.Logf("%5.2f sym\n", obj.Cputime())
-		}
-		symo = uint32(ld.Segdwarf.Fileoff + ld.Segdwarf.Filelen)
-		symo = uint32(ld.Rnd(int64(symo), int64(*ld.FlagRound)))
-
-		ld.Cseek(int64(symo))
-		if ctxt.Debugvlog != 0 {
-			ctxt.Logf("%5.2f elfsym\n", obj.Cputime())
-		}
-		ld.Asmelfsym(ctxt)
-		ld.Cflush()
-		ld.Cwrite(ld.Elfstrdat)
-
-		if ctxt.Debugvlog != 0 {
-			ctxt.Logf("%5.2f dwarf\n", obj.Cputime())
-		}
-
-		if ld.Linkmode == ld.LinkExternal {
-			ld.Elfemitreloc(ctxt)
-		}
-	}
-
-	if ctxt.Debugvlog != 0 {
-		ctxt.Logf("%5.2f header\n", obj.Cputime())
-	}
-
-	ld.Cseek(0)
-	switch ld.Headtype {
+func applyrel(arch *sys.Arch, ldr *loader.Loader, rt objabi.RelocType, off int32, s loader.Sym, val int64, t int64) int64 {
+	o := uint32(val)
+	switch rt {
+	case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSTLS:
+		return int64(o&0xffff0000 | uint32(t)&0xffff)
+	case objabi.R_ADDRMIPSU:
+		return int64(o&0xffff0000 | uint32((t+(1<<15))>>16)&0xffff)
+	case objabi.R_CALLMIPS, objabi.R_JMPMIPS:
+		return int64(o&0xfc000000 | uint32(t>>2)&^0xfc000000)
 	default:
-		ld.Errorf(nil, "unsupported operating system")
-	case obj.Hlinux:
-		ld.Asmbelf(ctxt, int64(symo))
+		return val
+	}
+}
+
+func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s loader.Sym, val int64) (o int64, nExtReloc int, ok bool) {
+	rs := r.Sym()
+	if target.IsExternal() {
+		switch r.Type() {
+		default:
+			return val, 0, false
+
+		case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSU:
+			// set up addend for eventual relocation via outer symbol.
+			_, off := ld.FoldSubSymbolOffset(ldr, rs)
+			xadd := r.Add() + off
+			return applyrel(target.Arch, ldr, r.Type(), r.Off(), s, val, xadd), 1, true
+
+		case objabi.R_ADDRMIPSTLS, objabi.R_CALLMIPS, objabi.R_JMPMIPS:
+			return applyrel(target.Arch, ldr, r.Type(), r.Off(), s, val, r.Add()), 1, true
+		}
 	}
 
-	ld.Cflush()
-	if *ld.FlagC {
-		fmt.Printf("textsize=%d\n", ld.Segtext.Filelen)
-		fmt.Printf("datsize=%d\n", ld.Segdata.Filelen)
-		fmt.Printf("bsssize=%d\n", ld.Segdata.Length-ld.Segdata.Filelen)
-		fmt.Printf("symsize=%d\n", ld.Symsize)
-		fmt.Printf("lcsize=%d\n", ld.Lcsize)
-		fmt.Printf("total=%d\n", ld.Segtext.Filelen+ld.Segdata.Length+uint64(ld.Symsize)+uint64(ld.Lcsize))
+	const isOk = true
+	const noExtReloc = 0
+	switch rt := r.Type(); rt {
+	case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSU:
+		t := ldr.SymValue(rs) + r.Add()
+		return applyrel(target.Arch, ldr, rt, r.Off(), s, val, t), noExtReloc, isOk
+	case objabi.R_CALLMIPS, objabi.R_JMPMIPS:
+		t := ldr.SymValue(rs) + r.Add()
+
+		if t&3 != 0 {
+			ldr.Errorf(s, "direct call is not aligned: %s %x", ldr.SymName(rs), t)
+		}
+
+		// check if target address is in the same 256 MB region as the next instruction
+		if (ldr.SymValue(s)+int64(r.Off())+4)&0xf0000000 != (t & 0xf0000000) {
+			ldr.Errorf(s, "direct call too far: %s %x", ldr.SymName(rs), t)
+		}
+
+		return applyrel(target.Arch, ldr, rt, r.Off(), s, val, t), noExtReloc, isOk
+	case objabi.R_ADDRMIPSTLS:
+		// thread pointer is at 0x7000 offset from the start of TLS data area
+		t := ldr.SymValue(rs) + r.Add() - 0x7000
+		if t < -32768 || t >= 32678 {
+			ldr.Errorf(s, "TLS offset out of range %d", t)
+		}
+		return applyrel(target.Arch, ldr, rt, r.Off(), s, val, t), noExtReloc, isOk
 	}
+
+	return val, 0, false
+}
+
+func archrelocvariant(*ld.Target, *loader.Loader, loader.Reloc, sym.RelocVariant, loader.Sym, int64, []byte) int64 {
+	return -1
+}
+
+func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sym) (loader.ExtReloc, bool) {
+	switch r.Type() {
+	case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSU:
+		return ld.ExtrelocViaOuterSym(ldr, r, s), true
+
+	case objabi.R_ADDRMIPSTLS, objabi.R_CALLMIPS, objabi.R_JMPMIPS:
+		return ld.ExtrelocSimple(ldr, r), true
+	}
+	return loader.ExtReloc{}, false
 }

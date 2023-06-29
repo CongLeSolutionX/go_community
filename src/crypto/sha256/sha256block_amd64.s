@@ -8,7 +8,7 @@
 //
 // The algorithm is detailed in FIPS 180-4:
 //
-//  http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
+//  https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
 
 // The avx2-version is described in an Intel White-Paper:
 // "Fast SHA-256 Implementations on Intel Architecture Processors"
@@ -179,7 +179,7 @@
 
 #define XFER  Y9
 
-#define BYTE_FLIP_MASK 	Y13 // mask to convert LE -> BE
+#define BYTE_FLIP_MASK	Y13 // mask to convert LE -> BE
 #define X_BYTE_FLIP_MASK X13
 
 #define NUM_BYTES DX
@@ -213,13 +213,11 @@
 #define XFER_SIZE 2*64*4
 #define INP_END_SIZE 8
 #define INP_SIZE 8
-#define TMP_SIZE 4
 
 #define _XFER 0
 #define _INP_END _XFER + XFER_SIZE
 #define _INP _INP_END + INP_END_SIZE
-#define _TMP _INP + INP_SIZE
-#define STACK_SIZE _TMP + TMP_SIZE
+#define STACK_SIZE _INP + INP_SIZE
 
 #define ROUND_AND_SCHED_N_0(disp, a, b, c, d, e, f, g, h, XDWORD0, XDWORD1, XDWORD2, XDWORD3) \
 	;                                     \ // #############################  RND N + 0 ############################//
@@ -234,14 +232,14 @@
 	RORXL    $13, a, T1;                  \ // T1 = a >> 13			// S0B
 	;                                     \
 	XORL     y1, y0;                      \ // y0 = (e>>25) ^ (e>>11)					// S1
-	XORL     g, y2;                       \ // y2 = f^g                              	// CH
+	XORL     g, y2;                       \ // y2 = f^g	// CH
 	VPADDD   XDWORD0, XTMP0, XTMP0;       \ // XTMP0 = W[-7] + W[-16]	// y1 = (e >> 6)	// S1
 	RORXL    $6, e, y1;                   \ // y1 = (e >> 6)						// S1
 	;                                     \
 	ANDL     e, y2;                       \ // y2 = (f^g)&e                         // CH
 	XORL     y1, y0;                      \ // y0 = (e>>25) ^ (e>>11) ^ (e>>6)		// S1
 	RORXL    $22, a, y1;                  \ // y1 = a >> 22							// S0A
-	ADDL     h, d;                        \ // d = k + w + h + d                     	// --
+	ADDL     h, d;                        \ // d = k + w + h + d	// --
 	;                                     \
 	ANDL     b, y3;                       \ // y3 = (a|c)&b							// MAJA
 	VPALIGNR $4, XDWORD0, XDWORD1, XTMP1; \ // XTMP1 = W[-15]
@@ -272,7 +270,7 @@
 	MOVL    a, y3;                       \ // y3 = a                       // MAJA
 	RORXL   $25, e, y0;                  \ // y0 = e >> 25					// S1A
 	RORXL   $11, e, y1;                  \ // y1 = e >> 11					// S1B
-	ADDL    (disp + 1*4)(SP)(SRND*1), h; \ // h = k + w + h         		// --
+	ADDL    (disp + 1*4)(SP)(SRND*1), h; \ // h = k + w + h		// --
 	ORL     c, y3;                       \ // y3 = a|c						// MAJA
 	;                                    \
 	VPSRLD  $3, XTMP1, XTMP4;            \ // XTMP4 = W[-15] >> 3
@@ -318,7 +316,7 @@
 	;                                    \
 	MOVL    a, y3;                       \ // y3 = a							// MAJA
 	RORXL   $25, e, y0;                  \ // y0 = e >> 25						// S1A
-	ADDL    (disp + 2*4)(SP)(SRND*1), h; \ // h = k + w + h        			// --
+	ADDL    (disp + 2*4)(SP)(SRND*1), h; \ // h = k + w + h			// --
 	;                                    \
 	VPSRLQ  $19, XTMP2, XTMP3;           \ // XTMP3 = W[-2] ror 19 {xBxA}
 	RORXL   $11, e, y1;                  \ // y1 = e >> 11						// S1B
@@ -341,10 +339,7 @@
 	VPXOR   XTMP2, XTMP4, XTMP4;         \ // XTMP4 = s1 {xBxA}
 	XORL    g, y2;                       \ // y2 = CH = ((f^g)&e)^g			// CH
 	;                                    \
-	MOVL    f, _TMP(SP);                 \
-	MOVQ    $shuff_00BA<>(SB), f;        \ // f is used to keep SHUF_00BA
-	VPSHUFB (f), XTMP4, XTMP4;           \ // XTMP4 = s1 {00BA}
-	MOVL    _TMP(SP), f;                 \ // f is restored
+	VPSHUFB shuff_00BA<>(SB), XTMP4, XTMP4;\ // XTMP4 = s1 {00BA}
 	;                                    \
 	XORL    T1, y1;                      \ // y1 = (a>>22) ^ (a>>13)		// S0
 	RORXL   $2, a, T1;                   \ // T1 = (a >> 2)				// S0
@@ -398,10 +393,7 @@
 	;                                    \
 	RORXL   $2, a, T1;                   \ // T1 = (a >> 2)				// S0
 	;                                    \
-	MOVL    f, _TMP(SP);                 \ // Save f
-	MOVQ    $shuff_DC00<>(SB), f;        \ // SHUF_00DC
-	VPSHUFB (f), XTMP5, XTMP5;           \ // XTMP5 = s1 {DC00}
-	MOVL    _TMP(SP), f;                 \ // Restore f
+	VPSHUFB shuff_DC00<>(SB), XTMP5, XTMP5;\ // XTMP5 = s1 {DC00}
 	;                                    \
 	VPADDD  XTMP0, XTMP5, XDWORD0;       \ // XDWORD0 = {W[3], W[2], W[1], W[0]}
 	XORL    T1, y1;                      \ // y1 = (a>>22) ^ (a>>13) ^ (a>>2)	// S0
@@ -503,7 +495,7 @@
 	;                                  \
 	XORL  T1, y1;                      \ // y1 = (a>>22) ^ (a>>13)				// S0
 	RORXL $2, a, T1;                   \ // T1 = (a >> 2)						// S0
-	ADDL  (disp + 2*4)(SP)(SRND*1), h; \ // h = k + w + h 	// --
+	ADDL  (disp + 2*4)(SP)(SRND*1), h; \ // h = k + w + h	// --
 	ORL   c, y3;                       \ // y3 = a|c								// MAJA
 	;                                  \
 	XORL  T1, y1;                      \ // y1 = (a>>22) ^ (a>>13) ^ (a>>2)		// S0
@@ -539,7 +531,7 @@
 	;                                  \
 	XORL  T1, y1;                      \ // y1 = (a>>22) ^ (a>>13)				// S0
 	RORXL $2, a, T1;                   \ // T1 = (a >> 2)						// S0
-	ADDL  (disp + 3*4)(SP)(SRND*1), h; \ // h = k + w + h 	// --
+	ADDL  (disp + 3*4)(SP)(SRND*1), h; \ // h = k + w + h	// --
 	ORL   c, y3;                       \ // y3 = a|c								// MAJA
 	;                                  \
 	XORL  T1, y1;                      \ // y1 = (a>>22) ^ (a>>13) ^ (a>>2)		// S0
@@ -558,9 +550,80 @@
 	;                                  \
 	ADDL  y3, h                        // h = t1 + S0 + MAJ					// --
 
+// Definitions for sha-ni version
+//
+// The sha-ni implementation uses Intel(R) SHA extensions SHA256RNDS2, SHA256MSG1, SHA256MSG2
+// It also reuses portions of the flip_mask (half) and K256 table (stride 32) from the avx2 version
+//
+// Reference
+// S. Gulley, et al, "New Instructions Supporting the Secure Hash
+// Algorithm on Intel® Architecture Processors", July 2013
+// https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sha-extensions.html
+//
+
+#define digestPtr	DI	// input/output, base pointer to digest hash vector H0, H1, ..., H7
+#define dataPtr		SI	// input, base pointer to first input data block
+#define numBytes	DX	// input, number of input bytes to be processed
+#define sha256Constants	AX	// round contents from K256 table, indexed by round number x 32
+#define msg		X0	// input data
+#define state0		X1	// round intermediates and outputs
+#define state1		X2
+#define m0		X3	// m0, m1,... m4 -- round message temps
+#define m1		X4
+#define m2		X5
+#define m3		X6
+#define m4		X7
+#define shufMask	X8	// input data endian conversion control mask
+#define abefSave	X9	// digest hash vector inter-block buffer abef
+#define cdghSave	X10	// digest hash vector inter-block buffer cdgh
+
+#define nop(m,a)		// nop instead of final SHA256MSG1 for first and last few rounds
+
+#define sha256msg1(m,a) \	// final SHA256MSG1 for middle rounds that require it
+	SHA256MSG1		m, a
+
+#define vmov(a,b) \		// msg copy for all but rounds 12-15
+	VMOVDQA		a, b
+
+#define vmovrev(a,b) \		// reverse copy for rounds 12-15
+	VMOVDQA		b, a
+
+// sha rounds 0 to 11
+// identical with the exception of the final msg op
+// which is replaced with a nop for rounds where it is not needed
+// refer to Gulley, et al for more information
+#define rounds0to11(m,a,c,sha256Msg1)				\
+	VMOVDQU			c*16(dataPtr), msg		\
+	PSHUFB			shufMask, msg			\
+	VMOVDQA			msg, m				\
+	PADDD			(c*32)(sha256Constants), msg	\
+	SHA256RNDS2		msg, state0, state1		\
+	PSHUFD			$0x0e, msg, msg			\
+	SHA256RNDS2		msg, state1, state0		\
+	sha256Msg1		(m,a)
+
+// sha rounds 12 to 59
+// identical with the exception of the final msg op
+// and the reverse copy(m,msg) in round 12 which is required
+// after the last data load
+// refer to Gulley, et al for more information
+#define rounds12to59(m,c,a,t,sha256Msg1,movop)			\
+	movop			(m,msg)				\
+	PADDD			(c*32)(sha256Constants), msg	\
+	SHA256RNDS2		msg, state0, state1		\
+	VMOVDQA			m, m4				\
+	PALIGNR			$4, a, m4			\
+	PADDD			m4, t				\
+	SHA256MSG2		m, t				\
+	PSHUFD			$0x0e, msg, msg			\
+	SHA256RNDS2		msg, state1, state0		\
+	sha256Msg1		(m,a)
+
 TEXT ·block(SB), 0, $536-32
-	CMPB runtime·support_avx2(SB), $1
-	JE   avx2
+	CMPB	·useSHA(SB), $1
+	JE	sha_ni
+	CMPB	·useAVX2(SB), $1
+	JE	avx2
 
 	MOVQ p_base+8(FP), SI
 	MOVQ p_len+16(FP), DX
@@ -704,8 +767,7 @@ avx2_loop0: // at each iteration works with one block (512 bit)
 	VMOVDQU (2*32)(INP), XTMP2
 	VMOVDQU (3*32)(INP), XTMP3
 
-	MOVQ    $flip_mask<>(SB), BP // BYTE_FLIP_MASK
-	VMOVDQU (BP), BYTE_FLIP_MASK
+	VMOVDQU flip_mask<>(SB), BYTE_FLIP_MASK
 
 	// Apply Byte Flip Mask: LE -> BE
 	VPSHUFB BYTE_FLIP_MASK, XTMP0, XTMP0
@@ -764,7 +826,7 @@ avx2_loop1: // for w0 - w47
 	JB   avx2_loop1
 
 avx2_loop2:
-	// w48 - w63 processed with no scheduliung (last 16 rounds)
+	// w48 - w63 processed with no scheduling (last 16 rounds)
 	VPADDD  0*32(TBL)(SRND*1), XDWORD0, XFER
 	VMOVDQU XFER, (_XFER + 0*32)(SP)(SRND*1)
 	DO_ROUND_N_0(_XFER + 0*32, a, b, c, d, e, f, g, h, h)
@@ -843,8 +905,7 @@ avx2_do_last_block:
 	VMOVDQU 32(INP), XWORD2
 	VMOVDQU 48(INP), XWORD3
 
-	MOVQ    $flip_mask<>(SB), BP
-	VMOVDQU (BP), X_BYTE_FLIP_MASK
+	VMOVDQU flip_mask<>(SB), BYTE_FLIP_MASK
 
 	VPSHUFB X_BYTE_FLIP_MASK, XWORD0, XWORD0
 	VPSHUFB X_BYTE_FLIP_MASK, XWORD1, XWORD1
@@ -870,6 +931,77 @@ avx2_only_one_block:
 
 done_hash:
 	VZEROUPPER
+	RET
+
+sha_ni:
+	MOVQ		dig+0(FP), digestPtr		// init digest hash vector H0, H1,..., H7 pointer
+	MOVQ		p_base+8(FP), dataPtr		// init input data base pointer
+	MOVQ		p_len+16(FP), numBytes		// get number of input bytes to hash
+	SHRQ		$6, numBytes			// force modulo 64 input buffer length
+	SHLQ		$6, numBytes
+	CMPQ		numBytes, $0			// exit early for zero-length input buffer
+	JEQ		done
+	ADDQ		dataPtr, numBytes		// point numBytes to end of input buffer
+	VMOVDQU		(0*16)(digestPtr), state0	// load initial hash values and reorder
+	VMOVDQU		(1*16)(digestPtr), state1	// DCBA, HGFE -> ABEF, CDGH
+	PSHUFD		$0xb1, state0, state0		// CDAB
+	PSHUFD		$0x1b, state1, state1		// EFGH
+	VMOVDQA		state0, m4
+	PALIGNR		$8, state1, state0		// ABEF
+	PBLENDW		$0xf0, m4, state1		// CDGH
+	VMOVDQA		flip_mask<>(SB), shufMask
+	LEAQ		K256<>(SB), sha256Constants
+
+roundLoop:
+	// save hash values for addition after rounds
+	VMOVDQA		state0, abefSave
+	VMOVDQA		state1, cdghSave
+
+	// do rounds 0-59
+	rounds0to11	(m0,-,0,nop)			// 0-3
+	rounds0to11	(m1,m0,1,sha256msg1)		// 4-7
+	rounds0to11	(m2,m1,2,sha256msg1)		// 8-11
+	VMOVDQU		(3*16)(dataPtr), msg
+	PSHUFB		shufMask, msg
+	rounds12to59	(m3,3,m2,m0,sha256msg1,vmovrev)	// 12-15
+	rounds12to59	(m0,4,m3,m1,sha256msg1,vmov)    // 16-19
+	rounds12to59	(m1,5,m0,m2,sha256msg1,vmov)    // 20-23
+	rounds12to59	(m2,6,m1,m3,sha256msg1,vmov)    // 24-27
+	rounds12to59	(m3,7,m2,m0,sha256msg1,vmov)    // 28-31
+	rounds12to59	(m0,8,m3,m1,sha256msg1,vmov)    // 32-35
+	rounds12to59	(m1,9,m0,m2,sha256msg1,vmov)    // 36-39
+	rounds12to59	(m2,10,m1,m3,sha256msg1,vmov)   // 40-43
+	rounds12to59	(m3,11,m2,m0,sha256msg1,vmov)   // 44-47
+	rounds12to59	(m0,12,m3,m1,sha256msg1,vmov)   // 48-51
+	rounds12to59	(m1,13,m0,m2,nop,vmov)          // 52-55
+	rounds12to59	(m2,14,m1,m3,nop,vmov)		// 56-59
+
+	// do rounds 60-63
+	VMOVDQA		m3, msg
+	PADDD		(15*32)(sha256Constants), msg
+	SHA256RNDS2	msg, state0, state1
+	PSHUFD		$0x0e, msg, msg
+	SHA256RNDS2	msg, state1, state0
+
+	// add current hash values with previously saved
+	PADDD		abefSave, state0
+	PADDD		cdghSave, state1
+
+	// advance data pointer; loop until buffer empty
+	ADDQ		$64, dataPtr
+	CMPQ		numBytes, dataPtr
+	JNE		roundLoop
+
+	// write hash values back in the correct order
+	PSHUFD		$0x1b, state0, state0		// FEBA
+	PSHUFD		$0xb1, state1, state1		// DCHG
+	VMOVDQA		state0, m4
+	PBLENDW		$0xf0, state1, state0		// DCBA
+	PALIGNR		$8, m4, state1			// HGFE
+	VMOVDQU		state0, (0*16)(digestPtr)
+	VMOVDQU		state1, (1*16)(digestPtr)
+
+done:
 	RET
 
 // shuffle byte order from LE to BE

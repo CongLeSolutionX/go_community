@@ -5,6 +5,7 @@
 package utf16_test
 
 import (
+	"internal/testenv"
 	"reflect"
 	"testing"
 	"unicode"
@@ -39,6 +40,18 @@ func TestEncode(t *testing.T) {
 		out := Encode(tt.in)
 		if !reflect.DeepEqual(out, tt.out) {
 			t.Errorf("Encode(%x) = %x; want %x", tt.in, out, tt.out)
+		}
+	}
+}
+
+func TestAppendRune(t *testing.T) {
+	for _, tt := range encodeTests {
+		var out []uint16
+		for _, u := range tt.in {
+			out = AppendRune(out, u)
+		}
+		if !reflect.DeepEqual(out, tt.out) {
+			t.Errorf("AppendRune(%x) = %x; want %x", tt.in, out, tt.out)
 		}
 	}
 }
@@ -91,6 +104,22 @@ var decodeTests = []decodeTest{
 	{[]uint16{0xdfff}, []rune{0xfffd}},
 }
 
+func TestAllocationsDecode(t *testing.T) {
+	testenv.SkipIfOptimizationOff(t)
+
+	for _, tt := range decodeTests {
+		allocs := testing.AllocsPerRun(10, func() {
+			out := Decode(tt.in)
+			if out == nil {
+				t.Errorf("Decode(%x) = nil", tt.in)
+			}
+		})
+		if allocs > 0 {
+			t.Errorf("Decode allocated %v times", allocs)
+		}
+	}
+}
+
 func TestDecode(t *testing.T) {
 	for _, tt := range decodeTests {
 		out := Decode(tt.in)
@@ -124,7 +153,7 @@ var surrogateTests = []struct {
 	r    rune
 	want bool
 }{
-	// from http://en.wikipedia.org/wiki/UTF-16
+	// from https://en.wikipedia.org/wiki/UTF-16
 	{'\u007A', false},     // LATIN SMALL LETTER Z
 	{'\u6C34', false},     // CJK UNIFIED IDEOGRAPH-6C34 (water)
 	{'\uFEFF', false},     // Byte Order Mark
@@ -190,6 +219,28 @@ func BenchmarkEncodeValidJapaneseChars(b *testing.B) {
 	data := []rune{'日', '本', '語'}
 	for i := 0; i < b.N; i++ {
 		Encode(data)
+	}
+}
+
+func BenchmarkAppendRuneValidASCII(b *testing.B) {
+	data := []rune{'h', 'e', 'l', 'l', 'o'}
+	a := make([]uint16, 0, len(data)*2)
+	for i := 0; i < b.N; i++ {
+		for _, u := range data {
+			a = AppendRune(a, u)
+		}
+		a = a[:0]
+	}
+}
+
+func BenchmarkAppendRuneValidJapaneseChars(b *testing.B) {
+	data := []rune{'日', '本', '語'}
+	a := make([]uint16, 0, len(data)*2)
+	for i := 0; i < b.N; i++ {
+		for _, u := range data {
+			a = AppendRune(a, u)
+		}
+		a = a[:0]
 	}
 }
 

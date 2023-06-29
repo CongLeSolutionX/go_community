@@ -11,6 +11,12 @@
 
 package cipher
 
+import (
+	"bytes"
+	"crypto/internal/alias"
+	"crypto/subtle"
+)
+
 type cbc struct {
 	b         Block
 	blockSize int
@@ -22,7 +28,7 @@ func newCBC(b Block, iv []byte) *cbc {
 	return &cbc{
 		b:         b,
 		blockSize: b.BlockSize(),
-		iv:        dup(iv),
+		iv:        bytes.Clone(iv),
 		tmp:       make([]byte, b.BlockSize()),
 	}
 }
@@ -50,6 +56,17 @@ func NewCBCEncrypter(b Block, iv []byte) BlockMode {
 	return (*cbcEncrypter)(newCBC(b, iv))
 }
 
+// newCBCGenericEncrypter returns a BlockMode which encrypts in cipher block chaining
+// mode, using the given Block. The length of iv must be the same as the
+// Block's block size. This always returns the generic non-asm encrypter for use
+// in fuzz testing.
+func newCBCGenericEncrypter(b Block, iv []byte) BlockMode {
+	if len(iv) != b.BlockSize() {
+		panic("cipher.NewCBCEncrypter: IV length must equal block size")
+	}
+	return (*cbcEncrypter)(newCBC(b, iv))
+}
+
 func (x *cbcEncrypter) BlockSize() int { return x.blockSize }
 
 func (x *cbcEncrypter) CryptBlocks(dst, src []byte) {
@@ -59,12 +76,15 @@ func (x *cbcEncrypter) CryptBlocks(dst, src []byte) {
 	if len(dst) < len(src) {
 		panic("crypto/cipher: output smaller than input")
 	}
+	if alias.InexactOverlap(dst[:len(src)], src) {
+		panic("crypto/cipher: invalid buffer overlap")
+	}
 
 	iv := x.iv
 
 	for len(src) > 0 {
 		// Write the xor to dst, then encrypt in place.
-		xorBytes(dst[:x.blockSize], src[:x.blockSize], iv)
+		subtle.XORBytes(dst[:x.blockSize], src[:x.blockSize], iv)
 		x.b.Encrypt(dst[:x.blockSize], dst[:x.blockSize])
 
 		// Move to the next block with this block as the next iv.
@@ -107,6 +127,17 @@ func NewCBCDecrypter(b Block, iv []byte) BlockMode {
 	return (*cbcDecrypter)(newCBC(b, iv))
 }
 
+// newCBCGenericDecrypter returns a BlockMode which encrypts in cipher block chaining
+// mode, using the given Block. The length of iv must be the same as the
+// Block's block size. This always returns the generic non-asm decrypter for use in
+// fuzz testing.
+func newCBCGenericDecrypter(b Block, iv []byte) BlockMode {
+	if len(iv) != b.BlockSize() {
+		panic("cipher.NewCBCDecrypter: IV length must equal block size")
+	}
+	return (*cbcDecrypter)(newCBC(b, iv))
+}
+
 func (x *cbcDecrypter) BlockSize() int { return x.blockSize }
 
 func (x *cbcDecrypter) CryptBlocks(dst, src []byte) {
@@ -115,6 +146,9 @@ func (x *cbcDecrypter) CryptBlocks(dst, src []byte) {
 	}
 	if len(dst) < len(src) {
 		panic("crypto/cipher: output smaller than input")
+	}
+	if alias.InexactOverlap(dst[:len(src)], src) {
+		panic("crypto/cipher: invalid buffer overlap")
 	}
 	if len(src) == 0 {
 		return
@@ -132,7 +166,7 @@ func (x *cbcDecrypter) CryptBlocks(dst, src []byte) {
 	// Loop over all but the first block.
 	for start > 0 {
 		x.b.Decrypt(dst[start:end], src[start:end])
-		xorBytes(dst[start:end], dst[start:end], src[prev:start])
+		subtle.XORBytes(dst[start:end], dst[start:end], src[prev:start])
 
 		end = start
 		start = prev
@@ -141,7 +175,7 @@ func (x *cbcDecrypter) CryptBlocks(dst, src []byte) {
 
 	// The first block is special because it uses the saved iv.
 	x.b.Decrypt(dst[start:end], src[start:end])
-	xorBytes(dst[start:end], dst[start:end], x.iv)
+	subtle.XORBytes(dst[start:end], dst[start:end], x.iv)
 
 	// Set the new iv to the first block we copied earlier.
 	x.iv, x.tmp = x.tmp, x.iv

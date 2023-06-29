@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build cgo
-// +build darwin dragonfly freebsd linux netbsd openbsd solaris
+//go:build unix
 
 #include "libcgo.h"
 
@@ -20,9 +19,9 @@ x_cgo_setenv(char **arg)
 
 /* Stub for calling unsetenv */
 void
-x_cgo_unsetenv(char *arg)
+x_cgo_unsetenv(char **arg)
 {
 	_cgo_tsan_acquire();
-	unsetenv(arg);
+	unsetenv(arg[0]);
 	_cgo_tsan_release();
 }

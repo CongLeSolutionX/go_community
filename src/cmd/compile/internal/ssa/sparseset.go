@@ -4,7 +4,7 @@
 
 package ssa
 
-// from http://research.swtch.com/sparse
+// from https://research.swtch.com/sparse
 // in turn, from Briggs and Torczon
 
 type sparseSet struct {
@@ -13,7 +13,7 @@ type sparseSet struct {
 }
 
 // newSparseSet returns a sparseSet that can represent
-// integers between 0 and n-1
+// integers between 0 and n-1.
 func newSparseSet(n int) *sparseSet {
 	return &sparseSet{dense: nil, sparse: make([]int32, n)}
 }

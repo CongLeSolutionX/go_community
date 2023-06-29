@@ -17,12 +17,11 @@
 // The package is sometimes only imported for the side effect of
 // registering its HTTP handler and the above variables. To use it
 // this way, link this package into your program:
-//	import _ "expvar"
 //
+//	import _ "expvar"
 package expvar
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -32,6 +31,7 @@ import (
 	"runtime"
 	"sort"
 	"strconv"
+	"strings"
 	"sync"
 	"sync/atomic"
 )
@@ -67,26 +67,26 @@ func (v *Int) Set(value int64) {
 
 // Float is a 64-bit float variable that satisfies the Var interface.
 type Float struct {
-	f uint64
+	f atomic.Uint64
 }
 
 func (v *Float) Value() float64 {
-	return math.Float64frombits(atomic.LoadUint64(&v.f))
+	return math.Float64frombits(v.f.Load())
 }
 
 func (v *Float) String() string {
 	return strconv.FormatFloat(
-		math.Float64frombits(atomic.LoadUint64(&v.f)), 'g', -1, 64)
+		math.Float64frombits(v.f.Load()), 'g', -1, 64)
 }
 
 // Add adds delta to v.
 func (v *Float) Add(delta float64) {
 	for {
-		cur := atomic.LoadUint64(&v.f)
+		cur := v.f.Load()
 		curVal := math.Float64frombits(cur)
 		nxtVal := curVal + delta
 		nxt := math.Float64bits(nxtVal)
-		if atomic.CompareAndSwapUint64(&v.f, cur, nxt) {
+		if v.f.CompareAndSwap(cur, nxt) {
 			return
 		}
 	}
@@ -94,14 +94,14 @@ func (v *Float) Add(delta float64) {
 
 // Set sets v to value.
 func (v *Float) Set(value float64) {
-	atomic.StoreUint64(&v.f, math.Float64bits(value))
+	v.f.Store(math.Float64bits(value))
 }
 
 // Map is a string-to-Var map variable that satisfies the Var interface.
 type Map struct {
-	mu   sync.RWMutex
-	m    map[string]Var
-	keys []string // sorted
+	m      sync.Map // map[string]Var
+	keysMu sync.RWMutex
+	keys   []string // sorted
 }
 
 // KeyValue represents a single entry in a Map.
@@ -111,96 +111,113 @@ type KeyValue struct {
 }
 
 func (v *Map) String() string {
-	v.mu.RLock()
-	defer v.mu.RUnlock()
-	var b bytes.Buffer
+	var b strings.Builder
 	fmt.Fprintf(&b, "{")
 	first := true
-	v.doLocked(func(kv KeyValue) {
+	v.Do(func(kv KeyValue) {
 		if !first {
 			fmt.Fprintf(&b, ", ")
 		}
-		fmt.Fprintf(&b, "%q: %v", kv.Key, kv.Value)
+		fmt.Fprintf(&b, "%q: ", kv.Key)
+		if kv.Value != nil {
+			fmt.Fprintf(&b, "%v", kv.Value)
+		} else {
+			fmt.Fprint(&b, "null")
+		}
 		first = false
 	})
 	fmt.Fprintf(&b, "}")
 	return b.String()
 }
 
+// Init removes all keys from the map.
 func (v *Map) Init() *Map {
-	v.m = make(map[string]Var)
+	v.keysMu.Lock()
+	defer v.keysMu.Unlock()
+	v.keys = v.keys[:0]
+	v.m.Range(func(k, _ any) bool {
+		v.m.Delete(k)
+		return true
+	})
 	return v
 }
 
-// updateKeys updates the sorted list of keys in v.keys.
-// must be called with v.mu held.
-func (v *Map) updateKeys() {
-	if len(v.m) == len(v.keys) {
-		// No new key.
-		return
+// addKey updates the sorted list of keys in v.keys.
+func (v *Map) addKey(key string) {
+	v.keysMu.Lock()
+	defer v.keysMu.Unlock()
+	// Using insertion sort to place key into the already-sorted v.keys.
+	if i := sort.SearchStrings(v.keys, key); i >= len(v.keys) {
+		v.keys = append(v.keys, key)
+	} else if v.keys[i] != key {
+		v.keys = append(v.keys, "")
+		copy(v.keys[i+1:], v.keys[i:])
+		v.keys[i] = key
 	}
-	v.keys = v.keys[:0]
-	for k := range v.m {
-		v.keys = append(v.keys, k)
-	}
-	sort.Strings(v.keys)
 }
 
 func (v *Map) Get(key string) Var {
-	v.mu.RLock()
-	defer v.mu.RUnlock()
-	return v.m[key]
+	i, _ := v.m.Load(key)
+	av, _ := i.(Var)
+	return av
 }
 
 func (v *Map) Set(key string, av Var) {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-	v.m[key] = av
-	v.updateKeys()
+	// Before we store the value, check to see whether the key is new. Try a Load
+	// before LoadOrStore: LoadOrStore causes the key interface to escape even on
+	// the Load path.
+	if _, ok := v.m.Load(key); !ok {
+		if _, dup := v.m.LoadOrStore(key, av); !dup {
+			v.addKey(key)
+			return
+		}
+	}
+
+	v.m.Store(key, av)
 }
 
+// Add adds delta to the *Int value stored under the given map key.
 func (v *Map) Add(key string, delta int64) {
-	v.mu.RLock()
-	av, ok := v.m[key]
-	v.mu.RUnlock()
+	i, ok := v.m.Load(key)
 	if !ok {
-		// check again under the write lock
-		v.mu.Lock()
-		av, ok = v.m[key]
-		if !ok {
-			av = new(Int)
-			v.m[key] = av
-			v.updateKeys()
+		var dup bool
+		i, dup = v.m.LoadOrStore(key, new(Int))
+		if !dup {
+			v.addKey(key)
 		}
-		v.mu.Unlock()
 	}
 
 	// Add to Int; ignore otherwise.
-	if iv, ok := av.(*Int); ok {
+	if iv, ok := i.(*Int); ok {
 		iv.Add(delta)
 	}
 }
 
 // AddFloat adds delta to the *Float value stored under the given map key.
 func (v *Map) AddFloat(key string, delta float64) {
-	v.mu.RLock()
-	av, ok := v.m[key]
-	v.mu.RUnlock()
+	i, ok := v.m.Load(key)
 	if !ok {
-		// check again under the write lock
-		v.mu.Lock()
-		av, ok = v.m[key]
-		if !ok {
-			av = new(Float)
-			v.m[key] = av
-			v.updateKeys()
+		var dup bool
+		i, dup = v.m.LoadOrStore(key, new(Float))
+		if !dup {
+			v.addKey(key)
 		}
-		v.mu.Unlock()
 	}
 
 	// Add to Float; ignore otherwise.
-	if iv, ok := av.(*Float); ok {
+	if iv, ok := i.(*Float); ok {
 		iv.Add(delta)
+	}
+}
+
+// Delete deletes the given key from the map.
+func (v *Map) Delete(key string) {
+	v.keysMu.Lock()
+	defer v.keysMu.Unlock()
+	i := sort.SearchStrings(v.keys, key)
+	if i < len(v.keys) && key == v.keys[i] {
+		v.keys = append(v.keys[:i], v.keys[i+1:]...)
+		v.m.Delete(key)
 	}
 }
 
@@ -208,52 +225,42 @@ func (v *Map) AddFloat(key string, delta float64) {
 // The map is locked during the iteration,
 // but existing entries may be concurrently updated.
 func (v *Map) Do(f func(KeyValue)) {
-	v.mu.RLock()
-	defer v.mu.RUnlock()
-	v.doLocked(f)
-}
-
-// doLocked calls f for each entry in the map.
-// v.mu must be held for reads.
-func (v *Map) doLocked(f func(KeyValue)) {
+	v.keysMu.RLock()
+	defer v.keysMu.RUnlock()
 	for _, k := range v.keys {
-		f(KeyValue{k, v.m[k]})
+		i, _ := v.m.Load(k)
+		val, _ := i.(Var)
+		f(KeyValue{k, val})
 	}
 }
 
 // String is a string variable, and satisfies the Var interface.
 type String struct {
-	mu sync.RWMutex
-	s  string
+	s atomic.Value // string
 }
 
 func (v *String) Value() string {
-	v.mu.RLock()
-	defer v.mu.RUnlock()
-	return v.s
+	p, _ := v.s.Load().(string)
+	return p
 }
 
-// String implements the Val interface. To get the unquoted string
+// String implements the Var interface. To get the unquoted string
 // use Value.
 func (v *String) String() string {
-	v.mu.RLock()
-	s := v.s
-	v.mu.RUnlock()
+	s := v.Value()
 	b, _ := json.Marshal(s)
 	return string(b)
 }
 
 func (v *String) Set(value string) {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-	v.s = value
+	v.s.Store(value)
 }
 
 // Func implements Var by calling the function
 // and formatting the returned value using JSON.
-type Func func() interface{}
+type Func func() any
 
-func (f Func) Value() interface{} {
+func (f Func) Value() any {
 	return f()
 }
 
@@ -264,21 +271,20 @@ func (f Func) String() string {
 
 // All published variables.
 var (
-	mutex   sync.RWMutex
-	vars    = make(map[string]Var)
-	varKeys []string // sorted
+	vars      sync.Map // map[string]Var
+	varKeysMu sync.RWMutex
+	varKeys   []string // sorted
 )
 
 // Publish declares a named exported variable. This should be called from a
 // package's init function when it creates its Vars. If the name is already
 // registered then this will log.Panic.
 func Publish(name string, v Var) {
-	mutex.Lock()
-	defer mutex.Unlock()
-	if _, existing := vars[name]; existing {
+	if _, dup := vars.LoadOrStore(name, v); dup {
 		log.Panicln("Reuse of exported var name:", name)
 	}
-	vars[name] = v
+	varKeysMu.Lock()
+	defer varKeysMu.Unlock()
 	varKeys = append(varKeys, name)
 	sort.Strings(varKeys)
 }
@@ -286,9 +292,9 @@ func Publish(name string, v Var) {
 // Get retrieves a named exported variable. It returns nil if the name has
 // not been registered.
 func Get(name string) Var {
-	mutex.RLock()
-	defer mutex.RUnlock()
-	return vars[name]
+	i, _ := vars.Load(name)
+	v, _ := i.(Var)
+	return v
 }
 
 // Convenience functions for creating new exported variables.
@@ -321,10 +327,11 @@ func NewString(name string) *String {
 // The global variable map is locked during the iteration,
 // but existing entries may be concurrently updated.
 func Do(f func(KeyValue)) {
-	mutex.RLock()
-	defer mutex.RUnlock()
+	varKeysMu.RLock()
+	defer varKeysMu.RUnlock()
 	for _, k := range varKeys {
-		f(KeyValue{k, vars[k]})
+		val, _ := vars.Load(k)
+		f(KeyValue{k, val.(Var)})
 	}
 }
 
@@ -349,11 +356,11 @@ func Handler() http.Handler {
 	return http.HandlerFunc(expvarHandler)
 }
 
-func cmdline() interface{} {
+func cmdline() any {
 	return os.Args
 }
 
-func memstats() interface{} {
+func memstats() any {
 	stats := new(runtime.MemStats)
 	runtime.ReadMemStats(stats)
 	return *stats

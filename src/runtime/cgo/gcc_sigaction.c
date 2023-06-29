@@ -2,13 +2,15 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build linux,amd64
+//go:build linux && (amd64 || arm64 || ppc64le)
 
 #include <errno.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 #include <signal.h>
+
+#include "libcgo.h"
 
 // go_sigaction_t is a C version of the sigactiont struct from
 // defs_linux_amd64.go.  This definition — and its conversion to and from struct
@@ -21,7 +23,7 @@ typedef struct {
 } go_sigaction_t;
 
 // SA_RESTORER is part of the kernel interface.
-// This is GNU/Linux i386/amd64 specific.
+// This is Linux i386/amd64 specific.
 #ifndef SA_RESTORER
 #define SA_RESTORER 0x4000000
 #endif
@@ -31,7 +33,9 @@ x_cgo_sigaction(intptr_t signum, const go_sigaction_t *goact, go_sigaction_t *ol
 	int32_t ret;
 	struct sigaction act;
 	struct sigaction oldact;
-	int i;
+	size_t i;
+
+	_cgo_tsan_acquire();
 
 	memset(&act, 0, sizeof act);
 	memset(&oldact, 0, sizeof oldact);
@@ -45,15 +49,16 @@ x_cgo_sigaction(intptr_t signum, const go_sigaction_t *goact, go_sigaction_t *ol
 		sigemptyset(&act.sa_mask);
 		for (i = 0; i < 8 * sizeof(goact->mask); i++) {
 			if (goact->mask & ((uint64_t)(1)<<i)) {
-				sigaddset(&act.sa_mask, i+1);
+				sigaddset(&act.sa_mask, (int)(i+1));
 			}
 		}
-		act.sa_flags = goact->flags & ~SA_RESTORER;
+		act.sa_flags = (int)(goact->flags & ~(uint64_t)SA_RESTORER);
 	}
 
-	ret = sigaction(signum, goact ? &act : NULL, oldgoact ? &oldact : NULL);
+	ret = sigaction((int)signum, goact ? &act : NULL, oldgoact ? &oldact : NULL);
 	if (ret == -1) {
-		/* This is what the Go code expects on failure. */
+		// runtime.rt_sigaction expects _cgo_sigaction to return errno on error.
+		_cgo_tsan_release();
 		return errno;
 	}
 
@@ -65,12 +70,13 @@ x_cgo_sigaction(intptr_t signum, const go_sigaction_t *goact, go_sigaction_t *ol
 		}
 		oldgoact->mask = 0;
 		for (i = 0; i < 8 * sizeof(oldgoact->mask); i++) {
-			if (sigismember(&act.sa_mask, i+1) == 1) {
+			if (sigismember(&oldact.sa_mask, (int)(i+1)) == 1) {
 				oldgoact->mask |= (uint64_t)(1)<<i;
 			}
 		}
-		oldgoact->flags = act.sa_flags;
+		oldgoact->flags = (uint64_t)oldact.sa_flags;
 	}
 
+	_cgo_tsan_release();
 	return ret;
 }

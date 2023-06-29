@@ -5,7 +5,6 @@
 package http
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -65,11 +64,27 @@ var writeSetCookiesTests = []struct {
 		&Cookie{Name: "cookie-11", Value: "invalid-expiry", Expires: time.Date(1600, 1, 1, 1, 1, 1, 1, time.UTC)},
 		"cookie-11=invalid-expiry",
 	},
+	{
+		&Cookie{Name: "cookie-12", Value: "samesite-default", SameSite: SameSiteDefaultMode},
+		"cookie-12=samesite-default",
+	},
+	{
+		&Cookie{Name: "cookie-13", Value: "samesite-lax", SameSite: SameSiteLaxMode},
+		"cookie-13=samesite-lax; SameSite=Lax",
+	},
+	{
+		&Cookie{Name: "cookie-14", Value: "samesite-strict", SameSite: SameSiteStrictMode},
+		"cookie-14=samesite-strict; SameSite=Strict",
+	},
+	{
+		&Cookie{Name: "cookie-15", Value: "samesite-none", SameSite: SameSiteNoneMode},
+		"cookie-15=samesite-none; SameSite=None",
+	},
 	// The "special" cookies have values containing commas or spaces which
 	// are disallowed by RFC 6265 but are common in the wild.
 	{
 		&Cookie{Name: "special-1", Value: "a z"},
-		`special-1=a z`,
+		`special-1="a z"`,
 	},
 	{
 		&Cookie{Name: "special-2", Value: " z"},
@@ -85,7 +100,7 @@ var writeSetCookiesTests = []struct {
 	},
 	{
 		&Cookie{Name: "special-5", Value: "a,z"},
-		`special-5=a,z`,
+		`special-5="a,z"`,
 	},
 	{
 		&Cookie{Name: "special-6", Value: ",z"},
@@ -115,11 +130,27 @@ var writeSetCookiesTests = []struct {
 		&Cookie{Name: "\t"},
 		``,
 	},
+	{
+		&Cookie{Name: "\r"},
+		``,
+	},
+	{
+		&Cookie{Name: "a\nb", Value: "v"},
+		``,
+	},
+	{
+		&Cookie{Name: "a\nb", Value: "v"},
+		``,
+	},
+	{
+		&Cookie{Name: "a\rb", Value: "v"},
+		``,
+	},
 }
 
 func TestWriteSetCookies(t *testing.T) {
 	defer log.SetOutput(os.Stderr)
-	var logbuf bytes.Buffer
+	var logbuf strings.Builder
 	log.SetOutput(&logbuf)
 
 	for i, tt := range writeSetCookiesTests {
@@ -241,6 +272,51 @@ var readSetCookiesTests = []struct {
 			Raw:      "ASP.NET_SessionId=foo; path=/; HttpOnly",
 		}},
 	},
+	{
+		Header{"Set-Cookie": {"samesitedefault=foo; SameSite"}},
+		[]*Cookie{{
+			Name:     "samesitedefault",
+			Value:    "foo",
+			SameSite: SameSiteDefaultMode,
+			Raw:      "samesitedefault=foo; SameSite",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"samesiteinvalidisdefault=foo; SameSite=invalid"}},
+		[]*Cookie{{
+			Name:     "samesiteinvalidisdefault",
+			Value:    "foo",
+			SameSite: SameSiteDefaultMode,
+			Raw:      "samesiteinvalidisdefault=foo; SameSite=invalid",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"samesitelax=foo; SameSite=Lax"}},
+		[]*Cookie{{
+			Name:     "samesitelax",
+			Value:    "foo",
+			SameSite: SameSiteLaxMode,
+			Raw:      "samesitelax=foo; SameSite=Lax",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"samesitestrict=foo; SameSite=Strict"}},
+		[]*Cookie{{
+			Name:     "samesitestrict",
+			Value:    "foo",
+			SameSite: SameSiteStrictMode,
+			Raw:      "samesitestrict=foo; SameSite=Strict",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"samesitenone=foo; SameSite=None"}},
+		[]*Cookie{{
+			Name:     "samesitenone",
+			Value:    "foo",
+			SameSite: SameSiteNoneMode,
+			Raw:      "samesitenone=foo; SameSite=None",
+		}},
+	},
 	// Make sure we can properly read back the Set-Cookie headers we create
 	// for values containing spaces or commas:
 	{
@@ -275,6 +351,12 @@ var readSetCookiesTests = []struct {
 		Header{"Set-Cookie": {`special-8=","`}},
 		[]*Cookie{{Name: "special-8", Value: ",", Raw: `special-8=","`}},
 	},
+	// Make sure we can properly read back the Set-Cookie headers
+	// for names containing spaces:
+	{
+		Header{"Set-Cookie": {`special-9 =","`}},
+		[]*Cookie{{Name: "special-9", Value: ",", Raw: `special-9 =","`}},
+	},
 
 	// TODO(bradfitz): users have reported seeing this in the
 	// wild, but do browsers handle it? RFC 6265 just says "don't
@@ -283,7 +365,7 @@ var readSetCookiesTests = []struct {
 	// Header{"Set-Cookie": {"ASP.NET_SessionId=foo; path=/; HttpOnly, .ASPXAUTH=7E3AA; expires=Wed, 07-Mar-2012 14:25:06 GMT; path=/; HttpOnly"}},
 }
 
-func toJSON(v interface{}) string {
+func toJSON(v any) string {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return fmt.Sprintf("%#v", v)
@@ -346,6 +428,19 @@ var readCookiesTests = []struct {
 			{Name: "c2", Value: "v2"},
 		},
 	},
+	{
+		Header{"Cookie": {`Cookie-1="v$1"; c2=v2;`}},
+		"",
+		[]*Cookie{
+			{Name: "Cookie-1", Value: "v$1"},
+			{Name: "c2", Value: "v2"},
+		},
+	},
+	{
+		Header{"Cookie": {``}},
+		"",
+		[]*Cookie{},
+	},
 }
 
 func TestReadCookies(t *testing.T) {
@@ -386,7 +481,7 @@ func TestSetCookieDoubleQuotes(t *testing.T) {
 
 func TestCookieSanitizeValue(t *testing.T) {
 	defer log.SetOutput(os.Stderr)
-	var logbuf bytes.Buffer
+	var logbuf strings.Builder
 	log.SetOutput(&logbuf)
 
 	tests := []struct {
@@ -398,9 +493,12 @@ func TestCookieSanitizeValue(t *testing.T) {
 		{"foo\"bar", "foobar"},
 		{"\x00\x7e\x7f\x80", "\x7e"},
 		{`"withquotes"`, "withquotes"},
-		{"a z", "a z"},
+		{"a z", `"a z"`},
 		{" z", `" z"`},
 		{"a ", `"a "`},
+		{"a,z", `"a,z"`},
+		{",z", `",z"`},
+		{"a,", `"a,"`},
 	}
 	for _, tt := range tests {
 		if got := sanitizeCookieValue(tt.in); got != tt.want {
@@ -415,7 +513,7 @@ func TestCookieSanitizeValue(t *testing.T) {
 
 func TestCookieSanitizePath(t *testing.T) {
 	defer log.SetOutput(os.Stderr)
-	var logbuf bytes.Buffer
+	var logbuf strings.Builder
 	log.SetOutput(&logbuf)
 
 	tests := []struct {
@@ -433,6 +531,34 @@ func TestCookieSanitizePath(t *testing.T) {
 
 	if got, sub := logbuf.String(), "dropping invalid bytes"; !strings.Contains(got, sub) {
 		t.Errorf("Expected substring %q in log output. Got:\n%s", sub, got)
+	}
+}
+
+func TestCookieValid(t *testing.T) {
+	tests := []struct {
+		cookie *Cookie
+		valid  bool
+	}{
+		{nil, false},
+		{&Cookie{Name: ""}, false},
+		{&Cookie{Name: "invalid-value", Value: "foo\"bar"}, false},
+		{&Cookie{Name: "invalid-path", Path: "/foo;bar/"}, false},
+		{&Cookie{Name: "invalid-domain", Domain: "example.com:80"}, false},
+		{&Cookie{Name: "invalid-expiry", Value: "", Expires: time.Date(1600, 1, 1, 1, 1, 1, 1, time.UTC)}, false},
+		{&Cookie{Name: "valid-empty"}, true},
+		{&Cookie{Name: "valid-expires", Value: "foo", Path: "/bar", Domain: "example.com", Expires: time.Unix(0, 0)}, true},
+		{&Cookie{Name: "valid-max-age", Value: "foo", Path: "/bar", Domain: "example.com", MaxAge: 60}, true},
+		{&Cookie{Name: "valid-all-fields", Value: "foo", Path: "/bar", Domain: "example.com", Expires: time.Unix(0, 0), MaxAge: 0}, true},
+	}
+
+	for _, tt := range tests {
+		err := tt.cookie.Valid()
+		if err != nil && tt.valid {
+			t.Errorf("%#v.Valid() returned error %v; want nil", tt.cookie, err)
+		}
+		if err == nil && !tt.valid {
+			t.Errorf("%#v.Valid() returned nil; want error", tt.cookie)
+		}
 	}
 }
 

@@ -5,72 +5,25 @@
 package amd64
 
 import (
-	"cmd/compile/internal/gc"
+	"cmd/compile/internal/ir"
+	"cmd/compile/internal/objw"
+	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/obj/x86"
+	"internal/buildcfg"
 )
 
 // no floating point in note handlers on Plan 9
-var isPlan9 = obj.GOOS == "plan9"
+var isPlan9 = buildcfg.GOOS == "plan9"
 
-func defframe(ptxt *obj.Prog) {
-	// fill in argument size, stack size
-	ptxt.To.Type = obj.TYPE_TEXTSIZE
-
-	ptxt.To.Val = int32(gc.Rnd(gc.Curfn.Type.ArgWidth(), int64(gc.Widthptr)))
-	frame := uint32(gc.Rnd(gc.Stksize+gc.Maxarg, int64(gc.Widthreg)))
-	ptxt.To.Offset = int64(frame)
-
-	// insert code to zero ambiguously live variables
-	// so that the garbage collector only sees initialized values
-	// when it looks for pointers.
-	p := ptxt
-
-	hi := int64(0)
-	lo := hi
-	ax := uint32(0)
-	x0 := uint32(0)
-
-	// iterate through declarations - they are sorted in decreasing xoffset order.
-	for _, n := range gc.Curfn.Func.Dcl {
-		if !n.Name.Needzero {
-			continue
-		}
-		if n.Class != gc.PAUTO {
-			gc.Fatalf("needzero class %d", n.Class)
-		}
-		if n.Type.Width%int64(gc.Widthptr) != 0 || n.Xoffset%int64(gc.Widthptr) != 0 || n.Type.Width == 0 {
-			gc.Fatalf("var %L has size %d offset %d", n, int(n.Type.Width), int(n.Xoffset))
-		}
-
-		if lo != hi && n.Xoffset+n.Type.Width >= lo-int64(2*gc.Widthreg) {
-			// merge with range we already have
-			lo = n.Xoffset
-
-			continue
-		}
-
-		// zero old range
-		p = zerorange(p, int64(frame), lo, hi, &ax, &x0)
-
-		// set new range
-		hi = n.Xoffset + n.Type.Width
-
-		lo = n.Xoffset
-	}
-
-	// zero final range
-	zerorange(p, int64(frame), lo, hi, &ax, &x0)
-}
-
-// DUFFZERO consists of repeated blocks of 4 MOVUPSs + ADD,
+// DUFFZERO consists of repeated blocks of 4 MOVUPSs + LEAQ,
 // See runtime/mkduff.go.
 const (
 	dzBlocks    = 16 // number of MOV/ADD blocks
 	dzBlockLen  = 4  // number of clears per block
-	dzBlockSize = 19 // size of instructions in a single block
-	dzMovSize   = 4  // size of single MOV instruction w/ offset
-	dzAddSize   = 4  // size of single ADD instruction
+	dzBlockSize = 23 // size of instructions in a single block
+	dzMovSize   = 5  // size of single MOV instruction w/ offset
+	dzLeaqSize  = 4  // size of single LEAQ instruction
 	dzClearStep = 16 // number of bytes cleared by each MOV instruction
 
 	dzClearLen = dzClearStep * dzBlockLen // bytes cleared by one block
@@ -84,7 +37,7 @@ func dzOff(b int64) int64 {
 	off -= b / dzClearLen * dzBlockSize
 	tailLen := b % dzClearLen
 	if tailLen >= dzClearStep {
-		off -= dzAddSize + dzMovSize*(tailLen/dzClearStep)
+		off -= dzLeaqSize + dzMovSize*(tailLen/dzClearStep)
 	}
 	return off
 }
@@ -100,79 +53,83 @@ func dzDI(b int64) int64 {
 	return -dzClearStep * (dzBlockLen - tailSteps)
 }
 
-func zerorange(p *obj.Prog, frame int64, lo int64, hi int64, ax *uint32, x0 *uint32) *obj.Prog {
-	cnt := hi - lo
+func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.Prog {
+	const (
+		r13 = 1 << iota // if R13 is already zeroed.
+	)
+
 	if cnt == 0 {
 		return p
 	}
 
-	if cnt%int64(gc.Widthreg) != 0 {
-		// should only happen with nacl
-		if cnt%int64(gc.Widthptr) != 0 {
-			gc.Fatalf("zerorange count not a multiple of widthptr %d", cnt)
-		}
-		if *ax == 0 {
-			p = gc.Appendpp(p, x86.AMOVQ, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_AX, 0)
-			*ax = 1
-		}
-		p = gc.Appendpp(p, x86.AMOVL, obj.TYPE_REG, x86.REG_AX, 0, obj.TYPE_MEM, x86.REG_SP, frame+lo)
-		lo += int64(gc.Widthptr)
-		cnt -= int64(gc.Widthptr)
-	}
-
 	if cnt == 8 {
-		if *ax == 0 {
-			p = gc.Appendpp(p, x86.AMOVQ, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_AX, 0)
-			*ax = 1
-		}
-		p = gc.Appendpp(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_AX, 0, obj.TYPE_MEM, x86.REG_SP, frame+lo)
-	} else if !isPlan9 && cnt <= int64(8*gc.Widthreg) {
-		if *x0 == 0 {
-			p = gc.Appendpp(p, x86.AXORPS, obj.TYPE_REG, x86.REG_X0, 0, obj.TYPE_REG, x86.REG_X0, 0)
-			*x0 = 1
-		}
-
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_X15, 0, obj.TYPE_MEM, x86.REG_SP, off)
+	} else if !isPlan9 && cnt <= int64(8*types.RegSize) {
 		for i := int64(0); i < cnt/16; i++ {
-			p = gc.Appendpp(p, x86.AMOVUPS, obj.TYPE_REG, x86.REG_X0, 0, obj.TYPE_MEM, x86.REG_SP, frame+lo+i*16)
+			p = pp.Append(p, x86.AMOVUPS, obj.TYPE_REG, x86.REG_X15, 0, obj.TYPE_MEM, x86.REG_SP, off+i*16)
 		}
 
 		if cnt%16 != 0 {
-			p = gc.Appendpp(p, x86.AMOVUPS, obj.TYPE_REG, x86.REG_X0, 0, obj.TYPE_MEM, x86.REG_SP, frame+lo+cnt-int64(16))
+			p = pp.Append(p, x86.AMOVUPS, obj.TYPE_REG, x86.REG_X15, 0, obj.TYPE_MEM, x86.REG_SP, off+cnt-int64(16))
 		}
-	} else if !gc.Nacl && !isPlan9 && (cnt <= int64(128*gc.Widthreg)) {
-		if *x0 == 0 {
-			p = gc.Appendpp(p, x86.AXORPS, obj.TYPE_REG, x86.REG_X0, 0, obj.TYPE_REG, x86.REG_X0, 0)
-			*x0 = 1
-		}
-		p = gc.Appendpp(p, leaptr, obj.TYPE_MEM, x86.REG_SP, frame+lo+dzDI(cnt), obj.TYPE_REG, x86.REG_DI, 0)
-		p = gc.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_ADDR, 0, dzOff(cnt))
-		p.To.Sym = gc.Linksym(gc.Pkglookup("duffzero", gc.Runtimepkg))
-
+	} else if !isPlan9 && (cnt <= int64(128*types.RegSize)) {
+		// Save DI to r12. With the amd64 Go register abi, DI can contain
+		// an incoming parameter, whereas R12 is always scratch.
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_DI, 0, obj.TYPE_REG, x86.REG_R12, 0)
+		// Emit duffzero call
+		p = pp.Append(p, leaptr, obj.TYPE_MEM, x86.REG_SP, off+dzDI(cnt), obj.TYPE_REG, x86.REG_DI, 0)
+		p = pp.Append(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_ADDR, 0, dzOff(cnt))
+		p.To.Sym = ir.Syms.Duffzero
 		if cnt%16 != 0 {
-			p = gc.Appendpp(p, x86.AMOVUPS, obj.TYPE_REG, x86.REG_X0, 0, obj.TYPE_MEM, x86.REG_DI, -int64(8))
+			p = pp.Append(p, x86.AMOVUPS, obj.TYPE_REG, x86.REG_X15, 0, obj.TYPE_MEM, x86.REG_DI, -int64(8))
 		}
+		// Restore DI from r12
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_R12, 0, obj.TYPE_REG, x86.REG_DI, 0)
+
 	} else {
-		if *ax == 0 {
-			p = gc.Appendpp(p, x86.AMOVQ, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_AX, 0)
-			*ax = 1
-		}
+		// When the register ABI is in effect, at this point in the
+		// prolog we may have live values in all of RAX,RDI,RCX. Save
+		// them off to registers before the REPSTOSQ below, then
+		// restore. Note that R12 and R13 are always available as
+		// scratch regs; here we also use R15 (this is safe to do
+		// since there won't be any globals accessed in the prolog).
+		// See rewriteToUseGot() in obj6.go for more on r15 use.
 
-		p = gc.Appendpp(p, x86.AMOVQ, obj.TYPE_CONST, 0, cnt/int64(gc.Widthreg), obj.TYPE_REG, x86.REG_CX, 0)
-		p = gc.Appendpp(p, leaptr, obj.TYPE_MEM, x86.REG_SP, frame+lo, obj.TYPE_REG, x86.REG_DI, 0)
-		p = gc.Appendpp(p, x86.AREP, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
-		p = gc.Appendpp(p, x86.ASTOSQ, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
+		// Save rax/rdi/rcx
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_DI, 0, obj.TYPE_REG, x86.REG_R12, 0)
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_AX, 0, obj.TYPE_REG, x86.REG_R13, 0)
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_CX, 0, obj.TYPE_REG, x86.REG_R15, 0)
+
+		// Set up the REPSTOSQ and kick it off.
+		p = pp.Append(p, x86.AXORL, obj.TYPE_REG, x86.REG_AX, 0, obj.TYPE_REG, x86.REG_AX, 0)
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_CONST, 0, cnt/int64(types.RegSize), obj.TYPE_REG, x86.REG_CX, 0)
+		p = pp.Append(p, leaptr, obj.TYPE_MEM, x86.REG_SP, off, obj.TYPE_REG, x86.REG_DI, 0)
+		p = pp.Append(p, x86.AREP, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
+		p = pp.Append(p, x86.ASTOSQ, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
+
+		// Restore rax/rdi/rcx
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_R12, 0, obj.TYPE_REG, x86.REG_DI, 0)
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_R13, 0, obj.TYPE_REG, x86.REG_AX, 0)
+		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_R15, 0, obj.TYPE_REG, x86.REG_CX, 0)
+
+		// Record the fact that r13 is no longer zero.
+		*state &= ^uint32(r13)
 	}
 
 	return p
 }
 
-func ginsnop() {
-	// This is actually not the x86 NOP anymore,
-	// but at the point where it gets used, AX is dead
-	// so it's okay if we lose the high bits.
-	p := gc.Prog(x86.AXCHGL)
+func ginsnop(pp *objw.Progs) *obj.Prog {
+	// This is a hardware nop (1-byte 0x90) instruction,
+	// even though we describe it as an explicit XCHGL here.
+	// Particularly, this does not zero the high 32 bits
+	// like typical *L opcodes.
+	// (gas assembles "xchg %eax,%eax" to 0x87 0xc0, which
+	// does zero the high 32 bits.)
+	p := pp.Prog(x86.AXCHGL)
 	p.From.Type = obj.TYPE_REG
 	p.From.Reg = x86.REG_AX
 	p.To.Type = obj.TYPE_REG
 	p.To.Reg = x86.REG_AX
+	return p
 }
