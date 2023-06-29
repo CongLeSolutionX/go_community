@@ -30,6 +30,17 @@ type propAnalyzer interface {
 	nodeVisit(n ir.Node, aux any)
 }
 
+var fpmap = map[*ir.Func]*FuncProps{}
+
+func AnalyzeFunc(fn *ir.Func) *FuncProps {
+	if fp, ok := fpmap[fn]; ok {
+		return fp
+	}
+	fp := computeFuncProps(fn)
+	fpmap[fn] = fp
+	return fp
+}
+
 // computeFuncProps analyzes the specified function 'fn' and computes
 // for it a function "properties" object, to be used to drive inlining
 // heuristics. See comments on the FuncProps type for more info.
@@ -78,7 +89,10 @@ func interestingToDump(fname string) (bool, string) {
 // the file given in 'dumpfile'. Used only for unit testing.
 func DumpFuncProps(fn *ir.Func, dumpfile string) {
 	if fn != nil {
-		fp := computeFuncProps(fn)
+		fp := fpmap[fn]
+		if fp == nil {
+			panic("unexpected missing props object for func")
+		}
 		entry := fnWithProps{
 			fname: fn.Sym().Name,
 			props: fp,

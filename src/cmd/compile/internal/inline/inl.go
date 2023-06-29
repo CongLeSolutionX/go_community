@@ -29,6 +29,7 @@ package inline
 import (
 	"fmt"
 	"go/constant"
+	"internal/goexperiment"
 	"sort"
 	"strconv"
 
@@ -274,6 +275,8 @@ func CanInline(fn *ir.Func, profile *pgo.Profile) {
 		base.Fatalf("CanInline no nname %+v", fn)
 	}
 
+	funcProps := inlheur.AnalyzeFunc(fn)
+
 	if base.Debug.DumpInlFuncProps != "" {
 		inlheur.DumpFuncProps(fn, base.Debug.DumpInlFuncProps)
 	}
@@ -346,11 +349,13 @@ func CanInline(fn *ir.Func, profile *pgo.Profile) {
 	}
 
 	n.Func.Inl = &ir.Inline{
-		Cost: budget - visitor.budget,
-		Dcl:  pruneUnusedAutos(n.Defn.(*ir.Func).Dcl, &visitor),
-		Body: inlcopylist(fn.Body),
-
+		Cost:            budget - visitor.budget,
+		Dcl:             pruneUnusedAutos(n.Defn.(*ir.Func).Dcl, &visitor),
+		Body:            inlcopylist(fn.Body),
 		CanDelayResults: canDelayResults(fn),
+	}
+	if goexperiment.InlinerRevamp {
+		n.Func.Inl.Properties = funcProps.SerializeToString()
 	}
 
 	if base.Flag.LowerM > 1 {
