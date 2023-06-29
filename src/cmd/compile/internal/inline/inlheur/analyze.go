@@ -38,6 +38,24 @@ type fnInlHeur struct {
 	props *FuncProps
 }
 
+var fpmap = map[*ir.Func]fnInlHeur{}
+
+func AnalyzeFunc(fn *ir.Func) *FuncProps {
+	if fih, ok := fpmap[fn]; ok {
+		return fih.props
+	}
+	fp := computeFuncProps(fn)
+	file, line := fnFileLine(fn)
+	entry := fnInlHeur{
+		fname: fn.Sym().Name,
+		file:  file,
+		line:  line,
+		props: fp,
+	}
+	fpmap[fn] = entry
+	return fp
+}
+
 // computeFuncProps examines the Go function 'fn' and computes for it
 // a function "properties" object, to be used to drive inlining
 // heuristics. See comments on the FuncProps type for more info.
@@ -81,15 +99,12 @@ func fnFileLine(fn *ir.Func) (string, uint) {
 // command line flag, intended for use primarily in unit testing.
 func DumpFuncProps(fn *ir.Func, dumpfile string) {
 	if fn != nil {
-		fp := computeFuncProps(fn)
-		file, line := fnFileLine(fn)
-		entry := fnInlHeur{
-			fname: fn.Sym().Name,
-			file:  file,
-			line:  line,
-			props: fp,
+		computeFuncProps(fn)
+		fih, ok := fpmap[fn]
+		if !ok {
+			panic("unexpected missing props object for func")
 		}
-		dumpBuffer = append(dumpBuffer, entry)
+		dumpBuffer = append(dumpBuffer, fih)
 		return
 	}
 	outf, err := os.OpenFile(dumpfile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
