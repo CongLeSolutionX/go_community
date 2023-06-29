@@ -200,6 +200,10 @@ type Inline struct {
 	Dcl  []*Name
 	Body []Node
 
+	// Function properties, encoded as a string (these are used for
+	// making inlining decisions). See cmd/compile/internal/inline/inlheur.
+	Properties string
+
 	// CanDelayResults reports whether it's safe for the inliner to delay
 	// initializing the result parameters until immediately before the
 	// "return" statement.
