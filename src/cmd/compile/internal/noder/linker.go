@@ -6,6 +6,7 @@ package noder
 
 import (
 	"internal/buildcfg"
+	"internal/goexperiment"
 	"internal/pkgbits"
 	"io"
 
@@ -298,6 +299,9 @@ func (l *linker) relocFuncExt(w *pkgbits.Encoder, name *ir.Name) {
 	if inl := name.Func.Inl; w.Bool(inl != nil) {
 		w.Len(int(inl.Cost))
 		w.Bool(inl.CanDelayResults)
+		if goexperiment.InlinerRevamp {
+			w.String(inl.Properties.SerializeToString())
+		}
 	}
 
 	w.Sync(pkgbits.SyncEOF)

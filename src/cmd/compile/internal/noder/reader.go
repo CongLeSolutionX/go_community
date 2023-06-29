@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"go/constant"
 	"internal/buildcfg"
+	"internal/goexperiment"
 	"internal/pkgbits"
 	"path/filepath"
 	"strings"
@@ -16,6 +17,7 @@ import (
 	"cmd/compile/internal/deadcode"
 	"cmd/compile/internal/dwarfgen"
 	"cmd/compile/internal/inline"
+	"cmd/compile/internal/inline/funcprop"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/reflectdata"
@@ -1116,6 +1118,10 @@ func (r *reader) funcExt(name *ir.Name, method *types.Sym) {
 			fn.Inl = &ir.Inline{
 				Cost:            int32(r.Len()),
 				CanDelayResults: r.Bool(),
+			}
+			if goexperiment.InlinerRevamp {
+				props := r.String()
+				fn.Inl.Properties = funcprop.DeserializeFromString(props)
 			}
 		}
 	} else {

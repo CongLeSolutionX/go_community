@@ -29,11 +29,11 @@ type propAnalyzer interface {
 	nodeVisit(n ir.Node, aux any)
 }
 
-// computeFuncProps analyzes the specified function 'fn' and computes
+// ComputeFuncProps analyzes the specified function 'fn' and computes
 // for it a function "properties" object, to be used to drive inlining
 // heuristics (see comments on FuncProps and related in
 // cmd/compile/internal/inline/funcprop).
-func computeFuncProps(fn *ir.Func) *funcprop.FuncProps {
+func ComputeFuncProps(fn *ir.Func) *funcprop.FuncProps {
 	if debugTrace != 0 {
 		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
 			fn.Sym().Name, fn)
@@ -67,7 +67,7 @@ func runAnalyzersOnFunction(fn *ir.Func, analyzers []propAnalyzer) {
 // the file given in 'dumpfile'. Used only for unit testing.
 func DumpFuncProps(fn *ir.Func, dumpfile string) {
 	if fn != nil {
-		fp := computeFuncProps(fn)
+		fp := ComputeFuncProps(fn)
 		entry := fnWithProps{
 			fname: fn.Sym().Name,
 			props: fp,

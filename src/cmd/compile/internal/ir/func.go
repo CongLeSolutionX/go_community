@@ -6,6 +6,7 @@ package ir
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/inline/funcprop"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
@@ -179,6 +180,9 @@ type Inline struct {
 	// another package is imported.
 	Dcl  []*Name
 	Body []Node
+
+	// Function properties (useful for inline heuristics).
+	Properties *funcprop.FuncProps
 
 	// CanDelayResults reports whether it's safe for the inliner to delay
 	// initializing the result parameters until immediately before the
