@@ -20,7 +20,7 @@ func T_simple() {
 	panic("bad")
 }
 
-// funcflags.go T_nested 28
+// funcflags.go T_nested 30
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -35,7 +35,7 @@ func T_nested(x int) {
 	}
 }
 
-// funcflags.go T_block1 41
+// funcflags.go T_block1 45
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -49,7 +49,7 @@ func T_block1(x int) {
 	}
 }
 
-// funcflags.go T_block2 52
+// funcflags.go T_block2 58
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -62,7 +62,7 @@ func T_block2(x int) {
 	panic("bad")
 }
 
-// funcflags.go T_switches1 64
+// funcflags.go T_switches1 72
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -79,7 +79,7 @@ func T_switches1(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_switches1a 78
+// funcflags.go T_switches1a 88
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -92,7 +92,7 @@ func T_switches1a(x int) {
 	}
 }
 
-// funcflags.go T_switches2 89
+// funcflags.go T_switches2 101
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -110,7 +110,7 @@ func T_switches2(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_switches3 105
+// funcflags.go T_switches3 117
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endfuncpreamble>
@@ -123,7 +123,7 @@ func T_switches3(x interface{}) {
 	}
 }
 
-// funcflags.go T_switches4 119
+// funcflags.go T_switches4 133
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -144,7 +144,7 @@ func T_switches4(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_recov 137
+// funcflags.go T_recov 151
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endfuncpreamble>
@@ -154,7 +154,7 @@ func T_recov(x int) {
 	}
 }
 
-// funcflags.go T_forloops1 148
+// funcflags.go T_forloops1 162
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
@@ -165,7 +165,7 @@ func T_forloops1(x int) {
 	}
 }
 
-// funcflags.go T_forloops2 158
+// funcflags.go T_forloops2 172
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endfuncpreamble>
@@ -179,7 +179,7 @@ func T_forloops2(x int) {
 	}
 }
 
-// funcflags.go T_forloops3 172
+// funcflags.go T_forloops3 186
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endfuncpreamble>
@@ -198,7 +198,7 @@ func T_forloops3(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_hasgotos 191
+// funcflags.go T_hasgotos 205
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[]}
 // <endfuncpreamble>
@@ -225,7 +225,7 @@ func T_hasgotos(x int, y int) {
 	}
 }
 
-// funcflags.go T_callsexit 219
+// funcflags.go T_callsexit 235
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -244,7 +244,7 @@ func exprcallsexit(x int) int {
 	return x
 }
 
-// funcflags.go T_exitinexpr 235
+// funcflags.go T_exitinexpr 251
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endfuncpreamble>
