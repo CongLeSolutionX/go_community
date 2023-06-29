@@ -173,6 +173,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc3c0422_cb8977d4",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-29T21:59:27Z",
+      "side": 1,
+      "message": "I think this is still a problem: I think we\u0027re missing the roots from the `go.work` file in the graph, and those wouldn\u0027t be included in the `rootsFromModFile` for any one module.",
+      "parentUuid": "b60f969d_93d013b3",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9544ed4d_954a893f",
@@ -298,6 +322,30 @@
       "side": 1,
       "message": "I tried adding them here. The code is pretty awkward because we also want to add them in the workspace case.",
       "parentUuid": "2f2868a8_3783f931",
+      "range": {
+        "startLine": 1295,
+        "startChar": 0,
+        "endLine": 1306,
+        "endChar": 2
+      },
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8f6ec9_1173edde",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-29T21:59:27Z",
+      "side": 1,
+      "message": "Hmm. I might have led you wrong here — it looks like in the baseline, in workspace mode we only added the `go` and `toolchain` requirements for the workspace proper in workspace mode.\n\nThat might be an existing bug, too. Probably in module mode we ought to add the `go` version for each module if (and only if) that version is at least `gover.GoStrictVersion`, and omit the per-module `toolchain` version (the `toolchain` line in the `go.work` file wins, I think). 🤔\n\nSee:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modload/modfile.go;l\u003d694-699;drc\u003dce8146ed3361f584ba79427ac6c6d6fe9c297bea",
+      "parentUuid": "4e6bdadf_61139894",
       "range": {
         "startLine": 1295,
         "startChar": 0,

@@ -179,6 +179,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c325892_16d1b221",
+        "filename": "src/cmd/go/internal/modload/vendor.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-29T21:59:27Z",
+      "side": 1,
+      "message": "Seems reasonable.",
+      "parentUuid": "f99feecd_732a3ada",
+      "range": {
+        "startLine": 229,
+        "startChar": 94,
+        "endLine": 229,
+        "endChar": 111
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc0dde63_e7c774a2",
@@ -210,6 +234,24 @@
       "side": 1,
       "message": "Added a test case.",
       "parentUuid": "dc0dde63_e7c774a2",
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbfd60eb_7efa6b34",
+        "filename": "src/cmd/go/testdata/script/work_vendor_main_module_replaced.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-29T21:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38a45437_d31dbd95",
       "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -355,6 +397,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9ee549b_653d3050",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-29T21:59:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4b5c829e_97d03598",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92d3d3b6_cd4b2db1",
@@ -433,6 +499,24 @@
       "side": 1,
       "message": "Removed.",
       "parentUuid": "eb3ca553_cd7cd83d",
+      "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89773712_e0bb6f45",
+        "filename": "src/cmd/go/testdata/script/work_vendor_prune_all.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-29T21:59:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "88168679_1682ee62",
       "revId": "c54d8615ee8a4901464ed3d1818c2cabc04e85d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
