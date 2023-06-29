@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build dragonfly freebsd !android,linux netbsd openbsd
+//go:build cgo && !osusergo && (dragonfly || freebsd || (!android && linux) || netbsd || openbsd || (solaris && !illumos))
 
 package user
 
@@ -17,6 +17,6 @@ static int mygetgrouplist(const char* user, gid_t group, gid_t* groups, int* ngr
 */
 import "C"
 
-func getGroupList(name *C.char, userGID C.gid_t, gids *C.gid_t, n *C.int) C.int {
+func getGroupList(name *_C_char, userGID _C_gid_t, gids *_C_gid_t, n *_C_int) _C_int {
 	return C.mygetgrouplist(name, userGID, gids, n)
 }

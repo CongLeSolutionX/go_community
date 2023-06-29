@@ -100,7 +100,7 @@ func fileConn(f *os.File) (Conn, error) {
 
 	switch fd.laddr.(type) {
 	case *TCPAddr:
-		return newTCPConn(fd), nil
+		return newTCPConn(fd, defaultTCPKeepAlive, testHookSetKeepAlive), nil
 	case *UDPAddr:
 		return newUDPConn(fd), nil
 	}
@@ -127,7 +127,7 @@ func fileListener(f *os.File) (Listener, error) {
 		return nil, errors.New("file does not represent a listener")
 	}
 
-	return &TCPListener{fd}, nil
+	return &TCPListener{fd: fd}, nil
 }
 
 func filePacketConn(f *os.File) (PacketConn, error) {

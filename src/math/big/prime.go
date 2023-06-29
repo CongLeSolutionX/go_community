@@ -51,7 +51,7 @@ func (x *Int) ProbablyPrime(n int) bool {
 	}
 
 	if w&1 == 0 {
-		return false // n is even
+		return false // x is even
 	}
 
 	const primesA = 3 * 5 * 7 * 11 * 13 * 17 * 19 * 23 * 37
@@ -103,12 +103,12 @@ NextRandom:
 			x = x.random(rand, nm3, nm3Len)
 			x = x.add(x, natTwo)
 		}
-		y = y.expNN(x, q, n)
+		y = y.expNN(x, q, n, false)
 		if y.cmp(natOne) == 0 || y.cmp(nm1) == 0 {
 			continue
 		}
 		for j := uint(1); j < k; j++ {
-			y = y.mul(y, y)
+			y = y.sqr(y)
 			quotient, y = quotient.div(y, y, n)
 			if y.cmp(nm1) == 0 {
 				continue NextRandom
@@ -131,17 +131,17 @@ NextRandom:
 //
 // Baillie and Wagstaff, "Lucas Pseudoprimes", Mathematics of Computation 35(152),
 // October 1980, pp. 1391-1417, especially page 1401.
-// http://www.ams.org/journals/mcom/1980-35-152/S0025-5718-1980-0583518-6/S0025-5718-1980-0583518-6.pdf
+// https://www.ams.org/journals/mcom/1980-35-152/S0025-5718-1980-0583518-6/S0025-5718-1980-0583518-6.pdf
 //
 // Grantham, "Frobenius Pseudoprimes", Mathematics of Computation 70(234),
 // March 2000, pp. 873-891.
-// http://www.ams.org/journals/mcom/2001-70-234/S0025-5718-00-01197-2/S0025-5718-00-01197-2.pdf
+// https://www.ams.org/journals/mcom/2001-70-234/S0025-5718-00-01197-2/S0025-5718-00-01197-2.pdf
 //
 // Baillie, "Extra strong Lucas pseudoprimes", OEIS A217719, https://oeis.org/A217719.
 //
 // Jacobsen, "Pseudoprime Statistics, Tables, and Data", http://ntheory.org/pseudoprimes.html.
 //
-// Nicely, "The Baillie-PSW Primality Test", http://www.trnicely.net/misc/bpsw.html.
+// Nicely, "The Baillie-PSW Primality Test", https://web.archive.org/web/20191121062007/http://www.trnicely.net/misc/bpsw.html.
 // (Note that Nicely's definition of the "extra strong" test gives the wrong Jacobi condition,
 // as pointed out by Jacobsen.)
 //
@@ -194,7 +194,7 @@ func (n nat) probablyPrimeLucas() bool {
 			// If n is a non-square we expect to find a d in just a few attempts on average.
 			// After 40 attempts, take a moment to check if n is indeed a square.
 			t1 = t1.sqrt(n)
-			t1 = t1.mul(t1, t1)
+			t1 = t1.sqr(t1)
 			if t1.cmp(n) == 0 {
 				return false
 			}
@@ -259,7 +259,7 @@ func (n nat) probablyPrimeLucas() bool {
 			t1 = t1.sub(t1, natP)
 			t2, vk = t2.div(vk, t1, n)
 			// V(k'+1) = V(2k+2) = V(k+1)² - 2.
-			t1 = t1.mul(vk1, vk1)
+			t1 = t1.sqr(vk1)
 			t1 = t1.add(t1, nm2)
 			t2, vk1 = t2.div(vk1, t1, n)
 		} else {
@@ -270,7 +270,7 @@ func (n nat) probablyPrimeLucas() bool {
 			t1 = t1.sub(t1, natP)
 			t2, vk1 = t2.div(vk1, t1, n)
 			// V(k') = V(2k) = V(k)² - 2
-			t1 = t1.mul(vk, vk)
+			t1 = t1.sqr(vk)
 			t1 = t1.add(t1, nm2)
 			t2, vk = t2.div(vk, t1, n)
 		}
@@ -312,7 +312,7 @@ func (n nat) probablyPrimeLucas() bool {
 		}
 		// k' = 2k
 		// V(k') = V(2k) = V(k)² - 2
-		t1 = t1.mul(vk, vk)
+		t1 = t1.sqr(vk)
 		t1 = t1.sub(t1, natTwo)
 		t2, vk = t2.div(vk, t1, n)
 	}

@@ -5,6 +5,7 @@
 package lex
 
 import (
+	"go/build/constraint"
 	"io"
 	"os"
 	"strings"
@@ -12,7 +13,7 @@ import (
 	"unicode"
 
 	"cmd/asm/internal/flags"
-	"cmd/internal/obj"
+	"cmd/internal/objabi"
 	"cmd/internal/src"
 )
 
@@ -43,7 +44,7 @@ func NewTokenizer(name string, r io.Reader, file *os.File) *Tokenizer {
 	s.IsIdentRune = isIdentRune
 	return &Tokenizer{
 		s:    &s,
-		base: src.NewFileBase(name, obj.AbsFile(obj.WorkingDir(), name, *flags.TrimPath)),
+		base: src.NewFileBase(name, objabi.AbsFile(objabi.WorkingDir(), name, *flags.TrimPath)),
 		line: 1,
 		file: file,
 	}
@@ -107,10 +108,12 @@ func (t *Tokenizer) Next() ScanToken {
 		if t.tok != scanner.Comment {
 			break
 		}
-		length := strings.Count(s.TokenText(), "\n")
-		t.line += length
-		// TODO: If we ever have //go: comments in assembly, will need to keep them here.
-		// For now, just discard all comments.
+		text := s.TokenText()
+		t.line += strings.Count(text, "\n")
+		if constraint.IsGoBuild(text) {
+			t.tok = BuildComment
+			break
+		}
 	}
 	switch t.tok {
 	case '\n':

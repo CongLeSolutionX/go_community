@@ -5,309 +5,782 @@
 package ssa
 
 import (
+	"cmd/compile/internal/reflectdata"
+	"cmd/compile/internal/types"
+	"cmd/internal/obj"
+	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
+	"internal/buildcfg"
 )
 
-// writebarrier expands write barrier ops (StoreWB, MoveWB, etc.) into
-// branches and runtime calls, like
+// A ZeroRegion records parts of an object which are known to be zero.
+// A ZeroRegion only applies to a single memory state.
+// Each bit in mask is set if the corresponding pointer-sized word of
+// the base object is known to be zero.
+// In other words, if mask & (1<<i) != 0, then [base+i*ptrSize, base+(i+1)*ptrSize)
+// is known to be zero.
+type ZeroRegion struct {
+	base *Value
+	mask uint64
+}
+
+// mightBeHeapPointer reports whether v might point to the heap.
+// v must have pointer type.
+func mightBeHeapPointer(v *Value) bool {
+	if IsGlobalAddr(v) {
+		return false
+	}
+	return true
+}
+
+// mightContainHeapPointer reports whether the data currently at addresses
+// [ptr,ptr+size) might contain heap pointers. "currently" means at memory state mem.
+// zeroes contains ZeroRegion data to help make that decision (see computeZeroMap).
+func mightContainHeapPointer(ptr *Value, size int64, mem *Value, zeroes map[ID]ZeroRegion) bool {
+	if IsReadOnlyGlobalAddr(ptr) {
+		// The read-only globals section cannot contain any heap pointers.
+		return false
+	}
+
+	// See if we can prove that the queried memory is all zero.
+
+	// Find base pointer and offset. Hopefully, the base is the result of a new(T).
+	var off int64
+	for ptr.Op == OpOffPtr {
+		off += ptr.AuxInt
+		ptr = ptr.Args[0]
+	}
+
+	ptrSize := ptr.Block.Func.Config.PtrSize
+	if off%ptrSize != 0 || size%ptrSize != 0 {
+		ptr.Fatalf("unaligned pointer write")
+	}
+	if off < 0 || off+size > 64*ptrSize {
+		// memory range goes off end of tracked offsets
+		return true
+	}
+	z := zeroes[mem.ID]
+	if ptr != z.base {
+		// This isn't the object we know about at this memory state.
+		return true
+	}
+	// Mask of bits we're asking about
+	m := (uint64(1)<<(size/ptrSize) - 1) << (off / ptrSize)
+
+	if z.mask&m == m {
+		// All locations are known to be zero, so no heap pointers.
+		return false
+	}
+	return true
+}
+
+// needwb reports whether we need write barrier for store op v.
+// v must be Store/Move/Zero.
+// zeroes provides known zero information (keyed by ID of memory-type values).
+func needwb(v *Value, zeroes map[ID]ZeroRegion) bool {
+	t, ok := v.Aux.(*types.Type)
+	if !ok {
+		v.Fatalf("store aux is not a type: %s", v.LongString())
+	}
+	if !t.HasPointers() {
+		return false
+	}
+	dst := v.Args[0]
+	if IsStackAddr(dst) {
+		return false // writes into the stack don't need write barrier
+	}
+	// If we're writing to a place that might have heap pointers, we need
+	// the write barrier.
+	if mightContainHeapPointer(dst, t.Size(), v.MemoryArg(), zeroes) {
+		return true
+	}
+	// Lastly, check if the values we're writing might be heap pointers.
+	// If they aren't, we don't need a write barrier.
+	switch v.Op {
+	case OpStore:
+		if !mightBeHeapPointer(v.Args[1]) {
+			return false
+		}
+	case OpZero:
+		return false // nil is not a heap pointer
+	case OpMove:
+		if !mightContainHeapPointer(v.Args[1], t.Size(), v.Args[2], zeroes) {
+			return false
+		}
+	default:
+		v.Fatalf("store op unknown: %s", v.LongString())
+	}
+	return true
+}
+
+// needWBsrc reports whether GC needs to see v when it is the source of a store.
+func needWBsrc(v *Value) bool {
+	return !IsGlobalAddr(v)
+}
+
+// needWBdst reports whether GC needs to see what used to be in *ptr when ptr is
+// the target of a pointer store.
+func needWBdst(ptr, mem *Value, zeroes map[ID]ZeroRegion) bool {
+	// Detect storing to zeroed memory.
+	var off int64
+	for ptr.Op == OpOffPtr {
+		off += ptr.AuxInt
+		ptr = ptr.Args[0]
+	}
+	ptrSize := ptr.Block.Func.Config.PtrSize
+	if off%ptrSize != 0 {
+		ptr.Fatalf("unaligned pointer write")
+	}
+	if off < 0 || off >= 64*ptrSize {
+		// write goes off end of tracked offsets
+		return true
+	}
+	z := zeroes[mem.ID]
+	if ptr != z.base {
+		return true
+	}
+	// If destination is known to be zeroed, we don't need the write barrier
+	// to record the old value in *ptr.
+	return z.mask>>uint(off/ptrSize)&1 == 0
+}
+
+// writebarrier pass inserts write barriers for store ops (Store, Move, Zero)
+// when necessary (the condition above). It rewrites store ops to branches
+// and runtime calls, like
 //
-// if writeBarrier.enabled {
-//   writebarrierptr(ptr, val)
-// } else {
-//   *ptr = val
-// }
+//	if writeBarrier.enabled {
+//		buf := gcWriteBarrier2()	// Not a regular Go call
+//		buf[0] = val
+//		buf[1] = *ptr
+//	}
+//	*ptr = val
 //
-// If ptr is an address of a stack slot, write barrier will be removed
-// and a normal store will be used.
 // A sequence of WB stores for many pointer fields of a single type will
 // be emitted together, with a single branch.
-//
-// Expanding WB ops introduces new control flows, and we would need to
-// split a block into two if there were values after WB ops, which would
-// require scheduling the values. To avoid this complexity, when building
-// SSA, we make sure that WB ops are always at the end of a block. We do
-// this before fuse as it may merge blocks. It also helps to reduce
-// number of blocks as fuse merges blocks introduced in this phase.
 func writebarrier(f *Func) {
-	var sb, sp, wbaddr *Value
-	var writebarrierptr, typedmemmove, typedmemclr interface{} // *gc.Sym
-	var storeWBs, others []*Value
-	var wbs *sparseSet
-	for _, b := range f.Blocks { // range loop is safe since the blocks we added contain no WB stores
-	valueLoop:
-		for i, v := range b.Values {
+	if !f.fe.UseWriteBarrier() {
+		return
+	}
+
+	// Number of write buffer entries we can request at once.
+	// Must match runtime/mwbbuf.go:wbMaxEntriesPerCall.
+	// It must also match the number of instances of runtime.gcWriteBarrier{X}.
+	const maxEntries = 8
+
+	var sb, sp, wbaddr, const0 *Value
+	var cgoCheckPtrWrite, cgoCheckMemmove *obj.LSym
+	var wbZero, wbMove *obj.LSym
+	var stores, after []*Value
+	var sset, sset2 *sparseSet
+	var storeNumber []int32
+
+	// Compute map from a value to the SelectN [1] value that uses it.
+	select1 := f.Cache.allocValueSlice(f.NumValues())
+	defer func() { f.Cache.freeValueSlice(select1) }()
+	for _, b := range f.Blocks {
+		for _, v := range b.Values {
+			if v.Op != OpSelectN {
+				continue
+			}
+			if v.AuxInt != 1 {
+				continue
+			}
+			select1[v.Args[0].ID] = v
+		}
+	}
+
+	zeroes := f.computeZeroMap(select1)
+	for _, b := range f.Blocks { // range loop is safe since the blocks we added contain no stores to expand
+		// first, identify all the stores that need to insert a write barrier.
+		// mark them with WB ops temporarily. record presence of WB ops.
+		nWBops := 0 // count of temporarily created WB ops remaining to be rewritten in the current block
+		for _, v := range b.Values {
 			switch v.Op {
-			case OpStoreWB, OpMoveWB, OpMoveWBVolatile:
-				if IsStackAddr(v.Args[0]) {
+			case OpStore, OpMove, OpZero:
+				if needwb(v, zeroes) {
 					switch v.Op {
-					case OpStoreWB:
-						v.Op = OpStore
-					case OpMoveWB, OpMoveWBVolatile:
-						v.Op = OpMove
-						v.Aux = nil
-					case OpZeroWB:
-						v.Op = OpZero
-						v.Aux = nil
+					case OpStore:
+						v.Op = OpStoreWB
+					case OpMove:
+						v.Op = OpMoveWB
+					case OpZero:
+						v.Op = OpZeroWB
 					}
+					nWBops++
+				}
+			}
+		}
+		if nWBops == 0 {
+			continue
+		}
+
+		if wbaddr == nil {
+			// lazily initialize global values for write barrier test and calls
+			// find SB and SP values in entry block
+			initpos := f.Entry.Pos
+			sp, sb = f.spSb()
+			wbsym := f.fe.Syslook("writeBarrier")
+			wbaddr = f.Entry.NewValue1A(initpos, OpAddr, f.Config.Types.UInt32Ptr, wbsym, sb)
+			wbZero = f.fe.Syslook("wbZero")
+			wbMove = f.fe.Syslook("wbMove")
+			if buildcfg.Experiment.CgoCheck2 {
+				cgoCheckPtrWrite = f.fe.Syslook("cgoCheckPtrWrite")
+				cgoCheckMemmove = f.fe.Syslook("cgoCheckMemmove")
+			}
+			const0 = f.ConstInt32(f.Config.Types.UInt32, 0)
+
+			// allocate auxiliary data structures for computing store order
+			sset = f.newSparseSet(f.NumValues())
+			defer f.retSparseSet(sset)
+			sset2 = f.newSparseSet(f.NumValues())
+			defer f.retSparseSet(sset2)
+			storeNumber = f.Cache.allocInt32Slice(f.NumValues())
+			defer f.Cache.freeInt32Slice(storeNumber)
+		}
+
+		// order values in store order
+		b.Values = storeOrder(b.Values, sset, storeNumber)
+	again:
+		// find the start and end of the last contiguous WB store sequence.
+		// a branch will be inserted there. values after it will be moved
+		// to a new block.
+		var last *Value
+		var start, end int
+		values := b.Values
+	FindSeq:
+		for i := len(values) - 1; i >= 0; i-- {
+			w := values[i]
+			switch w.Op {
+			case OpStoreWB, OpMoveWB, OpZeroWB:
+				start = i
+				if last == nil {
+					last = w
+					end = i + 1
+				}
+			case OpVarDef, OpVarLive:
+				continue
+			default:
+				if last == nil {
 					continue
 				}
-
-				if wbaddr == nil {
-					// initalize global values for write barrier test and calls
-					// find SB and SP values in entry block
-					initln := f.Entry.Pos
-					for _, v := range f.Entry.Values {
-						if v.Op == OpSB {
-							sb = v
-						}
-						if v.Op == OpSP {
-							sp = v
-						}
-					}
-					if sb == nil {
-						sb = f.Entry.NewValue0(initln, OpSB, f.Config.fe.TypeUintptr())
-					}
-					if sp == nil {
-						sp = f.Entry.NewValue0(initln, OpSP, f.Config.fe.TypeUintptr())
-					}
-					wbsym := &ExternSymbol{Typ: f.Config.fe.TypeBool(), Sym: f.Config.fe.Syslook("writeBarrier").(fmt.Stringer)}
-					wbaddr = f.Entry.NewValue1A(initln, OpAddr, f.Config.fe.TypeUInt32().PtrTo(), wbsym, sb)
-					writebarrierptr = f.Config.fe.Syslook("writebarrierptr")
-					typedmemmove = f.Config.fe.Syslook("typedmemmove")
-					typedmemclr = f.Config.fe.Syslook("typedmemclr")
-
-					wbs = f.newSparseSet(f.NumValues())
-					defer f.retSparseSet(wbs)
-				}
-
-				pos := v.Pos
-
-				// there may be a sequence of WB stores in the current block. find them.
-				storeWBs = storeWBs[:0]
-				others = others[:0]
-				wbs.clear()
-				for _, w := range b.Values[i:] {
-					if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpMoveWBVolatile || w.Op == OpZeroWB {
-						storeWBs = append(storeWBs, w)
-						wbs.add(w.ID)
-					} else {
-						others = append(others, w)
-					}
-				}
-
-				// make sure that no value in this block depends on WB stores
-				for _, w := range b.Values {
-					if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpMoveWBVolatile || w.Op == OpZeroWB {
-						continue
-					}
-					for _, a := range w.Args {
-						if wbs.contains(a.ID) {
-							f.Fatalf("value %v depends on WB store %v in the same block %v", w, a, b)
-						}
-					}
-				}
-
-				// find the memory before the WB stores
-				// this memory is not a WB store but it is used in a WB store.
-				var mem *Value
-				for _, w := range storeWBs {
-					a := w.Args[len(w.Args)-1]
-					if wbs.contains(a.ID) {
-						continue
-					}
-					if mem != nil {
-						b.Fatalf("two stores live simultaneously: %s, %s", mem, a)
-					}
-					mem = a
-				}
-
-				b.Values = append(b.Values[:i], others...) // move WB ops out of this block
-
-				bThen := f.NewBlock(BlockPlain)
-				bElse := f.NewBlock(BlockPlain)
-				bEnd := f.NewBlock(b.Kind)
-				bThen.Pos = pos
-				bElse.Pos = pos
-				bEnd.Pos = pos
-
-				// set up control flow for end block
-				bEnd.SetControl(b.Control)
-				bEnd.Likely = b.Likely
-				for _, e := range b.Succs {
-					bEnd.Succs = append(bEnd.Succs, e)
-					e.b.Preds[e.i].b = bEnd
-				}
-
-				// set up control flow for write barrier test
-				// load word, test word, avoiding partial register write from load byte.
-				flag := b.NewValue2(pos, OpLoad, f.Config.fe.TypeUInt32(), wbaddr, mem)
-				const0 := f.ConstInt32(pos, f.Config.fe.TypeUInt32(), 0)
-				flag = b.NewValue2(pos, OpNeq32, f.Config.fe.TypeBool(), flag, const0)
-				b.Kind = BlockIf
-				b.SetControl(flag)
-				b.Likely = BranchUnlikely
-				b.Succs = b.Succs[:0]
-				b.AddEdgeTo(bThen)
-				b.AddEdgeTo(bElse)
-				bThen.AddEdgeTo(bEnd)
-				bElse.AddEdgeTo(bEnd)
-
-				memThen := mem
-				memElse := mem
-				for _, w := range storeWBs {
-					var val *Value
-					ptr := w.Args[0]
-					siz := w.AuxInt
-					typ := w.Aux // only non-nil for MoveWB, MoveWBVolatile, ZeroWB
-
-					var op Op
-					var fn interface{} // *gc.Sym
-					switch w.Op {
-					case OpStoreWB:
-						op = OpStore
-						fn = writebarrierptr
-						val = w.Args[1]
-					case OpMoveWB, OpMoveWBVolatile:
-						op = OpMove
-						fn = typedmemmove
-						val = w.Args[1]
-					case OpZeroWB:
-						op = OpZero
-						fn = typedmemclr
-					}
-
-					// then block: emit write barrier call
-					memThen = wbcall(pos, bThen, fn, typ, ptr, val, memThen, sp, sb, w.Op == OpMoveWBVolatile)
-
-					// else block: normal store
-					if op == OpZero {
-						memElse = bElse.NewValue2I(pos, op, TypeMem, siz, ptr, memElse)
-					} else {
-						memElse = bElse.NewValue3I(pos, op, TypeMem, siz, ptr, val, memElse)
-					}
-				}
-
-				// merge memory
-				// Splice memory Phi into the last memory of the original sequence,
-				// which may be used in subsequent blocks. Other memories in the
-				// sequence must be dead after this block since there can be only
-				// one memory live.
-				last := storeWBs[0]
-				if len(storeWBs) > 1 {
-					// find the last store
-					last = nil
-					wbs.clear() // we reuse wbs to record WB stores that is used in another WB store
-					for _, w := range storeWBs {
-						wbs.add(w.Args[len(w.Args)-1].ID)
-					}
-					for _, w := range storeWBs {
-						if wbs.contains(w.ID) {
-							continue
-						}
-						if last != nil {
-							b.Fatalf("two stores live simultaneously: %s, %s", last, w)
-						}
-						last = w
-					}
-				}
-				bEnd.Values = append(bEnd.Values, last)
-				last.Block = bEnd
-				last.reset(OpPhi)
-				last.Type = TypeMem
-				last.AddArg(memThen)
-				last.AddArg(memElse)
-				for _, w := range storeWBs {
-					if w != last {
-						w.resetArgs()
-					}
-				}
-				for _, w := range storeWBs {
-					if w != last {
-						f.freeValue(w)
-					}
-				}
-
-				if f.Config.fe.Debug_wb() {
-					f.Config.Warnl(pos, "write barrier")
-				}
-
-				break valueLoop
+				break FindSeq
 			}
+		}
+		stores = append(stores[:0], b.Values[start:end]...) // copy to avoid aliasing
+		after = append(after[:0], b.Values[end:]...)
+		b.Values = b.Values[:start]
+
+		// find the memory before the WB stores
+		mem := stores[0].MemoryArg()
+		pos := stores[0].Pos
+
+		// If the source of a MoveWB is volatile (will be clobbered by a
+		// function call), we need to copy it to a temporary location, as
+		// marshaling the args of wbMove might clobber the value we're
+		// trying to move.
+		// Look for volatile source, copy it to temporary before we check
+		// the write barrier flag.
+		// It is unlikely to have more than one of them. Just do a linear
+		// search instead of using a map.
+		// See issue 15854.
+		type volatileCopy struct {
+			src *Value // address of original volatile value
+			tmp *Value // address of temporary we've copied the volatile value into
+		}
+		var volatiles []volatileCopy
+
+		if !(f.ABIDefault == f.ABI1 && len(f.Config.intParamRegs) >= 3) {
+			// We don't need to do this if the calls we're going to do take
+			// all their arguments in registers.
+			// 3 is the magic number because it covers wbZero, wbMove, cgoCheckMemmove.
+		copyLoop:
+			for _, w := range stores {
+				if w.Op == OpMoveWB {
+					val := w.Args[1]
+					if isVolatile(val) {
+						for _, c := range volatiles {
+							if val == c.src {
+								continue copyLoop // already copied
+							}
+						}
+
+						t := val.Type.Elem()
+						tmp := f.fe.Auto(w.Pos, t)
+						mem = b.NewValue1A(w.Pos, OpVarDef, types.TypeMem, tmp, mem)
+						tmpaddr := b.NewValue2A(w.Pos, OpLocalAddr, t.PtrTo(), tmp, sp, mem)
+						siz := t.Size()
+						mem = b.NewValue3I(w.Pos, OpMove, types.TypeMem, siz, tmpaddr, val, mem)
+						mem.Aux = t
+						volatiles = append(volatiles, volatileCopy{val, tmpaddr})
+					}
+				}
+			}
+		}
+
+		// Build branch point.
+		bThen := f.NewBlock(BlockPlain)
+		bEnd := f.NewBlock(b.Kind)
+		bThen.Pos = pos
+		bEnd.Pos = b.Pos
+		b.Pos = pos
+
+		// Set up control flow for end block.
+		bEnd.CopyControls(b)
+		bEnd.Likely = b.Likely
+		for _, e := range b.Succs {
+			bEnd.Succs = append(bEnd.Succs, e)
+			e.b.Preds[e.i].b = bEnd
+		}
+
+		// set up control flow for write barrier test
+		// load word, test word, avoiding partial register write from load byte.
+		cfgtypes := &f.Config.Types
+		flag := b.NewValue2(pos, OpLoad, cfgtypes.UInt32, wbaddr, mem)
+		flag = b.NewValue2(pos, OpNeq32, cfgtypes.Bool, flag, const0)
+		b.Kind = BlockIf
+		b.SetControl(flag)
+		b.Likely = BranchUnlikely
+		b.Succs = b.Succs[:0]
+		b.AddEdgeTo(bThen)
+		b.AddEdgeTo(bEnd)
+		bThen.AddEdgeTo(bEnd)
+
+		// For each write barrier store, append write barrier code to bThen.
+		memThen := mem
+		var curCall *Value
+		var curPtr *Value
+		addEntry := func(v *Value) {
+			if curCall == nil || curCall.AuxInt == maxEntries {
+				t := types.NewTuple(types.Types[types.TUINTPTR].PtrTo(), types.TypeMem)
+				curCall = bThen.NewValue1(pos, OpWB, t, memThen)
+				curPtr = bThen.NewValue1(pos, OpSelect0, types.Types[types.TUINTPTR].PtrTo(), curCall)
+				memThen = bThen.NewValue1(pos, OpSelect1, types.TypeMem, curCall)
+			}
+			// Store value in write buffer
+			num := curCall.AuxInt
+			curCall.AuxInt = num + 1
+			wbuf := bThen.NewValue1I(pos, OpOffPtr, types.Types[types.TUINTPTR].PtrTo(), num*f.Config.PtrSize, curPtr)
+			memThen = bThen.NewValue3A(pos, OpStore, types.TypeMem, types.Types[types.TUINTPTR], wbuf, v, memThen)
+		}
+
+		// Note: we can issue the write barrier code in any order. In particular,
+		// it doesn't matter if they are in a different order *even if* they end
+		// up referring to overlapping memory regions. For instance if an OpStore
+		// stores to a location that is later read by an OpMove. In all cases
+		// any pointers we must get into the write barrier buffer still make it,
+		// possibly in a different order and possibly a different (but definitely
+		// more than 0) number of times.
+		// In light of that, we process all the OpStoreWBs first. This minimizes
+		// the amount of spill/restore code we need around the Zero/Move calls.
+
+		// srcs contains the value IDs of pointer values we've put in the write barrier buffer.
+		srcs := sset
+		srcs.clear()
+		// dsts contains the value IDs of locations which we've read a pointer out of
+		// and put the result in the write barrier buffer.
+		dsts := sset2
+		dsts.clear()
+
+		for _, w := range stores {
+			if w.Op != OpStoreWB {
+				continue
+			}
+			pos := w.Pos
+			ptr := w.Args[0]
+			val := w.Args[1]
+			if !srcs.contains(val.ID) && needWBsrc(val) {
+				srcs.add(val.ID)
+				addEntry(val)
+			}
+			if !dsts.contains(ptr.ID) && needWBdst(ptr, w.Args[2], zeroes) {
+				dsts.add(ptr.ID)
+				// Load old value from store target.
+				// Note: This turns bad pointer writes into bad
+				// pointer reads, which could be confusing. We could avoid
+				// reading from obviously bad pointers, which would
+				// take care of the vast majority of these. We could
+				// patch this up in the signal handler, or use XCHG to
+				// combine the read and the write.
+				oldVal := bThen.NewValue2(pos, OpLoad, types.Types[types.TUINTPTR], ptr, memThen)
+				// Save old value to write buffer.
+				addEntry(oldVal)
+			}
+			f.fe.Func().SetWBPos(pos)
+			nWBops--
+		}
+
+		for _, w := range stores {
+			pos := w.Pos
+			switch w.Op {
+			case OpZeroWB:
+				dst := w.Args[0]
+				typ := reflectdata.TypeLinksym(w.Aux.(*types.Type))
+				// zeroWB(&typ, dst)
+				taddr := b.NewValue1A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb)
+				memThen = wbcall(pos, bThen, wbZero, sp, memThen, taddr, dst)
+				f.fe.Func().SetWBPos(pos)
+				nWBops--
+			case OpMoveWB:
+				dst := w.Args[0]
+				src := w.Args[1]
+				if isVolatile(src) {
+					for _, c := range volatiles {
+						if src == c.src {
+							src = c.tmp
+							break
+						}
+					}
+				}
+				typ := reflectdata.TypeLinksym(w.Aux.(*types.Type))
+				// moveWB(&typ, dst, src)
+				taddr := b.NewValue1A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb)
+				memThen = wbcall(pos, bThen, wbMove, sp, memThen, taddr, dst, src)
+				f.fe.Func().SetWBPos(pos)
+				nWBops--
+			}
+		}
+
+		// merge memory
+		mem = bEnd.NewValue2(pos, OpPhi, types.TypeMem, mem, memThen)
+
+		// Do raw stores after merge point.
+		for _, w := range stores {
+			switch w.Op {
+			case OpStoreWB:
+				ptr := w.Args[0]
+				val := w.Args[1]
+				if buildcfg.Experiment.CgoCheck2 {
+					// Issue cgo checking code.
+					mem = wbcall(pos, bEnd, cgoCheckPtrWrite, sp, mem, ptr, val)
+				}
+				mem = bEnd.NewValue3A(pos, OpStore, types.TypeMem, w.Aux, ptr, val, mem)
+			case OpZeroWB:
+				dst := w.Args[0]
+				mem = bEnd.NewValue2I(pos, OpZero, types.TypeMem, w.AuxInt, dst, mem)
+				mem.Aux = w.Aux
+			case OpMoveWB:
+				dst := w.Args[0]
+				src := w.Args[1]
+				if isVolatile(src) {
+					for _, c := range volatiles {
+						if src == c.src {
+							src = c.tmp
+							break
+						}
+					}
+				}
+				if buildcfg.Experiment.CgoCheck2 {
+					// Issue cgo checking code.
+					typ := reflectdata.TypeLinksym(w.Aux.(*types.Type))
+					taddr := b.NewValue1A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb)
+					mem = wbcall(pos, bEnd, cgoCheckMemmove, sp, mem, taddr, dst, src)
+				}
+				mem = bEnd.NewValue3I(pos, OpMove, types.TypeMem, w.AuxInt, dst, src, mem)
+				mem.Aux = w.Aux
+			case OpVarDef, OpVarLive:
+				mem = bEnd.NewValue1A(pos, w.Op, types.TypeMem, w.Aux, mem)
+			}
+		}
+
+		// The last store becomes the WBend marker. This marker is used by the liveness
+		// pass to determine what parts of the code are preemption-unsafe.
+		// All subsequent memory operations use this memory, so we have to sacrifice the
+		// previous last memory op to become this new value.
+		bEnd.Values = append(bEnd.Values, last)
+		last.Block = bEnd
+		last.reset(OpWBend)
+		last.Pos = last.Pos.WithNotStmt()
+		last.Type = types.TypeMem
+		last.AddArg(mem)
+
+		// Free all the old stores, except last which became the WBend marker.
+		for _, w := range stores {
+			if w != last {
+				w.resetArgs()
+			}
+		}
+		for _, w := range stores {
+			if w != last {
+				f.freeValue(w)
+			}
+		}
+
+		// put values after the store sequence into the end block
+		bEnd.Values = append(bEnd.Values, after...)
+		for _, w := range after {
+			w.Block = bEnd
+		}
+
+		// if we have more stores in this block, do this block again
+		if nWBops > 0 {
+			goto again
 		}
 	}
 }
 
-// wbcall emits write barrier runtime call in b, returns memory.
-// if valIsVolatile, it moves val into temp space before making the call.
-func wbcall(pos src.XPos, b *Block, fn interface{}, typ interface{}, ptr, val, mem, sp, sb *Value, valIsVolatile bool) *Value {
-	config := b.Func.Config
+// computeZeroMap returns a map from an ID of a memory value to
+// a set of locations that are known to be zeroed at that memory value.
+func (f *Func) computeZeroMap(select1 []*Value) map[ID]ZeroRegion {
 
-	var tmp GCNode
-	if valIsVolatile {
-		// Copy to temp location if the source is volatile (will be clobbered by
-		// a function call). Marshaling the args to typedmemmove might clobber the
-		// value we're trying to move.
-		t := val.Type.ElemType()
-		tmp = config.fe.Auto(t)
-		aux := &AutoSymbol{Typ: t, Node: tmp}
-		mem = b.NewValue1A(pos, OpVarDef, TypeMem, tmp, mem)
-		tmpaddr := b.NewValue1A(pos, OpAddr, t.PtrTo(), aux, sp)
-		siz := MakeSizeAndAlign(t.Size(), t.Alignment()).Int64()
-		mem = b.NewValue3I(pos, OpMove, TypeMem, siz, tmpaddr, val, mem)
-		val = tmpaddr
+	ptrSize := f.Config.PtrSize
+	// Keep track of which parts of memory are known to be zero.
+	// This helps with removing write barriers for various initialization patterns.
+	// This analysis is conservative. We only keep track, for each memory state, of
+	// which of the first 64 words of a single object are known to be zero.
+	zeroes := map[ID]ZeroRegion{}
+	// Find new objects.
+	for _, b := range f.Blocks {
+		for _, v := range b.Values {
+			if mem, ok := IsNewObject(v, select1); ok {
+				// While compiling package runtime itself, we might see user
+				// calls to newobject, which will have result type
+				// unsafe.Pointer instead. We can't easily infer how large the
+				// allocated memory is, so just skip it.
+				if types.LocalPkg.Path == "runtime" && v.Type.IsUnsafePtr() {
+					continue
+				}
+
+				nptr := v.Type.Elem().Size() / ptrSize
+				if nptr > 64 {
+					nptr = 64
+				}
+				zeroes[mem.ID] = ZeroRegion{base: v, mask: 1<<uint(nptr) - 1}
+			}
+		}
 	}
-
-	// put arguments on stack
-	off := config.ctxt.FixedFrameSize()
-
-	if typ != nil { // for typedmemmove
-		taddr := b.NewValue1A(pos, OpAddr, config.fe.TypeUintptr(), typ, sb)
-		off = round(off, taddr.Type.Alignment())
-		arg := b.NewValue1I(pos, OpOffPtr, taddr.Type.PtrTo(), off, sp)
-		mem = b.NewValue3I(pos, OpStore, TypeMem, ptr.Type.Size(), arg, taddr, mem)
-		off += taddr.Type.Size()
+	// Find stores to those new objects.
+	for {
+		changed := false
+		for _, b := range f.Blocks {
+			// Note: iterating forwards helps convergence, as values are
+			// typically (but not always!) in store order.
+			for _, v := range b.Values {
+				if v.Op != OpStore {
+					continue
+				}
+				z, ok := zeroes[v.MemoryArg().ID]
+				if !ok {
+					continue
+				}
+				ptr := v.Args[0]
+				var off int64
+				size := v.Aux.(*types.Type).Size()
+				for ptr.Op == OpOffPtr {
+					off += ptr.AuxInt
+					ptr = ptr.Args[0]
+				}
+				if ptr != z.base {
+					// Different base object - we don't know anything.
+					// We could even be writing to the base object we know
+					// about, but through an aliased but offset pointer.
+					// So we have to throw all the zero information we have away.
+					continue
+				}
+				// Round to cover any partially written pointer slots.
+				// Pointer writes should never be unaligned like this, but non-pointer
+				// writes to pointer-containing types will do this.
+				if d := off % ptrSize; d != 0 {
+					off -= d
+					size += d
+				}
+				if d := size % ptrSize; d != 0 {
+					size += ptrSize - d
+				}
+				// Clip to the 64 words that we track.
+				min := off
+				max := off + size
+				if min < 0 {
+					min = 0
+				}
+				if max > 64*ptrSize {
+					max = 64 * ptrSize
+				}
+				// Clear bits for parts that we are writing (and hence
+				// will no longer necessarily be zero).
+				for i := min; i < max; i += ptrSize {
+					bit := i / ptrSize
+					z.mask &^= 1 << uint(bit)
+				}
+				if z.mask == 0 {
+					// No more known zeros - don't bother keeping.
+					continue
+				}
+				// Save updated known zero contents for new store.
+				if zeroes[v.ID] != z {
+					zeroes[v.ID] = z
+					changed = true
+				}
+			}
+		}
+		if !changed {
+			break
+		}
 	}
-
-	off = round(off, ptr.Type.Alignment())
-	arg := b.NewValue1I(pos, OpOffPtr, ptr.Type.PtrTo(), off, sp)
-	mem = b.NewValue3I(pos, OpStore, TypeMem, ptr.Type.Size(), arg, ptr, mem)
-	off += ptr.Type.Size()
-
-	if val != nil {
-		off = round(off, val.Type.Alignment())
-		arg = b.NewValue1I(pos, OpOffPtr, val.Type.PtrTo(), off, sp)
-		mem = b.NewValue3I(pos, OpStore, TypeMem, val.Type.Size(), arg, val, mem)
-		off += val.Type.Size()
+	if f.pass.debug > 0 {
+		fmt.Printf("func %s\n", f.Name)
+		for mem, z := range zeroes {
+			fmt.Printf("  memory=v%d ptr=%v zeromask=%b\n", mem, z.base, z.mask)
+		}
 	}
-	off = round(off, config.PtrSize)
-
-	// issue call
-	mem = b.NewValue1A(pos, OpStaticCall, TypeMem, fn, mem)
-	mem.AuxInt = off - config.ctxt.FixedFrameSize()
-
-	if valIsVolatile {
-		mem = b.NewValue1A(pos, OpVarKill, TypeMem, tmp, mem) // mark temp dead
-	}
-
-	return mem
+	return zeroes
 }
 
-// round to a multiple of r, r is a power of 2
+// wbcall emits write barrier runtime call in b, returns memory.
+func wbcall(pos src.XPos, b *Block, fn *obj.LSym, sp, mem *Value, args ...*Value) *Value {
+	config := b.Func.Config
+	typ := config.Types.Uintptr // type of all argument values
+	nargs := len(args)
+
+	// TODO (register args) this is a bit of a hack.
+	inRegs := b.Func.ABIDefault == b.Func.ABI1 && len(config.intParamRegs) >= 3
+
+	if !inRegs {
+		// Store arguments to the appropriate stack slot.
+		off := config.ctxt.Arch.FixedFrameSize
+		for _, arg := range args {
+			stkaddr := b.NewValue1I(pos, OpOffPtr, typ.PtrTo(), off, sp)
+			mem = b.NewValue3A(pos, OpStore, types.TypeMem, typ, stkaddr, arg, mem)
+			off += typ.Size()
+		}
+		args = args[:0]
+	}
+
+	args = append(args, mem)
+
+	// issue call
+	argTypes := make([]*types.Type, nargs, 3) // at most 3 args; allows stack allocation
+	for i := 0; i < nargs; i++ {
+		argTypes[i] = typ
+	}
+	call := b.NewValue0A(pos, OpStaticCall, types.TypeResultMem, StaticAuxCall(fn, b.Func.ABIDefault.ABIAnalyzeTypes(nil, argTypes, nil)))
+	call.AddArgs(args...)
+	call.AuxInt = int64(nargs) * typ.Size()
+	return b.NewValue1I(pos, OpSelectN, types.TypeMem, 0, call)
+}
+
+// round to a multiple of r, r is a power of 2.
 func round(o int64, r int64) int64 {
 	return (o + r - 1) &^ (r - 1)
 }
 
-// IsStackAddr returns whether v is known to be an address of a stack slot
+// IsStackAddr reports whether v is known to be an address of a stack slot.
 func IsStackAddr(v *Value) bool {
 	for v.Op == OpOffPtr || v.Op == OpAddPtr || v.Op == OpPtrIndex || v.Op == OpCopy {
 		v = v.Args[0]
 	}
 	switch v.Op {
-	case OpSP:
+	case OpSP, OpLocalAddr, OpSelectNAddr, OpGetCallerSP:
 		return true
-	case OpAddr:
-		return v.Args[0].Op == OpSP
 	}
 	return false
+}
+
+// IsGlobalAddr reports whether v is known to be an address of a global (or nil).
+func IsGlobalAddr(v *Value) bool {
+	for v.Op == OpOffPtr || v.Op == OpAddPtr || v.Op == OpPtrIndex || v.Op == OpCopy {
+		v = v.Args[0]
+	}
+	if v.Op == OpAddr && v.Args[0].Op == OpSB {
+		return true // address of a global
+	}
+	if v.Op == OpConstNil {
+		return true
+	}
+	if v.Op == OpLoad && IsReadOnlyGlobalAddr(v.Args[0]) {
+		return true // loading from a read-only global - the resulting address can't be a heap address.
+	}
+	return false
+}
+
+// IsReadOnlyGlobalAddr reports whether v is known to be an address of a read-only global.
+func IsReadOnlyGlobalAddr(v *Value) bool {
+	if v.Op == OpConstNil {
+		// Nil pointers are read only. See issue 33438.
+		return true
+	}
+	if v.Op == OpAddr && v.Aux != nil && v.Aux.(*obj.LSym).Type == objabi.SRODATA {
+		return true
+	}
+	return false
+}
+
+// IsNewObject reports whether v is a pointer to a freshly allocated & zeroed object,
+// if so, also returns the memory state mem at which v is zero.
+func IsNewObject(v *Value, select1 []*Value) (mem *Value, ok bool) {
+	f := v.Block.Func
+	c := f.Config
+	if f.ABIDefault == f.ABI1 && len(c.intParamRegs) >= 1 {
+		if v.Op != OpSelectN || v.AuxInt != 0 {
+			return nil, false
+		}
+		mem = select1[v.Args[0].ID]
+		if mem == nil {
+			return nil, false
+		}
+	} else {
+		if v.Op != OpLoad {
+			return nil, false
+		}
+		mem = v.MemoryArg()
+		if mem.Op != OpSelectN {
+			return nil, false
+		}
+		if mem.Type != types.TypeMem {
+			return nil, false
+		} // assume it is the right selection if true
+	}
+	call := mem.Args[0]
+	if call.Op != OpStaticCall {
+		return nil, false
+	}
+	if !isSameCall(call.Aux, "runtime.newobject") {
+		return nil, false
+	}
+	if f.ABIDefault == f.ABI1 && len(c.intParamRegs) >= 1 {
+		if v.Args[0] == call {
+			return mem, true
+		}
+		return nil, false
+	}
+	if v.Args[0].Op != OpOffPtr {
+		return nil, false
+	}
+	if v.Args[0].Args[0].Op != OpSP {
+		return nil, false
+	}
+	if v.Args[0].AuxInt != c.ctxt.Arch.FixedFrameSize+c.RegSize { // offset of return value
+		return nil, false
+	}
+	return mem, true
+}
+
+// IsSanitizerSafeAddr reports whether v is known to be an address
+// that doesn't need instrumentation.
+func IsSanitizerSafeAddr(v *Value) bool {
+	for v.Op == OpOffPtr || v.Op == OpAddPtr || v.Op == OpPtrIndex || v.Op == OpCopy {
+		v = v.Args[0]
+	}
+	switch v.Op {
+	case OpSP, OpLocalAddr, OpSelectNAddr:
+		// Stack addresses are always safe.
+		return true
+	case OpITab, OpStringPtr, OpGetClosurePtr:
+		// Itabs, string data, and closure fields are
+		// read-only once initialized.
+		return true
+	case OpAddr:
+		vt := v.Aux.(*obj.LSym).Type
+		return vt == objabi.SRODATA || vt == objabi.SLIBFUZZER_8BIT_COUNTER || vt == objabi.SCOVERAGE_COUNTER || vt == objabi.SCOVERAGE_AUXVAR
+	}
+	return false
+}
+
+// isVolatile reports whether v is a pointer to argument region on stack which
+// will be clobbered by a function call.
+func isVolatile(v *Value) bool {
+	for v.Op == OpOffPtr || v.Op == OpAddPtr || v.Op == OpPtrIndex || v.Op == OpCopy || v.Op == OpSelectNAddr {
+		v = v.Args[0]
+	}
+	return v.Op == OpSP
 }

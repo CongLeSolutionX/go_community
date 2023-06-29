@@ -1,3 +1,7 @@
+// Copyright 2015 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package x86_test
 
 import (
@@ -5,9 +9,7 @@ import (
 	"bytes"
 	"fmt"
 	"internal/testenv"
-	"io/ioutil"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strconv"
@@ -74,14 +76,14 @@ func parseTestData(t *testing.T) *ParsedTestData {
 	return r
 }
 
-var spaces_re *regexp.Regexp = regexp.MustCompile("\\s+")
+var spaces_re *regexp.Regexp = regexp.MustCompile(`\s+`)
 
 func normalize(s string) string {
 	return spaces_re.ReplaceAllLiteralString(strings.TrimSpace(s), " ")
 }
 
 func asmOutput(t *testing.T, s string) []byte {
-	tmpdir, err := ioutil.TempDir("", "progedittest")
+	tmpdir, err := os.MkdirTemp("", "progedittest")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -95,17 +97,12 @@ func asmOutput(t *testing.T, s string) []byte {
 	if err != nil {
 		t.Fatal(err)
 	}
-	cmd := exec.Command(
+	cmd := testenv.Command(t,
 		testenv.GoToolPath(t), "tool", "asm", "-S", "-dynlink",
 		"-o", filepath.Join(tmpdir, "output.6"), tmpfile.Name())
 
-	var env []string
-	for _, v := range os.Environ() {
-		if !strings.HasPrefix(v, "GOARCH=") {
-			env = append(env, v)
-		}
-	}
-	cmd.Env = append(env, "GOARCH=amd64")
+	cmd.Env = append(os.Environ(),
+		"GOARCH=amd64", "GOOS=linux", "GOPATH="+filepath.Join(tmpdir, "_gopath"))
 	asmout, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("error %s output %s", err, asmout)
@@ -115,7 +112,7 @@ func asmOutput(t *testing.T, s string) []byte {
 
 func parseOutput(t *testing.T, td *ParsedTestData, asmout []byte) {
 	scanner := bufio.NewScanner(bytes.NewReader(asmout))
-	marker := regexp.MustCompile("MOVQ \\$([0-9]+), AX")
+	marker := regexp.MustCompile(`MOVQ \$([0-9]+), AX`)
 	mark := -1
 	td.marker_to_output = make(map[int][]string)
 	for scanner.Scan() {

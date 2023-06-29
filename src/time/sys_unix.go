@@ -2,44 +2,26 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris
+//go:build unix || (js && wasm) || wasip1
 
 package time
 
 import (
 	"errors"
+	"runtime"
 	"syscall"
 )
 
 // for testing: whatever interrupts a sleep
 func interrupt() {
-	syscall.Kill(syscall.Getpid(), syscall.SIGCHLD)
-}
-
-// readFile reads and returns the content of the named file.
-// It is a trivial implementation of ioutil.ReadFile, reimplemented
-// here to avoid depending on io/ioutil or os.
-func readFile(name string) ([]byte, error) {
-	f, err := syscall.Open(name, syscall.O_RDONLY, 0)
-	if err != nil {
-		return nil, err
+	// There is no mechanism in wasi to interrupt the call to poll_oneoff
+	// used to implement runtime.usleep so this function does nothing, which
+	// somewhat defeats the purpose of TestSleep but we are still better off
+	// validating that time elapses when the process calls time.Sleep than
+	// skipping the test altogether.
+	if runtime.GOOS != "wasip1" {
+		syscall.Kill(syscall.Getpid(), syscall.SIGCHLD)
 	}
-	defer syscall.Close(f)
-	var (
-		buf [4096]byte
-		ret []byte
-		n   int
-	)
-	for {
-		n, err = syscall.Read(f, buf[:])
-		if n > 0 {
-			ret = append(ret, buf[:n]...)
-		}
-		if n == 0 || err != nil {
-			break
-		}
-	}
-	return ret, err
 }
 
 func open(name string) (uintptr, error) {
@@ -48,6 +30,10 @@ func open(name string) (uintptr, error) {
 		return 0, err
 	}
 	return uintptr(fd), nil
+}
+
+func read(fd uintptr, buf []byte) (int, error) {
+	return syscall.Read(int(fd), buf)
 }
 
 func closefd(fd uintptr) {
@@ -74,5 +60,3 @@ func preadn(fd uintptr, buf []byte, off int) error {
 	}
 	return nil
 }
-
-func isNotExist(err error) bool { return err == syscall.ENOENT }

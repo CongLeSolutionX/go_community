@@ -18,12 +18,12 @@
 //
 //   fun := Fun("entry",
 //       Bloc("entry",
-//           Valu("mem", OpInitMem, TypeMem, 0, nil),
+//           Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 //           Goto("exit")),
 //       Bloc("exit",
 //           Exit("mem")),
 //       Bloc("deadblock",
-//          Valu("deadval", OpConstBool, TypeBool, 0, true),
+//          Valu("deadval", OpConstBool, c.config.Types.Bool, 0, true),
 //          If("deadval", "deadblock", "exit")))
 //
 // and the Blocks or Values used in the Func can be accessed
@@ -34,9 +34,11 @@ package ssa
 
 // TODO(matloob): Choose better names for Fun, Bloc, Goto, etc.
 // TODO(matloob): Write a parser for the Func disassembly. Maybe
-//                the parser can be used instead of Fun.
+// the parser can be used instead of Fun.
 
 import (
+	"cmd/compile/internal/types"
+	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
 	"reflect"
@@ -139,13 +141,25 @@ var emptyPass pass = pass{
 	name: "empty pass",
 }
 
+// AuxCallLSym returns an AuxCall initialized with an LSym that should pass "check"
+// as the Aux of a static call.
+func AuxCallLSym(name string) *AuxCall {
+	return &AuxCall{Fn: &obj.LSym{}}
+}
+
 // Fun takes the name of an entry bloc and a series of Bloc calls, and
 // returns a fun containing the composed Func. entry must be a name
 // supplied to one of the Bloc functions. Each of the bloc names and
 // valu names should be unique across the Fun.
-func Fun(c *Config, entry string, blocs ...bloc) fun {
-	f := c.NewFunc()
+func (c *Conf) Fun(entry string, blocs ...bloc) fun {
+	f := NewFunc(c.Frontend())
+	f.Config = c.config
+	// TODO: Either mark some SSA tests as t.Parallel,
+	// or set up a shared Cache and Reset it between tests.
+	// But not both.
+	f.Cache = new(Cache)
 	f.pass = &emptyPass
+	f.cachedLineStarts = newXposmap(map[int]lineRange{0: {0, 100}, 1: {0, 100}, 2: {0, 100}, 3: {0, 100}, 4: {0, 100}})
 
 	blocks := make(map[string]*Block)
 	values := make(map[string]*Value)
@@ -218,7 +232,7 @@ func Bloc(name string, entries ...interface{}) bloc {
 }
 
 // Valu defines a value in a block.
-func Valu(name string, op Op, t Type, auxint int64, aux interface{}, args ...string) valu {
+func Valu(name string, op Op, t *types.Type, auxint int64, aux Aux, args ...string) valu {
 	return valu{name, op, t, auxint, aux, args}
 }
 
@@ -261,20 +275,20 @@ type ctrl struct {
 type valu struct {
 	name   string
 	op     Op
-	t      Type
+	t      *types.Type
 	auxint int64
-	aux    interface{}
+	aux    Aux
 	args   []string
 }
 
 func TestArgs(t *testing.T) {
 	c := testConfig(t)
-	fun := Fun(c, "entry",
+	fun := c.Fun("entry",
 		Bloc("entry",
-			Valu("a", OpConst64, TypeInt64, 14, nil),
-			Valu("b", OpConst64, TypeInt64, 26, nil),
-			Valu("sum", OpAdd64, TypeInt64, 0, nil, "a", "b"),
-			Valu("mem", OpInitMem, TypeMem, 0, nil),
+			Valu("a", OpConst64, c.config.Types.Int64, 14, nil),
+			Valu("b", OpConst64, c.config.Types.Int64, 26, nil),
+			Valu("sum", OpAdd64, c.config.Types.Int64, 0, nil, "a", "b"),
+			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Goto("exit")),
 		Bloc("exit",
 			Exit("mem")))
@@ -288,47 +302,48 @@ func TestArgs(t *testing.T) {
 }
 
 func TestEquiv(t *testing.T) {
+	cfg := testConfig(t)
 	equivalentCases := []struct{ f, g fun }{
 		// simple case
 		{
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("a", OpConst64, TypeInt64, 14, nil),
-					Valu("b", OpConst64, TypeInt64, 26, nil),
-					Valu("sum", OpAdd64, TypeInt64, 0, nil, "a", "b"),
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
+					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 					Goto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("a", OpConst64, TypeInt64, 14, nil),
-					Valu("b", OpConst64, TypeInt64, 26, nil),
-					Valu("sum", OpAdd64, TypeInt64, 0, nil, "a", "b"),
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
+					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 					Goto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
 		},
 		// block order changed
 		{
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("a", OpConst64, TypeInt64, 14, nil),
-					Valu("b", OpConst64, TypeInt64, 26, nil),
-					Valu("sum", OpAdd64, TypeInt64, 0, nil, "a", "b"),
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
+					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 					Goto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("exit",
 					Exit("mem")),
 				Bloc("entry",
-					Valu("a", OpConst64, TypeInt64, 14, nil),
-					Valu("b", OpConst64, TypeInt64, 26, nil),
-					Valu("sum", OpAdd64, TypeInt64, 0, nil, "a", "b"),
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
+					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 					Goto("exit"))),
 		},
 	}
@@ -343,73 +358,73 @@ func TestEquiv(t *testing.T) {
 	differentCases := []struct{ f, g fun }{
 		// different shape
 		{
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 					Goto("exit")),
 				Bloc("exit",
 					Exit("mem"))),
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 					Exit("mem"))),
 		},
 		// value order changed
 		{
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("b", OpConst64, TypeInt64, 26, nil),
-					Valu("a", OpConst64, TypeInt64, 14, nil),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
 					Exit("mem"))),
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("a", OpConst64, TypeInt64, 14, nil),
-					Valu("b", OpConst64, TypeInt64, 26, nil),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
 					Exit("mem"))),
 		},
 		// value auxint different
 		{
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("a", OpConst64, TypeInt64, 14, nil),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
 					Exit("mem"))),
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("a", OpConst64, TypeInt64, 26, nil),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 26, nil),
 					Exit("mem"))),
 		},
 		// value aux different
 		{
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("a", OpConst64, TypeInt64, 0, 14),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("a", OpConstString, cfg.config.Types.String, 0, StringToAux("foo")),
 					Exit("mem"))),
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("a", OpConst64, TypeInt64, 0, 26),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("a", OpConstString, cfg.config.Types.String, 0, StringToAux("bar")),
 					Exit("mem"))),
 		},
 		// value args different
 		{
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("a", OpConst64, TypeInt64, 14, nil),
-					Valu("b", OpConst64, TypeInt64, 26, nil),
-					Valu("sum", OpAdd64, TypeInt64, 0, nil, "a", "b"),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 14, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 26, nil),
+					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "a", "b"),
 					Exit("mem"))),
-			Fun(testConfig(t), "entry",
+			cfg.Fun("entry",
 				Bloc("entry",
-					Valu("mem", OpInitMem, TypeMem, 0, nil),
-					Valu("a", OpConst64, TypeInt64, 0, nil),
-					Valu("b", OpConst64, TypeInt64, 14, nil),
-					Valu("sum", OpAdd64, TypeInt64, 0, nil, "b", "a"),
+					Valu("mem", OpInitMem, types.TypeMem, 0, nil),
+					Valu("a", OpConst64, cfg.config.Types.Int64, 0, nil),
+					Valu("b", OpConst64, cfg.config.Types.Int64, 14, nil),
+					Valu("sum", OpAdd64, cfg.config.Types.Int64, 0, nil, "b", "a"),
 					Exit("mem"))),
 		},
 	}
@@ -425,16 +440,17 @@ func TestEquiv(t *testing.T) {
 // TestConstCache ensures that the cache will not return
 // reused free'd values with a non-matching AuxInt
 func TestConstCache(t *testing.T) {
-	f := Fun(testConfig(t), "entry",
+	c := testConfig(t)
+	f := c.Fun("entry",
 		Bloc("entry",
-			Valu("mem", OpInitMem, TypeMem, 0, nil),
+			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
 			Exit("mem")))
-	v1 := f.f.ConstBool(src.NoXPos, TypeBool, false)
-	v2 := f.f.ConstBool(src.NoXPos, TypeBool, true)
+	v1 := f.f.ConstBool(c.config.Types.Bool, false)
+	v2 := f.f.ConstBool(c.config.Types.Bool, true)
 	f.f.freeValue(v1)
 	f.f.freeValue(v2)
-	v3 := f.f.ConstBool(src.NoXPos, TypeBool, false)
-	v4 := f.f.ConstBool(src.NoXPos, TypeBool, true)
+	v3 := f.f.ConstBool(c.config.Types.Bool, false)
+	v4 := f.f.ConstBool(c.config.Types.Bool, true)
 	if v3.AuxInt != 0 {
 		t.Errorf("expected %s to have auxint of 0\n", v3.LongString())
 	}

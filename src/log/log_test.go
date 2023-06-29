@@ -9,9 +9,12 @@ package log
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"os"
 	"regexp"
+	"runtime"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 )
@@ -20,7 +23,7 @@ const (
 	Rdate         = `[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]`
 	Rtime         = `[0-9][0-9]:[0-9][0-9]:[0-9][0-9]`
 	Rmicroseconds = `\.[0-9][0-9][0-9][0-9][0-9][0-9]`
-	Rline         = `(57|59):` // must update if the calls to l.Printf / l.Print below move
+	Rline         = `(63|65):` // must update if the calls to l.Printf / l.Print below move
 	Rlongfile     = `.*/[A-Za-z0-9_\-]+\.go:` + Rline
 	Rshortfile    = `[A-Za-z0-9_\-]+\.go:` + Rline
 )
@@ -37,6 +40,7 @@ var tests = []tester{
 	{0, "XXX", "XXX"},
 	{Ldate, "", Rdate + " "},
 	{Ltime, "", Rtime + " "},
+	{Ltime | Lmsgprefix, "XXX", Rtime + " XXX"},
 	{Ltime | Lmicroseconds, "", Rtime + Rmicroseconds + " "},
 	{Lmicroseconds, "", Rtime + Rmicroseconds + " "}, // microsec implies time
 	{Llongfile, "", Rlongfile + " "},
@@ -45,11 +49,13 @@ var tests = []tester{
 	// everything at once:
 	{Ldate | Ltime | Lmicroseconds | Llongfile, "XXX", "XXX" + Rdate + " " + Rtime + Rmicroseconds + " " + Rlongfile + " "},
 	{Ldate | Ltime | Lmicroseconds | Lshortfile, "XXX", "XXX" + Rdate + " " + Rtime + Rmicroseconds + " " + Rshortfile + " "},
+	{Ldate | Ltime | Lmicroseconds | Llongfile | Lmsgprefix, "XXX", Rdate + " " + Rtime + Rmicroseconds + " " + Rlongfile + " XXX"},
+	{Ldate | Ltime | Lmicroseconds | Lshortfile | Lmsgprefix, "XXX", Rdate + " " + Rtime + Rmicroseconds + " " + Rshortfile + " XXX"},
 }
 
 // Test using Println("hello", 23, "world") or using Printf("hello %d world", 23)
 func testPrint(t *testing.T, flag int, prefix string, pattern string, useFormat bool) {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	SetOutput(buf)
 	SetFlags(flag)
 	SetPrefix(prefix)
@@ -61,14 +67,20 @@ func testPrint(t *testing.T, flag int, prefix string, pattern string, useFormat 
 	line := buf.String()
 	line = line[0 : len(line)-1]
 	pattern = "^" + pattern + "hello 23 world$"
-	matched, err4 := regexp.MatchString(pattern, line)
-	if err4 != nil {
-		t.Fatal("pattern did not compile:", err4)
+	matched, err := regexp.MatchString(pattern, line)
+	if err != nil {
+		t.Fatal("pattern did not compile:", err)
 	}
 	if !matched {
 		t.Errorf("log output should match %q is %q", pattern, line)
 	}
 	SetOutput(os.Stderr)
+}
+
+func TestDefault(t *testing.T) {
+	if got := Default(); got != std {
+		t.Errorf("Default [%p] should be std [%p]", got, std)
+	}
 }
 
 func TestAll(t *testing.T) {
@@ -80,12 +92,33 @@ func TestAll(t *testing.T) {
 
 func TestOutput(t *testing.T) {
 	const testString = "test"
-	var b bytes.Buffer
+	var b strings.Builder
 	l := New(&b, "", 0)
 	l.Println(testString)
 	if expect := testString + "\n"; b.String() != expect {
 		t.Errorf("log output should match %q is %q", expect, b.String())
 	}
+}
+
+func TestNonNewLogger(t *testing.T) {
+	var l Logger
+	l.SetOutput(new(bytes.Buffer)) // minimal work to initialize a Logger
+	l.Print("hello")
+}
+
+func TestOutputRace(t *testing.T) {
+	var b bytes.Buffer
+	l := New(&b, "", 0)
+	var wg sync.WaitGroup
+	wg.Add(100)
+	for i := 0; i < 100; i++ {
+		go func() {
+			defer wg.Done()
+			l.SetFlags(0)
+			l.Output(0, "")
+		}()
+	}
+	wg.Wait()
 }
 
 func TestFlagAndPrefixSetting(t *testing.T) {
@@ -119,10 +152,19 @@ func TestFlagAndPrefixSetting(t *testing.T) {
 	if !matched {
 		t.Error("message did not match pattern")
 	}
+
+	// Ensure that a newline is added only if the buffer lacks a newline suffix.
+	b.Reset()
+	l.SetFlags(0)
+	l.SetPrefix("\n")
+	l.Output(0, "")
+	if got := b.String(); got != "\n" {
+		t.Errorf("message mismatch:\ngot  %q\nwant %q", got, "\n")
+	}
 }
 
 func TestUTCFlag(t *testing.T) {
-	var b bytes.Buffer
+	var b strings.Builder
 	l := New(&b, "Test:", LstdFlags)
 	l.SetFlags(Ldate | Ltime | LUTC)
 	// Verify a log message looks right in the right time zone. Quantize to the second only.
@@ -146,7 +188,7 @@ func TestUTCFlag(t *testing.T) {
 }
 
 func TestEmptyPrintCreatesLine(t *testing.T) {
-	var b bytes.Buffer
+	var b strings.Builder
 	l := New(&b, "Header:", LstdFlags)
 	l.Print()
 	l.Println("non-empty")
@@ -156,6 +198,17 @@ func TestEmptyPrintCreatesLine(t *testing.T) {
 	}
 	if n := strings.Count(output, "\n"); n != 2 {
 		t.Errorf("expected 2 lines, got %d", n)
+	}
+}
+
+func TestDiscard(t *testing.T) {
+	l := New(io.Discard, "", 0)
+	s := strings.Repeat("a", 102400)
+	c := testing.AllocsPerRun(100, func() { l.Printf("%s", s) })
+	// One allocation for slice passed to Printf,
+	// but none for formatting of long string.
+	if c > 1 {
+		t.Errorf("got %v allocs, want at most 1", c)
 	}
 }
 
@@ -177,8 +230,51 @@ func BenchmarkPrintln(b *testing.B) {
 	const testString = "test"
 	var buf bytes.Buffer
 	l := New(&buf, "", LstdFlags)
+	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
 		l.Println(testString)
+	}
+}
+
+func BenchmarkPrintlnNoFlags(b *testing.B) {
+	const testString = "test"
+	var buf bytes.Buffer
+	l := New(&buf, "", 0)
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		buf.Reset()
+		l.Println(testString)
+	}
+}
+
+// discard is identical to io.Discard,
+// but copied here to avoid the io.Discard optimization in Logger.
+type discard struct{}
+
+func (discard) Write(p []byte) (int, error) {
+	return len(p), nil
+}
+
+func BenchmarkConcurrent(b *testing.B) {
+	l := New(discard{}, "prefix: ", Ldate|Ltime|Lmicroseconds|Llongfile|Lmsgprefix)
+	var group sync.WaitGroup
+	for i := runtime.NumCPU(); i > 0; i-- {
+		group.Add(1)
+		go func() {
+			for i := 0; i < b.N; i++ {
+				l.Output(0, "hello, world!")
+			}
+			defer group.Done()
+		}()
+	}
+	group.Wait()
+}
+
+func BenchmarkDiscard(b *testing.B) {
+	l := New(io.Discard, "", LstdFlags|Lshortfile)
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		l.Printf("processing %d objects from bucket %q", 1234, "fizzbuzz")
 	}
 }

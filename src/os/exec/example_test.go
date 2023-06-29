@@ -5,13 +5,12 @@
 package exec_test
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
@@ -28,7 +27,7 @@ func ExampleLookPath() {
 func ExampleCommand() {
 	cmd := exec.Command("tr", "a-z", "A-Z")
 	cmd.Stdin = strings.NewReader("some input")
-	var out bytes.Buffer
+	var out strings.Builder
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
@@ -37,12 +36,30 @@ func ExampleCommand() {
 	fmt.Printf("in all caps: %q\n", out.String())
 }
 
+func ExampleCommand_environment() {
+	cmd := exec.Command("prog")
+	cmd.Env = append(os.Environ(),
+		"FOO=duplicate_value", // ignored
+		"FOO=actual_value",    // this value is used
+	)
+	if err := cmd.Run(); err != nil {
+		log.Fatal(err)
+	}
+}
+
 func ExampleCmd_Output() {
 	out, err := exec.Command("date").Output()
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("The date is %s\n", out)
+}
+
+func ExampleCmd_Run() {
+	cmd := exec.Command("sleep", "1")
+	log.Printf("Running command and waiting for it to finish...")
+	err := cmd.Run()
+	log.Printf("Command finished with error: %v", err)
 }
 
 func ExampleCmd_Start() {
@@ -109,7 +126,7 @@ func ExampleCmd_StderrPipe() {
 		log.Fatal(err)
 	}
 
-	slurp, _ := ioutil.ReadAll(stderr)
+	slurp, _ := io.ReadAll(stderr)
 	fmt.Printf("%s\n", slurp)
 
 	if err := cmd.Wait(); err != nil {
@@ -124,6 +141,21 @@ func ExampleCmd_CombinedOutput() {
 		log.Fatal(err)
 	}
 	fmt.Printf("%s\n", stdoutStderr)
+}
+
+func ExampleCmd_Environ() {
+	cmd := exec.Command("pwd")
+
+	// Set Dir before calling cmd.Environ so that it will include an
+	// updated PWD variable (on platforms where that is used).
+	cmd.Dir = ".."
+	cmd.Env = append(cmd.Environ(), "POSIXLY_CORRECT=1")
+
+	out, err := cmd.Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", out)
 }
 
 func ExampleCommandContext() {

@@ -5,6 +5,8 @@
 package os
 
 import (
+	"errors"
+	"internal/testlog"
 	"runtime"
 	"sync"
 	"sync/atomic"
@@ -12,11 +14,14 @@ import (
 	"time"
 )
 
+// ErrProcessDone indicates a Process has finished.
+var ErrProcessDone = errors.New("os: process already finished")
+
 // Process stores the information about a process created by StartProcess.
 type Process struct {
 	Pid    int
 	handle uintptr      // handle is accessed atomically on Windows
-	isdone uint32       // process has been successfully waited on, non zero if true
+	isdone atomic.Bool  // process has been successfully waited on
 	sigMu  sync.RWMutex // avoid race between wait and signal
 }
 
@@ -27,11 +32,11 @@ func newProcess(pid int, handle uintptr) *Process {
 }
 
 func (p *Process) setDone() {
-	atomic.StoreUint32(&p.isdone, 1)
+	p.isdone.Store(true)
 }
 
 func (p *Process) done() bool {
-	return atomic.LoadUint32(&p.isdone) > 0
+	return p.isdone.Load()
 }
 
 // ProcAttr holds the attributes that will be applied to a new process
@@ -49,6 +54,9 @@ type ProcAttr struct {
 	// standard error. An implementation may support additional entries,
 	// depending on the underlying operating system. A nil entry corresponds
 	// to that file being closed when the process starts.
+	// On Unix systems, StartProcess will change these File values
+	// to blocking mode, which means that SetDeadline will stop working
+	// and calling Close will not interrupt a Read or Write.
 	Files []*File
 
 	// Operating system-specific process creation attributes.
@@ -78,19 +86,28 @@ func Getppid() int { return syscall.Getppid() }
 // about the underlying operating system process.
 //
 // On Unix systems, FindProcess always succeeds and returns a Process
-// for the given pid, regardless of whether the process exists.
+// for the given pid, regardless of whether the process exists. To test whether
+// the process actually exists, see whether p.Signal(syscall.Signal(0)) reports
+// an error.
 func FindProcess(pid int) (*Process, error) {
 	return findProcess(pid)
 }
 
 // StartProcess starts a new process with the program, arguments and attributes
-// specified by name, argv and attr.
+// specified by name, argv and attr. The argv slice will become os.Args in the
+// new process, so it normally starts with the program name.
+//
+// If the calling goroutine has locked the operating system thread
+// with runtime.LockOSThread and modified any inheritable OS-level
+// thread state (for example, Linux or Plan 9 name spaces), the new
+// process will inherit the caller's thread state.
 //
 // StartProcess is a low-level interface. The os/exec package provides
 // higher-level interfaces.
 //
 // If there is an error, it will be of type *PathError.
 func StartProcess(name string, argv []string, attr *ProcAttr) (*Process, error) {
+	testlog.Open(name)
 	return startProcess(name, argv, attr)
 }
 
@@ -101,7 +118,9 @@ func (p *Process) Release() error {
 	return p.release()
 }
 
-// Kill causes the Process to exit immediately.
+// Kill causes the Process to exit immediately. Kill does not wait until
+// the Process has actually exited. This only kills the Process itself,
+// not any other processes it may have started.
 func (p *Process) Kill() error {
 	return p.kill()
 }
@@ -132,6 +151,8 @@ func (p *ProcessState) SystemTime() time.Duration {
 }
 
 // Exited reports whether the program has exited.
+// On Unix systems this reports true if the program exited due to calling exit,
+// but false if the program terminated due to a signal.
 func (p *ProcessState) Exited() bool {
 	return p.exited()
 }
@@ -145,7 +166,7 @@ func (p *ProcessState) Success() bool {
 // Sys returns system-dependent exit information about
 // the process. Convert it to the appropriate underlying
 // type, such as syscall.WaitStatus on Unix, to access its contents.
-func (p *ProcessState) Sys() interface{} {
+func (p *ProcessState) Sys() any {
 	return p.sys()
 }
 
@@ -154,6 +175,6 @@ func (p *ProcessState) Sys() interface{} {
 // type, such as *syscall.Rusage on Unix, to access its contents.
 // (On Unix, *syscall.Rusage matches struct rusage as defined in the
 // getrusage(2) manual page.)
-func (p *ProcessState) SysUsage() interface{} {
+func (p *ProcessState) SysUsage() any {
 	return p.sysUsage()
 }

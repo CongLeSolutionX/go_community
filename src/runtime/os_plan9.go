@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"internal/abi"
 	"runtime/internal/atomic"
 	"unsafe"
 )
@@ -68,37 +69,42 @@ func errstr() string
 
 type _Plink uintptr
 
-//go:linkname os_sigpipe os.sigpipe
-func os_sigpipe() {
-	throw("too many writes on closed pipe")
-}
-
 func sigpanic() {
-	g := getg()
-	if !canpanic(g) {
+	gp := getg()
+	if !canpanic() {
 		throw("unexpected signal during runtime execution")
 	}
 
-	note := gostringnocopy((*byte)(unsafe.Pointer(g.m.notesig)))
-	switch g.sig {
+	note := gostringnocopy((*byte)(unsafe.Pointer(gp.m.notesig)))
+	switch gp.sig {
 	case _SIGRFAULT, _SIGWFAULT:
-		i := index(note, "addr=")
+		i := indexNoFloat(note, "addr=")
 		if i >= 0 {
 			i += 5
-		} else if i = index(note, "va="); i >= 0 {
+		} else if i = indexNoFloat(note, "va="); i >= 0 {
 			i += 3
 		} else {
 			panicmem()
 		}
 		addr := note[i:]
-		g.sigcode1 = uintptr(atolwhex(addr))
-		if g.sigcode1 < 0x1000 || g.paniconfault {
+		gp.sigcode1 = uintptr(atolwhex(addr))
+		if gp.sigcode1 < 0x1000 {
 			panicmem()
 		}
-		print("unexpected fault address ", hex(g.sigcode1), "\n")
+		if gp.paniconfault {
+			panicmemAddr(gp.sigcode1)
+		}
+		if inUserArenaChunk(gp.sigcode1) {
+			// We could check that the arena chunk is explicitly set to fault,
+			// but the fact that we faulted on accessing it is enough to prove
+			// that it is.
+			print("accessed data from freed user arena ", hex(gp.sigcode1), "\n")
+		} else {
+			print("unexpected fault address ", hex(gp.sigcode1), "\n")
+		}
 		throw("fault")
 	case _SIGTRAP:
-		if g.paniconfault {
+		if gp.paniconfault {
 			panicmem()
 		}
 		throw(note)
@@ -111,21 +117,35 @@ func sigpanic() {
 	}
 }
 
+// indexNoFloat is bytealg.IndexString but safe to use in a note
+// handler.
+func indexNoFloat(s, t string) int {
+	if len(t) == 0 {
+		return 0
+	}
+	for i := 0; i < len(s); i++ {
+		if s[i] == t[0] && hasPrefix(s[i:], t) {
+			return i
+		}
+	}
+	return -1
+}
+
 func atolwhex(p string) int64 {
-	for hasprefix(p, " ") || hasprefix(p, "\t") {
+	for hasPrefix(p, " ") || hasPrefix(p, "\t") {
 		p = p[1:]
 	}
 	neg := false
-	if hasprefix(p, "-") || hasprefix(p, "+") {
+	if hasPrefix(p, "-") || hasPrefix(p, "+") {
 		neg = p[0] == '-'
 		p = p[1:]
-		for hasprefix(p, " ") || hasprefix(p, "\t") {
+		for hasPrefix(p, " ") || hasPrefix(p, "\t") {
 			p = p[1:]
 		}
 	}
 	var n int64
 	switch {
-	case hasprefix(p, "0x"), hasprefix(p, "0X"):
+	case hasPrefix(p, "0x"), hasPrefix(p, "0X"):
 		p = p[2:]
 		for ; len(p) > 0; p = p[1:] {
 			if '0' <= p[0] && p[0] <= '9' {
@@ -138,7 +158,7 @@ func atolwhex(p string) int64 {
 				break
 			}
 		}
-	case hasprefix(p, "0"):
+	case hasPrefix(p, "0"):
 		for ; len(p) > 0 && '0' <= p[0] && p[0] <= '7'; p = p[1:] {
 			n = n*8 + int64(p[0]-'0')
 		}
@@ -167,13 +187,18 @@ func mpreinit(mp *m) {
 	mp.errstr = (*byte)(mallocgc(_ERRMAX, nil, true))
 }
 
-func msigsave(mp *m) {
+func sigsave(p *sigset) {
 }
 
 func msigrestore(sigmask sigset) {
 }
 
-func sigblock() {
+//go:nosplit
+//go:nowritebarrierrec
+func clearSignalHandlers() {
+}
+
+func sigblock(exiting bool) {
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -189,6 +214,11 @@ func minit() {
 
 // Called from dropm to undo the effect of an minit.
 func unminit() {
+}
+
+// Called from exitm, but not from drop, to undo the effect of thread-owned
+// resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
+func mdestroy(mp *m) {
 }
 
 var sysstat = []byte("/dev/sysstat\x00")
@@ -284,13 +314,13 @@ func getpid() uint64 {
 }
 
 func osinit() {
+	physPageSize = getPageSize()
 	initBloc()
 	ncpu = getproccount()
-	physPageSize = getPageSize()
 	getg().m.procid = getpid()
-	notify(unsafe.Pointer(funcPC(sigtramp)))
 }
 
+//go:nosplit
 func crash() {
 	notify(nil)
 	*(*int)(nil) = 0
@@ -298,18 +328,39 @@ func crash() {
 
 //go:nosplit
 func getRandomData(r []byte) {
-	extendRandom(r, 0)
-}
+	// inspired by wyrand see hash32.go for detail
+	t := nanotime()
+	v := getg().m.procid ^ uint64(t)
 
-func goenvs() {
+	for len(r) > 0 {
+		v ^= 0xa0761d6478bd642f
+		v *= 0xe7037ed1a0b428db
+		size := 8
+		if len(r) < 8 {
+			size = len(r)
+		}
+		for i := 0; i < size; i++ {
+			r[i] = byte(v >> (8 * i))
+		}
+		r = r[size:]
+		v = v>>32 | v<<32
+	}
 }
 
 func initsig(preinit bool) {
+	if !preinit {
+		notify(unsafe.Pointer(abi.FuncPCABI0(sigtramp)))
+	}
 }
 
 //go:nosplit
 func osyield() {
 	sleep(0)
+}
+
+//go:nosplit
+func osyield_no_g() {
+	osyield()
 }
 
 //go:nosplit
@@ -322,7 +373,12 @@ func usleep(µs uint32) {
 }
 
 //go:nosplit
-func nanotime() int64 {
+func usleep_no_g(usec uint32) {
+	usleep(usec)
+}
+
+//go:nosplit
+func nanotime1() int64 {
 	var scratch int64
 	ns := nsec(&scratch)
 	// TODO(aram): remove hack after I fix _nsec in the pc64 kernel.
@@ -330,18 +386,6 @@ func nanotime() int64 {
 		return scratch
 	}
 	return ns
-}
-
-//go:nosplit
-func itoa(buf []byte, val uint64) []byte {
-	i := len(buf) - 1
-	for val >= 10 {
-		buf[i] = byte(val%10 + '0')
-		i--
-		val /= 10
-	}
-	buf[i] = byte(val + '0')
-	return buf[i:]
 }
 
 var goexits = []byte("go: exit ")
@@ -379,7 +423,7 @@ func postnote(pid uint64, msg []byte) int {
 		return -1
 	}
 	len := findnull(&msg[0])
-	if write(uintptr(fd), unsafe.Pointer(&msg[0]), int32(len)) != int64(len) {
+	if write1(uintptr(fd), unsafe.Pointer(&msg[0]), int32(len)) != int32(len) {
 		closefd(fd)
 		return -1
 	}
@@ -388,22 +432,25 @@ func postnote(pid uint64, msg []byte) int {
 }
 
 //go:nosplit
-func exit(e int) {
+func exit(e int32) {
 	var status []byte
 	if e == 0 {
 		status = emptystatus
 	} else {
 		// build error string
 		var tmp [32]byte
-		status = append(itoa(tmp[:len(tmp)-1], uint64(e)), 0)
+		sl := itoa(tmp[:len(tmp)-1], uint64(e))
+		// Don't append, rely on the existing data being zero.
+		status = sl[:len(sl)+1]
 	}
 	goexitsall(&status[0])
 	exits(&status[0])
 }
 
 // May run with m.p==nil, so write barriers are not allowed.
+//
 //go:nowritebarrier
-func newosproc(mp *m, stk unsafe.Pointer) {
+func newosproc(mp *m) {
 	if false {
 		print("newosproc mp=", mp, " ostk=", &mp, "\n")
 	}
@@ -416,25 +463,31 @@ func newosproc(mp *m, stk unsafe.Pointer) {
 	}
 }
 
+func exitThread(wait *atomic.Uint32) {
+	// We should never reach exitThread on Plan 9 because we let
+	// the OS clean up threads.
+	throw("exitThread")
+}
+
 //go:nosplit
 func semacreate(mp *m) {
 }
 
 //go:nosplit
 func semasleep(ns int64) int {
-	_g_ := getg()
+	gp := getg()
 	if ns >= 0 {
 		ms := timediv(ns, 1000000, nil)
 		if ms == 0 {
 			ms = 1
 		}
-		ret := plan9_tsemacquire(&_g_.m.waitsemacount, ms)
+		ret := plan9_tsemacquire(&gp.m.waitsemacount, ms)
 		if ret == 1 {
 			return 0 // success
 		}
 		return -1 // timeout or interrupted
 	}
-	for plan9_semacquire(&_g_.m.waitsemacount, 1) < 0 {
+	for plan9_semacquire(&gp.m.waitsemacount, 1) < 0 {
 		// interrupted; try again (c.f. lock_sema.go)
 	}
 	return 0 // success
@@ -451,17 +504,14 @@ func read(fd int32, buf unsafe.Pointer, n int32) int32 {
 }
 
 //go:nosplit
-func write(fd uintptr, buf unsafe.Pointer, n int32) int64 {
-	return int64(pwrite(int32(fd), buf, n, -1))
-}
-
-func memlimit() uint64 {
-	return 0
+func write1(fd uintptr, buf unsafe.Pointer, n int32) int32 {
+	return pwrite(int32(fd), buf, n, -1)
 }
 
 var _badsignal = []byte("runtime: signal received on thread not created by Go.\n")
 
 // This runs on a foreign stack, without an m or a g. No stack split.
+//
 //go:nosplit
 func badsignal2() {
 	pwrite(2, unsafe.Pointer(&_badsignal[0]), int32(len(_badsignal)), -1)
@@ -486,4 +536,12 @@ func signame(sig uint32) string {
 		return ""
 	}
 	return sigtable[sig].name
+}
+
+const preemptMSupported = false
+
+func preemptM(mp *m) {
+	// Not currently supported.
+	//
+	// TODO: Use a note like we use signals on POSIX OSes
 }

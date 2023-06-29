@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build race
+//go:build race
 
 // This program is used to verify the race detector
 // by running the tests and parsing their output.
@@ -68,7 +68,7 @@ func TestRace(t *testing.T) {
 	}
 
 	if totalTests == 0 {
-		t.Fatalf("failed to parse test output")
+		t.Fatalf("failed to parse test output:\n%s", testOutput)
 	}
 	fmt.Printf("\nPassed %d of %d tests (%.02f%%, %d+, %d-)\n",
 		passedTests, totalTests, 100*float64(passedTests)/float64(totalTests), falsePos, falseNeg)
@@ -177,13 +177,17 @@ func runTests(t *testing.T) ([]byte, error) {
 	)
 	// There are races: we expect tests to fail and the exit code to be non-zero.
 	out, _ := cmd.CombinedOutput()
+	if bytes.Contains(out, []byte("fatal error:")) {
+		// But don't expect runtime to crash.
+		return out, fmt.Errorf("runtime fatal error")
+	}
 	return out, nil
 }
 
 func TestIssue8102(t *testing.T) {
 	// If this compiles with -race, the test passes.
 	type S struct {
-		x interface{}
+		x any
 		i int
 	}
 	c := make(chan int)

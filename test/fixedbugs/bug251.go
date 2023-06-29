@@ -6,13 +6,13 @@
 
 package main
 
-type I1 interface {
+type I1 interface { // GC_ERROR "invalid recursive type"
 	m() I2
-	I2 // GCCGO_ERROR "loop|interface"
+	I2
 }
 
 type I2 interface {
-	I1 // ERROR "loop|interface"
+	I1 // GCCGO_ERROR "loop|interface"
 }
 
 

@@ -1,5 +1,5 @@
 // Derived from Inferno's libkern/memmove-386.s (adapted for amd64)
-// https://bitbucket.org/inferno-os/inferno-os/src/default/libkern/memmove-386.s
+// https://bitbucket.org/inferno-os/inferno-os/src/master/libkern/memmove-386.s
 //
 //         Copyright © 1994-1999 Lucent Technologies Inc. All rights reserved.
 //         Revisions Copyright © 2000-2007 Vita Nuova Holdings Limited (www.vitanuova.com).  All rights reserved.
@@ -23,16 +23,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// +build !plan9
+//go:build !plan9
 
+#include "go_asm.h"
 #include "textflag.h"
 
-// void runtime·memmove(void*, void*, uintptr)
-TEXT runtime·memmove(SB), NOSPLIT, $0-24
+// See memmove Go doc for important implementation constraints.
 
-	MOVQ	to+0(FP), DI
-	MOVQ	from+8(FP), SI
-	MOVQ	n+16(FP), BX
+// func memmove(to, from unsafe.Pointer, n uintptr)
+// ABIInternal for performance.
+TEXT runtime·memmove<ABIInternal>(SB), NOSPLIT, $0-24
+	// AX = to
+	// BX = from
+	// CX = n
+	MOVQ	AX, DI
+	MOVQ	BX, SI
+	MOVQ	CX, BX
 
 	// REP instructions have a high startup cost, so we handle small sizes
 	// with some straightline code. The REP MOVSQ instruction is really fast
@@ -43,12 +49,15 @@ tail:
 	// registers before writing it back.  move_256through2048 on the other
 	// hand can be used only when the memory regions don't overlap or the copy
 	// direction is forward.
+	//
+	// BSR+branch table make almost all memmove/memclr benchmarks worse. Not worth doing.
 	TESTQ	BX, BX
 	JEQ	move_0
 	CMPQ	BX, $2
 	JBE	move_1or2
 	CMPQ	BX, $4
-	JBE	move_3or4
+	JB	move_3
+	JBE	move_4
 	CMPQ	BX, $8
 	JB	move_5through7
 	JE	move_8
@@ -62,10 +71,9 @@ tail:
 	JBE	move_65through128
 	CMPQ	BX, $256
 	JBE	move_129through256
-	// TODO: use branch table and BSR to make this just a single dispatch
 
-	TESTB	$1, runtime·useRepMovs(SB)
-	JZ	avxUnaligned
+	TESTB	$1, runtime·useAVXmemmove(SB)
+	JNZ	avxUnaligned
 
 /*
  * check and set for backwards
@@ -81,8 +89,8 @@ forward:
 	JLS	move_256through2048
 
 	// If REP MOVSB isn't fast, don't use it
-	TESTL	$(1<<9), runtime·cpuid_ebx7(SB) // erms, aka enhanced REP MOVSB/STOSB
-	JEQ	fwdBy8
+	CMPB	internal∕cpu·X86+const_offsetX86HasERMS(SB), $1 // enhanced REP MOVSB/STOSB
+	JNE	fwdBy8
 
 	// Check alignment
 	MOVL	SI, AX
@@ -145,11 +153,15 @@ move_1or2:
 	RET
 move_0:
 	RET
-move_3or4:
+move_4:
+	MOVL	(SI), AX
+	MOVL	AX, (DI)
+	RET
+move_3:
 	MOVW	(SI), AX
-	MOVW	-2(SI)(BX*1), CX
+	MOVB	2(SI), CX
 	MOVW	AX, (DI)
-	MOVW	CX, -2(DI)(BX*1)
+	MOVB	CX, 2(DI)
 	RET
 move_5through7:
 	MOVL	(SI), AX
@@ -235,6 +247,8 @@ move_129through256:
 	MOVOU	X13, -48(DI)(BX*1)
 	MOVOU	X14, -32(DI)(BX*1)
 	MOVOU	X15, -16(DI)(BX*1)
+	// X15 must be zero on return
+	PXOR	X15, X15
 	RET
 move_256through2048:
 	SUBQ	$256, BX
@@ -274,11 +288,13 @@ move_256through2048:
 	LEAQ	256(SI), SI
 	LEAQ	256(DI), DI
 	JGE	move_256through2048
+	// X15 must be zero on return
+	PXOR	X15, X15
 	JMP	tail
 
 avxUnaligned:
 	// There are two implementations of move algorithm.
-	// The first one for non-ovelapped memory regions. It uses forward copying.
+	// The first one for non-overlapped memory regions. It uses forward copying.
 	// The second one for overlapped regions. It uses backward copying
 	MOVQ	DI, CX
 	SUBQ	SI, CX
@@ -340,7 +356,7 @@ avxUnaligned:
 	// Continue tail saving.
 	MOVOU	-0x20(CX), X11
 	MOVOU	-0x10(CX), X12
-	// The tail will be put on it's place after main body copying.
+	// The tail will be put on its place after main body copying.
 	// It's time for the unaligned heading part.
 	VMOVDQU	(SI), Y4
 	// Adjust source address to point past head.
@@ -401,10 +417,10 @@ gobble_big_data_fwd:
 gobble_mem_fwd_loop:
 	PREFETCHNTA 0x1C0(SI)
 	PREFETCHNTA 0x280(SI)
-	// Prefetch values were choosen empirically.
-	// Approach for prefetch usage as in 7.6.6 of [1]
+	// Prefetch values were chosen empirically.
+	// Approach for prefetch usage as in 9.5.6 of [1]
 	// [1] 64-ia-32-architectures-optimization-manual.pdf
-	// http://www.intel.ru/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-optimization-manual.pdf
+	// https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-optimization-manual.pdf
 	VMOVDQU	(SI), Y0
 	VMOVDQU	0x20(SI), Y1
 	VMOVDQU	0x40(SI), Y2

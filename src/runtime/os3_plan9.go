@@ -5,7 +5,8 @@
 package runtime
 
 import (
-	"runtime/internal/sys"
+	"internal/abi"
+	"internal/goarch"
 	"unsafe"
 )
 
@@ -13,7 +14,9 @@ import (
 //
 //go:nowritebarrierrec
 func sighandler(_ureg *ureg, note *byte, gp *g) int {
-	_g_ := getg()
+	gsignal := getg()
+	mp := gsignal.m
+
 	var t sigTabT
 	var docrash bool
 	var sig int
@@ -35,15 +38,24 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 		print("sighandler: note is longer than ERRMAX\n")
 		goto Throw
 	}
+	if isAbortPC(c.pc()) {
+		// Never turn abort into a panic.
+		goto Throw
+	}
 	// See if the note matches one of the patterns in sigtab.
 	// Notes that do not match any pattern can be handled at a higher
 	// level by the program but will otherwise be ignored.
 	flags = _SigNotify
 	for sig, t = range sigtable {
-		if hasprefix(notestr, t.name) {
+		if hasPrefix(notestr, t.name) {
 			flags = t.flags
 			break
 		}
+	}
+	if flags&_SigPanic != 0 && gp.throwsplit {
+		// We can't safely sigpanic because it may grow the
+		// stack. Abort in the signal handler instead.
+		flags = (flags &^ _SigPanic) | _SigThrow
 	}
 	if flags&_SigGoExit != 0 {
 		exits((*byte)(add(unsafe.Pointer(note), 9))) // Strip "go: exit " prefix.
@@ -51,7 +63,7 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 	if flags&_SigPanic != 0 {
 		// Copy the error string from sigtramp's stack into m->notesig so
 		// we can reliably access it from the panic routines.
-		memmove(unsafe.Pointer(_g_.m.notesig), unsafe.Pointer(note), uintptr(len(notestr)+1))
+		memmove(unsafe.Pointer(mp.notesig), unsafe.Pointer(note), uintptr(len(notestr)+1))
 		gp.sig = uint32(sig)
 		gp.sigpc = c.pc()
 
@@ -62,7 +74,7 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 		// but we do recognize the top pointer on the stack as code,
 		// then assume this was a call to non-code and treat like
 		// pc == 0, to make unwinding show the context.
-		if pc != 0 && findfunc(pc) == nil && findfunc(*(*uintptr)(unsafe.Pointer(sp))) != nil {
+		if pc != 0 && !findfunc(pc).valid() && findfunc(*(*uintptr)(unsafe.Pointer(sp))).valid() {
 			pc = 0
 		}
 
@@ -83,19 +95,15 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 			if usesLR {
 				c.setlr(pc)
 			} else {
-				if sys.RegSize > sys.PtrSize {
-					sp -= sys.PtrSize
-					*(*uintptr)(unsafe.Pointer(sp)) = 0
-				}
-				sp -= sys.PtrSize
+				sp -= goarch.PtrSize
 				*(*uintptr)(unsafe.Pointer(sp)) = pc
 				c.setsp(sp)
 			}
 		}
 		if usesLR {
-			c.setpc(funcPC(sigpanictramp))
+			c.setpc(abi.FuncPCABI0(sigpanictramp))
 		} else {
-			c.setpc(funcPC(sigpanic))
+			c.setpc(abi.FuncPCABI0(sigpanic0))
 		}
 		return _NCONT
 	}
@@ -114,9 +122,9 @@ func sighandler(_ureg *ureg, note *byte, gp *g) int {
 		return _NCONT
 	}
 Throw:
-	_g_.m.throwing = 1
-	_g_.m.caughtsig.set(gp)
-	startpanic()
+	mp.throwing = throwTypeRuntime
+	mp.caughtsig.set(gp)
+	startpanic_m()
 	print(notestr, "\n")
 	print("PC=", hex(c.pc()), "\n")
 	print("\n")
@@ -146,7 +154,13 @@ func sigdisable(sig uint32) {
 func sigignore(sig uint32) {
 }
 
-func resetcpuprofiler(hz int32) {
+func setProcessCPUProfiler(hz int32) {
+}
+
+func setThreadCPUProfiler(hz int32) {
 	// TODO: Enable profiling interrupts.
 	getg().m.profilehz = hz
 }
+
+// gsignalStack is unused on Plan 9.
+type gsignalStack struct{}

@@ -7,22 +7,29 @@ package runtime
 import "unsafe"
 
 //go:linkname plugin_lastmoduleinit plugin.lastmoduleinit
-func plugin_lastmoduleinit() (path string, syms map[string]interface{}, mismatchpkg string) {
-	md := firstmoduledata.next
+func plugin_lastmoduleinit() (path string, syms map[string]any, initTasks []*initTask, errstr string) {
+	var md *moduledata
+	for pmd := firstmoduledata.next; pmd != nil; pmd = pmd.next {
+		if pmd.bad {
+			md = nil // we only want the last module
+			continue
+		}
+		md = pmd
+	}
 	if md == nil {
 		throw("runtime: no plugin module data")
 	}
-	for md.next != nil {
-		md = md.next
+	if md.pluginpath == "" {
+		throw("runtime: plugin has empty pluginpath")
 	}
 	if md.typemap != nil {
-		throw("runtime: plugin already initialized")
+		return "", nil, nil, "plugin already loaded"
 	}
 
 	for _, pmd := range activeModules() {
 		if pmd.pluginpath == md.pluginpath {
-			println("plugin: plugin", md.pluginpath, "already loaded")
-			throw("plugin: plugin already loaded")
+			md.bad = true
+			return "", nil, nil, "plugin already loaded"
 		}
 
 		if inRange(pmd.text, pmd.etext, md.text, md.etext) ||
@@ -43,7 +50,8 @@ func plugin_lastmoduleinit() (path string, syms map[string]interface{}, mismatch
 	}
 	for _, pkghash := range md.pkghashes {
 		if pkghash.linktimehash != *pkghash.runtimehash {
-			return "", nil, pkghash.modulename
+			md.bad = true
+			return "", nil, nil, "plugin was built with a different version of package " + pkghash.modulename
 		}
 	}
 
@@ -51,11 +59,14 @@ func plugin_lastmoduleinit() (path string, syms map[string]interface{}, mismatch
 	modulesinit()
 	typelinksinit()
 
-	lock(&ifaceLock)
+	pluginftabverify(md)
+	moduledataverify1(md)
+
+	lock(&itabLock)
 	for _, i := range md.itablinks {
-		additab(i, true, false)
+		itabAdd(i)
 	}
-	unlock(&ifaceLock)
+	unlock(&itabLock)
 
 	// Build a map of symbol names to symbols. Here in the runtime
 	// we fill out the first word of the interface, the type. We
@@ -65,21 +76,51 @@ func plugin_lastmoduleinit() (path string, syms map[string]interface{}, mismatch
 	// Because functions are handled specially in the plugin package,
 	// function symbol names are prefixed here with '.' to avoid
 	// a dependency on the reflect package.
-	syms = make(map[string]interface{}, len(md.ptab))
+	syms = make(map[string]any, len(md.ptab))
 	for _, ptab := range md.ptab {
 		symName := resolveNameOff(unsafe.Pointer(md.types), ptab.name)
-		t := (*_type)(unsafe.Pointer(md.types)).typeOff(ptab.typ)
-		var val interface{}
+		t := toRType((*_type)(unsafe.Pointer(md.types))).typeOff(ptab.typ) // TODO can this stack of conversions be simpler?
+		var val any
 		valp := (*[2]unsafe.Pointer)(unsafe.Pointer(&val))
 		(*valp)[0] = unsafe.Pointer(t)
 
-		name := symName.name()
-		if t.kind&kindMask == kindFunc {
+		name := symName.Name()
+		if t.Kind_&kindMask == kindFunc {
 			name = "." + name
 		}
 		syms[name] = val
 	}
-	return md.pluginpath, syms, ""
+	return md.pluginpath, syms, md.inittasks, ""
+}
+
+func pluginftabverify(md *moduledata) {
+	badtable := false
+	for i := 0; i < len(md.ftab); i++ {
+		entry := md.textAddr(md.ftab[i].entryoff)
+		if md.minpc <= entry && entry <= md.maxpc {
+			continue
+		}
+
+		f := funcInfo{(*_func)(unsafe.Pointer(&md.pclntable[md.ftab[i].funcoff])), md}
+		name := funcname(f)
+
+		// A common bug is f.entry has a relocation to a duplicate
+		// function symbol, meaning if we search for its PC we get
+		// a valid entry with a name that is useful for debugging.
+		name2 := "none"
+		entry2 := uintptr(0)
+		f2 := findfunc(entry)
+		if f2.valid() {
+			name2 = funcname(f2)
+			entry2 = f2.entry()
+		}
+		badtable = true
+		println("ftab entry", hex(entry), "/", hex(entry2), ": ",
+			name, "/", name2, "outside pc range:[", hex(md.minpc), ",", hex(md.maxpc), "], modulename=", md.modulename, ", pluginpath=", md.pluginpath)
+	}
+	if badtable {
+		throw("runtime: plugin has bad symbol table")
+	}
 }
 
 // inRange reports whether v0 or v1 are in the range [r0, r1].
