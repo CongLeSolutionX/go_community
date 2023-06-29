@@ -1,0 +1,9 @@
+// DO NOT EDIT (use 'go test -update-expected' instead))
+TStub
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-

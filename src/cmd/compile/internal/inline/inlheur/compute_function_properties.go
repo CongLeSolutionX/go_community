@@ -1,0 +1,70 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package inlheur
+
+import (
+	"cmd/compile/internal/base"
+	"cmd/compile/internal/inline/funcprop"
+	"cmd/compile/internal/ir"
+	"encoding/json"
+	"fmt"
+	"os"
+)
+
+const debugTrace = 0
+
+// computeFuncProps analyzes the specified function 'fn' and computes
+// for it a function "properties" object, to be used to drive inlining
+// heuristics (see comments on FuncProps and related in
+// cmd/compile/internal/inline/funcprop).
+func computeFuncProps(fn *ir.Func) *funcprop.FuncProps {
+	if debugTrace != 0 {
+		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
+			fn.Sym().Name, fn)
+	}
+	// implementation stubbed out for now
+	return &funcprop.FuncProps{}
+}
+
+// DumpFuncProps computes and caches function properties for the func
+// 'fn', or if fn is nil, writes out the cached set of properties to
+// the file given in 'dumpfile'. Used only for unit testing.
+func DumpFuncProps(fn *ir.Func, dumpfile string) {
+	if fn != nil {
+		fp := computeFuncProps(fn)
+		entry := fnWithProps{
+			fname: fn.Sym().Name,
+			props: fp,
+		}
+		dumpBuffer = append(dumpBuffer, entry)
+		return
+	}
+	outf, err := os.OpenFile(dumpfile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		base.Fatalf("opening function props dump file %q: %v\n", dumpfile, err)
+	}
+	defer outf.Close()
+	fmt.Fprintf(outf, "// DO NOT EDIT (use 'go test -update-expected' instead))\n")
+	for _, entry := range dumpBuffer {
+		fmt.Fprintf(outf, "%s\n", entry.fname)
+		// emit props as comments
+		fmt.Fprintf(outf, "%s===\n", entry.props.ToString("// "))
+		data, err := json.MarshalIndent(entry.props, "", "\t")
+		if err != nil {
+			base.Fatalf("function props dump: marshall error %v\n", err)
+		}
+		fmt.Fprintf(outf, "%s\n%s\n", string(data), fnDelimiter)
+	}
+	dumpBuffer = nil
+}
+
+const fnDelimiter = "=-=-=-"
+
+type fnWithProps struct {
+	fname string
+	props *funcprop.FuncProps
+}
+
+var dumpBuffer []fnWithProps
