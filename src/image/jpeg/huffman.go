@@ -49,7 +49,7 @@ func (d *decoder) ensureNBits(n int32) error {
 	for {
 		c, err := d.readByteStuffedByte()
 		if err != nil {
-			if err == io.EOF {
+			if err == io.ErrUnexpectedEOF {
 				return errShortHuffmanData
 			}
 			return err
@@ -101,7 +101,8 @@ func (d *decoder) processDHT(n int) error {
 			return FormatError("bad Tc value")
 		}
 		th := d.tmp[0] & 0x0f
-		if th > maxTh || !d.progressive && th > 1 {
+		// The baseline th <= 1 restriction is specified in table B.5.
+		if th > maxTh || (d.baseline && th > 1) {
 			return FormatError("bad Th value")
 		}
 		h := &d.huff[tc][th]

@@ -5,20 +5,21 @@
 package arm
 
 import (
-	"cmd/compile/internal/gc"
 	"cmd/compile/internal/ssa"
+	"cmd/compile/internal/ssagen"
 	"cmd/internal/obj/arm"
+	"internal/buildcfg"
 )
 
-func Init() {
-	gc.Thearch.LinkArch = &arm.Linkarm
-	gc.Thearch.REGSP = arm.REGSP
-	gc.Thearch.MAXWIDTH = (1 << 32) - 1
+func Init(arch *ssagen.ArchInfo) {
+	arch.LinkArch = &arm.Linkarm
+	arch.REGSP = arm.REGSP
+	arch.MAXWIDTH = (1 << 32) - 1
+	arch.SoftFloat = buildcfg.GOARM == 5
+	arch.ZeroRange = zerorange
+	arch.Ginsnop = ginsnop
 
-	gc.Thearch.Defframe = defframe
-	gc.Thearch.Proginfo = proginfo
-
-	gc.Thearch.SSAMarkMoves = func(s *gc.SSAGenState, b *ssa.Block) {}
-	gc.Thearch.SSAGenValue = ssaGenValue
-	gc.Thearch.SSAGenBlock = ssaGenBlock
+	arch.SSAMarkMoves = func(s *ssagen.State, b *ssa.Block) {}
+	arch.SSAGenValue = ssaGenValue
+	arch.SSAGenBlock = ssaGenBlock
 }

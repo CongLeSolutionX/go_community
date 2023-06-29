@@ -7,25 +7,28 @@
 package reflect
 
 import (
+	"internal/abi"
 	"unsafe"
 )
 
 // makeFuncImpl is the closure value implementing the function
 // returned by MakeFunc.
+// The first three words of this type must be kept in sync with
+// methodValue and runtime.reflectMethodValue.
+// Any changes should be reflected in all three.
 type makeFuncImpl struct {
-	code  uintptr
-	stack *bitVector // stack bitmap for args - offset known to runtime
-	typ   *funcType
-	fn    func([]Value) []Value
+	makeFuncCtxt
+	ftyp *funcType
+	fn   func([]Value) []Value
 }
 
 // MakeFunc returns a new function of the given Type
 // that wraps the function fn. When called, that new function
 // does the following:
 //
-//	- converts its arguments to a slice of Values.
-//	- runs results := fn(args).
-//	- returns the results as a slice of Values, one per formal result.
+//   - converts its arguments to a slice of Values.
+//   - runs results := fn(args).
+//   - returns the results as a slice of Values, one per formal result.
 //
 // The implementation fn can assume that the argument Value slice
 // has the number and type of arguments given by typ.
@@ -40,7 +43,6 @@ type makeFuncImpl struct {
 //
 // The Examples section of the documentation includes an illustration
 // of how to use MakeFunc to build a swap function for different types.
-//
 func MakeFunc(typ Type, fn func(args []Value) (results []Value)) Value {
 	if typ.Kind() != Func {
 		panic("reflect: call of MakeFunc with non-Func type")
@@ -49,16 +51,21 @@ func MakeFunc(typ Type, fn func(args []Value) (results []Value)) Value {
 	t := typ.common()
 	ftyp := (*funcType)(unsafe.Pointer(t))
 
-	// Indirect Go func value (dummy) to obtain
-	// actual code address. (A Go func value is a pointer
-	// to a C function pointer. https://golang.org/s/go11func.)
-	dummy := makeFuncStub
-	code := **(**uintptr)(unsafe.Pointer(&dummy))
+	code := abi.FuncPCABI0(makeFuncStub)
 
 	// makeFuncImpl contains a stack map for use by the runtime
-	_, _, _, stack, _ := funcLayout(t, nil)
+	_, _, abid := funcLayout(ftyp, nil)
 
-	impl := &makeFuncImpl{code: code, stack: stack, typ: ftyp, fn: fn}
+	impl := &makeFuncImpl{
+		makeFuncCtxt: makeFuncCtxt{
+			fn:      code,
+			stack:   abid.stackPtrs,
+			argLen:  abid.stackCallArgsSize,
+			regPtrs: abid.inRegPtrs,
+		},
+		ftyp: ftyp,
+		fn:   fn,
+	}
 
 	return Value{t, unsafe.Pointer(impl), flag(Func)}
 }
@@ -70,11 +77,11 @@ func MakeFunc(typ Type, fn func(args []Value) (results []Value)) Value {
 // word in the passed-in argument frame.
 func makeFuncStub()
 
-// This type is partially duplicated as runtime.reflectMethodValue.
-// Any changes should be reflected in both.
+// The first 3 words of this type must be kept in sync with
+// makeFuncImpl and runtime.reflectMethodValue.
+// Any changes should be reflected in all three.
 type methodValue struct {
-	fn     uintptr
-	stack  *bitVector // stack bitmap for args - offset known to runtime
+	makeFuncCtxt
 	method int
 	rcvr   Value
 }
@@ -93,24 +100,23 @@ func makeMethodValue(op string, v Value) Value {
 
 	// Ignoring the flagMethod bit, v describes the receiver, not the method type.
 	fl := v.flag & (flagRO | flagAddr | flagIndir)
-	fl |= flag(v.typ.Kind())
-	rcvr := Value{v.typ, v.ptr, fl}
+	fl |= flag(v.typ().Kind())
+	rcvr := Value{v.typ(), v.ptr, fl}
 
 	// v.Type returns the actual type of the method value.
-	funcType := v.Type().(*rtype)
+	ftyp := (*funcType)(unsafe.Pointer(v.Type().(*rtype)))
 
-	// Indirect Go func value (dummy) to obtain
-	// actual code address. (A Go func value is a pointer
-	// to a C function pointer. https://golang.org/s/go11func.)
-	dummy := methodValueCall
-	code := **(**uintptr)(unsafe.Pointer(&dummy))
+	code := methodValueCallCodePtr()
 
 	// methodValue contains a stack map for use by the runtime
-	_, _, _, stack, _ := funcLayout(funcType, nil)
-
+	_, _, abid := funcLayout(ftyp, nil)
 	fv := &methodValue{
-		fn:     code,
-		stack:  stack,
+		makeFuncCtxt: makeFuncCtxt{
+			fn:      code,
+			stack:   abid.stackPtrs,
+			argLen:  abid.stackCallArgsSize,
+			regPtrs: abid.inRegPtrs,
+		},
 		method: int(v.flag) >> flagMethodShift,
 		rcvr:   rcvr,
 	}
@@ -120,7 +126,11 @@ func makeMethodValue(op string, v Value) Value {
 	// but we want Interface() and other operations to fail early.
 	methodReceiver(op, fv.rcvr, fv.method)
 
-	return Value{funcType, unsafe.Pointer(fv), v.flag&flagRO | flag(Func)}
+	return Value{ftyp.Common(), unsafe.Pointer(fv), v.flag&flagRO | flag(Func)}
+}
+
+func methodValueCallCodePtr() uintptr {
+	return abi.FuncPCABI0(methodValueCall)
 }
 
 // methodValueCall is an assembly function that is the code half of
@@ -129,3 +139,38 @@ func makeMethodValue(op string, v Value) Value {
 // where ctxt is the context register and frame is a pointer to the first
 // word in the passed-in argument frame.
 func methodValueCall()
+
+// This structure must be kept in sync with runtime.reflectMethodValue.
+// Any changes should be reflected in all both.
+type makeFuncCtxt struct {
+	fn      uintptr
+	stack   *bitVector // ptrmap for both stack args and results
+	argLen  uintptr    // just args
+	regPtrs abi.IntArgRegBitmap
+}
+
+// moveMakeFuncArgPtrs uses ctxt.regPtrs to copy integer pointer arguments
+// in args.Ints to args.Ptrs where the GC can see them.
+//
+// This is similar to what reflectcallmove does in the runtime, except
+// that happens on the return path, whereas this happens on the call path.
+//
+// nosplit because pointers are being held in uintptr slots in args, so
+// having our stack scanned now could lead to accidentally freeing
+// memory.
+//
+//go:nosplit
+func moveMakeFuncArgPtrs(ctxt *makeFuncCtxt, args *abi.RegArgs) {
+	for i, arg := range args.Ints {
+		// Avoid write barriers! Because our write barrier enqueues what
+		// was there before, we might enqueue garbage.
+		if ctxt.regPtrs.Get(i) {
+			*(*uintptr)(unsafe.Pointer(&args.Ptrs[i])) = arg
+		} else {
+			// We *must* zero this space ourselves because it's defined in
+			// assembly code and the GC will scan these pointers. Otherwise,
+			// there will be garbage here.
+			*(*uintptr)(unsafe.Pointer(&args.Ptrs[i])) = 0
+		}
+	}
+}

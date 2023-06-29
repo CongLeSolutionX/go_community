@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris windows
+//go:build unix || (js && wasm) || wasip1 || windows
 
 package net
 
@@ -18,7 +18,7 @@ func sockaddrToTCP(sa syscall.Sockaddr) Addr {
 	case *syscall.SockaddrInet4:
 		return &TCPAddr{IP: sa.Addr[0:], Port: sa.Port}
 	case *syscall.SockaddrInet6:
-		return &TCPAddr{IP: sa.Addr[0:], Port: sa.Port, Zone: zoneToString(int(sa.ZoneId))}
+		return &TCPAddr{IP: sa.Addr[0:], Port: sa.Port, Zone: zoneCache.name(int(sa.ZoneId))}
 	}
 	return nil
 }
@@ -45,21 +45,37 @@ func (a *TCPAddr) toLocal(net string) sockaddr {
 }
 
 func (c *TCPConn) readFrom(r io.Reader) (int64, error) {
+	if n, err, handled := splice(c.fd, r); handled {
+		return n, err
+	}
 	if n, err, handled := sendFile(c.fd, r); handled {
 		return n, err
 	}
 	return genericReadFrom(c, r)
 }
 
-func dialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
-	if testHookDialTCP != nil {
-		return testHookDialTCP(ctx, net, laddr, raddr)
+func (sd *sysDialer) dialTCP(ctx context.Context, laddr, raddr *TCPAddr) (*TCPConn, error) {
+	if h := sd.testHookDialTCP; h != nil {
+		return h(ctx, sd.network, laddr, raddr)
 	}
-	return doDialTCP(ctx, net, laddr, raddr)
+	if h := testHookDialTCP; h != nil {
+		return h(ctx, sd.network, laddr, raddr)
+	}
+	return sd.doDialTCP(ctx, laddr, raddr)
 }
 
-func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
-	fd, err := internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial")
+func (sd *sysDialer) doDialTCP(ctx context.Context, laddr, raddr *TCPAddr) (*TCPConn, error) {
+	return sd.doDialTCPProto(ctx, laddr, raddr, 0)
+}
+
+func (sd *sysDialer) doDialTCPProto(ctx context.Context, laddr, raddr *TCPAddr, proto int) (*TCPConn, error) {
+	ctrlCtxFn := sd.Dialer.ControlContext
+	if ctrlCtxFn == nil && sd.Dialer.Control != nil {
+		ctrlCtxFn = func(cxt context.Context, network, address string, c syscall.RawConn) error {
+			return sd.Dialer.Control(network, address, c)
+		}
+	}
+	fd, err := internetSocket(ctx, sd.network, laddr, raddr, syscall.SOCK_STREAM, proto, "dial", ctrlCtxFn)
 
 	// TCP has a rarely used mechanism called a 'simultaneous connection' in
 	// which Dial("tcp", addr1, addr2) run on the machine at addr1 can
@@ -77,7 +93,7 @@ func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn
 	// close the fd and try again. If it happens twice more, we relent and
 	// use the result. See also:
 	//	https://golang.org/issue/2690
-	//	http://stackoverflow.com/questions/4949858/
+	//	https://stackoverflow.com/questions/4949858/
 	//
 	// The opposite can also happen: if we ask the kernel to pick an appropriate
 	// originating local address, sometimes it picks one that is already in use.
@@ -89,13 +105,13 @@ func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn
 		if err == nil {
 			fd.Close()
 		}
-		fd, err = internetSocket(ctx, net, laddr, raddr, syscall.SOCK_STREAM, 0, "dial")
+		fd, err = internetSocket(ctx, sd.network, laddr, raddr, syscall.SOCK_STREAM, proto, "dial", ctrlCtxFn)
 	}
 
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, sd.Dialer.KeepAlive, testHookSetKeepAlive), nil
 }
 
 func selfConnect(fd *netFD, err error) bool {
@@ -137,7 +153,7 @@ func (ln *TCPListener) accept() (*TCPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	return newTCPConn(fd), nil
+	return newTCPConn(fd, ln.lc.KeepAlive, nil), nil
 }
 
 func (ln *TCPListener) close() error {
@@ -152,10 +168,20 @@ func (ln *TCPListener) file() (*os.File, error) {
 	return f, nil
 }
 
-func listenTCP(ctx context.Context, network string, laddr *TCPAddr) (*TCPListener, error) {
-	fd, err := internetSocket(ctx, network, laddr, nil, syscall.SOCK_STREAM, 0, "listen")
+func (sl *sysListener) listenTCP(ctx context.Context, laddr *TCPAddr) (*TCPListener, error) {
+	return sl.listenTCPProto(ctx, laddr, 0)
+}
+
+func (sl *sysListener) listenTCPProto(ctx context.Context, laddr *TCPAddr, proto int) (*TCPListener, error) {
+	var ctrlCtxFn func(cxt context.Context, network, address string, c syscall.RawConn) error
+	if sl.ListenConfig.Control != nil {
+		ctrlCtxFn = func(cxt context.Context, network, address string, c syscall.RawConn) error {
+			return sl.ListenConfig.Control(network, address, c)
+		}
+	}
+	fd, err := internetSocket(ctx, sl.network, laddr, nil, syscall.SOCK_STREAM, proto, "listen", ctrlCtxFn)
 	if err != nil {
 		return nil, err
 	}
-	return &TCPListener{fd}, nil
+	return &TCPListener{fd: fd, lc: sl.ListenConfig}, nil
 }

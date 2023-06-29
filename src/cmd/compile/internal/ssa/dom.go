@@ -4,102 +4,58 @@
 
 package ssa
 
-// mark values
-type markKind uint8
-
-const (
-	notFound    markKind = 0 // block has not been discovered yet
-	notExplored markKind = 1 // discovered and in queue, outedges not processed yet
-	explored    markKind = 2 // discovered and in queue, outedges processed
-	done        markKind = 3 // all done, in output ordering
-)
-
 // This file contains code to compute the dominator tree
 // of a control-flow graph.
 
 // postorder computes a postorder traversal ordering for the
 // basic blocks in f. Unreachable blocks will not appear.
 func postorder(f *Func) []*Block {
-	return postorderWithNumbering(f, []int32{})
+	return postorderWithNumbering(f, nil)
 }
+
+type blockAndIndex struct {
+	b     *Block
+	index int // index is the number of successor edges of b that have already been explored.
+}
+
+// postorderWithNumbering provides a DFS postordering.
+// This seems to make loop-finding more robust.
 func postorderWithNumbering(f *Func, ponums []int32) []*Block {
-	mark := make([]markKind, f.NumBlocks())
+	seen := f.Cache.allocBoolSlice(f.NumBlocks())
+	defer f.Cache.freeBoolSlice(seen)
 
 	// result ordering
-	var order []*Block
+	order := make([]*Block, 0, len(f.Blocks))
 
-	// stack of blocks
-	var s []*Block
-	s = append(s, f.Entry)
-	mark[f.Entry.ID] = notExplored
+	// stack of blocks and next child to visit
+	// A constant bound allows this to be stack-allocated. 32 is
+	// enough to cover almost every postorderWithNumbering call.
+	s := make([]blockAndIndex, 0, 32)
+	s = append(s, blockAndIndex{b: f.Entry})
+	seen[f.Entry.ID] = true
 	for len(s) > 0 {
-		b := s[len(s)-1]
-		switch mark[b.ID] {
-		case explored:
-			// Children have all been visited. Pop & output block.
-			s = s[:len(s)-1]
-			mark[b.ID] = done
-			if len(ponums) > 0 {
-				ponums[b.ID] = int32(len(order))
+		tos := len(s) - 1
+		x := s[tos]
+		b := x.b
+		if i := x.index; i < len(b.Succs) {
+			s[tos].index++
+			bb := b.Succs[i].Block()
+			if !seen[bb.ID] {
+				seen[bb.ID] = true
+				s = append(s, blockAndIndex{b: bb})
 			}
-			order = append(order, b)
-		case notExplored:
-			// Children have not been visited yet. Mark as explored
-			// and queue any children we haven't seen yet.
-			mark[b.ID] = explored
-			for _, e := range b.Succs {
-				c := e.b
-				if mark[c.ID] == notFound {
-					mark[c.ID] = notExplored
-					s = append(s, c)
-				}
-			}
-		default:
-			b.Fatalf("bad stack state %v %d", b, mark[b.ID])
+			continue
 		}
+		s = s[:tos]
+		if ponums != nil {
+			ponums[b.ID] = int32(len(order))
+		}
+		order = append(order, b)
 	}
 	return order
 }
 
 type linkedBlocks func(*Block) []Edge
-
-const nscratchslices = 7
-
-// experimentally, functions with 512 or fewer blocks account
-// for 75% of memory (size) allocation for dominator computation
-// in make.bash.
-const minscratchblocks = 512
-
-func (cfg *Config) scratchBlocksForDom(maxBlockID int) (a, b, c, d, e, f, g []ID) {
-	tot := maxBlockID * nscratchslices
-	scratch := cfg.domblockstore
-	if len(scratch) < tot {
-		// req = min(1.5*tot, nscratchslices*minscratchblocks)
-		// 50% padding allows for graph growth in later phases.
-		req := (tot * 3) >> 1
-		if req < nscratchslices*minscratchblocks {
-			req = nscratchslices * minscratchblocks
-		}
-		scratch = make([]ID, req)
-		cfg.domblockstore = scratch
-	} else {
-		// Clear as much of scratch as we will (re)use
-		scratch = scratch[0:tot]
-		for i := range scratch {
-			scratch[i] = 0
-		}
-	}
-
-	a = scratch[0*maxBlockID : 1*maxBlockID]
-	b = scratch[1*maxBlockID : 2*maxBlockID]
-	c = scratch[2*maxBlockID : 3*maxBlockID]
-	d = scratch[3*maxBlockID : 4*maxBlockID]
-	e = scratch[4*maxBlockID : 5*maxBlockID]
-	f = scratch[5*maxBlockID : 6*maxBlockID]
-	g = scratch[6*maxBlockID : 7*maxBlockID]
-
-	return
-}
 
 func dominators(f *Func) []*Block {
 	preds := func(b *Block) []Edge { return b.Preds }
@@ -117,12 +73,21 @@ func (f *Func) dominatorsLTOrig(entry *Block, predFn linkedBlocks, succFn linked
 	// Adapted directly from the original TOPLAS article's "simple" algorithm
 
 	maxBlockID := entry.Func.NumBlocks()
-	semi, vertex, label, parent, ancestor, bucketHead, bucketLink := f.Config.scratchBlocksForDom(maxBlockID)
+	scratch := f.Cache.allocIDSlice(7 * maxBlockID)
+	defer f.Cache.freeIDSlice(scratch)
+	semi := scratch[0*maxBlockID : 1*maxBlockID]
+	vertex := scratch[1*maxBlockID : 2*maxBlockID]
+	label := scratch[2*maxBlockID : 3*maxBlockID]
+	parent := scratch[3*maxBlockID : 4*maxBlockID]
+	ancestor := scratch[4*maxBlockID : 5*maxBlockID]
+	bucketHead := scratch[5*maxBlockID : 6*maxBlockID]
+	bucketLink := scratch[6*maxBlockID : 7*maxBlockID]
 
 	// This version uses integers for most of the computation,
 	// to make the work arrays smaller and pointer-free.
 	// fromID translates from ID to *Block where that is needed.
-	fromID := make([]*Block, maxBlockID)
+	fromID := f.Cache.allocBlockSlice(maxBlockID)
+	defer f.Cache.freeBlockSlice(fromID)
 	for _, v := range f.Blocks {
 		fromID[v.ID] = v
 	}
@@ -179,7 +144,7 @@ func (f *Func) dominatorsLTOrig(entry *Block, predFn linkedBlocks, succFn linked
 	return idom
 }
 
-// dfs performs a depth first search over the blocks starting at entry block
+// dfsOrig performs a depth first search over the blocks starting at entry block
 // (in arbitrary order).  This is a de-recursed version of dfs from the
 // original Tarjan-Lengauer TOPLAS article.  It's important to return the
 // same values for parent as the original algorithm.
@@ -214,7 +179,7 @@ func (f *Func) dfsOrig(entry *Block, succFn linkedBlocks, semi, vertex, label, p
 	return n
 }
 
-// compressOrig is the "simple" compress function from LT paper
+// compressOrig is the "simple" compress function from LT paper.
 func compressOrig(v ID, ancestor, semi, label []ID) {
 	if ancestor[ancestor[v]] != 0 {
 		compressOrig(ancestor[v], ancestor, semi, label)
@@ -225,7 +190,7 @@ func compressOrig(v ID, ancestor, semi, label []ID) {
 	}
 }
 
-// evalOrig is the "simple" eval function from LT paper
+// evalOrig is the "simple" eval function from LT paper.
 func evalOrig(v ID, ancestor, semi, label []ID) ID {
 	if ancestor[v] == 0 {
 		return v
@@ -238,7 +203,7 @@ func linkOrig(v, w ID, ancestor []ID) {
 	ancestor[w] = v
 }
 
-// dominators computes the dominator tree for f. It returns a slice
+// dominatorsSimple computes the dominator tree for f. It returns a slice
 // which maps block ID to the immediate dominator of that block.
 // Unreachable blocks map to nil. The entry block maps to nil.
 func dominatorsSimple(f *Func) []*Block {
@@ -250,7 +215,8 @@ func dominatorsSimple(f *Func) []*Block {
 	post := f.postorder()
 
 	// Make map from block id to order index (for intersect call)
-	postnum := make([]int, f.NumBlocks())
+	postnum := f.Cache.allocIntSlice(f.NumBlocks())
+	defer f.Cache.freeIntSlice(postnum)
 	for i, b := range post {
 		postnum[b.ID] = i
 	}
@@ -296,7 +262,8 @@ func dominatorsSimple(f *Func) []*Block {
 // intersect finds the closest dominator of both b and c.
 // It requires a postorder numbering of all the blocks.
 func intersect(b, c *Block, postnum []int, idom []*Block) *Block {
-	// TODO: This loop is O(n^2). See BenchmarkNilCheckDeep*.
+	// TODO: This loop is O(n^2). It used to be used in nilcheck,
+	// see BenchmarkNilCheckDeep*.
 	for b != c {
 		if postnum[b.ID] < postnum[c.ID] {
 			b = idom[b.ID]

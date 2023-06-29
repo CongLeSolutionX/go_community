@@ -311,7 +311,7 @@ func (e *encoder) writeDQT() {
 	}
 }
 
-// writeSOF0 writes the Start Of Frame (Baseline) marker.
+// writeSOF0 writes the Start Of Frame (Baseline Sequential) marker.
 func (e *encoder) writeSOF0(size image.Point, nComponent int) {
 	markerlen := 8 + 3*nComponent
 	e.writeMarkerHeader(sof0Marker, markerlen)
@@ -441,6 +441,30 @@ func rgbaToYCbCr(m *image.RGBA, p image.Point, yBlock, cbBlock, crBlock *block) 
 	}
 }
 
+// yCbCrToYCbCr is a specialized version of toYCbCr for image.YCbCr images.
+func yCbCrToYCbCr(m *image.YCbCr, p image.Point, yBlock, cbBlock, crBlock *block) {
+	b := m.Bounds()
+	xmax := b.Max.X - 1
+	ymax := b.Max.Y - 1
+	for j := 0; j < 8; j++ {
+		sy := p.Y + j
+		if sy > ymax {
+			sy = ymax
+		}
+		for i := 0; i < 8; i++ {
+			sx := p.X + i
+			if sx > xmax {
+				sx = xmax
+			}
+			yi := m.YOffset(sx, sy)
+			ci := m.COffset(sx, sy)
+			yBlock[8*j+i] = int32(m.Y[yi])
+			cbBlock[8*j+i] = int32(m.Cb[ci])
+			crBlock[8*j+i] = int32(m.Cr[ci])
+		}
+	}
+}
+
 // scale scales the 16x16 region represented by the 4 src blocks to the 8x8
 // dst block.
 func scale(dst *block, src *[4]block) {
@@ -457,25 +481,25 @@ func scale(dst *block, src *[4]block) {
 }
 
 // sosHeaderY is the SOS marker "\xff\xda" followed by 8 bytes:
-//	- the marker length "\x00\x08",
-//	- the number of components "\x01",
-//	- component 1 uses DC table 0 and AC table 0 "\x01\x00",
-//	- the bytes "\x00\x3f\x00". Section B.2.3 of the spec says that for
-//	  sequential DCTs, those bytes (8-bit Ss, 8-bit Se, 4-bit Ah, 4-bit Al)
-//	  should be 0x00, 0x3f, 0x00<<4 | 0x00.
+//   - the marker length "\x00\x08",
+//   - the number of components "\x01",
+//   - component 1 uses DC table 0 and AC table 0 "\x01\x00",
+//   - the bytes "\x00\x3f\x00". Section B.2.3 of the spec says that for
+//     sequential DCTs, those bytes (8-bit Ss, 8-bit Se, 4-bit Ah, 4-bit Al)
+//     should be 0x00, 0x3f, 0x00<<4 | 0x00.
 var sosHeaderY = []byte{
 	0xff, 0xda, 0x00, 0x08, 0x01, 0x01, 0x00, 0x00, 0x3f, 0x00,
 }
 
 // sosHeaderYCbCr is the SOS marker "\xff\xda" followed by 12 bytes:
-//	- the marker length "\x00\x0c",
-//	- the number of components "\x03",
-//	- component 1 uses DC table 0 and AC table 0 "\x01\x00",
-//	- component 2 uses DC table 1 and AC table 1 "\x02\x11",
-//	- component 3 uses DC table 1 and AC table 1 "\x03\x11",
-//	- the bytes "\x00\x3f\x00". Section B.2.3 of the spec says that for
-//	  sequential DCTs, those bytes (8-bit Ss, 8-bit Se, 4-bit Ah, 4-bit Al)
-//	  should be 0x00, 0x3f, 0x00<<4 | 0x00.
+//   - the marker length "\x00\x0c",
+//   - the number of components "\x03",
+//   - component 1 uses DC table 0 and AC table 0 "\x01\x00",
+//   - component 2 uses DC table 1 and AC table 1 "\x02\x11",
+//   - component 3 uses DC table 1 and AC table 1 "\x03\x11",
+//   - the bytes "\x00\x3f\x00". Section B.2.3 of the spec says that for
+//     sequential DCTs, those bytes (8-bit Ss, 8-bit Se, 4-bit Ah, 4-bit Al)
+//     should be 0x00, 0x3f, 0x00<<4 | 0x00.
 var sosHeaderYCbCr = []byte{
 	0xff, 0xda, 0x00, 0x0c, 0x03, 0x01, 0x00, 0x02,
 	0x11, 0x03, 0x11, 0x00, 0x3f, 0x00,
@@ -510,6 +534,7 @@ func (e *encoder) writeSOS(m image.Image) {
 		}
 	default:
 		rgba, _ := m.(*image.RGBA)
+		ycbcr, _ := m.(*image.YCbCr)
 		for y := bounds.Min.Y; y < bounds.Max.Y; y += 16 {
 			for x := bounds.Min.X; x < bounds.Max.X; x += 16 {
 				for i := 0; i < 4; i++ {
@@ -518,6 +543,8 @@ func (e *encoder) writeSOS(m image.Image) {
 					p := image.Pt(x+xOff, y+yOff)
 					if rgba != nil {
 						rgbaToYCbCr(rgba, p, &b, &cb[i], &cr[i])
+					} else if ycbcr != nil {
+						yCbCrToYCbCr(ycbcr, p, &b, &cb[i], &cr[i])
 					} else {
 						toYCbCr(m, p, &b, &cb[i], &cr[i])
 					}

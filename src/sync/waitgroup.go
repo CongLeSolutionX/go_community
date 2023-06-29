@@ -17,23 +17,14 @@ import (
 // Wait can be used to block until all goroutines have finished.
 //
 // A WaitGroup must not be copied after first use.
+//
+// In the terminology of the Go memory model, a call to Done
+// “synchronizes before” the return of any Wait call that it unblocks.
 type WaitGroup struct {
 	noCopy noCopy
 
-	// 64-bit value: high 32 bits are counter, low 32 bits are waiter count.
-	// 64-bit atomic operations require 64-bit alignment, but 32-bit
-	// compilers do not ensure it. So we allocate 12 bytes and then use
-	// the aligned 8 bytes in them as state.
-	state1 [12]byte
-	sema   uint32
-}
-
-func (wg *WaitGroup) state() *uint64 {
-	if uintptr(unsafe.Pointer(&wg.state1))%8 == 0 {
-		return (*uint64)(unsafe.Pointer(&wg.state1))
-	} else {
-		return (*uint64)(unsafe.Pointer(&wg.state1[4]))
-	}
+	state atomic.Uint64 // high 32 bits are counter, low 32 bits are waiter count.
+	sema  uint32
 }
 
 // Add adds delta, which may be negative, to the WaitGroup counter.
@@ -50,9 +41,7 @@ func (wg *WaitGroup) state() *uint64 {
 // new Add calls must happen after all previous Wait calls have returned.
 // See the WaitGroup example.
 func (wg *WaitGroup) Add(delta int) {
-	statep := wg.state()
 	if race.Enabled {
-		_ = *statep // trigger nil deref early
 		if delta < 0 {
 			// Synchronize decrements with Wait.
 			race.ReleaseMerge(unsafe.Pointer(wg))
@@ -60,16 +49,14 @@ func (wg *WaitGroup) Add(delta int) {
 		race.Disable()
 		defer race.Enable()
 	}
-	state := atomic.AddUint64(statep, uint64(delta)<<32)
+	state := wg.state.Add(uint64(delta) << 32)
 	v := int32(state >> 32)
 	w := uint32(state)
-	if race.Enabled {
-		if delta > 0 && v == int32(delta) {
-			// The first increment must be synchronized with Wait.
-			// Need to model this as a read, because there can be
-			// several concurrent wg.counter transitions from 0.
-			race.Read(unsafe.Pointer(&wg.sema))
-		}
+	if race.Enabled && delta > 0 && v == int32(delta) {
+		// The first increment must be synchronized with Wait.
+		// Need to model this as a read, because there can be
+		// several concurrent wg.counter transitions from 0.
+		race.Read(unsafe.Pointer(&wg.sema))
 	}
 	if v < 0 {
 		panic("sync: negative WaitGroup counter")
@@ -85,30 +72,28 @@ func (wg *WaitGroup) Add(delta int) {
 	// - Adds must not happen concurrently with Wait,
 	// - Wait does not increment waiters if it sees counter == 0.
 	// Still do a cheap sanity check to detect WaitGroup misuse.
-	if *statep != state {
+	if wg.state.Load() != state {
 		panic("sync: WaitGroup misuse: Add called concurrently with Wait")
 	}
 	// Reset waiters count to 0.
-	*statep = 0
+	wg.state.Store(0)
 	for ; w != 0; w-- {
-		runtime_Semrelease(&wg.sema)
+		runtime_Semrelease(&wg.sema, false, 0)
 	}
 }
 
-// Done decrements the WaitGroup counter.
+// Done decrements the WaitGroup counter by one.
 func (wg *WaitGroup) Done() {
 	wg.Add(-1)
 }
 
 // Wait blocks until the WaitGroup counter is zero.
 func (wg *WaitGroup) Wait() {
-	statep := wg.state()
 	if race.Enabled {
-		_ = *statep // trigger nil deref early
 		race.Disable()
 	}
 	for {
-		state := atomic.LoadUint64(statep)
+		state := wg.state.Load()
 		v := int32(state >> 32)
 		w := uint32(state)
 		if v == 0 {
@@ -120,7 +105,7 @@ func (wg *WaitGroup) Wait() {
 			return
 		}
 		// Increment waiters count.
-		if atomic.CompareAndSwapUint64(statep, state, state+1) {
+		if wg.state.CompareAndSwap(state, state+1) {
 			if race.Enabled && w == 0 {
 				// Wait must be synchronized with the first Add.
 				// Need to model this is as a write to race with the read in Add.
@@ -129,7 +114,7 @@ func (wg *WaitGroup) Wait() {
 				race.Write(unsafe.Pointer(&wg.sema))
 			}
 			runtime_Semacquire(&wg.sema)
-			if *statep != 0 {
+			if wg.state.Load() != 0 {
 				panic("sync: WaitGroup is reused before previous Wait has returned")
 			}
 			if race.Enabled {

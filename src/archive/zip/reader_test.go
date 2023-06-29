@@ -8,28 +8,34 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"internal/obscuretestdata"
 	"io"
-	"io/ioutil"
+	"io/fs"
 	"os"
 	"path/filepath"
+	"reflect"
 	"regexp"
 	"strings"
 	"testing"
+	"testing/fstest"
 	"time"
 )
 
 type ZipTest struct {
-	Name    string
-	Source  func() (r io.ReaderAt, size int64) // if non-nil, used instead of testdata/<Name> file
-	Comment string
-	File    []ZipTestFile
-	Error   error // the error that Opening this file should return
+	Name     string
+	Source   func() (r io.ReaderAt, size int64) // if non-nil, used instead of testdata/<Name> file
+	Comment  string
+	File     []ZipTestFile
+	Obscured bool  // needed for Apple notarization (golang.org/issue/34986)
+	Error    error // the error that Opening this file should return
 }
 
 type ZipTestFile struct {
-	Name  string
-	Mode  os.FileMode
-	Mtime string // optional, modified time in format "mm-dd-yy hh:mm:ss"
+	Name     string
+	Mode     fs.FileMode
+	NonUTF8  bool
+	ModTime  time.Time
+	Modified time.Time
 
 	// Information describing expected zip file content.
 	// First, reading the entire content should produce the error ContentErr.
@@ -47,32 +53,22 @@ type ZipTestFile struct {
 	Size       uint64
 }
 
-// Caution: The Mtime values found for the test files should correspond to
-//          the values listed with unzip -l <zipfile>. However, the values
-//          listed by unzip appear to be off by some hours. When creating
-//          fresh test files and testing them, this issue is not present.
-//          The test files were created in Sydney, so there might be a time
-//          zone issue. The time zone information does have to be encoded
-//          somewhere, because otherwise unzip -l could not provide a different
-//          time from what the archive/zip package provides, but there appears
-//          to be no documentation about this.
-
 var tests = []ZipTest{
 	{
 		Name:    "test.zip",
 		Comment: "This is a zipfile comment.",
 		File: []ZipTestFile{
 			{
-				Name:    "test.txt",
-				Content: []byte("This is a test text file.\n"),
-				Mtime:   "09-05-10 02:12:00",
-				Mode:    0644,
+				Name:     "test.txt",
+				Content:  []byte("This is a test text file.\n"),
+				Modified: time.Date(2010, 9, 5, 12, 12, 1, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
 			},
 			{
-				Name:  "gophercolor16x16.png",
-				File:  "gophercolor16x16.png",
-				Mtime: "09-05-10 05:52:58",
-				Mode:  0644,
+				Name:     "gophercolor16x16.png",
+				File:     "gophercolor16x16.png",
+				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
 			},
 		},
 	},
@@ -81,16 +77,70 @@ var tests = []ZipTest{
 		Comment: "This is a zipfile comment.",
 		File: []ZipTestFile{
 			{
-				Name:    "test.txt",
-				Content: []byte("This is a test text file.\n"),
-				Mtime:   "09-05-10 02:12:00",
-				Mode:    0644,
+				Name:     "test.txt",
+				Content:  []byte("This is a test text file.\n"),
+				Modified: time.Date(2010, 9, 5, 12, 12, 1, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
 			},
 			{
-				Name:  "gophercolor16x16.png",
-				File:  "gophercolor16x16.png",
-				Mtime: "09-05-10 05:52:58",
-				Mode:  0644,
+				Name:     "gophercolor16x16.png",
+				File:     "gophercolor16x16.png",
+				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
+			},
+		},
+	},
+	{
+		Name:    "test-prefix.zip",
+		Comment: "This is a zipfile comment.",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte("This is a test text file.\n"),
+				Modified: time.Date(2010, 9, 5, 12, 12, 1, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
+			},
+			{
+				Name:     "gophercolor16x16.png",
+				File:     "gophercolor16x16.png",
+				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
+			},
+		},
+	},
+	{
+		Name:    "test-baddirsz.zip",
+		Comment: "This is a zipfile comment.",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte("This is a test text file.\n"),
+				Modified: time.Date(2010, 9, 5, 12, 12, 1, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
+			},
+			{
+				Name:     "gophercolor16x16.png",
+				File:     "gophercolor16x16.png",
+				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
+			},
+		},
+	},
+	{
+		Name:    "test-badbase.zip",
+		Comment: "This is a zipfile comment.",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte("This is a test text file.\n"),
+				Modified: time.Date(2010, 9, 5, 12, 12, 1, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
+			},
+			{
+				Name:     "gophercolor16x16.png",
+				File:     "gophercolor16x16.png",
+				Modified: time.Date(2010, 9, 5, 15, 52, 58, 0, timeZone(+10*time.Hour)),
+				Mode:     0644,
 			},
 		},
 	},
@@ -99,10 +149,10 @@ var tests = []ZipTest{
 		Source: returnRecursiveZip,
 		File: []ZipTestFile{
 			{
-				Name:    "r/r.zip",
-				Content: rZipBytes(),
-				Mtime:   "03-04-10 00:24:16",
-				Mode:    0666,
+				Name:     "r/r.zip",
+				Content:  rZipBytes(),
+				Modified: time.Date(2010, 3, 4, 0, 24, 16, 0, time.UTC),
+				Mode:     0666,
 			},
 		},
 	},
@@ -110,9 +160,10 @@ var tests = []ZipTest{
 		Name: "symlink.zip",
 		File: []ZipTestFile{
 			{
-				Name:    "symlink",
-				Content: []byte("../target"),
-				Mode:    0777 | os.ModeSymlink,
+				Name:     "symlink",
+				Content:  []byte("../target"),
+				Modified: time.Date(2012, 2, 3, 19, 56, 48, 0, timeZone(-2*time.Hour)),
+				Mode:     0777 | fs.ModeSymlink,
 			},
 		},
 	},
@@ -127,67 +178,112 @@ var tests = []ZipTest{
 		Name: "dd.zip",
 		File: []ZipTestFile{
 			{
-				Name:    "filename",
-				Content: []byte("This is a test textfile.\n"),
-				Mtime:   "02-02-11 13:06:20",
-				Mode:    0666,
+				Name:     "filename",
+				Content:  []byte("This is a test textfile.\n"),
+				Modified: time.Date(2011, 2, 2, 13, 6, 20, 0, time.UTC),
+				Mode:     0666,
 			},
 		},
 	},
 	{
 		// created in windows XP file manager.
 		Name: "winxp.zip",
-		File: crossPlatform,
+		File: []ZipTestFile{
+			{
+				Name:     "hello",
+				Content:  []byte("world \r\n"),
+				Modified: time.Date(2011, 12, 8, 10, 4, 24, 0, time.UTC),
+				Mode:     0666,
+			},
+			{
+				Name:     "dir/bar",
+				Content:  []byte("foo \r\n"),
+				Modified: time.Date(2011, 12, 8, 10, 4, 50, 0, time.UTC),
+				Mode:     0666,
+			},
+			{
+				Name:     "dir/empty/",
+				Content:  []byte{},
+				Modified: time.Date(2011, 12, 8, 10, 8, 6, 0, time.UTC),
+				Mode:     fs.ModeDir | 0777,
+			},
+			{
+				Name:     "readonly",
+				Content:  []byte("important \r\n"),
+				Modified: time.Date(2011, 12, 8, 10, 6, 8, 0, time.UTC),
+				Mode:     0444,
+			},
+		},
 	},
 	{
 		// created by Zip 3.0 under Linux
 		Name: "unix.zip",
-		File: crossPlatform,
-	},
-	{
-		Name: "extra-timestamp.zip",
 		File: []ZipTestFile{
 			{
-				Name:    "hello.txt",
-				Content: []byte(""),
-				Mtime:   "01-06-16 12:25:56",
-				Mode:    0666,
+				Name:     "hello",
+				Content:  []byte("world \r\n"),
+				Modified: time.Date(2011, 12, 8, 10, 4, 24, 0, timeZone(0)),
+				Mode:     0666,
+			},
+			{
+				Name:     "dir/bar",
+				Content:  []byte("foo \r\n"),
+				Modified: time.Date(2011, 12, 8, 10, 4, 50, 0, timeZone(0)),
+				Mode:     0666,
+			},
+			{
+				Name:     "dir/empty/",
+				Content:  []byte{},
+				Modified: time.Date(2011, 12, 8, 10, 8, 6, 0, timeZone(0)),
+				Mode:     fs.ModeDir | 0777,
+			},
+			{
+				Name:     "readonly",
+				Content:  []byte("important \r\n"),
+				Modified: time.Date(2011, 12, 8, 10, 6, 8, 0, timeZone(0)),
+				Mode:     0444,
 			},
 		},
 	},
 	{
 		// created by Go, before we wrote the "optional" data
-		// descriptor signatures (which are required by OS X)
-		Name: "go-no-datadesc-sig.zip",
+		// descriptor signatures (which are required by macOS).
+		// Use obscured file to avoid Apple’s notarization service
+		// rejecting the toolchain due to an inability to unzip this archive.
+		// See golang.org/issue/34986
+		Name:     "go-no-datadesc-sig.zip.base64",
+		Obscured: true,
 		File: []ZipTestFile{
 			{
-				Name:    "foo.txt",
-				Content: []byte("foo\n"),
-				Mtime:   "03-09-12 00:59:10",
-				Mode:    0644,
+				Name:     "foo.txt",
+				Content:  []byte("foo\n"),
+				Modified: time.Date(2012, 3, 8, 16, 59, 10, 0, timeZone(-8*time.Hour)),
+				Mode:     0644,
 			},
 			{
-				Name:    "bar.txt",
-				Content: []byte("bar\n"),
-				Mtime:   "03-09-12 00:59:12",
-				Mode:    0644,
+				Name:     "bar.txt",
+				Content:  []byte("bar\n"),
+				Modified: time.Date(2012, 3, 8, 16, 59, 12, 0, timeZone(-8*time.Hour)),
+				Mode:     0644,
 			},
 		},
 	},
 	{
 		// created by Go, after we wrote the "optional" data
-		// descriptor signatures (which are required by OS X)
+		// descriptor signatures (which are required by macOS)
 		Name: "go-with-datadesc-sig.zip",
 		File: []ZipTestFile{
 			{
-				Name:    "foo.txt",
-				Content: []byte("foo\n"),
-				Mode:    0666,
+				Name:     "foo.txt",
+				Content:  []byte("foo\n"),
+				Modified: time.Date(1979, 11, 30, 0, 0, 0, 0, time.UTC),
+				Mode:     0666,
 			},
 			{
-				Name:    "bar.txt",
-				Content: []byte("bar\n"),
-				Mode:    0666,
+				Name:     "bar.txt",
+				Content:  []byte("bar\n"),
+				Modified: time.Date(1979, 11, 30, 0, 0, 0, 0, time.UTC),
+				Mode:     0666,
 			},
 		},
 	},
@@ -198,13 +294,15 @@ var tests = []ZipTest{
 			{
 				Name:       "foo.txt",
 				Content:    []byte("foo\n"),
+				Modified:   time.Date(1979, 11, 30, 0, 0, 0, 0, time.UTC),
 				Mode:       0666,
 				ContentErr: ErrChecksum,
 			},
 			{
-				Name:    "bar.txt",
-				Content: []byte("bar\n"),
-				Mode:    0666,
+				Name:     "bar.txt",
+				Content:  []byte("bar\n"),
+				Modified: time.Date(1979, 11, 30, 0, 0, 0, 0, time.UTC),
+				Mode:     0666,
 			},
 		},
 	},
@@ -214,16 +312,16 @@ var tests = []ZipTest{
 		Name: "crc32-not-streamed.zip",
 		File: []ZipTestFile{
 			{
-				Name:    "foo.txt",
-				Content: []byte("foo\n"),
-				Mtime:   "03-09-12 00:59:10",
-				Mode:    0644,
+				Name:     "foo.txt",
+				Content:  []byte("foo\n"),
+				Modified: time.Date(2012, 3, 8, 16, 59, 10, 0, timeZone(-8*time.Hour)),
+				Mode:     0644,
 			},
 			{
-				Name:    "bar.txt",
-				Content: []byte("bar\n"),
-				Mtime:   "03-09-12 00:59:12",
-				Mode:    0644,
+				Name:     "bar.txt",
+				Content:  []byte("bar\n"),
+				Modified: time.Date(2012, 3, 8, 16, 59, 12, 0, timeZone(-8*time.Hour)),
+				Mode:     0644,
 			},
 		},
 	},
@@ -236,15 +334,15 @@ var tests = []ZipTest{
 			{
 				Name:       "foo.txt",
 				Content:    []byte("foo\n"),
-				Mtime:      "03-09-12 00:59:10",
+				Modified:   time.Date(2012, 3, 8, 16, 59, 10, 0, timeZone(-8*time.Hour)),
 				Mode:       0644,
 				ContentErr: ErrChecksum,
 			},
 			{
-				Name:    "bar.txt",
-				Content: []byte("bar\n"),
-				Mtime:   "03-09-12 00:59:12",
-				Mode:    0644,
+				Name:     "bar.txt",
+				Content:  []byte("bar\n"),
+				Modified: time.Date(2012, 3, 8, 16, 59, 12, 0, timeZone(-8*time.Hour)),
+				Mode:     0644,
 			},
 		},
 	},
@@ -252,10 +350,10 @@ var tests = []ZipTest{
 		Name: "zip64.zip",
 		File: []ZipTestFile{
 			{
-				Name:    "README",
-				Content: []byte("This small file is in ZIP64 format.\n"),
-				Mtime:   "08-10-12 14:33:32",
-				Mode:    0644,
+				Name:     "README",
+				Content:  []byte("This small file is in ZIP64 format.\n"),
+				Modified: time.Date(2012, 8, 10, 14, 33, 32, 0, time.UTC),
+				Mode:     0644,
 			},
 		},
 	},
@@ -264,10 +362,10 @@ var tests = []ZipTest{
 		Name: "zip64-2.zip",
 		File: []ZipTestFile{
 			{
-				Name:    "README",
-				Content: []byte("This small file is in ZIP64 format.\n"),
-				Mtime:   "08-10-12 14:33:32",
-				Mode:    0644,
+				Name:     "README",
+				Content:  []byte("This small file is in ZIP64 format.\n"),
+				Modified: time.Date(2012, 8, 10, 14, 33, 32, 0, timeZone(-4*time.Hour)),
+				Mode:     0644,
 			},
 		},
 	},
@@ -277,60 +375,249 @@ var tests = []ZipTest{
 		Source: returnBigZipBytes,
 		File: []ZipTestFile{
 			{
-				Name:    "big.file",
-				Content: nil,
-				Size:    1<<32 - 1,
-				Mode:    0666,
+				Name:     "big.file",
+				Content:  nil,
+				Size:     1<<32 - 1,
+				Modified: time.Date(1979, 11, 30, 0, 0, 0, 0, time.UTC),
+				Mode:     0666,
+			},
+		},
+	},
+	{
+		Name: "utf8-7zip.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "世界",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(2017, 11, 6, 13, 9, 27, 867862500, timeZone(-8*time.Hour)),
+			},
+		},
+	},
+	{
+		Name: "utf8-infozip.zip",
+		File: []ZipTestFile{
+			{
+				Name:    "世界",
+				Content: []byte{},
+				Mode:    0644,
+				// Name is valid UTF-8, but format does not have UTF-8 flag set.
+				// We don't do UTF-8 detection for multi-byte runes due to
+				// false-positives with other encodings (e.g., Shift-JIS).
+				// Format says encoding is not UTF-8, so we trust it.
+				NonUTF8:  true,
+				Modified: time.Date(2017, 11, 6, 13, 9, 27, 0, timeZone(-8*time.Hour)),
+			},
+		},
+	},
+	{
+		Name: "utf8-osx.zip",
+		File: []ZipTestFile{
+			{
+				Name:    "世界",
+				Content: []byte{},
+				Mode:    0644,
+				// Name is valid UTF-8, but format does not have UTF-8 set.
+				NonUTF8:  true,
+				Modified: time.Date(2017, 11, 6, 13, 9, 27, 0, timeZone(-8*time.Hour)),
+			},
+		},
+	},
+	{
+		Name: "utf8-winrar.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "世界",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(2017, 11, 6, 13, 9, 27, 867862500, timeZone(-8*time.Hour)),
+			},
+		},
+	},
+	{
+		Name: "utf8-winzip.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "世界",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(2017, 11, 6, 13, 9, 27, 867000000, timeZone(-8*time.Hour)),
+			},
+		},
+	},
+	{
+		Name: "time-7zip.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte{},
+				Size:     1<<32 - 1,
+				Modified: time.Date(2017, 10, 31, 21, 11, 57, 244817900, timeZone(-7*time.Hour)),
+				Mode:     0666,
+			},
+		},
+	},
+	{
+		Name: "time-infozip.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte{},
+				Size:     1<<32 - 1,
+				Modified: time.Date(2017, 10, 31, 21, 11, 57, 0, timeZone(-7*time.Hour)),
+				Mode:     0644,
+			},
+		},
+	},
+	{
+		Name: "time-osx.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte{},
+				Size:     1<<32 - 1,
+				Modified: time.Date(2017, 10, 31, 21, 11, 57, 0, timeZone(-7*time.Hour)),
+				Mode:     0644,
+			},
+		},
+	},
+	{
+		Name: "time-win7.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte{},
+				Size:     1<<32 - 1,
+				Modified: time.Date(2017, 10, 31, 21, 11, 58, 0, time.UTC),
+				Mode:     0666,
+			},
+		},
+	},
+	{
+		Name: "time-winrar.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte{},
+				Size:     1<<32 - 1,
+				Modified: time.Date(2017, 10, 31, 21, 11, 57, 244817900, timeZone(-7*time.Hour)),
+				Mode:     0666,
+			},
+		},
+	},
+	{
+		Name: "time-winzip.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte{},
+				Size:     1<<32 - 1,
+				Modified: time.Date(2017, 10, 31, 21, 11, 57, 244000000, timeZone(-7*time.Hour)),
+				Mode:     0666,
+			},
+		},
+	},
+	{
+		Name: "time-go.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "test.txt",
+				Content:  []byte{},
+				Size:     1<<32 - 1,
+				Modified: time.Date(2017, 10, 31, 21, 11, 57, 0, timeZone(-7*time.Hour)),
+				Mode:     0666,
+			},
+		},
+	},
+	{
+		Name: "time-22738.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "file",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(1999, 12, 31, 19, 0, 0, 0, timeZone(-5*time.Hour)),
+				ModTime:  time.Date(1999, 12, 31, 19, 0, 0, 0, time.UTC),
+			},
+		},
+	},
+	{
+		Name: "dupdir.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "a/",
+				Content:  []byte{},
+				Mode:     fs.ModeDir | 0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
+			},
+			{
+				Name:     "a/b",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
+			},
+			{
+				Name:     "a/b/",
+				Content:  []byte{},
+				Mode:     fs.ModeDir | 0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
+			},
+			{
+				Name:     "a/b/c",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
 			},
 		},
 	},
 }
 
-var crossPlatform = []ZipTestFile{
-	{
-		Name:    "hello",
-		Content: []byte("world \r\n"),
-		Mode:    0666,
-	},
-	{
-		Name:    "dir/bar",
-		Content: []byte("foo \r\n"),
-		Mode:    0666,
-	},
-	{
-		Name:    "dir/empty/",
-		Content: []byte{},
-		Mode:    os.ModeDir | 0777,
-	},
-	{
-		Name:    "readonly",
-		Content: []byte("important \r\n"),
-		Mode:    0444,
-	},
-}
-
 func TestReader(t *testing.T) {
 	for _, zt := range tests {
-		readTestZip(t, zt)
+		t.Run(zt.Name, func(t *testing.T) {
+			readTestZip(t, zt)
+		})
 	}
 }
 
 func readTestZip(t *testing.T, zt ZipTest) {
 	var z *Reader
 	var err error
+	var raw []byte
 	if zt.Source != nil {
 		rat, size := zt.Source()
 		z, err = NewReader(rat, size)
+		raw = make([]byte, size)
+		if _, err := rat.ReadAt(raw, 0); err != nil {
+			t.Errorf("ReadAt error=%v", err)
+			return
+		}
 	} else {
+		path := filepath.Join("testdata", zt.Name)
+		if zt.Obscured {
+			tf, err := obscuretestdata.DecodeToTempFile(path)
+			if err != nil {
+				t.Errorf("obscuretestdata.DecodeToTempFile(%s): %v", path, err)
+				return
+			}
+			defer os.Remove(tf)
+			path = tf
+		}
 		var rc *ReadCloser
-		rc, err = OpenReader(filepath.Join("testdata", zt.Name))
+		rc, err = OpenReader(path)
 		if err == nil {
 			defer rc.Close()
 			z = &rc.Reader
 		}
+		var err2 error
+		raw, err2 = os.ReadFile(path)
+		if err2 != nil {
+			t.Errorf("ReadFile(%s) error=%v", path, err2)
+			return
+		}
 	}
 	if err != zt.Error {
-		t.Errorf("%s: error=%v, want %v", zt.Name, err, zt.Error)
+		t.Errorf("error=%v, want %v", err, zt.Error)
 		return
 	}
 
@@ -346,15 +633,18 @@ func readTestZip(t *testing.T, zt ZipTest) {
 	}
 
 	if z.Comment != zt.Comment {
-		t.Errorf("%s: comment=%q, want %q", zt.Name, z.Comment, zt.Comment)
+		t.Errorf("comment=%q, want %q", z.Comment, zt.Comment)
 	}
 	if len(z.File) != len(zt.File) {
-		t.Fatalf("%s: file count=%d, want %d", zt.Name, len(z.File), len(zt.File))
+		t.Fatalf("file count=%d, want %d", len(z.File), len(zt.File))
 	}
 
 	// test read of each file
 	for i, ft := range zt.File {
-		readTestFile(t, zt, ft, z.File[i])
+		readTestFile(t, zt, ft, z.File[i], raw)
+	}
+	if t.Failed() {
+		return
 	}
 
 	// test simultaneous reads
@@ -363,7 +653,7 @@ func readTestZip(t *testing.T, zt ZipTest) {
 	for i := 0; i < 5; i++ {
 		for j, ft := range zt.File {
 			go func(j int, ft ZipTestFile) {
-				readTestFile(t, zt, ft, z.File[j])
+				readTestFile(t, zt, ft, z.File[j], raw)
 				done <- true
 			}(j, ft)
 			n++
@@ -374,23 +664,24 @@ func readTestZip(t *testing.T, zt ZipTest) {
 	}
 }
 
-func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
+func equalTimeAndZone(t1, t2 time.Time) bool {
+	name1, offset1 := t1.Zone()
+	name2, offset2 := t2.Zone()
+	return t1.Equal(t2) && name1 == name2 && offset1 == offset2
+}
+
+func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File, raw []byte) {
 	if f.Name != ft.Name {
-		t.Errorf("%s: name=%q, want %q", zt.Name, f.Name, ft.Name)
+		t.Errorf("name=%q, want %q", f.Name, ft.Name)
+	}
+	if !ft.Modified.IsZero() && !equalTimeAndZone(f.Modified, ft.Modified) {
+		t.Errorf("%s: Modified=%s, want %s", f.Name, f.Modified, ft.Modified)
+	}
+	if !ft.ModTime.IsZero() && !equalTimeAndZone(f.ModTime(), ft.ModTime) {
+		t.Errorf("%s: ModTime=%s, want %s", f.Name, f.ModTime(), ft.ModTime)
 	}
 
-	if ft.Mtime != "" {
-		mtime, err := time.Parse("01-02-06 15:04:05", ft.Mtime)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-		if ft := f.ModTime(); !ft.Equal(mtime) {
-			t.Errorf("%s: %s: mtime=%s, want %s", zt.Name, f.Name, ft, mtime)
-		}
-	}
-
-	testFileMode(t, zt.Name, f, ft.Mode)
+	testFileMode(t, f, ft.Mode)
 
 	size := uint64(f.UncompressedSize)
 	if size == uint32max {
@@ -399,9 +690,34 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
 		t.Errorf("%v: UncompressedSize=%#x does not match UncompressedSize64=%#x", f.Name, size, f.UncompressedSize64)
 	}
 
+	// Check that OpenRaw returns the correct byte segment
+	rw, err := f.OpenRaw()
+	if err != nil {
+		t.Errorf("%v: OpenRaw error=%v", f.Name, err)
+		return
+	}
+	start, err := f.DataOffset()
+	if err != nil {
+		t.Errorf("%v: DataOffset error=%v", f.Name, err)
+		return
+	}
+	got, err := io.ReadAll(rw)
+	if err != nil {
+		t.Errorf("%v: OpenRaw ReadAll error=%v", f.Name, err)
+		return
+	}
+	end := uint64(start) + f.CompressedSize64
+	want := raw[start:end]
+	if !bytes.Equal(got, want) {
+		t.Logf("got %q", got)
+		t.Logf("want %q", want)
+		t.Errorf("%v: OpenRaw returned unexpected bytes", f.Name)
+		return
+	}
+
 	r, err := f.Open()
 	if err != nil {
-		t.Errorf("%s: %v", zt.Name, err)
+		t.Errorf("%v", err)
 		return
 	}
 
@@ -419,7 +735,7 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
 	var b bytes.Buffer
 	_, err = io.Copy(&b, r)
 	if err != ft.ContentErr {
-		t.Errorf("%s: copying contents: %v (want %v)", zt.Name, err, ft.ContentErr)
+		t.Errorf("copying contents: %v (want %v)", err, ft.ContentErr)
 	}
 	if err != nil {
 		return
@@ -433,7 +749,7 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
 	var c []byte
 	if ft.Content != nil {
 		c = ft.Content
-	} else if c, err = ioutil.ReadFile("testdata/" + ft.File); err != nil {
+	} else if c, err = os.ReadFile("testdata/" + ft.File); err != nil {
 		t.Error(err)
 		return
 	}
@@ -451,12 +767,12 @@ func readTestFile(t *testing.T, zt ZipTest, ft ZipTestFile, f *File) {
 	}
 }
 
-func testFileMode(t *testing.T, zipName string, f *File, want os.FileMode) {
+func testFileMode(t *testing.T, f *File, want fs.FileMode) {
 	mode := f.Mode()
 	if want == 0 {
-		t.Errorf("%s: %s mode: got %v, want none", zipName, f.Name, mode)
+		t.Errorf("%s mode: got %v, want none", f.Name, mode)
 	} else if mode != want {
-		t.Errorf("%s: %s mode: want %v, got %v", zipName, f.Name, want, mode)
+		t.Errorf("%s mode: want %v, got %v", f.Name, want, mode)
 	}
 }
 
@@ -480,10 +796,16 @@ func TestInvalidFiles(t *testing.T) {
 	if err != ErrFormat {
 		t.Errorf("sigs: error=%v, want %v", err, ErrFormat)
 	}
+
+	// negative size
+	_, err = NewReader(bytes.NewReader([]byte("foobar")), -1)
+	if err == nil {
+		t.Errorf("archive/zip.NewReader: expected error when negative size is passed")
+	}
 }
 
 func messWith(fileName string, corrupter func(b []byte)) (r io.ReaderAt, size int64) {
-	data, err := ioutil.ReadFile(filepath.Join("testdata", fileName))
+	data, err := os.ReadFile(filepath.Join("testdata", fileName))
 	if err != nil {
 		panic("Error reading " + fileName + ": " + err.Error())
 	}
@@ -575,8 +897,8 @@ func returnRecursiveZip() (r io.ReaderAt, size int64) {
 //		"archive/zip"
 //		"bytes"
 //		"io"
-//		"io/ioutil"
 //		"log"
+//		"os"
 //	)
 //
 //	type zeros struct{}
@@ -590,17 +912,17 @@ func returnRecursiveZip() (r io.ReaderAt, size int64) {
 //
 //	func main() {
 //		bigZip := makeZip("big.file", io.LimitReader(zeros{}, 1<<32-1))
-//		if err := ioutil.WriteFile("/tmp/big.zip", bigZip, 0666); err != nil {
+//		if err := os.WriteFile("/tmp/big.zip", bigZip, 0666); err != nil {
 //			log.Fatal(err)
 //		}
 //
 //		biggerZip := makeZip("big.zip", bytes.NewReader(bigZip))
-//		if err := ioutil.WriteFile("/tmp/bigger.zip", biggerZip, 0666); err != nil {
+//		if err := os.WriteFile("/tmp/bigger.zip", biggerZip, 0666); err != nil {
 //			log.Fatal(err)
 //		}
 //
 //		biggestZip := makeZip("bigger.zip", bytes.NewReader(biggerZip))
-//		if err := ioutil.WriteFile("/tmp/biggest.zip", biggestZip, 0666); err != nil {
+//		if err := os.WriteFile("/tmp/biggest.zip", biggestZip, 0666); err != nil {
 //			log.Fatal(err)
 //		}
 //	}
@@ -626,7 +948,6 @@ func returnRecursiveZip() (r io.ReaderAt, size int64) {
 //
 // It's here in hex for the same reason as rZipBytes above: to avoid
 // problems with on-disk virus scanners or other zip processors.
-//
 func biggestZipBytes() []byte {
 	s := `
 0000000 50 4b 03 04 14 00 08 00 08 00 00 00 00 00 00 00
@@ -728,7 +1049,7 @@ func returnBigZipBytes() (r io.ReaderAt, size int64) {
 		if err != nil {
 			panic(err)
 		}
-		b, err = ioutil.ReadAll(f)
+		b, err = io.ReadAll(f)
 		if err != nil {
 			panic(err)
 		}
@@ -773,7 +1094,7 @@ func TestIssue10957(t *testing.T) {
 		"\x00\x00\x00\x00\x0000000000\x00\x00\x00\x00000" +
 		"00000000PK\x01\x0200000000" +
 		"0000000000000000\v\x00\x00\x00" +
-		"\x00\x0000PK\x05\x06000000\x05\x000000" +
+		"\x00\x0000PK\x05\x06000000\x05\x00\xfd\x00\x00\x00" +
 		"\v\x00\x00\x00\x00\x00")
 	z, err := NewReader(bytes.NewReader(data), int64(len(data)))
 	if err != nil {
@@ -785,7 +1106,7 @@ func TestIssue10957(t *testing.T) {
 			continue
 		}
 		if f.UncompressedSize64 < 1e6 {
-			n, err := io.Copy(ioutil.Discard, r)
+			n, err := io.Copy(io.Discard, r)
 			if i == 3 && err != io.ErrUnexpectedEOF {
 				t.Errorf("File[3] error = %v; want io.ErrUnexpectedEOF", err)
 			}
@@ -797,15 +1118,17 @@ func TestIssue10957(t *testing.T) {
 	}
 }
 
-// Verify the number of files is sane.
+// Verify that this particular malformed zip file is rejected.
 func TestIssue10956(t *testing.T) {
 	data := []byte("PK\x06\x06PK\x06\a0000\x00\x00\x00\x00\x00\x00\x00\x00" +
 		"0000PK\x05\x06000000000000" +
 		"0000\v\x00000\x00\x00\x00\x00\x00\x00\x000")
-	_, err := NewReader(bytes.NewReader(data), int64(len(data)))
-	const want = "TOC declares impossible 3472328296227680304 files in 57 byte"
-	if err == nil && !strings.Contains(err.Error(), want) {
-		t.Errorf("error = %v; want %q", err, want)
+	r, err := NewReader(bytes.NewReader(data), int64(len(data)))
+	if err == nil {
+		t.Errorf("got nil error, want ErrFormat")
+	}
+	if r != nil {
+		t.Errorf("got non-nil Reader, want nil")
 	}
 }
 
@@ -816,7 +1139,7 @@ func TestIssue11146(t *testing.T) {
 		"0000000000000000PK\x01\x02" +
 		"0000\b0\b\x00000000000000" +
 		"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000000PK\x05\x06\x00\x00" +
-		"\x00\x0000\x01\x0000008\x00\x00\x00\x00\x00")
+		"\x00\x0000\x01\x00\x26\x00\x00\x008\x00\x00\x00\x00\x00")
 	z, err := NewReader(bytes.NewReader(data), int64(len(data)))
 	if err != nil {
 		t.Fatal(err)
@@ -825,7 +1148,7 @@ func TestIssue11146(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, err = ioutil.ReadAll(r)
+	_, err = io.ReadAll(r)
 	if err != io.ErrUnexpectedEOF {
 		t.Errorf("File[0] error = %v; want io.ErrUnexpectedEOF", err)
 	}
@@ -867,4 +1190,639 @@ func TestIssue12449(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error reading the archive: %v", err)
 	}
+}
+
+func TestFS(t *testing.T) {
+	for _, test := range []struct {
+		file string
+		want []string
+	}{
+		{
+			"testdata/unix.zip",
+			[]string{"hello", "dir/bar", "readonly"},
+		},
+		{
+			"testdata/subdir.zip",
+			[]string{"a/b/c"},
+		},
+	} {
+		test := test
+		t.Run(test.file, func(t *testing.T) {
+			t.Parallel()
+			z, err := OpenReader(test.file)
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer z.Close()
+			if err := fstest.TestFS(z, test.want...); err != nil {
+				t.Error(err)
+			}
+		})
+	}
+}
+
+func TestFSWalk(t *testing.T) {
+	for _, test := range []struct {
+		file    string
+		want    []string
+		wantErr bool
+	}{
+		{
+			file: "testdata/unix.zip",
+			want: []string{".", "dir", "dir/bar", "dir/empty", "hello", "readonly"},
+		},
+		{
+			file: "testdata/subdir.zip",
+			want: []string{".", "a", "a/b", "a/b/c"},
+		},
+		{
+			file:    "testdata/dupdir.zip",
+			wantErr: true,
+		},
+	} {
+		test := test
+		t.Run(test.file, func(t *testing.T) {
+			t.Parallel()
+			z, err := OpenReader(test.file)
+			if err != nil {
+				t.Fatal(err)
+			}
+			var files []string
+			sawErr := false
+			err = fs.WalkDir(z, ".", func(path string, d fs.DirEntry, err error) error {
+				if err != nil {
+					if !test.wantErr {
+						t.Errorf("%s: %v", path, err)
+					}
+					sawErr = true
+					return nil
+				}
+				files = append(files, path)
+				return nil
+			})
+			if err != nil {
+				t.Errorf("fs.WalkDir error: %v", err)
+			}
+			if test.wantErr && !sawErr {
+				t.Error("succeeded but want error")
+			} else if !test.wantErr && sawErr {
+				t.Error("unexpected error")
+			}
+			if test.want != nil && !reflect.DeepEqual(files, test.want) {
+				t.Errorf("got %v want %v", files, test.want)
+			}
+		})
+	}
+}
+
+func TestFSModTime(t *testing.T) {
+	t.Parallel()
+	z, err := OpenReader("testdata/subdir.zip")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer z.Close()
+
+	for _, test := range []struct {
+		name string
+		want time.Time
+	}{
+		{
+			"a",
+			time.Date(2021, 4, 19, 12, 29, 56, 0, timeZone(-7*time.Hour)).UTC(),
+		},
+		{
+			"a/b/c",
+			time.Date(2021, 4, 19, 12, 29, 59, 0, timeZone(-7*time.Hour)).UTC(),
+		},
+	} {
+		fi, err := fs.Stat(z, test.name)
+		if err != nil {
+			t.Errorf("%s: %v", test.name, err)
+			continue
+		}
+		if got := fi.ModTime(); !got.Equal(test.want) {
+			t.Errorf("%s: got modtime %v, want %v", test.name, got, test.want)
+		}
+	}
+}
+
+func TestCVE202127919(t *testing.T) {
+	t.Setenv("GODEBUG", "zipinsecurepath=0")
+	// Archive containing only the file "../test.txt"
+	data := []byte{
+		0x50, 0x4b, 0x03, 0x04, 0x14, 0x00, 0x08, 0x00,
+		0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x0b, 0x00, 0x00, 0x00, 0x2e, 0x2e,
+		0x2f, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x74, 0x78,
+		0x74, 0x0a, 0xc9, 0xc8, 0x2c, 0x56, 0xc8, 0x2c,
+		0x56, 0x48, 0x54, 0x28, 0x49, 0x2d, 0x2e, 0x51,
+		0x28, 0x49, 0xad, 0x28, 0x51, 0x48, 0xcb, 0xcc,
+		0x49, 0xd5, 0xe3, 0x02, 0x04, 0x00, 0x00, 0xff,
+		0xff, 0x50, 0x4b, 0x07, 0x08, 0xc0, 0xd7, 0xed,
+		0xc3, 0x20, 0x00, 0x00, 0x00, 0x1a, 0x00, 0x00,
+		0x00, 0x50, 0x4b, 0x01, 0x02, 0x14, 0x00, 0x14,
+		0x00, 0x08, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0xc0, 0xd7, 0xed, 0xc3, 0x20, 0x00, 0x00,
+		0x00, 0x1a, 0x00, 0x00, 0x00, 0x0b, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2e,
+		0x2e, 0x2f, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x74,
+		0x78, 0x74, 0x50, 0x4b, 0x05, 0x06, 0x00, 0x00,
+		0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x39, 0x00,
+		0x00, 0x00, 0x59, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+	r, err := NewReader(bytes.NewReader([]byte(data)), int64(len(data)))
+	if err != ErrInsecurePath {
+		t.Fatalf("Error reading the archive: %v", err)
+	}
+	_, err = r.Open("test.txt")
+	if err != nil {
+		t.Errorf("Error reading file: %v", err)
+	}
+	if len(r.File) != 1 {
+		t.Fatalf("No entries in the file list")
+	}
+	if r.File[0].Name != "../test.txt" {
+		t.Errorf("Unexpected entry name: %s", r.File[0].Name)
+	}
+	if _, err := r.File[0].Open(); err != nil {
+		t.Errorf("Error opening file: %v", err)
+	}
+}
+
+func TestOpenReaderInsecurePath(t *testing.T) {
+	t.Setenv("GODEBUG", "zipinsecurepath=0")
+	// Archive containing only the file "../test.txt"
+	data := []byte{
+		0x50, 0x4b, 0x03, 0x04, 0x14, 0x00, 0x08, 0x00,
+		0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x0b, 0x00, 0x00, 0x00, 0x2e, 0x2e,
+		0x2f, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x74, 0x78,
+		0x74, 0x0a, 0xc9, 0xc8, 0x2c, 0x56, 0xc8, 0x2c,
+		0x56, 0x48, 0x54, 0x28, 0x49, 0x2d, 0x2e, 0x51,
+		0x28, 0x49, 0xad, 0x28, 0x51, 0x48, 0xcb, 0xcc,
+		0x49, 0xd5, 0xe3, 0x02, 0x04, 0x00, 0x00, 0xff,
+		0xff, 0x50, 0x4b, 0x07, 0x08, 0xc0, 0xd7, 0xed,
+		0xc3, 0x20, 0x00, 0x00, 0x00, 0x1a, 0x00, 0x00,
+		0x00, 0x50, 0x4b, 0x01, 0x02, 0x14, 0x00, 0x14,
+		0x00, 0x08, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0xc0, 0xd7, 0xed, 0xc3, 0x20, 0x00, 0x00,
+		0x00, 0x1a, 0x00, 0x00, 0x00, 0x0b, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2e,
+		0x2e, 0x2f, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x74,
+		0x78, 0x74, 0x50, 0x4b, 0x05, 0x06, 0x00, 0x00,
+		0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x39, 0x00,
+		0x00, 0x00, 0x59, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	// Read in the archive with the OpenReader interface
+	name := filepath.Join(t.TempDir(), "test.zip")
+	err := os.WriteFile(name, data, 0644)
+	if err != nil {
+		t.Fatalf("Unable to write out the bugos zip entry")
+	}
+	r, err := OpenReader(name)
+	if r != nil {
+		defer r.Close()
+	}
+
+	if err != ErrInsecurePath {
+		t.Fatalf("Error reading the archive, we expected ErrInsecurePath but got: %v", err)
+	}
+	_, err = r.Open("test.txt")
+	if err != nil {
+		t.Errorf("Error reading file: %v", err)
+	}
+	if len(r.File) != 1 {
+		t.Fatalf("No entries in the file list")
+	}
+	if r.File[0].Name != "../test.txt" {
+		t.Errorf("Unexpected entry name: %s", r.File[0].Name)
+	}
+	if _, err := r.File[0].Open(); err != nil {
+		t.Errorf("Error opening file: %v", err)
+	}
+}
+
+func TestCVE202133196(t *testing.T) {
+	// Archive that indicates it has 1 << 128 -1 files,
+	// this would previously cause a panic due to attempting
+	// to allocate a slice with 1 << 128 -1 elements.
+	data := []byte{
+		0x50, 0x4b, 0x03, 0x04, 0x14, 0x00, 0x08, 0x08,
+		0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x01, 0x02,
+		0x03, 0x62, 0x61, 0x65, 0x03, 0x04, 0x00, 0x00,
+		0xff, 0xff, 0x50, 0x4b, 0x07, 0x08, 0xbe, 0x20,
+		0x5c, 0x6c, 0x09, 0x00, 0x00, 0x00, 0x03, 0x00,
+		0x00, 0x00, 0x50, 0x4b, 0x01, 0x02, 0x14, 0x00,
+		0x14, 0x00, 0x08, 0x08, 0x08, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0xbe, 0x20, 0x5c, 0x6c, 0x09, 0x00,
+		0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x03, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x01, 0x02, 0x03, 0x50, 0x4b, 0x06, 0x06, 0x2c,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2d,
+		0x00, 0x2d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff,
+		0xff, 0xff, 0xff, 0x31, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x3a, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x50, 0x4b, 0x06, 0x07, 0x00,
+		0x00, 0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x50,
+		0x4b, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0xff,
+		0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+		0xff, 0xff, 0xff, 0x00, 0x00,
+	}
+	_, err := NewReader(bytes.NewReader(data), int64(len(data)))
+	if err != ErrFormat {
+		t.Fatalf("unexpected error, got: %v, want: %v", err, ErrFormat)
+	}
+
+	// Also check that an archive containing a handful of empty
+	// files doesn't cause an issue
+	b := bytes.NewBuffer(nil)
+	w := NewWriter(b)
+	for i := 0; i < 5; i++ {
+		_, err := w.Create("")
+		if err != nil {
+			t.Fatalf("Writer.Create failed: %s", err)
+		}
+	}
+	if err := w.Close(); err != nil {
+		t.Fatalf("Writer.Close failed: %s", err)
+	}
+	r, err := NewReader(bytes.NewReader(b.Bytes()), int64(b.Len()))
+	if err != nil {
+		t.Fatalf("NewReader failed: %s", err)
+	}
+	if len(r.File) != 5 {
+		t.Errorf("Archive has unexpected number of files, got %d, want 5", len(r.File))
+	}
+}
+
+func TestCVE202139293(t *testing.T) {
+	// directory size is so large, that the check in Reader.init
+	// overflows when subtracting from the archive size, causing
+	// the pre-allocation check to be bypassed.
+	data := []byte{
+		0x50, 0x4b, 0x06, 0x06, 0x05, 0x06, 0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x50, 0x4b,
+		0x06, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+		0x00, 0x00, 0x50, 0x4b, 0x05, 0x06, 0x00, 0x1a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x50, 0x4b,
+		0x06, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+		0x00, 0x00, 0x00, 0x50, 0x4b, 0x05, 0x06, 0x00, 0x31, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff,
+		0xff, 0x50, 0xfe, 0x00, 0xff, 0x00, 0x3a, 0x00, 0x00, 0x00, 0xff,
+	}
+	_, err := NewReader(bytes.NewReader(data), int64(len(data)))
+	if err != ErrFormat {
+		t.Fatalf("unexpected error, got: %v, want: %v", err, ErrFormat)
+	}
+}
+
+func TestCVE202141772(t *testing.T) {
+	t.Setenv("GODEBUG", "zipinsecurepath=0")
+	// Archive contains a file whose name is exclusively made up of '/', '\'
+	// characters, or "../", "..\" paths, which would previously cause a panic.
+	//
+	//  Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+	// --------  ------  ------- ---- ---------- ----- --------  ----
+	//        0  Stored        0   0% 08-05-2021 18:32 00000000  /
+	//        0  Stored        0   0% 09-14-2021 12:59 00000000  //
+	//        0  Stored        0   0% 09-14-2021 12:59 00000000  \
+	//       11  Stored       11   0% 09-14-2021 13:04 0d4a1185  /test.txt
+	// --------          -------  ---                            -------
+	//       11               11   0%                            4 files
+	data := []byte{
+		0x50, 0x4b, 0x03, 0x04, 0x0a, 0x00, 0x00, 0x08,
+		0x00, 0x00, 0x06, 0x94, 0x05, 0x53, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x2f, 0x50,
+		0x4b, 0x03, 0x04, 0x0a, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x78, 0x67, 0x2e, 0x53, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x02, 0x00, 0x00, 0x00, 0x2f, 0x2f, 0x50,
+		0x4b, 0x03, 0x04, 0x0a, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x78, 0x67, 0x2e, 0x53, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x01, 0x00, 0x00, 0x00, 0x5c, 0x50, 0x4b,
+		0x03, 0x04, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x91, 0x68, 0x2e, 0x53, 0x85, 0x11, 0x4a, 0x0d,
+		0x0b, 0x00, 0x00, 0x00, 0x0b, 0x00, 0x00, 0x00,
+		0x09, 0x00, 0x00, 0x00, 0x2f, 0x74, 0x65, 0x73,
+		0x74, 0x2e, 0x74, 0x78, 0x74, 0x68, 0x65, 0x6c,
+		0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64,
+		0x50, 0x4b, 0x01, 0x02, 0x14, 0x03, 0x0a, 0x00,
+		0x00, 0x08, 0x00, 0x00, 0x06, 0x94, 0x05, 0x53,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00,
+		0xed, 0x41, 0x00, 0x00, 0x00, 0x00, 0x2f, 0x50,
+		0x4b, 0x01, 0x02, 0x3f, 0x00, 0x0a, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x78, 0x67, 0x2e, 0x53, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x02, 0x00, 0x24, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00,
+		0x00, 0x1f, 0x00, 0x00, 0x00, 0x2f, 0x2f, 0x0a,
+		0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+		0x00, 0x18, 0x00, 0x93, 0x98, 0x25, 0x57, 0x25,
+		0xa9, 0xd7, 0x01, 0x93, 0x98, 0x25, 0x57, 0x25,
+		0xa9, 0xd7, 0x01, 0x93, 0x98, 0x25, 0x57, 0x25,
+		0xa9, 0xd7, 0x01, 0x50, 0x4b, 0x01, 0x02, 0x3f,
+		0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78,
+		0x67, 0x2e, 0x53, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+		0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x20, 0x00, 0x00, 0x00, 0x3f, 0x00, 0x00,
+		0x00, 0x5c, 0x0a, 0x00, 0x20, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x01, 0x00, 0x18, 0x00, 0x93, 0x98,
+		0x25, 0x57, 0x25, 0xa9, 0xd7, 0x01, 0x93, 0x98,
+		0x25, 0x57, 0x25, 0xa9, 0xd7, 0x01, 0x93, 0x98,
+		0x25, 0x57, 0x25, 0xa9, 0xd7, 0x01, 0x50, 0x4b,
+		0x01, 0x02, 0x3f, 0x00, 0x0a, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x91, 0x68, 0x2e, 0x53, 0x85, 0x11,
+		0x4a, 0x0d, 0x0b, 0x00, 0x00, 0x00, 0x0b, 0x00,
+		0x00, 0x00, 0x09, 0x00, 0x24, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00,
+		0x5e, 0x00, 0x00, 0x00, 0x2f, 0x74, 0x65, 0x73,
+		0x74, 0x2e, 0x74, 0x78, 0x74, 0x0a, 0x00, 0x20,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x18,
+		0x00, 0xa9, 0x80, 0x51, 0x01, 0x26, 0xa9, 0xd7,
+		0x01, 0x31, 0xd1, 0x57, 0x01, 0x26, 0xa9, 0xd7,
+		0x01, 0xdf, 0x48, 0x85, 0xf9, 0x25, 0xa9, 0xd7,
+		0x01, 0x50, 0x4b, 0x05, 0x06, 0x00, 0x00, 0x00,
+		0x00, 0x04, 0x00, 0x04, 0x00, 0x31, 0x01, 0x00,
+		0x00, 0x90, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+	r, err := NewReader(bytes.NewReader([]byte(data)), int64(len(data)))
+	if err != ErrInsecurePath {
+		t.Fatalf("Error reading the archive: %v", err)
+	}
+	entryNames := []string{`/`, `//`, `\`, `/test.txt`}
+	var names []string
+	for _, f := range r.File {
+		names = append(names, f.Name)
+		if _, err := f.Open(); err != nil {
+			t.Errorf("Error opening %q: %v", f.Name, err)
+		}
+		if _, err := r.Open(f.Name); err == nil {
+			t.Errorf("Opening %q with fs.FS API succeeded", f.Name)
+		}
+	}
+	if !reflect.DeepEqual(names, entryNames) {
+		t.Errorf("Unexpected file entries: %q", names)
+	}
+	if _, err := r.Open(""); err == nil {
+		t.Errorf("Opening %q with fs.FS API succeeded", "")
+	}
+	if _, err := r.Open("test.txt"); err != nil {
+		t.Errorf("Error opening %q with fs.FS API: %v", "test.txt", err)
+	}
+	dirEntries, err := fs.ReadDir(r, ".")
+	if err != nil {
+		t.Fatalf("Error reading the root directory: %v", err)
+	}
+	if len(dirEntries) != 1 || dirEntries[0].Name() != "test.txt" {
+		t.Errorf("Unexpected directory entries")
+		for _, dirEntry := range dirEntries {
+			_, err := r.Open(dirEntry.Name())
+			t.Logf("%q (Open error: %v)", dirEntry.Name(), err)
+		}
+		t.FailNow()
+	}
+	info, err := dirEntries[0].Info()
+	if err != nil {
+		t.Fatalf("Error reading info entry: %v", err)
+	}
+	if name := info.Name(); name != "test.txt" {
+		t.Errorf("Inconsistent name in info entry: %v", name)
+	}
+}
+
+func TestUnderSize(t *testing.T) {
+	z, err := OpenReader("testdata/readme.zip")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer z.Close()
+
+	for _, f := range z.File {
+		f.UncompressedSize64 = 1
+	}
+
+	for _, f := range z.File {
+		t.Run(f.Name, func(t *testing.T) {
+			rd, err := f.Open()
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer rd.Close()
+
+			_, err = io.Copy(io.Discard, rd)
+			if err != ErrFormat {
+				t.Fatalf("Error mismatch\n\tGot:  %v\n\tWant: %v", err, ErrFormat)
+			}
+		})
+	}
+}
+
+func TestIssue54801(t *testing.T) {
+	for _, input := range []string{"testdata/readme.zip", "testdata/dd.zip"} {
+		z, err := OpenReader(input)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer z.Close()
+
+		for _, f := range z.File {
+			// Make file a directory
+			f.Name += "/"
+
+			t.Run(f.Name, func(t *testing.T) {
+				t.Logf("CompressedSize64: %d, Flags: %#x", f.CompressedSize64, f.Flags)
+
+				rd, err := f.Open()
+				if err != nil {
+					t.Fatal(err)
+				}
+				defer rd.Close()
+
+				n, got := io.Copy(io.Discard, rd)
+				if n != 0 || got != ErrFormat {
+					t.Fatalf("Error mismatch, got: %d, %v, want: %v", n, got, ErrFormat)
+				}
+			})
+		}
+	}
+}
+
+func TestInsecurePaths(t *testing.T) {
+	t.Setenv("GODEBUG", "zipinsecurepath=0")
+	for _, path := range []string{
+		"../foo",
+		"/foo",
+		"a/b/../../../c",
+		`a\b`,
+	} {
+		var buf bytes.Buffer
+		zw := NewWriter(&buf)
+		_, err := zw.Create(path)
+		if err != nil {
+			t.Errorf("zw.Create(%q) = %v", path, err)
+			continue
+		}
+		zw.Close()
+
+		zr, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+		if err != ErrInsecurePath {
+			t.Errorf("NewReader for archive with file %q: got err %v, want ErrInsecurePath", path, err)
+			continue
+		}
+		var gotPaths []string
+		for _, f := range zr.File {
+			gotPaths = append(gotPaths, f.Name)
+		}
+		if !reflect.DeepEqual(gotPaths, []string{path}) {
+			t.Errorf("NewReader for archive with file %q: got files %q", path, gotPaths)
+			continue
+		}
+	}
+}
+
+func TestDisableInsecurePathCheck(t *testing.T) {
+	t.Setenv("GODEBUG", "zipinsecurepath=1")
+	var buf bytes.Buffer
+	zw := NewWriter(&buf)
+	const name = "/foo"
+	_, err := zw.Create(name)
+	if err != nil {
+		t.Fatalf("zw.Create(%q) = %v", name, err)
+	}
+	zw.Close()
+	zr, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+	if err != nil {
+		t.Fatalf("NewReader with zipinsecurepath=1: got err %v, want nil", err)
+	}
+	var gotPaths []string
+	for _, f := range zr.File {
+		gotPaths = append(gotPaths, f.Name)
+	}
+	if want := []string{name}; !reflect.DeepEqual(gotPaths, want) {
+		t.Errorf("NewReader with zipinsecurepath=1: got files %q, want %q", gotPaths, want)
+	}
+}
+
+func TestCompressedDirectory(t *testing.T) {
+	// Empty Java JAR, with a compressed directory with uncompressed size 0
+	// which should not fail.
+	//
+	// Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+	// --------  ------  ------- ---- ---------- ----- --------  ----
+	//        0  Defl:N        2   0% 12-01-2022 16:50 00000000  META-INF/
+	//       60  Defl:N       59   2% 12-01-2022 16:50 af937e93  META-INF/MANIFEST.MF
+	// --------          -------  ---                            -------
+	//       60               61  -2%                            2 files
+	data := []byte{
+		0x50, 0x4b, 0x03, 0x04, 0x14, 0x00, 0x08, 0x08,
+		0x08, 0x00, 0x49, 0x86, 0x81, 0x55, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x09, 0x00, 0x04, 0x00, 0x4d, 0x45,
+		0x54, 0x41, 0x2d, 0x49, 0x4e, 0x46, 0x2f, 0xfe,
+		0xca, 0x00, 0x00, 0x03, 0x00, 0x50, 0x4b, 0x07,
+		0x08, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x50, 0x4b, 0x03,
+		0x04, 0x14, 0x00, 0x08, 0x08, 0x08, 0x00, 0x49,
+		0x86, 0x81, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14,
+		0x00, 0x00, 0x00, 0x4d, 0x45, 0x54, 0x41, 0x2d,
+		0x49, 0x4e, 0x46, 0x2f, 0x4d, 0x41, 0x4e, 0x49,
+		0x46, 0x45, 0x53, 0x54, 0x2e, 0x4d, 0x46, 0xf3,
+		0x4d, 0xcc, 0xcb, 0x4c, 0x4b, 0x2d, 0x2e, 0xd1,
+		0x0d, 0x4b, 0x2d, 0x2a, 0xce, 0xcc, 0xcf, 0xb3,
+		0x52, 0x30, 0xd4, 0x33, 0xe0, 0xe5, 0x72, 0x2e,
+		0x4a, 0x4d, 0x2c, 0x49, 0x4d, 0xd1, 0x75, 0xaa,
+		0x04, 0x0a, 0x00, 0x45, 0xf4, 0x0c, 0x8d, 0x15,
+		0x34, 0xdc, 0xf3, 0xf3, 0xd3, 0x73, 0x52, 0x15,
+		0x3c, 0xf3, 0x92, 0xf5, 0x34, 0x79, 0xb9, 0x78,
+		0xb9, 0x00, 0x50, 0x4b, 0x07, 0x08, 0x93, 0x7e,
+		0x93, 0xaf, 0x3b, 0x00, 0x00, 0x00, 0x3c, 0x00,
+		0x00, 0x00, 0x50, 0x4b, 0x01, 0x02, 0x14, 0x00,
+		0x14, 0x00, 0x08, 0x08, 0x08, 0x00, 0x49, 0x86,
+		0x81, 0x55, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x09, 0x00,
+		0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x4d, 0x45, 0x54, 0x41, 0x2d, 0x49, 0x4e, 0x46,
+		0x2f, 0xfe, 0xca, 0x00, 0x00, 0x50, 0x4b, 0x01,
+		0x02, 0x14, 0x00, 0x14, 0x00, 0x08, 0x08, 0x08,
+		0x00, 0x49, 0x86, 0x81, 0x55, 0x93, 0x7e, 0x93,
+		0xaf, 0x3b, 0x00, 0x00, 0x00, 0x3c, 0x00, 0x00,
+		0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3d,
+		0x00, 0x00, 0x00, 0x4d, 0x45, 0x54, 0x41, 0x2d,
+		0x49, 0x4e, 0x46, 0x2f, 0x4d, 0x41, 0x4e, 0x49,
+		0x46, 0x45, 0x53, 0x54, 0x2e, 0x4d, 0x46, 0x50,
+		0x4b, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x02,
+		0x00, 0x02, 0x00, 0x7d, 0x00, 0x00, 0x00, 0xba,
+		0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+	r, err := NewReader(bytes.NewReader(data), int64(len(data)))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	for _, f := range r.File {
+		r, err := f.Open()
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if _, err := io.Copy(io.Discard, r); err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+	}
+}
+
+func TestBaseOffsetPlusOverflow(t *testing.T) {
+	// directoryOffset > maxInt64 && size-directoryOffset < 0
+	data := []byte{
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0xff, 0xff, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x50, 0x4b, 0x06, 0x06, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+		0x20, 0xff, 0xff, 0x20, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x20, 0x08, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x80, 0x50, 0x4b, 0x06, 0x07, 0x00,
+		0x00, 0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x50,
+		0x4b, 0x05, 0x06, 0x20, 0x20, 0x20, 0x20, 0xff,
+		0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+		0xff, 0xff, 0xff, 0x20, 0x00,
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Fatalf("NewReader panicked: %s", r)
+		}
+	}()
+	// Previously, this would trigger a panic as we attempt to read from
+	// a io.SectionReader which would access a slice at a negative offset
+	// as the section reader offset & size were < 0.
+	NewReader(bytes.NewReader(data), int64(len(data))+1875)
 }

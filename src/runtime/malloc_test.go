@@ -6,35 +6,93 @@ package runtime_test
 
 import (
 	"flag"
+	"fmt"
+	"internal/race"
+	"internal/testenv"
+	"os"
+	"os/exec"
+	"reflect"
+	"runtime"
 	. "runtime"
+	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 	"unsafe"
 )
 
+var testMemStatsCount int
+
 func TestMemStats(t *testing.T) {
+	testMemStatsCount++
+
+	// Make sure there's at least one forced GC.
+	GC()
+
 	// Test that MemStats has sane values.
 	st := new(MemStats)
 	ReadMemStats(st)
 
-	// Everything except HeapReleased, HeapIdle, and NumGC,
-	// because they indeed can be 0.
-	if st.Alloc == 0 || st.TotalAlloc == 0 || st.Sys == 0 || st.Lookups == 0 ||
-		st.Mallocs == 0 || st.Frees == 0 || st.HeapAlloc == 0 || st.HeapSys == 0 ||
-		st.HeapInuse == 0 || st.HeapObjects == 0 || st.StackInuse == 0 ||
-		st.StackSys == 0 || st.MSpanInuse == 0 || st.MSpanSys == 0 || st.MCacheInuse == 0 ||
-		st.MCacheSys == 0 || st.BuckHashSys == 0 || st.GCSys == 0 || st.OtherSys == 0 ||
-		st.NextGC == 0 {
-		t.Fatalf("Zero value: %+v", *st)
+	nz := func(x any) error {
+		if x != reflect.Zero(reflect.TypeOf(x)).Interface() {
+			return nil
+		}
+		return fmt.Errorf("zero value")
+	}
+	le := func(thresh float64) func(any) error {
+		return func(x any) error {
+			// These sanity tests aren't necessarily valid
+			// with high -test.count values, so only run
+			// them once.
+			if testMemStatsCount > 1 {
+				return nil
+			}
+
+			if reflect.ValueOf(x).Convert(reflect.TypeOf(thresh)).Float() < thresh {
+				return nil
+			}
+			return fmt.Errorf("insanely high value (overflow?); want <= %v", thresh)
+		}
+	}
+	eq := func(x any) func(any) error {
+		return func(y any) error {
+			if x == y {
+				return nil
+			}
+			return fmt.Errorf("want %v", x)
+		}
+	}
+	// Of the uint fields, HeapReleased, HeapIdle can be 0.
+	// PauseTotalNs can be 0 if timer resolution is poor.
+	fields := map[string][]func(any) error{
+		"Alloc": {nz, le(1e10)}, "TotalAlloc": {nz, le(1e11)}, "Sys": {nz, le(1e10)},
+		"Lookups": {eq(uint64(0))}, "Mallocs": {nz, le(1e10)}, "Frees": {nz, le(1e10)},
+		"HeapAlloc": {nz, le(1e10)}, "HeapSys": {nz, le(1e10)}, "HeapIdle": {le(1e10)},
+		"HeapInuse": {nz, le(1e10)}, "HeapReleased": {le(1e10)}, "HeapObjects": {nz, le(1e10)},
+		"StackInuse": {nz, le(1e10)}, "StackSys": {nz, le(1e10)},
+		"MSpanInuse": {nz, le(1e10)}, "MSpanSys": {nz, le(1e10)},
+		"MCacheInuse": {nz, le(1e10)}, "MCacheSys": {nz, le(1e10)},
+		"BuckHashSys": {nz, le(1e10)}, "GCSys": {nz, le(1e10)}, "OtherSys": {nz, le(1e10)},
+		"NextGC": {nz, le(1e10)}, "LastGC": {nz},
+		"PauseTotalNs": {le(1e11)}, "PauseNs": nil, "PauseEnd": nil,
+		"NumGC": {nz, le(1e9)}, "NumForcedGC": {nz, le(1e9)},
+		"GCCPUFraction": {le(0.99)}, "EnableGC": {eq(true)}, "DebugGC": {eq(false)},
+		"BySize": nil,
 	}
 
-	if st.Alloc > 1e10 || st.TotalAlloc > 1e11 || st.Sys > 1e10 || st.Lookups > 1e10 ||
-		st.Mallocs > 1e10 || st.Frees > 1e10 || st.HeapAlloc > 1e10 || st.HeapSys > 1e10 ||
-		st.HeapIdle > 1e10 || st.HeapInuse > 1e10 || st.HeapObjects > 1e10 || st.StackInuse > 1e10 ||
-		st.StackSys > 1e10 || st.MSpanInuse > 1e10 || st.MSpanSys > 1e10 || st.MCacheInuse > 1e10 ||
-		st.MCacheSys > 1e10 || st.BuckHashSys > 1e10 || st.GCSys > 1e10 || st.OtherSys > 1e10 ||
-		st.NextGC > 1e10 || st.NumGC > 1e9 || st.PauseTotalNs > 1e11 {
-		t.Fatalf("Insanely high value (overflow?): %+v", *st)
+	rst := reflect.ValueOf(st).Elem()
+	for i := 0; i < rst.Type().NumField(); i++ {
+		name, val := rst.Type().Field(i).Name, rst.Field(i).Interface()
+		checks, ok := fields[name]
+		if !ok {
+			t.Errorf("unknown MemStats field %s", name)
+			continue
+		}
+		for _, check := range checks {
+			if err := check(val); err != nil {
+				t.Errorf("%s = %v: %s", name, val, err)
+			}
+		}
 	}
 
 	if st.Sys != st.HeapSys+st.StackSys+st.MSpanSys+st.MCacheSys+
@@ -72,6 +130,10 @@ func TestMemStats(t *testing.T) {
 			t.Fatalf("PauseTotalNs(%d) < sum PauseNs(%d)", st.PauseTotalNs, pauseTotal)
 		}
 	}
+
+	if st.NumForcedGC > st.NumGC {
+		t.Fatalf("NumForcedGC(%d) > NumGC(%d)", st.NumForcedGC, st.NumGC)
+	}
 }
 
 func TestStringConcatenationAllocs(t *testing.T) {
@@ -92,6 +154,9 @@ func TestStringConcatenationAllocs(t *testing.T) {
 }
 
 func TestTinyAlloc(t *testing.T) {
+	if runtime.Raceenabled {
+		t.Skip("tinyalloc suppressed when running in race mode")
+	}
 	const N = 16
 	var v [N]unsafe.Pointer
 	for i := range v {
@@ -108,46 +173,181 @@ func TestTinyAlloc(t *testing.T) {
 	}
 }
 
-var mallocSink uintptr
+type obj12 struct {
+	a uint64
+	b uint32
+}
+
+func TestTinyAllocIssue37262(t *testing.T) {
+	if runtime.Raceenabled {
+		t.Skip("tinyalloc suppressed when running in race mode")
+	}
+	// Try to cause an alignment access fault
+	// by atomically accessing the first 64-bit
+	// value of a tiny-allocated object.
+	// See issue 37262 for details.
+
+	// GC twice, once to reach a stable heap state
+	// and again to make sure we finish the sweep phase.
+	runtime.GC()
+	runtime.GC()
+
+	// Disable preemption so we stay on one P's tiny allocator and
+	// nothing else allocates from it.
+	runtime.Acquirem()
+
+	// Make 1-byte allocations until we get a fresh tiny slot.
+	aligned := false
+	for i := 0; i < 16; i++ {
+		x := runtime.Escape(new(byte))
+		if uintptr(unsafe.Pointer(x))&0xf == 0xf {
+			aligned = true
+			break
+		}
+	}
+	if !aligned {
+		runtime.Releasem()
+		t.Fatal("unable to get a fresh tiny slot")
+	}
+
+	// Create a 4-byte object so that the current
+	// tiny slot is partially filled.
+	runtime.Escape(new(uint32))
+
+	// Create a 12-byte object, which fits into the
+	// tiny slot. If it actually gets place there,
+	// then the field "a" will be improperly aligned
+	// for atomic access on 32-bit architectures.
+	// This won't be true if issue 36606 gets resolved.
+	tinyObj12 := runtime.Escape(new(obj12))
+
+	// Try to atomically access "x.a".
+	atomic.StoreUint64(&tinyObj12.a, 10)
+
+	runtime.Releasem()
+}
+
+func TestPageCacheLeak(t *testing.T) {
+	defer GOMAXPROCS(GOMAXPROCS(1))
+	leaked := PageCachePagesLeaked()
+	if leaked != 0 {
+		t.Fatalf("found %d leaked pages in page caches", leaked)
+	}
+}
+
+func TestPhysicalMemoryUtilization(t *testing.T) {
+	got := runTestProg(t, "testprog", "GCPhys")
+	want := "OK\n"
+	if got != want {
+		t.Fatalf("expected %q, but got %q", want, got)
+	}
+}
+
+func TestScavengedBitsCleared(t *testing.T) {
+	var mismatches [128]BitsMismatch
+	if n, ok := CheckScavengedBitsCleared(mismatches[:]); !ok {
+		t.Errorf("uncleared scavenged bits")
+		for _, m := range mismatches[:n] {
+			t.Logf("\t@ address 0x%x", m.Base)
+			t.Logf("\t|  got: %064b", m.Got)
+			t.Logf("\t| want: %064b", m.Want)
+		}
+		t.FailNow()
+	}
+}
+
+type acLink struct {
+	x [1 << 20]byte
+}
+
+var arenaCollisionSink []*acLink
+
+func TestArenaCollision(t *testing.T) {
+	testenv.MustHaveExec(t)
+
+	// Test that mheap.sysAlloc handles collisions with other
+	// memory mappings.
+	if os.Getenv("TEST_ARENA_COLLISION") != "1" {
+		cmd := testenv.CleanCmdEnv(exec.Command(os.Args[0], "-test.run=TestArenaCollision", "-test.v"))
+		cmd.Env = append(cmd.Env, "TEST_ARENA_COLLISION=1")
+		out, err := cmd.CombinedOutput()
+		if race.Enabled {
+			// This test runs the runtime out of hint
+			// addresses, so it will start mapping the
+			// heap wherever it can. The race detector
+			// doesn't support this, so look for the
+			// expected failure.
+			if want := "too many address space collisions"; !strings.Contains(string(out), want) {
+				t.Fatalf("want %q, got:\n%s", want, string(out))
+			}
+		} else if !strings.Contains(string(out), "PASS\n") || err != nil {
+			t.Fatalf("%s\n(exit status %v)", string(out), err)
+		}
+		return
+	}
+	disallowed := [][2]uintptr{}
+	// Drop all but the next 3 hints. 64-bit has a lot of hints,
+	// so it would take a lot of memory to go through all of them.
+	KeepNArenaHints(3)
+	// Consume these 3 hints and force the runtime to find some
+	// fallback hints.
+	for i := 0; i < 5; i++ {
+		// Reserve memory at the next hint so it can't be used
+		// for the heap.
+		start, end, ok := MapNextArenaHint()
+		if !ok {
+			t.Skipf("failed to reserve memory at next arena hint [%#x, %#x)", start, end)
+		}
+		t.Logf("reserved [%#x, %#x)", start, end)
+		disallowed = append(disallowed, [2]uintptr{start, end})
+		// Allocate until the runtime tries to use the hint we
+		// just mapped over.
+		hint := GetNextArenaHint()
+		for GetNextArenaHint() == hint {
+			ac := new(acLink)
+			arenaCollisionSink = append(arenaCollisionSink, ac)
+			// The allocation must not have fallen into
+			// one of the reserved regions.
+			p := uintptr(unsafe.Pointer(ac))
+			for _, d := range disallowed {
+				if d[0] <= p && p < d[1] {
+					t.Fatalf("allocation %#x in reserved region [%#x, %#x)", p, d[0], d[1])
+				}
+			}
+		}
+	}
+}
 
 func BenchmarkMalloc8(b *testing.B) {
-	var x uintptr
 	for i := 0; i < b.N; i++ {
 		p := new(int64)
-		x ^= uintptr(unsafe.Pointer(p))
+		Escape(p)
 	}
-	mallocSink = x
 }
 
 func BenchmarkMalloc16(b *testing.B) {
-	var x uintptr
 	for i := 0; i < b.N; i++ {
 		p := new([2]int64)
-		x ^= uintptr(unsafe.Pointer(p))
+		Escape(p)
 	}
-	mallocSink = x
 }
 
 func BenchmarkMallocTypeInfo8(b *testing.B) {
-	var x uintptr
 	for i := 0; i < b.N; i++ {
 		p := new(struct {
 			p [8 / unsafe.Sizeof(uintptr(0))]*int
 		})
-		x ^= uintptr(unsafe.Pointer(p))
+		Escape(p)
 	}
-	mallocSink = x
 }
 
 func BenchmarkMallocTypeInfo16(b *testing.B) {
-	var x uintptr
 	for i := 0; i < b.N; i++ {
 		p := new(struct {
 			p [16 / unsafe.Sizeof(uintptr(0))]*int
 		})
-		x ^= uintptr(unsafe.Pointer(p))
+		Escape(p)
 	}
-	mallocSink = x
 }
 
 type LargeStruct struct {
@@ -155,12 +355,10 @@ type LargeStruct struct {
 }
 
 func BenchmarkMallocLargeStruct(b *testing.B) {
-	var x uintptr
 	for i := 0; i < b.N; i++ {
 		p := make([]LargeStruct, 2)
-		x ^= uintptr(unsafe.Pointer(&p[0]))
+		Escape(p)
 	}
-	mallocSink = x
 }
 
 var n = flag.Int("n", 1000, "number of goroutines")

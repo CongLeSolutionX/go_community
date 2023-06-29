@@ -140,7 +140,7 @@ type Dirent struct {
 }
 
 type Fsid struct {
-	_ [2]int32
+	X__val [2]int32
 }
 
 type Flock_t struct {
@@ -449,12 +449,12 @@ type RtAttr struct {
 }
 
 type IfInfomsg struct {
-	Family uint8
-	_      uint8
-	Type   uint16
-	Index  int32
-	Flags  uint32
-	Change uint32
+	Family     uint8
+	X__ifi_pad uint8
+	Type       uint16
+	Index      int32
+	Flags      uint32
+	Change     uint32
 }
 
 type IfAddrmsg struct {
@@ -564,7 +564,7 @@ type Sysinfo_t struct {
 	Totalhigh uint64
 	Freehigh  uint64
 	Unit      uint32
-	_         [0]uint8
+	X_f       [0]uint8
 	_         [4]byte
 }
 
@@ -597,7 +597,14 @@ const (
 	_AT_FDCWD            = -0x64
 	_AT_REMOVEDIR        = 0x200
 	_AT_SYMLINK_NOFOLLOW = 0x100
+	_AT_EACCESS          = 0x200
 )
+
+type pollFd struct {
+	Fd      int32
+	Events  int16
+	Revents int16
+}
 
 type Termios struct {
 	Iflag  uint32

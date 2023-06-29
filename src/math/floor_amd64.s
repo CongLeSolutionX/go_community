@@ -6,25 +6,8 @@
 
 #define Big		0x4330000000000000 // 2**52
 
-// func hasSSE4() bool
-// returns whether SSE4.1 is supported
-TEXT ·hasSSE4(SB),NOSPLIT,$0
-	XORQ AX, AX
-	INCL AX
-	CPUID
-	SHRQ $19, CX
-	ANDQ $1, CX
-	MOVB CX, ret+0(FP)
-	RET
-
-// func Floor(x float64) float64
-TEXT ·Floor(SB),NOSPLIT,$0
-	CMPB    math·useSSE4(SB), $1
-	JNE     nosse4
-	ROUNDSD $1, x+0(FP), X0
-	MOVQ X0, ret+8(FP)
-	RET
-nosse4:
+// func archFloor(x float64) float64
+TEXT ·archFloor(SB),NOSPLIT,$0
 	MOVQ	x+0(FP), AX
 	MOVQ	$~(1<<63), DX // sign bit mask
 	ANDQ	AX,DX // DX = |x|
@@ -45,14 +28,8 @@ isBig_floor:
 	MOVQ    AX, ret+8(FP) // return x
 	RET
 
-// func Ceil(x float64) float64
-TEXT ·Ceil(SB),NOSPLIT,$0
-	CMPB    math·useSSE4(SB), $1
-	JNE     nosse4
-	ROUNDSD $2, x+0(FP), X0
-	MOVQ X0, ret+8(FP)
-	RET
-nosse4:
+// func archCeil(x float64) float64
+TEXT ·archCeil(SB),NOSPLIT,$0
 	MOVQ	x+0(FP), AX
 	MOVQ	$~(1<<63), DX // sign bit mask
 	MOVQ	AX, BX // BX = copy of x
@@ -77,8 +54,8 @@ isBig_ceil:
 	MOVQ	AX, ret+8(FP)
 	RET
 
-// func Trunc(x float64) float64
-TEXT ·Trunc(SB),NOSPLIT,$0
+// func archTrunc(x float64) float64
+TEXT ·archTrunc(SB),NOSPLIT,$0
 	MOVQ	x+0(FP), AX
 	MOVQ	$~(1<<63), DX // sign bit mask
 	MOVQ	AX, BX // BX = copy of x

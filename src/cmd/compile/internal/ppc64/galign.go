@@ -5,26 +5,25 @@
 package ppc64
 
 import (
-	"cmd/compile/internal/gc"
-	"cmd/internal/obj"
+	"cmd/compile/internal/ssagen"
 	"cmd/internal/obj/ppc64"
+	"internal/buildcfg"
 )
 
-func Init() {
-	gc.Thearch.LinkArch = &ppc64.Linkppc64
-	if obj.GOARCH == "ppc64le" {
-		gc.Thearch.LinkArch = &ppc64.Linkppc64le
+func Init(arch *ssagen.ArchInfo) {
+	arch.LinkArch = &ppc64.Linkppc64
+	if buildcfg.GOARCH == "ppc64le" {
+		arch.LinkArch = &ppc64.Linkppc64le
 	}
-	gc.Thearch.REGSP = ppc64.REGSP
-	gc.Thearch.MAXWIDTH = 1 << 50
+	arch.REGSP = ppc64.REGSP
+	arch.MAXWIDTH = 1 << 50
 
-	gc.Thearch.Defframe = defframe
-	gc.Thearch.Proginfo = proginfo
+	arch.ZeroRange = zerorange
+	arch.Ginsnop = ginsnop
 
-	gc.Thearch.SSAMarkMoves = ssaMarkMoves
-	gc.Thearch.SSAGenValue = ssaGenValue
-	gc.Thearch.SSAGenBlock = ssaGenBlock
-
-	initvariants()
-	initproginfo()
+	arch.SSAMarkMoves = ssaMarkMoves
+	arch.SSAGenValue = ssaGenValue
+	arch.SSAGenBlock = ssaGenBlock
+	arch.LoadRegResult = loadRegResult
+	arch.SpillArgReg = spillArgReg
 }

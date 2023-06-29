@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build msan
+//go:build msan
 
 package runtime
 
@@ -28,9 +28,11 @@ const msanenabled = true
 // the runtime, but operations like a slice copy can call msanread
 // anyhow for values on the stack. Just ignore msanread when running
 // on the system stack. The other msan functions are fine.
+//
+//go:nosplit
 func msanread(addr unsafe.Pointer, sz uintptr) {
-	g := getg()
-	if g == g.m.g0 || g == g.m.gsignal {
+	gp := getg()
+	if gp == nil || gp.m == nil || gp == gp.m.g0 || gp == gp.m.gsignal {
 		return
 	}
 	domsanread(addr, sz)
@@ -48,8 +50,13 @@ func msanmalloc(addr unsafe.Pointer, sz uintptr)
 //go:noescape
 func msanfree(addr unsafe.Pointer, sz uintptr)
 
-// These are called from msan_amd64.s
+//go:noescape
+func msanmove(dst, src unsafe.Pointer, sz uintptr)
+
+// These are called from msan_GOARCH.s
+//
 //go:cgo_import_static __msan_read_go
 //go:cgo_import_static __msan_write_go
 //go:cgo_import_static __msan_malloc_go
 //go:cgo_import_static __msan_free_go
+//go:cgo_import_static __msan_memmove

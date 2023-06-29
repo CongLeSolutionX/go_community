@@ -10,7 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
+	"io/fs"
 	"mime"
 	"mime/multipart"
 	"net"
@@ -67,17 +67,16 @@ var ServeFileRangeTests = []struct {
 	{r: "bytes=100-1000", code: StatusRequestedRangeNotSatisfiable},
 }
 
-func TestServeFile(t *testing.T) {
-	setParallel(t)
-	defer afterTest(t)
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+func TestServeFile(t *testing.T) { run(t, testServeFile) }
+func testServeFile(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		ServeFile(w, r, "testdata/file")
-	}))
-	defer ts.Close()
+	})).ts
+	c := ts.Client()
 
 	var err error
 
-	file, err := ioutil.ReadFile(testFile)
+	file, err := os.ReadFile(testFile)
 	if err != nil {
 		t.Fatal("reading file:", err)
 	}
@@ -88,21 +87,45 @@ func TestServeFile(t *testing.T) {
 	if req.URL, err = url.Parse(ts.URL); err != nil {
 		t.Fatal("ParseURL:", err)
 	}
-	req.Method = "GET"
 
-	// straight GET
-	_, body := getBody(t, "straight get", req)
-	if !bytes.Equal(body, file) {
-		t.Fatalf("body mismatch: got %q, want %q", body, file)
+	// Get contents via various methods.
+	//
+	// See https://go.dev/issue/59471 for a proposal to limit the set of methods handled.
+	// For now, test the historical behavior.
+	for _, method := range []string{
+		MethodGet,
+		MethodPost,
+		MethodPut,
+		MethodPatch,
+		MethodDelete,
+		MethodOptions,
+		MethodTrace,
+	} {
+		req.Method = method
+		_, body := getBody(t, method, req, c)
+		if !bytes.Equal(body, file) {
+			t.Fatalf("body mismatch for %v request: got %q, want %q", method, body, file)
+		}
+	}
+
+	// HEAD request.
+	req.Method = MethodHead
+	resp, body := getBody(t, "HEAD", req, c)
+	if len(body) != 0 {
+		t.Fatalf("body mismatch for HEAD request: got %q, want empty", body)
+	}
+	if got, want := resp.Header.Get("Content-Length"), fmt.Sprint(len(file)); got != want {
+		t.Fatalf("Content-Length mismatch for HEAD request: got %v, want %v", got, want)
 	}
 
 	// Range tests
+	req.Method = MethodGet
 Cases:
 	for _, rt := range ServeFileRangeTests {
 		if rt.r != "" {
 			req.Header.Set("Range", rt.r)
 		}
-		resp, body := getBody(t, fmt.Sprintf("range test %q", rt.r), req)
+		resp, body := getBody(t, fmt.Sprintf("range test %q", rt.r), req, c)
 		if resp.StatusCode != rt.code {
 			t.Errorf("range=%q: StatusCode=%d, want %d", rt.r, resp.StatusCode, rt.code)
 		}
@@ -158,7 +181,7 @@ Cases:
 				if g, w := part.Header.Get("Content-Range"), wantContentRange; g != w {
 					t.Errorf("range=%q: part Content-Range = %q; want %q", rt.r, g, w)
 				}
-				body, err := ioutil.ReadAll(part)
+				body, err := io.ReadAll(part)
 				if err != nil {
 					t.Errorf("range=%q, reading part index %d body: %v", rt.r, ri, err)
 					continue Cases
@@ -206,6 +229,39 @@ func TestServeFile_DotDot(t *testing.T) {
 	}
 }
 
+// Tests that this doesn't panic. (Issue 30165)
+func TestServeFileDirPanicEmptyPath(t *testing.T) {
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest("GET", "/", nil)
+	req.URL.Path = ""
+	ServeFile(rec, req, "testdata")
+	res := rec.Result()
+	if res.StatusCode != 301 {
+		t.Errorf("code = %v; want 301", res.Status)
+	}
+}
+
+// Tests that ranges are ignored with serving empty content. (Issue 54794)
+func TestServeContentWithEmptyContentIgnoreRanges(t *testing.T) {
+	for _, r := range []string{
+		"bytes=0-128",
+		"bytes=1-",
+	} {
+		rec := httptest.NewRecorder()
+		req := httptest.NewRequest("GET", "/", nil)
+		req.Header.Set("Range", r)
+		ServeContent(rec, req, "nothing", time.Now(), bytes.NewReader(nil))
+		res := rec.Result()
+		if res.StatusCode != 200 {
+			t.Errorf("code = %v; want 200", res.Status)
+		}
+		bodyLen := rec.Body.Len()
+		if bodyLen != 0 {
+			t.Errorf("body.Len() = %v; want 0", res.Status)
+		}
+	}
+}
+
 var fsRedirectTestData = []struct {
 	original, redirect string
 }{
@@ -214,13 +270,12 @@ var fsRedirectTestData = []struct {
 	{"/test/testdata/file/", "/test/testdata/file"},
 }
 
-func TestFSRedirect(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(StripPrefix("/test", FileServer(Dir("."))))
-	defer ts.Close()
+func TestFSRedirect(t *testing.T) { run(t, testFSRedirect) }
+func testFSRedirect(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, StripPrefix("/test", FileServer(Dir(".")))).ts
 
 	for _, data := range fsRedirectTestData {
-		res, err := Get(ts.URL + data.original)
+		res, err := ts.Client().Get(ts.URL + data.original)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -264,8 +319,8 @@ func TestFileServerCleans(t *testing.T) {
 	}
 }
 
-func TestFileServerEscapesNames(t *testing.T) {
-	defer afterTest(t)
+func TestFileServerEscapesNames(t *testing.T) { run(t, testFileServerEscapesNames) }
+func testFileServerEscapesNames(t *testing.T, mode testMode) {
 	const dirListPrefix = "<pre>\n"
 	const dirListSuffix = "\n</pre>\n"
 	tests := []struct {
@@ -290,15 +345,14 @@ func TestFileServerEscapesNames(t *testing.T) {
 		fs[fmt.Sprintf("/%d/%s", i, test.name)] = testFile
 	}
 
-	ts := httptest.NewServer(FileServer(&fs))
-	defer ts.Close()
+	ts := newClientServerTest(t, mode, FileServer(&fs)).ts
 	for i, test := range tests {
 		url := fmt.Sprintf("%s/%d", ts.URL, i)
-		res, err := Get(url)
+		res, err := ts.Client().Get(url)
 		if err != nil {
 			t.Fatalf("test %q: Get: %v", test.name, err)
 		}
-		b, err := ioutil.ReadAll(res.Body)
+		b, err := io.ReadAll(res.Body)
 		if err != nil {
 			t.Fatalf("test %q: read Body: %v", test.name, err)
 		}
@@ -313,8 +367,8 @@ func TestFileServerEscapesNames(t *testing.T) {
 	}
 }
 
-func TestFileServerSortsNames(t *testing.T) {
-	defer afterTest(t)
+func TestFileServerSortsNames(t *testing.T) { run(t, testFileServerSortsNames) }
+func testFileServerSortsNames(t *testing.T, mode testMode) {
 	const contents = "I am a fake file"
 	dirMod := time.Unix(123, 0).UTC()
 	fileMod := time.Unix(1000000000, 0).UTC()
@@ -337,16 +391,15 @@ func TestFileServerSortsNames(t *testing.T) {
 		},
 	}
 
-	ts := httptest.NewServer(FileServer(&fs))
-	defer ts.Close()
+	ts := newClientServerTest(t, mode, FileServer(&fs)).ts
 
-	res, err := Get(ts.URL)
+	res, err := ts.Client().Get(ts.URL)
 	if err != nil {
 		t.Fatalf("Get: %v", err)
 	}
 	defer res.Body.Close()
 
-	b, err := ioutil.ReadAll(res.Body)
+	b, err := io.ReadAll(res.Body)
 	if err != nil {
 		t.Fatalf("read Body: %v", err)
 	}
@@ -363,24 +416,19 @@ func mustRemoveAll(dir string) {
 	}
 }
 
-func TestFileServerImplicitLeadingSlash(t *testing.T) {
-	defer afterTest(t)
-	tempDir, err := ioutil.TempDir("", "")
-	if err != nil {
-		t.Fatalf("TempDir: %v", err)
-	}
-	defer mustRemoveAll(tempDir)
-	if err := ioutil.WriteFile(filepath.Join(tempDir, "foo.txt"), []byte("Hello world"), 0644); err != nil {
+func TestFileServerImplicitLeadingSlash(t *testing.T) { run(t, testFileServerImplicitLeadingSlash) }
+func testFileServerImplicitLeadingSlash(t *testing.T, mode testMode) {
+	tempDir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(tempDir, "foo.txt"), []byte("Hello world"), 0644); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
-	ts := httptest.NewServer(StripPrefix("/bar/", FileServer(Dir(tempDir))))
-	defer ts.Close()
+	ts := newClientServerTest(t, mode, StripPrefix("/bar/", FileServer(Dir(tempDir)))).ts
 	get := func(suffix string) string {
-		res, err := Get(ts.URL + suffix)
+		res, err := ts.Client().Get(ts.URL + suffix)
 		if err != nil {
 			t.Fatalf("Get %s: %v", suffix, err)
 		}
-		b, err := ioutil.ReadAll(res.Body)
+		b, err := io.ReadAll(res.Body)
 		if err != nil {
 			t.Fatalf("ReadAll %s: %v", suffix, err)
 		}
@@ -445,10 +493,10 @@ func TestEmptyDirOpenCWD(t *testing.T) {
 	test(Dir("./"))
 }
 
-func TestServeFileContentType(t *testing.T) {
-	defer afterTest(t)
+func TestServeFileContentType(t *testing.T) { run(t, testServeFileContentType) }
+func testServeFileContentType(t *testing.T, mode testMode) {
 	const ctype = "icecream/chocolate"
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		switch r.FormValue("override") {
 		case "1":
 			w.Header().Set("Content-Type", ctype)
@@ -457,10 +505,9 @@ func TestServeFileContentType(t *testing.T) {
 			w.Header()["Content-Type"] = []string{}
 		}
 		ServeFile(w, r, "testdata/file")
-	}))
-	defer ts.Close()
+	})).ts
 	get := func(override string, want []string) {
-		resp, err := Get(ts.URL + "?override=" + override)
+		resp, err := ts.Client().Get(ts.URL + "?override=" + override)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -474,13 +521,12 @@ func TestServeFileContentType(t *testing.T) {
 	get("2", nil)
 }
 
-func TestServeFileMimeType(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+func TestServeFileMimeType(t *testing.T) { run(t, testServeFileMimeType) }
+func testServeFileMimeType(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		ServeFile(w, r, "testdata/style.css")
-	}))
-	defer ts.Close()
-	resp, err := Get(ts.URL)
+	})).ts
+	resp, err := ts.Client().Get(ts.URL)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -491,13 +537,12 @@ func TestServeFileMimeType(t *testing.T) {
 	}
 }
 
-func TestServeFileFromCWD(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+func TestServeFileFromCWD(t *testing.T) { run(t, testServeFileFromCWD) }
+func testServeFileFromCWD(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		ServeFile(w, r, "fs_test.go")
-	}))
-	defer ts.Close()
-	r, err := Get(ts.URL)
+	})).ts
+	r, err := ts.Client().Get(ts.URL)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -508,14 +553,13 @@ func TestServeFileFromCWD(t *testing.T) {
 }
 
 // Issue 13996
-func TestServeDirWithoutTrailingSlash(t *testing.T) {
+func TestServeDirWithoutTrailingSlash(t *testing.T) { run(t, testServeDirWithoutTrailingSlash) }
+func testServeDirWithoutTrailingSlash(t *testing.T, mode testMode) {
 	e := "/testdata/"
-	defer afterTest(t)
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		ServeFile(w, r, ".")
-	}))
-	defer ts.Close()
-	r, err := Get(ts.URL + "/testdata")
+	})).ts
+	r, err := ts.Client().Get(ts.URL + "/testdata")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -527,11 +571,9 @@ func TestServeDirWithoutTrailingSlash(t *testing.T) {
 
 // Tests that ServeFile doesn't add a Content-Length if a Content-Encoding is
 // specified.
-func TestServeFileWithContentEncoding_h1(t *testing.T) { testServeFileWithContentEncoding(t, h1Mode) }
-func TestServeFileWithContentEncoding_h2(t *testing.T) { testServeFileWithContentEncoding(t, h2Mode) }
-func testServeFileWithContentEncoding(t *testing.T, h2 bool) {
-	defer afterTest(t)
-	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
+func TestServeFileWithContentEncoding(t *testing.T) { run(t, testServeFileWithContentEncoding) }
+func testServeFileWithContentEncoding(t *testing.T, mode testMode) {
+	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		w.Header().Set("Content-Encoding", "foo")
 		ServeFile(w, r, "testdata/file")
 
@@ -544,7 +586,6 @@ func testServeFileWithContentEncoding(t *testing.T, h2 bool) {
 		// Content-Length and test ServeFile only, flush here.
 		w.(Flusher).Flush()
 	}))
-	defer cst.close()
 	resp, err := cst.c.Get(cst.ts.URL)
 	if err != nil {
 		t.Fatal(err)
@@ -555,18 +596,104 @@ func testServeFileWithContentEncoding(t *testing.T, h2 bool) {
 	}
 }
 
-func TestServeIndexHtml(t *testing.T) {
-	defer afterTest(t)
+// Tests that ServeFile does not generate representation metadata when
+// file has not been modified, as per RFC 7232 section 4.1.
+func TestServeFileNotModified(t *testing.T) { run(t, testServeFileNotModified) }
+func testServeFileNotModified(t *testing.T, mode testMode) {
+	cst := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Encoding", "foo")
+		w.Header().Set("Etag", `"123"`)
+		ServeFile(w, r, "testdata/file")
+
+		// Because the testdata is so small, it would fit in
+		// both the h1 and h2 Server's write buffers. For h1,
+		// sendfile is used, though, forcing a header flush at
+		// the io.Copy. http2 doesn't do a header flush so
+		// buffers all 11 bytes and then adds its own
+		// Content-Length. To prevent the Server's
+		// Content-Length and test ServeFile only, flush here.
+		w.(Flusher).Flush()
+	}))
+	req, err := NewRequest("GET", cst.ts.URL, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.Header.Set("If-None-Match", `"123"`)
+	resp, err := cst.c.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	b, err := io.ReadAll(resp.Body)
+	resp.Body.Close()
+	if err != nil {
+		t.Fatal("reading Body:", err)
+	}
+	if len(b) != 0 {
+		t.Errorf("non-empty body")
+	}
+	if g, e := resp.StatusCode, StatusNotModified; g != e {
+		t.Errorf("status mismatch: got %d, want %d", g, e)
+	}
+	// HTTP1 transport sets ContentLength to 0.
+	if g, e1, e2 := resp.ContentLength, int64(-1), int64(0); g != e1 && g != e2 {
+		t.Errorf("Content-Length mismatch: got %d, want %d or %d", g, e1, e2)
+	}
+	if resp.Header.Get("Content-Type") != "" {
+		t.Errorf("Content-Type present, but it should not be")
+	}
+	if resp.Header.Get("Content-Encoding") != "" {
+		t.Errorf("Content-Encoding present, but it should not be")
+	}
+}
+
+func TestServeIndexHtml(t *testing.T) { run(t, testServeIndexHtml) }
+func testServeIndexHtml(t *testing.T, mode testMode) {
+	for i := 0; i < 2; i++ {
+		var h Handler
+		var name string
+		switch i {
+		case 0:
+			h = FileServer(Dir("."))
+			name = "Dir"
+		case 1:
+			h = FileServer(FS(os.DirFS(".")))
+			name = "DirFS"
+		}
+		t.Run(name, func(t *testing.T) {
+			const want = "index.html says hello\n"
+			ts := newClientServerTest(t, mode, h).ts
+
+			for _, path := range []string{"/testdata/", "/testdata/index.html"} {
+				res, err := ts.Client().Get(ts.URL + path)
+				if err != nil {
+					t.Fatal(err)
+				}
+				b, err := io.ReadAll(res.Body)
+				if err != nil {
+					t.Fatal("reading Body:", err)
+				}
+				if s := string(b); s != want {
+					t.Errorf("for path %q got %q, want %q", path, s, want)
+				}
+				res.Body.Close()
+			}
+		})
+	}
+}
+
+func TestServeIndexHtmlFS(t *testing.T) { run(t, testServeIndexHtmlFS) }
+func testServeIndexHtmlFS(t *testing.T, mode testMode) {
 	const want = "index.html says hello\n"
-	ts := httptest.NewServer(FileServer(Dir(".")))
+	ts := newClientServerTest(t, mode, FileServer(Dir("."))).ts
 	defer ts.Close()
 
 	for _, path := range []string{"/testdata/", "/testdata/index.html"} {
-		res, err := Get(ts.URL + path)
+		res, err := ts.Client().Get(ts.URL + path)
 		if err != nil {
 			t.Fatal(err)
 		}
-		b, err := ioutil.ReadAll(res.Body)
+		b, err := io.ReadAll(res.Body)
 		if err != nil {
 			t.Fatal("reading Body:", err)
 		}
@@ -577,21 +704,46 @@ func TestServeIndexHtml(t *testing.T) {
 	}
 }
 
-func TestFileServerZeroByte(t *testing.T) {
-	defer afterTest(t)
-	ts := httptest.NewServer(FileServer(Dir(".")))
-	defer ts.Close()
+func TestFileServerZeroByte(t *testing.T) { run(t, testFileServerZeroByte) }
+func testFileServerZeroByte(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, FileServer(Dir("."))).ts
 
-	res, err := Get(ts.URL + "/..\x00")
+	c, err := net.Dial("tcp", ts.Listener.Addr().String())
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := ioutil.ReadAll(res.Body)
+	defer c.Close()
+	_, err = fmt.Fprintf(c, "GET /..\x00 HTTP/1.0\r\n\r\n")
 	if err != nil {
-		t.Fatal("reading Body:", err)
+		t.Fatal(err)
+	}
+	var got bytes.Buffer
+	bufr := bufio.NewReader(io.TeeReader(c, &got))
+	res, err := ReadResponse(bufr, nil)
+	if err != nil {
+		t.Fatal("ReadResponse: ", err)
 	}
 	if res.StatusCode == 200 {
-		t.Errorf("got status 200; want an error. Body is:\n%s", string(b))
+		t.Errorf("got status 200; want an error. Body is:\n%s", got.Bytes())
+	}
+}
+
+func TestFileServerNamesEscape(t *testing.T) { run(t, testFileServerNamesEscape) }
+func testFileServerNamesEscape(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, FileServer(Dir("testdata"))).ts
+	for _, path := range []string{
+		"/../testdata/file",
+		"/NUL", // don't read from device files on Windows
+	} {
+		res, err := ts.Client().Get(ts.URL + path)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		if res.StatusCode < 400 || res.StatusCode > 599 {
+			t.Errorf("Get(%q): got status %v, want 4xx or 5xx", path, res.StatusCode)
+		}
+
 	}
 }
 
@@ -605,15 +757,19 @@ type fakeFileInfo struct {
 }
 
 func (f *fakeFileInfo) Name() string       { return f.basename }
-func (f *fakeFileInfo) Sys() interface{}   { return nil }
+func (f *fakeFileInfo) Sys() any           { return nil }
 func (f *fakeFileInfo) ModTime() time.Time { return f.modtime }
 func (f *fakeFileInfo) IsDir() bool        { return f.dir }
 func (f *fakeFileInfo) Size() int64        { return int64(len(f.contents)) }
-func (f *fakeFileInfo) Mode() os.FileMode {
+func (f *fakeFileInfo) Mode() fs.FileMode {
 	if f.dir {
-		return 0755 | os.ModeDir
+		return 0755 | fs.ModeDir
 	}
 	return 0644
+}
+
+func (f *fakeFileInfo) String() string {
+	return fs.FormatFileInfo(f)
 }
 
 type fakeFile struct {
@@ -624,12 +780,12 @@ type fakeFile struct {
 }
 
 func (f *fakeFile) Close() error               { return nil }
-func (f *fakeFile) Stat() (os.FileInfo, error) { return f.fi, nil }
-func (f *fakeFile) Readdir(count int) ([]os.FileInfo, error) {
+func (f *fakeFile) Stat() (fs.FileInfo, error) { return f.fi, nil }
+func (f *fakeFile) Readdir(count int) ([]fs.FileInfo, error) {
 	if !f.fi.dir {
-		return nil, os.ErrInvalid
+		return nil, fs.ErrInvalid
 	}
-	var fis []os.FileInfo
+	var fis []fs.FileInfo
 
 	limit := f.entpos + count
 	if count <= 0 || limit > len(f.fi.ents) {
@@ -648,11 +804,11 @@ func (f *fakeFile) Readdir(count int) ([]os.FileInfo, error) {
 
 type fakeFS map[string]*fakeFileInfo
 
-func (fs fakeFS) Open(name string) (File, error) {
+func (fsys fakeFS) Open(name string) (File, error) {
 	name = path.Clean(name)
-	f, ok := fs[name]
+	f, ok := fsys[name]
 	if !ok {
-		return nil, os.ErrNotExist
+		return nil, fs.ErrNotExist
 	}
 	if f.err != nil {
 		return nil, f.err
@@ -660,8 +816,8 @@ func (fs fakeFS) Open(name string) (File, error) {
 	return &fakeFile{ReadSeeker: strings.NewReader(f.contents), fi: f, path: name}, nil
 }
 
-func TestDirectoryIfNotModified(t *testing.T) {
-	defer afterTest(t)
+func TestDirectoryIfNotModified(t *testing.T) { run(t, testDirectoryIfNotModified) }
+func testDirectoryIfNotModified(t *testing.T, mode testMode) {
 	const indexContents = "I am a fake index.html file"
 	fileMod := time.Unix(1000000000, 0).UTC()
 	fileModStr := fileMod.Format(TimeFormat)
@@ -680,14 +836,13 @@ func TestDirectoryIfNotModified(t *testing.T) {
 		"/index.html": indexFile,
 	}
 
-	ts := httptest.NewServer(FileServer(fs))
-	defer ts.Close()
+	ts := newClientServerTest(t, mode, FileServer(fs)).ts
 
-	res, err := Get(ts.URL)
+	res, err := ts.Client().Get(ts.URL)
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := ioutil.ReadAll(res.Body)
+	b, err := io.ReadAll(res.Body)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -704,7 +859,8 @@ func TestDirectoryIfNotModified(t *testing.T) {
 	req, _ := NewRequest("GET", ts.URL, nil)
 	req.Header.Set("If-Modified-Since", lastMod)
 
-	res, err = DefaultClient.Do(req)
+	c := ts.Client()
+	res, err = c.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -716,7 +872,7 @@ func TestDirectoryIfNotModified(t *testing.T) {
 	// Advance the index.html file's modtime, but not the directory's.
 	indexFile.modtime = indexFile.modtime.Add(1 * time.Hour)
 
-	res, err = DefaultClient.Do(req)
+	res, err = c.Do(req)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -726,7 +882,7 @@ func TestDirectoryIfNotModified(t *testing.T) {
 	res.Body.Close()
 }
 
-func mustStat(t *testing.T, fileName string) os.FileInfo {
+func mustStat(t *testing.T, fileName string) fs.FileInfo {
 	fi, err := os.Stat(fileName)
 	if err != nil {
 		t.Fatal(err)
@@ -734,8 +890,8 @@ func mustStat(t *testing.T, fileName string) os.FileInfo {
 	return fi
 }
 
-func TestServeContent(t *testing.T) {
-	defer afterTest(t)
+func TestServeContent(t *testing.T) { run(t, testServeContent) }
+func testServeContent(t *testing.T, mode testMode) {
 	type serveParam struct {
 		name        string
 		modtime     time.Time
@@ -744,7 +900,7 @@ func TestServeContent(t *testing.T) {
 		etag        string
 	}
 	servec := make(chan serveParam, 1)
-	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
 		p := <-servec
 		if p.etag != "" {
 			w.Header().Set("ETag", p.etag)
@@ -753,8 +909,7 @@ func TestServeContent(t *testing.T) {
 			w.Header().Set("Content-Type", p.contentType)
 		}
 		ServeContent(w, r, p.name, p.modtime, p.content)
-	}))
-	defer ts.Close()
+	})).ts
 
 	type testCase struct {
 		// One of file or content must be set:
@@ -769,6 +924,7 @@ func TestServeContent(t *testing.T) {
 		wantContentType  string
 		wantContentRange string
 		wantStatus       int
+		wantContent      []byte
 	}
 	htmlModTime := mustStat(t, "testdata/index.html").ModTime()
 	tests := map[string]testCase{
@@ -824,6 +980,15 @@ func TestServeContent(t *testing.T) {
 			serveETag: `"foo"`,
 			reqHeader: map[string]string{
 				"If-None-Match": `"Foo"`,
+			},
+			wantStatus:      200,
+			wantContentType: "text/css; charset=utf-8",
+		},
+		"if_none_match_malformed": {
+			file:      "testdata/style.css",
+			serveETag: `"foo"`,
+			reqHeader: map[string]string{
+				"If-None-Match": `,`,
 			},
 			wantStatus:      200,
 			wantContentType: "text/css; charset=utf-8",
@@ -893,6 +1058,17 @@ func TestServeContent(t *testing.T) {
 			wantContentRange: "bytes 0-4/8",
 			wantLastMod:      "Wed, 25 Jun 2014 17:12:18 GMT",
 		},
+		"range_with_modtime_mismatch": {
+			file:    "testdata/style.css",
+			modtime: time.Date(2014, 6, 25, 17, 12, 18, 0 /* nanos */, time.UTC),
+			reqHeader: map[string]string{
+				"Range":    "bytes=0-4",
+				"If-Range": "Wed, 25 Jun 2014 17:12:19 GMT",
+			},
+			wantStatus:      StatusOK,
+			wantContentType: "text/css; charset=utf-8",
+			wantLastMod:     "Wed, 25 Jun 2014 17:12:18 GMT",
+		},
 		"range_with_modtime_nanos": {
 			file:    "testdata/style.css",
 			modtime: time.Date(2014, 6, 25, 17, 12, 18, 123 /* nanos */, time.UTC),
@@ -935,8 +1111,7 @@ func TestServeContent(t *testing.T) {
 			reqHeader: map[string]string{
 				"If-Match": `"B"`,
 			},
-			wantStatus:      412,
-			wantContentType: "text/plain; charset=utf-8",
+			wantStatus: 412,
 		},
 		"ifmatch_fails_on_weak_etag": {
 			file:      "testdata/style.css",
@@ -944,8 +1119,7 @@ func TestServeContent(t *testing.T) {
 			reqHeader: map[string]string{
 				"If-Match": `W/"A"`,
 			},
-			wantStatus:      412,
-			wantContentType: "text/plain; charset=utf-8",
+			wantStatus: 412,
 		},
 		"if_unmodified_since_true": {
 			file:    "testdata/style.css",
@@ -963,9 +1137,26 @@ func TestServeContent(t *testing.T) {
 			reqHeader: map[string]string{
 				"If-Unmodified-Since": htmlModTime.Add(-2 * time.Second).UTC().Format(TimeFormat),
 			},
-			wantStatus:      412,
-			wantContentType: "text/plain; charset=utf-8",
-			wantLastMod:     htmlModTime.UTC().Format(TimeFormat),
+			wantStatus:  412,
+			wantLastMod: htmlModTime.UTC().Format(TimeFormat),
+		},
+		"uses_writeTo_if_available_and_non-range": {
+			content:          &panicOnNonWriterTo{seekWriterTo: strings.NewReader("foobar")},
+			serveContentType: "text/plain; charset=utf-8",
+			wantContentType:  "text/plain; charset=utf-8",
+			wantStatus:       StatusOK,
+			wantContent:      []byte("foobar"),
+		},
+		"do_not_use_writeTo_for_range_requests": {
+			content:          &panicOnWriterTo{ReadSeeker: strings.NewReader("foobar")},
+			serveContentType: "text/plain; charset=utf-8",
+			reqHeader: map[string]string{
+				"Range": "bytes=0-4",
+			},
+			wantContentType:  "text/plain; charset=utf-8",
+			wantContentRange: "bytes 0-4/6",
+			wantStatus:       StatusPartialContent,
+			wantContent:      []byte("fooba"),
 		},
 	}
 	for testName, tt := range tests {
@@ -980,40 +1171,68 @@ func TestServeContent(t *testing.T) {
 		} else {
 			content = tt.content
 		}
+		contentOut := &strings.Builder{}
+		for _, method := range []string{MethodGet, MethodHead} {
+			//restore content in case it is consumed by previous method
+			if content, ok := content.(*strings.Reader); ok {
+				content.Seek(0, io.SeekStart)
+			}
 
-		servec <- serveParam{
-			name:        filepath.Base(tt.file),
-			content:     content,
-			modtime:     tt.modtime,
-			etag:        tt.serveETag,
-			contentType: tt.serveContentType,
-		}
-		req, err := NewRequest("GET", ts.URL, nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-		for k, v := range tt.reqHeader {
-			req.Header.Set(k, v)
-		}
-		res, err := DefaultClient.Do(req)
-		if err != nil {
-			t.Fatal(err)
-		}
-		io.Copy(ioutil.Discard, res.Body)
-		res.Body.Close()
-		if res.StatusCode != tt.wantStatus {
-			t.Errorf("test %q: status = %d; want %d", testName, res.StatusCode, tt.wantStatus)
-		}
-		if g, e := res.Header.Get("Content-Type"), tt.wantContentType; g != e {
-			t.Errorf("test %q: content-type = %q, want %q", testName, g, e)
-		}
-		if g, e := res.Header.Get("Content-Range"), tt.wantContentRange; g != e {
-			t.Errorf("test %q: content-range = %q, want %q", testName, g, e)
-		}
-		if g, e := res.Header.Get("Last-Modified"), tt.wantLastMod; g != e {
-			t.Errorf("test %q: last-modified = %q, want %q", testName, g, e)
+			servec <- serveParam{
+				name:        filepath.Base(tt.file),
+				content:     content,
+				modtime:     tt.modtime,
+				etag:        tt.serveETag,
+				contentType: tt.serveContentType,
+			}
+			req, err := NewRequest(method, ts.URL, nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+			for k, v := range tt.reqHeader {
+				req.Header.Set(k, v)
+			}
+
+			c := ts.Client()
+			res, err := c.Do(req)
+			if err != nil {
+				t.Fatal(err)
+			}
+			contentOut.Reset()
+			io.Copy(contentOut, res.Body)
+			res.Body.Close()
+			if res.StatusCode != tt.wantStatus {
+				t.Errorf("test %q using %q: got status = %d; want %d", testName, method, res.StatusCode, tt.wantStatus)
+			}
+			if g, e := res.Header.Get("Content-Type"), tt.wantContentType; g != e {
+				t.Errorf("test %q using %q: got content-type = %q, want %q", testName, method, g, e)
+			}
+			if g, e := res.Header.Get("Content-Range"), tt.wantContentRange; g != e {
+				t.Errorf("test %q using %q: got content-range = %q, want %q", testName, method, g, e)
+			}
+			if g, e := res.Header.Get("Last-Modified"), tt.wantLastMod; g != e {
+				t.Errorf("test %q using %q: got last-modified = %q, want %q", testName, method, g, e)
+			}
+			if g, e := contentOut.String(), tt.wantContent; e != nil && method == MethodGet && g != string(e) {
+				t.Errorf("test %q using %q: got unexpected content %q, want %q", testName, method, g, e)
+			}
 		}
 	}
+}
+
+type seekWriterTo interface {
+	io.Seeker
+	io.WriterTo
+}
+
+type panicOnNonWriterTo struct {
+	io.Reader
+	seekWriterTo
+}
+
+type panicOnWriterTo struct {
+	io.ReadSeeker
+	io.WriterTo
 }
 
 // Issue 12991
@@ -1035,23 +1254,23 @@ func (issue12991FS) Open(string) (File, error) { return issue12991File{}, nil }
 
 type issue12991File struct{ File }
 
-func (issue12991File) Stat() (os.FileInfo, error) { return nil, os.ErrPermission }
+func (issue12991File) Stat() (fs.FileInfo, error) { return nil, fs.ErrPermission }
 func (issue12991File) Close() error               { return nil }
 
-func TestServeContentErrorMessages(t *testing.T) {
-	defer afterTest(t)
+func TestServeContentErrorMessages(t *testing.T) { run(t, testServeContentErrorMessages) }
+func testServeContentErrorMessages(t *testing.T, mode testMode) {
 	fs := fakeFS{
 		"/500": &fakeFileInfo{
 			err: errors.New("random error"),
 		},
 		"/403": &fakeFileInfo{
-			err: &os.PathError{Err: os.ErrPermission},
+			err: &fs.PathError{Err: fs.ErrPermission},
 		},
 	}
-	ts := httptest.NewServer(FileServer(fs))
-	defer ts.Close()
+	ts := newClientServerTest(t, mode, FileServer(fs)).ts
+	c := ts.Client()
 	for _, code := range []int{403, 404, 500} {
-		res, err := DefaultClient.Get(fmt.Sprintf("%s/%d", ts.URL, code))
+		res, err := c.Get(fmt.Sprintf("%s/%d", ts.URL, code))
 		if err != nil {
 			t.Errorf("Error fetching /%d: %v", code, err)
 			continue
@@ -1084,18 +1303,21 @@ func TestLinuxSendfile(t *testing.T) {
 	}
 	defer ln.Close()
 
-	syscalls := "sendfile,sendfile64"
-	switch runtime.GOARCH {
-	case "mips64le", "s390x":
-		// strace on the above platforms doesn't support sendfile64
-		// and will error out if we specify that with `-e trace='.
-		syscalls = "sendfile"
-	case "mips64":
-		t.Skip("TODO: update this test to be robust against various versions of strace on mips64. See golang.org/issue/33430")
+	// Attempt to run strace, and skip on failure - this test requires SYS_PTRACE.
+	if err := exec.Command("strace", "-f", "-q", os.Args[0], "-test.run=^$").Run(); err != nil {
+		t.Skipf("skipping; failed to run strace: %v", err)
 	}
 
-	var buf bytes.Buffer
-	child := exec.Command("strace", "-f", "-q", "-e", "trace="+syscalls, os.Args[0], "-test.run=TestLinuxSendfileChild")
+	filename := fmt.Sprintf("1kb-%d", os.Getpid())
+	filepath := path.Join(os.TempDir(), filename)
+
+	if err := os.WriteFile(filepath, bytes.Repeat([]byte{'a'}, 1<<10), 0755); err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(filepath)
+
+	var buf strings.Builder
+	child := exec.Command("strace", "-f", "-q", os.Args[0], "-test.run=TestLinuxSendfileChild")
 	child.ExtraFiles = append(child.ExtraFiles, lnf)
 	child.Env = append([]string{"GO_WANT_HELPER_PROCESS=1"}, os.Environ()...)
 	child.Stdout = &buf
@@ -1104,11 +1326,11 @@ func TestLinuxSendfile(t *testing.T) {
 		t.Skipf("skipping; failed to start straced child: %v", err)
 	}
 
-	res, err := Get(fmt.Sprintf("http://%s/", ln.Addr()))
+	res, err := Get(fmt.Sprintf("http://%s/%s", ln.Addr(), filename))
 	if err != nil {
 		t.Fatalf("http client error: %v", err)
 	}
-	_, err = io.Copy(ioutil.Discard, res.Body)
+	_, err = io.Copy(io.Discard, res.Body)
 	if err != nil {
 		t.Fatalf("client body read error: %v", err)
 	}
@@ -1118,19 +1340,19 @@ func TestLinuxSendfile(t *testing.T) {
 	Post(fmt.Sprintf("http://%s/quit", ln.Addr()), "", nil)
 	child.Wait()
 
-	rx := regexp.MustCompile(`sendfile(64)?\(\d+,\s*\d+,\s*NULL,\s*\d+`)
+	rx := regexp.MustCompile(`\b(n64:)?sendfile(64)?\(`)
 	out := buf.String()
 	if !rx.MatchString(out) {
 		t.Errorf("no sendfile system call found in:\n%s", out)
 	}
 }
 
-func getBody(t *testing.T, testName string, req Request) (*Response, []byte) {
-	r, err := DefaultClient.Do(&req)
+func getBody(t *testing.T, testName string, req Request, client *Client) (*Response, []byte) {
+	r, err := client.Do(&req)
 	if err != nil {
 		t.Fatalf("%s: for URL %q, send error: %v", testName, req.URL.String(), err)
 	}
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		t.Fatalf("%s: for URL %q, reading body: %v", testName, req.URL.String(), err)
 	}
@@ -1150,7 +1372,7 @@ func TestLinuxSendfileChild(*testing.T) {
 		panic(err)
 	}
 	mux := NewServeMux()
-	mux.Handle("/", FileServer(Dir("testdata")))
+	mux.Handle("/", FileServer(Dir(os.TempDir())))
 	mux.HandleFunc("/quit", func(ResponseWriter, *Request) {
 		os.Exit(0)
 	})
@@ -1159,6 +1381,61 @@ func TestLinuxSendfileChild(*testing.T) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+// Issues 18984, 49552: tests that requests for paths beyond files return not-found errors
+func TestFileServerNotDirError(t *testing.T) {
+	run(t, func(t *testing.T, mode testMode) {
+		t.Run("Dir", func(t *testing.T) {
+			testFileServerNotDirError(t, mode, func(path string) FileSystem { return Dir(path) })
+		})
+		t.Run("FS", func(t *testing.T) {
+			testFileServerNotDirError(t, mode, func(path string) FileSystem { return FS(os.DirFS(path)) })
+		})
+	})
+}
+
+func testFileServerNotDirError(t *testing.T, mode testMode, newfs func(string) FileSystem) {
+	ts := newClientServerTest(t, mode, FileServer(newfs("testdata"))).ts
+
+	res, err := ts.Client().Get(ts.URL + "/index.html/not-a-file")
+	if err != nil {
+		t.Fatal(err)
+	}
+	res.Body.Close()
+	if res.StatusCode != 404 {
+		t.Errorf("StatusCode = %v; want 404", res.StatusCode)
+	}
+
+	test := func(name string, fsys FileSystem) {
+		t.Run(name, func(t *testing.T) {
+			_, err = fsys.Open("/index.html/not-a-file")
+			if err == nil {
+				t.Fatal("err == nil; want != nil")
+			}
+			if !errors.Is(err, fs.ErrNotExist) {
+				t.Errorf("err = %v; errors.Is(err, fs.ErrNotExist) = %v; want true", err,
+					errors.Is(err, fs.ErrNotExist))
+			}
+
+			_, err = fsys.Open("/index.html/not-a-dir/not-a-file")
+			if err == nil {
+				t.Fatal("err == nil; want != nil")
+			}
+			if !errors.Is(err, fs.ErrNotExist) {
+				t.Errorf("err = %v; errors.Is(err, fs.ErrNotExist) = %v; want true", err,
+					errors.Is(err, fs.ErrNotExist))
+			}
+		})
+	}
+
+	absPath, err := filepath.Abs("testdata")
+	if err != nil {
+		t.Fatal("get abs path:", err)
+	}
+
+	test("RelativePath", newfs("testdata"))
+	test("AbsolutePath", newfs(absPath))
 }
 
 func TestFileServerCleanPath(t *testing.T) {
@@ -1195,7 +1472,7 @@ func (d fileServerCleanPathDir) Open(path string) (File, error) {
 		// Just return back something that's a directory.
 		return Dir(".").Open(".")
 	}
-	return nil, os.ErrNotExist
+	return nil, fs.ErrNotExist
 }
 
 type panicOnSeek struct{ io.ReadSeeker }
@@ -1210,15 +1487,114 @@ func Test_scanETag(t *testing.T) {
 		{`"etag-2"`, `"etag-2"`, ""},
 		{`"etag-1", "etag-2"`, `"etag-1"`, `, "etag-2"`},
 		{"", "", ""},
-		{"", "", ""},
 		{"W/", "", ""},
 		{`W/"truc`, "", ""},
 		{`w/"case-sensitive"`, "", ""},
+		{`"spaced etag"`, "", ""},
 	}
 	for _, test := range tests {
 		etag, remain := ExportScanETag(test.in)
 		if etag != test.wantETag || remain != test.wantRemain {
 			t.Errorf("scanETag(%q)=%q %q, want %q %q", test.in, etag, remain, test.wantETag, test.wantRemain)
+		}
+	}
+}
+
+// Issue 40940: Ensure that we only accept non-negative suffix-lengths
+// in "Range": "bytes=-N", and should reject "bytes=--2".
+func TestServeFileRejectsInvalidSuffixLengths(t *testing.T) {
+	run(t, testServeFileRejectsInvalidSuffixLengths, []testMode{http1Mode, https1Mode, http2Mode})
+}
+func testServeFileRejectsInvalidSuffixLengths(t *testing.T, mode testMode) {
+	cst := newClientServerTest(t, mode, FileServer(Dir("testdata"))).ts
+
+	tests := []struct {
+		r        string
+		wantCode int
+		wantBody string
+	}{
+		{"bytes=--6", 416, "invalid range\n"},
+		{"bytes=--0", 416, "invalid range\n"},
+		{"bytes=---0", 416, "invalid range\n"},
+		{"bytes=-6", 206, "hello\n"},
+		{"bytes=6-", 206, "html says hello\n"},
+		{"bytes=-6-", 416, "invalid range\n"},
+		{"bytes=-0", 206, ""},
+		{"bytes=", 200, "index.html says hello\n"},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.r, func(t *testing.T) {
+			req, err := NewRequest("GET", cst.URL+"/index.html", nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+			req.Header.Set("Range", tt.r)
+			res, err := cst.Client().Do(req)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if g, w := res.StatusCode, tt.wantCode; g != w {
+				t.Errorf("StatusCode mismatch: got %d want %d", g, w)
+			}
+			slurp, err := io.ReadAll(res.Body)
+			res.Body.Close()
+			if err != nil {
+				t.Fatal(err)
+			}
+			if g, w := string(slurp), tt.wantBody; g != w {
+				t.Fatalf("Content mismatch:\nGot:  %q\nWant: %q", g, w)
+			}
+		})
+	}
+}
+
+func TestFileServerMethods(t *testing.T) {
+	run(t, testFileServerMethods)
+}
+func testFileServerMethods(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, FileServer(Dir("testdata"))).ts
+
+	file, err := os.ReadFile(testFile)
+	if err != nil {
+		t.Fatal("reading file:", err)
+	}
+
+	// Get contents via various methods.
+	//
+	// See https://go.dev/issue/59471 for a proposal to limit the set of methods handled.
+	// For now, test the historical behavior.
+	for _, method := range []string{
+		MethodGet,
+		MethodHead,
+		MethodPost,
+		MethodPut,
+		MethodPatch,
+		MethodDelete,
+		MethodOptions,
+		MethodTrace,
+	} {
+		req, _ := NewRequest(method, ts.URL+"/file", nil)
+		t.Log(req.URL)
+		res, err := ts.Client().Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		body, err := io.ReadAll(res.Body)
+		res.Body.Close()
+		if err != nil {
+			t.Fatal(err)
+		}
+		wantBody := file
+		if method == MethodHead {
+			wantBody = nil
+		}
+		if !bytes.Equal(body, wantBody) {
+			t.Fatalf("%v: got body %q, want %q", method, body, wantBody)
+		}
+		if got, want := res.Header.Get("Content-Length"), fmt.Sprint(len(file)); got != want {
+			t.Fatalf("%v: got Content-Length %q, want %q", method, got, want)
 		}
 	}
 }

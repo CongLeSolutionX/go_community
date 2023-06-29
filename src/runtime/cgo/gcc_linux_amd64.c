@@ -13,12 +13,11 @@
 static void* threadentry(void*);
 static void (*setg_gcc)(void*);
 
-// These will be set in gcc_android_amd64.c for android-specific customization.
-void (*x_cgo_inittls)(void);
-void* (*x_cgo_threadentry)(void*);
+// This will be set in gcc_android.c for android-specific customization.
+void (*x_cgo_inittls)(void **tlsg, void **tlsbase) __attribute__((common));
 
 void
-x_cgo_init(G* g, void (*setg)(void*))
+x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 {
 	pthread_attr_t *attr;
 	size_t size;
@@ -45,12 +44,14 @@ x_cgo_init(G* g, void (*setg)(void*))
 	}
 	pthread_attr_init(attr);
 	pthread_attr_getstacksize(attr, &size);
-	g->stacklo = (uintptr)&size - size + 4096;
+	g->stacklo = (uintptr)__builtin_frame_address(0) - size + 4096;
+	if (g->stacklo >= g->stackhi)
+		fatalf("bad stack bounds: lo=%p hi=%p\n", g->stacklo, g->stackhi);
 	pthread_attr_destroy(attr);
 	free(attr);
 
 	if (x_cgo_inittls) {
-		x_cgo_inittls();
+		x_cgo_inittls(tlsg, tlsbase);
 	}
 }
 
@@ -69,7 +70,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 
 	pthread_attr_init(&attr);
 	pthread_attr_getstacksize(&attr, &size);
-	// Leave stacklo=0 and set stackhi=size; mstack will do the rest.
+	// Leave stacklo=0 and set stackhi=size; mstart will do the rest.
 	ts->g->stackhi = size;
 	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
 
@@ -83,10 +84,6 @@ _cgo_sys_thread_start(ThreadStart *ts)
 static void*
 threadentry(void *v)
 {
-	if (x_cgo_threadentry) {
-		return x_cgo_threadentry(v);
-	}
-
 	ThreadStart ts;
 
 	ts = *(ThreadStart*)v;
@@ -94,11 +91,6 @@ threadentry(void *v)
 	free(v);
 	_cgo_tsan_release();
 
-	/*
-	 * Set specific keys.
-	 */
-	setg_gcc((void*)ts.g);
-
-	crosscall_amd64(ts.fn);
+	crosscall_amd64(ts.fn, setg_gcc, (void*)ts.g);
 	return nil;
 }

@@ -6,6 +6,6 @@
 
 package main
 
-type T	// ERROR "unexpected semicolon or newline in type declaration"
-// line below uncommented to avoid follow-up error
-// {
+type T1	// ERROR "newline in type declaration"
+
+type T2 /* // ERROR "(semicolon.*|EOF) in type declaration" */

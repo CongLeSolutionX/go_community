@@ -6,20 +6,25 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"go/ast"
 	"go/parser"
-	"go/printer"
 	"go/token"
+	"internal/coverage"
+	"internal/coverage/encodemeta"
+	"internal/coverage/slicewriter"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"sort"
 	"strconv"
 	"strings"
+
+	"cmd/internal/edit"
+	"cmd/internal/objabi"
 )
 
 const usageMessage = "" +
@@ -37,29 +42,50 @@ Display coverage percentages to stdout for each function:
 	go tool cover -func=c.out
 
 Finally, to generate modified source code with coverage annotations
-(what go test -cover does):
-	go tool cover -mode=set -var=CoverageVariableName program.go
+for a package (what go test -cover does):
+	go tool cover -mode=set -var=CoverageVariableName \
+		-pkgcfg=<config> -outfilelist=<file> file1.go ... fileN.go
+
+where -pkgcfg points to a file containing the package path,
+package name, module path, and related info from "go build",
+and -outfilelist points to a file containing the filenames
+of the instrumented output files (one per input file).
+See https://pkg.go.dev/internal/coverage#CoverPkgConfig for
+more on the package config.
 `
 
 func usage() {
-	fmt.Fprintln(os.Stderr, usageMessage)
-	fmt.Fprintln(os.Stderr, "Flags:")
+	fmt.Fprint(os.Stderr, usageMessage)
+	fmt.Fprintln(os.Stderr, "\nFlags:")
 	flag.PrintDefaults()
 	fmt.Fprintln(os.Stderr, "\n  Only one of -html, -func, or -mode may be set.")
 	os.Exit(2)
 }
 
 var (
-	mode    = flag.String("mode", "", "coverage mode: set, count, atomic")
-	varVar  = flag.String("var", "GoCover", "name of coverage variable to generate")
-	output  = flag.String("o", "", "file for output; default: stdout")
-	htmlOut = flag.String("html", "", "generate HTML representation of coverage profile")
-	funcOut = flag.String("func", "", "output coverage profile information for each function")
+	mode        = flag.String("mode", "", "coverage mode: set, count, atomic")
+	varVar      = flag.String("var", "GoCover", "name of coverage variable to generate")
+	output      = flag.String("o", "", "file for output")
+	outfilelist = flag.String("outfilelist", "", "file containing list of output files (one per line) if -pkgcfg is in use")
+	htmlOut     = flag.String("html", "", "generate HTML representation of coverage profile")
+	funcOut     = flag.String("func", "", "output coverage profile information for each function")
+	pkgcfg      = flag.String("pkgcfg", "", "enable full-package instrumentation mode using params from specified config file")
 )
+
+var pkgconfig coverage.CoverPkgConfig
+
+// outputfiles is the list of *.cover.go instrumented outputs to write,
+// one per input (set when -pkgcfg is in use)
+var outputfiles []string
+
+// covervarsoutfile is an additional Go source file into which we'll
+// write definitions of coverage counter variables + meta data variables
+// (set when -pkgcfg is in use).
+var covervarsoutfile string
 
 var profile string // The profile to read; the value of -html or -func
 
-var counterStmt func(*File, ast.Expr) ast.Stmt
+var counterStmt func(*File, string) string
 
 const (
 	atomicPackagePath = "sync/atomic"
@@ -67,8 +93,9 @@ const (
 )
 
 func main() {
+	objabi.AddVersionFlag()
 	flag.Usage = usage
-	flag.Parse()
+	objabi.Flagparse(usage)
 
 	// Usage information when no arguments.
 	if flag.NFlag() == 0 && flag.NArg() == 0 {
@@ -84,7 +111,7 @@ func main() {
 
 	// Generate coverage-annotated source.
 	if *mode != "" {
-		annotate(flag.Arg(0))
+		annotate(flag.Args())
 		return
 	}
 
@@ -116,6 +143,10 @@ func parseFlags() error {
 		return fmt.Errorf("too many options")
 	}
 
+	if *varVar != "" && !token.IsIdentifier(*varVar) {
+		return fmt.Errorf("-var: %q is not a valid identifier", *varVar)
+	}
+
 	if *mode != "" {
 		switch *mode {
 		case "set":
@@ -124,19 +155,69 @@ func parseFlags() error {
 			counterStmt = incCounterStmt
 		case "atomic":
 			counterStmt = atomicCounterStmt
+		case "regonly", "testmain":
+			counterStmt = nil
 		default:
 			return fmt.Errorf("unknown -mode %v", *mode)
 		}
 
 		if flag.NArg() == 0 {
-			return fmt.Errorf("missing source file")
-		} else if flag.NArg() == 1 {
-			return nil
+			return fmt.Errorf("missing source file(s)")
+		} else {
+			if *pkgcfg != "" {
+				if *output != "" {
+					return fmt.Errorf("please use '-outfilelist' flag instead of '-o'")
+				}
+				var err error
+				if outputfiles, err = readOutFileList(*outfilelist); err != nil {
+					return err
+				}
+				covervarsoutfile = outputfiles[0]
+				outputfiles = outputfiles[1:]
+				numInputs := len(flag.Args())
+				numOutputs := len(outputfiles)
+				if numOutputs != numInputs {
+					return fmt.Errorf("number of output files (%d) not equal to number of input files (%d)", numOutputs, numInputs)
+				}
+				if err := readPackageConfig(*pkgcfg); err != nil {
+					return err
+				}
+				return nil
+			} else {
+				if *outfilelist != "" {
+					return fmt.Errorf("'-outfilelist' flag applicable only when -pkgcfg used")
+				}
+			}
+			if flag.NArg() == 1 {
+				return nil
+			}
 		}
 	} else if flag.NArg() == 0 {
 		return nil
 	}
 	return fmt.Errorf("too many arguments")
+}
+
+func readOutFileList(path string) ([]string, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("error reading -outfilelist file %q: %v", path, err)
+	}
+	return strings.Split(strings.TrimSpace(string(data)), "\n"), nil
+}
+
+func readPackageConfig(path string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("error reading pkgconfig file %q: %v", path, err)
+	}
+	if err := json.Unmarshal(data, &pkgconfig); err != nil {
+		return fmt.Errorf("error reading pkgconfig file %q: %v", path, err)
+	}
+	if pkgconfig.Granularity != "perblock" && pkgconfig.Granularity != "perfunc" {
+		return fmt.Errorf(`%s: pkgconfig requires perblock/perfunc value`, path)
+	}
+	return nil
 }
 
 // Block represents the information about a basic block to be recorded in the analysis.
@@ -148,14 +229,66 @@ type Block struct {
 	numStmt   int
 }
 
+// Package holds package-specific state.
+type Package struct {
+	mdb            *encodemeta.CoverageMetaDataBuilder
+	counterLengths []int
+}
+
+// Function holds func-specific state.
+type Func struct {
+	units      []coverage.CoverableUnit
+	counterVar string
+}
+
 // File is a wrapper for the state of a file used in the parser.
 // The basic parse tree walker is a method of this type.
 type File struct {
-	fset      *token.FileSet
-	name      string // Name of file.
-	astFile   *ast.File
-	blocks    []Block
-	atomicPkg string // Package name for "sync/atomic" in this file.
+	fset    *token.FileSet
+	name    string // Name of file.
+	astFile *ast.File
+	blocks  []Block
+	content []byte
+	edit    *edit.Buffer
+	mdb     *encodemeta.CoverageMetaDataBuilder
+	fn      Func
+	pkg     *Package
+}
+
+// findText finds text in the original source, starting at pos.
+// It correctly skips over comments and assumes it need not
+// handle quoted strings.
+// It returns a byte offset within f.src.
+func (f *File) findText(pos token.Pos, text string) int {
+	b := []byte(text)
+	start := f.offset(pos)
+	i := start
+	s := f.content
+	for i < len(s) {
+		if bytes.HasPrefix(s[i:], b) {
+			return i
+		}
+		if i+2 <= len(s) && s[i] == '/' && s[i+1] == '/' {
+			for i < len(s) && s[i] != '\n' {
+				i++
+			}
+			continue
+		}
+		if i+2 <= len(s) && s[i] == '/' && s[i+1] == '*' {
+			for i += 2; ; i++ {
+				if i+2 > len(s) {
+					return 0
+				}
+				if s[i] == '*' && s[i+1] == '/' {
+					i += 2
+					break
+				}
+			}
+			continue
+		}
+		i++
+	}
+	return -1
 }
 
 // Visit implements the ast.Visitor interface.
@@ -168,18 +301,18 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 			case *ast.CaseClause: // switch
 				for _, n := range n.List {
 					clause := n.(*ast.CaseClause)
-					clause.Body = f.addCounters(clause.Colon+1, clause.End(), clause.Body, false)
+					f.addCounters(clause.Colon+1, clause.Colon+1, clause.End(), clause.Body, false)
 				}
 				return f
 			case *ast.CommClause: // select
 				for _, n := range n.List {
 					clause := n.(*ast.CommClause)
-					clause.Body = f.addCounters(clause.Colon+1, clause.End(), clause.Body, false)
+					f.addCounters(clause.Colon+1, clause.Colon+1, clause.End(), clause.Body, false)
 				}
 				return f
 			}
 		}
-		n.List = f.addCounters(n.Lbrace, n.Rbrace+1, n.List, true) // +1 to step past closing brace.
+		f.addCounters(n.Lbrace, n.Lbrace+1, n.Rbrace+1, n.List, true) // +1 to step past closing brace.
 	case *ast.IfStmt:
 		if n.Init != nil {
 			ast.Walk(f, n.Init)
@@ -200,16 +333,28 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 		//		if y {
 		//		}
 		//	}
+		elseOffset := f.findText(n.Body.End(), "else")
+		if elseOffset < 0 {
+			panic("lost else")
+		}
+		f.edit.Insert(elseOffset+4, "{")
+		f.edit.Insert(f.offset(n.Else.End()), "}")
+
+		// We just created a block, now walk it.
+		// Adjust the position of the new block to start after
+		// the "else". That will cause it to follow the "{"
+		// we inserted above.
+		pos := f.fset.File(n.Body.End()).Pos(elseOffset + 4)
 		switch stmt := n.Else.(type) {
 		case *ast.IfStmt:
 			block := &ast.BlockStmt{
-				Lbrace: n.Body.End(), // Start at end of the "if" block so the covered part looks like it starts at the "else".
+				Lbrace: pos,
 				List:   []ast.Stmt{stmt},
 				Rbrace: stmt.End(),
 			}
 			n.Else = block
 		case *ast.BlockStmt:
-			stmt.Lbrace = n.Body.End() // Start at end of the "if" block so the covered part looks like it starts at the "else".
+			stmt.Lbrace = pos
 		default:
 			panic("unexpected node type in if")
 		}
@@ -240,119 +385,243 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 			ast.Walk(f, n.Assign)
 			return nil
 		}
-	case *ast.CommentGroup:
-		var list []*ast.Comment
-		// Drop all but the //go: comments, some of which are semantically important.
-		// We drop all others because they can appear in places that cause our counters
-		// to appear in syntactically incorrect places. //go: appears at the beginning of
-		// the line and is syntactically safe.
-		for _, c := range n.List {
-			if strings.HasPrefix(c.Text, "//go:") && f.fset.Position(c.Slash).Column == 1 {
-				list = append(list, c)
+	case *ast.FuncDecl:
+		// Don't annotate functions with blank names - they cannot be executed.
+		// Similarly for bodyless funcs.
+		if n.Name.Name == "_" || n.Body == nil {
+			return nil
+		}
+		fname := n.Name.Name
+		// Skip AddUint32 and StoreUint32 if we're instrumenting
+		// sync/atomic itself in atomic mode (out of an abundance of
+		// caution), since as part of the instrumentation process we
+		// add calls to AddUint32/StoreUint32, and we don't want to
+		// somehow create an infinite loop.
+		//
+		// Note that in the current implementation (Go 1.20) both
+		// routines are assembly stubs that forward calls to the
+		// runtime/internal/atomic equivalents, hence the infinite
+		// loop scenario is purely theoretical (maybe if in some
+		// future implementation one of these functions might be
+		// written in Go). See #57445 for more details.
+		if atomicOnAtomic() && (fname == "AddUint32" || fname == "StoreUint32") {
+			return nil
+		}
+		// Determine proper function or method name.
+		if r := n.Recv; r != nil && len(r.List) == 1 {
+			t := r.List[0].Type
+			star := ""
+			if p, _ := t.(*ast.StarExpr); p != nil {
+				t = p.X
+				star = "*"
+			}
+			if p, _ := t.(*ast.Ident); p != nil {
+				fname = star + p.Name + "." + fname
 			}
 		}
-		n.List = list
+		walkBody := true
+		if *pkgcfg != "" {
+			f.preFunc(n, fname)
+			if pkgconfig.Granularity == "perfunc" {
+				walkBody = false
+			}
+		}
+		if walkBody {
+			ast.Walk(f, n.Body)
+		}
+		if *pkgcfg != "" {
+			flit := false
+			f.postFunc(n, fname, flit, n.Body)
+		}
+		return nil
+	case *ast.FuncLit:
+		// For function literals enclosed in functions, just glom the
+		// code for the literal in with the enclosing function (for now).
+		if f.fn.counterVar != "" {
+			return f
+		}
+
+		// Hack: function literals aren't named in the go/ast representation,
+		// and we don't know what name the compiler will choose. For now,
+		// just make up a descriptive name.
+		pos := n.Pos()
+		p := f.fset.File(pos).Position(pos)
+		fname := fmt.Sprintf("func.L%d.C%d", p.Line, p.Column)
+		if *pkgcfg != "" {
+			f.preFunc(n, fname)
+		}
+		if pkgconfig.Granularity != "perfunc" {
+			ast.Walk(f, n.Body)
+		}
+		if *pkgcfg != "" {
+			flit := true
+			f.postFunc(n, fname, flit, n.Body)
+		}
+		return nil
 	}
 	return f
 }
 
-// unquote returns the unquoted string.
-func unquote(s string) string {
-	t, err := strconv.Unquote(s)
-	if err != nil {
-		log.Fatalf("cover: improperly quoted string %q\n", s)
-	}
-	return t
+func mkCounterVarName(idx int) string {
+	return fmt.Sprintf("%s_%d", *varVar, idx)
 }
 
-// addImport adds an import for the specified path, if one does not already exist, and returns
-// the local package name.
-func (f *File) addImport(path string) string {
-	// Does the package already import it?
-	for _, s := range f.astFile.Imports {
-		if unquote(s.Path.Value) == path {
-			if s.Name != nil {
-				return s.Name.Name
+func mkPackageIdVar() string {
+	return *varVar + "P"
+}
+
+func mkMetaVar() string {
+	return *varVar + "M"
+}
+
+func mkPackageIdExpression() string {
+	ppath := pkgconfig.PkgPath
+	if hcid := coverage.HardCodedPkgID(ppath); hcid != -1 {
+		return fmt.Sprintf("uint32(%d)", uint32(hcid))
+	}
+	return mkPackageIdVar()
+}
+
+func (f *File) preFunc(fn ast.Node, fname string) {
+	f.fn.units = f.fn.units[:0]
+
+	// create a new counter variable for this function.
+	cv := mkCounterVarName(len(f.pkg.counterLengths))
+	f.fn.counterVar = cv
+}
+
+func (f *File) postFunc(fn ast.Node, funcname string, flit bool, body *ast.BlockStmt) {
+
+	// Tack on single counter write if we are in "perfunc" mode.
+	singleCtr := ""
+	if pkgconfig.Granularity == "perfunc" {
+		singleCtr = "; " + f.newCounter(fn.Pos(), fn.Pos(), 1)
+	}
+
+	// record the length of the counter var required.
+	nc := len(f.fn.units) + coverage.FirstCtrOffset
+	f.pkg.counterLengths = append(f.pkg.counterLengths, nc)
+
+	// FIXME: for windows, do we want "\" and not "/"? Need to test here.
+	// Currently filename is formed as packagepath + "/" + basename.
+	fnpos := f.fset.Position(fn.Pos())
+	ppath := pkgconfig.PkgPath
+	filename := ppath + "/" + filepath.Base(fnpos.Filename)
+
+	// The convention for cmd/cover is that if the go command that
+	// kicks off coverage specifies a local import path (e.g. "go test
+	// -cover ./thispackage"), the tool will capture full pathnames
+	// for source files instead of relative paths, which tend to work
+	// more smoothly for "go tool cover -html". See also issue #56433
+	// for more details.
+	if pkgconfig.Local {
+		filename = f.name
+	}
+
+	// Hand off function to meta-data builder.
+	fd := coverage.FuncDesc{
+		Funcname: funcname,
+		Srcfile:  filename,
+		Units:    f.fn.units,
+		Lit:      flit,
+	}
+	funcId := f.mdb.AddFunc(fd)
+
+	hookWrite := func(cv string, which int, val string) string {
+		return fmt.Sprintf("%s[%d] = %s", cv, which, val)
+	}
+	if *mode == "atomic" {
+		hookWrite = func(cv string, which int, val string) string {
+			return fmt.Sprintf("%sStoreUint32(&%s[%d], %s)",
+				atomicPackagePrefix(), cv, which, val)
+		}
+	}
+
+	// Generate the registration hook sequence for the function. This
+	// sequence looks like
+	//
+	//   counterVar[0] = <num_units>
+	//   counterVar[1] = pkgId
+	//   counterVar[2] = fnId
+	//
+	cv := f.fn.counterVar
+	regHook := hookWrite(cv, 0, strconv.Itoa(len(f.fn.units))) + " ; " +
+		hookWrite(cv, 1, mkPackageIdExpression()) + " ; " +
+		hookWrite(cv, 2, strconv.Itoa(int(funcId))) + singleCtr
+
+	// Insert the registration sequence into the function. We want this sequence to
+	// appear before any counter updates, so use a hack to ensure that this edit
+	// applies before the edit corresponding to the prolog counter update.
+
+	boff := f.offset(body.Pos())
+	ipos := f.fset.File(body.Pos()).Pos(boff)
+	ip := f.offset(ipos)
+	f.edit.Replace(ip, ip+1, string(f.content[ipos-1])+regHook+" ; ")
+
+	f.fn.counterVar = ""
+}
+
+func annotate(names []string) {
+	var p *Package
+	if *pkgcfg != "" {
+		pp := pkgconfig.PkgPath
+		pn := pkgconfig.PkgName
+		mp := pkgconfig.ModulePath
+		mdb, err := encodemeta.NewCoverageMetaDataBuilder(pp, pn, mp)
+		if err != nil {
+			log.Fatalf("creating coverage meta-data builder: %v\n", err)
+		}
+		p = &Package{
+			mdb: mdb,
+		}
+	}
+	// TODO: process files in parallel here if it matters.
+	for k, name := range names {
+		if strings.ContainsAny(name, "\r\n") {
+			// annotateFile uses '//line' directives, which don't permit newlines.
+			log.Fatalf("cover: input path contains newline character: %q", name)
+		}
+
+		fd := os.Stdout
+		isStdout := true
+		if *pkgcfg != "" {
+			var err error
+			fd, err = os.Create(outputfiles[k])
+			if err != nil {
+				log.Fatalf("cover: %s", err)
 			}
-			return filepath.Base(path)
+			isStdout = false
+		} else if *output != "" {
+			var err error
+			fd, err = os.Create(*output)
+			if err != nil {
+				log.Fatalf("cover: %s", err)
+			}
+			isStdout = false
+		}
+		p.annotateFile(name, fd)
+		if !isStdout {
+			if err := fd.Close(); err != nil {
+				log.Fatalf("cover: %s", err)
+			}
 		}
 	}
-	newImport := &ast.ImportSpec{
-		Name: ast.NewIdent(atomicPackageName),
-		Path: &ast.BasicLit{
-			Kind:  token.STRING,
-			Value: fmt.Sprintf("%q", path),
-		},
-	}
-	impDecl := &ast.GenDecl{
-		Tok: token.IMPORT,
-		Specs: []ast.Spec{
-			newImport,
-		},
-	}
-	// Make the new import the first Decl in the file.
-	astFile := f.astFile
-	astFile.Decls = append(astFile.Decls, nil)
-	copy(astFile.Decls[1:], astFile.Decls[0:])
-	astFile.Decls[0] = impDecl
-	astFile.Imports = append(astFile.Imports, newImport)
 
-	// Now refer to the package, just in case it ends up unused.
-	// That is, append to the end of the file the declaration
-	//	var _ = _cover_atomic_.AddUint32
-	reference := &ast.GenDecl{
-		Tok: token.VAR,
-		Specs: []ast.Spec{
-			&ast.ValueSpec{
-				Names: []*ast.Ident{
-					ast.NewIdent("_"),
-				},
-				Values: []ast.Expr{
-					&ast.SelectorExpr{
-						X:   ast.NewIdent(atomicPackageName),
-						Sel: ast.NewIdent("AddUint32"),
-					},
-				},
-			},
-		},
+	if *pkgcfg != "" {
+		fd, err := os.Create(covervarsoutfile)
+		if err != nil {
+			log.Fatalf("cover: %s", err)
+		}
+		p.emitMetaData(fd)
+		if err := fd.Close(); err != nil {
+			log.Fatalf("cover: %s", err)
+		}
 	}
-	astFile.Decls = append(astFile.Decls, reference)
-	return atomicPackageName
 }
 
-var slashslash = []byte("//")
-
-// initialComments returns the prefix of content containing only
-// whitespace and line comments. Any +build directives must appear
-// within this region. This approach is more reliable than using
-// go/printer to print a modified AST containing comments.
-//
-func initialComments(content []byte) []byte {
-	// Derived from go/build.Context.shouldBuild.
-	end := 0
-	p := content
-	for len(p) > 0 {
-		line := p
-		if i := bytes.IndexByte(line, '\n'); i >= 0 {
-			line, p = line[:i], p[i+1:]
-		} else {
-			p = p[len(p):]
-		}
-		line = bytes.TrimSpace(line)
-		if len(line) == 0 { // Blank line.
-			end = len(content) - len(p)
-			continue
-		}
-		if !bytes.HasPrefix(line, slashslash) { // Not comment line.
-			break
-		}
-	}
-	return content[:end]
-}
-
-func annotate(name string) {
+func (p *Package) annotateFile(name string, fd io.Writer) {
 	fset := token.NewFileSet()
-	content, err := ioutil.ReadFile(name)
+	content, err := os.ReadFile(name)
 	if err != nil {
 		log.Fatalf("cover: %s: %s", name, err)
 	}
@@ -360,97 +629,102 @@ func annotate(name string) {
 	if err != nil {
 		log.Fatalf("cover: %s: %s", name, err)
 	}
-	// Remove comments. Or else they interfere with new AST.
-	parsedFile.Comments = nil
 
 	file := &File{
 		fset:    fset,
 		name:    name,
+		content: content,
+		edit:    edit.NewBuffer(content),
 		astFile: parsedFile,
 	}
-	if *mode == "atomic" {
-		file.atomicPkg = file.addImport(atomicPackagePath)
+	if p != nil {
+		file.mdb = p.mdb
+		file.pkg = p
 	}
-	ast.Walk(file, file.astFile)
-	fd := os.Stdout
-	if *output != "" {
-		var err error
-		fd, err = os.Create(*output)
-		if err != nil {
-			log.Fatalf("cover: %s", err)
+
+	if *mode == "atomic" {
+		// Add import of sync/atomic immediately after package clause.
+		// We do this even if there is an existing import, because the
+		// existing import may be shadowed at any given place we want
+		// to refer to it, and our name (_cover_atomic_) is less likely to
+		// be shadowed. The one exception is if we're visiting the
+		// sync/atomic package itself, in which case we can refer to
+		// functions directly without an import prefix. See also #57445.
+		if pkgconfig.PkgPath != "sync/atomic" {
+			file.edit.Insert(file.offset(file.astFile.Name.End()),
+				fmt.Sprintf("; import %s %q", atomicPackageName, atomicPackagePath))
 		}
 	}
-	fd.Write(initialComments(content)) // Retain '// +build' directives.
-	file.print(fd)
-	// After printing the source tree, add some declarations for the counters etc.
-	// We could do this by adding to the tree, but it's easier just to print the text.
-	file.addVariables(fd)
-}
-
-func (f *File) print(w io.Writer) {
-	printer.Fprint(w, f.fset, f.astFile)
-}
-
-// intLiteral returns an ast.BasicLit representing the integer value.
-func (f *File) intLiteral(i int) *ast.BasicLit {
-	node := &ast.BasicLit{
-		Kind:  token.INT,
-		Value: fmt.Sprint(i),
+	if pkgconfig.PkgName == "main" {
+		file.edit.Insert(file.offset(file.astFile.Name.End()),
+			"; import _ \"runtime/coverage\"")
 	}
-	return node
-}
 
-// index returns an ast.BasicLit representing the number of counters present.
-func (f *File) index() *ast.BasicLit {
-	return f.intLiteral(len(f.blocks))
+	if counterStmt != nil {
+		ast.Walk(file, file.astFile)
+	}
+	newContent := file.edit.Bytes()
+
+	if strings.ContainsAny(name, "\r\n") {
+		// This should have been checked by the caller already, but we double check
+		// here just to be sure we haven't missed a caller somewhere.
+		panic(fmt.Sprintf("annotateFile: name contains unexpected newline character: %q", name))
+	}
+	fmt.Fprintf(fd, "//line %s:1:1\n", name)
+	fd.Write(newContent)
+
+	// After printing the source tree, add some declarations for the
+	// counters etc. We could do this by adding to the tree, but it's
+	// easier just to print the text.
+	file.addVariables(fd)
+
+	// Emit a reference to the atomic package to avoid
+	// import and not used error when there's no code in a file.
+	if *mode == "atomic" {
+		fmt.Fprintf(fd, "\nvar _ = %sLoadUint32\n", atomicPackagePrefix())
+	}
 }
 
 // setCounterStmt returns the expression: __count[23] = 1.
-func setCounterStmt(f *File, counter ast.Expr) ast.Stmt {
-	return &ast.AssignStmt{
-		Lhs: []ast.Expr{counter},
-		Tok: token.ASSIGN,
-		Rhs: []ast.Expr{f.intLiteral(1)},
-	}
+func setCounterStmt(f *File, counter string) string {
+	return fmt.Sprintf("%s = 1", counter)
 }
 
 // incCounterStmt returns the expression: __count[23]++.
-func incCounterStmt(f *File, counter ast.Expr) ast.Stmt {
-	return &ast.IncDecStmt{
-		X:   counter,
-		Tok: token.INC,
-	}
+func incCounterStmt(f *File, counter string) string {
+	return fmt.Sprintf("%s++", counter)
 }
 
 // atomicCounterStmt returns the expression: atomic.AddUint32(&__count[23], 1)
-func atomicCounterStmt(f *File, counter ast.Expr) ast.Stmt {
-	return &ast.ExprStmt{
-		X: &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   ast.NewIdent(f.atomicPkg),
-				Sel: ast.NewIdent("AddUint32"),
-			},
-			Args: []ast.Expr{&ast.UnaryExpr{
-				Op: token.AND,
-				X:  counter,
-			},
-				f.intLiteral(1),
-			},
-		},
-	}
+func atomicCounterStmt(f *File, counter string) string {
+	return fmt.Sprintf("%sAddUint32(&%s, 1)", atomicPackagePrefix(), counter)
 }
 
 // newCounter creates a new counter expression of the appropriate form.
-func (f *File) newCounter(start, end token.Pos, numStmt int) ast.Stmt {
-	counter := &ast.IndexExpr{
-		X: &ast.SelectorExpr{
-			X:   ast.NewIdent(*varVar),
-			Sel: ast.NewIdent("Count"),
-		},
-		Index: f.index(),
+func (f *File) newCounter(start, end token.Pos, numStmt int) string {
+	var stmt string
+	if *pkgcfg != "" {
+		slot := len(f.fn.units) + coverage.FirstCtrOffset
+		if f.fn.counterVar == "" {
+			panic("internal error: counter var unset")
+		}
+		stmt = counterStmt(f, fmt.Sprintf("%s[%d]", f.fn.counterVar, slot))
+		stpos := f.fset.Position(start)
+		enpos := f.fset.Position(end)
+		stpos, enpos = dedup(stpos, enpos)
+		unit := coverage.CoverableUnit{
+			StLine:  uint32(stpos.Line),
+			StCol:   uint32(stpos.Column),
+			EnLine:  uint32(enpos.Line),
+			EnCol:   uint32(enpos.Column),
+			NxStmts: uint32(numStmt),
+		}
+		f.fn.units = append(f.fn.units, unit)
+	} else {
+		stmt = counterStmt(f, fmt.Sprintf("%s.Count[%d]", *varVar,
+			len(f.blocks)))
+		f.blocks = append(f.blocks, Block{start, end, numStmt})
 	}
-	stmt := counterStmt(f, counter)
-	f.blocks = append(f.blocks, Block{start, end, numStmt})
 	return stmt
 }
 
@@ -460,21 +734,24 @@ func (f *File) newCounter(start, end token.Pos, numStmt int) ast.Stmt {
 //	S1
 //	if cond {
 //		S2
-// 	}
+//	}
 //	S3
 //
 // counters will be added before S1 and before S3. The block containing S2
 // will be visited in a separate call.
 // TODO: Nested simple blocks get unnecessary (but correct) counters
-func (f *File) addCounters(pos, blockEnd token.Pos, list []ast.Stmt, extendToClosingBrace bool) []ast.Stmt {
+func (f *File) addCounters(pos, insertPos, blockEnd token.Pos, list []ast.Stmt, extendToClosingBrace bool) {
 	// Special case: make sure we add a counter to an empty block. Can't do this below
 	// or we will add a counter to an empty statement list after, say, a return statement.
 	if len(list) == 0 {
-		return []ast.Stmt{f.newCounter(pos, blockEnd, 0)}
+		f.edit.Insert(f.offset(insertPos), f.newCounter(insertPos, blockEnd, 0)+";")
+		return
 	}
+	// Make a copy of the list, as we may mutate it and should leave the
+	// existing list intact.
+	list = append([]ast.Stmt(nil), list...)
 	// We have a block (statement list), but it may have several basic blocks due to the
 	// appearance of statements that affect the flow of control.
-	var newList []ast.Stmt
 	for {
 		// Find first statement that affects flow of control (break, continue, if, etc.).
 		// It will be the last statement of this basic block.
@@ -517,16 +794,15 @@ func (f *File) addCounters(pos, blockEnd token.Pos, list []ast.Stmt, extendToClo
 			end = blockEnd
 		}
 		if pos != end { // Can have no source to cover if e.g. blocks abut.
-			newList = append(newList, f.newCounter(pos, end, last))
+			f.edit.Insert(f.offset(insertPos), f.newCounter(pos, end, last)+";")
 		}
-		newList = append(newList, list[0:last]...)
 		list = list[last:]
 		if len(list) == 0 {
 			break
 		}
 		pos = list[0].Pos()
+		insertPos = pos
 	}
-	return newList
 }
 
 // hasFuncLiteral reports the existence and position of the first func literal
@@ -702,6 +978,9 @@ func (f *File) offset(pos token.Pos) int {
 
 // addVariables adds to the end of the file the declarations to set up the counter and position variables.
 func (f *File) addVariables(w io.Writer) {
+	if *pkgcfg != "" {
+		return
+	}
 	// Self-check: Verify that the instrumented basic blocks are disjoint.
 	t := make([]block1, len(f.blocks))
 	for i := range f.blocks {
@@ -736,6 +1015,9 @@ func (f *File) addVariables(w io.Writer) {
 	for i, block := range f.blocks {
 		start := f.fset.Position(block.startByte)
 		end := f.fset.Position(block.endByte)
+
+		start, end = dedup(start, end)
+
 		fmt.Fprintf(w, "\t\t%d, %d, %#x, // [%d]\n", start.Line, end.Line, (end.Column&0xFFFF)<<16|(start.Column&0xFFFF), i)
 	}
 
@@ -761,4 +1043,117 @@ func (f *File) addVariables(w io.Writer) {
 
 	// Close the struct initialization.
 	fmt.Fprintf(w, "}\n")
+}
+
+// It is possible for positions to repeat when there is a line
+// directive that does not specify column information and the input
+// has not been passed through gofmt.
+// See issues #27530 and #30746.
+// Tests are TestHtmlUnformatted and TestLineDup.
+// We use a map to avoid duplicates.
+
+// pos2 is a pair of token.Position values, used as a map key type.
+type pos2 struct {
+	p1, p2 token.Position
+}
+
+// seenPos2 tracks whether we have seen a token.Position pair.
+var seenPos2 = make(map[pos2]bool)
+
+// dedup takes a token.Position pair and returns a pair that does not
+// duplicate any existing pair. The returned pair will have the Offset
+// fields cleared.
+func dedup(p1, p2 token.Position) (r1, r2 token.Position) {
+	key := pos2{
+		p1: p1,
+		p2: p2,
+	}
+
+	// We want to ignore the Offset fields in the map,
+	// since cover uses only file/line/column.
+	key.p1.Offset = 0
+	key.p2.Offset = 0
+
+	for seenPos2[key] {
+		key.p2.Column++
+	}
+	seenPos2[key] = true
+
+	return key.p1, key.p2
+}
+
+func (p *Package) emitMetaData(w io.Writer) {
+	if *pkgcfg == "" {
+		return
+	}
+
+	// Something went wrong if regonly/testmain mode is in effect and
+	// we have instrumented functions.
+	if counterStmt == nil && len(p.counterLengths) != 0 {
+		panic("internal error: seen functions with regonly/testmain")
+	}
+
+	// Emit package name.
+	fmt.Fprintf(w, "\npackage %s\n\n", pkgconfig.PkgName)
+
+	// Emit package ID var.
+	fmt.Fprintf(w, "\nvar %sP uint32\n", *varVar)
+
+	// Emit all of the counter variables.
+	for k := range p.counterLengths {
+		cvn := mkCounterVarName(k)
+		fmt.Fprintf(w, "var %s [%d]uint32\n", cvn, p.counterLengths[k])
+	}
+
+	// Emit encoded meta-data.
+	var sws slicewriter.WriteSeeker
+	digest, err := p.mdb.Emit(&sws)
+	if err != nil {
+		log.Fatalf("encoding meta-data: %v", err)
+	}
+	p.mdb = nil
+	fmt.Fprintf(w, "var %s = [...]byte{\n", mkMetaVar())
+	payload := sws.BytesWritten()
+	for k, b := range payload {
+		fmt.Fprintf(w, " 0x%x,", b)
+		if k != 0 && k%8 == 0 {
+			fmt.Fprintf(w, "\n")
+		}
+	}
+	fmt.Fprintf(w, "}\n")
+
+	fixcfg := coverage.CoverFixupConfig{
+		Strategy:           "normal",
+		MetaVar:            mkMetaVar(),
+		MetaLen:            len(payload),
+		MetaHash:           fmt.Sprintf("%x", digest),
+		PkgIdVar:           mkPackageIdVar(),
+		CounterPrefix:      *varVar,
+		CounterGranularity: pkgconfig.Granularity,
+		CounterMode:        *mode,
+	}
+	fixdata, err := json.Marshal(fixcfg)
+	if err != nil {
+		log.Fatalf("marshal fixupcfg: %v", err)
+	}
+	if err := os.WriteFile(pkgconfig.OutConfig, fixdata, 0666); err != nil {
+		log.Fatalf("error writing %s: %v", pkgconfig.OutConfig, err)
+	}
+}
+
+// atomicOnAtomic returns true if we're instrumenting
+// the sync/atomic package AND using atomic mode.
+func atomicOnAtomic() bool {
+	return *mode == "atomic" && pkgconfig.PkgPath == "sync/atomic"
+}
+
+// atomicPackagePrefix returns the import path prefix used to refer to
+// our special import of sync/atomic; this is either set to the
+// constant atomicPackageName plus a dot or the empty string if we're
+// instrumenting the sync/atomic package itself.
+func atomicPackagePrefix() string {
+	if atomicOnAtomic() {
+		return ""
+	}
+	return atomicPackageName + "."
 }
