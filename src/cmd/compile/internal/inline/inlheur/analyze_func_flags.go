@@ -149,24 +149,27 @@ func isWellKnownFunc(s *types.Sym, pkg, name string) bool {
 		s.Name == name
 }
 
-func isFuncName(n ir.Node) (*ir.Name, bool) {
+// isFuncName returns the *ir.Name for the func or method
+// corresponding to node 'n', along with a boolean indicating success,
+// and another boolean indicating whether the func is closure.
+func isFuncName(n ir.Node) (*ir.Name, bool, bool) {
 	sv := ir.StaticValue(n)
 	if sv.Op() == ir.ONAME {
 		name := sv.(*ir.Name)
 		if name.Sym() != nil && name.Class == ir.PFUNC {
-			return name, true
+			return name, true, false
 		}
 	}
 	if sv.Op() == ir.OCLOSURE {
 		cloex := sv.(*ir.ClosureExpr)
-		return cloex.Func.Nname, true
+		return cloex.Func.Nname, true, true
 	}
 	if sv.Op() == ir.OMETHEXPR {
 		if mn := ir.MethodExprName(sv); mn != nil {
-			return mn, true
+			return mn, true, false
 		}
 	}
-	return nil, false
+	return nil, false, false
 }
 
 // isPanicLike returns TRUE if the node itself is an unconditional
@@ -176,7 +179,7 @@ func isPanicLike(n ir.Node) bool {
 		return false
 	}
 	cx := n.(*ir.CallExpr)
-	name, isFunc := isFuncName(cx.X)
+	name, isFunc, _ := isFuncName(cx.X)
 	if !isFunc {
 		return false
 	}
