@@ -34,7 +34,7 @@ func TestFuncProperties(t *testing.T) {
 	// to building a fresh compiler on the fly, or using some other
 	// scheme.
 
-	testcases := []string{"funcflags", "returns"}
+	testcases := []string{"funcflags", "returns", "params"}
 
 	for _, tc := range testcases {
 		dumpfile, err := gatherPropsDumpForFile(t, tc, td)
@@ -86,9 +86,20 @@ func TestFuncProperties(t *testing.T) {
 	}
 }
 
+// TODO: replace returnsToString and paramsToString with a single
+// generic function once generics available in Go bootstrap compiler.
+
 func returnsToString(rtns []ReturnPropBits) string {
 	var sb strings.Builder
 	for i, f := range rtns {
+		fmt.Fprintf(&sb, "%d: %s\n", i, f.String())
+	}
+	return sb.String()
+}
+
+func paramsToString(params []ParamPropBits) string {
+	var sb strings.Builder
+	for i, f := range params {
 		fmt.Fprintf(&sb, "%d: %s\n", i, f.String())
 	}
 	return sb.String()
@@ -107,9 +118,12 @@ func compareEntries(t *testing.T, tc string, dfn string, dentry *FuncProps, efn 
 		t.Errorf("Returns mismatch for %q: got:\n%swant:\n%s",
 			dfn, rgot, rwant)
 	}
-	// everything else not yet implemented
-	if len(dentry.RecvrParamFlags) != 0 || len(eentry.RecvrParamFlags) != 0 {
-		t.Fatalf("testcase %s func %q prop miscompare", tc, dfn)
+	// Compare receiver + params.
+	pgot := paramsToString(dentry.RecvrParamFlags)
+	pwant := paramsToString(eentry.RecvrParamFlags)
+	if pgot != pwant {
+		t.Errorf("Params mismatch for %q: got:\n%swant:\n%s",
+			dfn, pgot, pwant)
 	}
 }
 
@@ -264,13 +278,14 @@ func updateExpected(t *testing.T, testcase string, dr *dumpReader) {
 			if err != nil {
 				t.Fatalf("reading func prop dump: %v", err)
 			}
-			if dentry == nil || dfn != mfunc {
+			_, rdfn := interestingToDump(dfn)
+			if dentry == nil || rdfn != mfunc {
 				t.Fatalf("expected %s got fn=%s entry=%v", mfunc, dfn, dentry)
 			}
 
 			// Emit preamble for function, then first func line.
 			var sb strings.Builder
-			dumpFnPreamble(&sb, mfunc, dentry)
+			dumpFnPreamble(&sb, dfn, dentry)
 			dlines := strings.Split(strings.TrimSpace(sb.String()), "\n")
 			newgolines = append(newgolines, dlines...)
 		}

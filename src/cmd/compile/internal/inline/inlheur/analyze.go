@@ -18,6 +18,8 @@ const debugTrace = 0
 const (
 	debugTraceFuncFlags = 1 << iota
 	debugTraceReturns
+	debugTraceParams
+	debugTraceExprClassify
 )
 
 // propAnalyzer interface is used for defining one or more
@@ -37,12 +39,14 @@ func computeFuncProps(fn *ir.Func) *FuncProps {
 			fn.Sym().Name, fn)
 	}
 	ra := makeReturnsAnalyzer(fn)
+	pa := makeParamsAnalyzer(fn)
 	ffa := makeFuncFlagsAnalyzer(fn)
-	analyzers := []propAnalyzer{ffa, ra}
+	analyzers := []propAnalyzer{ffa, ra, pa}
 	runAnalyzersOnFunction(fn, analyzers)
 	return &FuncProps{
-		Flags:       ffa.results(),
-		ReturnFlags: ra.results(),
+		Flags:           ffa.results(),
+		ReturnFlags:     ra.results(),
+		RecvrParamFlags: pa.results(),
 	}
 }
 
@@ -56,6 +60,17 @@ func runAnalyzersOnFunction(fn *ir.Func, analyzers []propAnalyzer) {
 		return false
 	}
 	doNode(fn)
+}
+
+func interestingToDump(fname string) (bool, string) {
+	if strings.HasPrefix(fname, "T_") {
+		return true, fname
+	}
+	f := strings.Split(fname, ".")
+	if len(f) == 2 && strings.HasPrefix(f[1], "T_") {
+		return true, f[1]
+	}
+	return false, ""
 }
 
 // DumpFuncProps computes and caches function properties for the func
@@ -78,7 +93,8 @@ func DumpFuncProps(fn *ir.Func, dumpfile string) {
 	defer outf.Close()
 	fmt.Fprintf(outf, "// DO NOT EDIT (use 'go test -v -update-expected' instead)\n")
 	for _, entry := range dumpBuffer {
-		if !strings.HasPrefix(entry.fname, "T_") {
+		ok, _ := interestingToDump(entry.fname)
+		if !ok {
 			continue
 		}
 		if err := dumpFnPreamble(outf, entry.fname, entry.props); err != nil {
