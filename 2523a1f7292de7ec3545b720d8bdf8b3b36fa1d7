@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec92aa98_06813d94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-30T14:39:49Z",
+      "side": 1,
+      "message": "\u003e pick ef80624ee1 runtime,runtime/pprof: fixes support for assembler output\n\u003e squash 866a309d5f respond to code review changes\n\nThis looks right to me. (You could also say \"fixup\" instead of \"squash\" as the CL description is only from the first one. This is what I usually use.) Thanks.",
+      "parentUuid": "693a854d_3ba5ba8a",
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bcdfbb67_e6850733",
         "filename": "src/runtime/defs_darwin.go",
         "patchSetId": 2
