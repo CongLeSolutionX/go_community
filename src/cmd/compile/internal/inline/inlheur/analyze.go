@@ -17,6 +17,7 @@ import (
 const debugTrace = 0
 const (
 	debugTraceFuncFlags = 1 << iota
+	debugTraceReturns
 )
 
 // propAnalyzer interface is used for defining one or more
@@ -35,11 +36,13 @@ func computeFuncProps(fn *ir.Func) *FuncProps {
 		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
 			fn.Sym().Name, fn)
 	}
+	ra := makeReturnsAnalyzer(fn)
 	ffa := makeFuncFlagsAnalyzer(fn)
-	analyzers := []propAnalyzer{ffa}
+	analyzers := []propAnalyzer{ffa, ra}
 	runAnalyzersOnFunction(fn, analyzers)
 	return &FuncProps{
-		Flags: ffa.results(),
+		Flags:       ffa.results(),
+		ReturnFlags: ra.results(),
 	}
 }
 

@@ -21,9 +21,9 @@ var remasterflag = flag.Bool("update-expected", false, "if true, generate update
 
 func TestFuncProperties(t *testing.T) {
 	td := t.TempDir()
-	//td = "/tmp/qqq"
-	//	os.RemoveAll(td)
-	//os.Mkdir(td, 0777)
+	td = "/tmp/qqq"
+	os.RemoveAll(td)
+	os.Mkdir(td, 0777)
 	testenv.MustHaveGoBuild(t)
 
 	// NOTE: this testpoint has the unfortunate characteristic that it
@@ -34,7 +34,7 @@ func TestFuncProperties(t *testing.T) {
 	// to building a fresh compiler on the fly, or using some other
 	// scheme.
 
-	testcases := []string{"funcflags"}
+	testcases := []string{"funcflags", "returns"}
 
 	for _, tc := range testcases {
 		dumpfile, err := gatherPropsDumpForFile(t, tc, td)
@@ -86,15 +86,29 @@ func TestFuncProperties(t *testing.T) {
 	}
 }
 
+func returnsToString(rtns []ReturnPropBits) string {
+	var sb strings.Builder
+	for i, f := range rtns {
+		fmt.Fprintf(&sb, "%d: %s\n", i, f.String())
+	}
+	return sb.String()
+}
+
 func compareEntries(t *testing.T, tc string, dfn string, dentry *FuncProps, efn string, eentry *FuncProps) {
 	// Compare function flags.
 	if dentry.Flags != eentry.Flags {
 		t.Errorf("testcase %s: Flags mismatch for %q: got %s, wanted %s",
 			tc, dfn, dentry.Flags.String(), eentry.Flags.String())
 	}
+	// Compare returns
+	rgot := returnsToString(dentry.ReturnFlags)
+	rwant := returnsToString(eentry.ReturnFlags)
+	if rgot != rwant {
+		t.Errorf("Returns mismatch for %q: got:\n%swant:\n%s",
+			dfn, rgot, rwant)
+	}
 	// everything else not yet implemented
-	if len(dentry.RecvrParamFlags) != 0 || len(eentry.RecvrParamFlags) != 0 ||
-		len(dentry.ReturnFlags) != 0 || len(eentry.ReturnFlags) != 0 {
+	if len(dentry.RecvrParamFlags) != 0 || len(eentry.RecvrParamFlags) != 0 {
 		t.Fatalf("testcase %s func %q prop miscompare", tc, dfn)
 	}
 }
@@ -237,7 +251,7 @@ func updateExpected(t *testing.T, testcase string, dr *dumpReader) {
 	newgolines = append(newgolines,
 		"// DO NOT EDIT COMMENTS (use 'go test -v -update-expected' instead)")
 
-	fre := regexp.MustCompile(`^\s*func .*(T_\S+)\(.*\)\s*{\s*$`)
+	fre := regexp.MustCompile(`^\s*func .*(T_\S+)\(.*\)\s.*{\s*$`)
 	for _, line := range golines {
 
 		// Look for the start of an important function in the Go file.
@@ -257,11 +271,11 @@ func updateExpected(t *testing.T, testcase string, dr *dumpReader) {
 			// Emit preamble for function, then first func line.
 			var sb strings.Builder
 			dumpFnPreamble(&sb, mfunc, dentry)
-			newgolines = append(newgolines,
-				strings.Split(strings.TrimSpace(sb.String()), "\n")...)
+			dlines := strings.Split(strings.TrimSpace(sb.String()), "\n")
+			newgolines = append(newgolines, dlines...)
 		}
 
-		if strings.HasPrefix(line, "// ") {
+		if strings.HasPrefix(line, "//") {
 			continue
 		}
 		newgolines = append(newgolines, line)
