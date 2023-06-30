@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/inline/funcprop"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -30,7 +31,7 @@ func TestFuncProperties(t *testing.T) {
 	// to convert this to building a fresh compiler on the fly, or
 	// using some other scheme.
 
-	testcases := []string{"funcflags"}
+	testcases := []string{"funcflags", "returns"}
 
 	for _, tc := range testcases {
 		epath := "testdata/props/" + tc + ".expected"
@@ -85,15 +86,29 @@ func TestFuncProperties(t *testing.T) {
 	}
 }
 
+func returnsToString(rtns []funcprop.ReturnPropBits) string {
+	var sb strings.Builder
+	for i, f := range rtns {
+		fmt.Fprintf(&sb, "%d: %s\n", i, f.String())
+	}
+	return sb.String()
+}
+
 func compareEntries(t *testing.T, tc string, dfn string, dentry *funcprop.FuncProps, efn string, eentry *funcprop.FuncProps) {
 	// Compare function flags.
 	if dentry.Flags != eentry.Flags {
 		t.Errorf("testcase %s: Flags mismatch for %q: got %s, wanted %s",
 			tc, dfn, dentry.Flags.String(), eentry.Flags.String())
 	}
+	// Compare returns
+	rgot := returnsToString(dentry.ReturnFlags)
+	rwant := returnsToString(eentry.ReturnFlags)
+	if rgot != rwant {
+		t.Errorf("Returns mismatch for %q: got:\n%swant:\n%s",
+			dfn, rgot, rwant)
+	}
 	// everything else not yet implemented
-	if len(dentry.RecvrParamFlags) != 0 || len(eentry.RecvrParamFlags) != 0 ||
-		len(dentry.ReturnFlags) != 0 || len(eentry.ReturnFlags) != 0 {
+	if len(dentry.RecvrParamFlags) != 0 || len(eentry.RecvrParamFlags) != 0 {
 		t.Fatalf("testcase %s func %q prop miscompare", tc, dfn)
 	}
 }

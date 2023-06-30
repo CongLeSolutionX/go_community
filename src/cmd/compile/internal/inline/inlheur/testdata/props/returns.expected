@@ -1,0 +1,221 @@
+// DO NOT EDIT (use 'go test -update-expected' instead))
+(*Bar).Plark
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": []
+}
+=-=-=-
+(*Q).Plark
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": []
+}
+=-=-=-
+T_simple_allocmem
+// ReturnFlags:
+//   0: ReturnIsAllocatedMem
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		2
+	]
+}
+=-=-=-
+T_allocmem_two_returns
+// ReturnFlags:
+//   0: ReturnIsAllocatedMem
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		2
+	]
+}
+=-=-=-
+T_allocmem_three_returns
+// ReturnFlags:
+//   0: ReturnIsAllocatedMem
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		2
+	]
+}
+=-=-=-
+T_return_nil
+// ReturnFlags:
+//   0: ReturnAlwaysSameConstant
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		8
+	]
+}
+=-=-=-
+T_multi_return_nil
+// ReturnFlags:
+//   0: ReturnAlwaysSameConstant
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		8
+	]
+}
+=-=-=-
+T_multi_return_nil_anomoly
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		0
+	]
+}
+=-=-=-
+T_multi_return_some_nil
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		0
+	]
+}
+=-=-=-
+T_mixed_returns
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		0
+	]
+}
+=-=-=-
+T_mixed_returns_slice
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		0
+	]
+}
+=-=-=-
+T_maps_and_channels
+// ReturnFlags:
+//   0: ReturnNoInfo
+//   1: ReturnNoInfo
+//   2: ReturnNoInfo
+//   3: ReturnAlwaysSameConstant
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		0,
+		0,
+		0,
+		8
+	]
+}
+=-=-=-
+T_assignment_to_named_returns
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		0,
+		0
+	]
+}
+=-=-=-
+T_named_returns_but_return_explicit_values
+// ReturnFlags:
+//   0: ReturnIsAllocatedMem
+//   1: ReturnIsAllocatedMem
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		2,
+		2
+	]
+}
+=-=-=-
+T_return_concrete_type_to_itf
+// ReturnFlags:
+//   0: ReturnIsConcreteTypeConvertedToInterface
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
+	"ReturnFlags": [
+		4
+	]
+}
+=-=-=-
+T_return_concrete_type_to_itfwith_copy
+// ReturnFlags:
+//   0: ReturnIsConcreteTypeConvertedToInterface
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
+	"ReturnFlags": [
+		4
+	]
+}
+=-=-=-
+T_return_concrete_type_to_itf_mixed
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
+	"ReturnFlags": [
+		0
+	]
+}
+=-=-=-
+.eq.command-line-arguments.Bar
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": [
+		0
+	]
+}
+=-=-=-
+init
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": []
+}
+=-=-=-

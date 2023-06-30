@@ -5,7 +5,7 @@ T_simple
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_nested
@@ -14,7 +14,7 @@ T_nested
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_block1
@@ -23,7 +23,7 @@ T_block1
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_block2
@@ -31,7 +31,7 @@ T_block2
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_switches1
@@ -40,7 +40,7 @@ T_switches1
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_switches1a
@@ -48,7 +48,7 @@ T_switches1a
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_switches2
@@ -56,7 +56,7 @@ T_switches2
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_switches3
@@ -64,7 +64,7 @@ T_switches3
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_switches4
@@ -73,7 +73,7 @@ T_switches4
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_recov
@@ -81,7 +81,7 @@ T_recov
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_forloops1
@@ -90,7 +90,7 @@ T_forloops1
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_forloops2
@@ -98,7 +98,7 @@ T_forloops2
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_forloops3
@@ -106,7 +106,7 @@ T_forloops3
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_hasgotos
@@ -114,7 +114,7 @@ T_hasgotos
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 T_callsexit
@@ -123,7 +123,7 @@ T_callsexit
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
 exprcallsexit
@@ -132,7 +132,9 @@ exprcallsexit
 {
 	"Flags": 1,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": [
+		0
+	]
 }
 =-=-=-
 T_exitinexpr
@@ -140,6 +142,6 @@ T_exitinexpr
 {
 	"Flags": 0,
 	"RecvrParamFlags": null,
-	"ReturnFlags": null
+	"ReturnFlags": []
 }
 =-=-=-
