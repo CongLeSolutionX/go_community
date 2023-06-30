@@ -15,6 +15,17 @@ import (
 )
 
 const debugTrace = 0
+const (
+	debugTraceFuncFlags = 1 << iota
+)
+
+// propAnalyzer interface is used for defining one or more
+// analyzer helper objects, each tasked with computing some
+// specific subset of the properties we're interested in.
+
+type propAnalyzer interface {
+	nodeVisit(n ir.Node, aux any)
+}
 
 // computeFuncProps analyzes the specified function 'fn' and computes
 // for it a function "properties" object, to be used to drive inlining
@@ -24,8 +35,24 @@ func computeFuncProps(fn *ir.Func) *FuncProps {
 		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
 			fn.Sym().Name, fn)
 	}
-	// implementation stubbed out for now
-	return &FuncProps{}
+	ffa := makeFuncFlagsAnalyzer(fn)
+	analyzers := []propAnalyzer{ffa}
+	runAnalyzersOnFunction(fn, analyzers)
+	return &FuncProps{
+		Flags: ffa.results(),
+	}
+}
+
+func runAnalyzersOnFunction(fn *ir.Func, analyzers []propAnalyzer) {
+	var doNode func(ir.Node) bool
+	doNode = func(n ir.Node) bool {
+		ir.DoChildren(n, doNode)
+		for _, a := range analyzers {
+			a.nodeVisit(n, nil)
+		}
+		return false
+	}
+	doNode(fn)
 }
 
 // DumpFuncProps computes and caches function properties for the func
