@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f13e5a66_b39237a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-06-30T22:01:45Z",
+      "side": 1,
+      "message": "I believe this is a decent starting point for the rewritten section on type inference.\n\nMuch of the meat is going to be in the (yet to be updated) section on unification (next CL), but for general understanding of where type inference applies and where it doesn\u0027t, and how it works in principle, I hope this is reasonable.\n\nThanks in advance for any comments.",
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
