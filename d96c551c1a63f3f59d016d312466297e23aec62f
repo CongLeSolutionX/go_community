@@ -33,6 +33,64 @@
       "message": "@khr@golang.org @cherryyz@google.com Could you provide review comments on this CL",
       "revId": "d96c551c1a63f3f59d016d312466297e23aec62f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac7d831_f30be708",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-30T14:36:06Z",
+      "side": 1,
+      "message": "Since this is specific to S390X, it would be good that a S390X port maintainer do a round of review. Thanks.",
+      "parentUuid": "677c8d01_79cac5f9",
+      "revId": "d96c551c1a63f3f59d016d312466297e23aec62f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7806e7b1_480a2750",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-30T14:36:06Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-s390x",
+      "revId": "d96c551c1a63f3f59d016d312466297e23aec62f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d6d84a4_f3bf03d9",
+        "filename": "src/cmd/internal/obj/s390x/asmz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4378,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-06-30T14:36:06Z",
+      "side": 1,
+      "message": "I think it is clearer to use REG_R0.",
+      "range": {
+        "startLine": 4378,
+        "startChar": 36,
+        "endLine": 4378,
+        "endChar": 50
+      },
+      "revId": "d96c551c1a63f3f59d016d312466297e23aec62f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
