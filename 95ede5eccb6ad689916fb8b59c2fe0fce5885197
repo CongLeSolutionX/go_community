@@ -16,6 +16,207 @@
       "message": "I believe this is a decent starting point for the rewritten section on type inference.\n\nMuch of the meat is going to be in the (yet to be updated) section on unification (next CL), but for general understanding of where type inference applies and where it doesn\u0027t, and how it works in principle, I hope this is reasonable.\n\nThanks in advance for any comments.",
       "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97cd3b80_ca6edcd7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4346,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "Is there an intuitive explanation for when to prefer the phrase \"type arguments\" vs \"type arguments list(s)\"?",
+      "range": {
+        "startLine": 4346,
+        "startChar": 36,
+        "endLine": 4346,
+        "endChar": 55
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51688039_f6b2c7b8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4410,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "nit: I don\u0027t think \"deduced or inferred\" adds any value here over just \"inferred\".",
+      "range": {
+        "startLine": 4409,
+        "startChar": 72,
+        "endLine": 4410,
+        "endChar": 18
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3331af15_a331fa75",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4452,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "Is the \"≡\" relation formally defined somewhere?",
+      "range": {
+        "startLine": 4452,
+        "startChar": 44,
+        "endLine": 4452,
+        "endChar": 66
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bce071fe_4c87ac30",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4481,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "Is there a more rigorous explanation somewhere that requires inferring \"S ➞ Slice\" instead of \"S ➞ []int\"?\n\nComputers are notoriously bad at behaving \"obviously.\" :)",
+      "range": {
+        "startLine": 4481,
+        "startChar": 86,
+        "endLine": 4481,
+        "endChar": 100
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "270e70b1_eba386f8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4498,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "What does it mean for type inference to be imprecise or incorrect?\n\nAs I understand it, we\u0027ve specified an algorithm for type inference, and implementations must adhere to that algorithm. Any imprecision or incorrectness would seem to be a conformance issue in that implementation.",
+      "range": {
+        "startLine": 4497,
+        "startChar": 70,
+        "endLine": 4498,
+        "endChar": 42
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee5f464c_42ab5972",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4503,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "And that an explicit type argument isn\u0027t provided?\n\nOtherwise, given `dedup[[]int](s)`, I think we end up with the equations:\n\n```\nSlice ≡ S      // assigning s (type Slice) to parameter of type S\nS     ≡ []E    // constraint from dedup type parameters\nS     ≡ []int  // explicit type argument\n```\n\nWhich seems like \"S ➞ Slice\" is still an admissible solution, and would still be preferable as the \"obvious choice\" over \"S ➞ []int\" as in the omitted type argument list case.",
+      "range": {
+        "startLine": 4503,
+        "startChar": 4,
+        "endLine": 4503,
+        "endChar": 65
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a9117f_3d8dd9ab",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4538,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "Is it necessary to omit type equations if this condition isn\u0027t true? It seems like in a well-typed program, the equations not involving bound type parameters would naturally always be true, and it would just be an optimization detail that implementations skip over them in constructing the system of equations to solve.",
+      "range": {
+        "startLine": 4537,
+        "startChar": 58,
+        "endLine": 4538,
+        "endChar": 21
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fa90ccb_e28eabf7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4584,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "nit: \"type\"?",
+      "range": {
+        "startLine": 4584,
+        "startChar": 51,
+        "endLine": 4584,
+        "endChar": 55
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2692d211_7d174512",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4597,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-06-30T23:10:35Z",
+      "side": 1,
+      "message": "I think this is trying to say, for example, that if we have pairs (untyped-int, P1) and (untyped-float, P1), then we infer P1 ➞ float64?",
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
