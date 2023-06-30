@@ -1,0 +1,270 @@
+// DO NOT EDIT (use 'go test -update-expected' instead))
+T.Blarg
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_simple
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_pointer
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T.T_feeds_if_simple_method
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+//   1: ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8,
+		8
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_blanks
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_with_copy
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_with_copy_expr
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_switch
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_toocomplex
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_redefined
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_redefined2
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_multi_if
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+//   1: ParamNoInfo
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8,
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_redefined_indirectwrite
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_redefined_indirectwrite_copy
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_expr1
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		8
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_expr2
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_expr3
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_if_shift_may_panic
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": [
+		0
+	]
+}
+=-=-=-
+T_feeds_if_maybe_divide_by_zero
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_indcall
+// RecvrParamFlags:
+//   0: ParamFeedsIndirectCall
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		4
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_indcall_and_if
+// RecvrParamFlags:
+//   0: ParamFeedsIndirectCall|ParamFeedsIfOrSwitch
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		12
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_indcall_with_copy
+// RecvrParamFlags:
+//   0: ParamFeedsIndirectCall
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		4
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+T_feeds_interface_method_call
+// RecvrParamFlags:
+//   0: ParamFeedsInterfaceMethodCall
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [
+		2
+	],
+	"ReturnFlags": []
+}
+=-=-=-
+init
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": [],
+	"ReturnFlags": []
+}
+=-=-=-

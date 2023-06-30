@@ -3,7 +3,9 @@
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -11,7 +13,9 @@
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -21,31 +25,39 @@ T_simple_allocmem
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [],
 	"ReturnFlags": [
 		2
 	]
 }
 =-=-=-
 T_allocmem_two_returns
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 // ReturnFlags:
 //   0: ReturnIsAllocatedMem
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": [
 		2
 	]
 }
 =-=-=-
 T_allocmem_three_returns
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 // ReturnFlags:
 //   0: ReturnIsAllocatedMem
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": [
 		2
 	]
@@ -57,7 +69,7 @@ T_return_nil
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [],
 	"ReturnFlags": [
 		8
 	]
@@ -69,7 +81,10 @@ T_multi_return_nil
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
 	"ReturnFlags": [
 		8
 	]
@@ -79,7 +94,10 @@ T_multi_return_nil_anomoly
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
 	"ReturnFlags": [
 		0
 	]
@@ -89,27 +107,38 @@ T_multi_return_some_nil
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
 	"ReturnFlags": [
 		0
 	]
 }
 =-=-=-
 T_mixed_returns
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": [
 		0
 	]
 }
 =-=-=-
 T_mixed_returns_slice
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": [
 		0
 	]
@@ -124,7 +153,10 @@ T_maps_and_channels
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
 	"ReturnFlags": [
 		0,
 		0,
@@ -134,10 +166,14 @@ T_maps_and_channels
 }
 =-=-=-
 T_assignment_to_named_returns
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": [
 		0,
 		0
@@ -145,13 +181,17 @@ T_assignment_to_named_returns
 }
 =-=-=-
 T_named_returns_but_return_explicit_values
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 // ReturnFlags:
 //   0: ReturnIsAllocatedMem
 //   1: ReturnIsAllocatedMem
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": [
 		2,
 		2
@@ -205,7 +245,10 @@ T_return_concrete_type_to_itf_mixed
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
 	"ReturnFlags": [
 		0
 	]
@@ -215,7 +258,7 @@ init
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [],
 	"ReturnFlags": []
 }
 =-=-=-

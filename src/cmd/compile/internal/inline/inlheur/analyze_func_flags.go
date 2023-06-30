@@ -169,6 +169,11 @@ func (ffa *funcFlagsAnalyzer) pessimize() {
 	ffa.noInfo = true
 }
 
+// shouldVisit returns TRUE if this is an interesting node from the
+// perspective of computing function flags. NB: due to the fact that
+// ir.CallExpr implements the Stmt interface, we wind up visiting
+// a lot of nodes that we don't really need to, but these can
+// simply be screened out as part of the visit.
 func shouldVisit(n ir.Node) bool {
 	_, isStmt := n.(ir.Stmt)
 	return n.Op() != ir.ODCL &&
@@ -176,7 +181,7 @@ func shouldVisit(n ir.Node) bool {
 }
 
 // nodeVisit implements the propAnalyzer interface; when called on
-// a given ndoe, it decides the disposition of that node based on
+// a given node, it decides the disposition of that node based on
 // the state(s) of the node's children.
 func (ffa *funcFlagsAnalyzer) nodeVisit(n ir.Node, aux any) {
 	if debugTrace&debugTraceFuncFlags != 0 {
@@ -268,7 +273,8 @@ func (ffa *funcFlagsAnalyzer) nodeVisit(n ir.Node, aux any) {
 	case ir.ODCLFUNC, ir.ORECOVER, ir.OAS, ir.OAS2, ir.OAS2FUNC, ir.OASOP,
 		ir.OPRINTN, ir.OPRINT, ir.OLABEL, ir.OCALLINTER, ir.ODEFER,
 		ir.OSEND, ir.ORECV, ir.OSELRECV2, ir.OGO, ir.OAPPEND, ir.OAS2DOTTYPE,
-		ir.OAS2MAPR, ir.OGETG, ir.ODELETE, ir.OINLMARK, ir.OAS2RECV:
+		ir.OAS2MAPR, ir.OGETG, ir.ODELETE, ir.OINLMARK, ir.OAS2RECV,
+		ir.OMIN, ir.OMAX, ir.OMAKE, ir.ORECOVERFP:
 		// these should all be benign/uninteresting
 	case ir.OTAILCALL, ir.OJUMPTABLE, ir.OTYPESW:
 		// don't expect to see these at all.

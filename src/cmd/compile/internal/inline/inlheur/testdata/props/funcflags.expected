@@ -4,58 +4,82 @@ T_simple
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [],
 	"ReturnFlags": []
 }
 =-=-=-
 T_nested
 // Flags: FuncPropUnconditionalPanicExit
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
 T_block1
 // Flags: FuncPropUnconditionalPanicExit
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
 T_block2
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
 T_switches1
 // Flags: FuncPropUnconditionalPanicExit
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
 T_switches1a
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
 T_switches2
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -63,16 +87,22 @@ T_switches3
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
 T_switches4
 // Flags: FuncPropUnconditionalPanicExit
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -80,7 +110,9 @@ T_recov
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -89,7 +121,9 @@ T_forloops1
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -97,7 +131,9 @@ T_forloops2
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -105,7 +141,9 @@ T_forloops3
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -113,16 +151,23 @@ T_hasgotos
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0,
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
 T_callsexit
 // Flags: FuncPropUnconditionalPanicExit
+// RecvrParamFlags:
+//   0: ParamFeedsIfOrSwitch
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		8
+	],
 	"ReturnFlags": []
 }
 =-=-=-
@@ -131,7 +176,9 @@ exprcallsexit
 ===
 {
 	"Flags": 1,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": [
 		0
 	]
@@ -141,7 +188,9 @@ T_exitinexpr
 ===
 {
 	"Flags": 0,
-	"RecvrParamFlags": null,
+	"RecvrParamFlags": [
+		0
+	],
 	"ReturnFlags": []
 }
 =-=-=-
