@@ -906,20 +906,20 @@ FindRHS:
 		base.Fatalf("RHS is nil: %v", defn)
 	}
 
-	if reassigned(n) {
+	if Reassigned(n) {
 		return nil
 	}
 
 	return rhs
 }
 
-// reassigned takes an ONAME node, walks the function in which it is defined, and returns a boolean
-// indicating whether the name has any assignments other than its declaration.
-// The second return value is the first such assignment encountered in the walk, if any. It is mostly
-// useful for -m output documenting the reason for inhibited optimizations.
+// Reassigned takes an ONAME node, walks the function in which it is
+// defined, and returns a boolean indicating whether the name has any
+// assignments other than its declaration.
 // NB: global variables are always considered to be re-assigned.
-// TODO: handle initial declaration not including an assignment and followed by a single assignment?
-func reassigned(name *Name) bool {
+// TODO: handle initial declaration not including an assignment and
+// followed by a single assignment?
+func Reassigned(name *Name) bool {
 	if name.Op() != ONAME {
 		base.Fatalf("reassigned %v", name)
 	}
@@ -952,6 +952,11 @@ func reassigned(name *Name) bool {
 				if isName(p) && n != name.Defn {
 					return true
 				}
+			}
+		case OASOP:
+			n := n.(*AssignOpStmt)
+			if isName(n.X) {
+				return true
 			}
 		case OADDR:
 			n := n.(*AddrExpr)
