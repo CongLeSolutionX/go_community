@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecf5098d_83d6b537",
+        "filename": "src/cmd/go/testdata/script/run_faketime_issue60356.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-06-30T19:42:18Z",
+      "side": 1,
+      "message": "When this is passing, we shouldn\u0027t actually set a `-timeout` here at all.",
+      "range": {
+        "startLine": 5,
+        "startChar": 51,
+        "endLine": 5,
+        "endChar": 63
+      },
+      "revId": "1015e2b8e38af2dcc7fef9c8710508075f24a620",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
