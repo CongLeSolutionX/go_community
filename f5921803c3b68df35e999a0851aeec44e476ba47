@@ -81,6 +81,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a084a9_5fce516e",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-30T19:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbe96e6c_5813a684",
+      "range": {
+        "startLine": 345,
+        "startChar": 52,
+        "endLine": 345,
+        "endChar": 58
+      },
+      "revId": "f5921803c3b68df35e999a0851aeec44e476ba47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3562e5d6_1f906cdf",
@@ -104,6 +128,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ec453d_9d7c70e9",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-30T19:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3562e5d6_1f906cdf",
+      "range": {
+        "startLine": 570,
+        "startChar": 8,
+        "endLine": 570,
+        "endChar": 91
+      },
+      "revId": "f5921803c3b68df35e999a0851aeec44e476ba47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6a06e6a_8b9a2fd6",
@@ -117,6 +165,30 @@
       "writtenOn": "2023-06-29T21:59:27Z",
       "side": 1,
       "message": "(nit) This `if modRoot !\u003d \"\"` pattern appears a couple of times. Maybe change `canonicalizeReplacePath` to be a no-op if `modRoot` is empty, so that you can make the calls unconditional.?",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 2
+      },
+      "revId": "f5921803c3b68df35e999a0851aeec44e476ba47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24414597_79c6ec90",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-06-30T19:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a06e6a_8b9a2fd6",
       "range": {
         "startLine": 322,
         "startChar": 0,
