@@ -30,7 +30,7 @@ func TestFuncProperties(t *testing.T) {
 	// to convert this to building a fresh compiler on the fly, or
 	// using some other scheme.
 
-	testcases := []string{"stub"}
+	testcases := []string{"funcflags"}
 
 	for _, tc := range testcases {
 		epath := "testdata/props/" + tc + ".expected"
@@ -86,12 +86,15 @@ func TestFuncProperties(t *testing.T) {
 }
 
 func compareEntries(t *testing.T, tc string, dfn string, dentry *funcprop.FuncProps, efn string, eentry *funcprop.FuncProps) {
-	// dummy version for now; will be filled in once we have real code to
-	// compute properties.
-	if dentry.Flags != 0 || eentry.Flags != 0 ||
-		len(dentry.RecvrParamFlags) != 0 || len(eentry.RecvrParamFlags) != 0 ||
+	// Compare function flags.
+	if dentry.Flags != eentry.Flags {
+		t.Errorf("testcase %s: Flags mismatch for %q: got %s, wanted %s",
+			tc, dfn, dentry.Flags.String(), eentry.Flags.String())
+	}
+	// everything else not yet implemented
+	if len(dentry.RecvrParamFlags) != 0 || len(eentry.RecvrParamFlags) != 0 ||
 		len(dentry.ReturnFlags) != 0 || len(eentry.ReturnFlags) != 0 {
-		t.Fatalf("func %q prop miscompare", dfn)
+		t.Fatalf("testcase %s func %q prop miscompare", tc, dfn)
 	}
 }
 

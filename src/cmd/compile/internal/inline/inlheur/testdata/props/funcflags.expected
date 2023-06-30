@@ -1,0 +1,145 @@
+// DO NOT EDIT (use 'go test -update-expected' instead))
+T_simple
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_nested
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_block1
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_block2
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_switches1
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_switches1a
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_switches2
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_switches3
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_switches4
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_recov
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_forloops1
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_forloops2
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_forloops3
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_hasgotos
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_callsexit
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+exprcallsexit
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
+T_exitinexpr
+===
+{
+	"Flags": 0,
+	"RecvrParamFlags": null,
+	"ReturnFlags": null
+}
+=-=-=-
