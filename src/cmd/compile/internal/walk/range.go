@@ -515,7 +515,7 @@ func arrayRangeClear(loop *ir.RangeStmt, v1, v2, a ir.Node) ir.Node {
 func arrayClear(wbPos src.XPos, a ir.Node, nrange *ir.RangeStmt) ir.Node {
 	elemsize := typecheck.RangeExprType(a.Type()).Elem().Size()
 	if elemsize <= 0 {
-		return nil
+		return ir.NewBlockStmt(a.Pos(), nil)
 	}
 
 	// Convert to
