@@ -135,7 +135,10 @@ func walkClear(n *ir.UnaryExpr) ir.Node {
 	typ := n.X.Type()
 	switch {
 	case typ.IsSlice():
-		return arrayClear(n.X.Pos(), n.X, nil)
+		if n := arrayClear(n.X.Pos(), n.X, nil); n != nil {
+			return n
+		}
+		return ir.NewBlockStmt(n.Pos(), nil)
 	case typ.IsMap():
 		return mapClear(n.X, reflectdata.TypePtrAt(n.X.Pos(), n.X.Type()))
 	}
