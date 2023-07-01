@@ -106,6 +106,24 @@
       "parentUuid": "ad3d408a_69226dc6",
       "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06c39172_879dd032",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-01T06:33:00Z",
+      "side": 1,
+      "message": "I think it\u0027s the pattern inherit since the old C code:\n\n - walkRange tries to optimize array clear range, calling arrayRangeClear here: https://github.com/golang/go/blob/master/src/cmd/compile/internal/walk/range.go#L82C12-L82C27\n - arrayRangeClear calls arrayClear at the end: https://github.com/golang/go/blob/master/src/cmd/compile/internal/walk/range.go#L511\n \n Return a nil Node signal the caller that the optimization could not be applied, so normal code should be generated.\n \n In case of `clear(x)`, thing is different, it\u0027s not the optimization could not apply, but it\u0027s a no-op.",
+      "parentUuid": "e92a3adf_597692c2",
+      "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
