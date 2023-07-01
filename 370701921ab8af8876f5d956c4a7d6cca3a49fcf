@@ -124,6 +124,24 @@
       "parentUuid": "e92a3adf_597692c2",
       "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be39b87b_183af60f",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-01T06:37:59Z",
+      "side": 1,
+      "message": "\u003e I think it\u0027s the pattern inherit since the old C code:\n\nStrictly speaking, only arrayRangeClear returns nil to signal walkRange optimization could not applied is inherited from old C code.\n\nWhen adding `clear` builtin, I factor out and introduce `arrayClear`, to be able to reuse the code in both `clear` and `for .. range a` loop, thus I keep `arrayClear` returns nil.\n\nProbably we could make arrayClear return (ir.Node, bool) to signal the caller that whether the code for clearing array is generated? So `arrayRangeClear can check the boolean and return nil, while `arrayClear` can just ignore the bool and returning the ir.Node generated. Not sure it\u0027s worth, though.",
+      "parentUuid": "06c39172_879dd032",
+      "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
