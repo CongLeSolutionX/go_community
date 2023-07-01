@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e4fe2cc_78085c56",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4346,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "I tried to use type argument lists to make it clear that the square brackets are included. But maybe that\u0027s not needed because we say (elsewhere) that empty type argument lists [] are not valid.",
+      "parentUuid": "97cd3b80_ca6edcd7",
+      "range": {
+        "startLine": 4346,
+        "startChar": 36,
+        "endLine": 4346,
+        "endChar": 55
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51688039_f6b2c7b8",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-06-30T23:10:35Z",
       "side": 1,
       "message": "nit: I don\u0027t think \"deduced or inferred\" adds any value here over just \"inferred\".",
+      "range": {
+        "startLine": 4409,
+        "startChar": 72,
+        "endLine": 4410,
+        "endChar": 18
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fb53b31_423bda92",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4410,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51688039_f6b2c7b8",
       "range": {
         "startLine": 4409,
         "startChar": 72,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb19762_7769e6c5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4452,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "added clarifying clause",
+      "parentUuid": "3331af15_a331fa75",
+      "range": {
+        "startLine": 4452,
+        "startChar": 44,
+        "endLine": 4452,
+        "endChar": 66
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bce071fe_4c87ac30",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-06-30T23:10:35Z",
       "side": 1,
       "message": "Is there a more rigorous explanation somewhere that requires inferring \"S ➞ Slice\" instead of \"S ➞ []int\"?\n\nComputers are notoriously bad at behaving \"obviously.\" :)",
+      "range": {
+        "startLine": 4481,
+        "startChar": 86,
+        "endLine": 4481,
+        "endChar": 100
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8a0637f_d53614cf",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4481,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "At the top level type T with under(T) \u003d []int would match, because of assignability rules, but type inference must not chose arbitrary types because that could lead to other problems later. But I don\u0027t have a simple rigorous explanation ready.\n\nAt the element type level, types must be identical, again because of assignability rules.\n\nLeaving this section away, it\u0027s probably more confusing than helpful. Also, this is just an example.",
+      "parentUuid": "bce071fe_4c87ac30",
       "range": {
         "startLine": 4481,
         "startChar": 86,
@@ -133,6 +229,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86ae767a_2bc35b68",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4498,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "The imprecision is due to ignoring the directionality of assignments in type equations. I\u0027d like to not ignore it in the future, for more \"precise\" inference results. (We didn\u0027t have time to get to this.)\n\nWhat I mean to express here is that type inference, e.g. due to wrong algorithm or implementation error, cannot make an incorrect program correct.\n\nSlightly reworded.",
+      "parentUuid": "270e70b1_eba386f8",
+      "range": {
+        "startLine": 4497,
+        "startChar": 70,
+        "endLine": 4498,
+        "endChar": 42
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee5f464c_42ab5972",
@@ -146,6 +266,30 @@
       "writtenOn": "2023-06-30T23:10:35Z",
       "side": 1,
       "message": "And that an explicit type argument isn\u0027t provided?\n\nOtherwise, given `dedup[[]int](s)`, I think we end up with the equations:\n\n```\nSlice ≡ S      // assigning s (type Slice) to parameter of type S\nS     ≡ []E    // constraint from dedup type parameters\nS     ≡ []int  // explicit type argument\n```\n\nWhich seems like \"S ➞ Slice\" is still an admissible solution, and would still be preferable as the \"obvious choice\" over \"S ➞ []int\" as in the omitted type argument list case.",
+      "range": {
+        "startLine": 4503,
+        "startChar": 4,
+        "endLine": 4503,
+        "endChar": 65
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ee938e7_6cec271d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4503,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "Good point. Adjusted.\n\nOriginally I was making the same argument as you do below for (argument, parameter) pairs that don\u0027t contain any bound type parameters: we don\u0027t need to exclude them.\n\nThat works but it requires two kinds of ≡ operators: one that expresses assignability (originally this was ≡A) and one that requires identity (≡). For the cases where we provide an explicit type argument we\u0027d use exact ≡. Then the result would be the same as now.\n\n(In the implementation we do what you\u0027re describing: we partially instantiate functions with the explicit type parameters. For one it produces better error messages.)",
+      "parentUuid": "ee5f464c_42ab5972",
       "range": {
         "startLine": 4503,
         "startChar": 4,
@@ -179,6 +323,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f56925a0_bdc43647",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4538,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "I don\u0027t think it is necessary. Left away.",
+      "parentUuid": "38a9117f_3d8dd9ab",
+      "range": {
+        "startLine": 4537,
+        "startChar": 58,
+        "endLine": 4538,
+        "endChar": 21
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fa90ccb_e28eabf7",
@@ -202,6 +370,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c287a9fe_2f929c04",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4584,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fa90ccb_e28eabf7",
+      "range": {
+        "startLine": 4584,
+        "startChar": 51,
+        "endLine": 4584,
+        "endChar": 55
+      },
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2692d211_7d174512",
@@ -215,6 +407,24 @@
       "writtenOn": "2023-06-30T23:10:35Z",
       "side": 1,
       "message": "I think this is trying to say, for example, that if we have pairs (untyped-int, P1) and (untyped-float, P1), then we infer P1 ➞ float64?",
+      "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "205f91f3_a355c9f9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 4597,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-01T00:14:09Z",
+      "side": 1,
+      "message": "correct\n\n(I need to add some more examples eventually)",
+      "parentUuid": "2692d211_7d174512",
       "revId": "95ede5eccb6ad689916fb8b59c2fe0fce5885197",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
