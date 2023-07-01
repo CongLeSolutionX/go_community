@@ -88,6 +88,24 @@
       "parentUuid": "35e4894b_0690a041",
       "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e92a3adf_597692c2",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-01T03:52:58Z",
+      "side": 1,
+      "message": "Why does it need to detect and skip the optimization? A NOP stmt to clear the zero-size array is just as valid there, isn\u0027t it?",
+      "parentUuid": "ad3d408a_69226dc6",
+      "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
