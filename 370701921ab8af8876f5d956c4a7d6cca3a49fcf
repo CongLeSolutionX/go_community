@@ -142,6 +142,24 @@
       "parentUuid": "06c39172_879dd032",
       "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "526d85b8_2e1fe38a",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-03T19:16:29Z",
+      "side": 1,
+      "message": "I think it is fine for arrayClear to return an empty block if the elemsize is 0 (or the array length is 0?).\nThen the caller doesn\u0027t have to check the result at all.\n\nNo point in having to check a function result if we can write it so it will never fail.",
+      "parentUuid": "be39b87b_183af60f",
+      "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
