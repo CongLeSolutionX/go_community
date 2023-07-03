@@ -1147,10 +1147,29 @@ func showfuncinfo(sf srcFunc, firstFrame bool, calleeID abi.FuncID) bool {
 
 // isExportedRuntime reports whether name is an exported runtime function.
 // It is only for runtime functions, so ASCII A-Z is fine.
-// TODO: this handles exported functions but not exported methods.
 func isExportedRuntime(name string) bool {
-	const n = len("runtime.")
-	return len(name) > n && name[:n] == "runtime." && 'A' <= name[n] && name[n] <= 'Z'
+	n := len("runtime.")
+	if len(name) <= n || name[:n] != "runtime." {
+		return false
+	}
+	// Skip over receiver type, if any.
+	// For example, runtime.(*Func).Entry
+	if name[n] == '(' {
+		n++
+		// Find closing ')'.
+		for n < len(name) && name[n] != ')' {
+			n++
+		}
+		if n+2 >= len(name) {
+			// Not enough data for ')', '.', and first character of method name
+			return false
+		}
+		if name[n+1] != '.' {
+			return false
+		}
+		n += 2 // skip ')' and '.'
+	}
+	return 'A' <= name[n] && name[n] <= 'Z'
 }
 
 // elideWrapperCalling reports whether a wrapper function that called
