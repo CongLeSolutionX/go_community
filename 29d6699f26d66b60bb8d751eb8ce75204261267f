@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd3fb75_65ba281b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-03T19:51:26Z",
+      "side": 1,
+      "message": "There is no point in optimizing this code, end users never run it. It is only run by developers when they want to regenerate the builtinlist.go file. And it currently runs in 100msec.",
+      "revId": "29d6699f26d66b60bb8d751eb8ce75204261267f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
