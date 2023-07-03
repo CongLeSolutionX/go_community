@@ -53,6 +53,24 @@
       "message": "It seems that the func name indenticalOrigin is wrong instead of annotation. Do you want to fix the name of this method?",
       "revId": "ea8915c419f0f9c82717340893dd93a43456e52d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f12750_7569bd02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-07-03T07:27:39Z",
+      "side": 1,
+      "message": "\u003e It seems that the func name indenticalOrigin is wrong instead of annotation. Do you want to fix the name of this method?\n\nIt looks like the function name indenticalOrigin is wrong, not the annotation. Should we fix the name of this method?",
+      "parentUuid": "4c089b56_bbc5c196",
+      "revId": "ea8915c419f0f9c82717340893dd93a43456e52d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
