@@ -88,6 +88,24 @@
       "message": "Seems like this function name should be identicalOrigin.  That is, I think the comment is right and the code is wrong.",
       "revId": "ea8915c419f0f9c82717340893dd93a43456e52d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4964b50b_6b7c4a62",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-07-04T04:24:32Z",
+      "side": 1,
+      "message": "Modified. \n\nPlease check again.",
+      "parentUuid": "31f9bfd2_14ccdad3",
+      "revId": "ea8915c419f0f9c82717340893dd93a43456e52d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
