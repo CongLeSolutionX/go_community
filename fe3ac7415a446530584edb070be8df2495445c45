@@ -53,6 +53,24 @@
       "message": "Do we still need this code if nrange !\u003d nil?",
       "revId": "fe3ac7415a446530584edb070be8df2495445c45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68df5d6e_5b5542c0",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-04T03:23:17Z",
+      "side": 1,
+      "message": "I think yes, this is used for both clear builtin and for range clear idiom, the index  if not defined in range init, still need to be set correctly after the loop.",
+      "parentUuid": "f55675c7_5de801c3",
+      "revId": "fe3ac7415a446530584edb070be8df2495445c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
