@@ -160,6 +160,24 @@
       "parentUuid": "be39b87b_183af60f",
       "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a8c4ad6_0ab724ac",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-04T02:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "526d85b8_2e1fe38a",
+      "revId": "370701921ab8af8876f5d956c4a7d6cca3a49fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
