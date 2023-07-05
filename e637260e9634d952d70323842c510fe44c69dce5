@@ -72,6 +72,24 @@
       "message": "Hi Cherry, this CL adds a parser for arm64 xml instruction documents, which can automatically generate four files instructions.go, ops.go, arm64ops.go and elements.go, which can be used for encoding and decoding arm64 instructions. Encoding and decoding of elements is not done yet, as this needs to be consistent with ruinan\u0027s refactoring to obj.Addr. In addition, I would like to ask for your views on the following problem.\nNormally, a Prog matches one machine instruction, but now I find that a Prog may match multiple arm64 machine instructions, because I find that there are many instructions that are difficult to distinguish under the existing matching mechanism. There are hundreds of such instructions, here are a few examples:\n\nLD1H  { \u003cZt\u003e.S }, \u003cPg\u003e/Z, [\u003cXn|SP\u003e, \u003cZm\u003e.S, \u003cmod\u003e #1]\nLD1H  { \u003cZt\u003e.D }, \u003cPg\u003e/Z, [\u003cXn|SP\u003e, \u003cZm\u003e.D, \u003cmod\u003e]\n\nASR  \u003cZdn\u003e.\u003cT\u003e, \u003cPg\u003e/M, \u003cZdn\u003e.\u003cT\u003e, \u003cZm\u003e.\u003cT\u003e\nASR  \u003cZdn\u003e.\u003cT\u003e, \u003cPg\u003e/M, \u003cZdn\u003e.\u003cT\u003e, \u003cZm\u003e.D\n\nLSL  \u003cZdn\u003e.\u003cT\u003e, \u003cPg\u003e/M, \u003cZdn\u003e.\u003cT\u003e, \u003cZm\u003e.\u003cT\u003e\nLSL  \u003cZdn\u003e.\u003cT\u003e, \u003cPg\u003e/M, \u003cZdn\u003e.\u003cT\u003e, \u003cZm\u003e.D\n\nMOV  \u003cZd\u003e.\u003cT\u003e, #\u003cconst\u003e\nMOV  \u003cZd\u003e.\u003cT\u003e, #\u003cimm\u003e{, \u003cshift\u003e}\n\nCurrently in Go, we use Go opcode and argument classes to match, but according to the current naming and classification rules, the opcode and argument classes of these instructions are exactly the same. So a Prog will match multiple arm64 instructions.\n\nThere are two solutions to this problem. One is to define more differentiated opcodes and argument classes so that a Prog can only match one machine instruction. The other is to allow multiple matches and find the real match during encoding. This is feasible because there will only be one match in the end.\n\nAt present, I am inclined to the second approach. This CL is also implemented in this way, because the naming of opcodes and the classification of arguments will be easier. Since the instruction table is automatically generated, the first method is actually very difficult.\n\nHow do you think about this problem? If you also agree with me, then I will continue with the work as planned and implement the encoding and decoding of more elements.",
       "revId": "e637260e9634d952d70323842c510fe44c69dce5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0b8c0f7_d5c0fabc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T14:59:51Z",
+      "side": 1,
+      "message": "Thanks for getting the XML parser working! I\u0027ll take a detailed look.\n\nDo you mean that these instructions have the same semantics and it is correct to use either one? If so, I think your approach is fine and we just need to pick one to encode. Thanks.",
+      "parentUuid": "69663622_ee684c6e",
+      "revId": "e637260e9634d952d70323842c510fe44c69dce5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
