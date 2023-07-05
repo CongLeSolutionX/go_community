@@ -258,6 +258,10 @@ type Info struct {
 	// to their corresponding selections.
 	Selections map[*syntax.SelectorExpr]*Selection
 
+	// version and posVers determine the version that applies to a given file
+	version version
+	posVers map[*syntax.PosBase]version // Pos -> Go version mapping
+
 	// Scopes maps syntax.Nodes to the scopes they define. Package scopes are not
 	// associated with a specific node but with all files belonging to a package.
 	// Thus, the package scope can be found in the type-checked Package object.
@@ -292,6 +296,14 @@ type Info struct {
 
 func (info *Info) recordTypes() bool {
 	return info.Types != nil || info.StoreTypesInSyntax
+}
+
+// GoVersion returns to Go version that applies to PosBase b, i.e., a file.
+func (info *Info) GoVersion(b *syntax.PosBase) (major, minor int) {
+	if v, ok := info.posVers[b]; ok {
+		return v.major, v.minor
+	}
+	return info.version.major, info.version.minor
 }
 
 // TypeOf returns the type of expression e, or nil if not found.

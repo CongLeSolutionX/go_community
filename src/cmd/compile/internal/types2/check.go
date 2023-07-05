@@ -393,6 +393,10 @@ func (check *Checker) checkFiles(files []*syntax.File) (err error) {
 	}
 
 	check.pkg.goVersion = check.conf.GoVersion
+	if check.Info != nil {
+		check.Info.version = check.version
+		check.Info.posVers = check.posVers
+	}
 	check.pkg.complete = true
 
 	// no longer needed - release memory
