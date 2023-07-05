@@ -16,6 +16,24 @@
       "message": "Quick note that it may also be important to update ParseDirent in syscall/dirent.go to match.",
       "revId": "f1fe4835bebe36c93c4a41c3921b62efc092ebce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce704cae_88732638",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-07-05T06:54:37Z",
+      "side": 1,
+      "message": "Thanks for pointing it out, I added it in the last patch.\n\nInterestingly enough, it seems that syscall.ParseDirent isn\u0027t used anywhere in the stdlib and is only exposed as a library function.",
+      "parentUuid": "c10bd067_0b46b35a",
+      "revId": "f1fe4835bebe36c93c4a41c3921b62efc092ebce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
