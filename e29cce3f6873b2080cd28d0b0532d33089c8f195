@@ -16,6 +16,23 @@
       "message": "@khr@golang.org Thank you for the review, I updated the changes. Could you please look into the new patchset",
       "revId": "e29cce3f6873b2080cd28d0b0532d33089c8f195",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dbb406b_10e72090",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59289
+      },
+      "writtenOn": "2023-07-05T13:58:33Z",
+      "side": 1,
+      "message": "@cherryyz@google.com, Thank\u0027s for the review. Could you please look into the new patchset",
+      "revId": "e29cce3f6873b2080cd28d0b0532d33089c8f195",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
