@@ -89,7 +89,15 @@ func (f *File) readdir(n int, mode readdirMode) (names []string, dirents []DirEn
 		if !ok {
 			break
 		}
-		if ino == 0 {
+		// Linux may return a zero inode for entries that were deleted but not
+		// yet removed from the directory;
+		// see https://www.spinics.net/lists/linux-fsdevel/msg95504.html
+		//
+		// In the case of wasip1, the host runtime might be running on Windows
+		// or might expose a remote file system which does not hvae the concept
+		// of inodes. Therefore, we cannot make the assumption that it is safe
+		// to skip inodes.
+		if ino == 0 && runtime.GOOS != "wasip1" {
 			continue
 		}
 		const namoff = uint64(unsafe.Offsetof(syscall.Dirent{}.Name))
