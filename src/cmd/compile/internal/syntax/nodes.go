@@ -408,10 +408,11 @@ type (
 	}
 
 	ForStmt struct {
-		Init SimpleStmt // incl. *RangeClause
-		Cond Expr
-		Post SimpleStmt
-		Body *BlockStmt
+		Init         SimpleStmt // incl. *RangeClause
+		Cond         Expr
+		Post         SimpleStmt
+		Body         *BlockStmt
+		DistinctVars bool // Go 1.22+ for loops: one var per iteration, not per loop
 		stmt
 	}
 

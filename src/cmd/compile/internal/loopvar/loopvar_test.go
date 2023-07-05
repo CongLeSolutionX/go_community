@@ -51,7 +51,7 @@ var cases = []testcase{
 }
 
 // TestLoopVar checks that the GOEXPERIMENT and debug flags behave as expected.
-func TestLoopVar(t *testing.T) {
+func TestLoopVarGo1_21(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -71,7 +71,7 @@ func TestLoopVar(t *testing.T) {
 	for i, tc := range cases {
 		for _, f := range tc.files {
 			source := f
-			cmd := testenv.Command(t, gocmd, "build", "-o", output, "-gcflags=-d=loopvar="+tc.lvFlag, source)
+			cmd := testenv.Command(t, gocmd, "build", "-o", output, "-gcflags=-lang=go1.21 -d=loopvar="+tc.lvFlag, source)
 			cmd.Env = append(cmd.Env, "GOEXPERIMENT=loopvar", "HOME="+tmpdir)
 			cmd.Dir = "testdata"
 			t.Logf("File %s loopvar=%s expect '%s' exit code %d", f, tc.lvFlag, tc.buildExpect, tc.expectRC)
@@ -103,7 +103,7 @@ func TestLoopVar(t *testing.T) {
 	}
 }
 
-func TestLoopVarInlines(t *testing.T) {
+func TestLoopVarInlinesGo1_21(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -125,7 +125,7 @@ func TestLoopVarInlines(t *testing.T) {
 		// This disables the loopvar change, except for the specified package.
 		// The effect should follow the package, even though everything (except "c")
 		// is inlined.
-		cmd := testenv.Command(t, gocmd, "run", "-gcflags="+pkg+"=-d=loopvar=1", root)
+		cmd := testenv.Command(t, gocmd, "run", "-gcflags="+root+"/...=-lang=go1.21", "-gcflags="+pkg+"=-d=loopvar=1", root)
 		cmd.Env = append(cmd.Env, "GOEXPERIMENT=noloopvar", "HOME="+tmpdir)
 		cmd.Dir = filepath.Join("testdata", "inlines")
 
@@ -166,6 +166,7 @@ func countMatches(s, re string) int {
 }
 
 func TestLoopVarHashes(t *testing.T) {
+	// This behavior does not depend on Go version (1.21 or greater)
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:

@@ -41,6 +41,7 @@ var (
 	go1_18 = version{1, 18}
 	go1_20 = version{1, 20}
 	go1_21 = version{1, 21}
+	go1_22 = version{1, 22}
 )
 
 // parseGoVersion parses a Go version string (such as "go1.12")
@@ -132,7 +133,7 @@ func (check *Checker) allowVersion(pkg *Package, at poser, v version) bool {
 
 	// If the source file declares its Go version, use that to decide.
 	if check.posVers != nil {
-		if src, ok := check.posVers[base(at.Pos())]; ok && src.major >= 1 {
+		if src, ok := check.posVers[underlyingBase(at.Pos())]; ok && src.major >= 1 {
 			return !src.before(v)
 		}
 	}
@@ -152,9 +153,9 @@ func (check *Checker) verifyVersionf(at poser, v version, format string, args ..
 	return true
 }
 
-// base finds the underlying PosBase of the source file containing pos,
+// underlyingBase finds the underlying PosBase of the source file containing pos,
 // skipping over intermediate PosBase layers created by //line directives.
-func base(pos syntax.Pos) *syntax.PosBase {
+func underlyingBase(pos syntax.Pos) *syntax.PosBase {
 	b := pos.Base()
 	for {
 		bb := b.Pos().Base()
