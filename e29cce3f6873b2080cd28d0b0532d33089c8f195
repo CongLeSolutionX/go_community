@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36455e61_91712182",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59289
+      },
+      "writtenOn": "2023-07-05T15:39:29Z",
+      "side": 1,
+      "message": "\u003e In cmd/asm/internal/asm/testdata/s390x.s b93a0008 is KDSA R0, R8. But here is R4. The second register doesn\u0027t matter?\n@cherryyz@google.com As per s390x ISA,for KDSA instruction(KDSA R1, R2) second operand(R2) is even-odd pair general register otherthan R0. For sign and verify function codes (1, 2, 3, 9, 10, 11, 17, 18, and 19), which use the ECDSA algorithm on NIST curves, ignore the contents of general registers R2 and R2 + 1.\nSo, In this case R2 field is ignored,It can be any even numbered register.",
+      "revId": "e29cce3f6873b2080cd28d0b0532d33089c8f195",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bc10a0b_d0446243",
