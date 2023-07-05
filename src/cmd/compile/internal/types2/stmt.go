@@ -669,6 +669,7 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 			check.use(s.Lhs) // avoid follow-up errors
 		}
 		check.stmt(inner, s.Body)
+		s.DistinctVars = check.allowVersion(check.pkg, s, go1_22)
 
 	default:
 		check.error(s, InvalidSyntaxTree, "invalid statement")
