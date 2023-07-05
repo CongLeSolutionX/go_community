@@ -71,6 +71,24 @@
       "parentUuid": "f55675c7_5de801c3",
       "revId": "fe3ac7415a446530584edb070be8df2495445c45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9e28e99_384b78ea",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-05T19:07:39Z",
+      "side": 1,
+      "message": "Might make sense to push up into arrayRangeClear, but seems fine to leave here for 1.21.",
+      "parentUuid": "68df5d6e_5b5542c0",
+      "revId": "fe3ac7415a446530584edb070be8df2495445c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
