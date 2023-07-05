@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea0b7b8d_8bc479db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-amd64,darwin-arm64",
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9380a22c_ef1dea9b",
+        "filename": "src/runtime/pprof/defs_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "Minor: use a space here. Thanks.",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 3
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7842f705_1fb2dea2",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "It is probably possible that there is only one executable mapping, or f1 and f2 are in the same mapping (which is probably very likely). In that case maybe we should use the same mapping for both? (Or skip.)",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 4
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b049163_19eed592",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "Can we just use `\u0026buf[0]`?",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea69dc5b_5eed6485",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "As these functions don\u0027t escape its arguments, we could add a //go:noescape pragma to the declaration. This allows the compiler to do stack allocation. (This should only affect performance, not correctness. See also the discussion about GC.)",
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0597e3f9_f02217f9",
+        "filename": "src/runtime/pprof/vminfo_darwin_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "Can we also test that the mapping actually contains the address of a function?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 2
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c577820f_fd033ab9",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "I don\u0027t think these callee-save registers? So they could be clobbered by the getpid call, at least in principle. Maybe it is easier to lift the getpid call to Go code. Or move DI to a callee-save register and load things out of it after the getpid call.",
+      "range": {
+        "startLine": 815,
+        "startChar": 0,
+        "endLine": 817,
+        "endChar": 31
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de85b216_d5cc5152",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "Minor: use tab here.",
+      "range": {
+        "startLine": 780,
+        "startChar": 0,
+        "endLine": 780,
+        "endChar": 4
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e372908_a418c700",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "Minor: use one tab. (Also below.)",
+      "range": {
+        "startLine": 781,
+        "startChar": 3,
+        "endLine": 781,
+        "endChar": 6
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01a3a161_9fb116ce",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "Same here for getpid possibly clobbering registers.",
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73f02e62_e6fb4afd",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-05T17:45:05Z",
+      "side": 1,
+      "message": "Minor: use tab. Thanks.",
+      "range": {
+        "startLine": 792,
+        "startChar": 0,
+        "endLine": 792,
+        "endChar": 4
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
