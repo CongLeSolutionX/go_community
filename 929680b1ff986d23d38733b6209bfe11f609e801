@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e898cbfd_15f81f03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-05T22:59:47Z",
+      "side": 1,
+      "message": "Thanks, but I think the existing code is fine here. Combining vars into a single line isn\u0027t necessarily a readability improvement, and changing \"POST\" to a constant doesn\u0027t seem worth the code churn.",
+      "revId": "929680b1ff986d23d38733b6209bfe11f609e801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
