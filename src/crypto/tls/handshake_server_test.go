@@ -1165,6 +1165,17 @@ func TestServerResumptionDisabled(t *testing.T) {
 	runServerTestTLS13(t, testIssue)
 	config.SessionTicketsDisabled = true
 	runServerTestTLS13(t, testResume)
+
+	configForClient := config.Clone()
+	config.GetConfigForClient = func(*ClientHelloInfo) (*Config, error) {
+		return configForClient, nil
+	}
+	config.SessionTicketsDisabled = false
+	configForClient.SessionTicketsDisabled = false
+	runServerTestTLS13(t, testIssue)
+	configForClient.SessionTicketsDisabled = true
+	runServerTestTLS13(t, testResume)
+	configForClient.SetSessionTicketKeys([][32]byte{{}}) // verify config mutex is unlocked
 }
 
 func TestFallbackSCSV(t *testing.T) {
