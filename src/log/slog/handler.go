@@ -192,7 +192,7 @@ type commonHandler struct {
 	// a call to WithAttrs.
 	groupPrefix string
 	groups      []string // all groups started from WithGroup
-	nOpenGroups int      // the number of groups opened in preformattedAttrs
+	nOpenGroups int      // the number of groups opened
 	mu          sync.Mutex
 	w           io.Writer
 }
@@ -221,6 +221,11 @@ func (h *commonHandler) enabled(l Level) bool {
 }
 
 func (h *commonHandler) withAttrs(as []Attr) *commonHandler {
+	// We are going to ignore empty groups, so if the entire slice consists of
+	// them, there is nothing to do.
+	if countEmptyGroups(as) == len(as) {
+		return h
+	}
 	h2 := h.clone()
 	// Pre-format the attributes as an optimization.
 	state := h2.newHandleState((*buffer.Buffer)(&h2.preformattedAttrs), false, "")
@@ -235,9 +240,6 @@ func (h *commonHandler) withAttrs(as []Attr) *commonHandler {
 	}
 	// Remember the new prefix for later keys.
 	h2.groupPrefix = state.prefix.String()
-	// Remember how many opened groups are in preformattedAttrs,
-	// so we don't open them again when we handle a Record.
-	h2.nOpenGroups = len(h2.groups)
 	return h2
 }
 
@@ -308,15 +310,18 @@ func (s *handleState) appendNonBuiltIns(r Record) {
 	}
 	// Attrs in Record -- unlike the built-in ones, they are in groups started
 	// from WithGroup.
-	s.prefix.WriteString(s.h.groupPrefix)
-	s.openGroups()
-	r.Attrs(func(a Attr) bool {
-		s.appendAttr(a)
-		return true
-	})
+	// If the record has no Attrs, don't output any groups.
+	if r.NumAttrs() > 0 {
+		s.prefix.WriteString(s.h.groupPrefix)
+		s.openGroups()
+		r.Attrs(func(a Attr) bool {
+			s.appendAttr(a)
+			return true
+		})
+	}
 	if s.h.json {
 		// Close all open groups.
-		for range s.h.groups {
+		for range s.h.groups[:s.h.nOpenGroups] {
 			s.buf.WriteByte('}')
 		}
 		// Close the top-level object.
@@ -379,6 +384,7 @@ func (s *handleState) openGroups() {
 	for _, n := range s.h.groups[s.h.nOpenGroups:] {
 		s.openGroup(n)
 	}
+	s.h.nOpenGroups = len(s.h.groups)
 }
 
 // Separator for group names and keys.
@@ -443,14 +449,13 @@ func (s *handleState) appendAttr(a Attr) {
 		}
 	}
 	if a.Value.Kind() == KindGroup {
-		attrs := a.Value.Group()
 		// Output only non-empty groups.
-		if len(attrs) > 0 {
+		if !a.Value.isEmptyGroup() {
 			// Inline a group with an empty key.
 			if a.Key != "" {
 				s.openGroup(a.Key)
 			}
-			for _, aa := range attrs {
+			for _, aa := range a.Value.group() {
 				s.appendAttr(aa)
 			}
 			if a.Key != "" {

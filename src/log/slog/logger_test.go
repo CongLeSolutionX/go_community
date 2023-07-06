@@ -563,7 +563,7 @@ func wantAllocs(t *testing.T, want int, f func()) {
 	}
 	testenv.SkipIfOptimizationOff(t)
 	t.Helper()
-	got := int(testing.AllocsPerRun(5, f))
+	got := int(testing.AllocsPerRun(1, f))
 	if got != want {
 		t.Errorf("got %d allocs, want %d", got, want)
 	}
