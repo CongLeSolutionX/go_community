@@ -16,6 +16,23 @@
       "message": "Thanks, but I think the existing code is fine here. Combining vars into a single line isn\u0027t necessarily a readability improvement, and changing \"POST\" to a constant doesn\u0027t seem worth the code churn.",
       "revId": "929680b1ff986d23d38733b6209bfe11f609e801",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4db3288a_fe7f7542",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-07-06T06:22:17Z",
+      "side": 1,
+      "message": "Thank you for the change @wzy! Indeed as Damien mentions, the change does not improove readability and the constant change won\u0027t do so either hence going to abandon this change. However, please don\u0027t be discouraged, we do highly welcome changes and look forward to more from you in the future. Thank you!",
+      "revId": "929680b1ff986d23d38733b6209bfe11f609e801",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
