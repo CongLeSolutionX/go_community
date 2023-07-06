@@ -33,6 +33,24 @@
       "message": "Do you need to add a new dependency in go/build/deps_test.go?  That is, does \"go test go/build\" pass with this CL?  I don\u0027t see a dependency from sort to slices.",
       "revId": "37875b46d24f262ec3d18b50fd55676638327fb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38d6de78_7f65b164",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2023-07-06T23:24:37Z",
+      "side": 1,
+      "message": "Done, thanks. I still need to untangle the tests - there\u0027s a cyclic dependency now because `slices/sort_test` imports `sort` for comparison, and `all.bash` doesn\u0027t like it. I\u0027ll do it in a separate CL",
+      "parentUuid": "f4ba2a60_f819755c",
+      "revId": "37875b46d24f262ec3d18b50fd55676638327fb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
