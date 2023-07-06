@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76cf1369_6e99a5b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2023-07-06T15:36:40Z",
+      "side": 1,
+      "message": "On hold until the 1.22 development window reopens",
+      "revId": "37875b46d24f262ec3d18b50fd55676638327fb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
