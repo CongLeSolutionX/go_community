@@ -5,10 +5,12 @@
 package sort_test
 
 import (
+	"cmp"
 	"fmt"
 	"internal/testenv"
 	"math"
 	"math/rand"
+	"slices"
 	. "sort"
 	"strconv"
 	stringspkg "strings"
@@ -20,7 +22,7 @@ var float64s = [...]float64{74.3, 59.0, math.Inf(1), 238.2, -784.0, 2.3, math.Na
 var strings = [...]string{"", "Hello", "foo", "bar", "foo", "f00", "%*&^*&^&", "***"}
 
 func TestSortIntSlice(t *testing.T) {
-	data := ints
+	data := slices.Clone(ints[:])
 	a := IntSlice(data[0:])
 	Sort(a)
 	if !IsSorted(a) {
@@ -30,7 +32,7 @@ func TestSortIntSlice(t *testing.T) {
 }
 
 func TestSortFloat64Slice(t *testing.T) {
-	data := float64s
+	data := slices.Clone(float64s[:])
 	a := Float64Slice(data[0:])
 	Sort(a)
 	if !IsSorted(a) {
@@ -39,8 +41,22 @@ func TestSortFloat64Slice(t *testing.T) {
 	}
 }
 
+// Compare Sort with slices.Sort sorting a float64 slice containing NaNs.
+func TestSortFloat64sCompareSlicesSort(t *testing.T) {
+	data := slices.Clone(float64s[:])
+	data2 := slices.Clone(data)
+
+	Sort(Float64Slice(data[0:]))
+	slices.Sort(data2)
+
+	// Compare for equality using cmp.Compare, which considers NaNs equal.
+	if !slices.EqualFunc(data, data2, func(a, b float64) bool { return cmp.Compare(a, b) == 0 }) {
+		t.Errorf("mismatch between Sort and slices.Sort: got %v, want %v", data, data2)
+	}
+}
+
 func TestSortStringSlice(t *testing.T) {
-	data := strings
+	data := slices.Clone(strings[:])
 	a := StringSlice(data[0:])
 	Sort(a)
 	if !IsSorted(a) {
@@ -50,7 +66,7 @@ func TestSortStringSlice(t *testing.T) {
 }
 
 func TestInts(t *testing.T) {
-	data := ints
+	data := slices.Clone(ints[:])
 	Ints(data[0:])
 	if !IntsAreSorted(data[0:]) {
 		t.Errorf("sorted %v", ints)
@@ -59,7 +75,7 @@ func TestInts(t *testing.T) {
 }
 
 func TestFloat64s(t *testing.T) {
-	data := float64s
+	data := slices.Clone(float64s[:])
 	Float64s(data[0:])
 	if !Float64sAreSorted(data[0:]) {
 		t.Errorf("sorted %v", float64s)
@@ -68,7 +84,7 @@ func TestFloat64s(t *testing.T) {
 }
 
 func TestStrings(t *testing.T) {
-	data := strings
+	data := slices.Clone(strings[:])
 	Strings(data[0:])
 	if !StringsAreSorted(data[0:]) {
 		t.Errorf("sorted %v", strings)
@@ -77,7 +93,7 @@ func TestStrings(t *testing.T) {
 }
 
 func TestSlice(t *testing.T) {
-	data := strings
+	data := slices.Clone(strings[:])
 	Slice(data[:], func(i, j int) bool {
 		return data[i] < data[j]
 	})
@@ -106,8 +122,8 @@ func TestSortLarge_Random(t *testing.T) {
 }
 
 func TestReverseSortIntSlice(t *testing.T) {
-	data := ints
-	data1 := ints
+	data := slices.Clone(ints[:])
+	data1 := slices.Clone(ints[:])
 	a := IntSlice(data[0:])
 	Sort(a)
 	r := IntSlice(data1[0:])
