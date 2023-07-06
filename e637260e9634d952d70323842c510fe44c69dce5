@@ -90,6 +90,24 @@
       "parentUuid": "69663622_ee684c6e",
       "revId": "e637260e9634d952d70323842c510fe44c69dce5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70115146_7bdb45bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-07-06T08:15:30Z",
+      "side": 1,
+      "message": "It should be said that these instructions have similar but not identical semantics . For example, the following two instructions have same function but operate on different data widths, the arrangements are S (32-bit) and D (64-bit) respectively.\n\n  LDFF1W  { \u003cZt\u003e.S }, \u003cPg\u003e/Z, [\u003cXn|SP\u003e, \u003cZm\u003e.S, \u003cmod\u003e #2]\n  LDFF1W  { \u003cZt\u003e.D }, \u003cPg\u003e/Z, [\u003cXn|SP\u003e, \u003cZm\u003e.D, \u003cmod\u003e #2]\n\nAs for why they are defined as two instructions, honestly I don\u0027t know.\n\nSo it is not to say that we can pick either instruction to encode. We need a way to find the right match.\n\nThe method I mentioned above (checking while encoding the element) can handle some of these cases, but not all of them.\n\nIn addition, since \"S\" and \"D\" are string constants and do not participate in encoding, if the user writes a different value, say \"B\", we need to be able to check it out. I haven\u0027t figured out how to do this check yet. This is another problem.\n\nConsidering these two problems, maybe we need to record the arrangement constant when parsing the XML files and save it in the instruction table. Or we implement these difficult instructions through the old optab.",
+      "parentUuid": "e0b8c0f7_d5c0fabc",
+      "revId": "e637260e9634d952d70323842c510fe44c69dce5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
