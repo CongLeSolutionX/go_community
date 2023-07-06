@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "882afcc9_c2f6d504",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-06T19:53:12Z",
+      "side": 1,
+      "message": "Ahh, thanks for elaborating Keith.\n\nYeah, let\u0027s just go back to the original CL of leaving arrayClear unchanged. Sorry for the hassle, Cuong.\n\nWe should probably also add a test case for this somewhere though, since evidently nothing caught this. Something like:\n\n```\nvar i int\nfor i \u003d range [5]struct{}{} {}\nassert(i \u003d\u003d 4)\n```",
+      "parentUuid": "4351886d_910879a3",
+      "revId": "fe3ac7415a446530584edb070be8df2495445c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f55675c7_5de801c3",
         "filename": "src/cmd/compile/internal/walk/range.go",
         "patchSetId": 2
