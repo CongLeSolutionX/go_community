@@ -16,6 +16,23 @@
       "message": "On hold until the 1.22 development window reopens",
       "revId": "37875b46d24f262ec3d18b50fd55676638327fb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ba2a60_f819755c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-06T20:25:07Z",
+      "side": 1,
+      "message": "Do you need to add a new dependency in go/build/deps_test.go?  That is, does \"go test go/build\" pass with this CL?  I don\u0027t see a dependency from sort to slices.",
+      "revId": "37875b46d24f262ec3d18b50fd55676638327fb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
