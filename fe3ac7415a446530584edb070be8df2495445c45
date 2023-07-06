@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4351886d_910879a3",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-06T17:42:33Z",
+      "side": 1,
+      "message": "Hmm, that makes sense, but sounds like would make the code more complex than just keep returning nil and let `walkClear` return the empty block stmt.\n\nWe could do the refactoring for 1.22, how do you think?",
+      "parentUuid": "17bbc258_223e2b65",
+      "revId": "fe3ac7415a446530584edb070be8df2495445c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f55675c7_5de801c3",
         "filename": "src/cmd/compile/internal/walk/range.go",
         "patchSetId": 2
