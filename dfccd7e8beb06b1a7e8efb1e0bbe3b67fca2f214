@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af5e32ff_50612083",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-06T17:51:36Z",
+      "side": 1,
+      "message": "This is subtle enough that I think it needs input from Filippo or Roland.",
+      "revId": "dfccd7e8beb06b1a7e8efb1e0bbe3b67fca2f214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3687c5a_747e5b1e",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-06T17:51:36Z",
+      "side": 1,
+      "message": "If we do want to support this, there should be a test for resuming a session with cloned configs.",
+      "revId": "dfccd7e8beb06b1a7e8efb1e0bbe3b67fca2f214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22d0e163_92c83729",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-06T17:51:36Z",
+      "side": 1,
+      "message": "`Config.Clone` clones the autoSessionTicketKeys, so this change seems to fit the existing model: A cloned config shares the same session ticket keys as the parent.\n\nIn practice, however, this isn\u0027t quite accurate: A cloned config shares the same session ticket keys as the parent until a key rotation event occurs, at which point the two configs diverge.\n\nA server which clones a base config for every new connection will have a race condition: If the session ticket keys reach their rotation period in between the clone and the use of the new config, the connection will receive a session ticket that cannot be resumed.\n\nI\u0027m not certain if that\u0027s an indication that cloning the server config on each new connection is not an intended use case, if cloned connections should share rotation state, or if this is unfortunate but something that can be ignored in practice since only a few connections will receive unusable tickets.",
+      "revId": "dfccd7e8beb06b1a7e8efb1e0bbe3b67fca2f214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
