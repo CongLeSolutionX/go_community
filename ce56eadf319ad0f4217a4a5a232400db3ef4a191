@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd143b7_fb1aa407",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-07-06T18:09:38Z",
+      "side": 1,
+      "message": "The Wazero team wrote a detailed rationale about why this change is meaningful at https://github.com/tetratelabs/wazero/blob/008bcdc75ea69d853b3979555758deb7b73dd329/RATIONALE.md#why-dont-we-require-inodes-to-be-non-zero",
+      "revId": "ce56eadf319ad0f4217a4a5a232400db3ef4a191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
