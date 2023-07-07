@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f4b3acb_e1ca0e8e",
+        "filename": "src/runtime/pprof/defs_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9380a22c_ef1dea9b",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 3
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7842f705_1fb2dea2",
@@ -110,6 +134,30 @@
       "writtenOn": "2023-07-05T17:45:05Z",
       "side": 1,
       "message": "It is probably possible that there is only one executable mapping, or f1 and f2 are in the same mapping (which is probably very likely). In that case maybe we should use the same mapping for both? (Or skip.)",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 4
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f8f1d4_18a7be3d",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand what you\u0027re suggesting. There is only one text segment unless the binary is run under rosetta (I added a comment here that mirrors the one in vminfo_darwin_test). When an x86 binary is run under rosetta the profile will incorrectly, show the x86 code. I don\u0027t propose to fix this since anyone encountering it has access to an apple silicon machine and it they are profiling the code then it\u0027s reasonable to expect that they intend to modify it and hence must have access to it. I could find a way to drop the rosetta segment I guess.",
+      "parentUuid": "7842f705_1fb2dea2",
       "range": {
         "startLine": 143,
         "startChar": 0,
@@ -143,6 +191,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c12878e_439f25eb",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b049163_19eed592",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea69dc5b_5eed6485",
@@ -162,6 +234,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3dadefac_a46c2eac",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done, but see comment on sys_darwin.go. The noescape prevents a crash.",
+      "parentUuid": "ea69dc5b_5eed6485",
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0597e3f9_f02217f9",
         "filename": "src/runtime/pprof/vminfo_darwin_test.go",
         "patchSetId": 5
@@ -173,6 +263,30 @@
       "writtenOn": "2023-07-05T17:45:05Z",
       "side": 1,
       "message": "Can we also test that the mapping actually contains the address of a function?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 2
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "066ca1e7_cc1d9388",
+        "filename": "src/runtime/pprof/vminfo_darwin_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0597e3f9_f02217f9",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -206,6 +320,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a589ab5_f6b5299e",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c577820f_fd033ab9",
+      "range": {
+        "startLine": 815,
+        "startChar": 0,
+        "endLine": 817,
+        "endChar": 31
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de85b216_d5cc5152",
@@ -219,6 +357,30 @@
       "writtenOn": "2023-07-05T17:45:05Z",
       "side": 1,
       "message": "Minor: use tab here.",
+      "range": {
+        "startLine": 780,
+        "startChar": 0,
+        "endLine": 780,
+        "endChar": 4
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19b021b9_b9798408",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de85b216_d5cc5152",
       "range": {
         "startLine": 780,
         "startChar": 0,
@@ -252,6 +414,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3786e5f9_a908423f",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e372908_a418c700",
+      "range": {
+        "startLine": 781,
+        "startChar": 3,
+        "endLine": 781,
+        "endChar": 6
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01a3a161_9fb116ce",
@@ -269,6 +455,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3801988c_eb620a4e",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01a3a161_9fb116ce",
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73f02e62_e6fb4afd",
@@ -282,6 +486,30 @@
       "writtenOn": "2023-07-05T17:45:05Z",
       "side": 1,
       "message": "Minor: use tab. Thanks.",
+      "range": {
+        "startLine": 792,
+        "startChar": 0,
+        "endLine": 792,
+        "endChar": 4
+      },
+      "revId": "81d64c6b654b89832058611d0c2b815a59bf8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f010d56e_b76c3c47",
+        "filename": "src/runtime/sys_darwin_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73f02e62_e6fb4afd",
       "range": {
         "startLine": 792,
         "startChar": 0,

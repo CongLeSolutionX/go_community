@@ -536,6 +536,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da9b72cd_66566462",
+        "filename": "src/runtime/pprof/vminfo_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a276737d_6375116d",
+      "range": {
+        "startLine": 54,
+        "startChar": 38,
+        "endLine": 54,
+        "endChar": 54
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "246f57db_47107ffc",
@@ -697,6 +721,30 @@
       "side": 1,
       "message": "Hmmm. That is interesting. It is more of the opposite: `uintptr(unsafe.Pointer(\u0026thing))` hides it from the GC, so the GC doesn\u0027t see `thing` is used and it could collect `thing` any time (even immediately). Making them pointer types is theoretically more correct. Maybe we still miss something.\n\nI guess what makes `uintptr` appears to work is that it also hides the object from the compiler\u0027s escape analysis. So the object is actually stack allocated, so it is effectively live as long as the stack frame is active. But this isn\u0027t (theoretically) the right way of doing it. The stacks may also move/grow/shrink, which may invalidate the uintptr stack addresses (which happens relatively rare so you may not see it). The right way to do stack allocation is to use the noescape pragma (I commented at vminfo_darwin.go https://go-review.git.corp.google.com/c/go/+/503919/5/src/runtime/pprof/vminfo_darwin.go#57). But it shouldn\u0027t crash with or without that.\n\nWhen you make them pointer types, did you change the `info` field in the struct definition (line 572 as of PS5) also a pointer type (unsafe.Pointer is fine)? If not, that may be related.",
       "parentUuid": "b0f15d4f_913a2024",
+      "range": {
+        "startLine": 558,
+        "startChar": 20,
+        "endLine": 558,
+        "endChar": 52
+      },
+      "revId": "2523a1f7292de7ec3545b720d8bdf8b3b36fa1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61302dc0_37b07dba",
+        "filename": "src/runtime/sys_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-07T20:37:46Z",
+      "side": 1,
+      "message": "well, making info and unsafe.Pointer (both parameter and args struct) only works with noescape, take away the noescape and it crashes.",
+      "parentUuid": "1780b816_53a52276",
       "range": {
         "startLine": 558,
         "startChar": 20,
