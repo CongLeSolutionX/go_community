@@ -90,6 +90,24 @@
       "parentUuid": "20baba5a_30331e52",
       "revId": "69c24f42758c34541b870b282d5e8cba10a106bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b75e8a2_dfdb3256",
+        "filename": "src/log/slog/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-07-07T16:51:12Z",
+      "side": 1,
+      "message": "Good point, never mind.",
+      "parentUuid": "ea7c4ce9_dea891e4",
+      "revId": "69c24f42758c34541b870b282d5e8cba10a106bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
