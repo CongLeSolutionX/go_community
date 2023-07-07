@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44fe78f_cdbf7ebc",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-07T02:23:18Z",
+      "side": 1,
+      "message": "Done.\n\nI sent https://go-review.googlesource.com/c/go/+/508335 for adding test cases.",
+      "parentUuid": "882afcc9_c2f6d504",
+      "revId": "fe3ac7415a446530584edb070be8df2495445c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f55675c7_5de801c3",
