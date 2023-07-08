@@ -88,6 +88,12 @@ func testWriter(t *testing.T, binary bool) {
 			in:   strings.Repeat(" ", 77),
 			want: strings.Repeat(" ", 75) + "=\r\n =20",
 		},
+		{
+			// Line break with period at the end.
+			in:    strings.Repeat(".", 76) + "\n.\nfooter.",
+			want:  strings.Repeat(".", 75) + "=\r\n=2E\r\n=2E\r\nfooter.",
+			wantB: strings.Repeat(".", 75) + "=\r\n.=0A.=0Afooter.",
+		},
 	}
 
 	for _, tt := range tests {

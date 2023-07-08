@@ -133,6 +133,13 @@ func (w *Writer) checkLastByte() error {
 	}
 
 	b := w.line[w.i-1]
+	if w.i == 1 && b == '.' {
+		w.i--
+		if err := w.encode(b); err != nil {
+			return err
+		}
+		return nil
+	}
 	if isWhitespace(b) {
 		w.i--
 		if err := w.encode(b); err != nil {

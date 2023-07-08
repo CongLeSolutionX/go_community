@@ -66,6 +66,12 @@ func TestReader(t *testing.T) {
 			want: "Now's the time for all folk to come to the aid of their country."},
 		{in: "accept UTF-8 right quotation mark: ’",
 			want: "accept UTF-8 right quotation mark: ’"},
+
+		{
+			// Line break with period at the end.
+			in:   strings.Repeat(".", 75) + "=\r\n=2E\r\n=2E\r\nfooter.",
+			want: strings.Repeat(".", 76) + "\r\n.\r\nfooter.",
+		},
 	}
 	for _, tt := range tests {
 		var buf strings.Builder
