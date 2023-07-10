@@ -70,6 +70,24 @@
       "message": "Maybe add a comment mentioning n\u003d\u003dnil is clearing an empty array.",
       "revId": "d629deb65df6c33b6c763108418756ff802552aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0247ea2b_ae9de18e",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-10T15:27:25Z",
+      "side": 1,
+      "message": "I think you mean an array which take zero memory:\n\n```\npackage main\n\nvar V \u003d make([]struct{}, 10)\n\nfunc main() {\n\tclear(V)\n}\n```\n\nThe array has 10 elems, but it take zero memory, so `clear(V)` does nothing.",
+      "parentUuid": "15e747a1_a5e27adf",
+      "revId": "d629deb65df6c33b6c763108418756ff802552aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
