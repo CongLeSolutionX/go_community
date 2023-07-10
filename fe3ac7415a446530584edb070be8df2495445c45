@@ -178,6 +178,24 @@
       "parentUuid": "a9e28e99_384b78ea",
       "revId": "fe3ac7415a446530584edb070be8df2495445c45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf6cd8ac_2023f862",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-10T16:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9238fe26_b603fb5f",
+      "revId": "fe3ac7415a446530584edb070be8df2495445c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
