@@ -26,6 +26,11 @@ func (cpu *cpuInfo) Name() string {
 			return
 		}
 		// TODO(martisch): use /proc/cpuinfo and /sys/devices/system/cpu/ on Linux as fallback.
+		if name := osCpuInfoName(); name != "" {
+			cpu.name = name
+			return
+		}
 	})
+
 	return cpu.name
 }
