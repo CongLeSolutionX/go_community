@@ -5,6 +5,8 @@
 #include "go_asm.h"
 #include "textflag.h"
 
+#ifndef GOOS_plan9
+
 TEXT	·IndexByte(SB), NOSPLIT, $0-40
 	MOVQ b_base+0(FP), SI
 	MOVQ b_len+8(FP), BX
@@ -147,3 +149,5 @@ avx2success:
 	MOVQ DX, (R8)
 	VZEROUPPER
 	RET
+
+#endif
