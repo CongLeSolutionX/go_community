@@ -564,7 +564,7 @@ var depsRules = `
 	< net/rpc/jsonrpc;
 
 	# System Information
-	internal/cpu, sync
+	internal/cpu, io, os, strings, sync
 	< internal/sysinfo;
 
 	# Test-only
