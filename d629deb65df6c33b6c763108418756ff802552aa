@@ -106,6 +106,24 @@
       "parentUuid": "0247ea2b_ae9de18e",
       "revId": "d629deb65df6c33b6c763108418756ff802552aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7e010f2_9e832c34",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-10T15:31:05Z",
+      "side": 1,
+      "message": "Yes, thanks. I think it is helpful to note that clear is no-op in this case so we can safely drop it.",
+      "parentUuid": "0247ea2b_ae9de18e",
+      "revId": "d629deb65df6c33b6c763108418756ff802552aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
