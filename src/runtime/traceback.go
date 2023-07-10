@@ -750,7 +750,20 @@ printloop:
 // concatenation.
 func funcNamePiecesForPrint(name string) (string, string, string) {
 	// Replace the shape name in generic function with "...".
-	i := bytealg.IndexByteString(name, '[')
+	var i int
+	if GOOS == "plan9" {
+		// Avoid IndexByteString on Plan 9 because it uses SSE instructions
+		// on x86 machines, and those are classified as floating point instructions,
+		// which are illegal in a note handler.
+		i = -1
+		for j, c := range name {
+			if c == '[' {
+				i = j
+			}
+		}
+	} else {
+		i = bytealg.IndexByteString(name, '[')
+	}
 	if i < 0 {
 		return name, "", ""
 	}
@@ -1140,6 +1153,18 @@ func showfuncinfo(sf srcFunc, firstFrame bool, calleeID abi.FuncID) bool {
 	// See golang.org/issue/5832.
 	if name == "runtime.gopanic" && !firstFrame {
 		return true
+	}
+
+	// Avoid IndexByteString on Plan 9 because it uses SSE instructions
+	// on x86 machines, and those are classified as floating point instructions,
+	// which are illegal in a note handler.
+	if GOOS == "plan9" {
+		for _, c := range name {
+			if c == '.' {
+				return !hasPrefix(name, "runtime.") || isExportedRuntime(name)
+			}
+		}
+		return false
 	}
 
 	return bytealg.IndexByteString(name, '.') >= 0 && (!hasPrefix(name, "runtime.") || isExportedRuntime(name))
