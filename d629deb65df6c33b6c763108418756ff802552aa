@@ -88,6 +88,24 @@
       "parentUuid": "15e747a1_a5e27adf",
       "revId": "d629deb65df6c33b6c763108418756ff802552aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ba5139_36ab8854",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-07-10T15:30:19Z",
+      "side": 1,
+      "message": "Something like this:\n\n```\nif n :\u003d arrayClear(n.X.Pos(), n.X, nil); n !\u003d nil {\n\treturn n\n}\n// If n \u003d\u003d nil, we are clearing an array which takes zero memory, do nothing.\nreturn ir.NewBlockStmt(n.Pos(), nil)\n```",
+      "parentUuid": "0247ea2b_ae9de18e",
+      "revId": "d629deb65df6c33b6c763108418756ff802552aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
