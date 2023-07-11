@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f0444b7_1df9d79c",
+        "filename": "src/internal/bytealg/indexbyte_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 63163
+      },
+      "writtenOn": "2023-07-11T18:53:38Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "f8da313d_a12733bd",
+      "revId": "c12daabe732b5df1f1a1026659e9a8ec189a3670",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7382760_7e35e7c1",
         "filename": "src/internal/bytealg/indexbyte_generic.go",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-11T17:50:14Z",
       "side": 1,
       "message": "This is just (!amd64 || plan9).",
+      "revId": "c12daabe732b5df1f1a1026659e9a8ec189a3670",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f8fc8b7_e53a787b",
+        "filename": "src/internal/bytealg/indexbyte_generic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 63163
+      },
+      "writtenOn": "2023-07-11T18:53:38Z",
+      "side": 1,
+      "message": "Also fixed.",
+      "parentUuid": "a7382760_7e35e7c1",
       "revId": "c12daabe732b5df1f1a1026659e9a8ec189a3670",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
