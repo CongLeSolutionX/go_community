@@ -34,6 +34,24 @@
       "parentUuid": "643ee647_447f94f5",
       "revId": "291150c4674b00f4fe82d7a10abacc4ff7de6367",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4659d747_b36d69ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63163
+      },
+      "writtenOn": "2023-07-11T17:50:49Z",
+      "side": 1,
+      "message": "That\u0027s updated now. I wonder whether to also change `func findnull(s *byte) int` in https://github.com/golang/go/blob/master/src/runtime/string.go#L516. (This looks like an optimized version.)",
+      "parentUuid": "b774c980_5952a5df",
+      "revId": "291150c4674b00f4fe82d7a10abacc4ff7de6367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
