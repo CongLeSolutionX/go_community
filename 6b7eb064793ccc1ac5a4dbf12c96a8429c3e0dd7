@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faa9e75e_49c079ce",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-11T17:56:04Z",
+      "side": 0,
+      "message": "It was redundant. (`(*child).serve` defers an unconditional call to `cleanUp`.)",
+      "parentUuid": "bff47c75_49e423e9",
+      "revId": "6b7eb064793ccc1ac5a4dbf12c96a8429c3e0dd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "384a7e2c_e8a8c99d",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-11T17:42:00Z",
       "side": 0,
       "message": "This cleanUp call also lost.",
+      "revId": "6b7eb064793ccc1ac5a4dbf12c96a8429c3e0dd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ba2d4b5_5a4c2d85",
+        "filename": "src/net/http/fcgi/fcgi_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-11T17:56:04Z",
+      "side": 0,
+      "message": "It was also redundant.",
+      "parentUuid": "384a7e2c_e8a8c99d",
       "revId": "6b7eb064793ccc1ac5a4dbf12c96a8429c3e0dd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
