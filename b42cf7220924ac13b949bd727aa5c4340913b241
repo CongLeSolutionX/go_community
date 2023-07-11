@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e6499e_d55ecf7f",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-07-11T16:31:28Z",
+      "side": 1,
+      "message": "I\u0027m a bit wary of redefining what assembly instructions do. Maybe we should add different LR variants as different instructions?\n \nI guess this is safe, as adding sync marks can\u0027t hurt (except perhaps performance-wise).\n\nIs this change necessary, given the fix to the other instructions below? My intuitions says LR needs only acquire semantics.",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061bf4ed_37f80943",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2080,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-07-11T16:31:28Z",
+      "side": 1,
+      "message": "This definitely looks like just a bug in the old code. SC should definitely be release, not acquire.",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
