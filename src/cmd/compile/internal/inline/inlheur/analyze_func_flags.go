@@ -155,9 +155,15 @@ func isPanicLike(n ir.Node) bool {
 		isWellKnownFunc(s, "runtime", "throw") {
 		return true
 	}
-	// FIXME: consult results of flags computation for
-	// previously analyzer Go functions, including props
-	// read from export data for functions in other packages.
+	// FIXME: ideally we would want to store the "calls exit/panic
+	// unconditionally" bit outside fn.Inl, since we want to look at
+	// that property for all funcs, not just those that are inlinable.
+	if name.Func.Inl != nil && name.Func.Inl.Properties != "" {
+		fp := DeserializeFromString(name.Func.Inl.Properties)
+		if fp.Flags&FuncPropUnconditionalPanicExit != 0 {
+			return true
+		}
+	}
 	return false
 }
 
