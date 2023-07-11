@@ -165,7 +165,7 @@ func newChild(rwc io.ReadWriteCloser, handler http.Handler) *child {
 }
 
 func (c *child) serve() {
-	defer c.conn.Close()
+	defer c.conn.closeOnce()
 	defer c.cleanUp()
 	var rec record
 	for {
