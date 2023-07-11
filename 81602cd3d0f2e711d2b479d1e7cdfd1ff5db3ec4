@@ -109,6 +109,24 @@
       "message": "From the peanut gallery: is nil supported or not? If yes, it seems like you\u0027ve eliminated all the testing of that. And if no I think you\u0027d want to disallow it?",
       "revId": "81602cd3d0f2e711d2b479d1e7cdfd1ff5db3ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e6aa97_1a16f6f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-07-11T16:46:16Z",
+      "side": 1,
+      "message": "Thanks. Added back a test.",
+      "parentUuid": "dabe6607_e0f3e7d2",
+      "revId": "81602cd3d0f2e711d2b479d1e7cdfd1ff5db3ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
