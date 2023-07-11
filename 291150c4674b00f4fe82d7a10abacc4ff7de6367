@@ -16,6 +16,24 @@
       "message": "This seems error-prone, in the sense that we might make this same mistake again and again.  Is there anything we can do to make it more reliable?",
       "revId": "291150c4674b00f4fe82d7a10abacc4ff7de6367",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b774c980_5952a5df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-07-11T15:04:29Z",
+      "side": 1,
+      "message": "I was thinking the same thing. It seems like we should just use the non-SSE IndexByteString on Plan 9.",
+      "parentUuid": "643ee647_447f94f5",
+      "revId": "291150c4674b00f4fe82d7a10abacc4ff7de6367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
