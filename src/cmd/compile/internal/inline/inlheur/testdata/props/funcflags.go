@@ -255,3 +255,12 @@ func T_exitinexpr(x int) {
 		println("foo")
 	}
 }
+
+// funcflags.go T_calls_callsexit 264 0 1
+// Flags FuncPropNeverReturns
+// <endpropsdump>
+// {"Flags":1,"ParamFlags":[0],"ResultFlags":[]}
+// <endfuncpreamble>
+func T_calls_callsexit(x int) {
+	exprcallsexit(x)
+}

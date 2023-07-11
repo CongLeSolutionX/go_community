@@ -188,9 +188,11 @@ func isPanicLike(n ir.Node) bool {
 		isWellKnownFunc(s, "runtime", "throw") {
 		return true
 	}
-	// FIXME: consult results of flags computation for
-	// previously analyzer Go functions, including props
-	// read from export data for functions in other packages.
+	if fp := propsForFunc(name.Func); fp != nil {
+		if fp.Flags&FuncPropNeverReturns != 0 {
+			return true
+		}
+	}
 	return false
 }
 
