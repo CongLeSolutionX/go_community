@@ -118,6 +118,9 @@ func DumpFuncProps(fn *ir.Func, dumpfile string) {
 			panic("unexpected missing props object for func")
 		}
 		dumpBuffer = append(dumpBuffer, fih)
+		if fn.Inl != nil && fn.Inl.Properties == "" {
+			fn.Inl.Properties = fih.props.SerializeToString()
+		}
 		return
 	}
 	outf, err := os.OpenFile(dumpfile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
