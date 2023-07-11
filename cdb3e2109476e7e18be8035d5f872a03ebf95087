@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4911369f_eb6e9871",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 35211
+      },
+      "writtenOn": "2023-07-11T17:01:24Z",
+      "side": 1,
+      "message": "\u003e It seems to me that in general a PID 1 Go program shouldn\u0027t need to care about child processes that are reparented.\n\nApart from contrived use cases where processes create new sessions, daemonize, etc., reparenting may already happen if any direct child of PID 1 terminates (e.g., crashes) before grandchildren do. This is not an uncommon use case if you ask me.\n\nI didn\u0027t write this patch just for the sake of it. This issue is a real problem for me for Buildbarn, a distributed build cluster for Bazel (https://github.com/buildbarn). There I see that if I need to kill build actions due to them exceeding their timeout, we often leave processes behind.\n\nI have strongly considered completely banning the use of os/exec in the codebase, but it simply leads to too much code duplication. If there was a way to use os/exec, but swap out the bottom half that does the waiting, I would have already done so.\n\n\u003e It\u0027s not clear to me that we need to make every Go program support reaping zombies just because it is PID 1. For example, I assume that C programs do not routinely do that.\n\nThat\u0027s correct. Most C programs also don\u0027t do it properly. But a lot of things have changed since the bulk of software built in C was written. For example, Docker became a thing and Google released a tool named Kubernetes that allows you to run Docker containers at scale.\n\nComing back to the topic of how common it is to run Go binaries as PID 1, I just noticed that if I literally follow the instructions on https://hub.docker.com/_/golang, I end up with exactly that:\n\n    $ cat Dockerfile       \n    FROM golang:1.20\n    WORKDIR /usr/src/app\n    COPY go.mod ./\n    RUN go mod download \u0026\u0026 go mod verify\n    COPY . .\n    RUN go build -v -o /usr/local/bin/app ./...\n    CMD [\"app\"]\n    $ cat main.go   \n    package main\n    import (\n    \t\"fmt\"\n    \t\"os\"\n    )\n    func main() {\n    \tfmt.Println(os.Getpid())\n    }\n    $ docker build -t my-golang-app .                        \n    $ docker run -it --rm --name my-running-app my-golang-app\n    1",
+      "parentUuid": "e36ce2d0_133d59c8",
+      "revId": "cdb3e2109476e7e18be8035d5f872a03ebf95087",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9fd2c83b_6dd271bf",
         "filename": "src/syscall/exec_unix.go",
         "patchSetId": 1
