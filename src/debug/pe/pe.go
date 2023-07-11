@@ -4,6 +4,8 @@
 
 package pe
 
+import "strconv"
+
 type FileHeader struct {
 	Machine              uint16
 	NumberOfSections     uint16
@@ -86,6 +88,9 @@ type OptionalHeader64 struct {
 	DataDirectory               [16]DataDirectory
 }
 
+// Machine is found in Header.Machine.
+type Machine uint16
+
 const (
 	IMAGE_FILE_MACHINE_UNKNOWN     = 0x0
 	IMAGE_FILE_MACHINE_AM33        = 0x1d3
@@ -115,6 +120,39 @@ const (
 	IMAGE_FILE_MACHINE_RISCV64     = 0x5064
 	IMAGE_FILE_MACHINE_RISCV128    = 0x5128
 )
+
+var machineStrings = []intName{
+	{0x0, "IMAGE_FILE_MACHINE_UNKNOWN"},
+	{0x1d3, "IMAGE_FILE_MACHINE_AM33"},
+	{0x8664, "IMAGE_FILE_MACHINE_AMD64"},
+	{0x1c0, "IMAGE_FILE_MACHINE_ARM"},
+	{0x1c4, "IMAGE_FILE_MACHINE_ARMNT"},
+	{0xaa64, "IMAGE_FILE_MACHINE_ARM64"},
+	{0xebc, "IMAGE_FILE_MACHINE_EBC"},
+	{0x14c, "IMAGE_FILE_MACHINE_I386"},
+	{0x200, "IMAGE_FILE_MACHINE_IA64"},
+	{0x6232, "IMAGE_FILE_MACHINE_LOONGARCH32"},
+	{0x6264, "IMAGE_FILE_MACHINE_LOONGARCH64"},
+	{0x9041, "IMAGE_FILE_MACHINE_M32R"},
+	{0x266, "IMAGE_FILE_MACHINE_MIPS16"},
+	{0x366, "IMAGE_FILE_MACHINE_MIPSFPU"},
+	{0x466, "IMAGE_FILE_MACHINE_MIPSFPU16"},
+	{0x1f0, "IMAGE_FILE_MACHINE_POWERPC"},
+	{0x1f1, "IMAGE_FILE_MACHINE_POWERPCFP"},
+	{0x166, "IMAGE_FILE_MACHINE_R4000"},
+	{0x1a2, "IMAGE_FILE_MACHINE_SH3"},
+	{0x1a3, "IMAGE_FILE_MACHINE_SH3DSP"},
+	{0x1a6, "IMAGE_FILE_MACHINE_SH4"},
+	{0x1a8, "IMAGE_FILE_MACHINE_SH5"},
+	{0x1c2, "IMAGE_FILE_MACHINE_THUMB"},
+	{0x169, "IMAGE_FILE_MACHINE_WCEMIPSV2"},
+	{0x5032, "IMAGE_FILE_MACHINE_RISCV32"},
+	{0x5064, "IMAGE_FILE_MACHINE_RISCV64"},
+	{0x5128, "IMAGE_FILE_MACHINE_RISCV128"},
+}
+
+func (i Machine) String() string   { return stringName(uint32(i), machineStrings, false) }
+func (i Machine) GoString() string { return stringName(uint32(i), machineStrings, true) }
 
 // IMAGE_DIRECTORY_ENTRY constants
 const (
@@ -187,3 +225,20 @@ const (
 	IMAGE_DLLCHARACTERISTICS_GUARD_CF              = 0x4000
 	IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 0x8000
 )
+
+type intName struct {
+	i uint32
+	s string
+}
+
+func stringName(i uint32, names []intName, goSyntax bool) string {
+	for _, n := range names {
+		if n.i == i {
+			if goSyntax {
+				return "pe." + n.s
+			}
+			return n.s
+		}
+	}
+	return strconv.FormatUint(uint64(i), 10)
+}
