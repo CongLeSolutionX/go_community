@@ -73,6 +73,9 @@ func DumpFuncProps(fn *ir.Func, dumpfile string) {
 			props: fp,
 		}
 		dumpBuffer = append(dumpBuffer, entry)
+		if fn.Inl != nil && fn.Inl.Properties == nil {
+			fn.Inl.Properties = fp
+		}
 		return
 	}
 	outf, err := os.OpenFile(dumpfile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)

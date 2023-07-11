@@ -165,3 +165,7 @@ func T_exitinexpr(x int) {
 		println("foo")
 	}
 }
+
+func T_calls_callsexit(x int) {
+	exprcallsexit(x)
+}

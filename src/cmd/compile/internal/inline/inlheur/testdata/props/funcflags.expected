@@ -194,3 +194,14 @@ T_exitinexpr
 	"ReturnFlags": []
 }
 =-=-=-
+T_calls_callsexit
+// Flags: FuncPropUnconditionalPanicExit
+===
+{
+	"Flags": 1,
+	"RecvrParamFlags": [
+		0
+	],
+	"ReturnFlags": []
+}
+=-=-=-
