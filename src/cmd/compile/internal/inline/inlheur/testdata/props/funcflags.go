@@ -281,3 +281,12 @@ func T_exitinexpr(x int) {
 		println("foo")
 	}
 }
+
+// funcflags.go T_calls_callsexit 288
+// Flags: FuncPropUnconditionalPanicExit
+// =====
+// {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =-=-=
+func T_calls_callsexit(x int) {
+	exprcallsexit(x)
+}
