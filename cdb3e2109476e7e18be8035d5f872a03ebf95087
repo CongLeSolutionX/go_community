@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e36ce2d0_133d59c8",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-11T13:57:01Z",
+      "side": 1,
+      "message": "I haven\u0027t fully read read the CL, but the description suggests that it does more than is required to run as PID 1.  It seems to me that in general a PID 1 Go program shouldn\u0027t need to care about child processes that are reparented.  The os/exec code should always wait for a known process, not for an arbitrary process.  It\u0027s not clear to me that we need to make every Go program support reaping zombies just because it is PID 1.  For example, I assume that C programs do not routinely do that.",
+      "parentUuid": "b2a10cf5_05c42405",
+      "revId": "cdb3e2109476e7e18be8035d5f872a03ebf95087",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9fd2c83b_6dd271bf",
         "filename": "src/syscall/exec_unix.go",
         "patchSetId": 1
