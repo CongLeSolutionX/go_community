@@ -308,7 +308,7 @@ func (check *Checker) initFiles(files []*syntax.File) {
 			if check.posVers == nil {
 				check.posVers = make(map[*syntax.PosBase]version)
 			}
-			check.posVers[base(file.Pos())] = v
+			check.posVers[underlyingBase(file.Pos())] = v
 		}
 	}
 }

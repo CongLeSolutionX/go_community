@@ -7,6 +7,7 @@
 package types2
 
 import (
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/syntax"
 	"go/constant"
 	. "internal/types/errors"
@@ -645,6 +646,15 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 	case *syntax.ForStmt:
 		inner |= breakOk | continueOk
 
+		lv := base.Debug.LoopVar
+		is122 := check.allowVersion(check.pkg, s, go1_22)
+		is121 := check.allowVersion(check.pkg, s, go1_21)
+		// New loop semantics in 1.21 respects the setting of Debug.LoopVar (which also depends on GOEXPERIMENT, and loopvarhash)
+		// Turning off loopvar for 1.22 is only possible with loopvarhash=qn
+		// Debug.LoopVar values to be preserved for 1.21 compatibility are 1 and 2.
+		// -gcflags=-d=loopvar=3 enables logging for 1.22 but does not turn it on for 1.21.
+		s.DistinctVars = is122 || is121 && lv > 0 && lv != 3
+
 		if rclause, _ := s.Init.(*syntax.RangeClause); rclause != nil {
 			check.rangeStmt(inner, s, rclause)
 			break
@@ -669,7 +679,6 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 			check.use(s.Lhs) // avoid follow-up errors
 		}
 		check.stmt(inner, s.Body)
-		s.DistinctVars = check.allowVersion(check.pkg, s, go1_22)
 
 	default:
 		check.error(s, InvalidSyntaxTree, "invalid statement")
