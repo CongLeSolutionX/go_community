@@ -2066,18 +2066,25 @@ func instructionsForProg(p *obj.Prog) []*instruction {
 	case ASW, ASH, ASB, ASD, AFSW, AFSD:
 		return instructionsForStore(p, ins.as, p.To.Reg)
 
-	case ALRW, ALRD:
-		// Set aq to use acquire access ordering, which matches Go's memory requirements.
-		ins.funct7 = 2
-		ins.rs1, ins.rs2 = uint32(p.From.Reg), REG_ZERO
-
 	case AADDI, AANDI, AORI, AXORI:
 		inss = instructionsForOpImmediate(p, ins.as, p.Reg)
 
-	case ASCW, ASCD, AAMOSWAPW, AAMOSWAPD, AAMOADDW, AAMOADDD, AAMOANDW, AAMOANDD, AAMOORW, AAMOORD,
+	case ALRW, ALRD:
+		// Set aqrl to use acquire & release access ordering,
+		// which matches Go's memory requirements of sequential consistency
+		ins.funct7 = 3
+		ins.rs1, ins.rs2 = uint32(p.From.Reg), REG_ZERO
+
+	case ASCW, ASCD:
+		// Set release access ordering by default
+		ins.funct7 = 1
+		ins.rd, ins.rs1, ins.rs2 = uint32(p.RegTo2), uint32(p.To.Reg), uint32(p.From.Reg)
+
+	case AAMOSWAPW, AAMOSWAPD, AAMOADDW, AAMOADDD, AAMOANDW, AAMOANDD, AAMOORW, AAMOORD,
 		AAMOXORW, AAMOXORD, AAMOMINW, AAMOMIND, AAMOMINUW, AAMOMINUD, AAMOMAXW, AAMOMAXD, AAMOMAXUW, AAMOMAXUD:
-		// Set aq to use acquire access ordering, which matches Go's memory requirements.
-		ins.funct7 = 2
+		// Set aqrl to use acquire & release access ordering,
+		// which matches Go's memory requirements of sequential consistency
+		ins.funct7 = 3
 		ins.rd, ins.rs1, ins.rs2 = uint32(p.RegTo2), uint32(p.To.Reg), uint32(p.From.Reg)
 
 	case AECALL, AEBREAK, ARDCYCLE, ARDTIME, ARDINSTRET:
