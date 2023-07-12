@@ -59,6 +59,30 @@
       },
       "revId": "6e96acf33231c686b89cc78001af40e36d27914a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6712889_727d93fb",
+        "filename": "src/cmd/go/internal/gover/toolchain.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-07-12T13:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05699e8f_eac7c092",
+      "range": {
+        "startLine": 18,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "6e96acf33231c686b89cc78001af40e36d27914a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
