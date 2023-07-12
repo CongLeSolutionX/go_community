@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35fc01b5_8206d4fc",
+        "filename": "src/slices/slices_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2023-07-12T12:28:10Z",
+      "side": 0,
+      "message": "Because of the sort-\u003eslices dependency, slices can no longer import \"testing\" so its tests have to move to the \"slices_test\" package, which doesn\u0027t have access to unexported functions like rotateLeft. \n\nIt\u0027s possible to do more acrobatics to test this function anyway, but I believe it\u0027s tested quite well via Insert already, so this separate test is not strictly necessary. \n\nOpen to suggestions",
+      "revId": "af8f94e3c5885647d6f85d2d5227b5fc6b637c52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
