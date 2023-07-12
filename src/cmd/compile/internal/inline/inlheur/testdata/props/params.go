@@ -21,11 +21,13 @@ type I interface {
 func (r T) Blarg() {
 }
 
-// params.go T_feeds_if_simple 30
+// params.go T_feeds_if_simple 32
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// callsite: params.go:34:10|0 "" 0
+// =+=+=
 // =-=-=
 func T_feeds_if_simple(x int) {
 	if x < 100 {
@@ -34,11 +36,13 @@ func T_feeds_if_simple(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_pointer 43
+// params.go T_feeds_if_pointer 47
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// callsite: params.go:49:10|0 "" 0
+// =+=+=
 // =-=-=
 func T_feeds_if_pointer(xp *int) {
 	if xp != nil {
@@ -47,12 +51,15 @@ func T_feeds_if_pointer(xp *int) {
 	println(xp)
 }
 
-// params.go T.T_feeds_if_simple_method 57
+// params.go T.T_feeds_if_simple_method 64
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 //   1: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8,8],"ReturnFlags":[]}
+// callsite: params.go:66:10|0 "" 0
+// callsite: params.go:69:10|1 "" 0
+// =+=+=
 // =-=-=
 func (r T) T_feeds_if_simple_method(x int) {
 	if x < 100 {
@@ -64,11 +71,13 @@ func (r T) T_feeds_if_simple_method(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_blanks 73
+// params.go T_feeds_if_blanks 82
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// callsite: params.go:85:10|0 "" 0
+// =+=+=
 // =-=-=
 func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
 	// blanks ignored; from a props perspective "x" is param 0
@@ -78,11 +87,13 @@ func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
 	println(x)
 }
 
-// params.go T_feeds_if_with_copy 87
+// params.go T_feeds_if_with_copy 98
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// callsite: params.go:102:10|0 "" 0
+// =+=+=
 // =-=-=
 func T_feeds_if_with_copy(x int) {
 	// simple copy here -- we get this case
@@ -93,9 +104,11 @@ func T_feeds_if_with_copy(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_with_copy_expr 100
+// params.go T_feeds_if_with_copy_expr 113
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// callsite: params.go:117:10|0 "" 0
+// =+=+=
 // =-=-=
 func T_feeds_if_with_copy_expr(x int) {
 	// this case (copy of expression) currently not handled.
@@ -106,11 +119,12 @@ func T_feeds_if_with_copy_expr(x int) {
 	println(x)
 }
 
-// params.go T_feeds_switch 115
+// params.go T_feeds_switch 129
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_switch(x int) {
 	switch x {
@@ -122,9 +136,10 @@ func T_feeds_switch(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_toocomplex 129
+// params.go T_feeds_if_toocomplex 144
 // =====
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_toocomplex(x int, y int) {
 	// not handled at the moment; we only look for cases where
@@ -136,9 +151,10 @@ func T_feeds_if_toocomplex(x int, y int) {
 	println(x + y)
 }
 
-// params.go T_feeds_if_redefined 143
+// params.go T_feeds_if_redefined 159
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_redefined(x int) {
 	if x < G {
@@ -149,9 +165,10 @@ func T_feeds_if_redefined(x int) {
 	}
 }
 
-// params.go T_feeds_if_redefined2 156
+// params.go T_feeds_if_redefined2 173
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_redefined2(x int) {
 	// this currently classifies "x" as "no info", since the analysis we
@@ -166,12 +183,13 @@ func T_feeds_if_redefined2(x int) {
 	}
 }
 
-// params.go T_feeds_multi_if 176
+// params.go T_feeds_multi_if 194
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 //   1: ParamNoInfo
 // =====
 // {"Flags":0,"RecvrParamFlags":[8,0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_multi_if(x int, y int) {
 	// Here we have one "if" that is too complex (x < y) but one that is
@@ -188,9 +206,10 @@ func T_feeds_multi_if(x int, y int) {
 	println(x + y)
 }
 
-// params.go T_feeds_if_redefined_indirectwrite 195
+// params.go T_feeds_if_redefined_indirectwrite 214
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_redefined_indirectwrite(x int) {
 	ax := &x
@@ -202,9 +221,10 @@ func T_feeds_if_redefined_indirectwrite(x int) {
 	}
 }
 
-// params.go T_feeds_if_redefined_indirectwrite_copy 209
+// params.go T_feeds_if_redefined_indirectwrite_copy 229
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_redefined_indirectwrite_copy(x int) {
 	// we don't catch this case, "x" is marked as no info,
@@ -219,11 +239,12 @@ func T_feeds_if_redefined_indirectwrite_copy(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr1 228
+// params.go T_feeds_if_expr1 249
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_expr1(x int) {
 	if x == 101 || x == 102 || x&0xf == 0 {
@@ -231,9 +252,10 @@ func T_feeds_if_expr1(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr2 238
+// params.go T_feeds_if_expr2 260
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_expr2(x int) {
 	if (x*x)-(x+x)%x == 101 || x&0xf == 0 {
@@ -241,9 +263,10 @@ func T_feeds_if_expr2(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr3 248
+// params.go T_feeds_if_expr3 271
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_expr3(x int) {
 	if x-(x&0x1)^378 > (1 - G) {
@@ -251,9 +274,10 @@ func T_feeds_if_expr3(x int) {
 	}
 }
 
-// params.go T_feeds_if_shift_may_panic 258
+// params.go T_feeds_if_shift_may_panic 282
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[0]}
+// =+=+=
 // =-=-=
 func T_feeds_if_shift_may_panic(x int) *int {
 	// here if "x" is a constant like 2, we could simplify the "if",
@@ -265,9 +289,10 @@ func T_feeds_if_shift_may_panic(x int) *int {
 	return &G
 }
 
-// params.go T_feeds_if_maybe_divide_by_zero 272
+// params.go T_feeds_if_maybe_divide_by_zero 297
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_if_maybe_divide_by_zero(x int) {
 	if 99/x == 3 {
@@ -276,11 +301,12 @@ func T_feeds_if_maybe_divide_by_zero(x int) {
 	println("blarg")
 }
 
-// params.go T_feeds_indcall 285
+// params.go T_feeds_indcall 311
 // RecvrParamFlags:
 //   0: ParamFeedsIndirectCall
 // =====
 // {"Flags":0,"RecvrParamFlags":[4],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_indcall(x func()) {
 	if G != 20 {
@@ -288,11 +314,12 @@ func T_feeds_indcall(x func()) {
 	}
 }
 
-// params.go T_feeds_indcall_and_if 297
+// params.go T_feeds_indcall_and_if 324
 // RecvrParamFlags:
 //   0: ParamFeedsIndirectCall|ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[12],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_indcall_and_if(x func()) {
 	if x != nil {
@@ -300,11 +327,12 @@ func T_feeds_indcall_and_if(x func()) {
 	}
 }
 
-// params.go T_feeds_indcall_with_copy 309
+// params.go T_feeds_indcall_with_copy 337
 // RecvrParamFlags:
 //   0: ParamFeedsIndirectCall
 // =====
 // {"Flags":0,"RecvrParamFlags":[4],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_indcall_with_copy(x func()) {
 	xx := x
@@ -314,11 +342,12 @@ func T_feeds_indcall_with_copy(x func()) {
 	xx()
 }
 
-// params.go T_feeds_interface_method_call 323
+// params.go T_feeds_interface_method_call 352
 // RecvrParamFlags:
 //   0: ParamFeedsInterfaceMethodCall
 // =====
 // {"Flags":0,"RecvrParamFlags":[2],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_feeds_interface_method_call(i I) {
 	i.Blarg()
