@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb34e185_96759888",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-12T03:07:23Z",
+      "side": 1,
+      "message": "I grepped Go repo and only runtime/internal/atomic using this LR, I think it\u0027s safe to change this default encoding. GNU as using suffix for different mode i.e. `lr.w.aqrl`. Maybe we can add this later in 1.22 after floating point round mode CL 504737 been apply?",
+      "parentUuid": "24e6499e_d55ecf7f",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "061bf4ed_37f80943",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-11T16:31:28Z",
       "side": 1,
       "message": "This definitely looks like just a bug in the old code. SC should definitely be release, not acquire.",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "450fe154_2293a5e4",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2080,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-12T03:07:23Z",
+      "side": 1,
+      "message": "Should I send two CLs?",
+      "parentUuid": "061bf4ed_37f80943",
       "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
