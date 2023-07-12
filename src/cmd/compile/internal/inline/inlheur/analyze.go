@@ -36,6 +36,7 @@ type fnInlHeur struct {
 	file  string
 	line  uint
 	props *FuncProps
+	cstab CallSiteTab
 }
 
 var fpmap = map[*ir.Func]fnInlHeur{}
@@ -44,13 +45,18 @@ func AnalyzeFunc(fn *ir.Func) *FuncProps {
 	if fih, ok := fpmap[fn]; ok {
 		return fih.props
 	}
-	fp := computeFuncProps(fn)
+	fp, fcstab := computeFuncProps(fn)
 	file, line := fnFileLine(fn)
 	entry := fnInlHeur{
 		fname: fn.Sym().Name,
 		file:  file,
 		line:  line,
 		props: fp,
+		cstab: fcstab,
+	}
+	// Merge this functions call sites into the package level table.
+	if err := cstab.merge(cstab); err != nil {
+		base.Fatalf("%v", err)
 	}
 	fpmap[fn] = entry
 	return fp
@@ -59,7 +65,7 @@ func AnalyzeFunc(fn *ir.Func) *FuncProps {
 // computeFuncProps examines the Go function 'fn' and computes for it
 // a function "properties" object, to be used to drive inlining
 // heuristics. See comments on the FuncProps type for more info.
-func computeFuncProps(fn *ir.Func) *FuncProps {
+func computeFuncProps(fn *ir.Func) (*FuncProps, CallSiteTab) {
 	if debugTrace != 0 {
 		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
 			fn.Sym().Name, fn)
@@ -69,11 +75,16 @@ func computeFuncProps(fn *ir.Func) *FuncProps {
 	ffa := makeFuncFlagsAnalyzer(fn)
 	analyzers := []propAnalyzer{ffa, ra, pa}
 	runAnalyzersOnFunction(fn, analyzers)
-	return &FuncProps{
+	fp := &FuncProps{
 		Flags:           ffa.results(),
 		ReturnFlags:     ra.results(),
 		RecvrParamFlags: pa.results(),
 	}
+
+	// Now build up a partial table of callsites for this func.
+	cstab := computeCallSiteTable(fn)
+
+	return fp, cstab
 }
 
 func runAnalyzersOnFunction(fn *ir.Func, analyzers []propAnalyzer) {
@@ -117,7 +128,7 @@ func DumpFuncProps(fn *ir.Func, dumpfile string) {
 	defer outf.Close()
 	dumpFilePreamble(outf)
 	for _, entry := range dumpBuffer {
-		if err := dumpFnPreamble(outf, &entry); err != nil {
+		if err := dumpFnPreamble(outf, &entry, nil); err != nil {
 			base.Fatalf("function props dump: %v\n", err)
 		}
 	}
@@ -133,9 +144,9 @@ func dumpFilePreamble(w io.Writer) {
 	fmt.Fprintf(w, "// %s\n", preambleDelimiter)
 }
 
-// dumpFilePreamble writes out a function-level preamble for a given
+// dumpFnPreamble writes out a function-level preamble for a given
 // Go function as part of a function properties dump.
-func dumpFnPreamble(w io.Writer, fih *fnInlHeur) error {
+func dumpFnPreamble(w io.Writer, fih *fnInlHeur, ecst encodedCallSiteTab) error {
 	fmt.Fprintf(w, "// %s %s %d\n", fih.file, fih.fname, fih.line)
 	// emit props as comments, followed by delimiter
 	fmt.Fprintf(w, "%s// %s\n", fih.props.ToString("// "), comDelimiter)
@@ -143,7 +154,9 @@ func dumpFnPreamble(w io.Writer, fih *fnInlHeur) error {
 	if err != nil {
 		return fmt.Errorf("marshall error %v\n", err)
 	}
-	fmt.Fprintf(w, "// %s\n// %s\n", string(data), fnDelimiter)
+	fmt.Fprintf(w, "// %s\n", string(data))
+	dumpCallSiteComments(w, fih.cstab, ecst)
+	fmt.Fprintf(w, "// %s\n", fnDelimiter)
 	return nil
 }
 
@@ -152,6 +165,7 @@ func dumpFnPreamble(w io.Writer, fih *fnInlHeur) error {
 const preambleDelimiter = "=^=^="
 const fnDelimiter = "=-=-="
 const comDelimiter = "====="
+const csDelimiter = "=+=+="
 
 // dumpBuffer stores up function properties dumps when
 // "-d=dumpinlfuncprops=..." is in effect.
