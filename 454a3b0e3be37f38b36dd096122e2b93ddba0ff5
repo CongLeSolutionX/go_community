@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f430eec_666af679",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-12T20:19:10Z",
+      "side": 1,
+      "message": "Unfortunately I don\u0027t think we can just assume it exists — there may be tools out in the world that check out a copy of a module, run `go mod vendor`, and then push the code elsewhere. (I think Google Cloud Run might do that? Not sure.)\n\nBut if there is no explicit Go version, I think `modload.MainModules.GoVersion()` returns a default — is that default low enough not to matter for the checks here?",
+      "parentUuid": "7089af97_33b4567b",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52b76207_1ee42d88",
         "filename": "src/cmd/go/internal/modcmd/vendor.go",
         "patchSetId": 12
@@ -211,6 +229,30 @@
       "side": 1,
       "message": "Changed to call mvs.NewGraph with rs.rootModules",
       "parentUuid": "bc3c0422_cb8977d4",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3086e156_b1cf048b",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-12T20:19:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1507101b_83a33d7e",
       "range": {
         "startLine": 215,
         "startChar": 0,
@@ -394,6 +436,30 @@
       "side": 1,
       "message": "Updated rootsFromModFile to conditionally add toolchainRoot",
       "parentUuid": "7c8f6ec9_1173edde",
+      "range": {
+        "startLine": 1295,
+        "startChar": 0,
+        "endLine": 1306,
+        "endChar": 2
+      },
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd13518b_72d5ffb0",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-12T20:19:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7cb58254_9ec6a546",
       "range": {
         "startLine": 1295,
         "startChar": 0,
