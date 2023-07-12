@@ -11,10 +11,11 @@ package funcflags
 
 import "os"
 
-// funcflags.go T_simple 19
+// funcflags.go T_simple 20
 // Flags: FuncPropUnconditionalPanicExit
 // =====
 // {"Flags":1,"RecvrParamFlags":[],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_simple() {
 	panic("bad")
@@ -23,12 +24,13 @@ func T_simple() {
 //
 //	0: ParamFeedsIfOrSwitch
 //
-// funcflags.go T_nested 33
+// funcflags.go T_nested 35
 // Flags: FuncPropUnconditionalPanicExit
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_nested(x int) {
 	if x < 10 {
@@ -41,12 +43,13 @@ func T_nested(x int) {
 //
 //	0: ParamFeedsIfOrSwitch
 //
-// funcflags.go T_block1 51
+// funcflags.go T_block1 54
 // Flags: FuncPropUnconditionalPanicExit
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_block1(x int) {
 	panic("bad")
@@ -56,11 +59,12 @@ func T_block1(x int) {
 }
 
 //
-// funcflags.go T_block2 65
+// funcflags.go T_block2 69
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_block2(x int) {
 	if x < 10 {
@@ -72,12 +76,13 @@ func T_block2(x int) {
 //
 //	0: ParamFeedsIfOrSwitch
 //
-// funcflags.go T_switches1 82
+// funcflags.go T_switches1 87
 // Flags: FuncPropUnconditionalPanicExit
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_switches1(x int) {
 	switch x {
@@ -92,11 +97,12 @@ func T_switches1(x int) {
 //
 //	0: ParamFeedsIfOrSwitch
 //
-// funcflags.go T_switches1a 101
+// funcflags.go T_switches1a 107
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_switches1a(x int) {
 	switch x {
@@ -108,11 +114,12 @@ func T_switches1a(x int) {
 //
 //	0: ParamFeedsIfOrSwitch
 //
-// funcflags.go T_switches2 117
+// funcflags.go T_switches2 124
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_switches2(x int) {
 	switch x {
@@ -126,9 +133,10 @@ func T_switches2(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_switches3 133
+// funcflags.go T_switches3 141
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_switches3(x any) {
 	switch x.(type) {
@@ -142,12 +150,13 @@ func T_switches3(x any) {
 //
 //	0: ParamFeedsIfOrSwitch
 //
-// funcflags.go T_switches4 152
+// funcflags.go T_switches4 161
 // Flags: FuncPropUnconditionalPanicExit
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_switches4(x int) {
 	switch x {
@@ -163,9 +172,10 @@ func T_switches4(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_recov 170
+// funcflags.go T_recov 180
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_recov(x int) {
 	if x := recover(); x != nil {
@@ -173,10 +183,11 @@ func T_recov(x int) {
 	}
 }
 
-// funcflags.go T_forloops1 181
+// funcflags.go T_forloops1 192
 // Flags: FuncPropUnconditionalPanicExit
 // =====
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_forloops1(x int) {
 	for {
@@ -184,9 +195,10 @@ func T_forloops1(x int) {
 	}
 }
 
-// funcflags.go T_forloops2 191
+// funcflags.go T_forloops2 203
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_forloops2(x int) {
 	for {
@@ -198,9 +210,10 @@ func T_forloops2(x int) {
 	}
 }
 
-// funcflags.go T_forloops3 205
+// funcflags.go T_forloops3 218
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_forloops3(x int) {
 	for i := 0; i < 101; i++ {
@@ -217,9 +230,10 @@ func T_forloops3(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_hasgotos 224
+// funcflags.go T_hasgotos 238
 // =====
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[]}
+// =+=+=
 // =-=-=
 func T_hasgotos(x int, y int) {
 	{
@@ -247,12 +261,15 @@ func T_hasgotos(x int, y int) {
 //
 //	0: ParamFeedsIfOrSwitch
 //
-// funcflags.go T_callsexit 257
+// funcflags.go T_callsexit 274
 // Flags: FuncPropUnconditionalPanicExit
 // RecvrParamFlags:
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// callsite: funcflags.go:276:10|0 "" 0
+// callsite: funcflags.go:278:9|1 "" 0
+// =+=+=
 // =-=-=
 func T_callsexit(x int) {
 	if x < 0 {
@@ -266,9 +283,11 @@ func exprcallsexit(x int) int {
 	return x
 }
 
-// funcflags.go T_exitinexpr 273
+// funcflags.go T_exitinexpr 292
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// callsite: funcflags.go:297:18|0 "" 0
+// =+=+=
 // =-=-=
 func T_exitinexpr(x int) {
 	// This function does indeed unconditionally call exit, since the
@@ -280,10 +299,12 @@ func T_exitinexpr(x int) {
 	}
 }
 
-// funcflags.go T_calls_callsexit 288
+// funcflags.go T_calls_callsexit 309
 // Flags: FuncPropUnconditionalPanicExit
 // =====
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// callsite: funcflags.go:310:15|0 "" 0
+// =+=+=
 // =-=-=
 func T_calls_callsexit(x int) {
 	exprcallsexit(x)

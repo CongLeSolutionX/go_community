@@ -12,6 +12,7 @@ import (
 	"internal/testenv"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -20,9 +21,9 @@ var remasterflag = flag.Bool("update-expected", false, "if true, generate update
 
 func TestFuncProperties(t *testing.T) {
 	td := t.TempDir()
-	//td = "/tmp/qqq"
-	//os.RemoveAll(td)
-	//os.Mkdir(td, 0777)
+	// td = "/tmp/qqq"
+	// os.RemoveAll(td)
+	// os.Mkdir(td, 0777)
 	testenv.MustHaveGoBuild(t)
 
 	// NOTE: this testpoint has the unfortunate characteristic that it
@@ -65,11 +66,11 @@ func TestFuncProperties(t *testing.T) {
 			if err != nil {
 				t.Fatalf("reading func prop dump: %v", err)
 			}
-			if dentry == nil || dentry.fname == "" {
+			if dentry == nil || dentry.fih.fname == "" {
 				// end of file
 				break
 			}
-			if !interestingToCompare(dentry.fname) {
+			if !interestingToCompare(dentry.fih.fname) {
 				continue
 			}
 			eentry, err := ereader.readEntry()
@@ -78,12 +79,12 @@ func TestFuncProperties(t *testing.T) {
 			}
 			if eentry == nil {
 				t.Errorf("missing expected results for %q, skipping",
-					dentry.fname)
+					dentry.fih.fname)
 				continue
 			}
-			if dentry.fname != eentry.fname {
+			if dentry.fih.fname != eentry.fih.fname {
 				t.Errorf("got fn %q wanted %q, skipping checks",
-					dentry.fname, eentry.fname)
+					dentry.fih.fname, eentry.fih.fname)
 				continue
 			}
 			compareEntries(t, tc, dentry, eentry)
@@ -110,10 +111,10 @@ func paramsToString(params []ParamPropBits) string {
 	return sb.String()
 }
 
-func compareEntries(t *testing.T, tc string, dentry *fnInlHeur, eentry *fnInlHeur) {
-	dfp := dentry.props
-	efp := eentry.props
-	dfn := dentry.fname
+func compareEntries(t *testing.T, tc string, dentry *dumpEntry, eentry *dumpEntry) {
+	dfp := dentry.fih.props
+	efp := eentry.fih.props
+	dfn := dentry.fih.fname
 
 	// Compare function flags.
 	if dfp.Flags != efp.Flags {
@@ -134,6 +135,25 @@ func compareEntries(t *testing.T, tc string, dentry *fnInlHeur, eentry *fnInlHeu
 		t.Errorf("Params mismatch for %q: got:\n%swant:\n%s",
 			dfn, pgot, pwant)
 	}
+	// Compare call sites.
+	for k, ve := range eentry.callsites {
+		if vd, ok := dentry.callsites[k]; !ok {
+			t.Errorf("missing expected callsite %q in func %q",
+				dfn, k)
+			continue
+		} else {
+			if vd != ve {
+				t.Errorf("callsite %q in func %q: got %s want %s",
+					k, dfn, vd.String(), ve.String())
+			}
+		}
+	}
+	for k := range dentry.callsites {
+		if _, ok := eentry.callsites[k]; !ok {
+			t.Errorf("unexpected extra callsite %q in func %q",
+				dfn, k)
+		}
+	}
 }
 
 type dumpReader struct {
@@ -141,6 +161,15 @@ type dumpReader struct {
 	t  *testing.T
 	p  string
 	ln int
+}
+
+type callSiteResult struct {
+	flags int
+}
+
+type dumpEntry struct {
+	fih       fnInlHeur
+	callsites encodedCallSiteTab
 }
 
 func makeDumpReader(t *testing.T, path string) (*dumpReader, error) {
@@ -213,18 +242,18 @@ func (dr *dumpReader) readObjBlob(delim string) (string, error) {
 // flag. It deserializes the json for the func properties and
 // returns the resulting properties and function name. EOF is
 // signaled by a nil FuncProps return (with no error
-func (dr *dumpReader) readEntry() (*fnInlHeur, error) {
-	var fih fnInlHeur
+func (dr *dumpReader) readEntry() (*dumpEntry, error) {
+	var de dumpEntry
 	if !dr.scan() {
 		return nil, nil
 	}
 	// first line contains info about function: file/name/line
 	info := dr.curLine()
 	chunks := strings.Fields(info)
-	fih.file = chunks[0]
-	fih.fname = chunks[1]
-	if _, err := fmt.Sscanf(chunks[2], "%d", &fih.line); err != nil {
-		return nil, err
+	de.fih.file = chunks[0]
+	de.fih.fname = chunks[1]
+	if _, err := fmt.Sscanf(chunks[2], "%d", &de.fih.line); err != nil {
+		return nil, fmt.Errorf("scanning line %q: %v", info, err)
 	}
 	// consume comments until and including delimiter
 	for {
@@ -243,16 +272,39 @@ func (dr *dumpReader) readEntry() (*fnInlHeur, error) {
 	if err := json.Unmarshal([]byte(line), fp); err != nil {
 		return nil, err
 	}
-	fih.props = fp
+	de.fih.props = fp
 
-	// Consume delimiter.
+	// Consume callsites.
+	de.callsites = make(encodedCallSiteTab)
+	for dr.scan() {
+		line := dr.curLine()
+		if line == csDelimiter {
+			break
+		}
+		// expected format: "// callsite: <expanded pos> <desc> <flags>"
+		fields := strings.Fields(line)
+		if len(fields) != 4 {
+			return nil, fmt.Errorf("malformed callsite %s line %d: %s",
+				dr.p, dr.ln, line)
+		}
+		tag := fields[1]
+		flagstr := fields[3]
+		flags, err := strconv.Atoi(flagstr)
+		if err != nil {
+			return nil, fmt.Errorf("bad flags val %s line %d: %q err=%v",
+				dr.p, dr.ln, line, err)
+		}
+		de.callsites[tag] = CSPropBits(flags)
+	}
+
+	// Consume function delimiter.
 	dr.scan()
 	line = dr.curLine()
 	if line != fnDelimiter {
 		return nil, fmt.Errorf("malformed testcase file %q, missing delimiter %q", dr.p, fnDelimiter)
 	}
 
-	return &fih, nil
+	return &de, nil
 }
 
 func gatherPropsDumpForFile(t *testing.T, testcase string, td string) (string, error) {
@@ -326,7 +378,7 @@ func updateExpected(t *testing.T, testcase string, dr *dumpReader) {
 			// We have a function definition. Read the corresponding entry in the dump.
 			dentry, err := dr.readEntry()
 			if err != nil {
-				t.Fatalf("reading func prop dump: %v", err)
+				t.Fatalf("reading func prop dump for %q: %v", gopath, err)
 			}
 			if dentry == nil {
 				// short dump? should never happen.
@@ -334,11 +386,11 @@ func updateExpected(t *testing.T, testcase string, dr *dumpReader) {
 			}
 
 			// Decide whether this func is compare-worthy.
-			if interestingToCompare(dentry.fname) {
+			if interestingToCompare(dentry.fih.fname) {
 
 				// Emit preamble for function.
 				var sb strings.Builder
-				dumpFnPreamble(&sb, dentry)
+				dumpFnPreamble(&sb, &dentry.fih, dentry.callsites)
 				newgolines = append(newgolines,
 					strings.Split(strings.TrimSpace(sb.String()), "\n")...)
 			}
