@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "632a02b8_9af608a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-12T15:10:48Z",
+      "side": 1,
+      "message": "Do we actually need seq cst? My understanding is that acquire/release should be sufficient for the atomics implemented.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 75
+      },
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24e6499e_d55ecf7f",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
@@ -38,6 +61,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61d0d6f1_44babfd7",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-12T15:10:48Z",
+      "side": 1,
+      "message": "There\u0027s a bit to unpack here...\n\nIt looks like the real issue here is that SC is setting \u0027aq\u0027 instead of \u0027rl\u0027 (which , combined with \u0027rl\u0027 being needed on the AMO* instructions. I do not believe that we need or want \u0027aqrl\u0027 for LR. To quote the RISC-V ISA:\n\n\"Software should not set the rl bit on an LR instruction unless the aq bit is also set, nor should software set the aq bit on an SC instruction unless the rl bit is also set. LR.rl and SC.aq instructions are not guaranteed to provide any stronger ordering than those with both bits clear, but may result in lower performance.\"\n\nI\u0027m not really concerned by changing the assembly opcodes - very few things use these instructions (I\u0027d be surprised if there is anything outside of the Go\u0027s runtime/internal/atomic package) and the change is to fix incorrect operations (which only improves the situation by strengthening ordering).\n\nI do not think we should add suffixed modes - that seems unnecessary and would only potentially lead to further incorrect usage/performance issues.",
+      "parentUuid": "eb34e185_96759888",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "061bf4ed_37f80943",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
@@ -67,6 +108,24 @@
       "side": 1,
       "message": "Should I send two CLs?",
       "parentUuid": "061bf4ed_37f80943",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62055756_33490c19",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2080,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-12T15:10:48Z",
+      "side": 1,
+      "message": "Fixing SC and AMO* in the same CL seems sensible to me.",
+      "parentUuid": "450fe154_2293a5e4",
       "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
