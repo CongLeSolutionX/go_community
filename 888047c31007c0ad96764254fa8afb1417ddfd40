@@ -165,6 +165,30 @@
       },
       "revId": "888047c31007c0ad96764254fa8afb1417ddfd40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de7b814c_ba8f9dde",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-12T17:37:20Z",
+      "side": 1,
+      "message": "If it is simple enough I think it may be fine to include in the same backport CL. Or you can open a new issue for 1.19.12 milestone. Thanks.",
+      "parentUuid": "f7b1b715_f60282bd",
+      "range": {
+        "startLine": 414,
+        "startChar": 15,
+        "endLine": 414,
+        "endChar": 22
+      },
+      "revId": "888047c31007c0ad96764254fa8afb1417ddfd40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
