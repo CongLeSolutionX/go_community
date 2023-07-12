@@ -21,11 +21,12 @@ type I interface {
 func (r T) Blarg() {
 }
 
-// params.go T_feeds_if_simple 30
+// params.go T_feeds_if_simple 31
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_simple(x int) {
 	if x < 100 {
@@ -34,11 +35,12 @@ func T_feeds_if_simple(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_pointer 43
+// params.go T_feeds_if_pointer 45
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_pointer(xp *int) {
 	if xp != nil {
@@ -47,12 +49,13 @@ func T_feeds_if_pointer(xp *int) {
 	println(xp)
 }
 
-// params.go T.T_feeds_if_simple_method 57
+// params.go T.T_feeds_if_simple_method 60
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 //   1 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8,8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func (r T) T_feeds_if_simple_method(x int) {
 	if x < 100 {
@@ -64,11 +67,12 @@ func (r T) T_feeds_if_simple_method(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_blanks 73
+// params.go T_feeds_if_blanks 77
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
 	// blanks ignored; from a props perspective "x" is param 0
@@ -78,11 +82,12 @@ func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
 	println(x)
 }
 
-// params.go T_feeds_if_with_copy 87
+// params.go T_feeds_if_with_copy 92
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_with_copy(x int) {
 	// simple copy here -- we get this case
@@ -93,9 +98,10 @@ func T_feeds_if_with_copy(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_with_copy_expr 100
+// params.go T_feeds_if_with_copy_expr 106
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_with_copy_expr(x int) {
 	// this case (copy of expression) currently not handled.
@@ -106,11 +112,12 @@ func T_feeds_if_with_copy_expr(x int) {
 	println(x)
 }
 
-// params.go T_feeds_switch 115
+// params.go T_feeds_switch 122
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_switch(x int) {
 	switch x {
@@ -122,9 +129,10 @@ func T_feeds_switch(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_toocomplex 129
+// params.go T_feeds_if_toocomplex 137
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_toocomplex(x int, y int) {
 	// not handled at the moment; we only look for cases where
@@ -136,9 +144,10 @@ func T_feeds_if_toocomplex(x int, y int) {
 	println(x + y)
 }
 
-// params.go T_feeds_if_redefined 143
+// params.go T_feeds_if_redefined 152
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_redefined(x int) {
 	if x < G {
@@ -149,9 +158,10 @@ func T_feeds_if_redefined(x int) {
 	}
 }
 
-// params.go T_feeds_if_redefined2 156
+// params.go T_feeds_if_redefined2 166
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_redefined2(x int) {
 	// this currently classifies "x" as "no info", since the analysis we
@@ -166,12 +176,13 @@ func T_feeds_if_redefined2(x int) {
 	}
 }
 
-// params.go T_feeds_multi_if 176
+// params.go T_feeds_multi_if 187
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 //   1 ParamNoInfo
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8,0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_multi_if(x int, y int) {
 	// Here we have one "if" that is too complex (x < y) but one that is
@@ -188,9 +199,10 @@ func T_feeds_multi_if(x int, y int) {
 	println(x + y)
 }
 
-// params.go T_feeds_if_redefined_indirectwrite 195
+// params.go T_feeds_if_redefined_indirectwrite 207
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_redefined_indirectwrite(x int) {
 	ax := &x
@@ -202,9 +214,10 @@ func T_feeds_if_redefined_indirectwrite(x int) {
 	}
 }
 
-// params.go T_feeds_if_redefined_indirectwrite_copy 209
+// params.go T_feeds_if_redefined_indirectwrite_copy 222
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_redefined_indirectwrite_copy(x int) {
 	// we don't catch this case, "x" is marked as no info,
@@ -219,11 +232,12 @@ func T_feeds_if_redefined_indirectwrite_copy(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr1 228
+// params.go T_feeds_if_expr1 242
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_expr1(x int) {
 	if x == 101 || x == 102 || x&0xf == 0 {
@@ -231,9 +245,10 @@ func T_feeds_if_expr1(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr2 238
+// params.go T_feeds_if_expr2 253
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_expr2(x int) {
 	if (x*x)-(x+x)%x == 101 || x&0xf == 0 {
@@ -241,9 +256,10 @@ func T_feeds_if_expr2(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr3 248
+// params.go T_feeds_if_expr3 264
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_expr3(x int) {
 	if x-(x&0x1)^378 > (1 - G) {
@@ -251,9 +267,10 @@ func T_feeds_if_expr3(x int) {
 	}
 }
 
-// params.go T_feeds_if_shift_may_panic 258
+// params.go T_feeds_if_shift_may_panic 275
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[0]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_shift_may_panic(x int) *int {
 	// here if "x" is a constant like 2, we could simplify the "if",
@@ -265,9 +282,10 @@ func T_feeds_if_shift_may_panic(x int) *int {
 	return &G
 }
 
-// params.go T_feeds_if_maybe_divide_by_zero 272
+// params.go T_feeds_if_maybe_divide_by_zero 290
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_maybe_divide_by_zero(x int) {
 	if 99/x == 3 {
@@ -276,11 +294,12 @@ func T_feeds_if_maybe_divide_by_zero(x int) {
 	println("blarg")
 }
 
-// params.go T_feeds_indcall 285
+// params.go T_feeds_indcall 304
 // RecvrParamFlags
 //   0 ParamFeedsIndirectCall
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[4],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_indcall(x func()) {
 	if G != 20 {
@@ -288,11 +307,12 @@ func T_feeds_indcall(x func()) {
 	}
 }
 
-// params.go T_feeds_indcall_and_if 297
+// params.go T_feeds_indcall_and_if 317
 // RecvrParamFlags
 //   0 ParamFeedsIndirectCall|ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[12],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_indcall_and_if(x func()) {
 	if x != nil {
@@ -300,11 +320,12 @@ func T_feeds_indcall_and_if(x func()) {
 	}
 }
 
-// params.go T_feeds_indcall_with_copy 309
+// params.go T_feeds_indcall_with_copy 330
 // RecvrParamFlags
 //   0 ParamFeedsIndirectCall
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[4],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_indcall_with_copy(x func()) {
 	xx := x
@@ -314,11 +335,12 @@ func T_feeds_indcall_with_copy(x func()) {
 	xx()
 }
 
-// params.go T_feeds_interface_method_call 323
+// params.go T_feeds_interface_method_call 345
 // RecvrParamFlags
 //   0 ParamFeedsInterfaceMethodCall
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[2],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_feeds_interface_method_call(i I) {
 	i.Blarg()
