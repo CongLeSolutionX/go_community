@@ -15,6 +15,7 @@ import "os"
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_simple() {
 	panic("bad")
@@ -26,6 +27,7 @@ func T_simple() {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_nested(x int) {
 	if x < 10 {
@@ -41,6 +43,7 @@ func T_nested(x int) {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_block1(x int) {
 	panic("bad")
@@ -54,6 +57,7 @@ func T_block1(x int) {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_block2(x int) {
 	if x < 10 {
@@ -68,6 +72,7 @@ func T_block2(x int) {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_switches1(x int) {
 	switch x {
@@ -84,6 +89,7 @@ func T_switches1(x int) {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_switches1a(x int) {
 	switch x {
@@ -97,6 +103,7 @@ func T_switches1a(x int) {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_switches2(x int) {
 	switch x {
@@ -113,6 +120,7 @@ func T_switches2(x int) {
 // funcflags.go T_switches3 117
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_switches3(x interface{}) {
 	switch x.(type) {
@@ -129,6 +137,7 @@ func T_switches3(x interface{}) {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_switches4(x int) {
 	switch x {
@@ -147,6 +156,7 @@ func T_switches4(x int) {
 // funcflags.go T_recov 151
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_recov(x int) {
 	if x := recover(); x != nil {
@@ -158,6 +168,7 @@ func T_recov(x int) {
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_forloops1(x int) {
 	for {
@@ -168,6 +179,7 @@ func T_forloops1(x int) {
 // funcflags.go T_forloops2 172
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_forloops2(x int) {
 	for {
@@ -182,6 +194,7 @@ func T_forloops2(x int) {
 // funcflags.go T_forloops3 186
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_forloops3(x int) {
 	for i := 0; i < 101; i++ {
@@ -201,6 +214,7 @@ func T_forloops3(x int) {
 // funcflags.go T_hasgotos 205
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_hasgotos(x int, y int) {
 	{
@@ -231,6 +245,9 @@ func T_hasgotos(x int, y int) {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
+// callsite: funcflags.go:237:10|0 "" 0
+// callsite: funcflags.go:239:9|1 "" 0
+// <endcallsites>
 // <endfuncpreamble>
 func T_callsexit(x int) {
 	if x < 0 {
@@ -247,6 +264,8 @@ func exprcallsexit(x int) int {
 // funcflags.go T_exitinexpr 251
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// callsite: funcflags.go:256:18|0 "" 0
+// <endcallsites>
 // <endfuncpreamble>
 func T_exitinexpr(x int) {
 	// This function does indeed unconditionally call exit, since the
@@ -262,6 +281,8 @@ func T_exitinexpr(x int) {
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
+// callsite: funcflags.go:267:15|0 "" 0
+// <endcallsites>
 // <endfuncpreamble>
 func T_calls_callsexit(x int) {
 	exprcallsexit(x)

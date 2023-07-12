@@ -33,6 +33,7 @@ type Itf interface {
 //   0 ReturnIsAllocatedMem
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[],"ReturnFlags":[2]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_simple_allocmem() *Bar {
 	return &Bar{}
@@ -45,6 +46,7 @@ func T_simple_allocmem() *Bar {
 //   0 ReturnIsAllocatedMem
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[2]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_allocmem_two_returns(x int) *Bar {
 	// multiple returns
@@ -62,6 +64,7 @@ func T_allocmem_two_returns(x int) *Bar {
 //   0 ReturnIsAllocatedMem
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[2]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_allocmem_three_returns(x int) []*Bar {
 	// more multiple returns
@@ -81,6 +84,7 @@ func T_allocmem_three_returns(x int) []*Bar {
 //   0 ReturnAlwaysSameConstant
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[],"ReturnFlags":[8]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_return_nil() *Bar {
 	// simple case: no alloc
@@ -92,6 +96,7 @@ func T_return_nil() *Bar {
 //   0 ReturnAlwaysSameConstant
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[8]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_multi_return_nil(x, y bool) *Bar {
 	if x && y {
@@ -103,6 +108,7 @@ func T_multi_return_nil(x, y bool) *Bar {
 // returns.go T_multi_return_nil_anomoly 107
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[0]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_multi_return_nil_anomoly(x, y bool) Itf {
 	if x && y {
@@ -116,6 +122,7 @@ func T_multi_return_nil_anomoly(x, y bool) Itf {
 // returns.go T_multi_return_some_nil 120
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[0]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_multi_return_some_nil(x, y bool) *Bar {
 	if x && y {
@@ -132,6 +139,7 @@ var GB Bar
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[0]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_mixed_returns(x int) *Bar {
 	// mix of alloc and non-alloc
@@ -147,6 +155,7 @@ func T_mixed_returns(x int) *Bar {
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[0]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_mixed_returns_slice(x int) []*Bar {
 	// mix of alloc and non-alloc
@@ -170,6 +179,7 @@ func T_mixed_returns_slice(x int) []*Bar {
 //   3 ReturnAlwaysSameConstant
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[0,0,0,8]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_maps_and_channels(x int, b bool) (bool, map[int]int, chan bool, unsafe.Pointer) {
 	// maps and channels
@@ -181,6 +191,7 @@ func T_maps_and_channels(x int, b bool) (bool, map[int]int, chan bool, unsafe.Po
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[0,0]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_assignment_to_named_returns(x int) (r1 *uint64, r2 *uint64) {
 	// assignments to named returns and then "return" not supported
@@ -200,6 +211,7 @@ func T_assignment_to_named_returns(x int) (r1 *uint64, r2 *uint64) {
 //   1 ReturnIsAllocatedMem
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[2,2]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_named_returns_but_return_explicit_values(x int) (r1 *uint64, r2 *uint64) {
 	// named returns ok if all returns are non-empty
@@ -216,6 +228,7 @@ func T_named_returns_but_return_explicit_values(x int) (r1 *uint64, r2 *uint64) 
 //   0 ReturnIsConcreteTypeConvertedToInterface
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[4]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_return_concrete_type_to_itf(x, y int) Itf {
 	return &Bar{}
@@ -226,6 +239,7 @@ func T_return_concrete_type_to_itf(x, y int) Itf {
 //   0 ReturnIsConcreteTypeConvertedToInterface
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[4]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_return_concrete_type_to_itfwith_copy(x, y int) Itf {
 	b := &Bar{}
@@ -236,6 +250,7 @@ func T_return_concrete_type_to_itfwith_copy(x, y int) Itf {
 // returns.go T_return_concrete_type_to_itf_mixed 240
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[0]}
+// <endcallsites>
 // <endfuncpreamble>
 func T_return_concrete_type_to_itf_mixed(x, y int) Itf {
 	if x < y {
