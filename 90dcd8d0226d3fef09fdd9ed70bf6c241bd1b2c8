@@ -72,6 +72,23 @@
       "message": "Ian, per our discussion I\u0027ve used build constraints to work around the bootstrapping issue. PTAL\n\nAnother problem that had to be solved is the new circular dependency arising from the sort-\u003eslices dependency. Since several stdlib packages depend on sort, including \"testing\", I had to move all slices tests into a slices_test package. Moreover, since many tests and benchmarks in slices depended on sort, I moved these to sort_test instead. This seems more natural now given the dependencies (compare the packages in a place where both are present), but maybe it\u0027s possible to keep them where they are, moving them to slices_test. I don\u0027t feel strongly either way.",
       "revId": "90dcd8d0226d3fef09fdd9ed70bf6c241bd1b2c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800f2f95_0d8d128e",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-12T23:34:26Z",
+      "side": 1,
+      "message": "It seems like this is going to modify the float64s array.  That doesn\u0027t seem like the right thing to do.  TestSortFloat64Slice above has the same problem (pre-existing).  If both tests are run the second one is not a great test.",
+      "revId": "90dcd8d0226d3fef09fdd9ed70bf6c241bd1b2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
