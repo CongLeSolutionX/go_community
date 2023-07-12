@@ -24,6 +24,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2985a3c0_d106a1db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-12T15:49:10Z",
+      "side": 1,
+      "message": "I guess the remaining question is, is #51295 fixed if we mark LR as acquire only?",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24e6499e_d55ecf7f",
@@ -79,6 +96,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cea2ee0a_9e5b3e91",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-12T15:49:10Z",
+      "side": 1,
+      "message": "My worry would be about other repos using these instructions, not the stdlib.\n\nBut it should be ok as long as we are only constraining behavior, or fixing obvious bugs.",
+      "parentUuid": "61d0d6f1_44babfd7",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "061bf4ed_37f80943",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
@@ -126,6 +161,24 @@
       "side": 1,
       "message": "Fixing SC and AMO* in the same CL seems sensible to me.",
       "parentUuid": "450fe154_2293a5e4",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "962250af_0fa8418e",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2080,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-12T15:49:10Z",
+      "side": 1,
+      "message": "A single CL is fine.",
+      "parentUuid": "62055756_33490c19",
       "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
