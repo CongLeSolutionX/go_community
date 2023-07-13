@@ -90,6 +90,24 @@
       "parentUuid": "b1363394_9187160f",
       "revId": "8a8c7fbdf05224d3f87fb37f9beb225fb09edcd5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b227c64c_812e2c04",
+        "filename": "src/cmd/go/internal/modload/buildlist.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-13T18:22:58Z",
+      "side": 1,
+      "message": "LGTM!",
+      "parentUuid": "50045344_09674718",
+      "revId": "8a8c7fbdf05224d3f87fb37f9beb225fb09edcd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
