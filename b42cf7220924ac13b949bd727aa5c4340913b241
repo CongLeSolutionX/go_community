@@ -156,6 +156,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34533d11_ff31a957",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-13T10:17:06Z",
+      "side": 1,
+      "message": "In the existing code, SC (and all AMO*) are using .aq only, no?\n\nHave you tested on the NUMA hardware if using lr.aq, sc.rl and amo*.aqrl solves the issue (I suspect the real issue is likely the absence of \u0027rl\u0027)?\n\nAlso, I believe that above reference re interoperation is specifically regarding the possible future addition of \"load and store opcodes with aq and rl modifiers are introduced\".\n\nLastly, if lr.aqrl is actually required, have you tested the performance impact of this?",
+      "parentUuid": "96524b6d_e7c92c8d",
+      "revId": "b42cf7220924ac13b949bd727aa5c4340913b241",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "061bf4ed_37f80943",
         "filename": "src/cmd/internal/obj/riscv/obj.go",
         "patchSetId": 2
