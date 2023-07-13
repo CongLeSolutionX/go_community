@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb3be21_6af4a4cf",
+        "filename": "src/runtime/fds_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-07-13T20:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8da14abf_f3ed7826",
+      "revId": "7d48e9cae52e9a97b77a13b76232fa7cf5108c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6712b1f1_19452172",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-07-12T22:01:53Z",
       "side": 1,
       "message": "Close o.",
+      "revId": "7d48e9cae52e9a97b77a13b76232fa7cf5108c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1e41531_bf63950c",
+        "filename": "src/runtime/fds_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-07-13T20:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6712b1f1_19452172",
       "revId": "7d48e9cae52e9a97b77a13b76232fa7cf5108c97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -71,6 +107,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "84cd327a_e67c6cc2",
+        "filename": "src/runtime/fds_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-07-13T20:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fb0bb54_12dc1f41",
+      "revId": "7d48e9cae52e9a97b77a13b76232fa7cf5108c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "46af636f_a383aea4",
         "filename": "src/runtime/fds_unix.go",
         "patchSetId": 1
@@ -82,6 +136,30 @@
       "writtenOn": "2023-07-13T17:34:04Z",
       "side": 1,
       "message": "Consider adding this to runtime/internal/syscall defs_ files (you\u0027ll need to add new files for non-Linux). (Or at least to the os_foo.go files in runtime, like F_GETFD). That way new Unix systems are forced to define it rather than us assuming it is 2. (Apparently it is 3 on zOS, though our toolchain doesn\u0027t support zOS).",
+      "range": {
+        "startLine": 28,
+        "startChar": 35,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "7d48e9cae52e9a97b77a13b76232fa7cf5108c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab68d8a_031cea2d",
+        "filename": "src/runtime/fds_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-07-13T20:01:28Z",
+      "side": 1,
+      "message": "I\u0027m not strongly opposed, but I do feel like this ends up adding a bunch of files to define a single static arg value. Perhaps adding it to the const definitions above, which we also assume are identical across unixes, would be a good middle ground?",
+      "parentUuid": "46af636f_a383aea4",
       "range": {
         "startLine": 28,
         "startChar": 35,
@@ -140,6 +218,24 @@
       "writtenOn": "2023-07-12T22:01:53Z",
       "side": 1,
       "message": "It seems to me that we shouldn\u0027t do this if isarchive || islibrary.  Those indicate that the Go code was built using -buildmode\u003dc-archive or -buildmode\u003dc-shared.  In those cases the Go code is a library in some other program, and shouldn\u0027t stomp on the file descriptors unexpectedly.",
+      "revId": "7d48e9cae52e9a97b77a13b76232fa7cf5108c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3e30e0a_5249639f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-07-13T20:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "783a6322_c1458556",
       "revId": "7d48e9cae52e9a97b77a13b76232fa7cf5108c97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
