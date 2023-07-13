@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18ab4c2c_664a2cfd",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-13T23:06:36Z",
+      "side": 1,
+      "message": "Thanks.  I don\u0027t yet understand how we can do this by default.  Many Go programs call code written in C.  That code can start processes and wait for them.  If the Go syscall package is waiting for all processes, then it can intercept the processes started by C code, in which case the C code will wait forever.  That can\u0027t be right.\n\nIt seems to me that the issue is specifically that if the Go program is running as process 1, then it can accumulate zombie processes that are reparented to process 1.  Everything else will work fine, but the zombie processes can accumulate over time.\n\nIs that correct?\n\nGiven the possibility of the presence of C code that we don\u0027t control, I think we should work toward making it possible for programs that need to handle this case to be able to handle that.  That will involve something like a way to catch the SIGCHLD signal and get the PID that exited.  Given that the program can track the set of child processes that it started, and clean up zombies as they arrive.",
+      "parentUuid": "4911369f_eb6e9871",
+      "revId": "cdb3e2109476e7e18be8035d5f872a03ebf95087",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9fd2c83b_6dd271bf",
         "filename": "src/syscall/exec_unix.go",
         "patchSetId": 1
