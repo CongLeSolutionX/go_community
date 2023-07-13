@@ -34,6 +34,24 @@
       "parentUuid": "eebcd975_490936b5",
       "revId": "61552838968ead9997733178d59e583f99a081a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e24047f_89bcf9a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-13T08:30:15Z",
+      "side": 1,
+      "message": "For the assembler, these should use the actual architecture instruction names, rather than synthesizing names.",
+      "parentUuid": "cb95e341_ad0d5386",
+      "revId": "61552838968ead9997733178d59e583f99a081a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
