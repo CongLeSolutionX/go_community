@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2d9b82b_abe1d1a0",
+        "filename": "src/mime/quotedprintable/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-13T20:54:59Z",
+      "side": 1,
+      "message": "This comment needs to be updated.  Somewhere we should point to the note in RFC 2049.",
+      "revId": "f2d3d7a26f1281276327361313062d390a860041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
