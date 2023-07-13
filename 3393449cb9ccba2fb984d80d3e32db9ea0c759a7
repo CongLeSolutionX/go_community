@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cf9ad344_58323d84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-13T21:36:28Z",
+      "side": 1,
+      "message": "Compare https://pkg.go.dev/cmd/covdata@go1.21rc2 for the current state.\n\nI think this is probably worth merging at this point in the freeze because this comment seems to be intended as the primary documentation for the covdata tool.",
+      "revId": "3393449cb9ccba2fb984d80d3e32db9ea0c759a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d1904014_f0fdb8ac",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
