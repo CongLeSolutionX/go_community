@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f9109f_47da19ed",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-13T18:44:19Z",
+      "side": 1,
+      "message": "Period at end of sentence, for each of these notes.",
+      "revId": "2ffa339a812cf74bc89bcf2915c12d5ac1a15698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ba95cd3_83c73007",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-13T18:44:19Z",
+      "side": 1,
+      "message": "Let\u0027s call these intsImpl, etc., rather than using an underscore.",
+      "revId": "2ffa339a812cf74bc89bcf2915c12d5ac1a15698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
