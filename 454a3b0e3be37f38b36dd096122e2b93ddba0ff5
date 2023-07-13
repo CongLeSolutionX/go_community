@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd3226fa_fb550959",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-07-13T16:56:00Z",
+      "side": 1,
+      "message": "The default is gover.DefaultGoModVersion, which is Go 1.16 We care about 1.14 here so the default is not low enough to not matter for the checks here.\n\nShould I add back GoStatement so we can check for the existence of the version again?",
+      "parentUuid": "4f430eec_666af679",
+      "revId": "454a3b0e3be37f38b36dd096122e2b93ddba0ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52b76207_1ee42d88",
         "filename": "src/cmd/go/internal/modcmd/vendor.go",
         "patchSetId": 12
