@@ -89,6 +89,24 @@
       "message": "It seems like this is going to modify the float64s array.  That doesn\u0027t seem like the right thing to do.  TestSortFloat64Slice above has the same problem (pre-existing).  If both tests are run the second one is not a great test.",
       "revId": "90dcd8d0226d3fef09fdd9ed70bf6c241bd1b2c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cda02cd_0eba155d",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2023-07-13T01:58:54Z",
+      "side": 1,
+      "message": "Good catch, thanks. I rewrote it to use cloned slices for both and clarified the variable names. The other tests (like TestSortFloat64Slice) copy arrays with assignment, which doesn\u0027t work well for slices",
+      "parentUuid": "800f2f95_0d8d128e",
+      "revId": "90dcd8d0226d3fef09fdd9ed70bf6c241bd1b2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
