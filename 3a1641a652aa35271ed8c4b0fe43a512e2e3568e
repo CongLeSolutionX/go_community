@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fb8c2f_82ff22c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-14T01:39:38Z",
+      "side": 1,
+      "message": "Previous trybot failure seems not related to this CL, try again.",
+      "revId": "3a1641a652aa35271ed8c4b0fe43a512e2e3568e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
