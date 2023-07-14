@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5754ac16_a4aae25e",
+        "filename": "src/math/floor_asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-14T03:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72f76b5e_9362da81",
+      "range": {
+        "startLine": 5,
+        "startChar": 73,
+        "endLine": 5,
+        "endChar": 80
+      },
+      "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b2e9e4d_77a67477",
@@ -108,6 +132,30 @@
       "writtenOn": "2023-07-12T15:34:05Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 81,
+        "endLine": 5,
+        "endChar": 88
+      },
+      "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b54b49d_309377b0",
+        "filename": "src/math/floor_noasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-14T03:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b2e9e4d_77a67477",
       "range": {
         "startLine": 5,
         "startChar": 81,
@@ -141,6 +189,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd639f86_222c7e25",
+        "filename": "src/math/floor_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-14T03:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a88637a8_26266725",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f9ee22d_18cd8c80",
@@ -154,6 +226,30 @@
       "writtenOn": "2023-07-12T15:34:05Z",
       "side": 1,
       "message": "Why do we want to read and restore these flags?",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a357d1e1_90c3486d",
+        "filename": "src/math/floor_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-14T03:48:06Z",
+      "side": 1,
+      "message": "ISA stated \"The accrued exception flags indicate the exception conditions that have arisen on any floating-point arithmetic instruction since the field was last reset by software\"\n\nsince Go ABI should not change FCSR\nhttps://go.dev/s/regabi\n\"All bits in CSR are system flags and are not modified by Go.\"\n\nI think we need to restore it.",
+      "parentUuid": "4f9ee22d_18cd8c80",
       "range": {
         "startLine": 17,
         "startChar": 1,
