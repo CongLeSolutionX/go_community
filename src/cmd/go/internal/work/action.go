@@ -464,8 +464,20 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 		}
 
 		if p.Error == nil || !p.Error.IsImportCycle {
+			seen := make(map[*Action]bool)
+			add := func(dep *Action) {
+				if !seen[dep] {
+					seen[dep] = true
+					a.Deps = append(a.Deps, dep)
+				}
+			}
+
 			for _, p1 := range p.Internal.Imports {
-				a.Deps = append(a.Deps, b.CompileAction(depMode, depMode, p1))
+				dep := b.CompileAction(depMode, depMode, p1)
+				add(dep)
+				for _, sub := range dep.Deps {
+					add(sub)
+				}
 			}
 		}
 
