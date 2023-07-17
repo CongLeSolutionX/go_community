@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55c33d17_6ab7bf16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-17T15:50:31Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest,x/tools@linux-amd64-longtest",
+      "revId": "333370c0761e1eb3d70e5c68d4642de3604903d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
