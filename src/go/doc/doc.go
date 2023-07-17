@@ -66,6 +66,9 @@ type Type struct {
 	// this type. Examples are extracted from _test.go files
 	// provided to NewFromFiles.
 	Examples []*Example
+
+	// TODO: should we export the fields of a Type?
+	_Fields []*_Field // sorted list of fields (including promoted fields of embedded structs) of this type
 }
 
 // Func is the documentation for a func declaration.
@@ -84,6 +87,21 @@ type Func struct {
 	// function or method. Examples are extracted from _test.go files
 	// provided to NewFromFiles.
 	Examples []*Example
+}
+
+// _Field is the documentation for a _Field declaration.
+type _Field struct {
+	// TODO: if we export the _Field type, should there be a Doc field,
+	// or is it too redundant with the type declaration itself?
+	// If the Doc field should be present, how should it combine the leading Doc
+	// and the trailing Comment groups?
+	//
+	// 	Doc string
+
+	Name string
+	Decl *ast.Field
+
+	Level int // embedding level; 0 if declared directly
 }
 
 // A Note represents a marked comment starting with "MARKER(uid): note body".
@@ -121,7 +139,15 @@ const (
 func New(pkg *ast.Package, importPath string, mode Mode) *Package {
 	var r reader
 	r.readPackage(pkg, mode)
-	r.computeMethodSets()
+
+	// Compute embedded fields and methods before redacting away
+	// unexported fields: embedded fields of unexported types may
+	// add exported methods, and may add exported (promoted) field names.
+	// Those field names may also conflict with methods of other embedded
+	// fields, so unexported fields can both add and remove exported methods.
+	r.computeEmbedded()
+	r.redactFields()
+
 	r.cleanupTypes()
 	p := &Package{
 		Doc:        r.doc,
@@ -132,9 +158,9 @@ func New(pkg *ast.Package, importPath string, mode Mode) *Package {
 		Notes:      r.notes,
 		Bugs:       noteBodies(r.notes["BUG"]),
 		Consts:     sortedValues(r.values, token.CONST),
-		Types:      sortedTypes(r.types, mode&AllMethods != 0),
+		Types:      sortedTypes(r.types, mode&AllDecls != 0, mode&AllMethods != 0),
 		Vars:       sortedValues(r.values, token.VAR),
-		Funcs:      sortedFuncs(r.funcs, true),
+		Funcs:      sortedFuncs(r.funcs, mode&AllDecls != 0, true),
 
 		importByName: r.importByName,
 		syms:         make(map[string]bool),
@@ -144,7 +170,6 @@ func New(pkg *ast.Package, importPath string, mode Mode) *Package {
 	p.collectValues(p.Vars)
 	p.collectTypes(p.Types)
 	p.collectFuncs(p.Funcs)
-
 	return p
 }
 
@@ -167,6 +192,7 @@ func (p *Package) collectTypes(types []*Type) {
 		p.collectValues(t.Vars)
 		p.collectFuncs(t.Funcs)
 		p.collectFuncs(t.Methods)
+		p.collectFields(t)
 	}
 }
 
@@ -180,6 +206,14 @@ func (p *Package) collectFuncs(funcs []*Func) {
 			p.syms[r+"."+f.Name] = true
 		} else {
 			p.syms[f.Name] = true
+		}
+	}
+}
+
+func (p *Package) collectFields(t *Type) {
+	for _, f := range t._Fields {
+		if f.Name != "" {
+			p.syms[t.Name+"."+f.Name] = true
 		}
 	}
 }
