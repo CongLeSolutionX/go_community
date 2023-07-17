@@ -6583,12 +6583,16 @@ if the respective iteration variables are present:
 </p>
 
 <pre class="grammar">
-Range expression                          1st value          2nd value
+Range expression                                   1st value          2nd value
 
-array or slice  a  [n]E, *[n]E, or []E    index    i  int    a[i]       E
-string          s  string type            index    i  int    see below  rune
-map             m  map[K]V                key      k  K      m[k]       V
-channel         c  chan E, &lt;-chan E       element  e  E
+array or slice      a  [n]E, *[n]E, or []E         index    i  int    a[i]       E
+string              s  string type                 index    i  int    see below  rune
+map                 m  map[K]V                     key      k  K      m[k]       V
+channel             c  chan E, &lt;-chan E            element  e  E
+integer             n  integer type                index    i int
+function, 0 values  f  func(func()bool) bool
+function, 1 value   f  func(func(V)bool) bool      value    v  V
+function, 2 values  f  func(func(K, V)bool) bool   key      k  K      v          V
 </pre>
 
 <ol>
@@ -6627,6 +6631,38 @@ For channels, the iteration values produced are the successive values sent on
 the channel until the channel is <a href="#Close">closed</a>. If the channel
 is <code>nil</code>, the range expression blocks forever.
 </li>
+
+<li>
+For an integer <code>n</code>, the index iteration values 0 through <code>n-1</code>
+are produced, with the same type as <code>n</code>.
+If <code>n</code> &lt= 0, the loop does not run any iterations.
+</li>
+
+<li>
+For a function <code>f</code>, the iteration proceeds by calling <code>f</code>
+with a synthesized <code>yield</code> function that invokes the body of the loop.
+The values produced correspond to the arguments in successive calls to <code>yield</code>.
+As with range over other types, it is permitted to declare fewer iteration variables
+than there are iteration values.
+The return value from the <code>yield</code> function reports whether <code>f</code>
+should continue iterating.
+For example, if the loop body executes a <code>break</code> statement,
+the corresponding call to <code>yield</code> returns false.
+The return value from <code>f</code> is ignored by <code>range</code>
+but conventionally returns false when <code>yield</code> has returned false,
+to allow composing a sequence of such functions.
+The use of a synthesized <code>yield</code> function does not change the semantics of the loop body.
+In particular,
+<a href="#Break_statements"><code>break</code></a>,
+<a href="#Continue_statements"><code>continue</code></a>,
+<a href="#Defer_statements"><code>defer</code></a>,
+<a href="#Goto_statements"><code>goto</code></a>,
+and
+<a href="#Return_statements"><code>return</code></a>
+statements all behave in a loop body ranging over a function
+exactly as they do in a loop body ranging over other types.
+</li>
+
 </ol>
 
 <p>
@@ -6679,6 +6715,19 @@ for w := range ch {
 
 // empty a channel
 for range ch {}
+
+// call f n times
+for range n {
+	f()
+}
+
+// print hello world
+f := func(yield func(string)bool) bool {
+	return yield("hello") && yield("world")
+}
+for word := range f {
+	println(word)
+}
 </pre>
 
 
