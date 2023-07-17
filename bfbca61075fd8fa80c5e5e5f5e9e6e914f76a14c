@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "017dd49a_ffcfbce2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-17T22:31:04Z",
+      "side": 1,
+      "message": "More to come.",
+      "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "043f6eee_10a253c4",
@@ -31,6 +48,24 @@
       "writtenOn": "2023-07-07T07:13:07Z",
       "side": 1,
       "message": "fold the comment for better rendering (line too long)\n\ni find it interesting that this is illegal:\n\nfunc sum[T int](x int) int { return 0 }\nx \u003d sum\n\nand although the text says the assignment must have a \u0027type argument\u0027 (i still have issues with the terminology) the description below seems to say it shouldn\u0027t. things are still not really clear to me.",
+      "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f2486a_23f79859",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 4374,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-17T22:31:04Z",
+      "side": 1,
+      "message": "Clarified the rule on line 4354 and  changed the comment to match the rule.\nIn:\n\nx :\u003d sum\n\nx doesn\u0027t have an explicitly declared type: it\u0027s type is implied by the RHS (sum), but sum is a generic (uninstantiated) function and we don\u0027t allow function variables of generic function type.\n\nIn\n\nx \u003d sum\n\nx must have been declared already and thus have a type that doesn\u0027t depend on the RHS (i.e., on sum). Therefore, the type of x can be used to infer the type arguments for sum (such that the instantiated version of sum matches the type of x).",
+      "parentUuid": "043f6eee_10a253c4",
       "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
