@@ -66,6 +66,10 @@ type Type struct {
 	// this type. Examples are extracted from _test.go files
 	// provided to NewFromFiles.
 	Examples []*Example
+
+	// TODO: should we export the fields of a Type?
+	// (If so, convert this to a slice of pointers and sort by name.)
+	fields []field // unsorted list of fields (including embedded ones) in this struct type
 }
 
 // Func is the documentation for a func declaration.
@@ -84,6 +88,22 @@ type Func struct {
 	// function or method. Examples are extracted from _test.go files
 	// provided to NewFromFiles.
 	Examples []*Example
+}
+
+// field is the documentation for a field declaration.
+type field struct {
+	// TODO: if we export the field type, should there be a Doc field,
+	// or is it too redundant with the type declaration itself?
+	// If the Doc field should be present, how should it combine the leading Doc
+	// and the trailing Comment groups?
+	//
+	// 	Doc string
+
+	Name string
+
+	// TODO: if we export the field type, also add:
+	//
+	// 	Decl *ast.Field
 }
 
 // A Note represents a marked comment starting with "MARKER(uid): note body".
@@ -167,6 +187,7 @@ func (p *Package) collectTypes(types []*Type) {
 		p.collectValues(t.Vars)
 		p.collectFuncs(t.Funcs)
 		p.collectFuncs(t.Methods)
+		p.collectFields(t)
 	}
 }
 
@@ -180,6 +201,14 @@ func (p *Package) collectFuncs(funcs []*Func) {
 			p.syms[r+"."+f.Name] = true
 		} else {
 			p.syms[f.Name] = true
+		}
+	}
+}
+
+func (p *Package) collectFields(t *Type) {
+	for _, f := range t.fields {
+		if f.Name != "" {
+			p.syms[t.Name+"."+f.Name] = true
 		}
 	}
 }

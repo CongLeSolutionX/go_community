@@ -9,7 +9,9 @@ import (
 	"math/rand"
 )
 
-type T int
+type T struct {
+	F int
+}
 
 type U int
 
@@ -20,5 +22,5 @@ var _ = crand.Reader
 
 type G[T any] struct{ x T }
 
-func (g G[T]) M1() {}
+func (g G[T]) M1()  {}
 func (g *G[T]) M2() {}

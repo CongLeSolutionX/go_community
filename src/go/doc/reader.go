@@ -162,6 +162,7 @@ type namedType struct {
 	values  []*Value // consts and vars
 	funcs   methodSet
 	methods methodSet
+	fields  []field
 }
 
 // ----------------------------------------------------------------------------
@@ -229,15 +230,27 @@ func (r *reader) lookupType(name string) *namedType {
 // The function returns the field name.
 func (r *reader) recordAnonymousField(parent *namedType, fieldType ast.Expr) (fname string) {
 	fname, imp := baseTypeName(fieldType)
-	if parent == nil || imp {
-		return
+	if parent == nil {
+		return fname
+	}
+	if fname != "" {
+		r.recordField(parent, fname)
+	}
+	if imp {
+		return fname
 	}
 	if ftype := r.lookupType(fname); ftype != nil {
 		ftype.isEmbedded = true
 		_, ptr := fieldType.(*ast.StarExpr)
 		parent.embedded[ftype] = ptr
 	}
-	return
+	return fname
+}
+
+func (r *reader) recordField(parent *namedType, name string) {
+	parent.fields = append(parent.fields, field{
+		Name: name,
+	})
 }
 
 func (r *reader) readDoc(comment *ast.CommentGroup) {
@@ -389,6 +402,10 @@ func (r *reader) readType(decl *ast.GenDecl, spec *ast.TypeSpec) {
 	for _, field := range list {
 		if len(field.Names) == 0 {
 			r.recordAnonymousField(typ, field.Type)
+		} else {
+			for _, name := range field.Names {
+				r.recordField(typ, name.Name)
+			}
 		}
 	}
 }
@@ -889,6 +906,7 @@ func sortedTypes(m map[string]*namedType, allMethods bool) []*Type {
 			Vars:    sortedValues(t.values, token.VAR),
 			Funcs:   sortedFuncs(t.funcs, true),
 			Methods: sortedFuncs(t.methods, allMethods),
+			fields:  t.fields,
 		}
 		i++
 	}
