@@ -16,6 +16,24 @@
       "message": "TRY\u003dplan9",
       "revId": "0208423ecae2ebdd8c0d37c7051ae2cca6af3e2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2eac019_e9f22271",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63163
+      },
+      "writtenOn": "2023-07-17T19:06:03Z",
+      "side": 1,
+      "message": "When rebased on master e.g. https://github.com/golang/go/commit/229cde5149fb30b520, golang.org/x/tools/go/analysis/passes/slog passes as well on Linux! (With Patchset 4 for instance this wouldn\u0027t pass)",
+      "parentUuid": "ba25db28_fc2a3b27",
+      "revId": "0208423ecae2ebdd8c0d37c7051ae2cca6af3e2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
