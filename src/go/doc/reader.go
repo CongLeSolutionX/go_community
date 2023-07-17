@@ -5,11 +5,13 @@
 package doc
 
 import (
+	"cmp"
 	"fmt"
 	"go/ast"
 	"go/token"
 	"internal/lazyregexp"
 	"path"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -22,9 +24,15 @@ import (
 //
 // Internally, we treat functions like methods and collect them in method sets.
 
-// A methodSet describes a set of methods. Entries where Decl == nil are conflict
-// entries (more than one method with the same name at the same embedding level).
-type methodSet map[string]*Func
+type selector struct {
+	method *Func
+	field  *_Field
+}
+
+// A selectorSet describes a set of selectors, which may refer to methods,
+// fields, or both. Entries where Decl == nil are conflict entries
+// (more than one method with the same name at the same embedding level).
+type selectorSet map[string]selector
 
 // recvString returns a string representation of recv of the form "T", "*T",
 // "T[A, ...]", "*T[A, ...]" or "BADRECV" (if not a proper receiver type).
@@ -62,57 +70,95 @@ func recvParam(p ast.Expr) string {
 	return "BADPARAM"
 }
 
-// set creates the corresponding Func for f and adds it to mset.
-// If there are multiple f's with the same name, set keeps the first
-// one with documentation; conflicts are ignored. The boolean
-// specifies whether to leave the AST untouched.
-func (mset methodSet) set(f *ast.FuncDecl, preserveAST bool) {
-	name := f.Name.Name
-	if g := mset[name]; g != nil && g.Doc != "" {
-		// A function with the same name has already been registered;
-		// since it has documentation, assume f is simply another
-		// implementation and ignore it. This does not happen if the
-		// caller is using go/build.ScanDir to determine the list of
-		// files implementing a package.
-		return
-	}
-	// function doesn't exist or has no documentation; use f
+// declareFunc creates the corresponding Func for f and adds it to ss.
+// The boolean specifies whether to leave the AST untouched.
+func (ss selectorSet) declareFunc(decl *ast.FuncDecl, preserveAST bool) {
+	name := decl.Name.Name
 	recv := ""
-	if f.Recv != nil {
+	if decl.Recv != nil {
 		var typ ast.Expr
 		// be careful in case of incorrect ASTs
-		if list := f.Recv.List; len(list) == 1 {
+		if list := decl.Recv.List; len(list) == 1 {
 			typ = list[0].Type
 		}
 		recv = recvString(typ)
 	}
-	mset[name] = &Func{
-		Doc:  f.Doc.Text(),
+	f := &Func{
+		Doc:  decl.Doc.Text(),
 		Name: name,
-		Decl: f,
+		Decl: decl,
 		Recv: recv,
 		Orig: recv,
 	}
 	if !preserveAST {
-		f.Doc = nil // doc consumed - remove from AST
+		decl.Doc = nil // doc consumed - remove from AST
+	}
+	ss.addMethod(f)
+}
+
+func (ss selectorSet) declareField(name string, decl *ast.Field) {
+	f := &_Field{
+		Name: name,
+		Decl: decl,
+	}
+	ss.addField(f)
+}
+
+// addMethod adds method m to the method set; m is ignored if the method set
+// already contains a declaration with the same name at the same or a lower
+// level than m.
+func (ss selectorSet) addMethod(m *Func) {
+	s := ss[m.Name]
+	defer func() { ss[m.Name] = s }()
+
+	switch {
+	case s.field == nil || s.field.Level > m.Level:
+		s.field = nil
+	case s.field.Level == m.Level:
+		// The method conflicts with the existing field.
+		s.field.Decl = nil
+		m.Decl = nil
+	default:
+		// The field is at a lower level, so it wins.
+		return
+	}
+	switch {
+	case s.method == nil || s.method.Level > m.Level:
+		s.method = m
+	case s.method.Level == m.Level:
+		if s.method.Doc == "" && m.Doc != "" {
+			// Keep m's version because it adds documentation.
+			s.method = m
+		}
+		// The method declarations conflict.
+		s.method.Decl = nil
+	default:
+		// The existing method is at a lower level, so it wins.
 	}
 }
 
-// add adds method m to the method set; m is ignored if the method set
-// already contains a method with the same name at the same or a higher
-// level than m.
-func (mset methodSet) add(m *Func) {
-	old := mset[m.Name]
-	if old == nil || m.Level < old.Level {
-		mset[m.Name] = m
+func (ss selectorSet) addField(f *_Field) {
+	s := ss[f.Name]
+	defer func() { ss[f.Name] = s }()
+
+	switch {
+	case s.method == nil || s.method.Level > f.Level:
+		s.method = nil
+	case s.method.Level == f.Level:
+		// The field conflicts with the existing method.
+		s.method.Decl = nil
+		f.Decl = nil
+	default:
+		// The method is at a lower level, so it wins.
 		return
 	}
-	if m.Level == old.Level {
-		// conflict - mark it using a method with nil Decl
-		mset[m.Name] = &Func{
-			Name:  m.Name,
-			Level: m.Level,
-		}
+	switch {
+	case s.field == nil || s.field.Level > f.Level:
+		s.field = f
+	case s.field.Level == f.Level:
+		s.field.Decl = nil
+	default:
+		// The existing field is at a lower level, so it wins.
 	}
 }
 
@@ -159,9 +205,9 @@ type namedType struct {
 	embedded   embeddedSet // true if the embedded type is a pointer
 
 	// associated declarations
-	values  []*Value // consts and vars
-	funcs   methodSet
-	methods methodSet
+	values    []*Value // consts and vars
+	funcs     selectorSet
+	selectors selectorSet
 }
 
 // ----------------------------------------------------------------------------
@@ -190,7 +236,7 @@ type reader struct {
 	values []*Value // consts and vars
 	order  int      // sort order of const and var declarations (when we can't use a name)
 	types  map[string]*namedType
-	funcs  methodSet
+	funcs  selectorSet
 
 	// support for package-local shadowing of predeclared types
 	shadowedPredecl map[string]bool
@@ -214,30 +260,41 @@ func (r *reader) lookupType(name string) *namedType {
 	}
 	// type not found - add one without declaration
 	typ := &namedType{
-		name:     name,
-		embedded: make(embeddedSet),
-		funcs:    make(methodSet),
-		methods:  make(methodSet),
+		name:      name,
+		embedded:  make(embeddedSet),
+		funcs:     make(selectorSet),
+		selectors: make(selectorSet),
 	}
 	r.types[name] = typ
 	return typ
 }
 
 // recordAnonymousField registers fieldType as the type of an
-// anonymous field in the parent type. If the field is imported
-// (qualified name) or the parent is nil, the field is ignored.
-// The function returns the field name.
-func (r *reader) recordAnonymousField(parent *namedType, fieldType ast.Expr) (fname string) {
-	fname, imp := baseTypeName(fieldType)
-	if parent == nil || imp {
-		return
+// anonymous field in the parent type and returns the field's name,
+// or the empty string if the declaration is not of an expected form.
+//
+// If the parent is nil, the field is ignored and only its name is returned.
+// If the field is imported (qualified name), it is registered for
+// Otherwise, if the field i
+//
+// If the field is imported (qualified name) or the parent is nil, the field's
+// methods will not be The function returns the field name.
+func (r *reader) recordAnonymousField(parent *namedType, decl *ast.Field) (fname string) {
+	fname, imported := baseTypeName(decl.Type)
+	if parent == nil {
+		return fname
 	}
-	if ftype := r.lookupType(fname); ftype != nil {
-		ftype.isEmbedded = true
-		_, ptr := fieldType.(*ast.StarExpr)
-		parent.embedded[ftype] = ptr
+	if fname != "" && parent != nil {
+		parent.selectors.declareField(fname, decl)
 	}
-	return
+	if !imported {
+		if ftype := r.lookupType(fname); ftype != nil {
+			ftype.isEmbedded = true
+			_, ptr := decl.Type.(*ast.StarExpr)
+			parent.embedded[ftype] = ptr
+		}
+	}
+	return fname
 }
 
 func (r *reader) readDoc(comment *ast.CommentGroup) {
@@ -388,7 +445,11 @@ func (r *reader) readType(decl *ast.GenDecl, spec *ast.TypeSpec) {
 	list, typ.isStruct = fields(spec.Type)
 	for _, field := range list {
 		if len(field.Names) == 0 {
-			r.recordAnonymousField(typ, field.Type)
+			r.recordAnonymousField(typ, field)
+		} else {
+			for _, name := range field.Names {
+				typ.selectors.declareField(name.Name, field)
+			}
 		}
 	}
 }
@@ -420,7 +481,7 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 			return
 		}
 		if typ := r.lookupType(recvTypeName); typ != nil {
-			typ.methods.set(fun, r.mode&PreserveAST != 0)
+			typ.selectors.declareFunc(fun, r.mode&PreserveAST != 0)
 		}
 		// otherwise ignore the method
 		// TODO(gri): There may be exported methods of non-exported types
@@ -460,13 +521,13 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 		// If there is exactly one result type,
 		// associate the function with that type.
 		if numResultTypes == 1 {
-			typ.funcs.set(fun, r.mode&PreserveAST != 0)
+			typ.funcs.declareFunc(fun, r.mode&PreserveAST != 0)
 			return
 		}
 	}
 
 	// just an ordinary function
-	r.funcs.set(fun, r.mode&PreserveAST != 0)
+	r.funcs.declareFunc(fun, r.mode&PreserveAST != 0)
 }
 
 // lookupTypeParam searches for type parameters named name within the tparams
@@ -652,7 +713,7 @@ func (r *reader) readPackage(pkg *ast.Package, mode Mode) {
 	r.imports = make(map[string]int)
 	r.mode = mode
 	r.types = make(map[string]*namedType)
-	r.funcs = make(methodSet)
+	r.funcs = make(selectorSet)
 	r.notes = make(map[string][]*Note)
 	r.importByName = make(map[string]string)
 
@@ -728,9 +789,9 @@ func customizeRecv(f *Func, recvTypeName string, embeddedIsPtr bool, level int) 
 	return &newF
 }
 
-// collectEmbeddedMethods collects the embedded methods of typ in mset.
-func (r *reader) collectEmbeddedMethods(mset methodSet, typ *namedType, recvTypeName string, embeddedIsPtr bool, level int, visited embeddedSet) {
-	visited[typ] = true
+// collectEmbedded collects the embedded methods and fields of typ in ss.
+func (r *reader) collectEmbedded(ss selectorSet, typ *namedType, recvTypeName string, embeddedIsPtr bool, level int, inPath embeddedSet) {
+	inPath[typ] = true
 	for embedded, isPtr := range typ.embedded {
 		// Once an embedded type is embedded as a pointer type
 		// all embedded types in those types are treated like
@@ -738,26 +799,36 @@ func (r *reader) collectEmbeddedMethods(mset methodSet, typ *namedType, recvType
 		// computation; i.e., embeddedIsPtr is sticky for this
 		// embedding hierarchy.
 		thisEmbeddedIsPtr := embeddedIsPtr || isPtr
-		for _, m := range embedded.methods {
+		for _, s := range embedded.selectors {
 			// only top-level methods are embedded
-			if m.Level == 0 {
-				mset.add(customizeRecv(m, recvTypeName, thisEmbeddedIsPtr, level))
+			if s.method != nil && s.method.Level == 0 && s.method.Decl != nil {
+				if m := customizeRecv(s.method, recvTypeName, thisEmbeddedIsPtr, level); m != nil {
+					ss.addMethod(m)
+				}
+			}
+			if s.field != nil && s.field.Decl != nil {
+				ss.addField(&_Field{
+					Name:  s.field.Name,
+					Decl:  s.field.Decl,
+					Level: level + s.field.Level,
+				})
 			}
 		}
-		if !visited[embedded] {
-			r.collectEmbeddedMethods(mset, embedded, recvTypeName, thisEmbeddedIsPtr, level+1, visited)
+		if !inPath[embedded] {
+			r.collectEmbedded(ss, embedded, recvTypeName, thisEmbeddedIsPtr, level+1, inPath)
 		}
 	}
-	delete(visited, typ)
+	delete(inPath, typ)
 }
 
-// computeMethodSets determines the actual method sets for each type encountered.
-func (r *reader) computeMethodSets() {
+// computeEmbedded determines the actual method sets and fields for each type
+// encountered.
+func (r *reader) computeEmbedded() {
 	for _, t := range r.types {
-		// collect embedded methods for t
+		// collect embedded methods and fields for t
 		if t.isStruct {
 			// struct
-			r.collectEmbeddedMethods(t.methods, t, t.name, false, 1, make(embeddedSet))
+			r.collectEmbedded(t.selectors, t, t.name, false, 1, make(embeddedSet))
 		} else {
 			// interface
 			// TODO(gri) fix this
@@ -798,10 +869,12 @@ func (r *reader) cleanupTypes() {
 			}
 			// 3) move methods
 			if !predeclared {
-				for name, m := range t.methods {
-					// don't overwrite functions with the same name - drop them
-					if _, found := r.funcs[name]; !found {
-						r.funcs[name] = m
+				for name, s := range t.selectors {
+					if s.method != nil {
+						// don't overwrite functions with the same name - drop them
+						if _, found := r.funcs[name]; !found {
+							r.funcs[name] = s
+						}
 					}
 				}
 			}
@@ -813,23 +886,20 @@ func (r *reader) cleanupTypes() {
 	}
 }
 
+// redactFields filters the Specs of each Type declaration to match r.mode.
+func (r *reader) redactFields() {
+	if r.mode&AllDecls != 0 {
+		return
+	}
+	for _, t := range r.types {
+		if d := t.decl; d != nil {
+			d.Specs = r.filterSpecList(d.Specs, d.Tok, false)
+		}
+	}
+}
+
 // ----------------------------------------------------------------------------
 // Sorting
-
-type data struct {
-	n    int
-	swap func(i, j int)
-	less func(i, j int) bool
-}
-
-func (d *data) Len() int           { return d.n }
-func (d *data) Swap(i, j int)      { d.swap(i, j) }
-func (d *data) Less(i, j int) bool { return d.less(i, j) }
-
-// sortBy is a helper function for sorting.
-func sortBy(less func(i, j int) bool, swap func(i, j int), n int) {
-	sort.Sort(&data{n, swap, less})
-}
 
 func sortedKeys(m map[string]int) []string {
 	list := make([]string, len(m))
@@ -853,52 +923,38 @@ func sortingName(d *ast.GenDecl) string {
 }
 
 func sortedValues(m []*Value, tok token.Token) []*Value {
-	list := make([]*Value, len(m)) // big enough in any case
-	i := 0
+	list := make([]*Value, 0, len(m)) // big enough in any case
 	for _, val := range m {
 		if val.Decl.Tok == tok {
-			list[i] = val
-			i++
+			list = append(list, val)
 		}
 	}
-	list = list[0:i]
-
-	sortBy(
-		func(i, j int) bool {
-			if ni, nj := sortingName(list[i].Decl), sortingName(list[j].Decl); ni != nj {
-				return ni < nj
-			}
-			return list[i].order < list[j].order
-		},
-		func(i, j int) { list[i], list[j] = list[j], list[i] },
-		len(list),
-	)
-
+	slices.SortFunc(list, func(a, b *Value) int {
+		if c := cmp.Compare(sortingName(a.Decl), sortingName(b.Decl)); c != 0 {
+			return c
+		}
+		return cmp.Compare(a.order, b.order)
+	})
 	return list
 }
 
-func sortedTypes(m map[string]*namedType, allMethods bool) []*Type {
-	list := make([]*Type, len(m))
-	i := 0
+func sortedTypes(m map[string]*namedType, allDecls, allMethods bool) []*Type {
+	list := make([]*Type, 0, len(m))
 	for _, t := range m {
-		list[i] = &Type{
+		list = append(list, &Type{
 			Doc:     t.doc,
 			Name:    t.name,
 			Decl:    t.decl,
 			Consts:  sortedValues(t.values, token.CONST),
 			Vars:    sortedValues(t.values, token.VAR),
-			Funcs:   sortedFuncs(t.funcs, true),
-			Methods: sortedFuncs(t.methods, allMethods),
-		}
-		i++
+			Funcs:   sortedFuncs(t.funcs, allDecls, true),
+			Methods: sortedFuncs(t.selectors, allDecls, allMethods),
+			_Fields: sortedFields(t.selectors, allMethods),
+		})
 	}
-
-	sortBy(
-		func(i, j int) bool { return list[i].Name < list[j].Name },
-		func(i, j int) { list[i], list[j] = list[j], list[i] },
-		len(list),
-	)
-
+	slices.SortFunc(list, func(a, b *Type) int {
+		return cmp.Compare(a.Name, b.Name)
+	})
 	return list
 }
 
@@ -909,27 +965,42 @@ func removeStar(s string) string {
 	return s
 }
 
-func sortedFuncs(m methodSet, allMethods bool) []*Func {
-	list := make([]*Func, len(m))
-	i := 0
-	for _, m := range m {
-		// determine which methods to include
-		switch {
-		case m.Decl == nil:
-			// exclude conflict entry
-		case allMethods, m.Level == 0, !token.IsExported(removeStar(m.Orig)):
-			// forced inclusion, method not embedded, or method
-			// embedded but original receiver type not exported
-			list[i] = m
-			i++
+func sortedFuncs(selectors selectorSet, allDecls, allMethods bool) []*Func {
+	var list []*Func
+	for _, s := range selectors {
+		if m := s.method; m != nil {
+			// determine which methods to include
+			if m.Decl == nil {
+				continue // exclude conflict entry
+			}
+			if allMethods || m.Level == 0 || !token.IsExported(removeStar(m.Orig)) {
+				// forced inclusion, method not embedded, or method
+				// embedded but original receiver type not exported.
+				//
+				// Include the method only if the method itself is exported,
+				// or if we are including unexported declarations.
+				if allDecls || token.IsExported(m.Name) {
+					list = append(list, m)
+				}
+			}
 		}
 	}
-	list = list[0:i]
-	sortBy(
-		func(i, j int) bool { return list[i].Name < list[j].Name },
-		func(i, j int) { list[i], list[j] = list[j], list[i] },
-		len(list),
-	)
+	slices.SortFunc(list, func(a, b *Func) int {
+		return cmp.Compare(a.Name, b.Name)
+	})
+	return list
+}
+
+func sortedFields(selectors selectorSet, allDecls bool) []*_Field {
+	var list []*_Field
+	for _, s := range selectors {
+		if s.field != nil && s.field.Decl != nil && (allDecls || token.IsExported(s.field.Name)) {
+			list = append(list, s.field)
+		}
+	}
+	slices.SortFunc(list, func(a, b *_Field) int {
+		return cmp.Compare(a.Name, b.Name)
+	})
 	return list
 }
 

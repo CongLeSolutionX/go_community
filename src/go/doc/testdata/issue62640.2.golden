@@ -20,6 +20,3 @@ TYPES
 		F	int
 	}
 
-	// F should be hidden within S because of the S.F field. 
-	func (e S) F() string
-

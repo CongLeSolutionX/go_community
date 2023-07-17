@@ -104,7 +104,7 @@ func removeAnonymousField(name string, ityp *ast.InterfaceType) {
 // in place and reports whether fields were removed. Anonymous fields are
 // recorded with the parent type. filterType is called with the types of
 // all remaining fields.
-func (r *reader) filterFieldList(parent *namedType, fields *ast.FieldList, ityp *ast.InterfaceType) (removedFields bool) {
+func (r *reader) filterFieldList(parent *namedType, fields *ast.FieldList, ityp *ast.InterfaceType, keepAllEmbeds bool) (removedFields bool) {
 	if fields == nil {
 		return
 	}
@@ -114,16 +114,16 @@ func (r *reader) filterFieldList(parent *namedType, fields *ast.FieldList, ityp 
 		keepField := false
 		if n := len(field.Names); n == 0 {
 			// anonymous field or embedded type or union element
-			fname := r.recordAnonymousField(parent, field.Type)
+			fname := r.recordAnonymousField(parent, field)
 			if fname != "" {
-				if token.IsExported(fname) {
-					keepField = true
-				} else if ityp != nil && predeclaredTypes[fname] {
+				if ityp != nil && predeclaredTypes[fname] {
 					// possibly an embedded predeclared type; keep it for now but
 					// remember this interface so that it can be fixed if name is also
 					// defined locally
 					keepField = true
 					r.remember(fname, ityp)
+				} else if token.IsExported(fname) || keepAllEmbeds {
+					keepField = true
 				}
 			} else {
 				// If we're operating on an interface, assume that this is an embedded
@@ -143,7 +143,7 @@ func (r *reader) filterFieldList(parent *namedType, fields *ast.FieldList, ityp 
 			}
 		}
 		if keepField {
-			r.filterType(nil, field.Type)
+			r.filterType(nil, field.Type, keepAllEmbeds)
 			list[j] = field
 			j++
 		}
@@ -159,7 +159,7 @@ func (r *reader) filterFieldList(parent *namedType, fields *ast.FieldList, ityp 
 func (r *reader) filterParamList(fields *ast.FieldList) {
 	if fields != nil {
 		for _, f := range fields.List {
-			r.filterType(nil, f.Type)
+			r.filterType(nil, f.Type, false)
 		}
 	}
 }
@@ -167,27 +167,27 @@ func (r *reader) filterParamList(fields *ast.FieldList) {
 // filterType strips any unexported struct fields or method types from typ
 // in place. If fields (or methods) have been removed, the corresponding
 // struct or interface type has the Incomplete field set to true.
-func (r *reader) filterType(parent *namedType, typ ast.Expr) {
+func (r *reader) filterType(parent *namedType, typ ast.Expr, keepAllEmbeds bool) {
 	switch t := typ.(type) {
 	case *ast.Ident:
 		// nothing to do
 	case *ast.ParenExpr:
-		r.filterType(nil, t.X)
+		r.filterType(nil, t.X, keepAllEmbeds)
 	case *ast.StarExpr: // possibly an embedded type literal
-		r.filterType(nil, t.X)
+		r.filterType(nil, t.X, keepAllEmbeds)
 	case *ast.UnaryExpr:
 		if t.Op == token.TILDE { // approximation element
-			r.filterType(nil, t.X)
+			r.filterType(nil, t.X, keepAllEmbeds)
 		}
 	case *ast.BinaryExpr:
 		if t.Op == token.OR { // union
-			r.filterType(nil, t.X)
-			r.filterType(nil, t.Y)
+			r.filterType(nil, t.X, keepAllEmbeds)
+			r.filterType(nil, t.Y, keepAllEmbeds)
 		}
 	case *ast.ArrayType:
-		r.filterType(nil, t.Elt)
+		r.filterType(nil, t.Elt, keepAllEmbeds)
 	case *ast.StructType:
-		if r.filterFieldList(parent, t.Fields, nil) {
+		if r.filterFieldList(parent, t.Fields, nil, keepAllEmbeds) {
 			t.Incomplete = true
 		}
 	case *ast.FuncType:
@@ -195,18 +195,18 @@ func (r *reader) filterType(parent *namedType, typ ast.Expr) {
 		r.filterParamList(t.Params)
 		r.filterParamList(t.Results)
 	case *ast.InterfaceType:
-		if r.filterFieldList(parent, t.Methods, t) {
+		if r.filterFieldList(parent, t.Methods, t, keepAllEmbeds) {
 			t.Incomplete = true
 		}
 	case *ast.MapType:
-		r.filterType(nil, t.Key)
-		r.filterType(nil, t.Value)
+		r.filterType(nil, t.Key, keepAllEmbeds)
+		r.filterType(nil, t.Value, keepAllEmbeds)
 	case *ast.ChanType:
-		r.filterType(nil, t.Value)
+		r.filterType(nil, t.Value, keepAllEmbeds)
 	}
 }
 
-func (r *reader) filterSpec(spec ast.Spec) bool {
+func (r *reader) filterSpec(spec ast.Spec, keepAllEmbeds bool) bool {
 	switch s := spec.(type) {
 	case *ast.ImportSpec:
 		// always keep imports so we can collect them
@@ -221,27 +221,33 @@ func (r *reader) filterSpec(spec ast.Spec) bool {
 			// Similarly, if there are no type and values, then this expression
 			// must be following an iota expression, where order matters.
 			if updateIdentList(s.Names) {
-				r.filterType(nil, s.Type)
+				r.filterType(nil, s.Type, keepAllEmbeds)
 				return true
 			}
 		} else {
 			s.Names = filterIdentList(s.Names)
 			if len(s.Names) > 0 {
-				r.filterType(nil, s.Type)
+				r.filterType(nil, s.Type, keepAllEmbeds)
 				return true
 			}
 		}
 	case *ast.TypeSpec:
-		// Don't filter type parameters here, by analogy with function parameters
-		// which are not filtered for top-level function declarations.
-		if name := s.Name.Name; token.IsExported(name) {
-			r.filterType(r.lookupType(s.Name.Name), s.Type)
-			return true
-		} else if IsPredeclared(name) {
+		// We need to keep type declarations even for unexported types,
+		// which may be needed to compute method sets if those types are
+		// embedded in other types.
+		//
+		// We also don't filter type parameters here, by analogy with function
+		// parameters which are not filtered for top-level function declarations.
+		name := s.Name.Name
+		if IsPredeclared(name) {
 			if r.shadowedPredecl == nil {
 				r.shadowedPredecl = make(map[string]bool)
 			}
 			r.shadowedPredecl[name] = true
+		}
+		if keepAllEmbeds || token.IsExported(name) {
+			r.filterType(r.lookupType(s.Name.Name), s.Type, keepAllEmbeds)
+			return true
 		}
 	}
 	return false
@@ -266,7 +272,7 @@ func copyConstType(typ ast.Expr, pos token.Pos) ast.Expr {
 	return nil // shouldn't happen, but be conservative and don't panic
 }
 
-func (r *reader) filterSpecList(list []ast.Spec, tok token.Token) []ast.Spec {
+func (r *reader) filterSpecList(list []ast.Spec, tok token.Token, keepAllEmbeds bool) []ast.Spec {
 	if tok == token.CONST {
 		// Propagate any type information that would get lost otherwise
 		// when unexported constants are filtered.
@@ -288,7 +294,7 @@ func (r *reader) filterSpecList(list []ast.Spec, tok token.Token) []ast.Spec {
 
 	j := 0
 	for _, s := range list {
-		if r.filterSpec(s) {
+		if r.filterSpec(s, keepAllEmbeds) {
 			list[j] = s
 			j++
 		}
@@ -299,7 +305,7 @@ func (r *reader) filterSpecList(list []ast.Spec, tok token.Token) []ast.Spec {
 func (r *reader) filterDecl(decl ast.Decl) bool {
 	switch d := decl.(type) {
 	case *ast.GenDecl:
-		d.Specs = r.filterSpecList(d.Specs, d.Tok)
+		d.Specs = r.filterSpecList(d.Specs, d.Tok, true)
 		return len(d.Specs) > 0
 	case *ast.FuncDecl:
 		// ok to filter these methods early because any
@@ -311,7 +317,7 @@ func (r *reader) filterDecl(decl ast.Decl) bool {
 	return false
 }
 
-// fileExports removes unexported declarations from src in place.
+// fileExports removes some unexported declarations from src in place.
 func (r *reader) fileExports(src *ast.File) {
 	j := 0
 	for _, d := range src.Decls {

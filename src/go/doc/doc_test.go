@@ -6,15 +6,18 @@ package doc
 
 import (
 	"bytes"
+	"cmp"
 	"flag"
 	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/printer"
 	"go/token"
+	"internal/diff"
 	"io/fs"
 	"os"
 	"path/filepath"
+	"reflect"
 	"regexp"
 	"strings"
 	"testing"
@@ -139,8 +142,8 @@ func test(t *testing.T, mode Mode) {
 			}
 
 			// compare
-			if !bytes.Equal(got, want) {
-				t.Errorf("package %s\n\tgot:\n%s\n\twant:\n%s", pkg.Name, got, want)
+			if d := diff.Diff(fmt.Sprintf("%s.%d", pkg.Name, mode), got, filepath.Base(golden), want); len(d) != 0 {
+				t.Errorf("output differs:\n%s", d)
 			}
 		})
 	}
@@ -175,7 +178,7 @@ func TestFuncs(t *testing.T) {
 		}
 	}
 
-	compareFuncs := func(t *testing.T, msg string, got, want *Func) {
+	compareFuncs := func(t *testing.T, what string, got, want *Func) {
 		// ignore Decl and Examples
 		got.Decl = nil
 		got.Examples = nil
@@ -184,27 +187,49 @@ func TestFuncs(t *testing.T) {
 			got.Recv == want.Recv &&
 			got.Orig == want.Orig &&
 			got.Level == want.Level) {
-			t.Errorf("%s:\ngot  %+v\nwant %+v", msg, got, want)
+			t.Errorf("%s:\ngot  %+v\nwant %+v", what, got, want)
 		}
 	}
 
 	compareSlices(t, "Funcs", doc.Funcs, funcsPackage.Funcs, compareFuncs)
-	compareSlices(t, "Types", doc.Types, funcsPackage.Types, func(t *testing.T, msg string, got, want *Type) {
-		if got.Name != want.Name {
-			t.Errorf("%s.Name: got %q, want %q", msg, got.Name, want.Name)
-		} else {
-			compareSlices(t, got.Name+".Funcs", got.Funcs, want.Funcs, compareFuncs)
-			compareSlices(t, got.Name+".Methods", got.Methods, want.Methods, compareFuncs)
-		}
+	compareSlices(t, "Types", doc.Types, funcsPackage.Types, func(t *testing.T, what string, got, want *Type) {
+		compareSlices(t, got.Name+".Funcs", got.Funcs, want.Funcs, compareFuncs)
+		compareSlices(t, got.Name+".Methods", got.Methods, want.Methods, compareFuncs)
 	})
 }
 
-func compareSlices[E any](t *testing.T, name string, got, want []E, compareElem func(*testing.T, string, E, E)) {
-	if len(got) != len(want) {
-		t.Errorf("%s: got %d, want %d", name, len(got), len(want))
-	}
-	for i := 0; i < len(got) && i < len(want); i++ {
-		compareElem(t, fmt.Sprintf("%s[%d]", name, i), got[i], want[i])
+func compareSlices[E interface{ Type | Func }](t *testing.T, what string, got, want []*E, compareElem func(*testing.T, string, *E, *E)) {
+	i, j := 0, 0
+	for i < len(got) || j < len(want) {
+		// Use reflect to obtain the Name fields because the typechecker can't figure it out.
+		// (This works around https://go.dev/issue/48522.)
+		var gotName, wantName string
+		if j < len(want) {
+			wantName = reflect.ValueOf(want[j]).Elem().FieldByName("Name").Interface().(string)
+		}
+		if i < len(got) {
+			gotName = reflect.ValueOf(got[i]).Elem().FieldByName("Name").Interface().(string)
+		}
+		var ord int
+		if i >= len(got) {
+			ord = -1
+		} else if j >= len(want) {
+			ord = 1
+		} else {
+			ord = cmp.Compare(gotName, wantName)
+		}
+		switch ord {
+		case -1:
+			t.Errorf("%s: missing entry for %s", what, wantName)
+			j++
+		case 1:
+			t.Errorf("%s: unexpected entry for %s", what, gotName)
+			i++
+		default:
+			compareElem(t, fmt.Sprintf("%s[%s]", what, wantName), got[i], want[j])
+			i++
+			j++
+		}
 	}
 }
 

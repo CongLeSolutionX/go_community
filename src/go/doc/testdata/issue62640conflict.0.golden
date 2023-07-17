@@ -1,0 +1,74 @@
+// 
+PACKAGE issue62640conflict
+
+IMPORTPATH
+	testdata/issue62640conflict
+
+FILENAMES
+	testdata/issue62640conflict.go
+
+TYPES
+	// 
+	type A struct {
+		// B should be hidden within S because it conflicts with u.S.
+		B int
+	}
+
+	// 
+	type B struct {
+		// E should be unambiguous within s even though u.B has a conflict.
+		E int
+	}
+
+	// 
+	type D struct {
+		// F should be visible within s because it is embedded in u,
+		// even though u itself is unexported.
+		F int
+	}
+
+	// 
+	type Deep struct {
+		Deeper
+	}
+
+	// 
+	type Deeper struct {
+		Deepest
+	}
+
+	// Deepest declares methods that may or may not be visible in ...
+	type Deepest struct{}
+
+	// 
+	func (Deepest) A()
+
+	// 
+	func (Deepest) B()
+
+	// 
+	func (Deepest) D()
+
+	// E should be masked by S.c.B.E. 
+	func (Deepest) E()
+
+	// F should be masked by S.c.D.F. 
+	func (Deepest) F()
+
+	// 
+	type Outer struct {
+		S
+		Shallow
+	}
+
+	// S has visible selectors A, D, and F, which should hide deep ...
+	type S struct {
+		A
+		// contains filtered or unexported fields
+	}
+
+	// 
+	type Shallow struct {
+		Deep
+	}
+

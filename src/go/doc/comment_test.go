@@ -24,14 +24,14 @@ func TestComment(t *testing.T) {
 	pkg := New(pkgs["pkgdoc"], "testdata/pkgdoc", 0)
 
 	var (
-		input           = "[T] and [U] are types, and [T.M] is a method, but [V] is a broken link. [rand.Int] and [crand.Reader] are things. [G.M1] and [G.M2] are generic methods.\n"
-		wantHTML        = `<p><a href="#T">T</a> and <a href="#U">U</a> are types, and <a href="#T.M">T.M</a> is a method, but [V] is a broken link. <a href="/math/rand#Int">rand.Int</a> and <a href="/crypto/rand#Reader">crand.Reader</a> are things. <a href="#G.M1">G.M1</a> and <a href="#G.M2">G.M2</a> are generic methods.` + "\n"
-		wantOldHTML     = "<p>[T] and [U] are <i>types</i>, and [T.M] is a method, but [V] is a broken link. [rand.Int] and [crand.Reader] are things. [G.M1] and [G.M2] are generic methods.\n"
-		wantMarkdown    = "[T](#T) and [U](#U) are types, and [T.M](#T.M) is a method, but \\[V] is a broken link. [rand.Int](/math/rand#Int) and [crand.Reader](/crypto/rand#Reader) are things. [G.M1](#G.M1) and [G.M2](#G.M2) are generic methods.\n"
-		wantText        = "T and U are types, and T.M is a method, but [V] is a broken link. rand.Int and\ncrand.Reader are things. G.M1 and G.M2 are generic methods.\n"
-		wantOldText     = "[T] and [U] are types, and [T.M] is a method, but [V] is a broken link.\n[rand.Int] and [crand.Reader] are things. [G.M1] and [G.M2] are generic methods.\n"
-		wantSynopsis    = "T and U are types, and T.M is a method, but [V] is a broken link."
-		wantOldSynopsis = "[T] and [U] are types, and [T.M] is a method, but [V] is a broken link."
+		input           = "[T] and [U] are types, [T.M] is a method, and [T.F] is a field, but [V] is a broken link. [rand.Int], [crand.Reader], and [go/doc.Package.Doc] are things. [G.M1] and [G.M2] are generic methods.\n"
+		wantHTML        = `<p><a href="#T">T</a> and <a href="#U">U</a> are types, <a href="#T.M">T.M</a> is a method, and <a href="#T.F">T.F</a> is a field, but [V] is a broken link. <a href="/math/rand#Int">rand.Int</a>, <a href="/crypto/rand#Reader">crand.Reader</a>, and <a href="/go/doc#Package.Doc">go/doc.Package.Doc</a> are things. <a href="#G.M1">G.M1</a> and <a href="#G.M2">G.M2</a> are generic methods.` + "\n"
+		wantOldHTML     = `<p>[T] and [U] are <i>types</i>, [T.M] is a method, and [T.F] is a field, but [V] is a broken link. [rand.Int], [crand.Reader], and <a href="/go/doc#Package.Doc">go/doc.Package.Doc</a> are things. [G.M1] and [G.M2] are generic methods.` + "\n"
+		wantMarkdown    = "[T](#T) and [U](#U) are types, [T.M](#T.M) is a method, and [T.F](#T.F) is a field, but \\[V] is a broken link. [rand.Int](/math/rand#Int), [crand.Reader](/crypto/rand#Reader), and [go/doc.Package.Doc](/go/doc#Package.Doc) are things. [G.M1](#G.M1) and [G.M2](#G.M2) are generic methods.\n"
+		wantText        = "T and U are types, T.M is a method, and T.F is a field, but [V] is a broken\nlink. rand.Int, crand.Reader, and go/doc.Package.Doc are things. G.M1 and G.M2\nare generic methods.\n"
+		wantOldText     = "[T] and [U] are types, [T.M] is a method, and [T.F] is a field, but [V] is a\nbroken link. [rand.Int], [crand.Reader], and go/doc.Package.Doc are things.\n[G.M1] and [G.M2] are generic methods.\n"
+		wantSynopsis    = "T and U are types, T.M is a method, and T.F is a field, but [V] is a broken link."
+		wantOldSynopsis = "[T] and [U] are types, [T.M] is a method, and [T.F] is a field, but [V] is a broken link."
 	)
 
 	if b := pkg.HTML(input); string(b) != wantHTML {
