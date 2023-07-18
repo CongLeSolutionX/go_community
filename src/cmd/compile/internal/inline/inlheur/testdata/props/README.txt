@@ -15,21 +15,25 @@ cmd/compile/internal/inline/inlheur/testdata/props:
 - function property expected results appear as comments in immediately
   prior to the function. For example, here we have first the function
   name ("T_feeds_if_simple"), then human-readable dump of the function
-  poperties, and then after the delimiter "=====" we have JSON for the
-  properties object.
+  properties, and then after the delimiter "=====" we have JSON for the
+  properties object, followed by a dump of the callsites in the function,
+  then a callsite terminator ("=+=+=") and a final terminator for
+  the preamble ("=-=-=").
 
-	  // T_feeds_if_simple
-	  // RecvrParamFlags:
-	  //   0: ParamFeedsIfOrSwitch
-	  // =====
-	  // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-	  // =-=-=
-	  func T_feeds_if_simple(x int) {
+	// params.go T_feeds_if_simple 32
+	// RecvrParamFlags:
+	//   0: ParamFeedsIfOrSwitch
+	// =====
+	// {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+	// callsite: params.go:34:10|0 "CallSiteOnPanicPath" 2
+	// =+=+=
+	// =-=-=
+	func T_feeds_if_simple(x int) {
 		if x < 100 {
 			os.Exit(1)
 		}
 		println(x)
-	  }
+	}
 
 - when making changes to the compiler (which can alter the expected
   results) or edits/additions to the go code in the testcase files,
