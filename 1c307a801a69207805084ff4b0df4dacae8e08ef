@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f04acd4_75e92cb4",
+        "filename": "/MERGE_LIST",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-07-18T17:27:48Z",
+      "side": 1,
+      "message": "Good catch. Fixed.",
+      "parentUuid": "c4edb4fd_1f992a44",
+      "revId": "1c307a801a69207805084ff4b0df4dacae8e08ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74ebd969_4b3f3587",
@@ -86,6 +104,24 @@
       "writtenOn": "2023-07-18T17:15:43Z",
       "side": 1,
       "message": "See comments, otherwise looks good.",
+      "revId": "1c307a801a69207805084ff4b0df4dacae8e08ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3578f746_c0bdda71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-07-18T17:27:48Z",
+      "side": 1,
+      "message": "Filed https://go.dev/issue/61414. Since it\u0027s only failing on longtest builders, I\u0027d rather get the thaw done and fix it later.",
+      "parentUuid": "af8207a7_5d54b9b0",
       "revId": "1c307a801a69207805084ff4b0df4dacae8e08ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
