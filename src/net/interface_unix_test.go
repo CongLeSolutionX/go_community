@@ -24,10 +24,14 @@ type testInterface struct {
 	teardownCmds []*exec.Cmd
 }
 
-func (ti *testInterface) setup() error {
+func (ti *testInterface) setup(t *testing.T) error {
 	for _, cmd := range ti.setupCmds {
 		if out, err := cmd.CombinedOutput(); err != nil {
-			return fmt.Errorf("args=%v out=%q err=%v", cmd.Args, string(out), err)
+			err := fmt.Errorf("args=%v out=%q err=%v", cmd.Args, string(out), err)
+			if strings.Contains(err.Error(), "Permission denied") {
+				t.Skipf("permission error, skipping: %v", err)
+			}
+			return err
 		}
 	}
 	return nil
@@ -62,7 +66,7 @@ func TestPointToPointInterface(t *testing.T) {
 		if err := ti.setPointToPoint(5963 + i); err != nil {
 			t.Skipf("test requires external command: %v", err)
 		}
-		if err := ti.setup(); err != nil {
+		if err := ti.setup(t); err != nil {
 			if e := err.Error(); strings.Contains(e, "No such device") && strings.Contains(e, "gre0") {
 				t.Skip("skipping test; no gre0 device. likely running in container?")
 			}
@@ -120,7 +124,7 @@ func TestInterfaceArrivalAndDeparture(t *testing.T) {
 		if err := ti.setBroadcast(vid); err != nil {
 			t.Skipf("test requires external command: %v", err)
 		}
-		if err := ti.setup(); err != nil {
+		if err := ti.setup(t); err != nil {
 			t.Fatal(err)
 		} else {
 			time.Sleep(3 * time.Millisecond)
@@ -192,7 +196,7 @@ func TestInterfaceArrivalAndDepartureZoneCache(t *testing.T) {
 	if err := ti.setLinkLocal(0); err != nil {
 		t.Skipf("test requires external command: %v", err)
 	}
-	if err := ti.setup(); err != nil {
+	if err := ti.setup(t); err != nil {
 		t.Fatal(err)
 	}
 	defer ti.teardown()
