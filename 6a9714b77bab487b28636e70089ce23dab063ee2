@@ -72,6 +72,24 @@
       "message": "Is this correct?\n\nThis error is triggered by the example from the spec.\n```\npackage main\n\nfunc main() {\n\t// print hello world\n\tf :\u003d func(yield func(string) bool) {\n\t\tif !yield(\"hello\") {\n\t\t\treturn\n\t\t}\n\t\tyield(\"world\")\n\t}\n\tfor word :\u003d range f {\n\t\tprintln(word)\n\t}\n}\n```\n\n```\n./main.go:11:20: cannot range over f (variable of type func(yield func(string) bool)): func does not return bool\n```\n\nIt requires `func(yield func(string) bool)` -\u003e `func(yield func(string) bool) bool`.",
       "revId": "6a9714b77bab487b28636e70089ce23dab063ee2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ab2a051_c67b6855",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-07-18T15:52:55Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/issues/61405#issuecomment-1640197780",
+      "parentUuid": "88a07720_a1b43bdb",
+      "revId": "6a9714b77bab487b28636e70089ce23dab063ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
