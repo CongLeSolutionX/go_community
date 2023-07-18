@@ -11,16 +11,18 @@ func _() {
 	var x [1]struct{}
 	_ = x[CallSiteInLoop-1]
 	_ = x[CallSiteOnPanicPath-2]
+	_ = x[CallSiteInInitFunc-4]
 }
 
 var _CSPropBits_value = [...]uint64{
 	0x1, /* CallSiteInLoop */
 	0x2, /* CallSiteOnPanicPath */
+	0x4, /* CallSiteInInitFunc */
 }
 
-const _CSPropBits_name = "CallSiteInLoopCallSiteOnPanicPath"
+const _CSPropBits_name = "CallSiteInLoopCallSiteOnPanicPathCallSiteInInitFunc"
 
-var _CSPropBits_index = [...]uint8{0, 14, 33}
+var _CSPropBits_index = [...]uint8{0, 14, 33, 51}
 
 func (i CSPropBits) String() string {
 	var b bytes.Buffer
