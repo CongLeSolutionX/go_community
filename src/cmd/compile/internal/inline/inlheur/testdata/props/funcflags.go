@@ -11,7 +11,7 @@ package funcflags
 
 import "os"
 
-// funcflags.go T_simple 19
+// funcflags.go T_simple 20
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[],"ReturnFlags":[]}
@@ -21,7 +21,7 @@ func T_simple() {
 	panic("bad")
 }
 
-// funcflags.go T_nested 30
+// funcflags.go T_nested 32
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -37,7 +37,7 @@ func T_nested(x int) {
 	}
 }
 
-// funcflags.go T_block1 45
+// funcflags.go T_block1 48
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -52,7 +52,7 @@ func T_block1(x int) {
 	}
 }
 
-// funcflags.go T_block2 58
+// funcflags.go T_block2 62
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -66,7 +66,7 @@ func T_block2(x int) {
 	panic("bad")
 }
 
-// funcflags.go T_switches1 72
+// funcflags.go T_switches1 77
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -84,7 +84,7 @@ func T_switches1(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_switches1a 88
+// funcflags.go T_switches1a 94
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -98,7 +98,7 @@ func T_switches1a(x int) {
 	}
 }
 
-// funcflags.go T_switches2 101
+// funcflags.go T_switches2 108
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -117,7 +117,7 @@ func T_switches2(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_switches3 117
+// funcflags.go T_switches3 125
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -131,7 +131,7 @@ func T_switches3(x interface{}) {
 	}
 }
 
-// funcflags.go T_switches4 133
+// funcflags.go T_switches4 142
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
@@ -153,7 +153,7 @@ func T_switches4(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_recov 151
+// funcflags.go T_recov 161
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -164,7 +164,7 @@ func T_recov(x int) {
 	}
 }
 
-// funcflags.go T_forloops1 162
+// funcflags.go T_forloops1 173
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
@@ -176,7 +176,7 @@ func T_forloops1(x int) {
 	}
 }
 
-// funcflags.go T_forloops2 172
+// funcflags.go T_forloops2 184
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -191,7 +191,7 @@ func T_forloops2(x int) {
 	}
 }
 
-// funcflags.go T_forloops3 186
+// funcflags.go T_forloops3 199
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -211,7 +211,7 @@ func T_forloops3(x int) {
 	panic("whatev")
 }
 
-// funcflags.go T_hasgotos 205
+// funcflags.go T_hasgotos 219
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[]}
 // <endcallsites>
@@ -239,14 +239,14 @@ func T_hasgotos(x int, y int) {
 	}
 }
 
-// funcflags.go T_callsexit 235
+// funcflags.go T_callsexit 252
 // Flags FuncPropUnconditionalPanicExit
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: funcflags.go:237:10|0 "" 0
-// callsite: funcflags.go:239:9|1 "" 0
+// callsite: funcflags.go:254:10|0 "CallSiteOnPanicPath" 2
+// callsite: funcflags.go:256:9|1 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_callsexit(x int) {
@@ -261,10 +261,10 @@ func exprcallsexit(x int) int {
 	return x
 }
 
-// funcflags.go T_exitinexpr 251
+// funcflags.go T_exitinexpr 270
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: funcflags.go:256:18|0 "" 0
+// callsite: funcflags.go:275:18|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_exitinexpr(x int) {
@@ -277,11 +277,11 @@ func T_exitinexpr(x int) {
 	}
 }
 
-// funcflags.go T_calls_callsexit 266
+// funcflags.go T_calls_callsexit 287
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: funcflags.go:267:15|0 "" 0
+// callsite: funcflags.go:288:15|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_calls_callsexit(x int) {

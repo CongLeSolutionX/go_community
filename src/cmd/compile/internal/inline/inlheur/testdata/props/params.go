@@ -21,12 +21,12 @@ type I interface {
 func (r T) Blarg() {
 }
 
-// params.go T_feeds_if_simple 30
+// params.go T_feeds_if_simple 32
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:32:10|0 "" 0
+// callsite: params.go:34:10|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_simple(x int) {
@@ -36,12 +36,12 @@ func T_feeds_if_simple(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_pointer 43
+// params.go T_feeds_if_pointer 47
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:45:10|0 "" 0
+// callsite: params.go:49:10|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_pointer(xp *int) {
@@ -51,14 +51,14 @@ func T_feeds_if_pointer(xp *int) {
 	println(xp)
 }
 
-// params.go T.T_feeds_if_simple_method 57
+// params.go T.T_feeds_if_simple_method 64
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 //   1 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8,8],"ReturnFlags":[]}
-// callsite: params.go:59:10|0 "" 0
-// callsite: params.go:62:10|1 "" 0
+// callsite: params.go:66:10|0 "CallSiteOnPanicPath" 2
+// callsite: params.go:69:10|1 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func (r T) T_feeds_if_simple_method(x int) {
@@ -71,12 +71,12 @@ func (r T) T_feeds_if_simple_method(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_blanks 73
+// params.go T_feeds_if_blanks 82
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:76:10|0 "" 0
+// callsite: params.go:85:10|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
@@ -87,12 +87,12 @@ func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
 	println(x)
 }
 
-// params.go T_feeds_if_with_copy 87
+// params.go T_feeds_if_with_copy 98
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:91:10|0 "" 0
+// callsite: params.go:102:10|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_with_copy(x int) {
@@ -104,10 +104,10 @@ func T_feeds_if_with_copy(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_with_copy_expr 100
+// params.go T_feeds_if_with_copy_expr 113
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: params.go:104:10|0 "" 0
+// callsite: params.go:117:10|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_feeds_if_with_copy_expr(x int) {
@@ -119,7 +119,7 @@ func T_feeds_if_with_copy_expr(x int) {
 	println(x)
 }
 
-// params.go T_feeds_switch 115
+// params.go T_feeds_switch 129
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -136,7 +136,7 @@ func T_feeds_switch(x int) {
 	println(x)
 }
 
-// params.go T_feeds_if_toocomplex 129
+// params.go T_feeds_if_toocomplex 144
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[]}
 // <endcallsites>
@@ -151,7 +151,7 @@ func T_feeds_if_toocomplex(x int, y int) {
 	println(x + y)
 }
 
-// params.go T_feeds_if_redefined 143
+// params.go T_feeds_if_redefined 159
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -165,7 +165,7 @@ func T_feeds_if_redefined(x int) {
 	}
 }
 
-// params.go T_feeds_if_redefined2 156
+// params.go T_feeds_if_redefined2 173
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -183,7 +183,7 @@ func T_feeds_if_redefined2(x int) {
 	}
 }
 
-// params.go T_feeds_multi_if 176
+// params.go T_feeds_multi_if 194
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 //   1 ParamNoInfo
@@ -206,7 +206,7 @@ func T_feeds_multi_if(x int, y int) {
 	println(x + y)
 }
 
-// params.go T_feeds_if_redefined_indirectwrite 195
+// params.go T_feeds_if_redefined_indirectwrite 214
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -221,7 +221,7 @@ func T_feeds_if_redefined_indirectwrite(x int) {
 	}
 }
 
-// params.go T_feeds_if_redefined_indirectwrite_copy 209
+// params.go T_feeds_if_redefined_indirectwrite_copy 229
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -239,7 +239,7 @@ func T_feeds_if_redefined_indirectwrite_copy(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr1 228
+// params.go T_feeds_if_expr1 249
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -252,7 +252,7 @@ func T_feeds_if_expr1(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr2 238
+// params.go T_feeds_if_expr2 260
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -263,7 +263,7 @@ func T_feeds_if_expr2(x int) {
 	}
 }
 
-// params.go T_feeds_if_expr3 248
+// params.go T_feeds_if_expr3 271
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -274,7 +274,7 @@ func T_feeds_if_expr3(x int) {
 	}
 }
 
-// params.go T_feeds_if_shift_may_panic 258
+// params.go T_feeds_if_shift_may_panic 282
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[0]}
 // <endcallsites>
@@ -289,7 +289,7 @@ func T_feeds_if_shift_may_panic(x int) *int {
 	return &G
 }
 
-// params.go T_feeds_if_maybe_divide_by_zero 272
+// params.go T_feeds_if_maybe_divide_by_zero 297
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
 // <endcallsites>
@@ -301,7 +301,7 @@ func T_feeds_if_maybe_divide_by_zero(x int) {
 	println("blarg")
 }
 
-// params.go T_feeds_indcall 285
+// params.go T_feeds_indcall 311
 // RecvrParamFlags
 //   0 ParamFeedsIndirectCall
 // <endpropsdump>
@@ -314,7 +314,7 @@ func T_feeds_indcall(x func()) {
 	}
 }
 
-// params.go T_feeds_indcall_and_if 297
+// params.go T_feeds_indcall_and_if 324
 // RecvrParamFlags
 //   0 ParamFeedsIndirectCall|ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -327,7 +327,7 @@ func T_feeds_indcall_and_if(x func()) {
 	}
 }
 
-// params.go T_feeds_indcall_with_copy 309
+// params.go T_feeds_indcall_with_copy 337
 // RecvrParamFlags
 //   0 ParamFeedsIndirectCall
 // <endpropsdump>
@@ -342,7 +342,7 @@ func T_feeds_indcall_with_copy(x func()) {
 	xx()
 }
 
-// params.go T_feeds_interface_method_call 323
+// params.go T_feeds_interface_method_call 352
 // RecvrParamFlags
 //   0 ParamFeedsInterfaceMethodCall
 // <endpropsdump>

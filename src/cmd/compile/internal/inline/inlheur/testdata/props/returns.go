@@ -28,7 +28,7 @@ type Itf interface {
 	Plark()
 }
 
-// returns.go T_simple_allocmem 37
+// returns.go T_simple_allocmem 38
 // ReturnFlags
 //   0 ReturnIsAllocatedMem
 // <endpropsdump>
@@ -39,7 +39,7 @@ func T_simple_allocmem() *Bar {
 	return &Bar{}
 }
 
-// returns.go T_allocmem_two_returns 49
+// returns.go T_allocmem_two_returns 51
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // ReturnFlags
@@ -57,7 +57,7 @@ func T_allocmem_two_returns(x int) *Bar {
 	}
 }
 
-// returns.go T_allocmem_three_returns 66
+// returns.go T_allocmem_three_returns 69
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // ReturnFlags
@@ -79,7 +79,7 @@ func T_allocmem_three_returns(x int) []*Bar {
 	return make([]*Bar, 0, 10)
 }
 
-// returns.go T_return_nil 85
+// returns.go T_return_nil 89
 // ReturnFlags
 //   0 ReturnAlwaysSameConstant
 // <endpropsdump>
@@ -91,7 +91,7 @@ func T_return_nil() *Bar {
 	return nil
 }
 
-// returns.go T_multi_return_nil 96
+// returns.go T_multi_return_nil 101
 // ReturnFlags
 //   0 ReturnAlwaysSameConstant
 // <endpropsdump>
@@ -105,7 +105,7 @@ func T_multi_return_nil(x, y bool) *Bar {
 	return nil
 }
 
-// returns.go T_multi_return_nil_anomoly 107
+// returns.go T_multi_return_nil_anomoly 113
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[0]}
 // <endcallsites>
@@ -119,7 +119,7 @@ func T_multi_return_nil_anomoly(x, y bool) Itf {
 	return barnil
 }
 
-// returns.go T_multi_return_some_nil 120
+// returns.go T_multi_return_some_nil 127
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[0]}
 // <endcallsites>
@@ -134,7 +134,7 @@ func T_multi_return_some_nil(x, y bool) *Bar {
 
 var GB Bar
 
-// returns.go T_mixed_returns 136
+// returns.go T_mixed_returns 144
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -150,7 +150,7 @@ func T_mixed_returns(x int) *Bar {
 	}
 }
 
-// returns.go T_mixed_returns_slice 151
+// returns.go T_mixed_returns_slice 160
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -171,7 +171,7 @@ func T_mixed_returns_slice(x int) []*Bar {
 	return ba[:]
 }
 
-// returns.go T_maps_and_channels 174
+// returns.go T_maps_and_channels 184
 // ReturnFlags
 //   0 ReturnNoInfo
 //   1 ReturnNoInfo
@@ -186,7 +186,7 @@ func T_maps_and_channels(x int, b bool) (bool, map[int]int, chan bool, unsafe.Po
 	return b, make(map[int]int), make(chan bool), nil
 }
 
-// returns.go T_assignment_to_named_returns 185
+// returns.go T_assignment_to_named_returns 196
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -203,7 +203,7 @@ func T_assignment_to_named_returns(x int) (r1 *uint64, r2 *uint64) {
 	return
 }
 
-// returns.go T_named_returns_but_return_explicit_values 204
+// returns.go T_named_returns_but_return_explicit_values 216
 // RecvrParamFlags
 //   0 ParamFeedsIfOrSwitch
 // ReturnFlags
@@ -223,7 +223,7 @@ func T_named_returns_but_return_explicit_values(x int) (r1 *uint64, r2 *uint64) 
 	return rx1, rx2
 }
 
-// returns.go T_return_concrete_type_to_itf 220
+// returns.go T_return_concrete_type_to_itf 233
 // ReturnFlags
 //   0 ReturnIsConcreteTypeConvertedToInterface
 // <endpropsdump>
@@ -234,7 +234,7 @@ func T_return_concrete_type_to_itf(x, y int) Itf {
 	return &Bar{}
 }
 
-// returns.go T_return_concrete_type_to_itfwith_copy 230
+// returns.go T_return_concrete_type_to_itfwith_copy 244
 // ReturnFlags
 //   0 ReturnIsConcreteTypeConvertedToInterface
 // <endpropsdump>
@@ -247,7 +247,7 @@ func T_return_concrete_type_to_itfwith_copy(x, y int) Itf {
 	return b
 }
 
-// returns.go T_return_concrete_type_to_itf_mixed 240
+// returns.go T_return_concrete_type_to_itf_mixed 255
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0,0],"ReturnFlags":[0]}
 // <endcallsites>
