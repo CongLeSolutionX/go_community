@@ -53,6 +53,24 @@
       "message": "If we\u0027re going to call t.Skip here, we should also call t.Fatal here, and not bother to return anything from this method.  Thanks.",
       "revId": "8561aa21f8cd2c8c5085a614454efd33daf4267b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "036df9ef_c859a97c",
+        "filename": "src/net/interface_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-07-18T20:46:32Z",
+      "side": 1,
+      "message": "I only noticed when I went to try that: the return value is checked to apply other skips. Changed to match.",
+      "parentUuid": "f38a70e1_92c61c75",
+      "revId": "8561aa21f8cd2c8c5085a614454efd33daf4267b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
