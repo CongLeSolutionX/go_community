@@ -20,6 +20,7 @@ const (
 	debugTraceReturns
 	debugTraceParams
 	debugTraceExprClassify
+	debugTraceCalls
 )
 
 // propAnalyzer interface is used for defining one or more
@@ -82,7 +83,7 @@ func computeFuncProps(fn *ir.Func) (*FuncProps, CallSiteTab) {
 	}
 
 	// Now build up a partial table of callsites for this func.
-	cstab := computeCallSiteTable(fn)
+	cstab := computeCallSiteTable(fn, ffa.panicPathTable())
 
 	return fp, cstab
 }
