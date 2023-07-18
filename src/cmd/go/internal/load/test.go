@@ -378,6 +378,42 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			ptest.Incomplete = true
 		}
 
+		if p.Internal.PGOProfile != "" {
+			// Attach PGO profile to test dependencies.
+			// Find PGO version of the packages for building p.
+			pgoPkgs := make(map[string]*Package)
+			for _, p1 := range PackageList([]*Package{p}) {
+				if p1 != p { // don't add p to the map as the test will actually import ptest
+					pgoPkgs[p1.ImportPath] = p1
+				}
+			}
+
+			for _, p1 := range PackageList([]*Package{pmain}) {
+				if pgoPkgs[p1.ImportPath] != nil && p1 != ptest && p1 != pmain {
+					continue
+				}
+				if cfg.BuildPGO == "auto" && p1 != pmain && p1.ForTest == "" {
+					// Make a copy, then attach profile.
+					// No need to copy if the package is built solely for this test.
+					p2 := new(Package)
+					*p2 = *p1
+					// Unalias the Internal.Imports slice, which is we're going to
+					// modify. We don't copy other slices as we don't change them.
+					p2.Internal.Imports = slices.Clone(p1.Internal.Imports)
+					p1 = p2
+				}
+				p1.Internal.ForMain = p.Internal.ForMain
+				p1.Internal.PGOProfile = p.Internal.PGOProfile
+				for i, pp := range p1.Internal.Imports {
+					// Replace imports with the PGO version.
+					// We traverse in bottom-up order so the imported packages are
+					// already visited.
+					p1.Internal.Imports[i] = pgoPkgs[pp.ImportPath]
+				}
+				pgoPkgs[p1.ImportPath] = p1
+			}
+		}
+
 		if cover != nil {
 			if cfg.Experiment.CoverageRedesign {
 				// Here ptest needs to inherit the proper coverage mode (since
@@ -458,6 +494,7 @@ func recompileForTest(pmain, preal, ptest, pxtest *Package) *PackageError {
 				return
 			}
 			didSplit = true
+			fmt.Println("split", p.ImportPath)
 			if testCopy[p] != nil {
 				panic("recompileForTest loop")
 			}
