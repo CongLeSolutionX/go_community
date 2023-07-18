@@ -271,14 +271,14 @@ func T_return_different_funcs() func(int) int {
 	}
 }
 
-// returns.go T_return_same_closure 290 0 1
+// returns.go T_return_same_closure 286 0 1
 // ResultFlags
 //   0 ResultAlwaysSameInlinableFunc
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[],"ResultFlags":[32]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_same_closure.func1 293 0 1
+// returns.go T_return_same_closure.func1 289 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
 // <endcallsites>
@@ -294,17 +294,17 @@ func T_return_same_closure() func(int) int {
 	}
 }
 
-// returns.go T_return_different_closures 321 0 1
+// returns.go T_return_different_closures 314 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[],"ResultFlags":[0]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_different_closures.func1 322 0 1
+// returns.go T_return_different_closures.func1 315 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_different_closures.func2 326 0 1
+// returns.go T_return_different_closures.func2 319 0 1
 // ResultFlags
 //   0 ResultAlwaysSameConstant
 // <endpropsdump>
@@ -320,19 +320,19 @@ func T_return_different_closures() func(int) int {
 	}
 }
 
-// returns.go T_return_noninlinable 350 0 1
+// returns.go T_return_noninlinable 340 0 1
 // ResultFlags
 //   0 ResultAlwaysSameFunc
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[16]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_noninlinable.func1 351 0 1
+// returns.go T_return_noninlinable.func1 341 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_noninlinable.func1.1 352 0 1
+// returns.go T_return_noninlinable.func1.1 342 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[],"ResultFlags":[]}
 // <endcallsites>
