@@ -269,8 +269,8 @@ func T_hasgotos(x int, y int) {
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":1,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: funcflags.go:278:10|0 "" 0
-// callsite: funcflags.go:280:9|1 "" 0
+// callsite: funcflags.go:278:10|0 "CallSiteOnPanicPath" 2
+// callsite: funcflags.go:280:9|1 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_callsexit(x int) {
@@ -288,7 +288,7 @@ func exprcallsexit(x int) int {
 // funcflags.go T_exitinexpr 294
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: funcflags.go:299:18|0 "" 0
+// callsite: funcflags.go:299:18|0 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_exitinexpr(x int) {
@@ -305,7 +305,7 @@ func T_exitinexpr(x int) {
 // Flags: FuncPropUnconditionalPanicExit
 // =====
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: funcflags.go:312:15|0 "" 0
+// callsite: funcflags.go:312:15|0 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_calls_callsexit(x int) {

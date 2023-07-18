@@ -49,16 +49,20 @@ const (
 )
 
 type callSiteAnalyzer struct {
-	cstab CallSiteTab
+	cstab    CallSiteTab
+	ptab     map[ir.Node]pstate
+	nstack   []ir.Node
+	loopNest int
 }
 
 // encodedCallSiteTab is a table keyed by "encoded" callsite (stringified
 // src.XPos plus call site ID) mapping to a value of call property bits.
 type encodedCallSiteTab map[string]CSPropBits
 
-func makeCallSiteAnalyzer(fn *ir.Func) *callSiteAnalyzer {
+func makeCallSiteAnalyzer(fn *ir.Func, ptab map[ir.Node]pstate) *callSiteAnalyzer {
 	return &callSiteAnalyzer{
 		cstab: make(CallSiteTab),
+		ptab:  ptab,
 	}
 }
 
@@ -72,12 +76,12 @@ func (cst CallSiteTab) merge(other CallSiteTab) error {
 	return nil
 }
 
-func computeCallSiteTable(fn *ir.Func) CallSiteTab {
+func computeCallSiteTable(fn *ir.Func, ptab map[ir.Node]pstate) CallSiteTab {
 	if debugTrace != 0 {
 		fmt.Fprintf(os.Stderr, "=-= making callsite table for func %v:\n",
 			fn.Sym().Name)
 	}
-	csa := makeCallSiteAnalyzer(fn)
+	csa := makeCallSiteAnalyzer(fn, ptab)
 	var doNode func(ir.Node) bool
 	doNode = func(n ir.Node) bool {
 		csa.nodeVisitPre(n)
@@ -90,7 +94,52 @@ func computeCallSiteTable(fn *ir.Func) CallSiteTab {
 }
 
 func (csa *callSiteAnalyzer) flagsForNode(call ir.Node) CSPropBits {
-	return 0
+	var r CSPropBits
+
+	if debugTrace&debugTraceCalls != 0 {
+		fmt.Fprintf(os.Stderr, "=-= analyzing call at %s\n",
+			fmtFullPos(call.Pos()))
+	}
+
+	// Set a bit if this call is within a loop.
+	if csa.loopNest > 0 {
+		r |= CallSiteInLoop
+	}
+
+	// Try to determine if this call is on a panic path. Do this by
+	// walking back up the node stack to see if we can find either A)
+	// an enclosing panic, or B) a statement node that we've
+	// determined leads to a panic/exit.
+	for ri := range csa.nstack[:len(csa.nstack)-1] {
+		i := len(csa.nstack) - ri - 1
+		n := csa.nstack[i]
+		_, isCallExpr := n.(*ir.CallExpr)
+		_, isStmt := n.(ir.Stmt)
+		if isCallExpr {
+			isStmt = false
+		}
+
+		if debugTrace&debugTraceCalls != 0 {
+			ps, inps := csa.ptab[n]
+			fmt.Fprintf(os.Stderr, "=-= callpar %d op=%s ps=%s inptab=%v stmt=%v\n", i, n.Op().String(), ps.String(), inps, isStmt)
+		}
+
+		if n.Op() == ir.OPANIC {
+			r |= CallSiteOnPanicPath
+			break
+		}
+		if v, ok := csa.ptab[n]; ok {
+			if v == psCallsPanic {
+				r |= CallSiteOnPanicPath
+				break
+			}
+			if isStmt {
+				break
+			}
+		}
+	}
+
+	return r
 }
 
 func fmtFullPos(p src.XPos) string {
@@ -122,7 +171,10 @@ func (csa *callSiteAnalyzer) addCallSite(callee *ir.Func, call ir.Node) {
 }
 
 func (csa *callSiteAnalyzer) nodeVisitPre(n ir.Node) {
+	csa.nstack = append(csa.nstack, n)
 	switch n.Op() {
+	case ir.ORANGE, ir.OFOR:
+		csa.loopNest++
 	case ir.OCALLFUNC:
 		ce := n.(*ir.CallExpr)
 		callee := pgo.DirectCallee(ce.X)
@@ -133,6 +185,11 @@ func (csa *callSiteAnalyzer) nodeVisitPre(n ir.Node) {
 }
 
 func (csa *callSiteAnalyzer) nodeVisitPost(n ir.Node) {
+	csa.nstack = csa.nstack[:len(csa.nstack)-1]
+	switch n.Op() {
+	case ir.ORANGE, ir.OFOR:
+		csa.loopNest--
+	}
 }
 
 func encodeCallSiteKey(cs *CallSite) string {

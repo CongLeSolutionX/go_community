@@ -26,7 +26,7 @@ func (r T) Blarg() {
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:34:10|0 "" 0
+// callsite: params.go:34:10|0 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_feeds_if_simple(x int) {
@@ -41,7 +41,7 @@ func T_feeds_if_simple(x int) {
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:49:10|0 "" 0
+// callsite: params.go:49:10|0 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_feeds_if_pointer(xp *int) {
@@ -57,8 +57,8 @@ func T_feeds_if_pointer(xp *int) {
 //   1: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8,8],"ReturnFlags":[]}
-// callsite: params.go:66:10|0 "" 0
-// callsite: params.go:69:10|1 "" 0
+// callsite: params.go:66:10|0 "CallSiteOnPanicPath" 2
+// callsite: params.go:69:10|1 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func (r T) T_feeds_if_simple_method(x int) {
@@ -76,7 +76,7 @@ func (r T) T_feeds_if_simple_method(x int) {
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:85:10|0 "" 0
+// callsite: params.go:85:10|0 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
@@ -92,7 +92,7 @@ func T_feeds_if_blanks(_ string, x int, _ bool, _ bool) {
 //   0: ParamFeedsIfOrSwitch
 // =====
 // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
-// callsite: params.go:102:10|0 "" 0
+// callsite: params.go:102:10|0 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_feeds_if_with_copy(x int) {
@@ -107,7 +107,7 @@ func T_feeds_if_with_copy(x int) {
 // params.go T_feeds_if_with_copy_expr 113
 // =====
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: params.go:117:10|0 "" 0
+// callsite: params.go:117:10|0 "CallSiteOnPanicPath" 2
 // =+=+=
 // =-=-=
 func T_feeds_if_with_copy_expr(x int) {
