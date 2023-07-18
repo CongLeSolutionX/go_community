@@ -426,6 +426,7 @@ func findgoversion() string {
 	}
 	version := fmt.Sprintf("devel go1.%s-", m[1])
 	version += chomp(run(goroot, CheckExit, "git", "log", "-n", "1", "--format=format:%h %cd", "HEAD"))
+	version += " (w/ rangefunc)"
 
 	// Cache version.
 	writefile(version, path, 0)
