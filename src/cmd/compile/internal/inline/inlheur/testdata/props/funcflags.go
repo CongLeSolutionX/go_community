@@ -252,15 +252,10 @@ func T_callsexit(x int) {
 	os.Exit(2)
 }
 
-func exprcallsexit(x int) int {
-	os.Exit(x)
-	return x
-}
-
-// funcflags.go T_exitinexpr 266 0 1
+// funcflags.go T_exitinexpr 261 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[]}
-// callsite: funcflags.go:271:18|0 flagstr "" flagval 0
+// callsite: funcflags.go:266:18|0 flagstr "CallSiteOnPanicPath" flagval 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_exitinexpr(x int) {
@@ -273,13 +268,18 @@ func T_exitinexpr(x int) {
 	}
 }
 
-// funcflags.go T_calls_callsexit 283 0 1
+// funcflags.go T_calls_callsexit 278 0 1
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":[0],"ResultFlags":[]}
-// callsite: funcflags.go:284:15|0 flagstr "" flagval 0
+// callsite: funcflags.go:279:15|0 flagstr "CallSiteOnPanicPath" flagval 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_calls_callsexit(x int) {
 	exprcallsexit(x)
+}
+
+func exprcallsexit(x int) int {
+	os.Exit(x)
+	return x
 }

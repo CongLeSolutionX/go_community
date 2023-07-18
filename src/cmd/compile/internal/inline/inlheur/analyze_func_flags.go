@@ -71,8 +71,20 @@ func (ffa *funcFlagsAnalyzer) setstate(n ir.Node, st pstate) {
 	}
 }
 
+func (ffa *funcFlagsAnalyzer) updatestate(n ir.Node, st pstate) {
+	if _, ok := ffa.nstate[n]; !ok {
+		base.Fatalf("funcFlagsAnalyzer: fn %q internal error, expected existing setting for node:\n%+v\n", ffa.fn.Sym().Name, n)
+	} else {
+		ffa.nstate[n] = st
+	}
+}
+
 func (ffa *funcFlagsAnalyzer) setstateSoft(n ir.Node, st pstate) {
 	ffa.nstate[n] = st
+}
+
+func (ffa *funcFlagsAnalyzer) panicPathTable() map[ir.Node]pstate {
+	return ffa.nstate
 }
 
 // blockCombine merges together states as part of a linear sequence of
@@ -115,7 +127,8 @@ func branchCombine(p1, p2 pstate) pstate {
 }
 
 // dolist walks through a list of statements and computes the
-// state/diposition for the entire list as a whole.
+// state/diposition for the entire list as a whole, as well
+// as updating disposition of intermediate nodes.
 func (ffa *funcFlagsAnalyzer) dolist(list ir.Nodes) pstate {
 	st := psTop
 	ll := len(list)
@@ -128,6 +141,7 @@ func (ffa *funcFlagsAnalyzer) dolist(list ir.Nodes) pstate {
 				ir.Line(n), n.Op().String(), psi.String())
 		}
 		st = blockCombine(st, psi)
+		ffa.updatestate(n, st)
 	}
 	if st == psTop {
 		st = psNoInfo

@@ -90,7 +90,7 @@ func computeFuncProps(fn *ir.Func, canInline func(*ir.Func)) (*FuncProps, CallSi
 	}
 
 	// Now build up a partial table of callsites for this func.
-	cstab := computeCallSiteTable(fn)
+	cstab := computeCallSiteTable(fn, ffa.panicPathTable())
 	disableDebugTrace()
 	return fp, cstab
 }
