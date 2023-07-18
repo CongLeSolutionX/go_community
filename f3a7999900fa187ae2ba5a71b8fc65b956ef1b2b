@@ -16,6 +16,24 @@
       "message": "Gentle ping.",
       "revId": "f3a7999900fa187ae2ba5a71b8fc65b956ef1b2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ef3fd77_18e3c019",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-07-18T14:12:17Z",
+      "side": 1,
+      "message": "Thank you for pinging this.",
+      "parentUuid": "96b008d1_f5cb8270",
+      "revId": "f3a7999900fa187ae2ba5a71b8fc65b956ef1b2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
