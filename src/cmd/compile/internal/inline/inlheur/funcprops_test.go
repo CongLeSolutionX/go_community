@@ -49,7 +49,7 @@ func TestFuncProperties(t *testing.T) {
 	// to building a fresh compiler on the fly, or using some other
 	// scheme.
 
-	testcases := []string{"funcflags", "returns", "params"}
+	testcases := []string{"funcflags", "returns", "params", "calls"}
 
 	for _, tc := range testcases {
 		dumpfile, err := gatherPropsDumpForFile(t, tc, td)

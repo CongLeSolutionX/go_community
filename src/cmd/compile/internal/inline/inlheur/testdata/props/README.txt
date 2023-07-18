@@ -18,18 +18,20 @@ cmd/compile/internal/inline/inlheur/testdata/props:
   properties, as well as the JSON for the properties object, each
   section separated by a "<>" delimiter.
 
-	  // funcflags.go T_feeds_if_simple 35
+	  // params.go T_feeds_if_simple 32
 	  // RecvrParamFlags:
 	  //   0: ParamFeedsIfOrSwitch
 	  // <endpropsdump>
 	  // {"Flags":0,"RecvrParamFlags":[8],"ReturnFlags":[]}
+	  // callsite: params.go:34:10|0 "CallSiteOnPanicPath" 2
+	  // <endcallsites>
 	  // <endfuncpreamble>
 	  func T_feeds_if_simple(x int) {
 		if x < 100 {
 			os.Exit(1)
 		}
 		println(x)
-	  }
+	}
 
 - when making changes to the compiler (which can alter the expected
   results) or edits/additions to the go code in the testcase files,

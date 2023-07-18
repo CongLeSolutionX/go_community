@@ -262,7 +262,7 @@ func exprcallsexit(x int) int {
 // funcflags.go T_exitinexpr 268
 // <endpropsdump>
 // {"Flags":0,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: funcflags.go:273:18|0 "" 0
+// callsite: funcflags.go:273:18|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_exitinexpr(x int) {
@@ -279,7 +279,7 @@ func T_exitinexpr(x int) {
 // Flags FuncPropUnconditionalPanicExit
 // <endpropsdump>
 // {"Flags":1,"RecvrParamFlags":[0],"ReturnFlags":[]}
-// callsite: funcflags.go:286:15|0 "" 0
+// callsite: funcflags.go:286:15|0 "CallSiteOnPanicPath" 2
 // <endcallsites>
 // <endfuncpreamble>
 func T_calls_callsexit(x int) {
