@@ -253,7 +253,7 @@ func T_callsexit(x int) {
 // funcflags.go T_exitinexpr 259 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[]}
-// callsite: funcflags.go:264:18|0 flagstr "CallSiteOnPanicPath" flagval 2
+// callsite: funcflags.go:264:18|0 flagstr "CallSiteOnPanicPath" flagval 2 score 102 mask 1 maskstr "panicPathAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_exitinexpr(x int) {
@@ -306,7 +306,7 @@ func T_select_mayreturn(chi chan int, chf chan float32, p *int) int {
 // Flags FuncPropNeverReturns
 // <endpropsdump>
 // {"Flags":1,"ParamFlags":[0],"ResultFlags":[]}
-// callsite: funcflags.go:313:15|0 flagstr "CallSiteOnPanicPath" flagval 2
+// callsite: funcflags.go:313:15|0 flagstr "CallSiteOnPanicPath" flagval 2 score 102 mask 1 maskstr "panicPathAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_calls_callsexit(x int) {
