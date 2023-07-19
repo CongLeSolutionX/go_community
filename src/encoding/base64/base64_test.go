@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"reflect"
 	"runtime/debug"
 	"strings"
@@ -283,6 +284,15 @@ func TestEncodedLen(t *testing.T) {
 			t.Errorf("EncodedLen(%d): got %d, want %d", tt.n, got, tt.want)
 		}
 	}
+	// check overflow
+	{
+		if n := RawStdEncoding.EncodedLen((math.MaxInt-5)/8 + 1); n <= 0 {
+			t.Errorf("EncodedLen(%d): got %d, want be greater than 0", (math.MaxInt-5)/8+1, n)
+		}
+		if n := RawStdEncoding.EncodedLen(math.MaxInt/4*3 + 2); n <= 0 {
+			t.Errorf("EncodedLen(%d): got %d, want be greater than 0", math.MaxInt/4*3+2, n)
+		}
+	}
 }
 
 func TestDecodedLen(t *testing.T) {
@@ -302,6 +312,15 @@ func TestDecodedLen(t *testing.T) {
 	} {
 		if got := tt.enc.DecodedLen(tt.n); got != tt.want {
 			t.Errorf("DecodedLen(%d): got %d, want %d", tt.n, got, tt.want)
+		}
+	}
+	// check overflow
+	{
+		if n := RawStdEncoding.DecodedLen(math.MaxInt/6 + 1); n <= 0 {
+			t.Errorf("DecodedLen(%d): got %d, want be greater than 0", math.MaxInt/6+1, n)
+		}
+		if n := RawStdEncoding.DecodedLen(math.MaxInt); n <= 0 {
+			t.Errorf("DecodedLen(%d): got %d, want be greater than 0", math.MaxInt, n)
 		}
 	}
 }
