@@ -1526,6 +1526,17 @@ func (ctxt *Link) hostlink() {
 		if ctxt.HeadType == objabi.Hdarwin {
 			if machoPlatform == PLATFORM_MACOS && ctxt.IsAMD64() {
 				argv = append(argv, "-Wl,-no_pie")
+				// ld-prime silently ignores -no_pie and generates a PIE binary,
+				// which doesn't run because we assumed it is a non-PIE binary
+				// therefore generated non-relocated addresses. Force to use ld64.
+				// The flag is called -ld_classic on Xcode 15 beta 5, and -ld64 before.
+				// Only add it when it is supported. Older version of ld64 doesn't
+				// support the flag but it is ld64 already.
+				if linkerFlagSupported(ctxt.Arch, argv[0], "", "-Wl,-ld_classic") {
+					argv = append(argv, "-Wl,-ld_classic")
+				} else if linkerFlagSupported(ctxt.Arch, argv[0], "", "-Wl,-ld64") {
+					argv = append(argv, "-Wl,-ld64")
+				}
 			}
 		}
 		if *flagRace && ctxt.HeadType == objabi.Hwindows {
