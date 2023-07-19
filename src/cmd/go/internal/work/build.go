@@ -38,11 +38,15 @@ build treats them as a list of source files specifying a single package.
 
 When compiling packages, build ignores files that end in '_test.go'.
 
-When compiling a single main package, build writes
-the resulting executable to an output file named after
-the first source file ('go build ed.go rx.go' writes 'ed' or 'ed.exe')
-or the source code directory ('go build unix/sam' writes 'sam' or 'sam.exe').
-The '.exe' suffix is added when writing a Windows executable.
+When compiling a single main package, build writes the resulting
+executable to an output file, which is named after the following rules:
+ - If the arguments are a list of files, the first argument is used.
+ ('go build ed.go rx.go' writes 'ed' or 'ed.exe').
+ The '.exe' suffix is added when writing a Windows executable.
+ - If the argument is a directory or omitted, the module directive
+ in go.mod is used in module-aware mode. ('module example.com/sam' writes 'sam' or 'sam.exe').
+ When module-aware mode is disabled, the name of the given or current directory is used.
+ ('go build unix/sam' writes 'sam' or 'sam.exe').
 
 When compiling multiple packages or a single non-main package,
 build compiles the packages but discards the resulting object,
