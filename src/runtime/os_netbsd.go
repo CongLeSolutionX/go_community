@@ -103,6 +103,7 @@ var sigset_all = sigset{[4]uint32{^uint32(0), ^uint32(0), ^uint32(0), ^uint32(0)
 const (
 	_CTL_KERN   = 1
 	_KERN_OSREV = 3
+	_KERN_ARND  = 81
 
 	_CTL_HW        = 6
 	_HW_NCPU       = 3
