@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "57d8aaf6_b907ef96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-19T11:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb601f6_850c84e7",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 75
+      },
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b83b03c8_753b96e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -138,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61d18af4_36bbde6c",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-19T11:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62484363_11ec6719",
+      "range": {
+        "startLine": 2078,
+        "startChar": 2,
+        "endLine": 2079,
+        "endChar": 69
+      },
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "288c0363_a42233a5",
@@ -151,6 +199,30 @@
       "writtenOn": "2023-07-19T06:01:52Z",
       "side": 1,
       "message": "Similar here.",
+      "range": {
+        "startLine": 2085,
+        "startChar": 2,
+        "endLine": 2086,
+        "endChar": 69
+      },
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19087dca_702a162c",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-19T11:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "288c0363_a42233a5",
       "range": {
         "startLine": 2085,
         "startChar": 2,
