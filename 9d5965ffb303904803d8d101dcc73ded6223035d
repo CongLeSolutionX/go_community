@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb601f6_850c84e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-19T06:01:52Z",
+      "side": 1,
+      "message": "This does not match up with what is being implemented.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 75
+      },
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b83b03c8_753b96e1",
@@ -70,6 +93,70 @@
       "writtenOn": "2023-07-19T01:21:13Z",
       "side": 1,
       "message": "Hi, Keith, Joel, I\u0027ve done 600 rounds of dist test (5 min each), no more crash now.\nCould you +2 this CL, so we can fix this before 1.21 release?",
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9841e357_52e884ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-19T06:01:52Z",
+      "side": 1,
+      "message": "Great, thanks.\n\nHas this also been tested extensively on existing hardware (e.g. HiFive Unmatched and/or VisionFive 2)? While I\u0027d like to get this in for 1.21, I\u0027m slightly concerned about potential regressions on existing platforms this late in the release cycle (there should not be, but I\u0027d like to be certain).\n\nI\u0027ll kick some tests off here as well.",
+      "parentUuid": "9975b698_7aefa70a",
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62484363_11ec6719",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-19T06:01:52Z",
+      "side": 1,
+      "message": "The wrapping here is strange... otherwise, just saying \"Set release ordering.\" is probably sufficient.",
+      "range": {
+        "startLine": 2078,
+        "startChar": 2,
+        "endLine": 2079,
+        "endChar": 69
+      },
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "288c0363_a42233a5",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-19T06:01:52Z",
+      "side": 1,
+      "message": "Similar here.",
+      "range": {
+        "startLine": 2085,
+        "startChar": 2,
+        "endLine": 2086,
+        "endChar": 69
+      },
       "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
