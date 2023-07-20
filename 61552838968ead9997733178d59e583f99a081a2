@@ -70,6 +70,24 @@
       "parentUuid": "3e24047f_89bcf9a9",
       "revId": "61552838968ead9997733178d59e583f99a081a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ddac228_f240678b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-20T08:29:18Z",
+      "side": 1,
+      "message": "The MOV family of instructions are special in that the implementation is translated based on source and destination. For most other cases the architectural specific instruction names are used (e.g. REV exists on arm64, while BSWAPQ exists on amd64).",
+      "parentUuid": "12c6a341_f7897d5f",
+      "revId": "61552838968ead9997733178d59e583f99a081a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
