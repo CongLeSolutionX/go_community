@@ -70,6 +70,24 @@
       "message": "I\u0027m nervous about a change with this much subtle aliasing behavior at this point in the freeze.\n\nI\u0027d like to better understand how this interacts with `recompileForTest`, which already handles the splitting and aliasing logic — is the PGO profile information missing at the point where `recompileForTest` is called? Should the condition for the `split` call (at line 533) be expanded to include PGO so that we don\u0027t need to do additional splitting here?",
       "revId": "fd7b388de657161fb85e216843c0e07dd616a761",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46b63f4f_ad1bd0f9",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-20T14:44:51Z",
+      "side": 1,
+      "message": "I think `recompileForTest` only splits packages that transitively imports ptest. But here we also need to split packages that doesn\u0027t import ptest, to make sure it has PGO information and imports the PGO version of packages. It is probably possible to merge that logic into `recompileForTest` (and split more packages there). I can try that.",
+      "parentUuid": "8eec58ac_9db44a58",
+      "revId": "fd7b388de657161fb85e216843c0e07dd616a761",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
