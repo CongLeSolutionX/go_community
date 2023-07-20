@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a620dbd6_0043e96d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-20T15:03:23Z",
+      "side": 1,
+      "message": "The errors observed in #51442 included several failures on the `windows-amd64-2016` builder. Does that builder predate Windows 10 1903?\n\nMore generally: now that we have a mitigation for #51442 in place, I\u0027m not sure how we would observe a regression here during the 1.22 development cycle. (I think this probably needs its own regression test.)\n\nPerhaps we could test it by having the test function make a copy of `os.Executable()` in temp directory, execute it with `-test.run\u003d^$`, and then verify that `os.RemoveAll` can remove the directory. Running that test with a high `-count` (and perhaps some concurrent load on the machine) might give us more confidence in this change.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "db3bc8d2b948304e3cadeb6aa7c3d0c34b5a705d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "00df35c4_230ab001",
