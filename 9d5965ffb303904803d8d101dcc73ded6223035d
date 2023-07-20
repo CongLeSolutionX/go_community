@@ -157,6 +157,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19c1736_11846e1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-20T05:21:11Z",
+      "side": 1,
+      "message": "Thanks, I\u0027m not surprised by this - we\u0027re now (correctly) setting release on stores, which is going to have a non-zero overhead. I was more concerned about unexpected regressions (I\u0027ve done a few runs here on HiFive Unleashed as well).",
+      "parentUuid": "bdc4c0cf_217844a4",
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62484363_11ec6719",
