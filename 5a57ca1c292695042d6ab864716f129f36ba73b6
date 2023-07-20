@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00a630d7_7216570c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-20T22:02:14Z",
+      "side": 1,
+      "message": "That is correct — it is an optimization to avoid an unnecessary unlock/lock sequence if the race detector is not enabled.",
+      "parentUuid": "22c61ac9_6cad7021",
+      "range": {
+        "startLine": 964,
+        "startChar": 15,
+        "endLine": 964,
+        "endChar": 61
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e315436_39801f15",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b7e21d_6db57229",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-20T22:02:14Z",
+      "side": 1,
+      "message": "If `c.checkRaces` detects a race, it calls `c.Errorf`, which calls `c.Fail`.\n\n`c.raceErrorLogged` is only used to suppress duplicates.",
+      "parentUuid": "9e315436_39801f15",
+      "range": {
+        "startLine": 970,
+        "startChar": 8,
+        "endLine": 970,
+        "endChar": 16
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14a37dc1_b87dd635",
@@ -97,6 +145,30 @@
       "writtenOn": "2023-07-20T21:35:58Z",
       "side": 1,
       "message": "I get why this loop is necessary, but would it be bad to just acquire `c`\u0027s mutex instead?\n\n```go\nc.mu.Lock()\nif raceErrors \u003c\u003d c.lastRaceErrors.Load() {\n  c.mu.Unlock()\n  return raceErrors\n}\nc.lastRaceErrors.Store(raceErrors)\nc.mu.Unlock()\n```\n\n(And also below.)\n\nThen you don\u0027t even need atomic types anymore.",
+      "range": {
+        "startLine": 1361,
+        "startChar": 1,
+        "endLine": 1361,
+        "endChar": 4
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "719eb897_ec1b1fff",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-20T22:02:14Z",
+      "side": 1,
+      "message": "\u003e I get why this loop is necessary, but would it be bad to just acquire `c`\u0027s mutex instead?\n\nHmm. Interesting question. I was worried about lock-ordering bugs (between a subtest and its parents), but looking at how things turned out it seems that we don\u0027t need to hold the child\u0027s lock at the same time as the parent\u0027s anyway, so that might be feasible.\n\nOn the other hand, it would be nice to get rid of the `RLock` in `(*common).Failed` to reduce cache contention if it is called in a loop. I think that could be done by changing `c.failed` to an atomic variable, in which case it would be nice for `lastRaceErrors` to remain atomic too. But I suppose we could avoid checking `c.lastRaceErrors` at all if `race.Errors() \u003d\u003d 0`, which is the common case. 🤔",
+      "parentUuid": "14a37dc1_b87dd635",
       "range": {
         "startLine": 1361,
         "startChar": 1,
