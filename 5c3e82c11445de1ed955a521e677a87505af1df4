@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e78bfbd8_e908bea8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4410,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "Maybe s/or from/including/.  The current sentence implies that we can infer the type arguments only from the constraints, which might be true in some cases but is useless in practice.",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0671be0_e93a0444",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4413,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "s/succeeds/succeeds with the inferred type arguments/",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec2c9483_98794c3a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4422,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "Maybe s/finds the/looks for/ and then remove the parenthetical clause.",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93cc6ee5_c74f14e8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4426,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "Not sure about this, but the \"the constraint of its respective type parameter\" ?",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd867da4_5f6f513a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4454,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "I\u0027m not clear on what the \u003csub\u003eA\u003c/sub\u003e is doing here.  I\u0027m not sure what the A means and I\u0027m not sure why the subscript appears before S and not after.",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e68a33_32c547f4",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4485,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "s/need/needs/",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17a99e53_9073c411",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4551,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "I think there is an unwanted \u003csub\u003eC\u003c/sub\u003e here.",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4979c7_3b9a2cec",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 4571,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-20T19:43:07Z",
+      "side": 1,
+      "message": "s/multiple/more/",
+      "revId": "5c3e82c11445de1ed955a521e677a87505af1df4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
