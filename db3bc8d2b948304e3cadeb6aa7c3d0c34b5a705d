@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfcf4914_00f03fc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-20T15:31:34Z",
+      "side": 1,
+      "message": "#51442 failures are `ERROR_SHARING_VIOLATION`. I don\u0027t think it is related to the race condition fixed by using POSIX delete, whose error code would be `ERROR_ACCESS_DENIED`.\n\n#51442 can will still happen if there are file descriptor leaks or bad interactions with other bad processes, aka antivirus.\n\nRegardless, I can add the tets you describe and verify that there are no `ERROR_ACCESS_DENIED`.",
+      "parentUuid": "a620dbd6_0043e96d",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "db3bc8d2b948304e3cadeb6aa7c3d0c34b5a705d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "00df35c4_230ab001",
