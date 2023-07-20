@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87a8d79a_f0b7c551",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-20T18:54:19Z",
+      "side": 1,
+      "message": "PTAL.\n\nI\u0027d love to get this in even if it\u0027s not the final version yet. I think it accurately represents the type inference step. What is missing is the unification section (next CL) which will explain how the various equations are solved.\n\nThanks.",
+      "revId": "fdafce68057ae02a2c26e362fbe436cd2e95dfc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
