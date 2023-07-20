@@ -87,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb621d4b_c1751935",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 4423,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-20T00:41:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a4cc34a_c9614057",
+      "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "674757d7_1e26e1f7",
@@ -100,6 +118,24 @@
       "writtenOn": "2023-07-07T07:13:07Z",
       "side": 1,
       "message": "i wouldn\u0027t choose a symmetrical symbol for an asymmetrical relation.",
+      "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "437a0b29_c5068ec2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 4453,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-20T00:41:59Z",
+      "side": 1,
+      "message": "reformulated",
+      "parentUuid": "674757d7_1e26e1f7",
       "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -121,6 +157,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "500d17fd_411c6fa6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 4483,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-20T00:41:59Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "d1747754_885382e2",
+      "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da7ff35e_9def8eb3",
@@ -138,6 +192,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9165cbdf_0e0da915",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 4486,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-20T00:41:59Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "da7ff35e_9def8eb3",
+      "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50ff3e9e_59e46fc0",
@@ -151,6 +223,24 @@
       "writtenOn": "2023-07-07T07:13:07Z",
       "side": 1,
       "message": "this is most unsatisfactory in both explanation and reasoning.",
+      "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0d5a848_f9a0984b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 4494,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-20T00:41:59Z",
+      "side": 1,
+      "message": "removed - it\u0027s more confusing than helpful",
+      "parentUuid": "50ff3e9e_59e46fc0",
       "revId": "bfbca61075fd8fa80c5e5e5f5e9e6e914f76a14c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

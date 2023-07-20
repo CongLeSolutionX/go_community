@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b3daf81_310854c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-20T00:41:59Z",
+      "side": 1,
+      "message": "PTAL.\n\nI simplified the description a bit. I hope the inference section is precise enough to give users an understanding of what type relationships inference is considering.\n\nThe meat will be in the details of unification (next section). Rob Pike suggested to perhaps move that elsewhere (into an Appendix) so as to not make the spec harder to read than necessary.",
+      "revId": "6bb439b995cad96cd8901a079c00e11a8b86d1c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
