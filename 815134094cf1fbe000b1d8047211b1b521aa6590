@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b315aad_069df8f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-20T06:27:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fbcdca0_4fbe496f",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "815134094cf1fbe000b1d8047211b1b521aa6590",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d0ea470_3f8543e9",
@@ -93,6 +117,30 @@
       "writtenOn": "2023-07-20T05:21:11Z",
       "side": 1,
       "message": "I\u0027d suggest we remove this (or add it to the next two) for consistency.",
+      "range": {
+        "startLine": 2070,
+        "startChar": 42,
+        "endLine": 2070,
+        "endChar": 83
+      },
+      "revId": "815134094cf1fbe000b1d8047211b1b521aa6590",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1834cf6d_ad82fcb8",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2070,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-20T06:27:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fe8e394_a463e450",
       "range": {
         "startLine": 2070,
         "startChar": 42,
