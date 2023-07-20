@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75b98f9_812a68f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-20T16:16:38Z",
+      "side": 1,
+      "message": "We don\u0027t use Markdown in commit messages, and we don\u0027t add a `()` suffix on function names. I\u0027d write:\n\n```\nnet/http: add Request.ReadCookies\n```",
+      "revId": "4dfbd5ca6afdd741fc8685fc1df102fa527c4103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef70fbf2_3c1a2dda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-20T16:16:38Z",
+      "side": 1,
+      "message": "To be recognized by the bot:\n\n```\nFixes #61472\n```",
+      "revId": "4dfbd5ca6afdd741fc8685fc1df102fa527c4103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f43f7871_8d894c1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-20T16:16:38Z",
+      "side": 1,
+      "message": "Change itself seems reasonable, needs an accepted proposal to proceed.",
+      "revId": "4dfbd5ca6afdd741fc8685fc1df102fa527c4103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
