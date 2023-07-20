@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3e9ce02_bcecd982",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-20T20:20:47Z",
+      "side": 1,
+      "message": "\u003e #51442 failures are `ERROR_SHARING_VIOLATION`. I don\u0027t think it is related to the race condition fixed by using POSIX delete, whose error code would be `ERROR_ACCESS_DENIED`.\n\nI guess what I am saying is: I think part of the reason for the `Sleep` after `(*Process).Wait` is to reduce the rate of spurious `ERROR_SHARING_VIOLATION`. For example, the two logs linked in https://github.com/golang/go/issues/23171#issuecomment-437439363 both include the `ERROR_SHARING_VIOLATION` failure mode, but only one of them includes the `ERROR_ACCESS_DENIED`.\n\nYou may be right that they have separate causes, but I think we may need to address both of them. 🙃\n\n\u003e #51442 can will still happen if there are file descriptor leaks or bad interactions with other bad processes, aka antivirus.\n\nAs far as I can tell, the failures on the Go builders that I listed in the first post on #51442 were not caused by file descriptor leaks, and as far as I know the Go builders don\u0027t run any antivirus software that would interfere either.\n\n(Some of the user-reported failures in later comments and/or associated issues may be due to FD leaks or antivirus interactions, though.)",
+      "parentUuid": "bfcf4914_00f03fc4",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "db3bc8d2b948304e3cadeb6aa7c3d0c34b5a705d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "00df35c4_230ab001",
