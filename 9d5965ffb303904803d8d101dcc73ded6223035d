@@ -139,6 +139,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdc4c0cf_217844a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-07-20T04:38:36Z",
+      "side": 1,
+      "message": "Both unmatched and VisionFive2 tested about 10 times without issue. Unfortunately, there are some regression on atomic store:\n```\ngoos: linux\ngoarch: riscv64\npkg: runtime/internal/atomic\n                │ atomic.old.bench │          atomic.new.bench           │\n                │      sec/op      │   sec/op     vs base                │\nAtomicLoad64-4         4.216n ± 1%   4.202n ± 0%        ~ (p\u003d0.127 n\u003d10)\nAtomicStore64-4        5.040n ± 0%   6.718n ± 0%  +33.30% (p\u003d0.000 n\u003d10)\nAtomicLoad-4           4.217n ± 0%   4.213n ± 0%        ~ (p\u003d0.145 n\u003d10)\nAtomicStore-4          5.040n ± 0%   6.718n ± 0%  +33.30% (p\u003d0.000 n\u003d10)\nAnd8-4                 9.237n ± 0%   9.240n ± 0%        ~ (p\u003d0.582 n\u003d10)\nAnd-4                  5.878n ± 0%   6.719n ± 0%  +14.31% (p\u003d0.000 n\u003d10)\nAnd8Parallel-4         28.44n ± 0%   28.46n ± 0%   +0.07% (p\u003d0.000 n\u003d10)\nAndParallel-4          28.40n ± 0%   28.43n ± 0%   +0.11% (p\u003d0.000 n\u003d10)\nOr8-4                  8.399n ± 0%   8.398n ± 0%        ~ (p\u003d0.357 n\u003d10)\nOr-4                   5.879n ± 0%   6.718n ± 0%  +14.27% (p\u003d0.000 n\u003d10)\nOr8Parallel-4          28.43n ± 0%   28.45n ± 0%   +0.09% (p\u003d0.000 n\u003d10)\nOrParallel-4           28.40n ± 0%   28.43n ± 0%   +0.11% (p\u003d0.000 n\u003d10)\nXadd-4                 30.05n ± 0%   30.10n ± 0%   +0.18% (p\u003d0.000 n\u003d10)\nXadd64-4               30.05n ± 0%   30.09n ± 0%   +0.12% (p\u003d0.000 n\u003d10)\nCas-4                  60.48n ± 0%   61.13n ± 0%   +1.08% (p\u003d0.000 n\u003d10)\nCas64-4                62.28n ± 0%   62.34n ± 0%        ~ (p\u003d0.810 n\u003d10)\nXchg-4                 30.05n ± 0%   30.09n ± 0%   +0.15% (p\u003d0.000 n\u003d10)\nXchg64-4               30.05n ± 0%   30.09n ± 0%   +0.13% (p\u003d0.000 n\u003d10)\ngeomean                15.42n        16.17n        +4.89%\n```",
+      "parentUuid": "9841e357_52e884ba",
+      "revId": "9d5965ffb303904803d8d101dcc73ded6223035d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62484363_11ec6719",
