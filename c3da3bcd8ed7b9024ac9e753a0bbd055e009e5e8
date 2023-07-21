@@ -52,6 +52,24 @@
       "parentUuid": "788af2bc_bb3d4ecf",
       "revId": "c3da3bcd8ed7b9024ac9e753a0bbd055e009e5e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5692fba_d6d34879",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-21T19:19:48Z",
+      "side": 1,
+      "message": "Well, this looks really strange. Filed issue https://github.com/golang/go/issues/61514 to investigate.",
+      "parentUuid": "91a18dca_44db23ff",
+      "revId": "c3da3bcd8ed7b9024ac9e753a0bbd055e009e5e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
