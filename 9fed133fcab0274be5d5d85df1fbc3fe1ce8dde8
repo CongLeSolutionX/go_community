@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ffbfa08_fc9a88c3",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-07-21T06:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45a475c_601f84a2",
+      "revId": "9fed133fcab0274be5d5d85df1fbc3fe1ce8dde8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae1a266b_5a79b6e6",
@@ -68,6 +86,24 @@
       "writtenOn": "2023-07-21T03:36:31Z",
       "side": 1,
       "message": "This new import should be alphabetically sorted into the preceding group.",
+      "revId": "9fed133fcab0274be5d5d85df1fbc3fe1ce8dde8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "988ace1b_eebd6729",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-07-21T06:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae1a266b_5a79b6e6",
       "revId": "9fed133fcab0274be5d5d85df1fbc3fe1ce8dde8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "624e3d75_63178c2e",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-07-21T06:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec265cfd_367d4455",
+      "revId": "9fed133fcab0274be5d5d85df1fbc3fe1ce8dde8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd7ed864_13c2c05b",
@@ -102,6 +156,24 @@
       "writtenOn": "2023-07-21T03:36:31Z",
       "side": 1,
       "message": "Why does this test have to change?  Seems like it shouldn\u0027t.",
+      "revId": "9fed133fcab0274be5d5d85df1fbc3fe1ce8dde8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d64c185_427e58e4",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-07-21T06:16:33Z",
+      "side": 1,
+      "message": "So that the `/etc/resolv.conf` search domains do not cause \u0027foo.onion\u0027 to resolve successfully, it must be rooted to ignore search domains.\n\nhttps://storage.googleapis.com/go-build-log/d9798e53/linux-amd64_e24783d3.log",
+      "parentUuid": "cd7ed864_13c2c05b",
       "revId": "9fed133fcab0274be5d5d85df1fbc3fe1ce8dde8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
