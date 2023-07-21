@@ -85,6 +85,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36dac048_51f28244",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 62748
+      },
+      "writtenOn": "2023-07-21T08:51:56Z",
+      "side": 1,
+      "message": "I see!",
+      "parentUuid": "00a630d7_7216570c",
+      "range": {
+        "startLine": 964,
+        "startChar": 15,
+        "endLine": 964,
+        "endChar": 61
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e315436_39801f15",
@@ -122,6 +146,30 @@
       "side": 1,
       "message": "If `c.checkRaces` detects a race, it calls `c.Errorf`, which calls `c.Fail`.\n\n`c.raceErrorLogged` is only used to suppress duplicates.",
       "parentUuid": "9e315436_39801f15",
+      "range": {
+        "startLine": 970,
+        "startChar": 8,
+        "endLine": 970,
+        "endChar": 16
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdc28e50_caf85957",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 62748
+      },
+      "writtenOn": "2023-07-21T08:51:56Z",
+      "side": 1,
+      "message": "Oh right, forgot that `(*common).Errorf` also makes it fail.",
+      "parentUuid": "86b7e21d_6db57229",
       "range": {
         "startLine": 970,
         "startChar": 8,
@@ -174,6 +222,122 @@
         "startChar": 1,
         "endLine": 1361,
         "endChar": 4
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e6e7e69_41fade11",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 62748
+      },
+      "writtenOn": "2023-07-21T08:51:56Z",
+      "side": 1,
+      "message": "Yeah I guess making `c.failed` atomic wouldn\u0027t be a bad idea. And in that case, why not making all boolean flags in `common` atomic too? For instance having `c.finished` atomic would make the lock at L1664 superflous.\n\nAnd probably we can benefit from `c.lastRaceErrors` being atomic even if we use the mutex in `checkRaces`? Also yes, the check for `raceErrors` being null sounds like a good optimization.",
+      "parentUuid": "719eb897_ec1b1fff",
+      "range": {
+        "startLine": 1361,
+        "startChar": 1,
+        "endLine": 1361,
+        "endChar": 4
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9540814f_1b384408",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1660,
+      "author": {
+        "id": 62748
+      },
+      "writtenOn": "2023-07-21T08:51:56Z",
+      "side": 1,
+      "message": "How about de-duping this to `(*common).initRaces` (or something)?",
+      "range": {
+        "startLine": 1656,
+        "startChar": 1,
+        "endLine": 1660,
+        "endChar": 2
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e68dbe5_2e15a9ac",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 62748
+      },
+      "writtenOn": "2023-07-21T08:51:56Z",
+      "side": 1,
+      "message": "I haven\u0027t tried, but does `_ \u003d x` work as well? Might not if the compiler effectively ignores it...",
+      "range": {
+        "startLine": 345,
+        "startChar": 1,
+        "endLine": 345,
+        "endChar": 8
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "378a9a43_848a583f",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 62748
+      },
+      "writtenOn": "2023-07-21T08:51:56Z",
+      "side": 1,
+      "message": "Maybe this can be more robust with something like\n\n```go\nregexp.MustCompile(\"\u003d\u003d\u003d NAME\\s*\\n\").Match(out)\n```\n\n?",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 380,
+        "endChar": 47
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "282d8559_25faedd2",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 62748
+      },
+      "writtenOn": "2023-07-21T08:51:56Z",
+      "side": 1,
+      "message": "I think this has to go after `doRace()`, otherwise `subsub1` can terminate before the race in `subsub2` happens.",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 8
       },
       "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
