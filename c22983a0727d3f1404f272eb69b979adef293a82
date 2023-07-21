@@ -16,6 +16,24 @@
       "message": "Really sorry, but I just noticed that this sentence should also end with a period.",
       "revId": "c22983a0727d3f1404f272eb69b979adef293a82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c26f36d_e2750098",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-21T05:41:26Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "77a5166b_f6dc8b95",
+      "revId": "c22983a0727d3f1404f272eb69b979adef293a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
