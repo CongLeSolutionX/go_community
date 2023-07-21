@@ -467,86 +467,102 @@ func joinStrings(ss []string) string {
 	return strings.Join(ss, ", ")
 }
 
-// allDoc prints all the docs for the package.
-func (pkg *Package) allDoc() {
-	pkg.Printf("") // Trigger the package clause; we know the package exists.
-	pkg.ToText(&pkg.buf, pkg.doc.Doc, "", indent)
-	pkg.newlines(1)
+func (pkg *Package) printHeader(s string) {
+	pkg.Printf("\n%s\n\n", s)
+}
 
-	printed := make(map[*ast.GenDecl]bool)
-
-	hdr := ""
-	printHdr := func(s string) {
-		if hdr != s {
-			pkg.Printf("\n%s\n\n", s)
-			hdr = s
-		}
-	}
-
-	// Constants.
+func (pkg *Package) constsDoc(printed map[*ast.GenDecl]bool) {
+	var header bool
 	for _, value := range pkg.doc.Consts {
 		// Constants and variables come in groups, and valueDoc prints
 		// all the items in the group. We only need to find one exported symbol.
 		for _, name := range value.Names {
 			if isExported(name) && !pkg.typedValue[value] {
-				printHdr("CONSTANTS")
+				if !header {
+					pkg.printHeader("CONSTANTS")
+					header = true
+				}
 				pkg.valueDoc(value, printed)
 				break
 			}
 		}
 	}
+}
 
-	// Variables.
+func (pkg *Package) varsDoc(printed map[*ast.GenDecl]bool) {
+	var header bool
 	for _, value := range pkg.doc.Vars {
 		// Constants and variables come in groups, and valueDoc prints
 		// all the items in the group. We only need to find one exported symbol.
 		for _, name := range value.Names {
 			if isExported(name) && !pkg.typedValue[value] {
-				printHdr("VARIABLES")
+				if !header {
+					pkg.printHeader("VARIABLES")
+					header = true
+				}
 				pkg.valueDoc(value, printed)
 				break
 			}
 		}
 	}
+}
 
-	// Functions.
+func (pkg *Package) funcsDoc() {
+	var header bool
 	for _, fun := range pkg.doc.Funcs {
 		if isExported(fun.Name) && !pkg.constructor[fun] {
-			printHdr("FUNCTIONS")
+			if !header {
+				pkg.printHeader("FUNCTIONS")
+				header = true
+			}
 			pkg.emit(fun.Doc, fun.Decl)
 		}
 	}
+}
 
-	// Types.
+func (pkg *Package) typesDoc() {
+	var header bool
 	for _, typ := range pkg.doc.Types {
 		if isExported(typ.Name) {
-			printHdr("TYPES")
+			if !header {
+				pkg.printHeader("TYPES")
+				header = true
+			}
 			pkg.typeDoc(typ)
 		}
 	}
 }
 
-// packageDoc prints the docs for the package (package doc plus one-liners of the rest).
+// packageDoc prints the docs for the package.
 func (pkg *Package) packageDoc() {
 	pkg.Printf("") // Trigger the package clause; we know the package exists.
-	if !short {
+	if showAll || !short {
 		pkg.ToText(&pkg.buf, pkg.doc.Doc, "", indent)
 		pkg.newlines(1)
 	}
 
-	if pkg.pkg.Name == "main" && !showCmd {
+	switch {
+	case showAll:
+		printed := make(map[*ast.GenDecl]bool)
+		pkg.constsDoc(printed)
+		pkg.varsDoc(printed)
+		pkg.funcsDoc()
+		pkg.typesDoc()
+
+	case pkg.pkg.Name == "main" && !showCmd:
 		// Show only package docs for commands.
 		return
+
+	default:
+		if !short {
+			pkg.newlines(2) // Guarantee blank line before the components.
+		}
+		pkg.valueSummary(pkg.doc.Consts, false)
+		pkg.valueSummary(pkg.doc.Vars, false)
+		pkg.funcSummary(pkg.doc.Funcs, false)
+		pkg.typeSummary()
 	}
 
-	if !short {
-		pkg.newlines(2) // Guarantee blank line before the components.
-	}
-
-	pkg.valueSummary(pkg.doc.Consts, false)
-	pkg.valueSummary(pkg.doc.Vars, false)
-	pkg.funcSummary(pkg.doc.Funcs, false)
-	pkg.typeSummary()
 	if !short {
 		pkg.bugs()
 	}
@@ -1103,16 +1119,6 @@ func (pkg *Package) printFieldDoc(symbol, fieldName string) bool {
 		pkg.Printf("}\n")
 	}
 	return found
-}
-
-// methodDoc prints the docs for matches of symbol.method.
-func (pkg *Package) methodDoc(symbol, method string) bool {
-	return pkg.printMethodDoc(symbol, method)
-}
-
-// fieldDoc prints the docs for matches of symbol.field.
-func (pkg *Package) fieldDoc(symbol, field string) bool {
-	return pkg.printFieldDoc(symbol, field)
 }
 
 // match reports whether the user's symbol matches the program's.
