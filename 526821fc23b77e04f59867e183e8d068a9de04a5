@@ -16,6 +16,24 @@
       "message": "Per https://go.dev/wiki/Deprecated this line has to be in a new paragraph, meaning there should be a blank comment line before it.  Thanks.",
       "revId": "526821fc23b77e04f59867e183e8d068a9de04a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5082815_a5a1a4f1",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-21T01:48:46Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f6d061d0_c7da3805",
+      "revId": "526821fc23b77e04f59867e183e8d068a9de04a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
