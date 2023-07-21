@@ -971,6 +971,28 @@ func (t *tester) printSkip(test *goTest, msg string) {
 	}
 }
 
+func (t *tester) printSkip2(w io.Writer, pkg, msg string) {
+	if !t.json {
+		fmt.Fprintln(w, msg)
+		return
+	}
+	type event struct {
+		Time    time.Time
+		Action  string
+		Package string
+		Output  string `json:",omitempty"`
+	}
+	out := json.NewEncoder(w)
+	ev := event{Time: time.Now(), Package: pkg, Action: "start"}
+	out.Encode(ev)
+	ev.Action = "output"
+	ev.Output = msg
+	out.Encode(ev)
+	ev.Action = "skip"
+	ev.Output = ""
+	out.Encode(ev)
+}
+
 // dirCmd constructs a Cmd intended to be run in the foreground.
 // The command will be run in dir, and Stdout and Stderr will go to os.Stdout
 // and os.Stderr.
@@ -1252,7 +1274,7 @@ func (t *tester) runPending(nextTest *distTest) {
 		go func(w *work) {
 			if !<-w.start {
 				timelog("skip", w.dt.name)
-				w.out.WriteString("skipped due to earlier error\n")
+				t.printSkip2(&w.out, w.dt.name, "skipped due to earlier error")
 			} else {
 				timelog("start", w.dt.name)
 				w.err = w.cmd.Run()
@@ -1263,7 +1285,7 @@ func (t *tester) runPending(nextTest *distTest) {
 					if isUnsupportedVMASize(w) {
 						timelog("skip", w.dt.name)
 						w.out.Reset()
-						w.out.WriteString("skipped due to unsupported VMA\n")
+						t.printSkip2(&w.out, w.dt.name, "skipped due to unsupported VMA")
 						w.err = nil
 					}
 				}
