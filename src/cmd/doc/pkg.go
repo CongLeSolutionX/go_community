@@ -524,6 +524,8 @@ func (pkg *Package) allDoc() {
 			pkg.typeDoc(typ)
 		}
 	}
+
+	pkg.bugs()
 }
 
 // packageDoc prints the docs for the package (package doc plus one-liners of the rest).
