@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7cf4eee_e1da40a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-21T09:14:02Z",
+      "side": 1,
+      "message": "I see what you are saying. Then the other `ERROR_SHARING_VIOLATION` explanation could be that file handles are closed and immediately reopened, in which case Windows can return `ERROR_SHARING_VIOLATION`. This issue also hits other frameworks, e.g. C#: https://github.com/dotnet/runtime/issues/64288.\n\n\u003e You may be right that they have separate causes, but I think we may need to address both of them.\n\nI don\u0027t think that the 5ms makes much difference to mitigate it, as the process handle is not released after the 5ms has passed (which in fact are 16ms due to #44343). Of course, there could be other explanations to `ERROR_SHARING_VIOLATION`, everything adds up.\n\nMy point is that I can add a regression test for `ERROR_ACCESS_DENIED`, but not for `ERROR_SHARING_VIOLATION`, as it is still happening and but there isn\u0027t much we can do other than sleep after closing a file handle, which would be a performance bottleneck, or accepting that it happens, and add retry logic where needed, as done in `t.Cleanup`.",
+      "parentUuid": "b3e9ce02_bcecd982",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "db3bc8d2b948304e3cadeb6aa7c3d0c34b5a705d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "00df35c4_230ab001",
