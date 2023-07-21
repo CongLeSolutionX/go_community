@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a598f77_e6123de9",
+        "filename": "src/cmd/go/internal/search/search.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-21T15:40:55Z",
+      "side": 1,
+      "message": "I agree that it is worth caching the result of `EvalSymlinks` for the `dir` argument, since that is essentially always one of a small number of directories (`GOROOT`, `GOROOT/src`, `GOPATH/src`, or `os.TempDir()`). I\u0027m also not worried about caching the result for package directories, since the set of package directories tends to be fairly small. However, for the use in `computeTestInputsID` I think it is too risky.\n\n#26726 reported a performance hit for a test that opens a very large number of files, but putting all of those files in a global `par.Cache` would change a CPU-time problem into a memory-bloat problem — if `go test` executes many tests that each open a large number of files, `inDirCache` could become quite large.\n\nI wonder if `search.InDir` is really all that useful for cache inputs anyway. `EvalSymlinks` does a lot of work to resolve symlinks just to decide whether to save the cost of calling `hashStat` — but it will already miss most of the interesting symlink cases. Namely, symlinks created in the test temp directory that referred back to files in the package directory will have already been deleted during test cleanup, which will cause `search.InDir` to report them as outside the root even if they are within it.\n\nI suggest that we change `computeTestInputsID` to use `str.HasFilePathPrefix` instead, and perhaps expand `internal/testlog` to also record calls to `os.Symlink`. That would catch symlink references to the package root when they are created, instead of trying to chase them down after they have already been deleted.\n\nIf we do that, then I think caching the result of `evalSymlinks` within `search.InDir` will probably be ok.",
+      "revId": "8e4e09f8cf6b8159663a933cdcc37ce60b7fed75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
