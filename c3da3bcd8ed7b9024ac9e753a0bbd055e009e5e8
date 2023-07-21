@@ -34,6 +34,24 @@
       "parentUuid": "382f617e_d8704701",
       "revId": "c3da3bcd8ed7b9024ac9e753a0bbd055e009e5e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91a18dca_44db23ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-21T18:37:42Z",
+      "side": 1,
+      "message": "Hmmm, I run all.bash on linux-arm-aws gomote and it does not fail. Various flavor of `go tool dist test cmd/cgo/internal/test:XXX` also doesn\u0027t fail. There is something mysterious going on...",
+      "parentUuid": "788af2bc_bb3d4ecf",
+      "revId": "c3da3bcd8ed7b9024ac9e753a0bbd055e009e5e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
