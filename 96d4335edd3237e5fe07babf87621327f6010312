@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f89a90ec_92bb359f",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1608,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-07-23T17:17:33Z",
+      "side": 1,
+      "message": "Yes. ServeFile serves the file specified regardless of request path.\nNewRequest(\"GET\", \"/file\", nil) is also confusing since there is a file named \"file\" in test data, maybe it should be NewRequest(\"GET\", \"/\", nil) for clarity.",
+      "parentUuid": "b5bd6b3c_9b2e0292",
+      "revId": "96d4335edd3237e5fe07babf87621327f6010312",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68c4e371_6e8fbcb5",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 3
@@ -67,6 +85,24 @@
       "writtenOn": "2023-07-23T16:30:45Z",
       "side": 1,
       "message": "This continuously writes to w and reallocates its buffer.\nProper benchmark should test ServeFile with client running in another process (see BenchmarkServer which would need a bit of refactoring to make it reusable similar to what I did to BenchmarkClient for CL 510255).",
+      "revId": "96d4335edd3237e5fe07babf87621327f6010312",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0782c98d_03670f0a",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1615,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-07-23T17:17:33Z",
+      "side": 1,
+      "message": "Or use testserver and b.StartTimer()/b.StopTimer() as in the subject benchmark https://github.com/golang/go/issues/61530",
+      "parentUuid": "68c4e371_6e8fbcb5",
       "revId": "96d4335edd3237e5fe07babf87621327f6010312",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
