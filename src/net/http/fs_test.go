@@ -1598,3 +1598,26 @@ func testFileServerMethods(t *testing.T, mode testMode) {
 		}
 	}
 }
+
+// Issue 61530
+func BenchmarkServeFile(b *testing.B) {
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		b.StartTimer()
+		ServeFile(w, r, "testdata/issue61530.json")
+		b.StopTimer()
+	}))
+	defer ts.Close()
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		res, err := Get(ts.URL)
+		if err != nil {
+			b.Fatal(err)
+		}
+		_, err = io.ReadAll(res.Body)
+		if err != nil {
+			b.Fatal(err)
+		}
+		res.Body.Close()
+	}
+}
