@@ -129,6 +129,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0663a54b_8ee32dc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-07-24T19:05:51Z",
+      "side": 1,
+      "message": "That program remains valid, yes.\n\nI don\u0027t see anything in the go/types API that depends on this change, and there\u0027s no existing clients that would be looking for it.  The change I think I am aiming for would be a private boolean on a scope to indicate that a scope is an \"unshared iteration variable loop\" and reveal that value with a method of some appropriate name.  That breaks no existing code, and ties the change to the scope, without changing the structure of the scope.",
+      "parentUuid": "27315cef_a5889818",
+      "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff3efad3_1b5b1261",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 1
