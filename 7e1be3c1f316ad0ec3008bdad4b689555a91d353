@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c88c9c55_0eb917a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-24T17:17:07Z",
+      "side": 1,
+      "message": "CL 505975 also changes oplook in a somewhat similar way. Maybe you can coordinate on that. Thanks.",
+      "revId": "7e1be3c1f316ad0ec3008bdad4b689555a91d353",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
