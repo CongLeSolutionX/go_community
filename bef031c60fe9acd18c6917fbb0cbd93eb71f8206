@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e52d953a_0f2fc059",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-07-24T18:53:44Z",
+      "side": 1,
+      "message": "Alternately, the For/Range scope just means something different now, no different than throwing an extra set of braces around the loop body, e.g.\n```\n   for i :\u003d range make([]int, 32) {\n      i :\u003d i // For a range loop, this is the rewritten semantics\n      {\n         g :\u003d float64(i)\n         f--\n         f +\u003d g\n      }\n   }\n```",
+      "parentUuid": "090403a0_3b522ce7",
+      "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff3efad3_1b5b1261",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 1
