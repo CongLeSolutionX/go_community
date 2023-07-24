@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c1bc67_a4e071a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-24T23:58:04Z",
+      "side": 1,
+      "message": "One of the points of unification is that it adds substitutions.  The current text mentions that but doesn\u0027t seem very clear as to when those substitutions are added.  Can we do that better?  Thanks.",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85c35800_cc17f9eb",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4667,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-24T23:58:04Z",
+      "side": 1,
+      "message": "Should this say \"the unification rules\"?",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f195b2b_d1dc8e58",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4687,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-24T23:58:04Z",
+      "side": 1,
+      "message": "I think we need to say something like \"the predeclared constraint comparable\" to avoid any confusion about whether the types themselves are comparable.",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a17b19cd_f790000e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4708,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-24T23:58:04Z",
+      "side": 1,
+      "message": "This wording doesn\u0027t seem right to me.  It seems it should be more like \"the element types must unify exactly and the top-level type structure must unify loosely.\"",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "522520dd_411604f3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4727,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-24T23:58:04Z",
+      "side": 1,
+      "message": "If P does not have a known type argument, ....",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a702ebf8_a2f8e382",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4735,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-24T23:58:04Z",
+      "side": 1,
+      "message": "What if C doesn\u0027t have any methods?  What if C is something like \"int | string\"?",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
