@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "090403a0_3b522ce7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-07-24T18:42:38Z",
+      "side": 1,
+      "message": "The scope is definitely affected by this.  Type checking however is not.\nFor example, this loop \n```\n   for i :\u003d 0; i \u003c 32; i++ {\n      g :\u003d float64(i)\n      f--\n      f +\u003d g\n   }\n```\ncurrently creates these scopes\n```\n.  .  .  for scope {\n.  .  .  .  var i int\n.  .  .  .  block scope {\n.  .  .  .  .  var g float64\n.  .  .  .  }\n.  .  .  }\n```\nbut with the new semantics it is instead (in my opinion)\n```\n.  .  .  for scope {\n.  .  .  .  block scope {\n.  .  .  .  .  var i int\n.  .  .  .  .  var g float64\n.  .  .  .  }\n.  .  .  }\n```\nor perhaps\n```\n.  .  .  for scope {\n.  .  .  .  var i int\n.  .  .  .  block scope {\n.  .  .  .  .  var i int\n.  .  .  .  .  var g float64\n.  .  .  .  }\n.  .  .  }\n```\nwhere the inner i is implicit (this is literally the transformation made in the compiler).",
+      "parentUuid": "58d10221_2cbcbd8c",
+      "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff3efad3_1b5b1261",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 1
