@@ -88,6 +88,23 @@
       "parentUuid": "09470a71_269c7ecd",
       "revId": "70d5deec262e87bcd0a45bf38e1e002bba69120b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b7015e_08632ab4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-07-24T10:25:23Z",
+      "side": 1,
+      "message": "Not your fault, as you\u0027re just rearranging existing pieces, but that loop is too tricky for my taste.\n\nBut that\u0027s an issue for another day.",
+      "revId": "70d5deec262e87bcd0a45bf38e1e002bba69120b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
