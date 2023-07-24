@@ -258,6 +258,30 @@
       },
       "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ad461fe_d5e2bee3",
+        "filename": "src/math/floor_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-24T15:31:12Z",
+      "side": 1,
+      "message": "This seems to be the opposite since we are explicitly modifying it - every floating point instruction run has the potential to reflect changes in the accrued exception  flags and my interpretation of that text is that we do not specifically reset or modify it.\n\nThe bigger issue here is that we do not currently save or restore FCSR, which means that if this code is preempted then we could end up restoring an incorrect value. The solution here would be to either start unconditionally saving and restoring FCSR, or providing synthesised floating point instructions that do the save/operation/restore dance and mark that as non-preemptible.\n\nIf we do not actually need to save/restore in order for this code to work, it seems  better to keep the status quo and not write to the FCSR.",
+      "parentUuid": "a357d1e1_90c3486d",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
