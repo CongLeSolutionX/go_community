@@ -194,6 +194,30 @@
       },
       "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "367a00f8_b8783b0c",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-07-24T18:59:48Z",
+      "side": 1,
+      "message": "(ignore this partial comment)",
+      "parentUuid": "9076e187_00019923",
+      "range": {
+        "startLine": 663,
+        "startChar": 2,
+        "endLine": 664,
+        "endChar": 26
+      },
+      "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
