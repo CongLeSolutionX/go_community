@@ -405,3 +405,7 @@ func Benchmark115(b *testing.B) {
 		}
 	})
 }
+
+func TestTryBotResult(t *testing.T) {
+	//t.Errorf("fail")
+}
