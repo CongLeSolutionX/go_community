@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58d10221_2cbcbd8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-07-24T17:35:25Z",
+      "side": 1,
+      "message": "go/types, and/or go/ast?  It does seem necessary, if anyone ever writes code that cares about variable scope/lifetime in parsed Go files.\n\nI\u0027ve been looking at those two packages, one problem thus far is I cannot tell if (1) it is okay to add a new public field to go/ast/{ForStmt,RangeStmt}\n(2) how to determine the Go version in effect for whatever file is currently being parsed.\n\nI\u0027m trying to put together a separate CL for this",
+      "parentUuid": "b08bf64c_08978a8e",
+      "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff3efad3_1b5b1261",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 1
