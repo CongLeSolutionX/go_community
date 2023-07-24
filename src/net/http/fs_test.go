@@ -937,7 +937,6 @@ func testServeContent(t *testing.T, mode testMode) {
 		wantContentType  string
 		wantContentRange string
 		wantStatus       int
-		wantContent      []byte
 	}
 	htmlModTime := mustStat(t, "testdata/index.html").ModTime()
 	tests := map[string]testCase{
@@ -1153,24 +1152,6 @@ func testServeContent(t *testing.T, mode testMode) {
 			wantStatus:  412,
 			wantLastMod: htmlModTime.UTC().Format(TimeFormat),
 		},
-		"uses_writeTo_if_available_and_non-range": {
-			content:          &panicOnNonWriterTo{seekWriterTo: strings.NewReader("foobar")},
-			serveContentType: "text/plain; charset=utf-8",
-			wantContentType:  "text/plain; charset=utf-8",
-			wantStatus:       StatusOK,
-			wantContent:      []byte("foobar"),
-		},
-		"do_not_use_writeTo_for_range_requests": {
-			content:          &panicOnWriterTo{ReadSeeker: strings.NewReader("foobar")},
-			serveContentType: "text/plain; charset=utf-8",
-			reqHeader: map[string]string{
-				"Range": "bytes=0-4",
-			},
-			wantContentType:  "text/plain; charset=utf-8",
-			wantContentRange: "bytes 0-4/6",
-			wantStatus:       StatusPartialContent,
-			wantContent:      []byte("fooba"),
-		},
 	}
 	for testName, tt := range tests {
 		var content io.ReadSeeker
@@ -1184,8 +1165,7 @@ func testServeContent(t *testing.T, mode testMode) {
 		} else {
 			content = tt.content
 		}
-		contentOut := &strings.Builder{}
-		for _, method := range []string{MethodGet, MethodHead} {
+		for _, method := range []string{"GET", "HEAD"} {
 			//restore content in case it is consumed by previous method
 			if content, ok := content.(*strings.Reader); ok {
 				content.Seek(0, io.SeekStart)
@@ -1211,8 +1191,7 @@ func testServeContent(t *testing.T, mode testMode) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			contentOut.Reset()
-			io.Copy(contentOut, res.Body)
+			io.Copy(io.Discard, res.Body)
 			res.Body.Close()
 			if res.StatusCode != tt.wantStatus {
 				t.Errorf("test %q using %q: got status = %d; want %d", testName, method, res.StatusCode, tt.wantStatus)
@@ -1226,26 +1205,8 @@ func testServeContent(t *testing.T, mode testMode) {
 			if g, e := res.Header.Get("Last-Modified"), tt.wantLastMod; g != e {
 				t.Errorf("test %q using %q: got last-modified = %q, want %q", testName, method, g, e)
 			}
-			if g, e := contentOut.String(), tt.wantContent; e != nil && method == MethodGet && g != string(e) {
-				t.Errorf("test %q using %q: got unexpected content %q, want %q", testName, method, g, e)
-			}
 		}
 	}
-}
-
-type seekWriterTo interface {
-	io.Seeker
-	io.WriterTo
-}
-
-type panicOnNonWriterTo struct {
-	io.Reader
-	seekWriterTo
-}
-
-type panicOnWriterTo struct {
-	io.ReadSeeker
-	io.WriterTo
 }
 
 // Issue 12991
