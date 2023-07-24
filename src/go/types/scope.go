@@ -22,19 +22,20 @@ import (
 // and looked up by name. The zero value for Scope is a ready-to-use
 // empty scope.
 type Scope struct {
-	parent   *Scope
-	children []*Scope
-	number   int               // parent.children[number-1] is this scope; 0 if there is no parent
-	elems    map[string]Object // lazily allocated
-	pos, end token.Pos         // scope extent; may be invalid
-	comment  string            // for debugging only
-	isFunc   bool              // set if this is a function scope (internal use only)
+	parent            *Scope
+	children          []*Scope
+	number            int               // parent.children[number-1] is this scope; 0 if there is no parent
+	elems             map[string]Object // lazily allocated
+	pos, end          token.Pos         // scope extent; may be invalid
+	comment           string            // for debugging only
+	isFunc            bool              // set if this is a function scope (internal use only)
+	isUnsharedLoopVar bool              // set if this is a For/Range loop for Go version >= 1.22
 }
 
 // NewScope returns a new, empty scope contained in the given parent
 // scope, if any. The comment is for debugging only.
 func NewScope(parent *Scope, pos, end token.Pos, comment string) *Scope {
-	s := &Scope{parent, nil, 0, nil, pos, end, comment, false}
+	s := &Scope{parent, nil, 0, nil, pos, end, comment, false, false}
 	// don't add children to Universe scope!
 	if parent != nil && parent != Universe {
 		parent.children = append(parent.children, s)
@@ -48,6 +49,9 @@ func (s *Scope) Parent() *Scope { return s.parent }
 
 // Len returns the number of scope elements.
 func (s *Scope) Len() int { return len(s.elems) }
+
+// IsUnsharedLoopVar returns whether this scope is for for or range loop with unshared iterator variable(s) (go version >= 1.22)
+func (s *Scope) IsUnsharedLoopVar() bool { return s.isUnsharedLoopVar }
 
 // Names returns the scope's element names in sorted order.
 func (s *Scope) Names() []string {

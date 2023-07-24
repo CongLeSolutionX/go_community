@@ -803,6 +803,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 	case *ast.ForStmt:
 		inner |= breakOk | continueOk
 		check.openScope(s, "for")
+		check.scope.isUnsharedLoopVar = check.allowVersion(check.pkg, s, go1_22)
 		defer check.closeScope()
 
 		check.simpleStmt(s.Init)
@@ -864,6 +865,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 		// Open the for-statement block scope now, after the range clause.
 		// Iteration variables declared with := need to go in this scope (was go.dev/issue/51437).
 		check.openScope(s, "range")
+		check.scope.isUnsharedLoopVar = check.allowVersion(check.pkg, s, go1_22)
 		defer check.closeScope()
 
 		// check assignment to/declaration of iteration variables
