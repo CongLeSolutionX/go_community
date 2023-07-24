@@ -111,6 +111,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27315cef_a5889818",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-07-24T18:59:28Z",
+      "side": 1,
+      "message": "That would definitely warrant a change in go/types, because all changes to types2 should be mirrored there.\n\nWith respect to scopes, go/types and types2 track scopes, and so any changes to scope need to be reflected there (scopes in go/ast+go/parser are supported, but deprecated; updating them is a lower priority).\n\nNothing changed with respect to name resolution, right? In that case, I don\u0027t see why scopes need to be modified. The following program is still valid, no?\nhttps://go.dev/play/p/tlWfL7xJJG3",
+      "parentUuid": "090403a0_3b522ce7",
+      "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff3efad3_1b5b1261",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 1
@@ -150,6 +168,29 @@
         "startChar": 28,
         "endLine": 656,
         "endChar": 54
+      },
+      "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9076e187_00019923",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-07-24T18:59:28Z",
+      "side": 1,
+      "message": "Note that there",
+      "range": {
+        "startLine": 663,
+        "startChar": 2,
+        "endLine": 664,
+        "endChar": 26
       },
       "revId": "bef031c60fe9acd18c6917fbb0cbd93eb71f8206",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
