@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90577e01_801de833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-07-24T14:13:18Z",
+      "side": 1,
+      "message": "Please also run your changes on at least 1 linux-ppc64le trybot, since you are touching code that is common to both.",
+      "revId": "9f02d5364ab9c8d9193985ba3b4ebe5c07a295df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
