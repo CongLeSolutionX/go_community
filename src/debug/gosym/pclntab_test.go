@@ -16,6 +16,8 @@ import (
 	"runtime"
 	"strings"
 	"testing"
+	"time"
+	"math/rand"
 )
 
 var (
@@ -404,4 +406,11 @@ func Benchmark115(b *testing.B) {
 			}
 		}
 	})
+}
+
+func TestTryBotResult(t *testing.T) {
+	r := rand.New(rand.NewSource(int64(time.Now().UnixNano())))
+	if r.Float64() < 0.1 {
+		t.Errorf("fail")
+	}
 }
