@@ -20,6 +20,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "972bffd4_29bf7426",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T00:45:19Z",
+      "side": 1,
+      "message": "Added some prose to the initial paragraph.",
+      "parentUuid": "e0c1bc67_a4e071a4",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c95bf0cf_0f7d2a08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T00:45:19Z",
+      "side": 1,
+      "message": "Added some prose to the initial paragraph.",
+      "parentUuid": "e0c1bc67_a4e071a4",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85c35800_cc17f9eb",
         "filename": "doc/go_spec.html",
         "patchSetId": 14
@@ -31,6 +67,24 @@
       "writtenOn": "2023-07-24T23:58:04Z",
       "side": 1,
       "message": "Should this say \"the unification rules\"?",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2afd0869_3feef119",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4667,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T00:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85c35800_cc17f9eb",
       "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26cafc81_5c2e328e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4687,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T00:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f195b2b_d1dc8e58",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a17b19cd_f790000e",
@@ -65,6 +137,24 @@
       "writtenOn": "2023-07-24T23:58:04Z",
       "side": 1,
       "message": "This wording doesn\u0027t seem right to me.  It seems it should be more like \"the element types must unify exactly and the top-level type structure must unify loosely.\"",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b3f3375_ed165026",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4708,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T00:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a17b19cd_f790000e",
       "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +176,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99199c99_76edf2e1",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4727,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T00:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522520dd_411604f3",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a702ebf8_a2f8e382",
@@ -99,6 +207,24 @@
       "writtenOn": "2023-07-24T23:58:04Z",
       "side": 1,
       "message": "What if C doesn\u0027t have any methods?  What if C is something like \"int | string\"?",
+      "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3ad3110_3edb90ce",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 4735,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T00:45:19Z",
+      "side": 1,
+      "message": "We\u0027re not doing anything at the moment if C doesn\u0027t have a core type (as in \"int|string\"). If it doesn\u0027t have methods, this is still fine, I think.\nAdded \", if any\".",
+      "parentUuid": "a702ebf8_a2f8e382",
       "revId": "fb1d039699e744120013f90eb7cbffaf744b83b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
