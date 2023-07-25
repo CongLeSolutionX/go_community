@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a64df64a_a166c9ab",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 4622,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-25T00:53:27Z",
+      "side": 1,
+      "message": "Maybe I\u0027m misremembering, but it seems to me that this is a mapping from type parameters to type arguments.  It\u0027s not just a set of type arguments.\n\nAnd somewhere we should say that if we have P -\u003e T1 and we add P -\u003e T2, then we unify T1 and T2.  Assuming my understanding is correct.",
+      "revId": "7c40a778cc7e8a8f72c129b7ffdbfcb0bc3b7dc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
