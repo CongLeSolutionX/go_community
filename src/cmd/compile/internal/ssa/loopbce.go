@@ -19,6 +19,7 @@ const (
 
 type indVar struct {
 	ind   *Value // induction variable
+	nxt   *Value // the incremented variable
 	min   *Value // minimum value, inclusive/exclusive depends on flags
 	max   *Value // maximum value, inclusive/exclusive depends on flags
 	entry *Block // entry block in the loop.
@@ -28,6 +29,7 @@ type indVar struct {
 	//	min <  ind <  max    [if flags == indVarMinExc]
 	//	min <= ind <= max    [if flags == indVarMaxInc]
 	//	min <  ind <= max    [if flags == indVarMinExc|indVarMaxInc]
+	step int64
 }
 
 // parseIndVar checks whether the SSA value passed as argument is a valid induction
@@ -264,12 +266,14 @@ func findIndVar(f *Func) []indVar {
 		if ok() {
 			flags := indVarFlags(0)
 			var min, max *Value
+			var absStep int64
 			if step > 0 {
 				min = init
 				max = limit
 				if inclusive {
 					flags |= indVarMaxInc
 				}
+				absStep = step
 			} else {
 				min = limit
 				max = init
@@ -277,18 +281,20 @@ func findIndVar(f *Func) []indVar {
 				if !inclusive {
 					flags |= indVarMinExc
 				}
-				step = -step
+				absStep = -step
 			}
 			if f.pass.debug >= 1 {
-				printIndVar(b, ind, min, max, step, flags)
+				printIndVar(b, ind, min, max, absStep, flags)
 			}
 
 			iv = append(iv, indVar{
 				ind:   ind,
+				nxt:   nxt,
 				min:   min,
 				max:   max,
 				entry: b.Succs[0].b,
 				flags: flags,
+				step:  step,
 			})
 			b.Logf("found induction variable %v (inc = %v, min = %v, max = %v)\n", ind, inc, min, max)
 		}
