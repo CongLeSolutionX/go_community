@@ -90,6 +90,24 @@
       "message": "Let\u0027s copy all of the test cases in the original code.",
       "revId": "bc3a19592cd13c5bc58e5450a335fc9b9eaf4186",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a71e39af_9973935d",
+        "filename": "src/encoding/base32/base32_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 53883
+      },
+      "writtenOn": "2023-07-25T03:23:10Z",
+      "side": 1,
+      "message": "I just confirmed that my test code contains all the cases in the original code, here I just separated the original code, the purpose is to use int64",
+      "parentUuid": "d42a7c6e_d20ce4a5",
+      "revId": "bc3a19592cd13c5bc58e5450a335fc9b9eaf4186",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
