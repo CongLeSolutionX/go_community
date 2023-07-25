@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d366f500_8bd63aac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-07-25T17:27:28Z",
+      "side": 1,
+      "message": "I happened to notice this CL breaks a couple builders:\nhttps://build.golang.org/log/2c918acbd63b7da3ee0306178d3122f6e1e7f2bb\nhttps://build.golang.org/log/5aa59f1efad3052841bc7d30603c2f29115d0daa",
+      "revId": "d4dd1de19fcef835fca14ad8cb590dbfcf8e9859",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
