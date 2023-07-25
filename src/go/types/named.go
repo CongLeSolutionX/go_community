@@ -635,11 +635,15 @@ func (n *Named) expandUnderlying() Type {
 				old := iface
 				iface = check.newInterface()
 				iface.embeddeds = old.embeddeds
+				assert(old.complete) // else we are copying incomplete data
 				iface.complete = old.complete
 				iface.implicit = old.implicit // should be false but be conservative
 				underlying = iface
 			}
 			iface.methods = methods
+			if check == nil { // golang/go#61561: all newly created interfaces must be fully evaluated
+				iface.typeSet()
+			}
 		}
 	}
 
