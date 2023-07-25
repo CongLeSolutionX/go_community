@@ -809,3 +809,27 @@ func (f *Func) useFMA(v *Value) bool {
 	}
 	return base.FmaHash.MatchPos(v.Pos, nil)
 }
+
+func (f *Func) LongString() string {
+	var r strings.Builder
+
+	r.WriteString(f.Name)
+	r.WriteRune('\n')
+	for _, b := range f.Blocks {
+		r.WriteRune('\t')
+		r.WriteString(b.String())
+		r.WriteString(":\n")
+
+		for _, v := range b.Values {
+			r.WriteString("\t\t")
+			r.WriteString(v.LongString())
+			r.WriteRune('\n')
+		}
+
+		r.WriteRune('\t')
+		r.WriteString(b.LongString())
+		r.WriteRune('\n')
+	}
+
+	return r.String()
+}
