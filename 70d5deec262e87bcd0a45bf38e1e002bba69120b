@@ -105,6 +105,23 @@
       "message": "Not your fault, as you\u0027re just rearranging existing pieces, but that loop is too tricky for my taste.\n\nBut that\u0027s an issue for another day.",
       "revId": "70d5deec262e87bcd0a45bf38e1e002bba69120b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f613f2_ef9f06e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-07-25T00:47:16Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "70d5deec262e87bcd0a45bf38e1e002bba69120b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
