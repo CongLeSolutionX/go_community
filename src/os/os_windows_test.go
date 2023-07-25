@@ -17,6 +17,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"runtime"
 	"slices"
 	"sort"
@@ -427,10 +428,42 @@ func TestDirectorySymbolicLink(t *testing.T) {
 	testDirLinks(t, tests)
 }
 
+func checkEnableSMB(t *testing.T, name string) {
+	cmd := exec.Command("sc", "query", "mrxsmb10")
+	s, err := cmd.CombinedOutput()
+	if err != nil {
+		if exit, ok := err.(*exec.ExitError); ok && exit.ExitCode() != 0 { //If SMB is not enabled
+			t.Skip("SMB is not enabled", name, "skip.")
+		} else {
+			t.Fatal(err)
+		}
+	}
+	/* When SMB is enabled
+	exec sc query mrxsmb10 optput
+	SERVICE_NAME: mrxsmb10
+	  TYPE               : 2  FILE_SYSTEM_DRIVER
+	  STATE              : 4  RUNNING
+	                          (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+	  WIN32_EXIT_CODE    : 0  (0x0)
+	  SERVICE_EXIT_CODE  : 0  (0x0)
+	  CHECKPOINT         : 0x0
+	  WAIT_HINT          : 0x0
+	*/
+	pattern, err := regexp.Compile(`STATE[\s\S]*RUNNING`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !pattern.Match(s) { //If SMB is not enabled
+		t.Skip("SMB is not enabled", name, "skip.")
+	}
+}
+
 func TestNetworkSymbolicLink(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
 	const _NERR_ServerNotStarted = syscall.Errno(2114)
+
+	checkEnableSMB(t, "TestNetworkSymbolicLink")
 
 	dir := t.TempDir()
 	chdir(t, dir)
