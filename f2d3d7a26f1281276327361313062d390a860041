@@ -16,6 +16,23 @@
       "message": "This comment needs to be updated.  Somewhere we should point to the note in RFC 2049.",
       "revId": "f2d3d7a26f1281276327361313062d390a860041",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f47fa430_3d383e6b",
+        "filename": "src/mime/quotedprintable/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-25T12:48:22Z",
+      "side": 1,
+      "message": "I\u0027m not convinced we should be doing this.\n\nI think the suggestion in RFC 2049 is intended to avoid problems with buggy SMTP implementations that don\u0027t properly handle lines starting with a `.`, which need to be transmitted with an additional `.` at the start of the line: https://datatracker.ietf.org/doc/html/rfc5321#section-4.5.2\n\nDo we still need to work around this? It\u0027s been 17 years since RFC 2049.\n\nIf we do need to work around this, should we be quoting the \"F\" in \"From \" at the start of a line, as also suggested by RFC 2049 Section 3, out of concern that a message might be mishandled by a naive mbox implementation?",
+      "revId": "f2d3d7a26f1281276327361313062d390a860041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
