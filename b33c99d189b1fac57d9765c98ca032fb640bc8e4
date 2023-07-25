@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c77688c0_dca1dce7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2023-07-25T21:50:21Z",
+      "side": 1,
+      "message": "I\u0027m going to abandon this CL since I haven\u0027t made any progress on it over the last 2 release cycle. That\u0027s on me. This CL has had conflicts for over 6 months and I should have addressed them sooner. In case anyone wants to use this branch as a starting point for a future CL, I\u0027ve resolved the conflicts in the latest patch set.\n\nFrom the comments:\n\u003e test caching in cmd/go is already somewhat buggy (see, for example, [#49267](https://go.dev/issue/49267)) and I\u0027d prefer to avoid the risk of exposing additional bugs (or further exposing that bug), especially at this point in the cycle.\n\u003e\n\u003e Ideally we should probably fix [#49267](https://go.dev/issue/49267) (and hopefully simplify the test-caching logic) before adding more test-caching complexity...\n\nI get the impression that this change won\u0027t move forward until other bugs in `cmd/go test` are fixed and I recognize that I don\u0027t have the expertise or time to resolve them. I tried to help diagnose the issue called out in the comment but it didn\u0027t seem to help.\n\nSince I don\u0027t feel that I can move this issue forward, I\u0027m going to officially abandon the CL and hope that someone else can complete the task. Please feel free to work off these changes if they\u0027re useful.\n\nThanks Bryan and Than for your reviews. I hope I can find another opportunity to contribute the future.",
+      "revId": "b33c99d189b1fac57d9765c98ca032fb640bc8e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
