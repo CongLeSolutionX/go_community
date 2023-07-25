@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab769c59_f9141051",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-25T23:16:17Z",
+      "side": 1,
+      "message": "PTAL.\n\nHopefully we can check this in soon.\n\nI\u0027ll prepare a separate CL for the excruciating details, in an appendix.",
+      "revId": "46604029a42647b6cf8d22aa03293cd301f613f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
