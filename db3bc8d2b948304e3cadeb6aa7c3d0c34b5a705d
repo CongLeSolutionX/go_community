@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2de62653_ba9c8ef0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-25T11:19:33Z",
+      "side": 1,
+      "message": "Investigating a little bit more, the sleep could have helped mitigating issues that produce a `ERROR_SHARING_VIOLATION`, i.e., when removing a file whose processes has spawned child processes that are still not completely cleaned up. Windows 11 is more robust in this area, so I still think it makes sense to remove the 5ms.\n\nWhat I\u0027ll do is fail the regression test if it sees a `ERROR_SHARING_VIOLATION`, as initially suggested, so we know how frequent this errors are, if any.",
+      "parentUuid": "a7cf4eee_e1da40a8",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "db3bc8d2b948304e3cadeb6aa7c3d0c34b5a705d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "00df35c4_230ab001",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

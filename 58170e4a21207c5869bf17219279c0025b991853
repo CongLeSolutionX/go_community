@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c764857_0b642371",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-25T11:19:33Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "c19a34c4_8978c2e1",
+      "revId": "58170e4a21207c5869bf17219279c0025b991853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2034b074_c638c36b",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-07-22T09:45:03Z",
       "side": 1,
       "message": "Should not we do more with error here instead of just logging them? Who will look at these logs?",
+      "revId": "58170e4a21207c5869bf17219279c0025b991853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23eac44b_faa837ed",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-25T11:19:33Z",
+      "side": 1,
+      "message": "I\u0027ll update the code to fail the test case in case of error. Thanks.",
+      "parentUuid": "2034b074_c638c36b",
       "revId": "58170e4a21207c5869bf17219279c0025b991853",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
