@@ -734,7 +734,7 @@ func TestDialerKeepAlive(t *testing.T) {
 }
 
 func TestDialCancel(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	blackholeIPPort := JoinHostPort(slowDst4, "1234")
 	if !supportsIPv4() {
@@ -1049,16 +1049,6 @@ func TestDialerControlContext(t *testing.T) {
 			c.Close()
 		}
 	})
-}
-
-// mustHaveExternalNetwork is like testenv.MustHaveExternalNetwork
-// except that it won't skip testing on non-mobile builders.
-func mustHaveExternalNetwork(t *testing.T) {
-	t.Helper()
-	mobile := runtime.GOOS == "android" || runtime.GOOS == "ios"
-	if testenv.Builder() == "" || mobile {
-		testenv.MustHaveExternalNetwork(t)
-	}
 }
 
 type contextWithNonZeroDeadline struct {

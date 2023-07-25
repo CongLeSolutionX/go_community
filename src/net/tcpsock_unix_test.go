@@ -80,7 +80,7 @@ func TestTCPSpuriousConnSetupCompletion(t *testing.T) {
 // Issue 19289.
 // Test that a canceled Dial does not cause a subsequent Dial to succeed.
 func TestTCPSpuriousConnSetupCompletionWithCancel(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	defer dnsWaitGroup.Wait()
 	t.Parallel()

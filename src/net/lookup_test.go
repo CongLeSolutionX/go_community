@@ -73,7 +73,7 @@ var backoffDuration = [...]time.Duration{time.Second, 5 * time.Second, 30 * time
 
 func TestLookupGoogleSRV(t *testing.T) {
 	t.Parallel()
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
@@ -122,7 +122,7 @@ var lookupGmailMXTests = []struct {
 
 func TestLookupGmailMX(t *testing.T) {
 	t.Parallel()
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
@@ -168,7 +168,7 @@ var lookupGmailNSTests = []struct {
 
 func TestLookupGmailNS(t *testing.T) {
 	t.Parallel()
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
@@ -217,7 +217,7 @@ func TestLookupGmailTXT(t *testing.T) {
 		t.Skip("skipping on plan9; see https://golang.org/issue/29722")
 	}
 	t.Parallel()
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
@@ -267,7 +267,7 @@ var lookupGooglePublicDNSAddrTests = []string{
 }
 
 func TestLookupGooglePublicDNSAddr(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	if !supportsIPv4() || !supportsIPv6() || !*testIPv4 || !*testIPv6 {
 		t.Skip("both IPv4 and IPv6 are required")
@@ -354,7 +354,7 @@ var lookupCNAMETests = []struct {
 }
 
 func TestLookupCNAME(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
@@ -393,7 +393,7 @@ var lookupGoogleHostTests = []struct {
 }
 
 func TestLookupGoogleHost(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
@@ -420,7 +420,7 @@ func TestLookupGoogleHost(t *testing.T) {
 
 func TestLookupLongTXT(t *testing.T) {
 	testenv.SkipFlaky(t, 22857)
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	defer dnsWaitGroup.Wait()
 
@@ -446,7 +446,7 @@ var lookupGoogleIPTests = []struct {
 }
 
 func TestLookupGoogleIP(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
@@ -593,7 +593,7 @@ func TestLookupDotsWithLocalSource(t *testing.T) {
 		t.Skip("IPv4 is required")
 	}
 
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	defer dnsWaitGroup.Wait()
 
@@ -637,7 +637,7 @@ func TestLookupDotsWithRemoteSource(t *testing.T) {
 	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
 		testenv.SkipFlaky(t, 27992)
 	}
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
@@ -885,7 +885,7 @@ func TestLookupNonLDH(t *testing.T) {
 }
 
 func TestLookupContextCancel(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 	testenv.SkipFlakyNet(t)
 
 	origTestHookLookupIP := testHookLookupIP
@@ -951,7 +951,7 @@ func TestLookupContextCancel(t *testing.T) {
 // Issue 24330: treat the nil *Resolver like a zero value. Verify nothing
 // crashes if nil is used.
 func TestNilResolverLookup(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 	var r *Resolver = nil
 	ctx := context.Background()
 
@@ -971,7 +971,7 @@ func TestNilResolverLookup(t *testing.T) {
 // TestLookupHostCancel verifies that lookup works even after many
 // canceled lookups (see golang.org/issue/24178 for details).
 func TestLookupHostCancel(t *testing.T) {
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 	testenv.SkipFlakyNet(t)
 	t.Parallel() // Executes 600ms worth of sequential sleeps.
 
@@ -1405,7 +1405,7 @@ func TestLookupNoData(t *testing.T) {
 		t.Skip("not supported on plan9")
 	}
 
-	mustHaveExternalNetwork(t)
+	testenv.MustHaveExternalNetwork(t)
 
 	testLookupNoData(t, "default resolver")
 
