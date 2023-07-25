@@ -16,6 +16,24 @@
       "message": "Maybe better if you put the if runtime.GOOS \u003d\u003d \"android\" condition to the beginning of this function. With it you can avoid an unnecessary syscall on Android. Your approach fit better for the deprecated Android versions.",
       "revId": "cbaa3488365a544a2fe52521347db0293c4582cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b973ab42_72d954be",
+        "filename": "src/net/interface_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 62944
+      },
+      "writtenOn": "2023-07-25T18:46:01Z",
+      "side": 1,
+      "message": "Keeping RTM_GETLINK may be also useful for privileged Android applications (ex: those running as root).",
+      "parentUuid": "f2806b28_08453fed",
+      "revId": "cbaa3488365a544a2fe52521347db0293c4582cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
