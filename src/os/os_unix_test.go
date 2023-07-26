@@ -43,6 +43,9 @@ func TestChown(t *testing.T) {
 	if runtime.GOOS == "wasip1" {
 		t.Skip("file ownership not supported on " + runtime.GOOS)
 	}
+	if testing.Short() {
+		t.Skip("skipping in short mode")
+	}
 	t.Parallel()
 
 	// Use TempDir() to make sure we're on a local file system,
@@ -91,6 +94,9 @@ func TestFileChown(t *testing.T) {
 	if runtime.GOOS == "wasip1" {
 		t.Skip("file ownership not supported on " + runtime.GOOS)
 	}
+	if testing.Short() {
+		t.Skip("skipping in short mode")
+	}
 	t.Parallel()
 
 	// Use TempDir() to make sure we're on a local file system,
@@ -137,6 +143,9 @@ func TestFileChown(t *testing.T) {
 
 func TestLchown(t *testing.T) {
 	testenv.MustHaveSymlink(t)
+	if testing.Short() {
+		t.Skip("skipping in short mode")
+	}
 	t.Parallel()
 
 	// Use TempDir() to make sure we're on a local file system,
