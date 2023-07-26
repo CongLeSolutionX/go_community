@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b050ff_9be70e1e",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0fbbbd31_f5b8a335",
+      "range": {
+        "startLine": 431,
+        "startChar": 5,
+        "endLine": 431,
+        "endChar": 19
+      },
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc512379_1e3a4571",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6e22edba_ac747c7a",
+      "range": {
+        "startLine": 431,
+        "startChar": 34,
+        "endLine": 431,
+        "endChar": 38
+      },
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "363dd0e9_c02b1bfd",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-07-25T15:47:35Z",
       "side": 1,
       "message": "```suggestion\n\tcmd :\u003d exec.Command(\"sc\", \"query\", \"mrxsmb20\")\n```\n\nhttps://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3?tabs\u003dclient#smb-v2v3-on-smb-client notes that:\n\u003e SMBv1 has significant security vulnerabilities, and we strongly encourage you not to use it. SMB 1.0 isn\u0027t installed by default in any edition of Windows 11 or Windows Server 2019 and later.\n\nSo I would expect this test to use SMBv2 or SMBv3.\n\nhttps://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3?tabs\u003dclient#smb-v2v3-on-smb-client\nsays that the SMB v2/v3 service is `mrxsmb20`, not `mrxsmb10`. So I suspect that is the service we should check for here.",
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7c9a2c_a4c42b10",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "363dd0e9_c02b1bfd",
       "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -81,6 +147,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9c72b9_c92eec05",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a9cdb479_846e5ef7",
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49864160_21ac03c2",
@@ -98,6 +182,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03928c08_fb380a7d",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "49864160_21ac03c2",
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cadc2919_41be28fc",
@@ -111,6 +213,24 @@
       "writtenOn": "2023-07-25T15:47:35Z",
       "side": 1,
       "message": "If the SMB service is not running but is configured to auto-start, will this show a different status?\n\nI think we should only call this function if the call to `os.Stat(UNCPath)` has already failed: if I understand correctly, the `os.Stat` call should start the service if it is start-on-demand, so the state should be reliable after that point.",
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "059f36d0_0f5daf36",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cadc2919_41be28fc",
       "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -161,6 +281,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "157a7944_0355c56b",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "95045232_059f56cb",
+      "range": {
+        "startLine": 452,
+        "startChar": 38,
+        "endLine": 452,
+        "endChar": 45
+      },
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "771e5efc_3da2cb39",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "33916765_4df2bb5a",
+      "range": {
+        "startLine": 452,
+        "startChar": 24,
+        "endLine": 452,
+        "endChar": 31
+      },
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d3152e0_1b1c35ba",
@@ -174,6 +342,24 @@
       "writtenOn": "2023-07-25T15:47:35Z",
       "side": 1,
       "message": "```suggestion\n\t\tt.Skip(\"skipping: SMB client mrxsmb20 is not in state RUNNING\")\n```",
+      "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dae973e9_a0038327",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-26T05:10:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2d3152e0_1b1c35ba",
       "revId": "819d23aad94fe9e43530e978224a25b248bf6a7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
