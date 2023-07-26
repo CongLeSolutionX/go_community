@@ -53,6 +53,24 @@
       "message": "I couldn\u0027t find any reasonable way inside the assembler today to determine if a call is a dynamic call. I don\u0027t think we want a hack in the asm preprocessor to search for calls to libc_ symbols, and insert a nop.\n\nI think the least painful solution is to generate `OR $0, R0` after the call. That will work for any build configuration.",
       "revId": "856925f1480ec5f52129e6f672c73d3244df805f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e74ddc72_0982f636",
+        "filename": "src/syscall/mkasm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-26T12:53:45Z",
+      "side": 1,
+      "message": "Thanks - am I correct in thinking that you\u0027re suggesting:\n\n```\nCALL %s(SB)\nOR $0, R0\nRET\n```\n\n(i.e. adding a NOOP that can be optionally patched as a TOC restore slot)",
+      "parentUuid": "406f7488_e5aa516b",
+      "revId": "856925f1480ec5f52129e6f672c73d3244df805f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
