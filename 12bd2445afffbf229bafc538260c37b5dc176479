@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9ea3c6_77939c3f",
+        "filename": "src/runtime/fds_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-07-26T13:58:45Z",
+      "side": 1,
+      "message": "The property that “we haven\u0027t yet called `minit`” involves non-local assumptions about the caller of this function, which are not documented (since this function has no doc comment) and also not obvious from the function\u0027s name.\n\nIn case the order of initialization is changed in the future, this would be a little more robust as:\n\n```\nif (goos \u003d\u003d \"aix\" || GOOS \u003d\u003d \"solaris\") \u0026\u0026 errno \u003d\u003d nil {\n\terrno \u003d EBADF\n}\n```\n\nor even:\n```\nif (GOOS \u003d\u003d \"aix\" || GOOS \u003d\u003d \"solaris\") {\n\tif errno !\u003d nil {\n\t\tthrow(\"unexpected errno before minit\")\n\t}\n\terrno \u003d EBADF\n}\n```",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 29
+      },
+      "revId": "12bd2445afffbf229bafc538260c37b5dc176479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
