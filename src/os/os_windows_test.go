@@ -25,6 +25,9 @@ import (
 	"testing"
 	"unicode/utf16"
 	"unsafe"
+
+	"golang.org/x/sys/windows/svc"
+	"golang.org/x/sys/windows/svc/mgr"
 )
 
 // For TestRawConnReadWrite.
@@ -427,6 +430,27 @@ func TestDirectorySymbolicLink(t *testing.T) {
 	testDirLinks(t, tests)
 }
 
+func mustHaveWorkstation(t *testing.T) {
+	Mgr, err := mgr.Connect()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer Mgr.Disconnect()
+	//LanmanWorkstation is the service name, and Workstation is the display name.
+	Service, err := Mgr.OpenService("LanmanWorkstation")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer Service.Close()
+	state, err := Service.Query()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if state.State != svc.Running {
+		t.Skip("TestNetworkSymbolicLink requires the Windows service Workstation, but it is detected that it is not enabled.")
+	}
+}
+
 func TestNetworkSymbolicLink(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
@@ -489,6 +513,7 @@ func TestNetworkSymbolicLink(t *testing.T) {
 	}
 	fi2, err := os.Stat(UNCPath)
 	if err != nil {
+		mustHaveWorkstation(t)
 		t.Fatal(err)
 	}
 	if !os.SameFile(fi1, fi2) {
