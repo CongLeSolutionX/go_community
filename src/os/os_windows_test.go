@@ -17,6 +17,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"runtime"
 	"slices"
 	"sort"
@@ -427,6 +428,19 @@ func TestDirectorySymbolicLink(t *testing.T) {
 	testDirLinks(t, tests)
 }
 
+func mustHaveWorkstation(t *testing.T) {
+	cmd := exec.Command("net", "start")
+	s, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatal(err)
+	}
+	//If the Windows service Workstation is enabled, the return of net start includes Workstation.
+	pattern := regexp.MustCompile("Workstation")
+	if !pattern.Match(s) {
+		t.Skip("TestNetworkSymbolicLink requires the Windows service Workstation, but it is detected that it is not enabled.")
+	}
+}
+
 func TestNetworkSymbolicLink(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
@@ -489,6 +503,7 @@ func TestNetworkSymbolicLink(t *testing.T) {
 	}
 	fi2, err := os.Stat(UNCPath)
 	if err != nil {
+		mustHaveWorkstation(t)
 		t.Fatal(err)
 	}
 	if !os.SameFile(fi1, fi2) {
