@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef70eab1_b2839f46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-07-26T07:55:55Z",
+      "side": 1,
+      "message": "Thanks for the review! Apologies for all the asm formatting nits! I\u0027m using the vscode and the go asm extension, but it doesn\u0027t use the same conventions as the core go team. Out of interest, what do you use? Thanks again!",
+      "revId": "be2092517fe8f1b8c1eefc84baa1c742ab39c8e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
