@@ -199,6 +199,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05401a1c_d1f56285",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-07-26T14:05:11Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6ea2bacc_ec7ff60d",
+      "revId": "aa3d354a379986351ad2f5ac35961655c7bc8998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "138494c0_e8a8d43f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-07-26T14:05:11Z",
+      "side": 1,
+      "message": "It\u0027s both merged and deployed by now. I wanted to take advantage of a good opportunity and deployed it sooner, while it was quiet and so that it wouldn\u0027t be interrupting any active gomote sessions, etc. So you should be good to remove the Hold+1 and proceed here. Thanks.",
+      "parentUuid": "ec876327_4d28025c",
+      "revId": "aa3d354a379986351ad2f5ac35961655c7bc8998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffa3e728_70c3ef76",
