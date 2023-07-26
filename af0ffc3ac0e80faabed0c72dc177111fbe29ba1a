@@ -91,6 +91,24 @@
       "message": "Hmm, looks like on Soralis this should be\n```\nasmcgocall(unsafe.Pointer(abi.FuncPCABI0(miniterrno)), unsafe.Pointer(\u0026libc____errno))\n```\n?\n\n(https://cs.opensource.google/go/go/+/master:src/runtime/os3_solaris.go;l\u003d220;drc\u003d58315a771a645359d2173f9555d4a606e6613158)",
       "revId": "af0ffc3ac0e80faabed0c72dc177111fbe29ba1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "751fe437_e9ecad37",
+        "filename": "src/runtime/os3_solaris.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-26T21:46:21Z",
+      "side": 1,
+      "message": "Indeed.",
+      "parentUuid": "4c9bf530_fa5feac2",
+      "revId": "af0ffc3ac0e80faabed0c72dc177111fbe29ba1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
