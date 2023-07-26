@@ -95,6 +95,10 @@ func semawakeup(mp *m) {
 func osinit() {
 	ncpu = int32(sysconf(__SC_NPROCESSORS_ONLN))
 	physPageSize = sysconf(__SC_PAGE_SIZE)
+
+	// Call miniterrno so that we can safely make system calls
+	// before calling minit on m0.
+	miniterrno()
 }
 
 // newosproc0 is a version of newosproc that can be called before the runtime
