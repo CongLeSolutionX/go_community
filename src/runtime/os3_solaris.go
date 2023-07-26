@@ -137,6 +137,10 @@ func osinit() {
 	if physPageSize == 0 {
 		physPageSize = getPageSize()
 	}
+
+	// Call miniterrno so that we can safely make system calls
+	// before calling minit on m0.
+	miniterrno()
 }
 
 func tstart_sysvicall(newm *m) uint32
