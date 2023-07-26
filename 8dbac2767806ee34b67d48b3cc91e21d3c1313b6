@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d157a9f_daa33f9b",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-26T07:32:48Z",
+      "side": 1,
+      "message": "The `net` command might not be found if the test is executed within a program with restricted permissions, or that doesn\u0027t have system32 in the PATH. I would query the service status using a programmatic way, like this (ommiting errors for clarity):\n\n```\n\tadvapi32, _ :\u003d syscall.LoadDLL(\"advapi32.dll\")\n\tmgrproc, _ :\u003d advapi32.FindProc(\"OpenSCManagerW\")\n\tsrvproc, _ :\u003d advapi32.FindProc(\"OpenServiceW\")\n\tstatusproc, _ :\u003d advapi32.FindProc(\"QueryServiceStatus\")\n\n\tconst (\n\t\tSERVICE_RUNNING      \u003d 4\n\t\tSERVICE_QUERY_STATUS \u003d 4\n\t)\n\tvar status struct {\n\t\t_            int32\n\t\tCurrentState int32\n\t\t_            int32\n\t\t_            int32\n\t\t_            int32\n\t\t_            int32\n\t\t_            int32\n\t}\n\tname :\u003d syscall.StringToUTF16Ptr(\"LanmanWorkstation\")\n\n\tmgr, _, _ :\u003d mgrproc.Call(0, 0, 0)\n\tsrv, _, _ :\u003d srvproc.Call(mgr, uintptr(unsafe.Pointer(name)), SERVICE_QUERY_STATUS)\n\tok, _, _ :\u003d statusproc.Call(srv, uintptr(unsafe.Pointer(\u0026status)))\n\n\tenabled :\u003d ok !\u003d 0 \u0026\u0026 status.CurrentState \u003d\u003d SERVICE_RUNNING\n```",
+      "revId": "8dbac2767806ee34b67d48b3cc91e21d3c1313b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
