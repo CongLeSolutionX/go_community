@@ -71,6 +71,24 @@
       "parentUuid": "1f4c09ca_204d4b6b",
       "revId": "f93321a354196b7e4ac534e3d2d95b0814223525",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cccaa137_6e792cc9",
+        "filename": "src/os/exec_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-07-26T14:09:37Z",
+      "side": 1,
+      "message": "That\u0027s faster than I expected, but maybe it\u0027d be slower if the system is under load of running all other tests.\n\nIf you think there\u0027s benefit to having it run in -short mode (and on non-longtest builders), then no need to skip. But to me it still seems fine to skip it so that it runs without -short and on longtest builders only (that is, I don\u0027t see the advantage of running it in both cases). Up to you. Thanks.",
+      "parentUuid": "8dc2c10f_31dccebc",
+      "revId": "f93321a354196b7e4ac534e3d2d95b0814223525",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
