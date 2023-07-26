@@ -235,6 +235,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84728b17_61b12640",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-07-26T14:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41d951ff_0f1c7a37",
+      "revId": "aa3d354a379986351ad2f5ac35961655c7bc8998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "731bfc65_7650543d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-07-26T14:18:01Z",
+      "side": 1,
+      "message": "CL 513255 has been submitted",
+      "revId": "aa3d354a379986351ad2f5ac35961655c7bc8998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffa3e728_70c3ef76",
