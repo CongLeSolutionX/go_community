@@ -326,7 +326,12 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 		eb.uint16(5)  // Size: SizeOf(uint8) + SizeOf(uint32)
 		eb.uint8(1)   // Flags: ModTime
 		eb.uint32(mt) // ModTime
-		fh.Extra = append(fh.Extra, mbuf[:]...)
+
+		if offset := extraFieldOffset(fh.Extra, extTimeExtraID); offset != -1 {
+			copy(fh.Extra[offset:], mbuf[:])
+		} else {
+			fh.Extra = append(fh.Extra, mbuf[:]...)
+		}
 	}
 
 	var (
@@ -381,6 +386,23 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 	// If we're creating a directory, fw is nil.
 	w.last = fw
 	return ow, nil
+}
+
+func extraFieldOffset(extra []byte, tag uint16) int {
+	offset := 0
+	for buf := readBuf(extra); len(buf) >= 4; { // need at least tag and size
+		fieldTag := buf.uint16()
+		fieldSize := int(buf.uint16())
+		if len(buf) < fieldSize {
+			break
+		}
+		if fieldTag == tag {
+			return offset
+		}
+		buf.sub(fieldSize)
+		offset += 4 + fieldSize
+	}
+	return -1
 }
 
 func writeHeader(w io.Writer, h *header) error {
