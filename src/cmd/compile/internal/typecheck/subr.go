@@ -392,6 +392,17 @@ func convertOp(srcConstant bool, src, dst *types.Type) (ir.Op, string) {
 		return op, why
 	}
 
+	// Conversions from a function to a single method interface.
+	if src.Kind() == types.TFUNC && dst.IsInterface() {
+		dstFields := dst.AllMethods()
+		if len(dstFields) == 1 {
+			dstField := dstFields[0]
+			if types.Identical(src, dstField.Type) {
+				return ir.OFUNCIFACE, ""
+			}
+		}
+	}
+
 	// The rules for interfaces are no different in conversions
 	// than assignments. If interfaces are involved, stop now
 	// with the good message from assignop.

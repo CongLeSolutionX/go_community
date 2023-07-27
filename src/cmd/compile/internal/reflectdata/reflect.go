@@ -1318,6 +1318,17 @@ func writeITab(lsym *obj.LSym, typ, iface *types.Type, allowNonImplement bool) {
 			}
 		}
 	}
+
+	if len(sigs) == 1 && typ.IsKind(types.TFUNC) {
+		funcLSym := funcForIfaceWrapper(iface, typ)
+		// TODO(amedee) modify the name matches
+		entries = append(entries, funcLSym)
+		if lsym == nil {
+			panic("NO ISYM SET")
+		}
+		sigs = sigs[1:]
+	}
+
 	completeItab := len(sigs) == 0
 	if !allowNonImplement && !completeItab {
 		base.Fatalf("incomplete itab")
@@ -1787,8 +1798,13 @@ func methodWrapper(rcvr *types.Type, method *types.Field, forItab bool) *obj.LSy
 
 	newnam := ir.MethodSym(rcvr, method.Sym)
 	lsym := newnam.Linksym()
+	return lsym
+}
 
-	// Unified IR creates its own wrappers.
+func funcForIfaceWrapper(rcvr, sig *types.Type) *obj.LSym {
+	newnam := ir.MethodSymSuffix(rcvr, types.TypeSym(sig), ir.IfaceFuncSuffix)
+	newnam.SetFunc(true)
+	lsym := newnam.Linksym()
 	return lsym
 }
 

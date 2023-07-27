@@ -267,6 +267,19 @@ func walkRuneToString(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 	return mkcall("intstring", n.Type(), init, a, typecheck.Conv(n.X, types.Types[types.TINT64]))
 }
 
+// walkFuncToIface walks an OFUNCIFACE node.
+func walkFuncToIface(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
+	n.X = walkExpr(n.X, init)
+	toType := n.Type()
+
+	reflectdata.MarkTypeUsedInInterface(n.X.Type(), ir.CurFunc.LSym)
+	typeWord := reflectdata.ConvIfaceTypeWord(base.Pos, n)
+	l := ir.NewBinaryExpr(base.Pos, ir.OMAKEFACE, typeWord, dataWord(n, init))
+	l.SetType(toType)
+	l.SetTypecheck(n.Typecheck())
+	return l
+}
+
 // walkStringToBytes walks an OSTR2BYTES node.
 func walkStringToBytes(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 	s := n.X
