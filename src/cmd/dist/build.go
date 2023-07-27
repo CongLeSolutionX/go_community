@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -435,6 +436,12 @@ func findgoversion() string {
 
 // isGitRepo reports whether the working directory is inside a Git repository.
 func isGitRepo() bool {
+	// Respect GOBOOTSTRAP_BUILDVCS=false if set to 0 or false.
+	// Otherwise check if the Git repo is present with "git rev-parse" as usual.
+	if val, err := strconv.ParseBool(os.Getenv("GOBOOTSTRAP_BUILDVCS")); err == nil && val == false {
+		return false
+	}
+
 	// NB: simply checking the exit code of `git rev-parse --git-dir` would
 	// suffice here, but that requires deviating from the infrastructure
 	// provided by `run`.

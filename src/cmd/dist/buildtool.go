@@ -229,6 +229,9 @@ func bootstrapBuildTools() {
 	if tool := os.Getenv("GOBOOTSTRAP_TOOLEXEC"); tool != "" {
 		cmd = append(cmd, "-toolexec="+tool)
 	}
+	if !isGitRepo() {
+		cmd = append(cmd, "-buildvcs=false")
+	}
 	cmd = append(cmd, "bootstrap/cmd/...")
 	run(base, ShowOutput|CheckExit, cmd...)
 
