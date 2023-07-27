@@ -113,6 +113,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af04c66f_6c66d0b8",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 7395
+      },
+      "writtenOn": "2023-07-27T21:42:12Z",
+      "side": 1,
+      "message": "I think my concern was that the intent here is to communicate data from the test to the reader of test2json; I\u0027m worried that `any` here would encourage putting stuff like structs which are going to be very difficult to extract value from on the other side (without an encoding like json... but `testing` can\u0027t depend on json, so the caller can just encode this themselves).",
+      "parentUuid": "65768c1a_3f457bec",
+      "range": {
+        "startLine": 965,
+        "startChar": 33,
+        "endLine": 965,
+        "endChar": 39
+      },
+      "revId": "884d58a25964867213bbacca917a20c344328687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4cbac661_8cbacb48",
         "filename": "src/testing/testing.go",
         "patchSetId": 1
@@ -124,6 +148,30 @@
       "writtenOn": "2023-07-27T19:49:55Z",
       "side": 1,
       "message": "Maybe %q here.",
+      "range": {
+        "startLine": 972,
+        "startChar": 47,
+        "endLine": 972,
+        "endChar": 48
+      },
+      "revId": "884d58a25964867213bbacca917a20c344328687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05c38af1_13d769fe",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 7395
+      },
+      "writtenOn": "2023-07-27T21:42:12Z",
+      "side": 1,
+      "message": "This CL is clearly quite old and needs to be rebased 😊\n\nYeah I think %q is appropriate here",
+      "parentUuid": "4cbac661_8cbacb48",
       "range": {
         "startLine": 972,
         "startChar": 47,
