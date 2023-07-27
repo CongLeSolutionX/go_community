@@ -70,6 +70,24 @@
       "message": "Thanks. Is it going to be merged? It seems it is ready for many days.",
       "revId": "637c80653a29ac3ed0380a7b1ef6056d78d84874",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab0ab2e2_61dd2f34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-27T18:58:42Z",
+      "side": 1,
+      "message": "We were in the release freeze. The tree is now reopened. Submitted. Thanks.",
+      "parentUuid": "1b8e283d_81dc2b18",
+      "revId": "637c80653a29ac3ed0380a7b1ef6056d78d84874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
