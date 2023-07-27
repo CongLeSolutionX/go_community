@@ -233,7 +233,7 @@ const (
 
 // All register types
 const (
-	RTYP_NORMAL     = iota // Rn, Vn.B
+	RTYP_NORMAL     = iota // Rn, Vn.B, imm(Rn)
 	RTYP_INDEX             // Vn.<T>[index], Rn[index]
 	RTYP_EXT_UXTB          // Rn.UXTB<<num
 	RTYP_EXT_UXTH          // Rn.UXTH<<num
@@ -244,7 +244,7 @@ const (
 	RTYP_EXT_SXTW          // Rn.SXTW<<num
 	RTYP_EXT_SXTX          // Rn.SXTX<<num
 	RTYP_EXT_LSL           // Rm<<num (extension type)
-	RTYP_MEM_ROFF          // (Rn)(Rm)
+	RTYP_MEM_ROFF          // (Rn)(Rm), (Rn)(Rm.ext<<amount)
 	RTYP_MEM_IMMEXT        // (const*VL)(Rn)
 	RTYP_SVE_PM            // Pg/M
 	RTYP_SVE_PZ            // Pg/Z
@@ -1582,4 +1582,5 @@ var supportedInsts = [ALAST - obj.ABaseARM64]bool{
 	AWFI - obj.ABaseARM64:       true,
 	AWORD - obj.ABaseARM64:      true,
 	AYIELD - obj.ABaseARM64:     true,
+	AVFMOV - obj.ABaseARM64:     true,
 }

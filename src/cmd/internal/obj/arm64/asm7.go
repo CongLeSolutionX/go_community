@@ -2471,7 +2471,7 @@ func (c *ctxt7) acclass(a *obj.Addr, p *obj.Prog) oprType {
 			if typ == RTYP_MEM_ROFF {
 				_, ext, _ := DecodeIndex(int16(a.Offset >> 16))
 				if ext != RTYP_NORMAL {
-					c.ctxt.Diag("invalid extended register: %v", p)
+					c.ctxt.Diag("invalid extended register: %v\n", p)
 					return AC_NONE
 				}
 				return AC_MEMPOSTREG // register offset
