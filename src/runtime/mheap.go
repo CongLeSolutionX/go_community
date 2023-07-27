@@ -803,8 +803,10 @@ func (h *mheap) reclaim(npage uintptr) {
 	// traceGCSweepStart/Done pair on the P.
 	mp := acquirem()
 
-	if traceEnabled() {
-		traceGCSweepStart()
+	trace := traceAcquire()
+	if trace.ok() {
+		trace.GCSweepStart()
+		traceRelease(trace)
 	}
 
 	arenas := h.sweepArenas
@@ -851,8 +853,10 @@ func (h *mheap) reclaim(npage uintptr) {
 		unlock(&h.lock)
 	}
 
-	if traceEnabled() {
-		traceGCSweepDone()
+	trace = traceAcquire()
+	if trace.ok() {
+		trace.GCSweepDone()
+		traceRelease(trace)
 	}
 	releasem(mp)
 }
@@ -923,10 +927,12 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 		n -= uintptr(len(inUse) * 8)
 	}
 	sweep.active.end(sl)
-	if traceEnabled() {
+	trace := traceAcquire()
+	if trace.ok() {
 		unlock(&h.lock)
 		// Account for pages scanned but not reclaimed.
-		traceGCSweepSpan((n0 - nFreed) * pageSize)
+		trace.GCSweepSpan((n0 - nFreed) * pageSize)
+		traceRelease(trace)
 		lock(&h.lock)
 	}
 
