@@ -15,6 +15,7 @@ import (
 	"sort"
 	"strings"
 	"testing"
+	"testing/fstest"
 	"testing/iotest"
 	"time"
 )
@@ -1330,6 +1331,48 @@ func TestFileWriter(t *testing.T) {
 
 		if got := bb.String(); got != wantStr {
 			t.Fatalf("test %d, String() = %q, want %q", i, got, wantStr)
+		}
+	}
+}
+
+func TestWriterAddFs(t *testing.T) {
+	fsys := fstest.MapFS{
+		"file.go":              {Data: []byte("hello")},
+		"subfolder/another.go": {Data: []byte("world")},
+	}
+	var buf bytes.Buffer
+	tw := NewWriter(&buf)
+	if err := tw.AddFS(fsys); err != nil {
+		t.Fatal(err)
+	}
+
+	// Test that we can get the files back from the archive
+	tr := NewReader(&buf)
+	foundFiles := make(map[string][]byte)
+	for {
+		hdr, err := tr.Next()
+		if err == io.EOF {
+			break // End of archive
+		}
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		data := make([]byte, hdr.Size)
+		_, err = tr.Read(data)
+		foundFiles[hdr.Name] = data
+	}
+
+	for name, file := range fsys {
+		got, ok := foundFiles[name]
+		if !ok {
+			t.Fatalf("got filename %s, want %s",
+				got, name)
+		}
+
+		if !reflect.DeepEqual(foundFiles[name], file.Data) {
+			t.Fatalf("got file content %#v, want %#v",
+				foundFiles[name], file.Data)
 		}
 	}
 }
