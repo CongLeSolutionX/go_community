@@ -515,8 +515,10 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		throw("mspan.sweep: bad span state")
 	}
 
-	if traceEnabled() {
-		traceGCSweepSpan(s.npages * _PageSize)
+	trace := traceAcquire()
+	if trace.ok() {
+		trace.GCSweepSpan(s.npages * _PageSize)
+		traceRelease(trace)
 	}
 
 	mheap_.pagesSwept.Add(int64(s.npages))
@@ -879,8 +881,10 @@ func deductSweepCredit(spanBytes uintptr, callerSweepPages uintptr) {
 		return
 	}
 
-	if traceEnabled() {
-		traceGCSweepStart()
+	trace := traceAcquire()
+	if trace.ok() {
+		trace.GCSweepStart()
+		traceRelease(trace)
 	}
 
 	// Fix debt if necessary.
@@ -919,8 +923,10 @@ retry:
 		}
 	}
 
-	if traceEnabled() {
-		traceGCSweepDone()
+	trace = traceAcquire()
+	if trace.ok() {
+		trace.GCSweepDone()
+		traceRelease(trace)
 	}
 }
 

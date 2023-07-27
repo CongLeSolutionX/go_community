@@ -649,8 +649,10 @@ func gcStart(trigger gcTrigger) {
 	// Update it under gcsema to avoid gctrace getting wrong values.
 	work.userForced = trigger.kind == gcTriggerCycle
 
-	if traceEnabled() {
-		traceGCStart()
+	trace := traceAcquire()
+	if trace.ok() {
+		trace.GCStart()
+		traceRelease(trace)
 	}
 
 	// Check that all Ps have finished deferred mcache flushes.
@@ -991,8 +993,10 @@ func gcMarkTermination() {
 	mp.traceback = 0
 	casgstatus(curgp, _Gwaiting, _Grunning)
 
-	if traceEnabled() {
-		traceGCDone()
+	trace := traceAcquire()
+	if trace.ok() {
+		trace.GCDone()
+		traceRelease(trace)
 	}
 
 	// all done
