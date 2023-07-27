@@ -115,6 +115,8 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	VEOR	V0.B16, V1.B16, V0.B16          // 201c206e
 	VADDV	V0.S4, V0                       // 00b8b14e
 	VMOVI	$82, V0.B16                     // 40e6024f
+	VMOVI	$0xff00ffff00ff, F2             // VMOVI	$280379759984895, F2   // a2e5012f
+	VMOVI	$0xff00ff, V1.D2                // VMOVI	$16711935, V1.D2       // a1e4006f
 	VUADDLV	V6.B16, V6                      // c638306e
 	VADD	V1, V2, V3                      // 4384e15e
 	VADD	V1, V3, V3                      // 6384e15e
@@ -240,6 +242,12 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	FMOVS	ZR, F0                          // e003271e
 	FMOVD	F1, ZR                          // 3f00669e
 	FMOVS	F1, ZR                          // 3f00261e
+	VFMOV	$(0.265625), V2.D2              // 22f6026f
+	VFMOV	$(0.1796875), V3.S2             // e3f4020f
+	VFMOV	$(0.265625), V2.S4              // 22f6024f
+	VFMOV	$(0.265625), V2.H4              // 22fe020f
+	VFMOV	$(0.265625), V2.H8              // 22fe024f
+
 	VUADDW	V9.B8, V12.H8, V14.H8           // 8e11292e
 	VUADDW	V13.H4, V10.S4, V11.S4          // 4b116d2e
 	VUADDW	V21.S2, V24.D2, V29.D2          // 1d13b52e
@@ -451,7 +459,10 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 // store and load
 //
 // LD1/ST1
+	VLD1	(R0), [V5.D2]                                   // 057c404c
 	VLD1	(R8), [V1.B16, V2.B16]                          // 01a1404c
+	VLD1	(R19), [V1.S4, V2.S4, V3.S4]                    // 616a404c
+	VLD1	(RSP), [V1.H4, V2.H4, V3.H4, V4.H4]             // e127400c
 	VLD1.P	(R3), [V31.H8, V0.H8]                           // 7fa4df4c
 	VLD1.P	(R8)(R20), [V21.B16, V22.B16]                   // 15a1d44c
 	VLD1.P	64(R1), [V5.B16, V6.B16, V7.B16, V8.B16]        // 2520df4c

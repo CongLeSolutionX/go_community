@@ -9,6 +9,7 @@ import (
 	"cmd/internal/objabi"
 	"log"
 	"math/bits"
+	"strings"
 )
 
 // This file contains the encoding of the each element type.
@@ -20,7 +21,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 	e := ai.elms[elmIdx]
 	enc := uint32(0)
 	reg, offset := uint32(ag.Reg), ag.Offset
-	_, typ, _ := DecodeIndex(ag.Index)
+	arng, typ, index := DecodeIndex(ag.Index)
 	switch e {
 	case sa_wt__Rt, sa_xt__Rt:
 		if ai.aType == AC_PAIR && reg&1 != 0 {
@@ -146,6 +147,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 		}
 	case sa_const_REG_X16:
 		if reg != REG_R16 {
+			c.ctxt.Diag("illegal register: %v\n", p)
 			return 0, false
 		}
 	case sa_const_MEMEXT_no_arng1:
@@ -157,6 +159,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 		// Do nothing
 	case sa_const_MEMIMM_0, sa_const_MEMPREIMM_no_offset:
 		if typ != RTYP_NORMAL || offset != 0 {
+			c.ctxt.Diag("illegal immediate offset: %v\n", p)
 			return 0, false
 		}
 	case sa_const_MEMEXT_no_arng2:
@@ -256,13 +259,28 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 			return 0, false
 		}
 		enc = (amount >> 1) << 12
-	case sa_amount__S__0_3, sa_amount_1__S__0_3:
+
+	case sa_amount__S__0_3, sa_amount_2__S__0_1, sa_amount_4__S__0_2, sa_amount_1__S__0_3, sa_amount_3__S__0_4:
 		_, _, _, _, _, amount := c.decodeRegOffReg(p, ag)
-		if amount != 0 && amount != 3 {
+		if amount == 0 {
+			return 0, true
+		}
+		var a uint32
+		switch e {
+		case sa_amount_2__S__0_1:
+			a = 1
+		case sa_amount_4__S__0_2:
+			a = 2
+		case sa_amount__S__0_3, sa_amount_1__S__0_3:
+			a = 3
+		case sa_amount_3__S__0_4:
+			a = 4
+		}
+		if amount != a {
 			c.ctxt.Diag("invalid index shift amount: %v\n", p)
 			return 0, false
 		}
-		enc = (amount & 1) << 12
+		enc = 1 << 12
 	case sa_const__imm13:
 		width := uint32(0)
 		_, arng := c.decodeRegARNG(p, &p.To)
@@ -441,6 +459,13 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 		default:
 			return 0, false
 		}
+	case sa_imm_5__imm7, sa_imm_4__imm7:
+		if offset&3 != 0 || offset < -256 || offset > 252 {
+			c.ctxt.Diag("offset must be a multiple of 4 in the range -256 to 252: %v\n", p)
+			return 0, false
+		}
+		imm7 := offset >> 2
+		enc = uint32(imm7) << 15
 	case sa_imm__imm16:
 		imm16 := uint64(offset)
 		switch p.As {
@@ -667,6 +692,24 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 			return 0, false
 		}
 		enc = ((uint32(pimm) >> 3) & 0xfff) << 10
+	case sa_pimm_2__imm12:
+		if offset&1 != 0 || offset < 0 || offset > 8190 {
+			c.ctxt.Diag("offset must be a multiple of 2 in the range 0 to 8190: %v\n", p)
+			return 0, false
+		}
+		enc = ((uint32(offset) >> 1) & 0xfff) << 10
+	case sa_pimm_4__imm12:
+		if offset&3 != 0 || offset < 0 || offset > 16380 {
+			c.ctxt.Diag("offset must be a multiple of 4 in the range 0 to 8190: %v\n", p)
+			return 0, false
+		}
+		enc = ((uint32(offset) >> 2) & 0xfff) << 10
+	case sa_pimm_3__imm12:
+		if offset&15 != 0 || offset < 0 || offset > 65520 {
+			c.ctxt.Diag("offset must be a multiple of 16 in the range 0 to 65520: %v\n", p)
+			return 0, false
+		}
+		enc = ((uint32(offset) >> 4) & 0xfff) << 10
 	case sa_uimm__imm8:
 		uimm := offset
 		if uimm&^0xff != 0 {
@@ -1145,8 +1188,1876 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 			return 0, false
 		}
 		enc <<= 6
+
+	case sa_vt2__Rt, sa_vt3__Rt, sa_vt4__Rt, sa_v__imm5__B_D_H_S,
+		sa_v__immh__D_H_S, sa_v__size__B_H_S, sa_v__sz__H, sa_v_1__sz__D_S,
+		sa_v_1__sz__S, sa_v, sa_r__imm5__W_X, sa_vb__sz__S, sa_va__sz__D,
+		sa_v__immh__D, sa_vb__immh__B_H_S, sa_va__immh__D_H_S, sa_v__immh__B_D_H_S:
+		enc = 0
+
+	case sa_vn_plus_1__Rn, sa_vn_plus_2__Rn, sa_vn_plus_3__Rn:
+		if ag.Scale != 1 {
+			return 0, false
+		}
+
+	case sa_vm__Rm_20_5, sa_vm__M_Rm, sa_vm_1__M_Rm:
+		if !(reg >= REG_V0 && reg <= REG_V31) {
+			c.ctxt.Diag("illegal register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 16
+
+	case sa_vm__Rm_19_4:
+		if !(reg >= REG_V0 && reg <= REG_V15) {
+			c.ctxt.Diag("illegal register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 16
+
+	case sa_hm__Rm, sa_sm__Rm, sa_dm__Rm:
+		enc = (reg & 0x1f) << 16
+
+	case sa_va__Ra:
+		if !(reg >= REG_V0 && reg <= REG_V31) {
+			c.ctxt.Diag("illegal register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 10
+
+	case sa_sa__Ra, sa_da__Ra, sa_ha__Ra:
+		enc = (reg & 0x1f) << 10
+
+	case sa_vn__Rn:
+		if !(reg >= REG_V0 && reg <= REG_V31) {
+			c.ctxt.Diag("illegal register: %v\n", p)
+			return 0, false
+		}
+		if p.As == AVMOV && ai.aType == AC_ARNG {
+			enc = (reg&0x1f)<<5 | (reg&0x1f)<<16
+		} else {
+			enc = (reg & 0x1f) << 5
+		}
+
+	case sa_vn_1__Rn:
+		if !(reg >= REG_V0 && reg <= REG_V31) {
+			c.ctxt.Diag("illegal register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 5
+
+	case sa_n__Rn, sa_sn__Rn, sa_hn__Rn, sa_dn__Rn, sa_sn_1__Rn,
+		sa_qn__Rn, sa_hn_1__Rn, sa_dn_1__Rn:
+		enc = (reg & 0x1f) << 5
+
+	case sa_vt__Rt, sa_vd__Rd:
+		if !(reg >= REG_V0 && reg <= REG_V31) {
+			c.ctxt.Diag("illegal register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0x1f
+
+	case sa_qd__Rd, sa_d__Rd, sa_sd__Rd, sa_hd__Rd, sa_dd__Rd,
+		sa_bt__Rt, sa_ht__Rt, sa_st__Rt, sa_dt__Rt, sa_qt__Rt, sa_st1__Rt, sa_dt1__Rt,
+		sa_qt1__Rt:
+		enc = reg & 0x1f
+
+	case sa_st2__Rt2, sa_qt2__Rt2, sa_dt2__Rt2:
+		enc = ((reg + 1) & 0x1f) << 10
+
+	case sa_t__size_Q__4H_8B_8H_16B:
+		var size, Q uint32
+		switch arng {
+		case ARNG_4H:
+			Q = 0
+			size = 1
+		case ARNG_8H:
+			Q = 1
+			size = 1
+		case ARNG_8B:
+			Q = 0
+			size = 0
+		case ARNG_16B:
+			Q = 1
+			size = 0
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<22
+		mask := uint32(1<<30 | 3<<22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_Q__2D_2S_4H_4S_8H:
+		var size, Q uint32
+		switch arng {
+		case ARNG_4H:
+			Q = 0
+			size = 1
+		case ARNG_8H:
+			Q = 1
+			size = 1
+		case ARNG_2S:
+			Q = 0
+			size = 2
+		case ARNG_4S:
+			Q = 1
+			size = 2
+		case ARNG_2D:
+			Q = 1
+			size = 3
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<22
+		mask := uint32(1<<30 | 3<<22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ta__size_Q__1D_2D_2S_4H_4S_8H:
+		var size, Q uint32
+		switch arng {
+		case ARNG_4H:
+			Q = 0
+			size = 1
+		case ARNG_8H:
+			Q = 1
+			size = 1
+		case ARNG_2S:
+			Q = 0
+			size = 1
+		case ARNG_4S:
+			Q = 1
+			size = 1
+		case ARNG_1D:
+			Q = 0
+			size = 2
+		case ARNG_2D:
+			Q = 1
+			size = 2
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<22
+		mask := uint32(1<<30 | 3<<22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_Q__2S_4H_4S_8B_8H_16B:
+		var size, Q uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+			size = 0
+		case ARNG_16B:
+			Q = 1
+			size = 0
+		case ARNG_4H:
+			Q = 0
+			size = 1
+		case ARNG_8H:
+			Q = 1
+			size = 1
+		case ARNG_2S:
+			Q = 0
+			size = 2
+		case ARNG_4S:
+			Q = 1
+			size = 2
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<22
+		mask := uint32(1<<30 | 3<<22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_Q__2D_2S_4H_4S_8B_8H_16B:
+		var size, Q uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+			size = 0
+		case ARNG_16B:
+			Q = 1
+			size = 0
+		case ARNG_4H:
+			Q = 0
+			size = 1
+		case ARNG_8H:
+			Q = 1
+			size = 1
+		case ARNG_2S:
+			Q = 0
+			size = 2
+		case ARNG_4S:
+			Q = 1
+			size = 2
+		case ARNG_2D:
+			Q = 1
+			size = 3
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		var mask uint32
+		if ai.aType == AC_ARNG {
+			enc = Q<<30 | size<<22
+			mask = uint32(1<<30 | 3<<22)
+		} else {
+			enc = Q<<30 | size<<10
+			mask = uint32(1<<30 | 3<<10)
+		}
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_Q__1D_2D_2S_4H_4S_8B_8H_16B:
+		var size, Q uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+			size = 0
+		case ARNG_16B:
+			Q = 1
+			size = 0
+		case ARNG_4H:
+			Q = 0
+			size = 1
+		case ARNG_8H:
+			Q = 1
+			size = 1
+		case ARNG_2S:
+			Q = 0
+			size = 2
+		case ARNG_4S:
+			Q = 1
+			size = 2
+		case ARNG_1D:
+			Q = 0
+			size = 3
+		case ARNG_2D:
+			Q = 1
+			size = 3
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<10
+
+	case sa_t__sz_Q__2D_2S_4S, sa_t_1__Q_sz__2D_2S_4S:
+		var size, Q, val, mask uint32
+		switch arng {
+		case ARNG_2S:
+			Q = 0
+			size = 0
+		case ARNG_4S:
+			Q = 1
+			size = 0
+		case ARNG_2D:
+			Q = 1
+			size = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<22
+		if e == sa_t__sz_Q__2D_2S_4S {
+			mask = uint32(1<<30 | 1<<22)
+			val = Q<<30 | size<<22
+		}
+		if e == sa_t_1__Q_sz__2D_2S_4S {
+			mask = uint32(1 << 22)
+			val = size << 22
+		}
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__Q__4H_8H:
+		var Q uint32
+		switch arng {
+		case ARNG_4H:
+			Q = 0
+		case ARNG_8H:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+
+	case sa_t_1__Q__4H_8H, sa_tb__Q__4H_8H:
+		var Q uint32
+		switch arng {
+		case ARNG_4H:
+			Q = 0
+		case ARNG_8H:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__size_Q__2S_4H_4S_8B_8H_16B:
+		var Q, size uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+			size = 0
+		case ARNG_16B:
+			Q = 1
+			size = 0
+		case ARNG_4H:
+			Q = 0
+			size = 1
+		case ARNG_8H:
+			Q = 1
+			size = 1
+		case ARNG_2S:
+			Q = 0
+			size = 2
+		case ARNG_4S:
+			Q = 1
+			size = 2
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+
+		switch p.As {
+		case AVUADDLP, AVUADALP, AVSADDLP, AVSADALP:
+		default:
+			// The 30th bit is the second and upper half specifiera and is encoded in "Q".
+			if (instTab[instIdx].skeleton>>30)&1 != Q {
+				c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+				return 0, false
+			}
+		}
+		enc = Q<<30 | size<<22
+		mask1 := uint32(1<<30 | 3<<22)
+		val := size << 22
+		mask2 := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask1) || !c.checkOpdsMatch(p, val, checks, mask2) {
+			return 0, false
+		}
+
+	case sa_ta__size__2D_4S_8H:
+		var size uint32
+		switch arng {
+		case ARNG_8H:
+			size = 0
+		case ARNG_4S:
+			size = 1
+		case ARNG_2D:
+			size = 2
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ts__size__H_S:
+		var size uint32
+		switch arng {
+		case ARNG_H:
+			size = 1
+		case ARNG_S:
+			size = 2
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__sz_Q__2S_4H_4S_8H:
+		var Q, sz uint32
+		switch arng {
+		case ARNG_4H:
+			sz = 0
+			Q = 0
+		case ARNG_8H:
+			sz = 0
+			Q = 1
+		case ARNG_2S:
+			sz = 1
+			Q = 0
+		case ARNG_4S:
+			sz = 1
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		// The 30th bit is the second and upper half specifiera and is encoded in "Q".
+		if (instTab[instIdx].skeleton>>30)&1 != Q {
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | sz<<22
+		mask := uint32(1 << 22)
+		val := uint32(sz << 22)
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ta__sz__2D_4S:
+		var sz uint32
+		switch arng {
+		case ARNG_4S:
+			sz = 0
+		case ARNG_2D:
+			sz = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = sz << 22
+		mask := uint32(1 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ta__sz__2D:
+		if _, ok := c.checkArng(p, arng, ARNG_2D); !ok {
+			return 0, false
+		}
+		enc = 1 << 22
+
+	case sa_tb__sz_Q__2S_4S:
+		var Q uint32
+		switch arng {
+		case ARNG_2S:
+			Q = 0
+		case ARNG_4S:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		// The 30th bit is the second and upper half specifiera and is encoded in "Q".
+		if (instTab[instIdx].skeleton>>30)&1 != Q {
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+
+	case sa_t__sz_Q__2S_4S:
+		var Q uint32
+		switch arng {
+		case ARNG_2S:
+			Q = 0
+		case ARNG_4S:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__size_Q__1D_2D_8B_16B:
+		var Q, size uint32
+		switch arng {
+		case ARNG_8B:
+			size = 0
+			Q = 0
+		case ARNG_16B:
+			size = 0
+			Q = 1
+		case ARNG_1D:
+			size = 3
+			Q = 0
+		case ARNG_2D:
+			size = 3
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		// The 30th bit is the second and upper half specifiera and is encoded in "Q".
+		if (instTab[instIdx].skeleton>>30)&1 != Q {
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<22
+		mask := uint32(3 << 22)
+		val := uint32(size << 22)
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ta__Q__4H_8H:
+		var Q uint32
+		switch arng {
+		case ARNG_4H:
+			Q = 0
+		case ARNG_8H:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		// The 30th bit is the second and upper half specifiera and is encoded in "Q".
+		if (instTab[instIdx].skeleton>>30)&1 != Q {
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+
+	case sa_t__size_Q__4H_4S_8H:
+		var size, Q uint32
+		switch arng {
+		case ARNG_4H:
+			size = 1
+			Q = 0
+		case ARNG_4S:
+			size = 2
+			Q = 1
+		case ARNG_8H:
+			size = 1
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | size<<22
+		val := size << 22
+		mask1 := uint32(1<<30 | 3<<22)
+		mask2 := uint32(3 << 2)
+		if !c.checkOpdsMatch(p, enc, checks, mask1) || !c.checkOpdsMatch(p, val, checks, mask2) {
+			return 0, false
+		}
+
+	case sa_ta__size__1Q_8H:
+		var size uint32
+		switch arng {
+		case ARNG_8H:
+			size = 0
+		case ARNG_1Q:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t_1__Q_sz__4S:
+		if _, ok := c.checkArng(p, arng, ARNG_4S); !ok {
+			return 0, false
+		}
+		enc = 1 << 30
+
+	case sa_vm__size_M_Rm:
+		switch arng {
+		case ARNG_H:
+			if !(reg >= REG_V0 && reg <= REG_V15) {
+				return 0, false
+			}
+		case ARNG_S:
+			if !(reg >= REG_V0 && reg <= REG_V31) {
+				return 0, false
+			}
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		m := ((reg & 0x1f) >> 4) & 1
+		enc = m<<20 | (reg&0xf)<<16
+
+	case sa_t__Q__8B_16B, sa_ta__Q__8B_16B, sa_t__size_Q__8B_16B:
+		var Q uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+		case ARNG_16B:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_index__size_H_L__H_H_L:
+		var h, l uint32
+		switch arng {
+		case ARNG_H:
+			if index > 3 {
+				return 0, false
+			}
+			h = (index << 1) & 1
+			l = index & 1
+		case ARNG_S:
+			if index > 1 {
+				return 0, false
+			}
+			h = index
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = h<<1 | l<<21
+
+	case sa_index__size_L_H_M__H_L_H_L_M:
+		var h, l, m uint32
+		switch arng {
+		case ARNG_S:
+			if index > 3 {
+				return 0, false
+			}
+			h = (index >> 1) & 1
+			l = index & 1
+		case ARNG_H:
+			if index > 7 {
+				return 0, false
+			}
+			h = (index >> 2) & 1
+			l = (index >> 1) & 1
+			m = index & 1
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = h<<1 | l<<21 | m<<20
+
+	case sa_index_1__sz_L_H__H_H_L:
+		var h, l uint32
+		switch arng {
+		case ARNG_S:
+			if index > 3 {
+				return 0, false
+			}
+			h = (index >> 1) & 1
+			l = index & 1
+		case ARNG_D:
+			if index > 1 {
+				return 0, false
+			}
+			h = index & 1
+			l = 0
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+
+		enc = h<<1 | l<<21
+
+	case sa_tb__size_Q__2S_4H_4S_8H, sa_t__size_Q__2S_4H_4S_8H:
+		var size, Q uint32
+		switch arng {
+		case ARNG_4H:
+			size = 1
+		case ARNG_2S:
+			size = 2
+		case ARNG_8H:
+			size = 1
+			Q = 1
+		case ARNG_4S:
+			size = 2
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		// The 30th bit is the second and upper half specifiera and is encoded in "Q".
+		if e == sa_tb__size_Q__2S_4H_4S_8H {
+			if (instTab[instIdx].skeleton>>30)&1 != Q {
+				c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+				return 0, false
+			}
+			enc = size << 22
+		} else {
+			enc = Q<<30 | size<<22
+		}
+		val := size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ta__size__2D_4S:
+		var size uint32
+		switch arng {
+		case ARNG_4S:
+			size = 1
+		case ARNG_2D:
+			size = 2
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_v__size__D_H_S:
+		if ai.aType != AC_VREG {
+			return 0, false
+		}
+
+	case sa_t__size_Q__4H_4S_8B_8H_16B:
+		var size, Q uint32
+		switch arng {
+		case ARNG_8B:
+			size = 0
+			Q = 0
+		case ARNG_16B:
+			size = 0
+			Q = 1
+		case ARNG_4H:
+			size = 1
+			Q = 0
+		case ARNG_8H:
+			size = 1
+			Q = 1
+		case ARNG_4S:
+			size = 2
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size<<22 | Q<<30
+
+	case sa_t__immh_Q__2D_2S_4H_4S_8B_8H_16B_SEE_asimdimm:
+		var Q uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+		case ARNG_16B:
+			Q = 1
+		case ARNG_4H:
+			Q = 0
+		case ARNG_8H:
+			Q = 1
+		case ARNG_2S:
+			Q = 0
+		case ARNG_4S:
+			Q = 1
+		case ARNG_2D:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__immh_Q__2S_4H_4S_8B_8H_16B_SEE_asimdimm:
+		var immh, Q uint32
+		switch arng {
+		case ARNG_8B:
+			immh = 1
+			Q = 0
+		case ARNG_4H:
+			immh = 2
+			Q = 0
+		case ARNG_2S:
+			immh = 4
+			Q = 0
+		case ARNG_16B:
+			immh = 1
+			Q = 1
+		case ARNG_8H:
+			immh = 2
+			Q = 1
+		case ARNG_4S:
+			immh = 4
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		// The 30th bit is the second and upper half specifiera and is encoded in "Q".
+		if (instTab[instIdx].skeleton>>30)&1 != Q {
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | immh<<19
+		val := immh << 19
+		mask := uint32(15 << 19)
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ta__immh__2D_4S_8H_SEE_asimdimm:
+		var immh uint32
+		switch arng {
+		case ARNG_8H:
+			immh = 1
+		case ARNG_4S:
+			immh = 2
+		case ARNG_2D:
+			immh = 4
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		val := immh << 19
+		mask := uint32(15 << 19)
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_shift_1__immh_immb__128_UInt_immh_immb:
+		if offset < 1 || offset > 64 {
+			c.ctxt.Diag("shift value out of range 1 to 64: %v\n", p)
+			return 0, false
+		}
+		immhb := 128 - uint32(offset)
+		enc = immhb << 16
+
+	case sa_shift_1__immh_immb__UInt_immh_immb_64:
+		if offset&^63 != 0 {
+			c.ctxt.Diag("shift value out of range 0 to 63: %v\n", p)
+			return 0, false
+		}
+		immhb := uint32(offset) + 64
+		enc = immhb << 16
+
+	case sa_ta__Q__2S_4S, sa_t_1__Q__2S_4S:
+		var Q uint32
+		switch arng {
+		case ARNG_2S:
+			Q = 0
+		case ARNG_4S:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__Q__2H_4H:
+		var Q uint32
+		switch arng {
+		case ARNG_2H:
+			Q = 0
+		case ARNG_4H:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__Q:
+		var Q uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+		case ARNG_16B:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__sz__2H:
+		return c.checkArng(p, arng, ARNG_2H)
+
+	case sa_t_1__sz__2D_2S:
+		var sz uint32
+		switch arng {
+		case ARNG_2S:
+			sz = 0
+		case ARNG_2D:
+			sz = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = sz << 22
+
+	case sa_t__immh_Q__2D_2S_4H_4S_8H_SEE_asimdimm:
+		var Q uint32
+		switch arng {
+		case ARNG_4H, ARNG_2S:
+			Q = 0
+		case ARNG_8H, ARNG_4S, ARNG_2D:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+		mask := uint32(1 << 30)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_fbits__immh_immb__32_Uint_immh_immb_64_UInt_immh_immb_128_UInt_immh_immb_SEE_asimdimm:
+		arng, _, _ := DecodeIndex(p.To.Index)
+		var width uint32
+		switch arng {
+		case ARNG_4H, ARNG_8H:
+			width = 16
+		case ARNG_2S, ARNG_4S:
+			width = 32
+		case ARNG_2D:
+			width = 64
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if offset < 1 || offset > int64(width) {
+			c.ctxt.Diag("invalid immediate value: %v\n", p)
+			return 0, false
+		}
+		immhb := width*2 - uint32(offset)
+		enc = immhb << 16
+
+	case sa_shift__immh_immb__UInt_immh_immb_8_UInt_immh_immb_16_UInt_immh_immb_32_UInt_immh_immb_64_SEE_asimdimm:
+		arng, _, _ := DecodeIndex(p.To.Index)
+		var width uint32
+		switch arng {
+		case ARNG_8B, ARNG_16B:
+			width = 8
+		case ARNG_4H, ARNG_8H:
+			width = 16
+		case ARNG_2S, ARNG_4S:
+			width = 32
+		case ARNG_2D:
+			width = 64
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if offset < 0 || offset > int64(width)-1 {
+			c.ctxt.Diag("shift out of range 0 to %v: %v\n", width-1, p)
+			return 0, false
+		}
+		immhb := uint32(offset) + width
+		enc = immhb << 16
+
+	case sa_index_2__imm5_4_3:
+		if index > 3 {
+			c.ctxt.Diag("index value out of range 0 to 4: %v\n", p)
+			return 0, false
+		}
+		enc = index << 19
+
+	case sa_index__Q_imm4:
+		arng, _, _ := DecodeIndex(p.To.Index)
+		var max int64
+		switch arng {
+		case ARNG_8B:
+			max = 7
+		case ARNG_16B:
+			max = 15
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if offset > max {
+			c.ctxt.Diag("invalid immediate value: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset) << 11
+
+	case sa_index2__imm5_imm4, sa_index1__imm5:
+		var imm4, max, imm5 uint32
+		switch arng {
+		case ARNG_B:
+			max = 15
+			imm4 = index
+			imm5 = index<<1 | 1
+		case ARNG_H:
+			max = 7
+			imm4 = index << 1
+			imm5 = index<<2 | 2
+		case ARNG_S:
+			max = 3
+			imm4 = index << 2
+			imm5 = index<<3 | 4
+		case ARNG_D:
+			max = 1
+			imm4 = index << 2
+			imm5 = index<<4 | 8
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		if index > max {
+			c.ctxt.Diag("register element index out of range 0 to %v: %v\n", max, p)
+			return 0, false
+		}
+		if e == sa_index2__imm5_imm4 {
+			enc = imm4 << 11
+		} else if e == sa_index1__imm5 {
+			enc = imm5 << 16
+		}
+
+	case sa_shift__immh_immb:
+		var immhb, arng, width uint32
+		var shiftR bool
+		if isShiftR(p.As) {
+			// The right shift amout is in the range 1 to the destination element width in bits.
+			arng, _, _ = DecodeIndex(p.To.Index)
+			shiftR = true
+		} else if isShiftL(p.As) {
+			// The left shift amout is in the range 0 to the source element width in bits minus 1.
+			arng, _, _ = DecodeIndex(p.GetFrom3().Index)
+		} else {
+			return 0, false
+		}
+		switch arng {
+		case ARNG_8B, ARNG_16B:
+			width = 8
+		case ARNG_4H, ARNG_8H:
+			width = 16
+		case ARNG_2S, ARNG_4S:
+			width = 32
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if shiftR {
+			if offset < 1 || offset > int64(width) {
+				c.ctxt.Diag("shift amount out of range 1 to %v: %v\n", width, p)
+				return 0, false
+			}
+			immhb = width*2 - uint32(offset)
+		} else {
+			if offset < 0 || offset > int64(width)-1 {
+				c.ctxt.Diag("shift amount out of range 0 to %v: %v\n", width-1, p)
+				return 0, false
+			}
+			immhb = width + uint32(offset)
+		}
+		enc = immhb << 16
+
+	case sa_shift__immh_immb__16_UInt_immh_immb_32_UInt_immh_immb_64_UInt_immh_immb_128_UInt_immh_immb_SEE_asimdimm:
+		var width uint32
+		arng, _, _ := DecodeIndex(p.To.Index)
+		switch arng {
+		case ARNG_8B, ARNG_16B:
+			width = 8
+		case ARNG_4H, ARNG_8H:
+			width = 16
+		case ARNG_2S, ARNG_4S:
+			width = 32
+		case ARNG_2D:
+			width = 64
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if offset < 1 || offset > int64(width) {
+			c.ctxt.Diag("shift out of range 1 to %v: %v\n", width, p)
+			return 0, false
+		}
+		immhb := width*2 - uint32(offset)
+		enc = immhb << 16
+
+	case sa_fbits_1__immh_immb__32_Uint_immh_immb_64_UInt_immh_immb_128_UInt_immh_immb:
+		var width uint32
+		if strings.HasSuffix(p.As.String(), "H") {
+			width = 16
+		} else if strings.HasSuffix(p.As.String(), "S") {
+			width = 32
+		} else if strings.HasSuffix(p.As.String(), "D") {
+			width = 64
+		} else {
+			return 0, false
+		}
+		if offset < 1 || offset > int64(width) {
+			c.ctxt.Diag("invalid shift value: %v\n", p)
+			return 0, false
+		}
+		immhb := width*2 - uint32(offset)
+		enc = immhb << 16
+
+	case sa_shift_1__immh_immb:
+		var width uint32
+		if strings.HasSuffix(p.As.String(), "B") {
+			width = 8
+		} else if strings.HasSuffix(p.As.String(), "H") {
+			width = 16
+		} else if strings.HasSuffix(p.As.String(), "S") {
+			width = 32
+		} else {
+			return 0, false
+		}
+		if offset < 1 || offset > int64(width) {
+			c.ctxt.Diag("invalid shift value: %v\n", p)
+			return 0, false
+		}
+		immhb := width*2 - uint32(offset)
+		enc = immhb << 16
+
+	case sa_shift_1__immh_immb__UInt_immh_immb_8_UInt_immh_immb_16_UInt_immh_immb_32_UInt_immh_immb_64:
+		var width uint32
+		if strings.HasSuffix(p.As.String(), "B") {
+			width = 8
+		} else if strings.HasSuffix(p.As.String(), "H") {
+			width = 16
+		} else if strings.HasSuffix(p.As.String(), "S") {
+			width = 32
+		} else if strings.HasSuffix(p.As.String(), "D") {
+			width = 64
+		} else {
+			return 0, false
+		}
+		if offset < 0 || offset > int64(width)-1 {
+			c.ctxt.Diag("invalid shift value: %v\n", p)
+			return 0, false
+		}
+		immhb := uint32(offset) + width
+		enc = immhb << 16
+
+	case sa_imm__Q__8_16, sa_imm_1__Q__16_32, sa_imm_2__Q__24_48, sa_imm_3__Q__32_64,
+		sa_imm__Q__32_64, sa_imm__Q__24_48, sa_imm__Q__16_32:
+		mul := int64(1)
+		var arng uint32
+		var val int64
+		switch e {
+		case sa_imm_1__Q__16_32, sa_imm__Q__16_32:
+			mul = 2
+		case sa_imm_2__Q__24_48, sa_imm__Q__24_48:
+			mul = 3
+		case sa_imm_3__Q__32_64, sa_imm__Q__32_64:
+			mul = 4
+		}
+		switch p.As {
+		case AVLD1, AVLD4, AVLD3, AVLD2:
+			arng, _, _ = DecodeIndex(p.To.Index)
+		case AVST1, AVST4, AVST3, AVST2:
+			arng, _, _ = DecodeIndex(p.From.Index)
+		}
+		if offset == 0 {
+			return 0, true
+		}
+		switch arng {
+		case ARNG_8B, ARNG_4H, ARNG_2S, ARNG_1D:
+			val = 8 * mul
+		case ARNG_16B, ARNG_8H, ARNG_4S, ARNG_2D:
+			val = 16 * mul
+
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if offset != val {
+			c.ctxt.Diag("invalid post-increment offset: %v\n", p)
+			return 0, false
+		}
+
+	case sa_imm__size__4_8_16_32, sa_imm__size__3_6_12_24,
+		sa_imm__size__2_4_8_16, sa_imm__size__1_2_4_8:
+		if offset == 0 {
+			return 0, true
+		}
+		arng, _, _ := DecodeIndex(p.To.Index)
+		var mul, imm int64
+		switch e {
+		case sa_imm__size__1_2_4_8:
+			mul = 1
+		case sa_imm__size__2_4_8_16:
+			mul = 2
+		case sa_imm__size__3_6_12_24:
+			mul = 3
+		case sa_imm__size__4_8_16_32:
+			mul = 4
+		}
+		switch arng {
+		case ARNG_8B, ARNG_16B:
+			imm = 1 * mul
+		case ARNG_4H, ARNG_8H:
+			imm = 2 * mul
+		case ARNG_2S, ARNG_4S:
+			imm = 4 * mul
+		case ARNG_1D, ARNG_2D:
+			imm = 8 * mul
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if offset != imm {
+			c.ctxt.Diag("invalid post-increment offset: %v\n", p)
+			return 0, false
+		}
+
+	case sa_imm6__imm6:
+		if offset < 0 || offset > 0x3f {
+			c.ctxt.Diag("immediate value out of range 0 to 63: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset) << 10
+
+	case sa_shift__size__8_16_32:
+		var width int64
+		arng, _, _ := DecodeIndex(p.GetFrom3().Index)
+		switch arng {
+		case ARNG_8B, ARNG_16B:
+			width = 8
+		case ARNG_4H, ARNG_8H:
+			width = 16
+		case ARNG_2S, ARNG_4S:
+			width = 32
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		if offset != width {
+			c.ctxt.Diag("invalid shift value: %v\n", p)
+			return 0, false
+		}
+
+	case sa_index__Q_S_size:
+		if index > 15 {
+			c.ctxt.Diag("index value out of range 0 to 15: %v\n", p)
+			return 0, false
+		}
+		Q := index >> 3
+		S := (index >> 2) & 1
+		size := index & 3
+		opcode := uint32(0)
+		enc = (Q&1)<<30 | opcode<<13 | S<<12 | size<<10
+
+	case sa_index_2__Q_S_size_1:
+		if index > 7 {
+			c.ctxt.Diag("index value out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		Q := index >> 2
+		S := (index >> 1) & 1
+		size := (index & 1) << 1
+		opcode := uint32(2)
+		enc = (Q&1)<<30 | opcode<<13 | S<<12 | size<<10
+
+	case sa_index_3__Q_S:
+		if index > 3 {
+			c.ctxt.Diag("index value out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		Q := index >> 1
+		S := index & 1
+		opcode := uint32(4)
+		enc = (Q&1)<<30 | opcode<<13 | S<<12
+
+	case sa_index__Q:
+		if index != 0 && index != 1 {
+			c.ctxt.Diag("index value out of range 0 to 1: %v\n", p)
+			return 0, false
+		}
+		enc = index << 30
+
+	case sa_index_1__imm5_4:
+		if index != 0 && index != 1 {
+			c.ctxt.Diag("register element index out of range 0 to 1: %v\n", p)
+			return 0, false
+		}
+		enc = index << 20
+
+	case sa_index_1__imm5:
+		var max, imm5 uint32
+		switch arng {
+		case ARNG_B:
+			max = 15
+			imm5 = index<<1 | 1
+		case ARNG_H:
+			max = 7
+			imm5 = index<<2 | 2
+		case ARNG_S:
+			max = 3
+			imm5 = index<<3 | 4
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		if index > max {
+			c.ctxt.Diag("invalid element index: %v\n", p)
+			return 0, false
+		}
+		enc = imm5 << 16
+
+	case sa_const_LISTIDX_B, sa_const_ARNGIDX_B:
+		return c.checkArng(p, arng, ARNG_B)
+
+	case sa_const_LISTIDX_H, sa_const_ARNGIDX_H:
+		return c.checkArng(p, arng, ARNG_H)
+
+	case sa_const_LISTIDX_S, sa_const_ARNGIDX_S:
+		return c.checkArng(p, arng, ARNG_S)
+
+	case sa_const_ARNG_4S:
+		return c.checkArng(p, arng, ARNG_4S)
+
+	case sa_const_ARNG_16B:
+		return c.checkArng(p, arng, ARNG_16B)
+
+	case sa_const_ARNG_2D:
+		return c.checkArng(p, arng, ARNG_2D)
+
+	case sa_const_LISTIDX_D, sa_const_ARNGIDX_D, sa_ts_1__imm5__D:
+		return c.checkArng(p, arng, ARNG_D)
+
+	case sa_const_ARNGIDX_2H:
+		return c.checkArng(p, arng, ARNG_2H)
+
+	case sa_const_ARNGIDX_4B:
+		return c.checkArng(p, arng, ARNG_4B)
+
+	case sa_const_ARNG_8H:
+		return c.checkArng(p, arng, ARNG_8H)
+
+	case sa_const_REGLIST4_16B, sa_const_REGLIST3_16B, sa_const_REGLIST2_16B, sa_const_REGLIST1_16B:
+		return c.checkArng(p, arng, ARNG_16B)
+
+	case sa_const_ARNGIDX_1:
+		if index != 1 {
+			c.ctxt.Diag("index value should be 1: %v\n", p)
+			return 0, false
+		}
+
+	case sa_index_1__Q:
+		if index != 0 && index != 1 {
+			c.ctxt.Diag("index value out of range 0 to 1: %v\n", p)
+			return 0, false
+		}
+		Q := index
+		opcode := uint32(4)
+		enc = (Q&1)<<30 | opcode<<13 | 1<<10
+
+	case sa_index__H_L:
+		if !(index >= 0 && index <= 3) {
+			c.ctxt.Diag("index value out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		H := (index >> 1) & 1
+		L := index & 1
+		enc = H<<11 | L<<21
+
+	case sa_index__H_L_M:
+		if !(index >= 0 && index <= 7) {
+			c.ctxt.Diag("index value out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		H := (index >> 2) & 1
+		L := (index >> 1) & 1
+		M := index & 1
+		enc = H<<11 | L<<21 | M<<20
+
+	case sa_ts__sz__D_S:
+		var sz uint32
+		switch arng {
+		case ARNG_S:
+			sz = 0
+		case ARNG_D:
+			sz = 1
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = sz << 22
+		mask := uint32(1 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_ts__imm5__B_H:
+		return c.checkArng(p, arng, ARNG_B, ARNG_H)
+
+	case sa_ts__imm5__B_H_S:
+		return c.checkArng(p, arng, ARNG_B, ARNG_H, ARNG_S)
+
+	case sa_t__size__2D:
+		if _, ok := c.checkArng(p, arng, ARNG_2D); !ok {
+			return 0, false
+		}
+		enc = 3 << 22
+
+	case sa_t__Q__2S_4S:
+		var Q uint32
+		switch arng {
+		case ARNG_2S:
+			Q = 0
+		case ARNG_4S:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+
+	case sa_t_2__Q__8B_16B:
+		var Q uint32
+		switch arng {
+		case ARNG_8B:
+			Q = 0
+		case ARNG_16B:
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q << 30
+
+	case sa_ts__imm5__B_D_H_S:
+		var imm5 uint32
+		switch arng {
+		case ARNG_B:
+			imm5 = 1
+		case ARNG_H:
+			imm5 = 2
+		case ARNG_S:
+			imm5 = 4
+		case ARNG_D:
+			imm5 = 8
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		val := uint32(imm5) << 16
+		mask := uint32(0x1f) << 16
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__imm5_Q__2D_2S_4H_4S_8B_8H_16B:
+		var imm5, Q uint32
+		switch arng {
+		case ARNG_8B:
+			imm5 = 1
+			Q = 0
+		case ARNG_16B:
+			imm5 = 1
+			Q = 1
+		case ARNG_4H:
+			imm5 = 2
+			Q = 0
+		case ARNG_8H:
+			imm5 = 2
+			Q = 1
+		case ARNG_2S:
+			imm5 = 4
+			Q = 0
+		case ARNG_4S:
+			imm5 = 4
+			Q = 1
+		case ARNG_2D:
+			imm5 = 8
+			Q = 1
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = Q<<30 | imm5<<16
+		val := uint32(imm5 << 16)
+		mask := uint32(0x1f << 16)
+		if !c.checkOpdsMatch(p, val, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t_1__imm5__B_D_H_S:
+		var imm5 uint32
+		switch arng {
+		case ARNG_B:
+			imm5 = 1
+		case ARNG_H:
+			imm5 = 2
+		case ARNG_S:
+			imm5 = 4
+		case ARNG_D:
+			imm5 = 8
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = imm5 << 16
+
+	case sa_index__imm5:
+		var imm5, max uint32
+		switch arng {
+		case ARNG_B:
+			max = 15
+			imm5 = index<<1 | 1
+		case ARNG_H:
+			max = 7
+			imm5 = index<<2 | 2
+		case ARNG_S:
+			max = 3
+			imm5 = index<<3 | 4
+		case ARNG_D:
+			max = 1
+			imm5 = index<<4 | 8
+		default:
+			c.ctxt.Diag("invalid element size specifier: %v\n", p)
+			return 0, false
+		}
+		if index > max {
+			c.ctxt.Diag("register element index out of range 0 to %v: %v\n", max, p)
+			return 0, false
+		}
+		enc = imm5 << 16
+
+	case sa_v__size__B_D_H_S:
+		var sz uint32
+		switch ai.aType {
+		case AC_VREG:
+			enc = 0
+		case AC_FREG:
+			if strings.HasSuffix(p.As.String(), "B") {
+				sz = 0
+			} else if strings.HasSuffix(p.As.String(), "H") {
+				sz = 1
+			} else if strings.HasSuffix(p.As.String(), "S") {
+				sz = 2
+			} else if strings.HasSuffix(p.As.String(), "D") {
+				sz = 3
+			} else {
+				return 0, false
+			}
+			enc = sz << 22
+		default:
+			return 0, false
+		}
+
+	case sa_v__size__D:
+		enc = 3 << 22
+
+	case sa_v__size__H_S:
+		var sz uint32
+		switch ai.aType {
+		case AC_VREG:
+			enc = 0
+		case AC_FREG:
+			if strings.HasSuffix(p.As.String(), "H") {
+				sz = 1
+			} else if strings.HasSuffix(p.As.String(), "S") {
+				sz = 2
+			} else {
+				return 0, false
+			}
+			enc = sz << 22
+		default:
+			return 0, false
+		}
+
+	case sa_vb__size__H_S, sa_va__size__D_S:
+		var sz uint32
+		switch ai.aType {
+		case AC_VREG:
+			enc = 0
+		case AC_FREG:
+			if strings.HasSuffix(p.As.String(), "S") {
+				sz = 1
+			} else if strings.HasSuffix(p.As.String(), "D") {
+				sz = 2
+			} else {
+				return 0, false
+			}
+			enc = sz << 22
+		default:
+			return 0, false
+		}
+
+	case sa_vb__size__B_H_S, sa_va__size__D_H_S:
+		var size uint32
+		if strings.HasSuffix(p.As.String(), "B") {
+			size = 0
+		} else if strings.HasSuffix(p.As.String(), "H") {
+			size = 1
+		} else if strings.HasSuffix(p.As.String(), "S") {
+			size = 2
+		} else {
+			return 0, false
+		}
+		enc = size << 22
+
+	case sa_v__sz__D_S:
+		var sz uint32
+		switch ai.aType {
+		case AC_FREG:
+			if strings.HasSuffix(p.As.String(), "S") {
+				sz = 0
+			} else if strings.HasSuffix(p.As.String(), "D") {
+				sz = 1
+			} else {
+				return 0, false
+			}
+			enc = sz << 22
+		case AC_VREG:
+			enc = 0
+		default:
+			return 0, false
+		}
+
+	case sa_const_MEMPOSTIMM_1, sa_const_MEMPOSTIMM_2, sa_const_MEMPOSTIMM_3,
+		sa_const_MEMPOSTIMM_6, sa_const_MEMPOSTIMM_12, sa_const_MEMPOSTIMM_24,
+		sa_const_MEMPOSTIMM_32:
+		var imm int64
+		switch e {
+		case sa_const_MEMPOSTIMM_1:
+			imm = 1
+		case sa_const_MEMPOSTIMM_2:
+			imm = 2
+		case sa_const_MEMPOSTIMM_3:
+			imm = 3
+		case sa_const_MEMPOSTIMM_6:
+			imm = 6
+		case sa_const_MEMPOSTIMM_12:
+			imm = 12
+		case sa_const_MEMPOSTIMM_24:
+			imm = 24
+		case sa_const_MEMPOSTIMM_32:
+			imm = 32
+		}
+		if offset != imm {
+			c.ctxt.Diag("invalid post-increment offset: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_IMM_0_0, sa_const_IMM_0:
+		if offset != 0 {
+			c.ctxt.Diag("offset should be 0: %v\n", p)
+			return 0, false
+		}
+
+	case sa_imm2__imm2:
+		if index > 3 {
+			c.ctxt.Diag("index value out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		enc = index << 12
+
+	// Note: this elemement is also used by some SVE instructions and has
+	// a different encoding.
+	case sa_imm__imm8:
+		switch p.As {
+		case AFMOVS, AFMOVD, AFMOVH:
+			rf := c.chipfloat7(ag.Val.(float64))
+			if rf < 0 {
+				return 0, false
+			}
+			enc = uint32(rf&0xff) << 13
+		default:
+			return 0, false
+		}
+
+	case sa_imm__a_b_c_d_e_f_g_h:
+		var val uint32
+		switch p.As {
+		case AVMOVI:
+			// The <imm> is a 64-bit immediate
+			// 'aaaaaaaabbbbbbbbccccccccddddddddeeeeeeeeffffffffgggggggghhhhhhhh',
+			// encoded in "a:b:c:d:e:f:g:h".
+			for i := 0; i < 8; i++ {
+				tmp := (offset >> (i * 8)) & 0xff
+				if tmp == 0 {
+					val |= (0 << i)
+				} else if tmp == 0xff {
+					val |= (1 << i)
+				} else {
+					c.ctxt.Diag("invalid immediate: %v\n", p)
+					return 0, false
+				}
+			}
+		case AVFMOV:
+			val = uint32(c.chipfloat7(ag.Val.(float64)))
+			if val < 0 {
+				c.ctxt.Diag("invalid floating-point immediate: %v\n", p)
+				return 0, false
+			}
+		}
+		abc := (val >> 5) & 0x7
+		defgh := val & 0x1f
+		enc = abc<<16 | defgh<<5
+
+	case sa_fbits__scale:
+		if !(offset >= 1 && offset <= 32) {
+			c.ctxt.Diag("immediate value out of range 1 to 32: %v\n", p)
+			return 0, false
+		}
+		scale := 64 - offset
+		enc = uint32(scale) << 10
+
+	case sa_fbits_1__scale:
+		if !(offset >= 1 && offset <= 64) {
+			c.ctxt.Diag("immediate value out of range 1 to 64: %v\n", p)
+			return 0, false
+		}
+		scale := 64 - offset
+		enc = uint32(scale) << 10
+
+	case sa_imm8__a_b_c_d_e_f_g_h:
+		defgh := offset & 0x1f
+		abc := (offset >> 5) & 0x7
+		enc = uint32(abc)<<16 | uint32(defgh)<<5
+
+	case sa_amount_2__cmode_0__8_16:
+		var cmode uint32
+		if offset == 8 {
+			cmode = 0
+		} else if offset == 16 {
+			cmode = 1
+		} else {
+			c.ctxt.Diag("immediate value should be 8 or 16: %v\n", p)
+			return 0, false
+		}
+		enc = cmode << 12
+
+	case sa_amount__cmode_1__0_8:
+		if offset < 0 {
+			c.ctxt.Diag("invalid immediate: %v\n", p)
+			return 0, false
+		}
+		if offset == 0 {
+			return 0, true
+		}
+		var abc, defgh, amount, cmode uint32
+		if offset >= 0 && offset <= 0xff {
+			amount = 0
+			cmode = 0
+		} else if offset&0xff == 0 {
+			amount = 8
+			cmode = 1
+		} else {
+			c.ctxt.Diag("invalid shift amount: %v\n", p)
+			return 0, false
+		}
+		imm := uint32(offset) >> amount
+		abc = (imm >> 5) & 0x7
+		defgh = imm & 0x1f
+		enc = abc<<16 | defgh<<5 | cmode<<13
+
+	case sa_amount_1__cmode_2_1__0_8_16_24:
+		if offset < 0 {
+			c.ctxt.Diag("invalid immediate: %v\n", p)
+			return 0, false
+		}
+		if offset == 0 {
+			return 0, true
+		}
+		var abc, defgh, amount, cmode uint32
+		if offset <= 0xff {
+			amount = 0
+			cmode = 0
+		} else if offset&0xff == 0 {
+			amount = 8
+			cmode = 1
+		} else if offset&0xffff == 0 {
+			amount = 16
+			cmode = 2
+		} else if offset&0xffffff == 0 {
+			amount = 24
+			cmode = 3
+		} else {
+			c.ctxt.Diag("invalid shift amount: %v\n", p)
+			return 0, false
+		}
+		imm := uint32(offset) >> amount
+		abc = (imm >> 5) & 0x7
+		defgh = imm & 0x1f
+		enc = abc<<16 | defgh<<5 | cmode<<13
+
+	case sa_extend_1__option__LSL_SXTW_SXTX_UXTW:
+		_, _, _, _, ext, _ := c.decodeRegOffReg(p, ag)
+		var option uint32
+		switch ext {
+		case RTYP_EXT_UXTW:
+			option = 2
+		case RTYP_EXT_LSL:
+			option = 3
+		case RTYP_EXT_SXTX:
+			option = 6
+		case RTYP_EXT_SXTW:
+			option = 7
+		default:
+			c.ctxt.Diag("invalid extension specifier: %v\n", p)
+			return 0, false
+		}
+		enc = option << 13
+
+	case sa_rotate__rot__0_90_180_270:
+		var rot uint32
+		switch offset {
+		case 0:
+			rot = 0
+		case 90:
+			rot = 1
+		case 180:
+			rot = 2
+		case 270:
+			rot = 3
+		default:
+			c.ctxt.Diag("the immediate should be 0, 90, 180 or 270: %v\n", p)
+			return 0, false
+		}
+		// This element has different encodings in different instructions, the opcode
+		// of the instructions is all AVFCMLA, so sketcheton is used here as a distinction.
+		if instTab[instIdx].skeleton == 0x2e00c400 {
+			enc = rot << 11
+		} else if instTab[instIdx].skeleton == 0x2f001000 {
+			enc = rot << 13
+		}
+
+	case sa_rotate__rot__90_270:
+		var rot uint32
+		switch offset {
+		case 90:
+			rot = 0
+		case 270:
+			rot = 1
+		default:
+			c.ctxt.Diag("the immediate should be 90 or 270: %v\n", p)
+			return 0, false
+		}
+		enc = rot << 12
+
 	default:
-		log.Fatalf("unimplemented element type %s: %v\n", e, p)
+		c.ctxt.Diag("unimplemented element type %s: %v\n", e, p)
+		return 0, false
 	}
 	return enc, true
 }
@@ -1319,6 +3230,46 @@ func encodeBitMask(value uint64, width uint32) (n, imms, immr uint32, isImmLogic
 	immr = uint32(r)
 	isImmLogical = true
 	return
+}
+
+// Check if arng is required by the instruction.
+func (c *ctxt7) checkArng(p *obj.Prog, arng uint32, wantArngs ...uint32) (uint32, bool) {
+	for _, wantArng := range wantArngs {
+		if arng == wantArng {
+			return 0, true
+		}
+	}
+	c.ctxt.Diag("invalid arrangement or element size specifier: %v\n", p)
+	return 0, false
+}
+
+// Check that the arrangments in the source and destination are consistent
+func (c *ctxt7) checkOpdsMatch(p *obj.Prog, enc uint32, checks map[uint32]uint32, mask uint32) bool {
+	if _, ok := checks[mask]; !ok {
+		checks[mask] = enc
+	} else if checks[mask] != enc {
+		c.ctxt.Diag("operand mismatch: %v\n", p)
+		return false
+	}
+	return true
+}
+
+func isShiftR(op obj.As) bool {
+	switch op {
+	case AVRSHRN, AVRSHRN2, AVSHRN, AVSHRN2, AVSQRSHRN, AVSQRSHRN2,
+		AVSQRSHRUN, AVSQRSHRUN2, AVSQSHRN, AVSQSHRN2, AVSQSHRUN, AVSQSHRUN2,
+		AVUQRSHRN, AVUQRSHRN2, AVUQSHRN, AVUQSHRN2:
+		return true
+	}
+	return false
+}
+
+func isShiftL(op obj.As) bool {
+	switch op {
+	case AVSSHLL, AVSSHLL2, AVUSHLL, AVUSHLL2:
+		return true
+	}
+	return false
 }
 
 // encodeArgs encodes the argument ag of p.
