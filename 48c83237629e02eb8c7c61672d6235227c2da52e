@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d7f899_bf1aec09",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-27T23:39:12Z",
+      "side": 1,
+      "message": "There is a similar comment for ReplaceAll.  Seems like we should keep that one consistent with this one.",
+      "revId": "48c83237629e02eb8c7c61672d6235227c2da52e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
