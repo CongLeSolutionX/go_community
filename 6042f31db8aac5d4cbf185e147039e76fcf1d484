@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa76f84e_bb1593b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-07-27T23:01:44Z",
+      "side": 1,
+      "message": "Alternative CL 513836 updates timestamp if it exists",
+      "revId": "6042f31db8aac5d4cbf185e147039e76fcf1d484",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
