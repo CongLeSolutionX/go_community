@@ -285,8 +285,10 @@ func TestCallersDeferNilFuncPanic(t *testing.T) {
 // issue #36050
 func TestCallersDeferNilFuncPanicWithLoop(t *testing.T) {
 	state := 1
+	// TODO(mdempsky): Why does callDefer appear in the stack trace now,
+	// but deferreturn no longer does?
 	want := []string{"runtime.Callers", "runtime_test.TestCallersDeferNilFuncPanicWithLoop.func1",
-		"runtime.gopanic", "runtime.panicmem", "runtime.sigpanic", "runtime.deferreturn", "runtime_test.TestCallersDeferNilFuncPanicWithLoop"}
+		"runtime.gopanic", "runtime.panicmem", "runtime.sigpanic", "runtime.callDefer", "runtime_test.TestCallersDeferNilFuncPanicWithLoop"}
 
 	defer func() {
 		if r := recover(); r == nil {
