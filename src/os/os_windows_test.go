@@ -427,6 +427,25 @@ func TestDirectorySymbolicLink(t *testing.T) {
 	testDirLinks(t, tests)
 }
 
+func mustHaveWorkstation(t *testing.T) {
+	Mar, err := windows.OpenSCManager(nil, nil, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer syscall.CloseHandle(Mar)
+	//LanmanWorkstation is the service name, and Workstation is the display name.
+	srv, err := windows.OpenService(Mar, syscall.StringToUTF16Ptr("LanmanWorkstation"), windows.SERVICE_QUERY_STATUS)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer syscall.CloseHandle(srv)
+	var state windows.SERVICE_STATUS
+	windows.QueryServiceStatus(srv, &state)
+	if state.DwCurrentState != windows.SERVICE_QUERY_STATUS {
+		t.Skip("TestNetworkSymbolicLink requires the Windows service Workstation, but it is detected that it is not enabled.")
+	}
+}
+
 func TestNetworkSymbolicLink(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
@@ -489,6 +508,7 @@ func TestNetworkSymbolicLink(t *testing.T) {
 	}
 	fi2, err := os.Stat(UNCPath)
 	if err != nil {
+		mustHaveWorkstation(t)
 		t.Fatal(err)
 	}
 	if !os.SameFile(fi1, fi2) {

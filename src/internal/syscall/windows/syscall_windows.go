@@ -397,3 +397,22 @@ type FILE_ID_BOTH_DIR_INFO struct {
 
 //sys	RtlLookupFunctionEntry(pc uintptr, baseAddress *uintptr, table *byte) (ret uintptr) = kernel32.RtlLookupFunctionEntry
 //sys	RtlVirtualUnwind(handlerType uint32, baseAddress uintptr, pc uintptr, entry uintptr, ctxt uintptr, data *uintptr, frame *uintptr, ctxptrs *byte) (ret uintptr) = kernel32.RtlVirtualUnwind
+
+type SERVICE_STATUS struct {
+	DwServiceType             int32
+	DwCurrentState            int32
+	DwControlsAccepted        int32
+	DwWin32ExitCode           int32
+	DwServiceSpecificExitCode int32
+	DwCheckPoint              int32
+	DwWaitHint                int32
+}
+
+const (
+	SERVICE_RUNNING      = 4
+	SERVICE_QUERY_STATUS = 4
+)
+
+//sys    OpenService(mgr syscall.Handle, serviceName *uint16, access uint32) (handle syscall.Handle, err error) = advapi32.OpenServiceW
+//sys	QueryServiceStatus(hService syscall.Handle, lpServiceStatus *SERVICE_STATUS) = advapi32.QueryServiceStatus
+//sys    OpenSCManager(machineName *uint16, databaseName *uint16, access uint32) (handle syscall.Handle, err error) = advapi32.OpenSCManagerW
