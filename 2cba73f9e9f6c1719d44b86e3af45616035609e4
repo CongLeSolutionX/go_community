@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3689d279_e844de0a",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-27T10:26:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f6015f98_a71a9b6f",
+      "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bef3fdc8_38e087a0",
@@ -104,6 +122,24 @@
       "side": 1,
       "message": "Done.",
       "parentUuid": "bef3fdc8_38e087a0",
+      "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "450d9b60_2f3cedf3",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-27T10:26:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "36387558_9716a9f5",
       "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -143,6 +179,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b7d89e_a22a915f",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-27T10:26:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a779e127_793cbb6b",
+      "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b0cc584_2f656454",
@@ -174,6 +228,24 @@
       "side": 1,
       "message": "Done.",
       "parentUuid": "6b0cc584_2f656454",
+      "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a06aff7_d64cb629",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-27T10:26:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "48e0bc41_9f1bcbb2",
       "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -213,6 +285,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "429cfe36_6a612509",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-27T10:26:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f31004d8_7c21a695",
+      "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5628fb20_ec62165f",
@@ -244,6 +334,24 @@
       "side": 1,
       "message": "Done.",
       "parentUuid": "5628fb20_ec62165f",
+      "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55a9d308_20fd7d9b",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-07-27T10:26:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4954b326_adb058bf",
       "revId": "2cba73f9e9f6c1719d44b86e3af45616035609e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
