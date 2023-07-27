@@ -331,6 +331,10 @@ func walkExpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		n := n.(*ir.ConvExpr)
 		return walkStringToRunes(n, init)
 
+	case ir.OFUNCIFACE:
+		n := n.(*ir.ConvExpr)
+		return walkFuncToIface(n, init)
+
 	case ir.OARRAYLIT, ir.OSLICELIT, ir.OMAPLIT, ir.OSTRUCTLIT, ir.OPTRLIT:
 		return walkCompLit(n, init)
 

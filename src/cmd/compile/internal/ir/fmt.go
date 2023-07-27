@@ -49,6 +49,7 @@ var OpNames = []string{
 	OEQ:               "==",
 	OFALL:             "fallthrough",
 	OFOR:              "for",
+	OFUNCIFACE:        "function conversion to interface", // not actual syntax
 	OGE:               ">=",
 	OGOTO:             "goto",
 	OGT:               ">",
@@ -188,6 +189,7 @@ var OpPrec = []int{
 	OCONV:             8,
 	OCOPY:             8,
 	ODELETE:           8,
+	OFUNCIFACE:        8,
 	OGETG:             8,
 	OLEN:              8,
 	OLITERAL:          8,
@@ -714,7 +716,8 @@ func exprFmt(n Node, s fmt.State, prec int) {
 		OSTR2RUNES,
 		ORUNESTR,
 		OSLICE2ARR,
-		OSLICE2ARRPTR:
+		OSLICE2ARRPTR,
+		OFUNCIFACE:
 		n := n.(*ConvExpr)
 		if n.Type() == nil || n.Type().Sym() == nil {
 			fmt.Fprintf(s, "(%v)", n.Type())

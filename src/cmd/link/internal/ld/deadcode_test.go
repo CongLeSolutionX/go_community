@@ -39,7 +39,7 @@ func TestDeadcode(t *testing.T) {
 			t.Parallel()
 			src := filepath.Join("testdata", "deadcode", test.src+".go")
 			exe := filepath.Join(tmpdir, test.src+".exe")
-			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-dumpdep", "-o", exe, src)
+			cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-dumpdep -prunedeadmeth=true", "-o", exe, src)
 			out, err := cmd.CombinedOutput()
 			if err != nil {
 				t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
