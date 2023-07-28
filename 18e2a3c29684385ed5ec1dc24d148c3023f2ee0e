@@ -190,6 +190,30 @@
       },
       "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a9ec728_82321f8b",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-07-28T19:10:27Z",
+      "side": 1,
+      "message": "Can you tell me the packages for these \"Info\" and \"Config\" structures?  I\u0027m trying to figure out the plumbing to the place where the information gets consumed, and if I am not attaching it to the syntax, then there has to be a path to it from a cmd/compile/internal/noder/writer, or else I have to create such a path.",
+      "parentUuid": "4af5dd57_d49bad2e",
+      "range": {
+        "startLine": 661,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 45
+      },
+      "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
