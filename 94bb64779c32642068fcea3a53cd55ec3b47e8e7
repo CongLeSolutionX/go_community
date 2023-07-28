@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "424d3d53_65effb2b",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-28T20:43:33Z",
+      "side": 1,
+      "message": "Why this is necessary? In which case you\u0027ll generate a value that does not fit in siz?",
+      "parentUuid": "5e423de7_33484bc9",
+      "revId": "94bb64779c32642068fcea3a53cd55ec3b47e8e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "aaff798d_1a4d1fbb",
