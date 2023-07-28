@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dcd2b73_5f097e4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11916
+      },
+      "writtenOn": "2023-07-28T05:16:04Z",
+      "side": 1,
+      "message": "Reproduction using go master (go1.22) which requires go1.20 as go-bootstrap:\n\n```\nmkdir go-issue-61620\ncd ./go-issue-61620\nwget https://go.dev/dl/go1.20.6.src.tar.gz\nmkdir go-bootstrap\ntar -xf go1.20.6.src.tar.gz -C ./go-bootstrap --strip-components\u003d1\ncd ./go-bootstrap/src/\nbash make.bash\ncd ../../\ngit clone https://go.googlesource.com/go\nrm -rf ./go/.git/\nprintf \"gitdir: ../../does/not/exist/.git\" \u003e ./.git\nprintf \u0027go1.22.1\u0027 \u003e ./go/VERSION\ncd ./go/src/\nGOROOT_BOOTSTRAP\u003d$(pwd)/../../go-bootstrap/ bash make.bash\n# Build fails using -buildvcs\u003dfalse errors.\n```",
+      "revId": "bd63869295c9fd4dc6d76ae50bf03023dd6a9e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
