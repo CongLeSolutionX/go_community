@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a09387a7_3ad1d2b6",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-07-28T12:03:02Z",
+      "side": 1,
+      "message": "How about Val?",
+      "range": {
+        "startLine": 407,
+        "startChar": 1,
+        "endLine": 407,
+        "endChar": 2
+      },
+      "revId": "48602a5c1b5ce7102bd94fefd92e5614ecf26ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5d057a_823903f3",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-07-28T12:03:02Z",
+      "side": 1,
+      "message": "Can you follow the pattern of the other NullXXX.Scan methods?",
+      "range": {
+        "startLine": 412,
+        "startChar": 1,
+        "endLine": 416,
+        "endChar": 1
+      },
+      "revId": "48602a5c1b5ce7102bd94fefd92e5614ecf26ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
