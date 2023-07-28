@@ -16,6 +16,24 @@
       "message": "encoding/json: replace dead link in appendString\n\nwe\u0027re replacing it, not fixing it :) I couldn\u0027t find a working version of the original site, so it seems fine with me.\n\nalso, parentheses are not used when referring to functions in general, just like in godoc.",
       "revId": "e82e79ee42f99f469d12445a94c9b9c686c15a43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "712c890f_50ff9985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 53058
+      },
+      "writtenOn": "2023-07-28T02:37:02Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "7bff076d_42104cc7",
+      "revId": "e82e79ee42f99f469d12445a94c9b9c686c15a43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
