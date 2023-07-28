@@ -34,6 +34,24 @@
       "parentUuid": "0d159d8b_f8850e04",
       "revId": "18081101a45dffb129930d999732732f5e1091bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccfaa32d_d6be55d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11916
+      },
+      "writtenOn": "2023-07-28T04:38:59Z",
+      "side": 1,
+      "message": "Dimitri: I have re-submitted this PR with a much simpler solution and a minimal reproduction in the commit message, and have also updated the issue with the repro. I\u0027ve included some reasoning about why setting -buildvcs\u003dfalse for go-bootstrap is always safe now that we require go1.19.x for go-bootstrap. Thanks for the review.",
+      "parentUuid": "4d8770bd_1fdb0f86",
+      "revId": "18081101a45dffb129930d999732732f5e1091bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
