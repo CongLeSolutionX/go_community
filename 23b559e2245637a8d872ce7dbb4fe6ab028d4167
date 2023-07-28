@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad7fbeb1_8cd09be6",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-28T22:46:53Z",
+      "side": 1,
+      "message": "I think it might be enough to keep track of just direction (increasing or decreasing). The actual step value doesn\u0027t matter.\nThen you could add it to flags?",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a791aa2_f93244b0",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-28T22:46:53Z",
+      "side": 1,
+      "message": "Maybe move this to a separate function?\n\nindVars :\u003d buildIndVars(f)",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e48cf5_6d6051e9",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-28T22:46:53Z",
+      "side": 1,
+      "message": "Remove \"s\"",
+      "range": {
+        "startLine": 819,
+        "startChar": 33,
+        "endLine": 819,
+        "endChar": 34
+      },
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "188b4fb0_c2e1597e",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-28T22:46:53Z",
+      "side": 1,
+      "message": "This might not get so indented if you do\n\nnxt :\u003d v.nxt\nif ind.Uses !\u003d 2 || nxt.Uses !\u003d 1 { continue }\nif start.Op !\u003d .... { continue }",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b9e2f18_ae365281",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-28T22:46:53Z",
+      "side": 1,
+      "message": "This sentence is hard to parse. Maybe\n\nSince this induction variable is not used for anything but counting the loop,\nno point in putting it into the facts table.",
+      "range": {
+        "startLine": 940,
+        "startChar": 6,
+        "endLine": 940,
+        "endChar": 108
+      },
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
