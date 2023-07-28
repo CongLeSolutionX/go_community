@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28686652_b917e11a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-28T07:41:14Z",
+      "side": 1,
+      "message": "Move this to the last line of the commit message (above the Change-Id).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "ab4c2b743f78543304e40278cd684df7eaeed898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4ecc57b_693f543a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-28T07:41:14Z",
+      "side": 1,
+      "message": "I would just say \"Add support for\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "ab4c2b743f78543304e40278cd684df7eaeed898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55be2406_929f6dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-28T07:41:14Z",
+      "side": 1,
+      "message": "\"These instructions can be used to optimize byte swaps.\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 117,
+        "endLine": 13,
+        "endChar": 157
+      },
+      "revId": "ab4c2b743f78543304e40278cd684df7eaeed898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ea3d47_0f8d0e3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-28T07:41:14Z",
+      "side": 1,
+      "message": "TRY\u003dmips,mips64\n\nGenerally looks good - a few comments to address.",
+      "revId": "ab4c2b743f78543304e40278cd684df7eaeed898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a492c9d2_bfecb8e4",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-28T07:41:14Z",
+      "side": 1,
+      "message": "It looks like the list is currently sorted alphabetically - best to keep it that way.",
+      "range": {
+        "startLine": 390,
+        "startChar": 1,
+        "endLine": 392,
+        "endChar": 6
+      },
+      "revId": "ab4c2b743f78543304e40278cd684df7eaeed898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c1d730e_6c773009",
+        "filename": "src/cmd/internal/obj/mips/anames.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-07-28T07:41:14Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 8
+      },
+      "revId": "ab4c2b743f78543304e40278cd684df7eaeed898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
