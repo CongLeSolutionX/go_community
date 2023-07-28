@@ -16,6 +16,24 @@
       "message": "Thanks for the change. Before trying to fix the problem, let\u0027s make sure we understand it. Please see my comment on issue #61620.",
       "revId": "18081101a45dffb129930d999732732f5e1091bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d8770bd_1fdb0f86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11916
+      },
+      "writtenOn": "2023-07-28T04:27:04Z",
+      "side": 1,
+      "message": "Reproduction of the issue:\n\n```\n# This reproduction sets up a directory structure that breaks Go make.bash.\n# make.bash should not break due to .git files outside of the Go sources.\n#\n# The error specifically occurs when an invalid .git is present in a parent git\n# directory of the GOROOT_BOOTSTRAP. Go issue #61620\nmkdir go-issue-61620\ncd ./go-issue-61620\nwget https://go.dev/dl/go1.19.11.src.tar.gz\nmkdir go-bootstrap\ntar -xf go1.19.11.src.tar.gz -C ./go-bootstrap --strip-components\u003d1\ncd ./go-bootstrap/src/\nbash make.bash\ncd ../../\nwget https://go.dev/dl/go1.20.6.src.tar.gz\nmkdir go\ntar -xf go1.20.6.src.tar.gz -C ./go/ --strip-components\u003d1\nprintf \"gitdir: ../../does/not/exist/.git\" \u003e ./.git\ncd ./go/src/\nGOROOT_BOOTSTRAP\u003d$(pwd)/../../go-bootstrap/ bash make.bash\n# Build fails using -buildvcs\u003dfalse errors.\n```\n\nIt is in itself a problem that the presence of .git directories in the parent\nfolders above the Go sources have any influence on the behavior of make.bash.\n\n**The error only occurs when the .git that git detects in the parent directory\nof the GOROOT_BOOTSTRAP is invalid or not present causing errors when running\n`git` commands within GOROOT_BOOTSTRAP.**\n\nI suggest that this PR instead be replaced with a change that sets -buildvcs\u003dfalse unconditionally on the \"go build\" within GOROOT_BOOTSTRAP.",
+      "parentUuid": "0d159d8b_f8850e04",
+      "revId": "18081101a45dffb129930d999732732f5e1091bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
