@@ -16,6 +16,24 @@
       "message": "Alternative CL 513437 ignores modified time",
       "revId": "8eb31dd156cb683ca2f82fb245bad48530a1866b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac88daac_b2f2c293",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-07-28T09:47:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a034283_abcb0fed",
+      "revId": "8eb31dd156cb683ca2f82fb245bad48530a1866b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
