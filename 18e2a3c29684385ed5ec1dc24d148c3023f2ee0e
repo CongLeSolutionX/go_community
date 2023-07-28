@@ -214,6 +214,30 @@
       },
       "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "120d053c_e4500254",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-28T19:16:17Z",
+      "side": 1,
+      "message": "They are part of the type checker API. api.go.",
+      "parentUuid": "9a9ec728_82321f8b",
+      "range": {
+        "startLine": 661,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 45
+      },
+      "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
