@@ -238,6 +238,30 @@
       },
       "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09703d8d_a4ab7b63",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-07-28T19:23:00Z",
+      "side": 1,
+      "message": "Never mind, Info is passed to (cmd/compile/internal/types2/) *Config.Check.\nI think maybe the Pos-to-version map information needs to be exposed in some way?",
+      "parentUuid": "9a9ec728_82321f8b",
+      "range": {
+        "startLine": 661,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 45
+      },
+      "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
