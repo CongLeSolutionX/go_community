@@ -57,6 +57,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac3318f0_d76b1d93",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1845,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-28T19:54:45Z",
+      "side": 1,
+      "message": "One possibility is to have two Go relocations, one 8-byte wide covering the first two instructions, one 4-byte wide covering the third instruction.",
+      "range": {
+        "startLine": 1844,
+        "startChar": 29,
+        "endLine": 1845,
+        "endChar": 66
+      },
+      "revId": "7414b4425a3cf2a0fc54b9d76e7ee39f3c717723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "818dfd3e_87ed2305",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 6
@@ -68,6 +91,23 @@
       "writtenOn": "2023-07-26T13:51:33Z",
       "side": 1,
       "message": "Should this be R_RISCV_TLS_LE rather than R_RISCV_TLS_LE_ITYPE?",
+      "revId": "7414b4425a3cf2a0fc54b9d76e7ee39f3c717723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "687cceb7_df487f70",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-28T19:54:45Z",
+      "side": 1,
+      "message": "Why it needs a TPREL_ADD relocation in LE model, but not in IE model, where there is also an instruction to add TP register? What does this relocation do?",
       "revId": "7414b4425a3cf2a0fc54b9d76e7ee39f3c717723",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
