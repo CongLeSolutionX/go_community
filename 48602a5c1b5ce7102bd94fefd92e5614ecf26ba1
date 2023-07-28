@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f07459ab_264d4e75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2023-07-28T15:03:44Z",
+      "side": 1,
+      "message": "I find previous attempt. Which pull request is better?\nhttps://go-review.googlesource.com/c/go/+/366294",
+      "revId": "48602a5c1b5ce7102bd94fefd92e5614ecf26ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a09387a7_3ad1d2b6",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 5
@@ -74,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1db414c3_1343ceb9",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2023-07-28T15:03:44Z",
+      "side": 1,
+      "message": "If we use Val, Null[T] has .Val, .Valid, and .Value(). They shares same prefix \"Val\".\n\nOther ideas from me: Actual, Data, NotNull.",
+      "parentUuid": "71fe0742_beab62e8",
+      "range": {
+        "startLine": 407,
+        "startChar": 1,
+        "endLine": 407,
+        "endChar": 2
+      },
+      "revId": "48602a5c1b5ce7102bd94fefd92e5614ecf26ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de5d057a_823903f3",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 5
@@ -85,6 +126,30 @@
       "writtenOn": "2023-07-28T12:03:02Z",
       "side": 1,
       "message": "Can you follow the pattern of the other NullXXX.Scan methods?",
+      "range": {
+        "startLine": 412,
+        "startChar": 1,
+        "endLine": 416,
+        "endChar": 1
+      },
+      "revId": "48602a5c1b5ce7102bd94fefd92e5614ecf26ba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eae9416_b740ad1e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2023-07-28T15:03:44Z",
+      "side": 1,
+      "message": "Do you mean removing `n.Valid \u003d false` here?\n\nSee https://github.com/golang/go/issues/45662 for background.\nI think setting `Valid \u003d false` at first, and set `Valid \u003d true` if and only if convertAssign succeeded.",
+      "parentUuid": "de5d057a_823903f3",
       "range": {
         "startLine": 412,
         "startChar": 1,
