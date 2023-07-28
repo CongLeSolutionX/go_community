@@ -59,6 +59,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c800f0b3_cc3855d6",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-28T17:51:45Z",
+      "side": 1,
+      "message": "Let\u0027s not import base, which is super-compiler specific. If there\u0027s anything we need to have access to in the type checker but don\u0027t have at the moment, we need to feed it in through the Config struct.\n\nYes, it\u0027s a bit more complicated but we have successfully kept the type checker and compiler infrastructure \"galvanically isolated\". It comes with the huge benefit that we can move the syntax/types package anywhere, unencumbered.\n\nAlso, I note that all changes need to be ported to go/types, and go/types doesn\u0027t have access to base.",
+      "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af17c5b5_22c5bd27",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-28T17:51:45Z",
+      "side": 1,
+      "message": "LoopVar needs to be a Config flag.",
+      "range": {
+        "startLine": 649,
+        "startChar": 12,
+        "endLine": 649,
+        "endChar": 13
+      },
+      "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "752ca538_efa17cc0",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 3
@@ -118,6 +158,30 @@
       "side": 1,
       "message": "go/types can\u0027t mutate the ast (it is read concurrently may other places), so it records syntactic information externally, in types.Info.\n\nThe type checker must produce information necessary to correctly implement the semantics of the language (which means that it is sensitive to the semantics). I think perhaps the type checker should instead record the effective Go version for each file, rather than assigning a particular interpretation of that go version to each for loop. Does that make sense? I think this requires some careful thought about how it will be used in the future. If we don\u0027t anticipate many more of these changes, perhaps we leave it up to the caller of go/types to figure out this information.",
       "parentUuid": "7277bbfa_0c638fff",
+      "range": {
+        "startLine": 661,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 45
+      },
+      "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4af5dd57_d49bad2e",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-28T17:51:45Z",
+      "side": 1,
+      "message": "Agreeing with @findleyr. The way to do this is to record whatever we need to record in the Info struct, possibly by adding a new map or other suitable data structure.",
+      "parentUuid": "fc5c0d66_d66768c1",
       "range": {
         "startLine": 661,
         "startChar": 2,
