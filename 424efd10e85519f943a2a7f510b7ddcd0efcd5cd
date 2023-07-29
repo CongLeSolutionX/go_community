@@ -124,6 +124,23 @@
       "message": "hello my friend can help me",
       "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "335376e9_7c8d8a74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-07-29T07:19:40Z",
+      "side": 1,
+      "message": "After further consideration and comparing with other compilers, I believe that to achieve expected performance, we need to hoist only meaningful values, with the most important being load/store/call. However, hoisting them requires guaranteeing that the loop executes at least once, which may require additional loop rotation as a prerequisite for LICM. In addition, we may need simple alias analysis, as hoisting call/store is almost impossible without it.",
+      "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
