@@ -196,6 +196,11 @@ func (p *Pool) getSlow(pid int) any {
 // returns poolLocal pool for the P and the P's id.
 // Caller must call runtime_procUnpin() when done with the pool.
 func (p *Pool) pin() (*poolLocal, int) {
+	// Check whether p is nil to get a typical panic.
+	// Otherwise the nil dereference is in runtime_LoadAcquintptr,
+	// where it is a fatal error rather than a panic.
+	_ = p.localSize
+
 	pid := runtime_procPin()
 	// In pinSlow we store to local and then to localSize, here we load in opposite order.
 	// Since we've disabled preemption, GC cannot happen in between.
