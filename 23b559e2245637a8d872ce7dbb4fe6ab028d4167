@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "095733ce_e447814f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-29T15:16:52Z",
+      "side": 1,
+      "message": "Also as an other TODO for a later CL, this code does not work with unsigned integers because findIndVars do not search for unsigned integers.\nI\u0027m not sure why is so, I\u0027ve noticed that prove is able to do BCE for unsigned integers with loops so my guess is that having numbers that start at zero is easier to deal with and do not require findIndVars or something.",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad7fbeb1_8cd09be6",
@@ -142,6 +159,24 @@
       "side": 1,
       "message": "Right, the code currently is not smart about that.\nI did thought about doing exactly what you suggest here however it made the code more complex than it already is for little real world value (most programers start at zero and count up until a max in this case, so the current patch gets it right by chance).\n\nI\u0027m unclear about what I should do now, should in the current patch add a check to not do anything if both start and end are constants as a stop gap until someone make it smart about constants ?",
       "parentUuid": "466fca2b_a6da1aba",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48d9b508_5c8f7630",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-29T15:16:52Z",
+      "side": 1,
+      "message": "Note right in the performance sense, AFAIK this code always generate valid behaviours, if someone would happen to make a thing that count down this code would make it very slightly worse (move the bigger immediate value inside the loop) which is hard to notice.",
+      "parentUuid": "cfd28308_52be78a0",
       "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
