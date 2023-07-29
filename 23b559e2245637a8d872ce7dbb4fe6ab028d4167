@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1e72cf4_bfbb3df1",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-29T15:13:34Z",
+      "side": 1,
+      "message": "This is a relic of when I tried to rewrite something like this:\n```\nfor i :\u003d 2; i \u003c 10; i +\u003d 2 { ... }\n```\ninto:\n```\nfor i :\u003d 4; 0 \u003c i; i-- { ... }\n```\nI\u0027ll add to flag given I\u0027m not sending this code.",
+      "parentUuid": "ad7fbeb1_8cd09be6",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a791aa2_f93244b0",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 10
@@ -77,6 +95,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28333240_924f724c",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-29T15:13:34Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you mean, your code looks incorrect because AFAIT it never adds any loop induction variables to the facts table.\n\nI agree my if is not very pretty here but we can\u0027t do a simple \"happy left\" with early continue blocks without having either the loop invertion or the facts table update, so at least one, maybe boths needs to be indented.\n\nI\u0027ll invert since now that I think about it I think it\u0027s more readable but I\u0027m not sure I understand what you mean.",
+      "parentUuid": "188b4fb0_c2e1597e",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "466fca2b_a6da1aba",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 10
@@ -88,6 +124,24 @@
       "writtenOn": "2023-07-28T23:26:34Z",
       "side": 1,
       "message": "What if both start and end are constants?\n\nfor i :\u003d 2; i \u003c 10; i++ { ... }\n\nProbably want to rewrite to 8-down-to-0.\n(In a separate CL.)",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfd28308_52be78a0",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-29T15:13:34Z",
+      "side": 1,
+      "message": "Right, the code currently is not smart about that.\nI did thought about doing exactly what you suggest here however it made the code more complex than it already is for little real world value (most programers start at zero and count up until a max in this case, so the current patch gets it right by chance).\n\nI\u0027m unclear about what I should do now, should in the current patch add a check to not do anything if both start and end are constants as a stop gap until someone make it smart about constants ?",
+      "parentUuid": "466fca2b_a6da1aba",
       "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
