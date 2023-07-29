@@ -16,6 +16,24 @@
       "message": "I think there was a reason to limit this to 64k. Also this change make the above comment wrong and new comment contains typo.",
       "revId": "f9fb8b7af97fa8944ff752c3e1c589bd4316d80b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48a78790_f3e1e12f",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-07-29T12:19:11Z",
+      "side": 1,
+      "message": "I\u0027ve created alternative CL 514075",
+      "parentUuid": "e9378b31_6424cab6",
+      "revId": "f9fb8b7af97fa8944ff752c3e1c589bd4316d80b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
