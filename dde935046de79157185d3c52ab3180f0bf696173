@@ -80,6 +80,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "751a7f68_19baf98e",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-29T08:28:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3cd19d54_a4a019e0",
+      "range": {
+        "startLine": 402,
+        "startChar": 25,
+        "endLine": 402,
+        "endChar": 30
+      },
+      "revId": "dde935046de79157185d3c52ab3180f0bf696173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e281692b_78ef3a6d",
         "filename": "src/internal/syscall/windows/syscall_windows.go",
         "patchSetId": 8
@@ -91,6 +115,30 @@
       "writtenOn": "2023-07-29T07:34:34Z",
       "side": 1,
       "message": "s/) \u003d/) (err error) \u003d/\n\nQueryServiceStatus can return error.",
+      "range": {
+        "startLine": 417,
+        "startChar": 81,
+        "endLine": 417,
+        "endChar": 84
+      },
+      "revId": "dde935046de79157185d3c52ab3180f0bf696173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dbce173_cc058fa6",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-29T08:28:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e281692b_78ef3a6d",
       "range": {
         "startLine": 417,
         "startChar": 81,
@@ -126,6 +174,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "edc8242c_1673d871",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-29T08:28:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "72421b1a_3901d3e4",
+      "range": {
+        "startLine": 418,
+        "startChar": 114,
+        "endLine": 418,
+        "endChar": 117
+      },
+      "revId": "dde935046de79157185d3c52ab3180f0bf696173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19f9126c_a4729602",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 8
@@ -149,6 +221,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75a80b0e_eca96c76",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-29T08:28:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "19f9126c_a4729602",
+      "range": {
+        "startLine": 431,
+        "startChar": 45,
+        "endLine": 431,
+        "endChar": 46
+      },
+      "revId": "dde935046de79157185d3c52ab3180f0bf696173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "681fb16a_500fb4c3",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 8
@@ -160,6 +256,24 @@
       "writtenOn": "2023-07-29T07:34:34Z",
       "side": 1,
       "message": "Check for error.",
+      "revId": "dde935046de79157185d3c52ab3180f0bf696173",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a64ec9_1a3a6f12",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-29T08:28:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "681fb16a_500fb4c3",
       "revId": "dde935046de79157185d3c52ab3180f0bf696173",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
