@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7efc40ac_a9229802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-29T00:44:50Z",
+      "side": 1,
+      "message": "s/interface/interfaces/",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61750a3e_011aa258",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -51,6 +74,120 @@
       "writtenOn": "2023-07-28T19:08:05Z",
       "side": 1,
       "message": "Gentle ping 😊",
+      "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6444676c_c1c85ac9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-29T00:44:50Z",
+      "side": 1,
+      "message": "Looks ok to me. Some nitpicks and a couple of questions.",
+      "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87d22c48_7208b8e0",
+        "filename": "src/cmd/compile/internal/types2/named.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-29T00:44:50Z",
+      "side": 1,
+      "message": "s/else/otherwise/ ?\n\nAre we certain this is always true?",
+      "range": {
+        "startLine": 636,
+        "startChar": 28,
+        "endLine": 636,
+        "endChar": 32
+      },
+      "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e5747aa_78b49ce7",
+        "filename": "src/cmd/compile/internal/types2/named.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-29T00:44:50Z",
+      "side": 1,
+      "message": "Maybe explain that if check !\u003d nil, check.newInterface() registers the new interface with needsCleanup, which eventually leads to the type set computation.\n\n(At least that\u0027s my understanding of why this needs to be here.)",
+      "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d71e6b29_d5a05d2a",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-29T00:44:50Z",
+      "side": 1,
+      "message": "s/else/otherwise/ ?",
+      "range": {
+        "startLine": 173,
+        "startChar": 25,
+        "endLine": 173,
+        "endChar": 29
+      },
+      "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d2ebc3_e9cbb0ea",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-29T00:44:50Z",
+      "side": 1,
+      "message": "add same comment as in other file?",
+      "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3012b11_1a53045e",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2325,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-07-29T00:44:50Z",
+      "side": 1,
+      "message": "I don\u0027t understand \"Uncomment\" here. Should it be \"comment out\"?",
       "revId": "6f6a75076290134bed9b96f1ac662d00500370a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
