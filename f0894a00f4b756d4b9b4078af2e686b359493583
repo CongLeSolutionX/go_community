@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8112bfce_a6b48966",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-07-29T06:03:35Z",
+      "side": 1,
+      "message": "Still LGTM.\n\nThank you.\n\nAlex",
+      "revId": "f0894a00f4b756d4b9b4078af2e686b359493583",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
