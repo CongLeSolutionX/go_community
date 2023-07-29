@@ -23,6 +23,7 @@ import (
 	"internal/xcoff"
 	"io"
 	"io/fs"
+	"math"
 	"os"
 	"runtime/debug"
 )
@@ -154,7 +155,9 @@ func readRawBuildInfo(r io.ReaderAt) (vers, mod string, err error) {
 	// data segment; the linker puts it near the beginning.
 	// See cmd/link/internal/ld.Link.buildinfo.
 	dataAddr := x.DataStart()
-	data, err := x.ReadData(dataAddr, 64*1024)
+	//set read size to math.MaxUint64 to read all data
+	//seee issue: #61644
+	data, err := x.ReadData(dataAddr, math.MaxUint64)
 	if err != nil {
 		return "", "", err
 	}
