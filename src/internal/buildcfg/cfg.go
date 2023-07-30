@@ -69,22 +69,71 @@ func goamd64() int {
 	return int(defaultGOAMD64[len("v")] - '0')
 }
 
-func goarm() int {
+type goarmFeatures struct {
+	Version   int
+	SoftFloat bool
+}
+
+func (g goarmFeatures) String() string {
+	armStr := strconv.Itoa(g.Version)
+	if g.SoftFloat {
+		armStr += ",softfloat"
+	}
+	return armStr
+}
+
+func goarm() (g goarmFeatures) {
+	const (
+		softFloatOpt = ",softfloat"
+		hardFloatOpt = ",hardfloat"
+	)
 	def := defaultGOARM
 	if GOOS == "android" && GOARCH == "arm" {
 		// Android arm devices always support GOARM=7.
 		def = "7"
 	}
-	switch v := envOr("GOARM", def); v {
-	case "5":
-		return 5
-	case "6":
-		return 6
-	case "7":
-		return 7
+	v := envOr("GOARM", def)
+	switch v[0] {
+	case '5':
+		g.Version = 5
+	case '6':
+		g.Version = 6
+	case '7':
+		g.Version = 7
+	default:
+		Error = fmt.Errorf("invalid GOARM: must start with 5, 6, 7")
+		g.Version = int(def[0] - '0')
 	}
-	Error = fmt.Errorf("invalid GOARM: must be 5, 6, 7")
-	return int(def[0] - '0')
+
+	// check for softfloat
+
+	// no option
+	if len(v) == 1 {
+		// GOARM=5 must use softfloat
+		if v[0] == '5' {
+			g.SoftFloat = true
+			return
+		}
+		// GOARM=6 and GOARM=7 use hardfloat by default
+		return
+		// if present, option must be either ",hardfloat" or ",softfloat"
+	} else if len(v) == 1+len(softFloatOpt) {
+		if strings.HasSuffix(v, softFloatOpt) {
+			g.SoftFloat = true
+			return
+		} else if strings.HasSuffix(v, hardFloatOpt) {
+			// GOARM=5 must use softfloat
+			if v[0] != '5' {
+				return
+			}
+			Error = fmt.Errorf("invalid GOARM: GOARM=5 must use %q", softFloatOpt)
+		} else {
+			Error = fmt.Errorf("invalid GOARM: option must be either %q or %q", hardFloatOpt, softFloatOpt)
+		}
+	} else {
+		Error = fmt.Errorf("invalid GOARM: must start with the version number, and may optionally end in either %q or %q", hardFloatOpt, softFloatOpt)
+	}
+	return
 }
 
 func gomips() string {
@@ -182,7 +231,7 @@ func GOGOARCH() (name, value string) {
 	case "amd64":
 		return "GOAMD64", fmt.Sprintf("v%d", GOAMD64)
 	case "arm":
-		return "GOARM", strconv.Itoa(GOARM)
+		return "GOARM", GOARM.String()
 	case "mips", "mipsle":
 		return "GOMIPS", GOMIPS
 	case "mips64", "mips64le":
@@ -206,8 +255,9 @@ func gogoarchTags() []string {
 		}
 		return list
 	case "arm":
+		// todo: add floating point
 		var list []string
-		for i := 5; i <= GOARM; i++ {
+		for i := 5; i <= GOARM.Version; i++ {
 			list = append(list, fmt.Sprintf("%s.%d", GOARCH, i))
 		}
 		return list
