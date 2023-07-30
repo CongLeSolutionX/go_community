@@ -872,13 +872,23 @@ func (ctxt *Link) linksetup() {
 		mdsb.SetSize(0)
 
 		// In addition, on ARM, the runtime depends on the linker
-		// recording the value of GOARM.
+		// recording the value of GOARM and GOARMFP.
 		if ctxt.Arch.Family == sys.ARM {
 			goarm := ctxt.loader.LookupOrCreateSym("runtime.goarm", 0)
 			sb := ctxt.loader.MakeSymbolUpdater(goarm)
 			sb.SetType(sym.SDATA)
 			sb.SetSize(0)
-			sb.AddUint8(uint8(buildcfg.GOARM))
+			sb.AddUint8(uint8(buildcfg.GOARM.Version))
+
+			goarmsoftfp := ctxt.loader.LookupOrCreateSym("runtime.goarmsoftfp", 0)
+			sb2 := ctxt.loader.MakeSymbolUpdater(goarmsoftfp)
+			sb2.SetType(sym.SDATA)
+			sb2.SetSize(0)
+			if buildcfg.GOARM.SoftFloat {
+				sb2.AddUint8(1)
+			} else {
+				sb2.AddUint8(0)
+			}
 		}
 
 		// Set runtime.disableMemoryProfiling bool if
