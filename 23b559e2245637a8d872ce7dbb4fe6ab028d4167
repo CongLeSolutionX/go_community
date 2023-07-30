@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aeb5b66_4fb6e423",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-30T10:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e72cf4_bfbb3df1",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a791aa2_f93244b0",
@@ -72,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7550f2f_d46ef5cb",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-30T10:59:39Z",
+      "side": 1,
+      "message": "I\u0027ve considered it but I don\u0027t think this makes the code clearer.\nIf this code was hoisted out there would be a weird relationship between buildIndVars and prove because this logic do stuff explicitely because it knows prove wont do anything intresting with it.\n\nA better name for this function would be:\n```\nindVars :\u003d buildIndVarsButRewriteAndOmitThemIfTheyCantBeUsedToProveAnything(f)\n```\nwhich is a higher level of coupling than I usually have.\n\nThis loop is also much clearer now, please look again, if you still think should be a function then let\u0027s make a function.",
+      "parentUuid": "7a791aa2_f93244b0",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94e48cf5_6d6051e9",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 10
@@ -83,6 +119,30 @@
       "writtenOn": "2023-07-28T22:46:53Z",
       "side": 1,
       "message": "Remove \"s\"",
+      "range": {
+        "startLine": 819,
+        "startChar": 33,
+        "endLine": 819,
+        "endChar": 34
+      },
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44ff4670_d2c5cff1",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-30T10:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e48cf5_6d6051e9",
       "range": {
         "startLine": 819,
         "startChar": 33,
@@ -142,6 +202,24 @@
       "side": 1,
       "message": "Yes, sorry, you\u0027re right, they need to go into the indVars map if we don\u0027t rewrite them.\nMaybe there\u0027s some way to make that happen by separating things out into separate function(s). But just my raw suggestion isn\u0027t right.",
       "parentUuid": "28333240_924f724c",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a4a212_7f9fba5c",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-30T10:59:39Z",
+      "side": 1,
+      "message": "I\u0027ve inverted most of the if checks, it looks much better now.",
+      "parentUuid": "16e987b8_508247e1",
       "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -217,6 +295,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1d4eeab_9d9bc845",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-30T10:59:39Z",
+      "side": 1,
+      "message": "I\u0027ve added a skip if this is true and a todo that we could do better.",
+      "parentUuid": "cf8acc15_2e8bd293",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b9e2f18_ae365281",
@@ -230,6 +326,30 @@
       "writtenOn": "2023-07-28T22:46:53Z",
       "side": 1,
       "message": "This sentence is hard to parse. Maybe\n\nSince this induction variable is not used for anything but counting the loop,\nno point in putting it into the facts table.",
+      "range": {
+        "startLine": 940,
+        "startChar": 6,
+        "endLine": 940,
+        "endChar": 108
+      },
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d275384a_09c5a9b9",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-30T10:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b9e2f18_ae365281",
       "range": {
         "startLine": 940,
         "startChar": 6,
