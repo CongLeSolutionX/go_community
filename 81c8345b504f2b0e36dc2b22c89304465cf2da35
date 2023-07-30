@@ -91,6 +91,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb533b5_cc329efe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-30T23:07:32Z",
+      "side": 1,
+      "message": "Thanks for the review.",
+      "revId": "81c8345b504f2b0e36dc2b22c89304465cf2da35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27c2877c_c5a22f73",
@@ -110,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c738deb_ef8103f0",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-30T23:07:32Z",
+      "side": 1,
+      "message": "start{PC,SP} refer to where _panic.start was called, so that we can longjmp back to it to restart a Goexit loop in something like:\n\n```\ndefer func() {\n  // This recover() should recover the panic(42), but then resume in Goexit\n  // instead of normal recovery flow.\n  recover()\n}()\nfunc() {\n  defer panic(42)\n  runtime.Goexit()\n}()\n```\n\nAdded some comments to hopefully make this clearer.",
+      "parentUuid": "27c2877c_c5a22f73",
+      "revId": "81c8345b504f2b0e36dc2b22c89304465cf2da35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39a0806a_6a92399c",
         "filename": "src/runtime/panic.go",
         "patchSetId": 7
@@ -121,6 +156,24 @@
       "writtenOn": "2023-07-28T22:27:19Z",
       "side": 1,
       "message": "Comment that this call doesn\u0027t return, and effectively stops panic processing.\nWhere does p get unlinked from gp._panic?",
+      "revId": "81c8345b504f2b0e36dc2b22c89304465cf2da35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fae73852_dd2cdce5",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-30T23:07:32Z",
+      "side": 1,
+      "message": "Added a comment and a throw.\n\nrecovery now takes care of unlinking the appropriate panics, including detecting when recovery would jump over a Goexit call.",
+      "parentUuid": "39a0806a_6a92399c",
       "revId": "81c8345b504f2b0e36dc2b22c89304465cf2da35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -148,6 +201,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2571f09_69ffaa01",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-30T23:07:32Z",
+      "side": 1,
+      "message": "We need to account for when the bits set in *p.deferBitsPtr aren\u0027t consecutive, and we still need to advance p.fd for any closures that we don\u0027t call.\n\nI think we could get rid of p.openDefers if we additionally maintain the invariant that p.fd always points to the closure corresponding to the top set bit in *p.deferBitsPtr. The extra complexity doesn\u0027t seem to outweigh the benefit of eliminating the field.\n\nI did change it from \"int\" to \"uint8\" though, and reordered fields so _panic is the same size as if we removed it.",
+      "parentUuid": "707a342a_8e6a0b74",
+      "range": {
+        "startLine": 664,
+        "startChar": 8,
+        "endLine": 664,
+        "endChar": 18
+      },
+      "revId": "81c8345b504f2b0e36dc2b22c89304465cf2da35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e7be182_eec13330",
@@ -165,6 +242,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97257e33_7a7da679",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-30T23:07:32Z",
+      "side": 1,
+      "message": "Ack. I intend to look into further simplifications involving cmd/compile next. For this CL, I wanted to just cleanup the runtime code without any ABI changes.",
+      "parentUuid": "4e7be182_eec13330",
+      "revId": "81c8345b504f2b0e36dc2b22c89304465cf2da35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d03af0df_7ba3212d",
@@ -178,6 +273,30 @@
       "writtenOn": "2023-07-28T22:27:19Z",
       "side": 1,
       "message": "This surprised me that it is minus.\nMakes sense now that I think about it (down from FP, right?) but maybe this function needs a better name. frameSlotFromOffset?",
+      "range": {
+        "startLine": 774,
+        "startChar": 39,
+        "endLine": 774,
+        "endChar": 40
+      },
+      "revId": "81c8345b504f2b0e36dc2b22c89304465cf2da35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27309957_c5ee75ec",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-07-30T23:07:32Z",
+      "side": 1,
+      "message": "Ack. I was thinking a positive offset from SP would be simpler, and would allow eliminating the _panic.varp field. I plan to look into that for a followup CL.\n\nI ended up just changing the callers to \"add(varp, -offset)\". (When I wrote this originally, I was remembering that \"add(p, -1)\" is invalid, because untyped constant -1 can\u0027t be converted to uintptr; but I forgot that -offset is still fine because it\u0027s not constant.)",
+      "parentUuid": "d03af0df_7ba3212d",
       "range": {
         "startLine": 774,
         "startChar": 39,
