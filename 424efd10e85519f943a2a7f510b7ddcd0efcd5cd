@@ -176,6 +176,24 @@
       "parentUuid": "cd237975_0bc274a3",
       "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ec6071f_b7e9426a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-07-30T07:14:12Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not entirely sure what you are asking here. But if I understand then yes, hoisting a load out of a loop might be worth 100 arithmetic ops.\n\nNot raising questions, just sync some progress, Maybe I can create issue for this to avoid contaminating subscribers\u0027 timeline\n\n\u003e But that\u0027s just for your example. This isn\u0027t an issue for the example from #15808.\n\u003e I\u0027d like to see what we can do without loop transformations first. Or have in hand real-world examples where loop transformations would help.\n\nAFAIK, the main purpose of loop rotation is that transformed canconcial form can be used for further LICM and other analysises. Any code where the number of loops cannot be determined at compile time can be used as an example. As for why it is necessary to determine that the loop must be executed once, instead of checking whether the load ptr is nil, please refer to the following.\n\n\u003e This is true, but only because the bounds check might fail. If that isn\u0027t an issue, say a load from global, or load from a known non-nil pointer (e.g. loading a value from a closure) then it might still work.\n\nFor store/Call, this is not true even if Ptr is not nil. \n\nExecuting loop transformations first ensures that the program semantics remain unchanged, and the value in the loop is executed as the loop is executed. This will avoid many unexpected things and accidents",
+      "parentUuid": "d32c4088_87b83d01",
+      "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
