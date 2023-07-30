@@ -71,6 +71,24 @@
       "parentUuid": "650c53d2_7521bb9f",
       "revId": "1a76cbc8e4c31ab327f34a7aea4effd997ad7976",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396dc4d0_7b8e9e54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62853
+      },
+      "writtenOn": "2023-07-30T13:58:26Z",
+      "side": 1,
+      "message": "It\u0027s from src/text/template/funcs.go.\n\n```go\n// isNil returns true if v is the zero reflect.Value, or nil of its type.\nfunc isNil(v reflect.Value) bool {\n\tif !v.IsValid() {\n\t\treturn true\n\t}\n\tswitch v.Kind() {\n\tcase reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Pointer, reflect.Slice:\n\t\treturn v.IsNil()\n\t}\n\treturn false\n}\n```",
+      "parentUuid": "cd638c10_38062949",
+      "revId": "1a76cbc8e4c31ab327f34a7aea4effd997ad7976",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
