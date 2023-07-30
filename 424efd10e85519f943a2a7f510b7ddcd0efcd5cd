@@ -194,6 +194,24 @@
       "parentUuid": "d32c4088_87b83d01",
       "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "612b3258_135f0808",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-07-30T07:19:27Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not entirely sure what you are asking here. But if I understand then yes, hoisting a load out of a loop might be worth 100 arithmetic ops.\n\nI means, compared with the method of hoisting all remaining values after filtering illegal values of this patch, it may be more appropriate to carefully select high-yield values",
+      "parentUuid": "3ec6071f_b7e9426a",
+      "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
