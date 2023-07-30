@@ -141,6 +141,23 @@
       "message": "After further consideration and comparing with other compilers, I believe that to achieve expected performance, we need to hoist only meaningful values, with the most important being load/store/call. However, hoisting them requires guaranteeing that the loop executes at least once, which may require additional loop rotation as a prerequisite for LICM. In addition, we may need simple alias analysis, as hoisting call/store is almost impossible without it.",
       "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd237975_0bc274a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-07-30T04:54:45Z",
+      "side": 1,
+      "message": "Im trying to revive this..\n\nMore clarification:\n\n1. Only hoist/sink profitable Value\nIn short, hoist one Load \u003e 100 arithmetic ops\n\nLLVM and JVM carefully selects candidate values\n\n- https://github.com/openjdk/jdk/blob/ad34be1f329edc8e7155983835cc70d733c014b8/src/hotspot/share/c1/c1_ValueMap.cpp#L400\n- https://github.com/llvm/llvm-project/blob/989a5feb2ca7d3f63db6c3c33590cfd7596724a8/llvm/lib/Transforms/Scalar/LICM.cpp#L1104\n\n2. Loop rotation or loop guard as prerequisite\n\n```\nfunc foo(arr []int, cnt int) {\n\tr :\u003d 0\n\tfor i\u003d0;i\u003ccnt;i++{\n\t\tr +\u003d arr[5]\n\t}\n}\n```\nWe can speculatively hoist arr[5] only if we can prove loop is executed at least once. We can either insert a loop guard or run loop rotate pass in advance.\n\nGenerally, this is done by loop rotation https://llvm.org/docs/LoopTerminology.html#rotated-loops, i.e.\n\nCurrent loop roate is somewhat different from normal loop rotation, it unconditionally jumps to loop entry.\n\n3. Hoist/Sink Load/Store/Call\n\nTo hoist these values as mush as possible, we can implement a type based alias analysis. For example, according to type based alias analysis result, we can safely hoist arr[5].\n\n```\nfunc foo(arr []int, arrb []int8 cnt int) {\n\tr :\u003d 0\n\tfor i\u003d0;i\u003ccnt;i++{\n\t\tr +\u003d arr[5]\n\t\tarrb[cnt] \u003d int8(5)\n\t\t\n\t}\n}\n```",
+      "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
