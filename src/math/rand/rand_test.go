@@ -338,7 +338,7 @@ func TestExpTables(t *testing.T) {
 func hasSlowFloatingPoint() bool {
 	switch runtime.GOARCH {
 	case "arm":
-		return os.Getenv("GOARM") == "5"
+		return os.Getenv("GOARM") == "5" || os.Getenv("GOARMFP") == "soft"
 	case "mips", "mipsle", "mips64", "mips64le":
 		// Be conservative and assume that all mips boards
 		// have emulated floating point.

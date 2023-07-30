@@ -410,6 +410,7 @@ var (
 
 	// Used in envcmd.MkEnv and build ID computations.
 	GOARM    = envOr("GOARM", fmt.Sprint(buildcfg.GOARM))
+	GOARMFP  = envOr("GOARMFP", buildcfg.GOARMFP)
 	GO386    = envOr("GO386", buildcfg.GO386)
 	GOAMD64  = envOr("GOAMD64", fmt.Sprintf("%s%d", "v", buildcfg.GOAMD64))
 	GOMIPS   = envOr("GOMIPS", buildcfg.GOMIPS)
@@ -435,7 +436,7 @@ var SumdbDir = gopathDir("pkg/sumdb")
 func GetArchEnv() (key, val string) {
 	switch Goarch {
 	case "arm":
-		return "GOARM", GOARM
+		return "GOARM", GOARM // todo: handle GOARMFP flag
 	case "386":
 		return "GO386", GO386
 	case "amd64":

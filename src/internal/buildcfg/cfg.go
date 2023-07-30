@@ -27,6 +27,7 @@ var (
 	GO386    = envOr("GO386", defaultGO386)
 	GOAMD64  = goamd64()
 	GOARM    = goarm()
+	GOARMFP  = goarmfp()
 	GOMIPS   = gomips()
 	GOMIPS64 = gomips64()
 	GOPPC64  = goppc64()
@@ -85,6 +86,15 @@ func goarm() int {
 	}
 	Error = fmt.Errorf("invalid GOARM: must be 5, 6, 7")
 	return int(def[0] - '0')
+}
+
+func goarmfp() string {
+	switch v := envOr("GOARMFP", defaultGOARMFP); v {
+	case "hard", "soft":
+		return v
+	}
+	Error = fmt.Errorf("invalid GOARMFP: must be hard, soft")
+	return defaultGOARMFP
 }
 
 func gomips() string {
@@ -206,6 +216,7 @@ func gogoarchTags() []string {
 		}
 		return list
 	case "arm":
+		// todo: add GOARMFP variants
 		var list []string
 		for i := 5; i <= GOARM; i++ {
 			list = append(list, fmt.Sprintf("%s.%d", GOARCH, i))

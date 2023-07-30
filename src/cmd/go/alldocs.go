@@ -2281,6 +2281,9 @@
 //	GOARM
 //		For GOARCH=arm, the ARM architecture for which to compile.
 //		Valid values are 5, 6, 7.
+//	GOARMFP
+//		For GOARCH=arm, whether to use floating point instructions.
+//		Valid values are hard (default), soft. Ignored when GOARM=5.
 //	GO386
 //		For GOARCH=386, how to implement floating point instructions.
 //		Valid values are sse2 (default), softfloat.

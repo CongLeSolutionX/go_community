@@ -3044,16 +3044,16 @@ func (c *ctxt5) omvl(p *obj.Prog, a *obj.Addr, dr int) uint32 {
 }
 
 func (c *ctxt5) chipzero5(e float64) int {
-	// We use GOARM=7 to gate the use of VFPv3 vmov (imm) instructions.
-	if buildcfg.GOARM < 7 || math.Float64bits(e) != 0 {
+	// We use GOARM=7 and GOARMFP!=soft to gate the use of VFPv3 vmov (imm) instructions.
+	if buildcfg.GOARM < 7 || buildcfg.GOARMFP == "soft" || math.Float64bits(e) != 0 {
 		return -1
 	}
 	return 0
 }
 
 func (c *ctxt5) chipfloat5(e float64) int {
-	// We use GOARM=7 to gate the use of VFPv3 vmov (imm) instructions.
-	if buildcfg.GOARM < 7 {
+	// We use GOARM=7 and GOARMFP!=soft to gate the use of VFPv3 vmov (imm) instructions.
+	if buildcfg.GOARM < 7 || buildcfg.GOARMFP == "soft" {
 		return -1
 	}
 

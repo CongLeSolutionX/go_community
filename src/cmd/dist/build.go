@@ -33,6 +33,7 @@ var (
 	gohostos         string
 	goos             string
 	goarm            string
+	goarmfp          string
 	go386            string
 	goamd64          string
 	gomips           string
@@ -147,6 +148,12 @@ func xinit() {
 	}
 	goarm = b
 
+	b = os.Getenv("GOARMFP")
+	if b == "" {
+		b = "hard"
+	}
+	goarmfp = b
+
 	b = os.Getenv("GO386")
 	if b == "" {
 		b = "sse2"
@@ -230,6 +237,7 @@ func xinit() {
 	os.Setenv("GOAMD64", goamd64)
 	os.Setenv("GOARCH", goarch)
 	os.Setenv("GOARM", goarm)
+	os.Setenv("GOARMFP", goarmfp)
 	os.Setenv("GOHOSTARCH", gohostarch)
 	os.Setenv("GOHOSTOS", gohostos)
 	os.Setenv("GOOS", goos)
@@ -1226,6 +1234,7 @@ func cmdenv() {
 	xprintf(format, "GOTOOLDIR", tooldir)
 	if goarch == "arm" {
 		xprintf(format, "GOARM", goarm)
+		xprintf(format, "GOARMFP", goarmfp)
 	}
 	if goarch == "386" {
 		xprintf(format, "GO386", go386)
