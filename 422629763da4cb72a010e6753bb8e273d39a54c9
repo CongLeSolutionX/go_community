@@ -16,6 +16,24 @@
       "message": "Thanks, but I\u0027m not sure this makes much sense.  When looking at StructField, what else could the Offset refer to?  Maybe we should say something in the FieldByName docs instead.  It is only when using FieldByName that confusion can arise.",
       "revId": "422629763da4cb72a010e6753bb8e273d39a54c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3801a629_27d87590",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-30T02:48:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "89a1ec58_ffcd21ff",
+      "revId": "422629763da4cb72a010e6753bb8e273d39a54c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
