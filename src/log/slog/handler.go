@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"log/slog/internal/buffer"
+	"reflect"
 	"slices"
 	"strconv"
 	"sync"
@@ -511,7 +512,24 @@ func (s *handleState) appendString(str string) {
 	}
 }
 
+const nilAngleString = "<nil>"
+
 func (s *handleState) appendValue(v Value) {
+	defer func() {
+		if err := recover(); err != nil {
+			// If it panics with a nil pointer, the most likely cases are
+			// an encoding.TextMarshaler or error fails to guard against nil,
+			// in which case "<nil>" seems to be the feasible choice.
+			if v := reflect.ValueOf(v.any); v.Kind() == reflect.Pointer && v.IsNil() {
+				s.appendString(nilAngleString)
+				return
+			}
+
+			// Otherwise just print the original panic message.
+			panic(err)
+		}
+	}()
+
 	var err error
 	if s.h.json {
 		err = appendJSONValue(s, v)
