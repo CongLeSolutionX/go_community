@@ -95,6 +95,17 @@ func (h *TextHandler) Handle(_ context.Context, r Record) error {
 	return h.commonHandler.handle(r)
 }
 
+func isNil(i any) bool {
+	if i == nil {
+		return true
+	}
+
+	v := reflect.ValueOf(i)
+	kind := v.Kind()
+
+	return kind >= reflect.Chan && kind <= reflect.Slice && v.IsNil()
+}
+
 func appendTextValue(s *handleState, v Value) error {
 	switch v.Kind() {
 	case KindString:
@@ -102,6 +113,9 @@ func appendTextValue(s *handleState, v Value) error {
 	case KindTime:
 		s.appendTime(v.time())
 	case KindAny:
+		if isNil(v.any) {
+			goto fallback
+		}
 		if tm, ok := v.any.(encoding.TextMarshaler); ok {
 			data, err := tm.MarshalText()
 			if err != nil {
@@ -116,6 +130,7 @@ func appendTextValue(s *handleState, v Value) error {
 			s.buf.WriteString(strconv.Quote(string(bs)))
 			return nil
 		}
+	fallback:
 		s.appendString(fmt.Sprintf("%+v", v.Any()))
 	default:
 		*s.buf = v.append(*s.buf)
