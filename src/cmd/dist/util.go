@@ -373,6 +373,7 @@ func xsamefile(f1, f2 string) bool {
 }
 
 func xgetgoarm() string {
+	// todo: replace with uname -p to determine GOARM version, then run this code to determine hard or soft float
 	// If we're building on an actual arm system, and not building
 	// a cross-compiling toolchain, try to exec ourselves
 	// to detect whether VFP is supported and set the default GOARM.
