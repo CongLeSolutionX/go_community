@@ -53,6 +53,24 @@
       "message": "Why not\n\nif p \u003d\u003d nil { panic(\"nil sync.Pool\") }\n\n?",
       "revId": "ff746b1a3be559f8ac4ebbb5c64f2eceaded4687",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b41fe6b_ba53777e",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-30T15:17:58Z",
+      "side": 1,
+      "message": "I was thinking that this approach would look like any other accidental nil dereference panic.",
+      "parentUuid": "f5971bad_8f1adc83",
+      "revId": "ff746b1a3be559f8ac4ebbb5c64f2eceaded4687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
