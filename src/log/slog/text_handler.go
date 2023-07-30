@@ -95,6 +95,8 @@ func (h *TextHandler) Handle(_ context.Context, r Record) error {
 	return h.commonHandler.handle(r)
 }
 
+const nilAngleString = "<nil>"
+
 func appendTextValue(s *handleState, v Value) error {
 	switch v.Kind() {
 	case KindString:
@@ -102,6 +104,10 @@ func appendTextValue(s *handleState, v Value) error {
 	case KindTime:
 		s.appendTime(v.time())
 	case KindAny:
+		if v.any == nil {
+			s.appendString(nilAngleString)
+			return nil
+		}
 		if tm, ok := v.any.(encoding.TextMarshaler); ok {
 			data, err := tm.MarshalText()
 			if err != nil {
