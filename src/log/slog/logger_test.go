@@ -83,6 +83,13 @@ func TestConnections(t *testing.T) {
 	Info("msg", "a", 1)
 	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: INFO msg a=1`)
 	logbuf.Reset()
+	Info("msg", "p", nil)
+	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: INFO msg p=<nil>`)
+	logbuf.Reset()
+	var r *regexp.Regexp
+	Info("msg", "r", r)
+	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: INFO msg r=<nil>`)
+	logbuf.Reset()
 	Warn("msg", "b", 2)
 	checkLogOutput(t, logbuf.String(), `logger_test.go:\d+: WARN msg b=2`)
 	logbuf.Reset()
@@ -569,5 +576,33 @@ func wantAllocs(t *testing.T, want int, f func()) {
 	got := int(testing.AllocsPerRun(5, f))
 	if got != want {
 		t.Errorf("got %d allocs, want %d", got, want)
+	}
+}
+
+// PanicTextMarshaler is a type that panics in MarshalText.
+type PanicTextMarshaler struct {
+	msg any
+}
+
+func (p PanicTextMarshaler) MarshalText() ([]byte, error) {
+	panic(p.msg)
+}
+
+func TestPanics(t *testing.T) {
+	var logBuf bytes.Buffer
+	log.SetOutput(&logBuf)
+	log.SetFlags(log.Lshortfile &^ log.LstdFlags)
+	for _, pt := range []struct {
+		in  any
+		out string
+	}{
+		{(*PanicTextMarshaler)(nil), `logger_test.go:\d+: INFO msg p=<nil>`},
+		{PanicTextMarshaler{io.ErrUnexpectedEOF}, `logger_test.go:\d+: INFO msg p="!PANIC: unexpected EOF"`},
+		{PanicTextMarshaler{"panicking"}, `logger_test.go:\d+: INFO msg p="!PANIC: panicking"`},
+		{PanicTextMarshaler{42}, `logger_test.go:\d+: INFO msg p="!PANIC: 42"`},
+	} {
+		Info("msg", "p", pt.in)
+		checkLogOutput(t, logBuf.String(), pt.out)
+		logBuf.Reset()
 	}
 }
