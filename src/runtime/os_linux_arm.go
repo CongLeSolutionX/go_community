@@ -20,14 +20,17 @@ func checkgoarm() {
 	if GOOS == "android" {
 		return
 	}
-	if goarm > 5 && cpu.HWCap&_HWCAP_VFP == 0 {
+	if goarm > 5 && cpu.HWCap&_HWCAP_VFP == 0 && goarmsoftfp == 0 {
 		print("runtime: this CPU has no floating point hardware, so it cannot run\n")
-		print("this GOARM=", goarm, " binary. Recompile using GOARM=5.\n")
+		print("this GOARM=", goarm, " binary with hard floating point. Recompile\n")
+		print("using GOARM=", goarm, ",softfloat to use soft floating point.\n")
 		exit(1)
 	}
-	if goarm > 6 && cpu.HWCap&_HWCAP_VFPv3 == 0 {
+	if goarm > 6 && cpu.HWCap&_HWCAP_VFPv3 == 0 && goarmsoftfp == 0 {
 		print("runtime: this CPU has no VFPv3 floating point hardware, so it cannot run\n")
-		print("this GOARM=", goarm, " binary. Recompile using GOARM=5 or GOARM=6.\n")
+		print("this GOARM=", goarm, " binary with hard floating point. Recompile\n")
+		print("using GOARM=", goarm, ",softfloat to use soft floating point or GOARM=6 to\n")
+		print("use VFPv1 floating point hardware.\n")
 		exit(1)
 	}
 }

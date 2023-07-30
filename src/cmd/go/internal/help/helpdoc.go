@@ -601,6 +601,8 @@ Architecture-specific environment variables:
 	GOARM
 		For GOARCH=arm, the ARM architecture for which to compile.
 		Valid values are 5, 6, 7.
+		Values can be followed by option for floating point instructions.
+		Valid options are ,softfloat (default for 5) and ,hardfloat (default for 6 and 7).
 	GO386
 		For GOARCH=386, how to implement floating point instructions.
 		Valid values are sse2 (default), softfloat.
