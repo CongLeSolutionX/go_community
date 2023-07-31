@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cf0b0e3_0c2258c6",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-07-31T18:02:35Z",
+      "side": 1,
+      "message": "Ah! runtime_LoadAcquintptr is indeed a red herring. The nil dereference happens in Pool.pin, but turns into a throw because the P is pinned (see runtime.canpanic). So I think this comment needs to be updated.",
+      "parentUuid": "04fe6678_eb09beb8",
+      "revId": "22a6dff32a46f160fe03d48a0f3f5dae8ac5e459",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a697874_b7fefa48",
         "filename": "src/sync/pool.go",
         "patchSetId": 2
