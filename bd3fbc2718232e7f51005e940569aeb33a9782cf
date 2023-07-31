@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e94454e6_3dab2bf4",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:41:51Z",
+      "side": 1,
+      "message": "As mentioned on the issue, I guess we should say something for FieldByNameFunc also.",
+      "revId": "bd3fbc2718232e7f51005e940569aeb33a9782cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
