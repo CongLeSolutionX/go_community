@@ -16,6 +16,40 @@
       "message": "ok, all done I think. It looks like my PR includes some linker changes that didn\u0027t make it into your final submission, but it all seems to work fine.",
       "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42eeb1d1_b956c772",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-31T22:31:00Z",
+      "side": 1,
+      "message": "Could you un-skip the test disassemling in cmd/pprof/pprof_test.go https://cs.opensource.google/go/go/+/master:src/cmd/pprof/pprof_test.go;l\u003d79 ? Thanks.",
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd4d13c3_e9bb5c15",
+        "filename": "src/runtime/pprof/proto_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-31T22:31:00Z",
+      "side": 1,
+      "message": "Seems the \"buildid\" result is missing.",
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

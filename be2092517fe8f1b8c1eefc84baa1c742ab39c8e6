@@ -113,6 +113,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eda1cfcb_b120cd47",
+        "filename": "src/cmd/internal/objfile/macho.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-31T22:31:00Z",
+      "side": 1,
+      "message": "I think we still need this change? (It is dropped in PS11. Is it intentional?)",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 2
+      },
+      "revId": "be2092517fe8f1b8c1eefc84baa1c742ab39c8e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2dfd5932_dade2c39",
         "filename": "src/cmd/link/internal/amd64/asm.go",
         "patchSetId": 8
