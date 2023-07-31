@@ -1720,6 +1720,25 @@ var shouldEscapeTests = []shouldEscapeTest{
 	{'_', encodeHost, false},
 	{'-', encodeHost, false},
 	{'.', encodeHost, false},
+
+	// §3.3
+	{'?', encodePath, true},
+	{'/', encodePathSegment, true},
+	{';', encodePathSegment, true},
+	{',', encodePathSegment, true},
+	{'?', encodePathSegment, true},
+
+	// §3.4
+	{'+', encodeQueryComponent, true},
+	{'=', encodeQueryComponent, true},
+
+	// §4.1
+	{'+', encodeFragment, false},
+	{'=', encodeFragment, false},
+	// §2.2
+	{'[', encodeFragment, true},
+	{'!', encodeFragment, false},
+	{'(', encodeFragment, false},
 }
 
 func TestShouldEscape(t *testing.T) {
