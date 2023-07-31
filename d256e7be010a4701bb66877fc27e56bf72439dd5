@@ -34,6 +34,24 @@
       "parentUuid": "56c3567f_b54b1cf3",
       "revId": "d256e7be010a4701bb66877fc27e56bf72439dd5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fae652c0_3a28d493",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T22:28:56Z",
+      "side": 1,
+      "message": "I think it\u0027s useful to call out to people that $ specifically is special.  That tells them 1) if there is no $, there is nothing to worry about; 2) if there is a $, they should look at Expand; 3) if they want replacements in general, then can look at Expand.",
+      "parentUuid": "8308769f_247bbf3f",
+      "revId": "d256e7be010a4701bb66877fc27e56bf72439dd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
