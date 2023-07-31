@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a626b13_a3a0c4f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:32:09Z",
+      "side": 1,
+      "message": "s/Intrinsic/predeclared/",
+      "revId": "0a0327efe096c0715b2810dab5e9a75ce4fb2ce8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6881175_84278c73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:32:09Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this sentence, the topic is enough.  Thanks.",
+      "revId": "0a0327efe096c0715b2810dab5e9a75ce4fb2ce8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
