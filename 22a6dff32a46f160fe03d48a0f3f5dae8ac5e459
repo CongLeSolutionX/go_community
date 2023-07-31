@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39e90645_17b8df34",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:45:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3cf0b0e3_0c2258c6",
+      "revId": "22a6dff32a46f160fe03d48a0f3f5dae8ac5e459",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a697874_b7fefa48",
@@ -86,6 +104,24 @@
       "writtenOn": "2023-07-31T17:59:00Z",
       "side": 1,
       "message": "This seems like potentially a bigger problem. Even if the nil became a panic instead of a throw below, if user code recovers the panic, it\u0027ll leave this P in a pinned state.",
+      "revId": "22a6dff32a46f160fe03d48a0f3f5dae8ac5e459",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de2d2f3a_dfe756a1",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:45:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2a697874_b7fefa48",
       "revId": "22a6dff32a46f160fe03d48a0f3f5dae8ac5e459",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
