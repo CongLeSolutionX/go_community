@@ -53,6 +53,24 @@
       "message": "Thanks, but I don\u0027t think this is the right approach. Nils are valid values and a type might choose to format nil in some reasonable way. What I believe we should do instead is to trap panics during formatting, just like fmt.Printf does. I think the right place to do that is handleState.appendValue, in handler.go.\n\nThoughts?",
       "revId": "c427217e6a2dbdad6388f06e1f9ac41bfba5151f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "475d565a_54883331",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-07-31T18:29:06Z",
+      "side": 1,
+      "message": "The current approach first checks if a value with KindAny is nil, if so, it delegates the formatting job to fmt.Sprintf which traps panics as you said, thus I failed to see the conflict between your opinion and the current implementation, I don\u0027t understand why we have to trap the panics when the fmt.Sprintf has already done it, please let me know if I\u0027m missing something from your comment.",
+      "parentUuid": "7c0bd35e_9161b42d",
+      "revId": "c427217e6a2dbdad6388f06e1f9ac41bfba5151f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
