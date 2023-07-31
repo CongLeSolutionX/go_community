@@ -71,6 +71,24 @@
       "parentUuid": "272f8575_e4b5e8bd",
       "revId": "db0bf58159ad29f25b332db7737108c50f242cec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "652ca33c_4ff83850",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-07-31T18:13:40Z",
+      "side": 1,
+      "message": "Feel free to resolve comments if you think you\u0027ve addressed them, in whatever way (fixed the code, added a comment, argued they are incorrect, whatever). Commenters can un-resolve them if they disagree.\n\nA +2 review means \"I am not worried about how you choose to resolve any remaining unresolved comments\".\n\nI think this is just waiting for a second +1 from a Googler.",
+      "parentUuid": "9b9ddfd3_a906a605",
+      "revId": "db0bf58159ad29f25b332db7737108c50f242cec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
