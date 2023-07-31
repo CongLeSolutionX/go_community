@@ -53,6 +53,24 @@
       "message": "LGTM, thanks.",
       "revId": "db0bf58159ad29f25b332db7737108c50f242cec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b9ddfd3_a906a605",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-31T16:47:00Z",
+      "side": 1,
+      "message": "Is it not submiting it because it has https://go-review.googlesource.com/c/go/+/512935/comment/7a791aa2_f93244b0/ still non resolved ?\n\nI don\u0027t know what is the rules around here, should I resolve comments I dismiss, should the original commenter resolve it if they agree with why I dismissed it ?",
+      "parentUuid": "272f8575_e4b5e8bd",
+      "revId": "db0bf58159ad29f25b332db7737108c50f242cec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
