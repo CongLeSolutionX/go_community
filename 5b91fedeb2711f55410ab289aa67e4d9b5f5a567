@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8ac0d03_1be3e89d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:47:27Z",
+      "side": 1,
+      "message": "Please change internal/rand/unix to internal/syscall/unix.  Thanks.",
+      "revId": "5b91fedeb2711f55410ab289aa67e4d9b5f5a567",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8b9350fc_b027aac5",
