@@ -16,6 +16,23 @@
       "message": "Thanks, holding for 1.22.",
       "revId": "cb420d02e86e71206a1882dc1316b99803d7d378",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e74940_7d2fb99a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-07-31T04:47:29Z",
+      "side": 1,
+      "message": "A small modification, I think it\u0027s possible, but I don\u0027t have the permission to give Code Review+2.",
+      "revId": "cb420d02e86e71206a1882dc1316b99803d7d378",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
