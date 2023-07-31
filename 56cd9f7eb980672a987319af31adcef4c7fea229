@@ -53,6 +53,24 @@
       "message": "This seems to contradict the language in the commit message (e.g. \"... this CL switches to always generate symbol-targeted relocations\"). Is it worth mentioning this exception in the commit message, just to avoid misunderstandings?",
       "revId": "56cd9f7eb980672a987319af31adcef4c7fea229",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7910a42d_4d33a244",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-07-31T16:09:07Z",
+      "side": 1,
+      "message": "In this case we still use symbol-targeted relocation, just without a label symbol. The only exception is DWARF, as mentioned in the CL description.",
+      "parentUuid": "9409e4eb_1f7c5740",
+      "revId": "56cd9f7eb980672a987319af31adcef4c7fea229",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
