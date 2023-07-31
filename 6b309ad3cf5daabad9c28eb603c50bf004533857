@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95366b7_c2da6993",
+        "filename": "src/internal/syscall/unix/getentropy_netbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e2bdaf_c01017f0",
+      "revId": "6b309ad3cf5daabad9c28eb603c50bf004533857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2f9ad3a_12ffed6b",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-07-20T23:23:36Z",
       "side": 1,
       "message": "Do we need this change?",
+      "revId": "6b309ad3cf5daabad9c28eb603c50bf004533857",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79a75b04_3686e071",
+        "filename": "src/runtime/os_netbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2f9ad3a_12ffed6b",
       "revId": "6b309ad3cf5daabad9c28eb603c50bf004533857",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
