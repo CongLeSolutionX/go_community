@@ -279,21 +279,10 @@ func deferproc(fn func()) {
 	d.link = gp._defer
 	gp._defer = d
 	d.fn = fn
-	d.pc = getcallerpc()
 	// We must not be preempted between calling getcallersp and
 	// storing it to d.sp because getcallersp's result is a
 	// uintptr stack pointer.
 	d.sp = getcallersp()
-
-	// deferproc returns 0 normally.
-	// a deferred func that stops a panic
-	// makes the deferproc return 1.
-	// the code the compiler generates always
-	// checks the return value and jumps to the
-	// end of the function if deferproc returns != 0.
-	return0()
-	// No code can go here - the C return register has
-	// been set and must not be clobbered.
 }
 
 // deferprocStack queues a new deferred function with a defer record on the stack.
@@ -313,7 +302,6 @@ func deferprocStack(d *_defer) {
 	// are initialized here.
 	d.heap = false
 	d.sp = getcallersp()
-	d.pc = getcallerpc()
 	// The lines below implement:
 	//   d.panic = nil
 	//   d.fd = nil
@@ -327,10 +315,6 @@ func deferprocStack(d *_defer) {
 	// keep track of pointers to them with a write barrier.
 	*(*uintptr)(unsafe.Pointer(&d.link)) = uintptr(unsafe.Pointer(gp._defer))
 	*(*uintptr)(unsafe.Pointer(&gp._defer)) = uintptr(unsafe.Pointer(d))
-
-	return0()
-	// No code can go here - the C return register has
-	// been set and must not be clobbered.
 }
 
 // Each P holds a pool for defers.
@@ -698,11 +682,6 @@ func (p *_panic) nextDefer() (func(), bool) {
 			fn := d.fn
 			d.fn = nil
 
-			// TODO(mdempsky): Instead of having each deferproc call have
-			// its own "deferreturn(); return" sequence, we should just make
-			// them reuse the one we emit for open-coded defers.
-			p.retpc = d.pc
-
 			// Unlink and free.
 			gp._defer = d.link
 			freedefer(d)
@@ -739,34 +718,28 @@ func (p *_panic) nextFrame() (ok bool) {
 				return // ok == false
 			}
 
-			// TODO(mdempsky): If we populate u.frame.fn.deferreturn for
-			// every frame containing a defer (not just open-coded defers),
-			// then we can simply loop until we find the next frame where
-			// it's non-zero.
+			if u.frame.fn.deferreturn != 0 {
+				if fd := funcdata(u.frame.fn, abi.FUNCDATA_OpenCodedDeferInfo); fd != nil {
+					var deferBitsOffset uint32
+					deferBitsOffset, fd = readvarintUnsafe(fd)
+					deferBitsPtr := (*uint8)(add(unsafe.Pointer(u.frame.varp), -uintptr(deferBitsOffset)))
 
-			if fd := funcdata(u.frame.fn, abi.FUNCDATA_OpenCodedDeferInfo); fd != nil {
-				if u.frame.fn.deferreturn == 0 {
-					throw("missing deferreturn")
+					if *deferBitsPtr != 0 {
+						var openDefers uint32
+						openDefers, fd = readvarintUnsafe(fd)
+
+						p.openDefers = uint8(openDefers)
+						p.deferBitsPtr = deferBitsPtr
+						p.closureOffsets = fd
+						break // found a frame with open-coded defers
+					}
 				}
-				p.retpc = u.frame.fn.entry() + uintptr(u.frame.fn.deferreturn)
 
-				var deferBitsOffset uint32
-				deferBitsOffset, fd = readvarintUnsafe(fd)
-				deferBitsPtr := (*uint8)(add(unsafe.Pointer(u.frame.varp), -uintptr(deferBitsOffset)))
-
-				if *deferBitsPtr != 0 {
-					var openDefers uint32
-					openDefers, fd = readvarintUnsafe(fd)
-
-					p.openDefers = uint8(openDefers)
-					p.deferBitsPtr = deferBitsPtr
-					p.closureOffsets = fd
-					break // found a frame with open-coded defers
+				if u.frame.sp == limit {
+					break // found a frame with linked defers, or deferreturn with no defers
 				}
-			}
 
-			if u.frame.sp == limit {
-				break // found a frame with linked defers, or deferreturn with no defers
+				// function has defer statements, but none are currently pending
 			}
 
 			u.next()
@@ -777,6 +750,7 @@ func (p *_panic) nextFrame() (ok bool) {
 		} else {
 			p.lr = u.frame.lr
 		}
+		p.retpc = u.frame.fn.entry() + uintptr(u.frame.fn.deferreturn)
 		p.sp = unsafe.Pointer(u.frame.sp)
 		p.fp = unsafe.Pointer(u.frame.fp)
 		p.varp = unsafe.Pointer(u.frame.varp)

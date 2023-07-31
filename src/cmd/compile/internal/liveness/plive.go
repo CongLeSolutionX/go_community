@@ -821,8 +821,8 @@ func (lv *liveness) epilogue() {
 		lv.compact(b)
 	}
 
-	// If we have an open-coded deferreturn call, make a liveness map for it.
-	if lv.fn.OpenCodedDeferDisallowed() {
+	// If we have defers, make a liveness map for the deferreturn sled.
+	if !lv.fn.HasDefer() {
 		lv.livenessMap.DeferReturn = objw.LivenessDontCare
 	} else {
 		idx, _ := lv.stackMapSet.add(livedefer)

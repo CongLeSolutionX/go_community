@@ -1004,7 +1004,7 @@ type _defer struct {
 	heap bool
 	_    bool           // was openDefer
 	sp   uintptr        // sp at time of defer
-	pc   uintptr        // pc at time of defer
+	_    uintptr        // was pc
 	fn   func()         // can be nil for open-coded defers
 	_    unsafe.Pointer // was _panic
 	link *_defer        // next defer on G; can point to either heap or stack!

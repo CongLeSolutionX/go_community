@@ -5352,22 +5352,6 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		s.vars[memVar] = s.newValue1A(ssa.OpVarLive, types.TypeMem, v, s.mem())
 	}
 
-	// Finish block for defers
-	if k == callDefer || k == callDeferStack {
-		b := s.endBlock()
-		b.Kind = ssa.BlockDefer
-		b.SetControl(call)
-		bNext := s.f.NewBlock(ssa.BlockPlain)
-		b.AddEdgeTo(bNext)
-		// Add recover edge to exit code.
-		r := s.f.NewBlock(ssa.BlockPlain)
-		s.startBlock(r)
-		s.exit()
-		b.AddEdgeTo(r)
-		b.Likely = ssa.BranchLikely
-		s.startBlock(bNext)
-	}
-
 	if res.NumFields() == 0 || k != callNormal {
 		// call has no return value. Continue with the next statement.
 		return nil
@@ -7204,8 +7188,8 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		// nop (which will never execute) after the call.
 		Arch.Ginsnop(pp)
 	}
-	if openDeferInfo != nil {
-		// When doing open-coded defers, generate a disconnected call to
+	if e.curfn.HasDefer() {
+		// For functions with defers, generate a disconnected call to
 		// deferreturn and a return. This will be used to during panic
 		// recovery to unwind the stack and return back to the runtime.
 		s.pp.NextLive = s.livenessMap.DeferReturn
