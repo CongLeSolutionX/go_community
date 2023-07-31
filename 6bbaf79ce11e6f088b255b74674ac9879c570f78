@@ -16,6 +16,24 @@
       "message": "The new code is a lot harder to understand and to change, and the existing code is already quite fast.  Are these functions important enough that this kind of speedup matters?",
       "revId": "6bbaf79ce11e6f088b255b74674ac9879c570f78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fa1cbf5_08e9c7f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-07-31T18:36:49Z",
+      "side": 1,
+      "message": "I agree that we need more evidence that this matters; as you say, the existing code is already quite fast. I\u0027d want to see an indication that query escaping forms a meaningful percentage of the CPU profile of a net/http server.\n\nIf we were to make a change here, at a minimum the information in the comments in shouldEscape needs to be preserved.",
+      "parentUuid": "654799ad_b8c9e81d",
+      "revId": "6bbaf79ce11e6f088b255b74674ac9879c570f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
