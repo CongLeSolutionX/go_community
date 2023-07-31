@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58fd9123_0eef530c",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-07-31T16:55:38Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/512935/comments/272f8575_e4b5e8bd",
+      "parentUuid": "b7550f2f_d46ef5cb",
+      "revId": "23b559e2245637a8d872ce7dbb4fe6ab028d4167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94e48cf5_6d6051e9",
