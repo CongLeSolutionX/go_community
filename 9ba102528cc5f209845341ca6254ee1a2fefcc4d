@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb8a56b_d71d13c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T17:39:01Z",
+      "side": 1,
+      "message": "You can remove the blank lines in the middle of this sentence.  Thanks.",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f5f50e_d1193fe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T17:39:01Z",
+      "side": 1,
+      "message": "You\u0027ll need a new file in $GOROOT/api/next, describing the new interface.  Make sure that \"all.bash\" passes with your changes.  Thanks.",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "572a1e62_7edfd8ba",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T17:39:01Z",
+      "side": 1,
+      "message": "This isn\u0027t quite what I expected.  I thought that we would fetch the UID and GID from fi.Sys().  Then we would pass those values to Uname and Gname.",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94bae6b3_3f6b9b1c",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T17:39:01Z",
+      "side": 1,
+      "message": "This new type needs a doc comment.",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
