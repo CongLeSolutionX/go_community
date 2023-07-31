@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efd1e758_0e104d38",
+        "filename": "src/encoding/json/bench_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T03:06:14Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like a place to use RunParallel.  There is no communication going on between the different goroutines.",
+      "revId": "4113ea081bad1e619da2aac40f4e80a4d51c2482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b030feb5_69c61061",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T03:06:14Z",
+      "side": 1,
+      "message": "Unrelated whitespace change.",
+      "revId": "4113ea081bad1e619da2aac40f4e80a4d51c2482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
