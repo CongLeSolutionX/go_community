@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c82fa7_bf067140",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-07-31T18:17:43Z",
+      "side": 0,
+      "message": "I think we can just omit the right square bracket rather than adding a left square bracket.  @dr2chase",
+      "revId": "20ea98842159d7cde30062711527495ac00bcacd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
