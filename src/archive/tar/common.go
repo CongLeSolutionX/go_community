@@ -614,6 +614,8 @@ func (fi headerFileInfo) String() string {
 // sysStat, if non-nil, populates h from system-dependent fields of fi.
 var sysStat func(fi fs.FileInfo, h *Header) error
 
+var loadUidAndGidFunc func(fi fs.FileInfo, uid, gid *int)
+
 const (
 	// Mode constants from the USTAR spec:
 	// See http://pubs.opengroup.org/onlinepubs/9699919799/utilities/pax.html#tag_20_92_13_06
@@ -639,6 +641,10 @@ const (
 // Since fs.FileInfo's Name method only returns the base name of
 // the file it describes, it may be necessary to modify Header.Name
 // to provide the full path name of the file.
+//
+// If fi implements [FileInfoNames]
+// the Gname and Uname of the header are
+// provided by the methods of the interface.
 func FileInfoHeader(fi fs.FileInfo, link string) (*Header, error) {
 	if fi == nil {
 		return nil, errors.New("archive/tar: FileInfo is nil")
@@ -711,10 +717,34 @@ func FileInfoHeader(fi fs.FileInfo, link string) (*Header, error) {
 			}
 		}
 	}
+	if iface, ok := fi.(FileInfoNames); ok {
+		var err error
+		if loadUidAndGidFunc != nil {
+			loadUidAndGidFunc(fi, &h.Uid, &h.Gid)
+		}
+		h.Gname, err = iface.Gname(h.Gid)
+		if err != nil {
+			return nil, err
+		}
+		h.Uname, err = iface.Uname(h.Gid)
+		if err != nil {
+			return nil, err
+		}
+		return h, nil
+	}
 	if sysStat != nil {
 		return h, sysStat(fi, h)
 	}
 	return h, nil
+}
+
+// The purpose of FileInfoNames can be found in the [FileInfoHeader] .
+type FileInfoNames interface {
+	fs.FileInfo
+	// Uname receives the uid return name and possible errors.
+	Uname(uid int) (string, error)
+	// Gname receives the gid return name and possible errors.
+	Gname(gid int) (string, error)
 }
 
 // isHeaderOnlyType checks if the given type flag is of the type that has no
