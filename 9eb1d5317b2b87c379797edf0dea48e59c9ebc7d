@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "97abc561_7b429212",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-01T17:35:36Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll take a look to see if that can be cleaned up further.",
+      "parentUuid": "67e20889_e6e446e8",
+      "revId": "9eb1d5317b2b87c379797edf0dea48e59c9ebc7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4e2ecc4a_1713815e",
         "filename": "src/runtime/panic.go",
         "patchSetId": 10
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-01T15:00:30Z",
       "side": 1,
       "message": "Interesting. I\u0027d assumed we would use a single unwinder across a whole panic walk, rather than initializing a new one each time we needed to find the next frame with defers. I\u0027m just curious why you took this approach (and if it indicates any shortcomings in the unwinder API).\n\n(Other than this, you did basically everything that was on my \"clean up defers\" list and quite a bit more, so thank you! 😀)",
+      "revId": "9eb1d5317b2b87c379797edf0dea48e59c9ebc7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79232bdb_4c15f163",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-01T17:35:36Z",
+      "side": 1,
+      "message": "We need to switch back to the user G to call the deferred functions, so the unwinder can\u0027t stay on the systemstack across calls. It also can\u0027t live on the G stack, because u.frame.{sp,fp,varp} are uintptr, not unsafe.Pointer, so if the deferred call moves the G\u0027s stack, they won\u0027t get adjusted.\n\nTracking {sp,fp} as unsafe.Pointer in _panic seemed like the best solution. I\u0027m reasonably confident there\u0027s no extra overhead this way as opposed to reusing a single unwinder.\n\nI think if u.frame.{sp,fp,varp} were unsafe.Pointer instead, it might be safe to use the unwinder directly on the G stack and avoid the systemstack switch entirely. I\u0027m not sure if there are other consquences to changing from uintptr to unsafe.Pointer though. Also I\u0027m under the impression systemstack isn\u0027t *too* expensive. (Looking up the pcln tables seems way more costly.)",
+      "parentUuid": "4e2ecc4a_1713815e",
       "revId": "9eb1d5317b2b87c379797edf0dea48e59c9ebc7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
