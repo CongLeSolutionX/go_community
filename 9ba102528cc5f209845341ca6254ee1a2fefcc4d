@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1028262b_09fed7c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-01T14:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb8a56b_d71d13c4",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38f5f50e_d1193fe7",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-31T17:39:01Z",
       "side": 1,
       "message": "You\u0027ll need a new file in $GOROOT/api/next, describing the new interface.  Make sure that \"all.bash\" passes with your changes.  Thanks.",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb48b566_7119cfaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-01T14:31:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "38f5f50e_d1193fe7",
       "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cff2d8f7_b97a38e4",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-01T14:31:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "572a1e62_7edfd8ba",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94bae6b3_3f6b9b1c",
         "filename": "src/archive/tar/common.go",
         "patchSetId": 2
@@ -65,6 +119,24 @@
       "writtenOn": "2023-07-31T17:39:01Z",
       "side": 1,
       "message": "This new type needs a doc comment.",
+      "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6281139_b3d394c0",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-01T14:31:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "94bae6b3_3f6b9b1c",
       "revId": "9ba102528cc5f209845341ca6254ee1a2fefcc4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
