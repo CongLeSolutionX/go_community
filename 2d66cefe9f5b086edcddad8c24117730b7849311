@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c56b383_510c4d44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-08-01T21:04:10Z",
+      "side": 1,
+      "message": "myMap.Delete(key)\n\nnilVal, ok :\u003d myMap.Load(key)\n\nif !ok { // FIXME: failing test\n\t\tt.Fatalf(\"Delete: failed found val %v:%v\", key, nilVal)\n\t}",
+      "revId": "2d66cefe9f5b086edcddad8c24117730b7849311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
