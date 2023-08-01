@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1c4c864_453f651a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-01T20:57:32Z",
+      "side": 1,
+      "message": "What I mean is, I think we can just remove this paragraph.  Thanks.",
+      "parentUuid": "cf033bb5_83a191c7",
+      "revId": "8f0e8280710b07ab8c772bb37b7f4fe8cf9f2c37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e00d2e7_33cf4e3d",
@@ -192,6 +210,24 @@
       "side": 1,
       "message": "I rebased up to HEAD. Thanks.",
       "parentUuid": "a00d133e_6c88d0cc",
+      "revId": "8f0e8280710b07ab8c772bb37b7f4fe8cf9f2c37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b35cf8a8_1345cacd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-01T20:57:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9c02fb42_442526da",
       "revId": "8f0e8280710b07ab8c772bb37b7f4fe8cf9f2c37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
