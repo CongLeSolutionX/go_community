@@ -130,6 +130,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec95bd5e_4c52fe40",
+        "filename": "src/runtime/pprof/defs_darwin.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-01T17:16:45Z",
+      "side": 1,
+      "message": "I think we should use vm_region_basic_info_data_64_t. That probably explains the memory corruption -- the OS writes more data beyond the struct we passed in, so it will corrupt some other data. With this, you could try without noescape.",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd4d13c3_e9bb5c15",
         "filename": "src/runtime/pprof/proto_windows.go",
         "patchSetId": 11
