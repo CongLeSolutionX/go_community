@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e20889_e6e446e8",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-08-01T15:00:30Z",
+      "side": 1,
+      "message": "There\u0027s a big comment on freedefer about the perilous state of a defer at this point, but I think it\u0027s *almost* entirely stale with your refactor. I don\u0027t think it would take much to simplify that.\n\nPreviously, there was a long period between when the defer was unlinked and when it was freed. Now that there isn\u0027t, I think we could \"fully\" unlink it here, and then free it, and freedefer wouldn\u0027t need to be nosplit and we could delete the comment on freedefer.",
+      "revId": "9eb1d5317b2b87c379797edf0dea48e59c9ebc7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e2ecc4a_1713815e",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-08-01T15:00:30Z",
+      "side": 1,
+      "message": "Interesting. I\u0027d assumed we would use a single unwinder across a whole panic walk, rather than initializing a new one each time we needed to find the next frame with defers. I\u0027m just curious why you took this approach (and if it indicates any shortcomings in the unwinder API).\n\n(Other than this, you did basically everything that was on my \"clean up defers\" list and quite a bit more, so thank you! 😀)",
+      "revId": "9eb1d5317b2b87c379797edf0dea48e59c9ebc7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
