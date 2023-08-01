@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "441144ef_a547c39c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2023-08-01T04:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62740084_086efc0f",
+      "revId": "6a874f5321d3aed78a49c0b36dd78c9c817b6ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32085cb2_022207b9",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcd2d971_fcdf91d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2023-08-01T04:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32085cb2_022207b9",
+      "revId": "6a874f5321d3aed78a49c0b36dd78c9c817b6ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "103c3a37_3309da61",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-07-31T09:28:42Z",
       "side": 1,
       "message": "Please for review.",
+      "revId": "6a874f5321d3aed78a49c0b36dd78c9c817b6ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a11b4cf2_7a5850ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2023-08-01T04:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "103c3a37_3309da61",
       "revId": "6a874f5321d3aed78a49c0b36dd78c9c817b6ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
