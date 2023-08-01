@@ -71,6 +71,24 @@
       "parentUuid": "7c0bd35e_9161b42d",
       "revId": "c427217e6a2dbdad6388f06e1f9ac41bfba5151f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6172027_572d2b4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-08-01T12:07:46Z",
+      "side": 1,
+      "message": "I could implement a type whose MarshalText method behaved nicely with nil:\n\n    type T int\n    func (t *T) MarshalText() ([]byte, error) {\n       if t \u003d\u003d nil {\n          return []byte(\"I\u0027m nil and I love it!\"), nil\n       }\n       ...\n   }\n   \n TextHandler should call that method. TextHandler should _always_ call the MarshalText method if there is one. Since it can\u0027t look inside the method, it has to trap panics.",
+      "parentUuid": "475d565a_54883331",
+      "revId": "c427217e6a2dbdad6388f06e1f9ac41bfba5151f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
