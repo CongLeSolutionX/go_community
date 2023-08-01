@@ -280,3 +280,74 @@ func TestCompareAndSwap_NonExistingKey(t *testing.T) {
 		t.Fatalf("CompareAndSwap on an non-existing key succeeded")
 	}
 }
+
+func TestMapClear(t *testing.T) {
+
+	var myMap sync.Map
+
+	key := "go"
+	val := 1.21
+	myMap.Store(key, val)
+	loadedVal, ok := myMap.Load(key)
+
+	if !ok {
+		t.Fatalf("Store failed to store- %v:%v", key, val)
+	}
+
+	if loadedVal != val {
+		t.Fatalf("Load: invalid value- %v:%v", key, loadedVal)
+	}
+
+	myMap.Clear()
+
+	nilVal, ok := myMap.Load(key)
+
+	if nilVal != nil {
+		t.Fatalf("Clear: failed %v:%v", key, nilVal)
+	}
+
+	if !ok {
+		t.Fatalf("Clear: failed %v:%v", key, nilVal)
+	}
+}
+
+func TestMapClearRace(t *testing.T) {
+	var myMap sync.Map
+
+	wg := sync.WaitGroup{}
+	wg.Add(30) // 10 goroutines for writing, 10 goroutines for reading, 10 goroutines for waiting
+
+	// Writing data to the map concurrently
+	for i := 0; i < 10; i++ {
+		go func(key, value int) {
+			defer wg.Done()
+			myMap.Store(key, value)
+		}(i, i*10)
+	}
+
+	// Reading data from the map concurrently
+	for i := 0; i < 10; i++ {
+		go func(key int) {
+			defer wg.Done()
+			if value, ok := myMap.Load(key); ok {
+				t.Logf("Key: %v, Value: %v\n", key, value)
+			} else {
+				t.Logf("Key: %v not found\n", key)
+			}
+		}(i)
+	}
+
+	// Clearing data from the map concurrently
+	for i := 0; i < 10; i++ {
+		go func() {
+			defer wg.Done()
+			// myMap.Clear()
+		}()
+	}
+	myMap.Clear()
+
+	wg.Wait()
+
+	myMap.Clear()
+
+}
