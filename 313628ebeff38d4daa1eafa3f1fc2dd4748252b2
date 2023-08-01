@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80053af3_8b098bbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-01T15:34:27Z",
+      "side": 1,
+      "message": "The description of WSBH and DSBH look same, maybe add \"for 32-bit word\", \"for 64-bit doubleword\" to distinguish?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "313628ebeff38d4daa1eafa3f1fc2dd4748252b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
