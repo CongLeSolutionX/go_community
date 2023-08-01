@@ -639,6 +639,10 @@ const (
 // Since fs.FileInfo's Name method only returns the base name of
 // the file it describes, it may be necessary to modify Header.Name
 // to provide the full path name of the file.
+//
+// If fi implements [FileInfoNames]
+// the Gname and Uname of the header are
+// provided by the methods of the interface.
 func FileInfoHeader(fi fs.FileInfo, link string) (*Header, error) {
 	if fi == nil {
 		return nil, errors.New("archive/tar: FileInfo is nil")
@@ -711,10 +715,28 @@ func FileInfoHeader(fi fs.FileInfo, link string) (*Header, error) {
 			}
 		}
 	}
+	if iface, ok := fi.(FileInfoNames); ok {
+		var err error
+		h.Gname, err = iface.Gname(h.Gid)
+		if err != nil {
+			return nil, err
+		}
+		h.Uname, err = iface.Uname(h.Gid)
+		if err != nil {
+			return nil, err
+		}
+		return h, nil
+	}
 	if sysStat != nil {
 		return h, sysStat(fi, h)
 	}
 	return h, nil
+}
+
+type FileInfoNames interface {
+	fs.FileInfo
+	Uname(uid int) (string, error)
+	Gname(gid int) (string, error)
 }
 
 // isHeaderOnlyType checks if the given type flag is of the type that has no
