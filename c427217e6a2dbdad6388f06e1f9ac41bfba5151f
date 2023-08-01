@@ -89,6 +89,24 @@
       "parentUuid": "475d565a_54883331",
       "revId": "c427217e6a2dbdad6388f06e1f9ac41bfba5151f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a1d2230_36cfbbfe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-08-01T12:13:46Z",
+      "side": 1,
+      "message": "Now I get your point, thanks for the explanation.\n\nI\u0027ll upload a commit later.",
+      "parentUuid": "a6172027_572d2b4a",
+      "revId": "c427217e6a2dbdad6388f06e1f9ac41bfba5151f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
