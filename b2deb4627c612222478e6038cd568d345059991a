@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6925561_a5838102",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-08-01T20:45:32Z",
+      "side": 1,
+      "message": "I came across a failing test. Want to realize if its a bug\n\nfunc TestMapDelete(t *testing.T) {\n\n\tvar myMap sync.Map\n\n\tkey :\u003d \"go\"\n\tval :\u003d 1.21\n\tmyMap.Store(key, val)\n\tloadedVal, ok :\u003d myMap.Load(key)\n\n\tif !ok {\n\t\tt.Fatalf(\"Store failed to store- %v:%v\", key, val)\n\t}\n\n\tif loadedVal !\u003d val {\n\t\tt.Fatalf(\"Load: invalid value- %v:%v\", key, loadedVal)\n\t}\n\n\tmyMap.Delete(key)\n\n\tnilVal, ok :\u003d myMap.Load(key)\n\n\tif nilVal !\u003d nil {\n\t\tt.Fatalf(\"Delete: failed %v:%v\", key, nilVal)\n\t}\n\n\tif !ok { // FIXME: failing test\n\t\tt.Fatalf(\"Delete: failed found val %v:%v\", key, nilVal)\n\t}\n}",
+      "revId": "b2deb4627c612222478e6038cd568d345059991a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
