@@ -16,6 +16,24 @@
       "message": "Holding for proposal discussion.",
       "revId": "b23fabf7a2d6abd661e9428bf9ece444d9e9328a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c2ea7ce_4f48b3ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-08-01T20:44:36Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "7bdb887d_d7f7f08b",
+      "revId": "b23fabf7a2d6abd661e9428bf9ece444d9e9328a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
