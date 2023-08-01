@@ -195,6 +195,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "772e1f85_9b5edf4c",
+        "filename": "src/runtime/pprof/defs_darwin.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-01T20:43:59Z",
+      "side": 1,
+      "message": "Okay. The [8]byte is weird... Hand-editing is fine.\n\nOn AMD64 it produces the same [8]byte and your editing is fine. (You can get the generated file by running `GOARCH\u003damd64 go tool cgo -godefs`.)\n\nWe should put the noescape back. It should work correctly with and without noescape, but for performance noescape is better.",
+      "parentUuid": "7d84a93a_152e1718",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd4d13c3_e9bb5c15",
         "filename": "src/runtime/pprof/proto_windows.go",
         "patchSetId": 11
@@ -277,6 +301,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0af31816_df39d00c",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-01T20:43:59Z",
+      "side": 1,
+      "message": "Should be MOVL instead of MOVD. MOVL is the 32-bit move on x86.",
+      "parentUuid": "f7eb191f_517df81f",
+      "range": {
+        "startLine": 804,
+        "startChar": 1,
+        "endLine": 804,
+        "endChar": 5
+      },
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54f638a9_9725a703",
         "filename": "src/runtime/sys_darwin_amd64.s",
         "patchSetId": 11
@@ -306,6 +354,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "54f638a9_9725a703",
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0bdd47d_b5d16edc",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-01T20:43:59Z",
+      "side": 1,
+      "message": "Also here, MOVL. Thanks.",
+      "parentUuid": "a16a9a10_ca2b0b81",
       "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
