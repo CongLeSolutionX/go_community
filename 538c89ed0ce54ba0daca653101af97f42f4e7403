@@ -87,6 +87,24 @@
       "message": "Isn\u0027t the openbsd symbol named TOC instead of .TOC.?",
       "revId": "538c89ed0ce54ba0daca653101af97f42f4e7403",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36138ec7_eab3b4fb",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 27207
+      },
+      "writtenOn": "2023-08-02T18:47:20Z",
+      "side": 1,
+      "message": "I\u0027m no expert but on openbsd/ppc64 the output of \"objdump -t\" does show a \".TOC.\" symbol so I think this code is correct.",
+      "parentUuid": "b23b4ed5_d22ae77c",
+      "revId": "538c89ed0ce54ba0daca653101af97f42f4e7403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
