@@ -556,11 +556,227 @@ func BenchmarkInt64N1000(b *testing.B) {
 	Sink = uint64(t)
 }
 
+func BenchmarkInt64N1e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64N(1e18)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64N2e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64N(2e18)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64N4e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64N(4e18)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64N8e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64N(8e18)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64NMul1000(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64NMul(1000)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64NMul1e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64NMul(1e18)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64NMul2e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64NMul(2e18)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64NMul4e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64NMul(4e18)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt64NMul8e18(b *testing.B) {
+	r := New(NewSource(1))
+	var t int64
+	for n := b.N; n > 0; n-- {
+		t += r.Int64NMul(8e18)
+	}
+	Sink = uint64(t)
+}
+
 func BenchmarkInt32N1000(b *testing.B) {
 	r := New(NewSource(1))
 	var t int32
 	for n := b.N; n > 0; n-- {
 		t += r.Int32N(1000)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32N1e8(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32N(1e8)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32N1e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32N(1e9)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32N2e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32N(2e9)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32N64_1000(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32N64(1000)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32N64_1e8(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32N64(1e8)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32N64_1e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32N64(1e9)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32N64_2e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32N64(2e9)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul1000(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul(1000)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul1e8(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul(1e8)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul1e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul(1e9)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul2e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul(2e9)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul64_1000(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul64(1000)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul64_1e8(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul64(1e8)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul64_1e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul64(1e9)
+	}
+	Sink = uint64(t)
+}
+
+func BenchmarkInt32NMul64_2e9(b *testing.B) {
+	r := New(NewSource(1))
+	var t int32
+	for n := b.N; n > 0; n-- {
+		t += r.Int32NMul64(2e9)
 	}
 	Sink = uint64(t)
 }

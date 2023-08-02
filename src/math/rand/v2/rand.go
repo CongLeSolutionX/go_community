@@ -79,6 +79,13 @@ func (r *Rand) Int64N(n int64) int64 {
 	return int64(r.uint64n(uint64(n)))
 }
 
+func (r *Rand) Int64NMul(n int64) int64 {
+	if n <= 0 {
+		panic("invalid argument to Int64NMul")
+	}
+	return int64(r.uint64nmul(uint64(n)))
+}
+
 // Uint64N returns, as a uint64, a non-negative pseudo-random number in the half-open interval [0,n).
 // It panics if n == 0.
 func (r *Rand) Uint64N(n uint64) uint64 {
@@ -106,6 +113,34 @@ func (r *Rand) uint64n(n uint64) uint64 {
 	return hi
 }
 
+// uint64n is the no-bounds-checks version of Uint64N.
+func (r *Rand) uint64nmul(n uint64) uint64 {
+	if n&(n-1) == 0 { // n is power of two, can mask
+		return r.Uint64() & (n - 1)
+	}
+	// For implementation details, see:
+	// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
+	// https://lemire.me/blog/2016/06/30/fast-random-shuffling
+	res, frac := bits.Mul64(r.Uint64(), n)
+	if uint64(uint32(n)) == n {
+		// we don't use frac <= -n check from the original algorithm, since the branch is unpredictable.
+		// instead, we effectively fall back to Uint32n() for 32-bit n
+		return res
+	}
+	hi, _ := bits.Mul64(n, r.Uint64())
+	_, carry := bits.Add64(frac, hi, 0)
+	return res + carry
+}
+
+// uint32n is the no-bounds-checks version of Uint32N.
+func (r *Rand) uint32nmul64(n uint32) uint32 {
+	if n&(n-1) == 0 { // n is power of two, can mask
+		return r.Uint32() & (n - 1)
+	}
+	res, _ := bits.Mul64(r.Uint64(), uint64(n))
+	return uint32(res)
+}
+
 // Int32N returns, as an int32, a non-negative pseudo-random number in the half-open interval [0,n).
 // It panics if n <= 0.
 func (r *Rand) Int32N(n int32) int32 {
@@ -113,6 +148,29 @@ func (r *Rand) Int32N(n int32) int32 {
 		panic("invalid argument to Int32N")
 	}
 	return int32(r.uint32n(uint32(n)))
+}
+
+// Int32N returns, as an int32, a non-negative pseudo-random number in the half-open interval [0,n).
+// It panics if n <= 0.
+func (r *Rand) Int32N64(n int32) int32 {
+	if n <= 0 {
+		panic("invalid argument to Int32N")
+	}
+	return int32(r.uint64n(uint64(n)))
+}
+
+func (r *Rand) Int32NMul(n int32) int32 {
+	if n <= 0 {
+		panic("invalid argument to Int32NMul")
+	}
+	return int32(r.uint32nmul(uint32(n)))
+}
+
+func (r *Rand) Int32NMul64(n int32) int32 {
+	if n <= 0 {
+		panic("invalid argument to Int32NMul64")
+	}
+	return int32(r.uint32nmul64(uint32(n)))
 }
 
 // Uint32N returns, as a uint32, a non-negative pseudo-random number in the half-open interval [0,n).
@@ -140,6 +198,20 @@ func (r *Rand) uint32n(n uint32) uint32 {
 		}
 	}
 	return hi
+}
+
+// uint32n is the no-bounds-checks version of Uint32N.
+func (r *Rand) uint32nmul(n uint32) uint32 {
+	if n&(n-1) == 0 { // n is power of two, can mask
+		return r.Uint32() & (n - 1)
+	}
+	// For implementation details, see:
+	// https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction
+	// https://lemire.me/blog/2016/06/30/fast-random-shuffling
+	res, frac := bits.Mul32(r.Uint32(), n)
+	hi, _ := bits.Mul32(n, r.Uint32())
+	_, carry := bits.Add32(frac, hi, 0)
+	return res + carry
 }
 
 // IntN returns, as an int, a non-negative pseudo-random number in the half-open interval [0,n).
