@@ -285,6 +285,11 @@ type Info struct {
 	// in source order. Variables without an initialization expression do not
 	// appear in this list.
 	InitOrder []*Initializer
+
+	// FileVersions maps a file to the file's Go version.
+	// If the file doesn't specify a version and Config.GoVersion is not
+	// given, the reported version is the zero version (Major, Minor = 0, 0).
+	FileVersions map[*token.File]Version
 }
 
 func (info *Info) recordTypes() bool {
@@ -407,6 +412,18 @@ func (init *Initializer) String() string {
 	buf.WriteString(" = ")
 	WriteExpr(&buf, init.Rhs)
 	return buf.String()
+}
+
+// A Version represents a released Go version.
+type Version struct {
+	Major int
+	Minor int
+}
+
+// Before reports whether version v is before version u: v < u.
+// The zero version (Major == 0) is never before another version.
+func (v Version) Before(u Version) bool {
+	return v.Major >= 1 && (v.Major < u.Major || v.Major == u.Major && v.Minor < u.Minor)
 }
 
 // Check type-checks a package and returns the resulting package object and
