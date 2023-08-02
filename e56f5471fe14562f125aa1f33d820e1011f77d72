@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "461c7124_ac66c880",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-08-02T11:33:51Z",
+      "side": 1,
+      "message": "Almost. We need a test for a panic that is not nil.",
+      "parentUuid": "94b5a25e_6fbedde0",
+      "revId": "e56f5471fe14562f125aa1f33d820e1011f77d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ddede20_881be98d",
         "filename": "src/log/slog/handler.go",
         "patchSetId": 4
