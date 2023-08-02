@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "946e7d89_d6666fbc",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-02T02:25:06Z",
+      "side": 1,
+      "message": "LoadUIDAndGID is only implemented in unix.\n\nFor example, in winwods, fs.FileInfo.Sys may return *syscall.Win32FileAttributeData as in os.File.Stat.Sys(). How can we obtain uid and gid?",
+      "parentUuid": "0c09981e_2086ebb8",
+      "revId": "bda2d60f0e612f45ed0f3faaf4719a777376961a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cfec554c_da8917fe",
         "filename": "src/archive/tar/common.go",
         "patchSetId": 4
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c702f997_5dda2913",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-02T02:25:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cfec554c_da8917fe",
+      "revId": "bda2d60f0e612f45ed0f3faaf4719a777376961a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f524a1a4_efb07a74",
         "filename": "src/archive/tar/common.go",
         "patchSetId": 4
@@ -48,6 +84,24 @@
       "writtenOn": "2023-08-01T19:44:00Z",
       "side": 1,
       "message": "// Gname should translate a GID into a group name.",
+      "revId": "bda2d60f0e612f45ed0f3faaf4719a777376961a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25cca1b7_b12f9335",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-02T02:25:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f524a1a4_efb07a74",
       "revId": "bda2d60f0e612f45ed0f3faaf4719a777376961a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
