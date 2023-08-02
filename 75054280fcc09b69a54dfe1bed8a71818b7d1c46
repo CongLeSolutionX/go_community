@@ -217,6 +217,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf2ba2f_b0fb6f62",
+        "filename": "src/runtime/pprof/defs_darwin.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-08-02T08:15:35Z",
+      "side": 1,
+      "message": "I tried with both the current/head go command and the released 20.x version and both behave this way. I created https://github.com/golang/go/issues/61707\n\nnoescape is back.",
+      "parentUuid": "772e1f85_9b5edf4c",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd4d13c3_e9bb5c15",
@@ -323,6 +347,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a4d0bec_38d66b2b",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-08-02T08:15:35Z",
+      "side": 1,
+      "message": "Done. I couldn\u0027t find anywhere where the MOV commands are documented?",
+      "parentUuid": "0af31816_df39d00c",
+      "range": {
+        "startLine": 804,
+        "startChar": 1,
+        "endLine": 804,
+        "endChar": 5
+      },
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54f638a9_9725a703",
@@ -372,6 +420,24 @@
       "side": 1,
       "message": "Also here, MOVL. Thanks.",
       "parentUuid": "a16a9a10_ca2b0b81",
+      "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5fa4964_28f4da8f",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-08-02T08:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bdd47d_b5d16edc",
       "revId": "75054280fcc09b69a54dfe1bed8a71818b7d1c46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
