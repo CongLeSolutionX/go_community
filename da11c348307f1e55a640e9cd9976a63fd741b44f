@@ -16,6 +16,24 @@
       "message": "thanks and sorry for the many mistakes on my part!",
       "revId": "da11c348307f1e55a640e9cd9976a63fd741b44f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77cf03e1_070cb142",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-02T19:12:52Z",
+      "side": 1,
+      "message": "No worries at all. Thank you!",
+      "parentUuid": "6bcf082d_de64ff8b",
+      "revId": "da11c348307f1e55a640e9cd9976a63fd741b44f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
