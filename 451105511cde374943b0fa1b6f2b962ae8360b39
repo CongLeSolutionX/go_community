@@ -16,6 +16,42 @@
       "message": "`src/cmd/go/alldocs.go` says \"DO NOT EDIT\".\nBy the way, CL 512737 also refers to `alldocs.go`, could you also take a look? Thanks.",
       "revId": "451105511cde374943b0fa1b6f2b962ae8360b39",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c8edaa8_e1c9d826",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64478
+      },
+      "writtenOn": "2023-08-03T14:48:27Z",
+      "side": 1,
+      "message": "\u003e `src/cmd/go/alldocs.go` says \"DO NOT EDIT\".\n\nI\u0027m sorry. I missed it.　Fixed this.\n\n\u003e By the way, CL 512737 also refers to `alldocs.go`, could you also take a look? Thanks.\n\nI visited the link (CL 512737) but I could not find that mentioned `alldocs.go`.",
+      "parentUuid": "d0686e75_fc355c9f",
+      "revId": "451105511cde374943b0fa1b6f2b962ae8360b39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a235b5_a00f3aa0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64478
+      },
+      "writtenOn": "2023-08-03T14:48:27Z",
+      "side": 1,
+      "message": "\u003e `src/cmd/go/alldocs.go` says \"DO NOT EDIT\".\n\nsorry. i",
+      "parentUuid": "d0686e75_fc355c9f",
+      "revId": "451105511cde374943b0fa1b6f2b962ae8360b39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
