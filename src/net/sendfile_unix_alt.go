@@ -27,6 +27,7 @@ func sendFile(c *netFD, r io.Reader) (written int64, err error, handled bool) {
 	// know exactly how many bytes to send.
 	var remain int64 = 0
 
+	// TODO: handle io.SectionReader (as in sendfile_linux.go).
 	lr, ok := r.(*io.LimitedReader)
 	if ok {
 		remain, r = lr.N, lr.R
