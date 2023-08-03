@@ -635,10 +635,30 @@ func (p *_panic) start(pc uintptr, sp unsafe.Pointer) {
 	p.startPC = getcallerpc()
 	p.startSP = unsafe.Pointer(getcallersp())
 
-	if !p.deferreturn {
-		p.link = gp._panic
-		gp._panic = (*_panic)(noescape(unsafe.Pointer(p)))
+	if p.deferreturn {
+		// When using open-coded defers, we only call deferreturn after
+		// recovering from a panic. And if there were any remaining
+		// defers, _panic.nextDefer pushed a _deferOpen entry onto the
+		// stack so we could resume calling them without needing to unwind
+		// the stack again.
+		if d := gp._defer; d != nil && d.sp == uintptr(sp) && d.pc == 0 {
+			d := (*_deferOpen)(unsafe.Pointer(d))
+			gp._defer = d.link
+
+			p.varp = d.varp
+			p.deferBitsPtr = d.deferBitsPtr
+			p.closureOffsets = d.closureOffsets
+			p.openDefers = d.openDefers
+
+			// No need for freedefer: d was simply heap allocated.
+		}
+
+		p.sp = sp
+		return // p.lr == 0
 	}
+
+	p.link = gp._panic
+	gp._panic = (*_panic)(noescape(unsafe.Pointer(p)))
 
 	// Initialize state machine, and find the first frame with a defer.
 	//
@@ -664,6 +684,24 @@ func (p *_panic) nextDefer() (func(), bool) {
 		}
 
 		if p.recovered {
+			// The panic has recovered, and now we're going to rewind to the
+			// recovery frame and call deferreturn. If there are still
+			// pending open-coded defers, push a _deferOpen entry so that
+			// deferreturn doesn't need to find the stack frame again.
+			if p.openDefers > 0 {
+				d := new(_deferOpen)
+				d.link = gp._defer
+				d.sp = uintptr(p.sp)
+				// d.pc == 0
+
+				d.varp = p.varp
+				d.deferBitsPtr = p.deferBitsPtr
+				d.closureOffsets = p.closureOffsets
+				d.openDefers = p.openDefers
+
+				gp._defer = &d._defer
+			}
+
 			mcall(recovery) // does not return
 			throw("recovery failed")
 		}
@@ -725,9 +763,7 @@ func (p *_panic) nextFrame() (ok bool) {
 	gp := getg()
 	systemstack(func() {
 		var limit uintptr
-		if p.deferreturn {
-			limit = uintptr(p.fp)
-		} else if d := gp._defer; d != nil {
+		if d := gp._defer; d != nil {
 			limit = uintptr(d.sp)
 		}
 
@@ -766,17 +802,13 @@ func (p *_panic) nextFrame() (ok bool) {
 			}
 
 			if u.frame.sp == limit {
-				break // found a frame with linked defers, or deferreturn with no defers
+				break // found a frame with linked defers
 			}
 
 			u.next()
 		}
 
-		if p.deferreturn {
-			p.lr = 0 // prevent unwinding past this frame
-		} else {
-			p.lr = u.frame.lr
-		}
+		p.lr = u.frame.lr
 		p.sp = unsafe.Pointer(u.frame.sp)
 		p.fp = unsafe.Pointer(u.frame.fp)
 		p.varp = unsafe.Pointer(u.frame.varp)

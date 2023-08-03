@@ -1002,15 +1002,27 @@ type _defer struct {
 	// TODO(mdempsky): Remove blank fields and update cmd/compile.
 	_    bool // was started
 	heap bool
-	_    bool           // was openDefer
-	sp   uintptr        // sp at time of defer
-	pc   uintptr        // pc at time of defer
-	fn   func()         // can be nil for open-coded defers
+	_    bool    // was openDefer
+	sp   uintptr // sp at time of defer
+	pc   uintptr // pc at time of defer; pc==0 indicates _deferOpen
+	fn   func()
 	_    unsafe.Pointer // was _panic
 	link *_defer        // next defer on G; can point to either heap or stack!
 	_    unsafe.Pointer // was fd
 	_    uintptr        // was varp
 	_    uintptr        // was framepc
+}
+
+// A _deferOpen is used to carry state between a recovered open-coded
+// defer and the next deferreturn call, so that we don't need to walk
+// the stack again.
+type _deferOpen struct {
+	_defer // must be first
+
+	varp           unsafe.Pointer
+	deferBitsPtr   *uint8
+	closureOffsets unsafe.Pointer
+	openDefers     uint8
 }
 
 // A _panic holds information about an active panic.

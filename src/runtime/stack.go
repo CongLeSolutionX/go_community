@@ -764,6 +764,11 @@ func adjustdefers(gp *g, adjinfo *adjustinfo) {
 		adjustpointer(adjinfo, unsafe.Pointer(&d.fn))
 		adjustpointer(adjinfo, unsafe.Pointer(&d.sp))
 		adjustpointer(adjinfo, unsafe.Pointer(&d.link))
+		if d.pc == 0 {
+			d := (*_deferOpen)(unsafe.Pointer(d))
+			adjustpointer(adjinfo, unsafe.Pointer(&d.varp))
+			adjustpointer(adjinfo, unsafe.Pointer(&d.deferBitsPtr))
+		}
 	}
 }
 
