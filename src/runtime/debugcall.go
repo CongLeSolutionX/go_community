@@ -196,13 +196,19 @@ type debugCallWrapArgs struct {
 // debugCallWrap1 is the continuation of debugCallWrap on the callee
 // goroutine.
 func debugCallWrap1() {
-	gp := getg()
+	// Be very careful about preemption. Debuggers rely on us running
+	// on the same thread until we get to dispatch the function they
+	// asked as to.
+	//
+	// acquirem here. We'll releasem just before we call dispatch.
+	mp := acquirem()
+	gp := mp.curg
 	args := (*debugCallWrapArgs)(gp.param)
 	dispatch, callingG := args.dispatch, args.callingG
 	gp.param = nil
 
 	// Dispatch call and trap panics.
-	debugCallWrap2(dispatch)
+	debugCallWrap2(dispatch, mp)
 
 	// Resume the caller goroutine.
 	getg().schedlink.set(callingG)
@@ -237,7 +243,7 @@ func debugCallWrap1() {
 	})
 }
 
-func debugCallWrap2(dispatch uintptr) {
+func debugCallWrap2(dispatch uintptr, mp *m) {
 	// Call the dispatch function and trap panics.
 	var dispatchF func()
 	dispatchFV := funcval{dispatch}
@@ -250,6 +256,7 @@ func debugCallWrap2(dispatch uintptr) {
 			debugCallPanicked(err)
 		}
 	}()
+	releasem(mp)
 	dispatchF()
 	ok = true
 }
