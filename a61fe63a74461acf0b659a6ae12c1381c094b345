@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bfc894c_04a55684",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-03T18:44:42Z",
+      "side": 1,
+      "message": "Ack. Per discussion, will leave as is for now until we decide how to get to the Package.GoVersion w/o the need for re-parsing (or decide that re-parsing is ok).",
+      "parentUuid": "486c9fca_f2b8c1a3",
+      "range": {
+        "startLine": 289,
+        "startChar": 2,
+        "endLine": 289,
+        "endChar": 97
+      },
+      "revId": "a61fe63a74461acf0b659a6ae12c1381c094b345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07990845_79dbabbc",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-08-03T18:31:18Z",
       "side": 1,
       "message": "Per discussion, I think this should be map[token.Pos]_Version.",
+      "range": {
+        "startLine": 292,
+        "startChar": 1,
+        "endLine": 292,
+        "endChar": 39
+      },
+      "revId": "a61fe63a74461acf0b659a6ae12c1381c094b345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63e0341_4865927c",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-03T18:44:42Z",
+      "side": 1,
+      "message": "Ack. Will change in follow-up CL so we can move this one forward and unblock dependent work.",
+      "parentUuid": "07990845_79dbabbc",
       "range": {
         "startLine": 292,
         "startChar": 1,
