@@ -102,6 +102,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2510ff_a14ca727",
+        "filename": "src/cmd/compile/internal/types2/check.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-03T19:09:00Z",
+      "side": 1,
+      "message": "Wearing my client-of-this-api hat, I\u0027d rather have one-stop shopping, but I am not at all opposed to accessing this information through a method. That would also keep me out of the version-string-parsing business.  But this is not a public-facing API, so we can adjust it in the future.",
+      "parentUuid": "2bfc894c_04a55684",
+      "range": {
+        "startLine": 289,
+        "startChar": 2,
+        "endLine": 289,
+        "endChar": 97
+      },
+      "revId": "a61fe63a74461acf0b659a6ae12c1381c094b345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07990845_79dbabbc",
@@ -139,6 +163,30 @@
       "side": 1,
       "message": "Ack. Will change in follow-up CL so we can move this one forward and unblock dependent work.",
       "parentUuid": "07990845_79dbabbc",
+      "range": {
+        "startLine": 292,
+        "startChar": 1,
+        "endLine": 292,
+        "endChar": 39
+      },
+      "revId": "a61fe63a74461acf0b659a6ae12c1381c094b345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fed27611_4e68f093",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-03T19:09:00Z",
+      "side": 1,
+      "message": "Again wearing my pretend-user hat, I\u0027m not sure I like this better.  As I understand it, the token.Pos that will be in the map is the one for the base of the relevant file, and a token.Pos from anywhere else in the file will miss because it isn\u0027t in the map.  To use this the client will at least need a token.File to obtain the base Pos, so file still has to be somewhere (its use/existence is not avoided).  If the map key type is *token.File, I cannot accidentally query the map with a \"wrong\" key, like I can with a token.Pos.",
+      "parentUuid": "a63e0341_4865927c",
       "range": {
         "startLine": 292,
         "startChar": 1,
