@@ -11,7 +11,8 @@ import "syscall"
 const maxSendfileSize int = 4 << 20
 
 // SendFile wraps the sendfile system call.
-func SendFile(dstFD *FD, src int, remain int64) (int64, error, bool) {
+// Negative offset means to use current file offset.
+func SendFile(dstFD *FD, src int, offset, remain int64) (int64, error, bool) {
 	if err := dstFD.writeLock(); err != nil {
 		return 0, err, false
 	}
@@ -22,16 +23,20 @@ func SendFile(dstFD *FD, src int, remain int64) (int64, error, bool) {
 
 	dst := dstFD.Sysfd
 	var (
+		poffset *int64
 		written int64
 		err     error
 		handled = true
 	)
+	if offset >= 0 {
+		poffset = &offset
+	}
 	for remain > 0 {
 		n := maxSendfileSize
 		if int64(n) > remain {
 			n = int(remain)
 		}
-		n, err1 := syscall.Sendfile(dst, src, nil, n)
+		n, err1 := syscall.Sendfile(dst, src, poffset, n)
 		if n > 0 {
 			written += int64(n)
 			remain -= int64(n)

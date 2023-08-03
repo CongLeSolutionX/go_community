@@ -21,6 +21,7 @@ import (
 func sendFile(fd *netFD, r io.Reader) (written int64, err error, handled bool) {
 	var n int64 = 0 // by default, copy until EOF.
 
+	// TODO: handle io.SectionReader as sendfile_linux.go does.
 	lr, ok := r.(*io.LimitedReader)
 	if ok {
 		n, r = lr.N, lr.R
