@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15b71c84_d315f935",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-04T17:59:54Z",
+      "side": 1,
+      "message": "Thanks, but I think the current text is both correct and non-confusing.\nhttps://www.yourdictionary.com/articles/punctuation-quotation-marks-guide",
+      "revId": "4ab9a229c2a98dc3113987f31677343cfc72a361",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
