@@ -108,6 +108,23 @@
       "parentUuid": "f4bc951b_dbb12121",
       "revId": "145ae3555ed7fbdfe5b029bbda29b9067919b4e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e22a7809_03e7a6de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-04T06:28:29Z",
+      "side": 1,
+      "message": "see https://github.com/golang/go/issues/54265 Starting from go1.22, at least go1.20 must be bootstrapped.\n\nstrings.Cut was added in go1.18.\n\nYou can now make this change.",
+      "revId": "145ae3555ed7fbdfe5b029bbda29b9067919b4e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
