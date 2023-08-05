@@ -71,6 +71,24 @@
       "parentUuid": "1e2cf41e_beb2db5c",
       "revId": "085c432a006e88aa0f15a611ae3ec042b6583ea0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3950f5f9_73483aef",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-08-05T09:14:45Z",
+      "side": 1,
+      "message": "Optimized, please review again.",
+      "parentUuid": "c91f1274_b54d7f23",
+      "revId": "085c432a006e88aa0f15a611ae3ec042b6583ea0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
