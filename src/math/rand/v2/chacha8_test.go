@@ -1,0 +1,158 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package rand_test
+
+import (
+	. "math/rand/v2"
+	"testing"
+)
+
+func TestChaCha8(t *testing.T) {
+	p := NewChaCha8([32]byte{1, 2, 3, 4, 5})
+	for i, x := range chacha8want[:32] {
+		if u := p.Uint64(); u != x {
+			t.Errorf("ChaCha8 #%d = %#x, want %#x", i, u, x)
+		}
+	}
+}
+
+func BenchmarkChaCha8(b *testing.B) {
+	p := NewChaCha8([32]byte{1, 2, 3, 4, 5})
+	var t uint64
+	for n := b.N; n > 0; n-- {
+		t += p.Uint64()
+	}
+	Sink = t
+}
+
+var chacha8want = []uint64{0x5ad5fef3d2a2286c,
+	0x585eea77a1dce1a4,
+	0x84b0d7f6a1ef2b98,
+	0xf868204f77732137,
+	0xfab1e084515641a6,
+	0x80a8d3803ee91cef,
+	0xbe8d8262663bfd91,
+	0x12ca0923995c5075,
+	0x310dfaaec6ba75d2,
+	0xa4e7be6827d679bd,
+	0x6a82eb33216f9af8,
+	0x3936a5fc981f8713,
+	0xa4901751bd8d9686,
+	0x7374b4d632c1f780,
+	0x7977439480e53f3d,
+	0x233c904c7e916498,
+	0x8c76b64c3dfaf2ea,
+	0x57592619e2c4d1e3,
+	0xedf70021089867af,
+	0xf191b11a6d0953f,
+	0x1a282aef8d5abcb6,
+	0x2ad7d03917e17d6a,
+	0xffb83ca8f39633da,
+	0x18b28ab05416def0,
+	0xb0c282121647316d,
+	0x9da1a10d306b82ec,
+	0xa014fd1c29481725,
+	0xf5c94c998d621e3c,
+	0x7ec856403abe89d4,
+	0x637000ff6ca1d56f,
+	0xfc9dd91958bfc1f1,
+	0x94019d05a86183fc,
+	0xea3f26fc1a6d21ff,
+	0x7eab5faef70033df,
+	0x45330562a3829d4c,
+	0x58afea9c960dcc74,
+	0xb2fd774b741b32da,
+	0xb335f69837b402d1,
+	0x6e350892e113da2d,
+	0xf831c4f610365cc5,
+	0x3a9cf796f60f52a9,
+	0xfb3f2498ab61c35,
+	0x79946b09daf0a685,
+	0x5965e6d684a2c56,
+	0x351dbc3ad78dfbdd,
+	0x2e6412aab29f7afa,
+	0xa90bf9b6535043fe,
+	0x302809a79407d1ae,
+	0x3ad3e24459439a86,
+	0x7b8ba216ec6c1005,
+	0xa0200bf4fb4496d,
+	0xb04347c8af0b26c1,
+	0x65c0a3d822702cc0,
+	0x56204ae054e023a4,
+	0x275aa3e2757a1b4f,
+	0x1e49ccea7016bc50,
+	0xc539ed3a9c0a0008,
+	0x5bc5992d3767eecd,
+	0x1082134b9b6483e0,
+	0x28c9470a75c22245,
+	0x14740c2d1691fc09,
+	0x32023a4a3ca9f3af,
+	0x37c7c263c7cc37dc,
+	0x86fb4923f3f39d33,
+	0x191ed3a063fa09dd,
+	0x6b6ceda34df56e3e,
+	0x770b868bfaeae103,
+	0x1f8a81e71b3c2cc9,
+	0x824d9e5f0722ae2f,
+	0xffdac503eeeaa7e5,
+	0x7480326fa0b19f38,
+	0xd8725754ec6a453a,
+	0xe3b04c859a426387,
+	0x7a3409e7fd3fe21,
+	0x39558d0f9d47a597,
+	0xf4cdc42f7e6051c,
+	0x6c72be571da18cb5,
+	0xec15f932e900d1e4,
+	0xb099a239e46bc96e,
+	0x22204c3856d43670,
+	0x15910a11e2694642,
+	0x5559d08efb29ffac,
+	0xd7698152f8bb4b63,
+	0x42bd963e1fe10d8c,
+	0xb61d728766960e4c,
+	0xb4277dfa7cac2c02,
+	0x9e157f17ab240406,
+	0x52cbbdd3a04f31ff,
+	0x3e8787cf22fb5453,
+	0xbd15c9d4c1f8bcae,
+	0x4fc3d2fe8fb05a61,
+	0x849b1e375eae25e2,
+	0x6a7431ddc0560257,
+	0x60c751f8e135c494,
+	0xb61a713e5176ed7c,
+	0x872ebf1edda43b91,
+	0x424d4a07fed42dcc,
+	0xb91a741ba658fcea,
+	0x460f09101d61b8d8,
+	0xc647acb047f8b021,
+	0xfd8056f1b8c83db5,
+	0x599cff3b979ae157,
+	0x934b11dca777cde1,
+	0xe122b66c77c3d1f5,
+	0x3bd758f4f2f3d7d3,
+	0x9645bd9e0196ebbe,
+	0x43704f38957c507f,
+	0xedf5e5be1b363133,
+	0xc6c342680fdf892d,
+	0xdc763e63cef1c1a4,
+	0x248060901ac49b38,
+	0x5beb54a2b93ec84b,
+	0xda4a332ff1eae70e,
+	0x4214aeff556be93a,
+	0x3378887cf5cf9bf6,
+	0x99587aa672d0110,
+	0x44ce18568a26fc26,
+	0xb1861b4644dc25ad,
+	0xf56e435059f1bc3,
+	0x6ab4b2e6749a4c00,
+	0x299db7732d340d63,
+	0x9b72ac7053903649,
+	0x24f988976fbd9b1b,
+	0x377b9968e561d21b,
+	0x957432c5e472651a,
+	0x9daaa1e0857b8903,
+	0xbeec29469afd77c5,
+	0x68f906f4a4d15e32,
+}
