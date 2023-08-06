@@ -24,8 +24,10 @@
 	VSRI $25, V16.S4, B.S4
 
 // func chacha8block(counter uint64, seed *[8]uint32, blocks *[4][16]uint32)
-TEXT ·chacha8block(SB), NOSPLIT, $0
-	MOVW counter+0(FP), R1
+TEXT ·chacha8block<ABIInternal>(SB), NOSPLIT, $16
+	// counter in R0
+	// seed in R1
+	// blocks in R2
 
 	MOVD $·chachaConst(SB), R10
 	VLD4R (R10), [V0.S4, V1.S4, V2.S4, V3.S4]
@@ -33,11 +35,13 @@ TEXT ·chacha8block(SB), NOSPLIT, $0
 	MOVD $·chachaIncRot(SB), R11
 	VLD1 (R11), [V30.S4, V31.S4]
 
-	MOVD seed+8(FP), R1
+	// seed
 	VLD4R.P 16(R1), [V4.S4, V5.S4, V6.S4, V7.S4]
 	VLD4R.P 16(R1), [V8.S4, V9.S4, V10.S4, V11.S4]
 
-	MOVD $counter+0(FP), R1
+	// store counter to memory to replicate its uint32 halfs back out
+	MOVD R0, 0(RSP)
+	MOVD RSP, R1
 	VLD1R.P 4(R1), [V12.S4]
 	VLD1R.P 4(R1), [V13.S4]
 	VADD V30.S4, V12.S4, V12.S4
@@ -61,11 +65,10 @@ loop:
 	SUB $1, R1
 	CBNZ R1, loop
 
-	MOVD blocks+16(FP), R1
-	VST1.P [ V0.B16,  V1.B16,  V2.B16,  V3.B16], 64(R1)
-	VST1.P [ V4.B16,  V5.B16,  V6.B16,  V7.B16], 64(R1)
-	VST1.P [ V8.B16,  V9.B16, V10.B16, V11.B16], 64(R1)
-	VST1.P [V12.B16, V13.B16, V14.B16, V15.B16], 64(R1)
+	VST1.P [ V0.B16,  V1.B16,  V2.B16,  V3.B16], 64(R2)
+	VST1.P [ V4.B16,  V5.B16,  V6.B16,  V7.B16], 64(R2)
+	VST1.P [ V8.B16,  V9.B16, V10.B16, V11.B16], 64(R2)
+	VST1.P [V12.B16, V13.B16, V14.B16, V15.B16], 64(R2)
 	RET
 
 GLOBL	·chachaConst(SB), NOPTR|RODATA, $32

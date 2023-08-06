@@ -11,15 +11,15 @@
 	PADDD D, C; PXOR C, B; MOVO B, T; PSLLL $7, T; PSRLL $25, B; PXOR T, B
 
 #define SEED(off, XR) \
-	MOVL (4*off)(DX), CX; \
-	MOVQ CX, XR; \
+	MOVL (4*off)(BX), DX; \
+	MOVQ DX, XR; \
 	PSHUFD $0, XR, XR
 
 // func chacha8block(counter uint64, seed *[8]uint32, blocks *[16][4]uint32)
-TEXT ·chacha8block(SB), NOSPLIT, $0
-	MOVQ counter+0(FP), BX
-	MOVQ seed+8(FP), DX
-	MOVQ blocks+16(FP), AX
+TEXT ·chacha8block<ABIInternal>(SB), NOSPLIT, $0
+	// counter in AX
+	// seed in BX
+	// blocks in CX
 
 	MOVOU ·chachaConst0<>(SB), X0
 	MOVOU ·chachaConst1<>(SB), X1
@@ -35,7 +35,7 @@ TEXT ·chacha8block(SB), NOSPLIT, $0
 	SEED(6, X10)
 	SEED(7, X11)
 
-	MOVQ counter+0(FP), R8
+	MOVQ AX, R8 // counter
 	LEAQ 1(R8), R9
 	LEAQ 2(R8), R10
 	LEAQ 3(R8), R11
@@ -55,45 +55,50 @@ TEXT ·chacha8block(SB), NOSPLIT, $0
 	PINSRD $2, R10, X13
 	PINSRD $3, R11, X13
 
-	MOVL $0, CX
-	MOVQ CX, X14
-	MOVOU X14, (15*16)(AX)
+	MOVL $0, AX
+	MOVQ AX, X14
+	MOVOU X14, (15*16)(CX)
 
-	MOVL $4, CX
+	MOVL $4, AX
 
 loop:
 	QR(X0, X4, X8, X12, X15)
-	MOVOU X4, (4*16)(AX)
+	MOVOU X4, (4*16)(CX)
 	QR(X1, X5, X9, X13, X15)
-	MOVOU (15*16)(AX), X15
+	MOVOU (15*16)(CX), X15
 	QR(X2, X6, X10, X14, X4)
 	QR(X3, X7, X11, X15, X4)
 
 	QR(X0, X5, X10, X15, X4)
-	MOVOU X15, (15*16)(AX)
+	MOVOU X15, (15*16)(CX)
 	QR(X1, X6, X11, X12, X4)
-	MOVOU (4*16)(AX), X4
+	MOVOU (4*16)(CX), X4
 	QR(X2, X7, X8, X13, X15)
 	QR(X3, X4, X9, X14, X15)
 
-	DECL CX
+	DECL AX
 	JNZ loop
 
-	MOVOU X0, (0*16)(AX)
-	MOVOU X1, (1*16)(AX)
-	MOVOU X2, (2*16)(AX)
-	MOVOU X3, (3*16)(AX)
-	MOVOU X4, (4*16)(AX)
-	MOVOU X5, (5*16)(AX)
-	MOVOU X6, (6*16)(AX)
-	MOVOU X7, (7*16)(AX)
-	MOVOU X8, (8*16)(AX)
-	MOVOU X9, (9*16)(AX)
-	MOVOU X10, (10*16)(AX)
-	MOVOU X11, (11*16)(AX)
-	MOVOU X12, (12*16)(AX)
-	MOVOU X13, (13*16)(AX)
-	MOVOU X14, (14*16)(AX)
+	MOVOU X0, (0*16)(CX)
+	MOVOU X1, (1*16)(CX)
+	MOVOU X2, (2*16)(CX)
+	MOVOU X3, (3*16)(CX)
+	MOVOU X4, (4*16)(CX)
+	MOVOU X5, (5*16)(CX)
+	MOVOU X6, (6*16)(CX)
+	MOVOU X7, (7*16)(CX)
+	MOVOU X8, (8*16)(CX)
+	MOVOU X9, (9*16)(CX)
+	MOVOU X10, (10*16)(CX)
+	MOVOU X11, (11*16)(CX)
+	MOVOU X12, (12*16)(CX)
+	MOVOU X13, (13*16)(CX)
+	MOVOU X14, (14*16)(CX)
+	// X15 already stored during loop
+
+	MOVL $0, AX
+	MOVQ AX, X15 // must be 0 on return
+
 	RET
 
 // <<< 16 with PSHUFB

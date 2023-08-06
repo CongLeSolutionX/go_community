@@ -230,10 +230,6 @@ func fastrand64() uint64
 // fastSource is a Source that uses the runtime fastrand functions.
 type fastSource struct{}
 
-func (*fastSource) Int64() int64 {
-	return int64(fastrand64() << 1 >> 1)
-}
-
 func (*fastSource) Uint64() uint64 {
 	return fastrand64()
 }

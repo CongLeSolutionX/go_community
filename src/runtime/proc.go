@@ -850,6 +850,9 @@ func mcommoninit(mp *m, id int64) {
 		mp.fastrand = uint64(hi)<<32 | uint64(lo)
 	}
 
+	getRandomData(mp.chacha8.seed[:])
+	mp.chacha8.n = 0
+
 	mpreinit(mp)
 	if mp.gsignal != nil {
 		mp.gsignal.stackguard1 = mp.gsignal.stack.lo + stackGuard

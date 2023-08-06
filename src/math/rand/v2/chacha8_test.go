@@ -11,7 +11,7 @@ import (
 
 func TestChaCha8(t *testing.T) {
 	p := NewChaCha8([32]byte{1, 2, 3, 4, 5})
-	for i, x := range chacha8want[:32] {
+	for i, x := range chacha8want {
 		if u := p.Uint64(); u != x {
 			t.Errorf("ChaCha8 #%d = %#x, want %#x", i, u, x)
 		}

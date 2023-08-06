@@ -615,6 +615,8 @@ type m struct {
 
 	mOS
 
+	chacha8 chacha8
+
 	// Up to 10 locks held by this m, maintained by the lock ranking code.
 	locksHeldLen int
 	locksHeld    [10]heldLockInfo
