@@ -115,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73d11f8c_2e605936",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-07T20:21:24Z",
+      "side": 1,
+      "message": "Removed from types2.",
+      "parentUuid": "af17c5b5_22c5bd27",
+      "range": {
+        "startLine": 649,
+        "startChar": 12,
+        "endLine": 649,
+        "endChar": 13
+      },
+      "revId": "18e2a3c29684385ed5ec1dc24d148c3023f2ee0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "752ca538_efa17cc0",
