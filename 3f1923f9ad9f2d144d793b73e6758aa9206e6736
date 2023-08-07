@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8413f193_cbf6d942",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-08-07T15:10:38Z",
+      "side": 1,
+      "message": "Will the toolchain still bootstrap with these changes?\nWe need any part of the stdlib that is used for the compiler/linker/... to still compile with Go1.20, which doesn\u0027t have max.",
+      "revId": "3f1923f9ad9f2d144d793b73e6758aa9206e6736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
