@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "465e494c_fb194e36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-08-07T13:34:16Z",
+      "side": 1,
+      "message": "Thanks for the PR.\n\nThis is an API change and would require a proposal first (https://go.dev/s/proposal). However, fair warning, I am skeptical about making this change. Probably ParseBool already accepts too many possibilities; it\u0027s unclear whether we should add more.",
+      "revId": "342bbda684be698e57e6ae3665b7690171846fe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
