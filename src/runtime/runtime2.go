@@ -615,6 +615,8 @@ type m struct {
 
 	mOS
 
+	seed    [16]byte
+	pcg     pcg
 	chacha8 chacha8
 
 	// Up to 10 locks held by this m, maintained by the lock ranking code.

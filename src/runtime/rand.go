@@ -17,6 +17,11 @@ type chacha8 struct {
 	n       int
 }
 
+type pcg struct {
+	hi uint64
+	lo uint64
+}
+
 //go:nosplit
 func fastrand() uint32 {
 	mp := getg().m
@@ -56,16 +61,36 @@ func chacha8block(counter uint64, seed *[32]byte, blocks *[32]uint64)
 //go:nosplit
 func fastrand64() uint64 {
 	mp := getg().m
-	c := &mp.chacha8
-	if c.n == 0 {
-		mp.locks++
-		chacha8block(c.counter, &c.seed, &c.buf)
-		c.counter += 4
-		c.n = len(c.buf)
-		mp.locks--
-	}
-	c.n--
-	return c.buf[^c.n&31]
+	p := &mp.pcg
+	// https://github.com/imneme/pcg-cpp/blob/428802d1a5/include/pcg_random.hpp#L161
+	//
+	// Numpy's PCG multiplies by the 64-bit value cheapMul
+	// instead of the 128-bit value used here and in the official PCG code.
+	// This does not seem worthwhile, at least for Go: not having any high
+	// bits in the muliplier reduces the effect of low bits on the highest bits,
+	// and it only saves 1 multiply out of 3.
+	// (On 32-bit systems, it saves 1 out of 6, since Mul64 is doing 4.)
+	const (
+		mulHi = 2549297995355413924
+		mulLo = 4865540595714422341
+		incHi = 6364136223846793005
+		incLo = 1442695040888963407
+	)
+
+	// state = state * mul + inc
+	hi, lo := math.Mul64(p.lo, mulLo)
+	hi += p.hi*mulLo + p.lo*mulHi
+	lo, c := math.Add64(lo, incLo, 0)
+	hi, _ = math.Add64(hi, incHi, c)
+	p.lo = lo
+	p.hi = hi
+
+	const cheapMul = 0xda942042e4dd58b5
+	hi ^= hi >> 32
+	hi *= cheapMul
+	hi ^= hi >> 48
+	hi *= (lo | 1)
+	return hi
 }
 
 func fastrandu() uint {

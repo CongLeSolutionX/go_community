@@ -850,8 +850,9 @@ func mcommoninit(mp *m, id int64) {
 		mp.fastrand = uint64(hi)<<32 | uint64(lo)
 	}
 
-	getRandomData(mp.chacha8.seed[:])
-	mp.chacha8.n = 0
+	getRandomData(mp.seed[:])
+	mp.pcg.hi = *(*uint64)(unsafe.Pointer(&mp.seed))
+	mp.pcg.lo = *(*uint64)(unsafe.Pointer(&mp.seed[8]))
 
 	mpreinit(mp)
 	if mp.gsignal != nil {
