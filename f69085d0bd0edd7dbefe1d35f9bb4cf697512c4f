@@ -16,6 +16,24 @@
       "message": "As it turns out there are more bugs, this time in Delve itself, that were uncovered by the wakep CL. I\u0027m tempted to ask for a\n\n    lockOSThread(); defer unlockOSThread()\n\nto be added at the top of debugCallWrap. To be clear, that would be a workaround for bugs in Delve. I intend to rewrite Delve\u0027s side of call injection to take advantage of runtime.Pinner which would solve these bugs as well as others, but the lockOSThread would temporarily help, in case I don\u0027t get to do the rewrite in time for 1.22, and also with the guy that\u0027s implementing call injection for ppc64le.",
       "revId": "f69085d0bd0edd7dbefe1d35f9bb4cf697512c4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c26b005e_8d3136d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2023-08-07T11:26:10Z",
+      "side": 1,
+      "message": "I retract this comment. I think I have fixed this on delve\u0027s side and it\u0027s better. However I\u0027m still seeing some problems which I want to investigate further.",
+      "parentUuid": "8772e3a4_110914b2",
+      "revId": "f69085d0bd0edd7dbefe1d35f9bb4cf697512c4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
