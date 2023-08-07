@@ -71,6 +71,24 @@
       "parentUuid": "8413f193_cbf6d942",
       "revId": "3f1923f9ad9f2d144d793b73e6758aa9206e6736",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71caf6ef_6f856226",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-07T20:19:02Z",
+      "side": 1,
+      "message": "Bootstrapping requires that we build the compiler and other tools with the bootstrap compiler.  It doesn\u0027t require that we build the standard library with the bootstrap compiler.  The compiler and other tools are restricted to using the functionality of the strings package in the bootstrap compiler.  The tip string package is only built by the tip compiler, so it can use any of that functionality.\n\n(This would be different if strings were listed in bootstrapDirs in cmd/dist/buildtool.go, but it isn\u0027t.)",
+      "parentUuid": "b2353a36_615e0a2f",
+      "revId": "3f1923f9ad9f2d144d793b73e6758aa9206e6736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
