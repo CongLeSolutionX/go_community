@@ -16,6 +16,24 @@
       "message": "Thanks for the PR.\n\nThis is an API change and would require a proposal first (https://go.dev/s/proposal). However, fair warning, I am skeptical about making this change. Probably ParseBool already accepts too many possibilities; it\u0027s unclear whether we should add more.",
       "revId": "342bbda684be698e57e6ae3665b7690171846fe5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f16b47_c7d010e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-07T20:41:54Z",
+      "side": 1,
+      "message": "In particular at least \"true\" and \"false\" and their variants are part of the Go language itself.  \"yes\" and \"no\" are not part of Go.  We shouldn\u0027t add more cases where the Go standard library is English-specific.",
+      "parentUuid": "465e494c_fb194e36",
+      "revId": "342bbda684be698e57e6ae3665b7690171846fe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
