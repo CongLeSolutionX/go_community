@@ -430,11 +430,23 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	MOVD	$-0x708(R7), R1               // MOVD	$-1800(R7), R1              // e1201cd1
 	MOVD	$-0x2000(RSP), R1             // MOVD	$-8192(RSP), R1             // e10b40d1
 	MOVD	$-0x10000(RSP), RSP           // MOVD	$-65536(RSP), RSP           // ff4340d1
-	MOVW	R1, R2
-	MOVW	ZR, R1
-	MOVW	R1, ZR
-	MOVD	R1, R2
-	MOVD	ZR, R1
+	MOVW	ZR, R1  // e1031f2a
+	MOVWU	ZR, R1  // e1031f2a
+	MOVW	R1, ZR  // 3f7c4093
+	MOVWU	R1, ZR  // ff03012a
+	MOVD	ZR, R1  // e1031faa
+	MOVD	R1, ZR  // ff0301aa
+	MOVD	R1, RSP // 3f000091
+	MOVD	R1, R2  // e20301aa
+	MOVW	R1, R2  // 227c4093
+	MOVWU	R1, R2  // e203012a
+	SXTB	R1, R2  // 221c4093
+	SXTH	R1, R2  // 223c4093
+	SXTW	R1, R2  // 227c4093
+	UXTB	R1, R2  // 221c40d3
+	UXTH	R1, R2  // 223c40d3
+	UXTW	R1, R2  // 227c40d3
+
 
 // store and load
 //
