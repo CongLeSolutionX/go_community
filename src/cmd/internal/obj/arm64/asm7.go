@@ -6490,8 +6490,24 @@ func (c *ctxt7) addrRelocType(p *obj.Prog) objabi.RelocType {
 	return -1
 }
 
+// errorMsgs is used to cache error messages that may occur when encoding an instruction.
+var errorMsgs = []string{}
+
+// mayDiag temporarily store the reported errors in a slice.
+func mayDiag(format string, args ...interface{}) {
+	msg := fmt.Sprintf(format, args...)
+	errorMsgs = append(errorMsgs, msg)
+}
+
 // asmInst encodes an instruction.
 func (c *ctxt7) asmInst(p *obj.Prog, idx int, out []uint32) {
+	// We may need multiple matches to succeed, and previous unsuccessful matches may report some
+	// error messages. But we shouldn't really report them unless all matches fail. So during the
+	// heuristic matching encoding process we temporarily store the reported errors, clear them
+	// if the match is successful, and flush them otherwise.
+	errorsNum := c.ctxt.Errors
+	diagFunc := c.ctxt.DiagFunc
+	c.ctxt.DiagFunc = mayDiag
 	matches := []int{idx}
 	if p.Mark&MULTIPLEMATCH != 0 {
 		matches = c.instLook(p)
@@ -6521,10 +6537,20 @@ func (c *ctxt7) asmInst(p *obj.Prog, idx int, out []uint32) {
 		}
 		if match {
 			out[0] = bin
+			// Clear unmatch errors.
+			errorMsgs = errorMsgs[:0]
+			c.ctxt.DiagFunc = diagFunc
+			c.ctxt.Errors = errorsNum
 			return
 		}
 	}
 	c.ctxt.Diag("no arm64 instruction matches: %v\n", p)
+	c.ctxt.DiagFunc = diagFunc
+	c.ctxt.Errors = errorsNum
+	for _, msg := range errorMsgs {
+		c.ctxt.Diag("%s", msg)
+	}
+	errorMsgs = errorMsgs[:0]
 }
 
 /*
