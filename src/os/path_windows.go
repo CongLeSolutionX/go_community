@@ -4,6 +4,8 @@
 
 package os
 
+import "strings"
+
 const (
 	PathSeparator     = '\\' // OS-specific path separator
 	PathListSeparator = ';'  // OS-specific path list separator
@@ -218,10 +220,28 @@ func fixLongPath(path string) string {
 // fixRootDirectory fixes a reference to a drive's root directory to
 // have the required trailing slash.
 func fixRootDirectory(p string) string {
-	if len(p) == len(`\\?\c:`) {
-		if IsPathSeparator(p[0]) && IsPathSeparator(p[1]) && p[2] == '?' && IsPathSeparator(p[3]) && p[5] == ':' {
-			return p + `\`
+	var fix bool
+	if len(p) > 4 && IsPathSeparator(p[0]) && IsPathSeparator(p[1]) && p[2] == '?' && IsPathSeparator(p[3]) {
+		// p starts with \\?\
+		if len(p) == len(`\\?\c:`) && p[5] == ':' {
+			// Case \\?\c:
+			fix = true
+		} else if p[len(p)-1] == '}' && strings.HasPrefix(strings.ToLower(p[4:]), "volume{") {
+			// Potential case \\?\Volume{GUID}
+			// Verify that the first closing brace is the last character,
+			// else we have a non-root path like \\?\Volume{GUID}\foo}
+			fix = true
+			for i := 0; i < len(p)-1; i++ {
+				if p[i] == '}' {
+					fix = false
+					break
+				}
+			}
 		}
 	}
+	if fix {
+		p += `\`
+	}
+
 	return p
 }

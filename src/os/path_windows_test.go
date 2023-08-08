@@ -106,3 +106,38 @@ func TestOpenRootSlash(t *testing.T) {
 		dir.Close()
 	}
 }
+
+func TestFixRootDirectory(t *testing.T) {
+	// The issues fixed by fixRootDirectory are difficult to test
+	// using os.MkdirAll because it is only useful when creating
+	// a new directory under a root directory, and this means
+	// creating directories outside of the test's temporary directory.
+	// Instead, we test fixRootDirectory directly.
+	const guid = "98765432-0000-1111-2222-333333333333"
+	tt := []struct {
+		in, want string
+	}{
+		{`d:`, `d:`},
+		{`C:`, `C:`},
+		{`C:\`, `C:\`},
+		{`C:\foo`, `C:\foo`},
+		{`\\?`, `\\?`},
+		{`\\?\`, `\\?\`},
+		{`\\?\d:`, `\\?\d:\`},
+		{`\\?\C:`, `\\?\C:\`},
+		{`\\?\C:\`, `\\?\C:\`},
+		{`\\?\C:\foo`, `\\?\C:\foo`},
+		{`\\?\VOLUME{` + guid + `}`, `\\?\VOLUME{` + guid + `}\`},
+		{`\\?\Volume{` + guid + `}`, `\\?\Volume{` + guid + `}\`},
+		{`\\?\Volume{` + guid + `}\`, `\\?\Volume{` + guid + `}\`},
+		{`\\?\Volume{` + guid + `}\foo`, `\\?\Volume{` + guid + `}\foo`},
+		{`\\?\Volume{` + guid + `}\foo}`, `\\?\Volume{` + guid + `}\foo}`},
+		{`\\?\Volume{`, `\\?\Volume{`},
+	}
+	for _, tc := range tt {
+		got := os.FixRootDirectory(tc.in)
+		if got != tc.want {
+			t.Errorf("FixRootDirectory(%q) = %q; want %q", tc.in, got, tc.want)
+		}
+	}
+}
