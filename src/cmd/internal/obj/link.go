@@ -1125,6 +1125,7 @@ type Link struct {
 	Imports            []goobj.ImportedPkg
 	DiagFunc           func(string, ...interface{})
 	DiagFlush          func()
+	DiagShrink         func(n int)
 	DebugInfo          func(fn *LSym, info *LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls, src.XPos) // if non-nil, curfn is a *ir.Func
 	GenAbstractFunc    func(fn *LSym)
 	Errors             int
