@@ -33,6 +33,24 @@
       "message": "I think my primary issue here is still the explicit workarounds to save the TOC pointer. I think those are not needed now the linker generates non-pic stubs when needed.",
       "revId": "9f02d5364ab9c8d9193985ba3b4ebe5c07a295df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0950412_5ae8ca47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T14:24:16Z",
+      "side": 1,
+      "message": "I\u0027ve tested briefly and SDYNIMPORT appears to work to call libc functions providing cgo is not enabled. Once cgo is enabled (the top commit in this stack), things break if the TOC pointer save/restore is not retained. I\u0027ve yet to be able to investigate further.",
+      "parentUuid": "66923bec_18ef13ee",
+      "revId": "9f02d5364ab9c8d9193985ba3b4ebe5c07a295df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
