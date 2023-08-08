@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6501d416_c132c898",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-08T21:47:29Z",
+      "side": 1,
+      "message": "Also commented on #61679, probably best to keep discussion there: This is a change that could break existing users. Is the benefit worth it? This doesn\u0027t seem like a viable request smuggling vector; the only way I see it working as one is if we\u0027re receiving a request from an intermediary that accepted the invalid empty `Content-Length` and interpreted it as `0`.",
+      "revId": "ad471c8482c890607f40b164efb494c761711d3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8931f6e8_c39b94ec",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-08T21:47:29Z",
+      "side": 1,
+      "message": "Stale comment: there is no `s` here.",
+      "revId": "ad471c8482c890607f40b164efb494c761711d3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb5e5d8_1e9fe744",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-08T21:47:29Z",
+      "side": 1,
+      "message": "Why the change to pass a `[]string`, when this only examines the first value?",
+      "revId": "ad471c8482c890607f40b164efb494c761711d3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
