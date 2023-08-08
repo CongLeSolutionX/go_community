@@ -16,6 +16,24 @@
       "message": "I wonder — should the test also be skipped on these other `return` paths?",
       "revId": "023668638298d0abf81090dd44464d3c8b724aa7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "450d91f5_5c1ecf4b",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-08T01:12:35Z",
+      "side": 1,
+      "message": "see https://go-review.googlesource.com/c/go/+/512736/comment/d5368569_75eeaa08/\nQuim Muntal mention : return instead of calling t.Fatal, else we would be masking the original error message (from os.Stat).",
+      "parentUuid": "7c86e87f_f9d6afa7",
+      "revId": "023668638298d0abf81090dd44464d3c8b724aa7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
