@@ -91,6 +91,15 @@ func FlushErrors() {
 	errorMsgs = errorMsgs[:0]
 }
 
+// ShrinkErrors shrinks the length of the errors array to
+// the smaller value of n and the length of the errors array.
+func ShrinkErrors(n int) {
+	if n >= len(errorMsgs) {
+		return
+	}
+	errorMsgs = errorMsgs[:n]
+}
+
 // lasterror keeps track of the most recently issued error,
 // to avoid printing multiple error messages on the same line.
 var lasterror struct {

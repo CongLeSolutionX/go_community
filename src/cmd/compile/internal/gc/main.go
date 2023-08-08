@@ -64,7 +64,17 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	base.Ctxt = obj.Linknew(ssagen.Arch.LinkArch)
 	base.Ctxt.DiagFunc = base.Errorf
-	base.Ctxt.DiagFlush = base.FlushErrors
+	base.Ctxt.DiagFlush = func() {
+		base.Ctxt.Errors = 0
+		base.FlushErrors()
+	}
+	base.Ctxt.DiagShrink = func(n int) {
+		if base.Ctxt.Errors <= n {
+			return
+		}
+		base.Ctxt.Errors = n
+		base.ShrinkErrors(n)
+	}
 	base.Ctxt.Bso = bufio.NewWriter(os.Stdout)
 
 	// UseBASEntries is preferred because it shaves about 2% off build time, but LLDB, dsymutil, and dwarfdump

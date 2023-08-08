@@ -6518,6 +6518,7 @@ func (c *ctxt7) addrRelocType(p *obj.Prog) objabi.RelocType {
 
 // asmInst encodes an instruction.
 func (c *ctxt7) asmInst(p *obj.Prog, idx int, out []uint32) {
+	errors := c.ctxt.Errors
 	matches := []int{idx}
 	if p.Isize > 4 {
 		matches = c.instLook(p)
@@ -6541,6 +6542,8 @@ func (c *ctxt7) asmInst(p *obj.Prog, idx int, out []uint32) {
 		}
 		if match {
 			out[0] = bin
+			// Clear unmatch errors.
+			c.ctxt.DiagShrink(errors)
 			return
 		}
 	}

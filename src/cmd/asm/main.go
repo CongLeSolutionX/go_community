@@ -11,6 +11,8 @@ import (
 	"internal/buildcfg"
 	"log"
 	"os"
+	"regexp"
+	"sort"
 
 	"cmd/asm/internal/arch"
 	"cmd/asm/internal/asm"
@@ -83,14 +85,50 @@ func main() {
 		}
 	}
 
-	var ok, diag bool
+	var ok bool
 	var failedFile string
+	errorMsgs := []string{}
 	for _, f := range flag.Args() {
 		lexer := lex.NewLexer(f)
 		parser := asm.NewParser(ctxt, architecture, lexer)
 		ctxt.DiagFunc = func(format string, args ...interface{}) {
-			diag = true
-			log.Printf(format, args...)
+			msg := fmt.Sprintf(format, args...)
+			errorMsgs = append(errorMsgs, msg)
+		}
+		ctxt.DiagFlush = func() {
+			if len(errorMsgs) == 0 {
+				return
+			}
+			// Try to sort the error messages by file line, then we can remove
+			// the identical error message.
+			sort.Slice(errorMsgs, func(i, j int) bool {
+				fileLine := regexp.MustCompile(`\(.*\.s:[0-9]+\)`)
+				fileLine1, fileLine2 := "", ""
+				if m := fileLine.FindStringSubmatch(errorMsgs[i]); m != nil {
+					fileLine1 = m[0]
+				}
+				if m := fileLine.FindStringSubmatch(errorMsgs[j]); m != nil {
+					fileLine2 = m[0]
+				}
+				if fileLine1 != fileLine2 {
+					return fileLine1 < fileLine2
+				}
+				return errorMsgs[i] < errorMsgs[j]
+			})
+			for i, err := range errorMsgs {
+				if i == 0 || err != errorMsgs[i-1] {
+					log.Print(err)
+				}
+			}
+			errorMsgs = errorMsgs[:0]
+			ctxt.Errors = 0
+		}
+		ctxt.DiagShrink = func(n int) {
+			if ctxt.Errors <= n {
+				return
+			}
+			ctxt.Errors = n
+			errorMsgs = errorMsgs[:n]
 		}
 		if *flags.SymABIs {
 			ok = parser.ParseSymABIs(buf)
@@ -111,7 +149,8 @@ func main() {
 		ctxt.NumberSyms()
 		obj.WriteObjFile(ctxt, buf)
 	}
-	if !ok || diag {
+	if !ok || ctxt.Errors > 0 {
+		ctxt.DiagFlush()
 		if failedFile != "" {
 			log.Printf("assembly of %s failed", failedFile)
 		} else {

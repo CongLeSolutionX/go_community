@@ -37,13 +37,42 @@ func testEndToEnd(t *testing.T, goarch, file string) {
 	ctxt.Bso = bufio.NewWriter(os.Stdout)
 	ctxt.IsAsm = true
 	defer ctxt.Bso.Flush()
-	failed := false
+	errorMsgs := []string{}
 	ctxt.DiagFunc = func(format string, args ...interface{}) {
-		failed = true
-		t.Errorf(format, args...)
+		msg := fmt.Sprintf(format, args...)
+		errorMsgs = append(errorMsgs, msg)
 	}
+	ctxt.DiagFlush = func() {
+		if len(errorMsgs) == 0 {
+			return
+		}
+		// Try sorting errors by file line so we don't report the same error.
+		sort.Slice(errorMsgs, func(i, j int) bool {
+			fileLine1, _ := getFileLine(errorMsgs[i])
+			fileLine2, _ := getFileLine(errorMsgs[j])
+			if fileLine1 != fileLine2 {
+				return fileLine1 < fileLine2
+			}
+			return errorMsgs[i] < errorMsgs[j]
+		})
+		for i, err := range errorMsgs {
+			if i == 0 || err != errorMsgs[i-1] {
+				t.Error(err)
+			}
+		}
+		ctxt.Errors = 0
+		errorMsgs = errorMsgs[:0]
+	}
+	ctxt.DiagShrink = func(n int) {
+		if ctxt.Errors <= n {
+			return
+		}
+		ctxt.Errors = n
+		errorMsgs = errorMsgs[:n]
+	}
+
 	pList.Firstpc, ok = parser.Parse()
-	if !ok || failed {
+	if !ok || ctxt.Errors > 0 {
 		t.Errorf("asm: %s assembly failed", goarch)
 		return
 	}
@@ -186,12 +215,12 @@ Diff:
 
 	top := pList.Firstpc
 	var text *obj.LSym
-	ok = true
-	ctxt.DiagFunc = func(format string, args ...interface{}) {
-		t.Errorf(format, args...)
-		ok = false
-	}
 	obj.Flushplist(ctxt, pList, nil)
+	if ctxt.Errors > 0 {
+		ctxt.DiagFlush()
+		t.Errorf("asm: %s assembly failed", goarch)
+		return
+	}
 
 	for p := top; p != nil; p = p.Link {
 		if p.As == obj.ATEXT {
@@ -268,6 +297,14 @@ func isHexes(s string) bool {
 // It might be at the beginning but it might be in the middle of the printed instruction.
 var fileLineRE = regexp.MustCompile(`(?:^|\()(testdata[/\\][\da-z]+\.s:\d+)(?:$|\)|:)`)
 
+func getFileLine(s string) (string, bool) {
+	m := fileLineRE.FindStringSubmatch(s)
+	if m == nil {
+		return "", false
+	}
+	return m[1], true
+}
+
 // Same as in test/run.go
 var (
 	errRE       = regexp.MustCompile(`// ERROR ?(.*)`)
@@ -285,16 +322,44 @@ func testErrors(t *testing.T, goarch, file string, flags ...string) {
 	ctxt.Bso = bufio.NewWriter(os.Stdout)
 	ctxt.IsAsm = true
 	defer ctxt.Bso.Flush()
-	failed := false
-	var errBuf bytes.Buffer
+	var errBuf bytes.Buffer // for parser errors
 	parser.errorWriter = &errBuf
+	var errorMsgs = []string{} // for other errors
 	ctxt.DiagFunc = func(format string, args ...interface{}) {
-		failed = true
 		s := fmt.Sprintf(format, args...)
 		if !strings.HasSuffix(s, "\n") {
 			s += "\n"
 		}
-		errBuf.WriteString(s)
+		errorMsgs = append(errorMsgs, s)
+	}
+	ctxt.DiagFlush = func() {
+		if len(errorMsgs) == 0 {
+			return
+		}
+		// Try sorting errors by file line so we don't report the same error.
+		sort.Slice(errorMsgs, func(i, j int) bool {
+			fileLine1, _ := getFileLine(errorMsgs[i])
+			fileLine2, _ := getFileLine(errorMsgs[j])
+			if fileLine1 != fileLine2 {
+				return fileLine1 < fileLine2
+			}
+			return errorMsgs[i] < errorMsgs[j]
+		})
+		for i, err := range errorMsgs {
+			// Don't write the identical error message.
+			if i == 0 || err != errorMsgs[i-1] {
+				errBuf.WriteString(err)
+			}
+		}
+		ctxt.Errors = 0
+		errorMsgs = errorMsgs[:0]
+	}
+	ctxt.DiagShrink = func(n int) {
+		if ctxt.Errors <= n {
+			return
+		}
+		ctxt.Errors = n
+		errorMsgs = errorMsgs[:n]
 	}
 	for _, flag := range flags {
 		switch flag {
@@ -306,26 +371,21 @@ func testErrors(t *testing.T, goarch, file string, flags ...string) {
 	}
 	pList.Firstpc, ok = parser.Parse()
 	obj.Flushplist(ctxt, pList, nil)
-	if ok && !failed {
+	if ok && ctxt.Errors == 0 {
 		t.Errorf("asm: %s had no errors", file)
 	}
+	ctxt.DiagFlush()
 
-	errors := map[string]string{}
+	errors := map[string][]string{}
 	for _, line := range strings.Split(errBuf.String(), "\n") {
 		if line == "" || strings.HasPrefix(line, "\t") {
 			continue
 		}
-		m := fileLineRE.FindStringSubmatch(line)
-		if m == nil {
+		if fileline, got := getFileLine(line); !got {
 			t.Errorf("unexpected error: %v", line)
-			continue
+		} else {
+			errors[fileline] = append(errors[fileline], line)
 		}
-		fileline := m[1]
-		if errors[fileline] != "" && errors[fileline] != line {
-			t.Errorf("multiple errors on %s:\n\t%s\n\t%s", fileline, errors[fileline], line)
-			continue
-		}
-		errors[fileline] = line
 	}
 
 	// Reconstruct expected errors by independently "parsing" the input.
@@ -345,13 +405,22 @@ func testErrors(t *testing.T, goarch, file string, flags ...string) {
 			mm := errQuotesRE.FindAllStringSubmatch(all, -1)
 			if len(mm) != 1 {
 				t.Errorf("%s: invalid errorcheck line:\n%s", fileline, line)
-			} else if err := errors[fileline]; err == "" {
+			} else if errs, ok := errors[fileline]; !ok {
 				t.Errorf("%s: missing error, want %s", fileline, all)
-			} else if !strings.Contains(err, mm[0][1]) {
-				t.Errorf("%s: wrong error for %s:\n%s", fileline, all, err)
+			} else {
+				found := false
+				for _, err := range errs {
+					if strings.Contains(err, mm[0][1]) {
+						found = true
+						break // found the expected error
+					}
+				}
+				if !found {
+					t.Errorf("%s: wrong error for %s:\n%v", fileline, all, errs)
+				}
 			}
 		} else {
-			if errors[fileline] != "" {
+			if _, ok := errors[fileline]; ok {
 				t.Errorf("unexpected error on %s: %v", fileline, errors[fileline])
 			}
 		}
