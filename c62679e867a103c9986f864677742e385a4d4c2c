@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60479d51_2417e2db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "Only minimally - it would remove two functions from cmd/internal/obj/riscv (EncodeCBImmediate, EncodeCJImmediate) and three cases statements (elf.R_RISCV_RVC_BRANCH, elf.R_RISCV_RVC_JUMP) from the linker. Overall, I think we\u0027re better off supporting this since there are benefits to using compressed instructions in the future (outside of cgo linking). In that case we\u0027d need almost all of the same code regardless.",
+      "parentUuid": "b4d4e0c9_b859ca3f",
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b42941ee_f8d08510",
@@ -104,6 +122,24 @@
       "writtenOn": "2023-07-28T20:43:33Z",
       "side": 1,
       "message": "This could use some comments.",
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c99f7545_07f5186b",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b42941ee_f8d08510",
       "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -154,6 +190,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "067513e0_b71db32e",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "The relocation calculation is the same (S + A - P), however they are different instruction formats that have a different number of address bits encoded.",
+      "parentUuid": "430da72d_6e256f17",
+      "range": {
+        "startLine": 314,
+        "startChar": 52,
+        "endLine": 314,
+        "endChar": 63
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad09ed6c_61fb0de7",
@@ -167,6 +227,30 @@
       "writtenOn": "2023-07-28T20:43:33Z",
       "side": 1,
       "message": "This needs some comments. What are those symbols?",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 2
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0adbbe_083353f1",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad09ed6c_61fb0de7",
       "range": {
         "startLine": 103,
         "startChar": 0,
@@ -194,6 +278,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a91ba2c_9932ab2e",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "I think the general approach is to make the linker do more work (including things like relaxation), in order to produce more optimal code... but the cost is complexity in the linker code.",
+      "parentUuid": "009ae0b6_abb267ac",
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee18dfd5_f8fc3f1c",
@@ -207,6 +309,30 @@
       "writtenOn": "2023-07-28T20:43:33Z",
       "side": 1,
       "message": "I think checking VisibilityHidden here is generally not the right thing to do. I\u0027ve removed similar checks on other architectures in CL 404296. Is there a specific reason to check this on RISCV?",
+      "range": {
+        "startLine": 62,
+        "startChar": 49,
+        "endLine": 62,
+        "endChar": 80
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6faecb37_5680e18a",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "It was most likely for consistency with other architectures - will remove.",
+      "parentUuid": "ee18dfd5_f8fc3f1c",
       "range": {
         "startLine": 62,
         "startChar": 49,
@@ -257,6 +383,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "257481d1_533fbf46",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "*sigh* - they keep getting moved around... hopefully this is a more permanent link.",
+      "parentUuid": "6a06c3c2_f9091018",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 95
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14178988_f03ebaec",
@@ -270,6 +420,30 @@
       "writtenOn": "2023-07-28T20:43:33Z",
       "side": 1,
       "message": "This is probably from the code below? But this case has only one instruction to modify, so \"second\" is a weird name.",
+      "range": {
+        "startLine": 579,
+        "startChar": 2,
+        "endLine": 579,
+        "endChar": 8
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2181cb6e_10befcc3",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:53:00Z",
+      "side": 1,
+      "message": "Indeed, fixed.",
+      "parentUuid": "14178988_f03ebaec",
       "range": {
         "startLine": 579,
         "startChar": 2,
