@@ -126,6 +126,11 @@ for example,
 see the [runtime documentation](/pkg/runtime#hdr-Environment_Variables)
 and the [go command documentation](/cmd/go#hdr-Build_and_test_caching).
 
+### Go 1.22
+
+Go 1.22 made it an error for a Content-Length header to be empty, RFC-2616 states that it 
+should be a valid numeric value. This behavior is controlled by the `httplaxcontentlength` setting.
+
 ### Go 1.21
 
 Go 1.21 made it a run-time error to call `panic` with a nil interface value,
