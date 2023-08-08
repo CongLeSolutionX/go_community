@@ -11,4 +11,5 @@ var (
 	CanUseLongPaths   = canUseLongPaths
 	NewConsoleFile    = newConsoleFile
 	CommandLineToArgv = commandLineToArgv
+	FixRootDirectory  = fixRootDirectory
 )

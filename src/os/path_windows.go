@@ -218,8 +218,13 @@ func fixLongPath(path string) string {
 // fixRootDirectory fixes a reference to a drive's root directory to
 // have the required trailing slash.
 func fixRootDirectory(p string) string {
-	if len(p) == len(`\\?\c:`) {
-		if IsPathSeparator(p[0]) && IsPathSeparator(p[1]) && p[2] == '?' && IsPathSeparator(p[3]) && p[5] == ':' {
+	// We only need to fix paths starting with \\?\
+	if len(p) > 4 && IsPathSeparator(p[0]) && IsPathSeparator(p[1]) && p[2] == '?' && IsPathSeparator(p[3]) {
+		vol := volumeName(p)
+		// volumeName drops the volume trailing slash, if any.
+		// If vol == p, then p is a root directory without a trailing slash,
+		// so we need to add it.
+		if vol == p {
 			return p + `\`
 		}
 	}
