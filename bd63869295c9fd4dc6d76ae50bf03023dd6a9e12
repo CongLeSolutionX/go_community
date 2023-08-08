@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2b9d1a5_3e88de39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-08T03:08:24Z",
+      "side": 1,
+      "message": "For #54852, the test in `misc/reboot/reboot_test.go` was updated to trigger the reported failure mode. That file now lives in `src/cmd/internal/bootstrap_test/reboot_test.go`.\n\nAs a regression test, please update it to reproduce the failure mode reported in #61620 (which I suspect will only requires setting `GOROOT_BOOTSTRAP` to a non-clean path), and verify that `go test cmd/internal/bootstrap_test` (with the updated test code) fails before this fix and passes after.",
+      "revId": "bd63869295c9fd4dc6d76ae50bf03023dd6a9e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1dcd2b73_5f097e4c",
@@ -14,6 +31,46 @@
       "writtenOn": "2023-07-28T05:16:04Z",
       "side": 1,
       "message": "Reproduction using go master (go1.22) which requires go1.20 as go-bootstrap:\n\n```\nmkdir go-issue-61620\ncd ./go-issue-61620\nwget https://go.dev/dl/go1.20.6.src.tar.gz\nmkdir go-bootstrap\ntar -xf go1.20.6.src.tar.gz -C ./go-bootstrap --strip-components\u003d1\ncd ./go-bootstrap/src/\nbash make.bash\ncd ../../\ngit clone https://go.googlesource.com/go\nrm -rf ./go/.git/\nprintf \"gitdir: ../../does/not/exist/.git\" \u003e ./.git\nprintf \u0027go1.22.1\u0027 \u003e ./go/VERSION\ncd ./go/src/\nGOROOT_BOOTSTRAP\u003d$(pwd)/../../go-bootstrap/ bash make.bash\n# Build fails using -buildvcs\u003dfalse errors.\n```",
+      "revId": "bd63869295c9fd4dc6d76ae50bf03023dd6a9e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c33395c8_04fe88f7",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-08T03:08:24Z",
+      "side": 1,
+      "message": "(nit) I have a hard time parsing this comment. Perhaps instead:\n\n```go\n// In case we are bootstrapping from a source tarball instead of a VCS checkout,\n// ignore any VCS roots found in parent directories of the bootstrap module.\n// See https://go.dev/issue/54852 and https://go.dev/issue/61620.\n```",
+      "range": {
+        "startLine": 224,
+        "startChar": 11,
+        "endLine": 224,
+        "endChar": 16
+      },
+      "revId": "bd63869295c9fd4dc6d76ae50bf03023dd6a9e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b73c067_3d01d9b3",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-08T03:08:24Z",
+      "side": 1,
+      "message": "Please also remove the special case that was added for this in `src/cmd/go/internal/load/pkg.go` in CL 432435, as it is now redundant.",
       "revId": "bd63869295c9fd4dc6d76ae50bf03023dd6a9e12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
