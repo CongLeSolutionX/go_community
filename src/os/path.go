@@ -36,9 +36,9 @@ func MkdirAll(path string, perm FileMode) error {
 		j--
 	}
 
-	if j > 1 {
+	if j-1 > len(volumeName(path)) {
 		// Create parent.
-		err = MkdirAll(fixRootDirectory(path[:j-1]), perm)
+		err = MkdirAll(path[:j-1], perm)
 		if err != nil {
 			return err
 		}
