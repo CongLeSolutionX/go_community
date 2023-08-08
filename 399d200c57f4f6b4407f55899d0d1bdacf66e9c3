@@ -39,6 +39,23 @@
       "message": "(nit) I would choose a different package name to avoid a collision with `path/filepath`.\n\nMaybe `internal/ospath` and `package ospath`, since the abstraction here is “path predicates specific to the OS and needed by the `os` package”?",
       "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da576df2_3fe39813",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-08T21:07:38Z",
+      "side": 1,
+      "message": "Note that on Windows systems the os package already defines an isAbs function.  Suppose we just add the trivial versions of isAbs for Unix and Plan 9 to the os package.  That seems to simplify this CL quite a bit.\n\nWe might still want to unify into an internal package, but that can be done separately and independently.",
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
