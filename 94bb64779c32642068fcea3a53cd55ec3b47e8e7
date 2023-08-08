@@ -163,6 +163,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6699a9b_abea1c43",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:55:16Z",
+      "side": 1,
+      "message": "Without this change we get failures like:\n\n```\n# archive/tar.test                                                                                                \nruntime/cgo(.text): relocation address for .L4 is too big: 0xc489 \nruntime/cgo(.text): relocation address for .L7 is too big: 0xa029                                                 \nruntime/cgo(.text): relocation address for .L8 is too big: 0xd7f5                                                 \nruntime/cgo(.text): relocation address for .L17 is too big: 0xc785                                                \nruntime/cgo(.text): relocation address for .L6 is too big: 0xb741                                                 \nruntime/cgo(.text): relocation address for .L10 is too big: 0xf169                                                \nruntime/cgo(.text): relocation address for .L10 is too big: 0xbf75                                                \nruntime/cgo(.text): relocation address for .L29 is too big: 0xc815                                                \nruntime/cgo(.text): relocation address for .L25 is too big: 0xbfe1                                                \nruntime/cgo(.text): relocation address for .L33 is too big: 0xe509                                                \nruntime/cgo(.text): relocation address for .L10 is too big: 0xe499                                                \nruntime/cgo(.text): relocation address for .L11 is too big: 0xc781                                                \nruntime/cgo(.text): relocation address for .L5 is too big: 0xcd11\nFAIL    archive/tar [build failed]\n```\n\nThese are valid/correct relocations, however they fail since the top bit is set.",
+      "parentUuid": "161a8692_9970c173",
+      "revId": "94bb64779c32642068fcea3a53cd55ec3b47e8e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "aaff798d_1a4d1fbb",
