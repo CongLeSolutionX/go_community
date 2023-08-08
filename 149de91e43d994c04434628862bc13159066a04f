@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94c15e31_6df8b484",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-08T21:53:28Z",
+      "side": 1,
+      "message": "This is not a typo: the `-v` flag is the one I expect to be more useful in day-to-day usage.\n\nThe `-v` flag logs more detail about changes to the selected versions of modules. (If there are no changes, it doesn\u0027t log anything.)\n\nSee the [`mod_import_toolchain.txt`](https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/mod_import_toolchain.txt;l\u003d42-74;drc\u003dce8146ed3361f584ba79427ac6c6d6fe9c297bea) test script for an example of its output.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "149de91e43d994c04434628862bc13159066a04f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
