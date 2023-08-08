@@ -5,7 +5,12 @@
 package os_test
 
 import (
+	"internal/syscall/windows"
+	"internal/testenv"
+	"math/rand"
 	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 	"syscall"
 	"testing"
@@ -105,4 +110,57 @@ func TestOpenRootSlash(t *testing.T) {
 		}
 		dir.Close()
 	}
+}
+
+func testMkdirAllAtRoot(t *testing.T, root string) {
+	// Find a unique directory name in root.
+	var path string
+	try := 0
+	for {
+		path = filepath.Join(root, t.Name()+strconv.Itoa(rand.Int()))
+		_, err := os.Stat(path)
+		if os.IsNotExist(err) {
+			break
+		}
+		if try++; try < 10000 {
+			continue
+		}
+		t.Fatal("could not find a non-existent path")
+	}
+	if err := os.MkdirAll(path, 0777); err != nil {
+		t.Fatalf("MkdirAll(%q) failed: %v", path, err)
+	}
+	os.RemoveAll(path) // clean up
+}
+
+func TestMkdirAllExtendedLengthAtRoot(t *testing.T) {
+	if testenv.Builder() == "" {
+		t.Skipf("skipping non-hermetic test outside of Go builders")
+	}
+
+	const prefix = `\\?\`
+	vol := filepath.VolumeName(t.TempDir()) + `\`
+	if len(vol) < 4 || vol[:4] != prefix {
+		vol = prefix + vol
+	}
+	testMkdirAllAtRoot(t, vol)
+}
+
+func TestMkdirAllVolumeNameAtRoot(t *testing.T) {
+	if testenv.Builder() == "" {
+		t.Skipf("skipping non-hermetic test outside of Go builders")
+	}
+
+	vol, err := syscall.UTF16PtrFromString(filepath.VolumeName(t.TempDir()) + `\`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	const maxVolNameLen = 50
+	var buf [maxVolNameLen]uint16
+	err = windows.GetVolumeNameForVolumeMountPoint(vol, &buf[0], maxVolNameLen)
+	if err != nil {
+		t.Fatal(err)
+	}
+	volName := syscall.UTF16ToString(buf[:])
+	testMkdirAllAtRoot(t, volName)
 }
