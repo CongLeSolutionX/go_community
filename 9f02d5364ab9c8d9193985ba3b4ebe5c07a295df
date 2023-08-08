@@ -51,6 +51,24 @@
       "parentUuid": "66923bec_18ef13ee",
       "revId": "9f02d5364ab9c8d9193985ba3b4ebe5c07a295df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3429cef8_d8edeae5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-08T15:27:48Z",
+      "side": 1,
+      "message": "For now, I\u0027ve pulled out the TOC pointer save/restore code and moved it to a separate change prior to the cgo commit. This way we can progress and either\nidentify a better solution or land it, prior to enabling cgo.",
+      "parentUuid": "b0950412_5ae8ca47",
+      "revId": "9f02d5364ab9c8d9193985ba3b4ebe5c07a295df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
