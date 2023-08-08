@@ -51,6 +51,24 @@
       "message": "Thank you for sharing your thoughts!\n\nI understand the concerns about the proposed API change. While adding more possibilities could raise questions about the function\u0027s scope, there are some benefits to consider. Including user-friendly keywords like \"yes,\" \"no,\" \"y,\" and \"n\" could make the function more flexible without making it complex.\n\nAdding \"yes\" and \"no\" helps the function work better in different languages and with more readable inputs. This doesn\u0027t mean we\u0027re making it only for English – it\u0027s about handling data that\u0027s not always standard.\n\nRegarding the proposal, if you\u0027re comfortable with it, I can create a GitHub proposal that links back to this pull request. This way, we can continue discussing it here. Your input is valuable!",
       "revId": "342bbda684be698e57e6ae3665b7690171846fe5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18a3dc0b_5a3ddbc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-08T00:34:09Z",
+      "side": 1,
+      "message": "You are certainly free to make a proposal, but I\u0027m skeptical that it will be accepted.  This seems like a feature that should live outside of the standard library.",
+      "parentUuid": "c2b6de42_0af30ba8",
+      "revId": "342bbda684be698e57e6ae3665b7690171846fe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
