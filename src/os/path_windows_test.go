@@ -5,7 +5,12 @@
 package os_test
 
 import (
+	"internal/syscall/windows"
+	"internal/testenv"
+	"math/rand"
 	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 	"syscall"
 	"testing"
@@ -104,5 +109,81 @@ func TestOpenRootSlash(t *testing.T) {
 			t.Fatalf("Open(%q) failed: %v", test, err)
 		}
 		dir.Close()
+	}
+}
+
+func TestMkdirAllExtendedLengthAtRoot(t *testing.T) {
+	//if testenv.Builder() == "" {
+	//	t.Skip("skipping if not in a Go builder as this test writes outside the temp directory")
+	//}
+
+	const prefix = `\\?\`
+	vol := filepath.VolumeName(t.TempDir()) + `\`
+	if len(vol) < 4 || vol[:4] != prefix {
+		vol = prefix + vol
+	}
+	// Create a sufficiently random directory name.
+	dir := t.Name() + strconv.Itoa(rand.Int())
+	path := filepath.Join(vol, dir)
+	if err := os.MkdirAll(path, 0777); err != nil {
+		t.Fatalf("MkdirAll(%q) failed: %v", path, err)
+	}
+}
+
+func TestMkdirAllVolumeNameAtRoot(t *testing.T) {
+	if testenv.Builder() == "" {
+		t.Skip("skipping if not in a Go builder as this test writes outside the temp directory")
+	}
+
+	vol, err := syscall.UTF16PtrFromString(filepath.VolumeName(t.TempDir()) + `\`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	const maxVolNameLen = 50
+	var buf [maxVolNameLen]uint16
+	err = windows.GetVolumeNameForVolumeMountPoint(vol, &buf[0], maxVolNameLen)
+	if err != nil {
+		t.Fatal(err)
+	}
+	volName := syscall.UTF16ToString(buf[:])
+	// Create a sufficiently random directory name.
+	dir := t.Name() + strconv.Itoa(rand.Int())
+	path := filepath.Join(volName, dir)
+	if err := os.MkdirAll(path, 0777); err != nil {
+		t.Fatalf("MkdirAll(%q) failed: %v", path, err)
+	}
+}
+
+func TestFixRootDirectory(t *testing.T) {
+	// The issues fixed by fixRootDirectory are difficult to test
+	// using os.MkdirAll because it is only useful when creating
+	// a new directory under a root directory, and this means
+	// creating directories outside of the test's temporary directory.
+	// Instead, we test fixRootDirectory directly.
+	const guid = "98765432-0000-1111-2222-333333333333"
+	tt := []struct {
+		in, want string
+	}{
+		{`d:`, `d:`},
+		{`C:`, `C:`},
+		{`C:\`, `C:\`},
+		{`C:\foo`, `C:\foo`},
+		{`\\?`, `\\?`},
+		{`\\?\`, `\\?\`},
+		{`\\?\d:`, `\\?\d:\`},
+		{`\\?\C:`, `\\?\C:\`},
+		{`\\?\C:\`, `\\?\C:\`},
+		{`\\?\C:\foo`, `\\?\C:\foo`},
+		{`\\?\VOLUME{` + guid + `}`, `\\?\VOLUME{` + guid + `}\`},
+		{`\\?\Volume{` + guid + `}`, `\\?\Volume{` + guid + `}\`},
+		{`\\?\Volume{` + guid + `}\`, `\\?\Volume{` + guid + `}\`},
+		{`\\?\Volume{` + guid + `}\foo`, `\\?\Volume{` + guid + `}\foo`},
+		{`\\?\Volume{` + guid + `}\foo}`, `\\?\Volume{` + guid + `}\foo}`},
+	}
+	for _, tc := range tt {
+		got := os.FixRootDirectory(tc.in)
+		if got != tc.want {
+			t.Errorf("FixRootDirectory(%q) = %q; want %q", tc.in, got, tc.want)
+		}
 	}
 }
