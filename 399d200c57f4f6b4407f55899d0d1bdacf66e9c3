@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861d2afe_b7da71bd",
+        "filename": "src/internal/filepath/path_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-08T20:49:36Z",
+      "side": 1,
+      "message": "```suggestion\n//go:build unix\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 105
+      },
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b22debe8_8eb897f3",
+        "filename": "src/internal/filepath/path_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-08T20:49:36Z",
+      "side": 1,
+      "message": "(nit) I would choose a different package name to avoid a collision with `path/filepath`.\n\nMaybe `internal/ospath` and `package ospath`, since the abstraction here is “path predicates specific to the OS and needed by the `os` package”?",
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
