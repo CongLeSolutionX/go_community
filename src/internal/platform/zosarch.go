@@ -101,7 +101,7 @@ var distInfo = map[OSArch]osArchInfo{
 	{"openbsd", "arm"}:     {CgoSupported: true},
 	{"openbsd", "arm64"}:   {CgoSupported: true},
 	{"openbsd", "mips64"}:  {CgoSupported: true, Broken: true},
-	{"openbsd", "ppc64"}:   {Broken: true},
+	{"openbsd", "ppc64"}:   {},
 	{"plan9", "386"}:       {},
 	{"plan9", "amd64"}:     {},
 	{"plan9", "arm"}:       {},
