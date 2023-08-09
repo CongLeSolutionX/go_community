@@ -16,6 +16,24 @@
       "message": "Thanks, but this isn\u0027t a supported approach to create a cherry-pick CL. See https://go.dev/wiki/MinorReleases#making-cherry-pick-cls that describes the process. In particular, cherry-pick CLs need to reuse the original CL\u0027s description, including the Change-Id footer for tracking purposes, but that can only be done via Gerrit and not via a GitHub Pull Request at this time.",
       "revId": "ad087ee2804b7ce088161df04403c93ddc623888",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4596a579_badadabf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 23560
+      },
+      "writtenOn": "2023-08-09T02:54:16Z",
+      "side": 1,
+      "message": "Apologies, my bad ..",
+      "parentUuid": "98e0d415_c97a7318",
+      "revId": "ad087ee2804b7ce088161df04403c93ddc623888",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
