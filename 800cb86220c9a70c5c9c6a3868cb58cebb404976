@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c1d0682_e46ae544",
+        "filename": "src/os/path_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-08-09T13:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7284239a_1989cf7c",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 2
+      },
+      "revId": "800cb86220c9a70c5c9c6a3868cb58cebb404976",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b668c72_27d0172c",
@@ -93,6 +117,24 @@
       "writtenOn": "2023-08-09T13:09:48Z",
       "side": 1,
       "message": "(nit) Check this for errors?\n\n```suggestion\n\tif err :\u003d os.RemoveAll(path); err !\u003d nil {\n\t\tt.Fatal(err)\n\t}\n```",
+      "revId": "800cb86220c9a70c5c9c6a3868cb58cebb404976",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86dd5901_6cecf8d4",
+        "filename": "src/os/path_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-08-09T13:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b668c72_27d0172c",
       "revId": "800cb86220c9a70c5c9c6a3868cb58cebb404976",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
