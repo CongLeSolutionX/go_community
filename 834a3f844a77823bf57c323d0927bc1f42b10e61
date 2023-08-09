@@ -34,6 +34,24 @@
       "parentUuid": "51a6f6cd_28790e44",
       "revId": "834a3f844a77823bf57c323d0927bc1f42b10e61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "437ceeb1_6388d19f",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-09T12:13:52Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "63cfddfc_97e9905a",
+      "revId": "834a3f844a77823bf57c323d0927bc1f42b10e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
