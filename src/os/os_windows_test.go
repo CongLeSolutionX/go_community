@@ -579,9 +579,16 @@ func TestStatLxSymLink(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if m := fi.Mode(); m&fs.ModeSymlink != 0 {
+	mode := fi.Mode()
+	if mode&fs.ModeSymlink != 0 {
 		// This can happen depending on newer WSL versions when running as admin or in developer mode.
 		t.Skip("skipping: WSL created reparse tag IO_REPARSE_TAG_SYMLINK instead of a IO_REPARSE_TAG_LX_SYMLINK")
+	}
+	if mode%fs.ModeType&fs.ModeDir == 0 {
+		t.Error("fi.Mode() should contain fs.ModeDir")
+	}
+	if mode%fs.ModeIrregular == 0 {
+		t.Error("fi.Mode() should not contain fs.ModeIrregular")
 	}
 	// Stat'ing a IO_REPARSE_TAG_LX_SYMLINK from outside WSL always return ERROR_CANT_ACCESS_FILE.
 	// We check this condition to validate that os.Stat has tried to follow the link.

@@ -157,6 +157,9 @@ func (fs *fileStat) Mode() (m FileMode) {
 	} else {
 		m |= 0666
 	}
+	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT != 0 {
+		m |= ModeIrregular
+	}
 	if fs.isSymlink() {
 		return m | ModeSymlink
 	}
@@ -168,9 +171,6 @@ func (fs *fileStat) Mode() (m FileMode) {
 		m |= ModeNamedPipe
 	case syscall.FILE_TYPE_CHAR:
 		m |= ModeDevice | ModeCharDevice
-	}
-	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT != 0 && m&ModeType == 0 {
-		m |= ModeIrregular
 	}
 	return m
 }
