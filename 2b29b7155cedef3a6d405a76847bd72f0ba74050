@@ -146,6 +146,30 @@
       },
       "revId": "2b29b7155cedef3a6d405a76847bd72f0ba74050",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5db926e7_0c89e1bc",
+        "filename": "src/os/path_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-08-09T08:09:20Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve added an integration test that explicitly test #39785. While doing that, I noticed that the test added in CL 86295 for #22230 was not really exercising the original issue, which is very similar to #39785. I\u0027ve added an integration test for that too.",
+      "parentUuid": "6c9b0da5_561d1678",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 67
+      },
+      "revId": "2b29b7155cedef3a6d405a76847bd72f0ba74050",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
