@@ -53,6 +53,24 @@
       "message": "Do we need this?  Normally in the compiler, now extended to include the front end, we just use -d\u003dgossahash\u003dwhatever which normally gets initialized from GOCOMPILEDEBUG\u003dgossahash\u003dwhatever, and be queried internally w/ base.DebugHashMatchPkgFunc or base.DebugHashMatchPos.\n\nThat is, we\u0027ve got one, do we need two?  (But if we do, LGTM)",
       "revId": "d9f5bda37fdecdc347a98653ce9b5c863cf8b8cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ad05922_03f4d800",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-09T14:56:45Z",
+      "side": 1,
+      "message": "For CL 517617, I wanted to hash on package, not function or position. So I added a new \"InitOrder *bisect.Matcher\" field to base.Debug, added some logic in pkginit.go to choose old vs new initialization based on base.Debug.InitOrder.ShouldEnable(bisect.Hash(types.LocalPkg.Path)), and then ran \"bisect go test -gcflags\u003dall\u003d-d\u003dinitorder\u003dPATTERN\".\n\nHaving the ability to easily add bisect.Matchers like that seems useful, even if I didn\u0027t end up keeping -d\u003dinitorder in CL 517617.\n\nI\u0027m open to alternative designs though.",
+      "parentUuid": "70763a37_6a7d6d75",
+      "revId": "d9f5bda37fdecdc347a98653ce9b5c863cf8b8cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
