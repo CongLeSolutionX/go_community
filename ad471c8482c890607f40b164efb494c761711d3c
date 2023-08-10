@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c03f928_edd2efff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:16:23Z",
+      "side": 1,
+      "message": "By reading the issue comments I think we might have an agreement on the fix. Please let me know if that is a misunderstanding.",
+      "parentUuid": "6501d416_c132c898",
+      "revId": "ad471c8482c890607f40b164efb494c761711d3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8931f6e8_c39b94ec",
         "filename": "src/net/http/transfer.go",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-08T21:47:29Z",
       "side": 1,
       "message": "Stale comment: there is no `s` here.",
+      "revId": "ad471c8482c890607f40b164efb494c761711d3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a447167_cb23ece3",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8931f6e8_c39b94ec",
       "revId": "ad471c8482c890607f40b164efb494c761711d3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-08-08T21:47:29Z",
       "side": 1,
       "message": "Why the change to pass a `[]string`, when this only examines the first value?",
+      "revId": "ad471c8482c890607f40b164efb494c761711d3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4999267_cb8425f2",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:16:23Z",
+      "side": 1,
+      "message": "We changed it to an array in order to have a way to differentiate empty values from the header being absent.",
+      "parentUuid": "5cb5e5d8_1e9fe744",
       "revId": "ad471c8482c890607f40b164efb494c761711d3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

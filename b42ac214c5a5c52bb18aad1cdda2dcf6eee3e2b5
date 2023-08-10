@@ -45,6 +45,54 @@
       },
       "revId": "b42ac214c5a5c52bb18aad1cdda2dcf6eee3e2b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e92f39_655b614a",
+        "filename": "doc/godebug.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cbe3a69_55556741",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 99
+      },
+      "revId": "b42ac214c5a5c52bb18aad1cdda2dcf6eee3e2b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb05c8d_9979f4ec",
+        "filename": "doc/godebug.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:16:23Z",
+      "side": 1,
+      "message": "What would be a good place to add such documentation? Since this affects both the request and response, I don\u0027t see a centralized location to put it. I\u0027m also not inclined to place it at the top of the documentation because it seems like it would clutter that section with a minor detail. Bryan, I would appreciate it if you could shed some light on this once again. Thank you!",
+      "parentUuid": "d53c3eec_5775590f",
+      "range": {
+        "startLine": 132,
+        "startChar": 68,
+        "endLine": 132,
+        "endChar": 91
+      },
+      "revId": "b42ac214c5a5c52bb18aad1cdda2dcf6eee3e2b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
