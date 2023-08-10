@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0f4213_c7aa6465",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-08-10T00:03:55Z",
+      "side": 1,
+      "message": "What happens if AcTime or CrTime is present? This is valid, but means the size may not be 5.",
+      "range": {
+        "startLine": 404,
+        "startChar": 3,
+        "endLine": 404,
+        "endChar": 22
+      },
+      "revId": "ad0a34b16561e93ba711e8a3c8a2c4cdc98c5a44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
