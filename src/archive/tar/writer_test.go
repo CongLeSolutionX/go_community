@@ -9,12 +9,14 @@ import (
 	"encoding/hex"
 	"errors"
 	"io"
+	"io/fs"
 	"os"
 	"path"
 	"reflect"
 	"sort"
 	"strings"
 	"testing"
+	"testing/fstest"
 	"testing/iotest"
 	"time"
 )
@@ -1331,5 +1333,58 @@ func TestFileWriter(t *testing.T) {
 		if got := bb.String(); got != wantStr {
 			t.Fatalf("test %d, String() = %q, want %q", i, got, wantStr)
 		}
+	}
+}
+
+func TestWriterAddFs(t *testing.T) {
+	fsys := fstest.MapFS{
+		"file.go":              {Data: []byte("hello")},
+		"subfolder/another.go": {Data: []byte("world")},
+	}
+	var buf bytes.Buffer
+	tw := NewWriter(&buf)
+	if err := tw.AddFS(fsys); err != nil {
+		t.Fatal(err)
+	}
+
+	// Test that we can get the files back from the archive
+	tr := NewReader(&buf)
+
+	for name, file := range fsys {
+		hdr, err := tr.Next()
+		if err == io.EOF {
+			break // End of archive
+		}
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		data := make([]byte, hdr.Size)
+		_, err = io.ReadFull(tr, data)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if name != hdr.Name {
+			t.Fatalf("got filename %v, want %v",
+				name, hdr.Name)
+		}
+
+		if string(data) != string(file.Data) {
+			t.Fatalf("got file content %v, want %v",
+				data, file.Data)
+		}
+	}
+}
+
+func TestWriterAddFsNonRegularFiles(t *testing.T) {
+	fsys := fstest.MapFS{
+		"device":  {Data: []byte("hello"), Mode: 0755 | fs.ModeDevice},
+		"symlink": {Data: []byte("world"), Mode: 0755 | fs.ModeSymlink},
+	}
+	var buf bytes.Buffer
+	tw := NewWriter(&buf)
+	if err := tw.AddFS(fsys); err == nil {
+		t.Fatal("expected error when AddFS is called with an fs.expected error when AddFS is called with an fs.FS that has non-regular files")
 	}
 }
