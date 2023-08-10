@@ -46,6 +46,30 @@
       },
       "revId": "ad0a34b16561e93ba711e8a3c8a2c4cdc98c5a44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4277a6a1_ca4f0356",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-08-10T17:15:06Z",
+      "side": 1,
+      "message": "I\u0027d argue the most correct thing to do is to just upsert the ModTime field.\nIf the other fields are present, we should maintain them if possible.\n\nAt a high-level:\n```\nif the \"extended timestamp\" field is missing\n    then add the entire \"extended timestamp\" field as we previously did\nelse if ModTime field is present\n    then update the ModTime field alone\nelse if ModTime field is missing\n    then update the flags to include and inject the ModTime field\n```",
+      "parentUuid": "a727a9bf_6f8735d2",
+      "range": {
+        "startLine": 404,
+        "startChar": 3,
+        "endLine": 404,
+        "endChar": 22
+      },
+      "revId": "ad0a34b16561e93ba711e8a3c8a2c4cdc98c5a44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
