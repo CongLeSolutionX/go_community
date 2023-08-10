@@ -22,6 +22,30 @@
       },
       "revId": "ad0a34b16561e93ba711e8a3c8a2c4cdc98c5a44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a727a9bf_6f8735d2",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-08-10T13:04:17Z",
+      "side": 1,
+      "message": "Missed that part, sorry.\n\nPer https://mdfs.net/Docs/Comp/Archiving/Zip/ExtraField\n\u003e Those times that are present will appear in the order indicated, but\n\u003e any combination of times may be omitted. (Creation time may be\n\u003e present without access time, for example.)  TSize should equal\n\u003e (1 + 4*(number of set bits in Flags)), as the block is currently\n\u003e defined. Other timestamps may be added in the future.\n\nSince the caller only writes ModTime - should we overwrite the whole field regardless of its size (i.e. potentially loosing previous AcTime or CrTime values)?",
+      "parentUuid": "cf0f4213_c7aa6465",
+      "range": {
+        "startLine": 404,
+        "startChar": 3,
+        "endLine": 404,
+        "endChar": 22
+      },
+      "revId": "ad0a34b16561e93ba711e8a3c8a2c4cdc98c5a44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
