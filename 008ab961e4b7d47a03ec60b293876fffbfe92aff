@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f621d3a_345f9a0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-10T20:39:46Z",
+      "side": 1,
+      "message": "LGTM other than the one comment, thanks.\n\nI\u0027m going to be on vacation for a week, other reviewers please feel free to +2 after IncNonDefault is added.",
+      "revId": "008ab961e4b7d47a03ec60b293876fffbfe92aff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf21f884_caf56ac0",
+        "filename": "src/net/http/transfer.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-10T20:39:46Z",
+      "side": 1,
+      "message": "```\nlaxContentLength.IncNonDefault()\n```\n\n(Updates a metric on the number of times the non-default path was taken.)",
+      "revId": "008ab961e4b7d47a03ec60b293876fffbfe92aff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
