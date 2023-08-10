@@ -50,6 +50,8 @@ var MemclrNoHeapPointers = memclrNoHeapPointers
 
 var CgoCheckPointer = cgoCheckPointer
 
+var MaxStack = maxStack
+
 const TracebackInnerFrames = tracebackInnerFrames
 const TracebackOuterFrames = tracebackOuterFrames
 
