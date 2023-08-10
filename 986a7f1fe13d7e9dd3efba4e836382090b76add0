@@ -282,6 +282,30 @@
       },
       "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b59c46_79048ce8",
+        "filename": "src/math/floor_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-10T09:22:05Z",
+      "side": 1,
+      "message": "I\u0027ve dropped fcsr related instructions.",
+      "parentUuid": "5ad461fe_d5e2bee3",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "986a7f1fe13d7e9dd3efba4e836382090b76add0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
