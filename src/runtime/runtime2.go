@@ -576,10 +576,10 @@ type m struct {
 	alllink       *m // on allm
 	schedlink     muintptr
 	lockedg       guintptr
-	createstack   [32]uintptr // stack that created this thread.
-	lockedExt     uint32      // tracking for external LockOSThread
-	lockedInt     uint32      // tracking for internal lockOSThread
-	nextwaitm     muintptr    // next m waiting for lock
+	createstack   [maxStack]uintptr // stack that created this thread.
+	lockedExt     uint32            // tracking for external LockOSThread
+	lockedInt     uint32            // tracking for internal lockOSThread
+	nextwaitm     muintptr          // next m waiting for lock
 
 	// wait* are used to carry arguments from gopark into park_m, because
 	// there's no stack to put them on. That is their sole purpose.
