@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"bytes"
 	"internal/abi"
+	"internal/testenv"
 	"os"
 	"os/exec"
 	"strconv"
@@ -16,6 +17,8 @@ import (
 )
 
 func TestVMInfo(t *testing.T) {
+	testenv.MustHaveExec(t)
+
 	var begin, end, offset uint64
 	var filename string
 	first := true
