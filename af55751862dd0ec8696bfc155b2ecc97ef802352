@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37d0a2a_c36f6afd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-08-10T13:26:06Z",
+      "side": 1,
+      "message": "Thanks for this CL. Some comments below.",
+      "revId": "af55751862dd0ec8696bfc155b2ecc97ef802352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab07b05b_10158049",
+        "filename": "src/internal/sysinfo/generic_os_cpuinfo.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-08-10T13:26:06Z",
+      "side": 1,
+      "message": "This should be just \n\n//go:build !linux",
+      "revId": "af55751862dd0ec8696bfc155b2ecc97ef802352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55aaff5f_47a89f4b",
+        "filename": "src/internal/sysinfo/proc_cpuinfo_linux_loong64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-08-10T13:26:06Z",
+      "side": 1,
+      "message": "Can you please collapse these three files into one single Linux file?\nInstead of using \"\\nModel Name\\t\\t: \" in one and \"model name: \" in the other,\nit seems like it would be enough to try both, and use whichever you find.\nSimilarly it is fine to try both \"CPU MHz\" and \"cpu MHz\".\nIt does seem strange that the Loong64 Linux code uses different casing than all the other architectures, but oh well.",
+      "revId": "af55751862dd0ec8696bfc155b2ecc97ef802352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "381e7c97_c83dcc47",
+        "filename": "src/internal/sysinfo/sysinfo.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-08-10T13:26:06Z",
+      "side": 1,
+      "message": "There is no need for this type. This can just be\n\n    var cpuInfo struct {\n       once sync.Once\n       name string\n    }\n    \n    func CPUName() string { ... }\n    \n\nand then you don\u0027t need to rename the internal/cpu import.",
+      "revId": "af55751862dd0ec8696bfc155b2ecc97ef802352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
