@@ -10,6 +10,19 @@
 
 #define SYS_clock_gettime	228
 
+#define CLOCK_REALTIME			0
+#define CLOCK_MONOTONIC			1
+#define CLOCK_PROCESS_CPUTIME_ID	2
+#define CLOCK_THREAD_CPUTIME_ID		3
+#define CLOCK_MONOTONIC_RAW		4
+#define CLOCK_REALTIME_COARSE		5
+#define CLOCK_MONOTONIC_COARSE		6
+#define CLOCK_BOOTTIME			7
+#define CLOCK_REALTIME_ALARM		8
+#define CLOCK_BOOTTIME_ALARM		9
+
+#define _1e9 1000000000
+
 // func time.now() (sec int64, nsec int32, mono int64)
 TEXT time·now<ABIInternal>(SB),NOSPLIT,$16-24
 	MOVQ	SP, R12 // Save old SP; R12 unchanged by C code.
@@ -36,28 +49,77 @@ TEXT time·now<ABIInternal>(SB),NOSPLIT,$16-24
 	MOVQ	(g_sched+gobuf_sp)(DX), SP	// Set SP to g0 stack
 
 noswitch:
-	SUBQ	$32, SP		// Space for two time results
+	// Six time results:
+	//
+	//	 0(SP) - CLOCK_MONOTONIC
+	//	16(SP) - CLOCK_REALTIME
+	//	32(SP) - CLOCK_MONOTONIC_COARSE (before)
+	//	48(SP) - CLOCK_REALTIME_COARSE (before)
+	//	64(SP) - CLOCK_MONOTONIC_COARSE (after)
+	//	80(SP) - CLOCK_REALTIME_COARSE (after)
+	//
+	SUBQ	$96, SP		// Space for six time results
 	ANDQ	$~15, SP	// Align for C code
 
-	MOVL	$0, DI // CLOCK_REALTIME
-	LEAQ	16(SP), SI
-	MOVQ	runtime·vdsoClockgettimeSym(SB), AX
-	CMPQ	AX, $0
+	MOVL	$CLOCK_MONOTONIC_COARSE, DI
+	LEAQ	32(SP), SI
+	MOVQ	runtime·vdsoClockgettimeSym(SB), R13
+	CMPQ	R13, $0
 	JEQ	fallback
-	CALL	AX
+	CALL	R13
 
-	MOVL	$1, DI // CLOCK_MONOTONIC
+	MOVL	$CLOCK_REALTIME_COARSE, DI
+	LEAQ	48(SP), SI
+	CALL	R13
+
+	MOVL	$CLOCK_REALTIME, DI
+	LEAQ	16(SP), SI
+	CALL	R13
+
+	MOVL	$CLOCK_MONOTONIC_COARSE, DI
+	LEAQ	64(SP), SI
+	CALL	R13
+
+	MOVQ	32(SP), AX // monotonic coarse sec
+	MOVQ	40(SP), R8 // monotonic coarse nsec
+	MOVQ	64(SP), CX // monotonic coarse sec
+	MOVQ	72(SP), R10 // monotonic coarse nsec
+	CMPQ	AX, CX
+	JNE	mismatch
+	CMPQ	R8, R10
+	JNE	mismatch
+	IMULQ	$_1e9, AX
+	ADDQ	AX, R8
+
+	MOVQ	48(SP), AX // realtime coarse sec
+	MOVQ	56(SP), R9 // realtime coarse nsec
+	IMULQ	$_1e9, AX
+	ADDQ	AX, R9
+
+	MOVQ	16(SP), CX // realtime actual sec
+	MOVQ	CX, AX
+	MOVQ	24(SP), DI // realtime actual nsec
+	IMULQ	$_1e9, CX
+	ADDQ	DI, CX
+
+	SUBQ	R9, CX
+	ADDQ	R8, CX
+	MOVQ	$0, DX
+	JMP 	regret
+
+mismatch:
+	MOVL	$CLOCK_MONOTONIC, DI
 	LEAQ	0(SP), SI
-	MOVQ	runtime·vdsoClockgettimeSym(SB), AX
-	CALL	AX
+	CALL	R13
 
 ret:
 	MOVQ	16(SP), AX	// realtime sec
 	MOVQ	24(SP), DI	// realtime nsec (moved to BX below)
 	MOVQ	0(SP), CX	// monotonic sec
-	IMULQ	$1000000000, CX
+	IMULQ	$_1e9, CX
 	MOVQ	8(SP), DX	// monotonic nsec
 
+regret:
 	MOVQ	R12, SP		// Restore real SP
 
 	// Restore vdsoPC, vdsoSP
@@ -76,10 +138,12 @@ ret:
 	RET
 
 fallback:
+	MOVL	$CLOCK_REALTIME, DI
+	LEAQ	16(SP), SI
 	MOVQ	$SYS_clock_gettime, AX
 	SYSCALL
 
-	MOVL	$1, DI // CLOCK_MONOTONIC
+	MOVL	$CLOCK_MONOTONIC, DI
 	LEAQ	0(SP), SI
 	MOVQ	$SYS_clock_gettime, AX
 	SYSCALL
