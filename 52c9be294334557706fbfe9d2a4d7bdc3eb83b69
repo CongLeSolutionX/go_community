@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6da50f7_f6cfe498",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6acf23f4_dd3c2c24",
+      "range": {
+        "startLine": 423,
+        "startChar": 5,
+        "endLine": 423,
+        "endChar": 19
+      },
+      "revId": "52c9be294334557706fbfe9d2a4d7bdc3eb83b69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "035d11ae_ee2d6919",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-10T00:30:04Z",
       "side": 1,
       "message": "FS",
+      "range": {
+        "startLine": 1339,
+        "startChar": 18,
+        "endLine": 1339,
+        "endChar": 20
+      },
+      "revId": "52c9be294334557706fbfe9d2a4d7bdc3eb83b69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15d37415_927594c0",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1339,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "035d11ae_ee2d6919",
       "range": {
         "startLine": 1339,
         "startChar": 18,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19100f2c_3f3b4166",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1363,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7ea8ff_5dd5fedc",
+      "revId": "52c9be294334557706fbfe9d2a4d7bdc3eb83b69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b651150f_773aab0c",
@@ -87,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89d4dc36_4c7c0704",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b651150f_773aab0c",
+      "range": {
+        "startLine": 1380,
+        "startChar": 18,
+        "endLine": 1380,
+        "endChar": 20
+      },
+      "revId": "52c9be294334557706fbfe9d2a4d7bdc3eb83b69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed8828e7_6dc943c7",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-08-10T00:30:04Z",
       "side": 1,
       "message": "This is a mouthful.\n\nHow about just \"expected error, but got nil\"",
+      "range": {
+        "startLine": 1388,
+        "startChar": 11,
+        "endLine": 1388,
+        "endChar": 134
+      },
+      "revId": "52c9be294334557706fbfe9d2a4d7bdc3eb83b69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dde074c_fc3d1faa",
+        "filename": "src/archive/tar/writer_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1388,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-08-10T00:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8828e7_6dc943c7",
       "range": {
         "startLine": 1388,
         "startChar": 11,
