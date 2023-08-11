@@ -124,6 +124,30 @@
       },
       "revId": "e5b269af46fcfbff8a33a0696f4370a23fbe1c1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aab5e877_91707130",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-08-11T14:28:14Z",
+      "side": 1,
+      "message": "OK, I got it.\n\nAs for the test, I don\u0027t have any specific ideas at the moment, do you have something in mind? or we just leave the `maxStack` for `createstack` as we\u0027ve already done in the latest commit in this CL?",
+      "parentUuid": "00c65904_5cea4550",
+      "range": {
+        "startLine": 567,
+        "startChar": 9,
+        "endLine": 567,
+        "endChar": 17
+      },
+      "revId": "e5b269af46fcfbff8a33a0696f4370a23fbe1c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
