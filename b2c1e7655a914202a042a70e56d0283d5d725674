@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81d899f9_971284a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-11T22:18:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "117c2d0e_ea48400f",
+      "revId": "b2c1e7655a914202a042a70e56d0283d5d725674",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d76bceca_11fcf874",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-10T18:33:53Z",
       "side": 1,
       "message": "I think this backport fixes #61873, but I need to test it manually.\n\n(release-branch.go1.20 can\u0027t run regression tests involving toolchain selection, because Go 1.20 doesn\u0027t support toolchain switching at all. 😅)",
+      "revId": "b2c1e7655a914202a042a70e56d0283d5d725674",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1834a68f_59292f2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-11T22:18:21Z",
+      "side": 1,
+      "message": "Reproduced the failure mode reported in the issue by cloning the Go repo into a subdirectory of `$GOMODCACHE` and building and running it at both this CL and the baseline with a VERSION file present.\n\nThis change does appear to fix the reported failure mode.",
+      "parentUuid": "d76bceca_11fcf874",
       "revId": "b2c1e7655a914202a042a70e56d0283d5d725674",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
