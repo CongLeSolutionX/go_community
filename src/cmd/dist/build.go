@@ -26,34 +26,35 @@ import (
 
 // The usual variables.
 var (
-	goarch           string
-	gorootBin        string
-	gorootBinGo      string
-	gohostarch       string
-	gohostos         string
-	goos             string
-	goarm            string
-	go386            string
-	goamd64          string
-	gomips           string
-	gomips64         string
-	goppc64          string
-	goroot           string
-	goroot_final     string
-	goextlinkenabled string
-	gogcflags        string // For running built compiler
-	goldflags        string
-	goexperiment     string
-	workdir          string
-	tooldir          string
-	oldgoos          string
-	oldgoarch        string
-	oldgocache       string
-	exe              string
-	defaultcc        map[string]string
-	defaultcxx       map[string]string
-	defaultpkgconfig string
-	defaultldso      string
+	goarch               string
+	gorootBin            string
+	gorootBinGo          string
+	gohostarch           string
+	gohostos             string
+	goos                 string
+	goarm                string
+	go386                string
+	goamd64              string
+	gomips               string
+	gomips64             string
+	goppc64              string
+	goroot               string
+	goroot_final         string
+	explicitGoroot_final bool
+	goextlinkenabled     string
+	gogcflags            string // For running built compiler
+	goldflags            string
+	goexperiment         string
+	workdir              string
+	tooldir              string
+	oldgoos              string
+	oldgoarch            string
+	oldgocache           string
+	exe                  string
+	defaultcc            map[string]string
+	defaultcxx           map[string]string
+	defaultpkgconfig     string
+	defaultldso          string
 
 	rebuildall bool
 	noOpt      bool
@@ -129,6 +130,8 @@ func xinit() {
 	b = os.Getenv("GOROOT_FINAL")
 	if b == "" {
 		b = goroot
+	} else {
+		explicitGoroot_final = true
 	}
 	goroot_final = b
 
@@ -1318,12 +1321,19 @@ func toolenv() []string {
 		env = append(env, "CGO_ENABLED=0")
 	}
 	if isRelease || os.Getenv("GO_BUILDER_NAME") != "" {
-		// Add -trimpath for reproducible builds of releases.
+		// Add -trimpath and trim debug info for compact, reproducible builds of
+		// releases.
+		//
 		// Include builders so that -trimpath is well-tested ahead of releases.
 		// Do not include local development, so that people working in the
 		// main branch for day-to-day work on the Go toolchain itself can
 		// still have full paths for stack traces for compiler crashes and the like.
-		env = append(env, "GOFLAGS=-trimpath -ldflags=-w -gcflags=cmd/...=-dwarf=false")
+
+		trimpath := ""
+		if !explicitGoroot_final {
+			trimpath = "-trimpath "
+		}
+		env = append(env, "GOFLAGS="+trimpath+"-ldflags=-w -gcflags=cmd/...=-dwarf=false")
 	}
 	return env
 }
