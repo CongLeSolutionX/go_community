@@ -53,6 +53,24 @@
       "message": "Please create a backport issue -- they\u0027re our user-facing documentation -- and mark it a release blocker.",
       "revId": "256362509d2e9b38088f106b054e4e4f2ffdf8b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6587777a_14f217e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-08-11T21:14:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e085954_08f2ce45",
+      "revId": "256362509d2e9b38088f106b054e4e4f2ffdf8b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
