@@ -100,6 +100,30 @@
       },
       "revId": "e5b269af46fcfbff8a33a0696f4370a23fbe1c1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c65904_5cea4550",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-08-11T02:45:21Z",
+      "side": 1,
+      "message": "I mean, +1 to creating a test against it if you\u0027re so inclined. my assumption is this code evolved fairly organically and no one thought to do that at the time.\n\nnow that I think of it though, I\u0027m also fairly sure this would get caught in the API audit before each release, so maybe it\u0027s not that big of a deal to use maxStack here. I think maxStack _might_ show up in documentation (hiding the 32), which might be a reason to still not do it? I don\u0027t actually remember.\n\nre: using maxStack in createstack, I only meant that we incidentally get that kind of coverage, which is a positive, but a test would certainly be better.",
+      "parentUuid": "4dd5d585_13cbe4ab",
+      "range": {
+        "startLine": 567,
+        "startChar": 9,
+        "endLine": 567,
+        "endChar": 17
+      },
+      "revId": "e5b269af46fcfbff8a33a0696f4370a23fbe1c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
