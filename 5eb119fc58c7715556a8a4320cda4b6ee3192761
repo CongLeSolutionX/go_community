@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aaa4bfe_c6991ed0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-12T05:53:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "889a2f43_4a9f139d",
+      "revId": "5eb119fc58c7715556a8a4320cda4b6ee3192761",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "645536af_90d3ed1c",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-03T01:47:54Z",
       "side": 1,
       "message": "Omit this, it just repeats the topic.",
+      "revId": "5eb119fc58c7715556a8a4320cda4b6ee3192761",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ade64d6c_de274e5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-08-12T05:53:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "645536af_90d3ed1c",
       "revId": "5eb119fc58c7715556a8a4320cda4b6ee3192761",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
