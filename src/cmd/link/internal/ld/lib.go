@@ -1811,6 +1811,13 @@ func (ctxt *Link) hostlink() {
 		argv = append(argv, p)
 		checkStatic(p)
 	}
+
+	// this will add an info.Plist file, as segment __TEXT and section __info_plist.
+	// This is used when using the external linker. Search elsewhere for __info_plist.
+	if ctxt.LinkMode == LinkExternal && ctxt.IsDarwin() && *flagPlist != "" {
+		argv = append(argv, "-extldflags", fmt.Sprintf(`-sectcreate __TEXT __info_plist %q`, *flagPlist))
+	}
+
 	if ctxt.HeadType == objabi.Hwindows {
 		// Determine which linker we're using. Add in the extldflags in
 		// case used has specified "-fuse-ld=...".
