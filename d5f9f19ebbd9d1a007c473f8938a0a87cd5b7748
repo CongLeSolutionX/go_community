@@ -16,6 +16,24 @@
       "message": "This is an API change, so it needs a [proposal](https://go.dev/s/proposal).",
       "revId": "d5f9f19ebbd9d1a007c473f8938a0a87cd5b7748",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b24865_c72dabce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2023-08-14T16:05:32Z",
+      "side": 1,
+      "message": "Thanks. I did submit an issue here, but not in the right order.\nhttps://github.com/golang/go/issues/62020",
+      "parentUuid": "7fbd9780_25e7b608",
+      "revId": "d5f9f19ebbd9d1a007c473f8938a0a87cd5b7748",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
