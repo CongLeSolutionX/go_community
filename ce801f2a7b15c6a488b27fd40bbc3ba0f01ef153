@@ -82,6 +82,30 @@
       },
       "revId": "ce801f2a7b15c6a488b27fd40bbc3ba0f01ef153",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ceb538b_158bf6de",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-14T15:20:27Z",
+      "side": 1,
+      "message": "I\u0027d like to do the crashing sema* functions in a different CL, but I also think that is the right place to do the crash and that it doesn\u0027t need an additional crash here -- the code\u0027s currently correct and it has a cautionary comment.",
+      "parentUuid": "b1ae7d42_ec5f696a",
+      "range": {
+        "startLine": 494,
+        "startChar": 3,
+        "endLine": 494,
+        "endChar": 99
+      },
+      "revId": "ce801f2a7b15c6a488b27fd40bbc3ba0f01ef153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
