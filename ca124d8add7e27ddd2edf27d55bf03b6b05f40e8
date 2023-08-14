@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "450f532b_2929d71d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-08-14T12:53:27Z",
+      "side": 1,
+      "message": "Thanks for this CL. \n\nAdding Cherry as a reviewer, since she has done lots of work recently on Macos linker stuff.\n\nCould you please say a bit about how users would use the \"-plist\" flag, and why this is needed?  Does __info_plist have to be part of the text segment (e.g. can plist items potentially contain executable code)? Or would .rodata work ok?\n\nThe go language already has a nice facility for embedding data files, more details at https://pkg.go.dev/embed (not sure if that would work here).",
+      "revId": "ca124d8add7e27ddd2edf27d55bf03b6b05f40e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c86ea81_c5528572",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2364,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-08-14T12:53:27Z",
+      "side": 1,
+      "message": "When you say \"Search elsewhere for `__info_plist`\", you mean \"do a google search for `__info_plist` for more info\"? It might be nice to have at least one URL here maybe?",
+      "range": {
+        "startLine": 2364,
+        "startChar": 48,
+        "endLine": 2364,
+        "endChar": 81
+      },
+      "revId": "ca124d8add7e27ddd2edf27d55bf03b6b05f40e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
