@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e47bf9_5c21aa2e",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-14T07:25:01Z",
+      "side": 1,
+      "message": "This is the same wording that is consistently used in `asm_*.s` for all architectures - if we want to change it, we should do that as a follow up (and keep it consistent).",
+      "parentUuid": "512b25b9_18774945",
+      "revId": "066f93a6345e74185ebfc090af67945cd7f8fae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b703b9a_c513a1f4",
@@ -143,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e65a22c2_effc5e74",
+        "filename": "src/runtime/sys_openbsd_ppc64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-14T07:25:01Z",
+      "side": 1,
+      "message": "I don\u0027t think so (but I can understand the interpretation) - \"Go relies on R0 being $0, however it may not be $0 when coming from the execution of C code.\". I\u0027ll reword.",
+      "parentUuid": "df522d2f_732b4c5d",
+      "revId": "066f93a6345e74185ebfc090af67945cd7f8fae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6c45a0d_70378c18",
@@ -160,6 +196,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbae95dc_51d926e5",
+        "filename": "src/runtime/sys_openbsd_ppc64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-14T07:25:01Z",
+      "side": 1,
+      "message": "Ack, thanks - I\u0027ll look at that in a follow up.",
+      "parentUuid": "f6c45a0d_70378c18",
+      "revId": "066f93a6345e74185ebfc090af67945cd7f8fae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d1696af_00fc44eb",
@@ -173,6 +227,24 @@
       "writtenOn": "2023-08-08T19:23:53Z",
       "side": 1,
       "message": "it might be coming from C code?",
+      "revId": "066f93a6345e74185ebfc090af67945cd7f8fae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc884e75_232a34bc",
+        "filename": "src/runtime/sys_openbsd_ppc64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-14T07:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d1696af_00fc44eb",
       "revId": "066f93a6345e74185ebfc090af67945cd7f8fae5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ebc462a_2ec0dd6c",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-14T07:25:01Z",
+      "side": 1,
+      "message": "No, removed (I suspect this was a remnant from trying to preserve R2).",
+      "parentUuid": "d42f9367_1dc30f08",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "29ee16b90e133e7b33b4271e7fd8217ced76bb43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19650901_c2f9d09e",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-08-10T16:05:05Z",
       "side": 1,
       "message": "R2 should be preserved across this call. That\u0027s probably as simple as moving it to a caller-save register here. You should be able to do that for the original Go SP too. R1 and R2 can be copied into R14 and R15 without having to stack them. R14-R31 are caller-save on all the ELF/AIX ABIs.",
+      "range": {
+        "startLine": 574,
+        "startChar": 1,
+        "endLine": 574,
+        "endChar": 3
+      },
+      "revId": "29ee16b90e133e7b33b4271e7fd8217ced76bb43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4533e40d_9f8867f1",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-14T07:25:01Z",
+      "side": 1,
+      "message": "Are you sure this is needed?\n\nThis is still Go ABI0, hence we would only need to preserve R2 if it was needed in this function post-call (which it is not afaict). Furthermore, `asmcgocall` does not appear to preserve R2 (only reloading it from the toc restore slot on aix seemingly).\n\nRe not using the stack, we could do that as a follow up, however we have to be careful as often `asmcgocall` does not call directly into C code, rather into trampolines that set up and then call C code. For example, R14 is already being used to store the pointer to arguments in the trampoline (e.g. mmap_trampoline).",
+      "parentUuid": "19650901_c2f9d09e",
       "range": {
         "startLine": 574,
         "startChar": 1,
