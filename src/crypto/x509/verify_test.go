@@ -2693,3 +2693,40 @@ func TestVerifyEKURootAsLeaf(t *testing.T) {
 	}
 
 }
+
+func TestCustomConstraint(t *testing.T) {
+	root, rootKey, err := generateCert("root", true, nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	inter, interKey, err := generateCert("inter", true, root, rootKey)
+	if err != nil {
+		t.Fatal(err)
+	}
+	leaf, _, err := generateCert("leaf", true, inter, interKey)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	roots := NewCertPool()
+	roots.AddCertWithConstraint(root, func(chain []*Certificate) error {
+		for _, c := range chain {
+			// certificates with the cn "leaf" are unacceptable!
+			if c.Subject.CommonName == "leaf" {
+				return errors.New("unacceptable")
+			}
+		}
+		return nil
+	})
+	inters := NewCertPool()
+	inters.AddCert(inter)
+
+	expectedErr := "x509: certificate signed by unknown authority (possibly because of \"unacceptable\" while trying to verify candidate authority certificate \"root\")"
+
+	_, err = leaf.Verify(VerifyOptions{Roots: roots, Intermediates: inters})
+	if err == nil {
+		t.Fatal("Verify didn't fail")
+	} else if err.Error() != expectedErr {
+		t.Fatalf("Verify unexpected error: got %q, want %q", err, expectedErr)
+	}
+}
