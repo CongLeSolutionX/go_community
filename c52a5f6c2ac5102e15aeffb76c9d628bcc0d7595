@@ -100,6 +100,30 @@
       },
       "revId": "c52a5f6c2ac5102e15aeffb76c9d628bcc0d7595",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de312917_09d961cb",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-08-15T19:21:48Z",
+      "side": 1,
+      "message": "I agree the change is correct, but we should try to avoid the headache of multiple cherry-picks. Is the goal to just cherry pick this one CL?\n\nAnyway, I\u0027ve thought about it; +2.",
+      "parentUuid": "5028346c_10abeab9",
+      "range": {
+        "startLine": 430,
+        "startChar": 1,
+        "endLine": 433,
+        "endChar": 2
+      },
+      "revId": "c52a5f6c2ac5102e15aeffb76c9d628bcc0d7595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
