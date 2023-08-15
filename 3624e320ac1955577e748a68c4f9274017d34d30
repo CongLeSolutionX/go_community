@@ -16,6 +16,24 @@
       "message": "Write this as\n\ninternal/syscall/unix: gofmt",
       "revId": "3624e320ac1955577e748a68c4f9274017d34d30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0989a995_b19cb3bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2023-08-15T01:41:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0b3a2f3a_0a6c5867",
+      "revId": "3624e320ac1955577e748a68c4f9274017d34d30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
