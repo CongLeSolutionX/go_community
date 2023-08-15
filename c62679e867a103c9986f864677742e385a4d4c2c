@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ef82719_8f6287af",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-15T21:02:35Z",
+      "side": 1,
+      "message": "Seems not done as of PS11.",
+      "parentUuid": "c99f7545_07f5186b",
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "886d97ef_2b422300",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 8
@@ -216,6 +234,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66a2a926_07713e9d",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-15T21:02:35Z",
+      "side": 1,
+      "message": "Thanks. Maybe say PC-relative offset for both, with words like \"J-type encoding\" to distinguish.",
+      "parentUuid": "067513e0_b71db32e",
+      "range": {
+        "startLine": 314,
+        "startChar": 52,
+        "endLine": 314,
+        "endChar": 63
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad09ed6c_61fb0de7",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 8
@@ -251,6 +293,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "ad09ed6c_61fb0de7",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 2
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f051f6f3_706481cb",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-15T21:02:35Z",
+      "side": 1,
+      "message": "Seems not done as of PS11.",
+      "parentUuid": "9f0adbbe_083353f1",
       "range": {
         "startLine": 103,
         "startChar": 0,
@@ -333,6 +399,30 @@
       "side": 1,
       "message": "It was most likely for consistency with other architectures - will remove.",
       "parentUuid": "ee18dfd5_f8fc3f1c",
+      "range": {
+        "startLine": 62,
+        "startChar": 49,
+        "endLine": 62,
+        "endChar": 80
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88589bf7_dd9b2380",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-15T21:02:35Z",
+      "side": 1,
+      "message": "(Mark as unresolved until it is done. Thanks.)",
+      "parentUuid": "6faecb37_5680e18a",
       "range": {
         "startLine": 62,
         "startChar": 49,
