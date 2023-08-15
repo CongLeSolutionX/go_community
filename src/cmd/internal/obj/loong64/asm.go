@@ -447,11 +447,8 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	}
 
 	// Run these passes until convergence.
-	bflag := 1
-	var otxt int64
-	var q *obj.Prog
-	for bflag != 0 {
-		bflag = 0
+	for {
+		rescan := false
 		pc = 0
 		prev := c.cursym.Func().Text
 		for p = prev.Link; p != nil; prev, p = p, p.Link {
@@ -466,7 +463,7 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			// because pc will be adjusted if padding happens.
 			if p.Mark&branchLoopHead != 0 && pc&(loopAlign-1) != 0 &&
 				!(prev.As == obj.APCALIGN && prev.From.Offset >= loopAlign) {
-				q = c.newprog()
+				q := c.newprog()
 				prev.Link = q
 				q.Link = p
 				q.Pc = pc
@@ -482,6 +479,7 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				// since this loop iteration is for p.
 				pc += int64(pcAlignPadLength(ctxt, pc, loopAlign))
 				p.Pc = pc
+				rescan = true
 			}
 
 			// very large conditional branches
@@ -491,9 +489,16 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			// generate extra passes putting branches
 			// around jmps to fix. this is rare.
 			if o.type_ == 6 && p.To.Target() != nil {
-				otxt = p.To.Target().Pc - pc
-				if otxt < -(1<<17)+10 || otxt >= (1<<17)-10 {
-					q = c.newprog()
+				otxt := p.To.Target().Pc - pc
+				bound := int64(1 << (18 - 1))
+
+				switch p.As {
+				case -ABEQ, -ABNE, ABFPT, ABFPF:
+					bound = int64(1 << (23 - 1))
+				}
+
+				if otxt < -bound || otxt >= bound {
+					q := c.newprog()
 					q.Link = p.Link
 					p.Link = q
 					q.As = AJMP
@@ -508,7 +513,7 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					q.Pos = p.Pos
 					q.To.Type = obj.TYPE_BRANCH
 					q.To.SetTarget(q.Link.Link)
-					bflag = 1
+					rescan = true
 				}
 			}
 
@@ -530,7 +535,12 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		}
 
 		c.cursym.Size = pc
+
+		if !rescan {
+			break
+		}
 	}
+
 	pc += -pc & (FuncAlign - 1)
 	c.cursym.Size = pc
 
