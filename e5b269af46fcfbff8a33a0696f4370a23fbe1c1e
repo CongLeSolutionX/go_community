@@ -148,6 +148,30 @@
       },
       "revId": "e5b269af46fcfbff8a33a0696f4370a23fbe1c1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a9ad2f4_31f8a0c3",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-08-15T00:27:29Z",
+      "side": 1,
+      "message": "the test could just check that the length of these public fields matches up with the internal constant, but it occurs to me that maybe there are other reasons they should stay decoupled. for instance, the profile format definitely supports a stack depth greater than 32.\n\nin any case, your change LGTM, thanks.",
+      "parentUuid": "aab5e877_91707130",
+      "range": {
+        "startLine": 567,
+        "startChar": 9,
+        "endLine": 567,
+        "endChar": 17
+      },
+      "revId": "e5b269af46fcfbff8a33a0696f4370a23fbe1c1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
