@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0589b5dd_862ac767",
+        "filename": "src/runtime/cgo/gcc_darwin_amd64.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-15T15:28:07Z",
+      "side": 0,
+      "message": "Thanks for the CL. Sorry for the late comment (was OOO last week).\n\nOn darwin, pthread_get_stacksize_np gets the actual stack size whereas pthread_attr_getstacksize gets a \"default\" stack size, which may not match the actual one. This CL seems to undo that. See also CL 415915.\n\nAlso, runtime/cgo/gcc_stack_*.c handles getting the stack bounds in a way that is more specific to the OSes. Maybe we could use that code instead?\n\nThanks.",
+      "revId": "2d5ce9b729c0edded841301bd73d68d5e95aa28b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
