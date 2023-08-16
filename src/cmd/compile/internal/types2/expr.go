@@ -413,6 +413,14 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		return nil, nil, InvalidUntypedConversion
 	}
 
+	if x.isZero() {
+		assert(isUntyped(x.typ))
+		if hasZero(target) {
+			return target, nil, 0
+		}
+		return nil, nil, InvalidUntypedConversion
+	}
+
 	switch u := under(target).(type) {
 	case *Basic:
 		if x.mode == constant_ {
@@ -425,7 +433,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		// Non-constant untyped values may appear as the
 		// result of comparisons (untyped bool), intermediate
 		// (delayed-checked) rhs operands of shifts, and as
-		// the value nil.
+		// the values nil and zero (both handled already).
 		switch x.typ.(*Basic).kind {
 		case UntypedBool:
 			if !isBoolean(target) {
@@ -516,6 +524,21 @@ func (check *Checker) comparison(x, y *operand, op syntax.Operator, switchCase b
 			}
 			if !hasNil(typ) {
 				// This case should only be possible for "nil == nil".
+				// Report the error on the 2nd operand since we only
+				// know after seeing the 2nd operand whether we have
+				// an invalid comparison.
+				errOp = y
+				goto Error
+			}
+
+		case x.isZero() || y.isZero():
+			// Comparison against zero requires that the other operand type has zero.
+			typ := x.typ
+			if x.isZero() {
+				typ = y.typ
+			}
+			if !hasZero(typ) {
+				// This case should only be possible for "zero == zero".
 				// Report the error on the 2nd operand since we only
 				// know after seeing the 2nd operand whether we have
 				// an invalid comparison.
@@ -925,6 +948,13 @@ func (check *Checker) matchTypes(x, y *operand) {
 		if y.isNil() {
 			return hasNil(x.typ)
 		}
+		// Untyped zero can only convert to a type that has a zero.
+		if x.isZero() {
+			return hasZero(y.typ)
+		}
+		if y.isZero() {
+			return hasZero(x.typ)
+		}
 		// An untyped operand cannot convert to a pointer.
 		// TODO(gri) generalize to type parameters
 		if isPointer(x.typ) || isPointer(y.typ) {
@@ -1029,9 +1059,6 @@ func (check *Checker) exprInternal(T Type, x *operand, e syntax.Expr, hint Type)
 	x.typ = Typ[Invalid]
 
 	switch e := e.(type) {
-	case nil:
-		unreachable()
-
 	case *syntax.BadExpr:
 		goto Error // error was reported before
 
