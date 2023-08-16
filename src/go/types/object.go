@@ -452,10 +452,17 @@ func newBuiltin(id builtinId) *Builtin {
 	return &Builtin{object{name: predeclaredFuncs[id].name, typ: Typ[Invalid], color_: black}, id}
 }
 
+// TODO(gri) Make Nil an alias for Value once it the corresponding proposal is accepted.
+//           For now, _Value is an alias for Nil to silence the API checker.
+
 // Nil represents the predeclared value nil.
 type Nil struct {
 	object
 }
+
+// A _Value represents the predeclared value nil or zero.
+// The specific value is identified by its type.
+type _Value = Nil
 
 func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 	var tname *TypeName
@@ -502,8 +509,8 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		buf.WriteString("builtin")
 		typ = nil
 
-	case *Nil:
-		buf.WriteString("nil")
+	case *_Value:
+		buf.WriteString(obj.name)
 		return
 
 	default:
@@ -587,7 +594,7 @@ func (obj *Var) String() string      { return ObjectString(obj, nil) }
 func (obj *Func) String() string     { return ObjectString(obj, nil) }
 func (obj *Label) String() string    { return ObjectString(obj, nil) }
 func (obj *Builtin) String() string  { return ObjectString(obj, nil) }
-func (obj *Nil) String() string      { return ObjectString(obj, nil) }
+func (obj *_Value) String() string   { return ObjectString(obj, nil) }
 
 func writeFuncName(buf *bytes.Buffer, f *Func, qf Qualifier) {
 	if f.typ != nil {
