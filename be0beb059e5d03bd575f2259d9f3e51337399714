@@ -70,6 +70,24 @@
       "message": "Bug here if flagPrec is applied to something that is already flagOn [meaning flagI|flagM|flagS|...] - we will not emit a second `(` to match with the later flagOff.\n\nSame if flagPrec is applied to a flagOff - it will not emit an extra `)` to close the earlier flagOn.",
       "revId": "be0beb059e5d03bd575f2259d9f3e51337399714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56fda979_e591834f",
+        "filename": "src/regexp/syntax/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-08-16T15:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4957b758_b2e03446",
+      "revId": "be0beb059e5d03bd575f2259d9f3e51337399714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
