@@ -452,10 +452,15 @@ func newBuiltin(id builtinId) *Builtin {
 	return &Builtin{object{name: predeclaredFuncs[id].name, typ: Typ[Invalid], color_: black}, id}
 }
 
-// Nil represents the predeclared value nil.
-type Nil struct {
+// A _Value represents the predeclared value nil or zero.
+// The specific value is identified by its type.
+type _Value struct { // TODO(gri) export once the respective proposal is accepted
 	object
 }
+
+// For backward-compatibility only.
+// Deprecated.
+type Nil = _Value
 
 func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 	var tname *TypeName
@@ -502,8 +507,8 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		buf.WriteString("builtin")
 		typ = nil
 
-	case *Nil:
-		buf.WriteString("nil")
+	case *_Value:
+		buf.WriteString(obj.name)
 		return
 
 	default:
@@ -587,7 +592,7 @@ func (obj *Var) String() string      { return ObjectString(obj, nil) }
 func (obj *Func) String() string     { return ObjectString(obj, nil) }
 func (obj *Label) String() string    { return ObjectString(obj, nil) }
 func (obj *Builtin) String() string  { return ObjectString(obj, nil) }
-func (obj *Nil) String() string      { return ObjectString(obj, nil) }
+func (obj *_Value) String() string   { return ObjectString(obj, nil) }
 
 func writeFuncName(buf *bytes.Buffer, f *Func, qf Qualifier) {
 	if f.typ != nil {

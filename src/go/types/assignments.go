@@ -24,7 +24,7 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 	switch x.mode {
 	case invalid:
 		return // error reported before
-	case constant_, variable, mapindex, value, commaok, commaerr:
+	case constant_, variable, mapindex, value, zerovalue, commaok, commaerr:
 		// ok
 	default:
 		// we may get here because of other problems (go.dev/issue/39634, crash 12)
@@ -41,12 +41,14 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 		// bool, rune, int, float64, complex128 or string respectively, depending
 		// on whether the value is a boolean, rune, integer, floating-point,
 		// complex, or string constant."
-		if T == nil || isNonTypeParamInterface(T) {
-			if T == nil && x.typ == Typ[UntypedNil] {
-				check.errorf(x, UntypedNilUse, "use of untyped nil in %s", context)
+
+		if x.isNil() || x.isZero() {
+			if T == nil {
+				check.errorf(x, untypedErrorCode(x.typ), "use of %s in %s", x.typ, context)
 				x.mode = invalid
 				return
 			}
+		} else if T == nil || isNonTypeParamInterface(T) {
 			target = Default(x.typ)
 		}
 		newType, val, code := check.implicitTypeAndValue(x, target)
@@ -100,6 +102,21 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 	}
 }
 
+// TODO(gri) Consider a new code UntypedValueUse instead,
+//           which may be used in place of these codes.
+//           Distinguishing between the two seems a bit
+//           overkill.
+
+func untypedErrorCode(typ Type) Code {
+	switch typ {
+	case Typ[UntypedNil]:
+		return UntypedNilUse
+	case Typ[_UntypedZero]:
+		return UntypedZeroUse
+	}
+	panic("unknown untyped value")
+}
+
 func (check *Checker) initConst(lhs *Const, x *operand) {
 	if x.mode == invalid || x.typ == Typ[Invalid] || lhs.typ == Typ[Invalid] {
 		if lhs.typ == nil {
@@ -149,8 +166,8 @@ func (check *Checker) initVar(lhs *Var, x *operand, context string) {
 		typ := x.typ
 		if isUntyped(typ) {
 			// convert untyped types to default types
-			if typ == Typ[UntypedNil] {
-				check.errorf(x, UntypedNilUse, "use of untyped nil in %s", context)
+			if typ == Typ[UntypedNil] || typ == Typ[_UntypedZero] {
+				check.errorf(x, untypedErrorCode(typ), "use of %s in %s", typ, context)
 				lhs.typ = Typ[Invalid]
 				x.mode = invalid
 				return
