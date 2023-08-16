@@ -369,6 +369,14 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		return nil, nil, InvalidUntypedConversion
 	}
 
+	if x.isZero() {
+		assert(isUntyped(x.typ))
+		if hasZero(target) {
+			return target, nil, 0
+		}
+		return nil, nil, InvalidUntypedConversion
+	}
+
 	switch u := under(target).(type) {
 	case *Basic:
 		if x.mode == constant_ {
@@ -381,7 +389,7 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		// Non-constant untyped values may appear as the
 		// result of comparisons (untyped bool), intermediate
 		// (delayed-checked) rhs operands of shifts, and as
-		// the value nil.
+		// the values nil and zero (zero is handled above).
 		switch x.typ.(*Basic).kind {
 		case UntypedBool:
 			if !isBoolean(target) {
@@ -432,11 +440,10 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 		if x.isNil() {
 			return Typ[UntypedNil], nil, 0
 		}
-		// cannot assign untyped values to non-empty interfaces
 		if !u.Empty() {
-			return nil, nil, InvalidUntypedConversion
+			return nil, nil, InvalidUntypedConversion // cannot assign untyped values to non-empty interfaces
 		}
-		return Default(x.typ), nil, 0
+		return Default(x.typ), nil, 0 // default type for nil is nil
 	case *Pointer, *Signature, *Slice, *Map, *Chan:
 		if !x.isNil() {
 			return nil, nil, InvalidUntypedConversion
@@ -494,6 +501,21 @@ func (check *Checker) comparison(x, y *operand, op token.Token, switchCase bool)
 			}
 			if !hasNil(typ) {
 				// This case should only be possible for "nil == nil".
+				// Report the error on the 2nd operand since we only
+				// know after seeing the 2nd operand whether we have
+				// an invalid comparison.
+				errOp = y
+				goto Error
+			}
+
+		case x.isZero() || y.isZero():
+			// Comparison against zero requires that the other operand type has zero.
+			typ := x.typ
+			if x.isZero() {
+				typ = y.typ
+			}
+			if !hasZero(typ) {
+				// This case should only be possible for "zero == zero".
 				// Report the error on the 2nd operand since we only
 				// know after seeing the 2nd operand whether we have
 				// an invalid comparison.
@@ -857,7 +879,7 @@ func (check *Checker) binary(x *operand, e ast.Expr, lhs, rhs ast.Expr, op token
 			// x.typ is unchanged
 			return
 		}
-		// force integer division of integer operands
+		// force integer division for integer operands
 		if op == token.QUO && isInteger(x.typ) {
 			op = token.QUO_ASSIGN
 		}
@@ -909,6 +931,13 @@ func (check *Checker) matchTypes(x, y *operand) {
 		}
 		if y.isNil() {
 			return hasNil(x.typ)
+		}
+		// Untyped zero can only convert to a type that has a zero.
+		if x.isZero() {
+			return hasZero(y.typ)
+		}
+		if y.isZero() {
+			return hasZero(x.typ)
 		}
 		// An untyped operand cannot convert to a pointer.
 		// TODO(gri) generalize to type parameters

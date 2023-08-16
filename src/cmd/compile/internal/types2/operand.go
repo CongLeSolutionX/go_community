@@ -28,6 +28,7 @@ const (
 	mapindex                     // operand is a map index expression (acts like a variable on lhs, commaok on rhs of an assignment)
 	value                        // operand is a computed value
 	nilvalue                     // operand is the nil value
+	zerovalue                    // operand is the zero value
 	commaok                      // like value, but operand may be used in a comma,ok expression
 	commaerr                     // like commaok, but second value is error, not boolean
 	cgofunc                      // operand is a cgo function
@@ -43,6 +44,7 @@ var operandModeString = [...]string{
 	mapindex:  "map index expression",
 	value:     "value",
 	nilvalue:  "nil",
+	zerovalue: "zero",
 	commaok:   "comma, ok expression",
 	commaerr:  "comma, error expression",
 	cgofunc:   "cgo function",
@@ -99,6 +101,9 @@ func (x *operand) Pos() syntax.Pos {
 // nilvalue   untyped nil
 // nilvalue   nil    (                            of type <typ>)
 //
+// zerovalue  untyped zero
+// zerovalue  zero    (                           of type <typ>)
+//
 // commaok    <expr> (<untyped kind> <mode>                    )
 // commaok    <expr> (               <mode>       of type <typ>)
 //
@@ -117,6 +122,18 @@ func operandString(x *operand, qf Qualifier) string {
 			return "nil"
 		default:
 			return fmt.Sprintf("nil (of type %s)", TypeString(x.typ, qf))
+		}
+	}
+
+	// special-case zero
+	if x.mode == zerovalue {
+		switch x.typ {
+		case nil, Typ[Invalid]:
+			return "zero (with invalid type)"
+		case Typ[_UntypedZero]:
+			return "zero"
+		default:
+			return fmt.Sprintf("zero (of type %s)", TypeString(x.typ, qf))
 		}
 	}
 
@@ -238,6 +255,9 @@ func (x *operand) setConst(k syntax.LitKind, lit string) {
 // isNil reports whether x is the (untyped) nil value.
 func (x *operand) isNil() bool { return x.mode == nilvalue }
 
+// isZero reports whether x is the (untyped) zero value.
+func (x *operand) isZero() bool { return x.mode == zerovalue }
+
 // assignableTo reports whether x is assignable to a variable of type T. If the
 // result is false and a non-nil cause is provided, it may be set to a more
 // detailed explanation of the failure (result != ""). The returned error code
@@ -332,7 +352,7 @@ func (x *operand) assignableTo(check *Checker, T Type, cause *string) (bool, Cod
 		return false, IncompatibleAssign
 	}
 
-	errorf := func(format string, args ...interface{}) {
+	errorf := func(format string, args ...any) {
 		if check != nil && cause != nil {
 			msg := check.sprintf(format, args...)
 			if *cause != "" {

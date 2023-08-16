@@ -202,6 +202,19 @@ func hasNil(t Type) bool {
 	return false
 }
 
+// hasZero reports whether type t includes the zero value.
+func hasZero(t Type) bool {
+	switch u := under(t).(type) {
+	case *Array, *Struct:
+		return true
+	case *Interface:
+		return isTypeParam(t) && u.typeSet().underIs(func(u Type) bool {
+			return u == nil || hasZero(u)
+		})
+	}
+	return false
+}
+
 // An ifacePair is a node in a stack of interface type pairs compared for identity.
 type ifacePair struct {
 	x, y *Interface
@@ -492,7 +505,7 @@ func identicalInstance(xorig Type, xargs []Type, yorig Type, yargs []Type) bool 
 
 // Default returns the default "typed" type for an "untyped" type;
 // it returns the incoming type for all other types. The default type
-// for untyped nil is untyped nil.
+// for untyped nil or zero is untyped nil or zero, respectively.
 func Default(t Type) Type {
 	if t, ok := t.(*Basic); ok {
 		switch t.kind {

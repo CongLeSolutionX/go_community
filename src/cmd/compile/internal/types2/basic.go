@@ -38,6 +38,7 @@ const (
 	UntypedComplex
 	UntypedString
 	UntypedNil
+	_UntypedZero // TODO(gri) export once the respective proposal is accepted
 
 	// aliases
 	Byte = Uint8
