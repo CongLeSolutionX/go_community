@@ -149,8 +149,8 @@ func (check *Checker) initVar(lhs *Var, x *operand, context string) {
 		typ := x.typ
 		if isUntyped(typ) {
 			// convert untyped types to default types
-			if typ == Typ[UntypedNil] {
-				check.errorf(x, UntypedNilUse, "use of untyped nil in %s", context)
+			if typ == Typ[UntypedNil] || typ == Typ[UntypedZero] {
+				check.errorf(x, UntypedNilUse, "use of %s in %s", typ, context)
 				lhs.typ = Typ[Invalid]
 				x.mode = invalid
 				return

@@ -501,6 +501,21 @@ func (check *Checker) comparison(x, y *operand, op token.Token, switchCase bool)
 				goto Error
 			}
 
+		case x.isZero() || y.isZero():
+			// Comparison against zero requires that the other operand type has zero.
+			typ := x.typ
+			if x.isZero() {
+				typ = y.typ
+			}
+			if !hasZero(typ) {
+				// This case should only be possible for "zero == zero".
+				// Report the error on the 2nd operand since we only
+				// know after seeing the 2nd operand whether we have
+				// an invalid comparison.
+				errOp = y
+				goto Error
+			}
+
 		case !Comparable(x.typ):
 			errOp = x
 			cause = check.incomparableCause(x.typ)
@@ -909,6 +924,13 @@ func (check *Checker) matchTypes(x, y *operand) {
 		}
 		if y.isNil() {
 			return hasNil(x.typ)
+		}
+		// Untyped zero can only convert to a type that has a zero.
+		if x.isZero() {
+			return hasZero(y.typ)
+		}
+		if y.isZero() {
+			return hasZero(x.typ)
 		}
 		// An untyped operand cannot convert to a pointer.
 		// TODO(gri) generalize to type parameters

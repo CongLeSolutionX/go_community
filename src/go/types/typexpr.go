@@ -46,6 +46,10 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, wantType bool)
 		if !check.verifyVersionf(e, go1_18, "predeclared %s", e.Name) {
 			return // avoid follow-on errors
 		}
+	case universeZero:
+		if !check.verifyVersionf(e, go1_22, "predeclared %s", e.Name) {
+			return // avoid follow-on errors
+		}
 	}
 	check.recordUse(e, obj)
 

@@ -452,7 +452,7 @@ func newBuiltin(id builtinId) *Builtin {
 	return &Builtin{object{name: predeclaredFuncs[id].name, typ: Typ[Invalid], color_: black}, id}
 }
 
-// Nil represents the predeclared value nil.
+// Nil represents the predeclared value nil or zero.
 type Nil struct {
 	object
 }
@@ -503,7 +503,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		typ = nil
 
 	case *Nil:
-		buf.WriteString("nil")
+		buf.WriteString(obj.name)
 		return
 
 	default:

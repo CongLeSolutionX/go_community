@@ -107,6 +107,11 @@ func operandString(x *operand, qf Qualifier) string {
 		return "nil"
 	}
 
+	// special-case zero
+	if x.mode == value && x.typ == Typ[UntypedZero] {
+		return "zero"
+	}
+
 	var buf bytes.Buffer
 
 	var expr string
@@ -224,6 +229,9 @@ func (x *operand) setConst(tok token.Token, lit string) {
 
 // isNil reports whether x is the (untyped) nil value.
 func (x *operand) isNil() bool { return x.mode == value && x.typ == Typ[UntypedNil] }
+
+// isZero reports whether x is the (untyped) zero value.
+func (x *operand) isZero() bool { return x.mode == value && x.typ == Typ[UntypedZero] }
 
 // assignableTo reports whether x is assignable to a variable of type T. If the
 // result is false and a non-nil cause is provided, it may be set to a more
