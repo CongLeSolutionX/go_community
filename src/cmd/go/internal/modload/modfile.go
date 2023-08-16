@@ -811,3 +811,11 @@ func ToDirectoryPath(path string) string {
 	// to the current directory.
 	return "./" + filepath.ToSlash(filepath.Clean(path))
 }
+
+func qualifiedToolPath(modFile *modfile.File, tool *modfile.Tool) string {
+	if strings.HasPrefix(tool.Path, "./") {
+		return modFile.Module.Mod.Path + tool.Path[1:]
+
+	}
+	return tool.Path
+}
