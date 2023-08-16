@@ -8,6 +8,7 @@ package types
 
 import (
 	"bytes"
+	"fmt"
 	"go/ast"
 	"go/constant"
 	"go/token"
@@ -26,6 +27,7 @@ const (
 	variable                     // operand is an addressable variable
 	mapindex                     // operand is a map index expression (acts like a variable on lhs, commaok on rhs of an assignment)
 	value                        // operand is a computed value
+	zerovalue                    // operand is the zero value
 	commaok                      // like value, but operand may be used in a comma,ok expression
 	commaerr                     // like commaok, but second value is error, not boolean
 	cgofunc                      // operand is a cgo function
@@ -40,6 +42,7 @@ var operandModeString = [...]string{
 	variable:  "variable",
 	mapindex:  "map index expression",
 	value:     "value",
+	zerovalue: "zero",
 	commaok:   "comma, ok expression",
 	commaerr:  "comma, error expression",
 	cgofunc:   "cgo function",
@@ -93,6 +96,9 @@ func (x *operand) Pos() token.Pos {
 // value      <expr> (<untyped kind> <mode>                    )
 // value      <expr> (               <mode>       of type <typ>)
 //
+// zerovalue  untyped zero
+// zerovalue  zero    (                           of type <typ>)
+//
 // commaok    <expr> (<untyped kind> <mode>                    )
 // commaok    <expr> (               <mode>       of type <typ>)
 //
@@ -105,6 +111,18 @@ func operandString(x *operand, qf Qualifier) string {
 	// special-case nil
 	if x.mode == value && x.typ == Typ[UntypedNil] {
 		return "nil"
+	}
+
+	// special-case zero
+	if x.mode == zerovalue {
+		switch x.typ {
+		case nil, Typ[Invalid]:
+			return "zero (with invalid type)"
+		case Typ[_UntypedZero]:
+			return "zero"
+		default:
+			return fmt.Sprintf("zero (of type %s)", TypeString(x.typ, qf))
+		}
 	}
 
 	var buf bytes.Buffer
@@ -224,6 +242,9 @@ func (x *operand) setConst(tok token.Token, lit string) {
 
 // isNil reports whether x is the (untyped) nil value.
 func (x *operand) isNil() bool { return x.mode == value && x.typ == Typ[UntypedNil] }
+
+// isZero reports whether x is the (untyped) zero value.
+func (x *operand) isZero() bool { return x.mode == zerovalue }
 
 // assignableTo reports whether x is assignable to a variable of type T. If the
 // result is false and a non-nil cause is provided, it may be set to a more
