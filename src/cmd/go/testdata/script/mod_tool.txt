@@ -1,17 +1,18 @@
-! grep 'tool m2' go.mod
+go mod edit -tool example.com/tools/cmd/hello
+go mod tidy
+grep 'tool example.com/tools/cmd/hello' go.mod
+grep 'require example.com/tools v1.0.0' go.mod
 
-go mod edit -tool m2
-grep 'tool example.com/tool' go.mod
+go list tools
+stdout example.com/tools/cmd/hello
+go list all
+stdout example.com/tools/cmd/hello
 
-go mod edit -droptool m2
-! grep 'tool example.com/tool' go.mod
+go mod edit -droptool example.com/tools/cmd/hello
+go mod tidy
+! grep 'tool example.com/tools/cmd/hello' go.mod
+! grep 'require example.com/tools v1.0.0' go.mod
 
 -- go.mod --
 module m
-go 1.10
-
-replace example.com/tool v1.0.0 => ./tool
-
--- tool/go.mod --
-module m2
-go 1.23
+go 1.22

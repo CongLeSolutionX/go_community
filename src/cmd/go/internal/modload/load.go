@@ -37,6 +37,7 @@ package modload
 // 	- it is in the main module, or
 // 	- it is imported by any test in the main module, or
 // 	- it is imported by another package in "all", or
+//	- it is imported by a tool of the main module, or
 // 	- the main module specifies a go version ≤ 1.15, and the package is imported
 // 	  by a *test of* another package in "all".
 //
@@ -336,6 +337,14 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 					m.MatchPackages() // Locate the packages within GOROOT/src.
 				}
 
+			case m.Pattern() == "tools":
+				modVersion := MainModules.ModContainingCWD()
+				if modVersion != (module.Version{}) {
+					modFile := MainModules.ModFile(MainModules.ModContainingCWD())
+					for _, tool := range modFile.Tool {
+						m.Pkgs = append(m.Pkgs, qualifiedToolPath(modFile, tool))
+					}
+				}
 			default:
 				panic(fmt.Sprintf("internal error: modload missing case for pattern %s", m.Pattern()))
 			}
@@ -1109,6 +1118,15 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			if !inRoots[root] {
 				ld.roots = append(ld.roots, root)
 				inRoots[root] = true
+			}
+		}
+
+		if ld.allPatternIsRoot {
+			modFile := MainModules.ModFile(MainModules.ModContainingCWD())
+			if modFile != nil {
+				for _, tool := range modFile.Tool {
+					ld.pkg(ctx, qualifiedToolPath(modFile, tool), pkgInAll)
+				}
 			}
 		}
 
