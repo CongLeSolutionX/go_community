@@ -24,7 +24,7 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 	switch x.mode {
 	case invalid:
 		return // error reported before
-	case constant_, variable, mapindex, value, commaok, commaerr:
+	case constant_, variable, mapindex, value, zerovalue, commaok, commaerr:
 		// ok
 	default:
 		// we may get here because of other problems (go.dev/issue/39634, crash 12)
@@ -41,12 +41,15 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 		// bool, rune, int, float64, complex128 or string respectively, depending
 		// on whether the value is a boolean, rune, integer, floating-point,
 		// complex, or string constant."
-		if T == nil || isNonTypeParamInterface(T) {
-			if T == nil && x.typ == Typ[UntypedNil] {
-				check.errorf(x, UntypedNilUse, "use of untyped nil in %s", context)
+
+		if x.isNil() || x.isZero() {
+			if T == nil {
+				// TODO(gri) do we need an UntypedZeroUse error code?
+				check.errorf(x, UntypedNilUse, "use of %s in %s", x.typ, context)
 				x.mode = invalid
 				return
 			}
+		} else if T == nil || isNonTypeParamInterface(T) {
 			target = Default(x.typ)
 		}
 		newType, val, code := check.implicitTypeAndValue(x, target)
@@ -149,8 +152,9 @@ func (check *Checker) initVar(lhs *Var, x *operand, context string) {
 		typ := x.typ
 		if isUntyped(typ) {
 			// convert untyped types to default types
-			if typ == Typ[UntypedNil] {
-				check.errorf(x, UntypedNilUse, "use of untyped nil in %s", context)
+			if typ == Typ[UntypedNil] || typ == Typ[UntypedZero] {
+				// TODO(gri) do we need an UntypedZeroUse error code?
+				check.errorf(x, UntypedNilUse, "use of %s in %s", typ, context)
 				lhs.typ = Typ[Invalid]
 				x.mode = invalid
 				return
