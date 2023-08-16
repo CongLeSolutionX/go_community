@@ -63,6 +63,7 @@ var Typ = [...]*Basic{
 	UntypedComplex: {UntypedComplex, IsComplex | IsUntyped, "untyped complex"},
 	UntypedString:  {UntypedString, IsString | IsUntyped, "untyped string"},
 	UntypedNil:     {UntypedNil, IsUntyped, "untyped nil"},
+	UntypedZero:    {UntypedZero, IsUntyped, "untyped zero"},
 }
 
 var aliases = [...]*Basic{
@@ -134,8 +135,9 @@ func defPredeclaredConsts() {
 	}
 }
 
-func defPredeclaredNil() {
+func defPredeclaredValues() {
 	def(&Nil{object{name: "nil", typ: Typ[UntypedNil], color_: black}})
+	def(&Nil{object{name: "zero", typ: Typ[UntypedZero], color_: black}})
 }
 
 // A builtinId is the id of a builtin function.
@@ -244,7 +246,7 @@ func init() {
 
 	defPredeclaredTypes()
 	defPredeclaredConsts()
-	defPredeclaredNil()
+	defPredeclaredValues()
 	defPredeclaredFuncs()
 
 	universeIota = Universe.Lookup("iota")

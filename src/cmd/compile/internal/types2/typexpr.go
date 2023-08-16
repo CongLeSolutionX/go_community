@@ -122,7 +122,14 @@ func (check *Checker) ident(x *operand, e *syntax.Name, def *Named, wantType boo
 		x.mode = builtin
 
 	case *Nil:
-		x.mode = nilvalue
+		switch obj.typ {
+		case Typ[UntypedNil]:
+			x.mode = nilvalue
+		case Typ[UntypedZero]:
+			x.mode = zerovalue
+		default:
+			panic("unknown Nil object")
+		}
 
 	default:
 		unreachable()
