@@ -1474,4 +1474,11 @@ const (
 	//  var s, t []byte
 	//  var _ = max(s, t)
 	InvalidMinMaxOperand
+
+	// UntypedZeroUse occurs when the predeclared (untyped) value zero is used to
+	// initialize a variable declared without an explicit type.
+	//
+	// Example:
+	//  var x = zero
+	UntypedZeroUse
 )
