@@ -72,6 +72,142 @@
       "message": "Go 1.21 is released, friendly ping~",
       "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58fd2d2b_85c070d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "I think this needs some tests of #cgo noescape.\n\nIf possible cmd/cgo should complain if one of these directives is used but there is no C function with that name.",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d86346df_c4fbc119",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "It makes sense to define #cgo nocallback and #cgo noescape together, but the \"Passing pointers\" section is the wrong place to document #cgo nocallback.  I think we should add a new section \"Optimizing calls of C code\".",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1680ba44_da0d9bc4",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "This paragraph is too detailed.\n\nWhen passing a Go pointer to a C function the compiler normally ensures that the Go object lives on the heap. If the C function does not keep a copy of the Go pointer, and never passes the Go pointer back to Go code, then this is unnecessary.  The #cgo noescape directive may be used to tell the compiler that no Go pointers escape via the named C function.  If the noescape directive is used and the C function does not handle the pointer safely, the program may crash or see memory corruption.\n\n// #cgo noescape cFunctionName\n\nWhen a Go function calls a C function, it prepares for the C function to call back to a Go function. the #cgo nocallback directive may be used to tell the compiler that these preparations are not necessary. If the nocallback directive is used and the C function does call back into Go code, the program will panic.\n\n// #cgo nocallback cFunctionName",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ab28c6d_99871ffc",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "These directives are also discarded.",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e666c0b6_3c4f1389",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "s/that with/with/",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb59133b_5ab6d745",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "Can we do this is noCallback is true?  Why the restriction to noCgoCallback?",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9339514b_ba161563",
+        "filename": "src/runtime/cgo.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "Let\u0027s panic if nocgocallback is already set.",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e32413_54f2070e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-16T21:15:36Z",
+      "side": 1,
+      "message": "Let\u0027s not put this between the related fields tracking and trackingSeq and trackingStamp.",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
