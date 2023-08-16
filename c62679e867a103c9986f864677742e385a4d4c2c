@@ -162,6 +162,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67bd7702_1d392430",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "Ugh, sorry - I mailed PS10 with the fixes, then mailed the openbsd/riscv64 stack (which had the old version at the base), which resulted in the changes being  reverted in PS11.",
+      "parentUuid": "1ef82719_8f6287af",
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "886d97ef_2b422300",
@@ -175,6 +193,30 @@
       "writtenOn": "2023-07-28T20:43:33Z",
       "side": 1,
       "message": "This doesn\u0027t seem to match the linker code or what PCREL usually mean. In fact, is there any difference between this and R_PCREL?",
+      "range": {
+        "startLine": 292,
+        "startChar": 62,
+        "endLine": 293,
+        "endChar": 10
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3434592d_e915b0de",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "Yes, the comment is incorrect. This seems to match R_PCREL, however I\u0027m not able to find any builder that triggers this relocation (seems like it was probably binutils at some point). I guess our options are to (a) omit it for now, (b) switch to R_PCREL and trust that it works correctly or (c) stick with the original code that was tested previously...",
+      "parentUuid": "886d97ef_2b422300",
       "range": {
         "startLine": 292,
         "startChar": 62,
@@ -256,6 +298,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3279bca1_31e59dcc",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66a2a926_07713e9d",
+      "range": {
+        "startLine": 314,
+        "startChar": 52,
+        "endLine": 314,
+        "endChar": 63
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad09ed6c_61fb0de7",
@@ -317,6 +383,30 @@
       "side": 1,
       "message": "Seems not done as of PS11.",
       "parentUuid": "9f0adbbe_083353f1",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 2
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1325066a_0ac60e61",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f051f6f3_706481cb",
       "range": {
         "startLine": 103,
         "startChar": 0,
@@ -433,6 +523,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "307c280d_90679fce",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "This was removed in PS10 (then reverted in PS11...).",
+      "parentUuid": "88589bf7_dd9b2380",
+      "range": {
+        "startLine": 62,
+        "startChar": 49,
+        "endLine": 62,
+        "endChar": 80
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14bfa5fd_9e13e1d4",
@@ -446,6 +560,24 @@
       "writtenOn": "2023-07-28T20:43:33Z",
       "side": 1,
       "message": "I think we should use PLT only for calls (or jumps). Should we look for R_RISCV_CALL instead?",
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35d835d_a07a2bd2",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "This is a bit complex, however I think we\u0027ll only use PLT for calls since this is the only ITYPE mapping in adddynrel...\n\nOur R_RISCV_CALL points directly at a JAL instruction - if that JAL instruction needs a trampoline we create a trampoline with an AUIPC/JALR sequence, which has a R_RISCV_PCREL_ITYPE that points to the AUIPC instruction (and covers the JALR).\n\nOn the other hand, elf.R_RISCV_CALL (now deprecated) and elf.R_RISCV_CALL_PLT point at an AUIPC instruction in an AUIPC/JALR pair. As such, they map to our R_RISCV_PCREL_ITYPE rather than our R_RISCV_CALL.\n\nI suspect we either need to rename the R_RISCV_CALL reloc or add another, which points at the AUIPC in an AUIPC/JALR. There is elf.R_RISCV_JAL which matches our R_RISCV_CALL - we could consider renaming R_RISCV_CALL to R_RISCV_JAL and adding an R_RISCV_CALL that matches the elf.R_RISCV_CALL usage (and we can stop using R_RISCV_PCREL_ITYPE for calls).\n\nI\u0027d rather do that separately from this change however (can do it as a change prior to this one, if you prefer).",
+      "parentUuid": "14bfa5fd_9e13e1d4",
       "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

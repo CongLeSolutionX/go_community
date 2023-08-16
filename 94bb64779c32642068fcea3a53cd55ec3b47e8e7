@@ -110,6 +110,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8c24e55_8202d796",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "315dcf57_9b1e5cae",
+      "revId": "94bb64779c32642068fcea3a53cd55ec3b47e8e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e423de7_33484bc9",
@@ -195,6 +213,24 @@
       "side": 1,
       "message": "\u003e I guess an alternative is to alter the check to also include uint16(o)...\n\nYes, I think this is a better approach. We could just do the same thing as the 32-bit case (without this change),",
       "parentUuid": "d6699a9b_abea1c43",
+      "revId": "94bb64779c32642068fcea3a53cd55ec3b47e8e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae248f13_eaecbb94",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-16T15:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ec85806_8c21855d",
       "revId": "94bb64779c32642068fcea3a53cd55ec3b47e8e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
