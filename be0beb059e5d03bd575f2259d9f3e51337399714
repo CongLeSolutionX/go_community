@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb320b2_ebda74ea",
+        "filename": "src/regexp/syntax/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-08-16T15:33:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a28e6237_f3066c16",
+      "revId": "be0beb059e5d03bd575f2259d9f3e51337399714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4957b758_b2e03446",
