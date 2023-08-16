@@ -45,6 +45,10 @@ func (check *Checker) ident(x *operand, e *syntax.Name, def *Named, wantType boo
 		if !check.verifyVersionf(e, go1_18, "predeclared %s", e.Value) {
 			return // avoid follow-on errors
 		}
+	case universeZero:
+		if !check.verifyVersionf(e, go1_22, "predeclared %s", e.Value) {
+			return // avoid follow-on errors
+		}
 	}
 	check.recordUse(e, obj)
 
@@ -122,7 +126,14 @@ func (check *Checker) ident(x *operand, e *syntax.Name, def *Named, wantType boo
 		x.mode = builtin
 
 	case *Nil:
-		x.mode = nilvalue
+		switch obj.typ {
+		case Typ[UntypedNil]:
+			x.mode = nilvalue
+		case Typ[UntypedZero]:
+			x.mode = zerovalue
+		default:
+			panic("unknown Nil object")
+		}
 
 	default:
 		unreachable()

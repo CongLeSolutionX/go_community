@@ -50,6 +50,16 @@ func _() {
 	_ = m == nil
 	_ = c == nil
 
+	_ = b == zero /* ERROR "mismatched types" */
+	_ = a == zero
+	_ = l == zero /* ERROR "mismatched types" */
+	_ = s == zero
+	_ = p == zero /* ERROR "mismatched types" */
+	_ = f == zero /* ERROR "mismatched types" */
+	_ = i == zero /* ERROR "cannot convert zero to type interface{}" */
+	_ = m == zero /* ERROR "mismatched types" */
+	_ = c == zero /* ERROR "mismatched types" */
+
 	_ = nil /* ERROR "operator < not defined on untyped nil" */ < nil
 	_ = b < b
 	_ = a /* ERROR "operator < not defined on array" */ < a
@@ -106,6 +116,16 @@ func _[
 	_ = j == nil /* ERROR "mismatched types" */
 	_ = m == nil
 	_ = c == nil
+
+	_ = b == zero /* ERROR "mismatched types" */
+	_ = a == zero
+	_ = l == zero /* ERROR "mismatched types" */
+	_ = s == zero
+	_ = p == zero /* ERROR "mismatched types" */
+	_ = f == zero /* ERROR "mismatched types" */
+	_ = i == zero
+	_ = m == zero /* ERROR "mismatched types" */
+	_ = c == zero /* ERROR "mismatched types" */
 
 	_ = b < b
 	_ = a /* ERROR "type parameter A is not comparable with <" */ < a
