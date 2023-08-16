@@ -41,6 +41,7 @@ var (
 	go1_18 = version{1, 18}
 	go1_20 = version{1, 20}
 	go1_21 = version{1, 21}
+	go1_22 = version{1, 22}
 )
 
 // parseGoVersion parses a Go version string (such as "go1.12")

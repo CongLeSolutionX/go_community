@@ -26,6 +26,7 @@ var (
 	universeAny        Object
 	universeError      Type
 	universeComparable Object
+	universeZero       Object
 )
 
 // Typ contains the predeclared *Basic types indexed by their
@@ -54,7 +55,7 @@ var Typ = [...]*Basic{
 	Complex64:     {Complex64, IsComplex, "complex64"},
 	Complex128:    {Complex128, IsComplex, "complex128"},
 	String:        {String, IsString, "string"},
-	UnsafePointer: {UnsafePointer, 0, "Pointer"},
+	UnsafePointer: {UnsafePointer, isPointerLike, "Pointer"},
 
 	UntypedBool:    {UntypedBool, IsBoolean | IsUntyped, "untyped bool"},
 	UntypedInt:     {UntypedInt, IsInteger | IsUntyped, "untyped int"},
@@ -63,6 +64,7 @@ var Typ = [...]*Basic{
 	UntypedComplex: {UntypedComplex, IsComplex | IsUntyped, "untyped complex"},
 	UntypedString:  {UntypedString, IsString | IsUntyped, "untyped string"},
 	UntypedNil:     {UntypedNil, IsUntyped, "untyped nil"},
+	_UntypedZero:   {_UntypedZero, IsUntyped, "untyped zero"},
 }
 
 var aliases = [...]*Basic{
@@ -134,8 +136,9 @@ func defPredeclaredConsts() {
 	}
 }
 
-func defPredeclaredNil() {
-	def(&Nil{object{name: "nil", typ: Typ[UntypedNil], color_: black}})
+func defPredeclaredValues() {
+	def(&_Value{object{name: "nil", typ: Typ[UntypedNil], color_: black}})
+	def(&_Value{object{name: "zero", typ: Typ[_UntypedZero], color_: black}})
 }
 
 // A builtinId is the id of a builtin function.
@@ -244,7 +247,7 @@ func init() {
 
 	defPredeclaredTypes()
 	defPredeclaredConsts()
-	defPredeclaredNil()
+	defPredeclaredValues()
 	defPredeclaredFuncs()
 
 	universeIota = Universe.Lookup("iota")
@@ -253,6 +256,7 @@ func init() {
 	universeAny = Universe.Lookup("any")
 	universeError = Universe.Lookup("error").Type()
 	universeComparable = Universe.Lookup("comparable")
+	universeZero = Universe.Lookup("zero")
 }
 
 // Objects with names containing blanks are internal and not entered into

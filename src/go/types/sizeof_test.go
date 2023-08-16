@@ -42,7 +42,7 @@ func TestSizeof(t *testing.T) {
 		{Func{}, 48, 88},
 		{Label{}, 44, 80},
 		{Builtin{}, 44, 80},
-		{Nil{}, 40, 72},
+		{_Value{}, 40, 72},
 
 		// Misc
 		{Scope{}, 44, 88},

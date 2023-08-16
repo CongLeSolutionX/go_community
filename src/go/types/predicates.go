@@ -8,6 +8,8 @@
 
 package types
 
+import "math/bits"
+
 // The isX predicates below report whether t is an X.
 // If t is a type parameter the result is false; i.e.,
 // these predicates don't look inside a type parameter.
@@ -198,6 +200,47 @@ func hasNil(t Type) bool {
 		return !isTypeParam(t) || u.typeSet().underIs(func(u Type) bool {
 			return u != nil && hasNil(u)
 		})
+	}
+	return false
+}
+
+// hasZero reports whether type t includes the zero value.
+func hasZero(t Type) bool {
+	switch u := under(t).(type) {
+	case *Array, *Struct:
+		return true
+	case *Interface:
+		// A type parameter includes the zero value if there
+		// is no other notation possible to indicate a zero:
+		// either there are no type terms, or type terms that
+		// have the zero value, or multiple type terms with
+		// different existing notations for their zero value.
+		if isTypeParam(t) {
+			// Determine the different kinds of types in the type set.
+			// If a type permits zero, we're done.
+			// If there's more than one kind of existing zero notation
+			// (such as false, 0, "", or nil) is needed, zero is permitted.
+			hasZero := false
+			var sum BasicInfo
+			u.typeSet().underIs(func(u Type) bool {
+				switch u := u.(type) {
+				case nil, *Array, *Struct:
+					hasZero = true
+					return false // we're done
+				case *Basic:
+					sum |= u.info
+				case *Slice, *Pointer, *Signature, *Map, *Chan:
+					sum |= isPointerLike
+				}
+				return true // continue
+			})
+			// Numeric types can all use 0. Treat them as integers.
+			if sum&IsNumeric != 0 {
+				sum &^= IsNumeric
+				sum |= IsInteger
+			}
+			return hasZero || bits.OnesCount(uint(sum&(IsBoolean|IsInteger|IsString|isPointerLike))) > 1
+		}
 	}
 	return false
 }
@@ -492,7 +535,7 @@ func identicalInstance(xorig Type, xargs []Type, yorig Type, yargs []Type) bool 
 
 // Default returns the default "typed" type for an "untyped" type;
 // it returns the incoming type for all other types. The default type
-// for untyped nil is untyped nil.
+// for untyped nil or zero is untyped nil or zero, respectively.
 func Default(t Type) Type {
 	if t, ok := t.(*Basic); ok {
 		switch t.kind {

@@ -38,6 +38,7 @@ const (
 	UntypedComplex
 	UntypedString
 	UntypedNil
+	_UntypedZero // TODO(gri) export once the respective proposal is accepted
 
 	// aliases
 	Byte = Uint8
@@ -56,6 +57,7 @@ const (
 	IsComplex
 	IsString
 	IsUntyped
+	isPointerLike
 
 	IsOrdered   = IsInteger | IsFloat | IsString
 	IsNumeric   = IsInteger | IsFloat | IsComplex
