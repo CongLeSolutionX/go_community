@@ -163,13 +163,14 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 					errorf("type", par.typ, arg.typ, arg)
 					return nil
 				}
-			} else if _, ok := par.typ.(*TypeParam); ok && !arg.isNil() {
+			} else if _, ok := par.typ.(*TypeParam); ok && !arg.isNil() && !arg.isZero() {
 				// Since default types are all basic (i.e., non-composite) types, an
 				// untyped argument will never match a composite parameter type; the
 				// only parameter type it can possibly match against is a *TypeParam.
 				// Thus, for untyped arguments we only need to look at parameter types
 				// that are single type parameters.
-				// Also, untyped nils don't have a default type and can be ignored.
+				// Also, untyped nils and zeroes don't have a default type and can be
+				// ignored.
 				untyped = append(untyped, i)
 			}
 		}
