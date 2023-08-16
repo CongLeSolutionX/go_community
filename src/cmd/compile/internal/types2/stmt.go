@@ -280,8 +280,8 @@ L:
 func (check *Checker) isNil(e syntax.Expr) bool {
 	// The only way to express the nil value is by literally writing nil (possibly in parentheses).
 	if name, _ := syntax.Unparen(e).(*syntax.Name); name != nil {
-		_, ok := check.lookup(name.Value).(*Nil)
-		return ok
+		obj, _ := check.lookup(name.Value).(*_Value)
+		return obj != nil && obj.typ == Typ[UntypedNil]
 	}
 	return false
 }
