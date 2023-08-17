@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "907d6996_3595d8e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-08-17T14:05:37Z",
+      "side": 1,
+      "message": "Updating to a newer x/tools is of course fine. However, this description doesn\u0027t seem to match. CL 519295 modified two packages in x/tools/gopls module, and neither are vendored. So in effect what\u0027s happening here is that it\u0027s pulling in the recent change in CL 518935.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "6f151fdea0e5935383fe985ba38ffceb6b79ed59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98f9dd2d_0ae64b55",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
