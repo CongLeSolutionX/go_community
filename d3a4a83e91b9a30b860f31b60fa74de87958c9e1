@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "784416ae_35356f53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "oh, I found `_cgoCheckPointer` also force the pointer escape to heap, I see these lines in the cgo generated code:\n```\nfunc _cgoCheckPointer(interface{}, interface{})\n\n_cgoCheckPointer(_cgoBase0, 0 \u003d\u003d 0)\n```\n\nAfter a hack, removing the `_cgoCheckPointer`, escaping works as we expected.\n\nSeems it\u0027s not easy to work around, any suggestions? thanks~\n\nfor \"complain if no C function with that name\", I will try it soon.",
+      "parentUuid": "58fd2d2b_85c070d2",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d86346df_c4fbc119",
         "filename": "src/cmd/cgo/doc.go",
         "patchSetId": 6
@@ -125,6 +143,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "159b83d1_4fc83e1a",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d86346df_c4fbc119",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85b6e0d_5f60b497",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1680ba44_da0d9bc4",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ab28c6d_99871ffc",
@@ -138,6 +192,24 @@
       "writtenOn": "2023-08-16T21:15:36Z",
       "side": 1,
       "message": "These directives are also discarded.",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "038c2550_0069dbe8",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab28c6d_99871ffc",
       "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -159,6 +231,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca58e12_4e787418",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e666c0b6_3c4f1389",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb59133b_5ab6d745",
@@ -172,6 +262,24 @@
       "writtenOn": "2023-08-16T21:15:36Z",
       "side": 1,
       "message": "Can we do this is noCallback is true?  Why the restriction to noCgoCallback?",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a16506d2_0d60c918",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "oh, sorry, I was misunderstand it, I was thinking they must be true, when we skip escaping.\n\nyep, `noescape` and `nocallback` could be used independently, done.",
+      "parentUuid": "fb59133b_5ab6d745",
       "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -193,6 +301,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8259fcee_82c6f74e",
+        "filename": "src/runtime/cgo.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9339514b_ba161563",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80e32413_54f2070e",
@@ -206,6 +332,24 @@
       "writtenOn": "2023-08-16T21:15:36Z",
       "side": 1,
       "message": "Let\u0027s not put this between the related fields tracking and trackingSeq and trackingStamp.",
+      "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a7e710d_e0792c0e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80e32413_54f2070e",
       "revId": "d3a4a83e91b9a30b860f31b60fa74de87958c9e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

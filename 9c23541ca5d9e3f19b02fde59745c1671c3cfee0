@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "355ce62e_399f3a1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2023-08-17T14:24:40Z",
+      "side": 1,
+      "message": "Thanks, seems the `_cgoCheckPointer` is the main stopper for now.",
+      "revId": "9c23541ca5d9e3f19b02fde59745c1671c3cfee0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
