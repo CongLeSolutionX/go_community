@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "608560b1_392ad323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-17T09:09:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a9d91fa_db2f1e45",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "98469cd0a5f4d7eeffc94000f8358602537c109c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7f52663e_6f183025",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -101,6 +125,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f6577cc_b58b37bf",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-17T09:09:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d618f7a_f6b4d033",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 12
+      },
+      "revId": "98469cd0a5f4d7eeffc94000f8358602537c109c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15c67a84_9cf4981f",
@@ -114,6 +162,30 @@
       "writtenOn": "2023-08-10T13:30:46Z",
       "side": 1,
       "message": "This style of naming is largely from the old C code in the assembly - I\u0027d prefer to avoid introducing it into the riscv code.\n\nFurthermore, do we even need a flag for this? Given that Scond is only used for this purpose (and only used for the floating point conversion instructions), it seems that just storing the RM_* value is sufficient.",
+      "range": {
+        "startLine": 606,
+        "startChar": 6,
+        "endLine": 606,
+        "endChar": 13
+      },
+      "revId": "98469cd0a5f4d7eeffc94000f8358602537c109c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f83c562_337a14b0",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-17T09:09:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15c67a84_9cf4981f",
       "range": {
         "startLine": 606,
         "startChar": 6,
@@ -147,6 +219,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e1a6c17_2b05ed0d",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-17T09:09:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecdbdcd0_05ebca5b",
+      "range": {
+        "startLine": 620,
+        "startChar": 1,
+        "endLine": 620,
+        "endChar": 18
+      },
+      "revId": "98469cd0a5f4d7eeffc94000f8358602537c109c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0a4f71d_3ebf1d0c",
@@ -170,6 +266,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d960a6c9_430381ac",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2161,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-17T09:09:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0a4f71d_3ebf1d0c",
+      "range": {
+        "startLine": 2161,
+        "startChar": 3,
+        "endLine": 2161,
+        "endChar": 13
+      },
+      "revId": "98469cd0a5f4d7eeffc94000f8358602537c109c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5cf1e96_c81088ad",
@@ -183,6 +303,30 @@
       "writtenOn": "2023-08-10T13:30:46Z",
       "side": 1,
       "message": "This should ensure that the instruction is permitted to use the given suffix (ADD.RUP is now also considered to be valid assembly).",
+      "range": {
+        "startLine": 2342,
+        "startChar": 1,
+        "endLine": 2342,
+        "endChar": 57
+      },
+      "revId": "98469cd0a5f4d7eeffc94000f8358602537c109c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aeefc39_7e665ea5",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2342,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-17T09:09:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5cf1e96_c81088ad",
       "range": {
         "startLine": 2342,
         "startChar": 1,
