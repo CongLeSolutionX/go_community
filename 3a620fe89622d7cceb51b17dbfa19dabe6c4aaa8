@@ -89,6 +89,24 @@
       "message": "This will mean that a conversion from `*PipeReader` to `*PipeWriter` or vice-versa succeeds, where before it would have been a compile-time error. It seems likely that programs will come to rely on that over time.\n\nI think it could be avoided — still without resorting to `unsafe` — by nesting one type inside the other instead of using `pipe` for both:\n\n```\ntype PipeReader struct {\n\tpipe\n}\n\ntype PipeWriter struct {\n\tr PipeReader\n}\n\nfunc Pipe() (*PipeReader, *PipeWriter) {\n\tpw :\u003d \u0026PipeWriter{\n\t\tr: PipeReader {\n\t\t\twrCh: make(chan []byte),\n\t\t\trdCh: make(chan int),\n\t\t\tdone: make(chan struct{}),\n\t\t}\n\t}\n\treturn \u0026pw.r, pw\n}\n```",
       "revId": "3a620fe89622d7cceb51b17dbfa19dabe6c4aaa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22106f16_f78a2ecc",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-08-17T05:44:27Z",
+      "side": 1,
+      "message": "Done. Thanks, I hate it. The assymetry gives me a seizure 😢.",
+      "parentUuid": "0d857cc1_b826d60c",
+      "revId": "3a620fe89622d7cceb51b17dbfa19dabe6c4aaa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
