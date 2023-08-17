@@ -755,6 +755,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index, implicits, explicits []*types.Typ
 
 		name.Func = ir.NewFunc(r.pos())
 		name.Func.Nname = name
+		name.Func.SetTypecheck(1)
 
 		if r.hasTypeParams() {
 			name.Func.SetDupok(true)
@@ -999,6 +1000,7 @@ func (r *reader) method(rext *reader) *types.Field {
 
 	name.Func = ir.NewFunc(r.pos())
 	name.Func.Nname = name
+	name.Func.SetTypecheck(1)
 
 	if r.hasTypeParams() {
 		name.Func.SetDupok(true)
@@ -1095,8 +1097,6 @@ func (r *reader) funcExt(name *ir.Name, method *types.Sym) {
 			}
 		}
 	}
-
-	typecheck.Func(fn)
 
 	if r.Bool() {
 		assert(name.Defn == nil)
@@ -2722,15 +2722,11 @@ func (r *reader) syntheticClosure(origPos src.XPos, typ *types.Type, ifaceHack b
 	// position instead. See also the explanation in reader.funcLit.
 	inlPos := r.inlPos(origPos)
 
-	fn := ir.NewClosureFunc(origPos, r.curfn != nil)
+	// TODO(mdempsky): Remove hard-coding of typecheck.Target.
+	fn := ir.NewClosureFunc(origPos, typ, r.curfn, typecheck.Target)
 	fn.SetWrapper(true)
 	clo := fn.OClosure
 	clo.SetPos(inlPos)
-	ir.NameClosure(clo, r.curfn)
-
-	setType(fn.Nname, typ)
-	typecheck.Func(fn)
-	setType(clo, fn.Type())
 
 	var init ir.Nodes
 	for i, n := range captures {
@@ -2767,8 +2763,7 @@ func (r *reader) syntheticClosure(origPos src.XPos, typ *types.Type, ifaceHack b
 	bodyReader[fn] = pri
 	pri.funcBody(fn)
 
-	// TODO(mdempsky): Remove hard-coding of typecheck.Target.
-	return ir.InitExpr(init, ir.UseClosure(clo, typecheck.Target))
+	return ir.InitExpr(init, clo)
 }
 
 // syntheticSig duplicates and returns the params and results lists
@@ -3120,14 +3115,10 @@ func (r *reader) funcLit() ir.Node {
 	xtype2 := r.signature(nil)
 	r.suppressInlPos--
 
-	fn := ir.NewClosureFunc(pos, r.curfn != nil)
+	// TODO(mdempsky): Remove hard-coding of typecheck.Target.
+	fn := ir.NewClosureFunc(pos, xtype2, r.curfn, typecheck.Target)
 	clo := fn.OClosure
 	clo.SetPos(r.inlPos(pos)) // see comment above
-	ir.NameClosure(clo, r.curfn)
-
-	setType(fn.Nname, xtype2)
-	typecheck.Func(fn)
-	setType(clo, fn.Type())
 
 	fn.ClosureVars = make([]*ir.Name, 0, r.Len())
 	for len(fn.ClosureVars) < cap(fn.ClosureVars) {
@@ -3141,8 +3132,7 @@ func (r *reader) funcLit() ir.Node {
 
 	r.addBody(fn, nil)
 
-	// TODO(mdempsky): Remove hard-coding of typecheck.Target.
-	return ir.UseClosure(clo, typecheck.Target)
+	return clo
 }
 
 func (r *reader) exprList() []ir.Node {
@@ -3463,6 +3453,7 @@ func unifiedInlineCall(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.Inlined
 	// TODO(mdempsky): This still feels clumsy. Can we do better?
 	tmpfn := ir.NewFunc(fn.Pos())
 	tmpfn.Nname = ir.NewNameAt(fn.Nname.Pos(), callerfn.Sym(), fn.Type())
+	tmpfn.SetTypecheck(1)
 	tmpfn.Closgen = callerfn.Closgen
 	defer func() { callerfn.Closgen = tmpfn.Closgen }()
 
@@ -3638,6 +3629,7 @@ func expandInline(fn *ir.Func, pri pkgReaderIndex) {
 
 	tmpfn := ir.NewFunc(fn.Pos())
 	tmpfn.Nname = ir.NewNameAt(fn.Nname.Pos(), fn.Sym(), fn.Type())
+	tmpfn.SetTypecheck(1)
 	tmpfn.ClosureVars = fn.ClosureVars
 
 	{
@@ -3861,7 +3853,6 @@ func wrapMethodValue(recvType *types.Type, method *types.Field, target *ir.Packa
 	recv := ir.NewHiddenParam(pos, fn, typecheck.Lookup(".this"), recvType)
 
 	if !needed {
-		typecheck.Func(fn)
 		return
 	}
 
@@ -3883,6 +3874,7 @@ func newWrapperFunc(pos src.XPos, sym *types.Sym, wrapper *types.Type, method *t
 	fn.Nname = name
 
 	setType(name, sig)
+	fn.SetTypecheck(1)
 
 	// TODO(mdempsky): De-duplicate with similar logic in funcargs.
 	defParams := func(class ir.Class, params *types.Type) {
@@ -3899,8 +3891,6 @@ func newWrapperFunc(pos src.XPos, sym *types.Sym, wrapper *types.Type, method *t
 }
 
 func finishWrapperFunc(fn *ir.Func, target *ir.Package) {
-	typecheck.Func(fn)
-
 	ir.WithFunc(fn, func() {
 		typecheck.Stmts(fn.Body)
 	})
