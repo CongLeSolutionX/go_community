@@ -16,6 +16,46 @@
       "message": "I\u0027ve extended the patch to cover arm64 too.",
       "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a95b5b_f336f210",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-17T19:53:07Z",
+      "side": 1,
+      "message": "Sorry I let this slip, will return to it now.",
+      "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82511928_888b8403",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-17T19:53:07Z",
+      "side": 1,
+      "message": "This comment needs updating, doesn\u0027t it?",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
