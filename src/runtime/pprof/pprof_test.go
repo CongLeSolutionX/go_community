@@ -1307,8 +1307,16 @@ func TestMutexProfile(t *testing.T) {
 		for _, s := range p.Sample {
 			total += s.Value[i]
 		}
+		// Want d to be at least N*D, but give some wiggle-room to avoid
+		// a test flaking.
+		//
+		// Don't try to bound this from above except by some very large
+		// amount, on the order of the default test timeout.  Even just
+		// unlucky OS scheduling could cause an arbitrary amount of
+		// contention to be reported, but there are many more variables
+		// involved than that.
 		d := time.Duration(total)
-		if d < N*D*9/10 || d > N*D*2 { // want N*D but allow [0.9,2.0]*that.
+		if d < N*D*9/10 || d > N*10*time.Minute {
 			t.Fatalf("profile samples total %v, want %v", d, N*D)
 		}
 	})
