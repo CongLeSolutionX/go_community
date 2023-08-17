@@ -76,6 +76,30 @@
       },
       "revId": "5625d66c729f41619d86ee8652c128b382a36447",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce004214_2057b864",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5269,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-08-17T15:27:22Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t really understand the purpose of this code. We just created the fields below in deferstruct, so it should always exist. So this is just a sanity check?\n\nYes, AFAICT.\n\n\u003e Maybe we can do const deferStructFnField \u003d 4 and check for the field name instead?\n\nThat would force us to change deferStructFnField everytime we add/remove field to runtime._defer struct.\n\n\u003e Maybe this code can be in deferstruct, and let deferstruct return an extra result for the \"fn\" field\u0027s index?\n\nSeems ok.\n\n---\n\nI think the current approach does validating dynamically, so we don\u0027t have to care about updating deferStructFnField everytime.",
+      "parentUuid": "c424247f_c901cb1c",
+      "range": {
+        "startLine": 5260,
+        "startChar": 0,
+        "endLine": 5269,
+        "endChar": 3
+      },
+      "revId": "5625d66c729f41619d86ee8652c128b382a36447",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
