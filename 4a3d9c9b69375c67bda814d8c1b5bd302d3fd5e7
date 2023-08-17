@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e38693cf_3906b1f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2023-08-17T13:03:49Z",
+      "side": 1,
+      "message": "Currently in LLVM, msan\u0027s patch for loongarch64 support has landed．",
+      "revId": "4a3d9c9b69375c67bda814d8c1b5bd302d3fd5e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
