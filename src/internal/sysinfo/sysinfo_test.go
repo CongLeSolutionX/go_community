@@ -2,10 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !(darwin || freebsd || linux || netbsd || openbsd)
+package sysinfo_test
 
-package sysinfo
+import (
+	. "internal/sysinfo"
+	"testing"
+)
 
-func osCpuInfoName() string {
-	return ""
+func TestCPUName(t *testing.T) {
+	t.Logf("cpuname: %s", CPUName())
 }
