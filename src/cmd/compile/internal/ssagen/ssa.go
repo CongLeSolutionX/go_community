@@ -5257,6 +5257,16 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 		}
 
 		t := deferstruct()
+		deferStructFnField := -1
+		for i, f := range t.FieldSlice() {
+			if f.Sym.Name == "fn" {
+				deferStructFnField = i
+				break
+			}
+		}
+		if deferStructFnField < 0 {
+			base.Fatalf("deferstruct has no fn field")
+		}
 		d := typecheck.TempAt(n.Pos(), s.curfn, t)
 
 		if t.HasPointers() {
@@ -8095,8 +8105,6 @@ func max8(a, b int8) int8 {
 	return b
 }
 
-var deferStructFnField = -1
-
 // deferstruct makes a runtime._defer structure.
 func deferstruct() *types.Type {
 	makefield := func(name string, typ *types.Type) *types.Field {
@@ -8119,15 +8127,6 @@ func deferstruct() *types.Type {
 		makefield("fn", types.Types[types.TUINTPTR]),
 		makefield("link", types.Types[types.TUINTPTR]),
 		makefield("head", types.Types[types.TUINTPTR]),
-	}
-	for i, f := range fields {
-		if f.Sym.Name == "fn" {
-			deferStructFnField = i
-			break
-		}
-	}
-	if deferStructFnField < 0 {
-		base.Fatalf("deferstruct has no fn field")
 	}
 
 	// build struct holding the above fields
