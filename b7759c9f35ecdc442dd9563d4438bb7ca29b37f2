@@ -91,6 +91,24 @@
       "parentUuid": "316b689d_33e9fdb1",
       "revId": "b7759c9f35ecdc442dd9563d4438bb7ca29b37f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00a2793c_ee0107e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-08-18T14:46:51Z",
+      "side": 1,
+      "message": "did that and it seems to be running OK on a gomote. (until the connection inevitably died...) I could get it to fail pretty fast otherwise.\n\nalso: this test is unfortunately kind of hostile to -count. (-count\u003d2 always fails because the profile just accumulates.) it should probably be refactored to not behave that way.",
+      "parentUuid": "ed6018b7_a684bcd6",
+      "revId": "b7759c9f35ecdc442dd9563d4438bb7ca29b37f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
