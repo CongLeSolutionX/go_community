@@ -16,6 +16,24 @@
       "message": "The commit message suggests we want 2.35.  The issue suggests that we want 2.40.  Here we are checking for 2.28.  What should we check for?",
       "revId": "ad00f02fae66ebe77971cada8a5b3f60ae9b157c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "879f0531_2be93588",
+        "filename": "src/make.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 56438
+      },
+      "writtenOn": "2023-08-18T21:21:12Z",
+      "side": 1,
+      "message": "Thanks Ian for the review. I have updated to check for newer than 2.40 (still using the crude grep -E)",
+      "parentUuid": "a3a52b76_dceba576",
+      "revId": "ad00f02fae66ebe77971cada8a5b3f60ae9b157c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
