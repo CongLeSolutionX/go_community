@@ -180,11 +180,15 @@ func init() {
 		{name: "ADCSflags", argLength: 3, reg: gp2flags1flags, typ: "(UInt64,Flags)", asm: "ADCS", commutative: true}, // arg0+arg1+carry, set flags.
 		{name: "ADCzerocarry", argLength: 1, reg: gp0flags1, typ: "UInt64", asm: "ADC"},                               // ZR+ZR+carry
 		{name: "ADD", argLength: 2, reg: gp21, asm: "ADD", commutative: true},                                         // arg0 + arg1
+		{name: "ADDW", argLength: 2, reg: gp21, asm: "ADDW", commutative: true},                                       // (arg0+arg1)&0xffffffff
 		{name: "ADDconst", argLength: 1, reg: gp11sp, asm: "ADD", aux: "Int64"},                                       // arg0 + auxInt
+		{name: "ADDWconst", argLength: 1, reg: gp11sp, asm: "ADDW", aux: "Int32"},                                     // (arg0 + auxInt)&0xffffffff
 		{name: "ADDSconstflags", argLength: 1, reg: gp11flags, typ: "(UInt64,Flags)", asm: "ADDS", aux: "Int64"},      // arg0+auxint, set flags.
 		{name: "ADDSflags", argLength: 2, reg: gp21flags, typ: "(UInt64,Flags)", asm: "ADDS", commutative: true},      // arg0+arg1, set flags.
 		{name: "SUB", argLength: 2, reg: gp21, asm: "SUB"},                                                            // arg0 - arg1
+		{name: "SUBW", argLength: 2, reg: gp21, asm: "SUBW"},                                                          // (arg0 - arg1)&0xffffffff
 		{name: "SUBconst", argLength: 1, reg: gp11, asm: "SUB", aux: "Int64"},                                         // arg0 - auxInt
+		{name: "SUBWconst", argLength: 1, reg: gp11, asm: "SUBW", aux: "Int32"},                                       // (arg0 - auxInt)&0xffffffff
 		{name: "SBCSflags", argLength: 3, reg: gp2flags1flags, typ: "(UInt64,Flags)", asm: "SBCS"},                    // arg0-(arg1+borrowing), set flags.
 		{name: "SUBSflags", argLength: 2, reg: gp21flags, typ: "(UInt64,Flags)", asm: "SUBS"},                         // arg0 - arg1, set flags.
 		{name: "MUL", argLength: 2, reg: gp21, asm: "MUL", commutative: true},                                         // arg0 * arg1
@@ -228,6 +232,7 @@ func init() {
 		// unary ops
 		{name: "MVN", argLength: 1, reg: gp11, asm: "MVN"},                                    // ^arg0
 		{name: "NEG", argLength: 1, reg: gp11, asm: "NEG"},                                    // -arg0
+		{name: "NEGW", argLength: 1, reg: gp11, asm: "NEGW"},                                  // (-arg0)&0xffffffff
 		{name: "NEGSflags", argLength: 1, reg: gp11flags, typ: "(UInt64,Flags)", asm: "NEGS"}, // -arg0, set flags.
 		{name: "NGCzerocarry", argLength: 1, reg: gp0flags1, typ: "UInt64", asm: "NGC"},       // -1 if borrowing, 0 otherwise.
 		{name: "FABSD", argLength: 1, reg: fp11, asm: "FABSD"},                                // abs(arg0), float64
@@ -279,6 +284,7 @@ func init() {
 		{name: "RORWconst", argLength: 1, reg: gp11, asm: "RORW", aux: "Int64"},   // uint32(arg0) right rotate by auxInt bits, auxInt should be in the range 0 to 31.
 		{name: "EXTRconst", argLength: 2, reg: gp21, asm: "EXTR", aux: "Int64"},   // extract 64 bits from arg0:arg1 starting at lsb auxInt, auxInt should be in the range 0 to 63.
 		{name: "EXTRWconst", argLength: 2, reg: gp21, asm: "EXTRW", aux: "Int64"}, // extract 32 bits from arg0[31:0]:arg1[31:0] starting at lsb auxInt and zero top 32 bits, auxInt should be in the range 0 to 31.
+		{name: "SLLWconst", argLength: 1, reg: gp11, asm: "LSLW", aux: "Int64"},   // (arg0 << auxInt)&0xffffffff, auxInt should be in the range 0 to 31.
 
 		// comparisons
 		{name: "CMP", argLength: 2, reg: gp2flags, asm: "CMP", typ: "Flags"},                      // arg0 compare to arg1
@@ -346,6 +352,9 @@ func init() {
 		{name: "TSTshiftRL", argLength: 2, reg: gp2flags, asm: "TST", aux: "Int64", typ: "Flags"}, // (arg0 & arg1>>auxInt) compare to 0, unsigned shift, auxInt should be in the range 0 to 63.
 		{name: "TSTshiftRA", argLength: 2, reg: gp2flags, asm: "TST", aux: "Int64", typ: "Flags"}, // (arg0 & arg1>>auxInt) compare to 0, signed shift, auxInt should be in the range 0 to 63.
 		{name: "TSTshiftRO", argLength: 2, reg: gp2flags, asm: "TST", aux: "Int64", typ: "Flags"}, // (arg0 & arg1 ROR auxInt) compare to 0, signed shift, auxInt should be in the range 0 to 63.
+
+		{name: "ADDWshiftLL", argLength: 2, reg: gp21, asm: "ADDW", aux: "Int64"}, // (arg0 + arg1<<auxInt)&0xffffffff, auxInt should be in the range 0 to 31.
+		{name: "SUBWshiftLL", argLength: 2, reg: gp21, asm: "SUBW", aux: "Int64"}, // (arg0 - arg1<<auxInt)&0xffffffff, auxInt should be in the range 0 to 31.
 
 		// bitfield ops
 		// for all bitfield ops lsb is auxInt>>8, width is auxInt&0xff

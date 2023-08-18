@@ -179,7 +179,9 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		v.Block.Func.RegArgs = nil
 		ssagen.CheckArgReg(v)
 	case ssa.OpARM64ADD,
+		ssa.OpARM64ADDW,
 		ssa.OpARM64SUB,
+		ssa.OpARM64SUBW,
 		ssa.OpARM64AND,
 		ssa.OpARM64OR,
 		ssa.OpARM64XOR,
@@ -254,13 +256,16 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = rt
 	case ssa.OpARM64ADDconst,
+		ssa.OpARM64ADDWconst,
 		ssa.OpARM64SUBconst,
+		ssa.OpARM64SUBWconst,
 		ssa.OpARM64ANDconst,
 		ssa.OpARM64ORconst,
 		ssa.OpARM64XORconst,
 		ssa.OpARM64SLLconst,
 		ssa.OpARM64SRLconst,
 		ssa.OpARM64SRAconst,
+		ssa.OpARM64SLLWconst,
 		ssa.OpARM64RORconst,
 		ssa.OpARM64RORWconst:
 		p := s.Prog(v.Op.Asm())
@@ -326,7 +331,9 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 	case ssa.OpARM64MVNshiftRO:
 		genshift(s, v, v.Op.Asm(), 0, v.Args[0].Reg(), v.Reg(), arm64.SHIFT_ROR, v.AuxInt)
 	case ssa.OpARM64ADDshiftLL,
+		ssa.OpARM64ADDWshiftLL,
 		ssa.OpARM64SUBshiftLL,
+		ssa.OpARM64SUBWshiftLL,
 		ssa.OpARM64ANDshiftLL,
 		ssa.OpARM64ORshiftLL,
 		ssa.OpARM64XORshiftLL,
@@ -911,6 +918,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		fallthrough
 	case ssa.OpARM64MVN,
 		ssa.OpARM64NEG,
+		ssa.OpARM64NEGW,
 		ssa.OpARM64FABSD,
 		ssa.OpARM64FMOVDfpgp,
 		ssa.OpARM64FMOVDgpfp,
