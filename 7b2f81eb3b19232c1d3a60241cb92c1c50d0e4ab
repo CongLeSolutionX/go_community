@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30eb29b5_043ca3dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-08-19T23:06:04Z",
+      "side": 1,
+      "message": "Sorry, I could\u0027ve rebased this before letting it auto-submit. Sent CL 521175 to fix the build breakage. (If there\u0027s more to it, then we can revert instead, but it seemed trivial.)",
+      "revId": "7b2f81eb3b19232c1d3a60241cb92c1c50d0e4ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
