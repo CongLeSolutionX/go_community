@@ -233,7 +233,7 @@ func (h *commonHandler) withAttrs(as []Attr) *commonHandler {
 	state := h2.newHandleState((*buffer.Buffer)(&h2.preformattedAttrs), false, "")
 	defer state.free()
 	state.prefix.WriteString(h.groupPrefix)
-	if len(h2.preformattedAttrs) > 0 {
+	if pfa := h2.preformattedAttrs; len(pfa) > 0 && pfa[len(pfa)-1] != '{' {
 		state.sep = h.attrSep()
 	}
 	state.openGroups()
@@ -310,10 +310,13 @@ func (h *commonHandler) handle(r Record) error {
 
 func (s *handleState) appendNonBuiltIns(r Record) {
 	// preformatted Attrs
-	if len(s.h.preformattedAttrs) > 0 {
+	if pfa := s.h.preformattedAttrs; len(pfa) > 0 {
 		s.buf.WriteString(s.sep)
-		s.buf.Write(s.h.preformattedAttrs)
+		s.buf.Write(pfa)
 		s.sep = s.h.attrSep()
+		if s.h.json && pfa[len(pfa)-1] == '{' {
+			s.sep = ""
+		}
 	}
 	// Attrs in Record -- unlike the built-in ones, they are in groups started
 	// from WithGroup.
