@@ -7,6 +7,7 @@ package slog
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"internal/race"
 	"internal/testenv"
 	"io"
@@ -641,5 +642,70 @@ func TestPanics(t *testing.T) {
 		Info("msg", "p", pt.in)
 		checkLogOutput(t, logBuf.String(), pt.out)
 		logBuf.Reset()
+	}
+}
+
+func TestInvalidCommaInJSONWithEmptyAttr(t *testing.T) {
+	buf := bytes.NewBuffer(nil)
+	var m map[string]any
+
+	for i, tc := range []struct {
+		desc string
+		f    func(*Logger)
+		rep  func([]string, Attr) Attr
+	}{
+		{
+			desc: "[AllAttrEmpty] Group H is embedded in G and with one gap of non-group attribute",
+			f: func(l *Logger) {
+				l.With("a", "b").WithGroup("G").With("c", "d").WithGroup("H").Info("msg", "e", "f")
+			},
+			rep: func(groups []string, a Attr) Attr {
+				return Attr{}
+			},
+		},
+		{
+			desc: "[PartialAttrEmpty] Group H is embedded in G and with one gap of non-group attribute",
+			f: func(l *Logger) {
+				l.With("a", "b").WithGroup("G").With("c", "d").WithGroup("H").Info("msg", "e", "f")
+			},
+			rep: func(groups []string, a Attr) Attr {
+				if a.Key == "c" {
+					return Attr{}
+				}
+				return a
+			},
+		},
+		{
+			desc: "[PartialAttrEmpty] Group H is embedded in G and with two gaps of non-group attributes",
+			f: func(l *Logger) {
+				l.With("a", "b").WithGroup("G").With("c", "d").With("n", "m").WithGroup("H").Info("msg", "e", "f")
+			},
+			rep: func(groups []string, a Attr) Attr {
+				if a.Key == "c" {
+					return Attr{}
+				}
+				return a
+			},
+		},
+		{
+			desc: "[PartialAttrEmpty] Group H is embedded in G and with three gaps of non-group attributes",
+			f: func(l *Logger) {
+				l.With("a", "b").WithGroup("G").With("x", "y").With("c", "d").With("n", "m").WithGroup("H").Info("msg", "e", "f")
+			},
+			rep: func(groups []string, a Attr) Attr {
+				if a.Key == "c" {
+					return Attr{}
+				}
+				return a
+			},
+		},
+	} {
+		h := NewJSONHandler(buf, &HandlerOptions{ReplaceAttr: tc.rep})
+		l := New(h)
+		tc.f(l)
+		if err := json.Unmarshal(buf.Bytes(), &m); err != nil {
+			t.Fatalf("\nTestCase[%d]: %s\nexpected valid JSON string but got: %v", i, tc.desc, err)
+		}
+		buf.Reset()
 	}
 }
