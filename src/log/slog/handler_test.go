@@ -435,6 +435,26 @@ func TestJSONAndTextHandlers(t *testing.T) {
 			wantText: `time.mins=3 time.secs=2 msg=message`,
 			wantJSON: `{"time":{"mins":3,"secs":2},"msg":"message"}`,
 		},
+		{
+			name: "replace empty 1",
+			with: func(h Handler) Handler {
+				return h.WithGroup("g").WithAttrs([]Attr{Int("a", 1)})
+			},
+			replace:  func([]string, Attr) Attr { return Attr{} },
+			attrs:    []Attr{Group("h", Int("b", 2))},
+			wantText: "",
+			wantJSON: `{"g":{"h":{}}}`,
+		},
+		{
+			name: "replace empty 2",
+			with: func(h Handler) Handler {
+				return h.WithGroup("g").WithAttrs([]Attr{Int("a", 1)}).WithGroup("h").WithAttrs([]Attr{Int("b", 2)})
+			},
+			replace:  func([]string, Attr) Attr { return Attr{} },
+			attrs:    []Attr{Group("i", Int("c", 3))},
+			wantText: "",
+			wantJSON: `{"g":{"h":{"i":{}}}}`,
+		},
 	} {
 		r := NewRecord(testTime, LevelInfo, "message", callerPC(2))
 		line := strconv.Itoa(r.source().Line)
