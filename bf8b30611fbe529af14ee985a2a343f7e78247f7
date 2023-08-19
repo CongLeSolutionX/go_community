@@ -56,6 +56,30 @@
       },
       "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa2985fa_87f1f9d0",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-19T21:29:59Z",
+      "side": 1,
+      "message": "I don\u0027t think so. Does it?\n`block` continues to only be used for `BlockStart` and `BlockEnd`, both in this patch (which doesn\u0027t touch the `GetPC` implementation at all), and in the next patch.\nNo?",
+      "parentUuid": "82511928_888b8403",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
