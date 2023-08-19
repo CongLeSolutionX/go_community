@@ -129,6 +129,30 @@
       },
       "revId": "c074e4d2069152a0543e05f3a1b6185d202fa7cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9655b488_1caedf3b",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-19T21:27:11Z",
+      "side": 1,
+      "message": "I don\u0027t believe so; `block` is ignored for `FuncEnd.ID`.\nThis is the current code:\nhttps://github.com/golang/go/blob/a9859a7df72a8ca9686b4fb939989c04b42804fe/src/cmd/compile/internal/ssagen/ssa.go#L7368-L7369\n```\ncase ssa.FuncEnd.ID:\n\treturn e.curfn.LSym.Size\n```\n\nThe point of this patch is to stop passing a random block to this function when called with `FuncEnd.ID`, because passing in a block at that point does not make sense. The change to this comment makes it clear that not passing in a block is legit.",
+      "parentUuid": "eda44a49_a3a682fe",
+      "range": {
+        "startLine": 46,
+        "startChar": 41,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "c074e4d2069152a0543e05f3a1b6185d202fa7cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
