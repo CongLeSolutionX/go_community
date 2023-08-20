@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73086dc7_13fc4368",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-08-20T23:07:21Z",
+      "side": 1,
+      "message": "Alright, I\u0027ve rebased this CL and simplified it based on Ian\u0027s suggestion. I added in code to testing/fstest that verifies that fs.FS implementations obey the contract.\n\nI wanted to highlight one caveat for this CL that I added to the description:\n\n\u003e I am deliberately not changing archive/zip in this CL, since it currently does not resolve symlinks as part of its filesystem implementation. I am unsure of the compatibility restrictions on doing so, so figured it would be better to address independently.\n\nLet me know if we should bring that into scope for the CL or discuss on the issue. Thanks.",
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "861d2afe_b7da71bd",
         "filename": "src/internal/filepath/path_unix.go",
         "patchSetId": 2
@@ -14,6 +31,30 @@
       "writtenOn": "2023-08-08T20:49:36Z",
       "side": 1,
       "message": "```suggestion\n//go:build unix\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 105
+      },
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa5e541_bfbd9085",
+        "filename": "src/internal/filepath/path_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-08-20T23:07:21Z",
+      "side": 1,
+      "message": "Obsolete in light of Ian\u0027s suggestion.",
+      "parentUuid": "861d2afe_b7da71bd",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -41,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "763784d4_f1ca542c",
+        "filename": "src/internal/filepath/path_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-08-20T23:07:21Z",
+      "side": 1,
+      "message": "Obsolete in light of Ian\u0027s suggestion.",
+      "parentUuid": "b22debe8_8eb897f3",
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da576df2_3fe39813",
@@ -54,6 +113,24 @@
       "writtenOn": "2023-08-08T21:07:38Z",
       "side": 1,
       "message": "Note that on Windows systems the os package already defines an isAbs function.  Suppose we just add the trivial versions of isAbs for Unix and Plan 9 to the os package.  That seems to simplify this CL quite a bit.\n\nWe might still want to unify into an internal package, but that can be done separately and independently.",
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daa1330d_ad3cebd1",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-08-20T23:07:21Z",
+      "side": 1,
+      "message": "Nice! I don\u0027t think that was there when I originally drafted this and does make this much simpler. Thanks for the insight!",
+      "parentUuid": "da576df2_3fe39813",
       "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
