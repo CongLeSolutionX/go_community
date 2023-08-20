@@ -540,3 +540,60 @@ func (z *Rat) Quo(x, y *Rat) *Rat {
 	z.a.neg = a.neg != b.neg
 	return z.norm()
 }
+
+// FloatPrec calculates the length of the initial transient (non-repeating digits)
+// between the radix point and the first repetend (infinitely repeated digit sequence),
+// then returns it along with a boolean indicating whether the fraction of z is an
+// infinite recurring decimal, ok == false represents affirmative.
+func (z *Rat) FloatPrec() (digits int, ok bool) {
+	if z.IsInt() {
+		return 0, true
+	}
+
+	// For a fraction to have a finite decimal representation,
+	// the denominator must be of the form 2^n * 5^m * K where
+	// n and m are both non-negative integers (including 0) and
+	// K is an integer (>0) coprime to 10.
+	//
+	// If the denominator is of the form 2^n * 5^m (n and m are not both zero)
+	// with K == 1 after simplification, then the fraction is a finite decimal,
+	// on the other hand, if K != 1, the fraction is eventually periodic,
+	// but with an initial transient.
+	//
+	// Note that there is one special case where n and m are both zero and K > 1,
+	// which makes the fraction an infinite recurring decimal with no initial
+	// transient on the basis of Euler's totient theorem.
+	//
+	// Either way the length of the initial transient of a fraction
+	// is the maximum between n and m.
+	//
+	// Check out https://en.wikipedia.org/wiki/Repeating_decimal for more details.
+
+	d := z.Denom().abs
+
+	// Factor out 2 from the denominator and calculate the power of 2
+	// by counting the number of trailing zero bits.
+	n := d.trailingZeroBits()
+	d = d.shr(d, n)
+	p2 := int(n)
+
+	// Factor out 2 from the denominator and calculate the power of 5
+	// through repeated division by 5.
+	var q, r nat
+	p5 := 0
+	for q, r = q.div(r, d, natFive); len(r) == 0; q, r = q.div(r, q, natFive) {
+		p5++
+		d = d.set(q)
+	}
+
+	// The length of the initial transient will be the maximum between p2 and p5.
+	digits = max(p2, p5)
+
+	// If d is 1 after factoring out all 2's and 5's from it,
+	// we can tell that the fraction has a finite decimal representation.
+	// Otherwise, it has other prime factors other than 2 and 5,
+	// thus the fraction is an infinite recurring decimal.
+	ok = d.cmp(natOne) == 0
+
+	return
+}

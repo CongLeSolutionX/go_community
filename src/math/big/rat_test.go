@@ -744,3 +744,49 @@ func TestDenomRace(t *testing.T) {
 		<-c
 	}
 }
+
+var floatPrecTests = []struct {
+	f    string
+	prec int
+	ok   bool
+}{
+	{"0/1", 0, true},
+	{"1/10", 1, true},
+	{"10/100", 1, true},
+	{"1/100000000", 8, true},
+	{"3/100", 2, true},
+	{"1/3", 0, false},
+	{"1/17", 0, false},
+	{"1/42", 1, false},
+	{"10/42", 0, false},
+	{"1/250", 3, true},
+	{"1/97777", 0, false},
+	{"10/1", 0, true},
+	{"10/3", 0, false},
+	{"101/25", 2, true},
+	{"71777/15625", 6, true},
+	{"-1/112", 4, false},
+	{"-10/112", 3, false},
+	{"-1/1250", 4, true},
+	{"-23/19177", 0, false},
+	{"-10/1", 0, true},
+	{"-125/12", 2, false},
+	{"-123/8", 3, true},
+	{"-1203/42", 1, false},
+}
+
+func TestFloatPrec(t *testing.T) {
+	var rat Rat
+	for _, tc := range floatPrecTests {
+		_, ok := rat.SetString(tc.f)
+		if !ok {
+			t.Fatalf("failed to parse %s", tc.f)
+		}
+
+		prec, ok := rat.FloatPrec()
+
+		if prec != tc.prec || ok != tc.ok {
+			t.Errorf("got %d, %t; want %d, %t", prec, ok, tc.prec, tc.ok)
+		}
+	}
+}
