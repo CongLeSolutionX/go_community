@@ -35,7 +35,11 @@ type Int struct {
 	abs nat  // absolute value of the integer
 }
 
-var intOne = &Int{false, natOne}
+var (
+	intOne  = &Int{false, natOne}
+	intTwo  = &Int{false, natTwo}
+	intFive = &Int{false, natFive}
+)
 
 // Sign returns:
 //

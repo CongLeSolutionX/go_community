@@ -540,3 +540,61 @@ func (z *Rat) Quo(x, y *Rat) *Rat {
 	z.a.neg = a.neg != b.neg
 	return z.norm()
 }
+
+// FloatPrec calculates the length of the initial transient (non-repeating digits)
+// between the radix point and the first repetend (infinitely repeated digit sequence),
+// then returns it along with a boolean indicating whether the fraction of z is an
+// infinite recurring decimal, ok == false represents affirmative.
+func (z *Rat) FloatPrec() (digits int, ok bool) {
+	if z.IsInt() {
+		return 0, true
+	}
+
+	// For a fraction to have a finite decimal representation,
+	// the denominator must be of the form 2^n * 5^m * K where
+	// n and m are both non-negative integers (including 0) and
+	// K is an integer (>0) coprime to 10.
+	//
+	// If the denominator is of the form 2^n * 5^m (n and m are not both zero)
+	// with K == 1 after simplification, then the fraction is a finite decimal,
+	// on the other hand, if K != 1, the fraction is eventually periodic,
+	// but with an initial transient.
+	//
+	// Note that there is one special case where n and m are both zero and K > 1,
+	// which makes the fraction an infinite recurring decimal with no initial
+	// transient on the basis of Euler's totient theorem.
+	//
+	// Either way the length of the initial transient of a fraction
+	// is the maximum between n and m.
+	//
+	// Check out https://en.wikipedia.org/wiki/Repeating_decimal for more details.
+
+	d := new(Int).Set(z.Denom())
+	q := new(Int)
+	r := new(Int)
+
+	// Count powers of 2
+	c2 := 0
+	for q.QuoRem(d, intTwo, r); r.Sign() == 0; q.QuoRem(d, intTwo, r) {
+		c2++
+		d, q = q, d
+	}
+
+	// Count powers of 5
+	c5 := 0
+	for q.QuoRem(d, intFive, r); r.Sign() == 0; q.QuoRem(d, intFive, r) {
+		c5++
+		d, q = q, d
+	}
+
+	// The length of the initial transient will be the maximum between c2 and c5.
+	digits = max(c2, c5)
+
+	// If d is 1 after factoring out all 2's and 5's from it,
+	// we can tell that the fraction has a terminating decimal representation.
+	// Otherwise, it has other prime factors other than 2 and 5,
+	// thus the fraction is an infinite recurring decimal.
+	ok = d.Cmp(intOne) == 0
+
+	return
+}
