@@ -744,3 +744,142 @@ func TestDenomRace(t *testing.T) {
 		<-c
 	}
 }
+
+var floatPrecTests = []struct {
+	in  [2]int64
+	out struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}
+}{
+	{[2]int64{0, 1}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, true},
+	},
+	{[2]int64{1, 10}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{1, true},
+	},
+	{[2]int64{10, 100}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{1, true},
+	},
+	{[2]int64{1, 100000000}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{8, true},
+	},
+	{[2]int64{3, 100}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{2, true},
+	},
+	{[2]int64{1, 3}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, false},
+	},
+	{[2]int64{1, 17}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, false},
+	},
+	{[2]int64{1, 42}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{1, false},
+	},
+	{[2]int64{10, 42}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, false},
+	},
+	{[2]int64{1, 250}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{3, true},
+	},
+	{[2]int64{1, 97777}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, false},
+	},
+	{[2]int64{10, 1}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, true},
+	},
+	{[2]int64{10, 3}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, false},
+	},
+	{[2]int64{101, 25}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{2, true},
+	},
+	{[2]int64{71777, 15625}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{6, true},
+	},
+	{[2]int64{-1, 112}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{4, false},
+	},
+	{[2]int64{-10, 112}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{3, false},
+	},
+	{[2]int64{-1, 1250}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{4, true},
+	},
+	{[2]int64{-23, 19177}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, false},
+	},
+	{[2]int64{-10, 1}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, true},
+	},
+	{[2]int64{-125, 12}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{2, false},
+	},
+	{[2]int64{0, -1}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{0, true},
+	},
+	{[2]int64{123, -8}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{3, true},
+	},
+	{[2]int64{1203, -42}, struct {
+		nonRepeatingDigits int
+		notRecurring       bool
+	}{1, false},
+	},
+}
+
+func TestFloatPrec(t *testing.T) {
+	for i, tc := range floatPrecTests {
+		n, b := NewRat(tc.in[0], tc.in[1]).FloatPrec()
+
+		if n != tc.out.nonRepeatingDigits || b != tc.out.notRecurring {
+			t.Errorf("#%d: got %d, %t; want %d, %t", i, n, b, tc.out.nonRepeatingDigits, tc.out.notRecurring)
+		}
+	}
+}
