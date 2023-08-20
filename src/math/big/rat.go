@@ -540,3 +540,54 @@ func (z *Rat) Quo(x, y *Rat) *Rat {
 	z.a.neg = a.neg != b.neg
 	return z.norm()
 }
+
+// FloatPrec calculates the length of the non-repeating digits
+// between the radix point and the first repeating digit,
+// then returns it along with a boolean indicating whether
+// the fraction of z is an infinite recurring decimal.
+func (z *Rat) FloatPrec() (digits int, ok bool) {
+	if z.IsInt() {
+		return 0, true
+	}
+
+	// The following code utilizes a mathematical approach
+	// to deduce the non-repeating part of a fraction.
+	// For a fraction to have a finite decimal representation
+	// (or a non-repeating decimal portion), the denominator
+	// must be of the form 2^n * 5^m where n and m are non-negative
+	// integers (including 0).
+	// If the denominator is not of this form after simplification,
+	// then the fraction has a repeating decimal part.
+	// Either way its length of the non-repeating part of the fraction
+	// is the maximum between n and m.
+	//
+	// Check out https://en.wikipedia.org/wiki/Repeating_decimal for more details.
+
+	d := new(Int).Set(z.Denom())
+	r := new(Int)
+
+	// Count powers of 2
+	c2 := 0
+	for r.Mod(d, intTwo).Cmp(intZero) == 0 {
+		c2++
+		d.Div(d, intTwo)
+	}
+
+	// Count powers of 5
+	c5 := 0
+	for r.Mod(d, intFive).Cmp(intZero) == 0 {
+		c5++
+		d.Div(d, intFive)
+	}
+
+	// The length of non-repeating digits will be the maximum between c2 and c5.
+	digits = max(c2, c5)
+
+	// If d is 1 after eliminating all 2's and 5's from it,
+	// we can tell that the fraction has a finite decimal representation.
+	// Otherwise, it has other prime factors other than 2 and 5,
+	// thus the fraction is infinite recurring.
+	ok = d.Cmp(intOne) == 0
+
+	return
+}
