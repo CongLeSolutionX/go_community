@@ -80,6 +80,53 @@
       },
       "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "725c8dfa_515364cf",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T21:47:11Z",
+      "side": 1,
+      "message": "You\u0027re right, I somehow just assumed that the new special values affected an old special values comment -- but the code doesn\u0027t know about the new special values.",
+      "parentUuid": "fa2985fa_87f1f9d0",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e498f12_a56cf0db",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T21:47:11Z",
+      "side": 1,
+      "message": "prologue",
+      "range": {
+        "startLine": 485,
+        "startChar": 40,
+        "endLine": 485,
+        "endChar": 48
+      },
+      "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
