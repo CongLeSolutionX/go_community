@@ -229,6 +229,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e41ca679_94ba70b7",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:01:12Z",
+      "side": 1,
+      "message": "I think it is okay to omit it for now. We can always add it later if necessary.",
+      "parentUuid": "3434592d_e915b0de",
+      "range": {
+        "startLine": 292,
+        "startChar": 62,
+        "endLine": 293,
+        "endChar": 10
+      },
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "430da72d_6e256f17",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 8
@@ -596,6 +620,24 @@
       "side": 1,
       "message": "This would look like - https://go-review.googlesource.com/c/go/+/520095",
       "parentUuid": "c35d835d_a07a2bd2",
+      "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "737d4ac0_228cdda7",
+        "filename": "src/cmd/link/internal/riscv64/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:01:12Z",
+      "side": 1,
+      "message": "Does the Go R_RISCV_CALL relocation have to be on the JAL instruction? I believe this relocation is mostly informational? Can we just place it on the AUIPC and provide the same information?",
+      "parentUuid": "ca77cdaf_512f2c03",
       "revId": "c62679e867a103c9986f864677742e385a4d4c2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
