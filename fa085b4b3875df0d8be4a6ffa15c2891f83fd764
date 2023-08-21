@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3847b03c_c405641d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-21T07:46:12Z",
+      "side": 1,
+      "message": "I did consider this, however I cannot find anywhere that these instructions are used in Go or golang.org/x/crypto (so optimising highly does not seem justified). Also, unless I\u0027m missing something, the move from a general register to a vector register is 3-4 cycles - the main gain is likely to be that the instruction text probably has lower load latency than an arbitrary read from memory. The flip side is that we have larger text and do not benefit from the content addressable symbols, which can provide deduplication, etc.",
+      "parentUuid": "8238d045_23102f18",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfc1f426_59eac1a1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
