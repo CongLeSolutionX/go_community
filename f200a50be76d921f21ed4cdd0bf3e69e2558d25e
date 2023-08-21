@@ -88,6 +88,24 @@
       "parentUuid": "e7099acf_949c7a92",
       "revId": "f200a50be76d921f21ed4cdd0bf3e69e2558d25e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "834424ac_6099a3e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-08-21T16:12:50Z",
+      "side": 1,
+      "message": "Thanks for the research on that, now I\u0027ve read the code based on your comments and it become clearer to me, also no need to feel bad about it, this is just a cleanup CL I filed on the fly while I was reading the go runtime code routinely.\n\nI\u0027ll upload a new patchset later commenting on `createstack` and `maxStack\u0027.",
+      "parentUuid": "83615690_a75560ad",
+      "revId": "f200a50be76d921f21ed4cdd0bf3e69e2558d25e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
