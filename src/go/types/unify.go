@@ -403,18 +403,25 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 					// Therefore, we must fail unification (go.dev/issue/60933).
 					return false
 				}
-				// If y is a defined type, make sure we record that type
-				// for type parameter x, which may have until now only
-				// recorded an underlying type (go.dev/issue/43056).
-				// Either both types are interfaces, or neither type is.
-				// If both are interfaces, they have the same methods.
-				//
-				// Note: Changing the recorded type for a type parameter to
-				// a defined type is only ok when unification is inexact.
-				// But in exact unification, if we have a match, x and y must
-				// be identical, so changing the recorded type for x is a no-op.
-				if yn {
-					u.set(px, y)
+				// If we have inexaxt unification, if y is a named type or a directional channel,
+				// make sure we record that type for type parameter x, which may have until now
+				// only recorded an underlying or bidirectional type, respectively
+				// (go.dev/issue/43056, go.dev/issue/62157).
+				if mode&exact == 0 {
+					var xd, yd bool // if set, x and/or y is a directional channel
+					if xc, _ := under(x).(*Chan); xc != nil {
+						yc := under(y).(*Chan) // must be a channel or unification would have failed
+						xd = xc.dir != SendRecv
+						yd = yc.dir != SendRecv
+					}
+					// There are 2 variables x and y, each of which can be named or unnamed,
+					// and directional or bidirectional, for a total of 16 combinations.
+					// A named and directional type takes precedence, followed by a named or
+					// directional type.
+					// TODO(gri) simplify and explain better
+					if yn && (!xd || yd) || yd && (!xd || yn) {
+						u.set(px, y)
+					}
 				}
 				return true
 			}
