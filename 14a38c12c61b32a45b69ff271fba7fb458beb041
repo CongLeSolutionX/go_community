@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1af89ab6_20c79875",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2363,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "Is there a documentation or something for this? Could you add a link?\n\nAs Than asked, does this need to be a TEXT section? Is there any other requirement?",
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e40bc4d4_badbfed2",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2364,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "Then it should not be called in external linking mode, or return immediately. But I don\u0027t see the code does this. Also, this should not do anything if we\u0027re not targeting macOS.",
+      "range": {
+        "startLine": 2364,
+        "startChar": 3,
+        "endLine": 2364,
+        "endChar": 47
+      },
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4172bce_1d1af869",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2365,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "If you have a self-contained documentation, the cross reference to external linking mode isn\u0027t really necessary. If you do want to have a cross reference, maybe say \"See lib.go, function hostlink, search for __info_plist\".",
+      "range": {
+        "startLine": 2364,
+        "startChar": 48,
+        "endLine": 2365,
+        "endChar": 41
+      },
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9de8380d_65f7fa09",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2367,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "As this function is Mach-O specific, it is probably better to be placed in macho.go.",
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b75b237e_864e9ef2",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2384,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "The comment says adding a new section, but this code doesn\u0027t seem to actually create a section. Instead, it just adds a symbol to the last section in TEXT, which is probably not what we want. Also, it doesn\u0027t give the symbol an address. Sorry, I\u0027m not sure I understand how this code works.",
+      "range": {
+        "startLine": 2377,
+        "startChar": 0,
+        "endLine": 2384,
+        "endChar": 36
+      },
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b26466b_350cecb7",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1818,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "Same question for documentation and comment. Thanks.",
+      "range": {
+        "startLine": 1815,
+        "startChar": 0,
+        "endLine": 1818,
+        "endChar": 47
+      },
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6d3f14b_360dc14e",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1820,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "I don\u0027t think you want -extldflags here. That flag is for the Go linker, whereas here we are assembling the flags for the C linker.",
+      "range": {
+        "startLine": 1820,
+        "startChar": 22,
+        "endLine": 1820,
+        "endChar": 35
+      },
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1649aca0_3a751974",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-21T16:37:48Z",
+      "side": 1,
+      "message": "If this could change the size of the TEXT (or any other) segment, it is probably better to call it before layout (or even earlier). Otherwise there may not be space in the segment.",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 363,
+        "endChar": 26
+      },
+      "revId": "14a38c12c61b32a45b69ff271fba7fb458beb041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
