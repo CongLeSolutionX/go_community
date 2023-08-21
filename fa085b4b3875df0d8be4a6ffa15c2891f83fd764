@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8238d045_23102f18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-08-21T02:12:21Z",
+      "side": 1,
+      "message": "Since the source is an integer constant, I wonder if using MOVZ and MOVK instructions is more efficient. ADRP+ADD+LDR theoretically costs 6 cycles, move an integer into a general purpose register costs at most 4 instructions, namely 4 cycles. In addition we need one instruction to move the value from the general purpose register to floating-pointer register. So at most 5 cycles.\nFor VMOVS, moving a 32-bit integer takes at most 2 movX instructions.",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfc1f426_59eac1a1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
