@@ -70,6 +70,24 @@
       "message": "Kindly ping.",
       "revId": "f200a50be76d921f21ed4cdd0bf3e69e2558d25e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83615690_a75560ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-08-21T15:52:12Z",
+      "side": 1,
+      "message": "sorry for the delay. I took a harder look at maxStack, and now I\u0027m wondering if there\u0027s a reason at all to couple maxStack to these exported fields at all.\n\nmaxStack appears to be purely internal to mprof.go; it\u0027s only used as a guard against wildly out-of-bounds slicing of the PCs that come after a `bucket` struct. the fact that the exported API uses a [32]uintptr seems like a coincidence (and we can\u0027t change that anymore due to backwards compatibility).\n\nfurthermore, m.createstack is used in exactly one place, and that\u0027s to copy into the exported API. in that case I think it makes sense not to couple that to maxStack, but to simply say that m.createstack has to align with the exported APIs (maybe a comment on m.createstack that this is used for StackRecord.Stack0, and so it needs to line up with that).\n\nit\u0027s also conceivable that we may want to increase maxStack in the future, which would have no impact on the exported APIs, and so we\u0027d just end up deleting the test you added without replacement.\n\nI\u0027m very sorry for tugging you around; I should have dug deeper into this from the beginning. I had assumed this cleanup was related to the fact that this code was pretty old (since it comes from the C days).\n\nI appreciate the effort you put into this, but I\u0027m not sure we should move forward with this as-is. I think it would be helpful however to document `maxStack` more thoroughly and explain what it\u0027s _actually_ for. if you\u0027re up for that, I\u0027m happy to review that.\n\nagain, very sorry for the long delay and back-and-forth. let me know what you think.",
+      "parentUuid": "e7099acf_949c7a92",
+      "revId": "f200a50be76d921f21ed4cdd0bf3e69e2558d25e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
