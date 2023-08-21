@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b74430b_f1cf08e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-08-21T02:53:59Z",
+      "side": 1,
+      "message": "Realized that I can\u0027t depend on the strings package. Made tiny copies of the necessary functions.",
+      "revId": "db01e29d84f130cb4cc1486610d4954831584943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
