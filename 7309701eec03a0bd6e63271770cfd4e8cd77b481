@@ -53,6 +53,23 @@
       "message": "ping",
       "revId": "7309701eec03a0bd6e63271770cfd4e8cd77b481",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef182da7_dd68370e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-08-21T22:44:09Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "7309701eec03a0bd6e63271770cfd4e8cd77b481",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
