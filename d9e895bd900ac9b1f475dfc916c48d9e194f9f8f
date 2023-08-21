@@ -201,6 +201,30 @@
       },
       "revId": "d9e895bd900ac9b1f475dfc916c48d9e194f9f8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb38dfd_36c9c872",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-21T19:16:43Z",
+      "side": 1,
+      "message": "See the proposed spec change:\n\nhttps://go.dev/cl/509995\n\nAlso, see the issue (proposal text).\n\nWe can always relax this rule. But we want to avoid that people start writing things like\n\nvar s string\ns \u003d zero\n\ninstead of s \u003d \"\".",
+      "parentUuid": "a0ca374a_5a956844",
+      "range": {
+        "startLine": 206,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 21
+      },
+      "revId": "d9e895bd900ac9b1f475dfc916c48d9e194f9f8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
