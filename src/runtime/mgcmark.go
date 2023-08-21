@@ -1011,6 +1011,34 @@ const (
 	gcDrainFractional
 )
 
+// gcDrainMarkWorkerIdle is a wrapper for gcDrain that exists to better account
+// mark time in profiles.
+//
+//go:nowritebarrier
+func gcDrainMarkWorkerIdle(gcw *gcWork) {
+	gcDrain(gcw, gcDrainIdle|gcDrainUntilPreempt|gcDrainFlushBgCredit)
+}
+
+// gcDrainMarkWorkerDedicated is a wrapper for gcDrain that exists to better account
+// mark time in profiles.
+//
+//go:nowritebarrier
+func gcDrainMarkWorkerDedicated(gcw *gcWork, untilPreempt bool) {
+	flags := gcDrainFlushBgCredit
+	if untilPreempt {
+		flags |= gcDrainUntilPreempt
+	}
+	gcDrain(gcw, flags)
+}
+
+// gcDrainMarkWorkerFractional is a wrapper for gcDrain that exists to better account
+// mark time in profiles.
+//
+//go:nowritebarrier
+func gcDrainMarkWorkerFractional(gcw *gcWork) {
+	gcDrain(gcw, gcDrainFractional|gcDrainUntilPreempt|gcDrainFlushBgCredit)
+}
+
 // gcDrain scans roots and objects in work buffers, blackening grey
 // objects until it is unable to get more work. It may return before
 // GC is done; it's the caller's responsibility to balance work from
