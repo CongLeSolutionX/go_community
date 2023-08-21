@@ -403,6 +403,21 @@ func (u *unifier) nify(x, y Type, mode unifyMode, p *ifacePair) (result bool) {
 					// Therefore, we must fail unification (go.dev/issue/60933).
 					return false
 				}
+				// If we have two channel types, make sure we record a channel that is
+				// not bidirectional (if any) because a bidirectional channel can always
+				// be assigned to a directional one, but not vice versa (go.dev/issue/62157).
+				//
+				// Note: Changing the recorded type for a type parameter to
+				// a different type is only ok when unification is inexact.
+				// But in exact unification, if we have a match, x and y must
+				// be identical, so changing the recorded type for x is a no-op.
+				if xc, _ := under(x).(*Chan); xc != nil {
+					yc := under(y).(*Chan) // must be a channel otherwise unification would have failed
+					if yc.dir != SendRecv {
+						u.set(px, y)
+						return true
+					}
+				}
 				// If y is a defined type, make sure we record that type
 				// for type parameter x, which may have until now only
 				// recorded an underlying type (go.dev/issue/43056).
