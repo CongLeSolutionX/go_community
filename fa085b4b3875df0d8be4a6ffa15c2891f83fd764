@@ -148,6 +148,24 @@
       "message": "This is probably fine. But I don\u0027t see a clear downside for using constant pool in text, besides the OpenBSD issue. Maybe do this only for OpenBSD? Or as this is rare we just lean towards code simplicity and do it everywhere so we don\u0027t need a special case for OpenBSD?",
       "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84bd4255_79a1dced",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-08-22T08:56:35Z",
+      "side": 1,
+      "message": "I think x-only may not be a special case. In fact, the Linux kernel has supported this mode since 2021(https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id\u003d18107f8a2df6bf1c6cac8d0713f757f866d5af51), and most Linux distros support it.",
+      "parentUuid": "d75d532a_891d3056",
+      "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
