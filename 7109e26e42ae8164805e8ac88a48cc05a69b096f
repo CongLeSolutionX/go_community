@@ -16,6 +16,23 @@
       "message": "TRY\u003dlinux-riscv64",
       "revId": "7109e26e42ae8164805e8ac88a48cc05a69b096f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c73553_aec8b1d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-22T03:57:18Z",
+      "side": 1,
+      "message": "TRY\u003driscv64",
+      "revId": "7109e26e42ae8164805e8ac88a48cc05a69b096f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
