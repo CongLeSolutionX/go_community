@@ -825,31 +825,39 @@ func TestTimeJSON(t *testing.T) {
 
 func TestUnmarshalInvalidTimes(t *testing.T) {
 	tests := []struct {
-		in   string
-		want string
+		in     string
+		want   string
+		strict bool
 	}{
-		{`{}`, "Time.UnmarshalJSON: input is not a JSON string"},
-		{`[]`, "Time.UnmarshalJSON: input is not a JSON string"},
-		{`"2000-01-01T1:12:34Z"`, `<nil>`},
-		{`"2000-01-01T00:00:00,000Z"`, `<nil>`},
-		{`"2000-01-01T00:00:00+24:00"`, `<nil>`},
-		{`"2000-01-01T00:00:00+00:60"`, `<nil>`},
-		{`"2000-01-01T00:00:00+123:45"`, `parsing time "2000-01-01T00:00:00+123:45" as "2006-01-02T15:04:05Z07:00": cannot parse "+123:45" as "Z07:00"`},
+		{`{}`, "Time.UnmarshalJSON: input is not a JSON string", false},
+		{`[]`, "Time.UnmarshalJSON: input is not a JSON string", false},
+		{`"2000-01-01T1:12:34Z"`, `parsing time "2000-01-01T1:12:34Z" as "2006-01-02T15:04:05Z07:00": cannot parse "1" as "15"`, true},
+		{`"2000-01-01T00:00:00,000Z"`, `parsing time "2000-01-01T00:00:00,000Z" as "2006-01-02T15:04:05Z07:00": cannot parse "," as "."`, true},
+		{`"2000-01-01T00:00:00+24:00"`, `parsing time "2000-01-01T00:00:00+24:00": timezone hour out of range`, true},
+		{`"2000-01-01T00:00:00+00:60"`, `parsing time "2000-01-01T00:00:00+00:60": timezone minute out of range`, true},
+		{`"2000-01-01T00:00:00+123:45"`, `parsing time "2000-01-01T00:00:00+123:45" as "2006-01-02T15:04:05Z07:00": cannot parse "+123:45" as "Z07:00"`, false},
 	}
 
-	for _, tt := range tests {
-		var ts Time
+	for _, strict := range []string{"1", "", "0"} {
+		t.Setenv("GODEBUG", "timerfc3339strict="+strict)
+		for _, tt := range tests {
+			if strict == "0" && tt.strict {
+				tt.want = "<nil>"
+			}
 
-		want := tt.want
-		err := json.Unmarshal([]byte(tt.in), &ts)
-		if fmt.Sprint(err) != want {
-			t.Errorf("Time.UnmarshalJSON(%s) = %v, want %v", tt.in, err, want)
-		}
+			var ts Time
 
-		if strings.HasPrefix(tt.in, `"`) && strings.HasSuffix(tt.in, `"`) {
-			err = ts.UnmarshalText([]byte(strings.Trim(tt.in, `"`)))
+			want := tt.want
+			err := json.Unmarshal([]byte(tt.in), &ts)
 			if fmt.Sprint(err) != want {
-				t.Errorf("Time.UnmarshalText(%s) = %v, want %v", tt.in, err, want)
+				t.Errorf("Time.UnmarshalJSON(%s) = %v, want %v", tt.in, err, want)
+			}
+
+			if strings.HasPrefix(tt.in, `"`) && strings.HasSuffix(tt.in, `"`) {
+				err = ts.UnmarshalText([]byte(strings.Trim(tt.in, `"`)))
+				if fmt.Sprint(err) != want {
+					t.Errorf("Time.UnmarshalText(%s) = %v, want %v", tt.in, err, want)
+				}
 			}
 		}
 	}
