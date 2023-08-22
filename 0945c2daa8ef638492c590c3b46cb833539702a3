@@ -53,6 +53,143 @@
       "message": "Hoping that Than will also have an opinion on this, but overall it looks (much) better to me.",
       "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e278d36_de9fb265",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:01:15Z",
+      "side": 1,
+      "message": "should all these be fmt.Fprintf(\u0026sb, ...) instead?",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89fb0fdd_e0b8b5e5",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:01:15Z",
+      "side": 1,
+      "message": "the only caller immediately overwrites the receiver with the return, and then takes a point to the last value. perhaps this should take l by pointer and return `*locInfo` pointing to the end?",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c303ebf_94e6eb37",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:01:15Z",
+      "side": 1,
+      "message": "ditto, fmt.Fprintf",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eca93409_573e1cd3",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:01:15Z",
+      "side": 1,
+      "message": "reusing seems good, but why throw away ones that are \"too large\"?",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bc10501_97ffe3f6",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:01:15Z",
+      "side": 1,
+      "message": "this can be unconditional, to match the style on line 423?",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 37
+      },
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eccfef0_c93709c0",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:01:15Z",
+      "side": 1,
+      "message": "where does this magic value come from?",
+      "range": {
+        "startLine": 1657,
+        "startChar": 11,
+        "endLine": 1657,
+        "endChar": 13
+      },
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fa0e830_95b6ab94",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1871,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:01:15Z",
+      "side": 1,
+      "message": "why not create on the stack and append after initialization? in fact `pieces` is the only member of `regLoc` that\u0027s used for the next 50 lines; would it be better to inline `regLoc` on line 1920?",
+      "range": {
+        "startLine": 1870,
+        "startChar": 2,
+        "endLine": 1871,
+        "endChar": 48
+      },
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
