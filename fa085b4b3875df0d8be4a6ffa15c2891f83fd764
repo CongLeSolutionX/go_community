@@ -220,6 +220,24 @@
       "parentUuid": "495bfd30_c4ce0c4e",
       "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4774fe01_bc5b99ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T16:15:35Z",
+      "side": 1,
+      "message": "Thanks. You\u0027re correct in that a PC-relative load will be fewer instructions (i.e. we avoid ADRP+ADD), however the latency of the LDR is already high - this change moves from 4 cycles to 6 cycles (although in practice it probably has lower overhead). Other than the test code there do not appear to be any VMOV{Q,D,S} use cases that exist in an all.bash run.",
+      "parentUuid": "456eec3b_b2dd3e2f",
+      "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
