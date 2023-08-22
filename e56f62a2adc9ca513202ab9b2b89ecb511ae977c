@@ -53,6 +53,24 @@
       "message": "I think this feature was once useful for heap dumps. With just an unsafe.Pointer type it prevents you from knowing the layout of the pointed-to object.\nNot sure if that\u0027s worth preserving. We run into the unsafe.Pointer problem in lots of other contexts, so the map portion of it may be small. (And could be solved by putting a *maptype in the map header. The hiter type already has it.)",
       "revId": "e56f62a2adc9ca513202ab9b2b89ecb511ae977c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fca48cd8_98d7e9a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-22T00:30:39Z",
+      "side": 1,
+      "message": "Interesting. Though I think today that usefulness is limited to hiter and non-escaping maps, since escaping maps are allocated with `new(hmap)` in the runtime.",
+      "parentUuid": "fb014476_95f62bbf",
+      "revId": "e56f62a2adc9ca513202ab9b2b89ecb511ae977c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
