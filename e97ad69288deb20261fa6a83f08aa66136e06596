@@ -59,6 +59,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6b09364b_1696378e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-22T20:56:25Z",
+      "side": 1,
+      "message": "Flake.",
+      "parentUuid": "c6eb0c6b_5f104323",
+      "revId": "e97ad69288deb20261fa6a83f08aa66136e06596",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d437024f_5b2a6d16",
         "filename": "src/cmd/compile/internal/types/type.go",
         "patchSetId": 3
@@ -70,6 +88,30 @@
       "writtenOn": "2023-08-22T20:35:13Z",
       "side": 1,
       "message": "make this and the next int32\u0027s?",
+      "range": {
+        "startLine": 303,
+        "startChar": 14,
+        "endLine": 303,
+        "endChar": 17
+      },
+      "revId": "e97ad69288deb20261fa6a83f08aa66136e06596",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81d339db_dfa35293",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-22T20:56:25Z",
+      "side": 1,
+      "message": "I\u0027ll send a followup CL.",
+      "parentUuid": "d437024f_5b2a6d16",
       "range": {
         "startLine": 303,
         "startChar": 14,
