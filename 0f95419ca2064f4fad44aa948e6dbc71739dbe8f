@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16c3129d_6b0c849a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T07:13:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "83617d86_72021ab0",
+      "revId": "0f95419ca2064f4fad44aa948e6dbc71739dbe8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8256ea9b_0a34697e",
@@ -68,6 +86,24 @@
       "writtenOn": "2023-08-14T21:55:26Z",
       "side": 1,
       "message": "Shouldn\u0027t this be TOC for openbsd, not .TOC.?",
+      "revId": "0f95419ca2064f4fad44aa948e6dbc71739dbe8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca6e030_6cf4996c",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T07:13:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8256ea9b_0a34697e",
       "revId": "0f95419ca2064f4fad44aa948e6dbc71739dbe8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

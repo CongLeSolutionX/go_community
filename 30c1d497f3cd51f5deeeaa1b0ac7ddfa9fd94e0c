@@ -101,6 +101,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00b500c5_1ea73077",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T07:13:58Z",
+      "side": 1,
+      "message": "I\u0027ve pruned this back to get non-cgo support working and we can revisit this later for cgo support (hopefully we can avoid most of the hacks now).",
+      "parentUuid": "5506fcad_d17b9a41",
+      "range": {
+        "startLine": 234,
+        "startChar": 84,
+        "endLine": 234,
+        "endChar": 87
+      },
+      "revId": "30c1d497f3cd51f5deeeaa1b0ac7ddfa9fd94e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6205474f_93532e47",
@@ -114,6 +138,30 @@
       "writtenOn": "2023-08-14T19:01:56Z",
       "side": 1,
       "message": "Is this still needed?",
+      "range": {
+        "startLine": 1696,
+        "startChar": 13,
+        "endLine": 1696,
+        "endChar": 30
+      },
+      "revId": "30c1d497f3cd51f5deeeaa1b0ac7ddfa9fd94e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba7ad8b_6bb86ebd",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1696,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T07:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6205474f_93532e47",
       "range": {
         "startLine": 1696,
         "startChar": 13,
@@ -147,6 +195,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca42d7e_f2ad3f2f",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T07:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd473c9e_0e663563",
+      "range": {
+        "startLine": 831,
+        "startChar": 23,
+        "endLine": 831,
+        "endChar": 30
+      },
+      "revId": "30c1d497f3cd51f5deeeaa1b0ac7ddfa9fd94e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc84cc14_e32057fa",
@@ -170,6 +242,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6306eddd_08e66b19",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T07:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc84cc14_e32057fa",
+      "range": {
+        "startLine": 796,
+        "startChar": 13,
+        "endLine": 796,
+        "endChar": 30
+      },
+      "revId": "30c1d497f3cd51f5deeeaa1b0ac7ddfa9fd94e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03c508d4_3e3bd67e",
@@ -183,6 +279,30 @@
       "writtenOn": "2023-08-14T19:01:56Z",
       "side": 1,
       "message": "Trivial style nit, `return goos \u003d\u003d \"aix\" || goos \u003d\u003d \"linux\"`",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 10
+      },
+      "revId": "30c1d497f3cd51f5deeeaa1b0ac7ddfa9fd94e0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a97796_cc643f53",
+        "filename": "src/internal/platform/supported.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T07:13:58Z",
+      "side": 1,
+      "message": "I personally prefer this, however the current version is consistent with the rest of this function.",
+      "parentUuid": "03c508d4_3e3bd67e",
       "range": {
         "startLine": 103,
         "startChar": 4,
