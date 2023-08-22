@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d1cf373_2793df21",
+        "filename": "src/cmd/compile/internal/riscv64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-22T03:27:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ca5cb54_c340d089",
+      "range": {
+        "startLine": 696,
+        "startChar": 1,
+        "endLine": 696,
+        "endChar": 65
+      },
+      "revId": "da4ee7ab2c4f504c7df3bf5e860dab98003decb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7d9b45c_ad4a4ac9",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-07-25T17:19:54Z",
       "side": 1,
       "message": "Nit: The extra spaces here are strange - I would either use spaces to keep things aligned (e.g. like line 827/828 above), or remove them. Same goes for all three lines here.",
+      "range": {
+        "startLine": 836,
+        "startChar": 13,
+        "endLine": 836,
+        "endChar": 15
+      },
+      "revId": "da4ee7ab2c4f504c7df3bf5e860dab98003decb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "665fe4c1_b00529ae",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-08-22T03:27:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7d9b45c_ad4a4ac9",
       "range": {
         "startLine": 836,
         "startChar": 13,
