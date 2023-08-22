@@ -4,7 +4,12 @@
 
 package time
 
-import "errors"
+import (
+	"errors"
+	"internal/godebug"
+)
+
+var timerfc3339strict = godebug.New("timerfc3339strict")
 
 // RFC 3339 is the most commonly used format.
 //
@@ -163,26 +168,32 @@ func parseStrictRFC3339(b []byte) (Time, error) {
 		// The parse template syntax cannot correctly validate RFC 3339.
 		// Explicitly check for cases that Parse is unable to validate for.
 		// See https://go.dev/issue/54580.
+		perr := &ParseError{RFC3339, string(b), RFC3339, string(b), ""}
 		num2 := func(b []byte) byte { return 10*(b[0]-'0') + (b[1] - '0') }
 		switch {
-		// TODO(https://go.dev/issue/54580): Strict parsing is disabled for now.
-		// Enable this again with a GODEBUG opt-out.
-		case true:
-			return t, nil
 		case b[len("2006-01-02T")+1] == ':': // hour must be two digits
-			return Time{}, &ParseError{RFC3339, string(b), "15", string(b[len("2006-01-02T"):][:1]), ""}
+			perr.LayoutElem = "15"
+			perr.ValueElem = string(b[len("2006-01-02T"):][:1])
 		case b[len("2006-01-02T15:04:05")] == ',': // sub-second separator must be a period
-			return Time{}, &ParseError{RFC3339, string(b), ".", ",", ""}
+			perr.LayoutElem = "."
+			perr.ValueElem = ","
 		case b[len(b)-1] != 'Z':
 			switch {
 			case num2(b[len(b)-len("07:00"):]) >= 24: // timezone hour must be in range
-				return Time{}, &ParseError{RFC3339, string(b), "Z07:00", string(b[len(b)-len("Z07:00"):]), ": timezone hour out of range"}
+				perr.LayoutElem = "Z07:00"
+				perr.ValueElem = string(b[len(b)-len("Z07:00"):])
+				perr.Message = ": timezone hour out of range"
 			case num2(b[len(b)-len("00"):]) >= 60: // timezone minute must be in range
-				return Time{}, &ParseError{RFC3339, string(b), "Z07:00", string(b[len(b)-len("Z07:00"):]), ": timezone minute out of range"}
+				perr.LayoutElem = "Z07:00"
+				perr.ValueElem = string(b[len(b)-len("Z07:00"):])
+				perr.Message = ": timezone minute out of range"
 			}
-		default: // unknown error; should not occur
-			return Time{}, &ParseError{RFC3339, string(b), RFC3339, string(b), ""}
 		}
+		if timerfc3339strict.Value() == "0" {
+			timerfc3339strict.IncNonDefault()
+			return t, nil
+		}
+		return Time{}, perr
 	}
 	return t, nil
 }

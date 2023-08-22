@@ -295,6 +295,10 @@ Below is the full list of supported metrics, ordered lexicographically.
 		package due to a non-default GODEBUG=tarinsecurepath=...
 		setting.
 
+	/godebug/non-default-behavior/timerfc3339strict:events
+		The number of non-default behaviors executed by the time package
+		due to a non-default GODEBUG=timerfc3339strict=... setting.
+
 	/godebug/non-default-behavior/tlsmaxrsasize:events
 		The number of non-default behaviors executed by the crypto/tls
 		package due to a non-default GODEBUG=tlsmaxrsasize=... setting.

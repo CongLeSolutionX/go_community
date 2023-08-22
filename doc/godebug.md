@@ -138,6 +138,17 @@ Go 1.22 made it an error for a request or response read by a net/http
 client or server to have an empty Content-Length header.
 This behavior is controlled by the `httplaxcontentlength` setting.
 
+Go 1.22 implements strict adherence to RFC 3339 when unmarshaling a timestamp
+through the
+[`time.Time.UnmarshalText`](/pkg/archive/time/#Time.UnmarshalText)
+and
+[`time.Time.UnmarshalJSON`](/pkg/archive/time/#Time.UnmarshalJSON)
+methods. In particular, the hours field must be two-digits wide,
+the sub-second delimiter must not be a comma,
+the hours field of the timezone must not be 24 or higher, and
+the minutes field of the timezone must not be 60 or higher.
+This behavior is controlled by the `timerfc3339strict` setting.
+
 ### Go 1.21
 
 Go 1.21 made it a run-time error to call `panic` with a nil interface value,
