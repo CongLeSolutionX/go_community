@@ -943,22 +943,13 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					p.Spadj = int32(+p.From.Offset)
 				}
 			}
-			if p.Reg == obj.REG_NONE {
-				p.Reg = p.To.Reg
-			}
-		// Expand two-operand form to three-operand.
-		case AADDW, ASUBW, AADDS, AADDSW, AAND, AANDW, AANDS, AANDSW, ABIC, ABICW, ABICS, ABICSW,
-			AEON, AEONW, AEOR, AEORW, AORN, AORNW, AORR, AORRW, ASUBS, ASUBSW, AADC, AADCW,
-			AADCS, AADCSW, ASBC, ASBCW, ASBCS, ASBCSW, AMUL, AMULW, AMNEG, AMNEGW, ASMNEGL, AUMNEGL,
-			ASMULL, ASMULH, AUMULH, AUMULL, ASDIV, ASDIVW, AUDIV, AUDIVW, ACRC32B, ACRC32CB, ACRC32CH,
-			ACRC32CW, ACRC32CX, ACRC32H, ACRC32W, ACRC32X, ALSL, ALSLW, ALSR, ALSRW, AASR, AASRW, AROR,
-			ARORW:
-			if p.Reg == obj.REG_NONE {
-				p.Reg = p.To.Reg
-			}
-		case ANEG, ANEGW, ANEGS, ANEGSW:
-			if p.From.Reg == obj.REG_NONE {
-				p.From = p.To
+		case AVMOV:
+			// Set "VMOV Rn, Vd.T" to "VDUP Rn, Vd.T"
+			if p.From.Type == obj.TYPE_REG && p.To.Type == obj.TYPE_REG {
+				if (c.aclass(&p.From) == C_ZREG || c.aclass(&p.From) == C_REG) &&
+					c.aclass(&p.To) == C_ARNG {
+					p.As = AVDUP
+				}
 			}
 
 		case obj.AGETCALLERPC:
@@ -1075,6 +1066,25 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			q5.To.Reg = REGFP
 			q1.From.SetTarget(q5)
 			p = q5
+		}
+
+		switch c.isDyadicOp(p.As) {
+		case 1:
+			// Covert "op Rm, Rd" to "op Rm, Rd, Rd".
+			if p.Reg == obj.REG_NONE {
+				p.Reg = p.To.Reg
+			}
+		case 2:
+			// Covert "op Vm, Vd" to "op Vm, Vd, Vd".
+			if p.Reg == obj.REG_NONE && p.To.Index == 0 {
+				p.Reg = p.To.Reg
+			}
+		}
+		// Covert "op Rd" to "op Rd, Rd".
+		if c.isMonadicOp(p.As) {
+			if p.From.Reg == obj.REG_NONE {
+				p.From = p.To
+			}
 		}
 
 		if p.To.Type == obj.TYPE_REG && p.To.Reg == REGSP && p.Spadj == 0 {
