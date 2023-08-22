@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "57789d7a_af7d5a95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-22T21:41:27Z",
+      "side": 1,
+      "message": "I tested this manually by running\n```\ngo test -o $OUT -run\u003d\u0027^$\u0027 -count\u003d1 archive/... compress/... crypto/... encoding/... hash/... image/... testing/... text/... unicode/...\n```\nin a loop. It failed within a few dozen iterations before this change, and not at all after.",
+      "revId": "72772a1d9364ae3bd33f4dc18fd2dec4fb790e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fa108f08_b67a4617",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
