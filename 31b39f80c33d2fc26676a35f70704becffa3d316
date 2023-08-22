@@ -143,6 +143,98 @@
       "parentUuid": "fb899697_d30c4c8d",
       "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efcbba1b_11c162c6",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1714,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:02:26Z",
+      "side": 1,
+      "message": "trailer",
+      "range": {
+        "startLine": 1714,
+        "startChar": 20,
+        "endLine": 1714,
+        "endChar": 27
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ff8de51_14829600",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1771,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:02:26Z",
+      "side": 1,
+      "message": "to the into the",
+      "range": {
+        "startLine": 1771,
+        "startChar": 41,
+        "endLine": 1771,
+        "endChar": 54
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa9a1cd3_419adbf9",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7345,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:02:26Z",
+      "side": 1,
+      "message": "\"to be\"?",
+      "range": {
+        "startLine": 7345,
+        "startChar": 54,
+        "endLine": 7345,
+        "endChar": 55
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "108b0787_468d586c",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-08-22T17:02:26Z",
+      "side": 1,
+      "message": "should this be phrased as a TODO?",
+      "range": {
+        "startLine": 488,
+        "startChar": 58,
+        "endLine": 492,
+        "endChar": 56
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
