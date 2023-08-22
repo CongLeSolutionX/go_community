@@ -184,6 +184,24 @@
       "parentUuid": "84bd4255_79a1dced",
       "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "495bfd30_c4ce0c4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-22T13:31:59Z",
+      "side": 1,
+      "message": "I think there are several aspects to this:\n\n1) The VMOV{Q,D,S} instructions are infrequently used and the cost of two additional cycles (which are potentially run in a separate pipeline) are of no real consequence. We also get benefits from removing arm64 specific complexity and leveraging the existing content addressable symbols infrastructure.\n\n2) I suspect that other operating systems will eventually push for x-only, or at least provide support for it (as Eric also notes).\n\n3) I do not think that arm64 gains anything from the literal pool - with the changes that have landed (or are in flight), all of the literal pool usage has been removed from the binaries that build for Go, aside from the large reflect calls. The changes so far have only resulted in better code generation and use the same number or fewer instructions. The remaining uses can be eliminated by inlining the load, which will require one or two additional instructions but remove a load from memory (and should therefore be faster/require fewer cycles).",
+      "parentUuid": "84bd4255_79a1dced",
+      "revId": "fa085b4b3875df0d8be4a6ffa15c2891f83fd764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
