@@ -107,6 +107,24 @@
       "parentUuid": "e646d208_721a90e1",
       "revId": "f913975dc00737a155abea226c6e235f2e6a562e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca8972f_ab089f34",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-23T20:15:25Z",
+      "side": 1,
+      "message": "I think it\u0027s not worth doing.  The goal is for the GODEBUG setting to describe how the DNS resolver makes decisions.  It\u0027s not to trace everything that the resolver is doing.  Since qtype and host don\u0027t affect the decision, we don\u0027t need to log them.",
+      "parentUuid": "ea504095_d24bd4de",
+      "revId": "f913975dc00737a155abea226c6e235f2e6a562e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
