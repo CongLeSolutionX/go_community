@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83d2359a_2204cfbf",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e278d36_de9fb265",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89fb0fdd_e0b8b5e5",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ad1397_85fdc72d",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:05Z",
+      "side": 1,
+      "message": "I had written it like this for an (imperfect) analogy with a slice\u0027s `append`.\nI had gone back and forth, but changed it now.",
+      "parentUuid": "89fb0fdd_e0b8b5e5",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c303ebf_94e6eb37",
@@ -102,6 +138,24 @@
       "writtenOn": "2023-08-22T17:01:15Z",
       "side": 1,
       "message": "ditto, fmt.Fprintf",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01a1e0a_e779aeff",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c303ebf_94e6eb37",
       "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -125,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "086c4ff9_3d170654",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:05Z",
+      "side": 1,
+      "message": "Because you don\u0027t want `locLists` to grow excessively large and hold on to too much memory; you don\u0027t want all of them stay at the high-water mark of any variable that has reused the `locList`.",
+      "parentUuid": "eca93409_573e1cd3",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bc10501_97ffe3f6",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 1
@@ -136,6 +208,30 @@
       "writtenOn": "2023-08-22T17:01:15Z",
       "side": 1,
       "message": "this can be unconditional, to match the style on line 423?",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 37
+      },
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ab38b71_f21dbd20",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bc10501_97ffe3f6",
       "range": {
         "startLine": 446,
         "startChar": 0,
@@ -169,6 +265,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd8f2d9a_1a6d1a53",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:05Z",
+      "side": 1,
+      "message": "max size of a SLEB128. Added a comment.",
+      "parentUuid": "9eccfef0_c93709c0",
+      "range": {
+        "startLine": 1657,
+        "startChar": 11,
+        "endLine": 1657,
+        "endChar": 13
+      },
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fa0e830_95b6ab94",
@@ -182,6 +302,30 @@
       "writtenOn": "2023-08-22T17:01:15Z",
       "side": 1,
       "message": "why not create on the stack and append after initialization? in fact `pieces` is the only member of `regLoc` that\u0027s used for the next 50 lines; would it be better to inline `regLoc` on line 1920?",
+      "range": {
+        "startLine": 1870,
+        "startChar": 2,
+        "endLine": 1871,
+        "endChar": 48
+      },
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36557b1d_04a8bb85",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1871,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:05Z",
+      "side": 1,
+      "message": "massaged some",
+      "parentUuid": "3fa0e830_95b6ab94",
       "range": {
         "startLine": 1870,
         "startChar": 2,
