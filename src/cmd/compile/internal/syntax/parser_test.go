@@ -374,3 +374,16 @@ func TestLineDirectives(t *testing.T) {
 		}
 	}
 }
+
+func TestUnpackListExprAllocs(t *testing.T) {
+	var x Expr = NewName(Pos{}, "x")
+	count := 0
+	allocs := testing.AllocsPerRun(count, func() {
+		for range UnpackListExpr(x) {
+			count++
+		}
+	})
+	if allocs > 0 {
+		t.Errorf("UnpackListExpr allocated %v times", allocs)
+	}
+}
