@@ -104,6 +104,23 @@
       "message": "Thanks.",
       "revId": "13ada9790930913ea187ad0d730e465c17963cff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "071ccd37_c33871e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-23T13:44:35Z",
+      "side": 1,
+      "message": "I see the openbsd-ppc64 CI is now successfully running as of 70a8a41. Good work Joel!",
+      "revId": "13ada9790930913ea187ad0d730e465c17963cff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
