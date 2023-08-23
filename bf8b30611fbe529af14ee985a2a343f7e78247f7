@@ -127,6 +127,30 @@
       },
       "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec715ee1_adaafcd6",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e498f12_a56cf0db",
+      "range": {
+        "startLine": 485,
+        "startChar": 40,
+        "endLine": 485,
+        "endChar": 48
+      },
+      "revId": "bf8b30611fbe529af14ee985a2a343f7e78247f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

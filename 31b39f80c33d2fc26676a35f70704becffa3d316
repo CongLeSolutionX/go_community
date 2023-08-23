@@ -168,6 +168,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf45a48d_89baa3fc",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1714,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efcbba1b_11c162c6",
+      "range": {
+        "startLine": 1714,
+        "startChar": 20,
+        "endLine": 1714,
+        "endChar": 27
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ff8de51_14829600",
@@ -181,6 +205,30 @@
       "writtenOn": "2023-08-22T17:02:26Z",
       "side": 1,
       "message": "to the into the",
+      "range": {
+        "startLine": 1771,
+        "startChar": 41,
+        "endLine": 1771,
+        "endChar": 54
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d05d9baf_7866adb5",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1771,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ff8de51_14829600",
       "range": {
         "startLine": 1771,
         "startChar": 41,
@@ -214,6 +262,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea8c9340_913089a2",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7345,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:12Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "aa9a1cd3_419adbf9",
+      "range": {
+        "startLine": 7345,
+        "startChar": 54,
+        "endLine": 7345,
+        "endChar": 55
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "108b0787_468d586c",
@@ -227,6 +299,30 @@
       "writtenOn": "2023-08-22T17:02:26Z",
       "side": 1,
       "message": "should this be phrased as a TODO?",
+      "range": {
+        "startLine": 488,
+        "startChar": 58,
+        "endLine": 492,
+        "endChar": 56
+      },
+      "revId": "31b39f80c33d2fc26676a35f70704becffa3d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c345e637_e5dad737",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-08-23T20:21:12Z",
+      "side": 1,
+      "message": "I think it\u0027s phrased fine the way it is, but we\u0027ll see if the owners want it differently, or if they want https://github.com/golang/go/issues/60493 to be referenced here.\nA related question is whether #60493 should stay open, given that this patch fixes it only for amd64 and arm. I will take guidance.",
+      "parentUuid": "108b0787_468d586c",
       "range": {
         "startLine": 488,
         "startChar": 58,
