@@ -141,6 +141,24 @@
       "parentUuid": "abc9742d_d0d4ed67",
       "revId": "18b74f5104da629e003446dceb5e860986b5254b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a96012e_0b59244e",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-23T12:43:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c544af29_c72d2c96",
+      "revId": "18b74f5104da629e003446dceb5e860986b5254b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
