@@ -25,6 +25,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beba9819_5d417b0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-23T20:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbb6cb40_53250f2b",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "800870d12520575863a47231fd5776ca3a44f34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99473dc5_662460eb",
@@ -38,6 +62,30 @@
       "writtenOn": "2023-08-22T22:47:05Z",
       "side": 1,
       "message": "I don\u0027t think parameter ordering issues are the problem for named types.\n\nConsider:\n```\ntype A struct{}\ntype B struct{}\n\nfunc F[T ~struct{}](x, y T) {}\n\nfunc _() {\n  var a A\n  var b B\n  F(a, b)\n}\n```\n\nIn this case, if we didn\u0027t set the named type after unification, we\u0027d infer struct{} as the type argument for F(a, b), and unification would succeed. There would be nothing wrong with that, but that\u0027s not how we decided unification would work.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "800870d12520575863a47231fd5776ca3a44f34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a0ba353_7afb8872",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-23T20:55:18Z",
+      "side": 1,
+      "message": "I am not following: in this case - if we didn\u0027t set the named type after unification - we would select the type of a which is A (a named type). If we update the type after unification, we infer B. In both cases the call will fail because A !\u003d B, which is fine. But it the type of a were an unnamed type, we\u0027d infer that unnamed type. That would be fine too, but it would not work if we actually cared about the type name elsewhere. This is how we decided unification to work.",
+      "parentUuid": "99473dc5_662460eb",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -62,6 +110,30 @@
       "side": 1,
       "message": "\u003e \"previosuly\" is a possible misspelling of \"previously\".\n\nPlease fix.",
       "parentUuid": "e41dbeaf_00f0a309",
+      "range": {
+        "startLine": 18,
+        "startChar": 20,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "800870d12520575863a47231fd5776ca3a44f34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84584ef3_473c16f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-23T20:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5a52394_4fd4dee1",
       "range": {
         "startLine": 18,
         "startChar": 20,
@@ -174,6 +246,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dee3dca_3f5c0161",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-23T20:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cb2fff4_1eb65826",
+      "range": {
+        "startLine": 404,
+        "startChar": 18,
+        "endLine": 404,
+        "endChar": 25
+      },
+      "revId": "800870d12520575863a47231fd5776ca3a44f34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07f2bbef_5c91ad26",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-23T20:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73607ea8_5c21ae8f",
+      "range": {
+        "startLine": 404,
+        "startChar": 39,
+        "endLine": 404,
+        "endChar": 41
+      },
+      "revId": "800870d12520575863a47231fd5776ca3a44f34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db0caa74_f2dbcf10",
@@ -187,6 +307,30 @@
       "writtenOn": "2023-08-22T22:47:05Z",
       "side": 1,
       "message": "I don\u0027t think this is correct; the situation is not the same:\n\n- type N struct{} is narrower than struct{}, because fewer types are assignable to type N struct{}\n- in that sense, chan\u003c- int is WIDER than chan int, because more types are assignable to chan\u003c- int",
+      "range": {
+        "startLine": 407,
+        "startChar": 57,
+        "endLine": 407,
+        "endChar": 84
+      },
+      "revId": "800870d12520575863a47231fd5776ca3a44f34b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ce016c6_18332b3b",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-23T20:55:18Z",
+      "side": 1,
+      "message": "Updated comment.",
+      "parentUuid": "db0caa74_f2dbcf10",
       "range": {
         "startLine": 407,
         "startChar": 57,
