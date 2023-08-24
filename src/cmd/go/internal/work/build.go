@@ -114,6 +114,8 @@ and test commands:
 		do not delete it when exiting.
 	-x
 		print the commands.
+	-json
+		emit build output in JSON suitable for automated processing.
 	-asmflags '[pattern=]arg list'
 		arguments to pass on each go tool asm invocation.
 	-buildmode mode
@@ -300,6 +302,8 @@ const (
 	OmitModFlag       BuildFlagMask = 1 << iota
 	OmitModCommonFlags
 	OmitVFlag
+	OmitBuildOnlyFlags // Omit flags that only affect running the toolchain
+	OmitJSONFlag
 )
 
 // AddBuildFlags adds the flags common to the build, clean, get,
@@ -342,6 +346,13 @@ func AddBuildFlags(cmd *base.Command, mask BuildFlagMask) {
 	cmd.Flag.BoolVar(&cfg.BuildTrimpath, "trimpath", false, "")
 	cmd.Flag.BoolVar(&cfg.BuildWork, "work", false, "")
 	cmd.Flag.Var((*buildvcsFlag)(&cfg.BuildBuildvcs), "buildvcs", "")
+	if mask&(OmitBuildOnlyFlags|OmitJSONFlag) == 0 {
+		// TODO(#62250): OmitBuildOnlyFlags should apply to many more flags
+		// here, but we let a bunch of flags slip in before we realized that
+		// many of them don't make sense for most subcommands. We might even
+		// want to separate "AddBuildFlags" and "AddSelectionFlags".
+		cmd.Flag.BoolVar(&cfg.BuildJSON, "json", false, "")
+	}
 
 	// Undocumented, unstable debugging flags.
 	cmd.Flag.StringVar(&cfg.DebugActiongraph, "debug-actiongraph", "", "")

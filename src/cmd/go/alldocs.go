@@ -156,6 +156,8 @@
 //		do not delete it when exiting.
 //	-x
 //		print the commands.
+//	-json
+//		emit build output in JSON suitable for automated processing.
 //	-asmflags '[pattern=]arg list'
 //		arguments to pass on each go tool asm invocation.
 //	-buildmode mode
