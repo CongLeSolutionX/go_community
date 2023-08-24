@@ -53,6 +53,46 @@
       "message": "Nice!",
       "revId": "2020c3bd9ed2ce4234cbe5d82414d91f551f564c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11746398_bd044076",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-08-24T14:21:48Z",
+      "side": 1,
+      "message": "Looks good overall. Nice to get rid of InitTodoFunc, I was unaware of that weird hack.\n\nFor the global map init outlining (to enable deadcode of unreferenced maps) one other thing that I have had on my idea list is to revisit the business of whether a map init has side effects. Example:\n\n```\nvar myDeadMap \u003d map[string]int{\n                \"foo\":1,\n\t        \"bar\":funcWithSideEffectsReturningInt(),\n\t        }\n```\n\nRight now the outliner steers away from this map entirely, but in fact what we could do is evaluate each side-effecting bit to a static temp and then reference the static temp from within the outlined init func. That way if the map is unreferenced we still get the side-effects we want, but don\u0027t have to pay for the map storage. Making this enhancement would probably help increase the number of dead maps we find.\n\nDo you see any obstacles or problems with this under your new scheme? Seems like it should still be doable, but I thought I would check.",
+      "revId": "2020c3bd9ed2ce4234cbe5d82414d91f551f564c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d87db3b6_4a960b8d",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-08-24T14:21:48Z",
+      "side": 1,
+      "message": "this comment looks stale as a result of your changes",
+      "range": {
+        "startLine": 208,
+        "startChar": 36,
+        "endLine": 208,
+        "endChar": 67
+      },
+      "revId": "2020c3bd9ed2ce4234cbe5d82414d91f551f564c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
