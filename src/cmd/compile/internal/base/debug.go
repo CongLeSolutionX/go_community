@@ -23,6 +23,7 @@ type DebugFlags struct {
 	DisableNil            int    `help:"disable nil checks" concurrent:"ok"`
 	DumpInlFuncProps      string `help:"dump function properties from inl heuristics to specified file"`
 	DumpInlCallSiteScores int    `help:"dump scored callsites during inlining"`
+	InlineSingleCallFuncs int    `help:"inline selected single call funcs"`
 	DumpPtrs              int    `help:"show Node pointers values in dump output"`
 	DwarfInl              int    `help:"print information about DWARF inlined function creation"`
 	EscapeMutationsCalls  int    `help:"print extra escape analysis diagnostics about mutations and calls" concurrent:"ok"`

@@ -127,6 +127,7 @@ func (csa *callSiteAnalyzer) addCallSite(callee *ir.Func, call *ir.CallExpr) {
 	cs := &CallSite{
 		Call:   call,
 		Callee: callee,
+		Caller: csa.fn,
 		Assign: csa.containingAssignment(call),
 		Flags:  flags,
 		ID:     uint(len(csa.cstab)),

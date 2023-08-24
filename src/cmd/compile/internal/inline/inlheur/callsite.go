@@ -25,6 +25,7 @@ import (
 // the site, and "ID" is a numeric ID for the site within its
 // containing function.
 type CallSite struct {
+	Caller    *ir.Func
 	Callee    *ir.Func
 	Call      *ir.CallExpr
 	Assign    ir.Node

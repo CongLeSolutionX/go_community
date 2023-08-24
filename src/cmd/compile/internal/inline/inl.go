@@ -813,9 +813,11 @@ func isBigFunc(fn *ir.Func) bool {
 		// See logic in hairyVisitor.doNode, explaining unified IR's
 		// handling of "a, b = f()" assignments.
 		if n, ok := n.(*ir.AssignListStmt); ok && n.Op() == ir.OAS2 {
-			if init := n.Rhs[0].Init(); len(init) == 1 {
-				if _, ok := init[0].(*ir.AssignListStmt); ok {
-					budget += 4*len(n.Lhs) + 1
+			if len(n.Rhs) != 0 {
+				if init := n.Rhs[0].Init(); len(init) == 1 {
+					if _, ok := init[0].(*ir.AssignListStmt); ok {
+						budget += 4*len(n.Lhs) + 1
+					}
 				}
 			}
 		}
@@ -1298,5 +1300,8 @@ func postProcessCallSites(profile *pgo.Profile) {
 			return v, v == inlineHotMaxBudget
 		}
 		inlheur.DumpInlCallSiteScores(profile, budgetCallback)
+	}
+	if base.Debug.InlineSingleCallFuncs != 0 {
+		inlheur.InlineSingleCallFuncs(isBigFunc)
 	}
 }
