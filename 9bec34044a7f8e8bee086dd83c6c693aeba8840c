@@ -72,6 +72,24 @@
       "message": "I guess count is needed to this loop doesn\u0027t become eliminated?\nComment?",
       "revId": "9bec34044a7f8e8bee086dd83c6c693aeba8840c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8667c2c4_d6879037",
+        "filename": "src/cmd/compile/internal/syntax/parser_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-24T06:56:59Z",
+      "side": 1,
+      "message": "That was my original thinking. I changed it to a simple correctness test instead.\n\nAlso fixed the test to work on the noopt builder (following the idiom used in package slices unit tests).",
+      "parentUuid": "e0753611_414c0db6",
+      "revId": "9bec34044a7f8e8bee086dd83c6c693aeba8840c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
