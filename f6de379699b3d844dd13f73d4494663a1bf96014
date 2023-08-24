@@ -82,6 +82,30 @@
       },
       "revId": "f6de379699b3d844dd13f73d4494663a1bf96014",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755d8359_e04735fd",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-24T23:58:24Z",
+      "side": 1,
+      "message": "Hm. That condition is not correct, either: for F(a, b, c). With both conditions we infer A for F(a, b, c) which conflicts with B and we get an error.\n\nThere\u0027s no easy way out I think. We may have to start collecting multiple possible types per type parameter. We may be able to get away with two: a named and an unnamed type (corresponding to the fact that inexact unification differs in essentially ignoring a type name). So we keep an unnamed type, and, if present, an (inexactly) matching named type. At the end we select the named type if possible, otherwise the unnamed one.\n\nThinking.",
+      "parentUuid": "8f2d164c_3025ea95",
+      "range": {
+        "startLine": 421,
+        "startChar": 8,
+        "endLine": 421,
+        "endChar": 37
+      },
+      "revId": "f6de379699b3d844dd13f73d4494663a1bf96014",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
