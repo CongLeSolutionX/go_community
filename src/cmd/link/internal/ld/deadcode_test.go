@@ -5,9 +5,11 @@
 package ld
 
 import (
+	"bufio"
 	"bytes"
 	"internal/testenv"
 	"path/filepath"
+	"regexp"
 	"testing"
 )
 
@@ -27,6 +29,8 @@ func TestDeadcode(t *testing.T) {
 		{"ifacemethod2", []string{"main.T.M"}, nil},
 		{"ifacemethod3", []string{"main.S.M"}, nil},
 		{"ifacemethod4", nil, []string{"main.T.M"}},
+		{"ifacemethod5", []string{"main.S.M"}, nil},
+		{"ifacemethod6", []string{"main.S.M"}, []string{"main.S.N"}},
 		{"globalmap", []string{"main.small", "main.effect"},
 			[]string{"main.large"}},
 	}
@@ -52,5 +56,27 @@ func TestDeadcode(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestStructOfIsNotReflectMethod(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	tmpdir := t.TempDir()
+
+	src := filepath.Join("testdata", "structof.go")
+	exe := filepath.Join(tmpdir, "structof.go.exe")
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-dumpdep", "-o", exe, src)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
+	}
+
+	wrong := regexp.MustCompile("reflect.StructOf.*ReflectMethod")
+
+	s := bufio.NewScanner(bytes.NewBuffer(out))
+	for s.Scan() {
+		if wrong.MatchString(s.Text()) {
+			t.Fatalf("reflect.StructOf must not be a ReflectMethod")
+		}
 	}
 }
