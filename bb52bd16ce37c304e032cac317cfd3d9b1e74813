@@ -16,6 +16,24 @@
       "message": "The use of R_USEGENERICINTERFACEMETHOD feels like a hack here. Maybe the relocation type should be renamed to R_KEEPMETHODBYNAME or similar.",
       "revId": "bb52bd16ce37c304e032cac317cfd3d9b1e74813",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5eafdd0_52fbcd21",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-24T19:55:52Z",
+      "side": 1,
+      "message": "Using R_USEGENERICINTERFACEMETHOD is clever. Cool!\n\nYeah, let\u0027s rename it to R_USENAMEDMETHOD (and update the comment there). Thanks.",
+      "parentUuid": "b2d89f87_17c1d850",
+      "revId": "bb52bd16ce37c304e032cac317cfd3d9b1e74813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
