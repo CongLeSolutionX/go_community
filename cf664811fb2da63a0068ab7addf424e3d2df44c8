@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c033e4c_dc5c1867",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-24T23:12:36Z",
+      "side": 1,
+      "message": "Good point - yes this is wrong. We must allow zero whenever there\u0027s no alternative choice. Fixed.",
+      "parentUuid": "118ff2d6_218108c5",
+      "range": {
+        "startLine": 210,
+        "startChar": 22,
+        "endLine": 210,
+        "endChar": 32
+      },
+      "revId": "cf664811fb2da63a0068ab7addf424e3d2df44c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9e2efb2_2fcb7380",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-08-24T18:32:02Z",
       "side": 1,
       "message": "I\u0027m confused why we need nilvalue and zerovalue operand modes. go/types doesn\u0027t have nilvalue, but types2 does... why? (we should add a comment if indeed the discrepancy is necessary)",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 58
+      },
+      "revId": "cf664811fb2da63a0068ab7addf424e3d2df44c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4945a161_f527f8b0",
+        "filename": "src/go/types/operand.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-24T23:12:36Z",
+      "side": 1,
+      "message": "The zerovalue operand mode is simply modeled along the lines of the nilvalue mode. The nilvalue mode existed for a long time and was introduced to be able to identify a typed nil value (after an implicit conversion) from an untyped nil value: there are situations where we need to see if a value is nil, but the type has already changed (via implicit conversion) to a (say) pointer type. This simplified and clarified code a while back.\n\nWe did the same in go/types but ran into problems with external tools which expected an untyped nil value in cases where we (with go/types) reported a typed nil value (after introducing the nilvalue mode). For analogy, in an assignment `var x int \u003d 0` the 0 becomes implicitly typed and gets the int type (not untyped int). The same happens with untyped nils, unless there\u0027s a precaution. The problem is that go/vet then doesn\u0027t know anymore that it deals with a nil value, so we must report untyped nil in all cases and avoid the implicit conversion.\n\nIn go/types we remoed the special nilvalue mode and solved the problem by extra precaution whenever we might otherwise change the type of an untyped nil (see comments in Checker.implicitTypeAndValue in expr.go, e.g.. line 430). It\u0027s an irregularity.\n\nWe don\u0027t have this problem with untyped numeric values because if we care about those values, we can look at them (they are constants). But nil is not a constant, so we need a way to represent it. We do it with a special mode.\n\nWe migth be able to match go/types to types2 by making the conversion back to untyped nil at type recording time, something I haven\u0027t tried yet.\n\nBut this has been like this for years and is documented with comments in the code and linke to issues.",
+      "parentUuid": "a9e2efb2_2fcb7380",
       "range": {
         "startLine": 30,
         "startChar": 1,
