@@ -982,3 +982,40 @@ has a term for a Go major release, the language version used when compiling
 the file will be the minimum version implied by the build constraint.
 `,
 }
+
+var HelpBuildJSON = &base.Command{
+	UsageLine: "buildjson",
+	Short:     "build -json encoding",
+	Long: `
+The 'go build' and 'go install' commands take a -json argument that
+reports build output and failures as structured JSON output on stdout.
+
+The JSON stream is a newline-separated sequence of BuildEvent objects
+corresponding to the Go struct:
+
+	type BuildEvent struct {
+		ImportPath string
+		Action     string
+		Output     string
+	}
+
+The ImportPath field gives the package ID of the package being built.
+This matches the Package.ImportPath field of go list -json.
+
+The Action field is one of the following:
+
+	build-output - The toolchain printed output
+	build-fail - The build failed
+
+The Output field is set for Action == "build-output" and is a portion of
+the build's output. The concatenation of the Output fields of all output
+events is the exact output of the build. A single event may contain one
+or more lines of output and there may be more than one output event for
+a given ImportPath. This matches the definition of the TestEvent.Output
+field produced by go test -json.
+
+Note that there may also be non-JSON error text on stderr, even with
+the -json flag. Typically, this indicates an early, serious error.
+Consumers should be robust to this.
+	`,
+}
