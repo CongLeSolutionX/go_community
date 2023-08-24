@@ -406,9 +406,6 @@ func deadcode(ctxt *Link) {
 	d.init()
 	d.flood()
 
-	methSym := ldr.Lookup("reflect.Value.Method", abiInternalVer)
-	methByNameSym := ldr.Lookup("reflect.Value.MethodByName", abiInternalVer)
-
 	if ctxt.DynlinkingGo() {
 		// Exported methods may satisfy interfaces we don't know
 		// about yet when dynamically linking.
@@ -416,11 +413,6 @@ func deadcode(ctxt *Link) {
 	}
 
 	for {
-		// Methods might be called via reflection. Give up on
-		// static analysis, mark all exported methods of
-		// all reachable types as reachable.
-		d.reflectSeen = d.reflectSeen || (methSym != 0 && ldr.AttrReachable(methSym)) || (methByNameSym != 0 && ldr.AttrReachable(methByNameSym))
-
 		// Mark all methods that could satisfy a discovered
 		// interface as reachable. We recheck old marked interfaces
 		// as new types (with new methods) may have been discovered
