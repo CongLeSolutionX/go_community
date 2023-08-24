@@ -209,10 +209,6 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// because it generates itabs for initializing global variables.
 	ssagen.InitConfig()
 
-	// Create "init" function for package-scope variable initialization
-	// statements, if any.
-	pkginit.MakeInit()
-
 	// Apply coverage fixups, if applicable.
 	coverage.Fixup()
 
