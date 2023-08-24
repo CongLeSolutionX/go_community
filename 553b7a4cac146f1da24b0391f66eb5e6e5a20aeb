@@ -53,6 +53,23 @@
       "message": "Is there a way to write a test case for this?  If one of the later CLs includes a test for this, please mention that in the CL description.  Thanks.",
       "revId": "553b7a4cac146f1da24b0391f66eb5e6e5a20aeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca520471_e74d9d10",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-24T20:09:23Z",
+      "side": 1,
+      "message": "Would be good to have a comment here.\n\nAlso, the use of Type.Method in StrucOf is only used when embedding an interface. But I don\u0027t think that code actually works? Maybe we could just delete that code instead?",
+      "revId": "553b7a4cac146f1da24b0391f66eb5e6e5a20aeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
