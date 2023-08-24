@@ -12,11 +12,13 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
+	"cmd/compile/internal/objw"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/staticdata"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
+	"cmd/internal/objabi"
 )
 
 // The result of walkExpr MUST be assigned back to n, e.g.
@@ -957,6 +959,8 @@ func usemethod(n *ir.CallExpr) {
 			return
 		case fn == "(*interfaceType).Method", fn == "(*interfaceType).MethodByName":
 			return
+		case fn == "Value.Method", fn == "Value.MethodByName":
+			return
 		case strings.HasPrefix(fn, "StructOf.func"):
 			return
 		}
@@ -967,38 +971,66 @@ func usemethod(n *ir.CallExpr) {
 		return
 	}
 
-	// Looking for either direct method calls and interface method calls of:
-	//	reflect.Type.Method       - func(int) reflect.Method
-	//	reflect.Type.MethodByName - func(string) (reflect.Method, bool)
-	var pKind types.Kind
+	// looking for either direct method calls and interface method calls of:
+	//	reflect.Type.Method        - func(int) reflect.Method
+	//	reflect.Type.MethodByName  - func(string) (reflect.Method, bool)
+	//
+	//	reflect.Value.Method       - func(int) reflect.Value
+	//	reflect.Value.MethodByName - func(string) reflect.Value
+	methodName := dot.Sel.Name
+	t := dot.Selection.Type
 
-	switch dot.Sel.Name {
-	case "Method":
-		pKind = types.TINT
-	case "MethodByName":
-		pKind = types.TSTRING
+	// Check the number of arguments and return values.
+	if t.NumParams() != 1 || (t.NumResults() != 1 && t.NumResults() != 2) {
+		return
+	}
+
+	// Check the type of the argument.
+	switch pKind := t.Param(0).Type.Kind(); {
+	case methodName == "Method" && pKind == types.TINT,
+		methodName == "MethodByName" && pKind == types.TSTRING:
+		// these are ok
 	default:
 		return
 	}
 
-	t := dot.Selection.Type
-	if t.NumParams() != 1 || t.Param(0).Type.Kind() != pKind {
+	// Check that first result type is "reflect.Method" or "reflect.Value".
+	// Note that we have to check sym name and sym package separately, as
+	// we can't check for exact string "reflect.Method" reliably
+	// (e.g., see #19028 and #38515).
+	switch s := t.Result(0).Type.Sym(); {
+	case s != nil && types.ReflectSymName(s) == "Method",
+		s != nil && types.ReflectSymName(s) == "Value":
+		// these are ok
+	default:
 		return
 	}
-	switch t.NumResults() {
-	case 1:
-		// ok
-	case 2:
-		if t.Result(1).Type.Kind() != types.TBOOL {
-			return
+
+	var targetName ir.Node
+	switch dot.Op() {
+	case ir.ODOTINTER:
+		if methodName == "MethodByName" {
+			targetName = n.Args[0]
+		}
+	case ir.OMETHEXPR:
+		if methodName == "MethodByName" {
+			targetName = n.Args[1]
 		}
 	default:
-		return
+		base.Fatalf("usemethod: unexpected dot.Op() %s", dot.Op())
 	}
 
-	// Check that first result type is "reflect.Method". Note that we have to check sym name and sym package
-	// separately, as we can't check for exact string "reflect.Method" reliably (e.g., see #19028 and #38515).
-	if s := t.Result(0).Type.Sym(); s != nil && types.ReflectSymName(s) == "Method" {
+	if ir.IsConst(targetName, constant.String) {
+		name := constant.StringVal(targetName.Val())
+
+		var nameSym obj.LSym
+		nameSym.WriteString(base.Ctxt, 0, len(name), name)
+		objw.Global(&nameSym, int32(len(name)), obj.RODATA)
+
+		r := obj.Addrel(ir.CurFunc.LSym)
+		r.Type = objabi.R_USEGENERICIFACEMETHOD
+		r.Sym = &nameSym
+	} else {
 		ir.CurFunc.SetReflectMethod(true)
 		// The LSym is initialized at this point. We need to set the attribute on the LSym.
 		ir.CurFunc.LSym.Set(obj.AttrReflectMethod, true)
