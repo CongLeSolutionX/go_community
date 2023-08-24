@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "077b71c2_2de64858",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2837,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-08-24T03:30:08Z",
+      "side": 0,
+      "message": "Except for these two places, the recipient names of other *pkgWriter types in this file are all pw",
+      "revId": "86f0f08461ae5b5fd605c229aad696ddefa92b2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd55b9d_c35190e3",
+        "filename": "src/cmd/compile/internal/pgo/internal/graph/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-08-24T03:30:08Z",
+      "side": 0,
+      "message": "Except for these two places, the recipient names of other EdgeMap types in this file are all em",
+      "revId": "86f0f08461ae5b5fd605c229aad696ddefa92b2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8764528a_8c07f8c1",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-08-24T03:30:08Z",
+      "side": 0,
+      "message": "The loc here is more used for the receiver name of the VarLoc type below, and it is more appropriate to use ls here",
+      "revId": "86f0f08461ae5b5fd605c229aad696ddefa92b2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20c2d88d_c363b8f5",
+        "filename": "src/cmd/compile/internal/ssa/expand_calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-08-24T03:30:08Z",
+      "side": 0,
+      "message": "Except for these two places, the recipient names of other *registerCursor types in this file are all r",
+      "revId": "86f0f08461ae5b5fd605c229aad696ddefa92b2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
