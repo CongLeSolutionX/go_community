@@ -53,6 +53,24 @@
       "message": "(nit) Any reason to keep a delay here at all? (Seems like it would be equally correct to make this a `default`.)",
       "revId": "961ede5f0f32be5ab9e24e70420c2fdd438c68c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d3b6d84_fd0ce582",
+        "filename": "src/net/http/clientserver_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-24T18:02:37Z",
+      "side": 1,
+      "message": "If this wedges, it\u0027s a bit nicer if it does so without pegging the CPU at the same time.\n\nI suppose a more gold-plated approach would be to start at 1ns and double the wait every time, but this is probably fine.",
+      "parentUuid": "4f21dbd9_a7502fae",
+      "revId": "961ede5f0f32be5ab9e24e70420c2fdd438c68c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
