@@ -220,23 +220,19 @@ type Mark struct {
 type ScopeID int32
 
 const (
-	funcDupok         = 1 << iota // duplicate definitions ok
-	funcWrapper                   // hide frame from users (elide in tracebacks, don't count as a frame for recover())
-	funcABIWrapper                // is an ABI wrapper (also set flagWrapper)
-	funcNeedctxt                  // function uses context register (has closure variables)
-	funcReflectMethod             // function calls reflect.Type.Method or MethodByName
-	// true if closure inside a function; false if a simple function or a
-	// closure in a global variable initialization
-	funcIsHiddenClosure
-	funcIsDeadcodeClosure        // true if closure is deadcode
-	funcHasDefer                 // contains a defer statement
-	funcNilCheckDisabled         // disable nil checks when compiling this function
-	funcInlinabilityChecked      // inliner has already determined whether the function is inlinable
-	funcExportInline             // include inline body in export data
-	funcInstrumentBody           // add race/msan/asan instrumentation during SSA construction
-	funcOpenCodedDeferDisallowed // can't do open-coded defers
-	funcClosureResultsLost       // closure is called indirectly and we lost track of its results; used by escape analysis
-	funcPackageInit              // compiler emitted .init func for package
+	funcDupok                    = 1 << iota // duplicate definitions ok
+	funcWrapper                              // hide frame from users (elide in tracebacks, don't count as a frame for recover())
+	funcABIWrapper                           // is an ABI wrapper (also set flagWrapper)
+	funcNeedctxt                             // function uses context register (has closure variables)
+	funcReflectMethod                        // function calls reflect.Type.Method or MethodByName
+	funcHasDefer                             // contains a defer statement
+	funcNilCheckDisabled                     // disable nil checks when compiling this function
+	funcInlinabilityChecked                  // inliner has already determined whether the function is inlinable
+	funcExportInline                         // include inline body in export data
+	funcInstrumentBody                       // add race/msan/asan instrumentation during SSA construction
+	funcOpenCodedDeferDisallowed             // can't do open-coded defers
+	funcClosureResultsLost                   // closure is called indirectly and we lost track of its results; used by escape analysis
+	funcPackageInit                          // compiler emitted .init func for package
 )
 
 type SymAndPos struct {
@@ -249,8 +245,6 @@ func (f *Func) Wrapper() bool                  { return f.flags&funcWrapper != 0
 func (f *Func) ABIWrapper() bool               { return f.flags&funcABIWrapper != 0 }
 func (f *Func) Needctxt() bool                 { return f.flags&funcNeedctxt != 0 }
 func (f *Func) ReflectMethod() bool            { return f.flags&funcReflectMethod != 0 }
-func (f *Func) IsHiddenClosure() bool          { return f.flags&funcIsHiddenClosure != 0 }
-func (f *Func) IsDeadcodeClosure() bool        { return f.flags&funcIsDeadcodeClosure != 0 }
 func (f *Func) HasDefer() bool                 { return f.flags&funcHasDefer != 0 }
 func (f *Func) NilCheckDisabled() bool         { return f.flags&funcNilCheckDisabled != 0 }
 func (f *Func) InlinabilityChecked() bool      { return f.flags&funcInlinabilityChecked != 0 }
@@ -265,8 +259,6 @@ func (f *Func) SetWrapper(b bool)                  { f.flags.set(funcWrapper, b)
 func (f *Func) SetABIWrapper(b bool)               { f.flags.set(funcABIWrapper, b) }
 func (f *Func) SetNeedctxt(b bool)                 { f.flags.set(funcNeedctxt, b) }
 func (f *Func) SetReflectMethod(b bool)            { f.flags.set(funcReflectMethod, b) }
-func (f *Func) SetIsHiddenClosure(b bool)          { f.flags.set(funcIsHiddenClosure, b) }
-func (f *Func) SetIsDeadcodeClosure(b bool)        { f.flags.set(funcIsDeadcodeClosure, b) }
 func (f *Func) SetHasDefer(b bool)                 { f.flags.set(funcHasDefer, b) }
 func (f *Func) SetNilCheckDisabled(b bool)         { f.flags.set(funcNilCheckDisabled, b) }
 func (f *Func) SetInlinabilityChecked(b bool)      { f.flags.set(funcInlinabilityChecked, b) }
@@ -364,6 +356,11 @@ var globClosgen int32
 
 // closureName generates a new unique name for a closure within outerfn at pos.
 func closureName(outerfn *Func, pos src.XPos, why Op) *types.Sym {
+	// TODO(mdempsky): This can be simplified, now that outerfn must
+	// always be non-nil. It should also always be non-blank, because
+	// the the unified frontend drops blank functions during export data
+	// writing.
+
 	pkg := types.LocalPkg
 	outer := "glob."
 	var prefix string
@@ -426,8 +423,11 @@ func closureName(outerfn *Func, pos src.XPos, why Op) *types.Sym {
 // (for a normal function literal) or OGO or ODEFER (for wrapping a
 // call expression that has parameters or results).
 func NewClosureFunc(fpos, cpos src.XPos, why Op, typ *types.Type, outerfn *Func, pkg *Package) *Func {
+	if outerfn == nil {
+		base.FatalfAt(fpos, "outerfn is nil")
+	}
+
 	fn := NewFunc(fpos, fpos, closureName(outerfn, cpos, why), typ)
-	fn.SetIsHiddenClosure(outerfn != nil)
 
 	clo := &ClosureExpr{Func: fn}
 	clo.op = OCLOSURE

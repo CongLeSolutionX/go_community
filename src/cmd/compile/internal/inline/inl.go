@@ -163,11 +163,6 @@ func InlinePackage(p *pgo.Profile) {
 
 	InlineDecls(p, typecheck.Target.Funcs, true)
 
-	// Perform a garbage collection of hidden closures functions that
-	// are no longer reachable from top-level functions following
-	// inlining. See #59404 and #59638 for more context.
-	garbageCollectUnreferencedHiddenClosures()
-
 	if base.Debug.DumpInlFuncProps != "" {
 		inlheur.DumpFuncProps(nil, base.Debug.DumpInlFuncProps)
 	}
@@ -211,57 +206,6 @@ func InlineDecls(p *pgo.Profile, funcs []*ir.Func, doInline bool) {
 			}
 		}
 	})
-}
-
-// garbageCollectUnreferencedHiddenClosures makes a pass over all the
-// top-level (non-hidden-closure) functions looking for nested closure
-// functions that are reachable, then sweeps through the Target.Decls
-// list and marks any non-reachable hidden closure function as dead.
-// See issues #59404 and #59638 for more context.
-func garbageCollectUnreferencedHiddenClosures() {
-
-	liveFuncs := make(map[*ir.Func]bool)
-
-	var markLiveFuncs func(fn *ir.Func)
-	markLiveFuncs = func(fn *ir.Func) {
-		if liveFuncs[fn] {
-			return
-		}
-		liveFuncs[fn] = true
-		ir.Visit(fn, func(n ir.Node) {
-			if clo, ok := n.(*ir.ClosureExpr); ok {
-				markLiveFuncs(clo.Func)
-			}
-		})
-	}
-
-	for i := 0; i < len(typecheck.Target.Funcs); i++ {
-		fn := typecheck.Target.Funcs[i]
-		if fn.IsHiddenClosure() {
-			continue
-		}
-		markLiveFuncs(fn)
-	}
-
-	for i := 0; i < len(typecheck.Target.Funcs); i++ {
-		fn := typecheck.Target.Funcs[i]
-		if !fn.IsHiddenClosure() {
-			continue
-		}
-		if fn.IsDeadcodeClosure() {
-			continue
-		}
-		if liveFuncs[fn] {
-			continue
-		}
-		fn.SetIsDeadcodeClosure(true)
-		if base.Flag.LowerM > 2 {
-			fmt.Printf("%v: unreferenced closure %v marked as dead\n", ir.Line(fn), fn)
-		}
-		if fn.Inl != nil && fn.LSym == nil {
-			ir.InitLSym(fn, true)
-		}
-	}
 }
 
 // inlineBudget determines the max budget for function 'fn' prior to
