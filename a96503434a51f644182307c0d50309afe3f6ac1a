@@ -192,6 +192,30 @@
       },
       "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10aba646_ab549202",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T21:09:38Z",
+      "side": 1,
+      "message": "ValueOf takes an interface parameter, so s, and so type S, is converted to interface there. Implicit conversions also count. (To be clear it also includes types that are components of other types which are converted to interfaces, as components can be accessed via reflect Field/Elem/etc.)",
+      "parentUuid": "1502c6d7_f5559266",
+      "range": {
+        "startLine": 407,
+        "startChar": 73,
+        "endLine": 408,
+        "endChar": 20
+      },
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
