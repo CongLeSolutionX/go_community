@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ddd9cb_de69b48a",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:15:27Z",
+      "side": 1,
+      "message": "I think it is worth mentioning that it is the closures inside StructOf that does the method lookup.\n\nAlso, we usually don\u0027t add the \"()\" to function name, so drop it. Thanks.",
+      "range": {
+        "startLine": 960,
+        "startChar": 5,
+        "endLine": 960,
+        "endChar": 16
+      },
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e61a0a3_e116e660",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:15:27Z",
+      "side": 1,
+      "message": "Maybe say \"it is ok to not mark it as ReflectMethod\"? (It\u0027s not really clear to me what \"enabled\" means here.)",
+      "range": {
+        "startLine": 961,
+        "startChar": 57,
+        "endLine": 961,
+        "endChar": 72
+      },
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2f92faf_227bdefb",
+        "filename": "src/cmd/compile/internal/walk/expr_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:15:27Z",
+      "side": 1,
+      "message": "Thanks for writing this test. As this checks the linker output anyway, let\u0027s just have the deadcode tests in the linker and remove this. Thanks.",
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9ad61cc_cf34d15f",
+        "filename": "src/cmd/compile/internal/walk/expr_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:15:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this is checking for. Even at tip or Go 1.21, the dumpdep output doesn\u0027t seem to have a match for this. (Anyway, let\u0027s drop this and have a deadcode test for StructOf. Thanks.)",
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
