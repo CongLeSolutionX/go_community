@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a2803b3_27eb212c",
+        "filename": "src/net/conf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-25T16:49:16Z",
+      "side": 1,
+      "message": "Ok... so move the debug message into `(*Resolver).lookupPort` instead? AFAICT that\u0027s the only remaining caller of `mustUseGoResolver`:\nhttps://cs.opensource.google/search?q\u003dmustUseGoResolver\u0026ss\u003dgo%2Fgo",
+      "parentUuid": "8fe8e69f_bcd585a8",
+      "revId": "c10506efb4e9ce40e3548857bf795f6b99b79129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c55266a3_608a5e72",
         "filename": "src/net/conf.go",
         "patchSetId": 3
@@ -127,6 +145,30 @@
       "side": 1,
       "message": "how would you change it? My point in the doc comment was that the `addrLookupOrder` and `hostLookupOrder` should be prevered over `mustUseGoResolver`.",
       "parentUuid": "c55266a3_608a5e72",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 76
+      },
+      "revId": "c10506efb4e9ce40e3548857bf795f6b99b79129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4582ea9_912f0f9a",
+        "filename": "src/net/conf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-25T16:49:16Z",
+      "side": 1,
+      "message": "Nothing about `isGoResolverForced` is specific to “non-hostname and non-address resolutions”, and `addrLookupOrder` and `hostLookupOrder` both end up calling `isGoResolverForced` anyway.\n\nI would resolve this by deleting the new wrapper function and its comment and renaming `isGoResolverForced` back to `mustUseGoResolver`.",
+      "parentUuid": "b4d957ac_5761e94e",
       "range": {
         "startLine": 207,
         "startChar": 0,
