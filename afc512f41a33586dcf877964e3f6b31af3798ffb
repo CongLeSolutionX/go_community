@@ -90,6 +90,24 @@
       "parentUuid": "117dac3b_ea8eee7f",
       "revId": "afc512f41a33586dcf877964e3f6b31af3798ffb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d46618_f5c1d1fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-25T18:42:08Z",
+      "side": 1,
+      "message": "The issue is this initialization within dir_unix.go:\n\n```\nvar dirBufPool \u003d sync.Pool{\n\tNew: func() any {\n\t\t// The buffer must be at least a block long.\n\t\tbuf :\u003d make([]byte, blockSize)\n\t\treturn \u0026buf\n\t},\n}\n```\n\nEscape analysis thinks the \u0026buf doesn\u0027t escape.",
+      "parentUuid": "7126530a_3d9d0dcc",
+      "revId": "afc512f41a33586dcf877964e3f6b31af3798ffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
