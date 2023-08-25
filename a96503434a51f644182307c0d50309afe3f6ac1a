@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b605cd62_26996e50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:44:40Z",
+      "side": 1,
+      "message": "LGTM. Just some minor comments. Thanks.",
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5802f6f1_587cf86e",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:44:40Z",
+      "side": 1,
+      "message": "Minor: function. It could be a function, not necessarily a method. (I\u0027d think usually functions include methods, but not vice versa.)",
+      "range": {
+        "startLine": 397,
+        "startChar": 40,
+        "endLine": 397,
+        "endChar": 46
+      },
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f92dd2_5e9883d6",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:44:40Z",
+      "side": 1,
+      "message": "Maybe say \"... means that F does a reflect method lookup but the compiler was not able to statically determine the method\u0027s name\".",
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c56a79c3_9c6d675e",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:44:40Z",
+      "side": 1,
+      "message": "Minor: drop (). Thanks.",
+      "range": {
+        "startLine": 400,
+        "startChar": 45,
+        "endLine": 400,
+        "endChar": 48
+      },
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4fa6b16_3f9e3d2d",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:44:40Z",
+      "side": 1,
+      "message": "\"all reachable types that are converted to interfaces\"? (It is not necessarily a struct, could be other types with methods. Also if the type is never converted to interface we still don\u0027t need to mark them.)",
+      "range": {
+        "startLine": 407,
+        "startChar": 73,
+        "endLine": 408,
+        "endChar": 20
+      },
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
