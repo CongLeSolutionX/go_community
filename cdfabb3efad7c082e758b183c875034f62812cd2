@@ -139,6 +139,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95bb2090_e677809d",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:37:44Z",
+      "side": 1,
+      "message": "No. I meant the addition of `case fn \u003d\u003d \"Value.Method\", fn \u003d\u003d \"Value.MethodByName\"`. With the revised comment at top this is probably fine.\n\nLet\u0027s keep the StructOf part in the other CL. Thanks.",
+      "parentUuid": "7ca5f13c_bd736821",
+      "range": {
+        "startLine": 962,
+        "startChar": 0,
+        "endLine": 963,
+        "endChar": 9
+      },
+      "revId": "cdfabb3efad7c082e758b183c875034f62812cd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "862a5d1d_0e9072e5",
         "filename": "src/cmd/compile/internal/walk/expr.go",
         "patchSetId": 2
@@ -174,6 +198,30 @@
       "side": 1,
       "message": "The previous version of the code also combines the checks for interface calls and direct calls. It handles `reflect.Type.Method`, `reflect.(*rtype).Method` and `reflect.(*interfaceType).Method`.\n\nI believe the previous version does the right thing. Splitting `usemethod()` into two branches just to have more straightforward checks for direct calls does not look nice to me. That way we will need functions like\n```\nfunc usemethodIcall(n *ir.CallExpr) (isMethodLookup bool, targetName ir.Node)\nfunc usemethodDcall(n *ir.CallExpr) (isMethodLookup bool, targetName ir.Node)\n...\nfunc usemethod() {\n    ...\n    var isMethodLookup bool\n    var targetName ir.Node\n    switch dot.Op() {\n    case ir.ODOTINTER:\n        isMethodLookup, targetName \u003d usemethodIcall(n)\n    case ir.OMETHEXPR:\n        isMethodLookup, targetName \u003d usemethodDcall(n)\n    }\n    ...\n}\n```\nThis is ugly.",
       "parentUuid": "862a5d1d_0e9072e5",
+      "range": {
+        "startLine": 978,
+        "startChar": 0,
+        "endLine": 979,
+        "endChar": 59
+      },
+      "revId": "cdfabb3efad7c082e758b183c875034f62812cd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eec421ff_efe0b5a9",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-25T15:37:44Z",
+      "side": 1,
+      "message": "I just meant the check for early return (when it is not a reflect Method call). I was thinking something like\n```\nif direct call \u0026\u0026 (name \u003d\u003d \"Value.Method\" || name \u003d\u003d \"Value.MethodByName\") {\n  goto found\n} else if interface call \u0026\u0026 name \u003d\u003d ... \u0026\u0026 signature matches {\n  goto found\n} else {\n  return\n}\nfound:\n  find targetName and do the actual marking\n```\n\nThe current code is fine.",
+      "parentUuid": "12ce2a10_c8472a81",
       "range": {
         "startLine": 978,
         "startChar": 0,
