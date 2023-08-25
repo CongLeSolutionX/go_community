@@ -35,7 +35,9 @@ import (
 
 var trailingPort = regexp.MustCompile(`:([0-9]+)$`)
 
-var osDefaultInheritEnv = func() []string {
+var osDefaultInheritEnv = getOSDefaultInheritEnv()
+
+func getOSDefaultInheritEnv() []string {
 	switch runtime.GOOS {
 	case "darwin", "ios":
 		return []string{"DYLD_LIBRARY_PATH"}
@@ -51,7 +53,7 @@ var osDefaultInheritEnv = func() []string {
 		return []string{"SystemRoot", "COMSPEC", "PATHEXT", "WINDIR"}
 	}
 	return nil
-}()
+}
 
 // Handler runs an executable in a subprocess with a CGI environment.
 type Handler struct {
