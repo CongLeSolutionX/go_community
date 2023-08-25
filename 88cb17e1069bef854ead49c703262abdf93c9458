@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8834316_ef4c3dcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-25T06:22:26Z",
+      "side": 1,
+      "message": "I\u0027ve filed https://github.com/golang/go/issues/62277 for the longtest builder failures, and uploaded https://go-review.git.corp.google.com/c/go/+/522935 as a workaround to get the builders passing again.",
+      "revId": "88cb17e1069bef854ead49c703262abdf93c9458",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
