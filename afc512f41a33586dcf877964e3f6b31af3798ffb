@@ -108,6 +108,24 @@
       "parentUuid": "7126530a_3d9d0dcc",
       "revId": "afc512f41a33586dcf877964e3f6b31af3798ffb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b319983f_b4cf764e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-25T18:50:50Z",
+      "side": 1,
+      "message": "Oh, because pkginit.MakeTask uses staticinit to turn the \"dirBufPool.New \u003d func() { ... }\" assignment into a static initialization, which in turn drops it from the IR, and means escape analysis doesn\u0027t realize the function is still reachable and needs to be analyzed.",
+      "parentUuid": "c2d46618_f5c1d1fe",
+      "revId": "afc512f41a33586dcf877964e3f6b31af3798ffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
