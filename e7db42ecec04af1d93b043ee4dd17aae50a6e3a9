@@ -88,6 +88,23 @@
       "parentUuid": "452c5461_1d047f6b",
       "revId": "e7db42ecec04af1d93b043ee4dd17aae50a6e3a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5633be69_b684269e",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-25T17:43:21Z",
+      "side": 1,
+      "message": "Please add a comment here referring to an open (preferably release-blocking) issue. (Perhaps #62277 itself?)",
+      "revId": "e7db42ecec04af1d93b043ee4dd17aae50a6e3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
