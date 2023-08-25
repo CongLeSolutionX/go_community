@@ -477,4 +477,58 @@ Previous write at 0x[0-9,a-f]+ by main goroutine:
       .*/main.go:10 \+0x[0-9,a-f]+
 
 `}},
+	{"race_instrumentation_for_non_inline_array_compare", "run", "", "atexit_sleep_ms=0", `
+package main
+
+import "runtime"
+
+var x = [1024]byte{}
+
+var ch = make(chan bool)
+
+func main() {
+	go func() {
+		runtime.Gosched()
+		var y = [len(x)]byte{}
+		eq := x == y
+		ch <- eq
+	}()
+	runtime.Gosched()
+	for k := range x {
+		x[k]++
+	}
+	println(<-ch)
+}
+`, []string{`==================
+WARNING: DATA RACE
+`}},
+	{"race_instrumentation_for_non_inline_struct_compare", "run", "", "atexit_sleep_ms=0", `
+package main
+
+import "runtime"
+
+type S struct {
+	a [1024]byte
+}
+
+var x = S{a: [1024]byte{}}
+
+var ch = make(chan bool)
+
+func main() {
+	go func() {
+		runtime.Gosched()
+		var y = S{a: [len(x.a)]byte{}}
+		eq := x == y
+		ch <- eq
+	}()
+	runtime.Gosched()
+	for k := range x.a {
+		x.a[k]++
+	}
+	println(<-ch)
+}
+`, []string{`==================
+WARNING: DATA RACE
+`}},
 }
