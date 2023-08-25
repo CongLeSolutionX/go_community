@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e78f1a18_d6db4759",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T13:45:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c50e43e4_d27f75fe",
+      "revId": "cdfabb3efad7c082e758b183c875034f62812cd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4230fe94_04bcb202",
@@ -85,6 +103,30 @@
       "writtenOn": "2023-08-24T19:55:52Z",
       "side": 1,
       "message": "Is this change related to this CL? I guess doing this here so we can handle both Type.MethodByName and Value.MethodByName at same time? And we don\u0027t need the marker because the linker handles them directly.\n\nSome comment would be good.",
+      "range": {
+        "startLine": 962,
+        "startChar": 0,
+        "endLine": 963,
+        "endChar": 9
+      },
+      "revId": "cdfabb3efad7c082e758b183c875034f62812cd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ca5f13c_bd736821",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T13:45:55Z",
+      "side": 1,
+      "message": "Do you mean the addition of `case strings.hasPrefix(fn, \"StructOf.func\")`?\n\nI\u0027ve added a comment on that one.",
+      "parentUuid": "4230fe94_04bcb202",
       "range": {
         "startLine": 962,
         "startChar": 0,
@@ -120,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12ce2a10_c8472a81",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T13:45:55Z",
+      "side": 1,
+      "message": "The previous version of the code also combines the checks for interface calls and direct calls. It handles `reflect.Type.Method`, `reflect.(*rtype).Method` and `reflect.(*interfaceType).Method`.\n\nI believe the previous version does the right thing. Splitting `usemethod()` into two branches just to have more straightforward checks for direct calls does not look nice to me. That way we will need functions like\n```\nfunc usemethodIcall(n *ir.CallExpr) (isMethodLookup bool, targetName ir.Node)\nfunc usemethodDcall(n *ir.CallExpr) (isMethodLookup bool, targetName ir.Node)\n...\nfunc usemethod() {\n    ...\n    var isMethodLookup bool\n    var targetName ir.Node\n    switch dot.Op() {\n    case ir.ODOTINTER:\n        isMethodLookup, targetName \u003d usemethodIcall(n)\n    case ir.OMETHEXPR:\n        isMethodLookup, targetName \u003d usemethodDcall(n)\n    }\n    ...\n}\n```\nThis is ugly.",
+      "parentUuid": "862a5d1d_0e9072e5",
+      "range": {
+        "startLine": 978,
+        "startChar": 0,
+        "endLine": 979,
+        "endChar": 59
+      },
+      "revId": "cdfabb3efad7c082e758b183c875034f62812cd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5216afec_295ae8ff",
         "filename": "src/cmd/compile/internal/walk/expr.go",
         "patchSetId": 2
@@ -131,6 +197,30 @@
       "writtenOn": "2023-08-24T19:55:52Z",
       "side": 1,
       "message": "This should have same comment as https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/reflectdata/reflect.go;l\u003d1882, for why not use staticdata.StringSym. (Or define a helper funcition like staticdata.StringSymNoCommon or something.)",
+      "range": {
+        "startLine": 1025,
+        "startChar": 0,
+        "endLine": 1028,
+        "endChar": 53
+      },
+      "revId": "cdfabb3efad7c082e758b183c875034f62812cd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67c36c23_bbaa60c4",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T13:45:55Z",
+      "side": 1,
+      "message": "Added staticdata.StringSymNoCommon() in a commit that renames R_USEGENERICINTERFACEMETHOD to R_KEEPNAMEDMETHOD.",
+      "parentUuid": "5216afec_295ae8ff",
       "range": {
         "startLine": 1025,
         "startChar": 0,
