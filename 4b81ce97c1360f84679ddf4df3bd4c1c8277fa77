@@ -34,6 +34,24 @@
       "parentUuid": "15eef563_add350ec",
       "revId": "4b81ce97c1360f84679ddf4df3bd4c1c8277fa77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29d0ba7_288d0aad",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-25T00:48:48Z",
+      "side": 1,
+      "message": "It would help to see this rewritten to assume that the function address comes in in $25 and to use register numbers rather than names.  Thanks.",
+      "parentUuid": "276480fb_96f6079f",
+      "revId": "4b81ce97c1360f84679ddf4df3bd4c1c8277fa77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
