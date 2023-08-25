@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3e34c9e_5b8248ba",
+        "filename": "src/net/conf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-08-25T17:49:56Z",
+      "side": 1,
+      "message": "\u003e  I see. So what\u0027s the problem with having the debug logging present in the call from lookupOrder?\n\nIt is not needed there, `addrLookupOrder` and `hostLookupOrder` print the debugs.\nWhy would we print the result of `isGoResolverForced` in `lookupOrder`?\n\n\u003e It seems like the lookup functions always either call at most one of mustUseGoResolver, hostLookupOrder, or addrLookupOrder — if that\u0027s the case, it wouldn\u0027t lead to duplicate debug \n\nBut if we remove the `isGoResolverForced` and add the debug to `mustUseGoResolver`, then it would cause duplicate logs.\n\nhostLookupOrder (log) -\u003e lookupOrder -\u003e mustUseGoResolver (log).",
+      "parentUuid": "c8d77982_4355553f",
+      "revId": "c10506efb4e9ce40e3548857bf795f6b99b79129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c55266a3_608a5e72",
         "filename": "src/net/conf.go",
         "patchSetId": 3
