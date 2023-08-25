@@ -106,6 +106,30 @@
       },
       "revId": "f6de379699b3d844dd13f73d4494663a1bf96014",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75ab17ee_dfbfb341",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-25T01:01:59Z",
+      "side": 1,
+      "message": "It may not too bad after all. This only matters for inexact unification. In that case we should be able to simply always work with the underlying types (but remember a defined type if we see one), and for channels, we always select the directed channel. At the end, if inference succeeds, if we remembered a defined type where we inferred an underlying type, we can make the selection based on whether we have channels or not. For channels, a defined directional channel wins, followed by a directional (literal) channel. For other types, the defined type wins (as before). If we see multiple defined types we\u0027ll get an assignment error later, so it doesn\u0027t matter which one we choose (also as before).\n\nThis will require some more changes: we need to replace the current *Type handles with actual handle structs that can remember two types, the underlying and the defined type (if any). That\u0027s an easy and systematic change. Then we have to adjust the logic a bit. That\u0027s more subtle as it may introduce new bugs.\n\nProbably won\u0027t get to this before early next week.",
+      "parentUuid": "755d8359_e04735fd",
+      "range": {
+        "startLine": 421,
+        "startChar": 8,
+        "endLine": 421,
+        "endChar": 37
+      },
+      "revId": "f6de379699b3d844dd13f73d4494663a1bf96014",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
