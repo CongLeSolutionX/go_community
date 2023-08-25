@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc3c9cd7_39fff26b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T19:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0509213_698af761",
+      "revId": "553b7a4cac146f1da24b0391f66eb5e6e5a20aeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca520471_e74d9d10",
@@ -140,6 +158,24 @@
       "side": 1,
       "message": "By not working I meant the methods constructed by those closures on the newly-created struct don\u0027t actually do what it is expected. E.g. https://go.dev/play/p/ylJQTYY3DRM this results in a fatal error.",
       "parentUuid": "19a819f4_e6a27e4c",
+      "revId": "553b7a4cac146f1da24b0391f66eb5e6e5a20aeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5433069_3dbef487",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T19:29:35Z",
+      "side": 1,
+      "message": "Wow. It seems it was broken for a long time, and no one complained. Definitely a good candidate for removal. What do owners of reflect tell about that? Do they believe that StructOf needs a fix, or it needs unused parts removed?\n\nAnyway, let us not grow the scope of this patch series.",
+      "parentUuid": "8da66e59_1b082d02",
       "revId": "553b7a4cac146f1da24b0391f66eb5e6e5a20aeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

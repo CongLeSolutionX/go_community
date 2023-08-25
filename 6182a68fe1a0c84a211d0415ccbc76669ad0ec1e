@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d700647_bfd66069",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T19:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13ddd9cb_de69b48a",
+      "range": {
+        "startLine": 960,
+        "startChar": 5,
+        "endLine": 960,
+        "endChar": 16
+      },
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e61a0a3_e116e660",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-25T15:15:27Z",
       "side": 1,
       "message": "Maybe say \"it is ok to not mark it as ReflectMethod\"? (It\u0027s not really clear to me what \"enabled\" means here.)",
+      "range": {
+        "startLine": 961,
+        "startChar": 57,
+        "endLine": 961,
+        "endChar": 72
+      },
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c185c17d_23ad95fe",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T19:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e61a0a3_e116e660",
       "range": {
         "startLine": 961,
         "startChar": 57,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be233a14_7ac44c72",
+        "filename": "src/cmd/compile/internal/walk/expr_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T19:29:35Z",
+      "side": 1,
+      "message": "Moved to https://go.dev/cl/522438.",
+      "parentUuid": "e2f92faf_227bdefb",
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9ad61cc_cf34d15f",
@@ -77,6 +143,24 @@
       "writtenOn": "2023-08-25T15:15:27Z",
       "side": 1,
       "message": "I\u0027m not sure what this is checking for. Even at tip or Go 1.21, the dumpdep output doesn\u0027t seem to have a match for this. (Anyway, let\u0027s drop this and have a deadcode test for StructOf. Thanks.)",
+      "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf9f6a47_77491ee8",
+        "filename": "src/cmd/compile/internal/walk/expr_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-25T19:29:35Z",
+      "side": 1,
+      "message": "This one is a bit tricky. In go 1.21, usemethod flags only users of reflect.Type.Method, but StructOf uses reflect.Value.Method, and it is the linker who disables the DCE when it detects that reflect.Value.Method is reachable.\n\nClosures inside StructOf get flagged as ReflectMethods after my patches are applied. To see the test fail, patch the last commit in this series and comment\n```\ncase strings.HasPrefix(fn, \"StructOf.func\"):\n```",
+      "parentUuid": "d9ad61cc_cf34d15f",
       "revId": "6182a68fe1a0c84a211d0415ccbc76669ad0ec1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
