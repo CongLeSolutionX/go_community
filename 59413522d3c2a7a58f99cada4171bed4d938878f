@@ -16,6 +16,29 @@
       "message": "LGTM.",
       "revId": "59413522d3c2a7a58f99cada4171bed4d938878f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48470b40_de39dbc2",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-25T20:58:21Z",
+      "side": 1,
+      "message": "This seems a bit too verbose, and I \u0027m also not sure that it\u0027s accurate for GOPATH mode — the argument to `go build` is in general a package import path, not (just) a directory.\n\nHow about:\n\n```\nWhen compiling a single main package, build writes the resulting\nexecutable to an output file named after the last non-major-version\ncomponent of the package import path. The \u0027.exe\u0027 suffix is added\nwhen writing a Windows executable.\nSo \u0027go build example/sam\u0027 writes \u0027sam\u0027 or \u0027.exe\u0027.\n\u0027go build example.com/foo/v2\u0027 writes \u0027foo\u0027 or \u0027foo.exe\u0027, not \u0027v2.exe`.\n\nWhen compiling a package from a list of .go files, the executable\nis named after the first source file.\n\u0027go build ed.go rx.go\u0027 writes \u0027ed\u0027 or \u0027ed.exe\u0027.\n```",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 49
+      },
+      "revId": "59413522d3c2a7a58f99cada4171bed4d938878f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
