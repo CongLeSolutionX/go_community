@@ -96,18 +96,19 @@ set GOROOT=%GOROOT_TEMP%
 set GOROOT_TEMP=
 
 setlocal
+:: This localization scope simulates nogoenv() from make.bash and make.rc.
+set GO111MODULE=off
+set GOENV=off
 set GOOS=
 set GOARCH=
 set GOEXPERIMENT=
+set GOFLAGS=
 for /f "tokens=*" %%g IN ('"%GOROOT_BOOTSTRAP%\bin\go" version') do (set GOROOT_BOOTSTRAP_VERSION=%%g)
 set GOROOT_BOOTSTRAP_VERSION=%GOROOT_BOOTSTRAP_VERSION:go version =%
 echo Building Go cmd/dist using %GOROOT_BOOTSTRAP%. (%GOROOT_BOOTSTRAP_VERSION%)
 if x%vflag==x-v echo cmd/dist
 set GOROOT=%GOROOT_BOOTSTRAP%
 set GOBIN=
-set GO111MODULE=off
-set GOENV=off
-set GOFLAGS=
 "%GOROOT_BOOTSTRAP%\bin\go.exe" build -o cmd\dist\dist.exe .\cmd\dist
 endlocal
 if errorlevel 1 goto fail
