@@ -126,6 +126,24 @@
       "parentUuid": "c2d46618_f5c1d1fe",
       "revId": "afc512f41a33586dcf877964e3f6b31af3798ffb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdcf2058_86d8c1a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-08-26T17:08:13Z",
+      "side": 1,
+      "message": "I think we need to combine fn.OClosure check with trivial closures, because they are converted to global.\n\nI sent CL 523275 as PoC, build pass, but there\u0027re changes in testing closures escape, which I\u0027m not too confident (and don\u0027t have time this weekend to dig deeper). Would you mind taking a look and share what\u0027s your thought?",
+      "parentUuid": "b319983f_b4cf764e",
+      "revId": "afc512f41a33586dcf877964e3f6b31af3798ffb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
