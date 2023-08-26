@@ -76,6 +76,30 @@
       },
       "revId": "3ff1c62553823b951a0e53afb847f89072af3984",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a213eda_73a0edb3",
+        "filename": "src/cmd/compile/internal/types2/named.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-08-26T15:31:08Z",
+      "side": 1,
+      "message": "I think the modified _state is an atomic type and does not need the additional protection of mutex.\n\nHere is a similar modification: https://go-review.googlesource.com/c/go/+/428477\n\nIt\u0027s just my personal opinion, it may not be correct, please correct me",
+      "parentUuid": "9b9a754a_0725834b",
+      "range": {
+        "startLine": 106,
+        "startChar": 37,
+        "endLine": 106,
+        "endChar": 40
+      },
+      "revId": "3ff1c62553823b951a0e53afb847f89072af3984",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
