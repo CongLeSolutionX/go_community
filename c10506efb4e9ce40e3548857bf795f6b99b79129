@@ -198,6 +198,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1b1bc46_049ed14e",
+        "filename": "src/net/conf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-08-26T16:38:41Z",
+      "side": 1,
+      "message": "Ok, removed the debug from `mustUseGoResolver`.",
+      "parentUuid": "e9070b7e_7d656e8e",
+      "revId": "c10506efb4e9ce40e3548857bf795f6b99b79129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c55266a3_608a5e72",
@@ -259,6 +277,30 @@
       "side": 1,
       "message": "Nothing about `isGoResolverForced` is specific to “non-hostname and non-address resolutions”, and `addrLookupOrder` and `hostLookupOrder` both end up calling `isGoResolverForced` anyway.\n\nI would resolve this by deleting the new wrapper function and its comment and renaming `isGoResolverForced` back to `mustUseGoResolver`.",
       "parentUuid": "b4d957ac_5761e94e",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 76
+      },
+      "revId": "c10506efb4e9ce40e3548857bf795f6b99b79129",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad5c0674_59a905cd",
+        "filename": "src/net/conf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-08-26T16:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4582ea9_912f0f9a",
       "range": {
         "startLine": 207,
         "startChar": 0,
