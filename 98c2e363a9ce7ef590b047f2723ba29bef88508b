@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "029d4b51_3a1493e6",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-26T00:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdeb7022_2bce1ab7",
+      "revId": "98c2e363a9ce7ef590b047f2723ba29bef88508b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f58f1b5a_b8b0b6d0",
@@ -65,6 +83,24 @@
       "writtenOn": "2023-08-26T00:05:36Z",
       "side": 1,
       "message": "```suggestion\n      \u003ccode\u003e#cgo\u003c/code\u003e \u003ccode\u003enoescape\u003c/code\u003e \u003ccode\u003ecFunctionName\u003c/code\u003e tells cgo that Go\n```",
+      "revId": "98c2e363a9ce7ef590b047f2723ba29bef88508b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f820d100_8a1feb84",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-26T00:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f58f1b5a_b8b0b6d0",
       "revId": "98c2e363a9ce7ef590b047f2723ba29bef88508b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +122,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3e965d_5a8ae699",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-26T00:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3207881_a076c1af",
+      "revId": "98c2e363a9ce7ef590b047f2723ba29bef88508b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a280f6f_7cd4ff3e",
@@ -99,6 +153,30 @@
       "writtenOn": "2023-08-26T00:05:36Z",
       "side": 1,
       "message": "Delete these lines?",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 4
+      },
+      "revId": "98c2e363a9ce7ef590b047f2723ba29bef88508b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2819cb25_38148beb",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-26T00:15:53Z",
+      "side": 1,
+      "message": "Whoops, thanks.  Done.",
+      "parentUuid": "1a280f6f_7cd4ff3e",
       "range": {
         "startLine": 60,
         "startChar": 0,
