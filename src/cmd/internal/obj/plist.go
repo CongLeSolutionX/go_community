@@ -96,8 +96,9 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc) {
 
 	// Add reference to Go arguments for assembly functions without them.
 	if ctxt.IsAsm {
+		pkgPrefix := objabi.PathToPrefix(ctxt.Pkgpath) + "."
 		for _, s := range text {
-			if !strings.HasPrefix(s.Name, "\"\".") {
+			if !strings.HasPrefix(s.Name, `"".`) && !strings.HasPrefix(s.Name, pkgPrefix) {
 				continue
 			}
 			// The current args_stackmap generation in the compiler assumes
