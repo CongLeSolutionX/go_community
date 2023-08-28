@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71443358_6522232d",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-28T19:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "950d56dd_62745012",
+      "range": {
+        "startLine": 524,
+        "startChar": 9,
+        "endLine": 524,
+        "endChar": 10
+      },
+      "revId": "3dca0a1be813e7591edc32b035f0e2736179fa59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93df9648_6875e50a",
@@ -127,6 +151,24 @@
       "writtenOn": "2022-07-25T17:05:55Z",
       "side": 1,
       "message": "Can we get this out of gcrash.stack instead?",
+      "revId": "3dca0a1be813e7591edc32b035f0e2736179fa59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe62b8b_009d7263",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-28T19:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93df9648_6875e50a",
       "revId": "3dca0a1be813e7591edc32b035f0e2736179fa59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -190,6 +232,30 @@
       "writtenOn": "2022-07-25T17:05:55Z",
       "side": 1,
       "message": "Hmm. Does this work because we haven\u0027t actually done the SP write yet when things go bad?\n\nI\u0027ve wondered a few times now if SPWRITE shouldn\u0027t be a function flag, but should instead be in the spdelta table (say, a -1 spdelta). We have several cases above where we have subtle reasoning about clearing the SPWRITE flag that I think would just go away.",
+      "range": {
+        "startLine": 202,
+        "startChar": 72,
+        "endLine": 202,
+        "endChar": 97
+      },
+      "revId": "3dca0a1be813e7591edc32b035f0e2736179fa59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "900674d6_0ad94612",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-28T19:05:14Z",
+      "side": 1,
+      "message": "Yes, I think that is true. We could unwind to the caller of morestack because the SP isn\u0027t written yet. And yes, I think it make more sense to have SPWRITE be a per-PC property. This is on my plan but I haven\u0027t got to do that.\n\nThere might be a use case for force unwinding through a (true) SPWRITE, e.g. to debug the function that writes the SP.",
+      "parentUuid": "14124c08_4f7d816a",
       "range": {
         "startLine": 202,
         "startChar": 72,
