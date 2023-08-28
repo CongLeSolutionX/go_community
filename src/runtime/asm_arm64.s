@@ -1596,3 +1596,7 @@ TEXT runtime·panicSliceConvert<ABIInternal>(SB),NOSPLIT,$0-16
 TEXT ·getfp<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	MOVD R29, R0
 	RET
+
+// func cldemote(addr unsafe.Pointer)
+TEXT runtime·cldemote(SB), NOSPLIT, $0-8
+    RET
