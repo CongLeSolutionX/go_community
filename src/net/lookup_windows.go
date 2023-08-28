@@ -10,7 +10,6 @@ import (
 	"os"
 	"runtime"
 	"syscall"
-	"time"
 	"unsafe"
 )
 
@@ -79,6 +78,100 @@ func lookupProtocol(ctx context.Context, name string) (int, error) {
 	}
 }
 
+func (r *Resolver) getAddrInfoEx(ctx context.Context, node, service string, hints *windows.AddrInfoExW, fn func(result *windows.AddrInfoExW) error) *DNSError {
+	var cancelHandle syscall.Handle
+	getaddr := func() *DNSError {
+		acquireThread()
+		defer releaseThread()
+
+		ev, err := windows.CreateEvent(nil, 1, 0, nil)
+		if err != nil {
+			return &DNSError{Err: err.Error()}
+		}
+		defer syscall.CloseHandle(ev)
+		var node16p, service16p *uint16
+		if node != "" {
+			node16p, err = syscall.UTF16PtrFromString(node)
+			if err != nil {
+				return &DNSError{Err: err.Error()}
+			}
+		}
+		if service != "" {
+			service16p, err = syscall.UTF16PtrFromString(service)
+			if err != nil {
+				return &DNSError{Err: err.Error()}
+			}
+		}
+
+		dnsConf := getSystemDNSConfig()
+		var result *windows.AddrInfoExW
+		var o syscall.Overlapped
+		o.HEvent = ev
+		for i := 0; i < dnsConf.attempts; i++ {
+			// There is no need to pass a timeout to GetAddrInfoExW nor to WaitForSingleObject,
+			// it will be handled by the context.
+			err = windows.GetAddrInfoEx(node16p, service16p, windows.NS_ALL, nil, hints, &result, nil, &o, 0, &cancelHandle)
+			if err == syscall.ERROR_IO_PENDING {
+				if s, err := syscall.WaitForSingleObject(ev, syscall.INFINITE); s != syscall.WAIT_OBJECT_0 {
+					if err != nil {
+						return &DNSError{Err: err.Error()}
+					}
+					return &DNSError{Err: "unexpected result from WaitForSingleObject"}
+				}
+				err = nil
+				if code := windows.GetAddrInfoExOverlappedResult(&o); code != 0 {
+					err = syscall.Errno(code)
+				}
+			}
+			if err == nil || err != _WSATRY_AGAIN {
+				break
+			}
+		}
+		if err != nil {
+			err := winError("getaddrinfoexw", err)
+			dnsError := &DNSError{Err: err.Error()}
+			if err == errNoSuchHost {
+				dnsError.IsNotFound = true
+			}
+			return dnsError
+		}
+		defer windows.FreeAddrInfoExW(result)
+		if err := fn(result); err != nil {
+			if err, ok := err.(*DNSError); ok {
+				return err
+			}
+			return &DNSError{Err: err.Error()}
+		}
+		return nil
+	}
+
+	var ch chan *DNSError
+	if ctx.Err() == nil {
+		ch = make(chan *DNSError, 1)
+		go func() {
+			err := getaddr()
+			ch <- err
+		}()
+	}
+
+	ctx, cancel := context.WithTimeout(ctx, getSystemDNSConfig().timeout)
+	defer cancel()
+
+	select {
+	case err := <-ch:
+		return err
+	case <-ctx.Done():
+		if cancelHandle != syscall.InvalidHandle {
+			// This is just an optimization, so ignore the error.
+			windows.GetAddrInfoExCancel(&cancelHandle)
+		}
+		return &DNSError{
+			Err:       ctx.Err().Error(),
+			IsTimeout: ctx.Err() == context.DeadlineExceeded,
+		}
+	}
+}
+
 func (r *Resolver) lookupHost(ctx context.Context, name string) ([]string, error) {
 	ips, err := r.lookupIP(ctx, "ip", name)
 	if err != nil {
@@ -96,50 +189,19 @@ func (r *Resolver) lookupIP(ctx context.Context, network, name string) ([]IPAddr
 		return r.goLookupIP(ctx, network, name, order, conf)
 	}
 
-	// TODO(bradfitz,brainman): use ctx more. See TODO below.
-
-	var family int32 = syscall.AF_UNSPEC
+	hints := windows.AddrInfoExW{
+		Family:   syscall.AF_UNSPEC,
+		Socktype: syscall.SOCK_STREAM,
+		Protocol: syscall.IPPROTO_IP,
+	}
 	switch ipVersion(network) {
 	case '4':
-		family = syscall.AF_INET
+		hints.Family = syscall.AF_INET
 	case '6':
-		family = syscall.AF_INET6
+		hints.Family = syscall.AF_INET6
 	}
-
-	getaddr := func() ([]IPAddr, error) {
-		acquireThread()
-		defer releaseThread()
-		hints := syscall.AddrinfoW{
-			Family:   family,
-			Socktype: syscall.SOCK_STREAM,
-			Protocol: syscall.IPPROTO_IP,
-		}
-		var result *syscall.AddrinfoW
-		name16p, err := syscall.UTF16PtrFromString(name)
-		if err != nil {
-			return nil, &DNSError{Name: name, Err: err.Error()}
-		}
-
-		dnsConf := getSystemDNSConfig()
-		start := time.Now()
-
-		var e error
-		for i := 0; i < dnsConf.attempts; i++ {
-			e = syscall.GetAddrInfoW(name16p, nil, &hints, &result)
-			if e == nil || e != _WSATRY_AGAIN || time.Since(start) > dnsConf.timeout {
-				break
-			}
-		}
-		if e != nil {
-			err := winError("getaddrinfow", e)
-			dnsError := &DNSError{Err: err.Error(), Name: name}
-			if err == errNoSuchHost {
-				dnsError.IsNotFound = true
-			}
-			return nil, dnsError
-		}
-		defer syscall.FreeAddrInfoW(result)
-		addrs := make([]IPAddr, 0, 5)
+	addrs := make([]IPAddr, 0, 5)
+	err := r.getAddrInfoEx(ctx, name, "", &hints, func(result *windows.AddrInfoExW) error {
 		for ; result != nil; result = result.Next {
 			addr := unsafe.Pointer(result.Addr)
 			switch result.Family {
@@ -151,44 +213,16 @@ func (r *Resolver) lookupIP(ctx context.Context, network, name string) ([]IPAddr
 				zone := zoneCache.name(int((*syscall.RawSockaddrInet6)(addr).Scope_id))
 				addrs = append(addrs, IPAddr{IP: copyIP(a[:]), Zone: zone})
 			default:
-				return nil, &DNSError{Err: syscall.EWINDOWS.Error(), Name: name}
+				return syscall.EWINDOWS
 			}
 		}
-		return addrs, nil
+		return nil
+	})
+	if err != nil {
+		err.Name = name
+		return nil, err
 	}
-
-	type ret struct {
-		addrs []IPAddr
-		err   error
-	}
-
-	var ch chan ret
-	if ctx.Err() == nil {
-		ch = make(chan ret, 1)
-		go func() {
-			addr, err := getaddr()
-			ch <- ret{addrs: addr, err: err}
-		}()
-	}
-
-	select {
-	case r := <-ch:
-		return r.addrs, r.err
-	case <-ctx.Done():
-		// TODO(bradfitz,brainman): cancel the ongoing
-		// GetAddrInfoW? It would require conditionally using
-		// GetAddrInfoEx with lpOverlapped, which requires
-		// Windows 8 or newer. I guess we'll need oldLookupIP,
-		// newLookupIP, and newerLookUP.
-		//
-		// For now we just let it finish and write to the
-		// buffered channel.
-		return nil, &DNSError{
-			Name:      name,
-			Err:       ctx.Err().Error(),
-			IsTimeout: ctx.Err() == context.DeadlineExceeded,
-		}
-	}
+	return addrs, nil
 }
 
 func (r *Resolver) lookupPort(ctx context.Context, network, service string) (int, error) {
@@ -196,48 +230,37 @@ func (r *Resolver) lookupPort(ctx context.Context, network, service string) (int
 		return lookupPortMap(network, service)
 	}
 
-	// TODO(bradfitz): finish ctx plumbing. Nothing currently depends on this.
-	acquireThread()
-	defer releaseThread()
-	var stype int32
-	switch network {
-	case "tcp4", "tcp6":
-		stype = syscall.SOCK_STREAM
-	case "udp4", "udp6":
-		stype = syscall.SOCK_DGRAM
-	}
-	hints := syscall.AddrinfoW{
+	hints := windows.AddrInfoExW{
 		Family:   syscall.AF_UNSPEC,
-		Socktype: stype,
 		Protocol: syscall.IPPROTO_IP,
 	}
-	var result *syscall.AddrinfoW
-	e := syscall.GetAddrInfoW(nil, syscall.StringToUTF16Ptr(service), &hints, &result)
-	if e != nil {
+	switch network {
+	case "tcp4", "tcp6":
+		hints.Socktype = syscall.SOCK_STREAM
+	case "udp4", "udp6":
+		hints.Socktype = syscall.SOCK_DGRAM
+	}
+
+	var port int
+	err := r.getAddrInfoEx(ctx, "", service, &hints, func(result *windows.AddrInfoExW) error {
+		addr := unsafe.Pointer(result.Addr)
+		switch result.Family {
+		case syscall.AF_INET:
+			a := (*syscall.RawSockaddrInet4)(addr)
+			port = int(syscall.Ntohs(a.Port))
+		case syscall.AF_INET6:
+			a := (*syscall.RawSockaddrInet6)(addr)
+			port = int(syscall.Ntohs(a.Port))
+		}
+		return syscall.EINVAL
+	})
+	if err != nil {
 		if port, err := lookupPortMap(network, service); err == nil {
 			return port, nil
 		}
-		err := winError("getaddrinfow", e)
-		dnsError := &DNSError{Err: err.Error(), Name: network + "/" + service}
-		if err == errNoSuchHost {
-			dnsError.IsNotFound = true
-		}
-		return 0, dnsError
+		err.Name = network + "/" + service
 	}
-	defer syscall.FreeAddrInfoW(result)
-	if result == nil {
-		return 0, &DNSError{Err: syscall.EINVAL.Error(), Name: network + "/" + service}
-	}
-	addr := unsafe.Pointer(result.Addr)
-	switch result.Family {
-	case syscall.AF_INET:
-		a := (*syscall.RawSockaddrInet4)(addr)
-		return int(syscall.Ntohs(a.Port)), nil
-	case syscall.AF_INET6:
-		a := (*syscall.RawSockaddrInet6)(addr)
-		return int(syscall.Ntohs(a.Port)), nil
-	}
-	return 0, &DNSError{Err: syscall.EINVAL.Error(), Name: network + "/" + service}
+	return port, err
 }
 
 func (r *Resolver) lookupCNAME(ctx context.Context, name string) (string, error) {
