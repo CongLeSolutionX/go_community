@@ -16,6 +16,40 @@
       "message": "adjust the commit message.",
       "revId": "a24af727a7f1ce2301655d7b251b2326068fad2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36853425_e8f25f82",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6818,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-28T16:32:10Z",
+      "side": 1,
+      "message": "Maybe I\u0027m missing something, but it looks like there\u0027s never more than one chunk in the test below?",
+      "revId": "a24af727a7f1ce2301655d7b251b2326068fad2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63be43a8_13f843c1",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6869,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-08-28T16:32:10Z",
+      "side": 1,
+      "message": "Depending on timeouts like this works well enough in small numbers of local test runs, but almost always results in flakes on slow builders.\n\n@AlexanderYastrebov has an updated test in https://go.dev/cl/523296 which doesn\u0027t depend on specific timings.",
+      "revId": "a24af727a7f1ce2301655d7b251b2326068fad2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
