@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"internal/cpu"
 	"runtime/internal/atomic"
 	"unsafe"
 )
@@ -59,6 +60,9 @@ func lock2(l *mutex) {
 	// Speculative grab for lock.
 	v := atomic.Xchg(key32(&l.key), mutex_locked)
 	if v == mutex_unlocked {
+		if (GOARCH == "386" || GOARCH == "amd64") && cpu.X86.HasCLDEMOTE {
+			shared_cacheline_demote(unsafe.Pointer(&l.key), unsafe.Sizeof(l.key))
+		}
 		return
 	}
 
@@ -244,3 +248,19 @@ func beforeIdle(int64, int64) (*g, bool) {
 }
 
 func checkTimeouts() {}
+
+//go:noescape
+func cldemote(addr unsafe.Pointer)
+
+func shared_cacheline_demote(start unsafe.Pointer, size uintptr) {
+	cache_line_base := unsafe.Pointer(uintptr(start) &^ 0x3F)
+
+	for {
+		cldemote(cache_line_base)
+		// next cacheline start size
+		cache_line_base = unsafe.Add(cache_line_base, 64)
+		if uintptr(cache_line_base) > uintptr(unsafe.Add(start, size)) {
+			break
+		}
+	}
+}
