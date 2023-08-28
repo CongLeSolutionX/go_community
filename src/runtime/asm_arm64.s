@@ -262,6 +262,30 @@ noswitch:
 	SUB	$8, RSP, R29	// restore FP
 	B	(R3)
 
+// func switchToCrashStack0(fn func())
+TEXT runtime·switchToCrashStack0<ABIInternal>(SB), NOSPLIT, $0-8
+	MOVD	R0, R26    // context register
+	MOVD	g_m(g), R1 // curm
+
+	// set g to gcrash
+	MOVD	$runtime·gcrash(SB), g // g = &gcrash
+	BL	runtime·save_g(SB)         // clobbers R0
+	MOVD	R1, g_m(g)             // g.m = curm
+	MOVD	g, m_g0(R1)            // curm.g0 = g
+
+	// switch to crashstack
+	MOVD	(g_stack+stack_hi)(g), R1
+	SUB	$(4*8), R1
+	MOVD	R1, RSP
+
+	// call target function
+	MOVD	0(R26), R0
+	CALL	(R0)
+
+	// should never return
+	CALL	runtime·abort(SB)
+	UNDEF
+
 /*
  * support for morestack
  */
