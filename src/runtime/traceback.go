@@ -70,6 +70,10 @@ const (
 	// should resume tracing at the user stack when the system stack is
 	// exhausted.
 	unwindJumpStack
+
+	// unwindBadStack forces traceback through a bad stack switch, such as a
+	// morestack or systemstack call.
+	unwindBadStack
 )
 
 // An unwinder iterates the physical stack frames of a Go sack.
@@ -333,7 +337,7 @@ func (u *unwinder) resolveInternal(innermost, isSyscall bool) {
 	if flag&abi.FuncFlagTopFrame != 0 {
 		// This function marks the top of the stack. Stop the traceback.
 		frame.lr = 0
-	} else if flag&abi.FuncFlagSPWrite != 0 {
+	} else if flag&abi.FuncFlagSPWrite != 0 && u.flags&unwindBadStack == 0 { // XXX
 		// The function we are in does a write to SP that we don't know
 		// how to encode in the spdelta table. Examples include context
 		// switch routines like runtime.gogo but also any code that switches
