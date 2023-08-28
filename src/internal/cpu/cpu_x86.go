@@ -33,6 +33,9 @@ const (
 	cpuid_OSXSAVE   = 1 << 27
 	cpuid_AVX       = 1 << 28
 
+	// ecx bits for 07H leaf
+	cpuid_CLDEMOTE = 1 << 25
+
 	// ebx bits
 	cpuid_BMI1 = 1 << 3
 	cpuid_AVX2 = 1 << 5
@@ -55,6 +58,7 @@ func doinit() {
 		{Name: "pclmulqdq", Feature: &X86.HasPCLMULQDQ},
 		{Name: "rdtscp", Feature: &X86.HasRDTSCP},
 		{Name: "sha", Feature: &X86.HasSHA},
+		{Name: "cldemote", Feature: &X86.HasCLDEMOTE},
 	}
 	level := getGOAMD64level()
 	if level < 2 {
@@ -121,13 +125,15 @@ func doinit() {
 		return
 	}
 
-	_, ebx7, _, _ := cpuid(7, 0)
+	_, ebx7, ecx7, _ := cpuid(7, 0)
 	X86.HasBMI1 = isSet(ebx7, cpuid_BMI1)
 	X86.HasAVX2 = isSet(ebx7, cpuid_AVX2) && osSupportsAVX
 	X86.HasBMI2 = isSet(ebx7, cpuid_BMI2)
 	X86.HasERMS = isSet(ebx7, cpuid_ERMS)
 	X86.HasADX = isSet(ebx7, cpuid_ADX)
 	X86.HasSHA = isSet(ebx7, cpuid_SHA)
+
+	X86.HasCLDEMOTE = isSet(ecx7, cpuid_CLDEMOTE)
 
 	var maxExtendedInformation uint32
 	maxExtendedInformation, _, _, _ = cpuid(0x80000000, 0)

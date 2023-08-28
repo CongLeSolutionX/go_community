@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"internal/cpu"
 	"runtime/internal/atomic"
 	"unsafe"
 )
@@ -59,6 +60,9 @@ func lock2(l *mutex) {
 	// Speculative grab for lock.
 	v := atomic.Xchg(key32(&l.key), mutex_locked)
 	if v == mutex_unlocked {
+		if (GOARCH == "386" || GOARCH == "amd64") && cpu.X86.HasCLDEMOTE {
+			shared_cacheline_demote(unsafe.Pointer(&l.key), unsafe.Sizeof(l.key))
+		}
 		return
 	}
 
