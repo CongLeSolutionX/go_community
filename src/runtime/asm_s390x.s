@@ -785,7 +785,7 @@ TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
 // We are overly conservative. We could only save the registers we use.
 // However, since this function is only called once per loaded module
 // performance is unimportant.
-TEXT runtime·addmoduledata(SB),NOSPLIT|NOFRAME,$0-0
+TEXT runtime·addmoduledata<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-0
 	// Save R6-R15 in the register save area of the calling function.
 	// Don't bother saving F8-F15 as we aren't doing any calls.
 	STMG	R6, R15, 48(R15)

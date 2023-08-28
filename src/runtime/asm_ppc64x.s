@@ -1000,7 +1000,7 @@ TEXT runtime·prepGoExitFrame(SB),NOSPLIT,$0-8
 	MOVD    R2, 24(R3)
 	RET
 
-TEXT runtime·addmoduledata(SB),NOSPLIT|NOFRAME,$0-0
+TEXT runtime·addmoduledata<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-0
 	ADD	$-8, R1
 	MOVD	R31, 0(R1)
 	MOVD	runtime·lastmoduledatap(SB), R4

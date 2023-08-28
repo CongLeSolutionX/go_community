@@ -1198,7 +1198,7 @@ TEXT runtime·goexit(SB),NOSPLIT|NOFRAME|TOPFRAME,$0-0
 	BL	runtime·goexit1(SB)	// does not return
 
 // This is called from .init_array and follows the platform, not Go, ABI.
-TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
+TEXT runtime·addmoduledata<ABIInternal>(SB),NOSPLIT,$0-0
 	SUB	$0x10, RSP
 	MOVD	R27, 8(RSP) // The access to global variables below implicitly uses R27, which is callee-save
 	MOVD	runtime·lastmoduledatap(SB), R1

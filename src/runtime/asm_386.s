@@ -1370,7 +1370,7 @@ TEXT runtime·goexit(SB),NOSPLIT|TOPFRAME,$0-0
 // follows the platform ABI wrt register preservation -- it only touches AX,
 // CX (implicitly) and DX, but it does not follow the ABI wrt arguments:
 // instead the pointer to the moduledata is passed in AX.
-TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
+TEXT runtime·addmoduledata<ABIInternal>(SB),NOSPLIT,$0-0
 	MOVL	runtime·lastmoduledatap(SB), DX
 	MOVL	AX, moduledata_next(DX)
 	MOVL	AX, runtime·lastmoduledatap(SB)
