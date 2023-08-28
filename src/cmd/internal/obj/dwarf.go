@@ -331,7 +331,7 @@ func textPos(fn *LSym) src.XPos {
 // populateDWARF fills in the DWARF Debugging Information Entries for
 // TEXT symbol 's'. The various DWARF symbols must already have been
 // initialized in InitTextSym.
-func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym) {
+func (ctxt *Link) populateDWARF(curfn Func, s *LSym) {
 	myimportpath := ctxt.Pkgpath
 	if myimportpath == "" {
 		return
@@ -344,9 +344,7 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym) {
 	var scopes []dwarf.Scope
 	var inlcalls dwarf.InlCalls
 	if ctxt.DebugInfo != nil {
-		// Don't need startPos because s.Func().StartLine is populated,
-		// as s is in this package.
-		scopes, inlcalls, _ = ctxt.DebugInfo(s, info, curfn)
+		scopes, inlcalls = ctxt.DebugInfo(s, info, curfn)
 	}
 	var err error
 	dwctxt := dwCtxt{ctxt}
@@ -415,7 +413,7 @@ func (ctxt *Link) DwarfGlobal(typename string, varSym *LSym) {
 	dwarf.PutGlobal(dwCtxt{ctxt}, dieSym, typeSym, varSym, varname)
 }
 
-func (ctxt *Link) DwarfAbstractFunc(curfn interface{}, s *LSym) {
+func (ctxt *Link) DwarfAbstractFunc(curfn Func, s *LSym) {
 	absfn := ctxt.DwFixups.AbsFuncDwarfSym(s)
 	if absfn.Size != 0 {
 		ctxt.Diag("internal error: DwarfAbstractFunc double process %v", s)
@@ -423,13 +421,13 @@ func (ctxt *Link) DwarfAbstractFunc(curfn interface{}, s *LSym) {
 	if s.Func() == nil {
 		s.NewFuncInfo()
 	}
-	scopes, _, startPos := ctxt.DebugInfo(s, absfn, curfn)
+	scopes, _ := ctxt.DebugInfo(s, absfn, curfn)
 	dwctxt := dwCtxt{ctxt}
 	fnstate := dwarf.FnState{
 		Name:          s.Name,
 		Info:          absfn,
 		Absfn:         absfn,
-		StartPos:      ctxt.InnermostPos(startPos),
+		StartPos:      ctxt.InnermostPos(curfn.Pos()),
 		External:      !s.Static(),
 		Scopes:        scopes,
 		UseBASEntries: ctxt.UseBASEntries,
@@ -502,8 +500,8 @@ type relFixup struct {
 }
 
 type fnState struct {
-	// precursor function (really *gc.Node)
-	precursor interface{}
+	// precursor function
+	precursor Func
 	// abstract function symbol
 	absfn *LSym
 }
@@ -516,14 +514,14 @@ func NewDwarfFixupTable(ctxt *Link) *DwarfFixupTable {
 	}
 }
 
-func (ft *DwarfFixupTable) GetPrecursorFunc(s *LSym) interface{} {
+func (ft *DwarfFixupTable) GetPrecursorFunc(s *LSym) Func {
 	if fnstate, found := ft.precursor[s]; found {
 		return fnstate.precursor
 	}
 	return nil
 }
 
-func (ft *DwarfFixupTable) SetPrecursorFunc(s *LSym, fn interface{}) {
+func (ft *DwarfFixupTable) SetPrecursorFunc(s *LSym, fn Func) {
 	if _, found := ft.precursor[s]; found {
 		ft.ctxt.Diag("internal error: DwarfFixupTable.SetPrecursorFunc double call on %v", s)
 	}
