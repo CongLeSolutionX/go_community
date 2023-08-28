@@ -117,6 +117,30 @@
       },
       "revId": "cdde4bd2357eb5511985cb676c4f749193bbd39c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9632cd1c_7aa7767c",
+        "filename": "src/make.bat",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-08-28T13:50:32Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "192c80dd_796d683e",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 8
+      },
+      "revId": "cdde4bd2357eb5511985cb676c4f749193bbd39c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
