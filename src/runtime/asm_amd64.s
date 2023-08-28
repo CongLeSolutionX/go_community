@@ -2136,3 +2136,8 @@ TEXT runtime·retpolineR15(SB),NOSPLIT|NOFRAME,$0; RETPOLINE(15)
 TEXT ·getfp<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	MOVQ BP, AX
 	RET
+
+// func cldemote(addr unsafe.Pointer)
+TEXT runtime·cldemote<ABIInternal>(SB), NOSPLIT|NOFRAME, $0
+	CLDEMOTE 0(AX)
+    RET

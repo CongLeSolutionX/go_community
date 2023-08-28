@@ -1642,6 +1642,11 @@ TEXT runtime·panicExtendSlice3CU(SB),NOSPLIT,$0-12
 	MOVL	CX, y+8(FP)
 	JMP	runtime·goPanicExtendSlice3CU(SB)
 
+// func cldemote(addr unsafe.Pointer)
+TEXT runtime·cldemote<ABIInternal>(SB), NOSPLIT|NOFRAME, $0
+	CLDEMOTE 0(AX)
+    RET
+
 #ifdef GOOS_android
 // Use the free TLS_SLOT_APP slot #2 on Android Q.
 // Earlier androids are set up in gcc_android.c.

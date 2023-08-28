@@ -1128,3 +1128,7 @@ TEXT runtime·panicExtendSlice3CU(SB),NOSPLIT,$0-12
 	MOVW	R0, lo+4(FP)
 	MOVW	R1, y+8(FP)
 	JMP	runtime·goPanicExtendSlice3CU(SB)
+
+// func cldemote(addr unsafe.Pointer)
+TEXT runtime·cldemote(SB), NOSPLIT, $0-4
+    RET
