@@ -216,6 +216,30 @@
       },
       "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17f0ed8_45a412dd",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 65064
+      },
+      "writtenOn": "2023-08-28T09:32:33Z",
+      "side": 1,
+      "message": "Agreed, although the wording seems a bit heavy to me. For now, I just replaced \"structs\" with \"types\". Do you want to fix the comment in lines 126-127, too?",
+      "parentUuid": "10aba646_ab549202",
+      "range": {
+        "startLine": 407,
+        "startChar": 73,
+        "endLine": 408,
+        "endChar": 20
+      },
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
