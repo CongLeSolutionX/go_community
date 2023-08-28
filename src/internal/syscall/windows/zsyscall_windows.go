@@ -65,6 +65,7 @@ var (
 	procGetFileInformationByHandleEx      = modkernel32.NewProc("GetFileInformationByHandleEx")
 	procGetFinalPathNameByHandleW         = modkernel32.NewProc("GetFinalPathNameByHandleW")
 	procGetModuleFileNameW                = modkernel32.NewProc("GetModuleFileNameW")
+	procGetSystemDirectoryW               = modkernel32.NewProc("GetSystemDirectoryW")
 	procGetTempPath2W                     = modkernel32.NewProc("GetTempPath2W")
 	procGetVolumeInformationByHandleW     = modkernel32.NewProc("GetVolumeInformationByHandleW")
 	procGetVolumeNameForVolumeMountPointW = modkernel32.NewProc("GetVolumeNameForVolumeMountPointW")
@@ -258,6 +259,15 @@ func GetModuleFileName(module syscall.Handle, fn *uint16, len uint32) (n uint32,
 	r0, _, e1 := syscall.Syscall(procGetModuleFileNameW.Addr(), 3, uintptr(module), uintptr(unsafe.Pointer(fn)), uintptr(len))
 	n = uint32(r0)
 	if n == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func getSystemDirectory(dir *uint16, dirLen uint32) (len uint32, err error) {
+	r0, _, e1 := syscall.Syscall(procGetSystemDirectoryW.Addr(), 2, uintptr(unsafe.Pointer(dir)), uintptr(dirLen), 0)
+	len = uint32(r0)
+	if len == 0 {
 		err = errnoErr(e1)
 	}
 	return

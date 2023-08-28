@@ -56,6 +56,13 @@ var lookupStaticHostTests = []struct {
 			{"PreserveMe.local", []string{"127.0.0.1", "::1"}},
 		},
 	},
+	{
+		"testdata/windows-hosts",
+		[]staticHostEntry{
+			{"metadata.google.internal", []string{"192.0.2.100"}},
+			{"metadata", []string{"192.0.2.100"}},
+		},
+	},
 }
 
 func TestLookupStaticHost(t *testing.T) {

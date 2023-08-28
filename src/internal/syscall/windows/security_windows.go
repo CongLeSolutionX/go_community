@@ -126,3 +126,22 @@ type UserInfo4 struct {
 }
 
 //sys	NetUserGetLocalGroups(serverName *uint16, userName *uint16, level uint32, flags uint32, buf **byte, prefMaxLen uint32, entriesRead *uint32, totalEntries *uint32) (neterr error) = netapi32.NetUserGetLocalGroups
+
+//sys    getSystemDirectory(dir *uint16, dirLen uint32) (len uint32, err error) = kernel32.GetSystemDirectoryW
+
+// GetSystemDirectory retrieves the path to current location of the system
+// directory, which is typically, though not always, `C:\Windows\System32`.
+func GetSystemDirectory() (string, error) {
+	n := uint32(syscall.MAX_PATH)
+	for {
+		b := make([]uint16, n)
+		l, e := getSystemDirectory(&b[0], n)
+		if e != nil {
+			return "", e
+		}
+		if l <= n {
+			return syscall.UTF16ToString(b[:l]), nil
+		}
+		n = l
+	}
+}
