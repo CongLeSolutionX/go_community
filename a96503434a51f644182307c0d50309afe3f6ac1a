@@ -240,6 +240,30 @@
       },
       "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5be1994_3ec79231",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-28T15:18:46Z",
+      "side": 1,
+      "message": "Okay. This is fine for now. Maybe we could have a separate paragraph describing interface method calls (including case 2 and 3) are considered for only types that could be converted to interfaces (not in this CL).",
+      "parentUuid": "b17f0ed8_45a412dd",
+      "range": {
+        "startLine": 407,
+        "startChar": 73,
+        "endLine": 408,
+        "endChar": 20
+      },
+      "revId": "a96503434a51f644182307c0d50309afe3f6ac1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
