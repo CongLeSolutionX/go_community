@@ -273,11 +273,21 @@ func (a *AuxCall) NResults() int64 {
 // LateExpansionResultType returns the result type (including trailing mem)
 // for a call that will be expanded later in the SSA phase.
 func (a *AuxCall) LateExpansionResultType() *types.Type {
+	return a.LateExpansionResultTypeOptMem(true)
+}
+
+// LateExpansionResultTypeOptMem returns the result type
+// for a call that will be expanded later in the SSA phase.
+// Input parameter addMem specifies whether a mem type should
+// be added
+func (a *AuxCall) LateExpansionResultTypeOptMem(addMem bool) *types.Type {
 	var tys []*types.Type
 	for i := int64(0); i < a.NResults(); i++ {
 		tys = append(tys, a.TypeOfResult(i))
 	}
-	tys = append(tys, types.TypeMem)
+	if addMem {
+		tys = append(tys, types.TypeMem)
+	}
 	return types.NewResults(tys)
 }
 

@@ -109,8 +109,8 @@ func expandCalls(f *Func) {
 				off := x.offsetFrom(x.f.Entry, x.sp, aux.OffsetOfResult(which), pt)
 				v.copyOf(off)
 			}
-		}
 
+		}
 		// rewrite function results from an exit block
 		// values returned by function need to be split out into registers.
 		if isBlockMultiValueExit(b) {
