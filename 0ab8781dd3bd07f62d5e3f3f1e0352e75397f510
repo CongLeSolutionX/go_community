@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b95d5b4_513a6c83",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-08-28T15:32:29Z",
+      "side": 0,
+      "message": "Do we still need to define this symbol? If not maybe we can remove the code that creates it?",
+      "range": {
+        "startLine": 440,
+        "startChar": 25,
+        "endLine": 440,
+        "endChar": 47
+      },
+      "revId": "0ab8781dd3bd07f62d5e3f3f1e0352e75397f510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
