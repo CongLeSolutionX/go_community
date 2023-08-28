@@ -504,3 +504,16 @@ func sigpanic0()
 //
 // Protected by finlock.
 var intArgRegs = abi.IntArgRegs
+
+func shared_cacheline_demote(start unsafe.Pointer, size uintptr) {
+	cache_line_base := unsafe.Pointer(uintptr(start) &^ 0x3F)
+
+	for {
+		cldemote(cache_line_base)
+		// next cacheline start size
+		cache_line_base = unsafe.Add(cache_line_base, 64)
+		if uintptr(cache_line_base) > uintptr(unsafe.Add(start, size)) {
+			break
+		}
+	}
+}
