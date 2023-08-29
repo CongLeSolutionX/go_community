@@ -85,6 +85,9 @@ var (
 	procCreateEnvironmentBlock            = moduserenv.NewProc("CreateEnvironmentBlock")
 	procDestroyEnvironmentBlock           = moduserenv.NewProc("DestroyEnvironmentBlock")
 	procGetProfilesDirectoryW             = moduserenv.NewProc("GetProfilesDirectoryW")
+	procFreeAddrInfoExW                   = modws2_32.NewProc("FreeAddrInfoExW")
+	procGetAddrInfoExCancel               = modws2_32.NewProc("GetAddrInfoExCancel")
+	procGetAddrInfoExW                    = modws2_32.NewProc("GetAddrInfoExW")
 	procWSASocketW                        = modws2_32.NewProc("WSASocketW")
 )
 
@@ -421,6 +424,27 @@ func GetProfilesDirectory(dir *uint16, dirLen *uint32) (err error) {
 	r1, _, e1 := syscall.Syscall(procGetProfilesDirectoryW.Addr(), 2, uintptr(unsafe.Pointer(dir)), uintptr(unsafe.Pointer(dirLen)), 0)
 	if r1 == 0 {
 		err = errnoErr(e1)
+	}
+	return
+}
+
+func FreeAddrInfoExW(addrinfo *AddrInfoExW) {
+	syscall.Syscall(procFreeAddrInfoExW.Addr(), 1, uintptr(unsafe.Pointer(addrinfo)), 0, 0)
+	return
+}
+
+func GetAddrInfoExCancel(handle *syscall.Handle) (err error) {
+	r1, _, e1 := syscall.Syscall(procGetAddrInfoExCancel.Addr(), 1, uintptr(unsafe.Pointer(handle)), 0, 0)
+	if r1 == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func GetAddrInfoEx(nodename *uint16, servicename *uint16, namespace uint32, nspID *syscall.GUID, hints *AddrInfoExW, result **AddrInfoExW, timeout *syscall.Timeval, overlapped *syscall.Overlapped, completionRoutine uintptr, handle *syscall.Handle) (sockerr error) {
+	r0, _, _ := syscall.Syscall12(procGetAddrInfoExW.Addr(), 10, uintptr(unsafe.Pointer(nodename)), uintptr(unsafe.Pointer(servicename)), uintptr(namespace), uintptr(unsafe.Pointer(nspID)), uintptr(unsafe.Pointer(hints)), uintptr(unsafe.Pointer(result)), uintptr(unsafe.Pointer(timeout)), uintptr(unsafe.Pointer(overlapped)), uintptr(completionRoutine), uintptr(unsafe.Pointer(handle)), 0, 0)
+	if r0 != 0 {
+		sockerr = syscall.Errno(r0)
 	}
 	return
 }

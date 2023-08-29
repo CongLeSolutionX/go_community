@@ -38,3 +38,25 @@ var Support_TCP_INITIAL_RTO_NO_SYN_RETRANSMISSIONS = sync.OnceValue(func() bool 
 //go:linkname rtlGetNtVersionNumbers syscall.rtlGetNtVersionNumbers
 //go:noescape
 func rtlGetNtVersionNumbers(majorVersion *uint32, minorVersion *uint32, buildNumber *uint32)
+
+type AddrInfoExW struct {
+	Flags     int32
+	Family    int32
+	Socktype  int32
+	Protocol  int32
+	Addrlen   uintptr
+	Canonname *uint16
+	Addr      uintptr
+	Blob      uintptr
+	Bloblen   uintptr
+	Provider  *syscall.GUID
+	Next      *AddrInfoExW
+}
+
+const (
+	NS_DS = 12
+)
+
+//sys	GetAddrInfoEx(nodename *uint16, servicename *uint16, namespace uint32, nspID *syscall.GUID, hints *AddrInfoExW, result **AddrInfoExW, timeout *syscall.Timeval, overlapped *syscall.Overlapped, completionRoutine uintptr, handle *syscall.Handle) (sockerr error) = ws2_32.GetAddrInfoExW
+//sys	FreeAddrInfoExW(addrinfo *AddrInfoExW) = ws2_32.FreeAddrInfoExW
+//sys	GetAddrInfoExCancel(handle *syscall.Handle) (err error) = ws2_32.GetAddrInfoExCancel
