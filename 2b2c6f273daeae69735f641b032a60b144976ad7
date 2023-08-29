@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8575b244_ed5cda5e",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-29T07:37:37Z",
+      "side": 1,
+      "message": "I remove it in CL 523338.",
+      "parentUuid": "9ba2b343_72ec6cea",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 40
+      },
+      "revId": "2b2c6f273daeae69735f641b032a60b144976ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db4668e4_ead3df6b",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-08-28T15:27:47Z",
       "side": 1,
       "message": "When do we creare arg map reference that but compiler doesn\u0027t create them? That looks like some sort of error. Could you give an example and we can see if we can fix it? Thanks.",
+      "range": {
+        "startLine": 731,
+        "startChar": 0,
+        "endLine": 737,
+        "endChar": 4
+      },
+      "revId": "2b2c6f273daeae69735f641b032a60b144976ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "180e8953_98d78910",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-29T07:37:37Z",
+      "side": 1,
+      "message": "Without this, linking binaries with GOARCH\u003d386 (e.g., \"GOARCH\u003d386 go build cmd/gofmt\") fails with:\n\n```\npanic: bad carrier sym for symbol runtime.memmove.args_stackmap (funcdata runtime.memmove#0), want go:func.* got ?\n```\n\nSee the trybot failures on PS1 of this CL.",
+      "parentUuid": "db4668e4_ead3df6b",
       "range": {
         "startLine": 731,
         "startChar": 0,
