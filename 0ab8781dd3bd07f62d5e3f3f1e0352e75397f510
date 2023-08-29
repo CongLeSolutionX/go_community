@@ -22,6 +22,30 @@
       },
       "revId": "0ab8781dd3bd07f62d5e3f3f1e0352e75397f510",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39227867_dc4d75ba",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-29T07:38:16Z",
+      "side": 0,
+      "message": "I was wondering that too. Seems like it shouldn\u0027t be necessary anymore. I\u0027ll investigate in a followup CL, thanks.",
+      "parentUuid": "1b95d5b4_513a6c83",
+      "range": {
+        "startLine": 440,
+        "startChar": 25,
+        "endLine": 440,
+        "endChar": 47
+      },
+      "revId": "0ab8781dd3bd07f62d5e3f3f1e0352e75397f510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
