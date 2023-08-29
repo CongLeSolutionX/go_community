@@ -975,6 +975,9 @@ func (b *Builder) checkDirectives(a *Action) error {
 				continue
 			}
 			if pos, ok := seen[key]; ok {
+				if msg == nil {
+					msg = new(bytes.Buffer)
+				}
 				fmt.Fprintf(msg, "%s: repeated //go:debug for %v\n\t%s: previous //go:debug\n", d.Pos, key, pos)
 				continue
 			}
