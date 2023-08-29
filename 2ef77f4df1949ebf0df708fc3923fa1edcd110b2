@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d8058c_e174e866",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-29T12:19:08Z",
+      "side": 1,
+      "message": "It seems kind of silly to use `msg \u003d\u003d nil` as a sentinel, when the message is always non-empty on error. Let\u0027s make `msg` a non-pointer instead — perhaps we can use the new `fmt.Appendf` here?\n\n```suggestion\n\tvar msg []byte\n\tp :\u003d a.Package\n\tvar seen map[string]token.Position\n\tfor _, d :\u003d range p.Internal.Build.Directives {\n\t\tif strings.HasPrefix(d.Text, \"//go:debug\") {\n\t\t\tkey, _, err :\u003d load.ParseGoDebug(d.Text)\n\t\t\tif err !\u003d nil \u0026\u0026 err !\u003d load.ErrNotGoDebug {\n\t\t\t\tmsg \u003d fmt.Appendf(msg, \"%s: invalid //go:debug: %v\\n\", d.Pos, err)\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tif pos, ok :\u003d seen[key]; ok {\n\t\t\t\tmsg \u003d fmt.Appendf(msg, \"%s: repeated //go:debug for %v\\n\\t%s: previous //go:debug\\n\", d.Pos, key, pos)\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tif seen \u003d\u003d nil {\n\t\t\t\tseen \u003d make(map[string]token.Position)\n\t\t\t}\n\t\t\tseen[key] \u003d d.Pos\n\t\t}\n\t}\n\tif len(msg) \u003e 0 {\n\t\treturn formatOutput(b.WorkDir, p.Dir, p.ImportPath, p.Desc(), b.processOutput(msg))\n\n\t}\n```",
+      "range": {
+        "startLine": 964,
+        "startChar": 0,
+        "endLine": 993,
+        "endChar": 2
+      },
+      "revId": "2ef77f4df1949ebf0df708fc3923fa1edcd110b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
