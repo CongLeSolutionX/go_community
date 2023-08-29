@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "885a7c25_bcccece9",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-29T21:06:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e29cbe1_4b1dd3e0",
+      "range": {
+        "startLine": 408,
+        "startChar": 25,
+        "endLine": 408,
+        "endChar": 32
+      },
+      "revId": "f6de379699b3d844dd13f73d4494663a1bf96014",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f2d164c_3025ea95",
@@ -146,6 +170,30 @@
       "side": 1,
       "message": "\u003e Hm. That condition is not correct, either: for F(a, b, c). With both conditions we infer A for F(a, b, c) which conflicts with B and we get an error.\n\nNo, I think we\u0027d infer `chan\u003c-int` in that case because C is directional. But you\u0027re right that there\u0027s a bug: If A and B were _also_ directional, they would overwrite the unnamed directional channel, and inference would fail depending on which was last.\n\nThis is indeed tricky. Too late to change now, but I wonder if it would have been simpler to always infer the \u0027widest\u0027 type.  I guess we could aim for the following heuristic: infer the narrowest type that works?",
       "parentUuid": "75ab17ee_dfbfb341",
+      "range": {
+        "startLine": 421,
+        "startChar": 8,
+        "endLine": 421,
+        "endChar": 37
+      },
+      "revId": "f6de379699b3d844dd13f73d4494663a1bf96014",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa11d58_fe7941fb",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-08-29T21:06:27Z",
+      "side": 1,
+      "message": "Reworked CL and added more rigorous justification.",
+      "parentUuid": "2d7ee6ea_e96de506",
       "range": {
         "startLine": 421,
         "startChar": 8,
