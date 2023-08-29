@@ -53,6 +53,24 @@
       "message": "When would ctxt be nil? Maybe just in tests? Maybe we could default to cmd/internal/obj.UnlinkablePkg ?",
       "revId": "0ab8781dd3bd07f62d5e3f3f1e0352e75397f510",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32352516_7618fb07",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-29T07:38:03Z",
+      "side": 1,
+      "message": "Yeah, just tests. Changed, thanks.\n\nI originally left it as `\"\"` because I knew there were some tests that expected that, but it looks like none of them use ctxt\u003d\u003dnil.",
+      "parentUuid": "0d80f418_33bc02ed",
+      "revId": "0ab8781dd3bd07f62d5e3f3f1e0352e75397f510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
