@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18463f12_5e41fd5c",
+        "filename": "src/cmd/cgo/internal/test/stubtest_linux_ppc64le.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-29T18:58:01Z",
+      "side": 1,
+      "message": "No, it should test and work for both. Though, the test case is crafted to test the Go linker.",
+      "parentUuid": "a0d8c10f_71aacebd",
+      "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b32f15b_96981ed5",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-08-29T17:42:35Z",
       "side": 1,
       "message": "I don\u0027t understand how the st_other attribute relates to this.",
+      "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50db4a3d_4abc7426",
+        "filename": "src/cmd/cgo/internal/test/stubtest_linux_ppc64le.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-29T18:58:01Z",
+      "side": 1,
+      "message": "This attribute encodes the functions calling conventions. It encodes both the expectations of R2, and local vs global entry offsets.",
+      "parentUuid": "7b32f15b_96981ed5",
       "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12566652_98cfebb4",
+        "filename": "src/cmd/cgo/internal/test/stubtest_linux_ppc64le.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-29T18:58:01Z",
+      "side": 1,
+      "message": "Actually, that should be PIC. It\u0027s the default option for gcc (or clang) on ppc64le. That function is written in C.",
+      "parentUuid": "2e13d105_8faaa92f",
+      "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc98427c_9fdb0b3f",
@@ -121,6 +175,24 @@
       "writtenOn": "2023-08-29T17:42:35Z",
       "side": 1,
       "message": "rewritten",
+      "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b59a1893_a842c505",
+        "filename": "src/cmd/cgo/internal/test/stubtest_linux_ppc64le.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-29T18:58:01Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bc98427c_9fdb0b3f",
       "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +214,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f8ea2bf_8e40812e",
+        "filename": "src/cmd/cgo/internal/test/stubtest_linux_ppc64le.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-29T18:58:01Z",
+      "side": 1,
+      "message": "[...] indicates the GOPPC64 and buildmode used to compile.\n\nNote, GOPPC64\u003dpower10 uses the same stubs in all buildmodes.",
+      "parentUuid": "38ea7f1c_de4d4cfc",
+      "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94ce80e3_8ccab4b0",
@@ -159,6 +249,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95212a2f_b4641e84",
+        "filename": "src/cmd/cgo/internal/test/stubtest_linux_ppc64le.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-29T18:58:01Z",
+      "side": 1,
+      "message": "Right, st_other\u003d\u003d0 is a special case of NOTOC. The ELFv2 document goes into much more detail.",
+      "parentUuid": "94ce80e3_8ccab4b0",
+      "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49a517c0_8707fafd",
@@ -172,6 +280,24 @@
       "writtenOn": "2023-08-29T17:42:35Z",
       "side": 1,
       "message": "I thought I understood the naming conventions you were using but not any more. It is called notoc but preserves the TOC?",
+      "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2f4374b_21802e4a",
+        "filename": "src/cmd/cgo/internal/test/stubtest_linux_ppc64le.S",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-08-29T18:58:01Z",
+      "side": 1,
+      "message": "It preserves R2, which might not hold a TOC pointer. Specifically, another NOTOC function can call this directly.",
+      "parentUuid": "49a517c0_8707fafd",
       "revId": "047e15957adb962e958f2eed1295cb012352d2ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
