@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb7af49_bc9cee3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-08-29T12:56:47Z",
+      "side": 1,
+      "message": "(nit) no Markdown in Go commit messages.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a45f3ff9_52e978eb",
