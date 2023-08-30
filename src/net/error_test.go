@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !wasip1
-
 package net
 
 import (
@@ -157,32 +155,33 @@ func TestDialError(t *testing.T) {
 
 	d := Dialer{Timeout: someTimeout}
 	for i, tt := range dialErrorTests {
-		c, err := d.Dial(tt.network, tt.address)
-		if err == nil {
-			t.Errorf("#%d: should fail; %s:%s->%s", i, c.LocalAddr().Network(), c.LocalAddr(), c.RemoteAddr())
-			c.Close()
-			continue
-		}
-		if tt.network == "tcp" || tt.network == "udp" {
-			nerr := err
-			if op, ok := nerr.(*OpError); ok {
-				nerr = op.Err
+		i, tt := i, tt
+		t.Run(fmt.Sprint(i), func(t *testing.T) {
+			c, err := d.Dial(tt.network, tt.address)
+			if err == nil {
+				t.Errorf("should fail; %s:%s->%s", c.LocalAddr().Network(), c.LocalAddr(), c.RemoteAddr())
+				c.Close()
+				return
 			}
-			if sys, ok := nerr.(*os.SyscallError); ok {
-				nerr = sys.Err
+			if tt.network == "tcp" || tt.network == "udp" {
+				nerr := err
+				if op, ok := nerr.(*OpError); ok {
+					nerr = op.Err
+				}
+				if sys, ok := nerr.(*os.SyscallError); ok {
+					nerr = sys.Err
+				}
+				if nerr == errOpNotSupported {
+					t.Fatalf("should fail without %v; %s:%s->", nerr, tt.network, tt.address)
+				}
 			}
-			if nerr == errOpNotSupported {
-				t.Errorf("#%d: should fail without %v; %s:%s->", i, nerr, tt.network, tt.address)
-				continue
+			if c != nil {
+				t.Errorf("Dial returned non-nil interface %T(%v) with err != nil", c, c)
 			}
-		}
-		if c != nil {
-			t.Errorf("Dial returned non-nil interface %T(%v) with err != nil", c, c)
-		}
-		if err = parseDialError(err); err != nil {
-			t.Errorf("#%d: %v", i, err)
-			continue
-		}
+			if err = parseDialError(err); err != nil {
+				t.Error(err)
+			}
+		})
 	}
 }
 
@@ -208,10 +207,11 @@ func TestProtocolDialError(t *testing.T) {
 			t.Errorf("%s: should fail", network)
 			continue
 		}
-		if err = parseDialError(err); err != nil {
+		if err := parseDialError(err); err != nil {
 			t.Errorf("%s: %v", network, err)
 			continue
 		}
+		t.Logf("%s: error as expected: %v", network, err)
 	}
 }
 
@@ -219,7 +219,10 @@ func TestDialAddrError(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
+	case "js", "wasip1":
+		t.Skipf("skipping: fake net does not return realistic Dial errors")
 	}
+
 	if !supportsIPv4() || !supportsIPv6() {
 		t.Skip("both IPv4 and IPv6 are required")
 	}
@@ -292,6 +295,8 @@ func TestListenError(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9":
 		t.Skipf("%s does not have full support of socktest", runtime.GOOS)
+	case "js", "wasip1":
+		t.Skipf("skipping: fake net does not validate Listen arguments thoroughly")
 	}
 
 	origTestHookLookupIP := testHookLookupIP
@@ -305,32 +310,32 @@ func TestListenError(t *testing.T) {
 	defer sw.Set(socktest.FilterListen, nil)
 
 	for i, tt := range listenErrorTests {
-		ln, err := Listen(tt.network, tt.address)
-		if err == nil {
-			t.Errorf("#%d: should fail; %s:%s->", i, ln.Addr().Network(), ln.Addr())
-			ln.Close()
-			continue
-		}
-		if tt.network == "tcp" {
-			nerr := err
-			if op, ok := nerr.(*OpError); ok {
-				nerr = op.Err
+		t.Run(fmt.Sprintf("%s_%s", tt.network, tt.address), func(t *testing.T) {
+			ln, err := Listen(tt.network, tt.address)
+			if err == nil {
+				t.Errorf("#%d: should fail; %s:%s->", i, ln.Addr().Network(), ln.Addr())
+				ln.Close()
+				return
 			}
-			if sys, ok := nerr.(*os.SyscallError); ok {
-				nerr = sys.Err
+			if tt.network == "tcp" {
+				nerr := err
+				if op, ok := nerr.(*OpError); ok {
+					nerr = op.Err
+				}
+				if sys, ok := nerr.(*os.SyscallError); ok {
+					nerr = sys.Err
+				}
+				if nerr == errOpNotSupported {
+					t.Fatalf("#%d: should fail without %v; %s:%s->", i, nerr, tt.network, tt.address)
+				}
 			}
-			if nerr == errOpNotSupported {
-				t.Errorf("#%d: should fail without %v; %s:%s->", i, nerr, tt.network, tt.address)
-				continue
+			if ln != nil {
+				t.Errorf("Listen returned non-nil interface %T(%v) with err != nil", ln, ln)
 			}
-		}
-		if ln != nil {
-			t.Errorf("Listen returned non-nil interface %T(%v) with err != nil", ln, ln)
-		}
-		if err = parseDialError(err); err != nil {
-			t.Errorf("#%d: %v", i, err)
-			continue
-		}
+			if err = parseDialError(err); err != nil {
+				t.Errorf("#%d: %v", i, err)
+			}
+		})
 	}
 }
 
@@ -352,6 +357,8 @@ func TestListenPacketError(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9":
 		t.Skipf("%s does not have full support of socktest", runtime.GOOS)
+	case "js", "wasip1":
+		t.Skipf("skipping: fake net does not validate ListenPacket arguments thoroughly")
 	}
 
 	origTestHookLookupIP := testHookLookupIP
@@ -361,19 +368,20 @@ func TestListenPacketError(t *testing.T) {
 	}
 
 	for i, tt := range listenPacketErrorTests {
-		c, err := ListenPacket(tt.network, tt.address)
-		if err == nil {
-			t.Errorf("#%d: should fail; %s:%s->", i, c.LocalAddr().Network(), c.LocalAddr())
-			c.Close()
-			continue
-		}
-		if c != nil {
-			t.Errorf("ListenPacket returned non-nil interface %T(%v) with err != nil", c, c)
-		}
-		if err = parseDialError(err); err != nil {
-			t.Errorf("#%d: %v", i, err)
-			continue
-		}
+		t.Run(fmt.Sprintf("%s_%s", tt.network, tt.address), func(t *testing.T) {
+			c, err := ListenPacket(tt.network, tt.address)
+			if err == nil {
+				t.Errorf("#%d: should fail; %s:%s->", i, c.LocalAddr().Network(), c.LocalAddr())
+				c.Close()
+				return
+			}
+			if c != nil {
+				t.Errorf("ListenPacket returned non-nil interface %T(%v) with err != nil", c, c)
+			}
+			if err = parseDialError(err); err != nil {
+				t.Errorf("#%d: %v", i, err)
+			}
+		})
 	}
 }
 
@@ -381,6 +389,8 @@ func TestProtocolListenError(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
+	case "js", "wasip1":
+		t.Skipf("skipping: fake net does not validate Listen arguments thoroughly")
 	}
 
 	for _, network := range []string{"tcp", "udp", "ip:4294967296", "unix", "unixpacket", "unixgram"} {
@@ -557,49 +567,57 @@ third:
 }
 
 func TestCloseError(t *testing.T) {
-	ln := newLocalListener(t, "tcp")
-	defer ln.Close()
-	c, err := Dial(ln.Addr().Network(), ln.Addr().String())
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer c.Close()
+	t.Run("tcp", func(t *testing.T) {
+		ln := newLocalListener(t, "tcp")
+		defer ln.Close()
+		c, err := Dial(ln.Addr().Network(), ln.Addr().String())
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer c.Close()
 
-	for i := 0; i < 3; i++ {
-		err = c.(*TCPConn).CloseRead()
-		if perr := parseCloseError(err, true); perr != nil {
-			t.Errorf("#%d: %v", i, perr)
+		for i := 0; i < 3; i++ {
+			err = c.(*TCPConn).CloseRead()
+			if perr := parseCloseError(err, true); perr != nil {
+				t.Errorf("#%d: %v", i, perr)
+			}
 		}
-	}
-	for i := 0; i < 3; i++ {
-		err = c.(*TCPConn).CloseWrite()
-		if perr := parseCloseError(err, true); perr != nil {
-			t.Errorf("#%d: %v", i, perr)
+		for i := 0; i < 3; i++ {
+			err = c.(*TCPConn).CloseWrite()
+			if perr := parseCloseError(err, true); perr != nil {
+				t.Errorf("#%d: %v", i, perr)
+			}
 		}
-	}
-	for i := 0; i < 3; i++ {
-		err = c.Close()
-		if perr := parseCloseError(err, false); perr != nil {
-			t.Errorf("#%d: %v", i, perr)
+		for i := 0; i < 3; i++ {
+			err = c.Close()
+			if perr := parseCloseError(err, false); perr != nil {
+				t.Errorf("#%d: %v", i, perr)
+			}
+			err = ln.Close()
+			if perr := parseCloseError(err, false); perr != nil {
+				t.Errorf("#%d: %v", i, perr)
+			}
 		}
-		err = ln.Close()
-		if perr := parseCloseError(err, false); perr != nil {
-			t.Errorf("#%d: %v", i, perr)
-		}
-	}
+	})
 
-	pc, err := ListenPacket("udp", "127.0.0.1:0")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer pc.Close()
-
-	for i := 0; i < 3; i++ {
-		err = pc.Close()
-		if perr := parseCloseError(err, false); perr != nil {
-			t.Errorf("#%d: %v", i, perr)
+	t.Run("udp", func(t *testing.T) {
+		if !testableNetwork("udp") {
+			t.Skipf("skipping: udp not available")
 		}
-	}
+
+		pc, err := ListenPacket("udp", "127.0.0.1:0")
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer pc.Close()
+
+		for i := 0; i < 3; i++ {
+			err = pc.Close()
+			if perr := parseCloseError(err, false); perr != nil {
+				t.Errorf("#%d: %v", i, perr)
+			}
+		}
+	})
 }
 
 // parseAcceptError parses nestedErr and reports whether it is a valid
