@@ -34,7 +34,7 @@ const (
 const (
 	_ = iota
 	IPV6_V6ONLY
-	SOMAXCONN
+	SOMAXCONN = 0x80
 	SO_ERROR
 )
 
