@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !wasip1
-
 package net
 
 import (
@@ -322,7 +320,7 @@ func TestListenCloseListen(t *testing.T) {
 // See golang.org/issue/6163, golang.org/issue/6987.
 func TestAcceptIgnoreAbortedConnRequest(t *testing.T) {
 	switch runtime.GOOS {
-	case "plan9":
+	case "plan9", "js", "wasip1":
 		t.Skipf("%s does not have full support of socktest", runtime.GOOS)
 	}
 
@@ -383,8 +381,16 @@ func TestZeroByteRead(t *testing.T) {
 
 			ln := newLocalListener(t, network)
 			connc := make(chan Conn, 1)
+			defer func() {
+				ln.Close()
+				for c := range connc {
+					if c != nil {
+						c.Close()
+					}
+				}
+			}()
 			go func() {
-				defer ln.Close()
+				defer close(connc)
 				c, err := ln.Accept()
 				if err != nil {
 					t.Error(err)
