@@ -16,6 +16,24 @@
       "message": "Thanks!\n\nDupe of CL 517777?",
       "revId": "836191581f561d554a250d3e18ef671edd388784",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd837163_322dc27b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-08-30T21:05:08Z",
+      "side": 1,
+      "message": "Oh, sorry, totally missed that.  We can use yours--do you want to copy over the change to the release notes?",
+      "parentUuid": "5197dd37_acc9ea52",
+      "revId": "836191581f561d554a250d3e18ef671edd388784",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
