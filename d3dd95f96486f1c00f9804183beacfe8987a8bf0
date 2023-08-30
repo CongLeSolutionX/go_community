@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19db4b5_f4bb2779",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-08-30T17:50:03Z",
+      "side": 1,
+      "message": "I think this could be a good follow up for CL 524357.",
+      "revId": "d3dd95f96486f1c00f9804183beacfe8987a8bf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
