@@ -5,8 +5,6 @@
 package typecheck
 
 import (
-	"go/constant"
-
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
@@ -83,13 +81,13 @@ func InitUniverse() {
 		ir.NewBuiltin(types.UnsafePkg.Lookup(s.name), s.op)
 	}
 
-	s := types.BuiltinPkg.Lookup("true")
-	s.Def = ir.NewConstAt(src.NoXPos, s, types.UntypedBool, constant.MakeBool(true))
+	for _, boolStr := range []string{"true", "false"} {
+		s := types.BuiltinPkg.Lookup(boolStr)
+		n := ir.NewBool(src.NoXPos, boolStr == "true")
+		s.Def = ir.NewConstExpr(n.Val(), n)
+	}
 
-	s = types.BuiltinPkg.Lookup("false")
-	s.Def = ir.NewConstAt(src.NoXPos, s, types.UntypedBool, constant.MakeBool(false))
-
-	s = Lookup("_")
+	s := Lookup("_")
 	types.BlankSym = s
 	ir.BlankNode = ir.NewNameAt(src.NoXPos, s, types.Types[types.TBLANK])
 	s.Def = ir.BlankNode
