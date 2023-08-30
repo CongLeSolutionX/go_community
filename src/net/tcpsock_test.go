@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !js && !wasip1
-
 package net
 
 import (
@@ -473,6 +471,8 @@ func TestTCPReadWriteAllocs(t *testing.T) {
 		// I/O on Plan 9 allocates memory.
 		// See net/fd_io_plan9.go.
 		t.Skipf("not supported on %s", runtime.GOOS)
+	case "js", "wasip1":
+		t.Skipf("skipping: fake net implementation allocates")
 	}
 
 	ln, err := Listen("tcp", "127.0.0.1:0")
@@ -670,6 +670,11 @@ func TestTCPBig(t *testing.T) {
 }
 
 func TestCopyPipeIntoTCP(t *testing.T) {
+	switch runtime.GOOS {
+	case "js", "wasip1":
+		t.Skipf("skipping: os.Pipe not supported on %s", runtime.GOOS)
+	}
+
 	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 
