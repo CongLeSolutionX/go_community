@@ -1429,14 +1429,18 @@ func TestIsZero(t *testing.T) {
 		{float32(1.2), false},
 		{float64(0), true},
 		{float64(1.2), false},
-		{math.Copysign(0, -1), false},
+		{math.Copysign(0, -1), true},
+		{float32(math.Copysign(0, -1)), true},
 		{complex64(0), true},
 		{complex64(1.2), false},
 		{complex128(0), true},
 		{complex128(1.2), false},
-		{complex(math.Copysign(0, -1), 0), false},
-		{complex(0, math.Copysign(0, -1)), false},
-		{complex(math.Copysign(0, -1), math.Copysign(0, -1)), false},
+		{complex(math.Copysign(0, -1), 0), true},
+		{complex(0, math.Copysign(0, -1)), true},
+		{complex(math.Copysign(0, -1), math.Copysign(0, -1)), true},
+		{complex(float32(math.Copysign(0, -1)), 0), true},
+		{complex(0, float32(math.Copysign(0, -1))), true},
+		{complex(float32(math.Copysign(0, -1)), float32(math.Copysign(0, -1))), true},
 		{uintptr(0), true},
 		{uintptr(128), false},
 		// Array
@@ -1511,6 +1515,28 @@ func TestIsZero(t *testing.T) {
 		if !p.IsZero() {
 			t.Errorf("%d: IsZero((%s)(%+v)) is true after SetZero", i, p.Kind(), tt.x)
 		}
+	}
+
+	// IsZero should ignore blank fields.
+	type S1 struct {
+		a byte
+		b byte
+		c byte
+		f func() // make the struct non-comparable
+	}
+	type S2 struct {
+		a byte
+		_ byte
+		c byte
+		f func()
+	}
+	v1 := S1{0, 1, 0, nil}
+	v2 := *(*S2)(unsafe.Pointer(&v1))
+	if ValueOf(v1).IsZero() {
+		t.Errorf("IsZero(%+v) is true, want false", v1)
+	}
+	if !ValueOf(v2).IsZero() {
+		t.Errorf("IsZero(%+v) is false, want true", v2)
 	}
 
 	func() {
