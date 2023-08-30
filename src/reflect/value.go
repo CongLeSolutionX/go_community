@@ -1594,10 +1594,9 @@ func (v Value) IsZero() bool {
 	case Uint, Uint8, Uint16, Uint32, Uint64, Uintptr:
 		return v.Uint() == 0
 	case Float32, Float64:
-		return math.Float64bits(v.Float()) == 0
+		return v.Float() == 0
 	case Complex64, Complex128:
-		c := v.Complex()
-		return math.Float64bits(real(c)) == 0 && math.Float64bits(imag(c)) == 0
+		return v.Complex() == 0
 	case Array:
 		// If the type is comparable, then compare directly with zero.
 		if v.typ().Equal != nil && v.typ().Size() <= maxZero {
@@ -1623,17 +1622,19 @@ func (v Value) IsZero() bool {
 		return v.Len() == 0
 	case Struct:
 		// If the type is comparable, then compare directly with zero.
-		if v.typ().Equal != nil && v.typ().Size() <= maxZero {
+		vt := v.typ()
+		if vt.Equal != nil && vt.Size() <= maxZero {
 			if v.flag&flagIndir == 0 {
 				return v.ptr == nil
 			}
 			// See noescape justification above.
-			return v.typ().Equal(noescape(v.ptr), unsafe.Pointer(&zeroVal[0]))
+			return vt.Equal(noescape(v.ptr), unsafe.Pointer(&zeroVal[0]))
 		}
 
 		n := v.NumField()
+		vst := vt.StructType()
 		for i := 0; i < n; i++ {
-			if !v.Field(i).IsZero() {
+			if !v.Field(i).IsZero() && vst.Fields[i].Name.Name() != "_" {
 				return false
 			}
 		}
