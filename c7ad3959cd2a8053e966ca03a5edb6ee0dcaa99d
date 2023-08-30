@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d8ddac_7a7c062d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-08-30T12:03:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ddb7af49_bc9cee3b",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2769f79f_4d63afc2",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-08-29T13:22:20Z",
       "side": 1,
       "message": "Add:\n```\nFixes #57757.\n```\n?",
+      "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cda1bf4_27897bef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-08-30T12:03:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2769f79f_4d63afc2",
       "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -129,6 +171,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ebe7835_7c6b07ed",
+        "filename": "src/net/hook_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-08-30T12:03:10Z",
+      "side": 1,
+      "message": "Done. Never used that directive, but seems like a nice fit here. Thank you!\nI\u0027ve tested it on couple of Windows VMs, all seems fine.",
+      "parentUuid": "1b765cb1_cef4657c",
+      "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d636684_bdfffa61",
+        "filename": "src/net/hook_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-08-30T12:03:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d2722536_74383e48",
+      "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb30724d_632f3a04",
@@ -142,6 +220,24 @@
       "writtenOn": "2023-08-29T13:22:20Z",
       "side": 1,
       "message": "Please add some more comments to this test — what makes it specific to `windows`?\n\n(The corresponding change in `net/hosts_test.go` does not appear to be Windows-specific.)",
+      "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2c355d_1db108e1",
+        "filename": "src/net/testdata/windows-hosts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-08-30T12:03:10Z",
+      "side": 1,
+      "message": "Decided to remove that, because in the end hosts file format for Windows exactly same as for other systems (based on same standard from BSD).",
+      "parentUuid": "eb30724d_632f3a04",
       "revId": "c7ad3959cd2a8053e966ca03a5edb6ee0dcaa99d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
