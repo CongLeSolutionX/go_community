@@ -66,15 +66,32 @@ func _ELF_ST_BIND(val byte) byte { return val >> 4 }
 func _ELF_ST_TYPE(val byte) byte { return val & 0xf }
 
 type vdsoSymbolKey struct {
-	name    string
-	symHash uint32
-	gnuHash uint32
-	ptr     *uintptr
+	name string
+	ptr  *uintptr
+}
+
+/* elfHash copyed from ld/elf */
+func elfHash(name string) (h uint32) {
+	for i := 0; i < len(name); i++ {
+		h = (h << 4) + uint32(name[i])
+		if g := h & 0xf0000000; g != 0 {
+			h ^= g >> 24
+		}
+		h &= 0x0fffffff
+	}
+	return
+}
+
+func gnuHash(name string) (h uint32) {
+	h = 5381
+	for i := 0; i < len(name); i++ {
+		h = (h << 5) + h + uint32(name[i])
+	}
+	return
 }
 
 type vdsoVersionKey struct {
 	version string
-	verHash uint32
 }
 
 type vdsoInfo struct {
@@ -181,7 +198,7 @@ func vdsoInitFromSysinfoEhdr(info *vdsoInfo, hdr *elfEhdr) {
 	info.valid = true
 }
 
-func vdsoFindVersion(info *vdsoInfo, ver *vdsoVersionKey) int32 {
+func vdsoFindVersion(info *vdsoInfo, ver string) int32 {
 	if !info.valid {
 		return 0
 	}
@@ -190,7 +207,7 @@ func vdsoFindVersion(info *vdsoInfo, ver *vdsoVersionKey) int32 {
 	for {
 		if def.vd_flags&_VER_FLG_BASE == 0 {
 			aux := (*elfVerdaux)(add(unsafe.Pointer(def), uintptr(def.vd_aux)))
-			if def.vd_hash == ver.verHash && ver.version == gostringnocopy(&info.symstrings[aux.vda_name]) {
+			if def.vd_hash == elfHash(ver) && ver == gostringnocopy(&info.symstrings[aux.vda_name]) {
 				return int32(def.vd_ndx & 0x7fff)
 			}
 		}
@@ -233,7 +250,7 @@ func vdsoParseSymbols(info *vdsoInfo, version int32) {
 		// Old-style DT_HASH table.
 		for _, k := range vdsoSymbolKeys {
 			if len(info.bucket) > 0 {
-				for chain := info.bucket[k.symHash%uint32(len(info.bucket))]; chain != 0; chain = info.chain[chain] {
+				for chain := info.bucket[elfHash(k.name)%uint32(len(info.bucket))]; chain != 0; chain = info.chain[chain] {
 					if apply(chain, k) {
 						break
 					}
@@ -245,13 +262,14 @@ func vdsoParseSymbols(info *vdsoInfo, version int32) {
 
 	// New-style DT_GNU_HASH table.
 	for _, k := range vdsoSymbolKeys {
-		symIndex := info.bucket[k.gnuHash%uint32(len(info.bucket))]
+		khash := gnuHash(k.name)
+		symIndex := info.bucket[khash%uint32(len(info.bucket))]
 		if symIndex < info.symOff {
 			continue
 		}
 		for ; ; symIndex++ {
 			hash := info.chain[symIndex-info.symOff]
-			if hash|1 == k.gnuHash|1 {
+			if hash|1 == khash|1 {
 				// Found a hash match.
 				if apply(symIndex, k) {
 					break
@@ -277,7 +295,7 @@ func vdsoauxv(tag, val uintptr) {
 		// when passed to the three functions below.
 		info1 := (*vdsoInfo)(noescape(unsafe.Pointer(&info)))
 		vdsoInitFromSysinfoEhdr(info1, (*elfEhdr)(unsafe.Pointer(val)))
-		vdsoParseSymbols(info1, vdsoFindVersion(info1, &vdsoLinuxVersion))
+		vdsoParseSymbols(info1, vdsoFindVersion(info1, vdsoLinuxVersion))
 	}
 }
 

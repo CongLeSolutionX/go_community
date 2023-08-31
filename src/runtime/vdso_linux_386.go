@@ -11,10 +11,10 @@ const (
 	vdsoArrayMax = 1<<31 - 1
 )
 
-var vdsoLinuxVersion = vdsoVersionKey{"LINUX_2.6", 0x3ae75f6}
+const vdsoLinuxVersion = "LINUX_2.6"
 
 var vdsoSymbolKeys = []vdsoSymbolKey{
-	{"__vdso_clock_gettime", 0xd35ec75, 0x6e43a318, &vdsoClockgettimeSym},
+	{"__vdso_clock_gettime", &vdsoClockgettimeSym},
 }
 
 // initialize to fall back to syscall
