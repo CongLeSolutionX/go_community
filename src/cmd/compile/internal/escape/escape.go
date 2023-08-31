@@ -184,8 +184,9 @@ type batch struct {
 	allLocs  []*location
 	closures []closure
 
-	heapLoc  location
-	blankLoc location
+	heapLoc      location // TODO: visit all uses
+	blankLoc     location
+	ifaceRecvLoc location
 }
 
 // A closure holds a closure expression and its spill hole (i.e.,
@@ -226,8 +227,13 @@ func Batch(fns []*ir.Func, recursive bool) {
 
 	var b batch
 	b.heapLoc.escapes = true
+	b.ifaceRecvLoc.ifaceRecvEscape = true // TODO: probably make escapes a 3-value enum
 
 	// Construct data-flow graph from syntax trees.
+	if base.Debug.EscRecvDebug >= 4 {
+		// TODO: maybe remove or maybe polish and move to another debug flag
+		fmt.Println("Batch: construct data-flow graph from syntax trees")
+	}
 	for _, fn := range fns {
 		if base.Flag.W > 1 {
 			s := fmt.Sprintf("\nbefore escape %v", fn)
@@ -256,6 +262,10 @@ func Batch(fns []*ir.Func, recursive bool) {
 		}
 	}
 
+	if base.Debug.EscRecvDebug >= 4 {
+		// TODO: maybe remove or maybe polish and move to another debug flag
+		fmt.Println("Batch: walk data-flow graph")
+	}
 	b.walkAll()
 	b.finish(fns)
 }
@@ -415,6 +425,7 @@ func (b *batch) finish(fns []*ir.Func) {
 			}
 			n.SetEsc(ir.EscHeap)
 		} else {
+			// TODO: confirm we do not need to check ifaceRecvEscapes here
 			if base.Flag.LowerM != 0 && n.Op() != ir.ONAME && !goDeferWrapper {
 				base.WarnfAt(n.Pos(), "%v does not escape", n)
 			}
@@ -534,6 +545,8 @@ func (b *batch) paramTag(fn *ir.Func, narg int, f *types.Field) string {
 	}
 
 	if !f.Type.HasPointers() { // don't bother tagging for scalars
+		// TODO: in cmd/compile parlance, does scalar mean numeric + bool types (Type.IsScalar),
+		// or !type.HasPointers?
 		return ""
 	}
 
@@ -554,10 +567,28 @@ func (b *batch) paramTag(fn *ir.Func, narg int, f *types.Field) string {
 		}
 		if x := esc.Heap(); x >= 0 {
 			if x == 0 {
+				// TODO: it would be nice to mention heap in this message,
+				// similar to how "to result X" is mentioned below for an esc.Result,
+				// but might be unwise to change the preexisting -m=1 messages.
 				base.WarnfAt(f.Pos, "leaking param: %v", name())
 			} else {
 				// TODO(mdempsky): Mention level=x like below?
 				base.WarnfAt(f.Pos, "leaking param content: %v", name())
+			}
+		}
+		if x := esc.IfaceRecv(); x >= 0 {
+			// TODO: what terminology to use in the -m=1 logs? Recall -m=1 logs are fairly concise...
+			// Could mention interface receiver, or leave it brief, or ____?
+			// Current example if run with -m=2 (first lines are -m=2, last line is -m=1):
+			//   ./my.go:9:12: parameter v leaks to <interface receiver> for Print with derefs=0:
+			//   ./my.go:9:12:   flow: .autotmp_3 ← v:
+			//   ./my.go:9:12:     from v.(Stringer) (dot) at ./my.go:10:19
+			//                     [...more details...]
+			//   ./my.go:9:12: might leak param: v
+			if x == 0 {
+				base.WarnfAt(f.Pos, "might leak param: %v", name())
+			} else {
+				base.WarnfAt(f.Pos, "might leak param content: %v", name())
 			}
 		}
 		for i := 0; i < numEscResults; i++ {

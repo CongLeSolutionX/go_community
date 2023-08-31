@@ -166,6 +166,7 @@ func ParseFlags() {
 	Flag.WB = true
 
 	Debug.ConcurrentOk = true
+	Debug.EscRecv = 2
 	Debug.InlFuncsWithClosures = 1
 	Debug.InlStaticInit = 1
 	Debug.PGOInline = 1
