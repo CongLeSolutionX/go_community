@@ -22,8 +22,7 @@ func g() {
 	h := E() // ERROR "inlining call to E" "T\(0\) does not escape"
 	h.M()    // ERROR "devirtualizing h.M to T"
 
-	// BAD: T(0) could be stack allocated.
-	i := F(T(0)) // ERROR "inlining call to F" "T\(0\) escapes to heap"
+	i := F(T(0)) // ERROR "inlining call to F" "T\(0\) does not escape"
 
 	// Testing that we do NOT devirtualize here:
 	i.M()

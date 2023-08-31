@@ -30,7 +30,6 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 	// function's pragma flags; otherwise 0.
 	argumentFunc := func(fn *ir.Name, k hole, argp *ir.Node) {
 		e.rewriteArgument(argp, init, call, fn, wrapper)
-
 		e.expr(k.note(call, "call parameter"), *argp)
 	}
 
@@ -121,7 +120,16 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 				args = args[1:]
 			}
 
-			argumentFunc(fn, e.tagHole(ks, fn, recv), recvp)
+			var k hole
+			if call.Op() == ir.OCALLINTER && fn == nil && go122UseIfaceRecvEscapeAnalysis {
+				// This receiver flows to the interface receiver pseudo location
+				// due to its use as the receiver in an interface method call.
+				// A nil fn implies a dynamic call.
+				k = e.ifaceRecvHole()
+			} else {
+				k = e.tagHole(ks, fn, recv)
+			}
+			argumentFunc(fn, k, recvp)
 		}
 
 		for i, param := range fntype.Params().FieldSlice() {
@@ -468,8 +476,12 @@ func (e *escape) tagHole(ks []hole, fn *ir.Name, param *types.Field) hole {
 	if x := esc.Heap(); x >= 0 {
 		tagKs = append(tagKs, e.heapHole().shift(x))
 	}
+	if x := esc.IfaceRecv(); x >= 0 {
+		tagKs = append(tagKs, e.ifaceRecvHole().shift(x))
+	}
 
-	if ks != nil {
+	// TODO: consider restoring to prior check of ks != nil
+	if len(ks) != 0 {
 		for i := 0; i < numEscResults; i++ {
 			if x := esc.Result(i); x >= 0 {
 				tagKs = append(tagKs, ks[i].shift(x))

@@ -53,6 +53,7 @@ func efaceEscape0() {
 		i := 0 // ERROR "moved to heap: i"
 		v := M0{&i}
 		// BAD: v does not escape to heap here
+		// TODO(thepudds): is this BAD now stale? See go.dev/cl/192697 and also some BADs below.
 		var x M = v
 		v1 := x.(M0)
 		sink = v1

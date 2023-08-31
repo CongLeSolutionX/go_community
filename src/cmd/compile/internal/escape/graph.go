@@ -21,7 +21,7 @@ import (
 //     if x {
 //         e.discard(n.Left)
 //     } else {
-//         e.value(k, n.Left)
+//         e.value(k, n.Left) // TODO: is this a stale use of 'value', or maybe just a meta name?
 //     }
 //
 // or
@@ -71,6 +71,14 @@ type location struct {
 	// allocated.
 	escapes bool
 
+	// ifaceRecvEscape reports whether the represented variable's address
+	// conditionally escapes due to its use as the receiver in an
+	// interface method call; that is, whether the variable must be heap
+	// allocated if the call site cannot prove that the variable's type
+	// does not have any methods that retain or leak the variable
+	// via a pointer receiver.
+	ifaceRecvEscape bool
+
 	// transient reports whether the represented expression's
 	// address does not outlive the statement; that is, whether
 	// its storage can be immediately reused.
@@ -107,6 +115,13 @@ func (l *location) leakTo(sink *location, derefs int) {
 			l.paramEsc.AddResult(ri, derefs)
 			return
 		}
+	}
+
+	if !sink.escapes && sink.ifaceRecvEscape {
+		// Record that this might escape due to flowing to use as an interface receiver.
+		// TODO: confirm we do not need to check l.curfn.
+		l.paramEsc.AddIfaceRecv(derefs)
+		return
 	}
 
 	// Otherwise, record as heap leak.
@@ -194,7 +209,6 @@ func (b *batch) flow(k hole, src *location) {
 				// TODO: why is e_curfn used instead of src.curfn?
 				logopt.LogOpt(src.n.Pos(), "escapes", "escape", ir.FuncName(e_curfn), fmt.Sprintf("%v escapes to heap", src.n), explanation)
 			}
-
 		}
 		src.escapes = true
 		return
@@ -204,8 +218,9 @@ func (b *batch) flow(k hole, src *location) {
 	dst.edges = append(dst.edges, edge{src: src, derefs: k.derefs, notes: k.notes})
 }
 
-func (b *batch) heapHole() hole    { return b.heapLoc.asHole() }
-func (b *batch) discardHole() hole { return b.blankLoc.asHole() }
+func (b *batch) heapHole() hole      { return b.heapLoc.asHole() }
+func (b *batch) discardHole() hole   { return b.blankLoc.asHole() }
+func (b *batch) ifaceRecvHole() hole { return b.ifaceRecvLoc.asHole() }
 
 func (b *batch) oldLoc(n *ir.Name) *location {
 	if n.Canonical().Opt == nil {
