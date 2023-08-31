@@ -24,6 +24,8 @@ type DebugFlags struct {
 	DumpPtrs              int    `help:"show Node pointers values in dump output"`
 	DwarfInl              int    `help:"print information about DWARF inlined function creation"`
 	Export                int    `help:"print export data"`
+	EscRecv               int    `help:"levels of escape analysis for interface receivers (1 or 2, 2 is default)"`
+	EscRecvDebug          int    `help:"debug escape analysis for interface receivers"`
 	Fmahash               string `help:"hash value for use in debugging platform-dependent multiply-add use" concurrent:"ok"`
 	GCAdjust              int    `help:"log adjustments to GOGC" concurrent:"ok"`
 	GCCheck               int    `help:"check heap/gc use by compiler" concurrent:"ok"`
