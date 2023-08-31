@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5920c8ba_4aef5029",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-31T22:23:32Z",
+      "side": 1,
+      "message": "Instead of putting more (power)user-targeted documentation into the compiler source code, how about we split out a separate doc.md file?\n\nI\u0027d suggest doc.md contain all of the stuff relevant to end users who are trying to understand escape analysis\u0027s functionality and limitations, and how to decode its log messages.\n\nMeanwhile, we\u0027d keep the Go source file comments focused on explaining implementation details.",
+      "revId": "7c844abc78fcb8c729a0302f1eb07d7894b83445",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df10a25b_ac4d1856",
+        "filename": "src/cmd/compile/internal/escape/escape.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-31T22:23:32Z",
+      "side": 1,
+      "message": "This is an implementation detail that I\u0027d omit from user-oriented docs.\n\nBut I think it\u0027s fine to mention that \"leaks to foo\" means there should be other logs that explain what happened to \"foo\".",
+      "revId": "7c844abc78fcb8c729a0302f1eb07d7894b83445",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd2d062_7282bfbc",
+        "filename": "src/cmd/compile/internal/escape/graph.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-08-31T22:23:32Z",
+      "side": 1,
+      "message": "This logopt code was added (CL 206658) before I split the \"batch\" and \"escape\" types out separately (CL 280997). It was using \"e.curfn\" here, but e.curfn was always nil at this point in escape analysis. So I just preserved that behavior during the refactoring.\n\n(In general, I\u0027m not a fan of the duplicated logic across the fmt.Printfs and the logopt.LogOpts, but that seems like a massive yak shaving to try to address.)",
+      "revId": "7c844abc78fcb8c729a0302f1eb07d7894b83445",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
