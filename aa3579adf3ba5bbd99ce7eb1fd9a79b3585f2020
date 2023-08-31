@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "982f0f1c_5d358733",
+        "filename": "src/internal/syscall/windows/security_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-08-31T07:32:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cbff9062_cd191687",
+      "revId": "aa3579adf3ba5bbd99ce7eb1fd9a79b3585f2020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a23ff44_b694c877",
@@ -134,6 +152,30 @@
       "side": 1,
       "message": "Ah, the `os` was a typo. (Not enough coffee yet when I wrote that. 🙃)\n\nThe `windows` package (where you have it) is the correct place for the exported `GetSystemDirectory` function.",
       "parentUuid": "14441a79_d0c38f84",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 1
+      },
+      "revId": "aa3579adf3ba5bbd99ce7eb1fd9a79b3585f2020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f16c70b0_a9cc5461",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-08-31T07:32:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bc5a81cf_f51e4d04",
       "range": {
         "startLine": 245,
         "startChar": 0,
