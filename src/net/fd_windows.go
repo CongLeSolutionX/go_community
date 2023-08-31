@@ -11,6 +11,7 @@ import (
 	"os"
 	"runtime"
 	"syscall"
+	"time"
 	"unsafe"
 )
 
@@ -113,21 +114,36 @@ func (fd *netFD) connect(ctx context.Context, la, ra syscall.Sockaddr) (syscall.
 		_ = fd.pfd.WSAIoctl(windows.SIO_TCP_INITIAL_RTO, (*byte)(unsafe.Pointer(&params)), uint32(unsafe.Sizeof(params)), nil, 0, &out, nil, 0)
 	}
 
-	// Wait for the goroutine converting context.Done into a write timeout
-	// to exist, otherwise our caller might cancel the context and
-	// cause fd.setWriteDeadline(aLongTimeAgo) to cancel a successful dial.
-	done := make(chan bool) // must be unbuffered
-	defer func() { done <- true }()
-	go func() {
-		select {
-		case <-ctx.Done():
-			// Force the runtime's poller to immediately give
-			// up waiting for writability.
+	// Propagate the Context's deadline and cancellation.
+	// If the context is already done, or if it has a nonzero deadline,
+	// ensure that that is applied before the call to ConnectEx begins
+	// so that we don't return spurious connections.
+	if ctx.Done() != nil {
+		defer fd.pfd.SetWriteDeadline(time.Time{})
+
+		if ctx.Err() != nil {
 			fd.pfd.SetWriteDeadline(aLongTimeAgo)
-			<-done
-		case <-done:
+		} else {
+			if d, ok := ctx.Deadline(); ok {
+				fd.pfd.SetWriteDeadline(d)
+			}
+
+			done := make(chan struct{})
+			stop := context.AfterFunc(ctx, func() {
+				// Force the runtime's poller to immediately give
+				// up waiting for writability.
+				fd.pfd.SetWriteDeadline(aLongTimeAgo)
+				close(done)
+			})
+			defer func() {
+				if !stop() {
+					// Wait for the call to SetWriteDeadline to complete so that we can
+					// reset the deadline if everything else succeeded.
+					<-done
+				}
+			}()
 		}
-	}()
+	}
 
 	// Call ConnectEx API.
 	if err := fd.pfd.ConnectEx(ra); err != nil {

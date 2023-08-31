@@ -18,6 +18,21 @@ import (
 	"time"
 )
 
+func init() {
+	// Hook Dial to ensure that a 1ns timeout will always be exceeded
+	// by the time we get to the relevant system call.
+	//
+	// Without this, systems with a very large timer granularity — such as
+	// Windows — may be able to accept connections without measurably exceeding
+	// even an implausibly short deadline.
+	testHookDialStepTime = func() {
+		now := time.Now()
+		for time.Since(now) == 0 {
+			time.Sleep(1 * time.Nanosecond)
+		}
+	}
+}
+
 var dialTimeoutTests = []struct {
 	initialTimeout time.Duration
 	initialDelta   time.Duration // for deadline
@@ -29,9 +44,9 @@ var dialTimeoutTests = []struct {
 	{-1 << 63, 0},
 	{0, -1 << 63},
 
-	{1 * time.Millisecond, 0},
-	{0, 1 * time.Millisecond},
-	{1 * time.Millisecond, 5 * time.Second}, // timeout over deadline
+	{10 * time.Millisecond, 0},
+	{0, 10 * time.Millisecond},
+	{10 * time.Millisecond, 5 * time.Second}, // timeout over deadline
 }
 
 func TestDialTimeout(t *testing.T) {
