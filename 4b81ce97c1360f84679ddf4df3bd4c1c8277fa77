@@ -52,6 +52,24 @@
       "parentUuid": "276480fb_96f6079f",
       "revId": "4b81ce97c1360f84679ddf4df3bd4c1c8277fa77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e295fbf1_6631b55c",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-08-31T15:58:52Z",
+      "side": 1,
+      "message": "I\u0027ve looked into this and we cannot expect R25 to contain the trampoline address as things currently stand. The current calling sequence is:\n\n```\nlibcCall -\u003e\nasmcgocall -\u003e\nruntime trampoline (e.g. runtime.sysctl_trampoline) -\u003e\nsdynimport call trampoline (to load GP and indirect call via PLT) -\u003e\nlibc syscall (e.g. sysctl)\n```\n\nWhen `asmcgocall` calls the runtime trampoline, it does that via an indirect call and R25 contains the address of the runtime trampoline. However, when the runtime trampoline makes the SDYNIMPORT call (which turns into a trampoline with this change), it currently makes a direct call and R25 does not contain the address of the sdynimport trampoline (rather that of the previous trampoline).\n\nThe only way this would work is if we require all SDYNIMPORT calls to be made via indirect calls, which should be doable, however this will require changes to runtime, syscall and golang.org/x/sys/unix (both syscall and x/sys/unix currently `JMP` to the SDYNIMPORT and would need to load `R25`, at which point we may as well `JR` instead of `JMP`).\n\nPlease let me know if you still want me to proceed with this.",
+      "parentUuid": "d29d0ba7_288d0aad",
+      "revId": "4b81ce97c1360f84679ddf4df3bd4c1c8277fa77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
