@@ -129,21 +129,21 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		pc := ldr.SymValue(s) + int64(r.Off())
 		t := calculatePCAlignedReloc(r.Type(), ldr.SymAddr(rs)+r.Add(), pc)
 		if r.Type() == objabi.R_ADDRLOONG64 {
-			return int64(val&0xffc003ff | (t << 10)), noExtReloc, isOk
+			return val&0xffc003ff | (t << 10), noExtReloc, isOk
 		}
-		return int64(val&0xfe00001f | (t << 5)), noExtReloc, isOk
+		return val&0xfe00001f | (t << 5), noExtReloc, isOk
 	case objabi.R_ADDRLOONG64TLS,
 		objabi.R_ADDRLOONG64TLSU:
 		t := ldr.SymAddr(rs) + r.Add()
 		if r.Type() == objabi.R_ADDRLOONG64TLS {
-			return int64(val&0xffc003ff | ((t & 0xfff) << 10)), noExtReloc, isOk
+			return val&0xffc003ff | ((t & 0xfff) << 10), noExtReloc, isOk
 		}
-		return int64(val&0xfe00001f | (((t) >> 12 << 5) & 0x1ffffe0)), noExtReloc, isOk
+		return val&0xfe00001f | (((t) >> 12 << 5) & 0x1ffffe0), noExtReloc, isOk
 	case objabi.R_CALLLOONG64,
 		objabi.R_JMPLOONG64:
 		pc := ldr.SymValue(s) + int64(r.Off())
 		t := ldr.SymAddr(rs) + r.Add() - pc
-		return int64(val&0xfc000000 | (((t >> 2) & 0xffff) << 10) | (((t >> 2) & 0x3ff0000) >> 16)), noExtReloc, isOk
+		return val&0xfc000000 | (((t >> 2) & 0xffff) << 10) | (((t >> 2) & 0x3ff0000) >> 16), noExtReloc, isOk
 	}
 
 	return val, 0, false

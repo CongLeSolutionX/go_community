@@ -1270,7 +1270,7 @@ func (d *dwctxt) writelines(unit *sym.CompilationUnit, lineProlog sym.ID) []sym.
 
 	// Output the state machine for each function remaining.
 	for _, s := range unit.Textp {
-		fnSym := sym.ID(s)
+		fnSym := s
 		_, _, _, lines := d.ldr.GetFuncDwarfAuxSyms(fnSym)
 
 		// Chain the line symbol onto the list.
@@ -1313,7 +1313,7 @@ func (d *dwctxt) writepcranges(unit *sym.CompilationUnit, base sym.ID, pcs []dwa
 	// Collect up the ranges for functions in the unit.
 	rsize := uint64(rsu.Size())
 	for _, ls := range unit.RangeSyms {
-		s := sym.ID(ls)
+		s := ls
 		syms = append(syms, s)
 		rsize += uint64(d.ldr.SymSize(s))
 	}
@@ -1415,7 +1415,7 @@ func (d *dwctxt) writeframes(fs sym.ID) dwarfSecInfo {
 	var deltaBuf []byte
 	pcsp := obj.NewPCIter(uint32(d.arch.MinLC))
 	for _, s := range d.linkctxt.Textp {
-		fn := sym.ID(s)
+		fn := s
 		fi := d.ldr.FuncInfo(fn)
 		if !fi.Valid() {
 			continue
@@ -1516,7 +1516,7 @@ const (
 // entirely.
 func appendSyms(syms []sym.ID, src []sym.ID) []sym.ID {
 	for _, s := range src {
-		syms = append(syms, sym.ID(s))
+		syms = append(syms, s)
 	}
 	return syms
 }
@@ -1552,7 +1552,7 @@ func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym sym.ID, infoEpi
 	cu = appendSyms(cu, u.AbsFnDIEs)
 	cu = appendSyms(cu, u.FuncDIEs)
 	if u.Consts != 0 {
-		cu = append(cu, sym.ID(u.Consts))
+		cu = append(cu, u.Consts)
 	}
 	cu = appendSyms(cu, u.VarDIEs)
 	var cusize int64
@@ -1682,11 +1682,11 @@ func (d *dwctxt) dwarfVisitFunction(fnSym sym.ID, unit *sym.CompilationUnit) {
 	}
 	d.ldr.SetAttrNotInSymbolTable(infosym, true)
 	d.ldr.SetAttrReachable(infosym, true)
-	unit.FuncDIEs = append(unit.FuncDIEs, sym.ID(infosym))
+	unit.FuncDIEs = append(unit.FuncDIEs, infosym)
 	if rangesym != 0 {
 		d.ldr.SetAttrNotInSymbolTable(rangesym, true)
 		d.ldr.SetAttrReachable(rangesym, true)
-		unit.RangeSyms = append(unit.RangeSyms, sym.ID(rangesym))
+		unit.RangeSyms = append(unit.RangeSyms, rangesym)
 	}
 
 	// Walk the relocations of the subprogram DIE symbol to discover
@@ -1713,7 +1713,7 @@ func (d *dwctxt) dwarfVisitFunction(fnSym sym.ID, unit *sym.CompilationUnit) {
 			if !d.ldr.AttrOnList(rsym) {
 				// abstract function
 				d.ldr.SetAttrOnList(rsym, true)
-				unit.AbsFnDIEs = append(unit.AbsFnDIEs, sym.ID(rsym))
+				unit.AbsFnDIEs = append(unit.AbsFnDIEs, rsym)
 				d.importInfoSymbol(rsym)
 			}
 			continue
@@ -1817,7 +1817,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		for _, unit := range lib.Units {
 			// We drop the constants into the first CU.
 			if consts != 0 {
-				unit.Consts = sym.ID(consts)
+				unit.Consts = consts
 				d.importInfoSymbol(consts)
 				consts = 0
 			}
@@ -1873,7 +1873,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 			// abstract functions, visit range symbols. Note that
 			// Textp has been dead-code-eliminated already.
 			for _, s := range unit.Textp {
-				d.dwarfVisitFunction(sym.ID(s), unit)
+				d.dwarfVisitFunction(s, unit)
 			}
 		}
 	}
@@ -1937,7 +1937,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		if varDIE != 0 {
 			unit := d.ldr.SymUnit(idx)
 			d.defgotype(gt)
-			unit.VarDIEs = append(unit.VarDIEs, sym.ID(varDIE))
+			unit.VarDIEs = append(unit.VarDIEs, varDIE)
 		}
 	}
 
@@ -1986,7 +1986,7 @@ type dwUnitSyms struct {
 func (d *dwctxt) dwUnitPortion(u *sym.CompilationUnit, abbrevsym sym.ID, us *dwUnitSyms) {
 	if u.DWInfo.Abbrev != dwarf.DW_ABRV_COMPUNIT_TEXTLESS {
 		us.linesyms = d.writelines(u, us.lineProlog)
-		base := sym.ID(u.Textp[0])
+		base := u.Textp[0]
 		us.rangessyms = d.writepcranges(u, base, u.PCs, us.rangeProlog)
 		us.locsyms = d.collectUnitLocs(u)
 	}
@@ -2121,7 +2121,7 @@ func (d *dwctxt) dwarfGenerateDebugSyms() {
 func (d *dwctxt) collectUnitLocs(u *sym.CompilationUnit) []sym.ID {
 	syms := []sym.ID{}
 	for _, fn := range u.FuncDIEs {
-		relocs := d.ldr.Relocs(sym.ID(fn))
+		relocs := d.ldr.Relocs(fn)
 		for i := 0; i < relocs.Count(); i++ {
 			reloc := relocs.At(i)
 			if reloc.Type() != objabi.R_DWARFSECREF {
@@ -2248,7 +2248,7 @@ func dwarfcompress(ctxt *Link) {
 			ldr.SetSymValue(s, int64(pos))
 			sect := ldr.SymSect(s)
 			if sect != prevSect {
-				sect.Vaddr = uint64(pos)
+				sect.Vaddr = pos
 				prevSect = sect
 			}
 			if ldr.SubSym(s) != 0 {

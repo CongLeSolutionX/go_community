@@ -678,7 +678,7 @@ func (f *xcoffFile) writeSymbolNewFile(ctxt *Link, name string, firstEntry uint6
 			dwsize = getDwsectCUSize(sect.Name, name)
 			// .debug_abbrev is common to all packages and not found with the previous function
 			if sect.Name == ".debug_abbrev" {
-				dwsize = uint64(ldr.SymSize(sym.ID(sect.Sym)))
+				dwsize = uint64(ldr.SymSize(sect.Sym))
 
 			}
 		} else {
@@ -700,7 +700,7 @@ func (f *xcoffFile) writeSymbolNewFile(ctxt *Link, name string, firstEntry uint6
 			// Dwarf relocations need the symbol number of .dw* symbols.
 			// It doesn't need to know it for each package, one is enough.
 			// currSymSrcFile.csectAux == nil means first package.
-			ldr.SetSymDynid(sym.ID(sect.Sym), int32(f.symbolCount))
+			ldr.SetSymDynid(sect.Sym, int32(f.symbolCount))
 
 			if sect.Name == ".debug_frame" && ctxt.LinkMode != LinkExternal {
 				// CIE size must be added to the first package.
@@ -866,7 +866,7 @@ func (f *xcoffFile) writeSymbolFunc(ctxt *Link, x sym.ID) []xcoffSym {
 		Xsmtyp:    XTY_LD, // label definition (based on C)
 		Xauxtype:  _AUX_CSECT,
 	}
-	a4.Xsmtyp |= uint8(xcoffAlign(ldr, x, TextSym) << 3)
+	a4.Xsmtyp |= xcoffAlign(ldr, x, TextSym) << 3
 
 	syms = append(syms, a4)
 	return syms
@@ -916,7 +916,7 @@ func putaixsym(ctxt *Link, x sym.ID, t SymbolType) {
 				Xsmclas:   XMC_PR,
 				Xsmtyp:    XTY_SD,
 			}
-			a4.Xsmtyp |= uint8(xcoffAlign(ldr, x, TextSym) << 3)
+			a4.Xsmtyp |= xcoffAlign(ldr, x, TextSym) << 3
 			syms = append(syms, a4)
 		}
 
@@ -977,7 +977,7 @@ func putaixsym(ctxt *Link, x sym.ID, t SymbolType) {
 			a4.Xsmtyp |= XTY_CM
 		}
 
-		a4.Xsmtyp |= uint8(xcoffAlign(ldr, x, t) << 3)
+		a4.Xsmtyp |= xcoffAlign(ldr, x, t) << 3
 
 		syms = append(syms, a4)
 
@@ -1376,7 +1376,7 @@ func (f *xcoffFile) writeLdrScn(ctxt *Link, globalOff uint64) {
 	/* Symbol table */
 	for _, s := range f.loaderSymbols {
 		lds := &XcoffLdSym64{
-			Loffset: uint32(stlen + 2),
+			Loffset: stlen + 2,
 			Lsmtype: s.smtype,
 			Lsmclas: s.smclas,
 		}
@@ -1581,7 +1581,7 @@ func xcoffwrite(ctxt *Link) {
 func asmbXcoff(ctxt *Link) {
 	ctxt.Out.SeekSet(0)
 	fileoff := int64(Segdwarf.Fileoff + Segdwarf.Filelen)
-	fileoff = int64(Rnd(int64(fileoff), int64(*FlagRound)))
+	fileoff = Rnd(fileoff, int64(*FlagRound))
 
 	xfile.sectNameToScnum = make(map[string]int16)
 
@@ -1694,7 +1694,7 @@ func (f *xcoffFile) emitRelocations(ctxt *Link, fileoff int64) {
 			if !ldr.AttrReachable(s) {
 				continue
 			}
-			if ldr.SymValue(s) >= int64(eaddr) {
+			if ldr.SymValue(s) >= eaddr {
 				break
 			}
 
@@ -1756,7 +1756,7 @@ dwarfLoop:
 	for i := 0; i < len(Segdwarf.Sections); i++ {
 		sect := Segdwarf.Sections[i]
 		si := dwarfp[i]
-		if si.secSym() != sym.ID(sect.Sym) ||
+		if si.secSym() != sect.Sym ||
 			ldr.SymSect(si.secSym()) != sect {
 			panic("inconsistency between dwarfp and Segdwarf")
 		}

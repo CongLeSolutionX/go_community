@@ -759,7 +759,7 @@ func (l *Loader) SymVersion(i sym.ID) int {
 		return pp.ver
 	}
 	r, li := l.toLocal(i)
-	return int(abiToVer(r.Sym(li).ABI(), r.version))
+	return abiToVer(r.Sym(li).ABI(), r.version)
 }
 
 func (l *Loader) IsFileLocal(i sym.ID) bool {
@@ -2544,15 +2544,15 @@ func (l *Loader) AssignTextSymbolOrder(libs []*sym.Library, intlibs []bool, exts
 				// We still need to record its presence in the current
 				// package, as the trampoline pass expects packages
 				// are laid out in dependency order.
-				lib.DupTextSyms = append(lib.DupTextSyms, sym.ID(gi))
+				lib.DupTextSyms = append(lib.DupTextSyms, gi)
 				continue // symbol in different object
 			}
 			if dupok {
-				lib.DupTextSyms = append(lib.DupTextSyms, sym.ID(gi))
+				lib.DupTextSyms = append(lib.DupTextSyms, gi)
 				continue
 			}
 
-			lib.Textp = append(lib.Textp, sym.ID(gi))
+			lib.Textp = append(lib.Textp, gi)
 		}
 	}
 
@@ -2565,7 +2565,7 @@ func (l *Loader) AssignTextSymbolOrder(libs []*sym.Library, intlibs []bool, exts
 			lists := [2][]sym.ID{lib.Textp, lib.DupTextSyms}
 			for i, list := range lists {
 				for _, s := range list {
-					sym := sym.ID(s)
+					sym := s
 					if !assignedToUnit.Has(sym) {
 						textp = append(textp, sym)
 						unit := l.SymUnit(sym)

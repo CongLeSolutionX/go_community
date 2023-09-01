@@ -203,7 +203,7 @@ func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch
 		const size = 16
 		inlTreeSym.SetUint8(arch, int64(i*size+0), uint8(funcID))
 		// Bytes 1-3 are unused.
-		inlTreeSym.SetUint32(arch, int64(i*size+4), uint32(nameOff))
+		inlTreeSym.SetUint32(arch, int64(i*size+4), nameOff)
 		inlTreeSym.SetUint32(arch, int64(i*size+8), uint32(call.ParentPC))
 		inlTreeSym.SetUint32(arch, int64(i*size+12), uint32(startLine))
 	}
@@ -656,7 +656,7 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []sym.ID, inlSyms ma
 		if !ok {
 			panic("couldn't find function name offset")
 		}
-		off = sb.SetUint32(ctxt.Arch, off, uint32(nameOff))
+		off = sb.SetUint32(ctxt.Arch, off, nameOff)
 
 		// args int32
 		// TODO: Move into funcinfo.
@@ -678,7 +678,7 @@ func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []sym.ID, inlSyms ma
 		} else {
 			off += 12
 		}
-		off = sb.SetUint32(ctxt.Arch, off, uint32(numPCData(ldr, s, fi)))
+		off = sb.SetUint32(ctxt.Arch, off, numPCData(ldr, s, fi))
 
 		// Store the offset to compilation unit's file table.
 		cuIdx := ^uint32(0)

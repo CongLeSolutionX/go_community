@@ -476,7 +476,7 @@ func (st *relocSymState) relocsym(s sym.ID, P []byte) {
 		case objabi.R_ADDRCUOFF:
 			// debug_range and debug_loc elements use this relocation type to get an
 			// offset from the start of the compile unit.
-			o = ldr.SymValue(rs) + r.Add() - ldr.SymValue(sym.ID(ldr.SymUnit(rs).Textp[0]))
+			o = ldr.SymValue(rs) + r.Add() - ldr.SymValue(ldr.SymUnit(rs).Textp[0])
 
 		// r.Sym() can be 0 when CALL $(constant) is transformed from absolute PC to relative PC call.
 		case objabi.R_GOTPCREL:
@@ -524,7 +524,7 @@ func (st *relocSymState) relocsym(s sym.ID, P []byte) {
 							if rst != sym.SHOSTOBJ {
 								o += int64(uint64(ldr.SymValue(rs)) - ldr.SymSect(rs).Vaddr)
 							}
-							o -= int64(off) // relative to section offset, not symbol
+							o -= off // relative to section offset, not symbol
 						}
 					} else {
 						o += int64(siz)
@@ -666,7 +666,7 @@ func extreloc(ctxt *Link, ldr *loader.Loader, s sym.ID, r loader.Reloc) (loader.
 			return rr, false
 		}
 		rs := r.Sym()
-		rr.Xsym = sym.ID(ldr.SymSect(rs).Sym)
+		rr.Xsym = ldr.SymSect(rs).Sym
 		rr.Xadd = r.Add() + ldr.SymValue(rs) - int64(ldr.SymSect(rs).Vaddr)
 
 	// r.Sym() can be 0 when CALL $(constant) is transformed from absolute PC to relative PC call.
@@ -2169,7 +2169,7 @@ func (state *dodataState) allocateDwarfSections(ctxt *Link) {
 		s := dwarfp[i].secSym()
 		sect := state.allocateNamedDataSection(&Segdwarf, ldr.SymName(s), []sym.SymKind{}, 04)
 		ldr.SetSymSect(s, sect)
-		sect.Sym = sym.ID(s)
+		sect.Sym = s
 		curType := ldr.SymType(s)
 		state.setSymType(s, sym.SRODATA)
 		ldr.SetSymValue(s, int64(uint64(state.datsize)-sect.Vaddr))
