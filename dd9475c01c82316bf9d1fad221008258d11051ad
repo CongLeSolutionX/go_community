@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "502ceab9_9f94039e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T13:27:56Z",
+      "side": 1,
+      "message": "I don\u0027t agree that this function needs synchronization. Its purpose is to register flags, and flag registration itself is generally not safe to perform concurrency.\n\nRather than a PR, please start by filing an issue describing the concrete problem you\u0027re running into. Fill out the complete template at https://go.dev/issue/new.",
+      "revId": "dd9475c01c82316bf9d1fad221008258d11051ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
