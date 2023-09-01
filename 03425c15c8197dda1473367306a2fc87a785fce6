@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af09e95_6600e34d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-01T16:06:00Z",
+      "side": 1,
+      "message": "Does this also catch the difference between AMD64 and ARM64 before your fix?",
+      "revId": "03425c15c8197dda1473367306a2fc87a785fce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d5fe29_2ec62022",
+        "filename": "src/runtime/callers_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-01T16:06:00Z",
+      "side": 1,
+      "message": "To avoid issues with e.g. naming of nested closures, maybe put this in a top-level function?",
+      "revId": "03425c15c8197dda1473367306a2fc87a785fce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c108e01_2735b5e1",
+        "filename": "src/runtime/callers_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-01T16:06:00Z",
+      "side": 1,
+      "message": "Incomplete comment?",
+      "range": {
+        "startLine": 490,
+        "startChar": 31,
+        "endLine": 490,
+        "endChar": 39
+      },
+      "revId": "03425c15c8197dda1473367306a2fc87a785fce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd1c23e5_2e158933",
+        "filename": "src/runtime/callers_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-01T16:06:00Z",
+      "side": 1,
+      "message": "Minor: maybe we could also check that the skipped functions have \"runtime.\" prefix?",
+      "range": {
+        "startLine": 505,
+        "startChar": 0,
+        "endLine": 507,
+        "endChar": 5
+      },
+      "revId": "03425c15c8197dda1473367306a2fc87a785fce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
