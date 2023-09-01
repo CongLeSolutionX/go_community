@@ -187,15 +187,15 @@ type Context[Sym any] interface {
 	Size(s Sym) int64
 	AddInt(s Sym, size int, i int64)
 	AddBytes(s Sym, b []byte)
-	AddAddress(s Sym, t interface{}, ofs int64)
-	AddCURelativeAddress(s Sym, t interface{}, ofs int64)
-	AddSectionOffset(s Sym, size int, t interface{}, ofs int64)
-	AddDWARFAddrSectionOffset(s Sym, t interface{}, ofs int64)
+	AddAddress(s, t Sym, ofs int64)
+	AddCURelativeAddress(s, t Sym, ofs int64)
+	AddSectionOffset(s Sym, size int, t Sym, ofs int64)
+	AddDWARFAddrSectionOffset(s, t Sym, ofs int64)
 	CurrentOffset(s Sym) int64
 	RecordDclReference(from Sym, to Sym, dclIdx int, inlIndex int)
 	RecordChildDieOffsets(s Sym, vars []*Var[Sym], offsets []int32)
 	AddString(s Sym, v string)
-	Logf(format string, args ...interface{})
+	Logf(format string, args ...any)
 }
 
 // AppendUleb128 appends v to b using DWARF's unsigned LEB128 encoding.
@@ -925,7 +925,7 @@ type DWAttr struct {
 	Atr   uint16 // DW_AT_
 	Cls   uint8  // DW_CLS_
 	Value int64
-	Data  interface{}
+	Data  any
 }
 
 // DWDie represents a DWARF debug info entry.
@@ -937,7 +937,7 @@ type DWDie[Sym any] struct {
 	Sym    Sym
 }
 
-func putattr[Sym any](ctxt Context[Sym], s Sym, abbrev int, form int, cls int, value int64, data interface{}) error {
+func putattr[Sym any](ctxt Context[Sym], s Sym, abbrev int, form int, cls int, value int64, data any) error {
 	switch form {
 	case DW_FORM_addr: // address
 		// Allow nil addresses for DW_AT_go_runtime_type.
@@ -946,16 +946,16 @@ func putattr[Sym any](ctxt Context[Sym], s Sym, abbrev int, form int, cls int, v
 			break
 		}
 		if cls == DW_CLS_GO_TYPEREF {
-			ctxt.AddSectionOffset(s, ctxt.PtrSize(), data, value)
+			ctxt.AddSectionOffset(s, ctxt.PtrSize(), data.(Sym), value)
 			break
 		}
-		ctxt.AddAddress(s, data, value)
+		ctxt.AddAddress(s, data.(Sym), value)
 
 	case DW_FORM_block1: // block
 		if cls == DW_CLS_ADDRESS {
 			ctxt.AddInt(s, 1, int64(1+ctxt.PtrSize()))
 			ctxt.AddInt(s, 1, DW_OP_addr)
-			ctxt.AddAddress(s, data, 0)
+			ctxt.AddAddress(s, data.(Sym), 0)
 			break
 		}
 
@@ -992,7 +992,7 @@ func putattr[Sym any](ctxt Context[Sym], s Sym, abbrev int, form int, cls int, v
 
 	case DW_FORM_data4: // constant, {line,loclist,mac,rangelist}ptr
 		if cls == DW_CLS_PTR { // DW_AT_stmt_list and DW_AT_ranges
-			ctxt.AddDWARFAddrSectionOffset(s, data, value)
+			ctxt.AddDWARFAddrSectionOffset(s, data.(Sym), value)
 			break
 		}
 		ctxt.AddInt(s, 4, value)
@@ -1029,7 +1029,7 @@ func putattr[Sym any](ctxt Context[Sym], s Sym, abbrev int, form int, cls int, v
 		if data == nil {
 			return fmt.Errorf("dwarf: null reference in %d", abbrev)
 		}
-		ctxt.AddDWARFAddrSectionOffset(s, data, value)
+		ctxt.AddDWARFAddrSectionOffset(s, data.(Sym), value)
 
 	case DW_FORM_ref1, // reference within the compilation unit
 		DW_FORM_ref2,      // reference

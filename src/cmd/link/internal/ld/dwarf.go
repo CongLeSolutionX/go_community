@@ -101,33 +101,33 @@ func (c *dwctxt) AddString(s sym.ID, v string) {
 	su.Addstring(v)
 }
 
-func (c *dwctxt) AddAddress(s sym.ID, data interface{}, value int64) {
+func (c *dwctxt) AddAddress(s, data sym.ID, value int64) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	if value != 0 {
 		value -= su.Value()
 	}
-	su.AddAddrPlus(c.arch, data.(sym.ID), value)
+	su.AddAddrPlus(c.arch, data, value)
 }
 
-func (c *dwctxt) AddCURelativeAddress(s sym.ID, data interface{}, value int64) {
+func (c *dwctxt) AddCURelativeAddress(s, data sym.ID, value int64) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	if value != 0 {
 		value -= su.Value()
 	}
-	su.AddCURelativeAddrPlus(c.arch, data.(sym.ID), value)
+	su.AddCURelativeAddrPlus(c.arch, data, value)
 }
 
-func (c *dwctxt) AddSectionOffset(s sym.ID, size int, t interface{}, ofs int64) {
+func (c *dwctxt) AddSectionOffset(s sym.ID, size int, t sym.ID, ofs int64) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	switch size {
 	default:
 		c.linkctxt.Errorf(s, "invalid size %d in adddwarfref\n", size)
 	case c.arch.PtrSize, 4:
 	}
-	su.AddSymRef(c.arch, t.(sym.ID), ofs, objabi.R_ADDROFF, size)
+	su.AddSymRef(c.arch, t, ofs, objabi.R_ADDROFF, size)
 }
 
-func (c *dwctxt) AddDWARFAddrSectionOffset(s sym.ID, t interface{}, ofs int64) {
+func (c *dwctxt) AddDWARFAddrSectionOffset(s, t sym.ID, ofs int64) {
 	size := 4
 	if isDwarf64(c.linkctxt) {
 		size = 8
@@ -138,10 +138,10 @@ func (c *dwctxt) AddDWARFAddrSectionOffset(s sym.ID, t interface{}, ofs int64) {
 		c.linkctxt.Errorf(s, "invalid size %d in adddwarfref\n", size)
 	case c.arch.PtrSize, 4:
 	}
-	su.AddSymRef(c.arch, t.(sym.ID), ofs, objabi.R_DWARFSECREF, size)
+	su.AddSymRef(c.arch, t, ofs, objabi.R_DWARFSECREF, size)
 }
 
-func (c *dwctxt) Logf(format string, args ...interface{}) {
+func (c *dwctxt) Logf(format string, args ...any) {
 	c.linkctxt.Logf(format, args...)
 }
 
@@ -151,7 +151,7 @@ func (c *dwctxt) CurrentOffset(s sym.ID) int64 {
 	panic("should be used only in the compiler")
 }
 
-func (c *dwctxt) RecordDclReference(s sym.ID, t sym.ID, dclIdx int, inlIndex int) {
+func (c *dwctxt) RecordDclReference(s, t sym.ID, dclIdx int, inlIndex int) {
 	panic("should be used only in the compiler")
 }
 
