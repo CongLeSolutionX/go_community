@@ -38,7 +38,7 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 	// Emit a LNE_set_address extended opcode, so as to establish the
 	// starting text address of this function.
 	dctxt.AddUint8(lines, 0)
-	dwarf.Uleb128put(dctxt, lines, 1+int64(ctxt.Arch.PtrSize))
+	dwarf.Uleb128put(dctxt.ctx(), lines, 1+int64(ctxt.Arch.PtrSize))
 	dctxt.AddUint8(lines, dwarf.DW_LNE_set_address)
 	dctxt.AddAddress(lines, s, 0)
 
@@ -65,7 +65,7 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 		wrote := false
 		if newFileIndex != fileIndex {
 			dctxt.AddUint8(lines, dwarf.DW_LNS_set_file)
-			dwarf.Uleb128put(dctxt, lines, int64(newFileIndex))
+			dwarf.Uleb128put(dctxt.ctx(), lines, int64(newFileIndex))
 			fileIndex = newFileIndex
 			wrote = true
 		}
@@ -105,9 +105,9 @@ func (ctxt *Link) generateDebugLinesSymbol(s, lines *LSym) {
 	// table, which we don't want.
 	lastlen := uint64(s.Size - (lastpc - s.Func().Text.Pc))
 	dctxt.AddUint8(lines, dwarf.DW_LNS_advance_pc)
-	dwarf.Uleb128put(dctxt, lines, int64(lastlen))
+	dwarf.Uleb128put(dctxt.ctx(), lines, int64(lastlen))
 	dctxt.AddUint8(lines, 0) // start extended opcode
-	dwarf.Uleb128put(dctxt, lines, 1)
+	dwarf.Uleb128put(dctxt.ctx(), lines, 1)
 	dctxt.AddUint8(lines, dwarf.DW_LNE_end_sequence)
 }
 
@@ -187,14 +187,14 @@ func putpclcdelta(linkctxt *Link, dctxt dwCtxt, s *LSym, deltaPC uint64, deltaLC
 			dctxt.AddUint16(s, uint16(deltaPC))
 		} else {
 			dctxt.AddUint8(s, dwarf.DW_LNS_advance_pc)
-			dwarf.Uleb128put(dctxt, s, int64(deltaPC))
+			dwarf.Uleb128put(dctxt.ctx(), s, int64(deltaPC))
 		}
 	}
 
 	// Encode deltaLC.
 	if deltaLC != 0 {
 		dctxt.AddUint8(s, dwarf.DW_LNS_advance_line)
-		dwarf.Sleb128put(dctxt, s, deltaLC)
+		dwarf.Sleb128put(dctxt.ctx(), s, deltaLC)
 	}
 
 	// Output the special opcode.
@@ -204,66 +204,69 @@ func putpclcdelta(linkctxt *Link, dctxt dwCtxt, s *LSym, deltaPC uint64, deltaLC
 // implement dwarf.Context
 type dwCtxt struct{ *Link }
 
+// ctx returns c as a dwarf.Context[*LSym].
+//
+// This is necessary for bootstrapping from Go 1.20, because implicit
+// conversion of arguments of concrete types assigned to parameters of
+// instantiated interface type wasn't added until Go 1.21.
+//
+// TODO(mdempsky): Remove once the minimum bootstrap toolchain version
+// has been updated to 1.21 or later.
+func (c dwCtxt) ctx() dwarf.Context[*LSym] { return c }
+
 func (c dwCtxt) PtrSize() int {
 	return c.Arch.PtrSize
 }
-func (c dwCtxt) Size(s dwarf.Sym) int64 {
-	return s.(*LSym).Size
+func (c dwCtxt) Size(s *LSym) int64 {
+	return s.Size
 }
-func (c dwCtxt) AddInt(s dwarf.Sym, size int, i int64) {
-	ls := s.(*LSym)
-	ls.WriteInt(c.Link, ls.Size, size, i)
+func (c dwCtxt) AddInt(s *LSym, size int, i int64) {
+	s.WriteInt(c.Link, s.Size, size, i)
 }
-func (c dwCtxt) AddUint16(s dwarf.Sym, i uint16) {
+func (c dwCtxt) AddUint16(s *LSym, i uint16) {
 	c.AddInt(s, 2, int64(i))
 }
-func (c dwCtxt) AddUint8(s dwarf.Sym, i uint8) {
+func (c dwCtxt) AddUint8(s *LSym, i uint8) {
 	b := []byte{byte(i)}
 	c.AddBytes(s, b)
 }
-func (c dwCtxt) AddBytes(s dwarf.Sym, b []byte) {
-	ls := s.(*LSym)
-	ls.WriteBytes(c.Link, ls.Size, b)
+func (c dwCtxt) AddBytes(s *LSym, b []byte) {
+	s.WriteBytes(c.Link, s.Size, b)
 }
-func (c dwCtxt) AddString(s dwarf.Sym, v string) {
-	ls := s.(*LSym)
-	ls.WriteString(c.Link, ls.Size, len(v), v)
-	ls.WriteInt(c.Link, ls.Size, 1, 0)
+func (c dwCtxt) AddString(s *LSym, v string) {
+	s.WriteString(c.Link, s.Size, len(v), v)
+	s.WriteInt(c.Link, s.Size, 1, 0)
 }
-func (c dwCtxt) AddAddress(s dwarf.Sym, data interface{}, value int64) {
-	ls := s.(*LSym)
+func (c dwCtxt) AddAddress(s *LSym, data interface{}, value int64) {
 	size := c.PtrSize()
 	if data != nil {
 		rsym := data.(*LSym)
-		ls.WriteAddr(c.Link, ls.Size, size, rsym, value)
+		s.WriteAddr(c.Link, s.Size, size, rsym, value)
 	} else {
-		ls.WriteInt(c.Link, ls.Size, size, value)
+		s.WriteInt(c.Link, s.Size, size, value)
 	}
 }
-func (c dwCtxt) AddCURelativeAddress(s dwarf.Sym, data interface{}, value int64) {
-	ls := s.(*LSym)
+func (c dwCtxt) AddCURelativeAddress(s *LSym, data interface{}, value int64) {
 	rsym := data.(*LSym)
-	ls.WriteCURelativeAddr(c.Link, ls.Size, rsym, value)
+	s.WriteCURelativeAddr(c.Link, s.Size, rsym, value)
 }
-func (c dwCtxt) AddSectionOffset(s dwarf.Sym, size int, t interface{}, ofs int64) {
+func (c dwCtxt) AddSectionOffset(s *LSym, size int, t interface{}, ofs int64) {
 	panic("should be used only in the linker")
 }
-func (c dwCtxt) AddDWARFAddrSectionOffset(s dwarf.Sym, t interface{}, ofs int64) {
+func (c dwCtxt) AddDWARFAddrSectionOffset(s *LSym, t interface{}, ofs int64) {
 	size := 4
 	if isDwarf64(c.Link) {
 		size = 8
 	}
 
-	ls := s.(*LSym)
 	rsym := t.(*LSym)
-	ls.WriteAddr(c.Link, ls.Size, size, rsym, ofs)
-	r := &ls.R[len(ls.R)-1]
+	s.WriteAddr(c.Link, s.Size, size, rsym, ofs)
+	r := &s.R[len(s.R)-1]
 	r.Type = objabi.R_DWARFSECREF
 }
 
-func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
-	ls := s.(*LSym)
-	return ls.Size
+func (c dwCtxt) CurrentOffset(s *LSym) int64 {
+	return s.Size
 }
 
 // Here "from" is a symbol corresponding to an inlined or concrete
@@ -271,16 +274,13 @@ func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
 // function, and "dclIdx" is the index of the symbol of interest with
 // respect to the Dcl slice of the original pre-optimization version
 // of the inlined function.
-func (c dwCtxt) RecordDclReference(from dwarf.Sym, to dwarf.Sym, dclIdx int, inlIndex int) {
-	ls := from.(*LSym)
-	tls := to.(*LSym)
-	ridx := len(ls.R) - 1
-	c.Link.DwFixups.ReferenceChildDIE(ls, ridx, tls, dclIdx, inlIndex)
+func (c dwCtxt) RecordDclReference(from *LSym, to *LSym, dclIdx int, inlIndex int) {
+	ridx := len(from.R) - 1
+	c.Link.DwFixups.ReferenceChildDIE(from, ridx, to, dclIdx, inlIndex)
 }
 
-func (c dwCtxt) RecordChildDieOffsets(s dwarf.Sym, vars []*dwarf.Var, offsets []int32) {
-	ls := s.(*LSym)
-	c.Link.DwFixups.RegisterChildDIEOffsets(ls, vars, offsets)
+func (c dwCtxt) RecordChildDieOffsets(s *LSym, vars []*dwarf.Var[*LSym], offsets []int32) {
+	c.Link.DwFixups.RegisterChildDIEOffsets(s, vars, offsets)
 }
 
 func (c dwCtxt) Logf(format string, args ...interface{}) {
@@ -340,8 +340,8 @@ func (ctxt *Link) populateDWARF(curfn Func, s *LSym) {
 	if info.Size != 0 {
 		ctxt.Diag("makeFuncDebugEntry double process %v", s)
 	}
-	var scopes []dwarf.Scope
-	var inlcalls dwarf.InlCalls
+	var scopes []dwarf.Scope[*LSym]
+	var inlcalls dwarf.InlCalls[*LSym]
 	if ctxt.DebugInfo != nil {
 		scopes, inlcalls = ctxt.DebugInfo(s, info, curfn)
 	}
@@ -351,7 +351,7 @@ func (ctxt *Link) populateDWARF(curfn Func, s *LSym) {
 	if !startPos.IsKnown() || startPos.RelLine() != uint(s.Func().StartLine) {
 		panic("bad startPos")
 	}
-	fnstate := &dwarf.FnState{
+	fnstate := &dwarf.FnState[*LSym]{
 		Name:          s.Name,
 		Info:          info,
 		Loc:           loc,
@@ -366,13 +366,13 @@ func (ctxt *Link) populateDWARF(curfn Func, s *LSym) {
 		UseBASEntries: ctxt.UseBASEntries,
 	}
 	if absfunc != nil {
-		err = dwarf.PutAbstractFunc(dwctxt, fnstate)
+		err = dwarf.PutAbstractFunc(dwctxt.ctx(), fnstate)
 		if err != nil {
 			ctxt.Diag("emitting DWARF for %s failed: %v", s.Name, err)
 		}
-		err = dwarf.PutConcreteFunc(dwctxt, fnstate, s.Wrapper())
+		err = dwarf.PutConcreteFunc(dwctxt.ctx(), fnstate, s.Wrapper())
 	} else {
-		err = dwarf.PutDefaultFunc(dwctxt, fnstate, s.Wrapper())
+		err = dwarf.PutDefaultFunc(dwctxt.ctx(), fnstate, s.Wrapper())
 	}
 	if err != nil {
 		ctxt.Diag("emitting DWARF for %s failed: %v", s.Name, err)
@@ -392,7 +392,7 @@ func (ctxt *Link) DwarfIntConst(name, typename string, val int64) {
 		s.Type = objabi.SDWARFCONST
 		ctxt.Data = append(ctxt.Data, s)
 	})
-	dwarf.PutIntConst(dwCtxt{ctxt}, s, ctxt.Lookup(dwarf.InfoPrefix+typename), myimportpath+"."+name, val)
+	dwarf.PutIntConst(dwCtxt{ctxt}.ctx(), s, ctxt.Lookup(dwarf.InfoPrefix+typename), myimportpath+"."+name, val)
 }
 
 // DwarfGlobal creates a link symbol containing a DWARF entry for
@@ -409,7 +409,7 @@ func (ctxt *Link) DwarfGlobal(typename string, varSym *LSym) {
 	varSym.NewVarInfo().dwarfInfoSym = dieSym
 	ctxt.Data = append(ctxt.Data, dieSym)
 	typeSym := ctxt.Lookup(dwarf.InfoPrefix + typename)
-	dwarf.PutGlobal(dwCtxt{ctxt}, dieSym, typeSym, varSym, varname)
+	dwarf.PutGlobal(dwCtxt{ctxt}.ctx(), dieSym, typeSym, varSym, varname)
 }
 
 func (ctxt *Link) DwarfAbstractFunc(curfn Func, s *LSym) {
@@ -422,7 +422,7 @@ func (ctxt *Link) DwarfAbstractFunc(curfn Func, s *LSym) {
 	}
 	scopes, _ := ctxt.DebugInfo(s, absfn, curfn)
 	dwctxt := dwCtxt{ctxt}
-	fnstate := dwarf.FnState{
+	fnstate := dwarf.FnState[*LSym]{
 		Name:          s.Name,
 		Info:          absfn,
 		Absfn:         absfn,
@@ -431,7 +431,7 @@ func (ctxt *Link) DwarfAbstractFunc(curfn Func, s *LSym) {
 		Scopes:        scopes,
 		UseBASEntries: ctxt.UseBASEntries,
 	}
-	if err := dwarf.PutAbstractFunc(dwctxt, &fnstate); err != nil {
+	if err := dwarf.PutAbstractFunc(dwctxt.ctx(), &fnstate); err != nil {
 		ctxt.Diag("emitting DWARF for %s failed: %v", s.Name, err)
 	}
 }
@@ -585,7 +585,7 @@ func (ft *DwarfFixupTable) ReferenceChildDIE(s *LSym, ridx int, tgt *LSym, dclid
 // the offsets for any child DIEs (vars, params) so that they can be
 // consumed later in on DwarfFixupTable.Finalize, which applies any
 // outstanding fixups.
-func (ft *DwarfFixupTable) RegisterChildDIEOffsets(s *LSym, vars []*dwarf.Var, coffsets []int32) {
+func (ft *DwarfFixupTable) RegisterChildDIEOffsets(s *LSym, vars []*dwarf.Var[*LSym], coffsets []int32) {
 	// Length of these two slices should agree
 	if len(vars) != len(coffsets) {
 		ft.ctxt.Diag("internal error: RegisterChildDIEOffsets vars/offsets length mismatch")

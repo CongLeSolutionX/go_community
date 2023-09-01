@@ -23,7 +23,7 @@ import (
 	"cmd/internal/src"
 )
 
-func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn obj.Func) (scopes []dwarf.Scope, inlcalls dwarf.InlCalls) {
+func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn obj.Func) (scopes []dwarf.Scope[*obj.LSym], inlcalls dwarf.InlCalls[*obj.LSym]) {
 	fn := curfn.(*ir.Func)
 
 	if fn.Nname != nil {
@@ -137,9 +137,9 @@ func declPos(decl *ir.Name) src.XPos {
 
 // createDwarfVars process fn, returning a list of DWARF variables and the
 // Nodes they represent.
-func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir.Name) ([]*ir.Name, []*dwarf.Var) {
+func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir.Name) ([]*ir.Name, []*dwarf.Var[*obj.LSym]) {
 	// Collect a raw list of DWARF vars.
-	var vars []*dwarf.Var
+	var vars []*dwarf.Var[*obj.LSym]
 	var decls []*ir.Name
 	var selected ir.NameSet
 
@@ -238,7 +238,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			}
 		}
 		declpos := base.Ctxt.InnermostPos(n.Pos())
-		vars = append(vars, &dwarf.Var{
+		vars = append(vars, &dwarf.Var[*obj.LSym]{
 			Name:          n.Sym().Name,
 			IsReturnValue: isReturnValue,
 			Abbrev:        abbrev,
@@ -267,7 +267,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 // Prior to the advent of the register ABI, sorting by frame offset
 // would achieve this; with the register we now need to go back to the
 // original function signature.
-func sortDeclsAndVars(fn *ir.Func, decls []*ir.Name, vars []*dwarf.Var) {
+func sortDeclsAndVars(fn *ir.Func, decls []*ir.Name, vars []*dwarf.Var[*obj.LSym]) {
 	paramOrder := make(map[*ir.Name]int)
 	idx := 1
 	for _, f := range fn.Type().RecvParamsResults() {
@@ -281,7 +281,7 @@ func sortDeclsAndVars(fn *ir.Func, decls []*ir.Name, vars []*dwarf.Var) {
 
 type varsAndDecls struct {
 	decls      []*ir.Name
-	vars       []*dwarf.Var
+	vars       []*dwarf.Var[*obj.LSym]
 	paramOrder map[*ir.Name]int
 }
 
@@ -333,8 +333,8 @@ func preInliningDcls(fnsym *obj.LSym) []*ir.Name {
 
 // createSimpleVars creates a DWARF entry for every variable declared in the
 // function, claiming that they are permanently on the stack.
-func createSimpleVars(fnsym *obj.LSym, apDecls []*ir.Name) ([]*ir.Name, []*dwarf.Var, ir.NameSet) {
-	var vars []*dwarf.Var
+func createSimpleVars(fnsym *obj.LSym, apDecls []*ir.Name) ([]*ir.Name, []*dwarf.Var[*obj.LSym], ir.NameSet) {
+	var vars []*dwarf.Var[*obj.LSym]
 	var decls []*ir.Name
 	var selected ir.NameSet
 	for _, n := range apDecls {
@@ -349,7 +349,7 @@ func createSimpleVars(fnsym *obj.LSym, apDecls []*ir.Name) ([]*ir.Name, []*dwarf
 	return decls, vars, selected
 }
 
-func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
+func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var[*obj.LSym] {
 	var abbrev int
 	var offs int64
 
@@ -392,7 +392,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 		}
 	}
 	declpos := base.Ctxt.InnermostPos(declPos(n))
-	return &dwarf.Var{
+	return &dwarf.Var[*obj.LSym]{
 		Name:          n.Sym().Name,
 		IsReturnValue: n.Class == ir.PPARAMOUT,
 		IsInlFormal:   n.InlFormal(),
@@ -413,7 +413,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 // hybrid approach in which register-resident input params are
 // captured with location lists, and all other vars use the "simple"
 // strategy.
-func createABIVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Name) ([]*ir.Name, []*dwarf.Var, ir.NameSet) {
+func createABIVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Name) ([]*ir.Name, []*dwarf.Var[*obj.LSym], ir.NameSet) {
 
 	// Invoke createComplexVars to generate dwarf vars for input parameters
 	// that are register-allocated according to the ABI rules.
@@ -441,12 +441,12 @@ func createABIVars(fnsym *obj.LSym, fn *ir.Func, apDecls []*ir.Name) ([]*ir.Name
 
 // createComplexVars creates recomposed DWARF vars with location lists,
 // suitable for describing optimized code.
-func createComplexVars(fnsym *obj.LSym, fn *ir.Func) ([]*ir.Name, []*dwarf.Var, ir.NameSet) {
+func createComplexVars(fnsym *obj.LSym, fn *ir.Func) ([]*ir.Name, []*dwarf.Var[*obj.LSym], ir.NameSet) {
 	debugInfo := fn.DebugInfo.(*ssa.FuncDebug)
 
 	// Produce a DWARF variable entry for each user variable.
 	var decls []*ir.Name
-	var vars []*dwarf.Var
+	var vars []*dwarf.Var[*obj.LSym]
 	var ssaVars ir.NameSet
 
 	for varID, dvar := range debugInfo.Vars {
@@ -466,7 +466,7 @@ func createComplexVars(fnsym *obj.LSym, fn *ir.Func) ([]*ir.Name, []*dwarf.Var, 
 }
 
 // createComplexVar builds a single DWARF variable entry and location list.
-func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var {
+func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var[*obj.LSym] {
 	debug := fn.DebugInfo.(*ssa.FuncDebug)
 	n := debug.Vars[varID]
 
@@ -493,7 +493,7 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 		}
 	}
 	declpos := base.Ctxt.InnermostPos(n.Pos())
-	dvar := &dwarf.Var{
+	dvar := &dwarf.Var[*obj.LSym]{
 		Name:          n.Sym().Name,
 		IsReturnValue: n.Class == ir.PPARAMOUT,
 		IsInlFormal:   n.InlFormal(),
@@ -513,8 +513,8 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 	}
 	list := debug.LocationLists[varID]
 	if len(list) != 0 {
-		dvar.PutLocationList = func(listSym, startPC dwarf.Sym) {
-			debug.PutLocationList(list, base.Ctxt, listSym.(*obj.LSym), startPC.(*obj.LSym))
+		dvar.PutLocationList = func(listSym, startPC *obj.LSym) {
+			debug.PutLocationList(list, base.Ctxt, listSym, startPC)
 		}
 	}
 	return dvar
