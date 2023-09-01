@@ -392,7 +392,7 @@ import (
 	"unicode/utf8"
 )
 
-var initRan bool
+var initOnce sync.Once
 
 // Init registers testing flags. These flags are automatically registered by
 // the "go test" command before running test functions, so Init is only needed
@@ -400,10 +400,10 @@ var initRan bool
 //
 // Init has no effect if it was already called.
 func Init() {
-	if initRan {
-		return
-	}
-	initRan = true
+	initOnce.Do(initFlags)
+}
+
+func initFlags() {
 	// The short flag requests that tests run more quickly, but its functionality
 	// is provided by test writers themselves. The testing package is just its
 	// home. The all.bash installation script sets it to make installation more
