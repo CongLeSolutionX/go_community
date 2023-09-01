@@ -110,3 +110,45 @@ func TestCTRAble(t *testing.T) {
 		t.Fatalf("cipher.NewCTR did not use ctrAble interface")
 	}
 }
+
+func BenchmarkGCMSeal(b *testing.B) {
+	tt := encryptTests[0]
+	c, err := NewCipher(tt.key)
+	if err != nil {
+		b.Fatal("NewCipher:", err)
+	}
+	gcm, err := c.(gcmAble).NewGCM(gcmStandardNonceSize, gcmTagSize)
+	if err != nil {
+		b.Fatal("NewCipher:", err)
+	}
+	nonce := make([]byte, gcmStandardNonceSize)
+	ciphertext := make([]byte, 32)
+	b.SetBytes(int64(len(tt.in)))
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = gcm.Seal(ciphertext[:0], nonce, tt.in, nil)
+	}
+}
+
+func BenchmarkGCMOpen(b *testing.B) {
+	tt := encryptTests[0]
+	c, err := NewCipher(tt.key)
+	if err != nil {
+		b.Fatal("NewCipher:", err)
+	}
+	gcm, err := c.(gcmAble).NewGCM(gcmStandardNonceSize, gcmTagSize)
+	if err != nil {
+		b.Fatal("NewCipher:", err)
+	}
+	nonce := make([]byte, gcmStandardNonceSize)
+	plaintext := make([]byte, len(tt.in))
+	ciphertext := gcm.Seal(nil, nonce, tt.in, nil)
+	b.SetBytes(int64(len(tt.in)))
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err = gcm.Open(plaintext[:0], nonce, ciphertext, nil)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
