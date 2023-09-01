@@ -88,6 +88,24 @@
       "parentUuid": "09511b09_16b3e186",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a684a6fb_dfb129ad",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T18:47:32Z",
+      "side": 1,
+      "message": "Ah, that sounds very similar to the approach we took in CL 317975.\n\n(The `sequencer` and `reporter` added in that CL form a sort of “output monad” that buffers up the fragments.)",
+      "parentUuid": "09511b09_16b3e186",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
