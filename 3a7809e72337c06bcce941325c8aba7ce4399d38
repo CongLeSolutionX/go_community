@@ -87,6 +87,23 @@
       "message": "Based on the description perhaps this should be named just testHookStepTime.",
       "revId": "3a7809e72337c06bcce941325c8aba7ce4399d38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a00dfb58_c6116efe",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-09-01T07:41:54Z",
+      "side": 1,
+      "message": "The time resolution on Windows is 16ms, so increasing the timeout from 1 to 10ms might not have the desired effect.",
+      "revId": "3a7809e72337c06bcce941325c8aba7ce4399d38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
