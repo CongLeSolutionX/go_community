@@ -19,7 +19,7 @@ import (
 // index without creating an associated object reader, so one can't
 // do anything interesting with this symbol (such as look at its
 // data or relocations).
-func addDummyObjSym(t *testing.T, ldr *Loader, or *oReader, name string) Sym {
+func addDummyObjSym(t *testing.T, ldr *Loader, or *oReader, name string) sym.ID {
 	idx := uint32(len(ldr.objSyms))
 	st := loadState{l: ldr}
 	return st.addSym(name, 0, or, idx, nonPkgDef, &goobj.Sym{})
@@ -34,7 +34,7 @@ func mkLoader() *Loader {
 
 func TestAddMaterializedSymbol(t *testing.T) {
 	ldr := mkLoader()
-	dummyOreader := oReader{version: -1, syms: make([]Sym, 100)}
+	dummyOreader := oReader{version: -1, syms: make([]sym.ID, 100)}
 	or := &dummyOreader
 
 	// Create some syms from a dummy object file symbol to get things going.
@@ -135,7 +135,7 @@ func TestAddMaterializedSymbol(t *testing.T) {
 	}
 
 	// Test get/set symbol value.
-	toTest := []Sym{ts2, es3}
+	toTest := []sym.ID{ts2, es3}
 	for i, s := range toTest {
 		if v := ldr.SymValue(s); v != 0 {
 			t.Errorf("ldr.Value(%d): expected 0 got %d\n", s, v)
@@ -233,9 +233,9 @@ func sameRelocSlice(s1 *Relocs, s2 []Reloc) bool {
 	return true
 }
 
-type addFunc func(l *Loader, s Sym, s2 Sym) Sym
+type addFunc func(l *Loader, s sym.ID, s2 sym.ID) sym.ID
 
-func mkReloc(l *Loader, typ objabi.RelocType, off int32, siz uint8, add int64, sym Sym) Reloc {
+func mkReloc(l *Loader, typ objabi.RelocType, off int32, siz uint8, add int64, sym sym.ID) Reloc {
 	r := Reloc{&goobj.Reloc{}, l.extReader, l}
 	r.SetType(typ)
 	r.SetOff(off)
@@ -247,7 +247,7 @@ func mkReloc(l *Loader, typ objabi.RelocType, off int32, siz uint8, add int64, s
 
 func TestAddDataMethods(t *testing.T) {
 	ldr := mkLoader()
-	dummyOreader := oReader{version: -1, syms: make([]Sym, 100)}
+	dummyOreader := oReader{version: -1, syms: make([]sym.ID, 100)}
 	or := &dummyOreader
 
 	// Populate loader with some symbols.
@@ -264,7 +264,7 @@ func TestAddDataMethods(t *testing.T) {
 	}{
 		{
 			which: "AddUint8",
-			addDataFunc: func(l *Loader, s Sym, _ Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, _ sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.AddUint8('a')
 				return s
@@ -274,7 +274,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 		{
 			which: "AddUintXX",
-			addDataFunc: func(l *Loader, s Sym, _ Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, _ sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.AddUintXX(arch, 25185, 2)
 				return s
@@ -284,7 +284,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 		{
 			which: "SetUint8",
-			addDataFunc: func(l *Loader, s Sym, _ Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, _ sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.AddUint8('a')
 				sb.AddUint8('b')
@@ -296,7 +296,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 		{
 			which: "AddString",
-			addDataFunc: func(l *Loader, s Sym, _ Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, _ sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.Addstring("hello")
 				return s
@@ -306,7 +306,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 		{
 			which: "AddAddrPlus",
-			addDataFunc: func(l *Loader, s Sym, s2 Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, s2 sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.AddAddrPlus(arch, s2, 3)
 				return s
@@ -317,7 +317,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 		{
 			which: "AddAddrPlus4",
-			addDataFunc: func(l *Loader, s Sym, s2 Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, s2 sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.AddAddrPlus4(arch, s2, 3)
 				return s
@@ -328,7 +328,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 		{
 			which: "AddCURelativeAddrPlus",
-			addDataFunc: func(l *Loader, s Sym, s2 Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, s2 sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.AddCURelativeAddrPlus(arch, s2, 7)
 				return s
@@ -339,7 +339,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 		{
 			which: "AddPEImageRelativeAddrPlus",
-			addDataFunc: func(l *Loader, s Sym, s2 Sym) Sym {
+			addDataFunc: func(l *Loader, s sym.ID, s2 sym.ID) sym.ID {
 				sb := l.MakeSymbolUpdater(s)
 				sb.AddPEImageRelativeAddrPlus(arch, s2, 3)
 				return s
@@ -350,7 +350,7 @@ func TestAddDataMethods(t *testing.T) {
 		},
 	}
 
-	var pmi Sym
+	var pmi sym.ID
 	for k, tp := range testpoints {
 		name := fmt.Sprintf("new%d", k+1)
 		mi := ldr.LookupOrCreateSym(name, 0)
@@ -377,7 +377,7 @@ func TestAddDataMethods(t *testing.T) {
 
 func TestOuterSub(t *testing.T) {
 	ldr := mkLoader()
-	dummyOreader := oReader{version: -1, syms: make([]Sym, 100)}
+	dummyOreader := oReader{version: -1, syms: make([]sym.ID, 100)}
 	or := &dummyOreader
 
 	// Populate loader with some symbols.

@@ -99,7 +99,7 @@ type ldMachoSect struct {
 	flags   uint32
 	res1    uint32
 	res2    uint32
-	sym     loader.Sym
+	sym     sym.ID
 	rel     []ldMachoRel
 }
 
@@ -130,7 +130,7 @@ type ldMachoSym struct {
 	desc    uint16
 	kind    int8
 	value   uint64
-	sym     loader.Sym
+	sym     sym.ID
 }
 
 type ldMachoDysymtab struct {
@@ -423,8 +423,8 @@ func macholoadsym(m *ldMachoObj, symtab *ldMachoSymtab) int {
 
 // Load the Mach-O file pn from f.
 // Symbols are written into syms, and a slice of the text symbols is returned.
-func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, pkg string, length int64, pn string) (textp []loader.Sym, err error) {
-	errorf := func(str string, args ...interface{}) ([]loader.Sym, error) {
+func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, pkg string, length int64, pn string) (textp []sym.ID, err error) {
+	errorf := func(str string, args ...interface{}) ([]sym.ID, error) {
 		return nil, fmt.Errorf("loadmacho: %v: %v", pn, fmt.Sprintf(str, args...))
 	}
 
@@ -713,7 +713,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 				rOff  int32
 				rSize uint8
 				rType objabi.RelocType
-				rSym  loader.Sym
+				rSym  sym.ID
 			)
 			rel := &sect.rel[j]
 			if rel.scattered != 0 {

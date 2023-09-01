@@ -76,7 +76,7 @@ func putelfsyment(out *OutBuf, off int, addr int64, size int64, info uint8, shnd
 	}
 }
 
-func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
+func putelfsym(ctxt *Link, x sym.ID, typ elf.SymType, curbind elf.SymBind) {
 	ldr := ctxt.loader
 	addr := ldr.SymValue(x)
 	size := ldr.SymSize(x)
@@ -180,7 +180,7 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 	ctxt.numelfsym++
 }
 
-func putelfsectionsym(ctxt *Link, out *OutBuf, s loader.Sym, shndx elf.SectionIndex) {
+func putelfsectionsym(ctxt *Link, out *OutBuf, s sym.ID, shndx elf.SectionIndex) {
 	putelfsyment(out, 0, 0, 0, elf.ST_INFO(elf.STB_LOCAL, elf.STT_SECTION), shndx, 0)
 	ctxt.loader.SetSymElfSym(s, int32(ctxt.numelfsym))
 	ctxt.numelfsym++
@@ -219,7 +219,7 @@ func genelfsym(ctxt *Link, elfbind elf.SymBind) {
 		putelfsym(ctxt, s, elf.STT_FUNC, elfbind)
 	}
 
-	shouldBeInSymbolTable := func(s loader.Sym) bool {
+	shouldBeInSymbolTable := func(s sym.ID) bool {
 		if ldr.AttrNotInSymbolTable(s) {
 			return false
 		}
@@ -239,7 +239,7 @@ func genelfsym(ctxt *Link, elfbind elf.SymBind) {
 	}
 
 	// Data symbols.
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) {
 			continue
 		}
@@ -287,7 +287,7 @@ func asmElfSym(ctxt *Link) {
 	}
 }
 
-func putplan9sym(ctxt *Link, ldr *loader.Loader, s loader.Sym, char SymbolType) {
+func putplan9sym(ctxt *Link, ldr *loader.Loader, s sym.ID, char SymbolType) {
 	t := int(char)
 	if ldr.IsFileLocal(s) {
 		t += 'a' - 'A'
@@ -328,7 +328,7 @@ func asmbPlan9Sym(ctxt *Link) {
 		putplan9sym(ctxt, ldr, s, TextSym)
 	}
 
-	shouldBeInSymbolTable := func(s loader.Sym) bool {
+	shouldBeInSymbolTable := func(s sym.ID) bool {
 		if ldr.AttrNotInSymbolTable(s) {
 			return false
 		}
@@ -340,7 +340,7 @@ func asmbPlan9Sym(ctxt *Link) {
 	}
 
 	// Add data symbols and external references.
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) {
 			continue
 		}
@@ -377,7 +377,7 @@ func (libs byPkg) Swap(a, b int) {
 
 // Create a table with information on the text sections.
 // Return the symbol of the table, and number of sections.
-func textsectionmap(ctxt *Link) (loader.Sym, uint32) {
+func textsectionmap(ctxt *Link) (sym.ID, uint32) {
 	ldr := ctxt.loader
 	t := ldr.CreateSymForUpdate("runtime.textsectionmap", 0)
 	t.SetType(sym.SRODATA)
@@ -474,7 +474,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	ctxt.xdefine("runtime.egcbss", sym.SRODATA, 0)
 
 	// pseudo-symbols to mark locations of type, string, and go string data.
-	var symtype, symtyperel loader.Sym
+	var symtype, symtyperel sym.ID
 	if !ctxt.DynlinkingGo() {
 		if ctxt.UseRelro() && (ctxt.BuildMode == BuildModeCArchive || ctxt.BuildMode == BuildModeCShared || ctxt.BuildMode == BuildModePIE) {
 			s = ldr.CreateSymForUpdate("type:*", 0)
@@ -500,7 +500,7 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		setCarrierSym(sym.STYPERELRO, symtyperel)
 	}
 
-	groupSym := func(name string, t sym.SymKind) loader.Sym {
+	groupSym := func(name string, t sym.SymKind) sym.ID {
 		s := ldr.CreateSymForUpdate(name, 0)
 		s.SetType(t)
 		s.SetSize(0)
@@ -531,9 +531,9 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	// hide the specific symbols.
 	// Some of these symbol section conditions are duplicated
 	// in cmd/internal/obj.contentHashSection.
-	nsym := loader.Sym(ldr.NSym())
+	nsym := sym.ID(ldr.NSym())
 	symGroupType := make([]sym.SymKind, nsym)
-	for s := loader.Sym(1); s < nsym; s++ {
+	for s := sym.ID(1); s < nsym; s++ {
 		if (!ctxt.IsExternal() && ldr.IsFileLocal(s) && !ldr.IsFromAssembly(s) && ldr.SymPkg(s) != "") || (ctxt.LinkMode == LinkInternal && ldr.SymType(s) == sym.SCOVERAGE_COUNTER) {
 			ldr.SetAttrNotInSymbolTable(s, true)
 		}
@@ -636,13 +636,13 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	// This code uses several global variables that are set by pcln.go:pclntab.
 	moduledata := ldr.MakeSymbolUpdater(ctxt.Moduledata)
 
-	slice := func(sym loader.Sym, len uint64) {
+	slice := func(sym sym.ID, len uint64) {
 		moduledata.AddAddr(ctxt.Arch, sym)
 		moduledata.AddUint(ctxt.Arch, len)
 		moduledata.AddUint(ctxt.Arch, len)
 	}
 
-	sliceSym := func(sym loader.Sym) {
+	sliceSym := func(sym sym.ID) {
 		slice(sym, uint64(ldr.SymSize(sym)))
 	}
 
@@ -847,11 +847,11 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 
 // CarrierSymByType tracks carrier symbols and their sizes.
 var CarrierSymByType [sym.SXREF]struct {
-	Sym  loader.Sym
+	Sym  sym.ID
 	Size int64
 }
 
-func setCarrierSym(typ sym.SymKind, s loader.Sym) {
+func setCarrierSym(typ sym.SymKind, s sym.ID) {
 	if CarrierSymByType[typ].Sym != 0 {
 		panic(fmt.Sprintf("carrier symbol for type %v already set", typ))
 	}
@@ -870,7 +870,7 @@ func isStaticTmp(name string) bool {
 }
 
 // Mangle function name with ABI information.
-func mangleABIName(ctxt *Link, ldr *loader.Loader, x loader.Sym, name string) string {
+func mangleABIName(ctxt *Link, ldr *loader.Loader, x sym.ID, name string) string {
 	// For functions with ABI wrappers, we have to make sure that we
 	// don't wind up with two symbol table entries with the same
 	// name (since this will generated an error from the external

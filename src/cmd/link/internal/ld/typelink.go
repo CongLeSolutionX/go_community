@@ -6,7 +6,6 @@ package ld
 
 import (
 	"cmd/internal/objabi"
-	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"sort"
 )
@@ -15,7 +14,7 @@ type byTypeStr []typelinkSortKey
 
 type typelinkSortKey struct {
 	TypeStr string
-	Type    loader.Sym
+	Type    sym.ID
 }
 
 func (s byTypeStr) Less(i, j int) bool { return s[i].TypeStr < s[j].TypeStr }
@@ -28,8 +27,8 @@ func (s byTypeStr) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 func (ctxt *Link) typelink() {
 	ldr := ctxt.loader
 	typelinks := byTypeStr{}
-	var itabs []loader.Sym
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	var itabs []sym.ID
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) {
 			continue
 		}

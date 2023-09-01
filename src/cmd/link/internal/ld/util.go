@@ -5,7 +5,7 @@
 package ld
 
 import (
-	"cmd/link/internal/loader"
+	"cmd/link/internal/sym"
 	"encoding/binary"
 	"fmt"
 	"os"
@@ -74,7 +74,7 @@ func Errorf(dummy *int, format string, args ...interface{}) {
 //
 // Logging an error means that on exit cmd/link will delete any
 // output file and return a non-zero error code.
-func (ctxt *Link) Errorf(s loader.Sym, format string, args ...interface{}) {
+func (ctxt *Link) Errorf(s sym.ID, format string, args ...interface{}) {
 	if ctxt.loader != nil {
 		ctxt.loader.Errorf(s, format, args...)
 		return

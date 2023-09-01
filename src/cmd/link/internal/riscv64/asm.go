@@ -22,7 +22,7 @@ const fakeLabelName = ".L0 "
 
 func gentext(ctxt *ld.Link, ldr *loader.Loader) {}
 
-func findHI20Reloc(ldr *loader.Loader, s loader.Sym, val int64) *loader.Reloc {
+func findHI20Reloc(ldr *loader.Loader, s sym.ID, val int64) *loader.Reloc {
 	outer := ldr.OuterSym(s)
 	if outer == 0 {
 		return nil
@@ -41,7 +41,7 @@ func findHI20Reloc(ldr *loader.Loader, s loader.Sym, val int64) *loader.Reloc {
 	return nil
 }
 
-func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
+func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID, r loader.Reloc, rIdx int) bool {
 	targ := r.Sym()
 
 	var targType sym.SymKind
@@ -165,7 +165,7 @@ func genSymsLate(ctxt *ld.Link, ldr *loader.Loader) {
 	if ctxt.Textp == nil {
 		log.Fatal("genSymsLate called before Textp has been assigned")
 	}
-	var hi20Syms []loader.Sym
+	var hi20Syms []sym.ID
 	for _, s := range ctxt.Textp {
 		relocs := ldr.Relocs(s)
 		for ri := 0; ri < relocs.Count(); ri++ {
@@ -201,7 +201,7 @@ func genSymsLate(ctxt *ld.Link, ldr *loader.Loader) {
 	ldr.SortSyms(ctxt.Textp)
 }
 
-func findHI20Symbol(ctxt *ld.Link, ldr *loader.Loader, val int64) loader.Sym {
+func findHI20Symbol(ctxt *ld.Link, ldr *loader.Loader, val int64) sym.ID {
 	idx := sort.Search(len(ctxt.Textp), func(i int) bool { return ldr.SymValue(ctxt.Textp[i]) >= val })
 	if idx >= len(ctxt.Textp) {
 		return 0
@@ -212,7 +212,7 @@ func findHI20Symbol(ctxt *ld.Link, ldr *loader.Loader, val int64) loader.Sym {
 	return 0
 }
 
-func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, ri int, sectoff int64) bool {
+func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, ri int, sectoff int64) bool {
 	elfsym := ld.ElfSymForReloc(ctxt, r.Xsym)
 	switch r.Type {
 	case objabi.R_ADDR, objabi.R_DWARFSECREF:
@@ -285,7 +285,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic sym.ID) {
 	if plt.Size() != 0 {
 		return
 	}
@@ -335,7 +335,7 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBu
 	gotplt.AddUint64(ctxt.Arch, 0)            // got.plt[1] = link map
 }
 
-func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
+func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID) {
 	if ldr.SymPlt(s) >= 0 {
 		return
 	}
@@ -387,12 +387,12 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	rela.AddUint64(target.Arch, 0)
 }
 
-func machoreloc1(*sys.Arch, *ld.OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool {
+func machoreloc1(*sys.Arch, *ld.OutBuf, *loader.Loader, sym.ID, loader.ExtReloc, int64) bool {
 	log.Fatalf("machoreloc1 not implemented")
 	return false
 }
 
-func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s loader.Sym, val int64) (o int64, nExtReloc int, ok bool) {
+func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s sym.ID, val int64) (o int64, nExtReloc int, ok bool) {
 	rs := r.Sym()
 	pc := ldr.SymValue(s) + int64(r.Off())
 
@@ -616,12 +616,12 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 	return val, 0, false
 }
 
-func archrelocvariant(*ld.Target, *loader.Loader, loader.Reloc, sym.RelocVariant, loader.Sym, int64, []byte) int64 {
+func archrelocvariant(*ld.Target, *loader.Loader, loader.Reloc, sym.RelocVariant, sym.ID, int64, []byte) int64 {
 	log.Fatalf("archrelocvariant")
 	return -1
 }
 
-func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sym) (loader.ExtReloc, bool) {
+func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s sym.ID) (loader.ExtReloc, bool) {
 	switch r.Type() {
 	case objabi.R_RISCV_CALL, objabi.R_RISCV_CALL_TRAMP:
 		return ld.ExtrelocSimple(ldr, r), true
@@ -632,7 +632,7 @@ func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sy
 	return loader.ExtReloc{}, false
 }
 
-func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
+func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s sym.ID) {
 	relocs := ldr.Relocs(s)
 	r := relocs.At(ri)
 
@@ -651,7 +651,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 		// yet been given an address. See if an existing trampoline is
 		// reachable and if so, reuse it. Otherwise we need to create
 		// a new trampoline.
-		var tramp loader.Sym
+		var tramp sym.ID
 		for i := 0; ; i++ {
 			oName := ldr.SymName(rs)
 			name := fmt.Sprintf("%s-tramp%d", oName, i)
@@ -703,7 +703,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 	}
 }
 
-func genCallTramp(arch *sys.Arch, linkmode ld.LinkMode, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym, offset int64) {
+func genCallTramp(arch *sys.Arch, linkmode ld.LinkMode, ldr *loader.Loader, tramp *loader.SymbolBuilder, target sym.ID, offset int64) {
 	tramp.AddUint32(arch, 0x00000f97) // AUIPC	$0, X31
 	tramp.AddUint32(arch, 0x000f8067) // JALR	X0, (X31)
 

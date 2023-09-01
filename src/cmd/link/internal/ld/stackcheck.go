@@ -8,6 +8,7 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/link/internal/loader"
+	"cmd/link/internal/sym"
 	"fmt"
 	"internal/buildcfg"
 	"sort"
@@ -17,22 +18,22 @@ import (
 type stackCheck struct {
 	ctxt      *Link
 	ldr       *loader.Loader
-	morestack loader.Sym
+	morestack sym.ID
 	callSize  int // The number of bytes added by a CALL
 
 	// height records the maximum number of bytes a function and
 	// its callees can add to the stack without a split check.
-	height map[loader.Sym]int16
+	height map[sym.ID]int16
 
 	// graph records the out-edges from each symbol. This is only
 	// populated on a second pass if the first pass reveals an
 	// over-limit function.
-	graph map[loader.Sym][]stackCheckEdge
+	graph map[sym.ID][]stackCheckEdge
 }
 
 type stackCheckEdge struct {
-	growth int        // Stack growth in bytes at call to target
-	target loader.Sym // 0 for stack growth without a call
+	growth int    // Stack growth in bytes at call to target
+	target sym.ID // 0 for stack growth without a call
 }
 
 // stackCheckCycle is a sentinel stored in the height map to detect if
@@ -42,7 +43,7 @@ const stackCheckCycle int16 = 1<<15 - 1
 
 // stackCheckIndirect is a sentinel Sym value used to represent the
 // target of an indirect/closure call.
-const stackCheckIndirect loader.Sym = ^loader.Sym(0)
+const stackCheckIndirect sym.ID = ^sym.ID(0)
 
 // doStackCheck walks the call tree to check that there is always
 // enough stack space for call frames, especially for a chain of
@@ -74,7 +75,7 @@ func (ctxt *Link) doStackCheck() {
 	//
 	// This accumulates stack heights bottom-up so it only has to
 	// visit every function once.
-	var failed []loader.Sym
+	var failed []sym.ID
 	for _, s := range ctxt.Textp {
 		if sc.check(s) > limit {
 			failed = append(failed, s)
@@ -113,7 +114,7 @@ func newStackCheck(ctxt *Link, graph bool) *stackCheck {
 		ctxt:      ctxt,
 		ldr:       ctxt.loader,
 		morestack: ctxt.loader.Lookup("runtime.morestack", 0),
-		height:    make(map[loader.Sym]int16, len(ctxt.Textp)),
+		height:    make(map[sym.ID]int16, len(ctxt.Textp)),
 	}
 	// Compute stack effect of a CALL operation. 0 on LR machines.
 	// 1 register pushed on non-LR machines.
@@ -123,13 +124,13 @@ func newStackCheck(ctxt *Link, graph bool) *stackCheck {
 
 	if graph {
 		// We're going to record the call graph.
-		sc.graph = make(map[loader.Sym][]stackCheckEdge)
+		sc.graph = make(map[sym.ID][]stackCheckEdge)
 	}
 
 	return sc
 }
 
-func (sc *stackCheck) symName(sym loader.Sym) string {
+func (sc *stackCheck) symName(sym sym.ID) string {
 	switch sym {
 	case stackCheckIndirect:
 		return "indirect"
@@ -141,7 +142,7 @@ func (sc *stackCheck) symName(sym loader.Sym) string {
 
 // check returns the stack height of sym. It populates sc.height and
 // sc.graph for sym and every function in its call tree.
-func (sc *stackCheck) check(sym loader.Sym) int {
+func (sc *stackCheck) check(sym sym.ID) int {
 	if h, ok := sc.height[sym]; ok {
 		// We've already visited this symbol or we're in a cycle.
 		return int(h)
@@ -173,16 +174,16 @@ func (sc *stackCheck) check(sym loader.Sym) int {
 	return h
 }
 
-// computeHeight returns the stack height of sym. If graph is true, it
-// also returns the out-edges of sym.
+// computeHeight returns the stack height of s. If graph is true, it
+// also returns the out-edges of s.
 //
 // Caching is applied to this in check. Call check instead of calling
 // this directly.
-func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackCheckEdge) {
+func (sc *stackCheck) computeHeight(s sym.ID, graph bool) (int, []stackCheckEdge) {
 	ldr := sc.ldr
 
 	// Check special cases.
-	if sym == sc.morestack {
+	if s == sc.morestack {
 		// morestack looks like it calls functions, but they
 		// either happen only when already on the system stack
 		// (where there is ~infinite space), or after
@@ -190,7 +191,7 @@ func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackChe
 		// height on the user stack is 0.
 		return 0, nil
 	}
-	if sym == stackCheckIndirect {
+	if s == stackCheckIndirect {
 		// Assume that indirect/closure calls are always to
 		// splittable functions, so they just need enough room
 		// to call morestack.
@@ -200,10 +201,10 @@ func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackChe
 	// Ignore calls to external functions. Assume that these calls
 	// are only ever happening on the system stack, where there's
 	// plenty of room.
-	if ldr.AttrExternal(sym) {
+	if ldr.AttrExternal(s) {
 		return 0, nil
 	}
-	if info := ldr.FuncInfo(sym); !info.Valid() { // also external
+	if info := ldr.FuncInfo(s); !info.Valid() { // also external
 		return 0, nil
 	}
 
@@ -215,7 +216,7 @@ func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackChe
 	// addEdge adds a stack growth out of this function to
 	// function "target" or, if target == 0, a local stack growth
 	// within the function.
-	addEdge := func(growth int, target loader.Sym) {
+	addEdge := func(growth int, target sym.ID) {
 		if graph {
 			edges = append(edges, stackCheckEdge{growth, target})
 		}
@@ -228,7 +229,7 @@ func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackChe
 		}
 	}
 
-	if !ldr.IsNoSplit(sym) {
+	if !ldr.IsNoSplit(s) {
 		// Splittable functions start with a call to
 		// morestack, after which their height is 0. Account
 		// for the height of the call to morestack.
@@ -242,9 +243,9 @@ func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackChe
 	// Walk through SP adjustments in function, consuming relocs
 	// and following calls.
 	maxLocalHeight := 0
-	relocs, ri := ldr.Relocs(sym), 0
+	relocs, ri := ldr.Relocs(s), 0
 	pcsp := obj.NewPCIter(uint32(ctxt.Arch.MinLC))
-	for pcsp.Init(ldr.Data(ldr.Pcsp(sym))); !pcsp.Done; pcsp.Next() {
+	for pcsp.Init(ldr.Data(ldr.Pcsp(s))); !pcsp.Done; pcsp.Next() {
 		// pcsp.value is in effect for [pcsp.pc, pcsp.nextpc).
 		height := int(pcsp.Value)
 		if height > maxLocalHeight {
@@ -260,7 +261,7 @@ func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackChe
 			t := r.Type()
 			if t.IsDirectCall() || t == objabi.R_CALLIND {
 				growth := height + sc.callSize
-				var target loader.Sym
+				var target sym.ID
 				if t == objabi.R_CALLIND {
 					target = stackCheckIndirect
 				} else {
@@ -281,9 +282,9 @@ func (sc *stackCheck) computeHeight(sym loader.Sym, graph bool) (int, []stackChe
 	return maxHeight, edges
 }
 
-func (sc *stackCheck) findRoots() []loader.Sym {
+func (sc *stackCheck) findRoots() []sym.ID {
 	// Collect all nodes.
-	nodes := make(map[loader.Sym]struct{})
+	nodes := make(map[sym.ID]struct{})
 	for k := range sc.graph {
 		nodes[k] = struct{}{}
 	}
@@ -293,8 +294,8 @@ func (sc *stackCheck) findRoots() []loader.Sym {
 	// delete everything in that cycle, so we detect this case and
 	// track the lowest-numbered node encountered in the cycle and
 	// put that node back as a root.
-	var walk func(origin, sym loader.Sym) (cycle bool, lowest loader.Sym)
-	walk = func(origin, sym loader.Sym) (cycle bool, lowest loader.Sym) {
+	var walk func(origin, sym sym.ID) (cycle bool, lowest sym.ID)
+	walk = func(origin, sym sym.ID) (cycle bool, lowest sym.ID) {
 		if _, ok := nodes[sym]; !ok {
 			// We already deleted this node.
 			return false, 0
@@ -340,7 +341,7 @@ func (sc *stackCheck) findRoots() []loader.Sym {
 
 	// Sort roots by height. This makes the result deterministic
 	// and also improves the error reporting.
-	var roots []loader.Sym
+	var roots []sym.ID
 	for k := range nodes {
 		roots = append(roots, k)
 	}
@@ -360,7 +361,7 @@ type stackCheckChain struct {
 	printed bool
 }
 
-func (sc *stackCheck) report(sym loader.Sym, depth int, chain *[]stackCheckChain) {
+func (sc *stackCheck) report(sym sym.ID, depth int, chain *[]stackCheckChain) {
 	// Walk the out-edges of sym. We temporarily pull the edges
 	// out of the graph to detect cycles and prevent infinite
 	// recursion.

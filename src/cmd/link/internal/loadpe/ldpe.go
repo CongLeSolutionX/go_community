@@ -166,7 +166,7 @@ func (f *peBiobuf) ReadAt(p []byte, off int64) (int, error) {
 
 // makeUpdater creates a loader.SymbolBuilder if one hasn't been created previously.
 // We use this to lazily make SymbolBuilders as we don't always need a builder, and creating them for all symbols might be an error.
-func makeUpdater(l *loader.Loader, bld *loader.SymbolBuilder, s loader.Sym) *loader.SymbolBuilder {
+func makeUpdater(l *loader.Loader, bld *loader.SymbolBuilder, s sym.ID) *loader.SymbolBuilder {
 	if bld != nil {
 		return bld
 	}
@@ -180,10 +180,10 @@ func makeUpdater(l *loader.Loader, bld *loader.SymbolBuilder, s loader.Sym) *loa
 type peImportSymsState struct {
 
 	// Text and non-text sections read in by the host object loader.
-	secSyms []loader.Sym
+	secSyms []sym.ID
 
 	// SDYNIMPORT symbols encountered along the way
-	dynimports map[loader.Sym]struct{}
+	dynimports map[sym.ID]struct{}
 
 	// Loader and arch, for use in postprocessing.
 	l    *loader.Loader
@@ -197,7 +197,7 @@ func createImportSymsState(l *loader.Loader, arch *sys.Arch) {
 		return
 	}
 	importSymsState = &peImportSymsState{
-		dynimports: make(map[loader.Sym]struct{}),
+		dynimports: make(map[sym.ID]struct{}),
 		l:          l,
 		arch:       arch,
 	}
@@ -210,7 +210,7 @@ type peLoaderState struct {
 	arch            *sys.Arch
 	f               *pe.File
 	pn              string
-	sectsyms        map[*pe.Section]loader.Sym
+	sectsyms        map[*pe.Section]sym.ID
 	comdats         map[uint16]int64 // key is section index, val is size
 	sectdata        map[*pe.Section][]byte
 	localSymVersion int
@@ -226,11 +226,11 @@ var comdatDefinitions = make(map[string]int64)
 // and a slice of the text symbols is returned.
 // If an .rsrc section or set of .rsrc$xx sections is found, its symbols are
 // returned as rsrc.
-func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Reader, pkg string, length int64, pn string) (textp []loader.Sym, rsrc []loader.Sym, err error) {
+func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Reader, pkg string, length int64, pn string) (textp []sym.ID, rsrc []sym.ID, err error) {
 	state := &peLoaderState{
 		l:               l,
 		arch:            arch,
-		sectsyms:        make(map[*pe.Section]loader.Sym),
+		sectsyms:        make(map[*pe.Section]sym.ID),
 		sectdata:        make(map[*pe.Section][]byte),
 		localSymVersion: localSymVersion,
 		pn:              pn,
@@ -592,7 +592,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 func PostProcessImports() error {
 	ldr := importSymsState.l
 	arch := importSymsState.arch
-	keeprelocneeded := make(map[loader.Sym]loader.Sym)
+	keeprelocneeded := make(map[sym.ID]sym.ID)
 	for _, s := range importSymsState.secSyms {
 		isText := ldr.SymType(s) == sym.STEXT
 		relocs := ldr.Relocs(s)
@@ -644,7 +644,7 @@ func issect(s *pe.COFFSymbol) bool {
 	return s.StorageClass == IMAGE_SYM_CLASS_STATIC && s.Type == 0 && s.Name[0] == '.'
 }
 
-func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuilder, loader.Sym, error) {
+func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuilder, sym.ID, error) {
 	symname, err := pesym.FullName(state.f.StringTable)
 	if err != nil {
 		return nil, 0, err
@@ -670,7 +670,7 @@ func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuild
 		name = name[:i]
 	}
 
-	var s loader.Sym
+	var s sym.ID
 	var bld *loader.SymbolBuilder
 	// Microsoft's PE documentation is contradictory. It says that the symbol's complex type
 	// is stored in the pesym.Type most significant byte, but MSVC, LLVM, and mingw store it
@@ -762,7 +762,7 @@ func (state *peLoaderState) preprocessSymbols() error {
 // if so, it looks up the underlying target of the import symbol and
 // returns it. An error is returned if the symbol is of the form
 // "__imp_XYZ" but no XYZ can be found.
-func LookupBaseFromImport(s loader.Sym, ldr *loader.Loader, arch *sys.Arch) (loader.Sym, error) {
+func LookupBaseFromImport(s sym.ID, ldr *loader.Loader, arch *sys.Arch) (sym.ID, error) {
 	sname := ldr.SymName(s)
 	if !strings.HasPrefix(sname, "__imp_") {
 		return 0, nil

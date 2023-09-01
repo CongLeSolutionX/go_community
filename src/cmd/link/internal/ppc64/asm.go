@@ -105,7 +105,7 @@ const (
 
 // Generate a stub to call between TOC and NOTOC functions. See genpltstub for more details about calling stubs.
 // This is almost identical to genpltstub, except the location of the target symbol is known at link time.
-func genstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loader.Sym, stubType int) (ssym loader.Sym, firstUse bool) {
+func genstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s sym.ID, stubType int) (ssym sym.ID, firstUse bool) {
 	addendStr := ""
 	if r.Add() != 0 {
 		addendStr = fmt.Sprintf("%+d", r.Add())
@@ -160,7 +160,7 @@ func genstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loader
 	return stub.Sym(), firstUse
 }
 
-func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loader.Sym) (sym loader.Sym, firstUse bool) {
+func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s sym.ID) (sym sym.ID, firstUse bool) {
 	// The ppc64 ABI PLT has similar concepts to other
 	// architectures, but is laid out quite differently. When we
 	// see a relocation to a dynamic symbol (indicating that the
@@ -265,8 +265,8 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loa
 
 // Scan relocs and generate PLT stubs and generate/fixup ABI defined functions created by the linker.
 func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
-	var stubs []loader.Sym
-	var abifuncs []loader.Sym
+	var stubs []sym.ID
+	var abifuncs []sym.ID
 	for _, s := range ctxt.Textp {
 		relocs := ldr.Relocs(s)
 		for i := 0; i < relocs.Count(); i++ {
@@ -402,7 +402,7 @@ func genaddmoduledata(ctxt *ld.Link, ldr *loader.Loader) {
 	o(0xf801ffe1) // stdu r0, -32(r1)
 
 	// Get the moduledata pointer from GOT and put into R3.
-	var tgt loader.Sym
+	var tgt sym.ID
 	if s := ldr.Lookup("local.moduledata", 0); s != 0 {
 		tgt = s
 	} else if s := ldr.Lookup("local.pluginmoduledata", 0); s != 0 {
@@ -445,7 +445,7 @@ func genaddmoduledata(ctxt *ld.Link, ldr *loader.Loader) {
 //
 // Final note, this is only needed when linking internally. The external linker will generate these
 // functions if they are used.
-func rewriteABIFuncReloc(ctxt *ld.Link, ldr *loader.Loader, tname string, r loader.Reloc) (sym loader.Sym, firstUse bool) {
+func rewriteABIFuncReloc(ctxt *ld.Link, ldr *loader.Loader, tname string, r loader.Reloc) (sym sym.ID, firstUse bool) {
 	s := strings.Split(tname, "_")
 	// A valid call will split like {"", "savegpr0", "20"}
 	if len(s) != 3 {
@@ -519,7 +519,7 @@ func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 //
 // Go only needs case 1 and 3 today. Go symbols which have AttrShare set could use case 2, but case 1 always
 // works in those cases too.
-func gencallstub(ctxt *ld.Link, ldr *loader.Loader, stubType int, stub *loader.SymbolBuilder, targ loader.Sym) {
+func gencallstub(ctxt *ld.Link, ldr *loader.Loader, stubType int, stub *loader.SymbolBuilder, targ sym.ID) {
 	plt := ctxt.PLT
 	stub.SetType(sym.STEXT)
 
@@ -581,7 +581,7 @@ func rewritetonop(target *ld.Target, ldr *loader.Loader, su *loader.SymbolBuilde
 	rewritetoinsn(target, ldr, su, offset, mask, check, OP_NOP)
 }
 
-func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
+func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID, r loader.Reloc, rIdx int) bool {
 	if target.IsElf() {
 		return addelfdynrel(target, ldr, syms, s, r, rIdx)
 	} else if target.IsAIX() {
@@ -590,7 +590,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	return false
 }
 
-func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
+func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID, r loader.Reloc, rIdx int) bool {
 	targ := r.Sym()
 	var targType sym.SymKind
 	if targ != 0 {
@@ -880,7 +880,7 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 	return false
 }
 
-func xcoffreloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, sectoff int64) bool {
+func xcoffreloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, sectoff int64) bool {
 	rs := r.Xsym
 
 	emitReloc := func(v uint16, off uint64) {
@@ -920,7 +920,7 @@ func xcoffreloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s loader.Sy
 
 }
 
-func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, ri int, sectoff int64) bool {
+func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, ri int, sectoff int64) bool {
 	// Beware that bit0~bit15 start from the third byte of an instruction in Big-Endian machines.
 	rt := r.Type
 	if rt == objabi.R_ADDR || rt == objabi.R_POWER_TLS || rt == objabi.R_CALLPOWER || rt == objabi.R_DWARFSECREF {
@@ -1014,7 +1014,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuilder, dynamic sym.ID) {
 	if plt.Size() == 0 {
 		// The dynamic linker stores the address of the
 		// dynamic resolver and the DSO identifier in the two
@@ -1024,12 +1024,12 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuild
 	}
 }
 
-func machoreloc1(*sys.Arch, *ld.OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool {
+func machoreloc1(*sys.Arch, *ld.OutBuf, *loader.Loader, sym.ID, loader.ExtReloc, int64) bool {
 	return false
 }
 
 // Return the value of .TOC. for symbol s
-func symtoc(ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) int64 {
+func symtoc(ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID) int64 {
 	v := ldr.SymVersion(s)
 	if out := ldr.OuterSym(s); out != 0 {
 		v = ldr.SymVersion(out)
@@ -1045,7 +1045,7 @@ func symtoc(ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) int64 {
 }
 
 // archreloctoc relocates a TOC relative symbol.
-func archreloctoc(ldr *loader.Loader, target *ld.Target, syms *ld.ArchSyms, r loader.Reloc, s loader.Sym, val int64) int64 {
+func archreloctoc(ldr *loader.Loader, target *ld.Target, syms *ld.ArchSyms, r loader.Reloc, s sym.ID, val int64) int64 {
 	rs := r.Sym()
 	var o1, o2 uint32
 	var t int64
@@ -1115,7 +1115,7 @@ func archreloctoc(ldr *loader.Loader, target *ld.Target, syms *ld.ArchSyms, r lo
 
 // archrelocaddr relocates a symbol address.
 // This code is for linux only.
-func archrelocaddr(ldr *loader.Loader, target *ld.Target, syms *ld.ArchSyms, r loader.Reloc, s loader.Sym, val int64) int64 {
+func archrelocaddr(ldr *loader.Loader, target *ld.Target, syms *ld.ArchSyms, r loader.Reloc, s sym.ID, val int64) int64 {
 	rs := r.Sym()
 	if target.IsAIX() {
 		ldr.Errorf(s, "archrelocaddr called for %s relocation\n", ldr.SymName(rs))
@@ -1183,7 +1183,7 @@ func isLinkingPIC(ctxt *ld.Link) bool {
 }
 
 // resolve direct jump relocation r in s, and add trampoline if necessary.
-func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
+func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s sym.ID) {
 
 	// Trampolines are created if the branch offset is too large and the linker cannot insert a call stub to handle it.
 	// For internal linking, trampolines are always created for long calls.
@@ -1209,7 +1209,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 		// If branch offset is too far then create a trampoline.
 
 		if (ctxt.IsExternal() && ldr.SymSect(s) != ldr.SymSect(rs)) || (ctxt.IsInternal() && int64(int32(t<<6)>>6) != t) || ldr.SymValue(rs) == 0 || (*ld.FlagDebugTramp > 1 && ldr.SymPkg(s) != ldr.SymPkg(rs)) {
-			var tramp loader.Sym
+			var tramp sym.ID
 			for i := 0; ; i++ {
 
 				// Using r.Add as part of the name is significant in functions like duffzero where the call
@@ -1259,7 +1259,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 	}
 }
 
-func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym, offset int64) {
+func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target sym.ID, offset int64) {
 	tramp.SetSize(16) // 4 instructions
 	P := make([]byte, tramp.Size())
 	var o1, o2 uint32
@@ -1373,7 +1373,7 @@ func computePrefix34HI(val int64) uint32 {
 	return uint32((val >> 16) & 0x3FFFF)
 }
 
-func computeTLSLEReloc(target *ld.Target, ldr *loader.Loader, rs, s loader.Sym) int64 {
+func computeTLSLEReloc(target *ld.Target, ldr *loader.Loader, rs, s sym.ID) int64 {
 	// The thread pointer points 0x7000 bytes after the start of the
 	// thread local storage area as documented in section "3.7.2 TLS
 	// Runtime Handling" of "Power Architecture 64-Bit ELF V2 ABI
@@ -1391,7 +1391,7 @@ func computeTLSLEReloc(target *ld.Target, ldr *loader.Loader, rs, s loader.Sym) 
 	return v
 }
 
-func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s loader.Sym, val int64) (relocatedOffset int64, nExtReloc int, ok bool) {
+func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s sym.ID, val int64) (relocatedOffset int64, nExtReloc int, ok bool) {
 	rs := r.Sym()
 	if target.IsExternal() {
 		// On AIX, relocations (except TLS ones) must be also done to the
@@ -1557,7 +1557,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 	return val, nExtReloc, false
 }
 
-func archrelocvariant(target *ld.Target, ldr *loader.Loader, r loader.Reloc, rv sym.RelocVariant, s loader.Sym, t int64, p []byte) (relocatedOffset int64) {
+func archrelocvariant(target *ld.Target, ldr *loader.Loader, r loader.Reloc, rv sym.RelocVariant, s sym.ID, t int64, p []byte) (relocatedOffset int64) {
 	rs := r.Sym()
 	switch rv & sym.RV_TYPE_MASK {
 	default:
@@ -1649,7 +1649,7 @@ overflow:
 	return t
 }
 
-func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sym) (loader.ExtReloc, bool) {
+func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s sym.ID) (loader.ExtReloc, bool) {
 	switch r.Type() {
 	case objabi.R_POWER_TLS, objabi.R_POWER_TLS_LE, objabi.R_POWER_TLS_IE, objabi.R_POWER_TLS_IE_PCREL34, objabi.R_POWER_TLS_LE_TPREL34, objabi.R_CALLPOWER:
 		return ld.ExtrelocSimple(ldr, r), true
@@ -1667,7 +1667,7 @@ func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sy
 	return loader.ExtReloc{}, false
 }
 
-func addpltsym(ctxt *ld.Link, ldr *loader.Loader, s loader.Sym) {
+func addpltsym(ctxt *ld.Link, ldr *loader.Loader, s sym.ID) {
 	if ldr.SymPlt(s) >= 0 {
 		return
 	}

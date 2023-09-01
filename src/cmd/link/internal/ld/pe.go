@@ -286,7 +286,7 @@ var dosstub = []uint8{
 }
 
 type Imp struct {
-	s       loader.Sym
+	s       sym.ID
 	off     uint64
 	next    *Imp
 	argsize int
@@ -301,13 +301,13 @@ type Dll struct {
 }
 
 var (
-	rsrcsyms    []loader.Sym
+	rsrcsyms    []sym.ID
 	PESECTHEADR int32
 	PEFILEHEADR int32
 	pe64        int
 	dr          *Dll
 
-	dexport = make([]loader.Sym, 0, 1024)
+	dexport = make([]sym.ID, 0, 1024)
 )
 
 // peStringTable is a COFF string table.
@@ -576,7 +576,7 @@ func (f *peFile) emitRelocations(ctxt *Link) {
 
 	// relocsect relocates symbols from first in section sect, and returns
 	// the total number of relocations emitted.
-	relocsect := func(sect *sym.Section, syms []loader.Sym, base uint64) int {
+	relocsect := func(sect *sym.Section, syms []sym.ID, base uint64) int {
 		// If main section has no bits, nothing to relocate.
 		if sect.Vaddr >= sect.Seg.Vaddr+sect.Seg.Filelen {
 			return 0
@@ -628,7 +628,7 @@ func (f *peFile) emitRelocations(ctxt *Link) {
 	type relsect struct {
 		peSect *peSection
 		seg    *sym.Segment
-		syms   []loader.Sym
+		syms   []sym.ID
 	}
 	sects := []relsect{
 		{f.textSect, &Segtext, ctxt.Textp},
@@ -636,10 +636,10 @@ func (f *peFile) emitRelocations(ctxt *Link) {
 		{f.dataSect, &Segdata, ctxt.datap},
 	}
 	if sehp.pdata != 0 {
-		sects = append(sects, relsect{f.pdataSect, &Segpdata, []loader.Sym{sehp.pdata}})
+		sects = append(sects, relsect{f.pdataSect, &Segpdata, []sym.ID{sehp.pdata}})
 	}
 	if sehp.xdata != 0 {
-		sects = append(sects, relsect{f.xdataSect, &Segxdata, []loader.Sym{sehp.xdata}})
+		sects = append(sects, relsect{f.xdataSect, &Segxdata, []sym.ID{sehp.xdata}})
 	}
 	for _, s := range sects {
 		s.peSect.emitRelocations(ctxt.Out, func() int {
@@ -655,7 +655,7 @@ dwarfLoop:
 	for i := 0; i < len(Segdwarf.Sections); i++ {
 		sect := Segdwarf.Sections[i]
 		si := dwarfp[i]
-		if si.secSym() != loader.Sym(sect.Sym) ||
+		if si.secSym() != sym.ID(sect.Sym) ||
 			ldr.SymSect(si.secSym()) != sect {
 			panic("inconsistency between dwarfp and Segdwarf")
 		}
@@ -696,7 +696,7 @@ dwarfLoop:
 
 // writeSymbol appends symbol s to file f symbol table.
 // It also sets s.Dynid to written symbol number.
-func (f *peFile) writeSymbol(out *OutBuf, ldr *loader.Loader, s loader.Sym, name string, value int64, sectidx int, typ uint16, class uint8) {
+func (f *peFile) writeSymbol(out *OutBuf, ldr *loader.Loader, s sym.ID, name string, value int64, sectidx int, typ uint16, class uint8) {
 	if len(name) > 8 {
 		out.Write32(0)
 		out.Write32(uint32(f.stringTable.add(name)))
@@ -716,7 +716,7 @@ func (f *peFile) writeSymbol(out *OutBuf, ldr *loader.Loader, s loader.Sym, name
 
 // mapToPESection searches peFile f for s symbol's location.
 // It returns PE section index, and offset within that section.
-func (f *peFile) mapToPESection(ldr *loader.Loader, s loader.Sym, linkmode LinkMode) (pesectidx int, offset int64, err error) {
+func (f *peFile) mapToPESection(ldr *loader.Loader, s sym.ID, linkmode LinkMode) (pesectidx int, offset int64, err error) {
 	sect := ldr.SymSect(s)
 	if sect == nil {
 		return 0, 0, fmt.Errorf("could not map %s symbol with no section", ldr.SymName(s))
@@ -745,16 +745,16 @@ func (f *peFile) mapToPESection(ldr *loader.Loader, s loader.Sym, linkmode LinkM
 	return f.bssSect.index, int64(v - Segdata.Filelen), nil
 }
 
-var isLabel = make(map[loader.Sym]bool)
+var isLabel = make(map[sym.ID]bool)
 
-func AddPELabelSym(ldr *loader.Loader, s loader.Sym) {
+func AddPELabelSym(ldr *loader.Loader, s sym.ID) {
 	isLabel[s] = true
 }
 
 // writeSymbols writes all COFF symbol table records.
 func (f *peFile) writeSymbols(ctxt *Link) {
 	ldr := ctxt.loader
-	addsym := func(s loader.Sym) {
+	addsym := func(s sym.ID) {
 		t := ldr.SymType(s)
 		if ldr.SymSect(s) == nil && t != sym.SDYNIMPORT && t != sym.SHOSTOBJ && t != sym.SUNDEFEXT {
 			return
@@ -839,7 +839,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 		addsym(s)
 	}
 
-	shouldBeInSymbolTable := func(s loader.Sym) bool {
+	shouldBeInSymbolTable := func(s sym.ID) bool {
 		if ldr.AttrNotInSymbolTable(s) {
 			return false
 		}
@@ -851,7 +851,7 @@ func (f *peFile) writeSymbols(ctxt *Link) {
 	}
 
 	// Add data symbols and external references.
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) {
 			continue
 		}
@@ -1188,7 +1188,7 @@ func initdynimport(ctxt *Link) *Dll {
 
 	dr = nil
 	var m *Imp
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) || ldr.SymType(s) != sym.SDYNIMPORT {
 			continue
 		}
@@ -1386,7 +1386,7 @@ func addimports(ctxt *Link, datsect *peSection) {
 
 func initdynexport(ctxt *Link) {
 	ldr := ctxt.loader
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) || !ldr.AttrCgoExportDynamic(s) {
 			continue
 		}
@@ -1509,7 +1509,7 @@ func (rt *peBaseRelocTable) init(ctxt *Link) {
 	rt.blocks = make(map[uint32]peBaseRelocBlock)
 }
 
-func (rt *peBaseRelocTable) addentry(ldr *loader.Loader, s loader.Sym, r *loader.Reloc) {
+func (rt *peBaseRelocTable) addentry(ldr *loader.Loader, s sym.ID, r *loader.Reloc) {
 	// pageSize is the size in bytes of a page
 	// described by a base relocation block.
 	const pageSize = 0x1000
@@ -1561,7 +1561,7 @@ func (rt *peBaseRelocTable) write(ctxt *Link) {
 	}
 }
 
-func addPEBaseRelocSym(ldr *loader.Loader, s loader.Sym, rt *peBaseRelocTable) {
+func addPEBaseRelocSym(ldr *loader.Loader, s sym.ID, rt *peBaseRelocTable) {
 	relocs := ldr.Relocs(s)
 	for ri := 0; ri < relocs.Count(); ri++ {
 		r := relocs.At(ri)
@@ -1637,7 +1637,7 @@ func (ctxt *Link) dope() {
 	writeSEH(ctxt)
 }
 
-func setpersrc(ctxt *Link, syms []loader.Sym) {
+func setpersrc(ctxt *Link, syms []sym.ID) {
 	if len(rsrcsyms) != 0 {
 		Errorf(nil, "too many .rsrc sections")
 	}

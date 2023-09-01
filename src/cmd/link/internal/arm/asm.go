@@ -96,7 +96,7 @@ func braddoff(a int32, b int32) int32 {
 	return int32((uint32(a))&0xff000000 | 0x00ffffff&uint32(a+b))
 }
 
-func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
+func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID, r loader.Reloc, rIdx int) bool {
 
 	targ := r.Sym()
 	var targType sym.SymKind
@@ -257,7 +257,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	return false
 }
 
-func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, ri int, sectoff int64) bool {
+func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, ri int, sectoff int64) bool {
 	out.Write32(uint32(sectoff))
 
 	elfsym := ld.ElfSymForReloc(ctxt, r.Xsym)
@@ -304,7 +304,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuilder, dynamic sym.ID) {
 	if plt.Size() == 0 {
 		// str lr, [sp, #-4]!
 		plt.AddUint32(ctxt.Arch, 0xe52de004)
@@ -329,11 +329,11 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, got *loader.SymbolBuild
 	}
 }
 
-func machoreloc1(*sys.Arch, *ld.OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool {
+func machoreloc1(*sys.Arch, *ld.OutBuf, *loader.Loader, sym.ID, loader.ExtReloc, int64) bool {
 	return false
 }
 
-func pereloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, sectoff int64) bool {
+func pereloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, sectoff int64) bool {
 	rs := r.Xsym
 	rt := r.Type
 
@@ -383,7 +383,7 @@ func immrot(v uint32) uint32 {
 }
 
 // Convert the direct jump relocation r to refer to a trampoline if the target is too far.
-func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
+func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s sym.ID) {
 	relocs := ldr.Relocs(s)
 	r := relocs.At(ri)
 	switch r.Type() {
@@ -425,7 +425,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 			// look up existing trampolines first. if we found one within the range
 			// of direct call, we can reuse it. otherwise create a new one.
 			offset := (signext24(r.Add()&0xffffff) + 2) * 4
-			var tramp loader.Sym
+			var tramp sym.ID
 			for i := 0; ; i++ {
 				oName := ldr.SymName(rs)
 				name := oName + fmt.Sprintf("%+d-tramp%d", offset, i)
@@ -480,7 +480,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 }
 
 // generate a trampoline to target+offset.
-func gentramp(arch *sys.Arch, linkmode ld.LinkMode, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym, offset int64) {
+func gentramp(arch *sys.Arch, linkmode ld.LinkMode, ldr *loader.Loader, tramp *loader.SymbolBuilder, target sym.ID, offset int64) {
 	tramp.SetSize(12) // 3 instructions
 	P := make([]byte, tramp.Size())
 	t := ldr.SymValue(target) + offset
@@ -502,7 +502,7 @@ func gentramp(arch *sys.Arch, linkmode ld.LinkMode, ldr *loader.Loader, tramp *l
 }
 
 // generate a trampoline to target+offset in position independent code.
-func gentramppic(arch *sys.Arch, tramp *loader.SymbolBuilder, target loader.Sym, offset int64) {
+func gentramppic(arch *sys.Arch, tramp *loader.SymbolBuilder, target sym.ID, offset int64) {
 	tramp.SetSize(16) // 4 instructions
 	P := make([]byte, tramp.Size())
 	o1 := uint32(0xe5900000 | 12<<12 | 15<<16 | 4)  // MOVW 4(R15), R12 // R15 is actual pc + 8
@@ -523,7 +523,7 @@ func gentramppic(arch *sys.Arch, tramp *loader.SymbolBuilder, target loader.Sym,
 }
 
 // generate a trampoline to target+offset in dynlink mode (using GOT).
-func gentrampdyn(arch *sys.Arch, tramp *loader.SymbolBuilder, target loader.Sym, offset int64) {
+func gentrampdyn(arch *sys.Arch, tramp *loader.SymbolBuilder, target sym.ID, offset int64) {
 	tramp.SetSize(20)                               // 5 instructions
 	o1 := uint32(0xe5900000 | 12<<12 | 15<<16 | 8)  // MOVW 8(R15), R12 // R15 is actual pc + 8
 	o2 := uint32(0xe0800000 | 12<<12 | 15<<16 | 12) // ADD R15, R12, R12
@@ -562,7 +562,7 @@ func gentrampdyn(arch *sys.Arch, tramp *loader.SymbolBuilder, target loader.Sym,
 	}
 }
 
-func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s loader.Sym, val int64) (o int64, nExtReloc int, ok bool) {
+func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s sym.ID, val int64) (o int64, nExtReloc int, ok bool) {
 	rs := r.Sym()
 	if target.IsExternal() {
 		switch r.Type() {
@@ -605,12 +605,12 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 	return val, 0, false
 }
 
-func archrelocvariant(*ld.Target, *loader.Loader, loader.Reloc, sym.RelocVariant, loader.Sym, int64, []byte) int64 {
+func archrelocvariant(*ld.Target, *loader.Loader, loader.Reloc, sym.RelocVariant, sym.ID, int64, []byte) int64 {
 	log.Fatalf("unexpected relocation variant")
 	return -1
 }
 
-func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sym) (loader.ExtReloc, bool) {
+func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s sym.ID) (loader.ExtReloc, bool) {
 	rs := r.Sym()
 	var rr loader.ExtReloc
 	switch r.Type() {
@@ -630,7 +630,7 @@ func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sy
 	return rr, false
 }
 
-func addpltreloc(ldr *loader.Loader, plt *loader.SymbolBuilder, got *loader.SymbolBuilder, s loader.Sym, typ objabi.RelocType) {
+func addpltreloc(ldr *loader.Loader, plt *loader.SymbolBuilder, got *loader.SymbolBuilder, s sym.ID, typ objabi.RelocType) {
 	r, _ := plt.AddRel(typ)
 	r.SetSym(got.Sym())
 	r.SetOff(int32(plt.Size()))
@@ -642,7 +642,7 @@ func addpltreloc(ldr *loader.Loader, plt *loader.SymbolBuilder, got *loader.Symb
 	plt.Grow(plt.Size())
 }
 
-func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
+func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID) {
 	if ldr.SymPlt(s) >= 0 {
 		return
 	}
@@ -681,7 +681,7 @@ func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	}
 }
 
-func addgotsyminternal(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
+func addgotsyminternal(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID) {
 	if ldr.SymGot(s) >= 0 {
 		return
 	}

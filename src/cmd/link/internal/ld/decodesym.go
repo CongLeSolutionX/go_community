@@ -94,7 +94,7 @@ const (
 	kindMask      = (1 << 5) - 1
 )
 
-func decodeReloc(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs, off int32) loader.Reloc {
+func decodeReloc(ldr *loader.Loader, symIdx sym.ID, relocs *loader.Relocs, off int32) loader.Reloc {
 	for j := 0; j < relocs.Count(); j++ {
 		rel := relocs.At(j)
 		if rel.Off() == off {
@@ -104,12 +104,12 @@ func decodeReloc(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs, o
 	return loader.Reloc{}
 }
 
-func decodeRelocSym(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs, off int32) loader.Sym {
+func decodeRelocSym(ldr *loader.Loader, symIdx sym.ID, relocs *loader.Relocs, off int32) sym.ID {
 	return decodeReloc(ldr, symIdx, relocs, off).Sym()
 }
 
 // decodetypeName decodes the name from a reflect.name.
-func decodetypeName(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs, off int) string {
+func decodetypeName(ldr *loader.Loader, symIdx sym.ID, relocs *loader.Relocs, off int) string {
 	r := decodeRelocSym(ldr, symIdx, relocs, int32(off))
 	if r == 0 {
 		return ""
@@ -124,7 +124,7 @@ func decodetypeName(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs
 	return data[1+nameLenLen : 1+nameLenLen+int(nameLen)]
 }
 
-func decodetypeNameEmbedded(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs, off int) bool {
+func decodetypeNameEmbedded(ldr *loader.Loader, symIdx sym.ID, relocs *loader.Relocs, off int) bool {
 	r := decodeRelocSym(ldr, symIdx, relocs, int32(off))
 	if r == 0 {
 		return false
@@ -133,7 +133,7 @@ func decodetypeNameEmbedded(ldr *loader.Loader, symIdx loader.Sym, relocs *loade
 	return data[0]&(1<<3) != 0
 }
 
-func decodetypeFuncInType(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, relocs *loader.Relocs, i int) loader.Sym {
+func decodetypeFuncInType(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, relocs *loader.Relocs, i int) sym.ID {
 	uadd := commonsize(arch) + 4
 	if arch.PtrSize == 8 {
 		uadd += 4
@@ -144,46 +144,46 @@ func decodetypeFuncInType(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym,
 	return decodeRelocSym(ldr, symIdx, relocs, int32(uadd+i*arch.PtrSize))
 }
 
-func decodetypeFuncOutType(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, relocs *loader.Relocs, i int) loader.Sym {
+func decodetypeFuncOutType(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, relocs *loader.Relocs, i int) sym.ID {
 	return decodetypeFuncInType(ldr, arch, symIdx, relocs, i+decodetypeFuncInCount(arch, ldr.Data(symIdx)))
 }
 
-func decodetypeArrayElem(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
+func decodetypeArrayElem(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) sym.ID {
 	relocs := ldr.Relocs(symIdx)
 	return decodeRelocSym(ldr, symIdx, &relocs, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
-func decodetypeArrayLen(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) int64 {
+func decodetypeArrayLen(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) int64 {
 	data := ldr.Data(symIdx)
 	return int64(decodeInuxi(arch, data[commonsize(arch)+2*arch.PtrSize:], arch.PtrSize))
 }
 
-func decodetypeChanElem(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
+func decodetypeChanElem(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) sym.ID {
 	relocs := ldr.Relocs(symIdx)
 	return decodeRelocSym(ldr, symIdx, &relocs, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
-func decodetypeMapKey(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
+func decodetypeMapKey(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) sym.ID {
 	relocs := ldr.Relocs(symIdx)
 	return decodeRelocSym(ldr, symIdx, &relocs, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
-func decodetypeMapValue(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
+func decodetypeMapValue(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) sym.ID {
 	relocs := ldr.Relocs(symIdx)
 	return decodeRelocSym(ldr, symIdx, &relocs, int32(commonsize(arch))+int32(arch.PtrSize)) // 0x20 / 0x38
 }
 
-func decodetypePtrElem(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
+func decodetypePtrElem(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) sym.ID {
 	relocs := ldr.Relocs(symIdx)
 	return decodeRelocSym(ldr, symIdx, &relocs, int32(commonsize(arch))) // 0x1c / 0x30
 }
 
-func decodetypeStructFieldCount(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) int {
+func decodetypeStructFieldCount(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) int {
 	data := ldr.Data(symIdx)
 	return int(decodeInuxi(arch, data[commonsize(arch)+2*arch.PtrSize:], arch.PtrSize))
 }
 
-func decodetypeStructFieldArrayOff(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) int {
+func decodetypeStructFieldArrayOff(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, i int) int {
 	data := ldr.Data(symIdx)
 	off := commonsize(arch) + 4*arch.PtrSize
 	if decodetypeHasUncommon(arch, data) {
@@ -193,32 +193,32 @@ func decodetypeStructFieldArrayOff(ldr *loader.Loader, arch *sys.Arch, symIdx lo
 	return off
 }
 
-func decodetypeStructFieldName(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) string {
+func decodetypeStructFieldName(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, i int) string {
 	off := decodetypeStructFieldArrayOff(ldr, arch, symIdx, i)
 	relocs := ldr.Relocs(symIdx)
 	return decodetypeName(ldr, symIdx, &relocs, off)
 }
 
-func decodetypeStructFieldType(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) loader.Sym {
+func decodetypeStructFieldType(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, i int) sym.ID {
 	off := decodetypeStructFieldArrayOff(ldr, arch, symIdx, i)
 	relocs := ldr.Relocs(symIdx)
 	return decodeRelocSym(ldr, symIdx, &relocs, int32(off+arch.PtrSize))
 }
 
-func decodetypeStructFieldOffset(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) int64 {
+func decodetypeStructFieldOffset(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, i int) int64 {
 	off := decodetypeStructFieldArrayOff(ldr, arch, symIdx, i)
 	data := ldr.Data(symIdx)
 	return int64(decodeInuxi(arch, data[off+2*arch.PtrSize:], arch.PtrSize))
 }
 
-func decodetypeStructFieldEmbedded(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) bool {
+func decodetypeStructFieldEmbedded(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, i int) bool {
 	off := decodetypeStructFieldArrayOff(ldr, arch, symIdx, i)
 	relocs := ldr.Relocs(symIdx)
 	return decodetypeNameEmbedded(ldr, symIdx, &relocs, off)
 }
 
 // decodetypeStr returns the contents of an rtype's str field (a nameOff).
-func decodetypeStr(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) string {
+func decodetypeStr(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) string {
 	relocs := ldr.Relocs(symIdx)
 	str := decodetypeName(ldr, symIdx, &relocs, 4*arch.PtrSize+8)
 	data := ldr.Data(symIdx)
@@ -228,7 +228,7 @@ func decodetypeStr(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) string
 	return str
 }
 
-func decodetypeGcmask(ctxt *Link, s loader.Sym) []byte {
+func decodetypeGcmask(ctxt *Link, s sym.ID) []byte {
 	if ctxt.loader.SymType(s) == sym.SDYNIMPORT {
 		symData := ctxt.loader.Data(s)
 		addr := decodetypeGcprogShlib(ctxt, symData)
@@ -255,7 +255,7 @@ func decodetypeGcmask(ctxt *Link, s loader.Sym) []byte {
 }
 
 // Type.commonType.gc
-func decodetypeGcprog(ctxt *Link, s loader.Sym) []byte {
+func decodetypeGcprog(ctxt *Link, s sym.ID) []byte {
 	if ctxt.loader.SymType(s) == sym.SDYNIMPORT {
 		symData := ctxt.loader.Data(s)
 		addr := decodetypeGcprogShlib(ctxt, symData)
@@ -302,7 +302,7 @@ func decodetypeGcprogShlib(ctxt *Link, data []byte) uint64 {
 }
 
 // decodeItabType returns the itab._type field from an itab.
-func decodeItabType(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) loader.Sym {
+func decodeItabType(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID) sym.ID {
 	relocs := ldr.Relocs(symIdx)
 	return decodeRelocSym(ldr, symIdx, &relocs, int32(arch.PtrSize))
 }

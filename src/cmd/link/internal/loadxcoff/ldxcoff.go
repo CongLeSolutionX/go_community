@@ -19,7 +19,7 @@ import (
 // ldSection is an XCOFF section with its symbols.
 type ldSection struct {
 	xcoff.Section
-	sym loader.Sym
+	sym sym.ID
 }
 
 // TODO(brainman): maybe just add ReadAt method to bio.Reader instead of creating xcoffBiobuf
@@ -41,8 +41,8 @@ func (f *xcoffBiobuf) ReadAt(p []byte, off int64) (int, error) {
 
 // loads the Xcoff file pn from f.
 // Symbols are written into loader, and a slice of the text symbols is returned.
-func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Reader, pkg string, length int64, pn string) (textp []loader.Sym, err error) {
-	errorf := func(str string, args ...interface{}) ([]loader.Sym, error) {
+func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Reader, pkg string, length int64, pn string) (textp []sym.ID, err error) {
+	errorf := func(str string, args ...interface{}) ([]sym.ID, error) {
 		return nil, fmt.Errorf("loadxcoff: %v: %v", pn, fmt.Sprintf(str, args...))
 	}
 

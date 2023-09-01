@@ -4,14 +4,17 @@
 
 package ld
 
-import "cmd/link/internal/loader"
+import (
+	"cmd/link/internal/loader"
+	"cmd/link/internal/sym"
+)
 
 // Min-heap implementation, for the deadcode pass.
-// Specialized for loader.Sym elements.
+// Specialized for sym.ID elements.
 
-type heap []loader.Sym
+type heap []sym.ID
 
-func (h *heap) push(s loader.Sym) {
+func (h *heap) push(s sym.ID) {
 	*h = append(*h, s)
 	// sift up
 	n := len(*h) - 1
@@ -25,7 +28,7 @@ func (h *heap) push(s loader.Sym) {
 	}
 }
 
-func (h *heap) pop() loader.Sym {
+func (h *heap) pop() sym.ID {
 	r := (*h)[0]
 	n := len(*h) - 1
 	(*h)[0] = (*h)[n]
@@ -56,9 +59,9 @@ func (h *heap) empty() bool { return len(*h) == 0 }
 // Same as heap, but sorts alphabetically instead of by index.
 // (Note that performance is not so critical here, as it is
 // in the case above. Some simplification might be in order.)
-type lexHeap []loader.Sym
+type lexHeap []sym.ID
 
-func (h *lexHeap) push(ldr *loader.Loader, s loader.Sym) {
+func (h *lexHeap) push(ldr *loader.Loader, s sym.ID) {
 	*h = append(*h, s)
 	// sift up
 	n := len(*h) - 1
@@ -72,7 +75,7 @@ func (h *lexHeap) push(ldr *loader.Loader, s loader.Sym) {
 	}
 }
 
-func (h *lexHeap) pop(ldr *loader.Loader) loader.Sym {
+func (h *lexHeap) pop(ldr *loader.Loader) sym.ID {
 	r := (*h)[0]
 	n := len(*h) - 1
 	(*h)[0] = (*h)[n]

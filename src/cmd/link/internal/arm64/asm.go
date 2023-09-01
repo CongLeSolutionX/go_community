@@ -71,7 +71,7 @@ func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 	rel2.SetSym(addmoduledata)
 }
 
-func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
+func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID, r loader.Reloc, rIdx int) bool {
 	targ := r.Sym()
 	var targType sym.SymKind
 	if targ != 0 {
@@ -476,7 +476,7 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	return false
 }
 
-func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, ri int, sectoff int64) bool {
+func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, ri int, sectoff int64) bool {
 	out.Write64(uint64(sectoff))
 
 	elfsym := ld.ElfSymForReloc(ctxt, r.Xsym)
@@ -549,7 +549,7 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 func signext21(x int64) int64 { return x << (64 - 21) >> (64 - 21) }
 func signext24(x int64) int64 { return x << (64 - 24) >> (64 - 24) }
 
-func machoreloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, sectoff int64) bool {
+func machoreloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, sectoff int64) bool {
 	var v uint32
 
 	rs := r.Xsym
@@ -663,7 +663,7 @@ func machoreloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s loader.Sy
 	return true
 }
 
-func pereloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, r loader.ExtReloc, sectoff int64) bool {
+func pereloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s sym.ID, r loader.ExtReloc, sectoff int64) bool {
 	rs := r.Xsym
 	rt := r.Type
 
@@ -746,7 +746,7 @@ func pereloc1(arch *sys.Arch, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 	return true
 }
 
-func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s loader.Sym, val int64) (int64, int, bool) {
+func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loader.Reloc, s sym.ID, val int64) (int64, int, bool) {
 	const noExtReloc = 0
 	const isOk = true
 
@@ -1068,12 +1068,12 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 	return val, 0, false
 }
 
-func archrelocvariant(*ld.Target, *loader.Loader, loader.Reloc, sym.RelocVariant, loader.Sym, int64, []byte) int64 {
+func archrelocvariant(*ld.Target, *loader.Loader, loader.Reloc, sym.RelocVariant, sym.ID, int64, []byte) int64 {
 	log.Fatalf("unexpected relocation variant")
 	return -1
 }
 
-func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sym) (loader.ExtReloc, bool) {
+func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s sym.ID) (loader.ExtReloc, bool) {
 	switch rt := r.Type(); rt {
 	case objabi.R_ARM64_GOTPCREL,
 		objabi.R_ARM64_PCREL_LDST8,
@@ -1091,7 +1091,7 @@ func extreloc(target *ld.Target, ldr *loader.Loader, r loader.Reloc, s loader.Sy
 	return loader.ExtReloc{}, false
 }
 
-func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym) {
+func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic sym.ID) {
 	if plt.Size() == 0 {
 		// stp     x16, x30, [sp, #-16]!
 		// identifying information
@@ -1130,7 +1130,7 @@ func elfsetupplt(ctxt *ld.Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBu
 	}
 }
 
-func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym) {
+func addpltsym(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID) {
 	if ldr.SymPlt(s) >= 0 {
 		return
 	}
@@ -1234,7 +1234,7 @@ func gensymlate(ctxt *ld.Link, ldr *loader.Loader) {
 	}
 
 	// addLabelSyms adds "label" symbols at s+limit, s+2*limit, etc.
-	addLabelSyms := func(s loader.Sym, limit, sz int64) {
+	addLabelSyms := func(s sym.ID, limit, sz int64) {
 		v := ldr.SymValue(s)
 		for off := limit; off < sz; off += limit {
 			p := ldr.LookupOrCreateSym(offsetLabelName(ldr, s, off), ldr.SymVersion(s))
@@ -1273,7 +1273,7 @@ func gensymlate(ctxt *ld.Link, ldr *loader.Loader) {
 		}
 	}
 
-	for s, n := loader.Sym(1), loader.Sym(ldr.NSym()); s < n; s++ {
+	for s, n := sym.ID(1), sym.ID(ldr.NSym()); s < n; s++ {
 		if !ldr.AttrReachable(s) {
 			continue
 		}
@@ -1304,7 +1304,7 @@ func gensymlate(ctxt *ld.Link, ldr *loader.Loader) {
 // offsetLabelName returns the name of the "label" symbol used for a
 // relocation targeting s+off. The label symbols is used on Darwin/Windows
 // when external linking, so that the addend fits in a Mach-O/PE relocation.
-func offsetLabelName(ldr *loader.Loader, s loader.Sym, off int64) string {
+func offsetLabelName(ldr *loader.Loader, s sym.ID, off int64) string {
 	if off>>20<<20 == off {
 		return fmt.Sprintf("%s+%dMB", ldr.SymExtname(s), off>>20)
 	}
@@ -1312,7 +1312,7 @@ func offsetLabelName(ldr *loader.Loader, s loader.Sym, off int64) string {
 }
 
 // Convert the direct jump relocation r to refer to a trampoline if the target is too far.
-func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
+func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s sym.ID) {
 	relocs := ldr.Relocs(s)
 	r := relocs.At(ri)
 	const pcrel = 1
@@ -1335,7 +1335,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 			// direct call too far, need to insert trampoline.
 			// look up existing trampolines first. if we found one within the range
 			// of direct call, we can reuse it. otherwise create a new one.
-			var tramp loader.Sym
+			var tramp sym.ID
 			for i := 0; ; i++ {
 				oName := ldr.SymName(rs)
 				name := oName + fmt.Sprintf("%+x-tramp%d", r.Add(), i)
@@ -1388,7 +1388,7 @@ func trampoline(ctxt *ld.Link, ldr *loader.Loader, ri int, rs, s loader.Sym) {
 }
 
 // generate a trampoline to target+offset.
-func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym, offset int64) {
+func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target sym.ID, offset int64) {
 	tramp.SetSize(12) // 3 instructions
 	P := make([]byte, tramp.Size())
 	o1 := uint32(0x90000010) // adrp x16, target
@@ -1406,7 +1406,7 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 }
 
 // generate a trampoline to target+offset for a DYNIMPORT symbol via GOT.
-func gentrampgot(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target loader.Sym) {
+func gentrampgot(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, target sym.ID) {
 	tramp.SetSize(12) // 3 instructions
 	P := make([]byte, tramp.Size())
 	o1 := uint32(0x90000010) // adrp x16, target@GOT

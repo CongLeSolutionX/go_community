@@ -6,7 +6,6 @@ package ld
 
 import (
 	"cmd/internal/objabi"
-	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"fmt"
 	"runtime"
@@ -185,14 +184,14 @@ func sizeExtRelocs(ctxt *Link, relsize uint32) {
 // relocSectFn wraps the function writing relocations of a section
 // for parallel execution. Returns the wrapped function and a wait
 // group for which the caller should wait.
-func relocSectFn(ctxt *Link, relocSect func(*Link, *OutBuf, *sym.Section, []loader.Sym)) (func(*Link, *sym.Section, []loader.Sym), *sync.WaitGroup) {
-	var fn func(ctxt *Link, sect *sym.Section, syms []loader.Sym)
+func relocSectFn(ctxt *Link, relocSect func(*Link, *OutBuf, *sym.Section, []sym.ID)) (func(*Link, *sym.Section, []sym.ID), *sync.WaitGroup) {
+	var fn func(ctxt *Link, sect *sym.Section, syms []sym.ID)
 	var wg sync.WaitGroup
 	var sem chan int
 	if ctxt.Out.isMmapped() {
 		// Write sections in parallel.
 		sem = make(chan int, 2*runtime.GOMAXPROCS(0))
-		fn = func(ctxt *Link, sect *sym.Section, syms []loader.Sym) {
+		fn = func(ctxt *Link, sect *sym.Section, syms []sym.ID) {
 			wg.Add(1)
 			sem <- 1
 			out, err := ctxt.Out.View(sect.Reloff)
@@ -207,7 +206,7 @@ func relocSectFn(ctxt *Link, relocSect func(*Link, *OutBuf, *sym.Section, []load
 		}
 	} else {
 		// We cannot Mmap. Write sequentially.
-		fn = func(ctxt *Link, sect *sym.Section, syms []loader.Sym) {
+		fn = func(ctxt *Link, sect *sym.Section, syms []sym.ID) {
 			relocSect(ctxt, ctxt.Out, sect, syms)
 		}
 	}

@@ -65,7 +65,7 @@ type ElfSect struct {
 	entsize     uint64
 	base        []byte
 	readOnlyMem bool // Is this section in readonly memory?
-	sym         loader.Sym
+	sym         sym.ID
 }
 
 type ElfObj struct {
@@ -103,7 +103,7 @@ type ElfSym struct {
 	type_ elf.SymType
 	other uint8
 	shndx elf.SectionIndex
-	sym   loader.Sym
+	sym   sym.ID
 }
 
 const (
@@ -241,12 +241,12 @@ func parseArmAttributes(e binary.ByteOrder, data []byte) (found bool, ehdrFlags 
 // parameter initEhdrFlags contains the current header flags for the output
 // object, and the returned ehdrFlags contains what this Load function computes.
 // TODO: find a better place for this logic.
-func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, pkg string, length int64, pn string, initEhdrFlags uint32) (textp []loader.Sym, ehdrFlags uint32, err error) {
-	newSym := func(name string, version int) loader.Sym {
+func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, pkg string, length int64, pn string, initEhdrFlags uint32) (textp []sym.ID, ehdrFlags uint32, err error) {
+	newSym := func(name string, version int) sym.ID {
 		return l.CreateStaticSym(name)
 	}
 	lookup := l.LookupOrCreateCgoExport
-	errorf := func(str string, args ...interface{}) ([]loader.Sym, uint32, error) {
+	errorf := func(str string, args ...interface{}) ([]sym.ID, uint32, error) {
 		return nil, 0, fmt.Errorf("loadelf: %s: %v", pn, fmt.Sprintf(str, args...))
 	}
 
@@ -552,7 +552,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 
 	// enter sub-symbols into symbol table.
 	// symbol 0 is the null symbol.
-	symbols := make([]loader.Sym, elfobj.nsymtab)
+	symbols := make([]sym.ID, elfobj.nsymtab)
 
 	for i := 1; i < elfobj.nsymtab; i++ {
 		var elfsym ElfSym
@@ -722,7 +722,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 			var relocType uint64
 			var rOff int32
 			var rAdd int64
-			var rSym loader.Sym
+			var rSym sym.ID
 
 			if is64 != 0 {
 				// 64-bit rel/rela
@@ -847,7 +847,7 @@ func elfmap(elfobj *ElfObj, sect *ElfSect) (err error) {
 	return nil
 }
 
-func readelfsym(newSym, lookup func(string, int) loader.Sym, l *loader.Loader, arch *sys.Arch, elfobj *ElfObj, i int, elfsym *ElfSym, needSym int, localSymVersion int) (err error) {
+func readelfsym(newSym, lookup func(string, int) sym.ID, l *loader.Loader, arch *sys.Arch, elfobj *ElfObj, i int, elfsym *ElfSym, needSym int, localSymVersion int) (err error) {
 	if i >= elfobj.nsymtab || i < 0 {
 		err = fmt.Errorf("invalid elf symbol index")
 		return err
@@ -879,7 +879,7 @@ func readelfsym(newSym, lookup func(string, int) loader.Sym, l *loader.Loader, a
 		elfsym.other = b.Other
 	}
 
-	var s loader.Sym
+	var s sym.ID
 
 	if elfsym.name == "_GLOBAL_OFFSET_TABLE_" {
 		elfsym.name = ".got"

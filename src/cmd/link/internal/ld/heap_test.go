@@ -5,12 +5,12 @@
 package ld
 
 import (
-	"cmd/link/internal/loader"
+	"cmd/link/internal/sym"
 	"testing"
 )
 
 func TestHeap(t *testing.T) {
-	tests := [][]loader.Sym{
+	tests := [][]sym.ID{
 		{10, 20, 30, 40, 50, 60, 70, 80, 90, 100},
 		{100, 90, 80, 70, 60, 50, 40, 30, 20, 10},
 		{30, 50, 80, 20, 60, 70, 10, 100, 90, 40},
@@ -29,7 +29,7 @@ func TestHeap(t *testing.T) {
 				t.Errorf("heap invariant violated: %v", h)
 			}
 			// pop should return elements in ascending order.
-			if want := loader.Sym((j + 1) * 10); x != want {
+			if want := sym.ID((j + 1) * 10); x != want {
 				t.Errorf("pop returns wrong element: want %d, got %d", want, x)
 			}
 		}

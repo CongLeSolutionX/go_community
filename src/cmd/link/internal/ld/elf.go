@@ -206,9 +206,9 @@ type ELFArch struct {
 	Dragonflydynld string
 	Solarisdynld   string
 
-	Reloc1    func(*Link, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int, int64) bool
+	Reloc1    func(*Link, *OutBuf, *loader.Loader, sym.ID, loader.ExtReloc, int, int64) bool
 	RelocSize uint32 // size of an ELF relocation record, must match Reloc1.
-	SetupPLT  func(ctxt *Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym)
+	SetupPLT  func(ctxt *Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic sym.ID)
 
 	// DynamicReadOnly can be set to true to make the .dynamic
 	// section read-only. By default it is writable.
@@ -381,7 +381,7 @@ func elfwriteshdrs(out *OutBuf) uint32 {
 	return uint32(ehdr.Shnum) * ELF32SHDRSIZE
 }
 
-func elfsetstring(ctxt *Link, s loader.Sym, str string, off int) {
+func elfsetstring(ctxt *Link, s sym.ID, str string, off int) {
 	if nelfstr >= len(elfstr) {
 		ctxt.Errorf(s, "too many elf strings")
 		errorexit()
@@ -496,7 +496,7 @@ func elfhash(name string) uint32 {
 	return h
 }
 
-func elfWriteDynEntSym(ctxt *Link, s *loader.SymbolBuilder, tag elf.DynTag, t loader.Sym) {
+func elfWriteDynEntSym(ctxt *Link, s *loader.SymbolBuilder, tag elf.DynTag, t sym.ID) {
 	Elfwritedynentsymplus(ctxt, s, tag, t, 0)
 }
 
@@ -510,7 +510,7 @@ func Elfwritedynent(arch *sys.Arch, s *loader.SymbolBuilder, tag elf.DynTag, val
 	}
 }
 
-func Elfwritedynentsymplus(ctxt *Link, s *loader.SymbolBuilder, tag elf.DynTag, t loader.Sym, add int64) {
+func Elfwritedynentsymplus(ctxt *Link, s *loader.SymbolBuilder, tag elf.DynTag, t sym.ID, add int64) {
 	if elf64 {
 		s.AddUint64(ctxt.Arch, uint64(tag))
 	} else {
@@ -519,7 +519,7 @@ func Elfwritedynentsymplus(ctxt *Link, s *loader.SymbolBuilder, tag elf.DynTag, 
 	s.AddAddrPlus(ctxt.Arch, t, add)
 }
 
-func elfwritedynentsymsize(ctxt *Link, s *loader.SymbolBuilder, tag elf.DynTag, t loader.Sym) {
+func elfwritedynentsymsize(ctxt *Link, s *loader.SymbolBuilder, tag elf.DynTag, t sym.ID) {
 	if elf64 {
 		s.AddUint64(ctxt.Arch, uint64(tag))
 	} else {
@@ -1259,7 +1259,7 @@ func elfshreloc(arch *sys.Arch, sect *sym.Section) *ElfShdr {
 	return sh
 }
 
-func elfrelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []loader.Sym) {
+func elfrelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []sym.ID) {
 	// If main section is SHT_NOBITS, nothing to relocate.
 	// Also nothing to relocate in .shstrtab.
 	if sect.Vaddr >= sect.Seg.Vaddr+sect.Seg.Filelen {
@@ -1349,7 +1349,7 @@ func elfEmitReloc(ctxt *Link) {
 	for i := 0; i < len(Segdwarf.Sections); i++ {
 		sect := Segdwarf.Sections[i]
 		si := dwarfp[i]
-		if si.secSym() != loader.Sym(sect.Sym) ||
+		if si.secSym() != sym.ID(sect.Sym) ||
 			ctxt.loader.SymSect(si.secSym()) != sect {
 			panic("inconsistency between dwarfp and Segdwarf")
 		}
@@ -1694,7 +1694,7 @@ func (ctxt *Link) doelf() {
 }
 
 // Do not write DT_NULL.  elfdynhash will finish it.
-func shsym(sh *ElfShdr, ldr *loader.Loader, s loader.Sym) {
+func shsym(sh *ElfShdr, ldr *loader.Loader, s sym.ID) {
 	if s == 0 {
 		panic("bad symbol in shsym2")
 	}
@@ -2334,7 +2334,7 @@ elfobj:
 	}
 }
 
-func elfadddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.Sym) {
+func elfadddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s sym.ID) {
 	ldr.SetSymDynid(s, int32(Nelfsym))
 	Nelfsym++
 	d := ldr.MakeSymbolUpdater(syms.DynSym)

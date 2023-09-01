@@ -23,20 +23,20 @@ const funcSize = 11 * 4 // funcSize is the size of the _func object in runtime/r
 // pclntab holds the state needed for pclntab generation.
 type pclntab struct {
 	// The first and last functions found.
-	firstFunc, lastFunc loader.Sym
+	firstFunc, lastFunc sym.ID
 
 	// Running total size of pclntab.
 	size int64
 
 	// runtime.pclntab's symbols
-	carrier     loader.Sym
-	pclntab     loader.Sym
-	pcheader    loader.Sym
-	funcnametab loader.Sym
-	findfunctab loader.Sym
-	cutab       loader.Sym
-	filetab     loader.Sym
-	pctab       loader.Sym
+	carrier     sym.ID
+	pclntab     sym.ID
+	pcheader    sym.ID
+	funcnametab sym.ID
+	findfunctab sym.ID
+	cutab       sym.ID
+	filetab     sym.ID
+	pctab       sym.ID
 
 	// The number of functions + number of TEXT sections - 1. This is such an
 	// unexpected value because platforms that have more than one TEXT section
@@ -53,7 +53,7 @@ type pclntab struct {
 
 // addGeneratedSym adds a generator symbol to pclntab, returning the new Sym.
 // It is the caller's responsibility to save the symbol in state.
-func (state *pclntab) addGeneratedSym(ctxt *Link, name string, size int64, f generatorFunc) loader.Sym {
+func (state *pclntab) addGeneratedSym(ctxt *Link, name string, size int64, f generatorFunc) sym.ID {
 	size = Rnd(size, int64(ctxt.Arch.PtrSize))
 	state.size += size
 	s := ctxt.createGeneratorSymbol(name, 0, sym.SPCLNTAB, size, f)
@@ -67,14 +67,14 @@ func (state *pclntab) addGeneratedSym(ctxt *Link, name string, size int64, f gen
 // we'll need to write pclntab. Returns the pclntab structure, a slice of the
 // CompilationUnits we need, and a slice of the function symbols we need to
 // generate pclntab.
-func makePclntab(ctxt *Link, container loader.Bitmap) (*pclntab, []*sym.CompilationUnit, []loader.Sym) {
+func makePclntab(ctxt *Link, container loader.Bitmap) (*pclntab, []*sym.CompilationUnit, []sym.ID) {
 	ldr := ctxt.loader
 	state := new(pclntab)
 
 	// Gather some basic stats and info.
 	seenCUs := make(map[*sym.CompilationUnit]struct{})
 	compUnits := []*sym.CompilationUnit{}
-	funcs := []loader.Sym{}
+	funcs := []sym.ID{}
 
 	for _, s := range ctxt.Textp {
 		if !emitPcln(ctxt, s, container) {
@@ -99,7 +99,7 @@ func makePclntab(ctxt *Link, container loader.Bitmap) (*pclntab, []*sym.Compilat
 	return state, compUnits, funcs
 }
 
-func emitPcln(ctxt *Link, s loader.Sym, container loader.Bitmap) bool {
+func emitPcln(ctxt *Link, s sym.ID, container loader.Bitmap) bool {
 	if ctxt.Target.IsRISCV64() {
 		// Avoid adding local symbols to the pcln table - RISC-V
 		// linking generates a very large number of these, particularly
@@ -118,7 +118,7 @@ func emitPcln(ctxt *Link, s loader.Sym, container loader.Bitmap) bool {
 	return !container.Has(s)
 }
 
-func computeDeferReturn(ctxt *Link, deferReturnSym, s loader.Sym) uint32 {
+func computeDeferReturn(ctxt *Link, deferReturnSym, s sym.ID) uint32 {
 	ldr := ctxt.loader
 	target := ctxt.Target
 	deferreturn := uint32(0)
@@ -162,7 +162,7 @@ func computeDeferReturn(ctxt *Link, deferReturnSym, s loader.Sym) uint32 {
 
 // genInlTreeSym generates the InlTree sym for a function with the
 // specified FuncInfo.
-func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch *sys.Arch, nameOffsets map[loader.Sym]uint32) loader.Sym {
+func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch *sys.Arch, nameOffsets map[sym.ID]uint32) sym.ID {
 	ldr := ctxt.loader
 	its := ldr.CreateExtSym("", 0)
 	inlTreeSym := ldr.MakeSymbolUpdater(its)
@@ -210,11 +210,11 @@ func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch
 	return its
 }
 
-// makeInlSyms returns a map of loader.Sym that are created inlSyms.
-func makeInlSyms(ctxt *Link, funcs []loader.Sym, nameOffsets map[loader.Sym]uint32) map[loader.Sym]loader.Sym {
+// makeInlSyms returns a map of sym.ID that are created inlSyms.
+func makeInlSyms(ctxt *Link, funcs []sym.ID, nameOffsets map[sym.ID]uint32) map[sym.ID]sym.ID {
 	ldr := ctxt.loader
 	// Create the inline symbols we need.
-	inlSyms := make(map[loader.Sym]loader.Sym)
+	inlSyms := make(map[sym.ID]sym.ID)
 	for _, s := range funcs {
 		if fi := ldr.FuncInfo(s); fi.Valid() {
 			fi.Preload()
@@ -232,10 +232,10 @@ func (state *pclntab) generatePCHeader(ctxt *Link) {
 	ldr := ctxt.loader
 	textStartOff := int64(8 + 2*ctxt.Arch.PtrSize)
 	size := int64(8 + 8*ctxt.Arch.PtrSize)
-	writeHeader := func(ctxt *Link, s loader.Sym) {
+	writeHeader := func(ctxt *Link, s sym.ID) {
 		header := ctxt.loader.MakeSymbolUpdater(s)
 
-		writeSymOffset := func(off int64, ws loader.Sym) int64 {
+		writeSymOffset := func(off int64, ws sym.ID) int64 {
 			diff := ldr.SymValue(ws) - ldr.SymValue(s)
 			if diff <= 0 {
 				name := ldr.SymName(ws)
@@ -273,9 +273,9 @@ func (state *pclntab) generatePCHeader(ctxt *Link) {
 
 // walkFuncs iterates over the funcs, calling a function for each unique
 // function and inlined function.
-func walkFuncs(ctxt *Link, funcs []loader.Sym, f func(loader.Sym)) {
+func walkFuncs(ctxt *Link, funcs []sym.ID, f func(sym.ID)) {
 	ldr := ctxt.loader
-	seen := make(map[loader.Sym]struct{})
+	seen := make(map[sym.ID]struct{})
 	for _, s := range funcs {
 		if _, ok := seen[s]; !ok {
 			f(s)
@@ -299,11 +299,11 @@ func walkFuncs(ctxt *Link, funcs []loader.Sym, f func(loader.Sym)) {
 
 // generateFuncnametab creates the function name table. Returns a map of
 // func symbol to the name offset in runtime.funcnamtab.
-func (state *pclntab) generateFuncnametab(ctxt *Link, funcs []loader.Sym) map[loader.Sym]uint32 {
-	nameOffsets := make(map[loader.Sym]uint32, state.nfunc)
+func (state *pclntab) generateFuncnametab(ctxt *Link, funcs []sym.ID) map[sym.ID]uint32 {
+	nameOffsets := make(map[sym.ID]uint32, state.nfunc)
 
 	// Write the null terminated strings.
-	writeFuncNameTab := func(ctxt *Link, s loader.Sym) {
+	writeFuncNameTab := func(ctxt *Link, s sym.ID) {
 		symtab := ctxt.loader.MakeSymbolUpdater(s)
 		for s, off := range nameOffsets {
 			symtab.AddCStringAt(int64(off), ctxt.loader.SymName(s))
@@ -312,7 +312,7 @@ func (state *pclntab) generateFuncnametab(ctxt *Link, funcs []loader.Sym) map[lo
 
 	// Loop through the CUs, and calculate the size needed.
 	var size int64
-	walkFuncs(ctxt, funcs, func(s loader.Sym) {
+	walkFuncs(ctxt, funcs, func(s sym.ID) {
 		nameOffsets[s] = uint32(size)
 		size += int64(len(ctxt.loader.SymName(s)) + 1) // NULL terminate
 	})
@@ -323,7 +323,7 @@ func (state *pclntab) generateFuncnametab(ctxt *Link, funcs []loader.Sym) map[lo
 
 // walkFilenames walks funcs, calling a function for each filename used in each
 // function's line table.
-func walkFilenames(ctxt *Link, funcs []loader.Sym, f func(*sym.CompilationUnit, goobj.CUFileIndex)) {
+func walkFilenames(ctxt *Link, funcs []sym.ID, f func(*sym.CompilationUnit, goobj.CUFileIndex)) {
 	ldr := ctxt.loader
 
 	// Loop through all functions, finding the filenames we need.
@@ -367,7 +367,7 @@ func walkFilenames(ctxt *Link, funcs []loader.Sym, f func(*sym.CompilationUnit, 
 //  1. Get Func.CUIndex:       M := func.cuOffset
 //  2. Find filename offset:   fileOffset := runtime.cutab[M+K]
 //  3. Get the filename:       getcstring(runtime.filetab[fileOffset])
-func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.CompilationUnit, funcs []loader.Sym) []uint32 {
+func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.CompilationUnit, funcs []sym.ID) []uint32 {
 	// On a per-CU basis, keep track of all the filenames we need.
 	//
 	// Note, that we store the filenames in a separate section in the object
@@ -414,7 +414,7 @@ func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.Compilat
 	}
 
 	// Write cutab.
-	writeCutab := func(ctxt *Link, s loader.Sym) {
+	writeCutab := func(ctxt *Link, s sym.ID) {
 		sb := ctxt.loader.MakeSymbolUpdater(s)
 
 		var off int64
@@ -436,7 +436,7 @@ func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.Compilat
 	state.cutab = state.addGeneratedSym(ctxt, "runtime.cutab", int64(totalEntries*4), writeCutab)
 
 	// Write filetab.
-	writeFiletab := func(ctxt *Link, s loader.Sym) {
+	writeFiletab := func(ctxt *Link, s sym.ID) {
 		sb := ctxt.loader.MakeSymbolUpdater(s)
 
 		// Write the strings.
@@ -452,7 +452,7 @@ func (state *pclntab) generateFilenameTabs(ctxt *Link, compUnits []*sym.Compilat
 
 // generatePctab creates the runtime.pctab variable, holding all the
 // deduplicated pcdata.
-func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
+func (state *pclntab) generatePctab(ctxt *Link, funcs []sym.ID) {
 	ldr := ctxt.loader
 
 	// Pctab offsets of 0 are considered invalid in the runtime. We respect
@@ -461,8 +461,8 @@ func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
 	size := int64(1)
 
 	// Walk the functions, finding offset to store each pcdata.
-	seen := make(map[loader.Sym]struct{})
-	saveOffset := func(pcSym loader.Sym) {
+	seen := make(map[sym.ID]struct{})
+	saveOffset := func(pcSym sym.ID) {
 		if _, ok := seen[pcSym]; !ok {
 			datSize := ldr.SymSize(pcSym)
 			if datSize != 0 {
@@ -475,8 +475,8 @@ func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
 			seen[pcSym] = struct{}{}
 		}
 	}
-	var pcsp, pcline, pcfile, pcinline loader.Sym
-	var pcdata []loader.Sym
+	var pcsp, pcline, pcfile, pcinline sym.ID
+	var pcdata []sym.ID
 	for _, s := range funcs {
 		fi := ldr.FuncInfo(s)
 		if !fi.Valid() {
@@ -485,7 +485,7 @@ func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
 		fi.Preload()
 		pcsp, pcfile, pcline, pcinline, pcdata = ldr.PcdataAuxs(s, pcdata)
 
-		pcSyms := []loader.Sym{pcsp, pcfile, pcline}
+		pcSyms := []sym.ID{pcsp, pcfile, pcline}
 		for _, pcSym := range pcSyms {
 			saveOffset(pcSym)
 		}
@@ -501,7 +501,7 @@ func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
 	// could be moved to a carrier symbol. However, carrier symbols containing
 	// carrier symbols don't work yet (as of Aug 2020). Once this is fixed,
 	// runtime.pctab could just be a carrier sym.
-	writePctab := func(ctxt *Link, s loader.Sym) {
+	writePctab := func(ctxt *Link, s sym.ID) {
 		ldr := ctxt.loader
 		sb := ldr.MakeSymbolUpdater(s)
 		for sym := range seen {
@@ -514,7 +514,7 @@ func (state *pclntab) generatePctab(ctxt *Link, funcs []loader.Sym) {
 
 // numPCData returns the number of PCData syms for the FuncInfo.
 // NB: Preload must be called on valid FuncInfos before calling this function.
-func numPCData(ldr *loader.Loader, s loader.Sym, fi loader.FuncInfo) uint32 {
+func numPCData(ldr *loader.Loader, s sym.ID, fi loader.FuncInfo) uint32 {
 	if !fi.Valid() {
 		return 0
 	}
@@ -533,10 +533,10 @@ func numPCData(ldr *loader.Loader, s loader.Sym, fi loader.FuncInfo) uint32 {
 //
 //   - pc->func look up table.
 //   - array of func objects, interleaved with pcdata and funcdata
-func (state *pclntab) generateFunctab(ctxt *Link, funcs []loader.Sym, inlSyms map[loader.Sym]loader.Sym, cuOffsets []uint32, nameOffsets map[loader.Sym]uint32) {
+func (state *pclntab) generateFunctab(ctxt *Link, funcs []sym.ID, inlSyms map[sym.ID]sym.ID, cuOffsets []uint32, nameOffsets map[sym.ID]uint32) {
 	// Calculate the size of the table.
 	size, startLocations := state.calculateFunctabSize(ctxt, funcs)
-	writePcln := func(ctxt *Link, s loader.Sym) {
+	writePcln := func(ctxt *Link, s sym.ID) {
 		ldr := ctxt.loader
 		sb := ldr.MakeSymbolUpdater(s)
 		// Write the data.
@@ -553,13 +553,13 @@ func (state *pclntab) generateFunctab(ctxt *Link, funcs []loader.Sym, inlSyms ma
 //
 // NB: Preload must be called on the FuncInfo before calling.
 // NB: fdSyms is used as scratch space.
-func funcData(ldr *loader.Loader, s loader.Sym, fi loader.FuncInfo, inlSym loader.Sym, fdSyms []loader.Sym) []loader.Sym {
+func funcData(ldr *loader.Loader, s sym.ID, fi loader.FuncInfo, inlSym sym.ID, fdSyms []sym.ID) []sym.ID {
 	fdSyms = fdSyms[:0]
 	if fi.Valid() {
 		fdSyms = ldr.Funcdata(s, fdSyms)
 		if fi.NumInlTree() > 0 {
 			if len(fdSyms) < abi.FUNCDATA_InlTree+1 {
-				fdSyms = append(fdSyms, make([]loader.Sym, abi.FUNCDATA_InlTree+1-len(fdSyms))...)
+				fdSyms = append(fdSyms, make([]sym.ID, abi.FUNCDATA_InlTree+1-len(fdSyms))...)
 			}
 			fdSyms[abi.FUNCDATA_InlTree] = inlSym
 		}
@@ -569,7 +569,7 @@ func funcData(ldr *loader.Loader, s loader.Sym, fi loader.FuncInfo, inlSym loade
 
 // calculateFunctabSize calculates the size of the pclntab, and the offsets in
 // the output buffer for individual func entries.
-func (state pclntab) calculateFunctabSize(ctxt *Link, funcs []loader.Sym) (int64, []uint32) {
+func (state pclntab) calculateFunctabSize(ctxt *Link, funcs []sym.ID) (int64, []uint32) {
 	ldr := ctxt.loader
 	startLocations := make([]uint32, len(funcs))
 
@@ -602,10 +602,10 @@ func (state pclntab) calculateFunctabSize(ctxt *Link, funcs []loader.Sym) (int64
 }
 
 // writePCToFunc writes the PC->func lookup table.
-func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, startLocations []uint32) {
+func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []sym.ID, startLocations []uint32) {
 	ldr := ctxt.loader
 	textStart := ldr.SymValue(ldr.Lookup("runtime.text", 0))
-	pcOff := func(s loader.Sym) uint32 {
+	pcOff := func(s sym.ID) uint32 {
 		off := ldr.SymValue(s) - textStart
 		if off < 0 {
 			panic(fmt.Sprintf("expected func %s(%x) to be placed at or after textStart (%x)", ldr.SymName(s), ldr.SymValue(s), textStart))
@@ -623,15 +623,15 @@ func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, sta
 }
 
 // writeFuncs writes the func structures and pcdata to runtime.functab.
-func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, inlSyms map[loader.Sym]loader.Sym, startLocations, cuOffsets []uint32, nameOffsets map[loader.Sym]uint32) {
+func writeFuncs(ctxt *Link, sb *loader.SymbolBuilder, funcs []sym.ID, inlSyms map[sym.ID]sym.ID, startLocations, cuOffsets []uint32, nameOffsets map[sym.ID]uint32) {
 	ldr := ctxt.loader
 	deferReturnSym := ldr.Lookup("runtime.deferreturn", abiInternalVer)
 	gofunc := ldr.Lookup("go:func.*", 0)
 	gofuncBase := ldr.SymValue(gofunc)
 	textStart := ldr.SymValue(ldr.Lookup("runtime.text", 0))
-	funcdata := []loader.Sym{}
-	var pcsp, pcfile, pcline, pcinline loader.Sym
-	var pcdata []loader.Sym
+	funcdata := []sym.ID{}
+	var pcsp, pcfile, pcline, pcinline sym.ID
+	var pcdata []sym.ID
 
 	// Write the individual func objects.
 	for i, s := range funcs {
@@ -851,7 +851,7 @@ func (ctxt *Link) findfunctab(state *pclntab, container loader.Bitmap) {
 
 	size := 4*int64(nbuckets) + int64(n)
 
-	writeFindFuncTab := func(_ *Link, s loader.Sym) {
+	writeFindFuncTab := func(_ *Link, s sym.ID) {
 		t := ldr.MakeSymbolUpdater(s)
 
 		indexes := make([]int32, n)
@@ -864,7 +864,7 @@ func (ctxt *Link) findfunctab(state *pclntab, container loader.Bitmap) {
 				continue
 			}
 			p := ldr.SymValue(s)
-			var e loader.Sym
+			var e sym.ID
 			i++
 			if i < len(ctxt.Textp) {
 				e = ctxt.Textp[i]

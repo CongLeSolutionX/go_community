@@ -75,9 +75,9 @@ type ArHdr struct {
 // reference is going to be eventually forwarded to the corresponding
 // SDYNIMPORT symbol, so here we strip out such refs from the undefs
 // list.
-func pruneUndefsForWindows(ldr *loader.Loader, undefs, froms []loader.Sym) ([]loader.Sym, []loader.Sym) {
-	var newundefs []loader.Sym
-	var newfroms []loader.Sym
+func pruneUndefsForWindows(ldr *loader.Loader, undefs, froms []sym.ID) ([]sym.ID, []sym.ID) {
+	var newundefs []sym.ID
+	var newfroms []sym.ID
 	for _, s := range undefs {
 		sname := ldr.SymName(s)
 		if strings.HasPrefix(sname, "__imp_") {

@@ -11,8 +11,8 @@ import (
 )
 
 var sehp struct {
-	pdata loader.Sym
-	xdata loader.Sym
+	pdata sym.ID
+	xdata sym.ID
 }
 
 func writeSEH(ctxt *Link) {

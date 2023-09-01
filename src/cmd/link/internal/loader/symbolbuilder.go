@@ -16,7 +16,7 @@ import (
 // of new symbol contents.
 type SymbolBuilder struct {
 	*extSymPayload         // points to payload being updated
-	symIdx         Sym     // index of symbol being updated/constructed
+	symIdx         sym.ID  // index of symbol being updated/constructed
 	l              *Loader // loader
 }
 
@@ -35,7 +35,7 @@ func (l *Loader) MakeSymbolBuilder(name string) *SymbolBuilder {
 // a clone of it (copy name, properties, etc) fix things up so that
 // the lookup tables and caches point to the new version, not the old
 // version.
-func (l *Loader) MakeSymbolUpdater(symIdx Sym) *SymbolBuilder {
+func (l *Loader) MakeSymbolUpdater(symIdx sym.ID) *SymbolBuilder {
 	if symIdx == 0 {
 		panic("can't update the null symbol")
 	}
@@ -61,7 +61,7 @@ func (l *Loader) CreateSymForUpdate(name string, version int) *SymbolBuilder {
 
 // Getters for properties of the symbol we're working on.
 
-func (sb *SymbolBuilder) Sym() Sym               { return sb.symIdx }
+func (sb *SymbolBuilder) Sym() sym.ID            { return sb.symIdx }
 func (sb *SymbolBuilder) Name() string           { return sb.name }
 func (sb *SymbolBuilder) Version() int           { return sb.ver }
 func (sb *SymbolBuilder) Type() sym.SymKind      { return sb.kind }
@@ -76,8 +76,8 @@ func (sb *SymbolBuilder) Extname() string        { return sb.l.SymExtname(sb.sym
 func (sb *SymbolBuilder) CgoExportDynamic() bool { return sb.l.AttrCgoExportDynamic(sb.symIdx) }
 func (sb *SymbolBuilder) Dynimplib() string      { return sb.l.SymDynimplib(sb.symIdx) }
 func (sb *SymbolBuilder) Dynimpvers() string     { return sb.l.SymDynimpvers(sb.symIdx) }
-func (sb *SymbolBuilder) SubSym() Sym            { return sb.l.SubSym(sb.symIdx) }
-func (sb *SymbolBuilder) GoType() Sym            { return sb.l.SymGoType(sb.symIdx) }
+func (sb *SymbolBuilder) SubSym() sym.ID         { return sb.l.SubSym(sb.symIdx) }
+func (sb *SymbolBuilder) GoType() sym.ID         { return sb.l.SymGoType(sb.symIdx) }
 func (sb *SymbolBuilder) VisibilityHidden() bool { return sb.l.AttrVisibilityHidden(sb.symIdx) }
 func (sb *SymbolBuilder) Sect() *sym.Section     { return sb.l.SymSect(sb.symIdx) }
 
@@ -129,7 +129,7 @@ func (sb *SymbolBuilder) SetRelocType(i int, t objabi.RelocType) {
 }
 
 // SetRelocSym sets the target sym of the 'i'-th relocation on this sym to 's'
-func (sb *SymbolBuilder) SetRelocSym(i int, tgt Sym) {
+func (sb *SymbolBuilder) SetRelocSym(i int, tgt sym.ID) {
 	sb.relocs[i].SetSym(goobj.SymRef{PkgIdx: 0, SymIdx: uint32(tgt)})
 }
 
@@ -196,11 +196,11 @@ func (sb *SymbolBuilder) SetDuplicateOK(v bool) {
 	sb.l.SetAttrDuplicateOK(sb.symIdx, v)
 }
 
-func (sb *SymbolBuilder) Outer() Sym {
+func (sb *SymbolBuilder) Outer() sym.ID {
 	return sb.l.OuterSym(sb.symIdx)
 }
 
-func (sb *SymbolBuilder) Sub() Sym {
+func (sb *SymbolBuilder) Sub() sym.ID {
 	return sb.l.SubSym(sb.symIdx)
 }
 
@@ -208,7 +208,7 @@ func (sb *SymbolBuilder) SortSub() {
 	sb.l.SortSub(sb.symIdx)
 }
 
-func (sb *SymbolBuilder) AddInteriorSym(sub Sym) {
+func (sb *SymbolBuilder) AddInteriorSym(sub sym.ID) {
 	sb.l.AddInteriorSym(sb.symIdx, sub)
 }
 
@@ -287,7 +287,7 @@ func (sb *SymbolBuilder) SetUintptr(arch *sys.Arch, r int64, v uintptr) int64 {
 	return sb.setUintXX(arch, r, uint64(v), int64(arch.PtrSize))
 }
 
-func (sb *SymbolBuilder) SetAddrPlus(arch *sys.Arch, off int64, tgt Sym, add int64) int64 {
+func (sb *SymbolBuilder) SetAddrPlus(arch *sys.Arch, off int64, tgt sym.ID, add int64) int64 {
 	if sb.Type() == 0 {
 		sb.SetType(sym.SDATA)
 	}
@@ -303,7 +303,7 @@ func (sb *SymbolBuilder) SetAddrPlus(arch *sys.Arch, off int64, tgt Sym, add int
 	return off + int64(r.Siz())
 }
 
-func (sb *SymbolBuilder) SetAddr(arch *sys.Arch, off int64, tgt Sym) int64 {
+func (sb *SymbolBuilder) SetAddr(arch *sys.Arch, off int64, tgt sym.ID) int64 {
 	return sb.SetAddrPlus(arch, off, tgt, 0)
 }
 
@@ -347,7 +347,7 @@ func (sb *SymbolBuilder) SetBytesAt(off int64, b []byte) int64 {
 	return off + datLen
 }
 
-func (sb *SymbolBuilder) addSymRef(tgt Sym, add int64, typ objabi.RelocType, rsize int) int64 {
+func (sb *SymbolBuilder) addSymRef(tgt sym.ID, add int64, typ objabi.RelocType, rsize int) int64 {
 	if sb.kind == 0 {
 		sb.kind = sym.SDATA
 	}
@@ -367,35 +367,35 @@ func (sb *SymbolBuilder) addSymRef(tgt Sym, add int64, typ objabi.RelocType, rsi
 
 // Add a symbol reference (relocation) with given type, addend, and size
 // (the most generic form).
-func (sb *SymbolBuilder) AddSymRef(arch *sys.Arch, tgt Sym, add int64, typ objabi.RelocType, rsize int) int64 {
+func (sb *SymbolBuilder) AddSymRef(arch *sys.Arch, tgt sym.ID, add int64, typ objabi.RelocType, rsize int) int64 {
 	return sb.addSymRef(tgt, add, typ, rsize)
 }
 
-func (sb *SymbolBuilder) AddAddrPlus(arch *sys.Arch, tgt Sym, add int64) int64 {
+func (sb *SymbolBuilder) AddAddrPlus(arch *sys.Arch, tgt sym.ID, add int64) int64 {
 	return sb.addSymRef(tgt, add, objabi.R_ADDR, arch.PtrSize)
 }
 
-func (sb *SymbolBuilder) AddAddrPlus4(arch *sys.Arch, tgt Sym, add int64) int64 {
+func (sb *SymbolBuilder) AddAddrPlus4(arch *sys.Arch, tgt sym.ID, add int64) int64 {
 	return sb.addSymRef(tgt, add, objabi.R_ADDR, 4)
 }
 
-func (sb *SymbolBuilder) AddAddr(arch *sys.Arch, tgt Sym) int64 {
+func (sb *SymbolBuilder) AddAddr(arch *sys.Arch, tgt sym.ID) int64 {
 	return sb.AddAddrPlus(arch, tgt, 0)
 }
 
-func (sb *SymbolBuilder) AddPEImageRelativeAddrPlus(arch *sys.Arch, tgt Sym, add int64) int64 {
+func (sb *SymbolBuilder) AddPEImageRelativeAddrPlus(arch *sys.Arch, tgt sym.ID, add int64) int64 {
 	return sb.addSymRef(tgt, add, objabi.R_PEIMAGEOFF, 4)
 }
 
-func (sb *SymbolBuilder) AddPCRelPlus(arch *sys.Arch, tgt Sym, add int64) int64 {
+func (sb *SymbolBuilder) AddPCRelPlus(arch *sys.Arch, tgt sym.ID, add int64) int64 {
 	return sb.addSymRef(tgt, add, objabi.R_PCREL, 4)
 }
 
-func (sb *SymbolBuilder) AddCURelativeAddrPlus(arch *sys.Arch, tgt Sym, add int64) int64 {
+func (sb *SymbolBuilder) AddCURelativeAddrPlus(arch *sys.Arch, tgt sym.ID, add int64) int64 {
 	return sb.addSymRef(tgt, add, objabi.R_ADDRCUOFF, arch.PtrSize)
 }
 
-func (sb *SymbolBuilder) AddSize(arch *sys.Arch, tgt Sym) int64 {
+func (sb *SymbolBuilder) AddSize(arch *sys.Arch, tgt sym.ID) int64 {
 	return sb.addSymRef(tgt, 0, objabi.R_SIZE, arch.PtrSize)
 }
 
@@ -407,9 +407,9 @@ func (sb *SymbolBuilder) AddSize(arch *sys.Arch, tgt Sym) int64 {
 // this function (setting 'internalExec' based on build mode and target)
 // and then invoke the returned function in roughly the same way that
 // loader.*SymbolBuilder.AddAddrPlus would be used.
-func GenAddAddrPlusFunc(internalExec bool) func(s *SymbolBuilder, arch *sys.Arch, tgt Sym, add int64) int64 {
+func GenAddAddrPlusFunc(internalExec bool) func(s *SymbolBuilder, arch *sys.Arch, tgt sym.ID, add int64) int64 {
 	if internalExec {
-		return func(s *SymbolBuilder, arch *sys.Arch, tgt Sym, add int64) int64 {
+		return func(s *SymbolBuilder, arch *sys.Arch, tgt sym.ID, add int64) int64 {
 			if v := s.l.SymValue(tgt); v != 0 {
 				return s.AddUint(arch, uint64(v+add))
 			}

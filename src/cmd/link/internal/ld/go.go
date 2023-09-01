@@ -102,7 +102,7 @@ func loadcgo(ctxt *Link, file string, pkg string, p string) {
 
 // Set symbol attributes or flags based on cgo directives.
 // Any newly discovered HOSTOBJ syms are added to 'hostObjSyms'.
-func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, hostObjSyms map[loader.Sym]struct{}) {
+func setCgoAttr(ctxt *Link, file string, pkg string, directives [][]string, hostObjSyms map[sym.ID]struct{}) {
 	l := ctxt.loader
 	for _, f := range directives {
 		switch f[0] {
@@ -365,7 +365,7 @@ func adddynlib(ctxt *Link, lib string) {
 	}
 }
 
-func Adddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.Sym) {
+func Adddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s sym.ID) {
 	if ldr.SymDynid(s) >= 0 || target.LinkMode == LinkExternal {
 		return
 	}
@@ -383,7 +383,7 @@ func Adddynsym(ldr *loader.Loader, target *Target, syms *ArchSyms, s loader.Sym)
 
 func fieldtrack(arch *sys.Arch, l *loader.Loader) {
 	var buf strings.Builder
-	for i := loader.Sym(1); i < loader.Sym(l.NSym()); i++ {
+	for i := sym.ID(1); i < sym.ID(l.NSym()); i++ {
 		if name := l.SymName(i); strings.HasPrefix(name, "go:track.") {
 			if l.AttrReachable(i) {
 				l.SetAttrSpecial(i, true)

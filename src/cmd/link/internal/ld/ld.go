@@ -218,7 +218,7 @@ func atolwhex(s string) int64 {
 // this function is not needed (for example in cases where we're
 // linking a module that contains the runtime) the returned builder
 // will be nil.
-func PrepareAddmoduledata(ctxt *Link) (*loader.SymbolBuilder, loader.Sym) {
+func PrepareAddmoduledata(ctxt *Link) (*loader.SymbolBuilder, sym.ID) {
 	if !ctxt.DynlinkingGo() {
 		return nil, 0
 	}

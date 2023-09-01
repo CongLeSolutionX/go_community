@@ -12,11 +12,11 @@ import (
 )
 
 type unresolvedSymKey struct {
-	from loader.Sym // Symbol that referenced unresolved "to"
-	to   loader.Sym // Unresolved symbol referenced by "from"
+	from sym.ID // Symbol that referenced unresolved "to"
+	to   sym.ID // Unresolved symbol referenced by "from"
 }
 
-type symNameFn func(s loader.Sym) string
+type symNameFn func(s sym.ID) string
 
 // ErrorReporter is used to make error reporting thread safe.
 type ErrorReporter struct {
@@ -27,7 +27,7 @@ type ErrorReporter struct {
 }
 
 // errorUnresolved prints unresolved symbol error for rs that is referenced from s.
-func (reporter *ErrorReporter) errorUnresolved(ldr *loader.Loader, s, rs loader.Sym) {
+func (reporter *ErrorReporter) errorUnresolved(ldr *loader.Loader, s, rs sym.ID) {
 	reporter.unresMutex.Lock()
 	defer reporter.unresMutex.Unlock()
 

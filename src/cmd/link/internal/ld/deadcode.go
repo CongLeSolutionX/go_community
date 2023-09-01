@@ -30,8 +30,8 @@ type deadcodePass struct {
 	dynlink            bool
 
 	methodsigstmp []methodsig // scratch buffer for decoding method signatures
-	pkginits      []loader.Sym
-	mapinitnoop   loader.Sym
+	pkginits      []sym.ID
+	mapinitnoop   sym.ID
 }
 
 func (d *deadcodePass) init() {
@@ -39,7 +39,7 @@ func (d *deadcodePass) init() {
 	d.ifaceMethod = make(map[methodsig]bool)
 	d.genericIfaceMethod = make(map[string]bool)
 	if buildcfg.Experiment.FieldTrack {
-		d.ldr.Reachparent = make([]loader.Sym, d.ldr.NSym())
+		d.ldr.Reachparent = make([]sym.ID, d.ldr.NSym())
 	}
 	d.dynlink = d.ctxt.DynlinkingGo()
 
@@ -48,7 +48,7 @@ func (d *deadcodePass) init() {
 		// building a shared library.
 		n := d.ldr.NDef()
 		for i := 1; i < n; i++ {
-			s := loader.Sym(i)
+			s := sym.ID(i)
 			d.mark(s, 0)
 		}
 		return
@@ -323,7 +323,7 @@ func (d *deadcodePass) mapinitcleanup() {
 	}
 }
 
-func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
+func (d *deadcodePass) mark(symIdx, parent sym.ID) {
 	if symIdx != 0 && !d.ldr.AttrReachable(symIdx) {
 		d.wq.push(symIdx)
 		d.ldr.SetAttrReachable(symIdx, true)
@@ -345,7 +345,7 @@ func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
 	}
 }
 
-func (d *deadcodePass) dumpDepAddFlags(name string, symIdx loader.Sym) string {
+func (d *deadcodePass) dumpDepAddFlags(name string, symIdx sym.ID) string {
 	var flags strings.Builder
 	if d.ldr.AttrUsedInIface(symIdx) {
 		flags.WriteString("<UsedInIface>")
@@ -449,7 +449,7 @@ func deadcode(ctxt *Link) {
 // methodsig is a typed method signature (name + type).
 type methodsig struct {
 	name string
-	typ  loader.Sym // type descriptor symbol of the function
+	typ  sym.ID // type descriptor symbol of the function
 }
 
 // methodref holds the relocations from a receiver type symbol to its
@@ -457,8 +457,8 @@ type methodsig struct {
 // the reflect.method struct: mtyp, ifn, and tfn.
 type methodref struct {
 	m   methodsig
-	src loader.Sym // receiver type symbol
-	r   int        // the index of R_METHODOFF relocations
+	src sym.ID // receiver type symbol
+	r   int    // the index of R_METHODOFF relocations
 }
 
 func (m methodref) isExported() bool {
@@ -474,7 +474,7 @@ func (m methodref) isExported() bool {
 // the function type.
 //
 // Conveniently this is the layout of both runtime.method and runtime.imethod.
-func (d *deadcodePass) decodeMethodSig(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, relocs *loader.Relocs, off, size, count int) []methodsig {
+func (d *deadcodePass) decodeMethodSig(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, relocs *loader.Relocs, off, size, count int) []methodsig {
 	if cap(d.methodsigstmp) < count {
 		d.methodsigstmp = append(d.methodsigstmp[:0], make([]methodsig, count)...)
 	}
@@ -488,7 +488,7 @@ func (d *deadcodePass) decodeMethodSig(ldr *loader.Loader, arch *sys.Arch, symId
 }
 
 // Decode the method of interface type symbol symIdx at offset off.
-func (d *deadcodePass) decodeIfaceMethod(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, off int64) methodsig {
+func (d *deadcodePass) decodeIfaceMethod(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, off int64) methodsig {
 	p := ldr.Data(symIdx)
 	if p == nil {
 		panic(fmt.Sprintf("missing symbol %q", ldr.SymName(symIdx)))
@@ -504,11 +504,11 @@ func (d *deadcodePass) decodeIfaceMethod(ldr *loader.Loader, arch *sys.Arch, sym
 }
 
 // Decode the method name stored in symbol symIdx. The symbol should contain just the bytes of a method name.
-func (d *deadcodePass) decodeGenericIfaceMethod(ldr *loader.Loader, symIdx loader.Sym) string {
+func (d *deadcodePass) decodeGenericIfaceMethod(ldr *loader.Loader, symIdx sym.ID) string {
 	return ldr.DataString(symIdx)
 }
 
-func (d *deadcodePass) decodetypeMethods(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, relocs *loader.Relocs) []methodsig {
+func (d *deadcodePass) decodetypeMethods(ldr *loader.Loader, arch *sys.Arch, symIdx sym.ID, relocs *loader.Relocs) []methodsig {
 	p := ldr.Data(symIdx)
 	if !decodetypeHasUncommon(arch, p) {
 		panic(fmt.Sprintf("no methods on %q", ldr.SymName(symIdx)))

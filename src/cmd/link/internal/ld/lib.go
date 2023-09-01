@@ -97,44 +97,44 @@ import (
 // relocation.  Rather than allowing them universal access to all symbols,
 // we keep a subset for relocation application.
 type ArchSyms struct {
-	Rel     loader.Sym
-	Rela    loader.Sym
-	RelPLT  loader.Sym
-	RelaPLT loader.Sym
+	Rel     sym.ID
+	Rela    sym.ID
+	RelPLT  sym.ID
+	RelaPLT sym.ID
 
-	LinkEditGOT loader.Sym
-	LinkEditPLT loader.Sym
+	LinkEditGOT sym.ID
+	LinkEditPLT sym.ID
 
-	TOC    loader.Sym
-	DotTOC []loader.Sym // for each version
+	TOC    sym.ID
+	DotTOC []sym.ID // for each version
 
-	GOT    loader.Sym
-	PLT    loader.Sym
-	GOTPLT loader.Sym
+	GOT    sym.ID
+	PLT    sym.ID
+	GOTPLT sym.ID
 
-	Tlsg      loader.Sym
+	Tlsg      sym.ID
 	Tlsoffset int
 
-	Dynamic loader.Sym
-	DynSym  loader.Sym
-	DynStr  loader.Sym
+	Dynamic sym.ID
+	DynSym  sym.ID
+	DynStr  sym.ID
 
-	unreachableMethod loader.Sym
+	unreachableMethod sym.ID
 
 	// Symbol containing a list of all the inittasks that need
 	// to be run at startup.
-	mainInittasks loader.Sym
+	mainInittasks sym.ID
 }
 
 // mkArchSym is a helper for setArchSyms, to set up a special symbol.
-func (ctxt *Link) mkArchSym(name string, ver int, ls *loader.Sym) {
+func (ctxt *Link) mkArchSym(name string, ver int, ls *sym.ID) {
 	*ls = ctxt.loader.LookupOrCreateSym(name, ver)
 	ctxt.loader.SetAttrReachable(*ls, true)
 }
 
 // mkArchSymVec is similar to  setArchSyms, but operates on elements within
 // a slice, where each element corresponds to some symbol version.
-func (ctxt *Link) mkArchSymVec(name string, ver int, ls []loader.Sym) {
+func (ctxt *Link) mkArchSymVec(name string, ver int, ls []sym.ID) {
 	ls[ver] = ctxt.loader.LookupOrCreateSym(name, ver)
 	ctxt.loader.SetAttrReachable(ls[ver], true)
 }
@@ -153,7 +153,7 @@ func (ctxt *Link) setArchSyms() {
 	if ctxt.IsPPC64() {
 		ctxt.mkArchSym("TOC", 0, &ctxt.TOC)
 
-		ctxt.DotTOC = make([]loader.Sym, ctxt.MaxVersion()+1)
+		ctxt.DotTOC = make([]sym.ID, ctxt.MaxVersion()+1)
 		for i := 0; i <= ctxt.MaxVersion(); i++ {
 			if i >= sym.SymVerABICount && i < sym.SymVerStatic { // these versions are not used currently
 				continue
@@ -196,7 +196,7 @@ type Arch struct {
 	Plan9Magic  uint32
 	Plan9_64Bit bool
 
-	Adddynrel func(*Target, *loader.Loader, *ArchSyms, loader.Sym, loader.Reloc, int) bool
+	Adddynrel func(*Target, *loader.Loader, *ArchSyms, sym.ID, loader.Reloc, int) bool
 	Archinit  func(*Link)
 	// Archreloc is an arch-specific hook that assists in relocation processing
 	// (invoked by 'relocsym'); it handles target-specific relocation tasks.
@@ -208,7 +208,7 @@ type Arch struct {
 	// ELF/Mach-O/etc. relocations, not Go relocations, this must match ELF.Reloc1,
 	// etc.), and a boolean indicating success/failure (a failing value indicates
 	// a fatal error).
-	Archreloc func(*Target, *loader.Loader, *ArchSyms, loader.Reloc, loader.Sym,
+	Archreloc func(*Target, *loader.Loader, *ArchSyms, loader.Reloc, sym.ID,
 		int64) (relocatedOffset int64, nExtReloc int, ok bool)
 	// Archrelocvariant is a second arch-specific hook used for
 	// relocation processing; it handles relocations where r.Type is
@@ -219,11 +219,11 @@ type Arch struct {
 	// to-be-relocated data item (from sym.P). Return is an updated
 	// offset value.
 	Archrelocvariant func(target *Target, ldr *loader.Loader, rel loader.Reloc,
-		rv sym.RelocVariant, sym loader.Sym, offset int64, data []byte) (relocatedOffset int64)
+		rv sym.RelocVariant, sym sym.ID, offset int64, data []byte) (relocatedOffset int64)
 
 	// Generate a trampoline for a call from s to rs if necessary. ri is
 	// index of the relocation.
-	Trampoline func(ctxt *Link, ldr *loader.Loader, ri int, rs, s loader.Sym)
+	Trampoline func(ctxt *Link, ldr *loader.Loader, ri int, rs, s sym.ID)
 
 	// Assembling the binary breaks into two phases, writing the code/data/
 	// dwarf information (which is rather generic), and some more architecture
@@ -238,13 +238,13 @@ type Arch struct {
 	// Extreloc is an arch-specific hook that converts a Go relocation to an
 	// external relocation. Return the external relocation and whether it is
 	// needed.
-	Extreloc func(*Target, *loader.Loader, loader.Reloc, loader.Sym) (loader.ExtReloc, bool)
+	Extreloc func(*Target, *loader.Loader, loader.Reloc, sym.ID) (loader.ExtReloc, bool)
 
 	Gentext        func(*Link, *loader.Loader) // Generate text before addressing has been performed.
-	Machoreloc1    func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool
+	Machoreloc1    func(*sys.Arch, *OutBuf, *loader.Loader, sym.ID, loader.ExtReloc, int64) bool
 	MachorelocSize uint32 // size of an Mach-O relocation record, must match Machoreloc1.
-	PEreloc1       func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool
-	Xcoffreloc1    func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool
+	PEreloc1       func(*sys.Arch, *OutBuf, *loader.Loader, sym.ID, loader.ExtReloc, int64) bool
+	Xcoffreloc1    func(*sys.Arch, *OutBuf, *loader.Loader, sym.ID, loader.ExtReloc, int64) bool
 
 	// Generate additional symbols for the native symbol table just prior to
 	// code generation.
@@ -259,7 +259,7 @@ type Arch struct {
 	TLSIEtoLE func(P []byte, off, size int)
 
 	// optional override for assignAddress
-	AssignAddress func(ldr *loader.Loader, sect *sym.Section, n int, s loader.Sym, va uint64, isTramp bool) (*sym.Section, int, uint64)
+	AssignAddress func(ldr *loader.Loader, sect *sym.Section, n int, s sym.ID, va uint64, isTramp bool) (*sym.Section, int, uint64)
 
 	// ELF specific information.
 	ELF ELFArch
@@ -530,7 +530,7 @@ func (ctxt *Link) loadlib() {
 		log.Fatalf("invalid -strictdups flag value %d", *FlagStrictDups)
 	}
 	ctxt.loader = loader.NewLoader(flags, &ctxt.ErrorReporter.ErrorReporter)
-	ctxt.ErrorReporter.SymName = func(s loader.Sym) string {
+	ctxt.ErrorReporter.SymName = func(s sym.ID) string {
 		return ctxt.loader.SymName(s)
 	}
 
@@ -759,7 +759,7 @@ func loadWindowsHostArchives(ctxt *Link) {
 // symbols in preparation for host object loading or use later in the link.
 func (ctxt *Link) loadcgodirectives() {
 	l := ctxt.loader
-	hostObjSyms := make(map[loader.Sym]struct{})
+	hostObjSyms := make(map[sym.ID]struct{})
 	for _, d := range ctxt.cgodata {
 		setCgoAttr(ctxt, d.file, d.pkg, d.directives, hostObjSyms)
 	}
@@ -853,7 +853,7 @@ func (ctxt *Link) linksetup() {
 		ctxt.Tlsg = tlsg
 	}
 
-	var moduledata loader.Sym
+	var moduledata sym.ID
 	var mdsb *loader.SymbolBuilder
 	if ctxt.BuildMode == BuildModePlugin {
 		moduledata = ctxt.loader.LookupOrCreateSym("local.pluginmoduledata", 0)
@@ -947,7 +947,7 @@ func (ctxt *Link) mangleTypeSym() {
 	}
 
 	ldr := ctxt.loader
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) && !ctxt.linkShared {
 			// If -linkshared, the GCProg generation code may need to reach
 			// out to the shared library for the type descriptor's data, even
@@ -1683,7 +1683,7 @@ func (ctxt *Link) hostlink() {
 			argv = append(argv, "-rdynamic")
 		} else {
 			var exports []string
-			ctxt.loader.ForAllCgoExportDynamic(func(s loader.Sym) {
+			ctxt.loader.ForAllCgoExportDynamic(func(s sym.ID) {
 				exports = append(exports, "-Wl,--export-dynamic-symbol="+ctxt.loader.SymExtname(s))
 			})
 			sort.Strings(exports)
@@ -2343,7 +2343,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 func symbolsAreUnresolved(ctxt *Link, want []string) []bool {
 	returnAllUndefs := -1
 	undefs, _ := ctxt.loader.UndefinedRelocTargets(returnAllUndefs)
-	seen := make(map[loader.Sym]struct{})
+	seen := make(map[sym.ID]struct{})
 	rval := make([]bool, len(want))
 	wantm := make(map[string]int)
 	for k, w := range want {
@@ -2628,7 +2628,7 @@ const (
 )
 
 // defineInternal defines a symbol used internally by the go runtime.
-func (ctxt *Link) defineInternal(p string, t sym.SymKind) loader.Sym {
+func (ctxt *Link) defineInternal(p string, t sym.SymKind) sym.ID {
 	s := ctxt.loader.CreateSymForUpdate(p, 0)
 	s.SetType(t)
 	s.SetSpecial(true)
@@ -2636,13 +2636,13 @@ func (ctxt *Link) defineInternal(p string, t sym.SymKind) loader.Sym {
 	return s.Sym()
 }
 
-func (ctxt *Link) xdefine(p string, t sym.SymKind, v int64) loader.Sym {
+func (ctxt *Link) xdefine(p string, t sym.SymKind, v int64) sym.ID {
 	s := ctxt.defineInternal(p, t)
 	ctxt.loader.SetSymValue(s, v)
 	return s
 }
 
-func datoff(ldr *loader.Loader, s loader.Sym, addr int64) int64 {
+func datoff(ldr *loader.Loader, s sym.ID, addr int64) int64 {
 	if uint64(addr) >= Segdata.Vaddr {
 		return int64(uint64(addr) - Segdata.Vaddr + Segdata.Fileoff)
 	}
@@ -2750,7 +2750,7 @@ func dfs(lib *sym.Library, mark map[*sym.Library]markKind, order *[]*sym.Library
 	*order = append(*order, lib)
 }
 
-func ElfSymForReloc(ctxt *Link, s loader.Sym) int32 {
+func ElfSymForReloc(ctxt *Link, s sym.ID) int32 {
 	// If putelfsym created a local version of this symbol, use that in all
 	// relocations.
 	les := ctxt.loader.SymLocalElfSym(s)
@@ -2761,7 +2761,7 @@ func ElfSymForReloc(ctxt *Link, s loader.Sym) int32 {
 	}
 }
 
-func AddGotSym(target *Target, ldr *loader.Loader, syms *ArchSyms, s loader.Sym, elfRelocTyp uint32) {
+func AddGotSym(target *Target, ldr *loader.Loader, syms *ArchSyms, s sym.ID, elfRelocTyp uint32) {
 	if ldr.SymGot(s) >= 0 {
 		return
 	}

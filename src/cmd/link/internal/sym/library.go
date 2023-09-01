@@ -18,8 +18,8 @@ type Library struct {
 	Main        bool
 	Units       []*CompilationUnit
 
-	Textp       []LoaderSym // text syms defined in this library
-	DupTextSyms []LoaderSym // dupok text syms defined in this library
+	Textp       []ID // text syms defined in this library
+	DupTextSyms []ID // dupok text syms defined in this library
 }
 
 func (l Library) String() string {

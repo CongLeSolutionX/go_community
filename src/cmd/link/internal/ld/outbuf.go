@@ -7,6 +7,7 @@ package ld
 import (
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
+	"cmd/link/internal/sym"
 	"encoding/binary"
 	"errors"
 	"log"
@@ -306,7 +307,7 @@ func (out *OutBuf) WriteStringPad(s string, n int, pad []byte) {
 // that we just wrote, so we can apply further edit to the symbol content.
 // For generator symbols, it also sets the symbol's Data to the output
 // buffer.
-func (out *OutBuf) WriteSym(ldr *loader.Loader, s loader.Sym) []byte {
+func (out *OutBuf) WriteSym(ldr *loader.Loader, s sym.ID) []byte {
 	if !ldr.IsGeneratedSym(s) {
 		P := ldr.Data(s)
 		n := int64(len(P))

@@ -59,7 +59,7 @@ type wasmFuncType struct {
 	Results []byte
 }
 
-func readWasmImport(ldr *loader.Loader, s loader.Sym) obj.WasmImport {
+func readWasmImport(ldr *loader.Loader, s sym.ID) obj.WasmImport {
 	reportError := func(err error) { panic(fmt.Sprintf("failed to read WASM import in sym %v: %v", s, err)) }
 
 	data := ldr.Data(s)
@@ -138,7 +138,7 @@ var wasmFuncTypes = map[string]*wasmFuncType{
 	"memchr":                  {Params: []byte{I32, I32, I32}, Results: []byte{I32}},      // s, c, len -> index
 }
 
-func assignAddress(ldr *loader.Loader, sect *sym.Section, n int, s loader.Sym, va uint64, isTramp bool) (*sym.Section, int, uint64) {
+func assignAddress(ldr *loader.Loader, sect *sym.Section, n int, s sym.ID, va uint64, isTramp bool) (*sym.Section, int, uint64) {
 	// WebAssembly functions do not live in the same address space as the linear memory.
 	// Instead, WebAssembly automatically assigns indices. Imported functions (section "import")
 	// have indices 0 to n. They are followed by native functions (sections "function" and "code")
@@ -200,7 +200,7 @@ func asmb2(ctxt *ld.Link, ldr *loader.Loader) {
 	// can write the correct index after a "call" instruction
 	// these are added as import statements to the top of the WebAssembly binary
 	var hostImports []*wasmFunc
-	hostImportMap := make(map[loader.Sym]int64)
+	hostImportMap := make(map[sym.ID]int64)
 	for _, fn := range ctxt.Textp {
 		relocs := ldr.Relocs(fn)
 		for ri := 0; ri < relocs.Count(); ri++ {

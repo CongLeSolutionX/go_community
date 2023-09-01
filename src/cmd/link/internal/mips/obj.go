@@ -35,6 +35,7 @@ import (
 	"cmd/internal/sys"
 	"cmd/link/internal/ld"
 	"cmd/link/internal/loader"
+	"cmd/link/internal/sym"
 	"internal/buildcfg"
 )
 
@@ -100,7 +101,7 @@ func archinit(ctxt *ld.Link) {
 	}
 }
 
-func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
+func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s sym.ID, r loader.Reloc, rIdx int) bool {
 	ld.Exitf("adddynrel currently unimplemented for MIPS")
 	return false
 

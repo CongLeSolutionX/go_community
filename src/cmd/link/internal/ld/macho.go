@@ -280,7 +280,7 @@ const (
 
 var nkind [NumSymKind]int
 
-var sortsym []loader.Sym
+var sortsym []sym.ID
 
 var nsortsym int
 
@@ -876,7 +876,7 @@ func asmbMacho(ctxt *Link) {
 	}
 }
 
-func symkind(ldr *loader.Loader, s loader.Sym) int {
+func symkind(ldr *loader.Loader, s sym.ID) int {
 	if t := ldr.SymType(s); t == sym.SDYNIMPORT || t == sym.SHOSTOBJ || t == sym.SUNDEFEXT {
 		return SymKindUndef
 	}
@@ -889,7 +889,7 @@ func symkind(ldr *loader.Loader, s loader.Sym) int {
 func collectmachosyms(ctxt *Link) {
 	ldr := ctxt.loader
 
-	addsym := func(s loader.Sym) {
+	addsym := func(s sym.ID) {
 		sortsym = append(sortsym, s)
 		nkind[symkind(ldr, s)]++
 	}
@@ -930,7 +930,7 @@ func collectmachosyms(ctxt *Link) {
 		addsym(s)
 	}
 
-	shouldBeInSymbolTable := func(s loader.Sym) bool {
+	shouldBeInSymbolTable := func(s sym.ID) bool {
 		if ldr.AttrNotInSymbolTable(s) {
 			return false
 		}
@@ -942,7 +942,7 @@ func collectmachosyms(ctxt *Link) {
 	}
 
 	// Add data symbols and external references.
-	for s := loader.Sym(1); s < loader.Sym(ldr.NSym()); s++ {
+	for s := sym.ID(1); s < sym.ID(ldr.NSym()); s++ {
 		if !ldr.AttrReachable(s) {
 			continue
 		}
@@ -1020,7 +1020,7 @@ func machosymorder(ctxt *Link) {
 
 // AddMachoSym adds s to Mach-O symbol table, used in GenSymLate.
 // Currently only used on ARM64 when external linking.
-func AddMachoSym(ldr *loader.Loader, s loader.Sym) {
+func AddMachoSym(ldr *loader.Loader, s sym.ID) {
 	ldr.SetSymDynid(s, int32(nsortsym))
 	sortsym = append(sortsym, s)
 	nsortsym++
@@ -1031,7 +1031,7 @@ func AddMachoSym(ldr *loader.Loader, s loader.Sym) {
 //
 // When dynamically linking, all non-local variables and plugin-exported
 // symbols need to be exported.
-func machoShouldExport(ctxt *Link, ldr *loader.Loader, s loader.Sym) bool {
+func machoShouldExport(ctxt *Link, ldr *loader.Loader, s sym.ID) bool {
 	if !ctxt.DynlinkingGo() || ldr.AttrLocal(s) {
 		return false
 	}
@@ -1203,7 +1203,7 @@ func doMachoLink(ctxt *Link) int64 {
 	return Rnd(size, int64(*FlagRound))
 }
 
-func machorelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []loader.Sym) {
+func machorelocsect(ctxt *Link, out *OutBuf, sect *sym.Section, syms []sym.ID) {
 	// If main section has no bits, nothing to relocate.
 	if sect.Vaddr >= sect.Seg.Vaddr+sect.Seg.Filelen {
 		return
@@ -1282,7 +1282,7 @@ func machoEmitReloc(ctxt *Link) {
 	for i := 0; i < len(Segdwarf.Sections); i++ {
 		sect := Segdwarf.Sections[i]
 		si := dwarfp[i]
-		if si.secSym() != loader.Sym(sect.Sym) ||
+		if si.secSym() != sym.ID(sect.Sym) ||
 			ctxt.loader.SymSect(si.secSym()) != sect {
 			panic("inconsistency between dwarfp and Segdwarf")
 		}
@@ -1354,13 +1354,13 @@ func peekMachoPlatform(m *macho.File) (*MachoPlatformLoad, error) {
 // In the binary it uses a compact stateful bytecode encoding. So we record
 // entries as we go and build the table at the end.
 type machoRebaseRecord struct {
-	sym loader.Sym
+	sym sym.ID
 	off int64
 }
 
 var machorebase []machoRebaseRecord
 
-func MachoAddRebase(s loader.Sym, off int64) {
+func MachoAddRebase(s sym.ID, off int64) {
 	machorebase = append(machorebase, machoRebaseRecord{s, off})
 }
 
@@ -1372,12 +1372,12 @@ func MachoAddRebase(s loader.Sym, off int64) {
 // entries as we go and build the table at the end.
 type machoBindRecord struct {
 	off  int64
-	targ loader.Sym
+	targ sym.ID
 }
 
 var machobind []machoBindRecord
 
-func MachoAddBind(off int64, targ loader.Sym) {
+func MachoAddBind(off int64, targ sym.ID) {
 	machobind = append(machobind, machoBindRecord{off, targ})
 }
 
@@ -1408,7 +1408,7 @@ func machoDyldInfo(ctxt *Link) {
 		panic("unknown segment")
 	}
 
-	dylibId := func(s loader.Sym) int {
+	dylibId := func(s sym.ID) int {
 		slib := ldr.SymDynimplib(s)
 		for i, lib := range dylib {
 			if lib == slib {
@@ -1480,7 +1480,7 @@ func machoDyldInfo(ctxt *Link) {
 // machoCodeSigSym creates and returns a symbol for code signature.
 // The symbol context is left as zeros, which will be generated at the end
 // (as it depends on the rest of the file).
-func machoCodeSigSym(ctxt *Link, codeSize int64) loader.Sym {
+func machoCodeSigSym(ctxt *Link, codeSize int64) sym.ID {
 	ldr := ctxt.loader
 	cs := ldr.CreateSymForUpdate(".machocodesig", 0)
 	if !ctxt.NeedCodeSign() || ctxt.IsExternal() {

@@ -69,13 +69,13 @@ type Link struct {
 	Library      []*sym.Library
 	LibraryByPkg map[string]*sym.Library
 	Shlibs       []Shlib
-	Textp        []loader.Sym
-	Moduledata   loader.Sym
+	Textp        []sym.ID
+	Moduledata   sym.ID
 
 	PackageFile  map[string]string
 	PackageShlib map[string]string
 
-	tramps []loader.Sym // trampolines
+	tramps []sym.ID // trampolines
 
 	compUnits []*sym.CompilationUnit // DWARF compilation units
 	runtimeCU *sym.CompilationUnit   // One of the runtime CUs, the last one seen.
@@ -83,8 +83,8 @@ type Link struct {
 	loader  *loader.Loader
 	cgodata []cgodata // cgo directives to load, three strings are args for loadcgo
 
-	datap  []loader.Sym
-	dynexp []loader.Sym
+	datap  []sym.ID
+	dynexp []sym.ID
 
 	// Elf symtab variables.
 	numelfsym int // starts at 0, 1 is reserved
@@ -93,7 +93,7 @@ type Link struct {
 	// Rather than creating a symbol, and writing all its data into the heap,
 	// you can create a symbol, and just a generation function will be called
 	// after the symbol's been created in the output mmap.
-	generatorSyms map[loader.Sym]generatorFunc
+	generatorSyms map[sym.ID]generatorFunc
 }
 
 type cgodata struct {
@@ -145,11 +145,11 @@ func (ctxt *Link) MaxVersion() int {
 //
 // Generator Symbols have their Data set to the mmapped area when the
 // generator is called.
-type generatorFunc func(*Link, loader.Sym)
+type generatorFunc func(*Link, sym.ID)
 
 // createGeneratorSymbol is a convenience method for creating a generator
 // symbol.
-func (ctxt *Link) createGeneratorSymbol(name string, version int, t sym.SymKind, size int64, gen generatorFunc) loader.Sym {
+func (ctxt *Link) createGeneratorSymbol(name string, version int, t sym.SymKind, size int64, gen generatorFunc) sym.ID {
 	ldr := ctxt.loader
 	s := ldr.LookupOrCreateSym(name, version)
 	ldr.SetIsGeneratedSym(s, true)

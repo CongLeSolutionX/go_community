@@ -6,7 +6,6 @@ package ld
 
 import (
 	"cmd/internal/objabi"
-	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"fmt"
 	"sort"
@@ -73,7 +72,7 @@ func (ctxt *Link) inittasks() {
 
 // inittaskSym builds a symbol containing pointers to all the inittasks
 // that need to be run, given the root inittask symbol.
-func (ctxt *Link) inittaskSym(rootName, symName string) loader.Sym {
+func (ctxt *Link) inittaskSym(rootName, symName string) sym.ID {
 	ldr := ctxt.loader
 	root := ldr.Lookup(rootName, 0)
 	if root == 0 {
@@ -85,7 +84,7 @@ func (ctxt *Link) inittaskSym(rootName, symName string) loader.Sym {
 	// {from,to} is in edges if from's package imports to's package.
 	// This list is used to implement reverse edge lookups.
 	type edge struct {
-		from, to loader.Sym
+		from, to sym.ID
 	}
 	var edges []edge
 
@@ -96,13 +95,13 @@ func (ctxt *Link) inittaskSym(rootName, symName string) loader.Sym {
 
 	// m maps from an inittask symbol for package p to the number of
 	// p's direct imports that have not yet been scheduled.
-	m := map[loader.Sym]int{}
+	m := map[sym.ID]int{}
 
 	// Find all reachable inittask records from the root.
 	// Keep track of the dependency edges between them in edges.
 	// Keep track of how many imports each package has in m.
 	// q is the list of found but not yet explored packages.
-	var q []loader.Sym
+	var q []sym.ID
 	m[root] = 0
 	q = append(q, root)
 	for len(q) > 0 {

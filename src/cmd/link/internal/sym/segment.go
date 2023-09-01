@@ -61,8 +61,8 @@ type Section struct {
 	// Note: this may differ from number of Go relocations, as one Go relocation
 	// may turn into multiple host relocations.
 	Relcount uint32
-	Sym      LoaderSym // symbol for the section, if any
-	Index    uint16    // each section has a unique index, used internally
+	Sym      ID     // symbol for the section, if any
+	Index    uint16 // each section has a unique index, used internally
 
 	Compressed bool
 }

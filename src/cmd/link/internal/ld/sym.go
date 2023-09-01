@@ -51,7 +51,7 @@ func linknew(arch *sys.Arch) *Link {
 		LibraryByPkg:  make(map[string]*sym.Library),
 		numelfsym:     1,
 		ErrorReporter: ErrorReporter{ErrorReporter: ler},
-		generatorSyms: make(map[loader.Sym]generatorFunc),
+		generatorSyms: make(map[sym.ID]generatorFunc),
 	}
 
 	if buildcfg.GOARCH != arch.Name {
