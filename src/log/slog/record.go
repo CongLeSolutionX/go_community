@@ -138,12 +138,13 @@ func (r *Record) Add(args ...any) {
 			r.nFront++
 		} else {
 			if r.back == nil {
-				r.back = make([]Attr, 0, countAttrs(args))
+				r.back = make([]Attr, 0, countAttrs(args)+1)
+			} else {
+				r.back = slices.Grow(r.back, countAttrs(args)+1)
 			}
 			r.back = append(r.back, a)
 		}
 	}
-
 }
 
 // countAttrs returns the number of Attrs that would be created from args.
