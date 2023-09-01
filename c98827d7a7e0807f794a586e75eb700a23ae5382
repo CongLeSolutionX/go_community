@@ -107,6 +107,24 @@
       "parentUuid": "b4a651bb_815ccb33",
       "revId": "c98827d7a7e0807f794a586e75eb700a23ae5382",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab33135_2cfddf1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-09-01T13:21:36Z",
+      "side": 1,
+      "message": "I\u0027d lean toward doing this CL, too. Especially now that we have Ian\u0027s end-to-end clock_gettime test. It might be that we never add or change anything in the VDSO table again, in which case this is unnecessary churn. But if we make even one more change, I think that tips things in favor of this CL.\n\nWe could do a test that checks precomputed values, but that feels like unnecessary complexity to me. That would be beneficial if computing these hashes was expensive or we had to compute a huge number of them.",
+      "parentUuid": "34dc3737_4035abc4",
+      "revId": "c98827d7a7e0807f794a586e75eb700a23ae5382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
