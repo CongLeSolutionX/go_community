@@ -29,9 +29,9 @@ func findScope(marks []ir.Mark, pos src.XPos) ir.ScopeID {
 	return marks[i-1].Scope
 }
 
-func assembleScopes(fnsym *obj.LSym, fn *ir.Func, dwarfVars []*dwarf.Var, varScopes []ir.ScopeID) []dwarf.Scope {
+func assembleScopes(fnsym *obj.LSym, fn *ir.Func, dwarfVars []*dwarf.Var[*obj.LSym], varScopes []ir.ScopeID) []dwarf.Scope[*obj.LSym] {
 	// Initialize the DWARF scope tree based on lexical scopes.
-	dwarfScopes := make([]dwarf.Scope, 1+len(fn.Parents))
+	dwarfScopes := make([]dwarf.Scope[*obj.LSym], 1+len(fn.Parents))
 	for i, parent := range fn.Parents {
 		dwarfScopes[i+1].Parent = int32(parent)
 	}
@@ -44,7 +44,7 @@ func assembleScopes(fnsym *obj.LSym, fn *ir.Func, dwarfVars []*dwarf.Var, varSco
 }
 
 // scopeVariables assigns DWARF variable records to their scopes.
-func scopeVariables(dwarfVars []*dwarf.Var, varScopes []ir.ScopeID, dwarfScopes []dwarf.Scope, regabi bool) {
+func scopeVariables(dwarfVars []*dwarf.Var[*obj.LSym], varScopes []ir.ScopeID, dwarfScopes []dwarf.Scope[*obj.LSym], regabi bool) {
 	if regabi {
 		sort.Stable(varsByScope{dwarfVars, varScopes})
 	} else {
@@ -65,7 +65,7 @@ func scopeVariables(dwarfVars []*dwarf.Var, varScopes []ir.ScopeID, dwarfScopes 
 }
 
 // scopePCs assigns PC ranges to their scopes.
-func scopePCs(fnsym *obj.LSym, marks []ir.Mark, dwarfScopes []dwarf.Scope) {
+func scopePCs(fnsym *obj.LSym, marks []ir.Mark, dwarfScopes []dwarf.Scope[*obj.LSym]) {
 	// If there aren't any child scopes (in particular, when scope
 	// tracking is disabled), we can skip a whole lot of work.
 	if len(marks) == 0 {
@@ -86,7 +86,7 @@ func scopePCs(fnsym *obj.LSym, marks []ir.Mark, dwarfScopes []dwarf.Scope) {
 	}
 }
 
-func compactScopes(dwarfScopes []dwarf.Scope) []dwarf.Scope {
+func compactScopes(dwarfScopes []dwarf.Scope[*obj.LSym]) []dwarf.Scope[*obj.LSym] {
 	// Reverse pass to propagate PC ranges to parent scopes.
 	for i := len(dwarfScopes) - 1; i > 0; i-- {
 		s := &dwarfScopes[i]
@@ -97,7 +97,7 @@ func compactScopes(dwarfScopes []dwarf.Scope) []dwarf.Scope {
 }
 
 type varsByScopeAndOffset struct {
-	vars   []*dwarf.Var
+	vars   []*dwarf.Var[*obj.LSym]
 	scopes []ir.ScopeID
 }
 
@@ -118,7 +118,7 @@ func (v varsByScopeAndOffset) Swap(i, j int) {
 }
 
 type varsByScope struct {
-	vars   []*dwarf.Var
+	vars   []*dwarf.Var[*obj.LSym]
 	scopes []ir.ScopeID
 }
 
