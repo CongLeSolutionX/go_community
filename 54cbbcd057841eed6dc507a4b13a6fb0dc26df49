@@ -107,6 +107,24 @@
       "message": "replace this line with:\n```\n//go:linkname windows_GetSystemDirectory internal/syscall/windows.GetSystemDirectory\n```",
       "revId": "54cbbcd057841eed6dc507a4b13a6fb0dc26df49",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c309b94_e4a74e85",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-09-01T07:38:37Z",
+      "side": 1,
+      "message": "Thank you! I\u0027ll try tonight or tomorrow. I don\u0027t have a Win machine right now and can\u0027t test that. Didn\u0027t know we can specify package path here...",
+      "parentUuid": "2f59b622_8cee2b27",
+      "revId": "54cbbcd057841eed6dc507a4b13a6fb0dc26df49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
