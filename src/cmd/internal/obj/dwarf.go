@@ -237,29 +237,21 @@ func (c dwCtxt) AddString(s *LSym, v string) {
 	s.WriteString(c.Link, s.Size, len(v), v)
 	s.WriteInt(c.Link, s.Size, 1, 0)
 }
-func (c dwCtxt) AddAddress(s *LSym, data interface{}, value int64) {
-	size := c.PtrSize()
-	if data != nil {
-		rsym := data.(*LSym)
-		s.WriteAddr(c.Link, s.Size, size, rsym, value)
-	} else {
-		s.WriteInt(c.Link, s.Size, size, value)
-	}
+func (c dwCtxt) AddAddress(s, rsym *LSym, value int64) {
+	s.WriteAddr(c.Link, s.Size, c.PtrSize(), rsym, value)
 }
-func (c dwCtxt) AddCURelativeAddress(s *LSym, data interface{}, value int64) {
-	rsym := data.(*LSym)
+func (c dwCtxt) AddCURelativeAddress(s, rsym *LSym, value int64) {
 	s.WriteCURelativeAddr(c.Link, s.Size, rsym, value)
 }
-func (c dwCtxt) AddSectionOffset(s *LSym, size int, t interface{}, ofs int64) {
+func (c dwCtxt) AddSectionOffset(s *LSym, size int, t *LSym, ofs int64) {
 	panic("should be used only in the linker")
 }
-func (c dwCtxt) AddDWARFAddrSectionOffset(s *LSym, t interface{}, ofs int64) {
+func (c dwCtxt) AddDWARFAddrSectionOffset(s, rsym *LSym, ofs int64) {
 	size := 4
 	if isDwarf64(c.Link) {
 		size = 8
 	}
 
-	rsym := t.(*LSym)
 	s.WriteAddr(c.Link, s.Size, size, rsym, ofs)
 	r := &s.R[len(s.R)-1]
 	r.Type = objabi.R_DWARFSECREF
@@ -283,7 +275,7 @@ func (c dwCtxt) RecordChildDieOffsets(s *LSym, vars []*dwarf.Var[*LSym], offsets
 	c.Link.DwFixups.RegisterChildDIEOffsets(s, vars, offsets)
 }
 
-func (c dwCtxt) Logf(format string, args ...interface{}) {
+func (c dwCtxt) Logf(format string, args ...any) {
 	c.Link.Logf(format, args...)
 }
 
