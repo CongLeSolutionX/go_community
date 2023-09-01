@@ -68,83 +68,77 @@ type dwctxt struct {
 	dwmu *sync.Mutex
 }
 
-// dwSym wraps a loader.Sym; this type is meant to obey the interface
-// rules for dwarf.Sym from the cmd/internal/dwarf package. DwDie and
-// DwAttr objects contain references to symbols via this type.
-type dwSym loader.Sym
+// ctx returns c as a dwarf.Context[loader.Sym].
+//
+// This is necessary for bootstrapping from Go 1.20, because implicit
+// conversion of arguments of concrete types assigned to parameters of
+// instantiated interface type wasn't added until Go 1.21.
+//
+// TODO(mdempsky): Remove once the minimum bootstrap toolchain version
+// has been updated to 1.21 or later.
+func (c dwctxt) ctx() dwarf.Context[loader.Sym] { return c }
 
 func (c dwctxt) PtrSize() int {
 	return c.arch.PtrSize
 }
 
-func (c dwctxt) Size(s dwarf.Sym) int64 {
-	return int64(len(c.ldr.Data(loader.Sym(s.(dwSym)))))
+func (c dwctxt) Size(s loader.Sym) int64 {
+	return int64(len(c.ldr.Data(s)))
 }
 
-func (c dwctxt) AddInt(s dwarf.Sym, size int, i int64) {
-	ds := loader.Sym(s.(dwSym))
-	dsu := c.ldr.MakeSymbolUpdater(ds)
-	dsu.AddUintXX(c.arch, uint64(i), size)
+func (c dwctxt) AddInt(s loader.Sym, size int, i int64) {
+	su := c.ldr.MakeSymbolUpdater(s)
+	su.AddUintXX(c.arch, uint64(i), size)
 }
 
-func (c dwctxt) AddBytes(s dwarf.Sym, b []byte) {
-	ds := loader.Sym(s.(dwSym))
-	dsu := c.ldr.MakeSymbolUpdater(ds)
-	dsu.AddBytes(b)
+func (c dwctxt) AddBytes(s loader.Sym, b []byte) {
+	su := c.ldr.MakeSymbolUpdater(s)
+	su.AddBytes(b)
 }
 
-func (c dwctxt) AddString(s dwarf.Sym, v string) {
-	ds := loader.Sym(s.(dwSym))
-	dsu := c.ldr.MakeSymbolUpdater(ds)
-	dsu.Addstring(v)
+func (c dwctxt) AddString(s loader.Sym, v string) {
+	su := c.ldr.MakeSymbolUpdater(s)
+	su.Addstring(v)
 }
 
-func (c dwctxt) AddAddress(s dwarf.Sym, data interface{}, value int64) {
-	ds := loader.Sym(s.(dwSym))
-	dsu := c.ldr.MakeSymbolUpdater(ds)
+func (c dwctxt) AddAddress(s loader.Sym, data interface{}, value int64) {
+	su := c.ldr.MakeSymbolUpdater(s)
 	if value != 0 {
-		value -= dsu.Value()
+		value -= su.Value()
 	}
-	tgtds := loader.Sym(data.(dwSym))
-	dsu.AddAddrPlus(c.arch, tgtds, value)
+	su.AddAddrPlus(c.arch, data.(loader.Sym), value)
 }
 
-func (c dwctxt) AddCURelativeAddress(s dwarf.Sym, data interface{}, value int64) {
-	ds := loader.Sym(s.(dwSym))
-	dsu := c.ldr.MakeSymbolUpdater(ds)
+func (c dwctxt) AddCURelativeAddress(s loader.Sym, data interface{}, value int64) {
+	su := c.ldr.MakeSymbolUpdater(s)
 	if value != 0 {
-		value -= dsu.Value()
+		value -= su.Value()
 	}
-	tgtds := loader.Sym(data.(dwSym))
-	dsu.AddCURelativeAddrPlus(c.arch, tgtds, value)
+	su.AddCURelativeAddrPlus(c.arch, data.(loader.Sym), value)
 }
 
-func (c dwctxt) AddSectionOffset(s dwarf.Sym, size int, t interface{}, ofs int64) {
-	ds := loader.Sym(s.(dwSym))
-	dsu := c.ldr.MakeSymbolUpdater(ds)
-	tds := loader.Sym(t.(dwSym))
+func (c dwctxt) AddSectionOffset(s loader.Sym, size int, t interface{}, ofs int64) {
+	su := c.ldr.MakeSymbolUpdater(s)
 	switch size {
 	default:
-		c.linkctxt.Errorf(ds, "invalid size %d in adddwarfref\n", size)
+		c.linkctxt.Errorf(s, "invalid size %d in adddwarfref\n", size)
 	case c.arch.PtrSize, 4:
 	}
-	dsu.AddSymRef(c.arch, tds, ofs, objabi.R_ADDROFF, size)
+	su.AddSymRef(c.arch, t.(loader.Sym), ofs, objabi.R_ADDROFF, size)
 }
 
-func (c dwctxt) AddDWARFAddrSectionOffset(s dwarf.Sym, t interface{}, ofs int64) {
+func (c dwctxt) AddDWARFAddrSectionOffset(s loader.Sym, t interface{}, ofs int64) {
 	size := 4
 	if isDwarf64(c.linkctxt) {
 		size = 8
 	}
-	ds := loader.Sym(s.(dwSym))
-	dsu := c.ldr.MakeSymbolUpdater(ds)
-	tds := loader.Sym(t.(dwSym))
+	su := c.ldr.MakeSymbolUpdater(s)
 	switch size {
 	default:
-		c.linkctxt.Errorf(ds, "invalid size %d in adddwarfref\n", size)
+		c.linkctxt.Errorf(s, "invalid size %d in adddwarfref\n", size)
 	case c.arch.PtrSize, 4:
 	}
-	dsu.AddSymRef(c.arch, tds, ofs, objabi.R_DWARFSECREF, size)
+	su.AddSymRef(c.arch, t.(loader.Sym), ofs, objabi.R_DWARFSECREF, size)
 }
 
 func (c dwctxt) Logf(format string, args ...interface{}) {
@@ -153,15 +147,15 @@ func (c dwctxt) Logf(format string, args ...interface{}) {
 
 // At the moment these interfaces are only used in the compiler.
 
-func (c dwctxt) CurrentOffset(s dwarf.Sym) int64 {
+func (c dwctxt) CurrentOffset(s loader.Sym) int64 {
 	panic("should be used only in the compiler")
 }
 
-func (c dwctxt) RecordDclReference(s dwarf.Sym, t dwarf.Sym, dclIdx int, inlIndex int) {
+func (c dwctxt) RecordDclReference(s loader.Sym, t loader.Sym, dclIdx int, inlIndex int) {
 	panic("should be used only in the compiler")
 }
 
-func (c dwctxt) RecordChildDieOffsets(s dwarf.Sym, vars []*dwarf.Var, offsets []int32) {
+func (c dwctxt) RecordChildDieOffsets(s loader.Sym, vars []*dwarf.Var[loader.Sym], offsets []int32) {
 	panic("should be used only in the compiler")
 }
 
@@ -222,7 +216,7 @@ func (d *dwctxt) writeabbrev() dwarfSecInfo {
 	return dwarfSecInfo{syms: []loader.Sym{abrvs.Sym()}}
 }
 
-var dwtypes dwarf.DWDie
+var dwtypes dwarf.DWDie[loader.Sym]
 
 // newattr attaches a new attribute to the specified DIE.
 //
@@ -231,7 +225,7 @@ var dwtypes dwarf.DWDie
 // up all attrs in a single large table, then store indices into the
 // table in the DIE. This would allow us to common up storage for
 // attributes that are shared by many DIEs (ex: byte size of N).
-func newattr(die *dwarf.DWDie, attr uint16, cls int, value int64, data interface{}) {
+func newattr(die *dwarf.DWDie[loader.Sym], attr uint16, cls int, value int64, data interface{}) {
 	a := new(dwarf.DWAttr)
 	a.Link = die.Attr
 	die.Attr = a
@@ -244,7 +238,7 @@ func newattr(die *dwarf.DWDie, attr uint16, cls int, value int64, data interface
 // Each DIE (except the root ones) has at least 1 attribute: its
 // name. getattr moves the desired one to the front so
 // frequently searched ones are found faster.
-func getattr(die *dwarf.DWDie, attr uint16) *dwarf.DWAttr {
+func getattr(die *dwarf.DWDie[loader.Sym], attr uint16) *dwarf.DWAttr {
 	if die.Attr.Atr == attr {
 		return die.Attr
 	}
@@ -271,8 +265,8 @@ func getattr(die *dwarf.DWDie, attr uint16) *dwarf.DWAttr {
 // The compiler does create nameless DWARF DIEs (ex: concrete subprogram
 // instance).
 // FIXME: it would be more efficient to bulk-allocate DIEs.
-func (d *dwctxt) newdie(parent *dwarf.DWDie, abbrev int, name string) *dwarf.DWDie {
-	die := new(dwarf.DWDie)
+func (d *dwctxt) newdie(parent *dwarf.DWDie[loader.Sym], abbrev int, name string) *dwarf.DWDie[loader.Sym] {
+	die := new(dwarf.DWDie[loader.Sym])
 	die.Abbrev = abbrev
 	die.Link = parent.Child
 	parent.Child = die
@@ -306,7 +300,7 @@ func (d *dwctxt) newdie(parent *dwarf.DWDie, abbrev int, name string) *dwarf.DWD
 	dsu.SetType(st)
 	d.ldr.SetAttrNotInSymbolTable(ds, true)
 	d.ldr.SetAttrReachable(ds, true)
-	die.Sym = dwSym(ds)
+	die.Sym = ds
 	if abbrev >= dwarf.DW_ABRV_NULLTYPE && abbrev <= dwarf.DW_ABRV_TYPEDECL {
 		d.tmap[name] = ds
 	}
@@ -314,7 +308,7 @@ func (d *dwctxt) newdie(parent *dwarf.DWDie, abbrev int, name string) *dwarf.DWD
 	return die
 }
 
-func walktypedef(die *dwarf.DWDie) *dwarf.DWDie {
+func walktypedef(die *dwarf.DWDie[loader.Sym]) *dwarf.DWDie[loader.Sym] {
 	if die == nil {
 		return nil
 	}
@@ -322,7 +316,7 @@ func walktypedef(die *dwarf.DWDie) *dwarf.DWDie {
 	if die.Abbrev == dwarf.DW_ABRV_TYPEDECL {
 		for attr := die.Attr; attr != nil; attr = attr.Link {
 			if attr.Atr == dwarf.DW_AT_type && attr.Cls == dwarf.DW_CLS_REFERENCE && attr.Data != nil {
-				return attr.Data.(*dwarf.DWDie)
+				return attr.Data.(*dwarf.DWDie[loader.Sym])
 			}
 		}
 	}
@@ -350,8 +344,8 @@ func (d *dwctxt) walksymtypedef(symIdx loader.Sym) loader.Sym {
 
 // Find child by AT_name using hashtable if available or linear scan
 // if not.
-func findchild(die *dwarf.DWDie, name string) *dwarf.DWDie {
-	var prev *dwarf.DWDie
+func findchild(die *dwarf.DWDie[loader.Sym], name string) *dwarf.DWDie[loader.Sym] {
+	var prev *dwarf.DWDie[loader.Sym]
 	for ; die != prev; prev, die = die, walktypedef(die) {
 		for a := die.Child; a != nil; a = a.Link {
 			if name == getattr(a, dwarf.DW_AT_name).Data {
@@ -386,31 +380,23 @@ func (d *dwctxt) adddwarfref(sb *loader.SymbolBuilder, t loader.Sym, size int) {
 	sb.AddSymRef(d.arch, t, 0, objabi.R_DWARFSECREF, size)
 }
 
-func (d *dwctxt) newrefattr(die *dwarf.DWDie, attr uint16, ref loader.Sym) {
+func (d *dwctxt) newrefattr(die *dwarf.DWDie[loader.Sym], attr uint16, ref loader.Sym) {
 	if ref == 0 {
 		return
 	}
-	newattr(die, attr, dwarf.DW_CLS_REFERENCE, 0, dwSym(ref))
+	newattr(die, attr, dwarf.DW_CLS_REFERENCE, 0, ref)
 }
 
-func (d *dwctxt) dtolsym(s dwarf.Sym) loader.Sym {
-	if s == nil {
-		return 0
-	}
-	dws := loader.Sym(s.(dwSym))
-	return dws
-}
-
-func (d *dwctxt) putdie(syms []loader.Sym, die *dwarf.DWDie) []loader.Sym {
-	s := d.dtolsym(die.Sym)
+func (d *dwctxt) putdie(syms []loader.Sym, die *dwarf.DWDie[loader.Sym]) []loader.Sym {
+	s := die.Sym
 	if s == 0 {
 		s = syms[len(syms)-1]
 	} else {
 		syms = append(syms, s)
 	}
-	sDwsym := dwSym(s)
-	dwarf.Uleb128put(d, sDwsym, int64(die.Abbrev))
-	dwarf.PutAttrs(d, sDwsym, die.Abbrev, die.Attr)
+	sDwsym := s
+	dwarf.Uleb128put(d.ctx(), sDwsym, int64(die.Abbrev))
+	dwarf.PutAttrs(d.ctx(), sDwsym, die.Abbrev, die.Attr)
 	if dwarf.HasChildren(die) {
 		for die := die.Child; die != nil; die = die.Link {
 			syms = d.putdie(syms, die)
@@ -421,9 +407,9 @@ func (d *dwctxt) putdie(syms []loader.Sym, die *dwarf.DWDie) []loader.Sym {
 	return syms
 }
 
-func reverselist(list **dwarf.DWDie) {
+func reverselist(list **dwarf.DWDie[loader.Sym]) {
 	curr := *list
-	var prev *dwarf.DWDie
+	var prev *dwarf.DWDie[loader.Sym]
 	for curr != nil {
 		next := curr.Link
 		curr.Link = prev
@@ -434,7 +420,7 @@ func reverselist(list **dwarf.DWDie) {
 	*list = prev
 }
 
-func reversetree(list **dwarf.DWDie) {
+func reversetree(list **dwarf.DWDie[loader.Sym]) {
 	reverselist(list)
 	for die := *list; die != nil; die = die.Link {
 		if dwarf.HasChildren(die) {
@@ -443,7 +429,7 @@ func reversetree(list **dwarf.DWDie) {
 	}
 }
 
-func newmemberoffsetattr(die *dwarf.DWDie, offs int32) {
+func newmemberoffsetattr(die *dwarf.DWDie[loader.Sym], offs int32) {
 	newattr(die, dwarf.DW_AT_data_member_location, dwarf.DW_CLS_CONSTANT, int64(offs), nil)
 }
 
@@ -459,7 +445,7 @@ func (d *dwctxt) lookupOrDiag(n string) loader.Sym {
 	return symIdx
 }
 
-func (d *dwctxt) dotypedef(parent *dwarf.DWDie, name string, def *dwarf.DWDie) *dwarf.DWDie {
+func (d *dwctxt) dotypedef(parent *dwarf.DWDie[loader.Sym], name string, def *dwarf.DWDie[loader.Sym]) *dwarf.DWDie[loader.Sym] {
 	// Only emit typedefs for real names.
 	if strings.HasPrefix(name, "map[") {
 		return nil
@@ -488,7 +474,7 @@ func (d *dwctxt) dotypedef(parent *dwarf.DWDie, name string, def *dwarf.DWDie) *
 	tds := d.ldr.CreateExtSym("", 0)
 	tdsu := d.ldr.MakeSymbolUpdater(tds)
 	tdsu.SetType(sym.SDWARFTYPE)
-	def.Sym = dwSym(tds)
+	def.Sym = tds
 	d.ldr.SetAttrNotInSymbolTable(tds, true)
 	d.ldr.SetAttrReachable(tds, true)
 
@@ -527,11 +513,11 @@ func (d *dwctxt) defgotype(gotype loader.Sym) loader.Sym {
 	}
 
 	gtdwSym := d.newtype(gotype)
-	d.tdmap[gotype] = loader.Sym(gtdwSym.Sym.(dwSym))
-	return loader.Sym(gtdwSym.Sym.(dwSym))
+	d.tdmap[gotype] = gtdwSym.Sym
+	return gtdwSym.Sym
 }
 
-func (d *dwctxt) newtype(gotype loader.Sym) *dwarf.DWDie {
+func (d *dwctxt) newtype(gotype loader.Sym) *dwarf.DWDie[loader.Sym] {
 	sn := d.ldr.SymName(gotype)
 	name := sn[5:] // could also decode from Type.string
 	tdata := d.ldr.Data(gotype)
@@ -541,7 +527,7 @@ func (d *dwctxt) newtype(gotype loader.Sym) *dwarf.DWDie {
 	kind := decodetypeKind(d.arch, tdata)
 	bytesize := decodetypeSize(d.arch, tdata)
 
-	var die, typedefdie *dwarf.DWDie
+	var die, typedefdie *dwarf.DWDie[loader.Sym]
 	switch kind {
 	case objabi.KindBool:
 		die = d.newdie(&dwtypes, dwarf.DW_ABRV_BASETYPE, name)
@@ -700,7 +686,7 @@ func (d *dwctxt) newtype(gotype loader.Sym) *dwarf.DWDie {
 	newattr(die, dwarf.DW_AT_go_kind, dwarf.DW_CLS_CONSTANT, int64(kind), 0)
 
 	if d.ldr.AttrReachable(gotype) {
-		newattr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, dwSym(gotype))
+		newattr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, gotype)
 	}
 
 	// Sanity check.
@@ -708,9 +694,9 @@ func (d *dwctxt) newtype(gotype loader.Sym) *dwarf.DWDie {
 		log.Fatalf("internal error: rtmap entry already installed\n")
 	}
 
-	ds := loader.Sym(die.Sym.(dwSym))
+	ds := die.Sym
 	if typedefdie != nil {
-		ds = loader.Sym(typedefdie.Sym.(dwSym))
+		ds = typedefdie.Sym
 	}
 	d.rtmap[ds] = gotype
 
@@ -748,22 +734,22 @@ func (d *dwctxt) defptrto(dwtype loader.Sym) loader.Sym {
 	// pointers of slices. Link to the ones we can find.
 	gts := d.ldr.Lookup("type:"+ptrname, 0)
 	if gts != 0 && d.ldr.AttrReachable(gts) {
-		newattr(pdie, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, dwSym(gts))
+		newattr(pdie, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, gts)
 	}
 
 	if gts != 0 {
-		ds := loader.Sym(pdie.Sym.(dwSym))
+		ds := pdie.Sym
 		d.rtmap[ds] = gts
 		d.tdmap[gts] = ds
 	}
 
-	return d.dtolsym(pdie.Sym)
+	return pdie.Sym
 }
 
 // Copies src's children into dst. Copies attributes by value.
 // DWAttr.data is copied as pointer only. If except is one of
 // the top-level children, it will not be copied.
-func (d *dwctxt) copychildrenexcept(ctxt *Link, dst *dwarf.DWDie, src *dwarf.DWDie, except *dwarf.DWDie) {
+func (d *dwctxt) copychildrenexcept(ctxt *Link, dst *dwarf.DWDie[loader.Sym], src *dwarf.DWDie[loader.Sym], except *dwarf.DWDie[loader.Sym]) {
 	for src = src.Child; src != nil; src = src.Link {
 		if src == except {
 			continue
@@ -778,13 +764,13 @@ func (d *dwctxt) copychildrenexcept(ctxt *Link, dst *dwarf.DWDie, src *dwarf.DWD
 	reverselist(&dst.Child)
 }
 
-func (d *dwctxt) copychildren(ctxt *Link, dst *dwarf.DWDie, src *dwarf.DWDie) {
+func (d *dwctxt) copychildren(ctxt *Link, dst *dwarf.DWDie[loader.Sym], src *dwarf.DWDie[loader.Sym]) {
 	d.copychildrenexcept(ctxt, dst, src, nil)
 }
 
 // Search children (assumed to have TAG_member) for the one named
 // field and set its AT_type to dwtype
-func (d *dwctxt) substitutetype(structdie *dwarf.DWDie, field string, dwtype loader.Sym) {
+func (d *dwctxt) substitutetype(structdie *dwarf.DWDie[loader.Sym], field string, dwtype loader.Sym) {
 	child := findchild(structdie, field)
 	if child == nil {
 		Exitf("dwarf substitutetype: %s does not have member %s",
@@ -794,13 +780,13 @@ func (d *dwctxt) substitutetype(structdie *dwarf.DWDie, field string, dwtype loa
 
 	a := getattr(child, dwarf.DW_AT_type)
 	if a != nil {
-		a.Data = dwSym(dwtype)
+		a.Data = dwtype
 	} else {
 		d.newrefattr(child, dwarf.DW_AT_type, dwtype)
 	}
 }
 
-func (d *dwctxt) findprotodie(ctxt *Link, name string) *dwarf.DWDie {
+func (d *dwctxt) findprotodie(ctxt *Link, name string) *dwarf.DWDie[loader.Sym] {
 	die, ok := prototypedies[name]
 	if ok && die == nil {
 		d.defgotype(d.lookupOrDiag(name))
@@ -812,7 +798,7 @@ func (d *dwctxt) findprotodie(ctxt *Link, name string) *dwarf.DWDie {
 	return die
 }
 
-func (d *dwctxt) synthesizestringtypes(ctxt *Link, die *dwarf.DWDie) {
+func (d *dwctxt) synthesizestringtypes(ctxt *Link, die *dwarf.DWDie[loader.Sym]) {
 	prototype := walktypedef(d.findprotodie(ctxt, "type:runtime.stringStructDWARF"))
 	if prototype == nil {
 		return
@@ -826,7 +812,7 @@ func (d *dwctxt) synthesizestringtypes(ctxt *Link, die *dwarf.DWDie) {
 	}
 }
 
-func (d *dwctxt) synthesizeslicetypes(ctxt *Link, die *dwarf.DWDie) {
+func (d *dwctxt) synthesizeslicetypes(ctxt *Link, die *dwarf.DWDie[loader.Sym]) {
 	prototype := walktypedef(d.findprotodie(ctxt, "type:runtime.slice"))
 	if prototype == nil {
 		return
@@ -837,7 +823,7 @@ func (d *dwctxt) synthesizeslicetypes(ctxt *Link, die *dwarf.DWDie) {
 			continue
 		}
 		d.copychildren(ctxt, die, prototype)
-		elem := loader.Sym(getattr(die, dwarf.DW_AT_go_elem).Data.(dwSym))
+		elem := getattr(die, dwarf.DW_AT_go_elem).Data.(loader.Sym)
 		d.substitutetype(die, "array", d.defptrto(elem))
 	}
 }
@@ -856,7 +842,7 @@ const (
 	BucketSize = abi.MapBucketCount
 )
 
-func (d *dwctxt) mkinternaltype(ctxt *Link, abbrev int, typename, keyname, valname string, f func(*dwarf.DWDie)) loader.Sym {
+func (d *dwctxt) mkinternaltype(ctxt *Link, abbrev int, typename, keyname, valname string, f func(*dwarf.DWDie[loader.Sym])) loader.Sym {
 	name := mkinternaltypename(typename, keyname, valname)
 	symname := dwarf.InfoPrefix + name
 	s := d.ldr.Lookup(symname, 0)
@@ -865,10 +851,10 @@ func (d *dwctxt) mkinternaltype(ctxt *Link, abbrev int, typename, keyname, valna
 	}
 	die := d.newdie(&dwtypes, abbrev, name)
 	f(die)
-	return d.dtolsym(die.Sym)
+	return die.Sym
 }
 
-func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
+func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie[loader.Sym]) {
 	hash := walktypedef(d.findprotodie(ctxt, "type:runtime.hmap"))
 	bucket := walktypedef(d.findprotodie(ctxt, "type:runtime.bmap"))
 
@@ -880,7 +866,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 		if die.Abbrev != dwarf.DW_ABRV_MAPTYPE {
 			continue
 		}
-		gotype := loader.Sym(getattr(die, dwarf.DW_AT_type).Data.(dwSym))
+		gotype := getattr(die, dwarf.DW_AT_type).Data.(loader.Sym)
 		keytype := decodetypeMapKey(d.ldr, d.arch, gotype)
 		valtype := decodetypeMapValue(d.ldr, d.arch, gotype)
 		keydata := d.ldr.Data(keytype)
@@ -901,7 +887,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 
 		// Construct type to represent an array of BucketSize keys
 		keyname := d.nameFromDIESym(keytype)
-		dwhks := d.mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *dwarf.DWDie) {
+		dwhks := d.mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *dwarf.DWDie[loader.Sym]) {
 			newattr(dwhk, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*keysize, 0)
 			t := keytype
 			if indirectKey {
@@ -915,7 +901,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 
 		// Construct type to represent an array of BucketSize values
 		valname := d.nameFromDIESym(valtype)
-		dwhvs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *dwarf.DWDie) {
+		dwhvs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *dwarf.DWDie[loader.Sym]) {
 			newattr(dwhv, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*valsize, 0)
 			t := valtype
 			if indirectVal {
@@ -928,7 +914,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 		})
 
 		// Construct bucket<K,V>
-		dwhbs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *dwarf.DWDie) {
+		dwhbs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *dwarf.DWDie[loader.Sym]) {
 			// Copy over all fields except the field "data" from the generic
 			// bucket. "data" will be replaced with keys/values below.
 			d.copychildrenexcept(ctxt, dwhb, bucket, findchild(bucket, "data"))
@@ -940,7 +926,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 			d.newrefattr(fld, dwarf.DW_AT_type, dwhvs)
 			newmemberoffsetattr(fld, BucketSize+BucketSize*int32(keysize))
 			fld = d.newdie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "overflow")
-			d.newrefattr(fld, dwarf.DW_AT_type, d.defptrto(d.dtolsym(dwhb.Sym)))
+			d.newrefattr(fld, dwarf.DW_AT_type, d.defptrto(dwhb.Sym))
 			newmemberoffsetattr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize)))
 			if d.arch.RegSize > d.arch.PtrSize {
 				fld = d.newdie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "pad")
@@ -952,7 +938,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 		})
 
 		// Construct hash<K,V>
-		dwhs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *dwarf.DWDie) {
+		dwhs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *dwarf.DWDie[loader.Sym]) {
 			d.copychildren(ctxt, dwh, hash)
 			d.substitutetype(dwh, "buckets", d.defptrto(dwhbs))
 			d.substitutetype(dwh, "oldbuckets", d.defptrto(dwhbs))
@@ -964,7 +950,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 	}
 }
 
-func (d *dwctxt) synthesizechantypes(ctxt *Link, die *dwarf.DWDie) {
+func (d *dwctxt) synthesizechantypes(ctxt *Link, die *dwarf.DWDie[loader.Sym]) {
 	sudog := walktypedef(d.findprotodie(ctxt, "type:runtime.sudog"))
 	waitq := walktypedef(d.findprotodie(ctxt, "type:runtime.waitq"))
 	hchan := walktypedef(d.findprotodie(ctxt, "type:runtime.hchan"))
@@ -978,20 +964,20 @@ func (d *dwctxt) synthesizechantypes(ctxt *Link, die *dwarf.DWDie) {
 		if die.Abbrev != dwarf.DW_ABRV_CHANTYPE {
 			continue
 		}
-		elemgotype := loader.Sym(getattr(die, dwarf.DW_AT_type).Data.(dwSym))
+		elemgotype := getattr(die, dwarf.DW_AT_type).Data.(loader.Sym)
 		tname := d.ldr.SymName(elemgotype)
 		elemname := tname[5:]
 		elemtype := d.walksymtypedef(d.defgotype(d.lookupOrDiag(tname)))
 
 		// sudog<T>
-		dwss := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *dwarf.DWDie) {
+		dwss := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *dwarf.DWDie[loader.Sym]) {
 			d.copychildren(ctxt, dws, sudog)
 			d.substitutetype(dws, "elem", d.defptrto(elemtype))
 			newattr(dws, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, int64(sudogsize), nil)
 		})
 
 		// waitq<T>
-		dwws := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *dwarf.DWDie) {
+		dwws := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *dwarf.DWDie[loader.Sym]) {
 
 			d.copychildren(ctxt, dww, waitq)
 			d.substitutetype(dww, "first", d.defptrto(dwss))
@@ -1000,7 +986,7 @@ func (d *dwctxt) synthesizechantypes(ctxt *Link, die *dwarf.DWDie) {
 		})
 
 		// hchan<T>
-		dwhs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *dwarf.DWDie) {
+		dwhs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *dwarf.DWDie[loader.Sym]) {
 			d.copychildren(ctxt, dwh, hchan)
 			d.substitutetype(dwh, "recvq", dwws)
 			d.substitutetype(dwh, "sendq", dwws)
@@ -1073,7 +1059,7 @@ func (d *dwctxt) calcCompUnitRanges() {
 	}
 }
 
-func movetomodule(ctxt *Link, parent *dwarf.DWDie) {
+func movetomodule(ctxt *Link, parent *dwarf.DWDie[loader.Sym]) {
 	die := ctxt.runtimeCU.DWInfo.Child
 	if die == nil {
 		ctxt.runtimeCU.DWInfo.Child = parent.Child
@@ -1198,7 +1184,7 @@ func (d *dwctxt) writeDirFileTables(unit *sym.CompilationUnit, lsu *loader.Symbo
 
 	// Emit directory section. This is a series of nul terminated
 	// strings, followed by a single zero byte.
-	lsDwsym := dwSym(lsu.Sym())
+	lsDwsym := lsu.Sym()
 	for k := 1; k < len(dirs); k++ {
 		d.AddString(lsDwsym, dirs[k])
 	}
@@ -1207,7 +1193,7 @@ func (d *dwctxt) writeDirFileTables(unit *sym.CompilationUnit, lsu *loader.Symbo
 	// Emit file section.
 	for k := 0; k < len(files); k++ {
 		d.AddString(lsDwsym, files[k].base)
-		dwarf.Uleb128put(d, lsDwsym, int64(files[k].dir))
+		dwarf.Uleb128put(d.ctx(), lsDwsym, int64(files[k].dir))
 		lsu.AddUint8(0) // mtime
 		lsu.AddUint8(0) // length
 	}
@@ -1232,8 +1218,7 @@ func (d *dwctxt) writelines(unit *sym.CompilationUnit, lineProlog loader.Sym) []
 	syms := make([]loader.Sym, 0, len(unit.Textp)+2)
 	syms = append(syms, lineProlog)
 	lsu := d.ldr.MakeSymbolUpdater(lineProlog)
-	lsDwsym := dwSym(lineProlog)
-	newattr(unit.DWInfo, dwarf.DW_AT_stmt_list, dwarf.DW_CLS_PTR, 0, lsDwsym)
+	newattr(unit.DWInfo, dwarf.DW_AT_stmt_list, dwarf.DW_CLS_PTR, 0, lineProlog)
 
 	// Write .debug_line Line Number Program Header (sec 6.2.4)
 	// Fields marked with (*) must be changed for 64-bit dwarf
@@ -1304,12 +1289,11 @@ func (d *dwctxt) writepcranges(unit *sym.CompilationUnit, base loader.Sym, pcs [
 	syms := make([]loader.Sym, 0, len(unit.RangeSyms)+1)
 	syms = append(syms, rangeProlog)
 	rsu := d.ldr.MakeSymbolUpdater(rangeProlog)
-	rDwSym := dwSym(rangeProlog)
 
 	// Create PC ranges for the compilation unit DIE.
-	newattr(unit.DWInfo, dwarf.DW_AT_ranges, dwarf.DW_CLS_PTR, rsu.Size(), rDwSym)
-	newattr(unit.DWInfo, dwarf.DW_AT_low_pc, dwarf.DW_CLS_ADDRESS, 0, dwSym(base))
-	dwarf.PutBasedRanges(d, rDwSym, pcs)
+	newattr(unit.DWInfo, dwarf.DW_AT_ranges, dwarf.DW_CLS_PTR, rsu.Size(), rangeProlog)
+	newattr(unit.DWInfo, dwarf.DW_AT_low_pc, dwarf.DW_CLS_ADDRESS, 0, base)
+	dwarf.PutBasedRanges(d.ctx(), rangeProlog, pcs)
 
 	// Collect up the ranges for functions in the unit.
 	rsize := uint64(rsu.Size())
@@ -1355,7 +1339,6 @@ func appendPCDeltaCFA(arch *sys.Arch, b []byte, deltapc, cfa int64) []byte {
 }
 
 func (d *dwctxt) writeframes(fs loader.Sym) dwarfSecInfo {
-	fsd := dwSym(fs)
 	fsu := d.ldr.MakeSymbolUpdater(fs)
 	fsu.SetType(sym.SDWARFSECT)
 	isdw64 := isDwarf64(d.linkctxt)
@@ -1375,31 +1358,31 @@ func (d *dwctxt) writeframes(fs loader.Sym) dwarfSecInfo {
 	if isdw64 {
 		cieReserve += 4 // 4 bytes added for cid
 	}
-	d.createUnitLength(fsu, uint64(cieReserve))         // initial length, must be multiple of thearch.ptrsize
-	d.addDwarfAddrField(fsu, ^uint64(0))                // cid
-	fsu.AddUint8(3)                                     // dwarf version (appendix F)
-	fsu.AddUint8(0)                                     // augmentation ""
-	dwarf.Uleb128put(d, fsd, 1)                         // code_alignment_factor
-	dwarf.Sleb128put(d, fsd, dataAlignmentFactor)       // all CFI offset calculations include multiplication with this factor
-	dwarf.Uleb128put(d, fsd, int64(thearch.Dwarfreglr)) // return_address_register
+	d.createUnitLength(fsu, uint64(cieReserve))              // initial length, must be multiple of thearch.ptrsize
+	d.addDwarfAddrField(fsu, ^uint64(0))                     // cid
+	fsu.AddUint8(3)                                          // dwarf version (appendix F)
+	fsu.AddUint8(0)                                          // augmentation ""
+	dwarf.Uleb128put(d.ctx(), fs, 1)                         // code_alignment_factor
+	dwarf.Sleb128put(d.ctx(), fs, dataAlignmentFactor)       // all CFI offset calculations include multiplication with this factor
+	dwarf.Uleb128put(d.ctx(), fs, int64(thearch.Dwarfreglr)) // return_address_register
 
-	fsu.AddUint8(dwarf.DW_CFA_def_cfa)                  // Set the current frame address..
-	dwarf.Uleb128put(d, fsd, int64(thearch.Dwarfregsp)) // ...to use the value in the platform's SP register (defined in l.go)...
+	fsu.AddUint8(dwarf.DW_CFA_def_cfa)                       // Set the current frame address..
+	dwarf.Uleb128put(d.ctx(), fs, int64(thearch.Dwarfregsp)) // ...to use the value in the platform's SP register (defined in l.go)...
 	if haslr {
-		dwarf.Uleb128put(d, fsd, int64(0)) // ...plus a 0 offset.
+		dwarf.Uleb128put(d.ctx(), fs, int64(0)) // ...plus a 0 offset.
 
 		fsu.AddUint8(dwarf.DW_CFA_same_value) // The platform's link register is unchanged during the prologue.
-		dwarf.Uleb128put(d, fsd, int64(thearch.Dwarfreglr))
+		dwarf.Uleb128put(d.ctx(), fs, int64(thearch.Dwarfreglr))
 
-		fsu.AddUint8(dwarf.DW_CFA_val_offset)               // The previous value...
-		dwarf.Uleb128put(d, fsd, int64(thearch.Dwarfregsp)) // ...of the platform's SP register...
-		dwarf.Uleb128put(d, fsd, int64(0))                  // ...is CFA+0.
+		fsu.AddUint8(dwarf.DW_CFA_val_offset)                    // The previous value...
+		dwarf.Uleb128put(d.ctx(), fs, int64(thearch.Dwarfregsp)) // ...of the platform's SP register...
+		dwarf.Uleb128put(d.ctx(), fs, int64(0))                  // ...is CFA+0.
 	} else {
-		dwarf.Uleb128put(d, fsd, int64(d.arch.PtrSize)) // ...plus the word size (because the call instruction implicitly adds one word to the frame).
+		dwarf.Uleb128put(d.ctx(), fs, int64(d.arch.PtrSize)) // ...plus the word size (because the call instruction implicitly adds one word to the frame).
 
-		fsu.AddUint8(dwarf.DW_CFA_offset_extended)                           // The previous value...
-		dwarf.Uleb128put(d, fsd, int64(thearch.Dwarfreglr))                  // ...of the return address...
-		dwarf.Uleb128put(d, fsd, int64(-d.arch.PtrSize)/dataAlignmentFactor) // ...is saved at [CFA - (PtrSize/4)].
+		fsu.AddUint8(dwarf.DW_CFA_offset_extended)                                // The previous value...
+		dwarf.Uleb128put(d.ctx(), fs, int64(thearch.Dwarfreglr))                  // ...of the return address...
+		dwarf.Uleb128put(d.ctx(), fs, int64(-d.arch.PtrSize)/dataAlignmentFactor) // ...is saved at [CFA - (PtrSize/4)].
 	}
 
 	pad := int64(cieReserve) + lengthFieldSize - int64(len(d.ldr.Data(fs)))
@@ -1519,7 +1502,7 @@ func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym loader.Sym, inf
 	}
 
 	compunit := u.DWInfo
-	s := d.dtolsym(compunit.Sym)
+	s := compunit.Sym
 	su := d.ldr.MakeSymbolUpdater(s)
 
 	// Write .debug_info Compilation Unit Header (sec 7.5.1)
@@ -1533,9 +1516,8 @@ func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym loader.Sym, inf
 
 	su.AddUint8(uint8(d.arch.PtrSize)) // address_size
 
-	ds := dwSym(s)
-	dwarf.Uleb128put(d, ds, int64(compunit.Abbrev))
-	dwarf.PutAttrs(d, ds, compunit.Abbrev, compunit.Attr)
+	dwarf.Uleb128put(d.ctx(), s, int64(compunit.Abbrev))
+	dwarf.PutAttrs(d.ctx(), s, compunit.Abbrev, compunit.Attr)
 
 	// This is an under-estimate; more will be needed for type DIEs.
 	cu := make([]loader.Sym, 0, len(u.AbsFnDIEs)+len(u.FuncDIEs))
@@ -1612,7 +1594,7 @@ func (d *dwctxt) writegdbscript() dwarfSecInfo {
 // FIXME: might be worth looking replacing this map with a function
 // that switches based on symbol instead.
 
-var prototypedies map[string]*dwarf.DWDie
+var prototypedies map[string]*dwarf.DWDie[loader.Sym]
 
 func dwarfEnabled(ctxt *Link) bool {
 	if *FlagW { // disable dwarf
@@ -1643,7 +1625,7 @@ func dwarfEnabled(ctxt *Link) bool {
 
 // mkBuiltinType populates the dwctxt2 sym lookup maps for the
 // newly created builtin type DIE 'typeDie'.
-func (d *dwctxt) mkBuiltinType(ctxt *Link, abrv int, tname string) *dwarf.DWDie {
+func (d *dwctxt) mkBuiltinType(ctxt *Link, abrv int, tname string) *dwarf.DWDie[loader.Sym] {
 	// create type DIE
 	die := d.newdie(&dwtypes, abrv, tname)
 
@@ -1651,7 +1633,7 @@ func (d *dwctxt) mkBuiltinType(ctxt *Link, abrv int, tname string) *dwarf.DWDie 
 	gotype := d.lookupOrDiag("type:" + tname)
 
 	// Map from die sym to type sym
-	ds := loader.Sym(die.Sym.(dwSym))
+	ds := die.Sym
 	d.rtmap[ds] = gotype
 
 	// Map from type to def sym
@@ -1767,12 +1749,12 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 	newattr(die, dwarf.DW_AT_encoding, dwarf.DW_CLS_CONSTANT, dwarf.DW_ATE_unsigned, 0)
 	newattr(die, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, int64(d.arch.PtrSize), 0)
 	newattr(die, dwarf.DW_AT_go_kind, dwarf.DW_CLS_CONSTANT, objabi.KindUintptr, 0)
-	newattr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_ADDRESS, 0, dwSym(d.lookupOrDiag("type:uintptr")))
+	newattr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_ADDRESS, 0, d.lookupOrDiag("type:uintptr"))
 
 	d.uintptrInfoSym = d.mustFind("uintptr")
 
 	// Prototypes needed for type synthesis.
-	prototypedies = map[string]*dwarf.DWDie{
+	prototypedies = map[string]*dwarf.DWDie[loader.Sym]{
 		"type:runtime.stringStructDWARF": nil,
 		"type:runtime.slice":             nil,
 		"type:runtime.hmap":              nil,
@@ -1799,7 +1781,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 	}
 
 	// fake root DIE for compile unit DIEs
-	var dwroot dwarf.DWDie
+	var dwroot dwarf.DWDie[loader.Sym]
 	flagVariants := make(map[string]bool)
 
 	for _, lib := range ctxt.Library {

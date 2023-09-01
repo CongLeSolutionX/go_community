@@ -38,12 +38,8 @@ const AbstractFuncSuffix = "$abstract"
 // generation (functions, scopes).
 var logDwarf bool
 
-// Sym represents a symbol.
-type Sym interface {
-}
-
 // A Var represents a local variable or a function parameter.
-type Var struct {
+type Var[Sym any] struct {
 	Name          string
 	Abbrev        int // Either DW_ABRV_AUTO[_LOCLIST] or DW_ABRV_PARAM[_LOCLIST]
 	IsReturnValue bool
@@ -69,10 +65,10 @@ type Var struct {
 // compiled to discontiguous blocks of instructions in the executable.
 // The Ranges field lists all the blocks of instructions that belong
 // in this scope.
-type Scope struct {
+type Scope[Sym any] struct {
 	Parent int32
 	Ranges []Range
-	Vars   []*Var
+	Vars   []*Var[Sym]
 }
 
 // A Range represents a half-open interval [Start, End).
@@ -82,7 +78,7 @@ type Range struct {
 
 // This container is used by the PutFunc* variants below when
 // creating the DWARF subprogram DIE(s) for a function.
-type FnState struct {
+type FnState[Sym any] struct {
 	Name          string
 	Info          Sym
 	Loc           Sym
@@ -92,8 +88,8 @@ type FnState struct {
 	StartPos      src.Pos
 	Size          int64
 	External      bool
-	Scopes        []Scope
-	InlCalls      InlCalls
+	Scopes        []Scope[Sym]
+	InlCalls      InlCalls[Sym]
 	UseBASEntries bool
 
 	dictIndexToOffset []int64
@@ -139,13 +135,13 @@ func MergeRanges(in1, in2 []Range) []Range {
 }
 
 // UnifyRanges merges the ranges from 'c' into the list of ranges for 's'.
-func (s *Scope) UnifyRanges(c *Scope) {
+func (s *Scope[Sym]) UnifyRanges(c *Scope[Sym]) {
 	s.Ranges = MergeRanges(s.Ranges, c.Ranges)
 }
 
 // AppendRange adds r to s, if r is non-empty.
 // If possible, it extends the last Range in s.Ranges; if not, it creates a new one.
-func (s *Scope) AppendRange(r Range) {
+func (s *Scope[Sym]) AppendRange(r Range) {
 	if r.End <= r.Start {
 		return
 	}
@@ -157,11 +153,11 @@ func (s *Scope) AppendRange(r Range) {
 	s.Ranges = append(s.Ranges, r)
 }
 
-type InlCalls struct {
-	Calls []InlCall
+type InlCalls[Sym any] struct {
+	Calls []InlCall[Sym]
 }
 
-type InlCall struct {
+type InlCall[Sym any] struct {
 	// index into ctx.InlTree describing the call inlined here
 	InlIndex int
 
@@ -176,7 +172,7 @@ type InlCall struct {
 
 	// entries in this list are PAUTO's created by the inliner to
 	// capture the promoted formals and locals of the inlined callee.
-	InlVars []*Var
+	InlVars []*Var[Sym]
 
 	// PC ranges for this inlined call.
 	Ranges []Range
@@ -186,7 +182,7 @@ type InlCall struct {
 }
 
 // A Context specifies how to add data to a Sym.
-type Context interface {
+type Context[Sym any] interface {
 	PtrSize() int
 	Size(s Sym) int64
 	AddInt(s Sym, size int, i int64)
@@ -197,7 +193,7 @@ type Context interface {
 	AddDWARFAddrSectionOffset(s Sym, t interface{}, ofs int64)
 	CurrentOffset(s Sym) int64
 	RecordDclReference(from Sym, to Sym, dclIdx int, inlIndex int)
-	RecordChildDieOffsets(s Sym, vars []*Var, offsets []int32)
+	RecordChildDieOffsets(s Sym, vars []*Var[Sym], offsets []int32)
 	AddString(s Sym, v string)
 	Logf(format string, args ...interface{})
 }
@@ -269,7 +265,7 @@ func sevenBitS(v int64) []byte {
 }
 
 // Uleb128put appends v to s using DWARF's unsigned LEB128 encoding.
-func Uleb128put(ctxt Context, s Sym, v int64) {
+func Uleb128put[Sym any](ctxt Context[Sym], s Sym, v int64) {
 	b := sevenBitU(v)
 	if b == nil {
 		var encbuf [20]byte
@@ -279,7 +275,7 @@ func Uleb128put(ctxt Context, s Sym, v int64) {
 }
 
 // Sleb128put appends v to s using DWARF's signed LEB128 encoding.
-func Sleb128put(ctxt Context, s Sym, v int64) {
+func Sleb128put[Sym any](ctxt Context[Sym], s Sym, v int64) {
 	b := sevenBitS(v)
 	if b == nil {
 		var encbuf [20]byte
@@ -933,15 +929,15 @@ type DWAttr struct {
 }
 
 // DWDie represents a DWARF debug info entry.
-type DWDie struct {
+type DWDie[Sym any] struct {
 	Abbrev int
-	Link   *DWDie
-	Child  *DWDie
+	Link   *DWDie[Sym]
+	Child  *DWDie[Sym]
 	Attr   *DWAttr
 	Sym    Sym
 }
 
-func putattr(ctxt Context, s Sym, abbrev int, form int, cls int, value int64, data interface{}) error {
+func putattr[Sym any](ctxt Context[Sym], s Sym, abbrev int, form int, cls int, value int64, data interface{}) error {
 	switch form {
 	case DW_FORM_addr: // address
 		// Allow nil addresses for DW_AT_go_runtime_type.
@@ -1054,7 +1050,7 @@ func putattr(ctxt Context, s Sym, abbrev int, form int, cls int, value int64, da
 //
 // Note that we can (and do) add arbitrary attributes to a DIE, but
 // only the ones actually listed in the Abbrev will be written out.
-func PutAttrs(ctxt Context, s Sym, abbrev int, attr *DWAttr) {
+func PutAttrs[Sym any](ctxt Context[Sym], s Sym, abbrev int, attr *DWAttr) {
 	abbrevs := Abbrevs()
 Outer:
 	for _, f := range abbrevs[abbrev].attr {
@@ -1070,13 +1066,13 @@ Outer:
 }
 
 // HasChildren reports whether 'die' uses an abbrev that supports children.
-func HasChildren(die *DWDie) bool {
+func HasChildren[Sym any](die *DWDie[Sym]) bool {
 	abbrevs := Abbrevs()
 	return abbrevs[die.Abbrev].children != 0
 }
 
 // PutIntConst writes a DIE for an integer constant
-func PutIntConst(ctxt Context, info, typ Sym, name string, val int64) {
+func PutIntConst[Sym any](ctxt Context[Sym], info, typ Sym, name string, val int64) {
 	Uleb128put(ctxt, info, DW_ABRV_INT_CONSTANT)
 	putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
 	putattr(ctxt, info, DW_ABRV_INT_CONSTANT, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, typ)
@@ -1084,7 +1080,7 @@ func PutIntConst(ctxt Context, info, typ Sym, name string, val int64) {
 }
 
 // PutGlobal writes a DIE for a global variable.
-func PutGlobal(ctxt Context, info, typ, gvar Sym, name string) {
+func PutGlobal[Sym any](ctxt Context[Sym], info, typ, gvar Sym, name string) {
 	Uleb128put(ctxt, info, DW_ABRV_VARIABLE)
 	putattr(ctxt, info, DW_ABRV_VARIABLE, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
 	putattr(ctxt, info, DW_ABRV_VARIABLE, DW_FORM_block1, DW_CLS_ADDRESS, 0, gvar)
@@ -1095,7 +1091,7 @@ func PutGlobal(ctxt Context, info, typ, gvar Sym, name string) {
 // PutBasedRanges writes a range table to sym. All addresses in ranges are
 // relative to some base address, which must be arranged by the caller
 // (e.g., with a DW_AT_low_pc attribute, or in a BASE-prefixed range).
-func PutBasedRanges(ctxt Context, sym Sym, ranges []Range) {
+func PutBasedRanges[Sym any](ctxt Context[Sym], sym Sym, ranges []Range) {
 	ps := ctxt.PtrSize()
 	// Write ranges.
 	for _, r := range ranges {
@@ -1109,7 +1105,7 @@ func PutBasedRanges(ctxt Context, sym Sym, ranges []Range) {
 
 // PutRanges writes a range table to s.Ranges.
 // All addresses in ranges are relative to s.base.
-func (s *FnState) PutRanges(ctxt Context, ranges []Range) {
+func (s *FnState[Sym]) PutRanges(ctxt Context[Sym], ranges []Range) {
 	ps := ctxt.PtrSize()
 	sym, base := s.Ranges, s.StartPC
 
@@ -1135,7 +1131,7 @@ func (s *FnState) PutRanges(ctxt Context, ranges []Range) {
 // Return TRUE if the inlined call in the specified slot is empty,
 // meaning it has a zero-length range (no instructions), and all
 // of its children are empty.
-func isEmptyInlinedCall(slot int, calls *InlCalls) bool {
+func isEmptyInlinedCall[Sym any](slot int, calls *InlCalls[Sym]) bool {
 	ic := &calls.Calls[slot]
 	if ic.InlIndex == -2 {
 		return true
@@ -1157,7 +1153,7 @@ func isEmptyInlinedCall(slot int, calls *InlCalls) bool {
 
 // Slot -1:    return top-level inlines.
 // Slot >= 0:  return children of that slot.
-func inlChildren(slot int, calls *InlCalls) []int {
+func inlChildren[Sym any](slot int, calls *InlCalls[Sym]) []int {
 	var kids []int
 	if slot != -1 {
 		for _, k := range calls.Calls[slot].Children {
@@ -1175,8 +1171,8 @@ func inlChildren(slot int, calls *InlCalls) []int {
 	return kids
 }
 
-func inlinedVarTable(inlcalls *InlCalls) map[*Var]bool {
-	vars := make(map[*Var]bool)
+func inlinedVarTable[Sym any](inlcalls *InlCalls[Sym]) map[*Var[Sym]]bool {
+	vars := make(map[*Var[Sym]]bool)
 	for _, ic := range inlcalls.Calls {
 		for _, v := range ic.InlVars {
 			vars[v] = true
@@ -1191,21 +1187,21 @@ func inlinedVarTable(inlcalls *InlCalls) map[*Var]bool {
 // function prunes out any variables from the latter category (since
 // they will be emitted as part of DWARF inlined_subroutine DIEs) and
 // then generates scopes for vars in the former category.
-func putPrunedScopes(ctxt Context, s *FnState, fnabbrev int) error {
+func putPrunedScopes[Sym any](ctxt Context[Sym], s *FnState[Sym], fnabbrev int) error {
 	if len(s.Scopes) == 0 {
 		return nil
 	}
-	scopes := make([]Scope, len(s.Scopes), len(s.Scopes))
+	scopes := make([]Scope[Sym], len(s.Scopes), len(s.Scopes))
 	pvars := inlinedVarTable(&s.InlCalls)
 	for k, s := range s.Scopes {
-		var pruned Scope = Scope{Parent: s.Parent, Ranges: s.Ranges}
+		pruned := Scope[Sym]{Parent: s.Parent, Ranges: s.Ranges}
 		for i := 0; i < len(s.Vars); i++ {
 			_, found := pvars[s.Vars[i]]
 			if !found {
 				pruned.Vars = append(pruned.Vars, s.Vars[i])
 			}
 		}
-		sort.Sort(byChildIndex(pruned.Vars))
+		sort.Sort(byChildIndex[Sym](pruned.Vars))
 		scopes[k] = pruned
 	}
 
@@ -1225,7 +1221,7 @@ func putPrunedScopes(ctxt Context, s *FnState, fnabbrev int) error {
 // 'concrete' instance) will contain a pointer back to this abstract
 // DIE (as a space-saving measure, so that name/type etc doesn't have
 // to be repeated for each inlined copy).
-func PutAbstractFunc(ctxt Context, s *FnState) error {
+func PutAbstractFunc[Sym any](ctxt Context[Sym], s *FnState[Sym]) error {
 	if logDwarf {
 		ctxt.Logf("PutAbstractFunc(%v)\n", s.Absfn)
 	}
@@ -1252,7 +1248,7 @@ func PutAbstractFunc(ctxt Context, s *FnState) error {
 	putattr(ctxt, s.Absfn, abbrev, DW_FORM_flag, DW_CLS_FLAG, ev, 0)
 
 	// Child variables (may be empty)
-	var flattened []*Var
+	var flattened []*Var[Sym]
 
 	// This slice will hold the offset in bytes for each child var DIE
 	// with respect to the start of the parent subprogram DIE.
@@ -1274,7 +1270,7 @@ func PutAbstractFunc(ctxt Context, s *FnState) error {
 			}
 		}
 		if len(flattened) > 0 {
-			sort.Sort(byChildIndex(flattened))
+			sort.Sort(byChildIndex[Sym](flattened))
 
 			if logDwarf {
 				ctxt.Logf("putAbstractScope(%v): vars:", s.Info)
@@ -1304,7 +1300,7 @@ func PutAbstractFunc(ctxt Context, s *FnState) error {
 // its corresponding 'abstract' DIE (containing location-independent
 // attributes such as name, type, etc). Inlined subroutine DIEs can
 // have other inlined subroutine DIEs as children.
-func putInlinedFunc(ctxt Context, s *FnState, callIdx int) error {
+func putInlinedFunc[Sym any](ctxt Context[Sym], s *FnState[Sym], callIdx int) error {
 	ic := s.InlCalls.Calls[callIdx]
 	callee := ic.AbsFunSym
 
@@ -1338,7 +1334,7 @@ func putInlinedFunc(ctxt Context, s *FnState, callIdx int) error {
 
 	// Variables associated with this inlined routine instance.
 	vars := ic.InlVars
-	sort.Sort(byChildIndex(vars))
+	sort.Sort(byChildIndex[Sym](vars))
 	inlIndex := ic.InlIndex
 	var encbuf [20]byte
 	for _, v := range vars {
@@ -1367,7 +1363,7 @@ func putInlinedFunc(ctxt Context, s *FnState, callIdx int) error {
 // for the function (which holds location-independent attributes such
 // as name, type), then the remainder of the attributes are specific
 // to this instance (location, frame base, etc).
-func PutConcreteFunc(ctxt Context, s *FnState, isWrapper bool) error {
+func PutConcreteFunc[Sym any](ctxt Context[Sym], s *FnState[Sym], isWrapper bool) error {
 	if logDwarf {
 		ctxt.Logf("PutConcreteFunc(%v)\n", s.Info)
 	}
@@ -1413,7 +1409,7 @@ func PutConcreteFunc(ctxt Context, s *FnState, isWrapper bool) error {
 // when its containing package was compiled (hence there is no need to
 // emit an abstract version for it to use as a base for inlined
 // routine records).
-func PutDefaultFunc(ctxt Context, s *FnState, isWrapper bool) error {
+func PutDefaultFunc[Sym any](ctxt Context[Sym], s *FnState[Sym], isWrapper bool) error {
 	if logDwarf {
 		ctxt.Logf("PutDefaultFunc(%v)\n", s.Info)
 	}
@@ -1463,7 +1459,7 @@ func PutDefaultFunc(ctxt Context, s *FnState, isWrapper bool) error {
 }
 
 // putparamtypes writes typedef DIEs for any parametric types that are used by this function.
-func putparamtypes(ctxt Context, s *FnState, scopes []Scope, fnabbrev int) []int64 {
+func putparamtypes[Sym any](ctxt Context[Sym], s *FnState[Sym], scopes []Scope[Sym], fnabbrev int) []int64 {
 	if fnabbrev == DW_ABRV_FUNCTION_CONCRETE {
 		return nil
 	}
@@ -1503,7 +1499,7 @@ func putparamtypes(ctxt Context, s *FnState, scopes []Scope, fnabbrev int) []int
 	return dictIndexToOffset
 }
 
-func putscope(ctxt Context, s *FnState, scopes []Scope, curscope int32, fnabbrev int, encbuf []byte) int32 {
+func putscope[Sym any](ctxt Context[Sym], s *FnState[Sym], scopes []Scope[Sym], curscope int32, fnabbrev int, encbuf []byte) int32 {
 
 	if logDwarf {
 		ctxt.Logf("putscope(%v,%d): vars:", s.Info, curscope)
@@ -1564,7 +1560,7 @@ func concreteVarAbbrev(varAbbrev int) int {
 }
 
 // Pick the correct abbrev code for variable or parameter DIE.
-func determineVarAbbrev(v *Var, fnabbrev int) (int, bool, bool) {
+func determineVarAbbrev[Sym any](v *Var[Sym], fnabbrev int) (int, bool, bool) {
 	abbrev := v.Abbrev
 
 	// If the variable was entirely optimized out, don't emit a location list;
@@ -1615,7 +1611,7 @@ func abbrevUsesLoclist(abbrev int) bool {
 }
 
 // Emit DWARF attributes for a variable belonging to an 'abstract' subprogram.
-func putAbstractVar(ctxt Context, info Sym, v *Var) {
+func putAbstractVar[Sym any](ctxt Context[Sym], info Sym, v *Var[Sym]) {
 	// Remap abbrev
 	abbrev := v.Abbrev
 	switch abbrev {
@@ -1649,7 +1645,7 @@ func putAbstractVar(ctxt Context, info Sym, v *Var) {
 	// Var has no children => no terminator
 }
 
-func putvar(ctxt Context, s *FnState, v *Var, absfn Sym, fnabbrev, inlIndex int, encbuf []byte) {
+func putvar[Sym any](ctxt Context[Sym], s *FnState[Sym], v *Var[Sym], absfn Sym, fnabbrev, inlIndex int, encbuf []byte) {
 	// Remap abbrev according to parent DIE abbrev
 	abbrev, missing, concrete := determineVarAbbrev(v, fnabbrev)
 
@@ -1704,11 +1700,11 @@ func putvar(ctxt Context, s *FnState, v *Var, absfn Sym, fnabbrev, inlIndex int,
 }
 
 // byChildIndex implements sort.Interface for []*dwarf.Var by child index.
-type byChildIndex []*Var
+type byChildIndex[Sym any] []*Var[Sym]
 
-func (s byChildIndex) Len() int           { return len(s) }
-func (s byChildIndex) Less(i, j int) bool { return s[i].ChildIndex < s[j].ChildIndex }
-func (s byChildIndex) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s byChildIndex[Sym]) Len() int           { return len(s) }
+func (s byChildIndex[Sym]) Less(i, j int) bool { return s[i].ChildIndex < s[j].ChildIndex }
+func (s byChildIndex[Sym]) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
 // IsDWARFEnabledOnAIXLd returns true if DWARF is possible on the
 // current extld.

@@ -26,8 +26,8 @@ type varPos struct {
 // This is the main entry point for collection of raw material to
 // drive generation of DWARF "inlined subroutine" DIEs. See proposal
 // 22080 for more details and background info.
-func assembleInlines(fnsym *obj.LSym, dwVars []*dwarf.Var) dwarf.InlCalls {
-	var inlcalls dwarf.InlCalls
+func assembleInlines(fnsym *obj.LSym, dwVars []*dwarf.Var[*obj.LSym]) dwarf.InlCalls[*obj.LSym] {
+	var inlcalls dwarf.InlCalls[*obj.LSym]
 
 	if base.Debug.DwarfInl != 0 {
 		base.Ctxt.Logf("assembling DWARF inlined routine info for %v\n", fnsym.Name)
@@ -51,7 +51,7 @@ func assembleInlines(fnsym *obj.LSym, dwVars []*dwarf.Var) dwarf.InlCalls {
 
 	// This is used to partition DWARF vars by inline index. Vars not
 	// produced by the inliner will wind up in the vmap[0] entry.
-	vmap := make(map[int32][]*dwarf.Var)
+	vmap := make(map[int32][]*dwarf.Var[*obj.LSym])
 
 	// Now walk the dwarf vars and partition them based on whether they
 	// were produced by the inliner (dwv.InlIndex > 0) or were original
@@ -255,7 +255,7 @@ func makePreinlineDclMap(fnsym *obj.LSym) map[varPos]int {
 	return m
 }
 
-func insertInlCall(dwcalls *dwarf.InlCalls, inlIdx int, imap map[int]int) int {
+func insertInlCall(dwcalls *dwarf.InlCalls[*obj.LSym], inlIdx int, imap map[int]int) int {
 	callIdx, found := imap[inlIdx]
 	if found {
 		return callIdx
@@ -275,7 +275,7 @@ func insertInlCall(dwcalls *dwarf.InlCalls, inlIdx int, imap map[int]int) int {
 	callXPos := base.Ctxt.InlTree.CallPos(inlIdx)
 	callPos := base.Ctxt.InnermostPos(callXPos)
 	absFnSym := base.Ctxt.DwFixups.AbsFuncDwarfSym(inlinedFn)
-	ic := dwarf.InlCall{
+	ic := dwarf.InlCall[*obj.LSym]{
 		InlIndex:  inlIdx,
 		CallPos:   callPos,
 		AbsFunSym: absFnSym,
@@ -311,7 +311,7 @@ func posInlIndex(xpos src.XPos) int {
 	return -1
 }
 
-func addRange(calls []dwarf.InlCall, start, end int64, ii int, imap map[int]int) {
+func addRange(calls []dwarf.InlCall[*obj.LSym], start, end int64, ii int, imap map[int]int) {
 	if start == -1 {
 		panic("bad range start")
 	}
@@ -333,7 +333,7 @@ func addRange(calls []dwarf.InlCall, start, end int64, ii int, imap map[int]int)
 	call.Ranges = append(call.Ranges, dwarf.Range{Start: start, End: end})
 }
 
-func dumpInlCall(inlcalls dwarf.InlCalls, idx, ilevel int) {
+func dumpInlCall(inlcalls dwarf.InlCalls[*obj.LSym], idx, ilevel int) {
 	for i := 0; i < ilevel; i++ {
 		base.Ctxt.Logf("  ")
 	}
@@ -358,7 +358,7 @@ func dumpInlCall(inlcalls dwarf.InlCalls, idx, ilevel int) {
 
 }
 
-func dumpInlCalls(inlcalls dwarf.InlCalls) {
+func dumpInlCalls(inlcalls dwarf.InlCalls[*obj.LSym]) {
 	for k, c := range inlcalls.Calls {
 		if c.Root {
 			dumpInlCall(inlcalls, k, 0)
@@ -366,7 +366,7 @@ func dumpInlCalls(inlcalls dwarf.InlCalls) {
 	}
 }
 
-func dumpInlVars(dwvars []*dwarf.Var) {
+func dumpInlVars(dwvars []*dwarf.Var[*obj.LSym]) {
 	for i, dwv := range dwvars {
 		typ := "local"
 		if dwv.Abbrev == dwarf.DW_ABRV_PARAM_LOCLIST || dwv.Abbrev == dwarf.DW_ABRV_PARAM {
@@ -409,7 +409,7 @@ func rangesContainsAll(parent, child []dwarf.Range) (bool, string) {
 // this is a root/toplevel inline, checks that the ranges fall within
 // the extent of the top level function). A panic is issued if a
 // malformed range is found.
-func checkInlCall(funcName string, inlCalls dwarf.InlCalls, funcSize int64, idx, parentIdx int) {
+func checkInlCall(funcName string, inlCalls dwarf.InlCalls[*obj.LSym], funcSize int64, idx, parentIdx int) {
 
 	// Callee
 	ic := inlCalls.Calls[idx]
@@ -439,7 +439,7 @@ func checkInlCall(funcName string, inlCalls dwarf.InlCalls, funcSize int64, idx,
 
 // unifyCallRanges ensures that the ranges for a given inline
 // transitively include all of the ranges for its child inlines.
-func unifyCallRanges(inlcalls dwarf.InlCalls, idx int) {
+func unifyCallRanges(inlcalls dwarf.InlCalls[*obj.LSym], idx int) {
 	ic := &inlcalls.Calls[idx]
 	for _, childIdx := range ic.Children {
 		// First make sure child ranges are unified.

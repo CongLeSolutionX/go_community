@@ -20,11 +20,11 @@ type LoaderSym uint32
 //
 // These are used for both DWARF and pclntab generation.
 type CompilationUnit struct {
-	Lib       *Library      // Our library
-	PclnIndex int           // Index of this CU in pclntab
-	PCs       []dwarf.Range // PC ranges, relative to Textp[0]
-	DWInfo    *dwarf.DWDie  // CU root DIE
-	FileTable []string      // The file table used in this compilation unit.
+	Lib       *Library                // Our library
+	PclnIndex int                     // Index of this CU in pclntab
+	PCs       []dwarf.Range           // PC ranges, relative to Textp[0]
+	DWInfo    *dwarf.DWDie[LoaderSym] // CU root DIE
+	FileTable []string                // The file table used in this compilation unit.
 
 	Consts    LoaderSym   // Package constants DIEs
 	FuncDIEs  []LoaderSym // Function DIE subtrees
