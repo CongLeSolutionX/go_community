@@ -72,6 +72,47 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6624a13_56ef9a91",
+        "filename": "src/net/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T13:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72743984_04f264da",
+      "revId": "3a7809e72337c06bcce941325c8aba7ce4399d38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82592d9b_04547464",
+        "filename": "src/net/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T13:48:56Z",
+      "side": 1,
+      "message": "Oh, heh — this is already done at line 68. 😅\n\nConsolidating with that block.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 4
+      },
+      "revId": "3a7809e72337c06bcce941325c8aba7ce4399d38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "235b2884_9d2cd31d",
@@ -89,6 +130,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c38a646f_cd368e99",
+        "filename": "src/net/hook.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T13:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "235b2884_9d2cd31d",
+      "revId": "3a7809e72337c06bcce941325c8aba7ce4399d38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a00dfb58_c6116efe",
@@ -102,6 +161,24 @@
       "writtenOn": "2023-09-01T07:41:54Z",
       "side": 1,
       "message": "The time resolution on Windows is 16ms, so increasing the timeout from 1 to 10ms might not have the desired effect.",
+      "revId": "3a7809e72337c06bcce941325c8aba7ce4399d38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "313b9ffa_40a42162",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T13:48:56Z",
+      "side": 1,
+      "message": "Good to know. Reverted to 1ms, since in practice the spurious Dial results on Windows take less than 3ms anyway.",
+      "parentUuid": "a00dfb58_c6116efe",
       "revId": "3a7809e72337c06bcce941325c8aba7ce4399d38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
