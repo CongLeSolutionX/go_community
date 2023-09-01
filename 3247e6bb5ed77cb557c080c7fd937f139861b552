@@ -53,6 +53,24 @@
       "message": "Any reason only to linkify io.ByteReader and not all of the io.* mentions?",
       "revId": "3247e6bb5ed77cb557c080c7fd937f139861b552",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f58270_1dcd045b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-09-01T07:37:20Z",
+      "side": 1,
+      "message": "There didn\u0027t seem to be as much utility. The input and return types are already `io.Reader`, so the user can trivially click on that in the function signature.",
+      "parentUuid": "23cc7bc7_269bbc77",
+      "revId": "3247e6bb5ed77cb557c080c7fd937f139861b552",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
