@@ -52,6 +52,42 @@
       "parentUuid": "6ee91cb0_48b97f19",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73221925_ee87ce5a",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 52073
+      },
+      "writtenOn": "2023-09-01T18:46:58Z",
+      "side": 1,
+      "message": "Now that I think about it, my idea of a new Start action isn\u0027t great. It does ensure the starts are printed in order but the actual test run may happen way later.\n\nOne way around this could be to add some mechanism to ensure an action happens immediately after another one. That seems fairly complex though, so I would want some. directional agreement before going down that route",
+      "parentUuid": "09511b09_16b3e186",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4dbb4f7_917e1c57",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 52073
+      },
+      "writtenOn": "2023-09-01T18:46:58Z",
+      "side": 1,
+      "message": "Hmm now that I think about it - my proposed fix to this if we wanted to keep the ordering was to make a new Start action. But that doesn\u0027t *really* solve the problem. It ensures we print the starts in order, but we may not schedule the actual work until an arbitrary later time. Seems like for it to work we would need a way to have 2 actions that are guaranteed to be started back-to-back maybe.",
+      "parentUuid": "09511b09_16b3e186",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
