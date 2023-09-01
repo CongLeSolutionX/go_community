@@ -16,6 +16,24 @@
       "message": "I don\u0027t agree that this function needs synchronization. Its purpose is to register flags, and flag registration itself is generally not safe to perform concurrency.\n\nRather than a PR, please start by filing an issue describing the concrete problem you\u0027re running into. Fill out the complete template at https://go.dev/issue/new.",
       "revId": "dd9475c01c82316bf9d1fad221008258d11051ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d30a76a7_47f60273",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2023-09-01T16:04:44Z",
+      "side": 1,
+      "message": "The docs of this function says\n\n  Init is only needed when calling functions such as Benchmark without using \"go test\"\n\nIn fact, I don\u0027t very get what it means. It just looks to me that it is possible that the Init function may be called concurrently. If this is not true. Then there is no need to file an issue.",
+      "parentUuid": "502ceab9_9f94039e",
+      "revId": "dd9475c01c82316bf9d1fad221008258d11051ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
