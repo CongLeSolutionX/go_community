@@ -89,6 +89,24 @@
       "message": "Computing the hash is fast, but since we\u0027ve already to precomputed it I can\u0027t see a reason to stop doing that.",
       "revId": "c98827d7a7e0807f794a586e75eb700a23ae5382",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34dc3737_4035abc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-09-01T12:21:50Z",
+      "side": 1,
+      "message": "I like this CL. The clear reason to drop the predefined hashes is that it isn\u0027t clear whether they are correct from a code review. Hence bugs like the one we just fixed.\n\nAn alternative middle ground could be a test that compares the predefined hash with the computed value from the VDSO in the test process.",
+      "parentUuid": "b4a651bb_815ccb33",
+      "revId": "c98827d7a7e0807f794a586e75eb700a23ae5382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
