@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9033d20b_74c65f9f",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T16:15:02Z",
+      "side": 1,
+      "message": "This seems like an incomplete solution — we shouldn\u0027t make the tests 2x slower in JSON mode either.\n\nI think we need to better understand why this sequencing was thought to be needed in CL 448357 in the first place. (Maybe we can just remove it?)",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
