@@ -34,6 +34,24 @@
       "parentUuid": "9033d20b_74c65f9f",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09511b09_16b3e186",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-09-01T17:45:03Z",
+      "side": 1,
+      "message": "The start events are ordered because that\u0027s the only way a consumer of the JSON output can reconstruct the order that packages were passed to the go tool itself. This is valuable when presenting test results to a user, especially across multiple runs (like in a CI system).\n\nFor some context, this originally came out of work I was doing in dist to do a streaming conversion of the JSON test output back to the text format. There was no way to make this deterministic and to match the package sequence of the text format without these ordered start events.\n\nI agree that blocking workers is certainly an unfortunate (and unintended!) consequence and we should find some other way to implement this.\n\nFWIW, I had a similar problem in dist in one of the many rewrites I was doing it to. I wound up adding a separate buffer sequencing layer that understood the first line of each buffer had to be released to the output stream in order, and the lines within any buffer had to be released in order, but that otherwise lines could be released immediately. That resulted in potentially unbounded buffering, but didn\u0027t require anything to block.",
+      "parentUuid": "6ee91cb0_48b97f19",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
