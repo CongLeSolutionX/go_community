@@ -106,6 +106,24 @@
       "parentUuid": "09511b09_16b3e186",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6f4fd68_f67f2b84",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 52073
+      },
+      "writtenOn": "2023-09-01T19:05:42Z",
+      "side": 1,
+      "message": "\u003e But that doesn\u0027t really solve the problem\n\nI suppose it does solve \"can reproduce text format from json\", just not \"Start means the test started\". Not sure if we care about the latter",
+      "parentUuid": "a684a6fb_dfb129ad",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
