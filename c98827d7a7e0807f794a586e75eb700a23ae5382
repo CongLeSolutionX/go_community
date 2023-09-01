@@ -125,6 +125,23 @@
       "parentUuid": "34dc3737_4035abc4",
       "revId": "c98827d7a7e0807f794a586e75eb700a23ae5382",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6215aef1_f645bf6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-01T13:47:18Z",
+      "side": 1,
+      "message": "Note that the hash value depends only on the symbol name and the symbol name is always the same--except for arm64.  We are unlikely to have a problem again--and if we do the test will catch it.",
+      "revId": "c98827d7a7e0807f794a586e75eb700a23ae5382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
