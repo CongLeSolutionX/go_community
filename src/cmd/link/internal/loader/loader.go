@@ -495,8 +495,8 @@ func (l *Loader) newExtSym(name string, ver int) sym.ID {
 }
 
 // LookupOrCreateSym looks up the symbol with the specified name/version,
-// returning its Sym index if found. If the lookup fails, a new external
-// Sym will be created, entered into the lookup tables, and returned.
+// returning its sym.ID index if found. If the lookup fails, a new external
+// sym.ID will be created, entered into the lookup tables, and returned.
 func (l *Loader) LookupOrCreateSym(name string, ver int) sym.ID {
 	i := l.Lookup(name, ver)
 	if i != 0 {
@@ -552,7 +552,7 @@ func (l *Loader) isExtReader(r *oReader) bool {
 }
 
 // For external symbol, return its index in the payloads array.
-// XXX result is actually not a global index. We (ab)use the Sym type
+// XXX result is actually not a global index. We (ab)use the sym.ID type
 // so we don't need conversion for accessing bitmaps.
 func (l *Loader) extIndex(i sym.ID) sym.ID {
 	_, li := l.toLocal(i)
@@ -2410,13 +2410,13 @@ func (l *Loader) CopySym(src, dst sym.ID) {
 }
 
 // CreateExtSym creates a new external symbol with the specified name
-// without adding it to any lookup tables, returning a Sym index for it.
+// without adding it to any lookup tables, returning a sym.ID index for it.
 func (l *Loader) CreateExtSym(name string, ver int) sym.ID {
 	return l.newExtSym(name, ver)
 }
 
 // CreateStaticSym creates a new static symbol with the specified name
-// without adding it to any lookup tables, returning a Sym index for it.
+// without adding it to any lookup tables, returning a sym.ID index for it.
 func (l *Loader) CreateStaticSym(name string) sym.ID {
 	// Assign a new unique negative version -- this is to mark the
 	// symbol so that it is not included in the name lookup table.
@@ -2564,13 +2564,12 @@ func (l *Loader) AssignTextSymbolOrder(libs []*sym.Library, intlibs []bool, exts
 			}
 			lists := [2][]sym.ID{lib.Textp, lib.DupTextSyms}
 			for i, list := range lists {
-				for _, s := range list {
-					sym := s
+				for _, sym := range list {
 					if !assignedToUnit.Has(sym) {
 						textp = append(textp, sym)
 						unit := l.SymUnit(sym)
 						if unit != nil {
-							unit.Textp = append(unit.Textp, s)
+							unit.Textp = append(unit.Textp, sym)
 							assignedToUnit.Set(sym)
 						}
 						// Dupok symbols may be defined in multiple packages; the

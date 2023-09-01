@@ -1270,8 +1270,7 @@ func (d *dwctxt) writelines(unit *sym.CompilationUnit, lineProlog sym.ID) []sym.
 
 	// Output the state machine for each function remaining.
 	for _, s := range unit.Textp {
-		fnSym := s
-		_, _, _, lines := d.ldr.GetFuncDwarfAuxSyms(fnSym)
+		_, _, _, lines := d.ldr.GetFuncDwarfAuxSyms(s)
 
 		// Chain the line symbol onto the list.
 		if lines != 0 {
@@ -1299,9 +1298,6 @@ func (d *dwctxt) writelines(unit *sym.CompilationUnit, lineProlog sym.ID) []sym.
 // "unit", and returns a collection of ranges symbols (one for the
 // compilation unit DIE itself and the remainder from functions in the unit).
 func (d *dwctxt) writepcranges(unit *sym.CompilationUnit, base sym.ID, pcs []dwarf.Range, rangeProlog sym.ID) []sym.ID {
-
-	syms := make([]sym.ID, 0, len(unit.RangeSyms)+1)
-	syms = append(syms, rangeProlog)
 	rsu := d.ldr.MakeSymbolUpdater(rangeProlog)
 	rDwSym := dwSym(rangeProlog)
 
@@ -1310,19 +1306,17 @@ func (d *dwctxt) writepcranges(unit *sym.CompilationUnit, base sym.ID, pcs []dwa
 	newattr(unit.DWInfo, dwarf.DW_AT_low_pc, dwarf.DW_CLS_ADDRESS, 0, dwSym(base))
 	dwarf.PutBasedRanges(d, rDwSym, pcs)
 
-	// Collect up the ranges for functions in the unit.
-	rsize := uint64(rsu.Size())
-	for _, ls := range unit.RangeSyms {
-		s := ls
-		syms = append(syms, s)
-		rsize += uint64(d.ldr.SymSize(s))
-	}
-
 	if d.linkctxt.HeadType == objabi.Haix {
+		// Collect up the ranges for functions in the unit.
+		rsize := uint64(rsu.Size())
+		for _, s := range unit.RangeSyms {
+			rsize += uint64(d.ldr.SymSize(s))
+		}
+
 		addDwsectCUSize(".debug_ranges", unit.Lib.Pkg, rsize)
 	}
 
-	return syms
+	return append([]sym.ID{rangeProlog}, unit.RangeSyms...)
 }
 
 /*
@@ -1414,13 +1408,12 @@ func (d *dwctxt) writeframes(fs sym.ID) dwarfSecInfo {
 
 	var deltaBuf []byte
 	pcsp := obj.NewPCIter(uint32(d.arch.MinLC))
-	for _, s := range d.linkctxt.Textp {
-		fn := s
+	for _, fn := range d.linkctxt.Textp {
 		fi := d.ldr.FuncInfo(fn)
 		if !fi.Valid() {
 			continue
 		}
-		fpcsp := d.ldr.Pcsp(s)
+		fpcsp := d.ldr.Pcsp(fn)
 
 		// Emit a FDE, Section 6.4.1.
 		// First build the section contents into a byte buffer.
@@ -1491,7 +1484,7 @@ func (d *dwctxt) writeframes(fs sym.ID) dwarfSecInfo {
 		} else {
 			d.addDwarfAddrField(fsu, 0) // CIE offset
 		}
-		addAddrPlus(fsu, d.arch, s, 0)
+		addAddrPlus(fsu, d.arch, fn, 0)
 		fsu.AddUintXX(d.arch, uint64(len(d.ldr.Data(fn))), d.arch.PtrSize) // address range
 		fsu.AddBytes(deltaBuf)
 
@@ -1510,16 +1503,6 @@ func (d *dwctxt) writeframes(fs sym.ID) dwarfSecInfo {
 const (
 	COMPUNITHEADERSIZE = 4 + 2 + 4 + 1
 )
-
-// appendSyms appends the syms from 'src' into 'syms' and returns the
-// result. This can go away once we do away with sym.LoaderSym
-// entirely.
-func appendSyms(syms []sym.ID, src []sym.ID) []sym.ID {
-	for _, s := range src {
-		syms = append(syms, s)
-	}
-	return syms
-}
 
 func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym sym.ID, infoEpilog sym.ID) []sym.ID {
 	syms := []sym.ID{}
@@ -1549,12 +1532,12 @@ func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym sym.ID, infoEpi
 	// This is an under-estimate; more will be needed for type DIEs.
 	cu := make([]sym.ID, 0, len(u.AbsFnDIEs)+len(u.FuncDIEs))
 	cu = append(cu, s)
-	cu = appendSyms(cu, u.AbsFnDIEs)
-	cu = appendSyms(cu, u.FuncDIEs)
+	cu = append(cu, u.AbsFnDIEs...)
+	cu = append(cu, u.FuncDIEs...)
 	if u.Consts != 0 {
 		cu = append(cu, u.Consts)
 	}
-	cu = appendSyms(cu, u.VarDIEs)
+	cu = append(cu, u.VarDIEs...)
 	var cusize int64
 	for _, child := range cu {
 		cusize += int64(len(d.ldr.Data(child)))
