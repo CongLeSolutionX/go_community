@@ -16,6 +16,24 @@
       "message": "This seems like an incomplete solution — we shouldn\u0027t make the tests 2x slower in JSON mode either.\n\nI think we need to better understand why this sequencing was thought to be needed in CL 448357 in the first place. (Maybe we can just remove it?)",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ee91cb0_48b97f19",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 52073
+      },
+      "writtenOn": "2023-09-01T16:42:53Z",
+      "side": 1,
+      "message": "I agree we should fix both cases as well; this seemed like an easy win in the meantime while we discussed the longer term solution.\n\nMy understanding is it is to make sure the `{\"Action\":\"start\"}` are printed in order. I don\u0027t know why we need that, though -- seems reasonable to allow them out of order. That being said the `print` action is ordered so maybe that is the motivation.\n\nIf we do really want to keep it, I think we can do it efficiently, we would just need a new explicit \"Start\" action that tests can depend on instead of this implicit dependency that isn\u0027t handled buy the actiongraph. But that seems like a lot of work if we do not actually need to sequence them.\n\nI am open to either approach or alternatives, let me know which is preferred",
+      "parentUuid": "9033d20b_74c65f9f",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
