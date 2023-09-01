@@ -124,6 +124,24 @@
       "parentUuid": "a684a6fb_dfb129ad",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1cfab62_970f2dc7",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-01T19:40:18Z",
+      "side": 1,
+      "message": "Yeah. I would kind of prefer to have the property “start means the test started”, which suggests that we need some other approach for reconstructing the non-JSON output.",
+      "parentUuid": "b6f4fd68_f67f2b84",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
