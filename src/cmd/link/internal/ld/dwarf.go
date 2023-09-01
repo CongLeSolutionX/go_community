@@ -65,7 +65,7 @@ type dwctxt struct {
 
 	// Used at various points in that parallel portion of DWARF gen to
 	// protect against conflicting updates to globals (such as "gdbscript")
-	dwmu *sync.Mutex
+	dwmu sync.Mutex
 }
 
 // ctx returns c as a dwarf.Context[sym.ID].
@@ -76,32 +76,32 @@ type dwctxt struct {
 //
 // TODO(mdempsky): Remove once the minimum bootstrap toolchain version
 // has been updated to 1.21 or later.
-func (c dwctxt) ctx() dwarf.Context[sym.ID] { return c }
+func (c *dwctxt) ctx() dwarf.Context[sym.ID] { return c }
 
-func (c dwctxt) PtrSize() int {
+func (c *dwctxt) PtrSize() int {
 	return c.arch.PtrSize
 }
 
-func (c dwctxt) Size(s sym.ID) int64 {
+func (c *dwctxt) Size(s sym.ID) int64 {
 	return int64(len(c.ldr.Data(s)))
 }
 
-func (c dwctxt) AddInt(s sym.ID, size int, i int64) {
+func (c *dwctxt) AddInt(s sym.ID, size int, i int64) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	su.AddUintXX(c.arch, uint64(i), size)
 }
 
-func (c dwctxt) AddBytes(s sym.ID, b []byte) {
+func (c *dwctxt) AddBytes(s sym.ID, b []byte) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	su.AddBytes(b)
 }
 
-func (c dwctxt) AddString(s sym.ID, v string) {
+func (c *dwctxt) AddString(s sym.ID, v string) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	su.Addstring(v)
 }
 
-func (c dwctxt) AddAddress(s sym.ID, data interface{}, value int64) {
+func (c *dwctxt) AddAddress(s sym.ID, data interface{}, value int64) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	if value != 0 {
 		value -= su.Value()
@@ -109,7 +109,7 @@ func (c dwctxt) AddAddress(s sym.ID, data interface{}, value int64) {
 	su.AddAddrPlus(c.arch, data.(sym.ID), value)
 }
 
-func (c dwctxt) AddCURelativeAddress(s sym.ID, data interface{}, value int64) {
+func (c *dwctxt) AddCURelativeAddress(s sym.ID, data interface{}, value int64) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	if value != 0 {
 		value -= su.Value()
@@ -117,7 +117,7 @@ func (c dwctxt) AddCURelativeAddress(s sym.ID, data interface{}, value int64) {
 	su.AddCURelativeAddrPlus(c.arch, data.(sym.ID), value)
 }
 
-func (c dwctxt) AddSectionOffset(s sym.ID, size int, t interface{}, ofs int64) {
+func (c *dwctxt) AddSectionOffset(s sym.ID, size int, t interface{}, ofs int64) {
 	su := c.ldr.MakeSymbolUpdater(s)
 	switch size {
 	default:
@@ -127,7 +127,7 @@ func (c dwctxt) AddSectionOffset(s sym.ID, size int, t interface{}, ofs int64) {
 	su.AddSymRef(c.arch, t.(sym.ID), ofs, objabi.R_ADDROFF, size)
 }
 
-func (c dwctxt) AddDWARFAddrSectionOffset(s sym.ID, t interface{}, ofs int64) {
+func (c *dwctxt) AddDWARFAddrSectionOffset(s sym.ID, t interface{}, ofs int64) {
 	size := 4
 	if isDwarf64(c.linkctxt) {
 		size = 8
@@ -141,21 +141,21 @@ func (c dwctxt) AddDWARFAddrSectionOffset(s sym.ID, t interface{}, ofs int64) {
 	su.AddSymRef(c.arch, t.(sym.ID), ofs, objabi.R_DWARFSECREF, size)
 }
 
-func (c dwctxt) Logf(format string, args ...interface{}) {
+func (c *dwctxt) Logf(format string, args ...interface{}) {
 	c.linkctxt.Logf(format, args...)
 }
 
 // At the moment these interfaces are only used in the compiler.
 
-func (c dwctxt) CurrentOffset(s sym.ID) int64 {
+func (c *dwctxt) CurrentOffset(s sym.ID) int64 {
 	panic("should be used only in the compiler")
 }
 
-func (c dwctxt) RecordDclReference(s sym.ID, t sym.ID, dclIdx int, inlIndex int) {
+func (c *dwctxt) RecordDclReference(s sym.ID, t sym.ID, dclIdx int, inlIndex int) {
 	panic("should be used only in the compiler")
 }
 
-func (c dwctxt) RecordChildDieOffsets(s sym.ID, vars []*dwarf.Var[sym.ID], offsets []int32) {
+func (c *dwctxt) RecordChildDieOffsets(s sym.ID, vars []*dwarf.Var[sym.ID], offsets []int32) {
 	panic("should be used only in the compiler")
 }
 
@@ -1922,7 +1922,6 @@ func dwarfGenerateDebugSyms(ctxt *Link) {
 		linkctxt: ctxt,
 		ldr:      ctxt.loader,
 		arch:     ctxt.Arch,
-		dwmu:     new(sync.Mutex),
 	}
 	d.dwarfGenerateDebugSyms()
 }
