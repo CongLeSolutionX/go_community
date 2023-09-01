@@ -5,7 +5,6 @@
 package ld
 
 import (
-	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
@@ -38,13 +37,13 @@ func structfieldSize(arch *sys.Arch) int { return abi.StructFieldSize(arch.PtrSi
 func uncommonSize(arch *sys.Arch) int    { return int(abi.UncommonSize()) }           // runtime.uncommontype
 
 // Type.commonType.kind
-func decodetypeKind(arch *sys.Arch, p []byte) uint8 {
-	return p[2*arch.PtrSize+7] & objabi.KindMask //  0x13 / 0x1f
+func decodetypeKind(arch *sys.Arch, p []byte) abi.Kind {
+	return abi.Kind(p[2*arch.PtrSize+7]) & abi.KindMask //  0x13 / 0x1f
 }
 
 // Type.commonType.kind
 func decodetypeUsegcprog(arch *sys.Arch, p []byte) uint8 {
-	return p[2*arch.PtrSize+7] & objabi.KindGCProg //  0x13 / 0x1f
+	return p[2*arch.PtrSize+7] & abi.KindGCProg //  0x13 / 0x1f
 }
 
 // Type.commonType.size
