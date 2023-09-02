@@ -460,9 +460,7 @@ func (m *Map) Range(f func(key, value any) bool) {
 		m.mu.Lock()
 		read = m.loadReadOnly()
 		if read.amended {
-			read = readOnly{m: m.dirty}
-			copyRead := read
-			m.read.Store(&copyRead)
+			m.read.Store(&readOnly{m: m.dirty})
 			m.dirty = nil
 			m.misses = 0
 		}
