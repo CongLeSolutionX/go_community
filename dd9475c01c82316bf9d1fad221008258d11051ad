@@ -52,6 +52,24 @@
       "parentUuid": "d30a76a7_47f60273",
       "revId": "dd9475c01c82316bf9d1fad221008258d11051ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203cfefa_5ccec2c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2023-09-02T13:23:56Z",
+      "side": 1,
+      "message": "Okay. Is it good to let this PR change the docs instead now? If not, I will close this PR soon.",
+      "parentUuid": "9a574830_e3b2c2b9",
+      "revId": "dd9475c01c82316bf9d1fad221008258d11051ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
