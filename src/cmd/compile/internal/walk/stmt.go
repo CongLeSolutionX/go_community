@@ -87,6 +87,7 @@ func walkStmt(n ir.Node) ir.Node {
 		ir.OGOTO,
 		ir.OLABEL,
 		ir.OJUMPTABLE,
+		ir.OINTERFACESWITCH,
 		ir.ODCL,
 		ir.OCHECKNIL:
 		return n
