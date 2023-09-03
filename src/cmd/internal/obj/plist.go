@@ -295,19 +295,31 @@ func (ctxt *Link) EmitEntryUnsafePoint(s *LSym, p *Prog, newprog ProgAlloc) *Pro
 	return pcdata
 }
 
-// StartUnsafePoint generates PCDATA Progs after p to mark the
-// beginning of an unsafe point. The unsafe point starts immediately
-// after p.
-// It returns the last Prog generated.
-func (ctxt *Link) StartUnsafePoint(p *Prog, newprog ProgAlloc) *Prog {
+func (ctxt *Link) markUnsafePoint0(p *Prog, newprog ProgAlloc, val int64) *Prog {
 	pcdata := Appendp(p, newprog)
 	pcdata.As = APCDATA
 	pcdata.From.Type = TYPE_CONST
 	pcdata.From.Offset = abi.PCDATA_UnsafePoint
 	pcdata.To.Type = TYPE_CONST
-	pcdata.To.Offset = abi.UnsafePointUnsafe
+	pcdata.To.Offset = val
 
 	return pcdata
+}
+
+// StartUnsafePoint generates PCDATA Progs after p to mark the
+// beginning of an unsafe point. The unsafe point starts immediately
+// after p.
+// It returns the last Prog generated.
+func (ctxt *Link) StartUnsafePoint(p *Prog, newprog ProgAlloc) *Prog {
+	return ctxt.markUnsafePoint0(p, newprog, abi.UnsafePointUnsafe)
+}
+
+// StartUnsafePointRestartAtEntry generates PCDATA Progs after p to mark the
+// beginning of an unsafe point which can be async preempted and resume from
+// entry. The unsafe point starts immediately after p.
+// It returns the last Prog generated.
+func (ctxt *Link) StartUnsafePointRestartAtEntry(p *Prog, newprog ProgAlloc) *Prog {
+	return ctxt.markUnsafePoint0(p, newprog, abi.UnsafePointRestartAtEntry)
 }
 
 // EndUnsafePoint generates PCDATA Progs after p to mark the end of an
@@ -315,14 +327,7 @@ func (ctxt *Link) StartUnsafePoint(p *Prog, newprog ProgAlloc) *Prog {
 // The unsafe point ends right after p.
 // It returns the last Prog generated.
 func (ctxt *Link) EndUnsafePoint(p *Prog, newprog ProgAlloc, oldval int64) *Prog {
-	pcdata := Appendp(p, newprog)
-	pcdata.As = APCDATA
-	pcdata.From.Type = TYPE_CONST
-	pcdata.From.Offset = abi.PCDATA_UnsafePoint
-	pcdata.To.Type = TYPE_CONST
-	pcdata.To.Offset = oldval
-
-	return pcdata
+	return ctxt.markUnsafePoint0(p, newprog, oldval)
 }
 
 // MarkUnsafePoints inserts PCDATAs to mark nonpreemptible and restartable

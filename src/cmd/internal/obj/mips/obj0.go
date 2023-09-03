@@ -771,7 +771,7 @@ func (c *ctxt0) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	// If we get preempted here, when resumed the preemption request is
 	// cleared, but we'll still call morestack, which will double the stack
 	// unnecessarily. See issue #35470.
-	p = c.ctxt.StartUnsafePoint(p, c.newprog)
+	p = c.ctxt.StartUnsafePointRestartAtEntry(p, c.newprog)
 
 	var q *obj.Prog
 	if framesize <= abi.StackSmall {

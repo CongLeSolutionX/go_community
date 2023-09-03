@@ -825,7 +825,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 	// If we get preempted here, when resumed the preemption request is
 	// cleared, but we'll still call morestack, which will double the stack
 	// unnecessarily. See issue #35470.
-	p = ctxt.StartUnsafePoint(p, newprog)
+	p = ctxt.StartUnsafePointRestartAtEntry(p, newprog)
 
 	var to_done, to_more *obj.Prog
 
@@ -913,6 +913,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 	}
 	jalToSym(ctxt, p, REG_X5)
 
+	p = ctxt.StartUnsafePoint(p, newprog)
 	p = cursym.Func().UnspillRegisterArgs(p, newprog)
 	p = ctxt.EndUnsafePoint(p, newprog, -1)
 
