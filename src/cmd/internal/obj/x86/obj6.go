@@ -1107,7 +1107,7 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		// If we get preempted here, when resumed the preemption request is
 		// cleared, but we'll still call morestack, which will double the stack
 		// unnecessarily. See issue #35470.
-		p = ctxt.StartUnsafePoint(p, newprog)
+		p = ctxt.StartUnsafePointRestartAtEntry(p, newprog)
 	} else if framesize <= abi.StackBig {
 		// large stack: SP-framesize <= stackguard-StackSmall
 		//	LEAQ -xxx(SP), tmp
@@ -1132,7 +1132,7 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 			p.To.Offset = 3 * int64(ctxt.Arch.PtrSize) // G.stackguard1
 		}
 
-		p = ctxt.StartUnsafePoint(p, newprog) // see the comment above
+		p = ctxt.StartUnsafePointRestartAtEntry(p, newprog) // see the comment above
 	} else {
 		// Such a large stack we need to protect against underflow.
 		// The runtime guarantees SP > objabi.StackBig, but
@@ -1155,7 +1155,7 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = tmp
 
-		p = ctxt.StartUnsafePoint(p, newprog) // see the comment above
+		p = ctxt.StartUnsafePointRestartAtEntry(p, newprog) // see the comment above
 
 		p = obj.Appendp(p, newprog)
 		p.As = sub

@@ -310,6 +310,21 @@ func (ctxt *Link) StartUnsafePoint(p *Prog, newprog ProgAlloc) *Prog {
 	return pcdata
 }
 
+// StartUnsafePointRestartAtEntry generates PCDATA Progs after p to mark the
+// beginning of an unsafe point which can be async preempted and resume from
+// entry. The unsafe point starts immediately after p.
+// It returns the last Prog generated.
+func (ctxt *Link) StartUnsafePointRestartAtEntry(p *Prog, newprog ProgAlloc) *Prog {
+	pcdata := Appendp(p, newprog)
+	pcdata.As = APCDATA
+	pcdata.From.Type = TYPE_CONST
+	pcdata.From.Offset = abi.PCDATA_UnsafePoint
+	pcdata.To.Type = TYPE_CONST
+	pcdata.To.Offset = abi.UnsafePointRestartAtEntry
+
+	return pcdata
+}
+
 // EndUnsafePoint generates PCDATA Progs after p to mark the end of an
 // unsafe point, restoring the register map index to oldval.
 // The unsafe point ends right after p.

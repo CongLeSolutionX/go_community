@@ -825,7 +825,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 	// If we get preempted here, when resumed the preemption request is
 	// cleared, but we'll still call morestack, which will double the stack
 	// unnecessarily. See issue #35470.
-	p = ctxt.StartUnsafePoint(p, newprog)
+	p = ctxt.StartUnsafePointRestartAtEntry(p, newprog)
 
 	var to_done, to_more *obj.Prog
 
@@ -890,6 +890,8 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 		p.To.Type = obj.TYPE_BRANCH
 		to_done = p
 	}
+
+	p = ctxt.StartUnsafePoint(p, newprog)
 
 	// Spill the register args that could be clobbered by the
 	// morestack code
