@@ -821,11 +821,14 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 	p.To.Type = obj.TYPE_REG
 	p.To.Reg = REG_X6
 
-	// Mark the stack bound check and morestack call async nonpreemptible.
-	// If we get preempted here, when resumed the preemption request is
-	// cleared, but we'll still call morestack, which will double the stack
-	// unnecessarily. See issue #35470.
-	p = ctxt.StartUnsafePoint(p, newprog)
+	// When we get preempted here, if resumed at the preempted pc,
+	// the preemption request is cleared, but we'll still call morestack,
+	// which will double the stack unnecessarily. See issue #35470.
+	//
+	// Mark the stack bound check and morestack call async preemptible,
+	// and resume at the entry.
+	// Then we can check the stack bound again. See issue #62433.
+	p = ctxt.StartUnsafePointRestartAtEntry(p, newprog)
 
 	var to_done, to_more *obj.Prog
 
@@ -913,8 +916,9 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, cursym *obj.LSym, newprog obj.ProgA
 	}
 	jalToSym(ctxt, p, REG_X5)
 
-	p = cursym.Func().UnspillRegisterArgs(p, newprog)
+	// The instructions which unspill regs should always be preemptible.
 	p = ctxt.EndUnsafePoint(p, newprog, -1)
+	p = cursym.Func().UnspillRegisterArgs(p, newprog)
 
 	// JMP start
 	p = obj.Appendp(p, newprog)

@@ -1171,11 +1171,14 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 	p.To.Type = obj.TYPE_REG
 	p.To.Reg = REG_R22
 
-	// Mark the stack bound check and morestack call async nonpreemptible.
-	// If we get preempted here, when resumed the preemption request is
-	// cleared, but we'll still call morestack, which will double the stack
-	// unnecessarily. See issue #35470.
-	p = c.ctxt.StartUnsafePoint(p, c.newprog)
+	// When we get preempted here, if resumed at the preempted pc,
+	// the preemption request is cleared, but we'll still call morestack,
+	// which will double the stack unnecessarily. See issue #35470.
+	//
+	// Mark the stack bound check and morestack call async preemptible,
+	// and resume at the entry.
+	// Then we can check the stack bound again. See issue #62433.
+	p = c.ctxt.StartUnsafePointRestartAtEntry(p, c.newprog)
 
 	var q *obj.Prog
 	if framesize <= abi.StackSmall {
@@ -1363,11 +1366,12 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.To.Reg = REG_R2
 	}
 
+	// The instructions which unspill regs should always be preemptible.
+	p = c.ctxt.EndUnsafePoint(p, c.newprog, -1)
 	unspill := c.cursym.Func().UnspillRegisterArgs(p, c.newprog)
-	p = c.ctxt.EndUnsafePoint(unspill, c.newprog, -1)
 
 	// BR	start
-	p = obj.Appendp(p, c.newprog)
+	p = obj.Appendp(unspill, c.newprog)
 	p.As = ABR
 	p.To.Type = obj.TYPE_BRANCH
 	p.To.SetTarget(startPred.Link)
