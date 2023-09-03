@@ -661,7 +661,7 @@ func (c *ctxtz) stacksplitPre(p *obj.Prog, framesize int32) (pPre, pPreempt, pCh
 	// If we get preempted here, when resumed the preemption request is
 	// cleared, but we'll still call morestack, which will double the stack
 	// unnecessarily. See issue #35470.
-	p = c.ctxt.StartUnsafePoint(p, c.newprog)
+	p = c.ctxt.StartUnsafePointRestartAtEntry(p, c.newprog)
 
 	if framesize <= abi.StackSmall {
 		// small stack: SP < stackguard
@@ -743,7 +743,7 @@ func (c *ctxtz) stacksplitPost(p *obj.Prog, pPre, pPreempt, pCheck *obj.Prog, fr
 	spfix.Spadj = -framesize
 
 	pcdata := c.ctxt.EmitEntryStackMap(c.cursym, spfix, c.newprog)
-	pcdata = c.ctxt.StartUnsafePoint(pcdata, c.newprog)
+	pcdata = c.ctxt.StartUnsafePointRestartAtEntry(pcdata, c.newprog)
 
 	// MOVD	LR, R5
 	p = obj.Appendp(pcdata, c.newprog)
