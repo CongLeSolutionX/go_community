@@ -53,6 +53,23 @@
       "message": "Failure looks real:\n```\npanic: zstd decompression error at 23310: offset past window\n```\n\nwill look into it later.",
       "revId": "e503d76c8cdd1923f1588d38dd71ff2b4d436772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f377d985_197a577d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-09-04T21:31:47Z",
+      "side": 1,
+      "message": "Could we document what we used to generate the zstd archive? In particular, what zstd version and what compression level, so that other files can be generated in a similar way as well. I assume we want a higher compression level, assuming that doesn\u0027t significantly increase the decompression cpu cost or memory usage.\n\nGenerally I\u0027m in favor of this change for the reasons you outline. I\u0027d be against it if zstd was very new and a better compression mechanism might come soon, to avoid noise, but at this point zstd has been well known as a good middle ground for nearly a decade. It\u0027s unlikely we\u0027ll do this again in at least another ten years.",
+      "revId": "e503d76c8cdd1923f1588d38dd71ff2b4d436772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
