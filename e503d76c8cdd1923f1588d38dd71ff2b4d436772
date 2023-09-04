@@ -88,6 +88,24 @@
       "parentUuid": "f377d985_197a577d",
       "revId": "e503d76c8cdd1923f1588d38dd71ff2b4d436772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d472dd7_0091bdf0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-09-04T21:33:34Z",
+      "side": 1,
+      "message": "Could be that the built-in zstd decoder can\u0027t handle high compression levels, since those might use larger windows or more complex parts of the algorithm/encoding.",
+      "parentUuid": "427433c0_0ca31e9e",
+      "revId": "e503d76c8cdd1923f1588d38dd71ff2b4d436772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
