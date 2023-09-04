@@ -51,6 +51,24 @@
       "parentUuid": "c9449b72_2de41f2f",
       "revId": "3173bbc5efe4ffbfb3c6bacae530acb3a9eaea2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "466c5925_86a337e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51983
+      },
+      "writtenOn": "2023-09-04T18:04:53Z",
+      "side": 1,
+      "message": "(Marking this comment as resolved since it holds up this patchset)",
+      "parentUuid": "86e6f84b_f71fc5fb",
+      "revId": "3173bbc5efe4ffbfb3c6bacae530acb3a9eaea2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
