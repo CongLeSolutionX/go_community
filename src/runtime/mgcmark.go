@@ -1111,7 +1111,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 		// just keep work available than to make workers wait. In the
 		// worst case, we'll do O(log(_WorkbufSize)) unnecessary
 		// balances.
-		if work.full == 0 {
+		if work.full.empty() {
 			gcw.balance()
 		}
 
@@ -1191,7 +1191,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 	gp := getg().m.curg
 	for !gp.preempt && !gcCPULimiter.limiting() && workFlushed+gcw.heapScanWork < scanWork {
 		// See gcDrain comment.
-		if work.full == 0 {
+		if work.full.empty() {
 			gcw.balance()
 		}
 

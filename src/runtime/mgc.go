@@ -306,9 +306,9 @@ func pollFractionalWorkerExit() bool {
 var work workType
 
 type workType struct {
-	full  lfstack          // lock-free list of full blocks workbuf
+	full  ebstack          // lock-free list of full blocks workbuf
 	_     cpu.CacheLinePad // prevents false-sharing between full and empty
-	empty lfstack          // lock-free list of empty blocks workbuf
+	empty ebstack          // lock-free list of empty blocks workbuf
 	_     cpu.CacheLinePad // prevents false-sharing between empty and nproc/nwait
 
 	wbufSpans struct {
@@ -1477,8 +1477,8 @@ func gcMark(startTime int64) {
 	work.tstart = startTime
 
 	// Check that there's no marking work remaining.
-	if work.full != 0 || work.markrootNext < work.markrootJobs {
-		print("runtime: full=", hex(work.full), " next=", work.markrootNext, " jobs=", work.markrootJobs, " nDataRoots=", work.nDataRoots, " nBSSRoots=", work.nBSSRoots, " nSpanRoots=", work.nSpanRoots, " nStackRoots=", work.nStackRoots, "\n")
+	if !work.full.empty() || work.markrootNext < work.markrootJobs {
+		print("runtime next=", work.markrootNext, " jobs=", work.markrootJobs, " nDataRoots=", work.nDataRoots, " nBSSRoots=", work.nBSSRoots, " nSpanRoots=", work.nSpanRoots, " nStackRoots=", work.nStackRoots, "\n")
 		panic("non-empty mark queue after concurrent mark")
 	}
 

@@ -351,7 +351,7 @@ func (b *workbuf) checkempty() {
 //go:nowritebarrier
 func getempty() *workbuf {
 	var b *workbuf
-	if work.empty != 0 {
+	if !work.empty.empty() {
 		b = (*workbuf)(work.empty.pop())
 		if b != nil {
 			b.checkempty()
@@ -452,13 +452,13 @@ func handoff(b *workbuf) *workbuf {
 // workbufs are on the empty list.
 func prepareFreeWorkbufs() {
 	lock(&work.wbufSpans.lock)
-	if work.full != 0 {
+	if !work.full.empty() {
 		throw("cannot free workbufs when work.full != 0")
 	}
 	// Since all workbufs are on the empty list, we don't care
 	// which ones are in which spans. We can wipe the entire empty
 	// list and move all workbuf spans to the free list.
-	work.empty = 0
+	work.empty = ebstack{}
 	work.wbufSpans.free.takeAll(&work.wbufSpans.busy)
 	unlock(&work.wbufSpans.lock)
 }

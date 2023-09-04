@@ -79,6 +79,18 @@ func LFNodeValidate(node *LFNode) {
 	lfnodeValidate((*lfnode)(unsafe.Pointer(node)))
 }
 
+type EBStack struct {
+	s ebstack
+}
+
+func EBStackPush(ebs *EBStack, node *LFNode) {
+	ebs.s.push((*lfnode)(unsafe.Pointer(node)))
+}
+
+func EBStackPop(ebs *EBStack) *LFNode {
+	return (*LFNode)(unsafe.Pointer(ebs.s.pop()))
+}
+
 func Netpoll(delta int64) {
 	systemstack(func() {
 		netpoll(delta)
