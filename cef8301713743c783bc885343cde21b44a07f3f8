@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6085c840_8e220ad2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2023-09-05T16:25:39Z",
+      "side": 1,
+      "message": "(\"https://go.dev/wiki/CommitMessage suggests ...\")",
+      "parentUuid": "5cafbe26_8e327220",
+      "revId": "cef8301713743c783bc885343cde21b44a07f3f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fc83804d_c58421c7",
