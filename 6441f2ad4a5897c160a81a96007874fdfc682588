@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64f0a9f_6a468a9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-09-05T17:09:58Z",
+      "side": 1,
+      "message": "Not 100% sure this is the right way to go (for 61588), but it is at least something to try.",
+      "revId": "6441f2ad4a5897c160a81a96007874fdfc682588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
