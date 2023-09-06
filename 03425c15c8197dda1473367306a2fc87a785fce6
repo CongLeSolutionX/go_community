@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3e02943_68b88154",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-09-06T19:09:47Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "03425c15c8197dda1473367306a2fc87a785fce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2d5fe29_2ec62022",
@@ -31,6 +48,29 @@
       "writtenOn": "2023-09-01T16:06:00Z",
       "side": 1,
       "message": "To avoid issues with e.g. naming of nested closures, maybe put this in a top-level function?",
+      "revId": "03425c15c8197dda1473367306a2fc87a785fce6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a1bc94a_676cd799",
+        "filename": "src/runtime/callers_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-09-06T19:09:47Z",
+      "side": 1,
+      "message": "I suspect that the reason this test didn\u0027t work when backporting was that my arbitrary choice of 32 uintptrs isn\u0027t putting enough non-zero garbage on the stack to guarantee that the invalid frame pointer is pointing to it. The amount needed is going to depend on implementation details of panic/recovery handling (what the function calls are, how big their stack frames are, etc). The check you added below seems sufficient to me to identify the issue regardless of those implementation details. Even if unwinding doesn\u0027t _crash_, the results will still be wrong as long as the frame pointer isn\u0027t restored correctly. Perhaps this block can just be deleted since it\u0027s too sensitive to implementation details to reliably catch the issue?",
+      "range": {
+        "startLine": 476,
+        "startChar": 3,
+        "endLine": 486,
+        "endChar": 4
+      },
       "revId": "03425c15c8197dda1473367306a2fc87a785fce6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
