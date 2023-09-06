@@ -853,7 +853,7 @@ func TestReadResponseErrors(t *testing.T) {
 	}
 
 	status := func(s string, wantErr any) testCase {
-		if wantErr == true {
+		if wantErr {
 			wantErr = "malformed HTTP status code"
 		}
 		return testCase{
@@ -864,7 +864,7 @@ func TestReadResponseErrors(t *testing.T) {
 	}
 
 	version := func(s string, wantErr any) testCase {
-		if wantErr == true {
+		if wantErr {
 			wantErr = "malformed HTTP version"
 		}
 		return testCase{
