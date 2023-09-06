@@ -196,6 +196,24 @@
       "parentUuid": "1e170779_e95ce4d5",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "512b4b18_79c10554",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-09-06T19:22:57Z",
+      "side": 1,
+      "message": "That\u0027s true that buffering would cause them to be out of timestamp order. Each individual package would still be in timestamp order, so I\u0027m not sure if that matters or not.\n\nIf an individual test times out, that information should go into its buffer and eventually be flushed out by the go tool. If there\u0027s some higher-level timeout imposed by, say, a CI system, or an OOM, then I agree that it would lose buffered information. That\u0027s true in the current text output, too, right?\n\nMy goal in reconstructing the output isn\u0027t about the full `go` command line, just the order of packages. What started all of this was dist\u0027s `go test std cmd` invocation. My goal is just that any user presentation of the output of `go test std cmd` be able to maintain the deterministic and original order of the packages from run to run. In dist, I was specifically converting the JSON output back to text on the fly, and was getting non-deterministic package order before we added the start events. By the same applies in, for example, LUCI\u0027s test results list.\n\nI\u0027m not opposed to adding some other mechanism for this. It\u0027s just that this is the primary reason the start events were added in the first place (getting a little more timing information was a secondary benefit). We could emit some other event, perhaps without a timestamp, that serves only to provide the order. One nice property of \"start\" events is that a consumer can put packages in \"first seen\" order, which still works reasonable well without \"start\" events. I suppose one nice thing about emitting a complete package list up front would be that an interactive \"test progress\" tool (e.g., https://github.com/aclements/gotest) could show progress through packages.",
+      "parentUuid": "d9cbbf78_b2128b39",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
