@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4102ec6_42fa0ed7",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-09-06T16:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35d03c36_271facdb",
+      "range": {
+        "startLine": 243,
+        "startChar": 3,
+        "endLine": 243,
+        "endChar": 16
+      },
+      "revId": "440f52d661a5dfdd003f365f21aa8fe9b0c7cd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1a5f632_67b9ad37",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-06T00:47:01Z",
       "side": 1,
       "message": "What does \"rt\" stand for?",
+      "revId": "440f52d661a5dfdd003f365f21aa8fe9b0c7cd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "666549d9_5d34ca74",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_callsites.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-09-06T16:38:44Z",
+      "side": 1,
+      "message": "I had in mind \"rt\" as a shortened version of \"result table\" when I wrote the code, but in retrospect \"rt\" doesn\u0027t seem like a great name choice. I\u0027ll switch it to  \"resultNameTab\" here and in score_callresult_uses.go.",
+      "parentUuid": "c1a5f632_67b9ad37",
       "revId": "440f52d661a5dfdd003f365f21aa8fe9b0c7cd90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
