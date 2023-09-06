@@ -89,6 +89,40 @@
       "message": "Thanks for this fix, we noticed quite a few of these instances when implementing wasip1 but decided not to make the change at the time.",
       "revId": "e205b172e1812e1103d06f32fdbe349fd1076655",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c08c95b8_54216704",
+        "filename": "src/net/fd_fake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-06T22:46:17Z",
+      "side": 1,
+      "message": "Seems odd to set IsStream to true for UDP.  But I guess the existing code does this, so, whatever.",
+      "revId": "e205b172e1812e1103d06f32fdbe349fd1076655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80a8a1ad_5d86c7f9",
+        "filename": "src/net/ipsock_fake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-06T22:46:17Z",
+      "side": 1,
+      "message": "Why bother having this file?",
+      "revId": "e205b172e1812e1103d06f32fdbe349fd1076655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
