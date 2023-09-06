@@ -160,6 +160,24 @@
       "parentUuid": "a1cfab62_970f2dc7",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e170779_e95ce4d5",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 52073
+      },
+      "writtenOn": "2023-09-06T16:51:44Z",
+      "side": 1,
+      "message": "\u003e Sorry, I\u0027m not sure I understand the distinction being made here. Why can\u0027t the start event both mean that the test started and be released to stdout in package order?\n\nI don\u0027t think this is impossible hypothetically, but referring to my idea above to solve it by introducing a new standalone Start action; the problem with that would be we may execute the Start and the Run action very far apart.\n\nAn alternative approach like buffering would likely solve that.\n\n--\n\nI worked a bit on a prototype. Instead of blocking on `r.prev`, I had text2json buffer up write events while r.prev is open; on exit it flushes out events. This fixes the blocking but doesn\u0027t fully retain the ordering, since we flush the events when the action is complete. It seems like to solve this we would need a global buffer, not a per-action one. This adds up to quite a bit of complexity.\n\nGiven the original intent was just to be able to order the events from the JSON output, do we really need this to be \"Start\"? Can we just print out all the packages at the start with some `Processed` action type or something?",
+      "parentUuid": "8c0c434e_2276b222",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
