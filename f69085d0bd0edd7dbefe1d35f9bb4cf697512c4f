@@ -51,6 +51,42 @@
       "message": "Ok, I think this change made the problem more infrequent but it still exists:\n\n\tvariables_test.go:1353: call \"pa.PRcvr(4)\"\n\t2023-08-07T14:30:45+02:00 info kind\u003dfncall,layer\u003dproc function call initiated \u0026{main.(*astruct).PRcvr 4823424 4823877 11974 0xc000570f80 false []} frame size 224 goroutine 1 (thread 319758)\n\t2023-08-07T14:30:45+02:00 debug layer\u003ddebugger ContinueOnce\n\t2023-08-07T14:30:45+02:00 debug layer\u003ddebugger callInjection protocol on:\n\t2023-08-07T14:30:45+02:00 debug layer\u003ddebugger \t319761 PC\u003d0x466fb7\n\t2023-08-07T14:30:45+02:00 debug layer\u003ddebugger \t319762 PC\u003d0x463353\n\t2023-08-07T14:30:45+02:00 debug layer\u003ddebugger \t319763 PC\u003d0x467583\n\t2023-08-07T14:30:45+02:00 debug layer\u003ddebugger \t319764 PC\u003d0x467583\n\t2023-08-07T14:30:45+02:00 debug layer\u003ddebugger \t319758 PC\u003d0x467583\n\t2023-08-07T14:30:45+02:00 info kind\u003dfncall,layer\u003dproc call injection found thread\u003d319762 debugCall256 /usr/local/go/src/runtime/asm_amd64.s:1965 PC\u003d0x463353 SP\u003d0xc000044e58\n\t2023-08-07T14:30:45+02:00 info kind\u003dfncall,layer\u003dproc findCallInjectionStateForThread thread\u003d319762 goroutine\u003d21\n\tvariables_test.go:1367: call \"pa.PRcvr(4)\": error \"could not recover call injection state for goroutine 21 (thread 319762)\"\n\nnotice how the call injection starts on thread 319758 but the first stop is on thread 319762.\nBecause the change made the error much less frequent (I think I\u0027m getting it around 1 in 40 runs of the test) it is overwhelmed by the other bugs in delve, if you want to reproduce it yourself use https://github.com/go-delve/delve/pull/3455:\n\n\tgo test TestCallFunction github.com/go-delve/delve/pkg/proc -v -log\u003dfncall,debugger",
       "revId": "f69085d0bd0edd7dbefe1d35f9bb4cf697512c4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67c8119_5b559c2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-09-06T18:40:57Z",
+      "side": 1,
+      "message": "thanks! can you please give it another try?",
+      "parentUuid": "7320540a_775a403e",
+      "revId": "f69085d0bd0edd7dbefe1d35f9bb4cf697512c4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e0c5ff3_0e696ca5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-09-06T18:40:57Z",
+      "side": 1,
+      "message": "I think lockOSThread is a good idea. I did that, and it seems to work OK. I\u0027ll try harder to break it soon.",
+      "parentUuid": "c26b005e_8d3136d3",
+      "revId": "f69085d0bd0edd7dbefe1d35f9bb4cf697512c4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
