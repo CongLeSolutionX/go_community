@@ -1103,11 +1103,14 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 			p.To.Offset = 3 * int64(ctxt.Arch.PtrSize) // G.stackguard1
 		}
 
-		// Mark the stack bound check and morestack call async nonpreemptible.
-		// If we get preempted here, when resumed the preemption request is
-		// cleared, but we'll still call morestack, which will double the stack
-		// unnecessarily. See issue #35470.
-		p = ctxt.StartUnsafePoint(p, newprog)
+		// When we get preempted here, if resumed at the preempted pc,
+		// the preemption request is cleared, but we'll still call morestack,
+		// which will double the stack unnecessarily. See issue #35470.
+		//
+		// Mark the stack bound check and morestack call async preemptible,
+		// and resume at the entry.
+		// Then we can check the stack bound again. See issue #62433.
+		p = ctxt.StartUnsafePointRestartAtEntry(p, newprog)
 	} else if framesize <= abi.StackBig {
 		// large stack: SP-framesize <= stackguard-StackSmall
 		//	LEAQ -xxx(SP), tmp
@@ -1132,7 +1135,7 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 			p.To.Offset = 3 * int64(ctxt.Arch.PtrSize) // G.stackguard1
 		}
 
-		p = ctxt.StartUnsafePoint(p, newprog) // see the comment above
+		p = ctxt.StartUnsafePointRestartAtEntry(p, newprog) // see the comment above
 	} else {
 		// Such a large stack we need to protect against underflow.
 		// The runtime guarantees SP > objabi.StackBig, but
@@ -1155,7 +1158,7 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = tmp
 
-		p = ctxt.StartUnsafePoint(p, newprog) // see the comment above
+		p = ctxt.StartUnsafePointRestartAtEntry(p, newprog) // see the comment above
 
 		p = obj.Appendp(p, newprog)
 		p.As = sub
@@ -1200,7 +1203,7 @@ func stacksplit(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog, newprog obj.ProgA
 	spfix.Spadj = -framesize
 
 	pcdata := ctxt.EmitEntryStackMap(cursym, spfix, newprog)
-	spill := ctxt.StartUnsafePoint(pcdata, newprog)
+	spill := ctxt.StartUnsafePointRestartAtEntry(pcdata, newprog)
 	pcdata = cursym.Func().SpillRegisterArgs(spill, newprog)
 
 	call := obj.Appendp(pcdata, newprog)
