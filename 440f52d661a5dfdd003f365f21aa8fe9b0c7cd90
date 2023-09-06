@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d03c36_271facdb",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-06T00:47:01Z",
+      "side": 1,
+      "message": "FYI, it\u0027s fine to just print fn directly with %v.",
+      "range": {
+        "startLine": 243,
+        "startChar": 3,
+        "endLine": 243,
+        "endChar": 16
+      },
+      "revId": "440f52d661a5dfdd003f365f21aa8fe9b0c7cd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1a5f632_67b9ad37",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_callsites.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-06T00:47:01Z",
+      "side": 1,
+      "message": "What does \"rt\" stand for?",
+      "revId": "440f52d661a5dfdd003f365f21aa8fe9b0c7cd90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
