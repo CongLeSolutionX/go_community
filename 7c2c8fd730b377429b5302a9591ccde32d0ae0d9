@@ -214,6 +214,24 @@
       "parentUuid": "d9cbbf78_b2128b39",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84bcfaf9_10843655",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 52073
+      },
+      "writtenOn": "2023-09-06T20:21:43Z",
+      "side": 1,
+      "message": "You can also parse the actiongraph to get this info. https://github.com/gotestyourself/gotestsum/issues/355 has an implementation. A bit more invasive than just parsing json stdout, thought.",
+      "parentUuid": "512b4b18_79c10554",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
