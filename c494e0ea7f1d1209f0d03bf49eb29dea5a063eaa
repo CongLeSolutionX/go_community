@@ -53,6 +53,24 @@
       "message": "Thanks for the CL. I originally had the idea that we could preempt the stack bounds check prologue and restart at function entry. But I\u0027m not sure this is really worth doing. If we actually make a call to morestack and we want to preempt, morestack would preempt anyway. So we don\u0027t really need to asynchronously preempt it. There are possibilities that we don\u0027t actually preempt\n- (on some architectures) the comparison instruction is included in the non-preemptible range. The comparison could fail and we may not actually call morestack.\n\nThis is very short and cannot repeat. Unlike other instruction sequences which, if appear in a loop, we may hit it over and over again, this code only run once. I don\u0027t think it really matters for this code to be non-preemptible. Do you see it help in a real program?\n\n- the prologue after the morestack call, like the unspilling code.\n\nThis probably should be just preemptible (like this CL does). Perhaps we only do this part for this CL. Thanks.",
       "revId": "c494e0ea7f1d1209f0d03bf49eb29dea5a063eaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5879b13_590ccd46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53473
+      },
+      "writtenOn": "2023-09-06T02:51:00Z",
+      "side": 1,
+      "message": "Thanks for reply. Actually, the motivation for this CL is I encountered a strange problem recently.\nI found our program may hang occasionally, about once in two weeks. \nIn gc trace, I noticed the second STW spent too much time. And the cpu usage at this time is 100% in user space.\n`gc 1348 @49384.103s 0%: 0.27+854+7511 ms clock, 2.9+17/2515/350+82625 ms cpu, 23833-\u003e24327-\u003e5768 MB, 25088 MB goal, 11 P, 11927247 marked objects.`\n\nThen we think maybe there is a nonpreemtible tight loop in our program. But don\u0027t know where is it. So we added a check for this problem in `runtime.sighandler` . And would do a traceback in `runtime.sighandler` if we determined this problem is encountered. But the result is surprising. The multiple times traceback shows the pc is always on 0x44b0fe9c during hanging. It is unexplained.\n```asm\n\t  44b0fe98:   49 3b 66 10             cmp    0x10(%r14),%rsp\n \u003d\u003d\u003e  44b0fe9c:   0f 86 70 01 00 00       jbe    44b10012\n```\n\nIn last several months we tried to troubleshot this problem. But we can only get such traceback result(using ptrace at the outside of our process shows same result). \nThen I think maybe we can workaround such problem by marking prologue preemptible and \"restartAtEntry\". And I also found the \"TODO\" in the old commit of yours. \n\nAnd also, preempt it as soon as possible is helpful for reducing STW time. In the past, preempt signal at prologue would cause `runtime.sighandler` and `runtime.morestack` call. After this patch, it will cause `runtime.sighandler` and bound check again. It will be faster than before.\n\nI will submit a new CL to mark unspilling code preemptible.",
+      "parentUuid": "b8d7a90d_27d33482",
+      "revId": "c494e0ea7f1d1209f0d03bf49eb29dea5a063eaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
