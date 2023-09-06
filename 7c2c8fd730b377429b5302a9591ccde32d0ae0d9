@@ -232,6 +232,24 @@
       "parentUuid": "512b4b18_79c10554",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755b145c_f5d197b7",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-06T20:31:38Z",
+      "side": 1,
+      "message": "Hmm. I do think it would be cleaner to just log events for the tests after we finish loading packages, and then decouple those logs from events with a meaningful timestamp (building the test, starting the test run, etc.).\n\nAssuming that some variation on #62067 will be accepted, perhaps we could emit a `BuildEvent` for each test with `Action: \"load\"` once the initial package loading is complete? But then that would still be a problem if we ever supported incremental loading concurrently with building the loaded packages. (We don\u0027t have any plans for that in the foreseeable future, though.)\n\nOr, perhaps we could emit a single `BuildEvent` whose `Output` is the list of loaded packages and tests?",
+      "parentUuid": "84bcfaf9_10843655",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
