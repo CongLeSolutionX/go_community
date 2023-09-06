@@ -178,6 +178,24 @@
       "parentUuid": "8c0c434e_2276b222",
       "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9cbbf78_b2128b39",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-06T17:02:00Z",
+      "side": 1,
+      "message": "\u003e Why can\u0027t the start event both mean that the test started and be released to stdout in package order?\n\nThat would mean that the events could be written very far out of order compared to their timestamps.\n\nMore importantly, though, if something times out (or gets killed — perhaps due to an OOM condition) before the buffer is flushed, that could mean that someone reading the logs ends up missing a very relevant event.\n\nAustin, could you give some more detail about your goal in reconstructing the output? It\u0027s not immediately obvious to me why a consumer of the log would need to reconstruct the `go` command line rather than, say, prepending that command line to the output as another JSON event.",
+      "parentUuid": "1e170779_e95ce4d5",
+      "revId": "7c2c8fd730b377429b5302a9591ccde32d0ae0d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
