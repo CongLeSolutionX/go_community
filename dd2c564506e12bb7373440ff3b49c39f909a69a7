@@ -33,6 +33,24 @@
       "message": "If we don\u0027t want to call slices.Grow on each iteration, let me know and I can add a variable to do that only once.\nIf we prefer to only keep the +1 capacity fix, and not use slices.Grow at all, let me know and I will remove that.\nthx",
       "revId": "dd2c564506e12bb7373440ff3b49c39f909a69a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d558af92_27d638c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-07T21:41:25Z",
+      "side": 1,
+      "message": "Thanks for finding this. Good catch.\n\nI think the +1 is sufficient. We don\u0027t need the Grow at all. It\u0027s very unlikely that Record.Add will be called more than once. If it is, append will do a good enough job of growing the slice.",
+      "parentUuid": "518b0f15_1a687599",
+      "revId": "dd2c564506e12bb7373440ff3b49c39f909a69a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
