@@ -1861,11 +1861,13 @@ func (c *conn) serve(ctx context.Context) {
 	ctx = context.WithValue(ctx, LocalAddrContextKey, c.rwc.LocalAddr())
 	var inFlightResponse *response
 	defer func() {
-		if err := recover(); err != nil && err != ErrAbortHandler {
-			const size = 64 << 10
-			buf := make([]byte, size)
-			buf = buf[:runtime.Stack(buf, false)]
-			c.server.logf("http: panic serving %v: %v\n%s", c.remoteAddr, err, buf)
+		if err := recover(); err != nil {
+			if errType, ok := err.(error); !ok || !errors.Is(errType, ErrAbortHandler) {
+				const size = 64 << 10
+				buf := make([]byte, size)
+				buf = buf[:runtime.Stack(buf, false)]
+				c.server.logf("http: panic serving %v: %v\n%s", c.remoteAddr, err, buf)
+			}
 		}
 		if inFlightResponse != nil {
 			inFlightResponse.cancelCtx()
