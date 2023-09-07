@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "23ad98dc_1da1de57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T20:01:27Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "d45ec937_59ef59ed",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d274dc66_cb0c436f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77d3ee1b_0ab870b8",
+        "filename": "src/sync/map.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T20:01:27Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "ea547aa8_cd7d2d1b",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2829f890_bf4649bc",
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc11774b_77254b21",
+        "filename": "src/sync/map.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T20:01:27Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "2829f890_bf4649bc",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71a15a4b_d5ef4522",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-09-07T18:46:08Z",
       "side": 1,
       "message": "Remove this blank line.",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce24bd6f_892ce1b9",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T20:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a15a4b_d5ef4522",
       "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
