@@ -12,21 +12,21 @@ import (
 	"syscall"
 )
 
-func (c *UDPConn) readFrom(b []byte, addr *UDPAddr) (int, *UDPAddr, error) {
+func (c *UDPConn) readFrom(b []byte, addr *UDPAddr) (int, error) {
 	buf := make([]byte, udpHeaderSize+len(b))
 	m, err := c.fd.Read(buf)
 	if err != nil {
-		return 0, nil, err
+		return 0, err
 	}
 	if m < udpHeaderSize {
-		return 0, nil, errors.New("short read reading UDP header")
+		return 0, errors.New("short read reading UDP header")
 	}
 	buf = buf[:m]
 
 	h, buf := unmarshalUDPHeader(buf)
 	n := copy(b, buf)
 	*addr = UDPAddr{IP: h.raddr, Port: int(h.rport)}
-	return n, addr, nil
+	return n, nil
 }
 
 func (c *UDPConn) readFromAddrPort(b []byte) (int, netip.AddrPort, error) {

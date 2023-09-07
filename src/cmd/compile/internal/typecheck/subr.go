@@ -506,6 +506,63 @@ type dlist struct {
 	field *types.Field
 }
 
+// ImplicitDerefs returns the number of implicit pointer derefs
+// necessary to call method on the receiver type.
+//
+// method must be within recv's method set. (Note: *T methods are not
+// within T's method set.)
+func ImplicitDerefs(recv *types.Type, method *types.Field) int {
+	// TODO(mdempsky): This is a mess. Clean this up.
+
+	recv0 := recv
+
+	var f *types.Field
+	path, _ := dotpath(method.Sym, recv, &f, false)
+	if path == nil {
+		base.Fatalf("no path from receiver %v to method %v found", recv, method.Sym)
+	}
+	if f.Nname != method.Nname {
+		base.Fatalf("found unexpected method: %v != %v", f.Nname, method.Nname)
+	}
+
+	derefs := 0
+	for i := len(path) - 1; i >= 0; i-- { // TODO(mdempsky): Why is this in reverse order?
+		implicit := path[i]
+
+		if recv.IsPtr() {
+			derefs++
+			recv = recv.Elem()
+		}
+		if !recv.IsStruct() {
+			base.Fatalf("not a struct: %v (recv0=%v, method=%v)", recv, recv0, method.Nname)
+		}
+		recv = implicit.field.Type
+	}
+
+	if types.IsInterfaceMethod(method.Type) {
+		if !recv.IsInterface() {
+			base.Fatalf("%v is an interface method, but implicit receiver is not: %v", method.Sym, recv)
+		}
+	} else {
+		if recv.IsPtr() && !method.Type.Recv().Type.IsPtr() {
+			derefs++
+			recv = recv.Elem()
+		}
+		if derefs > 0 && !recv.IsPtr() && method.Type.Recv().Type.IsPtr() {
+			derefs--
+			recv = types.NewPtr(recv)
+		}
+		if !types.Identical(recv, method.Type.Recv().Type) {
+			for i, implicit := range path {
+				fmt.Printf("path[#%v] = %v\n", i, implicit.field)
+			}
+			base.Fatalf("method %v has receiver %v, but selected %v (recv0=%v, method=%v, path=%v)", method.Sym, method.Type.Recv().Type, recv, recv0, method.Nname, path)
+		}
+	}
+
+	return derefs
+}
+
 // dotpath computes the unique shortest explicit selector path to fully qualify
 // a selection expression x.f, where x is of type t and f is the symbol s.
 // If no such path exists, dotpath returns nil.

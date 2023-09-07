@@ -19,6 +19,7 @@ const (
 	leakHeap = iota
 	leakMutator
 	leakCallee
+	leakIfaceRecv
 	leakResult0
 )
 
@@ -38,6 +39,11 @@ func (l leaks) Mutator() int { return l.get(leakMutator) }
 // Callee returns -1.
 func (l leaks) Callee() int { return l.get(leakCallee) }
 
+// IfaceRecv returns the minimum deref count of any assignment flow
+// from l to the receiver operand of an interface method call. If no
+// such flows exist, IfaceRecv returns -1.
+func (l leaks) IfaceRecv() int { return l.get(leakIfaceRecv) }
+
 // Result returns the minimum deref count of any assignment flow from
 // l to its function's i'th result parameter. If no such flows exist,
 // Result returns -1.
@@ -54,9 +60,22 @@ func (l *leaks) AddMutator(derefs int) { l.add(leakMutator, derefs) }
 // call expression.
 func (l *leaks) AddCallee(derefs int) { l.add(leakCallee, derefs) }
 
+// AddIfaceRecv adds an assignment flow from l to the receiver operand
+// of an interface method call.
+func (l *leaks) AddIfaceRecv(derefs int) { l.add(leakIfaceRecv, derefs) }
+
 // AddResult adds an assignment flow from l to its function's i'th
 // result parameter.
 func (l *leaks) AddResult(i, derefs int) { l.add(leakResult0+i, derefs) }
+
+// AddAll adds all of the leaks from other to l, increased by derefs.
+func (l *leaks) AddAll(derefs int, other leaks) {
+	for i := range other {
+		if x := other.get(i); x >= 0 {
+			l.add(i, x+derefs)
+		}
+	}
+}
 
 func (l leaks) get(i int) int { return int(l[i]) - 1 }
 

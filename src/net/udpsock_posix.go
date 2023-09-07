@@ -43,7 +43,7 @@ func (a *UDPAddr) toLocal(net string) sockaddr {
 	return &UDPAddr{loopbackIP(net), a.Port, a.Zone}
 }
 
-func (c *UDPConn) readFrom(b []byte, addr *UDPAddr) (int, *UDPAddr, error) {
+func (c *UDPConn) readFrom(b []byte, addr *UDPAddr) (int, error) {
 	var n int
 	var err error
 	switch c.fd.family {
@@ -62,11 +62,7 @@ func (c *UDPConn) readFrom(b []byte, addr *UDPAddr) (int, *UDPAddr, error) {
 			*addr = UDPAddr{IP: ip[:], Port: from.Port, Zone: zoneCache.name(int(from.ZoneId))}
 		}
 	}
-	if err != nil {
-		// No sockaddr, so don't return UDPAddr.
-		addr = nil
-	}
-	return n, addr, err
+	return n, err
 }
 
 func (c *UDPConn) readFromAddrPort(b []byte) (n int, addr netip.AddrPort, err error) {
