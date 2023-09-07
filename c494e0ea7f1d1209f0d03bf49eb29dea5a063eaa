@@ -107,6 +107,24 @@
       "parentUuid": "844adc30_d78cfd14",
       "revId": "c494e0ea7f1d1209f0d03bf49eb29dea5a063eaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c2dc2da_34519e60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53473
+      },
+      "writtenOn": "2023-09-07T16:16:20Z",
+      "side": 1,
+      "message": "Thanks!\n\n\u003e Do the signals always arrive at the prologue in the same function?\n\nYes, at least yes in recent two months.\n\n\u003e Is this function called a lot, e.g. in a hot loop? \n\nNo, it is called rarely and not in a hot loop.\n\n\u003e Is the rest of the function body preemptible or not?\n\nMost instructions of the function is preemptible, except an assign to heap pointer, there is a gcwritebarrier call in that block.\n\n\u003e Also, could you verify that if this CL actually resolves the problem?\n\nIf there is no obviously issue in this CL for you(Just doubt the worth of it), we will test in our program. We need a long time to test. If we don\u0027t encounter it in more than one month, then I think we can determine it works for us.",
+      "parentUuid": "624543ab_b47fa6dc",
+      "revId": "c494e0ea7f1d1209f0d03bf49eb29dea5a063eaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
