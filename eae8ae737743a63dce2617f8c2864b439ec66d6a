@@ -53,6 +53,57 @@
       "message": "Thanks a lot for cleaning this up!",
       "revId": "eae8ae737743a63dce2617f8c2864b439ec66d6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8795027a_6588eca9",
+        "filename": "src/net/net_fake.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T21:13:09Z",
+      "side": 1,
+      "message": "These fields could use more comments.",
+      "revId": "eae8ae737743a63dce2617f8c2864b439ec66d6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d96afb86_2908c271",
+        "filename": "src/net/net_fake.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T21:13:09Z",
+      "side": 1,
+      "message": "This call to close looks odd.  Normally the close statement is on the sender side.  This needs a comment.  I see there is one on the incoming field, but it needs one here too.",
+      "revId": "eae8ae737743a63dce2617f8c2864b439ec66d6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d409e571_b0a19072",
+        "filename": "src/net/net_fake.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T21:13:09Z",
+      "side": 1,
+      "message": "This needs comments.",
+      "revId": "eae8ae737743a63dce2617f8c2864b439ec66d6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
