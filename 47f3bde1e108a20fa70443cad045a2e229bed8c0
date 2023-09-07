@@ -130,6 +130,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6531b94_daa9b79c",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-07T03:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c24309_ecfcd821",
+      "range": {
+        "startLine": 1002,
+        "startChar": 39,
+        "endLine": 1002,
+        "endChar": 47
+      },
+      "revId": "47f3bde1e108a20fa70443cad045a2e229bed8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a37e6d5_bbacb106",
