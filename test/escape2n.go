@@ -451,11 +451,11 @@ type M interface {
 func foo63(m M) { // ERROR "m does not escape$"
 }
 
-func foo64(m M) { // ERROR "leaking param: m$"
+func foo64(m M) { // ERROR "m does not escape$"
 	m.M()
 }
 
-func foo64b(m M) { // ERROR "leaking param: m$"
+func foo64b(m M) { // ERROR "m does not escape$"
 	defer m.M()
 }
 
@@ -469,7 +469,7 @@ func foo65() {
 }
 
 func foo66() {
-	var mv MV // ERROR "moved to heap: mv$"
+	var mv MV
 	foo64(&mv)
 }
 
@@ -480,15 +480,14 @@ func foo67() {
 
 func foo68() {
 	var mv MV
-	// escapes but it's an int so irrelevant
-	foo64(mv) // ERROR "mv escapes to heap$"
+	foo64(mv) // ERROR "mv does not escape"
 }
 
-func foo69(m M) { // ERROR "leaking param: m$"
+func foo69(m M) { // ERROR "m does not escape$"
 	foo64(m)
 }
 
-func foo70(mv1 *MV, m M) { // ERROR "leaking param: m$" "leaking param: mv1$"
+func foo70(mv1 *MV, m M) { // ERROR "m does not escape$" "leaking param content: mv1$"
 	m = mv1
 	foo64(m)
 }

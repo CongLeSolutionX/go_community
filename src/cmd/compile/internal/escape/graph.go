@@ -75,6 +75,7 @@ type location struct {
 	captured   bool // has a closure captured this variable?
 	reassigned bool // has this variable been reassigned?
 	addrtaken  bool // has this variable's address been taken?
+	ifaceFlow  bool // has this OCONVIFACE been processed for attrIfaceRecv?
 }
 
 type locAttr uint8
@@ -99,6 +100,11 @@ const (
 	// location may be called without tracking their results. This is
 	// used to better optimize indirect closure calls.
 	attrCalls
+
+	// attrIfaceRecv indicates whether interface values that are
+	// reachable from this location may be used as the receiver argument
+	// to an interface method call.
+	attrIfaceRecv
 )
 
 func (l *location) hasAttr(attr locAttr) bool { return l.attrs&attr != 0 }
@@ -243,7 +249,7 @@ func (b *batch) flow(k hole, src *location) {
 			}
 
 		}
-		src.attrs |= attrEscapes | attrPersists | attrMutates | attrCalls
+		src.attrs |= attrEscapes | attrPersists | attrMutates | attrCalls | attrIfaceRecv
 		return
 	}
 
@@ -251,12 +257,16 @@ func (b *batch) flow(k hole, src *location) {
 	dst.edges = append(dst.edges, edge{src: src, derefs: k.derefs, notes: k.notes})
 }
 
-func (b *batch) heapHole() hole    { return b.heapLoc.asHole() }
-func (b *batch) mutatorHole() hole { return b.mutatorLoc.asHole() }
-func (b *batch) calleeHole() hole  { return b.calleeLoc.asHole() }
-func (b *batch) discardHole() hole { return b.blankLoc.asHole() }
+func (b *batch) heapHole() hole      { return b.heapLoc.asHole() }
+func (b *batch) mutatorHole() hole   { return b.mutatorLoc.asHole() }
+func (b *batch) calleeHole() hole    { return b.calleeLoc.asHole() }
+func (b *batch) ifaceRecvHole() hole { return b.ifaceRecvLoc.asHole() }
+func (b *batch) discardHole() hole   { return b.blankLoc.asHole() }
 
 func (b *batch) oldLoc(n *ir.Name) *location {
+	if ir.IsBlank(n) {
+		return &b.blankLoc
+	}
 	if n.Canonical().Opt == nil {
 		base.FatalfAt(n.Pos(), "%v has no location", n)
 	}

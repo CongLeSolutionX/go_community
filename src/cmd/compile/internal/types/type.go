@@ -908,6 +908,11 @@ func (t *Type) AllMethods() []*Field {
 	return t.allMethods.Slice()
 }
 
+// Must be overriden with typecheck.CalcMethods.
+//
+// TODO(mdempsky): Move method set calculation here.
+var CalcMethods = func(*Type) {}
+
 // SetMethods sets the direct method set for type t (i.e., *not*
 // including promoted methods from embedded types).
 func (t *Type) SetMethods(fs []*Field) {

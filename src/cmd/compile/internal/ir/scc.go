@@ -4,6 +4,11 @@
 
 package ir
 
+import (
+	"cmd/compile/internal/base"
+	"cmd/compile/internal/types"
+)
+
 // Strongly connected components.
 //
 // Run analysis on minimal sets of mutually recursive functions
@@ -34,6 +39,8 @@ type bottomUpVisitor struct {
 	visitgen uint32
 	nodeID   map[*Func]uint32
 	stack    []*Func
+	typeID   map[*types.Type]uint32
+	types    []*types.Type
 }
 
 // VisitFuncsBottomUp invokes analyze on the ODCLFUNC nodes listed in list.
@@ -50,17 +57,36 @@ type bottomUpVisitor struct {
 // If recursive is true, the list may still contain only a single function,
 // if that function is itself recursive.
 func VisitFuncsBottomUp(list []*Func, analyze func(list []*Func, recursive bool)) {
+	visitFuncsBottomUp(list, analyze, false)
+}
+
+// VisitFuncsBottomUpForEscapeAnalysis is like VisitFuncsBottomUp, but
+// it also considers conversions of values from concrete type to
+// interface type as an implicit call of all methods in that concrete
+// type's method set.
+func VisitFuncsBottomUpForEscapeAnalysis(list []*Func, analyze func(list []*Func, recursive bool)) {
+	visitFuncsBottomUp(list, analyze, true)
+}
+
+func visitFuncsBottomUp(list []*Func, analyze func(list []*Func, recursive bool), forEscapeAnalysis bool) {
 	var v bottomUpVisitor
 	v.analyze = analyze
 	v.nodeID = make(map[*Func]uint32)
+	if forEscapeAnalysis {
+		v.typeID = make(map[*types.Type]uint32)
+	}
 	for _, n := range list {
 		if !n.IsHiddenClosure() {
-			v.visit(n)
+			v.visitFunc(n)
 		}
+	}
+
+	if len(v.stack) != 0 || len(v.types) != 0 {
+		base.Fatalf("unexpected residuals: %v, %v", v.stack, v.types)
 	}
 }
 
-func (v *bottomUpVisitor) visit(n *Func) uint32 {
+func (v *bottomUpVisitor) visitFunc(n *Func) uint32 {
 	if id := v.nodeID[n]; id > 0 {
 		// already visited
 		return id
@@ -75,7 +101,7 @@ func (v *bottomUpVisitor) visit(n *Func) uint32 {
 
 	do := func(defn Node) {
 		if defn != nil {
-			if m := v.visit(defn.(*Func)); m < min {
+			if m := v.visitFunc(defn.(*Func)); m < min {
 				min = m
 			}
 		}
@@ -94,6 +120,13 @@ func (v *bottomUpVisitor) visit(n *Func) uint32 {
 		case OCLOSURE:
 			n := n.(*ClosureExpr)
 			do(n.Func)
+		case OCONVIFACE:
+			if v.typeID != nil {
+				n := n.(*ConvExpr)
+				if m := v.visitType(n.X.Type()); m < min {
+					min = m
+				}
+			}
 		}
 	})
 
@@ -105,9 +138,22 @@ func (v *bottomUpVisitor) visit(n *Func) uint32 {
 		// Otherwise, it's just a lone function that does not recurse.
 		recursive := min == id
 
+		var i int
+
+		// Pop types whose ID is *greater* than ours, and reset their ID
+		// to a large number. A greater ID means the type was found within
+		// our component.
+		for i = len(v.types); i > 0; i-- {
+			typ := v.types[i-1]
+			if v.typeID[typ] <= id {
+				break
+			}
+			v.typeID[typ] = ^uint32(0)
+		}
+		v.types = v.types[:i]
+
 		// Remove connected component from stack and mark v.nodeID so that future
 		// visits return a large number, which will not affect the caller's min.
-		var i int
 		for i = len(v.stack) - 1; i >= 0; i-- {
 			x := v.stack[i]
 			v.nodeID[x] = ^uint32(0)
@@ -119,6 +165,39 @@ func (v *bottomUpVisitor) visit(n *Func) uint32 {
 		// Call analyze on this set of functions.
 		v.stack = v.stack[:i]
 		v.analyze(block, recursive)
+	}
+
+	return min
+}
+
+func (v *bottomUpVisitor) visitType(typ *types.Type) uint32 {
+	mt := types.ReceiverBaseType(typ)
+	if mt == nil {
+		return ^uint32(0) // no possible methods
+	}
+
+	if id := v.typeID[typ]; id > 0 {
+		return id // previously visited
+	}
+
+	// Note: We don't reserve a unique ID for typ itself, so it will end
+	// up with the same ID as the *next* newly discovered function.
+	min := v.visitgen
+	v.typeID[typ] = min
+	v.types = append(v.types, typ)
+
+	types.CalcMethods(mt)
+	for _, method := range mt.AllMethods() {
+		// We want to visit all concrete methods in typ's method set,
+		// which may be called through an interface.
+		if method.Nointerface() || types.IsInterfaceMethod(method.Type) || !types.IsMethodApplicable(typ, method) {
+			continue
+		}
+		if fn := method.Nname.(*Name); fn.Defn != nil {
+			if m := v.visitFunc(fn.Defn.(*Func)); m < min {
+				min = m
+			}
+		}
 	}
 
 	return min

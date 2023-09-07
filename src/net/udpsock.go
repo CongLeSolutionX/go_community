@@ -138,29 +138,35 @@ func (c *UDPConn) ReadFromUDP(b []byte) (n int, addr *UDPAddr, err error) {
 	// of the returned *UDPAddr and thereby prevent an allocation.
 	// See https://blog.filippo.io/efficient-go-apis-with-the-inliner/.
 	// The real work is done by readFromUDP, below.
-	return c.readFromUDP(b, &UDPAddr{})
+	addr = &UDPAddr{}
+	n, err = c.readFromUDP(b, addr)
+	if err != nil {
+		addr = nil
+	}
+	return
 }
 
 // readFromUDP implements ReadFromUDP.
-func (c *UDPConn) readFromUDP(b []byte, addr *UDPAddr) (int, *UDPAddr, error) {
+func (c *UDPConn) readFromUDP(b []byte, addr *UDPAddr) (int, error) {
 	if !c.ok() {
-		return 0, nil, syscall.EINVAL
+		return 0, syscall.EINVAL
 	}
-	n, addr, err := c.readFrom(b, addr)
+	n, err := c.readFrom(b, addr)
 	if err != nil {
 		err = &OpError{Op: "read", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
 	}
-	return n, addr, err
+	return n, err
 }
 
 // ReadFrom implements the PacketConn ReadFrom method.
 func (c *UDPConn) ReadFrom(b []byte) (int, Addr, error) {
-	n, addr, err := c.readFromUDP(b, &UDPAddr{})
-	if addr == nil {
+	addr := &UDPAddr{}
+	n, err := c.readFromUDP(b, addr)
+	if err != nil {
 		// Return Addr(nil), not Addr(*UDPConn(nil)).
 		return n, nil, err
 	}
-	return n, addr, err
+	return n, addr, nil
 }
 
 // ReadFromUDPAddrPort acts like ReadFrom but returns a netip.AddrPort.
