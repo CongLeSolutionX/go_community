@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75c9198f_84bf3f72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-07T20:40:12Z",
+      "side": 1,
+      "message": "The error is from `cmd/api/main_test.go` trying to parse erroneously-combined output from `go list`:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/api/main_test.go;l\u003d493;drc\u003d5a3048bf0eefd2f99382a980f975d6a1fb6b921a\n\nThe fix for that failure mode is to use `cmd.Output()` instead of `cmd.CombinedOutput()` there:\n```go\nout, err :\u003d cmd.Output()\nif err !\u003d nil {\n\tif ee, ok :\u003d err.(*exec.ExitError); ok \u0026\u0026 len(ee.Stderr) \u003e 0 {\n\t\tlog.Fatalf(\"loading imports: %v: %v\\n%s\", cmd, err, ee.Stderr)\n\t}\n\tlog.Fatalf(\"loading imports: %v: %v\", cmd, err)\n}\n```",
+      "parentUuid": "1da930c5_9b529589",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea547aa8_cd7d2d1b",
         "filename": "src/sync/map.go",
         "patchSetId": 8
