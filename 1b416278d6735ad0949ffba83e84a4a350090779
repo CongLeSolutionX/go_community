@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2478399c_e32a66f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T20:50:05Z",
+      "side": 1,
+      "message": "s/paritioned/partitioned/",
+      "revId": "1b416278d6735ad0949ffba83e84a4a350090779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d89a5a1b_f2386ed5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T20:50:05Z",
+      "side": 1,
+      "message": "This is the main repo, you can just write\n\nFixes #62490",
+      "revId": "1b416278d6735ad0949ffba83e84a4a350090779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7484ee74_1afd199c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T20:50:05Z",
+      "side": 1,
+      "message": "Putting on hold until the proposal is accepted.",
+      "revId": "1b416278d6735ad0949ffba83e84a4a350090779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
