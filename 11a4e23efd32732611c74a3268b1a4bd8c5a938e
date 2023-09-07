@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74c5631a_f39c0203",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-07T22:29:50Z",
+      "side": 1,
+      "message": "Nice. We should extract such functions to a compatibility.go file, which may allow generating more code.",
+      "range": {
+        "startLine": 835,
+        "startChar": 1,
+        "endLine": 835,
+        "endChar": 58
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d13a5a50_40e2145c",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-07T22:29:50Z",
+      "side": 1,
+      "message": "go/types",
+      "range": {
+        "startLine": 858,
+        "startChar": 43,
+        "endLine": 858,
+        "endChar": 70
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df2ca899_88070f72",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-07T22:29:50Z",
+      "side": 1,
+      "message": "Should this be coreType?\n\nEsoteric, but I can imagine generic functions that want to accept a generic iterator type, and don\u0027t see why we shouldn\u0027t allow that (similar to the slices package).",
+      "range": {
+        "startLine": 979,
+        "startChar": 12,
+        "endLine": 979,
+        "endChar": 17
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cfae161_4cab5bda",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-07T22:29:50Z",
+      "side": 1,
+      "message": "Perhaps I\u0027m missing something, but why is this a panic and not just an error?\n\nIf this is meant to be a panic, I think it would be more consistent with the rest of go/types to instead use `assert(typ.Recv() \u003d\u003d nil) // \u003creason\u003e`",
+      "range": {
+        "startLine": 1011,
+        "startChar": 3,
+        "endLine": 1011,
+        "endChar": 39
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01348177_f04b5c46",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-07T22:29:50Z",
+      "side": 1,
+      "message": "\"wrong argument count\" isn\u0027t quite accurate here: what if the first argument is of the wrong type? Split into two cases?",
+      "range": {
+        "startLine": 1013,
+        "startChar": 55,
+        "endLine": 1013,
+        "endChar": 75
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9c47cd_5b6c0814",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-07T22:29:50Z",
+      "side": 1,
+      "message": "Ditto here: why a panic?",
+      "range": {
+        "startLine": 1020,
+        "startChar": 4,
+        "endLine": 1020,
+        "endChar": 49
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
