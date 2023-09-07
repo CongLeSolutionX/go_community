@@ -70,6 +70,46 @@
       "message": "Hi Jonathan,\nSince you\u0027re here, could you take a glance at this?\nThanks!",
       "revId": "3ff161e049de46c49dc8fc2cb29655aff9ed8f14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a778c6_a39626a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-07T16:34:58Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "revId": "3ff161e049de46c49dc8fc2cb29655aff9ed8f14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90505fbf_c1f5a578",
+        "filename": "src/log/slog/logger_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-07T16:34:58Z",
+      "side": 1,
+      "message": "I think the fixes can be tested with two new cases in TestJSONAndTextHandlers (in handler_test.go):\n\n        {\n            name: \"replace empty 1\",\n            with: func(h Handler) Handler {\n                return h.WithGroup(\"g\").WithAttrs([]Attr{Int(\"a\", 1)})\n            },\n            replace:  func([]string, Attr) Attr { return Attr{} },\n            attrs:    []Attr{Group(\"h\", Int(\"b\", 2))},\n            wantText: \"\",\n            wantJSON: `{\"g\":{\"h\":{}}}`,\n        },\n        {\n            name: \"replace empty 2\",\n            with: func(h Handler) Handler {\n                return h.WithGroup(\"g\").WithAttrs([]Attr{Int(\"a\", 1)}).WithGroup(\"h\").WithAttrs([]Attr{Int(\"b\", 2)})\n            },\n            replace:  func([]string, Attr) Attr { return Attr{} },\n            attrs:    []Attr{Group(\"i\", Int(\"c\", 3))},\n            wantText: \"\",\n            wantJSON: `{\"g\":{\"h\":{\"i\":{}}}}`,\n        },",
+      "range": {
+        "startLine": 648,
+        "startChar": 5,
+        "endLine": 648,
+        "endChar": 40
+      },
+      "revId": "3ff161e049de46c49dc8fc2cb29655aff9ed8f14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
