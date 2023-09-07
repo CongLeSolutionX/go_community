@@ -174,6 +174,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		logopt.LogJsonOption(base.Flag.JSON)
 	}
 
+	types.CalcMethods = typecheck.CalcMethods
 	ir.EscFmt = escape.Fmt
 	ir.IsIntrinsicCall = ssagen.IsIntrinsicCall
 	inline.SSADumpInline = ssagen.DumpInline

@@ -79,7 +79,8 @@ func interface4(x *int) any { // ERROR "leaking param: x$"
 	return v.Interface()
 }
 
-func addr(x *int) reflect.Value { // ERROR "leaking param: x to result ~r0 level=0"
+// Unfortunate: should only escape to result.
+func addr(x *int) reflect.Value { // ERROR "leaking param: x$"
 	v := reflect.ValueOf(x).Elem()
 	return v.Addr()
 }
@@ -115,7 +116,7 @@ func is2(x [2]int) bool {
 	return v.IsValid() || v.IsNil() || v.IsZero()
 }
 
-func is3(x struct { a, b int }) bool {
+func is3(x struct{ a, b int }) bool {
 	v := reflect.ValueOf(x) // ERROR "x does not escape"
 	return v.IsValid() || v.IsNil() || v.IsZero()
 }

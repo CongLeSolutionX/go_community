@@ -317,6 +317,9 @@ func (e *escape) copyExpr(pos src.XPos, expr ir.Node, init *ir.Nodes) *ir.Name {
 func (e *escape) tagHole(ks []hole, fn *ir.Name, param *types.Field) hole {
 	// If this is a dynamic call, we can't rely on param.Note.
 	if fn == nil {
+		if param.Type == types.FakeRecvType() {
+			return e.ifaceRecvHole()
+		}
 		return e.heapHole()
 	}
 
@@ -324,23 +327,13 @@ func (e *escape) tagHole(ks []hole, fn *ir.Name, param *types.Field) hole {
 		if param.Nname == nil {
 			return e.discardHole()
 		}
-		return e.addr(param.Nname.(*ir.Name))
+		return e.oldLoc(param.Nname.(*ir.Name)).asHole()
 	}
 
 	// Call to previously tagged function.
 
-	var tagKs []hole
 	esc := parseLeaks(param.Note)
-
-	if x := esc.Heap(); x >= 0 {
-		tagKs = append(tagKs, e.heapHole().shift(x))
-	}
-	if x := esc.Mutator(); x >= 0 {
-		tagKs = append(tagKs, e.mutatorHole().shift(x))
-	}
-	if x := esc.Callee(); x >= 0 {
-		tagKs = append(tagKs, e.calleeHole().shift(x))
-	}
+	tagKs := e.appendNonResultLeakHoles(nil, esc)
 
 	if ks != nil {
 		for i := 0; i < numEscResults; i++ {
@@ -352,3 +345,82 @@ func (e *escape) tagHole(ks []hole, fn *ir.Name, param *types.Field) hole {
 
 	return e.teeHole(tagKs...)
 }
+
+// appendNonResultLeakHoles appends a hole to holes for each
+// non-result leak in esc, and then returns the result.
+func (b *batch) appendNonResultLeakHoles(holes []hole, esc leaks) []hole {
+	if x := esc.Heap(); x >= 0 {
+		holes = append(holes, b.heapHole().shift(x))
+	}
+	if x := esc.Mutator(); x >= 0 {
+		holes = append(holes, b.mutatorHole().shift(x))
+	}
+	if x := esc.Callee(); x >= 0 {
+		holes = append(holes, b.calleeHole().shift(x))
+	}
+	if x := esc.IfaceRecv(); x >= 0 {
+		holes = append(holes, b.ifaceRecvHole().shift(x))
+	}
+	return holes
+}
+
+// ifaceRecvHoles returns a hole representing the receiver argument of
+// all methods in typ's method set that could be called via an
+// interface method call.
+func (b *batch) ifaceRecvHoles(typ *types.Type) []hole {
+	mt := types.ReceiverBaseType(typ)
+	if mt == nil {
+		return nil // no methods
+	}
+
+	if esc, ok := ifaceRecvHolesCache[typ]; ok {
+		return b.appendNonResultLeakHoles(nil, esc)
+	}
+
+	var esc leaks
+	var holes []hole
+
+	typecheck.CalcMethods(mt)
+	for _, method := range mt.AllMethods() {
+		if method.Nointerface() || !types.IsMethodApplicable(typ, method) {
+			continue
+		}
+
+		derefs := typecheck.ImplicitDerefs(typ, method)
+		recv := method.Type.Recv()
+
+		if types.IsInterfaceMethod(method.Type) {
+			esc.AddIfaceRecv(derefs)
+			continue
+		}
+
+		if fn := method.Nname.(*ir.Name); b.inMutualBatch(fn) {
+			if recv.Nname != nil {
+				holes = append(holes, b.oldLoc(recv.Nname.(*ir.Name)).asHole().shift(derefs))
+			}
+			continue
+		}
+
+		esc.AddAll(derefs, parseLeaks(recv.Note))
+	}
+
+	// We didn't track where the results of the interface method calls
+	// flowed, so conservatively assume they flowed to the heap.
+	for i := 0; i < numEscResults; i++ {
+		if x := esc.Result(i); x >= 0 {
+			esc.AddHeap(x)
+		}
+	}
+	esc.Optimize()
+
+	// If we didn't find any methods in the current batch, then we can
+	// cache the leaks for future calls.
+	if len(holes) == 0 {
+		ifaceRecvHolesCache[typ] = esc
+	}
+
+	return b.appendNonResultLeakHoles(holes, esc)
+}
+
+// ifaceRecvHolesCache caches the result of ifaceRecvHoles.
+var ifaceRecvHolesCache = make(map[*types.Type]leaks)

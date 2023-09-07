@@ -115,8 +115,12 @@ func (e *escape) exprSkipInit(k hole, n ir.Node) {
 		}
 	case ir.OCONVIFACE, ir.OCONVIDATA:
 		n := n.(*ir.ConvExpr)
-		if !n.X.Type().IsInterface() && !types.IsDirectIface(n.X.Type()) {
-			k = e.spill(k, n)
+		if !n.X.Type().IsInterface() {
+			if types.IsDirectIface(n.X.Type()) {
+				k = e.tap(k, n)
+			} else {
+				k = e.spill(k, n)
+			}
 		}
 		e.expr(k.note(n, "interface-converted"), n.X)
 	case ir.OEFACE:
@@ -337,5 +341,16 @@ func (e *escape) discards(l ir.Nodes) {
 func (e *escape) spill(k hole, n ir.Node) hole {
 	loc := e.newLoc(n, false)
 	e.flow(k.addr(n, "spill"), loc)
+	return loc.asHole()
+}
+
+// tap allocates a new location associated with expression n, flows it
+// to k, and returns a hole that flows values to it. It's intended for
+// use with expressions that don't need to allocate extra storage, but
+// we may need to additional outward flows for (e.g., discovering that
+// an OCONVIFACE flows to attrIfaceRecv).
+func (e *escape) tap(k hole, n ir.Node) hole {
+	loc := e.newLoc(n, false)
+	e.flow(k, loc)
 	return loc.asHole()
 }

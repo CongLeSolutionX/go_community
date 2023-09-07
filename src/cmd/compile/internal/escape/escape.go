@@ -89,10 +89,11 @@ type batch struct {
 	allLocs  []*location
 	closures []closure
 
-	heapLoc    location
-	mutatorLoc location
-	calleeLoc  location
-	blankLoc   location
+	heapLoc      location
+	mutatorLoc   location
+	calleeLoc    location
+	ifaceRecvLoc location
+	blankLoc     location
 }
 
 // A closure holds a closure expression and its spill hole (i.e.,
@@ -119,7 +120,7 @@ type escape struct {
 }
 
 func Funcs(all []*ir.Func) {
-	ir.VisitFuncsBottomUp(all, Batch)
+	ir.VisitFuncsBottomUpForEscapeAnalysis(all, Batch)
 }
 
 // Batch performs escape analysis on a minimal batch of
@@ -129,6 +130,11 @@ func Batch(fns []*ir.Func, recursive bool) {
 	b.heapLoc.attrs = attrEscapes | attrPersists | attrMutates | attrCalls
 	b.mutatorLoc.attrs = attrMutates
 	b.calleeLoc.attrs = attrCalls
+	b.ifaceRecvLoc.attrs = attrIfaceRecv
+
+	if false && base.Flag.LowerM == 2 {
+		fmt.Printf("batch of #%v: %v\n", len(fns), fns)
+	}
 
 	// Construct data-flow graph from syntax trees.
 	for _, fn := range fns {
@@ -196,6 +202,9 @@ func (b *batch) initFunc(fn *ir.Func) {
 
 	// Initialize resultIndex for result parameters.
 	for i, f := range fn.Type().Results() {
+		if f.Nname == nil {
+			base.FatalfAt(fn.Pos(), "result #%v of %v is missing an nname", i, fn)
+		}
 		e.oldLoc(f.Nname.(*ir.Name)).resultIndex = 1 + i
 	}
 }
@@ -287,6 +296,15 @@ func (b *batch) finish(fns []*ir.Func) {
 		if n.Op() == ir.ONAME {
 			n := n.(*ir.Name)
 			n.Opt = nil
+		}
+
+		if n, ok := n.(*ir.ConvExpr); ok && n.Op() == ir.OCONVIFACE {
+			if typ := n.X.Type(); !typ.IsInterface() && types.IsDirectIface(typ) {
+				// This was merely a tap location for handling attrIfaceRecv.
+				// We don't actually need to mark its escape analysis results
+				// or report any diagnostics about it.
+				continue
+			}
 		}
 
 		// Update n.Esc based on escape analysis results.
@@ -501,6 +519,9 @@ func (b *batch) reportLeaks(pos src.XPos, name string, esc leaks, sig *types.Typ
 	if x := esc.Callee(); x >= 0 {
 		base.WarnfAt(pos, "calls param: %v derefs=%v", name, x)
 		warned = true
+	}
+	if x := esc.IfaceRecv(); x >= 0 {
+		base.WarnfAt(pos, "iface recv param: %v derefs=%v", name, x)
 	}
 
 	if !warned {
