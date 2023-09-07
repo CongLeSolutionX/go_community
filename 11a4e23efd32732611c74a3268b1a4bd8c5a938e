@@ -95,6 +95,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "237e5c77_44f9b8d9",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-07T23:50:28Z",
+      "side": 1,
+      "message": "See my earlier comment at https://go-review.git.corp.google.com/c/go/+/510537/9..12/src/cmd/compile/internal/types2/stmt.go#b1000.",
+      "parentUuid": "8cfae161_4cab5bda",
+      "range": {
+        "startLine": 1011,
+        "startChar": 3,
+        "endLine": 1011,
+        "endChar": 39
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01348177_f04b5c46",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 12
