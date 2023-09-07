@@ -207,6 +207,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af53009_8adb9bc5",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-07T12:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16970a07_37c84f7e",
+      "revId": "47f3bde1e108a20fa70443cad045a2e229bed8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93a7767c_038bbd2d",
@@ -220,6 +238,24 @@
       "writtenOn": "2023-09-05T22:35:14Z",
       "side": 1,
       "message": "Include a couple tests to make sure mismatched types produce the expected errors?\n\n```\nfor i, s \u003d range f8 { // ERROR ...\n}\nfor mi, ms :\u003d f8 {\n  i, s \u003d mi, ms // ERROR ...\n}\n```",
+      "revId": "47f3bde1e108a20fa70443cad045a2e229bed8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9dc3d3a_9669e19a",
+        "filename": "test/range2.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-07T12:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93a7767c_038bbd2d",
       "revId": "47f3bde1e108a20fa70443cad045a2e229bed8c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
