@@ -117,6 +117,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05224faf_3a920760",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T18:00:48Z",
+      "side": 1,
+      "message": "yeah i think delete is unnecessary",
+      "parentUuid": "d313a16b_aaef91f1",
+      "range": {
+        "startLine": 333,
+        "startChar": 1,
+        "endLine": 333,
+        "endChar": 18
+      },
+      "revId": "743615ba0a317402a4ecb6494e7e8be74d041d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5271c3cb_d609fca4",
@@ -130,6 +154,30 @@
       "writtenOn": "2023-09-07T13:22:08Z",
       "side": 1,
       "message": "Why re store the cleared data?",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 346,
+        "endChar": 0
+      },
+      "revId": "743615ba0a317402a4ecb6494e7e8be74d041d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "504050b6_28db3507",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T18:00:48Z",
+      "side": 1,
+      "message": "Store: failed after clear. Test",
+      "parentUuid": "5271c3cb_d609fca4",
       "range": {
         "startLine": 341,
         "startChar": 0,
