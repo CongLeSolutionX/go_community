@@ -123,6 +123,24 @@
       "parentUuid": "4025bd2c_4f688cd8",
       "revId": "8ba8b48d125edaed041c899f4163a9c69a3c341e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6076b053_6969b921",
+        "filename": "src/cmd/cgo/internal/testcshared/testdata/libgo5/libgo5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T00:57:14Z",
+      "side": 1,
+      "message": "Right, the old code had `case \u003c-time.After`.  In the new code the timer seems to be completely unused.  Maybe I\u0027m missing something.",
+      "parentUuid": "8f136fa1_9a410725",
+      "revId": "8ba8b48d125edaed041c899f4163a9c69a3c341e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
