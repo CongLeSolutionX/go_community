@@ -12,7 +12,7 @@ import (
 // addr evaluates an addressable expression n and returns a hole
 // that represents storing into the represented location.
 func (e *escape) addr(n ir.Node) hole {
-	if n == nil || ir.IsBlank(n) {
+	if n == nil {
 		// Can happen in select case, range, maybe others.
 		return e.discardHole()
 	}

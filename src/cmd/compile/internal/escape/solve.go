@@ -38,6 +38,7 @@ func (b *batch) walkAll() {
 	}
 	enqueue(&b.mutatorLoc)
 	enqueue(&b.calleeLoc)
+	enqueue(&b.ifaceRecvLoc)
 	enqueue(&b.heapLoc)
 
 	var walkgen uint32
@@ -77,6 +78,23 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 		}
 	}
 
+	if root.hasAttr(attrIfaceRecv) && !root.ifaceFlow {
+		root.ifaceFlow = true
+		if conv, ok := root.n.(*ir.ConvExpr); ok && conv.Op() == ir.OCONVIFACE {
+			// root is a location representing values that get converted to
+			// interface type, whose values then flow to the receiver
+			// operand of an interface method call.
+			//
+			// Add additional flows to the receiver parameter holes for each
+			// method in its method set.
+
+			for _, hole := range b.ifaceRecvHoles(conv.X.Type()) {
+				b.flow(hole, root)
+				enqueue(hole.dst)
+			}
+		}
+	}
+
 	todo := []*location{root} // LIFO queue
 	for len(todo) > 0 {
 		l := todo[len(todo)-1]
@@ -108,7 +126,7 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 						logopt.LogOpt(l.n.Pos(), "escape", "escape", ir.FuncName(e_curfn), fmt.Sprintf("%v escapes to heap", l.n), explanation)
 					}
 				}
-				newAttrs |= attrEscapes | attrPersists | attrMutates | attrCalls
+				newAttrs |= attrEscapes | attrPersists | attrMutates | attrCalls | attrIfaceRecv
 			} else
 			// If l's address flows to a persistent location, then l needs
 			// to persist too.
@@ -118,7 +136,7 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 		}
 
 		if derefs == 0 {
-			newAttrs |= root.attrs & (attrMutates | attrCalls)
+			newAttrs |= root.attrs & (attrMutates | attrCalls | attrIfaceRecv)
 		}
 
 		// l's value flows to root. If l is a function
@@ -146,6 +164,9 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 			}
 			if root.hasAttr(attrCalls) {
 				l.paramEsc.AddCallee(derefs)
+			}
+			if root.hasAttr(attrIfaceRecv) {
+				l.paramEsc.AddIfaceRecv(derefs)
 			}
 		}
 
@@ -263,7 +284,7 @@ func (b *batch) outlives(l, other *location) bool {
 	}
 
 	// Pseudo-locations that don't really exist.
-	if l == &b.mutatorLoc || l == &b.calleeLoc {
+	if l == &b.mutatorLoc || l == &b.calleeLoc || l == &b.ifaceRecvLoc {
 		return false
 	}
 
