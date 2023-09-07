@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "fcb38163170c4885f48a0b1e97571afd45a491e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06743af7_d65b53a1",
+        "filename": "src/net/http/response_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T20:38:05Z",
+      "side": 1,
+      "message": "wantErr is not type \"bool\", it\u0027s type \"any\".",
+      "revId": "fcb38163170c4885f48a0b1e97571afd45a491e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
