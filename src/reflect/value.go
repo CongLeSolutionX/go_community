@@ -118,8 +118,8 @@ func (v Value) pointer() unsafe.Pointer {
 // packEface converts v to the empty interface.
 func packEface(v Value) any {
 	t := v.typ()
-	var i any
-	e := (*emptyInterface)(unsafe.Pointer(&i))
+	// Declare e as a struct (and not pointer to struct) to help escape analysis.
+	e := emptyInterface{}
 	// First, fill in the data portion of the interface.
 	switch {
 	case t.IfaceIndir():
@@ -144,12 +144,9 @@ func packEface(v Value) any {
 		// Value is direct, and so is the interface.
 		e.word = v.ptr
 	}
-	// Now, fill in the type portion. We're very careful here not
-	// to have any operation between the e.word and e.typ assignments
-	// that would let the garbage collector observe the partially-built
-	// interface value.
+	// Now, fill in the type portion.
 	e.typ = t
-	return i
+	return *(*any)(unsafe.Pointer(&e))
 }
 
 // unpackEface converts the empty interface i to a Value.
