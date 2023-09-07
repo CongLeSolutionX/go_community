@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce49593_516452d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T21:17:07Z",
+      "side": 1,
+      "message": "Thanks Ian Lance Taylor: when I updated GOPATH. the problem was resolved\n\n```\n go tool dist test -run\u003dapi\n\n##### Test execution environment.\n# GOARCH: arm64\n# CPU: \n# GOOS: darwin\n# OS Version: Darwin 22.3.0 Darwin Kernel Version 22.3.0: Mon Jan 30 20:39:35 PST 2023; root:xnu-8792.81.3~2/RELEASE_ARM64_T8103 arm64\n\n##### Testing packages.\nok      cmd/api 0.696s\n\n##### API check\nok      cmd/api 10.278s\n\nALL TESTS PASSED (some were excluded)\n\n```",
+      "parentUuid": "9061a0db_860c3bc7",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea547aa8_cd7d2d1b",
