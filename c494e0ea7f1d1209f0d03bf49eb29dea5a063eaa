@@ -89,6 +89,24 @@
       "parentUuid": "a5879b13_590ccd46",
       "revId": "c494e0ea7f1d1209f0d03bf49eb29dea5a063eaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "624543ab_b47fa6dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-07T15:39:23Z",
+      "side": 1,
+      "message": "Interesting. Do the signals always arrive at the prologue in the same function? (You mentioned a single PC, so it probably is.) Is this function called a lot, e.g. in a hot loop? Is the rest of the function body preemptible or not? Also, could you verify that if this CL actually resolves the problem? Thanks.",
+      "parentUuid": "844adc30_d78cfd14",
+      "revId": "c494e0ea7f1d1209f0d03bf49eb29dea5a063eaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
