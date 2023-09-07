@@ -2737,6 +2737,15 @@ func TestHandlerPanic(t *testing.T) {
 	run(t, func(t *testing.T, mode testMode) {
 		testHandlerPanic(t, false, mode, nil, "intentional death for testing")
 	}, testNotParallel)
+	run(t, func(t *testing.T, mode testMode) {
+		testHandlerPanic(t, false, mode, nil, ErrAbortHandler)
+	}, testNotParallel)
+	run(t, func(t *testing.T, mode testMode) {
+		testHandlerPanic(t, false, mode, nil, fmt.Errorf("intentional death for testing"))
+	}, testNotParallel)
+	run(t, func(t *testing.T, mode testMode) {
+		testHandlerPanic(t, false, mode, nil, fmt.Errorf("intentional death for testing: %w", ErrAbortHandler))
+	}, testNotParallel)
 }
 
 func TestHandlerPanicWithHijack(t *testing.T) {
@@ -2774,6 +2783,13 @@ func testHandlerPanic(t *testing.T, withHijack bool, mode testMode, wrapper func
 	cst := newClientServerTest(t, mode, handler, func(ts *httptest.Server) {
 		ts.Config.ErrorLog = log.New(pw, "", 0)
 	})
+
+	// If the panic value contains ErrAbortHandler, nothing is written to
+	// the log output pipe. For this case, we force a write to the pipe so
+	// we don't block forever trying to read from it.
+	if errType, ok := panicValue.(error); ok && errors.Is(errType, ErrAbortHandler) {
+		go func() { pw.Write([]byte(ErrAbortHandler.Error())) }()
+	}
 
 	// Do a blocking read on the log output pipe.
 	done := make(chan bool, 1)
