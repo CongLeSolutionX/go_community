@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d45ec937_59ef59ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T18:46:08Z",
+      "side": 1,
+      "message": "sync: add Map.Clear",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d274dc66_cb0c436f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T18:46:08Z",
+      "side": 1,
+      "message": "You\u0027ll need to add an entry in $GOROOT/api/next for the new method.  Follow the existing format in that file.  Test it by running \"go tool dist test -run\u003dapi\".",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea547aa8_cd7d2d1b",
+        "filename": "src/sync/map.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T18:46:08Z",
+      "side": 1,
+      "message": "This method needs a doc comment.",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2829f890_bf4649bc",
+        "filename": "src/sync/map.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T18:46:08Z",
+      "side": 1,
+      "message": "Remove this blank line and the one just before the right curly brace.",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71a15a4b_d5ef4522",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-07T18:46:08Z",
+      "side": 1,
+      "message": "Remove this blank line.",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
