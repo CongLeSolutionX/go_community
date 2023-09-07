@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4142bc0c_232fdbd1",
+        "filename": "src/net/fd_fake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-07T15:11:42Z",
+      "side": 1,
+      "message": "Agreed that it looks suspicious.\n\nI don\u0027t think it has any effect on the fake connections, though — they don\u0027t end up using the underlying `poll.FD` anyway. It may affect `FileConn` connections? (But those are streams anyway, I think.)",
+      "parentUuid": "c08c95b8_54216704",
+      "revId": "e205b172e1812e1103d06f32fdbe349fd1076655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80a8a1ad_5d86c7f9",
@@ -121,6 +139,24 @@
       "writtenOn": "2023-09-06T22:46:17Z",
       "side": 1,
       "message": "Why bother having this file?",
+      "revId": "e205b172e1812e1103d06f32fdbe349fd1076655",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d57e8ef1_671fb8ec",
+        "filename": "src/net/ipsock_fake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-07T15:11:42Z",
+      "side": 1,
+      "message": "At one point it had some definitions in it. Apparently I deleted them all. 😅",
+      "parentUuid": "80a8a1ad_5d86c7f9",
       "revId": "e205b172e1812e1103d06f32fdbe349fd1076655",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
