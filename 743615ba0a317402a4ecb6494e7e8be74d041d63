@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd353dfc_9a9117b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-09-07T13:22:08Z",
+      "side": 1,
+      "message": "See https://go.dev/doc/contribute#ref_issues this CL has completed the proposal API and testing, please use Fixes.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "743615ba0a317402a4ecb6494e7e8be74d041d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "829dbcdf_dbbb1598",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-09-07T13:22:08Z",
+      "side": 1,
+      "message": "There is a merge conflict, please run git codereview sync.",
+      "revId": "743615ba0a317402a4ecb6494e7e8be74d041d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d313a16b_aaef91f1",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-09-07T13:22:08Z",
+      "side": 1,
+      "message": "Why call Delete when Clear has already been called?",
+      "range": {
+        "startLine": 333,
+        "startChar": 1,
+        "endLine": 333,
+        "endChar": 18
+      },
+      "revId": "743615ba0a317402a4ecb6494e7e8be74d041d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5271c3cb_d609fca4",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-09-07T13:22:08Z",
+      "side": 1,
+      "message": "Why re store the cleared data?",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 346,
+        "endChar": 0
+      },
+      "revId": "743615ba0a317402a4ecb6494e7e8be74d041d63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
