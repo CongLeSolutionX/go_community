@@ -16,6 +16,41 @@
       "message": "hey Cherry, please take another look. if it looks OK, please hit submit (or auto-submit, if the trybots haven\u0027t run yet). thanks!",
       "revId": "56daa72885c602e6bb00196eccc8d1d861f7802e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ffc1f9c_275dc737",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-07T15:25:03Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "56daa72885c602e6bb00196eccc8d1d861f7802e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eee45090_59d86459",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-07T15:25:03Z",
+      "side": 1,
+      "message": "LGTM. Thanks.",
+      "parentUuid": "b9db3009_3902a4e1",
+      "revId": "56daa72885c602e6bb00196eccc8d1d861f7802e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
