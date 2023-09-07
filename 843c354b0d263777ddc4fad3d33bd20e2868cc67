@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "762ab85e_ffc14fe2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-07T20:10:17Z",
+      "side": 1,
+      "message": "I am getting: \n\n```\ngo tool dist test -run\u003dapi\nwarning: GOPATH set to GOROOT (/Users/hiro/goferHiro/go) has no effect\nwarning: GOPATH set to GOROOT (/Users/hiro/goferHiro/go) has no effect\nwarning: GOPATH set to GOROOT (/Users/hiro/goferHiro/go) has no effect\nwarning: GOPATH set to GOROOT (/Users/hiro/goferHiro/go) has no effect\n\n##### Test execution environment.\nwarning: GOPATH set to GOROOT (/Users/hiro/goferHiro/go) has no effect\n# GOARCH: arm64\n# CPU: \n# GOOS: darwin\n# OS Version: Darwin 22.3.0 Darwin Kernel Version 22.3.0: Mon Jan 30 20:39:35 PST 2023; root:xnu-8792.81.3~2/RELEASE_ARM64_T8103 arm64\n\n##### Testing packages.\nwarning: GOPATH set to GOROOT (/Users/hiro/goferHiro/go) has no effect\n2023/09/08 01:39:22 go list: invalid output: invalid character \u0027w\u0027 looking for beginning of value\nFAIL    cmd/api 0.683s\nFAIL\ngo tool dist: Failed: exit status 1\n\n```",
+      "parentUuid": "d274dc66_cb0c436f",
+      "revId": "843c354b0d263777ddc4fad3d33bd20e2868cc67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea547aa8_cd7d2d1b",
         "filename": "src/sync/map.go",
         "patchSetId": 8
