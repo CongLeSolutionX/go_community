@@ -12,22 +12,14 @@ import (
 )
 
 func TestLookPathUnixEmptyPath(t *testing.T) {
-	// Not parallel: uses os.Chdir.
+	// Not parallel: uses t.Chdir.
 
 	tmp, err := os.MkdirTemp("", "TestLookPathUnixEmptyPath")
 	if err != nil {
 		t.Fatal("TempDir failed: ", err)
 	}
 	defer os.RemoveAll(tmp)
-	wd, err := os.Getwd()
-	if err != nil {
-		t.Fatal("Getwd failed: ", err)
-	}
-	err = os.Chdir(tmp)
-	if err != nil {
-		t.Fatal("Chdir failed: ", err)
-	}
-	defer os.Chdir(wd)
+	t.Chdir(tmp)
 
 	f, err := os.OpenFile("exec_me", os.O_CREATE|os.O_EXCL, 0700)
 	if err != nil {

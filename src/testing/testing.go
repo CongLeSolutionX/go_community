@@ -890,6 +890,7 @@ type TB interface {
 	Logf(format string, args ...any)
 	Name() string
 	Setenv(key, value string)
+	Chdir(dir string)
 	Skip(args ...any)
 	SkipNow()
 	Skipf(format string, args ...any)
@@ -916,8 +917,8 @@ var _ TB = (*B)(nil)
 // may be called simultaneously from multiple goroutines.
 type T struct {
 	common
-	isEnvSet bool
-	context  *testContext // For running tests and subtests.
+	denyParallel bool
+	context      *testContext // For running tests and subtests.
 }
 
 func (c *common) private() {}
@@ -1300,6 +1301,30 @@ func (c *common) Setenv(key, value string) {
 	}
 }
 
+// Chdir calls os.Chdir(dir) and uses Cleanup to
+// restore the current working directory to its original value
+// after the test.
+//
+// Because Chdir affects the whole process, it cannot be used
+// in parallel tests or tests with parallel ancestors.
+func (c *common) Chdir(dir string) {
+	c.checkFuzzFn("Chdir")
+	oldwd, err := os.Getwd()
+	if err != nil {
+		c.Fatal(err)
+	}
+	if err := os.Chdir(dir); err != nil {
+		c.Fatal(err)
+	}
+	c.Cleanup(func() {
+		if err := os.Chdir(oldwd); err != nil {
+			// It's not safe to continue with tests if we can't get back to
+			// the original working directory.
+			panic("testing.Chdir: " + err.Error())
+		}
+	})
+}
+
 // panicHanding is an argument to runCleanup.
 type panicHandling int
 
@@ -1366,6 +1391,8 @@ func pcToName(pc uintptr) string {
 	return frame.Function
 }
 
+const parallelConflict = `testing: t.Parallel and t.Setenv/t.Chmod can not be used in the same test`
+
 // Parallel signals that this test is to be run in parallel with (and only with)
 // other parallel tests. When a test is run multiple times due to use of
 // -test.count or -test.cpu, multiple instances of a single test never run in
@@ -1374,8 +1401,8 @@ func (t *T) Parallel() {
 	if t.isParallel {
 		panic("testing: t.Parallel called multiple times")
 	}
-	if t.isEnvSet {
-		panic("testing: t.Parallel called after t.Setenv; cannot set environment variables in parallel tests")
+	if t.denyParallel {
+		panic(parallelConflict)
 	}
 	t.isParallel = true
 	if t.parent.barrier == nil {
@@ -1412,6 +1439,21 @@ func (t *T) Parallel() {
 	t.raceErrors += -race.Errors()
 }
 
+func (t *T) checkParallel() {
+	// Non-parallel subtests that have parallel ancestors may still
+	// run in parallel with other tests: they are only non-parallel
+	// with respect to the other subtests of the same parent.
+	// Since calls like SetEnv or Chmod affects the whole process, we need
+	// to disallow it if the current test or any parent is parallel.
+	for c := &t.common; c != nil; c = c.parent {
+		if c.isParallel {
+			panic(parallelConflict)
+		}
+	}
+
+	t.denyParallel = true
+}
+
 // Setenv calls os.Setenv(key, value) and uses Cleanup to
 // restore the environment variable to its original value
 // after the test.
@@ -1419,25 +1461,19 @@ func (t *T) Parallel() {
 // Because Setenv affects the whole process, it cannot be used
 // in parallel tests or tests with parallel ancestors.
 func (t *T) Setenv(key, value string) {
-	// Non-parallel subtests that have parallel ancestors may still
-	// run in parallel with other tests: they are only non-parallel
-	// with respect to the other subtests of the same parent.
-	// Since SetEnv affects the whole process, we need to disallow it
-	// if the current test or any parent is parallel.
-	isParallel := false
-	for c := &t.common; c != nil; c = c.parent {
-		if c.isParallel {
-			isParallel = true
-			break
-		}
-	}
-	if isParallel {
-		panic("testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests")
-	}
-
-	t.isEnvSet = true
-
+	t.checkParallel()
 	t.common.Setenv(key, value)
+}
+
+// Chdir calls os.Chdir(dir) and uses Cleanup to
+// restore the current working directory to its original value
+// after the test.
+//
+// Because Chdir affects the whole process, it cannot be used
+// in parallel tests or tests with parallel ancestors.
+func (t *T) Chdir(dir string) {
+	t.checkParallel()
+	t.common.Chdir(dir)
 }
 
 // InternalTest is an internal type but exported because it is cross-package;
