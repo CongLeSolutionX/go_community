@@ -16,6 +16,24 @@
       "message": "The panic value produced by singleflight doesn\u0027t have an Unwrap method, so this doesn\u0027t actually fix the problem described in #62510.",
       "revId": "5ba40e3bcc7f37c3ad96ead9e34b669581d1add2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "471cbee5_04b0cc91",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1865,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-09-08T18:31:43Z",
+      "side": 1,
+      "message": "...ah, wait, I missed that https://go.dev/cl/526171 is adding that method to singleflight.",
+      "parentUuid": "a0c2f848_5cde991b",
+      "revId": "5ba40e3bcc7f37c3ad96ead9e34b669581d1add2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
