@@ -136,6 +136,30 @@
       },
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60743e2a_1d4f4a3d",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-08T09:48:27Z",
+      "side": 1,
+      "message": "I think adding a comment on L352 should clear the confusion. Just in case, will wait for a second opinion then.",
+      "parentUuid": "40924da5_827c29b2",
+      "range": {
+        "startLine": 352,
+        "startChar": 0,
+        "endLine": 356,
+        "endChar": 2
+      },
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
