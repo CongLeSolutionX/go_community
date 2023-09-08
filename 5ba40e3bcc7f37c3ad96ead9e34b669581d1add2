@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a0a7f8e_9ec321ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-09-08T21:41:27Z",
+      "side": 1,
+      "message": "```\nFor #62510\n```\n\nThis doesn\u0027t address the concern in that issue by itself, so we wouldn\u0027t want the issue to be auto-closed if this CL is submitted.",
+      "revId": "5ba40e3bcc7f37c3ad96ead9e34b669581d1add2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c1aed0e_e6ee9d13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-09-08T21:41:27Z",
+      "side": 1,
+      "message": "Thanks.\n\nI\u0027m not sure if we should make the corresponding singleflight change or not (I left a comment on #62510 with more thoughts about that), but this change seems reasonable in isolation; I can\u0027t think of a good reason not to check for errors wrapping `ErrAbortHandler`.\n\nI don\u0027t think this needs a proposal. It\u0027s technically a public API change, but it doesn\u0027t add any new symbols.\n\nThis does need a test.",
+      "revId": "5ba40e3bcc7f37c3ad96ead9e34b669581d1add2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0c2f848_5cde991b",
         "filename": "src/net/http/server.go",
         "patchSetId": 2
