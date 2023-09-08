@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "209241a5_a472cc47",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-09-08T19:19:48Z",
+      "side": 1,
+      "message": "Can this use the crash stack?",
+      "revId": "2a6ca002e9a8b8d2beaf7bf1f7d673b1a83003aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76ab02f_566f5422",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-09-08T19:19:48Z",
+      "side": 1,
+      "message": "My hack to print with bad stack bounds at https://go.dev/cl/525455/6/src/runtime/cgocall.go#230 should switch to this.\n\n(Either in this CL or mine, depending on which goes in first)",
+      "revId": "2a6ca002e9a8b8d2beaf7bf1f7d673b1a83003aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8037bb77_703c21f4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-09-08T19:19:48Z",
+      "side": 1,
+      "message": "I think `atomic.Pointer[g]` should work here.",
+      "range": {
+        "startLine": 556,
+        "startChar": 14,
+        "endLine": 556,
+        "endChar": 16
+      },
+      "revId": "2a6ca002e9a8b8d2beaf7bf1f7d673b1a83003aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
