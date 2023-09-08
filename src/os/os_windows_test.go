@@ -30,28 +30,8 @@ import (
 // For TestRawConnReadWrite.
 type syscallDescriptor = syscall.Handle
 
-// chdir changes the current working directory to the named directory,
-// and then restore the original working directory at the end of the test.
-func chdir(t *testing.T, dir string) {
-	olddir, err := os.Getwd()
-	if err != nil {
-		t.Fatalf("chdir: %v", err)
-	}
-	if err := os.Chdir(dir); err != nil {
-		t.Fatalf("chdir %s: %v", dir, err)
-	}
-
-	t.Cleanup(func() {
-		if err := os.Chdir(olddir); err != nil {
-			t.Errorf("chdir to original working directory %s: %v", olddir, err)
-			os.Exit(1)
-		}
-	})
-}
-
 func TestSameWindowsFile(t *testing.T) {
-	temp := t.TempDir()
-	chdir(t, temp)
+	t.Chdir(t.TestDir())
 
 	f, err := os.Create("a")
 	if err != nil {
@@ -97,7 +77,7 @@ type dirLinkTest struct {
 
 func testDirLinks(t *testing.T, tests []dirLinkTest) {
 	tmpdir := t.TempDir()
-	chdir(t, tmpdir)
+	t.Chdir(tmpdir)
 
 	dir := filepath.Join(tmpdir, "dir")
 	err := os.Mkdir(dir, 0777)
@@ -455,7 +435,7 @@ func TestNetworkSymbolicLink(t *testing.T) {
 	const _NERR_ServerNotStarted = syscall.Errno(2114)
 
 	dir := t.TempDir()
-	chdir(t, dir)
+	t.Chdir(dir)
 
 	pid := os.Getpid()
 	shareName := fmt.Sprintf("GoSymbolicLinkTestShare%d", pid)
@@ -558,8 +538,7 @@ func TestStatLxSymLink(t *testing.T) {
 		t.Skip("skipping: WSL not detected")
 	}
 
-	temp := t.TempDir()
-	chdir(t, temp)
+	t.Chdir(t.TestDir())
 
 	const target = "target"
 	const link = "link"
@@ -626,7 +605,7 @@ func TestBadNetPathError(t *testing.T) {
 }
 
 func TestStatDir(t *testing.T) {
-	defer chtmpdir(t)()
+	t.Chdir(t.TestDir())
 
 	f, err := os.Open(".")
 	if err != nil {
@@ -656,7 +635,7 @@ func TestStatDir(t *testing.T) {
 
 func TestOpenVolumeName(t *testing.T) {
 	tmpdir := t.TempDir()
-	chdir(t, tmpdir)
+	t.Chdir(tmpdir)
 
 	want := []string{"file1", "file2", "file3", "gopher.txt"}
 	sort.Strings(want)
@@ -1286,7 +1265,7 @@ func TestWindowsReadlink(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	chdir(t, tmpdir)
+	t.Chdir(tmpdir)
 
 	vol := filepath.VolumeName(tmpdir)
 	output, err := testenv.Command(t, "cmd", "/c", "mountvol", vol, "/L").CombinedOutput()

@@ -86,16 +86,7 @@ func mark(entry DirEntry, err error, errors *[]error, clear bool) error {
 }
 
 func TestWalkDir(t *testing.T) {
-	tmpDir := t.TempDir()
-
-	origDir, err := os.Getwd()
-	if err != nil {
-		t.Fatal("finding working dir:", err)
-	}
-	if err = os.Chdir(tmpDir); err != nil {
-		t.Fatal("entering temp dir:", err)
-	}
-	defer os.Chdir(origDir)
+	t.Chdir(t.TempDir())
 
 	fsys := makeTree()
 	errors := make([]error, 0, 10)
