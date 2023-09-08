@@ -94,6 +94,30 @@
       },
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40924da5_827c29b2",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-09-08T01:40:23Z",
+      "side": 1,
+      "message": "English is not my native language, and TestMapClear looks more like testing whether Clear can clear data.\n\nI think there are three solutions to the current situation:\n\n1. Change the name of the test to indicate that it will also test whether the same data can be stored after clearing.\n\n2. Add a comment to indicate that it will also test whether the same data can be stored after clearing.\n\n3. If you think it\u0027s a misunderstanding caused by my limited English proficiency, you can press the Done button on the dialog box to resolve this conversation.",
+      "parentUuid": "bf3f7cb8_ffeccc44",
+      "range": {
+        "startLine": 352,
+        "startChar": 0,
+        "endLine": 356,
+        "endChar": 2
+      },
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
