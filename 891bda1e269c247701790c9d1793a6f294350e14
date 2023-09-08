@@ -59,6 +59,30 @@
       },
       "revId": "891bda1e269c247701790c9d1793a6f294350e14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59a4d760_628b2a84",
+        "filename": "src/log/slog/logger_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-09-08T02:42:58Z",
+      "side": 1,
+      "message": "Well, I assume that two new tests are sufficient logically, whereas they are both testing with all empty attributes, I just thought it could be nice to have a few tests running with partial empty attributes which might be the more practical scenarios in the real world.\n\nI guess we don\u0027t need a test function for these cases, but we can move these tests of partial attrs to `TestJSONAndTextHandlers`?",
+      "parentUuid": "bd5f9fe7_15f8f813",
+      "range": {
+        "startLine": 648,
+        "startChar": 5,
+        "endLine": 648,
+        "endChar": 40
+      },
+      "revId": "891bda1e269c247701790c9d1793a6f294350e14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
