@@ -33,6 +33,23 @@
       "message": "Thanks.  Maybe it\u0027s best to Holds now, until another cl is merged into the tools project. \n\nI think it should be unable to compile now, running Run-TryBot will fail",
       "revId": "194076dcc3349390f09078ef2b8ed14b702b7bb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa2326c5_47ca7b71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2023-09-08T17:48:13Z",
+      "side": 1,
+      "message": "Is the hold still needed?",
+      "revId": "194076dcc3349390f09078ef2b8ed14b702b7bb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
