@@ -193,13 +193,7 @@ func TestGetwd_DoesNotPanicWhenPathIsLong(t *testing.T) {
 	if err != nil {
 		t.Skipf("MkdirAll failed: %v", err)
 	}
-	err = os.Chdir(dirname)
-	if err != nil {
-		t.Skipf("Chdir failed: %v", err)
-	}
-	// Change out of the temporary directory so that we don't inhibit its
-	// removal during test cleanup.
-	defer os.Chdir(`\`)
+	t.Chdir(dirname)
 
 	syscall.Getwd()
 }
