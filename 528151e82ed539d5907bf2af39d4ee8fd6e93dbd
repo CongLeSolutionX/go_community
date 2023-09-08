@@ -53,6 +53,24 @@
       "message": "Hi, could you please take a look at this series of patches? I know these patches are big and not very easy to review, but I would appreciate if you could give me some feedback, at least this way we\u0027re making progress.\n\nWe are continuing working on the new assembler, and next week we will push the patches to support all SIMD instructions. Next we will add support for all SVE instructions, then disassembler.\n\nIf you feel it\u0027s necessary, we can book a meeting between Arm Go team and Google, that might help understand the changes.\n\nIf possible, I would very much like the new assembler to go into go1.22, thanks.",
       "revId": "528151e82ed539d5907bf2af39d4ee8fd6e93dbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acdfac90_205830e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-08T15:18:30Z",
+      "side": 1,
+      "message": "Hi Eric, thanks for updating the CLs! I\u0027m currently a bit occupied. I\u0027ll review this as soon as I can, hopefully next week. And I also hope to get this in for 1.22. Thanks.",
+      "parentUuid": "95a73b8f_daeca4b4",
+      "revId": "528151e82ed539d5907bf2af39d4ee8fd6e93dbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
