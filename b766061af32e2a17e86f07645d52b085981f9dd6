@@ -53,6 +53,24 @@
       "message": "I think we should look for \"mount is not supported\" (which should probably be a const), and skip if we see it.  If we don\u0027t see it, we should fail.",
       "revId": "b766061af32e2a17e86f07645d52b085981f9dd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfce3e56_c8bc2f27",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-09-08T01:35:03Z",
+      "side": 1,
+      "message": "I can certainly do that if that’s preferable.\n\nI initially considered using a special exit code to indicate “skip”, but some searching around didn’t find precedent, so I thought “0 exit code but non-empty output” can work well to indicate a skip is intended (and the output is the skip reason).\n\nDo you think looking for the expected substring in the output is better than a dedicated exit code?",
+      "parentUuid": "6f0d45f4_8d493c33",
+      "revId": "b766061af32e2a17e86f07645d52b085981f9dd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
