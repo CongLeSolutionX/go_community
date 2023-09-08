@@ -119,6 +119,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f41526f5_36f1592e",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-08T00:01:30Z",
+      "side": 1,
+      "message": "Aha, good point.\n(will leave this comment open for `assert`)",
+      "parentUuid": "237e5c77_44f9b8d9",
+      "range": {
+        "startLine": 1011,
+        "startChar": 3,
+        "endLine": 1011,
+        "endChar": 39
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01348177_f04b5c46",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 12
@@ -153,6 +177,30 @@
       "writtenOn": "2023-09-07T22:29:50Z",
       "side": 1,
       "message": "Ditto here: why a panic?",
+      "range": {
+        "startLine": 1020,
+        "startChar": 4,
+        "endLine": 1020,
+        "endChar": 49
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "815ff40b_858dcf22",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-09-08T00:01:30Z",
+      "side": 1,
+      "message": "Aha, per Matthew\u0027s point, nevermind.\n\nThough I\u0027d write this as `assert(rb.Recv() \u003d\u003d nil)` after line 1017.",
+      "parentUuid": "1c9c47cd_5b6c0814",
       "range": {
         "startLine": 1020,
         "startChar": 4,
