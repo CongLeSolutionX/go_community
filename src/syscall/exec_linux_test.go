@@ -218,18 +218,20 @@ func TestGroupCleanupUserNamespace(t *testing.T) {
 // Test for https://go.dev/issue/19661: unshare fails because systemd
 // has forced / to be shared
 func TestUnshareMountNameSpace(t *testing.T) {
-	testenv.MustHaveExec(t)
-
 	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
 		dir := flag.Args()[0]
 		err := syscall.Mount("none", dir, "proc", 0, "")
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "unshare: mount %v failed: %#v", dir, err)
+		if testenv.SyscallIsNotSupported(err) {
+			// Print something to be used as the skip reason.
+			fmt.Printf("mount is not supported: %v", err)
+		} else if err != nil {
+			fmt.Fprintf(os.Stderr, "unshare: mount %s: %v\n", dir, err)
 			os.Exit(2)
 		}
 		os.Exit(0)
 	}
 
+	testenv.MustHaveExec(t)
 	exe, err := os.Executable()
 	if err != nil {
 		t.Fatal(err)
@@ -247,20 +249,14 @@ func TestUnshareMountNameSpace(t *testing.T) {
 	cmd.Env = append(cmd.Environ(), "GO_WANT_HELPER_PROCESS=1")
 	cmd.SysProcAttr = &syscall.SysProcAttr{Unshareflags: syscall.CLONE_NEWNS}
 
-	o, err := cmd.CombinedOutput()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
 		if testenv.SyscallIsNotSupported(err) {
 			t.Skipf("skipping: could not start process with CLONE_NEWNS: %v", err)
 		}
-		if testing.Short() && testenv.Builder() != "" && os.Getenv("USER") == "swarming" {
-			// The Go build system's swarming user is known not to support
-			// starting a process with CLONE_NEWNS.
-			// Unfortunately, it doesn't get recognized as such due the current
-			// implementation of a no-network check using 'unshare -n -r'.
-			// Since this test does need start this process, we need to skip it.
-			t.Skipf("skipping: could not start process with CLONE_NEWNS: %v", err)
-		}
-		t.Fatalf("unshare failed: %v\n%s", err, o)
+		t.Fatalf("unshare failed: %v\n%s", err, out)
+	} else if len(out) != 0 {
+		t.Skipf("skipping; helper process output: %s", out)
 	}
 
 	// How do we tell if the namespace was really unshared? It turns out
@@ -276,8 +272,11 @@ func TestUnshareMountNameSpaceChroot(t *testing.T) {
 	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
 		dir := flag.Args()[0]
 		err := syscall.Mount("none", dir, "proc", 0, "")
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "unshare: mount %v failed: %#v", dir, err)
+		if testenv.SyscallIsNotSupported(err) {
+			// Print something to be used as the skip reason.
+			fmt.Printf("mount is not supported: %v", err)
+		} else if err != nil {
+			fmt.Fprintf(os.Stderr, "unshare: mount %s: %v\n", dir, err)
 			os.Exit(2)
 		}
 		os.Exit(0)
@@ -310,20 +309,14 @@ func TestUnshareMountNameSpaceChroot(t *testing.T) {
 	cmd.Env = append(cmd.Environ(), "GO_WANT_HELPER_PROCESS=1")
 	cmd.SysProcAttr = &syscall.SysProcAttr{Chroot: d, Unshareflags: syscall.CLONE_NEWNS}
 
-	o, err := cmd.CombinedOutput()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
 		if testenv.SyscallIsNotSupported(err) {
 			t.Skipf("skipping: could not start process with CLONE_NEWNS and Chroot %q: %v", d, err)
 		}
-		if testing.Short() && testenv.Builder() != "" && os.Getenv("USER") == "swarming" {
-			// The Go build system's swarming user is known not to support
-			// starting a process with CLONE_NEWNS and Chroot.
-			// Unfortunately, it doesn't get recognized as such due the current
-			// implementation of a no-network check using 'unshare -n -r'.
-			// Since this test does need start this process, we need to skip it.
-			t.Skipf("skipping: could not start process with CLONE_NEWNS and Chroot %q: %v", d, err)
-		}
-		t.Fatalf("unshare failed: %v\n%s", err, o)
+		t.Fatalf("unshare failed: %v\n%s", err, out)
+	} else if len(out) != 0 {
+		t.Skipf("skipping; helper process output: %s", out)
 	}
 
 	// How do we tell if the namespace was really unshared? It turns out
