@@ -76,6 +76,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c6ee58f_9c2c2827",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-09-08T15:59:15Z",
+      "side": 1,
+      "message": "```\n--- FAIL: TestDependencies (1.28s)\n    deps_test.go:701: unexpected dependency: net/http imports [regexp]\n```\n\nThe regexp is just matching a set of characters; probably simpler to do a regex-free match than add a dependency here.",
+      "parentUuid": "4059b2d6_b84b8f41",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6862c191_d494d05c",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-09-08T15:59:15Z",
+      "side": 1,
+      "message": "I wonder if this would be simpler as an enum with three or four states: literal segment, any single segment, all remaining segments, and possibly trailing slash.",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "072d33a2_6fb15467",
         "filename": "src/net/http/pattern.go",
         "patchSetId": 1
