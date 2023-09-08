@@ -179,7 +179,7 @@ func TestSetenv(t *testing.T) {
 
 func TestSetenvWithParallelAfterSetenv(t *testing.T) {
 	defer func() {
-		want := "testing: t.Parallel called after t.Setenv; cannot set environment variables in parallel tests"
+		want := testing.ParallelConflict
 		if got := recover(); got != want {
 			t.Fatalf("expected panic; got %#v want %q", got, want)
 		}
@@ -192,7 +192,7 @@ func TestSetenvWithParallelAfterSetenv(t *testing.T) {
 
 func TestSetenvWithParallelBeforeSetenv(t *testing.T) {
 	defer func() {
-		want := "testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests"
+		want := testing.ParallelConflict
 		if got := recover(); got != want {
 			t.Fatalf("expected panic; got %#v want %q", got, want)
 		}
@@ -208,7 +208,7 @@ func TestSetenvWithParallelParentBeforeSetenv(t *testing.T) {
 
 	t.Run("child", func(t *testing.T) {
 		defer func() {
-			want := "testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests"
+			want := testing.ParallelConflict
 			if got := recover(); got != want {
 				t.Fatalf("expected panic; got %#v want %q", got, want)
 			}
@@ -224,7 +224,7 @@ func TestSetenvWithParallelGrandParentBeforeSetenv(t *testing.T) {
 	t.Run("child", func(t *testing.T) {
 		t.Run("grand-child", func(t *testing.T) {
 			defer func() {
-				want := "testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests"
+				want := testing.ParallelConflict
 				if got := recover(); got != want {
 					t.Fatalf("expected panic; got %#v want %q", got, want)
 				}
