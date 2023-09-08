@@ -16,6 +16,24 @@
       "message": "Looks like this is causing some problems with the builders, e.g. \n\nhttps://build.golang.org/log/4d9f6c4a485594caf7c588869c97903a76c40190\n\nI am going to send a revert; we can roll it forward later once the issues are ironed out. Thanks.",
       "revId": "2fe2f0854293e601bac60bb5d3aa6e276fadf084",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04b7c652_ffa76b88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-08T23:29:04Z",
+      "side": 1,
+      "message": "Perhaps we also need\n\n#pragma GCC diagnostic ignored \"-Wunknown-warning-option\"",
+      "parentUuid": "17095fa8_81933f09",
+      "revId": "2fe2f0854293e601bac60bb5d3aa6e276fadf084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
