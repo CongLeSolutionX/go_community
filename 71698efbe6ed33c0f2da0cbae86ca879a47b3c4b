@@ -94,6 +94,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b92e5e39_359acde2",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-09-08T18:03:07Z",
+      "side": 1,
+      "message": "A simple example of both of these special cases could be very helpful here",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce84593d_bae6833e",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-09-08T18:03:07Z",
+      "side": 1,
+      "message": "Here too, an example would go a long way in understanding the different options for `s`",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6862c191_d494d05c",
         "filename": "src/net/http/pattern.go",
         "patchSetId": 1
@@ -122,6 +156,40 @@
       "writtenOn": "2023-09-08T13:28:43Z",
       "side": 1,
       "message": "Missing closing parenthesis:\n```suggestion\n\t\treturn nil, errors.New(\"host contains \u0027{\u0027 (missing initial \u0027/\u0027?)\")\n```",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "992d7b93_5f153c21",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-09-08T18:03:07Z",
+      "side": 1,
+      "message": "Nit: could this be a bit simpler with strings.CutSuffix?\n\n```\nname, multi :\u003d strings.CutSuffix(name, \"...\")\nif multi \u0026\u0026 len(rest) !\u003d 0 {\n ... error\n}\n```",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b852e4cb_9fbee17f",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-09-08T18:03:07Z",
+      "side": 1,
+      "message": "Not necessary for the first cut, but it would be nice to get more targeted errors here, at least some sort of position (rune offset from the beginning of the pattern)",
       "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
