@@ -104,6 +104,24 @@
       "message": "TRY\u003dwazero",
       "revId": "ff5e9878fda69b6470f24db847201f662625874f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68362d53_13e938a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-08T18:39:08Z",
+      "side": 1,
+      "message": "Sure! Although I\u0027ve also been testing against wazero locally (since it seemed easier to install than wasmtime).",
+      "parentUuid": "a81347d7_48093cbb",
+      "revId": "ff5e9878fda69b6470f24db847201f662625874f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
