@@ -530,7 +530,8 @@ var depsRules = `
 	net/http/internal/testcert,
 	net/http/httptrace,
 	mime/multipart,
-	log
+	log,
+	regexp
 	< net/http;
 
 	# HTTP-aware packages
