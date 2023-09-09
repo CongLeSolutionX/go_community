@@ -119,6 +119,9 @@ var (
 func bigData(t testing.TB) []byte {
 	bigDataOnce.Do(func() {
 		bigDataBytes, bigDataErr = os.ReadFile("../../testdata/Isaac.Newton-Opticks.txt")
+		if bigDataErr == nil {
+			bigDataBytes = bytes.Repeat(bigDataBytes, 3)
+		}
 	})
 	if bigDataErr != nil {
 		t.Fatal(bigDataErr)
