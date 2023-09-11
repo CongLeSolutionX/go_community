@@ -141,6 +141,24 @@
       "parentUuid": "8f136fa1_9a410725",
       "revId": "8ba8b48d125edaed041c899f4163a9c69a3c341e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a681faf_89882a2a",
+        "filename": "src/cmd/cgo/internal/testcshared/testdata/libgo5/libgo5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-11T14:35:33Z",
+      "side": 1,
+      "message": "Ah, yeah. Looks like I somehow ended up with a `default` instead of `case \u003c-timer.C`. 🤦‍♂️",
+      "parentUuid": "6076b053_6969b921",
+      "revId": "8ba8b48d125edaed041c899f4163a9c69a3c341e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
