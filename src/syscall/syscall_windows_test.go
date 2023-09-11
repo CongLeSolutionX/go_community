@@ -180,28 +180,39 @@ int main(int argc, char *argv[])
 	}
 }
 
-func TestGetwd_DoesNotPanicWhenPathIsLong(t *testing.T) {
-	// Regression test for https://github.com/golang/go/issues/60051.
-
-	// The length of a filename is also limited, so we can't reproduce the
-	// crash by creating a single directory with a very long name; we need two
-	// layers.
-	a200 := strings.Repeat("a", 200)
-	dirname := filepath.Join(t.TempDir(), a200, a200)
-
-	err := os.MkdirAll(dirname, 0o700)
+// Regression test for https://github.com/golang/go/issues/60051.
+func TestGetwdDoesNotPanicWhenPathIsLong(t *testing.T) {
+	oldwd, err := os.Getwd()
 	if err != nil {
-		t.Skipf("MkdirAll failed: %v", err)
+		t.Fatal(err)
 	}
-	err = os.Chdir(dirname)
-	if err != nil {
-		t.Skipf("Chdir failed: %v", err)
+	if err := os.Chdir(t.TempDir()); err != nil {
+		t.Fatal(err)
 	}
-	// Change out of the temporary directory so that we don't inhibit its
-	// removal during test cleanup.
-	defer os.Chdir(`\`)
+	t.Cleanup(func() {
+		if err := os.Chdir(oldwd); err != nil {
+			// It's not safe to continue with tests if we can't
+			// get back to the original working directory.
+			panic(err)
+		}
+	})
 
-	syscall.Getwd()
+	// Create and chdir into a path that is longer than 300 characters.
+	// Doing it iteratively allows to avoid "filename too long" errors.
+	longname := `./` + strings.Repeat("a", 200)
+	for i := 0; i < 2; i++ {
+		if err := os.Mkdir(longname, 0o700); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.Chdir(longname); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	// Check that Getwd does not panic.
+	if _, err := syscall.Getwd(); err != nil {
+		t.Fatalf("getwd: %v (%d)", err, err)
+	}
 }
 
 func TestGetStartupInfo(t *testing.T) {
