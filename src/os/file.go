@@ -293,9 +293,10 @@ func setStickyBit(name string) error {
 // Chdir changes the current working directory to the named directory.
 // If there is an error, it will be of type *PathError.
 func Chdir(dir string) error {
-	if e := syscall.Chdir(dir); e != nil {
+	longDir := fixLongPath(dir)
+	if e := syscall.Chdir(longDir); e != nil {
 		testlog.Open(dir) // observe likely non-existent directory
-		return &PathError{Op: "chdir", Path: dir, Err: e}
+		return &PathError{Op: "chdir", Path: longDir, Err: e}
 	}
 	if log := testlog.Logger(); log != nil {
 		wd, err := Getwd()
