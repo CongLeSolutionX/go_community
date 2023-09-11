@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "930d8666_46c4dba0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2023-09-11T06:00:29Z",
+      "side": 1,
+      "message": "TRYBOTS\u003dwindows-amd64-2016,windows-386-2016",
+      "revId": "f8adc8a6041fa196175d42d94dc59bf58ec883d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
