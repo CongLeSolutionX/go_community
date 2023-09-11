@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "357e0d39_e1d0441b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "If the new test file (test/range2.go) is only used to check error messages, it would perhaps be better to move into into internal/types/testdata/spec (a directory I am slowly populating with tests for spec  features rather than issues). These tests will be run quickly as part of the type checker tests.\n\nThere you can use ERROR (for messages that are verbatim - not regexp), or ERRORx (for messages that are regexp).",
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "74c5631a_f39c0203",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 12
@@ -20,6 +37,23 @@
         "endLine": 835,
         "endChar": 58
       },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd99aa81_810e2535",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "not sure why this assignment to _ is here",
       "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -66,6 +100,47 @@
         "endLine": 979,
         "endChar": 17
       },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d428f84_af3a8b2b",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "coreType seems right. Should add a respective test case as well.",
+      "parentUuid": "df2ca899_88070f72",
+      "range": {
+        "startLine": 979,
+        "startChar": 12,
+        "endLine": 979,
+        "endChar": 17
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a7c4d7_50880520",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "I don\u0027t think this is correct: coreType returns nil if a type doesn\u0027t have a core type. E.g. for a type parameter with constraint `~int|~float64`.\n\nShould have a test case and check error.",
       "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -141,6 +216,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd12ac7c_67146060",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "Assert is ok, but panic is fine, too, as it fits easily into the switch and produces an actual error message.",
+      "parentUuid": "f41526f5_36f1592e",
+      "range": {
+        "startLine": 1011,
+        "startChar": 3,
+        "endLine": 1011,
+        "endChar": 39
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01348177_f04b5c46",
@@ -159,6 +258,29 @@
         "startChar": 55,
         "endLine": 1013,
         "endChar": 75
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c72e9a24_cf925fc7",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "nit: s/func(...)bool/func(...) bool/ to match gofmt style? (space before bool)\n(same below)",
+      "range": {
+        "startLine": 1013,
+        "startChar": 3,
+        "endLine": 1013,
+        "endChar": 77
       },
       "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -207,6 +329,47 @@
         "endLine": 1020,
         "endChar": 49
       },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8eeb146_32fa8914",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "See comment above.",
+      "parentUuid": "815ff40b_858dcf22",
+      "range": {
+        "startLine": 1020,
+        "startChar": 4,
+        "endLine": 1020,
+        "endChar": 49
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6893087f_6921a265",
+        "filename": "src/go/types/stdlib_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-09-11T18:28:54Z",
+      "side": 1,
+      "message": "Is this needed? The same change was not made for the respective types2 version of this file.\n\nAlso, with this, when running the go/types tests, we don\u0027t exercise the new range forms.",
       "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
