@@ -55,6 +55,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f72e48_b55efe0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T20:27:29Z",
+      "side": 1,
+      "message": "It occurs to me that maybe this is overkill and instead a tree node should look like\n\n    childList []struct{key string, node *routingNode}\n    childMap map[string]*routingNode\n    \nand",
+      "revId": "dfe3376b72d29e708c906c9dd5e44e973745ddf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7279c617_042cc023",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T20:27:29Z",
+      "side": 1,
+      "message": "Yes, we can only compare constant paths.\nIt helps because in the tree (see next CL), most nodes will probably have few children, so looking up the children in a slice is faster.",
+      "parentUuid": "f869a005_832eb702",
+      "revId": "dfe3376b72d29e708c906c9dd5e44e973745ddf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "192aa14a_09645ab7",
@@ -72,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39fd80f_cf1d0c32",
+        "filename": "src/net/http/mapping.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T20:27:29Z",
+      "side": 1,
+      "message": "I didn\u0027t. I think that\u0027s going to be a very small difference if any.",
+      "parentUuid": "192aa14a_09645ab7",
+      "revId": "dfe3376b72d29e708c906c9dd5e44e973745ddf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b75e6982_ed1684c6",
@@ -85,6 +138,24 @@
       "writtenOn": "2023-09-11T19:55:32Z",
       "side": 1,
       "message": "Nit: no test for this function?\n\nThe name is odd, why not something like `eachPair` or similar? given a mapping `m` it\u0027s odd to expect `m.pairs(somefunc)` to iterate over all pairs in m",
+      "revId": "dfe3376b72d29e708c906c9dd5e44e973745ddf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18650072_52b6be9b",
+        "filename": "src/net/http/mapping.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T20:27:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b75e6982_ed1684c6",
       "revId": "dfe3376b72d29e708c906c9dd5e44e973745ddf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
