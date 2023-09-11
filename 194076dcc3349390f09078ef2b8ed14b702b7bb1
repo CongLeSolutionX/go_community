@@ -50,6 +50,24 @@
       "message": "Is the hold still needed?",
       "revId": "194076dcc3349390f09078ef2b8ed14b702b7bb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfbab30a_9d5ddd34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-09-11T03:08:06Z",
+      "side": 1,
+      "message": "Yes. Because the dependent commit (https://go-review.googlesource.com/c/tools/+/498475)  has not been merged yet. There is an identifier of LUCI-TryBot-Result -1. The reviewer did not give a reply. \n\nCould you help contact or review it? Thanks",
+      "parentUuid": "aa2326c5_47ca7b71",
+      "revId": "194076dcc3349390f09078ef2b8ed14b702b7bb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
