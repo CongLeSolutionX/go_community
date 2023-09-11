@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b0a431_81c62c77",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T13:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b92e5e39_359acde2",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce84593d_bae6833e",
@@ -140,6 +158,24 @@
       "writtenOn": "2023-09-08T18:03:07Z",
       "side": 1,
       "message": "Here too, an example would go a long way in understanding the different options for `s`",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dedd8eb4_6719b920",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T13:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce84593d_bae6833e",
       "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -231,6 +267,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe0e8cc5_2170e112",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T13:15:49Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "992d7b93_5f153c21",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b852e4cb_9fbee17f",
@@ -244,6 +298,24 @@
       "writtenOn": "2023-09-08T18:03:07Z",
       "side": 1,
       "message": "Not necessary for the first cut, but it would be nice to get more targeted errors here, at least some sort of position (rune offset from the beginning of the pattern)",
+      "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd4202fa_9b74b1cd",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-11T13:15:49Z",
+      "side": 1,
+      "message": "Acknowledged.\nAdded a TODO at the top of the function.",
+      "parentUuid": "b852e4cb_9fbee17f",
       "revId": "71698efbe6ed33c0f2da0cbae86ca879a47b3c4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
