@@ -89,6 +89,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd0c8e05_9b17d19d",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-12T04:54:02Z",
+      "side": 1,
+      "message": "Ack. I keep meaning to clean this file up, but it\u0027s a lot.\n\nHappy if you want to try.",
+      "parentUuid": "63d727c6_c8f1eabf",
+      "range": {
+        "startLine": 368,
+        "startChar": 48,
+        "endLine": 368,
+        "endChar": 97
+      },
+      "revId": "a5e276a72e07ff1d6196a731520f0d009aa02502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "482f9604_b672302e",
