@@ -137,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a61c2a27_4f10ded6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-09-12T15:05:05Z",
+      "side": 1,
+      "message": "An advantage to this is that it isolates the design decision to use a custom map for performance into a nice, clear unit. I think stick with it.",
+      "parentUuid": "f4f72e48_b55efe0a",
+      "revId": "dfe3376b72d29e708c906c9dd5e44e973745ddf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "192aa14a_09645ab7",
