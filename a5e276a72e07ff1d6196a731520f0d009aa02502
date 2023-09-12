@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63d727c6_c8f1eabf",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-09-12T04:44:52Z",
+      "side": 1,
+      "message": "Hmm, I can see why the original code not using API as intended. I think there could be cleanup in other places, too. However, for this CL, I would keep the cleanup for the `if postNotNil` block only.",
+      "parentUuid": "4dd996cd_e31788d3",
+      "range": {
+        "startLine": 368,
+        "startChar": 48,
+        "endLine": 368,
+        "endChar": 97
+      },
+      "revId": "a5e276a72e07ff1d6196a731520f0d009aa02502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "482f9604_b672302e",
