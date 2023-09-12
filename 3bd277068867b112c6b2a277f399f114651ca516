@@ -53,6 +53,24 @@
       "message": "It is interesting the some Linux don\u0027t have getcontext... I wonder how coroutines or fibers work there... Maybe they have their own assembly implementation for context switches?",
       "revId": "3bd277068867b112c6b2a277f399f114651ca516",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d878e966_5c473ca2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-09-12T16:47:43Z",
+      "side": 1,
+      "message": "musl intentionally doesn\u0027t implement getcontext because it is deprecated: https://wiki.musl-libc.org/open-issues\n\nBionic seems to have the same reasoning: https://issuetracker.google.com/issues/36950968\n\nIt seems like some musl users use libucontext, which appears to be a library just to provide the context stuff that musl doesn\u0027t...\n\nBut I wouldn\u0027t be surprised if coroutine libraries have their own implementations.",
+      "parentUuid": "575204af_e5107f8c",
+      "revId": "3bd277068867b112c6b2a277f399f114651ca516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
