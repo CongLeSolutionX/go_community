@@ -77,6 +77,12 @@ func TestMain(m *testing.M) {
 	if os.Getenv("GO_EXEC_TEST_PID") == "" {
 		os.Setenv("GO_EXEC_TEST_PID", strconv.Itoa(pid))
 
+		if runtime.GOOS == "windows" {
+			// Normalize environment so that test behavior is consistent.
+			// (The behavior of LookPath varies depending on this variable.)
+			os.Setenv("NoDefaultCurrentDirectoryInExePath", "TRUE")
+		}
+
 		code := m.Run()
 		if code == 0 && flag.Lookup("test.run").Value.String() == "" && flag.Lookup("test.list").Value.String() == "" {
 			for cmd := range helperCommands {
@@ -178,6 +184,28 @@ var exeOnce struct {
 	path string
 	err  error
 	sync.Once
+}
+
+func chdir(t *testing.T, dir string) {
+	t.Helper()
+
+	prev, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chdir(dir); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("Chdir(%#q)", dir)
+
+	t.Cleanup(func() {
+		if err := os.Chdir(prev); err != nil {
+			// Couldn't chdir back to the original working directory.
+			// panic instead of t.Fatal so that we don't run other tests
+			// in an unexpected location.
+			panic("couldn't restore working directory: " + err.Error())
+		}
+	})
 }
 
 var helperCommandUsed sync.Map
