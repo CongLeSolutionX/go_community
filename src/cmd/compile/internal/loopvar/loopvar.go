@@ -355,23 +355,15 @@ func ForCapture(fn *ir.Func) []VarAndLoop {
 					})
 
 					postNotNil := x.Post != nil
-					var tmpFirstDcl *ir.AssignStmt
+					var tmpFirstDcl ir.Node
 					if postNotNil {
 						// body' = prebody +
 						// (6)     if tmp_first {tmp_first = false} else {Post} +
 						//         if !cond {break} + ...
 						tmpFirst := typecheck.TempAt(base.Pos, fn, types.Types[types.TBOOL])
-
-						// tmpFirstAssign assigns val to tmpFirst
-						tmpFirstAssign := func(val bool) *ir.AssignStmt {
-							s := ir.NewAssignStmt(x.Pos(), tmpFirst, typecheck.OrigBool(tmpFirst, val))
-							s.SetTypecheck(1)
-							return s
-						}
-
-						tmpFirstDcl = tmpFirstAssign(true)
-						tmpFirstDcl.Def = true // also declares tmpFirst
-						tmpFirstSetFalse := tmpFirstAssign(false)
+						preBody.Append(typecheck.Stmt(ir.NewDecl(base.Pos, ir.ODCL, tmpFirst)))
+						tmpFirstDcl = typecheck.Stmt(ir.NewAssignStmt(x.Pos(), tmpFirst, ir.NewBool(base.Pos, true)))
+						tmpFirstSetFalse := typecheck.Stmt(ir.NewAssignStmt(x.Pos(), tmpFirst, ir.NewBool(base.Pos, false)))
 						ifTmpFirst := ir.NewIfStmt(x.Pos(), tmpFirst, ir.Nodes{tmpFirstSetFalse}, ir.Nodes{x.Post})
 						ifTmpFirst.SetTypecheck(1)
 						preBody.Append(ifTmpFirst)
