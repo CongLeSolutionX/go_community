@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d8557d2_8944f333",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-09-12T12:33:46Z",
+      "side": 1,
+      "message": "Much simpler, thanks.",
+      "parentUuid": "55a837c2_173f6d4e",
+      "revId": "2807ee87576237d3dd583783381da4d8101f698a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb1bee66_e8b2c972",
