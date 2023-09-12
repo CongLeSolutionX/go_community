@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dd996cd_e31788d3",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-09-12T04:14:11Z",
+      "side": 1,
+      "message": "Ah right, that makes sense. I just do the refactoring feature of Goland, so do not aware of the un-intended usage with the original code.",
+      "parentUuid": "7425db9b_374dae28",
+      "range": {
+        "startLine": 368,
+        "startChar": 48,
+        "endLine": 368,
+        "endChar": 97
+      },
+      "revId": "a5e276a72e07ff1d6196a731520f0d009aa02502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "482f9604_b672302e",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-09-12T04:01:21Z",
       "side": 1,
       "message": "You can get rid of this, and just use s[i] in NewConstExpr instead.",
+      "range": {
+        "startLine": 1049,
+        "startChar": 0,
+        "endLine": 1050,
+        "endChar": 20
+      },
+      "revId": "a5e276a72e07ff1d6196a731520f0d009aa02502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f777f41_bd5c67f7",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-09-12T04:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "482f9604_b672302e",
       "range": {
         "startLine": 1049,
         "startChar": 0,
