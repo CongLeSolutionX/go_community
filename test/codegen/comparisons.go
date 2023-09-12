@@ -788,3 +788,12 @@ func cmp7() {
 	cmp5[string]("") // force instantiation
 	cmp6[string]("") // force instantiation
 }
+
+type Point struct {
+	X, Y int
+}
+
+func invertLessThanNoov(p1, p2, p3 Point) bool {
+	// arm64:`CMP`,`CSET`,`CSEL`
+	return (p1.X-p3.X)*(p2.Y-p3.Y)-(p2.X-p3.X)*(p1.Y-p3.Y) < 0
+}
