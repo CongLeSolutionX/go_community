@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d15e524_8b2c9323",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-12T19:33:30Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-amd64,darwin-arm64",
+      "revId": "62d66320d4a0f18fab8d2534cb1f0b0907fca50c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
