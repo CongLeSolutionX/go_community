@@ -16,6 +16,24 @@
       "message": "I assume that the anonymous-return case has already been handled up on line 380?",
       "revId": "66b8cb69c4c73d682f88baa6c1d034e55b70a937",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eb286c1_27f7f4c9",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-12T15:40:36Z",
+      "side": 1,
+      "message": "An ir.Name always has a non-nil Sym. It\u0027s just that OrigSym would map \"~bNN\" back to nil.",
+      "parentUuid": "b69e172b_a6847957",
+      "revId": "66b8cb69c4c73d682f88baa6c1d034e55b70a937",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
