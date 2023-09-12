@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "754e9011_a99c869c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-12T04:01:21Z",
+      "side": 1,
+      "message": "Thanks Cuong.",
+      "revId": "a5e276a72e07ff1d6196a731520f0d009aa02502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7425db9b_374dae28",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-12T04:01:21Z",
+      "side": 1,
+      "message": "nit: use ir.NewBool(base.Pos, val) here\n\nNewConstExpr(v, n) means that n is a constant expression with value v. But tmpFirst here is a variable, not a constant.\n\n(The code here works, but it\u0027s not using the API as intended. To be fair, the original OrigBool code wasn\u0027t either.)",
+      "range": {
+        "startLine": 368,
+        "startChar": 48,
+        "endLine": 368,
+        "endChar": 97
+      },
+      "revId": "a5e276a72e07ff1d6196a731520f0d009aa02502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "482f9604_b672302e",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-12T04:01:21Z",
+      "side": 1,
+      "message": "You can get rid of this, and just use s[i] in NewConstExpr instead.",
+      "range": {
+        "startLine": 1049,
+        "startChar": 0,
+        "endLine": 1050,
+        "endChar": 20
+      },
+      "revId": "a5e276a72e07ff1d6196a731520f0d009aa02502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
