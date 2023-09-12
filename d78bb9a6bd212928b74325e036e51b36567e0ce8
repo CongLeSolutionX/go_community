@@ -53,6 +53,29 @@
       "message": "Code looks ok. Can you write a benchmark to demonstrate that the new code is faster?\n\nThere is at least the possibility that the conditional move instructions are slow enough to make this not worthwhile.",
       "revId": "d78bb9a6bd212928b74325e036e51b36567e0ce8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f34a31_9bb56a40",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1572,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-09-12T17:45:56Z",
+      "side": 1,
+      "message": "Might as well use CSEL0 here.",
+      "range": {
+        "startLine": 1572,
+        "startChar": 39,
+        "endLine": 1572,
+        "endChar": 43
+      },
+      "revId": "d78bb9a6bd212928b74325e036e51b36567e0ce8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
