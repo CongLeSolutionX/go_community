@@ -364,7 +364,7 @@ func ForCapture(fn *ir.Func) []VarAndLoop {
 
 						// tmpFirstAssign assigns val to tmpFirst
 						tmpFirstAssign := func(val bool) *ir.AssignStmt {
-							s := ir.NewAssignStmt(x.Pos(), tmpFirst, typecheck.OrigBool(tmpFirst, val))
+							s := ir.NewAssignStmt(x.Pos(), tmpFirst, ir.NewBool(base.Pos, val))
 							s.SetTypecheck(1)
 							return s
 						}
