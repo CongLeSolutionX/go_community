@@ -16,6 +16,24 @@
       "message": "I assume that this assignment is the race referred to in the commit message. However, this revert doesn\u0027t actually fix the race — it only confines it to Windows, where it had already existed.\n\nI don\u0027t think we should define a portable API in the `os` package to be racy on one platform and not the others. We need a different solution here; I will send a CL.",
       "revId": "8221f90f1347bd96548d48b178c8bcb0607cde8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "422302a2_d150c1f5",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-13T15:25:03Z",
+      "side": 1,
+      "message": "(I\u0027ve filed this race as #62596.)",
+      "parentUuid": "839da9cf_2d9d1309",
+      "revId": "8221f90f1347bd96548d48b178c8bcb0607cde8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
