@@ -1,4 +1,4 @@
-// +build wasm
+// +build wasm 386 amd64
 //
 // Copyright 2023 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
@@ -167,3 +167,82 @@ func TestOr64(t *testing.T) {
 	}
 }
 
+func BenchmarkAnd32(b *testing.B) {
+	var x [128]uint32 // give x its own cache line
+	sink = &x
+	for i := 0; i < b.N; i++ {
+		atomic.And32(&x[63], uint32(i))
+	}
+}
+
+func BenchmarkAnd32Parallel(b *testing.B) {
+	var x [128]uint32 // give x its own cache line
+	sink = &x
+	b.RunParallel(func(pb *testing.PB) {
+		i := uint32(0)
+		for pb.Next() {
+			atomic.And32(&x[63], i)
+			i++
+		}
+	})
+}
+
+func BenchmarkAnd64(b *testing.B) {
+	var x [128]uint64 // give x its own cache line
+	sink = &x
+	for i := 0; i < b.N; i++ {
+		atomic.And64(&x[63], uint64(i))
+	}
+}
+
+func BenchmarkAnd64Parallel(b *testing.B) {
+	var x [128]uint64 // give x its own cache line
+	sink = &x
+	b.RunParallel(func(pb *testing.PB) {
+		i := uint64(0)
+		for pb.Next() {
+			atomic.And64(&x[63], i)
+			i++
+		}
+	})
+}
+
+func BenchmarkOr32(b *testing.B) {
+	var x [128]uint32 // give x its own cache line
+	sink = &x
+	for i := 0; i < b.N; i++ {
+		atomic.Or32(&x[63], uint32(i))
+	}
+}
+
+func BenchmarkOr32Parallel(b *testing.B) {
+	var x [128]uint32 // give x its own cache line
+	sink = &x
+	b.RunParallel(func(pb *testing.PB) {
+		i := uint32(0)
+		for pb.Next() {
+			atomic.Or32(&x[63], i)
+			i++
+		}
+	})
+}
+
+func BenchmarkOr64(b *testing.B) {
+	var x [128]uint64 // give x its own cache line
+	sink = &x
+	for i := 0; i < b.N; i++ {
+		atomic.Or64(&x[63], uint64(i))
+	}
+}
+
+func BenchmarkOr64Parallel(b *testing.B) {
+	var x [128]uint64 // give x its own cache line
+	sink = &x
+	b.RunParallel(func(pb *testing.PB) {
+		i := uint64(0)
+		for pb.Next() {
+			atomic.Or64(&x[63], i)
+			i++
+		}
+	})
+}
