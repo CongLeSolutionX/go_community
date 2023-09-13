@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70fb0824_227bf107",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-13T16:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "732fae36_904dbb3a",
+      "revId": "7f0da2a11b59fbd47ad594a5a1eed4efbab20c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bda0a62b_390c2d6e",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-13T15:29:31Z",
       "side": 1,
       "message": "s/fully-resolved/fully resolved/\n\n(\"fully\" is an adverb ending in \"ly\".)",
+      "revId": "7f0da2a11b59fbd47ad594a5a1eed4efbab20c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dcf45a9_95abcf2a",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-13T16:49:51Z",
+      "side": 1,
+      "message": "Seems correct either way, but ok.",
+      "parentUuid": "bda0a62b_390c2d6e",
       "revId": "7f0da2a11b59fbd47ad594a5a1eed4efbab20c74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
