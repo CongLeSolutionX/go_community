@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11eec0f6_e62febaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-13T17:15:36Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-ppc64,linux-ppc64le,linux-s390x,freebsd-arm64,netbsd-arm64,netbsd-amd64,openbsd-amd64",
+      "revId": "e416ea48194cc0abbdfa377a4e3418e6f8a5cd5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
