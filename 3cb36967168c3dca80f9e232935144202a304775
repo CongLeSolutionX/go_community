@@ -16,6 +16,23 @@
       "message": "Hey there Matthew 👋 This is a draft CL to get a start on #62407.\n\nIt\u0027s my first time trying to mess with the compiler, so unfortunately I got kinda stuck and felt silly, hoping you could provide a couple of hints. \n\n- The optimization here is that we should concatenate the strings and have the compiler return the string\u0027s data directly, right?\n- Is this the correct place to add the condition?\n- Is it right to walk the OADDSTR node and try to access the results of the OCALLFUNC, or should we reach into its List individually?\n\nThanks in advance for your time and encouragement!",
       "revId": "3cb36967168c3dca80f9e232935144202a304775",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66e8cb78_172efd2b",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-09-13T11:15:27Z",
+      "side": 1,
+      "message": "On a second reading, this is totally wrong, we don\u0027t want to slice the string contents, but get the data of the concatstring return value instead.",
+      "revId": "3cb36967168c3dca80f9e232935144202a304775",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
