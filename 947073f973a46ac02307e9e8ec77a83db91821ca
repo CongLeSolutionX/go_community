@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f00c055f_909fb053",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T18:03:28Z",
+      "side": 1,
+      "message": "This exactly duplicates the earlier if body.  Can we instead do something like\n\n    setPath :\u003d false\n    if filepath.Base(name) \u003d\u003d name {\n        // No path separators, so call LookPath.\n        setPath \u003d true\n    } else if runtime.GOOS \u003d\u003d \"windows\" \u0026\u0026 filepath.IsAbs(name) {\n        // Long comment that you already wrote\n        setPath \u003d true\n    }\n    if setPath {\n        ...",
+      "revId": "947073f973a46ac02307e9e8ec77a83db91821ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67b13d1_5513f0aa",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T18:03:28Z",
+      "side": 1,
+      "message": "Swap these sentences so that we lead with what we are doing here.\n\nIf c.Path is a relative path, we couldn\u0027t resolve it earlier in case c.Dir was changed. If it is absolute, we resolved its extension in Command.",
+      "revId": "947073f973a46ac02307e9e8ec77a83db91821ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
