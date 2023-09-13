@@ -463,6 +463,9 @@ const (
 
 	RegisterParams // TODO(register args) remove after register abi is working
 
+	// TODO: Does order matter here? Probably should be after Noescape above.
+	// TODO: Document this if we keep it (probably in cmd/compile/doc.go, possibly also runtime/HACKING.md)
+	LeakToResult // func parameters leak to results.
 )
 
 func AsNode(n types.Object) Node {
