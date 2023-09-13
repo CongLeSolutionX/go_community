@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf15c633_070945e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65303
+      },
+      "writtenOn": "2023-09-13T22:35:40Z",
+      "side": 1,
+      "message": "Thank you for the email, it seems Gerrit is still going to my junk folder.\nI have updated based on your comments and to get the test to pass.",
+      "revId": "954eaf894d26df4d4f256e480edb6680f114aa4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
