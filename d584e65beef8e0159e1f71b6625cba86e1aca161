@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe7e65d_bdb9132f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T18:09:56Z",
+      "side": 1,
+      "message": "This description doesn\u0027t seem quite right.  This CL is Windows-only, and needs to say so one way or another.  Also it seems to be missing a word at the end--the same as implicit what?",
+      "revId": "d584e65beef8e0159e1f71b6625cba86e1aca161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be962aab_7958470f",
+        "filename": "src/os/exec/lp_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T18:09:56Z",
+      "side": 1,
+      "message": "Use parentheses around \u0026\u0026 within ||.",
+      "revId": "d584e65beef8e0159e1f71b6625cba86e1aca161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
