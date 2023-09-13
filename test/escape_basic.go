@@ -97,8 +97,16 @@ func ptr1Param(intptr *int) { // ERROR "leaking param: intptr$"
 	sinkIntPtr = intptr
 }
 
-func ptr2Param(foo Foo) { // ERROR "leaking param: foo$"
+func ptr2aParam(foo Foo) { // ERROR "leaking param: foo$"
 	sinkFoo = foo
+}
+
+func ptr2bParam(foo Foo) { // ERROR "leaking param: foo$"
+	sinkIntPtr = foo.ptr
+}
+
+func ptr2cParam(foo *Foo) { // ERROR "leaking param content: foo$"
+	sinkIntPtr = foo.ptr
 }
 
 func ptr3Param(foo Foo) { // ERROR "moved to heap: foo$"
@@ -179,12 +187,20 @@ func ptr1ReturnParam(intptr *int) *int { // ERROR "leaking param: intptr to resu
 	return intptr
 }
 
-func ptr2ReturnParam(foo Foo) Foo { // ERROR "leaking param: foo to result ~r0 level=0$"
+func ptr2aReturnParam(foo Foo) Foo { // ERROR "leaking param: foo to result ~r0 level=0$"
 	return foo
 }
 
-func ptr3ReturnParam(fooptr *Foo) *Foo { // ERROR "leaking param: fooptr to result ~r0 level=0$"
+func ptr2bReturnParam(foo Foo) *int { // ERROR "leaking param: foo to result ~r0 level=0$"
+	return foo.ptr
+}
+
+func ptr3aReturnParam(fooptr *Foo) *Foo { // ERROR "leaking param: fooptr to result ~r0 level=0$"
 	return fooptr
+}
+
+func ptr3bReturnParam(fooptr *Foo) *int { // ERROR "leaking param: fooptr to result ~r0 level=1$"
+	return fooptr.ptr
 }
 
 func ptr4aReturnParam(foo Foo) Foo { // ERROR "leaking param: foo to result ~r0 level=0$"
@@ -267,8 +283,16 @@ func eface1cParam(intptr *int) { // ERROR "leaking param: intptr$"
 	sinkEface = intptr
 }
 
-func eface2Param(foo Foo) { // ERROR "leaking param: foo$"
+func eface2aParam(foo Foo) { // ERROR "leaking param: foo$"
 	sinkEface = foo // ERROR "foo escapes to heap$"
+}
+
+func eface2bParam(foo Foo) { // ERROR "leaking param: foo$"
+	sinkEface = foo.ptr
+}
+
+func eface2cParam(foo *Foo) { // ERROR "leaking param content: foo$"
+	sinkEface = foo.ptr
 }
 
 func eface3Param(foo Foo) { // ERROR "moved to heap: foo$"
@@ -368,12 +392,24 @@ func eface1bReturnParam(in any) any { // ERROR "leaking param: in to result ~r0 
 	return in
 }
 
-func eface2ReturnParam(foo Foo) any { // ERROR "leaking param: foo$"
+func eface1cReturnParam(in int) any {
+	return in // ERROR "in escapes to heap$"
+}
+
+func eface2aReturnParam(foo Foo) any { // ERROR "leaking param: foo$"
 	return foo // ERROR "foo escapes to heap$"
 }
 
-func eface3ReturnParam(fooptr *Foo) any { // ERROR "leaking param: fooptr to result ~r0 level=0$"
+func eface2bReturnParam(foo Foo) any { // ERROR "leaking param: foo to result ~r0 level=0$"
+	return foo.ptr
+}
+
+func eface3aReturnParam(fooptr *Foo) any { // ERROR "leaking param: fooptr to result ~r0 level=0$"
 	return fooptr
+}
+
+func eface3bReturnParam(fooptr *Foo) any { // ERROR "leaking param: fooptr to result ~r0 level=1$"
+	return fooptr.ptr
 }
 
 func eface4aReturnParam(foo Foo) any { // ERROR "leaking param: foo$"

@@ -512,13 +512,27 @@ func (b *batch) paramTag(fn *ir.Func, narg int, f *types.Field) string {
 
 		var esc leaks
 
-		// External functions are assumed unsafe, unless
-		// //go:noescape is given before the declaration.
-		if fn.Pragma&ir.Noescape != 0 {
+		// External functions are assumed unsafe, unless //go:noescape
+		// or //go:leaktoresult are given before the declaration.
+		switch {
+		case fn.Pragma&ir.Noescape != 0:
 			if diagnose && f.Sym != nil {
 				base.WarnfAt(f.Pos, "%v does not escape", name())
 			}
-		} else {
+		case fn.Pragma&ir.LeakToResult != 0 && fn.Type().NumResults() <= numEscResults:
+			// Leak this parameter to all results, ignoring scalars.
+			for i, r := range fn.Type().Results().FieldSlice() {
+				// TODO: should we check r.Sym != nil? Probably not?
+				// TODO: more specific log, probably.
+				if !r.Type.HasPointers() {
+					continue
+				}
+				esc.AddResult(i, 0)
+				if diagnose {
+					base.WarnfAt(f.Pos, "leaking param: %v to result %v level=0", name(), r.Sym)
+				}
+			}
+		default:
 			if diagnose && f.Sym != nil {
 				base.WarnfAt(f.Pos, "leaking param: %v", name())
 			}
