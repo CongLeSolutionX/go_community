@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43762404_a5b6cab5",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T17:52:37Z",
+      "side": 1,
+      "message": "It seems that we ought to be testing both with and without this environment variable.",
+      "revId": "218e28f33f9a0b09495692b953eb1b9fa327b33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "167c2d2c_6ca43a8f",
+        "filename": "src/os/exec/lp_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T17:52:37Z",
+      "side": 1,
+      "message": "Slightly better to use strings.EqualFold.",
+      "revId": "218e28f33f9a0b09495692b953eb1b9fa327b33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd19c547_ce327c5d",
+        "filename": "src/os/exec/lp_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T17:52:37Z",
+      "side": 1,
+      "message": "In new code I think we usually write 0o777.  Similarly below.",
+      "revId": "218e28f33f9a0b09495692b953eb1b9fa327b33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
