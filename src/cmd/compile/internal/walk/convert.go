@@ -256,6 +256,11 @@ func walkRuneToString(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 // walkStringToBytes walks an OSTR2BYTES node.
 func walkStringToBytes(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 	s := n.X
+
+	if s.Op() == ir.OADDSTR {
+		return walkAddString(n.Type(), s.(*ir.AddStringExpr), init)
+	}
+
 	if ir.IsConst(s, constant.String) {
 		sc := ir.StringVal(s)
 
