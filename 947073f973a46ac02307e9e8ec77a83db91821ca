@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91b2c6ec_13e6183c",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-13T19:00:57Z",
+      "side": 1,
+      "message": "We could, although it will probably become different again right away in CL 528038 (when `lookExtensions` becomes more permissive that `LookPath` for already-resolved paths), so I would prefer to keep it this way to make the diffs and `git blame` for the file a bit cleaner.",
+      "parentUuid": "f00c055f_909fb053",
+      "revId": "947073f973a46ac02307e9e8ec77a83db91821ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e67b13d1_5513f0aa",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-13T18:03:28Z",
       "side": 1,
       "message": "Swap these sentences so that we lead with what we are doing here.\n\nIf c.Path is a relative path, we couldn\u0027t resolve it earlier in case c.Dir was changed. If it is absolute, we resolved its extension in Command.",
+      "revId": "947073f973a46ac02307e9e8ec77a83db91821ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7adbd50b_2c17d05c",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-13T19:00:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67b13d1_5513f0aa",
       "revId": "947073f973a46ac02307e9e8ec77a83db91821ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
