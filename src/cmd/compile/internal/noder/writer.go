@@ -1021,6 +1021,9 @@ func (w *writer) funcExt(obj *types2.Func) {
 		if pragma&ir.Noescape != 0 {
 			w.p.errorf(decl, "can only use //go:noescape with external func implementations")
 		}
+		if pragma&ir.LeakToResult != 0 {
+			w.p.errorf(decl, "can only use //go:leaktoresult with external func implementations")
+		}
 		if wi != nil {
 			w.p.errorf(decl, "can only use //go:wasmimport with external func implementations")
 		}
