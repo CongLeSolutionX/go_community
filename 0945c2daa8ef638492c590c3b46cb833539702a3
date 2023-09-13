@@ -195,6 +195,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad2041c_faabb5d6",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 7955
+      },
+      "writtenOn": "2023-09-13T21:57:36Z",
+      "side": 1,
+      "message": "Ack, thanks.",
+      "parentUuid": "086c4ff9_3d170654",
+      "revId": "0945c2daa8ef638492c590c3b46cb833539702a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bc10501_97ffe3f6",
