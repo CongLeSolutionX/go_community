@@ -285,3 +285,9 @@ var armHasVFPv4 bool
 var arm64HasATOMICS bool
 
 func asanregisterglobals(unsafe.Pointer, uintptr)
+
+func concatbyte2(string, string) []byte
+func concatbyte3(string, string, string) []byte
+func concatbyte4(string, string, string, string) []byte
+func concatbyte5(string, string, string, string, string) []byte
+func concatbytes([]string) []byte
