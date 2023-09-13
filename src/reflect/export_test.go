@@ -164,3 +164,7 @@ func SetArgRegs(ints, floats int, floatSize uintptr) (oldInts, oldFloats int, ol
 }
 
 var MethodValueCallCodePtr = methodValueCallCodePtr
+
+func ValueInterfaceNoMethodValue(v Value) any {
+	return valueInterfaceNoMethodValue(v)
+}
