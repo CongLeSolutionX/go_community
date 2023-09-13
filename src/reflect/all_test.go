@@ -3462,6 +3462,7 @@ func noAlloc(t *testing.T, n int, f func(int)) {
 		t.Skip("skipping malloc count in short mode")
 	}
 	if runtime.GOMAXPROCS(0) > 1 {
+		// TODO: is this needed?
 		t.Skip("skipping; GOMAXPROCS>1")
 	}
 	i := -1
@@ -3478,17 +3479,15 @@ func TestAllocations(t *testing.T) {
 	noAlloc(t, 100, func(j int) {
 		var i any
 		var v Value
-
-		// We can uncomment this when compiler escape analysis
-		// is good enough to see that the integer assigned to i
-		// does not escape and therefore need not be allocated.
-		//
-		// i = 42 + j
-		// v = ValueOf(i)
-		// if int(v.Int()) != 42+j {
-		// 	panic("wrong int")
-		// }
-
+		i = 1<<16 + j
+		v = ValueOf(i)
+		if int(v.Int()) != 1<<16+j {
+			panic("wrong int")
+		}
+	})
+	noAlloc(t, 100, func(j int) {
+		var i any
+		var v Value
 		i = func(j int) int { return j }
 		v = ValueOf(i)
 		if v.Interface().(func(int) int)(j) != j {
@@ -6386,7 +6385,7 @@ func TestAllocsInterfaceBig(t *testing.T) {
 	}
 	v := ValueOf(S{})
 	if allocs := testing.AllocsPerRun(100, func() { v.Interface() }); allocs > 0 {
-		t.Error("allocs:", allocs)
+		t.Errorf("allocs = %f, want 0", allocs)
 	}
 }
 
@@ -6396,7 +6395,28 @@ func TestAllocsInterfaceSmall(t *testing.T) {
 	}
 	v := ValueOf(int64(0))
 	if allocs := testing.AllocsPerRun(100, func() { v.Interface() }); allocs > 0 {
-		t.Error("allocs:", allocs)
+		t.Errorf("allocs = %f, want 0", allocs)
+	}
+}
+
+func TestAllocsInterfaceNoMethodValue(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping malloc count in short mode")
+	}
+	i := 0
+	if allocs := testing.AllocsPerRun(100, func() {
+		v := ValueOf(int64(1<<16 + i))
+		ValueInterfaceNoMethodValue(v)
+		i++
+	}); allocs > 0 {
+		t.Errorf("allocs = %f, want 0", allocs)
+	}
+	if allocs := testing.AllocsPerRun(100, func() {
+		v := ValueOf(int64(1<<16 + i))
+		sink = ValueInterfaceNoMethodValue(v)
+		i++
+	}); allocs != 1 {
+		t.Errorf("allocs = %f, want 1", allocs)
 	}
 }
 

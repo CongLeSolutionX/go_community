@@ -1498,19 +1498,10 @@ func (v Value) Interface() (i any) {
 }
 
 func valueInterface(v Value, safe bool) any {
-	if v.flag == 0 {
-		panic(&ValueError{"reflect.Value.Interface", Invalid})
-	}
-	if safe && v.flag&flagRO != 0 {
-		// Do not allow access to unexported values via Interface,
-		// because they might be pointers that should not be
-		// writable or methods or function that should not be callable.
-		panic("reflect.Value.Interface: cannot return value obtained from unexported field or method")
-	}
+	valueInterfaceCheck(v, safe)
 	if v.flag&flagMethod != 0 {
 		v = makeMethodValue("Interface", v)
 	}
-
 	if v.kind() == Interface {
 		// Special case: return the element inside the interface.
 		// Empty interface has one layout, all interfaces with
@@ -1525,6 +1516,41 @@ func valueInterface(v Value, safe bool) any {
 
 	// TODO: pass safe to packEface so we don't need to copy if safe==true?
 	return packEface(v)
+}
+
+// valueInterfaceNoMethodValue is like valueInterface, but
+// does not support method values. This allows it to avoid
+// always leaking v.ptr to the heap.
+// TODO: better name?
+func valueInterfaceNoMethodValue(v Value) any {
+	valueInterfaceCheck(v, true)
+	if v.flag&flagMethod != 0 {
+		panic("can't call valueInterfaceNoMethodValue with method value")
+	}
+
+	// Same final steps as valueInterface.
+	// TODO: alternatively, we could avoid the duplication here.
+	if v.kind() == Interface {
+		if v.NumMethod() == 0 {
+			return *(*any)(v.ptr)
+		}
+		return *(*interface {
+			M()
+		})(v.ptr)
+	}
+	return packEface(v)
+}
+
+func valueInterfaceCheck(v Value, safe bool) {
+	if v.flag == 0 {
+		panic(&ValueError{"reflect.Value.Interface", Invalid})
+	}
+	if safe && v.flag&flagRO != 0 {
+		// Do not allow access to unexported values via Interface,
+		// because they might be pointers that should not be
+		// writable or methods or function that should not be callable.
+		panic("reflect.Value.Interface: cannot return value obtained from unexported field or method")
+	}
 }
 
 // InterfaceData returns a pair of unspecified uintptr values.
