@@ -232,10 +232,15 @@ var runtimeDecls = [...]struct {
 	{"armHasVFPv4", varTag, 6},
 	{"arm64HasATOMICS", varTag, 6},
 	{"asanregisterglobals", funcTag, 122},
+	{"concatbyte2", funcTag, 154},
+	{"concatbyte3", funcTag, 155},
+	{"concatbyte4", funcTag, 156},
+	{"concatbyte5", funcTag, 157},
+	{"concatbytes", funcTag, 158},
 }
 
 func runtimeTypes() []*types.Type {
-	var typs [154]*types.Type
+	var typs [159]*types.Type
 	typs[0] = types.ByteType
 	typs[1] = types.NewPtr(typs[0])
 	typs[2] = types.Types[types.TANY]
@@ -390,6 +395,11 @@ func runtimeTypes() []*types.Type {
 	typs[151] = newSig(params(typs[28], typs[28], typs[17]), nil)
 	typs[152] = types.NewArray(typs[0], 16)
 	typs[153] = newSig(params(typs[7], typs[62], typs[152], typs[28], typs[15], typs[66], typs[66]), params(typs[62]))
+	typs[154] = newSig(params(typs[33], typs[28], typs[28]), params(typs[49]))
+	typs[155] = newSig(params(typs[33], typs[28], typs[28], typs[28]), params(typs[49]))
+	typs[156] = newSig(params(typs[33], typs[28], typs[28], typs[28], typs[28]), params(typs[49]))
+	typs[157] = newSig(params(typs[33], typs[28], typs[28], typs[28], typs[28], typs[28]), params(typs[49]))
+	typs[158] = newSig(params(typs[33], typs[38]), params(typs[49]))
 	return typs[:]
 }
 
