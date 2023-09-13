@@ -270,7 +270,7 @@ func walkExpr1(n ir.Node, init *ir.Nodes) ir.Node {
 		return walkNew(n, init)
 
 	case ir.OADDSTR:
-		return walkAddString(n.(*ir.AddStringExpr), init)
+		return walkAddString(n.Type(), n.(*ir.AddStringExpr), init)
 
 	case ir.OAPPEND:
 		// order should make sure we only see OAS(node, OAPPEND), which we handle above.
@@ -461,7 +461,7 @@ func copyExpr(n ir.Node, t *types.Type, init *ir.Nodes) ir.Node {
 	return l
 }
 
-func walkAddString(n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
+func walkAddString(typ *types.Type, n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
 	c := len(n.List)
 
 	if c < 2 {
@@ -491,20 +491,41 @@ func walkAddString(n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
 	}
 
 	var fn string
-	if c <= 5 {
-		// small numbers of strings use direct runtime helpers.
-		// note: order.expr knows this cutoff too.
-		fn = fmt.Sprintf("concatstring%d", c)
-	} else {
-		// large numbers of strings are passed to the runtime as a slice.
-		fn = "concatstrings"
 
-		t := types.NewSlice(types.Types[types.TSTRING])
-		// args[1:] to skip buf arg
-		slice := ir.NewCompLitExpr(base.Pos, ir.OCOMPLIT, t, args[1:])
-		slice.Prealloc = n.Prealloc
-		args = []ir.Node{buf, slice}
-		slice.SetEsc(ir.EscNone)
+	// Optimize []byte(str1+str2+...)
+	if typ.Kind() == types.TSLICE && typ.Elem() == types.ByteType {
+		if c <= 5 {
+			// small numbers of strings use direct runtime helpers.
+			// TODO(@tpaschalis) make order.expr aware of this cutoff as well?
+			fn = fmt.Sprintf("concatbyte%d", c)
+		} else {
+			// large numbers of strings are passed to the runtime as a slice.
+			fn = "concatbytes"
+
+			t := types.NewSlice(types.Types[types.TSTRING])
+			// args[1:] to skip buf arg
+			slice := ir.NewCompLitExpr(base.Pos, ir.OCOMPLIT, t, args[1:])
+			slice.Prealloc = n.Prealloc
+			args = []ir.Node{buf, slice}
+			slice.SetEsc(ir.EscNone)
+		}
+	} else {
+		if c <= 5 {
+			// small numbers of strings use direct runtime helpers.
+			// note: order.expr knows this cutoff too.
+			fn = fmt.Sprintf("concatstring%d", c)
+		} else {
+			// small numbers of strings use direct runtime helpers.
+			// large numbers of strings are passed to the runtime as a slice.
+			fn = "concatstrings"
+
+			t := types.NewSlice(types.Types[types.TSTRING])
+			// args[1:] to skip buf arg
+			slice := ir.NewCompLitExpr(base.Pos, ir.OCOMPLIT, t, args[1:])
+			slice.Prealloc = n.Prealloc
+			args = []ir.Node{buf, slice}
+			slice.SetEsc(ir.EscNone)
+		}
 	}
 
 	cat := typecheck.LookupRuntime(fn)
@@ -512,7 +533,7 @@ func walkAddString(n *ir.AddStringExpr, init *ir.Nodes) ir.Node {
 	r.Args = args
 	r1 := typecheck.Expr(r)
 	r1 = walkExpr(r1, init)
-	r1.SetType(n.Type())
+	r1.SetType(typ)
 
 	return r1
 }
