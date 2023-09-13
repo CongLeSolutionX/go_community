@@ -33,6 +33,24 @@
       "message": "On a second reading, this is totally wrong, we don\u0027t want to slice the string contents, but get the data of the concatstring return value instead.",
       "revId": "3cb36967168c3dca80f9e232935144202a304775",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "472993be_4aa3ca24",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-13T18:42:32Z",
+      "side": 1,
+      "message": "This is also totally wrong because ns.X here is the concatstring function itself (not the string result of calling it), and functions aren\u0027t slicable. 😊\n\nAs a sketch of how I\u0027d approach this:\n\n1. Add a \"typ *types.Type\" parameter to walkAddString.\n2. Change the existing callers of \"walkAddString(n, init)\" to \"walkAddString(n.Type(), n, init)\".\n3. Here you can use just \"return walkAddString(n.Type(), s, init)\".\n4. Within walkAddString, you\u0027ll want to call different runtime functions depending on whether typ is a string or []byte.\n5. You\u0027ll need to add appropriate concatbyte{s,2,3,4,5} function in the runtime (src/runtime/string.go).\n6. After adding them, you\u0027ll also need to add declarations for them in cmd/compile/internal/typecheck/_builtin/runtime.go, and then run \"go generate cmd/compile/internal/typecheck\".\n\nNote: unlike concatstrings, where it\u0027s able to directly return one of the input strings in certain cases, concatbytes always needs to allocate new memory.",
+      "parentUuid": "66e8cb78_172efd2b",
+      "revId": "3cb36967168c3dca80f9e232935144202a304775",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
