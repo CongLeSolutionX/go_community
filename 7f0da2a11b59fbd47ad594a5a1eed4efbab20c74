@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "732fae36_904dbb3a",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 12859
+      },
+      "writtenOn": "2023-09-13T15:29:31Z",
+      "side": 1,
+      "message": "I think \"is\" was meant to be \"its\" here.\n\ns/is ex/its ex/",
+      "revId": "7f0da2a11b59fbd47ad594a5a1eed4efbab20c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bda0a62b_390c2d6e",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 12859
+      },
+      "writtenOn": "2023-09-13T15:29:31Z",
+      "side": 1,
+      "message": "s/fully-resolved/fully resolved/\n\n(\"fully\" is an adverb ending in \"ly\".)",
+      "revId": "7f0da2a11b59fbd47ad594a5a1eed4efbab20c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
