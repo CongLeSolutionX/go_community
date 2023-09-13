@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3035cdf_ca2d55cf",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T22:53:35Z",
+      "side": 1,
+      "message": "Please add doc comments for this type and all its methods.  Thanks.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e7bfdc_8f0a5451",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T22:53:35Z",
+      "side": 1,
+      "message": "The name tofill doesn\u0027t seem right to me.  This seems to be the amount of free space available in the buffer.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0e39f61_6ea9c8f4",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T22:53:35Z",
+      "side": 1,
+      "message": "This code could use a detailed comment explaining what is happening.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d6e1ae_19aa7431",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T22:53:35Z",
+      "side": 1,
+      "message": "Do we need this conditional?  It seems like an unusual case, and it seems like the right thing will happen if we just let the rest of the method run.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6367732_10f0589c",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T22:53:35Z",
+      "side": 1,
+      "message": "We can assume that 0 \u003c\u003d from \u003c\u003d len(w.data) and the same for w.off.  That means that 0 \u003c\u003d from+off \u003c\u003d 2*len(w.data).  So we don\u0027t need to use the relatively expensive % here, we can write\n\n    if from \u003e len(w.data) {\n        from -\u003d len(w.data)\n    }\n\nand the same for to.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85b2d6b1_9b99542d",
+        "filename": "src/internal/zstd/window_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-13T22:53:35Z",
+      "side": 1,
+      "message": "No need to convert w.data to string, %s will print a []byte as a string.\n\nI also suggest %q here rather than %s.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
