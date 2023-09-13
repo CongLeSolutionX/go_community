@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9eff35e_d6881b99",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-09-13T15:50:42Z",
+      "side": 1,
+      "message": "Good point. Fixed.",
+      "parentUuid": "6f26ccfe_8931992b",
+      "revId": "386724a90439dde798e43598bc02d7b839baff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dc7271c_cbe29194",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-09-13T15:47:23Z",
       "side": 1,
       "message": "This should probably not be conditioned on *FlagS? (I.e. we want to write the section even with -s?)",
+      "revId": "386724a90439dde798e43598bc02d7b839baff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b9ee905_aaf33f0e",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2192,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-09-13T15:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dc7271c_cbe29194",
       "revId": "386724a90439dde798e43598bc02d7b839baff94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
