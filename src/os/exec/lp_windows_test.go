@@ -554,14 +554,8 @@ func TestCommand(t *testing.T) {
 			if wantPath == "" {
 				if strings.Contains(tt.arg0, `\`) {
 					wantPath = tt.arg0
-					if filepath.Ext(wantPath) == "" {
-						wantPath += filepath.Ext(tt.want)
-					}
 				} else if tt.wantErrDot {
 					wantPath = strings.TrimPrefix(tt.want, tt.dir+`\`)
-					if filepath.Base(wantPath) == wantPath {
-						wantPath = `.\` + wantPath
-					}
 				} else {
 					wantPath = filepath.Join(root, tt.want)
 				}
