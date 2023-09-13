@@ -24,6 +24,7 @@ func isQuoted(s string) bool {
 const (
 	funcPragmas = ir.Nointerface |
 		ir.Noescape |
+		ir.LeakToResult |
 		ir.Norace |
 		ir.Nosplit |
 		ir.Noinline |
@@ -48,6 +49,8 @@ func pragmaFlag(verb string) ir.PragmaFlag {
 		}
 	case "go:noescape":
 		return ir.Noescape
+	case "go:leaktoresult":
+		return ir.LeakToResult
 	case "go:norace":
 		return ir.Norace
 	case "go:nosplit":
