@@ -16,6 +16,40 @@
       "message": "Let me know if y\u0027all think this should be back-ported; thanks.",
       "revId": "386724a90439dde798e43598bc02d7b839baff94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f26ccfe_8931992b",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-13T15:47:23Z",
+      "side": 1,
+      "message": "Why do we need this? The code below (line 1043) call shstrtabAddstring(\"\").",
+      "revId": "386724a90439dde798e43598bc02d7b839baff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dc7271c_cbe29194",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2192,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-13T15:47:23Z",
+      "side": 1,
+      "message": "This should probably not be conditioned on *FlagS? (I.e. we want to write the section even with -s?)",
+      "revId": "386724a90439dde798e43598bc02d7b839baff94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
