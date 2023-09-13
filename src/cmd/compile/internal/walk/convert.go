@@ -262,6 +262,38 @@ func walkRuneToString(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 // walkStringToBytes walks an OSTR2BYTES node.
 func walkStringToBytes(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 	s := n.X
+
+	// Optimize []byte(str1+str2+...)
+	if s.Op() == ir.OADDSTR {
+		ns := walkAddString(s.(*ir.AddStringExpr), init).(*ir.CallExpr) // walkAddString returns an OCALLFUNC whose n.X is a ONAME with string Type(), right?
+
+		// This doesn't work directly. Do we need to get the result of the func call first?
+		//   `cannot use runtime.concatstring (type func(*[32]byte, string, string, string) string) as type []byte in assignment`
+		slice := ir.NewSliceExpr(n.Pos(), ir.OSLICESTR, ns.X, nil, nil, nil)
+		slice.SetType(n.Type())
+		slice.SetTypecheck(1)
+		return walkExpr(slice, init)
+
+		/* Alternative approach?
+		sc := ir.NewString(base.Pos, "")
+		sc.SetType(types.Types[types.TSTRING])
+
+		// concatenate str1+str2+... into a new string manually
+		for _, l := range s.(*ir.AddStringExpr).List {
+			ir.NewAssignOpStmt(base.Pos, ir.OADD, sc, l)
+		}
+
+		// create a new temporary slice
+		a := typecheck.NodNil()
+		if n.Esc() == ir.EscNone {
+			// Create temporary buffer for slice on stack.
+			a = stackBufAddr(tmpstringbufsize, types.Types[types.TUINT8])
+		}
+
+		// Get the pointer of string contents and put it into the slice?
+		*/
+	}
+
 	if ir.IsConst(s, constant.String) {
 		sc := ir.StringVal(s)
 
