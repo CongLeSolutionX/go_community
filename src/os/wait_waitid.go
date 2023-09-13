@@ -21,6 +21,10 @@ const _P_PID = 1
 // succeed immediately, and reports whether it has done so.
 // It does not actually call p.Wait.
 func (p *Process) blockUntilWaitable() (bool, error) {
+	if p.handle != unsetHandle && canUsePidfdSendSignal() {
+		// No wait/kill race to protect from.
+		return false, nil
+	}
 	// The waitid system call expects a pointer to a siginfo_t,
 	// which is 128 bytes on all Linux systems.
 	// On darwin/amd64, it requires 104 bytes.

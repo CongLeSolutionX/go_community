@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+const unsetHandle = ^uintptr(0)
+
 func (p *Process) wait() (ps *ProcessState, err error) {
 	if p.Pid == -1 {
 		return nil, syscall.EINVAL
@@ -66,14 +68,17 @@ func (p *Process) signal(sig Signal) error {
 	if p.Pid == 0 {
 		return errors.New("os: process not initialized")
 	}
+	s, ok := sig.(syscall.Signal)
+	if !ok {
+		return errors.New("os: unsupported signal type")
+	}
+	if err, done := pidfdSendSignal(p.handle, s); done {
+		return err
+	}
 	p.sigMu.RLock()
 	defer p.sigMu.RUnlock()
 	if p.done() {
 		return ErrProcessDone
-	}
-	s, ok := sig.(syscall.Signal)
-	if !ok {
-		return errors.New("os: unsupported signal type")
 	}
 	if e := syscall.Kill(p.Pid, s); e != nil {
 		if e == syscall.ESRCH {
@@ -85,7 +90,10 @@ func (p *Process) signal(sig Signal) error {
 }
 
 func (p *Process) release() error {
-	// NOOP for unix.
+	if runtime.GOOS == "linux" && p.handle != unsetHandle {
+		syscall.Close(int(p.handle))
+		p.handle = unsetHandle
+	}
 	p.Pid = -1
 	// no need for a finalizer anymore
 	runtime.SetFinalizer(p, nil)
@@ -93,8 +101,14 @@ func (p *Process) release() error {
 }
 
 func findProcess(pid int) (p *Process, err error) {
-	// NOOP for unix.
-	return newProcess(pid, 0), nil
+	h, err := pidfdOpen(pid)
+	if err == ErrProcessDone {
+		return nil, err
+	}
+	// Ignore all other errors from pidfdOpen,
+	// as the callers do not expect them, and
+	// we can use pid anyway.
+	return newProcess(pid, h), nil
 }
 
 func (p *ProcessState) userTime() time.Duration {

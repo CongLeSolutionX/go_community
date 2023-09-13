@@ -119,6 +119,39 @@ func runtime_BeforeFork()
 func runtime_AfterFork()
 func runtime_AfterForkInChild()
 
+// StartProcess wraps ForkExec for package os.
+func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle uintptr, err error) {
+	// Make sure attr.Sys.PidFD is always set.
+	var (
+		pidfd                int
+		cleanSys, cleanPidfd bool
+	)
+	if attr == nil {
+		attr = &ProcAttr{
+			Sys: &SysProcAttr{
+				PidFD: &pidfd,
+			},
+		}
+	} else if attr.Sys == nil {
+		cleanSys = true
+		attr.Sys = &SysProcAttr{
+			PidFD: &pidfd,
+		}
+	} else if attr.Sys.PidFD == nil {
+		cleanPidfd = true
+		attr.Sys.PidFD = &pidfd
+	}
+
+	pid, err = forkExec(argv0, argv, attr)
+	handle = uintptr(*attr.Sys.PidFD)
+	if cleanPidfd {
+		attr.Sys.PidFD = nil
+	} else if cleanSys {
+		attr.Sys = nil
+	}
+	return
+}
+
 // Fork, dup fd onto 0..len(fd), and exec(argv0, argvv, envv) in child.
 // If a dup or exec fails, write the errno error to pipe.
 // (Pipe is close-on-exec so if exec succeeds, it will be closed.)

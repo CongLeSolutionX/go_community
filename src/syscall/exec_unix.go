@@ -249,12 +249,6 @@ func ForkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 	return forkExec(argv0, argv, attr)
 }
 
-// StartProcess wraps ForkExec for package os.
-func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle uintptr, err error) {
-	pid, err = forkExec(argv0, argv, attr)
-	return pid, 0, err
-}
-
 // Implemented in runtime package.
 func runtime_BeforeExec()
 func runtime_AfterExec()
