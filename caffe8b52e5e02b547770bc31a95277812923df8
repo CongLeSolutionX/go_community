@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99f0de39_08b42843",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65569
+      },
+      "writtenOn": "2023-09-13T15:59:30Z",
+      "side": 1,
+      "message": "It\u0027s not clear what broke in the build on the first patch set. The logs had a compilation failure in cmd/compile/internal/inline/inlheur/texpr_classify_test.go. Assuming that that was an intermittent issue, I\u0027ve rebased the commit on latest master.",
+      "revId": "caffe8b52e5e02b547770bc31a95277812923df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
