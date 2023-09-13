@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "571c5471_59930f3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-09-13T02:35:50Z",
+      "side": 1,
+      "message": "Sure, CSEL, CSINC and BIC have the same exec latency, throughput and share the same pipelines, so in theory one less instruction is good. The benchmark below also proves this point.\n\nCode: https://go.dev/play/p/4oGJUrzXMg7\n\nTest result on a Linux/arm64 machinie:\n\n$ benchstat old.bench new.bench\ngoos: linux\ngoarch: arm64\n         │  old.bench  │             new.bench              │\n         │   sec/op    │   sec/op     vs base               │\nSign-160   2.678n ± 0%   2.567n ± 0%  -4.18% (p\u003d0.000 n\u003d10)\n\nSince the test code only differs by one instruction, the performance improvement does not appear to be significant.\n\nDo you think we need to put this benchmark into this CL?",
+      "parentUuid": "018779aa_2296702b",
+      "revId": "d78bb9a6bd212928b74325e036e51b36567e0ce8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0f34a31_9bb56a40",
         "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
         "patchSetId": 1
