@@ -33,6 +33,23 @@
       "message": "Editing the IR like this is actually more subtle than I first realized. I\u0027m going to have think about a good API for this.",
       "revId": "dc3577c41aeda04a0e43284a6dc301c46d721438",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5e7fd72_5965cabc",
+        "filename": "src/cmd/compile/internal/ir/visit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-09-14T18:38:48Z",
+      "side": 1,
+      "message": "Not in this CL, but it might actually be nice to generalize this (or something like it) and put it in the \"ir\" package. I do something similar when looking for callsites in loops as part of the inlining heuristics stuff.",
+      "revId": "dc3577c41aeda04a0e43284a6dc301c46d721438",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
