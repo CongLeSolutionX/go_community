@@ -16,6 +16,24 @@
       "message": "Nice.\n\nQ: how are tail calls handled for race instrumentation?",
       "revId": "dc67ce3a1d455f2003aff0cab3dfa38ece7bd5c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb21b33_3ddf6212",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-14T13:38:18Z",
+      "side": 1,
+      "message": "\u003e Q: how are tail calls handled for race instrumentation?\n\nIt looks like we only use OTAILCALL for ABI wrappers, and we explicitly skip instrumentation in ABI wrappers. I think that\u0027s fine. The wrapped function will call racefunc{enter,exit} if it needs to.",
+      "parentUuid": "c9c12902_118eb742",
+      "revId": "dc67ce3a1d455f2003aff0cab3dfa38ece7bd5c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
