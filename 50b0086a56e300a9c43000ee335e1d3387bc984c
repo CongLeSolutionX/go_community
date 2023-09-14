@@ -83,6 +83,30 @@
       },
       "revId": "50b0086a56e300a9c43000ee335e1d3387bc984c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88a881b1_31dba449",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-14T18:16:04Z",
+      "side": 1,
+      "message": "I would expect any kind of continuous coverage collection to either only run in `-short` mode (which already skips this test) or to use a large `GO_TEST_TIMEOUT_SCALE` (such as for overnight runs).\n\nIt is curious that this seems to have such a large penalty in coverage mode, though: on the `linux-amd64-longtest-race` builder it still only takes ~2m.\n\nMaybe there is something we could do to reduce the overhead of `-covemode\u003datomic`? (For example, if it is due to cache contention for atomic stores, perhaps we could first load the “covered” bit and only update the counter if it is not already marked as covered.)",
+      "parentUuid": "46b254c3_7d673e9b",
+      "range": {
+        "startLine": 511,
+        "startChar": 37,
+        "endLine": 511,
+        "endChar": 45
+      },
+      "revId": "50b0086a56e300a9c43000ee335e1d3387bc984c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
