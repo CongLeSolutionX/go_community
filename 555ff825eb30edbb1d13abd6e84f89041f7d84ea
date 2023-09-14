@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82a8de92_d45efa0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-09-14T11:43:24Z",
+      "side": 1,
+      "message": "Still LGTM with latest patch, getting rid of `mustName` param is great.",
+      "revId": "555ff825eb30edbb1d13abd6e84f89041f7d84ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
