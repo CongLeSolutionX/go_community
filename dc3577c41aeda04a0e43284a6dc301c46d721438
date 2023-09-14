@@ -16,6 +16,23 @@
       "message": "Hell yeah.",
       "revId": "dc3577c41aeda04a0e43284a6dc301c46d721438",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dbcf032_e0b2ada9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-14T15:52:41Z",
+      "side": 1,
+      "message": "Editing the IR like this is actually more subtle than I first realized. I\u0027m going to have think about a good API for this.",
+      "revId": "dc3577c41aeda04a0e43284a6dc301c46d721438",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
