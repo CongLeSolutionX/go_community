@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b0c261b_8584f140",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-09-14T11:58:37Z",
+      "side": 1,
+      "message": "Cq-Include-Trybots: luci.golang.try:gotip-linux-arm64",
+      "revId": "c28b93da082e53d13e0729ada576572d67833877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
