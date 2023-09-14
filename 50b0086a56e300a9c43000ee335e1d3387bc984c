@@ -107,6 +107,30 @@
       },
       "revId": "50b0086a56e300a9c43000ee335e1d3387bc984c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4552efca_88d88800",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-09-14T18:27:28Z",
+      "side": 1,
+      "message": "I need to circle back to this and take a closer look, but given that the really big slowdown is happening for -coverpkg\u003dall, I suspect that the issue is with the runtime, and that my CL 495442 later in this stack (\"cmd/cover: add coverage \u0027corpus\u0027 feature | https://go-review.git.corp.google.com/c/go/+/495442\") is the better long-term solution.",
+      "parentUuid": "88a881b1_31dba449",
+      "range": {
+        "startLine": 511,
+        "startChar": 37,
+        "endLine": 511,
+        "endChar": 45
+      },
+      "revId": "50b0086a56e300a9c43000ee335e1d3387bc984c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
