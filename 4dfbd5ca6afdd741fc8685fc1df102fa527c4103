@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c30be8a_14f146b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 64098
+      },
+      "writtenOn": "2023-09-14T07:27:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d75b98f9_812a68f0",
+      "revId": "4dfbd5ca6afdd741fc8685fc1df102fa527c4103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef70fbf2_3c1a2dda",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-20T16:16:38Z",
       "side": 1,
       "message": "To be recognized by the bot:\n\n```\nFixes #61472\n```",
+      "revId": "4dfbd5ca6afdd741fc8685fc1df102fa527c4103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90cd0ee_bca99af7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 64098
+      },
+      "writtenOn": "2023-09-14T07:27:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef70fbf2_3c1a2dda",
       "revId": "4dfbd5ca6afdd741fc8685fc1df102fa527c4103",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
