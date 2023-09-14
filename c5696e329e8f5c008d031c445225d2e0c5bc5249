@@ -16,6 +16,24 @@
       "message": "The parenthetical is in the wrong place and I\u0027m not sure it\u0027s entirely accurate.  cgoCheckUnknownPointer is called for pointers to unknown memory, but we still check pointers to known memory.  I would just omit the parenthetical.",
       "revId": "c5696e329e8f5c008d031c445225d2e0c5bc5249",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a890bd1a_64b67cb5",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 65073
+      },
+      "writtenOn": "2023-09-14T05:15:56Z",
+      "side": 1,
+      "message": "Thanks for catching. The resulting \"Go pointers to pinned objects that don\u0027t reference other unpinned pointers are always allowed\" I realize is a bit of a mouthful, so I took the liberty of rewording the sentence a bit here. WDYT?",
+      "parentUuid": "33b1bc75_be5864d9",
+      "revId": "c5696e329e8f5c008d031c445225d2e0c5bc5249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
