@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bcf386c_7972e97c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2023-09-14T06:12:31Z",
+      "side": 1,
+      "message": "drive by review found a stake comment.",
+      "revId": "c0425d5f80e8326fada0fd14c1f8e72751174b2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b01986_5380cf39",
+        "filename": "src/cmd/compile/internal/typecheck/dcl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2023-09-14T06:12:31Z",
+      "side": 1,
+      "message": "It doesn\u0027t return anything anymore,\nbut augments the function declaration by argument and results types instead(?)\n\nplease update this comment maybe by just removing \"and returns\" from this sentence.",
+      "revId": "c0425d5f80e8326fada0fd14c1f8e72751174b2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
