@@ -1201,6 +1201,60 @@ func TestRequestCookie(t *testing.T) {
 	}
 }
 
+func TestRequestFilterCookiesByName(t *testing.T) {
+	for _, tt := range []struct {
+		requestCookies  []*Cookie
+		filterForCookie string
+		expectedCookies int
+	}{
+		{
+			requestCookies: []*Cookie{
+				{Name: "foo", Value: "foo-1"},
+				{Name: "bar", Value: "bar"},
+			},
+			filterForCookie: "foo",
+			expectedCookies: 1,
+		},
+		{
+			requestCookies: []*Cookie{
+				{Name: "foo", Value: "foo-1"},
+				{Name: "foo", Value: "foo-2"},
+				{Name: "bar", Value: "bar"},
+			},
+			filterForCookie: "foo",
+			expectedCookies: 2,
+		},
+		{
+			requestCookies: []*Cookie{
+				{Name: "bar", Value: "bar"},
+			},
+			filterForCookie: "foo",
+			expectedCookies: 0,
+		},
+		{
+			requestCookies: []*Cookie{
+				{Name: "bar", Value: "bar"},
+			},
+			filterForCookie: "",
+			expectedCookies: 0,
+		},
+	} {
+		req, err := NewRequest("GET", "http://example.com/", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, c := range tt.requestCookies {
+			req.AddCookie(c)
+		}
+
+		cs := req.CookiesNamed(tt.filterForCookie)
+
+		if len(cs) != tt.expectedCookies {
+			t.Errorf("got %d cookies, want %d", len(cs), tt.expectedCookies)
+		}
+	}
+}
+
 const (
 	fileaContents = "This is a test file."
 	filebContents = "Another test file."

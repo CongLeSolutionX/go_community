@@ -416,6 +416,16 @@ func (r *Request) Cookies() []*Cookie {
 	return readCookies(r.Header, "")
 }
 
+// CookiesNamed parses and returns the named HTTP cookies sent with the request
+// or an empty slice if none matched.
+// If name is empty nil returned.
+func (r *Request) CookiesNamed(name string) []*Cookie {
+	if name == "" {
+		return nil
+	}
+	return readCookies(r.Header, name)
+}
+
 // ErrNoCookie is returned by Request's Cookie method when a cookie is not found.
 var ErrNoCookie = errors.New("http: named cookie not present")
 

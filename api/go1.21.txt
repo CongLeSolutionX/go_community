@@ -348,6 +348,7 @@ pkg maps, func Keys[$0 interface{ ~map[$1]$2 }, $1 comparable, $2 interface{}]($
 pkg maps, func Values[$0 interface{ ~map[$1]$2 }, $1 comparable, $2 interface{}]($0) []$2 #57436
 pkg math/big, method (*Int) Float64() (float64, Accuracy) #56984
 pkg net/http, method (*ProtocolError) Is(error) bool #41198
+pkg net/http, method (*Request) CookiesNamed(string) []*Cookie #61472
 pkg net/http, method (*ResponseController) EnableFullDuplex() error #57786
 pkg net/http, var ErrSchemeMismatch error #44855
 pkg net, method (*Dialer) MultipathTCP() bool #56539
