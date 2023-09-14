@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39b6ef8_eec94916",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-14T15:48:23Z",
+      "side": 1,
+      "message": "I rewrote the commit message to more generically address this.",
+      "parentUuid": "0a7538e9_1a4b4d7d",
+      "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c20fa878_fe545d8e",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-14T13:33:34Z",
       "side": 1,
       "message": "Other GOOS (aix, openbsd) that could use GOPPC64.",
+      "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f72c936a_f45ada5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-14T15:48:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c20fa878_fe545d8e",
       "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "596fdecb_4fb15c0f",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-14T15:48:23Z",
+      "side": 1,
+      "message": "It allows both encodings to be accepted for cases where GOxxx might allow a better code sequence.",
+      "parentUuid": "3beb6d09_d2c1d302",
+      "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb2aeda9_4c1df8f6",
@@ -121,6 +175,24 @@
       "writtenOn": "2023-09-14T13:33:34Z",
       "side": 1,
       "message": "add it to input register?",
+      "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1121fd_f3b44f69",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2999,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-14T15:48:23Z",
+      "side": 1,
+      "message": "I\u0027ll rework these comments.",
+      "parentUuid": "fb2aeda9_4c1df8f6",
       "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +214,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea1e846d_7e82e3c6",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3003,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-14T15:48:23Z",
+      "side": 1,
+      "message": "This comment is reworked.",
+      "parentUuid": "591a28aa_6137149e",
+      "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e33d82c0_dcf79f33",
@@ -155,6 +245,24 @@
       "writtenOn": "2023-09-14T13:33:34Z",
       "side": 1,
       "message": "This comment applies to \u003c Power10.",
+      "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdbc684a_c4ea1e08",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-14T15:48:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e33d82c0_dcf79f33",
       "revId": "925b9ec7271f8a5c4e66896b707716a869342eb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
