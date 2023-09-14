@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f2780b0_59c36059",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-14T17:35:37Z",
+      "side": 1,
+      "message": "Before we do this I\u0027d like to have a clear understanding of why we might want to call PidFDSendSignal from some other package.  That implies a big enough change to os package internals that I think we should open an issue for it.  Thanks.",
+      "revId": "12456ce1746fbc34827580a7033a11c4c9b64db9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
