@@ -108,6 +108,38 @@ func Visit(n Node, visit func(Node)) {
 	do(n)
 }
 
+// VisitPath visits each non-nil node x within the IR tree in a
+// depth-first preorder traversal, calling visit with a path to that
+// node. The node being visited will be at the head of the list,
+// followed by its parent, etc., with root at the end.
+func VisitPath(root Node, visit func(Nodes)) {
+	if root == nil {
+		return
+	}
+
+	path := make(Nodes, 8)
+	pos := len(path)
+
+	var do func(Node) bool
+	do = func(x Node) bool {
+		if pos == 0 {
+			pos += len(path)
+			path = append(make(Nodes, len(path)), path...)
+		}
+		pos--
+		path[pos] = x
+
+		visit(path[pos:])
+		DoChildren(x, do)
+
+		path[pos] = nil
+		pos++
+
+		return false
+	}
+	do(root)
+}
+
 // VisitList calls Visit(x, visit) for each node x in the list.
 func VisitList(list Nodes, visit func(Node)) {
 	for _, x := range list {

@@ -34,6 +34,7 @@ import (
 	"strconv"
 
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/devirtualize"
 	"cmd/compile/internal/inline/inlheur"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
@@ -811,112 +812,89 @@ func InlineCalls(fn *ir.Func, profile *pgo.Profile) {
 	if bigCaller && base.Flag.LowerM > 1 {
 		fmt.Printf("%v: function %v considered 'big'; reducing max cost of inlinees\n", ir.Line(fn), fn)
 	}
-	var inlCalls []*ir.InlinedCallExpr
-	var edit func(ir.Node) ir.Node
-	edit = func(n ir.Node) ir.Node {
-		return inlnode(fn, n, bigCaller, &inlCalls, edit, profile)
-	}
-	ir.EditChildren(fn, edit)
 
-	// If we inlined any calls, we want to recursively visit their
-	// bodies for further inlining. However, we need to wait until
-	// *after* the original function body has been expanded, or else
-	// inlCallee can have false positives (e.g., #54632).
-	for len(inlCalls) > 0 {
-		call := inlCalls[0]
-		inlCalls = inlCalls[1:]
-		ir.EditChildren(call, edit)
+	type callCtx struct {
+		call   *ir.CallExpr
+		parent ir.Node
+	}
+	var direct, inter []callCtx
+
+	visit := func(path ir.Nodes) {
+		call, ok := path[0].(*ir.CallExpr)
+		if !ok {
+			return
+		}
+
+		parent := path[1]
+		switch parent.Op() {
+		case ir.ODEFER, ir.OGO, ir.OTAILCALL:
+			return // not safe to touch calls in these
+		}
+
+		switch call.Op() {
+		case ir.OCALLFUNC:
+			direct = append(direct, callCtx{call, parent})
+		case ir.OCALLINTER:
+			inter = append(inter, callCtx{call, parent})
+		}
+	}
+
+	ir.VisitPath(fn, visit)
+
+	for {
+		// Try to inline any calls first.
+		// This may provide us with more context for devirtualization.
+		//
+		// We add calls in a pre-order depth-first traversal, so iterating
+		// over the list backwards ensures we rewrite operands of a call
+		// before rewriting the call itself, so the parent node reference
+		// stays valid.
+		for len(direct) > 0 {
+			next := direct[len(direct)-1]
+			direct = direct[:len(direct)-1]
+
+			if n := mkinlcall(fn, next.call, bigCaller, profile); n != nil {
+				replaceChild(next.parent, next.call, n)
+				ir.VisitPath(n, visit)
+			}
+		}
+
+		// No more normal calls to try inlining. Try devirtualizing the
+		// next interface call, if any.
+		//
+		// Unlike above, we want to forwards: devirtualizing an earlier
+		// call might allow inlining and discovery of more information
+		// that can be useful to devirtualizing later calls.
+		if len(inter) > 0 {
+			next := inter[0]
+			inter = inter[1:]
+
+			devirtualize.Static(next.call)
+			if next.call.Op() == ir.OCALLFUNC {
+				direct = append(direct, next)
+			}
+			continue
+		}
+
+		break
 	}
 
 	ir.CurFunc = savefn
 }
 
-// inlnode recurses over the tree to find inlineable calls, which will
-// be turned into OINLCALLs by mkinlcall. When the recursion comes
-// back up will examine left, right, list, rlist, ninit, ntest, nincr,
-// nbody and nelse and use one of the 4 inlconv/glue functions above
-// to turn the OINLCALL into an expression, a statement, or patch it
-// in to this nodes list or rlist as appropriate.
-// NOTE it makes no sense to pass the glue functions down the
-// recursion to the level where the OINLCALL gets created because they
-// have to edit /this/ n, so you'd have to push that one down as well,
-// but then you may as well do it here.  so this is cleaner and
-// shorter and less complicated.
-// The result of inlnode MUST be assigned back to n, e.g.
-//
-//	n.Left = inlnode(n.Left)
-func inlnode(callerfn *ir.Func, n ir.Node, bigCaller bool, inlCalls *[]*ir.InlinedCallExpr, edit func(ir.Node) ir.Node, profile *pgo.Profile) ir.Node {
-	if n == nil {
-		return n
+func replaceChild(parent, old, new ir.Node) {
+	found := false
+	ir.EditChildren(parent, func(x ir.Node) ir.Node {
+		if x != old {
+			return x
+		}
+		found = true
+		return new
+	})
+	if !found {
+		ir.Dump("parent", parent)
+		base.FatalfAt(parent.Pos(), "did not find %v in %v", old, parent)
 	}
-
-	switch n.Op() {
-	case ir.ODEFER, ir.OGO:
-		n := n.(*ir.GoDeferStmt)
-		switch call := n.Call; call.Op() {
-		case ir.OCALLMETH:
-			base.FatalfAt(call.Pos(), "OCALLMETH missed by typecheck")
-		case ir.OCALLFUNC:
-			call := call.(*ir.CallExpr)
-			call.NoInline = true
-		}
-	case ir.OTAILCALL:
-		n := n.(*ir.TailCallStmt)
-		n.Call.NoInline = true // Not inline a tail call for now. Maybe we could inline it just like RETURN fn(arg)?
-
-	// TODO do them here (or earlier),
-	// so escape analysis can avoid more heapmoves.
-	case ir.OCLOSURE:
-		return n
-	case ir.OCALLMETH:
-		base.FatalfAt(n.Pos(), "OCALLMETH missed by typecheck")
-	case ir.OCALLFUNC:
-		n := n.(*ir.CallExpr)
-		if n.X.Op() == ir.OMETHEXPR {
-			// Prevent inlining some reflect.Value methods when using checkptr,
-			// even when package reflect was compiled without it (#35073).
-			if meth := ir.MethodExprName(n.X); meth != nil {
-				s := meth.Sym()
-				if base.Debug.Checkptr != 0 {
-					switch types.ReflectSymName(s) {
-					case "Value.UnsafeAddr", "Value.Pointer":
-						return n
-					}
-				}
-			}
-		}
-	}
-
-	lno := ir.SetPos(n)
-
-	ir.EditChildren(n, edit)
-
-	// with all the branches out of the way, it is now time to
-	// transmogrify this node itself unless inhibited by the
-	// switch at the top of this function.
-	switch n.Op() {
-	case ir.OCALLMETH:
-		base.FatalfAt(n.Pos(), "OCALLMETH missed by typecheck")
-
-	case ir.OCALLFUNC:
-		call := n.(*ir.CallExpr)
-		if call.NoInline {
-			break
-		}
-		if base.Flag.LowerM > 3 {
-			fmt.Printf("%v:call to func %+v\n", ir.Line(n), call.X)
-		}
-		if ir.IsIntrinsicCall(call) {
-			break
-		}
-		if fn := inlCallee(callerfn, call.X, profile); fn != nil && typecheck.HaveInlineBody(fn) {
-			n = mkinlcall(callerfn, call, fn, bigCaller, inlCalls)
-		}
-	}
-
-	base.Pos = lno
-
-	return n
 }
 
 // inlCallee takes a function-typed expression and returns the underlying function ONAME
@@ -1020,45 +998,59 @@ func inlineCostOK(n *ir.CallExpr, caller, callee *ir.Func, bigCaller bool) (bool
 // The result of mkinlcall MUST be assigned back to n, e.g.
 //
 //	n.Left = mkinlcall(n.Left, fn, isddd)
-func mkinlcall(callerfn *ir.Func, n *ir.CallExpr, fn *ir.Func, bigCaller bool, inlCalls *[]*ir.InlinedCallExpr) ir.Node {
-	if fn.Inl == nil {
-		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(callerfn),
-				fmt.Sprintf("%s cannot be inlined", ir.PkgFuncName(fn)))
-		}
-		return n
+func mkinlcall(callerfn *ir.Func, call *ir.CallExpr, bigCaller bool, profile *pgo.Profile) *ir.InlinedCallExpr {
+	typecheck.AssertFixedCall(call)
+	if call.Op() != ir.OCALLFUNC {
+		base.FatalfAt(call.Pos(), "expected OCALLFUNC: %v", call)
 	}
 
-	if ok, maxCost := inlineCostOK(n, callerfn, fn, bigCaller); !ok {
+	if ir.IsIntrinsicCall(call) {
+		return nil
+	}
+
+	fn := inlCallee(callerfn, call.X, profile)
+	if fn == nil || !typecheck.HaveInlineBody(fn) {
+		return nil
+	}
+
+	// Runtime package must not be instrumented.
+	// Instrument skips runtime package. However, some runtime code can be
+	// inlined into other packages and instrumented there. To avoid this,
+	// we disable inlining of runtime functions when instrumenting.
+	// The example that we observed is inlining of LockOSThread,
+	// which lead to false race reports on m contents.
+	if base.Flag.Cfg.Instrumenting && types.IsNoInstrumentPkg(fn.Sym().Pkg) {
+		return nil
+	}
+	if base.Flag.Race && types.IsNoRacePkg(fn.Sym().Pkg) {
+		return nil
+	}
+
+	if fn.Inl == nil {
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(callerfn),
+			logopt.LogOpt(call.Pos(), "cannotInlineCall", "inline", ir.FuncName(callerfn),
+				fmt.Sprintf("%s cannot be inlined", ir.PkgFuncName(fn)))
+		}
+		return nil
+	}
+
+	if ok, maxCost := inlineCostOK(call, callerfn, fn, bigCaller); !ok {
+		if logopt.Enabled() {
+			logopt.LogOpt(call.Pos(), "cannotInlineCall", "inline", ir.FuncName(callerfn),
 				fmt.Sprintf("cost %d of %s exceeds max caller cost %d", fn.Inl.Cost, ir.PkgFuncName(fn), maxCost))
 		}
-		return n
+		return nil
 	}
 
 	if fn == callerfn {
 		// Can't recursively inline a function into itself.
 		if logopt.Enabled() {
-			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", fmt.Sprintf("recursive call to %s", ir.FuncName(callerfn)))
+			logopt.LogOpt(call.Pos(), "cannotInlineCall", "inline", fmt.Sprintf("recursive call to %s", ir.FuncName(callerfn)))
 		}
-		return n
+		return nil
 	}
 
-	if base.Flag.Cfg.Instrumenting && types.IsNoInstrumentPkg(fn.Sym().Pkg) {
-		// Runtime package must not be instrumented.
-		// Instrument skips runtime package. However, some runtime code can be
-		// inlined into other packages and instrumented there. To avoid this,
-		// we disable inlining of runtime functions when instrumenting.
-		// The example that we observed is inlining of LockOSThread,
-		// which lead to false race reports on m contents.
-		return n
-	}
-	if base.Flag.Race && types.IsNoRacePkg(fn.Sym().Pkg) {
-		return n
-	}
-
-	parent := base.Ctxt.PosTable.Pos(n.Pos()).Base().InliningIndex()
+	parent := base.Ctxt.PosTable.Pos(call.Pos()).Base().InliningIndex()
 	sym := fn.Linksym()
 
 	// Check if we've already inlined this function at this particular
@@ -1071,15 +1063,13 @@ func mkinlcall(callerfn *ir.Func, n *ir.CallExpr, fn *ir.Func, bigCaller bool, i
 	for inlIndex := parent; inlIndex >= 0; inlIndex = base.Ctxt.InlTree.Parent(inlIndex) {
 		if base.Ctxt.InlTree.InlinedFunction(inlIndex) == sym {
 			if base.Flag.LowerM > 1 {
-				fmt.Printf("%v: cannot inline %v into %v: repeated recursive cycle\n", ir.Line(n), fn, ir.FuncName(callerfn))
+				fmt.Printf("%v: cannot inline %v into %v: repeated recursive cycle\n", ir.Line(call), fn, ir.FuncName(callerfn))
 			}
-			return n
+			return nil
 		}
 	}
 
-	typecheck.AssertFixedCall(n)
-
-	inlIndex := base.Ctxt.InlTree.Add(parent, n.Pos(), sym, ir.FuncName(fn))
+	inlIndex := base.Ctxt.InlTree.Add(parent, call.Pos(), sym, ir.FuncName(fn))
 
 	closureInitLSym := func(n *ir.CallExpr, fn *ir.Func) {
 		// The linker needs FuncInfo metadata for all inlined
@@ -1121,7 +1111,7 @@ func mkinlcall(callerfn *ir.Func, n *ir.CallExpr, fn *ir.Func, bigCaller bool, i
 		ir.InitLSym(fn, true)
 	}
 
-	closureInitLSym(n, fn)
+	closureInitLSym(call, fn)
 
 	if base.Flag.GenDwarfInl > 0 {
 		if !sym.WasInlined() {
@@ -1131,23 +1121,21 @@ func mkinlcall(callerfn *ir.Func, n *ir.CallExpr, fn *ir.Func, bigCaller bool, i
 	}
 
 	if base.Flag.LowerM != 0 {
-		fmt.Printf("%v: inlining call to %v\n", ir.Line(n), fn)
+		fmt.Printf("%v: inlining call to %v\n", ir.Line(call), fn)
 	}
 	if base.Flag.LowerM > 2 {
-		fmt.Printf("%v: Before inlining: %+v\n", ir.Line(n), n)
+		fmt.Printf("%v: Before inlining: %+v\n", ir.Line(call), call)
 	}
 
-	res := InlineCall(callerfn, n, fn, inlIndex)
+	res := InlineCall(callerfn, call, fn, inlIndex)
 
 	if res == nil {
-		base.FatalfAt(n.Pos(), "inlining call to %v failed", fn)
+		base.FatalfAt(call.Pos(), "inlining call to %v failed", fn)
 	}
 
 	if base.Flag.LowerM > 2 {
 		fmt.Printf("%v: After inlining %+v\n\n", ir.Line(res), res)
 	}
-
-	*inlCalls = append(*inlCalls, res)
 
 	return res
 }

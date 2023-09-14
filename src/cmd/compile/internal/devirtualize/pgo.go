@@ -6,7 +6,6 @@ package devirtualize
 
 import (
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
 	"cmd/compile/internal/pgo"
@@ -17,6 +16,9 @@ import (
 	"os"
 	"strings"
 )
+
+// Reference to inline.InlineImpossible, to break cycles.
+var InlineImpossible func(*ir.Func) string
 
 // CallStat summarizes a single call site.
 //
@@ -186,7 +188,7 @@ func shouldPGODevirt(fn *ir.Func) bool {
 		}()
 	}
 
-	reason = inline.InlineImpossible(fn)
+	reason = InlineImpossible(fn)
 	if reason != "" {
 		return false
 	}

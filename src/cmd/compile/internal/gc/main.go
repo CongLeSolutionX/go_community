@@ -177,6 +177,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	ir.EscFmt = escape.Fmt
 	ir.IsIntrinsicCall = ssagen.IsIntrinsicCall
 	inline.SSADumpInline = ssagen.DumpInline
+	devirtualize.InlineImpossible = inline.InlineImpossible
 	ssagen.InitEnv()
 	ssagen.InitTables()
 
@@ -242,10 +243,9 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	}
 	noder.MakeWrappers(typecheck.Target) // must happen after inlining
 
-	// Devirtualize and get variable capture right in for loops
+	// Get variable capture right in for loops
 	var transformed []loopvar.VarAndLoop
 	for _, fn := range typecheck.Target.Funcs {
-		devirtualize.Static(fn)
 		transformed = append(transformed, loopvar.ForCapture(fn)...)
 	}
 	ir.CurFunc = nil
