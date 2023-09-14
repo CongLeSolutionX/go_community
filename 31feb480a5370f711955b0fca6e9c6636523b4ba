@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d1493e3_c704cab8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2023-09-14T15:12:21Z",
+      "side": 1,
+      "message": "See #49248. Maybe we should not add assembly code to crypto/md5.",
+      "revId": "31feb480a5370f711955b0fca6e9c6636523b4ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
