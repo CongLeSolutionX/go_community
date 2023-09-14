@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "74499d5d_0d3fbde7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-09-14T13:54:43Z",
+      "side": 1,
+      "message": "Hi Timo, in case this helps -- the commit title and commit message body come from the GitHub PR title and description, and must be edited in the GitHub web interface (not via git). For instructions, see [here](https://github.com/golang/go/wiki/GerritBot/#how-does-gerritbot-determine-the-final-commit-message).",
+      "parentUuid": "d90cd0ee_bca99af7",
+      "revId": "4dfbd5ca6afdd741fc8685fc1df102fa527c4103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f43f7871_8d894c1a",
