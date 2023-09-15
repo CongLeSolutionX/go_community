@@ -55,6 +55,7 @@ var hashDebug *HashDebug
 
 var FmaHash *HashDebug     // for debugging fused-multiply-add floating point changes
 var LoopVarHash *HashDebug // for debugging shared/private loop variable changes
+var PGOHash *HashDebug     // for debugging PGO optimization decisions
 
 // DebugHashMatchPkgFunc reports whether debug variable Gossahash
 //

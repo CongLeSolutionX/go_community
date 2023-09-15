@@ -1033,6 +1033,11 @@ func inlineCostOK(n *ir.CallExpr, caller, callee *ir.Func, bigCaller bool) (bool
 
 	// Hot
 
+	if !base.PGOHash.MatchPos(n.Pos(), nil) {
+		// De-selected by PGO Hash.
+		return false, maxCost
+	}
+
 	if bigCaller {
 		if base.Debug.PGODebug > 0 {
 			fmt.Printf("hot-big check disallows inlining for call %s (cost %d) at %v in big function %s\n", ir.PkgFuncName(callee), callee.Inl.Cost, ir.Line(n), ir.PkgFuncName(caller))
