@@ -147,6 +147,30 @@
       },
       "revId": "d78bb9a6bd212928b74325e036e51b36567e0ce8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba124f91_28d9d83e",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1572,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-09-15T06:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0f34a31_9bb56a40",
+      "range": {
+        "startLine": 1572,
+        "startChar": 39,
+        "endLine": 1572,
+        "endChar": 43
+      },
+      "revId": "d78bb9a6bd212928b74325e036e51b36567e0ce8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
