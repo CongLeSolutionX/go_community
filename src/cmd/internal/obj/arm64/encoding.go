@@ -22,6 +22,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 	enc := uint32(0)
 	reg, offset := uint32(ag.Reg), ag.Offset
 	arng, typ, index := DecodeIndex(ag.Index)
+	arngOff, ext, amount := DecodeIndex(int16(offset >> 16))
 	switch e {
 	case sa_wt__Rt, sa_xt__Rt:
 		if ai.aType == AC_PAIR && reg&1 != 0 {
@@ -1189,14 +1190,20 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 		}
 		enc <<= 6
 
-	case sa_vt2__Rt, sa_vt3__Rt, sa_vt4__Rt, sa_v__imm5__B_D_H_S,
-		sa_v__immh__D_H_S, sa_v__size__B_H_S, sa_v__sz__H, sa_v_1__sz__D_S,
-		sa_v_1__sz__S, sa_v, sa_r__imm5__W_X, sa_vb__sz__S, sa_va__sz__D,
-		sa_v__immh__D, sa_vb__immh__B_H_S, sa_va__immh__D_H_S, sa_v__immh__B_D_H_S:
+	case sa_v__imm5__B_D_H_S, sa_v__immh__D_H_S, sa_v__size__B_H_S,
+		sa_v__sz__H, sa_v_1__sz__D_S, sa_v_1__sz__S, sa_v, sa_r__imm5__W_X,
+		sa_vb__sz__S, sa_va__sz__D:
 		enc = 0
+
+	case sa_vt2__Rt, sa_vt3__Rt, sa_vt4__Rt:
+		if ag.Scale != 1 {
+			c.ctxt.Diag("invalid consecutive registers: %v\n", p)
+			return 0, false
+		}
 
 	case sa_vn_plus_1__Rn, sa_vn_plus_2__Rn, sa_vn_plus_3__Rn:
 		if ag.Scale != 1 {
+			c.ctxt.Diag("invalid consecutive registers: %v\n", p)
 			return 0, false
 		}
 
@@ -2878,6 +2885,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 		case AFMOVS, AFMOVD, AFMOVH:
 			rf := c.chipfloat7(ag.Val.(float64))
 			if rf < 0 {
+				c.ctxt.Diag("invalid floating-point constant: %v\n", p)
 				return 0, false
 			}
 			enc = uint32(rf&0xff) << 13
@@ -2886,7 +2894,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 		}
 
 	case sa_imm__a_b_c_d_e_f_g_h:
-		var val uint32
+		var val int
 		switch p.As {
 		case AVMOVI:
 			// The <imm> is a 64-bit immediate
@@ -2904,7 +2912,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 				}
 			}
 		case AVFMOV:
-			val = uint32(c.chipfloat7(ag.Val.(float64)))
+			val = c.chipfloat7(ag.Val.(float64))
 			if val < 0 {
 				c.ctxt.Diag("invalid floating-point immediate: %v\n", p)
 				return 0, false
@@ -2912,7 +2920,7 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 		}
 		abc := (val >> 5) & 0x7
 		defgh := val & 0x1f
-		enc = abc<<16 | defgh<<5
+		enc = uint32(abc<<16 | defgh<<5)
 
 	case sa_fbits__scale:
 		if !(offset >= 1 && offset <= 32) {
@@ -3054,6 +3062,1295 @@ func (c *ctxt7) encodeElm(p *obj.Prog, bin uint32, ag *obj.Addr, instIdx, oprIdx
 			return 0, false
 		}
 		enc = rot << 12
+
+	case sa_r__sf__W_X, sa_r__size__W_X, sa_r__sz__W_X:
+		enc = 0
+
+	case sa_n__Vn, sa_m__Vm:
+		enc = (reg & 0x1f) << 5
+
+	case sa_d__Vd, sa_dd__Vd:
+		enc = reg & 0x1f
+
+	case sa_vd__Vd:
+		if !(reg >= REG_V0 && reg <= REG_V31) {
+			c.ctxt.Diag("illegal destination SIMD&FP register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0x1f
+
+	case sa_zm__Zm_20_5:
+		var r uint32
+		switch ai.aType {
+		case AC_MEMEXT:
+			r = uint32(offset & 0xffff)
+		case AC_ARNG:
+			r = reg
+		default:
+			return 0, false
+		}
+		if !(r >= REG_Z0 && r <= REG_Z31) {
+			c.ctxt.Diag("illegal scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (r & 0x1f) << 16
+
+	case sa_za__Za:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 16
+
+	case sa_zm__Zm_19_4:
+		if !(reg >= REG_Z0 && reg <= REG_Z15) {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 16
+
+	case sa_zm__Zm_18_3:
+		if !(reg >= REG_Z0 && reg <= REG_Z7) {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 16
+
+	case sa_zn2__Zn_9_5, sa_zn2__Zn_9_4, sa_zt2__Zt_4_4, sa_zt2__Zt_4_5,
+		sa_zt4__Zt_4_3, sa_zt4__Zt_4_5, sa_zt3__Zt, sa_pd2__Pd:
+		if ag.Scale != 1 {
+			c.ctxt.Diag("invalid consecutive registers: %v\n", p)
+			return 0, false
+		}
+
+	case sa_zm__Zm_9_5, sa_zn__Zn, sa_zn1__Zn_9_5, sa_zk__Zk:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 5
+
+	case sa_zn1__Zn_9_4:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		r := reg & 0x1f
+		if r&1 != 0 {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (r >> 1) << 6
+
+	case sa_zn1__Zn_9_3:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		r := reg & 0x1f
+		if r&3 != 0 {
+			c.ctxt.Diag("illegal source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (r >> 2) << 7
+
+	case sa_zd__Zd, sa_zt__Zt, sa_zda__Zda:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal destination scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0x1f
+
+	case sa_zdn__Zdn:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0x1f
+		mask := uint32(0x1f)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_zt1__Zt_4_4:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal destination scalable vector register: %v\n", p)
+			return 0, false
+		}
+		r := reg & 0x1f
+		if r&1 != 0 {
+			c.ctxt.Diag("illegal destination scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (r >> 1) << 1
+
+	case sa_zt1__Zt_4_5:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal destination scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0x1f
+
+	case sa_zt1_1__Zt:
+		if !(reg >= REG_Z0 && reg <= REG_Z31) {
+			c.ctxt.Diag("illegal destination scalable vector register: %v\n", p)
+			return 0, false
+		}
+		r := reg & 0x1f
+		if r&3 != 0 {
+			c.ctxt.Diag("illegal destination scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (r >> 2) << 2
+
+	case sa_pm__Pm_15_3:
+		if !(reg >= REG_P0 && reg <= REG_P7) {
+			c.ctxt.Diag("illegal second governing scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0xf) << 13
+
+	case sa_pm__Pm_19_4:
+		if !(reg >= REG_P0 && reg <= REG_P15) {
+			c.ctxt.Diag("illegal second governing scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0xf) << 16
+
+	case sa_pm__Pm_8_4, sa_pnn__PNn:
+		if !(reg >= REG_P0 && reg <= REG_P15) {
+			c.ctxt.Diag("illegal source scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0xf) << 5
+
+	case sa_pg__Pg_12_3:
+		if !(reg >= REG_P0 && reg <= REG_P7) {
+			c.ctxt.Diag("illegal governing scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0xf) << 10
+
+	case sa_pg__Pg_13_4, sa_pn__Pn_13_4, sa_pv__Pv:
+		enc = (reg & 0xf) << 10
+
+	case sa_pg__Pg_19_4:
+		enc = (reg & 0xf) << 16
+
+	case sa_pg__Pg_8_4, sa_pn__Pn_8_4:
+		enc = (reg & 0xf) << 5
+
+	case sa_pt__Pt:
+		enc = reg & 0xf
+
+	case sa_png__PNg:
+		if !(reg >= REG_P8 && reg <= REG_P15) {
+			c.ctxt.Diag("illegal governing scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x7) << 10
+
+	case sa_pn__Pn_12_3:
+		if !(reg >= REG_P0 && reg <= REG_P7) {
+			c.ctxt.Diag("illegal governing scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x7) << 10
+
+	case sa_pd__Pd, sa_pd1__Pd:
+		if !(reg >= REG_P0 && reg <= REG_P15) {
+			c.ctxt.Diag("illegal destination scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0xf
+
+	case sa_pnd__PNd:
+		if !(reg >= REG_P8 && reg <= REG_P15) {
+			c.ctxt.Diag("illegal destination scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0x7
+
+	case sa_pdn__Pdn, sa_pdm__Pdm:
+		if !(reg >= REG_P8 && reg <= REG_P15) {
+			c.ctxt.Diag("illegal scalable predicate register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0xf
+		mask := uint32(0xf)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_n_sp__Rn:
+		if reg == REG_R31 {
+			c.ctxt.Diag("illegal general-purpose source register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 5
+
+	case sa_xdn__Rdn:
+		enc = reg & 0x1f
+		mask := uint32(0x1f)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_wdn__Rdn, sa_dn__Vdn:
+		enc = reg & 0x1f
+		mask := uint32(0x1f)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_dn__Rdn:
+		if reg == REG_RSP {
+			c.ctxt.Diag("illegal general-purpose register: %v\n", p)
+			return 0, false
+		}
+		enc = reg & 0x1f
+		mask := uint32(0x1f)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_zm_1__Zm:
+		var max uint32
+		switch p.As {
+		case AZCMLA, AZFCMLA, AZSQRDCMLAH:
+			max = REG_Z15
+		default:
+			max = REG_Z7
+		}
+		if !(reg >= REG_Z0 && reg <= max) {
+			c.ctxt.Diag("illegal second source scalable vector register: %v\n", p)
+			return 0, false
+		}
+		enc = (reg & 0x1f) << 16
+
+	case sa_const_REGLIST4_B, sa_const_REGLIST2_B, sa_const_ARNG_B, sa_const_REGLIST1_B,
+		sa_const_REGLIST3_B:
+		return c.checkArng(p, arng, ARNG_B)
+
+	case sa_const_REGLIST2_H, sa_const_REGLIST4_H, sa_const_ARNG_H, sa_const_REGLIST1_H,
+		sa_const_REGLIST3_H:
+		return c.checkArng(p, arng, ARNG_H)
+
+	case sa_const_REGLIST1_S, sa_const_REGLIST2_S, sa_const_REGLIST4_S, sa_const_ARNG_S,
+		sa_const_REGLIST3_S,
+		sa_const_MEMIMM_S, sa_const_MEMEXT_S_1:
+		return c.checkArng(p, arng, ARNG_S)
+
+	case sa_const_ARNG_D, sa_const_REGLIST1_D, sa_const_MEMIMM_D, sa_const_REGLIST4_D,
+		sa_const_REGLIST2_D, sa_const_REGLIST3_D:
+		return c.checkArng(p, arng, ARNG_D)
+
+	case sa_const_ARNG_Q, sa_const_REGLIST1_Q, sa_const_REGLIST4_Q, sa_const_REGLIST3_Q,
+		sa_const_REGLIST2_Q:
+		return c.checkArng(p, arng, ARNG_Q)
+
+	case sa_const_MEMEXT_D_2, sa_const_MEMEXT_D_1:
+		return c.checkArng(p, arngOff, ARNG_D)
+
+	case sa_const_MEMEXT_S_2:
+		return c.checkArng(p, arngOff, ARNG_S)
+
+	case sa_const_MEMEXT_no_ext:
+		if ext != RTYP_NORMAL {
+			c.ctxt.Diag("invalid offset register: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_no_amount:
+		if amount != 0 {
+			c.ctxt.Diag("invalid shift amount: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_SXTW:
+		if ext != RTYP_EXT_SXTW {
+			c.ctxt.Diag("invalid offset extension register: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_LSL:
+		if ext != RTYP_EXT_LSL {
+			c.ctxt.Diag("invalid offset shifted register: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_UXTW:
+		if ext != RTYP_EXT_UXTW {
+			c.ctxt.Diag("invalid offset extension register: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_PREGM_M:
+		if typ != RTYP_SVE_PM {
+			c.ctxt.Diag("invalid predication qualifier: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_PREGZ_Z:
+		if typ != RTYP_SVE_PZ {
+			c.ctxt.Diag("invalid predication qualifier: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_1:
+		if amount != 1 {
+			c.ctxt.Diag("invalid shift amount: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_2:
+		if amount != 2 {
+			c.ctxt.Diag("invalid shift amount: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_3:
+		if amount != 3 {
+			c.ctxt.Diag("invalid shift amount: %v\n", p)
+			return 0, false
+		}
+
+	case sa_const_MEMEXT_4:
+		if amount != 4 {
+			c.ctxt.Diag("invalid shift amount: %v\n", p)
+			return 0, false
+		}
+
+	case sa_zm__M__M_Z:
+		var m uint32
+		switch typ {
+		case RTYP_SVE_PM:
+			m = 1
+		case RTYP_SVE_PZ:
+			m = 0
+		default:
+			c.ctxt.Diag("invalid predication qualifier: %v\n", p)
+			return 0, false
+		}
+		enc = m << 4
+
+	case sa_tb__size_0__B_H:
+		var size uint32
+		switch arng {
+		case ARNG_B:
+			size = 0
+		case ARNG_H:
+			size = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = 1<<23 | size<<22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_0__B_H:
+		var size uint32
+		switch arng {
+		case ARNG_B:
+			size = 0
+		case ARNG_H:
+			size = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_0__D_S, sa_t_1__size_0__D_S:
+		var size uint32
+		switch arng {
+		case ARNG_S:
+			size = 0
+		case ARNG_D:
+			size = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__size__D_H_S, sa_t_1__size__D_H_S:
+		var size uint32
+		switch arng {
+		case ARNG_H:
+			size = 1
+		case ARNG_S:
+			size = 2
+		case ARNG_D:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__tszh_tszl__D_H_S:
+		var tszh, tszl uint32
+		switch arng {
+		case ARNG_H:
+			tszh = 0
+			tszl = 1
+		case ARNG_S:
+			tszh = 0
+			tszl = 2
+		case ARNG_D:
+			tszh = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = tszh<<22 | tszl<<19
+		mask := uint32(1<<22 | 3<<19)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__tszh_tszl__B_H_S:
+		var tszh, tszl uint32
+		switch arng {
+		case ARNG_B:
+			tszh = 0
+			tszl = 1
+		case ARNG_H:
+			tszh = 0
+			tszl = 2
+		case ARNG_S:
+			tszh = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = tszh<<22 | tszl<<19
+		mask := uint32(1<<22 | 3<<19)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__tszh_23_2_tszl_20_2__B_D_H_S, sa_t__tszh_23_2_tszl_9_2__B_D_H_S:
+		var tszh, tszl uint32
+		switch arng {
+		case ARNG_B:
+			tszl = 1
+		case ARNG_D:
+			tszl = 2
+		case ARNG_H:
+			tszh = 1
+		case ARNG_S:
+			tszh = 2
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		lpos := 19
+		if e == sa_t__tszh_23_2_tszl_9_2__B_D_H_S {
+			lpos = 8
+		}
+		enc = tszh<<22 | tszl<<lpos
+		mask := uint32(3<<22 | 3<<lpos)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__tszh_22_1_tszl_20_3__B_D_H_S:
+		var tszh, tszl uint32
+		switch arng {
+		case ARNG_B:
+			tszl = 1
+		case ARNG_D:
+			tszl = 2
+		case ARNG_H:
+			tszl = 4
+		case ARNG_S:
+			tszh = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = tszh<<22 | tszl<<18
+
+	case sa_t__size__B_D_H_S:
+		var size, pos uint32
+		switch arng {
+		case ARNG_B:
+			size = 0
+		case ARNG_H:
+			size = 1
+		case ARNG_S:
+			size = 2
+		case ARNG_D:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		// This element has different encoding positions in different instructions.
+		if p.As == AZST1B {
+			pos = 21
+		} else {
+			pos = 22
+		}
+		enc = size << pos
+		mask := uint32(3 << pos)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__size__B_D_H_S:
+		var size uint32
+		switch arng {
+		case ARNG_B:
+			size = 0
+		case ARNG_H:
+			size = 1
+		case ARNG_S:
+			size = 2
+		case ARNG_D:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size__2D_4S_8H:
+		var size uint32
+		switch arng {
+		case ARNG_8H:
+			size = 1
+		case ARNG_4S:
+			size = 2
+		case ARNG_2D:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size__2D_4S_8H_16B:
+		var size uint32
+		switch arng {
+		case ARNG_16B:
+			size = 0
+		case ARNG_8H:
+			size = 1
+		case ARNG_4S:
+			size = 2
+		case ARNG_2D:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid arrangement specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_13_2__B_H_S:
+		var size uint32
+		switch arng {
+		case ARNG_B:
+			size = 0
+		case ARNG_H:
+			size = 1
+		case ARNG_S:
+			size = 2
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 12
+
+	case sa_t__size_23_2__B_H_S:
+		var size uint32
+		switch arng {
+		case ARNG_B:
+			size = 1
+		case ARNG_H:
+			size = 2
+		case ARNG_S:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size << 22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size__D_H_S, sa_tb__size__B_H_S:
+		var size, pos uint32
+		switch arng {
+		case ARNG_H:
+			size = 1
+		case ARNG_S:
+			size = 2
+		case ARNG_D:
+			size = 3
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		pos = 22
+		if e == sa_t__size__D_H_S {
+			// This element has different encoding positions in different instructions.
+			if p.As == AZFLOGB {
+				pos = 17
+			} else if p.As == AZST1H {
+				pos = 21
+			}
+		}
+		enc = size << pos
+		mask := uint32(3 << pos)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__sz__D_S:
+		var sz, pos uint32
+		switch arng {
+		case ARNG_S:
+			sz = 0
+		case ARNG_D:
+			sz = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		// This element has different encoding positions in different instructions.
+		if p.As == AZST1W {
+			pos = 21
+		} else {
+			pos = 22
+		}
+		enc = sz << pos
+		mask := uint32(1 << pos)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_tb__tszh_tszl__B_H_S:
+		var tszh, tszl uint32
+		switch arng {
+		case ARNG_B:
+			tszh = 0
+			tszl = 1
+		case ARNG_H:
+			tszh = 0
+			tszl = 2
+		case ARNG_S:
+			tszh = 1
+			tszl = 0
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = tszh<<22 | tszl<<19
+		mask := uint32(1<<22 | 3>>19)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__tszh_tszl__D_H_S:
+		var tszh, tszl uint32
+		switch arng {
+		case ARNG_H:
+			tszh = 0
+			tszl = 1
+		case ARNG_S:
+			tszh = 0
+			tszl = 2
+		case ARNG_D:
+			tszh = 1
+			tszl = 0
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = tszh<<22 | tszl<<19
+		mask := uint32(1<<22 | 3>>19)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+	case sa_tb__size_1__B_S:
+		var size uint32
+		switch arng {
+		case ARNG_B:
+			size = 0
+		case ARNG_S:
+			size = 1
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size<<23 | 1<<22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__size_1__D_H:
+		var size uint32
+		switch arng {
+		case ARNG_D:
+			size = 1
+		case ARNG_H:
+			size = 0
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = size<<23 | 1<<22
+		mask := uint32(3 << 22)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_t__tsz__B_D_H_S:
+		var tsz uint32
+		switch arng {
+		case ARNG_B:
+			tsz = 1
+		case ARNG_H:
+			tsz = 2
+		case ARNG_S:
+			tsz = 4
+		case ARNG_D:
+			tsz = 8
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		enc = tsz << 16
+		mask := uint32(0xf << 16)
+		if !c.checkOpdsMatch(p, enc, checks, mask) {
+			return 0, false
+		}
+
+	case sa_imm__imm2_tsz:
+		var max uint32
+		switch arng {
+		case ARNG_B:
+			max = 64
+		case ARNG_H:
+			max = 32
+		case ARNG_S:
+			max = 16
+		case ARNG_D:
+			max = 8
+		case ARNG_Q:
+			max = 4
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		if index > max {
+			c.ctxt.Diag("immediate index out of range 0 to %d: %v\n", max, p)
+			return 0, false
+		}
+		imm2 := (index >> 6) & 0x3
+		tsz := index & 0x3f
+		enc = imm2<<22 | tsz<<10
+
+	case sa_imm__imm8h_imm8l:
+		if !(offset >= 0 && offset <= 225) {
+			c.ctxt.Diag("unsigned immediate out of range 0 to 225: %v\n", p)
+			return 0, false
+		}
+		imm8h := (offset >> 3) & 0x1f
+		imm8l := offset & 0x7
+		enc = uint32(imm8h<<16 | imm8l<<10)
+
+	case sa_const__imm4:
+		if !(offset >= 1 && offset <= 16) {
+			c.ctxt.Diag("immediate shift amout out of range 1 to 16: %v\n", p)
+			return 0, false
+		}
+		imm4 := uint32(16 - offset)
+		enc = imm4 << 16
+
+	case sa_imm_1__imm4:
+		if !(offset >= -32 && offset <= 28) {
+			c.ctxt.Diag("signed immediate vector offset out of range -32 to 28: %v\n", p)
+			return 0, false
+		}
+		imm4 := uint32(offset>>2) & 0xf
+		enc = imm4 << 16
+
+	case sa_imm__imm4:
+		if !(offset >= 0 && offset <= 16) {
+			c.ctxt.Diag("multiplier out of range 1 to 16: %v\n", p)
+			return 0, false
+		}
+		if offset != 0 {
+			enc = uint32(offset-1) << 16
+		}
+
+	case sa_pattern__pattern__uimm5_ALL_MUL3_MUL4_POW2_VL1_VL2_VL3_VL4_VL5_VL6_VL7_VL8_VL16_VL32_VL64_VL128_VL256:
+		spop := SpecialOperand(offset)
+		if spop < SPOP_POW2 || spop > SPOP_ALL {
+			c.ctxt.Diag("invalid pattern specifier: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset) << 5
+
+	case sa_mod__msz:
+		if ext != RTYP_EXT_LSL {
+			c.ctxt.Diag("invalid index extend and shift specifer: %v\n", p)
+			return 0, false
+		}
+
+	case sa_mod__xs_22_1__SXTW_UXTW, sa_mod__xs_14_1__SXTW_UXTW:
+		var xs, pos uint32
+		switch ext {
+		case RTYP_EXT_UXTW:
+			xs = 0
+		case RTYP_EXT_SXTW:
+			xs = 1
+		default:
+			c.ctxt.Diag("invalid index extend specifier: %v\n", p)
+			return 0, false
+		}
+		pos = 22
+		if e == sa_mod__xs_14_1__SXTW_UXTW {
+			pos = 14
+		}
+		enc = xs << pos
+
+	case sa_const__tszh_22_1_tszl_20_2_imm3_18_3:
+		var max int64
+		arng, _, _ := DecodeIndex(p.GetFrom3().Index)
+		switch arng {
+		case ARNG_H:
+			max = 16
+		case ARNG_S:
+			max = 32
+		case ARNG_D:
+			max = 64
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		if offset < 1 || offset > max {
+			c.ctxt.Diag("immediate shift amount out of range 1 to %d: %v\n", max, p)
+			return 0, false
+		}
+		var tszh, tszl, imm3 uint32
+		imm3 = uint32(offset & 7)
+		tszl = uint32((offset >> 3) & 3)
+		tszh = uint32((offset >> 5) & 1)
+		enc = tszh<<22 | tszl<<19 | imm3<<16
+
+	case sa_const__tszh_23_2_tszl_20_2_imm3_18_3:
+		var max int64
+		arng, _, _ := DecodeIndex(p.GetFrom3().Index)
+		switch arng {
+		case ARNG_B:
+			max = 8
+		case ARNG_H:
+			max = 16
+		case ARNG_S:
+			max = 32
+		case ARNG_D:
+			max = 64
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		if offset < 1 || offset > max {
+			c.ctxt.Diag("immediate shift amount out of range 1 to %d: %v\n", max, p)
+			return 0, false
+		}
+		var tszh, tszl, imm3 uint32
+		imm3 = uint32(offset & 7)
+		tszl = uint32((offset >> 3) & 3)
+		tszh = uint32((offset >> 5) & 3)
+		enc = tszh<<22 | tszl<<19 | imm3<<16
+
+	case sa_const__tszh_23_2_tszl_9_2_imm3_7_3:
+		var max int64
+		arng, _, _ := DecodeIndex(p.GetFrom3().Index)
+		switch arng {
+		case ARNG_B:
+			max = 8
+		case ARNG_H:
+			max = 16
+		case ARNG_S:
+			max = 32
+		case ARNG_D:
+			max = 64
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		if offset < 1 || offset > max {
+			c.ctxt.Diag("immediate shift amount out of range 1 to %d: %v\n", max, p)
+			return 0, false
+		}
+		var tszh, tszl, imm3 uint32
+		imm3 = uint32(offset & 7)
+		tszl = uint32((offset >> 3) & 3)
+		tszh = uint32((offset >> 5) & 3)
+		enc = tszh<<22 | tszl<<8 | imm3<<5
+
+	case sa_prfop__prfop:
+		op := SpecialOperand(offset)
+		v, ok := prfopfield[op]
+		if !ok || v > 13 {
+			c.ctxt.Diag("invalid prf_op: %v\n", p)
+			return 0, false
+		}
+		enc = v & 15
+
+	case sa_imm__imm9h_imm9l:
+		if offset < -256 || offset > 255 {
+			c.ctxt.Diag("immediate shift amount out of range -256 to 255: %v\n", p)
+			return 0, false
+		}
+		imm9h := (offset >> 3) & 0x3f
+		imm9l := offset & 0x7
+		enc = uint32(imm9h<<16 | imm9l<<10)
+
+	case sa_imm__i2h_i2l:
+		if index > 3 {
+			c.ctxt.Diag("element index out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		i2h := (index >> 1) & 1
+		i2l := index & 1
+		enc = i2h<<20 | i2l<<11
+
+	case sa_imm_1__i3h_20_2_i3l_11_1:
+		if index > 7 {
+			c.ctxt.Diag("element index out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		i3h := (index >> 1) & 3
+		i3l := index & 1
+		enc = i3h<<19 | i3l<<11
+	case sa_imm_1__i3h_22_1_i3l_20_2:
+		if index > 7 {
+			c.ctxt.Diag("element index out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		i3h := (index >> 2) & 1
+		i3l := index & 3
+		enc = i3h<<22 | i3l<<19
+
+	case sa_imm__imm6_10_6:
+		if offset < -32 || offset > 31 {
+			c.ctxt.Diag("signed immediate operand out of range -32 to 31: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset&0x3f) << 5
+
+	case sa_imm__imm6_21_6:
+		if offset > 63 {
+			c.ctxt.Diag("unsigned immediate offset out of range 0 to 63: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset) << 16
+
+	case sa_imm_2__i2:
+		if index > 3 {
+			c.ctxt.Diag("immediate index out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		// This element has different encoding positions in different instructions.
+		pos := 19
+		if p.As == APMOV {
+			pos = 17
+		}
+		enc = index << pos
+
+	case sa_imm__i1:
+		if index != 0 && index != 1 {
+			c.ctxt.Diag("immediate index out of range 0 to 1: %v\n", p)
+			return 0, false
+		}
+		enc = index << 20
+
+	case sa_imm__i3h_20_2_i3l_11_1:
+		if index > 7 {
+			c.ctxt.Diag("immediate index out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		i3h := (index >> 1) & 0x3
+		i3l := index & 0x1
+		enc = i3h<<19 | i3l<<11
+
+	case sa_imm__i3h_22_1_i3l_18_2:
+		if index > 7 {
+			c.ctxt.Diag("immediate index out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		i3h := (index >> 2) & 0x1
+		i3l := index & 0x3
+		enc = i3h<<22 | i3l<<17
+
+	case sa_imm__i3h_22_1_i3l_20_2:
+		if index > 7 {
+			c.ctxt.Diag("immediate index out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		i3h := (index >> 2) & 0x1
+		i3l := index & 0x3
+		enc = i3h<<22 | i3l<<19
+
+	case sa_imm__i2:
+		if index > 3 {
+			c.ctxt.Diag("immediate index out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		enc = index << 19
+
+	case sa_imm_1__i1:
+		if index > 1 {
+			c.ctxt.Diag("immediate index out of range 0 to 1: %v\n", p)
+			return 0, false
+		}
+		pos := 20
+		// This element has different encoding positions in different instructions.
+		if p.As == APMOV {
+			pos = 17
+		}
+		enc = index << pos
+
+	case sa_imm_1__i2:
+		if index > 3 {
+			c.ctxt.Diag("immediate index out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		enc = index << 19
+
+	case sa_const__rot__0_90_180_270:
+		var rot uint32
+		switch offset {
+		case 0:
+			rot = 0
+		case 90:
+			rot = 1
+		case 180:
+			rot = 2
+		case 270:
+			rot = 3
+		default:
+			c.ctxt.Diag("invalid const specifier: %v\n", p)
+			return 0, false
+		}
+		enc = rot << 10
+
+	case sa_const__rot__90_270:
+		var rot uint32
+		switch offset {
+		case 90:
+			rot = 0
+		case 270:
+			rot = 1
+		default:
+			c.ctxt.Diag("invalid const specifier: %v\n", p)
+			return 0, false
+		}
+		pos := 10
+		if p.As == AZFCADD {
+			pos = 16
+		}
+		enc = rot << pos
+
+	case sa_shift__sh__LSL_0_LSL_8:
+		sh := uint32(0)
+		if offset&^0xff == 0 {
+			sh = 0
+		} else if offset&^0xff00 == 0 {
+			sh = 1
+		} else {
+			return 0, false
+		}
+		enc = sh << 13
+
+	case sa_vl__vl__VLx2_VLx4:
+		spop := SpecialOperand(offset)
+		var vl uint32
+		switch spop {
+		case SPOP_VLX2:
+			vl = 0
+		case SPOP_VLX4:
+			vl = 1
+		default:
+			c.ctxt.Diag("invalid vl specifier: %v\n", p)
+			return 0, false
+		}
+		enc = vl << 10
+
+	case sa_const__i1__0:
+		f64 := p.From.Val.(float64)
+		var i1 uint32
+		switch f64 {
+		case 0.5:
+			i1 = 0
+		case 1.0:
+			i1 = 1
+		default:
+			c.ctxt.Diag("invalid floating-point value: %v\n", p)
+			return 0, false
+		}
+		enc = i1 << 5
+
+	case sa_const__imm8:
+		val := c.chipfloat7(ag.Val.(float64))
+		if val < 0 {
+			c.ctxt.Diag("invalid floating-point immediate: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(val << 13)
+
+	case sa_amount__msz:
+		if amount == 0 && amount&^0x3 != 0 {
+			c.ctxt.Diag("invalid index shift amount: %v\n", p)
+			return 0, false
+		}
+		enc = amount << 10
+
+	case sa_imm__imm3:
+		if offset&^0x7 != 0 {
+			c.ctxt.Diag("unsigned immediate out of range 0 to 7: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset&0x7) << 16
+
+	case sa_imm__imm2:
+		if index > 3 {
+			c.ctxt.Diag("element index out of range 0 to 3: %v\n", p)
+			return 0, false
+		}
+		enc = index << 8
+
+	case sa_imm__i1_tszh_tszl:
+		var max uint32
+		switch arng {
+		case ARNG_B:
+			max = 16
+		case ARNG_H:
+			max = 8
+		case ARNG_S:
+			max = 4
+		case ARNG_D:
+			max = 2
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		if index > max {
+			c.ctxt.Diag("element index out of range 0 to %d: %v\n", max, p)
+			return 0, false
+		}
+		i1 := (index >> 4) & 1
+		tszh := (index >> 3) & 1
+		tszl := index & 7
+		enc = i1<<23 | tszh<<22 | tszl<<18
+
+	case sa_imm__i1_tsz:
+		var max uint32
+		switch arng {
+		case ARNG_B:
+			max = 16
+		case ARNG_H:
+			max = 8
+		case ARNG_S:
+			max = 4
+		case ARNG_D:
+			max = 2
+		default:
+			c.ctxt.Diag("invalid size specifier: %v\n", p)
+			return 0, false
+		}
+		if index > max {
+			c.ctxt.Diag("element index out of range 0 to %d: %v\n", max, p)
+			return 0, false
+		}
+		i1 := (index >> 4) & 1
+		tsz := index & 0xf
+		enc = i1<<20 | tsz<<16
+
+	case sa_imm2__imm5b:
+		if offset < -16 || offset > 15 {
+			c.ctxt.Diag("signed immediate out of range -16 to 15: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset&0x1f) << 16
+
+	case sa_imm1__imm5:
+		if offset < -16 || offset > 15 {
+			c.ctxt.Diag("signed immediate out of range -16 to 15: %v\n", p)
+			return 0, false
+		}
+		enc = uint32(offset&0x1f) << 5
+
+	case sa_wv__Rv:
+		switch ai.aType {
+		case AC_ANY:
+			if reg < REG_R12 || reg > REG_R15 {
+				c.ctxt.Diag("invalid vector select register: %v\n", p)
+				return 0, false
+			}
+			enc = (reg & 0x3) << 16
+		default:
+			return 0, false
+		}
+
+	case sa_t__imm13_12_imm13_5_0__B_D_H_S:
+		var width uint32
+		arng, _, _ := DecodeIndex(p.To.Index)
+		switch arng {
+		case ARNG_B:
+			width = 8
+		case ARNG_H:
+			width = 16
+		case ARNG_S:
+			width = 32
+		case ARNG_D:
+			width = 64
+		default:
+			c.ctxt.Diag("invalid sieze speicifier: %v\n", p)
+		}
+		n, imms, immr, isImmLogical := encodeBitMask(uint64(offset), width)
+		if !isImmLogical {
+			c.ctxt.Diag("invalid bitmask: %v\n", p)
+			return 0, false
+		}
+		enc = n<<17 | immr<<11 | imms<<5
 
 	default:
 		c.ctxt.Diag("unimplemented element type %s: %v\n", e, p)
