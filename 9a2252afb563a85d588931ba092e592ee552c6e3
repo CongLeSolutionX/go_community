@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e2e6ac7_4813c5c2",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T01:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3035cdf_ca2d55cf",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70e7bfdc_8f0a5451",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-13T22:53:35Z",
       "side": 1,
       "message": "The name tofill doesn\u0027t seem right to me.  This seems to be the amount of free space available in the buffer.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a91dd78_5616a798",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T01:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e7bfdc_8f0a5451",
       "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3708dd4_dcd6d09d",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T01:17:28Z",
+      "side": 1,
+      "message": "Added description to the doc comment.",
+      "parentUuid": "d0e39f61_6ea9c8f4",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34d6e1ae_19aa7431",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-09-13T22:53:35Z",
       "side": 1,
       "message": "Do we need this conditional?  It seems like an unusual case, and it seems like the right thing will happen if we just let the rest of the method run.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5222b20d_6a5a54be",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T01:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34d6e1ae_19aa7431",
       "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebba3940_d756876e",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T01:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6367732_10f0589c",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85b2d6b1_9b99542d",
@@ -99,6 +189,24 @@
       "writtenOn": "2023-09-13T22:53:35Z",
       "side": 1,
       "message": "No need to convert w.data to string, %s will print a []byte as a string.\n\nI also suggest %q here rather than %s.",
+      "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbc12610_3c9fa51d",
+        "filename": "src/internal/zstd/window_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T01:17:28Z",
+      "side": 1,
+      "message": "I decided to rewrite test into exhaustive black-box test.",
+      "parentUuid": "85b2d6b1_9b99542d",
       "revId": "9a2252afb563a85d588931ba092e592ee552c6e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
