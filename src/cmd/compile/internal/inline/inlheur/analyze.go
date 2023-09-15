@@ -77,10 +77,30 @@ func AnalyzeFunc(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int32) *
 	}
 	fn.SetNeverReturns(entry.props.Flags&FuncPropNeverReturns != 0)
 	fpmap[fn] = entry
-	if fn.Inl != nil && fn.Inl.Properties == "" {
-		fn.Inl.Properties = entry.props.SerializeToString()
-	}
+
 	return fp
+}
+
+// RevisitInlinability revisits the question of whether to continue to
+// treat function 'fn' as an inline candidate based on the set of
+// properties we've computed for it. If (for example) it has an
+// initial size score of 150 and no interesting properties to speak
+// of, then there isn't really any point to moving ahead with it as an
+// inline candidate.
+func RevisitInlinability(fn *ir.Func, budgetForFunc func(*ir.Func) int32) {
+	if fn.Inl == nil {
+		return
+	}
+	entry, ok := fpmap[fn]
+	if !ok {
+		//FIXME: issue error?
+		return
+	}
+	mxAdjust := int32(largestScoreAdjustment(fn, entry.props))
+	budget := budgetForFunc(fn)
+	if fn.Inl.Cost+mxAdjust > budget {
+		fn.Inl = nil
+	}
 }
 
 // computeFuncProps examines the Go function 'fn' and computes for it
