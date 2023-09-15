@@ -31,8 +31,10 @@ const (
 	passFuncToNestedIndCallAdj
 	passInlinableFuncToIndCallAdj
 	passInlinableFuncToNestedIndCallAdj
-	callResultRescoreAdj
-	lastAdj scoreAdjustTyp = callResultRescoreAdj
+	returnFeedsConstToIfAdj
+	returnFeedsFuncToIndCallAdj
+	returnFeedsInlinableFuncToIndCallAdj
+	returnFeedsConcreteToInterfaceCallAdj
 )
 
 // This table records the specific values we use to adjust call
@@ -42,18 +44,21 @@ const (
 // what value for each one produces the best performance.
 
 var adjValues = map[scoreAdjustTyp]int{
-	panicPathAdj:                        40,
-	initFuncAdj:                         20,
-	inLoopAdj:                           -5,
-	passConstToIfAdj:                    -20,
-	passConstToNestedIfAdj:              -15,
-	passConcreteToItfCallAdj:            -30,
-	passConcreteToNestedItfCallAdj:      -25,
-	passFuncToIndCallAdj:                -25,
-	passFuncToNestedIndCallAdj:          -20,
-	passInlinableFuncToIndCallAdj:       -45,
-	passInlinableFuncToNestedIndCallAdj: -40,
-	callResultRescoreAdj:                0,
+	panicPathAdj:                          40,
+	initFuncAdj:                           20,
+	inLoopAdj:                             -5,
+	passConstToIfAdj:                      -20,
+	passConstToNestedIfAdj:                -15,
+	passConcreteToItfCallAdj:              -30,
+	passConcreteToNestedItfCallAdj:        -25,
+	passFuncToIndCallAdj:                  -25,
+	passFuncToNestedIndCallAdj:            -20,
+	passInlinableFuncToIndCallAdj:         -45,
+	passInlinableFuncToNestedIndCallAdj:   -40,
+	returnFeedsConstToIfAdj:               -15,
+	returnFeedsFuncToIndCallAdj:           -25,
+	returnFeedsInlinableFuncToIndCallAdj:  -40,
+	returnFeedsConcreteToInterfaceCallAdj: -25,
 }
 
 func adjValue(x scoreAdjustTyp) int {
