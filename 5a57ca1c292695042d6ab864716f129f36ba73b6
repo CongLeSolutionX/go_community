@@ -251,6 +251,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af605177_afa5014d",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T21:25:47Z",
+      "side": 1,
+      "message": "I sketched out a change to make `c.lastRaceErrors` non-atomic, and while it was nice to get rid of the CAS loops, it was harder for me to reason about in most other respects.\n\nThere are already a lot of places where we are reading and storing non-atomic fields that `mu` allegedly guards, but without holding `mu` — but that\u0027s probably because we know (by some other means) that there aren\u0027t supposed to be other goroutines running.\n\nOn the one hand, we could carefully document all that other side-information. On the other hand, I would prefer to make the synchronization clear enough that we don\u0027t need to document it in such detail, because I\u0027m unlikely to be able to hold all of that documentation in my head while working on the package anyway. 😅\n\nSo I think I would prefer to keep `lastRaceErrors` atomic, with the broader goal of reducing other uses of `mu` over time (but not in this CL).",
+      "parentUuid": "1e6e7e69_41fade11",
+      "range": {
+        "startLine": 1361,
+        "startChar": 1,
+        "endLine": 1361,
+        "endChar": 4
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9540814f_1b384408",
@@ -264,6 +288,30 @@
       "writtenOn": "2023-07-21T08:51:56Z",
       "side": 1,
       "message": "How about de-duping this to `(*common).initRaces` (or something)?",
+      "range": {
+        "startLine": 1656,
+        "startChar": 1,
+        "endLine": 1660,
+        "endChar": 2
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c3bc5e_1e9c443f",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1660,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T21:25:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9540814f_1b384408",
       "range": {
         "startLine": 1656,
         "startChar": 1,
@@ -297,6 +345,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4daaa0c_1faa2614",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T21:25:47Z",
+      "side": 1,
+      "message": "Apparently it does!",
+      "parentUuid": "4e68dbe5_2e15a9ac",
+      "range": {
+        "startLine": 345,
+        "startChar": 1,
+        "endLine": 345,
+        "endChar": 8
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "378a9a43_848a583f",
@@ -320,6 +392,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b68fbeac_80423e37",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T21:25:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "378a9a43_848a583f",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 380,
+        "endChar": 47
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "282d8559_25faedd2",
@@ -333,6 +429,30 @@
       "writtenOn": "2023-07-21T08:51:56Z",
       "side": 1,
       "message": "I think this has to go after `doRace()`, otherwise `subsub1` can terminate before the race in `subsub2` happens.",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 8
+      },
+      "revId": "5a57ca1c292695042d6ab864716f129f36ba73b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e34cd77_9f7e8ae8",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T21:25:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "282d8559_25faedd2",
       "range": {
         "startLine": 397,
         "startChar": 4,
