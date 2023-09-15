@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42ce8a3a_7edc4cf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-09-15T23:23:46Z",
+      "side": 1,
+      "message": "I have updated this CL to incorporate the Lstat method requested on the proposal. I also realized that the tests would be clearer if MapFS implemented the new SymlinkFS interface, so I went ahead and added that.",
+      "revId": "528a272e8c7ff461c74182829279522b106f8419",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
