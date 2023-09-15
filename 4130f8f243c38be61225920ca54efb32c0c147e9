@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f02e11e5_d940e885",
+        "filename": "src/go/doc/testdata/issue62640conflict.2.golden",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T18:36:58Z",
+      "side": 1,
+      "message": "Hmm, this still isn\u0027t right. According to https://go.dev/play/p/vjUK0Erza62, `A` and `D` are both fields, not methods.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 17
+      },
+      "revId": "4130f8f243c38be61225920ca54efb32c0c147e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
