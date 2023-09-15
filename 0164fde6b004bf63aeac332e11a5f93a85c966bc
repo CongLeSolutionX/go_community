@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f82b2e_624a9bbd",
+        "filename": "src/internal/zstd/block.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-15T01:34:40Z",
+      "side": 1,
+      "message": "I think you can use lenWindow here rather than r.window.len().",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba1dc945_a4b8e04a",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-15T01:34:40Z",
+      "side": 1,
+      "message": "s/offset/off/ (twice)",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27d6f204_c27b231d",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-15T01:34:40Z",
+      "side": 1,
+      "message": "I think this could use a comment like \"Update off to point to the oldest remaining byte.\"",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e85e416d_37b95f74",
+        "filename": "src/internal/zstd/window_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-15T01:34:40Z",
+      "side": 1,
+      "message": "Don\u0027t use spaces in the first argument to t.Run, the testing package will rewrite them to underscore anyhow.  Better to just use -.\n\nAlso don\u0027t use %q as that makes the name harder to match with -test.run.  In fact it might be better to use \"%d-%d-%d-%d\", size, i, j, k",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
