@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8c2cea18_c2d17476",
+        "filename": "src/go/doc/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T18:29:30Z",
+      "side": 1,
+      "message": "Done.\n\nAnd it turned out that `methodSet` was implemented incorrectly for structs with embedded fields, too; filed as #62640 and incorporated a fix.\n\nThat rabbit hole ran deeper than I expected — it turned out that we were redacting away unexported types very early, which removed some of the information needed to compute accurate method sets. 😅",
+      "parentUuid": "fe9d5532_1b17d8da",
+      "revId": "0284232487a095555f2a6295dc09adffbe44cf8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e914ba0b_e930bceb",
         "filename": "src/go/doc/doc.go",
         "patchSetId": 4
@@ -85,6 +103,24 @@
       "writtenOn": "2023-09-11T21:06:36Z",
       "side": 1,
       "message": "Just FYI. In go/types and friends we use _ to temporarily \"unexport\" names that we hope to export eventually, typically after a corresponding proposal has passed. So here we\u0027d write:\n\ntype _Field struct { ...\n\nOnce it has been decided that Field should be exported, we just remove the _.\n\nThat is, the leading _ serves as an indication of future intent.",
+      "revId": "0284232487a095555f2a6295dc09adffbe44cf8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c86e5610_e4a1ade2",
+        "filename": "src/go/doc/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T18:29:30Z",
+      "side": 1,
+      "message": "Applied here.",
+      "parentUuid": "e914ba0b_e930bceb",
       "revId": "0284232487a095555f2a6295dc09adffbe44cf8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -112,6 +148,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e9e4e39_ff8c2d04",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T18:29:30Z",
+      "side": 1,
+      "message": "Not quite. (I\u0027ve read through more closely and updated the comment.)",
+      "parentUuid": "5163c5e4_68c8aebc",
+      "range": {
+        "startLine": 230,
+        "startChar": 38,
+        "endLine": 230,
+        "endChar": 39
+      },
+      "revId": "0284232487a095555f2a6295dc09adffbe44cf8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2b88d77_9eb03e73",
@@ -129,6 +189,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22fa50ac_34ac7bec",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T18:29:30Z",
+      "side": 1,
+      "message": "This is held over from the baseline code, and it seems a little clearer to me with the named parameter than just a `string`.",
+      "parentUuid": "f2b88d77_9eb03e73",
+      "revId": "0284232487a095555f2a6295dc09adffbe44cf8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd7f523c_83a462a9",
@@ -142,6 +220,24 @@
       "writtenOn": "2023-09-11T21:06:36Z",
       "side": 1,
       "message": "`if !imp {\n   if ftype :\u003d ...\n   `\n   \ninstead of the if imp (makes the precondition explicit)",
+      "revId": "0284232487a095555f2a6295dc09adffbe44cf8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5677d893_509ab821",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-15T18:29:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd7f523c_83a462a9",
       "revId": "0284232487a095555f2a6295dc09adffbe44cf8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
