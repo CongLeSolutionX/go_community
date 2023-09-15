@@ -81,8 +81,19 @@ func AnalyzeFunc(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int32) *
 	}
 	fn.SetNeverReturns(entry.props.Flags&FuncPropNeverReturns != 0)
 	fpmap[fn] = entry
-	if fn.Inl != nil && fn.Inl.Properties == "" {
-		fn.Inl.Properties = entry.props.SerializeToString()
+
+	// Now that we've computed properties for this function, revisit the
+	// question of whether to continue to treat it as an inline candidate.
+	// If (for example) it has an initial size score of 150 and no interesting
+	// properties to speak of, then there isn't really any point to moving
+	// ahead with it as an inline candidate.
+	if fn.Inl != nil {
+		mxAdjust := int32(largestScoreAdjustment(fn, entry.props))
+		if fn.Inl.Cost-mxAdjust > inlineMaxBudget {
+			fn.Inl = nil
+		} else if fn.Inl.Properties == "" {
+			fn.Inl.Properties = entry.props.SerializeToString()
+		}
 	}
 	return fp
 }

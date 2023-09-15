@@ -242,6 +242,68 @@ func adjustScore(typ scoreAdjustTyp, score int, mask scoreAdjustTyp) (int, score
 	return score, mask
 }
 
+// largestScoreAdjustment tries to estimate the largest possible
+// negative score adjustment that could be applied to a call of the
+// function with the specified props. Example:
+//
+//	func foo() {                  func bar(x int, p *int) int {
+//	   ...                          if x < 0 { *p = x }
+//	}                               return 99
+//	                              }
+//
+// Function 'foo' above on the left has no interesting properties,
+// thus as a result the most we'll adjust any call to is the value for
+// "call in loop". If the calculated cost of the function is 150, and
+// the in-loop adjustment is 5 (for example), then there is not much
+// point treating it as inlinable. On the other hand "bar" has a param
+// property (parm "x" feeds unmodified to an "if" statement") and a
+// return property (always returns same constant) meaning that a given
+// call _could_ be rescored down as much as -35 points-- thus if the
+// size of "bar" is 100 (for example) then there is at least a chance
+// that scoring will enable inlining.
+func largestScoreAdjustment(fn *ir.Func, props *FuncProps) int {
+	var tmask scoreAdjustTyp
+	score := adjValues[inLoopAdj] // any call can be in a loop
+	for _, pf := range props.ParamFlags {
+		if pf == ParamMayFeedInterfaceMethodCall {
+			score, tmask = adjustScore(passConcreteToNestedItfCallAdj, score, tmask)
+		}
+		if pf == ParamFeedsInterfaceMethodCall {
+			score, tmask = adjustScore(passConcreteToItfCallAdj, score, tmask)
+		}
+		if pf == ParamMayFeedIndirectCall {
+			score, tmask = adjustScore(passFuncToNestedIndCallAdj, score, tmask)
+		}
+		if pf == ParamFeedsIndirectCall {
+			score, tmask = adjustScore(passFuncToIndCallAdj, score, tmask)
+		}
+		if pf == ParamMayFeedIfOrSwitch {
+			score, tmask = adjustScore(passConstToNestedIfAdj, score, tmask)
+		}
+		if pf == ParamFeedsIfOrSwitch {
+			score, tmask = adjustScore(passConstToIfAdj, score, tmask)
+		}
+	}
+	for _, rf := range props.ResultFlags {
+		if rf == ResultAlwaysSameConstant {
+			score, tmask = adjustScore(returnFeedsConstToIfAdj, score, tmask)
+		}
+		if rf == ResultIsConcreteTypeConvertedToInterface {
+			score, tmask = adjustScore(returnFeedsConcreteToInterfaceCallAdj, score, tmask)
+		}
+		if rf == ResultAlwaysSameInlinableFunc {
+			score, tmask = adjustScore(returnFeedsInlinableFuncToIndCallAdj, score, tmask)
+		}
+	}
+
+	if debugTrace&debugTraceScoring != 0 {
+		fmt.Fprintf(os.Stderr, "=-= largestScore(%v) is %d\n",
+			fn, score)
+	}
+
+	return score
+}
+
 // DumpInlCallSiteScores is invoked by the inliner if the debug flag
 // "-d=dumpinlcallsitescores" is set; it dumps out a human-readable
 // summary of all (potentially) inlinable callsites in the package,
