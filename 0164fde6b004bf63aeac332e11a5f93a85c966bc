@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a7c3167_bb60e38a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T06:42:04Z",
+      "side": 1,
+      "message": "Changed as suggested.",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43f82b2e_624a9bbd",
@@ -14,6 +31,24 @@
       "writtenOn": "2023-09-15T01:34:40Z",
       "side": 1,
       "message": "I think you can use lenWindow here rather than r.window.len().",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c31de7c0_c4f79219",
+        "filename": "src/internal/zstd/block.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T06:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43f82b2e_624a9bbd",
       "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -35,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a5ffc9f_b486612b",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T06:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba1dc945_a4b8e04a",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27d6f204_c27b231d",
@@ -52,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c079ebdd_6d10d582",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T06:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27d6f204_c27b231d",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e85e416d_37b95f74",
@@ -65,6 +136,24 @@
       "writtenOn": "2023-09-15T01:34:40Z",
       "side": 1,
       "message": "Don\u0027t use spaces in the first argument to t.Run, the testing package will rewrite them to underscore anyhow.  Better to just use -.\n\nAlso don\u0027t use %q as that makes the name harder to match with -test.run.  In fact it might be better to use \"%d-%d-%d-%d\", size, i, j, k",
+      "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "319c0215_5583ed33",
+        "filename": "src/internal/zstd/window_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-15T06:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e85e416d_37b95f74",
       "revId": "0164fde6b004bf63aeac332e11a5f93a85c966bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
