@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a5d8e24_83f1e1e5",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-09-18T14:07:32Z",
+      "side": 1,
+      "message": "Do we want to factor in what type of optimization this is, e.g., so inlining and devirt can be bisected separately? I\u0027m not sure if that would be through two separate hashes or just one of the factors included in the hash.",
+      "revId": "d29fd7fbc074de4f95328074bcb2549040e94292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
