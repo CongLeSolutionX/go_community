@@ -36,6 +36,7 @@ import (
 	"cmd/internal/sys"
 	"internal/abi"
 	"log"
+	"math/bits"
 )
 
 func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
@@ -80,15 +81,31 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 		}
 
 	case AMOVD:
-		// 32b constants (signed and unsigned) can be generated via 1 or 2 instructions.
-		// All others must be placed in memory and loaded.
+		// 32b constants (signed and unsigned) can be generated via 1 or 2 instructions. They can be assembled directly.
 		isS32 := int64(int32(p.From.Offset)) == p.From.Offset
 		isU32 := uint64(uint32(p.From.Offset)) == uint64(p.From.Offset)
 		if p.From.Type == obj.TYPE_CONST && p.From.Name == obj.NAME_NONE && p.From.Reg == 0 && !isS32 && !isU32 {
-			p.From.Type = obj.TYPE_MEM
-			p.From.Sym = ctxt.Int64Sym(p.From.Offset)
-			p.From.Name = obj.NAME_EXTERN
-			p.From.Offset = 0
+
+			// Is this a shifted 16b constant? If so, rewrite it to avoid a creating and loading a constant.
+			val := p.From.Offset
+			shift := bits.TrailingZeros64(uint64(val))
+			mask := 0xFFFF << shift
+			if val&int64(mask) == val || (val>>(shift+16) == -1 && (val>>shift)<<shift == val) {
+				// Rewrite this value into MOVD $const>>shift, Rto; SLD $shift, Rto
+				q := obj.Appendp(p, c.newprog)
+				q.As = ASLD
+				q.From.Type = obj.TYPE_CONST
+				q.From.Offset = int64(shift)
+				q.To = p.To
+				p.From.Offset >>= shift
+				p = q
+			} else {
+				// Load the constant from memory.
+				p.From.Type = obj.TYPE_MEM
+				p.From.Sym = ctxt.Int64Sym(p.From.Offset)
+				p.From.Name = obj.NAME_EXTERN
+				p.From.Offset = 0
+			}
 		}
 	}
 

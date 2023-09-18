@@ -33,6 +33,14 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	MOVD $2147483649, R5            // 6405800060a50001 or 0600800038a00001
 	// Hex constant 0xFFFFFFFF80000001
 	MOVD $-2147483647, R5    	// 3ca0800060a50001 or 0603800038a00001
+
+	// TODO: These are preprocessed by the assembler into MOVD $const>>shift, R5; SLD $shift, R5.
+	//	 This only captures the MOVD. Should the SLD be appended to the encoding by the test?
+	// Hex constant 0x20004000000
+	MOVD $2199090364416, R5    	// 60058001
+	// Hex constant 0xFFFFFE0004000000
+	MOVD $-2198956146688, R5    	// 38a08001
+
 	MOVD 8(R3), R4                  // e8830008
 	MOVD (R3)(R4), R5               // 7ca4182a
 	MOVD (R3)(R0), R5               // 7ca0182a
