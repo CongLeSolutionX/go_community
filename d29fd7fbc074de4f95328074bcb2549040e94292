@@ -16,6 +16,24 @@
       "message": "Do we want to factor in what type of optimization this is, e.g., so inlining and devirt can be bisected separately? I\u0027m not sure if that would be through two separate hashes or just one of the factors included in the hash.",
       "revId": "d29fd7fbc074de4f95328074bcb2549040e94292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ddb1a2_6751cb66",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-18T15:43:13Z",
+      "side": 1,
+      "message": "That\u0027s an option. One hash with some information distinguishing the two might be enough. On the other hand, we have -d\u003dpgoinline\u003d0/1 and pgodevirt\u003d0/1 to turn on/off each individual optimizations, so before bisecting on individual lines, we could bisect on optimization types first. I.e. if a PGO build fails, try build with `-d\u003dpgoinline\u003d0` and `-d\u003dpgodevirt\u003d0` to turn off a type of optimizations entirely, then try the hash to find a specific one. Maybe this doesn\u0027t scale well when we get to 15 types of optimizations? Then 15 different hashes probably wouldn\u0027t work well either...",
+      "parentUuid": "0a5d8e24_83f1e1e5",
+      "revId": "d29fd7fbc074de4f95328074bcb2549040e94292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
