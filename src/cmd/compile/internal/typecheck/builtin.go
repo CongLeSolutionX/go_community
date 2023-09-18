@@ -101,6 +101,7 @@ var runtimeDecls = [...]struct {
 	{"panicdottypeE", funcTag, 70},
 	{"panicdottypeI", funcTag, 70},
 	{"panicnildottype", funcTag, 71},
+	{"typeAssert", funcTag, 69},
 	{"interfaceSwitch", funcTag, 72},
 	{"ifaceeq", funcTag, 73},
 	{"efaceeq", funcTag, 73},

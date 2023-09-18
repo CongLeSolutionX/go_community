@@ -111,6 +111,7 @@ func assertI2I2(inter *byte, tab *byte) *byte
 func panicdottypeE(have, want, iface *byte)
 func panicdottypeI(have, want, iface *byte)
 func panicnildottype(want *byte)
+func typeAssert(s *byte, typ *byte) *byte
 
 // interface switches
 func interfaceSwitch(s *byte, t *byte) (int, *byte)
