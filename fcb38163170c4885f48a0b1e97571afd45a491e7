@@ -33,6 +33,24 @@
       "message": "wantErr is not type \"bool\", it\u0027s type \"any\".",
       "revId": "fcb38163170c4885f48a0b1e97571afd45a491e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aabeb605_29891829",
+        "filename": "src/net/http/response_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 60978
+      },
+      "writtenOn": "2023-09-18T15:16:09Z",
+      "side": 1,
+      "message": "Thanks. Changed `wantErr` description.",
+      "parentUuid": "06743af7_d65b53a1",
+      "revId": "fcb38163170c4885f48a0b1e97571afd45a491e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
