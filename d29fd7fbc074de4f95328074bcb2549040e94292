@@ -34,6 +34,24 @@
       "parentUuid": "0a5d8e24_83f1e1e5",
       "revId": "d29fd7fbc074de4f95328074bcb2549040e94292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "066a253c_47034a66",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-09-18T16:10:00Z",
+      "side": 1,
+      "message": "That\u0027s true. That suggests that just including the optimization type in the hash is probably the right approach. You could still turn off whole optimizations with the -d options. Though I suppose you couldn\u0027t force them on.",
+      "parentUuid": "c5ddb1a2_6751cb66",
+      "revId": "d29fd7fbc074de4f95328074bcb2549040e94292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
