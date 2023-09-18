@@ -273,8 +273,17 @@ func (p1 *pattern) comparePaths(p2 *pattern) relationship {
 	if len(p1.segments) != len(p2.segments) && !p1.lastSegment().multi && !p2.lastSegment().multi {
 		return disjoint
 	}
+	// A path ending in {$} is disjoint from one that ends in a literal or single wildcard.
+	// (This case does not fall out of the general algorithm below.)
+	if p1.lastSegment().s == "/" && isLitOrSingle(p2.lastSegment()) {
+		return disjoint
+	}
+	if p2.lastSegment().s == "/" && isLitOrSingle(p1.lastSegment()) {
+		return disjoint
+	}
+
+	// Consider corresponding segments in the two path patterns.
 	var segs1, segs2 []segment
-	// Look at corresponding segments in the two path patterns.
 	rel := equivalent
 	for segs1, segs2 = p1.segments, p2.segments; len(segs1) > 0 && len(segs2) > 0; segs1, segs2 = segs1[1:], segs2[1:] {
 		rel = combineRelationships(rel, compareSegments(segs1[0], segs2[0]))
@@ -372,4 +381,12 @@ func inverseRelationship(r relationship) relationship {
 	default:
 		return r
 	}
+}
+
+// isLitOrSingle reports whether the segment is a non-dollar literal or a single wildcard.
+func isLitOrSingle(seg segment) bool {
+	if seg.wild {
+		return !seg.multi
+	}
+	return seg.s != "/"
 }

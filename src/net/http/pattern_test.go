@@ -314,6 +314,8 @@ func TestComparePaths(t *testing.T) {
 		{"/b/{$}", "/b/{x...}", moreSpecific},
 		{"/b/{$}", "/b/c/{x...}", disjoint},
 		{"/b/{x}/a/{$}", "/{x}/c/{y...}", overlaps},
+		{"/{x}/b/{$}", "/a/{x}/{y}", disjoint},
+		{"/{x}/b/{$}", "/a/{x}/c", disjoint},
 
 		{"/{z}/{$}", "/{z}/a", disjoint},
 		{"/{z}/{$}", "/{z}/a/b", disjoint},
