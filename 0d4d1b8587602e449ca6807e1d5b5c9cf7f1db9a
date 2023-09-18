@@ -33,6 +33,24 @@
       "message": "We still see the build error itself on stderr, right? This test just doesn\u0027t assert anything about stderr?",
       "revId": "0d4d1b8587602e449ca6807e1d5b5c9cf7f1db9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99673586_7a0c505e",
+        "filename": "src/cmd/go/testdata/script/test_json_issue35169.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-18T20:29:18Z",
+      "side": 1,
+      "message": "Correct. (This test doesn\u0027t particularly care what happens with stderr as long as it doesn\u0027t interfere with the JSON stream.)",
+      "parentUuid": "492291b7_b7380a05",
+      "revId": "0d4d1b8587602e449ca6807e1d5b5c9cf7f1db9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
