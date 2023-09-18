@@ -52,6 +52,24 @@
       "parentUuid": "c5ddb1a2_6751cb66",
       "revId": "d29fd7fbc074de4f95328074bcb2549040e94292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e907168_3631e0dc",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-18T19:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "066a253c_47034a66",
+      "revId": "d29fd7fbc074de4f95328074bcb2549040e94292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
