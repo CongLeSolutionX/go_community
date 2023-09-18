@@ -1236,12 +1236,8 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	if a.Failed {
 		// We were unable to build the binary.
 		a.Failed = false
-		a.TestOutput = new(bytes.Buffer)
-		fmt.Fprintf(a.TestOutput, "FAIL\t%s [build failed]\n", a.Package.ImportPath)
+		fmt.Fprintf(os.Stderr, "FAIL\t%s [build failed]\n", a.Package.ImportPath)
 		base.SetExitStatus(1)
-
-		// release next test to start
-		close(r.next)
 		return nil
 	}
 
