@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eef0728c_8a8fce4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-09-18T20:27:48Z",
+      "side": 1,
+      "message": "At least according to my current proposal at go.dev/issue/62067, we would want exactly this output *in addition* to a failing build event.",
+      "revId": "0d4d1b8587602e449ca6807e1d5b5c9cf7f1db9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492291b7_b7380a05",
+        "filename": "src/cmd/go/testdata/script/test_json_issue35169.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-09-18T20:27:48Z",
+      "side": 1,
+      "message": "We still see the build error itself on stderr, right? This test just doesn\u0027t assert anything about stderr?",
+      "revId": "0d4d1b8587602e449ca6807e1d5b5c9cf7f1db9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
