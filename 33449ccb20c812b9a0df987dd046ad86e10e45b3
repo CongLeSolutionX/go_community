@@ -72,6 +72,24 @@
       "message": "Looks good.\nWhat needs to be done on the tsan change? I see a lit up squash-and-merge button. Is pressing that all that is still needed, or is there something else?",
       "revId": "33449ccb20c812b9a0df987dd046ad86e10e45b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52064ad2_e66743de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-09-19T20:08:17Z",
+      "side": 1,
+      "message": "From what I have confirmed so far, just merging the change into LLVM should be sufficient to unblock us. I have successfully compiled the race runtime myself with the tsan patch, and it appears to behave correctly.",
+      "parentUuid": "17b0c51a_dd550023",
+      "revId": "33449ccb20c812b9a0df987dd046ad86e10e45b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
