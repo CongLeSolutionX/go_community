@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fa191b8_4ebac099",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-09-19T03:49:14Z",
+      "side": 1,
+      "message": "No need to have this PoC line here",
+      "revId": "c1aefbadb90359ddab5cb2b45f69533a21d9c1e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df862af4_f3c973aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-09-19T03:49:14Z",
+      "side": 1,
+      "message": "ditto, no need for the semicolon",
+      "revId": "c1aefbadb90359ddab5cb2b45f69533a21d9c1e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e5e196b_42597b84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-09-19T03:49:14Z",
+      "side": 1,
+      "message": "Here it can be just\n\nFixes #62708\n\nNo semicolon as well",
+      "revId": "c1aefbadb90359ddab5cb2b45f69533a21d9c1e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf25b48d_45514980",
+        "filename": "src/syscall/types_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-09-19T03:49:14Z",
+      "side": 1,
+      "message": "Please make sure you have run go generate after doing these changes",
+      "revId": "c1aefbadb90359ddab5cb2b45f69533a21d9c1e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
