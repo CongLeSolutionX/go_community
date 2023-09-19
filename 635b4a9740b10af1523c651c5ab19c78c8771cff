@@ -89,6 +89,24 @@
       "parentUuid": "5c3afbcc_5bdd9d8a",
       "revId": "635b4a9740b10af1523c651c5ab19c78c8771cff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3bde686_6e14d2aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-19T21:55:56Z",
+      "side": 1,
+      "message": "I think it is impossible to calculate coverage percentage from this variable-length counter datastructure.\n\nI annotated the snapshot loop and we can observe that counters appear in the second snapshot as we run hello_test.go:\n```\n\u003d\u003d\u003d RUN   TestTestCoverage\nhello\n---snapshot start\nc.Len: 12\ni: 0 NumCtrs: 1 PkgId: 1 FuncId: 0\n---snapshot end\n---snapshot start\nc.Len: 12\ni: 0 NumCtrs: 1 PkgId: 1 FuncId: 0\ni: 4 NumCtrs: 5 PkgId: 1 FuncId: 1\n---snapshot end\n    hello_test.go:14: testing.Coverage() not monotonically increasing C1\u003d1.000000 C2\u003d0.833333\n--- FAIL: TestTestCoverage (0.00s)\n```\nI.e. on the first snapshot run there is no way to figure out that there are 2 functions and 6 counters since all words for the second function are zero.\nI could not figure out how, where and when (NumCtrs, PkgId, FuncId, Counters[5]) are written during execution of foo(29).\n\nEven if NumCtrs, PkgId and FuncId would be set before program runs with counter array values zero, there is still apparently no information about number of covered statements by each counter.",
+      "parentUuid": "212f7502_0f3ebecf",
+      "revId": "635b4a9740b10af1523c651c5ab19c78c8771cff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
