@@ -16,6 +16,24 @@
       "message": "@mpratt@google.com Just checking, is this CL being not yet submitted intentionally, or was it accidentally missed? Thanks.",
       "revId": "21b84b4e85d9e3a339bfe455e53c77b426389588",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49767e69_fe639e84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-09-19T19:20:27Z",
+      "side": 1,
+      "message": "Thanks for the poke. I was waiting to ensure the parent didn\u0027t need a revert to avoid needing a double revert. We should be good now.",
+      "parentUuid": "1b4d6150_fec155f4",
+      "revId": "21b84b4e85d9e3a339bfe455e53c77b426389588",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
