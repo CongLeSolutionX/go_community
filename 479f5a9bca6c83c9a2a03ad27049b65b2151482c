@@ -34,6 +34,24 @@
       "parentUuid": "946f47ca_c9d293ed",
       "revId": "479f5a9bca6c83c9a2a03ad27049b65b2151482c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec19d745_f061d376",
+        "filename": "src/cmd/cgo/internal/test/callstub_linux_ppc64le.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-19T14:34:33Z",
+      "side": 1,
+      "message": "Comment updated.",
+      "parentUuid": "61c7464c_f0b85116",
+      "revId": "479f5a9bca6c83c9a2a03ad27049b65b2151482c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
