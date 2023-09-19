@@ -422,6 +422,10 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	RLDIMI $0, R4, $7, R6           // 788601cc
 	RLDIMICC $0, R4, $7, R6         // 788601cd
 	RLDC $0, R4, $15, R6            // 78860728
+	RLDC R3, $32, $12, R4           // 7864030a
+	RLDC R3, $8, $32, R4            // 78644028
+	RLDCCC R3, $32, $12, R4         // 7864030b
+	RLDCCC R3, $8, $32, R4          // 78644029
 	RLDCCC $0, R4, $15, R6          // 78860729
 	RLDCL $0, R4, $7, R6            // 78860770
 	RLDCLCC $0, R4, $15, R6         // 78860721
