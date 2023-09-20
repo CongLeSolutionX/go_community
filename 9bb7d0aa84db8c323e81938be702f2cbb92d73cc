@@ -634,6 +634,30 @@
       },
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3710c85_7be04dfc",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:55:14Z",
+      "side": 1,
+      "message": "I wrote the perfG function:\n```\nperG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {\n\t\t\tfor ; pb.Next(); i++ {\n\t\t\t\tk, v :\u003d i, i\n\t\t\t\tm.Clear()\n\t\t\t\tm.Store(k, v)\n\t\t\t\tv1, ok :\u003d m.Load(k)\n\n\t\t\t\tif !ok {\n\t\t\t\t\tb.Errorf(\"failed to load %v\", k)\n\t\t\t\t\tb.Skip()\n\t\t\t\t}\n\n\t\t\t\tif v1.(int) !\u003d v {\n\t\t\t\t\tb.Errorf(\"expected %v, got %v\", k, v)\n\t\t\t\t\tb.Skip()\n\t\t\t\t}\n\n\t\t\t}\n\t\t},\n\n\n```\n\n```\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t   10000\t    905754 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\n    map_bench_test.go:555: failed to load 10000\n    map_bench_test.go:556: \n    map_bench_test.go:555: failed to load 70028\n    map_bench_test.go:556: \n    map_bench_test.go:555: failed to load 40143\n    map_bench_test.go:556: \n    map_bench_test.go:555: failed to load 60112\n    map_bench_test.go:556: \n    map_bench_test.go:555: failed to load 30153\n    map_bench_test.go:556: \n    map_bench_test.go:555: failed to load 20032\n    map_bench_test.go:556: \n    map_bench_test.go:555: failed to load 50461\n    map_bench_test.go:556: \n--- FAIL: BenchmarkClear/*sync_test.RWMutexMap-8\nBenchmarkClear/*sync.Map\n    map_bench_test.go:555: failed to load 1\n    map_bench_test.go:556: \n    map_bench_test.go:555: failed to load 100\n    map_bench_test.go:556: \n--- FAIL: BenchmarkClear/*sync.Map-8\n--- FAIL: BenchmarkClear\nFAIL\n```",
+      "parentUuid": "902c5c40_2719c567",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 1
+      },
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
