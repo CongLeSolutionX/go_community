@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afc30d42_c524a249",
+        "filename": "src/syscall/exec_pdeathsig_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T15:54:03Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. This test was initially added as a regression test for #9686, and the change of UID/GID seems important.\n\nI have mailed CL 529795 as an alternative.",
+      "revId": "ccea948b9e8fffcbc897af10cac2e450343f74d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
