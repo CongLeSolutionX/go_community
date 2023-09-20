@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "234e53f4_66950846",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-20T18:43:43Z",
+      "side": 1,
+      "message": "nit: use a switch statement? or have a lookup table/map that maps properties to adjustments?",
+      "revId": "93b1a572631a0dc41c45dd6bee776cc2da85f3c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
