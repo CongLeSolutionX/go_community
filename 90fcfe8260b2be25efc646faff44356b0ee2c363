@@ -16,6 +16,24 @@
       "message": "I haven\u0027t read this carefully, but what is the specific //go:linkname usage that motivates this addition? In general I think //go:linkname is overused in the standard library, and if there\u0027s one that\u0027s causing performance problems, maybe we should find a way to avoid using it, instead of adding more pragmas to layer on top of it.",
       "revId": "90fcfe8260b2be25efc646faff44356b0ee2c363",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aeb1ea4_7536b6a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T00:43:16Z",
+      "side": 1,
+      "message": "Ah, I see it in the CL above this one. Comment still applies: we should avoid linkname instead of building more things on top of it.",
+      "parentUuid": "2ea35a94_2ec0eec2",
+      "revId": "90fcfe8260b2be25efc646faff44356b0ee2c363",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
