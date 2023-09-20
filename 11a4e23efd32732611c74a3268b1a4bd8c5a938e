@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f0903f42_081f4707",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Done. I had to leave a couple behind because the ERROR \"token - 1\" position rules cannot express the error starting at a complex expression. Specifically if you have \"range T.M\" then the error should be at the start of T, but you can\u0027t write a /* ERROR */ comment immediately after T: gofmt moves the dot before the comment, which then fails the test because it wants the error position to be where the dot is, not where T is.",
+      "parentUuid": "357e0d39_e1d0441b",
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "74c5631a_f39c0203",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 12
@@ -58,6 +76,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cb55096_e0395ef4",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Removed.\n(It was there to silence an imagined set and not used error.)",
+      "parentUuid": "fd99aa81_810e2535",
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d13a5a50_40e2145c",
@@ -71,6 +107,30 @@
       "writtenOn": "2023-09-07T22:29:50Z",
       "side": 1,
       "message": "go/types",
+      "range": {
+        "startLine": 858,
+        "startChar": 43,
+        "endLine": 858,
+        "endChar": 70
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef917724_7b4411e5",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d13a5a50_40e2145c",
       "range": {
         "startLine": 858,
         "startChar": 43,
@@ -128,6 +188,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db392a95_1e2077fd",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d428f84_af3a8b2b",
+      "range": {
+        "startLine": 979,
+        "startChar": 12,
+        "endLine": 979,
+        "endChar": 17
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6a7c4d7_50880520",
@@ -141,6 +225,24 @@
       "writtenOn": "2023-09-11T18:28:54Z",
       "side": 1,
       "message": "I don\u0027t think this is correct: coreType returns nil if a type doesn\u0027t have a core type. E.g. for a type parameter with constraint `~int|~float64`.\n\nShould have a test case and check error.",
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c41610b_ebba8f62",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "This results in an error about \u0027no core type\u0027, which I think is correct. Added a test case.",
+      "parentUuid": "e6a7c4d7_50880520",
       "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -240,6 +342,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2b7d333_4f0d1781",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cd12ac7c_67146060",
+      "range": {
+        "startLine": 1011,
+        "startChar": 3,
+        "endLine": 1011,
+        "endChar": 39
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01348177_f04b5c46",
@@ -281,6 +407,54 @@
         "startChar": 3,
         "endLine": 1013,
         "endChar": 77
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe78115c_7bfec8f5",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c72e9a24_cf925fc7",
+      "range": {
+        "startLine": 1013,
+        "startChar": 3,
+        "endLine": 1013,
+        "endChar": 77
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4376499_9fdf933c",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01348177_f04b5c46",
+      "range": {
+        "startLine": 1013,
+        "startChar": 55,
+        "endLine": 1013,
+        "endChar": 75
       },
       "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -357,6 +531,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbe27982_11ef4055",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e8eeb146_32fa8914",
+      "range": {
+        "startLine": 1020,
+        "startChar": 4,
+        "endLine": 1020,
+        "endChar": 49
+      },
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6893087f_6921a265",
@@ -370,6 +568,24 @@
       "writtenOn": "2023-09-11T18:28:54Z",
       "side": 1,
       "message": "Is this needed? The same change was not made for the respective types2 version of this file.\n\nAlso, with this, when running the go/types tests, we don\u0027t exercise the new range forms.",
+      "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42227937_a5ad420c",
+        "filename": "src/go/types/stdlib_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T01:19:34Z",
+      "side": 1,
+      "message": "The types2 file was accidentally changed in the next commit up the stack. Moved down. It\u0027s true that the CL was not exercising the new range forms from go/types. However, I updated the test for internal/types/testdata to check this now.",
+      "parentUuid": "6893087f_6921a265",
       "revId": "11a4e23efd32732611c74a3268b1a4bd8c5a938e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
