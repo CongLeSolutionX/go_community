@@ -294,3 +294,110 @@ func TestMapRangeNoAllocations(t *testing.T) { // Issue 62404
 		t.Errorf("AllocsPerRun of m.Range = %v; want 0", allocs)
 	}
 }
+
+func TestMapDelete(t *testing.T) {
+	var m sync.Map
+
+	k := "go"
+	val := 1.22
+	m.Store(k, val)
+	v, ok := m.Load(k)
+
+	if !ok {
+		t.Fatalf("Store failed to store- %v:%v", k, val)
+	}
+
+	if v != val {
+		t.Fatalf("Load: invalid value- %v:%v", k, v)
+	}
+
+	m.Delete(k)
+
+	v, ok = m.Load(k)
+
+	if v != nil {
+		t.Fatalf("Delete: failed %v:%v", k, v)
+	}
+
+	if ok {
+		t.Fatalf("Delete: failed found %v:%v", k, v)
+	}
+}
+
+func TestMapClear(t *testing.T) {
+	var m sync.Map
+
+	key := "go"
+	val := 1.21
+	m.Store(key, val)
+	v, ok := m.Load(key)
+
+	if !ok {
+		t.Fatalf("Store failed to store- %v:%v", key, val)
+	}
+
+	if v != val {
+		t.Fatalf("Load: invalid value- %v:%v", key, v)
+	}
+
+	m.Clear()
+
+	nilVal, ok := m.Load(key)
+
+	if nilVal != nil || ok {
+		t.Fatalf("Clear: failed %v:%v", key, nilVal)
+	}
+
+	m.Store(key, val)
+
+	if val1, ok := m.Load(key); !ok || val1 != val {
+		t.Fatalf("Store: failed after clear %v:%v", key, val1)
+	}
+
+}
+
+func TestMapClearRace(t *testing.T) {
+	var m sync.Map
+
+	wg := sync.WaitGroup{}
+	wg.Add(30) // 10 goroutines for writing, 10 goroutines for reading, 10 goroutines for waiting
+
+	// Writing data to the map concurrently
+	for i := 0; i < 10; i++ {
+		go func(k, v int) {
+			defer wg.Done()
+			m.Store(k, v)
+		}(i, i*10)
+	}
+
+	// Reading data from the map concurrently
+	for i := 0; i < 10; i++ {
+		go func(k int) {
+			defer wg.Done()
+			if value, ok := m.Load(k); ok {
+				t.Logf("Key: %v, Value: %v\n", k, value)
+			} else {
+				t.Logf("Key: %v not found\n", k)
+			}
+		}(i)
+	}
+
+	// Clearing data from the map concurrently
+	for i := 0; i < 10; i++ {
+		go func() {
+			defer wg.Done()
+			m.Clear()
+		}()
+	}
+
+	wg.Wait()
+
+	m.Clear()
+
+	m.Range(func(k, v any) bool {
+		t.Errorf("invalid %v:%v", k, v)
+
+		return true
+	})
+
+}
