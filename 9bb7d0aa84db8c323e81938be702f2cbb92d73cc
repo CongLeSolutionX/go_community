@@ -19,6 +19,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb310c90_fdfc3034",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "gopherbot: might take some time to sync up....",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cde6e7c_38145b1c",
@@ -36,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "565d6b31_fd1b5d07",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cde6e7c_38145b1c",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fb1eab1_54530335",
@@ -49,6 +84,30 @@
       "writtenOn": "2023-09-20T16:56:42Z",
       "side": 1,
       "message": "Put the `m.mu.Lock` before the `defer m.mu.Unlock()`, so that the user gets a cleaner stack trace if `Lock` panics due to a nil receiver.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 12
+      },
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "585818f6_09c181d7",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fb1eab1_54530335",
       "range": {
         "startLine": 160,
         "startChar": 0,
@@ -110,6 +169,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be041d2f_9154c206",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "Thanks, its done",
+      "parentUuid": "d08ad32e_a97d76d6",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0179405e_11567151",
@@ -123,6 +200,24 @@
       "writtenOn": "2023-09-20T16:56:42Z",
       "side": 1,
       "message": "(https://go.dev/wiki/CodeReviewComments#variable-names)\n\nWe don\u0027t typically use prefixes like `my` in Go code. (Name the map `m` like in the existing test cases.)",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "161c765d_a2d990c3",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "my bad!",
+      "parentUuid": "0179405e_11567151",
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -144,6 +239,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb32ad8a_1f4cc6af",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c77b489_5168e4f7",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb5be521_0062624c",
@@ -157,6 +270,24 @@
       "writtenOn": "2023-09-20T16:56:42Z",
       "side": 1,
       "message": "`v, ok \u003d m.Load(k)`",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06507d1f_27624656",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb5be521_0062624c",
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -191,6 +322,24 @@
       "writtenOn": "2023-09-20T16:56:42Z",
       "side": 1,
       "message": "Remove leading blank line.",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5897afd_9eceb3c3",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fb36d44_76298768",
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
