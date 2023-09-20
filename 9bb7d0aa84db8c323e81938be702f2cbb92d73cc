@@ -21,6 +21,182 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4cde6e7c_38145b1c",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "(nit) Don\u0027t start a method body with a blank line.",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fb1eab1_54530335",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "Put the `m.mu.Lock` before the `defer m.mu.Unlock()`, so that the user gets a cleaner stack trace if `Lock` panics due to a nil receiver.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 12
+      },
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60ceea49_0263b12d",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "We should avoid allocating a new `readOnly` here if the map was already empty and not amended.\n\n(And this should be confirmed with a test using `testing.AllocsPerRun`; see the existing `TestMapRangeNoAllocations`.)",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f1aceb0_d0325abc",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "Also set `m.misses \u003d 0`, so that we don\u0027t immediately promote the newly-cleared `dirty` map on the next operation.",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d08ad32e_a97d76d6",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "Putting it all together:\n```\n\tread :\u003d m.loadReadOnly()\n\tif len(read.m) \u003d\u003d 0 \u0026\u0026 !read.amended {\n\t\treturn\n\t}\n\n\tm.mu.Lock()\n\tdefer m.mu.Unlock()\n\n\tread \u003d m.loadReadOnly()\n\tif len(read.m) \u003e 0 || read.amended {\n\t\tm.read.Store(\u0026readOnly{})\n\t}\n\tclear(m.dirty)\n\tm.misses \u003d 0\n```",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0179405e_11567151",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "(https://go.dev/wiki/CodeReviewComments#variable-names)\n\nWe don\u0027t typically use prefixes like `my` in Go code. (Name the map `m` like in the existing test cases.)",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c77b489_5168e4f7",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "(https://go.dev/wiki/CodeReviewComments#variable-names)\n\n`v`, not `loadedVal`.",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb5be521_0062624c",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "`v, ok \u003d m.Load(k)`",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55550f57_b02b446c",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "Rather than just testing `Clear` on its own, please add `Clear` methods to the other implementations in `map_reference_test.go`, an entry in the `mapOps` map, and a case in `mapCall.apply` so that the new method will be covered by the existing `TestMapMatchesRWMutex` and `TestMapMatchesDeepCopy` tests.",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb36d44_76298768",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "Remove leading blank line.",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "904374fb_fdb027bc",
         "filename": "src/sync/map_test.go",
         "patchSetId": 11
@@ -181,6 +357,29 @@
         "startChar": 0,
         "endLine": 356,
         "endChar": 2
+      },
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea99a0e_f51eb10b",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-20T16:56:42Z",
+      "side": 1,
+      "message": "The implementation of `Clear` seems simple enough not to need such an involved test, but it could be helpful to have a benchmark with a `perG` function that alternates among `Clear` and `Store` and `Load` with consistent keys; see the existing benchmarks in `map_bench_test.go`.\n\n(Note that the go project\u0027s `-race` builders also run each benchmark 1x during testing.)",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 1
       },
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
