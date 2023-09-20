@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a960052b_4032d051",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-20T15:10:33Z",
+      "side": 1,
+      "message": "Thanks for the CL. This is an interesting approach. As you discovered, method value is a source of escape for a number of reflect functions, and most of the time we probably know the Value is not a method value. So adding a function that doesn\u0027t support method value seems reasonable. However, as Russ and others commented on the followup CLs, using linkname to access it is probably not the right approach. Using an internal package is probably a better idea. Thanks.",
+      "revId": "520110e4556df2c11f59c1d7fb32fa2444f7fdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
