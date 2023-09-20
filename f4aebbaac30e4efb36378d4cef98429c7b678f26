@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85801af4_fd9b7949",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-09-20T18:35:40Z",
+      "side": 1,
+      "message": "The failed test is interesting: it explicitly asserts that ill-formed Examples should be silently skipped, whereas the purpose of the newly enabled checker is to report such mistakes. I\u0027m not sure what the motive is for the previous behavior; Russ, do you know?",
+      "revId": "f4aebbaac30e4efb36378d4cef98429c7b678f26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
