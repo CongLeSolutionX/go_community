@@ -100,6 +100,30 @@
       },
       "revId": "08aca1f69d7eea4b409db35c6345e43d4bb92201",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f34001c_7b8805ec",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-09-20T18:17:31Z",
+      "side": 1,
+      "message": "Okeydoke.",
+      "parentUuid": "415c466c_1e6f1a38",
+      "range": {
+        "startLine": 1414,
+        "startChar": 5,
+        "endLine": 1414,
+        "endChar": 24
+      },
+      "revId": "08aca1f69d7eea4b409db35c6345e43d4bb92201",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
