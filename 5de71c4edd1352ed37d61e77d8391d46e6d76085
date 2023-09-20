@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bc941dc_ed337cda",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-20T18:39:37Z",
+      "side": 1,
+      "message": "FWIW, I think it would be helpful to have some comments broadly explaining what these different adjustments represent, and when they apply.\n\nLike panicPathAdj, initFuncAdj, and inLoopAdj I think are based on the lexical context around the call site.\n\npassFooToBar seem to be about when a call involves an argument with property Foo that gets passed to a function where the parameter gets used with property Bar.\n\nreturnFeedsFooToBar seems to be the opposite: a caller returns a value with property Foo, which later its uses have property Bar.",
+      "revId": "5de71c4edd1352ed37d61e77d8391d46e6d76085",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
