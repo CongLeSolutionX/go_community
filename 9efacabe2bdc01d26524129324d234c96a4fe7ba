@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ef4035_8d0960a2",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-09-20T00:40:34Z",
+      "side": 1,
+      "message": "It\u0027s true that this comment is out of date.\nYou can delete everything from \"We\u0027re very careful\" onward.\nThe current GC does not care about partially built interface values.\n(One did, a long time ago.)",
+      "revId": "9efacabe2bdc01d26524129324d234c96a4fe7ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
