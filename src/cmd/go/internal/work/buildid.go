@@ -467,8 +467,8 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string, 
 					// If it doesn't work, it doesn't work: reusing the cached binary is more
 					// important than reprinting diagnostic information.
 					if printOutput {
-						showStdout(b, c, a.actionID, "stdout")      // compile output
-						showStdout(b, c, a.actionID, "link-stdout") // link output
+						showStdout(b, c, a, "stdout")      // compile output
+						showStdout(b, c, a, "link-stdout") // link output
 					}
 
 					// Poison a.Target to catch uses later in the build.
@@ -495,8 +495,8 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string, 
 		// If it doesn't work, it doesn't work: reusing the test result is more
 		// important than reprinting diagnostic information.
 		if printOutput {
-			showStdout(b, c, a.Deps[0].actionID, "stdout")      // compile output
-			showStdout(b, c, a.Deps[0].actionID, "link-stdout") // link output
+			showStdout(b, c, a.Deps[0], "stdout")      // compile output
+			showStdout(b, c, a.Deps[0], "link-stdout") // link output
 		}
 
 		// Poison a.Target to catch uses later in the build.
@@ -509,7 +509,7 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string, 
 	if file, _, err := cache.GetFile(c, actionHash); err == nil {
 		if buildID, err := buildid.ReadFile(file); err == nil {
 			if printOutput {
-				showStdout(b, c, a.actionID, "stdout")
+				showStdout(b, c, a, "stdout")
 			}
 			a.built = file
 			a.Target = "DO NOT USE - using cache"
@@ -551,7 +551,9 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string, 
 	return false
 }
 
-func showStdout(b *Builder, c cache.Cache, actionID cache.ActionID, key string) error {
+func showStdout(b *Builder, c cache.Cache, a *Action, key string) error {
+	actionID := a.actionID
+
 	stdout, stdoutEntry, err := cache.GetBytes(c, cache.Subkey(actionID, key))
 	if err != nil {
 		return err
