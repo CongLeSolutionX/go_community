@@ -76,6 +76,30 @@
       },
       "revId": "08aca1f69d7eea4b409db35c6345e43d4bb92201",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "415c466c_1e6f1a38",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-20T18:16:30Z",
+      "side": 1,
+      "message": "This is either building a plugin, or a program that can uses plugins. (We don\u0027t support shared build mode on darwin.)\n\n(Same applies to -flat_namespace. Maybe we want to change it to a more specific condition `ctxt.BuildMode \u003d\u003d BuildModePlugin || ctxt.canUsePlugins`, but probably not in a backport CL.)",
+      "parentUuid": "29c1d73b_25c7aa1a",
+      "range": {
+        "startLine": 1414,
+        "startChar": 5,
+        "endLine": 1414,
+        "endChar": 24
+      },
+      "revId": "08aca1f69d7eea4b409db35c6345e43d4bb92201",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
