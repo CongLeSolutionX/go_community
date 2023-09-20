@@ -663,7 +663,7 @@ var defaultVetFlags = []string{
 	"-slog",
 	"-stringintconv",
 	// "-structtags",
-	// "-tests",
+	"-tests",
 	// "-unreachable",
 	// "-unsafeptr",
 	// "-unusedresult",
