@@ -586,6 +586,30 @@
       },
       "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06e4417c_0a98d7ab",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-20T20:31:03Z",
+      "side": 1,
+      "message": "The test was written to ensure that clear doesn\u0027t break on concurrent reads and writes. \n\nSince the existing tests with clear doesn\u0027t do concurrent reads,writes and loads. \n\nBut I forgot to check if the values of the keys are corrupted when clear is run concurrently\n\nDo u think: I should implement a similar version with clear: https://github.com/golang/go/blob/817eccc6a0af158ff30e002144598c72367f7d78/src/sync/map_test.go#L188\n\nor remove this implementation.\n\nFYI: this test was written to be tested with -race flag.",
+      "parentUuid": "4ea99a0e_f51eb10b",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 1
+      },
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
