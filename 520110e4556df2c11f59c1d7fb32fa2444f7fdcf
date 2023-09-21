@@ -16,6 +16,23 @@
       "message": "Thanks for the CL. This is an interesting approach. As you discovered, method value is a source of escape for a number of reflect functions, and most of the time we probably know the Value is not a method value. So adding a function that doesn\u0027t support method value seems reasonable. However, as Russ and others commented on the followup CLs, using linkname to access it is probably not the right approach. Using an internal package is probably a better idea. Thanks.",
       "revId": "520110e4556df2c11f59c1d7fb32fa2444f7fdcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff0a260e_1d27c409",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-09-21T06:38:27Z",
+      "side": 1,
+      "message": "Abandoning in favor of a new CL 530097 (for reflect) I just mailed a few minutes ago along with its prerequisites: CL 530095 (runtime) and CL 530096 (compiler), which are now just before CL 530097 in my stack.",
+      "revId": "520110e4556df2c11f59c1d7fb32fa2444f7fdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
