@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f7fb5be_2b589fc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-21T13:34:32Z",
+      "side": 1,
+      "message": "It seems like the purpose of this change is a latency improvement? If so, please add a benchmark and show the change in benchmark results in the commit message — you can use `golang.org/x/perf/cmd/benchstat` to summarize the differences.",
+      "revId": "825ccc96c5e894238652160898426f8c0296884a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fcaaef7_d24afb25",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -49,6 +66,40 @@
       "writtenOn": "2023-09-21T12:15:42Z",
       "side": 1,
       "message": "I think the title is self-explanatory, and there is no need to change it. If you disagree, please share!",
+      "revId": "825ccc96c5e894238652160898426f8c0296884a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14125dc2_16fa2c4e",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-21T13:34:32Z",
+      "side": 1,
+      "message": "I would prefer not to use a `sync.Mutex` for this — for most simple synchronization I prefer a 1-buffered channel, with the result stored in the channel buffer when not in use.",
+      "revId": "825ccc96c5e894238652160898426f8c0296884a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c872d43c_8ec7a478",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-21T13:34:32Z",
+      "side": 1,
+      "message": "It seems like this will result in the modules being appended in nondeterministic order. To make `go list` more testable — and to make bugs easier to diagnose — it is important that its output be fully deterministic.",
       "revId": "825ccc96c5e894238652160898426f8c0296884a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
