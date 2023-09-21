@@ -109,7 +109,7 @@ func computeFuncProps(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int
 	enableDebugTraceIfEnv()
 	if debugTrace&debugTraceFuncs != 0 {
 		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
-			fn.Sym().Name, fn)
+			fn, fn)
 	}
 	ra := makeResultsAnalyzer(fn, canInline, inlineMaxBudget)
 	pa := makeParamsAnalyzer(fn)
@@ -121,7 +121,10 @@ func computeFuncProps(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int
 		a.setResults(fp)
 	}
 	// Now build up a partial table of callsites for this func.
-	cstab := computeCallSiteTable(fn, ffa.panicPathTable())
+	if debugTrace&debugTraceCalls != 0 {
+		fmt.Fprintf(os.Stderr, "=-= making callsite table for func %v:\n", fn)
+	}
+	cstab := computeCallSiteTable(fn, fn.Body, ffa.panicPathTable(), 0)
 	disableDebugTrace()
 	return fp, cstab
 }
