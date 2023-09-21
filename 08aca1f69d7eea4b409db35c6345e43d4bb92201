@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d05e2b3f_c019d521",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-21T22:21:05Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "08aca1f69d7eea4b409db35c6345e43d4bb92201",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "29c1d73b_25c7aa1a",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
