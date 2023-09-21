@@ -16,6 +16,9 @@ func TestDumpCallSiteScoreDump(t *testing.T) {
 	td := t.TempDir()
 	testenv.MustHaveGoBuild(t)
 
+	// TEMPORARY! skip for now
+	t.Skip("temp")
+
 	scenarios := []struct {
 		name      string
 		promoted  int

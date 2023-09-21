@@ -395,20 +395,21 @@ func ScoreCalls(fn *ir.Func) {
 		cstab = computeCallSiteTable(fn, fn.Body, scoreCallsCache.tab, nil, 0)
 	}
 
-	scoreCallsRegion(fn, fn.Body, cstab)
+	const doCallResults = true
+	scoreCallsRegion(fn, fn.Body, cstab, doCallResults)
 }
 
 // scoreCallsRegion assigns numeric scores to each of the callsites in
 // region 'region' within function 'fn'. This can be called on
 // an entire function, or with 'region' set to a chunk of
 // code corresponding to an inlined call.
-func scoreCallsRegion(fn *ir.Func, region ir.Nodes, cstab CallSiteTab) {
+func scoreCallsRegion(fn *ir.Func, region ir.Nodes, cstab CallSiteTab, doCallResults bool) {
 	if debugTrace&debugTraceScoring != 0 {
 		fmt.Fprintf(os.Stderr, "=-= scoreCallsRegion(%v, %s)\n",
 			ir.FuncName(fn), region[0].Op().String())
 	}
 
-	resultNameTab := make(map[*ir.Name]resultPropAndCS)
+	var resultNameTab map[*ir.Name]resultPropAndCS
 
 	// Sort callsites to avoid any surprises with non deterministic
 	// map iteration order (this is probably not needed, but here just
@@ -443,14 +444,21 @@ func scoreCallsRegion(fn *ir.Func, region ir.Nodes, cstab CallSiteTab) {
 		}
 		cs.Score, cs.ScoreMask = computeCallSiteScore(cs.Callee, cprops, cs.Call, cs.Flags)
 
-		examineCallResults(cs, resultNameTab)
+		if doCallResults {
+			if debugTrace&debugTraceScoring != 0 {
+				fmt.Fprintf(os.Stderr, "=-= examineCallResults at %s: flags=%d score=%d funcInlHeur=%v deser=%v\n", fmtFullPos(cs.Call.Pos()), cs.Flags, cs.Score, fihcprops, desercprops)
+			}
+			resultNameTab = examineCallResults(cs, resultNameTab)
+		}
 
 		if debugTrace&debugTraceScoring != 0 {
 			fmt.Fprintf(os.Stderr, "=-= scoring call at %s: flags=%d score=%d funcInlHeur=%v deser=%v\n", fmtFullPos(cs.Call.Pos()), cs.Flags, cs.Score, fihcprops, desercprops)
 		}
 	}
 
-	rescoreBasedOnCallResultUses(fn, resultNameTab, cstab)
+	if resultNameTab != nil {
+		rescoreBasedOnCallResultUses(fn, resultNameTab, cstab)
+	}
 
 	disableDebugTrace()
 
@@ -501,7 +509,7 @@ var allCallSites CallSiteTab
 //
 // Score  Adjustment  Status  Callee  CallerPos ScoreFlags
 // 115    40          DEMOTED cmd/compile/internal/abi.(*ABIParamAssignment).Offset     expand_calls.go:1679:14|6       panicPathAdj
-// 76     -5n           PROMOTED runtime.persistentalloc   mcheckmark.go:48:45|3   inLoopAdj
+// 76     -5n         PROMOTED runtime.persistentalloc   mcheckmark.go:48:45|3   inLoopAdj
 // 201    0           --- PGO  unicode.DecodeRuneInString        utf8.go:312:30|1
 // 7      -5          --- PGO  internal/abi.Name.DataChecked     type.go:625:22|0        inLoopAdj
 //
@@ -518,16 +526,31 @@ var allCallSites CallSiteTab
 // we used to make adjustments to callsite score via heuristics.
 func DumpInlCallSiteScores(profile *pgo.Profile, budgetCallback func(fn *ir.Func, profile *pgo.Profile) (int32, bool)) {
 
-	genstatus := func(cs *CallSite, prof *pgo.Profile) string {
+	var indirectlyDueToPromotion func(cs *CallSite) bool
+	indirectlyDueToPromotion = func(cs *CallSite) bool {
+		bud, _ := budgetCallback(cs.Callee, profile)
 		hairyval := cs.Callee.Inl.Cost
-		bud, isPGO := budgetCallback(cs.Callee, prof)
+		score := int32(cs.Score)
+		if hairyval > bud && score <= bud {
+			return true
+		}
+		if cs.parent != nil {
+			return indirectlyDueToPromotion(cs.parent)
+		}
+		return false
+	}
+
+	genstatus := func(cs *CallSite) string {
+		hairyval := cs.Callee.Inl.Cost
+		bud, isPGO := budgetCallback(cs.Callee, profile)
 		score := int32(cs.Score)
 		st := "---"
-
+		expinl := false
 		switch {
 		case hairyval <= bud && score <= bud:
 			// "Normal" inlined case: hairy val sufficiently low that
 			// it would have been inlined anyway without heuristics.
+			expinl = true
 		case hairyval > bud && score > bud:
 			// "Normal" not inlined case: hairy val sufficiently high
 			// and scoring didn't lower it.
@@ -535,13 +558,27 @@ func DumpInlCallSiteScores(profile *pgo.Profile, budgetCallback func(fn *ir.Func
 			// Promoted: we would not have inlined it before, but
 			// after score adjustment we decided to inline.
 			st = "PROMOTED"
+			expinl = true
 		case hairyval <= bud && score > bud:
 			// Demoted: we would have inlined it before, but after
 			// score adjustment we decided not to inline.
 			st = "DEMOTED"
 		}
+		inlined := cs.aux&csAuxInlined != 0
+		indprom := false
+		if cs.parent != nil {
+			indprom = indirectlyDueToPromotion(cs.parent)
+		}
+		if inlined && indprom {
+			st += "|INDPROM"
+		}
+		if inlined && !expinl {
+			st += "|[NI?]"
+		} else if !inlined && expinl {
+			st += "|[IN?]"
+		}
 		if isPGO {
-			st += " PGO"
+			st += "|PGO"
 		}
 		return st
 	}
@@ -589,10 +626,11 @@ func DumpInlCallSiteScores(profile *pgo.Profile, budgetCallback func(fn *ir.Func
 		for _, cs := range sl {
 			hairyval := cs.Callee.Inl.Cost
 			adj := int32(cs.Score) - hairyval
+			nm := mkname(cs.Callee)
+			ecc := EncodeCallSiteKey(cs)
 			fmt.Fprintf(os.Stdout, "%d  %d\t%s\t%s\t%s\t%s\n",
-				cs.Score, adj, genstatus(cs, profile),
-				mkname(cs.Callee),
-				EncodeCallSiteKey(cs),
+				cs.Score, adj, genstatus(cs),
+				nm, ecc,
 				cs.ScoreMask.String())
 		}
 	}
