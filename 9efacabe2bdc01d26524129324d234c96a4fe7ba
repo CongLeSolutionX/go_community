@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cffeb2e_2a49f411",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-09-21T06:27:13Z",
+      "side": 1,
+      "message": "Hi Cherry, this CL here by itself has no external impact on the escape-ness of the reflect APIs.\n\nTo see external benefit, it also needs a new CL 530097 I just mailed a few minutes ago. That new CL attempts to address reflect.Value.Interface escaping due to method values. (CL 530097 is now the main CL for that, but it also relies on CL 530095 (runtime) and CL 530096 (compiler), which are now just before CL 530097 in my stack).",
+      "parentUuid": "e12f83d5_2bd0b12f",
+      "revId": "9efacabe2bdc01d26524129324d234c96a4fe7ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6ef4035_8d0960a2",
         "filename": "src/reflect/value.go",
         "patchSetId": 5
