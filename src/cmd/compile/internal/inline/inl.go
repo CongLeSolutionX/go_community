@@ -1195,6 +1195,10 @@ func mkinlcall(callerfn *ir.Func, n *ir.CallExpr, fn *ir.Func, bigCaller bool, i
 		fmt.Printf("%v: After inlining %+v\n\n", ir.Line(res), res)
 	}
 
+	if goexperiment.NewInliner || inlheur.UnitTesting() {
+		inlheur.UpdateCallsiteTable(callerfn, n, res)
+	}
+
 	*inlCalls = append(*inlCalls, res)
 
 	return res
