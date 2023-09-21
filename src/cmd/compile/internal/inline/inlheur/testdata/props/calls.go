@@ -130,20 +130,21 @@ func init() {
 	println(callee(5))
 }
 
-// calls.go T_pass_inlinable_func_to_param_feeding_indirect_call 139 0 1
+// calls.go T_pass_inlinable_func_to_param_feeding_indirect_call 140 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
-// callsite: calls.go:140:19|0 flagstr "" flagval 0 score 16 mask 512 maskstr "passInlinableFuncToIndCallAdj"
+// callsite: calls.go:141:19|0 flagstr "" flagval 0 score 16 mask 512 maskstr "passInlinableFuncToIndCallAdj"
+// callsite: calls.go:141:19|calls.go:198:10|0 flagstr "" flagval 0 score 2 mask 0 maskstr ""
 // <endcallsites>
 // <endfuncpreamble>
 func T_pass_inlinable_func_to_param_feeding_indirect_call(x int) int {
 	return callsParam(x, callee)
 }
 
-// calls.go T_pass_noninlinable_func_to_param_feeding_indirect_call 149 0 1
+// calls.go T_pass_noninlinable_func_to_param_feeding_indirect_call 150 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
-// callsite: calls.go:152:19|0 flagstr "" flagval 0 score 36 mask 128 maskstr "passFuncToIndCallAdj"
+// callsite: calls.go:153:19|0 flagstr "" flagval 0 score 36 mask 128 maskstr "passFuncToIndCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_pass_noninlinable_func_to_param_feeding_indirect_call(x int) int {
@@ -152,24 +153,25 @@ func T_pass_noninlinable_func_to_param_feeding_indirect_call(x int) int {
 	return callsParam(x, calleeNoInline)
 }
 
-// calls.go T_pass_inlinable_func_to_param_feeding_nested_indirect_call 163 0 1
+// calls.go T_pass_inlinable_func_to_param_feeding_nested_indirect_call 165 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[32],"ResultFlags":[0]}
-// callsite: calls.go:164:25|0 flagstr "" flagval 0 score 27 mask 1024 maskstr "passInlinableFuncToNestedIndCallAdj"
+// callsite: calls.go:166:25|0 flagstr "" flagval 0 score 27 mask 1024 maskstr "passInlinableFuncToNestedIndCallAdj"
+// callsite: calls.go:166:25|calls.go:203:11|0 flagstr "" flagval 0 score 2 mask 0 maskstr ""
 // <endcallsites>
 // <endfuncpreamble>
 func T_pass_inlinable_func_to_param_feeding_nested_indirect_call(x int) int {
 	return callsParamNested(x, callee)
 }
 
-// calls.go T_pass_noninlinable_func_to_param_feeding_nested_indirect_call 175 0 1
+// calls.go T_pass_noninlinable_func_to_param_feeding_nested_indirect_call 177 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[32],"ResultFlags":[0]}
-// callsite: calls.go:176:25|0 flagstr "" flagval 0 score 47 mask 256 maskstr "passFuncToNestedIndCallAdj"
+// callsite: calls.go:178:25|0 flagstr "" flagval 0 score 47 mask 256 maskstr "passFuncToNestedIndCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_pass_noninlinable_func_to_param_feeding_nested_indirect_call(x int) int {
