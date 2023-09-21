@@ -87,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d12789f6_f6b455f6",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2023-09-21T14:46:21Z",
+      "side": 1,
+      "message": "I don\u0027t know how to utilize the channel and also provide predictable order. Will go with writing to an initialized array for now.",
+      "parentUuid": "14125dc2_16fa2c4e",
+      "revId": "825ccc96c5e894238652160898426f8c0296884a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c872d43c_8ec7a478",
@@ -100,6 +118,24 @@
       "writtenOn": "2023-09-21T13:34:32Z",
       "side": 1,
       "message": "It seems like this will result in the modules being appended in nondeterministic order. To make `go list` more testable — and to make bugs easier to diagnose — it is important that its output be fully deterministic.",
+      "revId": "825ccc96c5e894238652160898426f8c0296884a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fddc91c_524f8761",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2023-09-21T14:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c872d43c_8ec7a478",
       "revId": "825ccc96c5e894238652160898426f8c0296884a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
