@@ -41,19 +41,16 @@ type CallSite struct {
 // with many calls that share the same auto-generated pos.
 type CallSiteTab map[*ir.CallExpr]*CallSite
 
-// Package-level table of callsites.
-var cstab = CallSiteTab{}
-
-func GetCallSiteScore(ce *ir.CallExpr) (bool, int) {
-	cs, ok := cstab[ce]
-	if !ok {
+func GetCallSiteScore(fn *ir.Func, ce *ir.CallExpr) (bool, int) {
+	if fih, ok := fpmap[fn]; !ok {
 		return false, 0
+	} else {
+		cs, ok := fih.cstab[ce]
+		if !ok {
+			return false, 0
+		}
+		return true, cs.Score
 	}
-	return true, cs.Score
-}
-
-func CallSiteTable() CallSiteTab {
-	return cstab
 }
 
 type CSPropBits uint32

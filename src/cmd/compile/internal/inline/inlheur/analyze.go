@@ -75,10 +75,6 @@ func AnalyzeFunc(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int32) *
 		props:           fp,
 		cstab:           fcstab,
 	}
-	// Merge this functions call sites into the package level table.
-	if err := cstab.merge(fcstab); err != nil {
-		base.FatalfAt(fn.Pos(), "%v", err)
-	}
 	fn.SetNeverReturns(entry.props.Flags&FuncPropNeverReturns != 0)
 	fpmap[fn] = entry
 	if fn.Inl != nil && fn.Inl.Properties == "" {
