@@ -124,6 +124,24 @@
       "parentUuid": "a7e17087_ac0899fa",
       "revId": "96e18c039bba34bc3c3bc671fb7524a955c5d41a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9010fb7c_0e99efcb",
+        "filename": "src/cmd/vet/testdata/append/append.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-09-22T17:29:58Z",
+      "side": 1,
+      "message": "Thanks. Done",
+      "parentUuid": "e0dbfa71_023b39d0",
+      "revId": "96e18c039bba34bc3c3bc671fb7524a955c5d41a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

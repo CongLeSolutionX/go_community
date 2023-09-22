@@ -78,6 +78,30 @@
       },
       "revId": "b19e142c26cf09530eadc793a669d7100f081059",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a1f8fc4_2b31d1e0",
+        "filename": "src/cmd/vet/testdata/append/append.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-09-22T17:29:58Z",
+      "side": 1,
+      "message": "Thanks. Done",
+      "parentUuid": "845b5696_3f3bc132",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 54
+      },
+      "revId": "b19e142c26cf09530eadc793a669d7100f081059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
