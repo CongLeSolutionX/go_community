@@ -113,6 +113,8 @@ func cgoLookupServicePort(hints *_C_struct_addrinfo, network, service string) (p
 	}
 	var res *_C_struct_addrinfo
 	gerrno, err := _C_getaddrinfo(nil, (*_C_char)(unsafe.Pointer(&cservice[0])), hints, &res)
+	println("gerrno: ", gerrno)
+	println("err: ", err)
 	if gerrno != 0 {
 		isTemporary := false
 		switch gerrno {
@@ -120,10 +122,13 @@ func cgoLookupServicePort(hints *_C_struct_addrinfo, network, service string) (p
 			if err == nil { // see golang.org/issue/6232
 				err = syscall.EMFILE
 			}
+		case _C_EAI_SERVICE:
+			return 0, &DNSError{Err: "unknown port", Name: network + "/" + service, IsNotFound: true}
 		default:
 			err = addrinfoErrno(gerrno)
 			isTemporary = addrinfoErrno(gerrno).Temporary()
 		}
+		// TODO: remove debug error info
 		return 0, &DNSError{Err: err.Error(), Name: network + "/" + service, IsTemporary: isTemporary}
 	}
 	defer _C_freeaddrinfo(res)
@@ -140,7 +145,9 @@ func cgoLookupServicePort(hints *_C_struct_addrinfo, network, service string) (p
 			return int(p[0])<<8 | int(p[1]), nil
 		}
 	}
-	return 0, &DNSError{Err: "unknown port", Name: network + "/" + service}
+	// TODO: remove after trybots tests
+	panic("unreachable in cgo_unix.go")
+	return 0, &DNSError{Err: "unknown port, internal cgo error", Name: network + "/" + service}
 }
 
 func cgoLookupHostIP(network, name string) (addrs []IPAddr, err error) {
