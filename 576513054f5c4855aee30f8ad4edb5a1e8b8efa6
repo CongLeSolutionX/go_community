@@ -51,6 +51,24 @@
       "message": "Thanks, but we shouldn\u0027t complicate the code because of the current compiler.  We should improve the compiler instead.",
       "revId": "576513054f5c4855aee30f8ad4edb5a1e8b8efa6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ee518e9_101b44a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-09-24T10:52:57Z",
+      "side": 1,
+      "message": "Let me put my arguments forward (which I maybe should have added to the commit message).\n\n1. Performance gain is tangible because `val` is called in the hot loop and we can have it today while compiler improvement timeline that would make this change unnecessary is not obvious.\n2. The change is consistent with already existing `fetch` method that is called from huff.go and literals.go directly and there is no problem in converting its boolean result to error there. In fact this improvement is possible because `val` just wraps `fetch` which is inlined; here I just make one more step to inline `fetch` itself.\n3. The change does not complicate code as it is trivial and does not change code structure really",
+      "parentUuid": "d506eaf8_f4702d6c",
+      "revId": "576513054f5c4855aee30f8ad4edb5a1e8b8efa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
