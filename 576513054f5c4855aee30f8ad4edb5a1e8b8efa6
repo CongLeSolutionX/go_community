@@ -69,6 +69,23 @@
       "parentUuid": "d506eaf8_f4702d6c",
       "revId": "576513054f5c4855aee30f8ad4edb5a1e8b8efa6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a91776b_0737d996",
+        "filename": "src/internal/zstd/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-09-25T06:58:51Z",
+      "side": 1,
+      "message": "Maybe this is useful for you, this makes the val inlinable (cost 79) without changing the signature of the val method.\n\n```\n[mateusz@arch zstd (master)]$ git diff\ndiff --git a/src/internal/zstd/bits.go b/src/internal/zstd/bits.go\nindex c9a2f70802..46dc0b78e2 100644\n--- a/src/internal/zstd/bits.go\n+++ b/src/internal/zstd/bits.go\n@@ -103,8 +103,7 @@ func (rbr *reverseBitReader) val(b uint8) (uint32, error) {\n        }\n\n        rbr.cnt -\u003d uint32(b)\n-       v :\u003d (rbr.bits \u003e\u003e rbr.cnt) \u0026 ((1 \u003c\u003c b) - 1)\n-       return v, nil\n+       return (rbr.bits \u003e\u003e rbr.cnt) \u0026 ((1 \u003c\u003c b) - 1), nil\n }\n\n // fetch is called to ensure that at least b bits are available.\n@@ -116,9 +115,8 @@ func (rbr *reverseBitReader) fetch(b uint8) bool {\n                        return false\n                }\n                rbr.off--\n-               c :\u003d rbr.data[rbr.off]\n                rbr.bits \u003c\u003c\u003d 8\n-               rbr.bits |\u003d uint32(c)\n+               rbr.bits |\u003d uint32(rbr.data[rbr.off])\n                rbr.cnt +\u003d 8\n        }\n        return true\ndiff --git a/src/internal/zstd/zstd.go b/src/internal/zstd/zstd.go\nindex 60551a4371..60cbf79599 100644\n--- a/src/internal/zstd/zstd.go\n+++ b/src/internal/zstd/zstd.go\n@@ -460,7 +460,7 @@ func (ze *zstdError) Unwrap() error {\n }\n\n func (r *Reader) makeEOFError(off int) error {\n-       return r.wrapError(off, io.ErrUnexpectedEOF)\n+       return \u0026zstdError{r.blockOffset + int64(off), io.ErrUnexpectedEOF}\n }\n\n func (r *Reader) wrapNonEOFError(off int, err error) error {\n\n```",
+      "revId": "576513054f5c4855aee30f8ad4edb5a1e8b8efa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
