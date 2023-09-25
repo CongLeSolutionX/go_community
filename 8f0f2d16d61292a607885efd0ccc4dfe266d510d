@@ -16,6 +16,23 @@
       "message": "Keith, ok for me to submit this?",
       "revId": "8f0f2d16d61292a607885efd0ccc4dfe266d510d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8216e06_8afa93ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-09-25T15:09:01Z",
+      "side": 1,
+      "message": "Go for it.",
+      "revId": "8f0f2d16d61292a607885efd0ccc4dfe266d510d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
