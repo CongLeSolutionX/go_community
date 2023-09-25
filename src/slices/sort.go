@@ -117,10 +117,10 @@ func MaxFunc[S ~[]E, E any](x S, cmp func(a, b E) int) E {
 	return m
 }
 
-// BinarySearch searches for target in a sorted slice and returns the position
-// where target is found, or the position where target would appear in the
-// sort order; it also returns a bool saying whether the target is really found
-// in the slice. The slice must be sorted in increasing order.
+// BinarySearch searches for target in a sorted slice and returns the
+// smallest index where target is found, or the index where target
+// would appear in the sort order; it also reports whether target was
+// found in the slice. The slice must be sorted in increasing order.
 func BinarySearch[S ~[]E, E cmp.Ordered](x S, target E) (int, bool) {
 	// Inlining is faster than calling BinarySearchFunc with a lambda.
 	n := len(x)
@@ -146,7 +146,7 @@ func BinarySearch[S ~[]E, E cmp.Ordered](x S, target E) (int, bool) {
 // the target, a negative number if the slice element precedes the target,
 // or a positive number if the slice element follows the target.
 // cmp must implement the same ordering as the slice, such that if
-// cmp(a, t) < 0 and cmp(b, t) >= 0, then a must precede b in the slice.
+// cmp(a, t) < cmp(b, t), then a must precede b in the slice.
 func BinarySearchFunc[S ~[]E, E, T any](x S, target T, cmp func(E, T) int) (int, bool) {
 	n := len(x)
 	// Define cmp(x[-1], target) < 0 and cmp(x[n], target) >= 0 .
