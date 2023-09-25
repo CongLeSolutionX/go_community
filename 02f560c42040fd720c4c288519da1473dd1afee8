@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7d666ee_fd15d0a4",
+        "filename": "src/slices/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-09-25T19:50:52Z",
+      "side": 1,
+      "message": "Should we say the same for BinarySearchFunc? In the case of the latter, two equal values can be more easily distinguishable...\n\nAlso it may make sense to add a test for this, if this something we\u0027re guaranteeing explicitly now.",
+      "revId": "02f560c42040fd720c4c288519da1473dd1afee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
