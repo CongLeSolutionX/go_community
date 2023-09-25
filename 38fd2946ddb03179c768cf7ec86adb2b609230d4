@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df01d7ed_0a71e621",
+        "filename": "src/sync/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "(https://go.dev/wiki/CodeReviewComments#comment-sentences)\n\nGo comments should usually be complete sentences: start with a capital letter, and end with punctuation.",
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "569af0a0_005cc8f7",
+        "filename": "src/sync/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "(nit) This comment could be more concise or at a higher level: the code already indicates that the map is “empty and not amended”.\n\nPerhaps:\n```go\n// Avoid allocating a new readOnly when the map is already clear.\nreturn\n```",
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cab3967f_3858e568",
+        "filename": "src/sync/map.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "This line is redundant with line 171.",
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f982081_c979290b",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "This benchmark never reaches a steady state of keys, so there is no need to do work to prime it in the setup function.",
+      "range": {
+        "startLine": 541,
+        "startChar": 0,
+        "endLine": 545,
+        "endChar": 4
+      },
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9414af8f_a6fc2781",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "This looks racy — isn\u0027t it possible for another goroutine to reach its `Clear` after this goroutine\u0027s `Store`?",
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2611e95d_5d3ad8dd",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "It\u0027s not safe to call `b.Skip` in a `perG` function, since those run in separate goroutines.",
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ffe02c_cebdccc6",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "(nit) Remove trailing blank line.",
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3339593e_03f0b620",
+        "filename": "src/sync/map_reference_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "This implementation is not correct. The `DeepCopyMap` needs an `m.clean.Store` at the end of each method to update the state.\n\nIn this case, there is also no need to call `m.dirty()` to copy the existing contents. Instead, store a nil map:\n```\nfunc (m *DeepCopyMap) Clear() {\n\tm.mu.Lock()\n\tdefer m.mu.Unlock()\n\tm.clean.Store((map[any]any)(nil))\n}\n```",
+      "range": {
+        "startLine": 285,
+        "startChar": 7,
+        "endLine": 285,
+        "endChar": 16
+      },
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "760f2b1c_c34dba4c",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T20:53:12Z",
+      "side": 1,
+      "message": "The `mapOps` map is here.",
+      "revId": "38fd2946ddb03179c768cf7ec86adb2b609230d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
