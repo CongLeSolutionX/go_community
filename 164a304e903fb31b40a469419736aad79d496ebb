@@ -1,0 +1,114 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "232b1a79_5a8fc822",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2249,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T22:31:53Z",
+      "side": 1,
+      "message": "(not sure) Do we need to check that `a.Package` is non-nil, or is that invariantly true?",
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "620f955d_1e7f5c14",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2322,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T22:31:53Z",
+      "side": 1,
+      "message": "(nit) s/replaceWord/replacePrefix/\n\n(since this doesn\u0027t seem to check for word boundaries at the end of the thing to be replaced)",
+      "range": {
+        "startLine": 2322,
+        "startChar": 3,
+        "endLine": 2322,
+        "endChar": 14
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e29beea_36b58fbc",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2323,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T22:31:53Z",
+      "side": 1,
+      "message": "\u003e \"preceeded\" is a possible misspelling of \"preceded\" or \"proceeded\".\n\nPlease fix (“preceded”).",
+      "parentUuid": "a71706bb_a5226842",
+      "range": {
+        "startLine": 2323,
+        "startChar": 12,
+        "endLine": 2323,
+        "endChar": 21
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaaffcb5_87b7e1ae",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2347,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T22:31:53Z",
+      "side": 1,
+      "message": "The condition from `prefixSuffixError.Error` was `!strings.HasPrefix(strings.TrimPrefix(e.prefix, \"# \", e.importPath))`.\n\nI think that\u0027s specifically to handle the case where `desc` is `p.Desc()`, which includes the import path as a prefix.\n\nEven that, I suspect, is too eager to add the prefix: I see existing calls to `(*Builder).run` passing `\"cover \" + a.Package.ImportPath`. That may be an existing bug. 🤔",
+      "range": {
+        "startLine": 2347,
+        "startChar": 26,
+        "endLine": 2347,
+        "endChar": 48
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee7c2880_7cebe7d9",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-25T22:31:53Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me that the `go build ` prefix is appropriate here: the command that leads to this error is not necessarily `go build`.\n\nFor example, it seems like these errors could occur in `go test` or `go install` too.\n\n—\n\nI guess this comes from the existing `prefixSuffixError.Error` method?\nDo we know of any tests that break if we change it to something else?",
+      "range": {
+        "startLine": 2349,
+        "startChar": 21,
+        "endLine": 2349,
+        "endChar": 30
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
