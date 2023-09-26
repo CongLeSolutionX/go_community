@@ -533,3 +533,32 @@ func BenchmarkCompareAndDeleteMostlyMisses(b *testing.B) {
 		},
 	})
 }
+
+func BenchmarkClear(b *testing.B) {
+	const mapSize = 1 << 10
+
+	benchMap(b, bench{
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				k, v := i, i
+				b.StartTimer() // racy but to benchmark this is crucial
+				m.Clear()
+				b.StopTimer() // racy
+				m.Store(k, v)
+				v1, ok := m.Load(k)
+
+				if !ok {
+					b.Logf("failed to load %v", k)
+					// b.Skip() Unsafe to call in perfG
+					continue
+				}
+
+				if v1.(int) != v {
+					b.Errorf("expected %v, got %v", k, v)
+					// b.Skip()
+					continue
+				}
+			}
+		},
+	})
+}
