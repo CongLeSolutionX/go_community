@@ -181,10 +181,11 @@ var (
 	zstdBigErr   error
 )
 
-// zstdBigData returns the compressed contents of our large test file.
+// zstdBigData1 returns the compressed contents of our large test file,
+// produced by invoking zstd with the input on standard input.
 // This will only run on Unix systems with zstd installed.
 // That's OK as the package is GOOS-independent.
-func zstdBigData(t testing.TB) []byte {
+func zstdBigData1(t testing.TB) []byte {
 	input := bigData(t)
 
 	zstd := findZstd(t)
@@ -196,16 +197,65 @@ func zstdBigData(t testing.TB) []byte {
 		cmd.Stdout = &compressed
 		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {
-			zstdBigErr = fmt.Errorf("running zstd failed: %v", err)
+			zstdBig1Err = fmt.Errorf("running zstd failed: %v", err)
 			return
 		}
 
-		zstdBigBytes = compressed.Bytes()
+		zstdBig1Bytes = compressed.Bytes()
 	})
 	if zstdBigErr != nil {
 		t.Fatal(zstdBigErr)
 	}
-	return zstdBigBytes
+	return zstdBig1Bytes
+}
+
+var (
+	zstdBig2Once  sync.Once
+	zstdBig2Bytes []byte
+	zstdBig2Skip  bool
+	zstdBig2Err   error
+)
+
+// zstdBigData2 is like zstdBigData1, but invokes zstd on a file
+// rather than passing the data on standard input.
+// This produces different results as zstd knows the total size up front.
+func zstdBigData2(t testing.TB) []byte {
+	input := bigData(t)
+
+	zstdBig2Once.Do(func() {
+		if _, err := os.Stat("/usr/bin/zstd"); err != nil {
+			zstdBig2Skip = true
+			return
+		}
+
+		dir := t.TempDir()
+		if err := os.WriteFile(filepath.Join(dir, "big.txt"), input, 0o666); err != nil {
+			zstdBig2Err = err
+			return
+		}
+
+		cmd := exec.Command("/usr/bin/zstd", "-z", "big.txt")
+		cmd.Dir = dir
+		if err := cmd.Run(); err != nil {
+			zstdBig2Err = err
+			return
+		}
+
+		data, err := os.ReadFile(filepath.Join(dir, "big.txt.zst"))
+		if err != nil {
+			zstdBig2Err = err
+			return
+		}
+
+		zstdBig2Bytes = data
+	})
+	if zstdBig2Skip {
+		t.Skip("skipping because /usr/bin/zstd does not exist")
+	}
+	if zstdBig2Err != nil {
+		t.Fatal(zstdBig2Err)
+	}
+	return zstdBig2Bytes
 }
 
 // Test decompressing a large file. We don't have a compressor,
@@ -216,19 +266,22 @@ func TestLarge(t *testing.T) {
 	}
 
 	data := bigData(t)
-	compressed := zstdBigData(t)
+	oneTest := func(t *testing.T, compressed []byte) {
+		t.Logf("/usr/bin/zstd compressed %d bytes to %d", len(data), len(compressed))
 
 	t.Logf("zstd compressed %d bytes to %d", len(data), len(compressed))
 
-	r := NewReader(bytes.NewReader(compressed))
-	got, err := io.ReadAll(r)
-	if err != nil {
-		t.Fatal(err)
+		if !bytes.Equal(got, data) {
+			showDiffs(t, got, data)
+		}
 	}
 
-	if !bytes.Equal(got, data) {
-		showDiffs(t, got, data)
-	}
+	t.Run("stdin", func(t *testing.T) {
+		oneTest(t, zstdBigData1(t))
+	})
+	t.Run("file", func(t *testing.T) {
+		oneTest(t, zstdBigData2(t))
+	})
 }
 
 // showDiffs reports the first few differences in two []byte.
@@ -258,7 +311,7 @@ func TestAlloc(t *testing.T) {
 		t.Skip("skipping allocation test under race detector")
 	}
 
-	compressed := zstdBigData(t)
+	compressed := zstdBigData1(t)
 	input := bytes.NewReader(compressed)
 	r := NewReader(input)
 	c := testing.AllocsPerRun(10, func() {
@@ -319,7 +372,7 @@ func BenchmarkLarge(b *testing.B) {
 	b.StopTimer()
 	b.ReportAllocs()
 
-	compressed := zstdBigData(b)
+	compressed := zstdBigData1(b)
 
 	b.SetBytes(int64(len(compressed)))
 
