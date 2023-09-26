@@ -16,6 +16,46 @@
       "message": "Hello KSDaemon, I\u0027ve spotted some possible problems.\n\nThese findings are based on simple heuristics. If a finding appears wrong, briefly reply here saying so. Otherwise, please address any problems and update the GitHub PR. When complete, mark this comment as \u0027Done\u0027 and click the [blue \u0027Reply\u0027 button](https://github.com/golang/go/wiki/GerritBot#i-left-a-reply-to-a-comment-in-gerrit-but-no-one-but-me-can-see-it) above.\n\nPossible problems detected:\n  1. Do you have the right bug reference format? For this repo, the format is usually \u0027Fixes #12345\u0027 or \u0027Updates #12345\u0027 at the end of the commit message.\n\nTo edit the commit message, see instructions [here](https://github.com/golang/go/wiki/GerritBot/#how-does-gerritbot-determine-the-final-commit-message). For guidelines on commit messages for the Go project, see [here](https://go.dev/doc/contribute#commit_messages).\n\n\n(In general for Gerrit code reviews, the CL author is expected to close out each piece of feedback by marking it as \u0027Done\u0027 if implemented as suggested or otherwise reply to each review comment. See the [Review](https://go.dev/doc/contribute#review) section of the Contributing Guide for details.)",
       "revId": "9856f6e0df87f8d7f4c28dc6532804e926ff5bbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef960dd1_9187ab5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-09-26T12:36:54Z",
+      "side": 1,
+      "message": "This change needs to be made against the golang.org/x/sys repository (https://go.googlesource.com/sys) first and then vendored back into the main Go repository.\n\nIt also looks like there are similar implementations of `GetsockoptString` for in syscall_bsd.go, syscall_solaris.go and syscall_zos_s390x.go. These should probably be adjusted as well.",
+      "revId": "9856f6e0df87f8d7f4c28dc6532804e926ff5bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad9c187c_3200b6d1",
+        "filename": "src/cmd/vendor/golang.org/x/sys/unix/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1317,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-09-26T12:36:54Z",
+      "side": 1,
+      "message": "I think this could use `ByteSliceToString` instead:\n\n```go\nreturn ByteSliceToString(buf[:vallen]), nil\n```",
+      "range": {
+        "startLine": 1313,
+        "startChar": 0,
+        "endLine": 1317,
+        "endChar": 2
+      },
+      "revId": "9856f6e0df87f8d7f4c28dc6532804e926ff5bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
