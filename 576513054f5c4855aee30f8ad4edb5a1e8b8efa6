@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e268ed1_df15f9ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-26T03:40:02Z",
+      "side": 1,
+      "message": "1. The inliner is being rewritten today.  We shouldn\u0027t optimize for the current inliner.\n\n2. `val` and `fetch` are two different operations, I don\u0027t see any natural reason for them to behave the same way.  Code that calls `val` always fails when `val` fails.  That is not true of `fetch`, which is perhaps missnamed; it\u0027s most like \"ensure this many bits are available, if possible.\"\n\n3. It doesn\u0027t complicate the code much, but it does a bit: we have a lot more calls to create an error.\n\nBut in general this is a bad path to walk down.  Rewriting code to optimize for the current compiler is the last resort to reach for when you have a critical speed problem and there is nothing else you can do.  I don\u0027t think we are at that point.",
+      "parentUuid": "8ee518e9_101b44a9",
+      "revId": "576513054f5c4855aee30f8ad4edb5a1e8b8efa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3a91776b_0737d996",
