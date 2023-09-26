@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7de12959_695f6ca4",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-26T19:45:54Z",
+      "side": 1,
+      "message": "This mutex and timer manipulation is not appropriate in a benchmark — if a benchmark is not as simple as possible, it is likely to be too noisy or biased to be useful.\n\nIn general it is fine for a benchmark of a data structure (like `sync.Map`) to measure a mix of function calls, rather than just a single function call — real programs will execute a mix of function calls too, so that kind of benchmark will actually be more useful for measuring real-world performance.\n\nThat said: to avoid spurious allocations from the `Store` call, I would suggest using `i%256` instead of `i` so that the interface conversions for `Store` don\u0027t require extra allocations (see `runtime.staticuint64s`).",
+      "revId": "2a3e5327e9d2755693e4314dc00c1b15af866842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82955dcc_b1b618fa",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-26T19:45:54Z",
+      "side": 1,
+      "message": "I suggest skipping the `Load` calls entirely in this benchmark — given concurrency there is no guarantee as to what `Load` will return, and we can meaningfully benchmark `Clear` without it.",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 565,
+        "endChar": 4
+      },
+      "revId": "2a3e5327e9d2755693e4314dc00c1b15af866842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "980dac8f_6b3f38a9",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-26T19:45:54Z",
+      "side": 1,
+      "message": "Given that `Delete` and `Clear` should be covered by `TestMapMatchesRWMutex` and `TestMapMatchesDeepCopy`, I don\u0027t think we need separate sequential tests for them. (Those tests should already exercise these sequences and more.)",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 1
+      },
+      "revId": "2a3e5327e9d2755693e4314dc00c1b15af866842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b06dd9e_0f06bdb6",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-26T19:45:54Z",
+      "side": 1,
+      "message": "A comment for this test would be helpful — what properties is it checking for? What kind of failure modes would we expect to see in case of a bug?",
+      "revId": "2a3e5327e9d2755693e4314dc00c1b15af866842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb09a262_75bb9004",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-26T19:45:54Z",
+      "side": 1,
+      "message": "(https://go.dev/wiki/CodeReviewComments#useful-test-failures)\n\nInstead of just “invalid”, describe what was expected or not, and the relevant calls that led up to that expectation. For example:\n\n```go\nt.Errorf(\"after Clear, Range yielded (%v, %v); want no calls\", k, v)\n```",
+      "range": {
+        "startLine": 403,
+        "startChar": 12,
+        "endLine": 403,
+        "endChar": 19
+      },
+      "revId": "2a3e5327e9d2755693e4314dc00c1b15af866842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
