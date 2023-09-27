@@ -70,6 +70,24 @@
       "message": "It looks like the change here will cause us to no longer mark the error `IsNotFound` for the `WSAHOST_NOT_FOUND` error code. Is that intentional?\n\nIf so, it probably merits a code comment.",
       "revId": "c2312cf14fabaa246053299106ac5aa8b87c0875",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90637e61_10bb7fc5",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-09-27T13:46:00Z",
+      "side": 1,
+      "message": "\u003e It looks like the change here will cause us to no longer mark the error IsNotFound for the WSAHOST_NOT_FOUND error code. Is that intentional?\n\nYes, the `_WSAHOST_NOT_FOUND` does not seem to be returned in this case.\n\n\u003e If so, it probably merits a code comment.\n\nDone",
+      "parentUuid": "76640dc7_ed0409ca",
+      "revId": "c2312cf14fabaa246053299106ac5aa8b87c0875",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
