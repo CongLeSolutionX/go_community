@@ -124,6 +124,24 @@
       "parentUuid": "2874fd4d_62d675ee",
       "revId": "c2312cf14fabaa246053299106ac5aa8b87c0875",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91bee1b7_632c7105",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-27T18:47:59Z",
+      "side": 1,
+      "message": "Huh, interesting.\n\nOn the one hand, these calls to `getaddrinfo` or `GetAddrInfoW` appear to always supply a non-nil (but not necessarily positive-length?) argument for `servname` or `pServiceName` respectively.\n\nOn the other hand, POSIX is not exactly unambiguous about the meaning of “The name does not resolve for the supplied parameters”:\n“If `nodename` [is null], the requested service location is local to the caller.”\n\nFor example, if the `ai_family` hint is set to `_C_AF_INET6` and the host (or container) has no IPv6 interfaces configured, couldn\u0027t that result in a failure to resolve a name for an interface “local to the caller”, and therefore qualify as `EAI_NONAME`?\n\nAs an added wrinkle, though, we currently set the `ai_family` hint to a specific address family on Unix, but set it to `AF_UNSPEC` on Windows:\nhttps://cs.opensource.google/go/go/+/master:src/net/lookup_windows.go;l\u003d210;drc\u003d071aed2aaa0ed819582c5bff44b70d43c61f504a\nThat seems likely to be a bug.\n\nAt any rate: I think I do agree that it isn\u0027t practical to reproduce the `EAI_NONAME` return value in a portable test — but I also still think it would be more robust to explicitly check for `WSAHOST_NOT_FOUND` here as well.",
+      "parentUuid": "b9af67dd_0b2f14f8",
+      "revId": "c2312cf14fabaa246053299106ac5aa8b87c0875",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
