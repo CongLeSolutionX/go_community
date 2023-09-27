@@ -123,6 +123,23 @@
       "message": "Proposal got approved per https://go.dev/issue/58922 so am removing my hold. Jean-Baptiste, please rebase with the latest code from master. Thank you.",
       "revId": "5ccd45f9f4838351119f8351d787f9206b4618d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29d23c91_8511cd7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66028
+      },
+      "writtenOn": "2023-09-27T07:08:11Z",
+      "side": 1,
+      "message": "@emmanuel@orijtech.com done... sorry for the delay",
+      "revId": "5ccd45f9f4838351119f8351d787f9206b4618d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
