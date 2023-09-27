@@ -91,6 +91,9 @@ const (
 	// On 32-bit platforms, this same point is the 256 byte size class
 	// (8 KiB / 256 bytes * 8 bytes-per-header = 256 bytes of overhead).
 	//
+	// TODO: is above comment correct about a 256 byte cutover on 32-bit platforms?
+	// On 32-bit, minSizeForMallocHeader is 128 (4x32).
+	//
 	// Guaranteed to be exactly at a size class boundary. The reason this value is
 	// an exclusive minimum is subtle. Suppose we're allocating a 504-byte object
 	// and its rounded up to 512 bytes for the size class. If minSizeForMallocHeader
