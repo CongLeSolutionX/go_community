@@ -70,6 +70,24 @@
       "message": "Quick follow up, is the ball in my court to do anything with this change?",
       "revId": "ede57415045132cfaba05098830ed9a70f7a6a41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f45bd25b_c855ca41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65473
+      },
+      "writtenOn": "2023-09-27T13:19:01Z",
+      "side": 1,
+      "message": "Accidentally resolved this last question.",
+      "parentUuid": "53de73bc_a7aeb954",
+      "revId": "ede57415045132cfaba05098830ed9a70f7a6a41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
