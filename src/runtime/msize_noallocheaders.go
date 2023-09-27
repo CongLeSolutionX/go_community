@@ -11,6 +11,8 @@
 
 package runtime
 
+import "unsafe"
+
 // Returns size of the memory block that mallocgc will allocate if you ask for the size.
 //
 // The noscan argument is purely for compatibility with goexperiment.AllocHeaders.
@@ -26,4 +28,18 @@ func roundupsize(size uintptr, noscan bool) uintptr {
 		return size
 	}
 	return alignUp(size, _PageSize)
+}
+
+// Size of heap memory blocks that are allowed to point to the stack.
+// (We set noscan=true for consistency with the noallocheaders version of this.)
+var deferSize = roundupsize(unsafe.Sizeof(_defer{}), true)
+var gSize = roundupsize(unsafe.Sizeof(g{}), true)
+var sudogSize = roundupsize(unsafe.Sizeof(sudog{}), true)
+
+func init() {
+	// TODO: TEMPORARY
+	println("msize_noallocheaders:")
+	println("  deferSize =", deferSize)
+	println("  gSize =", gSize)
+	println("  sudogSize =", sudogSize)
 }
