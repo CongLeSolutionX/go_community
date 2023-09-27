@@ -106,6 +106,24 @@
       "parentUuid": "90637e61_10bb7fc5",
       "revId": "c2312cf14fabaa246053299106ac5aa8b87c0875",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9af67dd_0b2f14f8",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-09-27T15:18:13Z",
+      "side": 1,
+      "message": "\u003e The cgoLookupServicePort implementation checks for both EAI_NONANE and EAI_SERVICE, so the Windows implementation should check for both of the WSA equivalents.\n\n`cgoLookupServicePort` checks for `EAI_NONANE`, because darwin returns it for some reason, instead of the `EAI_SERVICE` (as other unix systems do).\n\n\u003e And please ensure that the EAI_NONAME error code is covered by a port-independent integration test. (The fact that this passed the Windows TryBot run is not reassuring.)\n\nHow would you trigger the `EAI_NONAME` error? It is only returned on darwin for some reason.\n\nWe might instead check for `EAI_NONAME` only on darwin.",
+      "parentUuid": "2874fd4d_62d675ee",
+      "revId": "c2312cf14fabaa246053299106ac5aa8b87c0875",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
