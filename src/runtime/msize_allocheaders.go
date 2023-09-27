@@ -11,6 +11,8 @@
 
 package runtime
 
+import "unsafe"
+
 // Returns size of the memory block that mallocgc will allocate if you ask for the size,
 // minus any inline space for metadata.
 func roundupsize(size uintptr, noscan bool) (reqSize uintptr) {
@@ -33,4 +35,36 @@ func roundupsize(size uintptr, noscan bool) (reqSize uintptr) {
 		return size
 	}
 	return reqSize &^ (pageSize - 1)
+}
+
+// Size of heap memory blocks that are allowed to point to the stack,
+// including any inline space for metadata.
+var (
+	deferSize uintptr
+	gSize     uintptr
+	sudogSize uintptr
+)
+
+func init() {
+	// TODO: maybe this already exists? maybe move elsewhere?
+	sizeclass := func(size uintptr) uintptr {
+		if size > maxSmallSize-mallocHeaderSize {
+			throw("unexpectedly small")
+		}
+		if size < maxTinySize {
+			throw("unexpectedly small")
+		}
+		// This mirrors the calculation in mallocgc.
+		var sizeclass uint8
+		if size <= smallSizeMax-8 {
+			sizeclass = size_to_class8[divRoundUp(size, smallSizeDiv)]
+		} else {
+			sizeclass = size_to_class128[divRoundUp(size-smallSizeMax, largeSizeDiv)]
+		}
+		size = uintptr(class_to_size[sizeclass])
+		return size
+	}
+	deferSize = sizeclass(unsafe.Sizeof(_defer{}))
+	gSize = sizeclass(unsafe.Sizeof(g{}))
+	sudogSize = sizeclass(unsafe.Sizeof(sudog{}))
 }
