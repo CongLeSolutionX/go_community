@@ -324,8 +324,8 @@
 (NE (CMPWconst [0] (Select0 (ANDCCconst [1] ((FLessThan|FLessEqual|FGreaterThan|FGreaterEqual) cc)))) yes no) => ((FLT|FLE|FGT|FGE) cc yes no)
 
 // Elide compares of bit tests
-((EQ|NE) (CMPconst [0] (Select0 (ANDCCconst [c] x))) yes no) => ((EQ|NE) (Select1 <types.TypeFlags> (ANDCCconst [c] x)) yes no)
-((EQ|NE) (CMPWconst [0] (Select0 (ANDCCconst [c] x))) yes no) => ((EQ|NE) (Select1 <types.TypeFlags> (ANDCCconst [c] x)) yes no)
+((EQ|NE) (CMPconst [0] (Select0 z:(ANDCCconst [c] x))) yes no) => ((EQ|NE) (Select1 <types.TypeFlags> z) yes no)
+((EQ|NE) (CMPWconst [0] (Select0 z:(ANDCCconst [c] x))) yes no) => ((EQ|NE) (Select1 <types.TypeFlags> z) yes no)
 
 // absorb flag constants into branches
 (EQ (FlagEQ) yes no) => (First yes no)
