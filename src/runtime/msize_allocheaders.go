@@ -11,6 +11,8 @@
 
 package runtime
 
+import "unsafe"
+
 // Returns size of the memory block that mallocgc will allocate if you ask for the size,
 // minus any inline space for metadata.
 func roundupsize(size uintptr, noscan bool) (reqSize uintptr) {
@@ -33,4 +35,16 @@ func roundupsize(size uintptr, noscan bool) (reqSize uintptr) {
 		return size
 	}
 	return reqSize &^ (pageSize - 1)
+}
+
+var deferSize = roundupsize(unsafe.Sizeof(_defer{}), false)
+var gSize = roundupsize(unsafe.Sizeof(g{}), false)
+var sudogSize = roundupsize(unsafe.Sizeof(sudog{}), false)
+
+func init() {
+	// TODO: TEMPORARY
+	println("msize_allocheaders:")
+	println("  deferSize =", deferSize)
+	println("  gSize =", gSize)
+	println("  sudogSize =", sudogSize)
 }
