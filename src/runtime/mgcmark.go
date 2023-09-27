@@ -1377,6 +1377,11 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 						greyobject(obj, b, i, span, gcw, objIndex)
 					} else if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
 						stk.putPtr(p, false)
+					} else if debug.invalidptr != 0 && span != nil && span.state.get() == mSpanManual {
+						println("runtime: heap pointer at", hex(b+i), "points to stack", hex(p))
+						gcDumpObject("heap obj", b, i)
+						gcDumpObject("stack obj", p, 0) // might have changed, but print anyway
+						throw("heap to stack pointer (incorrect use of unsafe or cgo?)")
 					}
 				}
 			}
@@ -1475,22 +1480,33 @@ func scanobject(b uintptr, gcw *gcWork) {
 
 		// Work here is duplicated in scanblock and above.
 		// If you make changes here, make changes there too.
-		obj := *(*uintptr)(unsafe.Pointer(addr))
+		p := *(*uintptr)(unsafe.Pointer(addr))
 
 		// At this point we have extracted the next potential pointer.
 		// Quickly filter out nil and pointers back to the current object.
-		if obj != 0 && obj-b >= n {
-			// Test if obj points into the Go heap and, if so,
+		if p != 0 && p-b >= n {
+			// Test if p points into the Go heap and, if so,
 			// mark the object.
 			//
 			// Note that it's possible for findObject to
-			// fail if obj points to a just-allocated heap
+			// fail if p points to a just-allocated heap
 			// object because of a race with growing the
 			// heap. In this case, we know the object was
 			// just allocated and hence will be marked by
 			// allocation itself.
-			if obj, span, objIndex := findObject(obj, b, addr-b); obj != 0 {
+			if obj, span, objIndex := findObject(p, b, addr-b); obj != 0 {
 				greyobject(obj, b, addr-b, span, gcw, objIndex)
+			} else if debug.invalidptr != 0 && span != nil && span.state.get() == mSpanManual {
+				if n != deferSize && n != gSize && n != sudogSize { // _defer, g, and sudog are allowed to contain stack pointers.
+					println("runtime: heap pointer at", hex(addr), "points to stack", hex(p), "elemsize", n)
+					// TODO: TEMPORARY
+					println("  deferSize =", deferSize, "unsafe.Sizeof(_defer{}) =", unsafe.Sizeof(_defer{}))
+					println("  gSize =", gSize, "unsafe.Sizeof(g{}) =", unsafe.Sizeof(g{}))
+					println("  sudogSize =", sudogSize, "unsafe.Sizeof(sudog{}) =", unsafe.Sizeof(sudog{}))
+					gcDumpObject("heap obj", b, addr-b)
+					gcDumpObject("stack obj", p, 0) // might have changed, but print anyway
+					throw("heap to stack pointer (incorrect use of unsafe or cgo?)")
+				}
 			}
 		}
 	}

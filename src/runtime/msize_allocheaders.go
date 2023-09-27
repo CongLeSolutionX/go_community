@@ -11,6 +11,8 @@
 
 package runtime
 
+import "unsafe"
+
 // Returns size of the memory block that mallocgc will allocate if you ask for the size,
 // minus any inline space for metadata.
 func roundupsize(size uintptr, noscan bool) (reqSize uintptr) {
@@ -33,4 +35,34 @@ func roundupsize(size uintptr, noscan bool) (reqSize uintptr) {
 		return size
 	}
 	return reqSize &^ (pageSize - 1)
+}
+
+// Size of heap memory blocks that are allowed to point to the stack,
+// including any inline space for metadata.
+var (
+	deferSize uintptr
+	gSize     uintptr
+	sudogSize uintptr
+)
+
+func init() {
+	// Compute the size class in bytes for _defer, g, and sudog.
+	// We currently assume they are all small objects.
+	sizeClassSize := func(reqSize uintptr) uintptr {
+		if reqSize > maxSmallSize-mallocHeaderSize {
+			throw("unexpectedly large")
+		}
+		if reqSize < maxTinySize {
+			throw("unexpectedly small")
+		}
+		size := roundupsize(reqSize, false)
+		if reqSize > minSizeForMallocHeader {
+			// Add back in the mallocHeaderSize that roundupsize subtracted.
+			size += mallocHeaderSize
+		}
+		return size
+	}
+	deferSize = sizeClassSize(unsafe.Sizeof(_defer{}))
+	gSize = sizeClassSize(unsafe.Sizeof(g{}))
+	sudogSize = sizeClassSize(unsafe.Sizeof(sudog{}))
 }
