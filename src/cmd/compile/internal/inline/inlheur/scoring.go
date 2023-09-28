@@ -10,6 +10,7 @@ import (
 	"cmd/compile/internal/pgo"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
+	"encoding/json"
 	"fmt"
 	"os"
 	"sort"
@@ -37,29 +38,177 @@ const (
 	returnFeedsConcreteToInterfaceCallAdj
 )
 
+// AdjTypAndScore holds information about a specific score adjustment
+// that we can make to a callsite if we find that some beneficial or
+// detrimental condition applies. For heuristics where there is "may"
+// and "must" version (ex: "param passes constant to if condition" vs
+// "param passes constant to nested/conditional if") we store the
+// sibling "may" type/adj in addition to the type/adj for the "must"
+// version.
+type AdjTypAndScore struct {
+	AdjTyp    scoreAdjustTyp // kind of adjustment
+	AdjVal    int            // value (positive or negative) added to score
+	MayAdjTyp scoreAdjustTyp // "may apply" sibling kind
+	MayAdjVal int            // "may apply" sibling score adj value
+}
+
+// ScoreAdjustmentTable type holds a table of flag/adj entries.
+type ScoreAdjustmentTable struct {
+	Entries []AdjTypAndScore
+}
+
+// This table records the specific values we use to adjust call
+// site scores in a given scenario. Notes:
+//
+//   - the debug option WriteInlScoreAdjTab=<file> can be used to write
+//     out the jsonified contents of this table to a file
+//
+//   - the debug option ReadInlScoreAdjTab=<file> will read json
+//     from the specified file and use it to replace the contents of this
+//     table (for experimentation purposes)
+//     out the jsonified contents of this table to a file
+//
+//   - the numbers in this table are chosen very arbitrarily; ideally
+//     we will go through some sort of turning process to decide
+//     what value for each one produces the best performance.
+var scoreAdjTab = ScoreAdjustmentTable{
+	Entries: []AdjTypAndScore{
+
+		// Entries based on call site flags.
+		AdjTypAndScore{
+			AdjTyp: panicPathAdj,
+			AdjVal: 40,
+		},
+		AdjTypAndScore{
+			AdjTyp: initFuncAdj,
+			AdjVal: 20,
+		},
+		AdjTypAndScore{
+			AdjTyp: inLoopAdj,
+			AdjVal: -5,
+		},
+
+		// Entries based on values passed to specific params at calls.
+		AdjTypAndScore{
+			AdjTyp:    passConstToIfAdj,
+			AdjVal:    -20,
+			MayAdjTyp: passConstToNestedIfAdj,
+			MayAdjVal: -15,
+		},
+		AdjTypAndScore{
+			AdjTyp:    passConcreteToItfCallAdj,
+			AdjVal:    -30,
+			MayAdjTyp: passConcreteToNestedItfCallAdj,
+			MayAdjVal: -25,
+		},
+		AdjTypAndScore{
+			AdjTyp:    passFuncToIndCallAdj,
+			AdjVal:    -25,
+			MayAdjTyp: passFuncToNestedIndCallAdj,
+			MayAdjVal: -20,
+		},
+		AdjTypAndScore{
+			AdjTyp:    passInlinableFuncToIndCallAdj,
+			AdjVal:    -45,
+			MayAdjTyp: passInlinableFuncToNestedIndCallAdj,
+			MayAdjVal: -40,
+		},
+
+		// Entries based on func results feeding into interesting contexts.
+		AdjTypAndScore{
+			AdjTyp: returnFeedsConstToIfAdj,
+			AdjVal: -15,
+		},
+		AdjTypAndScore{
+			AdjTyp: returnFeedsFuncToIndCallAdj,
+			AdjVal: -25,
+		},
+		AdjTypAndScore{
+			AdjTyp: returnFeedsInlinableFuncToIndCallAdj,
+			AdjVal: -40,
+		},
+		AdjTypAndScore{
+			AdjTyp: returnFeedsConcreteToInterfaceCallAdj,
+			AdjVal: -25,
+		},
+	},
+}
+
+var expectedScoreAdjTabNumEntries = len(scoreAdjTab.Entries)
+
+func readScoreAdjTabFromFile(path string, tab *ScoreAdjustmentTable) error {
+	const me = "readScoreAdjTabFromFile"
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("error reading file %q: %v", path, err)
+	}
+	if err := json.Unmarshal(data, tab); err != nil {
+		return fmt.Errorf("json.Unmarshal error on contents of %q: %v",
+			path, err)
+	}
+	// With the current implementation we expect a fully populated
+	// entries list (e.g. to disable a specific heuristic, instead of
+	// deleting its entry, just set its adjustment value(s) to zero).
+	if len(tab.Entries) != expectedScoreAdjTabNumEntries {
+		return fmt.Errorf("%s: error: in file %q wanted %d entries got %d",
+			me, path, expectedScoreAdjTabNumEntries, len(tab.Entries))
+	}
+	return nil
+}
+
+func buildAdjMapFromTab(tab *ScoreAdjustmentTable) (map[scoreAdjustTyp]int, error) {
+	m := make(map[scoreAdjustTyp]int)
+	for _, e := range tab.Entries {
+		if _, ok := m[e.AdjTyp]; ok {
+			return nil, fmt.Errorf("duplicate entry for adj type %d\n", e.AdjTyp)
+		}
+		m[e.AdjTyp] = e.AdjVal
+		if e.MayAdjTyp == 0 {
+			continue
+		}
+		if _, ok := m[e.MayAdjTyp]; ok {
+			return nil, fmt.Errorf("duplicate entry for adj type %d\n", e.MayAdjTyp)
+		}
+		m[e.MayAdjTyp] = e.MayAdjVal
+	}
+	return m, nil
+}
+
+func writeScoreAdjTabToFile(path string, tab *ScoreAdjustmentTable) error {
+	data, err := json.MarshalIndent(*tab, "", "\t")
+	if err != nil {
+		return fmt.Errorf("marshal ScoreAdjustmentTable: %v", err)
+	}
+	if err := os.WriteFile(path, data, 0666); err != nil {
+		return fmt.Errorf("error writing %s: %v", path, err)
+	}
+	return nil
+}
+
+func SetupScoreAdjTable() {
+	if base.Debug.WriteInlScoreAdjTab != "" {
+		if err := writeScoreAdjTabToFile(base.Debug.WriteInlScoreAdjTab, &scoreAdjTab); err != nil {
+			base.Fatalf("SetupScoreAdjTable: error on write: %v", err)
+		}
+		base.Debug.WriteInlScoreAdjTab = ""
+	}
+	if base.Debug.ReadInlScoreAdjTab != "" {
+		var tab ScoreAdjustmentTable
+		if err := readScoreAdjTabFromFile(base.Debug.ReadInlScoreAdjTab, &tab); err != nil {
+			base.Fatalf("error reading score adj table: %v", err)
+		}
+		scoreAdjTab = tab
+	}
+	if m, err := buildAdjMapFromTab(&scoreAdjTab); err != nil {
+		base.Fatalf("internal error in SetupScoreAdjTable: %v", err)
+	} else {
+		adjValues = m
+	}
+}
+
 // This table records the specific values we use to adjust call
 // site scores in a given scenario.
-// NOTE: these numbers are chosen very arbitrarily; ideally
-// we will go through some sort of turning process to decide
-// what value for each one produces the best performance.
-
-var adjValues = map[scoreAdjustTyp]int{
-	panicPathAdj:                          40,
-	initFuncAdj:                           20,
-	inLoopAdj:                             -5,
-	passConstToIfAdj:                      -20,
-	passConstToNestedIfAdj:                -15,
-	passConcreteToItfCallAdj:              -30,
-	passConcreteToNestedItfCallAdj:        -25,
-	passFuncToIndCallAdj:                  -25,
-	passFuncToNestedIndCallAdj:            -20,
-	passInlinableFuncToIndCallAdj:         -45,
-	passInlinableFuncToNestedIndCallAdj:   -40,
-	returnFeedsConstToIfAdj:               -15,
-	returnFeedsFuncToIndCallAdj:           -25,
-	returnFeedsInlinableFuncToIndCallAdj:  -40,
-	returnFeedsConcreteToInterfaceCallAdj: -25,
-}
+var adjValues map[scoreAdjustTyp]int
 
 func adjValue(x scoreAdjustTyp) int {
 	if val, ok := adjValues[x]; ok {
@@ -240,6 +389,27 @@ func adjustScore(typ scoreAdjustTyp, score int, mask scoreAdjustTyp) (int, score
 		mask |= typ
 	}
 	return score, mask
+}
+
+// BudgetExpansion returns the amount to relax/expand the base
+// inlining budget when the new inliner is turned on. With the new
+// inliner, the score for a given callsite can be adjusted down by
+// some amount due to heuristics, however we won't know whether this
+// is going to happen until much later after the CanInline call. This
+// function returns the amount to relax the budget initially (to allow
+// for a large score adjustment); later on in RevisitInlinability
+// we'll look at each individual function to demote it if needed.
+// Note that there is a compile time cost associated with increasing
+// the budget: larger budgets mean CanInline takes longer to bail on
+// non-inlinable functions, and we'll wind up copying the IR for
+// functions that may later on turn out to not be candidates after all.
+func BudgetExpansion(maxbud int32) int32 {
+	// In the default case, double the budget. This should be good enough
+	// for most cases.
+	if base.Debug.InlBudgetRelaxAmt != 0 {
+		return int32(base.Debug.InlBudgetRelaxAmt)
+	}
+	return maxbud
 }
 
 // largestScoreAdjustment tries to estimate the largest possible
