@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f168b6e1_b281c17d",
+        "filename": "src/syscall/rlimit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-28T19:08:35Z",
+      "side": 1,
+      "message": "Previously we had to do this because there is no way to remove a value from an atomic.Value. But with this change, this line can instead be\n\n    origRlimitNoFile.Store(nil)\n\n(with an appropriate change to the comment).",
+      "revId": "8814e0cea7cb1c9d6a02b068a21433f50119aa3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "497fbbc5_ff3a80f4",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-28T19:08:35Z",
+      "side": 1,
+      "message": "origRLimitNofile.Store(nil)",
+      "revId": "8814e0cea7cb1c9d6a02b068a21433f50119aa3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
