@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d68760b_ba3d7196",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-28T16:02:22Z",
+      "side": 1,
+      "message": "I guess, but why?\n\nThe thing I hope to measure with this benchmark is the average rate of allocations per `Clear` call (discussed in https://go-review.git.corp.google.com/c/go/+/515015/11..28/src/sync/map.go#164).\n\nSince that allocation occurs at the transition from non-empty to empty, reproducing it requires only `Store` and `Clear`.",
+      "parentUuid": "911b9e87_ab4c2563",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 565,
+        "endChar": 4
+      },
+      "revId": "2a3e5327e9d2755693e4314dc00c1b15af866842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "980dac8f_6b3f38a9",
         "filename": "src/sync/map_test.go",
         "patchSetId": 24

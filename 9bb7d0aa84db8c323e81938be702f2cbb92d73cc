@@ -245,6 +245,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed560e7c_91d27d81",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-28T16:02:22Z",
+      "side": 1,
+      "message": "The `if len(read.m) \u003e 0 || read.amended {` check within the locked section avoids unnecessary allocations if multiple goroutines call `Clear` on a non-empty map simultaneously.\n\nI would expect that to show up as a (moderate to small) difference in the number of allocations in `BenchmarkClear`, once the `sync.Mutex` is removed from that benchmark.",
+      "parentUuid": "a62da51d_f217be7f",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f1aceb0_d0325abc",
         "filename": "src/sync/map.go",
         "patchSetId": 11
