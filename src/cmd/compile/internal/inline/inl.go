@@ -162,6 +162,8 @@ func InlinePackage(p *pgo.Profile) {
 		p = nil
 	}
 
+	inlheur.SetupScoreAdjTable()
+
 	InlineDecls(p, typecheck.Target.Funcs, true)
 
 	// Perform a garbage collection of hidden closures functions that
@@ -289,7 +291,7 @@ func inlineBudget(fn *ir.Func, profile *pgo.Profile, relaxed bool, verbose bool)
 		}
 	}
 	if relaxed {
-		budget += inlineMaxBudget
+		budget += inlheur.BudgetExpansion(inlineMaxBudget)
 	}
 	return budget
 }
