@@ -88,6 +88,24 @@
       "parentUuid": "7cd648b1_0e734878",
       "revId": "43c402b6486897147af0b96a7f39e9b7c2864165",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67bdfbb6_08ed64f7",
+        "filename": "src/cmd/go/testdata/script/build_darwin_cc_arch.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-09-28T19:48:10Z",
+      "side": 1,
+      "message": "Huh, good question!\n\nI\u0027m not sure — in general `go build -n` may still execute a few trivial compiler commands to check for flag or feature support, and IIRC those are not skipped because they affect the flags passed to later commands.",
+      "parentUuid": "9981558e_8d73274e",
+      "revId": "43c402b6486897147af0b96a7f39e9b7c2864165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
