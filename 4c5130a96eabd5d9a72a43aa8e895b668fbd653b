@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "416759f1_873f30b7",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-28T20:10:09Z",
+      "side": 1,
+      "message": "In the old code we don\u0027t print the \"unexpected SPWRITE\" if unwindPrintErrors is set. Now we print. This causes it to print an \"unexpected SPWRITE\" when it panics on systemstack.\n```\ntraceback: unexpected SPWRITE function runtime.systemstack\nruntime.systemstack(0x501fcc0)\n\t/Users/cherryyz/src/go/src/runtime/asm_amd64.s:509 +0x4a fp\u003d0x7ff7bbfac760 sp\u003d0x7ff7bbfac750 pc\u003d0x4fa738a\n```\n\nPreviously (and Go 1.21.1 and before) it just prints the systemstack frame and stops.\n\nI\u0027m not sure printing this line is the desired behavior. I think one point of SPWRITE is that we can stop at stack-switching frames when printing at panic.",
+      "revId": "4c5130a96eabd5d9a72a43aa8e895b668fbd653b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
