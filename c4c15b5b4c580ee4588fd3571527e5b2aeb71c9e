@@ -16,6 +16,23 @@
       "message": "Kindly ping. Currently, when running `% go get -d\u003dfalse xxx`, it will prompt as follows:\n```console\n% go get -d\u003dfalse xxx\ngo: -d flag may not be disabled\n% \n```",
       "revId": "c4c15b5b4c580ee4588fd3571527e5b2aeb71c9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f55c9c_255b60e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62853
+      },
+      "writtenOn": "2023-09-28T17:52:37Z",
+      "side": 1,
+      "message": "Perhaps this should be abandoned, however, could anyone take a minute to look at this? Thanks.",
+      "revId": "c4c15b5b4c580ee4588fd3571527e5b2aeb71c9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
