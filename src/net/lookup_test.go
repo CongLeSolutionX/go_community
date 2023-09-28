@@ -1468,3 +1468,13 @@ func TestLookupPortNotFound(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }
+
+func TestLookupPortDifferentNetwork(t *testing.T) {
+	// imaps service is only avilable through a tcp network, see:
+	// https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=imaps
+	_, err := LookupPort("udp", "imaps")
+	var dnsErr *DNSError
+	if !errors.As(err, &dnsErr) || !dnsErr.IsNotFound {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
