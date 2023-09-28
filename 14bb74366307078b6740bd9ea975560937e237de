@@ -34,6 +34,23 @@
       "parentUuid": "8ae8e79d_0bd15486",
       "revId": "14bb74366307078b6740bd9ea975560937e237de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05cd591b_ed6ddbb1",
+        "filename": "src/syscall/exec_bsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-09-28T16:55:23Z",
+      "side": 1,
+      "message": "I don\u0027t see anything that prevents rlim from being nil here.  I think that this and all the similar code in other files has to be\n\n    if rlim !\u003d nil \u0026\u0026 rlim.Cur !\u003d 0 {",
+      "revId": "14bb74366307078b6740bd9ea975560937e237de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
