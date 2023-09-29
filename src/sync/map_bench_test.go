@@ -533,3 +533,33 @@ func BenchmarkCompareAndDeleteMostlyMisses(b *testing.B) {
 		},
 	})
 }
+
+func BenchmarkClear(b *testing.B) {
+
+	benchMap(b, bench{
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				k, v := i%256, i%256
+
+				m.Clear()
+
+				m.Store(k, v)
+				// Skipping load calls due to concurrency
+
+				/*v1, ok := m.Load(k)
+
+				if !ok {
+					b.Logf("failed to load %v", k)
+					// b.Skip() Unsafe to call in perfG
+					continue
+				}
+
+				if v1.(int) != v {
+					b.Errorf("expected %v, got %v", k, v)
+					// b.Skip()
+					continue
+				}*/
+			}
+		},
+	})
+}
