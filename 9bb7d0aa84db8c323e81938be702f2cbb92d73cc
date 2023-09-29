@@ -263,6 +263,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ba2d25f_86a95783",
+        "filename": "src/sync/map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-29T02:50:46Z",
+      "side": 1,
+      "message": "setup_call: go test -c -race\n\n1. BenchmarkClear without Load Calls\n\ni) i) with check for empty map in Clear\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  363613\t      2946 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  525649\t      2621 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  280063\t      7898 ns/op\nPASS\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  467364\t      2432 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  753368\t      1588 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  388039\t      3165 ns/op\nPASS\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  471136\t      2255 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  663817\t      1596 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  387192\t      3133 ns/op\nPASS\n\nii) without check for empty map in Clear\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  471284\t      3348 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  636710\t      1675 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  388240\t      3132 ns/op\nPASS\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  460369\t      2824 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  703011\t      1611 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  386132\t      3143 ns/op\nPASS\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  462972\t      2674 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  702590\t      1607 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  389812\t      3117 ns/op\nPASS\n\n\n2. BenchmarkClear with Load Calls\n\ni) with check for empty map in Clear\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  393286\t      2641 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  511614\t      2387 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  249514\t      4807 ns/op\nPASS\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  306735\t      3774 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  411452\t      2948 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  199868\t      6404 ns/op\nPASS\n\n\nii) without check for empty map in Clear\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  450927\t      2620 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  509013\t      2388 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  249022\t      4768 ns/op\nPASS\n\ngoos: darwin\ngoarch: arm64\npkg: sync\nBenchmarkClear\nBenchmarkClear/*sync_test.DeepCopyMap\nBenchmarkClear/*sync_test.DeepCopyMap-8         \t  458102\t      2637 ns/op\nBenchmarkClear/*sync_test.RWMutexMap\nBenchmarkClear/*sync_test.RWMutexMap-8          \t  513540\t      2367 ns/op\nBenchmarkClear/*sync.Map\nBenchmarkClear/*sync.Map-8                      \t  250668\t      4850 ns/op\nPASS",
+      "parentUuid": "ed560e7c_91d27d81",
+      "revId": "9bb7d0aa84db8c323e81938be702f2cbb92d73cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f1aceb0_d0325abc",
         "filename": "src/sync/map.go",
         "patchSetId": 11
