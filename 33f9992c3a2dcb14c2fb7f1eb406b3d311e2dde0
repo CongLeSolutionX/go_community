@@ -75,6 +75,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b968ced_766dacb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-09-29T10:27:34Z",
+      "side": 1,
+      "message": "bug in service database, smtps is defined on udp and tcp networks there.\n\nhttps://storage.googleapis.com/go-build-log/856b6330/freebsd-amd64-13_0_7b905d85.log",
+      "parentUuid": "2ed46fe8_6a30cb69",
+      "revId": "33f9992c3a2dcb14c2fb7f1eb406b3d311e2dde0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46bdeb49_89503994",
@@ -88,6 +106,24 @@
       "writtenOn": "2023-09-28T19:59:00Z",
       "side": 1,
       "message": "It appears that `lookupPort` can also be called with network `\"ip\"` in some situations..?\nhttps://cs.opensource.google/go/go/+/master:src/net/lookup.go;l\u003d424;drc\u003d0ba8ef4702a8b9fea83c22322174c5ab6c5873c0\n\nThe Unix implementation of `cgoLookupPort` doesn\u0027t seem to recognize that value either, but it _does_ have a case for an empty `network` string:\nhttps://cs.opensource.google/go/go/+/master:src/net/cgo_unix.go;l\u003d83;drc\u003d0ba8ef4702a8b9fea83c22322174c5ab6c5873c0\nThat case doesn\u0027t seem to be present here, but it also doesn\u0027t seem to be causing test failures. 🤔\n\nIt would be nice to resolve that discrepancy somehow so that we have a clearer picture of which network strings `lookupPort` is expected to support.\n(It appears that this inconsistency was introduced in CL 120215.)",
+      "revId": "33f9992c3a2dcb14c2fb7f1eb406b3d311e2dde0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afce517f_c85b5113",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-09-29T10:27:34Z",
+      "side": 1,
+      "message": "Changed to \u0027submissions\u0027 service and added it to the services map, so that windows with go resolver has it available.\n\nI also allowed the \"ip\" network and the empty string is treated as \"ip\".",
+      "parentUuid": "46bdeb49_89503994",
       "revId": "33f9992c3a2dcb14c2fb7f1eb406b3d311e2dde0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
