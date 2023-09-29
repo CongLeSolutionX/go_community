@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3db8982d_2343ce98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-29T19:06:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9da02f_be467ae6",
+      "revId": "313c325b8efe7ea0334f8027016071306a563400",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c396521_1b7cf3e0",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-09-29T18:28:39Z",
       "side": 1,
       "message": "The second paragraph doesn\u0027t mention what happens on power10 or with prefixed instruction support, just what happens without. Also, what\u0027s the benefit of doing this?",
+      "revId": "313c325b8efe7ea0334f8027016071306a563400",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6665eb7_85700055",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-29T19:06:33Z",
+      "side": 1,
+      "message": "I think the pseudo-ops need to have the same semantics irrespective of the build configuration.\n\nThis is more meant for assembler writers. The compiler is not going to generate this form. Maybe it\u0027s OK to raise error instead?",
+      "parentUuid": "7c396521_1b7cf3e0",
       "revId": "313c325b8efe7ea0334f8027016071306a563400",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -139,6 +175,24 @@
       "writtenOn": "2023-09-29T18:28:39Z",
       "side": 1,
       "message": "Is this comment stale? Because it looks like there now are cases where 5 instructions could be generated.",
+      "revId": "313c325b8efe7ea0334f8027016071306a563400",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a23c9b6f_62e7caf4",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-09-29T19:06:33Z",
+      "side": 1,
+      "message": "It\u0027s still valid. Only ADD supports 34 bit constant arguments.",
+      "parentUuid": "f44f1421_8026c5ba",
       "revId": "313c325b8efe7ea0334f8027016071306a563400",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
