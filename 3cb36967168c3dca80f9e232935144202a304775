@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "79dd12ab_2fec8286",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-09-29T15:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c26b22eb_22649090",
+      "revId": "3cb36967168c3dca80f9e232935144202a304775",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7688cb5c_ec61a208",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "This is also totally wrong because ns.X here is the concatstring function itself (not the string result of calling it), and functions aren\u0027t slicable. 😊\n\nAs a sketch of how I\u0027d approach this:\n\n1. Add a \"typ *types.Type\" parameter to walkAddString.\n2. Change the existing callers of \"walkAddString(n, init)\" to \"walkAddString(n.Type(), n, init)\".\n3. Here you can use just \"return walkAddString(n.Type(), s, init)\".\n4. Within walkAddString, you\u0027ll want to call different runtime functions depending on whether typ is a string or []byte.\n5. You\u0027ll need to add appropriate concatbyte{s,2,3,4,5} function in the runtime (src/runtime/string.go).\n6. After adding them, you\u0027ll also need to add declarations for them in cmd/compile/internal/typecheck/_builtin/runtime.go, and then run \"go generate cmd/compile/internal/typecheck\".\n\nNote: unlike concatstrings, where it\u0027s able to directly return one of the input strings in certain cases, concatbytes always needs to allocate new memory.",
       "parentUuid": "66e8cb78_172efd2b",
+      "revId": "3cb36967168c3dca80f9e232935144202a304775",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79facdac_c2a6f3df",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-09-29T15:11:15Z",
+      "side": 1,
+      "message": "Thanks for the hand-holding here, I appreciate your help! I\u0027ve went ahead with the changes, Go compiles and the tests pass.\n\n\u003e Note: unlike concatstrings, where it\u0027s able to directly return one of the input strings in certain cases, concatbytes always needs to allocate new memory.\n\nIIUC here you mean that we can\u0027t make use of the *tmpBuf argument, so we should always remove it and the handling around it altogether, right?\n\nI\u0027m looking for a way to validate this works properly; I can see calls to the new `concatbytes` function, but for example if I use the following main and `go tool compile -S main.go`, I still see concatstrings being used instead.\n\n```\nfunc main() {\n\tstr1 :\u003d \"hellooo\"\n\tstr2 :\u003d \"worlddd\"\n\tprint([]byte(str1 + \"\\n\" + str2))\n}\n```",
+      "parentUuid": "472993be_4aa3ca24",
       "revId": "3cb36967168c3dca80f9e232935144202a304775",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
