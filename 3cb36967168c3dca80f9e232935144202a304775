@@ -104,6 +104,24 @@
       "parentUuid": "472993be_4aa3ca24",
       "revId": "3cb36967168c3dca80f9e232935144202a304775",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4f95489_6f7e19de",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-29T21:44:45Z",
+      "side": 1,
+      "message": "\u003e IIUC here you mean that we can\u0027t make use of the *tmpBuf argument, so we should always remove it and the handling around it altogether, right?\n\nCorrect. This amounts to not removing the parameter from the concatbyte* functions, and not omitting `buf` from the start of the args list constructed in walkAddString.\n\n\u003e I\u0027m looking for a way to validate this works properly\n\nCompiling with `-S` as you mentioned I think should be fine. You can also use `-W` to see what the IR looks like before and after walk.\n\nIn your test program, I think it\u0027s still using concatstring because print is known not to mutate the []byte, so it uses OSTR2BYTESTMP instead. In that case, concatstring is more efficient, because it\u0027s safe to directly reuse the original string memory.\n\nIf you instead do something like:\n\n```\nb :\u003d []byte(s1 + s2)\nb[0] \u003d 1\n```\n\nit should force OSTR2BYTES and thus need to use concatbytes instead.",
+      "parentUuid": "79facdac_c2a6f3df",
+      "revId": "3cb36967168c3dca80f9e232935144202a304775",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

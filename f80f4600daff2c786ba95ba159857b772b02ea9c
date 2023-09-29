@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20570ae9_ad7ae152",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-29T21:44:45Z",
+      "side": 1,
+      "message": "Thanks, looking better.",
+      "revId": "f80f4600daff2c786ba95ba159857b772b02ea9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8963e7e7_c69e4f3f",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-29T21:44:45Z",
+      "side": 1,
+      "message": "This will only match on exactly \"byte\" (and not even \"uint8\"). You want to test `Kind() \u003d\u003d types.TUINT8` instead, to get any type whose underlying type is `byte`.",
+      "range": {
+        "startLine": 496,
+        "startChar": 34,
+        "endLine": 496,
+        "endChar": 62
+      },
+      "revId": "f80f4600daff2c786ba95ba159857b772b02ea9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c26eebf_65672b82",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-09-29T21:44:45Z",
+      "side": 1,
+      "message": "This code is assuming we only get a []byte or string. We should instead match on each of those explicitly, and fail if typ is unexpected.\n\nLet\u0027s write this instead as:\n\n```\nswitch {\ndefault:\n  base.FatalfAt(n.Pos(), \"unexpected type: %v\", typ)\ncase typ.IsString():\n  // [string handling logic, which I think makes more sense to go first, since it\u0027s the generic base case]\ncase typ.IsSlice() \u0026\u0026 typ.Elem().IsKind(types.TUINT8):\n  // [[]byte logic]\n}\n```",
+      "revId": "f80f4600daff2c786ba95ba159857b772b02ea9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
