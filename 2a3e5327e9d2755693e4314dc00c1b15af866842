@@ -213,6 +213,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca5315a_9444d152",
+        "filename": "src/sync/map_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-09-29T02:31:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15a15c31_0b274ad6",
+      "revId": "2a3e5327e9d2755693e4314dc00c1b15af866842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb09a262_75bb9004",
