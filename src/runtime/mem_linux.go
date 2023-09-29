@@ -138,7 +138,7 @@ func sysHugePageCollapseOS(v unsafe.Pointer, n uintptr) {
 	//
 	// Anyway, that's why this call just doesn't bother checking
 	// any errors.
-	madvise(v, n, _MADV_COLLAPSE)
+	//madvise(v, n, _MADV_COLLAPSE)
 }
 
 // Don't split the stack as this function may be invoked without a valid G,
