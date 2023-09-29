@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "069286e3_c5bddfa0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-09-29T15:03:11Z",
+      "side": 0,
+      "message": "On AMD64 the frame size is now 40 bytes, previously it was 32. So not much increase. We call morestack when there is still stackGuard bytes, so this should be fine. There is also a case where the SP is well out of the bounds (usually due to the G and SP don\u0027t match). In that case I don\u0027t think writing a few more bytes on the stack matters much.",
+      "parentUuid": "11050b55_5424d953",
+      "revId": "0a171cc0750a2dbb22d90afb5757ebd980e954e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb82b8cd_41fa8b30",
