@@ -1298,3 +1298,11 @@ func CutSuffix(s, suffix string) (before string, found bool) {
 	}
 	return s[:len(s)-len(suffix)], true
 }
+
+// StringPointerFrom returns a string pointer for the given string constant.
+// This is specifically useful when we are writing test cases,
+// such as passing a string pointer to a struct field from a string constant.
+func StringPointerFrom(s string) *string {
+	newString := Join([]string{s}, "")
+	return &newString
+}
