@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd86928a_32dd4e13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-09-30T02:57:36Z",
+      "side": 1,
+      "message": "see https://go.dev/doc/contribute#design please follow the proposal process for the new API.",
+      "revId": "58d4afd6c60706183ee0cd86dc695c9fb2199bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e2d34e5_5a235103",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1307,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-09-30T02:57:36Z",
+      "side": 1,
+      "message": "Why not write it directly as:\n\nreturn \u0026s",
+      "range": {
+        "startLine": 1306,
+        "startChar": 0,
+        "endLine": 1307,
+        "endChar": 18
+      },
+      "revId": "58d4afd6c60706183ee0cd86dc695c9fb2199bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
