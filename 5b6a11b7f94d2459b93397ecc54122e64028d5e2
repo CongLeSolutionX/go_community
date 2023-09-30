@@ -16,6 +16,24 @@
       "message": "You can avoid the MOVW in all of these in this way:\n\nagain:\n  LWAR (R3), R6\n  OR   R4, R6, R7\n  STWCCC R7, (R3)\n  BNE again\n  MOVW R6, ret",
       "revId": "5b6a11b7f94d2459b93397ecc54122e64028d5e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d5fb09b_1071825c",
+        "filename": "src/runtime/internal/atomic/atomic_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-09-30T00:49:13Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "0dc1ad13_42a9d82e",
+      "revId": "5b6a11b7f94d2459b93397ecc54122e64028d5e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
