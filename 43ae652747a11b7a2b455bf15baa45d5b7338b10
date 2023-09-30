@@ -53,6 +53,24 @@
       "message": "I think here we can go with OR R2, R3, R4 and return R3, getting rid of the two MOVW",
       "revId": "43ae652747a11b7a2b455bf15baa45d5b7338b10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f92463af_2df965dd",
+        "filename": "src/runtime/internal/atomic/atomic_mips64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-09-30T15:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8b9c5df_60c0e6fa",
+      "revId": "43ae652747a11b7a2b455bf15baa45d5b7338b10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
