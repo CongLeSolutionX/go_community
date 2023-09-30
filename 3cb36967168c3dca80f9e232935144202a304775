@@ -122,6 +122,24 @@
       "parentUuid": "79facdac_c2a6f3df",
       "revId": "3cb36967168c3dca80f9e232935144202a304775",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4855dbf_ef684388",
+        "filename": "src/cmd/compile/internal/walk/convert.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-09-30T22:30:40Z",
+      "side": 1,
+      "message": "Oh, that explains why I was seeing concatbytes being used in _some_ of my test cases.\n\nI now can verify by compiling with -S that the concatbytes _is_ being used in the following program, and it results in one less call to runtime.stringtoslicebyte.\n\n```go\nfunc main() {\n\tstr1 :\u003d \"hello\"\n\tstr2 :\u003d \"world\"\n\tb :\u003d []byte(str1 + str2)\n\tb[0] \u003d 1\n\tprint(b)\n}\n```\n\n```\n     CL branch                                             main branch\n rel 24+8 t\u003dR_ADDRARM64 go:string.\"hello\"+0            rel 32+8 t\u003dR_ADDRARM64 go:string.\"hello\"+0\n rel 36+8 t\u003dR_ADDRARM64 go:string.\"world\"+0            rel 44+8 t\u003dR_ADDRARM64 go:string.\"world\"+0\n rel 48+4 t\u003dR_CALLARM64 runtime.concatbyte2+0          rel 56+4 t\u003dR_CALLARM64 runtime.concatstring2+0\n rel 80+4 t\u003dR_CALLARM64 runtime.printlock+0            rel 72+4 t\u003dR_CALLARM64 runtime.stringtoslicebyte+0\n rel 96+4 t\u003dR_CALLARM64 runtime.printslice+0           rel 104+4 t\u003dR_CALLARM64 runtime.printlock+0\n rel 100+4 t\u003dR_CALLARM64 runtime.printunlock+0         rel 120+4 t\u003dR_CALLARM64 runtime.printslice+0\n rel 124+4 t\u003dR_CALLARM64 runtime.panicIndex+0          rel 124+4 t\u003dR_CALLARM64 runtime.printunlock+0\n rel 136+4 t\u003dR_CALLARM64 runtime.morestack_noctxt+0    rel 148+4 t\u003dR_CALLARM64 runtime.panicIndex+0\n                                                       rel 160+4 t\u003dR_CALLARM64 runtime.morestack_noctxt+0\n\n```",
+      "parentUuid": "f4f95489_6f7e19de",
+      "revId": "3cb36967168c3dca80f9e232935144202a304775",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
