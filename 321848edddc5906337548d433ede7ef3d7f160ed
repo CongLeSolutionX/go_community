@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9be3560_f0cf59c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-10-01T12:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8923773d_4cf8b265",
+      "revId": "321848edddc5906337548d433ede7ef3d7f160ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c741b764_dc61e46c",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-01T11:55:39Z",
       "side": 1,
       "message": "you could now join with the previous line.",
+      "revId": "321848edddc5906337548d433ede7ef3d7f160ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbf5c4f5_e4489478",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-10-01T12:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c741b764_dc61e46c",
       "revId": "321848edddc5906337548d433ede7ef3d7f160ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
