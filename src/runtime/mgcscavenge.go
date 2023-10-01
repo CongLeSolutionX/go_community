@@ -897,12 +897,12 @@ func fillAligned(x uint64, m uint) uint64 {
 // will round up). That is, even if max is small, the returned size is not guaranteed
 // to be equal to max. max is allowed to be less than min, in which case it is as if
 // max == min.
-func (m *pallocData) findScavengeCandidate(searchIdx uint, min, max uintptr) (uint, uint) {
-	if min&(min-1) != 0 || min == 0 {
-		print("runtime: min = ", min, "\n")
+func (m *pallocData) findScavengeCandidate(searchIdx uint, Min, max uintptr) (uint, uint) {
+	if Min&(Min-1) != 0 || Min == 0 {
+		print("runtime: min = ", Min, "\n")
 		throw("min must be a non-zero power of 2")
-	} else if min > maxPagesPerPhysPage {
-		print("runtime: min = ", min, "\n")
+	} else if Min > maxPagesPerPhysPage {
+		print("runtime: min = ", Min, "\n")
 		throw("min too large")
 	}
 	// max may not be min-aligned, so we might accidentally truncate to
@@ -911,16 +911,16 @@ func (m *pallocData) findScavengeCandidate(searchIdx uint, min, max uintptr) (ui
 	// a power of 2). This also prevents max from ever being less than
 	// min, unless it's zero, so handle that explicitly.
 	if max == 0 {
-		max = min
+		max = Min
 	} else {
-		max = alignUp(max, min)
+		max = alignUp(max, Min)
 	}
 
 	i := int(searchIdx / 64)
 	// Start by quickly skipping over blocks of non-free or scavenged pages.
 	for ; i >= 0; i-- {
 		// 1s are scavenged OR non-free => 0s are unscavenged AND free
-		x := fillAligned(m.scavenged[i]|m.pallocBits[i], uint(min))
+		x := fillAligned(m.scavenged[i]|m.pallocBits[i], uint(Min))
 		if x != ^uint64(0) {
 			break
 		}
@@ -933,7 +933,7 @@ func (m *pallocData) findScavengeCandidate(searchIdx uint, min, max uintptr) (ui
 	// extend further. Loop until we find the extent of it.
 
 	// 1s are scavenged OR non-free => 0s are unscavenged AND free
-	x := fillAligned(m.scavenged[i]|m.pallocBits[i], uint(min))
+	x := fillAligned(m.scavenged[i]|m.pallocBits[i], uint(Min))
 	z1 := uint(sys.LeadingZeros64(^x))
 	run, end := uint(0), uint(i)*64+(64-z1)
 	if x<<z1 != 0 {
@@ -946,7 +946,7 @@ func (m *pallocData) findScavengeCandidate(searchIdx uint, min, max uintptr) (ui
 		// word so it may extend into further words.
 		run = 64 - z1
 		for j := i - 1; j >= 0; j-- {
-			x := fillAligned(m.scavenged[j]|m.pallocBits[j], uint(min))
+			x := fillAligned(m.scavenged[j]|m.pallocBits[j], uint(Min))
 			run += uint(sys.LeadingZeros64(x))
 			if x != 0 {
 				// The run stopped in this word.
@@ -957,10 +957,7 @@ func (m *pallocData) findScavengeCandidate(searchIdx uint, min, max uintptr) (ui
 
 	// Split the run we found if it's larger than max but hold on to
 	// our original length, since we may need it later.
-	size := run
-	if size > uint(max) {
-		size = uint(max)
-	}
+	size := min(run, uint(max))
 	start := end - size
 
 	// Each huge page is guaranteed to fit in a single palloc chunk.
