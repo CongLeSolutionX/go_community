@@ -34,6 +34,24 @@
       "parentUuid": "1b4c4302_268ab50e",
       "revId": "f24cc96694bdd76580af63814402654a62830d0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b04360f0_8dd0982b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-10-01T14:27:57Z",
+      "side": 1,
+      "message": "TIL about test/codegen! I\u0027ve added an initial test there, I guess we don\u0027t need to add one for every variant, right?",
+      "parentUuid": "b9313375_ab2f1514",
+      "revId": "f24cc96694bdd76580af63814402654a62830d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

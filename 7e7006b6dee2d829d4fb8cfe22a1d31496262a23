@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "294a0f17_2b92497f",
+        "filename": "src/cmd/compile/internal/typecheck/_builtin/runtime.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-10-01T14:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5575d335_fad04963",
+      "revId": "7e7006b6dee2d829d4fb8cfe22a1d31496262a23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2d69964_0e02ee5c",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-01T02:17:18Z",
       "side": 1,
       "message": "I think everything from here down can just be pulled out after the switch statement.\n\nI think the only remaining thing to combine is the concatstring vs concatbyte function names. I\u0027d add `var fnsmall, fnbig string` variables above, and then in here do like: `fnsmall, fnbig \u003d \"concatstring%s\", \"concatstrings\"`",
+      "revId": "7e7006b6dee2d829d4fb8cfe22a1d31496262a23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81be6c51_b6633f57",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-10-01T14:27:57Z",
+      "side": 1,
+      "message": "I\u0027ve went ahead and implemented that. I\u0027ve slightly amended the way we use `args` for the optional buf argument and when constructing the slice for c\u003e5 to make it more readable in the new format.\n\nLet me know how it looks!",
+      "parentUuid": "c2d69964_0e02ee5c",
       "revId": "7e7006b6dee2d829d4fb8cfe22a1d31496262a23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
