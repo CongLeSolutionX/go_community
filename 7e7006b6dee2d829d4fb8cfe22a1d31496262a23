@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5575d335_fad04963",
+        "filename": "src/cmd/compile/internal/typecheck/_builtin/runtime.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-10-01T02:17:18Z",
+      "side": 1,
+      "message": "nit: move these up just after the concatstring* declarations",
+      "revId": "7e7006b6dee2d829d4fb8cfe22a1d31496262a23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d69964_0e02ee5c",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-10-01T02:17:18Z",
+      "side": 1,
+      "message": "I think everything from here down can just be pulled out after the switch statement.\n\nI think the only remaining thing to combine is the concatstring vs concatbyte function names. I\u0027d add `var fnsmall, fnbig string` variables above, and then in here do like: `fnsmall, fnbig \u003d \"concatstring%s\", \"concatstrings\"`",
+      "revId": "7e7006b6dee2d829d4fb8cfe22a1d31496262a23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

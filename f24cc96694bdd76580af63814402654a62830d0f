@@ -16,6 +16,24 @@
       "message": "Thanks again, it feels like we\u0027re getting somewhere.\n\nWhat do you think are the next steps? Is there a good place to add a test for this? Some other behavior we might validate?",
       "revId": "f24cc96694bdd76580af63814402654a62830d0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9313375_ab2f1514",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-10-01T02:17:18Z",
+      "side": 1,
+      "message": "In $GOROOT/test/codegen there are other tests that check what functions we evaluate in various situations. I think there\u0027s one for string manipulation. You should be able to add some new tests there.",
+      "parentUuid": "1b4c4302_268ab50e",
+      "revId": "f24cc96694bdd76580af63814402654a62830d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
