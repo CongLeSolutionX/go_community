@@ -185,9 +185,9 @@ func TryProxies(f func(proxy string) error) error {
 }
 
 type proxyRepo struct {
-	url         *url.URL
-	path        string
-	redactedURL string
+	url          *url.URL // The combined module proxy URL joined with the module path.
+	path         string   // The module path (unescaped) that corresponds to repo root.
+	redactedBase string   // The base module proxy URL in [url.URL.Redacted] form.
 
 	listLatestOnce sync.Once
 	listLatest     *RevInfo
@@ -195,31 +195,35 @@ type proxyRepo struct {
 }
 
 func newProxyRepo(baseURL, path string) (Repo, error) {
+	// Parse the base proxy URL.
 	base, err := url.Parse(baseURL)
 	if err != nil {
 		return nil, err
 	}
+	redactedBase := base.Redacted()
 	switch base.Scheme {
 	case "http", "https":
 		// ok
 	case "file":
 		if *base != (url.URL{Scheme: base.Scheme, Path: base.Path, RawPath: base.RawPath}) {
-			return nil, fmt.Errorf("invalid file:// proxy URL with non-path elements: %s", base.Redacted())
+			return nil, fmt.Errorf("invalid file:// proxy URL with non-path elements: %s", redactedBase)
 		}
 	case "":
-		return nil, fmt.Errorf("invalid proxy URL missing scheme: %s", base.Redacted())
+		return nil, fmt.Errorf("invalid proxy URL missing scheme: %s", redactedBase)
 	default:
-		return nil, fmt.Errorf("invalid proxy URL scheme (must be https, http, file): %s", base.Redacted())
+		return nil, fmt.Errorf("invalid proxy URL scheme (must be https, http, file): %s", redactedBase)
 	}
 
+	// Append the module path to the URL.
+	url := base
 	enc, err := module.EscapePath(path)
 	if err != nil {
 		return nil, err
 	}
-	redactedURL := base.Redacted()
-	base.Path = strings.TrimSuffix(base.Path, "/") + "/" + enc
-	base.RawPath = strings.TrimSuffix(base.RawPath, "/") + "/" + pathEscape(enc)
-	return &proxyRepo{base, path, redactedURL, sync.Once{}, nil, nil}, nil
+	url.Path = strings.TrimSuffix(base.Path, "/") + "/" + enc
+	url.RawPath = strings.TrimSuffix(base.RawPath, "/") + "/" + pathEscape(enc)
+
+	return &proxyRepo{url, path, redactedBase, sync.Once{}, nil, nil}, nil
 }
 
 func (p *proxyRepo) ModulePath() string {
@@ -261,9 +265,9 @@ func (p *proxyRepo) getBytes(ctx context.Context, path string) ([]byte, error) {
 
 	b, err := io.ReadAll(body)
 	if err != nil {
-		// net/http doesn't add context to Body errors, so add it here.
+		// net/http doesn't add context to Body read errors, so add it here.
 		// (See https://go.dev/issue/52727.)
-		return b, &url.Error{Op: "read", URL: strings.TrimSuffix(p.redactedURL, "/") + "/" + path, Err: err}
+		return b, &url.Error{Op: "read", URL: strings.TrimSuffix(p.url.Redacted(), "/") + "/" + path, Err: err}
 	}
 	return b, nil
 }
@@ -370,7 +374,7 @@ func (p *proxyRepo) Stat(ctx context.Context, rev string) (*RevInfo, error) {
 	}
 	info := new(RevInfo)
 	if err := json.Unmarshal(data, info); err != nil {
-		return nil, p.versionError(rev, fmt.Errorf("invalid response from proxy %q: %w", p.redactedURL, err))
+		return nil, p.versionError(rev, fmt.Errorf("invalid response from proxy %q: %w", p.redactedBase, err))
 	}
 	if info.Version != rev && rev == module.CanonicalVersion(rev) && module.Check(p.path, rev) == nil {
 		// If we request a correct, appropriate version for the module path, the
@@ -391,7 +395,7 @@ func (p *proxyRepo) Latest(ctx context.Context) (*RevInfo, error) {
 	}
 	info := new(RevInfo)
 	if err := json.Unmarshal(data, info); err != nil {
-		return nil, p.versionError("", fmt.Errorf("invalid response from proxy %q: %w", p.redactedURL, err))
+		return nil, p.versionError("", fmt.Errorf("invalid response from proxy %q: %w", p.redactedBase, err))
 	}
 	return info, nil
 }
@@ -430,9 +434,9 @@ func (p *proxyRepo) Zip(ctx context.Context, dst io.Writer, version string) erro
 
 	lr := &io.LimitedReader{R: body, N: codehost.MaxZipFile + 1}
 	if _, err := io.Copy(dst, lr); err != nil {
-		// net/http doesn't add context to Body errors, so add it here.
+		// net/http doesn't add context to Body read errors, so add it here.
 		// (See https://go.dev/issue/52727.)
-		err = &url.Error{Op: "read", URL: strings.TrimSuffix(p.redactedURL, "/") + "/" + path, Err: err}
+		err = &url.Error{Op: "read", URL: strings.TrimSuffix(p.url.Redacted(), "/") + "/" + path, Err: err}
 		return p.versionError(version, err)
 	}
 	if lr.N <= 0 {
