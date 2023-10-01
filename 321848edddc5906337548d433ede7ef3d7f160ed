@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8923773d_4cf8b265",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-10-01T11:55:39Z",
+      "side": 1,
+      "message": "duplicate footer?",
+      "revId": "321848edddc5906337548d433ede7ef3d7f160ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c741b764_dc61e46c",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-10-01T11:55:39Z",
+      "side": 1,
+      "message": "you could now join with the previous line.",
+      "revId": "321848edddc5906337548d433ede7ef3d7f160ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
