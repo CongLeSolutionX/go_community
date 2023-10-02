@@ -16,6 +16,24 @@
       "message": "Surprisingly, this CL seems to be causing a failure on the android-emu builder(?):\n\nhttps://build.golang.org/log/47cfdd01c62beee596b7d819af00cdbfd89b0538\n\nNot sure what is going on there.",
       "revId": "fa4f951026f697bc042422d95a0806dcbab7ddd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7836f3c5_d817b217",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-10-02T20:00:37Z",
+      "side": 1,
+      "message": "Fixed in CL 532100",
+      "parentUuid": "2bb844a6_dc93ac31",
+      "revId": "fa4f951026f697bc042422d95a0806dcbab7ddd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
