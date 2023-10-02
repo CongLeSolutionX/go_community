@@ -14,11 +14,13 @@ import (
 	"cmd/go/internal/par"
 )
 
+var invalidToolName = fmt.Errorf("invalid tool name")
+
 // Tool returns the path to the named tool (for example, "vet").
 // If the tool cannot be found, Tool exits the process.
 func Tool(toolName string) string {
 	toolPath, err := ToolPath(toolName)
-	if err != nil && len(cfg.BuildToolexec) == 0 {
+	if err != nil && (len(cfg.BuildToolexec) == 0 || err == invalidToolName) {
 		// Give a nice message if there is no tool with that name.
 		fmt.Fprintf(os.Stderr, "go: no such tool %q\n", toolName)
 		SetExitStatus(2)
@@ -36,6 +38,17 @@ func ToolPath(toolName string) (string, error) {
 		return err
 	})
 	return toolPath, err
+}
+
+func validToolName(toolName string) bool {
+	for _, c := range toolName {
+		switch {
+		case 'a' <= c && c <= 'z', '0' <= c && c <= '9', c == '_':
+		default:
+			return false
+		}
+	}
+	return true
 }
 
 var toolStatCache par.Cache[string, error]

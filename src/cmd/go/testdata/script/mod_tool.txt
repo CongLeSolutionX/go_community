@@ -1,18 +1,55 @@
+# add hello to go.mod
 go mod edit -tool example.com/tools/cmd/hello
 go mod tidy
 grep 'tool example.com/tools/cmd/hello' go.mod
 grep 'require example.com/tools v1.0.0' go.mod
 
+# verify hello is present in the module graph
 go list tools
 stdout example.com/tools/cmd/hello
 go list all
 stdout example.com/tools/cmd/hello
 
+# remove hello from go.mod
 go mod edit -droptool example.com/tools/cmd/hello
 go mod tidy
 ! grep 'tool example.com/tools/cmd/hello' go.mod
 ! grep 'require example.com/tools v1.0.0' go.mod
+go tool
+! stdout 'hello'
+
+# verify go tool lists module tools
+go mod edit -tool example.com/tools/cmd/hello
+go mod tidy
+go tool
+stdout '# go.mod tools'
+stdout 'hello'
+
+# verify go tool can run module tools
+go tool hello
+stdout 'hello, world'
+go tool example.com/tools/cmd/hello
+stdout 'hello, world'
+exists $GOCACHE/tool/m/n/hello
+
+# support for relative tools
+go mod edit -tool ./cmd
+go tool cmd
+stdout 'running cmd'
+
+# verify clean -cache removes built tool
+# (set GOCACHE explicitly to not race with other tests)
+env GOCACHE=$WORK/.cache
+go tool -n hello
+stdout ^$GOCACHE/tool/m/n/hello$
+go clean -cache
+! exists $GOCACHE/tool/m/n/hello
 
 -- go.mod --
-module m
+module m/n
 go 1.22
+
+-- cmd/main.go --
+package main
+import "fmt"
+func main() { fmt.Println("running cmd") }
