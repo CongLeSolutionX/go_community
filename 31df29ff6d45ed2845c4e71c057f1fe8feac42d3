@@ -73,6 +73,24 @@
       "parentUuid": "daacd9b1_2135cf2e",
       "revId": "31df29ff6d45ed2845c4e71c057f1fe8feac42d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28dcaaca_e460d34a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-10-02T17:34:37Z",
+      "side": 1,
+      "message": "changed to https service on plan9",
+      "parentUuid": "e6faeca0_fc9a0998",
+      "revId": "31df29ff6d45ed2845c4e71c057f1fe8feac42d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
