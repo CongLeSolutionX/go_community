@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "171f8c72_e9244232",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-02T21:08:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "70682108_9fea9c87",
+      "revId": "08fd74c8940b8cc8ed22e9615044aefc1cf588ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0cfc2a8_458d0e37",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-10-02T17:23:09Z",
       "side": 1,
       "message": "I was recently thinking about the cases that could use andis. I don\u0027t think we leverage that instruction now, that could be used in some of these cases.",
+      "revId": "08fd74c8940b8cc8ed22e9615044aefc1cf588ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1f6366_1f034605",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-02T21:08:30Z",
+      "side": 1,
+      "message": "I think the optab matching should catch those (the awkward C_UCON classifier in asm9 matches those constants) and generate the *IS variant of those instructions.\n\nIt might clean things up a bit to rewrite those here into ADDIS/ORIS/ANDIS here and remove C_UCON.",
+      "parentUuid": "f0cfc2a8_458d0e37",
       "revId": "08fd74c8940b8cc8ed22e9615044aefc1cf588ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
