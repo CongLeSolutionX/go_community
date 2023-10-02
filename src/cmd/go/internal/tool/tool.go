@@ -15,11 +15,20 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"path"
+	"path/filepath"
 	"sort"
 	"strings"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cache"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/load"
+	"cmd/go/internal/modload"
+	"cmd/go/internal/str"
+	"cmd/go/internal/work"
+
+	"golang.org/x/mod/modfile"
 )
 
 var CmdTool = &base.Command{
@@ -28,12 +37,16 @@ var CmdTool = &base.Command{
 	Short:     "run specified go tool",
 	Long: `
 Tool runs the go tool command identified by the arguments.
+
+Go ships with a number of builtin tools, and additional tools
+may be defined in the go.mod of the current module.
+
 With no arguments it prints the list of known tools.
 
 The -n flag causes tool to print the command that would be
 executed but not execute it.
 
-For more about each tool command, see 'go doc cmd/<command>'.
+For more about each builtin tool command, see 'go doc cmd/<command>'.
 `,
 }
 
@@ -61,16 +74,6 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 		return
 	}
 	toolName := args[0]
-	// The tool name must be lower-case letters, numbers or underscores.
-	for _, c := range toolName {
-		switch {
-		case 'a' <= c && c <= 'z', '0' <= c && c <= '9', c == '_':
-		default:
-			fmt.Fprintf(os.Stderr, "go: bad tool name %q\n", toolName)
-			base.SetExitStatus(2)
-			return
-		}
-	}
 
 	toolPath, err := base.ToolPath(toolName)
 	if err != nil {
@@ -83,6 +86,15 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 			// If the dist tool does not exist, impersonate this command.
 			if impersonateDistList(args[2:]) {
 				return
+			}
+		}
+
+		if modFile := modFileForTools(); modFile != nil {
+			for _, tool := range modFile.Tool {
+				if path.Base(tool.Path) == toolName || tool.Path == toolName {
+					buildAndRunModtool(ctx, modFile, tool.Path, args[1:])
+					return
+				}
 			}
 		}
 
@@ -149,6 +161,12 @@ func listTools() {
 		return
 	}
 
+	modFile := modFileForTools()
+	count := map[string]int{}
+	if modFile != nil {
+		fmt.Println("# builtin tools")
+	}
+
 	sort.Strings(names)
 	for _, name := range names {
 		// Unify presentation by going to lower case.
@@ -160,7 +178,25 @@ func listTools() {
 		if cfg.BuildToolchainName == "gccgo" && !isGccgoTool(name) {
 			continue
 		}
+		count[name] += 1
 		fmt.Println(name)
+	}
+
+	if modFile == nil {
+		return
+	}
+
+	fmt.Println("# go.mod tools")
+	for _, tool := range modFile.Tool {
+		count[path.Base(tool.Path)] += 1
+	}
+
+	for _, tool := range modFile.Tool {
+		if count[path.Base(tool.Path)] > 1 {
+			fmt.Println(tool.Path)
+		} else {
+			fmt.Println(path.Base(tool.Path))
+		}
 	}
 }
 
@@ -221,4 +257,93 @@ func impersonateDistList(args []string) (handled bool) {
 
 	os.Stdout.Write(out)
 	return true
+}
+
+func modFileForTools() *modfile.File {
+	if !modload.Enabled() || !modload.HasModRoot() {
+		return nil
+	}
+	bytes, err := os.ReadFile(modload.ModFilePath())
+	if err != nil {
+		base.Fatal(err)
+	}
+	file, err := modfile.Parse(modload.ModFilePath(), bytes, nil)
+	if err != nil {
+		base.Fatal(err)
+	}
+	return file
+}
+
+func buildAndRunModtool(ctx context.Context, modFile *modfile.File, toolPath string, args []string) {
+	work.BuildInit()
+	b := work.NewBuilder("")
+	defer func() {
+		if err := b.Close(); err != nil {
+			base.Fatal(err)
+		}
+	}()
+	b.Print = printStderr
+
+	pkgOpts := load.PackageOpts{MainOnly: true}
+	p := load.PackagesAndErrors(ctx, pkgOpts, []string{toolPath})[0]
+	p.Internal.OmitDebug = true
+
+	cacheDir := filepath.Join(cache.Default().ToolDir(), modFileForTools().Module.Mod.Path)
+	toolName := filepath.Base(toolPath)
+	p.Target = filepath.Join(cacheDir, toolName)
+
+	if err := os.MkdirAll(cacheDir, 0777); err != nil {
+		base.Fatal(err)
+	}
+	a1 := b.LinkAction(work.ModeInstall, work.ModeBuild, p)
+	a := &work.Action{Mode: "go tool", Actor: work.ActorFunc(runBuiltTool), Args: args, Deps: []*work.Action{a1}}
+	b.Do(ctx, a)
+}
+
+func runBuiltTool(b *work.Builder, ctx context.Context, a *work.Action) error {
+	cmdline := str.StringList(work.FindExecCmd(), a.Deps[0].Target, a.Args)
+
+	if toolN {
+		fmt.Println(strings.Join(cmdline, " "))
+		return nil
+	}
+
+	toolCmd := &exec.Cmd{
+		Path:   cmdline[0],
+		Args:   cmdline[1:],
+		Stdin:  os.Stdin,
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+	err := toolCmd.Start()
+	if err == nil {
+		c := make(chan os.Signal, 100)
+		signal.Notify(c)
+		go func() {
+			for sig := range c {
+				toolCmd.Process.Signal(sig)
+			}
+		}()
+		err = toolCmd.Wait()
+		signal.Stop(c)
+		close(c)
+	}
+	if err != nil {
+		// Only print about the exit status if the command
+		// didn't even run (not an ExitError)
+		// Assume if command exited cleanly (even with non-zero status)
+		// it printed any messages it wanted to print.
+		if e, ok := err.(*exec.ExitError); ok {
+			base.SetExitStatus(e.ExitCode())
+		} else {
+			fmt.Fprintf(os.Stderr, "go tool %s: %s\n", filepath.Base(a.Deps[0].Target), err)
+			base.SetExitStatus(1)
+		}
+	}
+
+	return nil
+}
+
+func printStderr(args ...any) (int, error) {
+	return fmt.Fprint(os.Stderr, args...)
 }
