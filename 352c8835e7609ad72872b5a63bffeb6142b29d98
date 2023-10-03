@@ -34,6 +34,24 @@
       "parentUuid": "1c2e53b9_3e6bcf1b",
       "revId": "352c8835e7609ad72872b5a63bffeb6142b29d98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fbd89ac_705a3219",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-10-03T14:07:25Z",
+      "side": 0,
+      "message": "Thanks, i already changed it to mapErr in this CL, so keeping it.",
+      "parentUuid": "c582ea7f_bc987ff0",
+      "revId": "352c8835e7609ad72872b5a63bffeb6142b29d98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
