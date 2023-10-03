@@ -96,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e55681e8_6d1a36f3",
+        "filename": "src/runtime/export_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-10-03T04:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4014daa2_4beafe59",
+      "range": {
+        "startLine": 802,
+        "startChar": 12,
+        "endLine": 802,
+        "endChar": 15
+      },
+      "revId": "b3c703eef17f77c61c8b2c64008d9f52d90d4de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62827510_44d9634a",
@@ -109,6 +133,30 @@
       "writtenOn": "2023-10-02T17:27:56Z",
       "side": 1,
       "message": "I know max is symmetric, but it would be nice if when we\u0027re updating a variable we put the old value in a consistent place, probably on the left. That is\n\nx \u003d max(x, y)\n\nnot \n\nx \u003d max(y, x)\n\nAt least when there are 2 updates in a row it would make it clearer to be consistent. Maybe it would help to be consistent everywhere.",
+      "range": {
+        "startLine": 1059,
+        "startChar": 12,
+        "endLine": 1059,
+        "endChar": 19
+      },
+      "revId": "b3c703eef17f77c61c8b2c64008d9f52d90d4de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57922161_a0476f20",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-10-03T04:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62827510_44d9634a",
       "range": {
         "startLine": 1059,
         "startChar": 12,
