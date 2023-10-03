@@ -23,6 +23,7 @@ const (
 	RISCV64
 	S390X
 	Wasm
+	Wasm32
 )
 
 // Arch represents an individual architecture.
@@ -267,6 +268,19 @@ var ArchWasm = &Arch{
 	FixedFrameSize: 0,
 }
 
+var ArchWasm32 = &Arch{
+	Name:           "wasm32",
+	Family:         Wasm32,
+	ByteOrder:      binary.LittleEndian,
+	PtrSize:        4,
+	RegSize:        4,
+	MinLC:          1,
+	Alignment:      1,
+	CanMergeLoads:  false,
+	HasLR:          false,
+	FixedFrameSize: 0,
+}
+
 var Archs = [...]*Arch{
 	Arch386,
 	ArchAMD64,
@@ -282,4 +296,5 @@ var Archs = [...]*Arch{
 	ArchRISCV64,
 	ArchS390X,
 	ArchWasm,
+	ArchWasm32,
 }

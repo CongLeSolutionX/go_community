@@ -167,7 +167,7 @@ func main() {
 	// Allow newproc to start new Ms.
 	mainStarted = true
 
-	if GOARCH != "wasm" { // no threads on wasm yet, so no sysmon
+	if GOARCH != "wasm" && GOARCH != "wasm32" { // no threads on wasm yet, so no sysmon
 		systemstack(func() {
 			newm(sysmon, nil, -1)
 		})
@@ -579,7 +579,7 @@ func switchToCrashStack(fn func()) {
 // Disable crash stack on Windows for now. Apparently, throwing an exception
 // on a non-system-allocated crash stack causes EXCEPTION_STACK_OVERFLOW and
 // hangs the process (see issue 63938).
-const crashStackImplemented = (GOARCH == "amd64" || GOARCH == "arm64" || GOARCH == "loong64" || GOARCH == "mips64" || GOARCH == "mips64le" || GOARCH == "ppc64" || GOARCH == "ppc64le" || GOARCH == "riscv64" || GOARCH == "s390x" || GOARCH == "wasm") && GOOS != "windows"
+const crashStackImplemented = (GOARCH == "amd64" || GOARCH == "arm64" || GOARCH == "loong64" || GOARCH == "mips64" || GOARCH == "mips64le" || GOARCH == "ppc64" || GOARCH == "ppc64le" || GOARCH == "riscv64" || GOARCH == "s390x" || GOARCH == "wasm" || GOARCH == "wasm32") && GOOS != "windows"
 
 //go:noescape
 func switchToCrashStack0(fn func()) // in assembly
@@ -2707,7 +2707,7 @@ func newm1(mp *m) {
 //
 // The calling thread must itself be in a known-good state.
 func startTemplateThread() {
-	if GOARCH == "wasm" { // no threads on wasm yet
+	if GOARCH == "wasm" || GOARCH == "wasm32" { // no threads on wasm yet
 		return
 	}
 
@@ -4216,7 +4216,7 @@ func gdestroy(gp *g) {
 
 	dropg()
 
-	if GOARCH == "wasm" { // no threads yet on wasm
+	if GOARCH == "wasm" || GOARCH == "wasm32" { // no threads yet on wasm
 		gfput(pp, gp)
 		return
 	}
@@ -5154,7 +5154,7 @@ func Breakpoint() {
 //
 //go:nosplit
 func dolockOSThread() {
-	if GOARCH == "wasm" {
+	if GOARCH == "wasm" || GOARCH == "wasm32" {
 		return // no threads on wasm yet
 	}
 	gp := getg()
@@ -5206,7 +5206,7 @@ func lockOSThread() {
 //
 //go:nosplit
 func dounlockOSThread() {
-	if GOARCH == "wasm" {
+	if GOARCH == "wasm" || GOARCH == "wasm32" {
 		return // no threads on wasm yet
 	}
 	gp := getg()
