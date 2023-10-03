@@ -208,7 +208,7 @@ const (
 	// to a 48-bit address space like every other arm64 platform.
 	//
 	// WebAssembly currently has a limit of 4GB linear memory.
-	heapAddrBits = (_64bit*(1-goarch.IsWasm)*(1-goos.IsIos*goarch.IsArm64))*48 + (1-_64bit+goarch.IsWasm)*(32-(goarch.IsMips+goarch.IsMipsle)) + 40*goos.IsIos*goarch.IsArm64
+	heapAddrBits = (_64bit*(1-goarch.IsWasm)*(1-goos.IsIos*goarch.IsArm64))*48 + (1-_64bit+goarch.IsWasm)*(32-(goarch.IsMips+goarch.IsMipsle+goarch.IsWasm32)) + 40*goos.IsIos*goarch.IsArm64
 
 	// maxAlloc is the maximum size of an allocation. On 64-bit,
 	// it's theoretically possible to allocate 1<<heapAddrBits bytes. On
@@ -939,20 +939,25 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 	s = c.alloc[spc]
 	shouldhelpgc = false
 	freeIndex := s.nextFreeIndex()
+	//println("runtime: in: ", spc, " nextFreeIndex: ", freeIndex, " elems: ", s.nelems)
 	if freeIndex == s.nelems {
 		// The span is full.
 		if s.allocCount != s.nelems {
-			println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
+			//println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
 			throw("s.allocCount != s.nelems && freeIndex == s.nelems")
 		}
 		c.refill(spc)
 		shouldhelpgc = true
 		s = c.alloc[spc]
 
+		//println("runtime: post refill: ", spc, " nextFreeIndex: ", freeIndex, " elems: ", s.nelems)
+
 		freeIndex = s.nextFreeIndex()
 	}
+	//println("runtime: in: ", spc, " nextFreeIndex: ", freeIndex, " elems: ", s.nelems)
 
 	if freeIndex >= s.nelems {
+		println("freeIndex is not valid=", freeIndex, "elems=", s.nelems)
 		throw("freeIndex is not valid")
 	}
 

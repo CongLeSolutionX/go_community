@@ -296,7 +296,7 @@ func (lv *liveness) valueEffects(v *ssa.Value) (int32, liveEffect) {
 		}
 	}
 
-	if n.Class == ir.PPARAM && !n.Addrtaken() && n.Type().Size() > int64(types.PtrSize) {
+	if n.Class == ir.PPARAM && !n.Addrtaken() && n.Type().Size() > int64(types.RegSize) {
 		// Only aggregate-typed arguments that are not address-taken can be
 		// partially live.
 		lv.partLiveArgs[n] = true

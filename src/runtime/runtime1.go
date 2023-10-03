@@ -8,6 +8,7 @@ import (
 	"internal/bytealg"
 	"internal/goarch"
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -209,6 +210,45 @@ func check() {
 	}
 	if unsafe.Sizeof(y1) != 2 {
 		throw("bad unsafe.Sizeof y1")
+	}
+
+	if checkadd(100, -1) != 99 {
+		throw("bad int64 add")
+	}
+
+	if checkdiv(120, 10) != 12 {
+		throw("bad int64 div")
+	}
+
+	if checkmul(2, 10) != 20 {
+		throw("bad int64 mul")
+	}
+
+	i64val := int64(12345*1000000000 + 54321)
+
+	if checksub(i64val, i64val) != 0 {
+		throw("bad int64 sub")
+	}
+
+	a6, b6 := checkmod(i64val)
+	if !checkeq(b6, 1) {
+		throw("bad mod64 1")
+	}
+
+	if a6 != 1234500005432 {
+		throw("bad mul64 2")
+	}
+
+	if checkdiv(i64val, 10000) != 1234500005 {
+		throw("bad int64 div 2")
+	}
+
+	var cz czs
+	cz.allocCache = 18446744073709551615
+	cz.nelems = 32
+	z64 := checkzeros(&cz)
+	if z64 != 0 {
+		throw("bad trailing zeros")
 	}
 
 	if timediv(12345*1000000000+54321, 1000000000, &e) != 12345 || e != 54321 {
@@ -542,6 +582,70 @@ func setTraceback(level string) {
 	t |= traceback_env
 
 	atomic.Store(&traceback_cache, t)
+}
+
+type czs struct {
+	freeindex uint16
+	nelems    uint16
+
+	allocCache uint64
+}
+
+//go:nosplit
+//go:noinline
+func checkzeros(s *czs) int {
+	sfreeindex := s.freeindex
+	snelems := s.nelems
+	if sfreeindex == snelems {
+		return 1
+	}
+	if sfreeindex > snelems {
+		throw("s.freeindex > s.nelems")
+	}
+
+	aCache := s.allocCache
+
+	//println("runtime: tzcheck: ", sys.TrailingZeros64(18446744073709551615))
+	bitIndex := sys.TrailingZeros64(aCache)
+	return bitIndex
+}
+
+//go:nosplit
+//go:noinline
+func checkadd(v, b int64) int64 {
+	return v + b
+}
+
+//go:nosplit
+//go:noinline
+func checkdiv(v, b int64) int64 {
+	return v / b
+}
+
+//go:nosplit
+//go:noinline
+func checkmul(v, b int64) int64 {
+	return v * b
+}
+
+//go:nosplit
+//go:noinline
+func checkmod(v int64) (int64, int64) {
+	b := v % 10
+	v /= 10
+	return v, b
+}
+
+//go:nosplit
+//go:noinline
+func checkeq(v, b int64) bool {
+	return v == b
+}
+
+//go:nosplit
+//go:noinline
+func checksub(v, b int64) int64 {
+	return v - b
 }
 
 // Poor mans 64-bit division.

@@ -185,6 +185,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 	s.Func().Args = s.Func().Text.To.Val.(int32)
 	s.Func().Locals = int32(framesize)
 
+	fmt.Printf("framesize: %d (%d args)\n", framesize, s.Func().Args)
 	// If the function exits just to call out to a wasmimport, then
 	// generate the code to translate from our internal Go-stack
 	// based call convention to the native webassembly call convention.

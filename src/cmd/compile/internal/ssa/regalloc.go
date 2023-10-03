@@ -447,7 +447,8 @@ func (s *regAllocState) allocReg(mask regMask, v *Value) register {
 		s.f.Fatalf("couldn't find register to spill")
 	}
 
-	if s.f.Config.ctxt.Arch.Arch == sys.ArchWasm {
+	if s.f.Config.ctxt.Arch.Arch == sys.ArchWasm ||
+		s.f.Config.ctxt.Arch.Arch == sys.ArchWasm32 {
 		// TODO(neelance): In theory this should never happen, because all wasm registers are equal.
 		// So if there is still a free register, the allocation should have picked that one in the first place instead of
 		// trying to kick some other value out. In practice, this case does happen and it breaks the stack optimization.
@@ -517,7 +518,8 @@ func (s *regAllocState) makeSpill(v *Value, b *Block) *Value {
 // undone until the caller allows it by clearing nospill. Returns a
 // *Value which is either v or a copy of v allocated to the chosen register.
 func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos src.XPos) *Value {
-	if s.f.Config.ctxt.Arch.Arch == sys.ArchWasm && v.rematerializeable() {
+	wasm := s.f.Config.ctxt.Arch.Arch == sys.ArchWasm || s.f.Config.ctxt.Arch.Arch == sys.ArchWasm32
+	if wasm && v.rematerializeable() {
 		c := v.copyIntoWithXPos(s.curBlock, pos)
 		c.OnWasmStack = true
 		s.setOrig(c, v)
@@ -544,7 +546,7 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos 
 
 	var r register
 	// If nospill is set, the value is used immediately, so it can live on the WebAssembly stack.
-	onWasmStack := nospill && s.f.Config.ctxt.Arch.Arch == sys.ArchWasm
+	onWasmStack := nospill && wasm
 	if !onWasmStack {
 		// Allocate a register.
 		r = s.allocReg(mask, v)
@@ -726,7 +728,8 @@ func (s *regAllocState) init(f *Func) {
 	s.sdom = f.Sdom()
 
 	// wasm: Mark instructions that can be optimized to have their values only on the WebAssembly stack.
-	if f.Config.ctxt.Arch.Arch == sys.ArchWasm {
+	if f.Config.ctxt.Arch.Arch == sys.ArchWasm ||
+		f.Config.ctxt.Arch.Arch == sys.ArchWasm32 {
 		canLiveOnStack := f.newSparseSet(f.NumValues())
 		defer f.retSparseSet(canLiveOnStack)
 		for _, b := range f.Blocks {
@@ -741,7 +744,9 @@ func (s *regAllocState) init(f *Func) {
 			for i := len(b.Values) - 1; i >= 0; i-- {
 				v := b.Values[i]
 				if canLiveOnStack.contains(v.ID) {
-					v.OnWasmStack = true
+					if !opcodeTable[v.Op].wasmForceStack {
+						v.OnWasmStack = true
+					}
 				} else {
 					// Value can not live on stack. Values are not allowed to be reordered, so clear candidate set.
 					canLiveOnStack.clear()
@@ -1330,6 +1335,9 @@ func (s *regAllocState) regalloc(f *Func) {
 			}
 			if v.Op == OpSelect0 || v.Op == OpSelect1 || v.Op == OpSelectN {
 				if s.values[v.ID].needReg {
+					if v.Args[0].OnWasmStack {
+						panic("uh oh, selecting something on wasm stack!")
+					}
 					if v.Op == OpSelectN {
 						s.assignReg(register(s.f.getHome(v.Args[0].ID).(LocResults)[int(v.AuxInt)].(*Register).num), v, v)
 					} else {
@@ -1337,7 +1345,17 @@ func (s *regAllocState) regalloc(f *Func) {
 						if v.Op == OpSelect1 {
 							i = 1
 						}
-						s.assignReg(register(s.f.getHome(v.Args[0].ID).(LocPair)[i].(*Register).num), v, v)
+						if lp, ok := s.f.getHome(v.Args[0].ID).(LocPair); ok {
+							if reg, ok := lp[i].(*Register); ok {
+								s.assignReg(register(reg.num), v, v)
+							} else {
+								panic(fmt.Sprintf("arg0 loc pair %d not a register (%s)", i, v.Op))
+
+							}
+						} else {
+							panic(fmt.Sprintf("arg0 not a loc pair (%s)", v.Op))
+						}
+						//s.assignReg(register(s.f.getHome(v.Args[0].ID).(LocPair)[i].(*Register).num), v, v)
 					}
 				}
 				b.Values = append(b.Values, v)
@@ -1456,6 +1474,9 @@ func (s *regAllocState) regalloc(f *Func) {
 			for {
 				freed := false
 				for _, i := range regspec.inputs {
+					if i.idx >= len(args) {
+						panic(fmt.Sprintf("missing argument: %s", v.Op))
+					}
 					if args[i.idx] != nil {
 						continue // already allocated
 					}

@@ -23,9 +23,11 @@ TEXT ·mapinitnoop<ABIInternal>(SB),NOSPLIT,$0-0
 #ifndef GOARCH_riscv64
 #ifndef GOARCH_s390x
 #ifndef GOARCH_wasm
+#ifndef GOARCH_wasm32
 // stub to appease shared build mode.
 TEXT ·switchToCrashStack0<ABIInternal>(SB),NOSPLIT,$0-0
 	UNDEF
+#endif
 #endif
 #endif
 #endif
