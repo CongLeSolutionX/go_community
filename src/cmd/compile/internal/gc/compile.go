@@ -136,7 +136,7 @@ func compileFunctions() {
 		work(0)
 	}
 
-	if nWorkers := base.Flag.LowerC; nWorkers > 1 {
+	if nWorkers := base.Flag.LowerC; nWorkers > 255 {
 		// For concurrent builds, we allow the work queue
 		// to grow arbitrarily large, but only nWorkers work items
 		// can be running concurrently.
