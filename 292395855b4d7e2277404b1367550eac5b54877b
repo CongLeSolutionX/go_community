@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e955f1_5ff681f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-10-03T21:10:00Z",
+      "side": 1,
+      "message": "thanks for your change!\n\nas a high level comment, I\u0027m not a fan of the naming scheme for fixing conflicts with variables already named min or max. the code seems harder for me to read, especially when _min or _max end up on the same line as min or max.\n\nwe could refactor that code so that there wasn\u0027t a conflict, but I don\u0027t think switching to min/max is worth the refactoring cost (and the potential to introduce new bugs because it\u0027s additional code churn).\n\nif we were rewriting this code or writing it from scratch, I would definitely use min/max more. but as it stands I\u0027m not sure the benefits are worth the costs in this part of the codebase, where the bugs tend to be very subtle. therefore, I would prefer if we just left all those cases where we have a conflict alone.",
+      "revId": "292395855b4d7e2277404b1367550eac5b54877b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a1f9364_5e184f89",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-10-03T21:10:00Z",
+      "side": 1,
+      "message": "I think this file is a good example of something that gets a little clearer with min/max.",
+      "range": {
+        "startLine": 1140,
+        "startChar": 1,
+        "endLine": 1140,
+        "endChar": 11
+      },
+      "revId": "292395855b4d7e2277404b1367550eac5b54877b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "933c4e3b_e5b93a4b",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-10-03T21:10:00Z",
+      "side": 1,
+      "message": "just as an example of what I mean, these two lines in particular, using _max and max on the same line makes this a lot harder to understand than the old version. I would prefer to just leave this code as it is.",
+      "range": {
+        "startLine": 1058,
+        "startChar": 2,
+        "endLine": 1059,
+        "endChar": 21
+      },
+      "revId": "292395855b4d7e2277404b1367550eac5b54877b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
