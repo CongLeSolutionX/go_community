@@ -1039,7 +1039,7 @@ func mergeSummaries(sums []pallocSum, logMaxPagesPerSum uint) pallocSum {
 	//
 	// We do this by keeping a running summary representing the merged
 	// summaries of sums[:i] in start, max, and end.
-	start, max, end := sums[0].unpack()
+	start, _max, end := sums[0].unpack()
 	for i := 1; i < len(sums); i++ {
 		// Merge in sums[i].
 		si, mi, ei := sums[i].unpack()
@@ -1055,12 +1055,8 @@ func mergeSummaries(sums []pallocSum, logMaxPagesPerSum uint) pallocSum {
 		// across the boundary between the running sum and sums[i]
 		// and at the max sums[i], taking the greatest of those two
 		// and the max of the running sum.
-		if end+si > max {
-			max = end + si
-		}
-		if mi > max {
-			max = mi
-		}
+		_max = max(_max, end+si)
+		_max = max(_max, mi)
 
 		// Merge in end by checking if this new summary is totally
 		// free. If it is, then we want to extend the running sum's
@@ -1073,5 +1069,5 @@ func mergeSummaries(sums []pallocSum, logMaxPagesPerSum uint) pallocSum {
 			end = ei
 		}
 	}
-	return packPallocSum(start, max, end)
+	return packPallocSum(start, _max, end)
 }

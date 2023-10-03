@@ -278,14 +278,12 @@ func printComment(w io.Writer, classes []class) {
 }
 
 func maxObjsPerSpan(classes []class) int {
-	max := 0
+	_max := 0
 	for _, c := range classes[1:] {
 		n := c.npages * pageSize / c.size
-		if n > max {
-			max = n
-		}
+		_max = max(_max, n)
 	}
-	return max
+	return _max
 }
 
 func printClasses(w io.Writer, classes []class) {
