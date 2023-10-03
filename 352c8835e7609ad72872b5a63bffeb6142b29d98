@@ -16,6 +16,24 @@
       "message": "Is there any reson for which this was not wrapped with `mapErr` before?\nand `lookup_windows.go:189`.",
       "revId": "352c8835e7609ad72872b5a63bffeb6142b29d98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c582ea7f_bc987ff0",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-03T14:02:20Z",
+      "side": 0,
+      "message": "I think it should have used mapErr.  I think this was just an oversight in CL 22101.",
+      "parentUuid": "1c2e53b9_3e6bcf1b",
+      "revId": "352c8835e7609ad72872b5a63bffeb6142b29d98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
