@@ -34,6 +34,23 @@
       "parentUuid": "88efcb0d_f91e9f41",
       "revId": "0fffd3e331cf069e0d1670099f828189350a4b08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02afd283_0a241aa5",
+        "filename": "src/regexp/syntax/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-03T14:09:45Z",
+      "side": 1,
+      "message": "Let\u0027s not use underscores in names here.  Pick a different name.  A name like \"m\" would probably work fine.  Thanks.",
+      "revId": "0fffd3e331cf069e0d1670099f828189350a4b08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
