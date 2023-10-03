@@ -80,6 +80,7 @@ var okgoarch = []string{
 	"s390x",
 	"sparc64",
 	"wasm",
+	"wasm32",
 }
 
 // The known operating systems.
@@ -1733,7 +1734,9 @@ var cgoEnabled = map[string]bool{
 	"ios/arm64":       true,
 	"ios/amd64":       true,
 	"js/wasm":         false,
+	"js/wasm32":       false,
 	"wasip1/wasm":     false,
+	"wasip1/wasm32":   false,
 	"netbsd/386":      true,
 	"netbsd/amd64":    true,
 	"netbsd/arm":      true,
@@ -1760,8 +1763,8 @@ var cgoEnabled = map[string]bool{
 // get filtered out of cgoEnabled for 'dist list'.
 // See go.dev/issue/56679.
 var broken = map[string]bool{
-	"linux/sparc64":   true, // An incomplete port. See CL 132155.
-	"openbsd/mips64":  true, // Broken: go.dev/issue/58110.
+	"linux/sparc64":  true, // An incomplete port. See CL 132155.
+	"openbsd/mips64": true, // Broken: go.dev/issue/58110.
 }
 
 // List of platforms which are first class ports. See go.dev/issue/38874.

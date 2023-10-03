@@ -16,11 +16,13 @@ import (
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/rttype"
+	"cmd/compile/internal/ssagen"
 	"cmd/compile/internal/staticdata"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
+	"cmd/internal/sys"
 )
 
 // The result of walkExpr MUST be assigned back to n, e.g.
@@ -655,7 +657,7 @@ func walkDivMod(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 	// rewrite 64-bit div and mod on 32-bit architectures.
 	// TODO: Remove this code once we can introduce
 	// runtime calls late in SSA processing.
-	if types.RegSize < 8 && (et == types.TINT64 || et == types.TUINT64) {
+	if types.RegSize < 8 && ssagen.Arch.LinkArch.Family != sys.Wasm32 && (et == types.TINT64 || et == types.TUINT64) {
 		if n.Y.Op() == ir.OLITERAL {
 			// Leave div/mod by constant powers of 2 or small 16-bit constants.
 			// The SSA backend will handle those.

@@ -374,6 +374,9 @@ func (u *unwinder) resolveInternal(innermost, isSyscall bool) {
 		} else {
 			if frame.lr == 0 {
 				lrPtr = frame.fp - goarch.PtrSize
+				//if GOARCH == "wasm32" {
+				//println("runtime: unwind calc lr: ", hex(lrPtr))
+				//}
 				frame.lr = *(*uintptr)(unsafe.Pointer(lrPtr))
 			}
 		}
@@ -441,6 +444,9 @@ func (u *unwinder) next() {
 	f := frame.fn
 	gp := u.g.ptr()
 
+	//if GOARCH == "wasm32" {
+	//println("runtime: unwind lr: ", hex(frame.lr))
+	//}
 	// Do not unwind past the bottom of the stack.
 	if frame.lr == 0 {
 		u.finishInternal()
@@ -494,6 +500,10 @@ func (u *unwinder) next() {
 	frame.lr = 0
 	frame.sp = frame.fp
 	frame.fp = 0
+
+	//if GOARCH == "wasm32" {
+	//println("runtime: unwind sp: ", hex(frame.sp), "pcsp: ", hex(frame.fn.pcsp))
+	//}
 
 	// On link register architectures, sighandler saves the LR on stack
 	// before faking a call.
@@ -561,7 +571,7 @@ func (u *unwinder) finishInternal() {
 	gp := u.g.ptr()
 	if u.flags&(unwindPrintErrors|unwindSilentErrors) == 0 && u.frame.sp != gp.stktopsp {
 		print("runtime: g", gp.goid, ": frame.sp=", hex(u.frame.sp), " top=", hex(gp.stktopsp), "\n")
-		print("\tstack=[", hex(gp.stack.lo), "-", hex(gp.stack.hi), "\n")
+		print("\tstack=[", hex(gp.stack.lo), "-", hex(gp.stack.hi), "]\n")
 		throw("traceback did not unwind completely")
 	}
 }
