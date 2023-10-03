@@ -27,7 +27,7 @@ func decomposeBuiltIn(f *Func) {
 	// Note: Leave dead values because we need to keep the original
 	// values around so the name component resolution below can still work.
 	applyRewrite(f, rewriteBlockdec, rewriteValuedec, leaveDeadValues)
-	if f.Config.RegSize == 4 {
+	if f.Config.RegSize == 4 && f.Config.arch != "wasm32" {
 		applyRewrite(f, rewriteBlockdec64, rewriteValuedec64, leaveDeadValues)
 	}
 
