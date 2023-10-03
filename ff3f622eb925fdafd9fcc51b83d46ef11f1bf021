@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b984a33_51554b0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-10-03T17:57:00Z",
+      "side": 1,
+      "message": "TRY\u003dopenbsd-riscv64",
+      "revId": "ff3f622eb925fdafd9fcc51b83d46ef11f1bf021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
