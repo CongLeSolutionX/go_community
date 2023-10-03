@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2672b273_d558b545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-03T16:24:19Z",
+      "side": 1,
+      "message": "This is the new form added to support this change.",
+      "parentUuid": "86a9f2ba_3121a70d",
+      "revId": "573fafdec02bd9b4157984882071483ca2c34335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f7d5520_45395758",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-03T15:35:09Z",
       "side": 1,
       "message": "Something is not quite right with the wording in this sentence. Did you mean to say \"as shown above\"?",
+      "revId": "573fafdec02bd9b4157984882071483ca2c34335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc7cacd_34bd454b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-03T16:24:19Z",
+      "side": 1,
+      "message": "Ugh, reworded bad editing on my part. Reworded.",
+      "parentUuid": "7f7d5520_45395758",
       "revId": "573fafdec02bd9b4157984882071483ca2c34335",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
