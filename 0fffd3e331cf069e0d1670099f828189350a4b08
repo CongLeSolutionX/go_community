@@ -51,6 +51,24 @@
       "message": "Let\u0027s not use underscores in names here.  Pick a different name.  A name like \"m\" would probably work fine.  Thanks.",
       "revId": "0fffd3e331cf069e0d1670099f828189350a4b08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e823f3e9_f28d21a8",
+        "filename": "src/regexp/syntax/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-10-03T14:22:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02afd283_0a241aa5",
+      "revId": "0fffd3e331cf069e0d1670099f828189350a4b08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
