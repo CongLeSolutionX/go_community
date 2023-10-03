@@ -353,7 +353,9 @@ func tcConv(n *ir.ConvExpr) ir.Node {
 	}
 	op, why := Convertop(n.X.Op() == ir.OLITERAL, t, n.Type())
 	if op == ir.OXXX {
-		base.Fatalf("cannot convert %L to type %v%s", n.X, n.Type(), why)
+		base.Errorf("cannot convert %L to type %v%s", n.X, n.Type(), why)
+		n.SetType(nil)
+		return n
 	}
 
 	n.SetOp(op)
