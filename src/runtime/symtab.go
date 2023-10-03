@@ -597,7 +597,7 @@ func (md *moduledata) textAddr(off32 uint32) uintptr {
 				break
 			}
 		}
-		if res > md.etext && GOARCH != "wasm" { // on wasm, functions do not live in the same address space as the linear memory
+		if res > md.etext && GOARCH != "wasm" && GOARCH != "wasm32" { // on wasm, functions do not live in the same address space as the linear memory
 			println("runtime: textAddr", hex(res), "out of range", hex(md.text), "-", hex(md.etext))
 			throw("runtime: text offset out of range")
 		}
