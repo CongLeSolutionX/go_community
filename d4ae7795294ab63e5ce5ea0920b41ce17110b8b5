@@ -70,6 +70,24 @@
       "message": "@matloob@golang.org  Hi, I think the hold can be reset, please review",
       "revId": "d4ae7795294ab63e5ce5ea0920b41ce17110b8b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b12e78dc_3e83254e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2023-10-03T19:29:50Z",
+      "side": 1,
+      "message": "rsc@ reset this.",
+      "parentUuid": "7ca382b9_6c79f798",
+      "revId": "d4ae7795294ab63e5ce5ea0920b41ce17110b8b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
