@@ -1097,6 +1097,11 @@ func modu2(x, y uint) int {
 	return 0
 }
 
+func issue63110(x uint, arr *[100]uint) uint {
+	i := x % 100
+	return arr[i] // ERROR "Proved IsInBounds$"
+}
+
 func issue57077(s []int) (left, right []int) {
 	middle := len(s) / 2
 	left = s[:middle] // ERROR "Proved IsSliceInBounds$"
