@@ -69,6 +69,24 @@
       "parentUuid": "c2d69964_0e02ee5c",
       "revId": "7e7006b6dee2d829d4fb8cfe22a1d31496262a23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66969317_aa41fb1a",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2023-10-04T13:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81be6c51_b6633f57",
+      "revId": "7e7006b6dee2d829d4fb8cfe22a1d31496262a23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
