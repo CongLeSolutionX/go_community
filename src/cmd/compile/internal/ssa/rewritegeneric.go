@@ -6198,7 +6198,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 		return true
 	}
 	// match: (Div16u x (Const16 [c]))
-	// cond: umagicOK16(c) && config.RegSize == 8
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 8
 	// result: (Trunc64to16 (Rsh64Ux64 <typ.UInt64> (Mul64 <typ.UInt64> (Const64 <typ.UInt64> [int64(1<<16+umagic16(c).m)]) (ZeroExt16to64 x)) (Const64 <typ.UInt64> [16+umagic16(c).s])))
 	for {
 		x := v_0
@@ -6206,7 +6206,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt16(v_1.AuxInt)
-		if !(umagicOK16(c) && config.RegSize == 8) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 8) {
 			break
 		}
 		v.reset(OpTrunc64to16)
@@ -6224,7 +6224,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 		return true
 	}
 	// match: (Div16u x (Const16 [c]))
-	// cond: umagicOK16(c) && config.RegSize == 4 && umagic16(c).m&1 == 0
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 4 && umagic16(c).m&1 == 0
 	// result: (Trunc32to16 (Rsh32Ux64 <typ.UInt32> (Mul32 <typ.UInt32> (Const32 <typ.UInt32> [int32(1<<15+umagic16(c).m/2)]) (ZeroExt16to32 x)) (Const64 <typ.UInt64> [16+umagic16(c).s-1])))
 	for {
 		x := v_0
@@ -6232,7 +6232,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt16(v_1.AuxInt)
-		if !(umagicOK16(c) && config.RegSize == 4 && umagic16(c).m&1 == 0) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 4 && umagic16(c).m&1 == 0) {
 			break
 		}
 		v.reset(OpTrunc32to16)
@@ -6250,7 +6250,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 		return true
 	}
 	// match: (Div16u x (Const16 [c]))
-	// cond: umagicOK16(c) && config.RegSize == 4 && c&1 == 0
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 4 && c&1 == 0
 	// result: (Trunc32to16 (Rsh32Ux64 <typ.UInt32> (Mul32 <typ.UInt32> (Const32 <typ.UInt32> [int32(1<<15+(umagic16(c).m+1)/2)]) (Rsh32Ux64 <typ.UInt32> (ZeroExt16to32 x) (Const64 <typ.UInt64> [1]))) (Const64 <typ.UInt64> [16+umagic16(c).s-2])))
 	for {
 		x := v_0
@@ -6258,7 +6258,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt16(v_1.AuxInt)
-		if !(umagicOK16(c) && config.RegSize == 4 && c&1 == 0) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 4 && c&1 == 0) {
 			break
 		}
 		v.reset(OpTrunc32to16)
@@ -6280,7 +6280,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 		return true
 	}
 	// match: (Div16u x (Const16 [c]))
-	// cond: umagicOK16(c) && config.RegSize == 4 && config.useAvg
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 4 && config.useAvg
 	// result: (Trunc32to16 (Rsh32Ux64 <typ.UInt32> (Avg32u (Lsh32x64 <typ.UInt32> (ZeroExt16to32 x) (Const64 <typ.UInt64> [16])) (Mul32 <typ.UInt32> (Const32 <typ.UInt32> [int32(umagic16(c).m)]) (ZeroExt16to32 x))) (Const64 <typ.UInt64> [16+umagic16(c).s-1])))
 	for {
 		x := v_0
@@ -6288,7 +6288,7 @@ func rewriteValuegeneric_OpDiv16u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt16(v_1.AuxInt)
-		if !(umagicOK16(c) && config.RegSize == 4 && config.useAvg) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK16(c) && config.RegSize == 4 && config.useAvg) {
 			break
 		}
 		v.reset(OpTrunc32to16)
@@ -6608,7 +6608,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 		return true
 	}
 	// match: (Div32u x (Const32 [c]))
-	// cond: umagicOK32(c) && config.RegSize == 4 && umagic32(c).m&1 == 0 && config.useHmul
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 4 && umagic32(c).m&1 == 0 && config.useHmul
 	// result: (Rsh32Ux64 <typ.UInt32> (Hmul32u <typ.UInt32> (Const32 <typ.UInt32> [int32(1<<31+umagic32(c).m/2)]) x) (Const64 <typ.UInt64> [umagic32(c).s-1]))
 	for {
 		x := v_0
@@ -6616,7 +6616,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(umagicOK32(c) && config.RegSize == 4 && umagic32(c).m&1 == 0 && config.useHmul) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 4 && umagic32(c).m&1 == 0 && config.useHmul) {
 			break
 		}
 		v.reset(OpRsh32Ux64)
@@ -6631,7 +6631,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 		return true
 	}
 	// match: (Div32u x (Const32 [c]))
-	// cond: umagicOK32(c) && config.RegSize == 4 && c&1 == 0 && config.useHmul
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 4 && c&1 == 0 && config.useHmul
 	// result: (Rsh32Ux64 <typ.UInt32> (Hmul32u <typ.UInt32> (Const32 <typ.UInt32> [int32(1<<31+(umagic32(c).m+1)/2)]) (Rsh32Ux64 <typ.UInt32> x (Const64 <typ.UInt64> [1]))) (Const64 <typ.UInt64> [umagic32(c).s-2]))
 	for {
 		x := v_0
@@ -6639,7 +6639,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(umagicOK32(c) && config.RegSize == 4 && c&1 == 0 && config.useHmul) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 4 && c&1 == 0 && config.useHmul) {
 			break
 		}
 		v.reset(OpRsh32Ux64)
@@ -6658,7 +6658,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 		return true
 	}
 	// match: (Div32u x (Const32 [c]))
-	// cond: umagicOK32(c) && config.RegSize == 4 && config.useAvg && config.useHmul
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 4 && config.useAvg && config.useHmul
 	// result: (Rsh32Ux64 <typ.UInt32> (Avg32u x (Hmul32u <typ.UInt32> (Const32 <typ.UInt32> [int32(umagic32(c).m)]) x)) (Const64 <typ.UInt64> [umagic32(c).s-1]))
 	for {
 		x := v_0
@@ -6666,7 +6666,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(umagicOK32(c) && config.RegSize == 4 && config.useAvg && config.useHmul) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 4 && config.useAvg && config.useHmul) {
 			break
 		}
 		v.reset(OpRsh32Ux64)
@@ -6683,7 +6683,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 		return true
 	}
 	// match: (Div32u x (Const32 [c]))
-	// cond: umagicOK32(c) && config.RegSize == 8 && umagic32(c).m&1 == 0
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 8 && umagic32(c).m&1 == 0
 	// result: (Trunc64to32 (Rsh64Ux64 <typ.UInt64> (Mul64 <typ.UInt64> (Const64 <typ.UInt64> [int64(1<<31+umagic32(c).m/2)]) (ZeroExt32to64 x)) (Const64 <typ.UInt64> [32+umagic32(c).s-1])))
 	for {
 		x := v_0
@@ -6691,7 +6691,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(umagicOK32(c) && config.RegSize == 8 && umagic32(c).m&1 == 0) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 8 && umagic32(c).m&1 == 0) {
 			break
 		}
 		v.reset(OpTrunc64to32)
@@ -6709,7 +6709,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 		return true
 	}
 	// match: (Div32u x (Const32 [c]))
-	// cond: umagicOK32(c) && config.RegSize == 8 && c&1 == 0
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 8 && c&1 == 0
 	// result: (Trunc64to32 (Rsh64Ux64 <typ.UInt64> (Mul64 <typ.UInt64> (Const64 <typ.UInt64> [int64(1<<31+(umagic32(c).m+1)/2)]) (Rsh64Ux64 <typ.UInt64> (ZeroExt32to64 x) (Const64 <typ.UInt64> [1]))) (Const64 <typ.UInt64> [32+umagic32(c).s-2])))
 	for {
 		x := v_0
@@ -6717,7 +6717,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(umagicOK32(c) && config.RegSize == 8 && c&1 == 0) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 8 && c&1 == 0) {
 			break
 		}
 		v.reset(OpTrunc64to32)
@@ -6739,7 +6739,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 		return true
 	}
 	// match: (Div32u x (Const32 [c]))
-	// cond: umagicOK32(c) && config.RegSize == 8 && config.useAvg
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 8 && config.useAvg
 	// result: (Trunc64to32 (Rsh64Ux64 <typ.UInt64> (Avg64u (Lsh64x64 <typ.UInt64> (ZeroExt32to64 x) (Const64 <typ.UInt64> [32])) (Mul64 <typ.UInt64> (Const64 <typ.UInt32> [int64(umagic32(c).m)]) (ZeroExt32to64 x))) (Const64 <typ.UInt64> [32+umagic32(c).s-1])))
 	for {
 		x := v_0
@@ -6747,7 +6747,7 @@ func rewriteValuegeneric_OpDiv32u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(umagicOK32(c) && config.RegSize == 8 && config.useAvg) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK32(c) && config.RegSize == 8 && config.useAvg) {
 			break
 		}
 		v.reset(OpTrunc64to32)
@@ -7060,7 +7060,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 		return true
 	}
 	// match: (Div64u x (Const64 [c]))
-	// cond: c > 0 && c <= 0xFFFF && umagicOK32(int32(c)) && config.RegSize == 4 && config.useHmul
+	// cond: v.Block.Func.pass.name != "opt" && c > 0 && c <= 0xFFFF && umagicOK32(int32(c)) && config.RegSize == 4 && config.useHmul
 	// result: (Add64 (Add64 <typ.UInt64> (Add64 <typ.UInt64> (Lsh64x64 <typ.UInt64> (ZeroExt32to64 (Div32u <typ.UInt32> (Trunc64to32 <typ.UInt32> (Rsh64Ux64 <typ.UInt64> x (Const64 <typ.UInt64> [32]))) (Const32 <typ.UInt32> [int32(c)]))) (Const64 <typ.UInt64> [32])) (ZeroExt32to64 (Div32u <typ.UInt32> (Trunc64to32 <typ.UInt32> x) (Const32 <typ.UInt32> [int32(c)])))) (Mul64 <typ.UInt64> (ZeroExt32to64 <typ.UInt64> (Mod32u <typ.UInt32> (Trunc64to32 <typ.UInt32> (Rsh64Ux64 <typ.UInt64> x (Const64 <typ.UInt64> [32]))) (Const32 <typ.UInt32> [int32(c)]))) (Const64 <typ.UInt64> [int64((1<<32)/c)]))) (ZeroExt32to64 (Div32u <typ.UInt32> (Add32 <typ.UInt32> (Mod32u <typ.UInt32> (Trunc64to32 <typ.UInt32> x) (Const32 <typ.UInt32> [int32(c)])) (Mul32 <typ.UInt32> (Mod32u <typ.UInt32> (Trunc64to32 <typ.UInt32> (Rsh64Ux64 <typ.UInt64> x (Const64 <typ.UInt64> [32]))) (Const32 <typ.UInt32> [int32(c)])) (Const32 <typ.UInt32> [int32((1<<32)%c)]))) (Const32 <typ.UInt32> [int32(c)]))))
 	for {
 		x := v_0
@@ -7068,7 +7068,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt64(v_1.AuxInt)
-		if !(c > 0 && c <= 0xFFFF && umagicOK32(int32(c)) && config.RegSize == 4 && config.useHmul) {
+		if !(v.Block.Func.pass.name != "opt" && c > 0 && c <= 0xFFFF && umagicOK32(int32(c)) && config.RegSize == 4 && config.useHmul) {
 			break
 		}
 		v.reset(OpAdd64)
@@ -7120,7 +7120,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 		return true
 	}
 	// match: (Div64u x (Const64 [c]))
-	// cond: umagicOK64(c) && config.RegSize == 8 && umagic64(c).m&1 == 0 && config.useHmul
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK64(c) && config.RegSize == 8 && umagic64(c).m&1 == 0 && config.useHmul
 	// result: (Rsh64Ux64 <typ.UInt64> (Hmul64u <typ.UInt64> (Const64 <typ.UInt64> [int64(1<<63+umagic64(c).m/2)]) x) (Const64 <typ.UInt64> [umagic64(c).s-1]))
 	for {
 		x := v_0
@@ -7128,7 +7128,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt64(v_1.AuxInt)
-		if !(umagicOK64(c) && config.RegSize == 8 && umagic64(c).m&1 == 0 && config.useHmul) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK64(c) && config.RegSize == 8 && umagic64(c).m&1 == 0 && config.useHmul) {
 			break
 		}
 		v.reset(OpRsh64Ux64)
@@ -7143,7 +7143,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 		return true
 	}
 	// match: (Div64u x (Const64 [c]))
-	// cond: umagicOK64(c) && config.RegSize == 8 && c&1 == 0 && config.useHmul
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK64(c) && config.RegSize == 8 && c&1 == 0 && config.useHmul
 	// result: (Rsh64Ux64 <typ.UInt64> (Hmul64u <typ.UInt64> (Const64 <typ.UInt64> [int64(1<<63+(umagic64(c).m+1)/2)]) (Rsh64Ux64 <typ.UInt64> x (Const64 <typ.UInt64> [1]))) (Const64 <typ.UInt64> [umagic64(c).s-2]))
 	for {
 		x := v_0
@@ -7151,7 +7151,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt64(v_1.AuxInt)
-		if !(umagicOK64(c) && config.RegSize == 8 && c&1 == 0 && config.useHmul) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK64(c) && config.RegSize == 8 && c&1 == 0 && config.useHmul) {
 			break
 		}
 		v.reset(OpRsh64Ux64)
@@ -7170,7 +7170,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 		return true
 	}
 	// match: (Div64u x (Const64 [c]))
-	// cond: umagicOK64(c) && config.RegSize == 8 && config.useAvg && config.useHmul
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK64(c) && config.RegSize == 8 && config.useAvg && config.useHmul
 	// result: (Rsh64Ux64 <typ.UInt64> (Avg64u x (Hmul64u <typ.UInt64> (Const64 <typ.UInt64> [int64(umagic64(c).m)]) x)) (Const64 <typ.UInt64> [umagic64(c).s-1]))
 	for {
 		x := v_0
@@ -7178,7 +7178,7 @@ func rewriteValuegeneric_OpDiv64u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt64(v_1.AuxInt)
-		if !(umagicOK64(c) && config.RegSize == 8 && config.useAvg && config.useHmul) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK64(c) && config.RegSize == 8 && config.useAvg && config.useHmul) {
 			break
 		}
 		v.reset(OpRsh64Ux64)
@@ -7383,7 +7383,7 @@ func rewriteValuegeneric_OpDiv8u(v *Value) bool {
 		return true
 	}
 	// match: (Div8u x (Const8 [c]))
-	// cond: umagicOK8(c)
+	// cond: v.Block.Func.pass.name != "opt" && umagicOK8(c)
 	// result: (Trunc32to8 (Rsh32Ux64 <typ.UInt32> (Mul32 <typ.UInt32> (Const32 <typ.UInt32> [int32(1<<8+umagic8(c).m)]) (ZeroExt8to32 x)) (Const64 <typ.UInt64> [8+umagic8(c).s])))
 	for {
 		x := v_0
@@ -7391,7 +7391,7 @@ func rewriteValuegeneric_OpDiv8u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt8(v_1.AuxInt)
-		if !(umagicOK8(c)) {
+		if !(v.Block.Func.pass.name != "opt" && umagicOK8(c)) {
 			break
 		}
 		v.reset(OpTrunc32to8)
@@ -7476,7 +7476,7 @@ func rewriteValuegeneric_OpEq16(v *Value) bool {
 		break
 	}
 	// match: (Eq16 (Mod16u x (Const16 [c])) (Const16 [0]))
-	// cond: x.Op != OpConst16 && udivisibleOK16(c) && !hasSmallRotate(config)
+	// cond: v.Block.Func.pass.name != "opt" && x.Op != OpConst16 && udivisibleOK16(c) && !hasSmallRotate(config)
 	// result: (Eq32 (Mod32u <typ.UInt32> (ZeroExt16to32 <typ.UInt32> x) (Const32 <typ.UInt32> [int32(uint16(c))])) (Const32 <typ.UInt32> [0]))
 	for {
 		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
@@ -7490,7 +7490,7 @@ func rewriteValuegeneric_OpEq16(v *Value) bool {
 				continue
 			}
 			c := auxIntToInt16(v_0_1.AuxInt)
-			if v_1.Op != OpConst16 || auxIntToInt16(v_1.AuxInt) != 0 || !(x.Op != OpConst16 && udivisibleOK16(c) && !hasSmallRotate(config)) {
+			if v_1.Op != OpConst16 || auxIntToInt16(v_1.AuxInt) != 0 || !(v.Block.Func.pass.name != "opt" && x.Op != OpConst16 && udivisibleOK16(c) && !hasSmallRotate(config)) {
 				continue
 			}
 			v.reset(OpEq32)
@@ -9568,7 +9568,7 @@ func rewriteValuegeneric_OpEq8(v *Value) bool {
 		break
 	}
 	// match: (Eq8 (Mod8u x (Const8 [c])) (Const8 [0]))
-	// cond: x.Op != OpConst8 && udivisibleOK8(c) && !hasSmallRotate(config)
+	// cond: v.Block.Func.pass.name != "opt" && x.Op != OpConst8 && udivisibleOK8(c) && !hasSmallRotate(config)
 	// result: (Eq32 (Mod32u <typ.UInt32> (ZeroExt8to32 <typ.UInt32> x) (Const32 <typ.UInt32> [int32(uint8(c))])) (Const32 <typ.UInt32> [0]))
 	for {
 		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
@@ -9582,7 +9582,7 @@ func rewriteValuegeneric_OpEq8(v *Value) bool {
 				continue
 			}
 			c := auxIntToInt8(v_0_1.AuxInt)
-			if v_1.Op != OpConst8 || auxIntToInt8(v_1.AuxInt) != 0 || !(x.Op != OpConst8 && udivisibleOK8(c) && !hasSmallRotate(config)) {
+			if v_1.Op != OpConst8 || auxIntToInt8(v_1.AuxInt) != 0 || !(v.Block.Func.pass.name != "opt" && x.Op != OpConst8 && udivisibleOK8(c) && !hasSmallRotate(config)) {
 				continue
 			}
 			v.reset(OpEq32)
@@ -14685,7 +14685,7 @@ func rewriteValuegeneric_OpMod16u(v *Value) bool {
 		return true
 	}
 	// match: (Mod16u <t> x (Const16 [c]))
-	// cond: x.Op != OpConst16 && c > 0 && umagicOK16(c)
+	// cond: v.Block.Func.pass.name != "opt" && x.Op != OpConst16 && c > 0 && umagicOK16(c)
 	// result: (Sub16 x (Mul16 <t> (Div16u <t> x (Const16 <t> [c])) (Const16 <t> [c])))
 	for {
 		t := v.Type
@@ -14694,7 +14694,7 @@ func rewriteValuegeneric_OpMod16u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt16(v_1.AuxInt)
-		if !(x.Op != OpConst16 && c > 0 && umagicOK16(c)) {
+		if !(v.Block.Func.pass.name != "opt" && x.Op != OpConst16 && c > 0 && umagicOK16(c)) {
 			break
 		}
 		v.reset(OpSub16)
@@ -14839,7 +14839,7 @@ func rewriteValuegeneric_OpMod32u(v *Value) bool {
 		return true
 	}
 	// match: (Mod32u <t> x (Const32 [c]))
-	// cond: x.Op != OpConst32 && c > 0 && umagicOK32(c)
+	// cond: v.Block.Func.pass.name != "opt" && x.Op != OpConst32 && c > 0 && umagicOK32(c)
 	// result: (Sub32 x (Mul32 <t> (Div32u <t> x (Const32 <t> [c])) (Const32 <t> [c])))
 	for {
 		t := v.Type
@@ -14848,7 +14848,7 @@ func rewriteValuegeneric_OpMod32u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt32(v_1.AuxInt)
-		if !(x.Op != OpConst32 && c > 0 && umagicOK32(c)) {
+		if !(v.Block.Func.pass.name != "opt" && x.Op != OpConst32 && c > 0 && umagicOK32(c)) {
 			break
 		}
 		v.reset(OpSub32)
@@ -15018,7 +15018,7 @@ func rewriteValuegeneric_OpMod64u(v *Value) bool {
 		return true
 	}
 	// match: (Mod64u <t> x (Const64 [c]))
-	// cond: x.Op != OpConst64 && c > 0 && umagicOK64(c)
+	// cond: v.Block.Func.pass.name != "opt" && x.Op != OpConst64 && c > 0 && umagicOK64(c)
 	// result: (Sub64 x (Mul64 <t> (Div64u <t> x (Const64 <t> [c])) (Const64 <t> [c])))
 	for {
 		t := v.Type
@@ -15027,7 +15027,7 @@ func rewriteValuegeneric_OpMod64u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt64(v_1.AuxInt)
-		if !(x.Op != OpConst64 && c > 0 && umagicOK64(c)) {
+		if !(v.Block.Func.pass.name != "opt" && x.Op != OpConst64 && c > 0 && umagicOK64(c)) {
 			break
 		}
 		v.reset(OpSub64)
@@ -15172,7 +15172,7 @@ func rewriteValuegeneric_OpMod8u(v *Value) bool {
 		return true
 	}
 	// match: (Mod8u <t> x (Const8 [c]))
-	// cond: x.Op != OpConst8 && c > 0 && umagicOK8( c)
+	// cond: v.Block.Func.pass.name != "opt" && x.Op != OpConst8 && c > 0 && umagicOK8( c)
 	// result: (Sub8 x (Mul8 <t> (Div8u <t> x (Const8 <t> [c])) (Const8 <t> [c])))
 	for {
 		t := v.Type
@@ -15181,7 +15181,7 @@ func rewriteValuegeneric_OpMod8u(v *Value) bool {
 			break
 		}
 		c := auxIntToInt8(v_1.AuxInt)
-		if !(x.Op != OpConst8 && c > 0 && umagicOK8(c)) {
+		if !(v.Block.Func.pass.name != "opt" && x.Op != OpConst8 && c > 0 && umagicOK8(c)) {
 			break
 		}
 		v.reset(OpSub8)
