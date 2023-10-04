@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9618e4bd_0bcd4376",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-10-04T03:36:34Z",
+      "side": 1,
+      "message": "Yes, it is, and I assumed that I needed to run `GOARCH\u003d[arch] go tool cgo -godefs defs_openbsd.go` to update the constants among `defs_openbsd_[arch].go` files with architectures, but I didn\u0027t have any machines with `openbsd` or `dragonfly` OS installed.",
+      "parentUuid": "c3df25ff_4c7e0722",
+      "revId": "dd1185ceb8f4a4f88bb8dec0d9a99414956be9e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1efb0ee_eb6bf031",
         "filename": "src/runtime/netpoll_kqueue.go",
         "patchSetId": 1
