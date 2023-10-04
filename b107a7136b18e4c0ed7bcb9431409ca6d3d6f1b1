@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "008dd95d_8b896f84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-10-04T16:47:12Z",
+      "side": 1,
+      "message": "Thanks Cuong.",
+      "revId": "b107a7136b18e4c0ed7bcb9431409ca6d3d6f1b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d0e7bd_6b88562f",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-10-04T16:47:12Z",
+      "side": 1,
+      "message": "nit: use ErrorfAt as long as we\u0027re updating this code.\n\nAlso, add a comment like \"Due to //go:nointerface, we may be stricter than types2 here (#63333).\"",
+      "revId": "b107a7136b18e4c0ed7bcb9431409ca6d3d6f1b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
