@@ -1756,6 +1756,9 @@ func (r *reader) forStmt(label *types.Sym) ir.Node {
 		rang.Def = r.initDefn(rang, names)
 
 		rang.X = r.expr()
+		if ir.IsConstNode(rang.X) {
+			rang.X = typecheck.DefaultLit(rang.X, nil)
+		}
 		if rang.X.Type().IsMap() {
 			rang.RType = r.rtype(pos)
 		}
@@ -2233,6 +2236,13 @@ func (r *reader) expr() (res ir.Node) {
 		switch op {
 		case ir.OANDAND, ir.OOROR:
 			return typecheck.Expr(ir.NewLogicalExpr(pos, op, x, y))
+		case ir.OLSH, ir.ORSH:
+			// Untyped rhs of non-constant shift, e.g. x << 1.0.
+			// If we have a constant value, it must be an int >= 0.
+			if ir.IsConstNode(y) {
+				val := constant.ToInt(y.Val())
+				assert(val.Kind() == constant.Int && constant.Sign(val) >= 0)
+			}
 		}
 		return typecheck.Expr(ir.NewBinaryExpr(pos, op, x, y))
 
