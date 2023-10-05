@@ -1443,11 +1443,11 @@ func opHasAux(op opData) bool {
 // For example, "x:(Foo)" yields "x", "(Foo)",
 // and "(Foo)" yields "", "(Foo)".
 func splitNameExpr(arg string) (name, expr string) {
-	colon := strings.Index(arg, ":")
+	colon := strings.IndexByte(arg, ':')
 	if colon < 0 {
 		return "", arg
 	}
-	openparen := strings.Index(arg, "(")
+	openparen := strings.IndexByte(arg, '(')
 	if openparen < 0 {
 		log.Fatalf("splitNameExpr(%q): colon but no open parens", arg)
 	}
@@ -1861,7 +1861,7 @@ func (b blockData) auxIntType() string {
 }
 
 func title(s string) string {
-	if i := strings.Index(s, "."); i >= 0 {
+	if i := strings.IndexByte(s, '.'); i >= 0 {
 		switch strings.ToLower(s[:i]) {
 		case "s390x": // keep arch prefix for clarity
 			s = s[:i] + s[i+1:]
@@ -1873,7 +1873,7 @@ func title(s string) string {
 }
 
 func unTitle(s string) string {
-	if i := strings.Index(s, "."); i >= 0 {
+	if i := strings.IndexByte(s, '.'); i >= 0 {
 		switch strings.ToLower(s[:i]) {
 		case "s390x": // keep arch prefix for clarity
 			s = s[:i] + s[i+1:]

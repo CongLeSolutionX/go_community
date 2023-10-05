@@ -1329,11 +1329,11 @@ func (test) updateErrors(out, file string) {
 // That is, it needs the file name prefix followed by a : or a [,
 // and possibly preceded by a directory name.
 func matchPrefix(s, prefix string) bool {
-	i := strings.Index(s, ":")
+	i := strings.IndexByte(s, ':')
 	if i < 0 {
 		return false
 	}
-	j := strings.LastIndex(s[:i], "/")
+	j := strings.LastIndexByte(s[:i], '/')
 	s = s[j+1:]
 	if len(s) <= len(prefix) || s[:len(prefix)] != prefix {
 		return false

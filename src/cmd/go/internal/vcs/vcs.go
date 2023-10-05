@@ -1247,7 +1247,7 @@ func interceptVCSTest(repo string, vcs *Cmd, security web.SecurityMode) (repoURL
 // The URL leaves the Scheme field blank so that web.Get will try any scheme
 // allowed by the selected security mode.
 func urlForImportPath(importPath string) (*urlpkg.URL, error) {
-	slash := strings.Index(importPath, "/")
+	slash := strings.IndexByte(importPath, '/')
 	if slash < 0 {
 		slash = len(importPath)
 	}

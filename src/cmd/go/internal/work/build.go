@@ -878,7 +878,7 @@ func installOutsideModule(ctx context.Context, args []string) {
 	load.CheckPackageErrors(pkgs)
 	patterns := make([]string, len(args))
 	for i, arg := range args {
-		patterns[i] = arg[:strings.Index(arg, "@")]
+		patterns[i] = arg[:strings.IndexByte(arg, '@')]
 	}
 
 	// Build and install the packages.

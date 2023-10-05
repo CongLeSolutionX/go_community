@@ -1236,12 +1236,12 @@ func dedupEnvCase(caseInsensitive, nulOK bool, env []string) ([]string, error) {
 			continue
 		}
 
-		i := strings.Index(kv, "=")
+		i := strings.IndexByte(kv, '=')
 		if i == 0 {
 			// We observe in practice keys with a single leading "=" on Windows.
 			// TODO(#49886): Should we consume only the first leading "=" as part
 			// of the key, or parse through arbitrarily many of them until a non-"="?
-			i = strings.Index(kv[1:], "=") + 1
+			i = strings.IndexByte(kv[1:], '=') + 1
 		}
 		if i < 0 {
 			if kv != "" {

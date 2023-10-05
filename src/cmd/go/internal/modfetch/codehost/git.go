@@ -320,7 +320,7 @@ func (r *gitRepo) Tags(ctx context.Context, prefix string) (*Tags, error) {
 		return tags.List[i].Name < tags.List[j].Name
 	})
 
-	dir := prefix[:strings.LastIndex(prefix, "/")+1]
+	dir := prefix[:strings.LastIndexByte(prefix, '/')+1]
 	h := sha256.New()
 	for _, tag := range tags.List {
 		if isOriginTag(strings.TrimPrefix(tag.Name, dir)) {

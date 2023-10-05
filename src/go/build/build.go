@@ -526,7 +526,7 @@ func (e *MultiplePackageError) Error() string {
 }
 
 func nameExt(name string) string {
-	i := strings.LastIndex(name, ".")
+	i := strings.LastIndexByte(name, '.')
 	if i < 0 {
 		return ""
 	}
@@ -681,7 +681,7 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 						}
 						tried.vendor = append(tried.vendor, dir)
 					}
-					i := strings.LastIndex(sub, "/")
+					i := strings.LastIndexByte(sub, '/')
 					if i < 0 {
 						break
 					}
@@ -1442,7 +1442,7 @@ func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binary
 		return nil, nil
 	}
 
-	i := strings.LastIndex(name, ".")
+	i := strings.LastIndexByte(name, '.')
 	if i < 0 {
 		i = len(name)
 	}
@@ -1997,7 +1997,7 @@ func (ctxt *Context) goodOSArchFile(name string, allTags map[string]bool) bool {
 	// systems, such as android, to arrive without breaking existing code with
 	// innocuous source code in "android.go". The easiest fix: cut everything
 	// in the name before the initial _.
-	i := strings.Index(name, "_")
+	i := strings.IndexByte(name, '_')
 	if i < 0 {
 		return true
 	}

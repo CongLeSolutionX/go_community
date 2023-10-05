@@ -1698,7 +1698,7 @@ func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bo
 
 	var cacheArgs []string
 	for _, arg := range testArgs {
-		i := strings.Index(arg, "=")
+		i := strings.IndexByte(arg, '=')
 		if i < 0 || !strings.HasPrefix(arg, "-test.") {
 			if cache.DebugTest {
 				fmt.Fprintf(os.Stderr, "testcache: caching disabled for test argument: %s\n", arg)

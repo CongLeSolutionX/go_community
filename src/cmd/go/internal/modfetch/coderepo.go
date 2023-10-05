@@ -1102,7 +1102,7 @@ func (r *codeRepo) Zip(ctx context.Context, dst io.Writer, version string) error
 	topPrefix := ""
 	for _, zf := range zr.File {
 		if topPrefix == "" {
-			i := strings.Index(zf.Name, "/")
+			i := strings.IndexByte(zf.Name, '/')
 			if i < 0 {
 				return fmt.Errorf("missing top-level directory prefix")
 			}

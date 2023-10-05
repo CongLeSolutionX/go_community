@@ -121,7 +121,7 @@ func isDirective(c string) bool {
 
 	// "//[a-z0-9]+:[a-z0-9]"
 	// (The // has been removed.)
-	colon := strings.Index(c, ":")
+	colon := strings.IndexByte(c, ':')
 	if colon <= 0 || colon+1 >= len(c) {
 		return false
 	}

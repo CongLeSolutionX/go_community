@@ -245,7 +245,7 @@ const blankMarker = "$"
 // for details.
 func TparamName(exportName string) string {
 	// Remove the "path" from the type param name that makes it unique.
-	ix := strings.LastIndex(exportName, ".")
+	ix := strings.LastIndexByte(exportName, '.')
 	if ix < 0 {
 		return ""
 	}

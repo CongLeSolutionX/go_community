@@ -180,7 +180,7 @@ func (check *Checker) importPackage(at positioner, path, dir string) *Package {
 				if i := len(name); i > 0 && name[i-1] == '/' {
 					name = name[:i-1]
 				}
-				if i := strings.LastIndex(name, "/"); i >= 0 {
+				if i := strings.LastIndexByte(name, '/'); i >= 0 {
 					name = name[i+1:]
 				}
 				imp = NewPackage(path, name)
@@ -728,7 +728,7 @@ func (check *Checker) errorUnusedPkg(obj *PkgName) {
 	// paths always use forward slashes.
 	path := obj.imported.path
 	elem := path
-	if i := strings.LastIndex(elem, "/"); i >= 0 {
+	if i := strings.LastIndexByte(elem, '/'); i >= 0 {
 		elem = elem[i+1:]
 	}
 	if obj.name == "" || obj.name == "." || obj.name == elem {

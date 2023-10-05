@@ -253,7 +253,7 @@ func (m *matcher) unique(parent, subname string) string {
 // parseSubtestNumber splits a subtest name into a "#%02d"-formatted int32
 // suffix (if present), and a prefix preceding that suffix (always).
 func parseSubtestNumber(s string) (prefix string, nn int32) {
-	i := strings.LastIndex(s, "#")
+	i := strings.LastIndexByte(s, '#')
 	if i < 0 {
 		return s, 0
 	}

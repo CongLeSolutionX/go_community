@@ -256,7 +256,7 @@ func readimports(file string) []string {
 // Otherwise, the import path is returned verbatim.
 func resolveVendor(imp, srcDir string) string {
 	var first string
-	if i := strings.Index(imp, "/"); i < 0 {
+	if i := strings.IndexByte(imp, '/'); i < 0 {
 		first = imp
 	} else {
 		first = imp[:i]

@@ -305,7 +305,7 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
 		fallthrough // because of //go:cgo_unsafe_args
 	default:
 		verb := text
-		if i := strings.Index(text, " "); i >= 0 {
+		if i := strings.IndexByte(text, ' '); i >= 0 {
 			verb = verb[:i]
 		}
 		flag := pragmaFlag(verb)
@@ -369,7 +369,7 @@ func parseGoEmbed(args string) ([]string, error) {
 			args = args[i:]
 
 		case '`':
-			i := strings.Index(args[1:], "`")
+			i := strings.IndexByte(args[1:], '`')
 			if i < 0 {
 				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
 			}

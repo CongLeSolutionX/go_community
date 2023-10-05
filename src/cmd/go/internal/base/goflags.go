@@ -68,7 +68,7 @@ func InitGOFLAGS() {
 		if name[0] == '-' {
 			name = name[1:]
 		}
-		if i := strings.Index(name, "="); i >= 0 {
+		if i := strings.IndexByte(name, '='); i >= 0 {
 			name = name[:i]
 		}
 		if !hasFlag(Go, name) {
@@ -103,7 +103,7 @@ func SetFromGOFLAGS(flags *flag.FlagSet) {
 		name, value, hasValue := goflag, "", false
 		// Ignore invalid flags like '=' or '=value'.
 		// If it is not reported in InitGOFlags it means we don't want to report it.
-		if i := strings.Index(goflag, "="); i == 0 {
+		if i := strings.IndexByte(goflag, '='); i == 0 {
 			continue
 		} else if i > 0 {
 			name, value, hasValue = goflag[:i], goflag[i+1:], true
@@ -151,7 +151,7 @@ func InGOFLAGS(flag string) bool {
 		if strings.HasPrefix(name, "--") {
 			name = name[1:]
 		}
-		if i := strings.Index(name, "="); i >= 0 {
+		if i := strings.IndexByte(name, '='); i >= 0 {
 			name = name[:i]
 		}
 		if name == flag {

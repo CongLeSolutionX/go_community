@@ -89,8 +89,8 @@ func (versionFlag) Get() interface{} { return nil }
 func (versionFlag) String() string   { return "" }
 func (versionFlag) Set(s string) error {
 	name := os.Args[0]
-	name = name[strings.LastIndex(name, `/`)+1:]
-	name = name[strings.LastIndex(name, `\`)+1:]
+	name = name[strings.LastIndexByte(name, '/')+1:]
+	name = name[strings.LastIndexByte(name, '\\')+1:]
 	name = strings.TrimSuffix(name, ".exe")
 
 	p := ""
@@ -348,7 +348,7 @@ func (f *DebugFlag) Set(debugstr string) error {
 			// _ in phase name also matches space
 			phase := name[4:]
 			flag := "debug" // default flag is debug
-			if i := strings.Index(phase, "/"); i >= 0 {
+			if i := strings.IndexByte(phase, '/'); i >= 0 {
 				flag = phase[i+1:]
 				phase = phase[:i]
 			}

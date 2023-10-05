@@ -58,7 +58,7 @@ func main() {
 		log.Fatalf("%s: build ID is a legacy format...binary too old for this tool", file)
 	}
 
-	newID := id[:strings.LastIndex(id, "/")] + "/" + buildid.HashToString(hash)
+	newID := id[:strings.LastIndexByte(id, '/')] + "/" + buildid.HashToString(hash)
 	if len(newID) != len(id) {
 		log.Fatalf("%s: build ID length mismatch %q vs %q", file, id, newID)
 	}

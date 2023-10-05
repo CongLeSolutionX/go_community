@@ -374,7 +374,7 @@ func Env() Cmd {
 				}
 			} else {
 				for _, env := range args {
-					i := strings.Index(env, "=")
+					i := strings.IndexByte(env, '=')
 					if i < 0 {
 						// Display value instead of setting it.
 						fmt.Fprintf(out, "%s=%s\n", env, s.envMap[env])

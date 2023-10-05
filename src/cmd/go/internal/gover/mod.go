@@ -56,10 +56,10 @@ func ModSort(list []module.Version) {
 		vi := mi.Version
 		vj := mj.Version
 		var fi, fj string
-		if k := strings.Index(vi, "/"); k >= 0 {
+		if k := strings.IndexByte(vi, '/'); k >= 0 {
 			vi, fi = vi[:k], vi[k:]
 		}
-		if k := strings.Index(vj, "/"); k >= 0 {
+		if k := strings.IndexByte(vj, '/'); k >= 0 {
 			vj, fj = vj[:k], vj[k:]
 		}
 		if vi != vj {

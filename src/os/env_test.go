@@ -131,7 +131,7 @@ func TestClearenv(t *testing.T) {
 		for _, pair := range origEnv {
 			// Environment variables on Windows can begin with =
 			// https://devblogs.microsoft.com/oldnewthing/20100506-00/?p=14133
-			i := strings.Index(pair[1:], "=") + 1
+			i := strings.IndexByte(pair[1:], '=') + 1
 			if err := Setenv(pair[:i], pair[i+1:]); err != nil {
 				t.Errorf("Setenv(%q, %q) failed during reset: %v", pair[:i], pair[i+1:], err)
 			}
@@ -174,13 +174,13 @@ func TestEnvironConsistency(t *testing.T) {
 	t.Parallel()
 
 	for _, kv := range Environ() {
-		i := strings.Index(kv, "=")
+		i := strings.IndexByte(kv, '=')
 		if i == 0 {
 			// We observe in practice keys with a single leading "=" on Windows.
 			// TODO(#49886): Should we consume only the first leading "=" as part
 			// of the key, or parse through arbitrarily many of them until a non-=,
 			// or try each possible key/value boundary until LookupEnv succeeds?
-			i = strings.Index(kv[1:], "=") + 1
+			i = strings.IndexByte(kv[1:], '=') + 1
 		}
 		if i < 0 {
 			t.Errorf("Environ entry missing '=': %q", kv)

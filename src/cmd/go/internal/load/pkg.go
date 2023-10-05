@@ -3271,7 +3271,7 @@ func PackagesAndErrorsOutsideModule(ctx context.Context, opts PackageOpts, args 
 	var version string
 	var firstPath string
 	for _, arg := range args {
-		if i := strings.Index(arg, "@"); i >= 0 {
+		if i := strings.IndexByte(arg, '@'); i >= 0 {
 			firstPath, version = arg[:i], arg[i+1:]
 			if version == "" {
 				return nil, fmt.Errorf("%s: version must not be empty", arg)

@@ -145,7 +145,7 @@ type CmdFlags struct {
 }
 
 func addEnv(s string) {
-	i := strings.Index(s, "=")
+	i := strings.IndexByte(s, '=')
 	if i < 0 {
 		log.Fatal("-env argument must be of the form key=value")
 	}
@@ -294,15 +294,15 @@ func ParseFlags() {
 
 	if Flag.LowerO == "" {
 		p := flag.Arg(0)
-		if i := strings.LastIndex(p, "/"); i >= 0 {
+		if i := strings.LastIndexByte(p, '/'); i >= 0 {
 			p = p[i+1:]
 		}
 		if runtime.GOOS == "windows" {
-			if i := strings.LastIndex(p, `\`); i >= 0 {
+			if i := strings.LastIndexByte(p, '\\'); i >= 0 {
 				p = p[i+1:]
 			}
 		}
-		if i := strings.LastIndex(p, "."); i >= 0 {
+		if i := strings.LastIndexByte(p, '.'); i >= 0 {
 			p = p[:i]
 		}
 		suffix := ".o"

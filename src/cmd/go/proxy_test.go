@@ -137,7 +137,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Next element may opt into special behavior.
-	if j := strings.Index(path, "/"); j >= 0 {
+	if j := strings.IndexByte(path, '/'); j >= 0 {
 		n, err := strconv.Atoi(path[:j])
 		if err == nil && n >= 200 {
 			w.WriteHeader(n)
@@ -175,7 +175,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 	// Request for $GOPROXY/redirect/<count>/... goes to redirects.
 	if strings.HasPrefix(path, "redirect/") {
 		path = path[len("redirect/"):]
-		if j := strings.Index(path, "/"); j >= 0 {
+		if j := strings.IndexByte(path, '/'); j >= 0 {
 			count, err := strconv.Atoi(path[:j])
 			if err != nil {
 				return
@@ -293,7 +293,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	i = strings.LastIndex(file, ".")
+	i = strings.LastIndexByte(file, '.')
 	if i < 0 {
 		http.NotFound(w, r)
 		return
@@ -315,7 +315,7 @@ func proxyHandler(w http.ResponseWriter, r *http.Request) {
 			if m.Path == path && semver.Compare(best, m.Version) < 0 {
 				var hash string
 				if module.IsPseudoVersion(m.Version) {
-					hash = m.Version[strings.LastIndex(m.Version, "-")+1:]
+					hash = m.Version[strings.LastIndexByte(m.Version, '-')+1:]
 				} else {
 					hash = findHash(m)
 				}

@@ -258,7 +258,7 @@ func parseLogFlag(flag, value string) (version int, directory string) {
 	if Format != None {
 		log.Fatal("Cannot repeat -json flag")
 	}
-	commaAt := strings.Index(value, ",")
+	commaAt := strings.IndexByte(value, ',')
 	if commaAt <= 0 {
 		log.Fatalf("-%s option should be '<version>,<destination>' where <version> is a number", flag)
 	}

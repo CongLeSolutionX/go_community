@@ -38,7 +38,7 @@ func TestFS(fsys fs.FS, expected ...string) error {
 		return err
 	}
 	for _, name := range expected {
-		if i := strings.Index(name, "/"); i >= 0 {
+		if i := strings.IndexByte(name, '/'); i >= 0 {
 			dir, dirSlash := name[:i], name[:i+1]
 			var subExpected []string
 			for _, name := range expected {
@@ -599,7 +599,7 @@ func (t *fsTester) checkBadPath(file string, desc string, open func(string) erro
 	if file == "." {
 		bad = append(bad, "/")
 	}
-	if i := strings.Index(file, "/"); i >= 0 {
+	if i := strings.IndexByte(file, '/'); i >= 0 {
 		bad = append(bad,
 			file[:i]+"//"+file[i+1:],
 			file[:i]+"/./"+file[i+1:],
@@ -607,7 +607,7 @@ func (t *fsTester) checkBadPath(file string, desc string, open func(string) erro
 			file[:i]+"/../"+file,
 		)
 	}
-	if i := strings.LastIndex(file, "/"); i >= 0 {
+	if i := strings.LastIndexByte(file, '/'); i >= 0 {
 		bad = append(bad,
 			file[:i]+"//"+file[i+1:],
 			file[:i]+"/./"+file[i+1:],

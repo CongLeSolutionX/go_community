@@ -40,11 +40,11 @@ func (s *Sym) Static() bool { return s.Type >= 'a' }
 // and right bracket removed. This is useful to ignore any extra slashes or dots
 // inside the brackets from the string searches below, where needed.
 func (s *Sym) nameWithoutInst() string {
-	start := strings.Index(s.Name, "[")
+	start := strings.IndexByte(s.Name, '[')
 	if start < 0 {
 		return s.Name
 	}
-	end := strings.LastIndex(s.Name, "]")
+	end := strings.LastIndexByte(s.Name, ']')
 	if end < 0 {
 		// Malformed name, should contain closing bracket too.
 		return s.Name
@@ -70,12 +70,12 @@ func (s *Sym) PackageName() string {
 		return ""
 	}
 
-	pathend := strings.LastIndex(name, "/")
+	pathend := strings.LastIndexByte(name, '/')
 	if pathend < 0 {
 		pathend = 0
 	}
 
-	if i := strings.Index(name[pathend:], "."); i != -1 {
+	if i := strings.IndexByte(name[pathend:], '.'); i != -1 {
 		return name[:pathend+i]
 	}
 	return ""
@@ -88,15 +88,15 @@ func (s *Sym) ReceiverName() string {
 	name := s.nameWithoutInst()
 	// If we find a slash in name, it should precede any bracketed expression
 	// that was removed, so pathend will apply correctly to name and s.Name.
-	pathend := strings.LastIndex(name, "/")
+	pathend := strings.LastIndexByte(name, '/')
 	if pathend < 0 {
 		pathend = 0
 	}
 	// Find the first dot after pathend (or from the beginning, if there was
 	// no slash in name).
-	l := strings.Index(name[pathend:], ".")
+	l := strings.IndexByte(name[pathend:], '.')
 	// Find the last dot after pathend (or the beginning).
-	r := strings.LastIndex(name[pathend:], ".")
+	r := strings.LastIndexByte(name[pathend:], '.')
 	if l == -1 || r == -1 || l == r {
 		// There is no receiver if we didn't find two distinct dots after pathend.
 		return ""
@@ -104,22 +104,22 @@ func (s *Sym) ReceiverName() string {
 	// Given there is a trailing '.' that is in name, find it now in s.Name.
 	// pathend+l should apply to s.Name, because it should be the dot in the
 	// package name.
-	r = strings.LastIndex(s.Name[pathend:], ".")
+	r = strings.LastIndexByte(s.Name[pathend:], '.')
 	return s.Name[pathend+l+1 : pathend+r]
 }
 
 // BaseName returns the symbol name without the package or receiver name.
 func (s *Sym) BaseName() string {
 	name := s.nameWithoutInst()
-	if i := strings.LastIndex(name, "."); i != -1 {
+	if i := strings.LastIndexByte(name, '.'); i != -1 {
 		if s.Name != name {
-			brack := strings.Index(s.Name, "[")
+			brack := strings.IndexByte(s.Name, '[')
 			if i > brack {
 				// BaseName is a method name after the brackets, so
 				// recalculate for s.Name. Otherwise, i applies
 				// correctly to s.Name, since it is before the
 				// brackets.
-				i = strings.LastIndex(s.Name, ".")
+				i = strings.LastIndexByte(s.Name, '.')
 			}
 		}
 		return s.Name[i+1:]

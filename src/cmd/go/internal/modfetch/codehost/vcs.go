@@ -557,7 +557,7 @@ func bzrParseStat(rev, out string) (*RevInfo, error) {
 		key, val := before, strings.TrimSpace(after)
 		switch key {
 		case "revno":
-			if j := strings.Index(val, " "); j >= 0 {
+			if j := strings.IndexByte(val, ' '); j >= 0 {
 				val = val[:j]
 			}
 			i, err := strconv.ParseInt(val, 10, 64)
@@ -566,7 +566,7 @@ func bzrParseStat(rev, out string) (*RevInfo, error) {
 			}
 			revno = i
 		case "timestamp":
-			j := strings.Index(val, " ")
+			j := strings.IndexByte(val, ' ')
 			if j < 0 {
 				return nil, vcsErrorf("unexpected timestamp from bzr log: %q", line)
 			}

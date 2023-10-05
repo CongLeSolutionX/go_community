@@ -108,7 +108,7 @@ func normalizeIPv6Slow(orig string) (string, error) {
 	s := orig
 
 	// Find and convert an IPv4 address in the final field, if any.
-	i := strings.LastIndex(s, ":")
+	i := strings.LastIndexByte(s, ':')
 	if i == -1 {
 		return "", fmt.Errorf("netaddr.ParseIP(%q): invalid IP address", orig)
 	}

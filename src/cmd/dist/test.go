@@ -483,7 +483,7 @@ func (opts *goTest) buildArgs(t *tester) (build, run, pkgs, testFlags []string, 
 		setDir(cmd, filepath.Join(goroot, "src"))
 		if len(opts.env) != 0 {
 			for _, kv := range opts.env {
-				if i := strings.Index(kv, "="); i < 0 {
+				if i := strings.IndexByte(kv, '='); i < 0 {
 					unsetEnv(cmd, kv[:len(kv)-1])
 				} else {
 					setEnv(cmd, kv[:i], kv[i+1:])

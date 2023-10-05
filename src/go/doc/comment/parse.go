@@ -876,7 +876,7 @@ func (d *parseDoc) docLink(text, before, after string) (link *DocLink, ok bool) 
 // then splitDocName returns before, name, true.
 // Otherwise it returns text, "", false.
 func splitDocName(text string) (before, name string, foundDot bool) {
-	i := strings.LastIndex(text, ".")
+	i := strings.LastIndexByte(text, '.')
 	name = text[i+1:]
 	if !isName(name) {
 		return text, "", false

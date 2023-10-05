@@ -560,7 +560,7 @@ func parse(rawURL string, viaRequest bool) (*URL, error) {
 	if (url.Scheme != "" || !viaRequest && !strings.HasPrefix(rest, "///")) && strings.HasPrefix(rest, "//") {
 		var authority string
 		authority, rest = rest[2:], ""
-		if i := strings.Index(authority, "/"); i >= 0 {
+		if i := strings.IndexByte(authority, '/'); i >= 0 {
 			authority, rest = authority[:i], authority[i:]
 		}
 		url.User, url.Host, err = parseAuthority(authority)
@@ -584,7 +584,7 @@ func parse(rawURL string, viaRequest bool) (*URL, error) {
 }
 
 func parseAuthority(authority string) (user *Userinfo, host string, err error) {
-	i := strings.LastIndex(authority, "@")
+	i := strings.LastIndexByte(authority, '@')
 	if i < 0 {
 		host, err = parseHost(authority)
 	} else {
@@ -624,7 +624,7 @@ func parseHost(host string) (string, error) {
 	if strings.HasPrefix(host, "[") {
 		// Parse an IP-Literal in RFC 3986 and RFC 6874.
 		// E.g., "[fe80::1]", "[fe80::1%25en0]", "[fe80::1]:80".
-		i := strings.LastIndex(host, "]")
+		i := strings.LastIndexByte(host, ']')
 		if i < 0 {
 			return "", errors.New("missing ']' in host")
 		}
@@ -655,7 +655,7 @@ func parseHost(host string) (string, error) {
 			}
 			return host1 + host2 + host3, nil
 		}
-	} else if i := strings.LastIndex(host, ":"); i != -1 {
+	} else if i := strings.LastIndexByte(host, ':'); i != -1 {
 		colonPort := host[i:]
 		if !validOptionalPort(colonPort) {
 			return "", fmt.Errorf("invalid port %q after host", colonPort)
@@ -1001,7 +1001,7 @@ func resolvePath(base, ref string) string {
 	if ref == "" {
 		full = base
 	} else if ref[0] != '/' {
-		i := strings.LastIndex(base, "/")
+		i := strings.LastIndexByte(base, '/')
 		full = base[:i+1] + ref
 	} else {
 		full = ref

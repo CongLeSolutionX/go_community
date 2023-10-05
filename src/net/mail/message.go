@@ -162,13 +162,13 @@ func ParseDate(date string) (time.Time, error) {
 		date = p.s[:ind+5]
 		p.s = p.s[ind+5:]
 	} else {
-		ind := strings.Index(p.s, "T")
+		ind := strings.IndexByte(p.s, 'T')
 		if ind == 0 {
 			// In this case we have the following date formats:
 			// * Thu, 20 Nov 1997 09:55:06 MDT
 			// * Thu, 20 Nov 1997 09:55:06 MDT (MDT)
 			// * Thu, 20 Nov 1997 09:55:06 MDT (This comment)
-			ind = strings.Index(p.s[1:], "T")
+			ind = strings.IndexByte(p.s[1:], 'T')
 			if ind != -1 {
 				ind++
 			}
@@ -267,7 +267,7 @@ func (p *AddressParser) ParseList(list string) ([]*Address, error) {
 // the name will be rendered according to RFC 2047.
 func (a *Address) String() string {
 	// Format address local@domain
-	at := strings.LastIndex(a.Address, "@")
+	at := strings.LastIndexByte(a.Address, '@')
 	var local, domain string
 	if at < 0 {
 		// This is a malformed address ("@" is required in addr-spec);

@@ -495,7 +495,7 @@ type boringCertificate struct {
 func boringCert(t *testing.T, name string, key interface{}, parent *boringCertificate, mode int) *boringCertificate {
 	org := name
 	parentOrg := ""
-	if i := strings.Index(org, "_"); i >= 0 {
+	if i := strings.IndexByte(org, '_'); i >= 0 {
 		org = org[:i]
 		parentOrg = name[i+1:]
 	}

@@ -194,7 +194,7 @@ func DownloadZip(ctx context.Context, mod module.Version) (zipfile string, err e
 			if mod.Path == "golang.org/toolchain" {
 				// Shorten v0.0.1-go1.13.1.darwin-amd64 to go1.13.1.darwin-amd64
 				_, vers, _ = strings.Cut(vers, "-")
-				if i := strings.LastIndex(vers, "."); i >= 0 {
+				if i := strings.LastIndexByte(vers, '.'); i >= 0 {
 					goos, goarch, _ := strings.Cut(vers[i+1:], "-")
 					vers = vers[:i] + " (" + goos + "/" + goarch + ")"
 				}

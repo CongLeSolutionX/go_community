@@ -805,7 +805,7 @@ const blankMarker = "$"
 // for details.
 func tparamName(exportName string) string {
 	// Remove the "path" from the type param name that makes it unique.
-	ix := strings.LastIndex(exportName, ".")
+	ix := strings.LastIndexByte(exportName, '.')
 	if ix < 0 {
 		errorf("malformed type parameter export name %s: missing prefix", exportName)
 	}

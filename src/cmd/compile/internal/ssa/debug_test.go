@@ -374,7 +374,7 @@ func (h *nextHist) read(filename string) {
 				lastfile = strings.TrimSpace(l)
 			} else if numberColonRe.MatchString(l) {
 				// line number -- <number>:<line>
-				colonPos := strings.Index(l, ":")
+				colonPos := strings.IndexByte(l, ':')
 				if colonPos == -1 {
 					panic(fmt.Sprintf("Line %d (%s) in file %s expected to contain '<number>:' but does not.\n", i+1, l, filename))
 				}
@@ -680,7 +680,7 @@ func (s *gdbState) stepnext(ss string) bool {
 // name, then uses printer to get the value of the variable from the debugger, and then
 // normalizes and returns the response.
 func printVariableAndNormalize(v string, printer func(v string) string) string {
-	slashIndex := strings.Index(v, "/")
+	slashIndex := strings.IndexByte(v, '/')
 	substitutions := ""
 	if slashIndex != -1 {
 		substitutions = v[slashIndex:]
@@ -688,7 +688,7 @@ func printVariableAndNormalize(v string, printer func(v string) string) string {
 	}
 	response := printer(v)
 	// expect something like "$1 = ..."
-	dollar := strings.Index(response, "$")
+	dollar := strings.IndexByte(response, '$')
 	cr := strings.Index(response, "\n")
 
 	if dollar == -1 { // some not entirely expected response, whine and carry on.
@@ -732,7 +732,7 @@ func varsToPrint(line, lookfor string) []string {
 	var vars []string
 	if strings.Contains(line, lookfor) {
 		x := line[strings.Index(line, lookfor)+len(lookfor):]
-		end := strings.Index(x, ")")
+		end := strings.IndexByte(x, ')')
 		if end == -1 {
 			panic(fmt.Sprintf("Saw variable list begin %s in %s but no closing ')'", lookfor, line))
 		}

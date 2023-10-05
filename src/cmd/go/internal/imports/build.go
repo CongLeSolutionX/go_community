@@ -273,7 +273,7 @@ func MatchFile(name string, tags map[string]bool) bool {
 	if tags["*"] {
 		return true
 	}
-	if dot := strings.Index(name, "."); dot != -1 {
+	if dot := strings.IndexByte(name, '.'); dot != -1 {
 		name = name[:dot]
 	}
 
@@ -284,7 +284,7 @@ func MatchFile(name string, tags map[string]bool) bool {
 	// systems, such as android, to arrive without breaking existing code with
 	// innocuous source code in "android.go". The easiest fix: cut everything
 	// in the name before the initial _.
-	i := strings.Index(name, "_")
+	i := strings.IndexByte(name, '_')
 	if i < 0 {
 		return true
 	}

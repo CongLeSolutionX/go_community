@@ -173,7 +173,7 @@ func dlToGo(v string) (string, bool) {
 		return "", false
 	}
 	// cut .windows-amd64
-	i := strings.LastIndex(v, ".")
+	i := strings.LastIndexByte(v, '.')
 	if i < 0 || !strings.Contains(v[i+1:], "-") {
 		return "", false
 	}

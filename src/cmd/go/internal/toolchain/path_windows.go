@@ -65,7 +65,7 @@ func pathVersion(dir string, de fs.DirEntry, info fs.FileInfo) (string, bool) {
 // the extension itself, and true to signal that an extension was found.
 // Otherwise cutExt returns file, "", false.
 func cutExt(file string, exts []string) (name, ext string, found bool) {
-	i := strings.LastIndex(file, ".")
+	i := strings.LastIndexByte(file, '.')
 	if i < 0 {
 		return file, "", false
 	}

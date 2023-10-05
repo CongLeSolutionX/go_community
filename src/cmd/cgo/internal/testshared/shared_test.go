@@ -752,7 +752,7 @@ func requireGccgo(t *testing.T) {
 	if err != nil {
 		t.Fatalf("%s -dumpversion failed: %v\n%s", gccgoPath, err, output)
 	}
-	dot := bytes.Index(output, []byte{'.'})
+	dot := bytes.IndexByte(output, '.')
 	if dot > 0 {
 		output = output[:dot]
 	}

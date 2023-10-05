@@ -352,7 +352,7 @@ var equivEscapers = map[string]string{
 	// These two functions are not actually equivalent; urlquery is stricter as it
 	// escapes reserved characters (e.g. '#'), while _html_template_urlnormalizer
 	// does not. It is therefore only safe to replace _html_template_urlnormalizer
-	// with urlquery (this happens in ensurePipelineContains), but not the otherI've
+	// with urlquery (this happens in ensurePipelineContains), but not the other
 	// way around. We keep this entry around to preserve the behavior of templates
 	// written before Go 1.9, which might depend on this substitution taking place.
 	"_html_template_urlnormalizer": "urlquery",

@@ -103,8 +103,8 @@ func defaultGODEBUG(p *Package, directives, testDirectives, xtestDirectives []bu
 
 func godebugForGoVersion(v string) map[string]string {
 	if strings.Count(v, ".") >= 2 {
-		i := strings.Index(v, ".")
-		j := i + 1 + strings.Index(v[i+1:], ".")
+		i := strings.IndexByte(v, '.')
+		j := i + 1 + strings.IndexByte(v[i+1:], '.')
 		v = v[:j]
 	}
 

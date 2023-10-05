@@ -666,7 +666,7 @@ func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuild
 	}
 
 	// remove last @XXX
-	if i := strings.LastIndex(name, "@"); i >= 0 {
+	if i := strings.LastIndexByte(name, '@'); i >= 0 {
 		name = name[:i]
 	}
 

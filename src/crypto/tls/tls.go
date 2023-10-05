@@ -135,7 +135,7 @@ func dial(ctx context.Context, netDialer *net.Dialer, network, addr string, conf
 		return nil, err
 	}
 
-	colonPos := strings.LastIndex(addr, ":")
+	colonPos := strings.LastIndexByte(addr, ':')
 	if colonPos == -1 {
 		colonPos = len(addr)
 	}

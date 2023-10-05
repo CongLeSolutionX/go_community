@@ -687,11 +687,11 @@ func classifyExamples(p *Package, examples []*Example) {
 //
 // Adapted from debug/gosym/symtab.go:Sym.nameWithoutInst.
 func nameWithoutInst(name string) string {
-	start := strings.Index(name, "[")
+	start := strings.IndexByte(name, '[')
 	if start < 0 {
 		return name
 	}
-	end := strings.LastIndex(name, "]")
+	end := strings.LastIndexByte(name, ']')
 	if end < 0 {
 		// Malformed name, should contain closing bracket too.
 		return name
