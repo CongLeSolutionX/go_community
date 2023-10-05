@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b01164_39e15d48",
+        "filename": "test/range3.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-10-05T15:24:34Z",
+      "side": 1,
+      "message": "This should be a compile-time error, shouldn\u0027t it?\nProbably something before noder should reject this code.\n\n(We do have to handle non-constant negative numbers here. What\u0027s the proposed semantics for that? I\u0027m not sure.)",
+      "revId": "76c5d3a3f2fb423210a78a48d4867f4cd371a33a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
