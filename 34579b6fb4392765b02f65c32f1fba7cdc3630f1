@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6450e1c_441e2e01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-10-05T20:15:33Z",
+      "side": 1,
+      "message": "Thanks for adding the test; we had something similar in https://github.com/segmentio/asm, I didn\u0027t know the stdlib also did!",
+      "revId": "34579b6fb4392765b02f65c32f1fba7cdc3630f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
