@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9960c95c_77f5cdc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-06T20:33:15Z",
+      "side": 1,
+      "message": "I am curious why this has only been observed on aix/openbsd.  I do think we want consistent sequencing behavior on both success an failure though.",
+      "revId": "653b6e2ad280d3392754e8109fd2b70eed9e8c3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c97af98_c4156a85",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-06T20:33:15Z",
+      "side": 1,
+      "message": "This comment should be moved after line 352 too.",
+      "range": {
+        "startLine": 350,
+        "startChar": 5,
+        "endLine": 350,
+        "endChar": 11
+      },
+      "revId": "653b6e2ad280d3392754e8109fd2b70eed9e8c3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
