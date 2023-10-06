@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9785f9b_ba422e25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-06T19:57:23Z",
+      "side": 1,
+      "message": "I still think keeping p.Reg is better. It is fairly easy to convert p.Reg to an Addr, if we want to do that.",
+      "parentUuid": "8e1c877d_b9ff932f",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 47
+      },
+      "revId": "1e41b2124bc8ec3c60fe84e8b75e568ae8a9f968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a27b78d3_48b28c92",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
