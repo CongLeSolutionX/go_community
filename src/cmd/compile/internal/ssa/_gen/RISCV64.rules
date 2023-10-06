@@ -396,8 +396,6 @@
 		(ADD <ptr.Type> ptr (MOVDconst [s-moveSize(t.Alignment(), config)]))
 		mem)
 
-(Convert ...) => (MOVconvert ...)
-
 // Checks
 (IsNonNil ...) => (SNEZ ...)
 (IsInBounds ...) => (Less64U ...)
