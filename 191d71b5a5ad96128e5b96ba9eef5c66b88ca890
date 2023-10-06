@@ -71,6 +71,24 @@
       "parentUuid": "0b8bda73_adead100",
       "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82867ebc_5b134f8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-06T19:49:14Z",
+      "side": 1,
+      "message": "Thanks. Can we rebase the subsequent CLs without this CL, so we can see if they work without this? Thanks.",
+      "parentUuid": "3d48b64d_ac5ff787",
+      "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
