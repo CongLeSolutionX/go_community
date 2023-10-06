@@ -59,6 +59,30 @@
       },
       "revId": "b20e2822415762a62a1923bfee536ffb33baed65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef69e659_b9b97e4b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-10-06T22:00:25Z",
+      "side": 1,
+      "message": "Good point, thanks. I\u0027ll leave out the -run flag mention and just say \"{pattern} matched no ...\"—users will recognize their pattern and can figure out their CLI from there. That makes it more viable to stay with %q for consistency with the go command (e.g., [here](https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/search/search.go;l\u003d349;drc\u003df36c7c5983e039e36e187d7fcd7e7e5a1aa2d74f)).",
+      "parentUuid": "b0f55d50_496ed485",
+      "range": {
+        "startLine": 263,
+        "startChar": 47,
+        "endLine": 263,
+        "endChar": 49
+      },
+      "revId": "b20e2822415762a62a1923bfee536ffb33baed65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
