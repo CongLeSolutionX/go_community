@@ -53,6 +53,24 @@
       "message": "I suggest a `MayDiag` function, that keeps a buffer of error messages that may go out or not. The buffer probably can be internal to the obj package, so it can be shared by the compiler and the assembler. When DiagFlush is called, it flushes the MayDiag buffer and emit those messages. And add a ClearMayDiag function to clear the MayDiag buffer. Would that work?",
       "revId": "99bd96cf83459700b012a798a74e7eb5dccb0441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e15bf2a_55d28797",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-06T19:59:34Z",
+      "side": 1,
+      "message": "It may even be internal to the arm64 package, like `ctxt7.MayDiag`.",
+      "parentUuid": "36f05809_65498f83",
+      "revId": "99bd96cf83459700b012a798a74e7eb5dccb0441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
