@@ -43,7 +43,10 @@ const (
 	// Note that it's only used internally as a guard against
 	// wildly out-of-bounds slicing of the PCs that come after
 	// a bucket struct, and it could increase in the future.
-	maxStack = 32
+	// The "+ 1" is to account for the first stack entry being
+	// taken up by a "skip" sentinel value for profilers which
+	// defer inline frame expansion until the profile is reported.
+	maxStack = 32 + 1
 )
 
 type bucketType int
@@ -500,14 +503,40 @@ func blocksampled(cycles, rate int64) bool {
 	return true
 }
 
+// saveblockevent records a profile event of the type specified by which.
+// cycles is the quantity associated with this event and rate is the sampling rate,
+// used to adjust the cycles value in the manner determined by the profile type.
+// skip is the number of frames to omit from the traceback associated with the event.
+// The traceback will be recorded from the stack of the goroutine associated with the current m.
+// skip should be positive if this event is recorded from the current stack
+// (e.g. when this is not called from a system stack)
 func saveblockevent(cycles, rate int64, skip int, which bucketType) {
 	gp := getg()
-	var nstk int
+	nstk := 1
 	var stk [maxStack]uintptr
-	if gp.m.curg == nil || gp.m.curg == gp {
-		nstk = callers(skip, stk[:])
+	if tracefpunwindoff() || gp.m.hasCgoOnStack() {
+		stk[0] = logicalStackSentinel
+		if gp.m.curg == nil || gp.m.curg == gp {
+			nstk += callers(skip, stk[1:])
+		} else {
+			nstk += gcallers(gp.m.curg, skip, stk[1:])
+		}
 	} else {
-		nstk = gcallers(gp.m.curg, skip, stk[:])
+		stk[0] = uintptr(skip)
+		if gp.m.curg == nil || gp.m.curg == gp {
+			if skip > 0 {
+				// We skip one fewer frame than the provided value for frame
+				// pointer unwinding because the skip value includes the current
+				// frame, whereas the saved frame pointer will give us the
+				// caller's return address first (so, not including
+				// saveblockevent)
+				stk[0] -= 1
+			}
+			nstk += fpTracebackPCs(unsafe.Pointer(getfp()), stk[1:])
+		} else {
+			stk[1] = gp.m.curg.sched.pc
+			nstk += 1 + fpTracebackPCs(unsafe.Pointer(gp.m.curg.sched.bp), stk[2:])
+		}
 	}
 	b := stkbucket(which, 0, stk[:nstk], true)
 	bp := b.bp()
@@ -777,7 +806,7 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 			if asanenabled {
 				asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 			}
-			i := copy(r.Stack0[:], b.stk())
+			i := copy(r.Stack0[:], fpunwindExpand(b.stk()))
 			for ; i < len(r.Stack0); i++ {
 				r.Stack0[i] = 0
 			}
@@ -807,7 +836,7 @@ func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
 			r := &p[0]
 			r.Count = int64(bp.count)
 			r.Cycles = bp.cycles
-			i := copy(r.Stack0[:], b.stk())
+			i := copy(r.Stack0[:], fpunwindExpand(b.stk()))
 			for ; i < len(r.Stack0); i++ {
 				r.Stack0[i] = 0
 			}
