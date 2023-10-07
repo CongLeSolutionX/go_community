@@ -89,6 +89,24 @@
       "parentUuid": "3d48b64d_ac5ff787",
       "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b431503_0cf865c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-10-07T02:09:48Z",
+      "side": 1,
+      "message": "Currently we do use the scale field for encoding the register list(TYPE_LIST), so the later patch will not work without this CL. Thanks.",
+      "parentUuid": "82867ebc_5b134f8b",
+      "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
