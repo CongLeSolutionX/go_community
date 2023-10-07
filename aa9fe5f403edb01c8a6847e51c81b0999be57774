@@ -72,6 +72,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7287fac_43e66e6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "Thanks for the review, there are some comments that I have not processed, and I also have made some changes locally. I will make the changes together and submit them.\n\nCurrently we are working on the encoding of SVE instructions and decoding at the same time. Once completed, we will add tests for all instructions to enable these newly added instructions. Then I\u0027ll adjust the code structure to move part of the code to x/arch.",
+      "parentUuid": "191cdcaa_b5092947",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1cb3d75_87031ce2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "This CL is just a framework of new assembler, plus an xml parser. Since it doesn\u0027t change any encoding implementation, and no new instructions are added, so it does not actually depend on the refactoring of Addr. However, the instruction encoding implementation based on this CL relies on the refactoring of Addr. Because there are multiple CLs that depend on this CL, so I make this CL based on the refactoring CLs of Addr, so that subsequent CLs only need to be based on this CL. That\u0027s it. \n\nI think the Addr refactoring is very good, it brings a lot of convenience to the encoding work of elements.",
+      "parentUuid": "e56254a6_e50e0146",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "269b4532_c91605ea",
@@ -169,6 +205,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89198881_1c888989",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "It means that the format of Go arm64 assembly instructions is not well defined. It contains two situations:\n1. The opcode is not well defined.\n2. The operand order is not well defined.\n\nThe instruction table https://go-review.googlesource.com/c/go/+/424137/13/src/cmd/internal/obj/arm64/instructions.go\nalso defines the opcode and operand order of an arm64 instruction in Go. This is based on the guidance of this document https://go-review.googlesource.com/c/go/+/424137/13/src/cmd/internal/obj/arm64/doc.go.\n\nI\u0027m a bit worried that some of the instructions may not be well defined because I didn\u0027t check the format of all instructions one by one. For example, I have always felt that the order of operands in the MADD series of multiply-accumulate instructions is \"unreasonable\". So I added this table to manually control the supported instructions so that we don\u0027t suddenly find that the syntax of a certain instruction is very weird in the future.\n\nOf course, I think there should be no problem with the definition of most instructions. In addition, it only affects the syntax of the instructions and does not affect the correctness. If you think it is unnecessary, we can remove this table. Maybe in the future, if I have time, I will check the supported instruction one by one. If there is no problem, I will delete this table.",
+      "parentUuid": "391aa3e5_230dad5e",
+      "range": {
+        "startLine": 871,
+        "startChar": 44,
+        "endLine": 871,
+        "endChar": 56
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "823257a9_dc199476",
@@ -186,6 +246,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e45b954_9a055ae4",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "The purpose of this table is to manually control the supported instructions, so automatic generation is meaningless. And at present, I don\u0027t know if there are \"unreasonable\" instructions definitions. To be honest I don\u0027t like this table either, maybe I should delete it.",
+      "parentUuid": "823257a9_dc199476",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f4d9755_c2a00546",
@@ -199,6 +277,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "It would be good to have some comment explaining what this type is, and how it differs from the A constants for the opcodes that Go uses. You could print the comment from the generator. Or move the type definition to a hand-written file.\n\nAlso, besides appearing in table entries, is this used anywhere?",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e72a036_a9ffd792",
+        "filename": "src/cmd/internal/obj/arm64/arm64ops.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "Ok, maybe I should put all these type definitions in a hand-written file.\nArm64 opcode is used in a few cases to distinguish some special situations when encoding, in addition the disassembler needs it to generate GNU assembly.",
+      "parentUuid": "5f4d9755_c2a00546",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -239,6 +335,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28b5f8d4_50073215",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2309,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "My idea is that the AC_XXX classes will eventually be merged with A_XXX classes, and acclass and aclass will also be merged into one function. I\u0027m not sure yet whether I can avoid setting c.instoffset and a.Reg in this function. I\u0027ll merge them once I\u0027ve done all the encoding work.",
+      "parentUuid": "f4aa2c6a_836abef4",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "012b2b7e_6677962a",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 13
@@ -267,6 +381,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "What does this mean here? The comment in obj/link.go says \"size of the instruction in bytes\", but that doesn\u0027t seem to be what happens here. It seems this is the number of matches * 4. Why times 4? Also, it seems only checked in a comparison, so maybe just use a flag?",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "817fa1a6_95950ea8",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2557,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "Yeah it is the number of matches * 4, the comment I added to obj/link.go is not correct, I\u0027ll change it.\n\n\u003e so maybe just use a flag?\n\nThis is a good idea",
+      "parentUuid": "d5975ad6_ca57159f",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -307,6 +439,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af6ebcb0_184f2cf0",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2655,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "Thanks, I think here we can use `sort.Search`.",
+      "parentUuid": "2274c311_fa703e13",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88b27cf4_b472845e",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 13
@@ -318,6 +468,24 @@
       "writtenOn": "2023-10-06T19:32:53Z",
       "side": 1,
       "message": "How are relocations handled in the new code path? Does it currently not handle any instruction that needs relocation?",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea8b43da_adfcabc7",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 6529,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "Currently, the new path handles relocations when encoding two elements:\nhttps://go-review.googlesource.com/c/go/+/518118/3/src/cmd/internal/obj/arm64/encoding.go#77\nand\nhttps://go-review.googlesource.com/c/go/+/518118/3/src/cmd/internal/obj/arm64/encoding.go#933\n\nwhich are for instructions such as B/BL/CALL. But to be honest, I think it may not be a good way to handle relocations when encoding element. It may be better to call a function here to specifically handle instructions that require relocations, so that the code looks clearer.\n\nCurrently, almost all those that need to handle relocations are some instructions that new path cannot encode, such as load, store, duffcopy, doffzero, etc. so new path currently basically does not handle relocations.",
+      "parentUuid": "88b27cf4_b472845e",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -335,6 +503,30 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "What is the purpose for this map? Just reduce allocations? Also, the map seems unused in the encoding functions.",
+      "range": {
+        "startLine": 6531,
+        "startChar": 0,
+        "endLine": 6533,
+        "endChar": 3
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b836927_15ae8160",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 6533,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "It is used to check that the encoding of the same position in 32-bit instructions is the same. For example:\nADD \u003cVd\u003e.\u003cT\u003e, \u003cVn\u003e.\u003cT\u003e, \u003cVm\u003e.\u003cT\u003e\n\n\u003cT\u003e must be the same arrangement, we need to check this point when encoding. But the three \u003cT\u003es are in three different arguments, we have to encode them three times separately, then how to check if they are the same arrangement? Since they are encoded in the same positions, and the encodings are the same, so we can check if the three \u003cT\u003es are the same by checking the encodings. \nWhen encoding the first \u003cT\u003e, we insert the encoding of it into the map, when encoding the second and third \u003cT\u003es, we check if the encoding is the same with the encoding in the map.\n\nThis situation does not exist in basic instructions, but it is common in FP\u0026SIMD and SVE instructions.",
+      "parentUuid": "b9f3cca1_bb51ec01",
       "range": {
         "startLine": 6531,
         "startChar": 0,
@@ -408,6 +600,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "415f84e3_ebc023dc",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "They are arm64 instructions, see https://go-review.googlesource.com/c/go/+/424137/13/src/cmd/internal/obj/arm64/instructions.go#50176\n\nST64BV0  \u003cXs\u003e, \u003cXt\u003e, [\u003cXn|SP\u003e]",
+      "parentUuid": "a3682bf2_16275475",
+      "range": {
+        "startLine": 346,
+        "startChar": 42,
+        "endLine": 346,
+        "endChar": 60
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfe5495d_d8abf0d7",
@@ -421,6 +637,30 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "Is this new syntax? Added in this CL? I don\u0027t recall we have something like this.",
+      "range": {
+        "startLine": 353,
+        "startChar": 25,
+        "endLine": 353,
+        "endChar": 38
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a8d6a22_2dca7e96",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "Yes, I should have mentioned this in this file. The actual effect of this instruction is to move \"\u003cimm8\u003e MSL \u003camount\u003e\" to \u003cVd\u003e.\u003cT\u003e, MSL means masking shift lift, see https://stackoverflow.com/questions/69372040/what-does-msl-shift-in-ones-in-arm64-assembly-stand-for.\nShould we define a symbol (like \u003c\u003c, \u003e\u003e) for it?",
+      "parentUuid": "dfe5495d_d8abf0d7",
       "range": {
         "startLine": 353,
         "startChar": 25,
@@ -518,6 +758,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "What do you think about putting the generator into the x/arch repo? This has quite some code that are only needed for generating files and not needed by the rest of the standard library, so maybe x/arch is probably a better place for this. Also, maybe later we can extend this to also generate the disassembler, which also lives in the x/arch repo.",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a14b7038_f413c8ba",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "This is what I planned, and I have already implemented a large part of the disassembler work. It is just temporarily placed under the Go repo for convenient testing, because sometimes we have to fine-tune the generated instruction table when encoding. I will move it to the x/arch repo later. Thanks",
+      "parentUuid": "47d92e69_95c50707",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -638,6 +896,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "ARM64 has more than 2047 opcodes?!",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52845a60_16b6616b",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T07:59:19Z",
+      "side": 1,
+      "message": "Yeah, this is a rough statistic,\nbasic - 567\nSIMD\u0026FP - 435\nSVE - 955\nSME - 322\ntotal - 2283\n\nIn this CL we are close to adding 2000 opcodes.",
+      "parentUuid": "2aeb8b41_62d1cf2b",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
