@@ -107,6 +107,24 @@
       "parentUuid": "82867ebc_5b134f8b",
       "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb17b6cf_21d28536",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T03:15:26Z",
+      "side": 1,
+      "message": "Scale is used to save the interval between registers of register list because arm64 contains discontinuous register list type. See\n\nhttps://go-review.googlesource.com/c/go/+/506118/4/src/cmd/internal/obj/link.go#162",
+      "parentUuid": "9b431503_0cf865c8",
+      "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
