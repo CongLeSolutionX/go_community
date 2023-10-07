@@ -52,6 +52,60 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc6d4f37_145b07d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-07T17:22:38Z",
+      "side": 1,
+      "message": "The problem outlined in the issue will only be observed on systems that use lock_sema.go rather than lock_futex.go.  And, of course, it will only be observed on systems that use ppc64.  The only two such systems are aix/ppc64 and openbsd/ppc64.",
+      "parentUuid": "9960c95c_77f5cdc7",
+      "revId": "653b6e2ad280d3392754e8109fd2b70eed9e8c3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cad5703_2856c26f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-07T17:22:38Z",
+      "side": 1,
+      "message": "Unless I misunderstand, that is part of this CL already.",
+      "parentUuid": "350bdd8d_5ef7381b",
+      "revId": "653b6e2ad280d3392754e8109fd2b70eed9e8c3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aa88ae4_abbba288",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-07T17:22:38Z",
+      "side": 1,
+      "message": "Hmmm, quite possible.  If this CL does fix the problem, I\u0027ll open an issue.  I think it may be needed for arm, loong64, mips, mips64, riscv64.  But I\u0027m not sure.",
+      "parentUuid": "32169d54_b260b688",
+      "revId": "653b6e2ad280d3392754e8109fd2b70eed9e8c3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c97af98_c4156a85",
@@ -65,6 +119,30 @@
       "writtenOn": "2023-10-06T20:33:15Z",
       "side": 1,
       "message": "This comment should be moved after line 352 too.",
+      "range": {
+        "startLine": 350,
+        "startChar": 5,
+        "endLine": 350,
+        "endChar": 11
+      },
+      "revId": "653b6e2ad280d3392754e8109fd2b70eed9e8c3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad5a3a56_25c23d6d",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-07T17:22:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c97af98_c4156a85",
       "range": {
         "startLine": 350,
         "startChar": 5,
