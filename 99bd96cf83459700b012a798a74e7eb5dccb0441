@@ -71,6 +71,24 @@
       "parentUuid": "36f05809_65498f83",
       "revId": "99bd96cf83459700b012a798a74e7eb5dccb0441",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d48468b7_9773e1f1",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-07T08:51:34Z",
+      "side": 1,
+      "message": "I\u0027ll try if we can hijack the DiagFunc function to the MayDiag function you mention above in the asmInst function, only here do we need to clear spurious errors. Thank you.",
+      "parentUuid": "7e15bf2a_55d28797",
+      "revId": "99bd96cf83459700b012a798a74e7eb5dccb0441",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
