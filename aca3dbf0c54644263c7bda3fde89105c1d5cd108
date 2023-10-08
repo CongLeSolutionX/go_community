@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dfef5e2_0f039d2d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-08T02:21:41Z",
+      "side": 1,
+      "message": "These operands are a bit like B, S, H, D arrangements. They have no obvious characteristics. We copied them directly from the document. It would be quite troublesome to generate them automatically from the document. Because there are only a few instructions with this operand, I think manual copying is the most convenient way.",
+      "parentUuid": "af153b95_f47bc9b7",
+      "revId": "aca3dbf0c54644263c7bda3fde89105c1d5cd108",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4cba0f5_bcee212a",
@@ -68,6 +86,24 @@
       "writtenOn": "2023-10-06T19:20:15Z",
       "side": 1,
       "message": "Could each case have some comment for what they mean? Some are pretty obvious, but not all of them are.",
+      "revId": "aca3dbf0c54644263c7bda3fde89105c1d5cd108",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baac08f2_e94927c0",
+        "filename": "src/cmd/internal/obj/arm64/encoding.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-08T02:21:41Z",
+      "side": 1,
+      "message": "Each element represents a symbol, and in element.go we annotate the symbol represented by each element. In fact, the names of these elements have a rule. Through this rule, we will find that their meanings are actually very clear:\n\n`sa_\u003csymbol name\u003e__\u003cencoded fields\u003e{__\u003cpossible values\u003e}`\n\nfor example:\n`sa_wt__Rt` means symbol \"\u003cwt\u003e\" encoded in field Rt.\n`sa_imm__imm9h_imm9l` means symbol \u003cimm\u003e encoded in fields imm9h and imm9l.\n`sa_imm__size__1_2_4_8` means symbol \u003cimm\u003e encode in field size and the value can be 1, 2, 4, 8.\n`sa_t__size_13_2__B_H_S` means symbol \u003cT\u003e encoded in field size (bit 13-12) and the value can be B, H, and S.\n\nAs for how an element is encoded, this is related to instructions.\n\nThere are a few specially processed elements. I will add some comments later. Thanks.",
+      "parentUuid": "e4cba0f5_bcee212a",
       "revId": "aca3dbf0c54644263c7bda3fde89105c1d5cd108",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -102,6 +138,24 @@
       "writtenOn": "2023-10-06T19:20:15Z",
       "side": 1,
       "message": "Does this faster do anything more than the old bitconEncode function? Is it more efficient? That code was carefully written to be pretty efficient, and that code looks simpler than this. That said, that code predates the LeadingZeros64 intrinsic, so maybe it could use some update.",
+      "revId": "aca3dbf0c54644263c7bda3fde89105c1d5cd108",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d969bff2_7d4749cc",
+        "filename": "src/cmd/internal/obj/arm64/encoding.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-08T02:21:41Z",
+      "side": 1,
+      "message": "Yes this function is faster than bitconEncode, in addition, the old bitconEncode function doesn\u0027t apply to 8-bit and 16-bit mode.\n\n$ go test -bench . -count 5 foo_test.go\ngoos: linux\ngoarch: arm64\nBenchmarkBitconEncode-160       100000000               11.35 ns/op\nBenchmarkBitconEncode-160       100000000               11.36 ns/op\nBenchmarkBitconEncode-160       100000000               11.34 ns/op\nBenchmarkBitconEncode-160       100000000               11.36 ns/op\nBenchmarkBitconEncode-160       100000000               11.38 ns/op\nBenchmarkEncodeBitMask-160      171791748                6.977 ns/op\nBenchmarkEncodeBitMask-160      171310130                6.966 ns/op\nBenchmarkEncodeBitMask-160      171997322                6.983 ns/op\nBenchmarkEncodeBitMask-160      172006099                6.896 ns/op\nBenchmarkEncodeBitMask-160      173269782                6.932 ns/op",
+      "parentUuid": "6e971491_c92a535d",
       "revId": "aca3dbf0c54644263c7bda3fde89105c1d5cd108",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
