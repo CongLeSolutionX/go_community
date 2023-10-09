@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "313673e6_e4037844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:16:38Z",
+      "side": 1,
+      "message": "PS 2 is just a rebase. I had to address one minor logical conflict.",
+      "revId": "5f1fd1e42da0450f2d3c56fa6392f72d5c2ecf38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
