@@ -606,6 +606,11 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 					// See https://sourceware.org/bugzilla/show_bug.cgi?id=21809
 					continue
 				}
+
+				if arch.Family == sys.Loong64 && (strings.HasPrefix(elfsym.name, ".L") || strings.HasPrefix(elfsym.name, "L0")) {
+					// gcc on loong64.
+					continue
+				}
 			}
 
 			if strings.HasPrefix(elfsym.name, ".Linfo_string") {
@@ -686,6 +691,10 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 			l.SetAttrOnList(s, true)
 			textp = append(textp, s)
 			for ss := l.SubSym(s); ss != 0; ss = l.SubSym(ss) {
+				if arch.Family == sys.Loong64 && (strings.HasPrefix(l.SymName(ss), ".L") || strings.HasPrefix(l.SymName(ss), "L0")) {
+					// gcc on loong64.
+					continue
+				}
 				if l.AttrOnList(ss) {
 					return errorf("symbol %s listed multiple times",
 						l.SymName(ss))
@@ -1028,6 +1037,11 @@ func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, uint8, error) {
 		LOONG64 | uint32(elf.R_LARCH_MARK_LA)<<16,
 		LOONG64 | uint32(elf.R_LARCH_SOP_POP_32_S_0_10_10_16_S2)<<16,
 		LOONG64 | uint32(elf.R_LARCH_MARK_PCREL)<<16,
+		LOONG64 | uint32(elf.R_LARCH_B26)<<16,
+		LOONG64 | uint32(elf.R_LARCH_PCALA_HI20)<<16,
+		LOONG64 | uint32(elf.R_LARCH_PCALA_LO12)<<16,
+		LOONG64 | uint32(elf.R_LARCH_GOT_PC_HI20)<<16,
+		LOONG64 | uint32(elf.R_LARCH_GOT_PC_LO12)<<16,
 		LOONG64 | uint32(elf.R_LARCH_32_PCREL)<<16:
 		return 4, 4, nil
 
