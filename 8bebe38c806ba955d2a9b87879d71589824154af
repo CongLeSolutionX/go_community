@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2b15d74_f0659fb0",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:53:02Z",
+      "side": 1,
+      "message": "It looks like this is always Action.Target, which in this case is always `filepath.Join(a.Objdir, shlib)` from `linkSharedAction`. In this case, `linkSharedAction` baked up a fake Package that doesn\u0027t have an import path. So, this is not an unreasonable description. The other option would be to pass \"\" and let Builder.run format the command as the description. Maybe that\u0027s better.",
+      "parentUuid": "464fe468_cbd65edf",
+      "range": {
+        "startLine": 685,
+        "startChar": 25,
+        "endLine": 685,
+        "endChar": 28
+      },
+      "revId": "8bebe38c806ba955d2a9b87879d71589824154af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c33a7624_38f84f43",
         "filename": "src/cmd/go/internal/work/gccgo.go",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-25T22:35:50Z",
       "side": 1,
       "message": "This is another suspect call: the `out` parameter here is being passed as the `desc` argument to `link`.\n\n`out` is usually a stderr or stdout output, whereas `desc` is usually a (possibly-annotated) import path. (But it may also be that the parameter here is correct but misnamed.)",
+      "range": {
+        "startLine": 535,
+        "startChar": 66,
+        "endLine": 535,
+        "endChar": 69
+      },
+      "revId": "8bebe38c806ba955d2a9b87879d71589824154af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96729ded_efa69d88",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:53:02Z",
+      "side": 1,
+      "message": "Everything I said above applies here. It\u0027s much less clear what `out` means here versus in the other ldShared. Perhaps `targetPath` would be a better name? That still may be a bad `desc`, so I\u0027ll change this to match whatever we decide is the right desc for `gcToolchain.ldShared`.",
+      "parentUuid": "c33a7624_38f84f43",
       "range": {
         "startLine": 535,
         "startChar": 66,
