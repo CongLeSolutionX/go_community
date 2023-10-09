@@ -16,6 +16,46 @@
       "message": "(FWIW, I think we should probably add some kind of desugaring helper that makes it easier for client applications to semantically expand the Selection into the correct sequence of effective operations. I\u0027ll sketch it in x/tools first.)",
       "revId": "777fb1ea64308d28631566bc1c096b2f9dd73192",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db416e9_ae836698",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-10-09T17:36:24Z",
+      "side": 1,
+      "message": "Please port to types2.",
+      "revId": "777fb1ea64308d28631566bc1c096b2f9dd73192",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1da5a31f_62694449",
+        "filename": "src/go/types/selection.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-10-09T17:36:24Z",
+      "side": 1,
+      "message": "s/all/always/ ?",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 22,
+        "endChar": 41
+      },
+      "revId": "777fb1ea64308d28631566bc1c096b2f9dd73192",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
