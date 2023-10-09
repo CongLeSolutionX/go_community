@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9516f56a_41f4a341",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-10-09T22:18:10Z",
+      "side": 1,
+      "message": "Minor note for the future: you can write links to Go CLs that are both shorter and more future proof, by writing go.dev/cl/528975. Or just \"CL 528975\" is also well understood and even auto-linked in Gerrit.",
+      "revId": "dcc6a674f6ca00ffc927b293b69f22e5cb47eefe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c34c456d_94b1c7d1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
