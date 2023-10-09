@@ -33,6 +33,23 @@
       "message": "Thanks.",
       "revId": "dcc6a674f6ca00ffc927b293b69f22e5cb47eefe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9164e69c_527fc249",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-09T16:34:29Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-riscv64",
+      "revId": "dcc6a674f6ca00ffc927b293b69f22e5cb47eefe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
