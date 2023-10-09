@@ -2359,7 +2359,7 @@ func http2parseWindowUpdateFrame(_ *http2frameCache, fh http2FrameHeader, countE
 	inc := binary.BigEndian.Uint32(p[:4]) & 0x7fffffff // mask off high reserved bit
 	if inc == 0 {
 		// A receiver MUST treat the receipt of a
-		// WINDOW_UPDATE frame with an flow control window
+		// WINDOW_UPDATE frame with a flow control window
 		// increment of 0 as a stream error (Section 5.4.2) of
 		// type PROTOCOL_ERROR; errors on the connection flow
 		// control window MUST be treated as a connection
