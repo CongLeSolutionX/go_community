@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73e84723_a4eb46ee",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2249,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:41:25Z",
+      "side": 1,
+      "message": "It\u0027s not invariantly true, unfortunately. E.g., LinkAction constructs a \"nop\" Action with no Package. linkSharedAction does something similar, and that one even has an Actor that does stuff.\n\nIn these cases, maybe we should just leave importPath as \"\" and not default desc or dir? It\u0027s a little unfortunate.",
+      "parentUuid": "232b1a79_5a8fc822",
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "620f955d_1e7f5c14",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-25T22:31:53Z",
       "side": 1,
       "message": "(nit) s/replaceWord/replacePrefix/\n\n(since this doesn\u0027t seem to check for word boundaries at the end of the thing to be replaced)",
+      "range": {
+        "startLine": 2322,
+        "startChar": 3,
+        "endLine": 2322,
+        "endChar": 14
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d36f3469_fd0b1f26",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2322,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "620f955d_1e7f5c14",
       "range": {
         "startLine": 2322,
         "startChar": 3,
@@ -55,6 +97,30 @@
       "side": 1,
       "message": "\u003e \"preceeded\" is a possible misspelling of \"preceded\" or \"proceeded\".\n\nPlease fix (“preceded”).",
       "parentUuid": "a71706bb_a5226842",
+      "range": {
+        "startLine": 2323,
+        "startChar": 12,
+        "endLine": 2323,
+        "endChar": 21
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45793217_a806d879",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2323,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e29beea_36b58fbc",
       "range": {
         "startLine": 2323,
         "startChar": 12,
@@ -90,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91d37915_b5d77b6b",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2347,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:41:25Z",
+      "side": 1,
+      "message": "Oh, interesting. Should I do `!strings.HasPrefix(e.desc, e.importPath)` to at least restore the old behavior?\n\nThis seems like an unfortunate distinction between the import path and the package ID. I think really we want to check if `e.desc !\u003d p.Desc()`. I could put that information in cmdError directly.",
+      "parentUuid": "eaaffcb5_87b7e1ae",
+      "range": {
+        "startLine": 2347,
+        "startChar": 26,
+        "endLine": 2347,
+        "endChar": 48
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee7c2880_7cebe7d9",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 1
@@ -101,6 +191,30 @@
       "writtenOn": "2023-09-25T22:31:53Z",
       "side": 1,
       "message": "It\u0027s not clear to me that the `go build ` prefix is appropriate here: the command that leads to this error is not necessarily `go build`.\n\nFor example, it seems like these errors could occur in `go test` or `go install` too.\n\n—\n\nI guess this comes from the existing `prefixSuffixError.Error` method?\nDo we know of any tests that break if we change it to something else?",
+      "range": {
+        "startLine": 2349,
+        "startChar": 21,
+        "endLine": 2349,
+        "endChar": 30
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3466d92f_042f042f",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-09T21:41:25Z",
+      "side": 1,
+      "message": "I agree this is a bit weird. You\u0027re right that this came straight from `prefixSuffixError.Error`. I think the logic is that it has to come from the go build \"part\" of whatever command is running.\n\nThe only test that\u0027s sensitive to this prefix is `TestScript/list_pkgconfig_error`.\n\nWe could present this totally differently. E.g., a second \"# importPath\" line?",
+      "parentUuid": "ee7c2880_7cebe7d9",
       "range": {
         "startLine": 2349,
         "startChar": 21,
