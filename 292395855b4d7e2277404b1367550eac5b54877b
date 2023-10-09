@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f24f9f61_84b27a4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-10-09T08:12:02Z",
+      "side": 1,
+      "message": "How should I handle this unresolved comment?",
+      "parentUuid": "39da0c92_16ff988f",
+      "revId": "292395855b4d7e2277404b1367550eac5b54877b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9a1f9364_5e184f89",
