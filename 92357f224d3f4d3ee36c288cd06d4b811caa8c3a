@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "92357f224d3f4d3ee36c288cd06d4b811caa8c3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9904f18f_44e13daa",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-10-10T00:32:03Z",
+      "side": 1,
+      "message": "This file is generated, so please undo the change to this file in this CL. If you fix it upstream in golang.org/x/net/http2, the fix will end up here too.",
+      "revId": "92357f224d3f4d3ee36c288cd06d4b811caa8c3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
