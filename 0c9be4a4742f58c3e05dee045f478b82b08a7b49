@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af650c2c_b027664a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2023-10-10T16:30:39Z",
+      "side": 1,
+      "message": "Adding TryBot-Bypass because the identical tree already passed tests via release testing.",
+      "revId": "0c9be4a4742f58c3e05dee045f478b82b08a7b49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
