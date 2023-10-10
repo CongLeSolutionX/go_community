@@ -76,6 +76,30 @@
       },
       "revId": "709296de19cf448415b7c160ab5a2809d1330ddd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c6f211_2f0bcec2",
+        "filename": "src/go/types/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-10-10T16:00:05Z",
+      "side": 1,
+      "message": "Ack. Leaving the TODO for now. Per #62039, \"\" may indicate a bad/invalid version, while \"go0.0\" could mean \"whatever the latest version is\". I think these are details TBD in the various version-related proposals.",
+      "parentUuid": "4de8fca0_7dd3279b",
+      "range": {
+        "startLine": 291,
+        "startChar": 46,
+        "endLine": 292,
+        "endChar": 58
+      },
+      "revId": "709296de19cf448415b7c160ab5a2809d1330ddd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
