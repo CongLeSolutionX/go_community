@@ -14560,6 +14560,22 @@ func rewriteValuePPC64_OpSelect0(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
+	// match: (Select0 (ANDCCconst [1] (SRADconst [63] x)))
+	// result: (SRDconst [63] x)
+	for {
+		if v_0.Op != OpPPC64ANDCCconst || auxIntToInt64(v_0.AuxInt) != 1 {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpPPC64SRADconst || auxIntToInt64(v_0_0.AuxInt) != 63 {
+			break
+		}
+		x := v_0_0.Args[0]
+		v.reset(OpPPC64SRDconst)
+		v.AuxInt = int64ToAuxInt(63)
+		v.AddArg(x)
+		return true
+	}
 	return false
 }
 func rewriteValuePPC64_OpSelect1(v *Value) bool {
