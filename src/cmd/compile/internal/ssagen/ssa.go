@@ -14,12 +14,14 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 
 	"cmd/compile/internal/abi"
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/liveness"
+	"cmd/compile/internal/logopt"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/ssa"
@@ -693,6 +695,97 @@ func (s *state) setHeapaddr(pos src.XPos, n *ir.Name, ptr *ssa.Value) {
 	s.assign(addr, ptr, false, 0)
 }
 
+func describeSimpleType(typ *types.Type) string {
+	switch typ.Kind() {
+	case types.TINT8, types.TUINT8, types.TBOOL:
+		return "1"
+
+	case types.TINT16,
+		types.TUINT16:
+		return "2"
+
+	case types.TINT32,
+		types.TUINT32,
+		types.TFLOAT32:
+		return "4"
+
+	case types.TINT64,
+		types.TUINT64,
+		types.TFLOAT64:
+		return "8"
+
+	case types.TINT,
+		types.TUINT,
+		types.TUINTPTR:
+		if typ.Size() == 4 {
+			return "4"
+		}
+		return "8"
+
+	case types.TCOMPLEX64:
+		return "c"
+	case types.TCOMPLEX128:
+		return "C"
+
+	case types.TINTER:
+		return "I"
+	case types.TSTRING:
+		return "s"
+	case types.TSLICE:
+		return "S"
+
+	case types.TUNSAFEPTR:
+		// P == general pointer
+		return "P"
+
+	case types.TPTR:
+		e := typ.Elem()
+		if e.Alignment() >= ssaConfig.PtrSize {
+			// Q == ptrsize-or-more-byte-aligned pointer.
+			return "Q"
+		}
+		return "P"
+
+	case types.TFUNC,
+		types.TCHAN,
+		types.TMAP:
+		return "Q"
+	}
+	panic(fmt.Errorf("Unexpected 'simple' type %v", typ))
+}
+
+func describeTypeHelper(typ *types.Type, sb *strings.Builder) {
+	switch typ.Kind() {
+	case types.TARRAY:
+		sb.WriteString("[")
+		sb.WriteString(strconv.FormatInt(typ.NumElem(), 10))
+		sb.WriteString("]")
+		describeTypeHelper(typ.Elem(), sb)
+	case types.TSTRUCT:
+		sb.WriteString("{")
+		for i := 0; i < typ.NumFields(); i++ {
+			et := typ.Field(i).Type // might need to read offsets from the fields
+			describeTypeHelper(et, sb)
+		}
+		sb.WriteString("}")
+	default:
+		sb.WriteString(describeSimpleType(typ))
+	}
+
+}
+
+func describeType(typ *types.Type) string {
+	switch typ.Kind() {
+	case types.TARRAY, types.TSTRUCT:
+		var sb strings.Builder
+		describeTypeHelper(typ, &sb)
+		return sb.String()
+	default:
+		return describeSimpleType(typ)
+
+	}
+}
+
 // newObject returns an SSA value denoting new(typ).
 func (s *state) newObject(typ *types.Type, rtype *ssa.Value) *ssa.Value {
 	if typ.Size() == 0 {
@@ -700,6 +793,13 @@ func (s *state) newObject(typ *types.Type, rtype *ssa.Value) *ssa.Value {
 	}
 	if rtype == nil {
 		rtype = s.reflectType(typ)
+	}
+	if logopt.Format >= logopt.Json0PlusNewObject {
+		dt := describeType(typ)
+		if dt == "" {
+			s.Fatalf("DescribeType(%v) is empty", typ)
+		}
+		logopt.LogOpt(s.peekPos(), "newobject", "ssagen", s.f.Name, dt)
 	}
 	return s.rtcall(ir.Syms.Newobject, true, []*types.Type{types.NewPtr(typ)}, rtype)[0]
 }
@@ -3353,6 +3453,12 @@ func (s *state) exprCheckPtr(n ir.Node, checkPtrOK bool) *ssa.Value {
 		p := s.expr(n.Ptr)
 		l := s.expr(n.Len)
 		c := s.expr(n.Cap)
+		if logopt.Format >= logopt.Json0PlusNewObject && p.Op == ssa.OpSelectN && p.AuxInt == 0 && p.Args[0].Op == ssa.OpStaticLECall {
+			if aux, ok := p.Args[0].Aux.(*ssa.AuxCall); ok && aux.Fn.Name == "runtime.makeslice" {
+				et := n.Type().Elem()
+				logopt.LogOpt(s.peekPos(), "newobject", "ssagen", s.f.Name, describeType(et))
+			}
+		}
 		return s.newValue3(ssa.OpSliceMake, n.Type(), p, l, c)
 
 	case ir.OSTRINGHEADER:
@@ -3585,6 +3691,9 @@ func (s *state) append(n *ir.CallExpr, inplace bool) *ssa.Value {
 	b.AddEdgeTo(assign)
 
 	// Call growslice
+	if logopt.Format >= logopt.Json0PlusNewObject {
+		logopt.LogOpt(s.peekPos(), "newobjectGrowSlice", "ssagen", s.f.Name, describeType(et))
+	}
 	s.startBlock(grow)
 	taddr := s.expr(n.Fun)
 	r := s.rtcall(ir.Syms.Growslice, true, []*types.Type{n.Type()}, p, l, c, nargs, taddr)
@@ -5343,6 +5452,77 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 		if (k == callNormal || k == callTail) && fn.Op() == ir.ONAME && fn.(*ir.Name).Class == ir.PFUNC {
 			fn := fn.(*ir.Name)
 			calleeLSym = callTargetLSym(fn)
+			if logopt.Format >= logopt.Json0PlusNewObject {
+				if calleeLSym.Pkg == "runtime" {
+					var mt, t *types.Type
+					why := "newobject"
+
+					switch calleeLSym.Name[len("runtime."):] {
+					case "mapassign", "mapassign_fast64", "mapassign_fast64ptr", "mapassign_fast32", "mapassign_fast32ptr", "mapassign_faststr":
+						mt = n.Args[1].Type()
+
+					case "makemap_64", "makemap", "makemap_small":
+						mt = n.Type()
+
+					case "concatstrings", "concatstring2", "concatstring3", "concatstring4", "concatstring5":
+						logopt.LogOpt(s.peekPos(), "newobjectConcatString", "ssagen", s.f.Name, "1")
+
+					case "slicebytetostring", "stringtoslicebyte":
+						logopt.LogOpt(s.peekPos(), "newobjectStringByte", "ssagen", s.f.Name, "1")
+
+					case "convT16":
+						logopt.LogOpt(s.peekPos(), "newobjectConvT16", "ssagen", s.f.Name, "2")
+
+					case "convT32":
+						logopt.LogOpt(s.peekPos(), "newobjectConvT32", "ssagen", s.f.Name, "4")
+
+					case "convT64":
+						logopt.LogOpt(s.peekPos(), "newobjectConvT64", "ssagen", s.f.Name, "8")
+
+					case "convTstring":
+						logopt.LogOpt(s.peekPos(), "newobjectConvTString", "ssagen", s.f.Name, "s")
+
+					case "convTslice":
+						logopt.LogOpt(s.peekPos(), "newobjectConvTSlice", "ssagen", s.f.Name, "S")
+
+						// handled elsewhere
+						// case "makeslice": // 1st arg is type pointer
+						// 	dt = "X"
+
+					case "growslice":
+						why = "newobjectGrowSlice"
+						pt := n.Args[0].Type()
+						if pt.IsPtr() {
+							t = pt.Elem()
+						}
+
+					case "convTnoptr":
+						why = "newobjectConvTNoPtr"
+						pt := n.Args[1].Type()
+						if pt.IsPtr() {
+							t = pt.Elem()
+						}
+					case "convT":
+						why = "newobjectConvT"
+						pt := n.Args[1].Type()
+						if pt.IsPtr() {
+							t = pt.Elem()
+						}
+					}
+					if mt != nil {
+						if mt.IsMap() {
+							kt, vt := describeType(mt.MapType().Key), describeType(mt.MapType().Elem)
+							logopt.LogOpt(s.peekPos(), "newobjectKey", "ssagen", s.f.Name, kt)
+							logopt.LogOpt(s.peekPos(), "newobjectValue", "ssagen", s.f.Name, vt)
+						}
+					}
+					if t != nil {
+						logopt.LogOpt(s.peekPos(), why, "ssagen", s.f.Name, describeType(t))
+					}
+				} else if calleeLSym.Name == "bytealg.MakeNoZero" {
+					logopt.LogOpt(s.peekPos(), "newobjectMakeNoZero", "ssagen", s.f.Name, "1")
+				}
+			}
 			if k == callNormal {
 				callMemUse = canBePure(calleeLSym)
 			}

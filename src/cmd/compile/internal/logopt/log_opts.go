@@ -235,8 +235,9 @@ type LoggedOpt struct {
 type logFormat uint8
 
 const (
-	None  logFormat = iota
-	Json0           // version 0 for LSP 3.14, 3.15; future versions of LSP may change the format and the compiler may need to support both as clients are updated.
+	None               logFormat = iota
+	Json0                        // version 0 for LSP 3.14, 3.15; future versions of LSP may change the format and the compiler may need to support both as clients are updated.
+	Json0PlusNewObject           // version 0 for LSP 3.14, 3.15; also contains "newobject" information which adds about 10% to size
 )
 
 var Format = None
@@ -245,11 +246,15 @@ var dest string
 // LogJsonOption parses and validates the version,directory value attached to the -json compiler flag.
 func LogJsonOption(flagValue string) {
 	version, directory := parseLogFlag("json", flagValue)
-	if version != 0 {
+	if version > 1 {
 		log.Fatal("-json version must be 0")
 	}
 	dest = checkLogPath(directory)
-	Format = Json0
+	if version == 0 {
+		Format = Json0
+	} else {
+		Format = Json0PlusNewObject
+	}
 }
 
 // parseLogFlag checks the flag passed to -json
