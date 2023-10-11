@@ -2319,7 +2319,11 @@ func (b *Builder) reportCmd(a *Action, p *load.Package, desc, dir string, cmdOut
 		out = cgoTypeSigRe.ReplaceAllString(out, "C.")
 	}
 
-	err := &cmdError{desc, out, importPath}
+	// Usually desc is already p.Desc(), but if not, signal cmdError.Error to
+	// add a line explicitly metioning the import path.
+	needsPath := importPath != "" && p != nil && desc != p.Desc()
+
+	err := &cmdError{desc, out, importPath, needsPath}
 	if cmdErr != nil {
 		// The command failed. Report the output up as an error.
 		return err
@@ -2358,19 +2362,14 @@ type cmdError struct {
 	desc       string
 	text       string
 	importPath string
+	needsPath  bool // Set if desc does not already include the import path
 }
 
 func (e *cmdError) Error() string {
 	msg := "# " + e.desc + "\n" + e.text
-	if e.importPath != "" && !strings.HasPrefix(e.desc, e.importPath) {
-		// Ensure the import path is part of the message. We checked the prefix
-		// because desc can be a package ID, which may have text in addition to
-		// the import path.
-		//
-		// TODO(austin): Checking the prefix seems flimsy. reportCmd could
-		// instead check if desc != p.Desc() and leave a flag in cmdError to
-		// signal this code path.
-		msg = fmt.Sprintf("go build %s:\n%s", e.importPath, msg)
+	if e.needsPath {
+		// Ensure the import path is part of the message.
+		msg = fmt.Sprintf("# %s\n%s", e.importPath, msg)
 	}
 	return msg
 }
