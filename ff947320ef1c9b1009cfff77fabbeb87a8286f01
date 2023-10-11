@@ -70,6 +70,24 @@
       "message": "Hmmm, looks like something was wrong about my analysis.",
       "revId": "ff947320ef1c9b1009cfff77fabbeb87a8286f01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f0d668c_7650c0a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-11T22:22:13Z",
+      "side": 1,
+      "message": "Oh, wait, I didn\u0027t rebase on top of CL 533118.",
+      "parentUuid": "d3483463_60658d5a",
+      "revId": "ff947320ef1c9b1009cfff77fabbeb87a8286f01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
