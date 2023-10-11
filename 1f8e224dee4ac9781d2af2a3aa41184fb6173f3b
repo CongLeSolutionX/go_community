@@ -16,6 +16,23 @@
       "message": "CL 409334 has been closed so reopening.",
       "revId": "1f8e224dee4ac9781d2af2a3aa41184fb6173f3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "113e9d3a_c5a47463",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66368
+      },
+      "writtenOn": "2023-10-11T22:51:32Z",
+      "side": 1,
+      "message": "Comment removed by: Heschi Kreinick; Reason: cryptocurrency spam",
+      "revId": "1f8e224dee4ac9781d2af2a3aa41184fb6173f3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
