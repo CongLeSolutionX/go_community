@@ -232,30 +232,56 @@ type LoggedOpt struct {
 	target       []interface{} // Optional target(s) or parameter(s) of "what" -- what was inlined, why it was not, size of copy, etc. 1st is most important/relevant.
 }
 
-type logFormat uint8
+type logFormat uint16
 
 const (
-	None  logFormat = iota
-	Json0           // version 0 for LSP 3.14, 3.15; future versions of LSP may change the format and the compiler may need to support both as clients are updated.
+	None       logFormat = 0
+	Json0      logFormat = 1 // version 0 for existing set of compiler messages; upgrade as they change, with best-effort (compiler-side) translation to old messages.
+	LastFormat logFormat = 1
+	LastReport logFormat = 0 // compiler instrumentation uses "Reports", starting with multiples of 1000 added to the version numbner.
 )
 
-var Format = None
+// Plans for evolution of Format, Report, and lspFormat:
+// Lsp format hasn't changed, but it seems likely that we will
+// need to change the messages from the compiler, perhaps for
+// PGO, perhaps for generic specialization.
+// It also turns out that using the LSP format to transmit
+// other compilation-relatedinformation turns out to be useful,
+// because the mapping to LSP deals with annoying problems like
+// inlined sopurce positions and how to organize the log files.
+// Therefore, Format, lspFormat, and Report are three
+// separate variables.  Currently (Format = 0) a non-zero
+// report suppresses other LSP output, but this will not be
+// true for future version of Format.
+
+var Format = None      // optimization messages version (what set of messages)
+var Report = None      // other reports, encoded into LSP format
+var lspFormat = "3.15" // how is the LSP written
 var dest string
 
 // LogJsonOption parses and validates the version,directory value attached to the -json compiler flag.
 func LogJsonOption(flagValue string) {
 	version, directory := parseLogFlag("json", flagValue)
-	if version != 0 {
-		log.Fatal("-json version must be 0")
+	format, report := version%1000, version/1000
+	format += 1 // first external format number should have been 1, not 0.
+	if format > int(LastFormat) || report > int(LastReport) {
+		log.Fatal("-json format version must be 0 (log missed optimizations)")
 	}
 	dest = checkLogPath(directory)
-	Format = Json0
+	Report = logFormat(report)
+	if format == 1 {
+		if report == 0 {
+			Format = logFormat(format) // Json0
+		}
+	} else {
+		Format = logFormat(format)
+	}
 }
 
 // parseLogFlag checks the flag passed to -json
 // for version,destination format and returns the two parts.
 func parseLogFlag(flag, value string) (version int, directory string) {
-	if Format != None {
+	if Format != None || Report != None {
 		log.Fatal("Cannot repeat -json flag")
 	}
 	commaAt := strings.Index(value, ",")
@@ -337,6 +363,21 @@ func LogOpt(pos src.XPos, what, pass, funcName string, args ...interface{}) {
 	if Format == None {
 		return
 	}
+	logOptOrReport(pos, what, pass, funcName, args...)
+}
+
+// LogReport logs a report about some interesting information from the compiler.
+// This is not necessarily intended for consumption by IDEs.
+// Pos is the source position (including inlining), what is the message, pass is which pass created the message,
+// funcName is the name of the function.
+func LogReport(pos src.XPos, what, pass, funcName string, args ...interface{}) {
+	if Report == None {
+		return
+	}
+	logOptOrReport(pos, what, pass, funcName, args...)
+}
+
+func logOptOrReport(pos src.XPos, what, pass, funcName string, args ...interface{}) {
 	lo := NewLoggedOpt(pos, pos, what, pass, funcName, args...)
 	mu.Lock()
 	defer mu.Unlock()
@@ -366,6 +407,10 @@ func Enabled() bool {
 		return true
 	}
 	panic("Unexpected optimizer-logging level")
+}
+
+func ReportEnabled(report logFormat) bool {
+	return report&Report != 0
 }
 
 // byPos sorts diagnostics by source position.
@@ -430,14 +475,12 @@ func uprootedPath(filename string) string {
 
 // FlushLoggedOpts flushes all the accumulated optimization log entries.
 func FlushLoggedOpts(ctxt *obj.Link, slashPkgPath string) {
-	if Format == None {
+	if Format == None && Report == None {
 		return
 	}
 
 	sort.Stable(byPos{ctxt, loggedOpts}) // Stable is necessary to preserve the per-function order, which is repeatable.
-	switch Format {
-
-	case Json0: // LSP 3.15
+	if lspFormat == "3.15" {
 		var posTmp, lastTmp []src.Pos
 		var encoder *json.Encoder
 		var w io.WriteCloser
