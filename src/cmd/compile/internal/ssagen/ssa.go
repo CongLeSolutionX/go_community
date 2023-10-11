@@ -14,12 +14,14 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 
 	"cmd/compile/internal/abi"
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/liveness"
+	"cmd/compile/internal/logopt"
 	"cmd/compile/internal/objw"
 	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/ssa"
@@ -693,6 +695,97 @@ func (s *state) setHeapaddr(pos src.XPos, n *ir.Name, ptr *ssa.Value) {
 	s.assign(addr, ptr, false, 0)
 }
 
+func describeSimpleType(typ *types.Type) string {
+	switch typ.Kind() {
+	case types.TINT8, types.TUINT8, types.TBOOL:
+		return "1"
+
+	case types.TINT16,
+		types.TUINT16:
+		return "2"
+
+	case types.TINT32,
+		types.TUINT32,
+		types.TFLOAT32:
+		return "4"
+
+	case types.TINT64,
+		types.TUINT64,
+		types.TFLOAT64:
+		return "8"
+
+	case types.TINT,
+		types.TUINT,
+		types.TUINTPTR:
+		if typ.Size() == 4 {
+			return "4"
+		}
+		return "8"
+
+	case types.TCOMPLEX64:
+		return "c"
+	case types.TCOMPLEX128:
+		return "C"
+
+	case types.TINTER:
+		return "I"
+	case types.TSTRING:
+		return "s"
+	case types.TSLICE:
+		return "S"
+
+	case types.TUNSAFEPTR:
+		// P == general pointer
+		return "P"
+
+	case types.TPTR:
+		e := typ.Elem()
+		if e.Alignment() >= ssaConfig.PtrSize {
+			// Q == ptrsize-or-more-byte-aligned pointer.
+			return "Q"
+		}
+		return "P"
+
+	case types.TFUNC,
+		types.TCHAN,
+		types.TMAP:
+		return "Q"
+	}
+	panic(fmt.Errorf("Unexpected 'simple' type %v", typ))
+}
+
+func describeTypeHelper(typ *types.Type, sb *strings.Builder) {
+	switch typ.Kind() {
+	case types.TARRAY:
+		sb.WriteString("[")
+		sb.WriteString(strconv.FormatInt(typ.NumElem(), 10))
+		sb.WriteString("]")
+		describeTypeHelper(typ.Elem(), sb)
+	case types.TSTRUCT:
+		sb.WriteString("{")
+		for i := 0; i < typ.NumFields(); i++ {
+			et := typ.Field(i).Type // might need to read offsets from the fields
+			describeTypeHelper(et, sb)
+		}
+		sb.WriteString("}")
+	default:
+		sb.WriteString(describeSimpleType(typ))
+	}
+
+}
+
+func describeType(typ *types.Type) string {
+	switch typ.Kind() {
+	case types.TARRAY, types.TSTRUCT:
+		var sb strings.Builder
+		describeTypeHelper(typ, &sb)
+		return sb.String()
+	default:
+		return describeSimpleType(typ)
+
+	}
+}
+
 // newObject returns an SSA value denoting new(typ).
 func (s *state) newObject(typ *types.Type, rtype *ssa.Value) *ssa.Value {
 	if typ.Size() == 0 {
@@ -700,6 +793,13 @@ func (s *state) newObject(typ *types.Type, rtype *ssa.Value) *ssa.Value {
 	}
 	if rtype == nil {
 		rtype = s.reflectType(typ)
+	}
+	if logopt.ReportEnabled(logopt.JsonReportNewObject) {
+		dt := describeType(typ)
+		if dt == "" {
+			s.Fatalf("DescribeType(%v) is empty", typ)
+		}
+		logopt.LogReport(s.peekPos(), "newobject", "ssagen", s.f.Name, dt)
 	}
 	return s.rtcall(ir.Syms.Newobject, true, []*types.Type{types.NewPtr(typ)}, rtype)[0]
 }
@@ -3353,6 +3453,12 @@ func (s *state) exprCheckPtr(n ir.Node, checkPtrOK bool) *ssa.Value {
 		p := s.expr(n.Ptr)
 		l := s.expr(n.Len)
 		c := s.expr(n.Cap)
+		if logopt.ReportEnabled(logopt.JsonReportNewObject) && p.Op == ssa.OpSelectN && p.AuxInt == 0 && p.Args[0].Op == ssa.OpStaticLECall {
+			if aux, ok := p.Args[0].Aux.(*ssa.AuxCall); ok && aux.Fn.Name == "runtime.makeslice" {
+				et := n.Type().Elem()
+				logopt.LogReport(s.peekPos(), "newobject", "ssagen", s.f.Name, describeType(et))
+			}
+		}
 		return s.newValue3(ssa.OpSliceMake, n.Type(), p, l, c)
 
 	case ir.OSTRINGHEADER:
@@ -3585,6 +3691,9 @@ func (s *state) append(n *ir.CallExpr, inplace bool) *ssa.Value {
 	b.AddEdgeTo(assign)
 
 	// Call growslice
+	if logopt.ReportEnabled(logopt.JsonReportNewObject) {
+		logopt.LogReport(s.peekPos(), "newobjectGrowSlice", "ssagen", s.f.Name, describeType(et))
+	}
 	s.startBlock(grow)
 	taddr := s.expr(n.Fun)
 	r := s.rtcall(ir.Syms.Growslice, true, []*types.Type{n.Type()}, p, l, c, nargs, taddr)
@@ -5298,11 +5407,11 @@ func (s *state) callAddr(n *ir.CallExpr, k callKind) *ssa.Value {
 // Returns the address of the return value (or nil if none).
 func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExtra ir.Expr) *ssa.Value {
 	s.prevCall = nil
-	var callee *ir.Name    // target function (if static)
-	var closure *ssa.Value // ptr to closure to run (if dynamic)
-	var codeptr *ssa.Value // ptr to target code (if dynamic)
-	var dextra *ssa.Value  // defer extra arg
-	var rcvr *ssa.Value    // receiver to set
+	var calleeLSym *obj.LSym // target function (if static)
+	var closure *ssa.Value   // ptr to closure to run (if dynamic)
+	var codeptr *ssa.Value   // ptr to target code (if dynamic)
+	var dextra *ssa.Value    // defer extra arg
+	var rcvr *ssa.Value      // receiver to set
 	fn := n.Fun
 	var ACArgs []*types.Type    // AuxCall args
 	var ACResults []*types.Type // AuxCall results
@@ -5318,7 +5427,78 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 	case ir.OCALLFUNC:
 		if (k == callNormal || k == callTail) && fn.Op() == ir.ONAME && fn.(*ir.Name).Class == ir.PFUNC {
 			fn := fn.(*ir.Name)
-			callee = fn
+			calleeLSym = callTargetLSym(fn)
+			if logopt.ReportEnabled(logopt.JsonReportNewObject) {
+				if calleeLSym.Pkg == "runtime" {
+					var mt, t *types.Type
+					why := "newobject"
+
+					switch calleeLSym.Name[len("runtime."):] {
+					case "mapassign", "mapassign_fast64", "mapassign_fast64ptr", "mapassign_fast32", "mapassign_fast32ptr", "mapassign_faststr":
+						mt = n.Args[1].Type()
+
+					case "makemap_64", "makemap", "makemap_small":
+						mt = n.Type()
+
+					case "concatstrings", "concatstring2", "concatstring3", "concatstring4", "concatstring5":
+						logopt.LogReport(s.peekPos(), "newobjectConcatString", "ssagen", s.f.Name, "1")
+
+					case "slicebytetostring", "stringtoslicebyte":
+						logopt.LogReport(s.peekPos(), "newobjectStringByte", "ssagen", s.f.Name, "1")
+
+					case "convT16":
+						logopt.LogReport(s.peekPos(), "newobjectConvT16", "ssagen", s.f.Name, "2")
+
+					case "convT32":
+						logopt.LogReport(s.peekPos(), "newobjectConvT32", "ssagen", s.f.Name, "4")
+
+					case "convT64":
+						logopt.LogReport(s.peekPos(), "newobjectConvT64", "ssagen", s.f.Name, "8")
+
+					case "convTstring":
+						logopt.LogReport(s.peekPos(), "newobjectConvTString", "ssagen", s.f.Name, "s")
+
+					case "convTslice":
+						logopt.LogReport(s.peekPos(), "newobjectConvTSlice", "ssagen", s.f.Name, "S")
+
+						// handled elsewhere
+						// case "makeslice": // 1st arg is type pointer
+						// 	dt = "X"
+
+					case "growslice":
+						why = "newobjectGrowSlice"
+						pt := n.Args[0].Type()
+						if pt.IsPtr() {
+							t = pt.Elem()
+						}
+
+					case "convTnoptr":
+						why = "newobjectConvTNoPtr"
+						pt := n.Args[1].Type()
+						if pt.IsPtr() {
+							t = pt.Elem()
+						}
+					case "convT":
+						why = "newobjectConvT"
+						pt := n.Args[1].Type()
+						if pt.IsPtr() {
+							t = pt.Elem()
+						}
+					}
+					if mt != nil {
+						if mt.IsMap() {
+							kt, vt := describeType(mt.MapType().Key), describeType(mt.MapType().Elem)
+							logopt.LogReport(s.peekPos(), "newobjectKey", "ssagen", s.f.Name, kt)
+							logopt.LogReport(s.peekPos(), "newobjectValue", "ssagen", s.f.Name, vt)
+						}
+					}
+					if t != nil {
+						logopt.LogReport(s.peekPos(), why, "ssagen", s.f.Name, describeType(t))
+					}
+				} else if calleeLSym.Name == "bytealg.MakeNoZero" {
+					logopt.LogReport(s.peekPos(), "newobjectMakeNoZero", "ssagen", s.f.Name, "1")
+				}
+			}
 			if buildcfg.Experiment.RegabiArgs {
 				// This is a static call, so it may be
 				// a direct call to a non-ABIInternal
@@ -5466,8 +5646,8 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 			// Note that the "receiver" parameter is nil because the actual receiver is the first input parameter.
 			aux := ssa.InterfaceAuxCall(params)
 			call = s.newValue1A(ssa.OpInterLECall, aux.LateExpansionResultType(), aux, codeptr)
-		case callee != nil:
-			aux := ssa.StaticAuxCall(callTargetLSym(callee), params)
+		case calleeLSym != nil:
+			aux := ssa.StaticAuxCall(calleeLSym, params)
 			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultType(), aux)
 			if k == callTail {
 				call.Op = ssa.OpTailLECall
