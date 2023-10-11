@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1133bc0c_67c46a04",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2249,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-11T16:34:40Z",
+      "side": 1,
+      "message": "I made my suggested change, but let me know if I should resolve this differently.",
+      "parentUuid": "73e84723_a4eb46ee",
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "620f955d_1e7f5c14",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 1
@@ -178,6 +196,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fdcf24c_a02b09e6",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2347,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-11T16:34:40Z",
+      "side": 1,
+      "message": "Switched to the HasPrefix check and left a TODO for the p.Desc() option. That could easily be done in a follow-up CL.\n\nSent https://go-review.googlesource.com/c/go/+/534157 for the odd \"cover \" descriptions.",
+      "parentUuid": "91d37915_b5d77b6b",
+      "range": {
+        "startLine": 2347,
+        "startChar": 26,
+        "endLine": 2347,
+        "endChar": 48
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee7c2880_7cebe7d9",
@@ -215,6 +257,30 @@
       "side": 1,
       "message": "I agree this is a bit weird. You\u0027re right that this came straight from `prefixSuffixError.Error`. I think the logic is that it has to come from the go build \"part\" of whatever command is running.\n\nThe only test that\u0027s sensitive to this prefix is `TestScript/list_pkgconfig_error`.\n\nWe could present this totally differently. E.g., a second \"# importPath\" line?",
       "parentUuid": "ee7c2880_7cebe7d9",
+      "range": {
+        "startLine": 2349,
+        "startChar": 21,
+        "endLine": 2349,
+        "endChar": 30
+      },
+      "revId": "164a304e903fb31b40a469419736aad79d496ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a6fbed_02dbbeee",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-11T16:34:40Z",
+      "side": 1,
+      "message": "I\u0027ll send a follow-up CL to both clean up the strings.HasPrefix change from the comment above and change the output format.",
+      "parentUuid": "3466d92f_042f042f",
       "range": {
         "startLine": 2349,
         "startChar": 21,
