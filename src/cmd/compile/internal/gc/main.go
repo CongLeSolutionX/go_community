@@ -174,6 +174,9 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	if base.Flag.JSON != "" { // parse version,destination from json logging optimization.
 		logopt.LogJsonOption(base.Flag.JSON)
 	}
+	if base.Debug.JsonReport != "" { // parse version,destination from jsonreport debug flag.
+		logopt.LogJsonDebug(base.Debug.JsonReport)
+	}
 
 	ir.EscFmt = escape.Fmt
 	ir.IsIntrinsicCall = ssagen.IsIntrinsicCall
