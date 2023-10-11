@@ -232,41 +232,80 @@ type LoggedOpt struct {
 	target       []interface{} // Optional target(s) or parameter(s) of "what" -- what was inlined, why it was not, size of copy, etc. 1st is most important/relevant.
 }
 
-type logFormat uint8
+type logFormat uint16
 
 const (
-	None  logFormat = iota
-	Json0           // version 0 for LSP 3.14, 3.15; future versions of LSP may change the format and the compiler may need to support both as clients are updated.
+	None       logFormat = 0
+	Json0      logFormat = 1 // version 0 for existing set of compiler messages; upgrade as they change, with best-effort (compiler-side) translation to old messages.
+	LastFormat logFormat = Json0
+	LastReport logFormat = 0 // compiler instrumentation uses "Reports", encoding with trailing "+report=<number> on version string.
 )
 
-var Format = None
+// Plans for evolution of Format, Report, and lspFormat:
+//
+// The LSP JSON encoding hasn't changed (yet), but it is likely
+// that the compiler will change in ways that alters the set of
+// "missed optimization" messages.  Therefore, deemphasize the LSP
+// version in the change plans; if it happens, deal with it then.
+// A likely encoding of the change would be "+lsp=..." in the json flag.
+
+// It also turns out that using the LSP format to transmit
+// other compilation-relatedinformation turns out to be useful,
+// because the mapping to LSP deals with annoying problems like
+// inlined source positions and how to organize the log files.
+// Therefore, Format, lspFormat, and Report are three
+// separate variables.
+
+var Format = None      // optimization messages version (what set of messages)
+var Report = None      // other reports, encoded into LSP format
+var lspFormat = "3.15" // how is the LSP written
 var dest string
 
 // LogJsonOption parses and validates the version,directory value attached to the -json compiler flag.
 func LogJsonOption(flagValue string) {
-	version, directory := parseLogFlag("json", flagValue)
-	if version != 0 {
-		log.Fatal("-json version must be 0")
-	}
-	dest = checkLogPath(directory)
-	Format = Json0
-}
-
-// parseLogFlag checks the flag passed to -json
-// for version,destination format and returns the two parts.
-func parseLogFlag(flag, value string) (version int, directory string) {
 	if Format != None {
 		log.Fatal("Cannot repeat -json flag")
 	}
-	commaAt := strings.Index(value, ",")
+
+	version, directory := parseLogFlag("json", flagValue, ",")
+	format := version + 1 // first external format number should have been 1, not 0.
+	if format > int(LastFormat) {
+		log.Fatal("-json format version must be 0 (log missed optimizations)")
+	}
+	dest = checkLogPath(directory)
+	Format = logFormat(format)
+}
+
+// LogJsonDebug parses and validates the report,directory value attached to the -d=jsonreport=... compiler debug flag
+func LogJsonDebug(flagValue string) {
+	if Report != None {
+		log.Fatal("Cannot repeat jsonreport debug flag")
+	}
+	report, directory := parseLogFlag("jsonreport", flagValue, "+")
+	if report > int(LastReport) {
+		log.Fatalf("jsonreport report version must be <= %d", LastReport)
+	}
+	dest = checkLogPath(directory)
+	Report = logFormat(report)
+}
+
+// parseLogFlag checks the flag passed to -json for "version,directory" format
+// and returns the two parts.
+func parseLogFlag(flag, value, sep string) (version int, directory string) {
+	version = -1
+
+	commaAt := strings.Index(value, sep)
 	if commaAt <= 0 {
-		log.Fatalf("-%s option should be '<version>,<destination>' where <version> is a number", flag)
+		log.Fatalf("-%s option should be '<version>%s<destination>' where <version> is a number", flag, sep)
 	}
-	v, err := strconv.Atoi(value[:commaAt])
-	if err != nil {
-		log.Fatalf("-%s option should be '<version>,<destination>' where <version> is a number: err=%v", flag, err)
+	preComma := value[:commaAt]
+	if len(preComma) > 0 {
+		v, err := strconv.Atoi(preComma)
+		if err != nil {
+			log.Fatalf("-%s option should be '<version>%s<destination>' where <version> is a number: err=%v", flag, sep, err)
+		}
+		version = v
 	}
-	version = v
 	directory = value[commaAt+1:]
 	return
 }
@@ -337,6 +376,21 @@ func LogOpt(pos src.XPos, what, pass, funcName string, args ...interface{}) {
 	if Format == None {
 		return
 	}
+	logOptOrReport(pos, what, pass, funcName, args...)
+}
+
+// LogReport logs a report about some interesting information from the compiler.
+// This is not necessarily intended for consumption by IDEs.
+// Pos is the source position (including inlining), what is the message, pass is which pass created the message,
+// funcName is the name of the function.
+func LogReport(pos src.XPos, what, pass, funcName string, args ...interface{}) {
+	if Report == None {
+		return
+	}
+	logOptOrReport(pos, what, pass, funcName, args...)
+}
+
+func logOptOrReport(pos src.XPos, what, pass, funcName string, args ...interface{}) {
 	lo := NewLoggedOpt(pos, pos, what, pass, funcName, args...)
 	mu.Lock()
 	defer mu.Unlock()
@@ -366,6 +420,10 @@ func Enabled() bool {
 		return true
 	}
 	panic("Unexpected optimizer-logging level")
+}
+
+func ReportEnabled(report logFormat) bool {
+	return report&Report != 0
 }
 
 // byPos sorts diagnostics by source position.
@@ -430,14 +488,12 @@ func uprootedPath(filename string) string {
 
 // FlushLoggedOpts flushes all the accumulated optimization log entries.
 func FlushLoggedOpts(ctxt *obj.Link, slashPkgPath string) {
-	if Format == None {
+	if Format == None && Report == None {
 		return
 	}
 
 	sort.Stable(byPos{ctxt, loggedOpts}) // Stable is necessary to preserve the per-function order, which is repeatable.
-	switch Format {
-
-	case Json0: // LSP 3.15
+	if lspFormat == "3.15" {
 		var posTmp, lastTmp []src.Pos
 		var encoder *json.Encoder
 		var w io.WriteCloser
