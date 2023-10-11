@@ -16,6 +16,24 @@
       "message": "Thanks, and sorry for not spotting that.\n\nNow if only there was a way to preview doc comments in pkgsite while working in gopls... ;-)",
       "revId": "8bc593af7168a16ffbeb80460476750bd7277430",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "879cdaf0_f956ab36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-10-11T12:47:22Z",
+      "side": 1,
+      "message": "To be fair, cmd/pkgsite works pretty well for this!",
+      "parentUuid": "5cdbefd5_634343fd",
+      "revId": "8bc593af7168a16ffbeb80460476750bd7277430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
