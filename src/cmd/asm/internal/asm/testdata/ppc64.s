@@ -17,14 +17,14 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	MOVD $1, R3                     // 38600001
 	MOVD $-1, R4                    // 3880ffff
 	MOVD $65535, R5                 // 6005ffff
-	MOVD $65536, R6                 // 64060001
+	MOVD $65536, R6                 // 3cc00001
 	MOVD $-32767, R5                // 38a08001
 	MOVD $-32768, R6                // 38c08000
 	MOVD $1234567, R5               // 6405001260a5d687 or 0600001238a0d687
 	MOVW $1, R3                     // 38600001
 	MOVW $-1, R4                    // 3880ffff
 	MOVW $65535, R5                 // 6005ffff
-	MOVW $65536, R6                 // 64060001
+	MOVW $65536, R6                 // 3cc00001
 	MOVW $-32767, R5                // 38a08001
 	MOVW $-32768, R6                // 38c08000
 	MOVW $1234567, R5               // 6405001260a5d687 or 0600001238a0d687
@@ -190,6 +190,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	ADDEX R3, R5, $3, R6            // 7cc32f54
 	ADDEX R3, $3, R5, R6            // 7cc32f54
 	ADDIS $8, R3                    // 3c630008
+	ADD   $524288, R3               // 3c630008
 	ADDIS $1000, R3, R4             // 3c8303e8
 
 	ANDCC $1, R3                    // 70630001
@@ -208,6 +209,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	ANDCC $1234567, R5, R6          // 641f001263ffd6877fe62839
 	ANDISCC $1, R3                  // 74630001
 	ANDISCC $1000, R3, R4           // 746403e8
+	ANDCC $65536000, R3, R4         // 746403e8
 
 	OR $1, R3                       // 60630001
 	OR $1, R3, R4                   // 60640001
@@ -223,7 +225,8 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	OR $-32768, R6, R7              // 3be080007fe73378
 	OR $1234567, R5                 // 641f001263ffd6877fe52b78
 	OR $1234567, R5, R3             // 641f001263ffd6877fe32b78
-	ORIS $255, R3, R4
+	ORIS $255, R3, R4               // 646400ff
+	OR $16711680, R3, R4            // 646400ff
 
 	XOR $1, R3                      // 68630001
 	XOR $1, R3, R4                  // 68640001
@@ -239,7 +242,8 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 	XOR $-32768, R6, R7             // 3be080007fe73278
 	XOR $1234567, R5                // 641f001263ffd6877fe52a78
 	XOR $1234567, R5, R3            // 641f001263ffd6877fe32a78
-	XORIS $15, R3, R4
+	XORIS $15, R3, R4               // 6c64000f
+	XOR   $983040, R3, R4           // 6c64000f
 
 	// TODO: the order of CR operands don't match
 	CMP R3, R4                      // 7c232000
