@@ -448,6 +448,7 @@ const (
 // Note that any new influence on this logic must be reported in b.buildActionID above as well.
 func (b *Builder) build(ctx context.Context, a *Action) (err error) {
 	p := a.Package
+	sh := b.Sh(a)
 
 	bit := func(x uint32, b bool) uint32 {
 		if b {
@@ -510,11 +511,11 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
 		// different sections of the bootstrap script have to
 		// be merged, the banners give patch something
 		// to use to find its context.
-		b.Print("\n#\n# " + p.ImportPath + "\n#\n\n")
+		sh.Print("\n#\n# " + p.ImportPath + "\n#\n\n")
 	}
 
 	if cfg.BuildV {
-		b.Print(p.ImportPath + "\n")
+		sh.Print(p.ImportPath + "\n")
 	}
 
 	if p.Error != nil {
@@ -619,7 +620,7 @@ OverlayLoop:
 				from := mkAbs(p.Dir, fs[i])
 				opath, _ := fsys.OverlayPath(from)
 				dst := objdir + filepath.Base(fs[i])
-				if err := b.CopyFile(dst, opath, 0666, false); err != nil {
+				if err := sh.CopyFile(dst, opath, 0666, false); err != nil {
 					return err
 				}
 				a.nonGoOverlay[from] = dst
@@ -858,7 +859,7 @@ OverlayLoop:
 	if p.Internal.BuildInfo != nil && cfg.ModulesEnabled {
 		prog := modload.ModInfoProg(p.Internal.BuildInfo.String(), cfg.BuildToolchainName == "gccgo")
 		if len(prog) > 0 {
-			if err := b.writeFile(objdir+"_gomod_.go", prog); err != nil {
+			if err := sh.writeFile(objdir+"_gomod_.go", prog); err != nil {
 				return err
 			}
 			gofiles = append(gofiles, objdir+"_gomod_.go")
@@ -868,7 +869,7 @@ OverlayLoop:
 	// Compile Go.
 	objpkg := objdir + "_pkg_.a"
 	ofile, out, err := BuildToolchain.gc(b, a, objpkg, icfg.Bytes(), embedcfg, symabis, len(sfiles) > 0, gofiles)
-	if err := b.reportCmd(a, nil, "", "", out, err); err != nil {
+	if err := sh.reportCmd(a, nil, "", "", out, err); err != nil {
 		return err
 	}
 	if ofile != objpkg {
@@ -886,17 +887,17 @@ OverlayLoop:
 		switch {
 		case strings.HasSuffix(name, _goos_goarch):
 			targ := file[:len(name)-len(_goos_goarch)] + "_GOOS_GOARCH." + ext
-			if err := b.CopyFile(objdir+targ, filepath.Join(p.Dir, file), 0666, true); err != nil {
+			if err := sh.CopyFile(objdir+targ, filepath.Join(p.Dir, file), 0666, true); err != nil {
 				return err
 			}
 		case strings.HasSuffix(name, _goarch):
 			targ := file[:len(name)-len(_goarch)] + "_GOARCH." + ext
-			if err := b.CopyFile(objdir+targ, filepath.Join(p.Dir, file), 0666, true); err != nil {
+			if err := sh.CopyFile(objdir+targ, filepath.Join(p.Dir, file), 0666, true); err != nil {
 				return err
 			}
 		case strings.HasSuffix(name, _goos):
 			targ := file[:len(name)-len(_goos)] + "_GOOS." + ext
-			if err := b.CopyFile(objdir+targ, filepath.Join(p.Dir, file), 0666, true); err != nil {
+			if err := sh.CopyFile(objdir+targ, filepath.Join(p.Dir, file), 0666, true); err != nil {
 				return err
 			}
 		}
@@ -996,7 +997,7 @@ func (b *Builder) checkDirectives(a *Action) error {
 		// path, but the content of the error doesn't matter because msg is
 		// non-empty.
 		err := errors.New("invalid directive")
-		return b.reportCmd(a, nil, "", "", msg.Bytes(), err)
+		return b.Sh(a).reportCmd(a, nil, "", "", msg.Bytes(), err)
 	}
 	return nil
 }
@@ -1024,7 +1025,7 @@ func (b *Builder) loadCachedObjdirFile(a *Action, c cache.Cache, name string) er
 	if err != nil {
 		return err
 	}
-	return b.CopyFile(a.Objdir+name, cached, 0666, true)
+	return b.Sh(a).CopyFile(a.Objdir+name, cached, 0666, true)
 }
 
 func (b *Builder) cacheCgoHdr(a *Action) {
@@ -1229,6 +1230,8 @@ func (b *Builder) vet(ctx context.Context, a *Action) error {
 		return fmt.Errorf("vet config not found")
 	}
 
+	sh := b.Sh(a)
+
 	vcfg.VetxOnly = a.VetxOnly
 	vcfg.VetxOutput = a.Objdir + "vet.out"
 	vcfg.PackageVetx = make(map[string]string)
@@ -1306,7 +1309,7 @@ func (b *Builder) vet(ctx context.Context, a *Action) error {
 		return fmt.Errorf("internal error marshaling vet config: %v", err)
 	}
 	js = append(js, '\n')
-	if err := b.writeFile(a.Objdir+"vet.cfg", js); err != nil {
+	if err := sh.writeFile(a.Objdir+"vet.cfg", js); err != nil {
 		return err
 	}
 
@@ -1321,7 +1324,7 @@ func (b *Builder) vet(ctx context.Context, a *Action) error {
 	if tool == "" {
 		tool = base.Tool("vet")
 	}
-	runErr := b.run(a, p.Dir, p.ImportPath, env, cfg.BuildToolexec, tool, vetFlags, a.Objdir+"vet.cfg")
+	runErr := sh.run(p.Dir, p.ImportPath, env, cfg.BuildToolexec, tool, vetFlags, a.Objdir+"vet.cfg")
 
 	// If vet wrote export data, save it for input to future vets.
 	if f, err := os.Open(vcfg.VetxOutput); err == nil {
@@ -1495,7 +1498,7 @@ func (b *Builder) writeLinkImportcfg(a *Action, file string) error {
 		info = a.Package.Internal.BuildInfo.String()
 	}
 	fmt.Fprintf(&icfg, "modinfo %q\n", modload.ModInfoData(info))
-	return b.writeFile(file, icfg.Bytes())
+	return b.Sh(a).writeFile(file, icfg.Bytes())
 }
 
 // PkgconfigCmd returns a pkg-config binary name
@@ -1863,9 +1866,9 @@ func (b *Builder) cleanup(a *Action) {
 }
 
 // moveOrCopyFile is like 'mv src dst' or 'cp src dst'.
-func (b *Builder) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) error {
+func (sh *Shell) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) error {
 	if cfg.BuildN {
-		b.Showcmd("", "mv %s %s", src, dst)
+		sh.Showcmd("", "mv %s %s", src, dst)
 		return nil
 	}
 
@@ -1874,7 +1877,7 @@ func (b *Builder) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) 
 
 	// If the source is in the build cache, we need to copy it.
 	if strings.HasPrefix(src, cache.DefaultDir()) {
-		return b.CopyFile(dst, src, perm, force)
+		return sh.CopyFile(dst, src, perm, force)
 	}
 
 	// On Windows, always copy the file, so that we respect the NTFS
@@ -1882,7 +1885,7 @@ func (b *Builder) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) 
 	// What matters here is not cfg.Goos (the system we are building
 	// for) but runtime.GOOS (the system we are building on).
 	if runtime.GOOS == "windows" {
-		return b.CopyFile(dst, src, perm, force)
+		return sh.CopyFile(dst, src, perm, force)
 	}
 
 	// If the destination directory has the group sticky bit set,
@@ -1890,7 +1893,7 @@ func (b *Builder) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) 
 	// https://golang.org/issue/18878
 	if fi, err := os.Stat(filepath.Dir(dst)); err == nil {
 		if fi.IsDir() && (fi.Mode()&fs.ModeSetgid) != 0 {
-			return b.CopyFile(dst, src, perm, force)
+			return sh.CopyFile(dst, src, perm, force)
 		}
 	}
 
@@ -1914,19 +1917,19 @@ func (b *Builder) moveOrCopyFile(dst, src string, perm fs.FileMode, force bool) 
 	if err := os.Chmod(src, mode); err == nil {
 		if err := os.Rename(src, dst); err == nil {
 			if cfg.BuildX {
-				b.Showcmd("", "mv %s %s", src, dst)
+				sh.Showcmd("", "mv %s %s", src, dst)
 			}
 			return nil
 		}
 	}
 
-	return b.CopyFile(dst, src, perm, force)
+	return sh.CopyFile(dst, src, perm, force)
 }
 
 // copyFile is like 'cp src dst'.
-func (b *Builder) CopyFile(dst, src string, perm fs.FileMode, force bool) error {
+func (sh *Shell) CopyFile(dst, src string, perm fs.FileMode, force bool) error {
 	if cfg.BuildN || cfg.BuildX {
-		b.Showcmd("", "cp %s %s", src, dst)
+		sh.Showcmd("", "cp %s %s", src, dst)
 		if cfg.BuildN {
 			return nil
 		}
@@ -1983,17 +1986,17 @@ func (b *Builder) CopyFile(dst, src string, perm fs.FileMode, force bool) error 
 }
 
 // writeFile writes the text to file.
-func (b *Builder) writeFile(file string, text []byte) error {
+func (sh *Shell) writeFile(file string, text []byte) error {
 	if cfg.BuildN || cfg.BuildX {
 		switch {
 		case len(text) == 0:
-			b.Showcmd("", "echo -n > %s # internal", file)
+			sh.Showcmd("", "echo -n > %s # internal", file)
 		case bytes.IndexByte(text, '\n') == len(text)-1:
 			// One line. Use a simpler "echo" command.
-			b.Showcmd("", "echo '%s' > %s # internal", bytes.TrimSuffix(text, []byte("\n")), file)
+			sh.Showcmd("", "echo '%s' > %s # internal", bytes.TrimSuffix(text, []byte("\n")), file)
 		default:
 			// Use the most general form.
-			b.Showcmd("", "cat >%s << 'EOF' # internal\n%sEOF", file, text)
+			sh.Showcmd("", "cat >%s << 'EOF' # internal\n%sEOF", file, text)
 		}
 	}
 	if cfg.BuildN {
@@ -2004,6 +2007,8 @@ func (b *Builder) writeFile(file string, text []byte) error {
 
 // Install the cgo export header file, if there is one.
 func (b *Builder) installHeader(ctx context.Context, a *Action) error {
+	sh := b.Sh(a)
+
 	src := a.Objdir + "_cgo_install.h"
 	if _, err := os.Stat(src); os.IsNotExist(err) {
 		// If the file does not exist, there are no exported
@@ -2012,7 +2017,7 @@ func (b *Builder) installHeader(ctx context.Context, a *Action) error {
 		// at the right times (not missing rebuilds), here we should
 		// probably delete the installed header, if any.
 		if cfg.BuildX {
-			b.Showcmd("", "# %s not created", src)
+			sh.Showcmd("", "# %s not created", src)
 		}
 		return nil
 	}
@@ -2028,7 +2033,7 @@ func (b *Builder) installHeader(ctx context.Context, a *Action) error {
 		}
 	}
 
-	return b.moveOrCopyFile(a.Target, src, 0666, true)
+	return sh.moveOrCopyFile(a.Target, src, 0666, true)
 }
 
 // cover runs, in effect,
@@ -2154,15 +2159,15 @@ func mayberemovefile(s string) {
 	os.Remove(s)
 }
 
-// fmtcmd formats a command in the manner of fmt.Sprintf but also:
+// fmtCmd formats a command in the manner of fmt.Sprintf but also:
 //
-//	fmtcmd replaces the value of b.WorkDir with $WORK.
+//	fmtCmd replaces the value of b.WorkDir with $WORK.
 //
-//	fmtcmd replaces the name of the current directory with dot (.)
+//	fmtCmd replaces the name of the current directory with dot (.)
 //	but only when it is at the beginning of a space-separated token.
-func (b *Builder) fmtcmd(dir string, format string, args ...any) string {
+func (sh *Shell) fmtCmd(dir string, format string, args ...any) string {
 	cmd := fmt.Sprintf(format, args...)
-	if dir != "" && dir != "/" && b.scriptDir == dir {
+	if dir != "" && dir != "/" && sh.out.scriptDir == dir {
 		// In the output stream, scriptDir is our working directory. Replace it
 		// with "." in the command.
 		//
@@ -2175,11 +2180,12 @@ func (b *Builder) fmtcmd(dir string, format string, args ...any) string {
 		}
 		cmd = strings.ReplaceAll(" "+cmd, " "+dir, dot)[1:]
 	}
-	if b.WorkDir != "" && !strings.HasPrefix(cmd, "cat ") {
-		cmd = strings.ReplaceAll(cmd, b.WorkDir, "$WORK")
-		escaped := strconv.Quote(b.WorkDir)
+	work := sh.workDir
+	if work != "" && !strings.HasPrefix(cmd, "cat ") {
+		cmd = strings.ReplaceAll(cmd, work, "$WORK")
+		escaped := strconv.Quote(work)
 		escaped = escaped[1 : len(escaped)-1] // strip quote characters
-		if escaped != b.WorkDir {
+		if escaped != work {
 			cmd = strings.ReplaceAll(cmd, escaped, "$WORK")
 		}
 	}
@@ -2188,17 +2194,18 @@ func (b *Builder) fmtcmd(dir string, format string, args ...any) string {
 
 // Showcmd prints the given command to standard output
 // for the implementation of -n or -x.
-func (b *Builder) Showcmd(dir string, format string, args ...any) {
-	b.output.Lock()
-	defer b.output.Unlock()
+func (sh *Shell) Showcmd(dir string, format string, args ...any) {
+	// Use the output lock directly so we can manage scriptDir.
+	sh.out.lock.Lock()
+	defer sh.out.lock.Unlock()
 
-	if dir != "" && dir != "/" && dir != b.scriptDir {
+	if dir != "" && dir != "/" && dir != sh.out.scriptDir {
 		// Show changing to dir and update the current directory.
-		b.Print(b.fmtcmd("", "cd %s\n", dir))
-		b.scriptDir = dir
+		sh.printLocked(sh.fmtCmd("", "cd %s\n", dir))
+		sh.out.scriptDir = dir
 	}
 
-	b.Print(b.fmtcmd(dir, format, args...) + "\n")
+	sh.printLocked(sh.fmtCmd(dir, format, args...) + "\n")
 }
 
 // reportCmd reports the output and exit status of a command. The cmdOut and
@@ -2246,11 +2253,14 @@ func (b *Builder) Showcmd(dir string, format string, args ...any) {
 // desc is optional. If "", p.Desc() is used.
 //
 // dir is optional. If "", p.Dir is used.
-func (b *Builder) reportCmd(a *Action, p *load.Package, desc, dir string, cmdOut []byte, cmdErr error) error {
+func (sh *Shell) reportCmd(a *Action, p *load.Package, desc, dir string, cmdOut []byte, cmdErr error) error {
 	// TODO: It seems we can always get p from a.Package, so it should be
 	// possible to drop the "p" argument. However, a lot of callers take both
 	// Action and Package, so we'd want to drop the Package argument from those,
 	// too.
+	//
+	// XXX Drop both a and p and get them from sh. This probably requires fixing
+	// the above TODO first so we're sure a and p are never out of sync.
 	if len(cmdOut) == 0 && cmdErr == nil {
 		// Common case
 		return nil
@@ -2288,7 +2298,7 @@ func (b *Builder) reportCmd(a *Action, p *load.Package, desc, dir string, cmdOut
 	}
 
 	// Replace workDir with $WORK
-	out = replacePrefix(out, b.WorkDir, "$WORK")
+	out = replacePrefix(out, sh.workDir, "$WORK")
 
 	// Rewrite mentions of dir with a relative path to dir
 	// when the relative path is shorter.
@@ -2338,12 +2348,16 @@ func (b *Builder) reportCmd(a *Action, p *load.Package, desc, dir string, cmdOut
 	// The command didn't fail, so just print the output as appropriate.
 	if a != nil && a.output != nil {
 		// The Action is capturing output.
+		//
+		// TODO: This redirection support should probably be on Shell. Then I
+		// think we could drop both a and p and get them from the Shell. On the
+		// other hand, right now redirection applies *only* to the Action
+		// output, and applying it to the Shell might scoop up other output we
+		// didn't mean to buffer for the cache.
 		a.output = append(a.output, err.Error()...)
 	} else {
 		// Write directly to the Builder output.
-		b.output.Lock()
-		defer b.output.Unlock()
-		b.Print(err.Error())
+		sh.Print(err.Error())
 	}
 	return nil
 }
@@ -2391,18 +2405,20 @@ var cgoTypeSigRe = lazyregexp.New(`\b_C2?(type|func|var|macro)_\B`)
 // run runs the command given by cmdline in the directory dir.
 // If the command fails, run prints information about the failure
 // and returns a non-nil error.
-func (b *Builder) run(a *Action, dir string, desc string, env []string, cmdargs ...any) error {
-	out, err := b.runOut(a, dir, env, cmdargs...)
+func (sh *Shell) run(dir string, desc string, env []string, cmdargs ...any) error {
+	out, err := sh.runOut(dir, env, cmdargs...)
 	if desc == "" {
-		desc = b.fmtcmd(dir, "%s", strings.Join(str.StringList(cmdargs...), " "))
+		desc = sh.fmtCmd(dir, "%s", strings.Join(str.StringList(cmdargs...), " "))
 	}
-	return b.reportCmd(a, nil, desc, dir, out, err)
+	return sh.reportCmd(a, nil, desc, dir, out, err)
 }
 
 // runOut runs the command given by cmdline in the directory dir.
 // It returns the command output and any errors that occurred.
 // It accumulates execution time in a.
-func (b *Builder) runOut(a *Action, dir string, env []string, cmdargs ...any) ([]byte, error) {
+func (sh *Shell) runOut(dir string, env []string, cmdargs ...any) ([]byte, error) {
+	a := sh.action
+
 	cmdline := str.StringList(cmdargs...)
 
 	for _, arg := range cmdline {
@@ -2428,7 +2444,7 @@ func (b *Builder) runOut(a *Action, dir string, env []string, cmdargs ...any) ([
 			}
 		}
 		envcmdline += joinUnambiguously(cmdline)
-		b.Showcmd(dir, "%s", envcmdline)
+		sh.Showcmd(dir, "%s", envcmdline)
 		if cfg.BuildN {
 			return nil, nil
 		}

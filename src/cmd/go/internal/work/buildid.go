@@ -551,6 +551,7 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string, 
 	return false
 }
 
+// XXX This should be a method on Shell.
 func showStdout(b *Builder, c cache.Cache, actionID cache.ActionID, key string) error {
 	stdout, stdoutEntry, err := cache.GetBytes(c, cache.Subkey(actionID, key))
 	if err != nil {
@@ -571,6 +572,8 @@ func showStdout(b *Builder, c cache.Cache, actionID cache.ActionID, key string) 
 }
 
 // flushOutput flushes the output being queued in a.
+//
+// XXX Once Action has a Shell, this should be a method on it (I think?)
 func (b *Builder) flushOutput(a *Action) {
 	b.output.Lock()
 	defer b.output.Unlock()
