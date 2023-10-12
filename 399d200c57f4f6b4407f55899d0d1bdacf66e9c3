@@ -151,6 +151,24 @@
       "parentUuid": "da576df2_3fe39813",
       "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c17120_e3c0f6b2",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "Oh! I think Quim ended up needing a lot of these same functions in CL 527596. Probably more motivation for factoring out an internal package. (But I agree that it can be done separately.)",
+      "parentUuid": "daa1330d_ad3cebd1",
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -16,6 +16,154 @@
       "message": "I\u0027ve addressed the merge conflicts.",
       "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f07c5fd6_26e20eec",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "(not sure)\n\nShould this error be `Is`-equivalent to `errors.ErrUnsupported`?\n\n(It looks like `os.Readlink` returns a wrapped `EINVAL` for non-symlinks, and on `fs` implementations that don\u0027t support symlinks everything should be considered a non-symlink. 🤔)",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 86
+      },
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a75c06fb_45b4c07a",
+        "filename": "src/io/fs/symlink_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "Please also test the behavior of `WalkDir` for paths containing symlinks (see  `filepath.TestWalkSymlink` and `filepath.TestWalkSymlinkRoot` for comparison).\n\nNotably, for consistently with `filepath.WalkDir`:\n- `WalkDir` on a root directory that is a symlink _without a trailing slash_ should yield only that symlink, I think?\n- `WalkDir` on a root directory that is a symlink _with a trailing slash_ should yield the contents of the symlink target, which must refer to a directory.\n- `WalkDir` on a directory containing a symlink should yield that symlink as a directory entry, but should not recurse into it.",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53eb1fdc_7b3530c8",
+        "filename": "src/os/file_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "Please also test a `name` with a trailing slash, to rule out a bug analogous to the one fixed in CL 463177.",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f01594c9_40bf97b9",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "(nit, https://go.dev/wiki/CodeReviewComments#in-band-errors)\n\nPlease return an explicit error or boolean instead of using the empty string as a sentinel.",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67da805b_9ca8a503",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "(nit) “without following any symbolic links” is a little misleading, because symbolic links before the final path element must still be traversed.\n\nPerhaps use the same phrasing as for `os.Lstat`? “If the file is a symbolic link, the returned FileInfo describes the symbolic link. Lstat makes no attempt to follow the link.”",
+      "range": {
+        "startLine": 166,
+        "startChar": 48,
+        "endLine": 166,
+        "endChar": 84
+      },
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e688d5e_21ca0d06",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "I think we need `Split` instead of `Base` here — `path.Base` removes trailing slashes, whereas `path.Dir` does not (https://go.dev/play/p/Je1KL34EveE), so they are not quite complementary operations.",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b57c94_d5a1340b",
+        "filename": "src/testing/fstest/mapfs_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "Please also add a test case for a symlink whose target is itself a symlink (to rule out a bug analogous to the macOS platform bug described in #59586).",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5d617e5_2249f55e",
+        "filename": "src/testing/fstest/mapfs_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-12T15:52:44Z",
+      "side": 1,
+      "message": "Please also verify that `Lstat(m, \"dirlink/\")` is consistent with `Stat(m, \"dirlink\")` (as opposed to `Lstat(m, \"dirlink\")`).\n\n(To rule out a bug analogous to the Windows bug in `os.Lstat` fixed in CL 463177.)",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
