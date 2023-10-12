@@ -343,7 +343,7 @@ func (b *Builder) gccgoBuildIDFile(a *Action) (string, error) {
 		fmt.Fprintf(&buf, "\t"+`.section .note.GNU-split-stack,"",%s`+"\n", secType)
 	}
 
-	if err := b.writeFile(sfile, buf.Bytes()); err != nil {
+	if err := b.Shell(a).writeFile(sfile, buf.Bytes()); err != nil {
 		return "", err
 	}
 
@@ -560,13 +560,12 @@ func showStdout(b *Builder, c cache.Cache, a *Action, key string) error {
 	}
 
 	if len(stdout) > 0 {
+		sh := b.Shell(a)
 		if cfg.BuildX || cfg.BuildN {
-			b.Showcmd("", "%s  # internal", joinUnambiguously(str.StringList("cat", c.OutputFile(stdoutEntry.OutputID))))
+			sh.Showcmd("", "%s  # internal", joinUnambiguously(str.StringList("cat", c.OutputFile(stdoutEntry.OutputID))))
 		}
 		if !cfg.BuildN {
-			b.output.Lock()
-			defer b.output.Unlock()
-			b.Print(string(stdout))
+			sh.Print(string(stdout))
 		}
 	}
 	return nil
@@ -574,9 +573,7 @@ func showStdout(b *Builder, c cache.Cache, a *Action, key string) error {
 
 // flushOutput flushes the output being queued in a.
 func (b *Builder) flushOutput(a *Action) {
-	b.output.Lock()
-	defer b.output.Unlock()
-	b.Print(string(a.output))
+	b.Shell(a).Print(string(a.output))
 	a.output = nil
 }
 
@@ -589,9 +586,11 @@ func (b *Builder) flushOutput(a *Action) {
 //
 // Keep in sync with src/cmd/buildid/buildid.go
 func (b *Builder) updateBuildID(a *Action, target string, rewrite bool) error {
+	sh := b.Shell(a)
+
 	if cfg.BuildX || cfg.BuildN {
 		if rewrite {
-			b.Showcmd("", "%s # internal", joinUnambiguously(str.StringList(base.Tool("buildid"), "-w", target)))
+			sh.Showcmd("", "%s # internal", joinUnambiguously(str.StringList(base.Tool("buildid"), "-w", target)))
 		}
 		if cfg.BuildN {
 			return nil
@@ -680,7 +679,7 @@ func (b *Builder) updateBuildID(a *Action, target string, rewrite bool) error {
 			outputID, _, err := c.Put(a.actionID, r)
 			r.Close()
 			if err == nil && cfg.BuildX {
-				b.Showcmd("", "%s # internal", joinUnambiguously(str.StringList("cp", target, c.OutputFile(outputID))))
+				sh.Showcmd("", "%s # internal", joinUnambiguously(str.StringList("cp", target, c.OutputFile(outputID))))
 			}
 			if b.NeedExport {
 				if err != nil {
