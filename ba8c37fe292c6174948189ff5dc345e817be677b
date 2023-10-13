@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53aed5b2_7ec9192a",
+        "filename": "src/math/rand/v2/pcg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-10-13T03:15:10Z",
+      "side": 1,
+      "message": "why not just do b[7] first and save the extra check?\nbut stet if you prefer. i generally don\u0027t like things like this but i am in the minority.",
+      "revId": "ba8c37fe292c6174948189ff5dc345e817be677b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d241293_e58d84e6",
+        "filename": "src/math/rand/v2/pcg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-10-13T03:15:10Z",
+      "side": 1,
+      "message": "multiplier",
+      "revId": "ba8c37fe292c6174948189ff5dc345e817be677b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
