@@ -577,7 +577,7 @@ func (check *Checker) arguments(call *ast.CallExpr, sig *Signature, targs []Type
 				// Before we change the type (type parameter renaming, below), make
 				// a clone of it as otherwise we implicitly modify the object's type
 				// (go.dev/issues/63260).
-				asig = clone(asig)
+				asig = cloneSignature(asig)
 				// Rename type parameters for cases like f(g, g); this gives each
 				// generic function argument a unique type identity (go.dev/issues/59956).
 				// TODO(gri) Consider only doing this if a function argument appears

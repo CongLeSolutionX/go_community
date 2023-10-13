@@ -531,8 +531,8 @@ func maxType(x, y Type) Type {
 	return nil
 }
 
-// clone makes a "flat copy" of *p and returns a pointer to the copy.
-func clone[P *T, T any](p P) P {
+// cloneSignature makes a "flat copy" of *p and returns a pointer to the copy.
+func cloneSignature(p *Signature) *Signature {
 	c := *p
 	return &c
 }
