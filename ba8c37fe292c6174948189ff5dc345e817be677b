@@ -33,6 +33,23 @@
       "message": "multiplier",
       "revId": "ba8c37fe292c6174948189ff5dc345e817be677b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c2c9441_dfea8638",
+        "filename": "src/math/rand/v2/pcg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2023-10-13T16:57:38Z",
+      "side": 1,
+      "message": "```suggestion\n\t// See https://go.dev/issue/21835#issuecomment-739065688\n```\n\nFWIW, this works with the anchor too, is shorter, and won\u0027t break the next time the Go issue tracker moves.",
+      "revId": "ba8c37fe292c6174948189ff5dc345e817be677b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
