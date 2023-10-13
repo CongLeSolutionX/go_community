@@ -143,6 +143,24 @@
       "parentUuid": "cb17b6cf_21d28536",
       "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "827052d3_fdfb7677",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-13T02:58:13Z",
+      "side": 1,
+      "message": "For `bitmask`, do you mean the original reg list encoding method of arm64 or the encoding method of arm architecture? The old method of arm64 puts multiple fields such as register, count in a.Offset, which is actually not good. This is why we want to refactor obj.Addr. The arm architecture method may not be suitable for arm64. The arm reg list seems to be allowed to be out of order? But the arm64 reg list is ordered. Moreover, parsing bitmask is not very easy, as it requires traversing 32 bits. The design of this CL is much more convenient, and we can basically get the information directly from without decoding. And this format is consistent with other Operand formats.\nAs for the usage of scale, I think it is understandable that the usage is different because of the different architectures. We can encode scale into the Offset field, but for more complex operands in the future, such as some SME operands, scale may still need to be used.",
+      "parentUuid": "e9f1d818_10397a5b",
+      "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
