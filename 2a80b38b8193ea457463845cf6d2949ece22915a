@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff26550_cf144f78",
+        "filename": "src/math/rand/v2/rand.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-10-13T03:31:21Z",
+      "side": 1,
+      "message": "s/invalid/zero/",
+      "revId": "2a80b38b8193ea457463845cf6d2949ece22915a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6122e9df_7754bdbb",
+        "filename": "src/math/rand/v2/rand.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-10-13T03:31:21Z",
+      "side": 1,
+      "message": "this is totally mysterious. i\u0027d like to see it explained at least a bit rather than just by a web link that might disappear.  looks like you get either 0 or 1 for thresh, always zero except at the extrema, making the result all zeros most of the time. i just don\u0027t get it.\nalso why the parens?",
+      "revId": "2a80b38b8193ea457463845cf6d2949ece22915a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
