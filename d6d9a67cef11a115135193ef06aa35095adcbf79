@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d86cf8f3_df0cdf35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-10-13T19:24:24Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "d6d9a67cef11a115135193ef06aa35095adcbf79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed9c6f7c_7e69c028",
+        "filename": "src/time/zoneinfo_read.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-10-13T19:24:24Z",
+      "side": 1,
+      "message": "I think this is also meant to say \"the rest of\".\n\n```suggestion\n// rest returns the rest of the data in the buffer.\n```",
+      "range": {
+        "startLine": 93,
+        "startChar": 20,
+        "endLine": 93,
+        "endChar": 24
+      },
+      "revId": "d6d9a67cef11a115135193ef06aa35095adcbf79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
