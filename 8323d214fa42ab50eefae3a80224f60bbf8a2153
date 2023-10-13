@@ -70,6 +70,23 @@
       "message": "Not sure if changes are needed, and no reviewers assigned. Excuse me",
       "revId": "8323d214fa42ab50eefae3a80224f60bbf8a2153",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b52e7b94_65777e27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-10-13T19:29:09Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "8323d214fa42ab50eefae3a80224f60bbf8a2153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
