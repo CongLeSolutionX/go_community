@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf5e0d8_b352e606",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2023-10-14T04:20:10Z",
+      "side": 1,
+      "message": "This is the main portion of the `go tool` proposal.\n\nThe last piece to implement are the changes to `go get`.",
+      "revId": "c51e53af16a459852f3c961df0fb6591ec5acf67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
