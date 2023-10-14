@@ -39,6 +39,30 @@
       },
       "revId": "d6d9a67cef11a115135193ef06aa35095adcbf79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14e1e97_01768ff7",
+        "filename": "src/time/zoneinfo_read.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-10-14T01:36:55Z",
+      "side": 1,
+      "message": "Thanks. Modified.",
+      "parentUuid": "ed9c6f7c_7e69c028",
+      "range": {
+        "startLine": 93,
+        "startChar": 20,
+        "endLine": 93,
+        "endChar": 24
+      },
+      "revId": "d6d9a67cef11a115135193ef06aa35095adcbf79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
