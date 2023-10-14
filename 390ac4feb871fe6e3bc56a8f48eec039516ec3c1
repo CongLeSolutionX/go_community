@@ -50,6 +50,24 @@
       "message": "Not sure how to fix this: Gerrit has changed the commit message to include the long lines but does not allow me to fix it.",
       "revId": "390ac4feb871fe6e3bc56a8f48eec039516ec3c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77733d92_a41ce292",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-10-14T15:56:03Z",
+      "side": 1,
+      "message": "Hi Andreas, FWIW, I suspect you encountered the issue described in this FAQ:\n\nhttps://github.com/golang/go/wiki/GerritBot#how-does-gerritbot-determine-the-final-commit-message",
+      "parentUuid": "bbcf05a3_4fa4d353",
+      "revId": "390ac4feb871fe6e3bc56a8f48eec039516ec3c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
