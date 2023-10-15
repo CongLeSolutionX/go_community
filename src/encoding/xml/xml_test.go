@@ -1334,11 +1334,13 @@ func TestParseErrors(t *testing.T) {
 		err string
 	}{
 		{withDefaultHeader(`</foo>`), `unexpected end element </foo>`},
-		{withDefaultHeader(`<x:foo></y:foo>`), `element <foo> in space x closed by </foo> in space y`},
+		{withDefaultHeader(`<x:foo></y:foo>`), `element <foo> in name space x closed by </foo> in name space y`},
 		{withDefaultHeader(`<? not ok ?>`), `expected target name after <?`},
 		{withDefaultHeader(`<!- not ok -->`), `invalid sequence <!- not part of <!--`},
 		{withDefaultHeader(`<!-? not ok -->`), `invalid sequence <!- not part of <!--`},
 		{withDefaultHeader(`<![not ok]>`), `invalid <![ sequence`},
+		{withDefaultHeader(`<zzz:foo xmlns:zzz="http://example.com"><bar>baz</bar></foo>`),
+			`element <foo> in name space zzz closed by </foo> in no name space`},
 		{withDefaultHeader("\xf1"), `invalid UTF-8`},
 
 		// Header-related errors.
@@ -1370,7 +1372,7 @@ func TestParseErrors(t *testing.T) {
 			continue
 		}
 		if !strings.Contains(err.Error(), test.err) {
-			t.Errorf("parse %s: can't find %q error sudbstring\nerror: %q", test.src, test.err, err)
+			t.Errorf("parse %s: can't find %q error substring\nerror: %q", test.src, test.err, err)
 			continue
 		}
 	}

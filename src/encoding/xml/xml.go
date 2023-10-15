@@ -492,8 +492,12 @@ func (d *Decoder) popElement(t *EndElement) bool {
 		d.err = d.syntaxError("element <" + s.name.Local + "> closed by </" + name.Local + ">")
 		return false
 	case s.name.Space != name.Space:
-		d.err = d.syntaxError("element <" + s.name.Local + "> in space " + s.name.Space +
-			" closed by </" + name.Local + "> in space " + name.Space)
+		ns := "no name space"
+		if name.Space != "" {
+			ns = fmt.Sprintf("name space %s", name.Space)
+		}
+		d.err = d.syntaxError(fmt.Sprintf("element <%s> in name space %s closed by </%s> in %s",
+			s.name.Local, s.name.Space, name.Local, ns))
 		return false
 	}
 
