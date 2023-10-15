@@ -105,6 +105,24 @@
       "parentUuid": "488dcfcc_4092d048",
       "revId": "49ebb0eaaf516e8eb37bb9fed2f6f41bb2fd3438",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d98eee2_1449fd69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-10-15T03:38:56Z",
+      "side": 1,
+      "message": "Thank you for running the benchmarks. I\u0027m a little surprised it\u0027s faster. I suspect it\u0027s because the branching logic in `isEmptyValue` got simpler.",
+      "parentUuid": "abf3663f_c0da20c3",
+      "revId": "49ebb0eaaf516e8eb37bb9fed2f6f41bb2fd3438",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
