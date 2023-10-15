@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8c107b1_36f80eb5",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-15T21:00:48Z",
+      "side": 1,
+      "message": "Ending the error messages with \"closed by \u003cx\u003e in no name space\" doesn\u0027t seem particularly clear to me.  Perhaps we should just omit \"in no name space\" for that case; would that be unclear?\n\nAlso, is it possible for s.name.Space \u003d\u003d \"\" here?",
+      "revId": "9252edc75ef80be5746c7171a8bacadae8b77dcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7adfdbd4_9dae106f",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-15T21:00:48Z",
+      "side": 1,
+      "message": "May as well keep the existing string concatenation rather than calling fmt.Sprintf.\n\nFor that matter, use string concatenation two lines up as well.",
+      "revId": "9252edc75ef80be5746c7171a8bacadae8b77dcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f0f9c8_6ed4cce5",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-15T21:00:48Z",
+      "side": 1,
+      "message": "Past experience tells me that almost any change to this package breaks existing working programs.  Let\u0027s not make unnecessary changes like changing \"in space\" to \"in name space\".  Thanks.",
+      "revId": "9252edc75ef80be5746c7171a8bacadae8b77dcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
