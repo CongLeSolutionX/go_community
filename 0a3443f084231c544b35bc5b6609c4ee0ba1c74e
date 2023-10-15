@@ -16,6 +16,24 @@
       "message": "Unless there is a compelling reason, I believe we should first submit the change to x/tools. If the changes are accepted there, the changes will be vendored into src/cmd/go later.",
       "revId": "0a3443f084231c544b35bc5b6609c4ee0ba1c74e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd3cd386_3c213d04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30738
+      },
+      "writtenOn": "2023-10-15T07:51:29Z",
+      "side": 1,
+      "message": "Thank you, I wasn\u0027t aware of that. Replaced by https://go-review.googlesource.com/c/tools/+/535515",
+      "parentUuid": "e280832a_61862e35",
+      "revId": "0a3443f084231c544b35bc5b6609c4ee0ba1c74e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
