@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb5b8c7_9db8de0f",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-15T20:26:21Z",
+      "side": 1,
+      "message": "I think it will be clearer to move the declarations of input and scanner below, so that they are closer to the use of the scanner and the output.",
+      "revId": "90b78acc88651c0f34816f806d7bb26f9ca98191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28bd4041_72eb3d34",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-15T20:26:21Z",
+      "side": 1,
+      "message": "I think it would make the example better to use bytes.Index here.",
+      "revId": "90b78acc88651c0f34816f806d7bb26f9ca98191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
