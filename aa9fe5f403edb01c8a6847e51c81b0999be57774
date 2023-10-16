@@ -125,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0051b924_6ed32339",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "269b4532_c91605ea",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2500f79e_bfc8e596",
@@ -138,6 +156,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "What is this?",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86110134_86e37f5f",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2500f79e_bfc8e596",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -165,6 +201,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21e30f0d_e28578a0",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1505668_f7f6e072",
+      "range": {
+        "startLine": 230,
+        "startChar": 11,
+        "endLine": 230,
+        "endChar": 23
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5bf6c24_548f2d5d",
@@ -178,6 +238,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "Operand type? Add a comment.",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "890e63b6_da63482e",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5bf6c24_548f2d5d",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -299,6 +377,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2effa5a_b3c100e2",
+        "filename": "src/cmd/internal/obj/arm64/arm64ops.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e72a036_a9ffd792",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a2f89c7_18e8d8ba",
@@ -312,6 +408,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "This doesn\u0027t need to be exported. Maybe start with lowercase \"a\".",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d088ff04_b5165e2c",
+        "filename": "src/cmd/internal/obj/arm64/arm64ops.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a2f89c7_18e8d8ba",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -368,6 +482,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb458e85_dea09c8d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2430,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "012b2b7e_6677962a",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5975ad6_ca57159f",
@@ -403,6 +535,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e46087d3_92e284cc",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2557,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "817fa1a6_95950ea8",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ec9b71e_332e9f63",
@@ -416,6 +566,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "Maybe mention in what order the operands are returned.",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d83f0df4_2a2445b3",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2604,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ec9b71e_332e9f63",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -451,6 +619,24 @@
       "side": 1,
       "message": "Thanks, I think here we can use `sort.Search`.",
       "parentUuid": "2274c311_fa703e13",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b5d18b8_52c73d51",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 2655,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af6ebcb0_184f2cf0",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -560,6 +746,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2045cc1f_1ff3f6b1",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5692bfd8_43b2a8e5",
+      "range": {
+        "startLine": 46,
+        "startChar": 63,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a52ffc0_0dba0537",
@@ -573,6 +783,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "ldrsw is mentioned above",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0e6ef3d_e8ac14ff",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a52ffc0_0dba0537",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -671,6 +899,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f345e645_dbbcf749",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "MSL is only used in the following two instructions:\nMVNI  \u003cVd\u003e.\u003cT\u003e, #\u003cimm8\u003e, MSL #\u003camount\u003e\nMOVI  \u003cVd\u003e.\u003cT\u003e, #\u003cimm8\u003e, MSL #\u003camount\u003e\n\nAnd \u003c\u003c, \u003e\u003e operators are defined for register, so maybe we can just ignore MSL in Go, so the syntax is:\nMOVI, MVNI $\u003cimm8\u003e, $\u003camount\u003e, \u003cVd\u003e.\u003cT\u003e",
+      "parentUuid": "9a8d6a22_2dca7e96",
+      "range": {
+        "startLine": 353,
+        "startChar": 25,
+        "endLine": 353,
+        "endChar": 38
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aaade7c_86f4e9cf",
@@ -688,6 +940,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8dd5a94_3f08ffc9",
+        "filename": "src/cmd/internal/obj/arm64/elements.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aaade7c_86f4e9cf",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07d1c5c1_a2e10cf4",
@@ -701,6 +971,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "We try to avoid non-top-level go.mod in the tree, if possible. Could we not have this? Does it work if we use \"cmd/internal/arm64/instgen\" for the package path, in the top-level cmd module?",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50d02db7_6b2e8f61",
+        "filename": "src/cmd/internal/obj/arm64/instgen/go.mod",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07d1c5c1_a2e10cf4",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -728,6 +1016,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce547583_806bbf56",
+        "filename": "src/cmd/internal/obj/arm64/instgen/inst.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d1768b_099c5dee",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 2
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b02409be_ca5f8735",
@@ -741,6 +1053,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "Some comments on the FEAT constants would probably be good.\n\nAlso, maybe put it in a separate file. instructions.go is already enormous and hard to look at. It would be better for instructions.go to contain one and only one table, nothing else. So a reader wouldn\u0027t need to open that large file to find anything other than the table entries.",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca318cec_f2394152",
+        "filename": "src/cmd/internal/obj/arm64/instgen/inst.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b02409be_ca5f8735",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -803,6 +1133,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c49806b_8ab65c9d",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "791202bd_a902d744",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2e604f8_b813b821",
@@ -816,6 +1170,30 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "Maybe name files with \"_gen.go\" suffix, like inst_gen.go, elem_gen.go, etc. so it is clear that which files are generated.",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 58
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe68de0d_d0ba22cc",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e604f8_b813b821",
       "range": {
         "startLine": 21,
         "startChar": 3,
@@ -843,6 +1221,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2beea13c_7f3c1aef",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c325b01c_251fd273",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d90b4a7a_bfd4387f",
@@ -866,6 +1262,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "423dec04_d1c70078",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d90b4a7a_bfd4387f",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 20
+      },
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edd17d2f_42c5d5e1",
@@ -879,6 +1299,24 @@
       "writtenOn": "2023-10-06T18:52:01Z",
       "side": 1,
       "message": "This has too many level of indentations. Maybe use some helper functions?",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cd18035_53138b4c",
+        "filename": "src/cmd/internal/obj/arm64/instgen/parser.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edd17d2f_42c5d5e1",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -914,6 +1352,24 @@
       "side": 1,
       "message": "Yeah, this is a rough statistic,\nbasic - 567\nSIMD\u0026FP - 435\nSVE - 955\nSME - 322\ntotal - 2283\n\nIn this CL we are close to adding 2000 opcodes.",
       "parentUuid": "2aeb8b41_62d1cf2b",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5df6056_10285875",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52845a60_16b6616b",
       "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

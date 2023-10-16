@@ -191,6 +191,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "562c84d4_936f3c35",
+        "filename": "src/cmd/internal/obj/arm64/inst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "344ffe46_b53e9fae",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 51
+      },
+      "revId": "f5c5d375471e84f1cb62a128d68e5a6c9d6524db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee2a676f_be0a41f2",
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "Yeah, I\u0027ll put the table in a separate file in the future.",
       "parentUuid": "ee2a676f_be0a41f2",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "f5c5d375471e84f1cb62a128d68e5a6c9d6524db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f5740e_7425b6cb",
+        "filename": "src/cmd/internal/obj/arm64/inst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-16T02:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9fd557f_56551467",
       "range": {
         "startLine": 53,
         "startChar": 0,
