@@ -69,6 +69,24 @@
       "parentUuid": "28bd4041_72eb3d34",
       "revId": "90b78acc88651c0f34816f806d7bb26f9ca98191",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586f0c7f_f76d6251",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 53173
+      },
+      "writtenOn": "2023-10-16T12:46:55Z",
+      "side": 1,
+      "message": "I should add that my previous patchset forgot to check atEOF. It is fixed now. :-)",
+      "parentUuid": "5136d11e_8652ffe3",
+      "revId": "90b78acc88651c0f34816f806d7bb26f9ca98191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
