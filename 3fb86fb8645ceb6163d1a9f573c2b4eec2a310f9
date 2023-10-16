@@ -16,6 +16,24 @@
       "message": "Should these tests be skipped in short mode?\n\nIt looks like they end up rebuilding the full transitive dependencies of the `testing` package, and on some of the slower builders that adds nearly a minute (out of the test\u0027s ~3m default timeout under `dist test`):\nhttps://build.golang.org/log/7d0c56c0b0b6afa4f42c119849793370ddd94261",
       "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74e3ecdc_7358b97b",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-16T21:36:08Z",
+      "side": 1,
+      "message": "I don\u0027t think this should rebuild transitive dependencies. We pass `-gcflags\u003d-pgoprofile` to the current package, not `-gcflags\u003dall\u003d-pgoprofile`, not the go command\u0027s `-pgo` flag. If that rebuilds transitive dependencies, that would be a surprise to me.",
+      "parentUuid": "c782e35e_9ca86993",
+      "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
