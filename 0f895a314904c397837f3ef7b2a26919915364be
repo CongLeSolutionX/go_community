@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "755da0eb_1f512b5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53173
+      },
+      "writtenOn": "2023-10-16T22:55:09Z",
+      "side": 1,
+      "message": "@iant@golang.org Apologies for a new patchset: I found an extra \"the\" that should be removed.",
+      "revId": "0f895a314904c397837f3ef7b2a26919915364be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
