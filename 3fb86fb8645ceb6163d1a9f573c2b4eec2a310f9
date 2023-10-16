@@ -34,6 +34,24 @@
       "parentUuid": "c782e35e_9ca86993",
       "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74d9fbd3_c4365792",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-16T21:38:13Z",
+      "side": 1,
+      "message": "Oh maybe that is because we also pass `-trimpath` to the go command, which triggers a rebuild? Does `make.bash` now build things with `-trimpath`? If not, I can try passing `-gcflags\u003d-trimpath` instead, and see.",
+      "parentUuid": "74e3ecdc_7358b97b",
+      "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
