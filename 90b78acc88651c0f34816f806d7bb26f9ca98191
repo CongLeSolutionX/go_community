@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceef4756_abdb22e0",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 53173
+      },
+      "writtenOn": "2023-10-16T12:44:50Z",
+      "side": 1,
+      "message": "Done. Should I also update all other examples, or leave them to another CL?",
+      "parentUuid": "cfb5b8c7_9db8de0f",
+      "revId": "90b78acc88651c0f34816f806d7bb26f9ca98191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28bd4041_72eb3d34",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-15T20:26:21Z",
       "side": 1,
       "message": "I think it would make the example better to use bytes.Index here.",
+      "revId": "90b78acc88651c0f34816f806d7bb26f9ca98191",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5136d11e_8652ffe3",
+        "filename": "src/bufio/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 53173
+      },
+      "writtenOn": "2023-10-16T12:44:50Z",
+      "side": 1,
+      "message": "Done. Should I also update ExampleScanner_emptyFinalToken (the example above it), or leave it to another CL?",
+      "parentUuid": "28bd4041_72eb3d34",
       "revId": "90b78acc88651c0f34816f806d7bb26f9ca98191",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
