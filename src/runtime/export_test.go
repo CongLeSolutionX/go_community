@@ -1973,3 +1973,23 @@ func UnsafePoint(pc uintptr) bool {
 		panic("invalid unsafe point code " + string(itoa(buf[:], uint64(v))))
 	}
 }
+
+func readvarintUnsafeOld(fd unsafe.Pointer) (uint32, unsafe.Pointer) {
+	var r uint32
+	var shift int
+	for {
+		b := *(*uint8)(fd)
+		fd = add(fd, unsafe.Sizeof(b))
+		if b < 128 {
+			return r + uint32(b)<<shift, fd
+		}
+		r += ((uint32(b) &^ 128) << shift)
+		shift += 7
+		if shift > 28 {
+			panic("Bad varint")
+		}
+	}
+}
+
+var ReadvarintUnsafeOld = readvarintUnsafeOld
+var ReadvarintUnsafe = readvarintUnsafe
