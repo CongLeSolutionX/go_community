@@ -33,6 +33,29 @@
       "message": "TRY\u003dlinux",
       "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "579d1689_429ee0d1",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-17T17:04:25Z",
+      "side": 1,
+      "message": "Should the `spliceNonblock` flag be guarded on `sock.pd.pollable()`? Otherwise it seems like this could fall into a tight loop with `splice` returning `EAGAIN` without making progress.\n\n(Or, if that isn\u0027t a concern, a comment explaining why would be helpful.)",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 58
+      },
+      "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
