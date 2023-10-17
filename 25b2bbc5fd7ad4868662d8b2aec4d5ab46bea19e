@@ -56,6 +56,30 @@
       },
       "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "069c59e4_5299205e",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-10-17T17:25:51Z",
+      "side": 1,
+      "message": "Good point, it could happen when a pipe of the write end is full for writing or a pipe of the read end is empty for reading, although it\u0027s unlikely for this case to occur based on how we use `spliceDrain` and `splicePump` currently.",
+      "parentUuid": "579d1689_429ee0d1",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 58
+      },
+      "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
