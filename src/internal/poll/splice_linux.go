@@ -13,6 +13,11 @@ import (
 )
 
 const (
+	// spliceNonblock doesn't make the splice itself necessarily nonblocking
+	// (because the actual file descriptors that are spliced from/to may block
+	// unless they have the O_NONBLOCK flag set), but it makes the splice pipe
+	// operations nonblocking.
+	spliceNonblock = 0x2
 	// maxSpliceSize is the maximum amount of data Splice asks
 	// the kernel to move in a single call to splice(2).
 	// We use 1MB as Splice writes data through a pipe, and 1MB is the default maximum pipe buffer size,
@@ -89,7 +94,7 @@ func spliceDrain(pipefd int, sock *FD, max int) (int, error) {
 		return 0, err
 	}
 	for {
-		n, err := splice(pipefd, sock.Sysfd, max, 0)
+		n, err := splice(pipefd, sock.Sysfd, max, spliceNonblock)
 		if err == syscall.EINTR {
 			continue
 		}
@@ -127,7 +132,7 @@ func splicePump(sock *FD, pipefd int, inPipe int) (int, error) {
 	}
 	written := 0
 	for inPipe > 0 {
-		n, err := splice(sock.Sysfd, pipefd, inPipe, 0)
+		n, err := splice(sock.Sysfd, pipefd, inPipe, spliceNonblock)
 		// Here, the condition n == 0 && err == nil should never be
 		// observed, since Splice controls the write side of the pipe.
 		if n > 0 {
