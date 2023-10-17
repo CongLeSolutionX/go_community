@@ -70,6 +70,24 @@
       "parentUuid": "74d9fbd3_c4365792",
       "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0264043_632b9552",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-17T03:39:49Z",
+      "side": 1,
+      "message": "Hmm. `cmd/dist` sometimes builds `cmd` with `-trimpath`, but I don\u0027t think it ever runs tests with that flag. 🤔\n\nAt any rate: it seems kind of fragile to make any particular assumptions about what settings are used to build tests on the builders, since that could change over time (due to changes in `cmd/dist`) or per builder (due to `GOFLAGS` in the environment, maybe?).\n\nMaybe there is some other way to speed up compilation for the test? Or, barring that, is there really that much harm in skipping it in short mode? (Tests that invoke the linker tend to be much more expensive than those that only invoke the compiler, although 45s to build and link a test seems a little excessive even on a slow builder...)",
+      "parentUuid": "4e40f63e_51272bca",
+      "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
