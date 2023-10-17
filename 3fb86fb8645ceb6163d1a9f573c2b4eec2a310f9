@@ -52,6 +52,24 @@
       "parentUuid": "74e3ecdc_7358b97b",
       "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e40f63e_51272bca",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-17T02:58:28Z",
+      "side": 1,
+      "message": "Sent CL 535915. Thanks.",
+      "parentUuid": "74d9fbd3_c4365792",
+      "revId": "3fb86fb8645ceb6163d1a9f573c2b4eec2a310f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
