@@ -108,6 +108,23 @@
       "parentUuid": "677dd574_484a35a1",
       "revId": "a0671498d29c14ab80def7b44d1914282a45b379",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a27062e8_7d871acb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-10-17T15:31:01Z",
+      "side": 1,
+      "message": "Hi all, since it\u0027s getting closer and closer to the freeze period, I\u0027d like to get this CL reviewed before the freeze period if one of you guys got some time.",
+      "revId": "a0671498d29c14ab80def7b44d1914282a45b379",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
