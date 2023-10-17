@@ -2516,14 +2516,11 @@ func (b *Builder) Mkdir(dir string) error {
 		return nil
 	}
 
-	b.exec.Lock()
-	defer b.exec.Unlock()
 	// We can be a little aggressive about being
 	// sure directories exist. Skip repeated calls.
-	if b.mkdirCache[dir] {
+	if _, err := os.Stat(dir); err == nil {
 		return nil
 	}
-	b.mkdirCache[dir] = true
 
 	if cfg.BuildN || cfg.BuildX {
 		b.Showcmd("", "mkdir -p %s", dir)

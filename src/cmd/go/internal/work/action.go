@@ -38,7 +38,6 @@ import (
 type Builder struct {
 	WorkDir            string                    // the temporary work directory (ends in filepath.Separator)
 	actionCache        map[cacheKey]*Action      // a cache of already-constructed actions
-	mkdirCache         map[string]bool           // a cache of created directories
 	flagCache          map[[2]string]bool        // a cache of supported compiler flags
 	gccCompilerIDCache map[string]cache.ActionID // cache for gccCompilerID
 	Print              func(args ...any) (int, error)
@@ -270,7 +269,6 @@ func NewBuilder(workDir string) *Builder {
 		return fmt.Fprint(os.Stderr, a...)
 	}
 	b.actionCache = make(map[cacheKey]*Action)
-	b.mkdirCache = make(map[string]bool)
 	b.toolIDCache = make(map[string]string)
 	b.buildIDCache = make(map[string]string)
 
