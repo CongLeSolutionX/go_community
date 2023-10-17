@@ -16,6 +16,24 @@
       "message": "LGTM, but I think you can omit the old implementation. It\u0027ll be in Git history, and I think sync\u0027ing the code would be worthwhile regardless.\n\nI\u0027m a little doubtful about the benchmark too, but could go either way on that.",
       "revId": "e28dadfd650f92c99254867a5d0d5abb81e8fa53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d4ec98_cd14febf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-10-17T15:11:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0c912369_d6abbcef",
+      "revId": "e28dadfd650f92c99254867a5d0d5abb81e8fa53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
