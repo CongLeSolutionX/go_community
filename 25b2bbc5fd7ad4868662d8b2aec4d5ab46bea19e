@@ -80,6 +80,30 @@
       },
       "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b80bc5e_d5cc5598",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-10-17T17:28:22Z",
+      "side": 1,
+      "message": "But I guess we can do it more discreetly in code.\n\nMaking a new patchset for it.",
+      "parentUuid": "069c59e4_5299205e",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 58
+      },
+      "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
