@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a702da90_36e2140e",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-17T03:23:26Z",
+      "side": 1,
+      "message": "In my experience, calls in `filepath.EvalSymlinks` are almost always inappropriate — programs should generally preserve paths as supplied by the user supplied (via `$PWD` or `$TMPDIR` or `$GOROOT` or similar) rather than trying to compute a symlink-free equivalent.\n\nI suspect that this is working around a bug in `buildPGOInliningTest` above — namely, `cmd.Env` should have a `PWD` entry matching `cmd.Dir`.\n\n(And perhaps `testenv.CleanCmdEnv` itself should be changed to use `cmd.Environ()` instead of `os.Environ()` so that it reflects `cmd.Dir` if set?)",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 2
+      },
+      "revId": "61533e9569d93aa2bd409f5147d8596a88ae00fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
