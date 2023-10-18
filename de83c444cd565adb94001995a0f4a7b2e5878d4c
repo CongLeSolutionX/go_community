@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35d1dac5_b9465a70",
+        "filename": "src/io/fs/symlink_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T16:22:56Z",
+      "side": 1,
+      "message": "And added a test to the `os` package that tests `WalkDir` on a `DirFS` to ensure it behaves to the `io/fs.WalkDir` spec.",
+      "parentUuid": "f8958064_5e6c6383",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53eb1fdc_7b3530c8",
         "filename": "src/os/file_test.go",
         "patchSetId": 6
