@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e0f6548_415121a9",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-18T21:09:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54464d80_307e5562",
+      "range": {
+        "startLine": 108,
+        "startChar": 51,
+        "endLine": 108,
+        "endChar": 61
+      },
+      "revId": "be0187e085d3a568895fdf70a389fb4988cae992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a617552c_dc7adf33",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-10-18T03:34:27Z",
       "side": 1,
       "message": "Please consolidate all of the `*Shell` methods into `shell.go`, so that it\u0027s easier to see what operations a Shell supports.",
+      "revId": "be0187e085d3a568895fdf70a389fb4988cae992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c745da8f_71ab390c",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-18T21:09:39Z",
+      "side": 1,
+      "message": "I agree, and I think that should happen in a separate code-motion-only follow up CL. (Which I probably won\u0027t have time to do myself.)",
+      "parentUuid": "a617552c_dc7adf33",
       "revId": "be0187e085d3a568895fdf70a389fb4988cae992",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e8d1061_e185c008",
+        "filename": "src/cmd/go/internal/work/shell.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-18T21:09:39Z",
+      "side": 1,
+      "message": "I had an earlier version that did move the locking down into print. It\u0027s kind of annoying in the callback form here because it just puts the problem on to various callers.\n\nThe one place where we do multiple print calls is in Showcmd when we also change scriptDir. The print calls we could combine into one with a multi-line string, but in that case the lock also protects checking and changing scriptDir. Since the lock also protects scriptDir along with the overall output stream, I don\u0027t think there\u0027s actually a benefit to pushing the locking down to the callback.",
+      "parentUuid": "3fdb0c7a_05658338",
+      "range": {
+        "startLine": 57,
+        "startChar": 62,
+        "endLine": 59,
+        "endChar": 71
+      },
+      "revId": "be0187e085d3a568895fdf70a389fb4988cae992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "023a1d10_f91beb5c",
         "filename": "src/cmd/go/internal/work/shell.go",
         "patchSetId": 2
@@ -77,6 +143,30 @@
       "writtenOn": "2023-10-18T03:34:27Z",
       "side": 1,
       "message": "I wonder if the `Shell` method is worth the extra API surface — it seems to always be equivalent to `b.BackgroundShell().WithAction`\n\nPerhaps we could instead rename `BackgroundShell` to `Shell` and have `WithAction` enforce that the `*Action` is non-nil?",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 1
+      },
+      "revId": "be0187e085d3a568895fdf70a389fb4988cae992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23f70d62_64f7189f",
+        "filename": "src/cmd/go/internal/work/shell.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-18T21:09:39Z",
+      "side": 1,
+      "message": "Given that there are quite a lot of calls to this, and very few uses of BackgroundShell, I\u0027d prefer not to require the significantly more common use to be more verbose. (I gave BackgroundShell a long name in part to discourage its use relative to Shell!)",
+      "parentUuid": "023a1d10_f91beb5c",
       "range": {
         "startLine": 73,
         "startChar": 0,
