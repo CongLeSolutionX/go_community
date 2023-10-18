@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4418b8ea_de2ab8bf",
+        "filename": "src/crypto/rand/rand_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-10-18T20:30:26Z",
+      "side": 1,
+      "message": "ProcessPrng accepts size_t length instead of dword. Is it still necessary to batch calls in 32 bytes chunks?",
+      "revId": "d3c265adbe9546af289dbe7dbed5e0f424c691ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d22fef20_a9c72253",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 2
