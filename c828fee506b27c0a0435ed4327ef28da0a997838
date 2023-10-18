@@ -16,6 +16,24 @@
       "message": "What is the rationale for this change?",
       "revId": "c828fee506b27c0a0435ed4327ef28da0a997838",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc48e50_43328046",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61000
+      },
+      "writtenOn": "2023-10-18T10:16:06Z",
+      "side": 1,
+      "message": "From the comment, i think we want to check whether there is a idle M, not P?\nSo we should use nmidle, not npidle?",
+      "parentUuid": "a910b4ae_53dccdbb",
+      "revId": "c828fee506b27c0a0435ed4327ef28da0a997838",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
