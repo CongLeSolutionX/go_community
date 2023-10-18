@@ -104,6 +104,30 @@
       },
       "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b87d39e_c0066d1d",
+        "filename": "src/internal/poll/splice_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-10-18T06:32:54Z",
+      "side": 1,
+      "message": "Actually, I\u0027m going to go with a comment as [the current code](https://go-review.googlesource.com/c/go/+/536015/2/src/internal/poll/splice_linux.go#137) did, detecting if a pipe is full or empty in `spliceDrain` or `splicePump` makes code more complicated, and it just seems unworthy for a case that would never happen in theory.",
+      "parentUuid": "3b80bc5e_d5cc5598",
+      "range": {
+        "startLine": 97,
+        "startChar": 44,
+        "endLine": 97,
+        "endChar": 58
+      },
+      "revId": "25b2bbc5fd7ad4868662d8b2aec4d5ab46bea19e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
