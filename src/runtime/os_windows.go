@@ -43,6 +43,7 @@ const (
 //go:cgo_import_dynamic runtime._LoadLibraryExW LoadLibraryExW%3 "kernel32.dll"
 //go:cgo_import_dynamic runtime._LoadLibraryW LoadLibraryW%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._PostQueuedCompletionStatus PostQueuedCompletionStatus%4 "kernel32.dll"
+//go:cgo_import_dynamic runtime._ProcessPrng ProcessPrng%2 "bcryptprimitives.dll"
 //go:cgo_import_dynamic runtime._QueryPerformanceCounter QueryPerformanceCounter%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._RaiseFailFastException RaiseFailFastException%3 "kernel32.dll"
 //go:cgo_import_dynamic runtime._ResumeThread ResumeThread%1 "kernel32.dll"
@@ -101,6 +102,7 @@ var (
 	_LoadLibraryExW,
 	_LoadLibraryW,
 	_PostQueuedCompletionStatus,
+	_ProcessPrng,
 	_QueryPerformanceCounter,
 	_RaiseFailFastException,
 	_ResumeThread,
@@ -127,16 +129,6 @@ var (
 	_WriteFile,
 	_ stdFunction
 
-	// Use RtlGenRandom to generate cryptographically random data.
-	// This approach has been recommended by Microsoft (see issue
-	// 15589 for details).
-	// The RtlGenRandom is not listed in advapi32.dll, instead
-	// RtlGenRandom function can be found by searching for SystemFunction036.
-	// Also some versions of Mingw cannot link to SystemFunction036
-	// when building executable as Cgo. So load SystemFunction036
-	// manually during runtime startup.
-	_RtlGenRandom stdFunction
-
 	// Load ntdll.dll manually during startup, otherwise Mingw
 	// links wrong printf function to cgo executable (see issue
 	// 12030 for details).
@@ -151,7 +143,6 @@ var (
 )
 
 var (
-	advapi32dll = [...]uint16{'a', 'd', 'v', 'a', 'p', 'i', '3', '2', '.', 'd', 'l', 'l', 0}
 	ntdlldll    = [...]uint16{'n', 't', 'd', 'l', 'l', '.', 'd', 'l', 'l', 0}
 	powrprofdll = [...]uint16{'p', 'o', 'w', 'r', 'p', 'r', 'o', 'f', '.', 'd', 'l', 'l', 0}
 	winmmdll    = [...]uint16{'w', 'i', 'n', 'm', 'm', '.', 'd', 'l', 'l', 0}
@@ -251,12 +242,6 @@ func windowsLoadSystemLib(name []uint16) uintptr {
 }
 
 func loadOptionalSyscalls() {
-	a32 := windowsLoadSystemLib(advapi32dll[:])
-	if a32 == 0 {
-		throw("advapi32.dll not found")
-	}
-	_RtlGenRandom = windowsFindfunc(a32, []byte("SystemFunction036\000"))
-
 	n32 := windowsLoadSystemLib(ntdlldll[:])
 	if n32 == 0 {
 		throw("ntdll.dll not found")
@@ -528,7 +513,7 @@ func osinit() {
 //go:nosplit
 func getRandomData(r []byte) {
 	n := 0
-	if stdcall2(_RtlGenRandom, uintptr(unsafe.Pointer(&r[0])), uintptr(len(r)))&0xff != 0 {
+	if stdcall2(_ProcessPrng, uintptr(unsafe.Pointer(&r[0])), uintptr(len(r)))&0xff != 0 {
 		n = len(r)
 	}
 	extendRandom(r, n)
