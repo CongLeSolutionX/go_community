@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0e87bd1_9d75c42b",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-18T13:41:13Z",
+      "side": 1,
+      "message": "This method and the checkRaces method could use comments explaining the strategy.",
+      "revId": "7332222e14635202fb3805bf6345ab4c65130c6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
