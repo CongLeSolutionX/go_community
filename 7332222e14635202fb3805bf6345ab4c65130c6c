@@ -16,6 +16,23 @@
       "message": "This method and the checkRaces method could use comments explaining the strategy.",
       "revId": "7332222e14635202fb3805bf6345ab4c65130c6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "819e51d2_4ba6c116",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-18T13:47:40Z",
+      "side": 1,
+      "message": "As far as I can see every caller ignores the error result.  Perhaps just log the error result if not-nil, and don\u0027t return it.",
+      "revId": "7332222e14635202fb3805bf6345ab4c65130c6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
