@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c31bec21_cb347177",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Thanks for the research! I agree, this seems like the right way to go, at least for now.",
+      "parentUuid": "8b2e0ced_b91d6890",
+      "revId": "399d200c57f4f6b4407f55899d0d1bdacf66e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "861d2afe_b7da71bd",

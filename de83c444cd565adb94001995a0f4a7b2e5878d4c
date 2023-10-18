@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88288a6a_819bc230",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "In that case, returning `fs.ErrInvalid` seems like a reasonable choice to me. WDYT?",
+      "parentUuid": "f07c5fd6_26e20eec",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 86
+      },
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a75c06fb_45b4c07a",
         "filename": "src/io/fs/symlink_test.go",
         "patchSetId": 6
@@ -54,6 +78,24 @@
       "writtenOn": "2023-10-12T15:52:44Z",
       "side": 1,
       "message": "Please also test the behavior of `WalkDir` for paths containing symlinks (see  `filepath.TestWalkSymlink` and `filepath.TestWalkSymlinkRoot` for comparison).\n\nNotably, for consistently with `filepath.WalkDir`:\n- `WalkDir` on a root directory that is a symlink _without a trailing slash_ should yield only that symlink, I think?\n- `WalkDir` on a root directory that is a symlink _with a trailing slash_ should yield the contents of the symlink target, which must refer to a directory.\n- `WalkDir` on a directory containing a symlink should yield that symlink as a directory entry, but should not recurse into it.",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8958064_5e6c6383",
+        "filename": "src/io/fs/symlink_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Added a test that walks a root directory that is a symlink and contains symlinks to another directory.\n\nFrom the `io/fs.WalkDir` documentation:\n\n\u003e WalkDir does not follow symbolic links found in directories, but if root itself is a symbolic link, its target will be walked.\n\nAnd trailing slashes are not a valid FS path (as noted in my other comments).",
+      "parentUuid": "a75c06fb_45b4c07a",
       "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -77,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d31f2670_19ce7670",
+        "filename": "src/os/file_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Hm, but in `io/fs`, paths with a trailing slash are not valid (according to `io/fs.ValidPath`). I would expect `Lstat(\"dirlink/\")` to unconditionally return an error. Or am I misunderstanding?",
+      "parentUuid": "53eb1fdc_7b3530c8",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f01594c9_40bf97b9",
         "filename": "src/testing/fstest/mapfs.go",
         "patchSetId": 6
@@ -88,6 +148,24 @@
       "writtenOn": "2023-10-12T15:52:44Z",
       "side": 1,
       "message": "(nit, https://go.dev/wiki/CodeReviewComments#in-band-errors)\n\nPlease return an explicit error or boolean instead of using the empty string as a sentinel.",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb673c2e_5dd0bed1",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f01594c9_40bf97b9",
       "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -105,6 +183,30 @@
       "writtenOn": "2023-10-12T15:52:44Z",
       "side": 1,
       "message": "(nit) “without following any symbolic links” is a little misleading, because symbolic links before the final path element must still be traversed.\n\nPerhaps use the same phrasing as for `os.Lstat`? “If the file is a symbolic link, the returned FileInfo describes the symbolic link. Lstat makes no attempt to follow the link.”",
+      "range": {
+        "startLine": 166,
+        "startChar": 48,
+        "endLine": 166,
+        "endChar": 84
+      },
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddce0807_0c0e844e",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67da805b_9ca8a503",
       "range": {
         "startLine": 166,
         "startChar": 48,
@@ -134,6 +236,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "471deb80_713f0389",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Same question about trailing slashes as the others.",
+      "parentUuid": "5e688d5e_21ca0d06",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3b57c94_d5a1340b",
         "filename": "src/testing/fstest/mapfs_test.go",
         "patchSetId": 6
@@ -145,6 +265,24 @@
       "writtenOn": "2023-10-12T15:52:44Z",
       "side": 1,
       "message": "Please also add a test case for a symlink whose target is itself a symlink (to rule out a bug analogous to the macOS platform bug described in #59586).",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "473e543c_6fec30e6",
+        "filename": "src/testing/fstest/mapfs_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3b57c94_d5a1340b",
       "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -162,6 +300,24 @@
       "writtenOn": "2023-10-12T15:52:44Z",
       "side": 1,
       "message": "Please also verify that `Lstat(m, \"dirlink/\")` is consistent with `Stat(m, \"dirlink\")` (as opposed to `Lstat(m, \"dirlink\")`).\n\n(To rule out a bug analogous to the Windows bug in `os.Lstat` fixed in CL 463177.)",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e043e41_2b02b278",
+        "filename": "src/testing/fstest/mapfs_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-10-18T15:58:59Z",
+      "side": 1,
+      "message": "Hm, but in `io/fs`, paths with a trailing slash are not valid (according to `io/fs.ValidPath`). I would expect `Lstat(m, \"dirlink/\")` to unconditionally return an error. Or am I misunderstanding?",
+      "parentUuid": "b5d617e5_2249f55e",
       "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
