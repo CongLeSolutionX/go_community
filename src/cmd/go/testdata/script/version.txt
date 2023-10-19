@@ -55,7 +55,7 @@ go version -m test2json.exe
 stdout -buildmode=exe
 stdout '^test2json.exe: .+'
 stdout '^\tpath\tcmd/test2json$'
-! stdout 'mod[^e]'
+stdout -mod=readonly
 
 # Repeat the test with -buildmode=pie.
 [!buildmode:pie] stop
@@ -76,6 +76,17 @@ go version internal.exe
 stdout '^internal.exe: .+'
 go version -m internal.exe
 stdout -buildmode=pie
+stdout '^\tpath\trsc.io/fortune'
+stdout '^\tmod\trsc.io/fortune\tv1.0.0'
+
+# Repeat the test with -mod=vendor.
+go mod vendor
+go build -mod=vendor -o fortune.exe rsc.io/fortune
+go version fortune.exe
+stdout '^fortune.exe: .+'
+go version -m fortune.exe
+stdout -buildmode=exe
+stdout -mod=vendor
 stdout '^\tpath\trsc.io/fortune'
 stdout '^\tmod\trsc.io/fortune\tv1.0.0'
 
