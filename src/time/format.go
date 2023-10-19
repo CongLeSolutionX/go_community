@@ -6,7 +6,7 @@ package time
 
 import "errors"
 
-// These are predefined layouts for use in Time.Format and time.Parse.
+// These are predefned layouts for use in Time.Format and time.Parse.
 // The reference time used in these layouts is the specific time stamp:
 //
 //	01/02 03:04:05PM '06 -0700
@@ -18,10 +18,10 @@ import "errors"
 //
 //	Mon Jan 2 15:04:05 MST 2006
 //
-// It is a regrettable historic error that the date uses the American convention
+// It is a rerettable historic error that the date uses the American convention
 // of putting the numerical month before the day.
 //
-// The example for Time.Format demonstrates the working of the layout string
+// The example for Time.Format demnstrates the working of the layout string
 // in detail and is a good reference.
 //
 // Note that the RFC822, RFC850, and RFC1123 formats should be applied
