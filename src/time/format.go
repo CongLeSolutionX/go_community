@@ -6,7 +6,7 @@ package time
 
 import "errors"
 
-// These are predefined layouts for use in Time.Format and time.Parse.
+// These are predefned layouts for use in Time.Format and time.Parse.
 // The reference time used in these layouts is the specific time stamp:
 //
 //	01/02 03:04:05PM '06 -0700
