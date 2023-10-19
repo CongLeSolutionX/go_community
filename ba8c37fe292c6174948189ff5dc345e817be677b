@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d5ee4b6_468edaaa",
+        "filename": "src/math/rand/v2/pcg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-10-19T19:26:13Z",
+      "side": 1,
+      "message": "This is a direct copy of binary.bigEndian.PutUint64, and I\u0027d rather not change it. The compiler also recognizes and optimizes this body. I don\u0027t know which changes would break the recognition.",
+      "parentUuid": "53aed5b2_7ec9192a",
+      "revId": "ba8c37fe292c6174948189ff5dc345e817be677b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d241293_e58d84e6",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-13T03:15:10Z",
       "side": 1,
       "message": "multiplier",
+      "revId": "ba8c37fe292c6174948189ff5dc345e817be677b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83efd8b5_1f79bbb5",
+        "filename": "src/math/rand/v2/pcg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-10-19T19:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d241293_e58d84e6",
       "revId": "ba8c37fe292c6174948189ff5dc345e817be677b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
