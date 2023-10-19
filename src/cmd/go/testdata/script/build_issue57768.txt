@@ -1,0 +1,4 @@
+[short] skip
+
+! go build -mod=mod -o xyz.exe github.com/some/go/tool
+stderr 'cannot find module providing package github.com/some/go/tool'
