@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b86a8aa_2eb79b05",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-19T12:50:11Z",
+      "side": 1,
+      "message": "Oops, I just forgot to delete Builder.mkdirCache. Nothing was using it. Deleted.",
+      "parentUuid": "69716693_86956e2c",
+      "revId": "f862ed143cbab72eec41d760787cd7ec1f8c4345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a2a5079_c7f6d0b1",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-19T04:27:15Z",
       "side": 1,
       "message": "I wonder what should happen with the `scriptDir` here — should the new Shell inherit the previous directory?\n\n(A code comment would probably be helpful either way.)",
+      "revId": "f862ed143cbab72eec41d760787cd7ec1f8c4345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c904ddc3_3cc98f43",
+        "filename": "src/cmd/go/internal/work/shell.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-19T12:50:11Z",
+      "side": 1,
+      "message": "Thank you for making me dig into this. 😄\n\nIt turns out we never called WithPrint except right after calling NewShell, so all of this was unnecessary complexity. I\u0027ve folded the print function into NewShell and now there\u0027s no way to change it in inherited shells. That also eliminates the question about scriptDir because there\u0027s only a single output stream, so it\u0027s always shared.",
+      "parentUuid": "6a2a5079_c7f6d0b1",
       "revId": "f862ed143cbab72eec41d760787cd7ec1f8c4345",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
