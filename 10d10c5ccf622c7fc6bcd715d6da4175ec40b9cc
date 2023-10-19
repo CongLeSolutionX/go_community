@@ -16,6 +16,24 @@
       "message": "Hmm. This is slightly racy, is that if two `Mkdir` calls happen concurrently, it is possible for the second one to observe the map entry and return before the first has actually created the directory.\n\nTo work around that, one option is to store a channel instead of a boolean, close the channel when the first `Mkdir` for the directory completes, and on all subsequent calls block until the channel is closed.",
       "revId": "10d10c5ccf622c7fc6bcd715d6da4175ec40b9cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b170826_bb1c3dbc",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2537,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-19T17:58:33Z",
+      "side": 1,
+      "message": "Switched to a map of sync.Once\u0027s. PTAL.",
+      "parentUuid": "791ab8f7_d7d06485",
+      "revId": "10d10c5ccf622c7fc6bcd715d6da4175ec40b9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
