@@ -16,6 +16,24 @@
       "message": "The patch is ready for review.\n\nHowever, rendering is not clean because cmd/doc doesn\u0027t expand links everywhere: see #54033 and #59728.",
       "revId": "04c2bac5e56b9117d6231dc8683a53017c8c7dba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfb8767_71c797d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-19T16:53:24Z",
+      "side": 1,
+      "message": "Rebased after merge of CL 535078.",
+      "parentUuid": "52c5a029_48d079ca",
+      "revId": "04c2bac5e56b9117d6231dc8683a53017c8c7dba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
