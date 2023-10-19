@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a581b0cf_50909e04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50543
+      },
+      "writtenOn": "2023-10-19T16:24:59Z",
+      "side": 1,
+      "message": "The build is getting stuck at building bootstrap\n\nmamazur@pc:~/go-source/src$ ./all.bash\nBuilding Go cmd/dist using /snap/go/10389. (go1.21.3 linux/amd64)\nBuilding Go toolchain1 using /snap/go/10389.\nBuilding Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.\n\nIt\u0027s been like that over 22 hours.",
+      "revId": "f52dd4f2615a0b0ae6ce7ad9c8e79479cd3cd2ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
