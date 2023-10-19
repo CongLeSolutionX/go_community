@@ -1726,7 +1726,7 @@ func (ld *loader) preloadRootModules(ctx context.Context, rootPkgs []string) (ch
 			m, _, _, _, err := importFromModules(ctx, path, ld.requirements, nil, ld.skipImportModFiles)
 			if err != nil {
 				var missing *ImportMissingError
-				if errors.As(err, &missing) && ld.ResolveMissingImports {
+				if errors.As(err, &missing) && ld.ResolveMissingImports && (HasModRoot() || allowMissingModuleImports) {
 					// This package isn't provided by any selected module.
 					// If we can find it, it will be a new root dependency.
 					m, err = queryImport(ctx, path, ld.requirements)
