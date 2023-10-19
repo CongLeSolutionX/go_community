@@ -101,6 +101,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36771c7c_6fb9a9ed",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-10-19T17:47:56Z",
+      "side": 1,
+      "message": "Sent go.dev/cl/536536 to consolidate everything in shell.go.",
+      "parentUuid": "c745da8f_71ab390c",
+      "revId": "be0187e085d3a568895fdf70a389fb4988cae992",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fdb0c7a_05658338",
