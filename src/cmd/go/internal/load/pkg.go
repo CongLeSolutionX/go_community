@@ -2378,6 +2378,7 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 	}
 	appendSetting("-buildmode", buildmode)
 	appendSetting("-compiler", cfg.BuildContext.Compiler)
+	appendSetting("-mod", cfg.BuildMod)
 	if gccgoflags := BuildGccgoflags.String(); gccgoflags != "" && cfg.BuildContext.Compiler == "gccgo" {
 		appendSetting("-gccgoflags", gccgoflags)
 	}
