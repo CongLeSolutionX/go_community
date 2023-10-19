@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9bfa300_018e1013",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2406,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-19T14:28:19Z",
+      "side": 1,
+      "message": "The comments / structure in `shellShared` seem to imply that the caller must acqure `printLock` before calling `fmtCmd`. Maybe rename it to `fmtCmdLocked` and add locking here?",
+      "revId": "994c0772e5d07ed3226f0976fd7ecf7326e102ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "934c062f_968e7139",
         "filename": "src/cmd/go/internal/work/shell.go",
         "patchSetId": 4
