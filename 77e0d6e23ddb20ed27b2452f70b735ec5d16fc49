@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08822baf_71c7396d",
+        "filename": "src/cmd/go/testdata/script/vendor_outside_module.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-10-19T05:16:23Z",
+      "side": 0,
+      "message": "I dont think you can do this. You need to incorporate this fix in https://go-review.googlesource.com/c/go/+/536416, since that CL introduces new behavior causes this test failed.",
+      "revId": "77e0d6e23ddb20ed27b2452f70b735ec5d16fc49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
