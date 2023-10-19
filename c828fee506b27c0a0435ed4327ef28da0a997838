@@ -52,6 +52,24 @@
       "parentUuid": "0cc48e50_43328046",
       "revId": "c828fee506b27c0a0435ed4327ef28da0a997838",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "458cc1ff_836d9b15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-10-19T14:53:32Z",
+      "side": 1,
+      "message": "I suppose the comment is somewhat misleading. When it says \"idle M\", it means \"M that could be running Go code but has no need to\" which translates to the number of idle Ps. Feel free to update the comment to say \"spinning Ms/idle Ps\".",
+      "parentUuid": "d10d707a_f2b1eeba",
+      "revId": "c828fee506b27c0a0435ed4327ef28da0a997838",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
