@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69716693_86956e2c",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-19T04:27:15Z",
+      "side": 1,
+      "message": "Something seems off here — the Builder\u0027s `mkdirCache` doesn\u0027t seem to be connected to its Shell\u0027s `shellCaches`.",
+      "revId": "f862ed143cbab72eec41d760787cd7ec1f8c4345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2a5079_c7f6d0b1",
+        "filename": "src/cmd/go/internal/work/shell.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-19T04:27:15Z",
+      "side": 1,
+      "message": "I wonder what should happen with the `scriptDir` here — should the new Shell inherit the previous directory?\n\n(A code comment would probably be helpful either way.)",
+      "revId": "f862ed143cbab72eec41d760787cd7ec1f8c4345",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
