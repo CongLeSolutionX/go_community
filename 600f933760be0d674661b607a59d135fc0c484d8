@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24f6368b_8c3daac4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-19T15:58:24Z",
+      "side": 1,
+      "message": "I have removed all links that expected #54033 #59728 to be fixed.\n\nThe patch is ready to be applied for clean display with current godoc.",
+      "parentUuid": "2cff31d9_566fc402",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95a4cd31_5366956a",
