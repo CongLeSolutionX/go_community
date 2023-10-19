@@ -172,6 +172,11 @@ go build -n fmt
 # 'go build' should use the latest version of the Go language.
 go build ./newgo/newgo.go
 
+# 'go build' of a main package path should not resolve a module for that path,
+# even if -mod=mod is set.
+! go build -mod=mod -o printversion.exe example.com/printversion
+stderr '^cannot find module providing package example.com/printversion$'
+
 # 'go doc' without arguments implicitly operates on the current directory, and should fail.
 # TODO(golang.org/issue/32027): currently, it succeeds.
 cd needmod
