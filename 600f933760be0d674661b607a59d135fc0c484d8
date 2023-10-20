@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b32cf4fd_289ab460",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-20T00:37:37Z",
+      "side": 1,
+      "message": "Well, links to interface methods in the same package don\u0027t work. So I took your modified text, but removed some links.",
+      "parentUuid": "5c00b414_3d1b5e6a",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2bb4130_42b4e8eb",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 2
