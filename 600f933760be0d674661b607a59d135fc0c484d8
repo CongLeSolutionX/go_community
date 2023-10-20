@@ -160,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03cf50a3_89afbed3",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-10-20T00:52:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b32cf4fd_289ab460",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2bb4130_42b4e8eb",
