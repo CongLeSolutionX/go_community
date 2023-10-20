@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b0b8be7_6ac6e470",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-20T00:25:11Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "ca6873fe_c88d8559",
+      "revId": "f54dca275e19906a684ed0921fb51ad3519a1f02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1a7727c_c155486a",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "I\u0027m fixing those.\n\nNote however that an IDE should be able to display internal documentation as well as public documentation. In that context, doc links in internal doc would be useful.",
       "parentUuid": "a1a7727c_c155486a",
+      "revId": "f54dca275e19906a684ed0921fb51ad3519a1f02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56fa1e0e_f7cb4339",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-20T00:25:11Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "1b86cb56_2d43e14f",
       "revId": "f54dca275e19906a684ed0921fb51ad3519a1f02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
