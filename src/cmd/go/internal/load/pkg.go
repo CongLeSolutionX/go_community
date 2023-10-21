@@ -2370,10 +2370,9 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 	}
 	buildmode := cfg.BuildBuildmode
 	if buildmode == "default" {
-		if p.Name == "main" {
-			buildmode = "exe"
-		} else {
-			buildmode = "archive"
+		buildmode = "exe"
+		if platform.DefaultPIE(cfg.Goos, cfg.Goarch, cfg.BuildRace) {
+			buildmode = "pie"
 		}
 	}
 	appendSetting("-buildmode", buildmode)

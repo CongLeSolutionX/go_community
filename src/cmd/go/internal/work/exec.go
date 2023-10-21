@@ -1344,7 +1344,7 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
 
 	// Toolchain-independent configuration.
 	fmt.Fprintf(h, "link\n")
-	fmt.Fprintf(h, "buildmode %s goos %s goarch %s\n", cfg.BuildBuildmode, cfg.Goos, cfg.Goarch)
+	fmt.Fprintf(h, "buildmode %s goos %s goarch %s\n", ldBuildmode, cfg.Goos, cfg.Goarch)
 	fmt.Fprintf(h, "import %q\n", p.ImportPath)
 	fmt.Fprintf(h, "omitdebug %v standard %v local %v prefix %q\n", p.Internal.OmitDebug, p.Standard, p.Internal.Local, p.Internal.LocalPrefix)
 	if cfg.BuildTrimpath {

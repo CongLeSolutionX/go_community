@@ -231,10 +231,16 @@ func buildModeInit() {
 	case "default":
 		ldBuildmode = "exe"
 		if platform.DefaultPIE(cfg.Goos, cfg.Goarch, cfg.BuildRace) {
-			ldBuildmode = "pie"
-			if cfg.Goos != "windows" && !gccgo {
-				codegenArg = "-shared"
+			if gccgo {
+				codegenArg = "-fPIE"
+			} else {
+				switch cfg.Goos {
+				case "aix", "windows":
+				default:
+					codegenArg = "-shared"
+				}
 			}
+			ldBuildmode = "pie"
 		}
 	case "exe":
 		pkgsFilter = pkgsMain

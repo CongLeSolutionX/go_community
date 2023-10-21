@@ -6,9 +6,11 @@ package test
 
 import (
 	"bytes"
+	"internal/platform"
 	"internal/testenv"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"testing"
 )
 
@@ -59,6 +61,16 @@ func TestReproducibleBuilds(t *testing.T) {
 	}
 }
 
+func readBytes(t *testing.T, fn string) []byte {
+	t.Helper()
+
+	payload, err := os.ReadFile(fn)
+	if err != nil {
+		t.Fatalf("failed to read executable '%s': %v", fn, err)
+	}
+	return payload
+}
+
 func TestIssue38068(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	t.Parallel()
@@ -90,17 +102,62 @@ func TestIssue38068(t *testing.T) {
 		}
 	}
 
-	readBytes := func(fn string) []byte {
-		payload, err := os.ReadFile(fn)
-		if err != nil {
-			t.Fatalf("failed to read executable '%s': %v", fn, err)
-		}
-		return payload
-	}
-
-	b1 := readBytes(scenarios[0].libpath)
-	b2 := readBytes(scenarios[1].libpath)
+	b1 := readBytes(t, scenarios[0].libpath)
+	b2 := readBytes(t, scenarios[1].libpath)
 	if !bytes.Equal(b1, b2) {
 		t.Fatalf("concurrent and serial builds produced different output")
+	}
+}
+
+func TestIssue63559(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	t.Parallel()
+
+	goos := os.Getenv("GOOS")
+	goarch := os.Getenv("GOARCH")
+
+	bi, ok := debug.ReadBuildInfo()
+	if !ok {
+		t.Fatal("could not read build info")
+	}
+
+	var withRace bool
+	for _, s := range bi.Settings {
+		if s.Key == "-race" {
+			withRace = true
+		}
+	}
+
+	explicitBuildMode := "exe"
+	if platform.DefaultPIE(goos, goarch, withRace) {
+		explicitBuildMode = "pie"
+	}
+
+	// Compile a small program with and without a default buildmode
+	// and check to make sure the resulting binaries are identical.
+	scenarios := []struct {
+		buildMode string
+		binPath   string
+	}{
+		{buildMode: "default"},
+		{buildMode: explicitBuildMode},
+	}
+
+	tempDir := t.TempDir()
+	src := filepath.Join("testdata", "reproducible", "issue63559.go")
+	for i := range scenarios {
+		s := &scenarios[i]
+		s.binPath = filepath.Join(tempDir, s.buildMode+".out")
+		cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-buildmode", s.buildMode, "-o", s.binPath, src)
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
+		}
+	}
+
+	b1 := readBytes(t, scenarios[0].binPath)
+	b2 := readBytes(t, scenarios[1].binPath)
+	if !bytes.Equal(b1, b2) {
+		t.Fatalf("builds produced different output")
 	}
 }
