@@ -130,6 +130,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff432d69_8865e9ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-10-21T00:06:44Z",
+      "side": 1,
+      "message": "Well, in that case, I\u0027ll update those files manually.",
+      "parentUuid": "d6fc7f43_39bc2585",
+      "revId": "dd1185ceb8f4a4f88bb8dec0d9a99414956be9e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1efb0ee_eb6bf031",
         "filename": "src/runtime/netpoll_kqueue.go",
         "patchSetId": 1
@@ -141,6 +159,24 @@
       "writtenOn": "2023-10-03T17:07:47Z",
       "side": 1,
       "message": "Please keep the bug reference, but I\u0027m not sure we need a TODO. A spurious ETIMEDOUT doesn\u0027t seem particularly problematic.",
+      "revId": "dd1185ceb8f4a4f88bb8dec0d9a99414956be9e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5216484a_6fd25b1e",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-10-21T00:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1efb0ee_eb6bf031",
       "revId": "dd1185ceb8f4a4f88bb8dec0d9a99414956be9e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
