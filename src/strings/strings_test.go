@@ -306,6 +306,30 @@ func TestIndexRune(t *testing.T) {
 		{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", -1, -1},
 		{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", 0xD800, -1}, // Surrogate pair
 		{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", utf8.MaxRune + 1, -1},
+
+		// 2 bytes
+		{"ß", 'ß', 0},
+		{"a", 'ß', -1},
+		{"  ß  ", 'ß', 2},
+		{"  a  ", 'ß', -1},
+		{Repeat("ğ", 16) + "ß", 'ß', 32}, // test cutover
+		{Repeat("ğ", 16), 'ß', -1},
+
+		// 3 bytes
+		{"世", '世', 0},
+		{"a", '世', -1},
+		{"  世  ", '世', 2},
+		{"  a  ", '世', -1},
+		{Repeat("丗", 16) + "世", '世', 48}, // test cutoverQ
+		{Repeat("丗", 16), '世', -1},
+
+		// 4 bytes
+		{"𐀀", '𐀀', 0},
+		{"a", '𐀀', -1},
+		{"  𐀀  ", '𐀀', 2},
+		{"  a  ", '𐀀', -1},
+		{Repeat("𐀁", 8) + "𐀀", '𐀀', 32}, // test cutover
+		{Repeat("𐀁", 8), '𐀀', -1},
 	}
 	for _, tt := range tests {
 		if got := IndexRune(tt.in, tt.rune); got != tt.want {
@@ -336,6 +360,49 @@ func BenchmarkIndexRune(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		IndexRune(benchmarkString, '☺')
 	}
+}
+
+func BenchmarkIndexRuneShort(b *testing.B) {
+	if got := IndexRune(benchmarkString, '☺'); got != 14 {
+		b.Fatalf("wrong index: expected 14, got=%d", got)
+	}
+	for i := 0; i < b.N; i++ {
+		IndexRune(benchmarkString, '☺')
+	}
+}
+
+func BenchmarkIndexRuneUnicode(b *testing.B) {
+	const str = benchmarkString + "αβδ"
+	for i := 0; i < b.N; i++ {
+		IndexRune(str, 'β')
+	}
+}
+
+func BenchmarkIndexRuneCutover(b *testing.B) {
+	// First and second bytes match. This will trigger the cutover.
+	if "丝"[:2] != "丞"[:2] {
+		b.Fatal("WAT")
+	}
+	str := Repeat("丝", 48) + "丞"
+	if got := IndexRune(str, '丞'); got != 144 {
+		b.Fatalf("wrong index: expected 14, got=%d", got)
+	}
+	for i := 0; i < b.N; i++ {
+		IndexRune(str, '丞')
+	}
+}
+
+func BenchmarkIndexRuneOneCodePoint(b *testing.B) {
+	b.Run("Match", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			IndexRune("β", 'β')
+		}
+	})
+	b.Run("NoMatch", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			IndexRune("a", 'β')
+		}
+	})
 }
 
 var benchmarkLongString = Repeat(" ", 100) + benchmarkString
