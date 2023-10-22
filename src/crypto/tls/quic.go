@@ -49,6 +49,13 @@ type QUICConn struct {
 // A QUICConfig configures a QUICConn.
 type QUICConfig struct {
 	TLSConfig *Config
+
+	// EnableStoreSessionEvent may be set to true to enable the
+	// [QUICStoreSession] event for client connections.
+	// When this event is enabled, sessions are not automatically
+	// stored in the client session cache.
+	// The application should use [QUICConn.StoreSession] to store sessions.
+	EnableStoreSessionEvent bool
 }
 
 // A QUICEventKind is a type of operation on a QUIC connection.
@@ -84,13 +91,34 @@ const (
 	// connection will never generate a QUICTransportParametersRequired event.
 	QUICTransportParametersRequired
 
+	// QUICAttemptEarlyData indicates that a client is attempting to resume
+	// a previous session using early data.
+	// QUICEvent.SessionState is set.
+	//
+	// For client connections, this event occurs when the session ticket is selected.
+	// If the server rejects early data, a QUICRejectedEarlyData event will follow.
+	//
+	// For server connections, this event occurs when receiving the client's session ticket.
+	// The server may reject early data by calling [QUICConn.RejectEarlyData] before
+	// the next call to [QUICConn.NextEvent].
+	QUICAttemptEarlyData
+
 	// QUICRejectedEarlyData indicates that the server rejected 0-RTT data even
 	// if we offered it. It's returned before QUICEncryptionLevelApplication
 	// keys are returned.
+	// This event only occurs on client connections.
 	QUICRejectedEarlyData
 
 	// QUICHandshakeDone indicates that the TLS handshake has completed.
 	QUICHandshakeDone
+
+	// QUICStoreSession indicates that the server has provided state permitting
+	// the client to resume the session.
+	// QUICEvent.SessionState is set.
+	// The application should use QUICConn.Store session to store the SessionState.
+	// The application may modify the SessionState before storing it.
+	// This event only occurs on client connections.
+	QUICStoreSession
 )
 
 // A QUICEvent is an event occurring on a QUIC connection.
@@ -109,6 +137,9 @@ type QUICEvent struct {
 
 	// Set for QUICSetReadSecret and QUICSetWriteSecret.
 	Suite uint16
+
+	// Set for QUICAttemptEarlyData, QUICResumeSession, and QUICStoreSession.
+	SessionState *SessionState
 }
 
 type quicState struct {
@@ -133,14 +164,26 @@ type quicState struct {
 	readbuf []byte
 
 	transportParams []byte // to send to the peer
+
+	enableStoreSessionEvent bool
+	sessionResumptionState  quicSessionResumptionState
 }
+
+type quicSessionResumptionState uint8
+
+const (
+	quicSessionNotResuming = quicSessionResumptionState(iota)
+	quicSessionNeedDecision
+	quicSessionAccepted
+	quicSessionRejected
+)
 
 // QUICClient returns a new TLS client side connection using QUICTransport as the
 // underlying transport. The config cannot be nil.
 //
 // The config's MinVersion must be at least TLS 1.3.
 func QUICClient(config *QUICConfig) *QUICConn {
-	return newQUICConn(Client(nil, config.TLSConfig))
+	return newQUICConn(Client(nil, config.TLSConfig), config)
 }
 
 // QUICServer returns a new TLS server side connection using QUICTransport as the
@@ -148,13 +191,14 @@ func QUICClient(config *QUICConfig) *QUICConn {
 //
 // The config's MinVersion must be at least TLS 1.3.
 func QUICServer(config *QUICConfig) *QUICConn {
-	return newQUICConn(Server(nil, config.TLSConfig))
+	return newQUICConn(Server(nil, config.TLSConfig), config)
 }
 
-func newQUICConn(conn *Conn) *QUICConn {
+func newQUICConn(conn *Conn, config *QUICConfig) *QUICConn {
 	conn.quic = &quicState{
-		signalc:  make(chan struct{}),
-		blockedc: make(chan struct{}),
+		signalc:                 make(chan struct{}),
+		blockedc:                make(chan struct{}),
+		enableStoreSessionEvent: config.EnableStoreSessionEvent,
 	}
 	conn.quic.events = conn.quic.eventArr[:0]
 	return &QUICConn{
@@ -185,6 +229,9 @@ func (q *QUICConn) Start(ctx context.Context) error {
 // It returns an event with a Kind of QUICNoEvent when no events are available.
 func (q *QUICConn) NextEvent() QUICEvent {
 	qs := q.conn.quic
+	if qs.sessionResumptionState == quicSessionNeedDecision {
+		q.setResumptionState(quicSessionAccepted)
+	}
 	if last := qs.nextEvent - 1; last >= 0 && len(qs.events[last].Data) > 0 {
 		// Write over some of the previous event's data,
 		// to catch callers erroniously retaining it.
@@ -255,6 +302,7 @@ func (q *QUICConn) HandleData(level QUICEncryptionLevel, data []byte) error {
 type QUICSessionTicketOptions struct {
 	// EarlyData specifies whether the ticket may be used for 0-RTT.
 	EarlyData bool
+	Extra     [][]byte
 }
 
 // SendSessionTicket sends a session ticket to the client.
@@ -272,7 +320,37 @@ func (q *QUICConn) SendSessionTicket(opts QUICSessionTicketOptions) error {
 		return quicError(errors.New("tls: SendSessionTicket called multiple times"))
 	}
 	q.sessionTicketSent = true
-	return quicError(c.sendSessionTicket(opts.EarlyData))
+	return quicError(c.sendSessionTicket(opts.EarlyData, opts.Extra))
+}
+
+func (q *QUICConn) RejectEarlyData() error {
+	c := q.conn
+	if c.quic.sessionResumptionState != quicSessionNeedDecision {
+		return quicError(errors.New("tls: RejectSession called when session is not being resumed"))
+	}
+	q.setResumptionState(quicSessionRejected)
+	return nil
+}
+
+func (q *QUICConn) setResumptionState(state quicSessionResumptionState) {
+	c := q.conn
+	c.quic.sessionResumptionState = state
+	<-c.quic.signalc
+	<-c.quic.blockedc
+}
+
+func (q *QUICConn) StoreSession(session *SessionState) error {
+	c := q.conn
+	if !c.isClient {
+		return quicError(errors.New("tls: StoreSessionTicket called on the server"))
+	}
+	cacheKey := c.clientSessionCacheKey()
+	if cacheKey == "" {
+		return nil
+	}
+	cs := &ClientSessionState{session: session}
+	c.config.ClientSessionCache.Put(cacheKey, cs)
+	return nil
 }
 
 // ConnectionState returns basic TLS details about the connection.
@@ -354,6 +432,36 @@ func (c *Conn) quicWriteCryptoData(level QUICEncryptionLevel, data []byte) {
 		last = &c.quic.events[len(c.quic.events)-1]
 	}
 	last.Data = append(last.Data, data...)
+}
+
+func (c *Conn) quicAttemptEarlyData(session *SessionState) {
+	c.quic.events = append(c.quic.events, QUICEvent{
+		Kind:         QUICAttemptEarlyData,
+		SessionState: session,
+	})
+}
+
+func (c *Conn) quicTryAcceptEarlyData(session *SessionState) (ok bool, _ error) {
+	c.quic.events = append(c.quic.events, QUICEvent{
+		Kind:         QUICAttemptEarlyData,
+		SessionState: session,
+	})
+	c.quic.sessionResumptionState = quicSessionNeedDecision
+	for c.quic.sessionResumptionState == quicSessionNeedDecision {
+		if err := c.quicWaitForSignal(); err != nil {
+			return false, err
+		}
+	}
+	ok = c.quic.sessionResumptionState == quicSessionAccepted
+	c.quic.sessionResumptionState = quicSessionNotResuming
+	return ok, nil
+}
+
+func (c *Conn) quicStoreSession(session *SessionState) {
+	c.quic.events = append(c.quic.events, QUICEvent{
+		Kind:         QUICStoreSession,
+		SessionState: session,
+	})
 }
 
 func (c *Conn) quicSetTransportParameters(params []byte) {
