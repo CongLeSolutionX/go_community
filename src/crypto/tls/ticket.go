@@ -96,6 +96,7 @@ type SessionState struct {
 	// Client-side TLS 1.3-only fields.
 	useBy  uint64 // seconds since UNIX epoch
 	ageAdd uint32
+	ticket []byte
 }
 
 // Bytes encodes the session, including any private fields, so that it can be
@@ -396,7 +397,6 @@ func (c *Config) decryptTicket(encrypted []byte, ticketKeys []ticketKey) []byte 
 // ClientSessionState contains the state needed by a client to
 // resume a previous TLS session.
 type ClientSessionState struct {
-	ticket  []byte
 	session *SessionState
 }
 
@@ -406,7 +406,7 @@ type ClientSessionState struct {
 // It can be called by [ClientSessionCache.Put] to serialize (with
 // [SessionState.Bytes]) and store the session.
 func (cs *ClientSessionState) ResumptionState() (ticket []byte, state *SessionState, err error) {
-	return cs.ticket, cs.session, nil
+	return cs.session.ticket, cs.session, nil
 }
 
 // NewResumptionState returns a state value that can be returned by
@@ -416,6 +416,6 @@ func (cs *ClientSessionState) ResumptionState() (ticket []byte, state *SessionSt
 // state must have been returned by [ClientSessionState.ResumptionState].
 func NewResumptionState(ticket []byte, state *SessionState) (*ClientSessionState, error) {
 	return &ClientSessionState{
-		ticket: ticket, session: state,
+		session: state,
 	}, nil
 }
