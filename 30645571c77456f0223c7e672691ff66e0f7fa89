@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20217667_27b6f207",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-10-23T21:53:32Z",
+      "side": 1,
+      "message": "This CL LGTM, but I can\u0027t help but wonder if we should approach this from the other direction: have gcDrain always yield on `gp.preempt`, and rather than extra cases here, we adjust `retake` to avoid preempting GC mark workers.",
+      "revId": "30645571c77456f0223c7e672691ff66e0f7fa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
