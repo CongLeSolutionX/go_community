@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "034f80a8_d014ad58",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-23T16:16:14Z",
+      "side": 1,
+      "message": "I choose to preserve the exact text of the existing error in Error method. This could not be achieved with errors.Join because of the prefix.",
+      "parentUuid": "cb4328a1_779d7c90",
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4769c42f_0ebdbfa4",
         "filename": "src/testing/fstest/testfs_test.go",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-23T14:25:39Z",
       "side": 1,
       "message": "(nit) I don\u0027t think it\u0027s important to have this type assertion succeed — the user-facing property we want to provide is that `errors.Is` works properly, so testing only `errors.Is` should suffice.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 2
+      },
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee5e8481_f1493dbe",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-23T16:16:14Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4769c42f_0ebdbfa4",
       "range": {
         "startLine": 97,
         "startChar": 0,
@@ -54,6 +96,30 @@
       "writtenOn": "2023-10-23T14:25:39Z",
       "side": 1,
       "message": "Please omit this `t.Log` — it adds no new information, since the test log (in verbose mode) will already indicate that the test has passed.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 2
+      },
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf6dbc6b_8f5de248",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-23T16:16:14Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9aab21ab_63915ec6",
       "range": {
         "startLine": 103,
         "startChar": 0,
