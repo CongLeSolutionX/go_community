@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb4328a1_779d7c90",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-23T14:25:39Z",
+      "side": 1,
+      "message": "Instead of defining a new error type here, why not use `errors.Join` directly?\n\n```go\nreturn fmt.Errorf(\"TestFS found errors:\\n%w\", errors.Join(t.errors))\n```",
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4769c42f_0ebdbfa4",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-23T14:25:39Z",
+      "side": 1,
+      "message": "(nit) I don\u0027t think it\u0027s important to have this type assertion succeed — the user-facing property we want to provide is that `errors.Is` works properly, so testing only `errors.Is` should suffice.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 2
+      },
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aab21ab_63915ec6",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-23T14:25:39Z",
+      "side": 1,
+      "message": "Please omit this `t.Log` — it adds no new information, since the test log (in verbose mode) will already indicate that the test has passed.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 2
+      },
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
