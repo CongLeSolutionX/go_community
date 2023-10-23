@@ -129,6 +129,7 @@ func LookupMethodFunc(fullName string) (*ir.Func, error) {
 // (see writer.captureVars for an example).
 func unified(m posMap, noders []*noder) {
 	inline.InlineCall = unifiedInlineCall
+	inline.ImportFunc = importFunc
 	typecheck.HaveInlineBody = unifiedHaveInlineBody
 	pgo.LookupMethodFunc = LookupMethodFunc
 
