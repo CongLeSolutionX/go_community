@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "450004e7_558a1ace",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-10-23T16:19:30Z",
+      "side": 1,
+      "message": "An alternative would be to use:\n\n   fmt.Errorf(\"TestFS found errors:\\n%w\", errors.Join(t.errors))",
+      "parentUuid": "034f80a8_d014ad58",
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4769c42f_0ebdbfa4",
         "filename": "src/testing/fstest/testfs_test.go",
         "patchSetId": 1
