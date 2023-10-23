@@ -162,6 +162,12 @@ func InlineDecls(p *pgo.Profile, funcs []*ir.Func, doInline bool) {
 		pgoInlinePrologue(p, funcs)
 	}
 
+	for i := range typecheck.Target.Externs {
+		if n := typecheck.Target.Externs[i]; types.IsExported(n.Sym().Name) {
+			importFunc(n.Type())
+		}
+	}
+
 	doCanInline := func(n *ir.Func, recursive bool, numfns int) {
 		if !recursive || numfns > 1 {
 			// We allow inlining if there is no
@@ -961,6 +967,27 @@ var SSADumpInline = func(*ir.Func) {}
 var InlineCall = func(callerfn *ir.Func, call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCallExpr {
 	base.Fatalf("inline.InlineCall not overridden")
 	panic("unreachable")
+}
+
+// ImportFunc enables the import of methods corresponding to re-export types,
+// so that these methods can be exported later on writeUnifiedExport.
+var ImportFunc func(fn *ir.Func) = nil
+
+func importFunc(t *types.Type) {
+	if t == nil || t.Recur() {
+		return
+	}
+	t.SetRecur(true)
+	switch t.Kind() {
+	case types.TINTER:
+	case types.TPTR:
+		importFunc(t.Elem())
+	default:
+		for _, method := range t.Methods() {
+			ImportFunc(method.Nname.(*ir.Name).Func)
+		}
+	}
+	t.SetRecur(false)
 }
 
 // inlineCostOK returns true if call n from caller to callee is cheap enough to

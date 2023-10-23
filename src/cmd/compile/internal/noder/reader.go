@@ -3506,6 +3506,19 @@ func unifiedInlineCall(callerfn *ir.Func, call *ir.CallExpr, fn *ir.Func, inlInd
 	return res
 }
 
+func importFunc(fn *ir.Func) {
+	pri, ok := bodyReaderFor(fn)
+	if !ok {
+		return
+	}
+	if fn.Inl == nil {
+		return
+	}
+	if !fn.Inl.HaveDcl {
+		expandInline(fn, pri)
+	}
+}
+
 // inlReturn returns a statement that can substitute for the given
 // return statement when inlining.
 func (r *reader) inlReturn(ret *ir.ReturnStmt, retvars []*ir.Name) *ir.BlockStmt {
