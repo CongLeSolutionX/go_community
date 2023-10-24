@@ -1110,6 +1110,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c756c50_476fb915",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-24T01:47:35Z",
+      "side": 1,
+      "message": "Hi Cherry, I\u0027m working on this, but ran into some problems.\n1, The issue I posted on golang-dev https://groups.google.com/g/golang-dev/c/x6DGSSxHYBU/m/OtFoSD_xAQAJ\n\n2, These Go opcodes are started from `obj.ABaseARM64` + `obj.A_ARCHSPECIFIC`, two internal constants of the obj package, we can\u0027t access them from the x/arch repo, So I had to define some constants with the same value in x/arch. This is not a good practice and has the potential to be out of sync with `obj.ABaseARM64` and `obj.A_ARCHSPECIFIC`.\n\nYou mentioned that we\u0027d better not import code from x/arch in the assembler, but this will lead to some code duplication. If this is acceptable, then maybe we can generate different Go opcode table for disassembler and assembler, then the second issue is not a issue.",
+      "parentUuid": "a14b7038_f413c8ba",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "791202bd_a902d744",
