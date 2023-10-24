@@ -53,6 +53,24 @@
       "message": "This is a tinyalloc, so the finalizer may not run if other parts of the alloc are still alive. Use `new(*int)` to make it a normal alloc.",
       "revId": "b8991fdb76161def602ec2832d706a14d1d37eca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c13547_a6cb72df",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1425,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2023-10-24T22:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56f4409b_ca61d659",
+      "revId": "b8991fdb76161def602ec2832d706a14d1d37eca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
