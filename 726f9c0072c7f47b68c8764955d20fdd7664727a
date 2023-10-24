@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7862b35b_94274b75",
+        "filename": "src/runtime/internal/atomic/atomic_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-10-24T20:56:07Z",
+      "side": 1,
+      "message": "The pre-cas barriers already existed for mips and ppc64, they were not part of the fix to 63506. That said, maybe arm needs one? I\u0027m not entirely sure why we would need a barrier both on entry and on exit. Just one of the two should suffice?\n\nThis is very tricky code. I am unsure how we would convince ourselves of the correctness...",
+      "parentUuid": "3bb57a86_33943d6b",
+      "revId": "726f9c0072c7f47b68c8764955d20fdd7664727a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8f287d1_d676de85",
         "filename": "src/runtime/internal/atomic/atomic_arm.s",
         "patchSetId": 1
