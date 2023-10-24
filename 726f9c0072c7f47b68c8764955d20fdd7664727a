@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3bb57a86_33943d6b",
+        "filename": "src/runtime/internal/atomic/atomic_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-10-24T20:36:44Z",
+      "side": 1,
+      "message": "From what the ppc64 and mips patches did I thought it was needed, but maybe I\u0027m wrong. If we enter casl for the first time and it immediately branches to casfail, calling the barrier in casfail would have no effect. Did I misunderstand how this is supposed to work?",
+      "parentUuid": "3c52bb82_c07e54d7",
+      "revId": "726f9c0072c7f47b68c8764955d20fdd7664727a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8f287d1_d676de85",
         "filename": "src/runtime/internal/atomic/atomic_arm.s",
         "patchSetId": 1
