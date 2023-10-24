@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f9000e9_5f8c8ffd",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-24T16:33:57Z",
+      "side": 1,
+      "message": "Hmm. I\u0027m not sure! On the one hand, the multiple-error behavior is already documented. On the other hand, today the documentation would allow an implementation that only calls `Join` if there are multiple errors, and wraps a single error directly.\n\nOn the other hand, if we _sometimes_ return an error that unwraps to the multi-error interface, it seems more user-friendly not to force users to write a special case for when there is exactly one error.\n\nSo on balance I agree that a test using `errors.As` would be good. 👍",
+      "parentUuid": "ada96771_745c99d0",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 2
+      },
+      "revId": "5d87c6d7eaf73c9556246927d7db3e1acc8449d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9aab21ab_63915ec6",
         "filename": "src/testing/fstest/testfs_test.go",
         "patchSetId": 1
