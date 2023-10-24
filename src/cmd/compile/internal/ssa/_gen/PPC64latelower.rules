@@ -36,3 +36,15 @@
 
 // When PCRel is supported, paddi can add a 34b signed constant in one instruction.
 (ADD (MOVDconst [m]) x) && supportsPPC64PCRel() && (m<<30)>>30 == m => (ADDconst [m] x)
+
+
+// Where possible, combine CC opcodes. ANDCCconst is handled in the first lowering pass.
+// Only combine when the comparison and flag generator are in the same block (to minimize the chance of regenerating this op)
+// This is done in two steps in case the CC op has multiple users.
+// Note: ADDCCconst only assembles to 1 instruction for int16 constants.
+(CMPconst [0] z:((ADD|AND|ANDN|OR|SUB|NOR|XOR) x y)) && v.Block == z.Block => (CMPconst [0] convertPPC64OpToOpCC(z))
+(CMPconst [0] z:((NEG|CNTLZD) x)) && v.Block == z.Block => (CMPconst [0] convertPPC64OpToOpCC(z))
+(CMPconst [0] z:(ADDconst [c] x)) && int64(int16(c)) == c && v.Block == z.Block => (CMPconst [0] convertPPC64OpToOpCC(z))
+// And finally, fixup the flag user.
+(CMPconst <t> [0] (Select0 z:((ADD|AND|ANDN|OR|SUB|NOR|XOR)CC x y))) => (Select1 <t> z)
+(CMPconst <t> [0] (Select0 z:((ADDCCconst|NEGCC|CNTLZDCC) y))) => (Select1 <t> z)

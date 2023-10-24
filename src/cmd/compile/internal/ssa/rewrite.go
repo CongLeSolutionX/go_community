@@ -1621,6 +1621,28 @@ func mergePPC64SldiSrw(sld, srw int64) int64 {
 	return encodePPC64RotateMask((32-srw+sld)&31, int64(mask), 32)
 }
 
+// Convert a PPC64 opcode from the Op to OpCC form. This converts, inplace
+// (op x y) to (Select0 (opCC x y)) in place, as Op may have multiple users.
+func convertPPC64OpToOpCC(op *Value) *Value {
+	ccOpMap := map[Op]Op{OpPPC64ADD: OpPPC64ADDCC,
+		OpPPC64ADDconst: OpPPC64ADDCCconst,
+		OpPPC64AND:      OpPPC64ANDCC,
+		OpPPC64ANDN:     OpPPC64ANDNCC,
+		OpPPC64CNTLZD:   OpPPC64CNTLZDCC,
+		OpPPC64OR:       OpPPC64ORCC,
+		OpPPC64SUB:      OpPPC64SUBCC,
+		OpPPC64NEG:      OpPPC64NEGCC,
+		OpPPC64NOR:      OpPPC64NORCC,
+		OpPPC64XOR:      OpPPC64XORCC,
+	}
+	b := op.Block
+	opCC := b.NewValue0I(op.Pos, ccOpMap[op.Op], types.NewTuple(op.Type, types.TypeFlags), op.AuxInt)
+	opCC.AddArgs(op.Args...)
+	op.reset(OpSelect0)
+	op.AddArgs(opCC)
+	return op
+}
+
 // Convenience function to rotate a 32 bit constant value by another constant.
 func rotateLeft32(v, rotate int64) int64 {
 	return int64(bits.RotateLeft32(uint32(v), int(rotate)))
