@@ -6,6 +6,7 @@ package gc
 
 import (
 	"os"
+	"path/filepath"
 	"runtime"
 	"runtime/pprof"
 	tracepkg "runtime/trace"
@@ -28,7 +29,16 @@ func startProfile() {
 		if base.Flag.MemProfileRate != 0 {
 			runtime.MemProfileRate = base.Flag.MemProfileRate
 		}
-		f, err := os.Create(base.Flag.MemProfile)
+		var writeLegacyFormat = 1
+		fn := base.Flag.MemProfile
+		if fi, statErr := os.Stat(fn); statErr == nil && fi.IsDir() {
+			fn = filepath.Join(fn, base.Ctxt.Pkgpath+".mprof")
+			os.MkdirAll(filepath.Dir(fn), 0775)
+			writeLegacyFormat = 0
+		}
+
+		f, err := os.Create(fn)
+
 		if err != nil {
 			base.Fatalf("%v", err)
 		}
@@ -38,7 +48,6 @@ func startProfile() {
 			// compilebench parses the memory profile to extract memstats,
 			// which are only written in the legacy pprof format.
 			// See golang.org/issue/18641 and runtime/pprof/pprof.go:writeHeap.
-			const writeLegacyFormat = 1
 			if err := pprof.Lookup("heap").WriteTo(f, writeLegacyFormat); err != nil {
 				base.Fatalf("%v", err)
 			}
