@@ -176,14 +176,17 @@ func init() {
 		r6          = buildReg("R6")
 	)
 	ops := []opData{
-		{name: "ADD", argLength: 2, reg: gp21, asm: "ADD", commutative: true},        // arg0 + arg1
-		{name: "ADDconst", argLength: 1, reg: gp11, asm: "ADD", aux: "Int64"},        // arg0 + auxInt
-		{name: "FADD", argLength: 2, reg: fp21, asm: "FADD", commutative: true},      // arg0+arg1
-		{name: "FADDS", argLength: 2, reg: fp21, asm: "FADDS", commutative: true},    // arg0+arg1
-		{name: "SUB", argLength: 2, reg: gp21, asm: "SUB"},                           // arg0-arg1
-		{name: "SUBFCconst", argLength: 1, reg: gp11cxer, asm: "SUBC", aux: "Int64"}, // auxInt - arg0 (carry is ignored)
-		{name: "FSUB", argLength: 2, reg: fp21, asm: "FSUB"},                         // arg0-arg1
-		{name: "FSUBS", argLength: 2, reg: fp21, asm: "FSUBS"},                       // arg0-arg1
+		{name: "ADD", argLength: 2, reg: gp21, asm: "ADD", commutative: true},                                                  // arg0 + arg1
+		{name: "ADDCC", argLength: 2, reg: gp21, asm: "ADDCC", commutative: true, clobberFlags: true, typ: "(Int,Flags)"},      // arg0 + arg1
+		{name: "ADDconst", argLength: 1, reg: gp11, asm: "ADD", aux: "Int64"},                                                  // arg0 + auxInt
+		{name: "ADDCCconst", argLength: 1, reg: gp11cxer, asm: "ADDCCC", aux: "Int64", clobberFlags: true, typ: "(Int,Flags)"}, // arg0 + auxInt sets CC, clobbers XER
+		{name: "FADD", argLength: 2, reg: fp21, asm: "FADD", commutative: true},                                                // arg0+arg1
+		{name: "FADDS", argLength: 2, reg: fp21, asm: "FADDS", commutative: true},                                              // arg0+arg1
+		{name: "SUB", argLength: 2, reg: gp21, asm: "SUB"},                                                                     // arg0-arg1
+		{name: "SUBCC", argLength: 2, reg: gp21, asm: "SUBCC", clobberFlags: true, typ: "(Int,Flags)"},                         // arg0-arg1 sets CC
+		{name: "SUBFCconst", argLength: 1, reg: gp11cxer, asm: "SUBC", aux: "Int64"},                                           // auxInt - arg0 (carry is ignored)
+		{name: "FSUB", argLength: 2, reg: fp21, asm: "FSUB"},                                                                   // arg0-arg1
+		{name: "FSUBS", argLength: 2, reg: fp21, asm: "FSUBS"},                                                                 // arg0-arg1
 
 		{name: "MULLD", argLength: 2, reg: gp21, asm: "MULLD", typ: "Int64", commutative: true}, // arg0*arg1 (signed 64-bit)
 		{name: "MULLW", argLength: 2, reg: gp21, asm: "MULLW", typ: "Int32", commutative: true}, // arg0*arg1 (signed 32-bit)
@@ -245,8 +248,9 @@ func init() {
 		{name: "RLDICL", argLength: 1, reg: gp11, asm: "RLDICL", aux: "Int64"},                     // Auxint is encoded similarly to RLWINM, but only MB and SH are valid. ME is always 63.
 		{name: "RLDICR", argLength: 1, reg: gp11, asm: "RLDICR", aux: "Int64"},                     // Likewise, but only ME and SH are valid. MB is always 0.
 
-		{name: "CNTLZD", argLength: 1, reg: gp11, asm: "CNTLZD", clobberFlags: true}, // count leading zeros
-		{name: "CNTLZW", argLength: 1, reg: gp11, asm: "CNTLZW", clobberFlags: true}, // count leading zeros (32 bit)
+		{name: "CNTLZD", argLength: 1, reg: gp11, asm: "CNTLZD"},                                             // count leading zeros
+		{name: "CNTLZDCC", argLength: 1, reg: gp11, asm: "CNTLZDCC", clobberFlags: true, typ: "(Int,Flags)"}, // count leading zeros, sets CC
+		{name: "CNTLZW", argLength: 1, reg: gp11, asm: "CNTLZW"},                                             // count leading zeros (32 bit)
 
 		{name: "CNTTZD", argLength: 1, reg: gp11, asm: "CNTTZD"}, // count trailing zeros
 		{name: "CNTTZW", argLength: 1, reg: gp11, asm: "CNTTZW"}, // count trailing zeros (32 bit)
@@ -287,15 +291,18 @@ func init() {
 
 		{name: "AND", argLength: 2, reg: gp21, asm: "AND", commutative: true},                                               // arg0&arg1
 		{name: "ANDN", argLength: 2, reg: gp21, asm: "ANDN"},                                                                // arg0&^arg1
+		{name: "ANDNCC", argLength: 2, reg: gp21, asm: "ANDNCC", clobberFlags: true, typ: "(Int64,Flags)"},                  // arg0&^arg1 sets CC
 		{name: "ANDCC", argLength: 2, reg: gp21, asm: "ANDCC", commutative: true, clobberFlags: true, typ: "(Int64,Flags)"}, // arg0&arg1 sets CC
 		{name: "OR", argLength: 2, reg: gp21, asm: "OR", commutative: true},                                                 // arg0|arg1
 		{name: "ORN", argLength: 2, reg: gp21, asm: "ORN"},                                                                  // arg0|^arg1
 		{name: "ORCC", argLength: 2, reg: gp21, asm: "ORCC", commutative: true, clobberFlags: true, typ: "(Int,Flags)"},     // arg0|arg1 sets CC
 		{name: "NOR", argLength: 2, reg: gp21, asm: "NOR", commutative: true},                                               // ^(arg0|arg1)
+		{name: "NORCC", argLength: 2, reg: gp21, asm: "NORCC", commutative: true, clobberFlags: true, typ: "(Int,Flags)"},   // ^(arg0|arg1) sets CC
 		{name: "XOR", argLength: 2, reg: gp21, asm: "XOR", typ: "Int64", commutative: true},                                 // arg0^arg1
 		{name: "XORCC", argLength: 2, reg: gp21, asm: "XORCC", commutative: true, clobberFlags: true, typ: "(Int,Flags)"},   // arg0^arg1 sets CC
 		{name: "EQV", argLength: 2, reg: gp21, asm: "EQV", typ: "Int64", commutative: true},                                 // arg0^^arg1
 		{name: "NEG", argLength: 1, reg: gp11, asm: "NEG"},                                                                  // -arg0 (integer)
+		{name: "NEGCC", argLength: 1, reg: gp11, asm: "NEGCC", clobberFlags: true, typ: "(Int,Flags)"},                      // -arg0 (integer) sets CC
 		{name: "BRD", argLength: 1, reg: gp11, asm: "BRD"},                                                                  // reversebytes64(arg0)
 		{name: "BRW", argLength: 1, reg: gp11, asm: "BRW"},                                                                  // reversebytes32(arg0)
 		{name: "BRH", argLength: 1, reg: gp11, asm: "BRH"},                                                                  // reversebytes16(arg0)
