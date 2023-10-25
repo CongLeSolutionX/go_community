@@ -128,6 +128,24 @@
       "parentUuid": "16fe1082_3ff1dd49",
       "revId": "44be3f5450f2e560a0d51f092ca0eb014bfdd31c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b45a5eb_9ee7ca88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-10-25T19:21:40Z",
+      "side": 1,
+      "message": "Thanks, done - PTAL",
+      "parentUuid": "55b0d7bf_b9afa376",
+      "revId": "44be3f5450f2e560a0d51f092ca0eb014bfdd31c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
