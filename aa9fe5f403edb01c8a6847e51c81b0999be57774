@@ -1128,6 +1128,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46bc25b6_1ba4d4ce",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-25T01:41:13Z",
+      "side": 1,
+      "message": "Hi Cherry, I understand what you mean, you said \"a little copy is better than a little dependence\", but here there will be a lot of copy, including:\nfour generated files: `inst_gen.go, elem_gen.go, goops_gen.go, arm64ops_gen.go`\nfour \"go generated\" files: `a64type_string.go, anames.go, elmtype_string.go, oprtype_string.go`\n\nI prefer the method you mentioned, which makes objdump depend on assembler, so that we don\u0027t need to import golang.org/x/arch/arm64.\n\nThe new instruction table is absolutely suitable for disassembler, which was taken into account in the original design, and I have already implemented a large part of the decoding work. Thanks, I\u0027ll just do it this way.",
+      "parentUuid": "9c756c50_476fb915",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "791202bd_a902d744",
