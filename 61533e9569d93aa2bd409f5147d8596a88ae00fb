@@ -46,6 +46,30 @@
       },
       "revId": "61533e9569d93aa2bd409f5147d8596a88ae00fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62abcc17_6c9254cc",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-26T20:58:55Z",
+      "side": 1,
+      "message": "\u003e I agree that EvalSymlinks seems weird. My question is why the compiler sees a symlink-eval\u0027d path? Who does that eval?\n\nThe symlink-eval\u0027d path comes from `os.Getwd`, via either `syscall.Getwd` or reverse-engineering the path using `os.SameFile`:\nhttps://cs.opensource.google/go/go/+/master:src/os/getwd.go;l\u003d79-105;drc\u003d5755bad42adc23ad4a0c32149ac8cf78ece5d0b0\n\n\u003e \u003e I suspect that this is working around a bug in buildPGOInliningTest above — namely, cmd.Env should have a PWD entry matching cmd.Dir.\n\u003e \n\u003e Who is responsible to set that entry?\n\nIf we set up the `exec.Cmd` carefully, either `cmd.Start` will add it implicitly or `cmd.Environ` will add it to the returned environment explicitly (see #50599).\n\nIn this case, there are two things that need to be fixed:\n1. `buildPGOInliningTest` ought to set `cmd.Dir` _before_ calling `testenv.CleanCmdEnv` (instead of after).\n2. `testenv.CleanCmdEnv` ought to use `cmd.Environ` instead of `os.Environ`.\n\n\n\u003e Sorry I don\u0027t really understand how symlinks are handled in the Go toolchain. Any suggestion would help. Thanks.\n\nIn general, we try to always preserve the paths as provided by the user: we ~never evaluate symlinks explicitly, and always try to preserve what information we have about the canonical form of the path.\n\nThe user provides the canonical forms in several ways: by setting `PWD` (usually implicitly by executing `cd` in their shell), by setting `TMPDIR` and/or `GOTMPDIR`, by setting `GOROOT` and/or `GOPATH` (perhaps implicitly via `HOME` and/or `PATH` and/or `os.Args[0]`), by passing explicit paths in command line arguments, and so on.",
+      "parentUuid": "c192eb54_66c446d9",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 2
+      },
+      "revId": "61533e9569d93aa2bd409f5147d8596a88ae00fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
