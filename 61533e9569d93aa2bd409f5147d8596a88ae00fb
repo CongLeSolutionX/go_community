@@ -22,6 +22,30 @@
       },
       "revId": "61533e9569d93aa2bd409f5147d8596a88ae00fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c192eb54_66c446d9",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-26T20:21:49Z",
+      "side": 1,
+      "message": "I agree that EvalSymlinks seems weird. My question is why the compiler sees a symlink-eval\u0027d path? Who does that eval?\n\n\u003e I suspect that this is working around a bug in buildPGOInliningTest above — namely, cmd.Env should have a PWD entry matching cmd.Dir.\n\nWho is responsible to set that entry?\n\nSorry I don\u0027t really understand how symlinks are handled in the Go toolchain. Any suggestion would help. Thanks.",
+      "parentUuid": "a702da90_36e2140e",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 2
+      },
+      "revId": "61533e9569d93aa2bd409f5147d8596a88ae00fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
