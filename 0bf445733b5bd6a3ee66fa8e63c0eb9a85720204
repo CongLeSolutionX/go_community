@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "37833d5c_dbf59071",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-26T18:25:49Z",
+      "side": 1,
+      "message": "Just to leave some room so we don\u0027t go out of this allocation if the function we call happens to access things above SP (maybe due to a bug). I think we also leave a few words at the top of the stack when we start a new G. systemstack is switching to an already started stack. Probably doesn\u0027t really matter much.",
+      "parentUuid": "b29cf194_2d4491f4",
+      "revId": "0bf445733b5bd6a3ee66fa8e63c0eb9a85720204",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "56f5eefd_83ac9883",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-20T18:01:14Z",
       "side": 1,
       "message": "Do you understand the purpose of this? SP hasn\u0027t actually changed yet. (I\u0027m wondering if we need this above now)",
+      "revId": "0bf445733b5bd6a3ee66fa8e63c0eb9a85720204",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c06c3bd1_e6967126",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-26T18:25:49Z",
+      "side": 1,
+      "message": "I think it meant to suppress vet to complain the 16(SP) below. As this function has no local and no arg, 16(SP) may be considered out of the frame. We probably can remove it if vet doesn\u0027t complain.",
+      "parentUuid": "56f5eefd_83ac9883",
       "revId": "0bf445733b5bd6a3ee66fa8e63c0eb9a85720204",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-10-20T18:01:14Z",
       "side": 1,
       "message": "Perhaps writeErrStr a message noting what happened here before aborting?",
+      "revId": "0bf445733b5bd6a3ee66fa8e63c0eb9a85720204",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0140095c_47cb19d1",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-26T18:25:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2d015c3_ffebd9a4",
       "revId": "0bf445733b5bd6a3ee66fa8e63c0eb9a85720204",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

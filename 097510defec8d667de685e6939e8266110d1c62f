@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1603828_f8d112ee",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-26T18:25:49Z",
+      "side": 1,
+      "message": "(In PS7, added this line to print the PC and SP for the bad stack.)",
+      "revId": "097510defec8d667de685e6939e8266110d1c62f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
