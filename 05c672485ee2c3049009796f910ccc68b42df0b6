@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b94f04_3a557ecc",
+        "filename": "src/cmd/go/testdata/script/build_issue57768.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2023-10-26T23:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7aa87aa_741c8c2c",
+      "revId": "05c672485ee2c3049009796f910ccc68b42df0b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62d21a0b_1669a015",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-26T20:18:23Z",
       "side": 1,
       "message": "Please also update this comment.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "05c672485ee2c3049009796f910ccc68b42df0b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02342f2c_be001eec",
+        "filename": "src/cmd/go/testdata/script/vendor_outside_module.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2023-10-26T23:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62d21a0b_1669a015",
       "range": {
         "startLine": 6,
         "startChar": 0,
