@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7aa87aa_741c8c2c",
+        "filename": "src/cmd/go/testdata/script/build_issue57768.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-26T20:18:23Z",
+      "side": 1,
+      "message": "The script test environment has a test-local module proxy implementation — let\u0027s use that, and then we don\u0027t need to skip this test in short mode.\n\n(Since the `go build` command in this test doesn\u0027t actually end up building anything, it shouldn\u0027t be very expensive.)\n\nThat would be something like:\n```\n# \u0027go build\u0027 of a main package path should not resolve a module for that path,\n# even if -mod\u003dmod is set.\n! go build -mod\u003dmod -o printversion.exe example.com/printversion\nstderr \u0027^go: cannot find module providing package github.com/some/go/tool: go.mod file not found in current directory or any parent directory; see \u0027\u0027go help modules\u0027\u0027$\u0027\n```\n\nActually, come to think of it, `src/cmd/go/testdata/script/mod_outside.txt` already has a bunch of cases that execute `go build`, and this one would fit nicely there (around line 173). So please add the above command to that test and delete this file. 🙃",
+      "revId": "05c672485ee2c3049009796f910ccc68b42df0b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62d21a0b_1669a015",
+        "filename": "src/cmd/go/testdata/script/vendor_outside_module.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-26T20:18:23Z",
+      "side": 1,
+      "message": "Please also update this comment.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "05c672485ee2c3049009796f910ccc68b42df0b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
