@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf127da2_c377e9df",
+        "filename": "src/internal/syscall/windows/reparse_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-26T17:39:43Z",
+      "side": 1,
+      "message": "The value of this constant comes from https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4.",
+      "revId": "1e3cf54ed6e32d6239ab93eee731f71bc92be3de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
