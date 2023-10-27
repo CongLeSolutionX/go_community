@@ -797,12 +797,12 @@ func InlineCalls(fn *ir.Func, profile *pgo.Profile) {
 	if (goexperiment.NewInliner || inlheur.UnitTesting()) && !fn.Wrapper() {
 		inlheur.ScoreCalls(fn)
 	}
+	bigCaller := isBigFunc(fn)
 	if base.Debug.DumpInlFuncProps != "" && !fn.Wrapper() {
 		inlheur.DumpFuncProps(fn, base.Debug.DumpInlFuncProps)
 	}
 	savefn := ir.CurFunc
 	ir.CurFunc = fn
-	bigCaller := isBigFunc(fn)
 	if bigCaller && base.Flag.LowerM > 1 {
 		fmt.Printf("%v: function %v considered 'big'; reducing max cost of inlinees\n", ir.Line(fn), fn)
 	}
