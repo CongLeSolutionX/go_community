@@ -110,7 +110,7 @@ func liveValues(f *Func, reachable []bool) (live []bool, liveOrderStmts []*Value
 			}
 		}
 		for _, v := range b.Values {
-			if (opcodeTable[v.Op].call && v.Op != OpConstLECall || opcodeTable[v.Op].hasSideEffects) && !live[v.ID] {
+			if (opcodeTable[v.Op].call && v.Op != OpConstLECall && v.Op != OpPureLECall || opcodeTable[v.Op].hasSideEffects) && !live[v.ID] {
 				live[v.ID] = true
 				q = append(q, v)
 				if v.Pos.IsStmt() != src.PosNotStmt {

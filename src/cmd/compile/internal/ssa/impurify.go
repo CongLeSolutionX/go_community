@@ -11,12 +11,12 @@ import (
 )
 
 // impurifyCalls converts "const" calls that take/produce no memory operand
-// to static calls that do.
+// and "pure" calls that produe no memory operand to static calls that do.
 func impurifyCalls(f *Func) {
 	debug := f.pass.debug
 	po := f.postorder()
 
-	// Convert const functions to regular functions, rewriting mem as necessary.
+	// Convert const/pure functions to regular functions, rewriting mem as necessary.
 	lastMems := make([]*Value, f.NumBlocks())  // for a block, what is the last visible mem?
 	firstMems := make([]*Value, f.NumBlocks()) // for a block, what is the Preds[0] mem?
 	memPhi := make([]*Value, f.NumBlocks())    // for a block, what is its mem phi function (if any)
@@ -74,12 +74,12 @@ func impurifyCalls(f *Func) {
 		zeroMemDepsCall = zeroMemDepsCall[:0]
 
 		isCallOp := func(o Op) bool {
-			return o == OpStaticLECall || o == OpClosureLECall || o == OpInterLECall || o == OpTailLECall || o == OpConstLECall
+			return o == OpStaticLECall || o == OpClosureLECall || o == OpInterLECall || o == OpTailLECall || o == OpConstLECall || o == OpPureLECall
 		}
 
 		// Append v to the proper list of depends-on-nothing.
 		appendZeroDeps := func(v *Value) {
-			if v.Type != types.TypeMem && v.Op != OpConstLECall {
+			if v.Type != types.TypeMem && v.Op != OpConstLECall && v.Op != OpPureLECall {
 				zeroDeps = append(zeroDeps, v)
 				return
 			}
@@ -180,7 +180,7 @@ func impurifyCalls(f *Func) {
 			return getOneZeroDep(&zeroMemDepsCall)
 		}
 
-		// run a topological order on the values, and rewrite const calls as the sort goes by.
+		// run a topological order on the values, and rewrite const/pure calls as the sort goes by.
 		for z := getZeroDep(); z != nil; z = getZeroDep() {
 
 			if z.Op != OpPhi {
@@ -203,10 +203,12 @@ func impurifyCalls(f *Func) {
 				}
 			}
 			// Do this rewrite after updating dependsOn/zeroDeps
-			if z.Op == OpConstLECall {
+			if isConst := z.Op == OpConstLECall; isConst || z.Op == OpPureLECall {
 				// Translate into OpStaticLECall and insert an OpSelectN to extract the new memory.
 				z.Op = OpStaticLECall
-				z.AddArg(lastMem)
+				if isConst { // pure calls have the arg already.
+					z.AddArg(lastMem)
+				}
 				auxCall := z.Aux.(*AuxCall)
 				nresults := auxCall.NResults()
 				z.Type = auxCall.LateExpansionResultType()

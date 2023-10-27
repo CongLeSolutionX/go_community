@@ -3209,7 +3209,7 @@ func (s *state) exprCheckPtr(n ir.Node, checkPtrOK bool) *ssa.Value {
 
 	case ir.ORESULT:
 		n := n.(*ir.ResultExpr)
-		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpConstLECall && s.prevCall.Op != ssa.OpInterLECall && s.prevCall.Op != ssa.OpClosureLECall {
+		if s.prevCall == nil || s.prevCall.Op != ssa.OpStaticLECall && s.prevCall.Op != ssa.OpConstLECall && s.prevCall.Op != ssa.OpPureLECall && s.prevCall.Op != ssa.OpInterLECall && s.prevCall.Op != ssa.OpClosureLECall {
 			panic("Expected to see a previous call")
 		}
 		which := n.Index
@@ -5293,6 +5293,14 @@ func (s *state) callAddr(n *ir.CallExpr, k callKind) *ssa.Value {
 	return s.call(n, k, true, nil)
 }
 
+type callPurity uint8
+
+const (
+	impureCall = callPurity(iota)
+	constCall
+	pureCall
+)
+
 // Calls the function n using the specified call type.
 // Returns the address of the return value (or nil if none).
 func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExtra ir.Expr) *ssa.Value {
@@ -5307,7 +5315,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 	var ACResults []*types.Type // AuxCall results
 	var callArgs []*ssa.Value   // For late-expansion, the args themselves (not stored, args to the call instead).
 
-	impure := true
+	var impure callPurity
 
 	callABI := s.f.ABIDefault
 
@@ -5315,36 +5323,18 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 		s.Fatalf("go/defer call with arguments: %v", n)
 	}
 
-	canBePure := func(s *obj.LSym) bool {
+	canBePure := func(s *obj.LSym) callPurity {
 		p := s.Pkg
-		if p == "" {
-			return false
+		if p == "const_pure_func_test" {
+			n := s.Name
+			if strings.HasSuffix(n, "Const") {
+				return constCall
+			}
+			if strings.HasSuffix(n, "Pure") {
+				return pureCall
+			}
 		}
-		return false // TODO choose pure functions.
-
-		// Sample implementation for "math functions are pure"
-		// l := len(p)
-		// if !strings.HasPrefix(p, "math") {
-		// 	return false
-		// }
-		// if l > len("math") && p[len("math")] != '/' {
-		// 	return false
-		// }
-		// if p == "math/rand" {
-		// 	return false
-		// }
-		// n := s.Name
-		// if n == "" {
-		// 	return false
-		// }
-		// n = n[l+1:]
-		// if !unicode.IsUpper(rune(n[0])) {
-		// 	return false
-		// }
-		// if strings.HasPrefix(n, "Test") || strings.HasPrefix(n, "Benchmark") || strings.HasPrefix(n, "Example") {
-		// 	return false
-		// }
-		// return true
+		return impureCall // TODO choose pure functions.
 	}
 
 	switch n.Op() {
@@ -5353,7 +5343,9 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 			fn := fn.(*ir.Name)
 			calleeLSym = callTargetLSym(fn)
 			if s.f.DebugHashMatch() {
-				impure = !(k == callNormal && canBePure(calleeLSym))
+				if k == callNormal {
+					impure = canBePure(calleeLSym)
+				}
 			}
 			if buildcfg.Experiment.RegabiArgs {
 				// This is a static call, so it may be
@@ -5475,7 +5467,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 			callArgs = append(callArgs, s.putArg(n, t.Param(i).Type))
 		}
 
-		if impure {
+		if impure != constCall {
 			callArgs = append(callArgs, s.mem())
 		}
 
@@ -5506,9 +5498,11 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 			call = s.newValue1A(ssa.OpInterLECall, aux.LateExpansionResultType(), aux, codeptr)
 		case calleeLSym != nil:
 			aux := ssa.StaticAuxCall(calleeLSym, params)
-			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultTypeOptMem(impure), aux)
-			if !impure {
+			call = s.newValue0A(ssa.OpStaticLECall, aux.LateExpansionResultTypeOptMem(impure == impureCall), aux)
+			if impure == constCall {
 				call.Op = ssa.OpConstLECall
+			} else if impure == pureCall {
+				call.Op = ssa.OpPureLECall
 			} else if k == callTail {
 				call.Op = ssa.OpTailLECall
 				stksize = 0 // Tail call does not use stack. We reuse caller's frame.
@@ -5520,7 +5514,7 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool, deferExt
 		call.AuxInt = stksize // Call operations carry the argsize of the callee along with them
 	}
 	s.prevCall = call
-	if impure {
+	if impure == impureCall {
 		s.vars[memVar] = s.newValue1I(ssa.OpSelectN, types.TypeMem, int64(len(ACResults)), call)
 	}
 	// Insert VarLive opcodes.
