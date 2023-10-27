@@ -16,6 +16,23 @@
       "message": "This is the reason that caused the FAIL(https://go-review.googlesource.com/c/go/+/534756), since the prologue may generate a large jump to call morestack, but the offset of the JALR instruction is always zero which cause a wrong address. I find that the field `From` of CJALR is not encoding to the instruction but is `To` in function `instructionsForProg`.",
       "revId": "4b66a855c71c90c671b643fca5aac5bfd0dfbc6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44ec10a6_4ff50a93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-10-27T08:06:25Z",
+      "side": 1,
+      "message": "Could you please add a test for this?\n\nThere is some prior art in `cmd/internal/obj/riscv/asm_test.go` - we should be able to build a \u003e 1MB function with a jump back to the start, which fails without this change and passes with it.",
+      "revId": "4b66a855c71c90c671b643fca5aac5bfd0dfbc6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
