@@ -282,7 +282,7 @@ func mustToMay(x scoreAdjustTyp) scoreAdjustTyp {
 // properties 'csflags', then computes a score for the callsite that
 // combines the size cost of the callee with heuristics based on
 // previously parameter and function properties.
-func computeCallSiteScore(cs *CallSite, calleeProps *FuncProps) (int, scoreAdjustTyp) {
+func (csa *callSiteAnalyzer) computeCallSiteScore(cs *CallSite, calleeProps *FuncProps) (int, scoreAdjustTyp) {
 	callee := cs.Callee
 	csflags := cs.Flags
 	call := cs.Call
@@ -652,5 +652,103 @@ func DumpInlCallSiteScores(profile *pgo.Profile, budgetCallback func(fn *ir.Func
 				nm, ecc,
 				cs.ScoreMask.String())
 		}
+	}
+}
+
+// ScoreCalls assigns numeric scores to each of the callsites in
+// function fn; the lower the score, the more helpful we think it will
+// be to inline.
+//
+// Unlike a lot of the other inline heuristics machinery, callsite
+// scoring can't be done as part of the CanInline call for a function,
+// due to fact that we may be working on a non-trivial SCC. So for
+// example with this SCC:
+//
+//	func foo(x int) {           func bar(x int, f func()) {
+//	  if x != 0 {                  f()
+//	    bar(x, func(){})           foo(x-1)
+//	  }                         }
+//	}
+//
+// We don't want to perform scoring for the 'foo' call in "bar" until
+// after foo has been analyzed, but it's conceivable that CanInline
+// might visit bar before foo for this SCC.
+func ScoreCalls(fn *ir.Func) {
+	enableDebugTraceIfEnv()
+	defer disableDebugTrace()
+	if debugTrace&debugTraceScoring != 0 {
+		fmt.Fprintf(os.Stderr, "=-= ScoreCalls(%v)\n", ir.FuncName(fn))
+	}
+
+	fih, ok := fpmap[fn]
+	if !ok {
+		// TODO: add an assert/panic here.
+		return
+	}
+
+	if len(fn.Body) != 0 {
+		csa := makeCallSiteAnalyzer(fn)
+		const doCallResults = true
+		csa.scoreCallsRegion(fn, fn.Body, fih.cstab, doCallResults)
+	}
+}
+
+// scoreCallsRegion assigns numeric scores to each of the callsites in
+// region 'region' within function 'fn'. This can be called on an
+// entire function, or with 'region' set to a chunk of code
+// corresponding to an inlined call. If 'doCallResults' is set, then
+// incorporate call result analysis, e.g. look for cases where a
+// the result of a call feeds into an if statement or indirect call
+// in a way that would lead us to encourage inlining.
+func (csa *callSiteAnalyzer) scoreCallsRegion(fn *ir.Func, region ir.Nodes, cstab CallSiteTab, doCallResults bool) {
+	if debugTrace&debugTraceScoring != 0 {
+		fmt.Fprintf(os.Stderr, "=-= scoreCallsRegion(%v, %s)\n",
+			ir.FuncName(fn), region[0].Op().String())
+	}
+
+	var resultNameTab map[*ir.Name]resultPropAndCS
+
+	// Sort callsites to avoid any surprises with non deterministic
+	// map iteration order (this is probably not needed, but here just
+	// in case).
+	csl := make([]*CallSite, 0, len(cstab))
+	for _, cs := range cstab {
+		csl = append(csl, cs)
+	}
+	sort.Slice(csl, func(i, j int) bool {
+		return csl[i].ID < csl[j].ID
+	})
+
+	// Score each call site.
+	for _, cs := range csl {
+		var cprops *FuncProps
+		fihcprops := false
+		desercprops := false
+		if fih, ok := fpmap[cs.Callee]; ok {
+			cprops = fih.props
+			fihcprops = true
+		} else if cs.Callee.Inl != nil {
+			cprops = DeserializeFromString(cs.Callee.Inl.Properties)
+			desercprops = true
+		} else {
+			if base.Debug.DumpInlFuncProps != "" {
+				fmt.Fprintf(os.Stderr, "=-= *** unable to score call to %s from %s\n", cs.Callee.Sym().Name, fmtFullPos(cs.Call.Pos()))
+				panic("should never happen")
+			} else {
+				continue
+			}
+		}
+		cs.Score, cs.ScoreMask = csa.computeCallSiteScore(cs, cprops)
+
+		if doCallResults {
+			if debugTrace&debugTraceScoring != 0 {
+				fmt.Fprintf(os.Stderr, "=-= examineCallResults at %s: flags=%d score=%d fih=%v deser=%v\n", fmtFullPos(cs.Call.Pos()), cs.Flags, cs.Score, fihcprops, desercprops)
+			}
+			resultNameTab = csa.examineCallResults(cs, resultNameTab)
+		}
+	}
+
+	if resultNameTab != nil {
+		csa.rescoreBasedOnCallResultUses(fn, resultNameTab, cstab)
 	}
 }
