@@ -437,8 +437,9 @@ var genericOps = []opData{
 	{name: "InterLECall", argLength: -1, aux: "CallOff", call: true},   // late-expanded interface call. arg0=code pointer, arg1..argN-1 are inputs, argN is mem. auxint = arg size. Result is tuple of result(s), plus mem.
 	{name: "TailLECall", argLength: -1, aux: "CallOff", call: true},    // late-expanded static tail call function aux.(*ssa.AuxCall.Fn). arg0..argN-1 are inputs, argN is mem. auxint = arg size. Result is tuple of result(s), plus mem.
 
-	// Following gcc conventions, "Const" calls do not depend on memory and do not modify memory
+	// Following gcc conventions, "Const" calls do not depend on memory and do not modify memory, "Pure" calls do not modify memory
 	{name: "ConstLECall", argLength: -1, aux: "CallOff", call: true}, // late-expanded static call function aux.(*ssa.AuxCall.Fn). arg0..argN are inputs, there is NO MEM. auxint = arg size. Result is tuple of result(s),and NO MEM.
+	{name: "PureLECall", argLength: -1, aux: "CallOff", call: true},  // late-expanded static call function aux.(*ssa.AuxCall.Fn). arg0..argN are inputs, argN is mem. auxint = arg size. Result is tuple of result(s),and NO MEM.
 
 	// Conversions: signed extensions, zero (unsigned) extensions, truncations
 	{name: "SignExt8to16", argLength: 1, typ: "Int16"},

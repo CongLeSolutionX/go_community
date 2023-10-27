@@ -3112,6 +3112,7 @@ const (
 	OpInterLECall
 	OpTailLECall
 	OpConstLECall
+	OpPureLECall
 	OpSignExt8to16
 	OpSignExt8to32
 	OpSignExt8to64
@@ -40104,6 +40105,13 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "ConstLECall",
+		auxType: auxCallOff,
+		argLen:  -1,
+		call:    true,
+		generic: true,
+	},
+	{
+		name:    "PureLECall",
 		auxType: auxCallOff,
 		argLen:  -1,
 		call:    true,

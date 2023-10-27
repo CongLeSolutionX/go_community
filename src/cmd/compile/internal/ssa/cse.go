@@ -310,7 +310,7 @@ func cmpVal(v, w *Value, auxIDs auxmap) types.Cmp {
 		}
 	}
 
-	if v.Op == OpConstLECall {
+	if v.Op == OpConstLECall || v.Op == OpPureLECall {
 		va := v.Aux.(*AuxCall)
 		wa := w.Aux.(*AuxCall)
 		if va.Fn.Name != wa.Fn.Name {
