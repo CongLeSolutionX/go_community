@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86f1a312_5cbb11f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-27T19:12:51Z",
+      "side": 1,
+      "message": "This breaks OpenBSD builders (sorry). Sent CL 537975 to fix. Thanks.",
+      "revId": "0262ea1ff9ac3b9fd268a48fcaaa6811c20cbea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
