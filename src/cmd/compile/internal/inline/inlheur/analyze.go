@@ -96,9 +96,10 @@ func AnalyzeFunc(fn *ir.Func, canInline func(*ir.Func), budgetForFunc func(*ir.F
 	// doesn't have any interesting properties, then we don't want
 	// the overhead of writing out its inline body).
 	nf := len(funcs)
+	nameFinder := makeNameFinder(fn)
 	for idx := range funcs {
 		f := funcs[nf-idx-1]
-		fp := analyzeFunc(f, inlineMaxBudget)
+		fp := analyzeFunc(f, inlineMaxBudget, nameFinder)
 		revisitInlinability(f, fp, budgetForFunc)
 		if f.Inl != nil {
 			f.Inl.Properties = fp.SerializeToString()
@@ -111,11 +112,11 @@ func TearDown() {
 	fpmap = nil
 }
 
-func analyzeFunc(fn *ir.Func, inlineMaxBudget int) *FuncProps {
+func analyzeFunc(fn *ir.Func, inlineMaxBudget int, nf *nameFinder) *FuncProps {
 	if fih, ok := fpmap[fn]; ok {
 		return fih.props
 	}
-	fp, fcstab := computeFuncProps(fn, inlineMaxBudget)
+	fp, fcstab := computeFuncProps(fn, inlineMaxBudget, nf)
 	file, line := fnFileLine(fn)
 	entry := fnInlHeur{
 		fname: fn.Sym().Name,
@@ -150,7 +151,7 @@ func revisitInlinability(fn *ir.Func, fp *FuncProps, budgetForFunc func(*ir.Func
 // computeFuncProps examines the Go function 'fn' and computes for it
 // a function "properties" object, to be used to drive inlining
 // heuristics. See comments on the FuncProps type for more info.
-func computeFuncProps(fn *ir.Func, inlineMaxBudget int) (*FuncProps, CallSiteTab) {
+func computeFuncProps(fn *ir.Func, inlineMaxBudget int, nf *nameFinder) (*FuncProps, CallSiteTab) {
 	if debugTrace&debugTraceFuncs != 0 {
 		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
 			fn, fn)
@@ -158,8 +159,8 @@ func computeFuncProps(fn *ir.Func, inlineMaxBudget int) (*FuncProps, CallSiteTab
 	fp := new(FuncProps)
 	ffa := makeFuncFlagsAnalyzer(fn)
 	analyzers := []propAnalyzer{ffa}
-	analyzers = addResultsAnalyzer(fn, analyzers, fp, inlineMaxBudget)
-	analyzers = addParamsAnalyzer(fn, analyzers, fp)
+	analyzers = addResultsAnalyzer(fn, analyzers, fp, inlineMaxBudget, nf)
+	analyzers = addParamsAnalyzer(fn, analyzers, fp, nf)
 	runAnalyzersOnFunction(fn, analyzers)
 	for _, a := range analyzers {
 		a.setResults(fp)
@@ -168,7 +169,7 @@ func computeFuncProps(fn *ir.Func, inlineMaxBudget int) (*FuncProps, CallSiteTab
 	if debugTrace&debugTraceCalls != 0 {
 		fmt.Fprintf(os.Stderr, "=-= making callsite table for func %v:\n", fn)
 	}
-	cstab := computeCallSiteTable(fn, fn.Body, ffa.panicPathTable(), 0)
+	cstab := computeCallSiteTable(fn, fn.Body, ffa.panicPathTable(), 0, nf)
 	return fp, cstab
 }
 
