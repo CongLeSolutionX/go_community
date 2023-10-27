@@ -126,6 +126,78 @@ func genLargeCall(buf *bytes.Buffer) {
 	fmt.Fprintln(buf, "RET")
 }
 
+// TestLargeJump generates a large jump (>1MB of text) with a JMP to the
+// end of the function, in order to ensure that it assembles correctly.
+func TestLargeJump(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping test in short mode")
+	}
+	testenv.MustHaveGoBuild(t)
+
+	dir, err := os.MkdirTemp("", "testlargejump")
+	if err != nil {
+		t.Fatalf("could not create directory: %v", err)
+	}
+	defer os.RemoveAll(dir)
+
+	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module largejump"), 0644); err != nil {
+		t.Fatalf("Failed to write file: %v\n", err)
+	}
+	main := `package main
+func main() {
+        x()
+}
+
+func x()
+`
+	if err := os.WriteFile(filepath.Join(dir, "x.go"), []byte(main), 0644); err != nil {
+		t.Fatalf("failed to write main: %v\n", err)
+	}
+
+	// Generate a very large function with call.
+	buf := bytes.NewBuffer(make([]byte, 0, 7000000))
+	genLargeJump(buf)
+
+	if err := os.WriteFile(filepath.Join(dir, "x.s"), buf.Bytes(), 0644); err != nil {
+		t.Fatalf("Failed to write file: %v\n", err)
+	}
+
+	// Build generated files.
+	build := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode=internal")
+	build.Dir = dir
+	build.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
+	out, err := build.CombinedOutput()
+	if err != nil {
+		t.Errorf("Build failed: %v, output: %s", err, out)
+	}
+
+	if runtime.GOARCH == "riscv64" && testenv.HasCGO() {
+		build := testenv.Command(t, testenv.GoToolPath(t), "build", "-ldflags=-linkmode=external")
+		build.Dir = dir
+		build.Env = append(os.Environ(), "GOARCH=riscv64", "GOOS=linux")
+		out, err := build.CombinedOutput()
+		if err != nil {
+			t.Errorf("Build failed: %v, output: %s", err, out)
+		}
+	}
+
+	exec := testenv.Command(t, filepath.Join(dir, "largejump"))
+	out, err = exec.CombinedOutput()
+	if err != nil {
+		t.Errorf("Execute failed: %v, output: %s", err, out)
+	}
+}
+
+func genLargeJump(buf *bytes.Buffer) {
+	fmt.Fprintln(buf, "TEXT ·x(SB),0,$0-0")
+	fmt.Fprintln(buf, "JMP end")
+	for i := 0; i < 1<<19+1<<9; i++ { // This magic number will cause a negative offset for JALR.
+		fmt.Fprintln(buf, "ADD $0, X0, X0")
+	}
+	fmt.Fprintln(buf, "end:")
+	fmt.Fprintln(buf, "RET")
+}
+
 // Issue 20348.
 func TestNoRet(t *testing.T) {
 	dir, err := os.MkdirTemp("", "testnoret")
