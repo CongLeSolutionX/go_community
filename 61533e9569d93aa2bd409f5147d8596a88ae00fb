@@ -118,6 +118,30 @@
       },
       "revId": "61533e9569d93aa2bd409f5147d8596a88ae00fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8332fc8_a222128d",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-27T18:29:29Z",
+      "side": 1,
+      "message": "Thanks.\n\n\u003e I agree that it\u0027s fragile. A vet check specifically for setting cmd.Dir after calling cmd.Environ sounds like a good idea!\n\nFiled https://go.dev/issue/63782.",
+      "parentUuid": "1d6ec5ea_f7bf786c",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 2
+      },
+      "revId": "61533e9569d93aa2bd409f5147d8596a88ae00fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
