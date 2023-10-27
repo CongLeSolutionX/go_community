@@ -16,6 +16,24 @@
       "message": "nit: use a switch statement? or have a lookup table/map that maps properties to adjustments?",
       "revId": "93b1a572631a0dc41c45dd6bee776cc2da85f3c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "547602ff_864f735c",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-10-27T15:19:33Z",
+      "side": 1,
+      "message": "Switch is probably not a good match here since there can be multiple flags on a given parameter. I\u0027converted it to be table driven.",
+      "parentUuid": "234e53f4_66950846",
+      "revId": "93b1a572631a0dc41c45dd6bee776cc2da85f3c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
