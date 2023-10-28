@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2997685_c5e300e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-10-28T13:03:02Z",
+      "side": 1,
+      "message": "Thank you so much! But I found that every time I execute go test -bench\u003d\"XOR\" -count 10 and then use benchstat to compare, there is a big difference. Maybe the first time I was doing other things, the CPU was under a higher load",
+      "parentUuid": "4032bd55_c2e572c7",
+      "revId": "57837c72750efa72f2c028b95227f6af7c6396a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6709b159_94e5cdf4",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-28T12:48:34Z",
       "side": 1,
       "message": "Please add a newline followed by a For #63678\n\nThanks!",
+      "revId": "57837c72750efa72f2c028b95227f6af7c6396a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "132ac9d3_5a0b2575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-10-28T13:03:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6709b159_94e5cdf4",
       "revId": "57837c72750efa72f2c028b95227f6af7c6396a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -105,6 +141,24 @@
       "side": 1,
       "message": "This failure will go away after CL537975 is merged.",
       "parentUuid": "02e06fb8_6817124f",
+      "revId": "57837c72750efa72f2c028b95227f6af7c6396a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4d05ab_d85c9449",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-10-28T13:03:02Z",
+      "side": 1,
+      "message": "Thanks very much for your reply！",
+      "parentUuid": "933b4d4a_e5dfd8d2",
       "revId": "57837c72750efa72f2c028b95227f6af7c6396a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
