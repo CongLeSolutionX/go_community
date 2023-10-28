@@ -16,6 +16,23 @@
       "message": "Thanks for the change.\n\nI wonder if io.Copy should pool buffers; if pooling is valuable, it seems unfortunate that callers would need to do it on an ad hoc basis.\n\nSent https://go.dev/cl/456555 to make that change, let\u0027s see where it goes. If io.Copy stays as-is, then this change LGTM.",
       "revId": "f8358e0ef63eaba949cba18185bc1e04c80ea5a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8171750_785ae908",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-10-28T13:54:16Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "f8358e0ef63eaba949cba18185bc1e04c80ea5a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
