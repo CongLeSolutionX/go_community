@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c6623d3_e7bb546d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-10-28T03:30:13Z",
+      "side": 1,
+      "message": "s/to/do/",
+      "range": {
+        "startLine": 33,
+        "startChar": 49,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "1e3cf54ed6e32d6239ab93eee731f71bc92be3de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fd37a0a_d5be6c6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-10-28T03:30:13Z",
+      "side": 1,
+      "message": "Couple of suggestions, otherwise LGTM.\n\nFeel free to wait for Russ or Quim if you need their opinion.\n\nThank you.\n\nAlex",
+      "revId": "1e3cf54ed6e32d6239ab93eee731f71bc92be3de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cf127da2_c377e9df",
@@ -14,6 +54,41 @@
       "writtenOn": "2023-10-26T17:39:43Z",
       "side": 1,
       "message": "The value of this constant comes from https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4.",
+      "revId": "1e3cf54ed6e32d6239ab93eee731f71bc92be3de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7c7e04_46ae8fc9",
+        "filename": "src/internal/syscall/windows/reparse_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-10-28T03:30:13Z",
+      "side": 1,
+      "message": "If you care to know, I also have Mingw say the same thing:\n```\na@spot:/usr/share/mingw-w64/include$ grep IO_REPARSE_TAG_DEDUP * -r\nwinnt.h:#define IO_REPARSE_TAG_DEDUP (__MSABI_LONG(0x80000013))\na@spot:/usr/share/mingw-w64/include$\n```",
+      "parentUuid": "cf127da2_c377e9df",
+      "revId": "1e3cf54ed6e32d6239ab93eee731f71bc92be3de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dff0db2f_c8432aea",
+        "filename": "src/os/types_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-10-28T03:30:13Z",
+      "side": 1,
+      "message": "Your if body is empty while else has some code. I suggest you reverse the if condition and get rid of else, and move your comment before line 188.\n\nBut it is fine to leave this way too.",
       "revId": "1e3cf54ed6e32d6239ab93eee731f71bc92be3de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
