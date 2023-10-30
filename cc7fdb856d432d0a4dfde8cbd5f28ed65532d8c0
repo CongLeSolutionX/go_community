@@ -16,6 +16,24 @@
       "message": "@mknyszek@google.com do you have any advise on this import issue? Maybe the raw event API should be exposed? Another use case I have for it is splitting large traces by generation.",
       "revId": "cc7fdb856d432d0a4dfde8cbd5f28ed65532d8c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0e1b645_7ce57abb",
+        "filename": "src/cmd/trace/v2/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-10-30T21:43:12Z",
+      "side": 1,
+      "message": "oof, I see. that\u0027s annoying. I think we do need it for debugging here, but I\u0027m a little hesitant to make the API public in x/exp. my hesitation mostly comes from the fact that the event representation is inefficient. that\u0027s fixable though. a side-concern is the fact that the API is leaky and it\u0027ll pull a whole bunch of other stuff out. I\u0027d like to give that a bit more thought at the very least.\n\nfor now I\u0027ll just lift this up in internal/trace/v2/raw, but I\u0027ll update mkexp.bash to push it back down into internal.\n\nfor the specific use-case of splitting large traces by generation, I think I\u0027d prefer to have a bespoke API for that. something that just hands back complete working traces with the header reinserted.",
+      "parentUuid": "95c715c9_4f00147d",
+      "revId": "cc7fdb856d432d0a4dfde8cbd5f28ed65532d8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
