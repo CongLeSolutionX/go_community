@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2b82755_2105afd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-10-30T22:27:44Z",
+      "side": 1,
+      "message": "Progress update: Got a very simple hello world trace to render: https://share.zight.com/QwuBdqpG\n\n```\n$ go test ./cmd/trace/v2 -run \u0027HelloWorld\u0027 -trace hello.trace\n$ go build ./cmd/trace \u0026\u0026 ./trace -http\u003dlocalhost:8080 hello.trace\n```\n\n@mknyszek@google.com could you skim through the CL real quick to check if you\u0027re okay with the direction taken so far? It\u0027s obviously still very incomplete, but please let me know if you have any major concerns at this point. Thanks!",
+      "revId": "2cd0006f9e4f1a3f94377220f78905f5cee44ad3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
