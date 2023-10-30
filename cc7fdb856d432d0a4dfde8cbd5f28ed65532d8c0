@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c715c9_4f00147d",
+        "filename": "src/cmd/trace/v2/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-10-30T10:21:24Z",
+      "side": 1,
+      "message": "@mknyszek@google.com do you have any advise on this import issue? Maybe the raw event API should be exposed? Another use case I have for it is splitting large traces by generation.",
+      "revId": "cc7fdb856d432d0a4dfde8cbd5f28ed65532d8c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
