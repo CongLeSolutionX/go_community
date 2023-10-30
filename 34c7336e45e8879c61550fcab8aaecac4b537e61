@@ -72,6 +72,81 @@
       "message": "@roland@golang.org any chance for a review on this?",
       "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8cfb173_edfe351a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-10-30T18:34:03Z",
+      "side": 1,
+      "message": "Yes, sorry it took so long to get to this.",
+      "parentUuid": "6bc8a841_ac2c18f8",
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a36470fe_edd9a52b",
+        "filename": "src/crypto/x509/oid.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-10-30T18:34:03Z",
+      "side": 1,
+      "message": "This should be moved into the test file, so we don\u0027t accidentally have someone rely on it in non-test code down the road. Also probably move from using panic to passing in the *testing.T and using t.Fatalf.",
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "636c39e1_70ede70e",
+        "filename": "src/crypto/x509/oid.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-10-30T18:34:03Z",
+      "side": 1,
+      "message": "Just in terms of readability, I think I\u0027d like to preserve the approach encoding/asn1 takes for OID parsing, which is quite a bit more verbose, but I think is a lot easier to follow.\n\ni.e. (arguably a lot of the safety nets in parseBase128Int could be removed, under the assumption that we\u0027ve already parsed the OID and enforced these rules, but I don\u0027t think the overhead is actually all the expensive here.)\n\n\tfunc parseBase128Int(bytes []byte, initOffset int) (ret, offset int, failed bool) {\n\t\toffset \u003d initOffset\n\t\tvar ret64 int64\n\t\tfor shifted :\u003d 0; offset \u003c len(bytes); shifted++ {\n\t\t\t// 5 * 7 bits per byte \u003d\u003d 35 bits of data\n\t\t\t// Thus the representation is either non-minimal or too large for an int32\n\t\t\tif shifted \u003d\u003d 5 {\n\t\t\t\tfailed \u003d true\n\t\t\t\treturn\n\t\t\t}\n\t\t\tret64 \u003c\u003c\u003d 7\n\t\t\tb :\u003d bytes[offset]\n\t\t\t// integers should be minimally encoded, so the leading octet should\n\t\t\t// never be 0x80\n\t\t\tif shifted \u003d\u003d 0 \u0026\u0026 b \u003d\u003d 0x80 {\n\t\t\t\tfailed \u003d true\n\t\t\t\treturn\n\t\t\t}\n\t\t\tret64 |\u003d int64(b \u0026 0x7f)\n\t\t\toffset++\n\t\t\tif b\u00260x80 \u003d\u003d 0 {\n\t\t\t\tret \u003d int(ret64)\n\t\t\t\t// Ensure that the returned value fits in an int on all platforms\n\t\t\t\tif ret64 \u003e math.MaxInt32 {\n\t\t\t\t\tfailed \u003d true\n\t\t\t\t}\n\t\t\t\treturn\n\t\t\t}\n\t\t}\n\t\tfailed \u003d true\n\t\treturn\n\t}\n\n\t// EqualASN1OID returns whether an OID equals an asn1.ObjectIdentifier. If\n\t// asn1.ObjectIdentifier cannot represent the OID specified by oid, because\n\t// a component of OID requires more than 31 bits, it returns false.\n\tfunc (oid OID) EqualASN1OID(other asn1.ObjectIdentifier) bool {\n\t\tif len(other) \u003c 2 {\n\t\t\treturn false\n\t\t}\n\t\tv, offset, failed :\u003d parseBase128Int(oid.der, 0)\n\t\tif failed {\n\t\t\t// This should never happen, since we\u0027ve already parsed the OID,\n\t\t\t// but just in case.\n\t\t\treturn false\n\t\t}\n\t\tif v \u003c 80 {\n\t\t\ta, b :\u003d v/40, v%40\n\t\t\tif other[0] !\u003d a || other[1] !\u003d b {\n\t\t\t\treturn false\n\t\t\t}\n\t\t} else {\n\t\t\ta, b :\u003d 2, v-80\n\t\t\tif other[0] !\u003d a || other[1] !\u003d b {\n\t\t\t\treturn false\n\t\t\t}\n\t\t}\n\n\t\treturn true\n\t\ti :\u003d 2\n\t\tfor ; offset \u003c len(oid.der); i++ {\n\t\t\tv, offset, failed \u003d parseBase128Int(oid.der, offset)\n\t\t\tif failed {\n\t\t\t\t// Again, shouldn\u0027t happen, since we\u0027ve already parsed\n\t\t\t\t// the OID, but better safe than sorry.\n\t\t\t\treturn false\n\t\t\t}\n\t\t\tif v !\u003d other[i] {\n\t\t\t\treturn false\n\t\t\t}\n\t\t}\n\t\treturn true\n\t}",
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "627b11eb_2ac77f7a",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-10-30T18:34:03Z",
+      "side": 1,
+      "message": "// PoliciyIdentifiers contains the certificate policies which can be\n\t// represented by an asn1.ObjectIdentifier.\n\t//\n\t// Deprecated: as asn1.ObjectIdentifier is limited to 31 bit components, any policy\n\t// that contains a larger component will be omitted. Policies, which contains\n\t// all certificate policies, regardless of component size, should be used\n\t// instead.",
+      "range": {
+        "startLine": 775,
+        "startChar": 1,
+        "endLine": 779,
+        "endChar": 16
+      },
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
