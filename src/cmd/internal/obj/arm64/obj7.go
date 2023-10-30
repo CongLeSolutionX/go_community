@@ -850,21 +850,22 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			p.To = obj.Addr{}
 			if c.cursym.Func().Text.Mark&LEAF != 0 {
 				if c.autosize != 0 {
+					// Restore frame pointer.
+					p.As = AMOVD
+					p.From.Type = obj.TYPE_MEM
+					p.From.Offset = -8
+					p.From.Reg = REGSP
+					p.To.Type = obj.TYPE_REG
+					p.To.Reg = REGFP
+
+					// Pop stack frame.
+					p = obj.Appendp(p, c.newprog)
 					p.As = AADD
 					p.From.Type = obj.TYPE_CONST
 					p.From.Offset = int64(c.autosize)
 					p.To.Type = obj.TYPE_REG
 					p.To.Reg = REGSP
 					p.Spadj = -c.autosize
-
-					// Frame pointer.
-					p = obj.Appendp(p, c.newprog)
-					p.As = ASUB
-					p.From.Type = obj.TYPE_CONST
-					p.From.Offset = 8
-					p.Reg = REGSP
-					p.To.Type = obj.TYPE_REG
-					p.To.Reg = REGFP
 				}
 			} else {
 				aoffset := c.autosize
