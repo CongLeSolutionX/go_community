@@ -33,6 +33,24 @@
       "message": "Could you please add a test for this?\n\nThere is some prior art in `cmd/internal/obj/riscv/asm_test.go` - we should be able to build a \u003e 1MB function with a jump back to the start, which fails without this change and passes with it.",
       "revId": "4b66a855c71c90c671b643fca5aac5bfd0dfbc6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6af3fb07_303f7e56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-10-30T06:14:05Z",
+      "side": 1,
+      "message": "I add a test for that, and you will find a crash without this change, since there should have been a negative offset for the JALR, but there isn\u0027t, which generates an address out of bounds for the JMP.",
+      "parentUuid": "44ec10a6_4ff50a93",
+      "revId": "4b66a855c71c90c671b643fca5aac5bfd0dfbc6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
