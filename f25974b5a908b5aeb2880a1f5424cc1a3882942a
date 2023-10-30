@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bb33737_d6640e41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-30T20:35:47Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "f25974b5a908b5aeb2880a1f5424cc1a3882942a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b68bccdc_abb15208",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-30T20:35:47Z",
+      "side": 1,
+      "message": "We probably could just combine this with the case below, as we always save the LR if we have a frame. (This is fine.)",
+      "revId": "f25974b5a908b5aeb2880a1f5424cc1a3882942a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
