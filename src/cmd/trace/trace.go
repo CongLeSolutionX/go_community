@@ -6,7 +6,6 @@ package main
 
 import (
 	"cmd/internal/traceviewer"
-	"embed"
 	"encoding/json"
 	"fmt"
 	"internal/trace"
@@ -17,17 +16,13 @@ import (
 	"runtime/debug"
 	"sort"
 	"strconv"
-	"strings"
 	"time"
 )
-
-//go:embed static/trace_viewer_full.html static/webcomponents.min.js
-var staticContent embed.FS
 
 func init() {
 	http.HandleFunc("/trace", httpTrace)
 	http.HandleFunc("/jsontrace", httpJsonTrace)
-	http.Handle("/static/", http.FileServer(http.FS(staticContent)))
+	http.Handle("/static/", trace.StaticHandler())
 }
 
 // httpTrace serves either whole trace (goid==0) or trace for goid goroutine.
@@ -37,142 +32,8 @@ func httpTrace(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if err := r.ParseForm(); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	html := strings.ReplaceAll(templTrace, "{{PARAMS}}", r.Form.Encode())
-	w.Write([]byte(html))
-
+	trace.TraceHandler().ServeHTTP(w, r)
 }
-
-// https://chromium.googlesource.com/catapult/+/9508452e18f130c98499cb4c4f1e1efaedee8962/tracing/docs/embedding-trace-viewer.md
-// This is almost verbatim copy of https://chromium-review.googlesource.com/c/catapult/+/2062938/2/tracing/bin/index.html
-var templTrace = `
-<html>
-<head>
-<script src="/static/webcomponents.min.js"></script>
-<script>
-'use strict';
-
-function onTraceViewerImportFail() {
-  document.addEventListener('DOMContentLoaded', function() {
-    document.body.textContent =
-    '/static/trace_viewer_full.html is missing. File a bug in https://golang.org/issue';
-  });
-}
-</script>
-
-<link rel="import" href="/static/trace_viewer_full.html"
-      onerror="onTraceViewerImportFail(event)">
-
-<style type="text/css">
-  html, body {
-    box-sizing: border-box;
-    overflow: hidden;
-    margin: 0px;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-  }
-  #trace-viewer {
-    width: 100%;
-    height: 100%;
-  }
-  #trace-viewer:focus {
-    outline: none;
-  }
-</style>
-<script>
-'use strict';
-(function() {
-  var viewer;
-  var url;
-  var model;
-
-  function load() {
-    var req = new XMLHttpRequest();
-    var isBinary = /[.]gz$/.test(url) || /[.]zip$/.test(url);
-    req.overrideMimeType('text/plain; charset=x-user-defined');
-    req.open('GET', url, true);
-    if (isBinary)
-      req.responseType = 'arraybuffer';
-
-    req.onreadystatechange = function(event) {
-      if (req.readyState !== 4)
-        return;
-
-      window.setTimeout(function() {
-        if (req.status === 200)
-          onResult(isBinary ? req.response : req.responseText);
-        else
-          onResultFail(req.status);
-      }, 0);
-    };
-    req.send(null);
-  }
-
-  function onResultFail(err) {
-    var overlay = new tr.ui.b.Overlay();
-    overlay.textContent = err + ': ' + url + ' could not be loaded';
-    overlay.title = 'Failed to fetch data';
-    overlay.visible = true;
-  }
-
-  function onResult(result) {
-    model = new tr.Model();
-    var opts = new tr.importer.ImportOptions();
-    opts.shiftWorldToZero = false;
-    var i = new tr.importer.Import(model, opts);
-    var p = i.importTracesWithProgressDialog([result]);
-    p.then(onModelLoaded, onImportFail);
-  }
-
-  function onModelLoaded() {
-    viewer.model = model;
-    viewer.viewTitle = "trace";
-
-    if (!model || model.bounds.isEmpty)
-      return;
-    var sel = window.location.hash.substr(1);
-    if (sel === '')
-      return;
-    var parts = sel.split(':');
-    var range = new (tr.b.Range || tr.b.math.Range)();
-    range.addValue(parseFloat(parts[0]));
-    range.addValue(parseFloat(parts[1]));
-    viewer.trackView.viewport.interestRange.set(range);
-  }
-
-  function onImportFail(err) {
-    var overlay = new tr.ui.b.Overlay();
-    overlay.textContent = tr.b.normalizeException(err).message;
-    overlay.title = 'Import error';
-    overlay.visible = true;
-  }
-
-  document.addEventListener('WebComponentsReady', function() {
-    var container = document.createElement('track-view-container');
-    container.id = 'track_view_container';
-
-    viewer = document.createElement('tr-ui-timeline-view');
-    viewer.track_view_container = container;
-    Polymer.dom(viewer).appendChild(container);
-
-    viewer.id = 'trace-viewer';
-    viewer.globalMode = true;
-    Polymer.dom(document.body).appendChild(viewer);
-
-    url = '/jsontrace?{{PARAMS}}';
-    load();
-  });
-}());
-</script>
-</head>
-<body>
-</body>
-</html>
-`
 
 // httpJsonTrace serves json trace, requested from within templTrace HTML.
 func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
@@ -279,22 +140,10 @@ func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type Range struct {
-	Name      string
-	Start     int
-	End       int
-	StartTime int64
-	EndTime   int64
-}
-
-func (r Range) URL() string {
-	return fmt.Sprintf("/trace?start=%d&end=%d", r.Start, r.End)
-}
-
 // splitTrace splits the trace into a number of ranges,
 // each resulting in approx 100MB of json output
 // (trace viewer can hardly handle more).
-func splitTrace(res trace.ParseResult) []Range {
+func splitTrace(res trace.ParseResult) []trace.Range {
 	params := &traceParams{
 		parsed:  res,
 		endTime: math.MaxInt64,
@@ -307,7 +156,7 @@ func splitTrace(res trace.ParseResult) []Range {
 }
 
 type splitter struct {
-	Ranges []Range
+	Ranges []trace.Range
 }
 
 // walkStackFrames calls fn for id and all of its parent frames from allFrames.
@@ -470,7 +319,7 @@ func splittingTraceConsumer(max int) (*splitter, traceConsumer) {
 				// start a new range.
 				startTime := time.Duration(sizes[start].Time * 1000)
 				endTime := time.Duration(ev.Time * 1000)
-				ranges = append(ranges, Range{
+				ranges = append(ranges, trace.Range{
 					Name:      fmt.Sprintf("%v-%v", startTime, endTime),
 					Start:     start,
 					End:       i + 1,
@@ -488,7 +337,7 @@ func splittingTraceConsumer(max int) (*splitter, traceConsumer) {
 			}
 
 			if end := len(sizes) - 1; start < end {
-				ranges = append(ranges, Range{
+				ranges = append(ranges, trace.Range{
 					Name:      fmt.Sprintf("%v-%v", time.Duration(sizes[start].Time*1000), time.Duration(sizes[end].Time*1000)),
 					Start:     start,
 					End:       end,

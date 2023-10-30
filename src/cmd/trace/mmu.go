@@ -393,7 +393,7 @@ type linkedUtilWindow struct {
 
 func newLinkedUtilWindow(ui trace.UtilWindow, window time.Duration) linkedUtilWindow {
 	// Find the range containing this window.
-	var r Range
+	var r trace.Range
 	for _, r = range ranges {
 		if r.EndTime > ui.Time {
 			break
