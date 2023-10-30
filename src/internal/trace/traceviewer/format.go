@@ -36,3 +36,17 @@ type Frame struct {
 	Name   string `json:"name"`
 	Parent int    `json:"parent,omitempty"`
 }
+
+type NameArg struct {
+	Name string `json:"name"`
+}
+
+type SortIndexArg struct {
+	Index int `json:"sort_index"`
+}
+
+const (
+	ProcsSection = 0 // where Goroutines or per-P timelines are presented.
+	StatsSection = 1 // where counters are presented.
+	TasksSection = 2 // where Task hierarchy & timeline is presented.
+)
