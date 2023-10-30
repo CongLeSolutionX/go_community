@@ -70,6 +70,8 @@ func traceLockInit() {
 
 // lockRankMayTraceFlush records the lock ranking effects of a
 // potential call to traceFlush.
+//
+//go:nosplit
 func lockRankMayTraceFlush() {
 	lockWithRankMayAcquire(&trace.lock, getLockRank(&trace.lock))
 }
