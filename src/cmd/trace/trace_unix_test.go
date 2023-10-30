@@ -8,8 +8,8 @@ package main
 
 import (
 	"bytes"
-	"cmd/internal/traceviewer"
 	traceparser "internal/trace"
+	"internal/trace/traceviewer"
 	"io"
 	"runtime"
 	"runtime/trace"
@@ -83,8 +83,8 @@ func TestGoroutineInSyscall(t *testing.T) {
 
 	// Check only one thread for the pipe read goroutine is
 	// considered in-syscall.
-	c := viewerDataTraceConsumer(io.Discard, 0, 1<<63-1)
-	c.consumeViewerEvent = func(ev *traceviewer.Event, _ bool) {
+	c := traceviewer.ViewerDataTraceConsumer(io.Discard, 0, 1<<63-1)
+	c.ConsumeViewerEvent = func(ev *traceviewer.Event, _ bool) {
 		if ev.Name == "Threads" {
 			arg := ev.Arg.(*threadCountersArg)
 			if arg.InSyscall > 1 {
