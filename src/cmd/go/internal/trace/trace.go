@@ -5,10 +5,10 @@
 package trace
 
 import (
-	"cmd/internal/traceviewer"
 	"context"
 	"encoding/json"
 	"errors"
+	"internal/trace/traceviewer"
 	"os"
 	"strings"
 	"sync/atomic"
