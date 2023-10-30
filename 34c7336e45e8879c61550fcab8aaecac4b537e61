@@ -109,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84113ae6_1a62ed94",
+        "filename": "src/crypto/x509/oid.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-10-30T19:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a36470fe_edd9a52b",
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "636c39e1_70ede70e",
@@ -126,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1896a070_ffc8a716",
+        "filename": "src/crypto/x509/oid.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-10-30T19:17:28Z",
+      "side": 1,
+      "message": "Done, you were missing a `return i \u003d\u003d len(other)` at the end of `EqualASN1OID`",
+      "parentUuid": "636c39e1_70ede70e",
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "627b11eb_2ac77f7a",
@@ -139,6 +175,30 @@
       "writtenOn": "2023-10-30T18:34:03Z",
       "side": 1,
       "message": "// PoliciyIdentifiers contains the certificate policies which can be\n\t// represented by an asn1.ObjectIdentifier.\n\t//\n\t// Deprecated: as asn1.ObjectIdentifier is limited to 31 bit components, any policy\n\t// that contains a larger component will be omitted. Policies, which contains\n\t// all certificate policies, regardless of component size, should be used\n\t// instead.",
+      "range": {
+        "startLine": 775,
+        "startChar": 1,
+        "endLine": 779,
+        "endChar": 16
+      },
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4df168e9_296eb6d8",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-10-30T19:17:28Z",
+      "side": 1,
+      "message": "I remember that there was a issue before that we shouldn\u0027t deprecate things for at least one release (there must be at least one release with an alternative solution before deprecation) For example CL 453256. Right? I might be wrong.",
+      "parentUuid": "627b11eb_2ac77f7a",
       "range": {
         "startLine": 775,
         "startChar": 1,
