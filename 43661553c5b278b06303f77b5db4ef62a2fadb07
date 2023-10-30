@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6314752_ea524e7f",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-10-30T03:16:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "890a75b7_ea7a825b",
+      "revId": "43661553c5b278b06303f77b5db4ef62a2fadb07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c94a680e_0539e24b",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-06-26T18:42:03Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "43661553c5b278b06303f77b5db4ef62a2fadb07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27ad0567_89ca4d4e",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-10-30T03:16:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c94a680e_0539e24b",
       "revId": "43661553c5b278b06303f77b5db4ef62a2fadb07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b6b5313_b253cca8",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-10-30T03:16:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "488fd43d_cf420a27",
+      "revId": "43661553c5b278b06303f77b5db4ef62a2fadb07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "123b2642_df691295",
@@ -119,6 +173,30 @@
       "writtenOn": "2023-06-26T18:42:03Z",
       "side": 1,
       "message": "Just create the map in the variable definition above, `var aconvMap \u003d make(map[string]AconvFuncList)`, and remove the check.",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 2
+      },
+      "revId": "43661553c5b278b06303f77b5db4ef62a2fadb07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8399c6e_23d35700",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-10-30T03:16:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "123b2642_df691295",
       "range": {
         "startLine": 472,
         "startChar": 0,

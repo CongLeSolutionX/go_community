@@ -88,6 +88,24 @@
       "parentUuid": "4cafcf9a_9f7b5777",
       "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5566d31_4e7dcb54",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 53189
+      },
+      "writtenOn": "2023-10-30T03:16:59Z",
+      "side": 0,
+      "message": "Yes, I\u0027m not digging into other architectures a lot, but at least ppc64 and s390x still use this logic.\n\nThanks~",
+      "parentUuid": "a865ef8c_dce91284",
+      "revId": "191d71b5a5ad96128e5b96ba9eef5c66b88ca890",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
