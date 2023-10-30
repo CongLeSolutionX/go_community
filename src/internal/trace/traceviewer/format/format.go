@@ -7,7 +7,10 @@
 //
 // The official description of the format is in this file:
 // https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview
-package traceviewer
+//
+// Note: This can't be part of the parent traceviewer package as that would
+// throw go_bootstrap cannot depend on cgo package net in ./make.bash.
+package format
 
 type Data struct {
 	Events   []*Event         `json:"traceEvents"`
@@ -36,3 +39,17 @@ type Frame struct {
 	Name   string `json:"name"`
 	Parent int    `json:"parent,omitempty"`
 }
+
+type NameArg struct {
+	Name string `json:"name"`
+}
+
+type SortIndexArg struct {
+	Index int `json:"sort_index"`
+}
+
+const (
+	ProcsSection = 0 // where Goroutines or per-P timelines are presented.
+	StatsSection = 1 // where counters are presented.
+	TasksSection = 2 // where Task hierarchy & timeline is presented.
+)
