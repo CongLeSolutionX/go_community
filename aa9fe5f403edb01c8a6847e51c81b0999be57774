@@ -1146,6 +1146,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c89aa4d_b85826e5",
+        "filename": "src/cmd/internal/obj/arm64/instgen/main.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-10-30T03:24:30Z",
+      "side": 1,
+      "message": "I have moved the parser to x/arch, and refactored the disassembler based on the new instruction table, see https://go-review.googlesource.com/c/arch/+/538136 and https://go-review.googlesource.com/c/go/+/538456, please review whether this design is reasonable, thank you.",
+      "parentUuid": "46bc25b6_1ba4d4ce",
+      "revId": "aa9fe5f403edb01c8a6847e51c81b0999be57774",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "791202bd_a902d744",
