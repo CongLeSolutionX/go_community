@@ -53,6 +53,46 @@
       "message": "Ping",
       "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13af5410_99f01439",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-10-31T22:51:01Z",
+      "side": 1,
+      "message": "Nice work Keith and long time! Just a drive-by alternative comment but otherwise LGTM, thanks for working on the traceback code, I had an interest in it 2 years ago but I got so swamped, so nice to see you touch it up.",
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55516ab9_12614043",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-10-31T22:51:01Z",
+      "side": 1,
+      "message": "Alternatively, for easy reading and natural reading, given that we know majority of the names will be well formatted (except in error), could we perhaps just search from the end until we encounter the closing \".\" so:\n\n\tif name[n] \u003d\u003d \u0027(\u0027 {\n\t\t// Search from the terminal end of the name until we encounter \".\"\n\t\ti :\u003d len(name) - 1\n\t\tfor i \u003e\u003d 0 \u0026\u0026 name[i] !\u003d \u0027.\u0027 {\n\t\t\ti--\n\t\t}\n\t\tif i \u003c 0 || i \u003e\u003d len(name)-1 || name[i] !\u003d \u0027.\u0027 || name[i-1] !\u003d \u0027)\u0027 {\n\t\t\treturn false\n\t\t}\n\t\tn \u003d i + 1\n\t}",
+      "range": {
+        "startLine": 1155,
+        "startChar": 1,
+        "endLine": 1171,
+        "endChar": 2
+      },
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
