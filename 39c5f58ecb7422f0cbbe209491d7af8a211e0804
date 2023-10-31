@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9080a45_f5391eba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-10-31T03:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad5be0b8_287119a2",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "39c5f58ecb7422f0cbbe209491d7af8a211e0804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dc01d47_6f208f2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-10-31T03:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f192ba1_484afd50",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "39c5f58ecb7422f0cbbe209491d7af8a211e0804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "571b8680_1e50c401",
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3e657ab_8849b11a",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-10-31T03:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "571b8680_1e50c401",
+      "range": {
+        "startLine": 166,
+        "startChar": 61,
+        "endLine": 166,
+        "endChar": 90
+      },
+      "revId": "39c5f58ecb7422f0cbbe209491d7af8a211e0804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a1fe019_50095b78",
@@ -83,6 +155,24 @@
       "writtenOn": "2023-10-30T21:06:10Z",
       "side": 1,
       "message": "We cannot execute the binary if we\u0027re not on a RISCV64 machine. Maybe we can just skip the test on non-RISCV64 machines, and remove the setting of environment variables above.",
+      "revId": "39c5f58ecb7422f0cbbe209491d7af8a211e0804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "588c2ce6_6eadb729",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-10-31T03:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a1fe019_50095b78",
       "revId": "39c5f58ecb7422f0cbbe209491d7af8a211e0804",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
