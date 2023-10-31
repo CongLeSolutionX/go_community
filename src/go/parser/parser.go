@@ -883,13 +883,9 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 	// Type set notation is ok in type parameter lists.
 	typeSetsOK := tparams
 
-	pos := p.pos
-	if name0 != nil {
-		pos = name0.Pos()
-	}
-
 	var list []field
 	var named int // number of parameters that have an explicit name and type
+	var typed int // number of parameters that have an explicit type
 
 	for name0 != nil || p.tok != closing && p.tok != token.EOF {
 		var par field
@@ -908,6 +904,9 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 			if par.name != nil && par.typ != nil {
 				named++
 			}
+			if par.typ != nil {
+				typed++
+			}
 		}
 		if !p.atComma("parameter list", closing) {
 			break
@@ -922,8 +921,8 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 	// TODO(gri) parameter distribution and conversion to []*ast.Field
 	//           can be combined and made more efficient
 
-	// distribute parameter types
-	if named == 0 {
+	// distribute parameter types (len(list) > 0)
+	if named == 0 && !tparams {
 		// all unnamed => found names are type names
 		for i := 0; i < len(list); i++ {
 			par := &list[i]
@@ -932,39 +931,44 @@ func (p *parser) parseParameterList(name0 *ast.Ident, typ0 ast.Expr, closing tok
 				par.name = nil
 			}
 		}
-		if tparams {
-			p.error(pos, "type parameters must be named")
-		}
 	} else if named != len(list) {
 		// some named => all must be named
-		ok := true
-		var typ ast.Expr
-		missingName := pos
+		var pos token.Pos // left-most error position (or invalid)
+		var typ ast.Expr  // current type (from right to left)
 		for i := len(list) - 1; i >= 0; i-- {
 			if par := &list[i]; par.typ != nil {
 				typ = par.typ
 				if par.name == nil {
-					ok = false
-					missingName = par.typ.Pos()
+					pos = typ.Pos()
 					n := ast.NewIdent("_")
-					n.NamePos = typ.Pos() // correct position
+					n.NamePos = pos // correct position
 					par.name = n
 				}
 			} else if typ != nil {
 				par.typ = typ
 			} else {
 				// par.typ == nil && typ == nil => we only have a par.name
-				ok = false
-				missingName = par.name.Pos()
-				par.typ = &ast.BadExpr{From: par.name.Pos(), To: p.pos}
+				pos = par.name.Pos()
+				par.typ = &ast.BadExpr{From: pos, To: p.pos}
 			}
 		}
-		if !ok {
+		if pos.IsValid() {
+			var msg string
 			if tparams {
-				p.error(missingName, "type parameters must be named")
+				if named == typed {
+					pos = p.pos // position error at closing ]
+					msg = "missing type constraint"
+				} else {
+					msg = "missing type parameter name"
+					// go.dev/issue/60812
+					if len(list) == 1 {
+						msg += " or invalid array length"
+					}
+				}
 			} else {
-				p.error(pos, "mixed named and unnamed parameters")
+				msg = "mixed named and unnamed parameters"
 			}
+			p.error(pos, msg)
 		}
 	}
 
@@ -1545,7 +1549,7 @@ func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
 		if ncolons == 2 {
 			slice3 = true
 			// Check presence of middle and final index here rather than during type-checking
-			// to prevent erroneous programs from passing through gofmt (was issue 7305).
+			// to prevent erroneous programs from passing through gofmt (was go.dev/issue/7305).
 			if index[1] == nil {
 				p.error(colons[0], "middle index required in 3-index slice")
 				index[1] = &ast.BadExpr{From: colons[0] + 1, To: colons[1]}
@@ -2534,7 +2538,7 @@ func (p *parser) parseGenericType(spec *ast.TypeSpec, openPos token.Pos, name0 *
 	closePos := p.expect(token.RBRACK)
 	spec.TypeParams = &ast.FieldList{Opening: openPos, List: list, Closing: closePos}
 	// Let the type checker decide whether to accept type parameters on aliases:
-	// see issue #46477.
+	// see go.dev/issue/46477.
 	if p.tok == token.ASSIGN {
 		// type alias
 		spec.Assign = p.pos
