@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbf048c5_c467cfa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-31T16:11:58Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-riscv64",
+      "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e100ec1d_95314700",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-31T16:11:58Z",
+      "side": 1,
+      "message": "Use t.TempDir instead.",
+      "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51e4e73e_2290b51b",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-31T16:11:58Z",
+      "side": 1,
+      "message": "Conventionally name it `cmd`. We can use the same `cmd` variable for executing the binary.",
+      "range": {
+        "startLine": 169,
+        "startChar": 1,
+        "endLine": 169,
+        "endChar": 6
+      },
+      "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "388457d7_058ab79d",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-10-31T16:11:58Z",
+      "side": 1,
+      "message": "It\u0027s probably better to use `go build -o` to set an explicit output name. `x.exe` is fine.",
+      "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
