@@ -45,6 +45,7 @@ sse:
 	LEAQ	-16(SI)(BX*1), AX	// AX = address of last 16 bytes
 	JMP	sseloopentry
 
+	PCALIGN $16
 sseloop:
 	// Move the next 16-byte chunk of the data into X1.
 	MOVOU	(DI), X1
@@ -57,6 +58,8 @@ sseloop:
 	JNZ	ssesuccess
 	// Advance to next block.
 	ADDQ	$16, DI
+
+	PCALIGN $16
 sseloopentry:
 	CMPQ	DI, AX
 	JB	sseloop
@@ -124,6 +127,8 @@ avx2:
 	MOVD AX, X0
 	LEAQ -32(SI)(BX*1), R11
 	VPBROADCASTB  X0, Y1
+
+	PCALIGN $32
 avx2_loop:
 	VMOVDQU (DI), Y2
 	VPCMPEQB Y1, Y2, Y3
