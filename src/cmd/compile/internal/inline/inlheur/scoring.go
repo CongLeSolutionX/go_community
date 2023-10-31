@@ -309,6 +309,11 @@ func computeCallSiteScore(cs *CallSite, calleeProps *FuncProps) (int, scoreAdjus
 		score, tmask = adjustScore(inLoopAdj, score, tmask)
 	}
 
+	// Stop here if no callee props.
+	if calleeProps == nil {
+		return score, tmask
+	}
+
 	// Walk through the actual expressions being passed at the call.
 	calleeRecvrParms := callee.Type().RecvParams()
 	for idx := range call.Args {
