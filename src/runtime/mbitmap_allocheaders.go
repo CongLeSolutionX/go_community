@@ -191,9 +191,8 @@ func (span *mspan) typePointersOfUnchecked(addr uintptr) typePointers {
 	// All of these objects have a header.
 	var typ *_type
 	if spc.sizeclass() != 0 {
-		// Pull the allocation header from the first word of the object.
-		typ = *(**_type)(unsafe.Pointer(addr))
-		addr += mallocHeaderSize
+		// Pull the allocation header from the last word of the object.
+		typ = *(**_type)(unsafe.Pointer(addr + span.elemsize - mallocHeaderSize))
 	} else {
 		typ = span.largeType
 	}
