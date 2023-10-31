@@ -309,6 +309,7 @@ func computeCallSiteScore(cs *CallSite, calleeProps *FuncProps) (int, scoreAdjus
 		score, tmask = adjustScore(inLoopAdj, score, tmask)
 	}
 
+	// Stop here if no callee props.
 	if calleeProps == nil {
 		return score, tmask
 	}
