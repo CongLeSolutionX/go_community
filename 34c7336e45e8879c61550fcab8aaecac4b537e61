@@ -207,6 +207,30 @@
       },
       "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d78e723b_9ca5b189",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-10-31T17:41:20Z",
+      "side": 1,
+      "message": "Oh right, you\u0027d think after having done this so many times I\u0027d remember this.",
+      "parentUuid": "4df168e9_296eb6d8",
+      "range": {
+        "startLine": 775,
+        "startChar": 1,
+        "endLine": 779,
+        "endChar": 16
+      },
+      "revId": "34c7336e45e8879c61550fcab8aaecac4b537e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
