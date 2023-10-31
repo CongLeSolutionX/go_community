@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01123eb7_2175e808",
+        "filename": "src/runtime/chan_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-10-31T17:19:52Z",
+      "side": 1,
+      "message": "(nit) Maybe expand this comment a bit to explain why we allow such a large variance?\n\n(IIUC, it\u0027s not that we actually expect to run the test all that many times — rather, we\u0027re ok with a bit of systematic bias as long as it isn\u0027t too severe.)",
+      "revId": "037e29b328f1e734fb34b442a6734502c6ef4a83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
