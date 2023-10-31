@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c76868_31230412",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-10-31T12:06:56Z",
+      "side": 1,
+      "message": "TRY\u003dopenbsd-ppc64",
+      "revId": "cb7ffdab51217b3eb428f8ad13766738860f2193",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
