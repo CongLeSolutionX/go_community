@@ -318,21 +318,16 @@ func T_return_different_closures() func(int) int {
 	}
 }
 
-// returns.go T_return_noninlinable 338 0 1
+// returns.go T_return_noninlinable 333 0 1
 // ResultFlags
 //   0 ResultAlwaysSameFunc
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[16]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_noninlinable.func1 339 0 1
+// returns.go T_return_noninlinable.func1 334 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
-// <endcallsites>
-// <endfuncpreamble>
-// returns.go T_return_noninlinable.func1.1 340 0 1
-// <endpropsdump>
-// {"Flags":0,"ParamFlags":null,"ResultFlags":null}
 // <endcallsites>
 // <endfuncpreamble>
 func T_return_noninlinable(x int) func(int) int {
