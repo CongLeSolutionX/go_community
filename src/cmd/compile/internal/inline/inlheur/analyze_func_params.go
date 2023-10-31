@@ -82,23 +82,23 @@ func makeParamsAnalyzer(fn *ir.Func) (*paramsAnalyzer, []ParamPropBits) {
 			if params[i] != nil {
 				n = params[i].Sym().String()
 			}
-			fmt.Fprintf(os.Stderr, "=-=  %d: %q %s\n",
-				i, n, vals[i].String())
+			fmt.Fprintf(os.Stderr, "=-=  %d: %q %s top=%v\n",
+				i, n, vals[i].String(), top[i])
 		}
 	}
 
-	if interestingToAnalyze {
-		pa := &paramsAnalyzer{
-			fname:            fn.Sym().Name,
-			values:           vals,
-			params:           params,
-			top:              top,
-			condLevelTracker: new(condLevelTracker),
-		}
-		return pa, nil
-	} else {
+	if !interestingToAnalyze || fn.Inl == nil {
 		return nil, vals
 	}
+
+	pa := &paramsAnalyzer{
+		fname:            fn.Sym().Name,
+		values:           vals,
+		params:           params,
+		top:              top,
+		condLevelTracker: new(condLevelTracker),
+	}
+	return pa, nil
 }
 
 func (pa *paramsAnalyzer) setResults(fp *FuncProps) {
