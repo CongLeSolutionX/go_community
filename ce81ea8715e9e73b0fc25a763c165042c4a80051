@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45bef14b_710cc1cf",
+        "filename": "src/cmd/trace/v2/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-10-31T04:35:52Z",
+      "side": 1,
+      "message": "the high level API exposes the \"EventSync\" events for this purpose; are you specifically trying to avoid fully parsing the trace at startup?\n\nI can write a bespoke API for this if that would help. it should be fairly straightforward to break out internal/trace/v2/generation.go into something more reusable.",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 16,
+        "endChar": 92
+      },
+      "revId": "ce81ea8715e9e73b0fc25a763c165042c4a80051",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
