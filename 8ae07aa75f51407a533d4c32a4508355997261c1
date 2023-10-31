@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1a39979c_0daf7d84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-31T21:33:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88ce08a2_9615671c",
+      "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7db9e4d5_deabe4bf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -125,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "622ac8ab_bab7246a",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-31T21:33:04Z",
+      "side": 1,
+      "message": "Ack, I think this predated that patch.",
+      "parentUuid": "73c616af_59aa42ce",
+      "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3f471b0_901e0b40",
@@ -138,6 +174,24 @@
       "writtenOn": "2023-10-31T20:02:58Z",
       "side": 1,
       "message": "No space between the tuple types. I\u0027ve seen cases where it causes problems for rulegen.",
+      "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "334f1c09_cf927a75",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-31T21:33:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3f471b0_901e0b40",
       "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -161,6 +215,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee654e29_4c3edb4c",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-31T21:33:04Z",
+      "side": 1,
+      "message": "I\u0027ll try, but its a fundamental limit of the rules file. We can\u0027t inspect sibling users of a value. I\u0027ve added an example to convertPPC64OpToOpCC which hopefully shows the limitation I am working around.",
+      "parentUuid": "dac09601_d9837bd9",
+      "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bcc8e298_557595a4",
         "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
         "patchSetId": 1
@@ -172,6 +244,24 @@
       "writtenOn": "2023-10-31T20:02:58Z",
       "side": 1,
       "message": "There are rules to do this for the AND, OR, and XOR in PPC64.rules. Shouldn\u0027t those be removed from that file if they are handled here, or is there some reason to keep them both.",
+      "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71f0a4a0_2f7d002d",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-31T21:33:04Z",
+      "side": 1,
+      "message": "I think those can be removed without too much impact. But, I think that should be a separate patch. They catch a case where the compare happens in a separate block, but have no other users.",
+      "parentUuid": "bcc8e298_557595a4",
       "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -189,6 +279,24 @@
       "writtenOn": "2023-10-31T20:02:58Z",
       "side": 1,
       "message": "This needs a better explanation for the purpose of this function so others understand why it is being done this way. It looks like it is trying to do what rewritePPC64latelower.go should be doing.",
+      "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "531eaafd_80027b09",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1624,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-10-31T21:33:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3c52f00b_e3147557",
       "revId": "8ae07aa75f51407a533d4c32a4508355997261c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
