@@ -10,7 +10,6 @@ import (
 	"cmd/compile/internal/types"
 	"encoding/json"
 	"fmt"
-	"internal/goexperiment"
 	"io"
 	"os"
 	"path/filepath"
@@ -51,29 +50,79 @@ type propAnalyzer interface {
 // parsing a dump. This is the reason why we have file/fname/line
 // fields below instead of just an *ir.Func field.
 type fnInlHeur struct {
-	fname           string
-	file            string
-	line            uint
-	inlineMaxBudget int32
-	props           *FuncProps
-	cstab           CallSiteTab
+	props *FuncProps
+	cstab CallSiteTab
+	fname string
+	file  string
+	line  uint
 }
 
 var fpmap = map[*ir.Func]fnInlHeur{}
 
-func AnalyzeFunc(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int32) *FuncProps {
+// AnalyzeFunc computes function properties for fn and its contained
+// closures, updating the global 'fpmap' table. It is assumed that
+// "CanInline" has been run on fn and on the closures that feed
+// directly into calls; other closures not directly called will also
+// be checked inlinability for inlinability here in case they are
+// returned as a result.
+func AnalyzeFunc(fn *ir.Func, canInline func(*ir.Func), budgetForFunc func(*ir.Func) int32, inlineMaxBudget int) {
+	if fn.OClosure != nil {
+		// closures will be processed along with their outer enclosing func.
+		return
+	}
+	enableDebugTraceIfEnv()
+	if debugTrace&debugTraceFuncs != 0 {
+		fmt.Fprintf(os.Stderr, "=-= AnalyzeFunc(%v)\n", fn)
+	}
+	// Build up a list containing 'fn' and any closures it contains. Along
+	// the way, test to see whether each closure is inlinable in case
+	// we might be returning it.
+	funcs := []*ir.Func{fn}
+	ir.Any(fn, func(n ir.Node) bool {
+		if c, ok := n.(*ir.ClosureExpr); ok {
+			funcs = append(funcs, c.Func)
+			if !c.Func.InlinabilityChecked() {
+				canInline(c.Func)
+			}
+		}
+		return false
+	})
+
+	// Analyze the list of functions. We want to visit a given func
+	// only after the closures it contains have been processed, so
+	// iterate through the list in reverse order. Once a function has
+	// been analyzed, revisit the question of whether it should be
+	// inlinable; if it is over the default hairyness limit and it
+	// doesn't have any interesting properties, then we don't want
+	// the overhead of writing out its inline body.
+	nf := len(funcs)
+	for idx := range funcs {
+		f := funcs[nf-idx-1]
+		funcProps := analyzeFunc(f, inlineMaxBudget)
+		revisitInlinability(f, funcProps, budgetForFunc)
+		if f.Inl != nil {
+			f.Inl.Properties = funcProps.SerializeToString()
+		}
+	}
+	disableDebugTrace()
+}
+
+func TearDown() {
+	fpmap = nil
+}
+
+func analyzeFunc(fn *ir.Func, inlineMaxBudget int) *FuncProps {
 	if funcInlHeur, ok := fpmap[fn]; ok {
 		return funcInlHeur.props
 	}
-	funcProps, fcstab := computeFuncProps(fn, canInline, inlineMaxBudget)
+	funcProps, fcstab := computeFuncProps(fn, inlineMaxBudget)
 	file, line := fnFileLine(fn)
 	entry := fnInlHeur{
-		fname:           fn.Sym().Name,
-		file:            file,
-		line:            line,
-		inlineMaxBudget: inlineMaxBudget,
-		props:           funcProps,
-		cstab:           fcstab,
+		fname: fn.Sym().Name,
+		file:  file,
+		line:  line,
+		props: funcProps,
+		cstab: fcstab,
 	}
 	fn.SetNeverReturns(entry.props.Flags&FuncPropNeverReturns != 0)
 	fpmap[fn] = entry
@@ -83,22 +132,17 @@ func AnalyzeFunc(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int32) *
 	return funcProps
 }
 
-// RevisitInlinability revisits the question of whether to continue to
+// revisitInlinability revisits the question of whether to continue to
 // treat function 'fn' as an inline candidate based on the set of
 // properties we've computed for it. If (for example) it has an
 // initial size score of 150 and no interesting properties to speak
 // of, then there isn't really any point to moving ahead with it as an
 // inline candidate.
-func RevisitInlinability(fn *ir.Func, budgetForFunc func(*ir.Func) int32) {
+func revisitInlinability(fn *ir.Func, funcProps *FuncProps, budgetForFunc func(*ir.Func) int32) {
 	if fn.Inl == nil {
 		return
 	}
-	entry, ok := fpmap[fn]
-	if !ok {
-		//FIXME: issue error?
-		return
-	}
-	mxAdjust := int32(largestScoreAdjustment(fn, entry.props))
+	mxAdjust := int32(largestScoreAdjustment(fn, funcProps))
 	budget := budgetForFunc(fn)
 	if fn.Inl.Cost+mxAdjust > budget {
 		fn.Inl = nil
@@ -108,8 +152,7 @@ func RevisitInlinability(fn *ir.Func, budgetForFunc func(*ir.Func) int32) {
 // computeFuncProps examines the Go function 'fn' and computes for it
 // a function "properties" object, to be used to drive inlining
 // heuristics. See comments on the FuncProps type for more info.
-func computeFuncProps(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int32) (*FuncProps, CallSiteTab) {
-	enableDebugTraceIfEnv()
+func computeFuncProps(fn *ir.Func, inlineMaxBudget int) (*FuncProps, CallSiteTab) {
 	if debugTrace&debugTraceFuncs != 0 {
 		fmt.Fprintf(os.Stderr, "=-= starting analysis of func %v:\n%+v\n",
 			fn, fn)
@@ -117,18 +160,17 @@ func computeFuncProps(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int
 	funcProps := new(FuncProps)
 	ffa := makeFuncFlagsAnalyzer(fn)
 	analyzers := []propAnalyzer{ffa}
-	analyzers = addResultsAnalyzer(fn, canInline, inlineMaxBudget, analyzers, funcProps)
+	analyzers = addResultsAnalyzer(fn, analyzers, funcProps, inlineMaxBudget)
 	analyzers = addParamsAnalyzer(fn, analyzers, funcProps)
 	runAnalyzersOnFunction(fn, analyzers)
 	for _, a := range analyzers {
 		a.setResults(funcProps)
 	}
-	// Now build up a partial table of callsites for this func.
+	// Now build up a table of callsites for this func.
 	if debugTrace&debugTraceCalls != 0 {
 		fmt.Fprintf(os.Stderr, "=-= making callsite table for func %v:\n", fn)
 	}
 	cstab := computeCallSiteTable(fn, fn.Body, ffa.panicPathTable(), 0)
-	disableDebugTrace()
 	return funcProps, cstab
 }
 
@@ -172,22 +214,18 @@ func UnitTesting() bool {
 // cached set of properties to the file given in 'dumpfile'. Used for
 // the "-d=dumpinlfuncprops=..." command line flag, intended for use
 // primarily in unit testing.
-func DumpFuncProps(fn *ir.Func, dumpfile string, canInline func(*ir.Func), inlineMaxBudget int32) {
+func DumpFuncProps(fn *ir.Func, dumpfile string) {
 	if fn != nil {
-		enableDebugTraceIfEnv()
-		dmp := func(fn *ir.Func) {
-			if !goexperiment.NewInliner {
-				ScoreCalls(fn)
-			}
-			captureFuncDumpEntry(fn, canInline, inlineMaxBudget)
+		if fn.OClosure != nil {
+			// closures will be processed along with their outer enclosing func.
+			return
 		}
-		dmp(fn)
+		captureFuncDumpEntry(fn)
 		ir.Visit(fn, func(n ir.Node) {
 			if clo, ok := n.(*ir.ClosureExpr); ok {
-				dmp(clo.Func)
+				captureFuncDumpEntry(clo.Func)
 			}
 		})
-		disableDebugTrace()
 	} else {
 		emitDumpToFile(dumpfile)
 	}
@@ -243,27 +281,19 @@ func emitDumpToFile(dumpfile string) {
 // and enqueues it for later dumping. Used for the
 // "-d=dumpinlfuncprops=..." command line flag, intended for use
 // primarily in unit testing.
-func captureFuncDumpEntry(fn *ir.Func, canInline func(*ir.Func), inlineMaxBudget int32) {
+func captureFuncDumpEntry(fn *ir.Func) {
 	// avoid capturing compiler-generated equality funcs.
 	if strings.HasPrefix(fn.Sym().Name, ".eq.") {
 		return
 	}
 	funcInlHeur, ok := fpmap[fn]
-	// Props object should already be present, unless this is a
-	// directly recursive routine.
 	if !ok {
-		AnalyzeFunc(fn, canInline, inlineMaxBudget)
-		funcInlHeur = fpmap[fn]
-		if fn.Inl != nil && fn.Inl.Properties == "" {
-			fn.Inl.Properties = funcInlHeur.props.SerializeToString()
-		}
+		panic(fmt.Sprintf("captureFuncDumpEntry invoked on %v: no props", fn))
 	}
 	if dumpBuffer == nil {
 		dumpBuffer = make(map[*ir.Func]fnInlHeur)
 	}
 	if _, ok := dumpBuffer[fn]; ok {
-		// we can wind up seeing closures multiple times here,
-		// so don't add them more than once.
 		return
 	}
 	if debugTrace&debugTraceFuncs != 0 {
