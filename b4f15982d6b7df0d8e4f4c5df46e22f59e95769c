@@ -34,6 +34,23 @@
       "parentUuid": "69a8f921_6f8d832a",
       "revId": "b4f15982d6b7df0d8e4f4c5df46e22f59e95769c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de4c167e_10cb3514",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-01T16:18:26Z",
+      "side": 1,
+      "message": "Is there a specific crash or problem you are looking to address with this change? I think a test case that shows the nil panic would help. Thanks.",
+      "revId": "b4f15982d6b7df0d8e4f4c5df46e22f59e95769c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
