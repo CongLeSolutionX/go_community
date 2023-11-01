@@ -74,6 +74,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "149b0d5f_5449c336",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-01T01:02:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t handle value (non-pointer) receivers. Maybe we don\u0027t have exported value methods?",
+      "range": {
+        "startLine": 1157,
+        "startChar": 0,
+        "endLine": 1157,
+        "endChar": 20
+      },
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb15052_1fe6c54b",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-01T01:02:35Z",
+      "side": 1,
+      "message": "Maybe check that the type is exported? There could be methods starting with uppercase letters but on an unexported type. Not sure if we have any. Technically we could have a non-exported type exported through a global variable, but I don\u0027t think we have any of those in the runtime.",
+      "range": {
+        "startLine": 1160,
+        "startChar": 0,
+        "endLine": 1162,
+        "endChar": 3
+      },
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55516ab9_12614043",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 1
@@ -91,6 +137,23 @@
         "endLine": 1171,
         "endChar": 2
       },
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09c70354_dcfac647",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-01T01:02:35Z",
+      "side": 1,
+      "message": "Technically there could also be closures, which would be considered as unexported? Maybe it is fine not to handle those. The old code doesn\u0027t either.",
       "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
