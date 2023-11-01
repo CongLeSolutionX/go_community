@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/pgo"
+	"cmd/compile/internal/typecheck"
 	"fmt"
 	"os"
 	"sort"
@@ -122,15 +123,55 @@ func (csa *callSiteAnalyzer) determinePanicPathBits(call ir.Node, r CSPropBits) 
 	return r
 }
 
+// argPropsForCall returns a slice of argument properties for the
+// expressions being passed to the callee in the specific call
+// expression; these will be stored in the CallSite object for
+// a given call and then consulted when scoring. If no argument
+// has any interesting properties we try to save some space and
+// return a nil slice.
+func (csa *callSiteAnalyzer) argPropsForCall(ce *ir.CallExpr) []ActualExprPropBits {
+	rv := make([]ActualExprPropBits, len(ce.Args))
+	somethingInteresting := false
+	for idx := range ce.Args {
+		arg := ce.Args[idx]
+		_, islit := isLiteral(arg)
+		if islit {
+			rv[idx] = ActualExprConstant
+			somethingInteresting = true
+			continue
+		}
+		if isConcreteConvIface(arg) {
+			rv[idx] = ActualExprIsConcreteConvIface
+			somethingInteresting = true
+			continue
+		}
+		fname, isfunc, _ := isFuncName(arg)
+		if isfunc {
+			if fn := fname.Func; fn != nil && typecheck.HaveInlineBody(fn) {
+				rv[idx] = ActualExprIsInlinableFunc
+			} else {
+				rv[idx] = ActualExprIsFunc
+			}
+			somethingInteresting = true
+		}
+	}
+	if !somethingInteresting {
+		return nil
+	}
+	return rv
+}
+
 func (csa *callSiteAnalyzer) addCallSite(callee *ir.Func, call *ir.CallExpr) {
 	flags := csa.flagsForNode(call)
+	aprops := csa.argPropsForCall(call)
 	// FIXME: maybe bulk-allocate these?
 	cs := &CallSite{
-		Call:   call,
-		Callee: callee,
-		Assign: csa.containingAssignment(call),
-		Flags:  flags,
-		ID:     uint(len(csa.cstab)),
+		Call:     call,
+		Callee:   callee,
+		Assign:   csa.containingAssignment(call),
+		ArgProps: aprops,
+		Flags:    flags,
+		ID:       uint(len(csa.cstab)),
 	}
 	if _, ok := csa.cstab[call]; ok {
 		fmt.Fprintf(os.Stderr, "*** cstab duplicate entry at: %s\n",
@@ -231,7 +272,7 @@ func scoreCallsRegion(fn *ir.Func, region ir.Nodes, cstab CallSiteTab, doCallRes
 				continue
 			}
 		}
-		cs.Score, cs.ScoreMask = computeCallSiteScore(cs.Callee, cprops, cs.Call, cs.Flags)
+		cs.Score, cs.ScoreMask = computeCallSiteScore(cs, cprops)
 
 		if doCallResults {
 			if debugTrace&debugTraceScoring != 0 {
