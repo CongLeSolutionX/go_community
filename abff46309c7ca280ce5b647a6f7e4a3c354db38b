@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40f86eb7_10a714d8",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-11-01T22:32:43Z",
+      "side": 1,
+      "message": "In https://github.com/golang/go/issues/49580#issuecomment-1789774205, I suggested that we should split this apart as two different interfaces.",
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e9c6f5_f18e680e",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-11-01T22:32:43Z",
+      "side": 1,
+      "message": "What happens if the symlink escapes the current tree but comes back in?\n\nFor example, suppose root is \"/foo/bar\",\nwhere there is a symlink at \"/foo/bar/baz/symlink\"\nthat points to \"../../bar\".\n\nAnd I call `ReadLink(\"symlink\")`, what happens?\n\nReturning an error or just \".\" both seem like reasonable behaviors.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c6b40c0_54aa2365",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-11-01T22:32:43Z",
+      "side": 1,
+      "message": "Should we rename this to be `StatLink`? The `fs` package already takes this time to cleanup oddities from the \"os\" package\u0027s legacy in C.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a73414d_3617abd9",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-11-01T22:32:43Z",
+      "side": 1,
+      "message": "What does this do if name is not a symlink?",
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
