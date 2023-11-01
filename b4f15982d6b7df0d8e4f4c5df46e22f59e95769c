@@ -51,6 +51,24 @@
       "message": "Is there a specific crash or problem you are looking to address with this change? I think a test case that shows the nil panic would help. Thanks.",
       "revId": "b4f15982d6b7df0d8e4f4c5df46e22f59e95769c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e5ebd81_fff63f43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-01T16:46:33Z",
+      "side": 1,
+      "message": "Thanks for quick reply. I happened to find it by reading source code. I just searched the use of `dotypedef`, and found `def` is always non-nil. However there exists ```\nif def \u003d\u003d nil {\n\t\tErrorf(nil, \"dwarf: bad def in dotypedef\")\n\t}\n```, I think adding nil-check here is fine.",
+      "parentUuid": "de4c167e_10cb3514",
+      "revId": "b4f15982d6b7df0d8e4f4c5df46e22f59e95769c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
