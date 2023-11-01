@@ -16,6 +16,24 @@
       "message": "Thanks for your suggestions and do you know why the Failure happened on openbsd/amd64 but not linux/riscv64, or openbsd/amd64 is expected?",
       "revId": "def360fa41c0586dbb7d6496228bc3109d4d6a12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84ea1bd2_83cd11dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-01T09:32:40Z",
+      "side": 1,
+      "message": "It failed due to CL 419435, which fails on openbsd - this was fixed in CL 538457. The tests should pass if you rebase on to master.",
+      "parentUuid": "250a6107_8ce4c011",
+      "revId": "def360fa41c0586dbb7d6496228bc3109d4d6a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
