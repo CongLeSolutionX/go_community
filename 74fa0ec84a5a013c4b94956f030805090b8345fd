@@ -122,6 +122,24 @@
       "message": "See the comment on CL 468095 for keeping the list sorted. (Also, this and that CL will probably have merge conflict.)",
       "revId": "74fa0ec84a5a013c4b94956f030805090b8345fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff0e5a87_84f17dc8",
+        "filename": "src/syscall/syscall_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-01T23:54:00Z",
+      "side": 1,
+      "message": "Sorry, this is the main repo, so no merge conflict. But we may want to sort the list similarly. Thanks.",
+      "parentUuid": "d3104a78_ec4b6825",
+      "revId": "74fa0ec84a5a013c4b94956f030805090b8345fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
