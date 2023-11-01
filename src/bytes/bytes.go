@@ -122,7 +122,7 @@ func LastIndex(s, sep []byte) int {
 		return -1
 	}
 	// Rabin-Karp search from the end of the string
-	hashss, pow := bytealg.HashStrRevBytes(sep)
+	hashss, pow := bytealg.HashStrRev(sep)
 	last := len(s) - n
 	var h uint32
 	for i := len(s) - 1; i >= last; i-- {
@@ -1331,7 +1331,7 @@ func Index(s, sep []byte) int {
 			// we should cutover at even larger average skips,
 			// because Equal becomes that much more expensive.
 			// This code does not take that effect into account.
-			j := bytealg.IndexRabinKarpBytes(s[i:], sep)
+			j := bytealg.IndexRabinKarp(s[i:], sep)
 			if j < 0 {
 				return -1
 			}
