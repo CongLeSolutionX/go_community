@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d28514_79a430f3",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-01T08:59:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e100ec1d_95314700",
+      "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51e4e73e_2290b51b",
@@ -127,6 +145,48 @@
       "writtenOn": "2023-10-31T16:11:58Z",
       "side": 1,
       "message": "It\u0027s probably better to use `go build -o` to set an explicit output name. `x.exe` is fine.",
+      "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2ce2565_9c430bf5",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-01T08:59:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "388457d7_058ab79d",
+      "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e64b96_34407615",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-01T08:59:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51e4e73e_2290b51b",
+      "range": {
+        "startLine": 169,
+        "startChar": 1,
+        "endLine": 169,
+        "endChar": 6
+      },
       "revId": "aa2875bf9ae5447fa910ae66c48f208a16b6006e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
