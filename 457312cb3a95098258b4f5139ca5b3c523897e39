@@ -16,6 +16,24 @@
       "message": "I think you should remove mention of the SLicemask operation in this title. That was just an example I gave you. This rule is only affecting the SRADconst followed by the ANDCCconst. It could happen in other cases.",
       "revId": "457312cb3a95098258b4f5139ca5b3c523897e39",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cab321ea_c5d0db6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 65933
+      },
+      "writtenOn": "2023-11-01T13:58:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2b46c985_99cc07cd",
+      "revId": "457312cb3a95098258b4f5139ca5b3c523897e39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
