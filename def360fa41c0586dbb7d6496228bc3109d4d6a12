@@ -52,6 +52,52 @@
       "parentUuid": "84ea1bd2_83cd11dc",
       "revId": "def360fa41c0586dbb7d6496228bc3109d4d6a12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05b6f2cf_dbe8d61a",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-01T13:01:42Z",
+      "side": 1,
+      "message": "Nit: \"Requires riscv64 to run\" would match other tests in this file.",
+      "range": {
+        "startLine": 136,
+        "startChar": 9,
+        "endLine": 136,
+        "endChar": 37
+      },
+      "revId": "def360fa41c0586dbb7d6496228bc3109d4d6a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7c91d3_bde6806b",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-01T13:01:42Z",
+      "side": 1,
+      "message": "This comment is not really correct - with the current bug, the JALR instruction always has a zero immediate. What this value does is result in a bad offset being assigned to the AUIPC instruction, which then results in a segfault.\n\nI think we would be better writing this test such that it needs to land exactly at the end: label. The value 1\u003c\u003c18 is sufficient to trigger the conversion from JAL to AUIPC+JALR, which is really what should be used for the loop.\n\nThe following genLargeJump should do this:\n\n```\nfunc genLargeJump(buf *bytes.Buffer) {\n        fmt.Fprintln(buf, \"TEXT \\xc2\\xb7x(SB),0,$0-8\")\n        fmt.Fprintln(buf, \"MOV  X0, X10\")\n        fmt.Fprintln(buf, \"JMP end\")\n        for i :\u003d 0; i \u003c 1\u003c\u003c18; i++ {\n                fmt.Fprintln(buf, \"ADD $1, X10, X10\")\n        }\n        fmt.Fprintln(buf, \"end:\")\n        fmt.Fprintln(buf, \"ADD $1, X10, X10\")\n        fmt.Fprintln(buf, \"MOV X10, r+0(FP)\")\n        fmt.Fprintln(buf, \"RET\")\n}\n```\n\nAlong with a main of:\n\n```\n        main :\u003d `package main\n\nimport \"fmt\"\n\nfunc main() {\n        fmt.Print(x())\n}\n\nfunc x() uint64\n`\n```\n\nAnd a check at the end of the test function:\n\n```\nif string(out) !\u003d \"1\" {\n    t.Errorf(`Got test output %q, want \"1\"`, string(out))\n}\n```\n\nWithout the bug fix we get:\n\n```\n\u003d\u003d\u003d RUN   TestLargeJump\n    asm_test.go:185: Got test output \"3\", want \"1\"\n--- FAIL: TestLargeJump (10.75s)\n```",
+      "range": {
+        "startLine": 182,
+        "startChar": 17,
+        "endLine": 182,
+        "endChar": 27
+      },
+      "revId": "def360fa41c0586dbb7d6496228bc3109d4d6a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
