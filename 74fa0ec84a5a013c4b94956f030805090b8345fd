@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "38a15620_755962db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-01T14:32:48Z",
+      "side": 1,
+      "message": "Will do (resolving for now, so that it can get a second approval).",
+      "parentUuid": "c3ff605a_1277b739",
+      "revId": "74fa0ec84a5a013c4b94956f030805090b8345fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4c83f4a2_f8b96ec6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
