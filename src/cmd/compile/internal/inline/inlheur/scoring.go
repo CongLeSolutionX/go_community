@@ -8,7 +8,6 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/pgo"
-	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"encoding/json"
 	"fmt"
@@ -283,7 +282,11 @@ func mustToMay(x scoreAdjustTyp) scoreAdjustTyp {
 // properties 'csflags', then computes a score for the callsite that
 // combines the size cost of the callee with heuristics based on
 // previously parameter and function properties.
-func computeCallSiteScore(callee *ir.Func, calleeProps *FuncProps, call ir.Node, csflags CSPropBits) (int, scoreAdjustTyp) {
+func computeCallSiteScore(cs *CallSite, calleeProps *FuncProps) (int, scoreAdjustTyp) {
+	callee := cs.Callee
+	csflags := cs.Flags
+	call := cs.Call
+
 	// Start with the size-based score for the callee.
 	score := int(callee.Inl.Cost)
 	var tmask scoreAdjustTyp
@@ -312,24 +315,29 @@ func computeCallSiteScore(callee *ir.Func, calleeProps *FuncProps, call ir.Node,
 
 	// Walk through the actual expressions being passed at the call.
 	calleeRecvrParms := callee.Type().RecvParams()
-	ce := call.(*ir.CallExpr)
-	for idx := range ce.Args {
+	for idx := range call.Args {
 		// ignore blanks
 		if calleeRecvrParms[idx].Sym == nil ||
 			calleeRecvrParms[idx].Sym.IsBlank() {
 			continue
 		}
-		arg := ce.Args[idx]
+		arg := call.Args[idx]
 		pflag := calleeProps.ParamFlags[idx]
 		if debugTrace&debugTraceScoring != 0 {
 			fmt.Fprintf(os.Stderr, "=-= arg %d of %d: val %v flags=%s\n",
-				idx, len(ce.Args), arg, pflag.String())
+				idx, len(call.Args), arg, pflag.String())
 		}
-		_, islit := isLiteral(arg)
-		iscci := isConcreteConvIface(arg)
-		fname, isfunc, _ := isFuncName(arg)
+
+		islit, iscci, isfunc, isinlfunc := false, false, false, false
+		if len(cs.ArgProps) != 0 {
+			islit = cs.ArgProps[idx] == ActualExprConstant
+			iscci = cs.ArgProps[idx] == ActualExprIsConcreteConvIface
+			isfunc = cs.ArgProps[idx] == ActualExprIsFunc
+			isinlfunc = cs.ArgProps[idx] == ActualExprIsInlinableFunc
+		}
+
 		if debugTrace&debugTraceScoring != 0 {
-			fmt.Fprintf(os.Stderr, "=-= isLit=%v iscci=%v isfunc=%v for arg %v\n", islit, iscci, isfunc, arg)
+			fmt.Fprintf(os.Stderr, "=-= isLit=%v iscci=%v isfunc=%v isinlfunc=%v for arg %v\n", islit, iscci, isfunc, isinlfunc, arg)
 		}
 
 		if islit {
@@ -374,10 +382,10 @@ func computeCallSiteScore(callee *ir.Func, calleeProps *FuncProps, call ir.Node,
 			}
 		}
 
-		if isfunc {
+		if isfunc || isinlfunc {
 			mayadj := passFuncToNestedIndCallAdj
 			mustadj := passFuncToIndCallAdj
-			if fn := fname.Func; fn != nil && typecheck.HaveInlineBody(fn) {
+			if isinlfunc {
 				mayadj = passInlinableFuncToNestedIndCallAdj
 				mustadj = passInlinableFuncToIndCallAdj
 			}
@@ -597,7 +605,7 @@ func scoreCallsRegion(fn *ir.Func, region ir.Nodes, cstab CallSiteTab, doCallRes
 				continue
 			}
 		}
-		cs.Score, cs.ScoreMask = computeCallSiteScore(cs.Callee, cprops, cs.Call, cs.Flags)
+		cs.Score, cs.ScoreMask = computeCallSiteScore(cs, cprops)
 
 		if doCallResults {
 			if debugTrace&debugTraceScoring != 0 {
