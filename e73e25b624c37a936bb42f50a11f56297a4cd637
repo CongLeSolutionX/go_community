@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e3cb691_b2db4e76",
+        "filename": "src/runtime/asm_riscv64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-01T19:09:05Z",
+      "side": 0,
+      "message": "I\u0027m a little surprised to see this go away, but if it passed tests, okay.",
+      "range": {
+        "startLine": 151,
+        "startChar": 5,
+        "endLine": 151,
+        "endChar": 24
+      },
+      "revId": "e73e25b624c37a936bb42f50a11f56297a4cd637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
