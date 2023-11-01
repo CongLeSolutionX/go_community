@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3d94ad2_5155aee5",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-11-01T06:08:34Z",
+      "side": 1,
+      "message": "Can we simply rename to \"early phielim\"? Replacing phi with copy and deleting it implies that it is ”phielim“.\n\nMaybe we can simply add `copyelim(f)` within `phielim`?",
+      "revId": "0b6c626255aa69bbc6e9d738c1f395243a22fd95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
