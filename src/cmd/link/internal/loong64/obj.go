@@ -27,6 +27,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		Extreloc:         extreloc,
 		Machoreloc1:      machoreloc1,
 		Gentext:          gentext,
+		Trampoline:       trampoline,
 
 		ELF: ld.ELFArch{
 			Linuxdynld:     "/lib64/ld-linux-loongarch-lp64d.so.1",
