@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28ef6b60_e9f59f83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-01T16:28:28Z",
+      "side": 1,
+      "message": "#63795 is currently milestoned to Go 1.22. Should this be `Updates` instead?",
+      "revId": "bf112430c0daec02e2b18a6ddfa5832673be75f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
