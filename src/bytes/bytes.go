@@ -135,6 +135,7 @@ func LastIndexByte(s []byte, c byte) int {
 // If r is utf8.RuneError, it returns the first instance of any
 // invalid UTF-8 byte sequence.
 func IndexRune(s []byte, r rune) int {
+	const haveFastIndex = bytealg.MaxBruteForce > 0
 	switch {
 	case 0 <= r && r < utf8.RuneSelf:
 		return IndexByte(s, byte(r))
@@ -150,9 +151,67 @@ func IndexRune(s []byte, r rune) int {
 	case !utf8.ValidRune(r):
 		return -1
 	default:
+		// Search for rune r using the last byte of its UTF-8 encoded form.
+		// The distribution of the last byte is more uniform compared to the
+		// first byte which has a 78% chance of being [240, 243, 244].
 		var b [utf8.UTFMax]byte
 		n := utf8.EncodeRune(b[:], r)
-		return Index(s, b[:n])
+		last := n - 1
+		i := last
+		fails := 0
+		for i < len(s) {
+			if s[i] != b[last] {
+				o := IndexByte(s[i+1:], b[last])
+				if o < 0 {
+					return -1
+				}
+				i += o + 1
+			}
+			// Step backwards comparing bytes.
+			for j := 1; j < n; j++ {
+				if s[i-j] != b[last-j] {
+					goto next
+				}
+			}
+			return i - last
+		next:
+			fails++
+			i++
+			if (haveFastIndex && fails > bytealg.Cutover(i)) ||
+				(!haveFastIndex && fails >= 4+i>>4 && i < len(s)-last) {
+				goto fallback
+			}
+		}
+		return -1
+
+	fallback:
+		// Switch to bytealg.Index, if available, or a brute for search when
+		// IndexByte returns too many false positives.
+		if haveFastIndex {
+			if j := bytealg.Index(s[i:], b[:n]); j >= 0 {
+				return i + j
+			}
+		} else {
+			// If bytealg.Index is not available a brute force search is
+			// ~1.5-3x faster than Rabin-Karp since n is small.
+			s := s[i:]
+			c0 := b[last]
+			c1 := b[last-1] // There are at least 2 chars to match
+		loop:
+			for j := last; j < len(s); j++ {
+				// Match the last two bytes of the rune then search backwards
+				// to match the remaining bytes, if any.
+				if s[j] == c0 && s[j-1] == c1 {
+					for k := 2; k < n; k++ {
+						if s[j-k] != b[last-k] {
+							continue loop
+						}
+					}
+					return i + j - last
+				}
+			}
+		}
+		return -1
 	}
 }
 
@@ -1250,61 +1309,46 @@ func Index(s, sep []byte) int {
 		return -1
 	case n > len(s):
 		return -1
-	case n <= bytealg.MaxLen:
+	case n <= bytealg.MaxLen && len(s) <= bytealg.MaxBruteForce:
 		// Use brute force when s and sep both are small
-		if len(s) <= bytealg.MaxBruteForce {
-			return bytealg.Index(s, sep)
+		return bytealg.Index(s, sep)
+	}
+	// Use optimized IndexRune if sep consists of a single valid rune.
+	if n <= utf8.UTFMax && sep[0] >= utf8.RuneSelf {
+		if r, sz := utf8.DecodeRune(sep); sz == n {
+			return IndexRune(s, r)
 		}
-		c0 := sep[0]
-		c1 := sep[1]
-		i := 0
-		t := len(s) - n + 1
-		fails := 0
-		for i < t {
-			if s[i] != c0 {
-				// IndexByte is faster than bytealg.Index, so use it as long as
-				// we're not getting lots of false positives.
-				o := IndexByte(s[i+1:t], c0)
-				if o < 0 {
-					return -1
-				}
-				i += o + 1
-			}
-			if s[i+1] == c1 && Equal(s[i:i+n], sep) {
-				return i
-			}
-			fails++
-			i++
-			// Switch to bytealg.Index when IndexByte produces too many false positives.
-			if fails > bytealg.Cutover(i) {
-				r := bytealg.Index(s[i:], sep)
-				if r >= 0 {
-					return r + i
-				}
-				return -1
-			}
-		}
-		return -1
 	}
 	c0 := sep[0]
 	c1 := sep[1]
-	i := 0
-	fails := 0
 	t := len(s) - n + 1
-	for i < t {
+	fails := 0
+	for i := 0; i < t; {
 		if s[i] != c0 {
+			// IndexByte is faster than bytealg.Index, so use it as long as
+			// we're not getting lots of false positives.
 			o := IndexByte(s[i+1:t], c0)
 			if o < 0 {
-				break
+				return -1
 			}
 			i += o + 1
 		}
 		if s[i+1] == c1 && Equal(s[i:i+n], sep) {
 			return i
 		}
-		i++
 		fails++
-		if fails >= 4+i>>4 && i < t {
+		i++
+		// Check if we should give up on IndexByte.
+		if n <= bytealg.MaxLen {
+			// Switch to bytealg.Index, if implemented, when the needle
+			// is small and IndexByte produces too many false positives.
+			if fails > bytealg.Cutover(i) {
+				if j := bytealg.Index(s[i:], sep); j >= 0 {
+					return i + j
+				}
+				return -1
+			}
+		} else if fails >= 4+i>>4 && i < t {
 			// Give up on IndexByte, it isn't skipping ahead
 			// far enough to be better than Rabin-Karp.
 			// Experiments (using IndexPeriodic) suggest
@@ -1313,11 +1357,9 @@ func Index(s, sep []byte) int {
 			// we should cutover at even larger average skips,
 			// because Equal becomes that much more expensive.
 			// This code does not take that effect into account.
-			j := bytealg.IndexRabinKarp(s[i:], sep)
-			if j < 0 {
-				return -1
+			if j := bytealg.IndexRabinKarp(s[i:], sep); j >= 0 {
+				return i + j
 			}
-			return i + j
 		}
 	}
 	return -1
