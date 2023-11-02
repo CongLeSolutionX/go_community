@@ -131,6 +131,30 @@
       },
       "revId": "c311f309b0523bf1d0d6514d72d093281b8167bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5514912_be010ef3",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5318,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-02T19:12:01Z",
+      "side": 1,
+      "message": "Fixed in the next patch set, I think.",
+      "parentUuid": "ccbb476e_ea5bccc3",
+      "range": {
+        "startLine": 5318,
+        "startChar": 5,
+        "endLine": 5318,
+        "endChar": 11
+      },
+      "revId": "c311f309b0523bf1d0d6514d72d093281b8167bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
