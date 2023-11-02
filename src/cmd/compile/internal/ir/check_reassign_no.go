@@ -1,0 +1,13 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+//go:build !checknewoldreassignment
+
+package ir
+
+func checkStaticValueResult(n Node, newres Node) {
+}
+
+func checkReassignedResult(n Node, newres bool) {
+}
