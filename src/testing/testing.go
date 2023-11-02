@@ -1315,8 +1315,8 @@ const (
 )
 
 // runCleanup is called at the end of the test.
-// If panicHandling == recoverAndReturnPanic, it will catch panics, and return
-// the recovered value if any.
+// If ph is recoverAndReturnPanic, it will catch panics, and return the
+// recovered value if any.
 func (c *common) runCleanup(ph panicHandling) (panicVal any) {
 	c.cleanupStarted.Store(true)
 	defer c.cleanupStarted.Store(false)
