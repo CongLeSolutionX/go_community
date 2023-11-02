@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43565de6_ec4c584a",
+        "filename": "src/cmd/go/internal/modcmd/edit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2023-11-02T01:00:09Z",
+      "side": 1,
+      "message": "@bcmills@google.com Should this work or should it result in an error?\n\n```\n$ go mod edit -replace\u003dgolang.org/x/tools\u003dlocal/@path/tools@v2\ngo: -replace\u003dgolang.org/x/tools\u003dlocal/@path/tools@v2: invalid new path: malformed import path \"local/\": trailing slash\n```",
+      "revId": "f18e347755acd759f1857db248b32a831f0963d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
