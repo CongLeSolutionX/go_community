@@ -140,6 +140,24 @@
       "parentUuid": "d3104a78_ec4b6825",
       "revId": "74fa0ec84a5a013c4b94956f030805090b8345fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "190b9a0f_6a089636",
+        "filename": "src/syscall/syscall_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-02T10:33:11Z",
+      "side": 1,
+      "message": "It would be a good idea to sort/clean up the various syscalls (unfortunately they\u0027ve become a mess over the years) - the current issue is that any shuffling requires all of the zsyscall* files to be regenerated, as there is no stable sorting... I\u0027ll defer this for now.",
+      "parentUuid": "ff0e5a87_84f17dc8",
+      "revId": "74fa0ec84a5a013c4b94956f030805090b8345fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
