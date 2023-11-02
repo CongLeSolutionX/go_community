@@ -135,6 +135,7 @@ func LastIndexByte(s []byte, c byte) int {
 // If r is utf8.RuneError, it returns the first instance of any
 // invalid UTF-8 byte sequence.
 func IndexRune(s []byte, r rune) int {
+	const hasFastIndex = bytealg.MaxBruteForce > 0
 	switch {
 	case 0 <= r && r < utf8.RuneSelf:
 		return IndexByte(s, byte(r))
@@ -150,9 +151,72 @@ func IndexRune(s []byte, r rune) int {
 	case !utf8.ValidRune(r):
 		return -1
 	default:
+		// Search for rune r using the last byte of its UTF-8 encoded form.
+		// The distribution of the last byte is more uniform compared to the
+		// first byte which has a 78% chance of being [240, 243, 244].
 		var b [utf8.UTFMax]byte
-		n := utf8.EncodeRune(b[:], r)
-		return Index(s, b[:n])
+		n := utf8.EncodeRune(b[:], r) - 1
+		t := len(s) - n
+		i := n
+		fails := 0
+		for i < len(s) {
+			if s[i] != b[n] {
+				o := IndexByte(s[i+1:], b[n])
+				if o < 0 {
+					return -1
+				}
+				i += o + 1
+			}
+			// Step backwards comparing bytes.
+			for j := 0; j < n+1; j++ {
+				if s[i-j] != b[n-j] {
+					goto next
+				}
+			}
+			return i - n
+		next:
+			fails++
+			i++
+			if (hasFastIndex && fails > bytealg.Cutover(i)) ||
+				(!hasFastIndex && fails >= 4+i>>4 && i < t) {
+				goto fallback
+			}
+		}
+		return -1
+
+	fallback:
+		// Switch to bytealg.Index, if available, or a brute for search when
+		// IndexByte returns too many false positives.
+		if hasFastIndex {
+			if j := bytealg.Index(s[i:], b[:n]); j >= 0 {
+				return i + j
+			}
+		} else {
+			// If bytealg.Index is not available a brute force search is
+			// 1.5-2x faster than Rabin-Karp since n is small.
+			s := s[i:]
+			switch n {
+			case 2:
+				for j := 0; j < len(s)-1; j++ {
+					if s[j] == b[0] && s[j+1] == b[1] {
+						return i + j
+					}
+				}
+			case 3:
+				for j := 0; j < len(s)-2; j++ {
+					if s[j] == b[0] && s[j+1] == b[1] && s[j+2] == b[2] {
+						return i + j
+					}
+				}
+			case 4:
+				for j := 0; j < len(s)-3; j++ {
+					if s[j] == b[0] && s[j+1] == b[1] && s[j+2] == b[2] && s[j+3] == b[3] {
+						return i + j
+					}
+				}
+			}
+		}
+		return -1
 	}
 }
 
@@ -1255,6 +1319,12 @@ func Index(s, sep []byte) int {
 		if len(s) <= bytealg.MaxBruteForce {
 			return bytealg.Index(s, sep)
 		}
+		if n <= utf8.UTFMax && sep[0] >= utf8.RuneSelf {
+			// Use optimized IndexRune if sep consists of a single valid rune.
+			if r, sz := utf8.DecodeRune(sep); sz == n {
+				return IndexRune(s, r)
+			}
+		}
 		c0 := sep[0]
 		c1 := sep[1]
 		i := 0
@@ -1285,6 +1355,12 @@ func Index(s, sep []byte) int {
 			}
 		}
 		return -1
+	}
+	if bytealg.MaxBruteForce == 0 && n <= utf8.UTFMax && sep[0] >= utf8.RuneSelf {
+		// Check if we can use IndexRune on arches that do not have bytealg.Index.
+		if r, sz := utf8.DecodeRune(sep); sz == n {
+			return IndexRune(s, r)
+		}
 	}
 	c0 := sep[0]
 	c1 := sep[1]
