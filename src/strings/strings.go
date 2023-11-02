@@ -124,6 +124,7 @@ func IndexByte(s string, c byte) int {
 // If r is utf8.RuneError, it returns the first instance of any
 // invalid UTF-8 byte sequence.
 func IndexRune(s string, r rune) int {
+	const hasFastIndex = bytealg.MaxBruteForce > 0
 	switch {
 	case 0 <= r && r < utf8.RuneSelf:
 		return IndexByte(s, byte(r))
@@ -137,7 +138,61 @@ func IndexRune(s string, r rune) int {
 	case !utf8.ValidRune(r):
 		return -1
 	default:
-		return Index(s, string(r))
+		// Search for rune r using the last byte of its UTF-8 encoded form.
+		// The distribution of the last byte is more uniform compared to the
+		// first byte which has a 78% chance of being [240, 243, 244].
+		rs := string(r)
+		last := len(rs) - 1
+		i := last
+		fails := 0
+		for i < len(s) {
+			if s[i] != rs[last] {
+				o := IndexByte(s[i+1:], rs[last])
+				if o < 0 {
+					return -1
+				}
+				i += o + 1
+			}
+			// Step backwards comparing bytes.
+			for j := 1; j < len(rs); j++ {
+				if s[i-j] != rs[last-j] {
+					goto next
+				}
+			}
+			return i - last
+		next:
+			fails++
+			i++
+			if (hasFastIndex && fails > bytealg.Cutover(i)) ||
+				(!hasFastIndex && fails >= 4+i>>4 && i < len(s)-last) {
+				goto fallback
+			}
+		}
+		return -1
+
+	fallback:
+		// see comment in ../bytes/bytes.go
+		if hasFastIndex {
+			if j := bytealg.IndexString(s[i:], string(r)); j >= 0 {
+				return i + j
+			}
+		} else {
+			s := s[i:]
+			c0 := rs[last]
+			c1 := rs[last-1]
+		loop:
+			for j := last; j < len(s); j++ {
+				if s[j] == c0 && s[j-1] == c1 {
+					for k := 2; k < len(rs); k++ {
+						if s[j-k] != rs[last-k] {
+							continue loop
+						}
+					}
+					return i + j - last
+				}
+			}
+		}
+		return -1
 	}
 }
 
