@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab62f06d_d9578128",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-02T15:35:06Z",
+      "side": 1,
+      "message": "`ErrInvalid` SGTM.",
+      "parentUuid": "88288a6a_819bc230",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 86
+      },
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a75c06fb_45b4c07a",
@@ -118,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d79536ac_ff11af21",
+        "filename": "src/io/fs/symlink_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-02T15:35:06Z",
+      "side": 1,
+      "message": "Huh. Apparently `io/fs.WalkDir` has had a comment about symlinks since patchset 5 of CL 243916, even though the `FS` interface itself had no notion of symlinks at that point.\n\nI\u0027m not sure if that was foresight or oversight, but either way it seems fortunate that it already describes the most useful behavior! 😅",
+      "parentUuid": "35d1dac5_b9465a70",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53eb1fdc_7b3530c8",
@@ -149,6 +191,24 @@
       "side": 1,
       "message": "Hm, but in `io/fs`, paths with a trailing slash are not valid (according to `io/fs.ValidPath`). I would expect `Lstat(\"dirlink/\")` to unconditionally return an error. Or am I misunderstanding?",
       "parentUuid": "53eb1fdc_7b3530c8",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f06e3b6_0315a840",
+        "filename": "src/os/file_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-02T15:35:06Z",
+      "side": 1,
+      "message": "I had missed that `WalkDir` is already documented to follow a root symlink, so I agree that there\u0027s nothing to do for `Lstat`.",
+      "parentUuid": "d31f2670_19ce7670",
       "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
