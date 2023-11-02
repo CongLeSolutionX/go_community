@@ -673,20 +673,23 @@ func bgscavenge(c chan int) {
 // scavenge always tries to scavenge nbytes worth of memory, and will
 // only fail to do so if the heap is exhausted for now.
 func (p *pageAlloc) scavenge(nbytes uintptr, shouldStop func() bool, force bool) uintptr {
-	released := uintptr(0)
-	for released < nbytes {
-		ci, pageIdx := p.scav.index.find(force)
-		if ci == 0 {
-			break
+	return 0
+	/*
+		released := uintptr(0)
+		for released < nbytes {
+			ci, pageIdx := p.scav.index.find(force)
+			if ci == 0 {
+				break
+			}
+			systemstack(func() {
+				released += p.scavengeOne(ci, pageIdx, nbytes-released)
+			})
+			if shouldStop != nil && shouldStop() {
+				break
+			}
 		}
-		systemstack(func() {
-			released += p.scavengeOne(ci, pageIdx, nbytes-released)
-		})
-		if shouldStop != nil && shouldStop() {
-			break
-		}
-	}
-	return released
+		return released
+	*/
 }
 
 // printScavTrace prints a scavenge trace line to standard error.
