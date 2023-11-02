@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c728ba8_9c320e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-02T08:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cbed667_501d0c98",
+      "range": {
+        "startLine": 7,
+        "startChar": 67,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "556854f44a8cf9fbb6397aa95e06012d59dc0c1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6095c99b_64b07d0b",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-02T08:07:59Z",
       "side": 1,
       "message": "\"segment fault\" (or just say that it \"results in a jump to the wrong address\" since it may or may not fault)",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "556854f44a8cf9fbb6397aa95e06012d59dc0c1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "439ee9ad_56dff2b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-02T08:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6095c99b_64b07d0b",
       "range": {
         "startLine": 10,
         "startChar": 48,
