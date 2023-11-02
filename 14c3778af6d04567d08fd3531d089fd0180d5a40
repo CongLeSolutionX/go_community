@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f632f2a8_8bbd5ae1",
+        "filename": "src/cmd/vet/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 61868
+      },
+      "writtenOn": "2023-11-02T11:29:24Z",
+      "side": 1,
+      "message": "Also `vet_test.go` looks outdated.\nBut I am not sure that this is relevant to this PR.\n\n(cc) @matloob@golang.org",
+      "revId": "14c3778af6d04567d08fd3531d089fd0180d5a40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
