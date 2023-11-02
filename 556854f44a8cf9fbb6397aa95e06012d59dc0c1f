@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cbed667_501d0c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-02T08:07:59Z",
+      "side": 1,
+      "message": "Please remove the trailing period from the first line of the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 67,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "556854f44a8cf9fbb6397aa95e06012d59dc0c1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6095c99b_64b07d0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-02T08:07:59Z",
+      "side": 1,
+      "message": "\"segment fault\" (or just say that it \"results in a jump to the wrong address\" since it may or may not fault)",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "556854f44a8cf9fbb6397aa95e06012d59dc0c1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a84b0a7a_a0ed47d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-02T08:07:59Z",
+      "side": 1,
+      "message": "TRY\u003driscv64\n\nThanks - just some minor nits with the comment message.",
+      "revId": "556854f44a8cf9fbb6397aa95e06012d59dc0c1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
