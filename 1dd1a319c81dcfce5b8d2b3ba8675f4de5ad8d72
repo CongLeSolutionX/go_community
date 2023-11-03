@@ -203,6 +203,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "072ebba1_677edf72",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T02:31:12Z",
+      "side": 1,
+      "message": "These two loops, determining the max. exponent of 2 and 5 should be factored out.\nThey are the bottleneck of this function. For large d they can be slow and we only want to optimize one of them.",
+      "range": {
+        "startLine": 585,
+        "startChar": 17,
+        "endLine": 585,
+        "endChar": 19
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b5e78a4_2a1b0048",
         "filename": "src/math/big/rat.go",
         "patchSetId": 11
