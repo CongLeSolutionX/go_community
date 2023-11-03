@@ -16,6 +16,24 @@
       "message": "Progress update: Rendering `go test -trace json.trace encoding/json` is starting to look good. See [cmd/trace](https://share.zight.com/p9uYQy9r) vs [cmd/trace/v2](https://share.zight.com/geu1yQe8) screenshot comparison.\n\nAs you can see the basic G executions as well as all the top-level metrics are starting to look plausible.\n\nThat being said, there is still a crazy amount of stuff left todo 🙈.",
       "revId": "17831162fa1a79734891d278e49e8edd95d4fcf9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee94293a_2e5a076f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-03T20:57:26Z",
+      "side": 1,
+      "message": "that\u0027s awesome!\n\n(I totally missed your message here. :( Gerrit didn\u0027t send me an email AFAICT?)",
+      "parentUuid": "2531d241_1f76cc8e",
+      "revId": "17831162fa1a79734891d278e49e8edd95d4fcf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
