@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6eb25ee_6b121844",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T18:36:58Z",
+      "side": 1,
+      "message": "My comment was not implying we should change the primary computation, just the meaning of the boolean.\nYour implementation reports whether the result is exact, which I believe is what it should be doing. But that is not what Russ\u0027 comment said.\nIn any case, I replied on the issue to clarify this.",
+      "parentUuid": "cf05f271_8d2243f4",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f577239_5f5d656f",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "See the above reply.",
       "parentUuid": "2f577239_5f5d656f",
+      "range": {
+        "startLine": 760,
+        "startChar": 13,
+        "endLine": 760,
+        "endChar": 18
+      },
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6875987_e9a74fba",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T18:36:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c7979411_ef4065c5",
       "range": {
         "startLine": 760,
         "startChar": 13,
@@ -205,6 +247,24 @@
       "side": 1,
       "message": "See the above reply.",
       "parentUuid": "1f37ded5_759104d9",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46b45d8d_efec254e",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T18:36:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f765f559_98c177fd",
       "revId": "852d68ce1f6e72af0553783e2450f02024744594",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
