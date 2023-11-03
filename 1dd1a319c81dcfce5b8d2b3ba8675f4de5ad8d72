@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56345992_e670c8eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Well, after all the effort I\u0027ve put in, I can\u0027t say I\u0027m happy about this. But it\u0027s up to you, good luck with that.",
+      "parentUuid": "3e981c6e_6a87076e",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00cff8c6_23b2f03e",
@@ -65,6 +83,24 @@
       "writtenOn": "2023-11-03T00:57:16Z",
       "side": 1,
       "message": "intZero is also not needed if using Sign to compare against zero",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c5f4a63_4ad70426",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00cff8c6_23b2f03e",
       "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -92,6 +128,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ffa1111_a44afb88",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cb7ca13_7375e1e0",
+      "range": {
+        "startLine": 40,
+        "startChar": 16,
+        "endLine": 40,
+        "endChar": 19
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09618810_a6c76970",
@@ -109,6 +169,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b4f7ca4_6c267c87",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09618810_a6c76970",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "078f192f_90326146",
@@ -122,6 +200,30 @@
       "writtenOn": "2023-11-03T00:51:22Z",
       "side": 1,
       "message": "Leave away.\n(This is a math package, we surely hope it\u0027s using a mathematical approach.)",
+      "range": {
+        "startLine": 553,
+        "startChar": 1,
+        "endLine": 555,
+        "endChar": 0
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e523c82d_f6f7cd00",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "078f192f_90326146",
       "range": {
         "startLine": 553,
         "startChar": 1,
@@ -155,6 +257,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d587b57d_f36a5459",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d043a2ca_f1126a0c",
+      "range": {
+        "startLine": 556,
+        "startChar": 29,
+        "endLine": 556,
+        "endChar": 40
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e003496f_5c750d68",
@@ -168,6 +294,30 @@
       "writtenOn": "2023-11-03T00:51:22Z",
       "side": 1,
       "message": "leave away the part in () - says the same as before",
+      "range": {
+        "startLine": 557,
+        "startChar": 4,
+        "endLine": 557,
+        "endChar": 40
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7307a330_b7d8c6d0",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e003496f_5c750d68",
       "range": {
         "startLine": 557,
         "startChar": 4,
@@ -218,6 +368,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce069e46_14a6463a",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3bde2c9_70dca536",
+      "range": {
+        "startLine": 580,
+        "startChar": 7,
+        "endLine": 580,
+        "endChar": 10
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "336ac286_295273e7",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd428b6b_d5d0d9df",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "072ebba1_677edf72",
@@ -258,6 +450,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2173aafb_a797edfe",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b5e78a4_2a1b0048",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bb69a64_9c5e23b9",
@@ -271,6 +481,24 @@
       "writtenOn": "2023-11-03T00:51:22Z",
       "side": 1,
       "message": "These are test arguments. We want them to be as human-readable as possible, so it\u0027s easy to verify or at least comprehend them.\nRather than writing out the fraction parts, use a string.\nAnd rather than repeating the same struct definition over and over again, define it once, or better, just use a single struct for all the information.\n```\nvar floatPrecTests \u003d []struct{\n   f string\n   prec int\n   ok bool\n} {\n   { \"0\", 0, true },\n   { \"1/10\", 1, false },\n   ...\n}\n```",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "562de657_8ba850c3",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bb69a64_9c5e23b9",
       "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -298,6 +526,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d08998df_d8854d97",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "178dbc58_26c828f8",
+      "range": {
+        "startLine": 879,
+        "startChar": 3,
+        "endLine": 879,
+        "endChar": 4
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90eac855_8ae82cc8",
@@ -311,6 +563,30 @@
       "writtenOn": "2023-11-03T00:51:22Z",
       "side": 1,
       "message": "printing the index is not helpful if anything goes wrong - much better to write the actual input value f",
+      "range": {
+        "startLine": 882,
+        "startChar": 13,
+        "endLine": 882,
+        "endChar": 16
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e2b98eb_14403390",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T05:42:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90eac855_8ae82cc8",
       "range": {
         "startLine": 882,
         "startChar": 13,
