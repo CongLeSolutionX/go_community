@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c27c6c3d_44d92913",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66353
+      },
+      "writtenOn": "2023-11-03T09:09:31Z",
+      "side": 1,
+      "message": "Hi Randall, this pr meets a LUCI test failure at x_tools-gotip-linux-amd64 stage. I spent some time debugging it but with no results, could you please give some suggestions?",
+      "parentUuid": "7575a1a4_d62bd1a3",
+      "revId": "29192acb6ff114b4198bd4b16875c521c5de2c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc301ea7_c140e548",
