@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5942318_93aef715",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-03T19:23:14Z",
+      "side": 1,
+      "message": "Go uses a development model that is quite a bit different from GitHub PRs. Instead of having a stack of commits that get mailed out for review and then get squashed into a single commit, we use `git commit --amend` to amend the original commit (and then re-mail it using `git codereview mail`).\n\nWe also tend to use `git codereview sync` and/or `git rebase` to clean up the stack of commits for review: the idea is that when we merge the Gerrit CLs the commit history is simple and linear, and reflects the result of the code review process rather than including individual commits for each revision that the author(s) have made.\n\nUnfortunately, that makes it difficult to collaborate on a PR that is still under review, since a given Gerrit change has only one owner.",
+      "revId": "8ca2eee9e879a967839bd32bc61949b07d8f0617",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
