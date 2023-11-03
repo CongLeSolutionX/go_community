@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a051f726_b69fb068",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-03T14:13:04Z",
+      "side": 1,
+      "message": "This looks correct to me but I\u0027d like to get a second reviewer just to double-check that we\u0027re reading the RFC correctly.",
+      "revId": "d43f6c2e9f725b41cc98a0664af109cc98c7b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53cef739_f37a4eac",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-03T14:13:04Z",
+      "side": 1,
+      "message": "(nit) Simplify using `strings.TrimSuffix`:\n```go\nroot :\u003d strings.TrimSuffix(h.Root, \"/\")\n```",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 2
+      },
+      "revId": "d43f6c2e9f725b41cc98a0664af109cc98c7b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1866e607_f8af7c92",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-03T14:13:04Z",
+      "side": 1,
+      "message": "(nit) Simplify using `strings.TrimPrefix`:\n\n```go\npathInfo :\u003d strings.TrimPrefix(req.URL.Path, root)\n```",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 2
+      },
+      "revId": "d43f6c2e9f725b41cc98a0664af109cc98c7b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
