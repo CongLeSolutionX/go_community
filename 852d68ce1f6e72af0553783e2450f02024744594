@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dfdfb5e_8b35c6a9",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "I agree that this is an ok condition to report but it doesn\u0027t match the specification in the issue.\nI think the specification needs to change, which requires some work on the issue, despite it being already accepted.",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f577239_5f5d656f",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "this should be 1, true per the the comment\nhttps://github.com/golang/go/issues/50489#issuecomment-1063238319\n\n(But don\u0027t change this yet, I think the specification in the issue can be better.)",
+      "range": {
+        "startLine": 760,
+        "startChar": 13,
+        "endLine": 760,
+        "endChar": 18
+      },
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3ff4198_a4b1548c",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "rather than writing a couple of negative test cases, it would be better to test all tests with positive and negative numbers",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f273923_2b850be8",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 768,
+        "startChar": 15,
+        "endLine": 768,
+        "endChar": 20
+      },
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c2dc06_d8a7be30",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf6438f_0a7e78ae",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a975e3d6_ea75f170",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f37ded5_759104d9",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T15:36:04Z",
+      "side": 1,
+      "message": "This needs more code to verify correctness of test cases.\nPer https://github.com/golang/go/issues/50489#issuecomment-1063238319, if ok is false, the count must be zero.",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
