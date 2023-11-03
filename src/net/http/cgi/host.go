@@ -115,21 +115,29 @@ func removeLeadingDuplicates(env []string) (ret []string) {
 }
 
 func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+<<<<<<< HEAD   (8ca2ee Merge branch 'master' of https://go.googlesource.com/go into)
 	root := h.Root
 	if strings.HasSuffix(root, "/") {
 		root = root[:len(root)-1]
 	}
 
+=======
+>>>>>>> BRANCH (17098e net/http/cgi: the PATH_INFO should be empty or start with a )
 	if len(req.TransferEncoding) > 0 && req.TransferEncoding[0] == "chunked" {
 		rw.WriteHeader(http.StatusBadRequest)
 		rw.Write([]byte("Chunked request bodies are not supported by CGI."))
 		return
 	}
 
+<<<<<<< HEAD   (8ca2ee Merge branch 'master' of https://go.googlesource.com/go into)
 	pathInfo := req.URL.Path
 	if strings.HasPrefix(pathInfo, root) {
 		pathInfo = pathInfo[len(root):]
 	}
+=======
+	root := strings.TrimSuffix(h.Root, "/")
+	pathInfo := strings.TrimPrefix(req.URL.Path, root)
+>>>>>>> BRANCH (17098e net/http/cgi: the PATH_INFO should be empty or start with a )
 
 	port := "80"
 	if req.TLS != nil {
