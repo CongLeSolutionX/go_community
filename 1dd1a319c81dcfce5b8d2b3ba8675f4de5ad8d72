@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00cff8c6_23b2f03e",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:57:16Z",
+      "side": 1,
+      "message": "intZero is also not needed if using Sign to compare against zero",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cb7ca13_7375e1e0",
         "filename": "src/math/big/int.go",
         "patchSetId": 11
@@ -54,6 +71,23 @@
         "endLine": 40,
         "endChar": 19
       },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09618810_a6c76970",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:57:16Z",
+      "side": 1,
+      "message": "intTen is not needed, I think",
       "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -146,6 +180,23 @@
         "endLine": 580,
         "endChar": 10
       },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd428b6b_d5d0d9df",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:57:16Z",
+      "side": 1,
+      "message": "comparing against zero is more efficiently and easier done with Sign. Then you also don\u0027t need to define intZero.",
       "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
