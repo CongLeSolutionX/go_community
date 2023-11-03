@@ -95,6 +95,30 @@
       },
       "revId": "3d0e96a59127d63a6590499c91ddf1d3b3c17565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67b66ce3_0d0be10f",
+        "filename": "src/cmd/internal/obj/riscv/asm_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-03T02:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d62dc7ec_eebe9e6b",
+      "range": {
+        "startLine": 183,
+        "startChar": 25,
+        "endLine": 183,
+        "endChar": 33
+      },
+      "revId": "3d0e96a59127d63a6590499c91ddf1d3b3c17565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
