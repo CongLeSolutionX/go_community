@@ -16,6 +16,218 @@
       "message": "Kindly ping...",
       "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48709c8e_9dcf8c76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "Thanks, but this needs some more work.",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb7ca13_7375e1e0",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "It\u0027s recommended style to use named fields in struct literals that are defined outside the package where the struct is defined (because it makes the literals robust to changes in the the struct).\n\nBut for literals that are defined inside the package that defines the struct (like in this case), using the name-less literals has the advantage of leading to compilation errors when the struct is changed, which is something we want so we don\u0027t miss updating them.\n\nThat\u0027s the reason intOne was defined as it was.\n\nTherefore, this should be written as\n```\nvar (\n   intZero \u003d \u0026Int{}\n   intOne \u003d \u0026Int{false, natOne}\n   ...\n}\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 16,
+        "endLine": 40,
+        "endChar": 19
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "078f192f_90326146",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "Leave away.\n(This is a math package, we surely hope it\u0027s using a mathematical approach.)",
+      "range": {
+        "startLine": 553,
+        "startChar": 1,
+        "endLine": 555,
+        "endChar": 0
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d043a2ca_f1126a0c",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "s/terminating/finite/",
+      "range": {
+        "startLine": 556,
+        "startChar": 29,
+        "endLine": 556,
+        "endChar": 40
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e003496f_5c750d68",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "leave away the part in () - says the same as before",
+      "range": {
+        "startLine": 557,
+        "startChar": 4,
+        "endLine": 557,
+        "endChar": 40
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3bde2c9_70dca536",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "Using Div and Mod do the same division each time.\nAlso, the numbers are all positive, so using Div and Mod is the same as Quo and Rem; the latter are faster.\nAnd since we need both, this should be using QuoRem instead. This will be twice as fast.",
+      "range": {
+        "startLine": 580,
+        "startChar": 7,
+        "endLine": 580,
+        "endChar": 10
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b5e78a4_2a1b0048",
+        "filename": "src/math/big/rat.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb69a64_9c5e23b9",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "These are test arguments. We want them to be as human-readable as possible, so it\u0027s easy to verify or at least comprehend them.\nRather than writing out the fraction parts, use a string.\nAnd rather than repeating the same struct definition over and over again, define it once, or better, just use a single struct for all the information.\n```\nvar floatPrecTests \u003d []struct{\n   f string\n   prec int\n   ok bool\n} {\n   { \"0\", 0, true },\n   { \"1/10\", 1, false },\n   ...\n}\n```",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "178dbc58_26c828f8",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "f :\u003d new(Rat).SetString(t.x)\nprec, ok :\u003d f.FloatPrec()\nif prec !\u003d t.prec || ok !\u003d t.ok { ...",
+      "range": {
+        "startLine": 879,
+        "startChar": 3,
+        "endLine": 879,
+        "endChar": 4
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90eac855_8ae82cc8",
+        "filename": "src/math/big/rat_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T00:51:22Z",
+      "side": 1,
+      "message": "printing the index is not helpful if anything goes wrong - much better to write the actual input value f",
+      "range": {
+        "startLine": 882,
+        "startChar": 13,
+        "endLine": 882,
+        "endChar": 16
+      },
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
