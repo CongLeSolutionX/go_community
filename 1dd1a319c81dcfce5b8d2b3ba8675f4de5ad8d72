@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f6141c_b95bf3d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-11-03T12:09:06Z",
+      "side": 1,
+      "message": "FYI, I just checked out this new CL, these two CLs share the same theorem while CL 539299 does optimize one of the calculations for the exponent of 2, but it doesn\u0027t seem \"a lot more needs to change\" to me, I think it can be done in this CL, and I\u0027d love (also hope) to keep optimizing the implementation in CL along your code reviews.",
+      "parentUuid": "56345992_e670c8eb",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00cff8c6_23b2f03e",
