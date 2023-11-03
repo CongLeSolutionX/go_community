@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f863128_3f77f2b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-03T16:33:53Z",
+      "side": 1,
+      "message": "d16c859884 Handling multiple trailing / for PATH_INFO",
+      "revId": "17098ee8d2d9c2687d7c17c04778456a495f0d29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b106d3a7_b39d412d",
@@ -14,6 +31,24 @@
       "writtenOn": "2023-11-03T15:57:08Z",
       "side": 1,
       "message": "This could still produce a PATH_INFO starting with a non-`/` if `h.Root` ends in multiple `/`s.\n\nPerhaps this should be `strings.TrimRight(h.Root, \"/\")` instead?",
+      "revId": "17098ee8d2d9c2687d7c17c04778456a495f0d29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccbd4630_51f8c628",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-03T16:33:53Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b106d3a7_b39d412d",
       "revId": "17098ee8d2d9c2687d7c17c04778456a495f0d29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
