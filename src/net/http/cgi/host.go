@@ -116,8 +116,8 @@ func removeLeadingDuplicates(env []string) (ret []string) {
 
 func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	root := h.Root
-	if root == "" {
-		root = "/"
+	if strings.HasSuffix(root, "/") {
+		root = root[:len(root)-1]
 	}
 
 	if len(req.TransferEncoding) > 0 && req.TransferEncoding[0] == "chunked" {
@@ -127,7 +127,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	pathInfo := req.URL.Path
-	if root != "/" && strings.HasPrefix(pathInfo, root) {
+	if strings.HasPrefix(pathInfo, root) {
 		pathInfo = pathInfo[len(root):]
 	}
 
