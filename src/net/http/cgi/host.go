@@ -121,7 +121,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	root := strings.TrimSuffix(h.Root, "/")
+	root := strings.TrimRight(h.Root, "/")
 	pathInfo := strings.TrimPrefix(req.URL.Path, root)
 
 	port := "80"
