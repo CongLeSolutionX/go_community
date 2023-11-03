@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e981c6e_6a87076e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-03T04:53:33Z",
+      "side": 1,
+      "message": "I looked at this code a bit more.\nThere\u0027s a lot more needs to change and that can be made more efficiently.\n\nI prefer taking this on myself at this point; thank you for your effort so far.\nI have a WIP CL if you like to comment on it:\nhttps://go-review.googlesource.com/c/go/+/539299",
+      "revId": "1dd1a319c81dcfce5b8d2b3ba8675f4de5ad8d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00cff8c6_23b2f03e",
