@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eaf0bd8_633c47db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-03T14:43:26Z",
+      "side": 1,
+      "message": "Thanks for the code review, and thanks for the code suggestions!",
+      "revId": "d43f6c2e9f725b41cc98a0664af109cc98c7b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53cef739_f37a4eac",
@@ -41,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c060119_a44f8969",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-03T14:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53cef739_f37a4eac",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 2
+      },
+      "revId": "d43f6c2e9f725b41cc98a0664af109cc98c7b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1866e607_f8af7c92",
@@ -54,6 +95,30 @@
       "writtenOn": "2023-11-03T14:13:04Z",
       "side": 1,
       "message": "(nit) Simplify using `strings.TrimPrefix`:\n\n```go\npathInfo :\u003d strings.TrimPrefix(req.URL.Path, root)\n```",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 2
+      },
+      "revId": "d43f6c2e9f725b41cc98a0664af109cc98c7b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8d8492f_a272011e",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-03T14:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1866e607_f8af7c92",
       "range": {
         "startLine": 128,
         "startChar": 0,
