@@ -45,14 +45,14 @@ func modTimer(t *runtimeTimer, when, period int64, f func(any, uintptr), arg any
 
 // The Timer type represents a single event.
 // When the Timer expires, the current time will be sent on C,
-// unless the Timer was created by AfterFunc.
-// A Timer must be created with NewTimer or AfterFunc.
+// unless the Timer was created by [AfterFunc].
+// A Timer must be created with [NewTimer] or AfterFunc.
 type Timer struct {
 	C <-chan Time
 	r runtimeTimer
 }
 
-// Stop prevents the Timer from firing.
+// Stop prevents the [Timer] from firing.
 // It returns true if the call stops the timer, false if the timer has already
 // expired or been stopped.
 // Stop does not close the channel, to prevent a read from the channel succeeding
@@ -69,7 +69,7 @@ type Timer struct {
 // This cannot be done concurrent to other receives from the Timer's
 // channel or other calls to the Timer's Stop method.
 //
-// For a timer created with AfterFunc(d, f), if t.Stop returns false, then the timer
+// For a timer created with [AfterFunc](d, f), if t.Stop returns false, then the timer
 // has already expired and the function f has been started in its own goroutine;
 // Stop does not wait for f to complete before returning.
 // If the caller needs to know whether f is completed, it must coordinate
@@ -81,7 +81,7 @@ func (t *Timer) Stop() bool {
 	return stopTimer(&t.r)
 }
 
-// NewTimer creates a new Timer that will send
+// NewTimer creates a new [Timer] that will send
 // the current time on its channel after at least duration d.
 func NewTimer(d Duration) *Timer {
 	c := make(chan Time, 1)
@@ -101,7 +101,7 @@ func NewTimer(d Duration) *Timer {
 // It returns true if the timer had been active, false if the timer had
 // expired or been stopped.
 //
-// For a Timer created with NewTimer, Reset should be invoked only on
+// For a [Timer] created with [NewTimer], [Timer.Reset] should be invoked only on
 // stopped or expired timers with drained channels.
 //
 // If a program has already received a value from t.C, the timer is known
@@ -123,7 +123,7 @@ func NewTimer(d Duration) *Timer {
 // Reset should always be invoked on stopped or expired channels, as described above.
 // The return value exists to preserve compatibility with existing programs.
 //
-// For a Timer created with AfterFunc(d, f), Reset either reschedules
+// For a Timer created with [AfterFunc](d, f), Reset either reschedules
 // when f will run, in which case Reset returns true, or schedules f
 // to run again, in which case it returns false.
 // When Reset returns false, Reset neither waits for the prior f to
@@ -149,16 +149,16 @@ func sendTime(c any, seq uintptr) {
 
 // After waits for the duration to elapse and then sends the current time
 // on the returned channel.
-// It is equivalent to NewTimer(d).C.
-// The underlying Timer is not recovered by the garbage collector
-// until the timer fires. If efficiency is a concern, use NewTimer
-// instead and call Timer.Stop if the timer is no longer needed.
+// It is equivalent to [NewTimer](d).C.
+// The underlying [Timer] is not recovered by the garbage collector
+// until the timer fires. If efficiency is a concern, use [NewTimer]
+// instead and call [Timer.Stop] if the timer is no longer needed.
 func After(d Duration) <-chan Time {
 	return NewTimer(d).C
 }
 
 // AfterFunc waits for the duration to elapse and then calls f
-// in its own goroutine. It returns a Timer that can
+// in its own goroutine. It returns a [Timer] that can
 // be used to cancel the call using its Stop method.
 // The returned Timer's C field is not used and will be nil.
 func AfterFunc(d Duration, f func()) *Timer {

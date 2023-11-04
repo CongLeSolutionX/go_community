@@ -11,7 +11,7 @@ type Ticker struct {
 	r runtimeTimer
 }
 
-// NewTicker returns a new Ticker containing a channel that will send
+// NewTicker returns a new [Ticker] containing a channel that will send
 // the current time on the channel after each tick. The period of the
 // ticks is specified by the duration argument. The ticker will adjust
 // the time interval or drop ticks to make up for slow receivers.
@@ -58,9 +58,9 @@ func (t *Ticker) Reset(d Duration) {
 	modTimer(&t.r, when(d), int64(d), t.r.f, t.r.arg, t.r.seq)
 }
 
-// Tick is a convenience wrapper for NewTicker providing access to the ticking
+// Tick is a convenience wrapper for [NewTicker] providing access to the ticking
 // channel only. While Tick is useful for clients that have no need to shut down
-// the Ticker, be aware that without a way to shut it down the underlying
+// the [Ticker], be aware that without a way to shut it down the underlying
 // Ticker cannot be recovered by the garbage collector; it "leaks".
 // Unlike NewTicker, Tick will return nil if d <= 0.
 func Tick(d Duration) <-chan Time {
