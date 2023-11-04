@@ -1104,10 +1104,10 @@ func (c *common) Skipf(format string, args ...any) {
 }
 
 // SkipNow marks the test as having been skipped and stops its execution
-// by calling runtime.Goexit.
+// by calling [runtime.Goexit].
 // If a test fails (see Error, Errorf, Fail) and is then skipped,
 // it is still considered to have failed.
-// Execution will continue at the next test or benchmark. See also FailNow.
+// Execution will continue at the next test or benchmark. See also [common.FailNow].
 // SkipNow must be called from the goroutine running the test, not from
 // other goroutines created during the test. Calling SkipNow does not stop
 // those other goroutines.
@@ -1281,7 +1281,7 @@ func removeAll(path string) error {
 	}
 }
 
-// Setenv calls os.Setenv(key, value) and uses Cleanup to
+// Setenv calls os.Setenv(key, value) and uses [common.Cleanup] to
 // restore the environment variable to its original value
 // after the test.
 //

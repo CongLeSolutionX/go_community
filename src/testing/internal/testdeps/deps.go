@@ -27,7 +27,7 @@ import (
 )
 
 // TestDeps is an implementation of the testing.testDeps interface,
-// suitable for passing to testing.MainStart.
+// suitable for passing to [testing.MainStart].
 type TestDeps struct{}
 
 var matchPat string
@@ -128,7 +128,7 @@ func (TestDeps) StopTestLog() error {
 	return err
 }
 
-// SetPanicOnExit0 tells the os package whether to panic on os.Exit(0).
+// SetPanicOnExit0 tells the os package whether to panic on [os.Exit](0).
 func (TestDeps) SetPanicOnExit0(v bool) {
 	testlog.SetPanicOnExit0(v)
 }
