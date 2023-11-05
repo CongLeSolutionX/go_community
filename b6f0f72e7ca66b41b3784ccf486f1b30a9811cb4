@@ -162,6 +162,24 @@
       "parentUuid": "a9d3264f_2aad63ab",
       "revId": "b6f0f72e7ca66b41b3784ccf486f1b30a9811cb4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e2127d9_ba339290",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-11-05T18:48:12Z",
+      "side": 1,
+      "message": "Nvm, I got crash stack support working on wasm, gonna send a patch soon™.",
+      "parentUuid": "1da98f6b_62d2eb2a",
+      "revId": "b6f0f72e7ca66b41b3784ccf486f1b30a9811cb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
