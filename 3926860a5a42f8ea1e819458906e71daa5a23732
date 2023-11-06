@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37311c55_8728f90e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-06T22:17:18Z",
+      "side": 1,
+      "message": "Started a rerun of `windows-amd64-longtest` due to #59494.",
+      "revId": "3926860a5a42f8ea1e819458906e71daa5a23732",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
