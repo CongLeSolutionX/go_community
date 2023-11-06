@@ -125,6 +125,24 @@
       "parentUuid": "075d81cd_03be0762",
       "revId": "f8358e0ef63eaba949cba18185bc1e04c80ea5a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d9b5b05_9f62aed0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-06T21:37:05Z",
+      "side": 1,
+      "message": "The io.Copy change got rolled back, so this looks good. (Sorry for losing track of it after the Copy rollback.)",
+      "parentUuid": "fadd4ed9_e7539f3a",
+      "revId": "f8358e0ef63eaba949cba18185bc1e04c80ea5a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
