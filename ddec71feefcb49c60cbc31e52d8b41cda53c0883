@@ -114,6 +114,30 @@
       },
       "revId": "ddec71feefcb49c60cbc31e52d8b41cda53c0883",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69bb8a40_05fb9b36",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 51083
+      },
+      "writtenOn": "2023-11-06T21:00:56Z",
+      "side": 1,
+      "message": "It\u0027s probably been discussed before and I\u0027m not aware of the reasoning, but why are these \"lower-level\" syscall-wrapping functions using Go ints instead of uintptr?  They simply get type converted back to uintptr anyways when calling the e.g. ioctl/ioctlPtr generated functions.",
+      "parentUuid": "dd2aa405_29acb196",
+      "range": {
+        "startLine": 308,
+        "startChar": 38,
+        "endLine": 308,
+        "endChar": 47
+      },
+      "revId": "ddec71feefcb49c60cbc31e52d8b41cda53c0883",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
