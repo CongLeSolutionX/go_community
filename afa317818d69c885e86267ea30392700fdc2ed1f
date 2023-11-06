@@ -16,6 +16,24 @@
       "message": "was this removal intentional? It looks like an important part of the test.\n\nif indentended, please state why the f2 is passed but unused in that test.",
       "revId": "afa317818d69c885e86267ea30392700fdc2ed1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55adf0f1_765be0e4",
+        "filename": "src/cmd/compile/internal/inline/inlheur/testdata/props/acrosscall.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-06T16:12:05Z",
+      "side": 0,
+      "message": "Thanks for the note. TLDR this was an intentional change.\n\nHere\u0027s what the testcase looked like before:\n\n  func T_multifeeds(f1, f2 func(int)) {\n  \tcallsparam(f1)\n\tcallsparamconditional(f1)\n\tcallsparam(f2)\n  }\n\nPrior to this patch the heuristic would do analysis of parameters (e.g. whether parameter value feeds unmodified into \"if\" condition, etc) in a given function regardless of whether that function was marked as an inline candidate. This was costly from a compile time perspective (since work was being done even for very large functions that would never be inlined). This CL switches to only run the parameter analysis if the func is being marked as an inline candidate.\n\nThe original version of func `T_multifeeds1` was not being marked as an inline candidate, however, since it was judged as too complex:\n\n```\n        testdata/props/acrosscall.go:97:6: cannot inline T_multifeeds1: function too complex: cost 193 exceeds budget 160\n```\n\n193 here is roughly 60 + 60 + 64, the sum of the costs of each of the funcs it calls, plus a little extra.\n\nFor `T_multifeeds1` to be interesting as a test case in the new scheme it needs to be inlinable, hence the removal of one of the calls to bump it back down under the 160 threshold.\n\nThis illustrates a sort of \"chicken and egg\" situation that sometimes comes up with the inliner-- if we actually inlined the calls in this func we\u0027d wind up with something like\n\n```\n  func T_multifeeds1(f1, f2 func(int)) {\n  \tf1()\n\tif G !\u003d 101 {\n  \t   f1(2)\n\t}\n\tf2()\n  }\n```\n\nwhich is not appreciably bigger than the original, but this is hard to detect without a more sophisticated analysis scheme.\n\nFor example, if we had some sort of interleaving of CanInline and callsite scoring we might be able to catch this case, but I think doing that would be difficult without blowing up compile times.",
+      "parentUuid": "8d6b143e_db946919",
+      "revId": "afa317818d69c885e86267ea30392700fdc2ed1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
