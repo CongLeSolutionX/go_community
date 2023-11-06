@@ -138,6 +138,30 @@
       },
       "revId": "ddec71feefcb49c60cbc31e52d8b41cda53c0883",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e69f1f2_62b1bb00",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-06T21:09:23Z",
+      "side": 1,
+      "message": "Generally the `syscall` and `unix` packages try to follow the signatures defined in POSIX, and POSIX [`ioctl`](https://pubs.opengroup.org/onlinepubs/9699919799/functions/ioctl.html) very clearly uses a signed integer type for the `request` parameter.\n\n(A Go `int` is not exactly a C `int` — it\u0027s more like `ssize_t` — but we still tend to use it where one finds a C `int` in the syscall wrappers.)",
+      "parentUuid": "69bb8a40_05fb9b36",
+      "range": {
+        "startLine": 308,
+        "startChar": 38,
+        "endLine": 308,
+        "endChar": 47
+      },
+      "revId": "ddec71feefcb49c60cbc31e52d8b41cda53c0883",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
