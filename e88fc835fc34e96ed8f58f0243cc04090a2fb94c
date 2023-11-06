@@ -70,6 +70,24 @@
       "message": "Hello, this bugfix",
       "revId": "e88fc835fc34e96ed8f58f0243cc04090a2fb94c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7913cdf_c02196bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-06T02:12:41Z",
+      "side": 1,
+      "message": "Hello, this bugfix needs the Review-Enforcement. Do you know who I should contact with.",
+      "parentUuid": "41a93358_39114ff1",
+      "revId": "e88fc835fc34e96ed8f58f0243cc04090a2fb94c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
