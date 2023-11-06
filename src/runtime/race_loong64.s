@@ -40,11 +40,7 @@
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
 TEXT	runtime·raceread<ABIInternal>(SB), NOSPLIT, $0-8
-#ifdef GOEXPERIMENT_regabiargs
 	MOVV	R4, RARG1
-#else
-	MOVV	addr+0(FP), RARG1
-#endif
 	MOVV	R1, RARG2
 	// void __tsan_read(ThreadState *thr, void *addr, void *pc);
 	MOVV	$__tsan_read(SB), RCALL
@@ -69,11 +65,7 @@ TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
 TEXT	runtime·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
-#ifdef GOEXPERIMENT_regabiargs
 	MOVV	R4, RARG1
-#else
-	MOVV	addr+0(FP), RARG1
-#endif
 	MOVV	R1, RARG2
 	// void __tsan_write(ThreadState *thr, void *addr, void *pc);
 	MOVV	$__tsan_write(SB), RCALL
@@ -98,13 +90,8 @@ TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
 TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
-#ifdef GOEXPERIMENT_regabiargs
 	MOVV	R5, RARG2
 	MOVV	R4, RARG1
-#else
-	MOVV	addr+0(FP), RARG1
-	MOVV	size+8(FP), RARG2
-#endif
 	MOVV	R1, RARG3
 	// void __tsan_read_range(ThreadState *thr, void *addr, uintptr size, void *pc);
 	MOVV	$__tsan_read_range(SB), RCALL
@@ -130,13 +117,8 @@ TEXT	runtime·racereadrangepc1(SB), NOSPLIT, $0-24
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
 TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
-#ifdef GOEXPERIMENT_regabiargs
 	MOVV	R5, RARG2
 	MOVV	R4, RARG1
-#else
-	MOVV	addr+0(FP), RARG1
-	MOVV	size+8(FP), RARG2
-#endif
 	MOVV	R1, RARG3
 	// void __tsan_write_range(ThreadState *thr, void *addr, uintptr size, void *pc);
 	MOVV	$__tsan_write_range(SB), RCALL
@@ -186,11 +168,7 @@ ret:
 // func runtime·racefuncenter(pc uintptr)
 // Called from instrumented code.
 TEXT	runtime·racefuncenter<ABIInternal>(SB), NOSPLIT, $0-8
-#ifdef GOEXPERIMENT_regabiargs
 	MOVV	R4, RCALL
-#else
-	MOVV	callpc+0(FP), RCALL
-#endif
 	JMP	racefuncenter<>(SB)
 
 // Common code for racefuncenter
@@ -476,13 +454,7 @@ rest:
 	BEQ	R14, g, noswitch	// branch if already on g0
 	MOVV	R14, g
 
-#ifdef GOEXPERIMENT_regabiargs
 	JAL	runtime·racecallback<ABIInternal>(SB)
-#else
-	MOVV	RARG0, 8(R3)	// func arg
-	MOVV	RARG1, 16(R3)	// func arg
-	JAL	runtime·racecallback(SB)
-#endif
 	// All registers are smashed after Go code, reload.
 	MOVV	g_m(g), R15
 	MOVV	m_curg(R15), g	// g = m->curg
@@ -496,13 +468,7 @@ ret:
 
 noswitch:
 	// already on g0
-#ifdef GOEXPERIMENT_regabiargs
 	JAL	runtime·racecallback<ABIInternal>(SB)
-#else
-	MOVV	RARG0, 8(R3)	// func arg
-	MOVV	RARG1, 16(R3)	// func arg
-	JAL	runtime·racecallback(SB)
-#endif
 	JMP	ret
 
 // tls_g, g value for each thread in TLS
