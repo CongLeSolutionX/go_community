@@ -88,6 +88,24 @@
       "parentUuid": "41a93358_39114ff1",
       "revId": "e88fc835fc34e96ed8f58f0243cc04090a2fb94c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceab44ba_e16a6f84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-06T12:55:11Z",
+      "side": 1,
+      "message": "Please refrain from adding arbitrary reviewers to a change, especially when it is already this far through review.\n\nProviding that a number of conditions are met (a review +2, a trybot pass, no pending comments) it will show up on the needs review dashboard (https://go.dev/s/needs-review) and it will get reviewed in due course, although it can take some time.\n\nSee golang-dev (https://groups.google.com/g/golang-dev/c/K7oGURi0wTM?pli\u003d1) for more details.",
+      "parentUuid": "a7913cdf_c02196bb",
+      "revId": "e88fc835fc34e96ed8f58f0243cc04090a2fb94c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
