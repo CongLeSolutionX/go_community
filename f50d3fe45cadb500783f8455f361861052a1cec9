@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cd31210_1cbe22b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51983
+      },
+      "writtenOn": "2023-11-06T09:01:00Z",
+      "side": 1,
+      "message": "No change, just rebased the branch and tested that the issue is still current (it is!)",
+      "revId": "f50d3fe45cadb500783f8455f361861052a1cec9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
