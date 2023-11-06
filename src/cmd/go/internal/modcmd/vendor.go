@@ -324,7 +324,7 @@ func vendorPkg(vdir, pkg string) {
 	}
 	embeds, err := load.ResolveEmbed(bp.Dir, embedPatterns)
 	if err != nil {
-		base.Fatal(err)
+		base.Fatalf("failed to resolve embedded files of %s: %v\n", pkg, err)
 	}
 	for _, embed := range embeds {
 		embedDst := filepath.Join(dst, embed)
