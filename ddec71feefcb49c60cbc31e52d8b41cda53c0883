@@ -162,6 +162,30 @@
       },
       "revId": "ddec71feefcb49c60cbc31e52d8b41cda53c0883",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28293f1e_c304063a",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-06T21:13:08Z",
+      "side": 1,
+      "message": "But, I would argue that\u0027s another good reason to export `tcsetpgrp` instead of `ioctl`. The signature of the `ioctl` function on Linux differs from the POSIX function of the same name, whereas the signature of the `tcsetpgrp` is consistent across platforms.",
+      "parentUuid": "1e69f1f2_62b1bb00",
+      "range": {
+        "startLine": 308,
+        "startChar": 38,
+        "endLine": 308,
+        "endChar": 47
+      },
+      "revId": "ddec71feefcb49c60cbc31e52d8b41cda53c0883",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
