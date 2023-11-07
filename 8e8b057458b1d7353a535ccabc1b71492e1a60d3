@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f593f3f0_54765f19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2023-11-07T14:45:02Z",
+      "side": 1,
+      "message": "Updated IndexRune in bytes.go/strings.go to support WASM and 386 which don\u0027t have bytealg.Index and bytealg.IndexString.",
+      "revId": "8e8b057458b1d7353a535ccabc1b71492e1a60d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
