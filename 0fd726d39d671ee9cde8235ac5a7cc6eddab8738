@@ -16,6 +16,24 @@
       "message": "How do we distinguish which adjustments are \"must\" vs \"may\"?",
       "revId": "0fd726d39d671ee9cde8235ac5a7cc6eddab8738",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56969d5c_452fac0f",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-07T20:10:10Z",
+      "side": 1,
+      "message": "That\u0027s done here:\n\nhttps://go.googlesource.com/go/+/ff19f8e7636f0b5797f3b65cee69f41fb650b965/src/cmd/compile/internal/inline/inlheur/analyze_func_params.go#21\nhttps://go.googlesource.com/go/+/ff19f8e7636f0b5797f3b65cee69f41fb650b965/src/cmd/compile/internal/inline/inlheur/analyze_func_params.go#274\n\n\"Must\" is cond level 0, and \"may\" is anything else.\n\nIt\u0027s approximate, but hopefully will be good enough for heuristics.",
+      "parentUuid": "db8bd541_4c8962bf",
+      "revId": "0fd726d39d671ee9cde8235ac5a7cc6eddab8738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
