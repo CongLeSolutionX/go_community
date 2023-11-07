@@ -141,6 +141,38 @@ TODO: What about:
 With this rewrite the "return true" is not visible after yield returns,
 but maybe it should be?
 
+# Checking
+
+To permit checking that an iterator is well-behaved -- that is, that
+it does not continue iterating after the loop-body function has returned
+false, plain "break" sets #next to 1, and the after loop tests for this
+case and clears it.  The generated loop body code can check that #next is
+zero; if it isn't, that is a problem (note that it doesn't yet).
+
+For example:
+
+	for x := range f {
+		...
+		if ... { break }
+		...
+	}
+
+becomes
+
+	{
+		var #next int
+		f(func(x T1) bool {
+			// TODO: if #next != 0 { panicAppropriately() }
+			...
+			if ... { #next = 1 ; return false }
+			...
+			return true
+		})
+		if #next == 1 {
+			#next = 0
+		}
+	}
+
 # Nested Loops
 
 So far we've only considered a single loop. If a function contains a
@@ -205,7 +237,7 @@ return with a single check.
 For a labeled break or continue of an outer range-over-func, we
 use positive #next values. Any such labeled break or continue
 really means "do N breaks" or "do N breaks and 1 continue".
-We encode that as 3*N or 3*N+2 respectively.
+We encode that as 3*N+1 or 3*N-1 respectively.
 Loops that might need to propagate a labeled break or continue
 add one or both of these to the #next checks:
 
@@ -217,6 +249,12 @@ add one or both of these to the #next checks:
 	if #next == 2 {
 		#next = 0
 		return true
+	}
+
+plus the final "break from" check that clears #next and allows checking
+
+	if #next == 1 {
+		#next = 0
 	}
 
 For example
@@ -245,7 +283,7 @@ becomes
 					...
 					{
 						// break F
-						#next = 6
+						#next = 7
 						return false
 					}
 					...
@@ -275,6 +313,11 @@ becomes
 			...
 			return true
 		})
+		if #next == 1 {
+			// TODO: suppress this break-from boilerplate for outermost loop
+			#next = 0
+		}
+
 	}
 
 Note that the post-h checks only consider a break,
@@ -444,15 +487,19 @@ type branch struct {
 	label string
 }
 
+const perLoopStep = 3
+const breakDone = 1
+
 // A forLoop describes a single range-over-func loop being processed.
 type forLoop struct {
 	nfor *syntax.ForStmt // actual syntax
 
-	checkRet      bool     // add check for "return" after loop
-	checkRetArgs  bool     // add check for "return args" after loop
-	checkBreak    bool     // add check for "break" after loop
-	checkContinue bool     // add check for "continue" after loop
-	checkBranch   []branch // add check for labeled branch after loop
+	checkRet       bool     // add check for "return" after loop
+	checkRetArgs   bool     // add check for "return args" after loop
+	checkBreakThru bool     // add check for "break" after loop
+	checkBreakDone bool     // add check to confirm break is done
+	checkContinue  bool     // add check for "continue" after loop
+	checkBranch    []branch // add check for labeled branch after loop
 }
 
 // Rewrite rewrites all the range-over-funcs in the files.
@@ -641,8 +688,6 @@ func (r *rewriter) editReturn(x *syntax.ReturnStmt) syntax.Stmt {
 	return bl
 }
 
-const perLoopStep = 3
-
 // editBranch returns the replacement for the branch statement x,
 // or x itself if it should be left alone.
 // See the package doc comment above for more context.
@@ -710,16 +755,23 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 
 		// For continue of innermost loop, use "return true".
 		// Otherwise we are breaking the innermost loop, so "return false".
-		retVal := r.false
-		if depth == 0 && x.Tok == syntax.Continue {
-			retVal = r.true
-		}
-		ret = &syntax.ReturnStmt{Results: r.useVar(retVal)}
 
-		// If we're only operating on the innermost loop, the return is all we need.
-		if depth == 0 {
+		if depth == 0 && x.Tok == syntax.Continue {
+			ret = &syntax.ReturnStmt{Results: r.useVar(r.true)}
 			setPos(ret, x.Pos())
 			return ret
+		}
+		ret = &syntax.ReturnStmt{Results: r.useVar(r.false)}
+
+		// If this is a simple break, record that (no change to control flow in caller, just a check later)
+		if depth == 0 {
+			r.forStack[len(r.forStack)-1].checkBreakDone = true
+			as := &syntax.AssignStmt{Lhs: r.next(), Rhs: r.intConst(breakDone)}
+			bl := &syntax.BlockStmt{
+				List: []syntax.Stmt{as, ret},
+			}
+			setPos(bl, x.Pos())
+			return bl
 		}
 
 		// The loop inside the one we are break/continue-ing
@@ -727,12 +779,12 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 		if x.Tok == syntax.Continue {
 			r.forStack[i+1].checkContinue = true
 		} else {
-			r.forStack[i+1].checkBreak = true
+			r.forStack[i+1].checkBreakThru = true
 		}
 
 		// The loops along the way just need to break.
 		for j := i + 2; j < len(r.forStack); j++ {
-			r.forStack[j].checkBreak = true
+			r.forStack[j].checkBreakThru = true
 		}
 
 		// Set next to break the appropriate number of times;
@@ -740,6 +792,9 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 		next = perLoopStep * depth
 		if x.Tok == syntax.Continue {
 			next--
+		} else {
+			next += breakDone
+			r.forStack[i].checkBreakDone = true
 		}
 	}
 
@@ -950,11 +1005,14 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 			// We set checkRet in that case to trigger this check.
 			list = append(list, r.ifNext(syntax.Lss, 0, retStmt(r.useVar(r.false))))
 		}
-		if loop.checkBreak {
+		if loop.checkBreakThru {
 			list = append(list, r.ifNext(syntax.Geq, perLoopStep, retStmt(r.useVar(r.false))))
 		}
 		if loop.checkContinue {
 			list = append(list, r.ifNext(syntax.Eql, perLoopStep-1, retStmt(r.useVar(r.true))))
+		}
+		if loop.checkBreakDone {
+			list = append(list, r.ifNext(syntax.Eql, breakDone, nil))
 		}
 	}
 
@@ -976,6 +1034,8 @@ func retStmt(results syntax.Expr) *syntax.ReturnStmt {
 // When op is >=, adjust is #next -= c.
 // When op is == and c is not -1 or -2, adjust is #next = 0.
 // Otherwise adjust is omitted.
+//
+// If op is == and then is nil, then is omitted.
 func (r *rewriter) ifNext(op syntax.Operator, c int, then syntax.Stmt) syntax.Stmt {
 	nif := &syntax.IfStmt{
 		Cond: &syntax.Operation{Op: op, X: r.next(), Y: r.intConst(c)},
@@ -1000,7 +1060,11 @@ func (r *rewriter) ifNext(op syntax.Operator, c int, then syntax.Stmt) syntax.St
 			Lhs: r.next(),
 			Rhs: r.intConst(0),
 		}
-		nif.Then.List = []syntax.Stmt{clr, then}
+		if then == nil {
+			nif.Then.List = []syntax.Stmt{clr}
+		} else {
+			nif.Then.List = []syntax.Stmt{clr, then}
+		}
 	}
 
 	return nif
