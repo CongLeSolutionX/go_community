@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1e061df_2f29143d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-07T22:14:29Z",
+      "side": 1,
+      "message": "(https://go.dev/wiki/CommitMessage) Please wrap the commit message to ~76 characters in width.",
+      "revId": "8acf506ea83aacccc18c87e2bb13debee573dbc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edde6de1_5a33fd52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-07T22:14:29Z",
+      "side": 1,
+      "message": "(nit) CL 14177\n\n(The Go project generally cross-references changes using CL numbers instead of commit hashes.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "8acf506ea83aacccc18c87e2bb13debee573dbc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3db102a5_f9966dc0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
