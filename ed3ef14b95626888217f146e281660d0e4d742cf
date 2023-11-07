@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a09fd8_0e93579b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2023-11-07T10:06:31Z",
+      "side": 1,
+      "message": "Good cleanup. My observations aren\u0027t super important but I think some early rejections would make more sense.",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b77cd47_bf446452",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2023-11-07T10:06:31Z",
+      "side": 1,
+      "message": "Window sizes above uint32 isn\u0027t within spec. Having a uint64 makes len() possibly truncate (and appendTo slightly strange). \n\nMaybe use uint32 throughout \u0027window\u0027 and check+cast when using reset?",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebf2946e_7024eec4",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2023-11-07T10:06:31Z",
+      "side": 1,
+      "message": "All of this is a bit weird, since you apply the 8M window max below.\n\nIf window size is \u003e8MB - and you don\u0027t want to decode that, then you should reject the decode at this point. It doesn\u0027t make sense to just set it to 8M and have it fail later.\n\nThat said the 8MB should probably be configurable if API is to be exposed publicly, since it may be overly restrictive for some uses.",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
