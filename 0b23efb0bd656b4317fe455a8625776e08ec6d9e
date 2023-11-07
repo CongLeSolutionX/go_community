@@ -70,6 +70,24 @@
       "message": "Should there be a corresponding change to `types_linux.go`?\n\n(It looks like `_AT_EMPTY_PATH` was added there in CL 407694 — if it was missed at that point, maybe note something about it in the commit message?)",
       "revId": "0b23efb0bd656b4317fe455a8625776e08ec6d9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd9e923d_82ed3c09",
+        "filename": "src/syscall/ztypes_linux_386.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-11-07T17:03:58Z",
+      "side": 1,
+      "message": "Done. I\u0027ve omitted the other constants added by CL 407694 though as they are not relevant for this CL.",
+      "parentUuid": "b96045c1_016706d3",
+      "revId": "0b23efb0bd656b4317fe455a8625776e08ec6d9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
