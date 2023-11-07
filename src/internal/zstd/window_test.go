@@ -39,7 +39,7 @@ func TestWindow(t *testing.T) {
 // Third sequence tests read offset that can become non-zero only after second save.
 func testWindow(t *testing.T, size int, a, b, c []byte) {
 	var w window
-	w.reset(size)
+	w.reset(uint64(size))
 
 	w.save(a)
 	w.save(b)

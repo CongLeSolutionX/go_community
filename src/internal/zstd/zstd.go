@@ -237,7 +237,7 @@ retry:
 
 	// Figure out the maximum amount of data we need to retain
 	// for backreferences.
-	var windowSize int
+	var windowSize uint64
 	if !singleSegment {
 		// Window descriptor. RFC 3.1.1.1.2.
 		windowDescriptor := r.scratch[0]
@@ -246,7 +246,7 @@ retry:
 		windowLog := exponent + 10
 		windowBase := uint64(1) << windowLog
 		windowAdd := (windowBase / 8) * mantissa
-		windowSize = int(windowBase + windowAdd)
+		windowSize = windowBase + windowAdd
 
 		// Default zstd sets limits on the window size.
 		if fuzzing && (windowLog > 31 || windowSize > 1<<27) {
@@ -287,8 +287,9 @@ retry:
 	// RFC 3.1.1.1.2.
 	// When Single_Segment_Flag is set, Window_Descriptor is not present.
 	// In this case, Window_Size is Frame_Content_Size.
+	// can be any value from 1 to 2^64-1 bytes (16 EB).
 	if singleSegment {
-		windowSize = int(r.remainingFrameSize)
+		windowSize = r.remainingFrameSize
 	}
 
 	// RFC 8878 3.1.1.1.1.2. permits us to set an 8M max on window size.
@@ -382,7 +383,7 @@ func (r *Reader) readBlock() error {
 	// Maximum block size is smaller of window size and 128K.
 	// We don't record the window size for a single segment frame,
 	// so just use 128K. RFC 3.1.1.2.3, 3.1.1.2.4.
-	if blockSize > 128<<10 || (r.window.size > 0 && blockSize > r.window.size) {
+	if blockSize > 128<<10 || (r.window.size > 0 && uint64(blockSize) > r.window.size) {
 		return r.makeError(relativeOffset, "block size too large")
 	}
 
