@@ -52,6 +52,24 @@
       "parentUuid": "3137b7d7_600acba9",
       "revId": "47a2d371898c6e17182dd32256a0327342da0fd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0053481c_5f4480c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-07T22:58:19Z",
+      "side": 1,
+      "message": "Failed again, similar tests to the first time. Also timeouts.\n\nMaybe this builder is already broken on the release branch somehow?",
+      "parentUuid": "c17e22b8_79860dbc",
+      "revId": "47a2d371898c6e17182dd32256a0327342da0fd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
