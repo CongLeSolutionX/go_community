@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa95777d_beb83fe2",
+        "filename": "src/testing/internal/testdeps/deps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-11-07T02:00:42Z",
+      "side": 1,
+      "message": "Thanks for pointing it out. Modified, please review again",
+      "parentUuid": "816d061d_56a780c0",
+      "revId": "0538115eacdebfdb9157fb00acbb36e7f7370413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddfff7a1_3713f0d6",
@@ -78,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53373a97_c7f1faff",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-11-07T02:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddfff7a1_3713f0d6",
+      "range": {
+        "startLine": 1110,
+        "startChar": 66,
+        "endLine": 1110,
+        "endChar": 83
+      },
+      "revId": "0538115eacdebfdb9157fb00acbb36e7f7370413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2ea8ac6_388ec175",
@@ -91,6 +133,30 @@
       "writtenOn": "2023-11-06T21:44:42Z",
       "side": 1,
       "message": "Same here — we shouldn\u0027t link to an unexported type in a comment for an exported method.",
+      "range": {
+        "startLine": 1284,
+        "startChar": 47,
+        "endLine": 1284,
+        "endChar": 63
+      },
+      "revId": "0538115eacdebfdb9157fb00acbb36e7f7370413",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bf0ed78_edda7a52",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-11-07T02:00:42Z",
+      "side": 1,
+      "message": "Thanks for pointing it out. Modified, please review again",
+      "parentUuid": "b2ea8ac6_388ec175",
       "range": {
         "startLine": 1284,
         "startChar": 47,
