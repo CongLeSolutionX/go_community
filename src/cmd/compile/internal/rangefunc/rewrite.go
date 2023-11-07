@@ -640,6 +640,8 @@ func (r *rewriter) editReturn(x *syntax.ReturnStmt) syntax.Stmt {
 	return bl
 }
 
+const perLoopStep = 2
+
 // editBranch returns the replacement for the branch statement x,
 // or x itself if it should be left alone.
 // See the package doc comment above for more context.
@@ -734,7 +736,7 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 
 		// Set next to break the appropriate number of times;
 		// the final time may be a continue, not a break.
-		next = 2 * depth
+		next = perLoopStep * depth
 		if x.Tok == syntax.Continue {
 			next--
 		}
@@ -948,10 +950,10 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 			list = append(list, r.ifNext(syntax.Lss, 0, retStmt(r.useVar(r.false))))
 		}
 		if loop.checkBreak {
-			list = append(list, r.ifNext(syntax.Geq, 2, retStmt(r.useVar(r.false))))
+			list = append(list, r.ifNext(syntax.Geq, perLoopStep, retStmt(r.useVar(r.false))))
 		}
 		if loop.checkContinue {
-			list = append(list, r.ifNext(syntax.Eql, 1, retStmt(r.useVar(r.true))))
+			list = append(list, r.ifNext(syntax.Eql, perLoopStep-1, retStmt(r.useVar(r.true))))
 		}
 	}
 
