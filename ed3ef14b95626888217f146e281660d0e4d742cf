@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85bdc43e_38e2de31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-07T12:57:28Z",
+      "side": 1,
+      "message": "thanks you,Your advice is vital.",
+      "parentUuid": "93a09fd8_0e93579b",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b77cd47_bf446452",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-07T10:06:31Z",
       "side": 1,
       "message": "Window sizes above uint32 isn\u0027t within spec. Having a uint64 makes len() possibly truncate (and appendTo slightly strange). \n\nMaybe use uint32 throughout \u0027window\u0027 and check+cast when using reset?",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bc330b3_9b65d539",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-07T12:57:28Z",
+      "side": 1,
+      "message": "In here it\u0027s like this https://datatracker.ietf.org/doc/html/rfc8878#section-3.1.1.1.2\n\n\u003e The Window_Descriptor byte is optional. When Single_Segment_Flag is set, Window_Descriptor is not present. In this case, Window_Size is Frame_Content_Size, which can be any value from 0 to 264 - 1 bytes (16 ExaBytes).\n\nSo I think I should use uint64, feel free to correct me.\n\nThe appendTo issue I really hadn\u0027t considered, what\u0027s his problem?",
+      "parentUuid": "8b77cd47_bf446452",
       "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
