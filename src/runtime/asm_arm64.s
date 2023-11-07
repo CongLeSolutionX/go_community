@@ -9,6 +9,8 @@
 #include "textflag.h"
 
 TEXT runtime·rt0_go(SB),NOSPLIT|TOPFRAME,$0
+	MOVD	$0, R29
+
 	// SP = stack; R0 = argc; R1 = argv
 
 	SUB	$32, RSP
@@ -125,6 +127,13 @@ TEXT runtime·asminit(SB),NOSPLIT|NOFRAME,$0-0
 	RET
 
 TEXT runtime·mstart(SB),NOSPLIT|TOPFRAME,$0
+	// This is the root frame of new Go-created OS threads.
+	// Call stack unwinding should not proceed past this frame.
+	// Set the frame pointer register to 0 so that frame pointer-based unwinders
+	// (which don't use debug info for performance reasons)
+	// won't attempt to unwind past this function.
+	// See go.dev/issue/63630
+	MOVD	$0, R29
 	BL	runtime·mstart0(SB)
 	RET // not reached
 
@@ -184,7 +193,12 @@ TEXT runtime·mcall<ABIInternal>(SB), NOSPLIT|NOFRAME, $0-8
 
 	MOVD	(g_sched+gobuf_sp)(g), R0
 	MOVD	R0, RSP	// sp = m->g0->sched.sp
-	MOVD	(g_sched+gobuf_bp)(g), R29
+	// The function we call will eventually drop the calling goroutine's
+	// association with this M. At that point, the frame pointer saved by
+	// this function can become invalid if another M picks up the goroutine
+	// when it becomes runnable again. So, it's not safe to frame pointer
+	// unwind past this point. Zero the frame pointer to prevent that.
+	MOVD	$0, R29
 	MOVD	R3, R0				// arg = g
 	MOVD	$0, -16(RSP)			// dummy LR
 	SUB	$16, RSP

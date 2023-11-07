@@ -157,6 +157,7 @@ GLOBL bad_cpu_msg<>(SB), RODATA, $84
 #endif
 
 TEXT runtime·rt0_go(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
+	MOVD	$0, BP
 	// copy arguments forward on an even stack
 	MOVQ	DI, AX		// argc
 	MOVQ	SI, BX		// argv
@@ -391,6 +392,13 @@ TEXT runtime·asminit(SB),NOSPLIT,$0-0
 	RET
 
 TEXT runtime·mstart(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
+	// This is the root frame of new Go-created OS threads.
+	// Call stack unwinding should not proceed past this frame.
+	// Set the frame pointer register to 0 so that frame pointer-based unwinders
+	// (which don't use debug info for performance reasons)
+	// won't attempt to unwind past this function.
+	// See go.dev/issue/63630
+	MOVD	$0, BP
 	CALL	runtime·mstart0(SB)
 	RET // not reached
 
@@ -453,6 +461,12 @@ goodm:
 	get_tls(CX)		// Set G in TLS
 	MOVQ	R14, g(CX)
 	MOVQ	(g_sched+gobuf_sp)(R14), SP	// sp = g0.sched.sp
+	// The function we call will eventually drop the calling goroutine's
+	// association with this M. At that point, the frame pointer saved by
+	// this function can become invalid if another M picks up the goroutine
+	// when it becomes runnable again. So, it's not safe to frame pointer
+	// unwind past this point. Zero the frame pointer to prevent that.
+	MOVQ	$0, BP
 	PUSHQ	AX	// open up space for fn's arg spill slot
 	MOVQ	0(DX), R12
 	CALL	R12		// fn(g)
