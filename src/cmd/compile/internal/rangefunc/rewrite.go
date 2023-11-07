@@ -205,16 +205,16 @@ return with a single check.
 For a labeled break or continue of an outer range-over-func, we
 use positive #next values. Any such labeled break or continue
 really means "do N breaks" or "do N breaks and 1 continue".
-We encode that as 2*N or 2*N+1 respectively.
+We encode that as 3*N or 3*N+2 respectively.
 Loops that might need to propagate a labeled break or continue
 add one or both of these to the #next checks:
 
-	if #next >= 2 {
-		#next -= 2
+	if #next >= 3 {
+		#next -= 3
 		return false
 	}
 
-	if #next == 1 {
+	if #next == 2 {
 		#next = 0
 		return true
 	}
@@ -245,29 +245,30 @@ becomes
 					...
 					{
 						// break F
-						#next = 4
+						#next = 6
 						return false
 					}
 					...
 					{
 						// continue F
-						#next = 3
+						#next = 5
 						return false
 					}
 					...
 					return true
 				})
-				if #next >= 2 {
-					#next -= 2
+				if #next >= 3 {
+					#next -= 3
 					return false
 				}
 				return true
 			})
-			if #next >= 2 {
-				#next -= 2
+
+			if #next >= 3 {
+				#next -= 3
 				return false
 			}
-			if #next == 1 {
+			if #next == 2 {
 				#next = 0
 				return true
 			}
@@ -640,6 +641,8 @@ func (r *rewriter) editReturn(x *syntax.ReturnStmt) syntax.Stmt {
 	return bl
 }
 
+const perLoopStep = 3
+
 // editBranch returns the replacement for the branch statement x,
 // or x itself if it should be left alone.
 // See the package doc comment above for more context.
@@ -734,7 +737,7 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 
 		// Set next to break the appropriate number of times;
 		// the final time may be a continue, not a break.
-		next = 2 * depth
+		next = perLoopStep * depth
 		if x.Tok == syntax.Continue {
 			next--
 		}
@@ -948,10 +951,10 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 			list = append(list, r.ifNext(syntax.Lss, 0, retStmt(r.useVar(r.false))))
 		}
 		if loop.checkBreak {
-			list = append(list, r.ifNext(syntax.Geq, 2, retStmt(r.useVar(r.false))))
+			list = append(list, r.ifNext(syntax.Geq, perLoopStep, retStmt(r.useVar(r.false))))
 		}
 		if loop.checkContinue {
-			list = append(list, r.ifNext(syntax.Eql, 1, retStmt(r.useVar(r.true))))
+			list = append(list, r.ifNext(syntax.Eql, perLoopStep-1, retStmt(r.useVar(r.true))))
 		}
 	}
 
