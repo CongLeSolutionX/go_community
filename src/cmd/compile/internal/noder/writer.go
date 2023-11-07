@@ -16,6 +16,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
 )
@@ -1715,6 +1716,19 @@ func (w *writer) expr(expr syntax.Expr) {
 	targs := inst.TypeArgs
 
 	if tv, ok := w.p.maybeTypeAndValue(expr); ok {
+		if tv.IsRuntimeHelper() {
+			if obj != nil {
+				if pkg := obj.Pkg(); pkg != nil && pkg.Name() == "runtime" {
+					objName := obj.Name()
+					if name := typecheck.LookupRuntime(objName); name != nil {
+						w.Code(exprRuntimeBuiltin)
+						w.String(objName)
+						return
+					}
+				}
+			}
+		}
+
 		if tv.IsType() {
 			w.p.fatalf(expr, "unexpected type expression %v", syntax.String(expr))
 		}
@@ -1992,6 +2006,7 @@ func (w *writer) expr(expr syntax.Expr) {
 				rtype = typ
 			case "Slice":
 				rtype = sliceElem(w.p.typeOf(expr))
+			default:
 			}
 		}
 
