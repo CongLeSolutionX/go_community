@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d31a1ef_56d9419f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-11-07T19:28:08Z",
+      "side": 1,
+      "message": "Missing the branch prefix.",
+      "revId": "121b6676832f364645f7d6f95b35c585ad578c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
