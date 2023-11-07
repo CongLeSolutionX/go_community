@@ -22,6 +22,30 @@
       },
       "revId": "14e51492b4bca00e22ec47bbf29b4a2a64bb7833",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2299ae7_c5b8ad6c",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-07T16:29:54Z",
+      "side": 1,
+      "message": "it\u0027s a stylistic choice; I wanted to make it look more like the traceLocker is getting consumed. it\u0027s not valid after the release.\n\nbut I dunno, I don\u0027t feel strongly. happy to change it if you disagree.",
+      "parentUuid": "e22376b6_9cc1a3bd",
+      "range": {
+        "startLine": 661,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 14
+      },
+      "revId": "14e51492b4bca00e22ec47bbf29b4a2a64bb7833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
