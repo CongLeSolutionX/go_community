@@ -422,8 +422,20 @@ func mProf_PostSweep() {
 
 // Called by malloc to record a profiled block.
 func mProf_Malloc(p unsafe.Pointer, size uintptr) {
+	gp := getg()
 	var stk [maxStack]uintptr
-	nstk := callers(4, stk[:])
+	nstk := 1
+	if tracefpunwindoff() || gp.m.hasCgoOnStack() {
+		stk[0] = logicalStackSentinel
+		nstk += callers(4, stk[1:])
+	} else {
+		// We want to skip this frame, profilealloc, mallocgc, and
+		// newobject/makeslice/etc. Starting from the current value of
+		// the frame pointer gives us the return address in
+		// profilealloc, so we must skip a total of 3 frames.
+		stk[0] = 3
+		nstk += fpTracebackPCs(unsafe.Pointer(getfp()), stk[1:])
+	}
 
 	index := (mProfCycle.read() + 2) % uint32(len(memRecord{}.future))
 
@@ -748,8 +760,8 @@ func record(r *MemProfileRecord, b *bucket) {
 	if asanenabled {
 		asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 	}
-	copy(r.Stack0[:], b.stk())
-	for i := int(b.nstk); i < len(r.Stack0); i++ {
+	i := copy(r.Stack0[:], fpunwindExpand(b.stk()))
+	for ; i < len(r.Stack0); i++ {
 		r.Stack0[i] = 0
 	}
 }
