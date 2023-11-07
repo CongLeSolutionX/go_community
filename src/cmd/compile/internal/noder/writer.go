@@ -16,6 +16,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
 )
@@ -1909,6 +1910,7 @@ func (w *writer) expr(expr syntax.Expr) {
 		}
 
 		var rtype types2.Type
+		var builtinRuntimeFunc string
 		if tv.IsBuiltin() {
 			switch obj, _ := lookupObj(w.p, syntax.Unparen(expr.Fun)); obj.Name() {
 			case "make":
@@ -1992,6 +1994,17 @@ func (w *writer) expr(expr syntax.Expr) {
 				rtype = typ
 			case "Slice":
 				rtype = sliceElem(w.p.typeOf(expr))
+			default:
+			}
+		} else if tv.IsRuntimeHelper() {
+			obj, _ := lookupObj(w.p, syntax.Unparen(expr.Fun))
+			if obj != nil {
+				if pkg := obj.Pkg(); pkg != nil && pkg.Name() == "runtime" {
+					objName := obj.Name()
+					if name := typecheck.LookupRuntime(objName); name != nil {
+						builtinRuntimeFunc = objName
+					}
+				}
 			}
 		}
 
@@ -2017,7 +2030,12 @@ func (w *writer) expr(expr syntax.Expr) {
 				return
 			}
 
-			w.expr(fun)
+			if builtinRuntimeFunc == "" {
+				w.expr(fun)
+			} else {
+				w.Code(exprRuntimeBuiltin)
+				w.String(builtinRuntimeFunc)
+			}
 		}
 
 		sigType := types2.CoreType(tv.Type).(*types2.Signature)
