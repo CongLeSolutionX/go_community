@@ -21,19 +21,20 @@ import (
 )
 
 var (
-	GOROOT   = runtime.GOROOT() // cached for efficiency
-	GOARCH   = envOr("GOARCH", defaultGOARCH)
-	GOOS     = envOr("GOOS", defaultGOOS)
-	GO386    = envOr("GO386", defaultGO386)
-	GOAMD64  = goamd64()
-	GOARM    = goarm()
-	GOMIPS   = gomips()
-	GOMIPS64 = gomips64()
-	GOPPC64  = goppc64()
-	GOWASM   = gowasm()
-	ToolTags = toolTags()
-	GO_LDSO  = defaultGO_LDSO
-	Version  = version
+	GOROOT    = runtime.GOROOT() // cached for efficiency
+	GOARCH    = envOr("GOARCH", defaultGOARCH)
+	GOOS      = envOr("GOOS", defaultGOOS)
+	GO386     = envOr("GO386", defaultGO386)
+	GOAMD64   = goamd64()
+	GOARM     = goarm()
+	GOMIPS    = gomips()
+	GOMIPS64  = gomips64()
+	GOPPC64   = goppc64()
+	GORISCV64 = goriscv64()
+	GOWASM    = gowasm()
+	ToolTags  = toolTags()
+	GO_LDSO   = defaultGO_LDSO
+	Version   = version
 )
 
 // Error is one of the errors found (if any) in the build configuration.
@@ -116,6 +117,22 @@ func goppc64() int {
 	}
 	Error = fmt.Errorf("invalid GOPPC64: must be power8, power9, power10")
 	return int(defaultGOPPC64[len("power")] - '0')
+}
+
+func goriscv64() int {
+	switch v := envOr("GORISCV64", defaultGORISCV64); v {
+	case "rva20u64":
+		return 20
+	case "rva22u64":
+		return 22
+	}
+	Error = fmt.Errorf("invalid GORISCV64: must be rva20u64, rva22u64")
+	v := defaultGORISCV64[len("rva"):]
+	i := strings.IndexFunc(v, func(r rune) bool {
+		return r < '0' || r > '9'
+	})
+	year, _ := strconv.Atoi(v[:i])
+	return year
 }
 
 type gowasmFeatures struct {
@@ -219,6 +236,12 @@ func gogoarchTags() []string {
 		var list []string
 		for i := 8; i <= GOPPC64; i++ {
 			list = append(list, fmt.Sprintf("%s.power%d", GOARCH, i))
+		}
+		return list
+	case "riscv64":
+		list := []string{GOARCH + "." + "rva20u64"}
+		if GORISCV64 >= 22 {
+			list = append(list, GOARCH+"."+"rva22u64")
 		}
 		return list
 	case "wasm":
