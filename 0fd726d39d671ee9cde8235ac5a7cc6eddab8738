@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db8bd541_4c8962bf",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-07T20:05:30Z",
+      "side": 1,
+      "message": "How do we distinguish which adjustments are \"must\" vs \"may\"?",
+      "revId": "0fd726d39d671ee9cde8235ac5a7cc6eddab8738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
