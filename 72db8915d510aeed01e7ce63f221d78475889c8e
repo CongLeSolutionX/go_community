@@ -39,6 +39,30 @@
       },
       "revId": "72db8915d510aeed01e7ce63f221d78475889c8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ab3551_0626bf7a",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-11-07T22:27:11Z",
+      "side": 1,
+      "message": "Thanks Bryan, I\u0027m not totally convinced if handling single files is something Dir should support or return an error for, but the decision should definitely be documented. Do you think it is okay to use the current solution as long as it is documented in http.Dir? Or you are more inclined to return an error and document it as well?",
+      "parentUuid": "cbfedf55_304c1196",
+      "range": {
+        "startLine": 1621,
+        "startChar": 47,
+        "endLine": 1621,
+        "endChar": 73
+      },
+      "revId": "72db8915d510aeed01e7ce63f221d78475889c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
