@@ -33,6 +33,24 @@
       "message": "Isn\u0027t there a problem with this if the sign bit is set since the ANDIS sign extends it?",
       "revId": "7ae46de3c8d816252296143f386d05bd98381030",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b43464a3_25f105e7",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-11-08T15:47:20Z",
+      "side": 1,
+      "message": "MOVW should only work with signed 32 bit values (also arguably, the upper 32 bits are undefined). That isn\u0027t enforced today. Something like `MOVW $0x80000000, Rx` is arguably invalid, but nothing enforces that.\n\nShould we enforce the constant is an int32, or should we let the behavior slide? The compiler never generates constants with MOVW, so only handwritten asm would run into this.",
+      "parentUuid": "3b9998bc_a592ce2f",
+      "revId": "7ae46de3c8d816252296143f386d05bd98381030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
