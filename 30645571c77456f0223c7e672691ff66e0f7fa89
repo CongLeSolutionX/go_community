@@ -16,6 +16,24 @@
       "message": "This CL LGTM, but I can\u0027t help but wonder if we should approach this from the other direction: have gcDrain always yield on `gp.preempt`, and rather than extra cases here, we adjust `retake` to avoid preempting GC mark workers.",
       "revId": "30645571c77456f0223c7e672691ff66e0f7fa89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb8ec7ba_958e61d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-08T15:21:04Z",
+      "side": 1,
+      "message": "I agree that that would be better, but adjusting retake is always a little risky. I left a TODO.\n\ngoing back to this, I also noticed I missed the same branch for markroot jobs, which I think supports your point. :)",
+      "parentUuid": "20217667_27b6f207",
+      "revId": "30645571c77456f0223c7e672691ff66e0f7fa89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
