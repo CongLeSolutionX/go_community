@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a969960_0c64f04e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2023-11-08T13:51:10Z",
+      "side": 1,
+      "message": "LGTM. Tested on Windows as well.",
+      "revId": "377a50c29237236e1f7245dbc0e1ce771f7b855c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
