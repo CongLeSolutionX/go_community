@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ff096e9_b8742c5e",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-11-08T14:51:03Z",
+      "side": 1,
+      "message": "I agree that you probably one care about one value, but the way it is, you can\u0027t access the CA value. I don\u0027t see what the extra complexity would be, the PPCOps.go description gets updated to reflect what the instruction provides. Nothing else would change.",
+      "parentUuid": "64e9808d_c9d350b0",
+      "revId": "6d323af78b887248dc3fef2867790184b9809d1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c51819cc_204a7813",
         "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
         "patchSetId": 2
