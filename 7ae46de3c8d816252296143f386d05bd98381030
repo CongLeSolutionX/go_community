@@ -69,6 +69,24 @@
       "parentUuid": "3b9998bc_a592ce2f",
       "revId": "7ae46de3c8d816252296143f386d05bd98381030",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd4cdcfb_7e0090d4",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-11-08T16:12:27Z",
+      "side": 1,
+      "message": "I was thinking of MOVWZ not MOVW. So this is OK.",
+      "parentUuid": "b43464a3_25f105e7",
+      "revId": "7ae46de3c8d816252296143f386d05bd98381030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
