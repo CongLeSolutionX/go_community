@@ -103,6 +103,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15e76893_59114b9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-08T15:51:11Z",
+      "side": 1,
+      "message": "I don\u0027t see any changes in Gerrit — note that since this came in as a GitHub pull request, you\u0027ll need to edit the first comment on the PR in order to change the commit message in Gerrit.",
+      "parentUuid": "e5b15439_7f15a87c",
+      "revId": "8acf506ea83aacccc18c87e2bb13debee573dbc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3db102a5_f9966dc0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
