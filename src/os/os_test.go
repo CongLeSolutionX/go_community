@@ -1620,9 +1620,30 @@ func TestFileChdir(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Getwd: %s", err)
 	}
+
+	goroot, Package := spiltGOROOT(wd)
+	info, err := Lstat(goroot)
+	if err != nil {
+		t.Fatalf("stat: %s", err)
+	}
+	if info.Mode()&fs.ModeSymlink != 0 {
+		goroot, err = Readlink(goroot)
+		if err != nil {
+			t.Fatalf("Readlink: %s", err)
+		}
+		wd = filepath.Join(goroot, Package)
+	}
+
 	if !equal(wdNew, wd) {
 		t.Fatalf("fd.Chdir failed, got %s, want %s", wdNew, wd)
 	}
+}
+
+func spiltGOROOT(path string) (GOROOT string, Package string) {
+	ret := strings.SplitN(path, "src", 2)
+	// ret[0][:len(ret[0])-1] is used to remove the \or/
+	// Lstat(goroot) after info.Mode()&fs.ModeSymlink == 0
+	return ret[0][:len(ret[0])-1], "src" + ret[1]
 }
 
 func TestChdirAndGetwd(t *testing.T) {
