@@ -16,6 +16,63 @@
       "message": "A bit heavy-handed, but given how finalizers work this is the only way I could find to avoid all flakiness.",
       "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "614aadc9_18208eba",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-11-08T20:03:48Z",
+      "side": 1,
+      "message": "Take a look at runtime/export_test.go:BlockUntilEmptyFinalizerQueue\n\nIt\u0027s a bit unfortunate that we don\u0027t have a good way to export this to sync. Maybe move BlockUntilEmptyFinalizerQueue to an unexported function in a non-_test.go file, and make export_test.go:BlockUntilEmptyFinalizerQueue a trivial wrapper? Then sync could linkname the unexported function.",
+      "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ec0f39d_d0ef33e0",
+        "filename": "src/sync/oncefunc_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-11-08T20:03:48Z",
+      "side": 1,
+      "message": "\"Xxx\" reads as a \"TODO\" to me, rather than a wildcard. Maybe just \"X\"?",
+      "range": {
+        "startLine": 187,
+        "startChar": 13,
+        "endLine": 187,
+        "endChar": 16
+      },
+      "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aca886c_155f6210",
+        "filename": "src/sync/oncefunc_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-11-08T20:03:48Z",
+      "side": 1,
+      "message": "Just to make sure I understand, sentinel is just an optimization so we can do a channel wait before going into the busy loop, right? Probably worth a comment explaining this.",
+      "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
