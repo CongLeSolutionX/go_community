@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "808918a4_cf6d8edc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-11-08T15:52:59Z",
+      "side": 1,
+      "message": "It would require splitting C_UCON into two distinct classes, C_U3216 and C_S3216.\n\nI think the added complexity is not worth the limited benefit. I am hoping to cleanup the matching classes, we have many which add little or no value.",
+      "parentUuid": "1af6a45b_de95ac44",
+      "revId": "7ae46de3c8d816252296143f386d05bd98381030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b9998bc_a592ce2f",
