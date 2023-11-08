@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7401afe6_d18691d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-08T14:12:21Z",
+      "side": 1,
+      "message": "I see that the commit message has been updated — if these comments are resolved, please mark them as resolved in Gerrit (and don\u0027t forget to send the replies, if they\u0027re drafts! 🙃).",
+      "parentUuid": "b1e061df_2f29143d",
+      "revId": "8acf506ea83aacccc18c87e2bb13debee573dbc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3db102a5_f9966dc0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
