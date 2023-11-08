@@ -59,6 +59,30 @@
       },
       "revId": "dc0675e69cbbf03fac69616f5e6a1e6a11c268d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93d6031_f4daf5b5",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-08T18:52:40Z",
+      "side": 1,
+      "message": "I think it might work just fine for windows (I recall all the system calls not caring), but it\u0027s not necessarily what I intend.  How do you feel about url.PathEscape(pkg).mprof instead?  That\u0027s what I do for logopt, it creates a flat directory so you can enumerate all the profiles with a simple \"*.mprof\" instead of a find command.",
+      "parentUuid": "dfea4aee_dae6780f",
+      "range": {
+        "startLine": 35,
+        "startChar": 26,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "dc0675e69cbbf03fac69616f5e6a1e6a11c268d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
