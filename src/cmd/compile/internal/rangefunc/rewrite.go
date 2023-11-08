@@ -146,8 +146,11 @@ but maybe it should be?
 To permit checking that an iterator is well-behaved -- that is, that
 it does not continue iterating after the loop-body function has returned
 false, plain "break" sets #next to 1, and the after loop tests for this
-case and clears it.  The generated loop body code can check that #next is
-zero; if it isn't, that is a problem (note that it doesn't yet).
+case and clears it.  The generated loop body code checks that #next is
+zero; if it isn't, then panic.  Because all the loops in a range-func nest
+share a single value of #next, loops that examine #next set it to zero
+before starting so that an extra-problematic iterator does not break other
+iterators in mysterious ways by defer-recovering with #next not zero.
 
 For example:
 
@@ -161,14 +164,15 @@ becomes
 
 	{
 		var #next int
+		#next = 0
 		f(func(x T1) bool {
-			// TODO: if #next != 0 { panicAppropriately() }
+			if #next != 0 { runtime.panicrangeexit() }
 			...
 			if ... { #next = 1 ; return false }
 			...
 			return true
 		})
-		if #next == 1 {
+		if #next == 1 { // actually optimized out of outer loop, but for example.
 			#next = 0
 		}
 	}
@@ -207,8 +211,12 @@ becomes
 			#r1 type1
 			#r2 type2
 		)
+		#next = 0
 		f(func() {
+			if #next != 0 { runtime.panicrangeexit() }
+		    #next = 0
 			g(func() {
+			    if #next != 0 { runtime.panicrangeexit() }
 				...
 				{
 					// return a, b
@@ -277,9 +285,15 @@ becomes
 
 	{
 		var #next int
+		#next = 0
 		f(func() {
+			if #next != 0 { runtime.panicrangeexit() }
+			#next = 0
 			g(func() {
+				if #next != 0 { runtime.panicrangeexit() }
+				#next = 0
 				h(func() {
+					if #next != 0 { runtime.panicrangeexit() }
 					...
 					{
 						// break F
@@ -313,11 +327,10 @@ becomes
 			...
 			return true
 		})
+		// this is for example only; actually it is optimized out of the outermost loop.
 		if #next == 1 {
-			// TODO: suppress this break-from boilerplate for outermost loop
 			#next = 0
 		}
-
 	}
 
 Note that the post-h checks only consider a break,
@@ -343,6 +356,7 @@ For example
 	Top: print("start\n")
 	for range f {
 		for range g {
+			...
 			for range h {
 				...
 				goto Top
@@ -356,9 +370,16 @@ becomes
 	Top: print("start\n")
 	{
 		var #next int
+		#next = 0
 		f(func() {
+			if #next != 0 { runtime.panicrangeexit() }
+			#next = 0
 			g(func() {
+				if #next != 0 { runtime.panicrangeexit() }
+				...
+				#next = 0
 				h(func() {
+				if #next != 0 { runtime.panicrangeexit() }
 					...
 					{
 						// goto Top
@@ -871,12 +892,14 @@ func (r *rewriter) endLoop(loop *forLoop) {
 		base.Fatalf("invalid typecheck of range func")
 	}
 
+	checkEarlyExit := loop.checkBreakThru || loop.checkRet || loop.checkContinue || loop.checkBreakDone
+
 	// Build X(bodyFunc)
 	call := &syntax.ExprStmt{
 		X: &syntax.CallExpr{
 			Fun: rclause.X,
 			ArgList: []syntax.Expr{
-				r.bodyFunc(nfor.Body.List, syntax.UnpackListExpr(rclause.Lhs), rclause.Def, ftyp, start, end),
+				r.bodyFunc(nfor.Body.List, syntax.UnpackListExpr(rclause.Lhs), rclause.Def, checkEarlyExit, ftyp, start, end),
 			},
 		},
 	}
@@ -902,6 +925,10 @@ func (r *rewriter) endLoop(loop *forLoop) {
 		setPos(r.declStmt, start)
 		block.List = append(block.List, r.declStmt)
 	}
+	if len(checks) > 0 {
+		zeroNext := &syntax.AssignStmt{Lhs: r.next(), Rhs: r.intConst(0)}
+		block.List = append(block.List, zeroNext)
+	}
 	block.List = append(block.List, call)
 	block.List = append(block.List, checks...)
 
@@ -923,7 +950,7 @@ func (r *rewriter) endLoop(loop *forLoop) {
 // ftyp is the type of the function we are creating
 // start and end are the syntax positions to use for new nodes
 // that should be at the start or end of the loop.
-func (r *rewriter) bodyFunc(body []syntax.Stmt, lhs []syntax.Expr, def bool, ftyp *types2.Signature, start, end syntax.Pos) *syntax.FuncLit {
+func (r *rewriter) bodyFunc(body []syntax.Stmt, lhs []syntax.Expr, def bool, checkEarlyExit bool, ftyp *types2.Signature, start, end syntax.Pos) *syntax.FuncLit {
 	// Starting X(bodyFunc); build up bodyFunc first.
 	var params, results []*types2.Var
 	results = append(results, types2.NewVar(start, nil, "", r.bool.Type()))
@@ -966,6 +993,10 @@ func (r *rewriter) bodyFunc(body []syntax.Stmt, lhs []syntax.Expr, def bool, fty
 	}
 	tv.SetIsValue()
 	bodyFunc.SetTypeInfo(tv)
+
+	if checkEarlyExit {
+		bodyFunc.Body.List = append(bodyFunc.Body.List, r.assertNotExited(start))
+	}
 
 	// Original loop body (already rewritten by editStmt during inspect).
 	bodyFunc.Body.List = append(bodyFunc.Body.List, body...)
@@ -1070,6 +1101,44 @@ func (r *rewriter) ifNext(op syntax.Operator, c int, then syntax.Stmt) syntax.St
 	return nif
 }
 
+func typeVal(x *syntax.Operation, typ syntax.Type) {
+	tv := syntax.TypeAndValue{Type: typ}
+	tv.SetIsValue()
+	x.SetTypeInfo(tv)
+}
+
+// assertNotExited returns the statement:
+//
+//	if #next != 0 { #next = 0; panic() }
+//
+// if the body of loop continues, it will set #next to 1.
+// if it executes to the end of the body, it will leave #next at 0.
+// any other bits set indicate that the loop has exited early and the body should not be re-called.
+func (r *rewriter) assertNotExited(start syntax.Pos) syntax.Stmt {
+	neq := &syntax.Operation{Op: syntax.Neq, X: r.intConst(0), Y: r.next()}
+	typeVal(neq, r.bool.Type())
+
+	callPanicExpr := &syntax.CallExpr{
+		Fun:     runtimeSym(r.info, "panicrangeexit"),
+		ArgList: []syntax.Expr{},
+	}
+
+	tv := syntax.TypeAndValue{}
+	tv.SetIsValue()
+	callPanicExpr.SetTypeInfo(tv)
+
+	callPanic := &syntax.ExprStmt{X: callPanicExpr}
+
+	nif := &syntax.IfStmt{
+		Cond: neq,
+		Then: &syntax.BlockStmt{
+			List: []syntax.Stmt{callPanic},
+		},
+	}
+	setPos(nif, start)
+	return nif
+}
+
 // next returns a reference to the #next variable.
 func (r *rewriter) next() *syntax.Name {
 	if r.nextVar == nil {
@@ -1166,8 +1235,11 @@ var runtimePkg = func() *types2.Package {
 	anyType := types2.Universe.Lookup("any").Type()
 
 	// func deferrangefunc() unsafe.Pointer
-	obj := types2.NewVar(nopos, pkg, "deferrangefunc", types2.NewSignatureType(nil, nil, nil, nil, types2.NewTuple(types2.NewParam(nopos, pkg, "extra", anyType)), false))
+	obj := types2.NewFunc(nopos, pkg, "deferrangefunc", types2.NewSignatureType(nil, nil, nil, nil, types2.NewTuple(types2.NewParam(nopos, pkg, "extra", anyType)), false))
 	pkg.Scope().Insert(obj)
+
+	fobj := types2.NewFunc(nopos, pkg, "panicrangeexit", types2.NewSignatureType(nil, nil, nil, nil, nil, false))
+	pkg.Scope().Insert(fobj)
 
 	return pkg
 }()
@@ -1178,6 +1250,7 @@ func runtimeSym(info *types2.Info, name string) *syntax.Name {
 	n := syntax.NewName(nopos, "runtime."+name)
 	tv := syntax.TypeAndValue{Type: obj.Type()}
 	tv.SetIsValue()
+	tv.SetIsBuiltin()
 	n.SetTypeInfo(tv)
 	info.Uses[n] = obj
 	return n

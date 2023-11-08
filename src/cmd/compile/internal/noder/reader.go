@@ -2442,6 +2442,10 @@ func (r *reader) expr() (res ir.Node) {
 			n.SetTypecheck(1)
 		}
 		return n
+
+	case exprRuntimeBuiltin:
+		lookup := typecheck.LookupRuntime(r.String())
+		return lookup
 	}
 }
 
