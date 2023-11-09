@@ -124,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1ccddad_bee18b2a",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-09T09:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e35abaea_af7c4d90",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebf2946e_7024eec4",
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "Maybe just a simple treatment?",
       "parentUuid": "ebf2946e_7024eec4",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d25472_d1af6b79",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-09T09:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "905917bb_f2c188e3",
       "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
