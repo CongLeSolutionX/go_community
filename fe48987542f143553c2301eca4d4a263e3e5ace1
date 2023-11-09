@@ -104,6 +104,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb21b48_d5eefe91",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-09T18:50:51Z",
+      "side": 1,
+      "message": "I think we don\u0027t set clobberFlags on some other architectures. Up to you.",
+      "parentUuid": "bb2d0dce_0ceba633",
+      "range": {
+        "startLine": 180,
+        "startChar": 75,
+        "endLine": 180,
+        "endChar": 95
+      },
+      "revId": "fe48987542f143553c2301eca4d4a263e3e5ace1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01d7b83e_f400a8a4",
@@ -141,6 +165,30 @@
       "side": 1,
       "message": "The intent is to reduce the chances of needing to regenerate the opcode during flagalloc.",
       "parentUuid": "01d7b83e_f400a8a4",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 74
+      },
+      "revId": "fe48987542f143553c2301eca4d4a263e3e5ace1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d22fcdc_87e7e075",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-09T18:50:51Z",
+      "side": 1,
+      "message": "Okay. A comment may be good.",
+      "parentUuid": "b11db609_db158d97",
       "range": {
         "startLine": 47,
         "startChar": 56,
