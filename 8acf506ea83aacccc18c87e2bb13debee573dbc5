@@ -119,6 +119,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be6cef5b_93636c04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 60428
+      },
+      "writtenOn": "2023-11-09T09:40:09Z",
+      "side": 1,
+      "message": "Gotcha. Now I can see it\u0027s updated in the Gerrit UI.",
+      "parentUuid": "15e76893_59114b9a",
+      "revId": "8acf506ea83aacccc18c87e2bb13debee573dbc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3db102a5_f9966dc0",
