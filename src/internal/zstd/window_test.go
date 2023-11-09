@@ -39,7 +39,7 @@ func TestWindow(t *testing.T) {
 // Third sequence tests read offset that can become non-zero only after second save.
 func testWindow(t *testing.T, size int, a, b, c []byte) {
 	var w window
-	w.reset(size)
+	w.reset(uint64(size))
 
 	w.save(a)
 	w.save(b)
@@ -54,13 +54,13 @@ func testWindow(t *testing.T, size int, a, b, c []byte) {
 		tail = tail[len(tail)-size:]
 	}
 
-	if w.len() != uint32(len(tail)) {
+	if w.len() != uint64(len(tail)) {
 		t.Errorf("wrong data length: got: %d, want: %d", w.len(), len(tail))
 	}
 
-	var from, to uint32
-	for from = 0; from <= uint32(len(tail)); from++ {
-		for to = from; to <= uint32(len(tail)); to++ {
+	var from, to uint64
+	for from = 0; from <= uint64(len(tail)); from++ {
+		for to = from; to <= uint64(len(tail)); to++ {
 			got := w.appendTo(nil, from, to)
 			want := tail[from:to]
 

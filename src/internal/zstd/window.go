@@ -12,21 +12,21 @@ package zstd
 // and update off such that it always points at
 // the byte stored before others.
 type window struct {
-	size int
+	size uint64
 	data []byte
 	off  int
 }
 
 // reset clears stored data and configures window size.
-func (w *window) reset(size int) {
+func (w *window) reset(size uint64) {
 	w.data = w.data[:0]
 	w.off = 0
 	w.size = size
 }
 
 // len returns the number of stored bytes.
-func (w *window) len() uint32 {
-	return uint32(len(w.data))
+func (w *window) len() uint64 {
+	return uint64(len(w.data))
 }
 
 // save stores up to size last bytes from the buf.
@@ -38,15 +38,15 @@ func (w *window) save(buf []byte) {
 		return
 	}
 
-	if len(buf) >= w.size {
-		from := len(buf) - w.size
+	if uint64(len(buf)) >= w.size {
+		from := uint64(len(buf)) - w.size
 		w.data = append(w.data[:0], buf[from:]...)
 		w.off = 0
 		return
 	}
 
 	// Update off to point to the oldest remaining byte.
-	free := w.size - len(w.data)
+	free := w.size - uint64(len(w.data))
 	if free == 0 {
 		n := copy(w.data[w.off:], buf)
 		if n == len(buf) {
@@ -55,7 +55,7 @@ func (w *window) save(buf []byte) {
 			w.off = copy(w.data, buf[n:])
 		}
 	} else {
-		if free >= len(buf) {
+		if free >= uint64(len(buf)) {
 			w.data = append(w.data, buf...)
 		} else {
 			w.data = append(w.data, buf[:free]...)
@@ -66,10 +66,10 @@ func (w *window) save(buf []byte) {
 
 // appendTo appends stored bytes between from and to indices to the buf.
 // Index from must be less or equal to index to and to must be less or equal to w.len().
-func (w *window) appendTo(buf []byte, from, to uint32) []byte {
-	dataLen := uint32(len(w.data))
-	from += uint32(w.off)
-	to += uint32(w.off)
+func (w *window) appendTo(buf []byte, from, to uint64) []byte {
+	dataLen := uint64(len(w.data))
+	from += uint64(w.off)
+	to += uint64(w.off)
 
 	wrap := false
 	if from > dataLen {
