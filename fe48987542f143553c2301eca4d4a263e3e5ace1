@@ -82,6 +82,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb2d0dce_0ceba633",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-11-09T18:40:46Z",
+      "side": 1,
+      "message": "I don\u0027t think so, but the usage is consistent with the existing usage. I can clean that up in a separate patch.",
+      "parentUuid": "5e2372e3_d304442f",
+      "range": {
+        "startLine": 180,
+        "startChar": 75,
+        "endLine": 180,
+        "endChar": 95
+      },
+      "revId": "fe48987542f143553c2301eca4d4a263e3e5ace1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01d7b83e_f400a8a4",
         "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
         "patchSetId": 4
@@ -93,6 +117,30 @@
       "writtenOn": "2023-11-09T18:17:10Z",
       "side": 1,
       "message": "Why they need to be in the same block?",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 74
+      },
+      "revId": "fe48987542f143553c2301eca4d4a263e3e5ace1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b11db609_db158d97",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-11-09T18:40:46Z",
+      "side": 1,
+      "message": "The intent is to reduce the chances of needing to regenerate the opcode during flagalloc.",
+      "parentUuid": "01d7b83e_f400a8a4",
       "range": {
         "startLine": 47,
         "startChar": 56,
