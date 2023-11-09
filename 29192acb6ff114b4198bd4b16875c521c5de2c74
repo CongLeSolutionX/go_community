@@ -125,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a103475_796d276d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66353
+      },
+      "writtenOn": "2023-11-09T04:20:53Z",
+      "side": 1,
+      "message": "Hi Keith Randall, I updated the base from the latest golang/go master branch, and I found the root cause of the ci\u0027s failure, it\u0027s related to go/types/gcsizes.go and was fixed in the latest go master branch. Would you please help to triggle LUCI agian ? @khr@golang.org",
+      "parentUuid": "fc4c9aad_0be119a5",
+      "revId": "29192acb6ff114b4198bd4b16875c521c5de2c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc301ea7_c140e548",
