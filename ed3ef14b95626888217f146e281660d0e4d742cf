@@ -36,6 +36,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b24eac_8b24ef53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-09T06:22:51Z",
+      "side": 1,
+      "message": "Do you have time to review my code?",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b77cd47_bf446452",
@@ -120,6 +137,24 @@
       "writtenOn": "2023-11-07T10:06:31Z",
       "side": 1,
       "message": "All of this is a bit weird, since you apply the 8M window max below.\n\nIf window size is \u003e8MB - and you don\u0027t want to decode that, then you should reject the decode at this point. It doesn\u0027t make sense to just set it to 8M and have it fail later.\n\nThat said the 8MB should probably be configurable if API is to be exposed publicly, since it may be overly restrictive for some uses.",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "905917bb_f2c188e3",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-09T06:22:51Z",
+      "side": 1,
+      "message": "Maybe just a simple treatment?",
+      "parentUuid": "ebf2946e_7024eec4",
       "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
