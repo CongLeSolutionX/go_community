@@ -326,13 +326,20 @@ func (r *Reader) skipFrame() error {
 	relativeOffset += 4
 
 	size := binary.LittleEndian.Uint32(r.scratch[:4])
+	if size == 0 {
+		r.blockOffset += int64(relativeOffset)
+		return nil
+	}
 
 	if seeker, ok := r.r.(io.Seeker); ok {
-		if _, err := seeker.Seek(int64(size), io.SeekCurrent); err != nil {
-			return err
+		// If the new offset exceeds the underlying object,
+		// an error is not returned in some implementations of Seek
+		// (e.g. strings.Reader, bytes.Reader).
+		if _, err := seeker.Seek(int64(size-1), io.SeekCurrent); err != nil {
+			return r.wrapError(relativeOffset, err)
 		}
-		r.blockOffset += int64(relativeOffset) + int64(size)
-		return nil
+		relativeOffset += int(size - 1)
+		size = 1
 	}
 
 	var skip []byte
