@@ -88,6 +88,23 @@
       "parentUuid": "b6f35501_2ed503ed",
       "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b9af5f6_d77560c8",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-10T16:58:10Z",
+      "side": 1,
+      "message": "Another possible way of resolving #63718, that I\u0027m not sure if it was brought up in the issue, would be by introducing a new \"wasmtime14\" GOWASIRUNTIME value for Wasmtime 14+, and letting the current \"wasmtime\" one be for Wasmtime 13 and older. That could resolve the ambiguity of GOWASIRUNTIMEARGS.\n\nI just wanted to point out the possibility. I\u0027m not suggesting it\u0027s worth pursuing at this time: the overhead of supporting an additional GOWASIRUNTIME value seems a bit much for it to be worthwhile doing over a CLI change. But it might be useful in another situation in the future.",
+      "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
