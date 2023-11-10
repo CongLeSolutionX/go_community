@@ -16,6 +16,24 @@
       "message": "Real failure, or flake? I\u0027m having trouble finding LUCI\u0027s logs.",
       "revId": "284571274ffcdfd8fca4cebdccc6ea86706e0c25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a410809_1ea2b579",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-11-10T21:03:14Z",
+      "side": 1,
+      "message": "WASM failures seem related to use of an old version of \"Wasmtime\" (whatever that is), seems like this might be something broken everywhere?",
+      "parentUuid": "9fee04cc_7243f57d",
+      "revId": "284571274ffcdfd8fca4cebdccc6ea86706e0c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
