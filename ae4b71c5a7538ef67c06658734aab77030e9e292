@@ -39,6 +39,30 @@
       },
       "revId": "ae4b71c5a7538ef67c06658734aab77030e9e292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fada576_29954542",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2023-11-10T16:19:47Z",
+      "side": 1,
+      "message": "Doesn\u0027t it just do a 1 byte read at the end of the skip? Maybe I am misreading.",
+      "parentUuid": "158c26d7_dd923289",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 10
+      },
+      "revId": "ae4b71c5a7538ef67c06658734aab77030e9e292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
