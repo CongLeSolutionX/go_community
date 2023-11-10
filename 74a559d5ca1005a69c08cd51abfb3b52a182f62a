@@ -70,6 +70,24 @@
       "message": "I intend to add a builder with wasmtime 14 and upgrade the current builder to wasmtime 13. Perhaps we should hold this until those are merged?",
       "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1642be63_f249d652",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-10T16:47:56Z",
+      "side": 1,
+      "message": "We already have a builder with wasmtime 14 (tracked in #61116) in the new build infrastructure that we\u0027re moving to. It\u0027s triggered via the Commit-Queue+1 vote. See [Please switch to LUCI for basic presubmit testing](https://groups.google.com/g/golang-dev/c/H65LelTvAXQ), https://go.dev/wiki/GerritAccess#running-trybots-may-start-trybots, and https://go.dev/wiki/LUCI#TryBots for more context.\n\nIt\u0027s reporting that this change is causing a few tests to start failing (see the Checks tab), though I don\u0027t see what might be causing that—the new CLI usage seems right at a glance. Other than that, this change looks good and I\u0027ll review after you figure out the failure.",
+      "parentUuid": "b6f35501_2ed503ed",
+      "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
