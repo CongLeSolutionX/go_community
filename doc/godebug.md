@@ -143,6 +143,9 @@ patterns and unescape both patterns and request paths by segment.
 This behavior can be controlled by the
 [`httpmuxgo121` setting](/pkg/net/http/#ServeMux).
 
+Go 1.22 changed the default minimum TLS version supported by both servers
+and clients to TLS 1.2. The default can be reverted to TLS 1.0 using the
+[`tls10server` setting](/pkg/crypto/tls/#Config).
 
 ### Go 1.21
 
