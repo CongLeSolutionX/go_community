@@ -16,6 +16,24 @@
       "message": "This looks reasonable, but it needs a test and needs to not be based on a stack of merge commits.",
       "revId": "d16c8598848ca0b818e1ce56a3d48520301ddfa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "785a7da6_6168cd44",
+        "filename": "src/net/http/cgi/host.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-10T22:59:17Z",
+      "side": 1,
+      "message": "Looks like changes are merged already. Do you think we need to abandon this?",
+      "parentUuid": "4857dffb_152f1d69",
+      "revId": "d16c8598848ca0b818e1ce56a3d48520301ddfa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
