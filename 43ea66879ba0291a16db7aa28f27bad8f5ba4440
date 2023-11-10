@@ -16,6 +16,23 @@
       "message": "This is significant for riscv64 to util the extension instruction set.",
       "revId": "43ea66879ba0291a16db7aa28f27bad8f5ba4440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54204026_216f3932",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-10T07:08:06Z",
+      "side": 1,
+      "message": "There is a question that the CGO and other tool interface like `build.go:runInstall` do not attach to the GORISCV64. It should be concerned about in the future.",
+      "revId": "43ea66879ba0291a16db7aa28f27bad8f5ba4440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
