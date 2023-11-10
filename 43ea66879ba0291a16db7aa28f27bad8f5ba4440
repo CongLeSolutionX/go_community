@@ -33,6 +33,24 @@
       "message": "There is a question that the CGO and other tool interface like `build.go:runInstall` do not attach to the GORISCV64. It should be concerned about in the future.",
       "revId": "43ea66879ba0291a16db7aa28f27bad8f5ba4440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fe7aecc_629365f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2023-11-10T15:08:49Z",
+      "side": 1,
+      "message": "Thanks.  I\u0027d missed the changes to runInstall, mainly because they\u0027re also missing for GOAMD64.  I\u0027ve updated the patch to include the changes for GORISCV64.\n\nRegarding CGO, are you referring to gccArchArgs ( https://github.com/golang/go/blob/master/src/cmd/go/internal/work/exec.go#L2620 ) or something else?  I note that only GOMIPS and GOMIPS64 are referenced in this function, although it is notable that no args are currently returned for riscv64.",
+      "parentUuid": "54204026_216f3932",
+      "revId": "43ea66879ba0291a16db7aa28f27bad8f5ba4440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
