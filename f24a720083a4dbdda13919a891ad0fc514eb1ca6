@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d68eb2_a13d4898",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-10T04:46:11Z",
+      "side": 1,
+      "message": "it\u0027s already padded out to a uintptr by the compiler (https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/reflectdata/reflect.go;l\u003d1571;drc\u003d1cc19e5ba0a008df7baeb78e076e43f9d8e0abf2;bpv\u003d1;bpt\u003d1?q\u003dGCData%20compile\u0026ss\u003dgo%2Fgo:src%2F) so I figure the compiler could in theory commit to just writing them out as an array of uintptr.\n\nbut I think what I wrote in the commit message isn\u0027t really that. I do seem to be suggesting that all the bytes be written out in big endian order which I agree doesn\u0027t really make any sense. I clarified the commit message.",
+      "parentUuid": "d6a94f5a_887cd9f9",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "f24a720083a4dbdda13919a891ad0fc514eb1ca6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e21adad_4aa97aab",
@@ -93,6 +117,30 @@
       "writtenOn": "2023-11-10T02:08:49Z",
       "side": 1,
       "message": "We could consider just having two methods. In most places we either use it as small object heap bits (in `writeHeapBitsSmall`), or arena heap bits (in `writeUserArenaHeapBits` methods), not both at same time. (No need for this CL.)",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 629,
+        "endChar": 35
+      },
+      "revId": "f24a720083a4dbdda13919a891ad0fc514eb1ca6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21c87efc_697a7f17",
+        "filename": "src/runtime/mbitmap_allocheaders.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-10T04:46:11Z",
+      "side": 1,
+      "message": "yeah, you\u0027re right. that\u0027s cleaner. I\u0027ll send a follow-up.",
+      "parentUuid": "080283c7_8699a24d",
       "range": {
         "startLine": 628,
         "startChar": 0,
