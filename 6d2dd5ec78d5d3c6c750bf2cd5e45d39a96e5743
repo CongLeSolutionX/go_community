@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "135effe2_d1f55df6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-10T07:17:58Z",
+      "side": 1,
+      "message": "Thanks, however CL 527936 already exists for this.",
+      "revId": "6d2dd5ec78d5d3c6c750bf2cd5e45d39a96e5743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
