@@ -16,6 +16,29 @@
       "message": "LGTM",
       "revId": "ae4b71c5a7538ef67c06658734aab77030e9e292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "158c26d7_dd923289",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-10T16:04:20Z",
+      "side": 1,
+      "message": "It looks like this is setting up to do a length-1 `Read` in the loop below?\n\nI wonder if it would be clearer (and possibly more efficient) to instead use multiple seeks, so that we don\u0027t have to actually fetch bytes (potentially from disk) for a block that we\u0027re going to ignore anyway. Perhaps something like:\n\n```go\n\tr.blockOffset +\u003d int64(relativeOffset)\n\t\n\t// Implementations of Seeker do not always detect invalid offsets,\n\t// so check that the new offset is valid by comparing to the end.\n\tprev, err :\u003d seeker.Seek(0, io.SeekCurrent)\n\tif err !\u003d nil {\n\t\treturn r.wrapError(0, err)\n\t}\n\tend, err :\u003d seeker.Seek(0, io.SeekEnd)\n\tif err !\u003d nil {\n\t\tseeker.Seek(prev, io.SeekStart)\n\t\treturn r.wrapError(0, err)\n\t}\n\tif prev \u003e end - int64(size) {\n\t\tseeker.Seek(prev, io.SeekStart)\n\t\treturn r.wrapError(0, …)\n\t}\n\n\t// The new offset is valid, so seek to it.\n\t_, err \u003d seeker.Seek(prev+int64(size), io.SeekStart)\n\tif err !\u003d nil {\n\t\treturn r.wrapError(0, err)\n\t}\n\tr.blockoffset +\u003d int64(size)\n\treturn nil\n```",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 10
+      },
+      "revId": "ae4b71c5a7538ef67c06658734aab77030e9e292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
