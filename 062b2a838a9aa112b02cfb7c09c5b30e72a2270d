@@ -39,6 +39,24 @@
       "message": "It is not clear to me that we want to do this.\n\nWe might want pointers that have different types to return true here. For instance, *struct{uint32} and *uint32.\n\nAlso, in the compiler type identity isn\u0027t pointer equality. The same program type might be represented several times as different objects (with the same content). See cmd/compile/internal/types/identity.go.\n\nAre there any cases where isSamePtr would have returned true, but this change causes it to return false? (Instrument the compiler for that and run all.bash to see.)",
       "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a04543bf_b60583a5",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-10T12:28:34Z",
+      "side": 1,
+      "message": "I downloaded this CL and ran all.bash, but no issues were found.",
+      "parentUuid": "22cb57fa_f6513e11",
+      "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
