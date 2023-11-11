@@ -11,6 +11,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/reflectdata"
+	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/staticinit"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
@@ -231,8 +232,12 @@ func (o *orderState) addrTemp(n ir.Node) ir.Node {
 		vstat = typecheck.Expr(vstat).(*ir.Name)
 		return vstat
 	}
-	if ir.IsAddressable(n) {
-		return n
+	if name, ok := ir.OuterValue(n).(*ir.Name); ok && name.Op() == ir.ONAME {
+		if name.Class == ir.PAUTO && !name.Addrtaken() && ssa.CanSSA(name.Type()) {
+			// Prevent taking the address of an SSA-able variable (#63332).
+		} else {
+			return n
+		}
 	}
 	return o.copyExpr(n)
 }
