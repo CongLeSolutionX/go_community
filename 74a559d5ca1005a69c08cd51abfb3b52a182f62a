@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e3b0040_11615cee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-11-11T04:54:35Z",
+      "side": 1,
+      "message": "I looked at some of the test failures and the only ones I could easily run on my own machine were crypto/tls.TestConnReadNonzeroAndEOF and encoding/go.TestCountDecodeMallocs, both if which are also failing for me locally on master. Do the runners succeed on master?\n\nThe command I\u0027m using is\n\nGOOS\u003dwasip1 GOARCH\u003dwasm PATH\u003d$PATH:$(pwd)/../misc/wasm TMPDIR\u003d$(pwd)/tmp ../bin/go test -run \u0027TestCountDecodeMallocs\u0027 ./encoding/gob\n\nand\n\nGOOS\u003dwasip1 GOARCH\u003dwasm PATH\u003d$PATH:$(pwd)/../misc/wasm TMPDIR\u003d$(pwd)/tmp ../bin/go test -run \u0027TestConnReadNonzeroAndEOF\u0027 ./crypto/tls",
+      "parentUuid": "1642be63_f249d652",
+      "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7b9af5f6_d77560c8",
@@ -103,6 +121,24 @@
       "writtenOn": "2023-11-10T16:58:10Z",
       "side": 1,
       "message": "Another possible way of resolving #63718, that I\u0027m not sure if it was brought up in the issue, would be by introducing a new \"wasmtime14\" GOWASIRUNTIME value for Wasmtime 14+, and letting the current \"wasmtime\" one be for Wasmtime 13 and older. That could resolve the ambiguity of GOWASIRUNTIMEARGS.\n\nI just wanted to point out the possibility. I\u0027m not suggesting it\u0027s worth pursuing at this time: the overhead of supporting an additional GOWASIRUNTIME value seems a bit much for it to be worthwhile doing over a CLI change. But it might be useful in another situation in the future.",
+      "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2d21541_0f0c27b1",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-11-11T04:54:35Z",
+      "side": 1,
+      "message": "Fair point, but I don\u0027t think we need to add that complexity here - for almost all users this will \"just work\" and users with more advanced needs can just write their own scripts. We\u0027ll remove this and only support wasmtime 14+ once the tree opens after the freeze.",
+      "parentUuid": "7b9af5f6_d77560c8",
       "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
