@@ -1596,3 +1596,20 @@ TEXT runtime·panicSliceConvert<ABIInternal>(SB),NOSPLIT,$0-16
 TEXT ·getfp<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	MOVD R29, R0
 	RET
+
+// check that SP is in range [g->stack.lo, g->stack.hi)
+TEXT runtime·stackcheck(SB), NOSPLIT|NOFRAME, $0-0
+	MOVD	RSP, R0
+	MOVD	(g_stack+stack_hi)(g), R4
+	CMP		R0, R4
+	BLE	lo
+	B	runtime·abort(SB)
+
+lo:
+	// TODO(mauri870): why this check always fails? Is the stack pointer below stack_lo?
+	// MOVD	(g_stack+stack_lo)(g), R4
+	// CMP 	R0, R4
+	// BGE	ret
+	// B	runtime·abort(SB)
+ret:
+	RET
