@@ -193,6 +193,24 @@
       "parentUuid": "905917bb_f2c188e3",
       "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e208c07_4db0a346",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-11-11T15:26:28Z",
+      "side": 1,
+      "message": "In the https://go-review.googlesource.com/c/go/+/531075 we also discussed that decoder should error on large window sizes instead of capping it.\n\nSince window is capped to 8MB anyways, I think there is no need to change window struct fields and other places and `r.window.reset(int(windowSize))` should be enough.",
+      "parentUuid": "33d25472_d1af6b79",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
