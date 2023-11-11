@@ -211,6 +211,24 @@
       "parentUuid": "33d25472_d1af6b79",
       "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "973a39e3_49b20a89",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-11T16:28:07Z",
+      "side": 1,
+      "message": "Thanks for the clarification, then this CL has a much simpler fix!",
+      "parentUuid": "4e208c07_4db0a346",
+      "revId": "ed3ef14b95626888217f146e281660d0e4d742cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

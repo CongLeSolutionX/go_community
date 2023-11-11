@@ -16,6 +16,24 @@
       "message": "This smells off to me:\n\n1. len(data) will always fit an int, and I think size is an upper bound on len(data), right? So int seems appropriate.\n\n2. Even if changing `size` to uint64 is appropriate, should we change `off` to match?\n\nCan we instead change the API to use `int` instead of `uint32`? Or would that make other logic prone to overflow errors?",
       "revId": "82b60d112c35d9383500dc91ba6d9989d03e127d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70987fd9_199292db",
+        "filename": "src/internal/zstd/window.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-11T16:28:07Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/540415/comment/ebf2946e_7024eec4/ \n\nAdded some details, maybe we can reconsider the fix. Thank you very much for the code review!",
+      "parentUuid": "e0f0d8fc_80fe0c60",
+      "revId": "82b60d112c35d9383500dc91ba6d9989d03e127d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
