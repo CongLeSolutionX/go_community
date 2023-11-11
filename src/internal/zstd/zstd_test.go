@@ -304,21 +304,26 @@ func TestFileSamples(t *testing.T) {
 	}
 }
 
+func TestReaderBad(t *testing.T) {
+	for i, s := range badStrings {
+		t.Run(fmt.Sprintf("badStrings#%d", i), func(t *testing.T) {
+			_, err := io.Copy(io.Discard, NewReader(strings.NewReader(s)))
+			if err == nil {
+				t.Error("expected error")
+			}
+		})
+	}
+}
+
 func BenchmarkLarge(b *testing.B) {
-	b.StopTimer()
-	b.ReportAllocs()
-
 	compressed := zstdBigData(b)
-
-	b.SetBytes(int64(len(compressed)))
-
 	input := bytes.NewReader(compressed)
-	r := NewReader(input)
+	b.SetBytes(int64(len(compressed)))
+	b.ReportAllocs()
+	b.ResetTimer()
 
-	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		input.Reset(compressed)
-		r.Reset(input)
-		io.Copy(io.Discard, r)
+		io.Copy(io.Discard, NewReader(input))
 	}
 }
