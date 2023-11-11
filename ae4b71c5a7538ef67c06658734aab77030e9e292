@@ -63,6 +63,30 @@
       },
       "revId": "ae4b71c5a7538ef67c06658734aab77030e9e292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d7299ba_63ee0c81",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-11T02:44:13Z",
+      "side": 1,
+      "message": "Your suggestion makes the logic a lot clearer, I don\u0027t know much about seek yet, and if three seek syscalls consume less than one seek + reading 1 byte, it\u0027s a great suggestion!",
+      "parentUuid": "3fada576_29954542",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 10
+      },
+      "revId": "ae4b71c5a7538ef67c06658734aab77030e9e292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
