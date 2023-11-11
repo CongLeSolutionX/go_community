@@ -57,6 +57,24 @@
       "parentUuid": "22cb57fa_f6513e11",
       "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8063b191_50f56927",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 66353
+      },
+      "writtenOn": "2023-11-11T15:01:31Z",
+      "side": 1,
+      "message": "I did those experiments:\n1. replace `if p1.Op !\u003d p2.Op` with `if p1.Op !\u003d p2.Op || p1.Type !\u003d p2.Type` and run all.bash, all is ok;\n2. when the original isSamePtr implement returned true, p1.Type is equal to p2.Type in all cases when running all.bash;\nso I think if p1.Type is not equal to p2.Type, they must not be the same ptr. and this pr will optimize the performance of function `isSamePtr`.\nI didn\u0027t understand why we might want pointers that have different types to return true here. For instance, *struct{uint32} and *uint32? Could you please give some more comments?",
+      "parentUuid": "a04543bf_b60583a5",
+      "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
