@@ -70,6 +70,23 @@
       "message": "Hi, I noticed CL 235198 was abandoned, could you please take a look at this? Thanks.",
       "revId": "82a39c1c50c48af2727208b0ab595880129c4321",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb540142_d0aff95b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-11T10:11:15Z",
+      "side": 1,
+      "message": "Thank you for this change Jes! LGTM but let\u0027s try to lock-in a test with a suggestion of sorts:\n\nfunc TestWriteThrough(t *testing.T) {\n        cases :\u003d []struct {\n                name      string\n                extras    int\n                wantAttrs uint32\n        }{\n                {\"sync set\", os.O_SYNC, 1},\n                {\"sync not set\", 0, 0},\n        }\n\n        for _, tt :\u003d range cases {\n                tt :\u003d tt\n                t.Run(tt.name, func(t *testing.T) {\n                        path :\u003d filepath.Join(t.TestDir(), fmt.Sprintf(\"%x.txt\", tt.name))\n                        h, err :\u003d syscall.Open(dir, syscall.O_RDWR|syscall.O_CREATE, 0)\n                        if err !\u003d nil {\n                                t.Fatal(err)\n                        }\n                        defer func() {\n                                syscall.CloseHandle(h)\n                                os.Remove(path)\n                        }()\n\n                        fi :\u003d new(syscall.ByHandleFileInformation)\n                        if err :\u003d syscall.GetFileInformationByHandle(h, fi); err !\u003d nil {\n                                t.Fatal(err)\n                        }\n\n                        if g :\u003d fi.FileAttributes \u0026 0x80000000; g !\u003d tt.wantAttrs {\n                                t.Fatalf(\"Attributes mismatch:\\n\\tgot\u003d%d\\nyet wanted:\\n\\t%d from: %x\u00260x80000000\", g, tt.wantAttrs, fi.FileAttributes)\n                        }\n                })\n        }\n}\n\nIan, Alex, Brad, Tobias kindly help me review my suggestion for the test, thank you!",
+      "revId": "82a39c1c50c48af2727208b0ab595880129c4321",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
