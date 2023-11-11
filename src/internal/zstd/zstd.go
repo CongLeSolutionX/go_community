@@ -292,8 +292,10 @@ retry:
 	}
 
 	// RFC 8878 3.1.1.1.1.2. permits us to set an 8M max on window size.
-	if windowSize > 8<<20 {
-		windowSize = 8 << 20
+	// int(r.remainingFrameSize) may produce a number less than 0
+	const maxWindowSize = 8 << 20
+	if windowSize > maxWindowSize || windowSize < 0 {
+		windowSize = maxWindowSize
 	}
 
 	relativeOffset += headerSize
