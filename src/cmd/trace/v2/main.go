@@ -7,6 +7,7 @@ package trace
 import (
 	"bytes"
 	"fmt"
+	"internal/trace"
 	"internal/trace/traceviewer"
 	tracev2 "internal/trace/v2"
 	"io"
@@ -40,18 +41,19 @@ func Main(traceFile, httpAddr, pprof string, debug int) error {
 		return fmt.Errorf("failed to create server socket: %w", err)
 	}
 
+	log.Print("Preparing trace for viewer...")
 	addr := "http://" + ln.Addr().String()
-	log.Print("Parsing trace...")
 	parsed, err := parseTrace(data)
 	if err != nil {
 		return err
 	}
-
-	log.Print("Splitting trace...")
+	log.Print("Splitting trace for viewer...")
 	ranges, err := splitTrace(parsed)
 	if err != nil {
 		return err
 	}
+	log.Printf("Analyzing goroutines...")
+	gSummaries := trace.SummarizeGoroutines(parsed.events)
 
 	log.Printf("Opening browser. Trace viewer is listening on %s", addr)
 	browser.Open(addr)
@@ -61,6 +63,8 @@ func Main(traceFile, httpAddr, pprof string, debug int) error {
 	mux.Handle("/trace", traceviewer.TraceHandler())
 	mux.Handle("/jsontrace", JSONTraceHandler(parsed))
 	mux.Handle("/static/", traceviewer.StaticHandler())
+	mux.HandleFunc("/goroutines", GoroutinesHandlerFunc(gSummaries))
+	mux.HandleFunc("/goroutine", GoroutineHandler(gSummaries))
 
 	err = http.Serve(ln, mux)
 	return fmt.Errorf("failed to start http server: %w", err)
