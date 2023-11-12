@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af0a1465_6b8b9b15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-12T08:42:18Z",
+      "side": 1,
+      "message": "I agree with Jorropo.",
+      "parentUuid": "80caf6b9_750d56a5",
+      "revId": "8ecb15a67ac0ce9e7f9a3fe3f6d841f293c32dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "219d7306_58d6e21a",
