@@ -93,6 +93,24 @@
       "parentUuid": "8063b191_50f56927",
       "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "585b2df8_3d80b1a6",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 66353
+      },
+      "writtenOn": "2023-11-13T15:11:11Z",
+      "side": 1,
+      "message": "Hi Keith Randall, I wrote an example and observe its ssa html, here is the detail：\n`\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n\tvar a struct{ ele int32 }\n\tp :\u003d \u0026a\n\tp.ele \u003d 0\n\tfmt.Println(p)\n}\n`\nand the ssa.html is here:\n\nb1:-\nv1 (?) \u003d InitMem \u003cmem\u003e\nv2 (?) \u003d SP \u003cuintptr\u003e\nv3 (?) \u003d SB \u003cuintptr\u003e\nv4 (?) \u003d Addr \u003c*uint8\u003e {type:struct { main.ele int32 }} v3\nv5 (6) \u003d StaticLECall \u003c*struct { ele int32 },mem\u003e {AuxCall{runtime.newobject}} [16] v4 v1\nv6 (6) \u003d SelectN \u003cmem\u003e [1] v5\nv7 (6) \u003d SelectN \u003c*struct { ele int32 }\u003e [0] v5 (\u0026a[*struct { ele int32 }], p[*struct { ele int32 }])\nv9 (?) \u003d Const32 \u003cint32\u003e [0]\nv12 (8) \u003d OffPtr \u003c*int32\u003e [0] v7\nv14 (?) \u003d ConstInterface \u003cany\u003e\nv15 (?) \u003d ArrayMake1 \u003c[1]any\u003e v14\nv20 (?) \u003d Addr \u003c*uint8\u003e {type:*struct { main.ele int32 }} v3\nv21 (9) \u003d IMake \u003cany\u003e v20 v7\nv23 (?) \u003d Const64 \u003cint\u003e [0] (fmt.n[int])\nv24 (?) \u003d Const64 \u003cint\u003e [1]\nv29 (9) \u003d IsSliceInBounds \u003cbool\u003e v23 v24\nv34 (?) \u003d ConstInterface \u003cerror\u003e (fmt.err[error])\nv37 (?) \u003d Addr \u003c*uint8\u003e {go:itab.*os.File,io.Writer} v3\nv38 (?) \u003d Addr \u003c**os.File\u003e {os.Stdout} v3\nv8 (?) \u003d StructMake1 \u003cstruct { ele int32 }\u003e v9\nv10 (6) \u003d Store \u003cmem\u003e {struct { ele int32 }} v7 v8 v6\nv11 (8) \u003d NilCheck \u003cvoid\u003e v7 v10\nv13 (8) \u003d Store \u003cmem\u003e {int32} v12 v9 v10\nv16 (9) \u003d VarDef \u003cmem\u003e {.autotmp_10} v13\nv17 (9) \u003d LocalAddr \u003c*[1]any\u003e {.autotmp_10} v2 v16\nv18 (9) \u003d Store \u003cmem\u003e {[1]any} v17 v15 v16\nv19 (9) \u003d LocalAddr \u003c*[1]any\u003e {.autotmp_10} v2 v18\nv22 (9) \u003d NilCheck \u003cvoid\u003e v19 v18\nv25 (9) \u003d PtrIndex \u003c*any\u003e v19 v23\nv26 (9) \u003d Store \u003cmem\u003e {any} v25 v21 v18\nv27 (9) \u003d NilCheck \u003cvoid\u003e v19 v26\nv28 (9) \u003d Copy \u003c*any\u003e v19\nIf v29 → b2 b3 (likely) (9)\n\nwe can see that address v12 is equal to v7, they are actually both point to a.ele, but their type is not the same. So I think this pr is not solid, how do you think?\n@khr@golang.org",
+      "parentUuid": "fed76d27_35f7c7cd",
+      "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
