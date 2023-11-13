@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb91485_1b167761",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-11-13T22:39:17Z",
+      "side": 1,
+      "message": "I\u0027m doing a dry run of the release build process, which happens to use go1.21.4 to boostrap, and it\u0027s getting this error:\n\ninternal compiler error: panic: godebug: Value of name not listed in godebugs.All: gotypesalias\n\nwhile building go_boostrap. Any idea what\u0027s up?",
+      "revId": "30de0b5ef4dda725f29fbdb88e1429a6dd3ae8cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
