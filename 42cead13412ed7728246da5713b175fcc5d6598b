@@ -16,6 +16,24 @@
       "message": "I spotted some possible problems.\n\nThese findings are based on simple heuristics. If a finding appears wrong, briefly reply here saying so. Otherwise, please address any problems and update the GitHub PR. When complete, mark this comment as \u0027Done\u0027 and click the [blue \u0027Reply\u0027 button](https://go.dev/wiki/GerritBot#i-left-a-reply-to-a-comment-in-gerrit-but-no-one-but-me-can-see-it) above.\n\nPossible problems detected:\n  1. The commit title should start with the primary affected package name followed by a colon, like \"net/http: improve [...]\".\n  2. It looks like you have a properly formated bug reference, but the convention is to put bug references at the bottom of the commit message, even if a bug is also mentioned in the body of the message.\n\nThe commit title and commit message body come from the GitHub PR title and description, and must be edited in the GitHub web interface (not via git). For instructions, see [here](https://go.dev/wiki/GerritBot/#how-does-gerritbot-determine-the-final-commit-message). For guidelines on commit messages for the Go project, see [here](https://go.dev/doc/contribute#commit_messages).\n\n\n(In general for Gerrit code reviews, the change author is expected to [log in to Gerrit](https://go-review.googlesource.com/login/) with a Gmail or other Google account and then close out each piece of feedback by marking it as \u0027Done\u0027 if implemented as suggested or otherwise reply to each review comment. See the [Review](https://go.dev/doc/contribute#review) section of the Contributing Guide for details.)",
       "revId": "42cead13412ed7728246da5713b175fcc5d6598b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a80b8e19_435cc4ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30659
+      },
+      "writtenOn": "2023-11-13T09:21:28Z",
+      "side": 1,
+      "message": "\u003e The commit title should start with the primary affected package name followed by a colon, like \"net/http: improve [...]\".\n\nI prefixed the original commit message with the release-branch, which looks to be the convention used for backports.\n\n\u003e It looks like you have a properly formated bug reference, but the convention is to put bug references at the bottom of the commit message, even if a bug is also mentioned in the body of the mes\n\nI updated the \"fixes\", and added \"updates\"; I _think_ that\u0027s the convention as well, but happy to update if that\u0027s an issue.",
+      "parentUuid": "a15a03fe_ec653aaf",
+      "revId": "42cead13412ed7728246da5713b175fcc5d6598b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
