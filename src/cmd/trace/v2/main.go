@@ -72,8 +72,8 @@ func Main(traceFile, httpAddr, pprof string, debug bool) error {
 	mux.Handle("/static/", traceviewer.StaticHandler())
 
 	// Goroutines handlers.
-	mux.HandleFunc("/goroutines", GoroutinesHandlerFunc(parsed.gSummaries))
-	mux.HandleFunc("/goroutine", GoroutineHandler(parsed.gSummaries))
+	mux.HandleFunc("/goroutines", GoroutinesHandlerFunc(parsed.summary.Goroutines))
+	mux.HandleFunc("/goroutine", GoroutineHandler(parsed.summary.Goroutines))
 
 	// MMU handler.
 	mux.HandleFunc("/mmu", traceviewer.MMUHandlerFunc(ranges, mutatorUtil))
@@ -95,8 +95,8 @@ func Main(traceFile, httpAddr, pprof string, debug bool) error {
 }
 
 type parsedTrace struct {
-	events     []tracev2.Event
-	gSummaries map[tracev2.GoID]*trace.GoroutineSummary
+	events  []tracev2.Event
+	summary *trace.Summary
 }
 
 func parseTrace(data []byte) (*parsedTrace, error) {
@@ -104,7 +104,7 @@ func parseTrace(data []byte) (*parsedTrace, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to create trace reader: %w", err)
 	}
-	s := trace.NewGoroutineSummarizer()
+	s := trace.NewSummarizer()
 	t := new(parsedTrace)
 	for {
 		ev, err := r.ReadEvent()
@@ -116,7 +116,7 @@ func parseTrace(data []byte) (*parsedTrace, error) {
 		t.events = append(t.events, ev)
 		s.Event(&t.events[len(t.events)-1])
 	}
-	t.gSummaries = s.Finalize()
+	t.summary = s.Finalize()
 	return t, nil
 }
 
