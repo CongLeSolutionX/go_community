@@ -51,6 +51,24 @@
       "message": "RELNOTE\u003dyes",
       "revId": "284571274ffcdfd8fca4cebdccc6ea86706e0c25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "039ca46f_18e9a2e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-13T22:51:58Z",
+      "side": 1,
+      "message": "Rebasing past CL 538699 will fix it.",
+      "parentUuid": "8a410809_1ea2b579",
+      "revId": "284571274ffcdfd8fca4cebdccc6ea86706e0c25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
