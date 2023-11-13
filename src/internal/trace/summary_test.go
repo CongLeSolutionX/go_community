@@ -12,7 +12,7 @@ import (
 )
 
 func TestSummarizeGoroutinesTrace(t *testing.T) {
-	summaries := summarizeTraceTest(t, "v2/testdata/tests/go122-gc-stress.test")
+	summaries := summarizeTraceTest(t, "v2/testdata/tests/go122-gc-stress.test").Goroutines
 	var (
 		hasSchedWaitTime    bool
 		hasSyncBlockTime    bool
@@ -40,7 +40,7 @@ func TestSummarizeGoroutinesTrace(t *testing.T) {
 }
 
 func TestSummarizeGoroutinesRegionsTrace(t *testing.T) {
-	summaries := summarizeTraceTest(t, "v2/testdata/tests/go122-annotations.test")
+	summaries := summarizeTraceTest(t, "v2/testdata/tests/go122-annotations.test").Goroutines
 	type region struct {
 		startKind tracev2.EventKind
 		endKind   tracev2.EventKind
@@ -73,6 +73,8 @@ func TestSummarizeGoroutinesRegionsTrace(t *testing.T) {
 	}
 }
 
+// TODO(mknyszek): Write a test for the Tasks part of a Summary.
+
 func basicSummaryChecks(t *testing.T, summary *GoroutineSummary) {
 	if summary.ID == tracev2.NoGoroutine {
 		t.Error("summary found for no goroutine")
@@ -91,13 +93,13 @@ func basicSummaryChecks(t *testing.T, summary *GoroutineSummary) {
 	}
 }
 
-func summarizeTraceTest(t *testing.T, testPath string) map[tracev2.GoID]*GoroutineSummary {
+func summarizeTraceTest(t *testing.T, testPath string) *Summary {
 	trace, _, err := testtrace.ParseFile(testPath)
 	if err != nil {
 		t.Fatalf("malformed test %s: bad trace file: %v", testPath, err)
 	}
 	// Create the analysis state.
-	s := NewGoroutineSummarizer()
+	s := NewSummarizer()
 
 	// Create a reader.
 	r, err := tracev2.NewReader(trace)
