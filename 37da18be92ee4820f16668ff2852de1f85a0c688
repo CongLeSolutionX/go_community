@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "927a9e6b_aaad72ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-11-13T17:51:24Z",
+      "side": 1,
+      "message": "Superseeded by https://go-review.googlesource.com/c/go/+/541775",
+      "revId": "37da18be92ee4820f16668ff2852de1f85a0c688",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
