@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3273b407_750cf843",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2023-11-13T22:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ded582bc_3fbdd727",
+      "revId": "07c3d7e44613f201738c93b5111212c0da0dc041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71721d63_feb5f6ce",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-11-13T17:45:36Z",
       "side": 1,
       "message": "(nit) I would like a shorter error message here if we can make it work.\n\nMaybe: `go: resolving embeds in example.com/brokendep: pattern ../foo.txt: invalid pattern syntax`?",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 97
+      },
+      "revId": "07c3d7e44613f201738c93b5111212c0da0dc041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b7f8a1_0eb7a8a5",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_embed.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2023-11-13T22:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71721d63_feb5f6ce",
       "range": {
         "startLine": 13,
         "startChar": 8,
