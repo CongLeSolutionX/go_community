@@ -51,6 +51,24 @@
       "parentUuid": "54204026_216f3932",
       "revId": "43ea66879ba0291a16db7aa28f27bad8f5ba4440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fda7e29_5eb4c556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 65124
+      },
+      "writtenOn": "2023-11-13T02:13:26Z",
+      "side": 1,
+      "message": "Yes, it is.If the `rva22u64` is enable, we also could pass the argument `-march` to the gcc to utilize the extension instruction. But it require the support of gcc.",
+      "parentUuid": "0fe7aecc_629365f1",
+      "revId": "43ea66879ba0291a16db7aa28f27bad8f5ba4440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
