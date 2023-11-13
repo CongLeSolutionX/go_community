@@ -197,6 +197,30 @@
       },
       "revId": "fe48987542f143553c2301eca4d4a263e3e5ace1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01439974_07e3c346",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64latelower.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-11-13T20:03:26Z",
+      "side": 1,
+      "message": "Ack, comment added.",
+      "parentUuid": "9d22fcdc_87e7e075",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 74
+      },
+      "revId": "fe48987542f143553c2301eca4d4a263e3e5ace1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
