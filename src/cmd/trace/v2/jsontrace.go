@@ -18,7 +18,7 @@ import (
 	tracev2 "internal/trace/v2"
 )
 
-func JSONTraceHandler(parsed parsedTrace) http.Handler {
+func JSONTraceHandler(parsed *parsedTrace) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := int64(0)
 		end := int64(math.MaxInt64)
@@ -44,7 +44,7 @@ func JSONTraceHandler(parsed parsedTrace) http.Handler {
 	})
 }
 
-func generateTrace(parsed parsedTrace, c traceviewer.TraceConsumer) error {
+func generateTrace(parsed *parsedTrace, c traceviewer.TraceConsumer) error {
 	te := traceviewer.NewEmitter(c, 0, time.Duration(0), time.Duration(math.MaxInt64))
 	defer te.Flush()
 
