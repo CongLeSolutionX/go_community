@@ -161,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51796554_7edfe887",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2023-11-13T10:27:32Z",
+      "side": 1,
+      "message": "FWIW I agree with Keith. It\u0027s common in Go to represent a set as map[T] bool (here\u0027s one random example from the Go source: https://github.com/golang/go/blob/8da6405e0db80fa0a4136fb816c7ca2db716c2b2/src/database/sql/sql.go#L714), it\u0027s slightly more ergonomic to use, and the performance improvement isn\u0027t significant enough to warrant the change IMHO.\n\nNote that VisibleFields is _not_ intended to be used in performance-sensitive areas: it\u0027s definitely not very performant (it incurs multiple allocations), but that\u0027s not a big deal: if you care about performance, you can amortise the cost by storing the result for a given type in a cache. If you\u0027re invoking VisibleFields, you almost certainly need to do other checks as well, so there wouldn\u0027t be any real benefit to VisibleFields doing its own caching.",
+      "parentUuid": "af0a1465_6b8b9b15",
+      "revId": "8ecb15a67ac0ce9e7f9a3fe3f6d841f293c32dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "219d7306_58d6e21a",
