@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b79a623_36dad44a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-13T17:45:36Z",
+      "side": 1,
+      "message": "Thanks for cleaning this up!",
+      "revId": "07c3d7e44613f201738c93b5111212c0da0dc041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded582bc_3fbdd727",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-13T17:45:36Z",
+      "side": 1,
+      "message": "This function should avoid calling `base.Error` if `vendorE` is set.\n\nPerhaps something like:\n\n```go\nembeds, err :\u003d load.ResolveEmbed(bp.Dir, embedPatterns)\nif err !\u003d nil {\n\tif vendorE {\n\t\tbase.Error(err)\n\t} else {\n\t\tfmt.Fprintf(os.Stderr, \"go: %v\", err)\n\t}\n\treturn\n}\nfor _, embed :\u003d range embeds {\n\tembedDst :\u003d filepath.Join(dst, embed)\n\tif copiedFiles[embedDst] {\n\t\tcontinue\n\t}\n\n\t// Copy the file as is done by copyDir below.\n\terr :\u003d func() error {\n\t\tr, err :\u003d os.Open(filepath.Join(src, embed))\n\t\tif err !\u003d nil {\n\t\t\treturn err\n\t\t}\n\t\tdefer r.Close()\n\t\tif err :\u003d os.MkdirAll(filepath.Dir(embedDst), 0777); err !\u003d nil {\n\t\t\treturn err\n\t\t}\n\t\tw, err :\u003d os.Create(embedDst)\n\t\tif err !\u003d nil {\n\t\t\treturn err\n\t\t}\n\t\tif _, err :\u003d io.Copy(w, r); err !\u003d nil {\n\t\t\treturn err\n\t\t}\n\t\treturn w.Close()\n\t}()\n\tif err !\u003d nil {\n\t\tif vendorE {\n\t\t\tbase.Error(err)\n\t\t} else {\n\t\t\tfmt.Fprintf(os.Stderr, \"go: %v\", err)\n\t\t}\n\t}\n}\n```\n\nThis is an existing problem in the code, but since we\u0027re updating the error handling here let\u0027s fix that too.\n\n(Compare #63293.)",
+      "revId": "07c3d7e44613f201738c93b5111212c0da0dc041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71721d63_feb5f6ce",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_embed.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-13T17:45:36Z",
+      "side": 1,
+      "message": "(nit) I would like a shorter error message here if we can make it work.\n\nMaybe: `go: resolving embeds in example.com/brokendep: pattern ../foo.txt: invalid pattern syntax`?",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 97
+      },
+      "revId": "07c3d7e44613f201738c93b5111212c0da0dc041",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
