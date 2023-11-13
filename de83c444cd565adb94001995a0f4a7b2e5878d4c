@@ -330,6 +330,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d35f4656_d01393f3",
+        "filename": "src/testing/fstest/mapfs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-11-13T17:57:37Z",
+      "side": 1,
+      "message": "(Marking resolved.)",
+      "parentUuid": "471deb80_713f0389",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3b57c94_d5a1340b",
@@ -396,6 +414,24 @@
       "side": 1,
       "message": "Hm, but in `io/fs`, paths with a trailing slash are not valid (according to `io/fs.ValidPath`). I would expect `Lstat(m, \"dirlink/\")` to unconditionally return an error. Or am I misunderstanding?",
       "parentUuid": "b5d617e5_2249f55e",
+      "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3177e1ed_74a3cbb0",
+        "filename": "src/testing/fstest/mapfs_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-11-13T17:57:37Z",
+      "side": 1,
+      "message": "(Marking resolved.)",
+      "parentUuid": "1e043e41_2b02b278",
       "revId": "de83c444cd565adb94001995a0f4a7b2e5878d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b2e0316_144e29e9",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-11-13T17:57:37Z",
+      "side": 1,
+      "message": "I will wait for a decision there before making the change in this CL.",
+      "parentUuid": "40f86eb7_10a714d8",
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3e9c6f5_f18e680e",
         "filename": "src/io/fs/symlink.go",
         "patchSetId": 8
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-01T22:32:43Z",
       "side": 1,
       "message": "What happens if the symlink escapes the current tree but comes back in?\n\nFor example, suppose root is \"/foo/bar\",\nwhere there is a symlink at \"/foo/bar/baz/symlink\"\nthat points to \"../../bar\".\n\nAnd I call `ReadLink(\"symlink\")`, what happens?\n\nReturning an error or just \".\" both seem like reasonable behaviors.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce027c8_900c269c",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-11-13T17:57:37Z",
+      "side": 1,
+      "message": "Up to the implementation. The os implementation uses a version of Clean to make the determination, so it returns \".\".",
+      "parentUuid": "c3e9c6f5_f18e680e",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -77,6 +119,48 @@
       "writtenOn": "2023-11-01T22:32:43Z",
       "side": 1,
       "message": "What does this do if name is not a symlink?",
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71ebaa06_7f08cb46",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-11-13T17:57:37Z",
+      "side": 1,
+      "message": "I\u0027d be open to that, but seems like something that should be discussed on the proposal, not in CL.",
+      "parentUuid": "0c6b40c0_54aa2365",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef876166_38d7ef3c",
+        "filename": "src/io/fs/symlink.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2023-11-13T17:57:37Z",
+      "side": 1,
+      "message": "Thanks for pointing out. I realized the doc comment is misleading, so decided to copy from the os package.",
+      "parentUuid": "3a73414d_3617abd9",
       "revId": "abff46309c7ca280ce5b647a6f7e4a3c354db38b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
