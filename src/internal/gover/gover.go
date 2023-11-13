@@ -82,7 +82,7 @@ func IsLang(x string) bool {
 // Lang returns the Go language version. For example, Lang("1.2.3") == "1.2".
 func Lang(x string) string {
 	v := Parse(x)
-	if v.Minor == "" || v.Major == "1" && v.Minor == "0" {
+	if v.Minor == "" || CmpInt(v.Major, "1") >= 0 && v.Minor == "0" {
 		return v.Major
 	}
 	return v.Major + "." + v.Minor
