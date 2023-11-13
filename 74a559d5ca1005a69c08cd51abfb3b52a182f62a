@@ -110,6 +110,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1553a840_a3296a45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-13T16:14:37Z",
+      "side": 1,
+      "message": "\u003e Do the runners succeed on master?\n\nYes, see the wasip1 columns at https://ci.chromium.org/p/golang/g/go-gotip/console. (If you ever forget the LUCI post-submit dashboard link, it\u0027s mentioned at the top of https://go.dev/wiki/LUCI.)\n\nIt was a good idea to check; I quickly saw that the problem was that these tests were [being skipped](https://ci.chromium.org/ui/p/golang/builders/ci/gotip-wasip1-wasm_wasmtime/b8764535432404663409/test-results?sortby\u003d\u0026groupby\u003d\u0026q\u003dTestCountDecodeMallocs+) at tip, which is [intended behavior](https://cs.opensource.google/go/go/+/master:src/encoding/gob/timing_test.go;l\u003d103-105;drc\u003d56e900d9f0da967d9152c546db1684653a69ece5) given it\u0027s not a longtest builder, so the bug was that they were running at all with this change, not that they were failing. See my other inline comment for details.\n\n\u003e the only ones I could easily run on my own machine were crypto/tls.TestConnReadNonzeroAndEOF and encoding/go.TestCountDecodeMallocs\n\nFor reference, you should be able to run the GOROOT/test test cases with something like:\n\n```\n$ PATH\u003d$PATH:$(pwd)/../misc/wasm TMPDIR\u003d$(pwd)/tmp ../bin/go test -run\u003d\u0027^Test/args.go$\u0027 cmd/internal/testdir -target\u003dwasip1/wasm\n```\n\n(As written down [here](https://github.com/golang/go/blob/master/test/README.md).)\n\nOr via cmd/dist\u0027s test subcommand, an intermediate abstraction layer that all.bash goes through:\n\n```\n$ GOOS\u003dwasip1 GOARCH\u003dwasm PATH\u003d$PATH:$(pwd)/../misc/wasm TMPDIR\u003d$(pwd)/tmp ../bin/go tool dist test -v -run\u003d\u0027cmd/internal/testdir:0_1\u0027\n```\n\nAlthough it\u0027s tricky because the invocation might\u0027ve been broken by the bad argument passing.\n\nIt\u0027s interesting to see just how few tests broke as a result of argument parsing being broken. But it\u0027s good the \u0027Test/args.go\u0027 test exists to test exactly this. I left another inline comment closer to the problem, so marking this as resolved.",
+      "parentUuid": "6e3b0040_11615cee",
+      "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7b9af5f6_d77560c8",
         "filename": "misc/wasm/go_wasip1_wasm_exec",
         "patchSetId": 1
@@ -139,6 +157,47 @@
       "side": 1,
       "message": "Fair point, but I don\u0027t think we need to add that complexity here - for almost all users this will \"just work\" and users with more advanced needs can just write their own scripts. We\u0027ll remove this and only support wasmtime 14+ once the tree opens after the freeze.",
       "parentUuid": "7b9af5f6_d77560c8",
+      "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe793f0_6e1ea687",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-13T16:14:37Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "e2d21541_0f0c27b1",
+      "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f734027e_433f1a2b",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-13T16:14:37Z",
+      "side": 1,
+      "message": "The -- had the intended effect for the previous CLI, but needs updating for the new CLI:\n\n```\n$ cat /tmp/a.go\npackage main\n\nimport (\"fmt\"; \"os\")\n\nfunc main() {\n\tfmt.Printf(\"args: %q\\n\", os.Args)\n}\n\n# at Go tip\n$ GOOS\u003dwasip1 GOARCH\u003dwasm go run /tmp/a.go -short\u003dtrue\nargs: [\"a\" \"-short\u003dtrue\"]\n\n# this CL\n$ GOOS\u003dwasip1 GOARCH\u003dwasm go run /tmp/a.go -short\u003dtrue\nargs: [\"a\" \"--\" \"-short\u003dtrue\"]\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 119,
+        "endLine": 24,
+        "endChar": 121
+      },
       "revId": "74a559d5ca1005a69c08cd51abfb3b52a182f62a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
