@@ -231,7 +231,7 @@ func heapMetrics(data format.Data) (metrics []format.HeapCountersArg) {
 	return
 }
 
-func recordJSONTraceHandlerResponse(t *testing.T, parsed parsedTrace) format.Data {
+func recordJSONTraceHandlerResponse(t *testing.T, parsed *parsedTrace) format.Data {
 	h := JSONTraceHandler(parsed)
 	recorder := httptest.NewRecorder()
 	r := httptest.NewRequest("GET", "/jsontrace", nil)
@@ -251,7 +251,7 @@ func sumExecutionTime(data format.Data) (sum time.Duration) {
 	return
 }
 
-func getTestTrace(t *testing.T, testPath string) parsedTrace {
+func getTestTrace(t *testing.T, testPath string) *parsedTrace {
 	t.Helper()
 
 	// First read in the text trace and write it out as bytes.
