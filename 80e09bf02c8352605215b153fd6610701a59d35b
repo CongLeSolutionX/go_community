@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd00cd6f_19d50397",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-11-14T03:38:09Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-loong64-3a5000",
+      "revId": "80e09bf02c8352605215b153fd6610701a59d35b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
