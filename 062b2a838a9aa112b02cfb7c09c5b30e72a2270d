@@ -165,6 +165,24 @@
       "parentUuid": "5f7b050b_e736e2ab",
       "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7903532_7ca2fcae",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-14T16:53:59Z",
+      "side": 1,
+      "message": "Ok, then that isn\u0027t an example of why we shouldn\u0027t do this CL.",
+      "parentUuid": "737c52e9_68fba698",
+      "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
