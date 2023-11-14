@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492e375b_b847e0f8",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_flags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-14T23:46:06Z",
+      "side": 1,
+      "message": "nit: comment why order matters here?",
+      "revId": "081bce1dfad5fb3e3b042c06efb3ddab0a98b494",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fef2297_8d7165d3",
+        "filename": "src/cmd/compile/internal/inline/inlheur/testdata/props/calls.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-14T23:46:06Z",
+      "side": 1,
+      "message": "The \"panic path\" here refers to that they\u0027re on the path to calling os.Exit in callsexit, right?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 109
+      },
+      "revId": "081bce1dfad5fb3e3b042c06efb3ddab0a98b494",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
