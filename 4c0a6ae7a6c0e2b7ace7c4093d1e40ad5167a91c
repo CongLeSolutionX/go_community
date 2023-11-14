@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9176858_ba0b2c57",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-14T20:56:35Z",
+      "side": 1,
+      "message": "(nit) Do we need to update `r.blockOffset` on this path?\n\n(Maybe: `r.blockOffset +\u003d end - prev`?)",
+      "range": {
+        "startLine": 346,
+        "startChar": 0,
+        "endLine": 348,
+        "endChar": 3
+      },
+      "revId": "4c0a6ae7a6c0e2b7ace7c4093d1e40ad5167a91c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2de626a9_8f228aa9",
         "filename": "src/internal/zstd/zstd_test.go",
         "patchSetId": 2
@@ -32,6 +55,24 @@
       "side": 1,
       "message": "Understood, please review for me if there are any other",
       "parentUuid": "2de626a9_8f228aa9",
+      "revId": "4c0a6ae7a6c0e2b7ace7c4093d1e40ad5167a91c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ecbe57d_17af9aee",
+        "filename": "src/internal/zstd/zstd_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-14T20:56:35Z",
+      "side": 1,
+      "message": "+1 — why is the call to `r.Reset` being changed to `NewReader` here?",
+      "parentUuid": "a3fc9090_71a8f4a2",
       "revId": "4c0a6ae7a6c0e2b7ace7c4093d1e40ad5167a91c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
