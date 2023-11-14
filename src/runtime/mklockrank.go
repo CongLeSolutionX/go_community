@@ -71,6 +71,9 @@ scavenge, sweep < hchan;
 NONE < notifyList;
 hchan, notifyList < sudog;
 
+# Wakeable sleep
+hchan, timers < wakeableSleep;
+
 # RWMutex
 NONE < rwmutexW;
 rwmutexW, sysmon < rwmutexR;

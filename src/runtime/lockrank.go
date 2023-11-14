@@ -28,6 +28,7 @@ const (
 	lockRankHchan
 	lockRankNotifyList
 	lockRankSudog
+	lockRankWakeableSleep
 	lockRankRwmutexW
 	lockRankRwmutexR
 	lockRankRoot
@@ -88,6 +89,7 @@ var lockNames = []string{
 	lockRankHchan:          "hchan",
 	lockRankNotifyList:     "notifyList",
 	lockRankSudog:          "sudog",
+	lockRankWakeableSleep:  "wakeableSleep",
 	lockRankRwmutexW:       "rwmutexW",
 	lockRankRwmutexR:       "rwmutexR",
 	lockRankRoot:           "root",
@@ -155,6 +157,7 @@ var lockPartialOrder [][]lockRank = [][]lockRank{
 	lockRankHchan:          {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankHchan},
 	lockRankNotifyList:     {},
 	lockRankSudog:          {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankHchan, lockRankNotifyList},
+	lockRankWakeableSleep:  {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankPollDesc, lockRankCpuprof, lockRankSched, lockRankAllp, lockRankTimers, lockRankHchan},
 	lockRankRwmutexW:       {},
 	lockRankRwmutexR:       {lockRankSysmon, lockRankRwmutexW},
 	lockRankRoot:           {},
