@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d303eab6_3a4afed2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-14T02:20:09Z",
+      "side": 1,
+      "message": "Thanks for abandoning the CL.\n\nI understand this can be frustrating for you.\n\nSometimes we (Go Team) have to make a decision whether to shepherd a CL along vs just doing it ourselves. I this case I decided to take over the implementation because the Go team is ultimately on the hook for maintaining this code and a proper review required me to effectively implement my own implementation to fully understand all the issues at hand.\n\nThanks.",
+      "revId": "852d68ce1f6e72af0553783e2450f02024744594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6dfdfb5e_8b35c6a9",
         "filename": "src/math/big/rat.go",
         "patchSetId": 13
