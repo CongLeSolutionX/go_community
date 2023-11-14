@@ -154,7 +154,7 @@ func typedmemmove(typ *abi.Type, dst, src unsafe.Pointer) {
 		return
 	}
 	if writeBarrier.enabled && typ.PtrBytes != 0 {
-		bulkBarrierPreWrite(uintptr(dst), uintptr(src), typ.PtrBytes)
+		bulkBarrierPreWrite(typ, uintptr(dst), uintptr(src), typ.PtrBytes)
 	}
 	// There's a race here: if some other goroutine can write to
 	// src, it may change some pointer in src after we've
@@ -176,7 +176,7 @@ func typedmemmove(typ *abi.Type, dst, src unsafe.Pointer) {
 //go:nowritebarrierrec
 //go:nosplit
 func wbZero(typ *_type, dst unsafe.Pointer) {
-	bulkBarrierPreWrite(uintptr(dst), 0, typ.PtrBytes)
+	bulkBarrierPreWrite(typ, uintptr(dst), 0, typ.PtrBytes)
 }
 
 // wbMove performs the write barrier operations necessary before
@@ -186,7 +186,7 @@ func wbZero(typ *_type, dst unsafe.Pointer) {
 //go:nowritebarrierrec
 //go:nosplit
 func wbMove(typ *_type, dst, src unsafe.Pointer) {
-	bulkBarrierPreWrite(uintptr(dst), uintptr(src), typ.PtrBytes)
+	bulkBarrierPreWrite(typ, uintptr(dst), uintptr(src), typ.PtrBytes)
 }
 
 //go:linkname reflect_typedmemmove reflect.typedmemmove
@@ -223,7 +223,7 @@ func reflectlite_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 //go:nosplit
 func reflectcallmove(typ *_type, dst, src unsafe.Pointer, size uintptr, regs *abi.RegArgs) {
 	if writeBarrier.enabled && typ != nil && typ.PtrBytes != 0 && size >= goarch.PtrSize {
-		bulkBarrierPreWrite(uintptr(dst), uintptr(src), size)
+		bulkBarrierPreWrite(typ, uintptr(dst), uintptr(src), size)
 	}
 	memmove(dst, src, size)
 
@@ -279,7 +279,7 @@ func typedslicecopy(typ *_type, dstPtr unsafe.Pointer, dstLen int, srcPtr unsafe
 	size := uintptr(n) * typ.Size_
 	if writeBarrier.enabled {
 		pwsize := size - typ.Size_ + typ.PtrBytes
-		bulkBarrierPreWrite(uintptr(dstPtr), uintptr(srcPtr), pwsize)
+		bulkBarrierPreWrite(typ, uintptr(dstPtr), uintptr(srcPtr), pwsize)
 	}
 	// See typedmemmove for a discussion of the race between the
 	// barrier and memmove.
@@ -308,7 +308,7 @@ func reflect_typedslicecopy(elemType *_type, dst, src slice) int {
 //go:nosplit
 func typedmemclr(typ *_type, ptr unsafe.Pointer) {
 	if writeBarrier.enabled && typ.PtrBytes != 0 {
-		bulkBarrierPreWrite(uintptr(ptr), 0, typ.PtrBytes)
+		bulkBarrierPreWrite(typ, uintptr(ptr), 0, typ.PtrBytes)
 	}
 	memclrNoHeapPointers(ptr, typ.Size_)
 }
@@ -321,7 +321,7 @@ func reflect_typedmemclr(typ *_type, ptr unsafe.Pointer) {
 //go:linkname reflect_typedmemclrpartial reflect.typedmemclrpartial
 func reflect_typedmemclrpartial(typ *_type, ptr unsafe.Pointer, off, size uintptr) {
 	if writeBarrier.enabled && typ.PtrBytes != 0 {
-		bulkBarrierPreWrite(uintptr(ptr), 0, size)
+		bulkBarrierPreWrite(nil, uintptr(ptr), 0, size)
 	}
 	memclrNoHeapPointers(ptr, size)
 }
@@ -330,7 +330,7 @@ func reflect_typedmemclrpartial(typ *_type, ptr unsafe.Pointer, off, size uintpt
 func reflect_typedarrayclear(typ *_type, ptr unsafe.Pointer, len int) {
 	size := typ.Size_ * uintptr(len)
 	if writeBarrier.enabled && typ.PtrBytes != 0 {
-		bulkBarrierPreWrite(uintptr(ptr), 0, size)
+		bulkBarrierPreWrite(typ, uintptr(ptr), 0, size)
 	}
 	memclrNoHeapPointers(ptr, size)
 }
@@ -342,6 +342,6 @@ func reflect_typedarrayclear(typ *_type, ptr unsafe.Pointer, len int) {
 //
 //go:nosplit
 func memclrHasPointers(ptr unsafe.Pointer, n uintptr) {
-	bulkBarrierPreWrite(uintptr(ptr), 0, n)
+	bulkBarrierPreWrite(nil, uintptr(ptr), 0, n)
 	memclrNoHeapPointers(ptr, n)
 }

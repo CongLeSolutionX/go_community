@@ -64,7 +64,7 @@ func makeslicecopy(et *_type, tolen int, fromlen int, from unsafe.Pointer) unsaf
 		if copymem > 0 && writeBarrier.enabled {
 			// Only shade the pointers in old.array since we know the destination slice to
 			// only contains nil pointers because it has been cleared during alloc.
-			bulkBarrierPreWriteSrcOnly(uintptr(to), uintptr(from), copymem)
+			bulkBarrierPreWriteSrcOnly(et, uintptr(to), uintptr(from), copymem)
 		}
 	}
 
@@ -247,7 +247,7 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 		if lenmem > 0 && writeBarrier.enabled {
 			// Only shade the pointers in oldPtr since we know the destination slice p
 			// only contains nil pointers because it has been cleared during alloc.
-			bulkBarrierPreWriteSrcOnly(uintptr(p), uintptr(oldPtr), lenmem-et.Size_+et.PtrBytes)
+			bulkBarrierPreWriteSrcOnly(et, uintptr(p), uintptr(oldPtr), lenmem-et.Size_+et.PtrBytes)
 		}
 	}
 	memmove(p, oldPtr, lenmem)

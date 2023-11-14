@@ -42,6 +42,7 @@
 package runtime
 
 import (
+	"internal/abi"
 	"internal/goarch"
 	"runtime/internal/sys"
 	"unsafe"
@@ -236,7 +237,7 @@ func (h heapBits) nextFast() (heapBits, uintptr) {
 // Callers must perform cgo checks if goexperiment.CgoCheck2.
 //
 //go:nosplit
-func bulkBarrierPreWrite(dst, src, size uintptr) {
+func bulkBarrierPreWrite(_ *abi.Type, dst, src, size uintptr) {
 	if (dst|src|size)&(goarch.PtrSize-1) != 0 {
 		throw("bulkBarrierPreWrite: unaligned arguments")
 	}
@@ -306,7 +307,7 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 // created and zeroed with malloc.
 //
 //go:nosplit
-func bulkBarrierPreWriteSrcOnly(dst, src, size uintptr) {
+func bulkBarrierPreWriteSrcOnly(_ *abi.Type, dst, src, size uintptr) {
 	if (dst|src|size)&(goarch.PtrSize-1) != 0 {
 		throw("bulkBarrierPreWrite: unaligned arguments")
 	}
