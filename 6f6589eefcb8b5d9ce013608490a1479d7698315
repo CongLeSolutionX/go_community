@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd132582_f5536cc9",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-15T17:19:05Z",
+      "side": 1,
+      "message": "What happens if you do\n\nm[k] \u003d append(m[k], f())\n\nand f messes with m?",
+      "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c72ac7aa_a7e2187d",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-15T17:19:05Z",
+      "side": 1,
+      "message": "I feel like this optimization should be part of a separate CL.",
+      "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
