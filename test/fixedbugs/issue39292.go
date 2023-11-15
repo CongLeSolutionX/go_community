@@ -27,3 +27,9 @@ func z() {
 	z := t{&i}.f // ERROR "t{...}.f escapes to heap"
 	z()
 }
+
+func w(i int) byte {
+	var x [1 << 17]byte
+	var y [1<<17 + 1]byte // ERROR "moved to heap: y"
+	return x[i] + y[i]
+}
