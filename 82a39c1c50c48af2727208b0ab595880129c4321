@@ -176,6 +176,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dea833b8_49f98005",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-15T13:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "193008b8_46c75772",
+      "revId": "82a39c1c50c48af2727208b0ab595880129c4321",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f6941f3_2e3c6e9f",
@@ -189,6 +207,24 @@
       "writtenOn": "2023-11-15T10:22:53Z",
       "side": 1,
       "message": "If the file is read-only, then it can\u0027t be written, so setting `_FILE_FLAG_WRITE_THROUGH` makes no sense.",
+      "revId": "82a39c1c50c48af2727208b0ab595880129c4321",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "367e9dc5_7b493a2d",
+        "filename": "src/syscall/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-15T13:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f6941f3_2e3c6e9f",
       "revId": "82a39c1c50c48af2727208b0ab595880129c4321",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
