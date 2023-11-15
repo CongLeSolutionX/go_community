@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd7db3a_1ce4fb06",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_callsites.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T16:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23ad57c7_3f0e4ee1",
+      "revId": "9f57664e4180ff87cb29ddc73fee203ade6a6a69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f8587c6_2cf0693e",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-15T00:43:28Z",
       "side": 1,
       "message": "nit: rename \"argProps\" for clarity and consistency with the struct field name",
+      "revId": "9f57664e4180ff87cb29ddc73fee203ade6a6a69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e1bac73_25f93497",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_callsites.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T16:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f8587c6_2cf0693e",
       "revId": "9f57664e4180ff87cb29ddc73fee203ade6a6a69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc21a221_0d9f5326",
+        "filename": "src/cmd/compile/internal/inline/inlheur/callsite.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T16:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc5494a_820a972f",
+      "range": {
+        "startLine": 48,
+        "startChar": 49,
+        "endLine": 49,
+        "endChar": 48
+      },
+      "revId": "9f57664e4180ff87cb29ddc73fee203ade6a6a69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bd358ee_92f2e456",
@@ -75,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5222eb1c_4c72ea15",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T16:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bd358ee_92f2e456",
+      "revId": "9f57664e4180ff87cb29ddc73fee203ade6a6a69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c9cff78_d3ffe70e",
@@ -88,6 +166,30 @@
       "writtenOn": "2023-11-15T00:43:28Z",
       "side": 1,
       "message": "Why is `computeCallSiteScore` returning values, if they\u0027re only going to be stored back into `cs`? Can it stores those values itself?\n\nWould it make sense as a method instead (e.g., `cs.computeScore(cprops)`)?",
+      "range": {
+        "startLine": 602,
+        "startChar": 2,
+        "endLine": 602,
+        "endChar": 59
+      },
+      "revId": "9f57664e4180ff87cb29ddc73fee203ade6a6a69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d37829_7002f8c4",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T16:43:06Z",
+      "side": 1,
+      "message": "That does indeed seem reasonable. Done.",
+      "parentUuid": "2c9cff78_d3ffe70e",
       "range": {
         "startLine": 602,
         "startChar": 2,
