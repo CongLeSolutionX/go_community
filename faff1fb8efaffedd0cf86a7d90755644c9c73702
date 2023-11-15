@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d233aa6_e23e53c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2023-11-15T16:03:43Z",
+      "side": 1,
+      "message": "@dmitshur@golang.org the failing 386 and WASM builds are now truly fixed and have been tested on 386 (I missed bytealg.Cutoved was not implemented). Would you be able to kick off the test run again? And thank you for your patience.",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
