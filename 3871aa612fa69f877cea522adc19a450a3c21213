@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d63e776c_b05099b4",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T17:23:47Z",
+      "side": 1,
+      "message": "I think you are right, the more I look at this the clunkier it seems.\n\nProposal: I\u0027ll get rid of the JSON entirely and just add an option that allows you to pick out adjustments by name and update their score deltas. Example:\n\ngo build -gcflags\u003d-d\u003dinlscoreadj\u003dpanicPathAdj:10+passConstToNestedIfAdj\u003d-90\n\nLet me know if that sounds better.",
+      "parentUuid": "1df93c85_6f55a2f2",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 74,
+        "endChar": 11
+      },
+      "revId": "3871aa612fa69f877cea522adc19a450a3c21213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec36d309_beaa59d3",
         "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
         "patchSetId": 10
@@ -54,6 +78,30 @@
       "writtenOn": "2023-11-15T00:30:50Z",
       "side": 1,
       "message": "nit: Within array and slice composite literals, you don\u0027t need to repeat the element type. E.g., []AdjTypeAndScore{{...}, {...}} is fine.",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 16
+      },
+      "revId": "3871aa612fa69f877cea522adc19a450a3c21213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe31b7d0_adc6e809",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T17:23:47Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ec36d309_beaa59d3",
       "range": {
         "startLine": 105,
         "startChar": 2,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "707ecd15_7112dca9",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T17:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "072295e7_ff3786ea",
+      "range": {
+        "startLine": 659,
+        "startChar": 21,
+        "endLine": 659,
+        "endChar": 27
+      },
+      "revId": "3871aa612fa69f877cea522adc19a450a3c21213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5417e0a_95642c92",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-11-15T00:30:50Z",
       "side": 1,
       "message": "Where is the doubling?",
+      "range": {
+        "startLine": 660,
+        "startChar": 25,
+        "endLine": 660,
+        "endChar": 42
+      },
+      "revId": "3871aa612fa69f877cea522adc19a450a3c21213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ce7e54_ac43447a",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T17:23:47Z",
+      "side": 1,
+      "message": "The value we return is going to get added to inlineMaxBudget, so in the normal (non-PGO) case by returning maxBudget we\u0027ll effectively double the budget. I\u0027ll adjust the comments.",
+      "parentUuid": "b5417e0a_95642c92",
       "range": {
         "startLine": 660,
         "startChar": 25,
