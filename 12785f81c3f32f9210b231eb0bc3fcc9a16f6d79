@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81ddcdd_c533e3dc",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62743f44_2794253b",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82b41a57_233e3ae0",
@@ -140,6 +158,24 @@
       "side": 1,
       "message": "Yeah, I\u0027d agree the extra 2 bytes to spell out \"mem\" is worth the extra clarity so someone doesn\u0027t waste time thinking it\u0027s a mutex profile or something.",
       "parentUuid": "1e3c9676_156ae400",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "574f15fd_9c0b6a25",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:21:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c62f5b64_565bc99e",
       "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
