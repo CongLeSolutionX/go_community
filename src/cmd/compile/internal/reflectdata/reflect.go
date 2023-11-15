@@ -673,8 +673,10 @@ func dcommontype(c rttype.Cursor, t *types.Type) {
 		sptr = writeType(tptr)
 	}
 
-	gcsym, useGCProg, ptrdata := dgcsym(t, true)
-	delete(gcsymset, t)
+	gcsym, useGCProg, ptrdata := dgcsym(t, true, true)
+	if !useGCProg {
+		delete(gcsymset, t)
+	}
 
 	// ../../../../reflect/type.go:/^type.rtype
 	// actual type structure
@@ -1284,7 +1286,7 @@ func WriteGCSymbols() {
 	}
 	sort.Sort(typesByString(gcsyms))
 	for _, ts := range gcsyms {
-		dgcsym(ts.t, true)
+		dgcsym(ts.t, true, false)
 	}
 }
 
@@ -1498,12 +1500,45 @@ func (a typesByString) Less(i, j int) bool {
 }
 func (a typesByString) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
-// GCSym returns a data symbol containing GC information for type t, along
-// with a boolean reporting whether the UseGCProg bit should be set in the
-// type kind, and the ptrdata field to record in the reflect type information.
+// maxPtrmaskBytes is the maximum length of a GC ptrmask bitmap,
+// which holds 1-bit entries describing where pointers are in a given type.
+// Above this length, the GC information is recorded as a GC program,
+// which can express repetition compactly. In either form, the
+// information is used by the runtime to initialize the heap bitmap,
+// and for large types (like 128 or more words), they are roughly the
+// same speed. GC programs are never much larger and often more
+// compact. (If large arrays are involved, they can be arbitrarily
+// more compact.)
+//
+// The cutoff must be large enough that any allocation large enough to
+// use a GC program is large enough that it does not share heap bitmap
+// bytes with any other objects, allowing the GC program execution to
+// assume an aligned start and not use atomic operations. In the current
+// runtime, this means all malloc size classes larger than the cutoff must
+// be multiples of four words. On 32-bit systems that's 16 bytes, and
+// all size classes >= 16 bytes are 16-byte aligned, so no real constraint.
+// On 64-bit systems, that's 32 bytes, and 32-byte alignment is guaranteed
+// for size classes >= 256 bytes. On a 64-bit system, 256 bytes allocated
+// is 32 pointers, the bits for which fit in 4 bytes. So maxPtrmaskBytes
+// must be >= 4.
+//
+// We used to use 16 because the GC programs do have some constant overhead
+// to get started, and processing 128 pointers seems to be enough to
+// amortize that overhead well.
+//
+// To make sure that the runtime's chansend can call typeBitsBulkBarrier,
+// we raised the limit to 2048, so that even 32-bit systems are guaranteed to
+// use bitmaps for objects up to 64 kB in size.
+//
+// Also known to reflect/type.go.
+const maxPtrmaskBytes = 2048
+const MaxPtrmaskBits = 8 * maxPtrmaskBytes
+
+// GCSym returns a data symbol containing GC information for type t.
+// GC information is always a bitmask, never a gc program.
 // GCSym may be called in concurrent backend, so it does not emit the symbol
 // content.
-func GCSym(t *types.Type) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
+func GCSym(t *types.Type) (lsym *obj.LSym, ptrdata int64) {
 	// Record that we need to emit the GC symbol.
 	gcsymmu.Lock()
 	if _, ok := gcsymset[t]; !ok {
@@ -1511,16 +1546,17 @@ func GCSym(t *types.Type) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
 	}
 	gcsymmu.Unlock()
 
-	return dgcsym(t, false)
+	lsym, _, ptrdata = dgcsym(t, false, false)
+	return
 }
 
 // dgcsym returns a data symbol containing GC information for type t, along
 // with a boolean reporting whether the UseGCProg bit should be set in the
 // type kind, and the ptrdata field to record in the reflect type information.
 // When write is true, it writes the symbol data.
-func dgcsym(t *types.Type, write bool) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
+func dgcsym(t *types.Type, write, gcProgAllowed bool) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
 	ptrdata = types.PtrDataSize(t)
-	if ptrdata/int64(types.PtrSize) <= abi.MaxPtrmaskBytes*8 {
+	if !gcProgAllowed || ptrdata/int64(types.PtrSize) <= abi.MaxPtrmaskBytes*8 {
 		lsym = dgcptrmask(t, write)
 		return
 	}
