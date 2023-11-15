@@ -16,6 +16,24 @@
       "message": "Is this a simple reversion of a prior CL? It\u0027s all news to me (no surprise there). But if it is a reversion, it should be built as one. It not, that\u0027s OK but please clarify in the description a bit more.\n\nAll that aside, doing this on the release branch seems odd to me, and also I know less than nothing about Windows file names in the modern era, so I\u0027m adding Ian who can then figure out who really should review it (not me).",
       "revId": "69ca90e2f9c32c30f198f412dfb5a6397f687fa0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3538062f_d8320b0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30659
+      },
+      "writtenOn": "2023-11-15T10:20:35Z",
+      "side": 1,
+      "message": "\u003e Is this a simple reversion of a prior CL? It\u0027s all news to me (no surprise there). But if it is a reversion, it should be built as one. It not, that\u0027s OK but please clarify in the description a bit more.\n\nIt\u0027s a cherry-pick of eda42f7c60adab26ed1a340414c726c4bf46b1f7 (CL 541175), which fixes a regression that was introduced in the latest (1.20.11 and 1.21.4) patch/security releases. Unfortunately, that regression prevents some major projects (containerd, moby (docker engine), and likely others) from updating, making them potentially vulnerable to the CVE\u0027s fixed in those releases.\n\n\n\u003e It not, that\u0027s OK but please clarify in the description a bit more.\n\nAs it\u0027s a cherry-pick, I kept the commit message from the original (baring updating \"fixes\" / \"updates\" references), but I\u0027m not deeply familiar with procedures here; if it\u0027s common to update commit messages for backports, then I\u0027m happy to amend the commit message to add more details.\n\n\u003e I know less than nothing about Windows file names in the modern era\n\nNo worries; neither am I. I asked people at Microsoft to review / verify the original patch, and they confirmed the patch fixed the regression we saw, but consider me just \"the messenger\" there. A backport was requested for the active release branches, and I these backports in an attempt to speed-up the process, hoping to see new patch releases soon so that the projects I\u0027m maintaining (containerd, docker) can update :)\n\n\u003e so I\u0027m adding Ian who can then figure out who really should review it (not me).\n\nThanks!",
+      "parentUuid": "4391016c_3f4afbc7",
+      "revId": "69ca90e2f9c32c30f198f412dfb5a6397f687fa0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
