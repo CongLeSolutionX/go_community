@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9adab66_2b71f57e",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "nit: `useNewInliner()`?\n\naside: I\u0027d suggest naming it `inlheur.Enabled()` instead.",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 53
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a1030a_d218016f",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "It would be good to have a comment here or on `fpmap` that mentions it will be `nil` after TearDown has been called, and when that happens.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 2
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bda9a5f_31711f29",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "ir.Any doesn\u0027t recurse into closure bodies. Is that an issue here?\n\nIf not, I\u0027d clarify to \"directly contains\", and explain why we don\u0027t care about transitively contained closures.\n\nIf we do need the full list, clarify to \"contains (incl. transitively)\" and use ir.VisitFuncAndClosures. (Also, you\u0027re not actually using \"Any\"\u0027s short-circuiting functionality, so \"ir.Visit\" or \"ir.VisitList\" would be simpler.)",
+      "range": {
+        "startLine": 80,
+        "startChar": 40,
+        "endLine": 80,
+        "endChar": 64
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1f86d1c_b41072e5",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "nit: \"clo\"",
+      "range": {
+        "startLine": 85,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 6
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3eb469_d4a51b2f",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "nit: Please use the standard pattern for iterating slices in reverse order:\n\n```\nfor i :\u003d len(funcs) - 1; i \u003e\u003d 0; i-- {\n  fn :\u003d funcs[i]\n  ...\n}\n```",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 22
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90381245_2ded3bed",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "Should other global variables be cleared out too?",
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "659cc236_c701469e",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "Preexisting, but \"maxAdjust\" or \"maxAdj\" (since \"adj\" is a very common abbreviation) would be fine.",
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6720bb_9f8b5038",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "VisitFuncAndClosures?",
+      "range": {
+        "startLine": 227,
+        "startChar": 5,
+        "endLine": 227,
+        "endChar": 10
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afbdc041_d0470ce5",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_params.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "Why wait until here to check `fn.Inl \u003d\u003d nil`? Why not check it at L57?",
+      "range": {
+        "startLine": 90,
+        "startChar": 29,
+        "endLine": 90,
+        "endChar": 42
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b6a27d_484efd4a",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_returns.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T01:18:41Z",
+      "side": 1,
+      "message": "Again, why wait until here?\n\nEither way, please structure the logic the same way in both functions. (The other function was restructured to avoid needing an \"else\" block, which is more idiomatic Go.)",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 41
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
