@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91a3ff38_a1b83fb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:36:23Z",
+      "side": 1,
+      "message": "A compressed pointer is an encoding of pointers in a 32G address space, where any pointers to 8-byte-aligned things have their representation shifted right by 3 bits, and are stored in 32 bits.  Java uses this for all pointers because all Java referents are 8-byte-aligned; for Go we need to make this encoding depend on the pointer type (but we can, at least in theory).",
+      "parentUuid": "91ed46d0_d714d802",
+      "range": {
+        "startLine": 21,
+        "startChar": 35,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36ba7773_33d14aec",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -78,6 +102,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03631257_686dc00e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:36:23Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure that this is going to be worth the effort to submit it -- as you note, it is brittle.",
+      "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c560acbf_37c1a64e",
@@ -91,6 +132,30 @@
       "writtenOn": "2023-11-15T20:32:43Z",
       "side": 1,
       "message": "Seems like users are going to get these mixed up frequently.",
+      "range": {
+        "startLine": 732,
+        "startChar": 0,
+        "endLine": 735,
+        "endChar": 12
+      },
+      "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df6ef516_7de6df9c",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:36:23Z",
+      "side": 1,
+      "message": "Users are not supposed to be eyeballing these too often.  They look like \"{{QS{s88}44}QQQSS1QQQS{SS}{44}QQQ8Q81Q}\", and that string is in turn embedded in JSON.  A tool is supposed to do most of the viewing.",
+      "parentUuid": "c560acbf_37c1a64e",
       "range": {
         "startLine": 732,
         "startChar": 0,
@@ -120,6 +185,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ecabb9c3_0b7eb2a7",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:36:23Z",
+      "side": 1,
+      "message": "Maybe? This is more of an optimization planning/debugging tool, and fmt.go would need to be aware of the pointer size in order to get P and Q right.",
+      "parentUuid": "e9072477_671aefb3",
+      "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "363ad643_0137cdd4",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 4
@@ -131,6 +214,24 @@
       "writtenOn": "2023-11-15T20:32:43Z",
       "side": 1,
       "message": "This seems really brittle. When we add/rename/remove runtime builtins, how do we remember to update this switch statement?\n\nAlso, do we really need to hardcode all of the string encodings here (e.g., `\"1\"` for slicebytetostring, `\"2\"` for convT16, etc)? That again seems needlessly brittle, if we want to tweak the shape description format. I\u0027d lean towards just populating `mt` in every case if we really need to do this.\n\nE.g., why is \"stringtoslicebyte\" reporting \"1\" (1-byte scalar) rather than \"S\" (for slice)?",
+      "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f064ca74_2319a1a9",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5436,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:36:23Z",
+      "side": 1,
+      "message": "stringtoslicebyte is \"1\" because it allocates (a slice of) bytes.\n\nThe way we remember to update the builtins is the same way that I found them in the first place -- I run the compiler, collecting this information and a memory profile, and then I run the tool that combines those, and then I look at all the places in the profile that lack a type layout description.  I figure out what was going on, how to recognize that in ssagen, and then code that up.",
+      "parentUuid": "363ad643_0137cdd4",
       "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
