@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a23bff5b_f1ce0882",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T21:14:24Z",
+      "side": 1,
+      "message": "Ah, right. Maybe \";\" or \"/\" then?\n\nI\u0027m not too attached to any specific separator, just not \"+\" 😊. Really it\u0027s just that \"10+\" from your original example jumped out to me as addition at first, whereas the \"+\" is actually just a delimiter between adjustment entries.\n\nFWIW, SSA uses \"ssa/\" as a prefix for the debug keys; e.g., \"-d\u003dssa/foo\u003dbar\". So \"-d\u003dinl/fooadj\u003d314,inl/baradj\u003d271\" could be another option, albeit slightly wordier.",
+      "parentUuid": "3a6c0563_58a4171f",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 74,
+        "endChar": 11
+      },
+      "revId": "3871aa612fa69f877cea522adc19a450a3c21213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec36d309_beaa59d3",
         "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
         "patchSetId": 10
