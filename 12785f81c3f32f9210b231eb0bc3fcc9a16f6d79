@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c43a4714_d9058320",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T20:42:11Z",
+      "side": 1,
+      "message": "There are no subdirectories -- that\u0027s what url.PathEscape does for you, which means that it\u0027s simple \"somedir/*.mprof\" to reference all of them, rather than back-ticked find command.\n\nI thought about that, for some reason thought it might not be \"safe\", but given all the other files a user can specify, it ought to be fine.",
+      "parentUuid": "1140cef5_5ccabb8a",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82b41a57_233e3ae0",
         "filename": "src/cmd/compile/internal/gc/util.go",
         "patchSetId": 1
@@ -68,6 +86,24 @@
       "writtenOn": "2023-11-15T20:17:54Z",
       "side": 1,
       "message": "nit: \"cpuprof\"?",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e3c9676_156ae400",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T20:42:11Z",
+      "side": 1,
+      "message": "I could, and seems like it would be less ambiguous.  Do you think \".mprof\" should be \".memprof\"?  (I think the answer is yes-that-would-be-less-ambiguous)",
+      "parentUuid": "82b41a57_233e3ae0",
       "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b452169_cdbafb7b",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T20:42:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9567e13f_79ec935b",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4686d9c6_40d35d74",
@@ -102,6 +156,24 @@
       "writtenOn": "2023-11-15T20:17:54Z",
       "side": 1,
       "message": "nit: \"mu\" is a common enough abbreviation for mutex, but \"mutexprof\" might be slightly clearer still.",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ffa79ad_c72afadb",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T20:42:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4686d9c6_40d35d74",
       "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
