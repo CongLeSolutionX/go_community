@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24ee4f82_c86930b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-15T22:42:24Z",
+      "side": 1,
+      "message": "Can this CL be merged into go1.22? I want to be able to merge to resolve the test failure on my computer. Need to Freeze Exceptions?",
+      "revId": "8ed4eb7a3b396c77a4b4b1712ccfb1f858404e72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
