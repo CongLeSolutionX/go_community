@@ -594,11 +594,11 @@ func nameLess(ci, cj *ir.Name) bool {
 	var ilsym, jlsym *obj.LSym
 	if ci.Type().HasPointers() {
 		ihp = 1
-		ilsym, _, _ = reflectdata.GCSym(ci.Type())
+		ilsym, _ = reflectdata.GCSym(ci.Type())
 	}
 	if cj.Type().HasPointers() {
 		jhp = 1
-		jlsym, _, _ = reflectdata.GCSym(cj.Type())
+		jlsym, _ = reflectdata.GCSym(cj.Type())
 	}
 	if ihp != jhp {
 		return ihp < jhp
@@ -636,8 +636,8 @@ func nextRegion(cands []*ir.Name, idx int) int {
 				return j - 1
 			}
 			// GC shape must match if both types have pointers.
-			gcsym0, _, _ := reflectdata.GCSym(c0.Type())
-			gcsymj, _, _ := reflectdata.GCSym(cj.Type())
+			gcsym0, _ := reflectdata.GCSym(c0.Type())
+			gcsymj, _ := reflectdata.GCSym(cj.Type())
 			if gcsym0 != gcsymj {
 				return j - 1
 			}

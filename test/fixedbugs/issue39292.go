@@ -27,3 +27,14 @@ func z() {
 	z := t{&i}.f // ERROR "t{...}.f escapes to heap"
 	z()
 }
+
+// Test that objects that are too large get allocated on the heap.
+// Note that 2048 is internal/abi.MaxPtrmaskBytes
+const ptrBytes = 4 << (^uintptr(0) >> 63)
+const maxStack = 2048 * 8 * ptrBytes
+
+func w(i int) byte {
+	var x [maxStack]byte
+	var y [maxStack + 1]byte // ERROR "moved to heap: y"
+	return x[i] + y[i]
+}
