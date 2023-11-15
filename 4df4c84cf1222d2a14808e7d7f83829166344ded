@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd151d7_d0c7e8a7",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-15T16:58:20Z",
+      "side": 1,
+      "message": "In the places this function is called it seems we can have type information. Maybe consider pass that in. (Not necessarily for this CL.)",
+      "revId": "4df4c84cf1222d2a14808e7d7f83829166344ded",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78c1fb9d_f5595aeb",
+        "filename": "src/runtime/mbitmap_allocheaders.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-15T16:58:20Z",
+      "side": 1,
+      "message": "Maybe also nowritebarrierrec?",
+      "revId": "4df4c84cf1222d2a14808e7d7f83829166344ded",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23fc24e8_93bfc6db",
+        "filename": "src/runtime/mbitmap_allocheaders.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-15T16:58:20Z",
+      "side": 1,
+      "message": "Maybe document the `typ` parameter. (In particular, it can be the type of dst and src, or an array element type.)",
+      "revId": "4df4c84cf1222d2a14808e7d7f83829166344ded",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
