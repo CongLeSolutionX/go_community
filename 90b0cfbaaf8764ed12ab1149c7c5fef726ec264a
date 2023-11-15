@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "490e2bb1_c32bc184",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-15T16:32:58Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "ff82cd17_0ce068f0",
+      "revId": "90b0cfbaaf8764ed12ab1149c7c5fef726ec264a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a8fafc80_c5c8b853",
         "filename": "src/slices/slices_test.go",
         "patchSetId": 2
