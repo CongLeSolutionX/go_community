@@ -244,42 +244,13 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 	// If not, the reason is already recorded in buildGcflags.
 	fmt.Fprintf(h, "compile\n")
 
-	// Include information about the origin of the package that
-	// may be embedded in the debug info for the object file.
-	if cfg.BuildTrimpath {
-		// When -trimpath is used with a package built from the module cache,
-		// its debug information refers to the module path and version
-		// instead of the directory.
-		if p.Module != nil {
-			fmt.Fprintf(h, "module %s@%s\n", p.Module.Path, p.Module.Version)
-		}
-	} else if p.Goroot {
-		// The Go compiler always hides the exact value of $GOROOT
-		// when building things in GOROOT.
-		//
-		// The C compiler does not, but for packages in GOROOT we rewrite the path
-		// as though -trimpath were set, so that we don't invalidate the build cache
-		// (and especially any precompiled C archive files) when changing
-		// GOROOT_FINAL. (See https://go.dev/issue/50183.)
-		//
-		// b.WorkDir is always either trimmed or rewritten to
-		// the literal string "/tmp/go-build".
-	} else if !strings.HasPrefix(p.Dir, b.WorkDir) {
-		// -trimpath is not set and no other rewrite rules apply,
-		// so the object file may refer to the absolute directory
-		// containing the package.
-		fmt.Fprintf(h, "dir %s\n", p.Dir)
-	}
-
 	if p.Module != nil {
+		fmt.Fprintf(h, "module %s@%s\n", p.Module.Path, p.Module.Version)
 		fmt.Fprintf(h, "go %s\n", p.Module.GoVersion)
 	}
 	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
 	fmt.Fprintf(h, "import %q\n", p.ImportPath)
 	fmt.Fprintf(h, "omitdebug %v standard %v local %v prefix %q\n", p.Internal.OmitDebug, p.Standard, p.Internal.Local, p.Internal.LocalPrefix)
-	if cfg.BuildTrimpath {
-		fmt.Fprintln(h, "trimpath")
-	}
 	if p.Internal.ForceLibrary {
 		fmt.Fprintf(h, "forcelibrary\n")
 	}
@@ -319,7 +290,7 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 		}
 	}
 	if p.Internal.BuildInfo != nil {
-		fmt.Fprintf(h, "modinfo %q\n", p.Internal.BuildInfo.String())
+		fmt.Fprintf(h, "modinfo %q\n", p.Internal.BuildInfo.StringExcludeSettings([]string{"-trimpath", "CGO_CFLAGS", "CGO_CPPFLAGS", "CGO_CXXFLAGS", "CGO_LDFLAGS"}...))
 	}
 
 	// Configuration specific to compiler toolchain.

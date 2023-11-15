@@ -7,11 +7,26 @@ mkdir $GOCACHE
 
 cd $WORK
 go build -o a.out
+go tool buildid a.out
+cp stdout a-buildid.txt
+exec awk -F/ '{print $2}' a-buildid.txt
+cp stdout a-actionid.txt
+exec awk -F/ '{print $3}' a-buildid.txt
+cp stdout a-contentid.txt
 
-# Varying -trimpath should cause a rebuild.
+# https://github.com/golang/go/issues/57346
+# Check that the object files don't depend on the -trimpath flag
 go build -x -o a.out -trimpath
-stderr '(compile|gccgo)( |\.exe)'
+! stderr '(compile|gccgo)( |\.exe)'
 stderr 'link( |\.exe)'
+go tool buildid a.out
+cp stdout b-buildid.txt
+exec awk -F/ '{print $2}' b-buildid.txt
+cp stdout b-actionid.txt
+exec awk -F/ '{print $3}' b-buildid.txt
+cp stdout b-contentid.txt
+cmp a-actionid.txt b-actionid.txt
+cmp a-contentid.txt b-contentid.txt
 
 # Two distinct versions of the same module with identical content should
 # still be cached separately.

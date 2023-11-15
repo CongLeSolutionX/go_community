@@ -102,6 +102,10 @@ func quoteValue(value string) bool {
 }
 
 func (bi *BuildInfo) String() string {
+	return bi.StringExcludeSettings()
+}
+
+func (bi *BuildInfo) StringExcludeSettings(excludedSettings ...string) string {
 	buf := new(strings.Builder)
 	if bi.GoVersion != "" {
 		fmt.Fprintf(buf, "go\t%s\n", bi.GoVersion)
@@ -131,7 +135,14 @@ func (bi *BuildInfo) String() string {
 	for _, dep := range bi.Deps {
 		formatMod("dep", *dep)
 	}
+Outer:
 	for _, s := range bi.Settings {
+		for _, es := range excludedSettings {
+			if s.Key == es {
+				continue Outer
+			}
+		}
+
 		key := s.Key
 		if quoteKey(key) {
 			key = strconv.Quote(key)
