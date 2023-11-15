@@ -679,8 +679,10 @@ func dcommontype(c rttype.Cursor, t *types.Type) {
 		sptr = writeType(tptr)
 	}
 
-	gcsym, useGCProg, ptrdata := dgcsym(t, true)
-	delete(gcsymset, t)
+	gcsym, useGCProg, ptrdata := dgcsym(t, true, true)
+	if !useGCProg {
+		delete(gcsymset, t)
+	}
 
 	// ../../../../reflect/type.go:/^type.rtype
 	// actual type structure
@@ -1290,7 +1292,7 @@ func WriteGCSymbols() {
 	}
 	sort.Sort(typesByString(gcsyms))
 	for _, ts := range gcsyms {
-		dgcsym(ts.t, true)
+		dgcsym(ts.t, true, false)
 	}
 }
 
@@ -1531,13 +1533,13 @@ func (a typesByString) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 //
 // Also known to reflect/type.go.
 const maxPtrmaskBytes = 2048
+const MaxPtrmaskBits = 8 * maxPtrmaskBytes
 
-// GCSym returns a data symbol containing GC information for type t, along
-// with a boolean reporting whether the UseGCProg bit should be set in the
-// type kind, and the ptrdata field to record in the reflect type information.
+// GCSym returns a data symbol containing GC information for type t.
+// GC information is always a bitmask, never a gc program.
 // GCSym may be called in concurrent backend, so it does not emit the symbol
 // content.
-func GCSym(t *types.Type) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
+func GCSym(t *types.Type) (lsym *obj.LSym, ptrdata int64) {
 	// Record that we need to emit the GC symbol.
 	gcsymmu.Lock()
 	if _, ok := gcsymset[t]; !ok {
@@ -1545,16 +1547,17 @@ func GCSym(t *types.Type) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
 	}
 	gcsymmu.Unlock()
 
-	return dgcsym(t, false)
+	lsym, _, ptrdata = dgcsym(t, false, false)
+	return
 }
 
 // dgcsym returns a data symbol containing GC information for type t, along
 // with a boolean reporting whether the UseGCProg bit should be set in the
 // type kind, and the ptrdata field to record in the reflect type information.
 // When write is true, it writes the symbol data.
-func dgcsym(t *types.Type, write bool) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
+func dgcsym(t *types.Type, write, gcProgAllowed bool) (lsym *obj.LSym, useGCProg bool, ptrdata int64) {
 	ptrdata = types.PtrDataSize(t)
-	if ptrdata/int64(types.PtrSize) <= maxPtrmaskBytes*8 {
+	if !gcProgAllowed || ptrdata/int64(types.PtrSize) <= maxPtrmaskBytes*8 {
 		lsym = dgcptrmask(t, write)
 		return
 	}
