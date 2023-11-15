@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62743f44_2794253b",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T20:49:09Z",
+      "side": 1,
+      "message": "Ah, I missed that url.PathEscape would have that effect. Yeah, that sounds fine then, and I agree that simplifying the globbing seems worthwhile.",
+      "parentUuid": "c43a4714_d9058320",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82b41a57_233e3ae0",
         "filename": "src/cmd/compile/internal/gc/util.go",
         "patchSetId": 1
@@ -104,6 +122,24 @@
       "side": 1,
       "message": "I could, and seems like it would be less ambiguous.  Do you think \".mprof\" should be \".memprof\"?  (I think the answer is yes-that-would-be-less-ambiguous)",
       "parentUuid": "82b41a57_233e3ae0",
+      "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c62f5b64_565bc99e",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T20:49:09Z",
+      "side": 1,
+      "message": "Yeah, I\u0027d agree the extra 2 bytes to spell out \"mem\" is worth the extra clarity so someone doesn\u0027t waste time thinking it\u0027s a mutex profile or something.",
+      "parentUuid": "1e3c9676_156ae400",
       "revId": "12785f81c3f32f9210b231eb0bc3fcc9a16f6d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
