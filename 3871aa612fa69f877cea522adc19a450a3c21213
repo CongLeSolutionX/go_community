@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a6c0563_58a4171f",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T21:07:15Z",
+      "side": 1,
+      "message": "I can prototype that but I would worry that it would collide with the use of \",\" as a separator for \"-d\" options. E.g. for\n\n -d\u003dwrapglobalmapctl\u003d1,inlscoreadj\u003dpanicPathAdj:10,passConstToNestedIfAdj\u003d-90\n \nThe second \",\" would look like a \"-d\" arg separator.",
+      "parentUuid": "e61bdc7b_56fc9956",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 74,
+        "endChar": 11
+      },
+      "revId": "3871aa612fa69f877cea522adc19a450a3c21213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec36d309_beaa59d3",
         "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
         "patchSetId": 10
