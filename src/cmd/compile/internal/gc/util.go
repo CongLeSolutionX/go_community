@@ -15,9 +15,17 @@ import (
 	"cmd/compile/internal/base"
 )
 
+func profileName(fn, suffix string) string {
+	if fi, statErr := os.Stat(fn); statErr == nil && fi.IsDir() {
+		fn = filepath.Join(fn, url.PathEscape(base.Ctxt.Pkgpath)+suffix)
+	}
+	return fn
+}
+
 func startProfile() {
 	if base.Flag.CPUProfile != "" {
-		f, err := os.Create(base.Flag.CPUProfile)
+		fn := profileName(base.Flag.CPUProfile, ".prof")
+		f, err := os.Create(fn)
 		if err != nil {
 			base.Fatalf("%v", err)
 		}
@@ -62,7 +70,7 @@ func startProfile() {
 		runtime.MemProfileRate = 0
 	}
 	if base.Flag.BlockProfile != "" {
-		f, err := os.Create(base.Flag.BlockProfile)
+		f, err := os.Create(profileName(base.Flag.BlockProfile, ".bprof"))
 		if err != nil {
 			base.Fatalf("%v", err)
 		}
@@ -73,7 +81,7 @@ func startProfile() {
 		})
 	}
 	if base.Flag.MutexProfile != "" {
-		f, err := os.Create(base.Flag.MutexProfile)
+		f, err := os.Create(profileName(base.Flag.MutexProfile, ".muprof"))
 		if err != nil {
 			base.Fatalf("%v", err)
 		}
@@ -84,7 +92,7 @@ func startProfile() {
 		})
 	}
 	if base.Flag.TraceProfile != "" {
-		f, err := os.Create(base.Flag.TraceProfile)
+		f, err := os.Create(profileName(base.Flag.TraceProfile, ".trace"))
 		if err != nil {
 			base.Fatalf("%v", err)
 		}
