@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38ec276f_1ac4b3e2",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-15T15:20:26Z",
+      "side": 1,
+      "message": "get, done.\n\nother\n\ntricium execution failed, I don\u0027t know why",
+      "parentUuid": "3f9d26f1_39a3a540",
+      "range": {
+        "startLine": 346,
+        "startChar": 0,
+        "endLine": 348,
+        "endChar": 3
+      },
+      "revId": "4c0a6ae7a6c0e2b7ace7c4093d1e40ad5167a91c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2de626a9_8f228aa9",
