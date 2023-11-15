@@ -219,6 +219,24 @@
       "parentUuid": "15f145ec_0d5964c9",
       "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d0cd0a9_a7f072ba",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 66353
+      },
+      "writtenOn": "2023-11-15T05:31:34Z",
+      "side": 1,
+      "message": "OK, I will close this CL. Thanks for your comment and suggestion.",
+      "parentUuid": "1642aa23_62878147",
+      "revId": "062b2a838a9aa112b02cfb7c09c5b30e72a2270d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
