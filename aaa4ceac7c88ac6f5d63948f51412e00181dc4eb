@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a5983ce_929d8971",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2288,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-15T20:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd895852_a3b02325",
+      "range": {
+        "startLine": 2288,
+        "startChar": 4,
+        "endLine": 2288,
+        "endChar": 69
+      },
+      "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1b5c7f9_d8b69108",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-15T16:48:14Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95cfe887_f948d3bd",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-15T20:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b5c7f9_d8b69108",
       "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c88c50cf_dfa0dcdd",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-15T20:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a815ac38_0598079a",
+      "range": {
+        "startLine": 126,
+        "startChar": 11,
+        "endLine": 126,
+        "endChar": 98
+      },
+      "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "791d9516_68e4d221",
@@ -77,6 +143,24 @@
       "writtenOn": "2023-11-15T16:48:14Z",
       "side": 1,
       "message": "I would reorganize this to strip the option off first, then run the old code.\n\nfloatSpecified :\u003d false\nif strings.HasSuffix(v, softFloatOpt) {\n    g.SoftFloat \u003d true\n    floatSpecified \u003d true\n    v \u003d v[:len(v)-len(softFloatOpt)]\n}\n... same for hard ...\n\nThen do the old code. Then do:\n\n// 5 defaults to softfloat. 6 and 7 default to hardfloat.\nif !floatSpecified \u0026\u0026 g.Version \u003d\u003d 5 {\n    g.SoftFloat \u003d true\n}",
+      "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30bdd34f_fe965bab",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-15T20:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "791d9516_68e4d221",
       "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -104,6 +188,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89666656_26471e32",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-15T20:04:21Z",
+      "side": 1,
+      "message": "Done\nI also removed the `if goarm \u003e 5` statement, since `goarm \u003d 5` no longer implies soft float.",
+      "parentUuid": "bdb0ac30_1689f5fa",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 69
+      },
+      "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a2772a3_afef3c31",
@@ -121,6 +229,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "151ad9ee_88d02fed",
+        "filename": "src/runtime/os_freebsd_arm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-15T20:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a2772a3_afef3c31",
+      "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c18f0ed1_7a166e4c",
@@ -134,6 +260,24 @@
       "writtenOn": "2023-11-15T16:48:14Z",
       "side": 1,
       "message": "Similar here.",
+      "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67db72fa_b3d3771d",
+        "filename": "src/runtime/os_linux_arm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-15T20:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c18f0ed1_7a166e4c",
       "revId": "aaa4ceac7c88ac6f5d63948f51412e00181dc4eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
