@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "698f0580_ed8f2b93",
+        "filename": "src/runtime/mbitmap_allocheaders.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-15T18:48:38Z",
+      "side": 1,
+      "message": "\u003e but shouldn\u0027t that requirement already be propagated down from its callers?\n\nYeah, you\u0027re right.",
+      "parentUuid": "a5f3a8ca_4346bb4e",
+      "revId": "4df4c84cf1222d2a14808e7d7f83829166344ded",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23fc24e8_93bfc6db",
