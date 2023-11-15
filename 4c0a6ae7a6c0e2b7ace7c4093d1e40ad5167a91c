@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f9d26f1_39a3a540",
+        "filename": "src/internal/zstd/zstd.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-15T14:51:51Z",
+      "side": 1,
+      "message": "At this return the file descriptor will still be at the end of file.\n\nSo I think we either need to update `r.blockOffset` to match, or `Seek` back to `prev` before returning — that way, the internal state will still be consistent (and the correct offsets will be reported) if a caller accidentally drops the error and makes another call.",
+      "parentUuid": "47930346_73244825",
+      "range": {
+        "startLine": 346,
+        "startChar": 0,
+        "endLine": 348,
+        "endChar": 3
+      },
+      "revId": "4c0a6ae7a6c0e2b7ace7c4093d1e40ad5167a91c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2de626a9_8f228aa9",
         "filename": "src/internal/zstd/zstd_test.go",
         "patchSetId": 2
