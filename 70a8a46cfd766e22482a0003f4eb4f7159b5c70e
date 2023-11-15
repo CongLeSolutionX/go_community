@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52f5697d_498496db",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-11-15T00:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "614aadc9_18208eba",
+      "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ec0f39d_d0ef33e0",
@@ -58,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60e5d209_f78a811d",
+        "filename": "src/sync/oncefunc_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-11-15T00:57:01Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7ec0f39d_d0ef33e0",
+      "range": {
+        "startLine": 187,
+        "startChar": 13,
+        "endLine": 187,
+        "endChar": 16
+      },
+      "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aca886c_155f6210",
@@ -71,6 +113,24 @@
       "writtenOn": "2023-11-08T20:03:48Z",
       "side": 1,
       "message": "Just to make sure I understand, sentinel is just an optimization so we can do a channel wait before going into the busy loop, right? Probably worth a comment explaining this.",
+      "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7038f36f_e924bd64",
+        "filename": "src/sync/oncefunc_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-11-15T00:57:01Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5aca886c_155f6210",
       "revId": "70a8a46cfd766e22482a0003f4eb4f7159b5c70e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
