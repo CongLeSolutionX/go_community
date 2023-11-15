@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/types"
 	"fmt"
 )
@@ -283,6 +284,12 @@ func (e *escape) newLoc(n ir.Node, persists bool) *location {
 	}
 	if persists {
 		loc.attrs |= attrPersists
+	}
+	if n != nil && n.Op() == ir.ONAME && n.(*ir.Name).Class == ir.PAUTO && n.Type() != nil && n.Type().Size() > reflectdata.MaxPtrmaskBits*int64(types.PtrSize) {
+		// Prevent really large objects from being allocated on the stack.
+		// (This isn't perfect because some stack allocations happen after
+		// escape analysis. But it's worth it to catch the obvious ones.)
+		loc.attrs |= attrEscapes
 	}
 	e.allLocs = append(e.allLocs, loc)
 	if n != nil {
