@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d8ec992_f2ec8977",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9adab66_2b71f57e",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 53
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3a1030a_d218016f",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-15T01:18:41Z",
       "side": 1,
       "message": "It would be good to have a comment here or on `fpmap` that mentions it will be `nil` after TearDown has been called, and when that happens.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 2
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d3f192_664e2070",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3a1030a_d218016f",
       "range": {
         "startLine": 69,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "757fdbc9_f14ca54d",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Ack, yes that is a problem. I\u0027ve revised to use ir.VisitFuncAndClosures.",
+      "parentUuid": "8bda9a5f_31711f29",
+      "range": {
+        "startLine": 80,
+        "startChar": 40,
+        "endLine": 80,
+        "endChar": 64
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1f86d1c_b41072e5",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-11-15T01:18:41Z",
       "side": 1,
       "message": "nit: \"clo\"",
+      "range": {
+        "startLine": 85,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 6
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14034e8_dc7336c7",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1f86d1c_b41072e5",
       "range": {
         "startLine": 85,
         "startChar": 5,
@@ -116,6 +212,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a4d631d_6c2c0690",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e3eb469_d4a51b2f",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 22
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90381245_2ded3bed",
@@ -129,6 +249,24 @@
       "writtenOn": "2023-11-15T01:18:41Z",
       "side": 1,
       "message": "Should other global variables be cleared out too?",
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c82a7b5_2dcab386",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90381245_2ded3bed",
       "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -173,6 +311,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f13ef7_1f0e16ad",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d6720bb_9f8b5038",
+      "range": {
+        "startLine": 227,
+        "startChar": 5,
+        "endLine": 227,
+        "endChar": 10
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afbdc041_d0470ce5",
@@ -196,6 +358,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5df30f8a_405994cc",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_params.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Indeed, fixed. That looks like a leftover from a previous patch.",
+      "parentUuid": "afbdc041_d0470ce5",
+      "range": {
+        "startLine": 90,
+        "startChar": 29,
+        "endLine": 90,
+        "endChar": 42
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0b6a27d_484efd4a",
@@ -209,6 +395,30 @@
       "writtenOn": "2023-11-15T01:18:41Z",
       "side": 1,
       "message": "Again, why wait until here?\n\nEither way, please structure the logic the same way in both functions. (The other function was restructured to avoid needing an \"else\" block, which is more idiomatic Go.)",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 41
+      },
+      "revId": "f87484a60ef9c76b90935b7db432b46072bb6502",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3449f47c_52e1ab20",
+        "filename": "src/cmd/compile/internal/inline/inlheur/analyze_func_returns.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-15T19:17:52Z",
+      "side": 1,
+      "message": "Also fixed.",
+      "parentUuid": "c0b6a27d_484efd4a",
       "range": {
         "startLine": 77,
         "startChar": 28,
