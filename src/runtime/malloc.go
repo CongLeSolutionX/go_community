@@ -1154,7 +1154,6 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			}
 			if goexperiment.AllocHeaders && hasHeader {
 				header = (**_type)(unsafe.Pointer(uintptr(v) + size - mallocHeaderSize))
-				size -= mallocHeaderSize
 			}
 		}
 	} else {
@@ -1222,10 +1221,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	if gcphase != _GCoff {
 		// Pass the full size of the allocation to the number of bytes
 		// marked.
-		//
-		// If !goexperiment.AllocHeaders, "size" doesn't include the
-		// allocation header, so use span.elemsize unconditionally.
-		gcmarknewobject(span, uintptr(x), span.elemsize)
+		gcmarknewobject(span, uintptr(x), size)
 	}
 
 	if raceenabled {
@@ -1242,6 +1238,11 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		// errors when accessing poisoned memory.
 		// The allocated memory is larger than required userSize, it will also include
 		// redzone and some other padding bytes.
+		// Make sure to exclude the allocation header from the redzone.
+		size := size
+		if goexperiment.AllocHeaders && !noscan && !heapBitsInSpan(size) {
+			size -= mallocHeaderSize
+		}
 		rzBeg := unsafe.Add(x, userSize)
 		asanpoison(rzBeg, size-userSize)
 		asanunpoison(x, userSize)
