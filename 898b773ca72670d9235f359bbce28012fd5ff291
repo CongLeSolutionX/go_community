@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cce69a8e_39378d9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-11-15T02:18:58Z",
+      "side": 1,
+      "message": "Is this a simple reversion of a prior CL? It\u0027s all news to me (no surprise there). But if it is a reversion, it should be built as one. It not, that\u0027s OK but please clarify in the description a bit more.\n\nAll that aside, doing this on the release branch seems odd to me, and also I know less than nothing about Windows file names in the modern era, so I\u0027m adding Ian who can then figure out who really should review it (not me).",
+      "revId": "898b773ca72670d9235f359bbce28012fd5ff291",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
