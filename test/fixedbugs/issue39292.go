@@ -27,3 +27,14 @@ func z() {
 	z := t{&i}.f // ERROR "t{...}.f escapes to heap"
 	z()
 }
+
+const ptrSize = 4 << (^uintptr(0) >> 63)
+const maxStack = 2048 * 8 * ptrSize
+
+// Note: 2048 is cmd/compile/internal/reflectdata.maxPtrmaskBytes
+
+func w(i int) byte {
+	var x [maxStack]byte
+	var y [maxStack + 1]byte // ERROR "moved to heap: y"
+	return x[i] + y[i]
+}

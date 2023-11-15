@@ -1457,10 +1457,7 @@ func (lv *liveness) emitStackObjects() *obj.LSym {
 		if sz != int64(int32(sz)) {
 			base.Fatalf("stack object too big: %v of type %v, size %d", v, t, sz)
 		}
-		lsym, useGCProg, ptrdata := reflectdata.GCSym(t)
-		if useGCProg {
-			ptrdata = -ptrdata
-		}
+		lsym, ptrdata := reflectdata.GCSym(t)
 		off = objw.Uint32(x, off, uint32(sz))
 		off = objw.Uint32(x, off, uint32(ptrdata))
 		off = objw.SymPtrOff(x, off, lsym)
