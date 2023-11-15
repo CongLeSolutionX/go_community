@@ -710,19 +710,10 @@ func adjustframe(frame *stkframe, adjinfo *adjustinfo) {
 			}
 			ptrdata := obj.ptrdata()
 			gcdata := obj.gcdata()
-			var s *mspan
-			if obj.useGCProg() {
-				// See comments in mgcmark.go:scanstack
-				s = materializeGCProg(ptrdata, gcdata)
-				gcdata = (*byte)(unsafe.Pointer(s.startAddr))
-			}
 			for i := uintptr(0); i < ptrdata; i += goarch.PtrSize {
 				if *addb(gcdata, i/(8*goarch.PtrSize))>>(i/goarch.PtrSize&7)&1 != 0 {
 					adjustpointer(adjinfo, unsafe.Pointer(p+i))
 				}
-			}
-			if s != nil {
-				dematerializeGCProg(s)
 			}
 		}
 	}
@@ -1274,20 +1265,12 @@ type stackObjectRecord struct {
 	// if non-negative, offset from argp
 	off       int32
 	size      int32
-	_ptrdata  int32  // ptrdata, or -ptrdata is GC prog is used
+	_ptrdata  int32  // prefix of object (in bytes) that contains all pointers
 	gcdataoff uint32 // offset to gcdata from moduledata.rodata
 }
 
-func (r *stackObjectRecord) useGCProg() bool {
-	return r._ptrdata < 0
-}
-
 func (r *stackObjectRecord) ptrdata() uintptr {
-	x := r._ptrdata
-	if x < 0 {
-		return uintptr(-x)
-	}
-	return uintptr(x)
+	return uintptr(r._ptrdata)
 }
 
 // gcdata returns pointer map or GC prog of the type.
