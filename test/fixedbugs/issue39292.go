@@ -27,3 +27,12 @@ func z() {
 	z := t{&i}.f // ERROR "t{...}.f escapes to heap"
 	z()
 }
+
+const ptrSize = 4 << (^uintptr(0) >> 63)
+const maxStack = 128 * 1024
+
+func w(i int) byte {
+	var x [maxStack]byte
+	var y [maxStack + 1]byte // ERROR "moved to heap: y"
+	return x[i] + y[i]
+}
