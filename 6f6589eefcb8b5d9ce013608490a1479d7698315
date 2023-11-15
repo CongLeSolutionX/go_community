@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4337725e_a7b70d50",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T19:55:45Z",
+      "side": 1,
+      "message": "It gets compiled as:\n\n```\ntmp :\u003d f()\np :\u003d mapassign(\u0026`type:map[uint8][]int`, m, \u0026k)\n*p \u003d append(*p, tmp)\n```\n\nNote that the Go spec doesn\u0027t guarantee whether `m` and `k` are evaluated before or after `f()`, nor when the `m[k]` on the RHS is evaluated.",
+      "parentUuid": "dd132582_f5536cc9",
+      "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c72ac7aa_a7e2187d",
         "filename": "src/cmd/compile/internal/walk/order.go",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-15T17:19:05Z",
       "side": 1,
       "message": "I feel like this optimization should be part of a separate CL.",
+      "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b2947c_84f44c48",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-15T19:55:45Z",
+      "side": 1,
+      "message": "This optimization already exists. Without adding this logic, test/codegen/mapaccess.go fails, because `m[k] \u003d append(m[k], x)` where `k` has type `int8` becomes `tmp1 :\u003d k; tmp2 :\u003d k; m[\u0026tmp1] \u003d append(m[\u0026tmp2], x)`, which prevents walkAssign from recognizing the map append operation.\n\nPS2 attempted to fix the issue without preserving this behavior.",
+      "parentUuid": "c72ac7aa_a7e2187d",
       "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
