@@ -1,0 +1,25 @@
+Files in this directory that end in .md are release note fragments.
+They will be merged into a single file as part of a release.
+
+main.md contains the outline for the final document.
+Other fragments must specify where they belong in main.md by starting
+with one of its headings (but see the exception for API fragments below).
+
+A fragment file can contain more than one heading. Headings that do
+not need to match existing ones should have their text begin with '+':
+
+    # This heading must match
+
+    # +This one need not
+
+Headings should appear in the same order as they do in the main document.
+
+The contents following each heading must contain either the string "TODO" or a
+full sentence. Ideally, the TODO will refer to a person with the responsibility
+to complete the note.
+
+Files of the form NNNNN.md must correspond to NNNNN.txt files in api/next,
+and vice versa.
+(That is, every API change must be accompanied by a release note fragment.)
+If a NNNNN.md file does not begin with a heading, "Minor changes to the library"
+is assumed.
