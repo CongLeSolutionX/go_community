@@ -119,6 +119,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad8296b_a8c50f09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-15T21:39:54Z",
+      "side": 1,
+      "message": "The goal here is to use the logopt framework, but use it for out-of-user-band messages.  The framework solves many problems.  I grabbed a far-out-of-band version number (100, could make it 1000) to indicate this use (instead of the stable one).",
+      "parentUuid": "28fe556c_05907605",
+      "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c560acbf_37c1a64e",
