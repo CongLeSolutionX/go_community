@@ -61,6 +61,11 @@ type Reader struct {
 	// The window for back references.
 	window window
 
+	// Block_Maximum_Size is constant for a given frame.
+	// This maximum is applicable to both the decompressed size and
+	// the compressed size of any block in the frame.
+	blockMaximumSize int
+
 	// A buffer available to hold a compressed block.
 	compressedBuf []byte
 
@@ -308,6 +313,7 @@ retry:
 	r.repeatedOffset3 = 8
 	r.huffmanTableBits = 0
 	r.window.reset(windowSize)
+	r.blockMaximumSize = min(windowSize, 128<<10)
 	r.seqTables[0] = nil
 	r.seqTables[1] = nil
 	r.seqTables[2] = nil
@@ -326,12 +332,33 @@ func (r *Reader) skipFrame() error {
 	relativeOffset += 4
 
 	size := binary.LittleEndian.Uint32(r.scratch[:4])
+	if size == 0 {
+		r.blockOffset += int64(relativeOffset)
+		return nil
+	}
 
 	if seeker, ok := r.r.(io.Seeker); ok {
-		if _, err := seeker.Seek(int64(size), io.SeekCurrent); err != nil {
-			return err
+		r.blockOffset += int64(relativeOffset)
+		// Implementations of Seeker do not always detect invalid offsets,
+		// so check that the new offset is valid by comparing to the end.
+		prev, err := seeker.Seek(0, io.SeekCurrent)
+		if err != nil {
+			return r.wrapError(0, err)
 		}
-		r.blockOffset += int64(relativeOffset) + int64(size)
+		end, err := seeker.Seek(0, io.SeekEnd)
+		if err != nil {
+			return r.wrapError(0, err)
+		}
+		if prev > end-int64(size) {
+			return r.makeEOFError(int(end - prev))
+		}
+
+		// The new offset is valid, so seek to it.
+		_, err = seeker.Seek(prev+int64(size), io.SeekStart)
+		if err != nil {
+			return r.wrapError(0, err)
+		}
+		r.blockOffset += int64(size)
 		return nil
 	}
 
