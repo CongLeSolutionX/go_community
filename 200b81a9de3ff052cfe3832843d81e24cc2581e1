@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c26d57b1_06040f5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-16T20:34:53Z",
+      "side": 1,
+      "message": "Here are the remaining todos. I need some guidance on how to proceed (hopefully in time for the go1.22 release):\n1) `TestARMEndToEnd()` in https://go-review.googlesource.com/c/go/+/514907/6/src/cmd/asm/internal/asm/endtoend_test.go\n2) `xgetgoarm()`: https://go-review.googlesource.com/c/go/+/514907/6/src/cmd/dist/util.go\n3) `var archVariants` https://go-review.googlesource.com/c/go/+/514907/6/src/cmd/internal/testdir/testdir_test.go\n4) `gogoarchTags()`: https://go-review.googlesource.com/c/go/+/514907/6/src/internal/buildcfg/cfg.go",
+      "revId": "200b81a9de3ff052cfe3832843d81e24cc2581e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
