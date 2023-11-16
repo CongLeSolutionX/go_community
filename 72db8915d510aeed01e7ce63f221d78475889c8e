@@ -230,6 +230,30 @@
       },
       "revId": "72db8915d510aeed01e7ce63f221d78475889c8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca995535_2f01129d",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-16T22:36:19Z",
+      "side": 1,
+      "message": "The original implementation of `ServeFile` (dating back to when this was in `src/pkg/http`) was:\n\n```\nfunc ServeFile(w ResponseWriter, r *Request, name string) {\n        serveFile(w, r, Dir(name), \"\", false)\n}\n```\n\nSo that\u0027s the \"trick\" the test is talking about, but `ServeFile` no longer uses it:\n\n```\nfunc ServeFile(w ResponseWriter, r *Request, name string) {\n        // ...\n        dir, file :\u003d filepath.Split(name)\n        serveFile(w, r, Dir(dir), file, false)\n}\n```\n\nDo I understand correctly that `Dir(\"somefile\")` currently does not work, because it causes a redirect loop? If so, making it produce an error seems like the right thing to do. If on the other hand, `Dir(\"somefile\")` does work under some circumstances, then someone is probably relying on that and we can\u0027t change it now.",
+      "parentUuid": "a90fcf03_215c797b",
+      "range": {
+        "startLine": 1621,
+        "startChar": 47,
+        "endLine": 1621,
+        "endChar": 73
+      },
+      "revId": "72db8915d510aeed01e7ce63f221d78475889c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
