@@ -46,6 +46,30 @@
       },
       "revId": "6e09397b6513cc81b2ed55cd5890827b66e5e0d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f1e74fb_33c829a9",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-16T22:12:15Z",
+      "side": 1,
+      "message": "Addressed in CL 543216, which also makes these invariants much easier for me to follow!",
+      "parentUuid": "9f39fbca_9dfe5378",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 30
+      },
+      "revId": "6e09397b6513cc81b2ed55cd5890827b66e5e0d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
