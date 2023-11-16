@@ -497,6 +497,15 @@ func TestEmptyDirOpenCWD(t *testing.T) {
 	test(Dir("./"))
 }
 
+// issue 63769
+func TestDirNormalFile(t *testing.T) {
+	f, err := Dir("testdata/index.html").Open("")
+	if err == nil {
+		f.Close()
+		t.Fatalf("got nil, want %v", err)
+	}
+}
+
 func TestServeFileContentType(t *testing.T) { run(t, testServeFileContentType) }
 func testServeFileContentType(t *testing.T, mode testMode) {
 	const ctype = "icecream/chocolate"
@@ -1667,4 +1676,20 @@ func (grw gzipResponseWriter) Flush() {
 	if fw, ok := grw.ResponseWriter.(http.Flusher); ok {
 		fw.Flush()
 	}
+}
+
+// Issue 63769
+func TestFileServerDirWithRootFile(t *testing.T) { run(t, testFileServerDirWithRootFile) }
+func testFileServerDirWithRootFile(t *testing.T, mode testMode) {
+	ts := newClientServerTest(t, mode, FileServer(Dir("testdata/index.html"))).ts
+	defer ts.Close()
+
+	res, err := ts.Client().Get(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s := res.StatusCode; s != StatusInternalServerError {
+		t.Errorf("got %q, want 500", s)
+	}
+	res.Body.Close()
 }
