@@ -137,6 +137,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4847c02a_3c12a170",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-16T12:53:46Z",
+      "side": 1,
+      "message": "OK, \"/\" separator it is; I\u0027ve updated the CL. Thanks.",
+      "parentUuid": "a23bff5b_f1ce0882",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 74,
+        "endChar": 11
+      },
+      "revId": "3871aa612fa69f877cea522adc19a450a3c21213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec36d309_beaa59d3",
