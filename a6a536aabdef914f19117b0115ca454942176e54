@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58d0c363_fe11d11e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-16T03:53:50Z",
+      "side": 1,
+      "message": "we don\u0027t count the old heap bits, nor do we count heap bits for small headerless objects. but in general we have to count the full allocation slot because at the point of freeing we don\u0027t actually know the true size of the object.\n\n... though your comment makes me realize that we do actually know at sweep time if an allocation slot has a header. personally, I think this is a little bit simpler for now since it stays closer to the old accounting. I\u0027m also a little reluctant to change the accounting too much for fear of breaking the old accounting as well.\n\nyou\u0027re right that if we\u0027re consistent everywhere it\u0027s fine. I\u0027ll file an issue to clean up the accounting and make it more precise in the next release.",
+      "parentUuid": "7de48b8a_5bc5ed10",
+      "revId": "a6a536aabdef914f19117b0115ca454942176e54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42592480_d2f58a7d",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-16T00:37:54Z",
       "side": 1,
       "message": "Maybe just use a different variable name for clarity.",
+      "range": {
+        "startLine": 1242,
+        "startChar": 2,
+        "endLine": 1242,
+        "endChar": 6
+      },
+      "revId": "a6a536aabdef914f19117b0115ca454942176e54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f9ba5c8_90bba866",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1242,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-16T03:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42592480_d2f58a7d",
       "range": {
         "startLine": 1242,
         "startChar": 2,
