@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e25f924_e237f2b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T19:47:18Z",
+      "side": 1,
+      "message": "Thanks. I\u0027m aware of compressed pointers in Java, but I\u0027m not aware of any proposals to add them to Go.\n\nI\u0027m happy for you to experiment with compressed pointers for Go, but compressed pointers sound like they\u0027d have a very long tail of consequences on the rest of the implementation. If we\u0027re actually going to pursue that as an experiment that we commit to the code base, I think we should accept that experiment as a proposal first. Otherwise, I\u0027m not enthusiastic about adding unnecessary code to the compiler.",
+      "parentUuid": "91a3ff38_a1b83fb5",
+      "range": {
+        "startLine": 21,
+        "startChar": 35,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "b6ccf21be8205390a96e8588be6e749ed08541ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36ba7773_33d14aec",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
