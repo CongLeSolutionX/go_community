@@ -16,6 +16,23 @@
       "message": "PTAL.\n\nSince CL 543195 fixes the bug, I\u0027ve repurposed this CL to simply contain the expanded flag definition without disabling function value devirtualization.",
       "revId": "e34c294e19c0f65486f826a46d99eb88bff7efce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00812b6b_6cb00013",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-16T21:27:55Z",
+      "side": 1,
+      "message": "LGTM. Thanks.",
+      "revId": "e34c294e19c0f65486f826a46d99eb88bff7efce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
