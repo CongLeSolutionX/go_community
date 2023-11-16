@@ -16,6 +16,23 @@
       "message": "Thanks! I don\u0027t have the race stuff ready to test the new and/or ops but a quick objdump -S confirm the new tsan functions are included in the sysos. LGTM",
       "revId": "111f9efc79a18e75b2f13607a0d2108a0225fb4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad5a354_ffa14ee5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-16T19:23:10Z",
+      "side": 1,
+      "message": "LGTM. \n\nThe cgo imports changes are presumably since the newer tsan runtime uses \"more stuff\"? odd that we didn\u0027t hit this with google-internal testing, since it is in theory building from LLVM tip, or at least it was the last time I looked.",
+      "revId": "111f9efc79a18e75b2f13607a0d2108a0225fb4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
