@@ -16,6 +16,24 @@
       "message": "Commented on the issue.\n\nI\u0027d be okay with this CL as a release-blocker workaround, but I wouldn\u0027t call this a \"fix.\" I think there\u0027s an issue in cmd/dist or cmd/go, and we should push for that to be fixed, rather than workaround it within the compiler. We don\u0027t support mixing object files compiled under different GOEXPERIMENT settings.",
       "revId": "b0f8673f7bf265068d60b6693ba5a2c2e5e2d23e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "925c97dd_cccd13ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-16T21:19:32Z",
+      "side": 1,
+      "message": "Yeah I think I agree overall. I sent this CL mainly as a possibility we could consider. Alternate CL is https://go-review.googlesource.com/c/go/+/543196.",
+      "parentUuid": "3139fe5f_0f453770",
+      "revId": "b0f8673f7bf265068d60b6693ba5a2c2e5e2d23e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
