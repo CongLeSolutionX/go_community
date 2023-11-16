@@ -220,6 +220,12 @@ func maybeDevirtualizeInterfaceCall(p *pgo.Profile, fn *ir.Func, call *ir.CallEx
 // ir.Node if call was devirtualized, and if so also the callee and weight of
 // the devirtualized edge.
 func maybeDevirtualizeFunctionCall(p *pgo.Profile, fn *ir.Func, call *ir.CallExpr) (ir.Node, *ir.Func, int64) {
+	// TODO(go.dev/issue/64209): Disable by default due to bad code
+	// generation.
+	if base.Debug.PGODevirtualize < 2 {
+		return nil, nil, 0
+	}
+
 	// Bail if this is a direct call; no devirtualization necessary.
 	callee := pgo.DirectCallee(call.Fun)
 	if callee != nil {
