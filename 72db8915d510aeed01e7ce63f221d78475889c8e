@@ -134,6 +134,30 @@
       },
       "revId": "72db8915d510aeed01e7ce63f221d78475889c8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "616295ec_5e7ca05e",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-11-16T20:44:45Z",
+      "side": 1,
+      "message": "I found this test while working on a fix:\n\n```\n\t// Not really directories, but since we use this trick in\n\t// ServeFile, test it:\n\ttest(Dir(\"/etc/hosts\"), \"\")\n\ttest(Dir(\"/etc/hosts\"), \"/\")\n\ttest(Dir(\"/etc/hosts\"), \"../\")\n```\n\nSo even if it is not documented, we kind of rely on http.Dir being able to access a file. I also experienced some additional test failures after changing this behavior.",
+      "parentUuid": "8511719d_1f9d50e8",
+      "range": {
+        "startLine": 1621,
+        "startChar": 47,
+        "endLine": 1621,
+        "endChar": 73
+      },
+      "revId": "72db8915d510aeed01e7ce63f221d78475889c8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
