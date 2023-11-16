@@ -29,7 +29,7 @@ import (
 // specific directory tree.
 //
 // While the FileSystem.Open method takes '/'-separated paths, a Dir's string
-// value is a filename on the native file system, not a URL, so it is separated
+// value is a directory path on the native file system, not a URL, so it is separated
 // by filepath.Separator, which isn't necessarily '/'.
 //
 // Note that Dir could expose sensitive files and directories. Dir will follow
@@ -78,11 +78,16 @@ func (d Dir) Open(name string) (File, error) {
 	if dir == "" {
 		dir = "."
 	}
+	fi, err := os.Stat(dir)
+	if err != nil || !fi.IsDir() {
+		return nil, errors.New("http: invalid directory path")
+	}
 	fullName := filepath.Join(dir, path)
 	f, err := os.Open(fullName)
 	if err != nil {
 		return nil, mapOpenError(err, fullName, filepath.Separator, os.Stat)
 	}
+
 	return f, nil
 }
 
