@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a72a288_392f7ab0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2e7e7d4_822a7444",
+        "filename": "src/cmd/compile/internal/base/debug.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "nit: \"make adjustments to\" makes me think this is a `+\u003d` operation; e.g., \"panicPathAdj:10\" means increasing the existing adjustment by 10, not just setting the adjustment to 10.\n\nI think just \"set inliner score adjustments\" would be fine.\n\nAlso, the example syntax should be updated to use \"/\" instead of \"+\".",
+      "range": {
+        "startLine": 26,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d87a1e3e_1b8424ed",
+        "filename": "src/cmd/compile/internal/base/debug.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "nit: maybe \"Slack\" instead of \"RelaxAmt\"?",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c2cc0f6_dbf3706a",
+        "filename": "src/cmd/compile/internal/inline/inlheur/debugflags_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "From what I can tell, this test basically just makes sure that the `-d\u003dinlscoreadj` flag parses successfully. It doesn\u0027t actually test how it affects the rest of the compiler?\n\nIf so, then invoking the entire compiler like this seems like overkill. How about just a split out the string parsing logic into a standalone function, and then write a unit test that it returns the right data structure?",
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f83c92_5658ab37",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "nit: Perhaps split this out as a separate parseScoreAdj helper.",
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44858f7_1f2cd72b",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "FWIW, I\u0027d probably write this as:\n\n```\nfor adj :\u003d scoreAdjustTyp(1); adj \u003c sentinelScoreAdj; adj \u003c\u003c\u003d 1 {\n  if adj.String() \u003d\u003d s {\n    return adj, true\n  }\n}\nreturn 0, false\n```",
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fc2273d_12c1542d",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "nit: maybe \"expected colon\", since a user might not know the syntax of a \"clause\"? Also, maybe just use strings.Cut instead of Split. If there\u0027s multiple colons, strconv.Atoi will fail anyway.\n\nAlso, Go compiler error messages are usually written \"problem: explanation\", so I\u0027d suggest `\"malformed -d\u003dinlscoreadj clause %q: expected colon\"`.\n\nFinally, probably print `clause` instead of `base.Debug.InlScoreAdj`.",
+      "range": {
+        "startLine": 119,
+        "startChar": 54,
+        "endLine": 119,
+        "endChar": 71
+      },
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c20e5c_c84a2f37",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "nit: `malformed -d\u003dinlscoreadj clause %q: unknown adjustment`? (The adjustment name is in the clause already)",
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35423556_3eaf00cf",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "nit: `malformed -d\u003dinlscoreadj clause %q: %v` and print `err` instead so the user gets the detailed error message from strconv.Atoi.",
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5eb68ae_500283e0",
+        "filename": "src/cmd/compile/internal/inline/inlheur/scoring.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T18:44:33Z",
+      "side": 1,
+      "message": "nit: This is a rather large paragraph of text to describe a relatively small function.\n\nI\u0027d suggest splitting it into two paragraphs: the first one explaining just what the function does and how it works; and a second paragraph explaining the consequences and how it fits into the rest of the compiler.",
+      "revId": "5061d57bbd74d4d5a26129e1f7ba06a13f5eec51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
