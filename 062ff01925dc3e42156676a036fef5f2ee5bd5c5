@@ -70,6 +70,24 @@
       "message": "These error messages describe the symptom, but not the actual cause. How about \"Once function garbage collected too early\" and \"Once function should be garbage collected, but still live\"?",
       "revId": "062ff01925dc3e42156676a036fef5f2ee5bd5c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95735568_47c3946b",
+        "filename": "src/sync/oncefunc_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-11-16T01:00:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7f99c28_6fb4f0c3",
+      "revId": "062ff01925dc3e42156676a036fef5f2ee5bd5c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
