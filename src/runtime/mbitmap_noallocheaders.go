@@ -55,6 +55,10 @@ const (
 )
 
 // For compatibility with the allocheaders GOEXPERIMENT.
+func initMallocAlign(godebug string) {
+}
+
+// For compatibility with the allocheaders GOEXPERIMENT.
 //
 //go:nosplit
 func heapBitsInSpan(_ uintptr) bool {

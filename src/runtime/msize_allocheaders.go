@@ -15,7 +15,7 @@ package runtime
 // minus any inline space for metadata.
 func roundupsize(size uintptr, noscan bool) (reqSize uintptr) {
 	reqSize = size
-	if reqSize <= maxSmallSize-mallocHeaderSize {
+	if reqSize <= maxSmallSizeWithHeader {
 		// Small object.
 		if !noscan && reqSize > minSizeForMallocHeader { // !noscan && !heapBitsInSpan(reqSize)
 			reqSize += mallocHeaderSize

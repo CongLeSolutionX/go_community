@@ -318,6 +318,17 @@ func TestArenaCollision(t *testing.T) {
 	}
 }
 
+func TestAllocAlign16(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("GODEBUG at early runtime init is not available")
+	}
+	got := runTestProg(t, "testprog", "AllocAlign16", "GODEBUG=allocalign16=1")
+	want := "OK\n"
+	if got != want {
+		t.Fatalf("expected %q, but got %q", want, got)
+	}
+}
+
 func BenchmarkMalloc8(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		p := new(int64)
