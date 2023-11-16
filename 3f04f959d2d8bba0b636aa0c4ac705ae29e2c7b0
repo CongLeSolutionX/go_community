@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e811fad_ebba4ec8",
+        "filename": "src/cmd/compile/internal/noder/linker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-16T21:43:26Z",
+      "side": 0,
+      "message": "As mentioned on chat: the issue here is that internal/goexperiment reports what GOEXPERIMENT the compiler itself was compiled with. But to decide what experiment to use for the object code that we\u0027re currently compiling, we should use internal/buildcfg instead.\n\nAnalogy: runtime.GOOS() is the OS that we\u0027re currently running on, whereas go/build.Default.GOOS is the OS that we\u0027re targeting.",
+      "revId": "3f04f959d2d8bba0b636aa0c4ac705ae29e2c7b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
