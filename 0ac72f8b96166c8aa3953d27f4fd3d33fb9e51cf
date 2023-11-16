@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0c9ed26_d096650d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59158
+      },
+      "writtenOn": "2023-11-16T02:19:32Z",
+      "side": 1,
+      "message": "Will these changes be applied to src/internal/reflectlite/value.go?",
+      "revId": "0ac72f8b96166c8aa3953d27f4fd3d33fb9e51cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
