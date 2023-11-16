@@ -33,6 +33,41 @@
       "message": "LGTM. \n\nThe cgo imports changes are presumably since the newer tsan runtime uses \"more stuff\"? odd that we didn\u0027t hit this with google-internal testing, since it is in theory building from LLVM tip, or at least it was the last time I looked.",
       "revId": "111f9efc79a18e75b2f13607a0d2108a0225fb4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8869144f_6336f5c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-16T19:29:07Z",
+      "side": 1,
+      "message": "\u003e The cgo imports changes are presumably since the newer tsan runtime uses \"more stuff\"?\n\nI guess so.\n\nInteresting. I have the same impression for building from tip. I\u0027m not sure we test race mode on darwin in google internal testing.",
+      "parentUuid": "9ad5a354_ffa14ee5",
+      "revId": "111f9efc79a18e75b2f13607a0d2108a0225fb4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b51aa1f_b8168174",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-16T19:29:07Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "111f9efc79a18e75b2f13607a0d2108a0225fb4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
