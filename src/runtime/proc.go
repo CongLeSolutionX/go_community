@@ -707,6 +707,9 @@ func cpuinit(env string) {
 	}
 }
 
+// godebugEarly is a buffer to hold a copy of GODEBUG for early runtime initialization.
+var godebugEarly [512]byte
+
 // getGodebugEarly extracts the environment variable GODEBUG from the environment on
 // Unix-like operating systems and returns it. This function exists to extract GODEBUG
 // early before much of the runtime is initialized.
@@ -728,7 +731,9 @@ func getGodebugEarly() string {
 			s := unsafe.String(p, findnull(p))
 
 			if hasPrefix(s, prefix) {
-				env = gostring(p)[len(prefix):]
+				v := s[len(prefix):]
+				copy(godebugEarly[:], v)
+				env = unsafe.String(&godebugEarly[0], len(v))
 				break
 			}
 		}
@@ -777,8 +782,9 @@ func schedinit() {
 	ticks.init() // run as early as possible
 	moduledataverify()
 	stackinit()
-	mallocinit()
 	godebug := getGodebugEarly()
+	initMallocAlign(godebug) // must run before mallocinit
+	mallocinit()
 	initPageTrace(godebug) // must run after mallocinit but before anything allocates
 	cpuinit(godebug)       // must run before alginit
 	alginit()              // maps, hash, fastrand must not be used before this call

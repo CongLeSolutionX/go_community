@@ -64,43 +64,76 @@ import (
 	"unsafe"
 )
 
-const (
+var (
 	// A malloc header is functionally a single type pointer, but
 	// we need to use 8 here to ensure 8-byte alignment of allocations
 	// on 32-bit platforms. It's wasteful, but a lot of code relies on
 	// 8-byte alignment for 8-byte atomics.
-	mallocHeaderSize = 8
+	//
+	// This is a variable because it may be changed to the value 16 via a
+	// the GODEBUG variable allocalign16.
+	mallocHeaderSize uintptr = 8
 
-	// The minimum object size that has a malloc header, exclusive.
-	//
-	// The size of this value controls overheads from the malloc header.
-	// The minimum size is bound by writeHeapBitsSmall, which assumes that the
-	// pointer bitmap for objects of a size smaller than this doesn't cross
-	// more than one pointer-word boundary. This sets an upper-bound on this
-	// value at the number of bits in a uintptr, multiplied by the pointer
-	// size in bytes.
-	//
-	// We choose a value here that has a natural cutover point in terms of memory
-	// overheads. This value just happens to be the maximum possible value this
-	// can be.
-	//
-	// A span with heap bits in it will have 128 bytes of heap bits on 64-bit
-	// platforms, and 256 bytes of heap bits on 32-bit platforms. The first size
-	// class where malloc headers match this overhead for 64-bit platforms is
-	// 512 bytes (8 KiB / 512 bytes * 8 bytes-per-header = 128 bytes of overhead).
-	// On 32-bit platforms, this same point is the 256 byte size class
-	// (8 KiB / 256 bytes * 8 bytes-per-header = 256 bytes of overhead).
-	//
-	// Guaranteed to be exactly at a size class boundary. The reason this value is
-	// an exclusive minimum is subtle. Suppose we're allocating a 504-byte object
-	// and its rounded up to 512 bytes for the size class. If minSizeForMallocHeader
-	// is 512 and an inclusive minimum, then a comparison against minSizeForMallocHeader
-	// by the two values would produce different results. In other words, the comparison
-	// would not be invariant to size-class rounding. Eschewing this property means a
-	// more complex check or possibly storing additional state to determine whether a
-	// span has malloc headers.
-	minSizeForMallocHeader = goarch.PtrSize * ptrBits
+	// maxSmallSizeWithHeader is derived from mallocHeaderSize and
+	// represents the boundary point at which an allocation is considered
+	// large.
+	maxSmallSizeWithHeader uintptr = maxSmallSize - mallocHeaderSize
 )
+
+// The minimum object size that has a malloc header, exclusive.
+//
+// The size of this value controls overheads from the malloc header.
+// The minimum size is bound by writeHeapBitsSmall, which assumes that the
+// pointer bitmap for objects of a size smaller than this doesn't cross
+// more than one pointer-word boundary. This sets an upper-bound on this
+// value at the number of bits in a uintptr, multiplied by the pointer
+// size in bytes.
+//
+// We choose a value here that has a natural cutover point in terms of memory
+// overheads. This value just happens to be the maximum possible value this
+// can be.
+//
+// A span with heap bits in it will have 128 bytes of heap bits on 64-bit
+// platforms, and 256 bytes of heap bits on 32-bit platforms. The first size
+// class where malloc headers match this overhead for 64-bit platforms is
+// 512 bytes (8 KiB / 512 bytes * 8 bytes-per-header = 128 bytes of overhead).
+// On 32-bit platforms, this same point is the 256 byte size class
+// (8 KiB / 256 bytes * 8 bytes-per-header = 256 bytes of overhead).
+//
+// Guaranteed to be exactly at a size class boundary. The reason this value is
+// an exclusive minimum is subtle. Suppose we're allocating a 504-byte object
+// and its rounded up to 512 bytes for the size class. If minSizeForMallocHeader
+// is 512 and an inclusive minimum, then a comparison against minSizeForMallocHeader
+// by the two values would produce different results. In other words, the comparison
+// would not be invariant to size-class rounding. Eschewing this property means a
+// more complex check or possibly storing additional state to determine whether a
+// span has malloc headers.
+const minSizeForMallocHeader = goarch.PtrSize * ptrBits
+
+// initMallocAlign runs early during initialization and sets mallocHeaderSize.
+//
+// Must be called before mallocinit.
+func initMallocAlign(env string) {
+	var value string
+	for env != "" {
+		elt, rest := env, ""
+		for i := 0; i < len(env); i++ {
+			if env[i] == ',' {
+				elt, rest = env[:i], env[i+1:]
+				break
+			}
+		}
+		env = rest
+		if hasPrefix(elt, "allocalign16=") {
+			value = elt[len("allocalign16="):]
+			break
+		}
+	}
+	if value == "1" {
+		mallocHeaderSize = 16
+		maxSmallSizeWithHeader = maxSmallSize - mallocHeaderSize
+	}
+}
 
 // heapBitsInSpan returns true if the size of an object implies its ptr/scalar
 // data is stored at the end of the span, and is accessible via span.heapBits.

@@ -35,6 +35,14 @@ time.
 The GODEBUG variable controls debugging variables within the runtime.
 It is a comma-separated list of name=val pairs setting these named variables:
 
+	allocalign16: setting allocalign16=1 causes every heap allocation to be
+	16-byte aligned, possibly at the cost of some additional memory use. This
+	flag is intended to support compatibility with programs that relied
+	upon the runtime's heap memory allocator implicitly providing 16-byte
+	alignment for most allocations. Users of this flag should aim to migrate off
+	of it if possible (or file an issue if not), as it will be removed in the
+	future.
+
 	allocfreetrace: setting allocfreetrace=1 causes every allocation to be
 	profiled and a stack trace printed on each object's allocation and free.
 

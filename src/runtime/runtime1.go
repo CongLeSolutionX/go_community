@@ -307,6 +307,7 @@ type dbgVar struct {
 // existing int var for that value, which may
 // already have an initial value.
 var debug struct {
+	allocalign16       int32
 	cgocheck           int32
 	clobberfree        int32
 	dontfreezetheworld int32
@@ -340,6 +341,7 @@ var debug struct {
 }
 
 var dbgvars = []*dbgVar{
+	{name: "allocalign16", value: &debug.allocalign16}, // N.B. Not used directly. See initMallocAlign.
 	{name: "allocfreetrace", value: &debug.allocfreetrace},
 	{name: "clobberfree", value: &debug.clobberfree},
 	{name: "cgocheck", value: &debug.cgocheck},
