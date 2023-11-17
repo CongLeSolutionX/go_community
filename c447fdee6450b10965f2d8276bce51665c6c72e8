@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5eb40b_dc2068fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-11-17T05:41:06Z",
+      "side": 1,
+      "message": "Tested in quic-go and all 0-RTT tests pass.",
+      "revId": "c447fdee6450b10965f2d8276bce51665c6c72e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
