@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c43c2b4_5fa26cb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-11-17T13:48:13Z",
+      "side": 1,
+      "message": "Nguyen, you need to rebase this CL on the current master so our CI can pass.",
+      "revId": "8adb113d303d0a30a5ccc7091e3f760f105586dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
