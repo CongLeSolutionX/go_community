@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8c04f7_242ded9e",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-17T22:18:34Z",
+      "side": 1,
+      "message": "(added a tiny optimization found with `go build -m`.)",
+      "revId": "54799a8b54225c78935efac154543ad83acb093d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
