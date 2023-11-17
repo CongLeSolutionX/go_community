@@ -16,6 +16,24 @@
       "message": "This needs to be called before setting hello.earlyData (L378). Otherwise it\u0027s not possible to disable 0-RTT by setting SessionState.EarlyData \u003d false.",
       "revId": "950a6d60f48ed3a386a0cd9189afb545c78db87e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b555756_d1563dde",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-17T00:11:33Z",
+      "side": 1,
+      "message": "Nice catch. (The test for this path was broken. Oops.)",
+      "parentUuid": "639e19cb_bfff3624",
+      "revId": "950a6d60f48ed3a386a0cd9189afb545c78db87e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
