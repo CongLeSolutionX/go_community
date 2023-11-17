@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8598de3c_509d16d0",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-17T18:50:45Z",
+      "side": 1,
+      "message": "Let\u0027s update this comment while you\u0027re here. go/types and the compiler are intentionally diverging here, so check with gri and rfindley about how they want to track intentional differences like this.",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 50
+      },
+      "revId": "c51ae361a9d3b6a9efe7ca2aa16876f1060d5c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
