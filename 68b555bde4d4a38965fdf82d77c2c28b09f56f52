@@ -88,6 +88,24 @@
       "tag": "mailMessageId\u003d\u003cCA+XYnG9S-vejvnOk\u003dSSDU6k1m8FnpYuWxkaojRi+OYmkA-5T4g@mail.gmail.com\u003e",
       "revId": "68b555bde4d4a38965fdf82d77c2c28b09f56f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a420f70a_624e1ec4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-17T22:48:43Z",
+      "side": 1,
+      "message": "Yes, Emmanuel. But @quimmuntal@gmail.com said\n\u003e Better implement it, test it locally and I\u0027ll review it once submitted.",
+      "parentUuid": "66b09ce8_2f812550",
+      "revId": "68b555bde4d4a38965fdf82d77c2c28b09f56f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
