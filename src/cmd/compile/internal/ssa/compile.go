@@ -510,6 +510,7 @@ var passes = [...]pass{
 	{name: "regalloc", fn: regalloc, required: true},   // allocate int & float registers + stack slots
 	{name: "loop rotate", fn: loopRotate},
 	{name: "trim", fn: trim}, // remove empty blocks
+	{name: "columns", fn: columns},
 }
 
 // Double-check phase ordering constraints.
@@ -571,6 +572,7 @@ var passOrder = [...]constraint{
 	{"lower", "checkLower"},
 	{"lowered deadcode", "checkLower"},
 	{"late lower", "checkLower"},
+	{"checkLower", "columns"},
 	// late nilcheck needs instructions to be scheduled.
 	{"schedule", "late nilcheck"},
 	// flagalloc needs instructions to be scheduled.

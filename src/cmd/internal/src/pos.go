@@ -470,7 +470,7 @@ func (x lico) lineNumberHTML() string {
 		style = "s" // /strike not supported in HTML5
 		pfx = ""
 	}
-	return fmt.Sprintf("<%s>%s%d</%s>", style, pfx, x.Line(), style)
+	return fmt.Sprintf("<%s>%s%d:%d</%s>", style, pfx, x.Line(), x.Col(), style)
 }
 
 func (x lico) atColumn1() lico {
