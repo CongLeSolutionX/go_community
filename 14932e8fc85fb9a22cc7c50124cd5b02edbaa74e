@@ -16,6 +16,23 @@
       "message": "is the CL ready now??",
       "revId": "14932e8fc85fb9a22cc7c50124cd5b02edbaa74e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21312f2a_0ab622aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-17T04:21:25Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "14932e8fc85fb9a22cc7c50124cd5b02edbaa74e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
