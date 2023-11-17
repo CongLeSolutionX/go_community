@@ -106,6 +106,24 @@
       "parentUuid": "66b09ce8_2f812550",
       "revId": "68b555bde4d4a38965fdf82d77c2c28b09f56f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c18d6c1_9d487820",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-17T22:50:52Z",
+      "side": 1,
+      "message": "I think the wording was intended to mean “Submit” as “Upload it”, so kindly implement it on your machine, test it out to ensure that it works and then push it up in the CL so that he can review it.",
+      "tag": "mailMessageId\u003d\u003cCA+XYnG-bh28EfRpdCbu2b+13xgqVG4f+n47TAHf7gUvLhWYJPA@mail.gmail.com\u003e",
+      "revId": "68b555bde4d4a38965fdf82d77c2c28b09f56f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
