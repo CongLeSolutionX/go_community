@@ -16,6 +16,23 @@
       "message": "Kindly ping.",
       "revId": "ca639fc957496b2564bfe04d4b29d41a66c72a4f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15715b3d_411b949d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-17T22:45:50Z",
+      "side": 1,
+      "message": "Thanks, but it\u0027s not Auto-Submit, could anyone merge this?",
+      "revId": "ca639fc957496b2564bfe04d4b29d41a66c72a4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
