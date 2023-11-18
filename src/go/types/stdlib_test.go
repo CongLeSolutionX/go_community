@@ -242,7 +242,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 			}
 			fields := strings.Fields(comment)
 			switch fields[0] {
-			case "skip", "compiledir":
+			case "skip", "compiledir", "test":
 				continue // ignore this file
 			case "errorcheck":
 				expectErrors = true
