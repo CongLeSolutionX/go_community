@@ -69,6 +69,24 @@
       "parentUuid": "bc48df31_9bea2614",
       "revId": "200b81a9de3ff052cfe3832843d81e24cc2581e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18a601a9_fc9e508e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2023-11-18T22:44:17Z",
+      "side": 1,
+      "message": "I think I figured out what to do.\n1. Build go from source, with this CL applied, on an armv7 machine.\n```\nroot@raspberrypi:/home/pi/goroot/src/cmd/internal/testdir# go version\ngo version devel go1.22-2944abde96 Fri Nov 17 14:37:10 2023 -0800 linux/arm\n```\n2. Run the codegen unit tests.\n```\nroot@raspberrypi:/home/pi/goroot/src/cmd/internal/testdir# go test -run Test/codegen testdir_test.go\nok  \tcommand-line-arguments\t4.898s\n```\nThey all pass.",
+      "parentUuid": "0ede78be_901d09ba",
+      "revId": "200b81a9de3ff052cfe3832843d81e24cc2581e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
