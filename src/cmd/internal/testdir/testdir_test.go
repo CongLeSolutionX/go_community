@@ -517,7 +517,7 @@ func (t test) run() error {
 
 	// TODO: Clean up/simplify this switch statement.
 	switch action {
-	case "compile", "compiledir", "build", "builddir", "buildrundir", "run", "buildrun", "runoutput", "rundir", "runindir", "asmcheck":
+	case "compile", "compiledir", "build", "builddir", "buildrundir", "run", "buildrun", "runoutput", "rundir", "runindir", "asmcheck", "test":
 		// nothing to do
 	case "errorcheckandrundir":
 		wantError = false // should be no error if also will run
@@ -1078,6 +1078,19 @@ func (t test) run() error {
 			return err
 		}
 		return t.checkExpectedOutput(out)
+
+	case "test":
+		// Run 'go test' on the target file together with any other named .go files.
+		runInDir = ""
+		cmd := []string{goTool, "test", t.goGcflags()}
+		if *linkshared {
+			cmd = append(cmd, "-linkshared")
+		}
+		cmd = append(cmd, flags...)
+		cmd = append(cmd, args...)
+		cmd = append(cmd, t.goFileName())
+		_, err := runcmd(cmd...)
+		return err
 
 	case "errorcheckoutput":
 		// Run Go file and write its output into temporary Go file.
