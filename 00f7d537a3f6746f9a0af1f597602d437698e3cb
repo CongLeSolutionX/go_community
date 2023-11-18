@@ -16,6 +16,23 @@
       "message": "Thanks for figuring out the issue Dmitri, you\u0027re the best, as usual!",
       "revId": "00f7d537a3f6746f9a0af1f597602d437698e3cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f676536_b2e774f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-18T04:02:24Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "00f7d537a3f6746f9a0af1f597602d437698e3cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
