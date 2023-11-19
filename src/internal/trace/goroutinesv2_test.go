@@ -210,10 +210,10 @@ func TestRelatedGoroutinesV2Trace(t *testing.T) {
 		t.Fatalf("failed to find related goroutines for %s: %v", testPath, err)
 	}
 	want := map[tracev2.GoID]struct{}{
-		tracev2.GoID(86):  struct{}{}, // N.B. Result includes target.
-		tracev2.GoID(71):  struct{}{},
-		tracev2.GoID(25):  struct{}{},
-		tracev2.GoID(122): struct{}{},
+		tracev2.GoID(86):  {}, // N.B. Result includes target.
+		tracev2.GoID(71):  {},
+		tracev2.GoID(25):  {},
+		tracev2.GoID(122): {},
 	}
 	for goid := range got {
 		if _, ok := want[goid]; ok {
