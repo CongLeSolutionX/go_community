@@ -119,6 +119,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "359c7389_002176e1",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-11-19T20:49:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a2fb4fab_12d480d5",
+      "range": {
+        "startLine": 81,
+        "startChar": 1,
+        "endLine": 84,
+        "endChar": 2
+      },
+      "revId": "2db10ce07b7fcbc88b85d898aa0a63502d56b601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "904064a5_be2dfd9d",
@@ -136,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec2b602c_31e65017",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1683,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-11-19T20:49:17Z",
+      "side": 1,
+      "message": "Thanks, but most tests that follow this pattern on this file don\u0027t have a newline so I\u0027m sticking to it.",
+      "parentUuid": "904064a5_be2dfd9d",
+      "revId": "2db10ce07b7fcbc88b85d898aa0a63502d56b601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e14309b_7906f493",
@@ -149,6 +191,30 @@
       "writtenOn": "2023-11-18T23:41:06Z",
       "side": 1,
       "message": "```go\nif g, w :\u003d res.StatusCode, StatusInternalServerError; g !\u003d w {\n    t.Errorf(\"StatusCode mismatch: got %d, want: %d\", g, w)\n}\n```",
+      "range": {
+        "startLine": 1692,
+        "startChar": 1,
+        "endLine": 1694,
+        "endChar": 2
+      },
+      "revId": "2db10ce07b7fcbc88b85d898aa0a63502d56b601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b60a9bec_f1fc1727",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-11-19T20:49:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7e14309b_7906f493",
       "range": {
         "startLine": 1692,
         "startChar": 1,
