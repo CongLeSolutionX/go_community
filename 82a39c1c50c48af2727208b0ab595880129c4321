@@ -159,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf503fd_5c7dfce0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-19T14:30:22Z",
+      "side": 1,
+      "message": "Based on test below, I found FileAttributes would not change even if O_SYNC is set.\n```\nfunc TestWriteThrough(t *testing.T) {\n\tcases :\u003d []struct {\n\t\tname string\n\t\tmode int\n\t}{\n\t\t{\"not set\", os.O_CREATE | os.O_RDWR},\n\t\t{\"set\", os.O_CREATE | os.O_RDWR | os.O_SYNC},\n\t}\n\n\tfor _, tt :\u003d range cases {\n\t\ttt :\u003d tt\n\t\tt.Run(tt.name, func(t *testing.T) {\n\t\t\tpath :\u003d filepath.Join(t.TempDir(), fmt.Sprintf(\"%x.txt\", tt.name))\n\t\t\tfd, err :\u003d syscall.Open(path, tt.mode, 0644)\n\t\t\tif err !\u003d nil {\n\t\t\t\tt.Fatal(err)\n\t\t\t}\n\t\t\tdefer func() {\n\t\t\t\tsyscall.CloseHandle(fd)\n\t\t\t\tos.Remove(path)\n\t\t\t}()\n\n\t\t\tvar d syscall.ByHandleFileInformation\n\t\t\tif err :\u003d syscall.GetFileInformationByHandle(fd, \u0026d); err !\u003d nil {\n\t\t\t\tt.Fatal(err)\n\t\t\t}\n\n\t\t\tconst _FILE_FLAG_WRITE_THROUGH \u003d 0x80000000\n\n\t\t\tattrs :\u003d d.FileAttributes\n\t\t\tattrs1, attrs2 :\u003d attrs, attrs\n\t\t\tattrs1 \u0026^\u003d _FILE_FLAG_WRITE_THROUGH\n\t\t\tattrs2 |\u003d _FILE_FLAG_WRITE_THROUGH\n\n\t\t\tif tt.mode\u0026os.O_SYNC !\u003d 0 {\n\t\t\t\tfmt.Printf(\"set, attrs: 0x%08x, attrs1: 0x%08x, attrs2: 0x%08x\\n\", attrs, attrs1, attrs2)\n\t\t\t} else {\n\t\t\t\tfmt.Printf(\"not set, attrs: 0x%08x, attrs1: 0x%08x, attrs2: 0x%08x\\n\", attrs, attrs1, attrs2)\n\t\t\t}\n\t\t})\n\t}\n\n}\n```\n\n```\ngit log --oneline -n 2\n68b555bde4 (HEAD -\u003e change-541015, github/change-541015) syscall: support O_SYNC flag for os.OpenFile on windows\n1cc19e5ba0 cmd/go: allow toolchain upgrades in \u0027go mod download\u0027 when we would already allow go.mod updates\n\nnot set, attrs: 0x00000020, attrs1: 0x00000020, attrs2: 0x80000020\nset, attrs: 0x00000020, attrs1: 0x00000020, attrs2: 0x80000020\nPASS\nok syscall 26.036s\n```\n\n```\ngit checkout master \n\ngit log --oneline -n 2\n631a6c2abf (HEAD -\u003e master, github/master) all: add missing copyright header\nf664031bc1 net,os: arrange zero-copy of os.File and net.TCPConn to net.UnixConn\n\ngo test -run\u003dTestWriteThrough\n\nnot set, attrs: 0x00000020, attrs1: 0x00000020, attrs2: 0x80000020\nset, attrs: 0x00000020, attrs1: 0x00000020, attrs2: 0x80000020\nPASS\nok syscall 0.864s\n```",
+      "parentUuid": "59fb9e85_5f0336a5",
+      "revId": "82a39c1c50c48af2727208b0ab595880129c4321",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "193008b8_46c75772",
