@@ -169,6 +169,9 @@ type stackScanState struct {
 	// stack limits
 	stack stack
 
+	// sp is currently only used for pointer validation.
+	sp uintptr
+
 	// conservative indicates that the next frame must be scanned conservatively.
 	// This applies only to the innermost frame at an async safe-point.
 	conservative bool
