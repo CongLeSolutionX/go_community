@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5c7aaa9_647be5a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:09:42Z",
+      "side": 1,
+      "message": "The x/tools TestMarkers failures are unrelated:\n\nhttps://go-review.git.corp.google.com/c/tools/+/509560/4#message-f3d34c2463fb301f64e4914dbb4bcdb9e3e9c78c\n\nhttps://build.golang.org/?repo\u003dgolang.org%2fx%2ftools",
+      "revId": "7d6aa35ed1cbee0efc944c1772d22a5b516f9576",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
