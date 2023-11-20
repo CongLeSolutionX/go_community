@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "093e17a5_82c42ebc",
+        "filename": "src/cmd/trace/v2/gstate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-20T14:34:01Z",
+      "side": 1,
+      "message": "Probably shouldn\u0027t be called gState if it can be a P",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "03d68093eb006bf9774e03ad3fdf4d1497186dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "093fca50_61a1085f",
+        "filename": "src/cmd/trace/v2/gstate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-20T14:34:01Z",
+      "side": 1,
+      "message": "R?",
+      "range": {
+        "startLine": 77,
+        "startChar": 32,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "03d68093eb006bf9774e03ad3fdf4d1497186dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
