@@ -176,10 +176,14 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 		}
 	}
 
-	// Value (non-type) parameters' scope starts in the function body. Use a temporary scope for their
-	// declarations and then squash that scope into the parent scope (and report any redeclarations at
-	// that time).
-	scope := NewScope(check.scope, nopos, nopos, "function body (temp. scope)")
+	// The scope of a value (non-type) parameter is the function
+	// body, if any; equivalently, after the FuncType.
+	//
+	// Use a temporary scope for their declarations and then
+	// squash that scope into the parent scope (and report any
+	// redeclarations at that time). After type checking, the
+	// parent scope will have the complete extent of the FuncDecl.
+	scope := NewScope(check.scope, ftyp.End(), nopos, "function body (temp. scope)")
 	recvList, _ := check.collectParams(scope, recvPar, false)
 	params, variadic := check.collectParams(scope, ftyp.Params, true)
 	results, _ := check.collectParams(scope, ftyp.Results, false)

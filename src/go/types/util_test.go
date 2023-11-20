@@ -12,3 +12,5 @@ package types
 import "go/token"
 
 func CmpPos(p, q token.Pos) int { return cmpPos(p, q) }
+
+func (s *Scope) Comment() string { return s.comment }

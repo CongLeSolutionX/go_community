@@ -167,11 +167,15 @@ func (check *Checker) funcType(sig *Signature, recvPar *syntax.Field, tparams []
 		check.collectTypeParams(&sig.tparams, tparams)
 	}
 
-	// Value (non-type) parameters' scope starts in the function body. Use a temporary scope for their
-	// declarations and then squash that scope into the parent scope (and report any redeclarations at
-	// that time).
-	scope := NewScope(check.scope, nopos, nopos, "function body (temp. scope)")
-	var recvList []*Var // TODO(gri) remove the need for making a list here
+	// Value (non-type) parameters' scope starts in the function
+	// body, if any: in other words, after the FuncType.
+	//
+	// Use a temporary scope for their declarations and then
+	// squash that scope into the parent scope (and report any
+	// redeclarations at that time).
+	scope := NewScope(check.scope, syntax.EndPos(ftyp), nopos, "function body (temp. scope)")
+	fmt.Println(ftyp, syntax.EndPos(ftyp)) // FIXME
+	var recvList []*Var                    // TODO(gri) remove the need for making a list here
 	if recvPar != nil {
 		recvList, _ = check.collectParams(scope, []*syntax.Field{recvPar}, false) // use rewritten receiver type, if any
 	}
