@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e952ec10_e2206e59",
+        "filename": "src/cmd/compile/internal/ir/check_reassign_no.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a961b2f_66a8cbe7",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e582a60b_7fb53d7b",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-20T18:43:02Z",
       "side": 1,
       "message": "nit: \"A ReassignOracle efficiently answers queries about whether local variables are reassigned.\"\n\nShort variable declarations are a red herring here. Aside from type checking, there\u0027s no reason the compiler needs to distinguish `v :\u003d e` from `var v \u003d e`. (It\u0027s currently possible to distinguish them, and some code still does; but I\u0027m whittling away at that.)",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6134be5f_4cc7b7c9",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e582a60b_7fb53d7b",
       "range": {
         "startLine": 11,
         "startChar": 3,
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cbda466_b7ccfb25",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38ec0108_e7ba943e",
+      "range": {
+        "startLine": 17,
+        "startChar": 36,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1ffe73e_74c73685",
@@ -81,6 +147,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b81ac61_181e6e7d",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "At the end of the analysis I want the map to contain entries for names that are not reassigned (e.g. we\u0027ve seen their definition and verified that they haven\u0027t been reassigned). Storing things that are reassigned seems to me to increase the risk that the oracle can be misused (for example, for names created since Init was invoked).\n\nI added a comment to the map and renamed it \"singleDef\".",
+      "parentUuid": "f1ffe73e_74c73685",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "985f6e9e_1fa93ff5",
@@ -94,6 +178,30 @@
       "writtenOn": "2023-11-20T18:43:02Z",
       "side": 1,
       "message": "nit: \"param\"",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 10
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94610d82_61c201d6",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "985f6e9e_1fa93ff5",
       "range": {
         "startLine": 36,
         "startChar": 8,
@@ -123,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d363dd6_3c9ddc3e",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Hmm. Should this matter?  I don\u0027t think it makes any sense to invoke StaticValue on a \"_\" param, no?",
+      "parentUuid": "e5a098aa_7d9f3440",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4de60f75_7ba20c34",
         "filename": "src/cmd/compile/internal/ir/reassignment.go",
         "patchSetId": 14
@@ -134,6 +260,30 @@
       "writtenOn": "2023-11-20T18:43:02Z",
       "side": 1,
       "message": "discover what?",
+      "range": {
+        "startLine": 44,
+        "startChar": 57,
+        "endLine": 44,
+        "endChar": 65
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4fefb79_67ecec48",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Fixed up the comments.",
+      "parentUuid": "4de60f75_7ba20c34",
       "range": {
         "startLine": 44,
         "startChar": 57,
@@ -161,6 +311,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b32b0ce_214599c1",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Added comments.",
+      "parentUuid": "a3daea69_472c7293",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd240d0c_99801d42",
@@ -174,6 +342,24 @@
       "writtenOn": "2023-11-20T18:43:02Z",
       "side": 1,
       "message": "Add a comment there advising that this code needs to be updated too then.",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58bfbae2_1576a36c",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd240d0c_99801d42",
       "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -201,6 +387,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6281ce3_4550908a",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3a279c0_8b286dde",
+      "range": {
+        "startLine": 119,
+        "startChar": 48,
+        "endLine": 120,
+        "endChar": 62
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "401732ea_4550d2bf",
@@ -214,6 +424,30 @@
       "writtenOn": "2023-11-20T18:43:02Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 186,
+        "startChar": 47,
+        "endLine": 187,
+        "endChar": 61
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "667ad87c_0a56bbe0",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T19:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "401732ea_4550d2bf",
       "range": {
         "startLine": 186,
         "startChar": 47,
