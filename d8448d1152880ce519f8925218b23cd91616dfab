@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb2fbac_dcdf60f3",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2151,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-20T20:51:42Z",
+      "side": 1,
+      "message": "The documentation and test name isn\u0027t quite accurate.\n\nYou\u0027re testing that exceeding the timeout set by `Client.Timeout` returns `context.DeadlineExceeded` or something that wraps it. This is new behavior, in that we have not previously exposed this timeout as being associated with a context deadline. Note that there are no contexts involved anywhere in this test.\n\nThe changes in this CL also have the effect of causing timeouts from the request context expiring to be returned as a wrapped `context.DeadlineExceeded`.\n\nThere\u0027s a third path where a timeout can occur, when `req.Cancel` is set or the `Transport` is not a known implementation. I think that it\u0027s possible for us to not return `context.DeadlineExceeded` on this path even if the request contains a context and that context expires. (I\u0027m okay with this CL leaving that path untouched.)\n\nSince this is all distressingly complicated, I\u0027d like to make sure the comments are very precise about what\u0027s being tested.\n\nThe test name should reflect what\u0027s being tested, which is not error wrapping. Perhaps: `TestClientTimeoutReturnsContextDeadlineExceeded`.\n\nThe comment should also reflect what\u0027s being tested. The timeout is not being simulated (this is a real timeout), and we\u0027re testing something other than error wrapping here. Perhaps:\n\n```\n// Check that the error returned when exceeding Client.Timeout\n// matches context.DeadlineExceeded.\n```",
+      "revId": "d8448d1152880ce519f8925218b23cd91616dfab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9133758c_cc35a308",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2152,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-20T20:51:42Z",
+      "side": 1,
+      "message": "This will be flaky: You\u0027ve got a 10ms client timeout racing with a 15ms handler timeout, and on a slow machine the 10ms will not always win the race.\n\nInstead, write this with a handler that blocks until after the request is complete; something like:\n\n```\ndonec :\u003d make(chan struct{})\ndefer close(donec)\ncst :\u003d newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {\n  \u003c-donec\n}))\n```\n\nAnd give the request a very short timeout of no more than 1ms. No sense in having the test take more time than it needs to.",
+      "revId": "d8448d1152880ce519f8925218b23cd91616dfab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "873e4307_cefd2254",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2566,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-20T20:51:42Z",
+      "side": 1,
+      "message": "```\nfunc (e *httpError) Unwrap() error { return e.err }\n```",
+      "revId": "d8448d1152880ce519f8925218b23cd91616dfab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
