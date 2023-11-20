@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e080cd49_58ec2bb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T16:56:56Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "28d5a1af87f1ae0c17bbad1f98b4d63c10bbfbea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b09469d_83685faa",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T16:56:56Z",
+      "side": 1,
+      "message": "IsBigFunc",
+      "range": {
+        "startLine": 708,
+        "startChar": 33,
+        "endLine": 708,
+        "endChar": 42
+      },
+      "revId": "28d5a1af87f1ae0c17bbad1f98b4d63c10bbfbea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d19aedf_6aa99089",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-20T16:56:56Z",
+      "side": 1,
+      "message": "or nil if the specified call cannot be inlined.",
+      "range": {
+        "startLine": 995,
+        "startChar": 78,
+        "endLine": 995,
+        "endChar": 79
+      },
+      "revId": "28d5a1af87f1ae0c17bbad1f98b4d63c10bbfbea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
