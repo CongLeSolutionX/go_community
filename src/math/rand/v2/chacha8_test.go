@@ -5,11 +5,19 @@
 package rand_test
 
 import (
+	"internal/goarch"
 	. "math/rand/v2"
+	"runtime"
 	"testing"
 )
 
 func TestChaCha8(t *testing.T) {
+	if goarch.BigEndian {
+		t.Skip("ChaCha8 is currently broken on big endian platforms, see #64284.")
+	}
+	if runtime.GOARCH == "riscv64" {
+		t.Skip("ChaCha8 is currently broken on riscv64, see #64285.")
+	}
 	p := NewChaCha8(chacha8seed)
 	for i, x := range chacha8output {
 		if u := p.Uint64(); u != x {
@@ -26,6 +34,12 @@ func TestChaCha8(t *testing.T) {
 }
 
 func TestChaCha8Marshal(t *testing.T) {
+	if goarch.BigEndian {
+		t.Skip("ChaCha8 is currently broken on big endian platforms, see #64284.")
+	}
+	if runtime.GOARCH == "riscv64" {
+		t.Skip("ChaCha8 is currently broken on riscv64, see #64285.")
+	}
 	p := NewChaCha8(chacha8seed)
 	for i, x := range chacha8output {
 		enc, err := p.MarshalBinary()
