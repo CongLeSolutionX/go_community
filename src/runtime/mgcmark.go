@@ -894,6 +894,9 @@ func scanstack(gp *g, gcw *gcWork) int64 {
 		scanblock(uintptr(unsafe.Pointer(&gp.sched.ctxt)), goarch.PtrSize, &oneptrmask[0], gcw, &state)
 	}
 
+	// Store sp to enable additional validation in scanblock.
+	state.sp = sp
+
 	// Scan the stack. Accumulate a list of stack objects.
 	var u unwinder
 	for u.init(gp, 0); u.valid(); u.next() {
@@ -1376,6 +1379,16 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 					if obj, span, objIndex := findObject(p, b, i); obj != 0 {
 						greyobject(obj, b, i, span, gcw, objIndex)
 					} else if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
+						if debug.invalidptr != 0 && stk.sp >= stk.stack.lo && stk.sp < stk.stack.hi {
+							// TODO: this could be only for debug.invalidptr >= 2 or similar?
+							// TODO: what should the precise check here be?
+							if p+goarch.PtrSize < stk.sp && p+goarch.PtrSize > p {
+								print("runtime: stack pointer at ", hex(b+i), " points to stack ", hex(p), " beyond sp ", hex(stk.sp), "\n")
+								print("runtime: stack [", hex(stk.stack.lo), ",", hex(stk.stack.hi), ")\n")
+								gcDumpObject("stack obj", b, i)
+								throw("stack pointer beyond sp (incorrect use of unsafe or cgo?)")
+							}
+						}
 						stk.putPtr(p, false)
 					} else if debug.invalidptr != 0 && span != nil && span.state.get() == mSpanManual {
 						println("runtime: heap pointer at", hex(b+i), "points to stack", hex(p))
