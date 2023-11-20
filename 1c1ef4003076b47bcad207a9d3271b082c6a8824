@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "866c316f_ec96eef0",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1634,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-20T23:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c9afddb_5b2cf8c6",
+      "revId": "1c1ef4003076b47bcad207a9d3271b082c6a8824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42989a98_dd17a89f",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-20T19:56:53Z",
       "side": 1,
       "message": "This workaround seems too complicated.. Especially given that we are not also updating `PWD` on the platforms that use it, what we care about is that `wdNew` is the same directory as `wd`, not that they are reached via the same path.\n\nI suggest that we instead replace `equal` with a call to `SameFile`:\n```go\nwdInfo, err :\u003d fd.Stat()\nif err !\u003d nil {\n\tt.Fatal(err)\n}\n\nnewInfo, err :\u003d Stat(wdNew)\nif err !\u003d nil {\n\tt.Fatal(err)\n}\n\nif !SameFile(wdInfo, newInfo) {\n\tt.Fatalf(\"fd.Chdir failed: got %s, want %s\", wdNew, wd)\n}\n```",
+      "range": {
+        "startLine": 1624,
+        "startChar": 0,
+        "endLine": 1635,
+        "endChar": 2
+      },
+      "revId": "1c1ef4003076b47bcad207a9d3271b082c6a8824",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a1929c5_244a1b9f",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1635,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-20T23:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42989a98_dd17a89f",
       "range": {
         "startLine": 1624,
         "startChar": 0,
