@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9c660dc_cf48e03a",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1642,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-20T23:22:13Z",
+      "side": 1,
+      "message": "I think this function is no longer used — please remove it.",
+      "range": {
+        "startLine": 1636,
+        "startChar": 0,
+        "endLine": 1642,
+        "endChar": 1
+      },
+      "revId": "a7f1a379fc88ceb626166358cda07ddc2340172e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
