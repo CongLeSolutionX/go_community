@@ -56,6 +56,30 @@
       },
       "revId": "88c4fac96c60652a4dbcecaf3582118a9b9a6b04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f40494b4_e13ad291",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:00:40Z",
+      "side": 1,
+      "message": "Changed to \"devirtualize-and-inline\" to match the function name.",
+      "parentUuid": "d80df2da_79ef198c",
+      "range": {
+        "startLine": 228,
+        "startChar": 25,
+        "endLine": 228,
+        "endChar": 36
+      },
+      "revId": "88c4fac96c60652a4dbcecaf3582118a9b9a6b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
