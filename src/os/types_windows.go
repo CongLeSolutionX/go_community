@@ -33,6 +33,7 @@ type fileStat struct {
 	// used to implement SameFile
 	sync.Mutex
 	path             string
+	finalPath        string
 	vol              uint32
 	idxhi            uint32
 	idxlo            uint32
@@ -235,6 +236,12 @@ func (fs *fileStat) loadFileId() error {
 	} else {
 		path = fs.path
 	}
+	var err error
+	// see issue 62042 for details
+	fs.finalPath, err = normaliseLinkPath(path, windows.FILE_NAME_NORMALIZED)
+	if err != nil {
+		return err
+	}
 	pathp, err := syscall.UTF16PtrFromString(path)
 	if err != nil {
 		return err
@@ -296,6 +303,9 @@ func sameFile(fs1, fs2 *fileStat) bool {
 	e = fs2.loadFileId()
 	if e != nil {
 		return false
+	}
+	if fs1.idxhi == 0 && fs2.idxhi == 0 && fs1.idxlo == 0 && fs2.idxlo == 0 {
+		return fs1.vol == fs2.vol && fs1.finalPath == fs2.finalPath
 	}
 	return fs1.vol == fs2.vol && fs1.idxhi == fs2.idxhi && fs1.idxlo == fs2.idxlo
 }
