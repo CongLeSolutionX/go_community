@@ -76,6 +76,29 @@
       },
       "revId": "225886514380b1d760edb8377d040cf4ed2d0cdf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1471d9d_6ba48a31",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-20T22:21:00Z",
+      "side": 1,
+      "message": "Hmm. Thinking about this some more: I think the same bug exists for `http.FileServerFS`, but it isn\u0027t clear to me whether an `fs.FS` rooted at a file is considered valid or not. (https://go.dev/play/p/6kt11lEyV2U suggests that at least `os.DirFS` does not consider a file to be valid, so maybe not? But the `fs.FS` documentation is not very explicit about it either way.)\n\nSo we probably do need to handle this case in `serveFile` too. Since we know it already leads to an infinite redirect, perhaps we can serve an explicit error instead?\n\n```go\nif d.IsDir() {\n\t…\n} else if url[len(url)-1] \u003d\u003d \u0027/\u0027 {\n\tbase :\u003d path.Base(url)\n\tif base \u003d\u003d \"/\" || base \u003d\u003d \".\" {\n\t\t// The FileSystem maps a path like \"/\" or \"/./\" to a file instead of a directory.\n\t\tmsg :\u003d …\n\t\tError(w, msg, StatusInternalServerError)\n\t\treturn\n\t}\n\tlocalRedirect(w, r, \"../\"+base)\n\treturn\n}\n```",
+      "range": {
+        "startLine": 668,
+        "startChar": 0,
+        "endLine": 671,
+        "endChar": 4
+      },
+      "revId": "225886514380b1d760edb8377d040cf4ed2d0cdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
