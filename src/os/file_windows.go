@@ -361,7 +361,7 @@ func openSymlink(path string) (syscall.Handle, error) {
 //	\??\C:\foo\bar into C:\foo\bar
 //	\??\UNC\foo\bar into \\foo\bar
 //	\??\Volume{abc}\ into C:\
-func normaliseLinkPath(path string) (string, error) {
+func normaliseLinkPath(path string, flags uint32) (string, error) {
 	if len(path) < 4 || path[:4] != `\??\` {
 		// unexpected path, return it as is
 		return path, nil
@@ -385,7 +385,7 @@ func normaliseLinkPath(path string) (string, error) {
 
 	buf := make([]uint16, 100)
 	for {
-		n, err := windows.GetFinalPathNameByHandle(h, &buf[0], uint32(len(buf)), windows.VOLUME_NAME_DOS)
+		n, err := windows.GetFinalPathNameByHandle(h, &buf[0], uint32(len(buf)), flags)
 		if err != nil {
 			return "", err
 		}
@@ -428,9 +428,9 @@ func readlink(path string) (string, error) {
 		if rb.Flags&windows.SYMLINK_FLAG_RELATIVE != 0 {
 			return s, nil
 		}
-		return normaliseLinkPath(s)
+		return normaliseLinkPath(s, windows.VOLUME_NAME_DOS)
 	case windows.IO_REPARSE_TAG_MOUNT_POINT:
-		return normaliseLinkPath((*windows.MountPointReparseBuffer)(unsafe.Pointer(&rdb.DUMMYUNIONNAME)).Path())
+		return normaliseLinkPath((*windows.MountPointReparseBuffer)(unsafe.Pointer(&rdb.DUMMYUNIONNAME)).Path(), windows.VOLUME_NAME_DOS)
 	default:
 		// the path is not a symlink or junction but another type of reparse
 		// point

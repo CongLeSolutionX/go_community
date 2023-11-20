@@ -2263,6 +2263,28 @@ func TestSameFile(t *testing.T) {
 	if SameFile(ia1, ib) {
 		t.Errorf("files should be different")
 	}
+
+	// see issue 62042 for details
+	if runtime.GOOS == "windows" {
+		fi1, err := Stat(`\\.\pipe\`)
+		if err != nil {
+			t.Error(err)
+		}
+		fi2, err := Stat("NUL")
+		if err != nil {
+			t.Error(err)
+		}
+		fi3, err := Stat("NUL")
+		if err != nil {
+			t.Error(err)
+		}
+		if SameFile(fi1, fi2) {
+			t.Error(`os.SameFile(NUL, \\.\pipe\) should be different`)
+		}
+		if !SameFile(fi2, fi3) {
+			t.Error(`os.SameFile(NUL, NUL) should be same`)
+		}
+	}
 }
 
 func testDevNullFileInfo(t *testing.T, statname, devNullName string, fi FileInfo) {
