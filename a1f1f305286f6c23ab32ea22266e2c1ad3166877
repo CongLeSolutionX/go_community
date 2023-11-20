@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9cd160f_995ded3b",
+        "filename": "src/internal/trace/v2/testdata/generators/go122-task-across-generations.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-20T20:44:00Z",
+      "side": 1,
+      "message": "So why not keep it as NoTask?",
+      "revId": "a1f1f305286f6c23ab32ea22266e2c1ad3166877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
