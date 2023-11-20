@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d7ac9964_6cbc0766",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-20T18:54:33Z",
+      "side": 1,
+      "message": "Does not slow down compilation, which was a worry.\nLGTM.",
+      "revId": "7e95f12edc761f40d4b11fd0d352f68ad54b393b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "debe8716_0784b4c2",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 2
