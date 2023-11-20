@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6f818940_20e6edcb",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-20T21:31:14Z",
+      "side": 1,
+      "message": "ah yes, will fix that",
+      "parentUuid": "d665d3f6_f7cd7529",
+      "revId": "03d68093eb006bf9774e03ad3fdf4d1497186dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "093e17a5_82c42ebc",
         "filename": "src/cmd/trace/v2/gstate.go",
         "patchSetId": 10
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "it is the state of a G; the type parameter is what we\u0027re collecting information relative to.\n\nI couldn\u0027t think of a nicer way to express \"G state over time, but with respect to Proc/Goroutine/Thread\".",
       "parentUuid": "093e17a5_82c42ebc",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "03d68093eb006bf9774e03ad3fdf4d1497186dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80f98dd9_1a5836db",
+        "filename": "src/cmd/trace/v2/gstate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-20T21:31:14Z",
+      "side": 1,
+      "message": "reopening to write a comment explaining that",
+      "parentUuid": "5ce8a70f_3cffd9f1",
       "range": {
         "startLine": 23,
         "startChar": 5,
