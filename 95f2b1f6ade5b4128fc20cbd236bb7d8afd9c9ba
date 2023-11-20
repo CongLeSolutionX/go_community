@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "631a299c_555af87c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T15:50:18Z",
+      "side": 1,
+      "message": "[+mpratt for FYI]\n\nGood idea, thanks.\n\nThis CL doesn\u0027t actually change PGO-based devirtualization. It just moves the code along with the other devirt and inlining.\n\nI\u0027m planning today to get PGO-based devirtualization interleaved too, but that will be a separate CL.",
+      "parentUuid": "dcf5c72d_592d3fa4",
+      "revId": "95f2b1f6ade5b4128fc20cbd236bb7d8afd9c9ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9e99bf3d_b9158327",
         "filename": "src/cmd/compile/internal/inline/interleaved/interleaved.go",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-20T15:31:24Z",
       "side": 1,
       "message": "Yes, that\u0027s correct (no need to run inlheur.ScoreCalls after devirtualization). inlheur.UpdateCallsiteTable is the entry point that locates and applies scoring to calls that have been exposed by inlines; it could be generalized to do the same thing for new direct calls exposed by devirtualization, but it\u0027s not critical (if there is no score for a call site, we\u0027ll just fall back on using fn.Inl.Cost).",
+      "range": {
+        "startLine": 83,
+        "startChar": 22,
+        "endLine": 83,
+        "endChar": 39
+      },
+      "revId": "95f2b1f6ade5b4128fc20cbd236bb7d8afd9c9ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7093d6ea_70d30d28",
+        "filename": "src/cmd/compile/internal/inline/interleaved/interleaved.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T15:50:18Z",
+      "side": 1,
+      "message": "Great, thanks for confirming and the explanation! Removed the TODO.",
+      "parentUuid": "9e99bf3d_b9158327",
       "range": {
         "startLine": 83,
         "startChar": 22,
