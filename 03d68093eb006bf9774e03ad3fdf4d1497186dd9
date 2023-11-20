@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce8a70f_3cffd9f1",
+        "filename": "src/cmd/trace/v2/gstate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-20T15:47:21Z",
+      "side": 1,
+      "message": "it is the state of a G; the type parameter is what we\u0027re collecting information relative to.\n\nI couldn\u0027t think of a nicer way to express \"G state over time, but with respect to Proc/Goroutine/Thread\".",
+      "parentUuid": "093e17a5_82c42ebc",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "03d68093eb006bf9774e03ad3fdf4d1497186dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "093fca50_61a1085f",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-20T14:34:01Z",
       "side": 1,
       "message": "R?",
+      "range": {
+        "startLine": 77,
+        "startChar": 32,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "03d68093eb006bf9774e03ad3fdf4d1497186dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf5bf0e_438289cb",
+        "filename": "src/cmd/trace/v2/gstate.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-20T15:47:21Z",
+      "side": 1,
+      "message": "this is correct. the G state really is a state for a goroutine, and this is its ID. (see my other reply.)",
+      "parentUuid": "093fca50_61a1085f",
       "range": {
         "startLine": 77,
         "startChar": 32,
