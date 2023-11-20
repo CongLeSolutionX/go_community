@@ -105,6 +105,7 @@ func (t *traceStackTable) put(pcs []uintptr) uint64 {
 //
 //go:systemstack
 func (t *traceStackTable) dump(gen uintptr) {
+	stackBuf := make([]uintptr, traceStackSize)
 	w := unsafeTraceWriter(gen, nil)
 
 	// Iterate over the table.
@@ -122,9 +123,10 @@ func (t *traceStackTable) dump(gen uintptr) {
 		for ; stk != nil; stk = stk.next() {
 			stack := unsafe.Slice((*uintptr)(unsafe.Pointer(&stk.data[0])), uintptr(len(stk.data))/unsafe.Sizeof(uintptr(0)))
 
+			n := fpunwindExpand(stackBuf[:], stack)
 			// N.B. This might allocate, but that's OK because we're not writing to the M's buffer,
 			// but one we're about to create (with ensure).
-			frames := makeTraceFrames(gen, fpunwindExpand(stack))
+			frames := makeTraceFrames(gen, stackBuf[:n])
 
 			// Returns the maximum number of bytes required to hold the encoded stack, given that
 			// it contains N frames.
@@ -207,75 +209,6 @@ func makeTraceFrame(gen uintptr, f Frame) traceFrame {
 // disabled via GODEBUG or not supported by the architecture.
 func tracefpunwindoff() bool {
 	return debug.tracefpunwindoff != 0 || (goarch.ArchFamily != goarch.AMD64 && goarch.ArchFamily != goarch.ARM64)
-}
-
-// fpTracebackPCs populates pcBuf with the return addresses for each frame and
-// returns the number of PCs written to pcBuf. The returned PCs correspond to
-// "physical frames" rather than "logical frames"; that is if A is inlined into
-// B, this will return a PC for only B.
-func fpTracebackPCs(fp unsafe.Pointer, pcBuf []uintptr) (i int) {
-	for i = 0; i < len(pcBuf) && fp != nil; i++ {
-		// return addr sits one word above the frame pointer
-		pcBuf[i] = *(*uintptr)(unsafe.Pointer(uintptr(fp) + goarch.PtrSize))
-		// follow the frame pointer to the next one
-		fp = unsafe.Pointer(*(*uintptr)(fp))
-	}
-	return i
-}
-
-// fpunwindExpand checks if pcBuf contains logical frames (which include inlined
-// frames) or physical frames (produced by frame pointer unwinding) using a
-// sentinel value in pcBuf[0]. Logical frames are simply returned without the
-// sentinel. Physical frames are turned into logical frames via inline unwinding
-// and by applying the skip value that's stored in pcBuf[0].
-func fpunwindExpand(pcBuf []uintptr) []uintptr {
-	if len(pcBuf) > 0 && pcBuf[0] == logicalStackSentinel {
-		// pcBuf contains logical rather than inlined frames, skip has already been
-		// applied, just return it without the sentinel value in pcBuf[0].
-		return pcBuf[1:]
-	}
-
-	var (
-		lastFuncID = abi.FuncIDNormal
-		newPCBuf   = make([]uintptr, 0, traceStackSize)
-		skip       = pcBuf[0]
-		// skipOrAdd skips or appends retPC to newPCBuf and returns true if more
-		// pcs can be added.
-		skipOrAdd = func(retPC uintptr) bool {
-			if skip > 0 {
-				skip--
-			} else {
-				newPCBuf = append(newPCBuf, retPC)
-			}
-			return len(newPCBuf) < cap(newPCBuf)
-		}
-	)
-
-outer:
-	for _, retPC := range pcBuf[1:] {
-		callPC := retPC - 1
-		fi := findfunc(callPC)
-		if !fi.valid() {
-			// There is no funcInfo if callPC belongs to a C function. In this case
-			// we still keep the pc, but don't attempt to expand inlined frames.
-			if more := skipOrAdd(retPC); !more {
-				break outer
-			}
-			continue
-		}
-
-		u, uf := newInlineUnwinder(fi, callPC)
-		for ; uf.valid(); uf = u.next(uf) {
-			sf := u.srcFunc(uf)
-			if sf.funcID == abi.FuncIDWrapper && elideWrapperCalling(lastFuncID) {
-				// ignore wrappers
-			} else if more := skipOrAdd(uf.pc + 1); !more {
-				break outer
-			}
-			lastFuncID = sf.funcID
-		}
-	}
-	return newPCBuf
 }
 
 // startPCForTrace returns the start PC of a goroutine for tracing purposes.
