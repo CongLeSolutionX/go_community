@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c013448a_19ce6bda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2023-11-20T22:20:37Z",
+      "side": 1,
+      "message": "Same as https://go-review.git.corp.google.com/c/go/+/538475 with two lines swapped + rebase.",
+      "revId": "c13f912516d9f3947bfedcd88243a83fdc24540d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
