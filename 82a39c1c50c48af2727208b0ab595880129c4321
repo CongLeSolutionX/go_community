@@ -177,6 +177,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c31dc4c_9ffb6071",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-11-20T16:05:03Z",
+      "side": 1,
+      "message": "Your test fails because `GetFileInformationByHandle` returns the file attributes, but `FILE_FLAG_WRITE_THROUGH` is a file flag.\n\nI\u0027ve given this another thought, and testing this might be flaky, because not all hard disk hardware supports `FILE_FLAG_WRITE_THROUGH`, as per MSDN docs. Also, the syscall package has other `O_SYNC` not being tested, so it we won\u0027t be introducing a bad precedence.",
+      "parentUuid": "3bf503fd_5c7dfce0",
+      "revId": "82a39c1c50c48af2727208b0ab595880129c4321",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "193008b8_46c75772",
