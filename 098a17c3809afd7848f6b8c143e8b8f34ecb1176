@@ -247,6 +247,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9880dcd2_34115ec2",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T22:18:13Z",
+      "side": 1,
+      "message": "Hm, I thought I deleted this comment. Disregard.\n\nI meant that ir.StaticValue always returns nil for ir.PPARAMs, not the *ir.Func. But I subsequently noticed that ReassignOracle.StaticValue filters out non-PAUTOs anyway, so this is hidden from users.",
+      "parentUuid": "7d363dd6_3c9ddc3e",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4de60f75_7ba20c34",
