@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a961b2f_66a8cbe7",
+        "filename": "src/cmd/compile/internal/ir/check_reassign_no.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "nit: document what these functions do?\n\nI\u0027d also suggest using the build tag simply to control a const value like how internal/goexperiment works, that way you only need to write the function once and don\u0027t need to repeat the documentation.",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e582a60b_7fb53d7b",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "nit: \"A ReassignOracle efficiently answers queries about whether local variables are reassigned.\"\n\nShort variable declarations are a red herring here. Aside from type checking, there\u0027s no reason the compiler needs to distinguish `v :\u003d e` from `var v \u003d e`. (It\u0027s currently possible to distinguish them, and some code still does; but I\u0027m whittling away at that.)",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ec0108_e7ba943e",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "nit: The sentence is already quite long. Split the parenthetical into a standalone statement for better readibility.\n\nMaybe put it on `Init` instead. \"If the fn\u0027s IR is subsequently modified, Init must be called again.\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 36,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ffe73e_74c73685",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "What does this map represent? A brief comment or more descriptive name would be helpful.\n\nAlso, how does it differ from n.Defn? Why not just a `reassigned map[*Name]bool`?",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "985f6e9e_1fa93ff5",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "nit: \"param\"",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 10
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5a098aa_7d9f3440",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is ir.StaticValue\u0027s behavior?",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de60f75_7ba20c34",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "discover what?",
+      "range": {
+        "startLine": 44,
+        "startChar": 57,
+        "endLine": 44,
+        "endChar": 65
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3daea69_472c7293",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "What does this function do? What are the parameters?",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd240d0c_99801d42",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "Add a comment there advising that this code needs to be updated too then.",
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a279c0_8b286dde",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "nit: Just \"[StaticValue]\" conveys the same information, and should add a hyperlink.",
+      "range": {
+        "startLine": 119,
+        "startChar": 48,
+        "endLine": 120,
+        "endChar": 62
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "401732ea_4550d2bf",
+        "filename": "src/cmd/compile/internal/ir/reassignment.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-20T18:43:02Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 186,
+        "startChar": 47,
+        "endLine": 187,
+        "endChar": 61
+      },
+      "revId": "098a17c3809afd7848f6b8c143e8b8f34ecb1176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
