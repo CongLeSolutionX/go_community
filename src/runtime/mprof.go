@@ -760,7 +760,7 @@ func record(r *MemProfileRecord, b *bucket) {
 	if asanenabled {
 		asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 	}
-	i := copy(r.Stack0[:], fpunwindExpand(b.stk()))
+	i := fpunwindExpand(r.Stack0[:], b.stk())
 	for ; i < len(r.Stack0); i++ {
 		r.Stack0[i] = 0
 	}
@@ -818,7 +818,7 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 			if asanenabled {
 				asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 			}
-			i := copy(r.Stack0[:], fpunwindExpand(b.stk()))
+			i := fpunwindExpand(r.Stack0[:], b.stk())
 			for ; i < len(r.Stack0); i++ {
 				r.Stack0[i] = 0
 			}
@@ -848,7 +848,7 @@ func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
 			r := &p[0]
 			r.Count = int64(bp.count)
 			r.Cycles = bp.cycles
-			i := copy(r.Stack0[:], fpunwindExpand(b.stk()))
+			i := fpunwindExpand(r.Stack0[:], b.stk())
 			for ; i < len(r.Stack0); i++ {
 				r.Stack0[i] = 0
 			}
