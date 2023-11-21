@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2dad397_c458b78a",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-11-21T14:59:20Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right place for IncNonDefault. The number of times a server is willing to accept TLS 1.0 is not the interesting number to measure to decide when to switch, the interesting number is how many connections actually negotiate TLS 1.0 as a consequence.",
+      "revId": "362bf4fc6d3b456429e998582b15a2765e640741",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
