@@ -16,6 +16,24 @@
       "message": "This doesn\u0027t look right. This will leave uninitialized values in the returned slice between len(b)+n and c.",
       "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7dba963_5f36eb42",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-21T23:19:18Z",
+      "side": 0,
+      "message": "This is an unexported API, which now improves performance by not initializing []byte.\nA similar optimization see https://go-review.googlesource.com/c/go/+/456336, there is a precedent.",
+      "parentUuid": "95d19693_aad229b5",
+      "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
