@@ -52,6 +52,24 @@
       "parentUuid": "63be35bd_c861e6fa",
       "revId": "12eeb6553fa004cd671973a738f09006de4d0643",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c4874d_015670e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-11-21T22:48:25Z",
+      "side": 1,
+      "message": "Hi Cherry, that makes sense. I was wondering if it might make sense for it to be off by default to start? (What I did a little earlier today was to make CL 543936 and CL 543935 only check for invalid pointers with invalidptr\u003d2, with the default temporarily set to 2 for testing, but set the default back to 1 in CL 544176; I also posted a related question on #62653).\n\nIn any event, I\u0027d be excited to see progress here -- I think it could help a fair amount.",
+      "parentUuid": "e95a4bcf_290730c7",
+      "revId": "12eeb6553fa004cd671973a738f09006de4d0643",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
