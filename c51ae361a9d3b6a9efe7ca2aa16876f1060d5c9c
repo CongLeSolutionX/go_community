@@ -22,6 +22,30 @@
       },
       "revId": "c51ae361a9d3b6a9efe7ca2aa16876f1060d5c9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9e62b45_d1cbff3f",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-11-21T14:54:30Z",
+      "side": 1,
+      "message": "@gri@golang.org What\u0027s your idea?",
+      "parentUuid": "8598de3c_509d16d0",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 50
+      },
+      "revId": "c51ae361a9d3b6a9efe7ca2aa16876f1060d5c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
