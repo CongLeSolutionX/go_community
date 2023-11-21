@@ -122,7 +122,7 @@ func (check *Checker) instance(pos syntax.Pos, orig Type, targs []Type, expandin
 		assert(expanding == nil) // function instances cannot be reached from Named types
 
 		tparams := orig.TypeParams()
-		if !check.validateTArgLen(pos, tparams.Len(), len(targs)) {
+		if !check.validateTArgLen(pos, orig.String(), tparams.list(), targs) {
 			return Typ[Invalid]
 		}
 		if tparams.Len() == 0 {
@@ -153,15 +153,20 @@ func (check *Checker) instance(pos syntax.Pos, orig Type, targs []Type, expandin
 // validateTArgLen verifies that the length of targs and tparams matches,
 // reporting an error if not. If validation fails and check is nil,
 // validateTArgLen panics.
-func (check *Checker) validateTArgLen(pos syntax.Pos, ntparams, ntargs int) bool {
-	if ntargs != ntparams {
-		// TODO(gri) provide better error message
+func (check *Checker) validateTArgLen(pos syntax.Pos, typeName string, ntparams []*TypeParam, ntargs []Type) bool {
+
+	if len(ntargs) != len(ntparams) {
 		if check != nil {
-			check.errorf(pos, WrongTypeArgCount, "got %d arguments but %d type parameters", ntargs, ntparams)
+			if len(ntargs) < len(ntparams) {
+				check.errorf(pos, WrongTypeArgCount, "not enough type arguments for type %v: have %d, want %d", typeName, len(ntargs), len(ntparams))
+				return false
+			}
+			check.errorf(pos, WrongTypeArgCount, "too many type arguments for type %v: have %d, want %d", typeName, len(ntargs), len(ntparams))
 			return false
 		}
-		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, ntargs, ntparams))
+		panic(fmt.Sprintf("%v: have %d type arguments, want %d type parameters", pos, len(ntargs), len(ntparams)))
 	}
+
 	return true
 }
 
