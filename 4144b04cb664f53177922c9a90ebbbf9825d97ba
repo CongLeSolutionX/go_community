@@ -100,6 +100,30 @@
       },
       "revId": "4144b04cb664f53177922c9a90ebbbf9825d97ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "657dcb75_33632468",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T21:39:57Z",
+      "side": 1,
+      "message": "(on rotation here) resolving this because I think we should submit this ASAP to fix builds. we can follow-up with a narrower requirement.\n\nplease feel free to send a CL.",
+      "parentUuid": "85828576_0fe7e73c",
+      "range": {
+        "startLine": 585,
+        "startChar": 0,
+        "endLine": 588,
+        "endChar": 0
+      },
+      "revId": "4144b04cb664f53177922c9a90ebbbf9825d97ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
