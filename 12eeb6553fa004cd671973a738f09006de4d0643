@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b09e0fe_d0315f19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-11-21T17:50:07Z",
+      "side": 1,
+      "message": "Hi @cherryyz@google.com, I\u0027m curious if you are planning on returning to this? It seems like it would be useful in general (including right now, I\u0027m have some CLs that adjust escape analysis and",
+      "revId": "12eeb6553fa004cd671973a738f09006de4d0643",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

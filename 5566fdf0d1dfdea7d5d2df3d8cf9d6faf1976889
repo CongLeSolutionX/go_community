@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c9606d7_81c15894",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1770,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-11-21T17:50:07Z",
+      "side": 1,
+      "message": "Hi Cherry, FWIW, this is no longer correct, I think. (I made changes to the calculation in CL 543935 if interested in taking a look at that).",
+      "revId": "5566fdf0d1dfdea7d5d2df3d8cf9d6faf1976889",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
