@@ -81,6 +81,24 @@
       "parentUuid": "14ccc1d0_52048800",
       "revId": "46f95122986b14032b6865606f0b0114b149cec3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae211683_c1be95c0",
+        "filename": "src/internal/trace/goroutinesv2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T21:04:28Z",
+      "side": 1,
+      "message": "I\u0027ll send a follow-up CL documenting this and pepper in some TODOs in the runtime to add an explicit start PC to GoStatus.",
+      "parentUuid": "5835bb67_c5514c52",
+      "revId": "46f95122986b14032b6865606f0b0114b149cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
