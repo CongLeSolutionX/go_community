@@ -124,7 +124,7 @@ func (check *Checker) instance(pos token.Pos, orig Type, targs []Type, expanding
 		assert(expanding == nil) // function instances cannot be reached from Named types
 
 		tparams := orig.TypeParams()
-		if !check.validateTArgLen(pos, tparams.Len(), len(targs)) {
+		if !check.validateTArgLen(pos, tparams.list(), targs) {
 			return Typ[Invalid]
 		}
 		if tparams.Len() == 0 {
@@ -153,18 +153,42 @@ func (check *Checker) instance(pos token.Pos, orig Type, targs []Type, expanding
 }
 
 // validateTArgLen verifies that the length of targs and tparams matches,
-// reporting an error if not. If validation fails and check is nil,
+// reporting an error if not with have and want. If validation fails and check is nil,
 // validateTArgLen panics.
-func (check *Checker) validateTArgLen(pos token.Pos, ntparams, ntargs int) bool {
-	if ntargs != ntparams {
-		// TODO(gri) provide better error message
-		if check != nil {
-			check.errorf(atPos(pos), WrongTypeArgCount, "got %d arguments but %d type parameters", ntargs, ntparams)
-			return false
-		}
-		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, ntargs, ntparams))
+func (check *Checker) validateTArgLen(pos token.Pos, tparams []*TypeParam, targs []Type) bool {
+
+	var err error_
+	err.code = WrongTypeArgCount
+	isValidTarg := true
+	if check == nil && len(targs) != len(tparams) {
+		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, len(targs), len(tparams)))
 	}
-	return true
+
+	if len(targs) == len(tparams) {
+		return isValidTarg
+	} else if len(targs) < len(tparams) {
+		err.errorf(pos, "not enough type arguments for type T")
+		err.errorf(nopos, "have %s", check.typesSummary(targs, false))
+		err.errorf(nopos, "want %s", check.typesSummary(genTypes(tparams), false))
+		check.report(&err)
+		isValidTarg = false
+	} else {
+		err.errorf(pos, "too many type arguments for type T")
+		err.errorf(nopos, "have %s", check.typesSummary(targs, false))
+		err.errorf(nopos, "want %s", check.typesSummary(genTypes(tparams), false))
+		check.report(&err)
+		isValidTarg = false
+	}
+
+	return isValidTarg
+}
+
+// generate list of type params(types) for the type.
+func genTypes(list []*TypeParam) (res []Type) {
+	for _, x := range list {
+		res = append(res, x.bound)
+	}
+	return res
 }
 
 func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type, ctxt *Context) (int, error) {
