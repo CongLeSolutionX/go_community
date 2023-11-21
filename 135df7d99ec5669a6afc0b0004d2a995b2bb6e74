@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e683577_a62e58ce",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T23:18:13Z",
+      "side": 1,
+      "message": "this is normally called on the systemstack, but I don\u0027t remember why. it doesn\u0027t have the annotation which is even more confusing. :(",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc3e49db_94874428",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T23:18:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow why a CAS would be necessary here",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e972867f_289287b9",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T23:18:13Z",
+      "side": 1,
+      "message": "this needs to be modeled in the execution tracer, but I\u0027m not sure what the best way to model it is. we can have a pair of GoBlock and GoStart events, but that seems expensive. we can also add a new GoSwitch event to make that a single event but it\u0027s a bit more work in the parser (should be easy though).\n\nhappy to do this work to keep the tracer overhead low for coroutine switches. for now, you can probably get everything happy with the tracer by doing:\n\n```\ntrace :\u003d traceAcquire()\nif !gp.atomicstatus.CompareAndSwap(_Grunning, _Gwaiting) {\n    // The CAS failed: use casgstatus, which will take care of\n    // coordinating with the garbage collector about the state change.\n    casgstatus(gp, _Grunning, _Gwaiting)\n}\nif trace.ok() {\n    trace.GoBlock(...)\n    traceRelease(trace)\n}\n...\ntrace :\u003d traceAcquire()\nif !gnext.atomicstatus.CompareAndSwap(_Gwaiting, _Grunning) {\n    // The CAS failed: use casgstatus, which will take care of\n    // coordinating with the garbage collector about the state change.\n    casgstatus(gnext, _Gwaiting, _Grunnable)\n    casgstatus(gnext, _Grunnable, _Grunning)\n}\nif trace.ok() {\n    trace.GoStart(...)\n    traceRelease(trace)\n}\n```",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 58
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84520190_109bb741",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T23:18:13Z",
+      "side": 1,
+      "message": "I\u0027m having some difficulty reasoning about this as a non-atomic load on weak memory architectures. I could be convinced it\u0027s correct, but IMO it would be a bit clearer to make this atomic.",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 109,
+        "endChar": 14
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
