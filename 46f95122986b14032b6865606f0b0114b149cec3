@@ -39,6 +39,24 @@
       "message": "Is it possible for the stack to be truncated (either due to stack limit or a stack transition (systemstack()) that we didn\u0027t correctly follow) and thus for this to be wrong.\n\nOr are we always looking at GoCreate here?",
       "revId": "46f95122986b14032b6865606f0b0114b149cec3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5835bb67_c5514c52",
+        "filename": "src/internal/trace/goroutinesv2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T20:28:08Z",
+      "side": 1,
+      "message": "it\u0027s definitely possible for this to be wrong for that reason. I *think* this issue is consistent with the old tracer, but I can limit the naming to explicit from\u003d\u003dNotExist transitions if you think that\u0027s better.",
+      "parentUuid": "14ccc1d0_52048800",
+      "revId": "46f95122986b14032b6865606f0b0114b149cec3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
