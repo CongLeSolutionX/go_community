@@ -124,7 +124,7 @@ func (check *Checker) instance(pos token.Pos, orig Type, targs []Type, expanding
 		assert(expanding == nil) // function instances cannot be reached from Named types
 
 		tparams := orig.TypeParams()
-		if !check.validateTArgLen(pos, tparams.Len(), len(targs)) {
+		if !check.validateTArgParamLen(pos, tparams.list(), targs) {
 			return Typ[Invalid]
 		}
 		if tparams.Len() == 0 {
@@ -165,6 +165,30 @@ func (check *Checker) validateTArgLen(pos token.Pos, ntparams, ntargs int) bool 
 		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, ntargs, ntparams))
 	}
 	return true
+}
+
+func (check *Checker) validateTArgParamLen(pos token.Pos, tparams []*TypeParam, targs []Type) bool {
+	if len(targs) != len(tparams) {
+		if check != nil {
+			var err error_
+			err.code = WrongTypeArgCount
+			err.errorf(pos, "not enough type arguments for type T")
+			err.errorf(nopos, "have %s", check.typesSummary(targs, false))
+			err.errorf(nopos, "want %s", check.typesSummary(genTypes(tparams), false))
+			check.report(&err)
+			return false
+		}
+		panic(fmt.Sprintf("%v: got %d arguments but %d type parameters", pos, len(targs), len(tparams)))
+	}
+	return true
+}
+
+// operandTypes returns the list of types for the given operands.
+func genTypes(list []*TypeParam) (res []Type) {
+	for _, x := range list {
+		res = append(res, x.bound)
+	}
+	return res
 }
 
 func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type, ctxt *Context) (int, error) {
