@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cf9f0ac_26590cc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-21T01:55:13Z",
+      "side": 1,
+      "message": "I will capture T in the message - currently it is like this - not enough type arguments for type \"T\"\n\nAnything changes to be done to handle variadic here?",
+      "revId": "a04469eb591d45c48fbed1310fbc6208fa81f164",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
