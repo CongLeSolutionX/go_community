@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a74ca207_c4179093",
+        "filename": "api/next/61472.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-21T19:11:30Z",
+      "side": 1,
+      "message": "Missing newline is causing test failures.",
+      "revId": "df80699e724ca7968190c4b2a311753629691629",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
