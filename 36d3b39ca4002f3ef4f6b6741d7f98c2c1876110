@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc810a71_b46cff6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-11-21T16:14:41Z",
+      "side": 1,
+      "message": "Apologies for the late not-LGTM, but I did the exercise of running Delve against Go with this CL (and its predecessor) applied, and it failed fairly early.  There\u0027s a problem of some sort.",
+      "revId": "36d3b39ca4002f3ef4f6b6741d7f98c2c1876110",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
