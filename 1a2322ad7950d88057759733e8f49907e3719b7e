@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbe95afe_463dee27",
+        "filename": "src/internal/trace/v2/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-21T19:30:28Z",
+      "side": 1,
+      "message": "It would be nice if this could literally call the ProcStop implementation. But the refactoring overhead doesn\u0027t look worth it.",
+      "revId": "1a2322ad7950d88057759733e8f49907e3719b7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb39eb09_3611a9fa",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4416,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-21T19:30:28Z",
+      "side": 1,
+      "message": "I think it would be nice to do this, if only for consistency with exitsyscallfast_reacquired, but I don\u0027t feel strongly.",
+      "revId": "1a2322ad7950d88057759733e8f49907e3719b7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5059e0f5_ecd1e411",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4421,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-21T19:30:28Z",
+      "side": 1,
+      "message": "Why drop this from the new path? Because we never actually made the system call?",
+      "revId": "1a2322ad7950d88057759733e8f49907e3719b7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
