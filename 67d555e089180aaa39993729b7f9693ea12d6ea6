@@ -16,6 +16,24 @@
       "message": "This is not implemented, right?",
       "revId": "67d555e089180aaa39993729b7f9693ea12d6ea6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15d59a71_ef961f90",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-11-21T22:27:12Z",
+      "side": 1,
+      "message": "Mailed CL 544335.",
+      "parentUuid": "0a2fe19f_97e499c7",
+      "revId": "67d555e089180aaa39993729b7f9693ea12d6ea6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
