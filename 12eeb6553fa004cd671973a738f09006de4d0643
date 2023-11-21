@@ -34,6 +34,24 @@
       "parentUuid": "6b09e0fe_d0315f19",
       "revId": "12eeb6553fa004cd671973a738f09006de4d0643",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e95a4bcf_290730c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-21T21:53:56Z",
+      "side": 1,
+      "message": "No worries. As this can potentially break existing program (even if that code is actually unsafe and happens to work), we probably want to check this in early in cycle for the next release. We may also want to add a GODEBUG flag so user can debug or fall back to old behavior, either a new GODEBUG or a level in invalidptr. I\u0027ll for sure redo google-internal tests and understand the failures (if any) before the next cycle starts. Thanks.",
+      "parentUuid": "63be35bd_c861e6fa",
+      "revId": "12eeb6553fa004cd671973a738f09006de4d0643",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
