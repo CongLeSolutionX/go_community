@@ -124,6 +124,30 @@
       },
       "revId": "4144b04cb664f53177922c9a90ebbbf9825d97ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebb247e2_5e4cc2f5",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-21T22:22:39Z",
+      "side": 1,
+      "message": "If `SyscallIsNotSupported` is too broad, a narrower check is fine — but then we need to take care that the check is also appropriate for the myriad container environments that Go users may run in.\n\nA kernel version check alone usually does not suffice.",
+      "parentUuid": "657dcb75_33632468",
+      "range": {
+        "startLine": 585,
+        "startChar": 0,
+        "endLine": 588,
+        "endChar": 0
+      },
+      "revId": "4144b04cb664f53177922c9a90ebbbf9825d97ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
