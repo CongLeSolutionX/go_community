@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd03f089_41697240",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4416,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T21:45:53Z",
+      "side": 1,
+      "message": "I\u0027ll handle it in a follow-up.",
+      "parentUuid": "eb39eb09_3611a9fa",
+      "revId": "1a2322ad7950d88057759733e8f49907e3719b7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5059e0f5_ecd1e411",
