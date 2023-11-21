@@ -24,7 +24,8 @@ func ExampleEncode() {
 }
 
 func ExampleDecode() {
-	src := []byte("48656c6c6f20476f7068657221")
+	// Both upper case and lower case are allowed
+	src := []byte("48656c6C6f20476F7068657221")
 
 	dst := make([]byte, hex.DecodedLen(len(src)))
 	n, err := hex.Decode(dst, src)
@@ -39,7 +40,8 @@ func ExampleDecode() {
 }
 
 func ExampleDecodeString() {
-	const s = "48656c6c6f20476f7068657221"
+	// Both upper case and lower case are allowed
+	const s = "48656c6C6f20476F7068657221"
 	decoded, err := hex.DecodeString(s)
 	if err != nil {
 		log.Fatal(err)
