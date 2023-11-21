@@ -68,6 +68,24 @@
       "message": "@dneil: I started on this to fix responses on invalid range request, but I realized the issue is much wider and it is about all errors returned from ServeContent API. This fix makes a list of common headers but maybe a better approach would be to simply wipe all pre-set headers before calling Error?\n\nAnyway, I am opening this to get feedback. I also have to add some tests but I am not sure how detailed should they be. Should I just make another test function to check if headers are removed on an error, or should I check response headers in all existing tests which return errors?",
       "revId": "068dd93eaada694707e4279baf22888225a9c243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aa88660_4929cea2",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-21T18:03:01Z",
+      "side": 1,
+      "message": "Zeroing out all headers in error responses seems reasonable to me. (Probably `http.Error` should have done that, but it\u0027s far too late to change now.)\n\nI\u0027d make just one test that triggers an error response and verifies that only expected headers are present. No need to modify every existing test.",
+      "parentUuid": "40850d1f_a012b84a",
+      "revId": "068dd93eaada694707e4279baf22888225a9c243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

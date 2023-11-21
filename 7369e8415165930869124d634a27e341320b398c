@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da024962_187f5d1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-21T18:03:01Z",
+      "side": 1,
+      "message": "```\nFixes #50905\n```\n\nThis specific syntax is understood by gopherbot.",
+      "revId": "7369e8415165930869124d634a27e341320b398c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "863be880_e6fd57c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-11-21T18:03:01Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "7369e8415165930869124d634a27e341320b398c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
