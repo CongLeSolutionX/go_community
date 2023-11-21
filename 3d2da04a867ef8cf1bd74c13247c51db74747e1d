@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61ea52d5_732c3554",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-11-21T22:53:09Z",
+      "side": 1,
+      "message": "I think you need to delete the LUCI result label and re-run it. I\u0027m not sure it\u0027ll update the label itself if you re-run broken jobs.",
+      "revId": "3d2da04a867ef8cf1bd74c13247c51db74747e1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
