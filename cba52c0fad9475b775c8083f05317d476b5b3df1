@@ -110,6 +110,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0988e20_b4b1f2fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-21T21:58:30Z",
+      "side": 1,
+      "message": "Looks like a number of tests need to be updated.",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df08912a_7298bedf",
         "filename": "src/cmd/compile/internal/types2/instantiate.go",
         "patchSetId": 2
@@ -127,6 +144,70 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e45d89d_9c7f5200",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-21T21:58:30Z",
+      "side": 1,
+      "message": "Thanks. Yes, this seems resonable, though I doubt that `pluralize` is worth it for the panic message. (\"1 type arguments\" is probably good enough for a panic).",
+      "parentUuid": "df08912a_7298bedf",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f33725e_b80ba264",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-21T21:58:30Z",
+      "side": 1,
+      "message": "What if len(targs) \u003e len(tparams)? Don\u0027t we need state \"too many\" instead of \"not enough\"?",
+      "range": {
+        "startLine": 173,
+        "startChar": 20,
+        "endLine": 173,
+        "endChar": 45
+      },
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f43531_9f1cd707",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-21T21:58:30Z",
+      "side": 1,
+      "message": "This should be \"type arguments\"",
+      "range": {
+        "startLine": 179,
+        "startChar": 32,
+        "endLine": 179,
+        "endChar": 41
+      },
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47f12ab1_c59d6e88",
         "filename": "src/cmd/compile/internal/types2/instantiate.go",
         "patchSetId": 2
@@ -138,6 +219,29 @@
       "writtenOn": "2023-11-21T08:41:25Z",
       "side": 1,
       "message": "Please update this godoc.",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2f1c441_42e7ca48",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-21T21:58:30Z",
+      "side": 1,
+      "message": "Does this change also need to be reflected in go/types?\n\nPlease replace the old validateTArgLen, rather than write a new function, as I believe it is unused.",
+      "range": {
+        "startLine": 466,
+        "startChar": 11,
+        "endLine": 466,
+        "endChar": 31
+      },
       "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
