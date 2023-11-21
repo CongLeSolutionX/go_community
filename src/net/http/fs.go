@@ -145,7 +145,7 @@ func dirList(w ResponseWriter, r *Request, f File) {
 
 	if err != nil {
 		logf(r, "http: error reading directory: %v", err)
-		Error(w, "Error reading directory", StatusInternalServerError)
+		writeError(w, "Error reading directory", StatusInternalServerError)
 		return
 	}
 	sort.Slice(dirs, func(i, j int) bool { return dirs.name(i) < dirs.name(j) })
@@ -242,7 +242,7 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 			ctype = DetectContentType(buf[:n])
 			_, err := content.Seek(0, io.SeekStart) // rewind to output whole file
 			if err != nil {
-				Error(w, "seeker can't seek", StatusInternalServerError)
+				writeError(w, "seeker can't seek", StatusInternalServerError)
 				return
 			}
 		}
@@ -253,12 +253,12 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 
 	size, err := sizeFunc()
 	if err != nil {
-		Error(w, err.Error(), StatusInternalServerError)
+		writeError(w, err.Error(), StatusInternalServerError)
 		return
 	}
 	if size < 0 {
 		// Should never happen but just to be sure
-		Error(w, "negative content size computed", StatusInternalServerError)
+		writeError(w, "negative content size computed", StatusInternalServerError)
 		return
 	}
 
@@ -280,7 +280,7 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 		w.Header().Set("Content-Range", fmt.Sprintf("bytes */%d", size))
 		fallthrough
 	default:
-		Error(w, err.Error(), StatusRequestedRangeNotSatisfiable)
+		writeError(w, err.Error(), StatusRequestedRangeNotSatisfiable, "Content-Range")
 		return
 	}
 
@@ -306,7 +306,7 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 		// multipart responses."
 		ra := ranges[0]
 		if _, err := content.Seek(ra.start, io.SeekStart); err != nil {
-			Error(w, err.Error(), StatusRequestedRangeNotSatisfiable)
+			writeError(w, err.Error(), StatusRequestedRangeNotSatisfiable)
 			return
 		}
 		sendSize = ra.length
@@ -573,6 +573,23 @@ func setLastModified(w ResponseWriter, modtime time.Time) {
 	}
 }
 
+func writeError(w ResponseWriter, msg string, code int, keepHeaders ...string) {
+	// ServeContent API is to set some headers you want to see in the response
+	// before calling ServeContent. But if there is an error, all those headers
+	// should be removed otherwise they might confuse the client.
+	h := w.Header()
+	keep := make(Header, len(keepHeaders))
+	for _, key := range keepHeaders {
+		keep[key] = h[key]
+	}
+	clear(h)
+	h.Set("Cache-Control", "no-cache")
+	for key, value := range keep {
+		h[key] = value
+	}
+	Error(w, msg, code)
+}
+
 func writeNotModified(w ResponseWriter) {
 	// RFC 7232 section 4.1:
 	// a sender SHOULD NOT generate representation metadata other than the
@@ -639,7 +656,7 @@ func serveFile(w ResponseWriter, r *Request, fs FileSystem, name string, redirec
 	f, err := fs.Open(name)
 	if err != nil {
 		msg, code := toHTTPError(err)
-		Error(w, msg, code)
+		writeError(w, msg, code)
 		return
 	}
 	defer f.Close()
@@ -647,7 +664,7 @@ func serveFile(w ResponseWriter, r *Request, fs FileSystem, name string, redirec
 	d, err := f.Stat()
 	if err != nil {
 		msg, code := toHTTPError(err)
-		Error(w, msg, code)
+		writeError(w, msg, code)
 		return
 	}
 
@@ -759,7 +776,7 @@ func ServeFile(w ResponseWriter, r *Request, name string) {
 		// here and ".." may not be wanted.
 		// Note that name might not contain "..", for example if code (still
 		// incorrectly) used filepath.Join(myDir, r.URL.Path).
-		Error(w, "invalid URL path", StatusBadRequest)
+		writeError(w, "invalid URL path", StatusBadRequest)
 		return
 	}
 	dir, file := filepath.Split(name)
@@ -794,7 +811,7 @@ func ServeFileFS(w ResponseWriter, r *Request, fsys fs.FS, name string) {
 		// here and ".." may not be wanted.
 		// Note that name might not contain "..", for example if code (still
 		// incorrectly) used filepath.Join(myDir, r.URL.Path).
-		Error(w, "invalid URL path", StatusBadRequest)
+		writeError(w, "invalid URL path", StatusBadRequest)
 		return
 	}
 	serveFile(w, r, FS(fsys), name, false)
