@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a89d308_8c41e163",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-21T20:39:21Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-arm-aws,android",
+      "revId": "4144b04cb664f53177922c9a90ebbbf9825d97ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
