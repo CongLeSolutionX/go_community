@@ -463,7 +463,7 @@ func (check *Checker) instantiatedType(x syntax.Expr, xlist []syntax.Expr, def *
 		// errors.
 		check.recordInstance(x, inst.TypeArgs().list(), inst)
 
-		if check.validateTArgLen(x.Pos(), inst.TypeParams().Len(), inst.TypeArgs().Len()) {
+		if check.validateTArgParamLen(x.Pos(), inst.TypeParams().list(), inst.TypeArgs().types) {
 			if i, err := check.verify(x.Pos(), inst.TypeParams().list(), inst.TypeArgs().list(), check.context()); err != nil {
 				// best position for error reporting
 				pos := x.Pos()
