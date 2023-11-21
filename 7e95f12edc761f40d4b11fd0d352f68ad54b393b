@@ -74,6 +74,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cb5b6d82_c77f5ab0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31271
+      },
+      "writtenOn": "2023-11-21T16:17:07Z",
+      "side": 1,
+      "message": "I see the LGTMs. Noob question - am I supposed to do anything here?\n\nThere\u0027s also the next patch in the series to review; I think this one stands on its own and can be merged without waiting for the next one, but others might disagree.",
+      "revId": "7e95f12edc761f40d4b11fd0d352f68ad54b393b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "debe8716_0784b4c2",
         "filename": "src/cmd/compile/internal/ssa/debug.go",
         "patchSetId": 2
