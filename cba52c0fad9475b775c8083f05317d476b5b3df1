@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e451227_e99d5d81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-21T08:41:25Z",
+      "side": 1,
+      "message": "cmd/compile: show types in generics type arguments/parameters mismatch",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7976c28_d2546217",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-21T08:41:25Z",
+      "side": 1,
+      "message": "This change improves the user experience of mismatched\narguments/parameters for generics. It now displays:\n   have: (current_types)\n   want: (expected_types)\n\nmatching what’s displayed when we have mismatches for\nnon-generics.",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cb88c78_4dc82320",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-21T08:41:25Z",
+      "side": 1,
+      "message": "Thank you for this change Raghvender. I’ve added a suggestion to improve the code and fix the pluralization in error messages so no more “1 arguments”. We shall also need to add a test inside test/fixedbugs which also happens to have examples that you can get inspiration for: please run: ls -rt and it’ll show you most recent changes closer to the end of your terminal.",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df08912a_7298bedf",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-21T08:41:25Z",
+      "side": 1,
+      "message": "This could use refactoring by inversion and early returns, and also fixing the pluralization right, so please:\n```go\n      if len(targs) \u003d\u003d len(tparams) {\n             return true\n      }\n\n      if check \u003d\u003d nil {\n             panic(fmt.Sprintf(\"%v: got %s but %s\",\n                     pos, pluralize(len(targs), “argument”),\n                     pluralize(len(tparams)), “type parameter”)\n      }\n\n      var err error_\n      err.code \u003d WrongTypeArgCount\n      err.errorf(pos, \"not enough type arguments for type T\")\n      err.errorf(nopos, \"have %s\", check.typesSummary(targs, false))\n      err.errorf(nopos, \"want %s\", check.typesSummary(genTypes(tparams), false))\n      check.report(\u0026err)\n      return false\n}\n\nfunc pluralize(n int, singularSuffix string) (str string) {\n      str \u003d fmt.Sprintf(“%d %s”, n, singularSuffix)\n      if n !\u003d 1 {\n              str +\u003d “s”\n      }\n      return\n}\n```",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47f12ab1_c59d6e88",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-21T08:41:25Z",
+      "side": 1,
+      "message": "Please update this godoc.",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97458c27_d0313421",
+        "filename": "src/go/types/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-11-21T08:41:25Z",
+      "side": 1,
+      "message": "Please see my reviews for this method’s refactoring and correct pluralization.",
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
