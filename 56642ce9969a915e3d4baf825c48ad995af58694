@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b141e8ee_ba04948e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T21:49:28Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-staticlockranking",
+      "revId": "56642ce9969a915e3d4baf825c48ad995af58694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
