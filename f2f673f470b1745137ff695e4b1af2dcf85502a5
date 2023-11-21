@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58ec81d8_8cab6b8f",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "This needs its own \u003ch3\u003e section, \"Special instructions\" or something like that.",
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb4af707_466d9361",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "instructions",
+      "range": {
+        "startLine": 469,
+        "startChar": 45,
+        "endLine": 469,
+        "endChar": 56
+      },
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2dd9240_ef9f847e",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "the start of the \u003ccode\u003eMOVD\u003c/code\u003e instruction",
+      "range": {
+        "startLine": 475,
+        "startChar": 13,
+        "endLine": 475,
+        "endChar": 30
+      },
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b8f58d_1133dcd9",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "I think on amd64 functions are aligned to 32 bytes currently.\n\nIn any case, I\u0027m not sure it is worth mentioning this. You ask for alignment, we get you alignment. How that happens is ~immeterial.\n(If we align the MOVD above to a 32 byte boundary, but the function it is in starts at 7 mod 32, that would be ok, right?)",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 483,
+        "endChar": 51
+      },
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ade967_e4acb475",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "I think you mean powers of two.\nAnd the current implementation requires that, right?",
+      "range": {
+        "startLine": 489,
+        "startChar": 78,
+        "endLine": 489,
+        "endChar": 104
+      },
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb32336_d65ed4eb",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "$ signs are unnecessary.",
+      "range": {
+        "startLine": 489,
+        "startChar": 117,
+        "endLine": 489,
+        "endChar": 118
+      },
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "890dde31_f384a3a9",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "\"Note that PCALIGN directives might add additional instructions to the binary.\"\n\nMight also be unnecessary, we already say this in the first sentence about what PCALIGN does.",
+      "range": {
+        "startLine": 490,
+        "startChar": 212,
+        "endLine": 490,
+        "endChar": 216
+      },
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3244d013_6c01fbcb",
+        "filename": "doc/asm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-11-21T19:48:10Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to mention this either. If someone is reaching for a PCALIGN directive they already know what they are for.",
+      "range": {
+        "startLine": 490,
+        "startChar": 0,
+        "endLine": 490,
+        "endChar": 211
+      },
+      "revId": "f2f673f470b1745137ff695e4b1af2dcf85502a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
