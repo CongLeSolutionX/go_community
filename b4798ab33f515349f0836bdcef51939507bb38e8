@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39b19d47_4fc3da28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-21T19:48:35Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "b4798ab33f515349f0836bdcef51939507bb38e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3209d1_21486c9e",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-11-21T19:48:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be done for this CL, but `pid1` seems completely unnecessary. Can it ever be different from `p.Pid`?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 6
+      },
+      "revId": "b4798ab33f515349f0836bdcef51939507bb38e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
