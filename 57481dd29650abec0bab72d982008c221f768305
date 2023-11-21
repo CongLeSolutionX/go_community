@@ -16,6 +16,24 @@
       "message": "Yuck. Leave a TODO to remove once the LUCI migration is complete?",
       "revId": "57481dd29650abec0bab72d982008c221f768305",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fce5579_3d81abb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-21T22:50:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "ba380f6f_b16427ff",
+      "revId": "57481dd29650abec0bab72d982008c221f768305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
