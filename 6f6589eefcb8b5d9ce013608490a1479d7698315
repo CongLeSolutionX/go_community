@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec5fb42d_22961d79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-21T20:33:42Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd132582_f5536cc9",
@@ -50,6 +67,24 @@
       "side": 1,
       "message": "Ah, I see, we already do that optimization.",
       "parentUuid": "4337725e_a7b70d50",
+      "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9582c93c_1390271d",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-11-21T20:33:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "94c4a2f2_3188d23c",
       "revId": "6f6589eefcb8b5d9ce013608490a1479d7698315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
