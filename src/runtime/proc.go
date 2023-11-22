@@ -5769,15 +5769,19 @@ func wirep(pp *p) {
 	gp := getg()
 
 	if gp.m.p != 0 {
-		throw("wirep: already in go")
+		systemstack(func() {
+			throw("wirep: already in go")
+		})
 	}
 	if pp.m != 0 || pp.status != _Pidle {
-		id := int64(0)
-		if pp.m != 0 {
-			id = pp.m.ptr().id
-		}
-		print("wirep: p->m=", pp.m, "(", id, ") p->status=", pp.status, "\n")
-		throw("wirep: invalid p state")
+		systemstack(func() {
+			id := int64(0)
+			if pp.m != 0 {
+				id = pp.m.ptr().id
+			}
+			print("wirep: p->m=", pp.m, "(", id, ") p->status=", pp.status, "\n")
+			throw("wirep: invalid p state")
+		})
 	}
 	gp.m.p.set(pp)
 	pp.m.set(gp.m)
