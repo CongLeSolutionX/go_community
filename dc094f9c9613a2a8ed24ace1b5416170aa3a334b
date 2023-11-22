@@ -52,6 +52,24 @@
       "parentUuid": "f7dba963_5f36eb42",
       "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb80aba9_c343976f",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-22T01:11:40Z",
+      "side": 0,
+      "message": "`b2 :\u003d bytealg.MakeNoZero(c)[:len(b)+n]` does look problematic here. Might be better understood in context?\n\n```go\n// grow grows the buffer to guarantee space for n more bytes.\n// It returns the index where bytes should be written.\n// If the buffer can\u0027t grow it will panic with ErrTooLarge.\nfunc (b *Buffer) grow(n int) int {\n\tm :\u003d b.Len()\n....\n\tif n \u003c\u003d c/2-m {\n\t\t// We can slide things down instead of allocating a new\n\t\t// slice. We only need m+n \u003c\u003d c to slide, but\n\t\t// we instead let capacity get twice as large so we\n\t\t// don\u0027t spend all our time copying.\n\t\tcopy(b.buf, b.buf[b.off:])\n\t} else if c \u003e maxInt-c-n {\n\t\tpanic(ErrTooLarge)\n\t} else {\n\t\t// Add b.off to account for b.buf[:b.off] being sliced off the front.\n\t\tb.buf \u003d growSlice(b.buf[b.off:], b.off+n)\n\t}\n\t// Restore b.off and len(b.buf).\n\tb.off \u003d 0\n\tb.buf \u003d b.buf[:m+n]\n\treturn m\n}\n```\n\n```go\n// Grow grows the buffer\u0027s capacity, if necessary, to guarantee space for\n// another n bytes. After Grow(n), at least n bytes can be written to the\n// buffer without another allocation.\n// If n is negative, Grow will panic.\n// If the buffer can\u0027t grow it will panic with [ErrTooLarge].\nfunc (b *Buffer) Grow(n int) {\n\tif n \u003c 0 {\n\t\tpanic(\"bytes.Buffer.Grow: negative count\")\n\t}\n\tm :\u003d b.grow(n)\n\tb.buf \u003d b.buf[:m]\n}\n```\n\nThe extra length is used as a buffer, as it is always overwritten.",
+      "parentUuid": "f7dba963_5f36eb42",
+      "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
