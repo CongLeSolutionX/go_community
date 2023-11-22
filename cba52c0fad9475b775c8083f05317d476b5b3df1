@@ -245,6 +245,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "874e3f35_03173789",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-22T17:12:44Z",
+      "side": 1,
+      "message": "Thanks.\n\nAside: because of the way Gerrit works, every time you respond to a comment it puts reviewers in the attention set, and removes you from the attention set. This is somewhat cumbersome for folks who use the attention set to manage their review queue. Therefore, it is common practice to address several comments at the same time.",
+      "parentUuid": "fe3b5863_4a6a2486",
+      "range": {
+        "startLine": 173,
+        "startChar": 20,
+        "endLine": 173,
+        "endChar": 45
+      },
+      "revId": "cba52c0fad9475b775c8083f05317d476b5b3df1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90f43531_9f1cd707",
         "filename": "src/cmd/compile/internal/types2/instantiate.go",
         "patchSetId": 2
