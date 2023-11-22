@@ -70,6 +70,24 @@
       "parentUuid": "f7dba963_5f36eb42",
       "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acfd3647_f35e0d88",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-11-22T08:48:40Z",
+      "side": 0,
+      "message": "Consider this tiny change:\n```\n-       b2 :\u003d bytealg.MakeNoZero(c)[:len(b)+n]\n+       realBytes :\u003d bytealg.MakeNoZero(c)\n+       b2 :\u003d realBytes[:len(b)+n]\n        copy(b2, b)\n+       // scrub\n+       for scrub :\u003d realBytes[len(b)+n:]; len(scrub) \u003e 0; scrub \u003d scrub[copy(scrub, \"theses are bad bytes and have not been initialized\"):] {\n+       }\n```\nThis write a string to the uninitialised bytes to ensure we don\u0027t accidentally get zeros because the pages have not be filled by the OS yet or something else like that.\n\nThen I am able to write this code:\n```\npackage main\n\nimport (\n\t\"bytes\"\n\t\"fmt\"\n)\n\nconst smallBufferSize \u003d 64\n\nfunc main() {\n\tvar buf bytes.Buffer\n\tvar zeros [smallBufferSize]byte\n\tfor i :\u003d 19; i !\u003d 0; i-- {\n\t\tbuf.Write(zeros[:])\n\t}\n\tunderlying :\u003d buf.Bytes()\n\tfmt.Println(string(underlying[:cap(underlying)][len(underlying):]))\n}\n```\nWhich when run shows:\n```\n\u003e go run /tmp/a.go\ne not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are bad bytes and have not been initializedtheses are\n```\nAs Keith pointed out you can access the uninitialized bytes without using `unsafe` through `.Bytes`.\nThis is an issue in `Buffer.ReadFrom` and I guess other methods too.",
+      "parentUuid": "cb80aba9_c343976f",
+      "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
