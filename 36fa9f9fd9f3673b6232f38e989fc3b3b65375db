@@ -16,6 +16,23 @@
       "message": "/rebase",
       "revId": "36fa9f9fd9f3673b6232f38e989fc3b3b65375db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c467399_62f65bfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-22T01:16:00Z",
+      "side": 1,
+      "message": "Hi all, does anyone tell me what the current state of CL is?",
+      "revId": "36fa9f9fd9f3673b6232f38e989fc3b3b65375db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
