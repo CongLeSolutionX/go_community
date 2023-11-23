@@ -106,6 +106,24 @@
       "parentUuid": "acfd3647_f35e0d88",
       "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cebe99f5_32b0c66d",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-11-23T10:59:37Z",
+      "side": 0,
+      "message": "\u003e under what circumstances would data outside of len be accessed?\n\nand that is how we got C.\n\nJokes aside, go is a memory safe language, I don\u0027t want to know what is the impact of leaking random heap garbage because I wrote some buggy code.\n\n---\n\nI don\u0027t understand https://go.dev/play/p/vyf76FzMUAg, it\u0027s what you wrote back in the buffer, this is less bad than private TLS keys or something else crazy.\n\n---\n\nI think you could make this work if you harden bytes.Buffer such that never leaks unused capacity to the consumer. Mainly adding `[:len(buf):len(buf)]` before leaking referenced to the buffer.",
+      "parentUuid": "435062ec_f3b299c8",
+      "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
