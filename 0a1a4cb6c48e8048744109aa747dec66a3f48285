@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8370d11_0d4b9923",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-23T11:45:27Z",
+      "side": 1,
+      "message": "Excuse me, do you have time to review the code for me? No one cares after self submitting the code 🥲",
+      "revId": "0a1a4cb6c48e8048744109aa747dec66a3f48285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
