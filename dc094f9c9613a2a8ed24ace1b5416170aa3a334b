@@ -88,6 +88,24 @@
       "parentUuid": "cb80aba9_c343976f",
       "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "435062ec_f3b299c8",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-23T10:46:21Z",
+      "side": 0,
+      "message": "I understand, it\u0027s an unsafe practice, and one point of doubt I have is, under what circumstances would data outside of len be accessed?\n\nMaybe someone will use it that way?\n\n\n```\n// grow grows the buffer to guarantee space for n more bytes.\n// It returns the index where bytes should be written.\n// If the buffer can\u0027t grow it will panic with ErrTooLarge.\nfunc (b *Buffer) grow(n int) int {\n\tm :\u003d b.Len()\n\t// If buffer is empty, reset to recover space.\n\tif m \u003d\u003d 0 \u0026\u0026 b.off !\u003d 0 {\n\t\tb.Reset()\n\t}\n\t// Try to grow by means of a reslice.\n\tif i, ok :\u003d b.tryGrowByReslice(n); ok {\n\t\treturn i\n\t}\n\tif b.buf \u003d\u003d nil \u0026\u0026 n \u003c\u003d smallBufferSize {\n\t\tb.buf \u003d make([]byte, n, smallBufferSize)\n\t\treturn 0\n\t}\n\tc :\u003d cap(b.buf)\n\tif n \u003c\u003d c/2-m {\n\t\t// We can slide things down instead of allocating a new\n\t\t// slice. We only need m+n \u003c\u003d c to slide, but\n\t\t// we instead let capacity get twice as large so we\n\t\t// don\u0027t spend all our time copying.\n\t\tcopy(b.buf, b.buf[b.off:])\n\t} else if c \u003e maxInt-c-n {\n\t\tpanic(ErrTooLarge)\n\t} else {\n\t\t// Add b.off to account for b.buf[:b.off] being sliced off the front.\n\t\tb.buf \u003d growSlice(b.buf[b.off:], b.off+n)\n\t}\n\t// Restore b.off and len(b.buf).\n\tb.off \u003d 0\n\tb.buf \u003d b.buf[:m+n]\n\treturn m\n}\n```\n\n\nFollowing `copy(b.buf, b.buf[b.off:])` will actually produce unsafe data.\n\n\nhttps://go.dev/play/p/vyf76FzMUAg\n\n```\nfunc main() {\n\tb :\u003d Repeat([]byte{\u0027x\u0027}, 713)\n\tr :\u003d NewBuffer(nil)\n\tfmt.Println(\"cap1\", cap(r.Bytes()))\n\tfmt.Println(\"len1\", len(r.Bytes()))\n\tr.Grow(1280)\n\tfmt.Println(\"cap2\", cap(r.Bytes()))\n\tfmt.Println(\"len2\", len(r.Bytes()))\n\tr.Write(b)\n\tfmt.Println(\"cap3\", cap(r.Bytes()))\n\tfmt.Println(\"len3\", len(r.Bytes()))\n\tr.Read(make([]byte, 695))\n\tfmt.Println(\"cap3\", cap(r.Bytes()))\n\tfmt.Println(\"len3\", len(r.Bytes()))\n\tr.Grow(610)\n\tfmt.Println(\"cap4\", cap(r.Bytes()))\n\tfmt.Println(\"len4\", len(r.Bytes()))\n\tunderlying :\u003d r.Bytes()\n\tfmt.Println(underlying[:cap(underlying)][len(underlying):])\n}\n```",
+      "parentUuid": "acfd3647_f35e0d88",
+      "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
