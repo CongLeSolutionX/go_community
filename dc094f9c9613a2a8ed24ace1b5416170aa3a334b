@@ -124,6 +124,24 @@
       "parentUuid": "435062ec_f3b299c8",
       "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37b69c7f_06246e6b",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2023-11-23T11:27:45Z",
+      "side": 0,
+      "message": "Acknowledged, It\u0027s a lack of consideration on my part. Thank you very much, I\u0027ll see if there is another solution, if not will close CL",
+      "parentUuid": "cebe99f5_32b0c66d",
+      "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
