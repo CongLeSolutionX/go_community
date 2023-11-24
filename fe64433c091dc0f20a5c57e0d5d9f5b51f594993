@@ -96,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47525b18_6b17851d",
+        "filename": "src/io/fs/readdir_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-24T10:04:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586b1b85_f46878d5",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 103,
+        "endChar": 2
+      },
+      "revId": "fe64433c091dc0f20a5c57e0d5d9f5b51f594993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f608c17_ceb2e4df",
@@ -113,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6df253c8_dc3037ba",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-24T10:04:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f608c17_ceb2e4df",
+      "revId": "fe64433c091dc0f20a5c57e0d5d9f5b51f594993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "176ad27b_994231b4",
@@ -126,6 +168,24 @@
       "writtenOn": "2023-11-24T09:26:58Z",
       "side": 1,
       "message": "Same here. Unlike in Open, err is not necessarily a *PathError.",
+      "revId": "fe64433c091dc0f20a5c57e0d5d9f5b51f594993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d054aade_101184c5",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-11-24T10:04:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "176ad27b_994231b4",
       "revId": "fe64433c091dc0f20a5c57e0d5d9f5b51f594993",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
