@@ -94,6 +94,40 @@
       },
       "revId": "fe64433c091dc0f20a5c57e0d5d9f5b51f594993",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f608c17_ceb2e4df",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-11-24T09:26:58Z",
+      "side": 1,
+      "message": "Unlike in Open, err is not necessarily a *PathError here. The error might also stem from (*File).Read.",
+      "revId": "fe64433c091dc0f20a5c57e0d5d9f5b51f594993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176ad27b_994231b4",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-11-24T09:26:58Z",
+      "side": 1,
+      "message": "Same here. Unlike in Open, err is not necessarily a *PathError.",
+      "revId": "fe64433c091dc0f20a5c57e0d5d9f5b51f594993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
