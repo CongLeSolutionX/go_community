@@ -142,6 +142,24 @@
       "parentUuid": "cebe99f5_32b0c66d",
       "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3b9adc_9ac4922e",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-11-24T09:29:14Z",
+      "side": 0,
+      "message": "Can this be resolved by modifying the API setting capacity that returns slice references, for example:\nfunc (b *Buffer) Bytes() []byte { return b.buf[b.off::len(b.buf] }",
+      "parentUuid": "37b69c7f_06246e6b",
+      "revId": "dc094f9c9613a2a8ed24ace1b5416170aa3a334b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
