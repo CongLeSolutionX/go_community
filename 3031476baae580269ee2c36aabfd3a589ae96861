@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d8537d_fcaa4831",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-11-24T23:23:58Z",
+      "side": 1,
+      "message": "Daniel\u0027s suggestion applied.",
+      "revId": "3031476baae580269ee2c36aabfd3a589ae96861",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
