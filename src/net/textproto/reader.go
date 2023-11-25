@@ -22,6 +22,7 @@ type Reader struct {
 	R   *bufio.Reader
 	dot *dotReader
 	buf []byte // a re-usable buffer for readContinuedLineSlice
+	err error
 }
 
 // NewReader returns a new Reader reading from r.
@@ -49,9 +50,20 @@ func (r *Reader) ReadLineBytes() ([]byte, error) {
 	return line, err
 }
 
+func (r *Reader) readErr() error {
+	err := r.err
+	r.err = nil
+	return err
+}
+
 func (r *Reader) readLineSlice() ([]byte, error) {
 	r.closeDot()
 	var line []byte
+
+	if err := r.readErr(); err != nil {
+		return nil, err
+	}
+
 	for {
 		l, more, err := r.R.ReadLine()
 		if err != nil {
@@ -172,7 +184,7 @@ func (r *Reader) skipSpace() int {
 	for {
 		c, err := r.R.ReadByte()
 		if err != nil {
-			// Bufio will keep err until next read.
+			r.err = err
 			break
 		}
 		if c != ' ' && c != '\t' {

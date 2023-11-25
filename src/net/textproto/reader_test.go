@@ -16,6 +16,24 @@ import (
 	"testing"
 )
 
+type rewind struct {
+	buf string
+	r   io.Reader
+}
+
+func (r *rewind) Read(p []byte) (int, error) {
+	n, err := r.r.Read(p)
+	if err == io.EOF {
+		r.r = strings.NewReader(r.buf)
+	}
+	return n, err
+}
+
+func rewindReader(s string) *Reader {
+	rr := &rewind{buf: s, r: strings.NewReader(s)}
+	return NewReader(bufio.NewReader(rr))
+}
+
 func reader(s string) *Reader {
 	return NewReader(bufio.NewReader(strings.NewReader(s)))
 }
@@ -52,6 +70,34 @@ func TestReadContinuedLine(t *testing.T) {
 	}
 	s, err = r.ReadContinuedLine()
 	if s != "" || err != io.EOF {
+		t.Fatalf("EOF: %s, %v", s, err)
+	}
+}
+
+func TestReadContinuedLineRewindReader(t *testing.T) {
+	r := rewindReader("line1\nline2\n")
+	s, err := r.ReadContinuedLine()
+	if s != "line1" || err != nil {
+		t.Fatalf("Line 1: %s, %v", s, err)
+	}
+	s, err = r.ReadContinuedLine()
+	if s != "line2" || err != nil {
+		t.Fatalf("Line 2: %s, %v", s, err)
+	}
+	s, err = r.ReadContinuedLine()
+	if err != io.EOF {
+		t.Fatalf("EOF: %s, %v", s, err)
+	}
+	s, err = r.ReadContinuedLine()
+	if s != "line1" || err != nil {
+		t.Fatalf("Line 1: %s, %v", s, err)
+	}
+	s, err = r.ReadContinuedLine()
+	if s != "line2" || err != nil {
+		t.Fatalf("Line 2: %s, %v", s, err)
+	}
+	s, err = r.ReadContinuedLine()
+	if err != io.EOF {
 		t.Fatalf("EOF: %s, %v", s, err)
 	}
 }
