@@ -268,6 +268,70 @@ func testOverflowConstShift(t *testing.T) {
 	}
 }
 
+//go:noinline
+func rsh8x64ConstOverflow(x int8) int64 {
+	return int64(x) >> 9
+}
+
+//go:noinline
+func rsh16x64ConstOverflow(x int16) int64 {
+	return int64(x) >> 17
+}
+
+//go:noinline
+func rsh32x64ConstOverflow(x int32) int64 {
+	return int64(x) >> 33
+}
+
+func testArithRightShiftConstOverflow(t *testing.T) {
+	allSet := int64(-1)
+	if got, want := rsh8x64ConstOverflow(0x7f), int64(0); got != want {
+		t.Errorf("rsh8x64ConstOverflow failed: got %v, want %v", got, want)
+	}
+	if got, want := rsh16x64ConstOverflow(0x7fff), int64(0); got != want {
+		t.Errorf("rsh16x64ConstOverflow failed: got %v, want %v", got, want)
+	}
+	if got, want := rsh32x64ConstOverflow(0x7ffffff), int64(0); got != want {
+		t.Errorf("rsh32x64ConstOverflow failed: got %v, want %v", got, want)
+	}
+	if got, want := rsh8x64ConstOverflow(int8(-1)), allSet; got != want {
+		t.Errorf("rsh8x64ConstOverflow failed: got %v, want %v", got, want)
+	}
+	if got, want := rsh16x64ConstOverflow(int16(-1)), allSet; got != want {
+		t.Errorf("rsh16x64ConstOverflow failed: got %v, want %v", got, want)
+	}
+	if got, want := rsh32x64ConstOverflow(int32(-1)), allSet; got != want {
+		t.Errorf("rsh32x64ConstOverflow failed: got %v, want %v", got, want)
+	}
+}
+
+//go:noinline
+func rsh8Ux64ConstOverflow(x uint8) uint64 {
+	return uint64(x) >> 9
+}
+
+//go:noinline
+func rsh16Ux64ConstOverflow(x uint16) uint64 {
+	return uint64(x) >> 17
+}
+
+//go:noinline
+func rsh32Ux64ConstOverflow(x uint32) uint64 {
+	return uint64(x) >> 33
+}
+
+func testRightShiftConstOverflow(t *testing.T) {
+	if got, want := rsh8Ux64ConstOverflow(0xff), uint64(0); got != want {
+		t.Errorf("rsh8Ux64ConstOverflow failed: got %v, want %v", got, want)
+	}
+	if got, want := rsh16Ux64ConstOverflow(0xffff), uint64(0); got != want {
+		t.Errorf("rsh16Ux64ConstOverflow failed: got %v, want %v", got, want)
+	}
+	if got, want := rsh32Ux64ConstOverflow(0xffffffff), uint64(0); got != want {
+		t.Errorf("rsh32Ux64ConstOverflow failed: got %v, want %v", got, want)
+	}
+}
+
 // test64BitConstMult tests that rewrite rules don't fold 64 bit constants
 // into multiply instructions.
 func test64BitConstMult(t *testing.T) {
@@ -918,6 +982,8 @@ func TestArithmetic(t *testing.T) {
 	testShiftCX(t)
 	testSubConst(t)
 	testOverflowConstShift(t)
+	testArithRightShiftConstOverflow(t)
+	testRightShiftConstOverflow(t)
 	testArithConstShift(t)
 	testArithRshConst(t)
 	testLargeConst(t)

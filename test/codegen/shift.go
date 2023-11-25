@@ -40,10 +40,20 @@ func rshConst32Ux64(v uint32) uint32 {
 	return v >> uint64(29)
 }
 
+func rshConst32Ux64Overflow(v uint32) uint64 {
+	// riscv64:"MOV\t\\$0,",-"SRL"
+	return uint64(v) >> 32
+}
+
 func rshConst32x64(v int32) int32 {
 	// ppc64x:"SRAW"
 	// riscv64:"SRAIW",-"OR",-"SLTIU", -"MOVW"
 	return v >> uint64(29)
+}
+
+func rshConst32x64Overflow(v int32) int64 {
+	// riscv64:"SLLI","SRAI",-"SRAIW"
+	return int64(v) >> 32
 }
 
 func lshConst64x32(v int64) int64 {
