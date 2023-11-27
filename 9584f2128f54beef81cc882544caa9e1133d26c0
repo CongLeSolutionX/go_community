@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dbfa84f6_9d5098de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-27T19:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a494664b_b9282996",
+      "revId": "9584f2128f54beef81cc882544caa9e1133d26c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "512696db_0986d0a3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3050143_4530a3c5",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-27T19:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6771cfe_01441159",
+      "revId": "9584f2128f54beef81cc882544caa9e1133d26c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88739599_5d0d0951",
@@ -65,6 +101,30 @@
       "writtenOn": "2023-11-27T16:41:36Z",
       "side": 1,
       "message": "The loopclosure package in x/tools is vendored only, shouldn\u0027t show up here. Move this TODO under cmd/vet or so?",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 63
+      },
+      "revId": "9584f2128f54beef81cc882544caa9e1133d26c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f03f2a0_ba19c2da",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-11-27T19:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88739599_5d0d0951",
       "range": {
         "startLine": 319,
         "startChar": 0,
