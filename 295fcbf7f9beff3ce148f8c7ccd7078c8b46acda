@@ -72,6 +72,24 @@
       "message": "Hi Cherry, It seems we are too late to catch up with Go1.22. I\u0027m still doing the testing work. We generated some GNU instruction test cases with the XML parser automatically to test that the disassembler can objdump correct gnu instructions. Then we generate some Go instruction test cases with the disassembler automatically to test the correctness of the assembler. At present, we have verified that the disassembler can dump correct gnu instructions and are now doing encoding testing. This is time consuming and a lot of details, so I guess it will take some time. Just updating my status.",
       "revId": "295fcbf7f9beff3ce148f8c7ccd7078c8b46acda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a08d43ba_6f90d15f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-27T16:38:28Z",
+      "side": 1,
+      "message": "Hi Eric, thanks for the update! Yeah, it is too late for Go 1.22. But we can continue working on it during the freeze. Hopefully we can get this in for Go 1.23. Thanks.",
+      "parentUuid": "17090628_f61298d8",
+      "revId": "295fcbf7f9beff3ce148f8c7ccd7078c8b46acda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
