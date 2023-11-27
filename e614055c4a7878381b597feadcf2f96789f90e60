@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19301969_da0534eb",
+        "filename": "doc/asm.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-27T16:59:29Z",
+      "side": 1,
+      "message": "Maybe say no-op. NOOP may look like a specific instruction, but it is not (always) a valid instruction on all platforms.",
+      "range": {
+        "startLine": 471,
+        "startChar": 40,
+        "endLine": 471,
+        "endChar": 44
+      },
+      "revId": "e614055c4a7878381b597feadcf2f96789f90e60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad2765fd_3dfb44b4",
+        "filename": "doc/asm.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-27T16:59:29Z",
+      "side": 1,
+      "message": "Minor: It is currently supported on arm64, ... (change in to on, remove colon).",
+      "range": {
+        "startLine": 475,
+        "startChar": 26,
+        "endLine": 475,
+        "endChar": 29
+      },
+      "revId": "e614055c4a7878381b597feadcf2f96789f90e60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "775d86fc_a7f77cc0",
+        "filename": "doc/asm.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-27T16:59:29Z",
+      "side": 1,
+      "message": "its start address (to be clear)",
+      "range": {
+        "startLine": 486,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 11
+      },
+      "revId": "e614055c4a7878381b597feadcf2f96789f90e60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
