@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e61ad66_0487b7f4",
+        "filename": "src/cmd/go/testdata/script/cover_statements.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-27T21:11:16Z",
+      "side": 1,
+      "message": "I agree that this might make the observed symptoms go away, but I don\u0027t think there ought to be anything wrong with using the shared build cache here either: the cache uses the mtime of cached files to decide when to trim them, so the files shouldn\u0027t just be randomly disappearing out from underneath us.\n\nI think at the very least the comment here should treat this as a temporary workaround for a suspected bug, rather than a test that intrinsically requires isolation.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 23
+      },
+      "revId": "9ea6bd882b1f7109b2a04033c1b45d7f28f36f9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
