@@ -74,6 +74,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83d610be_15153924",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-27T16:36:07Z",
+      "side": 1,
+      "message": "The `\u002631` is redundant now, as we know 0 \u003c\u003d x \u003c\u003d 31.",
+      "range": {
+        "startLine": 713,
+        "startChar": 70,
+        "endLine": 713,
+        "endChar": 74
+      },
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "441d1a5c_743baf91",
         "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
         "patchSetId": 1
@@ -91,6 +114,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53b883be_5bc0537a",
+        "filename": "src/cmd/compile/internal/test/testdata/arith_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-27T16:36:07Z",
+      "side": 1,
+      "message": "`int64(x)\u003e\u003e9` should get a Rsh64x64 operation instead of Rsh8x64. The naming seems misleading.\n\nMaybe you want cast after the shift, i.e. `int64(x\u003e\u003e9)`?",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 1
+      },
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b48532fe_57e91ff9",
         "filename": "src/cmd/compile/internal/test/testdata/arith_test.go",
         "patchSetId": 1
@@ -102,6 +148,29 @@
       "writtenOn": "2023-11-27T12:47:53Z",
       "side": 1,
       "message": "Perhaps we should also add overflow tests for the case when we\u0027re shifting right by a variable.\n\nThe original bug was reproducible when shifting right by a variable as well as by a constant, e.g., uint64(c) \u003e\u003e s) where c was a uint32 and s was \u003e 31.",
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91cf8cdd_3a15a18d",
+        "filename": "test/codegen/shift.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-27T16:36:07Z",
+      "side": 1,
+      "message": "Same here, the name seems misleading.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 1
+      },
       "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
