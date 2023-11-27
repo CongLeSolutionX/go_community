@@ -1,5 +1,8 @@
 [short] skip
 
+# We're testing cache behavior in part here, so start with a clean GOCACHE.
+env GOCACHE=$WORK/cache
+
 # Initial run with simple coverage.
 go test -cover ./pkg1 ./pkg2 ./pkg3 ./pkg4
 [!GOEXPERIMENT:coverageredesign] stdout 'pkg1	\[no test files\]'
