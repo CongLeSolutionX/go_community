@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "041d8983_87b4aa74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-11-27T19:49:24Z",
+      "side": 1,
+      "message": "PTAL; I reworked the change as the problem was deeper--see the CL description. Please review only the go/types portion and I will merge it into the compiler when we\u0027re happy with it.\n\nThe test-only Scope.Comment method is a relic of debugging but it was very useful and I propose we keep it.",
+      "revId": "5500c4bbfdaf7c5f3e93e21785f488a786eb6777",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
