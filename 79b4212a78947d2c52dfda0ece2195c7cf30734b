@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93411c39_71c186ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-27T15:25:27Z",
+      "side": 1,
+      "message": "This is an API change, so it needs to go through the proposal process.\n(See https://go.dev/s/proposal.)",
+      "revId": "79b4212a78947d2c52dfda0ece2195c7cf30734b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
