@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f78ab1f_3ef1eadf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-27T20:13:26Z",
+      "side": 1,
+      "message": "s/bug/bug in/",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "5500c4bbfdaf7c5f3e93e21785f488a786eb6777",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "041d8983_87b4aa74",
@@ -14,6 +37,69 @@
       "writtenOn": "2023-11-27T19:49:24Z",
       "side": 1,
       "message": "PTAL; I reworked the change as the problem was deeper--see the CL description. Please review only the go/types portion and I will merge it into the compiler when we\u0027re happy with it.\n\nThe test-only Scope.Comment method is a relic of debugging but it was very useful and I propose we keep it.",
+      "revId": "5500c4bbfdaf7c5f3e93e21785f488a786eb6777",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bbb7f92_9bc0adf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-27T20:13:26Z",
+      "side": 1,
+      "message": "LGTM, but will re-review the types2 change when made.",
+      "revId": "5500c4bbfdaf7c5f3e93e21785f488a786eb6777",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d3dce28_d75c0409",
+        "filename": "src/go/types/signature.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-27T20:13:26Z",
+      "side": 1,
+      "message": "Another alternative to this change would be to pass in the scope position that will be used by Checker.declare. That would be more direct than this action at a distance: both of the places where we call check.declare(...., scope.pos) looked potentially wrong.\n\nAnd as an aside: if our use of scopePos were accurate throughout, presumably we wouldn\u0027t even need this temporary scope, or the Scope.squash method, since we wouldn\u0027t resolve the wrong name at any given position. If you agree that this is how it should have worked, leave a TODO/NOTE?",
+      "range": {
+        "startLine": 186,
+        "startChar": 32,
+        "endLine": 186,
+        "endChar": 50
+      },
+      "revId": "5500c4bbfdaf7c5f3e93e21785f488a786eb6777",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df969dd1_3105069c",
+        "filename": "src/go/types/util_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-27T20:13:26Z",
+      "side": 1,
+      "message": "Let\u0027s express this as a function, not method. As we\u0027ve seen, methods in test variants is a real edge case. I think it\u0027s confusing for both IDEs and humans.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 53
+      },
       "revId": "5500c4bbfdaf7c5f3e93e21785f488a786eb6777",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
