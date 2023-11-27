@@ -16,6 +16,29 @@
       "message": "Test fixes should make those test bug fixes to pass",
       "revId": "b6e97918cb02e04214bfe2e95342fd959e04aacd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "938d873e_e2f4831d",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-11-27T23:16:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this. I think \"have (int), want (C, D)\" could be confusing. We shouldn\u0027t mix types and constraints.\n\nLet\u0027s just go with the first form that Russ suggested.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 76
+      },
+      "revId": "b6e97918cb02e04214bfe2e95342fd959e04aacd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
