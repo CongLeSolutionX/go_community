@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b73ec8d2_bfad64e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-11-27T21:57:47Z",
+      "side": 1,
+      "message": "Gerrit wouldn\u0027t let me create a new CL with the same Change-Id value, so I reopened and reused this one.",
+      "revId": "cf56be61101e604af7f03bda98118170c5d448c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
