@@ -46,6 +46,30 @@
       },
       "revId": "9ea6bd882b1f7109b2a04033c1b45d7f28f36f9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b2d5ae8_cae0cddd",
+        "filename": "src/cmd/go/testdata/script/cover_statements.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-11-28T14:46:18Z",
+      "side": 1,
+      "message": "OK, as an experiment I reran my repro script using a Go command instrumented to record all cache trim operations (see this CL: https://go-review.googlesource.com/c/go/+/545455). The cover_statements test still fails, but none of the trim operations recorded are against the default cache, they are only to test-local GOCACHE dirs set up by specific unit tests. So at least from my perspective this rules out cache trimming as a source for the problem.\n\nLooking at the caching code, I see a number of other places where it tries to detect when things go wrong (e.g. two go commands racing to write the same file). I\u0027ll try recording those as well to see what turns up.",
+      "parentUuid": "390dd7cb_afcaede0",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 23
+      },
+      "revId": "9ea6bd882b1f7109b2a04033c1b45d7f28f36f9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
