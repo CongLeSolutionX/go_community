@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f964f47_43a9a481",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-28T21:10:42Z",
+      "side": 1,
+      "message": "please leave this comment as it was before - no need to explain the wording (which may change over time)",
+      "revId": "cb83683bfec1eb3e704ec5e32f7fed172c9448ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb3c44a_c5de0cfd",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-28T21:10:42Z",
+      "side": 1,
+      "message": "please provide the type - it gives more information that we might want to use eventually\n\nalso, if you provide the type, we may not need to pass the tparams because it can be taken from the type",
+      "revId": "cb83683bfec1eb3e704ec5e32f7fed172c9448ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7a9ee89_c2f01620",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-28T21:10:42Z",
+      "side": 1,
+      "message": "This logic is much more complicated than what we had before. Yet the only thing that\u0027s really needed is an extra if to distinguish between not enough and too many. Please revert to the old code and just add that if.\nThere\u0027s also no need for the isValidTarg variable.",
+      "revId": "cb83683bfec1eb3e704ec5e32f7fed172c9448ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
