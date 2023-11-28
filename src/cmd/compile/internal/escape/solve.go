@@ -97,12 +97,12 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 			// If l's address flows somewhere that
 			// outlives it, then l needs to be heap
 			// allocated.
-			if b.outlives(root, l) {
+			if why, outlives := b.outlives(root, l); outlives {
 				if !l.hasAttr(attrEscapes) && (logopt.Enabled() || base.Flag.LowerM >= 2) {
 					if base.Flag.LowerM >= 2 {
 						fmt.Printf("%s: %v escapes to heap:\n", base.FmtPos(l.n.Pos()), l.n)
 					}
-					explanation := b.explainPath(root, l)
+					explanation := b.explainPath(root, l, why)
 					if logopt.Enabled() {
 						var e_curfn *ir.Func // TODO(mdempsky): Fix.
 						logopt.LogOpt(l.n.Pos(), "escape", "escape", ir.FuncName(e_curfn), fmt.Sprintf("%v escapes to heap", l.n), explanation)
@@ -127,12 +127,12 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 		// that value flow for tagging the function
 		// later.
 		if l.isName(ir.PPARAM) {
-			if b.outlives(root, l) {
+			if why, outlives := b.outlives(root, l); outlives {
 				if !l.hasAttr(attrEscapes) && (logopt.Enabled() || base.Flag.LowerM >= 2) {
 					if base.Flag.LowerM >= 2 {
 						fmt.Printf("%s: parameter %v leaks to %s with derefs=%d:\n", base.FmtPos(l.n.Pos()), l.n, b.explainLoc(root), derefs)
 					}
-					explanation := b.explainPath(root, l)
+					explanation := b.explainPath(root, l, why)
 					if logopt.Enabled() {
 						var e_curfn *ir.Func // TODO(mdempsky): Fix.
 						logopt.LogOpt(l.n.Pos(), "leak", "escape", ir.FuncName(e_curfn),
@@ -174,9 +174,10 @@ func (b *batch) walkOne(root *location, walkgen uint32, enqueue func(*location))
 }
 
 // explainPath prints an explanation of how src flows to the walk root.
-func (b *batch) explainPath(root, src *location) []*logopt.LoggedOpt {
+func (b *batch) explainPath(root, src *location, whyOutlives string) []*logopt.LoggedOpt {
 	visited := make(map[*location]bool)
 	pos := base.FmtPos(src.n.Pos())
+	origSrc := src
 	var explanation []*logopt.LoggedOpt
 	for {
 		// Prevent infinite loop.
@@ -201,6 +202,28 @@ func (b *batch) explainPath(root, src *location) []*logopt.LoggedOpt {
 		src = dst
 	}
 
+	return b.explainOutlives(pos, root, origSrc, whyOutlives, explanation)
+}
+
+func (b *batch) explainOutlives(pos string, root, srcloc *location, whyOutlives string, explanation []*logopt.LoggedOpt) []*logopt.LoggedOpt {
+	// Add explanation of why root outlives srcloc.
+	// Don't bother if root is the heap (which is hopefully self evident).
+	if root != &b.heapLoc {
+		msg := fmt.Sprintf("   %s %s and might outlive %s", b.explainLoc(root), whyOutlives, b.explainLoc(srcloc))
+		if base.Flag.LowerM >= 2 {
+			fmt.Printf("%s:%s\n", pos, msg)
+		}
+		if logopt.Enabled() {
+			var epos src.XPos
+			if root.n != nil {
+				epos = root.n.Pos()
+			} else {
+				epos = srcloc.n.Pos()
+			}
+			var e_curfn *ir.Func // TODO: Fix.
+			explanation = append(explanation, logopt.NewLoggedOpt(epos, epos, "escflow", "escape", ir.FuncName(e_curfn), msg))
+		}
+	}
 	return explanation
 }
 
@@ -255,16 +278,16 @@ func (b *batch) explainLoc(l *location) string {
 }
 
 // outlives reports whether values stored in l may survive beyond
-// other's lifetime if stack allocated.
-func (b *batch) outlives(l, other *location) bool {
+// other's lifetime if stack allocated, along with why if so.
+func (b *batch) outlives(l, other *location) (why string, outlives bool) {
 	// The heap outlives everything.
 	if l.hasAttr(attrEscapes) {
-		return true
+		return "escapes", true
 	}
 
 	// Pseudo-locations that don't really exist.
 	if l == &b.mutatorLoc || l == &b.calleeLoc {
-		return false
+		return "", false
 	}
 
 	// We don't know what callers do with returned values, so
@@ -279,10 +302,10 @@ func (b *batch) outlives(l, other *location) bool {
 		//	fn := func() *int { return &u }()
 		//	*fn() = 42
 		if containsClosure(other.curfn, l.curfn) && !l.curfn.ClosureResultsLost() {
-			return false
+			return "", false
 		}
 
-		return true
+		return "is returned", true
 	}
 
 	// If l and other are within the same function, then l
@@ -294,7 +317,7 @@ func (b *batch) outlives(l, other *location) bool {
 	//		l = new(int) // must heap allocate: outlives for loop
 	//	}
 	if l.curfn == other.curfn && l.loopDepth < other.loopDepth {
-		return true
+		return "declared outside loop", true
 	}
 
 	// If other is declared within a child closure of where l is
@@ -305,10 +328,10 @@ func (b *batch) outlives(l, other *location) bool {
 	//		l = new(int) // must heap allocate: outlives call frame (if not inlined)
 	//	}()
 	if containsClosure(l.curfn, other.curfn) {
-		return true
+		return "outlives closure call frame", true
 	}
 
-	return false
+	return "", false
 }
 
 // containsClosure reports whether c is a closure contained within f.
