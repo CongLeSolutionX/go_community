@@ -213,7 +213,8 @@ func s15a8(x *[15]int64) [15]int64 {
 			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":4,"character":9},"end":{"line":4,"character":9}}},"message":"inlineLoc"},`+
 			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":13},"end":{"line":9,"character":13}}},"message":"escflow:      from ~r0 = \u0026y.b (assign-pair)"},`+
 			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":3},"end":{"line":9,"character":3}}},"message":"escflow:    flow: ~r0 = ~r0:"},`+
-			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":3},"end":{"line":9,"character":3}}},"message":"escflow:      from return ~r0 (return)"}]}`)
+			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":9,"character":3},"end":{"line":9,"character":3}}},"message":"escflow:      from return ~r0 (return)"},`+
+			`{"location":{"uri":"file://tmpdir/file.go","range":{"start":{"line":7,"character":22},"end":{"line":7,"character":22}}},"message":"escflow:    ~r0 is returned and might outlive z"}]}`)
 	})
 }
 
