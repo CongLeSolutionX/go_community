@@ -436,11 +436,13 @@ func copyInputs(curfn *ir.Func, pos src.XPos, recvOrFn ir.Node, args []ir.Node, 
 }
 
 // retTemps returns a slice of temporaries to be used for storing result values from call.
-func retTemps(curfn *ir.Func, pos src.XPos, call *ir.CallExpr) []ir.Node {
+func retTemps(curfn *ir.Func, pos src.XPos, call *ir.CallExpr, init *ir.Nodes) []ir.Node {
 	sig := call.Fun.Type()
 	var retvars []ir.Node
 	for _, ret := range sig.Results() {
-		retvars = append(retvars, typecheck.TempAt(pos, curfn, ret.Type))
+		tmp := typecheck.TempAt(pos, curfn, ret.Type)
+		init.Append(typecheck.Stmt(ir.NewDecl(pos, ir.ODCL, tmp)))
+		retvars = append(retvars, tmp)
 	}
 	return retvars
 }
@@ -448,10 +450,10 @@ func retTemps(curfn *ir.Func, pos src.XPos, call *ir.CallExpr) []ir.Node {
 // condCall returns an ir.InlinedCallExpr that performs a call to thenCall if
 // cond is true and elseCall if cond is false. The return variables of the
 // InlinedCallExpr evaluate to the return values from the call.
-func condCall(curfn *ir.Func, pos src.XPos, cond ir.Node, thenCall, elseCall *ir.CallExpr, init ir.Nodes) *ir.InlinedCallExpr {
+func condCall(curfn *ir.Func, pos src.XPos, cond ir.Node, thenCall, elseCall *ir.CallExpr, init *ir.Nodes) *ir.InlinedCallExpr {
 	// Doesn't matter whether we use thenCall or elseCall, they must have
 	// the same return types.
-	retvars := retTemps(curfn, pos, thenCall)
+	retvars := retTemps(curfn, pos, thenCall, init)
 
 	var thenBlock, elseBlock ir.Nodes
 	if len(retvars) == 0 {
@@ -469,7 +471,7 @@ func condCall(curfn *ir.Func, pos src.XPos, cond ir.Node, thenCall, elseCall *ir
 	}
 
 	nif := ir.NewIfStmt(pos, cond, thenBlock, elseBlock)
-	nif.SetInit(init)
+	nif.SetInit(*init)
 	nif.Likely = true
 
 	body := []ir.Node{typecheck.Stmt(nif)}
@@ -541,7 +543,7 @@ func rewriteInterfaceCall(call *ir.CallExpr, curfn, callee *ir.Func, concretetyp
 	argvars = append([]ir.Node(nil), argvars...)
 	concreteCall := typecheck.Call(pos, concreteCallee, argvars, call.IsDDD).(*ir.CallExpr)
 
-	res := condCall(curfn, pos, tmpok, concreteCall, call, init)
+	res := condCall(curfn, pos, tmpok, concreteCall, call, &init)
 
 	if base.Debug.PGODebug >= 3 {
 		fmt.Printf("PGO devirtualizing interface call to %+v. After: %+v\n", concretetyp, res)
@@ -613,7 +615,7 @@ func rewriteFunctionCall(call *ir.CallExpr, curfn, callee *ir.Func) ir.Node {
 	argvars = append([]ir.Node(nil), argvars...)
 	concreteCall := typecheck.Call(pos, callee.Nname, argvars, call.IsDDD).(*ir.CallExpr)
 
-	res := condCall(curfn, pos, pcEq, concreteCall, call, init)
+	res := condCall(curfn, pos, pcEq, concreteCall, call, &init)
 
 	if base.Debug.PGODebug >= 3 {
 		fmt.Printf("PGO devirtualizing function call to %+v. After: %+v\n", ir.FuncName(callee), res)
