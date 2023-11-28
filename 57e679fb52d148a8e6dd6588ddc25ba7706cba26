@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32b39935_009a0666",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2023-11-28T03:56:54Z",
+      "side": 1,
+      "message": "Changes can we reviewed over: https://github.com/golangFame/go/issues/new/choose",
+      "revId": "57e679fb52d148a8e6dd6588ddc25ba7706cba26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
