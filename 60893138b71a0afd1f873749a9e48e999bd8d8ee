@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96fea2e5_7457953c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-28T13:45:19Z",
+      "side": 1,
+      "message": "Thanks for confirming.",
+      "parentUuid": "ecfa402f_3bc337dc",
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83d610be_15153924",
@@ -85,6 +103,30 @@
       "writtenOn": "2023-11-27T16:36:07Z",
       "side": 1,
       "message": "The `\u002631` is redundant now, as we know 0 \u003c\u003d x \u003c\u003d 31.",
+      "range": {
+        "startLine": 713,
+        "startChar": 70,
+        "endLine": 713,
+        "endChar": 74
+      },
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00e875b8_dd8a4e2c",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-28T13:45:19Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "83d610be_15153924",
       "range": {
         "startLine": 713,
         "startChar": 70,
@@ -112,6 +154,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "043df10e_e2a0c8cd",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-28T13:45:19Z",
+      "side": 1,
+      "message": "Indeed, easily done.",
+      "parentUuid": "441d1a5c_743baf91",
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53b883be_5bc0537a",
@@ -125,6 +185,30 @@
       "writtenOn": "2023-11-27T16:36:07Z",
       "side": 1,
       "message": "`int64(x)\u003e\u003e9` should get a Rsh64x64 operation instead of Rsh8x64. The naming seems misleading.\n\nMaybe you want cast after the shift, i.e. `int64(x\u003e\u003e9)`?",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 1
+      },
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35230bd9_fabedc07",
+        "filename": "src/cmd/compile/internal/test/testdata/arith_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-28T13:45:19Z",
+      "side": 1,
+      "message": "The incorrect optimisation is a smaller type, which is cast and then shifted. I\u0027ve renamed these to rsh64x64ConstOverflowX, which is hopefully more accurate.",
+      "parentUuid": "53b883be_5bc0537a",
       "range": {
         "startLine": 272,
         "startChar": 0,
@@ -152,6 +236,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2e4f46_0948a85d",
+        "filename": "src/cmd/compile/internal/test/testdata/arith_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-28T13:45:19Z",
+      "side": 1,
+      "message": "This would be useful - if you would like to send a follow up that would be great.",
+      "parentUuid": "b48532fe_57e91ff9",
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91cf8cdd_3a15a18d",
@@ -165,6 +267,30 @@
       "writtenOn": "2023-11-27T16:36:07Z",
       "side": 1,
       "message": "Same here, the name seems misleading.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 1
+      },
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a0d3f3d_ae52591c",
+        "filename": "test/codegen/shift.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-11-28T13:45:19Z",
+      "side": 1,
+      "message": "Also renamed.",
+      "parentUuid": "91cf8cdd_3a15a18d",
       "range": {
         "startLine": 43,
         "startChar": 0,
