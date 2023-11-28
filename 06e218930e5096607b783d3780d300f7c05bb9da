@@ -33,6 +33,24 @@
       "message": "I don\u0027t understand this comment: per the mentioned issue, and per the spec (https://golang.org/ref/spec#Declarations_and_scope, item 5), the scope of a type parameter starts after the function name.",
       "revId": "06e218930e5096607b783d3780d300f7c05bb9da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1280cff1_36afe72a",
+        "filename": "src/cmd/compile/internal/types2/signature.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-11-28T21:26:24Z",
+      "side": 1,
+      "message": "Good point; updated. (I don\u0027t think it makes a difference in practice because there\u0027s no way to put a referring identifier between those two points, but since there\u0027s a correct answer, we should use it.)",
+      "parentUuid": "6276c595_fc815cc0",
+      "revId": "06e218930e5096607b783d3780d300f7c05bb9da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
