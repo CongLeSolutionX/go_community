@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "143e44aa_a2a6f68e",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-29T21:57:52Z",
+      "side": 1,
+      "message": "move this outside the loop?\nwith an if around the loop checking that len(list) \u003e 0",
+      "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a40578c_59252dc7",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-29T21:57:52Z",
+      "side": 1,
+      "message": "scopePos doesn\u0027t seem to be used in this function",
+      "range": {
+        "startLine": 632,
+        "startChar": 58,
+        "endLine": 632,
+        "endChar": 66
+      },
+      "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ea9835_5965be87",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-29T21:57:52Z",
+      "side": 1,
+      "message": "s/check.scope.pos/scopePos/?",
+      "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04e2e6df_4d28b7b5",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-11-29T21:57:52Z",
+      "side": 1,
+      "message": "here scopePos is used",
+      "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
