@@ -6,13 +6,18 @@ package testing_test
 
 import (
 	"bytes"
+	"fmt"
 	"internal/race"
 	"internal/testenv"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
+	"slices"
+	"strings"
 	"sync"
 	"testing"
+	"time"
 )
 
 // This is exactly what a test would do without a TestMain.
@@ -635,4 +640,148 @@ func BenchmarkSubRacy(b *testing.B) {
 	})
 
 	doRace() // should be reported separately
+}
+
+func TestRunningTests(t *testing.T) {
+	t.Parallel()
+
+	// Regression test for https://go.dev/issue/64404:
+	// on timeout, the "running tests" message should not include
+	// tests that are waiting on parked subtests.
+
+	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
+		for i := 0; i < 2; i++ {
+			t.Run(fmt.Sprintf("outer%d", i), func(t *testing.T) {
+				t.Parallel()
+				for j := 0; j < 2; j++ {
+					t.Run(fmt.Sprintf("inner%d", j), func(t *testing.T) {
+						t.Parallel()
+						for {
+							time.Sleep(1 * time.Millisecond)
+						}
+					})
+				}
+			})
+		}
+	}
+
+	timeout := 10 * time.Millisecond
+	for {
+		cmd := testenv.Command(t, os.Args[0], "-test.run=^"+t.Name()+"$", "-test.timeout="+timeout.String(), "-test.parallel=4")
+		cmd = testenv.CleanCmdEnv(cmd)
+		cmd.Env = append(cmd.Env, "GO_WANT_HELPER_PROCESS=1")
+		out, err := cmd.CombinedOutput()
+		t.Logf("%v:\n%s", cmd, out)
+		if _, ok := err.(*exec.ExitError); !ok {
+			t.Fatal(err)
+		}
+
+		var runningTests []string
+		inRunningTests := false
+		for _, line := range strings.Split(string(out), "\n") {
+			if inRunningTests {
+				trimmed := strings.TrimLeft(line, " \t")
+				if line == trimmed {
+					break
+				} else {
+					name, _, _ := strings.Cut(trimmed, " ")
+					runningTests = append(runningTests, name)
+					continue
+				}
+			}
+			if strings.TrimSpace(line) == "running tests:" {
+				inRunningTests = true
+			}
+		}
+
+		// Because the outer subtests (and TestRunningTests itself) are marked as
+		// parallel, their test functions return (and are no longer “running”)
+		// before the inner subtests are released to run and hang.
+		// Only those inner subtests should be reported as running.
+		want := []string{
+			"TestRunningTests/outer0/inner0",
+			"TestRunningTests/outer0/inner1",
+			"TestRunningTests/outer1/inner0",
+			"TestRunningTests/outer1/inner1",
+		}
+		if slices.Equal(runningTests, want) {
+			break
+		} else {
+			t.Logf("found %d running tests; want:\n%s", len(runningTests), strings.Join(want, "\n"))
+			t.Logf("retrying with longer timeout")
+			timeout *= 2
+		}
+	}
+}
+
+func TestRunningTestsInCleanup(t *testing.T) {
+	t.Parallel()
+
+	if os.Getenv("GO_WANT_HELPER_PROCESS") == "1" {
+		for i := 0; i < 2; i++ {
+			t.Run(fmt.Sprintf("outer%d", i), func(t *testing.T) {
+				// Not parallel: we expect to see only one outer test,
+				// stuck in cleanup after its subtest finishes.
+
+				t.Cleanup(func() {
+					for {
+						time.Sleep(1 * time.Millisecond)
+					}
+				})
+
+				for j := 0; j < 2; j++ {
+					t.Run(fmt.Sprintf("inner%d", j), func(t *testing.T) {
+						t.Parallel()
+					})
+				}
+			})
+		}
+	}
+
+	timeout := 10 * time.Millisecond
+	for {
+		cmd := testenv.Command(t, os.Args[0], "-test.run=^"+t.Name()+"$", "-test.timeout="+timeout.String())
+		cmd = testenv.CleanCmdEnv(cmd)
+		cmd.Env = append(cmd.Env, "GO_WANT_HELPER_PROCESS=1")
+		out, err := cmd.CombinedOutput()
+		t.Logf("%v:\n%s", cmd, out)
+		if _, ok := err.(*exec.ExitError); !ok {
+			t.Fatal(err)
+		}
+
+		var runningTests []string
+		inRunningTests := false
+		for _, line := range strings.Split(string(out), "\n") {
+			if inRunningTests {
+				trimmed := strings.TrimLeft(line, " \t")
+				if line == trimmed {
+					break
+				} else {
+					name, _, _ := strings.Cut(trimmed, " ")
+					runningTests = append(runningTests, name)
+					continue
+				}
+			}
+			if strings.TrimSpace(line) == "running tests:" {
+				inRunningTests = true
+			}
+		}
+
+		// TestRunningTestsInCleanup is blocked in the call to t.Run,
+		// but its test function has not yet returned so it should still
+		// be considered to be running.
+		// outer1 hasn't even started yet, so only outer0 and the top-level
+		// test function should be reported as running.
+		want := []string{
+			"TestRunningTestsInCleanup",
+			"TestRunningTestsInCleanup/outer0",
+		}
+		if slices.Equal(runningTests, want) {
+			break
+		} else {
+			t.Logf("found %d running tests; want:\n%s", len(runningTests), strings.Join(want, "\n"))
+			t.Logf("retrying with longer timeout")
+			timeout *= 2
+		}
+	}
 }
