@@ -16,6 +16,41 @@
       "message": "```suggestion\nFixes #36307\n```\n\nThis will create a link and gopherbot will automagically close the issue when this is merged.",
       "revId": "bd7931e438dd369f0d18539aba83f78d000e77f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4edfd67_f193a827",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 17435
+      },
+      "writtenOn": "2023-11-29T16:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce24ab2c_d1741c87",
+      "revId": "bd7931e438dd369f0d18539aba83f78d000e77f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7710ffc_c5dd0bdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17435
+      },
+      "writtenOn": "2023-11-29T16:05:57Z",
+      "side": 1,
+      "message": "Thanks, fixed,",
+      "revId": "bd7931e438dd369f0d18539aba83f78d000e77f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
