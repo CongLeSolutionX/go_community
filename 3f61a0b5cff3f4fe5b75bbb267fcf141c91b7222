@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9674a8d9_df17c825",
+        "filename": "src/runtime/pprof/vminfo_darwin_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-29T19:40:55Z",
+      "side": 1,
+      "message": "In my experience a hard-coded number of attempts is usually a mistake — if set too low it still allows the test to flake, but if set too high it has no effect.\n\nRather than trying to tune a parameter for the number of retries, can we just keep retrying until the test times out?",
+      "range": {
+        "startLine": 37,
+        "startChar": 37,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "3f61a0b5cff3f4fe5b75bbb267fcf141c91b7222",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12d3bd78_3668798b",
+        "filename": "src/runtime/pprof/vminfo_darwin_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-29T19:40:55Z",
+      "side": 1,
+      "message": "(nit) This log message seems a bit redundant with the one at line 69.",
+      "revId": "3f61a0b5cff3f4fe5b75bbb267fcf141c91b7222",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
