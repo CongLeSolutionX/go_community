@@ -86,6 +86,24 @@
       "message": "This logic is much more complicated than what we had before. Yet the only thing that\u0027s really needed is an extra if to distinguish between not enough and too many. Please revert to the old code and just add that if.\nThere\u0027s also no need for the isValidTarg variable.",
       "revId": "cb83683bfec1eb3e704ec5e32f7fed172c9448ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38c76fa1_5d8d8505",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-29T04:05:28Z",
+      "side": 1,
+      "message": "Change is done. Why I didn\u0027t do that in first place was multiple returns on a method so was trying to consolidate it with a variable.",
+      "parentUuid": "d7a9ee89_c2f01620",
+      "revId": "cb83683bfec1eb3e704ec5e32f7fed172c9448ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
