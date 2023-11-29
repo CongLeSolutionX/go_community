@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec96c664_d56955b2",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-29T04:01:39Z",
+      "side": 1,
+      "message": "Thanks @gri@google.com. I need a help. I am facing issues after I had my review fixes  done and trying to send for review \n\n\"git-codereview: cannot mail: multiple changes pending; must specify commit on command line; use HEAD to mail all pending changes:\"\n\nCan you please suggest me what to do?",
+      "parentUuid": "6f964f47_43a9a481",
+      "revId": "cb83683bfec1eb3e704ec5e32f7fed172c9448ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cfb3c44a_c5de0cfd",
         "filename": "src/cmd/compile/internal/types2/instantiate.go",
         "patchSetId": 6
