@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f20898_919ce0e9",
+        "filename": "src/runtime/pprof/vminfo_darwin_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-11-29T20:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9674a8d9_df17c825",
+      "range": {
+        "startLine": 37,
+        "startChar": 37,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "3f61a0b5cff3f4fe5b75bbb267fcf141c91b7222",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12d3bd78_3668798b",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-29T19:40:55Z",
       "side": 1,
       "message": "(nit) This log message seems a bit redundant with the one at line 69.",
+      "revId": "3f61a0b5cff3f4fe5b75bbb267fcf141c91b7222",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "123a2acb_f5c3c7fb",
+        "filename": "src/runtime/pprof/vminfo_darwin_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 16845
+      },
+      "writtenOn": "2023-11-29T20:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12d3bd78_3668798b",
       "revId": "3f61a0b5cff3f4fe5b75bbb267fcf141c91b7222",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
