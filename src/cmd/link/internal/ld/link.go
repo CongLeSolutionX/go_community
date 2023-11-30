@@ -40,11 +40,32 @@ import (
 )
 
 type Shlib struct {
-	Path string
-	Hash []byte
-	Deps []string
-	File *elf.File
+	Path    string
+	Hash    []byte
+	Deps    []string
+	File    *elf.File
+	symAddr map[string]uint64 // map from symbol name to address (in original shlib address space)
+	relocs  shlibRelocs       // sorted by increasing addr
 }
+
+// A relocation that applies to part of the shared library.
+// We only keep track of a single kind of relocation, that is
+// a standard address one.
+// Kind = R_X86_64_64 or similar (add address of symbol).
+// Size = one pointer
+// Target = some other symbol, with an addend of 0.
+type shlibReloc struct {
+	// Address (in the shared library address space) the relocation applies to.
+	addr uint64
+	// Target symbol name.
+	target string
+}
+
+type shlibRelocs []shlibReloc
+
+func (s shlibRelocs) Len() int           { return len(s) }
+func (s shlibRelocs) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s shlibRelocs) Less(i, j int) bool { return s[i].addr < s[j].addr }
 
 // Link holds the context for writing object code from a compiler
 // or for reading that input into the linker.

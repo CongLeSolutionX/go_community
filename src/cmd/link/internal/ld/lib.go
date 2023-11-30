@@ -2616,7 +2616,68 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			l.SetSymExtname(s, elfsym.Name)
 		}
 	}
-	ctxt.Shlibs = append(ctxt.Shlibs, Shlib{Path: libpath, Hash: hash, Deps: deps, File: f})
+
+	// Build a map to find address (in the shlib address space) of a symbol.
+	symAddr := map[string]uint64{}
+	for _, s := range syms {
+		symAddr[s.Name] = s.Value
+	}
+
+	// Load relocations.
+	// We only really need these for grokking the links between type descriptors
+	// when dynamic linking.
+	var relocs shlibRelocs
+	sect := f.SectionByType(elf.SHT_RELA)
+	if sect == nil {
+		log.Fatalf("can't find SHT_RELA section of %s", shlib)
+	}
+	// TODO: also peruse SHT_REL? Multiple SHT_RELA sections?
+	data, err := sect.Data()
+	if err != nil {
+		log.Fatalf("can't read SHT_RELA section of %s: %v", shlib, err)
+	}
+	bo := f.ByteOrder
+	for len(data) > 0 {
+		var off, idx uint64
+		var addend int64
+		switch f.Class {
+		case elf.ELFCLASS64:
+			off = bo.Uint64(data[0:])
+			info := bo.Uint64(data[8:])
+			addend = int64(bo.Uint64(data[16:]))
+			data = data[24:]
+
+			idx = info >> 32
+			typ := info & 0xffff
+			if typ != uint64(elf.R_X86_64_64) { // TODO: others
+				continue
+			}
+		case elf.ELFCLASS32:
+			off = uint64(bo.Uint32(data[0:]))
+			info := bo.Uint32(data[4:])
+			addend = int64(int32(bo.Uint32(data[8:])))
+			data = data[12:]
+
+			idx = uint64(info >> 8)
+			typ := info & 0xff
+			if typ != uint32(elf.R_X86_64_32) { // TODO: others
+				continue
+			}
+		default:
+			log.Fatalf("unknown bit size %s", f.Class)
+		}
+		if addend != 0 {
+			continue
+		}
+		relocs = append(relocs, shlibReloc{
+			addr:   off,
+			target: syms[idx-1].Name,
+		})
+	}
+	// Sort so we can binary search in it later.
+	sort.Sort(relocs)
+
+	ctxt.Shlibs = append(ctxt.Shlibs, Shlib{Path: libpath, Hash: hash, Deps: deps, File: f, relocs: relocs, symAddr: symAddr})
 }
 
 func addsection(ldr *loader.Loader, arch *sys.Arch, seg *sym.Segment, name string, rwx int) *sym.Section {
