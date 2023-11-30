@@ -158,6 +158,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e115e30d_d7251d0c",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-30T00:27:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c8681c9_c650cbc0",
+      "revId": "97f573b58028129fee752b0e22f3fcda083932ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80430c9b_36ff2772",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-30T00:27:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25a5d6dd_a68ef8bb",
+      "revId": "97f573b58028129fee752b0e22f3fcda083932ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74794b09_8e69b722",
@@ -171,6 +207,24 @@
       "writtenOn": "2023-11-29T17:46:30Z",
       "side": 1,
       "message": "1) s/typeName/name/ because sometimes this is a function name - in fact, it seems that for signatures, this entire check is not needed because the type arguments and parameters have been checked before\n\n2) This function only ever uses the lengths of ntparams and ntargs, so there\u0027s no need to pass the lists - revert to what was there before\n\nThus, please replace this function with the following code:\n\n```\n// validateTArgLen checks that the number of type arguments (got) matches the\n// number of type parameters (want); if they don\u0027t match an error is reported.\n// If validation fails and check is nil, validateTArgLen panics.\nfunc (check *Checker) validateTArgLen(pos syntax.Pos, name string, want, got int) bool {\n\tvar qual string\n\tswitch {\n\tcase got \u003c want:\n\t\tqual \u003d \"not enough\"\n\tcase got \u003e want:\n\t\tqual \u003d \"too many\"\n\tdefault:\n\t\treturn true\n\t}\n\n\tmsg :\u003d check.sprintf(\"%s type arguments for type %s: have %d, want %d\", qual, name, got, want)\n\tif check !\u003d nil {\n\t\tcheck.err(pos, WrongArgCount, msg, false)\n\t\treturn false\n\t}\n\n\tpanic(fmt.Sprintf(\"%v: %s\", pos, msg))\n}\n```",
+      "revId": "97f573b58028129fee752b0e22f3fcda083932ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae1abdca_0f15a071",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-30T00:27:32Z",
+      "side": 1,
+      "message": "I forgot to mentioned initially(5914f6a482ce9e178cdc199ec3ec1719b6049f60) there was difference in validateTArgLen in types2 and types where as I saw atPos in go generated file, I fixed it by having atPos() in types2 and did go generate.\n\nand changed above error code \"WrongTypeArgCount\"",
+      "parentUuid": "74794b09_8e69b722",
       "revId": "97f573b58028129fee752b0e22f3fcda083932ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
