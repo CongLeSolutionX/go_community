@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "823e0515_ea9dd4f8",
+        "filename": "src/flag/example_flagset_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-11-30T23:45:30Z",
+      "side": 1,
+      "message": "2023",
+      "revId": "623ea4e5e1465a0912276d2b2d884e7bcf922306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47feee02_729439d0",
+        "filename": "src/flag/example_flagset_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-11-30T23:45:30Z",
+      "side": 1,
+      "message": "\"addr\" is perhaps a more idiomatic name here, and also won\u0027t conflict with the backquoted \"address\"",
+      "revId": "623ea4e5e1465a0912276d2b2d884e7bcf922306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b47a51e9_eb1af3fe",
+        "filename": "src/flag/example_flagset_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-11-30T23:45:30Z",
+      "side": 1,
+      "message": "A real program (not an example) would use flag.ExitOnError.\n\nalso move this comment up to the \"start\" function.",
+      "revId": "623ea4e5e1465a0912276d2b2d884e7bcf922306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba9ef1fa_5bdfac24",
+        "filename": "src/flag/example_flagset_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-11-30T23:45:30Z",
+      "side": 1,
+      "message": "The backticks I wanted were only in the flag usage messages, where they are treated specially (see docs). Don\u0027t put them in the comments.",
+      "revId": "623ea4e5e1465a0912276d2b2d884e7bcf922306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1b73e13_772a7a65",
+        "filename": "src/flag/example_flagset_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-11-30T23:45:30Z",
+      "side": 1,
+      "message": "I was looking for an invalid flag, although this is good too.",
+      "revId": "623ea4e5e1465a0912276d2b2d884e7bcf922306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
