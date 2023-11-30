@@ -16,6 +16,7 @@ import (
 	"slices"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -784,4 +785,36 @@ func TestRunningTestsInCleanup(t *testing.T) {
 			timeout *= 2
 		}
 	}
+}
+
+func TestConcurrentRun(t *testing.T) {
+	// Regression test for https://go.dev/issue/64402:
+	// this deadlocked after https://go.dev/cl/506755.
+
+	block := make(chan struct{})
+	var ready, done sync.WaitGroup
+	for i := 0; i < 2; i++ {
+		ready.Add(1)
+		done.Add(1)
+		go t.Run("", func(*testing.T) {
+			ready.Done()
+			<-block
+			done.Done()
+		})
+	}
+	ready.Wait()
+	close(block)
+	done.Wait()
+}
+
+func TestParentRun(t1 *testing.T) {
+	// Regression test for https://go.dev/issue/64402:
+	// this deadlocked after https://go.dev/cl/506755.
+
+	t1.Run("outer", func(t2 *testing.T) {
+		t2.Log("Hello outer!")
+		t1.Run("not_inner", func(t3 *testing.T) { // Note: this is t1.Run, not t2.Run.
+			t3.Log("Hello inner!")
+		})
+	})
 }
