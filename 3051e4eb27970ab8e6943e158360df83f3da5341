@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "677fc5ec_375f012a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-30T21:22:03Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "3051e4eb27970ab8e6943e158360df83f3da5341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "422bb898_e2d7a7c0",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-11-30T21:22:03Z",
+      "side": 1,
+      "message": "Maybe add \"or later\"?",
+      "range": {
+        "startLine": 154,
+        "startChar": 65,
+        "endLine": 154,
+        "endChar": 72
+      },
+      "revId": "3051e4eb27970ab8e6943e158360df83f3da5341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
