@@ -107,6 +107,24 @@
       "parentUuid": "b50c2cc1_458d67e6",
       "revId": "70fc852b4f42b0ff813112031c12f991cbe13eab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81b0f389_96b50332",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-11-30T16:04:26Z",
+      "side": 1,
+      "message": "currently i ran only these two external test as I encounter some different failures in $GOROOT/test. (C:\\Users\\R\\golang\\go\\bin\\go.exe test -timeout 30s -run ^(Test|TestShouldTest)$ cmd/internal/testdir}\n\n^Test/typeparam/issue51233.go$ cmd/internal/testdir \n^Test/typeparam/issue51232.go$ cmd/internal/testdir\n\nHope this is ok ?",
+      "parentUuid": "b590e30b_5e9167e3",
+      "revId": "70fc852b4f42b0ff813112031c12f991cbe13eab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
