@@ -16,6 +16,23 @@
       "message": "Tested manually on ppc64(be), now big-endian safe.\nPS1 is the clean replay, without any bug fixes, so diffing PS1-\u003elatest should be useful.",
       "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c4eb6e0_3fd955da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-11-30T18:02:43Z",
+      "side": 1,
+      "message": "https://go-review.git.corp.google.com/c/go/+/546020/1..3 is a good diff to read (PS1 is the clean replay without any big fixes).",
+      "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
