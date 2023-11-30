@@ -70,6 +70,24 @@
       "message": "Actually, looking more closely at this I\u0027m not sure it\u0027s a valid use of the API. Needs more thought.",
       "revId": "243b44a26810842cc9c5cf93e79cc2c8cc45f04a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ad3924a_5749145e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-11-30T16:29:01Z",
+      "side": 1,
+      "message": "I\u0027ve mailed CL 546019 with representative regression tests for the failures observed in Google-internal testing.\n\nOne of them is almost certainly a pattern of unintentional bugs; the other is arguably a valid use of `t.Run`.\n\nI\u0027ve also filed #64470 for a closely-related bug in the `testing` package, for which the fix may impact these patterns.",
+      "parentUuid": "b7ac50b6_1699ebb5",
+      "revId": "243b44a26810842cc9c5cf93e79cc2c8cc45f04a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
