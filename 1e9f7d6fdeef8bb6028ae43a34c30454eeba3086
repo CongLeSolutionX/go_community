@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a90242c_42abd9b8",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-11-30T00:42:12Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "143e44aa_a2a6f68e",
+      "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a40578c_59252dc7",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20069e38_89e299fe",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-11-30T00:42:12Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "8a40578c_59252dc7",
+      "range": {
+        "startLine": 632,
+        "startChar": 58,
+        "endLine": 632,
+        "endChar": 66
+      },
+      "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23ea9835_5965be87",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-11-29T21:57:52Z",
       "side": 1,
       "message": "s/check.scope.pos/scopePos/?",
+      "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26fb1ee7_2c4911b6",
+        "filename": "src/cmd/compile/internal/types2/decl.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-11-30T00:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23ea9835_5965be87",
       "revId": "1e9f7d6fdeef8bb6028ae43a34c30454eeba3086",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
