@@ -544,30 +544,17 @@ func chdir(t *testing.T, dir string) {
 
 	t.Cleanup(func() {
 		if err := os.Chdir(olddir); err != nil {
-			t.Errorf("restore original working directory %s: %v", olddir, err)
-			os.Exit(1)
+			t.Fatalf("restore original working directory %s: %v", olddir, err)
 		}
 	})
 }
 
-func chtmpdir(t *testing.T) (restore func()) {
-	oldwd, err := os.Getwd()
-	if err != nil {
-		t.Fatalf("chtmpdir: %v", err)
-	}
-	d, err := os.MkdirTemp("", "test")
-	if err != nil {
-		t.Fatalf("chtmpdir: %v", err)
-	}
-	if err := os.Chdir(d); err != nil {
-		t.Fatalf("chtmpdir: %v", err)
-	}
-	return func() {
-		if err := os.Chdir(oldwd); err != nil {
-			t.Fatalf("chtmpdir: %v", err)
-		}
+func chtmpdir(t *testing.T) {
+	d := t.TempDir()
+	chdir(t, d)
+	t.Cleanup(func() {
 		os.RemoveAll(d)
-	}
+	})
 }
 
 // tempDirCanonical returns a temporary directory for the test to use, ensuring
@@ -597,21 +584,7 @@ func TestWalkDir(t *testing.T) {
 }
 
 func testWalk(t *testing.T, walk func(string, fs.WalkDirFunc) error, errVisit int) {
-	if runtime.GOOS == "ios" {
-		restore := chtmpdir(t)
-		defer restore()
-	}
-
-	tmpDir := t.TempDir()
-
-	origDir, err := os.Getwd()
-	if err != nil {
-		t.Fatal("finding working dir:", err)
-	}
-	if err = os.Chdir(tmpDir); err != nil {
-		t.Fatal("entering temp dir:", err)
-	}
-	defer os.Chdir(origDir)
+	chtmpdir(t)
 
 	makeTree(t)
 	errors := make([]error, 0, 10)
@@ -620,7 +593,7 @@ func testWalk(t *testing.T, walk func(string, fs.WalkDirFunc) error, errVisit in
 		return mark(d, err, &errors, clear)
 	}
 	// Expect no errors.
-	err = walk(tree.name, markFn)
+	err := walk(tree.name, markFn)
 	if err != nil {
 		t.Fatalf("no error expected, found: %s", err)
 	}
@@ -1249,7 +1222,7 @@ func TestEvalSymlinks(t *testing.T) {
 func TestEvalSymlinksIsNotExist(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
-	defer chtmpdir(t)()
+	chtmpdir(t)
 
 	_, err := filepath.EvalSymlinks("notexist")
 	if !os.IsNotExist(err) {
