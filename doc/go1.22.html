@@ -99,8 +99,30 @@ Do not send CLs removing the interior tags from such phrases.
 
 <h2 id="runtime">Runtime</h2>
 
-<p>
-  TODO: complete this section, or delete if not needed
+<p><!-- CL 543255 -->
+  The runtime now keeps type-based garbage collection metadata nearer to each
+  heap object, improving the CPU performance (latency or throughput) of Go programs
+  by 1&mdash;3%.
+  This change also reduces the memory overhead of the majority Go programs by
+  approximately 1% by deduplicating redundant metadata.
+  Some programs may see a neutral memory use change because this change effectively
+  changes the size class boundaries of the Go memory allocator, so some objects may
+  be moved up a size class.
+  <br />
+  A consequence of this change is that some objects containing pointers may no longer
+  be implicitly aligned to 16-byte boundaries by the memory allocator, and are instead
+  aligned to an 8-byte boundary.
+  Because it is not currently possible to construct a Go type that requires 16-byte
+  alignment, this property never extended to stack-allocated objects or globals, and
+  the property was never guaranteed in any official documentation, the vast majority of
+  Go programs will be unaffected by this change.
+  Some programs using assembly instructions that require memory addresses to be
+  16-byte aligned and have implicitly relied upon the memory allocator's default
+  alignment may break.
+  Such programs may be built with <code>GOEXPERIMENT=noallocheaders</code> to revert
+  to the old metadata layout and restore 16-byte alignment, but package owners should
+  update their assembly code to avoid the alignment assumption, as this workaround will
+  be removed in a future relase.
 </p>
 
 <h2 id="compiler">Compiler</h2>
@@ -520,10 +542,6 @@ Do not send CLs removing the interior tags from such phrases.
   <dd>
     <p><!-- https://go.dev/issue/61015 -->
       TODO: <a href="https://go.dev/issue/61015">https://go.dev/issue/61015</a>: change mutex profile to scale contention by number of blocked goroutines
-    </p>
-
-    <p><!-- CL 543255 -->
-      TODO: <a href="https://go.dev/cl/543255">https://go.dev/cl/543255</a>: runtime: put allocation headers back at the start the object
     </p>
   </dd>
 </dl><!-- runtime -->
