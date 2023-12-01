@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b664146_4b7c2437",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-01T21:38:03Z",
+      "side": 1,
+      "message": "clock?",
+      "range": {
+        "startLine": 566,
+        "startChar": 76,
+        "endLine": 566,
+        "endChar": 77
+      },
+      "revId": "a770f5e01dbc1b42a1b0944c4a3c212461b3be81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6495b3f3_faf41c8c",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-01T21:38:03Z",
+      "side": 1,
+      "message": "Extra tab character",
+      "range": {
+        "startLine": 570,
+        "startChar": 0,
+        "endLine": 570,
+        "endChar": 1
+      },
+      "revId": "a770f5e01dbc1b42a1b0944c4a3c212461b3be81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edddcbb8_f8ca981b",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-01T21:38:03Z",
+      "side": 1,
+      "message": "Technically it isn\u0027t in this release since it is in x/exp.",
+      "range": {
+        "startLine": 574,
+        "startChar": 70,
+        "endLine": 574,
+        "endChar": 96
+      },
+      "revId": "a770f5e01dbc1b42a1b0944c4a3c212461b3be81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f541ff7b_cf9eee74",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-01T21:38:03Z",
+      "side": 1,
+      "message": "If you do, please file an issue, otherwise this option will be gone in the next release.",
+      "revId": "a770f5e01dbc1b42a1b0944c4a3c212461b3be81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
