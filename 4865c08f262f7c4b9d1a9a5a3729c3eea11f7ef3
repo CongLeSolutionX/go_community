@@ -73,6 +73,23 @@
       "message": "This reorders lines mostly to change the sort order between letters and special characters. It is fine to me either way, but I think we want to avoid someone else runs sort and changes the order again. Maybe we should ensure a specific and consistent sort order? (Also, the reordering isn\u0027t really related to this CL.)",
       "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "365c60ab_87e0efa4",
+        "filename": "src/internal/chacha8rand/chacha8_generic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-12-01T00:11:57Z",
+      "side": 1,
+      "message": "You can use the https://c2sp.org/chacha8rand short link here.",
+      "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
