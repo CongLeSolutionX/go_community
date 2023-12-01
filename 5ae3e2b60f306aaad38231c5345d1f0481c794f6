@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7d1ab97_3a9343d7",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "less improvement",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 51
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c4ace6f_bc7c7a19",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "remove \"Go\"",
+      "range": {
+        "startLine": 109,
+        "startChar": 43,
+        "endLine": 109,
+        "endChar": 46
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c09a4ee_f3cfbf04",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "adjusts",
+      "range": {
+        "startLine": 108,
+        "startChar": 72,
+        "endLine": 109,
+        "endChar": 9
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdea97de_e24ffc31",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "I think we should probably explain \"why\" a bit less here and just say \"what\".\n\nA consequence of this change is that some object sizes that were previously always aligned to a 16 byte boundary will now only be aligned to an 8 byte boundary.\n\n(This is true for larger alignments also, right? Like things that used to always be 32 byte aligned will fall to 8.)",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 48
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "028e39d9_9f48cd32",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "that use",
+      "range": {
+        "startLine": 119,
+        "startChar": 16,
+        "endLine": 119,
+        "endChar": 21
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27309b73_2183842e",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "more than 8 byte alignment",
+      "range": {
+        "startLine": 119,
+        "startChar": 57,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c8cc5a_23b129eb",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "rely",
+      "range": {
+        "startLine": 120,
+        "startChar": 22,
+        "endLine": 120,
+        "endChar": 44
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d680762_547a3d68",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "previous alignment behavior",
+      "range": {
+        "startLine": 120,
+        "startChar": 73,
+        "endLine": 121,
+        "endChar": 11
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccee2246_1c05bede",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "the previous alignment behavior",
+      "range": {
+        "startLine": 123,
+        "startChar": 41,
+        "endLine": 123,
+        "endChar": 58
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fca908f_d0ed33f9",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-01T01:33:37Z",
+      "side": 1,
+      "message": "release",
+      "range": {
+        "startLine": 125,
+        "startChar": 25,
+        "endLine": 125,
+        "endChar": 31
+      },
+      "revId": "5ae3e2b60f306aaad38231c5345d1f0481c794f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
