@@ -208,6 +208,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee10ee41_92fa75b7",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-01T19:30:56Z",
+      "side": 1,
+      "message": "Thanks. Looks good. Submitting.",
+      "parentUuid": "496c0a51_3bd1f7de",
+      "revId": "60893138b71a0afd1f873749a9e48e999bd8d8ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53b883be_5bc0537a",
