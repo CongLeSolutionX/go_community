@@ -77,6 +77,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2c7bf88_d8145c63",
+        "filename": "api/go1.22.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-01T19:40:39Z",
+      "side": 1,
+      "message": "Hmm. I didn\u0027t notice I\u0027d done that. However:\n\n(1) All I did was pipe the file through sort.\n(2) In the ones I spot-checked, my way is actually sorted by byte values. \n\nI don\u0027t know what the old file\u0027s order was, nor what broken sort generated it, but I\u0027m inclined to leave it properly sorted as in this CL.",
+      "parentUuid": "36838ec2_ce6c29c2",
+      "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "365c60ab_87e0efa4",
         "filename": "src/internal/chacha8rand/chacha8_generic.go",
         "patchSetId": 3
@@ -88,6 +106,24 @@
       "writtenOn": "2023-12-01T00:11:57Z",
       "side": 1,
       "message": "You can use the https://c2sp.org/chacha8rand short link here.",
+      "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85c385b0_dd0cb2b4",
+        "filename": "src/internal/chacha8rand/chacha8_generic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-01T19:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "365c60ab_87e0efa4",
       "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
