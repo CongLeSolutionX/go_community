@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21cd318a_c4099d80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-01T18:41:56Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "e71a02e6bd6e2ce9d5e797ac832b8a8d7b69e238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b720207_2c0bd646",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-01T18:41:56Z",
+      "side": 1,
+      "message": "\"some objects\", or \"the addresses of some objects\"? It is (the address of) the object being aligned, not the size.",
+      "range": {
+        "startLine": 112,
+        "startChar": 39,
+        "endLine": 112,
+        "endChar": 56
+      },
+      "revId": "e71a02e6bd6e2ce9d5e797ac832b8a8d7b69e238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "523a8599_b22a5edb",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-01T18:41:56Z",
+      "side": 1,
+      "message": "\"that use\"",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 24
+      },
+      "revId": "e71a02e6bd6e2ce9d5e797ac832b8a8d7b69e238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
