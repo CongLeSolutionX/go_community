@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f09c329_1e7f2901",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64349
+      },
+      "writtenOn": "2023-12-01T16:25:25Z",
+      "side": 1,
+      "message": "The base64.StdEncoding incorrectly handles padding, as demonstrated in the following.\n\nhttps://go.dev/play/p/eAhVbpiFHNX",
+      "revId": "2e0a1a7573bd69c18c3a3932422a9507031e5321",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
