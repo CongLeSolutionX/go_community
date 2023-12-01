@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf99d580_97c2e6de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-01T22:02:26Z",
+      "side": 1,
+      "message": "More detail in the first line would be helpful, since this change presumably does not fix _all_ possible bugs in `os.SameFile`. 😅\n\nPerhaps:\n```\nos: fix SameFile for Windows files that lack file IDs\n```",
+      "revId": "0fe1f713a6f5d0a3ff4a84629e08afe82b5da6a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17b7dc76_97ca1d7f",
+        "filename": "src/os/types_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-01T22:02:26Z",
+      "side": 1,
+      "message": "Please make this comment self-contained: it should be possible to understand the code without cross-referencing an issue tracker that may or may not be available.",
+      "revId": "0fe1f713a6f5d0a3ff4a84629e08afe82b5da6a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ce98a60_e05a7a7f",
+        "filename": "src/os/types_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-01T22:02:26Z",
+      "side": 1,
+      "message": "`normalizeLinkPath` does not seem appropriate for this operation.\n\nFor one, we have no reason to believe that `path` is a “link path” in the first place, so at the very least the function would be misnamed (and would not match its doc comment).\n\nFor two, as far as I can tell we don\u0027t need or want the path manipulation that `normaliseLinkPath` applies: we don\u0027t need a volume name (because we expect `fs.vol` to be valid), and we don\u0027t need to do the extra work to convert the resulting path to any particular format.\n\nFor three, `normaliseLinkPath` calls `CreateFile`, which is redundant with the call to `CreateFile` at line 266: this appears to be more or less doubling the work performed by `loadFileId` for no clear benefit.",
+      "range": {
+        "startLine": 241,
+        "startChar": 21,
+        "endLine": 241,
+        "endChar": 38
+      },
+      "revId": "0fe1f713a6f5d0a3ff4a84629e08afe82b5da6a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729bfbb9_68782cb2",
+        "filename": "src/os/types_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-01T22:02:26Z",
+      "side": 1,
+      "message": "This call seems out of place here. If the calls to `CreateFile` and `GetFileInformationByHandle` result in a valid ID, then we shouldn\u0027t need to use the less robust `GetFinalPathNameByHandleW` at all.\n\nI think we should only end up calling `GetFinalPathNameByHandleW` if `idxhi` and `idxlo` are found to be invalid.",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 2
+      },
+      "revId": "0fe1f713a6f5d0a3ff4a84629e08afe82b5da6a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
