@@ -8,6 +8,7 @@ package toolchain
 import (
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"go/build"
 	"io/fs"
@@ -20,10 +21,12 @@ import (
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/cmdflag"
 	"cmd/go/internal/gover"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/run"
+	"cmd/go/internal/work"
 
 	"golang.org/x/mod/module"
 )
@@ -492,6 +495,7 @@ func goInstallVersion() bool {
 
 	// Check for pkg@version.
 	var arg string
+	var cmdFlags *flag.FlagSet
 	switch os.Args[1] {
 	default:
 		return false
@@ -500,6 +504,7 @@ func goInstallVersion() bool {
 		// across a toolchain switch. To make that work, assume the pkg@version
 		// is the last argument and skip the flag parsing.
 		arg = os.Args[len(os.Args)-1]
+		cmdFlags = &work.CmdInstall.Flag
 	case "run":
 		// For run, the pkg@version can be anywhere on the command line,
 		// because it is preceded by run flags and followed by arguments to the
@@ -507,6 +512,7 @@ func goInstallVersion() bool {
 		// flags a little bit, to know whether each flag takes an optional argument.
 		// We can still allow unknown flags as long as they have an explicit =value.
 		args := os.Args[2:]
+		cmdFlags = &run.CmdRun.Flag
 		for i := 0; i < len(args); i++ {
 			a := args[i]
 			if !strings.HasPrefix(a, "-") {
@@ -552,6 +558,19 @@ func goInstallVersion() bool {
 	path, version, _ := strings.Cut(arg, "@")
 	if path == "" || version == "" || gover.IsToolchain(path) {
 		return false
+	}
+
+	// Make a best effort to parse flags so that module flags like -modcacherw
+	// will take effect (see https://go.dev/issue/64282).
+	args := os.Args[2:]
+	for len(args) > 0 {
+		var err error
+		_, args, err = cmdflag.ParseOne(cmdFlags, args)
+		if errors.Is(err, cmdflag.ErrFlagTerminator) {
+			break
+		}
+		// Ignore all other errors: they may be new flags — or updated syntax for
+		// existing flags — intended for a newer Go toolchain.
 	}
 
 	// It would be correct to simply return true here, bypassing use
