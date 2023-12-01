@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c163f05c_f9e6c850",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-01T20:31:57Z",
+      "side": 1,
+      "message": "The `runtime` failures on the `longtest` builders are unrelated (#64507).",
+      "revId": "30e6fc629529abf8da4528f4fdbb5a78363624fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
