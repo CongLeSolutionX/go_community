@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db4bc406_d765ec69",
+        "filename": "api/go1.22.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-01T20:33:50Z",
+      "side": 1,
+      "message": "SGTM. Thanks.",
+      "parentUuid": "a2c7bf88_d8145c63",
+      "revId": "4865c08f262f7c4b9d1a9a5a3729c3eea11f7ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "365c60ab_87e0efa4",
