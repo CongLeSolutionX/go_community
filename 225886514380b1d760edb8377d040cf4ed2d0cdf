@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b073215a_0c5020e3",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-12-01T14:37:42Z",
+      "side": 1,
+      "message": "Unfortunately Dir is a string constructor that doesn\u0027t allow us to return an error, and I agree with you that calling Stat for every Open call is very inneficient, ideally we should check this either only once, or only in the path that causes the redirect loop, to reduce the chance of this change to impact users code. I\u0027m inclined to go with your other idea, to explicitly report an error in the redirect loop case. That might be the safest solution going forward.",
+      "parentUuid": "2dc0fbaa_0fa33b6f",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 2
+      },
+      "revId": "225886514380b1d760edb8377d040cf4ed2d0cdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1471d9d_6ba48a31",
