@@ -16,6 +16,24 @@
       "message": "Please revert the changes in this package — the changes in `go/version` alone should be sufficient to fix the reported panic.",
       "revId": "9c2222d71099ec10242bc63900db6cf61c276b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "280bcfeb_8620be96",
+        "filename": "src/internal/gover/gover.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 66439
+      },
+      "writtenOn": "2023-12-02T04:54:12Z",
+      "side": 1,
+      "message": "Thanks. I updated the fixes",
+      "parentUuid": "0e640b43_215480bd",
+      "revId": "9c2222d71099ec10242bc63900db6cf61c276b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
