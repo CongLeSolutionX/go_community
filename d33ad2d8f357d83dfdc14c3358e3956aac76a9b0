@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf883ed2_34e61d42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-12-02T08:05:56Z",
+      "side": 1,
+      "message": "LGTM.\n\nAlex\n\nPS:\n\nI have found\n\nhttps://devblogs.microsoft.com/oldnewthing/20210729-00/?p\u003d105494\n\nthat explains how FILE_FLAG_WRITE_THROUGH flag works, and\n\nhttps://devblogs.microsoft.com/oldnewthing/20140306-00/?p\u003d1583\n\n(that was written in 2014) that explains that \"FILE_FLAG_WRITE_THROUGH flag is largely ineffective nowadays, because SATA drivers ignore the flush request\".",
+      "revId": "d33ad2d8f357d83dfdc14c3358e3956aac76a9b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
