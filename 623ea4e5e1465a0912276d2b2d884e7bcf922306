@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f501c02_0b7e58de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17435
+      },
+      "writtenOn": "2023-12-03T10:06:24Z",
+      "side": 1,
+      "message": "Fix commit message.",
+      "revId": "623ea4e5e1465a0912276d2b2d884e7bcf922306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "823e0515_ea9dd4f8",
