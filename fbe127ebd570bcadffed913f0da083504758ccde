@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa6da977_247ed47d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-12-03T13:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4c57fc9_ba8fcff1",
+      "revId": "fbe127ebd570bcadffed913f0da083504758ccde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "511c3756_4ffd94c0",
@@ -54,6 +72,30 @@
       "writtenOn": "2023-12-01T17:16:43Z",
       "side": 1,
       "message": "Is this CL meant for Go 1.22 or Go 1.23? The issue this is fixing is currently in Go1.23 milestone, but the CL has Auto-Submit+1 and no wait-release hashtag.\n\nIf it\u0027s meant for Go 1.22, the issue milestone should be updated.\nIf it\u0027s meant for Go 1.23, please add a wait-release hashtag.\n\nThanks.",
+      "revId": "fbe127ebd570bcadffed913f0da083504758ccde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8df9dcc_6cc73ba8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-12-03T13:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "511c3756_4ffd94c0",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 6
+      },
       "revId": "fbe127ebd570bcadffed913f0da083504758ccde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
