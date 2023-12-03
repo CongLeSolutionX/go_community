@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fe07449_8e62f81d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2023-12-03T13:41:02Z",
+      "side": 1,
+      "message": "It was initially in Go 1.22 milestone when @rsc@golang.org created it.",
+      "parentUuid": "553f230e_adb7c407",
+      "revId": "fbe127ebd570bcadffed913f0da083504758ccde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3447887b_a7c9735b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
