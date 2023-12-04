@@ -285,6 +285,8 @@ func main() {
 // TestGdbCoreCrashThreadBacktrace tests that runtime could let the fault thread to crash process
 // and make fault thread as number one thread while gdb in a core file
 func TestGdbCoreCrashThreadBacktrace(t *testing.T) {
+	testenv.MustHaveCGO(t)
+
 	if runtime.GOOS != "linux" {
 		// N.B. This test isn't fundamentally Linux-only, but it needs
 		// to know how to enable/find core files on each OS.
