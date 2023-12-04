@@ -16,6 +16,23 @@
       "message": "Thanks! Bigger improvement than I expected.",
       "revId": "43f432ae8e0376b9b8dc98593b7366a151066f4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c9e79f8_e9f37076",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-04T18:40:09Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "43f432ae8e0376b9b8dc98593b7366a151066f4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
