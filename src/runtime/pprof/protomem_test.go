@@ -6,8 +6,11 @@ package pprof
 
 import (
 	"bytes"
+	"fmt"
 	"internal/profile"
+	"reflect"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -80,5 +83,61 @@ func TestConvertMemProfile(t *testing.T) {
 
 			checkProfile(t, p, rate, periodType, sampleType, samples, tc.defaultSampleType)
 		})
+	}
+}
+
+func genericAllocFunc[T any](n int) []T {
+	return make([]T, int(n))
+}
+
+func profileToString(p *profile.Profile) []string {
+	var res []string
+	for _, s := range p.Sample {
+		var funcs []string
+		for i := range s.Location {
+			loc := s.Location[len(s.Location)-1-i]
+			for _, line := range loc.Line {
+				funcs = append(funcs, line.Function.Name)
+			}
+		}
+		res = append(res, fmt.Sprintf("%s %v", strings.Join(funcs, ";"), s.Value))
+	}
+	return res
+}
+
+func TestGenericsHashKeyInPprofBuilder(t *testing.T) {
+	functionInt := reflect.ValueOf(genericAllocFunc[int]).Pointer()
+	functionUint64 := reflect.ValueOf(genericAllocFunc[uint64]).Pointer()
+	rate := int64(524288)
+	rec := []runtime.MemProfileRecord{
+		{
+			AllocBytes: 128, AllocObjects: 1,
+			FreeBytes: 0, FreeObjects: 0,
+			Stack0: [32]uintptr{functionInt},
+		},
+		{
+			AllocBytes: 239, AllocObjects: 1,
+			FreeBytes: 0, FreeObjects: 0,
+			Stack0: [32]uintptr{functionUint64},
+		},
+	}
+
+	var buf bytes.Buffer
+	if err := writeHeapProto(&buf, rec, rate, ""); err != nil {
+		t.Fatalf("writing profile: %v", err)
+	}
+
+	p, err := profile.Parse(&buf)
+	if err != nil {
+		t.Fatalf("profile.Parse: %v", err)
+	}
+
+	actual := profileToString(p)
+	expected := []string{
+		"runtime/pprof.genericAllocFunc[int] [4096 524352 4096 524352]",
+		"runtime/pprof.genericAllocFunc[uint64] [2194 524407 2194 524407]",
+	}
+	if !reflect.DeepEqual(actual, expected) {
+		t.Errorf("profile = %v\nwant = %v", actual, expected)
 	}
 }
