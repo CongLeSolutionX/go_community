@@ -165,6 +165,15 @@ when the connection supports neither TLS 1.3 nor Extended Master Secret
 (implemented in Go 1.21). It can be reenabled with the [`tlsunsafeekm`
 setting](/pkg/crypto/tls/#ConnectionState.ExportKeyingMaterial).
 
+Go 1.22 added a new [`crypto/x509.Certificate`](/pkg/crypto/x509/#Certificate)
+field, [`Policies`](/pkg/crypto/x509/#Certificate.Policies), which supports
+certificate policy OIDs with components larger than 31 bits. By default this
+field is only used during parsing, when it is populated with policy OIDs, but
+not used during marshaling. It can be used to marshal these larger OIDs, instead
+of the existing PolicyIdentifiers field, by using the
+[`x509usepolicies` setting.](/pkg/crypto/x509/#CreateCertificate).
+
+
 ### Go 1.21
 
 Go 1.21 made it a run-time error to call `panic` with a nil interface value,
