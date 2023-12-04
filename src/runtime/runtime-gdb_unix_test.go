@@ -103,6 +103,8 @@ func main() {
 // TestGdbCoreSignalBacktrace tests that gdb can unwind the stack correctly
 // through a signal handler in a core file
 func TestGdbCoreSignalBacktrace(t *testing.T) {
+	testenv.MustHaveCGO(t)
+
 	if runtime.GOOS != "linux" {
 		// N.B. This test isn't fundamentally Linux-only, but it needs
 		// to know how to enable/find core files on each OS.
