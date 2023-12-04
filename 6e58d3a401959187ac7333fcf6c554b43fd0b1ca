@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c59ca8c4_09b76084",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-12-04T16:07:14Z",
+      "side": 1,
+      "message": "Kindly ping. It seems to have been a while.\n@cherryyz@google.com Hi, Cherry, would you please take a look?",
+      "revId": "6e58d3a401959187ac7333fcf6c554b43fd0b1ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
