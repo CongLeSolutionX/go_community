@@ -6,9 +6,14 @@ package pprof
 
 import (
 	"bytes"
+	"fmt"
 	"internal/profile"
 	"runtime"
+	"strings"
 	"testing"
+	"unsafe"
+
+	"slices"
 )
 
 func TestConvertMemProfile(t *testing.T) {
@@ -80,5 +85,63 @@ func TestConvertMemProfile(t *testing.T) {
 
 			checkProfile(t, p, rate, periodType, sampleType, samples, tc.defaultSampleType)
 		})
+	}
+}
+
+func genericAllocFunc[T interface{ int | uint64 }](n T) []T {
+	return make([]T, int(n))
+}
+
+func profileToString(p *profile.Profile) []string {
+	var res []string
+	for _, s := range p.Sample {
+		var funcs []string
+		for i := range s.Location {
+			loc := s.Location[len(s.Location)-1-i]
+			for j := range loc.Line {
+				line := loc.Line[len(loc.Line)-1-j]
+				funcs = append(funcs, line.Function.Name)
+			}
+		}
+		res = append(res, fmt.Sprintf("%s %v", strings.Join(funcs, ";"), s.Value))
+	}
+	return res
+}
+
+func TestGenericsHashKeyInPprofBuilder(t *testing.T) {
+	previousRate := runtime.MemProfileRate
+	runtime.MemProfileRate = 1
+	defer func() {
+		runtime.MemProfileRate = previousRate
+	}()
+	for _, sz := range []int{128, 256} {
+		genericAllocFunc[int](sz / int(unsafe.Sizeof(0)))
+	}
+	for _, sz := range []int{32, 64} {
+		genericAllocFunc[uint64](uint64(sz) / uint64(unsafe.Sizeof(uint64(0))))
+	}
+
+	runtime.GC()
+	buf := bytes.NewBuffer(nil)
+	if err := WriteHeapProfile(buf); err != nil {
+		t.Fatalf("writing profile: %v", err)
+	}
+	p, err := profile.Parse(buf)
+	if err != nil {
+		t.Fatalf("profile.Parse: %v", err)
+	}
+
+	actual := profileToString(p)
+	expected := []string{
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.int] [1 128 0 0]",
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.int] [1 256 0 0]",
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.uint64] [1 32 0 0]",
+		"testing.tRunner;runtime/pprof.TestGenericsHashKeyInPprofBuilder;runtime/pprof.genericAllocFunc[go.shape.uint64] [1 64 0 0]",
+	}
+
+	for _, l := range expected {
+		if !slices.Contains(actual, l) {
+			t.Errorf("profile = %v\nwant = %v", strings.Join(actual, "\n"), l)
+		}
 	}
 }
