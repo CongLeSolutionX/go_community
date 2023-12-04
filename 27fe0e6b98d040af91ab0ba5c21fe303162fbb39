@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2acc946f_2e1308b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2023-12-04T10:52:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "21ee2eb8_8a05a11d",
+      "revId": "27fe0e6b98d040af91ab0ba5c21fe303162fbb39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01c754f2_790c2625",
@@ -85,6 +103,30 @@
       "writtenOn": "2023-11-22T17:36:22Z",
       "side": 1,
       "message": "Maybe add some comment explaining the ranges, also why p.As is negative for some of them.",
+      "range": {
+        "startLine": 495,
+        "startChar": 0,
+        "endLine": 500,
+        "endChar": 5
+      },
+      "revId": "27fe0e6b98d040af91ab0ba5c21fe303162fbb39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cb9a2a3_3e7e332a",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2023-12-04T10:52:17Z",
+      "side": 1,
+      "message": "Thanks！ \nThe negative pAs is an invalid value and I have removed it.",
+      "parentUuid": "01c754f2_790c2625",
       "range": {
         "startLine": 495,
         "startChar": 0,
