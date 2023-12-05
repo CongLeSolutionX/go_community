@@ -33,6 +33,24 @@
       "message": "FWIW the API has already been pulled out into the audit thread here: https://github.com/golang/go/issues/64343\n\nNot sure if this needs to go into that thread or not (I\u0027m just a casual observer... 😊)",
       "revId": "d88a03683d4188cd62b99537ea794733aa56ee01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e4f998_910c8768",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-05T21:18:05Z",
+      "side": 1,
+      "message": "Thanks. Nobody (nor robot) has complained yet, so let\u0027s keep it, as it is accurate.",
+      "parentUuid": "704477f1_512af590",
+      "revId": "d88a03683d4188cd62b99537ea794733aa56ee01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
