@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95328db3_54e01ece",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-05T20:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e683577_a62e58ce",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc3e49db_94874428",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-21T23:18:13Z",
       "side": 1,
       "message": "I\u0027m not sure I follow why a CAS would be necessary here",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a2ae3a7_7289782a",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-05T20:51:43Z",
+      "side": 1,
+      "message": "Stale comment. Removed.",
+      "parentUuid": "cc3e49db_94874428",
       "range": {
         "startLine": 62,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "680c4045_7b587628",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-05T20:51:43Z",
+      "side": 1,
+      "message": "I think this is too heavyweight: it\u0027s two more atomic loads (during traceAcquire) even when the tracer is off. The tracer should not be this expensive generally, but especially here.\n\nAlso this can\u0027t be the right place for trace.GoStart since it will see the wrong curg. \n\nCan we leave the tracing for after Go 1.22?",
+      "parentUuid": "e972867f_289287b9",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 58
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84520190_109bb741",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-11-21T23:18:13Z",
       "side": 1,
       "message": "I\u0027m having some difficulty reasoning about this as a non-atomic load on weak memory architectures. I could be convinced it\u0027s correct, but IMO it would be a bit clearer to make this atomic.",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 109,
+        "endChar": 14
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ae96437_10015e81",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-05T20:51:43Z",
+      "side": 1,
+      "message": "Added a comment. The speed of this code path is measured in atomic operations, so adding another here is not great. Nothing bad can happen because of the cas, and if memory is out of sync, the cas will take care of it, so it\u0027s not like the loop will run forever either.",
+      "parentUuid": "84520190_109bb741",
       "range": {
         "startLine": 109,
         "startChar": 2,
