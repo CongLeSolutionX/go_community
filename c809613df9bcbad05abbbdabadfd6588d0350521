@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800795d8_00d24470",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-05T21:30:11Z",
+      "side": 1,
+      "message": "For consistency, please add line breaks. (The “Trace” section below appears to be wrapped to 80 columns or thereabout.)",
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34e1e00b_4ceabd13",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-05T21:30:11Z",
+      "side": 1,
+      "message": "This sentence is a bit ungainly for me to parse. 😅\n\nAlso, I think this should probably go in the `Go command` section rather than a separate “Cover” section. (The change in behavior is in `go test` rather than `go tool cover`.)\n\nMaybe:\n\n“`go` `test` `-cover` now prints coverage summaries for covered packages that do not have their own test files. Prior to …”",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 94
+      },
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa58265_d4b5455d",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-05T21:30:11Z",
+      "side": 1,
+      "message": "(nit) “also … as well” is redundant.",
+      "range": {
+        "startLine": 83,
+        "startChar": 68,
+        "endLine": 83,
+        "endChar": 119
+      },
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea43f18_8ad962c0",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-05T21:30:11Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure what this means. Maybe we can incorporate it into the first paragraph (such as by mentioning “covered packages” instead of just “packages”)?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 83
+      },
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
