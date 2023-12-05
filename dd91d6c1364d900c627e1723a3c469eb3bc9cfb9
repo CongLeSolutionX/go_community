@@ -125,6 +125,24 @@
       "parentUuid": "1f6ac7f8_3b0024f9",
       "revId": "dd91d6c1364d900c627e1723a3c469eb3bc9cfb9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b473066b_9bb84be2",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 2141,
+      "author": {
+        "id": 67213
+      },
+      "writtenOn": "2023-12-05T12:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e479407c_7e60b5c2",
+      "revId": "dd91d6c1364d900c627e1723a3c469eb3bc9cfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
