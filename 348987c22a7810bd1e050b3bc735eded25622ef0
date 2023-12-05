@@ -70,6 +70,24 @@
       "message": "Thanks, is this OK for 1.22?",
       "revId": "348987c22a7810bd1e050b3bc735eded25622ef0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca1d1a61_5a226b72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-12-05T18:18:09Z",
+      "side": 1,
+      "message": "Yes, submitting.",
+      "parentUuid": "6d6a0337_5d4ec1aa",
+      "revId": "348987c22a7810bd1e050b3bc735eded25622ef0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
