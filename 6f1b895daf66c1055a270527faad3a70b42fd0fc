@@ -16,6 +16,24 @@
       "message": "Forgive the drive-by post-merge review, but should this have gone into a new go1.22.txt file, given this change was not in 1.21?",
       "revId": "6f1b895daf66c1055a270527faad3a70b42fd0fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "313e084c_68d93287",
+        "filename": "api/go1.21.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-05T20:25:15Z",
+      "side": 1,
+      "message": "Thanks for pointing out my error, and sorry for the slow response. I don\u0027t know the mechanics of the tool that verifies this. I\u0027ll try adding the same change at 1.22, with release notes.",
+      "parentUuid": "49404513_cdd65927",
+      "revId": "6f1b895daf66c1055a270527faad3a70b42fd0fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
