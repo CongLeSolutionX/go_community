@@ -16,6 +16,24 @@
       "message": "typo?\n\ncannot range over s.NumChildren() (value of type int)\n\n```suggestion\n\t\t\t\tfor i :\u003d 0; i \u003c s.NumChildren(); i++ {\n```",
       "revId": "a27a525d1b4df74989ac9f6ad10394391fe3eb88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf2ce909_5d4eb9b4",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-05T14:04:28Z",
+      "side": 1,
+      "message": "Ranging over an int is legal starting with go1.22, so the standard library can make use of it already. See for example: https://go.dev/play/p/TzVyP60re_w?v\u003dgotip",
+      "parentUuid": "42429a41_cca4989f",
+      "revId": "a27a525d1b4df74989ac9f6ad10394391fe3eb88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
