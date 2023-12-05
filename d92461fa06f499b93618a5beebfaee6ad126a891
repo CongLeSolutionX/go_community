@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ed4233_4ee3357d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-12-05T19:05:03Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "d92461fa06f499b93618a5beebfaee6ad126a891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f96b082_8631aeb7",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-12-05T19:05:03Z",
+      "side": 1,
+      "message": "Do we need to define this or add a link? Or maybe people already know?",
+      "range": {
+        "startLine": 152,
+        "startChar": 74,
+        "endLine": 153,
+        "endChar": 10
+      },
+      "revId": "d92461fa06f499b93618a5beebfaee6ad126a891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
