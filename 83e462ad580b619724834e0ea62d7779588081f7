@@ -16,6 +16,57 @@
       "message": "LGTM modulo the build failures and whatever you decide to do for tracing. (the build failures I imagine will be a trivial fix.)",
       "revId": "83e462ad580b619724834e0ea62d7779588081f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d70e8abb_191fdac7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63525
+      },
+      "writtenOn": "2023-12-05T23:55:24Z",
+      "side": 1,
+      "message": "exciting!",
+      "revId": "83e462ad580b619724834e0ea62d7779588081f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c44a0caf_cf5b1666",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 63525
+      },
+      "writtenOn": "2023-12-05T23:55:24Z",
+      "side": 1,
+      "message": "maybe race.Write(unsafe.Pointer(\u0026c)) instead? also for the other Pull variant",
+      "revId": "83e462ad580b619724834e0ea62d7779588081f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "928ef9c1_9559442e",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 63525
+      },
+      "writtenOn": "2023-12-05T23:55:24Z",
+      "side": 1,
+      "message": "surround all cororoutine switches with race.Release and race.Acquire? that would model a happens-before on every coroutine switch. without this the race detector gets quite upset",
+      "revId": "83e462ad580b619724834e0ea62d7779588081f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
