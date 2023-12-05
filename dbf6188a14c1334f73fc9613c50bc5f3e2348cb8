@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac6dbf1f_b37c81f6",
+        "filename": "src/flag/example_flagset_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 66629
+      },
+      "writtenOn": "2023-12-05T12:06:30Z",
+      "side": 1,
+      "message": "is this correct? fs.Duration is documented to \"accept a value acceptable to time.ParseDuration\". ParseDuration does not default to seconds but errors when passed a unit-less integer. Interestingly, fs.Parse() doesn\u0027t fail in this case but returns the default flag value.\n\nTestcase here: https://go.dev/play/p/_3D3PFW48TI\n\n\n```suggestion\n\t\ttimeout :\u003d fs.Duration(\"timeout\", time.Second, \"`duration` to wait for shutdown\")\n```",
+      "revId": "dbf6188a14c1334f73fc9613c50bc5f3e2348cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
