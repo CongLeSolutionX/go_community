@@ -307,6 +307,7 @@ type dbgVar struct {
 // existing int var for that value, which may
 // already have an initial value.
 var debug struct {
+<<<<<<< HEAD   (6018ad [release-branch.go1.21] go1.21.5)
 	cgocheck           int32
 	clobberfree        int32
 	dontfreezetheworld int32
@@ -326,6 +327,30 @@ var debug struct {
 	harddecommit       int32
 	adaptivestackstart int32
 	tracefpunwindoff   int32
+=======
+	cgocheck            int32
+	clobberfree         int32
+	disablethp          int32
+	dontfreezetheworld  int32
+	efence              int32
+	gccheckmark         int32
+	gcpacertrace        int32
+	gcshrinkstackoff    int32
+	gcstoptheworld      int32
+	gctrace             int32
+	invalidptr          int32
+	madvdontneed        int32 // for Linux; issue 28466
+	profileruntimelocks atomic.Int32
+	scavtrace           int32
+	scheddetail         int32
+	schedtrace          int32
+	tracebackancestors  int32
+	asyncpreemptoff     int32
+	harddecommit        int32
+	adaptivestackstart  int32
+	tracefpunwindoff    int32
+	traceadvanceperiod  int32
+>>>>>>> CHANGE (c91521 runtime: add the disablethp GODEBUG setting)
 
 	// debug.malloc is used as a combined debug check
 	// in the malloc function and should be set
@@ -342,6 +367,7 @@ var dbgvars = []*dbgVar{
 	{name: "allocfreetrace", value: &debug.allocfreetrace},
 	{name: "clobberfree", value: &debug.clobberfree},
 	{name: "cgocheck", value: &debug.cgocheck},
+	{name: "disablethp", value: &debug.disablethp},
 	{name: "dontfreezetheworld", value: &debug.dontfreezetheworld},
 	{name: "efence", value: &debug.efence},
 	{name: "gccheckmark", value: &debug.gccheckmark},
