@@ -3,7 +3,7 @@ module cmd
 go 1.22
 
 require (
-	github.com/google/pprof v0.0.0-20230811205829-9131a7e9cc17
+	github.com/google/pprof v0.0.0-20231205033806-a5a03c77bf08
 	golang.org/x/arch v0.6.0
 	golang.org/x/mod v0.14.0
 	golang.org/x/sync v0.5.0
