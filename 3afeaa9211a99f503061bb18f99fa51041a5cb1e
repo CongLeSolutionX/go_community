@@ -78,6 +78,30 @@
       },
       "revId": "3afeaa9211a99f503061bb18f99fa51041a5cb1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e30ee308_5b3a3339",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 67213
+      },
+      "writtenOn": "2023-12-05T02:14:27Z",
+      "side": 1,
+      "message": "Thanks for your suggestion. I have cross compile locally with the following command:\nGO_BUILDER_NAME\u003dlinux-arm64 GOARCH\u003darm64 ./make.bash\n\nAnd it succeed.  The difference is that my bootstrap is go1.20.6 instead of go1.4. Does it make any difference?",
+      "parentUuid": "5463dee5_64851737",
+      "range": {
+        "startLine": 514,
+        "startChar": 0,
+        "endLine": 514,
+        "endChar": 34
+      },
+      "revId": "3afeaa9211a99f503061bb18f99fa51041a5cb1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
