@@ -60,6 +60,29 @@ Do not send CLs removing the interior tags from such phrases.
   <!-- add #cgo noescape/nocallback annotations -->
 </p>
 
+<h3 id="cover">Cover</h3>
+
+<!-- CL 495447 -->
+<p>
+  The way in which coverage testing handles packages that contain functions but no test files has changed. Prior to Go 1.22 a `go test -cover` run for such a package would report
+</p>
+  
+<p>
+  <code>?     mymod/mypack    [no test files]</code>
+</p>
+
+<p>
+  and now with Go 1.22, functions in the package are treated as uncovered:
+</p>
+
+<p>
+  <code>mymod/mypack    coverage: 0.0% of statements</code>
+</p>
+
+<p>
+The inclusion of functions from such packages in coverage reporting also extends to <code>-coverprofile</code> as well. 
+</p>
+
 <h3 id="trace">Trace</h3>
 
 <!-- https://go.dev/issue/63960 -->
