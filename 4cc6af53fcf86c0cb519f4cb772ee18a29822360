@@ -53,6 +53,40 @@
       "message": "According to https://dev.golang.org/owners increase the reviewer.",
       "revId": "4cc6af53fcf86c0cb519f4cb772ee18a29822360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa5c9a1b_276da7bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-05T17:21:35Z",
+      "side": 1,
+      "message": "I\u0027d like to know what overhead this generates on a simple uncontended lock.\n\nIt sounds like it is worth it for minio, but we have a wider set of applications to worry about. In particular, is minio unrepresentative because it generates contented lock accesses more than a typical application?",
+      "revId": "4cc6af53fcf86c0cb519f4cb772ee18a29822360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aad7ddb5_f014a5a9",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-05T17:21:35Z",
+      "side": 1,
+      "message": "It doesn\u0027t make much sense to me to do this at the lock point. Isn\u0027t the locking goroutine just going to call unlock really soon and pull the cache line back into L1?",
+      "revId": "4cc6af53fcf86c0cb519f4cb772ee18a29822360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
