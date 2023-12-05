@@ -142,6 +142,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fafcbf0_6e3fd380",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-12-05T21:56:52Z",
+      "side": 1,
+      "message": "\u003e I think this is too heavyweight: it\u0027s two more atomic loads (during traceAcquire) even when the tracer is off. The tracer should not be this expensive generally, but especially here.\n\nI\u0027ll check this again on arm64, but I ran some smoke test scheduler stress benchmarks on linux/arm64 and didn\u0027t notice any meaningful performance difference. the load should be very cacheable since the value changes so infrequently, so even if it needs to stall for the barrier, the stall should be very short. similarly, the branch following the load should be very predictable.\n\nalso sorry, my example above was unnecessarily slow. you can hold `trace` across all 3 CAS operations.\n\n\u003e Also this can\u0027t be the right place for trace.GoStart since it will see the wrong curg.\n\nthat\u0027s true for the way trace.GoStart is currently implemented (and you\u0027re right, would be broken if it was just called directly), but a GoStart event is the right way to model this scheduler interaction without adding any new events.\n\nactually, this is even worse than I proposed -- the tracer has no way to model a direct transition from waiting -\u003e running. it currently always goes through runnable, so this would need a GoUnblock event as well.\n\nI think a bespoke coroutine switch event is really the right call here. I do not mind implementing it in a follow-up CL; it\u0027ll take an hour at worst for the new tracer. (unfortunately it\u0027ll take longer for the old tracer, because all the downstream tooling for it needs to be aware of all events. 😞)\n\n\u003e Can we leave the tracing for after Go 1.22?\n\nonly if we\u0027re OK with broken traces. if a goroutine blocks after the coroutine switch the trace parser is always going to have the wrong state to handle that. it is a GOEXPERIMENT, so I\u0027m not opposed, but if we do decide to leave traces broken then that should probably be documented.\n\nalternatively, since it is just a GOEXPERIMENT, is there any reason not to just support it and make it faster for the real thing, if it really does matter for performance?",
+      "parentUuid": "680c4045_7b587628",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 58
+      },
+      "revId": "135df7d99ec5669a6afc0b0004d2a995b2bb6e74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84520190_109bb741",
