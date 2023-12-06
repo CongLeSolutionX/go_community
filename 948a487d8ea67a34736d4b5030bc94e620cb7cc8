@@ -16,6 +16,24 @@
       "message": "nit: the backquotes around the `3s` result in a weird usage message because they result in \"3s\" being used as the value placeholder (see https://go.dev/play/p/bazNGX8i4_u):\n\n```\n  -timeout 3s. \u003c----- here\n    \tstop timeout duration (e.g. 3s) (default 1s)\n```\n\n\n```suggestion\n\t\ttimeout :\u003d fs.Duration(\"timeout\", time.Second, \"stop timeout `duration`\")\n```",
       "revId": "948a487d8ea67a34736d4b5030bc94e620cb7cc8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01076ecd_ccf848e8",
+        "filename": "src/flag/example_flagset_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 17435
+      },
+      "writtenOn": "2023-12-06T13:31:55Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "5689511d_c6791fa0",
+      "revId": "948a487d8ea67a34736d4b5030bc94e620cb7cc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
