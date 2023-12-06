@@ -41,6 +41,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f81c9ad_d1651a87",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-12-06T13:17:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800795d8_00d24470",
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a67d499_c997da9d",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-12-06T13:17:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34e1e00b_4ceabd13",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 94
+      },
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aa58265_d4b5455d",
@@ -77,6 +119,54 @@
       "writtenOn": "2023-12-05T21:30:11Z",
       "side": 1,
       "message": "I\u0027m not entirely sure what this means. Maybe we can incorporate it into the first paragraph (such as by mentioning “covered packages” instead of just “packages”)?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 83
+      },
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c2f03e1_aec5491a",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-12-06T13:17:20Z",
+      "side": 1,
+      "message": "I\u0027ve removed this section; if it\u0027s confusing to you then probably not worth including it release notes (and probably too much detail).",
+      "parentUuid": "5aa58265_d4b5455d",
+      "range": {
+        "startLine": 83,
+        "startChar": 68,
+        "endLine": 83,
+        "endChar": 119
+      },
+      "revId": "c809613df9bcbad05abbbdabadfd6588d0350521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc7ef113_5827ecfe",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-12-06T13:17:20Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "5ea43f18_8ad962c0",
       "range": {
         "startLine": 83,
         "startChar": 0,
