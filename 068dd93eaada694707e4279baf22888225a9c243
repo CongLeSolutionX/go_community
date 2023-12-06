@@ -104,6 +104,24 @@
       "parentUuid": "8aa88660_4929cea2",
       "revId": "068dd93eaada694707e4279baf22888225a9c243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "575b2ba6_cba679e8",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2023-12-06T00:14:42Z",
+      "side": 1,
+      "message": "After more thought I am thinking that zeroing out all headers might be too much. It might zero out other headers which are not problematic, like nosniff header, request tracing headers, or server timing headers (examples from my own code). I think removing a list of content-related headers while keeping other headers might be more reasonable?",
+      "parentUuid": "41c9ad5c_36fb7a82",
+      "revId": "068dd93eaada694707e4279baf22888225a9c243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
