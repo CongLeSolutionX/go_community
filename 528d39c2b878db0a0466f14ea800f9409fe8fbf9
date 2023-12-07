@@ -16,6 +16,23 @@
       "message": "Looks reasonable to me. Thanks.",
       "revId": "528d39c2b878db0a0466f14ea800f9409fe8fbf9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a1ad044_c59efbf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-12-07T21:17:33Z",
+      "side": 1,
+      "message": "Given that this is a very small change in a quite rare path, is there a chance to get this into Go 1.22 or would be better to wait for the next release cycle? Thanks",
+      "revId": "528d39c2b878db0a0466f14ea800f9409fe8fbf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
