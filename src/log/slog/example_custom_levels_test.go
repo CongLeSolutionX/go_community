@@ -6,6 +6,7 @@ package slog_test
 
 import (
 	"context"
+	"io"
 	"log/slog"
 	"os"
 )
@@ -90,4 +91,10 @@ func ExampleHandlerOptions_customLevels() {
 	// sev=INFO msg="initiating launch"
 	// sev=DEBUG msg="starting background job"
 	// sev=TRACE msg="button clicked"
+}
+
+func Example_discardLogs() {
+	l := slog.New(slog.NewJSONHandler(io.Discard, nil))
+	l.Error("this message will not be logged anywhere")
+	// Output:
 }
