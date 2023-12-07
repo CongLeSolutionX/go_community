@@ -39,6 +39,30 @@
       },
       "revId": "a18851b3c1736adff90c815bac5ac0e1f4821e92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b05d8ce_bfff1c23",
+        "filename": "src/runtime/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-07T16:24:47Z",
+      "side": 1,
+      "message": "Calling it legacy_fastrand intentionally breaks anyone with pending CLs in package runtime that call fastrand. Runtime code is supposed to call \u0027rand\u0027 now. \n\nDeprecated doesn\u0027t work with linknames since the other packages using this are providing their own declaration that does not say \"Deprecated:\".",
+      "parentUuid": "990dfee9_7a27c797",
+      "range": {
+        "startLine": 155,
+        "startChar": 5,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "a18851b3c1736adff90c815bac5ac0e1f4821e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
