@@ -33,6 +33,24 @@
       "message": "Given that this is a very small change in a quite rare path, is there a chance to get this into Go 1.22 or would be better to wait for the next release cycle? Thanks",
       "revId": "528d39c2b878db0a0466f14ea800f9409fe8fbf9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc74aef8_300bea2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-12-07T21:27:37Z",
+      "side": 1,
+      "message": "the code freeze is fairly strict about what goes in. even small changes can have unexpected consequences. the freeze is generally supposed to be reserved for bug fixes in the current release, doc changes, and test-only changes.\n\nthis is a bug fix, but for a bug from a previous version, that makes the decision less clear.\n\nis this something you intend to backport as well? if so, then I suggest poking the @golang/release on GitHub issue for this change and asking them. in general if something is approved for backport and would go into the first minor release of the next major release anyway (i.e. Go 1.22.1) we\u0027d just land it for the RC or final release.\n\nnote: the backport requirements also have a fairly high bar. it needs to be a serious issue with no workaround. again, I\u0027d just ping @golang/release on the GitHub issue.\n\nhope that helps.",
+      "parentUuid": "1a1ad044_c59efbf2",
+      "revId": "528d39c2b878db0a0466f14ea800f9409fe8fbf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
