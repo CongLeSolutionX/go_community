@@ -146,6 +146,16 @@ func rand() uint64 {
 	}
 }
 
+// Too much legacy code has go:linkname references
+// to runtime.fastrand, so keep this around for now.
+// Code should migrate to math/rand/v2.Uint64,
+// which is just as fast, but that's only available in Go 1.22+.
+// It would be reasonable to remove this in Go 1.24.
+//go:linkname legacy_fastrand runtime.fastrand
+func legacy_fastrand() uint32 {
+	return uint32(rand())
+}
+
 // mrandinit initializes the random state of an m.
 func mrandinit(mp *m) {
 	var seed [4]uint64

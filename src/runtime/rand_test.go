@@ -8,6 +8,7 @@ import (
 	. "runtime"
 	"strconv"
 	"testing"
+	_ "unsafe" // for go:linkname
 )
 
 func TestReadRandom(t *testing.T) {
@@ -60,5 +61,17 @@ func BenchmarkFastrandn(b *testing.B) {
 				sink32 = Fastrandn(n)
 			}
 		})
+	}
+}
+
+//go:linkname fastrand runtime.fastrand
+func fastrand() uint32
+
+func TestLegacyFastrand(t *testing.T) {
+	// Testing mainly that the calls work at all,
+	// but check that all three don't return the same number (1 in 2^64 chance)
+	x, y, z := fastrand(), fastrand(), fastrand()
+	if x == y && y == z {
+		t.Fatalf("fastrand() three times = %#x, %#x, %#x, want different numbers", x, y, z)
 	}
 }
