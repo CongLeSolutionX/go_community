@@ -1331,3 +1331,20 @@ func (fd *FD) WriteMsgInet6(p []byte, oob []byte, sa *syscall.SockaddrInet6) (in
 	})
 	return n, int(o.msg.Control.Len), err
 }
+
+func DupCloseOnExec(fd int) (int, string, error) {
+	proc, err := syscall.GetCurrentProcess()
+	if err != nil {
+		return 0, "GetCurrentProcess", err
+	}
+
+	syscall.ForkLock.RLock() // avoid race between fork+exec and CloseOnExec
+	defer syscall.ForkLock.RUnlock()
+
+	var nfd syscall.Handle
+	if err := syscall.DuplicateHandle(proc, syscall.Handle(fd), proc, &nfd, 0, false, syscall.DUPLICATE_SAME_ACCESS); err != nil {
+		return 0, "DuplicateHandle", err
+	}
+	syscall.CloseOnExec(nfd)
+	return int(nfd), "", nil
+}
