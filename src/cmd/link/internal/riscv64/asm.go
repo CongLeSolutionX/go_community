@@ -20,7 +20,46 @@ import (
 // fakeLabelName matches the RISCV_FAKE_LABEL_NAME from binutils.
 const fakeLabelName = ".L0 "
 
-func gentext(ctxt *ld.Link, ldr *loader.Loader) {}
+func gentext(ctxt *ld.Link, ldr *loader.Loader) {
+
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	o := func(op uint32) {
+		initfunc.AddUint32(ctxt.Arch, op)
+	}
+
+	// According to https://github.com/riscv-non-isa/riscv-elf-psabi-doc/releases/download/v1.0/riscv-abi.pdf
+	// 5.2. Medium any code model
+	// Emit the following function:
+	//
+	//	local.dso_init:
+	//		AUIPC	X10, %pcrel_hi(local.moduledata)
+	//		ADDI	X10, X10, %pcrel_lo(local.moduledata)
+	//		JMP	runtime.addmoduledata
+
+	//	0000000000000000 <local.dso_init>:
+	//	0:	00000517	AUIPC	X10, 0
+	//				0: R_RISCV_PCREL_HI20	local.moduledata
+	//	4:	00050513	ADDI	X10, X10, 0
+	//				4: R_RISCV_LO12_I	local.moduledata
+	o(0x00000517)
+	o(0x00050513)
+	rel1, _ := initfunc.AddRel(objabi.R_RISCV_PCREL_ITYPE)
+	rel1.SetOff(0)
+	rel1.SetSiz(8)
+	rel1.SetSym(ctxt.Moduledata)
+
+	//	8:	00000097	JAL	X0, 0
+	//				8: R_RISCV_JAL	runtime.addmoduledata
+	o(0x0000006f)
+	rel3, _ := initfunc.AddRel(objabi.R_RISCV_JAL)
+	rel3.SetOff(8)
+	rel3.SetSiz(4)
+	rel3.SetSym(addmoduledata)
+}
 
 func findHI20Reloc(ldr *loader.Loader, s loader.Sym, val int64) *loader.Reloc {
 	outer := ldr.OuterSym(s)

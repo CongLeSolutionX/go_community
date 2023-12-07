@@ -542,6 +542,18 @@ TEXT runtime·goexit(SB),NOSPLIT|NOFRAME|TOPFRAME,$0-0
 	// traceback from goexit1 must hit code range of goexit
 	MOV	ZERO, ZERO	// NOP
 
+
+// This is called from .init_array and follows the platform, not Go, ABI.
+TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
+	SUB	$8, X2
+	MOV	X31, (X2) // The access to global variables below implicitly uses X31, which is callee-save
+	MOV	runtime·lastmoduledatap(SB), X31
+	MOV	X10, moduledata_next(X31)
+	MOV	X10, runtime·lastmoduledatap(SB)
+	MOV	(X2), X31
+	ADD	$8, X2
+	RET
+
 // func cgocallback(fn, frame unsafe.Pointer, ctxt uintptr)
 // See cgocall.go for more details.
 TEXT ·cgocallback(SB),NOSPLIT,$24-24
