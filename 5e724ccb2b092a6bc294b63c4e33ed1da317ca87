@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b25002d_3c82ff32",
+        "filename": "src/cmd/go/testdata/script/mod_download_git_decorate_full.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-12-07T16:23:20Z",
+      "side": 0,
+      "message": "why did we remove this check",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "5e724ccb2b092a6bc294b63c4e33ed1da317ca87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
