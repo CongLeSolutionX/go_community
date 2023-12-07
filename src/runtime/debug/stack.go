@@ -9,6 +9,7 @@ package debug
 import (
 	"os"
 	"runtime"
+	_ "unsafe" // for linkname
 )
 
 // PrintStack prints to standard error the stack trace returned by runtime.Stack.
@@ -28,3 +29,51 @@ func Stack() []byte {
 		buf = make([]byte, 2*len(buf))
 	}
 }
+
+// SetCrashOutput configures a single additional file where unhandled
+// panics and other fatal errors are printed, in addition to standard error.
+// There is only one additional file: calling SetCrashOutput again
+// overrides any earlier call; it does not close the previous file.
+// SetCrashOutput(nil) disables the use of any additional file.
+func SetCrashOutput(f *os.File) error {
+	fd := ^uintptr(0)
+	if f != nil {
+		// The runtime will write to this file descriptor from
+		// low-level routines during a panic, possibly without
+		// a G, so we must call f.Fd() eagerly. This creates a
+		// danger that that the file descriptor is no longer
+		// valid at the time of the write, because the caller
+		// (incorrectly) called f.Close() and the kernel
+		// reissued the fd in a later call to open(2), leading
+		// to crashes being written to the wrong file.
+		//
+		// So, we duplicate the fd to obtain a private one
+		// that cannot be closed by the user.
+		// This also alleviates us from concerns about the
+		// lifetime and finalization of f.
+		// (os.dup returns an fs, not a *File, so there is no
+		// finalizer, and we are responsible for closing it.)
+		//
+		// The fd returned by os.dup must be close-on-exec,
+		// otherwise if the crash monitor is a child process,
+		// it may inherit it, so it will never see EOF from
+		// the pipe even when this process crashes.
+		var err error
+		fd, err = os_dup(f)
+		if err != nil {
+			return err
+		}
+	}
+	if prev := runtime_setCrashFD(fd); prev != ^uintptr(0) {
+		// We use NewFile+Close because it is portable
+		// unlike syscall.Close, whose parameter type varies.
+		os.NewFile(prev, "").Close() // ignore error
+	}
+	return nil
+}
+
+//go:linkname runtime_setCrashFD runtime.setCrashFD
+func runtime_setCrashFD(uintptr) uintptr
+
+//go:linkname os_dup os.dup
+func os_dup(f *os.File) (uintptr, error)

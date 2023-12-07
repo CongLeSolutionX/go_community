@@ -445,3 +445,20 @@ func readlink(name string) (string, error) {
 	}
 	return s, nil
 }
+
+// Used by runtime/debug.
+//
+//go:linkname dup os.dup
+func dup(f *File) (uintptr, error) {
+	proc, err := syscall.GetCurrentProcess()
+	if err != nil {
+		return 0, NewSyscallError("GetCurrentProcess", err)
+	}
+	var nfd syscall.Handle
+	if err := syscall.DuplicateHandle(proc, syscall.Handle(f.Fd()), proc, &nfd, 0, false, syscall.DUPLICATE_SAME_ACCESS); err != nil {
+		return 0, NewSyscallError("DuplicateHandle", err)
+	}
+	// (There's a race with exec here.)
+	syscall.CloseOnExec(nfd)
+	return uintptr(nfd), nil
+}

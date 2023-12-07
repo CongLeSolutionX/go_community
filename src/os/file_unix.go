@@ -493,3 +493,17 @@ func newUnixDirent(parent, name string, typ FileMode) (DirEntry, error) {
 	ude.info = info
 	return ude, nil
 }
+
+// Used by runtime/debug.
+// TODO(adonovan): may be also wanted by net package.
+//
+//go:linkname dup os.dup
+func dup(f *File) (uintptr, error) {
+	nfd, err := syscall.Dup(int(f.Fd()))
+	if err != nil {
+		return 0, err
+	}
+	// (There's a race with exec here. Use dup3 on Linux?)
+	syscall.CloseOnExec(nfd)
+	return uintptr(nfd), nil
+}

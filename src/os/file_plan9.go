@@ -11,6 +11,7 @@ import (
 	"runtime"
 	"syscall"
 	"time"
+	_ "unsafe" // for linkname
 )
 
 // fixLongPath is a noop on non-Windows platforms.
@@ -615,4 +616,16 @@ func newRawConn(file *File) (*rawConn, error) {
 
 func ignoringEINTR(fn func() error) error {
 	return fn()
+}
+
+// Used by runtime/debug.
+//
+//go:linkname dup os.dup
+func dup(f *File) (uintptr, error) {
+	nfd, err := syscall.Dup(int(f.Fd()), -1)
+	if err != nil {
+		return 0, err
+	}
+	// REVIEWERS: how to set CLOEXEC?
+	return uintptr(nfd), nil
 }
