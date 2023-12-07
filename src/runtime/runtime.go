@@ -212,11 +212,38 @@ func syscall_runtimeUnsetenv(key string) {
 }
 
 // writeErrStr writes a string to descriptor 2.
+// If SetCrashOutput(f) was called, it also writes to f.
 //
 //go:nosplit
 func writeErrStr(s string) {
-	write(2, unsafe.Pointer(unsafe.StringData(s)), int32(len(s)))
+	writeErrData(unsafe.StringData(s), int32(len(s)))
 }
+
+// writeErrData is the common parts of writeErr{,Str}.
+func writeErrData(data *byte, n int32) {
+	write(2, unsafe.Pointer(data), n)
+
+	gp := getg()
+	if gp != nil && gp.m.dying > 0 ||
+		gp == nil && panicking.Load() > 0 {
+		if fd := crashFD; fd != ^uintptr(0) {
+			// There's a very small race window here:
+			// a concurrent SetCrashOutput call causes the old
+			// os.File to become garbage, which is GC'd and
+			// finalized, closing the file and making fd invalid.
+			// In that case we lose the tail of the report.
+			write(fd, unsafe.Pointer(data), n)
+		}
+	}
+}
+
+// crashFD is an optional file descriptor to use for fatal panics,
+// as set by debug.SetCrashOutput (see #42888).
+// If set (not all ones), writeErr and related functions write
+// to it in addition to standard error.
+//
+//go:linkname crashFD
+var crashFD = ^uintptr(0)
 
 // auxv is populated on relevant platforms but defined here for all platforms
 // so x/sys/cpu can assume the getAuxv symbol exists without keeping its list

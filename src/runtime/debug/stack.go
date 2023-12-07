@@ -9,6 +9,9 @@ package debug
 import (
 	"os"
 	"runtime"
+	"sync"
+	"sync/atomic"
+	_ "unsafe" // for linkname
 )
 
 // PrintStack prints to standard error the stack trace returned by runtime.Stack.
@@ -28,3 +31,29 @@ func Stack() []byte {
 		buf = make([]byte, 2*len(buf))
 	}
 }
+
+// SetCrashOutput sets the optional file to which unhandled panics and
+// other fatal errors should be written in addition to the standard
+// error. Call SetCrashOutput(nil) to disable the feature.
+//
+// SetCrashOutput does not close the file.
+func SetCrashOutput(f *os.File) {
+	crashFileMu.Lock()
+	defer crashFileMu.Unlock()
+	if f != nil {
+		runtime_crashFD = f.Fd()
+	} else {
+		runtime_crashFD = ^uintptr(0)
+	}
+
+	// Keep f alive, across the critical section above,
+	// and until the end of the next call to SetCrashOutput.
+	crashFile.Store(f)
+}
+
+var (
+	crashFileMu sync.Mutex
+	crashFile   atomic.Pointer[os.File] // just to ensure liveness
+	//go:linkname runtime_crashFD runtime.crashFD
+	runtime_crashFD uintptr
+)
