@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de0ca279_f0e8b114",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-07T04:42:33Z",
+      "side": 1,
+      "message": "Sorry for being late. Some minor comments. LGTM overall. Thanks.",
+      "revId": "a9c9cc07ac0d3dc73865a57e6ce45c22ada3b5c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f7488e_da24f909",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-07T04:42:33Z",
+      "side": 1,
+      "message": "No need to import it twice. Also the comment is a bit misplaced.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "a9c9cc07ac0d3dc73865a57e6ce45c22ada3b5c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cca6b51_829db010",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-07T04:42:33Z",
+      "side": 1,
+      "message": "Why Pull has more race annotations whereas Pull2 below doesn\u0027t (except the two race.Write)?",
+      "revId": "a9c9cc07ac0d3dc73865a57e6ce45c22ada3b5c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
