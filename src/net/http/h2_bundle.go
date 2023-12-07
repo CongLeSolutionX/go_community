@@ -7238,7 +7238,6 @@ func (t *http2Transport) pingTimeout() time.Duration {
 		return 15 * time.Second
 	}
 	return t.PingTimeout
-
 }
 
 // ConfigureTransport configures a net/http HTTP/1 Transport to use HTTP/2.
@@ -10324,7 +10323,6 @@ type http2writeSettings []http2Setting
 func (s http2writeSettings) staysWithinBuffer(max int) bool {
 	const settingSize = 6 // uint16 + uint32
 	return http2frameHeaderLen+settingSize*len(s) <= max
-
 }
 
 func (s http2writeSettings) writeFrame(ctx http2writeContext) error {

@@ -544,7 +544,6 @@ func tempDir() string {
 		dir = "/tmp"
 	}
 	return dir
-
 }
 
 // Chdir changes the current working directory to the file,
