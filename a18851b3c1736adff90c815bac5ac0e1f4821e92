@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85f2bf4f_e273a22d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-12-07T16:21:37Z",
+      "side": 1,
+      "message": "Do we want this to cover fastrandn as well? E.g. for\nhttps://github.com/cockroachdb/pebble/blob/master/internal/fastrand/fastrand.go#L11",
+      "revId": "a18851b3c1736adff90c815bac5ac0e1f4821e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
