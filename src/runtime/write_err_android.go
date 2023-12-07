@@ -33,6 +33,7 @@ const (
 
 var logger loggerType
 
+// Precondition: len(b) > 0.
 func writeErr(b []byte) {
 	if logger == unknown {
 		// Use logd if /dev/socket/logdw is available.
@@ -45,8 +46,9 @@ func writeErr(b []byte) {
 		}
 	}
 
-	// Write to stderr for command-line programs.
-	write(2, unsafe.Pointer(&b[0]), int32(len(b)))
+	// Write to stderr for command-line programs,
+	// and optionally to SetCrashOutput file.
+	writeErrData(&b[0], int32(len(b)))
 
 	// Log format: "<header>\x00<message m bytes>\x00"
 	//

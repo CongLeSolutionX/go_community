@@ -6,8 +6,7 @@
 
 package runtime
 
-import "unsafe"
-
+// Precondition: len(b) > 0.
 func writeErr(b []byte) {
-	write(2, unsafe.Pointer(&b[0]), int32(len(b)))
+	writeErrData(&b[0], int32(len(b)))
 }
