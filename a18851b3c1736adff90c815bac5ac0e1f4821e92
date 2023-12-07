@@ -16,6 +16,29 @@
       "message": "Do we want this to cover fastrandn as well? E.g. for\nhttps://github.com/cockroachdb/pebble/blob/master/internal/fastrand/fastrand.go#L11",
       "revId": "a18851b3c1736adff90c815bac5ac0e1f4821e92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "990dfee9_7a27c797",
+        "filename": "src/runtime/rand.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-12-07T16:22:23Z",
+      "side": 1,
+      "message": "seems shorter to just call it fastrand, and wouldn\u0027t that also allow the name to be obviously deprecated (not sure how deprecated interacts with linkname, simpler-plainer is better IMO).",
+      "range": {
+        "startLine": 155,
+        "startChar": 5,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "a18851b3c1736adff90c815bac5ac0e1f4821e92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
