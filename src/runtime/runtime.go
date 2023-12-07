@@ -217,10 +217,47 @@ func syscall_runtimeUnsetenv(key string) {
 }
 
 // writeErrStr writes a string to descriptor 2.
+// If SetCrashOutput(f) was called, it also writes to f.
 //
 //go:nosplit
 func writeErrStr(s string) {
-	write(2, unsafe.Pointer(unsafe.StringData(s)), int32(len(s)))
+	writeErrData(unsafe.StringData(s), int32(len(s)))
+}
+
+// writeErrData is the common parts of writeErr{,Str}.
+//
+//go:nosplit
+func writeErrData(data *byte, n int32) {
+	write(2, unsafe.Pointer(data), n)
+
+	gp := getg()
+	if gp != nil && gp.m.dying > 0 ||
+		gp == nil && panicking.Load() > 0 {
+		if getFD := (*func() uintptr)(atomic.Loadp(unsafe.Pointer(&crashFD))); getFD != nil {
+			if fd := (*getFD)(); fd != ^uintptr(0) {
+				write(fd, unsafe.Pointer(data), n)
+			}
+		}
+	}
+}
+
+// crashFD is an optional pointer to an (*os.File).Fd method closure
+// that returns the file descriptor to use for fatal panics,
+// as set by debug.SetCrashOutput (see #42888).
+// If the function returns a valid fd (not all ones),
+// writeErr and related functions write
+// to it in addition to standard error.
+//
+// We save the (*os.File).Fd method closure, not the fd itself,
+// keep the File alive and to ensure that if it
+// is closed we see a ^uintptr(0) file descriptor,
+// not a real fd that may have already been recycled.
+// And we save a *func, not a func, for atomic access.
+var crashFD *func() uintptr
+
+//go:linkname setCrashFD
+func setCrashFD(getFD *func() uintptr) {
+	atomicstorep(unsafe.Pointer(&crashFD), unsafe.Pointer(getFD))
 }
 
 // auxv is populated on relevant platforms but defined here for all platforms
