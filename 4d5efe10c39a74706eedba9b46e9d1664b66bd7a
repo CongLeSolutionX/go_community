@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "701b6bf7_72074dad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-12-07T22:29:00Z",
+      "side": 1,
+      "message": "Thanks for your contribution!",
+      "revId": "4d5efe10c39a74706eedba9b46e9d1664b66bd7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c38067f_be23775e",
+        "filename": "src/log/slog/example_custom_levels_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-12-07T22:29:00Z",
+      "side": 1,
+      "message": "This will still do all the work of writing to a buffer, only throwing it away at the end. A better approach would be using a handler that returns false for Enabled, like the proposal https://github.com/googleapis/google-cloud-go/pull/9095 you allude to in your commit message. That handler is very easy to write.\n\nSo I\u0027d prefer not to add this.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 28
+      },
+      "revId": "4d5efe10c39a74706eedba9b46e9d1664b66bd7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
