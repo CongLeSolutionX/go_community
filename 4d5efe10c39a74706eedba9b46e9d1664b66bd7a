@@ -39,6 +39,30 @@
       },
       "revId": "4d5efe10c39a74706eedba9b46e9d1664b66bd7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b353961_390c7dfd",
+        "filename": "src/log/slog/example_custom_levels_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2023-12-07T22:52:05Z",
+      "side": 1,
+      "message": "I updated the code sample to show what a handler could look like; up to you if you\u0027d prefer to include it.",
+      "parentUuid": "3c38067f_be23775e",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 28
+      },
+      "revId": "4d5efe10c39a74706eedba9b46e9d1664b66bd7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
