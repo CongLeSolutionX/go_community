@@ -33,6 +33,7 @@ func dupCloseOnExecOld(fd int) (int, string, error) {
 	if err != nil {
 		return -1, "dup", err
 	}
+	// (There's a race with exec here.)
 	syscall.CloseOnExec(newfd)
 	return newfd, "", nil
 }
