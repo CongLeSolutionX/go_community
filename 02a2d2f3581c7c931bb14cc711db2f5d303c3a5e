@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bdaa9ae_c89f7d9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-07T21:40:20Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "revId": "02a2d2f3581c7c931bb14cc711db2f5d303c3a5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3609d52_50ea55dc",
+        "filename": "src/runtime/pprof/protomem_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-07T21:40:20Z",
+      "side": 1,
+      "message": "int\n\nmake takes an int, so no need to use T here.",
+      "range": {
+        "startLine": 91,
+        "startChar": 53,
+        "endLine": 91,
+        "endChar": 54
+      },
+      "revId": "02a2d2f3581c7c931bb14cc711db2f5d303c3a5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54fea312_f3daa09c",
+        "filename": "src/runtime/pprof/protomem_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-07T21:40:20Z",
+      "side": 1,
+      "message": "nit: this may be easier to understand using a full three-clause for loop.\n\n\n```suggestion\n\t\tfor i :\u003d len(s.Location)-1; i \u003e\u003d 0; i-- { {\n\t\t\tloc :\u003d s.Location[i]\n```",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "02a2d2f3581c7c931bb14cc711db2f5d303c3a5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "086b9eb6_27d90cc6",
+        "filename": "src/runtime/pprof/protomem_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-07T21:40:20Z",
+      "side": 1,
+      "message": "```suggestion\n// This is a regression test for https://go.dev/cl/64487.\nfunc TestGenericsHashKeyInPprofBuilder(t *testing.T) {\n```",
+      "revId": "02a2d2f3581c7c931bb14cc711db2f5d303c3a5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b1d579e_bd40e316",
+        "filename": "src/runtime/pprof/protomem_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-07T21:40:20Z",
+      "side": 1,
+      "message": "nit: I think this would be easier to read if you just used explicit sizes.\n\n```suggestion\n\t\tgenericAllocFunc[uint32](sz / 4))\n\t}\n\tfor _, sz :\u003d range []int{32, 64} {\n\t\tgenericAllocFunc[uint64](uint64(sz) / 8)\n```",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 73
+      },
+      "revId": "02a2d2f3581c7c931bb14cc711db2f5d303c3a5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
