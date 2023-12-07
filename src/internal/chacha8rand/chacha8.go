@@ -37,6 +37,7 @@ type State struct {
 //
 // Next is //go:nosplit to allow its use in the runtime
 // with per-m data without holding the per-m lock.
+//
 //go:nosplit
 func (s *State) Next() (uint64, bool) {
 	i := s.i
@@ -91,25 +92,6 @@ func (s *State) Refill() {
 	if s.c == ctrMax-ctrInc {
 		s.n = uint32(len(s.buf)) - reseed
 	}
-}
-
-// Reseed reseeds the state with new random values.
-// After a call to Reseed, any previously returned random values
-// have been erased from the memory of the state and cannot be
-// recovered.
-func (s *State) Reseed() {
-	var seed [4]uint64
-	for i := range seed {
-		for {
-			x, ok := s.Next()
-			if ok {
-				seed[i] = x
-				break
-			}
-			s.Refill()
-		}
-	}
-	s.Init64(seed)
 }
 
 // Marshal marshals the state into a byte slice.

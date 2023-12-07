@@ -49,7 +49,6 @@ var rtPkgs = [...]string{
 	"internal/goarch",
 	"runtime/internal/atomic",
 	"internal/goos",
-	"internal/chacha8rand",
 	"runtime/internal/sys",
 	"internal/abi",
 	"runtime/internal/math",

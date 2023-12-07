@@ -288,6 +288,10 @@ func sysargs(argc int32, argv **byte) {
 	auxv = auxvreadbuf[: pairs*2 : pairs*2]
 }
 
+// startupRandomData holds random bytes initialized at startup. These come from
+// the ELF AT_RANDOM auxiliary vector.
+var startupRandomData []byte
+
 // secureMode holds the value of AT_SECURE passed in the auxiliary vector.
 var secureMode bool
 
@@ -299,7 +303,7 @@ func sysauxv(auxv []uintptr) (pairs int) {
 		case _AT_RANDOM:
 			// The kernel provides a pointer to 16-bytes
 			// worth of random data.
-			startupRand = (*[16]byte)(unsafe.Pointer(val))[:]
+			startupRandomData = (*[16]byte)(unsafe.Pointer(val))[:]
 
 		case _AT_PAGESZ:
 			physPageSize = val
@@ -348,11 +352,16 @@ func osinit() {
 
 var urandom_dev = []byte("/dev/urandom\x00")
 
-func readRandom(r []byte) int {
+func getRandomData(r []byte) {
+	if startupRandomData != nil {
+		n := copy(r, startupRandomData)
+		extendRandom(r, n)
+		return
+	}
 	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
 	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
 	closefd(fd)
-	return int(n)
+	extendRandom(r, int(n))
 }
 
 func goenvs() {
@@ -647,7 +656,7 @@ func setThreadCPUProfiler(hz int32) {
 	// activates may do a couple milliseconds of GC-related work and nothing
 	// else in the few seconds that the profiler observes.
 	spec := new(itimerspec)
-	spec.it_value.setNsec(1 + int64(cheaprandn(uint32(1e9/hz))))
+	spec.it_value.setNsec(1 + int64(fastrandn(uint32(1e9/hz))))
 	spec.it_interval.setNsec(1e9 / int64(hz))
 
 	var timerid int32

@@ -283,11 +283,11 @@ func osinit() {
 var urandom_dev = []byte("/dev/urandom\x00")
 
 //go:nosplit
-func readRandom(r []byte) int {
+func getRandomData(r []byte) {
 	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
 	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
 	closefd(fd)
-	return int(n)
+	extendRandom(r, int(n))
 }
 
 func goenvs() {

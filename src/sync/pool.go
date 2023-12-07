@@ -76,8 +76,7 @@ type poolLocal struct {
 }
 
 // from runtime
-//go:linkname runtime_randn runtime.randn
-func runtime_randn(n uint32) uint32
+func fastrandn(n uint32) uint32
 
 var poolRaceHash [128]uint64
 
@@ -98,7 +97,7 @@ func (p *Pool) Put(x any) {
 		return
 	}
 	if race.Enabled {
-		if runtime_randn(4) == 0 {
+		if fastrandn(4) == 0 {
 			// Randomly drop x on floor.
 			return
 		}

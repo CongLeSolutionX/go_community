@@ -8,18 +8,16 @@ import (
 	"errors"
 	"internal/bytealg"
 	"internal/itoa"
-	_ "unsafe" // for go:linkname
 )
 
-// random number source provided by runtime.
+// fastrand provided by runtime.
 // We generate random temporary file names so that there's a good
 // chance the file doesn't exist yet - keeps the number of tries in
 // TempFile to a minimum.
-//go:linkname runtime_rand runtime.rand
-func runtime_rand() uint64
+func fastrand() uint32
 
 func nextRandom() string {
-	return itoa.Uitoa(uint(runtime_rand()))
+	return itoa.Uitoa(uint(fastrand()))
 }
 
 // CreateTemp creates a new temporary file in the directory dir,
