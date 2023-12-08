@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "986d3b5d_40fb2230",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9895
+      },
+      "writtenOn": "2023-12-08T03:40:45Z",
+      "side": 1,
+      "message": "Thanks for code review. I updated CL to address your comments.",
+      "revId": "75b1b202e968ea5128051250970d467e7234f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
