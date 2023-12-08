@@ -388,6 +388,11 @@ func Exec(gotoolchain string) {
 		}
 	}
 
+	//-x flag to show toolchain for go commands like env, mod, build
+	if cfg.BuildX {
+		log.Printf("switched from go%v => %v \n", gover.Local(), gotoolchain)
+	}
+
 	// Reinvoke the go command.
 	execGoToolchain(gotoolchain, dir, filepath.Join(dir, "bin/go"))
 }

@@ -90,12 +90,12 @@ var _ = go11tag
 func main() {
 	log.SetFlags(0)
 	handleChdirFlag()
-	toolchain.Select()
-
 	flag.Usage = base.Usage
 	flag.Parse()
-
 	args := flag.Args()
+	showToolchainSwitch(args)
+	toolchain.Select()
+
 	if len(args) < 1 {
 		base.Usage()
 	}
@@ -283,6 +283,18 @@ func maybeStartTrace(pctx context.Context) context.Context {
 	})
 
 	return ctx
+}
+
+// For the go command which mentions -x flag
+// toolchain switch message will be displayed if switch happened succesfully.
+// This helps the user to be aware of what toolchain
+// is being used.
+func showToolchainSwitch(args []string) {
+	for _, xFlag := range args {
+		if xFlag == "-x" {
+			cfg.BuildX = true
+		}
+	}
 }
 
 // handleChdirFlag handles the -C flag before doing anything else.
