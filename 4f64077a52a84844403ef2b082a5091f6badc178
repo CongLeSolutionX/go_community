@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "4f64077a52a84844403ef2b082a5091f6badc178",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4c33d52_9d54d671",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-08T21:00:49Z",
+      "side": 1,
+      "message": "Doc only change, failure unrelated.",
+      "revId": "4f64077a52a84844403ef2b082a5091f6badc178",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
