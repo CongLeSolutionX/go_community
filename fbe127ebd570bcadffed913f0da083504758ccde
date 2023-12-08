@@ -118,6 +118,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5475c79a_019ac379",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-12-08T00:50:21Z",
+      "side": 1,
+      "message": "This is ok for 1.22. The change affects error messages, not correct code, and is safe.",
+      "parentUuid": "2fe07449_8e62f81d",
+      "revId": "fbe127ebd570bcadffed913f0da083504758ccde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3447887b_a7c9735b",
