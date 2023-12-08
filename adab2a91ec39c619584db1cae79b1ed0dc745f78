@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "286b21bf_3a344c2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-08T21:16:21Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "adab2a91ec39c619584db1cae79b1ed0dc745f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "702973f7_7fd615f6",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-08T21:16:21Z",
+      "side": 1,
+      "message": "Minor: as this section is already the os package, drop \"os.\".",
+      "range": {
+        "startLine": 617,
+        "startChar": 51,
+        "endLine": 617,
+        "endChar": 54
+      },
+      "revId": "adab2a91ec39c619584db1cae79b1ed0dc745f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
