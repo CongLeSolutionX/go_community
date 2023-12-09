@@ -3330,3 +3330,12 @@ func TestPipeCloseRace(t *testing.T) {
 		t.Errorf("got nils %d errs %d, want 2 2", nils, errs)
 	}
 }
+
+func TestNextRandom(t *testing.T) {
+	for range 5 {
+		s := NextRandom()
+		if len(s) > 10 {
+			t.Errorf("nextRandom returned len %d: %s", len(s), s)
+		}
+	}
+}

@@ -11,6 +11,7 @@ var LstatP = &lstat
 var ErrWriteAtInAppendMode = errWriteAtInAppendMode
 var TestingForceReadDirLstat = &testingForceReadDirLstat
 var ErrPatternHasSeparator = errPatternHasSeparator
+var NextRandom = nextRandom
 
 func init() {
 	checkWrapErr = true
