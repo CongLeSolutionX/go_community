@@ -868,3 +868,17 @@ func TestTracebackGeneric(t *testing.T) {
 		}
 	}
 }
+
+func TestLeakingWasmHandleEvent(t *testing.T) { // issue 64620
+	if runtime.GOARCH != "wasm" {
+		t.Skip("runtime.handleEvent is wasm only")
+	}
+	buf := make([]byte, 2<<20)
+	buf = buf[:runtime.Stack(buf, true)]
+	for _, g := range bytes.Split(buf, []byte("\n\n")) {
+		if bytes.Contains(g, []byte("runtime.handleEvent()")) {
+			t.Errorf("leaked goroutine runtime.handleEvent:\n%s", buf)
+			return
+		}
+	}
+}
