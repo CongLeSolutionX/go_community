@@ -164,6 +164,13 @@ defer func() {
   workaround will be removed in a future release.
 </p>
 
+<p><!-- CL 525475 -->
+  When building with <code>-buildmode=c-shared</code> or <code>-buildmode=c-archive</code>
+  on the <code>windows/amd64</code> port, programs loading Go libraries can now use
+  the <code>SetUnhandledExceptionFilter</code> Win32 function to catch exceptions not handled
+  by Go the runtime. Note that this was already supported on Windows 386.
+</p>
+
 <h2 id="compiler">Compiler</h2>
 
 <p>
