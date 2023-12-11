@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0eec2291_0d5255ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2023-12-11T15:17:56Z",
+      "side": 1,
+      "message": "There are a few more things we might want to do in relation to issue 61476.  I made a list here https://github.com/golang/go/issues/61476#issuecomment-1804091236 thinking that future patches to address these tasks would also reference 61476.",
+      "parentUuid": "0153eb3c_628a6f4e",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 7
+      },
+      "revId": "13f0b905f72fc88321c09165aa11f1598f383e16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "56a9ca29_38717511",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
