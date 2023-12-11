@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "062c53c9_78b21311",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2159,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-11T23:07:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "446fb074_90be1bfb",
+      "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc4c4b22_9c12a743",
@@ -68,6 +86,30 @@
       "writtenOn": "2023-12-11T17:05:53Z",
       "side": 1,
       "message": "I wouldn\u0027t call this typ, it is the field itself.\n\nf :\u003d t.Field(i)\ntyp :\u003d f.Type\n\nor something like that. Maybe typ doesn\u0027t need to be its own variable, it is only used once.",
+      "range": {
+        "startLine": 2170,
+        "startChar": 4,
+        "endLine": 2170,
+        "endChar": 7
+      },
+      "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17a738b1_bb748ed3",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2170,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-11T23:07:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc4c4b22_9c12a743",
       "range": {
         "startLine": 2170,
         "startChar": 4,
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e41475e4_2463588f",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2185,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-11T23:07:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4090d30_f2d81ecb",
+      "range": {
+        "startLine": 2185,
+        "startChar": 1,
+        "endLine": 2185,
+        "endChar": 4
+      },
+      "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "443e8ba4_60d28a25",
@@ -114,6 +180,24 @@
       "writtenOn": "2023-12-11T17:05:53Z",
       "side": 1,
       "message": "You also have to check padding between the last field and the end of the object. Try\nstruct { x int32; y int16 }\nthat should report false from this function.",
+      "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12002b79_b4f98cf5",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2189,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-11T23:07:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443e8ba4_60d28a25",
       "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -135,6 +219,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83da3bbb_99b599bc",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2485,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-11T23:07:21Z",
+      "side": 1,
+      "message": "Keith Randall say\nI think this still does not handle padding or blank fields at the topmost level.\nMaybe just\n\nif isRegularMemory(typ) {\ntyp.TFlag \u003d abi.TFlagRegularMemory\n}\n\nJust need to make sure that typ is initialized enough for isRegularMemory to work.",
+      "parentUuid": "b4fc6d72_6d81cd18",
+      "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10dcd790_132b530b",
@@ -148,6 +250,24 @@
       "writtenOn": "2023-12-11T17:05:53Z",
       "side": 1,
       "message": "I think this still does not handle padding or blank fields at the topmost level.\nMaybe just\n\nif isRegularMemory(typ) {\n    typ.TFlag \u003d abi.TFlagRegularMemory\n}\n\nJust need to make sure that typ is initialized enough for isRegularMemory to work.",
+      "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e322e0_d10d62b6",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2487,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-11T23:07:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10dcd790_132b530b",
       "revId": "3fe3e6e9290c94cc74be961afd010be9d6a0aed8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
