@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "135a28d8_8e324668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-11T15:53:04Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "acaee24b702fa699242426d2c1150918b656e855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b1452a_71985f03",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-11T15:53:04Z",
+      "side": 1,
+      "message": "Maybe mention this first: On the windows/and64 port, programs ... So it is easier to see what platforms this affects.",
+      "range": {
+        "startLine": 169,
+        "startChar": 38,
+        "endLine": 169,
+        "endChar": 77
+      },
+      "revId": "acaee24b702fa699242426d2c1150918b656e855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f41946b_9404babd",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-11T15:53:04Z",
+      "side": 1,
+      "message": "the Go runtime",
+      "range": {
+        "startLine": 171,
+        "startChar": 5,
+        "endLine": 171,
+        "endChar": 19
+      },
+      "revId": "acaee24b702fa699242426d2c1150918b656e855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
