@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c87bf45_32659caf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-11T22:16:34Z",
+      "side": 1,
+      "message": "(This CL was a guinea pig to test CL 548477. Testing CLs in the middle of CL stack now works for may-start-trybots users.)",
+      "revId": "741ab6973096b7530460ae5c45c6e463821ff354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
