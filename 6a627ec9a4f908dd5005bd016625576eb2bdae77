@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8d97ca7_a12a0d68",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3334,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-11T15:10:17Z",
+      "side": 1,
+      "message": "(optional)\n\nSince the problematic user-visible change was an increase in temp path lengths, we could target that behavior in the regression test instead of exporting `nextRandom`. Perhaps something like:\n\n```go\n\tdir, err :\u003d MkdirTemp(t.TempDir(), \"*\")\n\tif err !\u003d nil {\n\t\tt.Fatal(err)\n\t}\n\tif len(filepath.Base(dir)) \u003e 10 {\n\t\tt.Errorf(…)\n\t}\n```",
+      "revId": "6a627ec9a4f908dd5005bd016625576eb2bdae77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
