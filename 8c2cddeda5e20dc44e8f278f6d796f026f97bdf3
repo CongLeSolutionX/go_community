@@ -93,6 +93,30 @@
       },
       "revId": "8c2cddeda5e20dc44e8f278f6d796f026f97bdf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "801236bf_f0f50f43",
+        "filename": "src/cmd/go/testdata/script/install_modcacherw_issue64282.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-12T20:41:57Z",
+      "side": 1,
+      "message": "This turned out to require a few more logging changes than I expected. 😅\n\nAt some point we should do a clean sweep of `base.Fatalf` prefixes to cut down on redundancy. (But not in this CL.)",
+      "parentUuid": "71c9ba46_ef6a3f73",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 60
+      },
+      "revId": "8c2cddeda5e20dc44e8f278f6d796f026f97bdf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
