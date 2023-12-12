@@ -54,6 +54,23 @@
       "parentUuid": "d7954b23_48d97719",
       "revId": "fbc64ae7c48731a130e4ff8d17e73ef793f3d32d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "793c9e58_8ec92cf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-12T22:06:49Z",
+      "side": 1,
+      "message": "This missed the release window because I hadn\u0027t noticed it still had a Hold+1 vote from Russ pending proposal discussion. Since the proposal is now approved, I have removed the Hold+1; this should be good to go in when the window opens for Go 1.23.",
+      "revId": "fbc64ae7c48731a130e4ff8d17e73ef793f3d32d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
