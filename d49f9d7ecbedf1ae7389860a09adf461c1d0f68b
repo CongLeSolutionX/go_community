@@ -16,6 +16,23 @@
       "message": "Test failures were #64253.",
       "revId": "d49f9d7ecbedf1ae7389860a09adf461c1d0f68b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe551fe0_010e8f6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-12T21:09:11Z",
+      "side": 1,
+      "message": "Retrying due to a different flake this time (#58933). 😩",
+      "revId": "d49f9d7ecbedf1ae7389860a09adf461c1d0f68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
