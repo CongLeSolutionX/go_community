@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c22d4bf0_01af459b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2167,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-12T23:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19cb6749_382c73f0",
+      "revId": "b138cc6dd62a043530b81dbb4eb5ee57b4c75643",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d428ea1c_7b0522c1",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8737a7a9_d5b5e64b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-12T23:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d428ea1c_7b0522c1",
+      "revId": "b138cc6dd62a043530b81dbb4eb5ee57b4c75643",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4651e0e0_408b17e1",
@@ -104,6 +140,24 @@
       "writtenOn": "2023-12-12T15:41:31Z",
       "side": 1,
       "message": "Add struct { _ int32 } case.",
+      "revId": "b138cc6dd62a043530b81dbb4eb5ee57b4c75643",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bba640cd_2f9b8e05",
+        "filename": "src/reflect/type_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-12T23:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4651e0e0_408b17e1",
       "revId": "b138cc6dd62a043530b81dbb4eb5ee57b4c75643",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
