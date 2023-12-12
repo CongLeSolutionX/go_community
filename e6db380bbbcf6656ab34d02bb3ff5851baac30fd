@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8336835_0fa73bc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-12T15:54:02Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "e6db380bbbcf6656ab34d02bb3ff5851baac30fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499c58bd_6d98b2d8",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-12T15:54:02Z",
+      "side": 1,
+      "message": "Keep the \u003ccode\u003e\u003c/code\u003e marks. (Sorry I wasn\u0027t clear in my previous comment.)",
+      "range": {
+        "startLine": 168,
+        "startChar": 9,
+        "endLine": 168,
+        "endChar": 22
+      },
+      "revId": "e6db380bbbcf6656ab34d02bb3ff5851baac30fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
