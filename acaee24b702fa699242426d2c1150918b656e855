@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b5a5718_bd8f1118",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-12-12T08:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3b1452a_71985f03",
+      "range": {
+        "startLine": 169,
+        "startChar": 38,
+        "endLine": 169,
+        "endChar": 77
+      },
+      "revId": "acaee24b702fa699242426d2c1150918b656e855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f41946b_9404babd",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-12-11T15:53:04Z",
       "side": 1,
       "message": "the Go runtime",
+      "range": {
+        "startLine": 171,
+        "startChar": 5,
+        "endLine": 171,
+        "endChar": 19
+      },
+      "revId": "acaee24b702fa699242426d2c1150918b656e855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81071ba_e044f69c",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-12-12T08:53:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f41946b_9404babd",
       "range": {
         "startLine": 171,
         "startChar": 5,
