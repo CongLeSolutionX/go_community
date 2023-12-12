@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1fab029_67a3e600",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-12-12T09:44:55Z",
+      "side": 1,
+      "message": "LGTM.\n\nThank you.\n\nAlex",
+      "revId": "7f85c0887447d9d1d906774382dd470d5b40ac45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32f4cfd7_c7f590dc",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2023-12-12T09:44:55Z",
+      "side": 1,
+      "message": "s/and64/amd64/",
+      "range": {
+        "startLine": 168,
+        "startChar": 17,
+        "endLine": 168,
+        "endChar": 22
+      },
+      "revId": "7f85c0887447d9d1d906774382dd470d5b40ac45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
