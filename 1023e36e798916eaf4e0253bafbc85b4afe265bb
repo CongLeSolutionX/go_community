@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18333f1b_9a908917",
+        "filename": "doc/go1.17_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-13T20:18:44Z",
+      "side": 1,
+      "message": "What\u0027s the reason we keep the old one around? Might be worth stating explicitly. e.g.\n\nThis is the reference manual for the Go programming language as it was in version go1.17, August 2021, before the introduction of generics. It is provided for historical interest. \u003cb\u003eThe current ... \u003c/b\u003e",
+      "revId": "1023e36e798916eaf4e0253bafbc85b4afe265bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
