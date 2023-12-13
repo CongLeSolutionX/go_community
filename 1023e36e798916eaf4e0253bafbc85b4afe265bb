@@ -16,6 +16,24 @@
       "message": "What\u0027s the reason we keep the old one around? Might be worth stating explicitly. e.g.\n\nThis is the reference manual for the Go programming language as it was in version go1.17, August 2021, before the introduction of generics. It is provided for historical interest. \u003cb\u003eThe current ... \u003c/b\u003e",
       "revId": "1023e36e798916eaf4e0253bafbc85b4afe265bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0897d7_18cd9013",
+        "filename": "doc/go1.17_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-12-13T20:36:17Z",
+      "side": 1,
+      "message": "Yes, the reason is historical interest.\nOf course we have the git version history, but I think the changes were large enough to warrant keeping the old spec around, for easy comparability.",
+      "parentUuid": "18333f1b_9a908917",
+      "revId": "1023e36e798916eaf4e0253bafbc85b4afe265bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
