@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6de7eb70_b4179b30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9895
+      },
+      "writtenOn": "2023-12-13T18:42:24Z",
+      "side": 1,
+      "message": "I updated CL to fix tests on 386 and newinliner.",
+      "revId": "7dfa839ec1fcb8d1e2ea94243b09524e872b70cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
