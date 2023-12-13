@@ -103,6 +103,8 @@ allg,
   hchan,
   notifyList,
   reflectOffs,
+  rwmutexR,
+  rwmutexW,
   timers,
   traceStrings,
   userArenaState
