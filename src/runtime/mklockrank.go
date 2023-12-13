@@ -52,15 +52,37 @@ NONE <
   assistQueue,
   sweep;
 
+# RWMutex
+sysmon, scavenge < allocmR;
+NONE < allocmW;
+sysmon, scavenge < execR;
+NONE < execW;
+NONE < testR; # Test only
+NONE < testW; # Test only
+
+allocmW,
+  execW,
+  testW
+< rwmutexW;
+
+rwmutexW,
+  allocmR,
+  execR,
+  testR
+< rwmutexR;
+
+
 # Scheduler, timers, netpoll
 NONE < pollDesc, cpuprof, wakeableSleep;
 assistQueue,
+  allocmR,
   cpuprof,
   forcegc,
   pollDesc, # pollDesc can interact with timers, which can lock sched.
   scavenge,
   sweep,
   sweepWaiters,
+  testR,
   wakeableSleep
 < sched;
 sched < allg, allp;
@@ -68,13 +90,9 @@ allp, wakeableSleep < timers;
 timers < netpollInit;
 
 # Channels
-scavenge, sweep, wakeableSleep < hchan;
+scavenge, sweep, testR, wakeableSleep < hchan;
 NONE < notifyList;
 hchan, notifyList < sudog;
-
-# RWMutex
-NONE < rwmutexW;
-rwmutexW, sysmon < rwmutexR;
 
 # Semaphores
 NONE < root;
@@ -100,6 +118,8 @@ traceBuf < traceStrings;
 
 # Malloc
 allg,
+  allocmR,
+  execW,
   hchan,
   notifyList,
   reflectOffs,
@@ -136,7 +156,7 @@ gcBitsArenas,
 < STACKGROW
 # Below STACKGROW is the stack allocator/copying implementation.
 < gscan;
-gscan, rwmutexR < stackpool;
+gscan < stackpool;
 gscan < stackLarge;
 # Generally, hchan must be acquired before gscan. But in one case,
 # where we suspend a G and then shrink its stack, syncadjustsudogs
