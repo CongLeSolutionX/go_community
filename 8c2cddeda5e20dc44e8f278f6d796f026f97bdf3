@@ -117,6 +117,30 @@
       },
       "revId": "8c2cddeda5e20dc44e8f278f6d796f026f97bdf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c82819ca_4ff02ee9",
+        "filename": "src/cmd/go/testdata/script/install_modcacherw_issue64282.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-12-14T16:24:14Z",
+      "side": 1,
+      "message": "So does the command rewrite the entry in the modcache to be readonly if -modcacherw is not provided? That is, if we weren\u0027t passing -modcacherw, the command would undo what was done on line 16?",
+      "parentUuid": "801236bf_f0f50f43",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 60
+      },
+      "revId": "8c2cddeda5e20dc44e8f278f6d796f026f97bdf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
