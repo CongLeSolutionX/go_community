@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd9b8be0_30d6212a",
+        "filename": "src/runtime/mklockrank.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-14T22:32:03Z",
+      "side": 1,
+      "message": "I think this may end up needing pretty much the entire sched list, since it is used in newm.",
+      "revId": "8d12cadcbb371974c081565b18226f2d56fe0c52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
