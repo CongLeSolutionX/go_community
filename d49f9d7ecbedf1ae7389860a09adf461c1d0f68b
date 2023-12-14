@@ -56,6 +56,30 @@
       },
       "revId": "d49f9d7ecbedf1ae7389860a09adf461c1d0f68b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78b71f12_017bf943",
+        "filename": "src/cmd/go/testdata/script/install_modcacherw_issue64282.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-14T19:40:50Z",
+      "side": 1,
+      "message": "Yes: that prevents them from starting a new section (and hiding the commands from the previous section in non-verbose mode).",
+      "parentUuid": "a3ba72f1_64559a56",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "d49f9d7ecbedf1ae7389860a09adf461c1d0f68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

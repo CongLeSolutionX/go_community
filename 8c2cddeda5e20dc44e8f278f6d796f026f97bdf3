@@ -141,6 +141,30 @@
       },
       "revId": "8c2cddeda5e20dc44e8f278f6d796f026f97bdf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b3d51ea_c8447488",
+        "filename": "src/cmd/go/testdata/script/install_modcacherw_issue64282.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-14T19:40:50Z",
+      "side": 1,
+      "message": "We only change the permissions when we first write the directory — so the only reason this `go install` provides any signal is because of the `go clean -modcache` that immediately precedes it.",
+      "parentUuid": "c82819ca_4ff02ee9",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 60
+      },
+      "revId": "8c2cddeda5e20dc44e8f278f6d796f026f97bdf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
