@@ -16,6 +16,23 @@
       "message": "CL completely rewritten, PTAL",
       "revId": "6a5eab2513bc057e3274b0031232daf093ae6ab5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c01ac7de_44b64cc7",
+        "filename": "src/runtime/mklockrank.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-14T22:25:21Z",
+      "side": 1,
+      "message": "I haven\u0027t seen a failure here but need to confirm if this was really unnecessary.",
+      "revId": "6a5eab2513bc057e3274b0031232daf093ae6ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
