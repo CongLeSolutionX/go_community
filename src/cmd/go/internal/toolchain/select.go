@@ -483,89 +483,91 @@ func goInstallVersion() bool {
 	// Note: We assume there are no flags between 'go' and 'install' or 'run'.
 	// During testing there are some debugging flags that are accepted
 	// in that position, but in production go binaries there are not.
-	if len(os.Args) < 3 || (os.Args[1] != "install" && os.Args[1] != "run") {
+	if len(os.Args) < 3 {
 		return false
 	}
 
-	// Check for pkg@version.
-	var arg string
 	var cmdFlags *flag.FlagSet
 	switch os.Args[1] {
-	default:
-		return false
 	case "install":
-		// We would like to let 'go install -newflag pkg@version' work even
-		// across a toolchain switch. To make that work, assume the pkg@version
-		// is the last argument and skip the flag parsing.
-		arg = os.Args[len(os.Args)-1]
 		cmdFlags = &work.CmdInstall.Flag
 	case "run":
-		// For run, the pkg@version can be anywhere on the command line,
-		// because it is preceded by run flags and followed by arguments to the
-		// program being run. To handle that precisely, we have to interpret the
-		// flags a little bit, to know whether each flag takes an optional argument.
-		// We can still allow unknown flags as long as they have an explicit =value.
-		args := os.Args[2:]
 		cmdFlags = &run.CmdRun.Flag
-		for i := 0; i < len(args); i++ {
-			a := args[i]
-			if !strings.HasPrefix(a, "-") {
-				arg = a
-				break
-			}
-			if a == "-" {
-				// non-flag but also non-pkg@version
-				return false
-			}
-			if a == "--" {
-				if i+1 >= len(args) {
-					return false
-				}
-				arg = args[i+1]
-				break
-			}
-			a = strings.TrimPrefix(a, "-")
-			a = strings.TrimPrefix(a, "-")
-			if strings.HasPrefix(a, "-") {
-				// non-flag but also non-pkg@version
-				return false
-			}
-			if strings.Contains(a, "=") {
-				// already has value
-				continue
-			}
-			f := run.CmdRun.Flag.Lookup(a)
-			if f == nil {
-				// Unknown flag. Give up. The command is going to fail in flag parsing.
-				return false
-			}
-			if bf, ok := f.Value.(interface{ IsBoolFlag() bool }); ok && bf.IsBoolFlag() {
-				// Does not take value.
-				continue
-			}
-			i++ // Does take a value; skip it.
-		}
-	}
-	if !strings.Contains(arg, "@") || build.IsLocalImport(arg) || filepath.IsAbs(arg) {
+	default:
 		return false
 	}
-	path, version, _ := strings.Cut(arg, "@")
+
+	// Parse the command's flags and arguments, looking for a pkg@version argument
+	// so that we can figure out which toolchain version to use to process it.
+	// If we don't find one, we'll return false (and re-parse the flags as part of
+	// normal command handling).
+	var pkgArg string
+	for args := os.Args[2:]; len(args) > 0; {
+		var err error
+		_, args, err = cmdflag.ParseOne(cmdFlags, args)
+
+		if errors.Is(err, cmdflag.ErrFlagTerminator) {
+			break
+		}
+
+		if nd := (cmdflag.FlagNotDefinedError{}); errors.As(err, &nd) {
+			if nd.HasValue || len(args) == 0 {
+				// The argument is something like "-foo=bar", or nothing comes after it.
+				// Even though we can't interpret the flag, we know that it is
+				// self-contained, so keep going in case we upgrade to a version of Go
+				// that does support it.
+				continue
+			}
+
+			// We don't know whether this is a boolean or non-boolean flag,
+			// so we can't parse the remaining arguments reliably.
+			//
+			// For 'go run', we can't make assumptions about which flags are for
+			// cmd/go as opposed to the user program to be run.
+			// (Consider "go run -flag1 foo -flag2 bar@latest" — is the program to
+			// be run "foo" with arguments "-flag2 bar@latest", or "bar@latest"
+			// without arguments?)
+			//
+			// For 'go install' we could theoretically be a bit more lax,
+			// but we if the next argument begins with "-" we could end up
+			// passing off-by-one arguments to flags.
+			// (Consider "go install -flag1 -tags -modcacherw": in order to see
+			// the "-modcacherw" argument we have to parse "-tags" as a value for
+			// "-flag1"; otherwise we will misparse "-modcacherw" as a
+			// value for the "-tags" flag instead of a flag itself.)
+			//
+			// Rather than proceeding with a potentially-misparsed command line,
+			// we will just stop parsing and let the command fail. The user can
+			// either explicitly upgrade their Go version, or switch to the
+			// "-key=value" form to make the flag parsing unambiguous.
+			return false
+		}
+
+		if nf := (cmdflag.NonFlagError{}); errors.As(err, &nf) {
+			// This argument must name a package to be installed or run.
+			// The arguments that follow it are either additional packages
+			// (which we assume are found in the same module as the first),
+			// or arguments that 'go run' should forward to the user program
+			// after building it.
+			pkgArg = nf.RawArg
+			break
+		}
+
+		// Ignore any other flag parsing errors: the flag's value may be valid
+		// for the Go version we're going to upgrade to.
+	}
+	if !strings.Contains(pkgArg, "@") || build.IsLocalImport(pkgArg) || filepath.IsAbs(pkgArg) {
+		return false
+	}
+	path, version, _ := strings.Cut(pkgArg, "@")
 	if path == "" || version == "" || gover.IsToolchain(path) {
 		return false
 	}
 
-	// Make a best effort to parse flags so that module flags like -modcacherw
-	// will take effect (see https://go.dev/issue/64282).
-	args := os.Args[2:]
-	for len(args) > 0 {
-		var err error
-		_, args, err = cmdflag.ParseOne(cmdFlags, args)
-		if errors.Is(err, cmdflag.ErrFlagTerminator) {
-			break
-		}
-		// Ignore all other errors: they may be new flags — or updated syntax for
-		// existing flags — intended for a newer Go toolchain.
-	}
+	// We have parsed the positional arguments.
+	// We're going to try downloading modules to figure out what version
+	// to upgrade to, so fold in any other arguments from the process
+	// environment in case they affect the download.
 	base.SetFromGOFLAGS(cmdFlags, true)
 
 	// It would be correct to simply return true here, bypassing use
