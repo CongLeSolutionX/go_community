@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9200e0db_1be54c30",
+        "filename": "src/runtime/mklockrank.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-15T21:07:22Z",
+      "side": 1,
+      "message": "`allocmR, execR, execW \u003c stackpool` is already encoded via `allocmR, execR, execW \u003c MALLOC \u003c fin \u003c STACKGROW \u003c gscan \u003c stackpool`.",
+      "parentUuid": "c01ac7de_44b64cc7",
+      "revId": "6a5eab2513bc057e3274b0031232daf093ae6ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9c166f_ec615b3d",
@@ -71,6 +89,54 @@
       "writtenOn": "2023-12-14T23:02:51Z",
       "side": 1,
       "message": "nit: must",
+      "range": {
+        "startLine": 51,
+        "startChar": 43,
+        "endLine": 51,
+        "endChar": 49
+      },
+      "revId": "6a5eab2513bc057e3274b0031232daf093ae6ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11f40bc_c9fafeeb",
+        "filename": "src/runtime/rwmutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-15T21:07:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc9c166f_ec615b3d",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "6a5eab2513bc057e3274b0031232daf093ae6ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca4debe8_c7b1e839",
+        "filename": "src/runtime/rwmutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-12-15T21:07:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eab5ba7c_32ee27a5",
       "range": {
         "startLine": 51,
         "startChar": 43,
