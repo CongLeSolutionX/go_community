@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd755dec_3ee9b63d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8426,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "without Latin: \"(but not the converse)\"\n\nOr, more explicitly:\n\nensures that a Go program that works with a specific Go language version will continue to work with any subsequent version (though not necessarily with an older one).\n\nWhen expanded like this, the parenthesis seems so obvious as to not need saying.",
+      "range": {
+        "startLine": 8425,
+        "startChar": 70,
+        "endLine": 8426,
+        "endChar": 11
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cd01bb1_3afa8529",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8431,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "delete?",
+      "range": {
+        "startLine": 8431,
+        "startChar": 37,
+        "endLine": 8431,
+        "endChar": 54
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b81aa8e3_f8939c72",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8496,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "\"generic functions and types\"?",
+      "range": {
+        "startLine": 8496,
+        "startChar": 22,
+        "endLine": 8496,
+        "endChar": 30
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4eb2c37_c4576b72",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8510,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "rogue trailing space",
+      "range": {
+        "startLine": 8510,
+        "startChar": 105,
+        "endLine": 8510,
+        "endChar": 106
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0406742_35c7233c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8511,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "Perhaps: \"The predeclared types include any and comparable.\"",
+      "range": {
+        "startLine": 8511,
+        "startChar": 0,
+        "endLine": 8511,
+        "endChar": 9
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a67e4e_6c14ac69",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8519,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "no need for comma",
+      "range": {
+        "startLine": 8519,
+        "startChar": 11,
+        "endLine": 8519,
+        "endChar": 12
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eb535dc_72ff3cd8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8522,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": ", and",
+      "range": {
+        "startLine": 8522,
+        "startChar": 57,
+        "endLine": 8522,
+        "endChar": 61
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6ee49e5_3e67f657",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8523,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "\"are added to the\"\n\nBut again, perhaps better as: \"The unsafe package includes the functions ...\"",
+      "range": {
+        "startLine": 8523,
+        "startChar": 0,
+        "endLine": 8523,
+        "endChar": 13
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aeff064_e9444258",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8535,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 8535,
+        "startChar": 23,
+        "endLine": 8535,
+        "endChar": 32
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ee5955_d5cb5afc",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8538,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "Can we say something stronger than \"considers\" here?",
+      "range": {
+        "startLine": 8538,
+        "startChar": 45,
+        "endLine": 8538,
+        "endChar": 54
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fa6e781_aaff613d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 8548,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-15T18:37:06Z",
+      "side": 1,
+      "message": "\"may be applied to an integer operand n, causing it to iterate over the integers 0 to n-1\" ?",
+      "range": {
+        "startLine": 8547,
+        "startChar": 69,
+        "endLine": 8548,
+        "endChar": 42
+      },
+      "revId": "f1d8e7f2f330611328727bdae9db76874a6c5254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
