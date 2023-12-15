@@ -209,13 +209,25 @@ stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found,
 stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
 stderr '^go: rsc.io/fortune/nonexist@v0.0.1: module rsc.io/fortune@v0.0.1 found, but does not contain package rsc.io/fortune/nonexist'
 
-# go install should handle unknown flags to find m@v
-! go install -unknownflag rsc.io/fortune/nonexist@v0.0.1
+# go install should handle unknown "-k=v" flags to find m@v
+
+! go install -unknownflag=-p -modcacherw rsc.io/fortune/nonexist@v0.0.1
 stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
 stderr '^flag provided but not defined: -unknownflag'
 
-! go install -unknownflag arg rsc.io/fortune/nonexist@v0.0.1
+! go install --unknownflag=-p -modcacherw rsc.io/fortune/nonexist@v0.0.1
 stderr '^go: rsc.io/fortune@v0.0.1 requires go >= 1.21rc999; switching to go1.22.9$'
+stderr '^flag provided but not defined: -unknownflag'
+
+# But it should reject "-k v" flags, because it doesn't know whether they
+# should consume the argument that follows.
+
+! go install -unknownflag rsc.io/fortune/nonexist@v0.0.1
+! stderr switching
+stderr '^flag provided but not defined: -unknownflag'
+
+! go install -unknownflag -p -modcacherw rsc.io/fortune/nonexist@v0.0.1
+! stderr switching
 stderr '^flag provided but not defined: -unknownflag'
 
 # go run cannot handle unknown boolean flags

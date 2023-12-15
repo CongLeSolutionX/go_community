@@ -12,16 +12,23 @@
 
 ! go install -cake=delicious -modcacherw example.com/printversion@v0.1.0
 stderr '^flag provided but not defined: -cake$'
-
-[!short] go install -modcacherw example.com/printversion@v0.1.0
 	# Because the -modcacherw flag was set, we should be able to modify the contents
 	# of a directory within the module cache.
 cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.go
-
-
-# We should also apply flags from GOFLAGS at this step.
-
 go clean -modcache
+
+! go install -unknownflag -tags -modcacherw example.com/printversion@v0.1.0
+stderr '^flag provided but not defined: -unknownflag$'
+! exists $GOPATH/pkg/mod/example.com/printversion@v0.1.0/
+
+
+# Also try it with a 'go install' that succeeds.
+[!short] go install -modcacherw example.com/printversion@v0.1.0
+[!short] cp $WORK/extraneous.txt $GOPATH/pkg/mod/example.com/printversion@v0.1.0/extraneous_file.go
+
+
+# We should also apply flags from GOFLAGS before downloading
+
 env GOFLAGS=-modcacherw
 ! go install -cake=delicious example.com/printversion@v0.1.0
 stderr '^flag provided but not defined: -cake$'
