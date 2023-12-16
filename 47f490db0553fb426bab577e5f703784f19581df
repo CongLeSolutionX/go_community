@@ -89,6 +89,24 @@
       "message": "What about keeping the function and do all the casts inside it?\n\nCould you also consider to use unsafe.SizeOf(stk[0]) instead of hard coding 8? That seems easier to understand to me.",
       "revId": "47f490db0553fb426bab577e5f703784f19581df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "225b67a9_4aca40b3",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-16T08:51:32Z",
+      "side": 1,
+      "message": "No,unsafe.SizeOf(stk[0]) means panic when len\u003d\u003d0.\nThere are only two calls to eqslice, and the function is small, so it seems better to inline it so it reduces one function.\nAnd bytealg.Equal can still indicate that the meaning here is to compare equality.",
+      "parentUuid": "07811b05_4e383341",
+      "revId": "47f490db0553fb426bab577e5f703784f19581df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
