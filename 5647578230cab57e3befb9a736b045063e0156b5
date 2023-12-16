@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af34501e_91d5ca31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-16T14:02:05Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is right. Making it possible to pass unknown flags to a will-be-upgrading go install was an important detail of the original code. It sounds like maybe we should roll back CL 546635 and reopen #64282 instead and then have the next cycle to decide what to do, if anything.",
+      "revId": "5647578230cab57e3befb9a736b045063e0156b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
