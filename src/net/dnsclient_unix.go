@@ -23,6 +23,7 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+	"unsafe"
 
 	"golang.org/x/net/dns/dnsmessage"
 )
@@ -215,9 +216,28 @@ func checkHeader(p *dnsmessage.Parser, h dnsmessage.Header) error {
 		return errCannotUnmarshalDNSMessage
 	}
 
+	// Because dnsmessage.Header does not include fields for the counts of each section,
+	// we can only obtain them from dnsmessage.Parser using pointers here.
+	// TODO: Expose the counts of each section in dnsmessage.Header
+
+	// header copy from golang.org/x/net/dns/dnsmessage/message.go
+	type header struct {
+		id          uint16
+		bits        uint16
+		questions   uint16
+		answers     uint16
+		authorities uint16
+		additionals uint16
+	}
+	type parser struct {
+		msg    []byte
+		header header
+	}
+	p2 := (*parser)(unsafe.Pointer(p))
+
 	// libresolv continues to the next server when it receives
 	// an invalid referral response. See golang.org/issue/15434.
-	if rcode == dnsmessage.RCodeSuccess && !h.Authoritative && !h.RecursionAvailable && err == dnsmessage.ErrSectionDone {
+	if rcode == dnsmessage.RCodeSuccess && !h.Authoritative && !h.RecursionAvailable && err == dnsmessage.ErrSectionDone && p2.header.additionals == 0 {
 		return errLameReferral
 	}
 
