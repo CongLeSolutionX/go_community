@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure this is right. Making it possible to pass unknown flags to a will-be-upgrading go install was an important detail of the original code. It sounds like maybe we should roll back CL 546635 and reopen #64282 instead and then have the next cycle to decide what to do, if anything.",
       "revId": "5647578230cab57e3befb9a736b045063e0156b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6196f46e_02822151",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-12-16T14:49:47Z",
+      "side": 1,
+      "message": "#64282 was a regression introduced in Go 1.21 of a behavior that worked in Go 1.20. I think it is important that we fix that regression before Go 1.20 falls out of support, so I don\u0027t see just rolling back CL 546635 and punting as a viable option.\n\nNote that it with this CL it _is_ still possible to pass unknown flags to a `go install` that will perform an upgrade — they just have to be in the `-k\u003dv` form, as was already the case for flags passed to `go run`.\n\nThere are some other refinements we could consider on top of this. For example:\n\n- If we _reject_ positional flag values beginning with `-` for other flags, then we can assume that the sequence `-flag1 -flag2 -modcacherw` is exactly three flags. (To use such values, the user would need to fall back to the `-k\u003dv` form, like `-flag1\u003d-flag2 -modcacherw`.)\n\n- If we require that all unknown flags occur after tokens matching known flags, then we can ignore the chunk of tokens in between the known flags and the package argument. (But that only works for `go install`, not `go run`, and it\u0027s kind of a subtle rule.)\n\n- If the unknown flag happens to be the second-to-last token, we can assume it is a boolean.\n\nHowever, all of those options would add substantial complexity, both for the users (who have to make sense of those rules) and in the implementation.\n\nIn contrast, the rule “unknown flags need to be in `-key\u003dvalue` form” seems straightforward — and, for better or for worse, is already consistent with how `go test` handles such flags. So I think we should do this for now: it continues to fix the regression reported in #64282, keeps support for the `-key\u003dvalue` form (which is useful and non-problematic), and doesn\u0027t preclude future refinements if we decide they\u0027re worth the complexity.",
+      "parentUuid": "af34501e_91d5ca31",
+      "revId": "5647578230cab57e3befb9a736b045063e0156b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
