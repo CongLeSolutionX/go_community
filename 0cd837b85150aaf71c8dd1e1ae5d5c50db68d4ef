@@ -88,6 +88,24 @@
       "message": "This isn\u0027t right because the slice lengths aren\u0027t right. A []uintptr of length 100 will cast to a []byte of length 100, so you\u0027re only comparing 1/8 of the stack.",
       "revId": "0cd837b85150aaf71c8dd1e1ae5d5c50db68d4ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b6af79f_703d6ae2",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-16T07:29:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e237ec9_2f16b983",
+      "revId": "0cd837b85150aaf71c8dd1e1ae5d5c50db68d4ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
