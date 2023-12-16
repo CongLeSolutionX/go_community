@@ -9,6 +9,7 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/bytealg"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -294,7 +295,8 @@ func stkbucket(typ bucketType, size uintptr, stk []uintptr, alloc bool) *bucket 
 	i := int(h % buckHashSize)
 	// first check optimistically, without the lock
 	for b := (*bucket)(bh[i].Load()); b != nil; b = b.next {
-		if b.typ == typ && b.hash == h && b.size == size && eqslice(b.stk(), stk) {
+		bstk := b.stk()
+		if b.typ == typ && b.hash == h && b.size == size && bytealg.Equal(unsafe.Slice((*byte)(unsafe.Pointer(&bstk)), len(bstk)*8), unsafe.Slice((*byte)(unsafe.Pointer(&stk)), len(stk)*8)) {
 			return b
 		}
 	}
@@ -306,7 +308,8 @@ func stkbucket(typ bucketType, size uintptr, stk []uintptr, alloc bool) *bucket 
 	lock(&profInsertLock)
 	// check again under the insertion lock
 	for b := (*bucket)(bh[i].Load()); b != nil; b = b.next {
-		if b.typ == typ && b.hash == h && b.size == size && eqslice(b.stk(), stk) {
+		bstk := b.stk()
+		if b.typ == typ && b.hash == h && b.size == size && bytealg.Equal(unsafe.Slice((*byte)(unsafe.Pointer(&bstk)), len(bstk)*8), unsafe.Slice((*byte)(unsafe.Pointer(&stk)), len(stk)*8)) {
 			unlock(&profInsertLock)
 			return b
 		}
@@ -335,18 +338,6 @@ func stkbucket(typ bucketType, size uintptr, stk []uintptr, alloc bool) *bucket 
 
 	unlock(&profInsertLock)
 	return b
-}
-
-func eqslice(x, y []uintptr) bool {
-	if len(x) != len(y) {
-		return false
-	}
-	for i, xi := range x {
-		if xi != y[i] {
-			return false
-		}
-	}
-	return true
 }
 
 // mProf_NextCycle publishes the next heap profile cycle and creates a
