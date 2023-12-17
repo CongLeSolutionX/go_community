@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a206875_6fd12ca0",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-17T09:41:39Z",
+      "side": 1,
+      "message": "We should not use unsafe here. We are already skipping the resources to the additionals section in the extractExtendedRCode function above. It can be updated to return a boolean that indicates that there was no additonal resources.",
+      "revId": "aa6201a350317dec9b08d389f03600f5f69e94e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbebd778_0deed797",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-17T09:41:39Z",
+      "side": 1,
+      "message": "The header should be populated with SetEDNS0, refer to TestExtendedRCode.",
+      "revId": "aa6201a350317dec9b08d389f03600f5f69e94e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
