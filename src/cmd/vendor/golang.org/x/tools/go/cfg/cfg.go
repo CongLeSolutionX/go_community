@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This package constructs a simple control-flow graph (CFG) of the
+// Package cfg constructs a simple control-flow graph (CFG) of the
 // statements and expressions within a single function.
 //
 // Use cfg.New to construct the CFG for a function body.
@@ -20,14 +20,14 @@
 //
 // produces this CFG:
 //
-//    1:  x := f()
-//        x != nil
-//        succs: 2, 3
-//    2:  T()
-//        succs: 4
-//    3:  F()
-//        succs: 4
-//    4:
+//	1:  x := f()
+//	    x != nil
+//	    succs: 2, 3
+//	2:  T()
+//	    succs: 4
+//	3:  F()
+//	    succs: 4
+//	4:
 //
 // The CFG does contain Return statements; even implicit returns are
 // materialized (at the position of the function's closing brace).
@@ -36,7 +36,6 @@
 // edges, nor the short-circuit semantics of the && and || operators,
 // nor abnormal control flow caused by panic.  If you need this
 // information, use golang.org/x/tools/go/ssa instead.
-//
 package cfg
 
 import (

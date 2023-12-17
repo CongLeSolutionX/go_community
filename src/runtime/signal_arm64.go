@@ -2,11 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build linux darwin
+//go:build darwin || freebsd || linux || netbsd || openbsd
 
 package runtime
 
 import (
+	"internal/abi"
+	"internal/goarch"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -52,8 +54,9 @@ func dumpregs(c *sigctxt) {
 //go:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.pc()) }
 
-func (c *sigctxt) sigsp() uintptr { return uintptr(c.sp()) }
-func (c *sigctxt) siglr() uintptr { return uintptr(c.lr()) }
+func (c *sigctxt) setsigpc(x uint64) { c.set_pc(x) }
+func (c *sigctxt) sigsp() uintptr    { return uintptr(c.sp()) }
+func (c *sigctxt) siglr() uintptr    { return uintptr(c.lr()) }
 
 // preparePanic sets up the stack to look like a call to sigpanic.
 func (c *sigctxt) preparePanic(sig uint32, gp *g) {
@@ -63,9 +66,15 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// functions are correctly handled. This smashes
 	// the stack frame but we're not going back there
 	// anyway.
-	sp := c.sp() - sys.SpAlign // needs only sizeof uint64, but must align the stack
+	sp := c.sp() - sys.StackAlign // needs only sizeof uint64, but must align the stack
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.lr()
+	// Make sure a valid frame pointer is saved on the stack so that the
+	// frame pointer checks in adjustframe are happy, if they're enabled.
+	// Frame pointer unwinding won't visit the sigpanic frame, since
+	// sigpanic will save the same frame pointer before calling into a panic
+	// function.
+	*(*uint64)(unsafe.Pointer(uintptr(sp - goarch.PtrSize))) = c.r29()
 
 	pc := gp.sigpc
 
@@ -76,5 +85,23 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 
 	// In case we are panicking from external C code
 	c.set_r28(uint64(uintptr(unsafe.Pointer(gp))))
-	c.set_pc(uint64(funcPC(sigpanic)))
+	c.set_pc(uint64(abi.FuncPCABIInternal(sigpanic)))
+}
+
+func (c *sigctxt) pushCall(targetPC, resumePC uintptr) {
+	// Push the LR to stack, as we'll clobber it in order to
+	// push the call. The function being pushed is responsible
+	// for restoring the LR and setting the SP back.
+	// This extra space is known to gentraceback.
+	sp := c.sp() - 16 // SP needs 16-byte alignment
+	c.set_sp(sp)
+	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.lr()
+	// Make sure a valid frame pointer is saved on the stack so that the
+	// frame pointer checks in adjustframe are happy, if they're enabled.
+	// This is not actually used for unwinding.
+	*(*uint64)(unsafe.Pointer(uintptr(sp - goarch.PtrSize))) = c.r29()
+	// Set up PC and LR to pretend the function being signaled
+	// calls targetPC at resumePC.
+	c.set_lr(uint64(resumePC))
+	c.set_pc(uint64(targetPC))
 }

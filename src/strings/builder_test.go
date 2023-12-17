@@ -8,6 +8,7 @@ import (
 	"bytes"
 	. "strings"
 	"testing"
+	"unicode/utf8"
 )
 
 func check(t *testing.T, b *Builder, want string) {
@@ -108,6 +109,15 @@ func TestBuilderGrow(t *testing.T) {
 			t.Errorf("growLen=%d: got %d allocs during Write; want %v", growLen, g, w)
 		}
 	}
+	// when growLen < 0, should panic
+	var a Builder
+	n := -1
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("a.Grow(%d) should panic()", n)
+		}
+	}()
+	a.Grow(n)
 }
 
 func TestBuilderWrite2(t *testing.T) {
@@ -178,21 +188,6 @@ func TestBuilderWriteByte(t *testing.T) {
 }
 
 func TestBuilderAllocs(t *testing.T) {
-	var b Builder
-	const msg = "hello"
-	b.Grow(len(msg) * 2) // because AllocsPerRun does an extra "warm-up" iteration
-	var s string
-	allocs := int(testing.AllocsPerRun(1, func() {
-		b.WriteString("hello")
-		s = b.String()
-	}))
-	if want := msg + msg; s != want {
-		t.Errorf("String: got %#q; want %#q", s, want)
-	}
-	if allocs > 0 {
-		t.Fatalf("got %d alloc(s); want 0", allocs)
-	}
-
 	// Issue 23382; verify that copyCheck doesn't force the
 	// Builder to escape and be heap allocated.
 	n := testing.AllocsPerRun(10000, func() {
@@ -316,6 +311,16 @@ func TestBuilderCopyPanic(t *testing.T) {
 	}
 }
 
+func TestBuilderWriteInvalidRune(t *testing.T) {
+	// Invalid runes, including negative ones, should be written as
+	// utf8.RuneError.
+	for _, r := range []rune{-1, utf8.MaxRune + 1} {
+		var b Builder
+		b.WriteRune(r)
+		check(t, &b, "\uFFFD")
+	}
+}
+
 var someBytes = []byte("some bytes sdljlk jsklj3lkjlk djlkjw")
 
 var sinkS string
@@ -344,6 +349,22 @@ func BenchmarkBuildString_Builder(b *testing.B) {
 			}
 			for i := 0; i < numWrite; i++ {
 				buf.Write(someBytes)
+			}
+			sinkS = buf.String()
+		}
+	})
+}
+
+func BenchmarkBuildString_WriteString(b *testing.B) {
+	someString := string(someBytes)
+	benchmarkBuilder(b, func(b *testing.B, numWrite int, grow bool) {
+		for i := 0; i < b.N; i++ {
+			var buf Builder
+			if grow {
+				buf.Grow(len(someString) * numWrite)
+			}
+			for i := 0; i < numWrite; i++ {
+				buf.WriteString(someString)
 			}
 			sinkS = buf.String()
 		}

@@ -117,8 +117,10 @@ func likelyadjust(f *Func) {
 	// in their rank order.  0 is default, more positive
 	// is less likely. It's possible to assign a negative
 	// unlikeliness (though not currently the case).
-	certain := make([]int8, f.NumBlocks()) // In the long run, all outcomes are at least this bad. Mainly for Exit
-	local := make([]int8, f.NumBlocks())   // for our immediate predecessors.
+	certain := f.Cache.allocInt8Slice(f.NumBlocks()) // In the long run, all outcomes are at least this bad. Mainly for Exit
+	defer f.Cache.freeInt8Slice(certain)
+	local := f.Cache.allocInt8Slice(f.NumBlocks()) // for our immediate predecessors.
+	defer f.Cache.freeInt8Slice(local)
 
 	po := f.postorder()
 	nest := f.loopnest()
@@ -222,6 +224,7 @@ func likelyadjust(f *Func) {
 				if opcodeTable[v.Op].call {
 					local[b.ID] = blCALL
 					certain[b.ID] = max8(blCALL, certain[b.Succs[0].b.ID])
+					break
 				}
 			}
 		}
@@ -266,17 +269,18 @@ func (l *loop) isWithinOrEq(ll *loop) bool {
 // we're relying on loop nests to not be terribly deep.
 func (l *loop) nearestOuterLoop(sdom SparseTree, b *Block) *loop {
 	var o *loop
-	for o = l.outer; o != nil && !sdom.isAncestorEq(o.header, b); o = o.outer {
+	for o = l.outer; o != nil && !sdom.IsAncestorEq(o.header, b); o = o.outer {
 	}
 	return o
 }
 
 func loopnestfor(f *Func) *loopnest {
 	po := f.postorder()
-	sdom := f.sdom()
+	sdom := f.Sdom()
 	b2l := make([]*loop, f.NumBlocks())
 	loops := make([]*loop, 0)
-	visited := make([]bool, f.NumBlocks())
+	visited := f.Cache.allocBoolSlice(f.NumBlocks())
+	defer f.Cache.freeBoolSlice(visited)
 	sawIrred := false
 
 	if f.pass.debug > 2 {
@@ -305,7 +309,7 @@ func loopnestfor(f *Func) *loopnest {
 			bb := e.b
 			l := b2l[bb.ID]
 
-			if sdom.isAncestorEq(bb, b) { // Found a loop header
+			if sdom.IsAncestorEq(bb, b) { // Found a loop header
 				if f.pass != nil && f.pass.debug > 4 {
 					fmt.Printf("loop finding    succ %s of %s is header\n", bb.String(), b.String())
 				}
@@ -324,7 +328,7 @@ func loopnestfor(f *Func) *loopnest {
 				// Perhaps a loop header is inherited.
 				// is there any loop containing our successor whose
 				// header dominates b?
-				if !sdom.isAncestorEq(l.header, b) {
+				if !sdom.IsAncestorEq(l.header, b) {
 					l = l.nearestOuterLoop(sdom, b)
 				}
 				if f.pass != nil && f.pass.debug > 4 {
@@ -368,7 +372,8 @@ func loopnestfor(f *Func) *loopnest {
 	ln := &loopnest{f: f, b2l: b2l, po: po, sdom: sdom, loops: loops, hasIrreducible: sawIrred}
 
 	// Calculate containsUnavoidableCall for regalloc
-	dominatedByCall := make([]bool, f.NumBlocks())
+	dominatedByCall := f.Cache.allocBoolSlice(f.NumBlocks())
+	defer f.Cache.freeBoolSlice(dominatedByCall)
 	for _, b := range po {
 		if checkContainsCall(b) {
 			dominatedByCall[b.ID] = true

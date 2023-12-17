@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !js
-
 package net
 
 import (
@@ -61,7 +59,7 @@ func TestInterfaces(t *testing.T) {
 			t.Fatal(err)
 		}
 		switch runtime.GOOS {
-		case "solaris":
+		case "solaris", "illumos":
 			if ifxi.Index != ifi.Index {
 				t.Errorf("got %v; want %v", ifxi, ifi)
 			}
@@ -278,7 +276,7 @@ func checkUnicastStats(ifStats *ifStats, uniStats *routeStats) error {
 
 func checkMulticastStats(ifStats *ifStats, uniStats, multiStats *routeStats) error {
 	switch runtime.GOOS {
-	case "aix", "dragonfly", "nacl", "netbsd", "openbsd", "plan9", "solaris":
+	case "aix", "dragonfly", "netbsd", "openbsd", "plan9", "solaris", "illumos":
 	default:
 		// Test the existence of connected multicast route
 		// clones for IPv4. Unlike IPv6, IPv4 multicast
@@ -300,6 +298,7 @@ func checkMulticastStats(ifStats *ifStats, uniStats, multiStats *routeStats) err
 }
 
 func BenchmarkInterfaces(b *testing.B) {
+	b.ReportAllocs()
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	for i := 0; i < b.N; i++ {
@@ -310,6 +309,7 @@ func BenchmarkInterfaces(b *testing.B) {
 }
 
 func BenchmarkInterfaceByIndex(b *testing.B) {
+	b.ReportAllocs()
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	ifi := loopbackInterface()
@@ -324,6 +324,7 @@ func BenchmarkInterfaceByIndex(b *testing.B) {
 }
 
 func BenchmarkInterfaceByName(b *testing.B) {
+	b.ReportAllocs()
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	ifi := loopbackInterface()
@@ -338,6 +339,7 @@ func BenchmarkInterfaceByName(b *testing.B) {
 }
 
 func BenchmarkInterfaceAddrs(b *testing.B) {
+	b.ReportAllocs()
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	for i := 0; i < b.N; i++ {
@@ -348,6 +350,7 @@ func BenchmarkInterfaceAddrs(b *testing.B) {
 }
 
 func BenchmarkInterfacesAndAddrs(b *testing.B) {
+	b.ReportAllocs()
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	ifi := loopbackInterface()
@@ -362,6 +365,7 @@ func BenchmarkInterfacesAndAddrs(b *testing.B) {
 }
 
 func BenchmarkInterfacesAndMulticastAddrs(b *testing.B) {
+	b.ReportAllocs()
 	testHookUninstaller.Do(uninstallTestHooks)
 
 	ifi := loopbackInterface()

@@ -49,6 +49,7 @@ var badRe = []stringError{
 	{`a**`, "invalid nested repetition operator: `**`"},
 	{`a*+`, "invalid nested repetition operator: `*+`"},
 	{`\x`, "invalid escape sequence: `\\x`"},
+	{strings.Repeat(`\pL`, 27000), "expression too large"},
 }
 
 func compileTest(t *testing.T, expr string, error string) *Regexp {
@@ -372,6 +373,9 @@ var literalPrefixTests = []MetaTest{
 	{`^^0$$`, ``, ``, false},
 	{`^$^$`, ``, ``, false},
 	{`$$0^^`, ``, ``, false},
+	{`a\x{fffd}b`, ``, `a`, false},
+	{`\x{fffd}b`, ``, ``, false},
+	{"\ufffd", ``, ``, false},
 }
 
 func TestQuoteMeta(t *testing.T) {
@@ -418,24 +422,32 @@ func TestLiteralPrefix(t *testing.T) {
 	}
 }
 
-type subexpCase struct {
-	input string
-	num   int
-	names []string
+type subexpIndex struct {
+	name  string
+	index int
 }
 
+type subexpCase struct {
+	input   string
+	num     int
+	names   []string
+	indices []subexpIndex
+}
+
+var emptySubexpIndices = []subexpIndex{{"", -1}, {"missing", -1}}
+
 var subexpCases = []subexpCase{
-	{``, 0, nil},
-	{`.*`, 0, nil},
-	{`abba`, 0, nil},
-	{`ab(b)a`, 1, []string{"", ""}},
-	{`ab(.*)a`, 1, []string{"", ""}},
-	{`(.*)ab(.*)a`, 2, []string{"", "", ""}},
-	{`(.*)(ab)(.*)a`, 3, []string{"", "", "", ""}},
-	{`(.*)((a)b)(.*)a`, 4, []string{"", "", "", "", ""}},
-	{`(.*)(\(ab)(.*)a`, 3, []string{"", "", "", ""}},
-	{`(.*)(\(a\)b)(.*)a`, 3, []string{"", "", "", ""}},
-	{`(?P<foo>.*)(?P<bar>(a)b)(?P<foo>.*)a`, 4, []string{"", "foo", "bar", "", "foo"}},
+	{``, 0, nil, emptySubexpIndices},
+	{`.*`, 0, nil, emptySubexpIndices},
+	{`abba`, 0, nil, emptySubexpIndices},
+	{`ab(b)a`, 1, []string{"", ""}, emptySubexpIndices},
+	{`ab(.*)a`, 1, []string{"", ""}, emptySubexpIndices},
+	{`(.*)ab(.*)a`, 2, []string{"", "", ""}, emptySubexpIndices},
+	{`(.*)(ab)(.*)a`, 3, []string{"", "", "", ""}, emptySubexpIndices},
+	{`(.*)((a)b)(.*)a`, 4, []string{"", "", "", "", ""}, emptySubexpIndices},
+	{`(.*)(\(ab)(.*)a`, 3, []string{"", "", "", ""}, emptySubexpIndices},
+	{`(.*)(\(a\)b)(.*)a`, 3, []string{"", "", "", ""}, emptySubexpIndices},
+	{`(?P<foo>.*)(?P<bar>(a)b)(?P<foo>.*)a`, 4, []string{"", "foo", "bar", "", "foo"}, []subexpIndex{{"", -1}, {"missing", -1}, {"foo", 1}, {"bar", 2}}},
 }
 
 func TestSubexp(t *testing.T) {
@@ -456,6 +468,12 @@ func TestSubexp(t *testing.T) {
 				if names[i] != c.names[i] {
 					t.Errorf("%q: SubexpNames[%d] = %q, want %q", c.input, i, names[i], c.names[i])
 				}
+			}
+		}
+		for _, subexp := range c.indices {
+			index := re.SubexpIndex(subexp.name)
+			if index != subexp.index {
+				t.Errorf("%q: SubexpIndex(%q) = %d, want %d", c.input, subexp.name, index, subexp.index)
 			}
 		}
 	}
@@ -860,6 +878,25 @@ func BenchmarkQuoteMetaNone(b *testing.B) {
 	}
 }
 
+var compileBenchData = []struct{ name, re string }{
+	{"Onepass", `^a.[l-nA-Cg-j]?e$`},
+	{"Medium", `^((a|b|[d-z0-9])*(日){4,5}.)+$`},
+	{"Hard", strings.Repeat(`((abc)*|`, 50) + strings.Repeat(`)`, 50)},
+}
+
+func BenchmarkCompile(b *testing.B) {
+	for _, data := range compileBenchData {
+		b.Run(data.name, func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				if _, err := Compile(data.re); err != nil {
+					b.Fatal(err)
+				}
+			}
+		})
+	}
+}
+
 func TestDeepEqual(t *testing.T) {
 	re1 := MustCompile("a.*b.*c.*d")
 	re2 := MustCompile("a.*b.*c.*d")
@@ -881,4 +918,58 @@ func TestDeepEqual(t *testing.T) {
 	if !reflect.DeepEqual(re1, re2) {
 		t.Errorf("DeepEqual(re1, re2) = false, want true")
 	}
+}
+
+var minInputLenTests = []struct {
+	Regexp string
+	min    int
+}{
+	{``, 0},
+	{`a`, 1},
+	{`aa`, 2},
+	{`(aa)a`, 3},
+	{`(?:aa)a`, 3},
+	{`a?a`, 1},
+	{`(aaa)|(aa)`, 2},
+	{`(aa)+a`, 3},
+	{`(aa)*a`, 1},
+	{`(aa){3,5}`, 6},
+	{`[a-z]`, 1},
+	{`日`, 3},
+}
+
+func TestMinInputLen(t *testing.T) {
+	for _, tt := range minInputLenTests {
+		re, _ := syntax.Parse(tt.Regexp, syntax.Perl)
+		m := minInputLen(re)
+		if m != tt.min {
+			t.Errorf("regexp %#q has minInputLen %d, should be %d", tt.Regexp, m, tt.min)
+		}
+	}
+}
+
+func TestUnmarshalText(t *testing.T) {
+	unmarshaled := new(Regexp)
+	for i := range goodRe {
+		re := compileTest(t, goodRe[i], "")
+		marshaled, err := re.MarshalText()
+		if err != nil {
+			t.Errorf("regexp %#q failed to marshal: %s", re, err)
+			continue
+		}
+		if err := unmarshaled.UnmarshalText(marshaled); err != nil {
+			t.Errorf("regexp %#q failed to unmarshal: %s", re, err)
+			continue
+		}
+		if unmarshaled.String() != goodRe[i] {
+			t.Errorf("UnmarshalText returned unexpected value: %s", unmarshaled.String())
+		}
+	}
+	t.Run("invalid pattern", func(t *testing.T) {
+		re := new(Regexp)
+		err := re.UnmarshalText([]byte(`\`))
+		if err == nil {
+			t.Error("unexpected success")
+		}
+	})
 }

@@ -1,5 +1,7 @@
 // asmcheck
 
+//go:build !goexperiment.cgocheck2
+
 // Copyright 2018 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -18,7 +20,7 @@ type Z1 struct {
 }
 
 func Zero1(t *Z1) { // Issue #18370
-	// amd64:`XORPS\tX., X`,`MOVUPS\tX., \(.*\)`,`MOVQ\t\$0, 16\(.*\)`
+	// amd64:`MOVUPS\tX[0-9]+, \(.*\)`,`MOVQ\t\$0, 16\(.*\)`
 	*t = Z1{}
 }
 
@@ -27,8 +29,8 @@ type Z2 struct {
 }
 
 func Zero2(t *Z2) {
-	// amd64:`XORPS\tX., X`,`MOVUPS\tX., \(.*\)`,`MOVQ\t\$0, 16\(.*\)`
-	// amd64:`.*runtime[.]gcWriteBarrier\(SB\)`
+	// amd64:`MOVUPS\tX[0-9]+, \(.*\)`,`MOVQ\t\$0, 16\(.*\)`
+	// amd64:`.*runtime[.]gcWriteBarrier.*\(SB\)`
 	*t = Z2{}
 }
 

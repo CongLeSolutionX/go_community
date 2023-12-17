@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build aix
+//go:build aix
 
 package runtime
 
@@ -22,7 +22,7 @@ const (
 	_PROT_WRITE = 0x2
 	_PROT_EXEC  = 0x4
 
-	_MAP_ANONYMOUS = 0x10
+	_MAP_ANON      = 0x10
 	_MAP_PRIVATE   = 0x2
 	_MAP_FIXED     = 0x100
 	_MADV_DONTNEED = 0x4
@@ -80,7 +80,11 @@ const (
 	_ITIMER_VIRTUAL = 0x1
 	_ITIMER_PROF    = 0x2
 
-	_O_RDONLY = 0x0
+	_O_RDONLY   = 0x0
+	_O_WRONLY   = 0x1
+	_O_NONBLOCK = 0x4
+	_O_CREAT    = 0x100
+	_O_TRUNC    = 0x200
 
 	_SS_DISABLE  = 0x2
 	_SI_USER     = 0x0
@@ -97,11 +101,9 @@ const (
 	__SC_PAGE_SIZE        = 0x30
 	__SC_NPROCESSORS_ONLN = 0x48
 
-	_F_SETFD    = 0x2
-	_F_SETFL    = 0x4
-	_F_GETFD    = 0x1
-	_F_GETFL    = 0x3
-	_FD_CLOEXEC = 0x1
+	_F_SETFL = 0x4
+	_F_GETFD = 0x1
+	_F_GETFL = 0x3
 )
 
 type sigset [4]uint64
@@ -126,6 +128,13 @@ type timespec struct {
 	tv_sec  int64
 	tv_nsec int64
 }
+
+//go:nosplit
+func (ts *timespec) setNsec(ns int64) {
+	ts.tv_sec = ns / 1e9
+	ts.tv_nsec = ns % 1e9
+}
+
 type timeval struct {
 	tv_sec    int64
 	tv_usec   int32

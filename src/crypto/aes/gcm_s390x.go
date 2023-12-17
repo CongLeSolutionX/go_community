@@ -6,7 +6,7 @@ package aes
 
 import (
 	"crypto/cipher"
-	subtleoverlap "crypto/internal/subtle"
+	"crypto/internal/alias"
 	"crypto/subtle"
 	"encoding/binary"
 	"errors"
@@ -57,7 +57,7 @@ var errOpen = errors.New("cipher: message authentication failed")
 var _ gcmAble = (*aesCipherAsm)(nil)
 
 // NewGCM returns the AES cipher wrapped in Galois Counter Mode. This is only
-// called by crypto/cipher.NewGCM via the gcmAble interface.
+// called by [crypto/cipher.NewGCM] via the gcmAble interface.
 func (c *aesCipherAsm) NewGCM(nonceSize, tagSize int) (cipher.AEAD, error) {
 	var hk gcmHashKey
 	c.Encrypt(hk[:], hk[:])
@@ -100,6 +100,7 @@ func sliceForAppend(in []byte, n int) (head, tail []byte) {
 // ghash uses the GHASH algorithm to hash data with the given key. The initial
 // hash value is given by hash which will be updated with the new hash value.
 // The length of data must be a multiple of 16-bytes.
+//
 //go:noescape
 func ghash(key *gcmHashKey, hash *[16]byte, data []byte)
 
@@ -127,6 +128,7 @@ func (g *gcmAsm) paddedGHASH(hash *[16]byte, data []byte) {
 // The lengths of both dst and buf must be greater than or equal to the length
 // of src. buf may be partially or completely overwritten during the execution
 // of the function.
+//
 //go:noescape
 func cryptBlocksGCM(fn code, key, dst, src, buf []byte, cnt *gcmCount)
 
@@ -198,7 +200,7 @@ func (g *gcmAsm) auth(out, ciphertext, additionalData []byte, tagMask *[gcmTagSi
 	}
 }
 
-// Seal encrypts and authenticates plaintext. See the cipher.AEAD interface for
+// Seal encrypts and authenticates plaintext. See the [cipher.AEAD] interface for
 // details.
 func (g *gcmAsm) Seal(dst, nonce, plaintext, data []byte) []byte {
 	if len(nonce) != g.nonceSize {
@@ -209,7 +211,7 @@ func (g *gcmAsm) Seal(dst, nonce, plaintext, data []byte) []byte {
 	}
 
 	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
-	if subtleoverlap.InexactOverlap(out[:len(plaintext)], plaintext) {
+	if alias.InexactOverlap(out[:len(plaintext)], plaintext) {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
 
@@ -227,7 +229,7 @@ func (g *gcmAsm) Seal(dst, nonce, plaintext, data []byte) []byte {
 	return ret
 }
 
-// Open authenticates and decrypts ciphertext. See the cipher.AEAD interface
+// Open authenticates and decrypts ciphertext. See the [cipher.AEAD] interface
 // for details.
 func (g *gcmAsm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(nonce) != g.nonceSize {
@@ -258,7 +260,7 @@ func (g *gcmAsm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	g.auth(expectedTag[:], ciphertext, data, &tagMask)
 
 	ret, out := sliceForAppend(dst, len(ciphertext))
-	if subtleoverlap.InexactOverlap(out, ciphertext) {
+	if alias.InexactOverlap(out, ciphertext) {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
 
@@ -295,10 +297,11 @@ const (
 // will be calculated and written to tag. cnt should contain the current
 // counter state and will be overwritten with the updated counter state.
 // TODO(mundaym): could pass in hash subkey
+//
 //go:noescape
 func kmaGCM(fn code, key, dst, src, aad []byte, tag *[16]byte, cnt *gcmCount)
 
-// Seal encrypts and authenticates plaintext. See the cipher.AEAD interface for
+// Seal encrypts and authenticates plaintext. See the [cipher.AEAD] interface for
 // details.
 func (g *gcmKMA) Seal(dst, nonce, plaintext, data []byte) []byte {
 	if len(nonce) != g.nonceSize {
@@ -309,7 +312,7 @@ func (g *gcmKMA) Seal(dst, nonce, plaintext, data []byte) []byte {
 	}
 
 	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
-	if subtleoverlap.InexactOverlap(out[:len(plaintext)], plaintext) {
+	if alias.InexactOverlap(out[:len(plaintext)], plaintext) {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
 
@@ -323,7 +326,7 @@ func (g *gcmKMA) Seal(dst, nonce, plaintext, data []byte) []byte {
 	return ret
 }
 
-// Open authenticates and decrypts ciphertext. See the cipher.AEAD interface
+// Open authenticates and decrypts ciphertext. See the [cipher.AEAD] interface
 // for details.
 func (g *gcmKMA) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(nonce) != g.nonceSize {
@@ -339,7 +342,7 @@ func (g *gcmKMA) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	tag := ciphertext[len(ciphertext)-g.tagSize:]
 	ciphertext = ciphertext[:len(ciphertext)-g.tagSize]
 	ret, out := sliceForAppend(dst, len(ciphertext))
-	if subtleoverlap.InexactOverlap(out, ciphertext) {
+	if alias.InexactOverlap(out, ciphertext) {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
 

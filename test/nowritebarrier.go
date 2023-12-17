@@ -1,12 +1,14 @@
-// errorcheck -+
+// errorcheck -+ -p=runtime
 
 // Copyright 2016 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 // Test go:nowritebarrier and related directives.
+// This must appear to be in package runtime so the compiler
+// recognizes "systemstack".
 
-package p
+package runtime
 
 type t struct {
 	f *t
@@ -67,6 +69,7 @@ func d2() {
 	d3()
 }
 
+//go:noinline
 func d3() {
 	x.f = y // ERROR "write barrier prohibited by caller"
 	d4()

@@ -5,8 +5,14 @@
 package user
 
 import (
-	"runtime"
+	"os"
 	"testing"
+)
+
+var (
+	hasCgo  = false
+	hasUSER = os.Getenv("USER") != ""
+	hasHOME = os.Getenv("HOME") != ""
 )
 
 func checkUser(t *testing.T) {
@@ -17,9 +23,18 @@ func checkUser(t *testing.T) {
 }
 
 func TestCurrent(t *testing.T) {
+	old := userBuffer
+	defer func() {
+		userBuffer = old
+	}()
+	userBuffer = 1 // force use of retry code
 	u, err := Current()
 	if err != nil {
-		t.Fatalf("Current: %v (got %#v)", err, u)
+		if hasCgo || (hasUSER && hasHOME) {
+			t.Fatalf("Current: %v (got %#v)", err, u)
+		} else {
+			t.Skipf("skipping: %v", err)
+		}
 	}
 	if u.HomeDir == "" {
 		t.Errorf("didn't get a HomeDir")
@@ -56,14 +71,15 @@ func compare(t *testing.T, want, got *User) {
 func TestLookup(t *testing.T) {
 	checkUser(t)
 
-	if runtime.GOOS == "plan9" {
-		t.Skipf("Lookup not implemented on %q", runtime.GOOS)
-	}
-
 	want, err := Current()
 	if err != nil {
-		t.Fatalf("Current: %v", err)
+		if hasCgo || (hasUSER && hasHOME) {
+			t.Fatalf("Current: %v", err)
+		} else {
+			t.Skipf("skipping: %v", err)
+		}
 	}
+
 	// TODO: Lookup() has a fast path that calls Current() and returns if the
 	// usernames match, so this test does not exercise very much. It would be
 	// good to try and test finding a different user than the current user.
@@ -77,14 +93,15 @@ func TestLookup(t *testing.T) {
 func TestLookupId(t *testing.T) {
 	checkUser(t)
 
-	if runtime.GOOS == "plan9" {
-		t.Skipf("LookupId not implemented on %q", runtime.GOOS)
-	}
-
 	want, err := Current()
 	if err != nil {
-		t.Fatalf("Current: %v", err)
+		if hasCgo || (hasUSER && hasHOME) {
+			t.Fatalf("Current: %v", err)
+		} else {
+			t.Skipf("skipping: %v", err)
+		}
 	}
+
 	got, err := LookupId(want.Uid)
 	if err != nil {
 		t.Fatalf("LookupId: %v", err)
@@ -100,10 +117,20 @@ func checkGroup(t *testing.T) {
 }
 
 func TestLookupGroup(t *testing.T) {
+	old := groupBuffer
+	defer func() {
+		groupBuffer = old
+	}()
+	groupBuffer = 1 // force use of retry code
 	checkGroup(t)
+
 	user, err := Current()
 	if err != nil {
-		t.Fatalf("Current(): %v", err)
+		if hasCgo || (hasUSER && hasHOME) {
+			t.Fatalf("Current: %v", err)
+		} else {
+			t.Skipf("skipping: %v", err)
+		}
 	}
 
 	g1, err := LookupGroupId(user.Gid)
@@ -127,15 +154,25 @@ func TestLookupGroup(t *testing.T) {
 	}
 }
 
-func TestGroupIds(t *testing.T) {
-	checkGroup(t)
-	if runtime.GOOS == "solaris" {
-		t.Skip("skipping GroupIds, see golang.org/issue/14709")
+func checkGroupList(t *testing.T) {
+	t.Helper()
+	if !groupListImplemented {
+		t.Skip("user: group list not implemented; skipping test")
 	}
+}
+
+func TestGroupIds(t *testing.T) {
+	checkGroupList(t)
+
 	user, err := Current()
 	if err != nil {
-		t.Fatalf("Current(): %v", err)
+		if hasCgo || (hasUSER && hasHOME) {
+			t.Fatalf("Current: %v", err)
+		} else {
+			t.Skipf("skipping: %v", err)
+		}
 	}
+
 	gids, err := user.GroupIds()
 	if err != nil {
 		t.Fatalf("%+v.GroupIds(): %v", user, err)

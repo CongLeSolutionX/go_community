@@ -12,9 +12,10 @@ import (
 )
 
 func TestReadLine(t *testing.T) {
-	// /etc/services file does not exist on android, plan9, windows.
+	// /etc/services file does not exist on android, plan9, windows, or wasip1
+	// where it would be required to be mounted from the host file system.
 	switch runtime.GOOS {
-	case "android", "plan9", "windows":
+	case "android", "plan9", "windows", "wasip1":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 	filename := "/etc/services" // a nice big file
@@ -48,33 +49,6 @@ func TestReadLine(t *testing.T) {
 		}
 		lineno++
 		byteno += len(line) + 1
-	}
-}
-
-func TestGoDebugString(t *testing.T) {
-	defer os.Setenv("GODEBUG", os.Getenv("GODEBUG"))
-	tests := []struct {
-		godebug string
-		key     string
-		want    string
-	}{
-		{"", "foo", ""},
-		{"foo=", "foo", ""},
-		{"foo=bar", "foo", "bar"},
-		{"foo=bar,", "foo", "bar"},
-		{"foo,foo=bar,", "foo", "bar"},
-		{"foo1=bar,foo=bar,", "foo", "bar"},
-		{"foo=bar,foo=bar,", "foo", "bar"},
-		{"foo=", "foo", ""},
-		{"foo", "foo", ""},
-		{",foo", "foo", ""},
-		{"foo=bar,baz", "loooooooong", ""},
-	}
-	for _, tt := range tests {
-		os.Setenv("GODEBUG", tt.godebug)
-		if got := goDebugString(tt.key); got != tt.want {
-			t.Errorf("for %q, goDebugString(%q) = %q; want %q", tt.godebug, tt.key, got, tt.want)
-		}
 	}
 }
 

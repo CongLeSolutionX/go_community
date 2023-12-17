@@ -1,6 +1,7 @@
 :: Copyright 2012 The Go Authors. All rights reserved.
 :: Use of this source code is governed by a BSD-style
 :: license that can be found in the LICENSE file.
+
 @echo off
 
 setlocal
@@ -9,7 +10,7 @@ set GOBUILDFAIL=0
 
 go tool dist env -w -p >env.bat
 if errorlevel 1 goto fail
-call env.bat
+call .\env.bat
 del env.bat
 echo.
 

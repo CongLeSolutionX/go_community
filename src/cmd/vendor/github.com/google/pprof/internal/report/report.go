@@ -79,6 +79,8 @@ type Options struct {
 	Symbol     *regexp.Regexp // Symbols to include on disassembly report.
 	SourcePath string         // Search path for source files.
 	TrimPath   string         // Paths to trim from source file paths.
+
+	IntelSyntax bool // Whether or not to print assembly in Intel syntax.
 }
 
 // Generate generates a report as directed by the Report.
@@ -102,7 +104,7 @@ func Generate(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 	case Tags:
 		return printTags(w, rpt)
 	case Proto:
-		return rpt.prof.Write(w)
+		return printProto(w, rpt)
 	case TopProto:
 		return printTopProto(w, rpt)
 	case Dis:
@@ -291,6 +293,23 @@ func (rpt *Report) newGraph(nodes graph.NodeSet) *graph.Graph {
 	return graph.New(rpt.prof, gopt)
 }
 
+// printProto writes the incoming proto via thw writer w.
+// If the divide_by option has been specified, samples are scaled appropriately.
+func printProto(w io.Writer, rpt *Report) error {
+	p, o := rpt.prof, rpt.options
+
+	// Apply the sample ratio to all samples before saving the profile.
+	if r := o.Ratio; r > 0 && r != 1 {
+		for _, sample := range p.Sample {
+			for i, v := range sample.Value {
+				sample.Value[i] = int64(float64(v) * r)
+			}
+		}
+	}
+	return p.Write(w)
+}
+
+// printTopProto writes a list of the hottest routines in a profile as a profile.proto.
 func printTopProto(w io.Writer, rpt *Report) error {
 	p := rpt.prof
 	o := rpt.options
@@ -413,6 +432,19 @@ func PrintAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool, maxFuncs int) e
 		}
 	}
 
+	if len(syms) == 0 {
+		// The symbol regexp case
+		if address == nil {
+			return fmt.Errorf("no matches found for regexp %s", o.Symbol)
+		}
+
+		// The address case
+		if len(symbols) == 0 {
+			return fmt.Errorf("no matches found for address 0x%x", *address)
+		}
+		return fmt.Errorf("address 0x%x found in binary, but the corresponding symbols do not have samples in the profile", *address)
+	}
+
 	// Correlate the symbols from the binary with the profile samples.
 	for _, s := range syms {
 		sns := symNodes[s]
@@ -421,12 +453,12 @@ func PrintAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool, maxFuncs int) e
 		flatSum, cumSum := sns.Sum()
 
 		// Get the function assembly.
-		insts, err := obj.Disasm(s.sym.File, s.sym.Start, s.sym.End)
+		insts, err := obj.Disasm(s.sym.File, s.sym.Start, s.sym.End, o.IntelSyntax)
 		if err != nil {
 			return err
 		}
 
-		ns := annotateAssembly(insts, sns, s.base)
+		ns := annotateAssembly(insts, sns, s.file)
 
 		fmt.Fprintf(w, "ROUTINE ======================== %s\n", s.sym.Name[0])
 		for _, name := range s.sym.Name[1:] {
@@ -482,28 +514,32 @@ func PrintAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool, maxFuncs int) e
 	return nil
 }
 
-// symbolsFromBinaries examines the binaries listed on the profile
-// that have associated samples, and identifies symbols matching rx.
+// symbolsFromBinaries examines the binaries listed on the profile that have
+// associated samples, and returns the identified symbols matching rx.
 func symbolsFromBinaries(prof *profile.Profile, g *graph.Graph, rx *regexp.Regexp, address *uint64, obj plugin.ObjTool) []*objSymbol {
-	hasSamples := make(map[string]bool)
-	// Only examine mappings that have samples that match the
-	// regexp. This is an optimization to speed up pprof.
+	// fileHasSamplesAndMatched is for optimization to speed up pprof: when later
+	// walking through the profile mappings, it will only examine the ones that have
+	// samples and are matched to the regexp.
+	fileHasSamplesAndMatched := make(map[string]bool)
 	for _, n := range g.Nodes {
 		if name := n.Info.PrintableName(); rx.MatchString(name) && n.Info.Objfile != "" {
-			hasSamples[n.Info.Objfile] = true
+			fileHasSamplesAndMatched[n.Info.Objfile] = true
 		}
 	}
 
 	// Walk all mappings looking for matching functions with samples.
 	var objSyms []*objSymbol
 	for _, m := range prof.Mapping {
-		if !hasSamples[m.File] {
+		// Skip the mapping if its file does not have samples or is not matched to
+		// the regexp (unless the regexp is an address and the mapping's range covers
+		// the address)
+		if !fileHasSamplesAndMatched[m.File] {
 			if address == nil || !(m.Start <= *address && *address <= m.Limit) {
 				continue
 			}
 		}
 
-		f, err := obj.Open(m.File, m.Start, m.Limit, m.Offset)
+		f, err := obj.Open(m.File, m.Start, m.Limit, m.Offset, m.KernelRelocationSymbol)
 		if err != nil {
 			fmt.Printf("%v\n", err)
 			continue
@@ -515,7 +551,6 @@ func symbolsFromBinaries(prof *profile.Profile, g *graph.Graph, rx *regexp.Regex
 			addr = *address
 		}
 		msyms, err := f.Symbols(rx, addr)
-		base := f.Base()
 		f.Close()
 		if err != nil {
 			continue
@@ -524,7 +559,6 @@ func symbolsFromBinaries(prof *profile.Profile, g *graph.Graph, rx *regexp.Regex
 			objSyms = append(objSyms,
 				&objSymbol{
 					sym:  ms,
-					base: base,
 					file: f,
 				},
 			)
@@ -539,7 +573,6 @@ func symbolsFromBinaries(prof *profile.Profile, g *graph.Graph, rx *regexp.Regex
 // added to correspond to sample addresses
 type objSymbol struct {
 	sym  *plugin.Sym
-	base uint64
 	file plugin.ObjFile
 }
 
@@ -559,8 +592,7 @@ func nodesPerSymbol(ns graph.Nodes, symbols []*objSymbol) map[*objSymbol]graph.N
 	for _, s := range symbols {
 		// Gather samples for this symbol.
 		for _, n := range ns {
-			address := n.Info.Address - s.base
-			if address >= s.sym.Start && address < s.sym.End {
+			if address, err := s.file.ObjAddr(n.Info.Address); err == nil && address >= s.sym.Start && address < s.sym.End {
 				symNodes[s] = append(symNodes[s], n)
 			}
 		}
@@ -602,7 +634,7 @@ func (a *assemblyInstruction) cumValue() int64 {
 // annotateAssembly annotates a set of assembly instructions with a
 // set of samples. It returns a set of nodes to display. base is an
 // offset to adjust the sample addresses.
-func annotateAssembly(insts []plugin.Inst, samples graph.Nodes, base uint64) []assemblyInstruction {
+func annotateAssembly(insts []plugin.Inst, samples graph.Nodes, file plugin.ObjFile) []assemblyInstruction {
 	// Add end marker to simplify printing loop.
 	insts = append(insts, plugin.Inst{
 		Addr: ^uint64(0),
@@ -626,7 +658,10 @@ func annotateAssembly(insts []plugin.Inst, samples graph.Nodes, base uint64) []a
 
 		// Sum all the samples until the next instruction (to account
 		// for samples attributed to the middle of an instruction).
-		for next := insts[ix+1].Addr; s < len(samples) && samples[s].Info.Address-base < next; s++ {
+		for next := insts[ix+1].Addr; s < len(samples); s++ {
+			if addr, err := file.ObjAddr(samples[s].Info.Address); err != nil || addr >= next {
+				break
+			}
 			sample := samples[s]
 			n.flatDiv += sample.FlatDiv
 			n.flat += sample.Flat
@@ -817,10 +852,19 @@ func printTraces(w io.Writer, rpt *Report) error {
 
 	_, locations := graph.CreateNodes(prof, &graph.Options{})
 	for _, sample := range prof.Sample {
-		var stack graph.Nodes
+		type stk struct {
+			*graph.NodeInfo
+			inline bool
+		}
+		var stack []stk
 		for _, loc := range sample.Location {
-			id := loc.ID
-			stack = append(stack, locations[id]...)
+			nodes := locations[loc.ID]
+			for i, n := range nodes {
+				// The inline flag may be inaccurate if 'show' or 'hide' filter is
+				// used. See https://github.com/google/pprof/issues/511.
+				inline := i != len(nodes)-1
+				stack = append(stack, stk{&n.Info, inline})
+			}
 		}
 
 		if len(stack) == 0 {
@@ -858,10 +902,15 @@ func printTraces(w io.Writer, rpt *Report) error {
 		if d != 0 {
 			v = v / d
 		}
-		fmt.Fprintf(w, "%10s   %s\n",
-			rpt.formatValue(v), stack[0].Info.PrintableName())
-		for _, s := range stack[1:] {
-			fmt.Fprintf(w, "%10s   %s\n", "", s.Info.PrintableName())
+		for i, s := range stack {
+			var vs, inline string
+			if i == 0 {
+				vs = rpt.formatValue(v)
+			}
+			if s.inline {
+				inline = " (inline)"
+			}
+			fmt.Fprintf(w, "%10s   %s%s\n", vs, s.PrintableName(), inline)
 		}
 	}
 	fmt.Fprintln(w, separator)
@@ -1022,6 +1071,7 @@ func printTree(w io.Writer, rpt *Report) error {
 	var flatSum int64
 
 	rx := rpt.options.Symbol
+	matched := 0
 	for _, n := range g.Nodes {
 		name, flat, cum := n.Info.PrintableName(), n.FlatValue(), n.CumValue()
 
@@ -1029,6 +1079,7 @@ func printTree(w io.Writer, rpt *Report) error {
 		if rx != nil && !rx.MatchString(name) {
 			continue
 		}
+		matched++
 
 		fmt.Fprintln(w, separator)
 		// Print incoming edges.
@@ -1065,6 +1116,9 @@ func printTree(w io.Writer, rpt *Report) error {
 	}
 	if len(g.Nodes) > 0 {
 		fmt.Fprintln(w, separator)
+	}
+	if rx != nil && matched == 0 {
+		return fmt.Errorf("no matches found for regexp: %s", rx)
 	}
 	return nil
 }
@@ -1170,6 +1224,13 @@ func reportLabels(rpt *Report, g *graph.Graph, origCount, droppedNodes, droppedE
 				nodeCount, origCount))
 		}
 	}
+
+	// Help new users understand the graph.
+	// A new line is intentionally added here to better show this message.
+	if fullHeaders {
+		label = append(label, "\nSee https://git.io/JfYMW for how to read the graph")
+	}
+
 	return label
 }
 

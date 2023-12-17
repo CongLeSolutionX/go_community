@@ -7,7 +7,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"internal/testenv"
 	"os"
 	"syscall"
 )
@@ -17,7 +17,7 @@ func gettid() int {
 }
 
 func tidExists(tid int) (exists, supported bool) {
-	stat, err := ioutil.ReadFile(fmt.Sprintf("/proc/self/task/%d/stat", tid))
+	stat, err := os.ReadFile(fmt.Sprintf("/proc/self/task/%d/stat", tid))
 	if os.IsNotExist(err) {
 		return false, true
 	}
@@ -45,11 +45,8 @@ func getcwd() (string, error) {
 
 func unshareFs() error {
 	err := syscall.Unshare(syscall.CLONE_FS)
-	if err != nil {
-		errno, ok := err.(syscall.Errno)
-		if ok && errno == syscall.EPERM {
-			return errNotPermitted
-		}
+	if testenv.SyscallIsNotSupported(err) {
+		return errNotPermitted
 	}
 	return err
 }

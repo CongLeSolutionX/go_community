@@ -7,6 +7,9 @@ package main
 import (
 	"bytes"
 	"flag"
+	"go/build"
+	"internal/testenv"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -20,6 +23,12 @@ func TestMain(m *testing.M) {
 	buildCtx.GOPATH = ""
 	testGOPATH = true // force GOPATH mode; module test is in cmd/go/testdata/script/mod_doc.txt
 
+	// Set GOROOT in case runtime.GOROOT is wrong (for example, if the test was
+	// built with -trimpath). dirsInit would identify it using 'go env GOROOT',
+	// but we can't be sure that the 'go' in $PATH is the right one either.
+	buildCtx.GOROOT = testenv.GOROOT(nil)
+	build.Default.GOROOT = testenv.GOROOT(nil)
+
 	// Add $GOROOT/src/cmd/doc/testdata explicitly so we can access its contents in the test.
 	// Normally testdata directories are ignored, but sending it to dirs.scan directly is
 	// a hack that works around the check.
@@ -27,17 +36,17 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-	dirsInit(Dir{"testdata", testdataDir}, Dir{"testdata/nested", filepath.Join(testdataDir, "nested")}, Dir{"testdata/nested/nested", filepath.Join(testdataDir, "nested", "nested")})
+	dirsInit(
+		Dir{importPath: "testdata", dir: testdataDir},
+		Dir{importPath: "testdata/nested", dir: filepath.Join(testdataDir, "nested")},
+		Dir{importPath: "testdata/nested/nested", dir: filepath.Join(testdataDir, "nested", "nested")})
 
 	os.Exit(m.Run())
 }
 
 func maybeSkip(t *testing.T) {
-	if strings.HasPrefix(runtime.GOOS, "nacl") {
-		t.Skip("nacl does not have a full file tree")
-	}
-	if runtime.GOOS == "darwin" && strings.HasPrefix(runtime.GOARCH, "arm") {
-		t.Skip("darwin/arm does not have a full file tree")
+	if runtime.GOOS == "ios" {
+		t.Skip("iOS does not have a full file tree")
 	}
 }
 
@@ -125,6 +134,9 @@ var tests = []test{
 			`func MultiLineFunc\(x interface{ ... }\) \(r struct{ ... }\)`, // Multi line function.
 			`var LongLine = newLongLine\(("someArgument[1-4]", ){4}...\)`,  // Long list of arguments.
 			`type T1 = T2`,                                                 // Type alias
+			`type SimpleConstraint interface{ ... }`,
+			`type TildeConstraint interface{ ... }`,
+			`type StructConstraint interface{ ... }`,
 		},
 		[]string{
 			`const internalConstant = 2`,       // No internal constants.
@@ -145,6 +157,7 @@ var tests = []test{
 			`Method`,                           // No methods.
 			`someArgument[5-8]`,                // No truncated arguments.
 			`type T1 T2`,                       // Type alias does not display as type declaration.
+			`ignore:directive`,                 // Directives should be dropped.
 		},
 	},
 	// Package dump -all
@@ -176,6 +189,7 @@ var tests = []test{
 			`Comment about block of variables`,
 			`VarFive = 5`,
 			`var ExportedVariable = 1`,
+			`var ExportedVarOfUnExported unexportedType`,
 			`var LongLine = newLongLine\(`,
 			`var MultiLineVar = map\[struct {`,
 			`FUNCTIONS`,
@@ -198,6 +212,10 @@ var tests = []test{
 			`Comment about exported method`,
 			`type T1 = T2`,
 			`type T2 int`,
+			`type SimpleConstraint interface {`,
+			`type TildeConstraint interface {`,
+			`type StructConstraint interface {`,
+			`BUG: function body note`,
 		},
 		[]string{
 			`constThree`,
@@ -208,6 +226,26 @@ var tests = []test{
 			`func internalFunc`,
 			`unexportedField`,
 			`func \(unexportedType\)`,
+			`ignore:directive`,
+		},
+	},
+	// Package with just the package declaration. Issue 31457.
+	{
+		"only package declaration",
+		[]string{"-all", p + "/nested/empty"},
+		[]string{`package empty .*import`},
+		nil,
+	},
+	// Package dump -short
+	{
+		"full package with -short",
+		[]string{`-short`, p},
+		[]string{
+			`const ExportedConstant = 1`,               // Simple constant.
+			`func ReturnUnexported\(\) unexportedType`, // Function with unexported return type.
+		},
+		[]string{
+			`MultiLine(String|Method|Field)`, // No data from multi line portions.
 		},
 	},
 	// Package dump -u
@@ -225,6 +263,7 @@ var tests = []test{
 			`Comment about block of constants`, // No comment for constant block.
 			`Comment about internal function`,  // No comment for internal function.
 			`MultiLine(String|Method|Field)`,   // No data from multi line portions.
+			`ignore:directive`,
 		},
 	},
 	// Package dump -u -all
@@ -277,7 +316,9 @@ var tests = []test{
 			`func \(unexportedType\) ExportedMethod\(\) bool`,
 			`func \(unexportedType\) unexportedMethod\(\) bool`,
 		},
-		nil,
+		[]string{
+			`ignore:directive`,
+		},
 	},
 
 	// Single constant.
@@ -496,6 +537,7 @@ var tests = []test{
 			`func ReturnExported\(\) ExportedType`,
 			`func \(ExportedType\) ExportedMethod\(a int\) bool`,
 			`Comment about exported method.`,
+			`func \(ExportedType\) Uncommented\(a int\) bool\n\n`, // Ensure line gap after method with no comment
 		},
 		[]string{
 			`unexportedType`,
@@ -558,7 +600,7 @@ var tests = []test{
 		[]string{
 			`Comment about exported interface`, // Include comment.
 			`type ExportedInterface interface`, // Interface definition.
-			`Comment before exported method.*\n.*ExportedMethod\(\)` +
+			`Comment before exported method.\n.*//\n.*//	// Code block showing how to use ExportedMethod\n.*//	func DoSomething\(\) error {\n.*//		ExportedMethod\(\)\n.*//		return nil\n.*//	}\n.*//.*\n.*ExportedMethod\(\)` +
 				`.*Comment on line with exported method`,
 			`io.Reader.*Comment on line with embedded Reader`,
 			`error.*Comment on line with embedded error`,
@@ -578,8 +620,7 @@ var tests = []test{
 		[]string{
 			`Comment about exported interface`, // Include comment.
 			`type ExportedInterface interface`, // Interface definition.
-			`Comment before exported method.*\n.*ExportedMethod\(\)` +
-				`.*Comment on line with exported method`,
+			`Comment before exported method.\n.*//\n.*//	// Code block showing how to use ExportedMethod\n.*//	func DoSomething\(\) error {\n.*//		ExportedMethod\(\)\n.*//		return nil\n.*//	}\n.*//.*\n.*ExportedMethod\(\)` + `.*Comment on line with exported method`,
 			`unexportedMethod\(\).*Comment on line with unexported method`,
 			`io.Reader.*Comment on line with embedded Reader`,
 			`error.*Comment on line with embedded error`,
@@ -594,11 +635,24 @@ var tests = []test{
 		"interface method",
 		[]string{p, `ExportedInterface.ExportedMethod`},
 		[]string{
-			`Comment before exported method.*\n.*ExportedMethod\(\)` +
+			`Comment before exported method.\n.*//\n.*//	// Code block showing how to use ExportedMethod\n.*//	func DoSomething\(\) error {\n.*//		ExportedMethod\(\)\n.*//		return nil\n.*//	}\n.*//.*\n.*ExportedMethod\(\)` +
 				`.*Comment on line with exported method`,
 		},
 		[]string{
 			`Comment about exported interface`,
+		},
+	},
+	// Interface method at package level.
+	{
+		"interface method at package level",
+		[]string{p, `ExportedMethod`},
+		[]string{
+			`func \(ExportedType\) ExportedMethod\(a int\) bool`,
+			`Comment about exported method`,
+		},
+		[]string{
+			`Comment before exported method.*\n.*ExportedMethod\(\)` +
+				`.*Comment on line with exported method`,
 		},
 	},
 
@@ -690,6 +744,40 @@ var tests = []test{
 		},
 	},
 
+	// Merging comments with -src.
+	{
+		"merge comments with -src A",
+		[]string{"-src", p + "/merge", `A`},
+		[]string{
+			`A doc`,
+			`func A`,
+			`A comment`,
+		},
+		[]string{
+			`Package A doc`,
+			`Package B doc`,
+			`B doc`,
+			`B comment`,
+			`B doc`,
+		},
+	},
+	{
+		"merge comments with -src B",
+		[]string{"-src", p + "/merge", `B`},
+		[]string{
+			`B doc`,
+			`func B`,
+			`B comment`,
+		},
+		[]string{
+			`Package A doc`,
+			`Package B doc`,
+			`A doc`,
+			`A comment`,
+			`A doc`,
+		},
+	},
+
 	// No dups with -u. Issue 21797.
 	{
 		"case matching on, no dups",
@@ -720,16 +808,85 @@ var tests = []test{
 		[]string{"Foo struct"},
 		nil,
 	},
+	{
+		"formatted doc on function",
+		[]string{p, "ExportedFormattedDoc"},
+		[]string{
+			`func ExportedFormattedDoc\(a int\) bool`,
+			`    Comment about exported function with formatting\.
+
+    Example
+
+        fmt\.Println\(FormattedDoc\(\)\)
+
+    Text after pre-formatted block\.`,
+		},
+		nil,
+	},
+	{
+		"formatted doc on type field",
+		[]string{p, "ExportedFormattedType.ExportedField"},
+		[]string{
+			`type ExportedFormattedType struct`,
+			`    // Comment before exported field with formatting\.
+    //[ ]
+    // Example
+    //[ ]
+    //     a\.ExportedField = 123
+    //[ ]
+    // Text after pre-formatted block\.`,
+			`ExportedField int`,
+		},
+		[]string{"ignore:directive"},
+	},
+	{
+		"formatted doc on entire type",
+		[]string{p, "ExportedFormattedType"},
+		[]string{
+			`type ExportedFormattedType struct`,
+			`	// Comment before exported field with formatting\.
+	//
+	// Example
+	//
+	//	a\.ExportedField = 123
+	//
+	// Text after pre-formatted block\.`,
+			`ExportedField int`,
+		},
+		[]string{"ignore:directive"},
+	},
+	{
+		"formatted doc on entire type with -all",
+		[]string{"-all", p, "ExportedFormattedType"},
+		[]string{
+			`type ExportedFormattedType struct`,
+			`	// Comment before exported field with formatting\.
+	//
+	// Example
+	//
+	//	a\.ExportedField = 123
+	//
+	// Text after pre-formatted block\.`,
+			`ExportedField int`,
+		},
+		[]string{"ignore:directive"},
+	},
 }
 
 func TestDoc(t *testing.T) {
 	maybeSkip(t)
+	defer log.SetOutput(log.Writer())
 	for _, test := range tests {
 		var b bytes.Buffer
 		var flagSet flag.FlagSet
+		var logbuf bytes.Buffer
+		log.SetOutput(&logbuf)
 		err := do(&b, &flagSet, test.args)
 		if err != nil {
 			t.Fatalf("%s %v: %s\n", test.name, test.args, err)
+		}
+		if logbuf.Len() > 0 {
+			t.Errorf("%s %v: unexpected log messages:\n%s", test.name, test.args, logbuf.Bytes())
 		}
 		output := b.Bytes()
 		failed := false
@@ -763,7 +920,9 @@ func TestDoc(t *testing.T) {
 }
 
 // Test the code to try multiple packages. Our test case is
+//
 //	go doc rand.Float64
+//
 // This needs to find math/rand.Float64; however crypto/rand, which doesn't
 // have the symbol, usually appears first in the directory listing.
 func TestMultiplePackages(t *testing.T) {
@@ -820,11 +979,15 @@ func TestMultiplePackages(t *testing.T) {
 }
 
 // Test the code to look up packages when given two args. First test case is
+//
 //	go doc binary BigEndian
+//
 // This needs to find encoding/binary.BigEndian, which means
 // finding the package encoding/binary given only "binary".
 // Second case is
+//
 //	go doc rand Float64
+//
 // which again needs to find math/rand and not give up after crypto/rand,
 // which has no such function.
 func TestTwoArgLookup(t *testing.T) {
@@ -875,7 +1038,10 @@ func TestDotSlashLookup(t *testing.T) {
 		t.Skip("scanning file system takes too long")
 	}
 	maybeSkip(t)
-	where := pwd()
+	where, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
 	defer func() {
 		if err := os.Chdir(where); err != nil {
 			t.Fatal(err)
@@ -884,9 +1050,9 @@ func TestDotSlashLookup(t *testing.T) {
 	if err := os.Chdir(filepath.Join(buildCtx.GOROOT, "src", "text")); err != nil {
 		t.Fatal(err)
 	}
-	var b bytes.Buffer
+	var b strings.Builder
 	var flagSet flag.FlagSet
-	err := do(&b, &flagSet, []string{"./template"})
+	err = do(&b, &flagSet, []string{"./template"})
 	if err != nil {
 		t.Errorf("unexpected error %q from ./template", err)
 	}
@@ -895,6 +1061,25 @@ func TestDotSlashLookup(t *testing.T) {
 	output := b.String()
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("wrong package: %.*q...", len(want), output)
+	}
+}
+
+// Test that we don't print spurious package clauses
+// when there should be no output at all. Issue 37969.
+func TestNoPackageClauseWhenNoMatch(t *testing.T) {
+	maybeSkip(t)
+	var b strings.Builder
+	var flagSet flag.FlagSet
+	err := do(&b, &flagSet, []string{"template.ZZZ"})
+	// Expect an error.
+	if err == nil {
+		t.Error("expect an error for template.zzz")
+	}
+	// And the output should not contain any package clauses.
+	const dontWant = `package template // import `
+	output := b.String()
+	if strings.Contains(output, dontWant) {
+		t.Fatalf("improper package clause printed:\n%s", output)
 	}
 }
 

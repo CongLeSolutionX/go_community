@@ -6,6 +6,7 @@ package bufio_test
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"os"
 	"strconv"
@@ -20,6 +21,18 @@ func ExampleWriter() {
 	// Output: Hello, world!
 }
 
+func ExampleWriter_AvailableBuffer() {
+	w := bufio.NewWriter(os.Stdout)
+	for _, i := range []int64{1, 2, 3, 4} {
+		b := w.AvailableBuffer()
+		b = strconv.AppendInt(b, i, 10)
+		b = append(b, ' ')
+		w.Write(b)
+	}
+	w.Flush()
+	// Output: 1 2 3 4
+}
+
 // The simplest use of a Scanner, to read standard input as a set of lines.
 func ExampleScanner_lines() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -29,6 +42,19 @@ func ExampleScanner_lines() {
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
 	}
+}
+
+// Return the most recent call to Scan as a []byte.
+func ExampleScanner_Bytes() {
+	scanner := bufio.NewScanner(strings.NewReader("gopher"))
+	for scanner.Scan() {
+		fmt.Println(len(scanner.Bytes()) == 6)
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "shouldn't see an error scanning a string")
+	}
+	// Output:
+	// true
 }
 
 // Use a Scanner to implement a simple word-count utility by scanning the
@@ -94,6 +120,9 @@ func ExampleScanner_emptyFinalToken() {
 				return i + 1, data[:i], nil
 			}
 		}
+		if !atEOF {
+			return 0, nil, nil
+		}
 		// There is one final token to be delivered, which may be the empty string.
 		// Returning bufio.ErrFinalToken here tells Scan there are no more tokens after this
 		// but does not trigger an error to be returned from Scan itself.
@@ -108,4 +137,37 @@ func ExampleScanner_emptyFinalToken() {
 		fmt.Fprintln(os.Stderr, "reading input:", err)
 	}
 	// Output: "1" "2" "3" "4" ""
+}
+
+// Use a Scanner with a custom split function to parse a comma-separated
+// list with an empty final value but stops at the token "STOP".
+func ExampleScanner_earlyStop() {
+	onComma := func(data []byte, atEOF bool) (advance int, token []byte, err error) {
+		i := bytes.IndexByte(data, ',')
+		if i == -1 {
+			if !atEOF {
+				return 0, nil, nil
+			}
+			// If we have reached the end, return the last token.
+			return 0, data, bufio.ErrFinalToken
+		}
+		// If the token is "STOP", stop the scanning and ignore the rest.
+		if string(data[:i]) == "STOP" {
+			return i + 1, nil, bufio.ErrFinalToken
+		}
+		// Otherwise, return the token before the comma.
+		return i + 1, data[:i], nil
+	}
+	const input = "1,2,STOP,4,"
+	scanner := bufio.NewScanner(strings.NewReader(input))
+	scanner.Split(onComma)
+	for scanner.Scan() {
+		fmt.Printf("Got a token %q\n", scanner.Text())
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "reading input:", err)
+	}
+	// Output:
+	// Got a token "1"
+	// Got a token "2"
 }

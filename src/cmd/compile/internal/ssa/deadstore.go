@@ -5,8 +5,8 @@
 package ssa
 
 import (
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
-	"cmd/internal/src"
 )
 
 // dse does dead-store elimination on the Function.
@@ -38,7 +38,7 @@ func dse(f *Func) {
 				for _, a := range v.Args {
 					if a.Block == b && a.Type.IsMemory() {
 						storeUse.add(a.ID)
-						if v.Op != OpStore && v.Op != OpZero && v.Op != OpVarDef && v.Op != OpVarKill {
+						if v.Op != OpStore && v.Op != OpZero && v.Op != OpVarDef {
 							// CALL, DUFFCOPY, etc. are both
 							// reads and writes.
 							loadUse.add(a.ID)
@@ -73,9 +73,11 @@ func dse(f *Func) {
 		}
 
 		// Walk backwards looking for dead stores. Keep track of shadowed addresses.
-		// An "address" is an SSA Value which encodes both the address and size of
-		// the write. This code will not remove dead stores to the same address
-		// of different types.
+		// A "shadowed address" is a pointer, offset, and size describing a memory region that
+		// is known to be written. We keep track of shadowed addresses in the shadowed map,
+		// mapping the ID of the address to a shadowRange where future writes will happen.
+		// Since we're walking backwards, writes to a shadowed region are useless,
+		// as they will be immediately overwritten.
 		shadowed.clear()
 		v := last
 
@@ -86,34 +88,35 @@ func dse(f *Func) {
 			shadowed.clear()
 		}
 		if v.Op == OpStore || v.Op == OpZero {
+			ptr := v.Args[0]
+			var off int64
+			for ptr.Op == OpOffPtr { // Walk to base pointer
+				off += ptr.AuxInt
+				ptr = ptr.Args[0]
+			}
 			var sz int64
 			if v.Op == OpStore {
 				sz = v.Aux.(*types.Type).Size()
 			} else { // OpZero
 				sz = v.AuxInt
 			}
-			if shadowedSize := int64(shadowed.get(v.Args[0].ID)); shadowedSize != -1 && shadowedSize >= sz {
-				// Modify store into a copy
+			sr := shadowRange(shadowed.get(ptr.ID))
+			if sr.contains(off, off+sz) {
+				// Modify the store/zero into a copy of the memory state,
+				// effectively eliding the store operation.
 				if v.Op == OpStore {
 					// store addr value mem
 					v.SetArgs1(v.Args[2])
 				} else {
 					// zero addr mem
-					typesz := v.Args[0].Type.Elem().Size()
-					if sz != typesz {
-						f.Fatalf("mismatched zero/store sizes: %d and %d [%s]",
-							sz, typesz, v.LongString())
-					}
 					v.SetArgs1(v.Args[1])
 				}
 				v.Aux = nil
 				v.AuxInt = 0
 				v.Op = OpCopy
 			} else {
-				if sz > 0x7fffffff { // work around sparseMap's int32 value type
-					sz = 0x7fffffff
-				}
-				shadowed.set(v.Args[0].ID, int32(sz), src.NoXPos)
+				// Extend shadowed region.
+				shadowed.set(ptr.ID, int32(sr.merge(off, off+sz)))
 			}
 		}
 		// walk to previous store
@@ -133,14 +136,57 @@ func dse(f *Func) {
 	}
 }
 
+// A shadowRange encodes a set of byte offsets [lo():hi()] from
+// a given pointer that will be written to later in the block.
+// A zero shadowRange encodes an empty shadowed range (and so
+// does a -1 shadowRange, which is what sparsemap.get returns
+// on a failed lookup).
+type shadowRange int32
+
+func (sr shadowRange) lo() int64 {
+	return int64(sr & 0xffff)
+}
+func (sr shadowRange) hi() int64 {
+	return int64((sr >> 16) & 0xffff)
+}
+
+// contains reports whether [lo:hi] is completely within sr.
+func (sr shadowRange) contains(lo, hi int64) bool {
+	return lo >= sr.lo() && hi <= sr.hi()
+}
+
+// merge returns the union of sr and [lo:hi].
+// merge is allowed to return something smaller than the union.
+func (sr shadowRange) merge(lo, hi int64) shadowRange {
+	if lo < 0 || hi > 0xffff {
+		// Ignore offsets that are too large or small.
+		return sr
+	}
+	if sr.lo() == sr.hi() {
+		// Old range is empty - use new one.
+		return shadowRange(lo + hi<<16)
+	}
+	if hi < sr.lo() || lo > sr.hi() {
+		// The two regions don't overlap or abut, so we would
+		// have to keep track of multiple disjoint ranges.
+		// Because we can only keep one, keep the larger one.
+		if sr.hi()-sr.lo() >= hi-lo {
+			return sr
+		}
+		return shadowRange(lo + hi<<16)
+	}
+	// Regions overlap or abut - compute the union.
+	return shadowRange(min(lo, sr.lo()) + max(hi, sr.hi())<<16)
+}
+
 // elimDeadAutosGeneric deletes autos that are never accessed. To achieve this
 // we track the operations that the address of each auto reaches and if it only
 // reaches stores then we delete all the stores. The other operations will then
 // be eliminated by the dead code elimination pass.
 func elimDeadAutosGeneric(f *Func) {
-	addr := make(map[*Value]GCNode) // values that the address of the auto reaches
-	elim := make(map[*Value]GCNode) // values that could be eliminated if the auto is
-	used := make(map[GCNode]bool)   // used autos that must be kept
+	addr := make(map[*Value]*ir.Name) // values that the address of the auto reaches
+	elim := make(map[*Value]*ir.Name) // values that could be eliminated if the auto is
+	var used ir.NameSet               // used autos that must be kept
 
 	// visit the value and report whether any of the maps are updated
 	visit := func(v *Value) (changed bool) {
@@ -148,8 +194,8 @@ func elimDeadAutosGeneric(f *Func) {
 		switch v.Op {
 		case OpAddr, OpLocalAddr:
 			// Propagate the address if it points to an auto.
-			n, ok := v.Aux.(GCNode)
-			if !ok || n.StorageClass() != ClassAuto {
+			n, ok := v.Aux.(*ir.Name)
+			if !ok || n.Class != ir.PAUTO {
 				return
 			}
 			if addr[v] == nil {
@@ -157,10 +203,10 @@ func elimDeadAutosGeneric(f *Func) {
 				changed = true
 			}
 			return
-		case OpVarDef, OpVarKill:
+		case OpVarDef:
 			// v should be eliminated if we eliminate the auto.
-			n, ok := v.Aux.(GCNode)
-			if !ok || n.StorageClass() != ClassAuto {
+			n, ok := v.Aux.(*ir.Name)
+			if !ok || n.Class != ir.PAUTO {
 				return
 			}
 			if elim[v] == nil {
@@ -170,17 +216,22 @@ func elimDeadAutosGeneric(f *Func) {
 			return
 		case OpVarLive:
 			// Don't delete the auto if it needs to be kept alive.
-			n, ok := v.Aux.(GCNode)
-			if !ok || n.StorageClass() != ClassAuto {
+
+			// We depend on this check to keep the autotmp stack slots
+			// for open-coded defers from being removed (since they
+			// may not be used by the inline code, but will be used by
+			// panic processing).
+			n, ok := v.Aux.(*ir.Name)
+			if !ok || n.Class != ir.PAUTO {
 				return
 			}
-			if !used[n] {
-				used[n] = true
+			if !used.Has(n) {
+				used.Add(n)
 				changed = true
 			}
 			return
 		case OpStore, OpMove, OpZero:
-			// v should be elimated if we eliminate the auto.
+			// v should be eliminated if we eliminate the auto.
 			n, ok := addr[args[0]]
 			if ok && elim[v] == nil {
 				elim[v] = n
@@ -197,8 +248,9 @@ func elimDeadAutosGeneric(f *Func) {
 			panic("unhandled op with sym effect")
 		}
 
-		if v.Uses == 0 && v.Op != OpNilCheck || len(args) == 0 {
-			// Nil check has no use, but we need to keep it.
+		if v.Uses == 0 && v.Op != OpNilCheck && !v.Op.IsCall() && !v.Op.HasSideEffects() || len(args) == 0 {
+			// We need to keep nil checks even if they have no use.
+			// Also keep calls and values that have side effects.
 			return
 		}
 
@@ -208,8 +260,8 @@ func elimDeadAutosGeneric(f *Func) {
 		if v.Type.IsMemory() || v.Type.IsFlags() || v.Op == OpPhi || v.MemoryArg() != nil {
 			for _, a := range args {
 				if n, ok := addr[a]; ok {
-					if !used[n] {
-						used[n] = true
+					if !used.Has(n) {
+						used.Add(n)
 						changed = true
 					}
 				}
@@ -218,9 +270,9 @@ func elimDeadAutosGeneric(f *Func) {
 		}
 
 		// Propagate any auto addresses through v.
-		node := GCNode(nil)
+		var node *ir.Name
 		for _, a := range args {
-			if n, ok := addr[a]; ok && !used[n] {
+			if n, ok := addr[a]; ok && !used.Has(n) {
 				if node == nil {
 					node = n
 				} else if node != n {
@@ -229,7 +281,7 @@ func elimDeadAutosGeneric(f *Func) {
 					// multiple pointers (e.g. NeqPtr, Phi etc.).
 					// This is rare, so just propagate the first
 					// value to keep things simple.
-					used[n] = true
+					used.Add(n)
 					changed = true
 				}
 			}
@@ -245,7 +297,7 @@ func elimDeadAutosGeneric(f *Func) {
 		}
 		if addr[v] != node {
 			// This doesn't happen in practice, but catch it just in case.
-			used[node] = true
+			used.Add(node)
 			changed = true
 		}
 		return
@@ -264,12 +316,11 @@ func elimDeadAutosGeneric(f *Func) {
 				changed = visit(v) || changed
 			}
 			// keep the auto if its address reaches a control value
-			if b.Control == nil {
-				continue
-			}
-			if n, ok := addr[b.Control]; ok && !used[n] {
-				used[n] = true
-				changed = true
+			for _, c := range b.ControlValues() {
+				if n, ok := addr[c]; ok && !used.Has(n) {
+					used.Add(n)
+					changed = true
+				}
 			}
 		}
 		if !changed {
@@ -279,7 +330,7 @@ func elimDeadAutosGeneric(f *Func) {
 
 	// Eliminate stores to unread autos.
 	for v, n := range elim {
-		if used[n] {
+		if used.Has(n) {
 			continue
 		}
 		// replace with OpCopy
@@ -296,15 +347,15 @@ func elimUnreadAutos(f *Func) {
 	// Loop over all ops that affect autos taking note of which
 	// autos we need and also stores that we might be able to
 	// eliminate.
-	seen := make(map[GCNode]bool)
+	var seen ir.NameSet
 	var stores []*Value
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
-			n, ok := v.Aux.(GCNode)
+			n, ok := v.Aux.(*ir.Name)
 			if !ok {
 				continue
 			}
-			if n.StorageClass() != ClassAuto {
+			if n.Class != ir.PAUTO {
 				continue
 			}
 
@@ -314,7 +365,7 @@ func elimUnreadAutos(f *Func) {
 				// If we haven't seen the auto yet
 				// then this might be a store we can
 				// eliminate.
-				if !seen[n] {
+				if !seen.Has(n) {
 					stores = append(stores, v)
 				}
 			default:
@@ -324,7 +375,7 @@ func elimUnreadAutos(f *Func) {
 				// because dead loads haven't been
 				// eliminated yet.
 				if v.Uses > 0 {
-					seen[n] = true
+					seen.Add(n)
 				}
 			}
 		}
@@ -332,8 +383,8 @@ func elimUnreadAutos(f *Func) {
 
 	// Eliminate stores to unread autos.
 	for _, store := range stores {
-		n, _ := store.Aux.(GCNode)
-		if seen[n] {
+		n, _ := store.Aux.(*ir.Name)
+		if seen.Has(n) {
 			continue
 		}
 

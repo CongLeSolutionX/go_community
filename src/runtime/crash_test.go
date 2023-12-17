@@ -6,16 +6,15 @@ package runtime_test
 
 import (
 	"bytes"
+	"errors"
 	"flag"
 	"fmt"
 	"internal/testenv"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
 	"runtime"
-	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -25,22 +24,34 @@ import (
 var toRemove []string
 
 func TestMain(m *testing.M) {
+	_, coreErrBefore := os.Stat("core")
+
 	status := m.Run()
 	for _, file := range toRemove {
 		os.RemoveAll(file)
 	}
+
+	_, coreErrAfter := os.Stat("core")
+	if coreErrBefore != nil && coreErrAfter == nil {
+		fmt.Fprintln(os.Stderr, "runtime.test: some test left a core file behind")
+		if status == 0 {
+			status = 1
+		}
+	}
+
 	os.Exit(status)
 }
 
 var testprog struct {
 	sync.Mutex
 	dir    string
-	target map[string]buildexe
+	target map[string]*buildexe
 }
 
 type buildexe struct {
-	exe string
-	err error
+	once sync.Once
+	exe  string
+	err  error
 }
 
 func runTestProg(t *testing.T, binary, name string, env ...string) string {
@@ -49,67 +60,56 @@ func runTestProg(t *testing.T, binary, name string, env ...string) string {
 	}
 
 	testenv.MustHaveGoBuild(t)
+	t.Helper()
 
 	exe, err := buildTestProg(t, binary)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	cmd := testenv.CleanCmdEnv(exec.Command(exe, name))
+	return runBuiltTestProg(t, exe, name, env...)
+}
+
+func runBuiltTestProg(t *testing.T, exe, name string, env ...string) string {
+	t.Helper()
+
+	if *flagQuick {
+		t.Skip("-quick")
+	}
+
+	start := time.Now()
+
+	cmd := testenv.CleanCmdEnv(testenv.Command(t, exe, name))
 	cmd.Env = append(cmd.Env, env...)
 	if testing.Short() {
 		cmd.Env = append(cmd.Env, "RUNTIME_TEST_SHORT=1")
 	}
-	var b bytes.Buffer
-	cmd.Stdout = &b
-	cmd.Stderr = &b
-	if err := cmd.Start(); err != nil {
-		t.Fatalf("starting %s %s: %v", binary, name, err)
+	out, err := cmd.CombinedOutput()
+	if err == nil {
+		t.Logf("%v (%v): ok", cmd, time.Since(start))
+	} else {
+		if _, ok := err.(*exec.ExitError); ok {
+			t.Logf("%v: %v", cmd, err)
+		} else if errors.Is(err, exec.ErrWaitDelay) {
+			t.Fatalf("%v: %v", cmd, err)
+		} else {
+			t.Fatalf("%v failed to start: %v", cmd, err)
+		}
 	}
-
-	// If the process doesn't complete within 1 minute,
-	// assume it is hanging and kill it to get a stack trace.
-	p := cmd.Process
-	done := make(chan bool)
-	go func() {
-		scale := 1
-		// This GOARCH/GOOS test is copied from cmd/dist/test.go.
-		// TODO(iant): Have cmd/dist update the environment variable.
-		if runtime.GOARCH == "arm" || runtime.GOOS == "windows" {
-			scale = 2
-		}
-		if s := os.Getenv("GO_TEST_TIMEOUT_SCALE"); s != "" {
-			if sc, err := strconv.Atoi(s); err == nil {
-				scale = sc
-			}
-		}
-
-		select {
-		case <-done:
-		case <-time.After(time.Duration(scale) * time.Minute):
-			p.Signal(sigquit)
-		}
-	}()
-
-	if err := cmd.Wait(); err != nil {
-		t.Logf("%s %s exit status: %v", binary, name, err)
-	}
-	close(done)
-
-	return b.String()
+	return string(out)
 }
+
+var serializeBuild = make(chan bool, 2)
 
 func buildTestProg(t *testing.T, binary string, flags ...string) (string, error) {
 	if *flagQuick {
 		t.Skip("-quick")
 	}
-
-	checkStaleRuntime(t)
+	testenv.MustHaveGoBuild(t)
 
 	testprog.Lock()
-	defer testprog.Unlock()
 	if testprog.dir == "" {
-		dir, err := ioutil.TempDir("", "go-build")
+		dir, err := os.MkdirTemp("", "go-build")
 		if err != nil {
 			t.Fatalf("failed to create temp directory: %v", err)
 		}
@@ -118,56 +118,58 @@ func buildTestProg(t *testing.T, binary string, flags ...string) (string, error)
 	}
 
 	if testprog.target == nil {
-		testprog.target = make(map[string]buildexe)
+		testprog.target = make(map[string]*buildexe)
 	}
 	name := binary
 	if len(flags) > 0 {
 		name += "_" + strings.Join(flags, "_")
 	}
 	target, ok := testprog.target[name]
-	if ok {
-		return target.exe, target.err
-	}
-
-	exe := filepath.Join(testprog.dir, name+".exe")
-	cmd := exec.Command(testenv.GoToolPath(t), append([]string{"build", "-o", exe}, flags...)...)
-	cmd.Dir = "testdata/" + binary
-	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
-	if err != nil {
-		target.err = fmt.Errorf("building %s %v: %v\n%s", binary, flags, err, out)
+	if !ok {
+		target = &buildexe{}
 		testprog.target[name] = target
-		return "", target.err
 	}
-	target.exe = exe
-	testprog.target[name] = target
-	return exe, nil
-}
 
-var (
-	staleRuntimeOnce sync.Once // guards init of staleRuntimeErr
-	staleRuntimeErr  error
-)
+	dir := testprog.dir
 
-func checkStaleRuntime(t *testing.T) {
-	staleRuntimeOnce.Do(func() {
-		// 'go run' uses the installed copy of runtime.a, which may be out of date.
-		out, err := testenv.CleanCmdEnv(exec.Command(testenv.GoToolPath(t), "list", "-gcflags=all="+os.Getenv("GO_GCFLAGS"), "-f", "{{.Stale}}", "runtime")).CombinedOutput()
+	// Unlock testprog while actually building, so that other
+	// tests can look up executables that were already built.
+	testprog.Unlock()
+
+	target.once.Do(func() {
+		// Only do two "go build"'s at a time,
+		// to keep load from getting too high.
+		serializeBuild <- true
+		defer func() { <-serializeBuild }()
+
+		// Don't get confused if testenv.GoToolPath calls t.Skip.
+		target.err = errors.New("building test called t.Skip")
+
+		exe := filepath.Join(dir, name+".exe")
+
+		start := time.Now()
+		cmd := exec.Command(testenv.GoToolPath(t), append([]string{"build", "-o", exe}, flags...)...)
+		t.Logf("running %v", cmd)
+		cmd.Dir = "testdata/" + binary
+		out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
 		if err != nil {
-			staleRuntimeErr = fmt.Errorf("failed to execute 'go list': %v\n%v", err, string(out))
-			return
-		}
-		if string(out) != "false\n" {
-			t.Logf("go list -f {{.Stale}} runtime:\n%s", out)
-			out, err := testenv.CleanCmdEnv(exec.Command(testenv.GoToolPath(t), "list", "-gcflags=all="+os.Getenv("GO_GCFLAGS"), "-f", "{{.StaleReason}}", "runtime")).CombinedOutput()
-			if err != nil {
-				t.Logf("go list -f {{.StaleReason}} failed: %v", err)
-			}
-			t.Logf("go list -f {{.StaleReason}} runtime:\n%s", out)
-			staleRuntimeErr = fmt.Errorf("Stale runtime.a. Run 'go install runtime'.")
+			target.err = fmt.Errorf("building %s %v: %v\n%s", binary, flags, err, out)
+		} else {
+			t.Logf("built %v in %v", name, time.Since(start))
+			target.exe = exe
+			target.err = nil
 		}
 	})
-	if staleRuntimeErr != nil {
-		t.Fatal(staleRuntimeErr)
+
+	return target.exe, target.err
+}
+
+func TestVDSO(t *testing.T) {
+	t.Parallel()
+	output := runTestProg(t, "testprog", "SignalInVDSO")
+	want := "success\n"
+	if output != want {
+		t.Fatalf("output:\n%s\n\nwanted:\n%s", output, want)
 	}
 }
 
@@ -192,6 +194,9 @@ func TestCrashHandler(t *testing.T) {
 }
 
 func testDeadlock(t *testing.T, name string) {
+	// External linking brings in cgo, causing deadlock detection not working.
+	testenv.MustInternalLink(t, false)
+
 	output := runTestProg(t, "testprog", name)
 	want := "fatal error: all goroutines are asleep - deadlock!\n"
 	if !strings.HasPrefix(output, want) {
@@ -216,6 +221,9 @@ func TestLockedDeadlock2(t *testing.T) {
 }
 
 func TestGoexitDeadlock(t *testing.T) {
+	// External linking brings in cgo, causing deadlock detection not working.
+	testenv.MustInternalLink(t, false)
+
 	output := runTestProg(t, "testprog", "GoexitDeadlock")
 	want := "no goroutines (main called runtime.Goexit) - deadlock!"
 	if !strings.Contains(output, want) {
@@ -225,9 +233,23 @@ func TestGoexitDeadlock(t *testing.T) {
 
 func TestStackOverflow(t *testing.T) {
 	output := runTestProg(t, "testprog", "StackOverflow")
-	want := "runtime: goroutine stack exceeds 1474560-byte limit\nfatal error: stack overflow"
-	if !strings.HasPrefix(output, want) {
-		t.Fatalf("output does not start with %q:\n%s", want, output)
+	want := []string{
+		"runtime: goroutine stack exceeds 1474560-byte limit\n",
+		"fatal error: stack overflow",
+		// information about the current SP and stack bounds
+		"runtime: sp=",
+		"stack=[",
+	}
+	if !strings.HasPrefix(output, want[0]) {
+		t.Errorf("output does not start with %q", want[0])
+	}
+	for _, s := range want[1:] {
+		if !strings.Contains(output, s) {
+			t.Errorf("output does not contain %q", s)
+		}
+	}
+	if t.Failed() {
+		t.Logf("output:\n%s", output)
 	}
 }
 
@@ -251,7 +273,57 @@ panic: again
 
 }
 
+func TestRecursivePanic2(t *testing.T) {
+	output := runTestProg(t, "testprog", "RecursivePanic2")
+	want := `first panic
+second panic
+panic: third panic
+
+`
+	if !strings.HasPrefix(output, want) {
+		t.Fatalf("output does not start with %q:\n%s", want, output)
+	}
+
+}
+
+func TestRecursivePanic3(t *testing.T) {
+	output := runTestProg(t, "testprog", "RecursivePanic3")
+	want := `panic: first panic
+
+`
+	if !strings.HasPrefix(output, want) {
+		t.Fatalf("output does not start with %q:\n%s", want, output)
+	}
+
+}
+
+func TestRecursivePanic4(t *testing.T) {
+	output := runTestProg(t, "testprog", "RecursivePanic4")
+	want := `panic: first panic [recovered]
+	panic: second panic
+`
+	if !strings.HasPrefix(output, want) {
+		t.Fatalf("output does not start with %q:\n%s", want, output)
+	}
+
+}
+
+func TestRecursivePanic5(t *testing.T) {
+	output := runTestProg(t, "testprog", "RecursivePanic5")
+	want := `first panic
+second panic
+panic: third panic
+`
+	if !strings.HasPrefix(output, want) {
+		t.Fatalf("output does not start with %q:\n%s", want, output)
+	}
+
+}
+
 func TestGoexitCrash(t *testing.T) {
+	// External linking brings in cgo, causing deadlock detection not working.
+	testenv.MustInternalLink(t, false)
+
 	output := runTestProg(t, "testprog", "GoexitExit")
 	want := "no goroutines (main called runtime.Goexit) - deadlock!"
 	if !strings.Contains(output, want) {
@@ -310,6 +382,9 @@ func TestBreakpoint(t *testing.T) {
 }
 
 func TestGoexitInPanic(t *testing.T) {
+	// External linking brings in cgo, causing deadlock detection not working.
+	testenv.MustInternalLink(t, false)
+
 	// see issue 8774: this code used to trigger an infinite recursion
 	output := runTestProg(t, "testprog", "GoexitInPanic")
 	want := "fatal error: no goroutines (main called runtime.Goexit) - deadlock!"
@@ -356,7 +431,7 @@ func TestRuntimePanicWithRuntimeError(t *testing.T) {
 	}
 }
 
-func panicValue(fn func()) (recovered interface{}) {
+func panicValue(fn func()) (recovered any) {
 	defer func() {
 		recovered = recover()
 	}()
@@ -374,6 +449,9 @@ func TestPanicAfterGoexit(t *testing.T) {
 }
 
 func TestRecoveredPanicAfterGoexit(t *testing.T) {
+	// External linking brings in cgo, causing deadlock detection not working.
+	testenv.MustInternalLink(t, false)
+
 	output := runTestProg(t, "testprog", "RecoveredPanicAfterGoexit")
 	want := "fatal error: no goroutines (main called runtime.Goexit) - deadlock!"
 	if !strings.HasPrefix(output, want) {
@@ -382,23 +460,27 @@ func TestRecoveredPanicAfterGoexit(t *testing.T) {
 }
 
 func TestRecoverBeforePanicAfterGoexit(t *testing.T) {
-	// 1. defer a function that recovers
-	// 2. defer a function that panics
-	// 3. call goexit
-	// Goexit should run the #2 defer. Its panic
-	// should be caught by the #1 defer, and execution
-	// should resume in the caller. Like the Goexit
-	// never happened!
-	defer func() {
-		r := recover()
-		if r == nil {
-			panic("bad recover")
-		}
-	}()
-	defer func() {
-		panic("hello")
-	}()
-	runtime.Goexit()
+	// External linking brings in cgo, causing deadlock detection not working.
+	testenv.MustInternalLink(t, false)
+
+	t.Parallel()
+	output := runTestProg(t, "testprog", "RecoverBeforePanicAfterGoexit")
+	want := "fatal error: no goroutines (main called runtime.Goexit) - deadlock!"
+	if !strings.HasPrefix(output, want) {
+		t.Fatalf("output does not start with %q:\n%s", want, output)
+	}
+}
+
+func TestRecoverBeforePanicAfterGoexit2(t *testing.T) {
+	// External linking brings in cgo, causing deadlock detection not working.
+	testenv.MustInternalLink(t, false)
+
+	t.Parallel()
+	output := runTestProg(t, "testprog", "RecoverBeforePanicAfterGoexit2")
+	want := "fatal error: no goroutines (main called runtime.Goexit) - deadlock!"
+	if !strings.HasPrefix(output, want) {
+		t.Fatalf("output does not start with %q:\n%s", want, output)
+	}
 }
 
 func TestNetpollDeadlock(t *testing.T) {
@@ -413,7 +495,7 @@ func TestNetpollDeadlock(t *testing.T) {
 func TestPanicTraceback(t *testing.T) {
 	t.Parallel()
 	output := runTestProg(t, "testprog", "PanicTraceback")
-	want := "panic: hello"
+	want := "panic: hello\n\tpanic: panic pt2\n\tpanic: panic pt1\n"
 	if !strings.HasPrefix(output, want) {
 		t.Fatalf("output does not start with %q:\n%s", want, output)
 	}
@@ -463,7 +545,7 @@ func TestMemPprof(t *testing.T) {
 
 	got, err := testenv.CleanCmdEnv(exec.Command(exe, "MemProf")).CombinedOutput()
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("testprog failed: %s, output:\n%s", err, got)
 	}
 	fn := strings.TrimSpace(string(got))
 	defer os.Remove(fn)
@@ -611,7 +693,7 @@ retry:
 func TestBadTraceback(t *testing.T) {
 	output := runTestProg(t, "testprog", "BadTraceback")
 	for _, want := range []string{
-		"runtime: unexpected return pc",
+		"unexpected return pc",
 		"called from 0xbad",
 		"00000bad",    // Smashed LR in hex dump
 		"<main.badLR", // Symbolization in hex dump (badLR1 or badLR2)
@@ -623,10 +705,16 @@ func TestBadTraceback(t *testing.T) {
 }
 
 func TestTimePprof(t *testing.T) {
-	if runtime.GOOS == "aix" {
-		t.Skip("pprof not yet available on AIX (see golang.org/issue/28555)")
+	// This test is unreliable on any system in which nanotime
+	// calls into libc.
+	switch runtime.GOOS {
+	case "aix", "darwin", "illumos", "openbsd", "solaris":
+		t.Skipf("skipping on %s because nanotime calls libc", runtime.GOOS)
 	}
-	fn := runTestProg(t, "testprog", "TimeProf")
+
+	// Pass GOTRACEBACK for issue #41120 to try to get more
+	// information on timeout.
+	fn := runTestProg(t, "testprog", "TimeProf", "GOTRACEBACK=crash")
 	fn = strings.TrimSpace(fn)
 	defer os.Remove(fn)
 
@@ -689,7 +777,7 @@ func init() {
 
 func TestRuntimePanic(t *testing.T) {
 	testenv.MustHaveExec(t)
-	cmd := testenv.CleanCmdEnv(exec.Command(os.Args[0], "-test.run=TestRuntimePanic"))
+	cmd := testenv.CleanCmdEnv(exec.Command(os.Args[0], "-test.run=^TestRuntimePanic$"))
 	cmd.Env = append(cmd.Env, "GO_TEST_RUNTIME_PANIC=1")
 	out, err := cmd.CombinedOutput()
 	t.Logf("%s", out)
@@ -704,18 +792,26 @@ func TestRuntimePanic(t *testing.T) {
 func TestG0StackOverflow(t *testing.T) {
 	testenv.MustHaveExec(t)
 
-	switch runtime.GOOS {
-	case "darwin", "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "android":
-		t.Skipf("g0 stack is wrong on pthread platforms (see golang.org/issue/26061)")
+	if runtime.GOOS == "ios" {
+		testenv.SkipFlaky(t, 62671)
 	}
 
 	if os.Getenv("TEST_G0_STACK_OVERFLOW") != "1" {
-		cmd := testenv.CleanCmdEnv(exec.Command(os.Args[0], "-test.run=TestG0StackOverflow", "-test.v"))
+		cmd := testenv.CleanCmdEnv(testenv.Command(t, os.Args[0], "-test.run=^TestG0StackOverflow$", "-test.v"))
 		cmd.Env = append(cmd.Env, "TEST_G0_STACK_OVERFLOW=1")
 		out, err := cmd.CombinedOutput()
+		t.Logf("output:\n%s", out)
 		// Don't check err since it's expected to crash.
 		if n := strings.Count(string(out), "morestack on g0\n"); n != 1 {
 			t.Fatalf("%s\n(exit status %v)", out, err)
+		}
+		if runtime.CrashStackImplemented {
+			// check for a stack trace
+			want := "runtime.stackOverflow"
+			if n := strings.Count(string(out), want); n < 5 {
+				t.Errorf("output does not contain %q at least 5 times:\n%s", want, out)
+			}
+			return // it's not a signal-style traceback
 		}
 		// Check that it's a signal-style traceback.
 		if runtime.GOOS != "windows" {
@@ -738,5 +834,66 @@ func TestDoublePanic(t *testing.T) {
 		if !strings.Contains(output, want) {
 			t.Errorf("output:\n%s\n\nwant output containing: %s", output, want)
 		}
+	}
+}
+
+// Test that panic while panicking discards error message
+// See issue 52257
+func TestPanicWhilePanicking(t *testing.T) {
+	tests := []struct {
+		Want string
+		Func string
+	}{
+		{
+			"panic while printing panic value: important error message",
+			"ErrorPanic",
+		},
+		{
+			"panic while printing panic value: important stringer message",
+			"StringerPanic",
+		},
+		{
+			"panic while printing panic value: type",
+			"DoubleErrorPanic",
+		},
+		{
+			"panic while printing panic value: type",
+			"DoubleStringerPanic",
+		},
+		{
+			"panic while printing panic value: type",
+			"CircularPanic",
+		},
+		{
+			"important string message",
+			"StringPanic",
+		},
+		{
+			"nil",
+			"NilPanic",
+		},
+	}
+	for _, x := range tests {
+		output := runTestProg(t, "testprog", x.Func)
+		if !strings.Contains(output, x.Want) {
+			t.Errorf("output does not contain %q:\n%s", x.Want, output)
+		}
+	}
+}
+
+func TestPanicOnUnsafeSlice(t *testing.T) {
+	output := runTestProg(t, "testprog", "panicOnNilAndEleSizeIsZero")
+	want := "panic: runtime error: unsafe.Slice: ptr is nil and len is not zero"
+	if !strings.Contains(output, want) {
+		t.Errorf("output does not contain %q:\n%s", want, output)
+	}
+}
+
+func TestNetpollWaiters(t *testing.T) {
+	t.Parallel()
+	output := runTestProg(t, "testprognet", "NetpollWaiters")
+	want := "OK\n"
+	if output != want {
+		t.Fatalf("output is not %q\n%s", want, output)
 	}
 }

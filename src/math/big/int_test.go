@@ -8,6 +8,8 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
+	"internal/testenv"
+	"math"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -92,7 +94,7 @@ func testFunZZ(t *testing.T, msg string, f funZZ, a argZZ) {
 		t.Errorf("%s%v is not normalized", msg, z)
 	}
 	if (&z).Cmp(a.z) != 0 {
-		t.Errorf("%s%+v\n\tgot z = %v; want %v", msg, a, &z, a.z)
+		t.Errorf("%v %s %v\n\tgot z = %v; want %v", a.x, msg, a.y, &z, a.z)
 	}
 }
 
@@ -252,7 +254,7 @@ func TestBinomial(t *testing.T) {
 
 func BenchmarkBinomial(b *testing.B) {
 	var z Int
-	for i := b.N - 1; i >= 0; i-- {
+	for i := 0; i < b.N; i++ {
 		z.Binomial(1000, 990)
 	}
 }
@@ -533,6 +535,9 @@ var expTests = []struct {
 	{"1", "0", "", "1"},
 	{"-10", "0", "", "1"},
 	{"1234", "-1", "", "1"},
+	{"1234", "-1", "0", "1"},
+	{"17", "-100", "1234", "865"},
+	{"2", "-100", "1234", ""},
 
 	// m == 1
 	{"0", "0", "1", "0"},
@@ -605,10 +610,15 @@ func TestExp(t *testing.T) {
 	for i, test := range expTests {
 		x, ok1 := new(Int).SetString(test.x, 0)
 		y, ok2 := new(Int).SetString(test.y, 0)
-		out, ok3 := new(Int).SetString(test.out, 0)
 
-		var ok4 bool
-		var m *Int
+		var ok3, ok4 bool
+		var out, m *Int
+
+		if len(test.out) == 0 {
+			out, ok3 = nil, true
+		} else {
+			out, ok3 = new(Int).SetString(test.out, 0)
+		}
 
 		if len(test.m) == 0 {
 			m, ok4 = nil, true
@@ -622,10 +632,10 @@ func TestExp(t *testing.T) {
 		}
 
 		z1 := new(Int).Exp(x, y, m)
-		if !isNormalized(z1) {
+		if z1 != nil && !isNormalized(z1) {
 			t.Errorf("#%d: %v is not normalized", i, *z1)
 		}
-		if z1.Cmp(out) != 0 {
+		if !(z1 == nil && out == nil || z1.Cmp(out) == 0) {
 			t.Errorf("#%d: got %x want %x", i, z1, out)
 		}
 
@@ -648,6 +658,41 @@ func BenchmarkExp(b *testing.B) {
 	out := new(Int)
 	for i := 0; i < b.N; i++ {
 		out.Exp(x, y, n)
+	}
+}
+
+func BenchmarkExpMont(b *testing.B) {
+	x, _ := new(Int).SetString("297778224889315382157302278696111964193", 0)
+	y, _ := new(Int).SetString("2548977943381019743024248146923164919440527843026415174732254534318292492375775985739511369575861449426580651447974311336267954477239437734832604782764979371984246675241012538135715981292390886872929238062252506842498360562303324154310849745753254532852868768268023732398278338025070694508489163836616810661033068070127919590264734220833816416141878688318329193389865030063416339367925710474801991305827284114894677717927892032165200876093838921477120036402410731159852999623461591709308405270748511350289172153076023215", 0)
+	var mods = []struct {
+		name string
+		val  string
+	}{
+		{"Odd", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF"},
+		{"Even1", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FE"},
+		{"Even2", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FC"},
+		{"Even3", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281F8"},
+		{"Even4", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281F0"},
+		{"Even8", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B21828100"},
+		{"Even32", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B00000000"},
+		{"Even64", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828282828200FF0000000000000000"},
+		{"Even96", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF82828283000000000000000000000000"},
+		{"Even128", "0x82828282828200FFFF28FF2B218281FF82828282828200FFFF28FF2B218281FF00000000000000000000000000000000"},
+		{"Even255", "0x82828282828200FFFF28FF2B218281FF8000000000000000000000000000000000000000000000000000000000000000"},
+		{"SmallEven1", "0x7E"},
+		{"SmallEven2", "0x7C"},
+		{"SmallEven3", "0x78"},
+		{"SmallEven4", "0x70"},
+	}
+	for _, mod := range mods {
+		n, _ := new(Int).SetString(mod.val, 0)
+		out := new(Int)
+		b.Run(mod.name, func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				out.Exp(x, y, n)
+			}
+		})
 	}
 }
 
@@ -749,20 +794,19 @@ var gcdTests = []struct {
 }{
 	// a <= 0 || b <= 0
 	{"0", "0", "0", "0", "0"},
-	{"0", "0", "0", "0", "7"},
-	{"0", "0", "0", "11", "0"},
-	{"0", "0", "0", "-77", "35"},
-	{"0", "0", "0", "64515", "-24310"},
-	{"0", "0", "0", "-64515", "-24310"},
+	{"7", "0", "1", "0", "7"},
+	{"7", "0", "-1", "0", "-7"},
+	{"11", "1", "0", "11", "0"},
+	{"7", "-1", "-2", "-77", "35"},
+	{"935", "-3", "8", "64515", "24310"},
+	{"935", "-3", "-8", "64515", "-24310"},
+	{"935", "3", "-8", "-64515", "-24310"},
 
 	{"1", "-9", "47", "120", "23"},
 	{"7", "1", "-2", "77", "35"},
 	{"935", "-3", "8", "64515", "24310"},
 	{"935000000000000000", "-3", "8", "64515000000000000000", "24310000000000000000"},
 	{"1", "-221", "22059940471369027483332068679400581064239780177629666810348940098015901108344", "98920366548084643601728869055592650835572950932266967461790948584315647051443", "991"},
-
-	// test early exit (after one Euclidean iteration) in binaryGCD
-	{"1", "", "", "1", "98920366548084643601728869055592650835572950932266967461790948584315647051443"},
 }
 
 func testGcd(t *testing.T, d, x, y, a, b *Int) {
@@ -793,12 +837,50 @@ func testGcd(t *testing.T, d, x, y, a, b *Int) {
 	if a2.Cmp(d) != 0 {
 		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, a2, d)
 	}
+	if x != nil && X.Cmp(x) != 0 {
+		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, X, x)
+	}
+	if y != nil && Y.Cmp(y) != 0 {
+		t.Errorf("aliased z = a GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, Y, y)
+	}
 
 	a2 = new(Int).Set(a)
 	b2 = new(Int).Set(b)
 	b2.GCD(X, Y, a2, b2) // result is same as 2nd argument
 	if b2.Cmp(d) != 0 {
 		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, b2, d)
+	}
+	if x != nil && X.Cmp(x) != 0 {
+		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, X, x)
+	}
+	if y != nil && Y.Cmp(y) != 0 {
+		t.Errorf("aliased z = b GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, Y, y)
+	}
+
+	a2 = new(Int).Set(a)
+	b2 = new(Int).Set(b)
+	D = new(Int).GCD(a2, b2, a2, b2) // x = a, y = b
+	if D.Cmp(d) != 0 {
+		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, D, d)
+	}
+	if x != nil && a2.Cmp(x) != 0 {
+		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, a2, x)
+	}
+	if y != nil && b2.Cmp(y) != 0 {
+		t.Errorf("aliased x = a, y = b GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, b2, y)
+	}
+
+	a2 = new(Int).Set(a)
+	b2 = new(Int).Set(b)
+	D = new(Int).GCD(b2, a2, a2, b2) // x = b, y = a
+	if D.Cmp(d) != 0 {
+		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): got d = %s, want %s", x, y, a, b, D, d)
+	}
+	if x != nil && b2.Cmp(x) != 0 {
+		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): got x = %s, want %s", x, y, a, b, b2, x)
+	}
+	if y != nil && a2.Cmp(y) != 0 {
+		t.Errorf("aliased x = b, y = a GCD(%s, %s, %s, %s): got y = %s, want %s", x, y, a, b, a2, y)
 	}
 }
 
@@ -1024,6 +1106,20 @@ func TestCmpAbs(t *testing.T) {
 					t.Errorf("absCmp |%s|, |%s|: got %d; want %d", &a, &b, got, want)
 				}
 			}
+		}
+	}
+}
+
+func TestIntCmpSelf(t *testing.T) {
+	for _, s := range cmpAbsTests {
+		x, ok := new(Int).SetString(s, 0)
+		if !ok {
+			t.Fatalf("SetString(%s, 0) failed", s)
+		}
+		got := x.Cmp(x)
+		want := 0
+		if got != want {
+			t.Errorf("x = %s: x.Cmp(x): got %d; want %d", x, got, want)
 		}
 	}
 }
@@ -1300,11 +1396,35 @@ func TestBitSet(t *testing.T) {
 	}
 }
 
+var tzbTests = []struct {
+	in  string
+	out uint
+}{
+	{"0", 0},
+	{"1", 0},
+	{"-1", 0},
+	{"4", 2},
+	{"-8", 3},
+	{"0x4000000000000000000", 74},
+	{"-0x8000000000000000000", 75},
+}
+
+func TestTrailingZeroBits(t *testing.T) {
+	for i, test := range tzbTests {
+		in, _ := new(Int).SetString(test.in, 0)
+		want := test.out
+		got := in.TrailingZeroBits()
+
+		if got != want {
+			t.Errorf("#%d: got %v want %v", i, got, want)
+		}
+	}
+}
+
 func BenchmarkBitset(b *testing.B) {
 	z := new(Int)
 	z.SetBit(z, 512, 1)
 	b.ResetTimer()
-	b.StartTimer()
 	for i := b.N - 1; i >= 0; i-- {
 		z.SetBit(z, i&512, 1)
 	}
@@ -1314,7 +1434,6 @@ func BenchmarkBitsetNeg(b *testing.B) {
 	z := NewInt(-1)
 	z.SetBit(z, 512, 0)
 	b.ResetTimer()
-	b.StartTimer()
 	for i := b.N - 1; i >= 0; i-- {
 		z.SetBit(z, i&512, 0)
 	}
@@ -1324,7 +1443,6 @@ func BenchmarkBitsetOrig(b *testing.B) {
 	z := new(Int)
 	altSetBit(z, z, 512, 1)
 	b.ResetTimer()
-	b.StartTimer()
 	for i := b.N - 1; i >= 0; i-- {
 		altSetBit(z, z, i&512, 1)
 	}
@@ -1334,7 +1452,6 @@ func BenchmarkBitsetNegOrig(b *testing.B) {
 	z := NewInt(-1)
 	altSetBit(z, z, 512, 0)
 	b.ResetTimer()
-	b.StartTimer()
 	for i := b.N - 1; i >= 0; i-- {
 		altSetBit(z, z, i&512, 0)
 	}
@@ -1745,11 +1862,141 @@ func benchmarkDiv(b *testing.B, aSize, bSize int) {
 }
 
 func BenchmarkDiv(b *testing.B) {
-	min, max, step := 10, 100000, 10
-	for i := min; i <= max; i *= step {
+	sizes := []int{
+		10, 20, 50, 100, 200, 500, 1000,
+		1e4, 1e5, 1e6, 1e7,
+	}
+	for _, i := range sizes {
 		j := 2 * i
 		b.Run(fmt.Sprintf("%d/%d", j, i), func(b *testing.B) {
 			benchmarkDiv(b, j, i)
 		})
+	}
+}
+
+func TestFillBytes(t *testing.T) {
+	checkResult := func(t *testing.T, buf []byte, want *Int) {
+		t.Helper()
+		got := new(Int).SetBytes(buf)
+		if got.CmpAbs(want) != 0 {
+			t.Errorf("got 0x%x, want 0x%x: %x", got, want, buf)
+		}
+	}
+	panics := func(f func()) (panic bool) {
+		defer func() { panic = recover() != nil }()
+		f()
+		return
+	}
+
+	for _, n := range []string{
+		"0",
+		"1000",
+		"0xffffffff",
+		"-0xffffffff",
+		"0xffffffffffffffff",
+		"0x10000000000000000",
+		"0xabababababababababababababababababababababababababa",
+		"0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+	} {
+		t.Run(n, func(t *testing.T) {
+			t.Logf(n)
+			x, ok := new(Int).SetString(n, 0)
+			if !ok {
+				panic("invalid test entry")
+			}
+
+			// Perfectly sized buffer.
+			byteLen := (x.BitLen() + 7) / 8
+			buf := make([]byte, byteLen)
+			checkResult(t, x.FillBytes(buf), x)
+
+			// Way larger, checking all bytes get zeroed.
+			buf = make([]byte, 100)
+			for i := range buf {
+				buf[i] = 0xff
+			}
+			checkResult(t, x.FillBytes(buf), x)
+
+			// Too small.
+			if byteLen > 0 {
+				buf = make([]byte, byteLen-1)
+				if !panics(func() { x.FillBytes(buf) }) {
+					t.Errorf("expected panic for small buffer and value %x", x)
+				}
+			}
+		})
+	}
+}
+
+func TestNewIntMinInt64(t *testing.T) {
+	// Test for uint64 cast in NewInt.
+	want := int64(math.MinInt64)
+	if got := NewInt(want).Int64(); got != want {
+		t.Fatalf("wanted %d, got %d", want, got)
+	}
+}
+
+func TestNewIntAllocs(t *testing.T) {
+	testenv.SkipIfOptimizationOff(t)
+	for _, n := range []int64{0, 7, -7, 1 << 30, -1 << 30, 1 << 50, -1 << 50} {
+		x := NewInt(3)
+		got := testing.AllocsPerRun(100, func() {
+			// NewInt should inline, and all its allocations
+			// can happen on the stack. Passing the result of NewInt
+			// to Add should not cause any of those allocations to escape.
+			x.Add(x, NewInt(n))
+		})
+		if got != 0 {
+			t.Errorf("x.Add(x, NewInt(%d)), wanted 0 allocations, got %f", n, got)
+		}
+	}
+}
+
+func TestFloat64(t *testing.T) {
+	for _, test := range []struct {
+		istr string
+		f    float64
+		acc  Accuracy
+	}{
+		{"-1000000000000000000000000000000000000000000000000000000", -1000000000000000078291540404596243842305360299886116864.000000, Below},
+		{"-9223372036854775809", math.MinInt64, Above},
+		{"-9223372036854775808", -9223372036854775808, Exact}, // -2^63
+		{"-9223372036854775807", -9223372036854775807, Below},
+		{"-18014398509481985", -18014398509481984.000000, Above},
+		{"-18014398509481984", -18014398509481984.000000, Exact}, // -2^54
+		{"-18014398509481983", -18014398509481984.000000, Below},
+		{"-9007199254740993", -9007199254740992.000000, Above},
+		{"-9007199254740992", -9007199254740992.000000, Exact}, // -2^53
+		{"-9007199254740991", -9007199254740991.000000, Exact},
+		{"-4503599627370497", -4503599627370497.000000, Exact},
+		{"-4503599627370496", -4503599627370496.000000, Exact}, // -2^52
+		{"-4503599627370495", -4503599627370495.000000, Exact},
+		{"-12345", -12345, Exact},
+		{"-1", -1, Exact},
+		{"0", 0, Exact},
+		{"1", 1, Exact},
+		{"12345", 12345, Exact},
+		{"0x1010000000000000", 0x1010000000000000, Exact}, // >2^53 but exact nonetheless
+		{"9223372036854775807", 9223372036854775808, Above},
+		{"9223372036854775808", 9223372036854775808, Exact}, // +2^63
+		{"1000000000000000000000000000000000000000000000000000000", 1000000000000000078291540404596243842305360299886116864.000000, Above},
+	} {
+		i, ok := new(Int).SetString(test.istr, 0)
+		if !ok {
+			t.Errorf("SetString(%s) failed", test.istr)
+			continue
+		}
+
+		// Test against expectation.
+		f, acc := i.Float64()
+		if f != test.f || acc != test.acc {
+			t.Errorf("%s: got %f (%s); want %f (%s)", test.istr, f, acc, test.f, test.acc)
+		}
+
+		// Cross-check the fast path against the big.Float implementation.
+		f2, acc2 := new(Float).SetInt(i).Float64()
+		if f != f2 || acc != acc2 {
+			t.Errorf("%s: got %f (%s); Float.Float64 gives %f (%s)", test.istr, f, acc, f2, acc2)
+		}
 	}
 }

@@ -5,8 +5,8 @@
 package poll
 
 import (
+	"internal/syscall/unix"
 	"syscall"
-	_ "unsafe" // for go:linkname
 )
 
 // Fsync invokes SYS_FCNTL with SYS_FULLFSYNC because
@@ -17,11 +17,8 @@ func (fd *FD) Fsync() error {
 		return err
 	}
 	defer fd.decref()
-
-	_, e1 := fcntl(fd.Sysfd, syscall.F_FULLFSYNC, 0)
-	return e1
+	return ignoringEINTR(func() error {
+		_, err := unix.Fcntl(fd.Sysfd, syscall.F_FULLFSYNC, 0)
+		return err
+	})
 }
-
-// Implemented in syscall/syscall_darwin.go.
-//go:linkname fcntl syscall.fcntl
-func fcntl(fd int, cmd int, arg int) (int, error)

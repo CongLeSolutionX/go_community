@@ -14,12 +14,16 @@ import (
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
+	"golang.org/x/tools/go/ast/astutil"
 	"golang.org/x/tools/go/ast/inspector"
 )
 
+const Doc = "check for common mistakes involving boolean operators"
+
 var Analyzer = &analysis.Analyzer{
 	Name:     "bools",
-	Doc:      "check for common mistakes involving boolean operators",
+	Doc:      Doc,
+	URL:      "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/bools",
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
 }
@@ -30,8 +34,13 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	nodeFilter := []ast.Node{
 		(*ast.BinaryExpr)(nil),
 	}
+	seen := make(map[*ast.BinaryExpr]bool)
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		e := n.(*ast.BinaryExpr)
+		if seen[e] {
+			// Already processed as a subexpression of an earlier node.
+			return
+		}
 
 		var op boolOp
 		switch e.Op {
@@ -43,10 +52,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		// TODO(adonovan): this reports n(n-1)/2 errors for an
-		// expression e||...||e of depth n. Fix.
-		// See https://golang.org/issue/28086.
-		comm := op.commutativeSets(pass.TypesInfo, e)
+		comm := op.commutativeSets(pass.TypesInfo, e, seen)
 		for _, exprs := range comm {
 			op.checkRedundant(pass, exprs)
 			op.checkSuspect(pass, exprs)
@@ -70,14 +76,15 @@ var (
 // expressions in e that are connected by op.
 // For example, given 'a || b || f() || c || d' with the or op,
 // commutativeSets returns {{b, a}, {d, c}}.
-func (op boolOp) commutativeSets(info *types.Info, e *ast.BinaryExpr) [][]ast.Expr {
-	exprs := op.split(e)
+// commutativeSets adds any expanded BinaryExprs to seen.
+func (op boolOp) commutativeSets(info *types.Info, e *ast.BinaryExpr, seen map[*ast.BinaryExpr]bool) [][]ast.Expr {
+	exprs := op.split(e, seen)
 
 	// Partition the slice of expressions into commutative sets.
 	i := 0
 	var sets [][]ast.Expr
 	for j := 0; j <= len(exprs); j++ {
-		if j == len(exprs) || hasSideEffects(info, exprs[j]) {
+		if j == len(exprs) || analysisutil.HasSideEffects(info, exprs[j]) {
 			if i < j {
 				sets = append(sets, exprs[i:j])
 			}
@@ -89,15 +96,17 @@ func (op boolOp) commutativeSets(info *types.Info, e *ast.BinaryExpr) [][]ast.Ex
 }
 
 // checkRedundant checks for expressions of the form
-//   e && e
-//   e || e
+//
+//	e && e
+//	e || e
+//
 // Exprs must contain only side effect free expressions.
 func (op boolOp) checkRedundant(pass *analysis.Pass, exprs []ast.Expr) {
 	seen := make(map[string]bool)
 	for _, e := range exprs {
 		efmt := analysisutil.Format(pass.Fset, e)
 		if seen[efmt] {
-			pass.Reportf(e.Pos(), "redundant %s: %s %s %s", op.name, efmt, op.tok, efmt)
+			pass.ReportRangef(e, "redundant %s: %s %s %s", op.name, efmt, op.tok, efmt)
 		} else {
 			seen[efmt] = true
 		}
@@ -105,8 +114,10 @@ func (op boolOp) checkRedundant(pass *analysis.Pass, exprs []ast.Expr) {
 }
 
 // checkSuspect checks for expressions of the form
-//   x != c1 || x != c2
-//   x == c1 && x == c2
+//
+//	x != c1 || x != c2
+//	x == c1 && x == c2
+//
 // where c1 and c2 are constant expressions.
 // If c1 and c2 are the same then it's redundant;
 // if c1 and c2 are different then it's always true or always false.
@@ -144,7 +155,7 @@ func (op boolOp) checkSuspect(pass *analysis.Pass, exprs []ast.Expr) {
 		if prev, found := seen[xfmt]; found {
 			// checkRedundant handles the case in which efmt == prev.
 			if efmt != prev {
-				pass.Reportf(e.Pos(), "suspect %s: %s %s %s", op.name, efmt, op.tok, prev)
+				pass.ReportRangef(e, "suspect %s: %s %s %s", op.name, efmt, op.tok, prev)
 			}
 		} else {
 			seen[xfmt] = efmt
@@ -152,47 +163,16 @@ func (op boolOp) checkSuspect(pass *analysis.Pass, exprs []ast.Expr) {
 	}
 }
 
-// hasSideEffects reports whether evaluation of e has side effects.
-func hasSideEffects(info *types.Info, e ast.Expr) bool {
-	safe := true
-	ast.Inspect(e, func(node ast.Node) bool {
-		switch n := node.(type) {
-		case *ast.CallExpr:
-			typVal := info.Types[n.Fun]
-			switch {
-			case typVal.IsType():
-				// Type conversion, which is safe.
-			case typVal.IsBuiltin():
-				// Builtin func, conservatively assumed to not
-				// be safe for now.
-				safe = false
-				return false
-			default:
-				// A non-builtin func or method call.
-				// Conservatively assume that all of them have
-				// side effects for now.
-				safe = false
-				return false
-			}
-		case *ast.UnaryExpr:
-			if n.Op == token.ARROW {
-				safe = false
-				return false
-			}
-		}
-		return true
-	})
-	return !safe
-}
-
 // split returns a slice of all subexpressions in e that are connected by op.
 // For example, given 'a || (b || c) || d' with the or op,
 // split returns []{d, c, b, a}.
-func (op boolOp) split(e ast.Expr) (exprs []ast.Expr) {
+// seen[e] is already true; any newly processed exprs are added to seen.
+func (op boolOp) split(e ast.Expr, seen map[*ast.BinaryExpr]bool) (exprs []ast.Expr) {
 	for {
-		e = unparen(e)
+		e = astutil.Unparen(e)
 		if b, ok := e.(*ast.BinaryExpr); ok && b.Op == op.tok {
-			exprs = append(exprs, op.split(b.Y)...)
+			seen[b] = true
+			exprs = append(exprs, op.split(b.Y, seen)...)
 			e = b.X
 		} else {
 			exprs = append(exprs, e)
@@ -200,15 +180,4 @@ func (op boolOp) split(e ast.Expr) (exprs []ast.Expr) {
 		}
 	}
 	return
-}
-
-// unparen returns e with any enclosing parentheses stripped.
-func unparen(e ast.Expr) ast.Expr {
-	for {
-		p, ok := e.(*ast.ParenExpr)
-		if !ok {
-			return e
-		}
-		e = p.X
-	}
 }

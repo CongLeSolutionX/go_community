@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build windows
+//go:build windows
 
 package windows_test
 
@@ -29,7 +29,7 @@ func TestRunAtLowIntegrity(t *testing.T) {
 		return
 	}
 
-	cmd := exec.Command(os.Args[0], "-test.run=TestRunAtLowIntegrity", "--")
+	cmd := exec.Command(os.Args[0], "-test.run=^TestRunAtLowIntegrity$", "--")
 	cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
 
 	token, err := getIntegrityLevelToken(sidWilLow)

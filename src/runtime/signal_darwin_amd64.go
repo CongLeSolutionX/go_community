@@ -48,6 +48,7 @@ func (c *sigctxt) set_rsp(x uint64)     { c.regs().rsp = x }
 func (c *sigctxt) set_sigcode(x uint64) { c.info.si_code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint64) { c.info.si_addr = x }
 
+//go:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
 	switch sig {
 	case _SIGTRAP:
@@ -83,6 +84,10 @@ func (c *sigctxt) fixsigcode(sig uint32) {
 		// in real life, people will probably search for it and find this code.
 		// There are no Google hits for b01dfacedebac1e or 0xb01dfacedebac1e
 		// as I type this comment.
+		//
+		// Note: if this code is removed, please consider
+		// enabling TestSignalForwardingGo for darwin-amd64 in
+		// misc/cgo/testcarchive/carchive_test.go.
 		if c.sigcode() == _SI_USER {
 			c.set_sigcode(_SI_USER + 1)
 			c.set_sigaddr(0xb01dfacedebac1e)

@@ -4,9 +4,7 @@
 
 package unix
 
-const unlinkatTrap uintptr = 472
-const openatTrap uintptr = 463
-const fstatatTrap uintptr = 470
-
 const AT_REMOVEDIR = 0x80
 const AT_SYMLINK_NOFOLLOW = 0x0020
+
+const UTIME_OMIT = -0x2

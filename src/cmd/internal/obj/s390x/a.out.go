@@ -186,6 +186,7 @@ const (
 	// mark flags
 	LEAF = 1 << iota
 	BRANCH
+	USETMP // generated code of this Prog uses REGTMP
 )
 
 const ( // comments from func aclass in asmz.go
@@ -203,7 +204,7 @@ const ( // comments from func aclass in asmz.go
 	C_DCON     // constant (int64 or uint64)
 	C_SACON    // computed address, 16-bit displacement, possibly SP-relative
 	C_LACON    // computed address, 32-bit displacement, possibly SP-relative
-	C_DACON    // computed address, 64-bit displacment?
+	C_DACON    // computed address, 64-bit displacement?
 	C_SBRA     // short branch
 	C_LBRA     // long branch
 	C_SAUTO    // short auto
@@ -240,6 +241,7 @@ const (
 	AMULLD
 	AMULHD
 	AMULHDU
+	AMLGR
 	ASUB
 	ASUBC
 	ASUBV
@@ -267,6 +269,8 @@ const (
 	AMOVDLE
 	AMOVDLT
 	AMOVDNE
+	ALOCR
+	ALOCGR
 
 	// find leftmost one
 	AFLOGR
@@ -289,6 +293,20 @@ const (
 	ASRAD
 	ARLL
 	ARLLG
+	ARNSBG
+	ARXSBG
+	AROSBG
+	ARNSBGT
+	ARXSBGT
+	AROSBGT
+	ARISBG
+	ARISBGN
+	ARISBGZ
+	ARISBGNZ
+	ARISBHG
+	ARISBLG
+	ARISBHGZ
+	ARISBLGZ
 
 	// floating point
 	AFABS
@@ -366,6 +384,12 @@ const (
 	ATMLH
 	ATMLL
 
+	// insert program mask
+	AIPM
+
+	// set program mask
+	ASPM
+
 	// compare and swap
 	ACS
 	ACSG
@@ -376,6 +400,7 @@ const (
 	// branch
 	ABC
 	ABCL
+	ABRC
 	ABEQ
 	ABGE
 	ABGT
@@ -388,7 +413,19 @@ const (
 	ABVS
 	ASYSCALL
 
+	// branch on count
+	ABRCT
+	ABRCTG
+
 	// compare and branch
+	ACRJ
+	ACGRJ
+	ACLRJ
+	ACLGRJ
+	ACIJ
+	ACGIJ
+	ACLIJ
+	ACLGIJ
 	ACMPBEQ
 	ACMPBGE
 	ACMPBGT
@@ -404,6 +441,7 @@ const (
 
 	// storage-and-storage
 	AMVC
+	AMVCIN
 	ACLC
 	AXC
 	AOC
@@ -441,6 +479,15 @@ const (
 
 	// macros
 	ACLEAR
+
+	// crypto
+	AKM
+	AKMC
+	AKLMD
+	AKIMD
+	AKDSA
+	AKMA
+	AKMCTR
 
 	// vector
 	AVA
@@ -949,10 +996,15 @@ const (
 	AVMSLOG
 	AVMSLEOG
 
+	ANOPH // NOP
+
 	// binary
 	ABYTE
 	AWORD
 	ADWORD
+
+	// Breakpoint
+	ABRRK
 
 	// end marker
 	ALAST

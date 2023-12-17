@@ -11,11 +11,13 @@ import "io"
 // Reader is a global, shared instance of a cryptographically
 // secure random number generator.
 //
-// On Linux and FreeBSD, Reader uses getrandom(2) if available, /dev/urandom otherwise.
-// On OpenBSD, Reader uses getentropy(2).
+// On Linux, FreeBSD, Dragonfly, NetBSD and Solaris, Reader uses getrandom(2) if
+// available, /dev/urandom otherwise.
+// On OpenBSD and macOS, Reader uses getentropy(2).
 // On other Unix-like systems, Reader reads from /dev/urandom.
-// On Windows systems, Reader uses the CryptGenRandom API.
-// On Wasm, Reader uses the Web Crypto API.
+// On Windows systems, Reader uses the ProcessPrng API.
+// On JS/Wasm, Reader uses the Web Crypto API.
+// On WASIP1/Wasm, Reader uses random_get from wasi_snapshot_preview1.
 var Reader io.Reader
 
 // Read is a helper function that calls Reader.Read using io.ReadFull.
@@ -24,6 +26,20 @@ func Read(b []byte) (n int, err error) {
 	return io.ReadFull(Reader, b)
 }
 
-func warnBlocked() {
-	println("crypto/rand: blocked for 60 seconds waiting to read random data from the kernel")
+// batched returns a function that calls f to populate a []byte by chunking it
+// into subslices of, at most, readMax bytes.
+func batched(f func([]byte) error, readMax int) func([]byte) error {
+	return func(out []byte) error {
+		for len(out) > 0 {
+			read := len(out)
+			if read > readMax {
+				read = readMax
+			}
+			if err := f(out[:read]); err != nil {
+				return err
+			}
+			out = out[read:]
+		}
+		return nil
+	}
 }

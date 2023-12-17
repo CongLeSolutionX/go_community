@@ -8,6 +8,7 @@ import "unsafe"
 const (
 	_EINTR     = 0x4
 	_EFAULT    = 0xe
+	_EAGAIN    = 0x23
 	_ETIMEDOUT = 0x3c
 
 	_PROT_NONE  = 0x0
@@ -19,8 +20,10 @@ const (
 	_MAP_PRIVATE = 0x2
 	_MAP_FIXED   = 0x10
 
-	_MADV_DONTNEED = 0x4
-	_MADV_FREE     = 0x5
+	_MADV_DONTNEED      = 0x4
+	_MADV_FREE          = 0x5
+	_MADV_FREE_REUSABLE = 0x7
+	_MADV_FREE_REUSE    = 0x8
 
 	_SA_SIGINFO   = 0x40
 	_SA_RESTART   = 0x2
@@ -91,8 +94,18 @@ const (
 
 	_PTHREAD_CREATE_DETACHED = 0x2
 
-	_F_SETFD    = 0x2
-	_FD_CLOEXEC = 0x1
+	_PTHREAD_KEYS_MAX = 512
+
+	_F_GETFL = 0x3
+	_F_SETFL = 0x4
+
+	_O_WRONLY   = 0x1
+	_O_NONBLOCK = 0x4
+	_O_CREAT    = 0x200
+	_O_TRUNC    = 0x400
+
+	_VM_REGION_BASIC_INFO_COUNT_64 = 0x9
+	_VM_REGION_BASIC_INFO_64       = 0x9
 )
 
 type stackt struct {
@@ -149,9 +162,9 @@ type timespec struct {
 }
 
 //go:nosplit
-func (t *timespec) set_nsec(ns int64) {
-	t.tv_sec = ns / 1000000000
-	t.tv_nsec = ns % 1000000000
+func (ts *timespec) setNsec(ns int64) {
+	ts.tv_sec = ns / 1e9
+	ts.tv_nsec = ns % 1e9
 }
 
 type exceptionstate64 struct {
@@ -226,3 +239,13 @@ type machTimebaseInfo struct {
 	numer uint32
 	denom uint32
 }
+
+type pthreadkey uint64
+
+type machPort uint32
+type machVMMapRead uint32
+type machVMAddress uint64
+type machVMSize uint64
+type machVMRegionFlavour int32
+type machVMRegionInfo *int32
+type machMsgTypeNumber uint32

@@ -34,7 +34,7 @@ type Options struct {
 	UI      UI
 
 	// HTTPServer is a function that should block serving http requests,
-	// including the handlers specfied in args.  If non-nil, pprof will
+	// including the handlers specified in args.  If non-nil, pprof will
 	// invoke this function if necessary to provide a web interface.
 	//
 	// If HTTPServer is nil, pprof will use its own internal HTTP server.
@@ -60,13 +60,6 @@ type FlagSet interface {
 	Int(name string, def int, usage string) *int
 	Float64(name string, def float64, usage string) *float64
 	String(name string, def string, usage string) *string
-
-	// BoolVar, IntVar, Float64Var, and StringVar define new flags referencing
-	// a given pointer, like the functions of the same name in package flag.
-	BoolVar(pointer *bool, name string, def bool, usage string)
-	IntVar(pointer *int, name string, def int, usage string)
-	Float64Var(pointer *float64, name string, def float64, usage string)
-	StringVar(pointer *string, name string, def string, usage string)
 
 	// StringList is similar to String but allows multiple values for a
 	// single flag
@@ -116,12 +109,14 @@ type MappingSources map[string][]struct {
 type ObjTool interface {
 	// Open opens the named object file. If the object is a shared
 	// library, start/limit/offset are the addresses where it is mapped
-	// into memory in the address space being inspected.
-	Open(file string, start, limit, offset uint64) (ObjFile, error)
+	// into memory in the address space being inspected. If the object
+	// is a linux kernel, relocationSymbol is the name of the symbol
+	// corresponding to the start address.
+	Open(file string, start, limit, offset uint64, relocationSymbol string) (ObjFile, error)
 
 	// Disasm disassembles the named object file, starting at
 	// the start address and stopping at (before) the end address.
-	Disasm(file string, start, end uint64) ([]Inst, error)
+	Disasm(file string, start, end uint64, intelSyntax bool) ([]Inst, error)
 }
 
 // An Inst is a single instruction in an assembly listing.
@@ -138,8 +133,9 @@ type ObjFile interface {
 	// Name returns the underlyinf file name, if available
 	Name() string
 
-	// Base returns the base address to use when looking up symbols in the file.
-	Base() uint64
+	// ObjAddr returns the objdump (linker) address corresponding to a runtime
+	// address, and an error.
+	ObjAddr(addr uint64) (uint64, error)
 
 	// BuildID returns the GNU build ID of the file, or an empty string.
 	BuildID() string

@@ -2,13 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build ignore
+//go:build ignore
 
 /*
 Input to cgo.
 
 GOARCH=amd64 go tool cgo -cdefs defs_darwin.go >defs_darwin_amd64.h
-GOARCH=386 go tool cgo -cdefs defs_darwin.go >defs_darwin_386.h
 */
 
 package runtime
@@ -30,6 +29,7 @@ import "C"
 const (
 	EINTR     = C.EINTR
 	EFAULT    = C.EFAULT
+	EAGAIN    = C.EAGAIN
 	ETIMEDOUT = C.ETIMEDOUT
 
 	PROT_NONE  = C.PROT_NONE
@@ -41,8 +41,10 @@ const (
 	MAP_PRIVATE = C.MAP_PRIVATE
 	MAP_FIXED   = C.MAP_FIXED
 
-	MADV_DONTNEED = C.MADV_DONTNEED
-	MADV_FREE     = C.MADV_FREE
+	MADV_DONTNEED      = C.MADV_DONTNEED
+	MADV_FREE          = C.MADV_FREE
+	MADV_FREE_REUSABLE = C.MADV_FREE_REUSABLE
+	MADV_FREE_REUSE    = C.MADV_FREE_REUSE
 
 	SA_SIGINFO   = C.SA_SIGINFO
 	SA_RESTART   = C.SA_RESTART
@@ -113,8 +115,16 @@ const (
 
 	PTHREAD_CREATE_DETACHED = C.PTHREAD_CREATE_DETACHED
 
-	F_SETFD    = C.F_SETFD
-	FD_CLOEXEC = C.FD_CLOEXEC
+	F_GETFL = C.F_GETFL
+	F_SETFL = C.F_SETFL
+
+	O_WRONLY   = C.O_WRONLY
+	O_NONBLOCK = C.O_NONBLOCK
+	O_CREAT    = C.O_CREAT
+	O_TRUNC    = C.O_TRUNC
+
+	VM_REGION_BASIC_INFO_COUNT_64 = C.VM_REGION_BASIC_INFO_COUNT_64
+	VM_REGION_BASIC_INFO_64       = C.VM_REGION_BASIC_INFO_64
 )
 
 type StackT C.struct_sigaltstack
@@ -156,3 +166,11 @@ type PthreadCond C.pthread_cond_t
 type PthreadCondAttr C.pthread_condattr_t
 
 type MachTimebaseInfo C.mach_timebase_info_data_t
+
+type MachPort C.mach_port_t
+type MachVMMapRead C.vm_map_read_t
+type MachVMAddress C.mach_vm_address_t
+type MachVMSize C.mach_vm_size_t
+type MachVMRegionFlavour C.vm_region_flavor_t
+type MachVMRegionInfo C.vm_region_info_t
+type MachMsgTypeNumber C.mach_msg_type_number_t

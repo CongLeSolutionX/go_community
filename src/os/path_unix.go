@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build aix darwin dragonfly freebsd js,wasm linux nacl netbsd openbsd solaris
+//go:build unix || (js && wasm) || wasip1
 
 package os
 
@@ -38,20 +38,30 @@ func basename(name string) string {
 func splitPath(path string) (string, string) {
 	// if no better parent is found, the path is relative from "here"
 	dirname := "."
-	// if no slashes in path, base is path
-	basename := path
+
+	// Remove all but one leading slash.
+	for len(path) > 1 && path[0] == '/' && path[1] == '/' {
+		path = path[1:]
+	}
 
 	i := len(path) - 1
 
-	// Remove trailing slashes
+	// Remove trailing slashes.
 	for ; i > 0 && path[i] == '/'; i-- {
 		path = path[:i]
 	}
 
+	// if no slashes in path, base is path
+	basename := path
+
 	// Remove leading directory path
 	for i--; i >= 0; i-- {
 		if path[i] == '/' {
-			dirname = path[:i+1]
+			if i == 0 {
+				dirname = path[:1]
+			} else {
+				dirname = path[:i]
+			}
 			basename = path[i+1:]
 			break
 		}
@@ -60,6 +70,6 @@ func splitPath(path string) (string, string) {
 	return dirname, basename
 }
 
-func fixRootDirectory(p string) string {
-	return p
+func volumeName(p string) string {
+	return ""
 }

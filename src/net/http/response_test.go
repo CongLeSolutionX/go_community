@@ -10,9 +10,8 @@ import (
 	"compress/gzip"
 	"crypto/rand"
 	"fmt"
-	"go/ast"
+	"go/token"
 	"io"
-	"io/ioutil"
 	"net/http/internal"
 	"net/url"
 	"reflect"
@@ -597,7 +596,7 @@ func TestReadResponse(t *testing.T) {
 		rbody := resp.Body
 		resp.Body = nil
 		diff(t, fmt.Sprintf("#%d Response", i), resp, &tt.Resp)
-		var bout bytes.Buffer
+		var bout strings.Builder
 		if rbody != nil {
 			_, err = io.Copy(&bout, rbody)
 			if err != nil {
@@ -620,7 +619,7 @@ func TestWriteResponse(t *testing.T) {
 			t.Errorf("#%d: %v", i, err)
 			continue
 		}
-		err = resp.Write(ioutil.Discard)
+		err = resp.Write(io.Discard)
 		if err != nil {
 			t.Errorf("#%d: %v", i, err)
 			continue
@@ -636,14 +635,19 @@ var readResponseCloseInMiddleTests = []struct {
 	{true, true},
 }
 
+type readerAndCloser struct {
+	io.Reader
+	io.Closer
+}
+
 // TestReadResponseCloseInMiddle tests that closing a body after
 // reading only part of its contents advances the read to the end of
 // the request, right up until the next request.
 func TestReadResponseCloseInMiddle(t *testing.T) {
 	t.Parallel()
 	for _, test := range readResponseCloseInMiddleTests {
-		fatalf := func(format string, args ...interface{}) {
-			args = append([]interface{}{test.chunked, test.compressed}, args...)
+		fatalf := func(format string, args ...any) {
+			args = append([]any{test.chunked, test.compressed}, args...)
 			t.Fatalf("on test chunked=%v, compressed=%v: "+format, args...)
 		}
 		checkErr := func(err error, msg string) {
@@ -717,7 +721,7 @@ func TestReadResponseCloseInMiddle(t *testing.T) {
 		}
 		resp.Body.Close()
 
-		rest, err := ioutil.ReadAll(bufr)
+		rest, err := io.ReadAll(bufr)
 		checkErr(err, "ReadAll on remainder")
 		if e, g := "Next Request Here", string(rest); e != g {
 			g = regexp.MustCompile(`(xx+)`).ReplaceAllStringFunc(g, func(match string) string {
@@ -728,7 +732,8 @@ func TestReadResponseCloseInMiddle(t *testing.T) {
 	}
 }
 
-func diff(t *testing.T, prefix string, have, want interface{}) {
+func diff(t *testing.T, prefix string, have, want any) {
+	t.Helper()
 	hv := reflect.ValueOf(have).Elem()
 	wv := reflect.ValueOf(want).Elem()
 	if hv.Type() != wv.Type() {
@@ -736,7 +741,7 @@ func diff(t *testing.T, prefix string, have, want interface{}) {
 	}
 	for i := 0; i < hv.NumField(); i++ {
 		name := hv.Type().Field(i).Name
-		if !ast.IsExported(name) {
+		if !token.IsExported(name) {
 			continue
 		}
 		hf := hv.Field(i).Interface()
@@ -804,7 +809,7 @@ func TestResponseStatusStutter(t *testing.T) {
 		ProtoMajor: 1,
 		ProtoMinor: 3,
 	}
-	var buf bytes.Buffer
+	var buf strings.Builder
 	r.Write(&buf)
 	if strings.Contains(buf.String(), "123 123") {
 		t.Errorf("stutter in status: %s", buf.String())
@@ -824,7 +829,7 @@ func TestResponseContentLengthShortBody(t *testing.T) {
 	if res.ContentLength != 123 {
 		t.Fatalf("Content-Length = %d; want 123", res.ContentLength)
 	}
-	var buf bytes.Buffer
+	var buf strings.Builder
 	n, err := io.Copy(&buf, res.Body)
 	if n != int64(len(shortBody)) {
 		t.Errorf("Copied %d bytes; want %d, len(%q)", n, len(shortBody), shortBody)
@@ -844,10 +849,10 @@ func TestReadResponseErrors(t *testing.T) {
 	type testCase struct {
 		name    string // optional, defaults to in
 		in      string
-		wantErr interface{} // nil, err value, or string substring
+		wantErr any // nil, err value, bool value, or string substring
 	}
 
-	status := func(s string, wantErr interface{}) testCase {
+	status := func(s string, wantErr any) testCase {
 		if wantErr == true {
 			wantErr = "malformed HTTP status code"
 		}
@@ -858,7 +863,7 @@ func TestReadResponseErrors(t *testing.T) {
 		}
 	}
 
-	version := func(s string, wantErr interface{}) testCase {
+	version := func(s string, wantErr any) testCase {
 		if wantErr == true {
 			wantErr = "malformed HTTP version"
 		}
@@ -869,7 +874,7 @@ func TestReadResponseErrors(t *testing.T) {
 		}
 	}
 
-	contentLength := func(status, body string, wantErr interface{}) testCase {
+	contentLength := func(status, body string, wantErr any) testCase {
 		return testCase{
 			name:    fmt.Sprintf("status %q %q", status, body),
 			in:      fmt.Sprintf("HTTP/1.1 %s\r\n%s", status, body),
@@ -878,6 +883,7 @@ func TestReadResponseErrors(t *testing.T) {
 	}
 
 	errMultiCL := "message cannot contain multiple Content-Length headers"
+	errEmptyCL := "invalid empty Content-Length"
 
 	tests := []testCase{
 		{"", "", io.ErrUnexpectedEOF},
@@ -913,7 +919,7 @@ func TestReadResponseErrors(t *testing.T) {
 		contentLength("200 OK", "Content-Length: 7\r\nContent-Length: 7\r\n\r\nGophers\r\n", nil),
 		contentLength("201 OK", "Content-Length: 0\r\nContent-Length: 7\r\n\r\nGophers\r\n", errMultiCL),
 		contentLength("300 OK", "Content-Length: 0\r\nContent-Length: 0 \r\n\r\nGophers\r\n", nil),
-		contentLength("200 OK", "Content-Length:\r\nContent-Length:\r\n\r\nGophers\r\n", nil),
+		contentLength("200 OK", "Content-Length:\r\nContent-Length:\r\n\r\nGophers\r\n", errEmptyCL),
 		contentLength("206 OK", "Content-Length:\r\nContent-Length: 0 \r\nConnection: close\r\n\r\nGophers\r\n", errMultiCL),
 
 		// multiple content-length headers for 204 and 304 should still be checked
@@ -942,7 +948,7 @@ func TestReadResponseErrors(t *testing.T) {
 
 // wantErr can be nil, an error value to match exactly, or type string to
 // match a substring.
-func matchErr(err error, wantErr interface{}) error {
+func matchErr(err error, wantErr any) error {
 	if err == nil {
 		if wantErr == nil {
 			return nil
@@ -967,19 +973,6 @@ func matchErr(err error, wantErr interface{}) error {
 	return fmt.Errorf("%v; want %v", err, wantErr)
 }
 
-func TestNeedsSniff(t *testing.T) {
-	// needsSniff returns true with an empty response.
-	r := &response{}
-	if got, want := r.needsSniff(), true; got != want {
-		t.Errorf("needsSniff = %t; want %t", got, want)
-	}
-	// needsSniff returns false when Content-Type = nil.
-	r.handlerHeader = Header{"Content-Type": nil}
-	if got, want := r.needsSniff(), false; got != want {
-		t.Errorf("needsSniff empty Content-Type = %t; want %t", got, want)
-	}
-}
-
 // A response should only write out single Connection: close header. Tests #19499.
 func TestResponseWritesOnlySingleConnectionClose(t *testing.T) {
 	const connectionCloseHeader = "Connection: close"
@@ -997,7 +990,7 @@ func TestResponseWritesOnlySingleConnectionClose(t *testing.T) {
 		t.Fatalf("ReadResponse failed %v", err)
 	}
 
-	var buf2 bytes.Buffer
+	var buf2 strings.Builder
 	if err = res.Write(&buf2); err != nil {
 		t.Fatalf("Write failed %v", err)
 	}

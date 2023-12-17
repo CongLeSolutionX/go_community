@@ -6,13 +6,15 @@ package net
 
 import (
 	"context"
+	"internal/itoa"
 	"io"
+	"net/netip"
 	"os"
 	"syscall"
 	"time"
 )
 
-// BUG(mikio): On JS, NaCl and Windows, the File method of TCPConn and
+// BUG(mikio): On JS and Windows, the File method of TCPConn and
 // TCPListener is not implemented.
 
 // TCPAddr represents the address of a TCP end point.
@@ -20,6 +22,20 @@ type TCPAddr struct {
 	IP   IP
 	Port int
 	Zone string // IPv6 scoped addressing zone
+}
+
+// AddrPort returns the TCPAddr a as a netip.AddrPort.
+//
+// If a.Port does not fit in a uint16, it's silently truncated.
+//
+// If a is nil, a zero value is returned.
+func (a *TCPAddr) AddrPort() netip.AddrPort {
+	if a == nil {
+		return netip.AddrPort{}
+	}
+	na, _ := netip.AddrFromSlice(a.IP)
+	na = na.WithZone(a.Zone)
+	return netip.AddrPortFrom(na, uint16(a.Port))
 }
 
 // Network returns the address's network name, "tcp".
@@ -31,9 +47,9 @@ func (a *TCPAddr) String() string {
 	}
 	ip := ipEmptyString(a.IP)
 	if a.Zone != "" {
-		return JoinHostPort(ip+"%"+a.Zone, itoa(a.Port))
+		return JoinHostPort(ip+"%"+a.Zone, itoa.Itoa(a.Port))
 	}
-	return JoinHostPort(ip, itoa(a.Port))
+	return JoinHostPort(ip, itoa.Itoa(a.Port))
 }
 
 func (a *TCPAddr) isWildcard() bool {
@@ -80,6 +96,17 @@ func ResolveTCPAddr(network, address string) (*TCPAddr, error) {
 	return addrs.forResolve(network, address).(*TCPAddr), nil
 }
 
+// TCPAddrFromAddrPort returns addr as a TCPAddr. If addr.IsValid() is false,
+// then the returned TCPAddr will contain a nil IP field, indicating an
+// address family-agnostic unspecified address.
+func TCPAddrFromAddrPort(addr netip.AddrPort) *TCPAddr {
+	return &TCPAddr{
+		IP:   addr.Addr().AsSlice(),
+		Zone: addr.Addr().Zone(),
+		Port: int(addr.Port()),
+	}
+}
+
 // TCPConn is an implementation of the Conn interface for TCP network
 // connections.
 type TCPConn struct {
@@ -92,7 +119,7 @@ func (c *TCPConn) SyscallConn() (syscall.RawConn, error) {
 	if !c.ok() {
 		return nil, syscall.EINVAL
 	}
-	return newRawConn(c.fd)
+	return newRawConn(c.fd), nil
 }
 
 // ReadFrom implements the io.ReaderFrom ReadFrom method.
@@ -103,6 +130,18 @@ func (c *TCPConn) ReadFrom(r io.Reader) (int64, error) {
 	n, err := c.readFrom(r)
 	if err != nil && err != io.EOF {
 		err = &OpError{Op: "readfrom", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	}
+	return n, err
+}
+
+// WriteTo implements the io.WriterTo WriteTo method.
+func (c *TCPConn) WriteTo(w io.Writer) (int64, error) {
+	if !c.ok() {
+		return 0, syscall.EINVAL
+	}
+	n, err := c.writeTo(w)
+	if err != nil && err != io.EOF {
+		err = &OpError{Op: "writeto", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
 	}
 	return n, err
 }
@@ -140,8 +179,10 @@ func (c *TCPConn) CloseWrite() error {
 // If sec == 0, the operating system discards any unsent or
 // unacknowledged data.
 //
-// If sec > 0, the data is sent in the background as with sec < 0. On
-// some operating systems after sec seconds have elapsed any remaining
+// If sec > 0, the data is sent in the background as with sec < 0.
+// On some operating systems including Linux, this may cause Close to block
+// until all data has been sent or discarded.
+// On some operating systems after sec seconds have elapsed any remaining
 // unsent data may be discarded.
 func (c *TCPConn) SetLinger(sec int) error {
 	if !c.ok() {
@@ -154,7 +195,7 @@ func (c *TCPConn) SetLinger(sec int) error {
 }
 
 // SetKeepAlive sets whether the operating system should send
-// keepalive messages on the connection.
+// keep-alive messages on the connection.
 func (c *TCPConn) SetKeepAlive(keepalive bool) error {
 	if !c.ok() {
 		return syscall.EINVAL
@@ -165,7 +206,7 @@ func (c *TCPConn) SetKeepAlive(keepalive bool) error {
 	return nil
 }
 
-// SetKeepAlivePeriod sets period between keep alives.
+// SetKeepAlivePeriod sets period between keep-alives.
 func (c *TCPConn) SetKeepAlivePeriod(d time.Duration) error {
 	if !c.ok() {
 		return syscall.EINVAL
@@ -190,10 +231,35 @@ func (c *TCPConn) SetNoDelay(noDelay bool) error {
 	return nil
 }
 
-func newTCPConn(fd *netFD) *TCPConn {
-	c := &TCPConn{conn{fd}}
-	setNoDelay(c.fd, true)
-	return c
+// MultipathTCP reports whether the ongoing connection is using MPTCP.
+//
+// If Multipath TCP is not supported by the host, by the other peer or
+// intentionally / accidentally filtered out by a device in between, a
+// fallback to TCP will be done. This method does its best to check if
+// MPTCP is still being used or not.
+//
+// On Linux, more conditions are verified on kernels >= v5.16, improving
+// the results.
+func (c *TCPConn) MultipathTCP() (bool, error) {
+	if !c.ok() {
+		return false, syscall.EINVAL
+	}
+	return isUsingMultipathTCP(c.fd), nil
+}
+
+func newTCPConn(fd *netFD, keepAlive time.Duration, keepAliveHook func(time.Duration)) *TCPConn {
+	setNoDelay(fd, true)
+	if keepAlive == 0 {
+		keepAlive = defaultTCPKeepAlive
+	}
+	if keepAlive > 0 {
+		setKeepAlive(fd, true)
+		setKeepAlivePeriod(fd, keepAlive)
+		if keepAliveHook != nil {
+			keepAliveHook(keepAlive)
+		}
+	}
+	return &TCPConn{conn{fd}}
 }
 
 // DialTCP acts like Dial for TCP networks.
@@ -224,6 +290,7 @@ func DialTCP(network string, laddr, raddr *TCPAddr) (*TCPConn, error) {
 // use variables of type Listener instead of assuming TCP.
 type TCPListener struct {
 	fd *netFD
+	lc ListenConfig
 }
 
 // SyscallConn returns a raw network connection.
@@ -235,7 +302,7 @@ func (l *TCPListener) SyscallConn() (syscall.RawConn, error) {
 	if !l.ok() {
 		return nil, syscall.EINVAL
 	}
-	return newRawListener(l.fd)
+	return newRawListener(l.fd), nil
 }
 
 // AcceptTCP accepts the next incoming call and returns the new
@@ -287,10 +354,7 @@ func (l *TCPListener) SetDeadline(t time.Time) error {
 	if !l.ok() {
 		return syscall.EINVAL
 	}
-	if err := l.fd.pfd.SetDeadline(t); err != nil {
-		return &OpError{Op: "set", Net: l.fd.net, Source: nil, Addr: l.fd.laddr, Err: err}
-	}
-	return nil
+	return l.fd.SetDeadline(t)
 }
 
 // File returns a copy of the underlying os.File.
@@ -335,4 +399,9 @@ func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error) {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: laddr.opAddr(), Err: err}
 	}
 	return ln, nil
+}
+
+// roundDurationUp rounds d to the next multiple of to.
+func roundDurationUp(d time.Duration, to time.Duration) time.Duration {
+	return (d + to - 1) / to
 }

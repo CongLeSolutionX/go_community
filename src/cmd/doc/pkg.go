@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"go/ast"
@@ -15,8 +16,8 @@ import (
 	"go/printer"
 	"go/token"
 	"io"
+	"io/fs"
 	"log"
-	"os"
 	"path/filepath"
 	"strings"
 	"unicode"
@@ -24,24 +25,53 @@ import (
 )
 
 const (
-	punchedCardWidth = 80 // These things just won't leave us alone.
-	indentedWidth    = punchedCardWidth - len(indent)
+	punchedCardWidth = 80
 	indent           = "    "
 )
 
 type Package struct {
-	writer               io.Writer    // Destination for output.
-	name                 string       // Package name, json for encoding/json.
-	userPath             string       // String the user used to find this package.
-	pkg                  *ast.Package // Parsed package.
-	file                 *ast.File    // Merged from all files in the package
-	doc                  *doc.Package
-	build                *build.Package
-	typedValue           map[*doc.Value]bool // Consts and vars related to types.
-	constructor          map[*doc.Func]bool  // Constructors.
-	packageClausePrinted bool                // Prevent repeated package clauses.
-	fs                   *token.FileSet      // Needed for printing.
-	buf                  bytes.Buffer
+	writer      io.Writer    // Destination for output.
+	name        string       // Package name, json for encoding/json.
+	userPath    string       // String the user used to find this package.
+	pkg         *ast.Package // Parsed package.
+	file        *ast.File    // Merged from all files in the package
+	doc         *doc.Package
+	build       *build.Package
+	typedValue  map[*doc.Value]bool // Consts and vars related to types.
+	constructor map[*doc.Func]bool  // Constructors.
+	fs          *token.FileSet      // Needed for printing.
+	buf         pkgBuffer
+}
+
+func (p *Package) ToText(w io.Writer, text, prefix, codePrefix string) {
+	d := p.doc.Parser().Parse(text)
+	pr := p.doc.Printer()
+	pr.TextPrefix = prefix
+	pr.TextCodePrefix = codePrefix
+	w.Write(pr.Text(d))
+}
+
+// pkgBuffer is a wrapper for bytes.Buffer that prints a package clause the
+// first time Write is called.
+type pkgBuffer struct {
+	pkg     *Package
+	printed bool // Prevent repeated package clauses.
+	bytes.Buffer
+}
+
+func (pb *pkgBuffer) Write(p []byte) (int, error) {
+	pb.packageClause()
+	return pb.Buffer.Write(p)
+}
+
+func (pb *pkgBuffer) packageClause() {
+	if !pb.printed {
+		pb.printed = true
+		// Only show package clause for commands if requested explicitly.
+		if pb.pkg.pkg.Name != "main" || showCmd {
+			pb.pkg.packageClause()
+		}
+	}
 }
 
 type PackageError string // type returned by pkg.Fatalf.
@@ -66,9 +96,11 @@ func (pkg *Package) prettyPath() string {
 	// Also convert everything to slash-separated paths for uniform handling.
 	path = filepath.Clean(filepath.ToSlash(pkg.build.Dir))
 	// Can we find a decent prefix?
-	goroot := filepath.Join(buildCtx.GOROOT, "src")
-	if p, ok := trim(path, filepath.ToSlash(goroot)); ok {
-		return p
+	if buildCtx.GOROOT != "" {
+		goroot := filepath.Join(buildCtx.GOROOT, "src")
+		if p, ok := trim(path, filepath.ToSlash(goroot)); ok {
+			return p
+		}
 	}
 	for _, gopath := range splitGopath() {
 		if p, ok := trim(path, filepath.ToSlash(gopath)); ok {
@@ -99,18 +131,17 @@ func trim(path, prefix string) (string, bool) {
 // main do function, so it doesn't cause an exit. Allows testing to work
 // without running a subprocess. The log prefix will be added when
 // logged in main; it is not added here.
-func (pkg *Package) Fatalf(format string, args ...interface{}) {
+func (pkg *Package) Fatalf(format string, args ...any) {
 	panic(PackageError(fmt.Sprintf(format, args...)))
 }
 
 // parsePackage turns the build package we found into a parsed package
 // we can then use to generate documentation.
 func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Package {
-	fs := token.NewFileSet()
 	// include tells parser.ParseDir which files to include.
 	// That means the file must be in the build package's GoFiles or CgoFiles
 	// list only (no tag-ignored files, tests, swig or other non-Go files).
-	include := func(info os.FileInfo) bool {
+	include := func(info fs.FileInfo) bool {
 		for _, name := range pkg.GoFiles {
 			if name == info.Name() {
 				return true
@@ -123,12 +154,16 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 		}
 		return false
 	}
-	pkgs, err := parser.ParseDir(fs, pkg.Dir, include, parser.ParseComments)
+	fset := token.NewFileSet()
+	pkgs, err := parser.ParseDir(fset, pkg.Dir, include, parser.ParseComments)
 	if err != nil {
 		log.Fatal(err)
 	}
 	// Make sure they are all in one package.
-	if len(pkgs) != 1 {
+	if len(pkgs) == 0 {
+		log.Fatalf("no source-code package in directory %s", pkg.Dir)
+	}
+	if len(pkgs) > 1 {
 		log.Fatalf("multiple packages in directory %s", pkg.Dir)
 	}
 	astPkg := pkgs[pkg.Name]
@@ -150,24 +185,24 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 	constructor := make(map[*doc.Func]bool)
 	for _, typ := range docPkg.Types {
 		docPkg.Consts = append(docPkg.Consts, typ.Consts...)
-		for _, value := range typ.Consts {
-			typedValue[value] = true
-		}
 		docPkg.Vars = append(docPkg.Vars, typ.Vars...)
-		for _, value := range typ.Vars {
-			typedValue[value] = true
-		}
 		docPkg.Funcs = append(docPkg.Funcs, typ.Funcs...)
-		for _, fun := range typ.Funcs {
-			// We don't count it as a constructor bound to the type
-			// if the type itself is not exported.
-			if isExported(typ.Name) {
+		if isExported(typ.Name) {
+			for _, value := range typ.Consts {
+				typedValue[value] = true
+			}
+			for _, value := range typ.Vars {
+				typedValue[value] = true
+			}
+			for _, fun := range typ.Funcs {
+				// We don't count it as a constructor bound to the type
+				// if the type itself is not exported.
 				constructor[fun] = true
 			}
 		}
 	}
 
-	return &Package{
+	p := &Package{
 		writer:      writer,
 		name:        pkg.Name,
 		userPath:    userPath,
@@ -177,11 +212,13 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 		typedValue:  typedValue,
 		constructor: constructor,
 		build:       pkg,
-		fs:          fs,
+		fs:          fset,
 	}
+	p.buf.pkg = p
+	return p
 }
 
-func (pkg *Package) Printf(format string, args ...interface{}) {
+func (pkg *Package) Printf(format string, args ...any) {
 	fmt.Fprintf(&pkg.buf, format, args...)
 }
 
@@ -207,7 +244,7 @@ func (pkg *Package) newlines(n int) {
 // clears the stuff we don't want to print anyway. It's a bit of a magic trick.
 func (pkg *Package) emit(comment string, node ast.Node) {
 	if node != nil {
-		var arg interface{} = node
+		var arg any = node
 		if showSrc {
 			// Need an extra little dance to get internal comments to appear.
 			arg = &printer.CommentedNode{
@@ -221,7 +258,7 @@ func (pkg *Package) emit(comment string, node ast.Node) {
 		}
 		if comment != "" && !showSrc {
 			pkg.newlines(1)
-			doc.ToText(&pkg.buf, comment, "    ", indent, indentedWidth)
+			pkg.ToText(&pkg.buf, comment, indent, indent+indent)
 			pkg.newlines(2) // Blank line after comment to separate from next item.
 		} else {
 			pkg.newlines(1)
@@ -287,9 +324,7 @@ func (pkg *Package) oneLineNodeDepth(node ast.Node, depth int) string {
 			recv = "(" + recv + ") "
 		}
 		fnc := pkg.oneLineNodeDepth(n.Type, depth)
-		if strings.Index(fnc, "func") == 0 {
-			fnc = fnc[4:]
-		}
+		fnc = strings.TrimPrefix(fnc, "func")
 		return fmt.Sprintf("func %s%s%s", recv, name, fnc)
 
 	case *ast.TypeSpec:
@@ -297,7 +332,8 @@ func (pkg *Package) oneLineNodeDepth(node ast.Node, depth int) string {
 		if n.Assign.IsValid() {
 			sep = " = "
 		}
-		return fmt.Sprintf("type %s%s%s", n.Name.Name, sep, pkg.oneLineNodeDepth(n.Type, depth))
+		tparams := pkg.formatTypeParams(n.TypeParams, depth)
+		return fmt.Sprintf("type %s%s%s%s", n.Name.Name, tparams, sep, pkg.oneLineNodeDepth(n.Type, depth))
 
 	case *ast.FuncType:
 		var params []string
@@ -316,15 +352,16 @@ func (pkg *Package) oneLineNodeDepth(node ast.Node, depth int) string {
 			}
 		}
 
+		tparam := pkg.formatTypeParams(n.TypeParams, depth)
 		param := joinStrings(params)
 		if len(results) == 0 {
-			return fmt.Sprintf("func(%s)", param)
+			return fmt.Sprintf("func%s(%s)", tparam, param)
 		}
 		result := joinStrings(results)
 		if !needParens {
-			return fmt.Sprintf("func(%s) %s", param, result)
+			return fmt.Sprintf("func%s(%s) %s", tparam, param, result)
 		}
-		return fmt.Sprintf("func(%s) (%s)", param, result)
+		return fmt.Sprintf("func%s(%s) (%s)", tparam, param, result)
 
 	case *ast.StructType:
 		if n.Fields == nil || len(n.Fields.List) == 0 {
@@ -383,7 +420,7 @@ func (pkg *Package) oneLineNodeDepth(node ast.Node, depth int) string {
 
 	default:
 		// As a fallback, use default formatter for all unknown node types.
-		buf := new(bytes.Buffer)
+		buf := new(strings.Builder)
 		format.Node(buf, pkg.fs, node)
 		s := buf.String()
 		if strings.Contains(s, "\n") {
@@ -391,6 +428,17 @@ func (pkg *Package) oneLineNodeDepth(node ast.Node, depth int) string {
 		}
 		return s
 	}
+}
+
+func (pkg *Package) formatTypeParams(list *ast.FieldList, depth int) string {
+	if list.NumFields() == 0 {
+		return ""
+	}
+	var tparams []string
+	for _, field := range list.List {
+		tparams = append(tparams, pkg.oneLineField(field, depth))
+	}
+	return "[" + joinStrings(tparams) + "]"
 }
 
 // oneLineField returns a one-line summary of the field.
@@ -419,115 +467,119 @@ func joinStrings(ss []string) string {
 	return strings.Join(ss, ", ")
 }
 
-// allDoc prints all the docs for the package.
-func (pkg *Package) allDoc() {
-	defer pkg.flush()
-	if pkg.showInternals() {
-		pkg.packageClause(false)
-	}
+// printHeader prints a header for the section named s, adding a blank line on each side.
+func (pkg *Package) printHeader(s string) {
+	pkg.Printf("\n%s\n\n", s)
+}
 
-	doc.ToText(&pkg.buf, pkg.doc.Doc, "", indent, indentedWidth)
-	pkg.newlines(1)
-
-	printed := make(map[*ast.GenDecl]bool)
-
-	hdr := ""
-	printHdr := func(s string) {
-		if hdr != s {
-			pkg.Printf("\n%s\n\n", s)
-			hdr = s
-		}
-	}
-
-	// Constants.
+// constsDoc prints all const documentation, if any, including a header.
+// The one argument is the valueDoc registry.
+func (pkg *Package) constsDoc(printed map[*ast.GenDecl]bool) {
+	var header bool
 	for _, value := range pkg.doc.Consts {
 		// Constants and variables come in groups, and valueDoc prints
 		// all the items in the group. We only need to find one exported symbol.
 		for _, name := range value.Names {
 			if isExported(name) && !pkg.typedValue[value] {
-				printHdr("CONSTANTS")
+				if !header {
+					pkg.printHeader("CONSTANTS")
+					header = true
+				}
 				pkg.valueDoc(value, printed)
 				break
 			}
 		}
 	}
+}
 
-	// Variables.
+// varsDoc prints all var documentation, if any, including a header.
+// Printed is the valueDoc registry.
+func (pkg *Package) varsDoc(printed map[*ast.GenDecl]bool) {
+	var header bool
 	for _, value := range pkg.doc.Vars {
 		// Constants and variables come in groups, and valueDoc prints
 		// all the items in the group. We only need to find one exported symbol.
 		for _, name := range value.Names {
 			if isExported(name) && !pkg.typedValue[value] {
-				printHdr("VARIABLES")
+				if !header {
+					pkg.printHeader("VARIABLES")
+					header = true
+				}
 				pkg.valueDoc(value, printed)
 				break
 			}
 		}
 	}
+}
 
-	// Functions.
+// funcsDoc prints all func documentation, if any, including a header.
+func (pkg *Package) funcsDoc() {
+	var header bool
 	for _, fun := range pkg.doc.Funcs {
 		if isExported(fun.Name) && !pkg.constructor[fun] {
-			printHdr("FUNCTIONS")
+			if !header {
+				pkg.printHeader("FUNCTIONS")
+				header = true
+			}
 			pkg.emit(fun.Doc, fun.Decl)
 		}
 	}
+}
 
-	// Types.
+// funcsDoc prints all type documentation, if any, including a header.
+func (pkg *Package) typesDoc() {
+	var header bool
 	for _, typ := range pkg.doc.Types {
 		if isExported(typ.Name) {
-			printHdr("TYPES")
+			if !header {
+				pkg.printHeader("TYPES")
+				header = true
+			}
 			pkg.typeDoc(typ)
 		}
 	}
 }
 
-// packageDoc prints the docs for the package (package doc plus one-liners of the rest).
+// packageDoc prints the docs for the package.
 func (pkg *Package) packageDoc() {
-	defer pkg.flush()
-	if pkg.showInternals() {
-		pkg.packageClause(false)
+	pkg.Printf("") // Trigger the package clause; we know the package exists.
+	if showAll || !short {
+		pkg.ToText(&pkg.buf, pkg.doc.Doc, "", indent)
+		pkg.newlines(1)
 	}
 
-	doc.ToText(&pkg.buf, pkg.doc.Doc, "", indent, indentedWidth)
-	pkg.newlines(1)
+	switch {
+	case showAll:
+		printed := make(map[*ast.GenDecl]bool) // valueDoc registry
+		pkg.constsDoc(printed)
+		pkg.varsDoc(printed)
+		pkg.funcsDoc()
+		pkg.typesDoc()
 
-	if !pkg.showInternals() {
+	case pkg.pkg.Name == "main" && !showCmd:
 		// Show only package docs for commands.
 		return
+
+	default:
+		if !short {
+			pkg.newlines(2) // Guarantee blank line before the components.
+		}
+		pkg.valueSummary(pkg.doc.Consts, false)
+		pkg.valueSummary(pkg.doc.Vars, false)
+		pkg.funcSummary(pkg.doc.Funcs, false)
+		pkg.typeSummary()
 	}
 
-	pkg.newlines(2) // Guarantee blank line before the components.
-	pkg.valueSummary(pkg.doc.Consts, false)
-	pkg.valueSummary(pkg.doc.Vars, false)
-	pkg.funcSummary(pkg.doc.Funcs, false)
-	pkg.typeSummary()
-	pkg.bugs()
-}
-
-// showInternals reports whether we should show the internals
-// of a package as opposed to just the package docs.
-// Used to decide whether to suppress internals for commands.
-// Called only by Package.packageDoc.
-func (pkg *Package) showInternals() bool {
-	return pkg.pkg.Name != "main" || showCmd
+	if !short {
+		pkg.bugs()
+	}
 }
 
 // packageClause prints the package clause.
-// The argument boolean, if true, suppresses the output if the
-// user's argument is identical to the actual package path or
-// is empty, meaning it's the current directory.
-func (pkg *Package) packageClause(checkUserPath bool) {
-	if pkg.packageClausePrinted {
+func (pkg *Package) packageClause() {
+	if short {
 		return
 	}
-
-	if checkUserPath {
-		if pkg.userPath == "" || pkg.userPath == pkg.build.ImportPath {
-			return
-		}
-	}
-
 	importPath := pkg.build.ImportComment
 	if importPath == "" {
 		importPath = pkg.build.ImportPath
@@ -559,7 +611,6 @@ func (pkg *Package) packageClause(checkUserPath bool) {
 	if !usingModules && importPath != pkg.build.ImportPath {
 		pkg.Printf("WARNING: package source is installed in %q\n", pkg.build.ImportPath)
 	}
-	pkg.packageClausePrinted = true
 }
 
 // valueSummary prints a one-line summary for each set of values and constants.
@@ -693,13 +744,9 @@ func (pkg *Package) findTypeSpec(decl *ast.GenDecl, symbol string) *ast.TypeSpec
 // If symbol matches a type, output includes its methods factories and associated constants.
 // If there is no top-level symbol, symbolDoc looks for methods that match.
 func (pkg *Package) symbolDoc(symbol string) bool {
-	defer pkg.flush()
 	found := false
 	// Functions.
 	for _, fun := range pkg.findFuncs(symbol) {
-		if !found {
-			pkg.packageClause(true)
-		}
 		// Symbol is a function.
 		decl := fun.Decl
 		pkg.emit(fun.Doc, decl)
@@ -708,11 +755,7 @@ func (pkg *Package) symbolDoc(symbol string) bool {
 	// Constants and variables behave the same.
 	values := pkg.findValues(symbol, pkg.doc.Consts)
 	values = append(values, pkg.findValues(symbol, pkg.doc.Vars)...)
-	// A declaration like
-	//	const ( c = 1; C = 2 )
-	// could be printed twice if the -u flag is set, as it matches twice.
-	// So we remember which declarations we've printed to avoid duplication.
-	printed := make(map[*ast.GenDecl]bool)
+	printed := make(map[*ast.GenDecl]bool) // valueDoc registry
 	for _, value := range values {
 		pkg.valueDoc(value, printed)
 		found = true
@@ -731,7 +774,13 @@ func (pkg *Package) symbolDoc(symbol string) bool {
 	return true
 }
 
-// valueDoc prints the docs for a constant or variable.
+// valueDoc prints the docs for a constant or variable. The printed map records
+// which values have been printed already to avoid duplication. Otherwise, a
+// declaration like:
+//
+//	const ( c = 1; C = 2 )
+//
+// … could be printed twice if the -u flag is set, as it matches twice.
 func (pkg *Package) valueDoc(value *doc.Value, printed map[*ast.GenDecl]bool) {
 	if printed[value.Decl] {
 		return
@@ -791,7 +840,7 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 	pkg.newlines(2)
 	// Show associated methods, constants, etc.
 	if showAll {
-		printed := make(map[*ast.GenDecl]bool)
+		printed := make(map[*ast.GenDecl]bool) // valueDoc registry
 		// We can use append here to print consts, then vars. Ditto for funcs and methods.
 		values := typ.Consts
 		values = append(values, typ.Vars...)
@@ -808,6 +857,9 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 		for _, fun := range funcs {
 			if isExported(fun.Name) {
 				pkg.emit(fun.Doc, fun.Decl)
+				if fun.Doc == "" {
+					pkg.newlines(2)
+				}
 			}
 		}
 	} else {
@@ -822,7 +874,7 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 // structs and methods from interfaces (unless the unexported flag is set or we
 // are asked to show the original source).
 func trimUnexportedElems(spec *ast.TypeSpec) {
-	if unexported || showSrc {
+	if showSrc {
 		return
 	}
 	switch typ := spec.Type.(type) {
@@ -843,10 +895,48 @@ func trimUnexportedFields(fields *ast.FieldList, isInterface bool) *ast.FieldLis
 	trimmed := false
 	list := make([]*ast.Field, 0, len(fields.List))
 	for _, field := range fields.List {
+		// When printing fields we normally print field.Doc.
+		// Here we are going to pass the AST to go/format,
+		// which will print the comments from the AST,
+		// not field.Doc which is from go/doc.
+		// The two are similar but not identical;
+		// for example, field.Doc does not include directives.
+		// In order to consistently print field.Doc,
+		// we replace the comment in the AST with field.Doc.
+		// That will cause go/format to print what we want.
+		// See issue #56592.
+		if field.Doc != nil {
+			doc := field.Doc
+			text := doc.Text()
+
+			trailingBlankLine := len(doc.List[len(doc.List)-1].Text) == 2
+			if !trailingBlankLine {
+				// Remove trailing newline.
+				lt := len(text)
+				if lt > 0 && text[lt-1] == '\n' {
+					text = text[:lt-1]
+				}
+			}
+
+			start := doc.List[0].Slash
+			doc.List = doc.List[:0]
+			for _, line := range strings.Split(text, "\n") {
+				prefix := "// "
+				if len(line) > 0 && line[0] == '\t' {
+					prefix = "//"
+				}
+				doc.List = append(doc.List, &ast.Comment{
+					Text: prefix + line,
+				})
+			}
+			doc.List[0].Slash = start
+		}
+
 		names := field.Names
 		if len(names) == 0 {
 			// Embedded type. Use the name of the type. It must be of the form ident or
 			// pkg.ident (for structs and interfaces), or *ident or *pkg.ident (structs only).
+			// Or a type embedded in a constraint.
 			// Nothing else is allowed.
 			ty := field.Type
 			if se, ok := field.Type.(*ast.StarExpr); !isInterface && ok {
@@ -854,6 +944,7 @@ func trimUnexportedFields(fields *ast.FieldList, isInterface bool) *ast.FieldLis
 				// embedded types in structs.
 				ty = se.X
 			}
+			constraint := false
 			switch ident := ty.(type) {
 			case *ast.Ident:
 				if isInterface && ident.Name == "error" && ident.Obj == nil {
@@ -867,19 +958,25 @@ func trimUnexportedFields(fields *ast.FieldList, isInterface bool) *ast.FieldLis
 			case *ast.SelectorExpr:
 				// An embedded type may refer to a type in another package.
 				names = []*ast.Ident{ident.Sel}
+			default:
+				// An approximation or union or type
+				// literal in an interface.
+				constraint = true
 			}
-			if names == nil {
+			if names == nil && !constraint {
 				// Can only happen if AST is incorrect. Safe to continue with a nil list.
 				log.Print("invalid program: unexpected type for embedded field")
 			}
 		}
 		// Trims if any is unexported. Good enough in practice.
 		ok := true
-		for _, name := range names {
-			if !isExported(name.Name) {
-				trimmed = true
-				ok = false
-				break
+		if !unexported {
+			for _, name := range names {
+				if !isExported(name.Name) {
+					trimmed = true
+					ok = false
+					break
+				}
 			}
 		}
 		if ok {
@@ -910,10 +1007,9 @@ func trimUnexportedFields(fields *ast.FieldList, isInterface bool) *ast.FieldLis
 }
 
 // printMethodDoc prints the docs for matches of symbol.method.
-// If symbol is empty, it prints all methods that match the name.
-// It reports whether it found any methods.
+// If symbol is empty, it prints all methods for any concrete type
+// that match the name. It reports whether it found any methods.
 func (pkg *Package) printMethodDoc(symbol, method string) bool {
-	defer pkg.flush()
 	types := pkg.findTypes(symbol)
 	if types == nil {
 		if symbol == "" {
@@ -933,6 +1029,9 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 			}
 			continue
 		}
+		if symbol == "" {
+			continue
+		}
 		// Type may be an interface. The go/doc package does not attach
 		// an interface's methods to the doc.Type. We need to dig around.
 		spec := pkg.findTypeSpec(typ.Decl, typ.Name)
@@ -941,6 +1040,9 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 			// Not an interface type.
 			continue
 		}
+
+		// Collect and print only the methods that match.
+		var methods []*ast.Field
 		for _, iMethod := range inter.Methods.List {
 			// This is an interface, so there can be only one name.
 			// TODO: Anonymous methods (embedding)
@@ -949,21 +1051,20 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 			}
 			name := iMethod.Names[0].Name
 			if match(method, name) {
-				if iMethod.Doc != nil {
-					for _, comment := range iMethod.Doc.List {
-						doc.ToText(&pkg.buf, comment.Text, "", indent, indentedWidth)
-					}
-				}
-				s := pkg.oneLineNode(iMethod.Type)
-				// Hack: s starts "func" but there is no name present.
-				// We could instead build a FuncDecl but it's not worthwhile.
-				lineComment := ""
-				if iMethod.Comment != nil {
-					lineComment = fmt.Sprintf("  %s", iMethod.Comment.List[0].Text)
-				}
-				pkg.Printf("func %s%s%s\n", name, s[4:], lineComment)
+				methods = append(methods, iMethod)
 				found = true
 			}
+		}
+		if found {
+			pkg.Printf("type %s ", spec.Name)
+			inter.Methods.List, methods = methods, inter.Methods.List
+			err := format.Node(&pkg.buf, pkg.fs, inter)
+			if err != nil {
+				log.Fatal(err)
+			}
+			pkg.newlines(1)
+			// Restore the original methods.
+			inter.Methods.List = methods
 		}
 	}
 	return found
@@ -976,7 +1077,6 @@ func (pkg *Package) printFieldDoc(symbol, fieldName string) bool {
 	if symbol == "" || fieldName == "" {
 		return false
 	}
-	defer pkg.flush()
 	types := pkg.findTypes(symbol)
 	if types == nil {
 		pkg.Fatalf("symbol %s is not a type in package %s installed in %q", symbol, pkg.name, pkg.build.ImportPath)
@@ -1002,8 +1102,13 @@ func (pkg *Package) printFieldDoc(symbol, fieldName string) bool {
 					pkg.Printf("type %s struct {\n", typ.Name)
 				}
 				if field.Doc != nil {
-					for _, comment := range field.Doc.List {
-						doc.ToText(&pkg.buf, comment.Text, indent, indent, indentedWidth)
+					// To present indented blocks in comments correctly, process the comment as
+					// a unit before adding the leading // to each line.
+					docBuf := new(bytes.Buffer)
+					pkg.ToText(docBuf, field.Doc.Text(), "", indent)
+					scanner := bufio.NewScanner(docBuf)
+					for scanner.Scan() {
+						fmt.Fprintf(&pkg.buf, "%s// %s\n", indent, scanner.Bytes())
 					}
 				}
 				s := pkg.oneLineNode(field.Type)
@@ -1023,18 +1128,6 @@ func (pkg *Package) printFieldDoc(symbol, fieldName string) bool {
 		pkg.Printf("}\n")
 	}
 	return found
-}
-
-// methodDoc prints the docs for matches of symbol.method.
-func (pkg *Package) methodDoc(symbol, method string) bool {
-	defer pkg.flush()
-	return pkg.printMethodDoc(symbol, method)
-}
-
-// fieldDoc prints the docs for matches of symbol.field.
-func (pkg *Package) fieldDoc(symbol, field string) bool {
-	defer pkg.flush()
-	return pkg.printFieldDoc(symbol, field)
 }
 
 // match reports whether the user's symbol matches the program's.

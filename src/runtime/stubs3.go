@@ -2,14 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !plan9
-// +build !solaris
-// +build !windows
-// +build !nacl
-// +build !freebsd
-// +build !darwin
-// +build !aix
+//go:build !aix && !darwin && !freebsd && !openbsd && !plan9 && !solaris && !wasip1
 
 package runtime
 
-func nanotime() int64
+//go:wasmimport gojs runtime.nanotime1
+func nanotime1() int64

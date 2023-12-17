@@ -14,7 +14,7 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"net/http/internal"
+	"net/http/internal/testcert"
 	"os"
 	"strings"
 	"sync"
@@ -26,6 +26,11 @@ import (
 type Server struct {
 	URL      string // base URL of form http://ipaddr:port with no trailing slash
 	Listener net.Listener
+
+	// EnableHTTP2 controls whether HTTP/2 is enabled
+	// on the server. It must be set between calling
+	// NewUnstartedServer and calling Server.StartTLS.
+	EnableHTTP2 bool
 
 	// TLS is the optional TLS configuration, populated with a new config
 	// after TLS is started. If set on an unstarted server before StartTLS
@@ -71,7 +76,9 @@ func newLocalListener() net.Listener {
 
 // When debugging a particular http server-based test,
 // this flag lets you run
-//	go test -run=BrokenTest -httptest.serve=127.0.0.1:8000
+//
+//	go test -run='^BrokenTest$' -httptest.serve=127.0.0.1:8000
+//
 // to start the broken server so you can interact with it manually.
 // We only register this flag if it looks like the caller knows about it
 // and is trying to use it as we don't want to pollute flags and this
@@ -137,9 +144,9 @@ func (s *Server) StartTLS() {
 		panic("Server already started")
 	}
 	if s.client == nil {
-		s.client = &http.Client{Transport: &http.Transport{}}
+		s.client = &http.Client{}
 	}
-	cert, err := tls.X509KeyPair(internal.LocalhostCert, internal.LocalhostKey)
+	cert, err := tls.X509KeyPair(testcert.LocalhostCert, testcert.LocalhostKey)
 	if err != nil {
 		panic(fmt.Sprintf("httptest: NewTLSServer: %v", err))
 	}
@@ -151,7 +158,11 @@ func (s *Server) StartTLS() {
 		s.TLS = new(tls.Config)
 	}
 	if s.TLS.NextProtos == nil {
-		s.TLS.NextProtos = []string{"http/1.1"}
+		nextProtos := []string{"http/1.1"}
+		if s.EnableHTTP2 {
+			nextProtos = []string{"h2"}
+		}
+		s.TLS.NextProtos = nextProtos
 	}
 	if len(s.TLS.Certificates) == 0 {
 		s.TLS.Certificates = []tls.Certificate{cert}
@@ -166,6 +177,7 @@ func (s *Server) StartTLS() {
 		TLSClientConfig: &tls.Config{
 			RootCAs: certpool,
 		},
+		ForceAttemptHTTP2: s.EnableHTTP2,
 	}
 	s.Listener = tls.NewListener(s.Listener, s.TLS)
 	s.URL = "https://" + s.Listener.Addr().String()
@@ -306,15 +318,18 @@ func (s *Server) wrap() {
 	s.Config.ConnState = func(c net.Conn, cs http.ConnState) {
 		s.mu.Lock()
 		defer s.mu.Unlock()
+
 		switch cs {
 		case http.StateNew:
-			s.wg.Add(1)
 			if _, exists := s.conns[c]; exists {
 				panic("invalid state transition")
 			}
 			if s.conns == nil {
 				s.conns = make(map[net.Conn]http.ConnState)
 			}
+			// Add c to the set of tracked conns and increment it to the
+			// waitgroup.
+			s.wg.Add(1)
 			s.conns[c] = cs
 			if s.closed {
 				// Probably just a socket-late-binding dial from
@@ -341,7 +356,14 @@ func (s *Server) wrap() {
 				s.closeConn(c)
 			}
 		case http.StateHijacked, http.StateClosed:
-			s.forgetConn(c)
+			// Remove c from the set of tracked conns and decrement it from the
+			// waitgroup, unless it was previously removed.
+			if _, ok := s.conns[c]; ok {
+				delete(s.conns, c)
+				// Keep Close from returning until the user's ConnState hook
+				// (if any) finishes.
+				defer s.wg.Done()
+			}
 		}
 		if oldHook != nil {
 			oldHook(c, cs)
@@ -359,15 +381,5 @@ func (s *Server) closeConnChan(c net.Conn, done chan<- struct{}) {
 	c.Close()
 	if done != nil {
 		done <- struct{}{}
-	}
-}
-
-// forgetConn removes c from the set of tracked conns and decrements it from the
-// waitgroup, unless it was previously removed.
-// s.mu must be held.
-func (s *Server) forgetConn(c net.Conn) {
-	if _, ok := s.conns[c]; ok {
-		delete(s.conns, c)
-		s.wg.Done()
 	}
 }

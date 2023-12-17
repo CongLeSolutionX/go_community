@@ -19,26 +19,21 @@ TEXT _rt0_wasm_js(SB),NOSPLIT,$0
 // R0: argc (i32)
 // R1: argv (i32)
 TEXT wasm_export_run(SB),NOSPLIT,$0
-	MOVD $runtime·wasmStack+m0Stack__size(SB), SP
+	MOVD $runtime·wasmStack+(m0Stack__size-16)(SB), SP
 
 	Get SP
 	Get R0 // argc
-	I64ExtendUI32
+	I64ExtendI32U
 	I64Store $0
 
 	Get SP
 	Get R1 // argv
-	I64ExtendUI32
+	I64ExtendI32U
 	I64Store $8
 
-	I32Const $runtime·rt0_go(SB)
-	I32Const $16
-	I32ShrU
-	Set PC_F
-
-	I32Const $0
-	Set PC_B
-
+	I32Const $0 // entry PC_B
+	Call runtime·rt0_go(SB)
+	Drop
 	Call wasm_pc_f_loop(SB)
 
 	Return
@@ -46,36 +41,10 @@ TEXT wasm_export_run(SB),NOSPLIT,$0
 // wasm_export_resume gets called from JavaScript. It resumes the execution of Go code until it needs to wait for
 // an event.
 TEXT wasm_export_resume(SB),NOSPLIT,$0
-	I32Const $runtime·handleEvent(SB)
-	I32Const $16
-	I32ShrU
-	Set PC_F
-
 	I32Const $0
-	Set PC_B
-
+	Call runtime·handleEvent(SB)
+	Drop
 	Call wasm_pc_f_loop(SB)
-
-	Return
-
-TEXT wasm_pc_f_loop(SB),NOSPLIT,$0
-// Call the function for the current PC_F. Repeat until PAUSE != 0 indicates pause or exit.
-// The WebAssembly stack may unwind, e.g. when switching goroutines.
-// The Go stack on the linear memory is then used to jump to the correct functions
-// with this loop, without having to restore the full WebAssembly stack.
-loop:
-	Loop
-		Get PC_F
-		CallIndirect $0
-		Drop
-
-		Get PAUSE
-		I32Eqz
-		BrIf loop
-	End
-
-	I32Const $0
-	Set PAUSE
 
 	Return
 
@@ -91,11 +60,8 @@ TEXT runtime·pause(SB), NOSPLIT, $0-8
 	RETUNWIND
 
 TEXT runtime·exit(SB), NOSPLIT, $0-4
+	I32Const $0
 	Call runtime·wasmExit(SB)
-	Drop
 	I32Const $1
 	Set PAUSE
 	RETUNWIND
-
-TEXT wasm_export_lib(SB),NOSPLIT,$0
-	UNDEF

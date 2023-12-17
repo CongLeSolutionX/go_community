@@ -17,8 +17,8 @@
 //
 // This package favors simplicity over efficiency. Clients that require
 // high-performance serialization, especially for large data structures,
-// should look at more advanced solutions such as the encoding/gob
-// package or protocol buffers.
+// should look at more advanced solutions such as the [encoding/gob]
+// package or [google.golang.org/protobuf] for protocol buffers.
 package binary
 
 import (
@@ -26,10 +26,13 @@ import (
 	"io"
 	"math"
 	"reflect"
+	"sync"
 )
 
-// A ByteOrder specifies how to convert byte sequences into
+// A ByteOrder specifies how to convert byte slices into
 // 16-, 32-, or 64-bit unsigned integers.
+//
+// It is implemented by [LittleEndian], [BigEndian], and [NativeEndian].
 type ByteOrder interface {
 	Uint16([]byte) uint16
 	Uint32([]byte) uint32
@@ -40,10 +43,21 @@ type ByteOrder interface {
 	String() string
 }
 
-// LittleEndian is the little-endian implementation of ByteOrder.
+// AppendByteOrder specifies how to append 16-, 32-, or 64-bit unsigned integers
+// into a byte slice.
+//
+// It is implemented by [LittleEndian], [BigEndian], and [NativeEndian].
+type AppendByteOrder interface {
+	AppendUint16([]byte, uint16) []byte
+	AppendUint32([]byte, uint32) []byte
+	AppendUint64([]byte, uint64) []byte
+	String() string
+}
+
+// LittleEndian is the little-endian implementation of [ByteOrder] and [AppendByteOrder].
 var LittleEndian littleEndian
 
-// BigEndian is the big-endian implementation of ByteOrder.
+// BigEndian is the big-endian implementation of [ByteOrder] and [AppendByteOrder].
 var BigEndian bigEndian
 
 type littleEndian struct{}
@@ -59,6 +73,13 @@ func (littleEndian) PutUint16(b []byte, v uint16) {
 	b[1] = byte(v >> 8)
 }
 
+func (littleEndian) AppendUint16(b []byte, v uint16) []byte {
+	return append(b,
+		byte(v),
+		byte(v>>8),
+	)
+}
+
 func (littleEndian) Uint32(b []byte) uint32 {
 	_ = b[3] // bounds check hint to compiler; see golang.org/issue/14808
 	return uint32(b[0]) | uint32(b[1])<<8 | uint32(b[2])<<16 | uint32(b[3])<<24
@@ -70,6 +91,15 @@ func (littleEndian) PutUint32(b []byte, v uint32) {
 	b[1] = byte(v >> 8)
 	b[2] = byte(v >> 16)
 	b[3] = byte(v >> 24)
+}
+
+func (littleEndian) AppendUint32(b []byte, v uint32) []byte {
+	return append(b,
+		byte(v),
+		byte(v>>8),
+		byte(v>>16),
+		byte(v>>24),
+	)
 }
 
 func (littleEndian) Uint64(b []byte) uint64 {
@@ -90,6 +120,19 @@ func (littleEndian) PutUint64(b []byte, v uint64) {
 	b[7] = byte(v >> 56)
 }
 
+func (littleEndian) AppendUint64(b []byte, v uint64) []byte {
+	return append(b,
+		byte(v),
+		byte(v>>8),
+		byte(v>>16),
+		byte(v>>24),
+		byte(v>>32),
+		byte(v>>40),
+		byte(v>>48),
+		byte(v>>56),
+	)
+}
+
 func (littleEndian) String() string { return "LittleEndian" }
 
 func (littleEndian) GoString() string { return "binary.LittleEndian" }
@@ -107,6 +150,13 @@ func (bigEndian) PutUint16(b []byte, v uint16) {
 	b[1] = byte(v)
 }
 
+func (bigEndian) AppendUint16(b []byte, v uint16) []byte {
+	return append(b,
+		byte(v>>8),
+		byte(v),
+	)
+}
+
 func (bigEndian) Uint32(b []byte) uint32 {
 	_ = b[3] // bounds check hint to compiler; see golang.org/issue/14808
 	return uint32(b[3]) | uint32(b[2])<<8 | uint32(b[1])<<16 | uint32(b[0])<<24
@@ -118,6 +168,15 @@ func (bigEndian) PutUint32(b []byte, v uint32) {
 	b[1] = byte(v >> 16)
 	b[2] = byte(v >> 8)
 	b[3] = byte(v)
+}
+
+func (bigEndian) AppendUint32(b []byte, v uint32) []byte {
+	return append(b,
+		byte(v>>24),
+		byte(v>>16),
+		byte(v>>8),
+		byte(v),
+	)
 }
 
 func (bigEndian) Uint64(b []byte) uint64 {
@@ -138,9 +197,26 @@ func (bigEndian) PutUint64(b []byte, v uint64) {
 	b[7] = byte(v)
 }
 
+func (bigEndian) AppendUint64(b []byte, v uint64) []byte {
+	return append(b,
+		byte(v>>56),
+		byte(v>>48),
+		byte(v>>40),
+		byte(v>>32),
+		byte(v>>24),
+		byte(v>>16),
+		byte(v>>8),
+		byte(v),
+	)
+}
+
 func (bigEndian) String() string { return "BigEndian" }
 
 func (bigEndian) GoString() string { return "binary.BigEndian" }
+
+func (nativeEndian) String() string { return "NativeEndian" }
+
+func (nativeEndian) GoString() string { return "binary.NativeEndian" }
 
 // Read reads structured binary data from r into data.
 // Data must be a pointer to a fixed-size value or a slice
@@ -155,10 +231,10 @@ func (bigEndian) GoString() string { return "binary.BigEndian" }
 // When reading into a struct, all non-blank fields must be exported
 // or Read may panic.
 //
-// The error is EOF only if no bytes were read.
-// If an EOF happens after reading some but not all the bytes,
-// Read returns ErrUnexpectedEOF.
-func Read(r io.Reader, order ByteOrder, data interface{}) error {
+// The error is [io.EOF] only if no bytes were read.
+// If an [io.EOF] happens after reading some but not all the bytes,
+// Read returns [io.ErrUnexpectedEOF].
+func Read(r io.Reader, order ByteOrder, data any) error {
 	// Fast path for basic types and slices.
 	if n := intDataSize(data); n != 0 {
 		bs := make([]byte, n)
@@ -184,6 +260,10 @@ func Read(r io.Reader, order ByteOrder, data interface{}) error {
 			*data = int64(order.Uint64(bs))
 		case *uint64:
 			*data = order.Uint64(bs)
+		case *float32:
+			*data = math.Float32frombits(order.Uint32(bs))
+		case *float64:
+			*data = math.Float64frombits(order.Uint64(bs))
 		case []bool:
 			for i, x := range bs { // Easier to loop over the input for 8-bit values.
 				data[i] = x != 0
@@ -218,15 +298,27 @@ func Read(r io.Reader, order ByteOrder, data interface{}) error {
 			for i := range data {
 				data[i] = order.Uint64(bs[8*i:])
 			}
+		case []float32:
+			for i := range data {
+				data[i] = math.Float32frombits(order.Uint32(bs[4*i:]))
+			}
+		case []float64:
+			for i := range data {
+				data[i] = math.Float64frombits(order.Uint64(bs[8*i:]))
+			}
+		default:
+			n = 0 // fast path doesn't apply
 		}
-		return nil
+		if n != 0 {
+			return nil
+		}
 	}
 
 	// Fallback to reflect-based decoding.
 	v := reflect.ValueOf(data)
 	size := -1
 	switch v.Kind() {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		v = v.Elem()
 		size = dataSize(v)
 	case reflect.Slice:
@@ -251,7 +343,7 @@ func Read(r io.Reader, order ByteOrder, data interface{}) error {
 // and read from successive fields of the data.
 // When writing structs, zero values are written for fields
 // with blank (_) field names.
-func Write(w io.Writer, order ByteOrder, data interface{}) error {
+func Write(w io.Writer, order ByteOrder, data any) error {
 	// Fast path for basic types and slices.
 	if n := intDataSize(data); n != 0 {
 		bs := make([]byte, n)
@@ -289,7 +381,7 @@ func Write(w io.Writer, order ByteOrder, data interface{}) error {
 		case uint8:
 			bs[0] = v
 		case []uint8:
-			bs = v // TODO(josharian): avoid allocating bs in this case?
+			bs = v
 		case *int16:
 			order.PutUint16(bs, uint16(*v))
 		case int16:
@@ -338,6 +430,22 @@ func Write(w io.Writer, order ByteOrder, data interface{}) error {
 			for i, x := range v {
 				order.PutUint64(bs[8*i:], x)
 			}
+		case *float32:
+			order.PutUint32(bs, math.Float32bits(*v))
+		case float32:
+			order.PutUint32(bs, math.Float32bits(v))
+		case []float32:
+			for i, x := range v {
+				order.PutUint32(bs[4*i:], math.Float32bits(x))
+			}
+		case *float64:
+			order.PutUint64(bs, math.Float64bits(*v))
+		case float64:
+			order.PutUint64(bs, math.Float64bits(v))
+		case []float64:
+			for i, x := range v {
+				order.PutUint64(bs[8*i:], math.Float64bits(x))
+			}
 		}
 		_, err := w.Write(bs)
 		return err
@@ -347,7 +455,7 @@ func Write(w io.Writer, order ByteOrder, data interface{}) error {
 	v := reflect.Indirect(reflect.ValueOf(data))
 	size := dataSize(v)
 	if size < 0 {
-		return errors.New("binary.Write: invalid type " + reflect.TypeOf(data).String())
+		return errors.New("binary.Write: some values are not fixed-sized in type " + reflect.TypeOf(data).String())
 	}
 	buf := make([]byte, size)
 	e := &encoder{order: order, buf: buf}
@@ -356,25 +464,42 @@ func Write(w io.Writer, order ByteOrder, data interface{}) error {
 	return err
 }
 
-// Size returns how many bytes Write would generate to encode the value v, which
+// Size returns how many bytes [Write] would generate to encode the value v, which
 // must be a fixed-size value or a slice of fixed-size values, or a pointer to such data.
 // If v is neither of these, Size returns -1.
-func Size(v interface{}) int {
+func Size(v any) int {
 	return dataSize(reflect.Indirect(reflect.ValueOf(v)))
 }
+
+var structSize sync.Map // map[reflect.Type]int
 
 // dataSize returns the number of bytes the actual data represented by v occupies in memory.
 // For compound structures, it sums the sizes of the elements. Thus, for instance, for a slice
 // it returns the length of the slice times the element size and does not count the memory
 // occupied by the header. If the type of v is not acceptable, dataSize returns -1.
 func dataSize(v reflect.Value) int {
-	if v.Kind() == reflect.Slice {
+	switch v.Kind() {
+	case reflect.Slice:
 		if s := sizeof(v.Type().Elem()); s >= 0 {
 			return s * v.Len()
 		}
-		return -1
+
+	case reflect.Struct:
+		t := v.Type()
+		if size, ok := structSize.Load(t); ok {
+			return size.(int)
+		}
+		size := sizeof(t)
+		structSize.Store(t, size)
+		return size
+
+	default:
+		if v.IsValid() {
+			return sizeof(v.Type())
+		}
 	}
-	return sizeof(v.Type())
+
+	return -1
 }
 
 // sizeof returns the size >= 0 of variables for the given type or -1 if the type is not acceptable.
@@ -649,7 +774,7 @@ func (e *encoder) skip(v reflect.Value) {
 
 // intDataSize returns the size of the data required to represent the data when encoded.
 // It returns zero if the type cannot be implemented by the fast path in Read or Write.
-func intDataSize(data interface{}) int {
+func intDataSize(data any) int {
 	switch data := data.(type) {
 	case bool, int8, uint8, *bool, *int8, *uint8:
 		return 1
@@ -676,6 +801,14 @@ func intDataSize(data interface{}) int {
 	case []int64:
 		return 8 * len(data)
 	case []uint64:
+		return 8 * len(data)
+	case float32, *float32:
+		return 4
+	case float64, *float64:
+		return 8
+	case []float32:
+		return 4 * len(data)
+	case []float64:
 		return 8 * len(data)
 	}
 	return 0

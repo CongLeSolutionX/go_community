@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build dragonfly freebsd
+//go:build darwin || dragonfly || freebsd
 
 package poll
 
@@ -13,14 +13,21 @@ import "syscall"
 const maxSendfileSize int = 4 << 20
 
 // SendFile wraps the sendfile system call.
-func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error) {
+func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error, bool) {
 	if err := dstFD.writeLock(); err != nil {
-		return 0, err
+		return 0, err, false
 	}
 	defer dstFD.writeUnlock()
-	dst := int(dstFD.Sysfd)
-	var written int64
-	var err error
+	if err := dstFD.pd.prepareWrite(dstFD.isFile); err != nil {
+		return 0, err, false
+	}
+
+	dst := dstFD.Sysfd
+	var (
+		written int64
+		err     error
+		handled = true
+	)
 	for remain > 0 {
 		n := maxSendfileSize
 		if int64(n) > remain {
@@ -35,6 +42,9 @@ func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error) {
 		} else if n == 0 && err1 == nil {
 			break
 		}
+		if err1 == syscall.EINTR {
+			continue
+		}
 		if err1 == syscall.EAGAIN {
 			if err1 = dstFD.pd.waitWrite(dstFD.isFile); err1 == nil {
 				continue
@@ -45,8 +55,9 @@ func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error) {
 			// support) and syscall.EINVAL (fd types which
 			// don't implement sendfile)
 			err = err1
+			handled = false
 			break
 		}
 	}
-	return written, err
+	return written, err, handled
 }

@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build darwin dragonfly freebsd netbsd openbsd
+//go:build darwin || dragonfly || freebsd || netbsd || openbsd
 
 package net
 
 import (
 	"syscall"
 
-	"internal/x/net/route"
+	"golang.org/x/net/route"
 )
 
 // If the ifindex is zero, interfaceTable returns mappings of all
@@ -58,6 +58,9 @@ func linkFlags(rawFlags int) Flags {
 	var f Flags
 	if rawFlags&syscall.IFF_UP != 0 {
 		f |= FlagUp
+	}
+	if rawFlags&syscall.IFF_RUNNING != 0 {
+		f |= FlagRunning
 	}
 	if rawFlags&syscall.IFF_BROADCAST != 0 {
 		f |= FlagBroadcast

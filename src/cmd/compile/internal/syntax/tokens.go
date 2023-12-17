@@ -4,9 +4,11 @@
 
 package syntax
 
-type token uint
+type Token uint
 
-//go:generate stringer -type token -linecomment
+type token = Token
+
+//go:generate stringer -type token -linecomment tokens.go
 
 const (
 	_    token = iota
@@ -90,8 +92,11 @@ func contains(tokset uint64, tok token) bool {
 	return tokset&(1<<tok) != 0
 }
 
-type LitKind uint
+type LitKind uint8
 
+// TODO(gri) With the 'i' (imaginary) suffix now permitted on integer
+// and floating-point numbers, having a single ImagLit does
+// not represent the literal kind well anymore. Remove it?
 const (
 	IntLit LitKind = iota
 	FloatLit
@@ -102,15 +107,16 @@ const (
 
 type Operator uint
 
-//go:generate stringer -type Operator -linecomment
+//go:generate stringer -type Operator -linecomment tokens.go
 
 const (
 	_ Operator = iota
 
 	// Def is the : in :=
-	Def  // :
-	Not  // !
-	Recv // <-
+	Def   // :
+	Not   // !
+	Recv  // <-
+	Tilde // ~
 
 	// precOrOr
 	OrOr // ||

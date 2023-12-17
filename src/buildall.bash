@@ -3,11 +3,15 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-# Usage: buildall.sh [-e] [pattern]
+# Usage: buildall.bash [-e] [pattern]
 #
 # buildall.bash builds the standard library for all Go-supported
-# architectures. It is used by the "all-compile" trybot builder,
-# as a smoke test to quickly flag portability issues.
+# architectures.
+#
+# Originally the Go build system used it as a smoke test to quickly
+# flag portability issues in builders named "misc-compile" or "all-compile".
+# As of CL 464955, the build system uses make.bash -compile-only instead,
+# so this script no longer runs in any automated fashion.
 #
 # Options:
 #   -e: stop at first failure
@@ -36,26 +40,26 @@ fi
 GOROOT="$(cd .. && pwd)"
 
 gettargets() {
-	../bin/go tool dist list | sed -e 's|/|-|'
-	echo linux-386-387
+	../bin/go tool dist list | sed -e 's|/|-|' |
+		egrep -v '^(android|ios)' # need C toolchain even for cross-compiling
 	echo linux-arm-arm5
 }
 
 selectedtargets() {
-	gettargets | egrep -v 'android-arm|darwin-arm' | egrep "$pattern"
+	gettargets | grep -E "$pattern"
 }
 
-# put linux, nacl first in the target list to get all the architectures up front.
-linux_nacl_targets() {
-	selectedtargets | egrep 'linux|nacl' | sort
+# put linux first in the target list to get all the architectures up front.
+linux_targets() {
+	selectedtargets | grep 'linux' | sort
 }
 
-non_linux_nacl_targets() {
-	selectedtargets | egrep -v 'linux|nacl' | sort
+non_linux_targets() {
+	selectedtargets | grep -v 'linux' | sort
 }
 
 # Note words in $targets are separated by both newlines and spaces.
-targets="$(linux_nacl_targets) $(non_linux_nacl_targets)"
+targets="$(linux_targets) $(non_linux_targets)"
 
 failed=false
 for target in $targets
@@ -64,16 +68,16 @@ do
 	echo "### Building $target"
 	export GOOS=$(echo $target | sed 's/-.*//')
 	export GOARCH=$(echo $target | sed 's/.*-//')
-	unset GO386 GOARM
+	unset GOARM
 	if [ "$GOARCH" = "arm5" ]; then
 		export GOARCH=arm
 		export GOARM=5
 	fi
-	if [ "$GOARCH" = "387" ]; then
-		export GOARCH=386
-		export GO386=387
-	fi
-	if ! "$GOROOT/bin/go" build -a std cmd; then
+
+	# Build and vet everything.
+	# cmd/go/internal/work/exec.go enables the same vet flags during go test of std cmd
+	# and should be kept in sync with any vet flag changes here.
+	if ! "$GOROOT/bin/go" build std cmd || ! "$GOROOT/bin/go" vet -unsafeptr=false std cmd; then
 		failed=true
 		if $sete; then
 			exit 1

@@ -44,11 +44,7 @@ func lookupFullNameServer(servername, username string) (string, error) {
 	}
 	defer syscall.NetApiBufferFree(p)
 	i := (*syscall.UserInfo10)(unsafe.Pointer(p))
-	if i.FullName == nil {
-		return "", nil
-	}
-	name := syscall.UTF16ToString((*[1024]uint16)(unsafe.Pointer(i.FullName))[:])
-	return name, nil
+	return windows.UTF16PtrToString(i.FullName), nil
 }
 
 func lookupFullName(domain, username, domainAndUser string) (string, error) {
@@ -120,7 +116,7 @@ func lookupGroupName(groupname string) (string, error) {
 	if e != nil {
 		return "", e
 	}
-	// https://msdn.microsoft.com/en-us/library/cc245478.aspx#gt_0387e636-5654-4910-9519-1f8326cf5ec0
+	// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/7b2aeb27-92fc-41f6-8437-deb65d950921#gt_0387e636-5654-4910-9519-1f8326cf5ec0
 	// SidTypeAlias should also be treated as a group type next to SidTypeGroup
 	// and SidTypeWellKnownGroup:
 	// "alias object -> resource group: A group object..."
@@ -149,7 +145,7 @@ func listGroupsForUsernameAndDomain(username, domain string) ([]string, error) {
 	}
 	var p0 *byte
 	var entriesRead, totalEntries uint32
-	// https://msdn.microsoft.com/en-us/library/windows/desktop/aa370655(v=vs.85).aspx
+	// https://learn.microsoft.com/en-us/windows/win32/api/lmaccess/nf-lmaccess-netusergetlocalgroups
 	// NetUserGetLocalGroups() would return a list of LocalGroupUserInfo0
 	// elements which hold the names of local groups where the user participates.
 	// The list does not follow any sorting order.
@@ -165,14 +161,13 @@ func listGroupsForUsernameAndDomain(username, domain string) ([]string, error) {
 	if entriesRead == 0 {
 		return nil, fmt.Errorf("listGroupsForUsernameAndDomain: NetUserGetLocalGroups() returned an empty list for domain: %s, username: %s", domain, username)
 	}
-	entries := (*[1024]windows.LocalGroupUserInfo0)(unsafe.Pointer(p0))[:entriesRead]
+	entries := (*[1024]windows.LocalGroupUserInfo0)(unsafe.Pointer(p0))[:entriesRead:entriesRead]
 	var sids []string
 	for _, entry := range entries {
 		if entry.Name == nil {
 			continue
 		}
-		name := syscall.UTF16ToString((*[1024]uint16)(unsafe.Pointer(entry.Name))[:])
-		sid, err := lookupGroupName(name)
+		sid, err := lookupGroupName(windows.UTF16PtrToString(entry.Name))
 		if err != nil {
 			return nil, err
 		}
@@ -196,6 +191,13 @@ func newUser(uid, gid, dir, username, domain string) (*User, error) {
 	}
 	return u, nil
 }
+
+var (
+	// unused variables (in this implementation)
+	// modified during test to exercise code paths in the cgo implementation.
+	userBuffer  = 0
+	groupBuffer = 0
+)
 
 func current() (*User, error) {
 	t, e := syscall.OpenCurrentProcessToken()
@@ -253,7 +255,7 @@ func lookupUserPrimaryGroup(username, domain string) (string, error) {
 	//
 	// The correct way to obtain the primary group of a domain user is
 	// probing the user primaryGroupID attribute in the server Active Directory:
-	// https://msdn.microsoft.com/en-us/library/ms679375(v=vs.85).aspx
+	// https://learn.microsoft.com/en-us/windows/win32/adschema/a-primarygroupid
 	//
 	// Note that the primary group of domain users should not be modified
 	// on Windows for performance reasons, even if it's possible to do that.

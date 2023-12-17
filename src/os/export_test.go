@@ -8,3 +8,10 @@ package os
 
 var Atime = atime
 var LstatP = &lstat
+var ErrWriteAtInAppendMode = errWriteAtInAppendMode
+var TestingForceReadDirLstat = &testingForceReadDirLstat
+var ErrPatternHasSeparator = errPatternHasSeparator
+
+func init() {
+	checkWrapErr = true
+}

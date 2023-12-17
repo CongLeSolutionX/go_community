@@ -14,7 +14,7 @@ import (
 )
 
 func TestMutexLock(t *testing.T) {
-	var mu FDMutex
+	var mu XFDMutex
 
 	if !mu.Incref() {
 		t.Fatal("broken")
@@ -39,7 +39,7 @@ func TestMutexLock(t *testing.T) {
 }
 
 func TestMutexClose(t *testing.T) {
-	var mu FDMutex
+	var mu XFDMutex
 	if !mu.IncrefAndClose() {
 		t.Fatal("broken")
 	}
@@ -59,8 +59,8 @@ func TestMutexClose(t *testing.T) {
 }
 
 func TestMutexCloseUnblock(t *testing.T) {
-	c := make(chan bool)
-	var mu FDMutex
+	c := make(chan bool, 4)
+	var mu XFDMutex
 	mu.RWLock(true)
 	for i := 0; i < 4; i++ {
 		go func() {
@@ -104,7 +104,7 @@ func TestMutexPanic(t *testing.T) {
 		f()
 	}
 
-	var mu FDMutex
+	var mu XFDMutex
 	ensurePanics(func() { mu.Decref() })
 	ensurePanics(func() { mu.RWUnlock(true) })
 	ensurePanics(func() { mu.RWUnlock(false) })
@@ -137,7 +137,7 @@ func TestMutexOverflowPanic(t *testing.T) {
 		}
 	}()
 
-	var mu1 FDMutex
+	var mu1 XFDMutex
 	for i := 0; i < 1<<21; i++ {
 		mu1.Incref()
 	}
@@ -151,12 +151,15 @@ func TestMutexStress(t *testing.T) {
 		N = 1e4
 	}
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(P))
-	done := make(chan bool)
-	var mu FDMutex
+	done := make(chan bool, P)
+	var mu XFDMutex
 	var readState [2]uint64
 	var writeState [2]uint64
 	for p := 0; p < P; p++ {
 		go func() {
+			defer func() {
+				done <- !t.Failed()
+			}()
 			r := rand.New(rand.NewSource(rand.Int63()))
 			for i := 0; i < N; i++ {
 				switch r.Intn(3) {
@@ -203,11 +206,12 @@ func TestMutexStress(t *testing.T) {
 					}
 				}
 			}
-			done <- true
 		}()
 	}
 	for p := 0; p < P; p++ {
-		<-done
+		if !<-done {
+			t.FailNow()
+		}
 	}
 	if !mu.IncrefAndClose() {
 		t.Fatal("broken")

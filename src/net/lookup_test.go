@@ -2,23 +2,27 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !js
-
 package net
 
 import (
-	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"internal/testenv"
+	"net/netip"
 	"reflect"
 	"runtime"
 	"sort"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
+
+func hasSuffixFold(s, suffix string) bool {
+	return strings.HasSuffix(strings.ToLower(s), strings.ToLower(suffix))
+}
 
 func lookupLocalhost(ctx context.Context, fn func(context.Context, string, string) ([]IPAddr, error), network, host string) ([]IPAddr, error) {
 	switch host {
@@ -44,21 +48,21 @@ var lookupGoogleSRVTests = []struct {
 	cname, target        string
 }{
 	{
-		"xmpp-server", "tcp", "google.com",
+		"ldap", "tcp", "google.com",
 		"google.com.", "google.com.",
 	},
 	{
-		"xmpp-server", "tcp", "google.com.",
+		"ldap", "tcp", "google.com.",
 		"google.com.", "google.com.",
 	},
 
 	// non-standard back door
 	{
-		"", "", "_xmpp-server._tcp.google.com",
+		"", "", "_ldap._tcp.google.com",
 		"google.com.", "google.com.",
 	},
 	{
-		"", "", "_xmpp-server._tcp.google.com.",
+		"", "", "_ldap._tcp.google.com.",
 		"google.com.", "google.com.",
 	},
 }
@@ -69,7 +73,7 @@ func TestLookupGoogleSRV(t *testing.T) {
 	t.Parallel()
 	mustHaveExternalNetwork(t)
 
-	if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
 	}
 
@@ -96,11 +100,11 @@ func TestLookupGoogleSRV(t *testing.T) {
 		if len(srvs) == 0 {
 			t.Error("got no record")
 		}
-		if !strings.HasSuffix(cname, tt.cname) {
+		if !hasSuffixFold(cname, tt.cname) {
 			t.Errorf("got %s; want %s", cname, tt.cname)
 		}
 		for _, srv := range srvs {
-			if !strings.HasSuffix(srv.Target, tt.target) {
+			if !hasSuffixFold(srv.Target, tt.target) {
 				t.Errorf("got %v; want a record containing %s", srv, tt.target)
 			}
 		}
@@ -118,7 +122,7 @@ func TestLookupGmailMX(t *testing.T) {
 	t.Parallel()
 	mustHaveExternalNetwork(t)
 
-	if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
 	}
 
@@ -146,7 +150,7 @@ func TestLookupGmailMX(t *testing.T) {
 			t.Error("got no record")
 		}
 		for _, mx := range mxs {
-			if !strings.HasSuffix(mx.Host, tt.host) {
+			if !hasSuffixFold(mx.Host, tt.host) {
 				t.Errorf("got %v; want a record containing %s", mx, tt.host)
 			}
 		}
@@ -164,7 +168,7 @@ func TestLookupGmailNS(t *testing.T) {
 	t.Parallel()
 	mustHaveExternalNetwork(t)
 
-	if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
 	}
 
@@ -192,7 +196,7 @@ func TestLookupGmailNS(t *testing.T) {
 			t.Error("got no record")
 		}
 		for _, ns := range nss {
-			if !strings.HasSuffix(ns.Host, tt.host) {
+			if !hasSuffixFold(ns.Host, tt.host) {
 				t.Errorf("got %v; want a record containing %s", ns, tt.host)
 			}
 		}
@@ -213,7 +217,7 @@ func TestLookupGmailTXT(t *testing.T) {
 	t.Parallel()
 	mustHaveExternalNetwork(t)
 
-	if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
 	}
 
@@ -253,14 +257,11 @@ func TestLookupGmailTXT(t *testing.T) {
 	}
 }
 
-var lookupGooglePublicDNSAddrTests = []struct {
-	addr, name string
-}{
-	{"8.8.8.8", ".google.com."},
-	{"8.8.4.4", ".google.com."},
-
-	{"2001:4860:4860::8888", ".google.com."},
-	{"2001:4860:4860::8844", ".google.com."},
+var lookupGooglePublicDNSAddrTests = []string{
+	"8.8.8.8",
+	"8.8.4.4",
+	"2001:4860:4860::8888",
+	"2001:4860:4860::8844",
 }
 
 func TestLookupGooglePublicDNSAddr(t *testing.T) {
@@ -272,8 +273,8 @@ func TestLookupGooglePublicDNSAddr(t *testing.T) {
 
 	defer dnsWaitGroup.Wait()
 
-	for _, tt := range lookupGooglePublicDNSAddrTests {
-		names, err := LookupAddr(tt.addr)
+	for _, ip := range lookupGooglePublicDNSAddrTests {
+		names, err := LookupAddr(ip)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -281,8 +282,8 @@ func TestLookupGooglePublicDNSAddr(t *testing.T) {
 			t.Error("got no record")
 		}
 		for _, name := range names {
-			if !strings.HasSuffix(name, tt.name) {
-				t.Errorf("got %s; want a record containing %s", name, tt.name)
+			if !hasSuffixFold(name, ".google.com.") && !hasSuffixFold(name, ".google.") {
+				t.Errorf("got %q; want a record ending in .google.com. or .google.", name)
 			}
 		}
 	}
@@ -346,10 +347,13 @@ var lookupCNAMETests = []struct {
 	{"www.iana.org", "icann.org."},
 	{"www.iana.org.", "icann.org."},
 	{"www.google.com", "google.com."},
+	{"google.com", "google.com."},
+	{"cname-to-txt.go4.org", "test-txt-record.go4.org."},
 }
 
 func TestLookupCNAME(t *testing.T) {
 	mustHaveExternalNetwork(t)
+	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
 		t.Skip("IPv4 is required")
@@ -373,7 +377,7 @@ func TestLookupCNAME(t *testing.T) {
 			}
 			t.Fatal(err)
 		}
-		if !strings.HasSuffix(cname, tt.cname) {
+		if !hasSuffixFold(cname, tt.cname) {
 			t.Errorf("got %s; want a record containing %s", cname, tt.cname)
 		}
 	}
@@ -388,6 +392,7 @@ var lookupGoogleHostTests = []struct {
 
 func TestLookupGoogleHost(t *testing.T) {
 	mustHaveExternalNetwork(t)
+	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
 		t.Skip("IPv4 is required")
@@ -440,6 +445,7 @@ var lookupGoogleIPTests = []struct {
 
 func TestLookupGoogleIP(t *testing.T) {
 	mustHaveExternalNetwork(t)
+	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
 		t.Skip("IPv4 is required")
@@ -509,7 +515,7 @@ func TestDNSFlood(t *testing.T) {
 	defer dnsWaitGroup.Wait()
 
 	var N = 5000
-	if runtime.GOOS == "darwin" {
+	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
 		// On Darwin this test consumes kernel threads much
 		// than other platforms for some reason.
 		// When we monitor the number of allocated Ms by
@@ -626,16 +632,17 @@ func TestLookupDotsWithLocalSource(t *testing.T) {
 }
 
 func TestLookupDotsWithRemoteSource(t *testing.T) {
-	if runtime.GOOS == "darwin" {
+	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
 		testenv.SkipFlaky(t, 27992)
 	}
 	mustHaveExternalNetwork(t)
+	testenv.SkipFlakyNet(t)
 
 	if !supportsIPv4() || !*testIPv4 {
 		t.Skip("IPv4 is required")
 	}
 
-	if runtime.GOOS == "darwin" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+	if runtime.GOOS == "ios" {
 		t.Skip("no resolv.conf on iOS")
 	}
 
@@ -654,12 +661,11 @@ func TestLookupDotsWithRemoteSource(t *testing.T) {
 func testDots(t *testing.T, mode string) {
 	names, err := LookupAddr("8.8.8.8") // Google dns server
 	if err != nil {
-		testenv.SkipFlakyNet(t)
 		t.Errorf("LookupAddr(8.8.8.8): %v (mode=%v)", err, mode)
 	} else {
 		for _, name := range names {
-			if !strings.HasSuffix(name, ".google.com.") {
-				t.Errorf("LookupAddr(8.8.8.8) = %v, want names ending in .google.com. with trailing dot (mode=%v)", names, mode)
+			if !hasSuffixFold(name, ".google.com.") && !hasSuffixFold(name, ".google.") {
+				t.Errorf("LookupAddr(8.8.8.8) = %v, want names ending in .google.com or .google with trailing dot (mode=%v)", names, mode)
 				break
 			}
 		}
@@ -667,7 +673,6 @@ func testDots(t *testing.T, mode string) {
 
 	cname, err := LookupCNAME("www.mit.edu")
 	if err != nil {
-		testenv.SkipFlakyNet(t)
 		t.Errorf("LookupCNAME(www.mit.edu, mode=%v): %v", mode, err)
 	} else if !strings.HasSuffix(cname, ".") {
 		t.Errorf("LookupCNAME(www.mit.edu) = %v, want cname ending in . with trailing dot (mode=%v)", cname, mode)
@@ -675,11 +680,10 @@ func testDots(t *testing.T, mode string) {
 
 	mxs, err := LookupMX("google.com")
 	if err != nil {
-		testenv.SkipFlakyNet(t)
 		t.Errorf("LookupMX(google.com): %v (mode=%v)", err, mode)
 	} else {
 		for _, mx := range mxs {
-			if !strings.HasSuffix(mx.Host, ".google.com.") {
+			if !hasSuffixFold(mx.Host, ".google.com.") {
 				t.Errorf("LookupMX(google.com) = %v, want names ending in .google.com. with trailing dot (mode=%v)", mxString(mxs), mode)
 				break
 			}
@@ -688,28 +692,26 @@ func testDots(t *testing.T, mode string) {
 
 	nss, err := LookupNS("google.com")
 	if err != nil {
-		testenv.SkipFlakyNet(t)
 		t.Errorf("LookupNS(google.com): %v (mode=%v)", err, mode)
 	} else {
 		for _, ns := range nss {
-			if !strings.HasSuffix(ns.Host, ".google.com.") {
+			if !hasSuffixFold(ns.Host, ".google.com.") {
 				t.Errorf("LookupNS(google.com) = %v, want names ending in .google.com. with trailing dot (mode=%v)", nsString(nss), mode)
 				break
 			}
 		}
 	}
 
-	cname, srvs, err := LookupSRV("xmpp-server", "tcp", "google.com")
+	cname, srvs, err := LookupSRV("ldap", "tcp", "google.com")
 	if err != nil {
-		testenv.SkipFlakyNet(t)
-		t.Errorf("LookupSRV(xmpp-server, tcp, google.com): %v (mode=%v)", err, mode)
+		t.Errorf("LookupSRV(ldap, tcp, google.com): %v (mode=%v)", err, mode)
 	} else {
-		if !strings.HasSuffix(cname, ".google.com.") {
-			t.Errorf("LookupSRV(xmpp-server, tcp, google.com) returned cname=%v, want name ending in .google.com. with trailing dot (mode=%v)", cname, mode)
+		if !hasSuffixFold(cname, ".google.com.") {
+			t.Errorf("LookupSRV(ldap, tcp, google.com) returned cname=%v, want name ending in .google.com. with trailing dot (mode=%v)", cname, mode)
 		}
 		for _, srv := range srvs {
-			if !strings.HasSuffix(srv.Target, ".google.com.") {
-				t.Errorf("LookupSRV(xmpp-server, tcp, google.com) returned addrs=%v, want names ending in .google.com. with trailing dot (mode=%v)", srvString(srvs), mode)
+			if !hasSuffixFold(srv.Target, ".google.com.") {
+				t.Errorf("LookupSRV(ldap, tcp, google.com) returned addrs=%v, want names ending in .google.com. with trailing dot (mode=%v)", srvString(srvs), mode)
 				break
 			}
 		}
@@ -717,7 +719,7 @@ func testDots(t *testing.T, mode string) {
 }
 
 func mxString(mxs []*MX) string {
-	var buf bytes.Buffer
+	var buf strings.Builder
 	sep := ""
 	fmt.Fprintf(&buf, "[")
 	for _, mx := range mxs {
@@ -729,7 +731,7 @@ func mxString(mxs []*MX) string {
 }
 
 func nsString(nss []*NS) string {
-	var buf bytes.Buffer
+	var buf strings.Builder
 	sep := ""
 	fmt.Fprintf(&buf, "[")
 	for _, ns := range nss {
@@ -741,7 +743,7 @@ func nsString(nss []*NS) string {
 }
 
 func srvString(srvs []*SRV) string {
-	var buf bytes.Buffer
+	var buf strings.Builder
 	sep := ""
 	fmt.Fprintf(&buf, "[")
 	for _, srv := range srvs {
@@ -788,7 +790,7 @@ func TestLookupPort(t *testing.T) {
 
 	switch runtime.GOOS {
 	case "android":
-		if netGo {
+		if netGoBuildTag {
 			t.Skipf("not supported on %s without cgo; see golang.org/issues/14576", runtime.GOOS)
 		}
 	default:
@@ -858,10 +860,6 @@ func TestLookupProtocol_Minimal(t *testing.T) {
 }
 
 func TestLookupNonLDH(t *testing.T) {
-	if runtime.GOOS == "nacl" {
-		t.Skip("skip on nacl")
-	}
-
 	defer dnsWaitGroup.Wait()
 
 	if fixup := forceGoDNS(); fixup != nil {
@@ -879,38 +877,79 @@ func TestLookupNonLDH(t *testing.T) {
 	if !strings.HasSuffix(err.Error(), errNoSuchHost.Error()) {
 		t.Fatalf("lookup error = %v, want %v", err, errNoSuchHost)
 	}
+	if !err.(*DNSError).IsNotFound {
+		t.Fatalf("lookup error = %v, want true", err.(*DNSError).IsNotFound)
+	}
 }
 
 func TestLookupContextCancel(t *testing.T) {
 	mustHaveExternalNetwork(t)
-	if runtime.GOOS == "nacl" {
-		t.Skip("skip on nacl")
+	testenv.SkipFlakyNet(t)
+
+	origTestHookLookupIP := testHookLookupIP
+	defer func() {
+		dnsWaitGroup.Wait()
+		testHookLookupIP = origTestHookLookupIP
+	}()
+
+	lookupCtx, cancelLookup := context.WithCancel(context.Background())
+	unblockLookup := make(chan struct{})
+
+	// Set testHookLookupIP to start a new, concurrent call to LookupIPAddr
+	// and cancel the original one, then block until the canceled call has returned
+	// (ensuring that it has performed any synchronous cleanup).
+	testHookLookupIP = func(
+		ctx context.Context,
+		fn func(context.Context, string, string) ([]IPAddr, error),
+		network string,
+		host string,
+	) ([]IPAddr, error) {
+		select {
+		case <-unblockLookup:
+		default:
+			// Start a concurrent LookupIPAddr for the same host while the caller is
+			// still blocked, and sleep a little to give it time to be deduplicated
+			// before we cancel (and unblock) the caller.
+			// (If the timing doesn't quite work out, we'll end up testing sequential
+			// calls instead of concurrent ones, but the test should still pass.)
+			t.Logf("starting concurrent LookupIPAddr")
+			dnsWaitGroup.Add(1)
+			go func() {
+				defer dnsWaitGroup.Done()
+				_, err := DefaultResolver.LookupIPAddr(context.Background(), host)
+				if err != nil {
+					t.Error(err)
+				}
+			}()
+			time.Sleep(1 * time.Millisecond)
+		}
+
+		cancelLookup()
+		<-unblockLookup
+		// If the concurrent lookup above is deduplicated to this one
+		// (as we expect to happen most of the time), it is important
+		// that the original call does not cancel the shared Context.
+		// (See https://go.dev/issue/22724.) Explicitly check for
+		// cancellation now, just in case fn itself doesn't notice it.
+		if err := ctx.Err(); err != nil {
+			t.Logf("testHookLookupIP canceled")
+			return nil, err
+		}
+		t.Logf("testHookLookupIP performing lookup")
+		return fn(ctx, network, host)
 	}
 
-	defer dnsWaitGroup.Wait()
-
-	ctx, ctxCancel := context.WithCancel(context.Background())
-	ctxCancel()
-	_, err := DefaultResolver.LookupIPAddr(ctx, "google.com")
-	if err != errCanceled {
-		testenv.SkipFlakyNet(t)
-		t.Fatal(err)
+	_, err := DefaultResolver.LookupIPAddr(lookupCtx, "google.com")
+	if dnsErr, ok := err.(*DNSError); !ok || dnsErr.Err != errCanceled.Error() {
+		t.Errorf("unexpected error from canceled, blocked LookupIPAddr: %v", err)
 	}
-	ctx = context.Background()
-	_, err = DefaultResolver.LookupIPAddr(ctx, "google.com")
-	if err != nil {
-		testenv.SkipFlakyNet(t)
-		t.Fatal(err)
-	}
+	close(unblockLookup)
 }
 
 // Issue 24330: treat the nil *Resolver like a zero value. Verify nothing
 // crashes if nil is used.
 func TestNilResolverLookup(t *testing.T) {
 	mustHaveExternalNetwork(t)
-	if runtime.GOOS == "nacl" {
-		t.Skip("skip on nacl")
-	}
 	var r *Resolver = nil
 	ctx := context.Background()
 
@@ -919,6 +958,7 @@ func TestNilResolverLookup(t *testing.T) {
 	r.LookupCNAME(ctx, "google.com")
 	r.LookupHost(ctx, "google.com")
 	r.LookupIPAddr(ctx, "google.com")
+	r.LookupIP(ctx, "ip", "google.com")
 	r.LookupMX(ctx, "gmail.com")
 	r.LookupNS(ctx, "google.com")
 	r.LookupPort(ctx, "tcp", "smtp")
@@ -930,9 +970,8 @@ func TestNilResolverLookup(t *testing.T) {
 // canceled lookups (see golang.org/issue/24178 for details).
 func TestLookupHostCancel(t *testing.T) {
 	mustHaveExternalNetwork(t)
-	if runtime.GOOS == "nacl" {
-		t.Skip("skip on nacl")
-	}
+	testenv.SkipFlakyNet(t)
+	t.Parallel() // Executes 600ms worth of sequential sleeps.
 
 	const (
 		google        = "www.google.com"
@@ -952,9 +991,15 @@ func TestLookupHostCancel(t *testing.T) {
 		if err == nil {
 			t.Fatalf("LookupHost(%q): returns %v, but should fail", invalidDomain, addr)
 		}
-		if !strings.Contains(err.Error(), "canceled") {
-			t.Fatalf("LookupHost(%q): failed with unexpected error: %v", invalidDomain, err)
-		}
+
+		// Don't verify what the actual error is.
+		// We know that it must be non-nil because the domain is invalid,
+		// but we don't have any guarantee that LookupHost actually bothers
+		// to check for cancellation on the fast path.
+		// (For example, it could use a local cache to avoid blocking entirely.)
+
+		// The lookup may deduplicate in-flight requests, so give it time to settle
+		// in between.
 		time.Sleep(time.Millisecond * 1)
 	}
 
@@ -982,10 +1027,11 @@ func (lcr *lookupCustomResolver) dial() func(ctx context.Context, network, addre
 // TestConcurrentPreferGoResolversDial tests that multiple resolvers with the
 // PreferGo option used concurrently are all dialed properly.
 func TestConcurrentPreferGoResolversDial(t *testing.T) {
-	// The windows implementation of the resolver does not use the Dial
-	// function.
-	if runtime.GOOS == "windows" {
-		t.Skip("skip on windows")
+	switch runtime.GOOS {
+	case "plan9":
+		// TODO: plan9 implementation of the resolver uses the Dial function since
+		// https://go.dev/cl/409234, this test could probably be reenabled.
+		t.Skipf("skip on %v", runtime.GOOS)
 	}
 
 	testenv.MustHaveExternalNetwork(t)
@@ -1007,11 +1053,15 @@ func TestConcurrentPreferGoResolversDial(t *testing.T) {
 			defer wg.Done()
 			_, err := r.LookupIPAddr(context.Background(), "google.com")
 			if err != nil {
-				t.Fatalf("lookup failed for resolver %d: %q", index, err)
+				t.Errorf("lookup failed for resolver %d: %q", index, err)
 			}
 		}(resolver.Resolver, i)
 	}
 	wg.Wait()
+
+	if t.Failed() {
+		t.FailNow()
+	}
 
 	for i, resolver := range resolvers {
 		if !resolver.dialed {
@@ -1053,7 +1103,7 @@ func TestLookupIPAddrPreservesContextValues(t *testing.T) {
 	defer func() { testHookLookupIP = origTestHookLookupIP }()
 
 	keyValues := []struct {
-		key, value interface{}
+		key, value any
 	}{
 		{"key-1", 12},
 		{384, "value2"},
@@ -1096,6 +1146,80 @@ func TestLookupIPAddrPreservesContextValues(t *testing.T) {
 	}
 }
 
+// Issue 30521: The lookup group should call the resolver for each network.
+func TestLookupIPAddrConcurrentCallsForNetworks(t *testing.T) {
+	origTestHookLookupIP := testHookLookupIP
+	defer func() { testHookLookupIP = origTestHookLookupIP }()
+
+	queries := [][]string{
+		{"udp", "golang.org"},
+		{"udp4", "golang.org"},
+		{"udp6", "golang.org"},
+		{"udp", "golang.org"},
+		{"udp", "golang.org"},
+	}
+	results := map[[2]string][]IPAddr{
+		{"udp", "golang.org"}: {
+			{IP: IPv4(127, 0, 0, 1)},
+			{IP: IPv6loopback},
+		},
+		{"udp4", "golang.org"}: {
+			{IP: IPv4(127, 0, 0, 1)},
+		},
+		{"udp6", "golang.org"}: {
+			{IP: IPv6loopback},
+		},
+	}
+	calls := int32(0)
+	waitCh := make(chan struct{})
+	testHookLookupIP = func(ctx context.Context, fn func(context.Context, string, string) ([]IPAddr, error), network, host string) ([]IPAddr, error) {
+		// We'll block until this is called one time for each different
+		// expected result. This will ensure that the lookup group would wait
+		// for the existing call if it was to be reused.
+		if atomic.AddInt32(&calls, 1) == int32(len(results)) {
+			close(waitCh)
+		}
+		select {
+		case <-waitCh:
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		}
+		return results[[2]string{network, host}], nil
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	wg := sync.WaitGroup{}
+	for _, q := range queries {
+		network := q[0]
+		host := q[1]
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			gotIPs, err := DefaultResolver.lookupIPAddr(ctx, network, host)
+			if err != nil {
+				t.Errorf("lookupIPAddr(%v, %v): unexpected error: %v", network, host, err)
+			}
+			wantIPs := results[[2]string{network, host}]
+			if !reflect.DeepEqual(gotIPs, wantIPs) {
+				t.Errorf("lookupIPAddr(%v, %v): mismatched IPAddr results\n\tGot: %v\n\tWant: %v", network, host, gotIPs, wantIPs)
+			}
+		}()
+	}
+	wg.Wait()
+}
+
+// Issue 53995: Resolver.LookupIP should return error for empty host name.
+func TestResolverLookupIPWithEmptyHost(t *testing.T) {
+	_, err := DefaultResolver.LookupIP(context.Background(), "ip", "")
+	if err == nil {
+		t.Fatal("DefaultResolver.LookupIP for empty host success, want no host error")
+	}
+	if !strings.HasSuffix(err.Error(), errNoSuchHost.Error()) {
+		t.Fatalf("lookup error = %v, want %v", err, errNoSuchHost)
+	}
+}
+
 func TestWithUnexpiredValuesPreserved(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -1118,5 +1242,407 @@ func TestWithUnexpiredValuesPreserved(t *testing.T) {
 	// Lookup after expiry should return nil
 	if g := ctx.Value(key); g != nil {
 		t.Errorf("Lookup after expiry: Got %v want nil", g)
+	}
+}
+
+// Issue 31597: don't panic on null byte in name
+func TestLookupNullByte(t *testing.T) {
+	testenv.MustHaveExternalNetwork(t)
+	testenv.SkipFlakyNet(t)
+	LookupHost("foo\x00bar") // check that it doesn't panic; it used to on Windows
+}
+
+func TestResolverLookupIP(t *testing.T) {
+	testenv.MustHaveExternalNetwork(t)
+
+	v4Ok := supportsIPv4() && *testIPv4
+	v6Ok := supportsIPv6() && *testIPv6
+
+	defer dnsWaitGroup.Wait()
+
+	for _, impl := range []struct {
+		name string
+		fn   func() func()
+	}{
+		{"go", forceGoDNS},
+		{"cgo", forceCgoDNS},
+	} {
+		t.Run("implementation: "+impl.name, func(t *testing.T) {
+			fixup := impl.fn()
+			if fixup == nil {
+				t.Skip("not supported")
+			}
+			defer fixup()
+
+			for _, network := range []string{"ip", "ip4", "ip6"} {
+				t.Run("network: "+network, func(t *testing.T) {
+					switch {
+					case network == "ip4" && !v4Ok:
+						t.Skip("IPv4 is not supported")
+					case network == "ip6" && !v6Ok:
+						t.Skip("IPv6 is not supported")
+					}
+
+					// google.com has both A and AAAA records.
+					const host = "google.com"
+					ips, err := DefaultResolver.LookupIP(context.Background(), network, host)
+					if err != nil {
+						testenv.SkipFlakyNet(t)
+						t.Fatalf("DefaultResolver.LookupIP(%q, %q): failed with unexpected error: %v", network, host, err)
+					}
+
+					var v4Addrs []netip.Addr
+					var v6Addrs []netip.Addr
+					for _, ip := range ips {
+						if addr, ok := netip.AddrFromSlice(ip); ok {
+							if addr.Is4() {
+								v4Addrs = append(v4Addrs, addr)
+							} else {
+								v6Addrs = append(v6Addrs, addr)
+							}
+						} else {
+							t.Fatalf("IP=%q is neither IPv4 nor IPv6", ip)
+						}
+					}
+
+					// Check that we got the expected addresses.
+					if network == "ip4" || network == "ip" && v4Ok {
+						if len(v4Addrs) == 0 {
+							t.Errorf("DefaultResolver.LookupIP(%q, %q): no IPv4 addresses", network, host)
+						}
+					}
+					if network == "ip6" || network == "ip" && v6Ok {
+						if len(v6Addrs) == 0 {
+							t.Errorf("DefaultResolver.LookupIP(%q, %q): no IPv6 addresses", network, host)
+						}
+					}
+
+					// Check that we didn't get any unexpected addresses.
+					if network == "ip6" && len(v4Addrs) > 0 {
+						t.Errorf("DefaultResolver.LookupIP(%q, %q): unexpected IPv4 addresses: %v", network, host, v4Addrs)
+					}
+					if network == "ip4" && len(v6Addrs) > 0 {
+						t.Errorf("DefaultResolver.LookupIP(%q, %q): unexpected IPv6 or IPv4-mapped IPv6 addresses: %v", network, host, v6Addrs)
+					}
+				})
+			}
+		})
+	}
+}
+
+// A context timeout should still return a DNSError.
+func TestDNSTimeout(t *testing.T) {
+	origTestHookLookupIP := testHookLookupIP
+	defer func() { testHookLookupIP = origTestHookLookupIP }()
+	defer dnsWaitGroup.Wait()
+
+	timeoutHookGo := make(chan bool, 1)
+	timeoutHook := func(ctx context.Context, fn func(context.Context, string, string) ([]IPAddr, error), network, host string) ([]IPAddr, error) {
+		<-timeoutHookGo
+		return nil, context.DeadlineExceeded
+	}
+	testHookLookupIP = timeoutHook
+
+	checkErr := func(err error) {
+		t.Helper()
+		if err == nil {
+			t.Error("expected an error")
+		} else if dnserr, ok := err.(*DNSError); !ok {
+			t.Errorf("got error type %T, want %T", err, (*DNSError)(nil))
+		} else if !dnserr.IsTimeout {
+			t.Errorf("got error %#v, want IsTimeout == true", dnserr)
+		} else if isTimeout := dnserr.Timeout(); !isTimeout {
+			t.Errorf("got err.Timeout() == %t, want true", isTimeout)
+		}
+	}
+
+	// Single lookup.
+	timeoutHookGo <- true
+	_, err := LookupIP("golang.org")
+	checkErr(err)
+
+	// Double lookup.
+	var err1, err2 error
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		_, err1 = LookupIP("golang1.org")
+	}()
+	go func() {
+		defer wg.Done()
+		_, err2 = LookupIP("golang1.org")
+	}()
+	close(timeoutHookGo)
+	wg.Wait()
+	checkErr(err1)
+	checkErr(err2)
+
+	// Double lookup with context.
+	timeoutHookGo = make(chan bool)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Nanosecond)
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		_, err1 = DefaultResolver.LookupIPAddr(ctx, "golang2.org")
+	}()
+	go func() {
+		defer wg.Done()
+		_, err2 = DefaultResolver.LookupIPAddr(ctx, "golang2.org")
+	}()
+	time.Sleep(10 * time.Nanosecond)
+	close(timeoutHookGo)
+	wg.Wait()
+	checkErr(err1)
+	checkErr(err2)
+	cancel()
+}
+
+func TestLookupNoData(t *testing.T) {
+	if runtime.GOOS == "plan9" {
+		t.Skip("not supported on plan9")
+	}
+
+	mustHaveExternalNetwork(t)
+
+	testLookupNoData(t, "default resolver")
+
+	func() {
+		defer forceGoDNS()()
+		testLookupNoData(t, "forced go resolver")
+	}()
+
+	func() {
+		defer forceCgoDNS()()
+		testLookupNoData(t, "forced cgo resolver")
+	}()
+}
+
+func testLookupNoData(t *testing.T, prefix string) {
+	attempts := 0
+	for {
+		// Domain that doesn't have any A/AAAA RRs, but has different one (in this case a TXT),
+		// so that it returns an empty response without any error codes (NXDOMAIN).
+		_, err := LookupHost("golang.rsc.io.")
+		if err == nil {
+			t.Errorf("%v: unexpected success", prefix)
+			return
+		}
+
+		var dnsErr *DNSError
+		if errors.As(err, &dnsErr) {
+			succeeded := true
+			if !dnsErr.IsNotFound {
+				succeeded = false
+				t.Logf("%v: IsNotFound is set to false", prefix)
+			}
+
+			if dnsErr.Err != errNoSuchHost.Error() {
+				succeeded = false
+				t.Logf("%v: error message is not equal to: %v", prefix, errNoSuchHost.Error())
+			}
+
+			if succeeded {
+				return
+			}
+		}
+
+		testenv.SkipFlakyNet(t)
+		if attempts < len(backoffDuration) {
+			dur := backoffDuration[attempts]
+			t.Logf("%v: backoff %v after failure %v\n", prefix, dur, err)
+			time.Sleep(dur)
+			attempts++
+			continue
+		}
+
+		t.Errorf("%v: unexpected error: %v", prefix, err)
+		return
+	}
+}
+
+func TestLookupPortNotFound(t *testing.T) {
+	allResolvers(t, func(t *testing.T) {
+		_, err := LookupPort("udp", "_-unknown-service-")
+		var dnsErr *DNSError
+		if !errors.As(err, &dnsErr) || !dnsErr.IsNotFound {
+			t.Fatalf("unexpected error: %v", err)
+		}
+	})
+}
+
+// submissions service is only available through a tcp network, see:
+// https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=submissions
+var tcpOnlyService = func() string {
+	// plan9 does not have submissions service defined in the service database.
+	if runtime.GOOS == "plan9" {
+		return "https"
+	}
+	return "submissions"
+}()
+
+func TestLookupPortDifferentNetwork(t *testing.T) {
+	allResolvers(t, func(t *testing.T) {
+		_, err := LookupPort("udp", tcpOnlyService)
+		var dnsErr *DNSError
+		if !errors.As(err, &dnsErr) || !dnsErr.IsNotFound {
+			t.Fatalf("unexpected error: %v", err)
+		}
+	})
+}
+
+func TestLookupPortEmptyNetworkString(t *testing.T) {
+	allResolvers(t, func(t *testing.T) {
+		_, err := LookupPort("", tcpOnlyService)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+	})
+}
+
+func TestLookupPortIPNetworkString(t *testing.T) {
+	allResolvers(t, func(t *testing.T) {
+		_, err := LookupPort("ip", tcpOnlyService)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+	})
+}
+
+func allResolvers(t *testing.T, f func(t *testing.T)) {
+	t.Run("default resolver", f)
+	t.Run("forced go resolver", func(t *testing.T) {
+		if fixup := forceGoDNS(); fixup != nil {
+			defer fixup()
+			f(t)
+		}
+	})
+	t.Run("forced cgo resolver", func(t *testing.T) {
+		if fixup := forceCgoDNS(); fixup != nil {
+			defer fixup()
+			f(t)
+		}
+	})
+}
+
+func TestLookupNoSuchHost(t *testing.T) {
+	mustHaveExternalNetwork(t)
+
+	const testNXDOMAIN = "invalid.invalid."
+	const testNODATA = "_ldap._tcp.google.com."
+
+	tests := []struct {
+		name  string
+		query func() error
+	}{
+		{
+			name: "LookupCNAME NXDOMAIN",
+			query: func() error {
+				_, err := LookupCNAME(testNXDOMAIN)
+				return err
+			},
+		},
+		{
+			name: "LookupHost NXDOMAIN",
+			query: func() error {
+				_, err := LookupHost(testNXDOMAIN)
+				return err
+			},
+		},
+		{
+			name: "LookupHost NODATA",
+			query: func() error {
+				_, err := LookupHost(testNODATA)
+				return err
+			},
+		},
+		{
+			name: "LookupMX NXDOMAIN",
+			query: func() error {
+				_, err := LookupMX(testNXDOMAIN)
+				return err
+			},
+		},
+		{
+			name: "LookupMX NODATA",
+			query: func() error {
+				_, err := LookupMX(testNODATA)
+				return err
+			},
+		},
+		{
+			name: "LookupNS NXDOMAIN",
+			query: func() error {
+				_, err := LookupNS(testNXDOMAIN)
+				return err
+			},
+		},
+		{
+			name: "LookupNS NODATA",
+			query: func() error {
+				_, err := LookupNS(testNODATA)
+				return err
+			},
+		},
+		{
+			name: "LookupSRV NXDOMAIN",
+			query: func() error {
+				_, _, err := LookupSRV("unknown", "tcp", testNXDOMAIN)
+				return err
+			},
+		},
+		{
+			name: "LookupTXT NXDOMAIN",
+			query: func() error {
+				_, err := LookupTXT(testNXDOMAIN)
+				return err
+			},
+		},
+		{
+			name: "LookupTXT NODATA",
+			query: func() error {
+				_, err := LookupTXT(testNODATA)
+				return err
+			},
+		},
+	}
+
+	for _, v := range tests {
+		t.Run(v.name, func(t *testing.T) {
+			allResolvers(t, func(t *testing.T) {
+				attempts := 0
+				for {
+					err := v.query()
+					if err == nil {
+						t.Errorf("unexpected success")
+						return
+					}
+					if dnsErr, ok := err.(*DNSError); ok {
+						succeeded := true
+						if !dnsErr.IsNotFound {
+							succeeded = false
+							t.Log("IsNotFound is set to false")
+						}
+						if dnsErr.Err != errNoSuchHost.Error() {
+							succeeded = false
+							t.Logf("error message is not equal to: %v", errNoSuchHost.Error())
+						}
+						if succeeded {
+							return
+						}
+					}
+					testenv.SkipFlakyNet(t)
+					if attempts < len(backoffDuration) {
+						dur := backoffDuration[attempts]
+						t.Logf("backoff %v after failure %v\n", dur, err)
+						time.Sleep(dur)
+						attempts++
+						continue
+					}
+					t.Errorf("unexpected error: %v", err)
+					return
+				}
+			})
+		})
 	}
 }

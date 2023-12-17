@@ -9,11 +9,11 @@ package main
 import (
 	"fmt"
 	"go/ast"
+	"go/format"
 	"go/parser"
 	"go/scanner"
 	"go/token"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -44,14 +44,7 @@ func sourceLine(n ast.Node) int {
 // attached to the import "C" comment, a list of references to C.xxx,
 // a list of exported functions, and the actual AST, to be rewritten and
 // printed.
-func (f *File) ParseGo(name string, src []byte) {
-	// Create absolute path for file, so that it will be used in error
-	// messages and recorded in debug line number information.
-	// This matches the rest of the toolchain. See golang.org/issue/5122.
-	if aname, err := filepath.Abs(name); err == nil {
-		name = aname
-	}
-
+func (f *File) ParseGo(abspath string, src []byte) {
 	// Two different parses: once with comments, once without.
 	// The printer is not good enough at printing comments in the
 	// right place when we start editing the AST behind its back,
@@ -60,8 +53,8 @@ func (f *File) ParseGo(name string, src []byte) {
 	// and reprinting.
 	// In cgo mode, we ignore ast2 and just apply edits directly
 	// the text behind ast1. In godefs mode we modify and print ast2.
-	ast1 := parse(name, src, parser.ParseComments)
-	ast2 := parse(name, src, 0)
+	ast1 := parse(abspath, src, parser.SkipObjectResolution|parser.ParseComments)
+	ast2 := parse(abspath, src, parser.SkipObjectResolution)
 
 	f.Package = ast1.Name.Name
 	f.Name = make(map[string]*Name)
@@ -70,29 +63,53 @@ func (f *File) ParseGo(name string, src []byte) {
 	// In ast1, find the import "C" line and get any extra C preamble.
 	sawC := false
 	for _, decl := range ast1.Decls {
-		d, ok := decl.(*ast.GenDecl)
-		if !ok {
-			continue
+		switch decl := decl.(type) {
+		case *ast.GenDecl:
+			for _, spec := range decl.Specs {
+				s, ok := spec.(*ast.ImportSpec)
+				if !ok || s.Path.Value != `"C"` {
+					continue
+				}
+				sawC = true
+				if s.Name != nil {
+					error_(s.Path.Pos(), `cannot rename import "C"`)
+				}
+				cg := s.Doc
+				if cg == nil && len(decl.Specs) == 1 {
+					cg = decl.Doc
+				}
+				if cg != nil {
+					if strings.ContainsAny(abspath, "\r\n") {
+						// This should have been checked when the file path was first resolved,
+						// but we double check here just to be sure.
+						fatalf("internal error: ParseGo: abspath contains unexpected newline character: %q", abspath)
+					}
+					f.Preamble += fmt.Sprintf("#line %d %q\n", sourceLine(cg), abspath)
+					f.Preamble += commentText(cg) + "\n"
+					f.Preamble += "#line 1 \"cgo-generated-wrapper\"\n"
+				}
+			}
+
+		case *ast.FuncDecl:
+			// Also, reject attempts to declare methods on C.T or *C.T.
+			// (The generated code would otherwise accept this
+			// invalid input; see issue #57926.)
+			if decl.Recv != nil && len(decl.Recv.List) > 0 {
+				recvType := decl.Recv.List[0].Type
+				if recvType != nil {
+					t := recvType
+					if star, ok := unparen(t).(*ast.StarExpr); ok {
+						t = star.X
+					}
+					if sel, ok := unparen(t).(*ast.SelectorExpr); ok {
+						var buf strings.Builder
+						format.Node(&buf, fset, recvType)
+						error_(sel.Pos(), `cannot define new methods on non-local type %s`, &buf)
+					}
+				}
+			}
 		}
-		for _, spec := range d.Specs {
-			s, ok := spec.(*ast.ImportSpec)
-			if !ok || s.Path.Value != `"C"` {
-				continue
-			}
-			sawC = true
-			if s.Name != nil {
-				error_(s.Path.Pos(), `cannot rename import "C"`)
-			}
-			cg := s.Doc
-			if cg == nil && len(d.Specs) == 1 {
-				cg = d.Doc
-			}
-			if cg != nil {
-				f.Preamble += fmt.Sprintf("#line %d %q\n", sourceLine(cg), name)
-				f.Preamble += commentText(cg) + "\n"
-				f.Preamble += "#line 1 \"cgo-generated-wrapper\"\n"
-			}
-		}
+
 	}
 	if !sawC {
 		error_(ast1.Package, `cannot find import "C"`)
@@ -200,18 +217,6 @@ func (f *File) saveExprs(x interface{}, context astContext) {
 		}
 	case *ast.CallExpr:
 		f.saveCall(x, context)
-	case *ast.GenDecl:
-		if x.Tok == token.CONST {
-			for _, spec := range x.Specs {
-				vs := spec.(*ast.ValueSpec)
-				if vs.Type == nil {
-					for _, name := range spec.(*ast.ValueSpec).Names {
-						consts[name.Name] = true
-					}
-				}
-			}
-		}
-
 	}
 }
 
@@ -358,8 +363,7 @@ func (f *File) walk(x interface{}, context astContext, visit func(*File, interfa
 
 	// everything else just recurs
 	default:
-		error_(token.NoPos, "unexpected type %T in walk", x)
-		panic("unexpected type")
+		f.walkUnexpected(x, context, visit)
 
 	case nil:
 
@@ -430,6 +434,9 @@ func (f *File) walk(x interface{}, context astContext, visit func(*File, interfa
 	case *ast.StructType:
 		f.walk(n.Fields, ctxField, visit)
 	case *ast.FuncType:
+		if tparams := funcTypeTypeParams(n); tparams != nil {
+			f.walk(tparams, ctxParam, visit)
+		}
 		f.walk(n.Params, ctxParam, visit)
 		if n.Results != nil {
 			f.walk(n.Results, ctxParam, visit)
@@ -517,6 +524,9 @@ func (f *File) walk(x interface{}, context astContext, visit func(*File, interfa
 			f.walk(n.Values, ctxExpr, visit)
 		}
 	case *ast.TypeSpec:
+		if tparams := typeSpecTypeParams(n); tparams != nil {
+			f.walk(tparams, ctxParam, visit)
+		}
 		f.walk(&n.Type, ctxType, visit)
 
 	case *ast.BadDecl:
@@ -556,4 +566,12 @@ func (f *File) walk(x interface{}, context astContext, visit func(*File, interfa
 			f.walk(s, context, visit)
 		}
 	}
+}
+
+// If x is of the form (T), unparen returns unparen(T), otherwise it returns x.
+func unparen(x ast.Expr) ast.Expr {
+	if p, isParen := x.(*ast.ParenExpr); isParen {
+		x = unparen(p.X)
+	}
+	return x
 }

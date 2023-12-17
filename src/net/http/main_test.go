@@ -6,7 +6,7 @@ package http_test
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -17,9 +17,10 @@ import (
 	"time"
 )
 
-var quietLog = log.New(ioutil.Discard, "", 0)
+var quietLog = log.New(io.Discard, "", 0)
 
 func TestMain(m *testing.M) {
+	*http.MaxWriteWaitBeforeConnReuse = 60 * time.Minute
 	v := m.Run()
 	if v == 0 && goroutineLeaked() {
 		os.Exit(1)
@@ -31,11 +32,8 @@ func interestingGoroutines() (gs []string) {
 	buf := make([]byte, 2<<20)
 	buf = buf[:runtime.Stack(buf, true)]
 	for _, g := range strings.Split(string(buf), "\n\n") {
-		sl := strings.SplitN(g, "\n", 2)
-		if len(sl) != 2 {
-			continue
-		}
-		stack := strings.TrimSpace(sl[1])
+		_, stack, _ := strings.Cut(g, "\n")
+		stack = strings.TrimSpace(stack)
 		if stack == "" ||
 			strings.Contains(stack, "testing.(*M).before.func1") ||
 			strings.Contains(stack, "os/signal.signal_recv") ||
@@ -46,7 +44,7 @@ func interestingGoroutines() (gs []string) {
 			// These only show up with GOTRACEBACK=2; Issue 5005 (comment 28)
 			strings.Contains(stack, "runtime.goexit") ||
 			strings.Contains(stack, "created by runtime.gc") ||
-			strings.Contains(stack, "net/http_test.interestingGoroutines") ||
+			strings.Contains(stack, "interestingGoroutines") ||
 			strings.Contains(stack, "runtime.MHeap_Scavenger") {
 			continue
 		}
@@ -90,6 +88,9 @@ func goroutineLeaked() bool {
 // (all.bash), but as a serial test otherwise. Using t.Parallel isn't
 // compatible with the afterTest func in non-short mode.
 func setParallel(t *testing.T) {
+	if strings.Contains(t.Name(), "HTTP2") {
+		http.CondSkipHTTP2(t)
+	}
 	if testing.Short() {
 		t.Parallel()
 	}
@@ -107,11 +108,30 @@ func runningBenchmarks() bool {
 	return false
 }
 
+var leakReported bool
+
 func afterTest(t testing.TB) {
 	http.DefaultTransport.(*http.Transport).CloseIdleConnections()
 	if testing.Short() {
 		return
 	}
+	if leakReported {
+		// To avoid confusion, only report the first leak of each test run.
+		// After the first leak has been reported, we can't tell whether the leaked
+		// goroutines are a new leak from a subsequent test or just the same
+		// goroutines from the first leak still hanging around, and we may add a lot
+		// of latency waiting for them to exit at the end of each test.
+		return
+	}
+
+	// We shouldn't be running the leak check for parallel tests, because we might
+	// report the goroutines from a test that is still running as a leak from a
+	// completely separate test that has just finished. So we use non-atomic loads
+	// and stores for the leakReported variable, and store every time we start a
+	// leak check so that the race detector will flag concurrent leak checks as a
+	// race even if we don't detect any leaks.
+	leakReported = true
+
 	var bad string
 	badSubstring := map[string]string{
 		").readLoop(":  "a Transport",
@@ -122,7 +142,7 @@ func afterTest(t testing.TB) {
 		").noteClientGone(":     "a closenotifier sender",
 	}
 	var stacks string
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 10; i++ {
 		bad = ""
 		stacks = strings.Join(interestingGoroutines(), "\n\n")
 		for substr, what := range badSubstring {
@@ -131,6 +151,7 @@ func afterTest(t testing.TB) {
 			}
 		}
 		if bad == "" {
+			leakReported = false
 			return
 		}
 		// Bad stuff found, but goroutines might just still be
@@ -140,29 +161,15 @@ func afterTest(t testing.TB) {
 	t.Errorf("Test appears to have leaked %s:\n%s", bad, stacks)
 }
 
-// waitCondition reports whether fn eventually returned true,
-// checking immediately and then every checkEvery amount,
-// until waitFor has elapsed, at which point it returns false.
-func waitCondition(waitFor, checkEvery time.Duration, fn func() bool) bool {
-	deadline := time.Now().Add(waitFor)
-	for time.Now().Before(deadline) {
-		if fn() {
-			return true
-		}
-		time.Sleep(checkEvery)
+// waitCondition waits for fn to return true,
+// checking immediately and then at exponentially increasing intervals.
+func waitCondition(t testing.TB, delay time.Duration, fn func(time.Duration) bool) {
+	t.Helper()
+	start := time.Now()
+	var since time.Duration
+	for !fn(since) {
+		time.Sleep(delay)
+		delay = 2*delay - (delay / 2) // 1.5x, rounded up
+		since = time.Since(start)
 	}
-	return false
-}
-
-// waitErrCondition is like waitCondition but with errors instead of bools.
-func waitErrCondition(waitFor, checkEvery time.Duration, fn func() error) error {
-	deadline := time.Now().Add(waitFor)
-	var err error
-	for time.Now().Before(deadline) {
-		if err = fn(); err == nil {
-			return nil
-		}
-		time.Sleep(checkEvery)
-	}
-	return err
 }

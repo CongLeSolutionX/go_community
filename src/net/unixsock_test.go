@@ -2,14 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !js,!nacl,!plan9,!windows
+//go:build !plan9 && !windows
 
 package net
 
 import (
 	"bytes"
 	"internal/testenv"
-	"io/ioutil"
 	"os"
 	"reflect"
 	"runtime"
@@ -22,11 +21,15 @@ func TestReadUnixgramWithUnnamedSocket(t *testing.T) {
 	if !testableNetwork("unixgram") {
 		t.Skip("unixgram test")
 	}
+	switch runtime.GOOS {
+	case "js", "wasip1":
+		t.Skipf("skipping: syscall.Socket not implemented on %s", runtime.GOOS)
+	}
 	if runtime.GOOS == "openbsd" {
 		testenv.SkipFlaky(t, 15157)
 	}
 
-	addr := testUnixAddr()
+	addr := testUnixAddr(t)
 	la, err := ResolveUnixAddr("unixgram", addr)
 	if err != nil {
 		t.Fatal(err)
@@ -77,10 +80,7 @@ func TestUnixgramZeroBytePayload(t *testing.T) {
 		t.Skip("unixgram test")
 	}
 
-	c1, err := newLocalPacketListener("unixgram")
-	if err != nil {
-		t.Fatal(err)
-	}
+	c1 := newLocalPacketListener(t, "unixgram")
 	defer os.Remove(c1.LocalAddr().String())
 	defer c1.Close()
 
@@ -113,7 +113,7 @@ func TestUnixgramZeroBytePayload(t *testing.T) {
 				t.Fatalf("unexpected peer address: %v", peer)
 			}
 		default: // Read may timeout, it depends on the platform
-			if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
+			if !isDeadlineExceeded(err) {
 				t.Fatal(err)
 			}
 		}
@@ -127,10 +127,7 @@ func TestUnixgramZeroByteBuffer(t *testing.T) {
 	// issue 4352: Recvfrom failed with "address family not
 	// supported by protocol family" if zero-length buffer provided
 
-	c1, err := newLocalPacketListener("unixgram")
-	if err != nil {
-		t.Fatal(err)
-	}
+	c1 := newLocalPacketListener(t, "unixgram")
 	defer os.Remove(c1.LocalAddr().String())
 	defer c1.Close()
 
@@ -163,7 +160,7 @@ func TestUnixgramZeroByteBuffer(t *testing.T) {
 				t.Fatalf("unexpected peer address: %v", peer)
 			}
 		default: // Read may timeout, it depends on the platform
-			if nerr, ok := err.(Error); !ok || !nerr.Timeout() {
+			if !isDeadlineExceeded(err) {
 				t.Fatal(err)
 			}
 		}
@@ -175,7 +172,7 @@ func TestUnixgramWrite(t *testing.T) {
 		t.Skip("unixgram test")
 	}
 
-	addr := testUnixAddr()
+	addr := testUnixAddr(t)
 	laddr, err := ResolveUnixAddr("unixgram", addr)
 	if err != nil {
 		t.Fatal(err)
@@ -220,7 +217,7 @@ func testUnixgramWriteConn(t *testing.T, raddr *UnixAddr) {
 }
 
 func testUnixgramWritePacketConn(t *testing.T, raddr *UnixAddr) {
-	addr := testUnixAddr()
+	addr := testUnixAddr(t)
 	c, err := ListenPacket("unixgram", addr)
 	if err != nil {
 		t.Fatal(err)
@@ -249,9 +246,9 @@ func TestUnixConnLocalAndRemoteNames(t *testing.T) {
 	}
 
 	handler := func(ls *localServer, ln Listener) {}
-	for _, laddr := range []string{"", testUnixAddr()} {
+	for _, laddr := range []string{"", testUnixAddr(t)} {
 		laddr := laddr
-		taddr := testUnixAddr()
+		taddr := testUnixAddr(t)
 		ta, err := ResolveUnixAddr("unix", taddr)
 		if err != nil {
 			t.Fatal(err)
@@ -260,10 +257,7 @@ func TestUnixConnLocalAndRemoteNames(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		ls, err := (&streamListener{Listener: ln}).newLocalServer()
-		if err != nil {
-			t.Fatal(err)
-		}
+		ls := (&streamListener{Listener: ln}).newLocalServer()
 		defer ls.teardown()
 		if err := ls.buildup(handler); err != nil {
 			t.Fatal(err)
@@ -311,9 +305,9 @@ func TestUnixgramConnLocalAndRemoteNames(t *testing.T) {
 		t.Skip("unixgram test")
 	}
 
-	for _, laddr := range []string{"", testUnixAddr()} {
+	for _, laddr := range []string{"", testUnixAddr(t)} {
 		laddr := laddr
-		taddr := testUnixAddr()
+		taddr := testUnixAddr(t)
 		ta, err := ResolveUnixAddr("unixgram", taddr)
 		if err != nil {
 			t.Fatal(err)
@@ -369,7 +363,12 @@ func TestUnixUnlink(t *testing.T) {
 	if !testableNetwork("unix") {
 		t.Skip("unix test")
 	}
-	name := testUnixAddr()
+	switch runtime.GOOS {
+	case "js", "wasip1":
+		t.Skipf("skipping: %s does not support Unlink", runtime.GOOS)
+	}
+
+	name := testUnixAddr(t)
 
 	listen := func(t *testing.T) *UnixListener {
 		l, err := Listen("unix", name)
@@ -417,7 +416,7 @@ func TestUnixUnlink(t *testing.T) {
 		checkExists(t, "after Listen")
 		l.Close()
 		checkNotExists(t, "after Listener close")
-		if err := ioutil.WriteFile(name, []byte("hello world"), 0666); err != nil {
+		if err := os.WriteFile(name, []byte("hello world"), 0666); err != nil {
 			t.Fatalf("cannot recreate socket file: %v", err)
 		}
 		checkExists(t, "after writing temp file")

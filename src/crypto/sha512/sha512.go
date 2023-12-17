@@ -12,6 +12,8 @@ package sha512
 
 import (
 	"crypto"
+	"crypto/internal/boring"
+	"encoding/binary"
 	"errors"
 	"hash"
 )
@@ -151,17 +153,17 @@ func (d *digest) MarshalBinary() ([]byte, error) {
 	default:
 		return nil, errors.New("crypto/sha512: invalid hash function")
 	}
-	b = appendUint64(b, d.h[0])
-	b = appendUint64(b, d.h[1])
-	b = appendUint64(b, d.h[2])
-	b = appendUint64(b, d.h[3])
-	b = appendUint64(b, d.h[4])
-	b = appendUint64(b, d.h[5])
-	b = appendUint64(b, d.h[6])
-	b = appendUint64(b, d.h[7])
+	b = binary.BigEndian.AppendUint64(b, d.h[0])
+	b = binary.BigEndian.AppendUint64(b, d.h[1])
+	b = binary.BigEndian.AppendUint64(b, d.h[2])
+	b = binary.BigEndian.AppendUint64(b, d.h[3])
+	b = binary.BigEndian.AppendUint64(b, d.h[4])
+	b = binary.BigEndian.AppendUint64(b, d.h[5])
+	b = binary.BigEndian.AppendUint64(b, d.h[6])
+	b = binary.BigEndian.AppendUint64(b, d.h[7])
 	b = append(b, d.x[:d.nx]...)
-	b = b[:len(b)+len(d.x)-int(d.nx)] // already zero
-	b = appendUint64(b, d.len)
+	b = b[:len(b)+len(d.x)-d.nx] // already zero
+	b = binary.BigEndian.AppendUint64(b, d.len)
 	return b, nil
 }
 
@@ -195,24 +197,6 @@ func (d *digest) UnmarshalBinary(b []byte) error {
 	return nil
 }
 
-func putUint64(x []byte, s uint64) {
-	_ = x[7]
-	x[0] = byte(s >> 56)
-	x[1] = byte(s >> 48)
-	x[2] = byte(s >> 40)
-	x[3] = byte(s >> 32)
-	x[4] = byte(s >> 24)
-	x[5] = byte(s >> 16)
-	x[6] = byte(s >> 8)
-	x[7] = byte(s)
-}
-
-func appendUint64(b []byte, x uint64) []byte {
-	var a [8]byte
-	putUint64(a[:], x)
-	return append(b, a[:]...)
-}
-
 func consumeUint64(b []byte) ([]byte, uint64) {
 	_ = b[7]
 	x := uint64(b[7]) | uint64(b[6])<<8 | uint64(b[5])<<16 | uint64(b[4])<<24 |
@@ -222,6 +206,9 @@ func consumeUint64(b []byte) ([]byte, uint64) {
 
 // New returns a new hash.Hash computing the SHA-512 checksum.
 func New() hash.Hash {
+	if boring.Enabled {
+		return boring.NewSHA512()
+	}
 	d := &digest{function: crypto.SHA512}
 	d.Reset()
 	return d
@@ -243,6 +230,9 @@ func New512_256() hash.Hash {
 
 // New384 returns a new hash.Hash computing the SHA-384 checksum.
 func New384() hash.Hash {
+	if boring.Enabled {
+		return boring.NewSHA384()
+	}
 	d := &digest{function: crypto.SHA384}
 	d.Reset()
 	return d
@@ -264,6 +254,9 @@ func (d *digest) Size() int {
 func (d *digest) BlockSize() int { return BlockSize }
 
 func (d *digest) Write(p []byte) (nn int, err error) {
+	if d.function != crypto.SHA512_224 && d.function != crypto.SHA512_256 {
+		boring.Unreachable()
+	}
 	nn = len(p)
 	d.len += uint64(nn)
 	if d.nx > 0 {
@@ -287,6 +280,9 @@ func (d *digest) Write(p []byte) (nn int, err error) {
 }
 
 func (d *digest) Sum(in []byte) []byte {
+	if d.function != crypto.SHA512_224 && d.function != crypto.SHA512_256 {
+		boring.Unreachable()
+	}
 	// Make a copy of d so that caller can keep writing and summing.
 	d0 := new(digest)
 	*d0 = *d
@@ -306,34 +302,38 @@ func (d *digest) Sum(in []byte) []byte {
 func (d *digest) checkSum() [Size]byte {
 	// Padding. Add a 1 bit and 0 bits until 112 bytes mod 128.
 	len := d.len
-	var tmp [128]byte
+	var tmp [128 + 16]byte // padding + length buffer
 	tmp[0] = 0x80
+	var t uint64
 	if len%128 < 112 {
-		d.Write(tmp[0 : 112-len%128])
+		t = 112 - len%128
 	} else {
-		d.Write(tmp[0 : 128+112-len%128])
+		t = 128 + 112 - len%128
 	}
 
 	// Length in bits.
 	len <<= 3
-	putUint64(tmp[0:], 0) // upper 64 bits are always zero, because len variable has type uint64
-	putUint64(tmp[8:], len)
-	d.Write(tmp[0:16])
+	padlen := tmp[:t+16]
+	// Upper 64 bits are always zero, because len variable has type uint64,
+	// and tmp is already zeroed at that index, so we can skip updating it.
+	// binary.BigEndian.PutUint64(padlen[t+0:], 0)
+	binary.BigEndian.PutUint64(padlen[t+8:], len)
+	d.Write(padlen)
 
 	if d.nx != 0 {
 		panic("d.nx != 0")
 	}
 
 	var digest [Size]byte
-	putUint64(digest[0:], d.h[0])
-	putUint64(digest[8:], d.h[1])
-	putUint64(digest[16:], d.h[2])
-	putUint64(digest[24:], d.h[3])
-	putUint64(digest[32:], d.h[4])
-	putUint64(digest[40:], d.h[5])
+	binary.BigEndian.PutUint64(digest[0:], d.h[0])
+	binary.BigEndian.PutUint64(digest[8:], d.h[1])
+	binary.BigEndian.PutUint64(digest[16:], d.h[2])
+	binary.BigEndian.PutUint64(digest[24:], d.h[3])
+	binary.BigEndian.PutUint64(digest[32:], d.h[4])
+	binary.BigEndian.PutUint64(digest[40:], d.h[5])
 	if d.function != crypto.SHA384 {
-		putUint64(digest[48:], d.h[6])
-		putUint64(digest[56:], d.h[7])
+		binary.BigEndian.PutUint64(digest[48:], d.h[6])
+		binary.BigEndian.PutUint64(digest[56:], d.h[7])
 	}
 
 	return digest
@@ -341,6 +341,9 @@ func (d *digest) checkSum() [Size]byte {
 
 // Sum512 returns the SHA512 checksum of the data.
 func Sum512(data []byte) [Size]byte {
+	if boring.Enabled {
+		return boring.SHA512(data)
+	}
 	d := digest{function: crypto.SHA512}
 	d.Reset()
 	d.Write(data)
@@ -348,31 +351,34 @@ func Sum512(data []byte) [Size]byte {
 }
 
 // Sum384 returns the SHA384 checksum of the data.
-func Sum384(data []byte) (sum384 [Size384]byte) {
+func Sum384(data []byte) [Size384]byte {
+	if boring.Enabled {
+		return boring.SHA384(data)
+	}
 	d := digest{function: crypto.SHA384}
 	d.Reset()
 	d.Write(data)
 	sum := d.checkSum()
-	copy(sum384[:], sum[:Size384])
-	return
+	ap := (*[Size384]byte)(sum[:])
+	return *ap
 }
 
 // Sum512_224 returns the Sum512/224 checksum of the data.
-func Sum512_224(data []byte) (sum224 [Size224]byte) {
+func Sum512_224(data []byte) [Size224]byte {
 	d := digest{function: crypto.SHA512_224}
 	d.Reset()
 	d.Write(data)
 	sum := d.checkSum()
-	copy(sum224[:], sum[:Size224])
-	return
+	ap := (*[Size224]byte)(sum[:])
+	return *ap
 }
 
 // Sum512_256 returns the Sum512/256 checksum of the data.
-func Sum512_256(data []byte) (sum256 [Size256]byte) {
+func Sum512_256(data []byte) [Size256]byte {
 	d := digest{function: crypto.SHA512_256}
 	d.Reset()
 	d.Write(data)
 	sum := d.checkSum()
-	copy(sum256[:], sum[:Size256])
-	return
+	ap := (*[Size256]byte)(sum[:])
+	return *ap
 }

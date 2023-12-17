@@ -6,23 +6,25 @@ package cache
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cfg"
+	"internal/goexperiment"
 )
 
-// Default returns the default cache to use, or nil if no cache should be used.
-func Default() *Cache {
+// Default returns the default cache to use.
+// It never returns nil.
+func Default() Cache {
 	defaultOnce.Do(initDefaultCache)
 	return defaultCache
 }
 
 var (
 	defaultOnce  sync.Once
-	defaultCache *Cache
+	defaultCache Cache
 )
 
 // cacheREADME is a message stored in a README in the cache directory.
@@ -30,6 +32,7 @@ var (
 // README as a courtesy to explain where it came from.
 const cacheREADME = `This directory holds cached build artifacts from the Go build system.
 Run "go clean -cache" if the directory is getting too large.
+Run "go clean -fuzzcache" to delete the fuzz cache.
 See golang.org to learn more about Go.
 `
 
@@ -37,7 +40,7 @@ See golang.org to learn more about Go.
 // the first time Default is called.
 func initDefaultCache() {
 	dir := DefaultDir()
-	if dir == "off" || dir == "" {
+	if dir == "off" {
 		if defaultDirErr != nil {
 			base.Fatalf("build cache is required, but could not be located: %v", defaultDirErr)
 		}
@@ -48,14 +51,19 @@ func initDefaultCache() {
 	}
 	if _, err := os.Stat(filepath.Join(dir, "README")); err != nil {
 		// Best effort.
-		ioutil.WriteFile(filepath.Join(dir, "README"), []byte(cacheREADME), 0666)
+		os.WriteFile(filepath.Join(dir, "README"), []byte(cacheREADME), 0666)
 	}
 
-	c, err := Open(dir)
+	diskCache, err := Open(dir)
 	if err != nil {
 		base.Fatalf("failed to initialize build cache at %s: %s\n", dir, err)
 	}
-	defaultCache = c
+
+	if v := cfg.Getenv("GOCACHEPROG"); v != "" && goexperiment.CacheProg {
+		defaultCache = startCacheProg(v, diskCache)
+	} else {
+		defaultCache = diskCache
+	}
 }
 
 var (
@@ -73,8 +81,13 @@ func DefaultDir() string {
 	// otherwise distinguish between an explicit "off" and a UserCacheDir error.
 
 	defaultDirOnce.Do(func() {
-		defaultDir = os.Getenv("GOCACHE")
+		defaultDir = cfg.Getenv("GOCACHE")
+		if filepath.IsAbs(defaultDir) || defaultDir == "off" {
+			return
+		}
 		if defaultDir != "" {
+			defaultDir = "off"
+			defaultDirErr = fmt.Errorf("GOCACHE is not an absolute path")
 			return
 		}
 

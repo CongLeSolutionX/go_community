@@ -6,6 +6,13 @@ package runtime
 const (
 	_EINTR  = 0x4
 	_EFAULT = 0xe
+	_EAGAIN = 0x23
+
+	_O_WRONLY   = 0x1
+	_O_NONBLOCK = 0x4
+	_O_CREAT    = 0x200
+	_O_TRUNC    = 0x400
+	_O_CLOEXEC  = 0x400000
 
 	_PROT_NONE  = 0x0
 	_PROT_READ  = 0x1
@@ -16,7 +23,8 @@ const (
 	_MAP_PRIVATE = 0x2
 	_MAP_FIXED   = 0x10
 
-	_MADV_FREE = 0x6
+	_MADV_DONTNEED = 0x4
+	_MADV_FREE     = 0x6
 
 	_SA_SIGINFO = 0x40
 	_SA_RESTART = 0x2
@@ -106,12 +114,9 @@ type timespec struct {
 	tv_nsec int32
 }
 
-func (ts *timespec) set_sec(x int32) {
-	ts.tv_sec = int64(x)
-}
-
-func (ts *timespec) set_nsec(x int32) {
-	ts.tv_nsec = x
+//go:nosplit
+func (ts *timespec) setNsec(ns int64) {
+	ts.tv_sec = int64(timediv(ns, 1e9, &ts.tv_nsec))
 }
 
 type timeval struct {

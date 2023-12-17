@@ -877,3 +877,58 @@ func TestNumbers(t *testing.T) {
 		}
 	}
 }
+
+func TestIssue30320(t *testing.T) {
+	for _, test := range []struct {
+		in, want string
+		mode     uint
+	}{
+		{"foo01.bar31.xx-0-1-1-0", "01 31 0 1 1 0", ScanInts},
+		{"foo0/12/0/5.67", "0 12 0 5 67", ScanInts},
+		{"xxx1e0yyy", "1 0", ScanInts},
+		{"1_2", "1_2", ScanInts},
+		{"xxx1.0yyy2e3ee", "1 0 2 3", ScanInts},
+		{"xxx1.0yyy2e3ee", "1.0 2e3", ScanFloats},
+	} {
+		got := extractInts(test.in, test.mode)
+		if got != test.want {
+			t.Errorf("%q: got %q; want %q", test.in, got, test.want)
+		}
+	}
+}
+
+func extractInts(t string, mode uint) (res string) {
+	var s Scanner
+	s.Init(strings.NewReader(t))
+	s.Mode = mode
+	for {
+		switch tok := s.Scan(); tok {
+		case Int, Float:
+			if len(res) > 0 {
+				res += " "
+			}
+			res += s.TokenText()
+		case EOF:
+			return
+		}
+	}
+}
+
+func TestIssue50909(t *testing.T) {
+	var s Scanner
+	s.Init(strings.NewReader("hello \n\nworld\n!\n"))
+	s.IsIdentRune = func(ch rune, _ int) bool { return ch != '\n' }
+
+	r := ""
+	n := 0
+	for s.Scan() != EOF && n < 10 {
+		r += s.TokenText()
+		n++
+	}
+
+	const R = "hello world!"
+	const N = 3
+	if r != R || n != N {
+		t.Errorf("got %q (n = %d); want %q (n = %d)", r, n, R, N)
+	}
+}

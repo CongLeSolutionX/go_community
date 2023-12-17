@@ -13,15 +13,13 @@
 static void* threadentry(void*);
 static void (*setg_gcc)(void*);
 
-// These will be set in gcc_android_amd64.c for android-specific customization.
-void (*x_cgo_inittls)(void);
-void* (*x_cgo_threadentry)(void*);
+// This will be set in gcc_android.c for android-specific customization.
+void (*x_cgo_inittls)(void **tlsg, void **tlsbase) __attribute__((common));
 
 void
-x_cgo_init(G* g, void (*setg)(void*))
+x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 {
-	pthread_attr_t *attr;
-	size_t size;
+	uintptr *pbounds;
 
 	/* The memory sanitizer distributed with versions of clang
 	   before 3.8 has a bug: if you call mmap before malloc, mmap
@@ -39,18 +37,15 @@ x_cgo_init(G* g, void (*setg)(void*))
 	   malloc, so we actually use the memory we allocate.  */
 
 	setg_gcc = setg;
-	attr = (pthread_attr_t*)malloc(sizeof *attr);
-	if (attr == NULL) {
+	pbounds = (uintptr*)malloc(2 * sizeof(uintptr));
+	if (pbounds == NULL) {
 		fatalf("malloc failed: %s", strerror(errno));
 	}
-	pthread_attr_init(attr);
-	pthread_attr_getstacksize(attr, &size);
-	g->stacklo = (uintptr)&size - size + 4096;
-	pthread_attr_destroy(attr);
-	free(attr);
+	_cgo_set_stacklo(g, pbounds);
+	free(pbounds);
 
 	if (x_cgo_inittls) {
-		x_cgo_inittls();
+		x_cgo_inittls(tlsg, tlsbase);
 	}
 }
 
@@ -80,13 +75,10 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	}
 }
 
+extern void crosscall1(void (*fn)(void), void (*setg_gcc)(void*), void *g);
 static void*
 threadentry(void *v)
 {
-	if (x_cgo_threadentry) {
-		return x_cgo_threadentry(v);
-	}
-
 	ThreadStart ts;
 
 	ts = *(ThreadStart*)v;
@@ -94,11 +86,6 @@ threadentry(void *v)
 	free(v);
 	_cgo_tsan_release();
 
-	/*
-	 * Set specific keys.
-	 */
-	setg_gcc((void*)ts.g);
-
-	crosscall_amd64(ts.fn);
+	crosscall1(ts.fn, setg_gcc, (void*)ts.g);
 	return nil;
 }

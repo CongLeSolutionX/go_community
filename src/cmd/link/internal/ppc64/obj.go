@@ -1,5 +1,5 @@
 // Inferno utils/5l/obj.c
-// https://bitbucket.org/inferno-os/inferno-os/src/default/utils/5l/obj.c
+// https://bitbucket.org/inferno-os/inferno-os/src/master/utils/5l/obj.c
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //	Portions Copyright © 1995-1997 C H Forsyth (forsyth@terzarima.net)
@@ -34,13 +34,18 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/ld"
-	"fmt"
+	"internal/buildcfg"
 )
 
 func Init() (*sys.Arch, ld.Arch) {
-	arch := sys.ArchPPC64
-	if objabi.GOARCH == "ppc64le" {
-		arch = sys.ArchPPC64LE
+	arch := sys.ArchPPC64LE
+	dynld := "/lib64/ld64.so.2"
+	musl := "/lib/ld-musl-powerpc64le.so.1"
+
+	if buildcfg.GOARCH == "ppc64" {
+		arch = sys.ArchPPC64
+		dynld = "/lib64/ld64.so.1"
+		musl = "/lib/ld-musl-powerpc64.so.1"
 	}
 
 	theArch := ld.Arch{
@@ -49,26 +54,32 @@ func Init() (*sys.Arch, ld.Arch) {
 		Minalign:   minAlign,
 		Dwarfregsp: dwarfRegSP,
 		Dwarfreglr: dwarfRegLR,
+		TrampLimit: 0x1c00000,
 
 		Adddynrel:        adddynrel,
 		Archinit:         archinit,
 		Archreloc:        archreloc,
 		Archrelocvariant: archrelocvariant,
-		Asmb:             asmb,
-		Elfreloc1:        elfreloc1,
-		Elfsetupplt:      elfsetupplt,
+		Extreloc:         extreloc,
 		Gentext:          gentext,
 		Trampoline:       trampoline,
 		Machoreloc1:      machoreloc1,
+		Xcoffreloc1:      xcoffreloc1,
 
-		// TODO(austin): ABI v1 uses /usr/lib/ld.so.1,
-		Linuxdynld: "/lib64/ld64.so.1",
+		ELF: ld.ELFArch{
+			Linuxdynld:     dynld,
+			LinuxdynldMusl: musl,
 
-		Freebsddynld:   "XXX",
-		Openbsddynld:   "XXX",
-		Netbsddynld:    "XXX",
-		Dragonflydynld: "XXX",
-		Solarisdynld:   "XXX",
+			Freebsddynld:   "XXX",
+			Openbsddynld:   "/usr/libexec/ld.so",
+			Netbsddynld:    "XXX",
+			Dragonflydynld: "XXX",
+			Solarisdynld:   "XXX",
+
+			Reloc1:    elfreloc1,
+			RelocSize: 24,
+			SetupPLT:  elfsetupplt,
+		},
 	}
 
 	return arch, theArch
@@ -81,50 +92,25 @@ func archinit(ctxt *ld.Link) {
 
 	case objabi.Hplan9: /* plan 9 */
 		ld.HEADR = 32
-
-		if *ld.FlagTextAddr == -1 {
-			*ld.FlagTextAddr = 4128
-		}
-		if *ld.FlagDataAddr == -1 {
-			*ld.FlagDataAddr = 0
-		}
 		if *ld.FlagRound == -1 {
 			*ld.FlagRound = 4096
 		}
+		if *ld.FlagTextAddr == -1 {
+			*ld.FlagTextAddr = ld.Rnd(4096, *ld.FlagRound) + int64(ld.HEADR)
+		}
 
-	case objabi.Hlinux: /* ppc64 elf */
+	case objabi.Hlinux, /* ppc64 elf */
+		objabi.Hopenbsd:
 		ld.Elfinit(ctxt)
 		ld.HEADR = ld.ELFRESERVE
-		if *ld.FlagTextAddr == -1 {
-			*ld.FlagTextAddr = 0x10000 + int64(ld.HEADR)
-		}
-		if *ld.FlagDataAddr == -1 {
-			*ld.FlagDataAddr = 0
-		}
 		if *ld.FlagRound == -1 {
 			*ld.FlagRound = 0x10000
 		}
-
-	case objabi.Hnacl:
-		ld.Elfinit(ctxt)
-		ld.HEADR = 0x10000
-		ld.Funcalign = 16
 		if *ld.FlagTextAddr == -1 {
-			*ld.FlagTextAddr = 0x20000
-		}
-		if *ld.FlagDataAddr == -1 {
-			*ld.FlagDataAddr = 0
-		}
-		if *ld.FlagRound == -1 {
-			*ld.FlagRound = 0x10000
+			*ld.FlagTextAddr = ld.Rnd(0x10000, *ld.FlagRound) + int64(ld.HEADR)
 		}
 
 	case objabi.Haix:
 		ld.Xcoffinit(ctxt)
-
-	}
-
-	if *ld.FlagDataAddr != 0 && *ld.FlagRound != 0 {
-		fmt.Printf("warning: -D0x%x is ignored because of -R0x%x\n", uint64(*ld.FlagDataAddr), uint32(*ld.FlagRound))
 	}
 }

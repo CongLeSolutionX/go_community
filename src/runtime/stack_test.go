@@ -5,18 +5,17 @@
 package runtime_test
 
 import (
-	"bytes"
 	"fmt"
-	"os"
+	"internal/testenv"
 	"reflect"
 	"regexp"
 	. "runtime"
-	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
+	_ "unsafe" // for go:linkname
 )
 
 // TestStackMem measures per-thread stack segment cache behavior.
@@ -78,12 +77,9 @@ func TestStackMem(t *testing.T) {
 
 // Test stack growing in different contexts.
 func TestStackGrowth(t *testing.T) {
-	if GOARCH == "wasm" {
-		t.Skip("fails on wasm (too slow?)")
+	if *flagQuick {
+		t.Skip("-quick")
 	}
-
-	// Don't make this test parallel as this makes the 20 second
-	// timeout unreliable on slow builders. (See issue #19381.)
 
 	var wg sync.WaitGroup
 
@@ -97,6 +93,7 @@ func TestStackGrowth(t *testing.T) {
 		growDuration = time.Since(start)
 	}()
 	wg.Wait()
+	t.Log("first growStack took", growDuration)
 
 	// in locked goroutine
 	wg.Add(1)
@@ -109,48 +106,39 @@ func TestStackGrowth(t *testing.T) {
 	wg.Wait()
 
 	// in finalizer
+	var finalizerStart time.Time
+	var started atomic.Bool
+	var progress atomic.Uint32
 	wg.Add(1)
-	go func() {
+	s := new(string) // Must be of a type that avoids the tiny allocator, or else the finalizer might not run.
+	SetFinalizer(s, func(ss *string) {
 		defer wg.Done()
-		done := make(chan bool)
-		var startTime time.Time
-		var started, progress uint32
-		go func() {
-			s := new(string)
-			SetFinalizer(s, func(ss *string) {
-				startTime = time.Now()
-				atomic.StoreUint32(&started, 1)
-				growStack(&progress)
-				done <- true
-			})
-			s = nil
-			done <- true
-		}()
-		<-done
-		GC()
+		finalizerStart = time.Now()
+		started.Store(true)
+		growStack(&progress)
+	})
+	setFinalizerTime := time.Now()
+	s = nil
 
-		timeout := 20 * time.Second
-		if s := os.Getenv("GO_TEST_TIMEOUT_SCALE"); s != "" {
-			scale, err := strconv.Atoi(s)
-			if err == nil {
-				timeout *= time.Duration(scale)
-			}
-		}
-
-		select {
-		case <-done:
-		case <-time.After(timeout):
-			if atomic.LoadUint32(&started) == 0 {
-				t.Log("finalizer did not start")
+	if d, ok := t.Deadline(); ok {
+		// Pad the timeout by an arbitrary 5% to give the AfterFunc time to run.
+		timeout := time.Until(d) * 19 / 20
+		timer := time.AfterFunc(timeout, func() {
+			// Panic — instead of calling t.Error and returning from the test — so
+			// that we get a useful goroutine dump if the test times out, especially
+			// if GOTRACEBACK=system or GOTRACEBACK=crash is set.
+			if !started.Load() {
+				panic("finalizer did not start")
 			} else {
-				t.Logf("finalizer started %s ago and finished %d iterations", time.Since(startTime), atomic.LoadUint32(&progress))
+				panic(fmt.Sprintf("finalizer started %s ago (%s after registration) and ran %d iterations, but did not return", time.Since(finalizerStart), finalizerStart.Sub(setFinalizerTime), progress.Load()))
 			}
-			t.Log("first growStack took", growDuration)
-			t.Error("finalizer did not run")
-			return
-		}
-	}()
+		})
+		defer timer.Stop()
+	}
+
+	GC()
 	wg.Wait()
+	t.Logf("finalizer started after %s and ran %d iterations in %v", finalizerStart.Sub(setFinalizerTime), progress.Load(), time.Since(finalizerStart))
 }
 
 // ... and in init
@@ -158,7 +146,7 @@ func TestStackGrowth(t *testing.T) {
 //	growStack()
 //}
 
-func growStack(progress *uint32) {
+func growStack(progress *atomic.Uint32) {
 	n := 1 << 10
 	if testing.Short() {
 		n = 1 << 8
@@ -170,7 +158,7 @@ func growStack(progress *uint32) {
 			panic("stack is corrupted")
 		}
 		if progress != nil {
-			atomic.StoreUint32(progress, uint32(i))
+			progress.Store(uint32(i))
 		}
 	}
 	GC()
@@ -347,7 +335,7 @@ func TestDeferLeafSigpanic(t *testing.T) {
 	}()
 	// Call a leaf function. We must set up the exact call stack:
 	//
-	//  defering function -> leaf function -> sigpanic
+	//  deferring function -> leaf function -> sigpanic
 	//
 	// On LR machines, the leaf function will have the same SP as
 	// the SP pushed for the defer frame.
@@ -580,6 +568,67 @@ func count21(n int) int { return 1 + count22(n-1) }
 func count22(n int) int { return 1 + count23(n-1) }
 func count23(n int) int { return 1 + count1(n-1) }
 
+type stkobjT struct {
+	p *stkobjT
+	x int64
+	y [20]int // consume some stack
+}
+
+// Sum creates a linked list of stkobjTs.
+func Sum(n int64, p *stkobjT) {
+	if n == 0 {
+		return
+	}
+	s := stkobjT{p: p, x: n}
+	Sum(n-1, &s)
+	p.x += s.x
+}
+
+func BenchmarkStackCopyWithStkobj(b *testing.B) {
+	c := make(chan bool)
+	for i := 0; i < b.N; i++ {
+		go func() {
+			var s stkobjT
+			Sum(100000, &s)
+			c <- true
+		}()
+		<-c
+	}
+}
+
+func BenchmarkIssue18138(b *testing.B) {
+	// Channel with N "can run a goroutine" tokens
+	const N = 10
+	c := make(chan []byte, N)
+	for i := 0; i < N; i++ {
+		c <- make([]byte, 1)
+	}
+
+	for i := 0; i < b.N; i++ {
+		<-c // get token
+		go func() {
+			useStackPtrs(1000, false) // uses ~1MB max
+			m := make([]byte, 8192)   // make GC trigger occasionally
+			c <- m                    // return token
+		}()
+	}
+}
+
+func useStackPtrs(n int, b bool) {
+	if b {
+		// This code contributes to the stack frame size, and hence to the
+		// stack copying cost. But since b is always false, it costs no
+		// execution time (not even the zeroing of a).
+		var a [128]*int // 1KB of pointers
+		a[n] = &n
+		n = *a[0]
+	}
+	if n == 0 {
+		return
+	}
+	useStackPtrs(n-1, b)
+}
+
 type structWithMethod struct{}
 
 func (s structWithMethod) caller() string {
@@ -595,15 +644,14 @@ func (s structWithMethod) callers() []uintptr {
 	return pc[:Callers(0, pc)]
 }
 
-// The noinline prevents this function from being inlined
-// into a wrapper. TODO: remove this when issue 28640 is fixed.
-//go:noinline
 func (s structWithMethod) stack() string {
 	buf := make([]byte, 4<<10)
 	return string(buf[:Stack(buf, false)])
 }
 
 func (s structWithMethod) nop() {}
+
+func (s structWithMethod) inlinablePanic() { panic("panic") }
 
 func TestStackWrapperCaller(t *testing.T) {
 	var d structWithMethod
@@ -640,6 +688,33 @@ func TestStackWrapperStack(t *testing.T) {
 	if strings.Contains(stk, "<autogenerated>") {
 		t.Fatalf("<autogenerated> appears in stack trace:\n%s", stk)
 	}
+}
+
+func TestStackWrapperStackInlinePanic(t *testing.T) {
+	// Test that inline unwinding correctly tracks the callee by creating a
+	// stack of the form wrapper -> inlined function -> panic. If we mess up
+	// callee tracking, it will look like the wrapper called panic and we'll see
+	// the wrapper in the stack trace.
+	var d structWithMethod
+	wrapper := (*structWithMethod).inlinablePanic
+	defer func() {
+		err := recover()
+		if err == nil {
+			t.Fatalf("expected panic")
+		}
+		buf := make([]byte, 4<<10)
+		stk := string(buf[:Stack(buf, false)])
+		if strings.Contains(stk, "<autogenerated>") {
+			t.Fatalf("<autogenerated> appears in stack trace:\n%s", stk)
+		}
+		// Self-check: make sure inlinablePanic got inlined.
+		if !testenv.OptimizationOff() {
+			if !strings.Contains(stk, "inlinablePanic(...)") {
+				t.Fatalf("inlinablePanic not inlined")
+			}
+		}
+	}()
+	wrapper(&d)
 }
 
 type I interface {
@@ -730,7 +805,7 @@ func TestTracebackSystemstack(t *testing.T) {
 	// and that we see TestTracebackSystemstack.
 	countIn, countOut := 0, 0
 	frames := CallersFrames(pcs)
-	var tb bytes.Buffer
+	var tb strings.Builder
 	for {
 		frame, more := frames.Next()
 		fmt.Fprintf(&tb, "\n%s+0x%x %s:%d", frame.Function, frame.PC-frame.Entry, frame.File, frame.Line)
@@ -786,4 +861,98 @@ func TestTracebackAncestors(t *testing.T) {
 			t.Errorf("output does not contain %d instances of %q:\n%s", count, want, output)
 		}
 	}
+}
+
+// Test that defer closure is correctly scanned when the stack is scanned.
+func TestDeferLiveness(t *testing.T) {
+	output := runTestProg(t, "testprog", "DeferLiveness", "GODEBUG=clobberfree=1")
+	if output != "" {
+		t.Errorf("output:\n%s\n\nwant no output", output)
+	}
+}
+
+func TestDeferHeapAndStack(t *testing.T) {
+	P := 4     // processors
+	N := 10000 //iterations
+	D := 200   // stack depth
+
+	if testing.Short() {
+		P /= 2
+		N /= 10
+		D /= 10
+	}
+	c := make(chan bool)
+	for p := 0; p < P; p++ {
+		go func() {
+			for i := 0; i < N; i++ {
+				if deferHeapAndStack(D) != 2*D {
+					panic("bad result")
+				}
+			}
+			c <- true
+		}()
+	}
+	for p := 0; p < P; p++ {
+		<-c
+	}
+}
+
+// deferHeapAndStack(n) computes 2*n
+func deferHeapAndStack(n int) (r int) {
+	if n == 0 {
+		return 0
+	}
+	if n%2 == 0 {
+		// heap-allocated defers
+		for i := 0; i < 2; i++ {
+			defer func() {
+				r++
+			}()
+		}
+	} else {
+		// stack-allocated defers
+		defer func() {
+			r++
+		}()
+		defer func() {
+			r++
+		}()
+	}
+	r = deferHeapAndStack(n - 1)
+	escapeMe(new([1024]byte)) // force some GCs
+	return
+}
+
+// Pass a value to escapeMe to force it to escape.
+var escapeMe = func(x any) {}
+
+func TestFramePointerAdjust(t *testing.T) {
+	switch GOARCH {
+	case "amd64", "arm64":
+	default:
+		t.Skipf("frame pointer is not supported on %s", GOARCH)
+	}
+	output := runTestProg(t, "testprog", "FramePointerAdjust")
+	if output != "" {
+		t.Errorf("output:\n%s\n\nwant no output", output)
+	}
+}
+
+// TestSystemstackFramePointerAdjust is a regression test for issue 59692 that
+// ensures that the frame pointer of systemstack is correctly adjusted. See CL
+// 489015 for more details.
+func TestSystemstackFramePointerAdjust(t *testing.T) {
+	growAndShrinkStack(512, [1024]byte{})
+}
+
+// growAndShrinkStack grows the stack of the current goroutine in order to
+// shrink it again and verify that all frame pointers on the new stack have
+// been correctly adjusted. stackBallast is used to ensure we're not depending
+// on the current heuristics of stack shrinking too much.
+func growAndShrinkStack(n int, stackBallast [1024]byte) {
+	if n <= 0 {
+		return
+	}
+	growAndShrinkStack(n-1, stackBallast)
+	ShrinkStackAndVerifyFramePointers()
 }

@@ -2,19 +2,22 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
+//go:build unix
 
 // Fork, exec, wait, etc.
 
 package syscall
 
 import (
+	errorspkg "errors"
+	"internal/bytealg"
 	"runtime"
 	"sync"
 	"unsafe"
 )
 
-// Lock synchronizing creation of new file descriptors with fork.
+// ForkLock is used to synchronize creation of new file descriptors
+// with fork.
 //
 // We want the child in a fork/exec sequence to inherit only the
 // file descriptors we intend. To do that, we mark all file
@@ -51,16 +54,14 @@ import (
 // The rules for which file descriptor-creating operations use the
 // ForkLock are as follows:
 //
-// 1) Pipe. Does not block. Use the ForkLock.
-// 2) Socket. Does not block. Use the ForkLock.
-// 3) Accept. If using non-blocking mode, use the ForkLock.
-//             Otherwise, live with the race.
-// 4) Open. Can block. Use O_CLOEXEC if available (Linux).
-//             Otherwise, live with the race.
-// 5) Dup. Does not block. Use the ForkLock.
-//             On Linux, could use fcntl F_DUPFD_CLOEXEC
-//             instead of the ForkLock, but only for dup(fd, -1).
-
+//   - Pipe. Use pipe2 if available. Otherwise, does not block,
+//     so use ForkLock.
+//   - Socket. Use SOCK_CLOEXEC if available. Otherwise, does not
+//     block, so use ForkLock.
+//   - Open. Use O_CLOEXEC if available. Otherwise, may block,
+//     so live with the race.
+//   - Dup. Use F_DUPFD_CLOEXEC or dup3 if available. Otherwise,
+//     does not block, so use ForkLock.
 var ForkLock sync.RWMutex
 
 // StringSlicePtr converts a slice of strings to a slice of pointers
@@ -81,15 +82,21 @@ func StringSlicePtr(ss []string) []*byte {
 // pointers to NUL-terminated byte arrays. If any string contains
 // a NUL byte, it returns (nil, EINVAL).
 func SlicePtrFromStrings(ss []string) ([]*byte, error) {
-	var err error
-	bb := make([]*byte, len(ss)+1)
-	for i := 0; i < len(ss); i++ {
-		bb[i], err = BytePtrFromString(ss[i])
-		if err != nil {
-			return nil, err
+	n := 0
+	for _, s := range ss {
+		if bytealg.IndexByteString(s, 0) != -1 {
+			return nil, EINVAL
 		}
+		n += len(s) + 1 // +1 for NUL
 	}
-	bb[len(ss)] = nil
+	bb := make([]*byte, len(ss)+1)
+	b := make([]byte, n)
+	n = 0
+	for i, s := range ss {
+		bb[i] = &b[n]
+		copy(b[n:], s)
+		n += len(s) + 1
+	}
 	return bb, nil
 }
 
@@ -99,6 +106,9 @@ func SetNonblock(fd int, nonblocking bool) (err error) {
 	flag, err := fcntl(fd, F_GETFL, 0)
 	if err != nil {
 		return err
+	}
+	if (flag&O_NONBLOCK != 0) == nonblocking {
+		return nil
 	}
 	if nonblocking {
 		flag |= O_NONBLOCK
@@ -144,9 +154,6 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 		sys = &zeroSysProcAttr
 	}
 
-	p[0] = -1
-	p[1] = -1
-
 	// Convert args to C form.
 	argv0p, err := BytePtrFromString(argv0)
 	if err != nil {
@@ -161,7 +168,7 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 		return 0, err
 	}
 
-	if (runtime.GOOS == "freebsd" || runtime.GOOS == "dragonfly") && len(argv[0]) > len(argv0) {
+	if (runtime.GOOS == "freebsd" || runtime.GOOS == "dragonfly") && len(argv) > 0 && len(argv[0]) > len(argv0) {
 		argvp[0] = argv0p
 	}
 
@@ -180,27 +187,41 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 		}
 	}
 
-	// Acquire the fork lock so that no other threads
-	// create new fds that are not yet close-on-exec
-	// before we fork.
-	ForkLock.Lock()
+	// Both Setctty and Foreground use the Ctty field,
+	// but they give it slightly different meanings.
+	if sys.Setctty && sys.Foreground {
+		return 0, errorspkg.New("both Setctty and Foreground set in SysProcAttr")
+	}
+	if sys.Setctty && sys.Ctty >= len(attr.Files) {
+		return 0, errorspkg.New("Setctty set but Ctty not valid in child")
+	}
+
+	acquireForkLock()
 
 	// Allocate child status pipe close on exec.
 	if err = forkExecPipe(p[:]); err != nil {
-		goto error
+		releaseForkLock()
+		return 0, err
 	}
 
 	// Kick off child.
 	pid, err1 = forkAndExecInChild(argv0p, argvp, envvp, chroot, dir, attr, sys, p[1])
 	if err1 != 0 {
-		err = Errno(err1)
-		goto error
+		Close(p[0])
+		Close(p[1])
+		releaseForkLock()
+		return 0, Errno(err1)
 	}
-	ForkLock.Unlock()
+	releaseForkLock()
 
 	// Read child error status from pipe.
 	Close(p[1])
-	n, err = readlen(p[0], (*byte)(unsafe.Pointer(&err1)), int(unsafe.Sizeof(err1)))
+	for {
+		n, err = readlen(p[0], (*byte)(unsafe.Pointer(&err1)), int(unsafe.Sizeof(err1)))
+		if err != EINTR {
+			break
+		}
+	}
 	Close(p[0])
 	if err != nil || n != 0 {
 		if n == int(unsafe.Sizeof(err1)) {
@@ -221,14 +242,6 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 
 	// Read got EOF, so pipe closed on exec, so exec succeeded.
 	return pid, nil
-
-error:
-	if p[0] >= 0 {
-		Close(p[0])
-		Close(p[1])
-	}
-	ForkLock.Unlock()
-	return 0, err
 }
 
 // Combination of fork and exec, careful to be thread safe.
@@ -250,6 +263,7 @@ func runtime_AfterExec()
 // avoids a build dependency for other platforms.
 var execveLibc func(path uintptr, argv uintptr, envp uintptr) Errno
 var execveDarwin func(path *byte, argv **byte, envp **byte) error
+var execveOpenBSD func(path *byte, argv **byte, envp **byte) error
 
 // Exec invokes the execve(2) system call.
 func Exec(argv0 string, argv []string, envv []string) (err error) {
@@ -267,16 +281,24 @@ func Exec(argv0 string, argv []string, envv []string) (err error) {
 	}
 	runtime_BeforeExec()
 
+	rlim := origRlimitNofile.Load()
+	if rlim != nil {
+		Setrlimit(RLIMIT_NOFILE, rlim)
+	}
+
 	var err1 error
-	if runtime.GOOS == "solaris" || runtime.GOOS == "aix" {
-		// RawSyscall should never be used on Solaris or AIX.
+	if runtime.GOOS == "solaris" || runtime.GOOS == "illumos" || runtime.GOOS == "aix" {
+		// RawSyscall should never be used on Solaris, illumos, or AIX.
 		err1 = execveLibc(
 			uintptr(unsafe.Pointer(argv0p)),
 			uintptr(unsafe.Pointer(&argvp[0])),
 			uintptr(unsafe.Pointer(&envvp[0])))
-	} else if runtime.GOOS == "darwin" {
+	} else if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
 		// Similarly on Darwin.
 		err1 = execveDarwin(argv0p, &argvp[0], &envvp[0])
+	} else if runtime.GOOS == "openbsd" && runtime.GOARCH != "mips64" {
+		// Similarly on OpenBSD.
+		err1 = execveOpenBSD(argv0p, &argvp[0], &envvp[0])
 	} else {
 		_, _, err1 = RawSyscall(SYS_EXECVE,
 			uintptr(unsafe.Pointer(argv0p)),

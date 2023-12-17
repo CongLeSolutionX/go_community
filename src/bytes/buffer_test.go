@@ -6,9 +6,10 @@ package bytes_test
 
 import (
 	. "bytes"
+	"fmt"
 	"io"
 	"math/rand"
-	"runtime"
+	"strconv"
 	"testing"
 	"unicode/utf8"
 )
@@ -131,11 +132,8 @@ func TestBasicOperations(t *testing.T) {
 		check(t, "TestBasicOperations (3)", &buf, "")
 
 		n, err := buf.Write(testBytes[0:1])
-		if n != 1 {
-			t.Errorf("wrote 1 byte, but n == %d", n)
-		}
-		if err != nil {
-			t.Errorf("err should always be nil, but err == %s", err)
+		if want := 1; err != nil || n != want {
+			t.Errorf("Write: got (%d, %v), want (%d, %v)", n, err, want, nil)
 		}
 		check(t, "TestBasicOperations (4)", &buf, "a")
 
@@ -143,8 +141,8 @@ func TestBasicOperations(t *testing.T) {
 		check(t, "TestBasicOperations (5)", &buf, "ab")
 
 		n, err = buf.Write(testBytes[2:26])
-		if n != 24 {
-			t.Errorf("wrote 24 bytes, but n == %d", n)
+		if want := 24; err != nil || n != want {
+			t.Errorf("Write: got (%d, %v), want (%d, %v)", n, err, want, nil)
 		}
 		check(t, "TestBasicOperations (6)", &buf, testString[0:26])
 
@@ -159,15 +157,12 @@ func TestBasicOperations(t *testing.T) {
 
 		buf.WriteByte(testString[1])
 		c, err := buf.ReadByte()
-		if err != nil {
-			t.Error("ReadByte unexpected eof")
-		}
-		if c != testString[1] {
-			t.Errorf("ReadByte wrong value c=%v", c)
+		if want := testString[1]; err != nil || c != want {
+			t.Errorf("ReadByte: got (%q, %v), want (%q, %v)", c, err, want, nil)
 		}
 		c, err = buf.ReadByte()
-		if err == nil {
-			t.Error("ReadByte unexpected not eof")
+		if err != io.EOF {
+			t.Errorf("ReadByte: got (%q, %v), want (%q, %v)", c, err, byte(0), io.EOF)
 		}
 	}
 }
@@ -273,7 +268,7 @@ type panicReader struct{ panic bool }
 
 func (r panicReader) Read(p []byte) (int, error) {
 	if r.panic {
-		panic(nil)
+		panic("oops")
 	}
 	return 0, io.EOF
 }
@@ -329,6 +324,33 @@ func TestWriteTo(t *testing.T) {
 		var b Buffer
 		buf.WriteTo(&b)
 		empty(t, "TestWriteTo (2)", &b, s, make([]byte, len(testString)))
+	}
+}
+
+func TestWriteAppend(t *testing.T) {
+	var got Buffer
+	var want []byte
+	for i := 0; i < 1000; i++ {
+		b := got.AvailableBuffer()
+		b = strconv.AppendInt(b, int64(i), 10)
+		want = strconv.AppendInt(want, int64(i), 10)
+		got.Write(b)
+	}
+	if !Equal(got.Bytes(), want) {
+		t.Fatalf("Bytes() = %q, want %q", got, want)
+	}
+
+	// With a sufficiently sized buffer, there should be no allocations.
+	n := testing.AllocsPerRun(100, func() {
+		got.Reset()
+		for i := 0; i < 1000; i++ {
+			b := got.AvailableBuffer()
+			b = strconv.AppendInt(b, int64(i), 10)
+			got.Write(b)
+		}
+	})
+	if n > 0 {
+		t.Errorf("allocations occurred while appending")
 	}
 }
 
@@ -391,6 +413,16 @@ func TestRuneIO(t *testing.T) {
 		if r1 != r2 || r1 != r || nbytes != size || err != nil {
 			t.Fatalf("ReadRune(%U) after UnreadRune got %U,%d not %U,%d (err=%s)", r, r2, nbytes, r, size, err)
 		}
+	}
+}
+
+func TestWriteInvalidRune(t *testing.T) {
+	// Invalid runes, including negative ones, should be written as
+	// utf8.RuneError.
+	for _, r := range []rune{-1, utf8.MaxRune + 1} {
+		var buf Buffer
+		buf.WriteRune(r)
+		check(t, fmt.Sprintf("TestWriteInvalidRune (%d)", r), &buf, "\uFFFD")
 	}
 }
 
@@ -501,20 +533,20 @@ func TestGrow(t *testing.T) {
 	x := []byte{'x'}
 	y := []byte{'y'}
 	tmp := make([]byte, 72)
-	for _, startLen := range []int{0, 100, 1000, 10000, 100000} {
-		xBytes := Repeat(x, startLen)
-		for _, growLen := range []int{0, 100, 1000, 10000, 100000} {
+	for _, growLen := range []int{0, 100, 1000, 10000, 100000} {
+		for _, startLen := range []int{0, 100, 1000, 10000, 100000} {
+			xBytes := Repeat(x, startLen)
+
 			buf := NewBuffer(xBytes)
 			// If we read, this affects buf.off, which is good to test.
 			readBytes, _ := buf.Read(tmp)
-			buf.Grow(growLen)
 			yBytes := Repeat(y, growLen)
+			allocs := testing.AllocsPerRun(100, func() {
+				buf.Grow(growLen)
+				buf.Write(yBytes)
+			})
 			// Check no allocation occurs in write, as long as we're single-threaded.
-			var m1, m2 runtime.MemStats
-			runtime.ReadMemStats(&m1)
-			buf.Write(yBytes)
-			runtime.ReadMemStats(&m2)
-			if runtime.GOMAXPROCS(-1) == 1 && m1.Mallocs != m2.Mallocs {
+			if allocs != 0 {
 				t.Errorf("allocation occurred during write")
 			}
 			// Check that buffer has correct data.
@@ -666,5 +698,33 @@ func BenchmarkBufferFullSmallReads(b *testing.B) {
 			b.Read(buf[:1])
 			b.Write(buf[:1])
 		}
+	}
+}
+
+func BenchmarkBufferWriteBlock(b *testing.B) {
+	block := make([]byte, 1024)
+	for _, n := range []int{1 << 12, 1 << 16, 1 << 20} {
+		b.Run(fmt.Sprintf("N%d", n), func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				var bb Buffer
+				for bb.Len() < n {
+					bb.Write(block)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkBufferAppendNoCopy(b *testing.B) {
+	var bb Buffer
+	bb.Grow(16 << 20)
+	b.SetBytes(int64(bb.Available()))
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		bb.Reset()
+		b := bb.AvailableBuffer()
+		b = b[:cap(b)] // use max capacity to simulate a large append operation
+		bb.Write(b)    // should be nearly infinitely fast
 	}
 }

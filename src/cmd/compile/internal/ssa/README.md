@@ -34,7 +34,7 @@ value is defined exactly once, but it may be used any number of times. A value
 mainly consists of a unique identifier, an operator, a type, and some arguments.
 
 An operator or `Op` describes the operation that computes the value. The
-semantics of each operator can be found in `gen/*Ops.go`. For example, `OpAdd8`
+semantics of each operator can be found in `_gen/*Ops.go`. For example, `OpAdd8`
 takes two value arguments holding 8-bit integers and results in their addition.
 Here is a possible SSA representation of the addition of two `uint8` values:
 
@@ -82,10 +82,10 @@ control value, which must return a memory state. This is necessary for functions
 to return some values, for example - the caller needs some memory state to
 depend on, to ensure that it receives those return values correctly.
 
-The last important block kind we will mention is the `if` block. Its control
-value must be a boolean value, and it has exactly two successor blocks. The
-control flow is handed to the first successor if the bool is true, and to the
-second otherwise.
+The last important block kind we will mention is the `if` block. It has a single
+control value that must be a boolean value, and it has exactly two successor
+blocks. The control flow is handed to the first successor if the bool is true,
+and to the second otherwise.
 
 Here is a sample if-else control flow represented with basic blocks:
 
@@ -184,6 +184,19 @@ compile passes, making it easy to see what each pass does to a particular
 program. You can also click on values and blocks to highlight them, to help
 follow the control flow and values.
 
+The value specified in GOSSAFUNC can also be a package-qualified function
+name, e.g.
+
+	GOSSAFUNC=blah.Foo go build
+
+This will match any function named "Foo" within a package whose final
+suffix is "blah" (e.g. something/blah.Foo, anotherthing/extra/blah.Foo).
+
+If non-HTML dumps are needed, append a "+" to the GOSSAFUNC value
+and dumps will be written to stdout:
+
+	GOSSAFUNC=Bar+ go build
+
 <!---
 TODO: need more ideas for this section
 -->
@@ -192,17 +205,17 @@ TODO: need more ideas for this section
 
 While most compiler passes are implemented directly in Go code, some others are
 code generated. This is currently done via rewrite rules, which have their own
-syntax and are maintained in `gen/*.rules`. Simpler optimizations can be written
+syntax and are maintained in `_gen/*.rules`. Simpler optimizations can be written
 easily and quickly this way, but rewrite rules are not suitable for more complex
 optimizations.
 
 To read more on rewrite rules, have a look at the top comments in
-[gen/generic.rules](gen/generic.rules) and [gen/rulegen.go](gen/rulegen.go).
+[_gen/generic.rules](_gen/generic.rules) and [_gen/rulegen.go](_gen/rulegen.go).
 
 Similarly, the code to manage operators is also code generated from
-`gen/*Ops.go`, as it is easier to maintain a few tables than a lot of code.
-After changing the rules or operators, see [gen/README](gen/README) for
-instructions on how to generate the Go code again.
+`_gen/*Ops.go`, as it is easier to maintain a few tables than a lot of code.
+After changing the rules or operators, run `go generate cmd/compile/internal/ssa`
+to generate the Go code again.
 
 <!---
 TODO: more tips and info could likely go here

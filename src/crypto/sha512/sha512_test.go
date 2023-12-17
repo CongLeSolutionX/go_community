@@ -8,6 +8,7 @@ package sha512
 
 import (
 	"bytes"
+	"crypto/internal/boring"
 	"crypto/rand"
 	"encoding"
 	"encoding/hex"
@@ -788,7 +789,7 @@ func TestMarshalMismatch(t *testing.T) {
 			}
 
 			if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err == nil {
-				t.Errorf("i=%d, j=%d: got no error , expected one: %v", i, j, err)
+				t.Errorf("i=%d, j=%d: got no error, expected one: %v", i, j, err)
 			}
 		}
 	}
@@ -822,6 +823,9 @@ func TestBlockSize(t *testing.T) {
 
 // Tests that blockGeneric (pure Go) and block (in assembly for some architectures) match.
 func TestBlockGeneric(t *testing.T) {
+	if boring.Enabled {
+		t.Skip("BoringCrypto doesn't expose digest")
+	}
 	gen, asm := New().(*digest), New().(*digest)
 	buf := make([]byte, BlockSize*20) // arbitrary factor
 	rand.Read(buf)
@@ -835,7 +839,7 @@ func TestBlockGeneric(t *testing.T) {
 // Tests for unmarshaling hashes that have hashed a large amount of data
 // The initial hash generation is omitted from the test, because it takes a long time.
 // The test contains some already-generated states, and their expected sums
-// Tests a problem that is outlined in Github issue #29541
+// Tests a problem that is outlined in GitHub issue #29541
 // The problem is triggered when an amount of data has been hashed for which
 // the data length has a 1 in the 32nd bit. When casted to int, this changes
 // the sign of the value, and causes the modulus operation to return a
@@ -847,11 +851,11 @@ type unmarshalTest struct {
 
 var largeUnmarshalTests = []unmarshalTest{
 	// Data length: 6_565_544_823
-	unmarshalTest{
+	{
 		state: "sha\aηe\x0f\x0f\xe1r]#\aoJ!.{5B\xe4\x140\x91\xdd\x00a\xe1\xb3E&\xb9\xbb\aJ\x9f^\x9f\x03ͺD\x96H\x80\xb0X\x9d\xdeʸ\f\xf7:\xd5\xe6'\xb9\x93f\xddA\xf0~\xe1\x02\x14\x00\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuv\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x87VCw",
 		sum:   "12d612357a1dbc74a28883dff79b83e7d2b881ae40d7a67fd7305490bc8a641cd1ce9ece598192080d6e9ac7e75d5988567a58a9812991299eb99a04ecb69523",
 	},
-	unmarshalTest{
+	{
 		state: "sha\a2\xd2\xdc\xf5\xd7\xe2\xf9\x97\xaa\xe7}Fϱ\xbc\x8e\xbf\x12h\x83Z\xa1\xc7\xf5p>bfS T\xea\xee\x1e\xa6Z\x9c\xa4ڶ\u0086\bn\xe47\x8fsGs3\xe0\xda\\\x9dqZ\xa5\xf6\xd0kM\xa1\xf2\x00\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuv\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xa7VCw",
 		sum:   "94a04b9a901254cd94ca0313557e4be3ab1ca86e920c1f3efdc22d361e9ae12be66bc6d6dc5db79a0a4aa6eca6f293c1e9095bbae127ae405f6c325478343299",
 	},
@@ -888,17 +892,51 @@ func TestLargeHashes(t *testing.T) {
 	}
 }
 
+func TestAllocations(t *testing.T) {
+	if boring.Enabled {
+		t.Skip("BoringCrypto doesn't allocate the same way as stdlib")
+	}
+	in := []byte("hello, world!")
+	out := make([]byte, 0, Size)
+	h := New()
+	n := int(testing.AllocsPerRun(10, func() {
+		h.Reset()
+		h.Write(in)
+		out = h.Sum(out[:0])
+	}))
+	if n > 0 {
+		t.Errorf("allocs = %d, want 0", n)
+	}
+}
+
 var bench = New()
 var buf = make([]byte, 8192)
 
 func benchmarkSize(b *testing.B, size int) {
-	b.SetBytes(int64(size))
 	sum := make([]byte, bench.Size())
-	for i := 0; i < b.N; i++ {
-		bench.Reset()
-		bench.Write(buf[:size])
-		bench.Sum(sum[:0])
-	}
+	b.Run("New", func(b *testing.B) {
+		b.ReportAllocs()
+		b.SetBytes(int64(size))
+		for i := 0; i < b.N; i++ {
+			bench.Reset()
+			bench.Write(buf[:size])
+			bench.Sum(sum[:0])
+		}
+	})
+	b.Run("Sum384", func(b *testing.B) {
+		b.ReportAllocs()
+		b.SetBytes(int64(size))
+		for i := 0; i < b.N; i++ {
+			Sum384(buf[:size])
+		}
+	})
+	b.Run("Sum512", func(b *testing.B) {
+		b.ReportAllocs()
+		b.SetBytes(int64(size))
+		for i := 0; i < b.N; i++ {
+			Sum512(buf[:size])
+		}
+	})
 }
 
 func BenchmarkHash8Bytes(b *testing.B) {

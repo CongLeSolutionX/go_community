@@ -2,13 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build windows
+//go:build windows
 
 package registry
 
 import (
 	"errors"
-	"io"
 	"syscall"
 	"unicode/utf16"
 	"unsafe"
@@ -108,7 +107,7 @@ func (k Key) GetStringValue(name string) (val string, valtype uint32, err error)
 	if len(data) == 0 {
 		return "", typ, nil
 	}
-	u := (*[1 << 29]uint16)(unsafe.Pointer(&data[0]))[:]
+	u := (*[1 << 29]uint16)(unsafe.Pointer(&data[0]))[: len(data)/2 : len(data)/2]
 	return syscall.UTF16ToString(u), typ, nil
 }
 
@@ -116,9 +115,6 @@ func (k Key) GetStringValue(name string) (val string, valtype uint32, err error)
 // the specified value name associated with an open key k.
 // If the value name doesn't exist or the localized string value
 // can't be resolved, GetMUIStringValue returns ErrNotExist.
-// GetMUIStringValue panics if the system doesn't support
-// regLoadMUIString; use LoadRegLoadMUIString to check if
-// regLoadMUIString is supported before calling this function.
 func (k Key) GetMUIStringValue(name string) (string, error) {
 	pname, err := syscall.UTF16PtrFromString(name)
 	if err != nil {
@@ -185,8 +181,7 @@ func ExpandString(value string) (string, error) {
 			return "", err
 		}
 		if n <= uint32(len(r)) {
-			u := (*[1 << 29]uint16)(unsafe.Pointer(&r[0]))[:]
-			return syscall.UTF16ToString(u), nil
+			return syscall.UTF16ToString(r[:n]), nil
 		}
 		r = make([]uint16, n)
 	}
@@ -208,7 +203,7 @@ func (k Key) GetStringsValue(name string) (val []string, valtype uint32, err err
 	if len(data) == 0 {
 		return nil, typ, nil
 	}
-	p := (*[1 << 29]uint16)(unsafe.Pointer(&data[0]))[:len(data)/2]
+	p := (*[1 << 29]uint16)(unsafe.Pointer(&data[0]))[: len(data)/2 : len(data)/2]
 	if len(p) == 0 {
 		return nil, typ, nil
 	}
@@ -219,7 +214,7 @@ func (k Key) GetStringsValue(name string) (val []string, valtype uint32, err err
 	from := 0
 	for i, c := range p {
 		if c == 0 {
-			val = append(val, string(utf16.Decode(p[from:i])))
+			val = append(val, syscall.UTF16ToString(p[from:i]))
 			from = i + 1
 		}
 	}
@@ -246,7 +241,7 @@ func (k Key) GetIntegerValue(name string) (val uint64, valtype uint32, err error
 		if len(data) != 8 {
 			return 0, typ, errors.New("QWORD value is not 8 bytes long")
 		}
-		return uint64(*(*uint64)(unsafe.Pointer(&data[0]))), QWORD, nil
+		return *(*uint64)(unsafe.Pointer(&data[0])), QWORD, nil
 	default:
 		return 0, typ, ErrUnexpectedType
 	}
@@ -296,7 +291,7 @@ func (k Key) setStringValue(name string, valtype uint32, value string) error {
 	if err != nil {
 		return err
 	}
-	buf := (*[1 << 29]byte)(unsafe.Pointer(&v[0]))[:len(v)*2]
+	buf := (*[1 << 29]byte)(unsafe.Pointer(&v[0]))[: len(v)*2 : len(v)*2]
 	return k.setValue(name, valtype, buf)
 }
 
@@ -326,7 +321,7 @@ func (k Key) SetStringsValue(name string, value []string) error {
 		ss += s + "\x00"
 	}
 	v := utf16.Encode([]rune(ss + "\x00"))
-	buf := (*[1 << 29]byte)(unsafe.Pointer(&v[0]))[:len(v)*2]
+	buf := (*[1 << 29]byte)(unsafe.Pointer(&v[0]))[: len(v)*2 : len(v)*2]
 	return k.setValue(name, MULTI_SZ, buf)
 }
 
@@ -342,9 +337,7 @@ func (k Key) DeleteValue(name string) error {
 }
 
 // ReadValueNames returns the value names of key k.
-// The parameter n controls the number of returned names,
-// analogous to the way os.File.Readdirnames works.
-func (k Key) ReadValueNames(n int) ([]string, error) {
+func (k Key) ReadValueNames() ([]string, error) {
 	ki, err := k.Stat()
 	if err != nil {
 		return nil, err
@@ -353,11 +346,6 @@ func (k Key) ReadValueNames(n int) ([]string, error) {
 	buf := make([]uint16, ki.MaxValueNameLen+1) // extra room for terminating null character
 loopItems:
 	for i := uint32(0); ; i++ {
-		if n > 0 {
-			if len(names) == n {
-				return names, nil
-			}
-		}
 		l := uint32(len(buf))
 		for {
 			err := regEnumValue(syscall.Handle(k), i, &buf[0], &l, nil, nil, nil, nil)
@@ -376,9 +364,6 @@ loopItems:
 			return names, err
 		}
 		names = append(names, syscall.UTF16ToString(buf[:l]))
-	}
-	if n > len(names) {
-		return names, io.EOF
 	}
 	return names, nil
 }

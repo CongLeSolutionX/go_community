@@ -17,6 +17,9 @@ import "unsafe"
 //go:linkname _cgo_callers _cgo_callers
 //go:linkname _cgo_set_context_function _cgo_set_context_function
 //go:linkname _cgo_yield _cgo_yield
+//go:linkname _cgo_pthread_key_created _cgo_pthread_key_created
+//go:linkname _cgo_bindm _cgo_bindm
+//go:linkname _cgo_getstackbound _cgo_getstackbound
 
 var (
 	_cgo_init                     unsafe.Pointer
@@ -26,10 +29,16 @@ var (
 	_cgo_callers                  unsafe.Pointer
 	_cgo_set_context_function     unsafe.Pointer
 	_cgo_yield                    unsafe.Pointer
+	_cgo_pthread_key_created      unsafe.Pointer
+	_cgo_bindm                    unsafe.Pointer
+	_cgo_getstackbound            unsafe.Pointer
 )
 
 // iscgo is set to true by the runtime/cgo package
 var iscgo bool
+
+// set_crosscall2 is set by the runtime/cgo package
+var set_crosscall2 func()
 
 // cgoHasExtraM is set on startup when an extra M is created for cgo.
 // The extra M must be created before any C/C++ code calls cgocallback.
@@ -42,7 +51,7 @@ var cgoHasExtraM bool
 // 2) they keep the argument alive until the call site; the call is emitted after
 // the end of the (presumed) use of the argument by C.
 // cgoUse should not actually be called (see cgoAlwaysFalse).
-func cgoUse(interface{}) { throw("cgoUse should not be called") }
+func cgoUse(any) { throw("cgoUse should not be called") }
 
 // cgoAlwaysFalse is a boolean value that is always false.
 // The cgo-generated code says if cgoAlwaysFalse { cgoUse(p) }.
@@ -52,3 +61,11 @@ func cgoUse(interface{}) { throw("cgoUse should not be called") }
 var cgoAlwaysFalse bool
 
 var cgo_yield = &_cgo_yield
+
+func cgoNoCallback(v bool) {
+	g := getg()
+	if g.nocgocallback && v {
+		panic("runtime: unexpected setting cgoNoCallback")
+	}
+	g.nocgocallback = v
+}

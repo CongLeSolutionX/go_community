@@ -6,17 +6,68 @@ package net
 
 import (
 	"context"
+	"internal/bytealg"
+	"internal/godebug"
 	"internal/nettrace"
-	"internal/poll"
 	"syscall"
 	"time"
 )
+
+const (
+	// defaultTCPKeepAlive is a default constant value for TCPKeepAlive times
+	// See go.dev/issue/31510
+	defaultTCPKeepAlive = 15 * time.Second
+
+	// For the moment, MultiPath TCP is not used by default
+	// See go.dev/issue/56539
+	defaultMPTCPEnabled = false
+)
+
+var multipathtcp = godebug.New("multipathtcp")
+
+// mptcpStatus is a tristate for Multipath TCP, see go.dev/issue/56539
+type mptcpStatus uint8
+
+const (
+	// The value 0 is the system default, linked to defaultMPTCPEnabled
+	mptcpUseDefault mptcpStatus = iota
+	mptcpEnabled
+	mptcpDisabled
+)
+
+func (m *mptcpStatus) get() bool {
+	switch *m {
+	case mptcpEnabled:
+		return true
+	case mptcpDisabled:
+		return false
+	}
+
+	// If MPTCP is forced via GODEBUG=multipathtcp=1
+	if multipathtcp.Value() == "1" {
+		multipathtcp.IncNonDefault()
+
+		return true
+	}
+
+	return defaultMPTCPEnabled
+}
+
+func (m *mptcpStatus) set(use bool) {
+	if use {
+		*m = mptcpEnabled
+	} else {
+		*m = mptcpDisabled
+	}
+}
 
 // A Dialer contains options for connecting to an address.
 //
 // The zero value for each field is equivalent to dialing
 // without that option. Dialing with the zero value of Dialer
 // is therefore equivalent to just calling the Dial function.
+//
+// It is safe to call Dialer's methods concurrently.
 type Dialer struct {
 	// Timeout is the maximum amount of time a dial will wait for
 	// a connect to complete. If Deadline is also set, it may fail
@@ -63,12 +114,13 @@ type Dialer struct {
 	// A negative value disables Fast Fallback support.
 	FallbackDelay time.Duration
 
-	// KeepAlive specifies the keep-alive period for an active
-	// network connection.
-	// If zero, keep-alives are enabled if supported by the protocol
-	// and operating system. Network protocols or operating systems
-	// that do not support keep-alives ignore this field.
-	// If negative, keep-alives are disabled.
+	// KeepAlive specifies the interval between keep-alive
+	// probes for an active network connection.
+	// If zero, keep-alive probes are sent with a default value
+	// (currently 15 seconds), if supported by the protocol and operating
+	// system. Network protocols or operating systems that do
+	// not support keep-alives ignore this field.
+	// If negative, keep-alive probes are disabled.
 	KeepAlive time.Duration
 
 	// Resolver optionally specifies an alternate resolver to use.
@@ -76,7 +128,7 @@ type Dialer struct {
 
 	// Cancel is an optional channel whose closure indicates that
 	// the dial should be canceled. Not all types of dials support
-	// cancelation.
+	// cancellation.
 	//
 	// Deprecated: Use DialContext instead.
 	Cancel <-chan struct{}
@@ -84,10 +136,27 @@ type Dialer struct {
 	// If Control is not nil, it is called after creating the network
 	// connection but before actually dialing.
 	//
-	// Network and address parameters passed to Control method are not
+	// Network and address parameters passed to Control function are not
 	// necessarily the ones passed to Dial. For example, passing "tcp" to Dial
 	// will cause the Control function to be called with "tcp4" or "tcp6".
+	//
+	// Control is ignored if ControlContext is not nil.
 	Control func(network, address string, c syscall.RawConn) error
+
+	// If ControlContext is not nil, it is called after creating the network
+	// connection but before actually dialing.
+	//
+	// Network and address parameters passed to ControlContext function are not
+	// necessarily the ones passed to Dial. For example, passing "tcp" to Dial
+	// will cause the ControlContext function to be called with "tcp4" or "tcp6".
+	//
+	// If ControlContext is not nil, Control is ignored.
+	ControlContext func(ctx context.Context, network, address string, c syscall.RawConn) error
+
+	// If mptcpStatus is set to a value allowing Multipath TCP (MPTCP) to be
+	// used, any call to Dial with "tcp(4|6)" as network will use MPTCP if
+	// supported by the operating system.
+	mptcpStatus mptcpStatus
 }
 
 func (d *Dialer) dualStack() bool { return d.FallbackDelay >= 0 }
@@ -106,6 +175,7 @@ func minNonzeroTime(a, b time.Time) time.Time {
 //   - now+Timeout
 //   - d.Deadline
 //   - the context's deadline
+//
 // Or zero, if none of Timeout, Deadline, or context's deadline is set.
 func (d *Dialer) deadline(ctx context.Context, now time.Time) (earliest time.Time) {
 	if d.Timeout != 0 { // including negative, for historical reasons
@@ -132,7 +202,7 @@ func partialDeadline(now, deadline time.Time, addrsRemaining int) (time.Time, er
 	}
 	timeRemaining := deadline.Sub(now)
 	if timeRemaining <= 0 {
-		return time.Time{}, poll.ErrTimeout
+		return time.Time{}, errTimeout
 	}
 	// Tentatively allocate equal time to each remaining address.
 	timeout := timeRemaining / time.Duration(addrsRemaining)
@@ -157,7 +227,7 @@ func (d *Dialer) fallbackDelay() time.Duration {
 }
 
 func parseNetwork(ctx context.Context, network string, needsProto bool) (afnet string, proto int, err error) {
-	i := last(network, ':')
+	i := bytealg.LastIndexByteString(network, ':')
 	if i < 0 { // no colon
 		switch network {
 		case "tcp", "tcp4", "tcp6":
@@ -260,6 +330,24 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 	return naddrs, nil
 }
 
+// MultipathTCP reports whether MPTCP will be used.
+//
+// This method doesn't check if MPTCP is supported by the operating
+// system or not.
+func (d *Dialer) MultipathTCP() bool {
+	return d.mptcpStatus.get()
+}
+
+// SetMultipathTCP directs the Dial methods to use, or not use, MPTCP,
+// if supported by the operating system. This method overrides the
+// system default and the GODEBUG=multipathtcp=... setting if any.
+//
+// If MPTCP is not available on the host or not supported by the server,
+// the Dial methods will fall back to TCP.
+func (d *Dialer) SetMultipathTCP(use bool) {
+	d.mptcpStatus.set(use)
+}
+
 // Dial connects to the address on the named network.
 //
 // Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only),
@@ -281,6 +369,7 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 // Dial will try each IP address in order until one succeeds.
 //
 // Examples:
+//
 //	Dial("tcp", "golang.org:http")
 //	Dial("tcp", "192.0.2.1:http")
 //	Dial("tcp", "198.51.100.1:80")
@@ -296,6 +385,7 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 // behaves with a non-well known protocol number such as "0" or "255".
 //
 // Examples:
+//
 //	Dial("ip4:1", "192.0.2.1")
 //	Dial("ip6:ipv6-icmp", "2001:db8::1")
 //	Dial("ip6:58", "fe80::1%lo0")
@@ -330,12 +420,16 @@ func DialTimeout(network, address string, timeout time.Duration) (Conn, error) {
 type sysDialer struct {
 	Dialer
 	network, address string
+	testHookDialTCP  func(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error)
 }
 
 // Dial connects to the address on the named network.
 //
 // See func Dial for a description of the network and address
 // parameters.
+//
+// Dial uses context.Background internally; to specify the context, use
+// DialContext.
 func (d *Dialer) Dial(network, address string) (Conn, error) {
 	return d.DialContext(context.Background(), network, address)
 }
@@ -364,6 +458,7 @@ func (d *Dialer) DialContext(ctx context.Context, network, address string) (Conn
 	}
 	deadline := d.deadline(ctx, time.Now())
 	if !deadline.IsZero() {
+		testHookStepTime()
 		if d, ok := ctx.Deadline(); !ok || deadline.Before(d) {
 			subCtx, cancel := context.WithDeadline(ctx, deadline)
 			defer cancel()
@@ -410,26 +505,7 @@ func (d *Dialer) DialContext(ctx context.Context, network, address string) (Conn
 		primaries = addrs
 	}
 
-	var c Conn
-	if len(fallbacks) > 0 {
-		c, err = sd.dialParallel(ctx, primaries, fallbacks)
-	} else {
-		c, err = sd.dialSerial(ctx, primaries)
-	}
-	if err != nil {
-		return nil, err
-	}
-
-	if tc, ok := c.(*TCPConn); ok && d.KeepAlive >= 0 {
-		setKeepAlive(tc.fd, true)
-		ka := d.KeepAlive
-		if d.KeepAlive == 0 {
-			ka = 15 * time.Second
-		}
-		setKeepAlivePeriod(tc.fd, ka)
-		testHookSetKeepAlive(ka)
-	}
-	return c, nil
+	return sd.dialParallel(ctx, primaries, fallbacks)
 }
 
 // dialParallel races two copies of dialSerial, giving the first a
@@ -520,20 +596,21 @@ func (sd *sysDialer) dialSerial(ctx context.Context, ras addrList) (Conn, error)
 		default:
 		}
 
-		deadline, _ := ctx.Deadline()
-		partialDeadline, err := partialDeadline(time.Now(), deadline, len(ras)-i)
-		if err != nil {
-			// Ran out of time.
-			if firstErr == nil {
-				firstErr = &OpError{Op: "dial", Net: sd.network, Source: sd.LocalAddr, Addr: ra, Err: err}
-			}
-			break
-		}
 		dialCtx := ctx
-		if partialDeadline.Before(deadline) {
-			var cancel context.CancelFunc
-			dialCtx, cancel = context.WithDeadline(ctx, partialDeadline)
-			defer cancel()
+		if deadline, hasDeadline := ctx.Deadline(); hasDeadline {
+			partialDeadline, err := partialDeadline(time.Now(), deadline, len(ras)-i)
+			if err != nil {
+				// Ran out of time.
+				if firstErr == nil {
+					firstErr = &OpError{Op: "dial", Net: sd.network, Source: sd.LocalAddr, Addr: ra, Err: err}
+				}
+				break
+			}
+			if partialDeadline.Before(deadline) {
+				var cancel context.CancelFunc
+				dialCtx, cancel = context.WithDeadline(ctx, partialDeadline)
+				defer cancel()
+			}
 		}
 
 		c, err := sd.dialSingle(dialCtx, ra)
@@ -568,7 +645,11 @@ func (sd *sysDialer) dialSingle(ctx context.Context, ra Addr) (c Conn, err error
 	switch ra := ra.(type) {
 	case *TCPAddr:
 		la, _ := la.(*TCPAddr)
-		c, err = sd.dialTCP(ctx, la, ra)
+		if sd.MultipathTCP() {
+			c, err = sd.dialMPTCP(ctx, la, ra)
+		} else {
+			c, err = sd.dialTCP(ctx, la, ra)
+		}
 	case *UDPAddr:
 		la, _ := la.(*UDPAddr)
 		c, err = sd.dialUDP(ctx, la, ra)
@@ -596,6 +677,37 @@ type ListenConfig struct {
 	// necessarily the ones passed to Listen. For example, passing "tcp" to
 	// Listen will cause the Control function to be called with "tcp4" or "tcp6".
 	Control func(network, address string, c syscall.RawConn) error
+
+	// KeepAlive specifies the keep-alive period for network
+	// connections accepted by this listener.
+	// If zero, keep-alives are enabled if supported by the protocol
+	// and operating system. Network protocols or operating systems
+	// that do not support keep-alives ignore this field.
+	// If negative, keep-alives are disabled.
+	KeepAlive time.Duration
+
+	// If mptcpStatus is set to a value allowing Multipath TCP (MPTCP) to be
+	// used, any call to Listen with "tcp(4|6)" as network will use MPTCP if
+	// supported by the operating system.
+	mptcpStatus mptcpStatus
+}
+
+// MultipathTCP reports whether MPTCP will be used.
+//
+// This method doesn't check if MPTCP is supported by the operating
+// system or not.
+func (lc *ListenConfig) MultipathTCP() bool {
+	return lc.mptcpStatus.get()
+}
+
+// SetMultipathTCP directs the Listen method to use, or not use, MPTCP,
+// if supported by the operating system. This method overrides the
+// system default and the GODEBUG=multipathtcp=... setting if any.
+//
+// If MPTCP is not available on the host or not supported by the client,
+// the Listen method will fall back to TCP.
+func (lc *ListenConfig) SetMultipathTCP(use bool) {
+	lc.mptcpStatus.set(use)
 }
 
 // Listen announces on the local network address.
@@ -616,7 +728,11 @@ func (lc *ListenConfig) Listen(ctx context.Context, network, address string) (Li
 	la := addrs.first(isIPv4)
 	switch la := la.(type) {
 	case *TCPAddr:
-		l, err = sl.listenTCP(ctx, la)
+		if sl.MultipathTCP() {
+			l, err = sl.listenMPTCP(ctx, la)
+		} else {
+			l, err = sl.listenTCP(ctx, la)
+		}
 	case *UnixAddr:
 		l, err = sl.listenUnix(ctx, la)
 	default:
@@ -684,6 +800,9 @@ type sysListener struct {
 //
 // See func Dial for a description of the network and address
 // parameters.
+//
+// Listen uses context.Background internally; to specify the context, use
+// ListenConfig.Listen.
 func Listen(network, address string) (Listener, error) {
 	var lc ListenConfig
 	return lc.Listen(context.Background(), network, address)
@@ -711,6 +830,9 @@ func Listen(network, address string) (Listener, error) {
 //
 // See func Dial for a description of the network and address
 // parameters.
+//
+// ListenPacket uses context.Background internally; to specify the context, use
+// ListenConfig.ListenPacket.
 func ListenPacket(network, address string) (PacketConn, error) {
 	var lc ListenConfig
 	return lc.ListenPacket(context.Background(), network, address)

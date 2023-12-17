@@ -2,19 +2,23 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package generate implements the ``go generate'' command.
+// Package generate implements the “go generate” command.
 package generate
 
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"fmt"
+	"go/parser"
+	"go/token"
 	"io"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -22,6 +26,7 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
 	"cmd/go/internal/modload"
+	"cmd/go/internal/str"
 	"cmd/go/internal/work"
 )
 
@@ -34,7 +39,7 @@ Generate runs commands described by directives within existing
 files. Those commands can run any process but the intent is to
 create or update Go source files.
 
-Go generate is never run automatically by go build, go get, go test,
+Go generate is never run automatically by go build, go test,
 and so on. It must be run explicitly.
 
 Go generate scans the file for directives, which are lines of
@@ -48,15 +53,6 @@ that can be run locally. It must either be in the shell path
 (gofmt), a fully qualified path (/usr/you/bin/mytool), or a
 command alias, described below.
 
-To convey to humans and machine tools that code is generated,
-generated source should have a line that matches the following
-regular expression (in Go syntax):
-
-	^// Code generated .* DO NOT EDIT\.$
-
-The line may appear anywhere in the file, but is typically
-placed near the beginning so it is easy to find.
-
 Note that go generate does not parse the file, so lines that look
 like directives in comments or multiline strings will be treated
 as directives.
@@ -67,6 +63,15 @@ arguments when it is run.
 
 Quoted strings use Go syntax and are evaluated before execution; a
 quoted string appears as a single argument to the generator.
+
+To convey to humans and machine tools that code is generated,
+generated source should have a line that matches the following
+regular expression (in Go syntax):
+
+	^// Code generated .* DO NOT EDIT\.$
+
+This line must appear before the first non-comment, non-blank
+text in the file.
 
 Go generate sets several variables when it runs the generator:
 
@@ -80,8 +85,16 @@ Go generate sets several variables when it runs the generator:
 		The line number of the directive in the source file.
 	$GOPACKAGE
 		The name of the package of the file containing the directive.
+	$GOROOT
+		The GOROOT directory for the 'go' command that invoked the
+		generator, containing the Go toolchain and standard library.
 	$DOLLAR
 		A dollar sign.
+	$PATH
+		The $PATH of the parent process, with $GOROOT/bin
+		placed at the beginning. This causes generators
+		that execute 'go' commands to use the same 'go'
+		as the parent 'go generate' command.
 
 Other than variable substitution and quoted-string evaluation, no
 special processing such as "globbing" is performed on the command
@@ -110,24 +123,36 @@ specifies that the command "foo" represents the generator
 "go tool foo".
 
 Generate processes packages in the order given on the command line,
-one at a time. If the command line lists .go files, they are treated
-as a single package. Within a package, generate processes the
+one at a time. If the command line lists .go files from a single directory,
+they are treated as a single package. Within a package, generate processes the
 source files in a package in file name order, one at a time. Within
 a source file, generate runs generators in the order they appear
-in the file, one at a time.
+in the file, one at a time. The go generate tool also sets the build
+tag "generate" so that files may be examined by go generate but ignored
+during build.
+
+For packages with invalid code, generate processes only source files with a
+valid package clause.
 
 If any generator returns an error exit status, "go generate" skips
 all further processing for that package.
 
 The generator is run in the package's source directory.
 
-Go generate accepts one specific flag:
+Go generate accepts two specific flags:
 
 	-run=""
 		if non-empty, specifies a regular expression to select
 		directives whose full original source text (excluding
 		any trailing spaces and final newline) matches the
 		expression.
+
+	-skip=""
+		if non-empty, specifies a regular expression to suppress
+		directives whose full original source text (excluding
+		any trailing spaces and final newline) matches the
+		expression. If a directive matches both the -run and
+		the -skip arguments, it is skipped.
 
 It also accepts the standard build flags including -v, -n, and -x.
 The -v flag prints the names of packages and files as they are
@@ -144,16 +169,18 @@ For more about specifying packages, see 'go help packages'.
 var (
 	generateRunFlag string         // generate -run flag
 	generateRunRE   *regexp.Regexp // compiled expression for -run
+
+	generateSkipFlag string         // generate -skip flag
+	generateSkipRE   *regexp.Regexp // compiled expression for -skip
 )
 
 func init() {
-	work.AddBuildFlags(CmdGenerate)
+	work.AddBuildFlags(CmdGenerate, work.DefaultBuildFlags)
 	CmdGenerate.Flag.StringVar(&generateRunFlag, "run", "", "")
+	CmdGenerate.Flag.StringVar(&generateSkipFlag, "skip", "", "")
 }
 
-func runGenerate(cmd *base.Command, args []string) {
-	load.IgnoreImports = true
-
+func runGenerate(ctx context.Context, cmd *base.Command, args []string) {
 	if generateRunFlag != "" {
 		var err error
 		generateRunRE, err = regexp.Compile(generateRunFlag)
@@ -161,9 +188,20 @@ func runGenerate(cmd *base.Command, args []string) {
 			log.Fatalf("generate: %s", err)
 		}
 	}
+	if generateSkipFlag != "" {
+		var err error
+		generateSkipRE, err = regexp.Compile(generateSkipFlag)
+		if err != nil {
+			log.Fatalf("generate: %s", err)
+		}
+	}
+
+	cfg.BuildContext.BuildTags = append(cfg.BuildContext.BuildTags, "generate")
+
 	// Even if the arguments are .go files, this loop suffices.
 	printed := false
-	for _, pkg := range load.Packages(args) {
+	pkgOpts := load.PackageOpts{IgnoreImports: true}
+	for _, pkg := range load.PackagesAndErrors(ctx, pkgOpts, args) {
 		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
 			if !printed {
 				fmt.Fprintf(os.Stderr, "go: not generating in packages in dependency modules\n")
@@ -172,35 +210,46 @@ func runGenerate(cmd *base.Command, args []string) {
 			continue
 		}
 
-		pkgName := pkg.Name
+		if pkg.Error != nil && len(pkg.InternalAllGoFiles()) == 0 {
+			// A directory only contains a Go package if it has at least
+			// one .go source file, so the fact that there are no files
+			// implies that the package couldn't be found.
+			base.Errorf("%v", pkg.Error)
+		}
 
 		for _, file := range pkg.InternalGoFiles() {
-			if !generate(pkgName, file) {
+			if !generate(file) {
 				break
 			}
 		}
 
-		pkgName += "_test"
-
 		for _, file := range pkg.InternalXGoFiles() {
-			if !generate(pkgName, file) {
+			if !generate(file) {
 				break
 			}
 		}
 	}
+	base.ExitIfErrors()
 }
 
 // generate runs the generation directives for a single file.
-func generate(pkg, absFile string) bool {
-	fd, err := os.Open(absFile)
+func generate(absFile string) bool {
+	src, err := os.ReadFile(absFile)
 	if err != nil {
 		log.Fatalf("generate: %s", err)
 	}
-	defer fd.Close()
+
+	// Parse package clause
+	filePkg, err := parser.ParseFile(token.NewFileSet(), "", src, parser.PackageClauseOnly)
+	if err != nil {
+		// Invalid package clause - ignore file.
+		return true
+	}
+
 	g := &Generator{
-		r:        fd,
+		r:        bytes.NewReader(src),
 		path:     absFile,
-		pkg:      pkg,
+		pkg:      filePkg.Name.String(),
 		commands: make(map[string][]string),
 	}
 	return g.run()
@@ -274,10 +323,11 @@ func (g *Generator) run() (ok bool) {
 		if !isGoGenerate(buf) {
 			continue
 		}
-		if generateRunFlag != "" {
-			if !generateRunRE.Match(bytes.TrimSpace(buf)) {
-				continue
-			}
+		if generateRunFlag != "" && !generateRunRE.Match(bytes.TrimSpace(buf)) {
+			continue
+		}
+		if generateSkipFlag != "" && generateSkipRE.Match(bytes.TrimSpace(buf)) {
+			continue
 		}
 
 		g.setEnv()
@@ -311,7 +361,8 @@ func isGoGenerate(buf []byte) bool {
 // setEnv sets the extra environment variables used when executing a
 // single go:generate command.
 func (g *Generator) setEnv() {
-	g.env = []string{
+	env := []string{
+		"GOROOT=" + cfg.GOROOT,
 		"GOARCH=" + cfg.BuildContext.GOARCH,
 		"GOOS=" + cfg.BuildContext.GOOS,
 		"GOFILE=" + g.file,
@@ -319,6 +370,9 @@ func (g *Generator) setEnv() {
 		"GOPACKAGE=" + g.pkg,
 		"DOLLAR=" + "$",
 	}
+	env = base.AppendPATH(env)
+	env = base.AppendPWD(env, g.dir)
+	g.env = env
 }
 
 // split breaks the line into words, evaluating quoted
@@ -374,7 +428,12 @@ Words:
 	// Substitute command if required.
 	if len(words) > 0 && g.commands[words[0]] != nil {
 		// Replace 0th word by command substitution.
-		words = append(g.commands[words[0]], words[1:]...)
+		//
+		// Force a copy of the command definition to
+		// ensure words doesn't end up as a reference
+		// to the g.commands content.
+		tmpCmdWords := append([]string(nil), (g.commands[words[0]])...)
+		words = append(tmpCmdWords, words[1:]...)
 	}
 	// Substitute environment variables.
 	for i, word := range words {
@@ -388,7 +447,7 @@ var stop = fmt.Errorf("error in generation")
 // errorf logs an error message prefixed with the file and line number.
 // It then exits the program (with exit status 1) because generation stops
 // at the first error.
-func (g *Generator) errorf(format string, args ...interface{}) {
+func (g *Generator) errorf(format string, args ...any) {
 	fmt.Fprintf(os.Stderr, "%s:%d: %s\n", base.ShortPath(g.path), g.lineNum,
 		fmt.Sprintf(format, args...))
 	panic(stop)
@@ -416,19 +475,32 @@ func (g *Generator) setShorthand(words []string) {
 	if g.commands[command] != nil {
 		g.errorf("command %q multiply defined", command)
 	}
-	g.commands[command] = words[2:len(words):len(words)] // force later append to make copy
+	g.commands[command] = slices.Clip(words[2:])
 }
 
 // exec runs the command specified by the argument. The first word is
 // the command name itself.
 func (g *Generator) exec(words []string) {
-	cmd := exec.Command(words[0], words[1:]...)
+	path := words[0]
+	if path != "" && !strings.Contains(path, string(os.PathSeparator)) {
+		// If a generator says '//go:generate go run <blah>' it almost certainly
+		// intends to use the same 'go' as 'go generate' itself.
+		// Prefer to resolve the binary from GOROOT/bin, and for consistency
+		// prefer to resolve any other commands there too.
+		gorootBinPath, err := cfg.LookPath(filepath.Join(cfg.GOROOTbin, path))
+		if err == nil {
+			path = gorootBinPath
+		}
+	}
+	cmd := exec.Command(path, words[1:]...)
+	cmd.Args[0] = words[0] // Overwrite with the original in case it was rewritten above.
+
 	// Standard in and out of generator should be the usual.
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	// Run the command in the package directory.
 	cmd.Dir = g.dir
-	cmd.Env = base.MergeEnvLists(g.env, cfg.OrigEnv)
+	cmd.Env = str.StringList(cfg.OrigEnv, g.env)
 	err := cmd.Run()
 	if err != nil {
 		g.errorf("running %q: %s", words[0], err)

@@ -13,26 +13,26 @@ import "unsafe"
 // library and should not be used directly.
 func runtime_Semacquire(s *uint32)
 
-// SemacquireMutex is like Semacquire, but for profiling contended Mutexes.
+// Semacquire(RW)Mutex(R) is like Semacquire, but for profiling contended
+// Mutexes and RWMutexes.
 // If lifo is true, queue waiter at the head of wait queue.
-func runtime_SemacquireMutex(s *uint32, lifo bool)
+// skipframes is the number of frames to omit during tracing, counting from
+// runtime_SemacquireMutex's caller.
+// The different forms of this function just tell the runtime how to present
+// the reason for waiting in a backtrace, and is used to compute some metrics.
+// Otherwise they're functionally identical.
+func runtime_SemacquireMutex(s *uint32, lifo bool, skipframes int)
+func runtime_SemacquireRWMutexR(s *uint32, lifo bool, skipframes int)
+func runtime_SemacquireRWMutex(s *uint32, lifo bool, skipframes int)
 
 // Semrelease atomically increments *s and notifies a waiting goroutine
 // if one is blocked in Semacquire.
 // It is intended as a simple wakeup primitive for use by the synchronization
 // library and should not be used directly.
 // If handoff is true, pass count directly to the first waiter.
-func runtime_Semrelease(s *uint32, handoff bool)
-
-// Approximation of notifyList in runtime/sema.go. Size and alignment must
-// agree.
-type notifyList struct {
-	wait   uint32
-	notify uint32
-	lock   uintptr
-	head   unsafe.Pointer
-	tail   unsafe.Pointer
-}
+// skipframes is the number of frames to omit during tracing, counting from
+// runtime_Semrelease's caller.
+func runtime_Semrelease(s *uint32, handoff bool, skipframes int)
 
 // See runtime/sema.go for documentation.
 func runtime_notifyListAdd(l *notifyList) uint32

@@ -6,7 +6,6 @@ package ssa
 
 import (
 	"cmd/compile/internal/types"
-	"cmd/internal/src"
 	"testing"
 )
 
@@ -53,7 +52,7 @@ func TestNoGetgLoadReg(t *testing.T) {
 	f := c.Fun("b1",
 		Bloc("b1",
 			Valu("v1", OpInitMem, types.TypeMem, 0, nil),
-			Valu("v6", OpArg, c.config.Types.Int64, 0, c.Frontend().Auto(src.NoXPos, c.config.Types.Int64)),
+			Valu("v6", OpArg, c.config.Types.Int64, 0, c.Temp(c.config.Types.Int64)),
 			Valu("v8", OpGetG, c.config.Types.Int64.PtrTo(), 0, nil, "v1"),
 			Valu("v11", OpARM64CMPconst, types.TypeFlags, 0, nil, "v6"),
 			Eq("v11", "b2", "b4"),
@@ -68,7 +67,7 @@ func TestNoGetgLoadReg(t *testing.T) {
 			Exit("v16"),
 		),
 		Bloc("b2",
-			Valu("v12", OpARM64CALLstatic, types.TypeMem, 0, nil, "v1"),
+			Valu("v12", OpARM64CALLstatic, types.TypeMem, 0, AuxCallLSym("_"), "v1"),
 			Goto("b3"),
 		),
 	)
@@ -92,14 +91,14 @@ func TestSpillWithLoop(t *testing.T) {
 	f := c.Fun("entry",
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-			Valu("ptr", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Frontend().Auto(src.NoXPos, c.config.Types.Int64)),
-			Valu("cond", OpArg, c.config.Types.Bool, 0, c.Frontend().Auto(src.NoXPos, c.config.Types.Bool)),
+			Valu("ptr", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Temp(c.config.Types.Int64)),
+			Valu("cond", OpArg, c.config.Types.Bool, 0, c.Temp(c.config.Types.Bool)),
 			Valu("ld", OpAMD64MOVQload, c.config.Types.Int64, 0, nil, "ptr", "mem"), // this value needs a spill
 			Goto("loop"),
 		),
 		Bloc("loop",
 			Valu("memphi", OpPhi, types.TypeMem, 0, nil, "mem", "call"),
-			Valu("call", OpAMD64CALLstatic, types.TypeMem, 0, nil, "memphi"),
+			Valu("call", OpAMD64CALLstatic, types.TypeMem, 0, AuxCallLSym("_"), "memphi"),
 			Valu("test", OpAMD64CMPBconst, types.TypeFlags, 0, nil, "cond"),
 			Eq("test", "next", "exit"),
 		),
@@ -125,8 +124,8 @@ func TestSpillMove1(t *testing.T) {
 	f := c.Fun("entry",
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-			Valu("x", OpArg, c.config.Types.Int64, 0, c.Frontend().Auto(src.NoXPos, c.config.Types.Int64)),
-			Valu("p", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Frontend().Auto(src.NoXPos, c.config.Types.Int64.PtrTo())),
+			Valu("x", OpArg, c.config.Types.Int64, 0, c.Temp(c.config.Types.Int64)),
+			Valu("p", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Temp(c.config.Types.Int64.PtrTo())),
 			Valu("a", OpAMD64TESTQ, types.TypeFlags, 0, nil, "x", "x"),
 			Goto("loop1"),
 		),
@@ -140,12 +139,12 @@ func TestSpillMove1(t *testing.T) {
 		Bloc("exit1",
 			// store before call, y is available in a register
 			Valu("mem2", OpAMD64MOVQstore, types.TypeMem, 0, nil, "p", "y", "mem"),
-			Valu("mem3", OpAMD64CALLstatic, types.TypeMem, 0, nil, "mem2"),
+			Valu("mem3", OpAMD64CALLstatic, types.TypeMem, 0, AuxCallLSym("_"), "mem2"),
 			Exit("mem3"),
 		),
 		Bloc("exit2",
 			// store after call, y must be loaded from a spill location
-			Valu("mem4", OpAMD64CALLstatic, types.TypeMem, 0, nil, "mem"),
+			Valu("mem4", OpAMD64CALLstatic, types.TypeMem, 0, AuxCallLSym("_"), "mem"),
 			Valu("mem5", OpAMD64MOVQstore, types.TypeMem, 0, nil, "p", "y", "mem4"),
 			Exit("mem5"),
 		),
@@ -174,8 +173,8 @@ func TestSpillMove2(t *testing.T) {
 	f := c.Fun("entry",
 		Bloc("entry",
 			Valu("mem", OpInitMem, types.TypeMem, 0, nil),
-			Valu("x", OpArg, c.config.Types.Int64, 0, c.Frontend().Auto(src.NoXPos, c.config.Types.Int64)),
-			Valu("p", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Frontend().Auto(src.NoXPos, c.config.Types.Int64.PtrTo())),
+			Valu("x", OpArg, c.config.Types.Int64, 0, c.Temp(c.config.Types.Int64)),
+			Valu("p", OpArg, c.config.Types.Int64.PtrTo(), 0, c.Temp(c.config.Types.Int64.PtrTo())),
 			Valu("a", OpAMD64TESTQ, types.TypeFlags, 0, nil, "x", "x"),
 			Goto("loop1"),
 		),
@@ -188,13 +187,13 @@ func TestSpillMove2(t *testing.T) {
 		),
 		Bloc("exit1",
 			// store after call, y must be loaded from a spill location
-			Valu("mem2", OpAMD64CALLstatic, types.TypeMem, 0, nil, "mem"),
+			Valu("mem2", OpAMD64CALLstatic, types.TypeMem, 0, AuxCallLSym("_"), "mem"),
 			Valu("mem3", OpAMD64MOVQstore, types.TypeMem, 0, nil, "p", "y", "mem2"),
 			Exit("mem3"),
 		),
 		Bloc("exit2",
 			// store after call, y must be loaded from a spill location
-			Valu("mem4", OpAMD64CALLstatic, types.TypeMem, 0, nil, "mem"),
+			Valu("mem4", OpAMD64CALLstatic, types.TypeMem, 0, AuxCallLSym("_"), "mem"),
 			Valu("mem5", OpAMD64MOVQstore, types.TypeMem, 0, nil, "p", "y", "mem4"),
 			Exit("mem5"),
 		),

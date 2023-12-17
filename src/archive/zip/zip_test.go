@@ -11,10 +11,8 @@ import (
 	"errors"
 	"fmt"
 	"hash"
-	"internal/race"
 	"internal/testenv"
 	"io"
-	"io/ioutil"
 	"runtime"
 	"sort"
 	"strings"
@@ -26,13 +24,13 @@ func TestOver65kFiles(t *testing.T) {
 	if testing.Short() && testenv.Builder() == "" {
 		t.Skip("skipping in short mode")
 	}
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	w := NewWriter(buf)
 	const nFiles = (1 << 16) + 42
 	for i := 0; i < nFiles; i++ {
 		_, err := w.CreateHeader(&FileHeader{
 			Name:   fmt.Sprintf("%d.dat", i),
-			Method: Store, // avoid Issue 6136 and Issue 6138
+			Method: Store, // Deflate is too slow when it is compiled with -race flag
 		})
 		if err != nil {
 			t.Fatalf("creating file %d: %v", i, err)
@@ -114,6 +112,47 @@ func TestFileHeaderRoundTrip64(t *testing.T) {
 	testHeaderRoundTrip(fh, uint32max, fh.UncompressedSize64, t)
 }
 
+func TestFileHeaderRoundTripModified(t *testing.T) {
+	fh := &FileHeader{
+		Name:             "foo.txt",
+		UncompressedSize: 987654321,
+		Modified:         time.Now().Local(),
+		ModifiedTime:     1234,
+		ModifiedDate:     5678,
+	}
+	fi := fh.FileInfo()
+	fh2, err := FileInfoHeader(fi)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got, want := fh2.Modified, fh.Modified.UTC(); got != want {
+		t.Errorf("Modified: got %s, want %s\n", got, want)
+	}
+	if got, want := fi.ModTime(), fh.Modified.UTC(); got != want {
+		t.Errorf("Modified: got %s, want %s\n", got, want)
+	}
+}
+
+func TestFileHeaderRoundTripWithoutModified(t *testing.T) {
+	fh := &FileHeader{
+		Name:             "foo.txt",
+		UncompressedSize: 987654321,
+		ModifiedTime:     1234,
+		ModifiedDate:     5678,
+	}
+	fi := fh.FileInfo()
+	fh2, err := FileInfoHeader(fi)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got, want := fh2.ModTime(), fh.ModTime(); got != want {
+		t.Errorf("Modified: got %s, want %s\n", got, want)
+	}
+	if got, want := fi.ModTime(), fh.ModTime(); got != want {
+		t.Errorf("Modified: got %s, want %s\n", got, want)
+	}
+}
+
 type repeatedByte struct {
 	off int64
 	b   byte
@@ -157,13 +196,6 @@ func (r *rleBuffer) Write(p []byte) (n int, err error) {
 		}
 	}
 	return len(p), nil
-}
-
-func min(x, y int64) int64 {
-	if x < y {
-		return x
-	}
-	return y
 }
 
 func memset(a []byte, b byte) {
@@ -268,7 +300,7 @@ func TestZip64EdgeCase(t *testing.T) {
 // Tests that we generate a zip64 file if the directory at offset
 // 0xFFFFFFFF, but not before.
 func TestZip64DirectoryOffset(t *testing.T) {
-	if testing.Short() && race.Enabled {
+	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
 	t.Parallel()
@@ -313,7 +345,7 @@ func TestZip64DirectoryOffset(t *testing.T) {
 
 // At 16k records, we need to generate a zip64 file.
 func TestZip64ManyRecords(t *testing.T) {
-	if testing.Short() && race.Enabled {
+	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
 	t.Parallel()
@@ -558,7 +590,7 @@ func testZip64(t testing.TB, size int64) *rleBuffer {
 	}
 
 	// read back zip file and check that we get to the end of it
-	r, err := NewReader(buf, int64(buf.Size()))
+	r, err := NewReader(buf, buf.Size())
 	if err != nil {
 		t.Fatal("reader:", err)
 	}
@@ -580,7 +612,7 @@ func testZip64(t testing.TB, size int64) *rleBuffer {
 			t.Fatal("read:", err)
 		}
 	}
-	gotEnd, err := ioutil.ReadAll(rc)
+	gotEnd, err := io.ReadAll(rc)
 	if err != nil {
 		t.Fatal("read end:", err)
 	}

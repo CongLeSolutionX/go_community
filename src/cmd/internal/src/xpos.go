@@ -35,6 +35,11 @@ func (p XPos) SameFile(q XPos) bool {
 	return p.index == q.index
 }
 
+// SameFileAndLine reports whether p and q are positions on the same line in the same file.
+func (p XPos) SameFileAndLine(q XPos) bool {
+	return p.index == q.index && p.lico.SameLine(q.lico)
+}
+
 // After reports whether the position p comes after q in the source.
 // For positions with different bases, ordering is by base index.
 func (p XPos) After(q XPos) bool {
@@ -60,17 +65,39 @@ func (p XPos) WithIsStmt() XPos {
 	return p
 }
 
+// WithBogusLine returns a bogus line that won't match any recorded for the source code.
+// Its use is to disrupt the statements within an infinite loop so that the debugger
+// will not itself loop infinitely waiting for the line number to change.
+// gdb chooses not to display the bogus line; delve shows it with a complaint, but the
+// alternative behavior is to hang.
+func (p XPos) WithBogusLine() XPos {
+	if p.index == 0 {
+		// See #35652
+		panic("Assigning a bogus line to XPos with no file will cause mysterious downstream failures.")
+	}
+	p.lico = makeBogusLico()
+	return p
+}
+
 // WithXlogue returns the same location but marked with DWARF function prologue/epilogue
 func (p XPos) WithXlogue(x PosXlogue) XPos {
 	p.lico = p.lico.withXlogue(x)
 	return p
 }
 
+// LineNumber returns a string for the line number, "?" if it is not known.
 func (p XPos) LineNumber() string {
 	if !p.IsKnown() {
 		return "?"
 	}
 	return p.lico.lineNumber()
+}
+
+// FileIndex returns a smallish non-negative integer corresponding to the
+// file for this source position.  Smallish is relative; it can be thousands
+// large, but not millions.
+func (p XPos) FileIndex() int32 {
+	return p.index
 }
 
 func (p XPos) LineNumberHTML() string {
@@ -80,31 +107,57 @@ func (p XPos) LineNumberHTML() string {
 	return p.lico.lineNumberHTML()
 }
 
+// AtColumn1 returns the same location but shifted to column 1.
+func (p XPos) AtColumn1() XPos {
+	p.lico = p.lico.atColumn1()
+	return p
+}
+
 // A PosTable tracks Pos -> XPos conversions and vice versa.
 // Its zero value is a ready-to-use PosTable.
 type PosTable struct {
 	baseList []*PosBase
 	indexMap map[*PosBase]int
+	nameMap  map[string]int // Maps file symbol name to index for debug information.
 }
 
 // XPos returns the corresponding XPos for the given pos,
 // adding pos to t if necessary.
 func (t *PosTable) XPos(pos Pos) XPos {
-	m := t.indexMap
-	if m == nil {
-		// Create new list and map and populate with nil
-		// base so that NoPos always gets index 0.
+	return XPos{t.baseIndex(pos.base), pos.lico}
+}
+
+func (t *PosTable) baseIndex(base *PosBase) int32 {
+	if base == nil {
+		return 0
+	}
+
+	if i, ok := t.indexMap[base]; ok {
+		return int32(i)
+	}
+
+	if base.fileIndex >= 0 {
+		panic("PosBase already registered with a PosTable")
+	}
+
+	if t.indexMap == nil {
 		t.baseList = append(t.baseList, nil)
-		m = map[*PosBase]int{nil: 0}
-		t.indexMap = m
+		t.indexMap = make(map[*PosBase]int)
+		t.nameMap = make(map[string]int)
 	}
-	i, ok := m[pos.base]
+
+	i := len(t.baseList)
+	t.indexMap[base] = i
+	t.baseList = append(t.baseList, base)
+
+	fileIndex, ok := t.nameMap[base.absFilename]
 	if !ok {
-		i = len(t.baseList)
-		t.baseList = append(t.baseList, pos.base)
-		t.indexMap[pos.base] = i
+		fileIndex = len(t.nameMap)
+		t.nameMap[base.absFilename] = fileIndex
 	}
-	return XPos{int32(i), pos.lico}
+	base.fileIndex = fileIndex
+
+	return int32(i)
 }
 
 // Pos returns the corresponding Pos for the given p.
@@ -115,4 +168,16 @@ func (t *PosTable) Pos(p XPos) Pos {
 		base = t.baseList[p.index]
 	}
 	return Pos{base, p.lico}
+}
+
+// FileTable returns a slice of all files used to build this package.
+func (t *PosTable) FileTable() []string {
+	// Create a LUT of the global package level file indices. This table is what
+	// is written in the debug_lines header, the file[N] will be referenced as
+	// N+1 in the debug_lines table.
+	fileLUT := make([]string, len(t.nameMap))
+	for str, i := range t.nameMap {
+		fileLUT[i] = str
+	}
+	return fileLUT
 }

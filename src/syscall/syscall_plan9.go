@@ -11,18 +11,66 @@
 
 package syscall
 
-import "unsafe"
+import (
+	"errors"
+	"internal/oserror"
+	"runtime"
+	"unsafe"
+)
 
 const ImplementsGetwd = true
 const bitSize16 = 2
 
 // ErrorString implements Error's String method by returning itself.
+//
+// ErrorString values can be tested against error values using errors.Is.
+// For example:
+//
+//	_, _, err := syscall.Syscall(...)
+//	if errors.Is(err, fs.ErrNotExist) ...
 type ErrorString string
 
 func (e ErrorString) Error() string { return string(e) }
 
 // NewError converts s to an ErrorString, which satisfies the Error interface.
 func NewError(s string) error { return ErrorString(s) }
+
+func (e ErrorString) Is(target error) bool {
+	switch target {
+	case oserror.ErrPermission:
+		return checkErrMessageContent(e, "permission denied")
+	case oserror.ErrExist:
+		return checkErrMessageContent(e, "exists", "is a directory")
+	case oserror.ErrNotExist:
+		return checkErrMessageContent(e, "does not exist", "not found",
+			"has been removed", "no parent")
+	case errors.ErrUnsupported:
+		return checkErrMessageContent(e, "not supported")
+	}
+	return false
+}
+
+// checkErrMessageContent checks if err message contains one of msgs.
+func checkErrMessageContent(e ErrorString, msgs ...string) bool {
+	for _, msg := range msgs {
+		if contains(string(e), msg) {
+			return true
+		}
+	}
+	return false
+}
+
+// contains is a local version of strings.Contains. It knows len(sep) > 1.
+func contains(s, sep string) bool {
+	n := len(sep)
+	c := sep[0]
+	for i := 0; i+n <= len(s); i++ {
+		if s[i] == c && s[i:i+n] == sep {
+			return true
+		}
+	}
+	return false
+}
 
 func (e ErrorString) Temporary() bool {
 	return e == EINTR || e == EMFILE || e.Timeout()
@@ -123,12 +171,21 @@ func Read(fd int, p []byte) (n int, err error) {
 }
 
 func Write(fd int, p []byte) (n int, err error) {
+	if faketime && (fd == 1 || fd == 2) {
+		n = faketimeWrite(fd, p)
+		if n < 0 {
+			return 0, ErrorString("error")
+		}
+		return n, nil
+	}
+
 	return Pwrite(fd, p, -1)
 }
 
 var ioSync int64
 
 //sys	fd2path(fd int, buf []byte) (err error)
+
 func Fd2path(fd int) (path string, err error) {
 	var buf [512]byte
 
@@ -140,14 +197,17 @@ func Fd2path(fd int) (path string, err error) {
 }
 
 //sys	pipe(p *[2]int32) (err error)
+
 func Pipe(p []int) (err error) {
 	if len(p) != 2 {
 		return NewError("bad arg in system call")
 	}
 	var pp [2]int32
 	err = pipe(&pp)
-	p[0] = int(pp[0])
-	p[1] = int(pp[1])
+	if err == nil {
+		p[0] = int(pp[0])
+		p[1] = int(pp[1])
+	}
 	return
 }
 
@@ -206,6 +266,7 @@ func (w Waitmsg) ExitStatus() int {
 }
 
 //sys	await(s []byte) (n int, err error)
+
 func Await(w *Waitmsg) (err error) {
 	var buf [512]byte
 	var f [5][]byte
@@ -244,7 +305,9 @@ func Await(w *Waitmsg) (err error) {
 }
 
 func Unmount(name, old string) (err error) {
-	fixwd(name, old)
+	if fixwd(name, old) {
+		defer runtime.UnlockOSThread()
+	}
 	oldp, err := BytePtrFromString(old)
 	if err != nil {
 		return err
@@ -325,44 +388,65 @@ func Getgroups() (gids []int, err error) {
 }
 
 //sys	open(path string, mode int) (fd int, err error)
+
 func Open(path string, mode int) (fd int, err error) {
-	fixwd(path)
+	if fixwd(path) {
+		defer runtime.UnlockOSThread()
+	}
 	return open(path, mode)
 }
 
 //sys	create(path string, mode int, perm uint32) (fd int, err error)
+
 func Create(path string, mode int, perm uint32) (fd int, err error) {
-	fixwd(path)
+	if fixwd(path) {
+		defer runtime.UnlockOSThread()
+	}
 	return create(path, mode, perm)
 }
 
 //sys	remove(path string) (err error)
+
 func Remove(path string) error {
-	fixwd(path)
+	if fixwd(path) {
+		defer runtime.UnlockOSThread()
+	}
 	return remove(path)
 }
 
 //sys	stat(path string, edir []byte) (n int, err error)
+
 func Stat(path string, edir []byte) (n int, err error) {
-	fixwd(path)
+	if fixwd(path) {
+		defer runtime.UnlockOSThread()
+	}
 	return stat(path, edir)
 }
 
 //sys	bind(name string, old string, flag int) (err error)
+
 func Bind(name string, old string, flag int) (err error) {
-	fixwd(name, old)
+	if fixwd(name, old) {
+		defer runtime.UnlockOSThread()
+	}
 	return bind(name, old, flag)
 }
 
 //sys	mount(fd int, afd int, old string, flag int, aname string) (err error)
+
 func Mount(fd int, afd int, old string, flag int, aname string) (err error) {
-	fixwd(old)
+	if fixwd(old) {
+		defer runtime.UnlockOSThread()
+	}
 	return mount(fd, afd, old, flag, aname)
 }
 
 //sys	wstat(path string, edir []byte) (err error)
+
 func Wstat(path string, edir []byte) (err error) {
-	fixwd(path)
+	if fixwd(path) {
+		defer runtime.UnlockOSThread()
+	}
 	return wstat(path, edir)
 }
 

@@ -6,13 +6,17 @@ package work
 
 import (
 	"os"
+	"strings"
 	"testing"
 )
 
 var goodCompilerFlags = [][]string{
 	{"-DFOO"},
 	{"-Dfoo=bar"},
+	{"-Ufoo"},
+	{"-Ufoo1"},
 	{"-F/Qt"},
+	{"-F", "/Qt"},
 	{"-I/"},
 	{"-I/etc/passwd"},
 	{"-I."},
@@ -21,6 +25,11 @@ var goodCompilerFlags = [][]string{
 	{"-Osmall"},
 	{"-W"},
 	{"-Wall"},
+	{"-Wp,-Dfoo=bar"},
+	{"-Wp,-Ufoo"},
+	{"-Wp,-Dfoo1"},
+	{"-Wp,-Ufoo1"},
+	{"-flto"},
 	{"-fobjc-arc"},
 	{"-fno-objc-arc"},
 	{"-fomit-frame-pointer"},
@@ -56,6 +65,11 @@ var goodCompilerFlags = [][]string{
 	{"-I", "."},
 	{"-I", "/etc/passwd"},
 	{"-I", "世界"},
+	{"-I", "=/usr/include/libxml2"},
+	{"-I", "dir"},
+	{"-I", "$SYSROOT/dir"},
+	{"-isystem", "/usr/include/mozjs-68"},
+	{"-include", "/usr/include/mozjs-68/RequiredDefines.h"},
 	{"-framework", "Chocolate"},
 	{"-x", "c"},
 	{"-v"},
@@ -64,6 +78,7 @@ var goodCompilerFlags = [][]string{
 var badCompilerFlags = [][]string{
 	{"-D@X"},
 	{"-D-X"},
+	{"-Ufoo=bar"},
 	{"-F@dir"},
 	{"-F-dir"},
 	{"-I@dir"},
@@ -71,6 +86,8 @@ var badCompilerFlags = [][]string{
 	{"-O@1"},
 	{"-Wa,-foo"},
 	{"-W@foo"},
+	{"-Wp,-DX,-D@X"},
+	{"-Wp,-UX,-U@X"},
 	{"-g@gdb"},
 	{"-g-gdb"},
 	{"-march=@dawn"},
@@ -83,6 +100,8 @@ var badCompilerFlags = [][]string{
 	{"-D", "-foo"},
 	{"-I", "@foo"},
 	{"-I", "-foo"},
+	{"-I", "=@obj"},
+	{"-include", "@foo"},
 	{"-framework", "-Caffeine"},
 	{"-framework", "@Home"},
 	{"-x", "--c"},
@@ -123,8 +142,14 @@ var goodLinkerFlags = [][]string{
 	{"-mtune=happybirthday"},
 	{"-pic"},
 	{"-pthread"},
+	{"-Wl,--hash-style=both"},
 	{"-Wl,-rpath,foo"},
 	{"-Wl,-rpath,$ORIGIN/foo"},
+	{"-Wl,-R", "/foo"},
+	{"-Wl,-R", "foo"},
+	{"-Wl,-R,foo"},
+	{"-Wl,--just-symbols=foo"},
+	{"-Wl,--just-symbols,foo"},
 	{"-Wl,--warn-error"},
 	{"-Wl,--no-warn-error"},
 	{"foo.so"},
@@ -138,9 +163,12 @@ var goodLinkerFlags = [][]string{
 	{"-L", "framework"},
 	{"-framework", "Chocolate"},
 	{"-v"},
+	{"-Wl,-sectcreate,__TEXT,__info_plist,${SRCDIR}/Info.plist"},
 	{"-Wl,-framework", "-Wl,Chocolate"},
 	{"-Wl,-framework,Chocolate"},
 	{"-Wl,-unresolved-symbols=ignore-all"},
+	{"libcgotbdtest.tbd"},
+	{"./libcgotbdtest.tbd"},
 }
 
 var badLinkerFlags = [][]string{
@@ -194,10 +222,19 @@ var badLinkerFlags = [][]string{
 	{"-Wl,-framework", "-Wl,@Home"},
 	{"-Wl,-framework", "@Home"},
 	{"-Wl,-framework,Chocolate,@Home"},
+	{"-Wl,--hash-style=foo"},
 	{"-x", "--c"},
 	{"-x", "@obj"},
 	{"-Wl,-rpath,@foo"},
+	{"-Wl,-R,foo,bar"},
+	{"-Wl,-R,@foo"},
+	{"-Wl,--just-symbols,@foo"},
 	{"../x.o"},
+	{"-Wl,-R,"},
+	{"-Wl,-O"},
+	{"-Wl,-e="},
+	{"-Wl,-e,"},
+	{"-Wl,-R,-flag"},
 }
 
 func TestCheckLinkerFlags(t *testing.T) {
@@ -246,5 +283,36 @@ func TestCheckFlagAllowDisallow(t *testing.T) {
 	}
 	if err := checkCompilerFlags("TEST", "test", []string{"-fplugin=lint.so"}); err == nil {
 		t.Fatalf("missing error for -fplugin=lint.so: %v", err)
+	}
+}
+
+func TestCheckCompilerFlagsForInternalLink(t *testing.T) {
+	// Any "bad" compiler flag should trigger external linking.
+	for _, f := range badCompilerFlags {
+		if err := checkCompilerFlagsForInternalLink("test", "test", f); err == nil {
+			t.Errorf("missing error for %q", f)
+		}
+	}
+
+	// All "good" compiler flags should not trigger external linking,
+	// except for anything that begins with "-flto".
+	for _, f := range goodCompilerFlags {
+		foundLTO := false
+		for _, s := range f {
+			if strings.Contains(s, "-flto") {
+				foundLTO = true
+			}
+		}
+		if err := checkCompilerFlagsForInternalLink("test", "test", f); err != nil {
+			// expect error for -flto
+			if !foundLTO {
+				t.Errorf("unexpected error for %q: %v", f, err)
+			}
+		} else {
+			// expect no error for everything else
+			if foundLTO {
+				t.Errorf("missing error for %q: %v", f, err)
+			}
+		}
 	}
 }

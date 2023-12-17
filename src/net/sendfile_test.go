@@ -2,17 +2,16 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !js
-
 package net
 
 import (
 	"bytes"
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"runtime"
 	"sync"
@@ -27,10 +26,7 @@ const (
 )
 
 func TestSendfile(t *testing.T) {
-	ln, err := newLocalListener("tcp")
-	if err != nil {
-		t.Fatal(err)
-	}
+	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 
 	errc := make(chan error, 1)
@@ -97,10 +93,7 @@ func TestSendfile(t *testing.T) {
 }
 
 func TestSendfileParts(t *testing.T) {
-	ln, err := newLocalListener("tcp")
-	if err != nil {
-		t.Fatal(err)
-	}
+	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 
 	errc := make(chan error, 1)
@@ -155,10 +148,7 @@ func TestSendfileParts(t *testing.T) {
 }
 
 func TestSendfileSeeked(t *testing.T) {
-	ln, err := newLocalListener("tcp")
-	if err != nil {
-		t.Fatal(err)
-	}
+	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 
 	const seekTo = 65 << 10
@@ -184,7 +174,7 @@ func TestSendfileSeeked(t *testing.T) {
 				return
 			}
 			defer f.Close()
-			if _, err := f.Seek(seekTo, os.SEEK_SET); err != nil {
+			if _, err := f.Seek(seekTo, io.SeekStart); err != nil {
 				errc <- err
 				return
 			}
@@ -218,17 +208,14 @@ func TestSendfileSeeked(t *testing.T) {
 // Test that sendfile doesn't put a pipe into blocking mode.
 func TestSendfilePipe(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9", "windows":
+	case "plan9", "windows", "js", "wasip1":
 		// These systems don't support deadlines on pipes.
 		t.Skipf("skipping on %s", runtime.GOOS)
 	}
 
 	t.Parallel()
 
-	ln, err := newLocalListener("tcp")
-	if err != nil {
-		t.Fatal(err)
-	}
+	ln := newLocalListener(t, "tcp")
 	defer ln.Close()
 
 	r, w, err := os.Pipe()
@@ -282,7 +269,7 @@ func TestSendfilePipe(t *testing.T) {
 			return
 		}
 		defer conn.Close()
-		io.Copy(ioutil.Discard, conn)
+		io.Copy(io.Discard, conn)
 	}()
 
 	// Wait for the byte to be copied, meaning that sendfile has
@@ -313,4 +300,149 @@ func TestSendfilePipe(t *testing.T) {
 	}
 
 	wg.Wait()
+}
+
+// Issue 43822: tests that returns EOF when conn write timeout.
+func TestSendfileOnWriteTimeoutExceeded(t *testing.T) {
+	ln := newLocalListener(t, "tcp")
+	defer ln.Close()
+
+	errc := make(chan error, 1)
+	go func(ln Listener) (retErr error) {
+		defer func() {
+			errc <- retErr
+			close(errc)
+		}()
+
+		conn, err := ln.Accept()
+		if err != nil {
+			return err
+		}
+		defer conn.Close()
+
+		// Set the write deadline in the past(1h ago). It makes
+		// sure that it is always write timeout.
+		if err := conn.SetWriteDeadline(time.Now().Add(-1 * time.Hour)); err != nil {
+			return err
+		}
+
+		f, err := os.Open(newton)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+
+		_, err = io.Copy(conn, f)
+		if errors.Is(err, os.ErrDeadlineExceeded) {
+			return nil
+		}
+
+		if err == nil {
+			err = fmt.Errorf("expected ErrDeadlineExceeded, but got nil")
+		}
+		return err
+	}(ln)
+
+	conn, err := Dial("tcp", ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer conn.Close()
+
+	n, err := io.Copy(io.Discard, conn)
+	if err != nil {
+		t.Fatalf("expected nil error, but got %v", err)
+	}
+	if n != 0 {
+		t.Fatalf("expected receive zero, but got %d byte(s)", n)
+	}
+
+	if err := <-errc; err != nil {
+		t.Fatal(err)
+	}
+}
+
+func BenchmarkSendfileZeroBytes(b *testing.B) {
+	var (
+		wg          sync.WaitGroup
+		ctx, cancel = context.WithCancel(context.Background())
+	)
+
+	defer wg.Wait()
+
+	ln := newLocalListener(b, "tcp")
+	defer ln.Close()
+
+	tempFile, err := os.CreateTemp(b.TempDir(), "test.txt")
+	if err != nil {
+		b.Fatalf("failed to create temp file: %v", err)
+	}
+	defer tempFile.Close()
+
+	fileName := tempFile.Name()
+
+	dataSize := b.N
+	wg.Add(1)
+	go func(f *os.File) {
+		defer wg.Done()
+
+		for i := 0; i < dataSize; i++ {
+			if _, err := f.Write([]byte{1}); err != nil {
+				b.Errorf("failed to write: %v", err)
+				return
+			}
+			if i%1000 == 0 {
+				f.Sync()
+			}
+		}
+	}(tempFile)
+
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	wg.Add(1)
+	go func(ln Listener, fileName string) {
+		defer wg.Done()
+
+		conn, err := ln.Accept()
+		if err != nil {
+			b.Errorf("failed to accept: %v", err)
+			return
+		}
+		defer conn.Close()
+
+		f, err := os.OpenFile(fileName, os.O_RDONLY, 0660)
+		if err != nil {
+			b.Errorf("failed to open file: %v", err)
+			return
+		}
+		defer f.Close()
+
+		for {
+			if ctx.Err() != nil {
+				return
+			}
+
+			if _, err := io.Copy(conn, f); err != nil {
+				b.Errorf("failed to copy: %v", err)
+				return
+			}
+		}
+	}(ln, fileName)
+
+	conn, err := Dial("tcp", ln.Addr().String())
+	if err != nil {
+		b.Fatalf("failed to dial: %v", err)
+	}
+	defer conn.Close()
+
+	n, err := io.CopyN(io.Discard, conn, int64(dataSize))
+	if err != nil {
+		b.Fatalf("failed to copy: %v", err)
+	}
+	if n != int64(dataSize) {
+		b.Fatalf("expected %d copied bytes, but got %d", dataSize, n)
+	}
+
+	cancel()
 }

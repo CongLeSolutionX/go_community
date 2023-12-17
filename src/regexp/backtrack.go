@@ -91,9 +91,7 @@ func (b *bitState) reset(prog *syntax.Prog, end int, ncap int) {
 		b.visited = make([]uint32, visitedSize, maxBacktrackVector/visitedBits)
 	} else {
 		b.visited = b.visited[:visitedSize]
-		for i := range b.visited {
-			b.visited[i] = 0
-		}
+		clear(b.visited) // set to 0
 	}
 
 	if cap(b.cap) < ncap {
@@ -163,7 +161,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 		}
 	Skip:
 
-		inst := re.prog.Inst[pc]
+		inst := &re.prog.Inst[pc]
 
 		switch inst.Op {
 		default:
@@ -247,7 +245,7 @@ func (re *Regexp) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 				b.cap[inst.Arg] = pos
 				continue
 			} else {
-				if 0 <= inst.Arg && inst.Arg < uint32(len(b.cap)) {
+				if inst.Arg < uint32(len(b.cap)) {
 					// Capture pos to register, but save old value.
 					b.push(re, pc, b.cap[inst.Arg], true) // come back when we're done.
 					b.cap[inst.Arg] = pos

@@ -7,6 +7,7 @@ package poll
 import "syscall"
 
 // Not strictly needed, but very helpful for debugging, see issue #10221.
+//
 //go:cgo_import_dynamic _ _ "libsendfile.so"
 //go:cgo_import_dynamic _ _ "libsocket.so"
 
@@ -15,15 +16,21 @@ import "syscall"
 const maxSendfileSize int = 4 << 20
 
 // SendFile wraps the sendfile system call.
-func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error) {
+func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error, bool) {
 	if err := dstFD.writeLock(); err != nil {
-		return 0, err
+		return 0, err, false
 	}
 	defer dstFD.writeUnlock()
+	if err := dstFD.pd.prepareWrite(dstFD.isFile); err != nil {
+		return 0, err, false
+	}
 
-	dst := int(dstFD.Sysfd)
-	var written int64
-	var err error
+	dst := dstFD.Sysfd
+	var (
+		written int64
+		err     error
+		handled = true
+	)
 	for remain > 0 {
 		n := maxSendfileSize
 		if int64(n) > remain {
@@ -55,8 +62,9 @@ func SendFile(dstFD *FD, src int, pos, remain int64) (int64, error) {
 			// support) and syscall.EINVAL (fd types which
 			// don't implement sendfile)
 			err = err1
+			handled = false
 			break
 		}
 	}
-	return written, err
+	return written, err, handled
 }

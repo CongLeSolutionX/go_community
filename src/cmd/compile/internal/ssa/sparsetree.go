@@ -55,7 +55,7 @@ const (
 // such as whether one block dominates another.
 type SparseTree []SparseTreeNode
 
-// newSparseTree creates a SparseTree from a block-to-parent map (array indexed by Block.ID)
+// newSparseTree creates a SparseTree from a block-to-parent map (array indexed by Block.ID).
 func newSparseTree(f *Func, parentOf []*Block) SparseTree {
 	t := make(SparseTree, f.NumBlocks())
 	for _, b := range f.Blocks {
@@ -178,8 +178,14 @@ func (t SparseTree) Child(x *Block) *Block {
 	return t[x.ID].child
 }
 
-// isAncestorEq reports whether x is an ancestor of or equal to y.
-func (t SparseTree) isAncestorEq(x, y *Block) bool {
+// Parent returns the parent of x in the dominator tree, or
+// nil if x is the function's entry.
+func (t SparseTree) Parent(x *Block) *Block {
+	return t[x.ID].parent
+}
+
+// IsAncestorEq reports whether x is an ancestor of or equal to y.
+func (t SparseTree) IsAncestorEq(x, y *Block) bool {
 	if x == y {
 		return true
 	}
@@ -201,9 +207,10 @@ func (t SparseTree) isAncestor(x, y *Block) bool {
 // domorder returns a value for dominator-oriented sorting.
 // Block domination does not provide a total ordering,
 // but domorder two has useful properties.
-// (1) If domorder(x) > domorder(y) then x does not dominate y.
-// (2) If domorder(x) < domorder(y) and domorder(y) < domorder(z) and x does not dominate y,
+//  1. If domorder(x) > domorder(y) then x does not dominate y.
+//  2. If domorder(x) < domorder(y) and domorder(y) < domorder(z) and x does not dominate y,
 //     then x does not dominate z.
+//
 // Property (1) means that blocks sorted by domorder always have a maximal dominant block first.
 // Property (2) allows searches for dominated blocks to exit early.
 func (t SparseTree) domorder(x *Block) int32 {
@@ -223,7 +230,7 @@ func (t SparseTree) domorder(x *Block) int32 {
 	// entry(x) < entry(y) allows cases x-dom-y and x-then-y.
 	// But by supposition, x does not dominate y. So we have x-then-y.
 	//
-	// For contractidion, assume x dominates z.
+	// For contradiction, assume x dominates z.
 	// Then entry(x) < entry(z) < exit(z) < exit(x).
 	// But we know x-then-y, so entry(x) < exit(x) < entry(y) < exit(y).
 	// Combining those, entry(x) < entry(z) < exit(z) < exit(x) < entry(y) < exit(y).

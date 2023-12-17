@@ -572,7 +572,14 @@ const (
 	_AT_REMOVEDIR        = 0x200
 	_AT_SYMLINK_NOFOLLOW = 0x100
 	_AT_EACCESS          = 0x200
+	_AT_EMPTY_PATH       = 0x1000
 )
+
+type pollFd struct {
+	Fd      int32
+	Events  int16
+	Revents int16
+}
 
 type Termios struct {
 	Iflag     uint32

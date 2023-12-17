@@ -2,26 +2,28 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package fmtcmd implements the ``go fmt'' command.
+// Package fmtcmd implements the “go fmt” command.
 package fmtcmd
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
-	"runtime"
-	"strings"
-	"sync"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
 	"cmd/go/internal/modload"
-	"cmd/go/internal/str"
+	"cmd/internal/sys"
 )
 
 func init() {
 	base.AddBuildFlagsNX(&CmdFmt.Flag)
+	base.AddChdirFlag(&CmdFmt.Flag)
+	base.AddModFlag(&CmdFmt.Flag)
+	base.AddModCommonFlags(&CmdFmt.Flag)
 }
 
 var CmdFmt = &base.Command{
@@ -38,28 +40,26 @@ For more about specifying packages, see 'go help packages'.
 The -n flag prints commands that would be executed.
 The -x flag prints commands as they are executed.
 
+The -mod flag's value sets which module download mode
+to use: readonly or vendor. See 'go help modules' for more.
+
 To run gofmt with specific options, run gofmt itself.
 
 See also: go fix, go vet.
 	`,
 }
 
-func runFmt(cmd *base.Command, args []string) {
+func runFmt(ctx context.Context, cmd *base.Command, args []string) {
 	printed := false
 	gofmt := gofmtPath()
-	procs := runtime.GOMAXPROCS(0)
-	var wg sync.WaitGroup
-	wg.Add(procs)
-	fileC := make(chan string, 2*procs)
-	for i := 0; i < procs; i++ {
-		go func() {
-			defer wg.Done()
-			for file := range fileC {
-				base.Run(str.StringList(gofmt, "-l", "-w", file))
-			}
-		}()
-	}
-	for _, pkg := range load.PackagesAndErrors(args) {
+
+	gofmtArgs := []string{gofmt, "-l", "-w"}
+	gofmtArgLen := len(gofmt) + len(" -l -w")
+
+	baseGofmtArgs := len(gofmtArgs)
+	baseGofmtArgLen := gofmtArgLen
+
+	for _, pkg := range load.PackagesAndErrors(ctx, load.PackageOpts{}, args) {
 		if modload.Enabled() && pkg.Module != nil && !pkg.Module.Main {
 			if !printed {
 				fmt.Fprintf(os.Stderr, "go: not formatting packages in dependency modules\n")
@@ -68,11 +68,13 @@ func runFmt(cmd *base.Command, args []string) {
 			continue
 		}
 		if pkg.Error != nil {
-			if strings.HasPrefix(pkg.Error.Err, "build constraints exclude all Go files") {
+			var nogo *load.NoGoError
+			var embed *load.EmbedError
+			if (errors.As(pkg.Error, &nogo) || errors.As(pkg.Error, &embed)) && len(pkg.InternalAllGoFiles()) > 0 {
 				// Skip this error, as we will format
 				// all files regardless.
 			} else {
-				base.Errorf("can't load package: %s", pkg.Error)
+				base.Errorf("%v", pkg.Error)
 				continue
 			}
 		}
@@ -81,18 +83,22 @@ func runFmt(cmd *base.Command, args []string) {
 		// not to packages in subdirectories.
 		files := base.RelPaths(pkg.InternalAllGoFiles())
 		for _, file := range files {
-			fileC <- file
+			gofmtArgs = append(gofmtArgs, file)
+			gofmtArgLen += 1 + len(file) // plus separator
+			if gofmtArgLen >= sys.ExecArgLengthLimit {
+				base.Run(gofmtArgs)
+				gofmtArgs = gofmtArgs[:baseGofmtArgs]
+				gofmtArgLen = baseGofmtArgLen
+			}
 		}
 	}
-	close(fileC)
-	wg.Wait()
+	if len(gofmtArgs) > baseGofmtArgs {
+		base.Run(gofmtArgs)
+	}
 }
 
 func gofmtPath() string {
-	gofmt := "gofmt"
-	if base.ToolIsWindows {
-		gofmt += base.ToolWindowsExtension
-	}
+	gofmt := "gofmt" + cfg.ToolExeSuffix()
 
 	gofmtPath := filepath.Join(cfg.GOBIN, gofmt)
 	if _, err := os.Stat(gofmtPath); err == nil {

@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/textproto"
 	"os"
 	"reflect"
@@ -127,7 +126,7 @@ func TestMultipartSlowInput(t *testing.T) {
 func testMultipart(t *testing.T, r io.Reader, onlyNewlines bool) {
 	t.Parallel()
 	reader := NewReader(r, "MyBoundary")
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 
 	// Part1
 	part, err := reader.NextPart()
@@ -292,24 +291,34 @@ func TestLineLimit(t *testing.T) {
 }
 
 func TestMultipartTruncated(t *testing.T) {
-	testBody := `
+	for _, body := range []string{
+		`
 This is a multi-part message.  This line is ignored.
 --MyBoundary
 foo-bar: baz
 
 Oh no, premature EOF!
-`
-	body := strings.ReplaceAll(testBody, "\n", "\r\n")
-	bodyReader := strings.NewReader(body)
-	r := NewReader(bodyReader, "MyBoundary")
+`,
+		`
+This is a multi-part message.  This line is ignored.
+--MyBoundary
+foo-bar: baz
 
-	part, err := r.NextPart()
-	if err != nil {
-		t.Fatalf("didn't get a part")
-	}
-	_, err = io.Copy(ioutil.Discard, part)
-	if err != io.ErrUnexpectedEOF {
-		t.Fatalf("expected error io.ErrUnexpectedEOF; got %v", err)
+Oh no, premature EOF!
+--MyBoundary-`,
+	} {
+		body = strings.ReplaceAll(body, "\n", "\r\n")
+		bodyReader := strings.NewReader(body)
+		r := NewReader(bodyReader, "MyBoundary")
+
+		part, err := r.NextPart()
+		if err != nil {
+			t.Fatalf("didn't get a part")
+		}
+		_, err = io.Copy(io.Discard, part)
+		if err != io.ErrUnexpectedEOF {
+			t.Fatalf("expected error io.ErrUnexpectedEOF; got %v", err)
+		}
 	}
 }
 
@@ -372,7 +381,7 @@ Body 2
 		if !reflect.DeepEqual(part.Header, hdr) {
 			t.Errorf("Part %d: part.Header = %v, want %v", i, part.Header, hdr)
 		}
-		data, err := ioutil.ReadAll(part)
+		data, err := io.ReadAll(part)
 		expectEq(t, body, string(data), fmt.Sprintf("Part %d body", i))
 		if err != nil {
 			t.Fatalf("Part %d: ReadAll failed: %v", i, err)
@@ -407,7 +416,7 @@ func TestLineContinuation(t *testing.T) {
 		if err != nil {
 			t.Fatalf("didn't get a part")
 		}
-		var buf bytes.Buffer
+		var buf strings.Builder
 		n, err := io.Copy(&buf, part)
 		if err != nil {
 			t.Errorf("error reading part: %v\nread so far: %q", err, buf.String())
@@ -437,13 +446,73 @@ func testQuotedPrintableEncoding(t *testing.T, cte string) {
 	if te, ok := part.Header["Content-Transfer-Encoding"]; ok {
 		t.Errorf("unexpected Content-Transfer-Encoding of %q", te)
 	}
-	var buf bytes.Buffer
+	var buf strings.Builder
 	_, err = io.Copy(&buf, part)
 	if err != nil {
 		t.Error(err)
 	}
 	got := buf.String()
 	want := "words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words words"
+	if got != want {
+		t.Errorf("wrong part value:\n got: %q\nwant: %q", got, want)
+	}
+}
+
+func TestRawPart(t *testing.T) {
+	// https://github.com/golang/go/issues/29090
+
+	body := strings.Replace(`--0016e68ee29c5d515f04cedf6733
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello World.</div>
+--0016e68ee29c5d515f04cedf6733
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello World.</div>
+--0016e68ee29c5d515f04cedf6733--`, "\n", "\r\n", -1)
+
+	r := NewReader(strings.NewReader(body), "0016e68ee29c5d515f04cedf6733")
+
+	// This part is expected to be raw, bypassing the automatic handling
+	// of quoted-printable.
+	part, err := r.NextRawPart()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := part.Header["Content-Transfer-Encoding"]; !ok {
+		t.Errorf("missing Content-Transfer-Encoding")
+	}
+	var buf strings.Builder
+	_, err = io.Copy(&buf, part)
+	if err != nil {
+		t.Error(err)
+	}
+	got := buf.String()
+	// Data is still quoted-printable.
+	want := `<div dir=3D"ltr">Hello World.</div>`
+	if got != want {
+		t.Errorf("wrong part value:\n got: %q\nwant: %q", got, want)
+	}
+
+	// This part is expected to have automatic decoding of quoted-printable.
+	part, err = r.NextPart()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if te, ok := part.Header["Content-Transfer-Encoding"]; ok {
+		t.Errorf("unexpected Content-Transfer-Encoding of %q", te)
+	}
+
+	buf.Reset()
+	_, err = io.Copy(&buf, part)
+	if err != nil {
+		t.Error(err)
+	}
+	got = buf.String()
+	// QP data has been decoded.
+	want = `<div dir="ltr">Hello World.</div>`
 	if got != want {
 		t.Errorf("wrong part value:\n got: %q\nwant: %q", got, want)
 	}
@@ -470,14 +539,14 @@ func TestNested(t *testing.T) {
 	if err != nil {
 		t.Fatalf("reading text/plain part: %v", err)
 	}
-	if b, err := ioutil.ReadAll(p); string(b) != "*body*\r\n" || err != nil {
+	if b, err := io.ReadAll(p); string(b) != "*body*\r\n" || err != nil {
 		t.Fatalf("reading text/plain part: got %q, %v", b, err)
 	}
 	p, err = mr2.NextPart()
 	if err != nil {
 		t.Fatalf("reading text/html part: %v", err)
 	}
-	if b, err := ioutil.ReadAll(p); string(b) != "<b>body</b>\r\n" || err != nil {
+	if b, err := io.ReadAll(p); string(b) != "<b>body</b>\r\n" || err != nil {
 		t.Fatalf("reading text/html part: got %q, %v", b, err)
 	}
 
@@ -692,6 +761,7 @@ html things
 			},
 		},
 	},
+
 	// Issue 12662: Check that we don't consume the leading \r if the peekBuffer
 	// ends in '\r\n--separator-'
 	{
@@ -708,6 +778,7 @@ Content-Type: application/octet-stream
 			},
 		},
 	},
+
 	// Issue 12662: Same test as above with \r\n at the end
 	{
 		name: "peek buffer boundary condition",
@@ -723,6 +794,7 @@ Content-Type: application/octet-stream
 			},
 		},
 	},
+
 	// Issue 12662v2: We want to make sure that for short buffers that end with
 	// '\r\n--separator-' we always consume at least one (valid) symbol from the
 	// peekBuffer
@@ -740,6 +812,7 @@ Content-Type: application/octet-stream
 			},
 		},
 	},
+
 	// Context: https://github.com/camlistore/camlistore/issues/642
 	// If the file contents in the form happens to have a size such as:
 	// size = peekBufferSize - (len("\n--") + len(boundary) + len("\r") + 1), (modulo peekBufferSize)
@@ -773,6 +846,52 @@ val
 		},
 	},
 
+	// Issue 46042; a nested multipart uses the outer separator followed by
+	// a dash.
+	{
+		name: "nested separator prefix is outer separator followed by a dash",
+		sep:  "foo",
+		in: strings.Replace(`--foo
+Content-Type: multipart/alternative; boundary="foo-bar"
+
+--foo-bar
+
+Body
+--foo-bar
+
+Body2
+--foo-bar--
+--foo--`, "\n", "\r\n", -1),
+		want: []headerBody{
+			{textproto.MIMEHeader{"Content-Type": {`multipart/alternative; boundary="foo-bar"`}},
+				strings.Replace(`--foo-bar
+
+Body
+--foo-bar
+
+Body2
+--foo-bar--`, "\n", "\r\n", -1),
+			},
+		},
+	},
+
+	// A nested boundary cannot be the outer separator followed by double dash.
+	{
+		name: "nested separator prefix is outer separator followed by double dash",
+		sep:  "foo",
+		in: strings.Replace(`--foo
+Content-Type: multipart/alternative; boundary="foo--"
+
+--foo--
+
+Body
+
+--foo--`, "\n", "\r\n", -1),
+		want: []headerBody{
+			{textproto.MIMEHeader{"Content-Type": {`multipart/alternative; boundary="foo--"`}}, ""},
+		},
+	},
+
 	roundTripParseTest(),
 }
 
@@ -790,7 +909,7 @@ Cases:
 				t.Errorf("in test %q, NextPart: %v", tt.name, err)
 				continue Cases
 			}
-			pbody, err := ioutil.ReadAll(p)
+			pbody, err := io.ReadAll(p)
 			if err != nil {
 				t.Errorf("in test %q, error reading part: %v", tt.name, err)
 				continue Cases
@@ -822,7 +941,7 @@ func partsFromReader(r *Reader) ([]headerBody, error) {
 		if err != nil {
 			return nil, fmt.Errorf("NextPart: %v", err)
 		}
-		pbody, err := ioutil.ReadAll(p)
+		pbody, err := io.ReadAll(p)
 		if err != nil {
 			return nil, fmt.Errorf("error reading part: %v", err)
 		}
@@ -832,7 +951,10 @@ func partsFromReader(r *Reader) ([]headerBody, error) {
 
 func TestParseAllSizes(t *testing.T) {
 	t.Parallel()
-	const maxSize = 5 << 10
+	maxSize := 5 << 10
+	if testing.Short() {
+		maxSize = 512
+	}
 	var buf bytes.Buffer
 	body := strings.Repeat("a", maxSize)
 	bodyb := []byte(body)
@@ -871,7 +993,7 @@ func roundTripParseTest() parseTest {
 			formData("foo", "bar"),
 		},
 	}
-	var buf bytes.Buffer
+	var buf strings.Builder
 	w := NewWriter(&buf)
 	for _, p := range t.want {
 		pw, err := w.CreatePart(p.header)

@@ -52,6 +52,11 @@ extern void (*_cgo_thread_start)(ThreadStart *ts);
 extern void (*_cgo_sys_thread_create)(void* (*func)(void*), void* arg);
 
 /*
+ * Indicates whether a dummy pthread per-thread variable is allocated.
+ */
+extern uintptr_t *_cgo_pthread_key_created;
+
+/*
  * Creates the new operating system thread (OS, arch dependent).
  */
 void _cgo_sys_thread_start(ThreadStart *ts);
@@ -61,17 +66,12 @@ void _cgo_sys_thread_start(ThreadStart *ts);
  * If runtime.SetCgoTraceback is used to set a context function,
  * calls the context function and returns the context value.
  */
-uintptr_t _cgo_wait_runtime_init_done();
+uintptr_t _cgo_wait_runtime_init_done(void);
 
 /*
- * Call fn in the 6c world.
+ * Get the low and high boundaries of the stack.
  */
-void crosscall_amd64(void (*fn)(void));
-
-/*
- * Call fn in the 8c world.
- */
-void crosscall_386(void (*fn)(void));
+void x_cgo_getstackbound(uintptr bounds[2]);
 
 /*
  * Prints error then calls abort. For linux and android.

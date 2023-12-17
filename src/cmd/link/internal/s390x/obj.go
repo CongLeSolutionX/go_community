@@ -1,5 +1,5 @@
 // Inferno utils/5l/obj.c
-// https://bitbucket.org/inferno-os/inferno-os/src/default/utils/5l/obj.c
+// https://bitbucket.org/inferno-os/inferno-os/src/master/utils/5l/obj.c
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.
 //	Portions Copyright © 1995-1997 C H Forsyth (forsyth@terzarima.net)
@@ -34,7 +34,6 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/ld"
-	"fmt"
 )
 
 func Init() (*sys.Arch, ld.Arch) {
@@ -51,20 +50,24 @@ func Init() (*sys.Arch, ld.Arch) {
 		Archinit:         archinit,
 		Archreloc:        archreloc,
 		Archrelocvariant: archrelocvariant,
-		Asmb:             asmb, // in asm.go
-		Elfreloc1:        elfreloc1,
-		Elfsetupplt:      elfsetupplt,
 		Gentext:          gentext,
 		Machoreloc1:      machoreloc1,
 
-		Linuxdynld: "/lib64/ld64.so.1",
+		ELF: ld.ELFArch{
+			Linuxdynld:     "/lib64/ld64.so.1",
+			LinuxdynldMusl: "/lib/ld-musl-s390x.so.1",
 
-		// not relevant for s390x
-		Freebsddynld:   "XXX",
-		Openbsddynld:   "XXX",
-		Netbsddynld:    "XXX",
-		Dragonflydynld: "XXX",
-		Solarisdynld:   "XXX",
+			// not relevant for s390x
+			Freebsddynld:   "XXX",
+			Openbsddynld:   "XXX",
+			Netbsddynld:    "XXX",
+			Dragonflydynld: "XXX",
+			Solarisdynld:   "XXX",
+
+			Reloc1:    elfreloc1,
+			RelocSize: 24,
+			SetupPLT:  elfsetupplt,
+		},
 	}
 
 	return arch, theArch
@@ -78,18 +81,11 @@ func archinit(ctxt *ld.Link) {
 	case objabi.Hlinux: // s390x ELF
 		ld.Elfinit(ctxt)
 		ld.HEADR = ld.ELFRESERVE
-		if *ld.FlagTextAddr == -1 {
-			*ld.FlagTextAddr = 0x10000 + int64(ld.HEADR)
-		}
-		if *ld.FlagDataAddr == -1 {
-			*ld.FlagDataAddr = 0
-		}
 		if *ld.FlagRound == -1 {
 			*ld.FlagRound = 0x10000
 		}
-	}
-
-	if *ld.FlagDataAddr != 0 && *ld.FlagRound != 0 {
-		fmt.Printf("warning: -D0x%x is ignored because of -R0x%x\n", uint64(*ld.FlagDataAddr), uint32(*ld.FlagRound))
+		if *ld.FlagTextAddr == -1 {
+			*ld.FlagTextAddr = ld.Rnd(0x10000, *ld.FlagRound) + int64(ld.HEADR)
+		}
 	}
 }

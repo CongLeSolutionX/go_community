@@ -4,7 +4,10 @@
 
 package syscall
 
-import "unsafe"
+import (
+	"internal/abi"
+	"unsafe"
+)
 
 func setTimespec(sec, nsec int64) Timespec {
 	return Timespec{Sec: sec, Nsec: nsec}
@@ -16,12 +19,12 @@ func setTimeval(sec, usec int64) Timeval {
 
 //sys	Fstat(fd int, stat *Stat_t) (err error) = SYS_fstat64
 //sys	Fstatfs(fd int, stat *Statfs_t) (err error) = SYS_fstatfs64
-//sys	Getdirentries(fd int, buf []byte, basep *uintptr) (n int, err error) = SYS___getdirentries64
 //sysnb	Gettimeofday(tp *Timeval) (err error)
 //sys	Lstat(path string, stat *Stat_t) (err error) = SYS_lstat64
 //sys	Stat(path string, stat *Stat_t) (err error) = SYS_stat64
 //sys	Statfs(path string, stat *Statfs_t) (err error) = SYS_statfs64
 //sys   fstatat(fd int, path string, stat *Stat_t, flags int) (err error) = SYS_fstatat64
+//sys   ptrace(request int, pid int, addr uintptr, data uintptr) (err error)
 
 func SetKevent(k *Kevent_t, fd, mode, flags int) {
 	k.Ident = uint64(fd)
@@ -44,7 +47,7 @@ func (cmsg *Cmsghdr) SetLen(length int) {
 func sendfile(outfd int, infd int, offset *int64, count int) (written int, err error) {
 	var length = uint64(count)
 
-	_, _, e1 := syscall6(funcPC(libc_sendfile_trampoline), uintptr(infd), uintptr(outfd), uintptr(*offset), uintptr(unsafe.Pointer(&length)), 0, 0)
+	_, _, e1 := syscall6(abi.FuncPCABI0(libc_sendfile_trampoline), uintptr(infd), uintptr(outfd), uintptr(*offset), uintptr(unsafe.Pointer(&length)), 0, 0)
 
 	written = int(length)
 
@@ -56,7 +59,6 @@ func sendfile(outfd int, infd int, offset *int64, count int) (written int, err e
 
 func libc_sendfile_trampoline()
 
-//go:linkname libc_sendfile libc_sendfile
 //go:cgo_import_dynamic libc_sendfile sendfile "/usr/lib/libSystem.B.dylib"
 
 // Implemented in the runtime package (runtime/sys_darwin_64.go)

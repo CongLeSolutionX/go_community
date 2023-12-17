@@ -6,6 +6,7 @@ package runtime_test
 
 import (
 	"fmt"
+	"internal/race"
 	"math"
 	"math/rand"
 	. "runtime"
@@ -103,14 +104,13 @@ func (s *HashSet) addS_seed(x string, seed uintptr) {
 	s.add(StringHash(x, seed))
 }
 func (s *HashSet) check(t *testing.T) {
-	const SLOP = 10.0
+	const SLOP = 50.0
 	collisions := s.n - len(s.m)
-	//fmt.Printf("%d/%d\n", len(s.m), s.n)
 	pairs := int64(s.n) * int64(s.n-1) / 2
 	expected := float64(pairs) / math.Pow(2.0, float64(hashSize))
 	stddev := math.Sqrt(expected)
 	if float64(collisions) > expected+SLOP*(3*stddev+1) {
-		t.Errorf("unexpected number of collisions: got=%d mean=%f stddev=%f", collisions, expected, stddev)
+		t.Errorf("unexpected number of collisions: got=%d mean=%f stddev=%f threshold=%f", collisions, expected, stddev, expected+SLOP*(3*stddev+1))
 	}
 }
 
@@ -126,6 +126,9 @@ func TestSmhasherAppendedZeros(t *testing.T) {
 
 // All 0-3 byte strings have distinct hashes.
 func TestSmhasherSmallKeys(t *testing.T) {
+	if race.Enabled {
+		t.Skip("Too long for race mode")
+	}
 	h := newHashSet()
 	var b [3]byte
 	for i := 0; i < 256; i++ {
@@ -166,6 +169,9 @@ func TestSmhasherTwoNonzero(t *testing.T) {
 	}
 	if testing.Short() {
 		t.Skip("Skipping in short mode")
+	}
+	if race.Enabled {
+		t.Skip("Too long for race mode")
 	}
 	h := newHashSet()
 	for n := 2; n <= 16; n++ {
@@ -208,6 +214,9 @@ func twoNonZero(h *HashSet, n int) {
 func TestSmhasherCyclic(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping in short mode")
+	}
+	if race.Enabled {
+		t.Skip("Too long for race mode")
 	}
 	r := rand.New(rand.NewSource(1234))
 	const REPEAT = 8
@@ -275,6 +284,9 @@ func TestSmhasherPermutation(t *testing.T) {
 	}
 	if testing.Short() {
 		t.Skip("Skipping in short mode")
+	}
+	if race.Enabled {
+		t.Skip("Too long for race mode")
 	}
 	permutation(t, []uint32{0, 1, 2, 3, 4, 5, 6, 7}, 8)
 	permutation(t, []uint32{0, 1 << 29, 2 << 29, 3 << 29, 4 << 29, 5 << 29, 6 << 29, 7 << 29}, 8)
@@ -383,7 +395,7 @@ func (k *Int64Key) name() string {
 }
 
 type EfaceKey struct {
-	i interface{}
+	i any
 }
 
 func (k *EfaceKey) clear() {
@@ -448,6 +460,9 @@ func TestSmhasherAvalanche(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping in short mode")
 	}
+	if race.Enabled {
+		t.Skip("Too long for race mode")
+	}
 	avalancheTest1(t, &BytesKey{make([]byte, 2)})
 	avalancheTest1(t, &BytesKey{make([]byte, 4)})
 	avalancheTest1(t, &BytesKey{make([]byte, 8)})
@@ -498,7 +513,7 @@ func avalancheTest1(t *testing.T, k Key) {
 	// find c such that Prob(mean-c*stddev < x < mean+c*stddev)^N > .9999
 	for c = 0.0; math.Pow(math.Erf(c/math.Sqrt(2)), float64(N)) < .9999; c += .1 {
 	}
-	c *= 4.0 // allowed slack - we don't need to be perfectly random
+	c *= 11.0 // allowed slack: 40% to 60% - we don't need to be perfectly random
 	mean := .5 * REP
 	stddev := .5 * math.Sqrt(REP)
 	low := int(mean - c*stddev)
@@ -515,13 +530,26 @@ func avalancheTest1(t *testing.T, k Key) {
 
 // All bit rotations of a set of distinct keys
 func TestSmhasherWindowed(t *testing.T) {
+	if race.Enabled {
+		t.Skip("Too long for race mode")
+	}
+	t.Logf("32 bit keys")
 	windowed(t, &Int32Key{})
+	t.Logf("64 bit keys")
 	windowed(t, &Int64Key{})
+	t.Logf("string keys")
 	windowed(t, &BytesKey{make([]byte, 128)})
 }
 func windowed(t *testing.T, k Key) {
 	if GOARCH == "wasm" {
 		t.Skip("Too slow on wasm")
+	}
+	if PtrSize == 4 {
+		// This test tends to be flaky on 32-bit systems.
+		// There's not enough bits in the hash output, so we
+		// expect a nontrivial number of collisions, and it is
+		// often quite a bit higher than expected. See issue 43130.
+		t.Skip("Flaky on 32-bit systems")
 	}
 	if testing.Short() {
 		t.Skip("Skipping in short mode")
@@ -747,8 +775,11 @@ func TestCollisions(t *testing.T) {
 				a[j] = byte(n >> 8)
 				m[uint16(BytesHash(a[:], 0))] = struct{}{}
 			}
-			if len(m) <= 1<<15 {
-				t.Errorf("too many collisions i=%d j=%d outputs=%d out of 65536\n", i, j, len(m))
+			// N balls in N bins, for N=65536
+			avg := 41427
+			stdDev := 123
+			if len(m) < avg-40*stdDev || len(m) > avg+40*stdDev {
+				t.Errorf("bad number of collisions i=%d j=%d outputs=%d out of 65536\n", i, j, len(m))
 			}
 		}
 	}

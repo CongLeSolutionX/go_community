@@ -7,11 +7,11 @@ package main
 import (
 	"bufio"
 	"cmd/internal/browser"
+	cmdv2 "cmd/trace/v2"
 	"flag"
 	"fmt"
-	"html/template"
 	"internal/trace"
-	"io"
+	"internal/trace/traceviewer"
 	"log"
 	"net"
 	"net/http"
@@ -46,7 +46,7 @@ Supported profile types are:
 Flags:
 	-http=addr: HTTP service address (e.g., ':6060')
 	-pprof=type: print a pprof-like profile instead
-	-d: print debug info such as parsed events
+	-d=int: print debug info such as parsed events (1 for high-level, 2 for low-level)
 
 Note that while the various profiles available when launching
 'go tool trace' work on every browser, the trace viewer itself
@@ -57,7 +57,7 @@ and is only actively tested on that browser.
 var (
 	httpFlag  = flag.String("http", "localhost:0", "HTTP service address (e.g., ':6060')")
 	pprofFlag = flag.String("pprof", "", "print a pprof-like profile instead")
-	debugFlag = flag.Bool("d", false, "print debug information such as parsed events list")
+	debugFlag = flag.Int("d", 0, "print debug information (1 for basic debug info, 2 for lower-level info)")
 
 	// The binary file name, left here for serveSVGProfile.
 	programBinary string
@@ -66,7 +66,7 @@ var (
 
 func main() {
 	flag.Usage = func() {
-		fmt.Fprintln(os.Stderr, usageMessage)
+		fmt.Fprint(os.Stderr, usageMessage)
 		os.Exit(2)
 	}
 	flag.Parse()
@@ -83,7 +83,14 @@ func main() {
 		flag.Usage()
 	}
 
-	var pprofFunc func(io.Writer, *http.Request) error
+	if isTraceV2(traceFile) {
+		if err := cmdv2.Main(traceFile, *httpFlag, *pprofFlag, *debugFlag); err != nil {
+			dief("%s\n", err)
+		}
+		return
+	}
+
+	var pprofFunc traceviewer.ProfileFunc
 	switch *pprofFlag {
 	case "net":
 		pprofFunc = pprofByGoroutine(computePprofIO)
@@ -95,7 +102,11 @@ func main() {
 		pprofFunc = pprofByGoroutine(computePprofSched)
 	}
 	if pprofFunc != nil {
-		if err := pprofFunc(os.Stdout, &http.Request{}); err != nil {
+		records, err := pprofFunc(&http.Request{})
+		if err != nil {
+			dief("failed to generate pprof: %v\n", err)
+		}
+		if err := traceviewer.BuildProfile(records).Write(os.Stdout); err != nil {
 			dief("failed to generate pprof: %v\n", err)
 		}
 		os.Exit(0)
@@ -115,7 +126,7 @@ func main() {
 		dief("%v\n", err)
 	}
 
-	if *debugFlag {
+	if *debugFlag != 0 {
 		trace.Print(res.Events)
 		os.Exit(0)
 	}
@@ -124,20 +135,42 @@ func main() {
 
 	log.Print("Splitting trace...")
 	ranges = splitTrace(res)
-	reportMemoryUsage("after spliting trace")
+	reportMemoryUsage("after splitting trace")
 	debug.FreeOSMemory()
 
 	addr := "http://" + ln.Addr().String()
 	log.Printf("Opening browser. Trace viewer is listening on %s", addr)
 	browser.Open(addr)
 
+	// Install MMU handler.
+	http.HandleFunc("/mmu", traceviewer.MMUHandlerFunc(ranges, mutatorUtil))
+
+	// Install main handler.
+	http.Handle("/", traceviewer.MainHandler([]traceviewer.View{
+		{Type: traceviewer.ViewProc, Ranges: ranges},
+	}))
+
 	// Start http server.
-	http.HandleFunc("/", httpMain)
 	err = http.Serve(ln, nil)
 	dief("failed to start http server: %v\n", err)
 }
 
-var ranges []Range
+// isTraceV2 returns true if filename holds a v2 trace.
+func isTraceV2(filename string) bool {
+	file, err := os.Open(filename)
+	if err != nil {
+		return false
+	}
+	defer file.Close()
+
+	ver, _, err := trace.ReadVersion(file)
+	if err != nil {
+		return false
+	}
+	return ver >= 1022
+}
+
+var ranges []traceviewer.Range
 
 var loader struct {
 	once sync.Once
@@ -175,38 +208,7 @@ func parseTrace() (trace.ParseResult, error) {
 	return loader.res, loader.err
 }
 
-// httpMain serves the starting page.
-func httpMain(w http.ResponseWriter, r *http.Request) {
-	if err := templMain.Execute(w, ranges); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-}
-
-var templMain = template.Must(template.New("").Parse(`
-<html>
-<body>
-{{if $}}
-	{{range $e := $}}
-		<a href="{{$e.URL}}">View trace ({{$e.Name}})</a><br>
-	{{end}}
-	<br>
-{{else}}
-	<a href="/trace">View trace</a><br>
-{{end}}
-<a href="/goroutines">Goroutine analysis</a><br>
-<a href="/io">Network blocking profile</a> (<a href="/io?raw=1" download="io.profile">⬇</a>)<br>
-<a href="/block">Synchronization blocking profile</a> (<a href="/block?raw=1" download="block.profile">⬇</a>)<br>
-<a href="/syscall">Syscall blocking profile</a> (<a href="/syscall?raw=1" download="syscall.profile">⬇</a>)<br>
-<a href="/sched">Scheduler latency profile</a> (<a href="/sche?raw=1" download="sched.profile">⬇</a>)<br>
-<a href="/usertasks">User-defined tasks</a><br>
-<a href="/userregions">User-defined regions</a><br>
-<a href="/mmu">Minimum mutator utilization</a><br>
-</body>
-</html>
-`))
-
-func dief(msg string, args ...interface{}) {
+func dief(msg string, args ...any) {
 	fmt.Fprintf(os.Stderr, msg, args...)
 	os.Exit(1)
 }
@@ -235,4 +237,12 @@ func reportMemoryUsage(msg string) {
 	var dummy string
 	fmt.Printf("Enter to continue...")
 	fmt.Scanf("%s", &dummy)
+}
+
+func mutatorUtil(flags trace.UtilFlags) ([][]trace.MutatorUtil, error) {
+	events, err := parseEvents()
+	if err != nil {
+		return nil, err
+	}
+	return trace.MutatorUtilization(events, flags), nil
 }

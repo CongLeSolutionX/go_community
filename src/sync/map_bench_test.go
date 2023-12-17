@@ -144,6 +144,68 @@ func BenchmarkLoadOrStoreCollision(b *testing.B) {
 	})
 }
 
+func BenchmarkLoadAndDeleteBalanced(b *testing.B) {
+	const hits, misses = 128, 128
+
+	benchMap(b, bench{
+		setup: func(b *testing.B, m mapInterface) {
+			if _, ok := m.(*DeepCopyMap); ok {
+				b.Skip("DeepCopyMap has quadratic running time.")
+			}
+			for i := 0; i < hits; i++ {
+				m.LoadOrStore(i, i)
+			}
+			// Prime the map to get it into a steady state.
+			for i := 0; i < hits*2; i++ {
+				m.Load(i % hits)
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				j := i % (hits + misses)
+				if j < hits {
+					m.LoadAndDelete(j)
+				} else {
+					m.LoadAndDelete(i)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkLoadAndDeleteUnique(b *testing.B) {
+	benchMap(b, bench{
+		setup: func(b *testing.B, m mapInterface) {
+			if _, ok := m.(*DeepCopyMap); ok {
+				b.Skip("DeepCopyMap has quadratic running time.")
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				m.LoadAndDelete(i)
+			}
+		},
+	})
+}
+
+func BenchmarkLoadAndDeleteCollision(b *testing.B) {
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			m.LoadOrStore(0, 0)
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				if _, loaded := m.LoadAndDelete(0); loaded {
+					m.Store(0, 0)
+				}
+			}
+		},
+	})
+}
+
 func BenchmarkRange(b *testing.B) {
 	const mapSize = 1 << 10
 
@@ -156,7 +218,7 @@ func BenchmarkRange(b *testing.B) {
 
 		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
 			for ; pb.Next(); i++ {
-				m.Range(func(_, _ interface{}) bool { return true })
+				m.Range(func(_, _ any) bool { return true })
 			}
 		},
 	})
@@ -203,11 +265,269 @@ func BenchmarkAdversarialDelete(b *testing.B) {
 				m.Load(i)
 
 				if i%mapSize == 0 {
-					m.Range(func(k, _ interface{}) bool {
+					m.Range(func(k, _ any) bool {
 						m.Delete(k)
 						return false
 					})
 					m.Store(i, i)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkDeleteCollision(b *testing.B) {
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			m.LoadOrStore(0, 0)
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				m.Delete(0)
+			}
+		},
+	})
+}
+
+func BenchmarkSwapCollision(b *testing.B) {
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			m.LoadOrStore(0, 0)
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				m.Swap(0, 0)
+			}
+		},
+	})
+}
+
+func BenchmarkSwapMostlyHits(b *testing.B) {
+	const hits, misses = 1023, 1
+
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			for i := 0; i < hits; i++ {
+				m.LoadOrStore(i, i)
+			}
+			// Prime the map to get it into a steady state.
+			for i := 0; i < hits*2; i++ {
+				m.Load(i % hits)
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				if i%(hits+misses) < hits {
+					v := i % (hits + misses)
+					m.Swap(v, v)
+				} else {
+					m.Swap(i, i)
+					m.Delete(i)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkSwapMostlyMisses(b *testing.B) {
+	const hits, misses = 1, 1023
+
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			for i := 0; i < hits; i++ {
+				m.LoadOrStore(i, i)
+			}
+			// Prime the map to get it into a steady state.
+			for i := 0; i < hits*2; i++ {
+				m.Load(i % hits)
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				if i%(hits+misses) < hits {
+					v := i % (hits + misses)
+					m.Swap(v, v)
+				} else {
+					m.Swap(i, i)
+					m.Delete(i)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndSwapCollision(b *testing.B) {
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			m.LoadOrStore(0, 0)
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for pb.Next() {
+				if m.CompareAndSwap(0, 0, 42) {
+					m.CompareAndSwap(0, 42, 0)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndSwapNoExistingKey(b *testing.B) {
+	benchMap(b, bench{
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				if m.CompareAndSwap(i, 0, 0) {
+					m.Delete(i)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndSwapValueNotEqual(b *testing.B) {
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			m.Store(0, 0)
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				m.CompareAndSwap(0, 1, 2)
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndSwapMostlyHits(b *testing.B) {
+	const hits, misses = 1023, 1
+
+	benchMap(b, bench{
+		setup: func(b *testing.B, m mapInterface) {
+			if _, ok := m.(*DeepCopyMap); ok {
+				b.Skip("DeepCopyMap has quadratic running time.")
+			}
+
+			for i := 0; i < hits; i++ {
+				m.LoadOrStore(i, i)
+			}
+			// Prime the map to get it into a steady state.
+			for i := 0; i < hits*2; i++ {
+				m.Load(i % hits)
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				v := i
+				if i%(hits+misses) < hits {
+					v = i % (hits + misses)
+				}
+				m.CompareAndSwap(v, v, v)
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndSwapMostlyMisses(b *testing.B) {
+	const hits, misses = 1, 1023
+
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			for i := 0; i < hits; i++ {
+				m.LoadOrStore(i, i)
+			}
+			// Prime the map to get it into a steady state.
+			for i := 0; i < hits*2; i++ {
+				m.Load(i % hits)
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				v := i
+				if i%(hits+misses) < hits {
+					v = i % (hits + misses)
+				}
+				m.CompareAndSwap(v, v, v)
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndDeleteCollision(b *testing.B) {
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			m.LoadOrStore(0, 0)
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				if m.CompareAndDelete(0, 0) {
+					m.Store(0, 0)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndDeleteMostlyHits(b *testing.B) {
+	const hits, misses = 1023, 1
+
+	benchMap(b, bench{
+		setup: func(b *testing.B, m mapInterface) {
+			if _, ok := m.(*DeepCopyMap); ok {
+				b.Skip("DeepCopyMap has quadratic running time.")
+			}
+
+			for i := 0; i < hits; i++ {
+				m.LoadOrStore(i, i)
+			}
+			// Prime the map to get it into a steady state.
+			for i := 0; i < hits*2; i++ {
+				m.Load(i % hits)
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				v := i
+				if i%(hits+misses) < hits {
+					v = i % (hits + misses)
+				}
+				if m.CompareAndDelete(v, v) {
+					m.Store(v, v)
+				}
+			}
+		},
+	})
+}
+
+func BenchmarkCompareAndDeleteMostlyMisses(b *testing.B) {
+	const hits, misses = 1, 1023
+
+	benchMap(b, bench{
+		setup: func(_ *testing.B, m mapInterface) {
+			for i := 0; i < hits; i++ {
+				m.LoadOrStore(i, i)
+			}
+			// Prime the map to get it into a steady state.
+			for i := 0; i < hits*2; i++ {
+				m.Load(i % hits)
+			}
+		},
+
+		perG: func(b *testing.B, pb *testing.PB, i int, m mapInterface) {
+			for ; pb.Next(); i++ {
+				v := i
+				if i%(hits+misses) < hits {
+					v = i % (hits + misses)
+				}
+				if m.CompareAndDelete(v, v) {
+					m.Store(v, v)
 				}
 			}
 		},

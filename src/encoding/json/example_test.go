@@ -170,7 +170,6 @@ func ExampleDecoder_Decode_stream() {
 	// Sam: Go fmt who?
 	// Ed: Go fmt yourself!
 	// json.Delim: ]
-
 }
 
 // This example uses RawMessage to delay parsing part of a JSON message.
@@ -201,7 +200,7 @@ func ExampleRawMessage_unmarshal() {
 	}
 
 	for _, c := range colors {
-		var dst interface{}
+		var dst any
 		switch c.Space {
 		case "RGB":
 			dst = new(RGB)
@@ -280,12 +279,12 @@ func ExampleMarshalIndent() {
 		"b": 2,
 	}
 
-	json, err := json.MarshalIndent(data, "<prefix>", "<indent>")
+	b, err := json.MarshalIndent(data, "<prefix>", "<indent>")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(string(json))
+	fmt.Println(string(b))
 	// Output:
 	// {
 	// <prefix><indent>"a": 1,
@@ -300,4 +299,12 @@ func ExampleValid() {
 	fmt.Println(json.Valid([]byte(goodJSON)), json.Valid([]byte(badJSON)))
 	// Output:
 	// true false
+}
+
+func ExampleHTMLEscape() {
+	var out bytes.Buffer
+	json.HTMLEscape(&out, []byte(`{"Name":"<b>HTML content</b>"}`))
+	out.WriteTo(os.Stdout)
+	// Output:
+	//{"Name":"\u003cb\u003eHTML content\u003c/b\u003e"}
 }

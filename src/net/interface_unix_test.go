@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build darwin dragonfly freebsd linux netbsd openbsd
+//go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd
 
 package net
 
@@ -46,7 +46,7 @@ func TestPointToPointInterface(t *testing.T) {
 	if testing.Short() {
 		t.Skip("avoid external network")
 	}
-	if runtime.GOOS == "darwin" {
+	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 	if os.Getuid() != 0 {
@@ -186,13 +186,16 @@ func TestInterfaceArrivalAndDepartureZoneCache(t *testing.T) {
 	}
 
 	// Ensure zoneCache is filled:
-	_, _ = Listen("tcp", "[fe80::1%nonexistant]:0")
+	_, _ = Listen("tcp", "[fe80::1%nonexistent]:0")
 
 	ti := &testInterface{local: "fe80::1"}
 	if err := ti.setLinkLocal(0); err != nil {
 		t.Skipf("test requires external command: %v", err)
 	}
 	if err := ti.setup(); err != nil {
+		if e := err.Error(); strings.Contains(e, "Permission denied") {
+			t.Skipf("permission denied, skipping test: %v", e)
+		}
 		t.Fatal(err)
 	}
 	defer ti.teardown()
@@ -200,7 +203,7 @@ func TestInterfaceArrivalAndDepartureZoneCache(t *testing.T) {
 	time.Sleep(3 * time.Millisecond)
 
 	// If Listen fails (on Linux with “bind: invalid argument”), zoneCache was
-	// not updated when encountering a nonexistant interface:
+	// not updated when encountering a nonexistent interface:
 	ln, err := Listen("tcp", "[fe80::1%"+ti.name+"]:0")
 	if err != nil {
 		t.Fatal(err)

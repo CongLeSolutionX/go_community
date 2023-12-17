@@ -34,11 +34,10 @@ const (
 
 	kindDirectIface = 1 << 5
 	kindGCProg      = 1 << 6
-	kindNoPointers  = 1 << 7
 	kindMask        = (1 << 5) - 1
 )
 
 // isDirectIface reports whether t is stored directly in an interface value.
 func isDirectIface(t *_type) bool {
-	return t.kind&kindDirectIface != 0
+	return t.Kind_&kindDirectIface != 0
 }

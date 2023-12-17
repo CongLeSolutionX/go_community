@@ -36,29 +36,32 @@ func (o *SortedMap) Swap(i, j int) {
 //
 // The ordering rules are more general than with Go's < operator:
 //
-//  - when applicable, nil compares low
-//  - ints, floats, and strings order by <
-//  - NaN compares less than non-NaN floats
-//  - bool compares false before true
-//  - complex compares real, then imag
-//  - pointers compare by machine address
-//  - channel values compare by machine address
-//  - structs compare each field in turn
-//  - arrays compare each element in turn.
-//    Otherwise identical arrays compare by length.
-//  - interface values compare first by reflect.Type describing the concrete type
-//    and then by concrete value as described in the previous rules.
-//
+//   - when applicable, nil compares low
+//   - ints, floats, and strings order by <
+//   - NaN compares less than non-NaN floats
+//   - bool compares false before true
+//   - complex compares real, then imag
+//   - pointers compare by machine address
+//   - channel values compare by machine address
+//   - structs compare each field in turn
+//   - arrays compare each element in turn.
+//     Otherwise identical arrays compare by length.
+//   - interface values compare first by reflect.Type describing the concrete type
+//     and then by concrete value as described in the previous rules.
 func Sort(mapValue reflect.Value) *SortedMap {
 	if mapValue.Type().Kind() != reflect.Map {
 		return nil
 	}
-	key := make([]reflect.Value, mapValue.Len())
-	value := make([]reflect.Value, len(key))
+	// Note: this code is arranged to not panic even in the presence
+	// of a concurrent map update. The runtime is responsible for
+	// yelling loudly if that happens. See issue 33275.
+	n := mapValue.Len()
+	key := make([]reflect.Value, 0, n)
+	value := make([]reflect.Value, 0, n)
 	iter := mapValue.MapRange()
-	for i := 0; iter.Next(); i++ {
-		key[i] = iter.Key()
-		value[i] = iter.Value()
+	for iter.Next() {
+		key = append(key, iter.Key())
+		value = append(value, iter.Value())
 	}
 	sorted := &SortedMap{
 		Key:   key,
@@ -126,7 +129,7 @@ func compare(aVal, bVal reflect.Value) int {
 		default:
 			return -1
 		}
-	case reflect.Ptr:
+	case reflect.Pointer, reflect.UnsafePointer:
 		a, b := aVal.Pointer(), bVal.Pointer()
 		switch {
 		case a < b:
@@ -167,7 +170,7 @@ func compare(aVal, bVal reflect.Value) int {
 		if c, ok := nilCompare(aVal, bVal); ok {
 			return c
 		}
-		c := compare(reflect.ValueOf(aType), reflect.ValueOf(bType))
+		c := compare(reflect.ValueOf(aVal.Elem().Type()), reflect.ValueOf(bVal.Elem().Type()))
 		if c != 0 {
 			return c
 		}

@@ -6,7 +6,7 @@ package bytes_test
 
 import (
 	. "bytes"
-	"internal/testenv"
+	"fmt"
 	"testing"
 )
 
@@ -72,7 +72,7 @@ func TestCompareBytes(t *testing.T) {
 	}
 	lengths = append(lengths, 256, 512, 1024, 1333, 4095, 4096, 4097)
 
-	if !testing.Short() || testenv.Builder() != "" {
+	if !testing.Short() {
 		lengths = append(lengths, 65535, 65536, 65537, 99999)
 	}
 
@@ -116,6 +116,39 @@ func TestCompareBytes(t *testing.T) {
 				t.Errorf(`CompareBbigger(%d,%d) = %d`, len, k, cmp)
 			}
 			b[k] = a[k]
+		}
+	}
+}
+
+func TestEndianBaseCompare(t *testing.T) {
+	// This test compares byte slices that are almost identical, except one
+	// difference that for some j, a[j]>b[j] and a[j+1]<b[j+1]. If the implementation
+	// compares large chunks with wrong endianness, it gets wrong result.
+	// no vector register is larger than 512 bytes for now
+	const maxLength = 512
+	a := make([]byte, maxLength)
+	b := make([]byte, maxLength)
+	// randomish but deterministic data. No 0 or 255.
+	for i := 0; i < maxLength; i++ {
+		a[i] = byte(1 + 31*i%254)
+		b[i] = byte(1 + 31*i%254)
+	}
+	for i := 2; i <= maxLength; i <<= 1 {
+		for j := 0; j < i-1; j++ {
+			a[j] = b[j] - 1
+			a[j+1] = b[j+1] + 1
+			cmp := Compare(a[:i], b[:i])
+			if cmp != -1 {
+				t.Errorf(`CompareBbigger(%d,%d) = %d`, i, j, cmp)
+			}
+			a[j] = b[j] + 1
+			a[j+1] = b[j+1] - 1
+			cmp = Compare(a[:i], b[:i])
+			if cmp != 1 {
+				t.Errorf(`CompareAbigger(%d,%d) = %d`, i, j, cmp)
+			}
+			a[j] = b[j]
+			a[j+1] = b[j+1]
 		}
 	}
 }
@@ -180,20 +213,54 @@ func BenchmarkCompareBytesDifferentLength(b *testing.B) {
 	}
 }
 
-func BenchmarkCompareBytesBigUnaligned(b *testing.B) {
+func benchmarkCompareBytesBigUnaligned(b *testing.B, offset int) {
 	b.StopTimer()
 	b1 := make([]byte, 0, 1<<20)
 	for len(b1) < 1<<20 {
 		b1 = append(b1, "Hello Gophers!"...)
 	}
-	b2 := append([]byte("hello"), b1...)
+	b2 := append([]byte("12345678")[:offset], b1...)
 	b.StartTimer()
-	for i := 0; i < b.N; i++ {
-		if Compare(b1, b2[len("hello"):]) != 0 {
+	for j := 0; j < b.N; j++ {
+		if Compare(b1, b2[offset:]) != 0 {
 			b.Fatal("b1 != b2")
 		}
 	}
 	b.SetBytes(int64(len(b1)))
+}
+
+func BenchmarkCompareBytesBigUnaligned(b *testing.B) {
+	for i := 1; i < 8; i++ {
+		b.Run(fmt.Sprintf("offset=%d", i), func(b *testing.B) {
+			benchmarkCompareBytesBigUnaligned(b, i)
+		})
+	}
+}
+
+func benchmarkCompareBytesBigBothUnaligned(b *testing.B, offset int) {
+	b.StopTimer()
+	pattern := []byte("Hello Gophers!")
+	b1 := make([]byte, 0, 1<<20+len(pattern))
+	for len(b1) < 1<<20 {
+		b1 = append(b1, pattern...)
+	}
+	b2 := make([]byte, len(b1))
+	copy(b2, b1)
+	b.StartTimer()
+	for j := 0; j < b.N; j++ {
+		if Compare(b1[offset:], b2[offset:]) != 0 {
+			b.Fatal("b1 != b2")
+		}
+	}
+	b.SetBytes(int64(len(b1[offset:])))
+}
+
+func BenchmarkCompareBytesBigBothUnaligned(b *testing.B) {
+	for i := 0; i < 8; i++ {
+		b.Run(fmt.Sprintf("offset=%d", i), func(b *testing.B) {
+			benchmarkCompareBytesBigBothUnaligned(b, i)
+		})
+	}
 }
 
 func BenchmarkCompareBytesBig(b *testing.B) {

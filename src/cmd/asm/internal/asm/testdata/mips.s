@@ -424,7 +424,20 @@ label4:
 	CALL	foo(SB)
 	RET	foo(SB)
 
+	// unary operation
 	NEGW	R1, R2 // 00011023
+	CLZ	R1, R2 // 70221020
+	CLO	R1, R2 // 70221021
+
+	WSBH	R1, R2 // 7c0110a0
+
+	SEB	R1, R2 // 7c011420
+	SEH	R1, R2 // 7c011620
+
+	// to (Hi, Lo)
+	MADD	R2, R1 // 70220000
+	MSUB	R2, R1 // 70220004
+	MUL	R2, R1 // 00220018
 
 	// END
 	//

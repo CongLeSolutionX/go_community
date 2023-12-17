@@ -25,7 +25,7 @@ type Encoder struct {
 }
 
 // EncoderBufferPool is an interface for getting and returning temporary
-// instances of the EncoderBuffer struct. This can be used to reuse buffers
+// instances of the [EncoderBuffer] struct. This can be used to reuse buffers
 // when encoding multiple images.
 type EncoderBufferPool interface {
 	Get() *EncoderBuffer
@@ -51,6 +51,7 @@ type encoder struct {
 	bw      *bufio.Writer
 }
 
+// CompressionLevel indicates the compression level.
 type CompressionLevel int
 
 const (
@@ -189,7 +190,7 @@ func (e *encoder) writePLTEAndTRNS(p color.Palette) {
 
 // An encoder is an io.Writer that satisfies writes by writing PNG IDAT chunks,
 // including an 8-byte header and 4-byte CRC checksum per Write call. Such calls
-// should be relatively infrequent, since writeIDATs uses a bufio.Writer.
+// should be relatively infrequent, since writeIDATs uses a [bufio.Writer].
 //
 // This method should only be called from writeIDATs (via writeImage).
 // No other code should treat an encoder as an io.Writer.
@@ -288,7 +289,6 @@ func filter(cr *[nFilter][]byte, pr []byte, bpp int) int {
 		}
 	}
 	if sum < best {
-		best = sum
 		filter = ftAverage
 	}
 
@@ -427,10 +427,11 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 
 			var a uint8
 			var c int
+			pixelsPerByte := 8 / bitsPerPixel
 			for x := b.Min.X; x < b.Max.X; x++ {
 				a = a<<uint(bitsPerPixel) | pi.ColorIndexAt(x, y)
 				c++
-				if c == 8/bitsPerPixel {
+				if c == pixelsPerByte {
 					cr[0][i] = a
 					i += 1
 					a = 0
@@ -438,7 +439,7 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 				}
 			}
 			if c != 0 {
-				for c != 8/bitsPerPixel {
+				for c != pixelsPerByte {
 					a = a << uint(bitsPerPixel)
 					c++
 				}
@@ -449,6 +450,36 @@ func (e *encoder) writeImage(w io.Writer, m image.Image, cb int, level int) erro
 			if nrgba != nil {
 				offset := (y - b.Min.Y) * nrgba.Stride
 				copy(cr[0][1:], nrgba.Pix[offset:offset+b.Dx()*4])
+			} else if rgba != nil {
+				dst := cr[0][1:]
+				src := rgba.Pix[rgba.PixOffset(b.Min.X, y):rgba.PixOffset(b.Max.X, y)]
+				for ; len(src) >= 4; dst, src = dst[4:], src[4:] {
+					d := (*[4]byte)(dst)
+					s := (*[4]byte)(src)
+					if s[3] == 0x00 {
+						d[0] = 0
+						d[1] = 0
+						d[2] = 0
+						d[3] = 0
+					} else if s[3] == 0xff {
+						copy(d[:], s[:])
+					} else {
+						// This code does the same as color.NRGBAModel.Convert(
+						// rgba.At(x, y)).(color.NRGBA) but with no extra memory
+						// allocations or interface/function call overhead.
+						//
+						// The multiplier m combines 0x101 (which converts
+						// 8-bit color to 16-bit color) and 0xffff (which, when
+						// combined with the division-by-a, converts from
+						// alpha-premultiplied to non-alpha-premultiplied).
+						const m = 0x101 * 0xffff
+						a := uint32(s[3]) * 0x101
+						d[0] = uint8((uint32(s[0]) * m / a) >> 8)
+						d[1] = uint8((uint32(s[1]) * m / a) >> 8)
+						d[2] = uint8((uint32(s[2]) * m / a) >> 8)
+						d[3] = s[3]
+					}
+				}
 			} else {
 				// Convert from image.Image (which is alpha-premultiplied) to PNG's non-alpha-premultiplied.
 				for x := b.Min.X; x < b.Max.X; x++ {
@@ -555,7 +586,7 @@ func levelToZlib(l CompressionLevel) int {
 func (e *encoder) writeIEND() { e.writeChunk(nil, "IEND") }
 
 // Encode writes the Image m to w in PNG format. Any Image may be
-// encoded, but images that are not image.NRGBA might be encoded lossily.
+// encoded, but images that are not [image.NRGBA] might be encoded lossily.
 func Encode(w io.Writer, m image.Image) error {
 	var e Encoder
 	return e.Encode(w, m)

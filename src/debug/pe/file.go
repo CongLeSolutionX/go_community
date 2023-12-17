@@ -2,7 +2,17 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package pe implements access to PE (Microsoft Windows Portable Executable) files.
+/*
+Package pe implements access to PE (Microsoft Windows Portable Executable) files.
+
+# Security
+
+This package is not designed to be hardened against adversarial inputs, and is
+outside the scope of https://go.dev/security/policy. In particular, only basic
+validation is done when parsing object files. As such, care should be taken when
+parsing untrusted inputs, as parsing malformed files may consume significant
+resources, or cause panics.
+*/
 package pe
 
 import (
@@ -10,19 +20,17 @@ import (
 	"compress/zlib"
 	"debug/dwarf"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"strings"
 )
 
-// Avoid use of post-Go 1.4 io features, to make safe for toolchain bootstrap.
-const seekStart = 0
-
 // A File represents an open PE file.
 type File struct {
 	FileHeader
-	OptionalHeader interface{} // of type *OptionalHeader32 or *OptionalHeader64
+	OptionalHeader any // of type *OptionalHeader32 or *OptionalHeader64
 	Sections       []*Section
 	Symbols        []*Symbol    // COFF symbols with auxiliary symbol records removed
 	COFFSymbols    []COFFSymbol // all COFF symbols (including auxiliary symbol records)
@@ -31,7 +39,7 @@ type File struct {
 	closer io.Closer
 }
 
-// Open opens the named file using os.Open and prepares it for use as a PE binary.
+// Open opens the named file using [os.Open] and prepares it for use as a PE binary.
 func Open(name string) (*File, error) {
 	f, err := os.Open(name)
 	if err != nil {
@@ -46,8 +54,8 @@ func Open(name string) (*File, error) {
 	return ff, nil
 }
 
-// Close closes the File.
-// If the File was created using NewFile directly instead of Open,
+// Close closes the [File].
+// If the [File] was created using [NewFile] directly instead of [Open],
 // Close has no effect.
 func (f *File) Close() error {
 	var err error
@@ -58,14 +66,9 @@ func (f *File) Close() error {
 	return err
 }
 
-var (
-	sizeofOptionalHeader32 = uint16(binary.Size(OptionalHeader32{}))
-	sizeofOptionalHeader64 = uint16(binary.Size(OptionalHeader64{}))
-)
-
 // TODO(brainman): add Load function, as a replacement for NewFile, that does not call removeAuxSymbols (for performance)
 
-// NewFile creates a new File for accessing a PE binary in an underlying reader.
+// NewFile creates a new [File] for accessing a PE binary in an underlying reader.
 func NewFile(r io.ReaderAt) (*File, error) {
 	f := new(File)
 	sr := io.NewSectionReader(r, 0, 1<<63-1)
@@ -80,20 +83,28 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		var sign [4]byte
 		r.ReadAt(sign[:], signoff)
 		if !(sign[0] == 'P' && sign[1] == 'E' && sign[2] == 0 && sign[3] == 0) {
-			return nil, fmt.Errorf("Invalid PE COFF file signature of %v.", sign)
+			return nil, fmt.Errorf("invalid PE file signature: % x", sign)
 		}
 		base = signoff + 4
 	} else {
 		base = int64(0)
 	}
-	sr.Seek(base, seekStart)
+	sr.Seek(base, io.SeekStart)
 	if err := binary.Read(sr, binary.LittleEndian, &f.FileHeader); err != nil {
 		return nil, err
 	}
 	switch f.FileHeader.Machine {
-	case IMAGE_FILE_MACHINE_UNKNOWN, IMAGE_FILE_MACHINE_ARMNT, IMAGE_FILE_MACHINE_AMD64, IMAGE_FILE_MACHINE_I386:
+	case IMAGE_FILE_MACHINE_AMD64,
+		IMAGE_FILE_MACHINE_ARM64,
+		IMAGE_FILE_MACHINE_ARMNT,
+		IMAGE_FILE_MACHINE_I386,
+		IMAGE_FILE_MACHINE_RISCV32,
+		IMAGE_FILE_MACHINE_RISCV64,
+		IMAGE_FILE_MACHINE_RISCV128,
+		IMAGE_FILE_MACHINE_UNKNOWN:
+		// ok
 	default:
-		return nil, fmt.Errorf("Unrecognised COFF file header machine value of 0x%x.", f.FileHeader.Machine)
+		return nil, fmt.Errorf("unrecognized PE machine: %#x", f.FileHeader.Machine)
 	}
 
 	var err error
@@ -114,30 +125,16 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		return nil, err
 	}
 
-	// Read optional header.
-	sr.Seek(base, seekStart)
-	if err := binary.Read(sr, binary.LittleEndian, &f.FileHeader); err != nil {
+	// Seek past file header.
+	_, err = sr.Seek(base+int64(binary.Size(f.FileHeader)), io.SeekStart)
+	if err != nil {
 		return nil, err
 	}
-	var oh32 OptionalHeader32
-	var oh64 OptionalHeader64
-	switch f.FileHeader.SizeOfOptionalHeader {
-	case sizeofOptionalHeader32:
-		if err := binary.Read(sr, binary.LittleEndian, &oh32); err != nil {
-			return nil, err
-		}
-		if oh32.Magic != 0x10b { // PE32
-			return nil, fmt.Errorf("pe32 optional header has unexpected Magic of 0x%x", oh32.Magic)
-		}
-		f.OptionalHeader = &oh32
-	case sizeofOptionalHeader64:
-		if err := binary.Read(sr, binary.LittleEndian, &oh64); err != nil {
-			return nil, err
-		}
-		if oh64.Magic != 0x20b { // PE32+
-			return nil, fmt.Errorf("pe32+ optional header has unexpected Magic of 0x%x", oh64.Magic)
-		}
-		f.OptionalHeader = &oh64
+
+	// Read optional header.
+	f.OptionalHeader, err = readOptionalHeader(sr, f.FileHeader.SizeOfOptionalHeader)
+	if err != nil {
+		return nil, err
 	}
 
 	// Process sections.
@@ -166,7 +163,7 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		}
 		r2 := r
 		if sh.PointerToRawData == 0 { // .bss must have all 0s
-			r2 = zeroReaderAt{}
+			r2 = &nobitsSectionReader{}
 		}
 		s.sr = io.NewSectionReader(r2, int64(s.SectionHeader.Offset), int64(s.SectionHeader.Size))
 		s.ReaderAt = s.sr
@@ -183,15 +180,10 @@ func NewFile(r io.ReaderAt) (*File, error) {
 	return f, nil
 }
 
-// zeroReaderAt is ReaderAt that reads 0s.
-type zeroReaderAt struct{}
+type nobitsSectionReader struct{}
 
-// ReadAt writes len(p) 0s into p.
-func (w zeroReaderAt) ReadAt(p []byte, off int64) (n int, err error) {
-	for i := range p {
-		p[i] = 0
-	}
-	return len(p), nil
+func (*nobitsSectionReader) ReadAt(p []byte, off int64) (n int, err error) {
+	return 0, errors.New("unexpected read from section with uninitialized data")
 }
 
 // getString extracts a string from symbol string table.
@@ -286,10 +278,14 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 		return nil, err
 	}
 
-	// Look for DWARF4 .debug_types sections.
+	// Look for DWARF4 .debug_types sections and DWARF5 sections.
 	for i, s := range f.Sections {
 		suffix := dwarfSuffix(s)
-		if suffix != "types" {
+		if suffix == "" {
+			continue
+		}
+		if _, ok := dat[suffix]; ok {
+			// Already handled.
 			continue
 		}
 
@@ -298,7 +294,11 @@ func (f *File) DWARF() (*dwarf.Data, error) {
 			return nil, err
 		}
 
-		err = d.AddTypes(fmt.Sprintf("types-%d", i), b)
+		if suffix == "types" {
+			err = d.AddTypes(fmt.Sprintf("types-%d", i), b)
+		} else {
+			err = d.AddSection(".debug_"+suffix, b)
+		}
 		if err != nil {
 			return nil, err
 		}
@@ -324,7 +324,11 @@ type ImportDirectory struct {
 // satisfied by other libraries at dynamic load time.
 // It does not return weak symbols.
 func (f *File) ImportedSymbols() ([]string, error) {
-	pe64 := f.Machine == IMAGE_FILE_MACHINE_AMD64
+	if f.OptionalHeader == nil {
+		return nil, nil
+	}
+
+	_, pe64 := f.OptionalHeader.(*OptionalHeader64)
 
 	// grab the number of data directory entries
 	var dd_length uint32
@@ -352,7 +356,13 @@ func (f *File) ImportedSymbols() ([]string, error) {
 	var ds *Section
 	ds = nil
 	for _, s := range f.Sections {
-		if s.VirtualAddress <= idd.VirtualAddress && idd.VirtualAddress < s.VirtualAddress+s.VirtualSize {
+		if s.Offset == 0 {
+			continue
+		}
+		// We are using distance between s.VirtualAddress and idd.VirtualAddress
+		// to avoid potential overflow of uint32 caused by addition of s.VirtualSize
+		// to s.VirtualAddress.
+		if s.VirtualAddress <= idd.VirtualAddress && idd.VirtualAddress-s.VirtualAddress < s.VirtualSize {
 			ds = s
 			break
 		}
@@ -373,7 +383,7 @@ func (f *File) ImportedSymbols() ([]string, error) {
 
 	// start decoding the import directory
 	var ida []ImportDirectory
-	for len(d) > 0 {
+	for len(d) >= 20 {
 		var dt ImportDirectory
 		dt.OriginalFirstThunk = binary.LittleEndian.Uint32(d[0:4])
 		dt.TimeDateStamp = binary.LittleEndian.Uint32(d[4:8])
@@ -448,4 +458,169 @@ type FormatError struct {
 
 func (e *FormatError) Error() string {
 	return "unknown error"
+}
+
+// readOptionalHeader accepts an io.ReadSeeker pointing to optional header in the PE file
+// and its size as seen in the file header.
+// It parses the given size of bytes and returns optional header. It infers whether the
+// bytes being parsed refer to 32 bit or 64 bit version of optional header.
+func readOptionalHeader(r io.ReadSeeker, sz uint16) (any, error) {
+	// If optional header size is 0, return empty optional header.
+	if sz == 0 {
+		return nil, nil
+	}
+
+	var (
+		// First couple of bytes in option header state its type.
+		// We need to read them first to determine the type and
+		// validity of optional header.
+		ohMagic   uint16
+		ohMagicSz = binary.Size(ohMagic)
+	)
+
+	// If optional header size is greater than 0 but less than its magic size, return error.
+	if sz < uint16(ohMagicSz) {
+		return nil, fmt.Errorf("optional header size is less than optional header magic size")
+	}
+
+	// read reads from io.ReadSeeke, r, into data.
+	var err error
+	read := func(data any) bool {
+		err = binary.Read(r, binary.LittleEndian, data)
+		return err == nil
+	}
+
+	if !read(&ohMagic) {
+		return nil, fmt.Errorf("failure to read optional header magic: %v", err)
+
+	}
+
+	switch ohMagic {
+	case 0x10b: // PE32
+		var (
+			oh32 OptionalHeader32
+			// There can be 0 or more data directories. So the minimum size of optional
+			// header is calculated by subtracting oh32.DataDirectory size from oh32 size.
+			oh32MinSz = binary.Size(oh32) - binary.Size(oh32.DataDirectory)
+		)
+
+		if sz < uint16(oh32MinSz) {
+			return nil, fmt.Errorf("optional header size(%d) is less minimum size (%d) of PE32 optional header", sz, oh32MinSz)
+		}
+
+		// Init oh32 fields
+		oh32.Magic = ohMagic
+		if !read(&oh32.MajorLinkerVersion) ||
+			!read(&oh32.MinorLinkerVersion) ||
+			!read(&oh32.SizeOfCode) ||
+			!read(&oh32.SizeOfInitializedData) ||
+			!read(&oh32.SizeOfUninitializedData) ||
+			!read(&oh32.AddressOfEntryPoint) ||
+			!read(&oh32.BaseOfCode) ||
+			!read(&oh32.BaseOfData) ||
+			!read(&oh32.ImageBase) ||
+			!read(&oh32.SectionAlignment) ||
+			!read(&oh32.FileAlignment) ||
+			!read(&oh32.MajorOperatingSystemVersion) ||
+			!read(&oh32.MinorOperatingSystemVersion) ||
+			!read(&oh32.MajorImageVersion) ||
+			!read(&oh32.MinorImageVersion) ||
+			!read(&oh32.MajorSubsystemVersion) ||
+			!read(&oh32.MinorSubsystemVersion) ||
+			!read(&oh32.Win32VersionValue) ||
+			!read(&oh32.SizeOfImage) ||
+			!read(&oh32.SizeOfHeaders) ||
+			!read(&oh32.CheckSum) ||
+			!read(&oh32.Subsystem) ||
+			!read(&oh32.DllCharacteristics) ||
+			!read(&oh32.SizeOfStackReserve) ||
+			!read(&oh32.SizeOfStackCommit) ||
+			!read(&oh32.SizeOfHeapReserve) ||
+			!read(&oh32.SizeOfHeapCommit) ||
+			!read(&oh32.LoaderFlags) ||
+			!read(&oh32.NumberOfRvaAndSizes) {
+			return nil, fmt.Errorf("failure to read PE32 optional header: %v", err)
+		}
+
+		dd, err := readDataDirectories(r, sz-uint16(oh32MinSz), oh32.NumberOfRvaAndSizes)
+		if err != nil {
+			return nil, err
+		}
+
+		copy(oh32.DataDirectory[:], dd)
+
+		return &oh32, nil
+	case 0x20b: // PE32+
+		var (
+			oh64 OptionalHeader64
+			// There can be 0 or more data directories. So the minimum size of optional
+			// header is calculated by subtracting oh64.DataDirectory size from oh64 size.
+			oh64MinSz = binary.Size(oh64) - binary.Size(oh64.DataDirectory)
+		)
+
+		if sz < uint16(oh64MinSz) {
+			return nil, fmt.Errorf("optional header size(%d) is less minimum size (%d) for PE32+ optional header", sz, oh64MinSz)
+		}
+
+		// Init oh64 fields
+		oh64.Magic = ohMagic
+		if !read(&oh64.MajorLinkerVersion) ||
+			!read(&oh64.MinorLinkerVersion) ||
+			!read(&oh64.SizeOfCode) ||
+			!read(&oh64.SizeOfInitializedData) ||
+			!read(&oh64.SizeOfUninitializedData) ||
+			!read(&oh64.AddressOfEntryPoint) ||
+			!read(&oh64.BaseOfCode) ||
+			!read(&oh64.ImageBase) ||
+			!read(&oh64.SectionAlignment) ||
+			!read(&oh64.FileAlignment) ||
+			!read(&oh64.MajorOperatingSystemVersion) ||
+			!read(&oh64.MinorOperatingSystemVersion) ||
+			!read(&oh64.MajorImageVersion) ||
+			!read(&oh64.MinorImageVersion) ||
+			!read(&oh64.MajorSubsystemVersion) ||
+			!read(&oh64.MinorSubsystemVersion) ||
+			!read(&oh64.Win32VersionValue) ||
+			!read(&oh64.SizeOfImage) ||
+			!read(&oh64.SizeOfHeaders) ||
+			!read(&oh64.CheckSum) ||
+			!read(&oh64.Subsystem) ||
+			!read(&oh64.DllCharacteristics) ||
+			!read(&oh64.SizeOfStackReserve) ||
+			!read(&oh64.SizeOfStackCommit) ||
+			!read(&oh64.SizeOfHeapReserve) ||
+			!read(&oh64.SizeOfHeapCommit) ||
+			!read(&oh64.LoaderFlags) ||
+			!read(&oh64.NumberOfRvaAndSizes) {
+			return nil, fmt.Errorf("failure to read PE32+ optional header: %v", err)
+		}
+
+		dd, err := readDataDirectories(r, sz-uint16(oh64MinSz), oh64.NumberOfRvaAndSizes)
+		if err != nil {
+			return nil, err
+		}
+
+		copy(oh64.DataDirectory[:], dd)
+
+		return &oh64, nil
+	default:
+		return nil, fmt.Errorf("optional header has unexpected Magic of 0x%x", ohMagic)
+	}
+}
+
+// readDataDirectories accepts an io.ReadSeeker pointing to data directories in the PE file,
+// its size and number of data directories as seen in optional header.
+// It parses the given size of bytes and returns given number of data directories.
+func readDataDirectories(r io.ReadSeeker, sz uint16, n uint32) ([]DataDirectory, error) {
+	ddSz := uint64(binary.Size(DataDirectory{}))
+	if uint64(sz) != uint64(n)*ddSz {
+		return nil, fmt.Errorf("size of data directories(%d) is inconsistent with number of data directories(%d)", sz, n)
+	}
+
+	dd := make([]DataDirectory, n)
+	if err := binary.Read(r, binary.LittleEndian, dd); err != nil {
+		return nil, fmt.Errorf("failure to read data directories: %v", err)
+	}
+
+	return dd, nil
 }

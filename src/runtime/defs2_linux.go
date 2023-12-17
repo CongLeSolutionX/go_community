@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build ignore
+//go:build ignore
 
 /*
  * Input to cgo -cdefs
@@ -61,7 +61,7 @@ const (
 	MADV_DONTNEED   = C.MADV_DONTNEED
 	MADV_FREE       = C.MADV_FREE
 	MADV_HUGEPAGE   = C.MADV_HUGEPAGE
-	MADV_NOHUGEPAGE = C.MADV_HNOUGEPAGE
+	MADV_NOHUGEPAGE = C.MADV_NOHUGEPAGE
 
 	SA_RESTART  = C.SA_RESTART
 	SA_ONSTACK  = C.SA_ONSTACK
@@ -121,17 +121,6 @@ const (
 
 	O_RDONLY  = C.O_RDONLY
 	O_CLOEXEC = C.O_CLOEXEC
-
-	EPOLLIN       = C.POLLIN
-	EPOLLOUT      = C.POLLOUT
-	EPOLLERR      = C.POLLERR
-	EPOLLHUP      = C.POLLHUP
-	EPOLLRDHUP    = C.POLLRDHUP
-	EPOLLET       = C.EPOLLET
-	EPOLL_CLOEXEC = C.EPOLL_CLOEXEC
-	EPOLL_CTL_ADD = C.EPOLL_CTL_ADD
-	EPOLL_CTL_DEL = C.EPOLL_CTL_DEL
-	EPOLL_CTL_MOD = C.EPOLL_CTL_MOD
 )
 
 type Fpreg C.struct__fpreg

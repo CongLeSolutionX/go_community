@@ -8,6 +8,7 @@ package sha256
 
 import (
 	"bytes"
+	"crypto/internal/boring"
 	"crypto/rand"
 	"encoding"
 	"fmt"
@@ -216,6 +217,9 @@ func TestBlockSize(t *testing.T) {
 
 // Tests that blockGeneric (pure Go) and block (in assembly for some architectures) match.
 func TestBlockGeneric(t *testing.T) {
+	if boring.Enabled {
+		t.Skip("BoringCrypto doesn't expose digest")
+	}
 	gen, asm := New().(*digest), New().(*digest)
 	buf := make([]byte, BlockSize*20) // arbitrary factor
 	rand.Read(buf)
@@ -229,7 +233,7 @@ func TestBlockGeneric(t *testing.T) {
 // Tests for unmarshaling hashes that have hashed a large amount of data
 // The initial hash generation is omitted from the test, because it takes a long time.
 // The test contains some already-generated states, and their expected sums
-// Tests a problem that is outlined in Github issue #29517
+// Tests a problem that is outlined in GitHub issue #29517
 // The problem is triggered when an amount of data has been hashed for which
 // the data length has a 1 in the 32nd bit. When casted to int, this changes
 // the sign of the value, and causes the modulus operation to return a
@@ -241,19 +245,19 @@ type unmarshalTest struct {
 
 var largeUnmarshalTests = []unmarshalTest{
 	// Data length: 7_115_087_207
-	unmarshalTest{
+	{
 		state: "sha\x03yX\xaf\xb7\x04*\x8f\xaa\x9bx\xc5#\x1f\xeb\x94\xfdz1\xaf\xfbk֗\n\xc93\xcf\x02\v.\xa5\xe4\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xa8\x17\x9dg",
 		sum:   "f5e06371f0c115e9968455c8e48a318aba548b9f15676fa41de123f7d1c99c55",
 	},
 
 	// Data length: 7_070_038_086
-	unmarshalTest{
+	{
 		state: "sha\x03$\x933u\nV\v\xe2\xf7:0!ʳ\xa4\x13\xd3 6\xdcBB\xb5\x19\xcd=\xc1h\xee=\xb4\x9c@ABCDE\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xa5h8F",
 		sum:   "a280b08df5eba060fcd0eb3d29320bbc038afb95781661f91bbfd0a6fc9fdd6e",
 	},
 
 	// Data length: 6_464_878_887
-	unmarshalTest{
+	{
 		state: "sha\x03\x9f\x12\x87G\xf2\xdf<\x82\xa0\x11/*W\x02&IKWlh\x03\x95\xb1\xab\f\n\xf6Ze\xf9\x1d\x1b\x00\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x81V9'",
 		sum:   "d2fffb762f105ab71e2d70069346c44c38c4fe183aad8cfcf5a76397c0457806",
 	},
@@ -289,17 +293,66 @@ func TestLargeHashes(t *testing.T) {
 	}
 }
 
+func TestAllocations(t *testing.T) {
+	if boring.Enabled {
+		t.Skip("BoringCrypto doesn't allocate the same way as stdlib")
+	}
+	in := []byte("hello, world!")
+	out := make([]byte, 0, Size)
+	h := New()
+	n := int(testing.AllocsPerRun(10, func() {
+		h.Reset()
+		h.Write(in)
+		out = h.Sum(out[:0])
+	}))
+	if n > 0 {
+		t.Errorf("allocs = %d, want 0", n)
+	}
+}
+
+type cgoData struct {
+	Data [16]byte
+	Ptr  *cgoData
+}
+
+func TestCgo(t *testing.T) {
+	// Test that Write does not cause cgo to scan the entire cgoData struct for pointers.
+	// The scan (if any) should be limited to the [16]byte.
+	d := new(cgoData)
+	d.Ptr = d
+	h := New()
+	h.Write(d.Data[:])
+	h.Sum(nil)
+}
+
 var bench = New()
 var buf = make([]byte, 8192)
 
 func benchmarkSize(b *testing.B, size int) {
-	b.SetBytes(int64(size))
 	sum := make([]byte, bench.Size())
-	for i := 0; i < b.N; i++ {
-		bench.Reset()
-		bench.Write(buf[:size])
-		bench.Sum(sum[:0])
-	}
+	b.Run("New", func(b *testing.B) {
+		b.ReportAllocs()
+		b.SetBytes(int64(size))
+		for i := 0; i < b.N; i++ {
+			bench.Reset()
+			bench.Write(buf[:size])
+			bench.Sum(sum[:0])
+		}
+	})
+	b.Run("Sum224", func(b *testing.B) {
+		b.ReportAllocs()
+		b.SetBytes(int64(size))
+		for i := 0; i < b.N; i++ {
+			Sum224(buf[:size])
+		}
+	})
+	b.Run("Sum256", func(b *testing.B) {
+		b.ReportAllocs()
+		b.SetBytes(int64(size))
+		for i := 0; i < b.N; i++ {
+			Sum256(buf[:size])
+		}
+	})
 }
 
 func BenchmarkHash8Bytes(b *testing.B) {

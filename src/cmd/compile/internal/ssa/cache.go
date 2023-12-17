@@ -21,15 +21,20 @@ type Cache struct {
 	// See stackalloc.go's {new,put}StackAllocState.
 	stackAllocState *stackAllocState
 
-	domblockstore []ID         // scratch space for computing dominators
-	scrSparseSet  []*sparseSet // scratch sparse sets to be re-used.
-	scrSparseMap  []*sparseMap // scratch sparse maps to be re-used.
-	scrPoset      []*poset     // scratch poset to be reused
+	scrPoset []*poset // scratch poset to be reused
+
+	// Reusable regalloc state.
+	regallocValues []valState
 
 	ValueToProgAfter []*obj.Prog
 	debugState       debugState
 
 	Liveness interface{} // *gc.livenessFuncCache
+
+	// Free "headers" for use by the allocators in allocators.go.
+	// Used to put slices in sync.Pools without allocation.
+	hdrValueSlice []*[]*Value
+	hdrInt64Slice []*[]int64
 }
 
 func (c *Cache) Reset() {
@@ -49,4 +54,9 @@ func (c *Cache) Reset() {
 		xl[i] = nil
 	}
 
+	// regalloc sets the length of c.regallocValues to whatever it may use,
+	// so clear according to length.
+	for i := range c.regallocValues {
+		c.regallocValues[i] = valState{}
+	}
 }

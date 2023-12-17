@@ -9,6 +9,7 @@
 #include "go_asm.h"
 #include "go_tls.h"
 #include "textflag.h"
+#include "cgo/abi_amd64.h"
 
 #define AT_FDCWD -100
 
@@ -32,20 +33,20 @@
 #define SYS_clone		56
 #define SYS_exit		60
 #define SYS_kill		62
-#define SYS_fcntl		72
 #define SYS_sigaltstack 	131
 #define SYS_arch_prctl		158
 #define SYS_gettid		186
 #define SYS_futex		202
 #define SYS_sched_getaffinity	204
-#define SYS_epoll_create	213
+#define SYS_timer_create	222
+#define SYS_timer_settime	223
+#define SYS_timer_delete	226
+#define SYS_clock_gettime	228
 #define SYS_exit_group		231
-#define SYS_epoll_ctl		233
 #define SYS_tgkill		234
 #define SYS_openat		257
 #define SYS_faccessat		269
-#define SYS_epoll_pwait		281
-#define SYS_epoll_create1	291
+#define SYS_pipe2		293
 
 TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
@@ -53,7 +54,7 @@ TEXT runtime·exit(SB),NOSPLIT,$0-4
 	SYSCALL
 	RET
 
-// func exitThread(wait *uint32)
+// func exitThread(wait *atomic.Uint32)
 TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	MOVQ	wait+0(FP), AX
 	// We're done using the stack.
@@ -89,15 +90,12 @@ TEXT runtime·closefd(SB),NOSPLIT,$0-12
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·write(SB),NOSPLIT,$0-28
+TEXT runtime·write1(SB),NOSPLIT,$0-28
 	MOVQ	fd+0(FP), DI
 	MOVQ	p+8(FP), SI
 	MOVL	n+16(FP), DX
 	MOVL	$SYS_write, AX
 	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
 	RET
 
@@ -107,10 +105,16 @@ TEXT runtime·read(SB),NOSPLIT,$0-28
 	MOVL	n+16(FP), DX
 	MOVL	$SYS_read, AX
 	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
 	MOVL	AX, ret+24(FP)
+	RET
+
+// func pipe2(flags int32) (r, w int32, errno int32)
+TEXT runtime·pipe2(SB),NOSPLIT,$0-20
+	LEAQ	r+8(FP), DI
+	MOVL	flags+0(FP), SI
+	MOVL	$SYS_pipe2, AX
+	SYSCALL
+	MOVL	AX, errno+16(FP)
 	RET
 
 TEXT runtime·usleep(SB),NOSPLIT,$16
@@ -158,12 +162,52 @@ TEXT runtime·raiseproc(SB),NOSPLIT,$0
 	SYSCALL
 	RET
 
+TEXT ·getpid(SB),NOSPLIT,$0-8
+	MOVL	$SYS_getpid, AX
+	SYSCALL
+	MOVQ	AX, ret+0(FP)
+	RET
+
+TEXT ·tgkill(SB),NOSPLIT,$0
+	MOVQ	tgid+0(FP), DI
+	MOVQ	tid+8(FP), SI
+	MOVQ	sig+16(FP), DX
+	MOVL	$SYS_tgkill, AX
+	SYSCALL
+	RET
+
 TEXT runtime·setitimer(SB),NOSPLIT,$0-24
 	MOVL	mode+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
 	MOVL	$SYS_setittimer, AX
 	SYSCALL
+	RET
+
+TEXT runtime·timer_create(SB),NOSPLIT,$0-28
+	MOVL	clockid+0(FP), DI
+	MOVQ	sevp+8(FP), SI
+	MOVQ	timerid+16(FP), DX
+	MOVL	$SYS_timer_create, AX
+	SYSCALL
+	MOVL	AX, ret+24(FP)
+	RET
+
+TEXT runtime·timer_settime(SB),NOSPLIT,$0-28
+	MOVL	timerid+0(FP), DI
+	MOVL	flags+4(FP), SI
+	MOVQ	new+8(FP), DX
+	MOVQ	old+16(FP), R10
+	MOVL	$SYS_timer_settime, AX
+	SYSCALL
+	MOVL	AX, ret+24(FP)
+	RET
+
+TEXT runtime·timer_delete(SB),NOSPLIT,$0-12
+	MOVL	timerid+0(FP), DI
+	MOVL	$SYS_timer_delete, AX
+	SYSCALL
+	MOVL	AX, ret+8(FP)
 	RET
 
 TEXT runtime·mincore(SB),NOSPLIT,$0-28
@@ -175,8 +219,8 @@ TEXT runtime·mincore(SB),NOSPLIT,$0-28
 	MOVL	AX, ret+24(FP)
 	RET
 
-// func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$0-12
+// func nanotime1() int64
+TEXT runtime·nanotime1(SB),NOSPLIT,$16-8
 	// We don't know how much stack space the VDSO code will need,
 	// so switch to g0.
 	// In particular, a kernel configured with CONFIG_OPTIMIZE_INLINING=n
@@ -184,19 +228,24 @@ TEXT runtime·walltime(SB),NOSPLIT,$0-12
 	// due to stack probes inserted to avoid stack/heap collisions.
 	// See issue #20427.
 
-	MOVQ	SP, BP	// Save old SP; BP unchanged by C code.
+	MOVQ	SP, R12	// Save old SP; R12 unchanged by C code.
 
-	get_tls(CX)
-	MOVQ	g(CX), AX
-	MOVQ	g_m(AX), BX // BX unchanged by C code.
+	MOVQ	g_m(R14), BX // BX unchanged by C code.
 
 	// Set vdsoPC and vdsoSP for SIGPROF traceback.
-	MOVQ	0(SP), DX
-	MOVQ	DX, m_vdsoPC(BX)
-	LEAQ	sec+0(SP), DX
+	// Save the old values on stack and restore them on exit,
+	// so this function is reentrant.
+	MOVQ	m_vdsoPC(BX), CX
+	MOVQ	m_vdsoSP(BX), DX
+	MOVQ	CX, 0(SP)
+	MOVQ	DX, 8(SP)
+
+	LEAQ	ret+0(FP), DX
+	MOVQ	-8(DX), CX
+	MOVQ	CX, m_vdsoPC(BX)
 	MOVQ	DX, m_vdsoSP(BX)
 
-	CMPQ	AX, m_curg(BX)	// Only switch if on curg.
+	CMPQ	R14, m_curg(BX)	// Only switch if on curg.
 	JNE	noswitch
 
 	MOVQ	m_g0(BX), DX
@@ -206,68 +255,25 @@ noswitch:
 	SUBQ	$16, SP		// Space for results
 	ANDQ	$~15, SP	// Align for C code
 
-	MOVQ	runtime·vdsoClockgettimeSym(SB), AX
-	CMPQ	AX, $0
-	JEQ	fallback
-	MOVL	$0, DI // CLOCK_REALTIME
-	LEAQ	0(SP), SI
-	CALL	AX
-	MOVQ	0(SP), AX	// sec
-	MOVQ	8(SP), DX	// nsec
-	MOVQ	BP, SP		// Restore real SP
-	MOVQ	$0, m_vdsoSP(BX)
-	MOVQ	AX, sec+0(FP)
-	MOVL	DX, nsec+8(FP)
-	RET
-fallback:
-	LEAQ	0(SP), DI
-	MOVQ	$0, SI
-	MOVQ	runtime·vdsoGettimeofdaySym(SB), AX
-	CALL	AX
-	MOVQ	0(SP), AX	// sec
-	MOVL	8(SP), DX	// usec
-	IMULQ	$1000, DX
-	MOVQ	BP, SP		// Restore real SP
-	MOVQ	$0, m_vdsoSP(BX)
-	MOVQ	AX, sec+0(FP)
-	MOVL	DX, nsec+8(FP)
-	RET
-
-TEXT runtime·nanotime(SB),NOSPLIT,$0-8
-	// Switch to g0 stack. See comment above in runtime·walltime.
-
-	MOVQ	SP, BP	// Save old SP; BP unchanged by C code.
-
-	get_tls(CX)
-	MOVQ	g(CX), AX
-	MOVQ	g_m(AX), BX // BX unchanged by C code.
-
-	// Set vdsoPC and vdsoSP for SIGPROF traceback.
-	MOVQ	0(SP), DX
-	MOVQ	DX, m_vdsoPC(BX)
-	LEAQ	ret+0(SP), DX
-	MOVQ	DX, m_vdsoSP(BX)
-
-	CMPQ	AX, m_curg(BX)	// Only switch if on curg.
-	JNE	noswitch
-
-	MOVQ	m_g0(BX), DX
-	MOVQ	(g_sched+gobuf_sp)(DX), SP	// Set SP to g0 stack
-
-noswitch:
-	SUBQ	$16, SP		// Space for results
-	ANDQ	$~15, SP	// Align for C code
-
-	MOVQ	runtime·vdsoClockgettimeSym(SB), AX
-	CMPQ	AX, $0
-	JEQ	fallback
 	MOVL	$1, DI // CLOCK_MONOTONIC
 	LEAQ	0(SP), SI
+	MOVQ	runtime·vdsoClockgettimeSym(SB), AX
+	CMPQ	AX, $0
+	JEQ	fallback
 	CALL	AX
+ret:
 	MOVQ	0(SP), AX	// sec
 	MOVQ	8(SP), DX	// nsec
-	MOVQ	BP, SP		// Restore real SP
-	MOVQ	$0, m_vdsoSP(BX)
+	MOVQ	R12, SP		// Restore real SP
+	// Restore vdsoPC, vdsoSP
+	// We don't worry about being signaled between the two stores.
+	// If we are not in a signal handler, we'll restore vdsoSP to 0,
+	// and no one will care about vdsoPC. If we are in a signal handler,
+	// we cannot receive another signal.
+	MOVQ	8(SP), CX
+	MOVQ	CX, m_vdsoSP(BX)
+	MOVQ	0(SP), CX
+	MOVQ	CX, m_vdsoPC(BX)
 	// sec is in AX, nsec in DX
 	// return nsec in AX
 	IMULQ	$1000000000, AX
@@ -275,21 +281,9 @@ noswitch:
 	MOVQ	AX, ret+0(FP)
 	RET
 fallback:
-	LEAQ	0(SP), DI
-	MOVQ	$0, SI
-	MOVQ	runtime·vdsoGettimeofdaySym(SB), AX
-	CALL	AX
-	MOVQ	0(SP), AX	// sec
-	MOVL	8(SP), DX	// usec
-	MOVQ	BP, SP		// Restore real SP
-	MOVQ	$0, m_vdsoSP(BX)
-	IMULQ	$1000, DX
-	// sec is in AX, nsec in DX
-	// return nsec in AX
-	IMULQ	$1000000000, AX
-	ADDQ	DX, AX
-	MOVQ	AX, ret+0(FP)
-	RET
+	MOVQ	$SYS_clock_gettime, AX
+	SYSCALL
+	JMP	ret
 
 TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0-28
 	MOVL	how+0(FP), DI
@@ -331,37 +325,60 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVL	sig+8(FP),   DI
 	MOVQ	info+16(FP), SI
 	MOVQ	ctx+24(FP),  DX
-	PUSHQ	BP
-	MOVQ	SP, BP
+	MOVQ	SP, BX		// callee-saved
 	ANDQ	$~15, SP     // alignment for x86_64 ABI
 	CALL	AX
-	MOVQ	BP, SP
-	POPQ	BP
+	MOVQ	BX, SP
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$72
-	// Save callee-saved C registers, since the caller may be a C signal handler.
-	MOVQ	BX,  bx-8(SP)
-	MOVQ	BP,  bp-16(SP)  // save in case GOEXPERIMENT=noframepointer is set
-	MOVQ	R12, r12-24(SP)
-	MOVQ	R13, r13-32(SP)
-	MOVQ	R14, r14-40(SP)
-	MOVQ	R15, r15-48(SP)
-	// We don't save mxcsr or the x87 control word because sigtrampgo doesn't
-	// modify them.
+// Called using C ABI.
+TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
+	// Transition from C ABI to Go ABI.
+	PUSH_REGS_HOST_TO_ABI0()
 
-	MOVQ	DX, ctx-56(SP)
-	MOVQ	SI, info-64(SP)
-	MOVQ	DI, signum-72(SP)
-	MOVQ	$runtime·sigtrampgo(SB), AX
-	CALL AX
+	// Set up ABIInternal environment: g in R14, cleared X15.
+	get_tls(R12)
+	MOVQ	g(R12), R14
+	PXOR	X15, X15
 
-	MOVQ	r15-48(SP), R15
-	MOVQ	r14-40(SP), R14
-	MOVQ	r13-32(SP), R13
-	MOVQ	r12-24(SP), R12
-	MOVQ	bp-16(SP),  BP
-	MOVQ	bx-8(SP),   BX
+	// Reserve space for spill slots.
+	NOP	SP		// disable vet stack checking
+	ADJSP   $24
+
+	// Call into the Go signal handler
+	MOVQ	DI, AX	// sig
+	MOVQ	SI, BX	// info
+	MOVQ	DX, CX	// ctx
+	CALL	·sigtrampgo<ABIInternal>(SB)
+
+	ADJSP	$-24
+
+	POP_REGS_HOST_TO_ABI0()
+	RET
+
+// Called using C ABI.
+TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
+	// Transition from C ABI to Go ABI.
+	PUSH_REGS_HOST_TO_ABI0()
+
+	// Set up ABIInternal environment: g in R14, cleared X15.
+	get_tls(R12)
+	MOVQ	g(R12), R14
+	PXOR	X15, X15
+
+	// Reserve space for spill slots.
+	NOP	SP		// disable vet stack checking
+	ADJSP   $24
+
+	// Call into the Go signal handler
+	MOVQ	DI, AX	// sig
+	MOVQ	SI, BX	// info
+	MOVQ	DX, CX	// ctx
+	CALL	·sigprofNonGo<ABIInternal>(SB)
+
+	ADJSP	$-24
+
+	POP_REGS_HOST_TO_ABI0()
 	RET
 
 // Used instead of sigtramp in programs that use cgo.
@@ -431,21 +448,26 @@ sigtrampnog:
 	JNZ	sigtramp  // Skip stack trace if already locked.
 
 	// Jump to the traceback function in runtime/cgo.
-	// It will call back to sigprofNonGo, which will ignore the
-	// arguments passed in registers.
+	// It will call back to sigprofNonGo, via sigprofNonGoWrapper, to convert
+	// the arguments to the Go calling convention.
 	// First three arguments to traceback function are in registers already.
 	MOVQ	runtime·cgoTraceback(SB), CX
 	MOVQ	$runtime·sigprofCallers(SB), R8
-	MOVQ	$runtime·sigprofNonGo(SB), R9
+	MOVQ	$runtime·sigprofNonGoWrapper<>(SB), R9
 	MOVQ	_cgo_callers(SB), AX
 	JMP	AX
 
 // For cgo unwinding to work, this function must look precisely like
-// the one in glibc.  The glibc source code is:
-// https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/x86_64/sigaction.c
+// the one in glibc. The glibc source code is:
+// https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c;h=afdce87381228f0cf32fa9fa6c8c4efa5179065c#l80
 // The code that cares about the precise instructions used is:
-// https://gcc.gnu.org/viewcvs/gcc/trunk/libgcc/config/i386/linux-unwind.h?revision=219188&view=markup
-TEXT runtime·sigreturn(SB),NOSPLIT,$0
+// https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/config/i386/linux-unwind.h;h=5486223d60272c73d5103b29ae592d2ee998e1cf#l49
+//
+// For gdb unwinding to work, this function must look precisely like the one in
+// glibc and must be named "__restore_rt" or contain the string "sigaction" in
+// the name. The gdb source code is:
+// https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=gdb/amd64-linux-tdep.c;h=cbbac1a0c64e1deb8181b9d0ff6404e328e2979d#l178
+TEXT runtime·sigreturn__sigaction(SB),NOSPLIT,$0
 	MOVQ	$SYS_rt_sigreturn, AX
 	SYSCALL
 	INT $3	// not reached
@@ -537,18 +559,30 @@ TEXT runtime·futex(SB),NOSPLIT,$0
 	RET
 
 // int32 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
-TEXT runtime·clone(SB),NOSPLIT,$0
+TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0
 	MOVL	flags+0(FP), DI
 	MOVQ	stk+8(FP), SI
 	MOVQ	$0, DX
 	MOVQ	$0, R10
-
+	MOVQ    $0, R8
 	// Copy mp, gp, fn off parent stack for use by child.
 	// Careful: Linux system call clobbers CX and R11.
-	MOVQ	mp+16(FP), R8
+	MOVQ	mp+16(FP), R13
 	MOVQ	gp+24(FP), R9
 	MOVQ	fn+32(FP), R12
-
+	CMPQ	R13, $0    // m
+	JEQ	nog1
+	CMPQ	R9, $0    // g
+	JEQ	nog1
+	LEAQ	m_tls(R13), R8
+#ifdef GOOS_android
+	// Android stores the TLS offset in runtime·tls_g.
+	SUBQ	runtime·tls_g(SB), R8
+#else
+	ADDQ	$8, R8	// ELF wants to use -8(FS)
+#endif
+	ORQ 	$0x00080000, DI //add flag CLONE_SETTLS(0x00080000) to call clone
+nog1:
 	MOVL	$SYS_clone, AX
 	SYSCALL
 
@@ -562,28 +596,25 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	MOVQ	SI, SP
 
 	// If g or m are nil, skip Go-related setup.
-	CMPQ	R8, $0    // m
-	JEQ	nog
+	CMPQ	R13, $0    // m
+	JEQ	nog2
 	CMPQ	R9, $0    // g
-	JEQ	nog
+	JEQ	nog2
 
 	// Initialize m->procid to Linux tid
 	MOVL	$SYS_gettid, AX
 	SYSCALL
-	MOVQ	AX, m_procid(R8)
-
-	// Set FS to point at m->tls.
-	LEAQ	m_tls(R8), DI
-	CALL	runtime·settls(SB)
+	MOVQ	AX, m_procid(R13)
 
 	// In child, set up new stack
 	get_tls(CX)
-	MOVQ	R8, g_m(R9)
+	MOVQ	R13, g_m(R9)
 	MOVQ	R9, g(CX)
+	MOVQ	R9, R14 // set g register
 	CALL	runtime·stackcheck(SB)
 
-nog:
-	// Call fn
+nog2:
+	// Call fn. This is the PC of an ABI0 function.
 	CALL	R12
 
 	// It shouldn't return. If it does, exit that thread.
@@ -592,7 +623,7 @@ nog:
 	SYSCALL
 	JMP	-3(PC)	// keep exiting
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT runtime·sigaltstack(SB),NOSPLIT,$0
 	MOVQ	new+0(FP), DI
 	MOVQ	old+8(FP), SI
 	MOVQ	$SYS_sigaltstack, AX
@@ -605,10 +636,8 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 // set tls base to DI
 TEXT runtime·settls(SB),NOSPLIT,$32
 #ifdef GOOS_android
-	// Same as in sys_darwin_386.s:/ugliness, different constant.
-	// DI currently holds m->tls, which must be fs:0x1d0.
-	// See cgo/gcc_android_amd64.c for the derivation of the constant.
-	SUBQ	$0x1d0, DI  // In android, the tls base
+	// Android stores the TLS offset in runtime·tls_g.
+	SUBQ	runtime·tls_g(SB), DI
 #else
 	ADDQ	$8, DI	// ELF wants to use -8(FS)
 #endif
@@ -634,56 +663,6 @@ TEXT runtime·sched_getaffinity(SB),NOSPLIT,$0
 	SYSCALL
 	MOVL	AX, ret+24(FP)
 	RET
-
-// int32 runtime·epollcreate(int32 size);
-TEXT runtime·epollcreate(SB),NOSPLIT,$0
-	MOVL    size+0(FP), DI
-	MOVL    $SYS_epoll_create, AX
-	SYSCALL
-	MOVL	AX, ret+8(FP)
-	RET
-
-// int32 runtime·epollcreate1(int32 flags);
-TEXT runtime·epollcreate1(SB),NOSPLIT,$0
-	MOVL	flags+0(FP), DI
-	MOVL	$SYS_epoll_create1, AX
-	SYSCALL
-	MOVL	AX, ret+8(FP)
-	RET
-
-// func epollctl(epfd, op, fd int32, ev *epollEvent) int
-TEXT runtime·epollctl(SB),NOSPLIT,$0
-	MOVL	epfd+0(FP), DI
-	MOVL	op+4(FP), SI
-	MOVL	fd+8(FP), DX
-	MOVQ	ev+16(FP), R10
-	MOVL	$SYS_epoll_ctl, AX
-	SYSCALL
-	MOVL	AX, ret+24(FP)
-	RET
-
-// int32 runtime·epollwait(int32 epfd, EpollEvent *ev, int32 nev, int32 timeout);
-TEXT runtime·epollwait(SB),NOSPLIT,$0
-	// This uses pwait instead of wait, because Android O blocks wait.
-	MOVL	epfd+0(FP), DI
-	MOVQ	ev+8(FP), SI
-	MOVL	nev+16(FP), DX
-	MOVL	timeout+20(FP), R10
-	MOVQ	$0, R8
-	MOVL	$SYS_epoll_pwait, AX
-	SYSCALL
-	MOVL	AX, ret+24(FP)
-	RET
-
-// void runtime·closeonexec(int32 fd);
-TEXT runtime·closeonexec(SB),NOSPLIT,$0
-	MOVL    fd+0(FP), DI  // fd
-	MOVQ    $2, SI  // F_SETFD
-	MOVQ    $1, DX  // FD_CLOEXEC
-	MOVL	$SYS_fcntl, AX
-	SYSCALL
-	RET
-
 
 // int access(const char *name, int mode)
 TEXT runtime·access(SB),NOSPLIT,$0

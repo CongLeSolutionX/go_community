@@ -149,7 +149,7 @@ func (b *builder) branchStmt(s *ast.BranchStmt) {
 		}
 
 	case token.FALLTHROUGH:
-		for t := b.targets; t != nil; t = t.tail {
+		for t := b.targets; t != nil && block == nil; t = t.tail {
 			block = t._fallthrough
 		}
 
@@ -443,7 +443,6 @@ func (b *builder) rangeStmt(s *ast.RangeStmt, label *lblock) {
 // Destinations associated with unlabeled for/switch/select stmts.
 // We push/pop one of these as we enter/leave each construct and for
 // each BranchStmt we scan for the innermost target of the right type.
-//
 type targets struct {
 	tail         *targets // rest of stack
 	_break       *Block
@@ -454,7 +453,6 @@ type targets struct {
 // Destinations associated with a labeled block.
 // We populate these as labels are encountered in forward gotos or
 // labeled statements.
-//
 type lblock struct {
 	_goto     *Block
 	_break    *Block
@@ -463,7 +461,6 @@ type lblock struct {
 
 // labeledBlock returns the branch target associated with the
 // specified label, creating it if needed.
-//
 func (b *builder) labeledBlock(label *ast.Ident) *lblock {
 	lb := b.lblocks[label.Obj]
 	if lb == nil {

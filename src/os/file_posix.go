@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build aix darwin dragonfly freebsd js,wasm linux nacl netbsd openbsd solaris windows
+//go:build unix || (js && wasm) || wasip1 || windows
 
 package os
 
@@ -12,25 +12,48 @@ import (
 	"time"
 )
 
-func sigpipe() // implemented in package runtime
-
-// Readlink returns the destination of the named symbolic link.
-// If there is an error, it will be of type *PathError.
-func Readlink(name string) (string, error) {
-	for len := 128; ; len *= 2 {
-		b := make([]byte, len)
-		n, e := fixCount(syscall.Readlink(fixLongPath(name), b))
-		// buffer too small
-		if runtime.GOOS == "aix" && e == syscall.ERANGE {
-			continue
-		}
-		if e != nil {
-			return "", &PathError{"readlink", name, e}
-		}
-		if n < len {
-			return string(b[0:n]), nil
-		}
+// Close closes the File, rendering it unusable for I/O.
+// On files that support SetDeadline, any pending I/O operations will
+// be canceled and return immediately with an ErrClosed error.
+// Close will return an error if it has already been called.
+func (f *File) Close() error {
+	if f == nil {
+		return ErrInvalid
 	}
+	return f.file.close()
+}
+
+// read reads up to len(b) bytes from the File.
+// It returns the number of bytes read and an error, if any.
+func (f *File) read(b []byte) (n int, err error) {
+	n, err = f.pfd.Read(b)
+	runtime.KeepAlive(f)
+	return n, err
+}
+
+// pread reads len(b) bytes from the File starting at byte offset off.
+// It returns the number of bytes read and the error, if any.
+// EOF is signaled by a zero count with err set to nil.
+func (f *File) pread(b []byte, off int64) (n int, err error) {
+	n, err = f.pfd.Pread(b, off)
+	runtime.KeepAlive(f)
+	return n, err
+}
+
+// write writes len(b) bytes to the File.
+// It returns the number of bytes written and an error, if any.
+func (f *File) write(b []byte) (n int, err error) {
+	n, err = f.pfd.Write(b)
+	runtime.KeepAlive(f)
+	return n, err
+}
+
+// pwrite writes len(b) bytes to the File starting at byte offset off.
+// It returns the number of bytes written and an error, if any.
+func (f *File) pwrite(b []byte, off int64) (n int, err error) {
+	n, err = f.pfd.Pwrite(b, off)
+	runtime.KeepAlive(f)
+	return n, err
 }
 
 // syscallMode returns the syscall-specific mode bits from Go's portable mode bits.
@@ -51,8 +74,12 @@ func syscallMode(i FileMode) (o uint32) {
 
 // See docs in file.go:Chmod.
 func chmod(name string, mode FileMode) error {
-	if e := syscall.Chmod(fixLongPath(name), syscallMode(mode)); e != nil {
-		return &PathError{"chmod", name, e}
+	longName := fixLongPath(name)
+	e := ignoringEINTR(func() error {
+		return syscall.Chmod(longName, syscallMode(mode))
+	})
+	if e != nil {
+		return &PathError{Op: "chmod", Path: name, Err: e}
 	}
 	return nil
 }
@@ -76,8 +103,11 @@ func (f *File) chmod(mode FileMode) error {
 // On Windows or Plan 9, Chown always returns the syscall.EWINDOWS or
 // EPLAN9 error, wrapped in *PathError.
 func Chown(name string, uid, gid int) error {
-	if e := syscall.Chown(name, uid, gid); e != nil {
-		return &PathError{"chown", name, e}
+	e := ignoringEINTR(func() error {
+		return syscall.Chown(name, uid, gid)
+	})
+	if e != nil {
+		return &PathError{Op: "chown", Path: name, Err: e}
 	}
 	return nil
 }
@@ -89,8 +119,11 @@ func Chown(name string, uid, gid int) error {
 // On Windows, it always returns the syscall.EWINDOWS error, wrapped
 // in *PathError.
 func Lchown(name string, uid, gid int) error {
-	if e := syscall.Lchown(name, uid, gid); e != nil {
-		return &PathError{"lchown", name, e}
+	e := ignoringEINTR(func() error {
+		return syscall.Lchown(name, uid, gid)
+	})
+	if e != nil {
+		return &PathError{Op: "lchown", Path: name, Err: e}
 	}
 	return nil
 }
@@ -138,16 +171,24 @@ func (f *File) Sync() error {
 
 // Chtimes changes the access and modification times of the named
 // file, similar to the Unix utime() or utimes() functions.
+// A zero time.Time value will leave the corresponding file time unchanged.
 //
 // The underlying filesystem may truncate or round the values to a
 // less precise time unit.
 // If there is an error, it will be of type *PathError.
 func Chtimes(name string, atime time.Time, mtime time.Time) error {
 	var utimes [2]syscall.Timespec
-	utimes[0] = syscall.NsecToTimespec(atime.UnixNano())
-	utimes[1] = syscall.NsecToTimespec(mtime.UnixNano())
+	set := func(i int, t time.Time) {
+		if t.IsZero() {
+			utimes[i] = syscall.Timespec{Sec: _UTIME_OMIT, Nsec: _UTIME_OMIT}
+		} else {
+			utimes[i] = syscall.NsecToTimespec(t.UnixNano())
+		}
+	}
+	set(0, atime)
+	set(1, mtime)
 	if e := syscall.UtimesNano(fixLongPath(name), utimes[0:]); e != nil {
-		return &PathError{"chtimes", name, e}
+		return &PathError{Op: "chtimes", Path: name, Err: e}
 	}
 	return nil
 }
@@ -196,4 +237,20 @@ func (f *File) checkValid(op string) error {
 		return ErrInvalid
 	}
 	return nil
+}
+
+// ignoringEINTR makes a function call and repeats it if it returns an
+// EINTR error. This appears to be required even though we install all
+// signal handlers with SA_RESTART: see #22838, #38033, #38836, #40846.
+// Also #20400 and #36644 are issues in which a signal handler is
+// installed without setting SA_RESTART. None of these are the common case,
+// but there are enough of them that it seems that we can't avoid
+// an EINTR loop.
+func ignoringEINTR(fn func() error) error {
+	for {
+		err := fn()
+		if err != syscall.EINTR {
+			return err
+		}
+	}
 }

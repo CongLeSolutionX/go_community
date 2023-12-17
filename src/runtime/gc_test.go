@@ -6,10 +6,14 @@ package runtime_test
 
 import (
 	"fmt"
+	"internal/goexperiment"
+	"math/rand"
 	"os"
 	"reflect"
 	"runtime"
 	"runtime/debug"
+	"sort"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -18,14 +22,9 @@ import (
 )
 
 func TestGcSys(t *testing.T) {
+	t.Skip("skipping known-flaky test; golang.org/issue/37331")
 	if os.Getenv("GOGC") == "off" {
 		t.Skip("skipping test; GOGC=off in environment")
-	}
-	if runtime.GOOS == "windows" {
-		t.Skip("skipping test; GOOS=windows http://golang.org/issue/27156")
-	}
-	if runtime.GOOS == "linux" && runtime.GOARCH == "arm64" {
-		t.Skip("skipping test; GOOS=linux GOARCH=arm64 https://github.com/golang/go/issues/27636")
 	}
 	got := runTestProg(t, "testprog", "GCSys")
 	want := "OK\n"
@@ -138,7 +137,7 @@ func TestGcLastTime(t *testing.T) {
 	}
 }
 
-var hugeSink interface{}
+var hugeSink any
 
 func TestHugeGCInfo(t *testing.T) {
 	// The test ensures that compiler can chew these huge types even on weakest machines.
@@ -196,36 +195,149 @@ func TestPeriodicGC(t *testing.T) {
 	}
 }
 
+func TestGcZombieReporting(t *testing.T) {
+	// This test is somewhat sensitive to how the allocator works.
+	// Pointers in zombies slice may cross-span, thus we
+	// add invalidptr=0 for avoiding the badPointer check.
+	// See issue https://golang.org/issues/49613/
+	got := runTestProg(t, "testprog", "GCZombie", "GODEBUG=invalidptr=0")
+	want := "found pointer to free object"
+	if !strings.Contains(got, want) {
+		t.Fatalf("expected %q in output, but got %q", want, got)
+	}
+}
+
+func TestGCTestMoveStackOnNextCall(t *testing.T) {
+	t.Parallel()
+	var onStack int
+	// GCTestMoveStackOnNextCall can fail in rare cases if there's
+	// a preemption. This won't happen many times in quick
+	// succession, so just retry a few times.
+	for retry := 0; retry < 5; retry++ {
+		runtime.GCTestMoveStackOnNextCall()
+		if moveStackCheck(t, &onStack, uintptr(unsafe.Pointer(&onStack))) {
+			// Passed.
+			return
+		}
+	}
+	t.Fatal("stack did not move")
+}
+
+// This must not be inlined because the point is to force a stack
+// growth check and move the stack.
+//
+//go:noinline
+func moveStackCheck(t *testing.T, new *int, old uintptr) bool {
+	// new should have been updated by the stack move;
+	// old should not have.
+
+	// Capture new's value before doing anything that could
+	// further move the stack.
+	new2 := uintptr(unsafe.Pointer(new))
+
+	t.Logf("old stack pointer %x, new stack pointer %x", old, new2)
+	if new2 == old {
+		// Check that we didn't screw up the test's escape analysis.
+		if cls := runtime.GCTestPointerClass(unsafe.Pointer(new)); cls != "stack" {
+			t.Fatalf("test bug: new (%#x) should be a stack pointer, not %s", new2, cls)
+		}
+		// This was a real failure.
+		return false
+	}
+	return true
+}
+
+func TestGCTestMoveStackRepeatedly(t *testing.T) {
+	// Move the stack repeatedly to make sure we're not doubling
+	// it each time.
+	for i := 0; i < 100; i++ {
+		runtime.GCTestMoveStackOnNextCall()
+		moveStack1(false)
+	}
+}
+
+//go:noinline
+func moveStack1(x bool) {
+	// Make sure this function doesn't get auto-nosplit.
+	if x {
+		println("x")
+	}
+}
+
+func TestGCTestIsReachable(t *testing.T) {
+	var all, half []unsafe.Pointer
+	var want uint64
+	for i := 0; i < 16; i++ {
+		// The tiny allocator muddies things, so we use a
+		// scannable type.
+		p := unsafe.Pointer(new(*int))
+		all = append(all, p)
+		if i%2 == 0 {
+			half = append(half, p)
+			want |= 1 << i
+		}
+	}
+
+	got := runtime.GCTestIsReachable(all...)
+	if want != got {
+		t.Fatalf("did not get expected reachable set; want %b, got %b", want, got)
+	}
+	runtime.KeepAlive(half)
+}
+
+var pointerClassBSS *int
+var pointerClassData = 42
+
+func TestGCTestPointerClass(t *testing.T) {
+	t.Parallel()
+	check := func(p unsafe.Pointer, want string) {
+		t.Helper()
+		got := runtime.GCTestPointerClass(p)
+		if got != want {
+			// Convert the pointer to a uintptr to avoid
+			// escaping it.
+			t.Errorf("for %#x, want class %s, got %s", uintptr(p), want, got)
+		}
+	}
+	var onStack int
+	var notOnStack int
+	check(unsafe.Pointer(&onStack), "stack")
+	check(unsafe.Pointer(runtime.Escape(&notOnStack)), "heap")
+	check(unsafe.Pointer(&pointerClassBSS), "bss")
+	check(unsafe.Pointer(&pointerClassData), "data")
+	check(nil, "other")
+}
+
 func BenchmarkSetTypePtr(b *testing.B) {
-	benchSetType(b, new(*byte))
+	benchSetType[*byte](b)
 }
 
 func BenchmarkSetTypePtr8(b *testing.B) {
-	benchSetType(b, new([8]*byte))
+	benchSetType[[8]*byte](b)
 }
 
 func BenchmarkSetTypePtr16(b *testing.B) {
-	benchSetType(b, new([16]*byte))
+	benchSetType[[16]*byte](b)
 }
 
 func BenchmarkSetTypePtr32(b *testing.B) {
-	benchSetType(b, new([32]*byte))
+	benchSetType[[32]*byte](b)
 }
 
 func BenchmarkSetTypePtr64(b *testing.B) {
-	benchSetType(b, new([64]*byte))
+	benchSetType[[64]*byte](b)
 }
 
 func BenchmarkSetTypePtr126(b *testing.B) {
-	benchSetType(b, new([126]*byte))
+	benchSetType[[126]*byte](b)
 }
 
 func BenchmarkSetTypePtr128(b *testing.B) {
-	benchSetType(b, new([128]*byte))
+	benchSetType[[128]*byte](b)
 }
 
 func BenchmarkSetTypePtrSlice(b *testing.B) {
-	benchSetType(b, make([]*byte, 1<<10))
+	benchSetTypeSlice[*byte](b, 1<<10)
 }
 
 type Node1 struct {
@@ -234,11 +346,11 @@ type Node1 struct {
 }
 
 func BenchmarkSetTypeNode1(b *testing.B) {
-	benchSetType(b, new(Node1))
+	benchSetType[Node1](b)
 }
 
 func BenchmarkSetTypeNode1Slice(b *testing.B) {
-	benchSetType(b, make([]Node1, 32))
+	benchSetTypeSlice[Node1](b, 32)
 }
 
 type Node8 struct {
@@ -247,11 +359,11 @@ type Node8 struct {
 }
 
 func BenchmarkSetTypeNode8(b *testing.B) {
-	benchSetType(b, new(Node8))
+	benchSetType[Node8](b)
 }
 
 func BenchmarkSetTypeNode8Slice(b *testing.B) {
-	benchSetType(b, make([]Node8, 32))
+	benchSetTypeSlice[Node8](b, 32)
 }
 
 type Node64 struct {
@@ -260,11 +372,11 @@ type Node64 struct {
 }
 
 func BenchmarkSetTypeNode64(b *testing.B) {
-	benchSetType(b, new(Node64))
+	benchSetType[Node64](b)
 }
 
 func BenchmarkSetTypeNode64Slice(b *testing.B) {
-	benchSetType(b, make([]Node64, 32))
+	benchSetTypeSlice[Node64](b, 32)
 }
 
 type Node64Dead struct {
@@ -273,11 +385,11 @@ type Node64Dead struct {
 }
 
 func BenchmarkSetTypeNode64Dead(b *testing.B) {
-	benchSetType(b, new(Node64Dead))
+	benchSetType[Node64Dead](b)
 }
 
 func BenchmarkSetTypeNode64DeadSlice(b *testing.B) {
-	benchSetType(b, make([]Node64Dead, 32))
+	benchSetTypeSlice[Node64Dead](b, 32)
 }
 
 type Node124 struct {
@@ -286,11 +398,11 @@ type Node124 struct {
 }
 
 func BenchmarkSetTypeNode124(b *testing.B) {
-	benchSetType(b, new(Node124))
+	benchSetType[Node124](b)
 }
 
 func BenchmarkSetTypeNode124Slice(b *testing.B) {
-	benchSetType(b, make([]Node124, 32))
+	benchSetTypeSlice[Node124](b, 32)
 }
 
 type Node126 struct {
@@ -299,11 +411,11 @@ type Node126 struct {
 }
 
 func BenchmarkSetTypeNode126(b *testing.B) {
-	benchSetType(b, new(Node126))
+	benchSetType[Node126](b)
 }
 
 func BenchmarkSetTypeNode126Slice(b *testing.B) {
-	benchSetType(b, make([]Node126, 32))
+	benchSetTypeSlice[Node126](b, 32)
 }
 
 type Node128 struct {
@@ -312,11 +424,11 @@ type Node128 struct {
 }
 
 func BenchmarkSetTypeNode128(b *testing.B) {
-	benchSetType(b, new(Node128))
+	benchSetType[Node128](b)
 }
 
 func BenchmarkSetTypeNode128Slice(b *testing.B) {
-	benchSetType(b, make([]Node128, 32))
+	benchSetTypeSlice[Node128](b, 32)
 }
 
 type Node130 struct {
@@ -325,11 +437,11 @@ type Node130 struct {
 }
 
 func BenchmarkSetTypeNode130(b *testing.B) {
-	benchSetType(b, new(Node130))
+	benchSetType[Node130](b)
 }
 
 func BenchmarkSetTypeNode130Slice(b *testing.B) {
-	benchSetType(b, make([]Node130, 32))
+	benchSetTypeSlice[Node130](b, 32)
 }
 
 type Node1024 struct {
@@ -338,24 +450,27 @@ type Node1024 struct {
 }
 
 func BenchmarkSetTypeNode1024(b *testing.B) {
-	benchSetType(b, new(Node1024))
+	benchSetType[Node1024](b)
 }
 
 func BenchmarkSetTypeNode1024Slice(b *testing.B) {
-	benchSetType(b, make([]Node1024, 32))
+	benchSetTypeSlice[Node1024](b, 32)
 }
 
-func benchSetType(b *testing.B, x interface{}) {
-	v := reflect.ValueOf(x)
-	t := v.Type()
-	switch t.Kind() {
-	case reflect.Ptr:
-		b.SetBytes(int64(t.Elem().Size()))
-	case reflect.Slice:
-		b.SetBytes(int64(t.Elem().Size()) * int64(v.Len()))
+func benchSetType[T any](b *testing.B) {
+	if goexperiment.AllocHeaders {
+		b.Skip("not supported with allocation headers experiment")
 	}
-	b.ResetTimer()
-	runtime.BenchSetType(b.N, x)
+	b.SetBytes(int64(unsafe.Sizeof(*new(T))))
+	runtime.BenchSetType[T](b.N, b.ResetTimer)
+}
+
+func benchSetTypeSlice[T any](b *testing.B, len int) {
+	if goexperiment.AllocHeaders {
+		b.Skip("not supported with allocation headers experiment")
+	}
+	b.SetBytes(int64(unsafe.Sizeof(*new(T)) * uintptr(len)))
+	runtime.BenchSetTypeSlice[T](b.N, b.ResetTimer, len)
 }
 
 func BenchmarkAllocation(b *testing.B) {
@@ -411,7 +526,7 @@ func TestPrintGC(t *testing.T) {
 	close(done)
 }
 
-func testTypeSwitch(x interface{}) error {
+func testTypeSwitch(x any) error {
 	switch y := x.(type) {
 	case nil:
 		// ok
@@ -421,14 +536,14 @@ func testTypeSwitch(x interface{}) error {
 	return nil
 }
 
-func testAssert(x interface{}) error {
+func testAssert(x any) error {
 	if y, ok := x.(error); ok {
 		return y
 	}
 	return nil
 }
 
-func testAssertVar(x interface{}) error {
+func testAssertVar(x any) error {
 	var y, ok = x.(error)
 	if ok {
 		return y
@@ -439,7 +554,7 @@ func testAssertVar(x interface{}) error {
 var a bool
 
 //go:noinline
-func testIfaceEqual(x interface{}) {
+func testIfaceEqual(x any) {
 	if x == "abc" {
 		a = true
 	}
@@ -460,6 +575,11 @@ func TestPageAccounting(t *testing.T) {
 	if pagesInUse != counted {
 		t.Fatalf("mheap_.pagesInUse is %d, but direct count is %d", pagesInUse, counted)
 	}
+}
+
+func init() {
+	// Enable ReadMemStats' double-check mode.
+	*runtime.DoubleCheckReadMemStats = true
 }
 
 func TestReadMemStats(t *testing.T) {
@@ -502,14 +622,104 @@ func BenchmarkReadMemStats(b *testing.B) {
 	for i := range x {
 		x[i] = new([1024]byte)
 	}
-	hugeSink = x
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		runtime.ReadMemStats(&ms)
 	}
 
-	hugeSink = nil
+	runtime.KeepAlive(x)
+}
+
+func applyGCLoad(b *testing.B) func() {
+	// We’ll apply load to the runtime with maxProcs-1 goroutines
+	// and use one more to actually benchmark. It doesn't make sense
+	// to try to run this test with only 1 P (that's what
+	// BenchmarkReadMemStats is for).
+	maxProcs := runtime.GOMAXPROCS(-1)
+	if maxProcs == 1 {
+		b.Skip("This benchmark can only be run with GOMAXPROCS > 1")
+	}
+
+	// Code to build a big tree with lots of pointers.
+	type node struct {
+		children [16]*node
+	}
+	var buildTree func(depth int) *node
+	buildTree = func(depth int) *node {
+		tree := new(node)
+		if depth != 0 {
+			for i := range tree.children {
+				tree.children[i] = buildTree(depth - 1)
+			}
+		}
+		return tree
+	}
+
+	// Keep the GC busy by continuously generating large trees.
+	done := make(chan struct{})
+	var wg sync.WaitGroup
+	for i := 0; i < maxProcs-1; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			var hold *node
+		loop:
+			for {
+				hold = buildTree(5)
+				select {
+				case <-done:
+					break loop
+				default:
+				}
+			}
+			runtime.KeepAlive(hold)
+		}()
+	}
+	return func() {
+		close(done)
+		wg.Wait()
+	}
+}
+
+func BenchmarkReadMemStatsLatency(b *testing.B) {
+	stop := applyGCLoad(b)
+
+	// Spend this much time measuring latencies.
+	latencies := make([]time.Duration, 0, 1024)
+
+	// Run for timeToBench hitting ReadMemStats continuously
+	// and measuring the latency.
+	b.ResetTimer()
+	var ms runtime.MemStats
+	for i := 0; i < b.N; i++ {
+		// Sleep for a bit, otherwise we're just going to keep
+		// stopping the world and no one will get to do anything.
+		time.Sleep(100 * time.Millisecond)
+		start := time.Now()
+		runtime.ReadMemStats(&ms)
+		latencies = append(latencies, time.Since(start))
+	}
+	// Make sure to stop the timer before we wait! The load created above
+	// is very heavy-weight and not easy to stop, so we could end up
+	// confusing the benchmarking framework for small b.N.
+	b.StopTimer()
+	stop()
+
+	// Disable the default */op metrics.
+	// ns/op doesn't mean anything because it's an average, but we
+	// have a sleep in our b.N loop above which skews this significantly.
+	b.ReportMetric(0, "ns/op")
+	b.ReportMetric(0, "B/op")
+	b.ReportMetric(0, "allocs/op")
+
+	// Sort latencies then report percentiles.
+	sort.Slice(latencies, func(i, j int) bool {
+		return latencies[i] < latencies[j]
+	})
+	b.ReportMetric(float64(latencies[len(latencies)*50/100]), "p50-ns")
+	b.ReportMetric(float64(latencies[len(latencies)*90/100]), "p90-ns")
+	b.ReportMetric(float64(latencies[len(latencies)*99/100]), "p99-ns")
 }
 
 func TestUserForcedGC(t *testing.T) {
@@ -672,6 +882,28 @@ func BenchmarkScanStackNoLocals(b *testing.B) {
 	close(teardown)
 }
 
+func BenchmarkMSpanCountAlloc(b *testing.B) {
+	// Allocate one dummy mspan for the whole benchmark.
+	s := runtime.AllocMSpan()
+	defer runtime.FreeMSpan(s)
+
+	// n is the number of bytes to benchmark against.
+	// n must always be a multiple of 8, since gcBits is
+	// always rounded up 8 bytes.
+	for _, n := range []int{8, 16, 32, 64, 128} {
+		b.Run(fmt.Sprintf("bits=%d", n*8), func(b *testing.B) {
+			// Initialize a new byte slice with pseduo-random data.
+			bits := make([]byte, n)
+			rand.Read(bits)
+
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				runtime.MSpanCountAlloc(s, bits)
+			}
+		})
+	}
+}
+
 func countpwg(n *int, ready *sync.WaitGroup, teardown chan bool) {
 	if *n == 0 {
 		ready.Done()
@@ -680,4 +912,36 @@ func countpwg(n *int, ready *sync.WaitGroup, teardown chan bool) {
 	}
 	*n--
 	countpwg(n, ready, teardown)
+}
+
+func TestMemoryLimit(t *testing.T) {
+	if testing.Short() {
+		t.Skip("stress test that takes time to run")
+	}
+	if runtime.NumCPU() < 4 {
+		t.Skip("want at least 4 CPUs for this test")
+	}
+	got := runTestProg(t, "testprog", "GCMemoryLimit")
+	want := "OK\n"
+	if got != want {
+		t.Fatalf("expected %q, but got %q", want, got)
+	}
+}
+
+func TestMemoryLimitNoGCPercent(t *testing.T) {
+	if testing.Short() {
+		t.Skip("stress test that takes time to run")
+	}
+	if runtime.NumCPU() < 4 {
+		t.Skip("want at least 4 CPUs for this test")
+	}
+	got := runTestProg(t, "testprog", "GCMemoryLimitNoGCPercent")
+	want := "OK\n"
+	if got != want {
+		t.Fatalf("expected %q, but got %q", want, got)
+	}
+}
+
+func TestMyGenericFunc(t *testing.T) {
+	runtime.MyGenericFunc[int]()
 }

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build aix darwin nacl netbsd openbsd plan9 solaris windows
+//go:build aix || darwin || netbsd || openbsd || plan9 || solaris || windows
 
 package runtime
 
@@ -23,7 +23,6 @@ import (
 //
 //	func semawakeup(mp *m)
 //		Wake up mp, which is or will soon be sleeping on its semaphore.
-//
 const (
 	locked uintptr = 1
 
@@ -32,7 +31,15 @@ const (
 	passive_spin    = 1
 )
 
+func mutexContended(l *mutex) bool {
+	return atomic.Loaduintptr(&l.key) > locked
+}
+
 func lock(l *mutex) {
+	lockWithRank(l, getLockRank(l))
+}
+
+func lock2(l *mutex) {
 	gp := getg()
 	if gp.m.locks < 0 {
 		throw("runtime·lock: lock count")
@@ -45,6 +52,8 @@ func lock(l *mutex) {
 	}
 	semacreate(gp.m)
 
+	timer := &lockTimer{lock: l}
+	timer.begin()
 	// On uniprocessor's, no point spinning.
 	// On multiprocessors, spin for ACTIVE_SPIN attempts.
 	spin := 0
@@ -57,6 +66,7 @@ Loop:
 		if v&locked == 0 {
 			// Unlocked. Try to lock.
 			if atomic.Casuintptr(&l.key, v, v|locked) {
+				timer.end()
 				return
 			}
 			i = 0
@@ -89,9 +99,14 @@ Loop:
 	}
 }
 
-//go:nowritebarrier
-// We might not be holding a p in this code.
 func unlock(l *mutex) {
+	unlockWithRank(l)
+}
+
+// We might not be holding a p in this code.
+//
+//go:nowritebarrier
+func unlock2(l *mutex) {
 	gp := getg()
 	var mp *m
 	for {
@@ -111,6 +126,7 @@ func unlock(l *mutex) {
 			}
 		}
 	}
+	gp.m.mLockProfile.recordUnlock(l)
 	gp.m.locks--
 	if gp.m.locks < 0 {
 		throw("runtime·unlock: lock count")
@@ -262,7 +278,7 @@ func notetsleep_internal(n *note, ns int64, gp *g, deadline int64) bool {
 
 func notetsleep(n *note, ns int64) bool {
 	gp := getg()
-	if gp != gp.m.g0 && gp.m.preemptoff != "" {
+	if gp != gp.m.g0 {
 		throw("notetsleep not on g0")
 	}
 	semacreate(gp.m)
@@ -270,7 +286,7 @@ func notetsleep(n *note, ns int64) bool {
 }
 
 // same as runtime·notetsleep, but called on user g (not g0)
-// calls only nosplit functions between entersyscallblock/exitsyscall
+// calls only nosplit functions between entersyscallblock/exitsyscall.
 func notetsleepg(n *note, ns int64) bool {
 	gp := getg()
 	if gp == gp.m.g0 {
@@ -283,8 +299,8 @@ func notetsleepg(n *note, ns int64) bool {
 	return ok
 }
 
-func beforeIdle() bool {
-	return false
+func beforeIdle(int64, int64) (*g, bool) {
+	return nil, false
 }
 
 func checkTimeouts() {}

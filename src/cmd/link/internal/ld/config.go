@@ -5,10 +5,9 @@
 package ld
 
 import (
-	"cmd/internal/objabi"
-	"cmd/internal/sys"
 	"fmt"
-	"log"
+	"internal/buildcfg"
+	"internal/platform"
 )
 
 // A BuildMode indicates the sort of object we are building.
@@ -27,90 +26,40 @@ const (
 	BuildModePlugin
 )
 
+// Set implements flag.Value to set the build mode based on the argument
+// to the -buildmode flag.
 func (mode *BuildMode) Set(s string) error {
-	badmode := func() error {
-		return fmt.Errorf("buildmode %s not supported on %s/%s", s, objabi.GOOS, objabi.GOARCH)
-	}
 	switch s {
 	default:
 		return fmt.Errorf("invalid buildmode: %q", s)
 	case "exe":
-		*mode = BuildModeExe
-	case "pie":
-		switch objabi.GOOS {
-		case "android", "linux":
-		case "darwin", "freebsd":
-			switch objabi.GOARCH {
-			case "amd64":
-			default:
-				return badmode()
-			}
+		switch buildcfg.GOOS + "/" + buildcfg.GOARCH {
+		case "darwin/arm64", "windows/arm", "windows/arm64": // On these platforms, everything is PIE
+			*mode = BuildModePIE
 		default:
-			return badmode()
+			*mode = BuildModeExe
 		}
+	case "pie":
 		*mode = BuildModePIE
 	case "c-archive":
-		switch objabi.GOOS {
-		case "darwin", "linux":
-		case "freebsd":
-			switch objabi.GOARCH {
-			case "amd64":
-			default:
-				return badmode()
-			}
-		case "windows":
-			switch objabi.GOARCH {
-			case "amd64", "386", "arm":
-			default:
-				return badmode()
-			}
-		default:
-			return badmode()
-		}
 		*mode = BuildModeCArchive
 	case "c-shared":
-		switch objabi.GOARCH {
-		case "386", "amd64", "arm", "arm64", "ppc64le", "s390x":
-		default:
-			return badmode()
-		}
 		*mode = BuildModeCShared
 	case "shared":
-		switch objabi.GOOS {
-		case "linux":
-			switch objabi.GOARCH {
-			case "386", "amd64", "arm", "arm64", "ppc64le", "s390x":
-			default:
-				return badmode()
-			}
-		default:
-			return badmode()
-		}
 		*mode = BuildModeShared
 	case "plugin":
-		switch objabi.GOOS {
-		case "linux":
-			switch objabi.GOARCH {
-			case "386", "amd64", "arm", "arm64", "s390x", "ppc64le":
-			default:
-				return badmode()
-			}
-		case "darwin":
-			switch objabi.GOARCH {
-			case "amd64":
-			default:
-				return badmode()
-			}
-		default:
-			return badmode()
-		}
 		*mode = BuildModePlugin
 	}
+
+	if !platform.BuildModeSupported("gc", s, buildcfg.GOOS, buildcfg.GOARCH) {
+		return fmt.Errorf("buildmode %s not supported on %s/%s", s, buildcfg.GOOS, buildcfg.GOARCH)
+	}
+
 	return nil
 }
 
-func (mode *BuildMode) String() string {
-	switch *mode {
+func (mode BuildMode) String() string {
+	switch mode {
 	case BuildModeUnset:
 		return "" // avoid showing a default in usage message
 	case BuildModeExe:
@@ -126,7 +75,7 @@ func (mode *BuildMode) String() string {
 	case BuildModePlugin:
 		return "plugin"
 	}
-	return fmt.Sprintf("BuildMode(%d)", uint8(*mode))
+	return fmt.Sprintf("BuildMode(%d)", uint8(mode))
 }
 
 // LinkMode indicates whether an external linker is used for the final link.
@@ -170,37 +119,25 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	if ctxt.Debugvlog > 1 {
 		defer func() {
 			if res {
-				log.Printf("external linking is forced by: %s\n", reason)
+				ctxt.Logf("external linking is forced by: %s\n", reason)
 			}
 		}()
 	}
 
-	switch objabi.GOOS {
-	case "android":
-		return true, "android"
-	case "darwin":
-		if ctxt.Arch.InFamily(sys.ARM, sys.ARM64) {
-			return true, "iOS"
-		}
+	if platform.MustLinkExternal(buildcfg.GOOS, buildcfg.GOARCH, false) {
+		return true, fmt.Sprintf("%s/%s requires external linking", buildcfg.GOOS, buildcfg.GOARCH)
 	}
 
 	if *flagMsan {
 		return true, "msan"
 	}
 
-	// Internally linking cgo is incomplete on some architectures.
-	// https://golang.org/issue/10373
-	// https://golang.org/issue/14449
-	// https://golang.org/issue/21961
-	if iscgo && ctxt.Arch.InFamily(sys.ARM64, sys.MIPS64, sys.MIPS, sys.PPC64) {
-		return true, objabi.GOARCH + " does not support internal cgo"
+	if *flagAsan {
+		return true, "asan"
 	}
 
-	// When the race flag is set, the LLVM tsan relocatable file is linked
-	// into the final binary, which means external linking is required because
-	// internal linking does not support it.
-	if *flagRace && ctxt.Arch.InFamily(sys.PPC64, sys.ARM64) {
-		return true, "race on " + objabi.GOARCH
+	if iscgo && platform.MustLinkExternal(buildcfg.GOOS, buildcfg.GOARCH, true) {
+		return true, buildcfg.GOARCH + " does not support internal cgo"
 	}
 
 	// Some build modes require work the internal linker cannot do (yet).
@@ -210,9 +147,7 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	case BuildModeCShared:
 		return true, "buildmode=c-shared"
 	case BuildModePIE:
-		switch objabi.GOOS + "/" + objabi.GOARCH {
-		case "linux/amd64":
-		default:
+		if !platform.InternalLinkPIESupported(buildcfg.GOOS, buildcfg.GOARCH) {
 			// Internal linking does not support TLS_IE.
 			return true, "buildmode=pie"
 		}
@@ -225,6 +160,19 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 		return true, "dynamically linking with a shared library"
 	}
 
+	if unknownObjFormat {
+		return true, "some input objects have an unrecognized file format"
+	}
+
+	if len(dynimportfail) > 0 {
+		// This error means that we were unable to generate
+		// the _cgo_import.go file for some packages.
+		// This typically means that there are some dependencies
+		// that the cgo tool could not figure out.
+		// See issue #52863.
+		return true, fmt.Sprintf("some packages could not be built to support internal linking (%v)", dynimportfail)
+	}
+
 	return false, ""
 }
 
@@ -232,46 +180,45 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 //
 // It is called after flags are processed and inputs are processed,
 // so the ctxt.LinkMode variable has an initial value from the -linkmode
-// flag and the iscgo externalobj variables are set.
+// flag and the iscgo, externalobj, and unknownObjFormat variables are set.
 func determineLinkMode(ctxt *Link) {
-	switch ctxt.LinkMode {
-	case LinkAuto:
+	extNeeded, extReason := mustLinkExternal(ctxt)
+	via := ""
+
+	if ctxt.LinkMode == LinkAuto {
 		// The environment variable GO_EXTLINK_ENABLED controls the
 		// default value of -linkmode. If it is not set when the
 		// linker is called we take the value it was set to when
 		// cmd/link was compiled. (See make.bash.)
-		switch objabi.Getgoextlinkenabled() {
+		switch buildcfg.Getgoextlinkenabled() {
 		case "0":
-			if needed, reason := mustLinkExternal(ctxt); needed {
-				Exitf("internal linking requested via GO_EXTLINK_ENABLED, but external linking required: %s", reason)
-			}
 			ctxt.LinkMode = LinkInternal
+			via = "via GO_EXTLINK_ENABLED "
 		case "1":
-			if objabi.GOARCH == "ppc64" {
-				Exitf("external linking requested via GO_EXTLINK_ENABLED but not supported for %s/ppc64", objabi.GOOS)
-			}
 			ctxt.LinkMode = LinkExternal
+			via = "via GO_EXTLINK_ENABLED "
 		default:
-			if needed, _ := mustLinkExternal(ctxt); needed {
+			preferExternal := len(preferlinkext) != 0
+			if preferExternal && ctxt.Debugvlog > 0 {
+				ctxt.Logf("external linking prefer list is %v\n", preferlinkext)
+			}
+			if extNeeded || (iscgo && (externalobj || preferExternal)) {
 				ctxt.LinkMode = LinkExternal
-			} else if iscgo && externalobj {
-				ctxt.LinkMode = LinkExternal
-			} else if ctxt.BuildMode == BuildModePIE {
-				ctxt.LinkMode = LinkExternal // https://golang.org/issue/18968
 			} else {
 				ctxt.LinkMode = LinkInternal
 			}
-			if objabi.GOARCH == "ppc64" && ctxt.LinkMode == LinkExternal {
-				Exitf("external linking is not supported for %s/ppc64", objabi.GOOS)
-			}
 		}
+	}
+
+	switch ctxt.LinkMode {
 	case LinkInternal:
-		if needed, reason := mustLinkExternal(ctxt); needed {
-			Exitf("internal linking requested but external linking required: %s", reason)
+		if extNeeded {
+			Exitf("internal linking requested %sbut external linking required: %s", via, extReason)
 		}
 	case LinkExternal:
-		if objabi.GOARCH == "ppc64" {
-			Exitf("external linking not supported for %s/ppc64", objabi.GOOS)
+		switch {
+		case buildcfg.GOARCH == "ppc64" && buildcfg.GOOS == "linux":
+			Exitf("external linking not supported for %s/ppc64", buildcfg.GOOS)
 		}
 	}
 }

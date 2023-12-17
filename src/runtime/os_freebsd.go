@@ -5,7 +5,8 @@
 package runtime
 
 import (
-	"runtime/internal/sys"
+	"internal/abi"
+	"internal/goarch"
 	"unsafe"
 )
 
@@ -26,19 +27,30 @@ func setitimer(mode int32, new, old *itimerval)
 //go:noescape
 func sysctl(mib *uint32, miblen uint32, out *byte, size *uintptr, dst *byte, ndst uintptr) int32
 
-func raise(sig uint32)
 func raiseproc(sig uint32)
+
+func thr_self() thread
+func thr_kill(tid thread, sig int)
 
 //go:noescape
 func sys_umtx_op(addr *uint32, mode int32, val uint32, uaddr1 uintptr, ut *umtx_time) int32
 
 func osyield()
 
+//go:nosplit
+func osyield_no_g() {
+	osyield()
+}
+
 func kqueue() int32
 
 //go:noescape
 func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
-func closeonexec(fd int32)
+
+func pipe2(flags int32) (r, w int32, errno int32)
+func fcntl(fd, cmd, arg int32) (ret int32, errno int32)
+
+func issetugid() int32
 
 // From FreeBSD's <sys/sysctl.h>
 const (
@@ -105,8 +117,8 @@ func getncpu() int32 {
 	}
 
 	maskSize := int(maxcpus+7) / 8
-	if maskSize < sys.PtrSize {
-		maskSize = sys.PtrSize
+	if maskSize < goarch.PtrSize {
+		maskSize = goarch.PtrSize
 	}
 	if maskSize > len(mask) {
 		maskSize = len(mask)
@@ -156,11 +168,11 @@ func futexsleep1(addr *uint32, val uint32, ns int64) {
 	if ns >= 0 {
 		var ut umtx_time
 		ut._clockid = _CLOCK_MONOTONIC
-		ut._timeout.set_sec(int64(timediv(ns, 1000000000, (*int32)(unsafe.Pointer(&ut._timeout.tv_nsec)))))
+		ut._timeout.setNsec(ns)
 		utp = &ut
 	}
 	ret := sys_umtx_op(addr, _UMTX_OP_WAIT_UINT_PRIVATE, val, unsafe.Sizeof(*utp), utp)
-	if ret >= 0 || ret == -_EINTR {
+	if ret >= 0 || ret == -_EINTR || ret == -_ETIMEDOUT {
 		return
 	}
 	print("umtx_wait addr=", addr, " val=", val, " ret=", ret, "\n")
@@ -182,19 +194,20 @@ func futexwakeup(addr *uint32, cnt uint32) {
 func thr_start()
 
 // May run with m.p==nil, so write barriers are not allowed.
+//
 //go:nowritebarrier
 func newosproc(mp *m) {
 	stk := unsafe.Pointer(mp.g0.stack.hi)
 	if false {
-		print("newosproc stk=", stk, " m=", mp, " g=", mp.g0, " thr_start=", funcPC(thr_start), " id=", mp.id, " ostk=", &mp, "\n")
+		print("newosproc stk=", stk, " m=", mp, " g=", mp.g0, " thr_start=", abi.FuncPCABI0(thr_start), " id=", mp.id, " ostk=", &mp, "\n")
 	}
 
 	param := thrparam{
-		start_func: funcPC(thr_start),
+		start_func: abi.FuncPCABI0(thr_start),
 		arg:        unsafe.Pointer(mp),
 		stack_base: mp.g0.stack.lo,
 		stack_size: uintptr(stk) - mp.g0.stack.lo,
-		child_tid:  unsafe.Pointer(&mp.procid),
+		child_tid:  nil, // minit will record tid
 		parent_tid: nil,
 		tls_base:   unsafe.Pointer(&mp.tls[0]),
 		tls_size:   unsafe.Sizeof(mp.tls),
@@ -202,21 +215,25 @@ func newosproc(mp *m) {
 
 	var oset sigset
 	sigprocmask(_SIG_SETMASK, &sigset_all, &oset)
-	// TODO: Check for error.
-	ret := thr_new(&param, int32(unsafe.Sizeof(param)))
+	ret := retryOnEAGAIN(func() int32 {
+		errno := thr_new(&param, int32(unsafe.Sizeof(param)))
+		// thr_new returns negative errno
+		return -errno
+	})
 	sigprocmask(_SIG_SETMASK, &oset, nil)
-	if ret < 0 {
-		print("runtime: failed to create new OS thread (have ", mcount(), " already; errno=", -ret, ")\n")
+	if ret != 0 {
+		print("runtime: failed to create new OS thread (have ", mcount(), " already; errno=", ret, ")\n")
 		throw("newosproc")
 	}
 }
 
 // Version of newosproc that doesn't require a valid G.
+//
 //go:nosplit
 func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
 	stack := sysAlloc(stacksize, &memstats.stacks_sys)
 	if stack == nil {
-		write(2, unsafe.Pointer(&failallocatestack[0]), int32(len(failallocatestack)))
+		writeErrStr(failallocatestack)
 		exit(1)
 	}
 	// This code "knows" it's being called once from the library
@@ -226,11 +243,11 @@ func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
 	// However, newosproc0 is currently unreachable because builds
 	// utilizing c-shared/c-archive force external linking.
 	param := thrparam{
-		start_func: funcPC(fn),
+		start_func: uintptr(fn),
 		arg:        nil,
 		stack_base: uintptr(stack), //+stacksize?
 		stack_size: stacksize,
-		child_tid:  unsafe.Pointer(&m0.procid),
+		child_tid:  nil, // minit will record tid
 		parent_tid: nil,
 		tls_base:   unsafe.Pointer(&m0.tls[0]),
 		tls_size:   unsafe.Sizeof(m0.tls),
@@ -241,17 +258,15 @@ func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
 	ret := thr_new(&param, int32(unsafe.Sizeof(param)))
 	sigprocmask(_SIG_SETMASK, &oset, nil)
 	if ret < 0 {
-		write(2, unsafe.Pointer(&failthreadcreate[0]), int32(len(failthreadcreate)))
+		writeErrStr(failthreadcreate)
 		exit(1)
 	}
 }
 
-var failallocatestack = []byte("runtime: failed to allocate stack for the new OS thread\n")
-var failthreadcreate = []byte("runtime: failed to create new OS thread\n")
-
 // Called to do synchronous initialization of Go code built with
 // -buildmode=c-archive or -buildmode=c-shared.
 // None of the Go runtime is initialized.
+//
 //go:nosplit
 //go:nowritebarrierrec
 func libpreinit() {
@@ -268,11 +283,11 @@ func osinit() {
 var urandom_dev = []byte("/dev/urandom\x00")
 
 //go:nosplit
-func getRandomData(r []byte) {
+func readRandom(r []byte) int {
 	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
 	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
 	closefd(fd)
-	extendRandom(r, int(n))
+	return int(n)
 }
 
 func goenvs() {
@@ -289,12 +304,7 @@ func mpreinit(mp *m) {
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, cannot allocate memory.
 func minit() {
-	// m.procid is a uint64, but thr_new writes a uint32 on 32-bit systems.
-	// Fix it up. (Only matters on big-endian, but be clean anyway.)
-	if sys.PtrSize == 4 {
-		_g_ := getg()
-		_g_.m.procid = uint64(*(*uint32)(unsafe.Pointer(&_g_.m.procid)))
-	}
+	getg().m.procid = uint64(thr_self())
 
 	// On FreeBSD before about April 2017 there was a bug such
 	// that calling execve from a thread other than the main
@@ -314,9 +324,16 @@ func minit() {
 }
 
 // Called from dropm to undo the effect of an minit.
+//
 //go:nosplit
 func unminit() {
 	unminitSignals()
+	getg().m.procid = 0
+}
+
+// Called from exitm, but not from drop, to undo the effect of thread-owned
+// resources in minit, semacreate, or elsewhere. Do not take locks after calling this.
+func mdestroy(mp *m) {
 }
 
 func sigtramp()
@@ -349,7 +366,8 @@ func getsig(i uint32) uintptr {
 	return sa.sa_handler
 }
 
-// setSignaltstackSP sets the ss_sp field of a stackt.
+// setSignalstackSP sets the ss_sp field of a stackt.
+//
 //go:nosplit
 func setSignalstackSP(s *stackt, sp uintptr) {
 	s.ss_sp = sp
@@ -365,7 +383,21 @@ func sigdelset(mask *sigset, i int) {
 	mask.__bits[(i-1)/32] &^= 1 << ((uint32(i) - 1) & 31)
 }
 
+//go:nosplit
 func (c *sigctxt) fixsigcode(sig uint32) {
+}
+
+func setProcessCPUProfiler(hz int32) {
+	setProcessCPUProfilerTimer(hz)
+}
+
+func setThreadCPUProfiler(hz int32) {
+	setThreadCPUProfilerHz(hz)
+}
+
+//go:nosplit
+func validSIGPROF(mp *m, c *sigctxt) bool {
+	return true
 }
 
 func sysargs(argc int32, argv **byte) {
@@ -380,20 +412,23 @@ func sysargs(argc int32, argv **byte) {
 	n++
 
 	// now argv+n is auxv
-	auxv := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*sys.PtrSize))
-	sysauxv(auxv[:])
+	auxvp := (*[1 << 28]uintptr)(add(unsafe.Pointer(argv), uintptr(n)*goarch.PtrSize))
+	pairs := sysauxv(auxvp[:])
+	auxv = auxvp[: pairs*2 : pairs*2]
 }
 
 const (
 	_AT_NULL     = 0  // Terminates the vector
 	_AT_PAGESZ   = 6  // Page size in bytes
+	_AT_PLATFORM = 15 // string identifying platform
 	_AT_TIMEKEEP = 22 // Pointer to timehands.
 	_AT_HWCAP    = 25 // CPU feature flags
 	_AT_HWCAP2   = 26 // CPU feature flags 2
 )
 
-func sysauxv(auxv []uintptr) {
-	for i := 0; auxv[i] != _AT_NULL; i += 2 {
+func sysauxv(auxv []uintptr) (pairs int) {
+	var i int
+	for i = 0; auxv[i] != _AT_NULL; i += 2 {
 		tag, val := auxv[i], auxv[i+1]
 		switch tag {
 		// _AT_NCPUS from auxv shouldn't be used due to golang.org/issue/15206
@@ -405,9 +440,11 @@ func sysauxv(auxv []uintptr) {
 
 		archauxv(tag, val)
 	}
+	return i / 2
 }
 
 // sysSigaction calls the sigaction system call.
+//
 //go:nosplit
 func sysSigaction(sig uint32, new, old *sigactiont) {
 	// Use system stack to avoid split stack overflow on amd64
@@ -419,5 +456,29 @@ func sysSigaction(sig uint32, new, old *sigactiont) {
 }
 
 // asmSigaction is implemented in assembly.
+//
 //go:noescape
 func asmSigaction(sig uintptr, new, old *sigactiont) int32
+
+// raise sends a signal to the calling thread.
+//
+// It must be nosplit because it is used by the signal handler before
+// it definitely has a Go stack.
+//
+//go:nosplit
+func raise(sig uint32) {
+	thr_kill(thr_self(), int(sig))
+}
+
+func signalM(mp *m, sig int) {
+	thr_kill(thread(mp.procid), sig)
+}
+
+// sigPerThreadSyscall is only used on linux, so we assign a bogus signal
+// number.
+const sigPerThreadSyscall = 1 << 31
+
+//go:nosplit
+func runPerThreadSyscall() {
+	throw("runPerThreadSyscall only valid on linux")
+}

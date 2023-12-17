@@ -6,11 +6,12 @@ package net
 
 import (
 	"errors"
+	"internal/itoa"
 	"sync"
 	"time"
 )
 
-// BUG(mikio): On JS and NaCl, methods and functions related to
+// BUG(mikio): On JS, methods and functions related to
 // Interface are not implemented.
 
 // BUG(mikio): On AIX, DragonFly BSD, NetBSD, OpenBSD, Plan 9 and
@@ -38,11 +39,12 @@ type Interface struct {
 type Flags uint
 
 const (
-	FlagUp           Flags = 1 << iota // interface is up
+	FlagUp           Flags = 1 << iota // interface is administratively up
 	FlagBroadcast                      // interface supports broadcast access capability
 	FlagLoopback                       // interface is a loopback interface
 	FlagPointToPoint                   // interface belongs to a point-to-point link
 	FlagMulticast                      // interface supports multicast access capability
+	FlagRunning                        // interface is in running state
 )
 
 var flagNames = []string{
@@ -51,6 +53,7 @@ var flagNames = []string{
 	"loopback",
 	"pointtopoint",
 	"multicast",
+	"running",
 }
 
 func (f Flags) String() string {
@@ -230,7 +233,7 @@ func (zc *ipv6ZoneCache) name(index int) string {
 		zoneCache.RUnlock()
 	}
 	if !ok { // last resort
-		name = uitoa(uint(index))
+		name = itoa.Uitoa(uint(index))
 	}
 	return name
 }

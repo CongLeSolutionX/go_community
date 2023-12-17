@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build ignore
+//go:build ignore
 
 /*
 Input to cgo -godefs
 GOARCH=ppc64 go tool cgo -godefs defs_aix.go > defs_aix_ppc64_tmp.go
 
-This is only an helper to create defs_aix_ppc64.go
+This is only a helper to create defs_aix_ppc64.go
 Go runtime functions require the "linux" name of fields (ss_sp, si_addr, etc)
 However, AIX structures don't provide such names and must be modified.
 
@@ -65,7 +65,7 @@ const (
 	_PROT_WRITE = C.PROT_WRITE
 	_PROT_EXEC  = C.PROT_EXEC
 
-	_MAP_ANONYMOUS = C.MAP_ANONYMOUS
+	_MAP_ANON      = C.MAP_ANONYMOUS
 	_MAP_PRIVATE   = C.MAP_PRIVATE
 	_MAP_FIXED     = C.MAP_FIXED
 	_MADV_DONTNEED = C.MADV_DONTNEED
@@ -123,7 +123,11 @@ const (
 	_ITIMER_VIRTUAL = C.ITIMER_VIRTUAL
 	_ITIMER_PROF    = C.ITIMER_PROF
 
-	_O_RDONLY = C.O_RDONLY
+	_O_RDONLY   = C.O_RDONLY
+	_O_WRONLY   = C.O_WRONLY
+	_O_NONBLOCK = C.O_NONBLOCK
+	_O_CREAT    = C.O_CREAT
+	_O_TRUNC    = C.O_TRUNC
 
 	_SS_DISABLE  = C.SS_DISABLE
 	_SI_USER     = C.SI_USER
@@ -140,11 +144,9 @@ const (
 	__SC_PAGE_SIZE        = C._SC_PAGE_SIZE
 	__SC_NPROCESSORS_ONLN = C._SC_NPROCESSORS_ONLN
 
-	_F_SETFD    = C.F_SETFD
-	_F_SETFL    = C.F_SETFL
-	_F_GETFD    = C.F_GETFD
-	_F_GETFL    = C.F_GETFL
-	_FD_CLOEXEC = C.FD_CLOEXEC
+	_F_SETFL = C.F_SETFL
+	_F_GETFD = C.F_GETFD
+	_F_GETFL = C.F_GETFL
 )
 
 type sigset C.sigset_t

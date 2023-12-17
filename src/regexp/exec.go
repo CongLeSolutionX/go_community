@@ -427,7 +427,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 		flag = i.context(pos)
 	}
 	pc := re.onepass.Start
-	inst := re.onepass.Inst[pc]
+	inst := &re.onepass.Inst[pc]
 	// If there is a simple literal prefix, skip over it.
 	if pos == 0 && flag.match(syntax.EmptyOp(inst.Arg)) &&
 		len(re.prefix) > 0 && i.canCheckPrefix() {
@@ -442,7 +442,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 		pc = int(re.prefixEnd)
 	}
 	for {
-		inst = re.onepass.Inst[pc]
+		inst = &re.onepass.Inst[pc]
 		pc = int(inst.Out)
 		switch inst.Op {
 		default:
@@ -470,7 +470,7 @@ func (re *Regexp) doOnePass(ir io.RuneReader, ib []byte, is string, pos, ncap in
 			}
 		// peek at the input rune to see which branch of the Alt to take
 		case syntax.InstAlt, syntax.InstAltMatch:
-			pc = int(onePassNext(&inst, r))
+			pc = int(onePassNext(inst, r))
 			continue
 		case syntax.InstFail:
 			goto Return
@@ -522,6 +522,10 @@ func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap i
 	if dstCap == nil {
 		// Make sure 'return dstCap' is non-nil.
 		dstCap = arrayNoInts[:0:0]
+	}
+
+	if r == nil && len(b)+len(s) < re.minInputLen {
+		return nil
 	}
 
 	if re.onepass != nil {

@@ -1,5 +1,6 @@
-// +build !nacl,!js
 // run
+
+//go:build !nacl && !js && !wasip1 && gc
 
 // Copyright 2014 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
@@ -36,7 +37,7 @@ func test(sep string) {
 		os.Exit(1)
 	}
 
-	want := "hello\ntrumped\n"
+	want := "hello\nhello\nhello\ntrumped\ntrumped\ntrumped\n"
 	got := out.String()
 	if got != want {
 		fmt.Printf("got %q want %q\n", got, want)

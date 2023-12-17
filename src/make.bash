@@ -34,15 +34,26 @@
 # controls the default behavior of the linker's -linkmode option.  The
 # default value depends on the system.
 #
+# GO_LDSO: Sets the default dynamic linker/loader (ld.so) to be used
+# by the internal linker.
+#
 # CC: Command line to run to compile C code for GOHOSTARCH.
 # Default is "gcc". Also supported: "clang".
 #
 # CC_FOR_TARGET: Command line to run to compile C code for GOARCH.
-# This is used by cgo.  Default is CC.
+# This is used by cgo. Default is CC.
+#
+# CC_FOR_${GOOS}_${GOARCH}: Command line to run to compile C code for specified ${GOOS} and ${GOARCH}.
+# (for example, CC_FOR_linux_arm)
+# If this is not set, the build will use CC_FOR_TARGET if appropriate, or CC.
 #
 # CXX_FOR_TARGET: Command line to run to compile C++ code for GOARCH.
 # This is used by cgo. Default is CXX, or, if that is not set,
 # "g++" or "clang++".
+#
+# CXX_FOR_${GOOS}_${GOARCH}: Command line to run to compile C++ code for specified ${GOOS} and ${GOARCH}.
+# (for example, CXX_FOR_linux_arm)
+# If this is not set, the build will use CXX_FOR_TARGET if appropriate, or CXX.
 #
 # FC: Command line to run to compile Fortran code for GOARCH.
 # This is used by cgo. Default is "gfortran".
@@ -56,22 +67,23 @@
 # timing information to this file. Useful for profiling where the
 # time goes when these scripts run.
 #
-# GOROOT_BOOTSTRAP: A working Go tree >= Go 1.4 for bootstrap.
+# GOROOT_BOOTSTRAP: A working Go tree >= Go 1.20.6 for bootstrap.
 # If $GOROOT_BOOTSTRAP/bin/go is missing, $(go env GOROOT) is
-# tried for all "go" in $PATH. $HOME/go1.4 by default.
+# tried for all "go" in $PATH. By default, one of $HOME/go1.20.6,
+# $HOME/sdk/go1.20.6, or $HOME/go1.4, whichever exists, in that order.
+# We still check $HOME/go1.4 to allow for build scripts that still hard-code
+# that name even though they put newer Go toolchains there.
+
+bootgo=1.20.6
 
 set -e
 
-unset GOBIN # Issue 14340
-unset GOFLAGS
-unset GO111MODULE
-
-if [ ! -f run.bash ]; then
+if [[ ! -f run.bash ]]; then
 	echo 'make.bash must be run from $GOROOT/src' 1>&2
 	exit 1
 fi
 
-if [ "$GOBUILDTIMELOGFILE" != "" ]; then
+if [[ "$GOBUILDTIMELOGFILE" != "" ]]; then
 	echo $(LC_TIME=C date) start make.bash >"$GOBUILDTIMELOGFILE"
 fi
 
@@ -102,7 +114,7 @@ fi
 # so loop through the possible selinux mount points.
 for se_mount in /selinux /sys/fs/selinux
 do
-	if [ -d $se_mount -a -f $se_mount/booleans/allow_execstack -a -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
+	if [[ -d $se_mount && -f $se_mount/booleans/allow_execstack && -x /usr/sbin/selinuxenabled ]] && /usr/sbin/selinuxenabled; then
 		if ! cat $se_mount/booleans/allow_execstack | grep -c '^1 1$' >> /dev/null ; then
 			echo "WARNING: the default SELinux policy on, at least, Fedora 12 breaks "
 			echo "Go. You can enable the features that Go needs via the following "
@@ -122,7 +134,7 @@ done
 # Test for debian/kFreeBSD.
 # cmd/dist will detect kFreeBSD as freebsd/$GOARCH, but we need to
 # disable cgo manually.
-if [ "$(uname -s)" = "GNU/kFreeBSD" ]; then
+if [[ "$(uname -s)" == "GNU/kFreeBSD" ]]; then
 	export CGO_ENABLED=0
 fi
 
@@ -133,42 +145,64 @@ rm -f ./runtime/runtime_defs.go
 
 verbose=false
 vflag=""
-if [ "$1" = "-v" ]; then
+if [[ "$1" == "-v" ]]; then
 	verbose=true
 	vflag=-v
 	shift
 fi
 
-export GOROOT_BOOTSTRAP=${GOROOT_BOOTSTRAP:-$HOME/go1.4}
+goroot_bootstrap_set=${GOROOT_BOOTSTRAP+"true"}
+if [[ -z "$GOROOT_BOOTSTRAP" ]]; then
+	GOROOT_BOOTSTRAP="$HOME/go1.4"
+	for d in sdk/go$bootgo go$bootgo; do
+		if [[ -d "$HOME/$d" ]]; then
+			GOROOT_BOOTSTRAP="$HOME/$d"
+		fi
+	done
+fi
+export GOROOT_BOOTSTRAP
+
+nogoenv() {
+	GO111MODULE=off GOENV=off GOOS= GOARCH= GOEXPERIMENT= GOFLAGS= "$@"
+}
+
 export GOROOT="$(cd .. && pwd)"
 IFS=$'\n'; for go_exe in $(type -ap go); do
-	if [ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]; then
-		goroot=$(GOROOT='' GOOS='' GOARCH='' "$go_exe" env GOROOT)
-		if [ "$goroot" != "$GOROOT" ]; then
-			GOROOT_BOOTSTRAP=$goroot
+	if [[ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]]; then
+		goroot=$(GOROOT= nogoenv "$go_exe" env GOROOT)
+		if [[ "$goroot" != "$GOROOT" ]]; then
+			if [[ "$goroot_bootstrap_set" == "true" ]]; then
+				printf 'WARNING: %s does not exist, found %s from env\n' "$GOROOT_BOOTSTRAP/bin/go" "$go_exe" >&2
+				printf 'WARNING: set %s as GOROOT_BOOTSTRAP\n' "$goroot" >&2
+			fi
+			GOROOT_BOOTSTRAP="$goroot"
 		fi
 	fi
 done; unset IFS
-echo "Building Go cmd/dist using $GOROOT_BOOTSTRAP."
+if [[ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]]; then
+	echo "ERROR: Cannot find $GOROOT_BOOTSTRAP/bin/go." >&2
+	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go $bootgo." >&2
+	exit 1
+fi
+# Get the exact bootstrap toolchain version to help with debugging.
+# We clear GOOS and GOARCH to avoid an ominous but harmless warning if
+# the bootstrap doesn't support them.
+GOROOT_BOOTSTRAP_VERSION=$(nogoenv "$GOROOT_BOOTSTRAP/bin/go" version | sed 's/go version //')
+echo "Building Go cmd/dist using $GOROOT_BOOTSTRAP. ($GOROOT_BOOTSTRAP_VERSION)"
 if $verbose; then
 	echo cmd/dist
 fi
-if [ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]; then
-	echo "ERROR: Cannot find $GOROOT_BOOTSTRAP/bin/go." >&2
-	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go 1.4." >&2
-	exit 1
-fi
-if [ "$GOROOT_BOOTSTRAP" = "$GOROOT" ]; then
+if [[ "$GOROOT_BOOTSTRAP" == "$GOROOT" ]]; then
 	echo "ERROR: \$GOROOT_BOOTSTRAP must not be set to \$GOROOT" >&2
-	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go 1.4." >&2
+	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go $bootgo." >&2
 	exit 1
 fi
 rm -f cmd/dist/dist
-GOROOT="$GOROOT_BOOTSTRAP" GOOS="" GOARCH="" "$GOROOT_BOOTSTRAP/bin/go" build -o cmd/dist/dist ./cmd/dist
+GOROOT="$GOROOT_BOOTSTRAP" nogoenv "$GOROOT_BOOTSTRAP/bin/go" build -o cmd/dist/dist ./cmd/dist
 
 # -e doesn't propagate out of eval, so check success by hand.
 eval $(./cmd/dist/dist env -p || echo FAIL=true)
-if [ "$FAIL" = true ]; then
+if [[ "$FAIL" == true ]]; then
 	exit 1
 fi
 
@@ -176,26 +210,20 @@ if $verbose; then
 	echo
 fi
 
-if [ "$1" = "--dist-tool" ]; then
+if [[ "$1" == "--dist-tool" ]]; then
 	# Stop after building dist tool.
 	mkdir -p "$GOTOOLDIR"
-	if [ "$2" != "" ]; then
+	if [[ "$2" != "" ]]; then
 		cp cmd/dist/dist "$2"
 	fi
 	mv cmd/dist/dist "$GOTOOLDIR"/dist
 	exit 0
 fi
 
-buildall="-a"
-if [ "$1" = "--no-clean" ]; then
-	buildall=""
-	shift
-fi
-
 # Run dist bootstrap to complete make.bash.
 # Bootstrap installs a proper cmd/dist, built with the new toolchain.
-# Throw ours, built with Go 1.4, away after bootstrap.
-./cmd/dist/dist bootstrap $buildall $vflag $GO_DISTFLAGS "$@"
+# Throw ours, built with the bootstrap toolchain, away after bootstrap.
+./cmd/dist/dist bootstrap -a $vflag $GO_DISTFLAGS "$@"
 rm -f ./cmd/dist/dist
 
 # DO NOT ADD ANY NEW CODE HERE.

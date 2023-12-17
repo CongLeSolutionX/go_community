@@ -10,19 +10,26 @@ package io
 import (
 	"errors"
 	"sync"
-	"sync/atomic"
 )
 
-// atomicError is a type-safe atomic value for errors.
-// We use a struct{ error } to ensure consistent use of a concrete type.
-type atomicError struct{ v atomic.Value }
-
-func (a *atomicError) Store(err error) {
-	a.v.Store(struct{ error }{err})
+// onceError is an object that will only store an error once.
+type onceError struct {
+	sync.Mutex // guards following
+	err        error
 }
-func (a *atomicError) Load() error {
-	err, _ := a.v.Load().(struct{ error })
-	return err.error
+
+func (a *onceError) Store(err error) {
+	a.Lock()
+	defer a.Unlock()
+	if a.err != nil {
+		return
+	}
+	a.err = err
+}
+func (a *onceError) Load() error {
+	a.Lock()
+	defer a.Unlock()
+	return a.err
 }
 
 // ErrClosedPipe is the error used for read or write operations on a closed pipe.
@@ -36,11 +43,11 @@ type pipe struct {
 
 	once sync.Once // Protects closing done
 	done chan struct{}
-	rerr atomicError
-	werr atomicError
+	rerr onceError
+	werr onceError
 }
 
-func (p *pipe) Read(b []byte) (n int, err error) {
+func (p *pipe) read(b []byte) (n int, err error) {
 	select {
 	case <-p.done:
 		return 0, p.readCloseError()
@@ -57,15 +64,7 @@ func (p *pipe) Read(b []byte) (n int, err error) {
 	}
 }
 
-func (p *pipe) readCloseError() error {
-	rerr := p.rerr.Load()
-	if werr := p.werr.Load(); rerr == nil && werr != nil {
-		return werr
-	}
-	return ErrClosedPipe
-}
-
-func (p *pipe) CloseRead(err error) error {
+func (p *pipe) closeRead(err error) error {
 	if err == nil {
 		err = ErrClosedPipe
 	}
@@ -74,7 +73,7 @@ func (p *pipe) CloseRead(err error) error {
 	return nil
 }
 
-func (p *pipe) Write(b []byte) (n int, err error) {
+func (p *pipe) write(b []byte) (n int, err error) {
 	select {
 	case <-p.done:
 		return 0, p.writeCloseError()
@@ -96,15 +95,7 @@ func (p *pipe) Write(b []byte) (n int, err error) {
 	return n, nil
 }
 
-func (p *pipe) writeCloseError() error {
-	werr := p.werr.Load()
-	if rerr := p.rerr.Load(); werr == nil && rerr != nil {
-		return rerr
-	}
-	return ErrClosedPipe
-}
-
-func (p *pipe) CloseWrite(err error) error {
+func (p *pipe) closeWrite(err error) error {
 	if err == nil {
 		err = EOF
 	}
@@ -113,10 +104,26 @@ func (p *pipe) CloseWrite(err error) error {
 	return nil
 }
 
-// A PipeReader is the read half of a pipe.
-type PipeReader struct {
-	p *pipe
+// readCloseError is considered internal to the pipe type.
+func (p *pipe) readCloseError() error {
+	rerr := p.rerr.Load()
+	if werr := p.werr.Load(); rerr == nil && werr != nil {
+		return werr
+	}
+	return ErrClosedPipe
 }
+
+// writeCloseError is considered internal to the pipe type.
+func (p *pipe) writeCloseError() error {
+	werr := p.werr.Load()
+	if rerr := p.rerr.Load(); werr == nil && rerr != nil {
+		return rerr
+	}
+	return ErrClosedPipe
+}
+
+// A PipeReader is the read half of a pipe.
+type PipeReader struct{ pipe }
 
 // Read implements the standard Read interface:
 // it reads data from the pipe, blocking until a writer
@@ -124,33 +131,34 @@ type PipeReader struct {
 // If the write end is closed with an error, that error is
 // returned as err; otherwise err is EOF.
 func (r *PipeReader) Read(data []byte) (n int, err error) {
-	return r.p.Read(data)
+	return r.pipe.read(data)
 }
 
 // Close closes the reader; subsequent writes to the
-// write half of the pipe will return the error ErrClosedPipe.
+// write half of the pipe will return the error [ErrClosedPipe].
 func (r *PipeReader) Close() error {
 	return r.CloseWithError(nil)
 }
 
 // CloseWithError closes the reader; subsequent writes
 // to the write half of the pipe will return the error err.
+//
+// CloseWithError never overwrites the previous error if it exists
+// and always returns nil.
 func (r *PipeReader) CloseWithError(err error) error {
-	return r.p.CloseRead(err)
+	return r.pipe.closeRead(err)
 }
 
 // A PipeWriter is the write half of a pipe.
-type PipeWriter struct {
-	p *pipe
-}
+type PipeWriter struct{ r PipeReader }
 
 // Write implements the standard Write interface:
 // it writes data to the pipe, blocking until one or more readers
 // have consumed all the data or the read end is closed.
 // If the read end is closed with an error, that err is
-// returned as err; otherwise err is ErrClosedPipe.
+// returned as err; otherwise err is [ErrClosedPipe].
 func (w *PipeWriter) Write(data []byte) (n int, err error) {
-	return w.p.Write(data)
+	return w.r.pipe.write(data)
 }
 
 // Close closes the writer; subsequent reads from the
@@ -163,19 +171,20 @@ func (w *PipeWriter) Close() error {
 // read half of the pipe will return no bytes and the error err,
 // or EOF if err is nil.
 //
-// CloseWithError always returns nil.
+// CloseWithError never overwrites the previous error if it exists
+// and always returns nil.
 func (w *PipeWriter) CloseWithError(err error) error {
-	return w.p.CloseWrite(err)
+	return w.r.pipe.closeWrite(err)
 }
 
 // Pipe creates a synchronous in-memory pipe.
-// It can be used to connect code expecting an io.Reader
-// with code expecting an io.Writer.
+// It can be used to connect code expecting an [io.Reader]
+// with code expecting an [io.Writer].
 //
 // Reads and Writes on the pipe are matched one to one
 // except when multiple Reads are needed to consume a single Write.
-// That is, each Write to the PipeWriter blocks until it has satisfied
-// one or more Reads from the PipeReader that fully consume
+// That is, each Write to the [PipeWriter] blocks until it has satisfied
+// one or more Reads from the [PipeReader] that fully consume
 // the written data.
 // The data is copied directly from the Write to the corresponding
 // Read (or Reads); there is no internal buffering.
@@ -184,10 +193,10 @@ func (w *PipeWriter) CloseWithError(err error) error {
 // Parallel calls to Read and parallel calls to Write are also safe:
 // the individual calls will be gated sequentially.
 func Pipe() (*PipeReader, *PipeWriter) {
-	p := &pipe{
+	pw := &PipeWriter{r: PipeReader{pipe: pipe{
 		wrCh: make(chan []byte),
 		rdCh: make(chan int),
 		done: make(chan struct{}),
-	}
-	return &PipeReader{p}, &PipeWriter{p}
+	}}}
+	return &pw.r, pw
 }

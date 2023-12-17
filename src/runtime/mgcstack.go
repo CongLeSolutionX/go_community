@@ -95,6 +95,7 @@
 package runtime
 
 import (
+	"internal/goarch"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -103,17 +104,15 @@ const stackTraceDebug = false
 
 // Buffer for pointers found during stack tracing.
 // Must be smaller than or equal to workbuf.
-//
-//go:notinheap
 type stackWorkBuf struct {
+	_ sys.NotInHeap
 	stackWorkBufHdr
-	obj [(_WorkbufSize - unsafe.Sizeof(stackWorkBufHdr{})) / sys.PtrSize]uintptr
+	obj [(_WorkbufSize - unsafe.Sizeof(stackWorkBufHdr{})) / goarch.PtrSize]uintptr
 }
 
 // Header declaration must come after the buf declaration above, because of issue #14620.
-//
-//go:notinheap
 type stackWorkBufHdr struct {
+	_ sys.NotInHeap
 	workbufhdr
 	next *stackWorkBuf // linked list of workbufs
 	// Note: we could theoretically repurpose lfnode.next as this next pointer.
@@ -123,15 +122,14 @@ type stackWorkBufHdr struct {
 
 // Buffer for stack objects found on a goroutine stack.
 // Must be smaller than or equal to workbuf.
-//
-//go:notinheap
 type stackObjectBuf struct {
+	_ sys.NotInHeap
 	stackObjectBufHdr
 	obj [(_WorkbufSize - unsafe.Sizeof(stackObjectBufHdr{})) / unsafe.Sizeof(stackObject{})]stackObject
 }
 
-//go:notinheap
 type stackObjectBufHdr struct {
+	_ sys.NotInHeap
 	workbufhdr
 	next *stackObjectBuf
 }
@@ -147,39 +145,46 @@ func init() {
 
 // A stackObject represents a variable on the stack that has had
 // its address taken.
-//
-//go:notinheap
 type stackObject struct {
-	off   uint32       // offset above stack.lo
-	size  uint32       // size of object
-	typ   *_type       // type info (for ptr/nonptr bits). nil if object has been scanned.
-	left  *stackObject // objects with lower addresses
-	right *stackObject // objects with higher addresses
+	_     sys.NotInHeap
+	off   uint32             // offset above stack.lo
+	size  uint32             // size of object
+	r     *stackObjectRecord // info of the object (for ptr/nonptr bits). nil if object has been scanned.
+	left  *stackObject       // objects with lower addresses
+	right *stackObject       // objects with higher addresses
 }
 
-// obj.typ = typ, but with no write barrier.
+// obj.r = r, but with no write barrier.
+//
 //go:nowritebarrier
-func (obj *stackObject) setType(typ *_type) {
+func (obj *stackObject) setRecord(r *stackObjectRecord) {
 	// Types of stack objects are always in read-only memory, not the heap.
 	// So not using a write barrier is ok.
-	*(*uintptr)(unsafe.Pointer(&obj.typ)) = uintptr(unsafe.Pointer(typ))
+	*(*uintptr)(unsafe.Pointer(&obj.r)) = uintptr(unsafe.Pointer(r))
 }
 
 // A stackScanState keeps track of the state used during the GC walk
 // of a goroutine.
-//
-//go:notinheap
 type stackScanState struct {
-	cache pcvalueCache
-
 	// stack limits
 	stack stack
+
+	// conservative indicates that the next frame must be scanned conservatively.
+	// This applies only to the innermost frame at an async safe-point.
+	conservative bool
 
 	// buf contains the set of possible pointers to stack objects.
 	// Organized as a LIFO linked list of buffers.
 	// All buffers except possibly the head buffer are full.
 	buf     *stackWorkBuf
 	freeBuf *stackWorkBuf // keep around one free buffer for allocation hysteresis
+
+	// cbuf contains conservative pointers to stack objects. If
+	// all pointers to a stack object are obtained via
+	// conservative scanning, then the stack object may be dead
+	// and may contain dead pointers, so it must be scanned
+	// defensively.
+	cbuf *stackWorkBuf
 
 	// list of stack objects
 	// Objects are in increasing address order.
@@ -194,17 +199,21 @@ type stackScanState struct {
 
 // Add p as a potential pointer to a stack object.
 // p must be a stack address.
-func (s *stackScanState) putPtr(p uintptr) {
+func (s *stackScanState) putPtr(p uintptr, conservative bool) {
 	if p < s.stack.lo || p >= s.stack.hi {
 		throw("address not a stack address")
 	}
-	buf := s.buf
+	head := &s.buf
+	if conservative {
+		head = &s.cbuf
+	}
+	buf := *head
 	if buf == nil {
 		// Initial setup.
 		buf = (*stackWorkBuf)(unsafe.Pointer(getempty()))
 		buf.nobj = 0
 		buf.next = nil
-		s.buf = buf
+		*head = buf
 	} else if buf.nobj == len(buf.obj) {
 		if s.freeBuf != nil {
 			buf = s.freeBuf
@@ -213,8 +222,8 @@ func (s *stackScanState) putPtr(p uintptr) {
 			buf = (*stackWorkBuf)(unsafe.Pointer(getempty()))
 		}
 		buf.nobj = 0
-		buf.next = s.buf
-		s.buf = buf
+		buf.next = *head
+		*head = buf
 	}
 	buf.obj[buf.nobj] = p
 	buf.nobj++
@@ -222,34 +231,43 @@ func (s *stackScanState) putPtr(p uintptr) {
 
 // Remove and return a potential pointer to a stack object.
 // Returns 0 if there are no more pointers available.
-func (s *stackScanState) getPtr() uintptr {
-	buf := s.buf
-	if buf == nil {
-		// Never had any data.
-		return 0
-	}
-	if buf.nobj == 0 {
-		if s.freeBuf != nil {
-			// Free old freeBuf.
-			putempty((*workbuf)(unsafe.Pointer(s.freeBuf)))
-		}
-		// Move buf to the freeBuf.
-		s.freeBuf = buf
-		buf = buf.next
-		s.buf = buf
+//
+// This prefers non-conservative pointers so we scan stack objects
+// precisely if there are any non-conservative pointers to them.
+func (s *stackScanState) getPtr() (p uintptr, conservative bool) {
+	for _, head := range []**stackWorkBuf{&s.buf, &s.cbuf} {
+		buf := *head
 		if buf == nil {
-			// No more data.
-			putempty((*workbuf)(unsafe.Pointer(s.freeBuf)))
-			s.freeBuf = nil
-			return 0
+			// Never had any data.
+			continue
 		}
+		if buf.nobj == 0 {
+			if s.freeBuf != nil {
+				// Free old freeBuf.
+				putempty((*workbuf)(unsafe.Pointer(s.freeBuf)))
+			}
+			// Move buf to the freeBuf.
+			s.freeBuf = buf
+			buf = buf.next
+			*head = buf
+			if buf == nil {
+				// No more data in this list.
+				continue
+			}
+		}
+		buf.nobj--
+		return buf.obj[buf.nobj], head == &s.cbuf
 	}
-	buf.nobj--
-	return buf.obj[buf.nobj]
+	// No more data in either list.
+	if s.freeBuf != nil {
+		putempty((*workbuf)(unsafe.Pointer(s.freeBuf)))
+		s.freeBuf = nil
+	}
+	return 0, false
 }
 
 // addObject adds a stack object at addr of type typ to the set of stack objects.
-func (s *stackScanState) addObject(addr uintptr, typ *_type) {
+func (s *stackScanState) addObject(addr uintptr, r *stackObjectRecord) {
 	x := s.tail
 	if x == nil {
 		// initial setup
@@ -272,9 +290,9 @@ func (s *stackScanState) addObject(addr uintptr, typ *_type) {
 	obj := &x.obj[x.nobj]
 	x.nobj++
 	obj.off = uint32(addr - s.stack.lo)
-	obj.size = uint32(typ.size)
-	obj.setType(typ)
-	// obj.left and obj.right will be initalized by buildIndex before use.
+	obj.size = uint32(r.size)
+	obj.setRecord(r)
+	// obj.left and obj.right will be initialized by buildIndex before use.
 	s.nobjs++
 }
 

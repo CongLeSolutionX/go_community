@@ -33,14 +33,18 @@
 
 package profile
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type buffer struct {
-	field int // field tag
-	typ   int // proto wire type code for field
-	u64   uint64
-	data  []byte
-	tmp   [16]byte
+	field    int // field tag
+	typ      int // proto wire type code for field
+	u64      uint64
+	data     []byte
+	tmp      [16]byte
+	tmpLines []Line // temporary storage used while decoding "repeated Line".
 }
 
 type decoder func(*buffer, message) error
@@ -235,7 +239,7 @@ func decodeField(b *buffer, data []byte) ([]byte, error) {
 		b.u64 = uint64(le32(data[:4]))
 		data = data[4:]
 	default:
-		return nil, errors.New("unknown wire type: " + string(b.typ))
+		return nil, fmt.Errorf("unknown wire type: %d", b.typ)
 	}
 
 	return data, nil
@@ -283,7 +287,6 @@ func decodeInt64s(b *buffer, x *[]int64) error {
 	if b.typ == 2 {
 		// Packed encoding
 		data := b.data
-		tmp := make([]int64, 0, len(data)) // Maximally sized
 		for len(data) > 0 {
 			var u uint64
 			var err error
@@ -291,9 +294,8 @@ func decodeInt64s(b *buffer, x *[]int64) error {
 			if u, data, err = decodeVarint(data); err != nil {
 				return err
 			}
-			tmp = append(tmp, int64(u))
+			*x = append(*x, int64(u))
 		}
-		*x = append(*x, tmp...)
 		return nil
 	}
 	var i int64
@@ -316,7 +318,6 @@ func decodeUint64s(b *buffer, x *[]uint64) error {
 	if b.typ == 2 {
 		data := b.data
 		// Packed encoding
-		tmp := make([]uint64, 0, len(data)) // Maximally sized
 		for len(data) > 0 {
 			var u uint64
 			var err error
@@ -324,9 +325,8 @@ func decodeUint64s(b *buffer, x *[]uint64) error {
 			if u, data, err = decodeVarint(data); err != nil {
 				return err
 			}
-			tmp = append(tmp, u)
+			*x = append(*x, u)
 		}
-		*x = append(*x, tmp...)
 		return nil
 	}
 	var u uint64

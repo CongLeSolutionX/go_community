@@ -39,7 +39,8 @@ type chunkedReader struct {
 	n        uint64 // unread bytes in chunk
 	err      error
 	buf      [2]byte
-	checkEnd bool // whether need to check for \r\n chunk footer
+	checkEnd bool  // whether need to check for \r\n chunk footer
+	excess   int64 // "excessive" chunk overhead, for malicious sender detection
 }
 
 func (cr *chunkedReader) beginChunk() {
@@ -49,9 +50,35 @@ func (cr *chunkedReader) beginChunk() {
 	if cr.err != nil {
 		return
 	}
+	cr.excess += int64(len(line)) + 2 // header, plus \r\n after the chunk data
+	line = trimTrailingWhitespace(line)
+	line, cr.err = removeChunkExtension(line)
+	if cr.err != nil {
+		return
+	}
 	cr.n, cr.err = parseHexUint(line)
 	if cr.err != nil {
 		return
+	}
+	// A sender who sends one byte per chunk will send 5 bytes of overhead
+	// for every byte of data. ("1\r\nX\r\n" to send "X".)
+	// We want to allow this, since streaming a byte at a time can be legitimate.
+	//
+	// A sender can use chunk extensions to add arbitrary amounts of additional
+	// data per byte read. ("1;very long extension\r\nX\r\n" to send "X".)
+	// We don't want to disallow extensions (although we discard them),
+	// but we also don't want to allow a sender to reduce the signal/noise ratio
+	// arbitrarily.
+	//
+	// We track the amount of excess overhead read,
+	// and produce an error if it grows too large.
+	//
+	// Currently, we say that we're willing to accept 16 bytes of overhead per chunk,
+	// plus twice the amount of real data in the chunk.
+	cr.excess -= 16 + (2 * int64(cr.n))
+	cr.excess = max(cr.excess, 0)
+	if cr.excess > 16*1024 {
+		cr.err = errors.New("chunked encoding contains too much non-data")
 	}
 	if cr.n == 0 {
 		cr.err = io.EOF
@@ -81,6 +108,11 @@ func (cr *chunkedReader) Read(b []uint8) (n int, err error) {
 					cr.err = errors.New("malformed chunked encoding")
 					break
 				}
+			} else {
+				if cr.err == io.EOF {
+					cr.err = io.ErrUnexpectedEOF
+				}
+				break
 			}
 			cr.checkEnd = false
 		}
@@ -109,6 +141,8 @@ func (cr *chunkedReader) Read(b []uint8) (n int, err error) {
 		// bytes to verify they are "\r\n".
 		if cr.n == 0 && cr.err == nil {
 			cr.checkEnd = true
+		} else if cr.err == io.EOF {
+			cr.err = io.ErrUnexpectedEOF
 		}
 	}
 	return n, cr.err
@@ -133,11 +167,6 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
 	if len(p) >= maxLineLength {
 		return nil, ErrLineTooLong
 	}
-	p = trimTrailingWhitespace(p)
-	p, err = removeChunkExtension(p)
-	if err != nil {
-		return nil, err
-	}
 	return p, nil
 }
 
@@ -152,21 +181,21 @@ func isASCIISpace(b byte) bool {
 	return b == ' ' || b == '\t' || b == '\n' || b == '\r'
 }
 
+var semi = []byte(";")
+
 // removeChunkExtension removes any chunk-extension from p.
 // For example,
-//     "0" => "0"
-//     "0;token" => "0"
-//     "0;token=val" => "0"
-//     `0;token="quoted string"` => "0"
+//
+//	"0" => "0"
+//	"0;token" => "0"
+//	"0;token=val" => "0"
+//	`0;token="quoted string"` => "0"
 func removeChunkExtension(p []byte) ([]byte, error) {
-	semi := bytes.IndexByte(p, ';')
-	if semi == -1 {
-		return p, nil
-	}
+	p, _, _ = bytes.Cut(p, semi)
 	// TODO: care about exact syntax of chunk extensions? We're
 	// ignoring and stripping them anyway. For now just never
 	// return an error.
-	return p[:semi], nil
+	return p, nil
 }
 
 // NewChunkedWriter returns a new chunkedWriter that translates writes into HTTP

@@ -2,11 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package lostcancel defines an Analyzer that checks for failure to
-// call a context cancelation function.
 package lostcancel
 
 import (
+	_ "embed"
 	"fmt"
 	"go/ast"
 	"go/types"
@@ -14,20 +13,18 @@ import (
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/ctrlflow"
 	"golang.org/x/tools/go/analysis/passes/inspect"
+	"golang.org/x/tools/go/analysis/passes/internal/analysisutil"
 	"golang.org/x/tools/go/ast/inspector"
 	"golang.org/x/tools/go/cfg"
 )
 
-const Doc = `check cancel func returned by context.WithCancel is called
-
-The cancelation function returned by context.WithCancel, WithTimeout,
-and WithDeadline must be called or the new context will remain live
-until its parent context is cancelled.
-(The background context is never cancelled.)`
+//go:embed doc.go
+var doc string
 
 var Analyzer = &analysis.Analyzer{
 	Name: "lostcancel",
-	Doc:  Doc,
+	Doc:  analysisutil.MustExtractDoc(doc, "lostcancel"),
+	URL:  "https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/lostcancel",
 	Run:  run,
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
@@ -45,11 +42,13 @@ var contextPackage = "context"
 // control-flow path from the call to a return statement and that path
 // does not "use" the cancel function.  Any reference to the variable
 // counts as a use, even within a nested function literal.
+// If the variable's scope is larger than the function
+// containing the assignment, we assume that other uses exist.
 //
 // checkLostCancel analyzes a single named or literal function.
 func run(pass *analysis.Pass) (interface{}, error) {
 	// Fast path: bypass check if file doesn't use context.WithCancel.
-	if !hasImport(pass.Pkg, contextPackage) {
+	if !analysisutil.Imports(pass.Pkg, contextPackage) {
 		return nil, nil
 	}
 
@@ -66,6 +65,15 @@ func run(pass *analysis.Pass) (interface{}, error) {
 }
 
 func runFunc(pass *analysis.Pass, node ast.Node) {
+	// Find scope of function node
+	var funcScope *types.Scope
+	switch v := node.(type) {
+	case *ast.FuncLit:
+		funcScope = pass.TypesInfo.Scopes[v.Type]
+	case *ast.FuncDecl:
+		funcScope = pass.TypesInfo.Scopes[v.Type]
+	}
+
 	// Maps each cancel variable to its defining ValueSpec/AssignStmt.
 	cancelvars := make(map[*types.Var]ast.Node)
 
@@ -110,11 +118,15 @@ func runFunc(pass *analysis.Pass, node ast.Node) {
 		}
 		if id != nil {
 			if id.Name == "_" {
-				pass.Reportf(id.Pos(),
+				pass.ReportRangef(id,
 					"the cancel function returned by context.%s should be called, not discarded, to avoid a context leak",
 					n.(*ast.SelectorExpr).Sel.Name)
 			} else if v, ok := pass.TypesInfo.Uses[id].(*types.Var); ok {
-				cancelvars[v] = stmt
+				// If the cancel variable is defined outside function scope,
+				// do not analyze it.
+				if funcScope.Contains(v.Pos()) {
+					cancelvars[v] = stmt
+				}
 			} else if v, ok := pass.TypesInfo.Defs[id].(*types.Var); ok {
 				cancelvars[v] = stmt
 			}
@@ -159,22 +171,13 @@ func runFunc(pass *analysis.Pass, node ast.Node) {
 	for v, stmt := range cancelvars {
 		if ret := lostCancelPath(pass, g, v, stmt, sig); ret != nil {
 			lineno := pass.Fset.Position(stmt.Pos()).Line
-			pass.Reportf(stmt.Pos(), "the %s function is not used on all paths (possible context leak)", v.Name())
-			pass.Reportf(ret.Pos(), "this return statement may be reached without using the %s var defined on line %d", v.Name(), lineno)
+			pass.ReportRangef(stmt, "the %s function is not used on all paths (possible context leak)", v.Name())
+			pass.ReportRangef(ret, "this return statement may be reached without using the %s var defined on line %d", v.Name(), lineno)
 		}
 	}
 }
 
 func isCall(n ast.Node) bool { _, ok := n.(*ast.CallExpr); return ok }
-
-func hasImport(pkg *types.Package, path string) bool {
-	for _, imp := range pkg.Imports() {
-		if imp.Path() == path {
-			return true
-		}
-	}
-	return false
-}
 
 // isContextWithCancel reports whether n is one of the qualified identifiers
 // context.With{Cancel,Timeout,Deadline}.
