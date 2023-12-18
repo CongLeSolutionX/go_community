@@ -33,6 +33,24 @@
       "message": "Although I applaud the concision of this way of annotating the changes, they don\u0027t convey enough information. There just isn\u0027t enough context. If I want to know what an annotation is referring to, I\u0027ll still need to go to the release notes. That makes this a poor solution.\n\nAlso, upon reflection it\u0027s less clear the spec is the place to do this. It\u0027s a good idea to write down when things happened in a single central place, but doing that in the spec is a distraction and perhaps the wrong place - most readers don\u0027t come to the spec to see what happened in version 1.3.\n\nWhat we want is a list: this happened in 1.0, this happened in 1.1, etc., with links to the relevant section of the spec.\n\nA better solution would be to have a separate document, linked from the spec, that can be updated without changing the spec and can be more expansive in its explanations. That can be ordered by time and version number, but be fairly compact relative to trawling through all the release notes. I originally suggested this be an appendix, one that would have this form, but now feel that a separate document is preferable.",
       "revId": "e66ab9d94e2ceb503c26727118b0005b198dffb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d995cef7_d86e8767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-12-18T22:51:26Z",
+      "side": 1,
+      "message": "I\u0027d rather not have yet another document to maintain:\n\n- Most people won\u0027t need this information as they will program against the latest (or close to latest) spec version. If they run into a problem (compiler error message), the error message is pretty clear: \"feature xyz requires version 1.dd\". Most likely that\u0027s all that\u0027s needed.\n\n- People who care about what happened in 1.3 in full detail will look for the release notes (google \"golang release notes 1.3\"). Most of the changes in a release are not language changes anyway.\n\n- If we make changes to the language, we will need to update the spec and the language version history - so it makes sense to do this in a single document.\n\n- The version history in the appendix is sorted as suggested: by version number (happy to add a date/time).\n\nThe point is not so much a detailed historic account of language changes (which may well be a separate document) but a documentation of the language requirements enforced by the compiler, which is why I think this needs to be in the spec.",
+      "parentUuid": "08776bf3_682da76d",
+      "revId": "e66ab9d94e2ceb503c26727118b0005b198dffb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
