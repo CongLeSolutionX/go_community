@@ -126,6 +126,23 @@
       "parentUuid": "876fbedd_a4e96822",
       "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb5558ae_49cbab92",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2023-12-18T16:00:04Z",
+      "side": 1,
+      "message": "I wonder if this is really worth it, the new code is quite verbose and difficult to read.",
+      "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
