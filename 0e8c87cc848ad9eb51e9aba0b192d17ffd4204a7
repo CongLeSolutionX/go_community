@@ -90,6 +90,24 @@
       "parentUuid": "c0ea66bc_c1f0e01a",
       "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876fbedd_a4e96822",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-18T13:32:11Z",
+      "side": 1,
+      "message": "Less repetitive implementation code means a smaller binary size, which should be a benefit.\nSorry, just because of network problems did not include in the last reply.",
+      "parentUuid": "48d9f567_9345700d",
+      "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
