@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32c09d63_c05aaf85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-12-18T18:37:10Z",
+      "side": 1,
+      "message": "LGTM, but I\u0027ll wait for r to approve.",
+      "revId": "e66ab9d94e2ceb503c26727118b0005b198dffb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
