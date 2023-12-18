@@ -128,6 +128,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0dc5a52_fce12d9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-12-18T19:37:13Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like a strong enough justification for making the code significantly harder to read and maintain.",
+      "parentUuid": "63cd6dd4_9eecf971",
+      "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb5558ae_49cbab92",
