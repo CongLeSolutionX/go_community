@@ -1585,6 +1585,23 @@ type Bad3 interface {
 type Bad4 interface {
 	[10]Bad4
 }
+
+// ok: Ok refers to itself through m, but is not contained in m
+type Ok interface {
+	m() Ok
+}
+</pre>
+
+<p>
+An interface type <code>T</code> may not refer to itself through
+an anonymous interface in the type cycle.
+</p>
+
+<pre>
+// illegal: the cycle of types from Bad5 back to itself contains an anonymous interface
+type Bad5 interface {
+	m() interface{ Bad5 }
+}
 </pre>
 
 <h4 id="Implementing_an_interface">Implementing an interface</h4>
