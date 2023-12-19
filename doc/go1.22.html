@@ -571,12 +571,10 @@ defer func() {
 
 <dl id="html/template"><dt><a href="/pkg/html/template/">html/template</a></dt>
   <dd>
-    <p><!-- https://go.dev/issue/61619 -->
-      TODO: <a href="https://go.dev/issue/61619">https://go.dev/issue/61619</a>: allow actions in JS template literals
-    </p>
-
-    <p><!-- CL 507995 -->
-      TODO: <a href="https://go.dev/cl/507995">https://go.dev/cl/507995</a>: html/template: support parsing complex JS template literals; modified api/next/61619.txt
+    <p><!-- https://go.dev/issue/61619, CL 507995 -->
+      Javascript template literals may now contain Go template actions, and parsing a template containing one will
+      no longer return <code>ErrJSTemplate</code>. Similarly the GODEBUG setting <code>jstmpllitinterp</code> no
+      longer has any effect.
     </p>
   </dd>
 </dl><!-- html/template -->
