@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfdb66cc_56ddb007",
+        "filename": "src/log/slog/example_discard_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-12-19T18:18:58Z",
+      "side": 1,
+      "message": "While this is probably the shortest way to accomplish the result, it will waste work on calls to Logger.With and Logger.WithGroup. It\u0027s easy enough to write nop versions of all four handler methods.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "7781f0147eac9041398d99ef9ead173ce673ed4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
