@@ -51,6 +51,24 @@
       "parentUuid": "08776bf3_682da76d",
       "revId": "e66ab9d94e2ceb503c26727118b0005b198dffb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d5eda1d_4e7f65a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-12-19T03:10:21Z",
+      "side": 1,
+      "message": "But I feel that the current format makes it unclear exactly what is being identified as in that version.\n\nConsider the first instance:\n\nThe following character sequences represent \u003ca href\u003d\"#Operators\"\u003eoperators\u003c/a\u003e\n(including \u003ca href\u003d\"#Assignment_statements\"\u003eassignment operators\u003c/a\u003e) and punctuation\n\u003ca href\u003d\"#Go_1.18\"\u003e[Go 1.18]\u003c/a\u003e:\n\nWhat happened in Go 1.18? It\u0027s unclear. (And offhand I am not sure myself.)",
+      "parentUuid": "d995cef7_d86e8767",
+      "revId": "e66ab9d94e2ceb503c26727118b0005b198dffb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
