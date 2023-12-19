@@ -51,6 +51,24 @@
       "message": "I read this code and I am still not comfortable with the CL. Bryan is on vacation this week and I am dealing with not having power at my house, which doesn\u0027t give us much bandwidth to figure out exactly what the answer is.\n\nFor the purposes of the release I think we should roll back the earlier fix, keeping the Go 1.21 behavior for Go 1.22. Then we can work in January on a point release fix to go out in February that we all agree on. I think -modcacherw not working in upgrades is uncommon enough that it can wait.",
       "revId": "5647578230cab57e3befb9a736b045063e0156b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61f17bab_3b5afee9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-12-19T14:26:29Z",
+      "side": 1,
+      "message": "Sent CL 551215 for the revert.",
+      "parentUuid": "04520186_c829ef1f",
+      "revId": "5647578230cab57e3befb9a736b045063e0156b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
