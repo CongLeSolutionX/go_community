@@ -125,6 +125,74 @@
       "parentUuid": "7ba21e01_9bb1bf86",
       "revId": "fbc64ae7c48731a130e4ff8d17e73ef793f3d32d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4385b349_e6c55ae4",
+        "filename": "src/sync/map.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-12-19T15:15:28Z",
+      "side": 1,
+      "message": "```\n% go doc builtin.clear\nFor maps, clear deletes all entries, resulting in an empty map.\n```\nI am not sure this `Clear` needs a similar doc comment.",
+      "revId": "fbc64ae7c48731a130e4ff8d17e73ef793f3d32d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc071868_5dff1db7",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-12-19T15:15:28Z",
+      "side": 1,
+      "message": "(nit): omit this empty line?",
+      "revId": "fbc64ae7c48731a130e4ff8d17e73ef793f3d32d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3319eb5d_c500bd8f",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-12-19T15:15:28Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "fbc64ae7c48731a130e4ff8d17e73ef793f3d32d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08dd0393_1f46a7f8",
+        "filename": "src/sync/map_bench_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-12-19T15:15:28Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "fbc64ae7c48731a130e4ff8d17e73ef793f3d32d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
