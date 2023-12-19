@@ -147,6 +147,7 @@ func goStatusToTraceGoStatus(status uint32, wr waitReason) traceGoStatus {
 			wr == waitReasonGCMarkTermination ||
 			wr == waitReasonGarbageCollection ||
 			wr == waitReasonTraceProcStatus ||
+			wr == waitReasonTracePage ||
 			wr == waitReasonGCWorkerActive {
 			tgs = traceGoRunning
 		}
