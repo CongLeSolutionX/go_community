@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "311d181b_ca4c4471",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-12-19T18:21:57Z",
+      "side": 1,
+      "message": "I\u0027m not particularly wedded to the current approach but I am not convinced that it\u0027s sufficient to have it all outside the spec.\n\nThere\u0027s a concrete issue coming up with the fortcoming 1.22 release: the new iteration variable semantics is on for 1.22\u003d, but for 1.21 we use the old semantics. Is it sufficient to describe this separately?",
+      "revId": "0db286f9cd228c32b4021f968ffe8bd6a5a25352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
