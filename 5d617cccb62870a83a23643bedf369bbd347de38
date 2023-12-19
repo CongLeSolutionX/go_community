@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "75fd0f9e_a6609424",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-12-19T14:29:09Z",
+      "side": 1,
+      "message": "perhaps nitpicking, but shouldn\u0027t the commit that fixes 64738 also include a regression test like the one Bryan wrote? or perhaps as the next CL in a short chain.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 2
+      },
+      "revId": "5d617cccb62870a83a23643bedf369bbd347de38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6d5dc4b5_137f810a",
@@ -14,6 +37,23 @@
       "writtenOn": "2023-12-19T14:25:17Z",
       "side": 1,
       "message": "Thanks.",
+      "revId": "5d617cccb62870a83a23643bedf369bbd347de38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44897e58_16eb48fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-12-19T14:29:09Z",
+      "side": 1,
+      "message": "SGTM since you mention Bryan is away this week. This breakage is one of the rare cases where I\u0027m having to pause daily driving tip for work, so I agree with having a fix sooner than later, even if only a temporary one.",
       "revId": "5d617cccb62870a83a23643bedf369bbd347de38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
