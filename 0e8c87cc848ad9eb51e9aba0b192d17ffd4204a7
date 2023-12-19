@@ -164,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3761729e_51bf44da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-19T06:06:00Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s what the compiler should optimize for. Because there\u0027s more than one way to tell if the slices are equal.",
+      "parentUuid": "6d54200e_2cfce845",
+      "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb5558ae_49cbab92",
@@ -177,6 +195,24 @@
       "writtenOn": "2023-12-18T16:00:04Z",
       "side": 1,
       "message": "I wonder if this is really worth it, the new code is quite verbose and difficult to read.",
+      "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "482c6401_ec9a3f49",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-19T06:06:00Z",
+      "side": 1,
+      "message": "I know that the readability of the new code is not as good as that of the old code.\nI thought bytealg.Equal can prevent a significant decrease in readability.\nNow that I have been convinced by the argument of poor readability, I will keep the eqslice function and apply optimization within it.",
+      "parentUuid": "eb5558ae_49cbab92",
       "revId": "0e8c87cc848ad9eb51e9aba0b192d17ffd4204a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
