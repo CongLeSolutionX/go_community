@@ -1127,6 +1127,7 @@ const (
 	waitReasonFlushProcCaches                         // "flushing proc caches"
 	waitReasonTraceGoroutineStatus                    // "trace goroutine status"
 	waitReasonTraceProcStatus                         // "trace proc status"
+	waitReasonTracePage                               // "trace page"
 	waitReasonCoroutine                               // "coroutine"
 )
 
