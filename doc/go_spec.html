@@ -6516,7 +6516,6 @@ additionally it may specify an <i>init</i>
 and a <i>post</i> statement, such as an assignment,
 an increment or decrement statement. The init statement may be a
 <a href="#Short_variable_declarations">short variable declaration</a>, but the post statement must not.
-Variables declared by the init statement are re-used in each iteration.
 </p>
 
 <pre class="ebnf">
@@ -6548,6 +6547,35 @@ for cond { S() }    is the same as    for ; cond ; { S() }
 for      { S() }    is the same as    for true     { S() }
 </pre>
 
+<p>
+Each iteration gets new copies of the variables declared by the init statement:
+</p>
+
+<pre>
+i := 0
+for j := 0; i < 3; i++ {
+	j = i
+	defer func() {
+		println(i, j)
+	}()
+}
+</pre>
+
+<p>
+prints
+</p>
+
+<pre>
+3 2
+3 1
+3 0
+</pre>
+
+<p>
+as there is exactly one <code>i</code> but a new copy of <code>j</code> for
+each iteration.
+</p>
+
 <h4 id="For_range">For statements with <code>range</code> clause</h4>
 
 <p>
@@ -6573,6 +6601,12 @@ denote the iteration variables. If the range expression is a channel or integer,
 at most one iteration variable is permitted, otherwise there may be up to two.
 If the last iteration variable is the <a href="#Blank_identifier">blank identifier</a>,
 the range clause is equivalent to the same clause without that identifier.
+</p>
+
+<p>
+As with "for" statements that have <a href="#For_clause">init statements</a>,
+each iteration uses new copies of iteration variables declared on the left of
+the "range" clause:
 </p>
 
 <p>
