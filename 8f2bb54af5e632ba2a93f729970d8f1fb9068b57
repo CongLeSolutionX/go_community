@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "954ea99d_3b23160d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2023-12-20T05:01:04Z",
+      "side": 1,
+      "message": "Fixes #64804.",
+      "revId": "8f2bb54af5e632ba2a93f729970d8f1fb9068b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8dc4b53b_29deb342",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
