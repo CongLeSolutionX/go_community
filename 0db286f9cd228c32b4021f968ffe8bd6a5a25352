@@ -33,6 +33,24 @@
       "message": "Maybe this text should be modified to something like:\n\n    A link of the form ... indicates that ... to build. \n    For details, see the linked section of the appendix.\n\nThen it is clearer that you click the link to get more information. Otherwise you don\u0027t realize that until you get to the very end of the spec. At that point I think we\u0027ve basically done what Rob suggested, namely have a separate doc (the appendix) with links to it where relevant.\n\n(I\u0027d also suggest putting the link inside the [ ], that is not hyperlinking the brackets themselves. I think that\u0027s just more idiomatic in html pages.)",
       "revId": "0db286f9cd228c32b4021f968ffe8bd6a5a25352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ce77f6_20097e5b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-12-20T20:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a76193f_934163a5",
+      "revId": "0db286f9cd228c32b4021f968ffe8bd6a5a25352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
