@@ -16,6 +16,29 @@
       "message": "So does this make anything demonstrably faster?",
       "revId": "19dd6b67ed5ffbd224eeebbd30569a8a96d52db7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b6feae0_0acb681a",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-20T16:58:10Z",
+      "side": 1,
+      "message": "8 is incorrect on 32-bit platforms.\n\nWe have a very high correctness standard when it comes to the runtime. Using unsafe is often necessary in the runtime, but:\n\n1. We want to use it only when it is really necessary, and\n2. We want to make sure that the uses we do have are very well tested\n\nI don\u0027t think this CL satisfies either of those. (2 could be fixed, but I don\u0027t think 1 can be.)",
+      "range": {
+        "startLine": 343,
+        "startChar": 69,
+        "endLine": 343,
+        "endChar": 70
+      },
+      "revId": "19dd6b67ed5ffbd224eeebbd30569a8a96d52db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
