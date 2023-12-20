@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7342c81_08db372e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-12-20T03:59:57Z",
+      "side": 1,
+      "message": "calling your example Ok is confusing. perhaps something that doesn\u0027t itself carry weight, such as Foo or X.\n\nwe have used this before but not often. it really should be in upper case: OK",
+      "revId": "0825037a7df0db09e975caf4ad0b6bebc19d1e3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

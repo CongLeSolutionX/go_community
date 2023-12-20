@@ -16,6 +16,24 @@
       "message": "As I read it, this doesn\u0027t seem to precisely capture the issue. For example:\n\n```\ntype A interface { m() interface { m() A } }\n```\n\nis not a problem, despite A referring to itself through the anonymous interface `interface{ m() A }`. The issue with Bad5 below is that Bad5 is embedded in that interface, so there\u0027s no valid way to finitely expand it into an embedding-free representation.\n\nDo we have any spec wording disallowing `type T \u003d *T`? I couldn\u0027t immediately find any. I\u0027d imagine we could define a \"type normalization\" step (maybe as part of defining type identity?), where aliases are replaced with their definition and embedded interfaces are expanded, and require this normalization to terminate. WDYT?",
       "revId": "bb1cdeec201e91ee43983d5d51c1629debcd0bba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61fa6769_ca6bf20b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1597,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-12-20T03:59:57Z",
+      "side": 1,
+      "message": "doesn\u0027t it come down to what it means to instantiate a thing that satisfies it, or something like that? the situation is the type analogous to\n\ntype S struct { S }\n\nvs.\n\ntype S struct ( *S }\n\nThe last of these is legal, but the reason is entirely operational at root.",
+      "parentUuid": "935cdfac_718a3850",
+      "revId": "bb1cdeec201e91ee43983d5d51c1629debcd0bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
