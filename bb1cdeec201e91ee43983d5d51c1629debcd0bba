@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "935cdfac_718a3850",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1597,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-12-20T01:07:27Z",
+      "side": 1,
+      "message": "As I read it, this doesn\u0027t seem to precisely capture the issue. For example:\n\n```\ntype A interface { m() interface { m() A } }\n```\n\nis not a problem, despite A referring to itself through the anonymous interface `interface{ m() A }`. The issue with Bad5 below is that Bad5 is embedded in that interface, so there\u0027s no valid way to finitely expand it into an embedding-free representation.\n\nDo we have any spec wording disallowing `type T \u003d *T`? I couldn\u0027t immediately find any. I\u0027d imagine we could define a \"type normalization\" step (maybe as part of defining type identity?), where aliases are replaced with their definition and embedded interfaces are expanded, and require this normalization to terminate. WDYT?",
+      "revId": "bb1cdeec201e91ee43983d5d51c1629debcd0bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
