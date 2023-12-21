@@ -255,6 +255,30 @@
       },
       "revId": "fa90648b08f2c8ab9f16d09fb60e977063bbeeca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b42626_09202646",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-21T18:15:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd46c3dd_bde7d320",
+      "range": {
+        "startLine": 377,
+        "startChar": 32,
+        "endLine": 377,
+        "endChar": 36
+      },
+      "revId": "fa90648b08f2c8ab9f16d09fb60e977063bbeeca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
