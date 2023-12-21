@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4b251e7_fca32dd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-21T12:27:34Z",
+      "side": 1,
+      "message": "Thank you for all the review comments here.\n\nI came across this function by chance while optimizing the program using pprof. My intuition was that it could be optimized. I just researched it and there is not enough evidence to prove that using unsafe in eqslice is necessary. I will abandon this CL.",
+      "revId": "19dd6b67ed5ffbd224eeebbd30569a8a96d52db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b6feae0_0acb681a",
