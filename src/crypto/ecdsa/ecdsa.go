@@ -22,18 +22,18 @@ package ecdsa
 import (
 	"bytes"
 	"crypto"
-	"crypto/aes"
-	"crypto/cipher"
 	"crypto/ecdh"
 	"crypto/elliptic"
+	"crypto/hmac"
 	"crypto/internal/bigmod"
 	"crypto/internal/boring"
 	"crypto/internal/boring/bbig"
 	"crypto/internal/nistec"
 	"crypto/internal/randutil"
-	"crypto/sha512"
+	"crypto/sha256"
 	"crypto/subtle"
 	"errors"
+	"hash"
 	"io"
 	"math/big"
 	"sync"
@@ -182,7 +182,10 @@ func GenerateKey(c elliptic.Curve, rand io.Reader) (*PrivateKey, error) {
 }
 
 func generateNISTEC[Point nistPoint[Point]](c *nistCurve[Point], rand io.Reader) (*PrivateKey, error) {
-	k, Q, err := randomPoint(c, rand)
+	k, Q, err := randomPoint(c, func(b []byte) error {
+		_, err := io.ReadFull(rand, b)
+		return err
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -199,29 +202,41 @@ func generateNISTEC[Point nistPoint[Point]](c *nistCurve[Point], rand io.Reader)
 
 // randomPoint returns a random scalar and the corresponding point using the
 // procedure given in FIPS 186-4, Appendix B.5.2 (rejection sampling).
-func randomPoint[Point nistPoint[Point]](c *nistCurve[Point], rand io.Reader) (k *bigmod.Nat, p Point, err error) {
+//
+// rand is a function that fills the provided buffer with random bytes
+// completely, or returns an error.
+//
+// This function can be used with ReadFull(rand.Reader) for key generation, or
+// as step (h) of Section 3.2 of RFC 6979 for nonce generation. Note that the
+// latter doesn't treat the RNG as a continuous stream of bytes but as a source
+// to draw discrete buffers from, hence rand not being an io.Reader.
+func randomPoint[Point nistPoint[Point]](c *nistCurve[Point], rand func([]byte) error) (k *bigmod.Nat, p Point, err error) {
 	k = bigmod.NewNat()
 	for {
 		b := make([]byte, c.N.Size())
-		if _, err = io.ReadFull(rand, b); err != nil {
+		if err = rand(b); err != nil {
 			return
 		}
 
-		// Mask off any excess bits to increase the chance of hitting a value in
-		// (0, N). These are the most dangerous lines in the package and maybe in
-		// the library: a single bit of bias in the selection of nonces would likely
-		// lead to key recovery, but no tests would fail. Look but DO NOT TOUCH.
+		// Right shift the bytes buffer to match the bit length of N. It would
+		// be safer and easier to mask off the extra bits on the left, but this
+		// is what RFC 6979 does, and doing it consistently lets us properly
+		// test it. (These might be the most dangerous lines in the package and
+		// maybe in the library: a single bit of bias in the selection of nonces
+		// would likely lead to key recovery.)
 		if excess := len(b)*8 - c.N.BitLen(); excess > 0 {
 			// Just to be safe, assert that this only happens for the one curve that
 			// doesn't have a round number of bits.
 			if excess != 0 && c.curve.Params().Name != "P-521" {
 				panic("ecdsa: internal error: unexpectedly masking off bits")
 			}
-			b[0] >>= excess
+			b = rightShift(b, excess)
 		}
 
 		// FIPS 186-4 makes us check k <= N - 2 and then add one.
-		// Checking 0 < k <= N - 1 is strictly equivalent.
+		// RFC 6979 makes us check 0 < k <= N - 1.
+		// The two are strictly equivalent (except that we are about reproducing
+		// RFC 6979 bit-by-bit for determinism and testability).
 		// None of this matters anyway because the chance of selecting
 		// zero is cryptographically negligible.
 		if _, err = k.SetBytes(b, c.N); err == nil && k.IsZero() == 0 {
@@ -241,6 +256,76 @@ func randomPoint[Point nistPoint[Point]](c *nistCurve[Point], rand io.Reader) (k
 // randomPoint rejects a candidate for being higher than the modulus.
 var testingOnlyRejectionSamplingLooped func()
 
+// rfc6979DRBG is the candidate generation function for randomPoint defined by
+// RFC 6979, Section 3.2. If rnd is empty, the signature will be deterministic.
+func rfc6979DRBG[Point nistPoint[Point]](c *nistCurve[Point], x *PrivateKey,
+	h1 *bigmod.Nat, rnd []byte, hash func() hash.Hash) func([]byte) error {
+	hlen := hash().Size()
+
+	// V = 0x01 0x01 0x01 ... 0x01
+	V := make([]byte, hlen)
+	for i := range V {
+		V[i] = 0x01
+	}
+
+	// K = 0x00 0x00 0x00 ... 0x00
+	K := make([]byte, hlen)
+
+	// Second variant from Section 3.6: add randomness, if provided, to
+	// randomize the signature and prevent fault attacks.
+	// K = HMAC_K(V || 0x00 || int2octets(x) || bits2octets(h1) || k')
+	h := hmac.New(hash, K)
+	h.Write(V)
+	h.Write([]byte{0x00})
+	h.Write(x.D.FillBytes(make([]byte, c.N.Size())))
+	h.Write(h1.Bytes(c.N))
+	h.Write(rnd)
+	K = h.Sum(K[:0])
+
+	// V = HMAC_K(V)
+	h = hmac.New(hash, K)
+	h.Write(V)
+	V = h.Sum(V[:0])
+
+	firstLoop := true
+	return func(b []byte) error {
+		if firstLoop {
+			// K = HMAC_K(V || 0x01 || int2octets(x) || bits2octets(h1) || k')
+			h.Reset()
+			h.Write(V)
+			h.Write([]byte{0x01})
+			h.Write(x.D.FillBytes(make([]byte, c.N.Size())))
+			h.Write(h1.Bytes(c.N))
+			h.Write(rnd)
+			K = h.Sum(K[:0])
+
+			firstLoop = false
+		} else {
+			// K = HMAC_K(V || 0x00)
+			h.Reset()
+			h.Write(V)
+			h.Write([]byte{0x00})
+			K = h.Sum(K[:0])
+		}
+
+		// V = HMAC_K(V)
+		h = hmac.New(hash, K)
+		h.Write(V)
+		V = h.Sum(V[:0])
+
+		tlen := 0
+		for tlen < len(b) {
+			// V = HMAC_K(V)
+			// T = T || V
+			h.Reset()
+			h.Write(V)
+			V = h.Sum(V[:0])
+			tlen += copy(b[tlen:], V)
+		}
+		return nil
+	}
+}
+
 // errNoAsm is returned by signAsm and verifyAsm when the assembly
 // implementation is not available.
 var errNoAsm = errors.New("no assembly implementation available")
@@ -254,8 +339,6 @@ var errNoAsm = errors.New("no assembly implementation available")
 // as rand. Note that the returned signature does not depend deterministically on
 // the bytes read from rand, and may change between calls and/or between versions.
 func SignASN1(rand io.Reader, priv *PrivateKey, hash []byte) ([]byte, error) {
-	randutil.MaybeReadByte(rand)
-
 	if boring.Enabled && rand == boring.RandReader {
 		b, err := boringPrivateKey(priv)
 		if err != nil {
@@ -265,33 +348,42 @@ func SignASN1(rand io.Reader, priv *PrivateKey, hash []byte) ([]byte, error) {
 	}
 	boring.UnreachableExceptTests()
 
-	csprng, err := mixedCSPRNG(rand, priv, hash)
-	if err != nil {
-		return nil, err
-	}
+	// TODO: reactivate S390x assembly.
+	// if sig, err := signAsm(priv, csprng, hash); err != errNoAsm {
+	//     return sig, err
+	// }
 
-	if sig, err := signAsm(priv, csprng, hash); err != errNoAsm {
-		return sig, err
+	var rnd []byte
+	if rand != nil {
+		randutil.MaybeReadByte(rand)
+		rnd = make([]byte, 32)
+		if _, err := io.ReadFull(rand, rnd); err != nil {
+			return nil, err
+		}
 	}
 
 	switch priv.Curve.Params() {
 	case elliptic.P224().Params():
-		return signNISTEC(p224(), priv, csprng, hash)
+		return signNISTEC(p224(), priv, rnd, hash)
 	case elliptic.P256().Params():
-		return signNISTEC(p256(), priv, csprng, hash)
+		return signNISTEC(p256(), priv, rnd, hash)
 	case elliptic.P384().Params():
-		return signNISTEC(p384(), priv, csprng, hash)
+		return signNISTEC(p384(), priv, rnd, hash)
 	case elliptic.P521().Params():
-		return signNISTEC(p521(), priv, csprng, hash)
+		return signNISTEC(p521(), priv, rnd, hash)
 	default:
-		return signLegacy(priv, csprng, hash)
+		return signLegacy(priv, rand, hash)
 	}
 }
 
-func signNISTEC[Point nistPoint[Point]](c *nistCurve[Point], priv *PrivateKey, csprng io.Reader, hash []byte) (sig []byte, err error) {
+func signNISTEC[Point nistPoint[Point]](c *nistCurve[Point], priv *PrivateKey, rnd, hash []byte) (sig []byte, err error) {
 	// SEC 1, Version 2.0, Section 4.1.3
 
-	k, R, err := randomPoint(c, csprng)
+	e := bigmod.NewNat()
+	hashToNat(c, e, hash)
+
+	// TODO: wire the selection of hash function from PrivateKey.Sign.
+	k, R, err := randomPoint(c, rfc6979DRBG(c, priv, e, rnd, sha256.New))
 	if err != nil {
 		return nil, err
 	}
@@ -315,9 +407,6 @@ func signNISTEC[Point nistPoint[Point]](c *nistCurve[Point], priv *PrivateKey, c
 	if r.IsZero() == 1 {
 		return nil, errors.New("ecdsa: internal error: r is zero")
 	}
-
-	e := bigmod.NewNat()
-	hashToNat(c, e, hash)
 
 	s, err := bigmod.NewNat().SetBytes(priv.D.Bytes(), c.N)
 	if err != nil {
@@ -384,20 +473,10 @@ func inverse[Point nistPoint[Point]](c *nistCurve[Point], kInv, k *bigmod.Nat) {
 // hashToNat sets e to the left-most bits of hash, according to
 // SEC 1, Section 4.1.3, point 5 and Section 4.1.4, point 3.
 func hashToNat[Point nistPoint[Point]](c *nistCurve[Point], e *bigmod.Nat, hash []byte) {
-	// ECDSA asks us to take the left-most log2(N) bits of hash, and use them as
-	// an integer modulo N. This is the absolute worst of all worlds: we still
-	// have to reduce, because the result might still overflow N, but to take
-	// the left-most bits for P-521 we have to do a right shift.
 	if size := c.N.Size(); len(hash) >= size {
 		hash = hash[:size]
 		if excess := len(hash)*8 - c.N.BitLen(); excess > 0 {
-			hash = bytes.Clone(hash)
-			for i := len(hash) - 1; i >= 0; i-- {
-				hash[i] >>= excess
-				if i > 0 {
-					hash[i] |= hash[i-1] << (8 - excess)
-				}
-			}
+			hash = rightShift(hash, excess)
 		}
 	}
 	_, err := e.SetOverflowingBytes(hash, c.N)
@@ -406,61 +485,24 @@ func hashToNat[Point nistPoint[Point]](c *nistCurve[Point], e *bigmod.Nat, hash 
 	}
 }
 
-// mixedCSPRNG returns a CSPRNG that mixes entropy from rand with the message
-// and the private key, to protect the key in case rand fails. This is
-// equivalent in security to RFC 6979 deterministic nonce generation, but still
-// produces randomized signatures.
-func mixedCSPRNG(rand io.Reader, priv *PrivateKey, hash []byte) (io.Reader, error) {
-	// This implementation derives the nonce from an AES-CTR CSPRNG keyed by:
-	//
-	//    SHA2-512(priv.D || entropy || hash)[:32]
-	//
-	// The CSPRNG key is indifferentiable from a random oracle as shown in
-	// [Coron], the AES-CTR stream is indifferentiable from a random oracle
-	// under standard cryptographic assumptions (see [Larsson] for examples).
-	//
-	// [Coron]: https://cs.nyu.edu/~dodis/ps/merkle.pdf
-	// [Larsson]: https://web.archive.org/web/20040719170906/https://www.nada.kth.se/kurser/kth/2D1441/semteo03/lecturenotes/assump.pdf
-
-	// Get 256 bits of entropy from rand.
-	entropy := make([]byte, 32)
-	if _, err := io.ReadFull(rand, entropy); err != nil {
-		return nil, err
+// rightShift implements the right shift necessary for bits2int.
+//
+// ECDSA asks us to take the left-most log2(N) bits of hash, and use them as
+// an integer modulo N. This is the absolute worst of all worlds: we still
+// have to reduce, because the result might still overflow N, but to take
+// the left-most bits for P-521 we have to do a right shift.
+func rightShift(b []byte, shift int) []byte {
+	if shift >= 8 {
+		panic("ecdsa: internal error: tried to shift by more than 8 bits")
 	}
-
-	// Initialize an SHA-512 hash context; digest...
-	md := sha512.New()
-	md.Write(priv.D.Bytes()) // the private key,
-	md.Write(entropy)        // the entropy,
-	md.Write(hash)           // and the input hash;
-	key := md.Sum(nil)[:32]  // and compute ChopMD-256(SHA-512),
-	// which is an indifferentiable MAC.
-
-	// Create an AES-CTR instance to use as a CSPRNG.
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
+	b = bytes.Clone(b)
+	for i := len(b) - 1; i >= 0; i-- {
+		b[i] >>= shift
+		if i > 0 {
+			b[i] |= b[i-1] << (8 - shift)
+		}
 	}
-
-	// Create a CSPRNG that xors a stream of zeros with
-	// the output of the AES-CTR instance.
-	const aesIV = "IV for ECDSA CTR"
-	return &cipher.StreamReader{
-		R: zeroReader,
-		S: cipher.NewCTR(block, []byte(aesIV)),
-	}, nil
-}
-
-type zr struct{}
-
-var zeroReader = zr{}
-
-// Read replaces the contents of dst with zeros. It is safe for concurrent use.
-func (zr) Read(dst []byte) (n int, err error) {
-	for i := range dst {
-		dst[i] = 0
-	}
-	return len(dst), nil
+	return b
 }
 
 // VerifyASN1 verifies the ASN.1 encoded signature, sig, of hash using the
