@@ -115,3 +115,8 @@ func LastIndexRabinKarp[T string | []byte](s, sep T) int {
 // It is the caller's responsibility to ensure uninitialized bytes
 // do not leak to the end user.
 func MakeNoZero(n int) []byte
+
+// MakeNoZeroAtLeast makes a slice of length and capacity of at least n Bytes
+// without zeroing the bytes. It is the caller's responsibility to ensure
+// uninitialized bytes do not leak to the end user.
+func MakeNoZeroAtLeast(n int, noscan bool) []byte
