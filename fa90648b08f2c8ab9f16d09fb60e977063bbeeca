@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e16cb25e_ed70ea5d",
+        "filename": "src/internal/bytealg/bytealg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-21T17:18:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78a6e281_f29b3ca1",
+      "range": {
+        "startLine": 119,
+        "startChar": 15,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "fa90648b08f2c8ab9f16d09fb60e977063bbeeca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64290748_15926561",
@@ -127,6 +151,30 @@
       "writtenOn": "2023-12-21T16:55:27Z",
       "side": 1,
       "message": "the caller should pass this in. things can go surprisingly wrong when roundupsize is used incorrectly, and there\u0027s a chance of that happening here because the function name makes no indication that it\u0027s just for noscan objects.",
+      "range": {
+        "startLine": 377,
+        "startChar": 32,
+        "endLine": 377,
+        "endChar": 36
+      },
+      "revId": "fa90648b08f2c8ab9f16d09fb60e977063bbeeca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a6c8063_9721076f",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-21T17:18:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64290748_15926561",
       "range": {
         "startLine": 377,
         "startChar": 32,
