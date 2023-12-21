@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e2dbb1_1da69852",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-12-21T17:27:55Z",
+      "side": 1,
+      "message": "Could we make bytealg_MakeNoZero just return a slice with cap rounded up to size class boundary? The caller can down-slice it if it needs to. Is there any problem with that?",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
