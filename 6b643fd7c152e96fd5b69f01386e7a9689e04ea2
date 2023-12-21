@@ -16,6 +16,24 @@
       "message": "Can this bugfix be cherry-picked to version 1.20? I believe the impact is quite significant.",
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae280370_eb4110c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2023-12-21T13:29:25Z",
+      "side": 1,
+      "message": "please see https://go.dev/wiki/MinorReleases",
+      "parentUuid": "25e0d8ea_1bb8a960",
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
