@@ -70,6 +70,24 @@
       "parentUuid": "73c71766_728694b5",
       "revId": "61ff9679aa36f87265f241886413259f123dd877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6afd1abf_4508f4f5",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-21T19:07:47Z",
+      "side": 1,
+      "message": "Sometimes we assume (because of `len(s) \u003d\u003d cap(s)`), that append would allocate a new backing array.\n```\nbuf :\u003d bytes.Join([][]byte{{1, 2, 3}, {1, 2, 3}}, []byte{\u0027,\u0027}) // len(buf) \u003d\u003d cap(buf)\n_ \u003d append(buf, 1) // always allocates a new slice\n```\n\nReturning `len(s) !\u003d cap(s)` will obviously break that.",
+      "parentUuid": "55d52467_6f5d496e",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
