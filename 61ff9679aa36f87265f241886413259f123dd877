@@ -34,6 +34,24 @@
       "parentUuid": "94e2dbb1_1da69852",
       "revId": "61ff9679aa36f87265f241886413259f123dd877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c71766_728694b5",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-21T18:43:59Z",
+      "side": 1,
+      "message": "I wonder whether we are fine with returning `len(s) !\u003d cap(s)` from all other functions that currently uses `MakeNoZero`",
+      "parentUuid": "4138ed5f_19af46a5",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
