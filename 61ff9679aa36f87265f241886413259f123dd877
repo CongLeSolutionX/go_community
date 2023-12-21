@@ -52,6 +52,24 @@
       "parentUuid": "4138ed5f_19af46a5",
       "revId": "61ff9679aa36f87265f241886413259f123dd877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55d52467_6f5d496e",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-21T18:54:34Z",
+      "side": 1,
+      "message": "I think that would be ok, but we would need to zero that unwritten portion.",
+      "parentUuid": "73c71766_728694b5",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
