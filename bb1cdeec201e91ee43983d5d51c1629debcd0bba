@@ -34,6 +34,24 @@
       "parentUuid": "935cdfac_718a3850",
       "revId": "bb1cdeec201e91ee43983d5d51c1629debcd0bba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b95c1b28_26003964",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1597,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-12-21T21:05:19Z",
+      "side": 1,
+      "message": "\u003e doesn\u0027t it come down to what it means to instantiate a thing that satisfies it, or something like that?\n\nIt\u0027s not a problem to write types that implement interfaces with anonymous cycles. For example, go/types accepts:\n\n```\ntype I interface{ M() interface{ I } }\n\ntype T int\nfunc (T) M() interface{ I } { return nil }\n\nvar _ I \u003d T(0)\n```\n\nThe problem is defining a mapping from Go types to strings that correspond to type identity, which is essential to separate compilation. For example:\n\n```\ntype J interface{ M() interface{ M() interface{ J } } }\n```\n\n`I.M` and `J.M` have identical result types, but it seems non-trivial to define an efficient type serialization that respects this. Further examples are given in #56103.",
+      "parentUuid": "61fa6769_ca6bf20b",
+      "revId": "bb1cdeec201e91ee43983d5d51c1629debcd0bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
