@@ -88,6 +88,24 @@
       "parentUuid": "55d52467_6f5d496e",
       "revId": "61ff9679aa36f87265f241886413259f123dd877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f53f355_6df0e24d",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-21T19:58:50Z",
+      "side": 1,
+      "message": "It is certainly possible that someone is relying on the result having len(s) \u003d\u003d cap(s). It just seems pretty unlikely to me, and we certainly don\u0027t guarantee that in the docs of the affected functions.\n\nAt the same time, though, it is probably not worth changing this behavior. These aren\u0027t performance-critical functions (anyone doing ToLower a lot probably wants to do it in place, not via a new allocation). And it\u0027s easier to do [:len(s):len(s)] than it is to do the extra zeroing.",
+      "parentUuid": "6afd1abf_4508f4f5",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
