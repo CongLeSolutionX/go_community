@@ -16,6 +16,24 @@
       "message": "The current tests are not robust because they didn\u0027t verify whether the `poll.Splice` has been called to arrange zero-copy after `io.Copy`, it only simply verified the length of the copied data.",
       "revId": "caf08462638311ad6ab6cebf97851738b4157ba4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5442f3ba_bb414323",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-12-22T14:55:36Z",
+      "side": 1,
+      "message": "Therefore, we should verify if `poll.Splice` has been called during testing, just like [readfrom_linux_test.go](https://github.com/golang/go/blob/2184a394777ccc9ce9625932b2ad773e6e626be0/src/os/readfrom_linux_test.go#L336-L405) and [writeto_linux_test.go](https://github.com/golang/go/blob/2184a394777ccc9ce9625932b2ad773e6e626be0/src/os/writeto_linux_test.go#L44-L92) did.",
+      "parentUuid": "77a9bc80_1247f730",
+      "revId": "caf08462638311ad6ab6cebf97851738b4157ba4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
