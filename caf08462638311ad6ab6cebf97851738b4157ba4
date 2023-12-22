@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a9bc80_1247f730",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-12-22T14:47:54Z",
+      "side": 1,
+      "message": "The current tests are not robust because they didn\u0027t verify whether the `poll.Splice` has been called to arrange zero-copy after `io.Copy`, it only simply verified the length of the copied data.",
+      "revId": "caf08462638311ad6ab6cebf97851738b4157ba4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
