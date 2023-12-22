@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f8877ce_621d5a66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-22T19:20:18Z",
+      "side": 1,
+      "message": "for long history and reproducer see https://gist.github.com/aojea/32aeaa86aacebcdd93596ecb70fcba4f",
+      "revId": "a153933c87f1a12d837969756327d5545c7838f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
