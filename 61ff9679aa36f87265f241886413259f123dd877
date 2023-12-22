@@ -106,6 +106,24 @@
       "parentUuid": "6afd1abf_4508f4f5",
       "revId": "61ff9679aa36f87265f241886413259f123dd877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6050ba0f_c9d1bd23",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-22T14:17:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f53f355_6df0e24d",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
