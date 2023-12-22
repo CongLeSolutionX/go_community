@@ -16,6 +16,24 @@
       "message": "Hi, does this patch really do what it claims to do? It seems loop body hasn\u0027t been placed after loop header? i.e. the result looks like:\n\n//\t  JMP entry\n//\tloopHeader:\n//        ...\n//\tentry:\n//\t  CMPQ ...\n//\t  JLT loopExit\n//      loopBody:\n//        ...\n//        jmp loopHeader\n//      loopExit:",
       "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06d53f8f_a8268040",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-22T16:47:35Z",
+      "side": 1,
+      "message": "Could you show a concrete example where it isn\u0027t working? It seems to work in obvious cases, like\n\nfunc f(a []int) int {\n\ts :\u003d 0\n\tfor _, x :\u003d range a {\n\t\ts +\u003d x\n\t}\n\treturn s\n}\n\n\t0x000c 00012 (/Users/khr/gowork/tmp1.go:5)\tJMP\t28\n\t0x0010 00016 (/Users/khr/gowork/tmp1.go:5)\tMOVD\t(R0)(R2\u003c\u003c3), R4\n\t0x0014 00020 (/Users/khr/gowork/tmp1.go:5)\tADD\t$1, R2, R2\n\t0x0018 00024 (/Users/khr/gowork/tmp1.go:6)\tADD\tR3, R4, R3\n\t0x001c 00028 (/Users/khr/gowork/tmp1.go:5)\tCMP\tR2, R1\n\t0x0020 00032 (/Users/khr/gowork/tmp1.go:5)\tBGT\t16",
+      "parentUuid": "887fe3a9_c72630da",
+      "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
