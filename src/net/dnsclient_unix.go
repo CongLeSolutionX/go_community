@@ -194,7 +194,14 @@ func (r *Resolver) exchange(ctx context.Context, server string, q dnsmessage.Que
 		if err := p.SkipQuestion(); err != dnsmessage.ErrSectionDone {
 			return dnsmessage.Parser{}, dnsmessage.Header{}, errInvalidDNSResponse
 		}
-		if h.Truncated { // see RFC 5966
+		// RFC 5966 indicates that when a client receives and UDP response with
+		// the TC flag set, it should take the TC flag as an indication that it
+		// should retry over TCP instead.
+		// The case when the TC flag is set in a TCP response is not well specified,
+		// so this implements the glibc resolver behavior, returning the existing
+		// dns response instead of returning a "errNoAnswerFromDNSServer" error.
+		// See golang.org/issue/64896
+		if h.Truncated && network == "udp" {
 			continue
 		}
 		return p, h, nil
