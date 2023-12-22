@@ -94,6 +94,37 @@ func TestDNSTransportFallback(t *testing.T) {
 	}
 }
 
+func TestDNSTransportNoFallback(t *testing.T) {
+	fake := fakeDNSServer{
+		rh: func(n, _ string, q dnsmessage.Message, _ time.Time) (dnsmessage.Message, error) {
+			r := dnsmessage.Message{
+				Header: dnsmessage.Header{
+					ID:        q.Header.ID,
+					Response:  true,
+					RCode:     dnsmessage.RCodeSuccess,
+					Truncated: true,
+				},
+				Questions: q.Questions,
+			}
+			return r, nil
+		},
+	}
+	r := Resolver{PreferGo: true, Dial: fake.DialContext}
+	for _, tt := range dnsTransportFallbackTests {
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+		_, h, err := r.exchange(ctx, tt.server, tt.question, time.Second, useUDPOrTCP, false)
+		if err != nil {
+			t.Error(err)
+			continue
+		}
+		if h.RCode != tt.rcode {
+			t.Errorf("got %v from %v; want %v", h.RCode, tt.server, tt.rcode)
+			continue
+		}
+	}
+}
+
 // See RFC 6761 for further information about the reserved, pseudo
 // domain names.
 var specialDomainNameTests = []struct {

@@ -194,7 +194,7 @@ func (r *Resolver) exchange(ctx context.Context, server string, q dnsmessage.Que
 		if err := p.SkipQuestion(); err != dnsmessage.ErrSectionDone {
 			return dnsmessage.Parser{}, dnsmessage.Header{}, errInvalidDNSResponse
 		}
-		if h.Truncated { // see RFC 5966
+		if h.Truncated && network == "udp" { // see RFC 5966
 			continue
 		}
 		return p, h, nil
