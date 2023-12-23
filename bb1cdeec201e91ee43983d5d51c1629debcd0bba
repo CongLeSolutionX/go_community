@@ -52,6 +52,24 @@
       "parentUuid": "61fa6769_ca6bf20b",
       "revId": "bb1cdeec201e91ee43983d5d51c1629debcd0bba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9e6bf69_44ca31b3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1597,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-12-23T04:23:51Z",
+      "side": 1,
+      "message": "Well, I\u0027m outside my comfort zone, so will step out until it\u0027s time to review just the writing.",
+      "parentUuid": "b95c1b28_26003964",
+      "revId": "bb1cdeec201e91ee43983d5d51c1629debcd0bba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
