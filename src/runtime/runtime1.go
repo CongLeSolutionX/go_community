@@ -659,3 +659,13 @@ func reflect_addReflectOff(ptr unsafe.Pointer) int32 {
 	reflectOffsUnlock()
 	return id
 }
+
+// sync_pid return pid
+//
+//go:linkname sync_pid sync.pid
+func sync_pid() uint64 {
+	gp := getg()
+	mp := gp.m
+
+	return uint64(mp.p.ptr().id)
+}
