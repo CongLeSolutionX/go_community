@@ -34,6 +34,24 @@
       "parentUuid": "887fe3a9_c72630da",
       "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9068d16_a728417f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-12-25T02:44:35Z",
+      "side": 1,
+      "message": "\u003e Could you show a concrete example where it isn\u0027t working?\n\ne.g.\n```\nfunc main() {\n\ts :\u003d 0\n\tfor i :\u003d 0; i \u003c 10; i++ {\n\t\tif i \u003c 5 {\n\t\t\tpanic(\"FF\")\n\t\t}\n\t\ts +\u003d i\n\n\t}\n\tprintln(s)\n}\n\n...\n00020  XORL    AX, AX\n00022  XORL    CX, CX\n00024  JMP     36\n00026  LEAQ    1(AX), DX\n00030  ADDQ    AX, CX\n00033  MOVQ    DX, AX\n00036  CMPQ    AX, $10\n00040  JGE     50   ;;header\n00042  CMPQ    AX, $5 ;;loop body\n00046  JGE     26 \n00048  JMP     90\n00050  MOVQ    CX, main.s+16(SP) ;;exit\n...\n```\n`s+\u003di` is well placed, but `if\u003c5` stmt is placed after loop header",
+      "parentUuid": "06d53f8f_a8268040",
+      "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
