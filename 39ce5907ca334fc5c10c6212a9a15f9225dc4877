@@ -52,6 +52,24 @@
       "parentUuid": "06d53f8f_a8268040",
       "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83dd322b_1baef5b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-26T16:58:08Z",
+      "side": 1,
+      "message": "Yeah, I guess a better way to describe this optimization is that it moves the last block of the body to the top of the loop. Not the whole body.\n\nIt still succeeds in what it is intended to do - get rid of the unconditional branch at the end of the loop.",
+      "parentUuid": "d9068d16_a728417f",
+      "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
