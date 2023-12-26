@@ -16,6 +16,23 @@
       "message": "for long history and reproducer see https://gist.github.com/aojea/32aeaa86aacebcdd93596ecb70fcba4f",
       "revId": "a153933c87f1a12d837969756327d5545c7838f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a749fcc8_809b5669",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 45098
+      },
+      "writtenOn": "2023-12-26T21:19:15Z",
+      "side": 1,
+      "message": "It might be worth testing that records are returned given that truncation often, but does not always, involve removing all records. As a result, it is possible that some code expects or will expect that no records are returned along with a truncated bit. Since there likely isn\u0027t a viable retry mechanism to get the full response when the truncated bit is set with TCP, a truncated set of records is likely included and would be useful.",
+      "revId": "a153933c87f1a12d837969756327d5545c7838f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
