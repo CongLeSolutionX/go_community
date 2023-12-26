@@ -210,6 +210,11 @@ func (t rtype) textOff(off textOff) unsafe.Pointer {
 		return res
 	}
 	res := md.textAddr(uint32(off))
+	if GOARCH == "wasm" {
+		// On Wasm, the method table contains the function index, whereas
+		// the "PC" is function index + block index << 16.
+		res <<= 16
+	}
 	return unsafe.Pointer(res)
 }
 
