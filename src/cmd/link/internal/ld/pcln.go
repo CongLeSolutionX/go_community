@@ -610,6 +610,18 @@ func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, sta
 		if off < 0 {
 			panic(fmt.Sprintf("expected func %s(%x) to be placed at or after textStart (%x)", ldr.SymName(s), ldr.SymValue(s), textStart))
 		}
+		if ctxt.IsWasm() {
+			// On Wasm, the function table contains just the function index, whereas
+			// the "PC" (rs's Value) is function index << 16 + block index (see
+			// ../wasm/asm.go:assignAddress).
+			if off&(1<<16-1) != 0 {
+				ctxt.Errorf(s, "nonzero PC_B at function entry: %#x", off)
+			}
+			off >>= 16
+		}
+		if int64(uint32(off)) != off {
+			ctxt.Errorf(s, "pcOff overflow: %#x", off)
+		}
 		return uint32(off)
 	}
 	for i, s := range funcs {
@@ -619,7 +631,11 @@ func writePCToFunc(ctxt *Link, sb *loader.SymbolBuilder, funcs []loader.Sym, sta
 
 	// Final entry of table is just end pc offset.
 	lastFunc := funcs[len(funcs)-1]
-	sb.SetUint32(ctxt.Arch, int64(len(funcs))*2*4, pcOff(lastFunc)+uint32(ldr.SymSize(lastFunc)))
+	lastPC := pcOff(lastFunc) + uint32(ldr.SymSize(lastFunc))
+	if ctxt.IsWasm() {
+		lastPC = pcOff(lastFunc) + 1 // On Wasm it is function index (see above)
+	}
+	sb.SetUint32(ctxt.Arch, int64(len(funcs))*2*4, lastPC)
 }
 
 // writeFuncs writes the func structures and pcdata to runtime.functab.
