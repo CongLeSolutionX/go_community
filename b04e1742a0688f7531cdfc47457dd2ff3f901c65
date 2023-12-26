@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57cfc590_611be13a",
+        "filename": "src/internal/bytealg/bytealg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-26T20:51:17Z",
+      "side": 1,
+      "message": "Add \"without zeroing the bytes (including the bytes between len and cap)\"",
+      "revId": "b04e1742a0688f7531cdfc47457dd2ff3f901c65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

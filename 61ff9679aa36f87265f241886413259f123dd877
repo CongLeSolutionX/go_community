@@ -124,6 +124,23 @@
       "parentUuid": "8f53f355_6df0e24d",
       "revId": "61ff9679aa36f87265f241886413259f123dd877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce438c73_788db5f4",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-26T20:51:17Z",
+      "side": 1,
+      "message": "This needs a strong comment that data between len and cap might be uninitialized and it is unsafe to provide any way for the user to see that data. This package is already unsafe in that way before this CL, but might as well add that warning now.\n\n(Just in case anyone in the future thinks of adding a Bytes method or something like that.)",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
