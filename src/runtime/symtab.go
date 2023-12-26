@@ -555,8 +555,16 @@ func moduledataverify1(datap *moduledata) {
 
 	min := datap.textAddr(datap.ftab[0].entryoff)
 	max := datap.textAddr(datap.ftab[nftab].entryoff)
-	if datap.minpc != min || datap.maxpc != max {
-		println("minpc=", hex(datap.minpc), "min=", hex(min), "maxpc=", hex(datap.maxpc), "max=", hex(max))
+	minpc := datap.minpc
+	maxpc := datap.maxpc
+	if GOARCH == "wasm" {
+		// On Wasm, the func table contains the function index, whereas
+		// the "PC" is function index << 16 + block index.
+		minpc >>= 16
+		maxpc = (maxpc >> 16) + 1 // round up for end PC
+	}
+	if minpc != min || maxpc != max {
+		println("minpc=", hex(minpc), "min=", hex(min), "maxpc=", hex(maxpc), "max=", hex(max))
 		throw("minpc or maxpc invalid")
 	}
 
@@ -785,6 +793,12 @@ func findfunc(pc uintptr) funcInfo {
 
 	ffb := (*findfuncbucket)(add(unsafe.Pointer(datap.findfunctab), b*unsafe.Sizeof(findfuncbucket{})))
 	idx := ffb.idx + uint32(ffb.subbuckets[i])
+
+	if GOARCH == "wasm" {
+		// On Wasm, the func table contains the function index, whereas
+		// the "PC" is function index << 16 + block index.
+		pcOff >>= 16
+	}
 
 	// Find the ftab entry.
 	for datap.ftab[idx+1].entryoff <= pcOff {
