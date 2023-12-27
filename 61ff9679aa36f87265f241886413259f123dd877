@@ -141,6 +141,24 @@
       "message": "This needs a strong comment that data between len and cap might be uninitialized and it is unsafe to provide any way for the user to see that data. This package is already unsafe in that way before this CL, but might as well add that warning now.\n\n(Just in case anyone in the future thinks of adding a Bytes method or something like that.)",
       "revId": "61ff9679aa36f87265f241886413259f123dd877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f56040_ff432eff",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-27T15:10:04Z",
+      "side": 1,
+      "message": "Done\n\nThe uninitialized bytes is not even the main reason not to export the []byte to external user. Added that also to the docs. See example in go.dev/issue/62209",
+      "parentUuid": "ce438c73_788db5f4",
+      "revId": "61ff9679aa36f87265f241886413259f123dd877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
