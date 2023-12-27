@@ -70,6 +70,24 @@
       "parentUuid": "d9068d16_a728417f",
       "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "913a3f4b_a4c5d9c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-12-27T01:28:58Z",
+      "side": 1,
+      "message": "\u003e Yeah, I guess a better way to describe this optimization is that it moves the last block of the body to the top of the loop. Not the whole body.\n\u003e \n\u003e It still succeeds in what it is intended to do - get rid of the unconditional branch at the end of the loop.\n\nOkay, at least it moved one of unconditional branch to top of the loop. Maybe we can move the whole loop body in other CL, to further eliminate redundant unconditional jmp.",
+      "parentUuid": "83dd322b_1baef5b9",
+      "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
