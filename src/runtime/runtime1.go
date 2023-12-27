@@ -328,6 +328,7 @@ var debug struct {
 	adaptivestackstart  int32
 	tracefpunwindoff    int32
 	traceadvanceperiod  int32
+	trackroots          int32
 
 	// debug.malloc is used as a combined debug check
 	// in the malloc function and should be set
@@ -366,6 +367,7 @@ var dbgvars = []*dbgVar{
 	{name: "tracefpunwindoff", value: &debug.tracefpunwindoff},
 	{name: "panicnil", atomic: &debug.panicnil},
 	{name: "traceadvanceperiod", value: &debug.traceadvanceperiod},
+	{name: "trackroots", value: &debug.trackroots},
 }
 
 func parsedebugvars() {

@@ -76,6 +76,7 @@ import (
 	"bufio"
 	"fmt"
 	"internal/abi"
+	"internal/godebug"
 	"io"
 	"runtime"
 	"sort"
@@ -566,6 +567,42 @@ func writeHeapInternal(w io.Writer, debug int, defaultSampleType string) error {
 			break
 		}
 		// Profile grew; try again.
+	}
+
+	for _, r := range p {
+		for i, name := range r.Roots {
+			// Resolve root names into something meaningful
+			if val, ok := strings.CutPrefix(name, "global variable: "); ok {
+				if symbol, ok := getSymbolNameForPtr(val); ok {
+					name = "global variable: " + symbol + " (" + val + ")"
+					r.Roots[i] = name
+				}
+			}
+		}
+	}
+
+	if false {
+		println("trackroots", godebug.New("trackroots").Value())
+		for _, r := range p {
+			if r.AllocObjects == r.FreeObjects {
+				continue
+			}
+			println("---")
+			println("root labels:")
+			for _, name := range r.Roots {
+				println(name)
+			}
+			println("alloc:", r.AllocObjects, "free:", r.FreeObjects)
+			println("for allocation stack:")
+			f := runtime.CallersFrames(r.Stack())
+			for {
+				frame, ok := f.Next()
+				if !ok {
+					break
+				}
+				print("\t", frame.Function, " ", frame.Line, "\n")
+			}
+		}
 	}
 
 	if debug == 0 {

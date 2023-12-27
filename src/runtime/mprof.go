@@ -9,6 +9,7 @@ package runtime
 
 import (
 	"internal/abi"
+	initoa "internal/itoa"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -131,6 +132,41 @@ type memRecord struct {
 	// C becomes the active cycle and when we've flushed it to
 	// active.
 	future [3]memRecordCycle
+
+	// TODO: make this two stages: ready to print (reflects the last
+	// mark) and active (where they're accumulated)
+	// and then update after each mark phase?
+	roots       roots
+	activeRoots rootsUnlocked
+
+	addedRoots bool
+}
+
+func (m *memRecord) addRoot(r meta) {
+	if r.metaType == metaTypeNone {
+		throw("NONE")
+	}
+	m.roots.add(r)
+	m.addedRoots = true
+}
+
+type roots struct {
+	roots    [8]meta
+	len      atomic.Uint64
+	newAlloc bool
+}
+
+type rootsUnlocked struct {
+	roots    [8]meta
+	len      int
+	newAlloc bool
+}
+
+// add is safe to call concurrently
+func (r *roots) add(root meta) {
+	if i := int64(r.len.Add(1) - 1); i < int64(len(r.roots)) {
+		r.roots[i] = root
+	}
 }
 
 // memRecordCycle
@@ -155,10 +191,11 @@ type blockRecord struct {
 }
 
 var (
-	mbuckets atomic.UnsafePointer // *bucket, memory profile buckets
-	bbuckets atomic.UnsafePointer // *bucket, blocking profile buckets
-	xbuckets atomic.UnsafePointer // *bucket, mutex profile buckets
-	buckhash atomic.UnsafePointer // *buckhashArray
+	activeMetaFrames stackFrameBuffer
+	mbuckets         atomic.UnsafePointer // *bucket, memory profile buckets
+	bbuckets         atomic.UnsafePointer // *bucket, blocking profile buckets
+	xbuckets         atomic.UnsafePointer // *bucket, mutex profile buckets
+	buckhash         atomic.UnsafePointer // *buckhashArray
 
 	mProfCycle mProfCycleHolder
 )
@@ -382,7 +419,6 @@ func mProf_Flush() {
 	unlock(&profMemActiveLock)
 }
 
-// mProf_FlushLocked flushes the events from the heap profiling cycle at index
 // into the active profile. The caller must hold the lock for the active profile
 // (profMemActiveLock) and for the profiling cycle at index
 // (profMemFutureLock[index]).
@@ -399,6 +435,21 @@ func mProf_FlushLocked(index uint32) {
 		mp.active.add(mpc)
 		*mpc = memRecordCycle{}
 	}
+}
+
+// This must be called during stop-the-world
+func mProf_FlushRoots() {
+	lock(&profMemActiveLock)
+	activeMetaFrames = GlobalFrameBuffer
+	GlobalFrameBuffer = stackFrameBuffer{}
+	head := (*bucket)(mbuckets.Load())
+	for b := head; b != nil; b = b.allnext {
+		mp := b.mp()
+		// NB: this is safe assuming the mark workers are stopped
+		mp.activeRoots.roots = mp.roots.roots
+		mp.roots = roots{}
+	}
+	unlock(&profMemActiveLock)
 }
 
 // mProf_PostSweep records that all sweep frees for this GC cycle have
@@ -430,6 +481,7 @@ func mProf_Malloc(p unsafe.Pointer, size uintptr) {
 
 	b := stkbucket(memProfile, size, stk[:nstk], true)
 	mp := b.mp()
+	mp.roots.newAlloc = true
 	mpc := &mp.future[index]
 
 	lock(&profMemFutureLock[index])
@@ -840,6 +892,9 @@ type MemProfileRecord struct {
 	AllocBytes, FreeBytes     int64       // number of bytes allocated, freed
 	AllocObjects, FreeObjects int64       // number of objects allocated, freed
 	Stack0                    [32]uintptr // stack trace for this record; ends at first 0 entry
+
+	// TODO: this is a public API change, proposal needed
+	Roots []string
 }
 
 // InUseBytes returns the number of bytes in use (AllocBytes - FreeBytes).
@@ -938,7 +993,53 @@ func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
 }
 
 // Write b's data to r.
+// NB: this must be called with profMemActiveLock held
 func record(r *MemProfileRecord, b *bucket) {
+	m := b.mp()
+	allocs, frees := m.active.allocs, m.active.frees
+	if allocs > frees {
+		if m.activeRoots.newAlloc {
+			rootLabel := "new allocation"
+			r.Roots = append(r.Roots, rootLabel)
+		}
+		for i := 0; i < len(m.activeRoots.roots); i++ {
+			meta := m.activeRoots.roots[i]
+			if meta.metaType == metaTypeNone {
+				continue
+			}
+			var rootLabel string
+			switch meta.metaType {
+			case metaTypeStackFrame:
+				rootLabel = "stack frame: "
+				frame := activeMetaFrames.frames[meta.p]
+				for {
+					rootLabel += "\n\t" + frame.String()
+					if frame.parentIdx < 0 {
+						break
+					}
+					frame = activeMetaFrames.frames[frame.parentIdx]
+				}
+			case metaTypeGlobalVariableBSS, metaTypeGlobalVariableData:
+				rootLabel = "global variable:"
+			case metaTypeFinalizer:
+				rootLabel = "finalizer:"
+			case metaTypeDeferred:
+				rootLabel = "deferred:"
+			case metaTypeScheduler:
+				rootLabel = "scheduler:"
+			case metaTypeSpecials:
+				rootLabel = "specials:"
+			case metaTypeWBFlush:
+				rootLabel = "write barrier flush:"
+			default:
+				rootLabel = "unknown (" + initoa.Itoa(int(meta.metaType)) + ") "
+			}
+			if meta.metaType != metaTypeStackFrame {
+				rootLabel += " " + initoa.Uitox(uint(meta.p))
+			}
+			r.Roots = append(r.Roots, rootLabel)
+		}
+	}
 	mp := b.mp()
 	r.AllocBytes = int64(mp.active.alloc_bytes)
 	r.FreeBytes = int64(mp.active.free_bytes)

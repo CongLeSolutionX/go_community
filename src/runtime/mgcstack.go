@@ -152,6 +152,7 @@ type stackObject struct {
 	r     *stackObjectRecord // info of the object (for ptr/nonptr bits). nil if object has been scanned.
 	left  *stackObject       // objects with lower addresses
 	right *stackObject       // objects with higher addresses
+	meta  meta
 }
 
 // obj.r = r, but with no write barrier.
@@ -267,7 +268,7 @@ func (s *stackScanState) getPtr() (p uintptr, conservative bool) {
 }
 
 // addObject adds a stack object at addr of type typ to the set of stack objects.
-func (s *stackScanState) addObject(addr uintptr, r *stackObjectRecord) {
+func (s *stackScanState) addObject(addr uintptr, r *stackObjectRecord, meta meta) {
 	x := s.tail
 	if x == nil {
 		// initial setup
@@ -292,6 +293,7 @@ func (s *stackScanState) addObject(addr uintptr, r *stackObjectRecord) {
 	obj.off = uint32(addr - s.stack.lo)
 	obj.size = uint32(r.size)
 	obj.setRecord(r)
+	obj.meta = meta
 	// obj.left and obj.right will be initialized by buildIndex before use.
 	s.nobjs++
 }
