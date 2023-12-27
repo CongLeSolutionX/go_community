@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "94b95216_9f34b4ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-27T21:52:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec89bbc8_bb75faf5",
+      "revId": "a153933c87f1a12d837969756327d5545c7838f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0f8877ce_621d5a66",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2023-12-26T21:19:15Z",
       "side": 1,
       "message": "It might be worth testing that records are returned given that truncation often, but does not always, involve removing all records. As a result, it is possible that some code expects or will expect that no records are returned along with a truncated bit. Since there likely isn\u0027t a viable retry mechanism to get the full response when the truncated bit is set with TCP, a truncated set of records is likely included and would be useful.",
+      "revId": "a153933c87f1a12d837969756327d5545c7838f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f64803e7_a4266a70",
+        "filename": "src/net/dnsclient_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-27T21:52:39Z",
+      "side": 1,
+      "message": "PTAL, extended this test to verify that truncate retries on TCP after retrying on UDP.\nAdded other test to verify that truncate returns records on TCP only",
+      "parentUuid": "a749fcc8_809b5669",
       "revId": "a153933c87f1a12d837969756327d5545c7838f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
