@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	_WorkbufSize = 2048 // in bytes; larger values result in less contention
+	_WorkbufSize = 4096 // in bytes; larger values result in less contention
 
 	// workbufAlloc is the number of bytes to allocate at a time
 	// for new workbufs. This must be a multiple of pageSize and
@@ -110,7 +110,10 @@ func (w *gcWork) init() {
 // obj must point to the beginning of a heap object or an oblet.
 //
 //go:nowritebarrierrec
-func (w *gcWork) put(obj uintptr) {
+func (w *gcWork) put(obj uintptr, meta meta) {
+	if MemProfileTrackRoots() && meta.metaType == metaTypeNone {
+		throw("put")
+	}
 	flushed := false
 	wbuf := w.wbuf1
 	// Record that this may acquire the wbufSpans or heap lock to
@@ -134,6 +137,9 @@ func (w *gcWork) put(obj uintptr) {
 	}
 
 	wbuf.obj[wbuf.nobj] = obj
+	if MemProfileTrackRoots() {
+		wbuf.meta[wbuf.nobj] = meta
+	}
 	wbuf.nobj++
 
 	// If we put a buffer on full, let the GC controller know so
@@ -149,13 +155,19 @@ func (w *gcWork) put(obj uintptr) {
 // otherwise it returns false and the caller needs to call put.
 //
 //go:nowritebarrierrec
-func (w *gcWork) putFast(obj uintptr) bool {
+func (w *gcWork) putFast(obj uintptr, meta meta) bool {
+	if MemProfileTrackRoots() && meta.metaType == metaTypeNone {
+		throw("put fast")
+	}
 	wbuf := w.wbuf1
 	if wbuf == nil || wbuf.nobj == len(wbuf.obj) {
 		return false
 	}
 
 	wbuf.obj[wbuf.nobj] = obj
+	if MemProfileTrackRoots() {
+		wbuf.meta[wbuf.nobj] = meta
+	}
 	wbuf.nobj++
 	return true
 }
@@ -164,7 +176,7 @@ func (w *gcWork) putFast(obj uintptr) bool {
 // constraints on these pointers.
 //
 //go:nowritebarrierrec
-func (w *gcWork) putBatch(obj []uintptr) {
+func (w *gcWork) putBatch(obj []uintptr, meta meta) {
 	if len(obj) == 0 {
 		return
 	}
@@ -185,6 +197,11 @@ func (w *gcWork) putBatch(obj []uintptr) {
 			flushed = true
 		}
 		n := copy(wbuf.obj[wbuf.nobj:], obj)
+		if MemProfileTrackRoots() {
+			for i := 0; i < n; i++ {
+				wbuf.meta[wbuf.nobj+i] = meta
+			}
+		}
 		wbuf.nobj += n
 		obj = obj[n:]
 	}
@@ -201,7 +218,7 @@ func (w *gcWork) putBatch(obj []uintptr) {
 // other gcWork instances or other caches.
 //
 //go:nowritebarrierrec
-func (w *gcWork) tryGet() uintptr {
+func (w *gcWork) tryGet() (uintptr, meta) {
 	wbuf := w.wbuf1
 	if wbuf == nil {
 		w.init()
@@ -215,7 +232,7 @@ func (w *gcWork) tryGet() uintptr {
 			owbuf := wbuf
 			wbuf = trygetfull()
 			if wbuf == nil {
-				return 0
+				return 0, meta{}
 			}
 			putempty(owbuf)
 			w.wbuf1 = wbuf
@@ -223,7 +240,11 @@ func (w *gcWork) tryGet() uintptr {
 	}
 
 	wbuf.nobj--
-	return wbuf.obj[wbuf.nobj]
+	if MemProfileTrackRoots() {
+		return wbuf.obj[wbuf.nobj], wbuf.meta[wbuf.nobj]
+	} else {
+		return wbuf.obj[wbuf.nobj], meta{}
+	}
 }
 
 // tryGetFast dequeues a pointer for the garbage collector to trace
@@ -231,14 +252,18 @@ func (w *gcWork) tryGet() uintptr {
 // the caller is expected to call tryGet().
 //
 //go:nowritebarrierrec
-func (w *gcWork) tryGetFast() uintptr {
+func (w *gcWork) tryGetFast() (uintptr, meta) {
 	wbuf := w.wbuf1
 	if wbuf == nil || wbuf.nobj == 0 {
-		return 0
+		return 0, meta{}
 	}
 
 	wbuf.nobj--
-	return wbuf.obj[wbuf.nobj]
+	if MemProfileTrackRoots() {
+		return wbuf.obj[wbuf.nobj], wbuf.meta[wbuf.nobj]
+	} else {
+		return wbuf.obj[wbuf.nobj], meta{}
+	}
 }
 
 // dispose returns any cached pointers to the global queue.
@@ -321,11 +346,20 @@ type workbufhdr struct {
 	nobj int
 }
 
+// The workbuf struct must be a total of _WorkbufSize bytes
+// TODO: how is that size chosen? Looks like it's an optimization
+// We compute how many uintptr (for objects) and meta (for tracking roots)
+// we can fit, given the room left over in the header
+const wkbufcombinedsize = goarch.PtrSize + unsafe.Sizeof(meta{})
+const wkbufnumentries = (_WorkbufSize - unsafe.Sizeof(workbufhdr{})) / wkbufcombinedsize
+
 type workbuf struct {
 	_ sys.NotInHeap
 	workbufhdr
 	// account for the above fields
-	obj [(_WorkbufSize - unsafe.Sizeof(workbufhdr{})) / goarch.PtrSize]uintptr
+	obj     [wkbufnumentries]uintptr
+	meta    [wkbufnumentries]meta
+	padding [_WorkbufSize - (wkbufnumentries*wkbufcombinedsize + unsafe.Sizeof(workbufhdr{}))]byte
 }
 
 // workbuf factory routines. These funcs are used to manage the
@@ -441,6 +475,10 @@ func handoff(b *workbuf) *workbuf {
 	b.nobj -= n
 	b1.nobj = n
 	memmove(unsafe.Pointer(&b1.obj[0]), unsafe.Pointer(&b.obj[b.nobj]), uintptr(n)*unsafe.Sizeof(b1.obj[0]))
+	if MemProfileTrackRoots() {
+		memmove(unsafe.Pointer(&b1.meta[0]), unsafe.Pointer(&b.meta[b.nobj]), uintptr(n)*unsafe.Sizeof(b1.meta[0]))
+	}
+	// TODO: need to copy meta (probably)
 
 	// Put b on full list - let first half of b get stolen.
 	putfull(b)

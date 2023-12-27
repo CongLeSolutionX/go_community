@@ -1960,12 +1960,15 @@ func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *p
 			gcw := &mp.p.ptr().gcw
 			// Mark everything reachable from the object
 			// so it's retained for the finalizer.
+
+			// TODO: find out where SetFinalizer is called and make that the meta
+			meta := meta{metaType: metaTypeFinalizer}
 			if !span.spanclass.noscan() {
-				scanobject(base, gcw)
+				scanobject(base, gcw, meta)
 			}
 			// Mark the finalizer itself, since the
 			// special isn't part of the GC'd heap.
-			scanblock(uintptr(unsafe.Pointer(&s.fn)), goarch.PtrSize, &oneptrmask[0], gcw, nil)
+			scanblock(uintptr(unsafe.Pointer(&s.fn)), goarch.PtrSize, &oneptrmask[0], gcw, nil, meta)
 			releasem(mp)
 		}
 		return true

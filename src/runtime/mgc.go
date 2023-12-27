@@ -1065,6 +1065,8 @@ func gcMarkTermination(stw worldStop) {
 	// so events don't leak into the wrong cycle.
 	mProf_NextCycle()
 
+	mProf_FlushRoots()
+
 	// There may be stale spans in mcaches that need to be swept.
 	// Those aren't tracked in any sweep lists, so we need to
 	// count them against sweep completion until we ensure all

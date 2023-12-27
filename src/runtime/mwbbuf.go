@@ -202,10 +202,12 @@ func wbBufFlush1(pp *p) {
 	// while we're processing the buffer.
 	pp.wbBuf.next = 0
 
+	// TODO: can we track the root better? This isn't really the root
+	meta := meta{metaType: metaTypeWBFlush}
 	if useCheckmark {
 		// Slow path for checkmark mode.
 		for _, ptr := range ptrs {
-			shade(ptr)
+			shade(ptr, meta)
 		}
 		pp.wbBuf.reset()
 		return
@@ -264,7 +266,7 @@ func wbBufFlush1(pp *p) {
 	}
 
 	// Enqueue the greyed objects.
-	gcw.putBatch(ptrs[:pos])
+	gcw.putBatch(ptrs[:pos], meta)
 
 	pp.wbBuf.reset()
 }
