@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c04c8803_f67bc5de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-28T14:42:31Z",
+      "side": 1,
+      "message": "dig is just a tool, not a library, i just wonder how the libc resolver behaves, so that we are aware of its behaviour (whether it behaves differently than the go resolver, with this CL applied). Are you able to check that? It is not strictly necessary, this change is fine.",
+      "parentUuid": "6e977c3c_57a2907d",
+      "revId": "3610d8bc0e2592e52f6dd27134e5c30e05ca748f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2be828a_ec3878df",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 3
