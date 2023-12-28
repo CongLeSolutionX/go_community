@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef637385_7a968479",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-28T15:10:58Z",
+      "side": 1,
+      "message": "oh, is just that I do not know how dig is implemented, I was wondering if dig uses the libc resolver, but maybe is a dumb question, I can do the check to document it",
+      "parentUuid": "c04c8803_f67bc5de",
+      "revId": "3610d8bc0e2592e52f6dd27134e5c30e05ca748f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2be828a_ec3878df",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 3
@@ -67,6 +85,24 @@
       "writtenOn": "2023-12-28T13:15:52Z",
       "side": 1,
       "message": "Could you elaborate here more about the `network \u003d\u003d \"udp\"` check, please add a comment explaining the issue and mention that we want to accept truncated tcp responses (by returning a partial response, because we can\u0027t do better, because of the DNS 64KiB TCP limit).",
+      "revId": "3610d8bc0e2592e52f6dd27134e5c30e05ca748f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca8c0b89_b8c8d769",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-28T15:10:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e2be828a_ec3878df",
       "revId": "3610d8bc0e2592e52f6dd27134e5c30e05ca748f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
