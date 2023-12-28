@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e977c3c_57a2907d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-28T14:28:12Z",
+      "side": 1,
+      "message": "`dig` returns the partial result, is that not enough?",
+      "parentUuid": "2d742104_adc13fa9",
+      "revId": "3610d8bc0e2592e52f6dd27134e5c30e05ca748f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2be828a_ec3878df",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 3
