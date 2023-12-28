@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cf118ca_4a7d620d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2023-12-28T12:28:04Z",
+      "side": 1,
+      "message": "Nice!\n\nIs everything just working?\n\nDouble checked that we already have loongarch64 support in llvm buildgo.sh:\nhttps://github.com/llvm/llvm-project/blob/main/compiler-rt/lib/tsan/go/buildgo.sh#L13-L14",
+      "revId": "99e10bf4dc0422d5ac9fe9bc6e52e1cd936d016f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3279fffe_f85dba51",
+        "filename": "src/runtime/asm_loong64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2023-12-28T12:28:04Z",
+      "side": 1,
+      "message": "Debug leftover? Remove?",
+      "revId": "99e10bf4dc0422d5ac9fe9bc6e52e1cd936d016f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
