@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fb61ea3_e1f6bd5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-12-28T16:22:54Z",
+      "side": 1,
+      "message": "PTAL, just in case.  This adds the change in https://go.dev/cl/551856",
+      "revId": "ff68764171e638def21b5e06b1f42a6182e6eca1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
