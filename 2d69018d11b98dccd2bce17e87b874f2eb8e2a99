@@ -90,6 +90,24 @@
       "parentUuid": "cbe7ea94_e6068388",
       "revId": "2d69018d11b98dccd2bce17e87b874f2eb8e2a99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c663001_098b8be5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-12-29T19:24:47Z",
+      "side": 1,
+      "message": "Funny enough, it seems that the `8.8.8.8.in-addr.arpa.` domain is currently broken.\n\n```\n[mateusz@arch ~ ]$ dig @8.8.8.8 8.8.8.8.in-addr.arpa PTR\n\n; \u003c\u003c\u003e\u003e DiG 9.18.20 \u003c\u003c\u003e\u003e @8.8.8.8 8.8.8.8.in-addr.arpa PTR\n; (1 server found)\n;; global options: +cmd\n;; Got answer:\n;; -\u003e\u003eHEADER\u003c\u003c- opcode: QUERY, status: SERVFAIL, id: 47540\n;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 512\n; EDE: 0 (Other): ([209.244.0.1] Lame delegation at 8.8.8.in-addr.arpa for 8.8.8.8.in-addr.arpa/ptr)\n; EDE: 0 (Other): ([209.244.0.2] Lame delegation at 8.8.8.in-addr.arpa for 8.8.8.8.in-addr.arpa/ptr)\n; EDE: 22 (No Reachable Authority): (At delegation 8.8.8.in-addr.arpa for 8.8.8.8.in-addr.arpa/ptr)\n;; QUESTION SECTION:\n;8.8.8.8.in-addr.arpa.\t\tIN\tPTR\n\n;; Query time: 53 msec\n;; SERVER: 8.8.8.8#53(8.8.8.8) (UDP)\n;; WHEN: Fri Dec 29 20:24:19 CET 2023\n;; MSG SIZE  rcvd: 288\n```\n\n```\n[mateusz@arch ~ ]$ dig @1.1.1.1 8.8.8.8.in-addr.arpa PTR\n\n; \u003c\u003c\u003e\u003e DiG 9.18.20 \u003c\u003c\u003e\u003e @1.1.1.1 8.8.8.8.in-addr.arpa PTR\n; (1 server found)\n;; global options: +cmd\n;; Got answer:\n;; -\u003e\u003eHEADER\u003c\u003c- opcode: QUERY, status: NOERROR, id: 41010\n;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n;; QUESTION SECTION:\n;8.8.8.8.in-addr.arpa.\t\tIN\tPTR\n\n;; Query time: 13 msec\n;; SERVER: 1.1.1.1#53(1.1.1.1) (UDP)\n;; WHEN: Fri Dec 29 20:23:12 CET 2023\n;; MSG SIZE  rcvd: 49\n```\n\n```\n[mateusz@arch ~ ]$ dig @ns1.google.com 8.8.8.8.in-addr.arpa PTR\n\n; \u003c\u003c\u003e\u003e DiG 9.18.20 \u003c\u003c\u003e\u003e @ns1.google.com 8.8.8.8.in-addr.arpa PTR\n; (2 servers found)\n;; global options: +cmd\n;; Got answer:\n;; -\u003e\u003eHEADER\u003c\u003c- opcode: QUERY, status: NOERROR, id: 45541\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 512\n;; QUESTION SECTION:\n;8.8.8.8.in-addr.arpa.\t\tIN\tPTR\n\n;; ANSWER SECTION:\n8.8.8.8.in-addr.arpa.\t86400\tIN\tPTR\tdns.google.\n```",
+      "parentUuid": "25ae3276_34c58ab9",
+      "revId": "2d69018d11b98dccd2bce17e87b874f2eb8e2a99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
