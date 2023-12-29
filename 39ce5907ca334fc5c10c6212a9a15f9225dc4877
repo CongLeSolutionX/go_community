@@ -124,6 +124,24 @@
       "parentUuid": "453a24d7_8d2c5f96",
       "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ed1d3ff_467eb098",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-12-29T20:30:46Z",
+      "side": 1,
+      "message": "\u003e Sorry in this example the second-to-last block is not an unconditional jump, but we cannot assume that such a situation will not arise after IR optimization.\n\nYes, it seems possible to me also, just really unlikely. I was wondering if you had run into such a case.\n\n\u003e The second approach seems better because it eliminates one jmp on the last time of loop iterations\n\nThat is a good benefit, sure. This will help when the block following the loop in the block ordering is also the block immediately following the loop in the program. Which I think would be the common case, but I\u0027m not sure quite how common. But in some sense it is relying on unspecified behavior of the layout pass. Maybe we should rotate the loop so that the last block in the loop has a loop-exit edge to the next block after the loop in the schedule? That way we always get rid of one JMP (unless the block following the loop is completely unrelated).",
+      "parentUuid": "fec68d86_1152e0fa",
+      "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
