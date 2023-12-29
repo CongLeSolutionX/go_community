@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4d45778f_f4236e99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-29T10:49:59Z",
+      "side": 1,
+      "message": "agree, let me do it and report back, resolver should be consistent",
+      "parentUuid": "62e68418_5a56dea8",
+      "revId": "3610d8bc0e2592e52f6dd27134e5c30e05ca748f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2be828a_ec3878df",
         "filename": "src/net/dnsclient_unix.go",
         "patchSetId": 3
