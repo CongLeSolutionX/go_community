@@ -106,6 +106,24 @@
       "parentUuid": "913a3f4b_a4c5d9c2",
       "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fec68d86_1152e0fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2023-12-29T06:32:38Z",
+      "side": 1,
+      "message": "\u003e \u003e to further eliminate redundant unconditional jmp.\n\u003e \n\u003e What other unconditional jump? There isn\u0027t one in the case just described. Maybe you mean there is a case where the second-to-last block ended with an unconditional jump? What source generates that case?\n\nSorry in this example the second-to-last block is not an unconditional jump, but we cannot assume that such a situation will not arise after IR optimization. The second approach seems better because it eliminates one jmp on the last time of loop iterations, reducing a potential icache miss + itlb miss, and also results in a slightly smaller final program size.\n\n\u003d\u003d\u003d source\n```\nfunc main() {\n    s :\u003d 0\n    for i :\u003d 0; i \u003c 10; i++ {\n        if i \u003d\u003d 5 {\n            panic(\"FF\")\n        }\n        s +\u003d i\n\n    }\n    println(s)\n}\n```\n\n\u003d\u003d\u003d now\n    0x0012 00018 (/Users/y1yang/GolandProjects/test/test.go:5)  JMP 32 ;; goto loop header\n    0x0014 00020 (/Users/y1yang/GolandProjects/test/test.go:5)  LEAQ    1(AX), DX\n    0x0018 00024 (/Users/y1yang/GolandProjects/test/test.go:9)  ADDQ    AX, CX\n    0x001b 00027 (/Users/y1yang/GolandProjects/test/test.go:5)  MOVQ    DX, AX\n    0x001e 00030 (/Users/y1yang/GolandProjects/test/test.go:5)  NOP \n    0x0020 00032 (/Users/y1yang/GolandProjects/test/test.go:5)  CMPQ    AX, $10 ;; i\u003c10\n    0x0024 00036 (/Users/y1yang/GolandProjects/test/test.go:5)  JGE 46 ;; goto exit or fallthrough to loop body\n    0x0026 00038 (/Users/y1yang/GolandProjects/test/test.go:6)  CMPQ    AX, $5 ;; i \u003d\u003d 5\n    0x002a 00042 (/Users/y1yang/GolandProjects/test/test.go:6)  JNE 20 ;; jmp loop body or\n    0x002c 00044 (/Users/y1yang/GolandProjects/test/test.go:6)  JMP 85 ;; jmp panic\n\n\u003d\u003d\u003d all_body_above_header\n    0x0012 00018 (/home/admin/go/mytest/test.go:5)  JMP 36 ;;goto loop header\n    0x0014 00020 (/home/admin/go/mytest/test.go:6)  CMPQ    AX, $5 ;; i\u003c5\n    0x0018 00024 (/home/admin/go/mytest/test.go:6)  JEQ 80 ;; goto panic\n    0x001a 00026 (/home/admin/go/mytest/test.go:5)  LEAQ    1(AX), DX \n    0x001e 00030 (/home/admin/go/mytest/test.go:9)  ADDQ    AX, CX\n    0x0021 00033 (/home/admin/go/mytest/test.go:5)  MOVQ    DX, AX\n    0x0024 00036 (/home/admin/go/mytest/test.go:5)  CMPQ    AX, $10 ;;i\u003c10\n    0x0028 00040 (/home/admin/go/mytest/test.go:5)  JLT 20 ;; jmp body or fall through to exit",
+      "parentUuid": "453a24d7_8d2c5f96",
+      "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
