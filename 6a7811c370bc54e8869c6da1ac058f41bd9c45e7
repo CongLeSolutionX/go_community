@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b597a24c_72033dee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-29T18:19:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcf24579_fc104944",
+      "revId": "6a7811c370bc54e8869c6da1ac058f41bd9c45e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab54c2d2_e8125896",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-12-29T18:15:46Z",
       "side": 1,
       "message": "At this point please use: go.dev/issue/64896",
+      "revId": "6a7811c370bc54e8869c6da1ac058f41bd9c45e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bfbcf0a_92605a10",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 50702
+      },
+      "writtenOn": "2023-12-29T18:19:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab54c2d2_e8125896",
       "revId": "6a7811c370bc54e8869c6da1ac058f41bd9c45e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
