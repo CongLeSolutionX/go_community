@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "371abd67_bd439665",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2152,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2023-12-30T22:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad470aa_7a7f7e7a",
+      "revId": "d8448d1152880ce519f8925218b23cd91616dfab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "873e4307_cefd2254",
