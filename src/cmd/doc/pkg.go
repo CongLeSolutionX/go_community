@@ -43,9 +43,9 @@ type Package struct {
 	buf         pkgBuffer
 }
 
-func (p *Package) ToText(w io.Writer, text, prefix, codePrefix string) {
-	d := p.doc.Parser().Parse(text)
-	pr := p.doc.Printer()
+func (pkg *Package) ToText(w io.Writer, text, prefix, codePrefix string) {
+	d := pkg.doc.Parser().Parse(text)
+	pr := pkg.doc.Printer()
 	pr.TextPrefix = prefix
 	pr.TextCodePrefix = codePrefix
 	w.Write(pr.Text(d))
@@ -127,7 +127,7 @@ func trim(path, prefix string) (string, bool) {
 	return path, false // Textual prefix but not a path prefix.
 }
 
-// pkg.Fatalf is like log.Fatalf, but panics so it can be recovered in the
+// Fatalf is like [log.Fatalf], but panics, so it can be recovered in the
 // main do function, so it doesn't cause an exit. Allows testing to work
 // without running a subprocess. The log prefix will be added when
 // logged in main; it is not added here.
