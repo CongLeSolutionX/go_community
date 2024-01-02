@@ -467,7 +467,7 @@ func (x lico) lineNumberHTML() string {
 	}
 	style, pfx := "b", "+"
 	if x.IsStmt() == PosNotStmt {
-		style = "s" // /strike not supported in HTML5
+		style = "s" // strike not supported in HTML5
 		pfx = ""
 	}
 	return fmt.Sprintf("<%s>%s%d</%s>", style, pfx, x.Line(), style)
