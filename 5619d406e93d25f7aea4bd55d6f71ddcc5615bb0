@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "253e91fa_cf152b0e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-01-02T18:19:17Z",
+      "side": 1,
+      "message": "nit: maybe PageTraceFlush? \n\nit doesn\u0027t match with the other Trace* wait reasons, but that would be intentional, because the page tracer is totally separate from the execution tracer. (something that would be nice to fix.)",
+      "range": {
+        "startLine": 1130,
+        "startChar": 11,
+        "endLine": 1130,
+        "endChar": 20
+      },
+      "revId": "5619d406e93d25f7aea4bd55d6f71ddcc5615bb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
