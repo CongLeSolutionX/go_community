@@ -16,6 +16,23 @@
       "message": "No change, just rebased the branch and tested that the issue is still current (it is!)",
       "revId": "b85a4ad3644c6d411924697a4433a9456fb159f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebe8140b_af8edaac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51983
+      },
+      "writtenOn": "2024-01-02T09:34:12Z",
+      "side": 1,
+      "message": "No change, just rebased the branch and tested that the issue is still current (it is!)",
+      "revId": "b85a4ad3644c6d411924697a4433a9456fb159f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
