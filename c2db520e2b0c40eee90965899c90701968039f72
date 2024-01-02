@@ -291,6 +291,24 @@
       "message": "thank you so much for looking into this and working on it!",
       "revId": "c2db520e2b0c40eee90965899c90701968039f72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0877594f_2a78f8ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-02T20:30:39Z",
+      "side": 1,
+      "message": "We think these are transient: https://github.com/golang/go/issues/27992#issuecomment-1874513793",
+      "parentUuid": "c4047759_4370a5bf",
+      "revId": "c2db520e2b0c40eee90965899c90701968039f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
