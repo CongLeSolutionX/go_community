@@ -1214,7 +1214,7 @@ func (s *state) constOffPtrSP(t *types.Type, c int64) *ssa.Value {
 	return s.f.ConstOffPtrSP(t, c, s.sp)
 }
 
-// newValueOrSfCall* are wrappers around newValue*, which may create a call to a
+// newValueOrSfCall are wrappers around newValue*, which may create a call to a
 // soft-float runtime function instead (when emitting soft-float code).
 func (s *state) newValueOrSfCall1(op ssa.Op, t *types.Type, arg *ssa.Value) *ssa.Value {
 	if s.softFloat {
