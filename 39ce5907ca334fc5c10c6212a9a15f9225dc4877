@@ -142,6 +142,24 @@
       "parentUuid": "fec68d86_1152e0fa",
       "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01348c5a_b6b06257",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2024-01-03T02:27:11Z",
+      "side": 1,
+      "message": "\u003e but I\u0027m not sure quite how common.\n\n92.6% loops(duriung building golang toolchain itsetlf,82504/(82504+6580)) have such pattern, i.e. the block following the loop in the block ordering is also the block immediately following the loop in the program.\n\n\u003e Maybe we should rotate the loop so that the last block in the loop has a loop-exit edge to the next block after the loop in the schedule?\n\nYes, that\u0027s what I did in LICM patch https://go-review.googlesource.com/c/go/+/551381 `(*loop).rotateLoop`",
+      "parentUuid": "2ed1d3ff_467eb098",
+      "revId": "39ce5907ca334fc5c10c6212a9a15f9225dc4877",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
