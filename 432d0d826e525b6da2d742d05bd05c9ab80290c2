@@ -16,6 +16,24 @@
       "message": "Since this file is HTML, all these will be in a single paragraph. Are you sure it all renders nicely enough?",
       "revId": "432d0d826e525b6da2d742d05bd05c9ab80290c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cfa6f57_1ca579ef",
+        "filename": "doc/go1.22.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-01-03T17:09:24Z",
+      "side": 1,
+      "message": "Yes, it looks fine, and more importantly it avoids the jarring realization while reading the second paragraph that we haven\u0027t changed the topic as expected.",
+      "parentUuid": "adbd03f1_f02ca6fb",
+      "revId": "432d0d826e525b6da2d742d05bd05c9ab80290c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
