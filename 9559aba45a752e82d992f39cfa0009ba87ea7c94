@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76d9fb26_5aad05f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-01-04T23:00:07Z",
+      "side": 1,
+      "message": "LGTM, but not clear to me whether this should be included in 1.22.",
+      "revId": "9559aba45a752e82d992f39cfa0009ba87ea7c94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a83bf4a9_1973b6aa",
+        "filename": "src/net/splice_linux_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-01-04T23:00:07Z",
+      "side": 1,
+      "message": "nit: these 15 lines (123--137) appear nearly identically two more times (139--153, 281--295); consider making them into a testing helper method?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 3
+      },
+      "revId": "9559aba45a752e82d992f39cfa0009ba87ea7c94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
