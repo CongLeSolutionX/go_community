@@ -89,13 +89,6 @@ var optab = []Optab{
 	{AMOVF, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 33, 4, 0, 0},
 	{AMOVD, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 33, 4, 0, 0},
 
-	{AMOVW, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
-	{AMOVWU, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
-	{AMOVV, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
-	{AMOVB, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
-	{AMOVBU, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
-	{AMOVWL, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
-	{AMOVVL, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
 	{AMOVW, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{AMOVWU, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{AMOVV, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
@@ -113,13 +106,6 @@ var optab = []Optab{
 	{ASC, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{ASCV, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 
-	{AMOVW, C_SEXT, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, 0, 0},
-	{AMOVWU, C_SEXT, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, 0, 0},
-	{AMOVV, C_SEXT, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, 0, 0},
-	{AMOVB, C_SEXT, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, 0, 0},
-	{AMOVBU, C_SEXT, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, 0, 0},
-	{AMOVWL, C_SEXT, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, 0, 0},
-	{AMOVVL, C_SEXT, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, 0, 0},
 	{AMOVW, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
 	{AMOVWU, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
 	{AMOVV, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
@@ -137,11 +123,6 @@ var optab = []Optab{
 	{ALL, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 	{ALLV, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 
-	{AMOVW, C_REG, C_NONE, C_NONE, C_LEXT, C_NONE, 35, 12, 0, 0},
-	{AMOVWU, C_REG, C_NONE, C_NONE, C_LEXT, C_NONE, 35, 12, 0, 0},
-	{AMOVV, C_REG, C_NONE, C_NONE, C_LEXT, C_NONE, 35, 12, 0, 0},
-	{AMOVB, C_REG, C_NONE, C_NONE, C_LEXT, C_NONE, 35, 12, 0, 0},
-	{AMOVBU, C_REG, C_NONE, C_NONE, C_LEXT, C_NONE, 35, 12, 0, 0},
 	{AMOVW, C_REG, C_NONE, C_NONE, C_LAUTO, C_NONE, 35, 12, REGSP, 0},
 	{AMOVWU, C_REG, C_NONE, C_NONE, C_LAUTO, C_NONE, 35, 12, REGSP, 0},
 	{AMOVV, C_REG, C_NONE, C_NONE, C_LAUTO, C_NONE, 35, 12, REGSP, 0},
@@ -167,11 +148,6 @@ var optab = []Optab{
 	{AMOVB, C_REG, C_NONE, C_NONE, C_TLS_LE, C_NONE, 53, 16, 0, 0},
 	{AMOVBU, C_REG, C_NONE, C_NONE, C_TLS_LE, C_NONE, 53, 16, 0, 0},
 
-	{AMOVW, C_LEXT, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, 0, 0},
-	{AMOVWU, C_LEXT, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, 0, 0},
-	{AMOVV, C_LEXT, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, 0, 0},
-	{AMOVB, C_LEXT, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, 0, 0},
-	{AMOVBU, C_LEXT, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, 0, 0},
 	{AMOVW, C_LAUTO, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, REGSP, 0},
 	{AMOVWU, C_LAUTO, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, REGSP, 0},
 	{AMOVV, C_LAUTO, C_NONE, C_NONE, C_REG, C_NONE, 36, 12, REGSP, 0},
@@ -275,9 +251,6 @@ var optab = []Optab{
 	{AJMP, C_NONE, C_NONE, C_NONE, C_ZOREG, C_NONE, 18, 4, REGZERO, 0}, // jirl r0, rj, 0
 	{AJAL, C_NONE, C_NONE, C_NONE, C_ZOREG, C_NONE, 18, 4, REGLINK, 0}, // jirl r1, rj, 0
 
-	{AMOVW, C_SEXT, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, 0, 0},
-	{AMOVF, C_SEXT, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, 0, 0},
-	{AMOVD, C_SEXT, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, 0, 0},
 	{AMOVW, C_SAUTO, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, REGSP, 0},
 	{AMOVF, C_SAUTO, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, REGSP, 0},
 	{AMOVD, C_SAUTO, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, REGSP, 0},
@@ -285,9 +258,6 @@ var optab = []Optab{
 	{AMOVF, C_SOREG, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, REGZERO, 0},
 	{AMOVD, C_SOREG, C_NONE, C_NONE, C_FREG, C_NONE, 27, 4, REGZERO, 0},
 
-	{AMOVW, C_LEXT, C_NONE, C_NONE, C_FREG, C_NONE, 27, 12, 0, 0},
-	{AMOVF, C_LEXT, C_NONE, C_NONE, C_FREG, C_NONE, 27, 12, 0, 0},
-	{AMOVD, C_LEXT, C_NONE, C_NONE, C_FREG, C_NONE, 27, 12, 0, 0},
 	{AMOVW, C_LAUTO, C_NONE, C_NONE, C_FREG, C_NONE, 27, 12, REGSP, 0},
 	{AMOVF, C_LAUTO, C_NONE, C_NONE, C_FREG, C_NONE, 27, 12, REGSP, 0},
 	{AMOVD, C_LAUTO, C_NONE, C_NONE, C_FREG, C_NONE, 27, 12, REGSP, 0},
@@ -299,9 +269,6 @@ var optab = []Optab{
 	{AMOVD, C_ADDR, C_NONE, C_NONE, C_FREG, C_NONE, 51, 8, 0, 0},
 	{AMOVD, C_ADDR, C_NONE, C_NONE, C_FREG, C_NONE, 51, 8, 0, 0},
 
-	{AMOVW, C_FREG, C_NONE, C_NONE, C_SEXT, C_NONE, 28, 4, 0, 0},
-	{AMOVF, C_FREG, C_NONE, C_NONE, C_SEXT, C_NONE, 28, 4, 0, 0},
-	{AMOVD, C_FREG, C_NONE, C_NONE, C_SEXT, C_NONE, 28, 4, 0, 0},
 	{AMOVW, C_FREG, C_NONE, C_NONE, C_SAUTO, C_NONE, 28, 4, REGSP, 0},
 	{AMOVF, C_FREG, C_NONE, C_NONE, C_SAUTO, C_NONE, 28, 4, REGSP, 0},
 	{AMOVD, C_FREG, C_NONE, C_NONE, C_SAUTO, C_NONE, 28, 4, REGSP, 0},
@@ -309,9 +276,6 @@ var optab = []Optab{
 	{AMOVF, C_FREG, C_NONE, C_NONE, C_SOREG, C_NONE, 28, 4, REGZERO, 0},
 	{AMOVD, C_FREG, C_NONE, C_NONE, C_SOREG, C_NONE, 28, 4, REGZERO, 0},
 
-	{AMOVW, C_FREG, C_NONE, C_NONE, C_LEXT, C_NONE, 28, 12, 0, 0},
-	{AMOVF, C_FREG, C_NONE, C_NONE, C_LEXT, C_NONE, 28, 12, 0, 0},
-	{AMOVD, C_FREG, C_NONE, C_NONE, C_LEXT, C_NONE, 28, 12, 0, 0},
 	{AMOVW, C_FREG, C_NONE, C_NONE, C_LAUTO, C_NONE, 28, 12, REGSP, 0},
 	{AMOVF, C_FREG, C_NONE, C_NONE, C_LAUTO, C_NONE, 28, 12, REGSP, 0},
 	{AMOVD, C_FREG, C_NONE, C_NONE, C_LAUTO, C_NONE, 28, 12, REGSP, 0},
@@ -354,7 +318,6 @@ var optab = []Optab{
 	{ATEQ, C_SCON, C_REG, C_NONE, C_REG, C_NONE, 15, 8, 0, 0},
 	{ATEQ, C_SCON, C_NONE, C_NONE, C_REG, C_NONE, 15, 8, 0, 0},
 
-	{ABREAK, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0}, // really CACHE instruction
 	{ABREAK, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{ABREAK, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{ABREAK, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 5, 4, 0, 0},
@@ -633,17 +596,14 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 				break
 			}
 			c.instoffset = a.Offset
-			if a.Sym != nil { // use relocation
-				if a.Sym.Type == objabi.STLSBSS {
-					if c.ctxt.Flag_shared {
-						return C_TLS_IE
-					} else {
-						return C_TLS_LE
-					}
+			if a.Sym.Type == objabi.STLSBSS {
+				if c.ctxt.Flag_shared {
+					return C_TLS_IE
+				} else {
+					return C_TLS_LE
 				}
-				return C_ADDR
 			}
-			return C_LEXT
+			return C_ADDR
 
 		case obj.NAME_AUTO:
 			if a.Reg == REGSP {
@@ -909,11 +869,6 @@ func cmp(a int, b int) bool {
 
 	case C_LBRA:
 		if b == C_SBRA {
-			return true
-		}
-
-	case C_LEXT:
-		if b == C_SEXT {
 			return true
 		}
 
