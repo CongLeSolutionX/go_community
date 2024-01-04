@@ -7,18 +7,18 @@
 package workcmd
 
 import (
-	"context"
-	"fmt"
-	"io/fs"
-	"os"
-	"path/filepath"
-
 	"cmd/go/internal/base"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/gover"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/str"
 	"cmd/go/internal/toolchain"
+	"context"
+	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"golang.org/x/mod/modfile"
 )
@@ -86,6 +86,10 @@ func workUse(ctx context.Context, gowork string, wf *modfile.WorkFile, args []st
 			abs = filepath.Clean(use.Path)
 		} else {
 			abs = filepath.Join(workDir, use.Path)
+			// golang.org/issue/64851
+			// use forward slash for relative paths for portability
+			// TODO: @bcmills (should i include a check for GOOS == windows)?
+			abs = strings.Replace(abs, "\\", "/", -1)
 		}
 		haveDirs[abs] = append(haveDirs[abs], use.Path)
 	}
