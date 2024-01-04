@@ -30,8 +30,6 @@ var cnames0 = []string{
 	"LBRA",
 	"SAUTO",
 	"LAUTO",
-	"SEXT",
-	"LEXT",
 	"ZOREG",
 	"SOREG",
 	"LOREG",
