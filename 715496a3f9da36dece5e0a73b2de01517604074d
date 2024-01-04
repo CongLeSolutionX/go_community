@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f5683b_303c8332",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-01-04T23:40:16Z",
+      "side": 1,
+      "message": "LGTM, thanks. Unless you think this needs to go into the 1.22 release, we can merge it once the tree re-opens for 1.23 development.",
+      "revId": "715496a3f9da36dece5e0a73b2de01517604074d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
