@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b43a470e_6e0d3566",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-04T19:51:30Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem correct. `cfg.GOPROXY` can include multiple entries in order of precedence. Instead, check the URLs in the list returned by a call to `proxyList()`: `direct`, `noproxy`, and `https://` URLs should be considered “downloading”, but `file://` can be considered “copying”.\n\nBut that could get confusing too, because if the list includes a `file://` URL with fallback to an `https://` URL we would still say “downloading” even if we don\u0027t use the fallback. So I guess we need a different approach to address the UX issue. 😕",
+      "revId": "4761f2bb173843477654af79ca6177266c2f2f96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
