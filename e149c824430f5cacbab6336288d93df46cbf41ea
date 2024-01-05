@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de52b42_c830d535",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-05T20:51:59Z",
+      "side": 1,
+      "message": "The bot generates the commit message from the GitHub PR description, not the commit messages of the commits in the PR. Looks like the bot has synced it now. Thanks!",
+      "parentUuid": "e5b3dd28_6097952c",
+      "revId": "e149c824430f5cacbab6336288d93df46cbf41ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f5f161c_f0fb6aa4",
