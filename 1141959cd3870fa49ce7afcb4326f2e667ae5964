@@ -16,6 +16,24 @@
       "message": "Needs a test. Want to add one, or should I do so in a separate CL?",
       "revId": "1141959cd3870fa49ce7afcb4326f2e667ae5964",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e9ea547_9fcebe2d",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-01-05T23:58:04Z",
+      "side": 1,
+      "message": "`TestOnProxyConnectResponse` covers this case, so `add one` means?",
+      "parentUuid": "c7ce1156_5d70308b",
+      "revId": "1141959cd3870fa49ce7afcb4326f2e667ae5964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
