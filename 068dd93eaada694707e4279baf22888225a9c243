@@ -122,6 +122,24 @@
       "parentUuid": "41c9ad5c_36fb7a82",
       "revId": "068dd93eaada694707e4279baf22888225a9c243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90cfe02e_b13f87fa",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-05T22:55:24Z",
+      "side": 1,
+      "message": "Not removing tracing headers seems like a good thing.\n\nIn #50905, there\u0027s one unquestionably wrong header in the error response, and one arguably wrong one:\n\n- The `Content-Length` in the response is unambiguously wrong. I think the right thing to do here is to fix `http.Error` to remove any existing `Content-Length` before calling `WriteHeader`.\n\n- The `ETag` header is probably wrong, since (as you say) it doesn\u0027t really hold for the error content. `ServeContent` expects the caller to set the `ETag` header, so perhaps the right thing is for it to delete this header before writing any errors.\n\nAre there any other headers that would need to be stripped from an error response?",
+      "parentUuid": "575b2ba6_cba679e8",
+      "revId": "068dd93eaada694707e4279baf22888225a9c243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
