@@ -16,6 +16,24 @@
       "message": "LGTM, thanks. Unless you think this needs to go into the 1.22 release, we can merge it once the tree re-opens for 1.23 development.",
       "revId": "715496a3f9da36dece5e0a73b2de01517604074d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddc443a6_ff6bb6f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-05T00:08:23Z",
+      "side": 1,
+      "message": "Thank you, Matthew! \n\nThere is no rush for this, there are no functional code changes in this CL which is mainly for testing, and we\u0027ve verified what we expected, I think it\u0027s fine by me that it\u0027s merged into go1.23, I\u0027ll come back then.",
+      "parentUuid": "35f5683b_303c8332",
+      "revId": "715496a3f9da36dece5e0a73b2de01517604074d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
