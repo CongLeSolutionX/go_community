@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d904f71_773cd8e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 35075
+      },
+      "writtenOn": "2024-01-05T21:49:20Z",
+      "side": 1,
+      "message": "Thanks for the explanation and help with the pull request!",
+      "parentUuid": "0de52b42_c830d535",
+      "revId": "e149c824430f5cacbab6336288d93df46cbf41ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f5f161c_f0fb6aa4",
