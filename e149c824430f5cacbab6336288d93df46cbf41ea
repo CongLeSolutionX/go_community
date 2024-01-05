@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5b3dd28_6097952c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 35075
+      },
+      "writtenOn": "2024-01-05T20:45:37Z",
+      "side": 1,
+      "message": "I\u0027m afraid I don\u0027t get it. The nitpicks were never applicable to the commit message. I only used long lines and markdown in the GitHub issue.\n\nI have now removed all text from the GitHub issue, but the bot doesn\u0027t seem to notice.",
+      "parentUuid": "d2e8f8fa_f48a8405",
+      "revId": "e149c824430f5cacbab6336288d93df46cbf41ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f5f161c_f0fb6aa4",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-01-04T22:44:20Z",
       "side": 1,
       "message": "Thanks.",
+      "revId": "e149c824430f5cacbab6336288d93df46cbf41ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba6600b6_dfd0de91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35075
+      },
+      "writtenOn": "2024-01-05T20:45:37Z",
+      "side": 1,
+      "message": "The commit message does not contain lines, that are over 76 characters long and no markdown either. Only the GitHub comment does.\n\nI believe the fix is trivial enough to not require a separate bug.",
+      "parentUuid": "1f5f161c_f0fb6aa4",
       "revId": "e149c824430f5cacbab6336288d93df46cbf41ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

@@ -16,6 +16,24 @@
       "message": "Test failures appear to be real.",
       "revId": "5ec91108ac9cdcd67a43767f97cfd7e767e69a1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce4ddf6f_f0789217",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35075
+      },
+      "writtenOn": "2024-01-05T20:45:37Z",
+      "side": 1,
+      "message": "Thanks for the hint, I didn\u0027t register that.\n\nThere was a test case that expected the duplicate newline. I changed it.",
+      "parentUuid": "eef5da9c_f90e79ff",
+      "revId": "5ec91108ac9cdcd67a43767f97cfd7e767e69a1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
