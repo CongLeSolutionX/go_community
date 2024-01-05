@@ -88,6 +88,29 @@
       "message": "It\u0027s really unfortunate that `dnsmessage.Parser` doesn\u0027t expose the number of records in each section, which would be simpler than making `extractExtendedRCode` do double duty like this.\n\nHowever, I don\u0027t see a simpler option that doesn\u0027t involve changing `dnsmessage`, so LGTM.",
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae4c0a44_2294ea94",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-01-05T19:08:42Z",
+      "side": 1,
+      "message": "is that correct? what if err is some kind of parsing error? Shouldn\u0027t this be `err \u003d\u003d nil`?\n\n```\nfunc extractExtendedRCode(p dnsmessage.Parser, hdr dnsmessage.Header) (dnsmessage.RCode, bool) {\n\tp.SkipAllAnswers()\n\tp.SkipAllAuthorities()\n\thasAdd :\u003d false\n\tfor {\n\t\tahdr, err :\u003d p.AdditionalHeader()\n\t\tif err !\u003d nil {\n\t\t\treturn hdr.RCode, hasAdd\n\t\t}\n\t\thasAdd \u003d true\n\t\tif ahdr.Type \u003d\u003d dnsmessage.TypeOPT {\n\t\t\treturn ahdr.ExtendedRCode(hdr.RCode), hasAdd\n\t\t}\n\t\tp.SkipAdditional()\n\t}\n}\n\n```",
+      "range": {
+        "startLine": 266,
+        "startChar": 21,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
