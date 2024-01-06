@@ -231,6 +231,30 @@
       },
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82957fb3_40fdb5f5",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-01-06T09:51:59Z",
+      "side": 1,
+      "message": "But on the other hand: `hasAdd \u003d hasAdd || err \u003d\u003d nil` would be simpler for doing basically the same thing (also accounting for parsing errors).",
+      "parentUuid": "302cd2fb_58dce544",
+      "range": {
+        "startLine": 266,
+        "startChar": 21,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
