@@ -158,6 +158,24 @@
       "parentUuid": "90cfe02e_b13f87fa",
       "revId": "068dd93eaada694707e4279baf22888225a9c243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25dd66bb_be13e46f",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2024-01-06T10:37:38Z",
+      "side": 1,
+      "message": "My first draft of this CL has included a set of headers. I suggest I revert (or you use the same set of headers I made) to https://github.com/golang/go/commit/0c3b04c66c9266ecc274349a597d1ae686d182b1 for errors from ServeContent where I suggest we fix this directly and not try to fix in more general http.Error (which has to keep more of the backwards compatibility). So I think this CL should fix a broader set of headers here, while your CL should probably fix a narrower set of headers in http.Error. But maybe we can just do all of them in http.Error?",
+      "parentUuid": "12ff474f_8cd8fe6c",
+      "revId": "068dd93eaada694707e4279baf22888225a9c243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
