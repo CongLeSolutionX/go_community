@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa895b02_50069c7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68348
+      },
+      "writtenOn": "2024-01-06T06:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a39b45f3_f058023d",
+      "revId": "ece622a7610a6d8b383aedae7fd4c4809570701f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b39a2cd6_b0a552bd",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-01-02T14:39:10Z",
       "side": 1,
       "message": "This is not what the submission title says to fix different receiver names, I\u0027m not sure if it should be revevt here or update the submission information, please someone with codereview+2 to judge.",
+      "range": {
+        "startLine": 130,
+        "startChar": 18,
+        "endLine": 130,
+        "endChar": 31
+      },
+      "revId": "ece622a7610a6d8b383aedae7fd4c4809570701f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d1f7400_76b47c37",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 68348
+      },
+      "writtenOn": "2024-01-06T06:18:47Z",
+      "side": 1,
+      "message": "Done, I removed the doc change.",
+      "parentUuid": "b39a2cd6_b0a552bd",
       "range": {
         "startLine": 130,
         "startChar": 18,
