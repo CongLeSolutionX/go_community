@@ -159,6 +159,30 @@
       },
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4faf7938_3fd5f93c",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 57858
+      },
+      "writtenOn": "2024-01-06T09:04:11Z",
+      "side": 1,
+      "message": "For this reason, and since the SkipAllAnswers and SkipAllAuthorities called at the beginning of the function do not check for errors, I believe that encountering ErrNotStarted or ErrSectionDone here can both be considered as having no additional section. Should I add a check for ErrNotStarted, or is the current implementation sufficient?",
+      "parentUuid": "1a0739e9_06ae615e",
+      "range": {
+        "startLine": 266,
+        "startChar": 21,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
