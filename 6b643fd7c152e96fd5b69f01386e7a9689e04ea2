@@ -183,6 +183,30 @@
       },
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "457dad84_ae09cc8b",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 57858
+      },
+      "writtenOn": "2024-01-06T09:11:50Z",
+      "side": 1,
+      "message": "Sorry, I was mistaken. The error handling in Resolver.exchange -\u003e SkipQuestion already covers this scenario. Therefore, I believe the current implementation is sufficient.",
+      "parentUuid": "4faf7938_3fd5f93c",
+      "range": {
+        "startLine": 266,
+        "startChar": 21,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
