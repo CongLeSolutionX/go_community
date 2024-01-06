@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "776336af_d0c4c4f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-06T06:37:35Z",
+      "side": 1,
+      "message": "See https://go.dev/wiki/GerritBot#frequently-asked-questions , It uses the title and description of the GitHub PR to construct the commit message for the Gerrit change. You can edit this using the GitHub web interface (not Gerrit or git).",
+      "parentUuid": "aa895b02_50069c7d",
+      "revId": "ece622a7610a6d8b383aedae7fd4c4809570701f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b39a2cd6_b0a552bd",
         "filename": "src/cmd/doc/pkg.go",
         "patchSetId": 2
