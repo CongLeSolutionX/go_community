@@ -111,6 +111,30 @@
       },
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0c4931_e3cddddb",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 57858
+      },
+      "writtenOn": "2024-01-06T01:45:52Z",
+      "side": 1,
+      "message": "Perhaps I should add another check for ErrNotStarted? Because I believe that even if there is a parsing error, it still indicates the presence of an Additional section. The absence of it would only be possible if there is an error in Parser.checkAdvance.",
+      "parentUuid": "ae4c0a44_2294ea94",
+      "range": {
+        "startLine": 266,
+        "startChar": 21,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
