@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a39b45f3_f058023d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2024-01-06T01:47:12Z",
+      "side": 1,
+      "message": "Thanks for this. My only request is a little more explanation in the CL description. What you have is too short and not quite accurate. Be more thorough, but for such a small change it doesn\u0027t need to be too long. Something like this:\n\ncmd/doc: fix inconsistent receiver name\n\nThe ToText method of Package is the only one with a receiver declared \u0027p\u0027; all the rest have \u0027pkg\u0027. Fix it to be consistent.",
+      "revId": "ece622a7610a6d8b383aedae7fd4c4809570701f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b39a2cd6_b0a552bd",
         "filename": "src/cmd/doc/pkg.go",
         "patchSetId": 2
