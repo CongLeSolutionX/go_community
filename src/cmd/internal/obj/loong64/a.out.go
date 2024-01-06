@@ -301,9 +301,6 @@ const (
 	AMOVWD
 	AMOVWF
 
-	AMOVWL
-	AMOVWR
-
 	AMUL
 	AMULD
 	AMULF
@@ -346,11 +343,6 @@ const (
 	ADBAR
 	ASYSCALL
 
-	ATEQ
-	ATNE
-
-	AWORD
-
 	AXOR
 
 	AMASKEQZ
@@ -358,8 +350,6 @@ const (
 
 	// 64-bit
 	AMOVV
-	AMOVVL
-	AMOVVR
 
 	ASLLV
 	ASRAV

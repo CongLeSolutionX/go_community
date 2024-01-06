@@ -245,8 +245,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				p.Mark |= LABEL | SYNC
 			}
 
-		case ASYSCALL,
-			AWORD:
+		case ASYSCALL:
 			p.Mark |= LABEL | SYNC
 
 		case ANOR:

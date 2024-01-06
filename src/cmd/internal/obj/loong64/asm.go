@@ -97,15 +97,11 @@ var optab = []Optab{
 	{AMOVV, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{AMOVB, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{AMOVBU, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
-	{AMOVWL, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
-	{AMOVVL, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{AMOVW, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{AMOVWU, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{AMOVV, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{AMOVB, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{AMOVBU, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
-	{AMOVWL, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
-	{AMOVVL, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{ASC, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 	{ASCV, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
 
@@ -114,15 +110,11 @@ var optab = []Optab{
 	{AMOVV, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
 	{AMOVB, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
 	{AMOVBU, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
-	{AMOVWL, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
-	{AMOVVL, C_SAUTO, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGSP, 0},
 	{AMOVW, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 	{AMOVWU, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 	{AMOVV, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 	{AMOVB, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 	{AMOVBU, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
-	{AMOVWL, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
-	{AMOVVL, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 	{ALL, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 	{ALLV, C_SOREG, C_NONE, C_NONE, C_REG, C_NONE, 8, 4, REGZERO, 0},
 
@@ -308,13 +300,7 @@ var optab = []Optab{
 	{AMOVBU, C_TLS_IE, C_NONE, C_NONE, C_REG, C_NONE, 57, 16, 0, 0},
 	{AMOVWU, C_TLS_IE, C_NONE, C_NONE, C_REG, C_NONE, 57, 16, 0, 0},
 
-	{AWORD, C_LCON, C_NONE, C_NONE, C_NONE, C_NONE, 40, 4, 0, 0},
-	{AWORD, C_DCON, C_NONE, C_NONE, C_NONE, C_NONE, 61, 4, 0, 0},
-
 	{AMOVV, C_GOTADDR, C_NONE, C_NONE, C_REG, C_NONE, 65, 8, 0, 0},
-
-	{ATEQ, C_SCON, C_REG, C_NONE, C_REG, C_NONE, 15, 8, 0, 0},
-	{ATEQ, C_SCON, C_NONE, C_NONE, C_REG, C_NONE, 15, 8, 0, 0},
 
 	{ABREAK, C_REG, C_NONE, C_NONE, C_SAUTO, C_NONE, 7, 4, REGSP, 0},
 	{ABREAK, C_REG, C_NONE, C_NONE, C_SOREG, C_NONE, 7, 4, REGZERO, 0},
@@ -1082,12 +1068,6 @@ func buildop(ctxt *obj.Link) {
 		case ABFPT:
 			opset(ABFPF, r0)
 
-		case AMOVWL:
-			opset(AMOVWR, r0)
-
-		case AMOVVL:
-			opset(AMOVVR, r0)
-
 		case AMOVW,
 			AMOVD,
 			AMOVF,
@@ -1103,7 +1083,6 @@ func buildop(ctxt *obj.Link) {
 			ASCV,
 			ANEGW,
 			ANEGV,
-			AWORD,
 			ARDTIMELW,
 			ARDTIMEHW,
 			ARDTIMED,
@@ -1119,9 +1098,6 @@ func buildop(ctxt *obj.Link) {
 
 		case ACLO:
 			opset(ACLZ, r0)
-
-		case ATEQ:
-			opset(ATNE, r0)
 
 		case AMASKEQZ:
 			opset(AMASKNEZ, r0)
@@ -1352,27 +1328,6 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_16IRR(c.opirr(-ASLLV), uint32(32)&0x3f, uint32(p.From.Reg), uint32(p.To.Reg))
 		o2 = OP_16IRR(c.opirr(-ASRLV), uint32(32)&0x3f, uint32(p.To.Reg), uint32(p.To.Reg))
 
-	case 15: // teq $c r,r
-		v := c.regoff(&p.From)
-		r := int(p.Reg)
-		if r == 0 {
-			r = REGZERO
-		}
-		/*
-			teq c, r1, r2
-			fallthrough
-			==>
-			bne r1, r2, 2
-			break c
-			fallthrough
-		*/
-		if p.As == ATEQ {
-			o1 = OP_16IRR(c.opirr(ABNE), uint32(2), uint32(r), uint32(p.To.Reg))
-		} else { // ATNE
-			o1 = OP_16IRR(c.opirr(ABEQ), uint32(2), uint32(r), uint32(p.To.Reg))
-		}
-		o2 = c.oprrr(ABREAK) | (uint32(v) & 0x7FFF)
-
 	case 16: // sll $c,[r1],r2
 		v := c.regoff(&p.From)
 		r := int(p.Reg)
@@ -1516,9 +1471,6 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_IR(c.opir(ALU12IW), uint32((v+1<<11)>>12), uint32(REGTMP))
 		o2 = OP_RRR(c.oprrr(add), uint32(r), uint32(REGTMP), uint32(REGTMP))
 		o3 = OP_12IRR(c.opirr(-p.As), uint32(v), uint32(REGTMP), uint32(p.To.Reg))
-
-	case 40: // word
-		o1 = uint32(c.regoff(&p.From))
 
 	case 47: // movv r,fr
 		a := OP_TEN(8, 1322) // movgr2fr.d
@@ -1698,10 +1650,6 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			r = int(p.To.Reg)
 		}
 		o5 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
-
-	case 61: // word C_DCON
-		o1 = uint32(c.vregoff(&p.From))
-		o2 = uint32(c.vregoff(&p.From) >> 32)
 
 	case 62: // rdtimex rd, rj
 		o1 = OP_RR(c.oprr(p.As), uint32(p.To.Reg), uint32(p.RegTo2))
@@ -2035,26 +1983,10 @@ func (c *ctxt0) opirr(a obj.As) uint32 {
 		return 0x0ad << 22
 	case AMOVD:
 		return 0x0af << 22
-	case AMOVWL:
-		return 0x0bc << 22
-	case AMOVWR:
-		return 0x0bd << 22
-	case AMOVVL:
-		return 0x0be << 22
-	case AMOVVR:
-		return 0x0bf << 22
 
 	case ABREAK:
 		return 0x018 << 22
 
-	case -AMOVWL:
-		return 0x0b8 << 22
-	case -AMOVWR:
-		return 0x0b9 << 22
-	case -AMOVVL:
-		return 0x0ba << 22
-	case -AMOVVR:
-		return 0x0bb << 22
 	case -AMOVB:
 		return 0x0a0 << 22
 	case -AMOVBU:
