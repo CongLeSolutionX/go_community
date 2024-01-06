@@ -197,6 +197,24 @@
       "message": "who can submit?",
       "revId": "2d69018d11b98dccd2bce17e87b874f2eb8e2a99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6e3b2a4_c2b27973",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-01-06T16:06:44Z",
+      "side": 1,
+      "message": "There is currently a release freeze.\n\nhttps://go.dev/s/release",
+      "parentUuid": "c0492d5b_73decfe0",
+      "revId": "2d69018d11b98dccd2bce17e87b874f2eb8e2a99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
