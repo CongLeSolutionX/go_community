@@ -135,6 +135,30 @@
       },
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a0739e9_06ae615e",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-01-06T08:47:27Z",
+      "side": 1,
+      "message": "\u003e Perhaps I should add another check for ErrNotStarted? Because I believe that even if there is a parsing error, it still indicates the presence of an Additional section. \n\nI might be wrong, but I belive that `ErrNotStarted` is only returned when using invalid `*Header` method, that is not bound to the current parsing section. In this case it shouldn\u0027t be returned, because we skip the answers and authorities section.\n\nIt is even documented as such:\n```\n// ErrNotStarted indicates that the prerequisite information isn\u0027t\n// available yet because the previous records haven\u0027t been appropriately\n// parsed, skipped or finished.\nErrNotStarted \u003d errors.New(\"parsing/packing of this type isn\u0027t available yet\")\n```",
+      "parentUuid": "7b0c4931_e3cddddb",
+      "range": {
+        "startLine": 266,
+        "startChar": 21,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
