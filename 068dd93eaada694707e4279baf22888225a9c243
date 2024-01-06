@@ -140,6 +140,24 @@
       "parentUuid": "575b2ba6_cba679e8",
       "revId": "068dd93eaada694707e4279baf22888225a9c243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ff474f_8cd8fe6c",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-06T00:14:53Z",
+      "side": 1,
+      "message": "I put together https://go.dev/cl/554216 to strip `Content-Length` in `Error`, which addresses the most unquestionably wrong case.\n\nWe should possibly still do something to remove `ETag` at least when `ServeContent` produces an error.",
+      "parentUuid": "90cfe02e_b13f87fa",
+      "revId": "068dd93eaada694707e4279baf22888225a9c243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
