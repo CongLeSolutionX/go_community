@@ -255,6 +255,30 @@
       },
       "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07e2f176_5f17e266",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 57858
+      },
+      "writtenOn": "2024-01-06T10:12:42Z",
+      "side": 1,
+      "message": "I think you are correct. Previously, I only considered anhp-\u003earcount \u003d\u003d 0 in libresolv (which indicates only looking at the header without focusing on the parsing result). However, in CL22428, len(msg.extra) \u003d\u003d 0 is focusing on the parsing result. So, we should take parsing errors into account.",
+      "parentUuid": "82957fb3_40fdb5f5",
+      "range": {
+        "startLine": 266,
+        "startChar": 21,
+        "endLine": 266,
+        "endChar": 53
+      },
+      "revId": "6b643fd7c152e96fd5b69f01386e7a9689e04ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
