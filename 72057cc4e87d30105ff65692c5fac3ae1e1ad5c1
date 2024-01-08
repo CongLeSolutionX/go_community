@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37255a99_d64a6ae3",
+        "filename": "src/runtime/runtime-gdb_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-08T19:38:48Z",
+      "side": 1,
+      "message": "I\u0027m a little uncomfortable with arbitrarily increasing this internal only for the test — won\u0027t that potentially mask bugs that affect real (non-test) users?\n\nIs there a way to make this more robust without introducing a difference between the test and real configurations?\n\n(On https://github.com/golang/go/issues/64752#issuecomment-1875819512 I suggested that we continue the sleep until `crashing.Load()` stops increasing, which seems like it would allow crashes to complete as long as the program can retire at least one thread per 5s, which feels like it ought to be viable even on a very slow machine.)",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
