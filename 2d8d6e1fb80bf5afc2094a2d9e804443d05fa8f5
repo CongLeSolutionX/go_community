@@ -33,6 +33,23 @@
       "message": "The thing I worry about here is code size at the callsite. With the register ABI calls to concatstringX just require setting up args in registers (e.g. concatstring2 needs to set 5 registers, 2 for each string and 1 for the tmpbuf). concatstring, on the other hand, requires initializing the backing store for the slice (which involves memory operations) and then setting up the slice header. That code sequence can be significantly larger (especially on x86).\n\nCode size regressions are hard to quantify with microbenchmarks, but they can adversely affect larger programs which challenge the icache.\n\nIt appears from the issue that you have some benchmarks. Can you add them to this CL as Go benchmarks? That way it will make it easier to test on different architectures.",
       "revId": "2d8d6e1fb80bf5afc2094a2d9e804443d05fa8f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a615f9bd_161e517e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-08T23:21:00Z",
+      "side": 1,
+      "message": "(Note to self: original hash mentioned is 24699fb05c897dbaec3fe4f1d565c3c9da5078fc)",
+      "revId": "2d8d6e1fb80bf5afc2094a2d9e804443d05fa8f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
