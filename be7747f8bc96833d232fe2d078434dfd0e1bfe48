@@ -73,6 +73,24 @@
       "parentUuid": "3254e014_b20a25db",
       "revId": "be7747f8bc96833d232fe2d078434dfd0e1bfe48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5166a3bc_b268fe16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-01-08T04:33:18Z",
+      "side": 1,
+      "message": "Looks fixed, I don\u0027t understand this patch enough to properly review it, would need time to read more code. But sgtm thx.",
+      "parentUuid": "08b7ae46_9a17c9ad",
+      "revId": "be7747f8bc96833d232fe2d078434dfd0e1bfe48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
