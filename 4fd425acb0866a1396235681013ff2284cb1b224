@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e031ac33_4541b64d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-08T16:06:28Z",
+      "side": 1,
+      "message": "Thanks for sending a CL!",
+      "revId": "4fd425acb0866a1396235681013ff2284cb1b224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43d1954d_14587db7",
+        "filename": "src/runtime/runtime-gdb_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-08T16:06:28Z",
+      "side": 1,
+      "message": "This needs to be done in the crashing program (coreCrashThreadSource), not the parent.",
+      "revId": "4fd425acb0866a1396235681013ff2284cb1b224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
