@@ -53,6 +53,24 @@
       "message": "Seems a dup of CL 553335.",
       "revId": "131b0638a9f1c84e802a0374e0249ba4edfbd0f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "014a481e_8dddc876",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2024-01-08T13:49:55Z",
+      "side": 1,
+      "message": "Thanks for the answer, I will close this cl.",
+      "parentUuid": "1ead07e6_d4c35c76",
+      "revId": "131b0638a9f1c84e802a0374e0249ba4edfbd0f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
