@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ae8c867_86f65c8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-01-08T11:38:11Z",
+      "side": 1,
+      "message": "Now that all tests have passed, here (https://github.com/abner-chenc/abner/blob/master/golang/race.log) are the full logs from running all.bash and race.bash\n\n \nThe Pr (https://github.com/llvm/llvm-project/pull/72819) in buildgo.sh in LLVM that supports building the TSAN library on loong64 has been merged, and the race_linux_loong64.syso in the CL already uses the latest llvm Constructed.",
+      "parentUuid": "5cf118ca_4a7d620d",
+      "revId": "99e10bf4dc0422d5ac9fe9bc6e52e1cd936d016f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3279fffe_f85dba51",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-12-28T12:28:04Z",
       "side": 1,
       "message": "Debug leftover? Remove?",
+      "revId": "99e10bf4dc0422d5ac9fe9bc6e52e1cd936d016f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb4144d_67aa1aac",
+        "filename": "src/runtime/asm_loong64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-01-08T11:38:11Z",
+      "side": 1,
+      "message": "Ｔhanks，　I have updated it．",
+      "parentUuid": "3279fffe_f85dba51",
       "revId": "99e10bf4dc0422d5ac9fe9bc6e52e1cd936d016f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
