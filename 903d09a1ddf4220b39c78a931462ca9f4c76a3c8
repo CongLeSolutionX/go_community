@@ -16,6 +16,24 @@
       "message": "Should this be Set? Or is there assumption that something else has been written before? Because if something else has been written before, then even setting content-type is wrong? There could be some binary jump already written out?",
       "revId": "903d09a1ddf4220b39c78a931462ca9f4c76a3c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd56cac_022e0a39",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2176,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T22:55:05Z",
+      "side": 1,
+      "message": "If something was written before `Error`, then `WriteHeader` has already been called (explicitly or implicitly) and none of the headers have any impact. However, something could be written after `Error`. For example, there might be existing code like:\n\n```\nError(w, \"some error\", 400)\nfmt.Println(w, \"even more information\")\n```\n\nIf `Error` sets a content-length, then this becomes wrong.\n\nIn the common case, the error message will fit in the response buffer, and the http package will figure out and set the content-length automatically.",
+      "parentUuid": "4b3b7e6d_35e4a3e5",
+      "revId": "903d09a1ddf4220b39c78a931462ca9f4c76a3c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
