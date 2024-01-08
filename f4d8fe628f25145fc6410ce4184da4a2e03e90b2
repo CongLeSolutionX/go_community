@@ -53,6 +53,414 @@
       "message": "friendly ping~",
       "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0480bb83_62be5805",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aacf69c0_e83d4a00",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*url.Error]` -- the bracketed text can include a leading star.",
+      "range": {
+        "startLine": 442,
+        "startChar": 45,
+        "endLine": 442,
+        "endChar": 57
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f220b0cf_01e39245",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*url.Error]`",
+      "range": {
+        "startLine": 471,
+        "startChar": 54,
+        "endLine": 471,
+        "endChar": 66
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b8f2413_43cf069d",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*url.Error]`",
+      "range": {
+        "startLine": 587,
+        "startChar": 38,
+        "endLine": 587,
+        "endChar": 50
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "081b43be_4858cd72",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`If [Client.Transport] ...` -- no \"the\"",
+      "range": {
+        "startLine": 941,
+        "startChar": 3,
+        "endLine": 941,
+        "endChar": 28
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d54659_56005594",
+        "filename": "src/net/http/cookiejar/jar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*Options]`",
+      "range": {
+        "startLine": 76,
+        "startChar": 39,
+        "endLine": 76,
+        "endChar": 49
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082e0ec0_76d4e780",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*os.File]`",
+      "range": {
+        "startLine": 193,
+        "startChar": 13,
+        "endLine": 193,
+        "endChar": 23
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9776b8ca_550735b4",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*bytes.Buffer]`, `[*bytes.Reader]`, `[*strings.Reader]`",
+      "range": {
+        "startLine": 863,
+        "startChar": 22,
+        "endLine": 864,
+        "endChar": 20
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15089804_49431529",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*MaxBytesError]`",
+      "range": {
+        "startLine": 1137,
+        "startChar": 25,
+        "endLine": 1137,
+        "endChar": 41
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9e74c62_32c097f0",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`by the [Response.Location] method` (add \"the\")\n\nor `by [Response.Location].` (no \"method\")\n\n\n(In \"...by the Response.Location method.\", \"Response.Location\" is a eponymous adjective and \"method\" is a common noun which requires an article. In contrast, in \"...by Response.Location.\", \"Response.Location\" is a proper noun, which takes no article.)",
+      "range": {
+        "startLine": 129,
+        "startChar": 29,
+        "endLine": 129,
+        "endChar": 51
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6a39939_832d16da",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`relative to [Response.Request]` (no the)",
+      "range": {
+        "startLine": 135,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e429f62b_fa65373e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*os.File]`",
+      "range": {
+        "startLine": 574,
+        "startChar": 48,
+        "endLine": 574,
+        "endChar": 58
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51a5dd15_03ce5bda",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*net.TCPConn]`",
+      "range": {
+        "startLine": 575,
+        "startChar": 8,
+        "endLine": 575,
+        "endChar": 22
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c58025e1_2d914bf3",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3213,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*tls.Conn]`",
+      "range": {
+        "startLine": 3213,
+        "startChar": 58,
+        "endLine": 3213,
+        "endChar": 69
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d26eea4_76bb6c95",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*Server]`",
+      "range": {
+        "startLine": 200,
+        "startChar": 44,
+        "endLine": 200,
+        "endChar": 53
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cd30157_2c8b8a7b",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*TCPAddr]`",
+      "range": {
+        "startLine": 334,
+        "startChar": 50,
+        "endLine": 334,
+        "endChar": 60
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be14727b_f6a56db2",
+        "filename": "src/net/textproto/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`the [Reader.DotReader] method` (add the)",
+      "range": {
+        "startLine": 42,
+        "startChar": 28,
+        "endLine": 42,
+        "endChar": 54
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37912f1a_e03cf875",
+        "filename": "src/net/unixsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-08T19:21:32Z",
+      "side": 1,
+      "message": "`[*UnixConn]`",
+      "range": {
+        "startLine": 255,
+        "startChar": 40,
+        "endLine": 255,
+        "endChar": 51
+      },
+      "revId": "f4d8fe628f25145fc6410ce4184da4a2e03e90b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
