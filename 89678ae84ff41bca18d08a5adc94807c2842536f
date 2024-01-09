@@ -71,6 +71,46 @@
       "parentUuid": "04124e10_ff4866e2",
       "revId": "89678ae84ff41bca18d08a5adc94807c2842536f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b578c45d_25c93d8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-09T15:21:56Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "89678ae84ff41bca18d08a5adc94807c2842536f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "836abb0f_3876bbf0",
+        "filename": "doc/next/main.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-09T15:21:56Z",
+      "side": 1,
+      "message": "Since this is waiting for tree to reopen for the Go 1.23 development cycle:\n\n```suggestion\n## Introduction to Go 1.23 {#introduction}\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "89678ae84ff41bca18d08a5adc94807c2842536f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
