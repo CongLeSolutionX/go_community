@@ -46,6 +46,30 @@
       },
       "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6762cb16_cde95c89",
+        "filename": "src/runtime/runtime-gdb_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 66668
+      },
+      "writtenOn": "2024-01-09T13:39:59Z",
+      "side": 1,
+      "message": "Agree that we should not introducing a difference between the test and the real. I would love to implement it, and could you please guide me how to deal with these below? Thanks.\n\n1. I want to keep the low sleep time per loop. However, it seems that this may break this [issue](https://github.com/golang/go/issues/64650) more? Should we deal with this issue in this CL also? How about another flag for counting how many threads go into sleep state, check this flag before the first thread to crash?\n\n2. How could we tell that the crashing stops increasing? Check if equals between loops? Given on a slower enough machine it may hard to know this. Another concern is that if one of the threads failed to receive the SIGQUIT for some reason, the application may get into stuck?",
+      "parentUuid": "671889e9_678cc48d",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
