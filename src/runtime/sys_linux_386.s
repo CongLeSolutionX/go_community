@@ -37,6 +37,7 @@
 #define SYS_socketcall		102
 #define SYS_setittimer		104
 #define SYS_clone		120
+#define SYS_mprotect		125
 #define SYS_sched_yield 	158
 #define SYS_nanosleep		162
 #define SYS_rt_sigreturn	173
@@ -510,6 +511,19 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	n+4(FP), CX
 	MOVL	flags+8(FP), DX
 	INVOKE_SYSCALL
+	MOVL	AX, ret+12(FP)
+	RET
+
+TEXT runtime·mprotect(SB),NOSPLIT,$0
+	MOVL	addr+0(FP), BX
+	MOVL	n+4(FP), CX
+	MOVL	prot+8(FP), DX
+	MOVL	$SYS_mprotect, AX
+	INVOKE_SYSCALL
+	TESTL	AX, AX
+	JEQ	ok
+	NEGL	AX
+ok:
 	MOVL	AX, ret+12(FP)
 	RET
 

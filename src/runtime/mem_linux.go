@@ -74,8 +74,7 @@ func sysUnusedOS(v unsafe.Pointer, n uintptr) {
 	}
 
 	if debug.harddecommit > 0 {
-		p, err := mmap(v, n, _PROT_NONE, _MAP_ANON|_MAP_FIXED|_MAP_PRIVATE, -1, 0)
-		if p != v || err != 0 {
+		if mprotect(v, n, _PROT_NONE) != 0 {
 			throw("runtime: cannot disable permissions in address space")
 		}
 	}
@@ -83,12 +82,12 @@ func sysUnusedOS(v unsafe.Pointer, n uintptr) {
 
 func sysUsedOS(v unsafe.Pointer, n uintptr) {
 	if debug.harddecommit > 0 {
-		p, err := mmap(v, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_FIXED|_MAP_PRIVATE, -1, 0)
+		err := mprotect(v, n, _PROT_READ|_PROT_WRITE)
 		if err == _ENOMEM {
 			throw("runtime: out of memory")
 		}
-		if p != v || err != 0 {
-			throw("runtime: cannot remap pages in address space")
+		if err != 0 {
+			throw("runtime: cannot change permissions in address space")
 		}
 		return
 	}
@@ -150,7 +149,7 @@ func sysFreeOS(v unsafe.Pointer, n uintptr) {
 }
 
 func sysFaultOS(v unsafe.Pointer, n uintptr) {
-	mmap(v, n, _PROT_NONE, _MAP_ANON|_MAP_PRIVATE|_MAP_FIXED, -1, 0)
+	mprotect(v, n, _PROT_NONE)
 }
 
 func sysReserveOS(v unsafe.Pointer, n uintptr) unsafe.Pointer {
@@ -162,13 +161,13 @@ func sysReserveOS(v unsafe.Pointer, n uintptr) unsafe.Pointer {
 }
 
 func sysMapOS(v unsafe.Pointer, n uintptr) {
-	p, err := mmap(v, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_FIXED|_MAP_PRIVATE, -1, 0)
+	err := mprotect(v, n, _PROT_READ|_PROT_WRITE)
 	if err == _ENOMEM {
 		throw("runtime: out of memory")
 	}
-	if p != v || err != 0 {
-		print("runtime: mmap(", v, ", ", n, ") returned ", p, ", ", err, "\n")
-		throw("runtime: cannot map pages in arena address space")
+	if err != 0 {
+		print("runtime: mprotect(", v, ", ", n, ") returned ", err, "\n")
+		throw("runtime: cannot change permissions in address space")
 	}
 
 	// Disable huge pages if the GODEBUG for it is set.
