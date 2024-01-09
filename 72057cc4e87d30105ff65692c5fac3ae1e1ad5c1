@@ -70,6 +70,47 @@
       },
       "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e69211e5_135e45f8",
+        "filename": "src/runtime/runtime-gdb_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-09T17:10:20Z",
+      "side": 1,
+      "message": "\u003e 1. I want to keep the low sleep time per loop. However, it seems that this may break this [issue](https://github.com/golang/go/issues/64650) more? Should we deal with this issue in this CL also? How about another flag for counting how many threads go into sleep state, check this flag before the first thread to crash?\n\nIt should be possible to do both. Perhaps something like:\n\n```go\nconst (\n\tcrashSleepMicros \u003d 5000\n\twatchdogTimeoutMicros \u003d 1000 * crashSleepMicros\n)\nif isCrashThread {\n\t// Sleep for short intervals so that we can crash quickly after\n\t// all ms have received SIGQUIT.\n\t// Reset the timer whenever we see s\n\tmaxCrashing :\u003d crashing.Load()\n\ttimeout :\u003d watchdogTimeoutMicros\n\tfor timeout \u003e 0 \u0026\u0026 (crashing.Load() \u003c mcount()-int32(extraMLength.Load())) {\n\t\tusleep(crashSleepMicros)\n\t\ttimeout -\u003d crashSleepMicros\n\n\t\tif c :\u003d crashing.Load(); c \u003e maxCrashing {\n\t\t\t// We made progress, so reset the watchdog timeout\n\t\t\tmaxCrashing \u003d c\n\t\t\ttimeout \u003d watchdogTimeoutMicros\n\t\t}\n\t}\n} else {\n\tmaxCrashing :\u003d int32(0)\n\tfor c :\u003d crashing.Load(); c \u003e maxCrashing {\n\t\tmaxCrashing \u003d c\n\t\tusleep(watchdogTimeoutMicros)\n\t}\n}\n```\n\n\u003e 2. How could we tell that the crashing stops increasing? Check if equals between loops? Given on a slower enough machine it may hard to know this.\n\nYes, exactly (see above). It shouldn\u0027t depend on machine speed: we add to `crashing` but never subtract from it, so it should increase monotonically.\n\n\u003e Another concern is that if one of the threads failed to receive the SIGQUIT for some reason, the application may get into stuck?\n\nThat\u0027s why we impose the (still arbitrary) upper bound on the amount of time spent sleeping if `crashing` does not increase.",
+      "parentUuid": "6762cb16_cde95c89",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f762fe5_08ff0b41",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-09T17:10:20Z",
+      "side": 1,
+      "message": "(nit) `perLoopSleepTimeUs :\u003d uint32(5000)`\nand then you can drop the individual `uint32` conversions below.",
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
