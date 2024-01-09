@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d627e917_457cc80f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-09T13:57:12Z",
+      "side": 1,
+      "message": "The description above is a nice explanation of mmap_lock, but it doesn\u0027t explain why mprotect is lower latency. In fact, it implies that they should be the same (they both take mmap_lock).",
+      "revId": "48db1e61082c0bf3845153e7a43fffdcfffbe744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d5bee73_9cacefcc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -49,6 +66,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "3d5bee73_9cacefcc",
+      "revId": "48db1e61082c0bf3845153e7a43fffdcfffbe744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b02e656_85f01e08",
+        "filename": "src/runtime/mem_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-09T13:57:12Z",
+      "side": 1,
+      "message": "This, combined with the sysFaultOS change above, is a change in semantics. Previously `sysMapOS` -\u003e `sysFaultOS` -\u003e `sysMapOS` would zero the pages, now it will not.\n\nIt is not documented at the top of mem.go, but I\u0027m almost certain that we require `sysMapOS` to return zeroed memory.",
       "revId": "48db1e61082c0bf3845153e7a43fffdcfffbe744",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
