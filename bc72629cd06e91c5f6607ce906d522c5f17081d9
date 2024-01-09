@@ -106,6 +106,24 @@
       "message": "This is a bit confusing because of the similarly-named crypto/rsa.PublicKey and crypto.PublicKey.\n\nWe mean x must be a crypto.PublicKey (which, of course, because that\u0027s its type) which has a concrete type of *crypto/rsa.PublicKey. Not sure how we might word that.\n\nAlso, x doesn\u0027t need to be a *crypto/rsa.PublicKey. You can pass any type you want for x (as long as it implements the methods of crypto.PublicKey). Equal just reports false if it isn\u0027t a *crypto/rsa.PublicKey (e.g. if it was a *crypto/dsa/PublicKey). I don\u0027t think \"requirement\" is the right way to word this - Equal is just paralleling how equality works in Go for interface-typed values (both types and values must match).",
       "revId": "bc72629cd06e91c5f6607ce906d522c5f17081d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d1d5fe_41cdb358",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-09T09:27:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2797c6fa_6ed3a7b6",
+      "revId": "bc72629cd06e91c5f6607ce906d522c5f17081d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
