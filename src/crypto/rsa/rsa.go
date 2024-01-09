@@ -58,6 +58,8 @@ func (pub *PublicKey) Size() int {
 }
 
 // Equal reports whether pub and x have the same value.
+//
+// applie only to [*PublicKey], returns false in other cases.
 func (pub *PublicKey) Equal(x crypto.PublicKey) bool {
 	xx, ok := x.(*PublicKey)
 	if !ok {
