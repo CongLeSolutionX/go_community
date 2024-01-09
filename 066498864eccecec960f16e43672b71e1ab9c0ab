@@ -70,6 +70,23 @@
       "message": "LGTM. Thanks!",
       "revId": "066498864eccecec960f16e43672b71e1ab9c0ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bde6efab_cca63e09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-09T19:52:24Z",
+      "side": 1,
+      "message": "@imcusg@gmail.com There\u0027s a merge conflict that needs to be resolved.",
+      "revId": "066498864eccecec960f16e43672b71e1ab9c0ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
