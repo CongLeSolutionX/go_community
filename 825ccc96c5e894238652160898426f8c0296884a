@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3cf54de_d73d6a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-10T04:52:53Z",
+      "side": 1,
+      "message": "See https://go.dev/doc/contribute#sending_a_change_github ,  and the final commit description will be composed by concatenating the pull request\u0027s title and description.",
+      "parentUuid": "60927fa6_d924f543",
+      "revId": "825ccc96c5e894238652160898426f8c0296884a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fcaaef7_d24afb25",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
