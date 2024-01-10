@@ -16,6 +16,24 @@
       "message": "Just to be sure, these are just informational relocations which doesn\u0027t change the binary, so the size is 0?",
       "revId": "11c4ae4d026cfb6e5a0e66b0edc3feae7a47fd09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa644f9b_d030d29f",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-01-10T03:41:19Z",
+      "side": 1,
+      "message": "Yes, they are just informational annotations to guide the linker in optimizing and do not change the binary. I have added a comment.",
+      "parentUuid": "c1215500_eed92582",
+      "revId": "11c4ae4d026cfb6e5a0e66b0edc3feae7a47fd09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
