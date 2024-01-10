@@ -2209,3 +2209,11 @@ func setPos(v *Value, pos src.XPos) bool {
 	v.Pos = pos
 	return true
 }
+
+func minValueForInt(t *types.Type) int64 {
+	return int64(uint64(1) << (t.Size()*8 - 1))
+}
+
+func maxValueForInt(t *types.Type) int64 {
+	return minValueForInt(t) - 1
+}
