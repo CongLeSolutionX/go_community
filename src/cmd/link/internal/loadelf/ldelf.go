@@ -1018,7 +1018,14 @@ func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, uint8, error) {
 		MIPS64 | uint32(elf.R_MIPS_PC32)<<16:
 		return 4, 4, nil
 
+	// These are informational annotations to assist linker optimizations.
+	case LOONG64 | uint32(elf.R_LARCH_ALIGN)<<16,
+		LOONG64 | uint32(elf.R_LARCH_RELAX)<<16:
+		return 0, 0, nil
+
 	case LOONG64 | uint32(elf.R_LARCH_ADD8)<<16,
+		LOONG64 | uint32(elf.R_LARCH_ADD6)<<16,
+		LOONG64 | uint32(elf.R_LARCH_SUB6)<<16,
 		LOONG64 | uint32(elf.R_LARCH_SUB8)<<16:
 		return 1, 1, nil
 
@@ -1036,6 +1043,8 @@ func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, uint8, error) {
 		LOONG64 | uint32(elf.R_LARCH_ADD32)<<16,
 		LOONG64 | uint32(elf.R_LARCH_SUB24)<<16,
 		LOONG64 | uint32(elf.R_LARCH_SUB32)<<16,
+		LOONG64 | uint32(elf.R_LARCH_B16)<<16,
+		LOONG64 | uint32(elf.R_LARCH_B21)<<16,
 		LOONG64 | uint32(elf.R_LARCH_B26)<<16,
 		LOONG64 | uint32(elf.R_LARCH_32_PCREL)<<16:
 		return 4, 4, nil
