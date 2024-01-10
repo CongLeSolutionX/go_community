@@ -601,9 +601,31 @@
 (Or(64|32|16|8) x (Or(64|32|16|8) x y)) => (Or(64|32|16|8) x y)
 (Xor(64|32|16|8) x (Xor(64|32|16|8) x y)) => y
 
-// Unsigned comparisons to zero.
-(Less(64U|32U|16U|8U) _ (Const(64|32|16|8) [0])) => (ConstBool [false])
-(Leq(64U|32U|16U|8U) (Const(64|32|16|8) [0]) _)  => (ConstBool [true])
+// Fold comparisons with numeric bounds
+(Less(64|32|16|8)U _ (Const(64|32|16|8) [0]))  => (ConstBool [false])
+(Leq(64|32|16|8)U (Const(64|32|16|8) [0]) _)   => (ConstBool [true])
+(Less(64|32|16|8)U (Const(64|32|16|8) [-1]) _) => (ConstBool [false])
+(Leq(64|32|16|8)U _ (Const(64|32|16|8) [-1]))  => (ConstBool [true])
+(Less(64|32|16|8) _ (Const(64|32|16|8) [c])) && int64(c) == minValueForInt(v.Type) => (ConstBool [false])
+(Leq(64|32|16|8) (Const(64|32|16|8) [c]) _)  && int64(c) == minValueForInt(v.Type) => (ConstBool [true])
+(Less(64|32|16|8) (Const(64|32|16|8) [c]) _) && int64(c) == maxValueForInt(v.Type) => (ConstBool [false])
+(Leq(64|32|16|8) _ (Const(64|32|16|8) [c]))  && int64(c) == maxValueForInt(v.Type) => (ConstBool [true])
+
+// Canonicalize <= on numeric bounds and < near numeric bounds to ==
+(Leq(64|32|16|8)U x c:(Const(64|32|16|8) [0]))     => (Eq(64|32|16|8) x c)
+(Less(64|32|16|8)U x (Const(64|32|16|8) <t> [1]))  => (Eq(64|32|16|8) x (Const(64|32|16|8) <t> [0]))
+(Leq(64|32|16|8)U c:(Const(64|32|16|8) [-1]) x)    => (Eq(64|32|16|8) x c)
+(Less(64|32|16|8)U (Const(64|32|16|8) <t> [-2]) x) => (Eq(64|32|16|8) x (Const(64|32|16|8) <t> [-1]))
+(Leq(64|32|16|8) x c:(Const(64|32|16|8) [n]))    && int64(n) == minValueForInt(v.Type)   => (Eq(64|32|16|8) x c)
+(Less64 x (Const64 <t> [n])) && int64(n) == minValueForInt(v.Type)+1 => (Eq64 x (Const64 <t> [int64(minValueForInt(v.Type))]))
+(Less32 x (Const32 <t> [n])) && int64(n) == minValueForInt(v.Type)+1 => (Eq32 x (Const32 <t> [int32(minValueForInt(v.Type))]))
+(Less16 x (Const16 <t> [n])) && int64(n) == minValueForInt(v.Type)+1 => (Eq16 x (Const16 <t> [int16(minValueForInt(v.Type))]))
+(Less8  x (Const8  <t> [n])) && int64(n) == minValueForInt(v.Type)+1 => (Eq8  x (Const8  <t> [int8( minValueForInt(v.Type))]))
+(Leq(64|32|16|8) c:(Const(64|32|16|8) [n]) x)    && int64(n) == maxValueForInt(v.Type)   => (Eq(64|32|16|8) x c)
+(Less64 (Const64 <t> [n]) x) && int64(n) == maxValueForInt(v.Type)-1 => (Eq64 x (Const64 <t> [int64(maxValueForInt(v.Type))]))
+(Less32 (Const32 <t> [n]) x) && int64(n) == maxValueForInt(v.Type)-1 => (Eq32 x (Const32 <t> [int32(maxValueForInt(v.Type))]))
+(Less16 (Const16 <t> [n]) x) && int64(n) == maxValueForInt(v.Type)-1 => (Eq16 x (Const16 <t> [int16(maxValueForInt(v.Type))]))
+(Less8  (Const8  <t> [n]) x) && int64(n) == maxValueForInt(v.Type)-1 => (Eq8  x (Const8  <t> [int8( maxValueForInt(v.Type))]))
 
 // Ands clear bits. Ors set bits.
 // If a subsequent Or will set all the bits
