@@ -2209,3 +2209,33 @@ func setPos(v *Value, pos src.XPos) bool {
 	v.Pos = pos
 	return true
 }
+
+func minValueForInt(t *types.Type) int64 {
+	switch sz := t.Size(); sz {
+	case 8:
+		return math.MinInt64
+	case 4:
+		return math.MinInt32
+	case 2:
+		return math.MinInt16
+	case 1:
+		return math.MinInt8
+	default:
+		panic(fmt.Sprintf("unknown integer size %d", sz*8))
+	}
+}
+
+func maxValueForInt(t *types.Type) int64 {
+	switch sz := t.Size(); sz {
+	case 8:
+		return math.MaxInt64
+	case 4:
+		return math.MaxInt32
+	case 2:
+		return math.MaxInt16
+	case 1:
+		return math.MaxInt8
+	default:
+		panic(fmt.Sprintf("unknown integer size %d", sz*8))
+	}
+}
