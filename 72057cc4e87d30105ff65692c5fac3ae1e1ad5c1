@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee77848b_99f19309",
+        "filename": "src/runtime/runtime-gdb_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 66668
+      },
+      "writtenOn": "2024-01-10T12:54:36Z",
+      "side": 1,
+      "message": "Thanks. By reset the timeout timer should be a good way to wait for more time. In that case which we encountered in [issue](https://github.com/golang/go/issues/64752), however, my concern is: since the simple crash program in the test case will usually have 5 or 6 Ms in total, and per [build log](https://build.golang.org/log/13a5c81f5b5e0e92e1317db27ca5c0f194fcef31), it seems 4 Ms received SIGQUIT, and the others are still waiting? So would this happened: most of Ms received SIGQUIT in a very short time, and the rests spent most time until timeout? In that case, we may have no chance to reset the timeout timer. So I suggest maybe we extend the `watchdogTimeoutMicros` to double, like 10s?\n\nWill send a CL asap.",
+      "parentUuid": "e69211e5_135e45f8",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f762fe5_08ff0b41",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 5
@@ -109,6 +133,24 @@
       "writtenOn": "2024-01-09T17:10:20Z",
       "side": 1,
       "message": "(nit) `perLoopSleepTimeUs :\u003d uint32(5000)`\nand then you can drop the individual `uint32` conversions below.",
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55872b8b_9874fee9",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 66668
+      },
+      "writtenOn": "2024-01-10T12:54:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9f762fe5_08ff0b41",
       "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
