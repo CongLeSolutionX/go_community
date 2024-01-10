@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fcb5ddc_94f2a347",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 62423
+      },
+      "writtenOn": "2024-01-10T04:29:56Z",
+      "side": 1,
+      "message": "Thanks for your time!\n\nMeasuring the actual execution time of system calls is challenging due to the \npossibility of thread interruptions by IRQ or preemption by other threads during \nthe invocation.\n\nTo mitigate the interference from interruptions and preemptions, it is advisable \nto conduct multiple measurements and consider the shortest elapsed time as \nthe true execution time of the system call.\n\nCode: https://github.com/ioworker0/mmapvsmprotect/blob/main/test.c\n\nHere are the results obtained on my machine:\n\nCPU: AMD EPYC 7R13 Processor\nLinux version: 6.2.0\n\nElapsed Time for mmap:     3170 nanoseconds\nElapsed Time for mprotect: 1740 nanoseconds",
+      "parentUuid": "72bbecfe_22a10570",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "48db1e61082c0bf3845153e7a43fffdcfffbe744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d627e917_457cc80f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
