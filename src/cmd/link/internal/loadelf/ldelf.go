@@ -1036,6 +1036,8 @@ func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, uint8, error) {
 		LOONG64 | uint32(elf.R_LARCH_ADD32)<<16,
 		LOONG64 | uint32(elf.R_LARCH_SUB24)<<16,
 		LOONG64 | uint32(elf.R_LARCH_SUB32)<<16,
+		LOONG64 | uint32(elf.R_LARCH_B16)<<16,
+		LOONG64 | uint32(elf.R_LARCH_B21)<<16,
 		LOONG64 | uint32(elf.R_LARCH_B26)<<16,
 		LOONG64 | uint32(elf.R_LARCH_32_PCREL)<<16:
 		return 4, 4, nil
