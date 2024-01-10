@@ -41,6 +41,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e573e362_ffe37fc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 62423
+      },
+      "writtenOn": "2024-01-10T04:27:51Z",
+      "side": 1,
+      "message": "Thanks for your time!\n\nWhile both mmap and mprotect are protected by the mmap_lock, the shorter \nduration of mprotect system call, due to their simpler nature, results in \na reduced locking time for the mmap_lock.",
+      "parentUuid": "d627e917_457cc80f",
+      "revId": "48db1e61082c0bf3845153e7a43fffdcfffbe744",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d5bee73_9cacefcc",
