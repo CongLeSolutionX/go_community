@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e335545f_19fb7846",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve tried to run that but got some weird errors about it wanting to download go 1.22 toolchain. When I got around that, it started complaining about GOROOT and didn\u0027t seem to store the toolchain. I\u0027ll try to spend some more time to get that running.",
+      "parentUuid": "07cc4811_e50c57f0",
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d34011ae_29cf1dcd",
@@ -86,6 +104,30 @@
       "writtenOn": "2023-11-28T18:54:26Z",
       "side": 1,
       "message": "We just switched on e.field and found it to be AuxInt, so I think you can just hardcode that in all of these cases.",
+      "range": {
+        "startLine": 1062,
+        "startChar": 37,
+        "endLine": 1062,
+        "endChar": 44
+      },
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01355c81_7cfe6514",
+        "filename": "src/cmd/compile/internal/ssa/_gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "d34011ae_29cf1dcd",
       "range": {
         "startLine": 1062,
         "startChar": 37,
@@ -119,6 +161,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a19df05_5adeccae",
+        "filename": "src/cmd/compile/internal/ssa/_gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "1fe5f722_3b36fcd8",
+      "range": {
+        "startLine": 1092,
+        "startChar": 46,
+        "endLine": 1092,
+        "endChar": 53
+      },
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a2c014a_c82b6444",
@@ -132,6 +198,24 @@
       "writtenOn": "2023-11-28T18:54:26Z",
       "side": 1,
       "message": "Can we remove the helper methods we\u0027re no longer using?",
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c78c963b_8c76a337",
+        "filename": "src/cmd/compile/internal/ssa/_gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve removed most of them, but left a few around (auxIntToFloat32, auxIntToFloat64, boolToAuxInt and others) as they were either harder to inline or bloated the size/reduced the performance gains.",
+      "parentUuid": "6a2c014a_c82b6444",
       "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -153,6 +237,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05102824_92380e83",
+        "filename": "src/cmd/compile/internal/ssa/_gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "ece9328b_6534f6d1",
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf743ecb_c456bc9b",
@@ -166,6 +268,24 @@
       "writtenOn": "2023-11-28T18:54:26Z",
       "side": 1,
       "message": "This logic is a bit warped in my brain. How about\n\nif isConstant \u0026\u0026 num \u003d\u003d 0 {\n   // AuxInt is already set to 0 by .reset() or NewValue\n} else if op.auxIntType() !\u003d \"int64\" {\n   ... assign with cast ...\n} else {\n   ... assign without cast ...\n}",
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b65a97f_eddf95a5",
+        "filename": "src/cmd/compile/internal/ssa/_gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve refactored it a bit and created a new helper function - auxIntIsZero(). Hopefully it\u0027s easier to read this way.",
+      "parentUuid": "cf743ecb_c456bc9b",
       "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -193,6 +313,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "857f6bc7_02405d52",
+        "filename": "src/cmd/compile/internal/ssa/_gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "a7d6084f_7aef90a3",
+      "range": {
+        "startLine": 1290,
+        "startChar": 8,
+        "endLine": 1290,
+        "endChar": 15
+      },
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b80ff04b_9d666292",
@@ -206,6 +350,24 @@
       "writtenOn": "2023-11-28T18:54:26Z",
       "side": 1,
       "message": "I think the whole *ToAux method set is obsolete. Now that Value.Aux has type Aux instead of type any, the checking these methods do is redundant.\n\nJust do the direct assignment and remove all those helper methods from rewrite.go.",
+      "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1048756b_c78b5141",
+        "filename": "src/cmd/compile/internal/ssa/_gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1321,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2024-01-10T21:46:24Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve removed them and now we are doing a direct assignment.",
+      "parentUuid": "b80ff04b_9d666292",
       "revId": "85601495006ddbe27279e4dd08d0f3ee1c44d728",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
