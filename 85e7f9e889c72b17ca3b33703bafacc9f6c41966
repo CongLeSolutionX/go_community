@@ -34,6 +34,23 @@
       "parentUuid": "8740f6c8_a03b6708",
       "revId": "85e7f9e889c72b17ca3b33703bafacc9f6c41966",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c57a2c51_b84d3f97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2024-01-11T21:41:21Z",
+      "side": 1,
+      "message": "Hold until the proposal has been accepted.",
+      "revId": "85e7f9e889c72b17ca3b33703bafacc9f6c41966",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
