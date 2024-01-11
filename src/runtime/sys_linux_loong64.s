@@ -32,6 +32,7 @@
 #define SYS_rt_sigprocmask	135
 #define SYS_sigaltstack		132
 #define SYS_madvise		233
+#define SYS_mprotect		226
 #define SYS_mincore		232
 #define SYS_gettid		178
 #define SYS_futex		98
@@ -530,6 +531,18 @@ TEXT runtime·madvise(SB),NOSPLIT|NOFRAME,$0
 	MOVW	flags+16(FP), R6
 	MOVV	$SYS_madvise, R11
 	SYSCALL
+	MOVW	R4, ret+24(FP)
+	RET
+
+TEXT runtime·mprotect(SB),NOSPLIT|NOFRAME,$0
+	MOVV	addr+0(FP), R4
+	MOVV	n+8(FP), R5
+	MOVW	prot+16(FP), R6
+	MOVV	$SYS_mprotect, R11
+	SYSCALL
+	BEQ	R4, ok
+	SUBVU	R4, R0, R4
+ok:
 	MOVW	R4, ret+24(FP)
 	RET
 

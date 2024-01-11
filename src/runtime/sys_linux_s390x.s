@@ -21,6 +21,7 @@
 #define SYS_munmap               91
 #define SYS_setitimer           104
 #define SYS_clone               120
+#define SYS_mprotect            125
 #define SYS_sched_yield         158
 #define SYS_nanosleep           162
 #define SYS_rt_sigreturn        173
@@ -480,6 +481,18 @@ TEXT runtime·madvise(SB),NOSPLIT|NOFRAME,$0
 	MOVW	flags+16(FP), R4
 	MOVW	$SYS_madvise, R1
 	SYSCALL
+	MOVW	R2, ret+24(FP)
+	RET
+
+TEXT runtime·mprotect(SB),NOSPLIT|NOFRAME,$0
+	MOVD	addr+0(FP), R2
+	MOVD	n+8(FP), R3
+	MOVW	prot+16(FP), R4
+	MOVW	$SYS_mprotect, R1
+	SYSCALL
+	CGIJ	$8, R2, $0, ok
+	NEG	R2
+ok:
 	MOVW	R2, ret+24(FP)
 	RET
 

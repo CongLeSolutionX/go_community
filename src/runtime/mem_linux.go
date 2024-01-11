@@ -150,7 +150,8 @@ func sysFreeOS(v unsafe.Pointer, n uintptr) {
 }
 
 func sysFaultOS(v unsafe.Pointer, n uintptr) {
-	mmap(v, n, _PROT_NONE, _MAP_ANON|_MAP_PRIVATE|_MAP_FIXED, -1, 0)
+	madvise(v, n, _MADV_DONTNEED)
+	mprotect(v, n, _PROT_NONE)
 }
 
 func sysReserveOS(v unsafe.Pointer, n uintptr) unsafe.Pointer {

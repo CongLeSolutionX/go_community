@@ -18,3 +18,6 @@ func sbrk0() uintptr
 func access(name *byte, mode int32) int32
 func connect(fd int32, addr unsafe.Pointer, len int32) int32
 func socket(domain int32, typ int32, prot int32) int32
+
+//go:nosplit
+func mprotect(addr unsafe.Pointer, n uintptr, prot int32) int32

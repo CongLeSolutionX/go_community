@@ -24,6 +24,7 @@
 #define SYS_getpid (SYS_BASE + 20)
 #define SYS_kill (SYS_BASE + 37)
 #define SYS_clone (SYS_BASE + 120)
+#define SYS_mprotect (SYS_BASE + 125)
 #define SYS_rt_sigreturn (SYS_BASE + 173)
 #define SYS_rt_sigaction (SYS_BASE + 174)
 #define SYS_rt_sigprocmask (SYS_BASE + 175)
@@ -212,6 +213,19 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVW	$SYS_madvise, R7
 	SWI	$0
 	MOVW	R0, ret+12(FP)
+	RET
+
+TEXT runtime·mprotect(SB),NOSPLIT,$0
+	MOVW	addr+0(FP), R0
+	MOVW	n+4(FP), R1
+	MOVW	prot+8(FP), R2
+	MOVW	$SYS_mprotect, R7
+	SWI	$0
+	CMP     $0, R0
+	BEQ 	ok
+	RSB	$0, R0
+ok:
+	MOVW	R0, ret+24(FP)
 	RET
 
 TEXT runtime·setitimer(SB),NOSPLIT,$0

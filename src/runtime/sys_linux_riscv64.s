@@ -27,6 +27,7 @@
 #define SYS_gettimeofday	169
 #define SYS_kill		129
 #define SYS_madvise		233
+#define SYS_mprotect		226
 #define SYS_mincore		232
 #define SYS_mmap		222
 #define SYS_munmap		215
@@ -472,6 +473,18 @@ TEXT runtime·madvise(SB),NOSPLIT|NOFRAME,$0
 	MOVW	flags+16(FP), A2
 	MOV	$SYS_madvise, A7
 	ECALL
+	MOVW	A0, ret+24(FP)
+	RET
+
+TEXT runtime·mprotect(SB),NOSPLIT|NOFRAME,$0
+	MOV	addr+0(FP), A0
+	MOV	n+8(FP), A1
+	MOVW	prot+16(FP), A2
+	MOV	$SYS_mprotect, A7
+	ECALL
+	BEQZ	A0, ok
+	SUB	A0, ZERO, A0
+ok:
 	MOVW	A0, ret+24(FP)
 	RET
 

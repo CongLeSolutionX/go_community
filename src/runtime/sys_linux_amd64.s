@@ -17,6 +17,7 @@
 #define SYS_write		1
 #define SYS_close		3
 #define SYS_mmap		9
+#define SYS_mprotect		10
 #define SYS_munmap		11
 #define SYS_brk 		12
 #define SYS_rt_sigaction	13
@@ -541,6 +542,19 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	flags+16(FP), DX
 	MOVQ	$SYS_madvise, AX
 	SYSCALL
+	MOVL	AX, ret+24(FP)
+	RET
+
+TEXT runtime·mprotect(SB),NOSPLIT,$0
+	MOVQ	addr+0(FP), DI
+	MOVQ	n+8(FP), SI
+	MOVL	prot+16(FP), DX
+	MOVQ	$SYS_mprotect, AX
+	SYSCALL
+	TESTQ	AX, AX
+	JEQ	ok
+	NEGQ	AX
+ok:
 	MOVL	AX, ret+24(FP)
 	RET
 
