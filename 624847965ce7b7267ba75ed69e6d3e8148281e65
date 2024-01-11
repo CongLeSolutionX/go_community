@@ -34,6 +34,24 @@
       "parentUuid": "efaca75e_57c74a26",
       "revId": "624847965ce7b7267ba75ed69e6d3e8148281e65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ebc6375_33b439d0",
+        "filename": "src/cmd/compile/internal/ssa/_gen/generic.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-11T18:29:10Z",
+      "side": 1,
+      "message": "No, the uint rules are fine.",
+      "parentUuid": "a7874b36_03c005c5",
+      "revId": "624847965ce7b7267ba75ed69e6d3e8148281e65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
