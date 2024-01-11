@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "339e20b9_9920dafa",
+        "filename": "src/runtime/runtime-gdb_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 66668
+      },
+      "writtenOn": "2024-01-11T15:56:18Z",
+      "side": 1,
+      "message": "Thanks. So it looks like this issue had existed already, and [`let the fault thread to crash process`](https://go-review.googlesource.com/c/go/+/536895) with test just expose this out in some corner cases?",
+      "parentUuid": "119e87dd_99f0351e",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f762fe5_08ff0b41",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 5
