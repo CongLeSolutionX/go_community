@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2ef8481_04e6fba0",
+        "filename": "src/runtime/runtime-gdb_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-11T16:17:54Z",
+      "side": 1,
+      "message": "I believe so, yes. It looks like the race condition was already present before CL 536895, but the new test has the potential to expose it as a test failure.\n\nIf I understand correctly, prior to that change the race would result in an occasional 5s delay in crashes, but otherwise might not be observable in tests (unless it is responsible for one or more of the other [known `runtime` test flakes](https://github.com/golang/go/issues?q\u003dis%3Aissue+runtime+project%3Agolang%2F20+in%3Atitle+is%3Aopen)).",
+      "parentUuid": "339e20b9_9920dafa",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "72057cc4e87d30105ff65692c5fac3ae1e1ad5c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f762fe5_08ff0b41",
         "filename": "src/runtime/signal_unix.go",
         "patchSetId": 5

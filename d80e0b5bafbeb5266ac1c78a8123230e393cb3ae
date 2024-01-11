@@ -34,6 +34,24 @@
       "parentUuid": "01681728_509562d9",
       "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8045f9dc_12545209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-11T16:17:54Z",
+      "side": 1,
+      "message": "I think it would be nice to keep this CL, but since it doesn\u0027t address the underlying race condition it should wait until the Go 1.23 development window.",
+      "parentUuid": "92d73dd7_f944fdf8",
+      "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
