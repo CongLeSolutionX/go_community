@@ -21,7 +21,7 @@ import (
 // htmlOutput reads the profile data from profile and generates an HTML
 // coverage report, writing it to outfile. If outfile is empty,
 // it writes the report to a temporary file and opens it in a web browser.
-func htmlOutput(profile, outfile string) error {
+func htmlOutput(profile, cssfile, outfile string) error {
 	profiles, err := cover.ParseProfiles(profile)
 	if err != nil {
 		return err
@@ -59,6 +59,19 @@ func htmlOutput(profile, outfile string) error {
 		})
 	}
 
+	tmpl := htmlTemplate
+	if cssfile != "" {
+		css, err := os.ReadFile(cssfile)
+		if err != nil {
+			return err
+		}
+		tmpl.Funcs(template.FuncMap{
+			"css": func() template.CSS {
+				return template.CSS(css)
+			},
+		})
+	}
+
 	var out *os.File
 	if outfile == "" {
 		var dir string
@@ -73,7 +86,7 @@ func htmlOutput(profile, outfile string) error {
 	if err != nil {
 		return err
 	}
-	err = htmlTemplate.Execute(out, d)
+	err = tmpl.Execute(out, d)
 	if err2 := out.Close(); err == nil {
 		err = err2
 	}
@@ -164,7 +177,7 @@ func colors() template.CSS {
 }
 
 var htmlTemplate = template.Must(template.New("html").Funcs(template.FuncMap{
-	"colors": colors,
+	"css": colors,
 }).Parse(tmplHTML))
 
 type templateData struct {
@@ -237,7 +250,7 @@ const tmplHTML = `
 			#legend span {
 				margin: 0 5px;
 			}
-			{{colors}}
+			{{css}}
 		</style>
 	</head>
 	<body>
