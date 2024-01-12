@@ -68,6 +68,24 @@
       "message": "Apologies for not mentioning this earlier, but could you implement this in https://cs.opensource.google/go/go/+/master:src/runtime/internal/syscall/syscall_linux.go? We\u0027re (very slowly) migrating to that package which avoids the need for custom assembly for every syscall.",
       "revId": "350571739d831429f80229fabaa62088e7fcb337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3606f5e9_8280baae",
+        "filename": "src/runtime/stubs_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 62423
+      },
+      "writtenOn": "2024-01-12T08:29:25Z",
+      "side": 1,
+      "message": "No problem at all. Thanks for pointing it out :-p",
+      "parentUuid": "6dfa9202_a413c1de",
+      "revId": "350571739d831429f80229fabaa62088e7fcb337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
