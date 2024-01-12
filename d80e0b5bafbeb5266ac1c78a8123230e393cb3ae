@@ -52,6 +52,24 @@
       "parentUuid": "92d73dd7_f944fdf8",
       "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c21b90e4_362575b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 66668
+      },
+      "writtenOn": "2024-01-12T15:22:00Z",
+      "side": 1,
+      "message": "Thanks, as [Michael](https://github.com/golang/go/issues/64752#issuecomment-1888051900) and [you](https://github.com/golang/go/issues/64752#issuecomment-1888066961) mention in the [issue](https://github.com/golang/go/issues/64752), you treat it as `SkipFlaky` case for now. Would you mind if we only let this CL including crash asap and add this test as `SkipFlaky`(to resolve your concern [here](https://github.com/golang/go/issues/64752#issuecomment-1874311192)) as updates for #64752?",
+      "parentUuid": "8045f9dc_12545209",
+      "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
