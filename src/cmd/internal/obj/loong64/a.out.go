@@ -212,8 +212,7 @@ const (
 	C_LACON   // $n(REG) where int12 < n <= int32
 	C_DACON   // $n(REG) where int32 < n
 	C_EXTADDR // external symbol address
-	C_SBRA
-	C_LBRA
+	C_BRAN
 	C_SAUTO
 	C_LAUTO
 	C_ZOREG
