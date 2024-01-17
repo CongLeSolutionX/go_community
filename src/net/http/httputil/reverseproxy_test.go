@@ -1861,3 +1861,80 @@ func testReverseProxyQueryParameterSmuggling(t *testing.T, wantCleanQuery bool, 
 		}
 	}
 }
+
+type RetryTransport struct {
+	rt http.RoundTripper
+}
+
+func (tr *RetryTransport) RoundTrip(req *http.Request) (res *http.Response, err error) {
+	for i := 0; i < 3; i++ {
+		res, err = tr.rt.RoundTrip(req)
+		if err == nil {
+			return res, err
+		}
+	}
+	return res, err
+}
+
+func TestSetHeaderRaceOnError(t *testing.T) {
+	t.Parallel()
+
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusContinue)
+		c, _, _ := w.(http.Hijacker).Hijack()
+		c.Close()
+	}))
+	defer backend.Close()
+
+	stallTrace := make(chan struct{}, 1)
+
+	proxyWrapper := func(p *ReverseProxy) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			r = r.WithContext(httptrace.WithClientTrace(r.Context(), &httptrace.ClientTrace{
+				Got100Continue: func() {
+					// Stall the trace.Got1xxResponse hook.
+					<-stallTrace
+				},
+			}))
+			p.ServeHTTP(w, r)
+			w.Header().Set("X-Something", "Test")
+		})
+	}
+	// Trigger trace context once, blocking first time.
+	stallTrace <- struct{}{}
+
+	backendURL, err := url.Parse(backend.URL)
+	if err != nil {
+		t.Fatalf("failed to parse backend URL: %v", err)
+	}
+	proxyHandler := NewSingleHostReverseProxy(backendURL)
+	proxyHandler.ErrorLog = log.New(io.Discard, "", 0) // quiet for tests
+	proxyHandler.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+		stallTrace <- struct{}{}
+		for i := 0; i < 1e7; i++ {
+			w.Header().Set("X-Something", "Test")
+		}
+		w.WriteHeader(http.StatusBadGateway)
+	}
+	proxyHandler.Transport = &RetryTransport{http.DefaultTransport}
+	proxy := httptest.NewServer(proxyWrapper(proxyHandler))
+	defer proxy.Close()
+	proxyClient := proxy.Client()
+
+	req, _ := http.NewRequest("POST", proxy.URL, strings.NewReader("Large Body!!!"))
+	req.Close = true
+	req.Header.Set("Expect", "100-continue")
+	res, err := proxyClient.Do(req)
+	if err != nil {
+		t.Fatalf("POST: %v", err)
+	}
+	defer res.Body.Close()
+	_, err = io.ReadAll(res.Body)
+	if err != nil {
+		t.Fatalf("ReadAll: %v", err)
+	}
+
+	if res.StatusCode != http.StatusBadGateway {
+		t.Errorf("request to bad proxy = %v; want 502 StatusBadGateway", res.Status)
+	}
+}
