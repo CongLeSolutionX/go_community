@@ -171,7 +171,7 @@ func (f *cycleFinder) hasCycle(typ *types2.Interface) bool {
 // visit recursively walks typ0 to check any referenced interface types.
 func (f *cycleFinder) visit(typ0 types2.Type) bool {
 	for { // loop for tail recursion
-		switch typ := typ0.(type) {
+		switch typ := types2.Unalias(typ0).(type) {
 		default:
 			base.Fatalf("unexpected type: %T", typ)
 

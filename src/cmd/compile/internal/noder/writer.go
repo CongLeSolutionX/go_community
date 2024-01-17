@@ -498,7 +498,7 @@ func (pw *pkgWriter) typIdx(typ types2.Type, dict *writerDict) typeInfo {
 	w := pw.newWriter(pkgbits.RelocType, pkgbits.SyncTypeIdx)
 	w.dict = dict
 
-	switch typ := typ.(type) {
+	switch typ := types2.Unalias(typ).(type) {
 	default:
 		base.Fatalf("unexpected type: %v (%T)", typ, typ)
 
@@ -2867,7 +2867,7 @@ func (pw *pkgWriter) isBuiltin(expr syntax.Expr, builtin string) bool {
 
 // recvBase returns the base type for the given receiver parameter.
 func recvBase(recv *types2.Var) *types2.Named {
-	typ := recv.Type()
+	typ := types2.Unalias(recv.Type())
 	if ptr, ok := typ.(*types2.Pointer); ok {
 		typ = ptr.Elem()
 	}
