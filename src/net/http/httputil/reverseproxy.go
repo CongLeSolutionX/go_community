@@ -21,6 +21,7 @@ import (
 	"net/url"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"golang.org/x/net/http/httpguts"
@@ -454,20 +455,33 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		outreq.Header.Set("User-Agent", "")
 	}
 
+	type Got1xxResponse struct {
+		code   int
+		header textproto.MIMEHeader
+	}
+	var got1xxResponse atomic.Pointer[Got1xxResponse]
+
 	trace := &httptrace.ClientTrace{
 		Got1xxResponse: func(code int, header textproto.MIMEHeader) error {
-			h := rw.Header()
-			copyHeader(h, http.Header(header))
-			rw.WriteHeader(code)
-
-			// Clear headers, it's not automatically done by ResponseWriter.WriteHeader() for 1xx responses
-			clear(h)
+			// Circumvent contention of response header, see https://go.dev/issues/65123.
+			got1xxResponse.Store(&Got1xxResponse{
+				code:   code,
+				header: header,
+			})
 			return nil
 		},
 	}
 	outreq = outreq.WithContext(httptrace.WithClientTrace(outreq.Context(), trace))
 
 	res, err := transport.RoundTrip(outreq)
+	if v := got1xxResponse.Load(); v != nil {
+		h := rw.Header()
+		copyHeader(h, http.Header(v.header))
+		rw.WriteHeader(v.code)
+
+		// Clear headers, it's not automatically done by ResponseWriter.WriteHeader() for 1xx responses
+		clear(h)
+	}
 	if err != nil {
 		p.getErrorHandler()(rw, outreq, err)
 		return
