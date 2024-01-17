@@ -454,20 +454,39 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		outreq.Header.Set("User-Agent", "")
 	}
 
+	var got1xxResponses []struct {
+		code   int
+		header textproto.MIMEHeader
+	}
+
 	trace := &httptrace.ClientTrace{
 		Got1xxResponse: func(code int, header textproto.MIMEHeader) error {
-			h := rw.Header()
-			copyHeader(h, http.Header(header))
-			rw.WriteHeader(code)
-
-			// Clear headers, it's not automatically done by ResponseWriter.WriteHeader() for 1xx responses
-			clear(h)
+			// Circumvent contention of response header, see https://go.dev/issues/65123.
+			//
+			// Note that this will change the behavior of persistConn.readResponse from responding
+			// to the peer with 1xx responses instantly to responding to it lazily, but it shouldn't
+			// break anything functional.
+			got1xxResponses = append(got1xxResponses, struct {
+				code   int
+				header textproto.MIMEHeader
+			}{
+				code:   code,
+				header: header,
+			})
 			return nil
 		},
 	}
 	outreq = outreq.WithContext(httptrace.WithClientTrace(outreq.Context(), trace))
 
 	res, err := transport.RoundTrip(outreq)
+	for _, v := range got1xxResponses {
+		h := rw.Header()
+		copyHeader(h, http.Header(v.header))
+		rw.WriteHeader(v.code)
+
+		// Clear headers, it's not automatically done by ResponseWriter.WriteHeader() for 1xx responses
+		clear(h)
+	}
 	if err != nil {
 		p.getErrorHandler()(rw, outreq, err)
 		return
