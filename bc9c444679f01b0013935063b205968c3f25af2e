@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45bcfc2_1c050b0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-01-17T07:02:56Z",
+      "side": 1,
+      "message": "```suggestion\ncmd/compile/types2: add hint that there\u0027s a string-folded equivalent struct field\n```",
+      "revId": "bc9c444679f01b0013935063b205968c3f25af2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9a6820ab_ae14902c",
