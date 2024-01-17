@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe24225_f93a16df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2024-01-17T16:23:47Z",
+      "side": 1,
+      "message": "This is related to CL 555996 I\u0027ve submitted yesterday.",
+      "revId": "d47b8f0816a7d66e75b19b9cf035858adf7a95dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
