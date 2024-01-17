@@ -16,6 +16,23 @@
       "message": "Thanks!",
       "revId": "1193bca8ae56d2fe1a11a4255b74e518ed45cb51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3738e7b3_f477c584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-17T19:56:10Z",
+      "side": 1,
+      "message": "FYI, this testing limitation is https://go.dev/issue/65140.",
+      "revId": "1193bca8ae56d2fe1a11a4255b74e518ed45cb51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
