@@ -50,6 +50,24 @@
       "message": "ping @mknyszek@google.com",
       "revId": "a8578a2eafd49d1dddb90323a37b624aab3e27c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f37a7d7_628e7c9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-01-17T06:35:05Z",
+      "side": 1,
+      "message": "note that we\u0027re currently in the code freeze so this won\u0027t land for another 2 weeks or so until the tree opens again.\n\nI added the wait-release hashtag to the CL which will ensure it doesn\u0027t get missed. I also resolved all the comments and re-ran presubmit so it\u0027ll be ready to land when the time comes. nothing else to do for now. thanks for your change!",
+      "parentUuid": "37266dd7_e94ae251",
+      "revId": "a8578a2eafd49d1dddb90323a37b624aab3e27c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
