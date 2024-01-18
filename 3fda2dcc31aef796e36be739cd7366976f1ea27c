@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "417ea0b1_1a182ff6",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2024-01-18T11:12:42Z",
+      "side": 1,
+      "message": "This test isn\u0027t necessary. \"hasAdd \u003d true\" could be run inconditionally.",
+      "revId": "3fda2dcc31aef796e36be739cd7366976f1ea27c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
