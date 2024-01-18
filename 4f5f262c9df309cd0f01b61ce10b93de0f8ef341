@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b440832_0706f792",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-18T16:54:35Z",
+      "side": 1,
+      "message": "If I understand the bug report correctly, this was an actual data race, not just “contention”. (To me, “contention” means a delay resulting from waiting for other cores / threads / goroutines, not a data race.)\n\nPerhaps:\n```go\n// Avoid racy writes to response headers; see https://go.dev/issues/65123.\n```",
+      "range": {
+        "startLine": 464,
+        "startChar": 17,
+        "endLine": 464,
+        "endChar": 27
+      },
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e53da096_b08ec8d9",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-18T16:54:35Z",
+      "side": 1,
+      "message": "I\u0027m having trouble figuring out what this sentence means. Can you rephrase?",
+      "range": {
+        "startLine": 466,
+        "startChar": 0,
+        "endLine": 468,
+        "endChar": 32
+      },
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08722f13_daf56778",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-18T16:54:35Z",
+      "side": 1,
+      "message": "`textproto.MIMEHeader` is a map type with slice values — what ensures that it is safe to read after the call to the `Got1xxResponse` callback returns?\n\nThe doc comment for the `Got1xxResponse` field doesn\u0027t say anything about the concurrency properties of its arguments, and absent explicit documentation I tend to assume that after the call returns any mutable values of reference types are not safe to read (because they could be mutated concurrently).\n\nIf `Got1xxResponse` provides a stronger guarantee than that, its documentation should be updated to mention that.",
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75497355_b40e6dd1",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-18T16:54:35Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this is safe — how do we know that `RoundTrip` isn\u0027t still reading these headers?\n\nIn particular, the doc for the `http.RoundTripper` interface says:\n\n\u003e `RoundTrip` may read fields of the request in a separate goroutine.\n\u003e Callers should not mutate or reuse the request until the `Response`\u0027s `Body` has been closed.\n\nI think that implies that we need to synchronize on a call to `outreq.Body.Close` before executing this loop?\n\n(Compare #59310.)",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 10
+      },
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
