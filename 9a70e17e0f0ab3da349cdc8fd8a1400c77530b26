@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc67c5b_d311c30e",
+        "filename": "/MERGE_LIST",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-19T20:08:16Z",
+      "side": 1,
+      "message": "This is the very latest commit on the main branch, right before the Version bump to 1.23, which is right.",
+      "revId": "9a70e17e0f0ab3da349cdc8fd8a1400c77530b26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fd41d04_647bbd58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-19T20:08:16Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "9a70e17e0f0ab3da349cdc8fd8a1400c77530b26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
