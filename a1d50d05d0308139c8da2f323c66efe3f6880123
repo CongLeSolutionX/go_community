@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18004e40_0e544b80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-19T16:47:41Z",
+      "side": 1,
+      "message": "So the idea is these will be copied into doc/next at the start of each dev cycle, as I understand.",
+      "revId": "a1d50d05d0308139c8da2f323c66efe3f6880123",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e8a658b_f42dd261",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-19T16:47:41Z",
+      "side": 1,
+      "message": "Delete the duplicate issue mention (it\u0027s there on line 12).",
+      "revId": "a1d50d05d0308139c8da2f323c66efe3f6880123",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b36ec3b_219e31a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-19T16:47:41Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "a1d50d05d0308139c8da2f323c66efe3f6880123",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
