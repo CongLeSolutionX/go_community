@@ -16,6 +16,24 @@
       "message": "I\u0027m still trying to figure out what the correct fix is here, but this isn\u0027t it. We want to proxy 1xx responses as they come in--if the backend returns a 102 response, waits five seconds, and then returns a 200, we want to send the 102 when it arrives, not after receiving the 200.\n\nI think that we either want to guarantee that all Got1xxResponse hooks have completed before RoundTrip returns, or add a mutex to the ReverseProxy handler to deal with asynchronous responses. Not sure which is better yet.",
       "revId": "69265cff99624702e7b666062366b848eb56dd2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42edeaee_a81b7af8",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-19T23:47:10Z",
+      "side": 1,
+      "message": "Please check [this](https://github.com/golang/go/issues/65123#issuecomment-1899649064) out before we make any new patches in this CL.",
+      "parentUuid": "11f09ca5_da65f5fe",
+      "revId": "69265cff99624702e7b666062366b848eb56dd2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
