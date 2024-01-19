@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21fa1cab_8d3dad2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11470
+      },
+      "writtenOn": "2024-01-19T17:37:03Z",
+      "side": 1,
+      "message": "My feeling is that this patch is strictly an improvement, and in all the cases I\u0027ve looked at seems to do good things. However, I have a feeling it\u0027s not quite totally right. Namely, when there are multiple slots with live values corresponding to a variable in a pc range, it prefers arbitrarily the slot with the lowest ID. I noticed elsewhere when writing a heuristic to work around this bug in the debugger I\u0027ve been building that if I arbitrarily prefer the highest ID that in some cases it appears that I miss writes. This implies to me that actually a better answer is probably to track which slot has changed its location  most recently and to prefer that slot as the canonical slot for an instruction. I\u0027d love some guidance on how to think about variables pieces being spread over slots, and some thoughts on the change.\n\nAnother note I\u0027ll make about testing. I ran the delve suite against this patch and master and they failed in the same ways -- I couldn\u0027t get it to pass locally. I\u0027m sure I\u0027m holding it wrong. I know the delve suite has been holding up progress for my colleague\u0027s patch in https://go-review.googlesource.com/c/go/+/502117. @drchase@google.com maybe you could help us unblock that work?\n\nFor this patch, the test I\u0027d love to write is one that asserts and invariant across compiled programs that the location lists never represent more pieces than the size of the corresponding type. Some guidance on the placement of where such a test should go would be helpful. Such guidance will also help me test my other change (https://go-review.googlesource.com/c/go/+/554515) which would like to assert that no two adjacent location lists pc ranges have identical operations.",
+      "revId": "edfab1e1b6f874b9b401bcf68826f66d6e1e389a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
