@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "537c9234_41ca92a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-01-19T14:47:01Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "ac5eb365cf41cfb16a5079975e619f1bdfcdf27d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4490ce81_915265f2",
@@ -49,6 +66,24 @@
       "side": 1,
       "message": "Yep, it is not necessary. I added this file so it is more visible that TestCallbackCallersSEH is being skippied.",
       "parentUuid": "4490ce81_915265f2",
+      "revId": "ac5eb365cf41cfb16a5079975e619f1bdfcdf27d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09cd96e9_41dc429b",
+        "filename": "src/cmd/cgo/internal/test/seh_internal_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-01-19T14:47:01Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ea1121b2_8050977b",
       "revId": "ac5eb365cf41cfb16a5079975e619f1bdfcdf27d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
