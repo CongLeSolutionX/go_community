@@ -16,6 +16,23 @@
       "message": "TRY\u003dwindows-arm64,windows-amd64-longtest",
       "revId": "d15c741b921d12bda97fad5d4f263cc5504a88b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "547163a4_9a64441f",
+        "filename": "src/runtime/netpoll_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-19T19:10:25Z",
+      "side": 1,
+      "message": "(nit) If I\u0027m following correctly, this mode isn\u0027t really “returned by” `GetQueueCompletionStatusEx`, in the sense that the `mode` field is the Go runtime\u0027s own extension and not part of the `OVERLAPPED` struct documented by Microsoft (https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped).\n\nSo if there is an invalid mode in the `net_op`, it is likely that the Go runtime (rather than `GetQueuedCompletionStatusEx` itself) put it there.\n\nPerhaps rephrase along the lines of:\n`println(\"runtime: GetQueuedCompletionStatusEx returned net_op with invalid mode\u003d\", mode)`\n?",
+      "revId": "d15c741b921d12bda97fad5d4f263cc5504a88b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
