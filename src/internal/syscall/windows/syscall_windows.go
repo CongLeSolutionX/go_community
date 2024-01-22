@@ -444,3 +444,14 @@ const (
 //sys    OpenService(mgr syscall.Handle, serviceName *uint16, access uint32) (handle syscall.Handle, err error) = advapi32.OpenServiceW
 //sys	QueryServiceStatus(hService syscall.Handle, lpServiceStatus *SERVICE_STATUS) (err error)  = advapi32.QueryServiceStatus
 //sys    OpenSCManager(machineName *uint16, databaseName *uint16, access uint32) (handle syscall.Handle, err error)  [failretval==0] = advapi32.OpenSCManagerW
+
+// QueryPerformanceCounter retrieves the current value of performance counter.
+//
+//go:linkname QueryPerformanceCounter
+func QueryPerformanceCounter() int64 // Implemented in runtime package.
+
+// GetSystemDirectory retrieves the frequency of the performance counter.
+// The returned value is represented as counts per second.
+//
+//go:linkname QueryPerformanceFrequency
+func QueryPerformanceFrequency() int64 // Implemented in runtime package.
