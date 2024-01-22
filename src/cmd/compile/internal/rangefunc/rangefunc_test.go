@@ -92,6 +92,22 @@ type TrickyIterator struct {
 	yield func(int, int) bool
 }
 
+func (ti *TrickyIterator) iterEcho(s []int) Seq2[int, int] {
+	return func(yield func(int, int) bool) {
+		for i, v := range s {
+			if !yield(i, v) {
+				ti.yield = yield
+				return
+			}
+			if ti.yield != nil && !ti.yield(i, v) {
+				return
+			}
+		}
+		ti.yield = yield
+		return
+	}
+}
+
 func (ti *TrickyIterator) iterAll(s []int) Seq2[int, int] {
 	return func(yield func(int, int) bool) {
 		ti.yield = yield // Save yield for future abuse
@@ -306,6 +322,70 @@ func TestCheckTrickyIterZero(t *testing.T) {
 	}()
 
 	trickItZero.fail()
+}
+
+func TestTrickyIterEcho(t *testing.T) {
+	trickItAll := TrickyIterator{}
+	i := 0
+	for _, x := range trickItAll.iterAll([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
+		t.Logf("first loop i=%d", i)
+		i += x
+		if i >= 10 {
+			break
+		}
+	}
+
+	if i != 10 {
+		t.Errorf("Expected i == 10, saw %d instead", i)
+	} else {
+		t.Logf("i = %d", i)
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v', i=%d", r, i)
+		} else {
+			t.Error("Wanted to see a failure")
+		}
+	}()
+
+	i = 0
+	for _, x := range trickItAll.iterEcho([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
+		t.Logf("second loop i=%d", i)
+		if x >= 5 {
+			break
+		}
+	}
+
+}
+
+func TestTrickyIterEcho2(t *testing.T) {
+	trickItAll := TrickyIterator{}
+	var i int
+
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v', i=%d", r, i)
+		} else {
+			t.Error("Wanted to see a failure")
+		}
+	}()
+
+	for k := range 2 {
+		i = 0
+		for _, x := range trickItAll.iterEcho([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
+			t.Logf("k,x,i=%d,%d,%d", k, x, i)
+			i += x
+			if i >= 10 {
+				break
+			}
+		}
+		t.Logf("i = %d", i)
+
+		if i != 10 {
+			t.Errorf("Expected i == 10, saw %d instead", i)
+		}
+	}
 }
 
 // TestBreak1 should just work, with well-behaved iterators.

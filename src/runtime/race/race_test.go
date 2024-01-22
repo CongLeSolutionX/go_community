@@ -174,6 +174,7 @@ func runTests(t *testing.T) ([]byte, error) {
 	cmd.Env = append(cmd.Env,
 		"GOMAXPROCS=1",
 		"GORACE=suppress_equal_stacks=0 suppress_equal_addresses=0",
+		"GOEXPERIMENT=rangefunc", // Add this to enable tests of rangefunc races.
 	)
 	// There are races: we expect tests to fail and the exit code to be non-zero.
 	out, _ := cmd.CombinedOutput()
