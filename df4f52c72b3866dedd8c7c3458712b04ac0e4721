@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01f6d5be_1e62e3ef",
+        "filename": "doc/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-22T18:48:03Z",
+      "side": 1,
+      "message": "Is there some way to be sure that doing this won\u0027t drop some CLs that might\u0027ve landed in between the last time relnote generate was run, and the time next/* is being removed? Or is this kind of a race not something to worry about?",
+      "revId": "df4f52c72b3866dedd8c7c3458712b04ac0e4721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

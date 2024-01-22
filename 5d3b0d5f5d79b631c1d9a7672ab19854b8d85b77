@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f87d29c_6e96a3f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-01-22T18:48:03Z",
+      "side": 1,
+      "message": "This seems to be missing the [first line](https://go.dev/doc/contribute#first_line)?",
+      "revId": "5d3b0d5f5d79b631c1d9a7672ab19854b8d85b77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
