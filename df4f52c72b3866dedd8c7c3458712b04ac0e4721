@@ -16,6 +16,24 @@
       "message": "Is there some way to be sure that doing this won\u0027t drop some CLs that might\u0027ve landed in between the last time relnote generate was run, and the time next/* is being removed? Or is this kind of a race not something to worry about?",
       "revId": "df4f52c72b3866dedd8c7c3458712b04ac0e4721",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c02369a_5788afde",
+        "filename": "doc/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-01-22T19:20:11Z",
+      "side": 1,
+      "message": "I think it is worth worrying about. The details of how to avoid the race depend on the release/re-open process, which I\u0027m not that clear on. Maybe we should talk about what makes sense here, and if there is any mechanical way to avoid the problem.",
+      "parentUuid": "01f6d5be_1e62e3ef",
+      "revId": "df4f52c72b3866dedd8c7c3458712b04ac0e4721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
