@@ -3,7 +3,14 @@
 The `initial` and `next` subdirectories of this directory are for release notes.
 
 At the start of a release development cycle, the contents of `next` should be deleted
-and replaced with those of `initial`.
+and replaced with those of `initial`. From the repo root:
+
+    > cd doc
+    > rm -r next/*
+    > cp -r initial/* next
+
+Then edit `next/1-intro.md` to refer to the next version.
+
 Release notes should be added to `next` by editing existing files or creating new files.
 
 To prepare the release notes for a release, run `golang.org/x/build/cmd/relnote generate`.
