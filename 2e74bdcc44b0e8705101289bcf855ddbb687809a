@@ -33,6 +33,24 @@
       "message": "Would it make sense to call `GetLastError` in this case so that we can give more detail about why the library failed to load?",
       "revId": "2e74bdcc44b0e8705101289bcf855ddbb687809a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "677ccd03_5e579806",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-01-22T07:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ff63e08_6fa7dbd3",
+      "revId": "2e74bdcc44b0e8705101289bcf855ddbb687809a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
