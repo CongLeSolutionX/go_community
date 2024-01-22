@@ -16,6 +16,24 @@
       "message": "Huh. This somehow caused `x/net/http2.TestServer_Push_RejectAfterGoAway` to start failing on the WASM platforms. 😵‍💫\n\nhttps://build.golang.org/log/110cdcc5e3ce838bb44eacc8cfee07587e3e5d24",
       "revId": "f19f31f2e7c136a8dae03cbfe4f8ebbb8b54569b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "934b7661_f5638e93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-22T21:33:05Z",
+      "side": 1,
+      "message": "It\u0027s another one of these starvation loops, triggered by the `runtime.Gosched()` in the net stack. Mailed CL 557615 with a workaround in the test.",
+      "parentUuid": "d7fdeb58_39fbd283",
+      "revId": "f19f31f2e7c136a8dae03cbfe4f8ebbb8b54569b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
