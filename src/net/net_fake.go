@@ -514,14 +514,6 @@ func (pq *packetQueue) send(dt *deadlineTimer, b []byte, from sockaddr, block bo
 		full = pq.full
 	}
 
-	// Before we check dt.expired, yield to other goroutines.
-	// This may help to prevent starvation of the goroutine that runs the
-	// deadlineTimer's time.After callback.
-	//
-	// TODO(#65178): Remove this when the runtime scheduler no longer starves
-	// runnable goroutines.
-	runtime.Gosched()
-
 	select {
 	case <-dt.expired:
 		return 0, os.ErrDeadlineExceeded
