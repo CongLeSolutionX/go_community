@@ -74,6 +74,8 @@ var (
 	procModule32NextW                     = modkernel32.NewProc("Module32NextW")
 	procMoveFileExW                       = modkernel32.NewProc("MoveFileExW")
 	procMultiByteToWideChar               = modkernel32.NewProc("MultiByteToWideChar")
+	procQueryPerformanceCounter           = modkernel32.NewProc("QueryPerformanceCounter")
+	procQueryPerformanceFrequency         = modkernel32.NewProc("QueryPerformanceFrequency")
 	procRtlLookupFunctionEntry            = modkernel32.NewProc("RtlLookupFunctionEntry")
 	procRtlVirtualUnwind                  = modkernel32.NewProc("RtlVirtualUnwind")
 	procSetFileInformationByHandle        = modkernel32.NewProc("SetFileInformationByHandle")
@@ -325,6 +327,22 @@ func MultiByteToWideChar(codePage uint32, dwFlags uint32, str *byte, nstr int32,
 	r0, _, e1 := syscall.Syscall6(procMultiByteToWideChar.Addr(), 6, uintptr(codePage), uintptr(dwFlags), uintptr(unsafe.Pointer(str)), uintptr(nstr), uintptr(unsafe.Pointer(wchar)), uintptr(nwchar))
 	nwrite = int32(r0)
 	if nwrite == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func QueryPerformanceCounter(v *int64) (err error) {
+	r1, _, e1 := syscall.Syscall(procQueryPerformanceCounter.Addr(), 1, uintptr(unsafe.Pointer(v)), 0, 0)
+	if r1 == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func QueryPerformanceFrequency(v *int64) (err error) {
+	r1, _, e1 := syscall.Syscall(procQueryPerformanceFrequency.Addr(), 1, uintptr(unsafe.Pointer(v)), 0, 0)
+	if r1 == 0 {
 		err = errnoErr(e1)
 	}
 	return

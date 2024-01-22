@@ -443,3 +443,6 @@ const (
 //sys    OpenService(mgr syscall.Handle, serviceName *uint16, access uint32) (handle syscall.Handle, err error) = advapi32.OpenServiceW
 //sys	QueryServiceStatus(hService syscall.Handle, lpServiceStatus *SERVICE_STATUS) (err error)  = advapi32.QueryServiceStatus
 //sys    OpenSCManager(machineName *uint16, databaseName *uint16, access uint32) (handle syscall.Handle, err error)  [failretval==0] = advapi32.OpenSCManagerW
+
+//sys	QueryPerformanceCounter(v *int64) (err error) = kernel32.QueryPerformanceCounter
+//sys	QueryPerformanceFrequency(v *int64) (err error) = kernel32.QueryPerformanceFrequency
