@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a15bb32_b124d130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-23T00:31:04Z",
+      "side": 1,
+      "message": "If safe\u003d\u003dtrue don\u0027t copy\nw1.  x :\u003d ValueOf(\u0026v).Elem()\nr1.  iface :\u003d Value.Interface()\nw2.  x.Set() or x.SetT()\n\nThe write operation of W2 will be observed by the read operation of r1,\nbut the existing behavior is not.",
+      "parentUuid": "0445687d_415ea604",
+      "range": {
+        "startLine": 9,
+        "startChar": 56,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "0e277d61d0a368d1854d9522d3f18a11f67aeed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ef8ade2_8936fb39",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-23T00:26:53Z",
       "side": 1,
       "message": "safe\u003d\u003dtrue ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 58,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "0e277d61d0a368d1854d9522d3f18a11f67aeed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe79912_5cd0a775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-23T00:31:04Z",
+      "side": 1,
+      "message": "Yes.\nThe valueInterface in deepValueEqual can, in theory, pass pass\u003d\u003dtrue to not copy the object,\nbut there is no benchmark to indicate that the memory allocation has changed",
+      "parentUuid": "0ef8ade2_8936fb39",
       "range": {
         "startLine": 17,
         "startChar": 58,
