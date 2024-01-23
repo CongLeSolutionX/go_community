@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d732f133_d5cfeea5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-23T00:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98c71f09_7cc5cf4f",
+      "range": {
+        "startLine": 9,
+        "startChar": 56,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "0e277d61d0a368d1854d9522d3f18a11f67aeed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ef8ade2_8936fb39",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "Please update the CL description.",
       "parentUuid": "7fe79912_5cd0a775",
+      "range": {
+        "startLine": 17,
+        "startChar": 58,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "0e277d61d0a368d1854d9522d3f18a11f67aeed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abf85ca_aa60807b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-23T00:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fe9a92e_c4a98c9c",
       "range": {
         "startLine": 17,
         "startChar": 58,
