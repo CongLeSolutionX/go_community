@@ -54,8 +54,6 @@ var depsRules = `
 	internal/goarch, unsafe
 	< internal/abi, internal/chacha8rand;
 
-	unsafe < maps;
-
 	# RUNTIME is the core runtime group of packages, all of them very light-weight.
 	internal/abi,
 	internal/chacha8rand,
@@ -85,9 +83,12 @@ var depsRules = `
 	< RUNTIME;
 
 	# slices depends on unsafe for overlapping check, cmp for comparison
-	# semantics, and math/bits for # calculating bitlength of numbers.
-	unsafe, cmp, math/bits
+	# semantics, and math/bits for calculating bitlength of numbers.
+	RUNTIME, cmp
 	< slices;
+
+	RUNTIME
+	< maps;
 
 	RUNTIME, slices
 	< sort;
