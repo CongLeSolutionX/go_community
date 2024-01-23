@@ -149,6 +149,13 @@ func FullRuneInString(s string) bool {
 // out of range, or is not the shortest possible UTF-8 encoding for the
 // value. No other validation is performed.
 func DecodeRune(p []byte) (r rune, size int) {
+	if len(p) >= 1 && p[0] < 0x80 {
+		return rune(p[0]), 1
+	}
+	return decodeRune(p)
+}
+
+func decodeRune(p []byte) (r rune, size int) {
 	n := len(p)
 	if n < 1 {
 		return RuneError, 0
