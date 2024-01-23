@@ -73,6 +73,23 @@
       "parentUuid": "8c27d338_ab6ea58e",
       "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a2b1ed2_2de6ed43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-23T22:01:29Z",
+      "side": 1,
+      "message": "This feels like it is at the wrong layer. `time.Time` already has support for a higher-precision “monotonic clock” for measuring durations — if we can make that work on Windows too, then it will improve `time.Time.Sub` and `time.Since` for all programs, not just benchmarks.\n\nI see in https://go.dev/issue/31160#issuecomment-612584400 that Alex investigated that possibility in 2020, and found that an implementation using `syscall.Syscall` would make `time.Now` about an order of magnitude slower.\n\nHowever, `time.now` is currently implemented in assembly on `linux/amd64`, and Austin wrote a proof-of-concept change to call `QueryUnbiasedInterruptTime` in assembly in CL 211307. Has anyone investigated the possibility of changing `time.now` to call `QueryPerformanceCounter` from assembly?",
+      "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
