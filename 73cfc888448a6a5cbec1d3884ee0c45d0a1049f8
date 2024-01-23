@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "489ecd51_a2ee5b75",
+        "filename": "src/crypto/internal/bigmod/nat_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-01-23T19:01:59Z",
+      "side": 1,
+      "message": "Is this right? addMulVVWx is an internal function that behaves like addMulVVW2048(z, x *uint, y uint) (c uint) with a size in R6.",
+      "revId": "73cfc888448a6a5cbec1d3884ee0c45d0a1049f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f83fbb45_dc513554",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-01-23T19:01:59Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "73cfc888448a6a5cbec1d3884ee0c45d0a1049f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8782b20f_648e16c2",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-01-23T19:01:59Z",
+      "side": 1,
+      "message": "Intentional TODO?",
+      "revId": "73cfc888448a6a5cbec1d3884ee0c45d0a1049f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
