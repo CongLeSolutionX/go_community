@@ -16,6 +16,24 @@
       "message": "Here, Auto-Submit+1 is lost because the new patch set is uploaded while performing review comments.\nPlease submit it, thank you.",
       "revId": "d0e204df39abfb12706466198c514e5f555ca6d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "811b0b47_3fb41f7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-23T02:17:26Z",
+      "side": 1,
+      "message": "This still needs another googler +1.\nReapplying auto-submit.",
+      "parentUuid": "e93938af_5c51b455",
+      "revId": "d0e204df39abfb12706466198c514e5f555ca6d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
