@@ -16,6 +16,23 @@
       "message": "@dmitshur@golang.org the failing 386 and WASM builds are now truly fixed and have been tested on 386 (I missed bytealg.Cutoved was not implemented). Would you be able to kick off the test run again? And thank you for your patience.",
       "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c61ed1cc_974851ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-01-23T15:44:51Z",
+      "side": 1,
+      "message": "@dmitshur@golang.org Any chance I could get this reviewed now that go1.23 is open for general development (and let me know if you\u0027re the wrong person to ping about this)?",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
