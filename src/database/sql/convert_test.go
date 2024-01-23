@@ -354,9 +354,10 @@ func TestRawBytesAllocs(t *testing.T) {
 		{"time", time.Unix(2, 5).UTC(), "1970-01-01T00:00:02.000000005Z"},
 	}
 
-	buf := make(RawBytes, 10)
+	rows := &Rows{}
 	test := func(name string, in any, want string) {
-		if err := convertAssign(&buf, in); err != nil {
+		var buf RawBytes
+		if err := convertAssignRows(&buf, in, rows); err != nil {
 			t.Fatalf("%s: convertAssign = %v", name, err)
 		}
 		match := len(buf) == len(want)
@@ -375,6 +376,7 @@ func TestRawBytesAllocs(t *testing.T) {
 
 	n := testing.AllocsPerRun(100, func() {
 		for _, tt := range tests {
+			rows.raw = rows.raw[:0]
 			test(tt.name, tt.in, tt.want)
 		}
 	})
