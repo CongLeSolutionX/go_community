@@ -8,6 +8,7 @@ package bytes
 
 import (
 	"internal/bytealg"
+	"iter"
 	"unicode"
 	"unicode/utf8"
 )
@@ -48,6 +49,20 @@ func explode(s []byte, n int) [][]byte {
 		na++
 	}
 	return a[0:na]
+}
+
+// explodeSeq returns an iterator over the runes in s.
+func explodeSeq(s []byte) iter.Seq[[]byte] {
+	return func(yield func([]byte) bool) {
+		s := s
+		for len(s) > 0 {
+			_, size := utf8.DecodeRune(s)
+			if !yield(s[:size]) {
+				return
+			}
+			s = s[size:]
+		}
+	}
 }
 
 // Count counts the number of non-overlapping instances of sep in s.
@@ -350,6 +365,29 @@ func genSplit(s, sep []byte, sepSave, n int) [][]byte {
 	return a[:i+1]
 }
 
+// splitSeq is SplitSeq or SplitAfterSeq, configured by how many
+// bytes of sep to include in the results (none or all).
+func splitSeq(s, sep []byte, sepSave int) iter.Seq[[]byte] {
+	if len(sep) == 0 {
+		return explodeSeq(s)
+	}
+	return func(yield func([]byte) bool) {
+		s := s
+		for {
+			i := Index(s, sep)
+			if i < 0 {
+				break
+			}
+			frag := s[:i+sepSave]
+			if !yield(frag) {
+				return
+			}
+			s = s[i+len(sep):]
+		}
+		yield(s)
+	}
+}
+
 // SplitN slices s into subslices separated by sep and returns a slice of
 // the subslices between those separators.
 // If sep is empty, SplitN splits after each UTF-8 sequence.
@@ -388,6 +426,20 @@ func Split(s, sep []byte) [][]byte { return genSplit(s, sep, 0, -1) }
 // It is equivalent to SplitAfterN with a count of -1.
 func SplitAfter(s, sep []byte) [][]byte {
 	return genSplit(s, sep, len(sep), -1)
+}
+
+// SplitSeq returns an iterator over all substrings of s separated by sep.
+// The iterator yields the same strings that would be returned by Split(s, sep),
+// but without constructing the slice.
+func SplitSeq(s, sep []byte) iter.Seq[[]byte] {
+	return splitSeq(s, sep, 0)
+}
+
+// SplitAfterSeq returns an iterator over substrings of s split after each instance of sep.
+// The iterator yields the same strings that would be returned by SplitAfter(s, sep),
+// but without constructing the slice.
+func SplitAfterSeq(s, sep []byte) iter.Seq[[]byte] {
+	return splitSeq(s, sep, len(sep))
 }
 
 var asciiSpace = [256]uint8{'\t': 1, '\n': 1, '\v': 1, '\f': 1, '\r': 1, ' ': 1}
@@ -446,6 +498,40 @@ func Fields(s []byte) [][]byte {
 	return a
 }
 
+// FieldsSeq returns an iterator over substrings of s split around runs of
+// whitespace characters, as defined by unicode.IsSpace.
+// The iterator yields the same strings that would be returned by Fields(s),
+// but without constructing the slice.
+func FieldsSeq(s []byte) iter.Seq[[]byte] {
+	return func(yield func([]byte) bool) {
+		s := s
+		start := -1
+		for i := 0; i < len(s); {
+			size := 1
+			r := rune(s[i])
+			isSpace := asciiSpace[s[i]] != 0
+			if r >= utf8.RuneSelf {
+				r, size = utf8.DecodeRune(s[i:])
+				isSpace = unicode.IsSpace(r)
+			}
+			if isSpace {
+				if start >= 0 {
+					if !yield(s[start:i]) {
+						return
+					}
+					start = -1
+				}
+			} else if start < 0 {
+				start = i
+			}
+			i += size
+		}
+		if start >= 0 {
+			yield(s[start:])
+		}
+	}
+}
+
 // FieldsFunc interprets s as a sequence of UTF-8-encoded code points.
 // It splits the slice s at each run of code points c satisfying f(c) and
 // returns a slice of subslices of s. If all code points in s satisfy f(c), or
@@ -498,6 +584,38 @@ func FieldsFunc(s []byte, f func(rune) bool) [][]byte {
 	}
 
 	return a
+}
+
+// FieldsFuncSeq returns an iterator over substrings of s split around runs of
+// Unicode code points satisfying f(c).
+// The iterator yields the same strings that would be returned by FieldsFunc(s),
+// but without constructing the slice.
+func FieldsFuncSeq(s []byte, f func(rune) bool) iter.Seq[[]byte] {
+	return func(yield func([]byte) bool) {
+		s := s
+		start := -1
+		for i := 0; i < len(s); {
+			size := 1
+			r := rune(s[i])
+			if r >= utf8.RuneSelf {
+				r, size = utf8.DecodeRune(s[i:])
+			}
+			if f(r) {
+				if start >= 0 {
+					if !yield(s[start:i]) {
+						return
+					}
+					start = -1
+				}
+			} else if start < 0 {
+				start = i
+			}
+			i += size
+		}
+		if start >= 0 {
+			yield(s[start:])
+		}
+	}
 }
 
 // Join concatenates the elements of s to create a new byte slice. The separator

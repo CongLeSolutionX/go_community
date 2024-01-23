@@ -1,0 +1,11 @@
+pkg bytes, func Bytes(string) iter.Seq2 #61901
+pkg bytes, func FieldsFuncSeq([]uint8, func(int32) bool) iter.Seq #61901
+pkg bytes, func FieldsSeq([]uint8) iter.Seq #61901
+pkg bytes, func Lines([]uint8) iter.Seq #61901
+pkg bytes, func RunesSeq(string) iter.Seq2 #61901
+pkg bytes, func SplitAfterSeq([]uint8, []uint8) iter.Seq #61901
+pkg bytes, func SplitSeq([]uint8, []uint8) iter.Seq #61901
+pkg strings, func FieldsFuncSeq(string, func(int32) bool) iter.Seq #61901
+pkg strings, func FieldsSeq(string) iter.Seq #61901
+pkg strings, func SplitAfterSeq(string, string) iter.Seq #61901
+pkg strings, func SplitSeq(string, string) iter.Seq #61901

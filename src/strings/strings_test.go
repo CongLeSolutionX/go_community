@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"iter"
 	"math"
 	"math/rand"
 	"reflect"
@@ -422,6 +423,13 @@ func TestSplit(t *testing.T) {
 			t.Errorf("Split(%q, %q, %d) = %v; want %v", tt.s, tt.sep, tt.n, a, tt.a)
 			continue
 		}
+		if tt.n < 0 {
+			a2 := collect(t, SplitSeq(tt.s, tt.sep))
+			if !eq(a2, tt.a) {
+				t.Errorf(`collect(SplitSeq(%q, %q)) = %v; want %v`, tt.s, tt.sep, a2, tt.a)
+			}
+		}
+
 		if tt.n == 0 {
 			continue
 		}
@@ -460,6 +468,12 @@ func TestSplitAfter(t *testing.T) {
 		if !eq(a, tt.a) {
 			t.Errorf(`Split(%q, %q, %d) = %v; want %v`, tt.s, tt.sep, tt.n, a, tt.a)
 			continue
+		}
+		if tt.n < 0 {
+			a2 := collect(t, SplitAfterSeq(tt.s, tt.sep))
+			if !eq(a2, tt.a) {
+				t.Errorf(`collect(SplitAfterSeq(%q, %q)) = %v; want %v`, tt.s, tt.sep, a2, tt.a)
+			}
 		}
 		s := Join(a, "")
 		if s != tt.s {
@@ -504,6 +518,10 @@ func TestFields(t *testing.T) {
 			t.Errorf("Fields(%q) = %v; want %v", tt.s, a, tt.a)
 			continue
 		}
+		a2 := collect(t, FieldsSeq(tt.s))
+		if !eq(a2, tt.a) {
+			t.Errorf(`collect(FieldsSeq(%q)) = %v; want %v`, tt.s, a2, tt.a)
+		}
 	}
 }
 
@@ -527,6 +545,10 @@ func TestFieldsFunc(t *testing.T) {
 		a := FieldsFunc(tt.s, pred)
 		if !eq(a, tt.a) {
 			t.Errorf("FieldsFunc(%q) = %v, want %v", tt.s, a, tt.a)
+		}
+		a2 := collect(t, FieldsFuncSeq(tt.s, pred))
+		if !eq(a2, tt.a) {
+			t.Errorf(`collect(FieldsFuncSeq(%q)) = %v; want %v`, tt.s, a2, tt.a)
 		}
 	}
 }
@@ -2050,4 +2072,21 @@ func BenchmarkReplaceAll(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		stringSink = ReplaceAll("banana", "a", "<>")
 	}
+}
+
+func collect[T []byte | string](t *testing.T, seq iter.Seq[T]) []T {
+	out := collect1(seq)
+	out1 := collect1(seq)
+	if !reflect.DeepEqual(out, out1) {
+		t.Fatalf("inconsistent seq:\n%s\n%s", out, out1)
+	}
+	return out
+}
+
+func collect1[T []byte | string](seq iter.Seq[T]) []T {
+	var out []T
+	for x := range seq {
+		out = append(out, x)
+	}
+	return out
 }

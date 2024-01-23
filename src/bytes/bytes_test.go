@@ -8,6 +8,7 @@ import (
 	. "bytes"
 	"fmt"
 	"internal/testenv"
+	"iter"
 	"math"
 	"math/rand"
 	"reflect"
@@ -812,6 +813,14 @@ func TestSplit(t *testing.T) {
 			t.Errorf(`Split(%q, %q, %d) = %v; want %v`, tt.s, tt.sep, tt.n, result, tt.a)
 			continue
 		}
+
+		if tt.n < 0 {
+			result2 := sliceOfString(collect(t, SplitSeq([]byte(tt.s), []byte(tt.sep))))
+			if !eq(result2, tt.a) {
+				t.Errorf(`collect(SplitSeq(%q, %q)) = %v; want %v`, tt.s, tt.sep, result2, tt.a)
+			}
+		}
+
 		if tt.n == 0 || len(a) == 0 {
 			continue
 		}
@@ -871,6 +880,13 @@ func TestSplitAfter(t *testing.T) {
 			continue
 		}
 
+		if tt.n < 0 {
+			result2 := sliceOfString(collect(t, SplitAfterSeq([]byte(tt.s), []byte(tt.sep))))
+			if !eq(result2, tt.a) {
+				t.Errorf(`collect(SplitAfterSeq(%q, %q)) = %v; want %v`, tt.s, tt.sep, result2, tt.a)
+			}
+		}
+
 		if want := tt.a[len(tt.a)-1] + "z"; string(x) != want {
 			t.Errorf("last appended result was %s; want %s", x, want)
 		}
@@ -924,6 +940,11 @@ func TestFields(t *testing.T) {
 			continue
 		}
 
+		result2 := sliceOfString(collect(t, FieldsSeq([]byte(tt.s))))
+		if !eq(result2, tt.a) {
+			t.Errorf(`collect(FieldsSeq(%q)) = %v; want %v`, tt.s, result2, tt.a)
+		}
+
 		if string(b) != tt.s {
 			t.Errorf("slice changed to %s; want %s", string(b), tt.s)
 		}
@@ -964,6 +985,11 @@ func TestFieldsFunc(t *testing.T) {
 		result := sliceOfString(a)
 		if !eq(result, tt.a) {
 			t.Errorf("FieldsFunc(%q) = %v, want %v", tt.s, a, tt.a)
+		}
+
+		result2 := sliceOfString(collect(t, FieldsFuncSeq([]byte(tt.s), pred)))
+		if !eq(result2, tt.a) {
+			t.Errorf(`collect(FieldsFuncSeq(%q)) = %v; want %v`, tt.s, result2, tt.a)
 		}
 
 		if string(b) != tt.s {
@@ -2262,4 +2288,21 @@ func TestClone(t *testing.T) {
 			t.Errorf("Clone(%q) return value should not reference inputs backing memory.", input)
 		}
 	}
+}
+
+func collect[T []byte | string](t *testing.T, seq iter.Seq[T]) []T {
+	out := collect1(seq)
+	out1 := collect1(seq)
+	if !reflect.DeepEqual(out, out1) {
+		t.Fatalf("inconsistent seq:\n%s\n%s", out, out1)
+	}
+	return out
+}
+
+func collect1[T []byte | string](seq iter.Seq[T]) []T {
+	var out []T
+	for x := range seq {
+		out = append(out, x)
+	}
+	return out
 }
