@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e93938af_5c51b455",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-23T01:13:02Z",
+      "side": 1,
+      "message": "Here, Auto-Submit+1 is lost because the new patch set is uploaded while performing review comments.\nPlease submit it, thank you.",
+      "revId": "d0e204df39abfb12706466198c514e5f555ca6d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
