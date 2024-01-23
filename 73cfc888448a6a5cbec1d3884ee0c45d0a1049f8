@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94516b1f_db6101e3",
+        "filename": "src/crypto/internal/bigmod/nat_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-01-23T21:18:57Z",
+      "side": 1,
+      "message": "I agree with Filippo that this comment isn\u0027t really accurate. It doesn\u0027t correspond to a Go function (doesn\u0027t have a Go declaration). Also, it takes an implicit argument (R6). This comment looks like a function that can be called from Go, which is confusing.\n\nI think we should add a comment that it takes size in R6.\n\nAlso, as this is a function internal to assembly, I think we should make it static, i.e. change the next line to `TEXT addMulVVWx\u003c\u003e(SB)` (and add `\u003c\u003e` at call sites), so it is not in the global namespace.",
+      "parentUuid": "63fb3d47_1b3c7f13",
+      "revId": "73cfc888448a6a5cbec1d3884ee0c45d0a1049f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f83fbb45_dc513554",
         "filename": "src/math/big/arith_ppc64x.s",
         "patchSetId": 1
