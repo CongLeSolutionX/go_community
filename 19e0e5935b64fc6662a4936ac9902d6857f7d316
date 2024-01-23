@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40bce93e_55fd5b3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2024-01-23T13:28:39Z",
+      "side": 1,
+      "message": "Just added the double quote as suggested to end the message in the case of empty name space. A typo in the error message is also removed while here.",
+      "revId": "19e0e5935b64fc6662a4936ac9902d6857f7d316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
