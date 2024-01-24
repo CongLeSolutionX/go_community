@@ -271,7 +271,7 @@ func (c *comparer) identical(x, y Type, p *ifacePair) bool {
 					g := y.fields[i]
 					if f.embedded != g.embedded ||
 						!c.ignoreTags && x.Tag(i) != y.Tag(i) ||
-						!f.sameId(g.pkg, g.name) ||
+						!f.sameId(g.pkg, g.name, false) ||
 						!c.identical(f.typ, g.typ, p) {
 						return false
 					}

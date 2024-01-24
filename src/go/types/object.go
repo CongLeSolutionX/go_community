@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"go/constant"
 	"go/token"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 )
@@ -52,7 +53,9 @@ type Object interface {
 	setParent(*Scope)
 
 	// sameId reports whether obj.Id() and Id(pkg, name) are the same.
-	sameId(pkg *Package, name string) bool
+	// If foldCase is true, names are considered equal if they are equal with case folding
+	// and their packages are ignored (e.g., pkg1.m, pkg1.M, pkg2.m, and pkg2.M are all equal).
+	sameId(pkg *Package, name string, foldCase bool) bool
 
 	// scopePos returns the start position of the scope of this Object
 	scopePos() token.Pos
@@ -165,12 +168,15 @@ func (obj *object) setOrder(order uint32)     { assert(order > 0); obj.order_ = 
 func (obj *object) setColor(color color)      { assert(color != white); obj.color_ = color }
 func (obj *object) setScopePos(pos token.Pos) { obj.scopePos_ = pos }
 
-func (obj *object) sameId(pkg *Package, name string) bool {
+func (obj *object) sameId(pkg *Package, name string, foldCase bool) bool {
+	if foldCase && strings.EqualFold(obj.name, name) {
+		return true
+	}
 	// spec:
 	// "Two identifiers are different if they are spelled differently,
 	// or if they appear in different packages and are not exported.
 	// Otherwise, they are the same."
-	if name != obj.name {
+	if obj.name != name {
 		return false
 	}
 	// obj.Name == name
