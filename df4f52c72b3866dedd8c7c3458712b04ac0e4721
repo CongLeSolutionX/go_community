@@ -34,6 +34,24 @@
       "parentUuid": "01f6d5be_1e62e3ef",
       "revId": "df4f52c72b3866dedd8c7c3458712b04ac0e4721",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49d74e0c_c4527bfb",
+        "filename": "doc/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-01-24T13:36:37Z",
+      "side": 1,
+      "message": "As we discussed in email, the decision should be made and documented elsewhere.",
+      "parentUuid": "3c02369a_5788afde",
+      "revId": "df4f52c72b3866dedd8c7c3458712b04ac0e4721",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
