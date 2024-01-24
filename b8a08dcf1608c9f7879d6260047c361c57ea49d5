@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4112c2f8_3a1e3db1",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2024-01-24T00:22:56Z",
+      "side": 1,
+      "message": "This needs to be removed",
+      "revId": "b8a08dcf1608c9f7879d6260047c361c57ea49d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
