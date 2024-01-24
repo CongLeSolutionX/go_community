@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fe4f705_d66ccd57",
+        "filename": "src/crypto/internal/bigmod/nat_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2024-01-24T17:12:54Z",
+      "side": 1,
+      "message": "Changes made.",
+      "parentUuid": "94516b1f_db6101e3",
+      "revId": "73cfc888448a6a5cbec1d3884ee0c45d0a1049f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f83fbb45_dc513554",
