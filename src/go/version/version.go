@@ -3,6 +3,9 @@
 // license that can be found in the LICENSE file.
 
 // Package version provides operations on [Go versions].
+// Note that the operations do not accept custom toolchain names
+// like “go1.21.0-bigcorp” nor GOTOOLCHAIN settings like
+// “go1.21.0+auto”.
 //
 // [Go versions]: https://go.dev/doc/toolchain#version
 package version // import "go/version"
@@ -50,8 +53,6 @@ func Lang(x string) string {
 // valid versions and equal to each other.
 // The language version "go1.21" compares less than the
 // release candidate and eventual releases "go1.21rc1" and "go1.21.0".
-// Custom toolchain suffixes are ignored during comparison:
-// "go1.21.0" and "go1.21.0-bigcorp" are equal.
 func Compare(x, y string) int {
 	return gover.Compare(stripGo(x), stripGo(y))
 }
