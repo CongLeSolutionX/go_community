@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb2a2dd0_456c5676",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-01-24T21:34:58Z",
+      "side": 1,
+      "message": "Test failures are because the old logic used to handle fields, and the new logic doesn\u0027t (only methods).\n\nShouldn\u0027t we handle case folding for fields as well? Seems better.\n\nAlso, this CL should include some tests of the new functionality.\n\nThis will be a nice improvement.",
+      "revId": "4a50a98ebe68c78d6c3ceab8be76c675ee34d292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
