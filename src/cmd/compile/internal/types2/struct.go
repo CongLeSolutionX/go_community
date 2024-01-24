@@ -131,7 +131,7 @@ func (check *Checker) structType(styp *Struct, e *syntax.StructType) {
 			name := embeddedFieldIdent(f.Type)
 			if name == nil {
 				check.errorf(pos, InvalidSyntaxTree, "invalid embedded field type %s", f.Type)
-				name = &syntax.Name{Value: "_"} // TODO(gri) need to set position to pos
+				name = syntax.NewName(pos, "_")
 				addInvalid(name, pos)
 				continue
 			}
