@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e18f10e6_002caa74",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-24T17:42:02Z",
+      "side": 1,
+      "message": "`os.ReadFile`\n\n(As an aside, reading the entire file just to look at the first line feels a bit wasteful, but I have some ideas to clean up that we can do in follow-ups to this CL.)",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 32
+      },
+      "revId": "9795ad5254685415801a8506616917f4f2dd5e25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
