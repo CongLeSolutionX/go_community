@@ -12,7 +12,6 @@ import (
 	"go/token"
 	. "internal/types/errors"
 	"strings"
-	"unicode"
 )
 
 // funcInst type-checks a function instantiation.
@@ -793,7 +792,7 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr, def *TypeName, w
 		goto Error
 	}
 
-	obj, index, indirect = LookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, sel)
+	obj, index, indirect = lookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, sel, false)
 	if obj == nil {
 		// Don't report another error if the underlying type was invalid (go.dev/issue/49541).
 		if !isValid(under(x.typ)) {
@@ -821,19 +820,8 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr, def *TypeName, w
 		} else {
 			why = check.sprintf("type %s has no field or method %s", x.typ, sel)
 			// Check if capitalization of sel matters and provide better error message in that case.
-			// TODO(gri) This code only looks at the first character but LookupFieldOrMethod should
-			//           have an (internal) mechanism for case-insensitive lookup that we should use
-			//           instead (see types2).
-			if len(sel) > 0 {
-				var changeCase string
-				if r := rune(sel[0]); unicode.IsUpper(r) {
-					changeCase = string(unicode.ToLower(r)) + sel[1:]
-				} else {
-					changeCase = string(unicode.ToUpper(r)) + sel[1:]
-				}
-				if obj, _, _ = LookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, changeCase); obj != nil {
-					why += ", but does have " + changeCase
-				}
+			if obj, _, _ = lookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, sel, true); obj != nil {
+				why += ", but does have " + obj.Name()
 			}
 		}
 		check.errorf(e.Sel, MissingFieldOrMethod, "%s.%s undefined (%s)", x.expr, sel, why)
@@ -849,7 +837,6 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr, def *TypeName, w
 		// method expression
 		m, _ := obj.(*Func)
 		if m == nil {
-			// TODO(gri) should check if capitalization of sel matters and provide better error message in that case
 			check.errorf(e.Sel, MissingFieldOrMethod, "%s.%s undefined (type %s has no method %s)", x.expr, sel, x.typ, sel)
 			goto Error
 		}

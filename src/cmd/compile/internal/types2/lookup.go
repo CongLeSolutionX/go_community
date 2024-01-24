@@ -46,7 +46,13 @@ func LookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 	if T == nil {
 		panic("LookupFieldOrMethod on nil type")
 	}
+	return lookupFieldOrMethod(T, addressable, pkg, name, false)
+}
 
+// lookupFieldOrMethod is like LookupFieldOrMethod but with the additional foldCase parameter:
+// If foldCase is true, method names are considered equal if they are equal with case folding,
+// irrespective of which package they are in.
+func lookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string, foldCase bool) (obj Object, index []int, indirect bool) {
 	// Methods cannot be associated to a named pointer type.
 	// (spec: "The type denoted by T is called the receiver base type;
 	// it must not be a pointer or interface type and it must be declared
@@ -56,7 +62,7 @@ func LookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 	// not have found it for T (see also go.dev/issue/8590).
 	if t := asNamed(T); t != nil {
 		if p, _ := t.Underlying().(*Pointer); p != nil {
-			obj, index, indirect = lookupFieldOrMethodImpl(p, false, pkg, name, false)
+			obj, index, indirect = lookupFieldOrMethodImpl(p, false, pkg, name, foldCase)
 			if _, ok := obj.(*Func); ok {
 				return nil, nil, false
 			}
@@ -64,7 +70,7 @@ func LookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 		}
 	}
 
-	obj, index, indirect = lookupFieldOrMethodImpl(T, addressable, pkg, name, false)
+	obj, index, indirect = lookupFieldOrMethodImpl(T, addressable, pkg, name, foldCase)
 
 	// If we didn't find anything and if we have a type parameter with a core type,
 	// see if there is a matching field (but not a method, those need to be declared
@@ -73,7 +79,7 @@ func LookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 	const enableTParamFieldLookup = false // see go.dev/issue/51576
 	if enableTParamFieldLookup && obj == nil && isTypeParam(T) {
 		if t := coreType(T); t != nil {
-			obj, index, indirect = lookupFieldOrMethodImpl(t, addressable, pkg, name, false)
+			obj, index, indirect = lookupFieldOrMethodImpl(t, addressable, pkg, name, foldCase)
 			if _, ok := obj.(*Var); !ok {
 				obj, index, indirect = nil, nil, false // accept fields (variables) only
 			}
@@ -82,8 +88,8 @@ func LookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 	return
 }
 
-// lookupFieldOrMethodImpl is the implementation of LookupFieldOrMethod.
-// Notably, in contrast to LookupFieldOrMethod, it won't find struct fields
+// lookupFieldOrMethodImpl is the implementation of lookupFieldOrMethod.
+// Notably, in contrast to lookupFieldOrMethod, it won't find struct fields
 // in base types of defined (*Named) pointer types T. For instance, given
 // the declaration:
 //
@@ -92,11 +98,8 @@ func LookupFieldOrMethod(T Type, addressable bool, pkg *Package, name string) (o
 // lookupFieldOrMethodImpl won't find the field f in the defined (*Named) type T
 // (methods on T are not permitted in the first place).
 //
-// Thus, lookupFieldOrMethodImpl should only be called by LookupFieldOrMethod
+// Thus, lookupFieldOrMethodImpl should only be called by lookupFieldOrMethod
 // and missingMethod (the latter doesn't care about struct fields).
-//
-// If foldCase is true, method names are considered equal if they are equal
-// with case folding, irrespective of which package they are in.
 //
 // The resulting object may not be fully type-checked.
 func lookupFieldOrMethodImpl(T Type, addressable bool, pkg *Package, name string, foldCase bool) (obj Object, index []int, indirect bool) {
