@@ -160,6 +160,24 @@
       "parentUuid": "e466a508_293b34db",
       "revId": "953f149d7d2ed6ee2e2d2817b4c9604f5a19b358",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "197ae5e5_8f7213bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-01-24T12:26:53Z",
+      "side": 1,
+      "message": "That\u0027s okay, I don\u0027t mind creating a new proposal.",
+      "parentUuid": "06f46027_8e317003",
+      "revId": "953f149d7d2ed6ee2e2d2817b4c9604f5a19b358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
