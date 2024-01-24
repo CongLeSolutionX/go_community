@@ -34,6 +34,24 @@
       "parentUuid": "baa9d911_baf2b273",
       "revId": "819c351ef66e61a93044375bacb554c4181357bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "709757b4_cfe684d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-01-24T22:17:49Z",
+      "side": 1,
+      "message": "I was able to simplify some more. Now I think a new test is not necessary because all code is using the same mechanism. There are plenty of existing tests.",
+      "parentUuid": "cf6f0fdb_3a168f3f",
+      "revId": "819c351ef66e61a93044375bacb554c4181357bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
