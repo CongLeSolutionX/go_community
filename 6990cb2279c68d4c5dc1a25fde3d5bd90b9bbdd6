@@ -108,6 +108,24 @@
       "parentUuid": "0a2b1ed2_2de6ed43",
       "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfcf718a_71430431",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2024-01-24T10:32:29Z",
+      "side": 1,
+      "message": "Calling QPC from assembly is 20ns vs current `time.Now` 4ns.\n\n(assuming I got the implementation roughly correct https://github.com/egonelbre/exp/blob/main/bench/qpc/main.s)",
+      "parentUuid": "d0b67cb0_57c3fd85",
+      "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
