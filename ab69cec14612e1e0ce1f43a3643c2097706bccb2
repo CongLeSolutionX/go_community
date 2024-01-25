@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cc7c39a_176e151a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-25T20:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c11115_c4aa8eee",
+      "revId": "ab69cec14612e1e0ce1f43a3643c2097706bccb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e55e024_b4a8d152",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bba5187b_24150465",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-25T20:54:32Z",
+      "side": 1,
+      "message": "CL 558595",
+      "parentUuid": "7e55e024_b4a8d152",
+      "revId": "ab69cec14612e1e0ce1f43a3643c2097706bccb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "238f0444_b476ee87",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-01-25T10:51:09Z",
       "side": 1,
       "message": "```suggestion\n\tif !haveSysmon \u0026\u0026 next \u0026\u0026 randn(2) \u003d\u003d 0 {\n```\nDon\u0027t we want to do like randomize scheduler and only do that from time to time ?",
+      "revId": "ab69cec14612e1e0ce1f43a3643c2097706bccb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "522ab3ac_7b1a07a6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6635,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-25T20:54:32Z",
+      "side": 1,
+      "message": "Without sysmon, using runnext can lead to unbounded scheduling stalls. Which reducing the frequency of use of runnext would make this case less likely, I think it makes more sense to eliminate the problem entirely, not just reduce the probability.",
+      "parentUuid": "238f0444_b476ee87",
       "revId": "ab69cec14612e1e0ce1f43a3643c2097706bccb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
