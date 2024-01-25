@@ -33,6 +33,23 @@
       "message": "Ooh, neat! This seems to have made #64317 much more reproducible. 🙃",
       "revId": "ab69cec14612e1e0ce1f43a3643c2097706bccb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "238f0444_b476ee87",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6635,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-01-25T10:51:09Z",
+      "side": 1,
+      "message": "```suggestion\n\tif !haveSysmon \u0026\u0026 next \u0026\u0026 randn(2) \u003d\u003d 0 {\n```\nDon\u0027t we want to do like randomize scheduler and only do that from time to time ?",
+      "revId": "ab69cec14612e1e0ce1f43a3643c2097706bccb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
