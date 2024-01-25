@@ -16,6 +16,23 @@
       "message": "I just resolved the conflicts, this should be ready now. Thanks.",
       "revId": "9d2ea5cc08b97bed50d8236d28b2ff67586129ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c77d58_a0feb696",
+        "filename": "src/runtime/asm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-01-25T23:32:55Z",
+      "side": 1,
+      "message": "Reading my records on this feature, there are 4 missing arches: 386, mips, mipsle, arm, and 386. Hopefully, I\u0027m not mistaken.\n\nWould be wise to get rid of all these #ifndef lines in favor of 4 #ifdef for the arches mentioned above?",
+      "revId": "9d2ea5cc08b97bed50d8236d28b2ff67586129ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
