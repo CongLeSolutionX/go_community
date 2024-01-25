@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ff46d3a_66b93b35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-25T14:29:20Z",
+      "side": 1,
+      "message": "This is causing test failures in `x/build` due to the lack of a `misc-compile` TryBot:\n```\n--- FAIL: TestTryBotsCompileAllPorts (0.40s)\n    builders_test.go:1069: missing real TryBot or misc-compile TryBot for \"openbsd-riscv64\"\nFAIL\nFAIL\tgolang.org/x/build/dashboard\t0.950s\n```\n(https://build.golang.org/log/bb2247455dee7339286f4e8199827d66d8af91e3)",
+      "revId": "c51beb4342ac0ee2fe9c1a774eac15679a447122",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
