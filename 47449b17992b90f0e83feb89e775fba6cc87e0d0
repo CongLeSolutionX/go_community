@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c69897e_54298809",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-25T23:13:24Z",
+      "side": 1,
+      "message": "I don\u0027t think we have any currently (see list below). I\u0027ve reorged a bit to handle both, although there\u0027s no test for the value method case.",
+      "parentUuid": "149b0d5f_5449c336",
+      "range": {
+        "startLine": 1157,
+        "startChar": 0,
+        "endLine": 1157,
+        "endChar": 20
+      },
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eb15052_1fe6c54b",
@@ -108,6 +132,30 @@
       "writtenOn": "2023-11-01T01:02:35Z",
       "side": 1,
       "message": "Maybe check that the type is exported? There could be methods starting with uppercase letters but on an unexported type. Not sure if we have any. Technically we could have a non-exported type exported through a global variable, but I don\u0027t think we have any of those in the runtime.",
+      "range": {
+        "startLine": 1160,
+        "startChar": 0,
+        "endLine": 1162,
+        "endChar": 3
+      },
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "757bb0c1_c64a44a6",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-25T23:13:24Z",
+      "side": 1,
+      "message": "We do have a bunch of exported methods on unexported types that we probably don\u0027t want to show. I will restrict to just exported types.\nThere aren\u0027t many exported methods on exported types. I see:\n```\n(*TypeAssertionError).Error\n(*TypeAssertionError).RuntimeError\n(*StackRecord).Stack\n(*MemProfileRecord).InUseBytes\n(*MemProfileRecord).InUseObjects\n(*MemProfileRecord).Stack\n(*PanicNilError).Error\n(*PanicNilError).RuntimeError\n(*Pinner).Pin\n(*Pinner).Unpin\n(*Frames).Next\n(*Func).Name\n(*Func).Entry\n(*Func).FileLine\n```\n(Several of those can never panic because they have empty bodies.)",
+      "parentUuid": "2eb15052_1fe6c54b",
       "range": {
         "startLine": 1160,
         "startChar": 0,
@@ -141,6 +189,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94984b4a_23cce250",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-25T23:13:24Z",
+      "side": 1,
+      "message": "Ok, I reorganized a bit along these lines.",
+      "parentUuid": "55516ab9_12614043",
+      "range": {
+        "startLine": 1155,
+        "startChar": 1,
+        "endLine": 1171,
+        "endChar": 2
+      },
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09c70354_dcfac647",
@@ -154,6 +226,24 @@
       "writtenOn": "2023-11-01T01:02:35Z",
       "side": 1,
       "message": "Technically there could also be closures, which would be considered as unexported? Maybe it is fine not to handle those. The old code doesn\u0027t either.",
+      "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f347e673_94cb4353",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-25T23:13:24Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m leaving that case alone for now.",
+      "parentUuid": "09c70354_dcfac647",
       "revId": "47449b17992b90f0e83feb89e775fba6cc87e0d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
