@@ -72,6 +72,46 @@
       "message": "I wonder if the approach taken here is correct or if this should be fixed in a different way. Thanks.",
       "revId": "ffb724d3db0c1ac8fe99a20c13540f4fbde86cd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb7acf1_f02df6fc",
+        "filename": "src/runtime/traceback_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-01-25T16:56:11Z",
+      "side": 1,
+      "message": "For this test to pass, it requires that it is not currently handling an event. Maybe the runtime test doesn\u0027t use any event, or at least in parallel with this test?",
+      "revId": "ffb724d3db0c1ac8fe99a20c13540f4fbde86cd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63a9e227_82c9925e",
+        "filename": "src/runtime/traceback_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-01-25T16:56:11Z",
+      "side": 1,
+      "message": "There is `handleEvent` and `handleAsyncEvent`. Do they run on the same goroutine? Maybe we should check for `handleAsyncEvent` as well?",
+      "range": {
+        "startLine": 878,
+        "startChar": 40,
+        "endLine": 878,
+        "endChar": 51
+      },
+      "revId": "ffb724d3db0c1ac8fe99a20c13540f4fbde86cd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
