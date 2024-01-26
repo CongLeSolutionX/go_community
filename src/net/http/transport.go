@@ -1609,6 +1609,7 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 		writech:       make(chan writeRequest, 1),
 		closech:       make(chan struct{}),
 		writeErrCh:    make(chan error, 1),
+		readLoopDone:  make(chan struct{}),
 		writeLoopDone: make(chan struct{}),
 	}
 	trace := httptrace.ContextClientTrace(ctx)
@@ -1943,6 +1944,7 @@ type persistConn struct {
 	// whether or not a connection can be reused. Issue 7569.
 	writeErrCh chan error
 
+	readLoopDone  chan struct{} // closed when read loop ends
 	writeLoopDone chan struct{} // closed when write loop ends
 
 	// Both guarded by Transport.idleMu:
@@ -2049,7 +2051,7 @@ func (pc *persistConn) closeConnIfStillIdle() {
 //
 // The startBytesWritten value should be the value of pc.nwrite before the roundTrip
 // started writing the request.
-func (pc *persistConn) mapRoundTripError(req *transportRequest, startBytesWritten int64, err error) error {
+func (pc *persistConn) mapRoundTripError(req *transportRequest, ch <-chan responseAndError, startBytesWritten int64, err error) error {
 	if err == nil {
 		return nil
 	}
@@ -2062,6 +2064,24 @@ func (pc *persistConn) mapRoundTripError(req *transportRequest, startBytesWritte
 	// or closing. Waiting on pc.writeLoopDone is hence safe as all callers
 	// close closech which in turn ensures writeLoop returns.
 	<-pc.writeLoopDone
+
+	// If the request was cancelled, don't try to wait for readLoop to exit and
+	// instead return the error immediately as the caller requested.
+	if err != errRequestCanceled {
+		// Wait for the readLoop goroutine to exit to avoid some potential data races,
+		// such as the data race between httptrace.ClientTrace.Got1xxResponse and Handler.
+		select {
+		case <-pc.readLoopDone: // readLoop already exited
+		case <-ch: // error occurred in readLoop and a responseAndError with a non-nil error is being sent on rc.ch
+			<-pc.readLoopDone
+		}
+	}
+
+	// If Transport.ResponseHeaderTimeout was set, and it's been timed out,
+	// we just return the exact error expected by the caller.
+	if err == errTimeout {
+		return err
+	}
 
 	// If the request was canceled, that's better than network
 	// failures that were likely the result of tearing down the
@@ -2109,6 +2129,7 @@ func (pc *persistConn) readLoop() {
 	defer func() {
 		pc.close(closeErr)
 		pc.t.removeIdleConn(pc)
+		close(pc.readLoopDone)
 	}()
 
 	tryPutIdleConn := func(trace *httptrace.ClientTrace) bool {
@@ -2680,7 +2701,7 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 			}
 			if err != nil {
 				pc.close(fmt.Errorf("write error: %w", err))
-				return nil, pc.mapRoundTripError(req, startBytesWritten, err)
+				return nil, pc.mapRoundTripError(req, resc, startBytesWritten, err)
 			}
 			if d := pc.t.ResponseHeaderTimeout; d > 0 {
 				if debugRoundTrip {
@@ -2696,14 +2717,14 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 				if debugRoundTrip {
 					req.logf("closech recv: %T %#v", pc.closed, pc.closed)
 				}
-				return nil, pc.mapRoundTripError(req, startBytesWritten, pc.closed)
+				return nil, pc.mapRoundTripError(req, resc, startBytesWritten, pc.closed)
 			}
 		case <-respHeaderTimer:
 			if debugRoundTrip {
 				req.logf("timeout waiting for response headers.")
 			}
 			pc.close(errTimeout)
-			return nil, errTimeout
+			return nil, pc.mapRoundTripError(req, resc, startBytesWritten, errTimeout)
 		case re := <-resc:
 			if (re.res == nil) == (re.err == nil) {
 				panic(fmt.Sprintf("internal error: exactly one of res or err should be set; nil=%v", re.res == nil))
@@ -2712,7 +2733,7 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 				req.logf("resc recv: %p, %T/%#v", re.res, re.err, re.err)
 			}
 			if re.err != nil {
-				return nil, pc.mapRoundTripError(req, startBytesWritten, re.err)
+				return nil, pc.mapRoundTripError(req, resc, startBytesWritten, re.err)
 			}
 			return re.res, nil
 		case <-cancelChan:
