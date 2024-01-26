@@ -1861,3 +1861,57 @@ func testReverseProxyQueryParameterSmuggling(t *testing.T, wantCleanQuery bool, 
 		}
 	}
 }
+
+func TestResponseWriterRaceOnGot1xxResponse(t *testing.T) {
+	t.Parallel()
+
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(time.Second)
+		w.WriteHeader(http.StatusContinue)
+	}))
+	defer backend.Close()
+
+	proxyWrapper := func(p *ReverseProxy) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			r = r.WithContext(httptrace.WithClientTrace(r.Context(), &httptrace.ClientTrace{
+				Got100Continue: func() {
+					// Stall the trace.Got1xxResponse hook.
+					time.Sleep(time.Second)
+				},
+			}))
+			p.ServeHTTP(w, r)
+			w.Header().Set("X-Something", "Test")
+		})
+	}
+
+	backendURL, err := url.Parse(backend.URL)
+	if err != nil {
+		t.Fatalf("failed to parse backend URL: %v", err)
+	}
+	proxyHandler := NewSingleHostReverseProxy(backendURL)
+	proxyHandler.ErrorLog = log.New(io.Discard, "", 0) // quiet for tests
+	proxyHandler.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+		for i := 0; i < 1e7; i++ {
+			w.Header().Set("X-Something", "Test")
+		}
+	}
+	transport := http.DefaultTransport.(*http.Transport)
+	transport.ResponseHeaderTimeout = time.Second
+	proxyHandler.Transport = transport
+	proxy := httptest.NewServer(proxyWrapper(proxyHandler))
+	defer proxy.Close()
+	proxyClient := proxy.Client()
+
+	req, _ := http.NewRequest("POST", proxy.URL, strings.NewReader("Large Body!!!"))
+	req.Close = true
+	req.Header.Set("Expect", "100-continue")
+	res, err := proxyClient.Do(req)
+	if err != nil {
+		t.Fatalf("POST: %v", err)
+	}
+	defer res.Body.Close()
+	_, err = io.ReadAll(res.Body)
+	if err != nil {
+		t.Fatalf("ReadAll: %v", err)
+	}
+}
