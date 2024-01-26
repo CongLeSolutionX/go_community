@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad3eb2eb_55c9519b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2024-01-26T00:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80ba1d6a_0053497b",
+      "revId": "6ba72c267e076af16f0516d2da5e3148f9178c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9275905_df351a7f",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-25T19:54:50Z",
       "side": 1,
       "message": "Add:\n```\n[!race] skip\n```",
+      "revId": "6ba72c267e076af16f0516d2da5e3148f9178c85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2605c5ac_fc445507",
+        "filename": "src/cmd/go/testdata/script/test_race_issue26995.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2024-01-26T00:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9275905_df351a7f",
       "revId": "6ba72c267e076af16f0516d2da5e3148f9178c85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
