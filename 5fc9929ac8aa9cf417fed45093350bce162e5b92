@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0dce3ab_253d6678",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5936,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-01-26T00:53:50Z",
+      "side": 1,
+      "message": "```suggestion\n// haveSysmon indicates whether there is sysmon thread support.\n```",
+      "revId": "5fc9929ac8aa9cf417fed45093350bce162e5b92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
