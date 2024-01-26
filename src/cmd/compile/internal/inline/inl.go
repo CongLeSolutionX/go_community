@@ -493,7 +493,7 @@ opSwitch:
 				case "throw":
 					v.budget -= inlineExtraThrowCost
 					break opSwitch
-				case "panicrangeexit":
+				case "panicrangestate":
 					cheap = true
 				}
 				// Special case for reflect.noescape. It does just type
