@@ -538,3 +538,41 @@ func TestPinnerConstStringData(t *testing.T) {
 		t.Fatal("not marked as pinned")
 	}
 }
+
+func TestPinnerPinString(t *testing.T) {
+	var pinner runtime.Pinner
+	heapStr := getHeapStr()
+	pinner.Pin(heapStr)
+	addr := unsafe.Pointer(unsafe.StringData(heapStr))
+	if !runtime.IsPinned(addr) {
+		t.Fatal("not marked as pinned")
+	}
+	if runtime.GetPinCounter(addr) != nil {
+		t.Fatal("pin counter should not exist")
+	}
+	pinner.Unpin()
+	if runtime.IsPinned(addr) {
+		t.Fatal("still marked as pinned")
+	}
+}
+
+func getHeapStr() string {
+	return string(byte(fastrand()))
+}
+
+func TestPinnerPinSlice(t *testing.T) {
+	var pinner runtime.Pinner
+	s := make([]*int, 10)
+	pinner.Pin(s)
+	addr := unsafe.Pointer(unsafe.SliceData(s))
+	if !runtime.IsPinned(addr) {
+		t.Fatal("not marked as pinned")
+	}
+	if runtime.GetPinCounter(addr) != nil {
+		t.Fatal("pin counter should not exist")
+	}
+	pinner.Unpin()
+	if runtime.IsPinned(addr) {
+		t.Fatal("still marked as pinned")
+	}
+}
