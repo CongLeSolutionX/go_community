@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff03fe1b_50ad15d6",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2131,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-01-26T16:47:20Z",
+      "side": 1,
+      "message": "This test has a very high failure rate on the builders; see #65287.",
+      "revId": "67d30fc315f90207a7fd8cde465ab14687835f1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
