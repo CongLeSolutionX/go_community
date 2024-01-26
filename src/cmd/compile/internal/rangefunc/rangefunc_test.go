@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.rangefunc
-
 package rangefunc_test
 
 import (
@@ -49,6 +47,18 @@ func VeryBadOfSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
 				}()
 				yield(i, v)
 			}()
+		}
+		return
+	}
+}
+
+// PanickyOfSliceIndex iterates the slice but panics if it exits the loop early
+func PanickyOfSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		for i, v := range s {
+			if !yield(i, v) {
+				panic("Panicky iterator panicking")
+			}
 		}
 		return
 	}
@@ -805,6 +815,90 @@ W:
 	}
 	if !slices.Equal(expect, result) {
 		t.Errorf("Expected %v, got %v", expect, result)
+	}
+}
+
+func TestPanickyIterator1(t *testing.T) {
+	var result []int
+	var expect = []int{1, 2, 3, 4}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			t.Errorf("Wanted to see a failure, result was %v", result)
+		}
+	}()
+	for _, z := range PanickyOfSliceIndex([]int{1, 2, 3, 4}) {
+		result = append(result, z)
+		if z == 4 {
+			break
+		}
+	}
+}
+
+func TestPanickyIterator2(t *testing.T) {
+	var result []int
+	var expect = []int{100, 10, 1, 2}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			t.Errorf("Wanted to see a failure, result was %v", result)
+		}
+	}()
+	for _, x := range OfSliceIndex([]int{100, 200}) {
+		result = append(result, x)
+	Y:
+		// swallows panics and iterates to end BUT `break Y` disables the body, so--> 10, 1, 2
+		for _, y := range VeryBadOfSliceIndex([]int{10, 20}) {
+			result = append(result, y)
+
+			// converts early exit into a panic --> 1, 2
+			for k, z := range PanickyOfSliceIndex([]int{1, 2}) {
+				result = append(result, z)
+				if k == 1 {
+					break Y
+				}
+			}
+		}
+	}
+}
+
+func TestPanickyIterator3(t *testing.T) {
+	var result []int
+	var expect = []int{100, 10, 1, 2, 200, 10, 1, 2}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Errorf("Unexpected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		}
+	}()
+	for _, x := range OfSliceIndex([]int{100, 200}) {
+		result = append(result, x)
+	Y:
+		// swallows panics and iterates to end BUT `break Y` disables the body, so--> 10, 1, 2
+		for _, y := range VeryBadOfSliceIndex([]int{10, 20}) {
+			result = append(result, y)
+
+			for k, z := range OfSliceIndex([]int{1, 2}) {
+				result = append(result, z)
+				if k == 1 {
+					break Y
+				}
+			}
+		}
 	}
 }
 
