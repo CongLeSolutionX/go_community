@@ -241,22 +241,31 @@ return with a single check.
 # Labeled break/continue of range-over-func loops
 
 For a labeled break or continue of an outer range-over-func, we
-use positive #next values. Any such labeled break or continue
+use positive #next values.
+
+Any such labeled break or continue
 really means "do N breaks" or "do N breaks and 1 continue".
 We encode that as perLoopStep*N or perLoopStep*N+1 respectively.
+
+The positive #next value tells which level of loop N to target
+with a break or continue, where perLoopStep*N means break from
+level N and perLoopStep*N-1 means continue into level N.
 
 Loops that might need to propagate a labeled break or continue
 add one or both of these to the #next checks:
 
-	if #next >= 2 {
-		#next -= 2
-		return false
-	}
-
-	if #next == 1 {
-		#next = 0
-		return true
-	}
+	    // N == depth of this loop, one less than the one just exited.
+		if #next != 0 {
+		  if #next >= perLoopStep*N-1 { // this loop
+		  	if #next >= perLoopStep*N+1 { // error checking
+	           runtime.panicrangeexit()
+		  	}
+		  	rv := #next & 1 == 1 // code generates into #next&1
+			#next = 0
+			return rv
+		  }
+		  return false // or handle returns and gotos
+		}
 
 For example
 
@@ -511,6 +520,7 @@ type forLoop struct {
 	nfor         *syntax.ForStmt // actual syntax
 	exitFlag     *types2.Var     // #exit variable for this loop
 	exitFlagDecl *syntax.VarDecl
+	depth        int // outermost loop has depth 1, otherwise depth = depth(parent)+1
 
 	checkRet      bool     // add check for "return" after loop
 	checkRetArgs  bool     // add check for "return args" after loop
@@ -573,7 +583,7 @@ func (r *rewriter) inspect(n syntax.Node) bool {
 		// Push n onto stack.
 		r.stack = append(r.stack, n)
 		if nfor, ok := forRangeFunc(n); ok {
-			loop := &forLoop{nfor: nfor}
+			loop := &forLoop{nfor: nfor, depth: 1 + len(r.forStack)}
 			r.forStack = append(r.forStack, loop)
 			r.startLoop(loop)
 		}
@@ -840,7 +850,7 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 		if x.Tok == syntax.Continue {
 			r.forStack[exitFrom].checkContinue = true
 		} else {
-			exitFrom = i
+			exitFrom = i // exitFrom--
 			r.forStack[exitFrom].checkBreak = true
 		}
 
@@ -851,7 +861,7 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 
 		// Set next to break the appropriate number of times;
 		// the final time may be a continue, not a break.
-		next = perLoopStep * depth
+		next = perLoopStep * (i + 1)
 		if x.Tok == syntax.Continue {
 			next--
 		}
@@ -1088,27 +1098,54 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 			}
 			did[br] = true
 			doBranch := &syntax.BranchStmt{Tok: br.tok, Label: &syntax.Name{Value: br.label}}
-			list = append(list, r.ifNext(syntax.Eql, r.branchNext[br], doBranch))
+			list = append(list, r.ifNext(syntax.Eql, r.branchNext[br], doBranch, true))
 		}
 	}
 	if len(r.forStack) == 1 {
 		if loop.checkRetArgs {
-			list = append(list, r.ifNext(syntax.Eql, -2, retStmt(r.useList(r.retVars))))
+			list = append(list, r.ifNext(syntax.Eql, -2, retStmt(r.useList(r.retVars)), false))
 		}
 		if loop.checkRet {
-			list = append(list, r.ifNext(syntax.Eql, -1, retStmt(nil)))
+			list = append(list, r.ifNext(syntax.Eql, -1, retStmt(nil), false))
 		}
 	} else {
+
+		// Idealized check, implemented more simply for now.
+
+		// // N == depth of this loop, one less than the one just exited.
+		// if #next != 0 {
+		//   if #next >= perLoopStep*N-1 { // this loop
+		//   	if #next >= perLoopStep*N+1 { // error checking
+		//        runtime.panicrangeexit()
+		//   	}
+		//   	rv := #next & 1 == 1 // code generates into #next&1
+		// 	#next = 0
+		// 	return rv
+		//   }
+		//   return false // or handle returns and gotos
+		// }
+
 		if loop.checkRetArgs || loop.checkRet {
 			// Note: next < 0 also handles gotos handled by outer loops.
 			// We set checkRet in that case to trigger this check.
-			list = append(list, r.ifNext(syntax.Lss, 0, retStmt(r.useVar(r.false))))
+			list = append(list, r.ifNext(syntax.Lss, 0, retStmt(r.useVar(r.false)), false))
 		}
-		if loop.checkBreak {
-			list = append(list, r.ifNext(syntax.Geq, perLoopStep, retStmt(r.useVar(r.false))))
+
+		depthStep := perLoopStep * (loop.depth - 1)
+
+		if r.checkFuncMisuse() {
+			list = append(list, r.ifNext(syntax.Gtr, depthStep, r.callPanic(pos), false))
+		} else {
+			list = append(list, r.ifNext(syntax.Gtr, depthStep, nil, true))
 		}
+
 		if loop.checkContinue {
-			list = append(list, r.ifNext(syntax.Eql, perLoopStep-1, retStmt(r.useVar(r.true))))
+			list = append(list, r.ifNext(syntax.Eql, depthStep-1, retStmt(r.useVar(r.true)), true))
+		}
+
+		if loop.checkBreak {
+			list = append(list, r.ifNext(syntax.Eql, depthStep, retStmt(r.useVar(r.false)), true))
+			list = append(list, r.ifNext(syntax.Gtr, 0, retStmt(r.useVar(r.false)), false))
 		}
 	}
 
@@ -1130,32 +1167,27 @@ func retStmt(results syntax.Expr) *syntax.ReturnStmt {
 // When op is >=, adjust is #next -= c.
 // When op is == and c is not -1 or -2, adjust is #next = 0.
 // Otherwise adjust is omitted.
-func (r *rewriter) ifNext(op syntax.Operator, c int, then syntax.Stmt) syntax.Stmt {
+func (r *rewriter) ifNext(op syntax.Operator, c int, then syntax.Stmt, zeroNext bool) syntax.Stmt {
+	var thenList []syntax.Stmt
+	if zeroNext {
+		clr := &syntax.AssignStmt{
+			Lhs: r.next(),
+			Rhs: r.intConst(0),
+		}
+		thenList = append(thenList, clr)
+	}
+	if then != nil {
+		thenList = append(thenList, then)
+	}
 	nif := &syntax.IfStmt{
 		Cond: &syntax.Operation{Op: op, X: r.next(), Y: r.intConst(c)},
 		Then: &syntax.BlockStmt{
-			List: []syntax.Stmt{then},
+			List: thenList,
 		},
 	}
 	tv := syntax.TypeAndValue{Type: r.bool.Type()}
 	tv.SetIsValue()
 	nif.Cond.SetTypeInfo(tv)
-
-	if op == syntax.Geq {
-		sub := &syntax.AssignStmt{
-			Op:  syntax.Sub,
-			Lhs: r.next(),
-			Rhs: r.intConst(c),
-		}
-		nif.Then.List = []syntax.Stmt{sub, then}
-	}
-	if op == syntax.Eql && c != -1 && c != -2 {
-		clr := &syntax.AssignStmt{
-			Lhs: r.next(),
-			Rhs: r.intConst(0),
-		}
-		nif.Then.List = []syntax.Stmt{clr, then}
-	}
 
 	return nif
 }
@@ -1173,21 +1205,22 @@ func setValueType(x syntax.Expr, typ syntax.Type) {
 //
 // where #exitK is the exit guard for loop.
 func (r *rewriter) assertNotExited(start syntax.Pos, loop *forLoop) syntax.Stmt {
-	callPanicExpr := &syntax.CallExpr{
-		Fun: runtimeSym(r.info, "panicrangeexit"),
-	}
-	setValueType(callPanicExpr, nil) // no result type
-
-	callPanic := &syntax.ExprStmt{X: callPanicExpr}
-
 	nif := &syntax.IfStmt{
 		Cond: r.useVar(loop.exitFlag),
 		Then: &syntax.BlockStmt{
-			List: []syntax.Stmt{callPanic},
+			List: []syntax.Stmt{r.callPanic(start)},
 		},
 	}
 	setPos(nif, start)
 	return nif
+}
+
+func (r *rewriter) callPanic(start syntax.Pos) syntax.Stmt {
+	callPanicExpr := &syntax.CallExpr{
+		Fun: runtimeSym(r.info, "panicrangeexit"),
+	}
+	setValueType(callPanicExpr, nil) // no result type
+	return &syntax.ExprStmt{X: callPanicExpr}
 }
 
 // next returns a reference to the #next variable.
