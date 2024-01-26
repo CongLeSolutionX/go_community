@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e94c3efd_855f8298",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-26T13:04:44Z",
+      "side": 1,
+      "message": "Outdated.",
+      "parentUuid": "8b440832_0706f792",
+      "range": {
+        "startLine": 464,
+        "startChar": 17,
+        "endLine": 464,
+        "endChar": 27
+      },
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e53da096_b08ec8d9",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-18T16:54:35Z",
       "side": 1,
       "message": "I\u0027m having trouble figuring out what this sentence means. Can you rephrase?",
+      "range": {
+        "startLine": 466,
+        "startChar": 0,
+        "endLine": 468,
+        "endChar": 32
+      },
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff3d276c_c5365225",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-26T13:04:44Z",
+      "side": 1,
+      "message": "Outdated.",
+      "parentUuid": "e53da096_b08ec8d9",
       "range": {
         "startLine": 466,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a59054_b3ed95c3",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-26T13:04:44Z",
+      "side": 1,
+      "message": "Outdated.",
+      "parentUuid": "08722f13_daf56778",
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75497355_b40e6dd1",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-01-18T16:54:35Z",
       "side": 1,
       "message": "I don\u0027t understand why this is safe — how do we know that `RoundTrip` isn\u0027t still reading these headers?\n\nIn particular, the doc for the `http.RoundTripper` interface says:\n\n\u003e `RoundTrip` may read fields of the request in a separate goroutine.\n\u003e Callers should not mutate or reuse the request until the `Response`\u0027s `Body` has been closed.\n\nI think that implies that we need to synchronize on a call to `outreq.Body.Close` before executing this loop?\n\n(Compare #59310.)",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 10
+      },
+      "revId": "4f5f262c9df309cd0f01b61ce10b93de0f8ef341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f3b2f9_a3d83018",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-26T13:04:44Z",
+      "side": 1,
+      "message": "Outdated.",
+      "parentUuid": "75497355_b40e6dd1",
       "range": {
         "startLine": 484,
         "startChar": 0,
