@@ -2139,7 +2139,7 @@ func testClientTimeoutReturnsContextDeadlineExceeded(t *testing.T, mode testMode
 		w.WriteHeader(200)
 	}))
 	// check that, upon exceeding Client.Timeout, the returned error is context.DeadlineExceeded.
-	cst.c.Timeout = 1 * time.Millisecond
+	cst.c.Timeout = 5 * time.Millisecond
 	req, _ := NewRequest("GET", cst.ts.URL, nil)
 	_, err := cst.c.Do(req)
 	if !errors.Is(err, context.DeadlineExceeded) {
