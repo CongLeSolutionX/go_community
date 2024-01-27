@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24b1560f_7bc7ec94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-27T05:50:23Z",
+      "side": 1,
+      "message": "Considering that https://go-review.googlesource.com/c/go/+/558715 has been CodeReview + 2, I was inexperienced in writing the release notes after changes to release notes, so I put the release notes in another CL.",
+      "revId": "6f55174e3e966b74911a7e60a628f7a8f5d9dc70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
