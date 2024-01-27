@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c09c87_1c5d1f14",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-27T03:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f59f83eb_298be21c",
+      "range": {
+        "startLine": 27,
+        "startChar": 69,
+        "endLine": 27,
+        "endChar": 87
+      },
+      "revId": "923345f35c919f5d99184fa7ec1dc61dc7879024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "859a0865_645d4fd7",
@@ -91,6 +115,30 @@
       "writtenOn": "2024-01-26T15:59:03Z",
       "side": 1,
       "message": "minor nit, but I\u0027d prefer to use the runtime\u0027s `slice` type here (which the compiler is aware of, so it\u0027s not any more brittle) rather than cast to a type that might be wrong. so something like:\n\n```\ndata \u003d ((*slice)(e.data)).array\n```",
+      "range": {
+        "startLine": 118,
+        "startChar": 44,
+        "endLine": 118,
+        "endChar": 50
+      },
+      "revId": "923345f35c919f5d99184fa7ec1dc61dc7879024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b71c77_d66aa924",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-27T03:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "859a0865_645d4fd7",
       "range": {
         "startLine": 118,
         "startChar": 44,
