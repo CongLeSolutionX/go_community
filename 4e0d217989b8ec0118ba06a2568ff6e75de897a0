@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8a5d7c5_774a15c1",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2138,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2024-01-29T23:49:06Z",
+      "side": 1,
+      "message": "That\u0027s actually Damien\u0027s methodology there; https://go-review.googlesource.com/c/go/+/533119/comment/9133758c_cc35a308/\n\nMy original test didn\u0027t even use channels. `r.Context().Done()` would indeed be a more reasonable way to go if one insists on using channels within this test.",
+      "parentUuid": "33f71c3c_b6000622",
+      "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "630960bf_17dca64b",
         "filename": "src/net/http/client_test.go",
         "patchSetId": 4
