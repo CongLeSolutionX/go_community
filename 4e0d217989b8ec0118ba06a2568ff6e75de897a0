@@ -129,6 +129,24 @@
       "parentUuid": "ba9171d2_12117d7f",
       "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72adc2a4_303c5382",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2145,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2024-01-29T23:41:30Z",
+      "side": 1,
+      "message": "sounds to me like if I want to see this change see the light of day I\u0027m going to have to dig deeper into our race condition(s) seen within the build failures and potentially do a bit more error wrapping. Does this sound roughly correct as to the direction I\u0027d need to head?\n\nas for the various comments about this being necessary or not; this isn\u0027t a lone opinion of mine, of course. The way error wrapping in go has been implemented, errors are generally expected to be wrapped these days. \n\nit becomes quite confusing when (various) linters and fellow developers lead you into the habit of wrapping and handling wrapped errors, only to stumble upon stdlib code from before this was common. these string returns in older error type implementations definitely cause a decent amount of confusion. the current behavior I\u0027m attempting to correct here simply is not expected in 2024.",
+      "parentUuid": "d92536e4_4f377fe1",
+      "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
