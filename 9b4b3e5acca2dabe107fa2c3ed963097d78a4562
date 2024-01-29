@@ -16,6 +16,24 @@
       "message": "Same here.",
       "revId": "9b4b3e5acca2dabe107fa2c3ed963097d78a4562",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa72f753_a47c82b7",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-29T13:34:26Z",
+      "side": 0,
+      "message": "@austin@google.com For the same reason here https://go-review.googlesource.com/c/go/+/550596/1/src/cmd/link/internal/ld/dwarf.go#b855\nShould this CL be merged as well?",
+      "parentUuid": "fc715521_5c4b18d1",
+      "revId": "9b4b3e5acca2dabe107fa2c3ed963097d78a4562",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
