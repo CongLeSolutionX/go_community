@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "626ba2e6_33660dda",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2138,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2024-01-29T23:55:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d8a5d7c5_774a15c1",
+      "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "630960bf_17dca64b",
@@ -104,6 +122,30 @@
       "writtenOn": "2024-01-29T15:10:46Z",
       "side": 1,
       "message": "In general any test that relies on timeout behavior either needs a timeout several orders of magnitude longer than the test should ever actually take (such as 5 minutes instead of 5 milliseconds), or needs a retry loop to scale the timeout appropriately to the platform it is running on (see [`runTimeSensitiveTest`](https://cs.opensource.google/go/go/+/master:src/net/http/serve_test.go;l\u003d5831-5844;drc\u003d547eb8d699a63512cf58c7eeae5517ead7debf50)).",
+      "range": {
+        "startLine": 2141,
+        "startChar": 0,
+        "endLine": 2142,
+        "endChar": 37
+      },
+      "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5374ac3_7345af23",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2142,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2024-01-29T23:55:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "630960bf_17dca64b",
       "range": {
         "startLine": 2141,
         "startChar": 0,
