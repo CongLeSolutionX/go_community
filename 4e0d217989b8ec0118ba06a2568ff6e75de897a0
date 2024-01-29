@@ -111,6 +111,24 @@
       "message": "It isn\u0027t clear to me why this error should be `context.DeadlineExceeded` at all.\n\n1. From the test failures in https://go.dev/issue/65287, it seems clear that the `Client.Timeout exceeded while awaiting headers` error returned from `Dial` does not currently wrap `context.DeadlineExceeded`, and it might be impossible for that error to do so with the existing API because `net.AddrError.Err` is stringly-typed (compare #63116).\n\n2. This looks like a failure of abstraction. In this call, there is no user-visible `context.Context` whose deadline is exceeded, so from a user\u0027s perspective, getting back an error wrapping `context.DeadlineExceeded` is surprising. (I would instead expect the error to wrap a [`net.Error`](https://pkg.go.dev/net#Error) for which `err.Timeout()` returns `true`, but perhaps we already have a test for that?)",
       "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d92536e4_4f377fe1",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2145,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-29T22:07:42Z",
+      "side": 1,
+      "message": "The test failures in #65287 seem to point at a race between two timeouts, one being the read timeout on the underlying net.Conn (which results Read returning a net.Error) and the other being the overall request timeout. Depending on which one wins, we get a different error.\n\nI don\u0027t know why increasing Client.Timeout to 5ms would affect this race; I\u0027m dubious that it\u0027s actually going to fix the problem.\n\nHowever, the presence of this race makes me dubious about this change in general--wrapping the underlying error isn\u0027t useful if the underlying error isn\u0027t consistent. And we\u0027re already consistently returning an error which implements `net.Error` for which `err.Timeout()` returns true, so there\u0027s an existing way to detect timeouts that\u0027s independent of the source of the error.\n\nTo summarize (and pretty much just reiterate what Bryan has said):\n\n1. Changing the Timeout duration isn\u0027t going to fix this test. If changing the duration has an effect, the test is flaky.\n2. Wrapping the underlying timeout error is only useful if the error that occurs on timeout is consistent. It isn\u0027t, so either wrapping the error is not useful or we need to do more significant work on what underlying errors are returned on timeout.",
+      "parentUuid": "ba9171d2_12117d7f",
+      "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
