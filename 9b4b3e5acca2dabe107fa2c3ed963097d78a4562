@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "069f92ed_3cbbcc55",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-01-29T19:24:55Z",
+      "side": 0,
+      "message": "Some of these comments should move to the internal/abi.Map* constants. It looks like we already have \"must fit in a uint8\" documented there, but we should move the other observations as well.",
+      "revId": "9b4b3e5acca2dabe107fa2c3ed963097d78a4562",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc715521_5c4b18d1",
         "filename": "src/runtime/map.go",
         "patchSetId": 1
