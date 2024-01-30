@@ -466,7 +466,7 @@ type Nil struct {
 	object
 }
 
-func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
+func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier, writeType bool) {
 	var tname *TypeName
 	typ := obj.Type()
 
@@ -498,7 +498,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 	case *Func:
 		buf.WriteString("func ")
 		writeFuncName(buf, obj, qf)
-		if typ != nil {
+		if writeType && typ != nil {
 			WriteSignature(buf, typ.(*Signature), qf)
 		}
 		return
@@ -527,7 +527,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 	}
 	buf.WriteString(obj.Name())
 
-	if typ == nil {
+	if !writeType || typ == nil {
 		return
 	}
 
@@ -585,7 +585,7 @@ func packagePrefix(pkg *Package, qf Qualifier) string {
 // package-level objects, and may be nil.
 func ObjectString(obj Object, qf Qualifier) string {
 	var buf bytes.Buffer
-	writeObject(&buf, obj, qf)
+	writeObject(&buf, obj, qf, true)
 	return buf.String()
 }
 
