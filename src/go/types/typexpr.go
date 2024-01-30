@@ -7,6 +7,7 @@
 package types
 
 import (
+	"bytes"
 	"fmt"
 	"go/ast"
 	"go/constant"
@@ -48,6 +49,23 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *TypeName, wantType bo
 		}
 	}
 	check.recordUse(e, obj)
+
+	// If we want a type but don't have one, stop right here and avoid potential problems
+	// with missing underlying types. This also gives better error messages in some cases
+	// (see go.dev/issue/65344).
+	_, gotType := obj.(*TypeName)
+	if !gotType && wantType {
+		// don't use Object.String() here - we don't want to access/print the object's type
+		var buf bytes.Buffer
+		writeObject(&buf, obj, check.qualifier, false /* don't write type */)
+		check.errorf(e, NotAType, "%s is not a type", buf.String())
+		// avoid "declared but not used" errors
+		// (don't use Checker.use - we don't want to evaluate too much)
+		if v, _ := obj.(*Var); v != nil && v.pkg == check.pkg /* see Checker.use1 */ {
+			v.used = true
+		}
+		return
+	}
 
 	// Type-check the object.
 	// Only call Checker.objDecl if the object doesn't have a type yet
