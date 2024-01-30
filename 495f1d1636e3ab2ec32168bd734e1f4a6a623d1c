@@ -34,6 +34,41 @@
       "parentUuid": "913c34dd_2199dc3a",
       "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d51d8a7_ed021796",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-30T23:36:16Z",
+      "side": 1,
+      "message": "Is the distinction between canceled and unsuccessful all that clear?\n\nFor example, in the ReverseProxy case, the outbound request is made with the inbound request\u0027s Context. If the inbound request is canceled (if the requester drops its connection, for example), the outbound request is \"canceled\" by the context becoming done. Is ReverseProxy expected to recognize that the Got1xxResponse trace hook may be called after RoundTrip returns in this case?\n\nI think we should either guarantee that Got1xxResponse is never called after RoundTrip returns (and that any existing calls have completed), or make no guarantee.",
+      "parentUuid": "191dfd32_2b26f555",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cef5a673_be6b6de5",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2068,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-01-30T23:36:16Z",
+      "side": 1,
+      "message": "I think this misses the case where a request is canceled by canceling the request context.\n\n(I guess that means the ReverseProxy case I described above does wait for readLoop to finish, but it seems extremely confusing to treat context cancelation different from the legacy cancelation path here.)",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
