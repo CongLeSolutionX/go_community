@@ -200,6 +200,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6b44b98c_2fcf4633",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2142,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2024-01-30T05:42:59Z",
+      "side": 1,
+      "message": "@dneil@google.com As far as I can tell, the only conditions we see the idiosyncrasy from the failing tests (specifically, we see it when the timeout is extremely low, this is important) are when we fail our initialization of the file descriptor, which traces back to `src/internal/poll`.\n\nThis ONLY happens when we fail _extremely_ early, before the API of `src/net` has even got a proper hold on things. We have become FUBAR before we can even start polling the socket. While there is something to be said about looking into wrapping the errors resulting from that condition, it does not make this change a bad idea as it sits, in my opinion. It\u0027s still going the correct direction.",
+      "parentUuid": "4bc432d2_da2fa728",
+      "range": {
+        "startLine": 2141,
+        "startChar": 0,
+        "endLine": 2142,
+        "endChar": 37
+      },
+      "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba9171d2_12117d7f",
         "filename": "src/net/http/client_test.go",
         "patchSetId": 4
