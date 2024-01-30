@@ -261,6 +261,24 @@
       "parentUuid": "72adc2a4_303c5382",
       "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18b8916e_f23b17f2",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2145,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2024-01-30T00:59:48Z",
+      "side": 1,
+      "message": "In terms of raw English, I don\u0027t disagree. I apologize, I thought it was implied that I meant error types that are created higher up the chain, i.e: after earlier, causal errors.\n\nAgain, see here: https://github.com/golang/go/blob/99efe7c39e80b92511bb06153da4d4d8db6138a6/src/net/net.go#L581-L602\n\nThis behavior that I am attempting to introduce here maintains consistency with `net`. (and many others...)",
+      "parentUuid": "b030459b_033652d2",
+      "revId": "4e0d217989b8ec0118ba06a2568ff6e75de897a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
