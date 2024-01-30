@@ -16,6 +16,24 @@
       "message": "Why skip waiting when the request is canceled?\n\nDoesn\u0027t this mean that there\u0027s still a race condition if a request times out?",
       "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "191dfd32_2b26f555",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-30T03:00:37Z",
+      "side": 1,
+      "message": "Ideally, we want all ***unsuccessful*** roundtrips to wait for `readLoop` and `writeLoop` to exit before returning to callers. However, if the caller has canceled the request voluntarily, they may expect `RoundTrip` to return immediately, for instance, [TestTransportDecrementConnWhenIdleConnRemoved](https://go.googlesource.com/go/+/refs/heads/master/src/net/http/transport_test.go#6505). In that case, it could get stuck infinitely if we don\u0027t return from `RoundTrip` right away.",
+      "parentUuid": "913c34dd_2199dc3a",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
