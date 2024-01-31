@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2366cc62_47c0d74e",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-31T04:29:09Z",
+      "side": 1,
+      "message": "nit: I was talking about [TestCancelRequestWhenSharingConnection](https://go.googlesource.com/go/+/refs/heads/master/src/net/http/transport_test.go#6729), not TestTransportDecrementConnWhenIdleConnRemoved, apologies for that.\n\nTherefore, this is actually for client-side, check out `TestCancelRequestWhenSharingConnection` for details.\n\n\u003e I think we should either guarantee that Got1xxResponse is never called after RoundTrip returns (and that any existing calls have completed), or make no guarantee.\n\nWe\u0027ve already made such a guarantee in the no-errors case (might not make an explicit document about it, but it\u0027s done in code implicitly), so it would feel unreasonable to revoke that guarantee from the errors cases.\n\nAs for your example, the inbound request to ReverseProxy (or other HTTP handlers) will only be canceled ***after*** the `ServeHTTP` returns according to `net/http.server.go` (please correct me if I\u0027m missing something), so this case does not seem to exist in the real world. But if you argue that we may want to interrupt the HTTP handler by canceling the request during `http.conn.serve` in the future, then I have to admit that your example is valid and the potential data race might occur at some point.\n\nBut let\u0027s put this example aside for now, and go back to `TestCancelRequestWhenSharingConnection` first, this test is way special because it would cause the `readLoop` to be blocked at [here](https://go.googlesource.com/go/+/refs/heads/master/src/net/http/transport_test.go#6760) before the first response is sent back to the caller, so when the second request was canceled and the `client.Do` was also blocked, which makes the line `close(idlec)` below unreachable, which makes the test was blocked at `\u003c-idlec`.\n\nThus, by ***unsuccessful***, I meant cases with errors, we should wait for both `writeLoop` and `readLoop` to exit before returning from a roundtrip, but there might be some existing cases that block the `readLoop` via `http.ClientTrace.Got100Continue`/`Got1xxResponse`/`PutIdleConn`, etc. intentionally for some reasons where the roundtrip will block infinitely if it waits for `readLoop`.\n\nAll in all, the most important question here is: do we dare to afford the cost of breaking a few existing cases I mentioned above by treating all errors equally and having the `RoundTrip` wait for both `writeLoop` and `readLoop` to finish? If so, then I think we can rewrite `TestCancelRequestWhenSharingConnection` and go along.",
+      "parentUuid": "6d51d8a7_ed021796",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cef5a673_be6b6de5",
         "filename": "src/net/http/transport.go",
         "patchSetId": 6
@@ -67,6 +85,24 @@
       "writtenOn": "2024-01-30T23:36:16Z",
       "side": 1,
       "message": "I think this misses the case where a request is canceled by canceling the request context.\n\n(I guess that means the ReverseProxy case I described above does wait for readLoop to finish, but it seems extremely confusing to treat context cancelation different from the legacy cancelation path here.)",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93d219de_33830ecd",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2068,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-31T04:29:09Z",
+      "side": 1,
+      "message": "By legacy cancelation, I assume that you meant `req.Request.Cancel`? If so, then this error check has already covered both cases cuz the `pc.closed` passed to `mapRoundTripError` is `errRequestCanceled` for both cases.",
+      "parentUuid": "cef5a673_be6b6de5",
       "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
