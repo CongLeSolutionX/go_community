@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa159d66_3d0f3413",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-31T04:38:18Z",
+      "side": 1,
+      "message": "BTW, I personally don\u0027t like the idea that users put blocking code (blocking for a long time or even infinite time) in `http.ClientTrace.Got100Continue`/`Got1xxResponse`/`PutIdleConn`, it seems extremely buggy to me, so I\u0027m inclined to force them not to do that, which also makes our work here much easier by waiting `readLoop` to exit on all errors.",
+      "parentUuid": "2366cc62_47c0d74e",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cef5a673_be6b6de5",
         "filename": "src/net/http/transport.go",
         "patchSetId": 6
