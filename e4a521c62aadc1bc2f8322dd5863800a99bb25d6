@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "840bdece_89f8f180",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-01-31T15:41:43Z",
+      "side": 1,
+      "message": "Hi,\nI\u0027m working on migrating the netpoll (APIs) to `internal/runtime`. It\u0027s a big project involving various modules, so I\u0027m trying to break it down into several CLs, this one will move the first package `syscall` in `runtime/internal`.",
+      "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
