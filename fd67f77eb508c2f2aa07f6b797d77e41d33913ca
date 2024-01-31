@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121ca5dd_52be15ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-01-31T23:18:01Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "fd67f77eb508c2f2aa07f6b797d77e41d33913ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e48266c_7c9fdd82",
+        "filename": "src/runtime/debug/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-01-31T23:18:01Z",
+      "side": 1,
+      "message": "are concurrent calls to this supposed to have well-defined semantics? to make reasoning about setCrashFD simpler, it might be worth putting a sync.Mutex around this call.\n\nup to you. I\u0027m pretty sure that this will already behave reasonably in the face of multiple concurrent SetCrashOutput calls.",
+      "range": {
+        "startLine": 43,
+        "startChar": 5,
+        "endLine": 43,
+        "endChar": 19
+      },
+      "revId": "fd67f77eb508c2f2aa07f6b797d77e41d33913ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b8ea1d8_91d5ba97",
+        "filename": "src/runtime/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-01-31T23:18:01Z",
+      "side": 1,
+      "message": "I thought through this and came to the same conclusions. I think this is correct.\n\nI don\u0027t know if you want to go so far as to guarantee this, but I think this is even correct when you consider multiple producers and one consume (that is, multiple concurrent setCrashFDs and a single writeErrData). because panicking is always incremented before the load of crashFD, concurrent swaps with the load in any order always result in none of the involved FDs getting closed.",
+      "range": {
+        "startLine": 262,
+        "startChar": 1,
+        "endLine": 275,
+        "endChar": 29
+      },
+      "revId": "fd67f77eb508c2f2aa07f6b797d77e41d33913ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
