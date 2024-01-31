@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9d49135_182d01d5",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-01-31T19:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41282a71_2e9dec62",
+      "range": {
+        "startLine": 271,
+        "startChar": 1,
+        "endLine": 272,
+        "endChar": 15
+      },
+      "revId": "b33edf4bbee2f4dec11fa99cf4fcb2f5d1490c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ba34fc2_704b086d",
@@ -91,6 +115,24 @@
       "writtenOn": "2024-01-31T15:26:47Z",
       "side": 1,
       "message": "I wonder whether we should additionally note (where?) that this doesn\u0027t solve the problem of surprising results when incomplete syntax nodes compute their end extent, as for example with a \u0027struct\u0027 token at EOF. See https://go.dev/play/p/PEj1kIyakyl",
+      "revId": "b33edf4bbee2f4dec11fa99cf4fcb2f5d1490c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5a39754_e877cebd",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-01-31T19:50:00Z",
+      "side": 1,
+      "message": "I added a link to the issue in the doc. More useful than a lengthy explanation here. This code is for experts, anyway.",
+      "parentUuid": "7ba34fc2_704b086d",
       "revId": "b33edf4bbee2f4dec11fa99cf4fcb2f5d1490c70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
