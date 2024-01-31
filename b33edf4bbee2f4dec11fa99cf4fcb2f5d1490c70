@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87366f18_05be40bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-01-31T01:46:34Z",
+      "side": 1,
+      "message": "This addresses a long-open issue. This is the solution we thought might be best (as discussed on the issue). We should move forward with something like this or close the issue for good.\n\nSending this out early in the cycle so we can get a lot of exposure.\n\nPlease take a look, thanks.",
+      "revId": "b33edf4bbee2f4dec11fa99cf4fcb2f5d1490c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
