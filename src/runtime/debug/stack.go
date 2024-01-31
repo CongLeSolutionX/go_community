@@ -33,8 +33,12 @@ func Stack() []byte {
 
 // SetCrashOutput configures a single additional file where unhandled
 // panics and other fatal errors are printed, in addition to standard error.
-// There is only one additional file: calling SetCrashOutput again
-// overrides any earlier call; it does not close the previous file.
+// There is only one additional file: calling SetCrashOutput again overrides
+// any earlier call.
+// SetCrashOutput uses a copy of f; it is the caller's responsibility to close
+// f when they are finished with it.
+// Closing f does not affect the configured crash output and overriding the
+// output with a new call to SetCrashOutput does not affect f.
 // SetCrashOutput(nil) disables the use of any additional file.
 func SetCrashOutput(f *os.File) error {
 	fd := ^uintptr(0)
