@@ -12,6 +12,10 @@ import (
 	"sync/atomic"
 )
 
+// If debug is set, invalid offset and position values cause a panic
+// (go.dev/issue/57490).
+const debug = false
+
 // -----------------------------------------------------------------------------
 // Positions
 
@@ -261,24 +265,42 @@ func (f *File) AddLineColumnInfo(offset int, filename string, line, column int) 
 	f.mutex.Unlock()
 }
 
-// Pos returns the Pos value for the given file offset;
-// the offset must be <= f.Size().
-// f.Pos(f.Offset(p)) == p.
-func (f *File) Pos(offset int) Pos {
-	if offset > f.size {
-		panic(fmt.Sprintf("invalid file offset %d (should be <= %d)", offset, f.size))
+// fixOffset fixes an out-of-bounds offset such that 0 <= offset <= f.size.
+func (f *File) fixOffset(offset int) int {
+	switch {
+	default:
+		return offset
+	case offset < 0:
+		if !debug {
+			return 0
+		}
+	case offset > f.size:
+		if !debug {
+			return f.size
+		}
 	}
-	return Pos(f.base + offset)
+
+	// only generate this code if needed
+	if debug {
+		panic(fmt.Sprintf("offset %d out of bounds [0, %d] (position %d out of bounds [%d, %d])",
+			offset, f.size,
+			f.base+offset, f.base, f.base+f.size))
+	}
+	return 0
+}
+
+// Pos returns the Pos value for the given file offset;
+// if offset is out of bounds it is corrected as needed.
+// f.Offset(f.Pos(offset)) == offset.
+func (f *File) Pos(offset int) Pos {
+	return Pos(f.base + f.fixOffset(offset))
 }
 
 // Offset returns the offset for the given file position p;
-// p must be a valid [Pos] value in that file.
-// f.Offset(f.Pos(offset)) == offset.
+// if p is out of bounds it is corrected as needed.
+// f.Pos(f.Offset(p)) == p.
 func (f *File) Offset(p Pos) int {
-	if int(p) < f.base || int(p) > f.base+f.size {
-		panic(fmt.Sprintf("invalid Pos value %d (should be in [%d, %d])", p, f.base, f.base+f.size))
-	}
-	return int(p) - f.base
+	return f.fixOffset(int(p) - f.base)
 }
 
 // Line returns the line number for the given file position p;
@@ -330,27 +352,26 @@ func (f *File) unpack(offset int, adjusted bool) (filename string, line, column 
 }
 
 func (f *File) position(p Pos, adjusted bool) (pos Position) {
-	offset := int(p) - f.base
+	offset := f.fixOffset(int(p) - f.base)
 	pos.Offset = offset
 	pos.Filename, pos.Line, pos.Column = f.unpack(offset, adjusted)
 	return
 }
 
 // PositionFor returns the Position value for the given file position p.
+// If p is out of bounds, it is corrected as needed.
 // If adjusted is set, the position may be adjusted by position-altering
 // //line comments; otherwise those comments are ignored.
 // p must be a Pos value in f or NoPos.
 func (f *File) PositionFor(p Pos, adjusted bool) (pos Position) {
 	if p != NoPos {
-		if int(p) < f.base || int(p) > f.base+f.size {
-			panic(fmt.Sprintf("invalid Pos value %d (should be in [%d, %d])", p, f.base, f.base+f.size))
-		}
 		pos = f.position(p, adjusted)
 	}
 	return
 }
 
 // Position returns the Position value for the given file position p.
+// If p is out of bounds, it is corrected as needed.
 // Calling f.Position(p) is equivalent to calling f.PositionFor(p, true).
 func (f *File) Position(p Pos) (pos Position) {
 	return f.PositionFor(p, true)
