@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2195ceb_fce14aa2",
+        "filename": "src/runtime/pinner.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-31T02:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5a45b9e_121969b2",
+      "range": {
+        "startLine": 121,
+        "startChar": 53,
+        "endLine": 121,
+        "endChar": 72
+      },
+      "revId": "3e5290ba31aba3e425dcc9540948d723b5997934",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ded8869_e48919ab",
@@ -74,6 +98,24 @@
       "writtenOn": "2024-01-30T18:21:13Z",
       "side": 1,
       "message": "This might not work to get a heap string, as we have optimizations for short strings that use the staticuint64s backing store. I don\u0027t think this expression has that problem currently, but it might in the future. For instance, string([]byte{byte(fastrand())}) does (see runtime/strings.go:slicebytetostring).\n\nMaybe do fmt.Sprintf(\"%d\", fastrand())?",
+      "revId": "3e5290ba31aba3e425dcc9540948d723b5997934",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "339b2115_b294aee0",
+        "filename": "src/runtime/pinner_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-31T02:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ded8869_e48919ab",
       "revId": "3e5290ba31aba3e425dcc9540948d723b5997934",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
