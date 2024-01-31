@@ -768,7 +768,7 @@ func testServerReadTimeout(t *testing.T, mode testMode) {
 
 func TestServerWriteTimeout(t *testing.T) { run(t, testServerWriteTimeout) }
 func testServerWriteTimeout(t *testing.T, mode testMode) {
-	for timeout := 5 * time.Millisecond; ; timeout *= 2 {
+	for timeout := 1 * time.Millisecond; ; timeout *= 2 {
 		errc := make(chan error, 2)
 		cst := newClientServerTest(t, mode, HandlerFunc(func(res ResponseWriter, req *Request) {
 			errc <- nil
@@ -776,7 +776,34 @@ func testServerWriteTimeout(t *testing.T, mode testMode) {
 			errc <- err
 		}), func(ts *httptest.Server) {
 			ts.Config.WriteTimeout = timeout
+			t.Logf("Server.Config.WriteTimeout = %v", timeout)
 		})
+
+		// The server's WriteTimeout parameter also applies to reads during the TLS
+		// handshake. The client makes the last write during the handshake, and if
+		// the server happens to time out during the read of that write, the client
+		// may think that the connection was accepted even though the server thinks
+		// it timed out.
+		//
+		// The client only notices that the server connection is gone when it goes
+		// to actually write the request — and when that fails, it retries
+		// internally (the same as if the server had closed the connection due to a
+		// racing idle-timeout).
+		//
+		// With unlucky and very stable scheduling (as may be the case with the fake wasm
+		// net stack), this can result in an inifinite retry loop that doesn't
+		// propagate the error up far enough for us to adjust the WriteTimeout.
+		//
+		// To avoid that problem, we explicitly forbid internal retries by rejecting
+		// them in a Proxy hook in the transport.
+		var retries atomic.Int32
+		cst.c.Transport.(*Transport).Proxy = func(*Request) (*url.URL, error) {
+			if retries.Add(1) != 1 {
+				return nil, errors.New("too many retries")
+			}
+			return nil, nil
+		}
+
 		res, err := cst.c.Get(cst.ts.URL)
 		if err != nil {
 			// Probably caused by the write timeout expiring before the handler runs.
