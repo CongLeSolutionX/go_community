@@ -83,6 +83,30 @@
       },
       "revId": "21598bccf14a914c7e575561e2ef7784cd73a68d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60b8da19_95c150e6",
+        "filename": "src/internal/abi/map.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-01-31T03:42:13Z",
+      "side": 1,
+      "message": "\"the cutoff size for\" what?\nThat sentence is only half complete.\n\nMaybe \"Note: fast map functions cannot handle big elems (bigger than MapMaxElemBytes).\"",
+      "parentUuid": "2788f276_20b113f4",
+      "range": {
+        "startLine": 16,
+        "startChar": 48,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "21598bccf14a914c7e575561e2ef7784cd73a68d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
