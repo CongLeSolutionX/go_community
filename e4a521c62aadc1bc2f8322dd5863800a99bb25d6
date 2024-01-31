@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef4faae_30c777b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-31T16:20:01Z",
+      "side": 1,
+      "message": "#65355",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "840bdece_89f8f180",
@@ -14,6 +37,41 @@
       "writtenOn": "2024-01-31T15:41:43Z",
       "side": 1,
       "message": "Hi,\nI\u0027m working on migrating the netpoll (APIs) to `internal/runtime`. It\u0027s a big project involving various modules, so I\u0027m trying to break it down into several CLs, this one will move the first package `syscall` in `runtime/internal`.",
+      "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7874c37d_48152053",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-31T16:20:01Z",
+      "side": 1,
+      "message": "This package and `runtime/internal/atomic` should be easy moves. Anything else could get complicated fast, so you may want to send a sketch of what you are thinking (e.g., on the bug) before investing a ton of time into CLs.",
+      "parentUuid": "840bdece_89f8f180",
+      "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1de83255_b5287b37",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-31T16:20:01Z",
+      "side": 1,
+      "message": "linkname no longer required 😄. Though a second CL to change this may be best in order to isolate issues that causes vs the overall move.",
       "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
