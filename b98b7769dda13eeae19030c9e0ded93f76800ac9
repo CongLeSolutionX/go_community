@@ -22,6 +22,30 @@
       },
       "revId": "b98b7769dda13eeae19030c9e0ded93f76800ac9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13fd3079_da735ac2",
+        "filename": "src/runtime/debug/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-01-31T20:46:53Z",
+      "side": 1,
+      "message": "Done, thanks. I reworded the second sentence a bit to be more clear that SetCrashOutput(nil) doesn\u0027t disable the normal stderr output.",
+      "parentUuid": "8c9a62ab_bd8d5a10",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "b98b7769dda13eeae19030c9e0ded93f76800ac9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
