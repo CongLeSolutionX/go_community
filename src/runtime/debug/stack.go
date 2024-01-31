@@ -40,6 +40,8 @@ func Stack() []byte {
 // Closing f does not affect the configured crash output and overriding the
 // output with a new call to SetCrashOutput does not affect f.
 // SetCrashOutput(nil) disables the use of any additional file.
+// If called concurrently with a crash, some in-progress output may be written
+// to the old file even after an overriding SetCrashOutput returns.
 func SetCrashOutput(f *os.File) error {
 	fd := ^uintptr(0)
 	if f != nil {
