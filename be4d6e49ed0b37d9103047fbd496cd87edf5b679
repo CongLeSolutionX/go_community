@@ -16,6 +16,24 @@
       "message": "We should probably set different prefixes here for each subcommand — some flags (especially the short forms) have different meanings for different commands.",
       "revId": "be4d6e49ed0b37d9103047fbd496cd87edf5b679",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e582663b_38db6dd4",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-01-31T18:37:41Z",
+      "side": 1,
+      "message": "Hm so I was originally thinking of doing that but then I figured we could just add the subcommand as its own counter and then correlate the name of the subcommand with the flag later to avoid cluttering the counter names. What do you think?",
+      "parentUuid": "41af0f22_5dcf9325",
+      "revId": "be4d6e49ed0b37d9103047fbd496cd87edf5b679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
