@@ -26,6 +26,7 @@ import (
 	"cmd/internal/sys"
 	"fmt"
 	"internal/abi"
+	"internal/buildcfg"
 	"log"
 	"math/bits"
 )
@@ -58,7 +59,10 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 			AADDIW, ASLLIW, ASRLIW, ASRAIW, AADDW, ASUBW, ASLLW, ASRLW, ASRAW,
 			AADD, AAND, AOR, AXOR, ASLL, ASRL, ASUB, ASRA,
 			AMUL, AMULH, AMULHU, AMULHSU, AMULW, ADIV, ADIVU, ADIVW, ADIVUW,
-			AREM, AREMU, AREMW, AREMUW:
+			AREM, AREMU, AREMW, AREMUW,
+			AADDUW, ASH1ADD, ASH1ADDUW, ASH2ADD, ASH2ADDUW, ASH3ADD, ASH3ADDUW, ASLLIUW,
+			AANDN, AORN, AXNOR, AMAX, AMAXU, AMIN, AMINU, AROL, AROLW, AROR, ARORW, ARORI, ARORIW,
+			ABCLR, ABCLRI, ABEXT, ABEXTI, ABINV, ABINVI, ABSET, ABSETI:
 			p.Reg = p.To.Reg
 		}
 	}
@@ -97,6 +101,18 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 			p.As = ASRLIW
 		case ASRAW:
 			p.As = ASRAIW
+		case AROR:
+			p.As = ARORI
+		case ARORW:
+			p.As = ARORIW
+		case ABCLR:
+			p.As = ABCLRI
+		case ABEXT:
+			p.As = ABEXTI
+		case ABINV:
+			p.As = ABINVI
+		case ABSET:
+			p.As = ABSETI
 		}
 	}
 
@@ -1102,6 +1118,13 @@ func wantEvenOffset(ctxt *obj.Link, ins *instruction, offset int64) {
 	}
 }
 
+func validateRII(ctxt *obj.Link, ins *instruction) {
+	wantIntReg(ctxt, ins, "rd", ins.rd)
+	wantIntReg(ctxt, ins, "rs1", ins.rs1)
+	wantNoneReg(ctxt, ins, "rs2", ins.rs2)
+	wantNoneReg(ctxt, ins, "rs3", ins.rs3)
+}
+
 func validateRIII(ctxt *obj.Link, ins *instruction) {
 	wantIntReg(ctxt, ins, "rd", ins.rd)
 	wantIntReg(ctxt, ins, "rs1", ins.rs1)
@@ -1253,6 +1276,10 @@ func encodeR4(as obj.As, rs1, rs2, rs3, rd, funct3, funct2 uint32) uint32 {
 		panic("encodeR4: funct2 requires more than 2 bits")
 	}
 	return rs3<<27 | funct2<<25 | rs2<<20 | rs1<<15 | enc.funct3<<12 | funct3<<12 | rd<<7 | enc.opcode
+}
+
+func encodeRII(ins *instruction) uint32 {
+	return encodeR(ins.as, regI(ins.rs1), 0, regI(ins.rd), ins.funct3, ins.funct7)
 }
 
 func encodeRIII(ins *instruction) uint32 {
@@ -1486,6 +1513,7 @@ var (
 	// indicates an S-type instruction with rs2 being a float register.
 
 	rIIIEncoding  = encoding{encode: encodeRIII, validate: validateRIII, length: 4}
+	rIIEncoding   = encoding{encode: encodeRII, validate: validateRII, length: 4}
 	rFFFEncoding  = encoding{encode: encodeRFFF, validate: validateRFFF, length: 4}
 	rFFFFEncoding = encoding{encode: encodeRFFFF, validate: validateRFFFF, length: 4}
 	rFFIEncoding  = encoding{encode: encodeRFFI, validate: validateRFFI, length: 4}
@@ -1711,6 +1739,53 @@ var encodings = [ALAST & obj.AMask]encoding{
 
 	// 12.7: Double-Precision Floating-Point Classify Instruction
 	AFCLASSD & obj.AMask: rFIEncoding,
+
+	// RVB Standard Extension for Bit-Manipulation Instructions
+	// Zba
+	AADDUW & obj.AMask:    rIIIEncoding,
+	ASH1ADD & obj.AMask:   rIIIEncoding,
+	ASH1ADDUW & obj.AMask: rIIIEncoding,
+	ASH2ADD & obj.AMask:   rIIIEncoding,
+	ASH2ADDUW & obj.AMask: rIIIEncoding,
+	ASH3ADD & obj.AMask:   rIIIEncoding,
+	ASH3ADDUW & obj.AMask: rIIIEncoding,
+	ASLLIUW & obj.AMask:   iIEncoding,
+
+	// Zbb
+	AANDN & obj.AMask:  rIIIEncoding,
+	ACLZ & obj.AMask:   rIIEncoding,
+	ACLZW & obj.AMask:  rIIEncoding,
+	ACPOP & obj.AMask:  rIIEncoding,
+	ACPOPW & obj.AMask: rIIEncoding,
+	ACTZ & obj.AMask:   rIIEncoding,
+	ACTZW & obj.AMask:  rIIEncoding,
+	AMAX & obj.AMask:   rIIIEncoding,
+	AMAXU & obj.AMask:  rIIIEncoding,
+	AMIN & obj.AMask:   rIIIEncoding,
+	AMINU & obj.AMask:  rIIIEncoding,
+	AORCB & obj.AMask:  iIEncoding,
+	AORN & obj.AMask:   rIIIEncoding,
+	AREV8 & obj.AMask:  iIEncoding,
+	AROL & obj.AMask:   rIIIEncoding,
+	AROLW & obj.AMask:  rIIIEncoding,
+	AROR & obj.AMask:   rIIIEncoding,
+	ARORI & obj.AMask:  iIEncoding,
+	ARORIW & obj.AMask: iIEncoding,
+	ARORW & obj.AMask:  rIIIEncoding,
+	ASEXTB & obj.AMask: rIIEncoding,
+	ASEXTH & obj.AMask: rIIEncoding,
+	AXNOR & obj.AMask:  rIIIEncoding,
+	AZEXTH & obj.AMask: rIIEncoding,
+
+	// Zbs
+	ABCLR & obj.AMask:  rIIIEncoding,
+	ABCLRI & obj.AMask: iIEncoding,
+	ABEXT & obj.AMask:  rIIIEncoding,
+	ABEXTI & obj.AMask: iIEncoding,
+	ABINV & obj.AMask:  rIIIEncoding,
+	ABINVI & obj.AMask: iIEncoding,
+	ABSET & obj.AMask:  rIIIEncoding,
+	ABSETI & obj.AMask: iIEncoding,
 
 	// Privileged ISA
 
@@ -2077,6 +2152,17 @@ func instructionsForMOV(p *obj.Prog) []*instruction {
 		case AMOVD: // MOVD Ra, Rb -> FSGNJD Ra, Ra, Rb
 			ins.as, ins.rs1 = AFSGNJD, uint32(p.From.Reg)
 		case AMOVB, AMOVH:
+			if buildcfg.GORISCV64 >= 22 {
+				ins.rs1 = uint32(p.From.Reg)
+				ins.rs2 = obj.REG_NONE
+				if p.As == AMOVB { // MOVB Ra, Rb -> SEXTB Ra, Rb
+					ins.as = ASEXTB
+				}
+				if p.As == AMOVH { // MOVH Ra, Rb -> SEXTH Ra, Rb
+					ins.as = ASEXTH
+				}
+				break
+			}
 			// Use SLLI/SRAI to extend.
 			ins.as, ins.rs1, ins.rs2 = ASLLI, uint32(p.From.Reg), obj.REG_NONE
 			if p.As == AMOVB {
@@ -2087,6 +2173,18 @@ func instructionsForMOV(p *obj.Prog) []*instruction {
 			ins2 := &instruction{as: ASRAI, rd: ins.rd, rs1: ins.rd, imm: ins.imm}
 			inss = append(inss, ins2)
 		case AMOVHU, AMOVWU:
+			if buildcfg.GORISCV64 >= 22 {
+				ins.rs1 = uint32(p.From.Reg)
+				if p.As == AMOVHU { // MOVHU Ra, Rb -> ZEXTH Ra, Rb
+					ins.as = AZEXTH
+					ins.rs2 = obj.REG_NONE
+				}
+				if p.As == AMOVWU { // MOVWU Ra, Rb -> ADDUW X0, Ra, Rb
+					ins.as = AADDUW
+					ins.rs2 = REG_ZERO
+				}
+				break
+			}
 			// Use SLLI/SRLI to extend.
 			ins.as, ins.rs1, ins.rs2 = ASLLI, uint32(p.From.Reg), obj.REG_NONE
 			if p.As == AMOVHU {
@@ -2358,15 +2456,25 @@ func instructionsForProg(p *obj.Prog) []*instruction {
 		ins.as = AFSGNJND
 		ins.rs1 = uint32(p.From.Reg)
 
-	case ASLLI, ASRLI, ASRAI:
+	case ASLLI, ASRLI, ASRAI, ASLLIUW, ARORI, ABCLRI, ABEXTI, ABINVI, ABSETI:
 		if ins.imm < 0 || ins.imm > 63 {
 			p.Ctxt.Diag("%v: shift amount out of range 0 to 63", p)
 		}
 
-	case ASLLIW, ASRLIW, ASRAIW:
+	case ASLLIW, ASRLIW, ASRAIW, ARORIW:
 		if ins.imm < 0 || ins.imm > 31 {
 			p.Ctxt.Diag("%v: shift amount out of range 0 to 31", p)
 		}
+	case ACLZ, ACLZW, ACTZ, ACTZW, ACPOP, ACPOPW, ASEXTB, ASEXTH, AZEXTH:
+		ins.rs1 = uint32(p.From.Reg)
+		ins.rs2 = obj.REG_NONE
+
+	case AORCB, AREV8:
+		insEnc := encode(p.As)
+		ins.rd = uint32(p.To.Reg)
+		ins.rs1 = uint32(p.From.Reg)
+		ins.rs2 = obj.REG_NONE
+		ins.imm = insEnc.csr
 	}
 
 	for _, ins := range inss {
