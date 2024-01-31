@@ -59,6 +59,30 @@
       },
       "revId": "21598bccf14a914c7e575561e2ef7784cd73a68d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2788f276_20b113f4",
+        "filename": "src/internal/abi/map.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-01-31T03:28:41Z",
+      "side": 1,
+      "message": "no \n\t// Maximum key or elem size to keep inline (instead of mallocing per element).\n\t// Must fit in a uint8.\n\t// Fast versions cannot handle big elems - the cutoff size for\n\t// fast versions in cmd/compile/internal/gc/walk.go must be at most this elem.\n\t\nremove last line \n\nexactly \n// Maximum key or elem size to keep inline (instead of mallocing per element).\n\t// Must fit in a uint8.\n\t// Fast versions cannot handle big elems - the cutoff size for",
+      "parentUuid": "0283e771_b6d1f266",
+      "range": {
+        "startLine": 16,
+        "startChar": 48,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "21598bccf14a914c7e575561e2ef7784cd73a68d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
