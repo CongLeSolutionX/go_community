@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be222df6_0dbdd76c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-02-01T06:36:48Z",
+      "side": 1,
+      "message": "LGTM.\n\nNice change and nice tests.\n\nThank you.\n\nAlex",
+      "revId": "9368ced7555d9320e93e83e18a67faa9af1226b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
