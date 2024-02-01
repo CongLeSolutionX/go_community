@@ -107,6 +107,24 @@
       "message": "Maybe if we had internal/reflectabi this CL would go there? But I\u0027m fine as is for this one.\n\nLooks ok, but for the trybot failure.\nRobert, this looks like it should be an allowed moving of a type using a type alias, but the ABI check is complaining about it. Is it not ok? Or is the ABI check a false positive?",
       "revId": "24f98123cdccb683bcdaa4c6ff10b749cadcbc86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05546764_9c26517a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-01T20:51:15Z",
+      "side": 1,
+      "message": "Sorry, I haven\u0027t gotten to this yet. I\u0027m not sure the API checker is doing the right thing with aliases. I filed #65437 and assigned it to me.",
+      "parentUuid": "78fff946_45c8af05",
+      "revId": "24f98123cdccb683bcdaa4c6ff10b749cadcbc86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
