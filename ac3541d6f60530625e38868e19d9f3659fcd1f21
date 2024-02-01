@@ -16,6 +16,24 @@
       "message": "These formatting changes (also below) look unrelated and will break syscall wrapper generation, see mksyscall.pl",
       "revId": "ac3541d6f60530625e38868e19d9f3659fcd1f21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e99fc6d6_2a8bbf07",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-01T07:06:26Z",
+      "side": 1,
+      "message": "Oh, sorry for that. I think those were formatted by some plugin automatically, I\u0027ll revert it.",
+      "parentUuid": "a1b4c7de_65927ab4",
+      "revId": "ac3541d6f60530625e38868e19d9f3659fcd1f21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
