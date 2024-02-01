@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea40dac6_b9a137ce",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-01T13:13:39Z",
+      "side": 1,
+      "message": "It would be highly preferable to break this into multiple smaller changes, which are easier to review/iterate on/reason about. Each change should also include codegen tests where appropriate (although we may need to extend codegen for GORISCV64 support).\n\nAdditionally, we do not yet have a builder or trybot running with GORISCV64\u003d22, which means we have no way of validating these changes (other than manually).",
+      "range": {
+        "startLine": 826,
+        "startChar": 0,
+        "endLine": 826,
+        "endChar": 58
+      },
+      "revId": "1c8d652dae97099383a926705ca925ad8b43bfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a66e5046_b552c0ba",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-01T13:13:39Z",
+      "side": 1,
+      "message": "Rather than just saying Zba, it would be preferable to explain what the rules are doing (see existing comments for examples).",
+      "range": {
+        "startLine": 827,
+        "startChar": 3,
+        "endLine": 827,
+        "endChar": 6
+      },
+      "revId": "1c8d652dae97099383a926705ca925ad8b43bfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d8cc09_0a830d48",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-01T13:13:39Z",
+      "side": 1,
+      "message": "The ordering is strange/mixed - 64/8/16/32 here, 8/16/32/64 and 64/32/16/8 elsewhere. We should use 64/32/16/8 throughout.",
+      "revId": "1c8d652dae97099383a926705ca925ad8b43bfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ad10a0_efb2f251",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-01T13:13:39Z",
+      "side": 1,
+      "message": "This sounds like a better TrailingZero should be implemented instead. Either way, this is rule is generic and not specific to GORISCV64 \u003e\u003d 22 (if it is indeed necessary).",
+      "revId": "1c8d652dae97099383a926705ca925ad8b43bfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec73e457_7775ee24",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-01T13:13:39Z",
+      "side": 1,
+      "message": "We should be able to do better versions for 16 and 8 as well.",
+      "revId": "1c8d652dae97099383a926705ca925ad8b43bfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e3dda83_8d35654e",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-01T13:13:39Z",
+      "side": 1,
+      "message": "We should be able to avoid this by having appropriate rewrite rules for Rewrite and for RORW with constant to RORIW, ROR with constant to RORI, etc.",
+      "revId": "1c8d652dae97099383a926705ca925ad8b43bfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5dafa36_c89d8f89",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-01T13:13:39Z",
+      "side": 1,
+      "message": "These are getting very complex quickly - what are these trying to do and why can we not replace the earlier expansions instead (same question goes for most of the rules below)?",
+      "revId": "1c8d652dae97099383a926705ca925ad8b43bfb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
