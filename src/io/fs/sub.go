@@ -52,7 +52,7 @@ type subFS struct {
 // fullName maps name to the fully-qualified name dir/name.
 func (f *subFS) fullName(op string, name string) (string, error) {
 	if !ValidPath(name) {
-		return "", &PathError{Op: op, Path: name, Err: errors.New("invalid name")}
+		return "", &PathError{Op: op, Path: name, Err: ErrInvalid}
 	}
 	return path.Join(f.dir, name), nil
 }
