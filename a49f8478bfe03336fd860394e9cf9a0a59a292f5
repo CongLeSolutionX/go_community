@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34eb715_c0bf6382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-02-01T21:17:01Z",
+      "side": 1,
+      "message": "(nit) In the main Go repo, the \"src/\" path prefix is typically left out, so this can be \"cmd/relnote: fix …\" to match the import path if you\u0027d like.",
+      "revId": "a49f8478bfe03336fd860394e9cf9a0a59a292f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4530d872_a700283f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-02-01T21:17:01Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "a49f8478bfe03336fd860394e9cf9a0a59a292f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "472d747a_a57168f5",
+        "filename": "src/cmd/relnote/relnote_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-02-01T21:17:01Z",
+      "side": 1,
+      "message": "No changes needed, just checking my understanding. I understand it\u0027s a fairly arbitrary decision of whether to use rootFS, and \"api/next/*.txt\" glob, or possibly aligning it with docFS:\n\n```\napiFS :\u003d os.DirFS(filepath.Join(root, \"api\", \"next\"))\ndocFS :\u003d os.DirFS(filepath.Join(root, \"doc\", \"next\"))\n```\n\nAnd using \"*.txt\" as the glob.\n\nIt\u0027s probably not worth changing since the current approach works. Just wanted to ask if there\u0027s a reason the two roots are chosen differently for api and doc directories.",
+      "revId": "a49f8478bfe03336fd860394e9cf9a0a59a292f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
