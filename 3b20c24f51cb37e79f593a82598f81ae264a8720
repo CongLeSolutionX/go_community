@@ -70,6 +70,24 @@
       "message": "CCing Than per recommendation in the Github thread: https://github.com/golang/go/issues/65264\n\n(I could be wrong but I think this was Bryan\u0027s intention to begin with, and autocomplete is the reason Sam was CC\u0027d instead)",
       "revId": "3b20c24f51cb37e79f593a82598f81ae264a8720",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "942b8f30_ae5aae2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-01T22:31:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "21633cee_e454c158",
+      "revId": "3b20c24f51cb37e79f593a82598f81ae264a8720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
