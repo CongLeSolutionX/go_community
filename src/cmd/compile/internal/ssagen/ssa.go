@@ -5056,6 +5056,104 @@ func InitTables() {
 
 	/******** math/big ********/
 	alias("math/big", "mulWW", "math/bits", "Mul64", p8...)
+
+	if buildcfg.GORISCV64 >= 22 {
+		addF("math/bits", "Len64",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpBitLen64, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "Len32",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpBitLen32, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "Len16",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpBitLen16, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "Len8",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpBitLen8, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		alias("math/bits", "Len", "math/bits", "Len64", sys.ArchRISCV64)
+		addF("math/bits", "OnesCount64",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpPopCount64, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "OnesCount32",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpPopCount32, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "OnesCount16",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpPopCount16, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "OnesCount8",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpPopCount8, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		alias("math/bits", "OnesCount", "math/bits", "OnesCount64", sys.ArchRISCV64)
+		addF("math/bits", "RotateLeft64",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue2(ssa.OpRotateLeft64, types.Types[types.TUINT64], args[0], args[1])
+			},
+			sys.RISCV64)
+		addF("math/bits", "RotateLeft32",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue2(ssa.OpRotateLeft32, types.Types[types.TUINT32], args[0], args[1])
+			},
+			sys.RISCV64)
+		alias("math/bits", "RotateLeft", "math/bits", "RotateLeft64", sys.ArchRISCV64)
+		addF("math/bits", "TrailingZeros64",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpCtz64, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "TrailingZeros32",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpCtz32, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "TrailingZeros16",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpCtz16, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		addF("math/bits", "TrailingZeros8",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpCtz8, types.Types[types.TINT], args[0])
+			},
+			sys.RISCV64)
+		alias("math/bits", "TrailingZeros", "math/bits", "TrailingZeros64", sys.ArchRISCV64)
+		alias("runtime/internal/sys", "TrailingZeros64", "math/bits", "TrailingZeros64", sys.ArchRISCV64)
+		alias("runtime/internal/sys", "TrailingZeros32", "math/bits", "TrailingZeros32", sys.ArchRISCV64)
+		alias("runtime/internal/sys", "TrailingZeros8", "math/bits", "TrailingZeros8", sys.ArchRISCV64)
+		addF("runtime/internal/sys", "Bswap64",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpBswap64, types.Types[types.TUINT64], args[0])
+			},
+			sys.RISCV64)
+		addF("runtime/internal/sys", "Bswap32",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpBswap32, types.Types[types.TUINT32], args[0])
+			},
+			sys.RISCV64)
+		addF("runtime/internal/sys", "Bswap16",
+			func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
+				return s.newValue1(ssa.OpBswap16, types.Types[types.TUINT16], args[0])
+			},
+			sys.RISCV64)
+		alias("math/bits", "ReverseBytes64", "runtime/internal/sys", "Bswap64", sys.ArchRISCV64)
+		alias("math/bits", "ReverseBytes32", "runtime/internal/sys", "Bswap32", sys.ArchRISCV64)
+		alias("math/bits", "ReverseBytes16", "runtime/internal/sys", "Bswap16", sys.ArchRISCV64)
+	}
 }
 
 // findIntrinsic returns a function which builds the SSA equivalent of the
