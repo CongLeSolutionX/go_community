@@ -88,6 +88,24 @@
       "parentUuid": "21633cee_e454c158",
       "revId": "3b20c24f51cb37e79f593a82598f81ae264a8720",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1719b4f4_8ac45dcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-01T22:32:28Z",
+      "side": 1,
+      "message": "I actually did mean to CC Sam — he\u0027s a new Google maintainer working on `cmd/go`. (But Than may be interested in this change too. 🙃)",
+      "parentUuid": "7b8bfd51_6426d51a",
+      "revId": "3b20c24f51cb37e79f593a82598f81ae264a8720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
