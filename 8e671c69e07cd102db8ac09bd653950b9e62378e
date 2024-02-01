@@ -105,6 +105,24 @@
       "message": "Thanks for the CL, but I\u0027ve also removed this in CL 560035",
       "revId": "8e671c69e07cd102db8ac09bd653950b9e62378e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8658151_f7712d30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-01T16:37:16Z",
+      "side": 1,
+      "message": "Thanks, I will close this.",
+      "parentUuid": "68a28608_81a18bf2",
+      "revId": "8e671c69e07cd102db8ac09bd653950b9e62378e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
