@@ -13,16 +13,17 @@ package syscall
 
 import (
 	"internal/itoa"
+	runtimesyscall "internal/runtime/syscall"
 	"runtime"
 	"unsafe"
 )
 
-// N.B. RawSyscall6 is provided via linkname by internal/runtime/syscall.
-//
-// Errno is uintptr and thus compatible with the internal/runtime/syscall
-// definition.
-
-func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
+func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno) {
+	var errno uintptr
+	r1, r2, errno = runtimesyscall.Syscall6(trap, a1, a2, a3, a4, a5, a6)
+	err = Errno(errno)
+	return
+}
 
 // Pull in entersyscall/exitsyscall for Syscall/Syscall6.
 //
@@ -148,8 +149,8 @@ func isCapDacOverrideSet() bool {
 	return err == 0 && c.data[0].effective&capToMask(_CAP_DAC_OVERRIDE) != 0
 }
 
-//sys	faccessat(dirfd int, path string, mode uint32) (err error)
-//sys	faccessat2(dirfd int, path string, mode uint32, flags int) (err error) = _SYS_faccessat2
+// sys	faccessat(dirfd int, path string, mode uint32) (err error)
+// sys	faccessat2(dirfd int, path string, mode uint32, flags int) (err error) = _SYS_faccessat2
 
 func Faccessat(dirfd int, path string, mode uint32, flags int) (err error) {
 	if flags == 0 {
@@ -240,8 +241,8 @@ func Faccessat(dirfd int, path string, mode uint32, flags int) (err error) {
 	return EACCES
 }
 
-//sys	fchmodat(dirfd int, path string, mode uint32) (err error)
-//sys	fchmodat2(dirfd int, path string, mode uint32, flags int) (err error) = _SYS_fchmodat2
+// sys	fchmodat(dirfd int, path string, mode uint32) (err error)
+// sys	fchmodat2(dirfd int, path string, mode uint32, flags int) (err error) = _SYS_fchmodat2
 
 func Fchmodat(dirfd int, path string, mode uint32, flags int) error {
 	// Linux fchmodat doesn't support the flags parameter, but fchmodat2 does.
@@ -262,7 +263,7 @@ func Fchmodat(dirfd int, path string, mode uint32, flags int) error {
 	return fchmodat(dirfd, path, mode)
 }
 
-//sys	linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flags int) (err error)
+// sys	linkat(olddirfd int, oldpath string, newdirfd int, newpath string, flags int) (err error)
 
 func Link(oldpath string, newpath string) (err error) {
 	return linkat(_AT_FDCWD, oldpath, _AT_FDCWD, newpath, 0)
@@ -280,7 +281,7 @@ func Open(path string, mode int, perm uint32) (fd int, err error) {
 	return openat(_AT_FDCWD, path, mode|O_LARGEFILE, perm)
 }
 
-//sys	openat(dirfd int, path string, flags int, mode uint32) (fd int, err error)
+// sys	openat(dirfd int, path string, flags int, mode uint32) (fd int, err error)
 
 func Openat(dirfd int, path string, flags int, mode uint32) (fd int, err error) {
 	return openat(dirfd, path, flags|O_LARGEFILE, mode)
@@ -290,7 +291,7 @@ func Pipe(p []int) error {
 	return Pipe2(p, 0)
 }
 
-//sysnb pipe2(p *[2]_C_int, flags int) (err error)
+// sysnb pipe2(p *[2]_C_int, flags int) (err error)
 
 func Pipe2(p []int, flags int) error {
 	if len(p) != 2 {
@@ -305,7 +306,7 @@ func Pipe2(p []int, flags int) error {
 	return err
 }
 
-//sys	readlinkat(dirfd int, path string, buf []byte) (n int, err error)
+// sys	readlinkat(dirfd int, path string, buf []byte) (n int, err error)
 
 func Readlink(path string, buf []byte) (n int, err error) {
 	return readlinkat(_AT_FDCWD, path, buf)
@@ -319,7 +320,7 @@ func Rmdir(path string) error {
 	return unlinkat(_AT_FDCWD, path, _AT_REMOVEDIR)
 }
 
-//sys	symlinkat(oldpath string, newdirfd int, newpath string) (err error)
+// sys	symlinkat(oldpath string, newdirfd int, newpath string) (err error)
 
 func Symlink(oldpath string, newpath string) (err error) {
 	return symlinkat(oldpath, _AT_FDCWD, newpath)
@@ -329,7 +330,7 @@ func Unlink(path string) error {
 	return unlinkat(_AT_FDCWD, path, 0)
 }
 
-//sys	unlinkat(dirfd int, path string, flags int) (err error)
+// sys	unlinkat(dirfd int, path string, flags int) (err error)
 
 func Unlinkat(dirfd int, path string) error {
 	return unlinkat(dirfd, path, 0)
@@ -342,7 +343,7 @@ func Utimes(path string, tv []Timeval) (err error) {
 	return utimes(path, (*[2]Timeval)(unsafe.Pointer(&tv[0])))
 }
 
-//sys	utimensat(dirfd int, path string, times *[2]Timespec, flag int) (err error)
+// sys	utimensat(dirfd int, path string, times *[2]Timespec, flag int) (err error)
 
 func UtimesNano(path string, ts []Timespec) (err error) {
 	if len(ts) != 2 {
@@ -366,7 +367,7 @@ func Futimes(fd int, tv []Timeval) (err error) {
 
 const ImplementsGetwd = true
 
-//sys	Getcwd(buf []byte) (n int, err error)
+// sys	Getcwd(buf []byte) (n int, err error)
 
 func Getwd() (wd string, err error) {
 	var buf [PathMax]byte
@@ -504,7 +505,7 @@ func (w WaitStatus) TrapCause() int {
 	return int(w>>shift) >> 8
 }
 
-//sys	wait4(pid int, wstatus *_C_int, options int, rusage *Rusage) (wpid int, err error)
+// sys	wait4(pid int, wstatus *_C_int, options int, rusage *Rusage) (wpid int, err error)
 
 func Wait4(pid int, wstatus *WaitStatus, options int, rusage *Rusage) (wpid int, err error) {
 	var status _C_int
@@ -835,8 +836,8 @@ func BindToDevice(fd int, device string) (err error) {
 	return SetsockoptString(fd, SOL_SOCKET, SO_BINDTODEVICE, device)
 }
 
-//sys	ptrace(request int, pid int, addr uintptr, data uintptr) (err error)
-//sys	ptracePtr(request int, pid int, addr uintptr, data unsafe.Pointer) (err error) = SYS_PTRACE
+// sys	ptrace(request int, pid int, addr uintptr, data uintptr) (err error)
+// sys	ptracePtr(request int, pid int, addr uintptr, data unsafe.Pointer) (err error) = SYS_PTRACE
 
 func ptracePeek(req int, pid int, addr uintptr, out []byte) (count int, err error) {
 	// The peek requests are machine-size oriented, so we wrap it
@@ -988,7 +989,7 @@ func PtraceAttach(pid int) (err error) { return ptrace(PTRACE_ATTACH, pid, 0, 0)
 
 func PtraceDetach(pid int) (err error) { return ptrace(PTRACE_DETACH, pid, 0, 0) }
 
-//sys	reboot(magic1 uint, magic2 uint, cmd int, arg string) (err error)
+// sys	reboot(magic1 uint, magic2 uint, cmd int, arg string) (err error)
 
 func Reboot(cmd int) (err error) {
 	return reboot(LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2, cmd, "")
@@ -1014,7 +1015,7 @@ func direntNamlen(buf []byte) (uint64, bool) {
 	return reclen - uint64(unsafe.Offsetof(Dirent{}.Name)), true
 }
 
-//sys	mount(source string, target string, fstype string, flags uintptr, data *byte) (err error)
+// sys	mount(source string, target string, fstype string, flags uintptr, data *byte) (err error)
 
 func Mount(source string, target string, fstype string, flags uintptr, data string) (err error) {
 	// Certain file systems get rather angry and EINVAL if you give
@@ -1036,55 +1037,55 @@ func Mount(source string, target string, fstype string, flags uintptr, data stri
 /*
  * Direct access
  */
-//sys	Acct(path string) (err error)
-//sys	Adjtimex(buf *Timex) (state int, err error)
-//sys	Chdir(path string) (err error)
-//sys	Chroot(path string) (err error)
-//sys	Close(fd int) (err error)
-//sys	Dup(oldfd int) (fd int, err error)
-//sys	Dup3(oldfd int, newfd int, flags int) (err error)
-//sysnb	EpollCreate1(flag int) (fd int, err error)
-//sysnb	EpollCtl(epfd int, op int, fd int, event *EpollEvent) (err error)
-//sys	Fallocate(fd int, mode uint32, off int64, len int64) (err error)
-//sys	Fchdir(fd int) (err error)
-//sys	Fchmod(fd int, mode uint32) (err error)
-//sys	Fchownat(dirfd int, path string, uid int, gid int, flags int) (err error)
-//sys	fcntl(fd int, cmd int, arg int) (val int, err error)
-//sys	Fdatasync(fd int) (err error)
-//sys	Flock(fd int, how int) (err error)
-//sys	Fsync(fd int) (err error)
-//sys	Getdents(fd int, buf []byte) (n int, err error) = SYS_GETDENTS64
-//sysnb	Getpgid(pid int) (pgid int, err error)
+// sys	Acct(path string) (err error)
+// sys	Adjtimex(buf *Timex) (state int, err error)
+// sys	Chdir(path string) (err error)
+// sys	Chroot(path string) (err error)
+// sys	Close(fd int) (err error)
+// sys	Dup(oldfd int) (fd int, err error)
+// sys	Dup3(oldfd int, newfd int, flags int) (err error)
+// sysnb	EpollCreate1(flag int) (fd int, err error)
+// sysnb	EpollCtl(epfd int, op int, fd int, event *EpollEvent) (err error)
+// sys	Fallocate(fd int, mode uint32, off int64, len int64) (err error)
+// sys	Fchdir(fd int) (err error)
+// sys	Fchmod(fd int, mode uint32) (err error)
+// sys	Fchownat(dirfd int, path string, uid int, gid int, flags int) (err error)
+// sys	fcntl(fd int, cmd int, arg int) (val int, err error)
+// sys	Fdatasync(fd int) (err error)
+// sys	Flock(fd int, how int) (err error)
+// sys	Fsync(fd int) (err error)
+// sys	Getdents(fd int, buf []byte) (n int, err error) = SYS_GETDENTS64
+// sysnb	Getpgid(pid int) (pgid int, err error)
 
 func Getpgrp() (pid int) {
 	pid, _ = Getpgid(0)
 	return
 }
 
-//sysnb	Getpid() (pid int)
-//sysnb	Getppid() (ppid int)
-//sys	Getpriority(which int, who int) (prio int, err error)
-//sysnb	Getrusage(who int, rusage *Rusage) (err error)
-//sysnb	Gettid() (tid int)
-//sys	Getxattr(path string, attr string, dest []byte) (sz int, err error)
-//sys	InotifyAddWatch(fd int, pathname string, mask uint32) (watchdesc int, err error)
-//sysnb	InotifyInit1(flags int) (fd int, err error)
-//sysnb	InotifyRmWatch(fd int, watchdesc uint32) (success int, err error)
-//sysnb	Kill(pid int, sig Signal) (err error)
-//sys	Klogctl(typ int, buf []byte) (n int, err error) = SYS_SYSLOG
-//sys	Listxattr(path string, dest []byte) (sz int, err error)
-//sys	Mkdirat(dirfd int, path string, mode uint32) (err error)
-//sys	Mknodat(dirfd int, path string, mode uint32, dev int) (err error)
-//sys	Nanosleep(time *Timespec, leftover *Timespec) (err error)
-//sys	PivotRoot(newroot string, putold string) (err error) = SYS_PIVOT_ROOT
-//sysnb prlimit1(pid int, resource int, newlimit *Rlimit, old *Rlimit) (err error) = SYS_PRLIMIT64
-//sys	read(fd int, p []byte) (n int, err error)
-//sys	Removexattr(path string, attr string) (err error)
-//sys	Setdomainname(p []byte) (err error)
-//sys	Sethostname(p []byte) (err error)
-//sysnb	Setpgid(pid int, pgid int) (err error)
-//sysnb	Setsid() (pid int, err error)
-//sysnb	Settimeofday(tv *Timeval) (err error)
+// sysnb	Getpid() (pid int)
+// sysnb	Getppid() (ppid int)
+// sys	Getpriority(which int, who int) (prio int, err error)
+// sysnb	Getrusage(who int, rusage *Rusage) (err error)
+// sysnb	Gettid() (tid int)
+// sys	Getxattr(path string, attr string, dest []byte) (sz int, err error)
+// sys	InotifyAddWatch(fd int, pathname string, mask uint32) (watchdesc int, err error)
+// sysnb	InotifyInit1(flags int) (fd int, err error)
+// sysnb	InotifyRmWatch(fd int, watchdesc uint32) (success int, err error)
+// sysnb	Kill(pid int, sig Signal) (err error)
+// sys	Klogctl(typ int, buf []byte) (n int, err error) = SYS_SYSLOG
+// sys	Listxattr(path string, dest []byte) (sz int, err error)
+// sys	Mkdirat(dirfd int, path string, mode uint32) (err error)
+// sys	Mknodat(dirfd int, path string, mode uint32, dev int) (err error)
+// sys	Nanosleep(time *Timespec, leftover *Timespec) (err error)
+// sys	PivotRoot(newroot string, putold string) (err error) = SYS_PIVOT_ROOT
+// sysnb prlimit1(pid int, resource int, newlimit *Rlimit, old *Rlimit) (err error) = SYS_PRLIMIT64
+// sys	read(fd int, p []byte) (n int, err error)
+// sys	Removexattr(path string, attr string) (err error)
+// sys	Setdomainname(p []byte) (err error)
+// sys	Sethostname(p []byte) (err error)
+// sysnb	Setpgid(pid int, pgid int) (err error)
+// sysnb	Setsid() (pid int, err error)
+// sysnb	Settimeofday(tv *Timeval) (err error)
 
 // Provided by runtime.syscall_runtime_doAllThreadsSyscall which stops the
 // world and invokes the syscall on each OS thread. Once this function returns,
@@ -1241,23 +1242,23 @@ func Setuid(uid int) (err error) {
 	return
 }
 
-//sys	Setpriority(which int, who int, prio int) (err error)
-//sys	Setxattr(path string, attr string, data []byte, flags int) (err error)
-//sys	Sync()
-//sysnb	Sysinfo(info *Sysinfo_t) (err error)
-//sys	Tee(rfd int, wfd int, len int, flags int) (n int64, err error)
-//sysnb	Tgkill(tgid int, tid int, sig Signal) (err error)
-//sysnb	Times(tms *Tms) (ticks uintptr, err error)
-//sysnb	Umask(mask int) (oldmask int)
-//sysnb	Uname(buf *Utsname) (err error)
-//sys	Unmount(target string, flags int) (err error) = SYS_UMOUNT2
-//sys	Unshare(flags int) (err error)
-//sys	write(fd int, p []byte) (n int, err error)
-//sys	exitThread(code int) (err error) = SYS_EXIT
-//sys	readlen(fd int, p *byte, np int) (n int, err error) = SYS_READ
+// sys	Setpriority(which int, who int, prio int) (err error)
+// sys	Setxattr(path string, attr string, data []byte, flags int) (err error)
+// sys	Sync()
+// sysnb	Sysinfo(info *Sysinfo_t) (err error)
+// sys	Tee(rfd int, wfd int, len int, flags int) (n int64, err error)
+// sysnb	Tgkill(tgid int, tid int, sig Signal) (err error)
+// sysnb	Times(tms *Tms) (ticks uintptr, err error)
+// sysnb	Umask(mask int) (oldmask int)
+// sysnb	Uname(buf *Utsname) (err error)
+// sys	Unmount(target string, flags int) (err error) = SYS_UMOUNT2
+// sys	Unshare(flags int) (err error)
+// sys	write(fd int, p []byte) (n int, err error)
+// sys	exitThread(code int) (err error) = SYS_EXIT
+// sys	readlen(fd int, p *byte, np int) (n int, err error) = SYS_READ
 
 // mmap varies by architecture; see syscall_linux_*.go.
-//sys	munmap(addr uintptr, length uintptr) (err error)
+// sys	munmap(addr uintptr, length uintptr) (err error)
 
 var mapper = &mmapper{
 	active: make(map[*byte][]byte),
@@ -1273,12 +1274,12 @@ func Munmap(b []byte) (err error) {
 	return mapper.Munmap(b)
 }
 
-//sys	Madvise(b []byte, advice int) (err error)
-//sys	Mprotect(b []byte, prot int) (err error)
-//sys	Mlock(b []byte) (err error)
-//sys	Munlock(b []byte) (err error)
-//sys	Mlockall(flags int) (err error)
-//sys	Munlockall() (err error)
+// sys	Madvise(b []byte, advice int) (err error)
+// sys	Mprotect(b []byte, prot int) (err error)
+// sys	Mlock(b []byte) (err error)
+// sys	Munlock(b []byte) (err error)
+// sys	Mlockall(flags int) (err error)
+// sys	Munlockall() (err error)
 
 // prlimit changes a resource limit. We use a single definition so that
 // we can tell StartProcess to not restore the original NOFILE limit.
