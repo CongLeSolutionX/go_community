@@ -13,16 +13,17 @@ package syscall
 
 import (
 	"internal/itoa"
+	runtimesyscall "internal/runtime/syscall"
 	"runtime"
 	"unsafe"
 )
 
-// N.B. RawSyscall6 is provided via linkname by internal/runtime/syscall.
-//
-// Errno is uintptr and thus compatible with the internal/runtime/syscall
-// definition.
-
-func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno)
+func RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err Errno) {
+	var errno uintptr
+	r1, r2, errno = runtimesyscall.Syscall6(trap, a1, a2, a3, a4, a5, a6)
+	err = Errno(errno)
+	return
+}
 
 // Pull in entersyscall/exitsyscall for Syscall/Syscall6.
 //
