@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed9f3e5c_8700bb1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-01T22:41:46Z",
+      "side": 1,
+      "message": "Changed: s/Fixes/For/\n\nWill update the issue once this is submitted.",
+      "parentUuid": "354f4769_ff56d7c8",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "666a5102c7eaea7dea1f80598f3906ce718248d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "319bf437_68c41c0f",
@@ -74,6 +98,30 @@
       "writtenOn": "2024-01-30T20:00:14Z",
       "side": 1,
       "message": "I agree that this leads to a better error message, but we should have to do this to avoid a panic.\n\nIf we\u0027re updating this error, should we update others that report \"%s is not a type\"?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 85
+      },
+      "revId": "666a5102c7eaea7dea1f80598f3906ce718248d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44856531_48e436e9",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-01T22:41:46Z",
+      "side": 1,
+      "message": "Just printing the name now (i.e., the syntax of e, effectively). This matches what we do elsewhere.",
+      "parentUuid": "16d5a483_fa3d5603",
       "range": {
         "startLine": 57,
         "startChar": 2,
