@@ -70,6 +70,24 @@
       "parentUuid": "7d011d2c_7ecd8040",
       "revId": "be4d6e49ed0b37d9103047fbd496cd87edf5b679",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1766e4a5_089a6cca",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-01T22:38:36Z",
+      "side": 1,
+      "message": "That works!",
+      "parentUuid": "8e67edc5_c9799f3e",
+      "revId": "be4d6e49ed0b37d9103047fbd496cd87edf5b679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
