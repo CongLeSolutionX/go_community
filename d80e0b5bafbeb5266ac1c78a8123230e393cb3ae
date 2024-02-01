@@ -70,6 +70,23 @@
       "parentUuid": "8045f9dc_12545209",
       "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b872bb_25a46a42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-02-01T17:57:07Z",
+      "side": 1,
+      "message": "Submitting a `Commit-Queue+1` vote as requested by @mpratt@google.com for testing purposes.",
+      "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
