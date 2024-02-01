@@ -208,11 +208,13 @@ func init() {
 
 		// Shift ops
 		{name: "SLL", argLength: 2, reg: gp21, asm: "SLL"},                   // arg0 << (aux1 & 63)
+		{name: "SLLW", argLength: 2, reg: gp21, asm: "SLLW"},                 // arg0 << (aux1 & 31)
 		{name: "SRA", argLength: 2, reg: gp21, asm: "SRA"},                   // arg0 >> (aux1 & 63), signed
 		{name: "SRAW", argLength: 2, reg: gp21, asm: "SRAW"},                 // arg0 >> (aux1 & 31), signed
 		{name: "SRL", argLength: 2, reg: gp21, asm: "SRL"},                   // arg0 >> (aux1 & 63), unsigned
 		{name: "SRLW", argLength: 2, reg: gp21, asm: "SRLW"},                 // arg0 >> (aux1 & 31), unsigned
 		{name: "SLLI", argLength: 1, reg: gp11, asm: "SLLI", aux: "Int64"},   // arg0 << auxint, shift amount 0-63
+		{name: "SLLIW", argLength: 1, reg: gp11, asm: "SLLIW", aux: "Int64"}, // arg0 << auxint, unsigned, shift amount 0-31
 		{name: "SRAI", argLength: 1, reg: gp11, asm: "SRAI", aux: "Int64"},   // arg0 >> auxint, signed, shift amount 0-63
 		{name: "SRAIW", argLength: 1, reg: gp11, asm: "SRAIW", aux: "Int64"}, // arg0 >> auxint, signed, shift amount 0-31
 		{name: "SRLI", argLength: 1, reg: gp11, asm: "SRLI", aux: "Int64"},   // arg0 >> auxint, unsigned, shift amount 0-63
