@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6530bd15_522e01eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-01T02:30:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ef4faae_30c777b0",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "840bdece_89f8f180",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "This package and `runtime/internal/atomic` should be easy moves. Anything else could get complicated fast, so you may want to send a sketch of what you are thinking (e.g., on the bug) before investing a ton of time into CLs.",
       "parentUuid": "840bdece_89f8f180",
+      "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "480ea99f_622f85eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-01T02:30:20Z",
+      "side": 1,
+      "message": "Sure, I\u0027m still in the early stages of researching this migration (of netpoll). I\u0027ll draft a plan for this after I move the `runtime/internal/atomic`. (maybe on a Github issue?)",
+      "parentUuid": "7874c37d_48152053",
       "revId": "e4a521c62aadc1bc2f8322dd5863800a99bb25d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
