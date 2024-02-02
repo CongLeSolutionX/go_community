@@ -37,6 +37,42 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2b616dfb_1897ef0c",
+        "filename": "src/runtime/debug/example_monitor_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-02T16:23:33Z",
+      "side": 1,
+      "message": "Good call; done.",
+      "parentUuid": "8d353317_f44fe43e",
+      "revId": "3bfe38625a50ad6b885ad8e1cb38296379777896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c58afe50_cbfedbc8",
+        "filename": "src/runtime/debug/example_monitor_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-02T16:23:33Z",
+      "side": 1,
+      "message": "It didn\u0027t, because of https://github.com/golang/go/issues/65450, but I worked around it, and it does now.",
+      "parentUuid": "3cbe9dcb_239267c1",
+      "revId": "3bfe38625a50ad6b885ad8e1cb38296379777896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d1b70578_a7a3f560",
         "filename": "src/runtime/debug/example_monitor_test.go",
         "patchSetId": 12
@@ -48,6 +84,24 @@
       "writtenOn": "2024-02-02T15:51:51Z",
       "side": 1,
       "message": "This is a lovely example of your use-case: a binary that monitors itself. Do we expect that to be the most common case? It seems somewhat niche to me.\n\nI\u0027d expect the most common case to be the monitoring program to be distinct from the monitored program, perhaps not even written in Go at all. e.g., an additional log file configured in systemd or kubernetes, and all we do is call SetCrashOutput with an FD provided via a flag or environment variable.\n\nOTOH, that case is pretty straightforward, so perhaps this more complex case is the one warranting an example.",
+      "revId": "3bfe38625a50ad6b885ad8e1cb38296379777896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16e5a1ed_d120bbed",
+        "filename": "src/runtime/debug/example_monitor_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-02T16:23:33Z",
+      "side": 1,
+      "message": "I think it may be quite common because it is the only way to ensure that the consumer of the log is able to parse the program counters and obtain the full symbol information. It\u0027s also very convenient for deployment because it means a single executable is all you need, which is one of the most cited advantages of Go in production deployments.\n\nThe other cases will get used as well, but I think they are more self-explanatory. This one is a little more subtle but unlocks a great deal of possibility. I bet sentry.io and similar crash-analysis products will do great things with it.",
+      "parentUuid": "d1b70578_a7a3f560",
       "revId": "3bfe38625a50ad6b885ad8e1cb38296379777896",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
