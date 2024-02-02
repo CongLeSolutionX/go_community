@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d353317_f44fe43e",
+        "filename": "src/runtime/debug/example_monitor_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-02T15:51:51Z",
+      "side": 1,
+      "message": "I think using the name ExampleSetCrashOutput_monitor will cause this to be placed alongside SetCrashOutput on pkgsite?",
+      "revId": "3bfe38625a50ad6b885ad8e1cb38296379777896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cbe9dcb_239267c1",
+        "filename": "src/runtime/debug/example_monitor_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-02T15:51:51Z",
+      "side": 1,
+      "message": "Does this example render nicely on pkgsite? I don\u0027t know what the rendering algorithm does, I just fear it will display only the contents of this function, which is rather boring.",
+      "revId": "3bfe38625a50ad6b885ad8e1cb38296379777896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1b70578_a7a3f560",
+        "filename": "src/runtime/debug/example_monitor_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-02T15:51:51Z",
+      "side": 1,
+      "message": "This is a lovely example of your use-case: a binary that monitors itself. Do we expect that to be the most common case? It seems somewhat niche to me.\n\nI\u0027d expect the most common case to be the monitoring program to be distinct from the monitored program, perhaps not even written in Go at all. e.g., an additional log file configured in systemd or kubernetes, and all we do is call SetCrashOutput with an FD provided via a flag or environment variable.\n\nOTOH, that case is pretty straightforward, so perhaps this more complex case is the one warranting an example.",
+      "revId": "3bfe38625a50ad6b885ad8e1cb38296379777896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
