@@ -33,6 +33,24 @@
       "message": "I have been working independently in a wasm32 port (early early days) so I\u0027m going to leave some comments based on the diff of this repo compared with mine.\n\nShould wasm32 be included here as well?",
       "revId": "707fe687e5cd522598c504446623bd33666f5989",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e4991d_2c0dfe54",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2684,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-02-02T19:59:59Z",
+      "side": 1,
+      "message": "Hm, perhaps. I\u0027m wondering why I didn\u0027t add one here..",
+      "parentUuid": "1beb9d0e_fedbe542",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
