@@ -13,11 +13,9 @@ import (
 )
 
 var (
-	epfd int32 = -1 // epoll descriptor
-
-	netpollBreakRd, netpollBreakWr uintptr // for netpollBreak
-
-	netpollWakeSig atomic.Uint32 // used to avoid duplicate calls of netpollBreak
+	epfd           int32         = -1 // epoll descriptor
+	netpollEventFd uintptr            // eventfd for netpollBreak
+	netpollWakeSig atomic.Uint32      // used to avoid duplicate calls of netpollBreak
 )
 
 func netpollinit() {
@@ -27,26 +25,25 @@ func netpollinit() {
 		println("runtime: epollcreate failed with", errno)
 		throw("runtime: netpollinit failed")
 	}
-	r, w, errpipe := nonblockingPipe()
-	if errpipe != 0 {
-		println("runtime: pipe failed with", -errpipe)
-		throw("runtime: pipe failed")
+	efd, errno := syscall.Eventfd(0, syscall.EFD_CLOEXEC|syscall.EFD_NONBLOCK)
+	if errno != 0 {
+		println("runtime: eventfd failed with", -errno)
+		throw("runtime: eventfd failed")
 	}
 	ev := syscall.EpollEvent{
 		Events: syscall.EPOLLIN,
 	}
-	*(**uintptr)(unsafe.Pointer(&ev.Data)) = &netpollBreakRd
-	errno = syscall.EpollCtl(epfd, syscall.EPOLL_CTL_ADD, r, &ev)
+	*(**uintptr)(unsafe.Pointer(&ev.Data)) = &netpollEventFd
+	errno = syscall.EpollCtl(epfd, syscall.EPOLL_CTL_ADD, efd, &ev)
 	if errno != 0 {
 		println("runtime: epollctl failed with", errno)
 		throw("runtime: epollctl failed")
 	}
-	netpollBreakRd = uintptr(r)
-	netpollBreakWr = uintptr(w)
+	netpollEventFd = uintptr(efd)
 }
 
 func netpollIsPollDescriptor(fd uintptr) bool {
-	return fd == uintptr(epfd) || fd == netpollBreakRd || fd == netpollBreakWr
+	return fd == uintptr(epfd) || fd == netpollEventFd
 }
 
 func netpollopen(fd uintptr, pd *pollDesc) uintptr {
@@ -66,6 +63,15 @@ func netpollarm(pd *pollDesc, mode int) {
 	throw("runtime: unused")
 }
 
+// Make the endianness of bytes compatible with more linux OSs under
+// different processor-architectures, netpollBreak is expected to
+// increment the eventfd counter by 1, not 1<<56.
+// Check out http://man7.org/linux/man-pages/man2/eventfd.2.html for details.
+var (
+	u uint64 = 1
+	b        = (*(*[8]byte)(unsafe.Pointer(&u)))[:]
+)
+
 // netpollBreak interrupts an epollwait.
 func netpollBreak() {
 	// Failing to cas indicates there is an in-flight wakeup, so we're done here.
@@ -74,9 +80,8 @@ func netpollBreak() {
 	}
 
 	for {
-		var b byte
-		n := write(netpollBreakWr, unsafe.Pointer(&b), 1)
-		if n == 1 {
+		n := write(netpollEventFd, unsafe.Pointer(&b[0]), 8)
+		if n == 8 {
 			break
 		}
 		if n == -_EINTR {
@@ -136,17 +141,18 @@ retry:
 			continue
 		}
 
-		if *(**uintptr)(unsafe.Pointer(&ev.Data)) == &netpollBreakRd {
+		if *(**uintptr)(unsafe.Pointer(&ev.Data)) == &netpollEventFd {
 			if ev.Events != syscall.EPOLLIN {
-				println("runtime: netpoll: break fd ready for", ev.Events)
-				throw("runtime: netpoll: break fd ready for something unexpected")
+				println("runtime: netpoll: eventfd ready for", ev.Events)
+				throw("runtime: netpoll: eventfd ready for something unexpected")
 			}
 			if delay != 0 {
 				// netpollBreak could be picked up by a
-				// nonblocking poll. Only read the byte
+				// nonblocking poll. Only read the bytes
 				// if blocking.
-				var tmp [16]byte
-				read(int32(netpollBreakRd), noescape(unsafe.Pointer(&tmp[0])), int32(len(tmp)))
+				// Each successful read(2) returns an 8-byte integer.
+				var tmp [8]byte
+				read(int32(netpollEventFd), noescape(unsafe.Pointer(&tmp[0])), int32(len(tmp)))
 				netpollWakeSig.Store(0)
 			}
 			continue
