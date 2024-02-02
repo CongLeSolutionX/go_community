@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a8bb7b9_9fe93f55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-02T05:05:24Z",
+      "side": 1,
+      "message": "The CI failures on Windows seem irrelevant to this CL.",
+      "revId": "0698fdc6f57a95ce0dcbddc6fc4e75d5122dc082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
