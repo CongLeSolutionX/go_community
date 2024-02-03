@@ -395,3 +395,11 @@
 (I64Load32U [off] (LoweredAddr {sym} [off2] (SB)) _) && symIsRO(sym) && isU32Bit(off+int64(off2)) => (I64Const [int64(read32(sym, off+int64(off2), config.ctxt.Arch.ByteOrder))])
 (I64Load16U [off] (LoweredAddr {sym} [off2] (SB)) _) && symIsRO(sym) && isU32Bit(off+int64(off2)) => (I64Const [int64(read16(sym, off+int64(off2), config.ctxt.Arch.ByteOrder))])
 (I64Load8U [off] (LoweredAddr {sym} [off2] (SB)) _) && symIsRO(sym) && isU32Bit(off+int64(off2)) => (I64Const [int64(read8(sym, off+int64(off2)))])
+
+
+// float <-> int stack moves, with no conversion.
+// These come up when compiling math.{Float{32,64}bits,Float{32,64}frombits}.
+(I64Load    [off] (LoweredAddr {sym} _) (F64Store   [off] (LoweredAddr {sym} _) val _)) => (I64ReinterpretF64 val)
+(F64Load    [off] (LoweredAddr {sym} _) (I64Store   [off] (LoweredAddr {sym} _) val _)) => (F64ReinterpretI64 val)
+(I64Load32U [off] (LoweredAddr {sym} _) (F32Store   [off] (LoweredAddr {sym} _) val _)) => (I32ReinterpretF32 val)
+(F32Load    [off] (LoweredAddr {sym} _) (I64Store32 [off] (LoweredAddr {sym} _) val _)) => (F32ReinterpretI32 val)
