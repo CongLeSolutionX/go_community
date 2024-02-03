@@ -459,20 +459,23 @@ func ssaGenValueOnStack(s *ssagen.State, v *ssa.Value, extend bool) {
 			p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: ir.Syms.WasmTruncU}
 		}
 
-	case ssa.OpWasmF32DemoteF64:
-		getValue64(s, v.Args[0])
+	case ssa.OpWasmF32ReinterpretI32:
+		getValue32(s, v.Args[0])
 		s.Prog(v.Op.Asm())
 
-	case ssa.OpWasmF64PromoteF32:
+	case ssa.OpWasmI32ReinterpretF32:
 		getValue64(s, v.Args[0])
 		s.Prog(v.Op.Asm())
+		s.Prog(wasm.AI64ExtendI32U)
 
 	case ssa.OpWasmF32ConvertI64S, ssa.OpWasmF32ConvertI64U,
 		ssa.OpWasmF64ConvertI64S, ssa.OpWasmF64ConvertI64U,
 		ssa.OpWasmI64Extend8S, ssa.OpWasmI64Extend16S, ssa.OpWasmI64Extend32S,
 		ssa.OpWasmF32Neg, ssa.OpWasmF32Sqrt, ssa.OpWasmF32Trunc, ssa.OpWasmF32Ceil, ssa.OpWasmF32Floor, ssa.OpWasmF32Nearest, ssa.OpWasmF32Abs,
 		ssa.OpWasmF64Neg, ssa.OpWasmF64Sqrt, ssa.OpWasmF64Trunc, ssa.OpWasmF64Ceil, ssa.OpWasmF64Floor, ssa.OpWasmF64Nearest, ssa.OpWasmF64Abs,
-		ssa.OpWasmI64Ctz, ssa.OpWasmI64Clz, ssa.OpWasmI64Popcnt:
+		ssa.OpWasmI64Ctz, ssa.OpWasmI64Clz, ssa.OpWasmI64Popcnt,
+		ssa.OpWasmF32DemoteF64, ssa.OpWasmF64PromoteF32,
+		ssa.OpWasmI64ReinterpretF64, ssa.OpWasmF64ReinterpretI64:
 		getValue64(s, v.Args[0])
 		s.Prog(v.Op.Asm())
 
