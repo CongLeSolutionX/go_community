@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21839695_0662e0cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-02-03T14:10:56Z",
+      "side": 1,
+      "message": "looks like a flake because it succeeded on the next patch in the chain",
+      "revId": "f4bf9abe07d6787fa7226738acfc291d4fef0654",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
