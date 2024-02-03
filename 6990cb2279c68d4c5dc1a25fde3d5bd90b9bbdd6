@@ -144,6 +144,24 @@
       "parentUuid": "bfcf718a_71430431",
       "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99eeb170_5eeae889",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-02-03T07:02:50Z",
+      "side": 1,
+      "message": "I agree with Bryan. If we will get about 4-5 times slow down in benchmarking from using `time.Now` to `highPrecisionTimeNow`, then it is OK.\n\nAlso, please add new benchmark for `highPrecisionTimeNow` function and run it to show the slow down you see - use `time.Now` as `old` version of that benchmark for comparison. And include the output in the commit message. Maybe provide all benchmarks diffs there.\n\nI also created https://github.com/alexbrainman/goissue31160 that contains my investigations from https://github.com/golang/go/issues/31160#issuecomment-612584400 in case you find these useful.",
+      "parentUuid": "ec66aaf4_324d260a",
+      "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
