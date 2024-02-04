@@ -70,6 +70,23 @@
       "message": "LGTM\nI also did benchmarks on my Visionfive2, same improvement.\n\n```\ngoos: linux\ngoarch: riscv64\npkg: math/bits\n             │ bits.old.bench │           bits.new.bench            │\n             │     sec/op     │   sec/op     vs base                │\nRotateLeft        7.346n ± 0%   4.013n ± 0%  -45.37% (p\u003d0.000 n\u003d10)\nRotateLeft8       7.348n ± 0%   5.342n ± 0%  -27.29% (p\u003d0.000 n\u003d10)\nRotateLeft16      7.490n ± 1%   6.010n ± 0%  -19.77% (p\u003d0.000 n\u003d10)\nRotateLeft32      7.345n ± 0%   4.007n ± 0%  -45.45% (p\u003d0.000 n\u003d10)\nRotateLeft64      6.678n ± 0%   4.007n ± 0%  -40.00% (p\u003d0.000 n\u003d10)\ngeomean           7.235n        4.604n       -36.37%\n```",
       "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9ad2e3_3f577358",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-04T11:35:47Z",
+      "side": 1,
+      "message": "Hi, Joel.\nThis LUCI failure doesn\u0027t looks like related, can you rebase to master?",
+      "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
