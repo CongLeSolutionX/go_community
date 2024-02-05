@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5e3f138_70d1e747",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-05T18:04:36Z",
+      "side": 1,
+      "message": "\"Add test cases for TestMarshalJSON and TestMarshalText.\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94f29e09_721d85e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +37,75 @@
       "writtenOn": "2024-02-05T14:19:43Z",
       "side": 1,
       "message": "I spotted some possible problems.\n\nThese findings are based on simple heuristics. If a finding appears wrong, briefly reply here saying so. Otherwise, please address any problems and update the GitHub PR. When complete, mark this comment as \u0027Done\u0027 and click the [blue \u0027Reply\u0027 button](https://go.dev/wiki/GerritBot#i-left-a-reply-to-a-comment-in-gerrit-but-no-one-but-me-can-see-it) above.\n\nPossible problems detected:\n  1. Lines in the commit message should be wrapped at ~76 characters unless needed for things like URLs or tables. You have a 82 character line.\n  2. You usually need to reference a bug number for all but trivial or cosmetic fixes. For this repo, the format is usually \u0027Fixes #12345\u0027 or \u0027Updates #12345\u0027 at the end of the commit message. Should you have a bug reference?\n\nThe commit title and commit message body come from the GitHub PR title and description, and must be edited in the GitHub web interface (not via git). For instructions, see [here](https://go.dev/wiki/GerritBot/#how-does-gerritbot-determine-the-final-commit-message). For guidelines on commit messages for the Go project, see [here](https://go.dev/doc/contribute#commit_messages).\n\n\n(In general for Gerrit code reviews, the change author is expected to [log in to Gerrit](https://go-review.googlesource.com/login/) with a Gmail or other Google account and then close out each piece of feedback by marking it as \u0027Done\u0027 if implemented as suggested or otherwise reply to each review comment. See the [Review](https://go.dev/doc/contribute#review) section of the Contributing Guide for details.)",
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe1a1b8d_d0186a88",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-05T18:04:36Z",
+      "side": 1,
+      "message": "While you\u0027re here, could you rename this to TestLevelMarshalJSON? Thanks.",
+      "range": {
+        "startLine": 54,
+        "startChar": 5,
+        "endLine": 54,
+        "endChar": 20
+      },
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0cd3a20_78c70628",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-05T18:04:36Z",
+      "side": 1,
+      "message": "[]byte(`\"INFO+1\"`)",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 56,
+        "endChar": 60
+      },
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5af9bbc4_19d1c37c",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-05T18:04:36Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 50
+      },
       "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
