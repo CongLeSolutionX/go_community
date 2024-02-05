@@ -104,6 +104,23 @@
       "message": "Had a good play around with this today.  LGTM.",
       "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e896503_6cc614fc",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-05T17:01:23Z",
+      "side": 1,
+      "message": "Zero-extend the result to 64-bit?",
+      "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
