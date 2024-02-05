@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da81abb5_be4e0697",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-05T20:39:22Z",
+      "side": 1,
+      "message": "Thanks for the CL!\n\nTo make it easier to review, could you break this to multiple separate CLs by components, like, one for assembler, one for compiler, one for linker, one for runtime, one for the rest?\n\nAlso, to make the review easier, maybe you could diff against the current wasm port? That is, in Patch Set N, upload a verbatim copy of the wasm source code but with new file path, and in Patch Set N+1 upload the real wasm32 source code, then we can diff PS N+1 against PS N to see what\u0027s changed.\n\nThanks!",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1beb9d0e_fedbe542",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 3
@@ -49,6 +66,46 @@
       "side": 1,
       "message": "Hm, perhaps. I\u0027m wondering why I didn\u0027t add one here..",
       "parentUuid": "1beb9d0e_fedbe542",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e7ffcb8_c38b475f",
+        "filename": "src/cmd/internal/obj/wasm32/a.out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-05T20:39:22Z",
+      "side": 1,
+      "message": "Could we use the same cmd/internal/obj/wasm package for both wasm and wasm32? We have the x86 package for both 386 and amd64, and mips package for both mips(32) and mips64.\n\n(We can have separate packages for cmd/compile and cmd/link.)",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4a2fa5b_aaa0bdad",
+        "filename": "src/runtime/vlop_wasm32.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-05T20:39:22Z",
+      "side": 1,
+      "message": "Are they just crashing? Then why do we want to add them?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 4
+      },
       "revId": "707fe687e5cd522598c504446623bd33666f5989",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
