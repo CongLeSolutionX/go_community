@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e190f4_809dd0d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-05T22:42:42Z",
+      "side": 1,
+      "message": "On one hand the marker PC is useful to find the inlined frame and also has the correct file/line number attached to it. On the other hand it is not an actual call so it might also be confusing. Maybe it is not more confusing than directly inspecting the PCs returned from runtime.Callers, so maybe it is fine?",
+      "revId": "e57a5bfa4c50190bf5aaecf388943cc7a1b1190e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "447f68a8_3a436b38",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-05T22:42:42Z",
+      "side": 1,
+      "message": "Minor: maybe combine to one line, and perhaps check isInlined first?",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 997,
+        "endChar": 26
+      },
+      "revId": "e57a5bfa4c50190bf5aaecf388943cc7a1b1190e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
