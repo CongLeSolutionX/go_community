@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55fa3aad_e6c50fc5",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-05T22:43:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this comment is trying to say.  It seems clear that I/O on an eventfd takes a uint64 value, and that is what we are giving it.  Is this comment trying to explain why this is using uint64 rather than byte?  I don\u0027t think we need to explain that.",
+      "revId": "1da407abceaf1daa8e12f0ec0e0c92c3f2c93255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ad82d8_b238e16d",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-05T22:43:54Z",
+      "side": 1,
+      "message": "Let\u0027s just use uint64 here rather than [8]byte.  And then we don\u0027t need the \"Each successful read(2)...\" comment.",
+      "revId": "1da407abceaf1daa8e12f0ec0e0c92c3f2c93255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
