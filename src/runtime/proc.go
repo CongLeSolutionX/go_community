@@ -15,6 +15,8 @@ import (
 	"unsafe"
 )
 
+// Test change, please ignore
+
 // set using cmd/go/internal/modload.ModInfoProg
 var modinfo string
 
