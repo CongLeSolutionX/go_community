@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31df22f7_486bb53b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-05T22:49:39Z",
+      "side": 1,
+      "message": "This may be more a question for Austin than me, but my feeling is that the producer and consumer of the list of PCs should agree on the form. If Callers + CallersFrames have determined the interface, traceback2 should conform to it.",
+      "parentUuid": "a0e190f4_809dd0d7",
+      "revId": "e57a5bfa4c50190bf5aaecf388943cc7a1b1190e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "447f68a8_3a436b38",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2024-02-05T22:42:42Z",
       "side": 1,
       "message": "Minor: maybe combine to one line, and perhaps check isInlined first?",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 997,
+        "endChar": 26
+      },
+      "revId": "e57a5bfa4c50190bf5aaecf388943cc7a1b1190e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33c28e70_bf64e08b",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-05T22:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "447f68a8_3a436b38",
       "range": {
         "startLine": 996,
         "startChar": 0,
