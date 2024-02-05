@@ -120,21 +120,24 @@ func (ci *Frames) Next() (frame Frame, more bool) {
 		// It's important that interpret pc non-strictly as cgoTraceback may
 		// have added bogus PCs with a valid funcInfo but invalid PCDATA.
 		u, uf := newInlineUnwinder(funcInfo, pc)
-		sf := u.srcFunc(uf)
-		if u.isInlined(uf) {
-			// Note: entry is not modified. It always refers to a real frame, not an inlined one.
-			// File/line from funcline1 below are already correct.
-			f = nil
+		for ; uf.valid(); uf = u.next(uf) {
+			funcInfo := findfunc(uf.pc + 1)
+			if funcInfo.valid() {
+				sf := u.srcFunc(uf)
+				ci.frames = append(ci.frames, Frame{
+					PC:        uf.pc + 1,
+					Func:      funcInfo._Func(),
+					Function:  funcNameForPrint(sf.name()),
+					Entry:     f.Entry(),
+					startLine: int(sf.startLine),
+					funcInfo:  funcInfo,
+					// Note: File,Line set below
+				})
+				println(hex(pc), funcInfo._func, sf.name())
+			} else {
+				// ??
+			}
 		}
-		ci.frames = append(ci.frames, Frame{
-			PC:        pc,
-			Func:      f,
-			Function:  funcNameForPrint(sf.name()),
-			Entry:     entry,
-			startLine: int(sf.startLine),
-			funcInfo:  funcInfo,
-			// Note: File,Line set below
-		})
 	}
 
 	// Pop one frame from the frame list. Keep the rest.
