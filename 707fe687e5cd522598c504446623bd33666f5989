@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3862e2e4_99a2b11f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-02-05T23:47:15Z",
+      "side": 1,
+      "message": "I\u0027m unclear how I\u0027d break it up, they\u0027re mostly interdependent so they can\u0027t be tested separately.\n\nI think perhaps what I should go ahead and do is dry up wasm/wasm32 differences into a common package. I didn\u0027t do that initially because it wasn\u0027t clear how much needed to be changed.",
+      "parentUuid": "da81abb5_be4e0697",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1beb9d0e_fedbe542",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 3
@@ -89,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14a6b26d_601ea99b",
+        "filename": "src/cmd/internal/obj/wasm32/a.out.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-02-05T23:47:15Z",
+      "side": 1,
+      "message": "Totally. I\u0027ll go ahead and do a pass to refactor it to bring those together.",
+      "parentUuid": "9e7ffcb8_c38b475f",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4a2fa5b_aaa0bdad",
         "filename": "src/runtime/vlop_wasm32.s",
         "patchSetId": 3
@@ -100,6 +136,30 @@
       "writtenOn": "2024-02-05T20:39:22Z",
       "side": 1,
       "message": "Are they just crashing? Then why do we want to add them?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 4
+      },
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dbaab2a_e429767e",
+        "filename": "src/runtime/vlop_wasm32.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-02-05T23:47:15Z",
+      "side": 1,
+      "message": "Ah! These aren\u0027t used anymore but I forgot to remove them.",
+      "parentUuid": "a4a2fa5b_aaa0bdad",
       "range": {
         "startLine": 33,
         "startChar": 0,
