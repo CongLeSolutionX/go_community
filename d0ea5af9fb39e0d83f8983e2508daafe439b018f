@@ -77,6 +77,30 @@
       },
       "revId": "d0ea5af9fb39e0d83f8983e2508daafe439b018f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cfa291c_684f369a",
+        "filename": "src/internal/types/testdata/fixedbugs/issue39634.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-05T17:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e243f7c8_cc2f8424",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "d0ea5af9fb39e0d83f8983e2508daafe439b018f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
