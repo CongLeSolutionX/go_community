@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "115d9bd1_607efa3b",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-06T00:17:22Z",
+      "side": 1,
+      "message": "Fair enough, I guess this comment can be useful if `runtime.write` accepted []byte and we have to cast un uint64 to []byte, now that it accepts pointer directly, we wouldn\u0027t need it.",
+      "parentUuid": "55fa3aad_e6c50fc5",
+      "revId": "1da407abceaf1daa8e12f0ec0e0c92c3f2c93255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78ad82d8_b238e16d",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-02-05T22:43:54Z",
       "side": 1,
       "message": "Let\u0027s just use uint64 here rather than [8]byte.  And then we don\u0027t need the \"Each successful read(2)...\" comment.",
+      "revId": "1da407abceaf1daa8e12f0ec0e0c92c3f2c93255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc9f825e_da74521a",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-06T00:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78ad82d8_b238e16d",
       "revId": "1da407abceaf1daa8e12f0ec0e0c92c3f2c93255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
