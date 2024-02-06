@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d8942d7_7d8bc9ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2024-02-06T14:37:45Z",
+      "side": 1,
+      "message": "Context: this doesn\u0027t affect anything in the runtime today (the execution tracer doesn\u0027t do frame pointer unwinding from the system stack.) I ran into this when trying to bring frame pointer unwinding to the heap profiler in CL 540476 (see this failure in the next CL in the chain: https://cr-buildbucket.appspot.com/build/8761968269895651361)\n\nI think it would be nice to have a regression test, but I could use some advice on how to approach it. The circumstance where I saw an issue was roughly 1) be running on a system stack (doing `mallocgc` in the case I saw) in a non-leaf function with a frame, 2) the function `racecall`s into the race detector and the race detector library code clobbers the saved frame pointer, 3) return to the Go function and then do frame pointer unwinding, and crash. Would it be reasonable to have a test that imitates that scenario?",
+      "revId": "8aa8f0a4fd55377cdf82082f0481b31d7377211d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
