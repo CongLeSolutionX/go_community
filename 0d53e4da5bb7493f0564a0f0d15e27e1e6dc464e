@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccd76363_7919ffad",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-06T15:49:50Z",
+      "side": 1,
+      "message": "Is this necessary, or we want to just return 0, or even an error?\n\nIt seems this can only happen if an instruction ends with \".\" but without an actual suffix? That should be error.",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 627,
+        "endChar": 2
+      },
+      "revId": "0d53e4da5bb7493f0564a0f0d15e27e1e6dc464e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4ffaf35_ca964719",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-06T15:49:50Z",
+      "side": 1,
+      "message": "Should we return an error if the bit is not set?",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 2
+      },
+      "revId": "0d53e4da5bb7493f0564a0f0d15e27e1e6dc464e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
