@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3296cf0_ad3ef17e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 61563
+      },
+      "writtenOn": "2024-02-06T15:43:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5e3f138_70d1e747",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94f29e09_721d85e1",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a5cccd2_e55ce734",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61563
+      },
+      "writtenOn": "2024-02-06T15:43:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "94f29e09_721d85e1",
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe1a1b8d_d0186a88",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-02-05T18:04:36Z",
       "side": 1,
       "message": "While you\u0027re here, could you rename this to TestLevelMarshalJSON? Thanks.",
+      "range": {
+        "startLine": 54,
+        "startChar": 5,
+        "endLine": 54,
+        "endChar": 20
+      },
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d661dc5_3b8b277b",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 61563
+      },
+      "writtenOn": "2024-02-06T15:43:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fe1a1b8d_d0186a88",
       "range": {
         "startLine": 54,
         "startChar": 5,
@@ -87,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f3c6195_1466b9f5",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 61563
+      },
+      "writtenOn": "2024-02-06T15:43:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a0cd3a20_78c70628",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 56,
+        "endChar": 60
+      },
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5af9bbc4_19d1c37c",
@@ -100,6 +190,30 @@
       "writtenOn": "2024-02-05T18:04:36Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 50
+      },
+      "revId": "a2339f743129f5c78c5fbf0ecd7cc5566149bb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10e640f_e027cf8a",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 61563
+      },
+      "writtenOn": "2024-02-06T15:43:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5af9bbc4_19d1c37c",
       "range": {
         "startLine": 75,
         "startChar": 0,
