@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d2a31a1_92597535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-02-06T15:47:33Z",
+      "side": 1,
+      "message": "I\u0027m leaning towards your latter suggestion, a sync.Map seems overkill.\nAn extra field of Type is fine. I think the only question is whether we can compute it when the type is built, or do we have to do it like size and compute it on demand (and reuse CalcSizeDisabled to make sure we don\u0027t introduce a data race).",
+      "revId": "aa63fd8a2257fbe74c09fad7deb87eb87197d8bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce70e1e3_1b50dd8f",
