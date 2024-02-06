@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4db0e765_fe544b3b",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-06T16:31:20Z",
+      "side": 1,
+      "message": "wantData (no underscores in Go identifiers, as a general rule)",
+      "range": {
+        "startLine": 56,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 10
+      },
+      "revId": "a4d965e2af1c31a78f628a3c9af90d42a1fee10d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a388e8_d5c5fd4f",
+        "filename": "src/log/slog/level_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-06T16:31:20Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 10
+      },
+      "revId": "a4d965e2af1c31a78f628a3c9af90d42a1fee10d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
