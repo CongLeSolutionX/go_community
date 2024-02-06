@@ -4,7 +4,11 @@
 
 package types
 
-import "cmd/compile/internal/base"
+import (
+	"sync"
+
+	"cmd/compile/internal/base"
+)
 
 // AlgKind describes the kind of algorithms used for comparing and
 // hashing a Type.
@@ -35,10 +39,27 @@ const (
 	ASPECIAL AlgKind = -1
 )
 
+var algTypeCache sync.Map
+
+type algTypeRes struct {
+	algKind AlgKind
+	typ     *Type
+}
+
 // AlgType returns the AlgKind used for comparing and hashing Type t.
 // If it returns ANOEQ, it also returns the component type of t that
 // makes it incomparable.
 func AlgType(t *Type) (AlgKind, *Type) {
+	if val, ok := algTypeCache.Load(t); ok {
+		res := val.(*algTypeRes)
+		return res.algKind, res.typ
+	}
+	ak, ict := algType(t)
+	algTypeCache.Store(t, &algTypeRes{algKind: ak, typ: ict})
+	return ak, ict
+}
+
+func algType(t *Type) (AlgKind, *Type) {
 	if t.Noalg() {
 		return ANOEQ, t
 	}

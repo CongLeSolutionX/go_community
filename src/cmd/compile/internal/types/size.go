@@ -7,6 +7,7 @@ package types
 import (
 	"math"
 	"sort"
+	"sync"
 
 	"cmd/compile/internal/base"
 	"cmd/internal/src"
@@ -566,12 +567,23 @@ func ResumeCheckSize() {
 	defercalc--
 }
 
+var ptrDataSizeCache sync.Map
+
 // PtrDataSize returns the length in bytes of the prefix of t
 // containing pointer data. Anything after this offset is scalar data.
 //
 // PtrDataSize is only defined for actual Go types. It's an error to
 // use it on compiler-internal types (e.g., TSSA, TRESULTS).
 func PtrDataSize(t *Type) int64 {
+	if val, ok := ptrDataSizeCache.Load(t); ok {
+		return val.(int64)
+	}
+	sz := ptrDataSize(t)
+	ptrDataSizeCache.Store(t, sz)
+	return sz
+}
+
+func ptrDataSize(t *Type) int64 {
 	switch t.Kind() {
 	case TBOOL, TINT8, TUINT8, TINT16, TUINT16, TINT32,
 		TUINT32, TINT64, TUINT64, TINT, TUINT,
