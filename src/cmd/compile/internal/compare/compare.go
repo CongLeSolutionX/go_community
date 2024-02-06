@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"math/bits"
 	"sort"
+	"sync"
 )
 
 // IsRegularMemory reports whether t can be compared/hashed as regular memory.
@@ -59,9 +60,20 @@ func Memrun(t *types.Type, start int) (size int64, next int) {
 	return t.Field(next-1).End() - t.Field(start).Offset, next
 }
 
+var eqCanPanicCache sync.Map
+
 // EqCanPanic reports whether == on type t could panic (has an interface somewhere).
 // t must be comparable.
 func EqCanPanic(t *types.Type) bool {
+	if val, ok := eqCanPanicCache.Load(t); ok {
+		return val.(bool)
+	}
+	canPanic := eqCanPanic(t)
+	eqCanPanicCache.Store(t, canPanic)
+	return canPanic
+}
+
+func eqCanPanic(t *types.Type) bool {
 	switch t.Kind() {
 	default:
 		return false
