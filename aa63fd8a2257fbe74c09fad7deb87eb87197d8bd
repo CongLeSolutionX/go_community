@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49334b48_022185b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-02-06T13:50:15Z",
+      "side": 1,
+      "message": "I would break this CL into smaller ones, each will apply caching for one function. That would help bisecting more easily.",
+      "revId": "aa63fd8a2257fbe74c09fad7deb87eb87197d8bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce70e1e3_1b50dd8f",
+        "filename": "test/fixedbugs/issue65540.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-02-06T13:50:15Z",
+      "side": 1,
+      "message": "I think you should write a program to call go command to compile this test, wrapping with a time out (maybe 1 minutes?), so builders wont stuck if the quadratic behavior was re-introduced.",
+      "revId": "aa63fd8a2257fbe74c09fad7deb87eb87197d8bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
