@@ -53,6 +53,23 @@
       "message": "Friendly ping! I just identified another case of this being a source of allocations.",
       "revId": "1b8c957fbda9f1b964b4eaf66338d247b5d193bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fe820a6_962680ec",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-07T23:56:57Z",
+      "side": 1,
+      "message": "Why do these cases use \u003c and not \u003c\u003d ?",
+      "revId": "1b8c957fbda9f1b964b4eaf66338d247b5d193bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
