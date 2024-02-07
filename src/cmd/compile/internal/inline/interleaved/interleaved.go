@@ -42,22 +42,19 @@ func DevirtualizeAndInlinePackage(pkg *ir.Package, profile *pgo.Profile) {
 		inline.PGOInlinePrologue(inlProfile)
 	}
 
+	// We visit SCCs and functions within them in fairly arbitrary
+	// order, so by first computing inlinability for all functions
+	// before performing any inlining, the results are less sensitive to
+	// the order within the SCC (see #58905 for an example).
 	ir.VisitFuncsBottomUp(pkg.Funcs, func(funcs []*ir.Func, recursive bool) {
-		// We visit functions within an SCC in fairly arbitrary order,
-		// so by computing inlinability for all functions in the SCC
-		// before performing any inlining, the results are less
-		// sensitive to the order within the SCC (see #58905 for an
-		// example).
-
-		// First compute inlinability for all functions in the SCC ...
 		inline.CanInlineSCC(funcs, recursive, inlProfile)
-
-		// ... then make a second pass to do devirtualization and inlining
-		// of calls.
-		for _, fn := range funcs {
-			DevirtualizeAndInlineFunc(fn, inlProfile)
-		}
 	})
+
+	// Now we make a second pass to do devirtualization and inlining of
+	// calls. Order here should not matter.
+	for _, fn := range pkg.Funcs {
+		DevirtualizeAndInlineFunc(fn, inlProfile)
+	}
 
 	if base.Flag.LowerL != 0 {
 		// Perform a garbage collection of hidden closures functions that
