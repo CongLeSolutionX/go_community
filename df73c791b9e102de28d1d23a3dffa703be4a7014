@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd2710ee_0bd98985",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-07T23:44:14Z",
+      "side": 1,
+      "message": "This was fixed with CL 560055 which addresses this problem comprehensively, and the same way for field and method lookups.",
+      "revId": "df73c791b9e102de28d1d23a3dffa703be4a7014",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
