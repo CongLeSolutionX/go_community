@@ -53,17 +53,7 @@ func DevirtualizeAndInlinePackage(pkg *ir.Package, profile *pgo.Profile) {
 		inline.CanInlineSCC1(funcs, recursive, inlProfile)
 	})
 
-	ir.VisitFuncsBottomUp(pkg.Funcs, func(funcs []*ir.Func, recursive bool) {
-		// We visit functions within an SCC in fairly arbitrary order,
-		// so by computing inlinability for all functions in the SCC
-
-		// before performing any inlining, the results are less
-		// sensitive to the order within the SCC (see #58905 for an
-		// example).
-
-		// First compute inlinability for all functions in the SCC ...
-		inline.CanInlineSCC2(funcs, recursive, inlProfile)
-	})
+	inline.AnalyzeFuncPropsBottomUp(pkg.Funcs, inlProfile)
 
 	ir.VisitFuncsBottomUp(pkg.Funcs, func(funcs []*ir.Func, recursive bool) {
 		// ... then make a second pass to do devirtualization and inlining

@@ -144,9 +144,7 @@ func CanInlineFuncs(funcs []*ir.Func, profile *pgo.Profile) {
 	ir.VisitFuncsBottomUp(funcs, func(list []*ir.Func, recursive bool) {
 		CanInlineSCC1(list, recursive, profile)
 	})
-	ir.VisitFuncsBottomUp(funcs, func(list []*ir.Func, recursive bool) {
-		CanInlineSCC2(list, recursive, profile)
-	})
+	AnalyzeFuncPropsBottomUp(funcs, profile)
 }
 
 // CanInlineSCC computes the inlinability of functions within an SCC
@@ -175,16 +173,19 @@ func CanInlineSCC1(funcs []*ir.Func, recursive bool, profile *pgo.Profile) {
 	}
 }
 
-func CanInlineSCC2(funcs []*ir.Func, recursive bool, profile *pgo.Profile) {
+func AnalyzeFuncPropsBottomUp(funcs []*ir.Func, profile *pgo.Profile) {
 	if base.Flag.LowerL == 0 {
 		return
 	}
+	if !inlheur.Enabled() {
+		return
+	}
 
-	for _, fn := range funcs {
-		if inlheur.Enabled() {
+	ir.VisitFuncsBottomUp(funcs, func(scc []*ir.Func, recursive bool) {
+		for _, fn := range scc {
 			analyzeFuncProps(fn, profile)
 		}
-	}
+	})
 }
 
 // GarbageCollectUnreferencedHiddenClosures makes a pass over all the
