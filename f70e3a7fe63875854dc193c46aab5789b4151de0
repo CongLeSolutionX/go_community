@@ -16,6 +16,24 @@
       "message": "It was an item on the 1.23 todo list, I figured it would be quick.  Here\u0027s my stab at a draft.",
       "revId": "f70e3a7fe63875854dc193c46aab5789b4151de0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a277dbd1_c16c99dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-02-07T21:20:42Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve updated the note for that item to say it\u0027s being overhauled as part of work in #64169. I don\u0027t think creating go1.23.md is needed at this point the release cycle and this CL can likely be closed, but @jba@google.com should confirm.",
+      "parentUuid": "b072bea3_34227106",
+      "revId": "f70e3a7fe63875854dc193c46aab5789b4151de0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
