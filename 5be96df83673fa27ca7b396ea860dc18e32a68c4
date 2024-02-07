@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf0a818_236dfe49",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-07T21:11:47Z",
+      "side": 1,
+      "message": "For the not-inlined case, is this change intentional? Should this still be u.frame.pc?",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08b59f05_e615dc41",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-07T21:11:47Z",
+      "side": 1,
+      "message": "It may be good to have some comment about the +1.",
+      "range": {
+        "startLine": 1009,
+        "startChar": 28,
+        "endLine": 1009,
+        "endChar": 30
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
