@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "462f8259_33cd00c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-07T01:38:22Z",
+      "side": 1,
+      "message": "Thanks.  As part of the release process the official version of this file has moved to golang.org/x/website/_content/doc/go1.22.html.  The file in this repo is being deleted by CL 562155.  Would you mind moving this change to the website repo?  Thanks.",
+      "revId": "bd38a9b56177a841e58663fc39c4a55c1b08bb3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
