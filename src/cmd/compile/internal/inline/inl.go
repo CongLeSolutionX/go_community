@@ -142,7 +142,10 @@ func CanInlineFuncs(funcs []*ir.Func, profile *pgo.Profile) {
 	}
 
 	ir.VisitFuncsBottomUp(funcs, func(list []*ir.Func, recursive bool) {
-		CanInlineSCC(list, recursive, profile)
+		CanInlineSCC1(list, recursive, profile)
+	})
+	ir.VisitFuncsBottomUp(funcs, func(list []*ir.Func, recursive bool) {
+		CanInlineSCC2(list, recursive, profile)
 	})
 }
 
@@ -151,7 +154,7 @@ func CanInlineFuncs(funcs []*ir.Func, profile *pgo.Profile) {
 //
 // CanInlineSCC is designed to be used by ir.VisitFuncsBottomUp
 // callbacks.
-func CanInlineSCC(funcs []*ir.Func, recursive bool, profile *pgo.Profile) {
+func CanInlineSCC1(funcs []*ir.Func, recursive bool, profile *pgo.Profile) {
 	if base.Flag.LowerL == 0 {
 		return
 	}
@@ -169,6 +172,15 @@ func CanInlineSCC(funcs []*ir.Func, recursive bool, profile *pgo.Profile) {
 				fmt.Printf("%v: cannot inline %v: recursive\n", ir.Line(fn), fn.Nname)
 			}
 		}
+	}
+}
+
+func CanInlineSCC2(funcs []*ir.Func, recursive bool, profile *pgo.Profile) {
+	if base.Flag.LowerL == 0 {
+		return
+	}
+
+	for _, fn := range funcs {
 		if inlheur.Enabled() {
 			analyzeFuncProps(fn, profile)
 		}
