@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df44f49_8dc8c1e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-07T19:22:30Z",
+      "side": 1,
+      "message": "This is the cherry-pick of the spec date fix for the release branch.",
+      "revId": "a79255a834f8e93cae819b0ebf6fa2a86496303b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
