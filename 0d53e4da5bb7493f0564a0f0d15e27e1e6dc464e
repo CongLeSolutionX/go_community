@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "277c28e9_f9f93a67",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-07T08:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccd76363_7919ffad",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 627,
+        "endChar": 2
+      },
+      "revId": "0d53e4da5bb7493f0564a0f0d15e27e1e6dc464e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4ffaf35_ca964719",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-06T15:49:50Z",
       "side": 1,
       "message": "Should we return an error if the bit is not set?",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 640,
+        "endChar": 2
+      },
+      "revId": "0d53e4da5bb7493f0564a0f0d15e27e1e6dc464e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b184d34_2954785c",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-07T08:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ffaf35_ca964719",
       "range": {
         "startLine": 638,
         "startChar": 0,
