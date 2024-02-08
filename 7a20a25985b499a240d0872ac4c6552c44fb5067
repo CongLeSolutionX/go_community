@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cf8827f_e7670fac",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-08T20:40:39Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "range": {
+        "startLine": 44,
+        "startChar": 44,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "7a20a25985b499a240d0872ac4c6552c44fb5067",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25e93412_9514f592",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-08T20:40:39Z",
+      "side": 1,
+      "message": "RawSyscall6 needs these too. You should move RawSyscall6 after the comment that explains them.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 24
+      },
+      "revId": "7a20a25985b499a240d0872ac4c6552c44fb5067",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
