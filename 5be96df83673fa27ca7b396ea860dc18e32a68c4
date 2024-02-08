@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67313079_46453227",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-08T17:16:43Z",
+      "side": 1,
+      "message": "\u003e For the not-inlined case, is this change intentional?\n\nYes! Take a look at the corresponding code in runtime.Callers (which, unlike this function, had existing functional tests):\n\n```\nfunc tracebackPCs(u *unwinder, skip int, pcBuf []uintptr) int {\n\t...\n\tfor ; n \u003c len(pcBuf) \u0026\u0026 u.valid(); u.next() {\n\t\t...\n\t\tfor iu, uf :\u003d newInlineUnwinder(f, u.symPC()); n \u003c len(pcBuf) \u0026\u0026 uf.valid(); uf \u003d iu.next(uf) {\n\t\t\tsf :\u003d iu.srcFunc(uf)\n\t\t\t...\n\t\t\tpcBuf[n] \u003d uf.pc + 1\n}\n```\nThanks to Austin for pointing this out---I hadn\u0027t suspected the existing code had a bug.",
+      "parentUuid": "8cf0a818_236dfe49",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08b59f05_e615dc41",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-07T21:11:47Z",
       "side": 1,
       "message": "It may be good to have some comment about the +1.",
+      "range": {
+        "startLine": 1009,
+        "startChar": 28,
+        "endLine": 1009,
+        "endChar": 30
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "124be2c3_a81b7396",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-08T17:16:43Z",
+      "side": 1,
+      "message": "Good point.\n\n```\n\t\t// The contract between Callers and CallersFrames uses\n\t\t// return addresses, which are +1 relative to the CALL\n\t\t// instruction. Follow that convention.\n\t\tpc :\u003d uf.pc + 1\n```",
+      "parentUuid": "08b59f05_e615dc41",
       "range": {
         "startLine": 1009,
         "startChar": 28,
