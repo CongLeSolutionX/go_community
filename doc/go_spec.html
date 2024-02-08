@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Language version go1.22 (Feb 6, 2024)",
+	"Subtitle": "Language version go1.22 (Feb 8, 2024)",
 	"Path": "/ref/spec"
 }-->
 
@@ -7517,10 +7517,12 @@ The capacity of a <code>nil</code> slice or channel is 0.
 <p>
 The expression <code>len(s)</code> is <a href="#Constants">constant</a> if
 <code>s</code> is a string constant. The expressions <code>len(s)</code> and
-<code>cap(s)</code> are constants if the type of <code>s</code> is an array
-or pointer to an array and the expression <code>s</code> does not contain
-<a href="#Receive_operator">channel receives</a> or (non-constant)
-<a href="#Calls">function calls</a>; in this case <code>s</code> is not evaluated.
+<code>cap(s)</code> are constants if the expression <code>s</code> does not
+contain <a href="#Receive_operator">channel receives</a> or (non-constant)
+<a href="#Calls">function calls</a> and the type of <code>s</code> is either
+an array or a pointer to an array, or a type parameter constrained by arrays
+and pointer to arrays only, and all arrays in the constraint have the same length.
+In all these cases <code>s</code> is not evaluated.
 Otherwise, invocations of <code>len</code> and <code>cap</code> are not
 constant and <code>s</code> is evaluated.
 </p>
