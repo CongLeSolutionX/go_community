@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9253727_0fe1e487",
+        "filename": "src/cmd/go/testdata/script/build_issue_65528.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-08T01:57:17Z",
+      "side": 1,
+      "message": "Changing this to \"go 1\" fails:\n\n```\n    --- FAIL: TestScript/build_issue_65528 (0.00s)\n        script_test.go:132: 2024-02-08T01:55:56Z\n        script_test.go:134: $WORK\u003d/tmp/cmd-go-test-94948116/tmpdir2457780215/build_issue_655283045474140\n        script_test.go:156: \n            \u003e go build\n            [stderr]\n            go: errors parsing go.mod:\n            go.mod:3: invalid go version \u00271\u0027: must match format 1.23.0\n        script_test.go:156: FAIL: testdata/script/build_issue_65528.txt:1: go build: exit status 1\n```",
+      "revId": "4965a710c6ffaa8a18c8ce9421caabc7a4a6c6e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
