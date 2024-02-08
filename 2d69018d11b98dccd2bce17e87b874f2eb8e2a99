@@ -267,6 +267,23 @@
       "message": "kindly ping @dneil@google.com",
       "revId": "2d69018d11b98dccd2bce17e87b874f2eb8e2a99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a70e467b_ae9ce321",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-08T01:23:00Z",
+      "side": 1,
+      "message": "s/and UDP/a UDP/",
+      "revId": "2d69018d11b98dccd2bce17e87b874f2eb8e2a99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
