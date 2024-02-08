@@ -16,6 +16,24 @@
       "message": "Add:\n```\nCq-Include-Trybots: luci.golang.try:gotip-linux-amd64-longtest\n```",
       "revId": "2b740c021b154867d01b096e78e46f179765f2c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b208df0_c712f0fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-02-08T20:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f74d55f4_cba6253b",
+      "revId": "2b740c021b154867d01b096e78e46f179765f2c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
