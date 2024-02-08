@@ -185,6 +185,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1731c6_f2aab039",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-08T20:02:13Z",
+      "side": 1,
+      "message": "\u003e In that sense, the old code wasn\u0027t actually wrong. \n\nYeah, that\u0027s a plausible rationalization: the old traceback format \"flattened away\" the inlining from the PCs. But it did nonetheless report the func/file/line for each inlined call, though without relPC and PC information, as if it hadn\u0027t fully made up its mind whether it was a physical or logical representation of the stack.",
+      "parentUuid": "644bd4c6_f1ced03f",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08b59f05_e615dc41",
