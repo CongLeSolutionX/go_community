@@ -1232,6 +1232,16 @@ func fatalpanic(msgs *_panic) {
 		crash()
 	}
 
+	// If we're tracing, finish the current generation to make it easier to
+	// extract the trace from a core dump.
+	//
+	// TODO(aktau): Is it possible that we're crashing while some g is holding
+	//              worldsema or traceAdvanceSema (and can't advance)? That would
+	//              deadlock...
+	if traceEnabled() {
+		traceAdvance(false) // Blow past the nosplit limit...
+	}
+
 	systemstack(func() {
 		exit(2)
 	})
