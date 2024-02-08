@@ -759,6 +759,12 @@ func gopanic(e any) {
 		fn()
 	}
 
+	// If we're tracing, flush the current generation to make the trace more
+	// readable.
+	if traceEnabled() {
+		traceAdvance(false)
+	}
+
 	// ran out of deferred calls - old-school panic now
 	// Because it is unsafe to call arbitrary user code after freezing
 	// the world, we call preprintpanics to invoke all necessary Error
