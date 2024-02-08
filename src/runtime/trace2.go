@@ -98,6 +98,20 @@ var trace struct {
 	goStopReasons    [2][len(traceGoStopReasonStrings)]traceArg
 	goBlockReasons   [2][len(traceBlockReasonStrings)]traceArg
 
+	// enabled indicates whether tracing is enabled, but it is only an optimization,
+	// NOT the source of truth on whether tracing is enabled. Tracing is only truly
+	// enabled if gen != 0. This is used as an optimistic fast path check.
+	//
+	// Transitioning this value from true -> false is easy (once gen is 0)
+	// because it's OK for enabled to have a stale "true" value. traceAcquire will
+	// always double-check gen.
+	//
+	// Transitioning this value from false -> true is harder. We need to make sure
+	// this is observable as true strictly before gen != 0. To maintain this invariant
+	// we only make this transition with the world stopped and use the store to gen
+	// as a publication barrier.
+	enabled bool
+
 	// Trace generation counter.
 	gen            atomic.Uintptr
 	lastNonZeroGen uintptr // last non-zero value of gen
@@ -213,6 +227,11 @@ func StartTrace() error {
 	//
 	// After this executes, other Ms may start creating trace buffers and emitting
 	// data into them.
+	//
+	// Set trace.enabled and set if first. This is *very* subtle. The call to Store
+	// here acts as a publication barrier to ensure trace.enabled is always observed
+	// true if trace.gen != 0.
+	trace.enabled = true
 	trace.gen.Store(firstGen)
 
 	// Wait for exitingSyscall to drain.
@@ -376,6 +395,10 @@ func traceAdvance(stopTrace bool) {
 			trace.shutdown.Store(true)
 			trace.gen.Store(0)
 			unlock(&trace.lock)
+
+			// Clear trace.enabled. It is totally OK for this value to be stale,
+			// because traceAcquire will always double-check gen.
+			trace.enabled = false
 		})
 	} else {
 		trace.gen.Store(traceNextGen(gen))
