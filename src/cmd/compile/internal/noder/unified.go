@@ -80,7 +80,11 @@ func lookupFunction(pkg *types.Pkg, symName string) (*ir.Func, error) {
 		return nil, fmt.Errorf("func sym %v missing objReader", sym)
 	}
 
-	name := pri.pr.objIdx(pri.idx, nil, nil, false).(*ir.Name)
+	node := pri.pr.objIdx(pri.idx, nil, nil, false, false)
+	if node == nil {
+		return nil, fmt.Errorf("func sym %v exists but requires type parameters", sym)
+	}
+	name := node.(*ir.Name)
 	if name.Op() != ir.ONAME || name.Class != ir.PFUNC {
 		return nil, fmt.Errorf("func sym %v refers to non-function name: %v", sym, name)
 	}
@@ -105,7 +109,11 @@ func lookupMethod(pkg *types.Pkg, symName string) (*ir.Func, error) {
 		return nil, fmt.Errorf("type sym %v missing objReader", typ)
 	}
 
-	name := pri.pr.objIdx(pri.idx, nil, nil, false).(*ir.Name)
+	node := pri.pr.objIdx(pri.idx, nil, nil, false, false)
+	if node == nil {
+		return nil, fmt.Errorf("func sym %v exists but requires type parameters", typ)
+	}
+	name := node.(*ir.Name)
 	if name.Op() != ir.OTYPE {
 		return nil, fmt.Errorf("type sym %v refers to non-type name: %v", typ, name)
 	}

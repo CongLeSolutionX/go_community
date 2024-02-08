@@ -659,13 +659,23 @@ func (pr *pkgReader) objInstIdx(info objInfo, dict *readerDict, shaped bool) ir.
 		implicits = dict.targs
 	}
 
-	return pr.objIdx(info.idx, implicits, explicits, shaped)
+	return pr.objIdx(info.idx, implicits, explicits, shaped, true)
 }
 
 // objIdx returns the specified object, instantiated with the given
-// type arguments, if any. If shaped is true, then the shaped variant
-// of the object is returned instead.
-func (pr *pkgReader) objIdx(idx pkgbits.Index, implicits, explicits []*types.Type, shaped bool) ir.Node {
+// type arguments, if any.
+// If shaped is true, then the shaped variant of the object is returned
+// instead.
+// If mustInstantiate is true, then the number of passed type arguments must
+// match the expected number of type arguments to the object. If
+// mustInstantiate is false, then implicits and explicits must be nil. If the
+// object requires type arguments, objIdx returns nil instead of failing the
+// build.
+func (pr *pkgReader) objIdx(idx pkgbits.Index, implicits, explicits []*types.Type, shaped, mustInstantiate bool) ir.Node {
+	if !mustInstantiate && (implicits != nil || explicits != nil) {
+		base.Fatalf("mustInstantiate false requires no type arguments")
+	}
+
 	rname := pr.newReader(pkgbits.RelocName, idx, pkgbits.SyncObject1)
 	_, sym := rname.qualifiedIdent()
 	tag := pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
@@ -677,7 +687,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index, implicits, explicits []*types.Typ
 			return sym.Def.(ir.Node)
 		}
 		if pri, ok := objReader[sym]; ok {
-			return pri.pr.objIdx(pri.idx, nil, explicits, shaped)
+			return pri.pr.objIdx(pri.idx, nil, explicits, shaped, mustInstantiate)
 		}
 		if sym.Pkg.Path == "runtime" {
 			return typecheck.LookupRuntime(sym.Name)
@@ -685,7 +695,10 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index, implicits, explicits []*types.Typ
 		base.Fatalf("unresolved stub: %v", sym)
 	}
 
-	dict := pr.objDictIdx(sym, idx, implicits, explicits, shaped)
+	dict := pr.objDictIdx(sym, idx, implicits, explicits, shaped, mustInstantiate)
+	if dict == nil {
+		return nil
+	}
 
 	sym = dict.baseSym
 	if !sym.IsBlank() && sym.Def != nil {
@@ -762,7 +775,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index, implicits, explicits []*types.Typ
 				setType(name, shapeSig(name.Func, r.dict))
 			} else {
 				todoDicts = append(todoDicts, func() {
-					r.dict.shapedObj = pr.objIdx(idx, implicits, explicits, true).(*ir.Name)
+					r.dict.shapedObj = pr.objIdx(idx, implicits, explicits, true, true).(*ir.Name)
 				})
 			}
 		}
@@ -789,7 +802,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index, implicits, explicits []*types.Typ
 
 		if r.hasTypeParams() && !r.dict.shaped {
 			todoDicts = append(todoDicts, func() {
-				r.dict.shapedObj = pr.objIdx(idx, implicits, explicits, true).(*ir.Name)
+				r.dict.shapedObj = pr.objIdx(idx, implicits, explicits, true, true).(*ir.Name)
 			})
 		}
 
@@ -908,7 +921,7 @@ func shapify(targ *types.Type, basic bool) *types.Type {
 }
 
 // objDictIdx reads and returns the specified object dictionary.
-func (pr *pkgReader) objDictIdx(sym *types.Sym, idx pkgbits.Index, implicits, explicits []*types.Type, shaped bool) *readerDict {
+func (pr *pkgReader) objDictIdx(sym *types.Sym, idx pkgbits.Index, implicits, explicits []*types.Type, shaped, mustInstantiate bool) *readerDict {
 	r := pr.newReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1)
 
 	dict := readerDict{
@@ -919,7 +932,10 @@ func (pr *pkgReader) objDictIdx(sym *types.Sym, idx pkgbits.Index, implicits, ex
 	nexplicits := r.Len()
 
 	if nimplicits > len(implicits) || nexplicits != len(explicits) {
-		base.Fatalf("%v has %v+%v params, but instantiated with %v+%v args", sym, nimplicits, nexplicits, len(implicits), len(explicits))
+		if mustInstantiate {
+			base.Fatalf("%v has %v+%v params, but instantiated with %v+%v args", sym, nimplicits, nexplicits, len(implicits), len(explicits))
+		}
+		return nil
 	}
 
 	dict.targs = append(implicits[:nimplicits:nimplicits], explicits...)
@@ -2494,7 +2510,7 @@ func (r *reader) funcInst(pos src.XPos) (wrapperFn, baseFn, dictPtr ir.Node) {
 		info := r.dict.subdicts[idx]
 		explicits := r.p.typListIdx(info.explicits, r.dict)
 
-		baseFn = r.p.objIdx(info.idx, implicits, explicits, true).(*ir.Name)
+		baseFn = r.p.objIdx(info.idx, implicits, explicits, true, true).(*ir.Name)
 
 		// TODO(mdempsky): Is there a more robust way to get the
 		// dictionary pointer type here?
@@ -2507,8 +2523,8 @@ func (r *reader) funcInst(pos src.XPos) (wrapperFn, baseFn, dictPtr ir.Node) {
 	info := r.objInfo()
 	explicits := r.p.typListIdx(info.explicits, r.dict)
 
-	wrapperFn = r.p.objIdx(info.idx, implicits, explicits, false).(*ir.Name)
-	baseFn = r.p.objIdx(info.idx, implicits, explicits, true).(*ir.Name)
+	wrapperFn = r.p.objIdx(info.idx, implicits, explicits, false, true).(*ir.Name)
+	baseFn = r.p.objIdx(info.idx, implicits, explicits, true, true).(*ir.Name)
 
 	dictName := r.p.objDictName(info.idx, implicits, explicits)
 	dictPtr = typecheck.Expr(ir.NewAddrExpr(pos, dictName))
@@ -2529,7 +2545,7 @@ func (pr *pkgReader) objDictName(idx pkgbits.Index, implicits, explicits []*type
 		base.Fatalf("unresolved stub: %v", sym)
 	}
 
-	dict := pr.objDictIdx(sym, idx, implicits, explicits, false)
+	dict := pr.objDictIdx(sym, idx, implicits, explicits, false, true)
 
 	return pr.dictNameOf(dict)
 }
@@ -2787,7 +2803,7 @@ func (r *reader) methodExpr() (wrapperFn, baseFn, dictPtr ir.Node) {
 		info := r.dict.subdicts[idx]
 		explicits := r.p.typListIdx(info.explicits, r.dict)
 
-		shapedObj := r.p.objIdx(info.idx, implicits, explicits, true).(*ir.Name)
+		shapedObj := r.p.objIdx(info.idx, implicits, explicits, true, true).(*ir.Name)
 		shapedFn := shapedMethodExpr(pos, shapedObj, sym)
 
 		// TODO(mdempsky): Is there a more robust way to get the
@@ -2802,7 +2818,7 @@ func (r *reader) methodExpr() (wrapperFn, baseFn, dictPtr ir.Node) {
 		info := r.objInfo()
 		explicits := r.p.typListIdx(info.explicits, r.dict)
 
-		shapedObj := r.p.objIdx(info.idx, implicits, explicits, true).(*ir.Name)
+		shapedObj := r.p.objIdx(info.idx, implicits, explicits, true, true).(*ir.Name)
 		shapedFn := shapedMethodExpr(pos, shapedObj, sym)
 
 		dict := r.p.objDictName(info.idx, implicits, explicits)
