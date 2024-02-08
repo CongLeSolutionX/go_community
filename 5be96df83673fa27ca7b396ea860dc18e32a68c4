@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb446cdb_047806a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-08T17:20:35Z",
+      "side": 1,
+      "message": "I\u0027m curious: what were the pc values in the traceback been used for historically? Given the bug unearthed in this CL, and the lack of any existing tests that consume them, and the difficulty of subtracting the process-specific text segment base offset, it\u0027s hard to imagine that they were of much use.\n\nShould I file a proposal to alter the traceback output to include the text segment base offset so that consumers can reliably map the PC values back to the text section?",
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cf0a818_236dfe49",
