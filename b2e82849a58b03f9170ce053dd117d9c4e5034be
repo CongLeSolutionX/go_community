@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "758786cd_8a277477",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-08T20:45:05Z",
+      "side": 1,
+      "message": "Fix in general SGTM. Just API readability nits.",
+      "revId": "b2e82849a58b03f9170ce053dd117d9c4e5034be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "313a24ea_e012c413",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-08T20:45:05Z",
+      "side": 1,
+      "message": "Please invert this to \"mayFail\" so that the zero-value args (!shaped, !mayFail) represent the default/common case.\n\nAlternatively, refactor to put most of the logic in a new \"objIdxMayFail\" method that returns (ir.Node, error), and then leave objIdx as a wrapper that does the \"if err !\u003d nil { base.Fatalf(...) }\".",
+      "range": {
+        "startLine": 669,
+        "startChar": 3,
+        "endLine": 670,
+        "endChar": 60
+      },
+      "revId": "b2e82849a58b03f9170ce053dd117d9c4e5034be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a44ed033_be0fea5e",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-08T20:45:05Z",
+      "side": 1,
+      "message": "What\u0027s the rationale for this? It seems fine to me to say it fails if not enough implicits are provided or the wrong number of explicit arguments are provided.",
+      "range": {
+        "startLine": 671,
+        "startChar": 29,
+        "endLine": 671,
+        "endChar": 69
+      },
+      "revId": "b2e82849a58b03f9170ce053dd117d9c4e5034be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
