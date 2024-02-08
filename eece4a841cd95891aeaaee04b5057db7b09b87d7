@@ -139,6 +139,24 @@
       "parentUuid": "2e896503_6cc614fc",
       "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b68c005_88b7a7bb",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-08T21:05:33Z",
+      "side": 1,
+      "message": "Interesting. It seems Rotate by 8 and 16 will get zero-extended result, whereas Rotate by 32 will get sign-extended result. Perhaps that is fine, as we do not specify the high bits for Rotate32?",
+      "parentUuid": "06e5440f_b4cf0c47",
+      "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
