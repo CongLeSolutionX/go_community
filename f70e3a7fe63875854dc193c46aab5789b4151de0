@@ -34,6 +34,24 @@
       "parentUuid": "b072bea3_34227106",
       "revId": "f70e3a7fe63875854dc193c46aab5789b4151de0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0b628e1_d78b47a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-08T13:26:31Z",
+      "side": 1,
+      "message": "It\u0027s better not to put this in the repo, because people will be tempted to edit it instead of the files in the doc/next tree.\n\nThat is the new hotness, BTW: either edit a file in doc/next, or add one. They will be merged in lexicographic order.\n\nWhat WOULD be helpful is if you did\n  go install golang.org/x/build/cmd/relnote@master\nand then ran\n  relnote generate path/to/your/local/go/repo\n  \n\nYou should get a document that matches yours. If it doesn\u0027t, you could edit the doc/next tree to make it match.",
+      "parentUuid": "a277dbd1_c16c99dd",
+      "revId": "f70e3a7fe63875854dc193c46aab5789b4151de0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
