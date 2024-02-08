@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f9a314_3341abda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14850
+      },
+      "writtenOn": "2024-02-08T11:35:42Z",
+      "side": 1,
+      "message": "I\u0027ve rebased changes onto the master branch. But still have the same failure locally:\n```\n--- FAIL: TestSpuriousWakeupsNeverHangSemasleep (10.02s)\n    semasleep_test.go:56: read from testprog stdout: ready\n    semasleep_test.go:98: Program failed to return on time and has to be killed, issue #27520 still exists\n```",
+      "revId": "5edb1423558cfd571151da04aa886dec101b7f7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
