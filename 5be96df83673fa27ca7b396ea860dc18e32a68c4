@@ -113,6 +113,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ed73f1_dab24710",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-08T19:42:24Z",
+      "side": 1,
+      "message": "Okay, I think I see how they can differ. If the frame doesn\u0027t have any inlining, I think they should be equal. But if it actually has some inlining and this is the outermost frame in the inlining stack, in this case isInlined is false. I think in this case uf.pc+1 is correctly the logical \"call site\" of that inlined call, whereas u.frame.pc is probably (the next instruction of) the last executed CALL instruction\u0027s PC (which should belong to the inlined frame instead).\n\nI sometimes used the PC values, for manual debugging. Either I have the exact binary, or I can reproduce a similar one, so I can associate the PC (at least the relative PC) to an instruction. But I probably didn\u0027t pay too much attention to inlined frames. It pretty much always pointed to a CALL instruction and I felt that was okay.",
+      "parentUuid": "53c5aa44_24f7934e",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08b59f05_e615dc41",
