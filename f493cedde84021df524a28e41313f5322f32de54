@@ -88,6 +88,23 @@
       "message": "Could you please take a look? Thanks!",
       "revId": "f493cedde84021df524a28e41313f5322f32de54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4523024_9c4853de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-08T21:11:03Z",
+      "side": 1,
+      "message": "Kindly ping, does this change need a test?",
+      "revId": "f493cedde84021df524a28e41313f5322f32de54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
