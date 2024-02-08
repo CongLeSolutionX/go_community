@@ -89,6 +89,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c5aa44_24f7934e",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-08T18:27:07Z",
+      "side": 1,
+      "message": "\u003e When do they differ? For a non-inlined frame I think they are equal?\n\nNo, they are not, nor do they differ by only +/-1. I\u0027m not sure why; I suspect the old value was simply wrong, and was not covered by any test.\n\n\n\u003e If they actually differ, what about the code above that prints the relative PC? I think we should use the same value for absolute and relative PC.\n\nGood point; done.\n\nBut see my question on the CL as a whole: what use were the old PC values? Did anyone use them for anything? I can\u0027t see how they could be useful since they related to a dead process. There isn\u0027t even a chance to attach a debugger to the address space before it goes away.",
+      "parentUuid": "e85cd91e_6ee1d504",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08b59f05_e615dc41",
@@ -150,6 +174,30 @@
       "side": 1,
       "message": "Thanks. Perhaps add the comment to the code.",
       "parentUuid": "124be2c3_a81b7396",
+      "range": {
+        "startLine": 1009,
+        "startChar": 28,
+        "endLine": 1009,
+        "endChar": 30
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d630a91_3390fa0f",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-08T18:27:07Z",
+      "side": 1,
+      "message": "I did, but my git mail failed due to gcert. Try again now. Sorry for the confusion.",
+      "parentUuid": "2205e459_22e5adcd",
       "range": {
         "startLine": 1009,
         "startChar": 28,
