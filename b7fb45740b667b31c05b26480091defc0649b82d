@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac841a9_9a76bf4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2024-02-08T02:01:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c9419c_94563f71",
+      "revId": "b7fb45740b667b31c05b26480091defc0649b82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7dcb39f_98717276",
@@ -68,6 +86,24 @@
       "writtenOn": "2024-02-07T20:48:37Z",
       "side": 1,
       "message": "Please add leading and trailing anchors to these regular expressions (to check for missing or unexpected leading and trailing content), like:\n```\nstderr \u0027^go: resolving embeds in example.com/brokendep: pattern foo.txt: no matching files found$\u0027\n```",
+      "revId": "b7fb45740b667b31c05b26480091defc0649b82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "204698c5_27851e4e",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_embed.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 54981
+      },
+      "writtenOn": "2024-02-08T02:01:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b03dfed_4a5cfa08",
       "revId": "b7fb45740b667b31c05b26480091defc0649b82d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
