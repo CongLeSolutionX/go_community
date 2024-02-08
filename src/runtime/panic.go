@@ -759,6 +759,16 @@ func gopanic(e any) {
 		fn()
 	}
 
+	// If we're tracing, finish the current generation to make it easier to
+	// extract the trace from a core dump.
+	//
+	// TODO(aktau): Is it possible that we're crashing while some g is holding
+	//              worldsema or traceAdvanceSema (and can't advance)? That would
+	//              deadlock...
+	if traceEnabled() {
+		traceAdvance(false) // Blow past the nosplit limit...
+	}
+
 	// ran out of deferred calls - old-school panic now
 	// Because it is unsafe to call arbitrary user code after freezing
 	// the world, we call preprintpanics to invoke all necessary Error
