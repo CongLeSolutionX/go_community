@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "213595d2_f368381b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-08T20:58:37Z",
+      "side": 1,
+      "message": "\u003e Why not just use go/version in the std?\n\ngo/version\u0027s package docs say \"Package version provides operations on Go versions in **Go toolchain name syntax**.\" But the -lang flag takes a \"Go language version\". According to https://go.dev/doc/toolchain, these are separate. If it\u0027s correct to use go/version here for parsing a Go language version, that\u0027s not apparent to me from the docs.\n\nAlso, this fix needs to be backported for release. I\u0027d rather do something simple than invasive. If you know how to change this code to use go/version, patches welcome. Thanks.",
+      "parentUuid": "c0e5e7b3_23aad77c",
+      "revId": "4965a710c6ffaa8a18c8ce9421caabc7a4a6c6e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9253727_0fe1e487",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "That is as expected — `go 1.0` is not the canonical name for that version.\n\nThe module in the original issue report used `go 1.0`:\nhttps://github.com/danjacques/gofslock/blob/ae8f59f9e88bc8752912b4cfd6de339288b6738d/go.mod#L3",
       "parentUuid": "b9253727_0fe1e487",
+      "revId": "4965a710c6ffaa8a18c8ce9421caabc7a4a6c6e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8058f588_66606f4d",
+        "filename": "src/cmd/go/testdata/script/build_issue_65528.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-08T20:58:37Z",
+      "side": 1,
+      "message": "If \"go 1.0\" is not the canonical name for that version, and cmd/go doesn\u0027t allow users to write \"go 1\", why did it start spelling \"-lang\u003dgo1.0\" as \"-lang\u003dgo1\"? What was wrong with the original spelling? Why does cmd/compile need to support both spellings? Wouldn\u0027t it be simpler for cmd/go to just stick to the original and canonical spelling?",
+      "parentUuid": "eacfc5ac_5ac8b6bb",
       "revId": "4965a710c6ffaa8a18c8ce9421caabc7a4a6c6e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
