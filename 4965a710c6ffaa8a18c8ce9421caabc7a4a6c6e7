@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0e5e7b3_23aad77c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-08T11:45:14Z",
+      "side": 1,
+      "message": "Why not just use go/version in the std?\nI think it has covered this corner case.",
+      "revId": "4965a710c6ffaa8a18c8ce9421caabc7a4a6c6e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9253727_0fe1e487",
