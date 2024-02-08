@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39ac8e3e_38935444",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14850
+      },
+      "writtenOn": "2024-02-08T18:22:32Z",
+      "side": 1,
+      "message": "I somehow managed to revert changes from Pacthset 3 during the rebase. Fixed it now.",
+      "revId": "487ac58cdd05124f951e1140c670b7e214b78c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
