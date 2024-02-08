@@ -6,15 +6,20 @@ package runtime_test
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"flag"
 	"fmt"
+	"internal/goexperiment"
 	"internal/testenv"
+	tracev2 "internal/trace/v2"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
 	"runtime"
+	"runtime/trace"
 	"strings"
 	"sync"
 	"testing"
@@ -859,6 +864,87 @@ func TestG0StackOverflow(t *testing.T) {
 	}
 
 	runtime.G0StackOverflow()
+}
+
+func TestCrashWhileTracing(t *testing.T) {
+	if !goexperiment.ExecTracer2 {
+		t.Skip("skipping because this test is incompatible with the legacy tracer")
+	}
+
+	testenv.MustHaveExec(t)
+
+	if runtime.GOOS == "ios" {
+		testenv.SkipFlaky(t, 62671)
+	}
+
+	const (
+		logCategory = "xyzzy-cat"
+		logMessage  = "xyzzy-msg"
+	)
+
+	if os.Getenv("TEST_CRASH_WHILE_TRACING") != "1" {
+		cmd := testenv.CleanCmdEnv(testenv.Command(t, os.Args[0], "-test.run=^TestCrashWhileTracing$", "-test.v"))
+		cmd.Env = append(cmd.Env, "TEST_CRASH_WHILE_TRACING=1")
+		cmd.Start()
+		stdOut, err := cmd.StdoutPipe()
+		var errOut bytes.Buffer
+		cmd.Stderr = &errOut
+
+		r, err := tracev2.NewReader(stdOut)
+		if err != nil {
+			t.Errorf("could not create trace.NewReader: %v", err)
+		}
+		var seen bool
+		i := 1
+	loop:
+		for ; ; i++ {
+			ev, err := r.ReadEvent()
+			if err != nil {
+				if err != io.EOF {
+					t.Errorf("error at event %d: %v", i, err)
+				}
+				break loop
+			}
+			switch ev.Kind() {
+			case tracev2.EventLog:
+				v := ev.Log()
+				if v.Category == logCategory && v.Message == logMessage {
+					seen = true
+				}
+			}
+		}
+		if err := cmd.Wait(); err == nil {
+			t.Error("the process should have panicked")
+		}
+		if !seen {
+			t.Errorf("expected one log event matching {category=%q message=%q}, but 0 out of %d events match", logCategory, logMessage, i)
+		}
+
+		t.Logf("stderr output:\n%s", errOut.String())
+		// Don't check err since it's expected to crash.
+		if n := strings.Count(errOut.String(), "yzzyx\n"); n != 1 {
+			t.Fatalf("%s\n(exit status %v)", errOut.String(), err)
+		}
+		if runtime.CrashStackImplemented {
+			// check for a stack trace
+			const want = "TestCrashWhileTracing"
+			if n := strings.Count(errOut.String(), want); n < 2 {
+				t.Errorf("output does not contain %q at least 2 times:\n%s", want, errOut.String())
+			}
+			return // it's not a signal-style traceback
+		}
+		// Check that it's a signal-style traceback.
+		if runtime.GOOS != "windows" {
+			if want := "PC="; !strings.Contains(string(errOut.String()), want) {
+				t.Errorf("output does not contain %q:\n%s", want, errOut.String())
+			}
+		}
+		return
+	}
+
+	trace.Start(os.Stdout)
+	trace.Log(context.Background(), "xyzzy-cat", "xyzzy-msg")
+	panic("yzzyx")
 }
 
 // Test that panic message is not clobbered.
