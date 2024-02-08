@@ -54,6 +54,23 @@
       "parentUuid": "ffb3ed51_0b9d8576",
       "revId": "7a6bdb5e61461cb7ac0f21889b80c96405318100",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1008bc2c_59579322",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-02-08T20:43:29Z",
+      "side": 1,
+      "message": "Bypassing trybots and LUCI because the plan9 builders have issues. Will check the build dashboard tomorrow to see what the status is.",
+      "revId": "7a6bdb5e61461cb7ac0f21889b80c96405318100",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
