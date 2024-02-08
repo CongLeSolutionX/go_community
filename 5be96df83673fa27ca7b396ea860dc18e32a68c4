@@ -137,6 +137,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd867bf7_8cc386a7",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-08T19:46:32Z",
+      "side": 1,
+      "message": "Thinking more: since we did not print PCs for inlined frames, if we print only one PC for a physical frame, then printing the PC of that CALL instruction is probably the right thing to do. We just associated to the outermost frame of the inlining stack (because other frames don\u0027t have PCs). In that sense, the old code wasn\u0027t actually wrong. But as we now print PCs for inlined frames, we should change it to the logical call site, as this CL correctly does.",
+      "parentUuid": "e9ed73f1_dab24710",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08b59f05_e615dc41",
