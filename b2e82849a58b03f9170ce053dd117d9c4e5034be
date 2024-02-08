@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51897cfb_4b296055",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-08T21:26:02Z",
+      "side": 1,
+      "message": "I\u0027ve done the alternative. These lists of bool arguments get hard to read fast, so encoding in the name is probably better.",
+      "parentUuid": "313a24ea_e012c413",
+      "range": {
+        "startLine": 669,
+        "startChar": 3,
+        "endLine": 670,
+        "endChar": 60
+      },
+      "revId": "b2e82849a58b03f9170ce053dd117d9c4e5034be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a44ed033_be0fea5e",
@@ -60,6 +84,47 @@
         "endLine": 671,
         "endChar": 69
       },
+      "revId": "b2e82849a58b03f9170ce053dd117d9c4e5034be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5556dd09_cb1b6e87",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-08T21:26:02Z",
+      "side": 1,
+      "message": "I am simply being extra conservative since I never need to pass type arguments.\n\nWhen adding this, I was imagining a case where perhaps PGO tries to \"guess\" appropriate type arguments, without verifying that the type arguments actually satisfy the constraints. In this situation, my intuition for `mayFail` would be that objIdx returns nil if the type arguments don\u0027t satisfy the constraints, but I don\u0027t think that would actually happen.\n\nI\u0027ve dropped this in refactoring to `objIdxMayFail` as a check doesn\u0027t fit very well in that form anyway.",
+      "parentUuid": "a44ed033_be0fea5e",
+      "range": {
+        "startLine": 671,
+        "startChar": 29,
+        "endLine": 671,
+        "endChar": 69
+      },
+      "revId": "b2e82849a58b03f9170ce053dd117d9c4e5034be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e549177_e6700770",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-08T21:26:02Z",
+      "side": 1,
+      "message": "My thinking is that this does not need to allow fail because if objDictIdx succeeds then this must succeed. Holler if that doesn\u0027t seem correct.",
       "revId": "b2e82849a58b03f9170ce053dd117d9c4e5034be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
