@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e85cd91e_6ee1d504",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-08T18:02:17Z",
+      "side": 1,
+      "message": "When do they differ? For a non-inlined frame I think they are equal?\n\nIf they actually differ, what about the code above that prints the relative PC? I think we should use the same value for absolute and relative PC.",
+      "parentUuid": "67313079_46453227",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08b59f05_e615dc41",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 6
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "Good point.\n\n```\n\t\t// The contract between Callers and CallersFrames uses\n\t\t// return addresses, which are +1 relative to the CALL\n\t\t// instruction. Follow that convention.\n\t\tpc :\u003d uf.pc + 1\n```",
       "parentUuid": "08b59f05_e615dc41",
+      "range": {
+        "startLine": 1009,
+        "startChar": 28,
+        "endLine": 1009,
+        "endChar": 30
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2205e459_22e5adcd",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-08T18:02:17Z",
+      "side": 1,
+      "message": "Thanks. Perhaps add the comment to the code.",
+      "parentUuid": "124be2c3_a81b7396",
       "range": {
         "startLine": 1009,
         "startChar": 28,
