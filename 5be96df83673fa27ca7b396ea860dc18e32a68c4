@@ -161,6 +161,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "644bd4c6_f1ced03f",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-08T19:56:35Z",
+      "side": 1,
+      "message": "\u003e I think in this case uf.pc+1 is correctly the logical \"call site\" of that inlined call, whereas u.frame.pc is probably (the next instruction of) the last executed CALL instruction\u0027s PC (which should belong to the inlined frame instead).\n\nAha! That makes sense. Thanks for digging.",
+      "parentUuid": "e9ed73f1_dab24710",
+      "range": {
+        "startLine": 1004,
+        "startChar": 73,
+        "endLine": 1004,
+        "endChar": 80
+      },
+      "revId": "5be96df83673fa27ca7b396ea860dc18e32a68c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08b59f05_e615dc41",
