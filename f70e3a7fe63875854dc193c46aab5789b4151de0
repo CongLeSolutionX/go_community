@@ -70,6 +70,24 @@
       "parentUuid": "d0b628e1_d78b47a3",
       "revId": "f70e3a7fe63875854dc193c46aab5789b4151de0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6367769c_cc3e3d99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-02-08T16:55:40Z",
+      "side": 1,
+      "message": "go1.23.md will be checked in, but likely into x/website. I\u0027m still working with Jonathan on finishing updating our release process docs. It will be done before the Go 1.23 freeze, and and the current doc/next will be working until at least the freeze starts.",
+      "parentUuid": "4ad5202b_a538196d",
+      "revId": "f70e3a7fe63875854dc193c46aab5789b4151de0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
