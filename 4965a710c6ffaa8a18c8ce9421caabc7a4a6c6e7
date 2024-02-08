@@ -87,6 +87,24 @@
       "parentUuid": "eacfc5ac_5ac8b6bb",
       "revId": "4965a710c6ffaa8a18c8ce9421caabc7a4a6c6e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1adaabc_b843cd10",
+        "filename": "src/cmd/go/testdata/script/build_issue_65528.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-08T21:27:50Z",
+      "side": 1,
+      "message": "\u003e If \"go 1.0\" is not the canonical name for that version, and cmd/go doesn\u0027t allow users to write \"go 1\", why did it start spelling \"-lang\u003dgo1.0\" as \"-lang\u003dgo1\"?\n\n`cmd/go` started using a library for determining the language version (https://pkg.go.dev/go/version#Lang). Russ implemented the library, and made it return `go1` because that\u0027s what the release notes for that version actually called it (https://go.dev/doc/devel/release#go1). (If you\u0027d rather make a change in `go/version` instead, I have no objection — just please coordinate with Russ on that.)\n\nI don\u0027t think we ever really made a conscious decision about accepting `go 1.0` in `go.mod` files, because it\u0027s nonsensical: nothing below `go 1.11` even interprets the `go.mod` file, and the compiler doesn\u0027t enforce any semantic changes for versions below some threshold (re-reading #28221, possibly Go 1.8?).\n\nUnfortunately, we didn\u0027t enforce that the versions listed in `go.mod` files actually make sense, and Hyrum\u0027s Law took hold. (There were no integration tests that covered this edge case — if there were, we would have caught #65528 before `go1.22rc2`!)\n\n\u003e What was wrong with the original spelling? Why does cmd/compile need to support both spellings?\n\nWhat was wrong with it, I suppose, is that it was underspecified..?\n\nBut I would be surprised if `cmd/compile` actually needs to support both spellings, given that only `cmd/go` seems to be passing this version in flags. (Maybe `go1` alone suffices?)\n\n\u003e Wouldn\u0027t it be simpler for cmd/go to just stick to the original and canonical spelling?\n\nUnfortunately the “original” and “canonical” are apparently two different spellings. 🫠",
+      "parentUuid": "8058f588_66606f4d",
+      "revId": "4965a710c6ffaa8a18c8ce9421caabc7a4a6c6e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
