@@ -23,8 +23,8 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 	// append is the only built-in that permits the use of ... for the last argument
 	bin := predeclaredFuncs[id]
 	if hasDots(call) && id != _Append {
-		//check.errorf(call.Ellipsis, invalidOp + "invalid use of ... with built-in %s", bin.name)
-		check.errorf(call,
+		dddErrPos := call // TODO(gri) types2: should use "..." position
+		check.errorf(dddErrPos,
 			InvalidDotDotDot,
 			invalidOp+"invalid use of ... with built-in %s", bin.name)
 		check.use(argList...)
@@ -76,7 +76,8 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 			msg = "too many"
 		}
 		if msg != "" {
-			check.errorf(call, WrongArgCount, invalidOp+"%s arguments for %v (expected %d, found %d)", msg, call, bin.nargs, nargs)
+			argErrPos := call
+			check.errorf(argErrPos, WrongArgCount, invalidOp+"%s arguments for %v (expected %d, found %d)", msg, call, bin.nargs, nargs)
 			return
 		}
 	}
