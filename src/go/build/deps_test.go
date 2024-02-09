@@ -89,8 +89,9 @@ var depsRules = `
 	< RUNTIME;
 
 	# slices depends on unsafe for overlapping check, cmp for comparison
-	# semantics, and math/bits for # calculating bitlength of numbers.
-	unsafe, cmp, math/bits
+	# semantics, iter for iter.Seq, and math/bits for calculating bitlength
+	# of numbers.
+	unsafe, cmp, iter, math/bits
 	< slices;
 
 	RUNTIME, slices
