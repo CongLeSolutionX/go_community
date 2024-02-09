@@ -156,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4a4d573_a87e2d09",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-02-09T22:42:07Z",
+      "side": 1,
+      "message": "OK, though I don\u0027t yet see what specific case you\u0027re thinking of, since I thought that the code path I\u0027m editing is also for unhandled panics.\n\nWould it be OK to take of this at a later time or should it be taken care of now (will it be a problem, and if so, how do I provoke the situation to add a test?).",
+      "parentUuid": "d3c2a3c0_da6684fa",
+      "range": {
+        "startLine": 765,
+        "startChar": 17,
+        "endLine": 767,
+        "endChar": 28
+      },
+      "revId": "276d08528d285d7a542e01f6dc3baf324e4a0e49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8d56016_8c7a55d0",
         "filename": "src/runtime/panic.go",
         "patchSetId": 3
