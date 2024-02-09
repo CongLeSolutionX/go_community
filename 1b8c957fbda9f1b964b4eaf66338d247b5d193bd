@@ -70,6 +70,24 @@
       "message": "Why do these cases use \u003c and not \u003c\u003d ?",
       "revId": "1b8c957fbda9f1b964b4eaf66338d247b5d193bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fffc4ed4_a91853f2",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-02-09T00:31:58Z",
+      "side": 1,
+      "message": "Fixed. I put the length check first since it is faster.",
+      "parentUuid": "2fe820a6_962680ec",
+      "revId": "1b8c957fbda9f1b964b4eaf66338d247b5d193bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
