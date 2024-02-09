@@ -1322,3 +1322,88 @@ func TestConcat_too_large(t *testing.T) {
 		}
 	}
 }
+
+func TestChunk(t *testing.T) {
+	cases := []struct {
+		name   string
+		s      []int
+		n      int
+		chunks [][]int
+	}{
+		{
+			name:   "nil",
+			s:      nil,
+			n:      1,
+			chunks: nil,
+		},
+		{
+			name:   "empty",
+			s:      []int{},
+			n:      1,
+			chunks: nil,
+		},
+		{
+			name:   "short",
+			s:      []int{1, 2},
+			n:      3,
+			chunks: [][]int{{1, 2}},
+		},
+		{
+			name:   "one",
+			s:      []int{1, 2},
+			n:      2,
+			chunks: [][]int{{1, 2}},
+		},
+		{
+			name:   "even",
+			s:      []int{1, 2, 3, 4},
+			n:      2,
+			chunks: [][]int{{1, 2}, {3, 4}},
+		},
+		{
+			name:   "odd",
+			s:      []int{1, 2, 3, 4, 5},
+			n:      2,
+			chunks: [][]int{{1, 2}, {3, 4}, {5}},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			var chunks [][]int
+			for c := range Chunk(tc.s, tc.n) {
+				chunks = append(chunks, c)
+			}
+
+			if !chunkEqual(chunks, tc.chunks) {
+				t.Errorf("Chunk(%v, %d) = %v, want %v", tc.s, tc.n, chunks, tc.chunks)
+			}
+
+			if len(chunks) == 0 {
+				return
+			}
+
+			// Verify that appending to the end of the first chunk does not
+			// clobber the beginning of the next chunk.
+			s := Clone(tc.s)
+			chunks[0] = append(chunks[0], -1)
+			if !Equal(s, tc.s) {
+				t.Errorf("slice was clobbered: %v, want %v", s, tc.s)
+			}
+		})
+	}
+}
+
+func chunkEqual[S ~[]E, E comparable](s1, s2 []S) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+
+	for i := range s1 {
+		if !Equal(s1[i], s2[i]) {
+			return false
+		}
+	}
+
+	return true
+}
