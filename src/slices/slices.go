@@ -513,3 +513,25 @@ func Concat[S ~[]E, E any](slices ...S) S {
 	}
 	return newslice
 }
+
+// Chunk returns an iterator over consecutive sub-slices of up to n elements of x.
+// All but the last sub-slice will have size n.
+// All sub-slices are clipped to have no capacity beyond the length.
+// If x is empty, the sequence is empty: there is no empty slice in the sequence.
+func Chunk[T any](x []T, n int) func(yield func([]T) bool) {
+	return func(yield func([]T) bool) {
+		for i, j := 0, 0; i < len(x); i += j {
+			j = n
+			if l := len(x[i:]); l < n {
+				// Clamp the last chunk to the slice bound as necessary.
+				j = l
+			}
+
+			// Set the capacity of each chunk so that appending to a chunk does
+			// not modify the original slice.
+			if !yield(x[i : i+j : i+j]) {
+				return
+			}
+		}
+	}
+}
