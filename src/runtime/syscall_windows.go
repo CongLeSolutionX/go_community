@@ -415,63 +415,36 @@ const _LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800
 
 //go:linkname syscall_loadsystemlibrary syscall.loadsystemlibrary
 //go:nosplit
-//go:cgo_unsafe_args
 func syscall_loadsystemlibrary(filename *uint16) (handle, err uintptr) {
-	lockOSThread()
-	c := &getg().m.syscall
-	c.fn = getLoadLibraryEx()
-	c.n = 3
-	args := struct {
-		lpFileName *uint16
-		hFile      uintptr // always 0
-		flags      uint32
-	}{filename, 0, _LOAD_LIBRARY_SEARCH_SYSTEM32}
-	c.args = uintptr(noescape(unsafe.Pointer(&args)))
-
-	cgocall(asmstdcallAddr, unsafe.Pointer(c))
+	fn := getLoadLibraryEx()
+	handle, _, err = syscall_SyscallN(fn, uintptr(unsafe.Pointer(filename)), 0, _LOAD_LIBRARY_SEARCH_SYSTEM32)
 	KeepAlive(filename)
-	handle = c.r1
-	if handle == 0 {
-		err = c.err
+	if handle != 0 {
+		err = 0
 	}
-	unlockOSThread() // not defer'd after the lockOSThread above to save stack frame size.
 	return
 }
 
 //go:linkname syscall_loadlibrary syscall.loadlibrary
 //go:nosplit
-//go:cgo_unsafe_args
 func syscall_loadlibrary(filename *uint16) (handle, err uintptr) {
-	lockOSThread()
-	defer unlockOSThread()
-	c := &getg().m.syscall
-	c.fn = getLoadLibrary()
-	c.n = 1
-	c.args = uintptr(noescape(unsafe.Pointer(&filename)))
-	cgocall(asmstdcallAddr, unsafe.Pointer(c))
+	fn := getLoadLibrary()
+	handle, _, err = syscall_SyscallN(fn, uintptr(unsafe.Pointer(filename)))
 	KeepAlive(filename)
-	handle = c.r1
-	if handle == 0 {
-		err = c.err
+	if handle != 0 {
+		err = 0
 	}
 	return
 }
 
 //go:linkname syscall_getprocaddress syscall.getprocaddress
 //go:nosplit
-//go:cgo_unsafe_args
 func syscall_getprocaddress(handle uintptr, procname *byte) (outhandle, err uintptr) {
-	lockOSThread()
-	defer unlockOSThread()
-	c := &getg().m.syscall
-	c.fn = getGetProcAddress()
-	c.n = 2
-	c.args = uintptr(noescape(unsafe.Pointer(&handle)))
-	cgocall(asmstdcallAddr, unsafe.Pointer(c))
+	fn := getGetProcAddress()
+	outhandle, _, err = syscall_SyscallN(fn, handle, uintptr(unsafe.Pointer(procname)))
 	KeepAlive(procname)
-	outhandle = c.r1
-	if outhandle == 0 {
-		err = c.err
+	if handle != 0 {
+		err = 0
 	}
 	return
 }
@@ -522,25 +495,17 @@ const maxArgs = 42
 //go:linkname syscall_SyscallN syscall.SyscallN
 //go:nosplit
 func syscall_SyscallN(trap uintptr, args ...uintptr) (r1, r2, err uintptr) {
-	nargs := len(args)
-
-	// asmstdcall expects it can access the first 4 arguments
-	// to load them into registers.
-	var tmp [4]uintptr
-	switch {
-	case nargs < 4:
-		copy(tmp[:], args)
-		args = tmp[:]
-	case nargs > maxArgs:
+	if len(args) > maxArgs {
 		panic("runtime: SyscallN has too many arguments")
 	}
 
-	lockOSThread()
-	defer unlockOSThread()
-	c := &getg().m.syscall
-	c.fn = trap
-	c.n = uintptr(nargs)
-	c.args = uintptr(noescape(unsafe.Pointer(&args[0])))
-	cgocall(asmstdcallAddr, unsafe.Pointer(c))
+	c := libcall{
+		fn: trap,
+		n:  uintptr(len(args)),
+	}
+	if len(args) != 0 {
+		c.args = uintptr(noescape(unsafe.Pointer(&args[0])))
+	}
+	cgocall(asmstdcallAddr, unsafe.Pointer(&c))
 	return c.r1, c.r2, c.err
 }
