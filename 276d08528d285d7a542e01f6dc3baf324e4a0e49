@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e033ed46_a197ac39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-02-09T22:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b37bc98_c4badba1",
+      "revId": "276d08528d285d7a542e01f6dc3baf324e4a0e49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b48787e9_40ee3afb",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-02-09T17:23:22Z",
       "side": 1,
       "message": "nit: perhaps \"make more of the trace readable.\" this helps even if tracing just happens to be enabled when the crash happens.",
+      "range": {
+        "startLine": 762,
+        "startChar": 55,
+        "endLine": 763,
+        "endChar": 39
+      },
+      "revId": "276d08528d285d7a542e01f6dc3baf324e4a0e49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c7bbc64_15d970f3",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-02-09T22:19:51Z",
+      "side": 1,
+      "message": "I thought I\u0027d add at least one potential use case for it. But you\u0027re right it\u0027s not strictly required. I was thinking of people reading this and wondering why we bother advancing the trace when we\u0027re about to crash.\n\nAnyway, suggestion applied.",
+      "parentUuid": "b48787e9_40ee3afb",
       "range": {
         "startLine": 762,
         "startChar": 55,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2754ef4d_82f6e38a",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-02-09T22:19:51Z",
+      "side": 1,
+      "message": "\u003e this will only deadlock if we panic _during_ one of these two cases, so, the risk is solely self-deadlock. if another g is holding it, then that\u0027s fine; we\u0027ll just delay the panic until that finishes.\n\nUnderstood.\n\n\u003e it might be worth setting a flag on the goroutine or something that indicates that it\u0027s in traceAdvance or stopping the world. (I feel like there\u0027s already a way to identify the latter?)\n\nWhat would we do with the flag? Are you imagining a case where a panic happens within traceAdvance?\n\nAt any rate, I\u0027ll remove the comment.",
+      "parentUuid": "11a8e07c_572cc1be",
+      "range": {
+        "startLine": 765,
+        "startChar": 17,
+        "endLine": 767,
+        "endChar": 28
+      },
+      "revId": "276d08528d285d7a542e01f6dc3baf324e4a0e49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8d56016_8c7a55d0",
         "filename": "src/runtime/panic.go",
         "patchSetId": 3
@@ -77,6 +143,30 @@
       "writtenOn": "2024-02-09T17:23:22Z",
       "side": 1,
       "message": "I think you can drop this comment.",
+      "range": {
+        "startLine": 769,
+        "startChar": 22,
+        "endLine": 769,
+        "endChar": 55
+      },
+      "revId": "276d08528d285d7a542e01f6dc3baf324e4a0e49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "640c412e_9fbe2850",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-02-09T22:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8d56016_8c7a55d0",
       "range": {
         "startLine": 769,
         "startChar": 22,
