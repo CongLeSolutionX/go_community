@@ -7,6 +7,7 @@ package slices
 
 import (
 	"cmp"
+	"iter"
 	"math/bits"
 	"unsafe"
 )
@@ -505,4 +506,28 @@ func Repeat[S ~[]E, E any](x S, count int) S {
 		n += copy(newslice[n:], newslice[:n])
 	}
 	return newslice
+}
+
+// Chunk returns an iterator over consecutive sub-slices of up to n elements of s.
+// All but the last sub-slice will have size n.
+// All sub-slices are clipped to have no capacity beyond the length.
+// If s is empty, the sequence is empty: there is no empty slice in the sequence.
+func Chunk[S ~[]E, E any](s S, n int) iter.Seq[S] {
+	return func(yield func(S) bool) {
+		if n == 0 {
+			// Cannot yield chunks of size 0.
+			return
+		}
+
+		for i := 0; i < len(s); i += n {
+			// Clamp the last chunk to the slice bound as necessary.
+			end := min(n, len(s[i:]))
+
+			// Set the capacity of each chunk so that appending to a chunk does
+			// not modify the original slice.
+			if !yield(s[i : i+end : i+end]) {
+				return
+			}
+		}
+	}
 }
