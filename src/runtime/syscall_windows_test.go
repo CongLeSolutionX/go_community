@@ -1288,6 +1288,23 @@ func BenchmarkSyscallToSyscallPing(b *testing.B) {
 	}
 }
 
+func BenchmarkSyscallOverhead(b *testing.B) {
+	// Measure the overhead added by the Go runtime when calling a syscall function.
+	// Use GetLastError, which is a simple function that compiles to a few instruction.
+	d, err := syscall.LoadDLL("kernel32.dll")
+	if err != nil {
+		b.Fatal(err)
+	}
+	fn, err := d.FindProc("GetLastError")
+	if err != nil {
+		b.Fatal(err)
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		fn.Call()
+	}
+}
+
 func BenchmarkChanToChanPing(b *testing.B) {
 	n := b.N
 	ch1 := make(chan int)
