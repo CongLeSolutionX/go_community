@@ -74,6 +74,161 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e133296d_f3404e51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "Generally looks good.",
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ec6d57e_415063a5",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "Would be good to also add some entries to riscv64error.s along the likes of `FCVTWS.XYZ` and `ADD.RNE`.",
+      "range": {
+        "startLine": 236,
+        "startChar": 1,
+        "endLine": 236,
+        "endChar": 11
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adef0268_ff67e4e5",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "This should probably be two groups:\n\n```\n\"fmt\"\n\n\"cmd/internal/obj\"\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 6
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ca24337_1365c35e",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "Could use `errors.New` here.\n\nAlso, there is a mix of named and unnamed returns. I\u0027d be inclined to drop the names and explicitly return values in both cases.",
+      "range": {
+        "startLine": 626,
+        "startChar": 12,
+        "endLine": 626,
+        "endChar": 22
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a42d3a_c108245f",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "Nit: `enc` seems more readable than just `e`",
+      "range": {
+        "startLine": 628,
+        "startChar": 1,
+        "endLine": 628,
+        "endChar": 2
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0322e309_dced13f1",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "Should this be \"unknown suffix\" ?",
+      "range": {
+        "startLine": 630,
+        "startChar": 20,
+        "endLine": 630,
+        "endChar": 50
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b0d6da_da84ebe4",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "`rmSuffixString` seems more appropriate, also consider dropping the names from return values.",
+      "range": {
+        "startLine": 636,
+        "startChar": 33,
+        "endLine": 636,
+        "endChar": 52
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a1e8491_b1a53b71",
@@ -93,6 +248,46 @@
         "endLine": 638,
         "endChar": 39
       },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d91a5af4_825402bb",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "\"opcode suffix\" ? (or just suffix - probably should match whatever is used in the above error)",
+      "range": {
+        "startLine": 647,
+        "startChar": 32,
+        "endLine": 647,
+        "endChar": 45
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fe4e49c_891dff27",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-09T13:31:31Z",
+      "side": 1,
+      "message": "Seems it would be useful to add comments for each:\n\n```\nRM_RNE uint8 \u003d iota // round to nearest\nRM_RTZ              // round to zero\n...\n```",
       "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
