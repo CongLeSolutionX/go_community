@@ -297,10 +297,6 @@ func cgocallbackg(fn, frame unsafe.Pointer, ctxt uintptr) {
 
 	checkm := gp.m
 
-	// Save current syscall parameters, so m.syscall can be
-	// used again if callback decide to make syscall.
-	syscall := gp.m.syscall
-
 	// entersyscall saves the caller's SP to allow the GC to trace the Go
 	// stack. However, since we're returning to an earlier stack frame and
 	// need to pair with the entersyscall() call made by cgocall, we must
@@ -339,8 +335,6 @@ func cgocallbackg(fn, frame unsafe.Pointer, ctxt uintptr) {
 
 	// going back to cgo call
 	reentersyscall(savedpc, uintptr(savedsp))
-
-	gp.m.syscall = syscall
 }
 
 func cgocallbackg1(fn, frame unsafe.Pointer, ctxt uintptr) {
