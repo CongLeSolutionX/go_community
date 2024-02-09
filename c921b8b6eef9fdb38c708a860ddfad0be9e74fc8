@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad8341f0_4f0ee186",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-02-09T22:33:20Z",
+      "side": 1,
+      "message": "you can probably just define these constants inside TestCrashWhileTracing. nothing else needs them, and you can use shorter names.",
+      "range": {
+        "startLine": 882,
+        "startChar": 0,
+        "endLine": 886,
+        "endChar": 1
+      },
+      "revId": "c921b8b6eef9fdb38c708a860ddfad0be9e74fc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17ea2cbb_05353f66",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-02-09T22:33:20Z",
+      "side": 1,
+      "message": "I think this is unrelated. please delete.",
+      "range": {
+        "startLine": 904,
+        "startChar": 0,
+        "endLine": 907,
+        "endChar": 2
+      },
+      "revId": "c921b8b6eef9fdb38c708a860ddfad0be9e74fc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

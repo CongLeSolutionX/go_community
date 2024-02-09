@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3c2a3c0_da6684fa",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-02-09T22:33:20Z",
+      "side": 1,
+      "message": "I\u0027m imagining that traceAdvance checks the flags and just returns. possibly with a message? since it\u0027s an unhandled panic, it seems reasonable to print a warning that we failed to flush.",
+      "parentUuid": "2754ef4d_82f6e38a",
+      "range": {
+        "startLine": 765,
+        "startChar": 17,
+        "endLine": 767,
+        "endChar": 28
+      },
+      "revId": "276d08528d285d7a542e01f6dc3baf324e4a0e49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8d56016_8c7a55d0",
         "filename": "src/runtime/panic.go",
         "patchSetId": 3
