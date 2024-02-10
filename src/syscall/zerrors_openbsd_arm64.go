@@ -1413,6 +1413,7 @@ const (
 	EAUTH           = Errno(0x50)
 	EBADF           = Errno(0x9)
 	EBADMSG         = Errno(0x5c)
+	EBADMSG         = Errno(0x5c)
 	EBADRPC         = Errno(0x48)
 	EBUSY           = Errno(0x10)
 	ECANCELED       = Errno(0x58)
