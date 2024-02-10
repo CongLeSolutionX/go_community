@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59908ead_9ef16a87",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2024-02-10T17:23:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f70c71c_fcb8a647",
+      "revId": "628bce940418a4272d67ee0486e0ff7685fb87b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e71914c_dcda920b",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-02-09T16:22:40Z",
       "side": 1,
       "message": "Usually j represents an inner loop. I think this is harder to read than necessary.\n\n    for i :\u003d 0; i \u003c len(x); i +\u003d n {\n       // Clamp the last chunk to the slice bound as necessary\n       end :\u003d min(i+n, len(x))\n       // etc",
+      "revId": "628bce940418a4272d67ee0486e0ff7685fb87b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01a0ecb5_acc22cf3",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2024-02-10T17:23:10Z",
+      "side": 1,
+      "message": "Thanks, I like this.",
+      "parentUuid": "2e71914c_dcda920b",
       "revId": "628bce940418a4272d67ee0486e0ff7685fb87b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
