@@ -1,0 +1,19 @@
+# Test query for non-defaults in the env
+
+env GOTOOLCHAIN=local
+env GOSUMDB=nodefault
+env GOPROXY=nodefault
+env GO111MODULE=auto
+
+go env -changed
+# LUCI linux-amd64-boringcrypto output like GOTOOLCHAIN='local'
+stdout 'GOTOOLCHAIN=local|GOTOOLCHAIN='local''
+stdout 'GOSUMDB=nodefault|GOSUMDB='nodefault''
+stdout 'GOPROXY=nodefault|GOPROXY='nodefault''
+stdout 'GO111MODULE=auto|GO111MODULE='auto''
+
+go env -changed -json
+stdout '"GOTOOLCHAIN": "local"'
+stdout '"GOSUMDB": "nodefault"'
+stdout '"GOPROXY": "nodefault"'
+stdout '"GO111MODULE": "auto"'
