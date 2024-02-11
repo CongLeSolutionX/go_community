@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee0887fb_daff6fb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-02-11T05:12:11Z",
+      "side": 1,
+      "message": "LGTM.\n\nThank you.\n\nAlex",
+      "revId": "51cb5c0684e6481226b9fe819071f5a689e5d291",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
