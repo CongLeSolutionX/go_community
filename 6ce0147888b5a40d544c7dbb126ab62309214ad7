@@ -16,6 +16,24 @@
       "message": "Jorropo, thanks to catching it. Fixed.",
       "revId": "6ce0147888b5a40d544c7dbb126ab62309214ad7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5730cde7_06f78069",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-02-11T07:08:32Z",
+      "side": 1,
+      "message": "Hey just so you know you should press \"done\" (or write something else and check resolved) on the comments once you think you addresses the underlying issue.",
+      "parentUuid": "f2187623_bac5a4b4",
+      "revId": "6ce0147888b5a40d544c7dbb126ab62309214ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
