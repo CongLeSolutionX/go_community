@@ -355,6 +355,7 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	r := newResolver(ctx, queries)
 	r.performLocalQueries(ctx)
 	r.performPathQueries(ctx)
+	r.performToolsQueries(ctx)
 
 	for {
 		r.performWildcardQueries(ctx)
@@ -498,6 +499,7 @@ type resolver struct {
 	pathQueries       []*query // package path literal queries in original order
 	wildcardQueries   []*query // path wildcard queries in original order
 	patternAllQueries []*query // queries with the pattern "all"
+	toolsQueries      []*query // queries with the pattern "tools"
 
 	// Indexed "none" queries. These are also included in the slices above;
 	// they are indexed here to speed up noneForPath.
@@ -557,6 +559,8 @@ func newResolver(ctx context.Context, queries []*query) *resolver {
 	for _, q := range queries {
 		if q.pattern == "all" {
 			r.patternAllQueries = append(r.patternAllQueries, q)
+		} else if q.pattern == "tools" {
+			r.toolsQueries = append(r.toolsQueries, q)
 		} else if q.patternIsLocal {
 			r.localQueries = append(r.localQueries, q)
 		} else if q.isWildcard() {
@@ -1031,6 +1035,45 @@ func (r *resolver) queryPath(ctx context.Context, q *query) {
 		}
 		return pathSet{pkgMods: pkgMods, mod: mod}
 	})
+}
+
+// performPatternToolsQueries populates the candidates for each query whose
+// pattern is "tools".
+func (r *resolver) performToolsQueries(ctx context.Context) {
+	if len(r.toolsQueries) == 0 {
+		return
+	}
+
+	findPackage := func(ctx context.Context, path string, m module.Version) (versionOk bool) {
+		versionOk = true
+		for _, q := range r.toolsQueries {
+			q.pathOnce(path, func() pathSet {
+				pkgMods, err := r.queryPackages(ctx, path, q.version, r.initialSelected)
+				if len(pkgMods) != 1 || pkgMods[0] != m {
+					// There are candidates other than m for the given path, so we can't
+					// be certain that m will actually be the module selected to provide
+					// the package. Don't load its dependencies just yet, because they
+					// might no longer be dependencies after we resolve the correct
+					// version.
+					versionOk = false
+				}
+				return pathSet{pkgMods: pkgMods, err: err}
+			})
+		}
+		return versionOk
+	}
+
+	r.loadPackages(ctx, []string{"tools"}, findPackage)
+
+	// Since we built up the candidate lists concurrently, they may be in a
+	// nondeterministic order. We want 'go get' to be fully deterministic,
+	// including in which errors it chooses to report, so sort the candidates
+	// into a deterministic-but-arbitrary order.
+	for _, q := range r.toolsQueries {
+		sort.Slice(q.candidates, func(i, j int) bool {
+			return q.candidates[i].path < q.candidates[j].path
+		})
+	}
 }
 
 // performPatternAllQueries populates the candidates for each query whose
