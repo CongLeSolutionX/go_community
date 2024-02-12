@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69d450fa_f01ac95d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-02-12T14:44:43Z",
+      "side": 1,
+      "message": "This looks like it is causing some issues on the windows builders -- e.g. \n\n--- FAIL: TestModeSocket (0.00s)\n    unixsock_windows_test.go:104: listen unix C:\\Users\\gopher\\AppData\\Local\\Temp\\1\\2005114774\\sock: socket: An address incompatible with the requested protocol was used.\n\nExample log https://build.golang.org/log/b8d74a3fe83d0e411fcc3f521006f5a488f621c4",
+      "revId": "628b1015b972eabcc0a678ab69a74601239c40a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
