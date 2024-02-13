@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9881bbb7_488b67fe",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-13T19:13:19Z",
+      "side": 1,
+      "message": "The current approach only waits for `readLoop` to finish on errors, it doesn\u0027t intend to ensure the concurrent safety of the whole lifetime.",
+      "parentUuid": "88f5c4d6_2cd6981d",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cef5a673_be6b6de5",
         "filename": "src/net/http/transport.go",
         "patchSetId": 6
