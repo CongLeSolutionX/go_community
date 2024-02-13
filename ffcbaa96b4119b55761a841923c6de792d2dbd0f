@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d7e7394_5a38e7e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-02-13T15:57:10Z",
+      "side": 1,
+      "message": "I want to make Delve capable of showing the values of the captured variables for closures. I think with the range-over-func feature being added to the language there\u0027s a change that closures will become more frequent in Go and improving the debugging UX for them is a good idea. Also, I think this can also be used to provide better UX for the coroutines stuff.\n\nI thought I would do this by adding a new custom attribute to the DIE of captured variables, containing their offset in the closure struct.\nOther approaches are possible, for example just writing out a struct type for the closure struct, inside the function\u0027s DIE and giving it a special name. I picked the custom attribute because it leads (I believe) to the smallest increase in executable size.\n\nChanging putvar in src/cmd/internal/dwarf/dwarf.go however is complicated at the moment. The abbrevs array needs to be changed to add the new abbrev, reflecting the new path through putvar and then matching changes need to be made to the DW_ABRV_ const block and to the code that picks the correct abbrev in putvar.\n\nThis has been bothering me for years so I thought I would take a stab at writing a code generator that starts from the code inside putvar/putAbstractVar and makes all other changes automatically. I was able to do it without any performance penalty, so I think this is a positive change for the dwarf generation code.",
+      "revId": "ffcbaa96b4119b55761a841923c6de792d2dbd0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
