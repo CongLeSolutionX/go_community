@@ -51,6 +51,23 @@
       "message": "I think this is wrong way.\n\nThe right way is run ./mkall.sh on modern OpenBSD and update syscalls.\n\nIt requires some minor fixes which I\u0027ve done, and it allows to uncover that changes inside syscall qutie significant: https://github.com/catap/go/commit/09a905a50712aa9d72d9027bd34ac5ec19ab2be4\n\nSo, I need some times to setup required VM under qemu to update evertything.\n\nCan I ask to close this review without merge, and I\u0027ll open the full one as soon as I have everything ready.",
       "revId": "6ce0147888b5a40d544c7dbb126ab62309214ad7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "055e77d6_752248b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-13T03:00:05Z",
+      "side": 1,
+      "message": "This will need an entry in $GOROOT/api/next.  And it will need an issue.",
+      "revId": "6ce0147888b5a40d544c7dbb126ab62309214ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
