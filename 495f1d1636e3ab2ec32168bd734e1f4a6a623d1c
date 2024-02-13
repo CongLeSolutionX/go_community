@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3d1420c_143ca7f3",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-02-13T18:51:14Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I\u0027m losing track of what changes are being proposed now.\n\nThere seem to be two different approaches to fixing the race here:\n\n1. Guarantee that `RoundTrip` will wait for all running `Got1xxResponse` trace hooks to finish before returning, and will not call any further hooks after returning; or\n2. Add synchronization to `ReverseProxy` to handle `Got1xxResponse` hooks executing after `RoundTrip` returns.\n\nWe currently explicitly do not guarantee (1): https://pkg.go.dev/net/http/httptrace#ClientTrace states:\n\n\u003e Functions may be called concurrently from different goroutines and some may be called after the request has completed or failed.\n\nIf we want to add that guarantee, then I think that for consistency we need to do it for all ClientTrace hooks, not just `Got1xxResponse`. This might possible, but it would be a lot of change, and I\u0027m not sure it\u0027s either feasible or desirable.\n\nGiven that `RoundTrip` is currently behaving as documented, and `ReverseProxy` is not correctly handling that documented behavior, I think we should fix `ReverseProxy`.",
+      "parentUuid": "0349dba3_92151ece",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cef5a673_be6b6de5",
         "filename": "src/net/http/transport.go",
         "patchSetId": 6
