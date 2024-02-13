@@ -106,6 +106,24 @@
       "parentUuid": "14c7b17e_a2615ab9",
       "revId": "1141959cd3870fa49ce7afcb4326f2e667ae5964",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88effd99_fe84821a",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-02-13T18:57:00Z",
+      "side": 1,
+      "message": "No problem! It\u0027s very easy to accidentally have an unpublished comment in Gerrit.\n\nI just submitted https://go.dev/cl/560856, which includes a fix for #64804 as well as a test.",
+      "parentUuid": "a69587d7_93940cd4",
+      "revId": "1141959cd3870fa49ce7afcb4326f2e667ae5964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
