@@ -559,6 +559,7 @@ func (d *Decoder) rawToken() (Token, error) {
 		return EndElement{d.toClose}, nil
 	}
 
+	atStart := d.offset == 0
 	b, ok := d.getc()
 	if !ok {
 		return nil, d.err
@@ -623,6 +624,11 @@ func (d *Decoder) rawToken() (Token, error) {
 		data = data[0 : len(data)-2] // chop ?>
 
 		if target == "xml" {
+			if !atStart {
+				d.err = errors.New("xml: XML declaration after start of document")
+				return nil, d.err
+			}
+
 			content := string(data)
 			ver := procInst("version", content)
 			if ver != "" && ver != "1.0" {

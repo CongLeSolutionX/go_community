@@ -28,8 +28,7 @@ func TestUnmarshalFeed(t *testing.T) {
 }
 
 // hget http://codereview.appspot.com/rss/mine/rsc
-const atomFeedString = `
-<?xml version="1.0" encoding="utf-8"?>
+const atomFeedString = `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-us" updated="2009-10-04T01:35:58+00:00"><title>Code Review - My issues</title><link href="http://codereview.appspot.com/" rel="alternate"></link><link href="http://codereview.appspot.com/rss/mine/rsc" rel="self"></link><id>http://codereview.appspot.com/</id><author><name>rietveld&lt;&gt;</name></author><entry><title>rietveld: an attempt at pubsubhubbub
 </title><link href="http://codereview.appspot.com/126085" rel="alternate"></link><updated>2009-10-04T01:35:58+00:00</updated><author><name>email-address-removed</name></author><id>urn:md5:134d9179c41f806be79b3a5f7877d19a</id><summary type="html">
   An attempt at adding pubsubhubbub support to Rietveld.
@@ -342,8 +341,7 @@ func TestUnmarshalBadPaths(t *testing.T) {
 }
 
 const OK = "OK"
-const withoutNameTypeData = `
-<?xml version="1.0" charset="utf-8"?>
+const withoutNameTypeData = `<?xml version="1.0" charset="utf-8"?>
 <Test3 Attr="OK" />`
 
 type TestThree struct {
