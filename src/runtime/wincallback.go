@@ -25,18 +25,18 @@ func genasm386Amd64() {
 
 #include "textflag.h"
 
-// runtime·callbackasm is called by external code to
+// ·callbackasm is called by external code to
 // execute Go implemented callback function. It is not
-// called from the start, instead runtime·compilecallback
-// always returns address into runtime·callbackasm offset
+// called from the start, instead ·compilecallback
+// always returns address into ·callbackasm offset
 // appropriately so different callbacks start with different
-// CALL instruction in runtime·callbackasm. This determines
+// CALL instruction in ·callbackasm. This determines
 // which Go callback function is executed later on.
 
-TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
+TEXT ·callbackasm(SB),NOSPLIT|NOFRAME,$0
 `)
 	for i := 0; i < maxCallback; i++ {
-		buf.WriteString("\tCALL\truntime·callbackasm1(SB)\n")
+		buf.WriteString("\tCALL\t·callbackasm1(SB)\n")
 	}
 
 	filename := fmt.Sprintf("zcallback_windows.s")
@@ -61,11 +61,11 @@ func genasmArm() {
 // It then calls the Go implementation for that callback.
 #include "textflag.h"
 
-TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
+TEXT ·callbackasm(SB),NOSPLIT|NOFRAME,$0
 `)
 	for i := 0; i < maxCallback; i++ {
 		fmt.Fprintf(&buf, "\tMOVW\t$%d, R12\n", i)
-		buf.WriteString("\tB\truntime·callbackasm1(SB)\n")
+		buf.WriteString("\tB\t·callbackasm1(SB)\n")
 	}
 
 	err := os.WriteFile("zcallback_windows_arm.s", buf.Bytes(), 0666)
@@ -89,11 +89,11 @@ func genasmArm64() {
 // It then calls the Go implementation for that callback.
 #include "textflag.h"
 
-TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME,$0
+TEXT ·callbackasm(SB),NOSPLIT|NOFRAME,$0
 `)
 	for i := 0; i < maxCallback; i++ {
 		fmt.Fprintf(&buf, "\tMOVD\t$%d, R12\n", i)
-		buf.WriteString("\tB\truntime·callbackasm1(SB)\n")
+		buf.WriteString("\tB\t·callbackasm1(SB)\n")
 	}
 
 	err := os.WriteFile("zcallback_windows_arm64.s", buf.Bytes(), 0666)

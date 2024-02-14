@@ -4,7 +4,7 @@
 
 #include "textflag.h"
 
-TEXT runtime·duffzero(SB), NOSPLIT, $0-0
+TEXT ·duffzero(SB), NOSPLIT, $0-0
 	STOSL
 	STOSL
 	STOSL
@@ -135,7 +135,7 @@ TEXT runtime·duffzero(SB), NOSPLIT, $0-0
 	STOSL
 	RET
 
-TEXT runtime·duffcopy(SB), NOSPLIT, $0-0
+TEXT ·duffcopy(SB), NOSPLIT, $0-0
 	MOVL	(SI), CX
 	ADDL	$4, SI
 	MOVL	CX, (DI)
