@@ -369,7 +369,7 @@ func preemptM(mp *m) {
 	// On Darwin, don't try to preempt threads during exec.
 	// Issue #41702.
 	if GOOS == "darwin" || GOOS == "ios" {
-		execLock.rlock()
+		//execLock.rlock()
 	}
 
 	if mp.signalPending.CompareAndSwap(0, 1) {
@@ -386,7 +386,7 @@ func preemptM(mp *m) {
 	}
 
 	if GOOS == "darwin" || GOOS == "ios" {
-		execLock.runlock()
+		//execLock.runlock()
 	}
 }
 
