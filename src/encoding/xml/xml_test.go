@@ -119,8 +119,7 @@ func TestDecodeNilToken(t *testing.T) {
 	}
 }
 
-const testInput = `
-<?xml version="1.0" encoding="UTF-8"?>
+const testInput = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <body xmlns:foo="ns1" xmlns="ns2" xmlns:tag="ns3" ` +
@@ -139,7 +138,6 @@ const testInput = `
 var testEntity = map[string]string{"何": "What", "is-it": "is it?"}
 
 var rawTokens = []Token{
-	CharData("\n"),
 	ProcInst{"xml", []byte(`version="1.0" encoding="UTF-8"`)},
 	CharData("\n"),
 	Directive(`DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -176,7 +174,6 @@ var rawTokens = []Token{
 }
 
 var cookedTokens = []Token{
-	CharData("\n"),
 	ProcInst{"xml", []byte(`version="1.0" encoding="UTF-8"`)},
 	CharData("\n"),
 	Directive(`DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -212,12 +209,10 @@ var cookedTokens = []Token{
 	Comment(" missing final newline "),
 }
 
-const testInputAltEncoding = `
-<?xml version="1.0" encoding="x-testing-uppercase"?>
+const testInputAltEncoding = `<?xml version="1.0" encoding="x-testing-uppercase"?>
 <TAG>VALUE</TAG>`
 
 var rawTokensAltEncoding = []Token{
-	CharData("\n"),
 	ProcInst{"xml", []byte(`version="1.0" encoding="x-testing-uppercase"`)},
 	CharData("\n"),
 	StartElement{Name{"", "tag"}, []Attr{}},
@@ -363,13 +358,6 @@ func TestRawTokenAltEncoding(t *testing.T) {
 func TestRawTokenAltEncodingNoConverter(t *testing.T) {
 	d := NewDecoder(strings.NewReader(testInputAltEncoding))
 	token, err := d.RawToken()
-	if token == nil {
-		t.Fatalf("expected a token on first RawToken call")
-	}
-	if err != nil {
-		t.Fatal(err)
-	}
-	token, err = d.RawToken()
 	if token != nil {
 		t.Errorf("expected a nil token; got %#v", token)
 	}
@@ -1350,6 +1338,8 @@ func TestParseErrors(t *testing.T) {
 
 		// Header-related errors.
 		{`<?xml version="1.1" encoding="UTF-8"?>`, `unsupported version "1.1"; only version 1.0 is supported`},
+		{` <?xml version="1.0"?>`, `XML declaration after start of document`},
+		{`<foo><?xml version="1.0"?>`, `XML declaration after start of document`},
 
 		// Cases below are for "no errors".
 		{withDefaultHeader(`<?ok?>`), ``},
