@@ -20,10 +20,10 @@ TEXT _rt0_arm64_windows_lib(SB),NOSPLIT|NOFRAME,$0
 TEXT _rt0_arm64_windows_lib_go(SB),NOSPLIT|NOFRAME,$0
 	MOVD	$0, R0
 	MOVD	$0, R1
-	MOVD	$runtime·rt0_go(SB), R2
+	MOVD	$·rt0_go(SB), R2
 	B	(R2)
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
-	MOVD	$runtime·rt0_go(SB), R2
+	MOVD	$·rt0_go(SB), R2
 	B	(R2)
 

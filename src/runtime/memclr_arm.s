@@ -34,7 +34,7 @@
 
 // func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
 // Also called from assembly in sys_windows_arm.s without g (but using Go stack convention).
-TEXT runtime·memclrNoHeapPointers(SB),NOSPLIT,$0-8
+TEXT ·memclrNoHeapPointers(SB),NOSPLIT,$0-8
 	MOVW	ptr+0(FP), TO
 	MOVW	n+4(FP), N
 	MOVW	$0, R0

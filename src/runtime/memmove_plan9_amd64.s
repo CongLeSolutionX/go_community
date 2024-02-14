@@ -28,7 +28,7 @@
 // See memmove Go doc for important implementation constraints.
 
 // func memmove(to, from unsafe.Pointer, n uintptr)
-TEXT runtime·memmove(SB), NOSPLIT, $0-24
+TEXT ·memmove(SB), NOSPLIT, $0-24
 
 	MOVQ	to+0(FP), DI
 	MOVQ	from+8(FP), SI

@@ -17,7 +17,7 @@
 // mstart_stub is the first function executed on a new thread started by pthread_create.
 // It just does some low-level setup and then calls mstart.
 // Note: called with the C calling convention.
-TEXT runtime·mstart_stub(SB),NOSPLIT,$200
+TEXT ·mstart_stub(SB),NOSPLIT,$200
 	// X10 points to the m.
 	// We are already on m's g0 stack.
 
@@ -48,9 +48,9 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$200
 	MOVF	F27, (24*8)(X2)
 
 	MOV	m_g0(X10), g
-	CALL	runtime·save_g(SB)
+	CALL	·save_g(SB)
 
-	CALL	runtime·mstart(SB)
+	CALL	·mstart(SB)
 
 	// Restore callee-save registers.
 	MOV	(1*8)(X2), X8
@@ -85,7 +85,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$200
 
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVW	sig+8(FP), X10
 	MOV	info+16(FP), X11
 	MOV	ctx+24(FP), X12
@@ -93,7 +93,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	JALR	X1, X5
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$224
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME,$224
 	// Save callee-save registers (X8, X9, X18..X27, F8, F9, F18..F27)
 	MOV	X8, (4*8)(X2)
 	MOV	X9, (5*8)(X2)
@@ -122,12 +122,12 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$224
 
 	// this might be called in external code context,
 	// where g is not set.
-	CALL	runtime·load_g(SB)
+	CALL	·load_g(SB)
 
 	MOVW	X10, 8(X2)
 	MOV	X11, 16(X2)
 	MOV	X12, 24(X2)
-	MOV	$runtime·sigtrampgo(SB), X5
+	MOV	$·sigtrampgo(SB), X5
 	JALR	X1, X5
 
 	// Restore callee-save registers.
@@ -164,29 +164,29 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$224
 // A pointer to the arguments is passed in R0.
 // A single int32 result is returned in R0.
 // (For more results, make an args/results structure.)
-TEXT runtime·pthread_attr_init_trampoline(SB),NOSPLIT,$8
+TEXT ·pthread_attr_init_trampoline(SB),NOSPLIT,$8
 	MOV	0(X10), X10		// arg 1 - attr
 	CALL	libc_pthread_attr_init(SB)
 	RET
 
-TEXT runtime·pthread_attr_destroy_trampoline(SB),NOSPLIT,$8
+TEXT ·pthread_attr_destroy_trampoline(SB),NOSPLIT,$8
 	MOV	0(X10), X10		// arg 1 - attr
 	CALL	libc_pthread_attr_destroy(SB)
 	RET
 
-TEXT runtime·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$8
+TEXT ·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - size
 	MOV	0(X10), X10		// arg 1 - attr
 	CALL	libc_pthread_attr_getstacksize(SB)
 	RET
 
-TEXT runtime·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$8
+TEXT ·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - state
 	MOV	0(X10), X10		// arg 1 - attr
 	CALL	libc_pthread_attr_setdetachstate(SB)
 	RET
 
-TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$8
+TEXT ·pthread_create_trampoline(SB),NOSPLIT,$8
 	MOV	0(X10), X11		// arg 2 - attr
 	MOV	8(X10), X12		// arg 3 - start
 	MOV	16(X10), X13		// arg 4 - arg
@@ -196,14 +196,14 @@ TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$8
 	ADD	$16, X2
 	RET
 
-TEXT runtime·thrkill_trampoline(SB),NOSPLIT,$8
+TEXT ·thrkill_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - signal
 	MOV	$0, X12			// arg 3 - tcb
 	MOVW	0(X10), X10		// arg 1 - tid
 	CALL	libc_thrkill(SB)
 	RET
 
-TEXT runtime·thrsleep_trampoline(SB),NOSPLIT,$8
+TEXT ·thrsleep_trampoline(SB),NOSPLIT,$8
 	MOVW	8(X10), X11		// arg 2 - clock_id
 	MOV	16(X10), X12		// arg 3 - abstime
 	MOV	24(X10), X13		// arg 4 - lock
@@ -212,37 +212,37 @@ TEXT runtime·thrsleep_trampoline(SB),NOSPLIT,$8
 	CALL	libc_thrsleep(SB)
 	RET
 
-TEXT runtime·thrwakeup_trampoline(SB),NOSPLIT,$8
+TEXT ·thrwakeup_trampoline(SB),NOSPLIT,$8
 	MOVW	8(X10), X11		// arg 2 - count
 	MOV	0(X10), X10		// arg 1 - id
 	CALL	libc_thrwakeup(SB)
 	RET
 
-TEXT runtime·exit_trampoline(SB),NOSPLIT,$8
+TEXT ·exit_trampoline(SB),NOSPLIT,$8
 	MOVW	0(X10), X10		// arg 1 - status
 	CALL	libc_exit(SB)
 	MOV	$0, X5			// crash on failure
 	MOV	X5, (X5)
 	RET
 
-TEXT runtime·getthrid_trampoline(SB),NOSPLIT,$8
+TEXT ·getthrid_trampoline(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 	CALL	libc_getthrid(SB)
 	MOVW	X10, 0(X9)		// return value
 	RET
 
-TEXT runtime·raiseproc_trampoline(SB),NOSPLIT,$8
+TEXT ·raiseproc_trampoline(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 	CALL	libc_getpid(SB)		// arg 1 - pid (result in X10)
 	MOVW	0(X9), X11		// arg 2 - signal
 	CALL	libc_kill(SB)
 	RET
 
-TEXT runtime·sched_yield_trampoline(SB),NOSPLIT,$8
+TEXT ·sched_yield_trampoline(SB),NOSPLIT,$8
 	CALL	libc_sched_yield(SB)
 	RET
 
-TEXT runtime·mmap_trampoline(SB),NOSPLIT,$8
+TEXT ·mmap_trampoline(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 	MOV	0(X9), X10		// arg 1 - addr
 	MOV	8(X9), X11		// arg 2 - len
@@ -262,7 +262,7 @@ noerr:
 	MOV	X5, 40(X9)
 	RET
 
-TEXT runtime·munmap_trampoline(SB),NOSPLIT,$8
+TEXT ·munmap_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - len
 	MOV	0(X10), X10		// arg 1 - addr
 	CALL	libc_munmap(SB)
@@ -272,7 +272,7 @@ TEXT runtime·munmap_trampoline(SB),NOSPLIT,$8
 	MOV	X5, (X5)
 	RET
 
-TEXT runtime·madvise_trampoline(SB),NOSPLIT,$8
+TEXT ·madvise_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - len
 	MOVW	16(X10), X12		// arg 3 - advice
 	MOV	0(X10), X10		// arg 1 - addr
@@ -280,7 +280,7 @@ TEXT runtime·madvise_trampoline(SB),NOSPLIT,$8
 	// ignore failure - maybe pages are locked
 	RET
 
-TEXT runtime·open_trampoline(SB),NOSPLIT,$8
+TEXT ·open_trampoline(SB),NOSPLIT,$8
 	MOVW	8(X10), X11		// arg 2 - flags
 	MOVW	12(X10), X12		// arg 3 - mode
 	MOV	0(X10), X10		// arg 1 - path
@@ -288,12 +288,12 @@ TEXT runtime·open_trampoline(SB),NOSPLIT,$8
 	CALL	libc_open(SB)
 	RET
 
-TEXT runtime·close_trampoline(SB),NOSPLIT,$8
+TEXT ·close_trampoline(SB),NOSPLIT,$8
 	MOVW	0(X10), X10		// arg 1 - fd
 	CALL	libc_close(SB)
 	RET
 
-TEXT runtime·read_trampoline(SB),NOSPLIT,$8
+TEXT ·read_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - buf
 	MOVW	16(X10), X12		// arg 3 - count
 	MOVW	0(X10), X10		// arg 1 - fd (int32 from read)
@@ -306,7 +306,7 @@ TEXT runtime·read_trampoline(SB),NOSPLIT,$8
 noerr:
 	RET
 
-TEXT runtime·write_trampoline(SB),NOSPLIT,$8
+TEXT ·write_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - buf
 	MOVW	16(X10), X12		// arg 3 - count
 	MOV	0(X10), X10		// arg 1 - fd (uintptr from write1)
@@ -319,7 +319,7 @@ TEXT runtime·write_trampoline(SB),NOSPLIT,$8
 noerr:
 	RET
 
-TEXT runtime·pipe2_trampoline(SB),NOSPLIT,$8
+TEXT ·pipe2_trampoline(SB),NOSPLIT,$8
 	MOVW	8(X10), X11		// arg 2 - flags
 	MOV	0(X10), X10		// arg 1 - filedes
 	CALL	libc_pipe2(SB)
@@ -331,19 +331,19 @@ TEXT runtime·pipe2_trampoline(SB),NOSPLIT,$8
 noerr:
 	RET
 
-TEXT runtime·setitimer_trampoline(SB),NOSPLIT,$8
+TEXT ·setitimer_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - new
 	MOV	16(X10), X12		// arg 3 - old
 	MOVW	0(X10), X10		// arg 1 - which
 	CALL	libc_setitimer(SB)
 	RET
 
-TEXT runtime·usleep_trampoline(SB),NOSPLIT,$8
+TEXT ·usleep_trampoline(SB),NOSPLIT,$8
 	MOVW	0(X10), X10		// arg 1 - usec
 	CALL	libc_usleep(SB)
 	RET
 
-TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$8
+TEXT ·sysctl_trampoline(SB),NOSPLIT,$8
 	MOVW	8(X10), X11		// arg 2 - miblen
 	MOV	16(X10), X12		// arg 3 - out
 	MOV	24(X10), X13		// arg 4 - size
@@ -353,11 +353,11 @@ TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$8
 	CALL	libc_sysctl(SB)
 	RET
 
-TEXT runtime·kqueue_trampoline(SB),NOSPLIT,$8
+TEXT ·kqueue_trampoline(SB),NOSPLIT,$8
 	CALL	libc_kqueue(SB)
 	RET
 
-TEXT runtime·kevent_trampoline(SB),NOSPLIT,$8
+TEXT ·kevent_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - keventt
 	MOVW	16(X10), X12		// arg 3 - nch
 	MOV	24(X10), X13		// arg 4 - ev
@@ -373,7 +373,7 @@ TEXT runtime·kevent_trampoline(SB),NOSPLIT,$8
 noerr:
 	RET
 
-TEXT runtime·clock_gettime_trampoline(SB),NOSPLIT,$8
+TEXT ·clock_gettime_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - tp
 	MOVW	0(X10), X10		// arg 1 - clock_id
 	CALL	libc_clock_gettime(SB)
@@ -383,7 +383,7 @@ TEXT runtime·clock_gettime_trampoline(SB),NOSPLIT,$8
 	MOV	X5, (X5)
 	RET
 
-TEXT runtime·fcntl_trampoline(SB),NOSPLIT,$8
+TEXT ·fcntl_trampoline(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 	MOVW	0(X9), X10		// arg 1 - fd
 	MOVW	4(X9), X11		// arg 2 - cmd
@@ -401,7 +401,7 @@ noerr:
 	MOVW	X11, 16(X9)
 	RET
 
-TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$8
+TEXT ·sigaction_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - new
 	MOV	16(X10), X12		// arg 3 - old
 	MOVW	0(X10), X10		// arg 1 - sig
@@ -412,7 +412,7 @@ TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$8
 	MOV	X5, (X5)
 	RET
 
-TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$8
+TEXT ·sigprocmask_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - new
 	MOV	16(X10), X12		// arg 3 - old
 	MOVW	0(X10), X10		// arg 1 - how
@@ -423,7 +423,7 @@ TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$8
 	MOV	X5, (X5)
 	RET
 
-TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$8
+TEXT ·sigaltstack_trampoline(SB),NOSPLIT,$8
 	MOV	8(X10), X11		// arg 2 - old
 	MOV	0(X10), X10		// arg 1 - new
 	CALL	libc_sigaltstack(SB)
@@ -433,7 +433,7 @@ TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$8
 	MOV	X5, (X5)
 	RET
 
-TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
+TEXT ·issetugid_trampoline(SB),NOSPLIT,$0
 	MOV	X10, X9			// pointer to args
 	CALL	libc_issetugid(SB)
 	MOVW	X10, 0(X9)		// return value
@@ -455,7 +455,7 @@ TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
 //
 // syscall expects a 32-bit result and tests for 32-bit -1
 // to decide there was an error.
-TEXT runtime·syscall(SB),NOSPLIT,$8
+TEXT ·syscall(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 
 	MOV	(0*8)(X9), X5		// fn
@@ -499,7 +499,7 @@ ok:
 //
 // syscallX is like syscall but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscallX(SB),NOSPLIT,$8
+TEXT ·syscallX(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 
 	MOV	(0*8)(X9), X5		// fn
@@ -545,7 +545,7 @@ ok:
 //
 // syscall6 expects a 32-bit result and tests for 32-bit -1
 // to decide there was an error.
-TEXT runtime·syscall6(SB),NOSPLIT,$8
+TEXT ·syscall6(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 
 	MOV	(0*8)(X9), X5		// fn
@@ -595,7 +595,7 @@ ok:
 //
 // syscall6X is like syscall6 but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscall6X(SB),NOSPLIT,$8
+TEXT ·syscall6X(SB),NOSPLIT,$8
 	MOV	X10, X9			// pointer to args
 
 	MOV	(0*8)(X9), X5		// fn
@@ -647,7 +647,7 @@ ok:
 // C calling convention (use libcCall).
 //
 // The openbsd/riscv64 kernel only accepts eight syscall arguments.
-TEXT runtime·syscall10(SB),NOSPLIT,$0
+TEXT ·syscall10(SB),NOSPLIT,$0
 	MOV	X10, X9			// pointer to args
 
 	ADD	$-16, X2
@@ -707,7 +707,7 @@ ok:
 // and tests for 64-bit -1 to decide there was an error.
 //
 // The openbsd/riscv64 kernel only accepts eight syscall arguments.
-TEXT runtime·syscall10X(SB),NOSPLIT,$0
+TEXT ·syscall10X(SB),NOSPLIT,$0
 	MOV	X10, X9			// pointer to args
 
 	ADD	$-16, X2

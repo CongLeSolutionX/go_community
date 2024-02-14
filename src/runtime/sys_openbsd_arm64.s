@@ -19,7 +19,7 @@
 // mstart_stub is the first function executed on a new thread started by pthread_create.
 // It just does some low-level setup and then calls mstart.
 // Note: called with the C calling convention.
-TEXT runtime·mstart_stub(SB),NOSPLIT,$144
+TEXT ·mstart_stub(SB),NOSPLIT,$144
 	// R0 points to the m.
 	// We are already on m's g0 stack.
 
@@ -28,9 +28,9 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$144
 	SAVE_F8_TO_F15(88)
 
 	MOVD    m_g0(R0), g
-	BL	runtime·save_g(SB)
+	BL	·save_g(SB)
 
-	BL	runtime·mstart(SB)
+	BL	·mstart(SB)
 
 	// Restore callee-save registers.
 	RESTORE_R19_TO_R28(8)
@@ -43,7 +43,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$144
 
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVW	sig+8(FP), R0
 	MOVD	info+16(FP), R1
 	MOVD	ctx+24(FP), R2
@@ -51,21 +51,21 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	BL	(R11)			// Alignment for ELF ABI?
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$192
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME,$192
 	// Save callee-save registers in the case of signal forwarding.
 	// Please refer to https://golang.org/issue/31827 .
 	SAVE_R19_TO_R28(8*4)
 	SAVE_F8_TO_F15(8*14)
 
 	// If called from an external code context, g will not be set.
-	// Save R0, since runtime·load_g will clobber it.
+	// Save R0, since ·load_g will clobber it.
 	MOVW	R0, 8(RSP)		// signum
-	BL	runtime·load_g(SB)
+	BL	·load_g(SB)
 
 	// Restore signum to R0.
 	MOVW	8(RSP), R0
 	// R1 and R2 already contain info and ctx, respectively.
-	BL	runtime·sigtrampgo<ABIInternal>(SB)
+	BL	·sigtrampgo<ABIInternal>(SB)
 
 	// Restore callee-save registers.
 	RESTORE_R19_TO_R28(8*4)
@@ -79,29 +79,29 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$192
 // A pointer to the arguments is passed in R0.
 // A single int32 result is returned in R0.
 // (For more results, make an args/results structure.)
-TEXT runtime·pthread_attr_init_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_init_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0		// arg 1 - attr
 	CALL	libc_pthread_attr_init(SB)
 	RET
 
-TEXT runtime·pthread_attr_destroy_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_destroy_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0		// arg 1 - attr
 	CALL	libc_pthread_attr_destroy(SB)
 	RET
 
-TEXT runtime·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - size
 	MOVD	0(R0), R0		// arg 1 - attr
 	CALL	libc_pthread_attr_getstacksize(SB)
 	RET
 
-TEXT runtime·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - state
 	MOVD	0(R0), R0		// arg 1 - attr
 	CALL	libc_pthread_attr_setdetachstate(SB)
 	RET
 
-TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_create_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R1		// arg 2 - attr
 	MOVD	8(R0), R2		// arg 3 - start
 	MOVD	16(R0), R3		// arg 4 - arg
@@ -111,14 +111,14 @@ TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$0
 	ADD	$16, RSP
 	RET
 
-TEXT runtime·thrkill_trampoline(SB),NOSPLIT,$0
+TEXT ·thrkill_trampoline(SB),NOSPLIT,$0
 	MOVW	8(R0), R1		// arg 2 - signal
 	MOVD	$0, R2			// arg 3 - tcb
 	MOVW	0(R0), R0		// arg 1 - tid
 	CALL	libc_thrkill(SB)
 	RET
 
-TEXT runtime·thrsleep_trampoline(SB),NOSPLIT,$0
+TEXT ·thrsleep_trampoline(SB),NOSPLIT,$0
 	MOVW	8(R0), R1		// arg 2 - clock_id
 	MOVD	16(R0), R2		// arg 3 - abstime
 	MOVD	24(R0), R3		// arg 4 - lock
@@ -127,37 +127,37 @@ TEXT runtime·thrsleep_trampoline(SB),NOSPLIT,$0
 	CALL	libc_thrsleep(SB)
 	RET
 
-TEXT runtime·thrwakeup_trampoline(SB),NOSPLIT,$0
+TEXT ·thrwakeup_trampoline(SB),NOSPLIT,$0
 	MOVW	8(R0), R1		// arg 2 - count
 	MOVD	0(R0), R0		// arg 1 - id
 	CALL	libc_thrwakeup(SB)
 	RET
 
-TEXT runtime·exit_trampoline(SB),NOSPLIT,$0
+TEXT ·exit_trampoline(SB),NOSPLIT,$0
 	MOVW	0(R0), R0		// arg 1 - status
 	CALL	libc_exit(SB)
 	MOVD	$0, R0			// crash on failure
 	MOVD	R0, (R0)
 	RET
 
-TEXT runtime·getthrid_trampoline(SB),NOSPLIT,$0
+TEXT ·getthrid_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, R19			// pointer to args
 	CALL	libc_getthrid(SB)
 	MOVW	R0, 0(R19)		// return value
 	RET
 
-TEXT runtime·raiseproc_trampoline(SB),NOSPLIT,$0
+TEXT ·raiseproc_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, R19			// pointer to args
 	CALL	libc_getpid(SB)		// arg 1 - pid
 	MOVW	0(R19), R1		// arg 2 - signal
 	CALL	libc_kill(SB)
 	RET
 
-TEXT runtime·sched_yield_trampoline(SB),NOSPLIT,$0
+TEXT ·sched_yield_trampoline(SB),NOSPLIT,$0
 	CALL	libc_sched_yield(SB)
 	RET
 
-TEXT runtime·mmap_trampoline(SB),NOSPLIT,$0
+TEXT ·mmap_trampoline(SB),NOSPLIT,$0
 	MOVD    R0, R19			// pointer to args
 	MOVD	0(R19), R0		// arg 1 - addr
 	MOVD	8(R19), R1		// arg 2 - len
@@ -177,7 +177,7 @@ noerr:
 	MOVD	R1, 40(R19)
 	RET
 
-TEXT runtime·munmap_trampoline(SB),NOSPLIT,$0
+TEXT ·munmap_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - len
 	MOVD	0(R0), R0		// arg 1 - addr
 	CALL	libc_munmap(SB)
@@ -187,7 +187,7 @@ TEXT runtime·munmap_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, (R0)
 	RET
 
-TEXT runtime·madvise_trampoline(SB), NOSPLIT, $0
+TEXT ·madvise_trampoline(SB), NOSPLIT, $0
 	MOVD	8(R0), R1		// arg 2 - len
 	MOVW	16(R0), R2		// arg 3 - advice
 	MOVD	0(R0), R0		// arg 1 - addr
@@ -195,7 +195,7 @@ TEXT runtime·madvise_trampoline(SB), NOSPLIT, $0
 	// ignore failure - maybe pages are locked
 	RET
 
-TEXT runtime·open_trampoline(SB),NOSPLIT,$0
+TEXT ·open_trampoline(SB),NOSPLIT,$0
 	MOVW	8(R0), R1		// arg 2 - flags
 	MOVW	12(R0), R2		// arg 3 - mode
 	MOVD	0(R0), R0		// arg 1 - path
@@ -203,12 +203,12 @@ TEXT runtime·open_trampoline(SB),NOSPLIT,$0
 	CALL	libc_open(SB)
 	RET
 
-TEXT runtime·close_trampoline(SB),NOSPLIT,$0
+TEXT ·close_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0		// arg 1 - fd
 	CALL	libc_close(SB)
 	RET
 
-TEXT runtime·read_trampoline(SB),NOSPLIT,$0
+TEXT ·read_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - buf
 	MOVW	16(R0), R2		// arg 3 - count
 	MOVW	0(R0), R0		// arg 1 - fd
@@ -221,7 +221,7 @@ TEXT runtime·read_trampoline(SB),NOSPLIT,$0
 noerr:
 	RET
 
-TEXT runtime·write_trampoline(SB),NOSPLIT,$0
+TEXT ·write_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - buf
 	MOVW	16(R0), R2		// arg 3 - count
 	MOVW	0(R0), R0		// arg 1 - fd
@@ -234,7 +234,7 @@ TEXT runtime·write_trampoline(SB),NOSPLIT,$0
 noerr:
 	RET
 
-TEXT runtime·pipe2_trampoline(SB),NOSPLIT,$0
+TEXT ·pipe2_trampoline(SB),NOSPLIT,$0
 	MOVW	8(R0), R1		// arg 2 - flags
 	MOVD	0(R0), R0		// arg 1 - filedes
 	CALL	libc_pipe2(SB)
@@ -246,19 +246,19 @@ TEXT runtime·pipe2_trampoline(SB),NOSPLIT,$0
 noerr:
 	RET
 
-TEXT runtime·setitimer_trampoline(SB),NOSPLIT,$0
+TEXT ·setitimer_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - new
 	MOVD	16(R0), R2		// arg 3 - old
 	MOVW	0(R0), R0		// arg 1 - which
 	CALL	libc_setitimer(SB)
 	RET
 
-TEXT runtime·usleep_trampoline(SB),NOSPLIT,$0
+TEXT ·usleep_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0		// arg 1 - usec
 	CALL	libc_usleep(SB)
 	RET
 
-TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$0
+TEXT ·sysctl_trampoline(SB),NOSPLIT,$0
 	MOVW	8(R0), R1		// arg 2 - miblen
 	MOVD	16(R0), R2		// arg 3 - out
 	MOVD	24(R0), R3		// arg 4 - size
@@ -268,11 +268,11 @@ TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$0
 	CALL	libc_sysctl(SB)
 	RET
 
-TEXT runtime·kqueue_trampoline(SB),NOSPLIT,$0
+TEXT ·kqueue_trampoline(SB),NOSPLIT,$0
 	CALL	libc_kqueue(SB)
 	RET
 
-TEXT runtime·kevent_trampoline(SB),NOSPLIT,$0
+TEXT ·kevent_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - keventt
 	MOVW	16(R0), R2		// arg 3 - nch
 	MOVD	24(R0), R3		// arg 4 - ev
@@ -288,7 +288,7 @@ TEXT runtime·kevent_trampoline(SB),NOSPLIT,$0
 noerr:
 	RET
 
-TEXT runtime·clock_gettime_trampoline(SB),NOSPLIT,$0
+TEXT ·clock_gettime_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - tp
 	MOVD	0(R0), R0		// arg 1 - clock_id
 	CALL	libc_clock_gettime(SB)
@@ -300,7 +300,7 @@ TEXT runtime·clock_gettime_trampoline(SB),NOSPLIT,$0
 noerr:
 	RET
 
-TEXT runtime·fcntl_trampoline(SB),NOSPLIT,$0
+TEXT ·fcntl_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, R19
 	MOVW	0(R19), R0		// arg 1 - fd
 	MOVW	4(R19), R1		// arg 2 - cmd
@@ -318,7 +318,7 @@ noerr:
 	MOVW	R1, 16(R19)
 	RET
 
-TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$0
+TEXT ·sigaction_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - new
 	MOVD	16(R0), R2		// arg 3 - old
 	MOVW	0(R0), R0		// arg 1 - sig
@@ -329,7 +329,7 @@ TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, (R0)
 	RET
 
-TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$0
+TEXT ·sigprocmask_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - new
 	MOVD	16(R0), R2		// arg 3 - old
 	MOVW	0(R0), R0		// arg 1 - how
@@ -340,7 +340,7 @@ TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, (R0)
 	RET
 
-TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$0
+TEXT ·sigaltstack_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1		// arg 2 - old
 	MOVD	0(R0), R0		// arg 1 - new
 	CALL	libc_sigaltstack(SB)
@@ -366,7 +366,7 @@ TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$0
 //
 // syscall expects a 32-bit result and tests for 32-bit -1
 // to decide there was an error.
-TEXT runtime·syscall(SB),NOSPLIT,$0
+TEXT ·syscall(SB),NOSPLIT,$0
 	MOVD    R0, R19			// pointer to args
 
 	MOVD	(0*8)(R19), R11		// fn
@@ -409,7 +409,7 @@ ok:
 //
 // syscallX is like syscall but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscallX(SB),NOSPLIT,$0
+TEXT ·syscallX(SB),NOSPLIT,$0
 	MOVD    R0, R19			// pointer to args
 
 	MOVD	(0*8)(R19), R11		// fn
@@ -455,7 +455,7 @@ ok:
 //
 // syscall6 expects a 32-bit result and tests for 32-bit -1
 // to decide there was an error.
-TEXT runtime·syscall6(SB),NOSPLIT,$0
+TEXT ·syscall6(SB),NOSPLIT,$0
 	MOVD    R0, R19			// pointer to args
 
 	MOVD	(0*8)(R19), R11		// fn
@@ -504,7 +504,7 @@ ok:
 //
 // syscall6X is like syscall6 but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscall6X(SB),NOSPLIT,$0
+TEXT ·syscall6X(SB),NOSPLIT,$0
 	MOVD    R0, R19			// pointer to args
 
 	MOVD	(0*8)(R19), R11		// fn
@@ -554,7 +554,7 @@ ok:
 // }
 // syscall10 must be called on the g0 stack with the
 // C calling convention (use libcCall).
-TEXT runtime·syscall10(SB),NOSPLIT,$0
+TEXT ·syscall10(SB),NOSPLIT,$0
 	MOVD    R0, R19			// pointer to args
 
 	MOVD	(0*8)(R19), R11		// fn
@@ -611,7 +611,7 @@ ok:
 //
 // syscall10X is like syscall10 but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscall10X(SB),NOSPLIT,$0
+TEXT ·syscall10X(SB),NOSPLIT,$0
 	MOVD    R0, R19			// pointer to args
 
 	MOVD	(0*8)(R19), R11		// fn
@@ -645,7 +645,7 @@ TEXT runtime·syscall10X(SB),NOSPLIT,$0
 ok:
 	RET
 
-TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
+TEXT ·issetugid_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, R19			// pointer to args
 	CALL	libc_issetugid(SB)
 	MOVW	R0, 0(R19)		// return value

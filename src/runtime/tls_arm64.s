@@ -8,11 +8,11 @@
 #include "textflag.h"
 #include "tls_arm64.h"
 
-TEXT runtime·load_g(SB),NOSPLIT,$0
+TEXT ·load_g(SB),NOSPLIT,$0
 #ifndef GOOS_darwin
 #ifndef GOOS_openbsd
 #ifndef GOOS_windows
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	·iscgo(SB), R0
 	CBZ	R0, nocgo
 #endif
 #endif
@@ -23,17 +23,17 @@ TEXT runtime·load_g(SB),NOSPLIT,$0
 	// Darwin sometimes returns unaligned pointers
 	AND	$0xfffffffffffffff8, R0
 #endif
-	MOVD	runtime·tls_g(SB), R27
+	MOVD	·tls_g(SB), R27
 	MOVD	(R0)(R27), g
 
 nocgo:
 	RET
 
-TEXT runtime·save_g(SB),NOSPLIT,$0
+TEXT ·save_g(SB),NOSPLIT,$0
 #ifndef GOOS_darwin
 #ifndef GOOS_openbsd
 #ifndef GOOS_windows
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	·iscgo(SB), R0
 	CBZ	R0, nocgo
 #endif
 #endif
@@ -44,7 +44,7 @@ TEXT runtime·save_g(SB),NOSPLIT,$0
 	// Darwin sometimes returns unaligned pointers
 	AND	$0xfffffffffffffff8, R0
 #endif
-	MOVD	runtime·tls_g(SB), R27
+	MOVD	·tls_g(SB), R27
 	MOVD	g, (R0)(R27)
 
 nocgo:
@@ -54,9 +54,9 @@ nocgo:
 #ifdef GOOS_android
 // Use the free TLS_SLOT_APP slot #2 on Android Q.
 // Earlier androids are set up in gcc_android.c.
-DATA runtime·tls_g+0(SB)/8, $16
+DATA ·tls_g+0(SB)/8, $16
 #endif
-GLOBL runtime·tls_g+0(SB), NOPTR, $8
+GLOBL ·tls_g+0(SB), NOPTR, $8
 #else
-GLOBL runtime·tls_g+0(SB), TLSBSS, $8
+GLOBL ·tls_g+0(SB), TLSBSS, $8
 #endif

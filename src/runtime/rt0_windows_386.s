@@ -38,10 +38,10 @@ TEXT _rt0_386_windows_lib(SB),NOSPLIT,$0x1C
 TEXT _rt0_386_windows_lib_go(SB),NOSPLIT,$0
 	PUSHL	$0
 	PUSHL	$0
-	JMP	runtime·rt0_go(SB)
+	JMP	·rt0_go(SB)
 
 TEXT _main(SB),NOSPLIT,$0
 	// Remove the return address from the stack.
 	// rt0_go doesn't expect it to be there.
 	ADDL	$4, SP
-	JMP	runtime·rt0_go(SB)
+	JMP	·rt0_go(SB)

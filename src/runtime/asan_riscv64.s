@@ -8,8 +8,8 @@
 #include "textflag.h"
 
 // Called from instrumented code.
-// func runtime·doasanread(addr unsafe.Pointer, sz, sp, pc uintptr)
-TEXT	runtime·doasanread(SB), NOSPLIT, $0-32
+// func ·doasanread(addr unsafe.Pointer, sz, sp, pc uintptr)
+TEXT	·doasanread(SB), NOSPLIT, $0-32
 	MOV	addr+0(FP), X10
 	MOV	sz+8(FP), X11
 	MOV	sp+16(FP), X12
@@ -18,8 +18,8 @@ TEXT	runtime·doasanread(SB), NOSPLIT, $0-32
 	MOV	$__asan_read_go(SB), X14
 	JMP	asancall<>(SB)
 
-// func runtime·doasanwrite(addr unsafe.Pointer, sz, sp, pc uintptr)
-TEXT	runtime·doasanwrite(SB), NOSPLIT, $0-32
+// func ·doasanwrite(addr unsafe.Pointer, sz, sp, pc uintptr)
+TEXT	·doasanwrite(SB), NOSPLIT, $0-32
 	MOV	addr+0(FP), X10
 	MOV	sz+8(FP), X11
 	MOV	sp+16(FP), X12
@@ -28,24 +28,24 @@ TEXT	runtime·doasanwrite(SB), NOSPLIT, $0-32
 	MOV	$__asan_write_go(SB), X14
 	JMP	asancall<>(SB)
 
-// func runtime·asanunpoison(addr unsafe.Pointer, sz uintptr)
-TEXT	runtime·asanunpoison(SB), NOSPLIT, $0-16
+// func ·asanunpoison(addr unsafe.Pointer, sz uintptr)
+TEXT	·asanunpoison(SB), NOSPLIT, $0-16
 	MOV	addr+0(FP), X10
 	MOV	sz+8(FP), X11
 	// void __asan_unpoison_go(void *addr, uintptr_t sz);
 	MOV	$__asan_unpoison_go(SB), X14
 	JMP	asancall<>(SB)
 
-// func runtime·asanpoison(addr unsafe.Pointer, sz uintptr)
-TEXT	runtime·asanpoison(SB), NOSPLIT, $0-16
+// func ·asanpoison(addr unsafe.Pointer, sz uintptr)
+TEXT	·asanpoison(SB), NOSPLIT, $0-16
 	MOV	addr+0(FP), X10
 	MOV	sz+8(FP), X11
 	// void __asan_poison_go(void *addr, uintptr_t sz);
 	MOV	$__asan_poison_go(SB), X14
 	JMP	asancall<>(SB)
 
-// func runtime·asanregisterglobals(addr unsafe.Pointer, n uintptr)
-TEXT	runtime·asanregisterglobals(SB), NOSPLIT, $0-16
+// func ·asanregisterglobals(addr unsafe.Pointer, n uintptr)
+TEXT	·asanregisterglobals(SB), NOSPLIT, $0-16
 	MOV	addr+0(FP), X10
 	MOV	n+8(FP), X11
 	// void __asan_register_globals_go(void *addr, uintptr_t n);

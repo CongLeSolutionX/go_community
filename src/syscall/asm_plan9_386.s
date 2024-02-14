@@ -162,7 +162,7 @@ TEXT ·seek(SB),NOSPLIT,$24-36
 	MOVL	AX, newoffset_lo+20(FP)
 	MOVL	AX, newoffset_hi+24(FP)
 
-	CALL	syscall·errstr(SB)
+	CALL	·errstr(SB)
 	MOVL	SP, SI
 	JMP	copyresult6
 

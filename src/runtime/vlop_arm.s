@@ -28,7 +28,7 @@
 #include "funcdata.h"
 #include "textflag.h"
 
-// func runtime·udiv(n, d uint32) (q, r uint32)
+// func ·udiv(n, d uint32) (q, r uint32)
 // compiler knowns the register usage of this function
 // Reference:
 // Sloss, Andrew et. al; ARM System Developer's Guide: Designing and Optimizing System Software
@@ -41,7 +41,7 @@
 
 // Be careful: Ra == R11 will be used by the linker for synthesized instructions.
 // Note: this function does not have a frame.
-TEXT runtime·udiv(SB),NOSPLIT|NOFRAME,$0
+TEXT ·udiv(SB),NOSPLIT|NOFRAME,$0
 	MOVBU	internal∕cpu·ARM+const_offsetARMHasIDIVA(SB), Ra
 	CMP	$0, Ra
 	BNE	udiv_hardware
@@ -114,7 +114,7 @@ udiv_by_0_or_1:
 	RET
 
 udiv_by_0:
-	MOVW	$runtime·panicdivide(SB), R11
+	MOVW	$·panicdivide(SB), R11
 	B	(R11)
 
 // var tab [64]byte
@@ -143,7 +143,7 @@ GLOBL fast_udiv_tab<>(SB), RODATA, $64
 // The linker expects the result in RTMP
 #define RTMP R11
 
-TEXT runtime·_divu(SB), NOSPLIT, $16-0
+TEXT ·_divu(SB), NOSPLIT, $16-0
 	// It's not strictly true that there are no local pointers.
 	// It could be that the saved registers Rq, Rr, Rs, and Rm
 	// contain pointers. However, the only way this can matter
@@ -164,7 +164,7 @@ TEXT runtime·_divu(SB), NOSPLIT, $16-0
 	MOVW	Rn, Rr			/* numerator */
 	MOVW	g_m(g), Rq
 	MOVW	m_divmod(Rq), Rq	/* denominator */
-	BL  	runtime·udiv(SB)
+	BL  	·udiv(SB)
 	MOVW	Rq, RTMP
 	MOVW	4(R13), Rq
 	MOVW	8(R13), Rr
@@ -172,7 +172,7 @@ TEXT runtime·_divu(SB), NOSPLIT, $16-0
 	MOVW	16(R13), RM
 	RET
 
-TEXT runtime·_modu(SB), NOSPLIT, $16-0
+TEXT ·_modu(SB), NOSPLIT, $16-0
 	NO_LOCAL_POINTERS
 	MOVW	Rq, 4(R13)
 	MOVW	Rr, 8(R13)
@@ -182,7 +182,7 @@ TEXT runtime·_modu(SB), NOSPLIT, $16-0
 	MOVW	Rn, Rr			/* numerator */
 	MOVW	g_m(g), Rq
 	MOVW	m_divmod(Rq), Rq	/* denominator */
-	BL  	runtime·udiv(SB)
+	BL  	·udiv(SB)
 	MOVW	Rr, RTMP
 	MOVW	4(R13), Rq
 	MOVW	8(R13), Rr
@@ -190,7 +190,7 @@ TEXT runtime·_modu(SB), NOSPLIT, $16-0
 	MOVW	16(R13), RM
 	RET
 
-TEXT runtime·_div(SB),NOSPLIT,$16-0
+TEXT ·_div(SB),NOSPLIT,$16-0
 	NO_LOCAL_POINTERS
 	MOVW	Rq, 4(R13)
 	MOVW	Rr, 8(R13)
@@ -206,7 +206,7 @@ TEXT runtime·_div(SB),NOSPLIT,$16-0
 	BGE 	d2
 	RSB 	$0, Rq, Rq
 d0:
-	BL  	runtime·udiv(SB)  	/* none/both neg */
+	BL  	·udiv(SB)  	/* none/both neg */
 	MOVW	Rq, RTMP
 	B	out1
 d1:
@@ -214,7 +214,7 @@ d1:
 	BGE 	d0
 	RSB 	$0, Rq, Rq
 d2:
-	BL  	runtime·udiv(SB)  	/* one neg */
+	BL  	·udiv(SB)  	/* one neg */
 	RSB	$0, Rq, RTMP
 out1:
 	MOVW	4(R13), Rq
@@ -223,7 +223,7 @@ out1:
 	MOVW	16(R13), RM
 	RET
 
-TEXT runtime·_mod(SB),NOSPLIT,$16-0
+TEXT ·_mod(SB),NOSPLIT,$16-0
 	NO_LOCAL_POINTERS
 	MOVW	Rq, 4(R13)
 	MOVW	Rr, 8(R13)
@@ -237,11 +237,11 @@ TEXT runtime·_mod(SB),NOSPLIT,$16-0
 	CMP 	$0, Rr
 	BGE 	m1
 	RSB 	$0, Rr, Rr
-	BL  	runtime·udiv(SB)  	/* neg numerator */
+	BL  	·udiv(SB)  	/* neg numerator */
 	RSB 	$0, Rr, RTMP
 	B   	out
 m1:
-	BL  	runtime·udiv(SB)  	/* pos numerator */
+	BL  	·udiv(SB)  	/* pos numerator */
 	MOVW	Rr, RTMP
 out:
 	MOVW	4(R13), Rq
@@ -251,10 +251,10 @@ out:
 	RET
 
 // _mul64by32 and _div64by32 not implemented on arm
-TEXT runtime·_mul64by32(SB), NOSPLIT, $0
+TEXT ·_mul64by32(SB), NOSPLIT, $0
 	MOVW	$0, R0
 	MOVW	(R0), R1 // crash
 
-TEXT runtime·_div64by32(SB), NOSPLIT, $0
+TEXT ·_div64by32(SB), NOSPLIT, $0
 	MOVW	$0, R0
 	MOVW	(R0), R1 // crash

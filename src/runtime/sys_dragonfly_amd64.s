@@ -11,7 +11,7 @@
 #include "textflag.h"
 #include "cgo/abi_amd64.h"
 
-TEXT runtime·sys_umtx_sleep(SB),NOSPLIT,$0
+TEXT ·sys_umtx_sleep(SB),NOSPLIT,$0
 	MOVQ addr+0(FP), DI		// arg 1 - ptr
 	MOVL val+8(FP), SI		// arg 2 - value
 	MOVL timeout+12(FP), DX		// arg 3 - timeout
@@ -22,7 +22,7 @@ TEXT runtime·sys_umtx_sleep(SB),NOSPLIT,$0
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·sys_umtx_wakeup(SB),NOSPLIT,$0
+TEXT ·sys_umtx_wakeup(SB),NOSPLIT,$0
 	MOVQ addr+0(FP), DI		// arg 1 - ptr
 	MOVL val+8(FP), SI		// arg 2 - count
 	MOVL $470, AX		// umtx_wakeup
@@ -32,19 +32,19 @@ TEXT runtime·sys_umtx_wakeup(SB),NOSPLIT,$0
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·lwp_create(SB),NOSPLIT,$0
+TEXT ·lwp_create(SB),NOSPLIT,$0
 	MOVQ param+0(FP), DI		// arg 1 - params
 	MOVL $495, AX		// lwp_create
 	SYSCALL
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·lwp_start(SB),NOSPLIT,$0
+TEXT ·lwp_start(SB),NOSPLIT,$0
 	MOVQ	DI, R13 // m
 
 	// set up FS to point at m->tls
 	LEAQ	m_tls(R13), DI
-	CALL	runtime·settls(SB)	// smashes DI
+	CALL	·settls(SB)	// smashes DI
 
 	// set up m, g
 	get_tls(CX)
@@ -52,13 +52,13 @@ TEXT runtime·lwp_start(SB),NOSPLIT,$0
 	MOVQ	R13, g_m(DI)
 	MOVQ	DI, g(CX)
 
-	CALL	runtime·stackcheck(SB)
-	CALL	runtime·mstart(SB)
+	CALL	·stackcheck(SB)
+	CALL	·mstart(SB)
 
 	MOVQ 0, AX			// crash (not reached)
 
 // Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-8
+TEXT ·exit(SB),NOSPLIT,$-8
 	MOVL	code+0(FP), DI		// arg 1 exit status
 	MOVL	$1, AX
 	SYSCALL
@@ -66,7 +66,7 @@ TEXT runtime·exit(SB),NOSPLIT,$-8
 	RET
 
 // func exitThread(wait *atomic.Uint32)
-TEXT runtime·exitThread(SB),NOSPLIT,$0-8
+TEXT ·exitThread(SB),NOSPLIT,$0-8
 	MOVQ	wait+0(FP), AX
 	// We're done using the stack.
 	MOVL	$0, (AX)
@@ -78,7 +78,7 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	MOVL	$0xf1, 0xf1  // crash
 	JMP	0(PC)
 
-TEXT runtime·open(SB),NOSPLIT,$-8
+TEXT ·open(SB),NOSPLIT,$-8
 	MOVQ	name+0(FP), DI		// arg 1 pathname
 	MOVL	mode+8(FP), SI		// arg 2 flags
 	MOVL	perm+12(FP), DX		// arg 3 mode
@@ -89,7 +89,7 @@ TEXT runtime·open(SB),NOSPLIT,$-8
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·closefd(SB),NOSPLIT,$-8
+TEXT ·closefd(SB),NOSPLIT,$-8
 	MOVL	fd+0(FP), DI		// arg 1 fd
 	MOVL	$6, AX
 	SYSCALL
@@ -98,7 +98,7 @@ TEXT runtime·closefd(SB),NOSPLIT,$-8
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·read(SB),NOSPLIT,$-8
+TEXT ·read(SB),NOSPLIT,$-8
 	MOVL	fd+0(FP), DI		// arg 1 fd
 	MOVQ	p+8(FP), SI		// arg 2 buf
 	MOVL	n+16(FP), DX		// arg 3 count
@@ -110,7 +110,7 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)
-TEXT runtime·pipe2(SB),NOSPLIT,$0-20
+TEXT ·pipe2(SB),NOSPLIT,$0-20
 	MOVL	$0, DI
 	// dragonfly expects flags as the 2nd argument
 	MOVL	flags+0(FP), SI
@@ -127,7 +127,7 @@ pipe2ok:
 	MOVL	$0, errno+16(FP)
 	RET
 
-TEXT runtime·write1(SB),NOSPLIT,$-8
+TEXT ·write1(SB),NOSPLIT,$-8
 	MOVQ	fd+0(FP), DI		// arg 1 fd
 	MOVQ	p+8(FP), SI		// arg 2 buf
 	MOVL	n+16(FP), DX		// arg 3 count
@@ -138,13 +138,13 @@ TEXT runtime·write1(SB),NOSPLIT,$-8
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·lwp_gettid(SB),NOSPLIT,$0-4
+TEXT ·lwp_gettid(SB),NOSPLIT,$0-4
 	MOVL	$496, AX	// lwp_gettid
 	SYSCALL
 	MOVL	AX, ret+0(FP)
 	RET
 
-TEXT runtime·lwp_kill(SB),NOSPLIT,$0-16
+TEXT ·lwp_kill(SB),NOSPLIT,$0-16
 	MOVL	pid+0(FP), DI	// arg 1 - pid
 	MOVL	tid+4(FP), SI	// arg 2 - tid
 	MOVQ	sig+8(FP), DX	// arg 3 - signum
@@ -152,7 +152,7 @@ TEXT runtime·lwp_kill(SB),NOSPLIT,$0-16
 	SYSCALL
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$0
+TEXT ·raiseproc(SB),NOSPLIT,$0
 	MOVL	$20, AX		// getpid
 	SYSCALL
 	MOVQ	AX, DI		// arg 1 - pid
@@ -161,7 +161,7 @@ TEXT runtime·raiseproc(SB),NOSPLIT,$0
 	SYSCALL
 	RET
 
-TEXT runtime·setitimer(SB), NOSPLIT, $-8
+TEXT ·setitimer(SB), NOSPLIT, $-8
 	MOVL	mode+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
@@ -170,7 +170,7 @@ TEXT runtime·setitimer(SB), NOSPLIT, $-8
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB), NOSPLIT, $32
+TEXT ·walltime(SB), NOSPLIT, $32
 	MOVL	$232, AX // clock_gettime
 	MOVQ	$0, DI  	// CLOCK_REALTIME
 	LEAQ	8(SP), SI
@@ -183,7 +183,7 @@ TEXT runtime·walltime(SB), NOSPLIT, $32
 	MOVL	DX, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime1(SB), NOSPLIT, $32
+TEXT ·nanotime1(SB), NOSPLIT, $32
 	MOVL	$232, AX
 	MOVQ	$4, DI  	// CLOCK_MONOTONIC
 	LEAQ	8(SP), SI
@@ -198,7 +198,7 @@ TEXT runtime·nanotime1(SB), NOSPLIT, $32
 	MOVQ	AX, ret+0(FP)
 	RET
 
-TEXT runtime·sigaction(SB),NOSPLIT,$-8
+TEXT ·sigaction(SB),NOSPLIT,$-8
 	MOVL	sig+0(FP), DI		// arg 1 sig
 	MOVQ	new+8(FP), SI		// arg 2 act
 	MOVQ	old+16(FP), DX		// arg 3 oact
@@ -208,7 +208,7 @@ TEXT runtime·sigaction(SB),NOSPLIT,$-8
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	fn+0(FP),    AX
 	MOVL	sig+8(FP),   DI
 	MOVQ	info+16(FP), SI
@@ -220,7 +220,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 // Called using C ABI.
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	// Transition from C ABI to Go ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
@@ -244,7 +244,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	POP_REGS_HOST_TO_ABI0()
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT ·mmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 - addr
 	MOVQ	n+8(FP), SI		// arg 2 - len
 	MOVL	prot+16(FP), DX		// arg 3 - prot
@@ -267,7 +267,7 @@ ok:
 	MOVQ	$0, err+40(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT ·munmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 addr
 	MOVQ	n+8(FP), SI		// arg 2 len
 	MOVL	$73, AX
@@ -276,7 +276,7 @@ TEXT runtime·munmap(SB),NOSPLIT,$0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·madvise(SB),NOSPLIT,$0
+TEXT ·madvise(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
 	MOVL	flags+16(FP), DX
@@ -287,7 +287,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT ·sigaltstack(SB),NOSPLIT,$-8
 	MOVQ	new+0(FP), DI
 	MOVQ	old+8(FP), SI
 	MOVQ	$53, AX
@@ -296,7 +296,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16
+TEXT ·usleep(SB),NOSPLIT,$16
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -313,7 +313,7 @@ TEXT runtime·usleep(SB),NOSPLIT,$16
 	RET
 
 // set tls base to DI
-TEXT runtime·settls(SB),NOSPLIT,$16
+TEXT ·settls(SB),NOSPLIT,$16
 	ADDQ	$8, DI	// adjust for ELF: wants to use -8(FS) for g
 	MOVQ	DI, 0(SP)
 	MOVQ	$16, 8(SP)
@@ -326,7 +326,7 @@ TEXT runtime·settls(SB),NOSPLIT,$16
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sysctl(SB),NOSPLIT,$0
+TEXT ·sysctl(SB),NOSPLIT,$0
 	MOVQ	mib+0(FP), DI		// arg 1 - name
 	MOVL	miblen+8(FP), SI		// arg 2 - namelen
 	MOVQ	out+16(FP), DX		// arg 3 - oldp
@@ -343,12 +343,12 @@ TEXT runtime·sysctl(SB),NOSPLIT,$0
 	MOVL	AX, ret+48(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$-4
+TEXT ·osyield(SB),NOSPLIT,$-4
 	MOVL	$331, AX		// sys_sched_yield
 	SYSCALL
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
+TEXT ·sigprocmask(SB),NOSPLIT,$0
 	MOVL	how+0(FP), DI		// arg 1 - how
 	MOVQ	new+8(FP), SI		// arg 2 - set
 	MOVQ	old+16(FP), DX		// arg 3 - oset
@@ -358,8 +358,8 @@ TEXT runtime·sigprocmask(SB),NOSPLIT,$0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-// int32 runtime·kqueue(void);
-TEXT runtime·kqueue(SB),NOSPLIT,$0
+// int32 ·kqueue(void);
+TEXT ·kqueue(SB),NOSPLIT,$0
 	MOVQ	$0, DI
 	MOVQ	$0, SI
 	MOVQ	$0, DX
@@ -370,8 +370,8 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
-TEXT runtime·kevent(SB),NOSPLIT,$0
+// int32 ·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
+TEXT ·kevent(SB),NOSPLIT,$0
 	MOVL	kq+0(FP), DI
 	MOVQ	ch+8(FP), SI
 	MOVL	nch+16(FP), DX
@@ -386,7 +386,7 @@ TEXT runtime·kevent(SB),NOSPLIT,$0
 	RET
 
 // func fcntl(fd, cmd, arg int32) (ret int32, errno int32)
-TEXT runtime·fcntl(SB),NOSPLIT,$0
+TEXT ·fcntl(SB),NOSPLIT,$0
 	MOVL	fd+0(FP), DI	// fd
 	MOVL	cmd+4(FP), SI	// cmd
 	MOVL	arg+8(FP), DX	// arg
@@ -402,7 +402,7 @@ noerr:
 	RET
 
 // func issetugid() int32
-TEXT runtime·issetugid(SB),NOSPLIT,$0
+TEXT ·issetugid(SB),NOSPLIT,$0
 	MOVQ	$0, DI
 	MOVQ	$0, SI
 	MOVQ	$0, DX

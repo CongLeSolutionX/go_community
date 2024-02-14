@@ -29,9 +29,9 @@
  * C runtime for 64-bit divide.
  */
 
-// runtime·_mul64x32(lo64 *uint64, a uint64, b uint32) (hi32 uint32)
+// ·_mul64x32(lo64 *uint64, a uint64, b uint32) (hi32 uint32)
 // sets *lo64 = low 64 bits of 96-bit product a*b; returns high 32 bits.
-TEXT runtime·_mul64by32(SB), NOSPLIT, $0
+TEXT ·_mul64by32(SB), NOSPLIT, $0
 	MOVL	lo64+0(FP), CX
 	MOVL	a_lo+4(FP), AX
 	MULL	b+12(FP)
@@ -46,7 +46,7 @@ TEXT runtime·_mul64by32(SB), NOSPLIT, $0
 	MOVL	AX, hi32+16(FP)
 	RET
 
-TEXT runtime·_div64by32(SB), NOSPLIT, $0
+TEXT ·_div64by32(SB), NOSPLIT, $0
 	MOVL	r+12(FP), CX
 	MOVL	a_lo+0(FP), AX
 	MOVL	a_hi+4(FP), DX

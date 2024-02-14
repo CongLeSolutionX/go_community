@@ -52,28 +52,28 @@
 #define SYS_NSEC        53
 
 //func open(name *byte, mode, perm int32) int32
-TEXT runtime·open(SB),NOSPLIT,$0-16
+TEXT ·open(SB),NOSPLIT,$0-16
 	MOVW    $SYS_OPEN, R0
 	SWI	$0
 	MOVW	R0, ret+12(FP)
 	RET
 
 //func pread(fd int32, buf unsafe.Pointer, nbytes int32, offset int64) int32
-TEXT runtime·pread(SB),NOSPLIT,$0-24
+TEXT ·pread(SB),NOSPLIT,$0-24
 	MOVW    $SYS_PREAD, R0
 	SWI	$0
 	MOVW	R0, ret+20(FP)
 	RET
 
 //func pwrite(fd int32, buf unsafe.Pointer, nbytes int32, offset int64) int32
-TEXT runtime·pwrite(SB),NOSPLIT,$0-24
+TEXT ·pwrite(SB),NOSPLIT,$0-24
 	MOVW    $SYS_PWRITE, R0
 	SWI	$0
 	MOVW	R0, ret+20(FP)
 	RET
 
 //func seek(fd int32, offset int64, whence int32) int64
-TEXT runtime·seek(SB),NOSPLIT,$0-24
+TEXT ·seek(SB),NOSPLIT,$0-24
 	MOVW	$ret_lo+16(FP), R0
 	MOVW	0(R13), R1
 	MOVW	R0, 0(R13)
@@ -87,48 +87,48 @@ TEXT runtime·seek(SB),NOSPLIT,$0-24
 	RET
 
 //func closefd(fd int32) int32
-TEXT runtime·closefd(SB),NOSPLIT,$0-8
+TEXT ·closefd(SB),NOSPLIT,$0-8
 	MOVW	$SYS_CLOSE, R0
 	SWI	$0
 	MOVW	R0, ret+4(FP)
 	RET
 
 //func exits(msg *byte)
-TEXT runtime·exits(SB),NOSPLIT,$0-4
+TEXT ·exits(SB),NOSPLIT,$0-4
 	MOVW    $SYS_EXITS, R0
 	SWI	$0
 	RET
 
 //func brk_(addr unsafe.Pointer) int32
-TEXT runtime·brk_(SB),NOSPLIT,$0-8
+TEXT ·brk_(SB),NOSPLIT,$0-8
 	MOVW    $SYS_BRK_, R0
 	SWI	$0
 	MOVW	R0, ret+4(FP)
 	RET
 
 //func sleep(ms int32) int32
-TEXT runtime·sleep(SB),NOSPLIT,$0-8
+TEXT ·sleep(SB),NOSPLIT,$0-8
 	MOVW    $SYS_SLEEP, R0
 	SWI	$0
 	MOVW	R0, ret+4(FP)
 	RET
 
 //func plan9_semacquire(addr *uint32, block int32) int32
-TEXT runtime·plan9_semacquire(SB),NOSPLIT,$0-12
+TEXT ·plan9_semacquire(SB),NOSPLIT,$0-12
 	MOVW	$SYS_SEMACQUIRE, R0
 	SWI	$0
 	MOVW	R0, ret+8(FP)
 	RET
 
 //func plan9_tsemacquire(addr *uint32, ms int32) int32
-TEXT runtime·plan9_tsemacquire(SB),NOSPLIT,$0-12
+TEXT ·plan9_tsemacquire(SB),NOSPLIT,$0-12
 	MOVW	$SYS_TSEMACQUIRE, R0
 	SWI	$0
 	MOVW	R0, ret+8(FP)
 	RET
 
 //func nsec(*int64) int64
-TEXT runtime·nsec(SB),NOSPLIT|NOFRAME,$0-12
+TEXT ·nsec(SB),NOSPLIT|NOFRAME,$0-12
 	MOVW	$SYS_NSEC, R0
 	SWI	$0
 	MOVW	arg+0(FP), R1
@@ -139,7 +139,7 @@ TEXT runtime·nsec(SB),NOSPLIT|NOFRAME,$0-12
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$12-12
+TEXT ·walltime(SB),NOSPLIT,$12-12
 	// use nsec system call to get current time in nanoseconds
 	MOVW	$sysnsec_lo-8(SP), R0	// destination addr
 	MOVW	R0,res-12(SP)
@@ -179,35 +179,35 @@ TEXT runtime·walltime(SB),NOSPLIT,$12-12
 	RET
 
 //func notify(fn unsafe.Pointer) int32
-TEXT runtime·notify(SB),NOSPLIT,$0-8
+TEXT ·notify(SB),NOSPLIT,$0-8
 	MOVW	$SYS_NOTIFY, R0
 	SWI	$0
 	MOVW	R0, ret+4(FP)
 	RET
 
 //func noted(mode int32) int32
-TEXT runtime·noted(SB),NOSPLIT,$0-8
+TEXT ·noted(SB),NOSPLIT,$0-8
 	MOVW	$SYS_NOTED, R0
 	SWI	$0
 	MOVW	R0, ret+4(FP)
 	RET
 
 //func plan9_semrelease(addr *uint32, count int32) int32
-TEXT runtime·plan9_semrelease(SB),NOSPLIT,$0-12
+TEXT ·plan9_semrelease(SB),NOSPLIT,$0-12
 	MOVW	$SYS_SEMRELEASE, R0
 	SWI	$0
 	MOVW	R0, ret+8(FP)
 	RET
 
 //func rfork(flags int32) int32
-TEXT runtime·rfork(SB),NOSPLIT,$0-8
+TEXT ·rfork(SB),NOSPLIT,$0-8
 	MOVW	$SYS_RFORK, R0
 	SWI	$0
 	MOVW	R0, ret+4(FP)
 	RET
 
 //func tstart_plan9(newm *m)
-TEXT runtime·tstart_plan9(SB),NOSPLIT,$4-4
+TEXT ·tstart_plan9(SB),NOSPLIT,$4-4
 	MOVW	newm+0(FP), R1
 	MOVW	m_g0(R1), g
 
@@ -224,23 +224,23 @@ TEXT runtime·tstart_plan9(SB),NOSPLIT,$4-4
 	MOVW	48(R0), R0
 	MOVW	R0, m_procid(R1)	// save pid as m->procid
 
-	BL	runtime·mstart(SB)
+	BL	·mstart(SB)
 
 	// Exit the thread.
 	MOVW	$0, R0
 	MOVW	R0, 4(R13)
-	CALL	runtime·exits(SB)
+	CALL	·exits(SB)
 	JMP	0(PC)
 
 //func sigtramp(ureg, note unsafe.Pointer)
-TEXT runtime·sigtramp(SB),NOSPLIT,$0-8
+TEXT ·sigtramp(SB),NOSPLIT,$0-8
 	// check that g and m exist
 	CMP	$0, g
 	BEQ	4(PC)
 	MOVW	g_m(g), R0
 	CMP 	$0, R0
 	BNE	2(PC)
-	BL	runtime·badsignal2(SB)	// will exit
+	BL	·badsignal2(SB)	// will exit
 
 	// save args
 	MOVW	ureg+0(FP), R1
@@ -263,7 +263,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0-8
 	// load args and call sighandler
 	ADD	$4,R13,R5
 	MOVM.IA	[R1-R3], (R5)
-	BL	runtime·sighandler(SB)
+	BL	·sighandler(SB)
 	MOVW	16(R13), R0			// retval
 
 	// restore g
@@ -271,17 +271,17 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0-8
 
 	// call noted(R0)
 	MOVW	R0, 4(R13)
-	BL	runtime·noted(SB)
+	BL	·noted(SB)
 	RET
 
 //func sigpanictramp()
-TEXT  runtime·sigpanictramp(SB),NOSPLIT,$0-0
+TEXT  ·sigpanictramp(SB),NOSPLIT,$0-0
 	MOVW.W	R0, -4(R13)
-	B	runtime·sigpanic(SB)
+	B	·sigpanic(SB)
 
 //func setfpmasks()
 // Only used by the 64-bit runtime.
-TEXT runtime·setfpmasks(SB),NOSPLIT,$0
+TEXT ·setfpmasks(SB),NOSPLIT,$0
 	RET
 
 #define ERRMAX 128	/* from os_plan9.h */
@@ -292,7 +292,7 @@ TEXT runtime·setfpmasks(SB),NOSPLIT,$0
 // in entersyscall mode, without going
 // through the allocator (issue 4994).
 // See ../syscall/asm_plan9_arm.s:/·Syscall/
-TEXT runtime·errstr(SB),NOSPLIT,$0-8
+TEXT ·errstr(SB),NOSPLIT,$0-8
 	MOVW	g_m(g), R0
 	MOVW	(m_mOS+mOS_errstr)(R0), R1
 	MOVW	R1, ret_base+0(FP)
@@ -311,10 +311,10 @@ TEXT runtime·errstr(SB),NOSPLIT,$0-8
 	RET
 
 TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
-	B	runtime·armPublicationBarrier(SB)
+	B	·armPublicationBarrier(SB)
 
 // never called (cgo not supported)
-TEXT runtime·read_tls_fallback(SB),NOSPLIT|NOFRAME,$0
+TEXT ·read_tls_fallback(SB),NOSPLIT|NOFRAME,$0
 	MOVW	$0, R0
 	MOVW	R0, (R0)
 	RET

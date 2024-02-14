@@ -22,9 +22,9 @@
 #define RARG3 CX
 #endif
 
-// void runtime·libfuzzerCall4(fn, hookId int, s1, s2 unsafe.Pointer, result uintptr)
+// void ·libfuzzerCall4(fn, hookId int, s1, s2 unsafe.Pointer, result uintptr)
 // Calls C function fn from libFuzzer and passes 4 arguments to it.
-TEXT	runtime·libfuzzerCall4(SB), NOSPLIT, $0-40
+TEXT	·libfuzzerCall4(SB), NOSPLIT, $0-40
 	MOVQ	fn+0(FP), AX
 	MOVQ	hookId+8(FP), RARG0
 	MOVQ	s1+16(FP), RARG1
@@ -47,7 +47,7 @@ call:
 	MOVQ	R12, SP
 	RET
 
-// void runtime·libfuzzerCallTraceIntCmp(fn, arg0, arg1, fakePC uintptr)
+// void ·libfuzzerCallTraceIntCmp(fn, arg0, arg1, fakePC uintptr)
 // Calls C function fn from libFuzzer and passes 2 arguments to it after
 // manipulating the return address so that libfuzzer's integer compare hooks
 // work
@@ -75,7 +75,7 @@ call:
 // but take the return address as an argument and thus don't require the
 // indirection through a trampoline.
 // TODO: Remove the inline assembly trampoline once a PC argument has been added to libfuzzer's int compare hooks.
-TEXT	runtime·libfuzzerCallTraceIntCmp(SB), NOSPLIT, $0-32
+TEXT	·libfuzzerCallTraceIntCmp(SB), NOSPLIT, $0-32
 	MOVQ	fn+0(FP), AX
 	MOVQ	arg0+8(FP), RARG0
 	MOVQ	arg1+16(FP), RARG1
@@ -134,9 +134,9 @@ TEXT end_of_function<>(SB), NOSPLIT, $0-0
 TEXT ret_sled<>(SB), NOSPLIT, $0-0
 	REPEAT_512(RET)
 
-// void runtime·libfuzzerCallWithTwoByteBuffers(fn, start, end *byte)
+// void ·libfuzzerCallWithTwoByteBuffers(fn, start, end *byte)
 // Calls C function fn from libFuzzer and passes 2 arguments of type *byte to it.
-TEXT	runtime·libfuzzerCallWithTwoByteBuffers(SB), NOSPLIT, $0-24
+TEXT	·libfuzzerCallWithTwoByteBuffers(SB), NOSPLIT, $0-24
 	MOVQ	fn+0(FP), AX
 	MOVQ	start+8(FP), RARG0
 	MOVQ	end+16(FP), RARG1

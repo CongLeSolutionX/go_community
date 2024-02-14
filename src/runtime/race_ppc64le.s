@@ -37,24 +37,24 @@
 // racecalladdr.
 //
 // The sequence used to get the race ctx:
-//    MOVD    runtime·tls_g(SB), R10 // Address of TLS variable
+//    MOVD    ·tls_g(SB), R10 // Address of TLS variable
 //    MOVD    0(R10), g              // g = R30
 //    MOVD    g_racectx(g), R3       // racectx == ThreadState
 
-// func runtime·RaceRead(addr uintptr)
+// func ·RaceRead(addr uintptr)
 // Called from instrumented Go code
-TEXT	runtime·raceread<ABIInternal>(SB), NOSPLIT, $0-8
+TEXT	·raceread<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVD	R3, R4 // addr
 	MOVD	LR, R5 // caller of this?
 	// void __tsan_read(ThreadState *thr, void *addr, void *pc);
 	MOVD	$__tsan_read(SB), R8
 	BR	racecalladdr<>(SB)
 
-TEXT    runtime·RaceRead(SB), NOSPLIT, $0-8
-	BR	runtime·raceread(SB)
+TEXT    ·RaceRead(SB), NOSPLIT, $0-8
+	BR	·raceread(SB)
 
-// void runtime·racereadpc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
+// void ·racereadpc(void *addr, void *callpc, void *pc)
+TEXT	·racereadpc(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R4
 	MOVD	callpc+8(FP), R5
 	MOVD	pc+16(FP), R6
@@ -62,20 +62,20 @@ TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
 	MOVD	$__tsan_read_pc(SB), R8
 	BR	racecalladdr<>(SB)
 
-// func runtime·RaceWrite(addr uintptr)
+// func ·RaceWrite(addr uintptr)
 // Called from instrumented Go code
-TEXT	runtime·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
+TEXT	·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVD	R3, R4 // addr
 	MOVD	LR, R5 // caller has set LR via BL inst
 	// void __tsan_write(ThreadState *thr, void *addr, void *pc);
 	MOVD	$__tsan_write(SB), R8
 	BR	racecalladdr<>(SB)
 
-TEXT    runtime·RaceWrite(SB), NOSPLIT, $0-8
-	JMP	runtime·racewrite(SB)
+TEXT    ·RaceWrite(SB), NOSPLIT, $0-8
+	JMP	·racewrite(SB)
 
-// void runtime·racewritepc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
+// void ·racewritepc(void *addr, void *callpc, void *pc)
+TEXT	·racewritepc(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R4
 	MOVD	callpc+8(FP), R5
 	MOVD	pc+16(FP), R6
@@ -83,9 +83,9 @@ TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
 	MOVD	$__tsan_write_pc(SB), R8
 	BR	racecalladdr<>(SB)
 
-// func runtime·RaceReadRange(addr, size uintptr)
+// func ·RaceReadRange(addr, size uintptr)
 // Called from instrumented Go code.
-TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
+TEXT	·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	R4, R5 // size
 	MOVD	R3, R4 // addr
 	MOVD	LR, R6
@@ -93,8 +93,8 @@ TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	$__tsan_read_range(SB), R8
 	BR	racecalladdr<>(SB)
 
-// void runtime·racereadrangepc1(void *addr, uintptr sz, void *pc)
-TEXT	runtime·racereadrangepc1(SB), NOSPLIT, $0-24
+// void ·racereadrangepc1(void *addr, uintptr sz, void *pc)
+TEXT	·racereadrangepc1(SB), NOSPLIT, $0-24
 	MOVD    addr+0(FP), R4
 	MOVD    size+8(FP), R5
 	MOVD    pc+16(FP), R6
@@ -103,12 +103,12 @@ TEXT	runtime·racereadrangepc1(SB), NOSPLIT, $0-24
 	MOVD    $__tsan_read_range(SB), R8
 	BR	racecalladdr<>(SB)
 
-TEXT    runtime·RaceReadRange(SB), NOSPLIT, $0-16
-	BR	runtime·racereadrange(SB)
+TEXT    ·RaceReadRange(SB), NOSPLIT, $0-16
+	BR	·racereadrange(SB)
 
-// func runtime·RaceWriteRange(addr, size uintptr)
+// func ·RaceWriteRange(addr, size uintptr)
 // Called from instrumented Go code.
-TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
+TEXT	·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	R4, R5 // size
 	MOVD	R3, R4 // addr
 	MOVD	LR, R6
@@ -116,12 +116,12 @@ TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	$__tsan_write_range(SB), R8
 	BR	racecalladdr<>(SB)
 
-TEXT    runtime·RaceWriteRange(SB), NOSPLIT, $0-16
-	BR	runtime·racewriterange(SB)
+TEXT    ·RaceWriteRange(SB), NOSPLIT, $0-16
+	BR	·racewriterange(SB)
 
-// void runtime·racewriterangepc1(void *addr, uintptr sz, void *pc)
+// void ·racewriterangepc1(void *addr, uintptr sz, void *pc)
 // Called from instrumented Go code
-TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
+TEXT	·racewriterangepc1(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R4
 	MOVD	size+8(FP), R5
 	MOVD	pc+16(FP), R6
@@ -137,21 +137,21 @@ TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 //
 // Otherwise, setup goroutine context and invoke racecall. Other arguments already set.
 TEXT	racecalladdr<>(SB), NOSPLIT, $0-0
-	MOVD    runtime·tls_g(SB), R10
+	MOVD    ·tls_g(SB), R10
 	MOVD	0(R10), g
 	MOVD	g_racectx(g), R3	// goroutine context
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
-	MOVD	runtime·racearenastart(SB), R9
+	MOVD	·racearenastart(SB), R9
 	CMP	R4, R9
 	BLT	data
-	MOVD	runtime·racearenaend(SB), R9
+	MOVD	·racearenaend(SB), R9
 	CMP	R4, R9
 	BLT	call
 data:
-	MOVD	runtime·racedatastart(SB), R9
+	MOVD	·racedatastart(SB), R9
 	CMP	R4, R9
 	BLT	ret
-	MOVD	runtime·racedataend(SB), R9
+	MOVD	·racedataend(SB), R9
 	CMP	R4, R9
 	BGT	ret
 call:
@@ -164,16 +164,16 @@ call:
 ret:
 	RET
 
-// func runtime·racefuncenter(pc uintptr)
+// func ·racefuncenter(pc uintptr)
 // Called from instrumented Go code.
-TEXT	runtime·racefuncenter(SB), NOSPLIT, $0-8
+TEXT	·racefuncenter(SB), NOSPLIT, $0-8
 	MOVD	callpc+0(FP), R8
 	BR	racefuncenter<>(SB)
 
 // Common code for racefuncenter
 // R11 = caller's return address
 TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
-	MOVD    runtime·tls_g(SB), R10
+	MOVD    ·tls_g(SB), R10
 	MOVD    0(R10), g
 	MOVD    g_racectx(g), R3        // goroutine racectx aka *ThreadState
 	MOVD	R8, R4			// caller pc set by caller in R8
@@ -182,10 +182,10 @@ TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
 	BR	racecall<>(SB)
 	RET
 
-// func runtime·racefuncexit()
+// func ·racefuncexit()
 // Called from Go instrumented code.
-TEXT	runtime·racefuncexit(SB), NOSPLIT, $0-0
-	MOVD    runtime·tls_g(SB), R10
+TEXT	·racefuncexit(SB), NOSPLIT, $0-0
+	MOVD    ·tls_g(SB), R10
 	MOVD    0(R10), g
 	MOVD    g_racectx(g), R3        // goroutine racectx aka *ThreadState
 	// void __tsan_func_exit(ThreadState *thr);
@@ -365,22 +365,22 @@ TEXT	racecallatomic<>(SB), NOSPLIT, $0-0
 	MOVD	(R6), R7	// 1st arg is addr
 	MOVB	(R7), R9	// segv here if addr is bad
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
-	MOVD	runtime·racearenastart(SB), R9
+	MOVD	·racearenastart(SB), R9
 	CMP	R7, R9
 	BLT	racecallatomic_data
-	MOVD	runtime·racearenaend(SB), R9
+	MOVD	·racearenaend(SB), R9
 	CMP	R7, R9
 	BLT	racecallatomic_ok
 racecallatomic_data:
-	MOVD	runtime·racedatastart(SB), R9
+	MOVD	·racedatastart(SB), R9
 	CMP	R7, R9
 	BLT	racecallatomic_ignore
-	MOVD	runtime·racedataend(SB), R9
+	MOVD	·racedataend(SB), R9
 	CMP	R7, R9
 	BGE	racecallatomic_ignore
 racecallatomic_ok:
 	// Addr is within the good range, call the atomic function.
-	MOVD    runtime·tls_g(SB), R10
+	MOVD    ·tls_g(SB), R10
 	MOVD    0(R10), g
 	MOVD    g_racectx(g), R3        // goroutine racectx aka *ThreadState
 	MOVD	R8, R5			// pc is the function called
@@ -394,7 +394,7 @@ racecallatomic_ignore:
 	MOVD	R8, R15	// save the original function
 	MOVD	R6, R17 // save the original arg list addr
 	MOVD	$__tsan_go_ignore_sync_begin(SB), R8 // func addr to call
-	MOVD    runtime·tls_g(SB), R10
+	MOVD    ·tls_g(SB), R10
 	MOVD    0(R10), g
 	MOVD    g_racectx(g), R3        // goroutine context
 	BL	racecall<>(SB)
@@ -402,7 +402,7 @@ racecallatomic_ignore:
 	MOVD	R17, R6 // restore arg list addr
 	// Call the atomic function.
 	// racecall will call LLVM race code which might clobber r30 (g)
-	MOVD	runtime·tls_g(SB), R10
+	MOVD	·tls_g(SB), R10
 	MOVD	0(R10), g
 
 	MOVD	g_racectx(g), R3
@@ -415,10 +415,10 @@ racecallatomic_ignore:
 	BL	racecall<>(SB)
 	RET
 
-// void runtime·racecall(void(*f)(...), ...)
+// void ·racecall(void(*f)(...), ...)
 // Calls C function f from race runtime and passes up to 4 arguments to it.
 // The arguments are never heap-object-preserving pointers, so we pretend there are no arguments.
-TEXT	runtime·racecall(SB), NOSPLIT, $0-0
+TEXT	·racecall(SB), NOSPLIT, $0-0
 	MOVD	fn+0(FP), R8
 	MOVD	arg0+8(FP), R3
 	MOVD	arg1+16(FP), R4
@@ -434,7 +434,7 @@ TEXT	racecall<>(SB), NOSPLIT, $0-0
 	MOVD	R10, 0(R1)	// Go expectation
 	MOVD	R10, 16(R1)	// C ABI
 	// Get info from the current goroutine
-	MOVD    runtime·tls_g(SB), R10	// g offset in TLS
+	MOVD    ·tls_g(SB), R10	// g offset in TLS
 	MOVD    0(R10), g
 	MOVD	g_m(g), R7		// m for g
 	MOVD	R1, R16			// callee-saved, preserved across C call
@@ -451,18 +451,18 @@ call:
 	BL	(CTR)
 	XOR     R0, R0			// clear R0 on return from Clang
 	MOVD	R16, R1			// restore R1; R16 nonvol in Clang
-	MOVD    runtime·tls_g(SB), R10	// find correct g
+	MOVD    ·tls_g(SB), R10	// find correct g
 	MOVD    0(R10), g
 	MOVD	16(R1), R10		// LR was saved away, restore for return
 	MOVD	R10, LR
 	RET
 
-// C->Go callback thunk that allows to call runtime·racesymbolize from C code.
+// C->Go callback thunk that allows to call ·racesymbolize from C code.
 // Direct Go->C race call has only switched SP, finish g->g0 switch by setting correct g.
 // The overall effect of Go->C->Go call chain is similar to that of mcall.
 // RARG0 contains command code. RARG1 contains command-specific context.
 // See racecallback for command codes.
-TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
+TEXT	·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
 	// Handle command raceGetProcCmd (0) here.
 	// First, code below assumes that we are on curg, while raceGetProcCmd
 	// can be executed on g0. Second, it is called frequently, so will
@@ -471,7 +471,7 @@ TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
 	CMP	R3, $0
 	BNE	rest
 	// Inline raceGetProdCmd without clobbering callee-save registers.
-	MOVD	runtime·tls_g(SB), R10
+	MOVD	·tls_g(SB), R10
 	MOVD	0(R10), R11
 	MOVD	g_m(R11), R3
 	MOVD	m_p(R3), R3
@@ -485,7 +485,7 @@ rest:
 	STACK_AND_SAVE_HOST_TO_GO_ABI(16)
 
 	// Load g, and switch to g0 if not already on it.
-	MOVD	runtime·tls_g(SB), R10
+	MOVD	·tls_g(SB), R10
 	MOVD	0(R10), g
 
 	MOVD	g_m(g), R7
@@ -496,10 +496,10 @@ rest:
 	MOVD	R8, g // set g = m->g0
 
 noswitch:
-	BL	runtime·racecallback<ABIInternal>(SB)
+	BL	·racecallback<ABIInternal>(SB)
 
 	UNSTACK_AND_RESTORE_GO_TO_HOST_ABI(16)
 	RET
 
 // tls_g, g value for each thread in TLS
-GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8
+GLOBL ·tls_g+0(SB), TLSBSS+DUPOK, $8

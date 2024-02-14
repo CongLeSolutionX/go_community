@@ -10,17 +10,17 @@
 // If !iscgo, this is a no-op.
 //
 // NOTE: mcall() assumes this clobbers only X31 (REG_TMP).
-TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·save_g(SB),NOSPLIT|NOFRAME,$0-0
 #ifndef GOOS_openbsd
-	MOVB	runtime·iscgo(SB), X31
+	MOVB	·iscgo(SB), X31
 	BEQZ	X31, nocgo
 #endif
-	MOV	g, runtime·tls_g(SB)
+	MOV	g, ·tls_g(SB)
 nocgo:
 	RET
 
-TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOV	runtime·tls_g(SB), g
+TEXT ·load_g(SB),NOSPLIT|NOFRAME,$0-0
+	MOV	·tls_g(SB), g
 	RET
 
-GLOBL runtime·tls_g(SB), TLSBSS, $8
+GLOBL ·tls_g(SB), TLSBSS, $8

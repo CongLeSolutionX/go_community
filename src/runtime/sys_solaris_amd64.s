@@ -11,16 +11,16 @@
 #include "textflag.h"
 
 // This is needed by asm_amd64.s
-TEXT runtime·settls(SB),NOSPLIT,$8
+TEXT ·settls(SB),NOSPLIT,$8
 	RET
 
 // void libc_miniterrno(void *(*___errno)(void));
 //
 // Set the TLS errno pointer in M.
 //
-// Called using runtime·asmcgocall from os_solaris.c:/minit.
+// Called using ·asmcgocall from os_solaris.c:/minit.
 // NOT USING GO CALLING CONVENTION.
-TEXT runtime·miniterrno(SB),NOSPLIT,$0
+TEXT ·miniterrno(SB),NOSPLIT,$0
 	// asmcgocall will put first argument into DI.
 	CALL	DI	// SysV ABI so returns in AX
 	get_tls(CX)
@@ -37,9 +37,9 @@ TEXT runtime·miniterrno(SB),NOSPLIT,$0
 //   AMD64 Architecture Processor Supplement
 // section 3.2.3.
 //
-// Called by runtime·asmcgocall or runtime·cgocall.
+// Called by ·asmcgocall or ·cgocall.
 // NOT USING GO CALLING CONVENTION.
-TEXT runtime·asmsysvicall6(SB),NOSPLIT,$0
+TEXT ·asmsysvicall6(SB),NOSPLIT,$0
 	// asmcgocall will put first argument into DI.
 	PUSHQ	DI			// save for later
 	MOVQ	libcall_fn(DI), AX
@@ -91,7 +91,7 @@ skiperrno2:
 	RET
 
 // uint32 tstart_sysvicall(M *newm);
-TEXT runtime·tstart_sysvicall(SB),NOSPLIT,$0
+TEXT ·tstart_sysvicall(SB),NOSPLIT,$0
 	// DI contains first arg newm
 	MOVQ	m_g0(DI), DX		// g
 
@@ -112,8 +112,8 @@ TEXT runtime·tstart_sysvicall(SB),NOSPLIT,$0
 	// Someday the convention will be D is always cleared.
 	CLD
 
-	CALL	runtime·stackcheck(SB)	// clobbers AX,CX
-	CALL	runtime·mstart(SB)
+	CALL	·stackcheck(SB)	// clobbers AX,CX
+	CALL	·mstart(SB)
 
 	XORL	AX, AX			// return 0 == success
 	MOVL	AX, ret+8(FP)
@@ -121,7 +121,7 @@ TEXT runtime·tstart_sysvicall(SB),NOSPLIT,$0
 
 // Careful, this is called by __sighndlr, a libc function. We must preserve
 // registers as per AMD 64 ABI.
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	// Note that we are executing on altsigstack here, so we have
 	// more stack available than NOSPLIT would have us believe.
 	// To defeat the linker, we make our own stack frame with
@@ -145,13 +145,13 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	LEAQ	72(SP), AX
 	MOVQ	DI, 0(SP)
 	MOVQ	AX, 8(SP)
-	MOVQ	$runtime·badsignal(SB), AX
+	MOVQ	$·badsignal(SB), AX
 	CALL	AX
 	JMP	exit
 
 allgood:
 	// Save m->libcall and m->scratch. We need to do this because we
-	// might get interrupted by a signal in runtime·asmcgocall.
+	// might get interrupted by a signal in ·asmcgocall.
 
 	// save m->libcall
 	MOVQ	g_m(R10), BP
@@ -191,7 +191,7 @@ allgood:
 	MOVQ	DI, 0(SP)
 	MOVQ	SI, 8(SP)
 	MOVQ	DX, 16(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	·sigtrampgo(SB)
 
 	get_tls(BX)
 	MOVQ	g(BX), BP
@@ -240,7 +240,7 @@ exit:
 	ADDQ    $168, SP
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	fn+0(FP),    AX
 	MOVL	sig+8(FP),   DI
 	MOVQ	info+16(FP), SI
@@ -251,9 +251,9 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	BX, SP
 	RET
 
-// Called from runtime·usleep (Go). Can be called on Go stack, on OS stack,
+// Called from ·usleep (Go). Can be called on Go stack, on OS stack,
 // can also be called in cgo callback path without a g->m.
-TEXT runtime·usleep1(SB),NOSPLIT,$0
+TEXT ·usleep1(SB),NOSPLIT,$0
 	MOVL	usec+0(FP), DI
 	MOVQ	$usleep2<>(SB), AX // to hide from 6l
 
@@ -297,8 +297,8 @@ TEXT usleep2<>(SB),NOSPLIT,$0
 	CALL	AX
 	RET
 
-// Runs on OS stack, called from runtime·osyield.
-TEXT runtime·osyield1(SB),NOSPLIT,$0
+// Runs on OS stack, called from ·osyield.
+TEXT ·osyield1(SB),NOSPLIT,$0
 	LEAQ	libc_sched_yield(SB), AX
 	CALL	AX
 	RET

@@ -11,11 +11,11 @@
 #define TEB_TlsSlots 0xE10
 #define TEB_ArbitraryPtr 0x14
 
-TEXT runtime·asmstdcall_trampoline<ABIInternal>(SB),NOSPLIT,$0
-	JMP	runtime·asmstdcall(SB)
+TEXT ·asmstdcall_trampoline<ABIInternal>(SB),NOSPLIT,$0
+	JMP	·asmstdcall(SB)
 
-// void runtime·asmstdcall(void *c);
-TEXT runtime·asmstdcall(SB),NOSPLIT,$0
+// void ·asmstdcall(void *c);
+TEXT ·asmstdcall(SB),NOSPLIT,$0
 	MOVL	fn+0(FP), BX
 	MOVL	SP, BP	// save stack pointer
 
@@ -55,12 +55,12 @@ docall:
 	RET
 
 // faster get/set last error
-TEXT runtime·getlasterror(SB),NOSPLIT,$0
+TEXT ·getlasterror(SB),NOSPLIT,$0
 	MOVL	0x34(FS), AX
 	MOVL	AX, ret+0(FP)
 	RET
 
-TEXT runtime·sigFetchGSafe<ABIInternal>(SB),NOSPLIT,$0
+TEXT ·sigFetchGSafe<ABIInternal>(SB),NOSPLIT,$0
 	get_tls(AX)
 	CMPL	AX, $0
 	JE	2(PC)
@@ -84,7 +84,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 
 	MOVL	AX, 0(SP)
 	MOVL	CX, 4(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	·sigtrampgo(SB)
 	MOVL	8(SP), AX
 
 	// restore callee-saved registers
@@ -103,25 +103,25 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 // It switches stacks and jumps to the continuation address.
 // DX and CX are set above at the end of sigtrampgo
 // in the context that starts executing at sigresume.
-TEXT runtime·sigresume(SB),NOSPLIT,$0
+TEXT ·sigresume(SB),NOSPLIT,$0
 	MOVL	DX, SP
 	JMP	CX
 
-TEXT runtime·exceptiontramp(SB),NOSPLIT,$0
+TEXT ·exceptiontramp(SB),NOSPLIT,$0
 	MOVL	argframe+0(FP), AX
 	MOVL	$const_callbackVEH, CX
 	JMP	sigtramp<>(SB)
 
-TEXT runtime·firstcontinuetramp(SB),NOSPLIT,$0-0
+TEXT ·firstcontinuetramp(SB),NOSPLIT,$0-0
 	// is never called
 	INT	$3
 
-TEXT runtime·lastcontinuetramp(SB),NOSPLIT,$0-0
+TEXT ·lastcontinuetramp(SB),NOSPLIT,$0-0
 	MOVL	argframe+0(FP), AX
 	MOVL	$const_callbackLastVCH, CX
 	JMP	sigtramp<>(SB)
 
-TEXT runtime·callbackasm1(SB),NOSPLIT,$0
+TEXT ·callbackasm1(SB),NOSPLIT,$0
 	MOVL	0(SP), AX	// will use to find our callback context
 
 	// remove return address from stack, we are not returning to callbackasm, but to its caller.
@@ -139,10 +139,10 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$0
 	// Go ABI requires DF flag to be cleared.
 	CLD
 
-	// determine index into runtime·cbs table
-	SUBL	$runtime·callbackasm(SB), AX
+	// determine index into ·cbs table
+	SUBL	$·callbackasm(SB), AX
 	MOVL	$0, DX
-	MOVL	$5, BX	// divide by 5 because each call instruction in runtime·callbacks is 5 bytes long
+	MOVL	$5, BX	// divide by 5 because each call instruction in ·callbacks is 5 bytes long
 	DIVL	BX
 	SUBL	$1, AX	// subtract 1 because return PC is to the next slot
 
@@ -158,7 +158,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$0
 	MOVL	AX, 4(SP)	// frame (address of callbackArgs)
 	LEAL	·callbackWrap(SB), AX
 	MOVL	AX, 0(SP)	// PC of function to call
-	CALL	runtime·cgocallback(SB)
+	CALL	·cgocallback(SB)
 
 	// Get callback result.
 	MOVL	(12+callbackArgs_result)(SP), AX
@@ -200,18 +200,18 @@ TEXT tstart<>(SB),NOSPLIT,$8-4
 	MOVL	CX, g_m(DX)
 	MOVL	DX, g(DI)
 	MOVL	DI, 4(SP)
-	CALL	runtime·setldt(SB) // clobbers CX and DX
+	CALL	·setldt(SB) // clobbers CX and DX
 
 	// Someday the convention will be D is always cleared.
 	CLD
 
-	CALL	runtime·stackcheck(SB)	// clobbers AX,CX
-	CALL	runtime·mstart(SB)
+	CALL	·stackcheck(SB)	// clobbers AX,CX
+	CALL	·mstart(SB)
 
 	RET
 
 // uint32 tstart_stdcall(M *newm);
-TEXT runtime·tstart_stdcall(SB),NOSPLIT,$0
+TEXT ·tstart_stdcall(SB),NOSPLIT,$0
 	MOVL	newm+0(FP), BX
 
 	PUSHL	BX
@@ -228,13 +228,13 @@ TEXT runtime·tstart_stdcall(SB),NOSPLIT,$0
 	RET
 
 // setldt(int slot, int base, int size)
-TEXT runtime·setldt(SB),NOSPLIT,$0-12
+TEXT ·setldt(SB),NOSPLIT,$0-12
 	MOVL	base+4(FP), DX
-	MOVL	runtime·tls_g(SB), CX
+	MOVL	·tls_g(SB), CX
 	MOVL	DX, 0(CX)(FS)
 	RET
 
-TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
+TEXT ·nanotime1(SB),NOSPLIT,$0-8
 loop:
 	MOVL	(_INTERRUPT_TIME+time_hi1), AX
 	MOVL	(_INTERRUPT_TIME+time_lo), CX
@@ -254,10 +254,10 @@ loop:
 
 // This is called from rt0_go, which runs on the system stack
 // using the initial stack allocated by the OS.
-TEXT runtime·wintls(SB),NOSPLIT,$0
+TEXT ·wintls(SB),NOSPLIT,$0
 	// Allocate a TLS slot to hold g across calls to external code
 	MOVL	SP, BP
-	MOVL	runtime·_TlsAlloc(SB), AX
+	MOVL	·_TlsAlloc(SB), AX
 	CALL	AX
 	MOVL	BP, SP
 
@@ -278,5 +278,5 @@ ok:
 	// Save offset from TLS into tls_g.
 	ADDL	$TEB_TlsSlots, CX
 settls:
-	MOVL	CX, runtime·tls_g(SB)
+	MOVL	CX, ·tls_g(SB)
 	RET

@@ -19,11 +19,11 @@
 //
 // load_g and save_g (in tls_arm64.s) clobber R27 (REGTMP) and R0.
 
-TEXT runtime·asmstdcall_trampoline<ABIInternal>(SB),NOSPLIT,$0
-	B	runtime·asmstdcall(SB)
+TEXT ·asmstdcall_trampoline<ABIInternal>(SB),NOSPLIT,$0
+	B	·asmstdcall(SB)
 
-// void runtime·asmstdcall(void *c);
-TEXT runtime·asmstdcall(SB),NOSPLIT,$16
+// void ·asmstdcall(void *c);
+TEXT ·asmstdcall(SB),NOSPLIT,$16
 	STP	(R19, R20), 16(RSP) // save old R19, R20
 	MOVD	R0, R19	// save libcall pointer
 	MOVD	RSP, R20	// save stack pointer
@@ -101,7 +101,7 @@ _0args:
 	LDP	16(RSP), (R19, R20)
 	RET
 
-TEXT runtime·getlasterror(SB),NOSPLIT,$0
+TEXT ·getlasterror(SB),NOSPLIT,$0
 	MOVD	TEB_error(R18_PLATFORM), R0
 	MOVD	R0, ret+0(FP)
 	RET
@@ -119,12 +119,12 @@ TEXT sigtramp<>(SB),NOSPLIT,$176
 	SAVE_R19_TO_R28(8*4)
 	SAVE_F8_TO_F15(8*14)
 
-	BL	runtime·load_g(SB)	// Clobers R0, R27, R28 (g)
+	BL	·load_g(SB)	// Clobers R0, R27, R28 (g)
 
 	MOVD	R5, R0
 	MOVD	R6, R1
 	// Calling ABIInternal because TLS might be nil.
-	BL	runtime·sigtrampgo<ABIInternal>(SB)
+	BL	·sigtrampgo<ABIInternal>(SB)
 	// Return value is already stored in R0.
 
 	// Restore callee-save registers.
@@ -138,26 +138,26 @@ TEXT sigtramp<>(SB),NOSPLIT,$176
 // It switches stacks and jumps to the continuation address.
 // R0 and R1 are set above at the end of sigtrampgo
 // in the context that starts executing at sigresume.
-TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sigresume(SB),NOSPLIT|NOFRAME,$0
 	// Important: do not smash LR,
 	// which is set to a live value when handling
 	// a signal by pushing a call to sigpanic onto the stack.
 	MOVD	R0, RSP
 	B	(R1)
 
-TEXT runtime·exceptiontramp(SB),NOSPLIT|NOFRAME,$0
+TEXT ·exceptiontramp(SB),NOSPLIT|NOFRAME,$0
 	MOVD	$const_callbackVEH, R1
 	B	sigtramp<>(SB)
 
-TEXT runtime·firstcontinuetramp(SB),NOSPLIT|NOFRAME,$0
+TEXT ·firstcontinuetramp(SB),NOSPLIT|NOFRAME,$0
 	MOVD	$const_callbackFirstVCH, R1
 	B	sigtramp<>(SB)
 
-TEXT runtime·lastcontinuetramp(SB),NOSPLIT|NOFRAME,$0
+TEXT ·lastcontinuetramp(SB),NOSPLIT|NOFRAME,$0
 	MOVD	$const_callbackLastVCH, R1
 	B	sigtramp<>(SB)
 
-TEXT runtime·callbackasm1(SB),NOSPLIT,$208-0
+TEXT ·callbackasm1(SB),NOSPLIT,$208-0
 	NO_LOCAL_POINTERS
 
 	// On entry, the trampoline in zcallback_windows_arm64.s left
@@ -193,7 +193,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$208-0
 	MOVD	$0, R2	// context
 	STP	(R0, R1), (1*8)(RSP)
 	MOVD	R2, (3*8)(RSP)
-	BL	runtime·cgocallback(SB)
+	BL	·cgocallback(SB)
 
 	// Get callback result.
 	MOVD	$cbargs-(18*8+callbackArgs__size)(SP), R13
@@ -204,12 +204,12 @@ TEXT runtime·callbackasm1(SB),NOSPLIT,$208-0
 	RET
 
 // uint32 tstart_stdcall(M *newm);
-TEXT runtime·tstart_stdcall(SB),NOSPLIT,$96-0
+TEXT ·tstart_stdcall(SB),NOSPLIT,$96-0
 	SAVE_R19_TO_R28(8*3)
 
 	MOVD	m_g0(R0), g
 	MOVD	R0, g_m(g)
-	BL	runtime·save_g(SB)
+	BL	·save_g(SB)
 
 	// Set up stack guards for OS stack.
 	MOVD	RSP, R0
@@ -219,8 +219,8 @@ TEXT runtime·tstart_stdcall(SB),NOSPLIT,$96-0
 	MOVD	R0, g_stackguard0(g)
 	MOVD	R0, g_stackguard1(g)
 
-	BL	runtime·emptyfunc(SB)	// fault if stack check is wrong
-	BL	runtime·mstart(SB)
+	BL	·emptyfunc(SB)	// fault if stack check is wrong
+	BL	·mstart(SB)
 
 	RESTORE_R19_TO_R28(8*3)
 
@@ -228,7 +228,7 @@ TEXT runtime·tstart_stdcall(SB),NOSPLIT,$96-0
 	MOVD	$0, R0
 	RET
 
-TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
+TEXT ·nanotime1(SB),NOSPLIT,$0-8
 	MOVD	$_INTERRUPT_TIME, R3
 	MOVD	time_lo(R3), R0
 	MOVD	$100, R1
@@ -239,9 +239,9 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 // This is called from rt0_go, which runs on the system stack
 // using the initial stack allocated by the OS.
 // It calls back into standard C using the BL below.
-TEXT runtime·wintls(SB),NOSPLIT,$0
+TEXT ·wintls(SB),NOSPLIT,$0
 	// Allocate a TLS slot to hold g across calls to external code
-	MOVD	runtime·_TlsAlloc(SB), R0
+	MOVD	·_TlsAlloc(SB), R0
 	SUB	$16, RSP	// skip over saved frame pointer below RSP
 	BL	(R0)
 	ADD	$16, RSP
@@ -259,5 +259,5 @@ ok:
 	LSL	$3, R0
 	ADD	$TEB_TlsSlots, R0
 settls:
-	MOVD	R0, runtime·tls_g(SB)
+	MOVD	R0, ·tls_g(SB)
 	RET

@@ -18,13 +18,13 @@
 #define REPEAT_8(a) REPEAT_2(REPEAT_2(REPEAT_2(a)))
 #define REPEAT_128(a) REPEAT_2(REPEAT_8(REPEAT_8(a)))
 
-// void runtime·libfuzzerCallTraceIntCmp(fn, arg0, arg1, fakePC uintptr)
+// void ·libfuzzerCallTraceIntCmp(fn, arg0, arg1, fakePC uintptr)
 // Calls C function fn from libFuzzer and passes 2 arguments to it after
 // manipulating the return address so that libfuzzer's integer compare hooks
 // work.
 // The problem statement and solution are documented in detail in libfuzzer_amd64.s.
 // See commentary there.
-TEXT	runtime·libfuzzerCallTraceIntCmp(SB), NOSPLIT, $8-32
+TEXT	·libfuzzerCallTraceIntCmp(SB), NOSPLIT, $8-32
 	MOVD	fn+0(FP), R9
 	MOVD	arg0+8(FP), RARG0
 	MOVD	arg1+16(FP), RARG1
@@ -70,9 +70,9 @@ end_of_function:
 	MOVD	savedRetAddr-8(SP), R30
 	RET
 
-// void runtime·libfuzzerCall4(fn, hookId int, s1, s2 unsafe.Pointer, result uintptr)
+// void ·libfuzzerCall4(fn, hookId int, s1, s2 unsafe.Pointer, result uintptr)
 // Calls C function fn from libFuzzer and passes 4 arguments to it.
-TEXT	runtime·libfuzzerCall4(SB), NOSPLIT, $0-40
+TEXT	·libfuzzerCall4(SB), NOSPLIT, $0-40
 	MOVD	fn+0(FP), R9
 	MOVD	hookId+8(FP), RARG0
 	MOVD	s1+16(FP), RARG1
@@ -93,9 +93,9 @@ call:
 	MOVD	R19, RSP
 	RET
 
-// void runtime·libfuzzerCallWithTwoByteBuffers(fn, start, end *byte)
+// void ·libfuzzerCallWithTwoByteBuffers(fn, start, end *byte)
 // Calls C function fn from libFuzzer and passes 2 arguments of type *byte to it.
-TEXT	runtime·libfuzzerCallWithTwoByteBuffers(SB), NOSPLIT, $0-24
+TEXT	·libfuzzerCallWithTwoByteBuffers(SB), NOSPLIT, $0-24
 	MOVD	fn+0(FP), R9
 	MOVD	start+8(FP), R0
 	MOVD	end+16(FP), R1

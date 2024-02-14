@@ -26,7 +26,7 @@
 // The loop tail is handled by always copying 64 bytes from the end.
 
 // func memmove(to, from unsafe.Pointer, n uintptr)
-TEXT runtime·memmove<ABIInternal>(SB), NOSPLIT|NOFRAME, $0-24
+TEXT ·memmove<ABIInternal>(SB), NOSPLIT|NOFRAME, $0-24
 	CBZ	R2, copy0
 
 	// Small copies: 1..16 bytes
@@ -129,7 +129,7 @@ copy_long:
 	CMP	$1024, R2
 	BLT	backward_check
 	// feature detect to decide how to align
-	MOVBU	runtime·arm64UseAlignedLoads(SB), R6
+	MOVBU	·arm64UseAlignedLoads(SB), R6
 	CBNZ	R6, use_aligned_loads
 	MOVD	R0, R7
 	MOVD	R5, R8

@@ -31,7 +31,7 @@
 #define IDX48 R15
 #define OCTWORDS R16
 
-TEXT runtime·memmove<ABIInternal>(SB), NOSPLIT|NOFRAME, $0-24
+TEXT ·memmove<ABIInternal>(SB), NOSPLIT|NOFRAME, $0-24
 	// R3 = TGT = to
 	// R4 = SRC = from
 	// R5 = LEN = n

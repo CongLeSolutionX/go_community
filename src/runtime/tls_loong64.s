@@ -10,17 +10,17 @@
 // If !iscgo, this is a no-op.
 //
 // NOTE: mcall() assumes this clobbers only R30 (REGTMP).
-TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVB	runtime·iscgo(SB), R30
+TEXT ·save_g(SB),NOSPLIT|NOFRAME,$0-0
+	MOVB	·iscgo(SB), R30
 	BEQ	R30, nocgo
 
-	MOVV	g, runtime·tls_g(SB)
+	MOVV	g, ·tls_g(SB)
 
 nocgo:
 	RET
 
-TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVV	runtime·tls_g(SB), g
+TEXT ·load_g(SB),NOSPLIT|NOFRAME,$0-0
+	MOVV	·tls_g(SB), g
 	RET
 
-GLOBL runtime·tls_g(SB), TLSBSS, $8
+GLOBL ·tls_g(SB), TLSBSS, $8

@@ -19,5 +19,5 @@ TEXT _rt0_s390x_linux_lib(SB), NOSPLIT, $0
 	BR   R1
 
 TEXT main(SB), NOSPLIT|NOFRAME, $0
-	MOVD $runtime·rt0_go(SB), R1
+	MOVD $·rt0_go(SB), R1
 	BR   R1

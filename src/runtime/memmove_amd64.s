@@ -32,7 +32,7 @@
 
 // func memmove(to, from unsafe.Pointer, n uintptr)
 // ABIInternal for performance.
-TEXT runtime·memmove<ABIInternal>(SB), NOSPLIT, $0-24
+TEXT ·memmove<ABIInternal>(SB), NOSPLIT, $0-24
 	// AX = to
 	// BX = from
 	// CX = n
@@ -72,7 +72,7 @@ tail:
 	CMPQ	BX, $256
 	JBE	move_129through256
 
-	TESTB	$1, runtime·useAVXmemmove(SB)
+	TESTB	$1, ·useAVXmemmove(SB)
 	JNZ	avxUnaligned
 
 /*

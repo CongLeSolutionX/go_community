@@ -20,13 +20,13 @@
 // If !iscgo, this is a no-op.
 //
 // NOTE: setg_gcc<> assume this clobbers only R10 and R11.
-TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVB	runtime·iscgo(SB),  R10
+TEXT ·save_g(SB),NOSPLIT|NOFRAME,$0-0
+	MOVB	·iscgo(SB),  R10
 	CMPBEQ	R10, $0, nocgo
 	MOVW	AR0, R11
 	SLD	$32, R11
 	MOVW	AR1, R11
-	MOVD	runtime·tls_g(SB), R10
+	MOVD	·tls_g(SB), R10
 	MOVD	g, 0(R10)(R11*1)
 nocgo:
 	RET
@@ -40,12 +40,12 @@ nocgo:
 // usual Go registers aren't set up.
 //
 // NOTE: _cgo_topofstack assumes this only clobbers g (R13), R10 and R11.
-TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·load_g(SB),NOSPLIT|NOFRAME,$0-0
 	MOVW	AR0, R11
 	SLD	$32, R11
 	MOVW	AR1, R11
-	MOVD	runtime·tls_g(SB), R10
+	MOVD	·tls_g(SB), R10
 	MOVD	0(R10)(R11*1), g
 	RET
 
-GLOBL runtime·tls_g+0(SB),TLSBSS,$8
+GLOBL ·tls_g+0(SB),TLSBSS,$8

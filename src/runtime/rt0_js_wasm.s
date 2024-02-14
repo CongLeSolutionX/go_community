@@ -19,7 +19,7 @@ TEXT _rt0_wasm_js(SB),NOSPLIT,$0
 // R0: argc (i32)
 // R1: argv (i32)
 TEXT wasm_export_run(SB),NOSPLIT,$0
-	MOVD $runtime·wasmStack+(m0Stack__size-16)(SB), SP
+	MOVD $·wasmStack+(m0Stack__size-16)(SB), SP
 
 	Get SP
 	Get R0 // argc
@@ -32,7 +32,7 @@ TEXT wasm_export_run(SB),NOSPLIT,$0
 	I64Store $8
 
 	I32Const $0 // entry PC_B
-	Call runtime·rt0_go(SB)
+	Call ·rt0_go(SB)
 	Drop
 	Call wasm_pc_f_loop(SB)
 
@@ -42,7 +42,7 @@ TEXT wasm_export_run(SB),NOSPLIT,$0
 // an event.
 TEXT wasm_export_resume(SB),NOSPLIT,$0
 	I32Const $0
-	Call runtime·handleEvent(SB)
+	Call ·handleEvent(SB)
 	Drop
 	Call wasm_pc_f_loop(SB)
 
@@ -53,15 +53,15 @@ TEXT wasm_export_getsp(SB),NOSPLIT,$0
 	Get SP
 	Return
 
-TEXT runtime·pause(SB), NOSPLIT, $0-8
+TEXT ·pause(SB), NOSPLIT, $0-8
 	MOVD newsp+0(FP), SP
 	I32Const $1
 	Set PAUSE
 	RETUNWIND
 
-TEXT runtime·exit(SB), NOSPLIT, $0-4
+TEXT ·exit(SB), NOSPLIT, $0-4
 	I32Const $0
-	Call runtime·wasmExit(SB)
+	Call ·wasmExit(SB)
 	I32Const $1
 	Set PAUSE
 	RETUNWIND

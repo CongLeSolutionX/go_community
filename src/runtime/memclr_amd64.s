@@ -12,7 +12,7 @@
 
 // func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
 // ABIInternal for performance.
-TEXT runtime·memclrNoHeapPointers<ABIInternal>(SB), NOSPLIT, $0-16
+TEXT ·memclrNoHeapPointers<ABIInternal>(SB), NOSPLIT, $0-16
 	// AX = ptr
 	// BX = n
 	MOVQ	AX, DI	// DI = ptr

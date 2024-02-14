@@ -23,5 +23,5 @@ TEXT _main<>(SB),NOSPLIT|NOFRAME,$0
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
 	// In external linking, libc jumps to main with argc in R4, argv in R5
-	MOVW	$runtime·rt0_go(SB), R1
+	MOVW	$·rt0_go(SB), R1
 	JMP	(R1)

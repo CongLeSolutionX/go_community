@@ -7,7 +7,7 @@
 // See memclrNoHeapPointers Go doc for important implementation constraints.
 
 // func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
-TEXT runtime·memclrNoHeapPointers(SB),NOSPLIT|NOFRAME,$0-16
+TEXT ·memclrNoHeapPointers(SB),NOSPLIT|NOFRAME,$0-16
 	MOVD	ptr+0(FP), R4
 	MOVD	n+8(FP), R5
 

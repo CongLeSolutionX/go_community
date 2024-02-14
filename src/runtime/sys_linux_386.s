@@ -58,7 +58,7 @@
 #define SYS_tgkill		270
 #define SYS_pipe2		331
 
-TEXT runtime·exit(SB),NOSPLIT,$0
+TEXT ·exit(SB),NOSPLIT,$0
 	MOVL	$SYS_exit_group, AX
 	MOVL	code+0(FP), BX
 	INVOKE_SYSCALL
@@ -73,7 +73,7 @@ TEXT exit1<>(SB),NOSPLIT,$0
 	RET
 
 // func exitThread(wait *atomic.Uint32)
-TEXT runtime·exitThread(SB),NOSPLIT,$0-4
+TEXT ·exitThread(SB),NOSPLIT,$0-4
 	MOVL	wait+0(FP), AX
 	// We're done using the stack.
 	MOVL	$0, (AX)
@@ -84,7 +84,7 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-4
 	INT	$3
 	JMP	0(PC)
 
-TEXT runtime·open(SB),NOSPLIT,$0
+TEXT ·open(SB),NOSPLIT,$0
 	MOVL	$SYS_open, AX
 	MOVL	name+0(FP), BX
 	MOVL	mode+4(FP), CX
@@ -96,7 +96,7 @@ TEXT runtime·open(SB),NOSPLIT,$0
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·closefd(SB),NOSPLIT,$0
+TEXT ·closefd(SB),NOSPLIT,$0
 	MOVL	$SYS_close, AX
 	MOVL	fd+0(FP), BX
 	INVOKE_SYSCALL
@@ -106,7 +106,7 @@ TEXT runtime·closefd(SB),NOSPLIT,$0
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·write1(SB),NOSPLIT,$0
+TEXT ·write1(SB),NOSPLIT,$0
 	MOVL	$SYS_write, AX
 	MOVL	fd+0(FP), BX
 	MOVL	p+4(FP), CX
@@ -115,7 +115,7 @@ TEXT runtime·write1(SB),NOSPLIT,$0
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·read(SB),NOSPLIT,$0
+TEXT ·read(SB),NOSPLIT,$0
 	MOVL	$SYS_read, AX
 	MOVL	fd+0(FP), BX
 	MOVL	p+4(FP), CX
@@ -125,7 +125,7 @@ TEXT runtime·read(SB),NOSPLIT,$0
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)
-TEXT runtime·pipe2(SB),NOSPLIT,$0-16
+TEXT ·pipe2(SB),NOSPLIT,$0-16
 	MOVL	$SYS_pipe2, AX
 	LEAL	r+4(FP), BX
 	MOVL	flags+0(FP), CX
@@ -133,7 +133,7 @@ TEXT runtime·pipe2(SB),NOSPLIT,$0-16
 	MOVL	AX, errno+12(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$8
+TEXT ·usleep(SB),NOSPLIT,$8
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -150,13 +150,13 @@ TEXT runtime·usleep(SB),NOSPLIT,$8
 	INVOKE_SYSCALL
 	RET
 
-TEXT runtime·gettid(SB),NOSPLIT,$0-4
+TEXT ·gettid(SB),NOSPLIT,$0-4
 	MOVL	$SYS_gettid, AX
 	INVOKE_SYSCALL
 	MOVL	AX, ret+0(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT,$12
+TEXT ·raise(SB),NOSPLIT,$12
 	MOVL	$SYS_getpid, AX
 	INVOKE_SYSCALL
 	MOVL	AX, BX	// arg 1 pid
@@ -168,7 +168,7 @@ TEXT runtime·raise(SB),NOSPLIT,$12
 	INVOKE_SYSCALL
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$12
+TEXT ·raiseproc(SB),NOSPLIT,$12
 	MOVL	$SYS_getpid, AX
 	INVOKE_SYSCALL
 	MOVL	AX, BX	// arg 1 pid
@@ -191,7 +191,7 @@ TEXT ·tgkill(SB),NOSPLIT,$0
 	INVOKE_SYSCALL
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$0-12
+TEXT ·setitimer(SB),NOSPLIT,$0-12
 	MOVL	$SYS_setittimer, AX
 	MOVL	mode+0(FP), BX
 	MOVL	new+4(FP), CX
@@ -199,7 +199,7 @@ TEXT runtime·setitimer(SB),NOSPLIT,$0-12
 	INVOKE_SYSCALL
 	RET
 
-TEXT runtime·timer_create(SB),NOSPLIT,$0-16
+TEXT ·timer_create(SB),NOSPLIT,$0-16
 	MOVL	$SYS_timer_create, AX
 	MOVL	clockid+0(FP), BX
 	MOVL	sevp+4(FP), CX
@@ -208,7 +208,7 @@ TEXT runtime·timer_create(SB),NOSPLIT,$0-16
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·timer_settime(SB),NOSPLIT,$0-20
+TEXT ·timer_settime(SB),NOSPLIT,$0-20
 	MOVL	$SYS_timer_settime, AX
 	MOVL	timerid+0(FP), BX
 	MOVL	flags+4(FP), CX
@@ -218,14 +218,14 @@ TEXT runtime·timer_settime(SB),NOSPLIT,$0-20
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·timer_delete(SB),NOSPLIT,$0-8
+TEXT ·timer_delete(SB),NOSPLIT,$0-8
 	MOVL	$SYS_timer_delete, AX
 	MOVL	timerid+0(FP), BX
 	INVOKE_SYSCALL
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·mincore(SB),NOSPLIT,$0-16
+TEXT ·mincore(SB),NOSPLIT,$0-16
 	MOVL	$SYS_mincore, AX
 	MOVL	addr+0(FP), BX
 	MOVL	n+4(FP), CX
@@ -235,7 +235,7 @@ TEXT runtime·mincore(SB),NOSPLIT,$0-16
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB), NOSPLIT, $8-12
+TEXT ·walltime(SB), NOSPLIT, $8-12
 	// We don't know how much stack space the VDSO code will need,
 	// so switch to g0.
 
@@ -275,7 +275,7 @@ noswitch:
 	//     4    &ts             -
 	//     0    CLOCK_<id>      -
 
-	MOVL	runtime·vdsoClockgettimeSym(SB), AX
+	MOVL	·vdsoClockgettimeSym(SB), AX
 	CMPL	AX, $0
 	JEQ	fallback
 
@@ -314,8 +314,8 @@ finish:
 
 // int64 nanotime(void) so really
 // void nanotime(int64 *nsec)
-TEXT runtime·nanotime1(SB), NOSPLIT, $8-8
-	// Switch to g0 stack. See comment above in runtime·walltime.
+TEXT ·nanotime1(SB), NOSPLIT, $8-8
+	// Switch to g0 stack. See comment above in ·walltime.
 
 	MOVL	SP, BP	// Save old SP; BP unchanged by C code.
 
@@ -346,7 +346,7 @@ noswitch:
 	SUBL	$16, SP		// Space for results
 	ANDL	$~15, SP	// Align for C code
 
-	MOVL	runtime·vdsoClockgettimeSym(SB), AX
+	MOVL	·vdsoClockgettimeSym(SB), AX
 	CMPL	AX, $0
 	JEQ	fallback
 
@@ -388,7 +388,7 @@ finish:
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0
+TEXT ·rtsigprocmask(SB),NOSPLIT,$0
 	MOVL	$SYS_rt_sigprocmask, AX
 	MOVL	how+0(FP), BX
 	MOVL	new+4(FP), CX
@@ -400,7 +400,7 @@ TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0
 	INT $3
 	RET
 
-TEXT runtime·rt_sigaction(SB),NOSPLIT,$0
+TEXT ·rt_sigaction(SB),NOSPLIT,$0
 	MOVL	$SYS_rt_sigaction, AX
 	MOVL	sig+0(FP), BX
 	MOVL	new+4(FP), CX
@@ -410,7 +410,7 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT,$0
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$12-16
+TEXT ·sigfwd(SB),NOSPLIT,$12-16
 	MOVL	fn+0(FP), AX
 	MOVL	sig+4(FP), BX
 	MOVL	info+8(FP), CX
@@ -428,7 +428,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$12-16
 	RET
 
 // Called using C ABI.
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	// Save callee-saved C registers, since the caller may be a C signal handler.
 	MOVL	BX, bx-4(SP)
 	MOVL	BP, bp-8(SP)
@@ -443,7 +443,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BX, 4(SP)
 	MOVL	(28+12)(SP), BX
 	MOVL	BX, 8(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	·sigtrampgo(SB)
 
 	MOVL	di-16(SP), DI
 	MOVL	si-12(SP), SI
@@ -451,8 +451,8 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	bx-4(SP),  BX
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
-	JMP	runtime·sigtramp(SB)
+TEXT ·cgoSigtramp(SB),NOSPLIT,$0
+	JMP	·sigtramp(SB)
 
 // For cgo unwinding to work, this function must look precisely like
 // the one in glibc. The glibc source code is:
@@ -464,7 +464,7 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
 // glibc and must be named "__restore_rt" or contain the string "sigaction" in
 // the name. The gdb source code is:
 // https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=gdb/i386-linux-tdep.c;h=a6adeca1b97416f7194341151a8ce30723a786a3#l168
-TEXT runtime·sigreturn__sigaction(SB),NOSPLIT,$0
+TEXT ·sigreturn__sigaction(SB),NOSPLIT,$0
 	MOVL	$SYS_rt_sigreturn, AX
 	// Sigreturn expects same SP as signal handler,
 	// so cannot CALL 0x10(GS) here.
@@ -472,7 +472,7 @@ TEXT runtime·sigreturn__sigaction(SB),NOSPLIT,$0
 	INT	$3	// not reached
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT ·mmap(SB),NOSPLIT,$0
 	MOVL	$SYS_mmap2, AX
 	MOVL	addr+0(FP), BX
 	MOVL	n+4(FP), CX
@@ -494,7 +494,7 @@ ok:
 	MOVL	$0, err+28(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT ·munmap(SB),NOSPLIT,$0
 	MOVL	$SYS_munmap, AX
 	MOVL	addr+0(FP), BX
 	MOVL	n+4(FP), CX
@@ -504,7 +504,7 @@ TEXT runtime·munmap(SB),NOSPLIT,$0
 	INT $3
 	RET
 
-TEXT runtime·madvise(SB),NOSPLIT,$0
+TEXT ·madvise(SB),NOSPLIT,$0
 	MOVL	$SYS_madvise, AX
 	MOVL	addr+0(FP), BX
 	MOVL	n+4(FP), CX
@@ -515,7 +515,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 
 // int32 futex(int32 *uaddr, int32 op, int32 val,
 //	struct timespec *timeout, int32 *uaddr2, int32 val2);
-TEXT runtime·futex(SB),NOSPLIT,$0
+TEXT ·futex(SB),NOSPLIT,$0
 	MOVL	$SYS_futex, AX
 	MOVL	addr+0(FP), BX
 	MOVL	op+4(FP), CX
@@ -528,7 +528,7 @@ TEXT runtime·futex(SB),NOSPLIT,$0
 	RET
 
 // int32 clone(int32 flags, void *stack, M *mp, G *gp, void (*fn)(void));
-TEXT runtime·clone(SB),NOSPLIT,$0
+TEXT ·clone(SB),NOSPLIT,$0
 	MOVL	$SYS_clone, AX
 	MOVL	flags+0(FP), BX
 	MOVL	stk+4(FP), CX
@@ -587,7 +587,7 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	PUSHL	$32	// sizeof tls
 	PUSHL	BP	// &tls
 	PUSHL	DI	// tls #
-	CALL	runtime·setldt(SB)
+	CALL	·setldt(SB)
 	POPL	AX
 	POPL	AX
 	POPL	AX
@@ -598,13 +598,13 @@ TEXT runtime·clone(SB),NOSPLIT,$0
 	MOVL	DX, g(AX)
 	MOVL	BX, g_m(DX)
 
-	CALL	runtime·stackcheck(SB)	// smashes AX, CX
+	CALL	·stackcheck(SB)	// smashes AX, CX
 	MOVL	0(DX), DX	// paranoia; check they are not nil
 	MOVL	0(BX), BX
 
 	// more paranoia; check that stack splitting code works
 	PUSHAL
-	CALL	runtime·emptyfunc(SB)
+	CALL	·emptyfunc(SB)
 	POPAL
 
 nog:
@@ -612,7 +612,7 @@ nog:
 	CALL	exit1<>(SB)
 	MOVL	$0x1234, 0x1005
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT ·sigaltstack(SB),NOSPLIT,$-8
 	MOVL	$SYS_sigaltstack, AX
 	MOVL	new+0(FP), BX
 	MOVL	old+4(FP), CX
@@ -647,20 +647,20 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 // `-1` means the kernel will pick a TLS entry on the first setldt call,
 // which happens during runtime init, and that we'll store back the saved
 // entry and reuse that on subsequent calls when creating new threads.
-DATA  runtime·tls_entry_number+0(SB)/4, $-1
-GLOBL runtime·tls_entry_number(SB), NOPTR, $4
+DATA  ·tls_entry_number+0(SB)/4, $-1
+GLOBL ·tls_entry_number(SB), NOPTR, $4
 
 // setldt(int entry, int address, int limit)
 // We use set_thread_area, which mucks with the GDT, instead of modify_ldt,
 // which would modify the LDT, but is disabled on some kernels.
 // The name, setldt, is a misnomer, although we leave this name as it is for
 // the compatibility with other platforms.
-TEXT runtime·setldt(SB),NOSPLIT,$32
+TEXT ·setldt(SB),NOSPLIT,$32
 	MOVL	base+4(FP), DX
 
 #ifdef GOOS_android
-	// Android stores the TLS offset in runtime·tls_g.
-	SUBL	runtime·tls_g(SB), DX
+	// Android stores the TLS offset in ·tls_g.
+	SUBL	·tls_g(SB), DX
 	MOVL	DX, 0(DX)
 #else
 	/*
@@ -681,7 +681,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 #endif
 
 	// get entry number
-	MOVL	runtime·tls_entry_number(SB), CX
+	MOVL	·tls_entry_number(SB), CX
 
 	// set up user_desc
 	LEAL	16(SP), AX	// struct user_desc
@@ -708,7 +708,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 	// store entry number if the kernel allocated it
 	CMPL	CX, $-1
 	JNE	2(PC)
-	MOVL	AX, runtime·tls_entry_number(SB)
+	MOVL	AX, ·tls_entry_number(SB)
 
 	// compute segment selector - (entry*8+3)
 	SHLL	$3, AX
@@ -717,12 +717,12 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT ·osyield(SB),NOSPLIT,$0
 	MOVL	$SYS_sched_yield, AX
 	INVOKE_SYSCALL
 	RET
 
-TEXT runtime·sched_getaffinity(SB),NOSPLIT,$0
+TEXT ·sched_getaffinity(SB),NOSPLIT,$0
 	MOVL	$SYS_sched_getaffinity, AX
 	MOVL	pid+0(FP), BX
 	MOVL	len+4(FP), CX
@@ -732,7 +732,7 @@ TEXT runtime·sched_getaffinity(SB),NOSPLIT,$0
 	RET
 
 // int access(const char *name, int mode)
-TEXT runtime·access(SB),NOSPLIT,$0
+TEXT ·access(SB),NOSPLIT,$0
 	MOVL	$SYS_access, AX
 	MOVL	name+0(FP), BX
 	MOVL	mode+4(FP), CX
@@ -741,7 +741,7 @@ TEXT runtime·access(SB),NOSPLIT,$0
 	RET
 
 // int connect(int fd, const struct sockaddr *addr, socklen_t addrlen)
-TEXT runtime·connect(SB),NOSPLIT,$0-16
+TEXT ·connect(SB),NOSPLIT,$0-16
 	// connect is implemented as socketcall(NR_socket, 3, *(rest of args))
 	// stack already should have fd, addr, addrlen.
 	MOVL	$SYS_socketcall, AX
@@ -752,7 +752,7 @@ TEXT runtime·connect(SB),NOSPLIT,$0-16
 	RET
 
 // int socket(int domain, int type, int protocol)
-TEXT runtime·socket(SB),NOSPLIT,$0-16
+TEXT ·socket(SB),NOSPLIT,$0-16
 	// socket is implemented as socketcall(NR_socket, 1, *(rest of args))
 	// stack already should have domain, type, protocol.
 	MOVL	$SYS_socketcall, AX
@@ -763,7 +763,7 @@ TEXT runtime·socket(SB),NOSPLIT,$0-16
 	RET
 
 // func sbrk0() uintptr
-TEXT runtime·sbrk0(SB),NOSPLIT,$0-4
+TEXT ·sbrk0(SB),NOSPLIT,$0-4
 	// Implemented as brk(NULL).
 	MOVL	$SYS_brk, AX
 	MOVL	$0, BX  // NULL

@@ -37,7 +37,7 @@ TEXT __start<>(SB),NOSPLIT,$-8
 
 DEFINE_PPC64X_FUNCDESC(main, _main)
 TEXT _main(SB),NOSPLIT,$-8
-	MOVD $runtime·rt0_go(SB), R12
+	MOVD $·rt0_go(SB), R12
 	MOVD R12, CTR
 	BR (CTR)
 
@@ -90,18 +90,18 @@ TEXT _rt0_ppc64_aix_lib(SB),NOSPLIT,$-8
 	FMOVD	F31, 328(R1)
 
 	// Synchronous initialization.
-	MOVD	$runtime·reginit(SB), R12
+	MOVD	$·reginit(SB), R12
 	MOVD	R12, CTR
 	BL	(CTR)
 
-	MOVBZ	runtime·isarchive(SB), R3	// Check buildmode = c-archive
+	MOVBZ	·isarchive(SB), R3	// Check buildmode = c-archive
 	CMP		$0, R3
 	BEQ		done
 
 	MOVD	R14, _rt0_ppc64_aix_lib_argc<>(SB)
 	MOVD	R15, _rt0_ppc64_aix_lib_argv<>(SB)
 
-	MOVD	$runtime·libpreinit(SB), R12
+	MOVD	$·libpreinit(SB), R12
 	MOVD	R12, CTR
 	BL	(CTR)
 
@@ -124,7 +124,7 @@ nocgo:
 	MOVD	R12, 8(R1)
 	MOVD	$_rt0_ppc64_aix_lib_go(SB), R12
 	MOVD	R12, 16(R1)
-	MOVD	$runtime·newosproc0(SB),R12
+	MOVD	$·newosproc0(SB),R12
 	MOVD	R12, CTR
 	BL	(CTR)
 
@@ -180,7 +180,7 @@ DEFINE_PPC64X_FUNCDESC(_rt0_ppc64_aix_lib_go, __rt0_ppc64_aix_lib_go)
 TEXT __rt0_ppc64_aix_lib_go(SB),NOSPLIT,$0
 	MOVD	_rt0_ppc64_aix_lib_argc<>(SB), R3
 	MOVD	_rt0_ppc64_aix_lib_argv<>(SB), R4
-	MOVD	$runtime·rt0_go(SB), R12
+	MOVD	$·rt0_go(SB), R12
 	MOVD	R12, CTR
 	BR	(CTR)
 

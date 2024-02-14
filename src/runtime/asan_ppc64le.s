@@ -14,8 +14,8 @@
 #define FARG R12
 
 // Called from instrumented code.
-// func runtime·doasanread(addr unsafe.Pointer, sz, sp, pc uintptr)
-TEXT	runtime·doasanread(SB),NOSPLIT|NOFRAME,$0-32
+// func ·doasanread(addr unsafe.Pointer, sz, sp, pc uintptr)
+TEXT	·doasanread(SB),NOSPLIT|NOFRAME,$0-32
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
 	MOVD	sp+16(FP), RARG2
@@ -24,8 +24,8 @@ TEXT	runtime·doasanread(SB),NOSPLIT|NOFRAME,$0-32
 	MOVD	$__asan_read_go(SB), FARG
 	BR	asancall<>(SB)
 
-// func runtime·doasanwrite(addr unsafe.Pointer, sz, sp, pc uintptr)
-TEXT	runtime·doasanwrite(SB),NOSPLIT|NOFRAME,$0-32
+// func ·doasanwrite(addr unsafe.Pointer, sz, sp, pc uintptr)
+TEXT	·doasanwrite(SB),NOSPLIT|NOFRAME,$0-32
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
 	MOVD	sp+16(FP), RARG2
@@ -34,24 +34,24 @@ TEXT	runtime·doasanwrite(SB),NOSPLIT|NOFRAME,$0-32
 	MOVD	$__asan_write_go(SB), FARG
 	BR	asancall<>(SB)
 
-// func runtime·asanunpoison(addr unsafe.Pointer, sz uintptr)
-TEXT	runtime·asanunpoison(SB),NOSPLIT|NOFRAME,$0-16
+// func ·asanunpoison(addr unsafe.Pointer, sz uintptr)
+TEXT	·asanunpoison(SB),NOSPLIT|NOFRAME,$0-16
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
 	// void __asan_unpoison_go(void *addr, uintptr_t sz);
 	MOVD	$__asan_unpoison_go(SB), FARG
 	BR	asancall<>(SB)
 
-// func runtime·asanpoison(addr unsafe.Pointer, sz uintptr)
-TEXT	runtime·asanpoison(SB),NOSPLIT|NOFRAME,$0-16
+// func ·asanpoison(addr unsafe.Pointer, sz uintptr)
+TEXT	·asanpoison(SB),NOSPLIT|NOFRAME,$0-16
 	MOVD	addr+0(FP), RARG0
 	MOVD	sz+8(FP), RARG1
 	// void __asan_poison_go(void *addr, uintptr_t sz);
 	MOVD	$__asan_poison_go(SB), FARG
 	BR	asancall<>(SB)
 
-// func runtime·asanregisterglobals(addr unsafe.Pointer, n uintptr)
-TEXT	runtime·asanregisterglobals(SB),NOSPLIT|NOFRAME,$0-16
+// func ·asanregisterglobals(addr unsafe.Pointer, n uintptr)
+TEXT	·asanregisterglobals(SB),NOSPLIT|NOFRAME,$0-16
 	MOVD	addr+0(FP), RARG0
 	MOVD	n+8(FP), RARG1
 	// void __asan_register_globals_go(void *addr, uintptr_t n);
@@ -62,7 +62,7 @@ TEXT	runtime·asanregisterglobals(SB),NOSPLIT|NOFRAME,$0-16
 TEXT	asancall<>(SB), NOSPLIT, $0-0
 	// LR saved in generated prologue
 	// Get info from the current goroutine
-	MOVD	runtime·tls_g(SB), R10  // g offset in TLS
+	MOVD	·tls_g(SB), R10  // g offset in TLS
 	MOVD	0(R10), g
 	MOVD	g_m(g), R7		// m for g
 	MOVD	R1, R16			// callee-saved, preserved across C call
@@ -79,9 +79,9 @@ call:
 	BL	(CTR)
 	MOVD	$0, R0			// C code can clobber R0 set it back to 0
 	MOVD	R16, R1			// restore R1;
-	MOVD	runtime·tls_g(SB), R10	// find correct g
+	MOVD	·tls_g(SB), R10	// find correct g
 	MOVD	0(R10), g
 	RET
 
 // tls_g, g value for each thread in TLS
-GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8
+GLOBL ·tls_g+0(SB), TLSBSS+DUPOK, $8

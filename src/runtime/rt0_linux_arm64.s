@@ -24,7 +24,7 @@ TEXT _rt0_arm64_linux_lib(SB),NOSPLIT,$184
 	MOVD	R1, _rt0_arm64_linux_lib_argv<>(SB)
 
 	// Synchronous initialization.
-	MOVD	$runtime·libpreinit(SB), R4
+	MOVD	$·libpreinit(SB), R4
 	BL	(R4)
 
 	// Create a new thread to do the runtime initialization and return.
@@ -42,7 +42,7 @@ nocgo:
 	MOVD	$_rt0_arm64_linux_lib_go(SB), R1
 	MOVD	R0, 8(RSP)
 	MOVD	R1, 16(RSP)
-	MOVD	$runtime·newosproc0(SB),R4
+	MOVD	$·newosproc0(SB),R4
 	BL	(R4)
 
 restore:
@@ -54,7 +54,7 @@ restore:
 TEXT _rt0_arm64_linux_lib_go(SB),NOSPLIT,$0
 	MOVD	_rt0_arm64_linux_lib_argc<>(SB), R0
 	MOVD	_rt0_arm64_linux_lib_argv<>(SB), R1
-	MOVD	$runtime·rt0_go(SB),R4
+	MOVD	$·rt0_go(SB),R4
 	B       (R4)
 
 DATA _rt0_arm64_linux_lib_argc<>(SB)/8, $0
@@ -64,7 +64,7 @@ GLOBL _rt0_arm64_linux_lib_argv<>(SB),NOPTR, $8
 
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
-	MOVD	$runtime·rt0_go(SB), R2
+	MOVD	$·rt0_go(SB), R2
 	BL	(R2)
 exit:
 	MOVD $0, R0

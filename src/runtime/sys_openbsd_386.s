@@ -14,14 +14,14 @@
 
 #define	CLOCK_MONOTONIC	$3
 
-TEXT runtime·setldt(SB),NOSPLIT,$0
+TEXT ·setldt(SB),NOSPLIT,$0
 	// Nothing to do, pthread already set thread-local storage up.
 	RET
 
 // mstart_stub is the first function executed on a new thread started by pthread_create.
 // It just does some low-level setup and then calls mstart.
 // Note: called with the C calling convention.
-TEXT runtime·mstart_stub(SB),NOSPLIT,$28
+TEXT ·mstart_stub(SB),NOSPLIT,$28
 	NOP	SP	// tell vet SP changed - stop checking offsets
 
 	// We are already on m's g0 stack.
@@ -37,7 +37,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$28
 	get_tls(CX)
 	MOVL	DX, g(CX)
 
-	CALL	runtime·mstart(SB)
+	CALL	·mstart(SB)
 
 	// Restore callee-save registers.
 	MOVL	di-16(SP), DI
@@ -51,7 +51,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$28
 	MOVL	$0, AX
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
+TEXT ·sigfwd(SB),NOSPLIT,$0-16
 	MOVL	fn+0(FP), AX
 	MOVL	sig+4(FP), BX
 	MOVL	info+8(FP), CX
@@ -69,7 +69,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
 	RET
 
 // Called by OS using C ABI.
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	NOP	SP	// tell vet SP changed - stop checking offsets
 	// Save callee-saved C registers, since the caller may be a C signal handler.
 	MOVL	BX, bx-4(SP)
@@ -85,7 +85,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 	MOVL	BX, 4(SP)
 	MOVL	40(SP), BX // context
 	MOVL	BX, 8(SP)
-	CALL	runtime·sigtrampgo(SB)
+	CALL	·sigtrampgo(SB)
 
 	MOVL	di-16(SP), DI
 	MOVL	si-12(SP), SI
@@ -99,7 +99,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$28
 // A pointer to the arguments is passed on the stack.
 // A single int32 result is returned in AX.
 // (For more results, make an args/results structure.)
-TEXT runtime·pthread_attr_init_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_init_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$4, SP
@@ -111,7 +111,7 @@ TEXT runtime·pthread_attr_init_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·pthread_attr_destroy_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_destroy_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$4, SP
@@ -123,7 +123,7 @@ TEXT runtime·pthread_attr_destroy_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -137,7 +137,7 @@ TEXT runtime·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -151,7 +151,7 @@ TEXT runtime·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_create_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$20, SP
@@ -169,7 +169,7 @@ TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·thrkill_trampoline(SB),NOSPLIT,$0
+TEXT ·thrkill_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$12, SP
@@ -184,7 +184,7 @@ TEXT runtime·thrkill_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·thrsleep_trampoline(SB),NOSPLIT,$0
+TEXT ·thrsleep_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$20, SP
@@ -204,7 +204,7 @@ TEXT runtime·thrsleep_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·thrwakeup_trampoline(SB),NOSPLIT,$0
+TEXT ·thrwakeup_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -218,7 +218,7 @@ TEXT runtime·thrwakeup_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·exit_trampoline(SB),NOSPLIT,$0
+TEXT ·exit_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$4, SP
@@ -231,7 +231,7 @@ TEXT runtime·exit_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·getthrid_trampoline(SB),NOSPLIT,$0
+TEXT ·getthrid_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	CALL	libc_getthrid(SB)
 	NOP	SP			// tell vet SP changed - stop checking offsets
@@ -240,7 +240,7 @@ TEXT runtime·getthrid_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·raiseproc_trampoline(SB),NOSPLIT,$0
+TEXT ·raiseproc_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -254,7 +254,7 @@ TEXT runtime·raiseproc_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·sched_yield_trampoline(SB),NOSPLIT,$0
+TEXT ·sched_yield_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	CALL	libc_sched_yield(SB)
@@ -262,7 +262,7 @@ TEXT runtime·sched_yield_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·mmap_trampoline(SB),NOSPLIT,$0
+TEXT ·mmap_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$32, SP
@@ -296,7 +296,7 @@ ok:
 	POPL	BP
 	RET
 
-TEXT runtime·munmap_trampoline(SB),NOSPLIT,$0
+TEXT ·munmap_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -313,7 +313,7 @@ TEXT runtime·munmap_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·madvise_trampoline(SB),NOSPLIT,$0
+TEXT ·madvise_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$12, SP
@@ -330,7 +330,7 @@ TEXT runtime·madvise_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·open_trampoline(SB),NOSPLIT,$0
+TEXT ·open_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$16, SP
@@ -347,7 +347,7 @@ TEXT runtime·open_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·close_trampoline(SB),NOSPLIT,$0
+TEXT ·close_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$4, SP
@@ -359,7 +359,7 @@ TEXT runtime·close_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·read_trampoline(SB),NOSPLIT,$0
+TEXT ·read_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$12, SP
@@ -381,7 +381,7 @@ noerr:
 	POPL	BP
 	RET
 
-TEXT runtime·write_trampoline(SB),NOSPLIT,$0
+TEXT ·write_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$12, SP
@@ -403,7 +403,7 @@ noerr:
 	POPL	BP
 	RET
 
-TEXT runtime·pipe2_trampoline(SB),NOSPLIT,$0
+TEXT ·pipe2_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -423,7 +423,7 @@ noerr:
 	POPL	BP
 	RET
 
-TEXT runtime·setitimer_trampoline(SB),NOSPLIT,$0
+TEXT ·setitimer_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$12, SP
@@ -439,7 +439,7 @@ TEXT runtime·setitimer_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·usleep_trampoline(SB),NOSPLIT,$0
+TEXT ·usleep_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$4, SP
@@ -451,7 +451,7 @@ TEXT runtime·usleep_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$0
+TEXT ·sysctl_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$24, SP
@@ -473,7 +473,7 @@ TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·kqueue_trampoline(SB),NOSPLIT,$0
+TEXT ·kqueue_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	CALL	libc_kqueue(SB)
@@ -481,7 +481,7 @@ TEXT runtime·kqueue_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·kevent_trampoline(SB),NOSPLIT,$0
+TEXT ·kevent_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$24, SP
@@ -509,7 +509,7 @@ noerr:
 	POPL	BP
 	RET
 
-TEXT runtime·clock_gettime_trampoline(SB),NOSPLIT,$0
+TEXT ·clock_gettime_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -529,7 +529,7 @@ noerr:
 	POPL	BP
 	RET
 
-TEXT runtime·fcntl_trampoline(SB),NOSPLIT,$0
+TEXT ·fcntl_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$16, SP
@@ -556,7 +556,7 @@ noerr:
 	POPL	BP
 	RET
 
-TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$0
+TEXT ·sigaction_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$12, SP
@@ -575,7 +575,7 @@ TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$0
+TEXT ·sigprocmask_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$12, SP
@@ -594,7 +594,7 @@ TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$0
 	POPL	BP
 	RET
 
-TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$0
+TEXT ·sigaltstack_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 	SUBL	$8, SP
@@ -627,7 +627,7 @@ TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$0
 //
 // syscall expects a 32-bit result and tests for 32-bit -1
 // to decide there was an error.
-TEXT runtime·syscall(SB),NOSPLIT,$0
+TEXT ·syscall(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 
@@ -678,7 +678,7 @@ ok:
 //
 // syscallX is like syscall but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscallX(SB),NOSPLIT,$0
+TEXT ·syscallX(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 
@@ -734,7 +734,7 @@ ok:
 //
 // syscall6 expects a 32-bit result and tests for 32-bit -1
 // to decide there was an error.
-TEXT runtime·syscall6(SB),NOSPLIT,$0
+TEXT ·syscall6(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 
@@ -794,7 +794,7 @@ ok:
 //
 // syscall6X is like syscall6 but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscall6X(SB),NOSPLIT,$0
+TEXT ·syscall6X(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 
@@ -857,7 +857,7 @@ ok:
 // }
 // syscall10 must be called on the g0 stack with the
 // C calling convention (use libcCall).
-TEXT runtime·syscall10(SB),NOSPLIT,$0
+TEXT ·syscall10(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 
@@ -929,7 +929,7 @@ ok:
 //
 // syscall10X is like syscall9 but expects a 64-bit result
 // and tests for 64-bit -1 to decide there was an error.
-TEXT runtime·syscall10X(SB),NOSPLIT,$0
+TEXT ·syscall10X(SB),NOSPLIT,$0
 	PUSHL	BP
 	MOVL	SP, BP
 
@@ -980,7 +980,7 @@ ok:
 	POPL	BP
 	RET
 
-TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
+TEXT ·issetugid_trampoline(SB),NOSPLIT,$0
 	PUSHL	BP
 	CALL	libc_issetugid(SB)
 	NOP	SP			// tell vet SP changed - stop checking offsets

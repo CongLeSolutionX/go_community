@@ -38,27 +38,27 @@
 #define load_g \
 	MRS_TPIDR_R0 \
 	TP_ALIGN \
-	MOVD    runtime·tls_g(SB), R11 \
+	MOVD    ·tls_g(SB), R11 \
 	MOVD    (R0)(R11), g
 
-// func runtime·raceread(addr uintptr)
+// func ·raceread(addr uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
-TEXT	runtime·raceread<ABIInternal>(SB), NOSPLIT, $0-8
+TEXT	·raceread<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVD	R0, R1	// addr
 	MOVD	LR, R2
 	// void __tsan_read(ThreadState *thr, void *addr, void *pc);
 	MOVD	$__tsan_read(SB), R9
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceRead(addr uintptr)
-TEXT	runtime·RaceRead(SB), NOSPLIT, $0-8
+// func ·RaceRead(addr uintptr)
+TEXT	·RaceRead(SB), NOSPLIT, $0-8
 	// This needs to be a tail call, because raceread reads caller pc.
-	JMP	runtime·raceread(SB)
+	JMP	·raceread(SB)
 
-// func runtime·racereadpc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
+// func ·racereadpc(void *addr, void *callpc, void *pc)
+TEXT	·racereadpc(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R1
 	MOVD	callpc+8(FP), R2
 	MOVD	pc+16(FP), R3
@@ -66,24 +66,24 @@ TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
 	MOVD	$__tsan_read_pc(SB), R9
 	JMP	racecalladdr<>(SB)
 
-// func runtime·racewrite(addr uintptr)
+// func ·racewrite(addr uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
-TEXT	runtime·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
+TEXT	·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVD	R0, R1	// addr
 	MOVD	LR, R2
 	// void __tsan_write(ThreadState *thr, void *addr, void *pc);
 	MOVD	$__tsan_write(SB), R9
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceWrite(addr uintptr)
-TEXT	runtime·RaceWrite(SB), NOSPLIT, $0-8
+// func ·RaceWrite(addr uintptr)
+TEXT	·RaceWrite(SB), NOSPLIT, $0-8
 	// This needs to be a tail call, because racewrite reads caller pc.
-	JMP	runtime·racewrite(SB)
+	JMP	·racewrite(SB)
 
-// func runtime·racewritepc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
+// func ·racewritepc(void *addr, void *callpc, void *pc)
+TEXT	·racewritepc(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R1
 	MOVD	callpc+8(FP), R2
 	MOVD	pc+16(FP), R3
@@ -91,11 +91,11 @@ TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
 	MOVD	$__tsan_write_pc(SB), R9
 	JMP	racecalladdr<>(SB)
 
-// func runtime·racereadrange(addr, size uintptr)
+// func ·racereadrange(addr, size uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
-TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
+TEXT	·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	R1, R2	// size
 	MOVD	R0, R1	// addr
 	MOVD	LR, R3
@@ -103,13 +103,13 @@ TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	$__tsan_read_range(SB), R9
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceReadRange(addr, size uintptr)
-TEXT	runtime·RaceReadRange(SB), NOSPLIT, $0-16
+// func ·RaceReadRange(addr, size uintptr)
+TEXT	·RaceReadRange(SB), NOSPLIT, $0-16
 	// This needs to be a tail call, because racereadrange reads caller pc.
-	JMP	runtime·racereadrange(SB)
+	JMP	·racereadrange(SB)
 
-// func runtime·racereadrangepc1(void *addr, uintptr sz, void *pc)
-TEXT	runtime·racereadrangepc1(SB), NOSPLIT, $0-24
+// func ·racereadrangepc1(void *addr, uintptr sz, void *pc)
+TEXT	·racereadrangepc1(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R1
 	MOVD	size+8(FP), R2
 	MOVD	pc+16(FP), R3
@@ -118,11 +118,11 @@ TEXT	runtime·racereadrangepc1(SB), NOSPLIT, $0-24
 	MOVD	$__tsan_read_range(SB), R9
 	JMP	racecalladdr<>(SB)
 
-// func runtime·racewriterange(addr, size uintptr)
+// func ·racewriterange(addr, size uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would make caller's PC ineffective.
-TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
+TEXT	·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	R1, R2	// size
 	MOVD	R0, R1	// addr
 	MOVD	LR, R3
@@ -130,13 +130,13 @@ TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVD	$__tsan_write_range(SB), R9
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceWriteRange(addr, size uintptr)
-TEXT	runtime·RaceWriteRange(SB), NOSPLIT, $0-16
+// func ·RaceWriteRange(addr, size uintptr)
+TEXT	·RaceWriteRange(SB), NOSPLIT, $0-16
 	// This needs to be a tail call, because racewriterange reads caller pc.
-	JMP	runtime·racewriterange(SB)
+	JMP	·racewriterange(SB)
 
-// func runtime·racewriterangepc1(void *addr, uintptr sz, void *pc)
-TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
+// func ·racewriterangepc1(void *addr, uintptr sz, void *pc)
+TEXT	·racewriterangepc1(SB), NOSPLIT, $0-24
 	MOVD	addr+0(FP), R1
 	MOVD	size+8(FP), R2
 	MOVD	pc+16(FP), R3
@@ -151,17 +151,17 @@ TEXT	racecalladdr<>(SB), NOSPLIT, $0-0
 	load_g
 	MOVD	g_racectx(g), R0
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
-	MOVD	runtime·racearenastart(SB), R10
+	MOVD	·racearenastart(SB), R10
 	CMP	R10, R1
 	BLT	data
-	MOVD	runtime·racearenaend(SB), R10
+	MOVD	·racearenaend(SB), R10
 	CMP	R10, R1
 	BLT	call
 data:
-	MOVD	runtime·racedatastart(SB), R10
+	MOVD	·racedatastart(SB), R10
 	CMP	R10, R1
 	BLT	ret
-	MOVD	runtime·racedataend(SB), R10
+	MOVD	·racedataend(SB), R10
 	CMP	R10, R1
 	BGT	ret
 call:
@@ -169,9 +169,9 @@ call:
 ret:
 	RET
 
-// func runtime·racefuncenter(pc uintptr)
+// func ·racefuncenter(pc uintptr)
 // Called from instrumented code.
-TEXT	runtime·racefuncenter<ABIInternal>(SB), NOSPLIT, $0-8
+TEXT	·racefuncenter<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVD	R0, R9	// callpc
 	JMP	racefuncenter<>(SB)
 
@@ -186,9 +186,9 @@ TEXT	racefuncenter<>(SB), NOSPLIT, $0-0
 	BL	racecall<>(SB)
 	RET
 
-// func runtime·racefuncexit()
+// func ·racefuncexit()
 // Called from instrumented code.
-TEXT	runtime·racefuncexit<ABIInternal>(SB), NOSPLIT, $0-0
+TEXT	·racefuncexit<ABIInternal>(SB), NOSPLIT, $0-0
 	load_g
 	MOVD	g_racectx(g), R0	// race context
 	// void __tsan_func_exit(ThreadState *thr);
@@ -350,17 +350,17 @@ TEXT	racecallatomic<>(SB), NOSPLIT, $0
 	MOVD	40(RSP), R3	// 1st arg is addr. after two times BL, get it at 40(RSP)
 	MOVB	(R3), R13	// segv here if addr is bad
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
-	MOVD	runtime·racearenastart(SB), R10
+	MOVD	·racearenastart(SB), R10
 	CMP	R10, R3
 	BLT	racecallatomic_data
-	MOVD	runtime·racearenaend(SB), R10
+	MOVD	·racearenaend(SB), R10
 	CMP	R10, R3
 	BLT	racecallatomic_ok
 racecallatomic_data:
-	MOVD	runtime·racedatastart(SB), R10
+	MOVD	·racedatastart(SB), R10
 	CMP	R10, R3
 	BLT	racecallatomic_ignore
-	MOVD	runtime·racedataend(SB), R10
+	MOVD	·racedataend(SB), R10
 	CMP	R10, R3
 	BGE	racecallatomic_ignore
 racecallatomic_ok:
@@ -395,10 +395,10 @@ racecallatomic_ignore:
 	BL	racecall<>(SB)
 	RET
 
-// func runtime·racecall(void(*f)(...), ...)
+// func ·racecall(void(*f)(...), ...)
 // Calls C function f from race runtime and passes up to 4 arguments to it.
 // The arguments are never heap-object-preserving pointers, so we pretend there are no arguments.
-TEXT	runtime·racecall(SB), NOSPLIT, $0-0
+TEXT	·racecall(SB), NOSPLIT, $0-0
 	MOVD	fn+0(FP), R9
 	MOVD	arg0+8(FP), R0
 	MOVD	arg1+16(FP), R1
@@ -423,12 +423,12 @@ call:
 	MOVD	R19, RSP
 	JMP	(R20)
 
-// C->Go callback thunk that allows to call runtime·racesymbolize from C code.
+// C->Go callback thunk that allows to call ·racesymbolize from C code.
 // Direct Go->C race call has only switched SP, finish g->g0 switch by setting correct g.
 // The overall effect of Go->C->Go call chain is similar to that of mcall.
 // R0 contains command code. R1 contains command-specific context.
 // See racecallback for command codes.
-TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
+TEXT	·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0
 	// Handle command raceGetProcCmd (0) here.
 	// First, code below assumes that we are on curg, while raceGetProcCmd
 	// can be executed on g0. Second, it is called frequently, so will
@@ -471,7 +471,7 @@ rest:
 
 	MOVD	R0, 8(RSP)	// func arg
 	MOVD	R1, 16(RSP)	// func arg
-	BL	runtime·racecallback(SB)
+	BL	·racecallback(SB)
 
 	// All registers are smashed after Go code, reload.
 	MOVD	g_m(g), R13
@@ -489,10 +489,10 @@ noswitch:
 	// already on g0
 	MOVD	R0, 8(RSP)	// func arg
 	MOVD	R1, 16(RSP)	// func arg
-	BL	runtime·racecallback(SB)
+	BL	·racecallback(SB)
 	JMP	ret
 
 #ifndef TLSG_IS_VARIABLE
 // tls_g, g value for each thread in TLS
-GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8
+GLOBL ·tls_g+0(SB), TLSBSS+DUPOK, $8
 #endif

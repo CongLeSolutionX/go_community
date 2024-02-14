@@ -6,8 +6,8 @@
 
 // See memmove Go doc for important implementation constraints.
 
-// void runtime·memmove(void*, void*, uintptr)
-TEXT runtime·memmove<ABIInternal>(SB),NOSPLIT,$-0-24
+// void ·memmove(void*, void*, uintptr)
+TEXT ·memmove<ABIInternal>(SB),NOSPLIT,$-0-24
 	// X10 = to
 	// X11 = from
 	// X12 = n

@@ -48,7 +48,7 @@
 #define SYS____lwp_park60		478
 
 // int32 lwp_create(void *context, uintptr flags, void *lwpid)
-TEXT runtime·lwp_create(SB),NOSPLIT,$0
+TEXT ·lwp_create(SB),NOSPLIT,$0
 	MOVD	ctxt+0(FP), R0
 	MOVD	flags+8(FP), R1
 	MOVD	lwpid+16(FP), R2
@@ -59,7 +59,7 @@ ok:
 	MOVW	R0, ret+24(FP)
 	RET
 
-TEXT runtime·lwp_tramp(SB),NOSPLIT,$0
+TEXT ·lwp_tramp(SB),NOSPLIT,$0
 	CMP	$0, R1
 	BEQ	nog
 	CMP	$0, R2
@@ -77,11 +77,11 @@ TEXT ·netbsdMstart(SB),NOSPLIT|TOPFRAME,$0
 	CALL	·netbsdMstart0(SB)
 	RET // not reached
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
+TEXT ·osyield(SB),NOSPLIT,$0
 	SVC	$SYS_sched_yield
 	RET
 
-TEXT runtime·lwp_park(SB),NOSPLIT,$0
+TEXT ·lwp_park(SB),NOSPLIT,$0
 	MOVW	clockid+0(FP), R0	// arg 1 - clockid
 	MOVW	flags+4(FP), R1		// arg 2 - flags
 	MOVD	ts+8(FP), R2		// arg 3 - ts
@@ -92,27 +92,27 @@ TEXT runtime·lwp_park(SB),NOSPLIT,$0
 	MOVW	R0, ret+40(FP)
 	RET
 
-TEXT runtime·lwp_unpark(SB),NOSPLIT,$0
+TEXT ·lwp_unpark(SB),NOSPLIT,$0
 	MOVW	lwp+0(FP), R0		// arg 1 - lwp
 	MOVD	hint+8(FP), R1		// arg 2 - hint
 	SVC	$SYS__lwp_unpark
 	MOVW	R0, ret+16(FP)
 	RET
 
-TEXT runtime·lwp_self(SB),NOSPLIT,$0
+TEXT ·lwp_self(SB),NOSPLIT,$0
 	SVC	$SYS__lwp_self
 	MOVW	R0, ret+0(FP)
 	RET
 
 // Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-8
+TEXT ·exit(SB),NOSPLIT,$-8
 	MOVW	code+0(FP), R0		// arg 1 - exit status
 	SVC	$SYS_exit
 	MOVD	$0, R0			// If we're still running,
 	MOVD	R0, (R0)		// crash
 
 // func exitThread(wait *atomic.Uint32)
-TEXT runtime·exitThread(SB),NOSPLIT,$0-8
+TEXT ·exitThread(SB),NOSPLIT,$0-8
 	MOVD	wait+0(FP), R0
 	// We're done using the stack.
 	MOVW	$0, R1
@@ -120,7 +120,7 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	SVC	$SYS__lwp_exit
 	JMP	0(PC)
 
-TEXT runtime·open(SB),NOSPLIT|NOFRAME,$-8
+TEXT ·open(SB),NOSPLIT|NOFRAME,$-8
 	MOVD	name+0(FP), R0		// arg 1 - pathname
 	MOVW	mode+8(FP), R1		// arg 2 - flags
 	MOVW	perm+12(FP), R2		// arg 3 - mode
@@ -131,7 +131,7 @@ ok:
 	MOVW	R0, ret+16(FP)
 	RET
 
-TEXT runtime·closefd(SB),NOSPLIT,$-8
+TEXT ·closefd(SB),NOSPLIT,$-8
 	MOVW	fd+0(FP), R0		// arg 1 - fd
 	SVC	$SYS_close
 	BCC	ok
@@ -140,7 +140,7 @@ ok:
 	MOVW	R0, ret+8(FP)
 	RET
 
-TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0
+TEXT ·read(SB),NOSPLIT|NOFRAME,$0
 	MOVW	fd+0(FP), R0		// arg 1 - fd
 	MOVD	p+8(FP), R1		// arg 2 - buf
 	MOVW	n+16(FP), R2		// arg 3 - count
@@ -152,7 +152,7 @@ ok:
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)
-TEXT runtime·pipe2(SB),NOSPLIT|NOFRAME,$0-20
+TEXT ·pipe2(SB),NOSPLIT|NOFRAME,$0-20
 	ADD	$16, RSP, R0
 	MOVW	flags+0(FP), R1
 	SVC	$SYS_pipe2
@@ -162,7 +162,7 @@ pipe2ok:
 	MOVW	R0, errno+16(FP)
 	RET
 
-TEXT runtime·write1(SB),NOSPLIT,$-8
+TEXT ·write1(SB),NOSPLIT,$-8
 	MOVD	fd+0(FP), R0		// arg 1 - fd
 	MOVD	p+8(FP), R1		// arg 2 - buf
 	MOVW	n+16(FP), R2		// arg 3 - nbyte
@@ -173,7 +173,7 @@ ok:
 	MOVW	R0, ret+24(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$24-4
+TEXT ·usleep(SB),NOSPLIT,$24-4
 	MOVWU	usec+0(FP), R3
 	MOVD	R3, R5
 	MOVW	$1000000, R4
@@ -190,20 +190,20 @@ TEXT runtime·usleep(SB),NOSPLIT,$24-4
 	SVC	$SYS___nanosleep50
 	RET
 
-TEXT runtime·lwp_kill(SB),NOSPLIT,$0-16
+TEXT ·lwp_kill(SB),NOSPLIT,$0-16
 	MOVW	tid+0(FP), R0		// arg 1 - target
 	MOVD	sig+8(FP), R1		// arg 2 - signo
 	SVC	$SYS__lwp_kill
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$16
+TEXT ·raiseproc(SB),NOSPLIT,$16
 	SVC	$SYS_getpid
 					// arg 1 - pid (from getpid)
 	MOVD	sig+0(FP), R1		// arg 2 - signo
 	SVC	$SYS_kill
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT,$-8
+TEXT ·setitimer(SB),NOSPLIT,$-8
 	MOVW	mode+0(FP), R0		// arg 1 - which
 	MOVD	new+8(FP), R1		// arg 2 - itv
 	MOVD	old+16(FP), R2		// arg 3 - oitv
@@ -211,7 +211,7 @@ TEXT runtime·setitimer(SB),NOSPLIT,$-8
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB), NOSPLIT, $32
+TEXT ·walltime(SB), NOSPLIT, $32
 	MOVW	$CLOCK_REALTIME, R0	// arg 1 - clock_id
 	MOVD	$8(RSP), R1		// arg 2 - tp
 	SVC	$SYS___clock_gettime50
@@ -226,7 +226,7 @@ TEXT runtime·walltime(SB), NOSPLIT, $32
 
 // int64 nanotime1(void) so really
 // void nanotime1(int64 *nsec)
-TEXT runtime·nanotime1(SB), NOSPLIT, $32
+TEXT ·nanotime1(SB), NOSPLIT, $32
 	MOVD	$CLOCK_MONOTONIC, R0	// arg 1 - clock_id
 	MOVD	$8(RSP), R1		// arg 2 - tp
 	SVC	$SYS___clock_gettime50
@@ -242,7 +242,7 @@ TEXT runtime·nanotime1(SB), NOSPLIT, $32
 	MOVD	R0, ret+0(FP)
 	RET
 
-TEXT runtime·getcontext(SB),NOSPLIT,$-8
+TEXT ·getcontext(SB),NOSPLIT,$-8
 	MOVD	ctxt+0(FP), R0		// arg 1 - context
 	SVC	$SYS_getcontext
 	BCS	fail
@@ -251,7 +251,7 @@ fail:
 	MOVD	$0, R0
 	MOVD	R0, (R0)		// crash
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
+TEXT ·sigprocmask(SB),NOSPLIT,$0
 	MOVW	how+0(FP), R0		// arg 1 - how
 	MOVD	new+8(FP), R1		// arg 2 - set
 	MOVD	old+16(FP), R2		// arg 3 - oset
@@ -268,7 +268,7 @@ TEXT sigreturn_tramp<>(SB),NOSPLIT,$-8
 	MOVD	$0, R0
 	MOVD	R0, (R0)		// crash
 
-TEXT runtime·sigaction(SB),NOSPLIT,$-8
+TEXT ·sigaction(SB),NOSPLIT,$-8
 	MOVW	sig+0(FP), R0		// arg 1 - signum
 	MOVD	new+8(FP), R1		// arg 2 - nsa
 	MOVD	old+16(FP), R2		// arg 3 - osa
@@ -283,7 +283,7 @@ fail:
 	MOVD	R0, (R0)		// crash
 
 // XXX ???
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVW	sig+8(FP), R0
 	MOVD	info+16(FP), R1
 	MOVD	ctx+24(FP), R2
@@ -291,7 +291,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	BL	(R11)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// Save callee-save registers in the case of signal forwarding.
 	// Please refer to https://golang.org/issue/31827 .
 	SAVE_R19_TO_R28(8*4)
@@ -305,18 +305,18 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 
 	// this might be called in external code context,
 	// where g is not set.
-	// first save R0, because runtime·load_g will clobber it
+	// first save R0, because ·load_g will clobber it
 	MOVD	R0, 8(RSP)		// signum
-	MOVB	runtime·iscgo(SB), R0
+	MOVB	·iscgo(SB), R0
 	CMP 	$0, R0
 	// XXX branch destination
 	BEQ	2(PC)
-	BL	runtime·load_g(SB)
+	BL	·load_g(SB)
 
 	// Restore signum to R0.
 	MOVW	8(RSP), R0
 	// R1 and R2 already contain info and ctx, respectively.
-	BL	runtime·sigtrampgo<ABIInternal>(SB)
+	BL	·sigtrampgo<ABIInternal>(SB)
 
 	// Restore callee-save registers.
 	RESTORE_R19_TO_R28(8*4)
@@ -324,7 +324,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT,$0
+TEXT ·mmap(SB),NOSPLIT,$0
 	MOVD	addr+0(FP), R0		// arg 1 - addr
 	MOVD	n+8(FP), R1		// arg 2 - len
 	MOVW	prot+16(FP), R2		// arg 3 - prot
@@ -342,7 +342,7 @@ fail:
 	MOVD	R0, err+40(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT,$0
+TEXT ·munmap(SB),NOSPLIT,$0
 	MOVD	addr+0(FP), R0	// arg 1 - addr
 	MOVD	n+8(FP), R1	// arg 2 - len
 	SVC	$SYS_munmap
@@ -352,7 +352,7 @@ fail:
 	MOVD	$0, R0
 	MOVD	R0, (R0)	// crash
 
-TEXT runtime·madvise(SB),NOSPLIT,$0
+TEXT ·madvise(SB),NOSPLIT,$0
 	MOVD	addr+0(FP), R0		// arg 1 - addr
 	MOVD	n+8(FP), R1		// arg 2 - len
 	MOVW	flags+16(FP), R2	// arg 3 - behav
@@ -363,7 +363,7 @@ ok:
 	MOVD	R0, ret+24(FP)
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
+TEXT ·sigaltstack(SB),NOSPLIT,$0
 	MOVD	new+0(FP), R0		// arg 1 - nss
 	MOVD	old+8(FP), R1		// arg 2 - oss
 	SVC	$SYS___sigaltstack14
@@ -373,7 +373,7 @@ fail:
 	MOVD	$0, R0
 	MOVD	R0, (R0)		// crash
 
-TEXT runtime·sysctl(SB),NOSPLIT,$0
+TEXT ·sysctl(SB),NOSPLIT,$0
 	MOVD	mib+0(FP), R0		// arg 1 - name
 	MOVW	miblen+8(FP), R1	// arg 2 - namelen
 	MOVD	out+16(FP), R2		// arg 3 - oldp
@@ -387,8 +387,8 @@ ok:
 	MOVW	R0, ret+48(FP)
 	RET
 
-// int32 runtime·kqueue(void)
-TEXT runtime·kqueue(SB),NOSPLIT,$0
+// int32 ·kqueue(void)
+TEXT ·kqueue(SB),NOSPLIT,$0
 	MOVD	$0, R0
 	SVC	$SYS_kqueue
 	BCC	ok
@@ -397,8 +397,8 @@ ok:
 	MOVW	R0, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout)
-TEXT runtime·kevent(SB),NOSPLIT,$0
+// int32 ·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout)
+TEXT ·kevent(SB),NOSPLIT,$0
 	MOVW	kq+0(FP), R0	// arg 1 - kq
 	MOVD	ch+8(FP), R1	// arg 2 - changelist
 	MOVW	nch+16(FP), R2	// arg 3 - nchanges
@@ -413,7 +413,7 @@ ok:
 	RET
 
 // func fcntl(fd, cmd, arg int32) (int32, int32)
-TEXT runtime·fcntl(SB),NOSPLIT,$0
+TEXT ·fcntl(SB),NOSPLIT,$0
 	MOVW	fd+0(FP), R0	// fd
 	MOVW	cmd+4(FP), R1	// cmd
 	MOVW	arg+8(FP), R2	// arg
@@ -429,7 +429,7 @@ noerr:
 	RET
 
 // func issetugid() int32
-TEXT runtime·issetugid(SB),NOSPLIT|NOFRAME,$0
+TEXT ·issetugid(SB),NOSPLIT|NOFRAME,$0
 	SVC $SYS_issetugid
 	MOVW	R0, ret+0(FP)
 	RET

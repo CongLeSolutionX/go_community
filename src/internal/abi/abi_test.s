@@ -20,8 +20,8 @@
 #define PTRSIZE 8
 #endif
 
-TEXT	internal∕abi·FuncPCTestFn(SB),NOSPLIT,$0-0
+TEXT	·FuncPCTestFn(SB),NOSPLIT,$0-0
 	RET
 
-GLOBL	internal∕abi·FuncPCTestFnAddr(SB), NOPTR, $PTRSIZE
-DATA	internal∕abi·FuncPCTestFnAddr(SB)/PTRSIZE, $internal∕abi·FuncPCTestFn(SB)
+GLOBL	·FuncPCTestFnAddr(SB), NOPTR, $PTRSIZE
+DATA	·FuncPCTestFnAddr(SB)/PTRSIZE, $·FuncPCTestFn(SB)

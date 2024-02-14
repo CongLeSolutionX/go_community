@@ -46,7 +46,7 @@
 #define SYS_pipe2 		542
 #define SYS_kevent		560
 
-TEXT runtime·sys_umtx_op(SB),NOSPLIT,$0
+TEXT ·sys_umtx_op(SB),NOSPLIT,$0
 	MOVQ addr+0(FP), DI
 	MOVL mode+8(FP), SI
 	MOVL val+12(FP), DX
@@ -59,7 +59,7 @@ TEXT runtime·sys_umtx_op(SB),NOSPLIT,$0
 	MOVL	AX, ret+32(FP)
 	RET
 
-TEXT runtime·thr_new(SB),NOSPLIT,$0
+TEXT ·thr_new(SB),NOSPLIT,$0
 	MOVQ param+0(FP), DI
 	MOVL size+8(FP), SI
 	MOVL $SYS_thr_new, AX
@@ -69,12 +69,12 @@ TEXT runtime·thr_new(SB),NOSPLIT,$0
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·thr_start(SB),NOSPLIT,$0
+TEXT ·thr_start(SB),NOSPLIT,$0
 	MOVQ	DI, R13 // m
 
 	// set up FS to point at m->tls
 	LEAQ	m_tls(R13), DI
-	CALL	runtime·settls(SB)	// smashes DI
+	CALL	·settls(SB)	// smashes DI
 
 	// set up m, g
 	get_tls(CX)
@@ -82,13 +82,13 @@ TEXT runtime·thr_start(SB),NOSPLIT,$0
 	MOVQ	R13, g_m(DI)
 	MOVQ	DI, g(CX)
 
-	CALL	runtime·stackcheck(SB)
-	CALL	runtime·mstart(SB)
+	CALL	·stackcheck(SB)
+	CALL	·mstart(SB)
 
 	MOVQ 0, AX			// crash (not reached)
 
 // Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$-8
+TEXT ·exit(SB),NOSPLIT,$-8
 	MOVL	code+0(FP), DI		// arg 1 exit status
 	MOVL	$SYS_exit, AX
 	SYSCALL
@@ -96,7 +96,7 @@ TEXT runtime·exit(SB),NOSPLIT,$-8
 	RET
 
 // func exitThread(wait *atomic.uint32)
-TEXT runtime·exitThread(SB),NOSPLIT,$0-8
+TEXT ·exitThread(SB),NOSPLIT,$0-8
 	MOVQ	wait+0(FP), AX
 	// We're done using the stack.
 	MOVL	$0, (AX)
@@ -106,7 +106,7 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	MOVL	$0xf1, 0xf1  // crash
 	JMP	0(PC)
 
-TEXT runtime·open(SB),NOSPLIT,$-8
+TEXT ·open(SB),NOSPLIT,$-8
 	MOVQ	name+0(FP), DI		// arg 1 pathname
 	MOVL	mode+8(FP), SI		// arg 2 flags
 	MOVL	perm+12(FP), DX		// arg 3 mode
@@ -117,7 +117,7 @@ TEXT runtime·open(SB),NOSPLIT,$-8
 	MOVL	AX, ret+16(FP)
 	RET
 
-TEXT runtime·closefd(SB),NOSPLIT,$-8
+TEXT ·closefd(SB),NOSPLIT,$-8
 	MOVL	fd+0(FP), DI		// arg 1 fd
 	MOVL	$SYS_close, AX
 	SYSCALL
@@ -126,7 +126,7 @@ TEXT runtime·closefd(SB),NOSPLIT,$-8
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·read(SB),NOSPLIT,$-8
+TEXT ·read(SB),NOSPLIT,$-8
 	MOVL	fd+0(FP), DI		// arg 1 fd
 	MOVQ	p+8(FP), SI		// arg 2 buf
 	MOVL	n+16(FP), DX		// arg 3 count
@@ -138,7 +138,7 @@ TEXT runtime·read(SB),NOSPLIT,$-8
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)
-TEXT runtime·pipe2(SB),NOSPLIT,$0-20
+TEXT ·pipe2(SB),NOSPLIT,$0-20
 	LEAQ	r+8(FP), DI
 	MOVL	flags+0(FP), SI
 	MOVL	$SYS_pipe2, AX
@@ -148,7 +148,7 @@ TEXT runtime·pipe2(SB),NOSPLIT,$0-20
 	MOVL	AX, errno+16(FP)
 	RET
 
-TEXT runtime·write1(SB),NOSPLIT,$-8
+TEXT ·write1(SB),NOSPLIT,$-8
 	MOVQ	fd+0(FP), DI		// arg 1 fd
 	MOVQ	p+8(FP), SI		// arg 2 buf
 	MOVL	n+16(FP), DX		// arg 3 count
@@ -159,14 +159,14 @@ TEXT runtime·write1(SB),NOSPLIT,$-8
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·thr_self(SB),NOSPLIT,$0-8
+TEXT ·thr_self(SB),NOSPLIT,$0-8
 	// thr_self(&0(FP))
 	LEAQ	ret+0(FP), DI	// arg 1
 	MOVL	$SYS_thr_self, AX
 	SYSCALL
 	RET
 
-TEXT runtime·thr_kill(SB),NOSPLIT,$0-16
+TEXT ·thr_kill(SB),NOSPLIT,$0-16
 	// thr_kill(tid, sig)
 	MOVQ	tid+0(FP), DI	// arg 1 id
 	MOVQ	sig+8(FP), SI	// arg 2 sig
@@ -174,7 +174,7 @@ TEXT runtime·thr_kill(SB),NOSPLIT,$0-16
 	SYSCALL
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT,$0
+TEXT ·raiseproc(SB),NOSPLIT,$0
 	// getpid
 	MOVL	$SYS_getpid, AX
 	SYSCALL
@@ -185,7 +185,7 @@ TEXT runtime·raiseproc(SB),NOSPLIT,$0
 	SYSCALL
 	RET
 
-TEXT runtime·setitimer(SB), NOSPLIT, $-8
+TEXT ·setitimer(SB), NOSPLIT, $-8
 	MOVL	mode+0(FP), DI
 	MOVQ	new+8(FP), SI
 	MOVQ	old+16(FP), DX
@@ -194,7 +194,7 @@ TEXT runtime·setitimer(SB), NOSPLIT, $-8
 	RET
 
 // func fallback_walltime() (sec int64, nsec int32)
-TEXT runtime·fallback_walltime(SB), NOSPLIT, $32-12
+TEXT ·fallback_walltime(SB), NOSPLIT, $32-12
 	MOVL	$SYS_clock_gettime, AX
 	MOVQ	$CLOCK_REALTIME, DI
 	LEAQ	8(SP), SI
@@ -207,7 +207,7 @@ TEXT runtime·fallback_walltime(SB), NOSPLIT, $32-12
 	MOVL	DX, nsec+8(FP)
 	RET
 
-TEXT runtime·fallback_nanotime(SB), NOSPLIT, $32-8
+TEXT ·fallback_nanotime(SB), NOSPLIT, $32-8
 	MOVL	$SYS_clock_gettime, AX
 	MOVQ	$CLOCK_MONOTONIC, DI
 	LEAQ	8(SP), SI
@@ -222,7 +222,7 @@ TEXT runtime·fallback_nanotime(SB), NOSPLIT, $32-8
 	MOVQ	AX, ret+0(FP)
 	RET
 
-TEXT runtime·asmSigaction(SB),NOSPLIT,$0
+TEXT ·asmSigaction(SB),NOSPLIT,$0
 	MOVQ	sig+0(FP), DI		// arg 1 sig
 	MOVQ	new+8(FP), SI		// arg 2 act
 	MOVQ	old+16(FP), DX		// arg 3 oact
@@ -233,7 +233,7 @@ TEXT runtime·asmSigaction(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·callCgoSigaction(SB),NOSPLIT,$16
+TEXT ·callCgoSigaction(SB),NOSPLIT,$16
 	MOVQ	sig+0(FP), DI		// arg 1 sig
 	MOVQ	new+8(FP), SI		// arg 2 act
 	MOVQ	old+16(FP), DX		// arg 3 oact
@@ -245,7 +245,7 @@ TEXT runtime·callCgoSigaction(SB),NOSPLIT,$16
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	fn+0(FP),    AX
 	MOVL	sig+8(FP),   DI
 	MOVQ	info+16(FP), SI
@@ -257,7 +257,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 // Called using C ABI.
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	// Transition from C ABI to Go ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
@@ -282,7 +282,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME|NOFRAME,$0
 	RET
 
 // Called using C ABI.
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
 	// Transition from C ABI to Go ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
@@ -308,9 +308,9 @@ TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
 
 // Used instead of sigtramp in programs that use cgo.
 // Arguments from kernel are in DI, SI, DX.
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+TEXT ·cgoSigtramp(SB),NOSPLIT,$0
 	// If no traceback function, do usual sigtramp.
-	MOVQ	runtime·cgoTraceback(SB), AX
+	MOVQ	·cgoTraceback(SB), AX
 	TESTQ	AX, AX
 	JZ	sigtramp
 
@@ -350,13 +350,13 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
 	// function with proper unwind info, and will then call back here.
 	// The first three arguments, and the fifth, are already in registers.
 	// Set the two remaining arguments now.
-	MOVQ	runtime·cgoTraceback(SB), CX
-	MOVQ	$runtime·sigtramp(SB), R9
+	MOVQ	·cgoTraceback(SB), CX
+	MOVQ	$·sigtramp(SB), R9
 	MOVQ	_cgo_callers(SB), AX
 	JMP	AX
 
 sigtramp:
-	JMP	runtime·sigtramp(SB)
+	JMP	·sigtramp(SB)
 
 sigtrampnog:
 	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
@@ -367,7 +367,7 @@ sigtrampnog:
 	// Lock sigprofCallersUse.
 	MOVL	$0, AX
 	MOVL	$1, CX
-	MOVQ	$runtime·sigprofCallersUse(SB), R11
+	MOVQ	$·sigprofCallersUse(SB), R11
 	LOCK
 	CMPXCHGL	CX, 0(R11)
 	JNZ	sigtramp  // Skip stack trace if already locked.
@@ -376,13 +376,13 @@ sigtrampnog:
 	// It will call back to sigprofNonGo, via sigprofNonGoWrapper, to convert
 	// the arguments to the Go calling convention.
 	// First three arguments to traceback function are in registers already.
-	MOVQ	runtime·cgoTraceback(SB), CX
-	MOVQ	$runtime·sigprofCallers(SB), R8
-	MOVQ	$runtime·sigprofNonGoWrapper<>(SB), R9
+	MOVQ	·cgoTraceback(SB), CX
+	MOVQ	$·sigprofCallers(SB), R8
+	MOVQ	$·sigprofNonGoWrapper<>(SB), R9
 	MOVQ	_cgo_callers(SB), AX
 	JMP	AX
 
-TEXT runtime·sysMmap(SB),NOSPLIT,$0
+TEXT ·sysMmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 addr
 	MOVQ	n+8(FP), SI		// arg 2 len
 	MOVL	prot+16(FP), DX		// arg 3 prot
@@ -402,7 +402,7 @@ ok:
 
 // Call the function stored in _cgo_mmap using the GCC calling convention.
 // This must be called on the system stack.
-TEXT runtime·callCgoMmap(SB),NOSPLIT,$16
+TEXT ·callCgoMmap(SB),NOSPLIT,$16
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
 	MOVL	prot+16(FP), DX
@@ -418,7 +418,7 @@ TEXT runtime·callCgoMmap(SB),NOSPLIT,$16
 	MOVQ	AX, ret+32(FP)
 	RET
 
-TEXT runtime·sysMunmap(SB),NOSPLIT,$0
+TEXT ·sysMunmap(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI		// arg 1 addr
 	MOVQ	n+8(FP), SI		// arg 2 len
 	MOVL	$SYS_munmap, AX
@@ -429,7 +429,7 @@ TEXT runtime·sysMunmap(SB),NOSPLIT,$0
 
 // Call the function stored in _cgo_munmap using the GCC calling convention.
 // This must be called on the system stack.
-TEXT runtime·callCgoMunmap(SB),NOSPLIT,$16-16
+TEXT ·callCgoMunmap(SB),NOSPLIT,$16-16
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
 	MOVQ	_cgo_munmap(SB), AX
@@ -440,7 +440,7 @@ TEXT runtime·callCgoMunmap(SB),NOSPLIT,$16-16
 	MOVQ	0(SP), SP
 	RET
 
-TEXT runtime·madvise(SB),NOSPLIT,$0
+TEXT ·madvise(SB),NOSPLIT,$0
 	MOVQ	addr+0(FP), DI
 	MOVQ	n+8(FP), SI
 	MOVL	flags+16(FP), DX
@@ -451,7 +451,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
+TEXT ·sigaltstack(SB),NOSPLIT,$-8
 	MOVQ	new+0(FP), DI
 	MOVQ	old+8(FP), SI
 	MOVQ	$SYS_sigaltstack, AX
@@ -460,7 +460,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$16
+TEXT ·usleep(SB),NOSPLIT,$16
 	MOVL	$0, DX
 	MOVL	usec+0(FP), AX
 	MOVL	$1000000, CX
@@ -477,7 +477,7 @@ TEXT runtime·usleep(SB),NOSPLIT,$16
 	RET
 
 // set tls base to DI
-TEXT runtime·settls(SB),NOSPLIT,$8
+TEXT ·settls(SB),NOSPLIT,$8
 	ADDQ	$8, DI	// adjust for ELF: wants to use -8(FS) for g and m
 	MOVQ	DI, 0(SP)
 	MOVQ	SP, SI
@@ -488,7 +488,7 @@ TEXT runtime·settls(SB),NOSPLIT,$8
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·sysctl(SB),NOSPLIT,$0
+TEXT ·sysctl(SB),NOSPLIT,$0
 	MOVQ	mib+0(FP), DI		// arg 1 - name
 	MOVL	miblen+8(FP), SI		// arg 2 - namelen
 	MOVQ	out+16(FP), DX		// arg 3 - oldp
@@ -505,12 +505,12 @@ TEXT runtime·sysctl(SB),NOSPLIT,$0
 	MOVL	AX, ret+48(FP)
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$-4
+TEXT ·osyield(SB),NOSPLIT,$-4
 	MOVL	$SYS_sched_yield, AX
 	SYSCALL
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
+TEXT ·sigprocmask(SB),NOSPLIT,$0
 	MOVL	how+0(FP), DI		// arg 1 - how
 	MOVQ	new+8(FP), SI		// arg 2 - set
 	MOVQ	old+16(FP), DX		// arg 3 - oset
@@ -520,8 +520,8 @@ TEXT runtime·sigprocmask(SB),NOSPLIT,$0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-// int32 runtime·kqueue(void);
-TEXT runtime·kqueue(SB),NOSPLIT,$0
+// int32 ·kqueue(void);
+TEXT ·kqueue(SB),NOSPLIT,$0
 	MOVQ	$0, DI
 	MOVQ	$0, SI
 	MOVQ	$0, DX
@@ -532,8 +532,8 @@ TEXT runtime·kqueue(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
-TEXT runtime·kevent(SB),NOSPLIT,$0
+// int32 ·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int nevents, Timespec *timeout);
+TEXT ·kevent(SB),NOSPLIT,$0
 	MOVL	kq+0(FP), DI
 	MOVQ	ch+8(FP), SI
 	MOVL	nch+16(FP), DX
@@ -548,7 +548,7 @@ TEXT runtime·kevent(SB),NOSPLIT,$0
 	RET
 
 // func fcntl(fd, cmd, arg int32) (int32, int32)
-TEXT runtime·fcntl(SB),NOSPLIT,$0
+TEXT ·fcntl(SB),NOSPLIT,$0
 	MOVL	fd+0(FP), DI	// fd
 	MOVL	cmd+4(FP), SI	// cmd
 	MOVL	arg+8(FP), DX	// arg
@@ -564,7 +564,7 @@ noerr:
 	RET
 
 // func cpuset_getaffinity(level int, which int, id int64, size int, mask *byte) int32
-TEXT runtime·cpuset_getaffinity(SB), NOSPLIT, $0-44
+TEXT ·cpuset_getaffinity(SB), NOSPLIT, $0-44
 	MOVQ	level+0(FP), DI
 	MOVQ	which+8(FP), SI
 	MOVQ	id+16(FP), DX
@@ -578,7 +578,7 @@ TEXT runtime·cpuset_getaffinity(SB), NOSPLIT, $0-44
 	RET
 
 // func issetugid() int32
-TEXT runtime·issetugid(SB),NOSPLIT,$0
+TEXT ·issetugid(SB),NOSPLIT,$0
 	MOVQ	$0, DI
 	MOVQ	$0, SI
 	MOVQ	$0, DX

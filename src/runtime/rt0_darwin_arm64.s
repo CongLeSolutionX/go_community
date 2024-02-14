@@ -6,7 +6,7 @@
 #include "cgo/abi_arm64.h"
 
 TEXT _rt0_arm64_darwin(SB),NOSPLIT|NOFRAME,$0
-	MOVD	$runtime·rt0_go(SB), R2
+	MOVD	$·rt0_go(SB), R2
 	BL	(R2)
 exit:
 	MOVD	$0, R0
@@ -30,7 +30,7 @@ TEXT _rt0_arm64_darwin_lib(SB),NOSPLIT,$152
 	MOVD	$0, g // initialize g to nil
 
 	// Synchronous initialization.
-	MOVD	$runtime·libpreinit(SB), R4
+	MOVD	$·libpreinit(SB), R4
 	BL	(R4)
 
 	// Create a new thread to do the runtime initialization and return.
@@ -50,7 +50,7 @@ TEXT _rt0_arm64_darwin_lib(SB),NOSPLIT,$152
 TEXT _rt0_arm64_darwin_lib_go(SB),NOSPLIT,$0
 	MOVD  _rt0_arm64_darwin_lib_argc<>(SB), R0
 	MOVD  _rt0_arm64_darwin_lib_argv<>(SB), R1
-	MOVD  $runtime·rt0_go(SB), R4
+	MOVD  $·rt0_go(SB), R4
 	B     (R4)
 
 DATA  _rt0_arm64_darwin_lib_argc<>(SB)/8, $0

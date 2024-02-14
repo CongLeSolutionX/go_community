@@ -7,22 +7,22 @@
 #include "textflag.h"
 
 // setldt(int entry, int address, int limit)
-TEXT runtime·setldt(SB),NOSPLIT,$0
+TEXT ·setldt(SB),NOSPLIT,$0
 	RET
 
-TEXT runtime·open(SB),NOSPLIT,$0
+TEXT ·open(SB),NOSPLIT,$0
 	MOVL    $14, AX
 	INT     $64
 	MOVL	AX, ret+12(FP)
 	RET
 
-TEXT runtime·pread(SB),NOSPLIT,$0
+TEXT ·pread(SB),NOSPLIT,$0
 	MOVL    $50, AX
 	INT     $64
 	MOVL	AX, ret+20(FP)
 	RET
 
-TEXT runtime·pwrite(SB),NOSPLIT,$0
+TEXT ·pwrite(SB),NOSPLIT,$0
 	MOVL    $51, AX
 	INT     $64
 	MOVL	AX, ret+20(FP)
@@ -34,7 +34,7 @@ TEXT _seek<>(SB),NOSPLIT,$0
 	INT	$64
 	RET
 
-TEXT runtime·seek(SB),NOSPLIT,$24
+TEXT ·seek(SB),NOSPLIT,$24
 	LEAL	ret+16(FP), AX
 	MOVL	fd+0(FP), BX
 	MOVL	offset_lo+4(FP), CX
@@ -52,36 +52,36 @@ TEXT runtime·seek(SB),NOSPLIT,$24
 	MOVL	$-1, ret_hi+20(FP)
 	RET
 
-TEXT runtime·closefd(SB),NOSPLIT,$0
+TEXT ·closefd(SB),NOSPLIT,$0
 	MOVL	$4, AX
 	INT	$64
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·exits(SB),NOSPLIT,$0
+TEXT ·exits(SB),NOSPLIT,$0
 	MOVL    $8, AX
 	INT     $64
 	RET
 
-TEXT runtime·brk_(SB),NOSPLIT,$0
+TEXT ·brk_(SB),NOSPLIT,$0
 	MOVL    $24, AX
 	INT     $64
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·sleep(SB),NOSPLIT,$0
+TEXT ·sleep(SB),NOSPLIT,$0
 	MOVL    $17, AX
 	INT     $64
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·plan9_semacquire(SB),NOSPLIT,$0
+TEXT ·plan9_semacquire(SB),NOSPLIT,$0
 	MOVL	$37, AX
 	INT	$64
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·plan9_tsemacquire(SB),NOSPLIT,$0
+TEXT ·plan9_tsemacquire(SB),NOSPLIT,$0
 	MOVL	$52, AX
 	INT	$64
 	MOVL	AX, ret+8(FP)
@@ -92,7 +92,7 @@ TEXT nsec<>(SB),NOSPLIT,$0
 	INT	$64
 	RET
 
-TEXT runtime·nsec(SB),NOSPLIT,$8
+TEXT ·nsec(SB),NOSPLIT,$8
 	LEAL	ret+4(FP), AX
 	MOVL	AX, 0(SP)
 	CALL	nsec<>(SB)
@@ -103,8 +103,8 @@ TEXT runtime·nsec(SB),NOSPLIT,$8
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$8-12
-	CALL	runtime·nanotime1(SB)
+TEXT ·walltime(SB),NOSPLIT,$8-12
+	CALL	·nanotime1(SB)
 	MOVL	0(SP), AX
 	MOVL	4(SP), DX
 
@@ -115,31 +115,31 @@ TEXT runtime·walltime(SB),NOSPLIT,$8-12
 	MOVL	DX, nsec+8(FP)
 	RET
 
-TEXT runtime·notify(SB),NOSPLIT,$0
+TEXT ·notify(SB),NOSPLIT,$0
 	MOVL	$28, AX
 	INT	$64
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·noted(SB),NOSPLIT,$0
+TEXT ·noted(SB),NOSPLIT,$0
 	MOVL	$29, AX
 	INT	$64
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·plan9_semrelease(SB),NOSPLIT,$0
+TEXT ·plan9_semrelease(SB),NOSPLIT,$0
 	MOVL	$38, AX
 	INT	$64
 	MOVL	AX, ret+8(FP)
 	RET
 
-TEXT runtime·rfork(SB),NOSPLIT,$0
+TEXT ·rfork(SB),NOSPLIT,$0
 	MOVL	$19, AX
 	INT	$64
 	MOVL	AX, ret+4(FP)
 	RET
 
-TEXT runtime·tstart_plan9(SB),NOSPLIT,$4
+TEXT ·tstart_plan9(SB),NOSPLIT,$4
 	MOVL	newm+0(FP), CX
 	MOVL	m_g0(CX), DX
 
@@ -160,23 +160,23 @@ TEXT runtime·tstart_plan9(SB),NOSPLIT,$4
 	get_tls(BX)
 	MOVL	DX, g(BX)
 
-	CALL	runtime·stackcheck(SB)	// smashes AX, CX
-	CALL	runtime·mstart(SB)
+	CALL	·stackcheck(SB)	// smashes AX, CX
+	CALL	·mstart(SB)
 
 	// Exit the thread.
 	MOVL	$0, 0(SP)
-	CALL	runtime·exits(SB)
+	CALL	·exits(SB)
 	JMP	0(PC)
 
 // void sigtramp(void *ureg, int8 *note)
-TEXT runtime·sigtramp(SB),NOSPLIT,$0
+TEXT ·sigtramp(SB),NOSPLIT,$0
 	get_tls(AX)
 
 	// check that g exists
 	MOVL	g(AX), BX
 	CMPL	BX, $0
 	JNE	3(PC)
-	CALL	runtime·badsignal2(SB) // will exit
+	CALL	·badsignal2(SB) // will exit
 	RET
 
 	// save args
@@ -205,7 +205,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	MOVL	DX, 4(SP)
 	MOVL	BP, 8(SP)
 
-	CALL	runtime·sighandler(SB)
+	CALL	·sighandler(SB)
 	MOVL	12(SP), AX
 
 	// restore g
@@ -215,11 +215,11 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 
 	// call noted(AX)
 	MOVL	AX, 0(SP)
-	CALL	runtime·noted(SB)
+	CALL	·noted(SB)
 	RET
 
 // Only used by the 64-bit runtime.
-TEXT runtime·setfpmasks(SB),NOSPLIT,$0
+TEXT ·setfpmasks(SB),NOSPLIT,$0
 	RET
 
 #define ERRMAX 128	/* from os_plan9.h */
@@ -236,7 +236,7 @@ TEXT errstr<>(SB),NOSPLIT,$0
 // in entersyscall mode, without going
 // through the allocator (issue 4994).
 // See ../syscall/asm_plan9_386.s:/·Syscall/
-TEXT runtime·errstr(SB),NOSPLIT,$8-8
+TEXT ·errstr(SB),NOSPLIT,$8-8
 	get_tls(AX)
 	MOVL	g(AX), BX
 	MOVL	g_m(BX), BX
@@ -244,7 +244,7 @@ TEXT runtime·errstr(SB),NOSPLIT,$8-8
 	MOVL	CX, 0(SP)
 	MOVL	$ERRMAX, 4(SP)
 	CALL	errstr<>(SB)
-	CALL	runtime·findnull(SB)
+	CALL	·findnull(SB)
 	MOVL	4(SP), AX
 	MOVL	AX, ret_len+4(FP)
 	MOVL	0(SP), AX

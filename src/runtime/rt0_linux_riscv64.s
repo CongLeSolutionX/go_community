@@ -46,7 +46,7 @@ TEXT _rt0_riscv64_linux_lib(SB),NOSPLIT,$224
 	MOV	A1, _rt0_riscv64_linux_lib_argv<>(SB)
 
 	// Synchronous initialization.
-	MOV	$runtime·libpreinit(SB), T0
+	MOV	$·libpreinit(SB), T0
 	JALR	RA, T0
 
 	// Create a new thread to do the runtime initialization and return.
@@ -62,7 +62,7 @@ nocgo:
 	MOV	$_rt0_riscv64_linux_lib_go(SB), A1
 	MOV	A0, 8(X2)
 	MOV	A1, 16(X2)
-	MOV	$runtime·newosproc0(SB), T0
+	MOV	$·newosproc0(SB), T0
 	JALR	RA, T0
 
 restore:
@@ -98,7 +98,7 @@ restore:
 TEXT _rt0_riscv64_linux_lib_go(SB),NOSPLIT,$0
 	MOV	_rt0_riscv64_linux_lib_argc<>(SB), A0
 	MOV	_rt0_riscv64_linux_lib_argv<>(SB), A1
-	MOV	$runtime·rt0_go(SB), T0
+	MOV	$·rt0_go(SB), T0
 	JALR	ZERO, T0
 
 DATA _rt0_riscv64_linux_lib_argc<>(SB)/8, $0
@@ -108,5 +108,5 @@ GLOBL _rt0_riscv64_linux_lib_argv<>(SB),NOPTR, $8
 
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
-	MOV	$runtime·rt0_go(SB), T0
+	MOV	$·rt0_go(SB), T0
 	JALR	ZERO, T0

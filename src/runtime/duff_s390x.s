@@ -10,10 +10,10 @@
 // so there's no need for these, except to satisfy the prototypes
 // in stubs.go.
 
-TEXT runtime·duffzero(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·duffzero(SB),NOSPLIT|NOFRAME,$0-0
 	MOVD	$0, 2(R0)
 	RET
 
-TEXT runtime·duffcopy(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·duffcopy(SB),NOSPLIT|NOFRAME,$0-0
 	MOVD	$0, 2(R0)
 	RET

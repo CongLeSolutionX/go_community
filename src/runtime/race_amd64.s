@@ -40,24 +40,24 @@
 #define RARG3 CX
 #endif
 
-// func runtime·raceread(addr uintptr)
+// func ·raceread(addr uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would render runtime.getcallerpc ineffective.
-TEXT	runtime·raceread<ABIInternal>(SB), NOSPLIT, $0-8
+TEXT	·raceread<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVQ	AX, RARG1
 	MOVQ	(SP), RARG2
 	// void __tsan_read(ThreadState *thr, void *addr, void *pc);
 	MOVQ	$__tsan_read(SB), AX
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceRead(addr uintptr)
-TEXT	runtime·RaceRead(SB), NOSPLIT, $0-8
+// func ·RaceRead(addr uintptr)
+TEXT	·RaceRead(SB), NOSPLIT, $0-8
 	// This needs to be a tail call, because raceread reads caller pc.
-	JMP	runtime·raceread(SB)
+	JMP	·raceread(SB)
 
-// void runtime·racereadpc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
+// void ·racereadpc(void *addr, void *callpc, void *pc)
+TEXT	·racereadpc(SB), NOSPLIT, $0-24
 	MOVQ	addr+0(FP), RARG1
 	MOVQ	callpc+8(FP), RARG2
 	MOVQ	pc+16(FP), RARG3
@@ -66,24 +66,24 @@ TEXT	runtime·racereadpc(SB), NOSPLIT, $0-24
 	MOVQ	$__tsan_read_pc(SB), AX
 	JMP	racecalladdr<>(SB)
 
-// func runtime·racewrite(addr uintptr)
+// func ·racewrite(addr uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would render runtime.getcallerpc ineffective.
-TEXT	runtime·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
+TEXT	·racewrite<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVQ	AX, RARG1
 	MOVQ	(SP), RARG2
 	// void __tsan_write(ThreadState *thr, void *addr, void *pc);
 	MOVQ	$__tsan_write(SB), AX
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceWrite(addr uintptr)
-TEXT	runtime·RaceWrite(SB), NOSPLIT, $0-8
+// func ·RaceWrite(addr uintptr)
+TEXT	·RaceWrite(SB), NOSPLIT, $0-8
 	// This needs to be a tail call, because racewrite reads caller pc.
-	JMP	runtime·racewrite(SB)
+	JMP	·racewrite(SB)
 
-// void runtime·racewritepc(void *addr, void *callpc, void *pc)
-TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
+// void ·racewritepc(void *addr, void *callpc, void *pc)
+TEXT	·racewritepc(SB), NOSPLIT, $0-24
 	MOVQ	addr+0(FP), RARG1
 	MOVQ	callpc+8(FP), RARG2
 	MOVQ	pc+16(FP), RARG3
@@ -92,11 +92,11 @@ TEXT	runtime·racewritepc(SB), NOSPLIT, $0-24
 	MOVQ	$__tsan_write_pc(SB), AX
 	JMP	racecalladdr<>(SB)
 
-// func runtime·racereadrange(addr, size uintptr)
+// func ·racereadrange(addr, size uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would render runtime.getcallerpc ineffective.
-TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
+TEXT	·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVQ	AX, RARG1
 	MOVQ	BX, RARG2
 	MOVQ	(SP), RARG3
@@ -104,13 +104,13 @@ TEXT	runtime·racereadrange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVQ	$__tsan_read_range(SB), AX
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceReadRange(addr, size uintptr)
-TEXT	runtime·RaceReadRange(SB), NOSPLIT, $0-16
+// func ·RaceReadRange(addr, size uintptr)
+TEXT	·RaceReadRange(SB), NOSPLIT, $0-16
 	// This needs to be a tail call, because racereadrange reads caller pc.
-	JMP	runtime·racereadrange(SB)
+	JMP	·racereadrange(SB)
 
-// void runtime·racereadrangepc1(void *addr, uintptr sz, void *pc)
-TEXT	runtime·racereadrangepc1(SB), NOSPLIT, $0-24
+// void ·racereadrangepc1(void *addr, uintptr sz, void *pc)
+TEXT	·racereadrangepc1(SB), NOSPLIT, $0-24
 	MOVQ	addr+0(FP), RARG1
 	MOVQ	size+8(FP), RARG2
 	MOVQ	pc+16(FP), RARG3
@@ -119,11 +119,11 @@ TEXT	runtime·racereadrangepc1(SB), NOSPLIT, $0-24
 	MOVQ	$__tsan_read_range(SB), AX
 	JMP	racecalladdr<>(SB)
 
-// func runtime·racewriterange(addr, size uintptr)
+// func ·racewriterange(addr, size uintptr)
 // Called from instrumented code.
 // Defined as ABIInternal so as to avoid introducing a wrapper,
 // which would render runtime.getcallerpc ineffective.
-TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
+TEXT	·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVQ	AX, RARG1
 	MOVQ	BX, RARG2
 	MOVQ	(SP), RARG3
@@ -131,13 +131,13 @@ TEXT	runtime·racewriterange<ABIInternal>(SB), NOSPLIT, $0-16
 	MOVQ	$__tsan_write_range(SB), AX
 	JMP	racecalladdr<>(SB)
 
-// func runtime·RaceWriteRange(addr, size uintptr)
-TEXT	runtime·RaceWriteRange(SB), NOSPLIT, $0-16
+// func ·RaceWriteRange(addr, size uintptr)
+TEXT	·RaceWriteRange(SB), NOSPLIT, $0-16
 	// This needs to be a tail call, because racewriterange reads caller pc.
-	JMP	runtime·racewriterange(SB)
+	JMP	·racewriterange(SB)
 
-// void runtime·racewriterangepc1(void *addr, uintptr sz, void *pc)
-TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
+// void ·racewriterangepc1(void *addr, uintptr sz, void *pc)
+TEXT	·racewriterangepc1(SB), NOSPLIT, $0-24
 	MOVQ	addr+0(FP), RARG1
 	MOVQ	size+8(FP), RARG2
 	MOVQ	pc+16(FP), RARG3
@@ -151,14 +151,14 @@ TEXT	runtime·racewriterangepc1(SB), NOSPLIT, $0-24
 TEXT	racecalladdr<>(SB), NOSPLIT, $0-0
 	MOVQ	g_racectx(R14), RARG0	// goroutine context
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
-	CMPQ	RARG1, runtime·racearenastart(SB)
+	CMPQ	RARG1, ·racearenastart(SB)
 	JB	data
-	CMPQ	RARG1, runtime·racearenaend(SB)
+	CMPQ	RARG1, ·racearenaend(SB)
 	JB	call
 data:
-	CMPQ	RARG1, runtime·racedatastart(SB)
+	CMPQ	RARG1, ·racedatastart(SB)
 	JB	ret
-	CMPQ	RARG1, runtime·racedataend(SB)
+	CMPQ	RARG1, ·racedataend(SB)
 	JAE	ret
 call:
 	MOVQ	AX, AX		// w/o this 6a miscompiles this function
@@ -166,9 +166,9 @@ call:
 ret:
 	RET
 
-// func runtime·racefuncenter(pc uintptr)
+// func ·racefuncenter(pc uintptr)
 // Called from instrumented code.
-TEXT	runtime·racefuncenter(SB), NOSPLIT, $0-8
+TEXT	·racefuncenter(SB), NOSPLIT, $0-8
 	MOVQ	callpc+0(FP), R11
 	JMP	racefuncenter<>(SB)
 
@@ -185,9 +185,9 @@ TEXT	racefuncenter<>(SB), NOSPLIT|NOFRAME, $0-0
 	MOVQ	BX, DX	// restore function entry context
 	RET
 
-// func runtime·racefuncexit()
+// func ·racefuncexit()
 // Called from instrumented code.
-TEXT	runtime·racefuncexit(SB), NOSPLIT, $0-0
+TEXT	·racefuncexit(SB), NOSPLIT, $0-0
 	MOVQ	g_racectx(R14), RARG0	// goroutine context
 	// void __tsan_func_exit(ThreadState *thr);
 	MOVQ	$__tsan_func_exit(SB), AX
@@ -335,14 +335,14 @@ TEXT	racecallatomic<>(SB), NOSPLIT|NOFRAME, $0-0
 	MOVQ	16(SP), R12
 	MOVBLZX	(R12), R13
 	// Check that addr is within [arenastart, arenaend) or within [racedatastart, racedataend).
-	CMPQ	R12, runtime·racearenastart(SB)
+	CMPQ	R12, ·racearenastart(SB)
 	JB	racecallatomic_data
-	CMPQ	R12, runtime·racearenaend(SB)
+	CMPQ	R12, ·racearenaend(SB)
 	JB	racecallatomic_ok
 racecallatomic_data:
-	CMPQ	R12, runtime·racedatastart(SB)
+	CMPQ	R12, ·racedatastart(SB)
 	JB	racecallatomic_ignore
-	CMPQ	R12, runtime·racedataend(SB)
+	CMPQ	R12, ·racedataend(SB)
 	JAE	racecallatomic_ignore
 racecallatomic_ok:
 	// Addr is within the good range, call the atomic function.
@@ -371,10 +371,10 @@ racecallatomic_ignore:
 	MOVQ	g_racectx(R14), RARG0	// goroutine context
 	JMP	racecall<>(SB)
 
-// void runtime·racecall(void(*f)(...), ...)
+// void ·racecall(void(*f)(...), ...)
 // Calls C function f from race runtime and passes up to 4 arguments to it.
 // The arguments are never heap-object-preserving pointers, so we pretend there are no arguments.
-TEXT	runtime·racecall(SB), NOSPLIT, $0-0
+TEXT	·racecall(SB), NOSPLIT, $0-0
 	MOVQ	fn+0(FP), AX
 	MOVQ	arg0+8(FP), RARG0
 	MOVQ	arg1+16(FP), RARG1
@@ -400,12 +400,12 @@ call:
 	XORPS	X15, X15
 	RET
 
-// C->Go callback thunk that allows to call runtime·racesymbolize from C code.
+// C->Go callback thunk that allows to call ·racesymbolize from C code.
 // Direct Go->C race call has only switched SP, finish g->g0 switch by setting correct g.
 // The overall effect of Go->C->Go call chain is similar to that of mcall.
 // RARG0 contains command code. RARG1 contains command-specific context.
 // See racecallback for command codes.
-TEXT	runtime·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0-0
+TEXT	·racecallbackthunk(SB), NOSPLIT|NOFRAME, $0-0
 	// Handle command raceGetProcCmd (0) here.
 	// First, code below assumes that we are on curg, while raceGetProcCmd
 	// can be executed on g0. Second, it is called frequently, so will
@@ -434,7 +434,7 @@ rest:
 	MOVQ	R15, R14	// set g register
 	PUSHQ	RARG1	// func arg
 	PUSHQ	RARG0	// func arg
-	CALL	runtime·racecallback(SB)
+	CALL	·racecallback(SB)
 	POPQ	R12
 	POPQ	R12
 	// All registers are smashed after Go code, reload.
@@ -451,7 +451,7 @@ noswitch:
 	// already on g0
 	PUSHQ	RARG1	// func arg
 	PUSHQ	RARG0	// func arg
-	CALL	runtime·racecallback(SB)
+	CALL	·racecallback(SB)
 	POPQ	R12
 	POPQ	R12
 	JMP	ret

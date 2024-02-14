@@ -12,12 +12,12 @@
 #define TEB_TlsSlots 0x1480
 #define TEB_ArbitraryPtr 0x28
 
-TEXT runtime·asmstdcall_trampoline<ABIInternal>(SB),NOSPLIT,$0
+TEXT ·asmstdcall_trampoline<ABIInternal>(SB),NOSPLIT,$0
 	MOVQ	AX, CX
-	JMP	runtime·asmstdcall(SB)
+	JMP	·asmstdcall(SB)
 
-// void runtime·asmstdcall(void *c);
-TEXT runtime·asmstdcall(SB),NOSPLIT,$16
+// void ·asmstdcall(void *c);
+TEXT ·asmstdcall(SB),NOSPLIT,$16
 	MOVQ	SP, AX
 	ANDQ	$~15, SP	// alignment as per Windows requirement
 	MOVQ	AX, 8(SP)
@@ -91,7 +91,7 @@ docall:
 	RET
 
 // faster get/set last error
-TEXT runtime·getlasterror(SB),NOSPLIT,$0
+TEXT ·getlasterror(SB),NOSPLIT,$0
 	MOVQ	0x30(GS), AX
 	MOVL	0x68(AX), AX
 	MOVL	AX, ret+0(FP)
@@ -123,7 +123,7 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 	MOVQ	CX, AX
 	MOVQ	DX, BX
 	// Calling ABIInternal because TLS might be nil.
-	CALL	runtime·sigtrampgo<ABIInternal>(SB)
+	CALL	·sigtrampgo<ABIInternal>(SB)
 	// Return value is already stored in AX.
 
 	ADJSP	$-16
@@ -136,26 +136,26 @@ TEXT sigtramp<>(SB),NOSPLIT,$0-0
 // It switches stacks and jumps to the continuation address.
 // R8 and R9 are set above at the end of sigtrampgo
 // in the context that starts executing at sigresume.
-TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sigresume(SB),NOSPLIT|NOFRAME,$0
 	MOVQ	R8, SP
 	JMP	R9
 
-TEXT runtime·exceptiontramp(SB),NOSPLIT|NOFRAME,$0
+TEXT ·exceptiontramp(SB),NOSPLIT|NOFRAME,$0
 	// PExceptionPointers already on CX
 	MOVQ	$const_callbackVEH, DX
 	JMP	sigtramp<>(SB)
 
-TEXT runtime·firstcontinuetramp(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·firstcontinuetramp(SB),NOSPLIT|NOFRAME,$0-0
 	// PExceptionPointers already on CX
 	MOVQ	$const_callbackFirstVCH, DX
 	JMP	sigtramp<>(SB)
 
-TEXT runtime·lastcontinuetramp(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·lastcontinuetramp(SB),NOSPLIT|NOFRAME,$0-0
 	// PExceptionPointers already on CX
 	MOVQ	$const_callbackLastVCH, DX
 	JMP	sigtramp<>(SB)
 
-TEXT runtime·sehtramp(SB),NOSPLIT,$40-0
+TEXT ·sehtramp(SB),NOSPLIT,$40-0
 	// CX: PEXCEPTION_RECORD ExceptionRecord
 	// DX: ULONG64 EstablisherFrame
 	// R8: PCONTEXT ContextRecord
@@ -179,7 +179,7 @@ TEXT runtime·sehtramp(SB),NOSPLIT,$40-0
 	MOVQ	DX, 8(SP)
 	MOVQ	R8, 16(SP)
 	MOVQ	R9, 24(SP)
-	CALL	runtime·sehhandler(SB)
+	CALL	·sehhandler(SB)
 	MOVL	32(SP), AX
 
 	ADJSP	$-40
@@ -187,7 +187,7 @@ TEXT runtime·sehtramp(SB),NOSPLIT,$40-0
 	POP_REGS_HOST_TO_ABI0()
 	RET
 
-TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
+TEXT ·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	// Construct args vector for cgocallback().
 	// By windows/amd64 calling convention first 4 args are in CX, DX, R8, R9
 	// args from the 5th on are on the stack.
@@ -205,11 +205,11 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	MOVQ	0(SP), AX
 	ADDQ	$8, SP
 
-	// determine index into runtime·cbs table
-	MOVQ	$runtime·callbackasm(SB), DX
+	// determine index into ·cbs table
+	MOVQ	$·callbackasm(SB), DX
 	SUBQ	DX, AX
 	MOVQ	$0, DX
-	MOVQ	$5, CX	// divide by 5 because each call instruction in runtime·callbacks is 5 bytes long
+	MOVQ	$5, CX	// divide by 5 because each call instruction in ·callbacks is 5 bytes long
 	DIVL	CX
 	SUBQ	$1, AX	// subtract 1 because return PC is to the next slot
 
@@ -239,7 +239,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // uint32 tstart_stdcall(M *newm);
-TEXT runtime·tstart_stdcall(SB),NOSPLIT|NOFRAME,$0
+TEXT ·tstart_stdcall(SB),NOSPLIT|NOFRAME,$0
 	// Switch from the host ABI to the Go ABI.
 	PUSH_REGS_HOST_TO_ABI0()
 
@@ -259,10 +259,10 @@ TEXT runtime·tstart_stdcall(SB),NOSPLIT|NOFRAME,$0
 	LEAQ	m_tls(CX), DI
 	MOVQ	CX, g_m(DX)
 	MOVQ	DX, g(DI)
-	CALL	runtime·settls(SB) // clobbers CX
+	CALL	·settls(SB) // clobbers CX
 
-	CALL	runtime·stackcheck(SB)	// clobbers AX,CX
-	CALL	runtime·mstart(SB)
+	CALL	·stackcheck(SB)	// clobbers AX,CX
+	CALL	·mstart(SB)
 
 	POP_REGS_HOST_TO_ABI0()
 
@@ -270,12 +270,12 @@ TEXT runtime·tstart_stdcall(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // set tls base to DI
-TEXT runtime·settls(SB),NOSPLIT,$0
-	MOVQ	runtime·tls_g(SB), CX
+TEXT ·settls(SB),NOSPLIT,$0
+	MOVQ	·tls_g(SB), CX
 	MOVQ	DI, 0(CX)(GS)
 	RET
 
-TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
+TEXT ·nanotime1(SB),NOSPLIT,$0-8
 	MOVQ	$_INTERRUPT_TIME, DI
 	MOVQ	time_lo(DI), AX
 	IMULQ	$100, AX
@@ -284,22 +284,22 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 
 // func osSetupTLS(mp *m)
 // Setup TLS. for use by needm on Windows.
-TEXT runtime·osSetupTLS(SB),NOSPLIT,$0-8
+TEXT ·osSetupTLS(SB),NOSPLIT,$0-8
 	MOVQ	mp+0(FP), AX
 	LEAQ	m_tls(AX), DI
-	CALL	runtime·settls(SB)
+	CALL	·settls(SB)
 	RET
 
 // This is called from rt0_go, which runs on the system stack
 // using the initial stack allocated by the OS.
-TEXT runtime·wintls(SB),NOSPLIT,$0
+TEXT ·wintls(SB),NOSPLIT,$0
 	// Allocate a TLS slot to hold g across calls to external code
 	MOVQ	SP, AX
 	ANDQ	$~15, SP	// alignment as per Windows requirement
 	SUBQ	$48, SP	// room for SP and 4 args as per Windows requirement
 			// plus one extra word to keep stack 16 bytes aligned
 	MOVQ	AX, 32(SP)
-	MOVQ	runtime·_TlsAlloc(SB), AX
+	MOVQ	·_TlsAlloc(SB), AX
 	CALL	AX
 	MOVQ	32(SP), SP
 
@@ -321,5 +321,5 @@ ok:
 	// Save offset from TLS into tls_g.
 	ADDQ	$TEB_TlsSlots, CX
 settls:
-	MOVQ	CX, runtime·tls_g(SB)
+	MOVQ	CX, ·tls_g(SB)
 	RET

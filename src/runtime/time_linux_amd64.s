@@ -41,14 +41,14 @@ noswitch:
 
 	MOVL	$0, DI // CLOCK_REALTIME
 	LEAQ	16(SP), SI
-	MOVQ	runtime·vdsoClockgettimeSym(SB), AX
+	MOVQ	·vdsoClockgettimeSym(SB), AX
 	CMPQ	AX, $0
 	JEQ	fallback
 	CALL	AX
 
 	MOVL	$1, DI // CLOCK_MONOTONIC
 	LEAQ	0(SP), SI
-	MOVQ	runtime·vdsoClockgettimeSym(SB), AX
+	MOVQ	·vdsoClockgettimeSym(SB), AX
 	CALL	AX
 
 ret:

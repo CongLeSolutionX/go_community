@@ -4,7 +4,7 @@
 
 #include "textflag.h"
 
-TEXT runtime·wasmDiv(SB), NOSPLIT, $0-0
+TEXT ·wasmDiv(SB), NOSPLIT, $0-0
 	Get R0
 	I64Const $-0x8000000000000000
 	I64Eq
@@ -22,7 +22,7 @@ TEXT runtime·wasmDiv(SB), NOSPLIT, $0-0
 	I64DivS
 	Return
 
-TEXT runtime·wasmTruncS(SB), NOSPLIT, $0-0
+TEXT ·wasmTruncS(SB), NOSPLIT, $0-0
 	Get R0
 	Get R0
 	F64Ne // NaN
@@ -51,7 +51,7 @@ TEXT runtime·wasmTruncS(SB), NOSPLIT, $0-0
 	I64TruncF64S
 	Return
 
-TEXT runtime·wasmTruncU(SB), NOSPLIT, $0-0
+TEXT ·wasmTruncU(SB), NOSPLIT, $0-0
 	Get R0
 	Get R0
 	F64Ne // NaN
@@ -80,13 +80,13 @@ TEXT runtime·wasmTruncU(SB), NOSPLIT, $0-0
 	I64TruncF64U
 	Return
 
-TEXT runtime·exitThread(SB), NOSPLIT, $0-0
+TEXT ·exitThread(SB), NOSPLIT, $0-0
 	UNDEF
 
-TEXT runtime·osyield(SB), NOSPLIT, $0-0
+TEXT ·osyield(SB), NOSPLIT, $0-0
 	UNDEF
 
-TEXT runtime·growMemory(SB), NOSPLIT, $0
+TEXT ·growMemory(SB), NOSPLIT, $0
 	Get SP
 	I32Load pages+0(FP)
 	GrowMemory

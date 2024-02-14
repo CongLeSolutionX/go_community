@@ -20,7 +20,7 @@ TEXT _rt0_ppc64le_linux_lib(SB),NOSPLIT|NOFRAME,$0
 	MOVD	R4, _rt0_ppc64le_linux_lib_argv<>(SB)
 
 	// Synchronous initialization.
-	MOVD	$runtime·libpreinit(SB), R12
+	MOVD	$·libpreinit(SB), R12
 	MOVD	R12, CTR
 	BL	(CTR)
 
@@ -39,7 +39,7 @@ nocgo:
 	MOVD	R12, 8+FIXED_FRAME(R1)
 	MOVD	$_rt0_ppc64le_linux_lib_go(SB), R12
 	MOVD	R12, 16+FIXED_FRAME(R1)
-	MOVD	$runtime·newosproc0(SB),R12
+	MOVD	$·newosproc0(SB),R12
 	MOVD	R12, CTR
 	BL	(CTR)
 
@@ -51,7 +51,7 @@ done:
 TEXT _rt0_ppc64le_linux_lib_go(SB),NOSPLIT,$0
 	MOVD	_rt0_ppc64le_linux_lib_argc<>(SB), R3
 	MOVD	_rt0_ppc64le_linux_lib_argv<>(SB), R4
-	MOVD	$runtime·rt0_go(SB), R12
+	MOVD	$·rt0_go(SB), R12
 	MOVD	R12, CTR
 	BR	(CTR)
 
@@ -89,13 +89,13 @@ TEXT _main<>(SB),NOSPLIT,$-8
 	CMP	R0, R13
 	BNE	tls_and_argcv_in_reg
 
-	MOVD	$runtime·m0+m_tls(SB), R13 // TLS
+	MOVD	$·m0+m_tls(SB), R13 // TLS
 	ADD	$0x7000, R13
 
 tls_and_argcv_in_reg:
 	BR	main(SB)
 
 TEXT main(SB),NOSPLIT,$-8
-	MOVD	$runtime·rt0_go(SB), R12
+	MOVD	$·rt0_go(SB), R12
 	MOVD	R12, CTR
 	BR	(CTR)

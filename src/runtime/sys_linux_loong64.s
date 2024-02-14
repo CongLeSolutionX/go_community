@@ -47,14 +47,14 @@
 #define SYS_timer_delete	111
 
 // func exit(code int32)
-TEXT runtime·exit(SB),NOSPLIT|NOFRAME,$0-4
+TEXT ·exit(SB),NOSPLIT|NOFRAME,$0-4
 	MOVW	code+0(FP), R4
 	MOVV	$SYS_exit_group, R11
 	SYSCALL
 	RET
 
 // func exitThread(wait *atomic.Uint32)
-TEXT runtime·exitThread(SB),NOSPLIT|NOFRAME,$0-8
+TEXT ·exitThread(SB),NOSPLIT|NOFRAME,$0-8
 	MOVV	wait+0(FP), R19
 	// We're done using the stack.
 	MOVW	$0, R11
@@ -67,7 +67,7 @@ TEXT runtime·exitThread(SB),NOSPLIT|NOFRAME,$0-8
 	JMP	0(PC)
 
 // func open(name *byte, mode, perm int32) int32
-TEXT runtime·open(SB),NOSPLIT|NOFRAME,$0-20
+TEXT ·open(SB),NOSPLIT|NOFRAME,$0-20
 	MOVW	$AT_FDCWD, R4 // AT_FDCWD, so this acts like open
 	MOVV	name+0(FP), R5
 	MOVW	mode+8(FP), R6
@@ -81,7 +81,7 @@ TEXT runtime·open(SB),NOSPLIT|NOFRAME,$0-20
 	RET
 
 // func closefd(fd int32) int32
-TEXT runtime·closefd(SB),NOSPLIT|NOFRAME,$0-12
+TEXT ·closefd(SB),NOSPLIT|NOFRAME,$0-12
 	MOVW	fd+0(FP), R4
 	MOVV	$SYS_close, R11
 	SYSCALL
@@ -92,7 +92,7 @@ TEXT runtime·closefd(SB),NOSPLIT|NOFRAME,$0-12
 	RET
 
 // func write1(fd uintptr, p unsafe.Pointer, n int32) int32
-TEXT runtime·write1(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·write1(SB),NOSPLIT|NOFRAME,$0-28
 	MOVV	fd+0(FP), R4
 	MOVV	p+8(FP), R5
 	MOVW	n+16(FP), R6
@@ -102,7 +102,7 @@ TEXT runtime·write1(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func read(fd int32, p unsafe.Pointer, n int32) int32
-TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·read(SB),NOSPLIT|NOFRAME,$0-28
 	MOVW	fd+0(FP), R4
 	MOVV	p+8(FP), R5
 	MOVW	n+16(FP), R6
@@ -112,7 +112,7 @@ TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)
-TEXT runtime·pipe2(SB),NOSPLIT|NOFRAME,$0-20
+TEXT ·pipe2(SB),NOSPLIT|NOFRAME,$0-20
 	MOVV	$r+8(FP), R4
 	MOVW	flags+0(FP), R5
 	MOVV	$SYS_pipe2, R11
@@ -121,7 +121,7 @@ TEXT runtime·pipe2(SB),NOSPLIT|NOFRAME,$0-20
 	RET
 
 // func usleep(usec uint32)
-TEXT runtime·usleep(SB),NOSPLIT,$16-4
+TEXT ·usleep(SB),NOSPLIT,$16-4
 	MOVWU	usec+0(FP), R7
 	MOVV	$1000, R6
 	MULVU	R6, R7, R7
@@ -140,14 +140,14 @@ TEXT runtime·usleep(SB),NOSPLIT,$16-4
 	RET
 
 // func gettid() uint32
-TEXT runtime·gettid(SB),NOSPLIT,$0-4
+TEXT ·gettid(SB),NOSPLIT,$0-4
 	MOVV	$SYS_gettid, R11
 	SYSCALL
 	MOVW	R4, ret+0(FP)
 	RET
 
 // func raise(sig uint32)
-TEXT runtime·raise(SB),NOSPLIT|NOFRAME,$0
+TEXT ·raise(SB),NOSPLIT|NOFRAME,$0
 	MOVV	$SYS_getpid, R11
 	SYSCALL
 	MOVW	R4, R23
@@ -161,7 +161,7 @@ TEXT runtime·raise(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // func raiseproc(sig uint32)
-TEXT runtime·raiseproc(SB),NOSPLIT|NOFRAME,$0
+TEXT ·raiseproc(SB),NOSPLIT|NOFRAME,$0
 	MOVV	$SYS_getpid, R11
 	SYSCALL
 	//MOVW	R4, R4	// arg 1 pid
@@ -187,7 +187,7 @@ TEXT ·tgkill(SB),NOSPLIT|NOFRAME,$0-24
 	RET
 
 // func setitimer(mode int32, new, old *itimerval)
-TEXT runtime·setitimer(SB),NOSPLIT|NOFRAME,$0-24
+TEXT ·setitimer(SB),NOSPLIT|NOFRAME,$0-24
 	MOVW	mode+0(FP), R4
 	MOVV	new+8(FP), R5
 	MOVV	old+16(FP), R6
@@ -196,7 +196,7 @@ TEXT runtime·setitimer(SB),NOSPLIT|NOFRAME,$0-24
 	RET
 
 // func timer_create(clockid int32, sevp *sigevent, timerid *int32) int32
-TEXT runtime·timer_create(SB),NOSPLIT,$0-28
+TEXT ·timer_create(SB),NOSPLIT,$0-28
 	MOVW	clockid+0(FP), R4
 	MOVV	sevp+8(FP), R5
 	MOVV	timerid+16(FP), R6
@@ -206,7 +206,7 @@ TEXT runtime·timer_create(SB),NOSPLIT,$0-28
 	RET
 
 // func timer_settime(timerid int32, flags int32, new, old *itimerspec) int32
-TEXT runtime·timer_settime(SB),NOSPLIT,$0-28
+TEXT ·timer_settime(SB),NOSPLIT,$0-28
 	MOVW	timerid+0(FP), R4
 	MOVW	flags+4(FP), R5
 	MOVV	new+8(FP), R6
@@ -217,7 +217,7 @@ TEXT runtime·timer_settime(SB),NOSPLIT,$0-28
 	RET
 
 // func timer_delete(timerid int32) int32
-TEXT runtime·timer_delete(SB),NOSPLIT,$0-12
+TEXT ·timer_delete(SB),NOSPLIT,$0-12
 	MOVW	timerid+0(FP), R4
 	MOVV	$SYS_timer_delete, R11
 	SYSCALL
@@ -225,7 +225,7 @@ TEXT runtime·timer_delete(SB),NOSPLIT,$0-12
 	RET
 
 // func mincore(addr unsafe.Pointer, n uintptr, dst *byte) int32
-TEXT runtime·mincore(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·mincore(SB),NOSPLIT|NOFRAME,$0-28
 	MOVV	addr+0(FP), R4
 	MOVV	n+8(FP), R5
 	MOVV	dst+16(FP), R6
@@ -235,7 +235,7 @@ TEXT runtime·mincore(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$24-12
+TEXT ·walltime(SB),NOSPLIT,$24-12
 	MOVV	R3, R23	// R23 is unchanged by C code
 	MOVV	R3, R25
 
@@ -268,11 +268,11 @@ noswitch:
 	MOVW	$CLOCK_REALTIME, R4
 	MOVV	$0(R3), R5
 
-	MOVV	runtime·vdsoClockgettimeSym(SB), R20
+	MOVV	·vdsoClockgettimeSym(SB), R20
 	BEQ	R20, fallback
 
 	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
-	MOVBU	runtime·iscgo(SB), R25
+	MOVBU	·iscgo(SB), R25
 	BNE	R25, nosaveg
 
 	MOVV	m_gsignal(R24), R25	// g.m.gsignal
@@ -315,7 +315,7 @@ fallback:
 	JMP finish
 
 // func nanotime1() int64
-TEXT runtime·nanotime1(SB),NOSPLIT,$16-8
+TEXT ·nanotime1(SB),NOSPLIT,$16-8
 	MOVV	R3, R23	// R23 is unchanged by C code
 	MOVV	R3, R25
 
@@ -348,11 +348,11 @@ noswitch:
 	MOVW	$CLOCK_MONOTONIC, R4
 	MOVV	$0(R3), R5
 
-	MOVV	runtime·vdsoClockgettimeSym(SB), R20
+	MOVV	·vdsoClockgettimeSym(SB), R20
 	BEQ	R20, fallback
 
 	// Store g on gsignal's stack, see sys_linux_arm64.s for detail
-	MOVBU	runtime·iscgo(SB), R25
+	MOVBU	·iscgo(SB), R25
 	BNE	R25, nosaveg
 
 	MOVV	m_gsignal(R24), R25	// g.m.gsignal
@@ -399,7 +399,7 @@ fallback:
 	JMP	finish
 
 // func rtsigprocmask(how int32, new, old *sigset, size int32)
-TEXT runtime·rtsigprocmask(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·rtsigprocmask(SB),NOSPLIT|NOFRAME,$0-28
 	MOVW	how+0(FP), R4
 	MOVV	new+8(FP), R5
 	MOVV	old+16(FP), R6
@@ -412,7 +412,7 @@ TEXT runtime·rtsigprocmask(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func rt_sigaction(sig uintptr, new, old *sigactiont, size uintptr) int32
-TEXT runtime·rt_sigaction(SB),NOSPLIT|NOFRAME,$0-36
+TEXT ·rt_sigaction(SB),NOSPLIT|NOFRAME,$0-36
 	MOVV	sig+0(FP), R4
 	MOVV	new+8(FP), R5
 	MOVV	old+16(FP), R6
@@ -423,7 +423,7 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT|NOFRAME,$0-36
 	RET
 
 // func sigfwd(fn uintptr, sig uint32, info *siginfo, ctx unsafe.Pointer)
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVW	sig+8(FP), R4
 	MOVV	info+16(FP), R5
 	MOVV	ctx+24(FP), R6
@@ -432,7 +432,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 // func sigtramp(signo, ureg, ctxt unsafe.Pointer)
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$168
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME,$168
 	MOVW	R4, (1*8)(R3)
 	MOVV	R5, (2*8)(R3)
 	MOVV	R6, (3*8)(R3)
@@ -444,11 +444,11 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$168
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVB	runtime·iscgo(SB), R4
+	MOVB	·iscgo(SB), R4
 	BEQ	R4, 2(PC)
-	JAL	runtime·load_g(SB)
+	JAL	·load_g(SB)
 
-	MOVV	$runtime·sigtrampgo(SB), R4
+	MOVV	$·sigtrampgo(SB), R4
 	JAL	(R4)
 
 	// Restore callee-save registers.
@@ -458,11 +458,11 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$168
 	RET
 
 // func cgoSigtramp()
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
-	JMP	runtime·sigtramp(SB)
+TEXT ·cgoSigtramp(SB),NOSPLIT,$0
+	JMP	·sigtramp(SB)
 
 // func sysMmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) (p unsafe.Pointer, err int)
-TEXT runtime·sysMmap(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sysMmap(SB),NOSPLIT|NOFRAME,$0
 	MOVV	addr+0(FP), R4
 	MOVV	n+8(FP), R5
 	MOVW	prot+16(FP), R6
@@ -486,7 +486,7 @@ ok:
 // Call the function stored in _cgo_mmap using the GCC calling convention.
 // This must be called on the system stack.
 // func callCgoMmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) uintptr
-TEXT runtime·callCgoMmap(SB),NOSPLIT,$0
+TEXT ·callCgoMmap(SB),NOSPLIT,$0
 	MOVV	addr+0(FP), R4
 	MOVV	n+8(FP), R5
 	MOVW	prot+16(FP), R6
@@ -501,7 +501,7 @@ TEXT runtime·callCgoMmap(SB),NOSPLIT,$0
 	RET
 
 // func sysMunmap(addr unsafe.Pointer, n uintptr)
-TEXT runtime·sysMunmap(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sysMunmap(SB),NOSPLIT|NOFRAME,$0
 	MOVV	addr+0(FP), R4
 	MOVV	n+8(FP), R5
 	MOVV	$SYS_munmap, R11
@@ -514,7 +514,7 @@ TEXT runtime·sysMunmap(SB),NOSPLIT|NOFRAME,$0
 // Call the function stored in _cgo_munmap using the GCC calling convention.
 // This must be called on the system stack.
 // func callCgoMunmap(addr unsafe.Pointer, n uintptr)
-TEXT runtime·callCgoMunmap(SB),NOSPLIT,$0
+TEXT ·callCgoMunmap(SB),NOSPLIT,$0
 	MOVV	addr+0(FP), R4
 	MOVV	n+8(FP), R5
 	MOVV	_cgo_munmap(SB), R13
@@ -524,7 +524,7 @@ TEXT runtime·callCgoMunmap(SB),NOSPLIT,$0
 	RET
 
 // func madvise(addr unsafe.Pointer, n uintptr, flags int32)
-TEXT runtime·madvise(SB),NOSPLIT|NOFRAME,$0
+TEXT ·madvise(SB),NOSPLIT|NOFRAME,$0
 	MOVV	addr+0(FP), R4
 	MOVV	n+8(FP), R5
 	MOVW	flags+16(FP), R6
@@ -534,7 +534,7 @@ TEXT runtime·madvise(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // func futex(addr unsafe.Pointer, op int32, val uint32, ts, addr2 unsafe.Pointer, val3 uint32) int32
-TEXT runtime·futex(SB),NOSPLIT|NOFRAME,$0
+TEXT ·futex(SB),NOSPLIT|NOFRAME,$0
 	MOVV	addr+0(FP), R4
 	MOVW	op+8(FP), R5
 	MOVW	val+12(FP), R6
@@ -547,7 +547,7 @@ TEXT runtime·futex(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // int64 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
-TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0
+TEXT ·clone(SB),NOSPLIT|NOFRAME,$0
 	MOVW	flags+0(FP), R4
 	MOVV	stk+8(FP), R5
 
@@ -595,7 +595,7 @@ TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0
 	// In child, set up new stack
 	MOVV	R23, g_m(R24)
 	MOVV	R24, g
-	//CALL	runtime·stackcheck(SB)
+	//CALL	·stackcheck(SB)
 
 nog:
 	// Call fn
@@ -608,7 +608,7 @@ nog:
 	JMP	-3(PC)	// keep exiting
 
 // func sigaltstack(new, old *stackt)
-TEXT runtime·sigaltstack(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sigaltstack(SB),NOSPLIT|NOFRAME,$0
 	MOVV	new+0(FP), R4
 	MOVV	old+8(FP), R5
 	MOVV	$SYS_sigaltstack, R11
@@ -619,13 +619,13 @@ TEXT runtime·sigaltstack(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // func osyield()
-TEXT runtime·osyield(SB),NOSPLIT|NOFRAME,$0
+TEXT ·osyield(SB),NOSPLIT|NOFRAME,$0
 	MOVV	$SYS_sched_yield, R11
 	SYSCALL
 	RET
 
 // func sched_getaffinity(pid, len uintptr, buf *uintptr) int32
-TEXT runtime·sched_getaffinity(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sched_getaffinity(SB),NOSPLIT|NOFRAME,$0
 	MOVV	pid+0(FP), R4
 	MOVV	len+8(FP), R5
 	MOVV	buf+16(FP), R6
@@ -635,7 +635,7 @@ TEXT runtime·sched_getaffinity(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // func sbrk0() uintptr
-TEXT runtime·sbrk0(SB),NOSPLIT|NOFRAME,$0-8
+TEXT ·sbrk0(SB),NOSPLIT|NOFRAME,$0-8
 	// Implemented as brk(NULL).
 	MOVV	$0, R4
 	MOVV	$SYS_brk, R11
@@ -643,17 +643,17 @@ TEXT runtime·sbrk0(SB),NOSPLIT|NOFRAME,$0-8
 	MOVV	R4, ret+0(FP)
 	RET
 
-TEXT runtime·access(SB),$0-20
+TEXT ·access(SB),$0-20
 	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+16(FP) // for vet
 	RET
 
-TEXT runtime·connect(SB),$0-28
+TEXT ·connect(SB),$0-28
 	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+24(FP) // for vet
 	RET
 
-TEXT runtime·socket(SB),$0-20
+TEXT ·socket(SB),$0-20
 	MOVV	R0, 2(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+16(FP) // for vet
 	RET

@@ -28,7 +28,7 @@ TEXT _rt0_loong64_linux_lib(SB),NOSPLIT,$168
 	MOVV	R5, _rt0_loong64_linux_lib_argv<>(SB)
 
 	// Synchronous initialization.
-	MOVV	$runtime·libpreinit(SB), R19
+	MOVV	$·libpreinit(SB), R19
 	JAL	(R19)
 
 	// Create a new thread to do the runtime initialization and return.
@@ -44,7 +44,7 @@ nocgo:
 	MOVV	$_rt0_loong64_linux_lib_go(SB), R5
 	MOVV	R4, 8(R3)
 	MOVV	R5, 16(R3)
-	MOVV	$runtime·newosproc0(SB), R19
+	MOVV	$·newosproc0(SB), R19
 	JAL	(R19)
 
 restore:
@@ -56,7 +56,7 @@ restore:
 TEXT _rt0_loong64_linux_lib_go(SB),NOSPLIT,$0
 	MOVV	_rt0_loong64_linux_lib_argc<>(SB), R4
 	MOVV	_rt0_loong64_linux_lib_argv<>(SB), R5
-	MOVV	$runtime·rt0_go(SB),R19
+	MOVV	$·rt0_go(SB),R19
 	JMP	(R19)
 
 DATA _rt0_loong64_linux_lib_argc<>(SB)/8, $0
@@ -68,5 +68,5 @@ TEXT main(SB),NOSPLIT|NOFRAME,$0
 	// in external linking, glibc jumps to main with argc in R4
 	// and argv in R5
 
-	MOVV	$runtime·rt0_go(SB), R19
+	MOVV	$·rt0_go(SB), R19
 	JMP	(R19)

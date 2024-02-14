@@ -18,7 +18,7 @@ TEXT notok<>(SB),NOSPLIT,$0
 	MOVD	R8, (R8)
 	B	0(PC)
 
-TEXT runtime·open_trampoline(SB),NOSPLIT,$0
+TEXT ·open_trampoline(SB),NOSPLIT,$0
 	SUB	$16, RSP
 	MOVW	8(R0), R1	// arg 2 flags
 	MOVW	12(R0), R2	// arg 3 mode
@@ -28,12 +28,12 @@ TEXT runtime·open_trampoline(SB),NOSPLIT,$0
 	ADD	$16, RSP
 	RET
 
-TEXT runtime·close_trampoline(SB),NOSPLIT,$0
+TEXT ·close_trampoline(SB),NOSPLIT,$0
 	MOVW	0(R0), R0	// arg 1 fd
 	BL	libc_close(SB)
 	RET
 
-TEXT runtime·write_trampoline(SB),NOSPLIT,$0
+TEXT ·write_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 buf
 	MOVW	16(R0), R2	// arg 3 count
 	MOVW	0(R0), R0	// arg 1 fd
@@ -47,7 +47,7 @@ TEXT runtime·write_trampoline(SB),NOSPLIT,$0
 noerr:
 	RET
 
-TEXT runtime·read_trampoline(SB),NOSPLIT,$0
+TEXT ·read_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 buf
 	MOVW	16(R0), R2	// arg 3 count
 	MOVW	0(R0), R0	// arg 1 fd
@@ -61,7 +61,7 @@ TEXT runtime·read_trampoline(SB),NOSPLIT,$0
 noerr:
 	RET
 
-TEXT runtime·pipe_trampoline(SB),NOSPLIT,$0
+TEXT ·pipe_trampoline(SB),NOSPLIT,$0
 	BL	libc_pipe(SB)	// pointer already in R0
 	CMP	$0, R0
 	BEQ	3(PC)
@@ -69,14 +69,14 @@ TEXT runtime·pipe_trampoline(SB),NOSPLIT,$0
 	NEG	R0, R0
 	RET
 
-TEXT runtime·exit_trampoline(SB),NOSPLIT|NOFRAME,$0
+TEXT ·exit_trampoline(SB),NOSPLIT|NOFRAME,$0
 	MOVW	0(R0), R0
 	BL	libc_exit(SB)
 	MOVD	$1234, R0
 	MOVD	$1002, R1
 	MOVD	R0, (R1)	// fail hard
 
-TEXT runtime·raiseproc_trampoline(SB),NOSPLIT,$0
+TEXT ·raiseproc_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R19	// signal
 	BL	libc_getpid(SB)
 	// arg 1 pid already in R0 from getpid
@@ -84,7 +84,7 @@ TEXT runtime·raiseproc_trampoline(SB),NOSPLIT,$0
 	BL	libc_kill(SB)
 	RET
 
-TEXT runtime·mmap_trampoline(SB),NOSPLIT,$0
+TEXT ·mmap_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, R19
 	MOVD	0(R19), R0	// arg 1 addr
 	MOVD	8(R19), R1	// arg 2 len
@@ -105,7 +105,7 @@ ok:
 	MOVD	R1, 40(R19)	// ret 2 err
 	RET
 
-TEXT runtime·munmap_trampoline(SB),NOSPLIT,$0
+TEXT ·munmap_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 len
 	MOVD	0(R0), R0	// arg 1 addr
 	BL	libc_munmap(SB)
@@ -114,27 +114,27 @@ TEXT runtime·munmap_trampoline(SB),NOSPLIT,$0
 	BL	notok<>(SB)
 	RET
 
-TEXT runtime·madvise_trampoline(SB),NOSPLIT,$0
+TEXT ·madvise_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 len
 	MOVW	16(R0), R2	// arg 3 advice
 	MOVD	0(R0), R0	// arg 1 addr
 	BL	libc_madvise(SB)
 	RET
 
-TEXT runtime·mlock_trampoline(SB),NOSPLIT,$0
+TEXT ·mlock_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 len
 	MOVD	0(R0), R0	// arg 1 addr
 	BL	libc_mlock(SB)
 	RET
 
-TEXT runtime·setitimer_trampoline(SB),NOSPLIT,$0
+TEXT ·setitimer_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 new
 	MOVD	16(R0), R2	// arg 3 old
 	MOVW	0(R0), R0	// arg 1 which
 	BL	libc_setitimer(SB)
 	RET
 
-TEXT runtime·walltime_trampoline(SB),NOSPLIT,$0
+TEXT ·walltime_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, R1			// arg 2 timespec
 	MOVW	$CLOCK_REALTIME, R0 	// arg 1 clock_id
 	BL	libc_clock_gettime(SB)
@@ -142,7 +142,7 @@ TEXT runtime·walltime_trampoline(SB),NOSPLIT,$0
 
 GLOBL timebase<>(SB),NOPTR,$(machTimebaseInfo__size)
 
-TEXT runtime·nanotime_trampoline(SB),NOSPLIT,$40
+TEXT ·nanotime_trampoline(SB),NOSPLIT,$40
 	MOVD	R0, R19
 	BL	libc_mach_absolute_time(SB)
 	MOVD	R0, 0(R19)
@@ -168,7 +168,7 @@ initialized:
 	MOVW	R21, 12(R19)
 	RET
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVW	sig+8(FP), R0
 	MOVD	info+16(FP), R1
 	MOVD	ctx+24(FP), R2
@@ -176,7 +176,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	BL	(R11)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
+TEXT ·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 	// Save callee-save registers in the case of signal forwarding.
 	// Please refer to https://golang.org/issue/31827 .
 	SAVE_R19_TO_R28(8*4)
@@ -189,7 +189,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|TOPFRAME,$176
 
 	// this might be called in external code context,
 	// where g is not set.
-	BL	runtime·load_g(SB)
+	BL	·load_g(SB)
 
 #ifdef GOOS_ios
 	MOVD	RSP, R6
@@ -223,7 +223,7 @@ nog:
 #endif
 
 	// Call sigtrampgo.
-	MOVD	$runtime·sigtrampgo(SB), R11
+	MOVD	$·sigtrampgo(SB), R11
 	BL	(R11)
 
 #ifdef GOOS_ios
@@ -238,10 +238,10 @@ nog:
 
 	RET
 
-TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
-	JMP	runtime·sigtramp(SB)
+TEXT ·cgoSigtramp(SB),NOSPLIT,$0
+	JMP	·sigtramp(SB)
 
-TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$0
+TEXT ·sigprocmask_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 new
 	MOVD	16(R0), R2	// arg 3 old
 	MOVW	0(R0), R0	// arg 1 how
@@ -251,7 +251,7 @@ TEXT runtime·sigprocmask_trampoline(SB),NOSPLIT,$0
 	BL	notok<>(SB)
 	RET
 
-TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$0
+TEXT ·sigaction_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 new
 	MOVD	16(R0), R2	// arg 3 old
 	MOVW	0(R0), R0	// arg 1 how
@@ -261,12 +261,12 @@ TEXT runtime·sigaction_trampoline(SB),NOSPLIT,$0
 	BL	notok<>(SB)
 	RET
 
-TEXT runtime·usleep_trampoline(SB),NOSPLIT,$0
+TEXT ·usleep_trampoline(SB),NOSPLIT,$0
 	MOVW	0(R0), R0	// arg 1 usec
 	BL	libc_usleep(SB)
 	RET
 
-TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$0
+TEXT ·sysctl_trampoline(SB),NOSPLIT,$0
 	MOVW	8(R0), R1	// arg 2 miblen
 	MOVD	16(R0), R2	// arg 3 oldp
 	MOVD	24(R0), R3	// arg 4 oldlenp
@@ -276,7 +276,7 @@ TEXT runtime·sysctl_trampoline(SB),NOSPLIT,$0
 	BL	libc_sysctl(SB)
 	RET
 
-TEXT runtime·sysctlbyname_trampoline(SB),NOSPLIT,$0
+TEXT ·sysctlbyname_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 oldp
 	MOVD	16(R0), R2	// arg 3 oldlenp
 	MOVD	24(R0), R3	// arg 4 newp
@@ -286,11 +286,11 @@ TEXT runtime·sysctlbyname_trampoline(SB),NOSPLIT,$0
 	RET
 
 
-TEXT runtime·kqueue_trampoline(SB),NOSPLIT,$0
+TEXT ·kqueue_trampoline(SB),NOSPLIT,$0
 	BL	libc_kqueue(SB)
 	RET
 
-TEXT runtime·kevent_trampoline(SB),NOSPLIT,$0
+TEXT ·kevent_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 keventt
 	MOVW	16(R0), R2	// arg 3 nch
 	MOVD	24(R0), R3	// arg 4 ev
@@ -307,7 +307,7 @@ TEXT runtime·kevent_trampoline(SB),NOSPLIT,$0
 ok:
 	RET
 
-TEXT runtime·fcntl_trampoline(SB),NOSPLIT,$0
+TEXT ·fcntl_trampoline(SB),NOSPLIT,$0
 	SUB	$16, RSP
 	MOVD	R0, R19
 	MOVW	0(R19), R0	// arg 1 fd
@@ -328,7 +328,7 @@ noerr:
 	ADD	$16, RSP
 	RET
 
-TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$0
+TEXT ·sigaltstack_trampoline(SB),NOSPLIT,$0
 #ifdef GOOS_ios
 	// sigaltstack on iOS is not supported and will always
 	// run the signal handler on the main stack, so our sigtramp has
@@ -349,7 +349,7 @@ TEXT runtime·sigaltstack_trampoline(SB),NOSPLIT,$0
 // mstart_stub is the first function executed on a new thread started by pthread_create.
 // It just does some low-level setup and then calls mstart.
 // Note: called with the C calling convention.
-TEXT runtime·mstart_stub(SB),NOSPLIT,$160
+TEXT ·mstart_stub(SB),NOSPLIT,$160
 	// R0 points to the m.
 	// We are already on m's g0 stack.
 
@@ -360,7 +360,7 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$160
 	MOVD	m_g0(R0), g
 	BL	·save_g(SB)
 
-	BL	runtime·mstart(SB)
+	BL	·mstart(SB)
 
 	// Restore callee-save registers.
 	RESTORE_R19_TO_R28(8)
@@ -373,24 +373,24 @@ TEXT runtime·mstart_stub(SB),NOSPLIT,$160
 
 	RET
 
-TEXT runtime·pthread_attr_init_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_init_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0	// arg 1 attr
 	BL	libc_pthread_attr_init(SB)
 	RET
 
-TEXT runtime·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_getstacksize_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 size
 	MOVD	0(R0), R0	// arg 1 attr
 	BL	libc_pthread_attr_getstacksize(SB)
 	RET
 
-TEXT runtime·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_attr_setdetachstate_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 state
 	MOVD	0(R0), R0	// arg 1 attr
 	BL	libc_pthread_attr_setdetachstate(SB)
 	RET
 
-TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_create_trampoline(SB),NOSPLIT,$0
 	SUB	$16, RSP
 	MOVD	0(R0), R1	// arg 2 state
 	MOVD	8(R0), R2	// arg 3 start
@@ -400,76 +400,76 @@ TEXT runtime·pthread_create_trampoline(SB),NOSPLIT,$0
 	ADD	$16, RSP
 	RET
 
-TEXT runtime·raise_trampoline(SB),NOSPLIT,$0
+TEXT ·raise_trampoline(SB),NOSPLIT,$0
 	MOVW	0(R0), R0	// arg 1 sig
 	BL	libc_raise(SB)
 	RET
 
-TEXT runtime·pthread_mutex_init_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_mutex_init_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 attr
 	MOVD	0(R0), R0	// arg 1 mutex
 	BL	libc_pthread_mutex_init(SB)
 	RET
 
-TEXT runtime·pthread_mutex_lock_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_mutex_lock_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0	// arg 1 mutex
 	BL	libc_pthread_mutex_lock(SB)
 	RET
 
-TEXT runtime·pthread_mutex_unlock_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_mutex_unlock_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0	// arg 1 mutex
 	BL	libc_pthread_mutex_unlock(SB)
 	RET
 
-TEXT runtime·pthread_cond_init_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_cond_init_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 attr
 	MOVD	0(R0), R0	// arg 1 cond
 	BL	libc_pthread_cond_init(SB)
 	RET
 
-TEXT runtime·pthread_cond_wait_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_cond_wait_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 mutex
 	MOVD	0(R0), R0	// arg 1 cond
 	BL	libc_pthread_cond_wait(SB)
 	RET
 
-TEXT runtime·pthread_cond_timedwait_relative_np_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_cond_timedwait_relative_np_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 mutex
 	MOVD	16(R0), R2	// arg 3 timeout
 	MOVD	0(R0), R0	// arg 1 cond
 	BL	libc_pthread_cond_timedwait_relative_np(SB)
 	RET
 
-TEXT runtime·pthread_cond_signal_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_cond_signal_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R0	// arg 1 cond
 	BL	libc_pthread_cond_signal(SB)
 	RET
 
-TEXT runtime·pthread_self_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_self_trampoline(SB),NOSPLIT,$0
 	MOVD	R0, R19		// R19 is callee-save
 	BL	libc_pthread_self(SB)
 	MOVD	R0, 0(R19)	// return value
 	RET
 
-TEXT runtime·pthread_kill_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_kill_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 sig
 	MOVD	0(R0), R0	// arg 1 thread
 	BL	libc_pthread_kill(SB)
 	RET
 
-TEXT runtime·pthread_key_create_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_key_create_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 destructor
 	MOVD	0(R0), R0	// arg 1 *key
 	BL	libc_pthread_key_create(SB)
 	RET
 
-TEXT runtime·pthread_setspecific_trampoline(SB),NOSPLIT,$0
+TEXT ·pthread_setspecific_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// arg 2 value
 	MOVD	0(R0), R0	// arg 1 key
 	BL	libc_pthread_setspecific(SB)
 	RET
 
-TEXT runtime·osinit_hack_trampoline(SB),NOSPLIT,$0
+TEXT ·osinit_hack_trampoline(SB),NOSPLIT,$0
 	MOVD	$0, R0	// arg 1 val
 	BL	libc_notify_is_valid_token(SB)
 	BL	libc_xpc_date_create_from_current(SB)
@@ -488,7 +488,7 @@ TEXT runtime·osinit_hack_trampoline(SB),NOSPLIT,$0
 // }
 // syscall must be called on the g0 stack with the
 // C calling convention (use libcCall).
-TEXT runtime·syscall(SB),NOSPLIT,$0
+TEXT ·syscall(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, 8(RSP)
 
@@ -536,7 +536,7 @@ ok:
 // }
 // syscallX must be called on the g0 stack with the
 // C calling convention (use libcCall).
-TEXT runtime·syscallX(SB),NOSPLIT,$0
+TEXT ·syscallX(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, (RSP)
 
@@ -564,7 +564,7 @@ ok:
 
 // syscallPtr is like syscallX except that the libc function reports an
 // error by returning NULL and setting errno.
-TEXT runtime·syscallPtr(SB),NOSPLIT,$0
+TEXT ·syscallPtr(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, (RSP)
 
@@ -606,7 +606,7 @@ ok:
 // }
 // syscall6 must be called on the g0 stack with the
 // C calling convention (use libcCall).
-TEXT runtime·syscall6(SB),NOSPLIT,$0
+TEXT ·syscall6(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, 8(RSP)
 
@@ -657,7 +657,7 @@ ok:
 // }
 // syscall6X must be called on the g0 stack with the
 // C calling convention (use libcCall).
-TEXT runtime·syscall6X(SB),NOSPLIT,$0
+TEXT ·syscall6X(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, (RSP)
 
@@ -705,7 +705,7 @@ ok:
 // }
 // syscall9 must be called on the g0 stack with the
 // C calling convention (use libcCall).
-TEXT runtime·syscall9(SB),NOSPLIT,$0
+TEXT ·syscall9(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, 8(RSP)
 
@@ -746,7 +746,7 @@ ok:
 // syscall_x509 is for crypto/x509. It is like syscall6 but does not check for errors,
 // takes 5 uintptrs and 1 float64, and only returns one value,
 // for use with standard C ABI functions.
-TEXT runtime·syscall_x509(SB),NOSPLIT,$0
+TEXT ·syscall_x509(SB),NOSPLIT,$0
 	SUB	$16, RSP	// push structure pointer
 	MOVD	R0, (RSP)
 
@@ -764,12 +764,12 @@ TEXT runtime·syscall_x509(SB),NOSPLIT,$0
 	MOVD	R0, 56(R2)	// save r1
 	RET
 
-TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
+TEXT ·issetugid_trampoline(SB),NOSPLIT,$0
 	BL	libc_issetugid(SB)
 	RET
 
 // mach_vm_region_trampoline calls mach_vm_region from libc.
-TEXT runtime·mach_vm_region_trampoline(SB),NOSPLIT,$0
+TEXT ·mach_vm_region_trampoline(SB),NOSPLIT,$0
 	MOVD	0(R0), R1	// address
 	MOVD	8(R0), R2	// size
 	MOVW	16(R0), R3	// flavor
@@ -783,7 +783,7 @@ TEXT runtime·mach_vm_region_trampoline(SB),NOSPLIT,$0
 
 // proc_regionfilename_trampoline calls proc_regionfilename for
 // the current process.
-TEXT runtime·proc_regionfilename_trampoline(SB),NOSPLIT,$0
+TEXT ·proc_regionfilename_trampoline(SB),NOSPLIT,$0
 	MOVD	8(R0), R1	// address
 	MOVD	16(R0), R2	// buffer
 	MOVD	24(R0), R3	// buffer_size

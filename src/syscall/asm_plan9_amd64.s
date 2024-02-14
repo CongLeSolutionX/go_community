@@ -160,7 +160,7 @@ TEXT ·seek(SB),NOSPLIT,$48-56
 	JNE	ok6
 	MOVQ	AX, newoffset+32(FP)
 
-	CALL	syscall·errstr(SB)
+	CALL	·errstr(SB)
 	MOVQ	SP, SI
 	JMP	copyresult6
 

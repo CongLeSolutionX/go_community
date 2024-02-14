@@ -30,4 +30,4 @@ TEXT _rt0_arm_linux1(SB),NOSPLIT|NOFRAME,$0
 	SWI	$0 // this will trigger SIGILL on OABI systems
 
 	MOVM.IA.W (R13), [R0-R1]
-	B	runtime·rt0_go(SB)
+	B	·rt0_go(SB)

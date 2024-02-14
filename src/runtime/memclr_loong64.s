@@ -6,7 +6,7 @@
 #include "textflag.h"
 
 // func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
-TEXT runtime·memclrNoHeapPointers<ABIInternal>(SB),NOSPLIT,$0-16
+TEXT ·memclrNoHeapPointers<ABIInternal>(SB),NOSPLIT,$0-16
 #ifndef GOEXPERIMENT_regabiargs
 	MOVV	ptr+0(FP), R4
 	MOVV	n+8(FP), R5

@@ -45,13 +45,13 @@
 #define SYS_tgkill		250
 #define SYS_pipe2		317
 
-TEXT runtime·exit(SB),NOSPLIT|NOFRAME,$0-4
+TEXT ·exit(SB),NOSPLIT|NOFRAME,$0-4
 	MOVW	code+0(FP), R3
 	SYSCALL	$SYS_exit_group
 	RET
 
 // func exitThread(wait *atomic.Uint32)
-TEXT runtime·exitThread(SB),NOSPLIT|NOFRAME,$0-8
+TEXT ·exitThread(SB),NOSPLIT|NOFRAME,$0-8
 	MOVD	wait+0(FP), R1
 	// We're done using the stack.
 	MOVW	$0, R2
@@ -61,7 +61,7 @@ TEXT runtime·exitThread(SB),NOSPLIT|NOFRAME,$0-8
 	SYSCALL	$SYS_exit
 	JMP	0(PC)
 
-TEXT runtime·open(SB),NOSPLIT|NOFRAME,$0-20
+TEXT ·open(SB),NOSPLIT|NOFRAME,$0-20
 	MOVD	name+0(FP), R3
 	MOVW	mode+8(FP), R4
 	MOVW	perm+12(FP), R5
@@ -71,7 +71,7 @@ TEXT runtime·open(SB),NOSPLIT|NOFRAME,$0-20
 	MOVW	R3, ret+16(FP)
 	RET
 
-TEXT runtime·closefd(SB),NOSPLIT|NOFRAME,$0-12
+TEXT ·closefd(SB),NOSPLIT|NOFRAME,$0-12
 	MOVW	fd+0(FP), R3
 	SYSCALL	$SYS_close
 	BVC	2(PC)
@@ -79,7 +79,7 @@ TEXT runtime·closefd(SB),NOSPLIT|NOFRAME,$0-12
 	MOVW	R3, ret+8(FP)
 	RET
 
-TEXT runtime·write1(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·write1(SB),NOSPLIT|NOFRAME,$0-28
 	MOVD	fd+0(FP), R3
 	MOVD	p+8(FP), R4
 	MOVW	n+16(FP), R5
@@ -89,7 +89,7 @@ TEXT runtime·write1(SB),NOSPLIT|NOFRAME,$0-28
 	MOVW	R3, ret+24(FP)
 	RET
 
-TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·read(SB),NOSPLIT|NOFRAME,$0-28
 	MOVW	fd+0(FP), R3
 	MOVD	p+8(FP), R4
 	MOVW	n+16(FP), R5
@@ -100,7 +100,7 @@ TEXT runtime·read(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func pipe2(flags int32) (r, w int32, errno int32)
-TEXT runtime·pipe2(SB),NOSPLIT|NOFRAME,$0-20
+TEXT ·pipe2(SB),NOSPLIT|NOFRAME,$0-20
 	ADD	$FIXED_FRAME+8, R1, R3
 	MOVW	flags+0(FP), R4
 	SYSCALL	$SYS_pipe2
@@ -108,7 +108,7 @@ TEXT runtime·pipe2(SB),NOSPLIT|NOFRAME,$0-20
 	RET
 
 // func usleep(usec uint32)
-TEXT runtime·usleep(SB),NOSPLIT,$16-4
+TEXT ·usleep(SB),NOSPLIT,$16-4
 	MOVW	usec+0(FP), R3
 
 	// Use magic constant 0x8637bd06 and shift right 51
@@ -130,12 +130,12 @@ TEXT runtime·usleep(SB),NOSPLIT,$16-4
 	SYSCALL	$SYS_nanosleep
 	RET
 
-TEXT runtime·gettid(SB),NOSPLIT,$0-4
+TEXT ·gettid(SB),NOSPLIT,$0-4
 	SYSCALL	$SYS_gettid
 	MOVW	R3, ret+0(FP)
 	RET
 
-TEXT runtime·raise(SB),NOSPLIT|NOFRAME,$0
+TEXT ·raise(SB),NOSPLIT|NOFRAME,$0
 	SYSCALL	$SYS_getpid
 	MOVW	R3, R14
 	SYSCALL	$SYS_gettid
@@ -145,7 +145,7 @@ TEXT runtime·raise(SB),NOSPLIT|NOFRAME,$0
 	SYSCALL	$SYS_tgkill
 	RET
 
-TEXT runtime·raiseproc(SB),NOSPLIT|NOFRAME,$0
+TEXT ·raiseproc(SB),NOSPLIT|NOFRAME,$0
 	SYSCALL	$SYS_getpid
 	MOVW	R3, R3	// arg 1 pid
 	MOVW	sig+0(FP), R4	// arg 2
@@ -164,14 +164,14 @@ TEXT ·tgkill(SB),NOSPLIT|NOFRAME,$0-24
 	SYSCALL $SYS_tgkill
 	RET
 
-TEXT runtime·setitimer(SB),NOSPLIT|NOFRAME,$0-24
+TEXT ·setitimer(SB),NOSPLIT|NOFRAME,$0-24
 	MOVW	mode+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
 	SYSCALL	$SYS_setitimer
 	RET
 
-TEXT runtime·timer_create(SB),NOSPLIT,$0-28
+TEXT ·timer_create(SB),NOSPLIT,$0-28
 	MOVW	clockid+0(FP), R3
 	MOVD	sevp+8(FP), R4
 	MOVD	timerid+16(FP), R5
@@ -179,7 +179,7 @@ TEXT runtime·timer_create(SB),NOSPLIT,$0-28
 	MOVW	R3, ret+24(FP)
 	RET
 
-TEXT runtime·timer_settime(SB),NOSPLIT,$0-28
+TEXT ·timer_settime(SB),NOSPLIT,$0-28
 	MOVW	timerid+0(FP), R3
 	MOVW	flags+4(FP), R4
 	MOVD	new+8(FP), R5
@@ -188,13 +188,13 @@ TEXT runtime·timer_settime(SB),NOSPLIT,$0-28
 	MOVW	R3, ret+24(FP)
 	RET
 
-TEXT runtime·timer_delete(SB),NOSPLIT,$0-12
+TEXT ·timer_delete(SB),NOSPLIT,$0-12
 	MOVW	timerid+0(FP), R3
 	SYSCALL	$SYS_timer_delete
 	MOVW	R3, ret+8(FP)
 	RET
 
-TEXT runtime·mincore(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·mincore(SB),NOSPLIT|NOFRAME,$0-28
 	MOVD	addr+0(FP), R3
 	MOVD	n+8(FP), R4
 	MOVD	dst+16(FP), R5
@@ -204,13 +204,13 @@ TEXT runtime·mincore(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$16-12
+TEXT ·walltime(SB),NOSPLIT,$16-12
 	MOVD	R1, R15		// R15 is unchanged by C code
 	MOVD	g_m(g), R21	// R21 = m
 
 	MOVD	$0, R3		// CLOCK_REALTIME
 
-	MOVD	runtime·vdsoClockgettimeSym(SB), R12	// Check for VDSO availability
+	MOVD	·vdsoClockgettimeSym(SB), R12	// Check for VDSO availability
 	CMP	R12, R0
 	BEQ	fallback
 
@@ -248,7 +248,7 @@ noswitch:
 	// g here.
 	// Also don't save g if we are already on the signal stack.
 	// We won't get a nested signal.
-	MOVBZ	runtime·iscgo(SB), R22
+	MOVBZ	·iscgo(SB), R22
 	CMP	R22, $0
 	BNE	nosaveg
 	MOVD	m_gsignal(R21), R22	// g.m.gsignal
@@ -298,13 +298,13 @@ fallback:
 	MOVD	40(R1), R5
 	JMP	return
 
-TEXT runtime·nanotime1(SB),NOSPLIT,$16-8
+TEXT ·nanotime1(SB),NOSPLIT,$16-8
 	MOVD	$1, R3		// CLOCK_MONOTONIC
 
 	MOVD	R1, R15		// R15 is unchanged by C code
 	MOVD	g_m(g), R21	// R21 = m
 
-	MOVD	runtime·vdsoClockgettimeSym(SB), R12	// Check for VDSO availability
+	MOVD	·vdsoClockgettimeSym(SB), R12	// Check for VDSO availability
 	CMP	R12, R0
 	BEQ	fallback
 
@@ -342,7 +342,7 @@ noswitch:
 	// g here.
 	// Also don't save g if we are already on the signal stack.
 	// We won't get a nested signal.
-	MOVBZ	runtime·iscgo(SB), R22
+	MOVBZ	·iscgo(SB), R22
 	CMP	R22, $0
 	BNE	nosaveg
 	MOVD	m_gsignal(R21), R22	// g.m.gsignal
@@ -396,7 +396,7 @@ fallback:
 	MOVD	40(R1), R5
 	JMP	return
 
-TEXT runtime·rtsigprocmask(SB),NOSPLIT|NOFRAME,$0-28
+TEXT ·rtsigprocmask(SB),NOSPLIT|NOFRAME,$0-28
 	MOVW	how+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
@@ -406,7 +406,7 @@ TEXT runtime·rtsigprocmask(SB),NOSPLIT|NOFRAME,$0-28
 	MOVD	R0, 0xf0(R0)	// crash
 	RET
 
-TEXT runtime·rt_sigaction(SB),NOSPLIT|NOFRAME,$0-36
+TEXT ·rt_sigaction(SB),NOSPLIT|NOFRAME,$0-36
 	MOVD	sig+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
@@ -419,7 +419,7 @@ TEXT runtime·rt_sigaction(SB),NOSPLIT|NOFRAME,$0-36
 
 #ifdef GOARCH_ppc64le
 // Call the function stored in _cgo_sigaction using the GCC calling convention.
-TEXT runtime·callCgoSigaction(SB),NOSPLIT,$0
+TEXT ·callCgoSigaction(SB),NOSPLIT,$0
 	MOVD    sig+0(FP), R3
 	MOVD    new+8(FP), R4
 	MOVD    old+16(FP), R5
@@ -437,7 +437,7 @@ TEXT runtime·callCgoSigaction(SB),NOSPLIT,$0
 	RET
 #endif
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVW	sig+8(FP), R3
 	MOVD	info+16(FP), R4
 	MOVD	ctx+24(FP), R5
@@ -448,9 +448,9 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	RET
 
 #ifdef GO_PPC64X_HAS_FUNCDESC
-DEFINE_PPC64X_FUNCDESC(runtime·sigtramp, sigtramp<>)
+DEFINE_PPC64X_FUNCDESC(·sigtramp, sigtramp<>)
 // cgo isn't supported on ppc64, but we need to supply a cgoSigTramp function.
-DEFINE_PPC64X_FUNCDESC(runtime·cgoSigtramp, sigtramp<>)
+DEFINE_PPC64X_FUNCDESC(·cgoSigtramp, sigtramp<>)
 TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 #else
 // ppc64le doesn't need function descriptors
@@ -460,7 +460,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 // Note, it is assumed this is always called indirectly (e.g via
 // a function pointer) as R2 may not be preserved when calling this
 // function. In those cases, the caller preserves their R2.
-TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sigtramp(SB),NOSPLIT|NOFRAME,$0
 #endif
 	// This is called with ELF calling conventions. Convert to Go.
 	// Allocate space for argument storage to call runtime.sigtrampgo.
@@ -468,17 +468,17 @@ TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
 
 	// this might be called in external code context,
 	// where g is not set.
-	MOVBZ	runtime·iscgo(SB), R6
+	MOVBZ	·iscgo(SB), R6
 	CMP	R6, $0
 	BEQ	2(PC)
-	BL	runtime·load_g(SB)
+	BL	·load_g(SB)
 
 	// R3,R4,R5 already hold the arguments. Forward them on.
 	// TODO: Indirectly call runtime.sigtrampgo to avoid the linker's static NOSPLIT stack
 	// overflow detection. It thinks this might be called on a small Go stack, but this is only
 	// called from a larger pthread or sigaltstack stack. Can the checker be improved to not
 	// flag a direct call here?
-	MOVD	$runtime·sigtrampgo<ABIInternal>(SB), R12
+	MOVD	$·sigtrampgo<ABIInternal>(SB), R12
 	MOVD	R12, CTR
 	BL	(CTR)
 	// Restore R2 (TOC pointer) in the event it might be used later in this function.
@@ -489,7 +489,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 #ifdef GOARCH_ppc64le
-TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
+TEXT ·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// The stack unwinder, presumably written in C, may not be able to
 	// handle Go frame correctly. So, this function is NOFRAME, and we
 	// save/restore LR manually, and obey ELFv2 calling conventions.
@@ -499,7 +499,7 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	MOVD	$0, R0
 
 	// If no traceback function, do usual sigtramp.
-	MOVD	runtime·cgoTraceback(SB), R6
+	MOVD	·cgoTraceback(SB), R6
 	CMP	$0, R6
 	BEQ	sigtramp
 
@@ -510,7 +510,7 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	BEQ	sigtramp
 
 	// Inspect the g in TLS without clobbering R30/R31 via runtime.load_g.
-	MOVD	runtime·tls_g(SB), R9
+	MOVD	·tls_g(SB), R9
 	MOVD	0(R9), R9
 
 	// Figure out if we are currently in a cgo call.
@@ -544,8 +544,8 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// function with proper unwind info, and will then call back here.
 	// The first three arguments, and the fifth, are already in registers.
 	// Set the two remaining arguments now.
-	MOVD	runtime·cgoTraceback(SB), R6
-	MOVD	$runtime·sigtramp(SB), R8
+	MOVD	·cgoTraceback(SB), R6
+	MOVD	$·sigtramp(SB), R8
 	MOVD	_cgo_callers(SB), R12
 	MOVD	R12, CTR
 	MOVD	R10, LR // restore LR
@@ -553,7 +553,7 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 
 sigtramp:
 	MOVD	R10, LR // restore LR
-	JMP	runtime·sigtramp(SB)
+	JMP	·sigtramp(SB)
 
 sigtrampnog:
 	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
@@ -563,7 +563,7 @@ sigtrampnog:
 
 	// Lock sigprofCallersUse (cas from 0 to 1).
 	MOVW	$1, R7
-	MOVD	$runtime·sigprofCallersUse(SB), R8
+	MOVD	$·sigprofCallersUse(SB), R8
 	SYNC
 	LWAR    (R8), R6
 	CMPW    $0, R6
@@ -576,9 +576,9 @@ sigtrampnog:
 	// It will call back to sigprofNonGo, which will ignore the
 	// arguments passed in registers.
 	// First three arguments to traceback function are in registers already.
-	MOVD	runtime·cgoTraceback(SB), R6
-	MOVD	$runtime·sigprofCallers(SB), R7
-	MOVD	$runtime·sigprofNonGoWrapper<>(SB), R8
+	MOVD	·cgoTraceback(SB), R6
+	MOVD	$·sigprofCallers(SB), R7
+	MOVD	$·sigprofNonGoWrapper<>(SB), R8
 	MOVD	_cgo_callers(SB), R12
 	MOVD	R12, CTR
 	MOVD	R10, LR // restore LR
@@ -586,19 +586,19 @@ sigtrampnog:
 #endif
 
 // Used by cgoSigtramp to inspect without clobbering R30/R31 via runtime.load_g.
-GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8
+GLOBL ·tls_g+0(SB), TLSBSS+DUPOK, $8
 
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sigprofNonGoWrapper<>(SB),NOSPLIT|NOFRAME,$0
 	// This is called from C code. Callee save registers must be saved.
 	// R3,R4,R5 hold arguments, and allocate argument space to call sigprofNonGo.
 	STACK_AND_SAVE_HOST_TO_GO_ABI(32)
 
-	CALL	runtime·sigprofNonGo<ABIInternal>(SB)
+	CALL	·sigprofNonGo<ABIInternal>(SB)
 
 	UNSTACK_AND_RESTORE_GO_TO_HOST_ABI(32)
 	RET
 
-TEXT runtime·mmap(SB),NOSPLIT|NOFRAME,$0
+TEXT ·mmap(SB),NOSPLIT|NOFRAME,$0
 	MOVD	addr+0(FP), R3
 	MOVD	n+8(FP), R4
 	MOVW	prot+16(FP), R5
@@ -616,7 +616,7 @@ ok:
 	MOVD	$0, err+40(FP)
 	RET
 
-TEXT runtime·munmap(SB),NOSPLIT|NOFRAME,$0
+TEXT ·munmap(SB),NOSPLIT|NOFRAME,$0
 	MOVD	addr+0(FP), R3
 	MOVD	n+8(FP), R4
 	SYSCALL	$SYS_munmap
@@ -624,7 +624,7 @@ TEXT runtime·munmap(SB),NOSPLIT|NOFRAME,$0
 	MOVD	R0, 0xf0(R0)
 	RET
 
-TEXT runtime·madvise(SB),NOSPLIT|NOFRAME,$0
+TEXT ·madvise(SB),NOSPLIT|NOFRAME,$0
 	MOVD	addr+0(FP), R3
 	MOVD	n+8(FP), R4
 	MOVW	flags+16(FP), R5
@@ -634,7 +634,7 @@ TEXT runtime·madvise(SB),NOSPLIT|NOFRAME,$0
 
 // int64 futex(int32 *uaddr, int32 op, int32 val,
 //	struct timespec *timeout, int32 *uaddr2, int32 val2);
-TEXT runtime·futex(SB),NOSPLIT|NOFRAME,$0
+TEXT ·futex(SB),NOSPLIT|NOFRAME,$0
 	MOVD	addr+0(FP), R3
 	MOVW	op+8(FP), R4
 	MOVW	val+12(FP), R5
@@ -648,7 +648,7 @@ TEXT runtime·futex(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // int64 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
-TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0
+TEXT ·clone(SB),NOSPLIT|NOFRAME,$0
 	MOVW	flags+0(FP), R3
 	MOVD	stk+8(FP), R4
 
@@ -676,7 +676,7 @@ TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0
 
 	// In child, on new stack.
 	// initialize essential registers
-	BL	runtime·reginit(SB)
+	BL	·reginit(SB)
 	MOVD	-32(R1), R7
 	CMP	R7, $1234
 	BEQ	2(PC)
@@ -701,7 +701,7 @@ TEXT runtime·clone(SB),NOSPLIT|NOFRAME,$0
 	// In child, set up new stack
 	MOVD	R7, g_m(R8)
 	MOVD	R8, g
-	//CALL	runtime·stackcheck(SB)
+	//CALL	·stackcheck(SB)
 
 nog:
 	// Call fn
@@ -713,7 +713,7 @@ nog:
 	SYSCALL	$SYS_exit
 	BR	-2(PC)	// keep exiting
 
-TEXT runtime·sigaltstack(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sigaltstack(SB),NOSPLIT|NOFRAME,$0
 	MOVD	new+0(FP), R3
 	MOVD	old+8(FP), R4
 	SYSCALL	$SYS_sigaltstack
@@ -721,11 +721,11 @@ TEXT runtime·sigaltstack(SB),NOSPLIT|NOFRAME,$0
 	MOVD	R0, 0xf0(R0)  // crash
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT|NOFRAME,$0
+TEXT ·osyield(SB),NOSPLIT|NOFRAME,$0
 	SYSCALL	$SYS_sched_yield
 	RET
 
-TEXT runtime·sched_getaffinity(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sched_getaffinity(SB),NOSPLIT|NOFRAME,$0
 	MOVD	pid+0(FP), R3
 	MOVD	len+8(FP), R4
 	MOVD	buf+16(FP), R5
@@ -736,24 +736,24 @@ TEXT runtime·sched_getaffinity(SB),NOSPLIT|NOFRAME,$0
 	RET
 
 // func sbrk0() uintptr
-TEXT runtime·sbrk0(SB),NOSPLIT|NOFRAME,$0
+TEXT ·sbrk0(SB),NOSPLIT|NOFRAME,$0
 	// Implemented as brk(NULL).
 	MOVD	$0, R3
 	SYSCALL	$SYS_brk
 	MOVD	R3, ret+0(FP)
 	RET
 
-TEXT runtime·access(SB),$0-20
+TEXT ·access(SB),$0-20
 	MOVD	R0, 0(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+16(FP) // for vet
 	RET
 
-TEXT runtime·connect(SB),$0-28
+TEXT ·connect(SB),$0-28
 	MOVD	R0, 0(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+24(FP) // for vet
 	RET
 
-TEXT runtime·socket(SB),$0-20
+TEXT ·socket(SB),$0-20
 	MOVD	R0, 0(R0) // unimplemented, only needed for android; declared in stubs_linux.go
 	MOVW	R0, ret+16(FP) // for vet
 	RET

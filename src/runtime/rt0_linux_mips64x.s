@@ -34,5 +34,5 @@ TEXT main(SB),NOSPLIT|NOFRAME,$0
 	SRLV	$32, R31, RSB
 	SLLV	$32, RSB
 
-	MOVV	$runtime·rt0_go(SB), R1
+	MOVV	$·rt0_go(SB), R1
 	JMP	(R1)

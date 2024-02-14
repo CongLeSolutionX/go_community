@@ -6,8 +6,8 @@
 
 // See memclrNoHeapPointers Go doc for important implementation constraints.
 
-// void runtime·memclrNoHeapPointers(void*, uintptr)
-TEXT runtime·memclrNoHeapPointers<ABIInternal>(SB),NOSPLIT,$0-16
+// void ·memclrNoHeapPointers(void*, uintptr)
+TEXT ·memclrNoHeapPointers<ABIInternal>(SB),NOSPLIT,$0-16
 	// X10 = ptr
 	// X11 = n
 

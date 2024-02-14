@@ -32,5 +32,5 @@ TEXT _rt0_amd64_windows_lib(SB),NOSPLIT|NOFRAME,$40
 TEXT _rt0_amd64_windows_lib_go(SB),NOSPLIT|NOFRAME,$0
 	MOVQ  $0, DI
 	MOVQ	$0, SI
-	MOVQ	$runtime·rt0_go(SB), AX
+	MOVQ	$·rt0_go(SB), AX
 	JMP	AX

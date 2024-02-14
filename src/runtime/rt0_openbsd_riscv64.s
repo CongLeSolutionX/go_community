@@ -10,5 +10,5 @@ TEXT _rt0_riscv64_openbsd(SB),NOSPLIT|NOFRAME,$0
 	JMP	main(SB)
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
-	MOV	$runtime·rt0_go(SB), T0
+	MOV	$·rt0_go(SB), T0
 	JALR	ZERO, T0

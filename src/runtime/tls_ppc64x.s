@@ -22,15 +22,15 @@
 // If !iscgo, this is a no-op.
 //
 // NOTE: setg_gcc<> assume this clobbers only R31.
-TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·save_g(SB),NOSPLIT|NOFRAME,$0-0
 #ifndef GOOS_aix
 #ifndef GOOS_openbsd
-	MOVBZ	runtime·iscgo(SB), R31
+	MOVBZ	·iscgo(SB), R31
 	CMP	R31, $0
 	BEQ	nocgo
 #endif
 #endif
-	MOVD	runtime·tls_g(SB), R31
+	MOVD	·tls_g(SB), R31
 	MOVD	g, 0(R31)
 
 nocgo:
@@ -45,9 +45,9 @@ nocgo:
 // usual Go registers aren't set up.
 //
 // NOTE: _cgo_topofstack assumes this only clobbers g (R30), and R31.
-TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0-0
-	MOVD	runtime·tls_g(SB), R31
+TEXT ·load_g(SB),NOSPLIT|NOFRAME,$0-0
+	MOVD	·tls_g(SB), R31
 	MOVD	0(R31), g
 	RET
 
-GLOBL runtime·tls_g+0(SB), TLSBSS+DUPOK, $8
+GLOBL ·tls_g+0(SB), TLSBSS+DUPOK, $8

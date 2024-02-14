@@ -33,10 +33,10 @@ TEXT callCfunction<>(SB),	NOSPLIT|NOFRAME,$0
 // https://www.ibm.com/docs/en/aix/7.2?topic=overview-runtime-process-stack
 // NOT USING GO CALLING CONVENTION
 // runtime.asmsyscall6 is a function descriptor to the real asmsyscall6.
-DATA	runtime·asmsyscall6+0(SB)/8, $asmsyscall6<>(SB)
-DATA	runtime·asmsyscall6+8(SB)/8, $TOC(SB)
-DATA	runtime·asmsyscall6+16(SB)/8, $0
-GLOBL	runtime·asmsyscall6(SB), NOPTR, $24
+DATA	·asmsyscall6+0(SB)/8, $asmsyscall6<>(SB)
+DATA	·asmsyscall6+8(SB)/8, $TOC(SB)
+DATA	·asmsyscall6+16(SB)/8, $0
+GLOBL	·asmsyscall6(SB), NOPTR, $24
 
 TEXT asmsyscall6<>(SB),NOSPLIT,$256
 	// Save libcall for later
@@ -63,7 +63,7 @@ TEXT asmsyscall6<>(SB),NOSPLIT,$256
 	BNE	skiperrno
 
 	// Save errno in libcall
-	BL	runtime·load_g(SB)
+	BL	·load_g(SB)
 	MOVD	g_m(g), R4
 	MOVD	(m_mOS + mOS_perrno)(R4), R9
 	MOVW	0(R9), R9
@@ -75,7 +75,7 @@ skiperrno:
 	RET
 
 
-TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
+TEXT ·sigfwd(SB),NOSPLIT,$0-32
 	MOVW	sig+8(FP), R3
 	MOVD	info+16(FP), R4
 	MOVD	ctx+24(FP), R5
@@ -88,15 +88,15 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVD	R0, CTR
 	BL	(CTR)
 	MOVD	40(R1), R2
-	BL	runtime·reginit(SB)
+	BL	·reginit(SB)
 	RET
 
 
 // runtime.sigtramp is a function descriptor to the real sigtramp.
-DATA	runtime·sigtramp+0(SB)/8, $sigtramp<>(SB)
-DATA	runtime·sigtramp+8(SB)/8, $TOC(SB)
-DATA	runtime·sigtramp+16(SB)/8, $0
-GLOBL	runtime·sigtramp(SB), NOPTR, $24
+DATA	·sigtramp+0(SB)/8, $sigtramp<>(SB)
+DATA	·sigtramp+8(SB)/8, $TOC(SB)
+DATA	·sigtramp+16(SB)/8, $0
+GLOBL	·sigtramp(SB), NOPTR, $24
 
 // This function must not have any frame as we want to control how
 // every registers are used.
@@ -105,7 +105,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	MOVD	LR, R0
 	MOVD	R0, 16(R1)
 	// initialize essential registers (just in case)
-	BL	runtime·reginit(SB)
+	BL	·reginit(SB)
 
 	// Note that we are executing on altsigstack here, so we have
 	// more stack available than NOSPLIT would have us believe.
@@ -120,7 +120,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	MOVD	R14, 80(R1)
 	MOVD	R15, 88(R1)
 
-	BL	runtime·load_g(SB)
+	BL	·load_g(SB)
 
 	CMP	$0, g
 	BEQ	sigtramp // g == nil
@@ -129,7 +129,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	BEQ	sigtramp	// g.m == nil
 
 	// Save m->libcall. We need to do this because we
-	// might get interrupted by a signal in runtime·asmcgocall.
+	// might get interrupted by a signal in ·asmcgocall.
 	MOVD	(m_libcall+libcall_fn)(R6), R7
 	MOVD	R7, 96(R1)
 	MOVD	(m_libcall+libcall_args)(R6), R7
@@ -150,7 +150,7 @@ sigtramp:
 	MOVW	R3, FIXED_FRAME+0(R1)
 	MOVD	R4, FIXED_FRAME+8(R1)
 	MOVD	R5, FIXED_FRAME+16(R1)
-	MOVD	$runtime·sigtrampgo(SB), R12
+	MOVD	$·sigtrampgo(SB), R12
 	MOVD	R12, CTR
 	BL	(CTR)
 
@@ -192,17 +192,17 @@ exit:
 	BR (LR)
 
 // runtime.tstart is a function descriptor to the real tstart.
-DATA	runtime·tstart+0(SB)/8, $tstart<>(SB)
-DATA	runtime·tstart+8(SB)/8, $TOC(SB)
-DATA	runtime·tstart+16(SB)/8, $0
-GLOBL	runtime·tstart(SB), NOPTR, $24
+DATA	·tstart+0(SB)/8, $tstart<>(SB)
+DATA	·tstart+8(SB)/8, $TOC(SB)
+DATA	·tstart+16(SB)/8, $0
+GLOBL	·tstart(SB), NOPTR, $24
 
 TEXT tstart<>(SB),NOSPLIT,$0
 	XOR	 R0, R0 // reset R0
 
 	// set g
 	MOVD	m_g0(R3), g
-	BL	runtime·save_g(SB)
+	BL	·save_g(SB)
 	MOVD	R3, g_m(g)
 
 	// Layout new m scheduler stack on os stack.
@@ -214,7 +214,7 @@ TEXT tstart<>(SB),NOSPLIT,$0
 	MOVD	R3, g_stackguard0(g)
 	MOVD	R3, g_stackguard1(g)
 
-	BL	runtime·mstart(SB)
+	BL	·mstart(SB)
 
 	MOVD R0, R3
 	RET
@@ -228,18 +228,18 @@ TEXT tstart<>(SB),NOSPLIT,$0
 	MOVD	R0, CTR			\
 	BL	(CTR)			\
 	MOVD	40(R1), R2		\
-	BL runtime·reginit(SB)
+	BL ·reginit(SB)
 
 
-// Runs on OS stack, called from runtime·osyield.
-TEXT runtime·osyield1(SB),NOSPLIT,$0
+// Runs on OS stack, called from ·osyield.
+TEXT ·osyield1(SB),NOSPLIT,$0
 	MOVD	$libc_sched_yield(SB), R12
 	CSYSCALL()
 	RET
 
 
-// Runs on OS stack, called from runtime·sigprocmask.
-TEXT runtime·sigprocmask1(SB),NOSPLIT,$0-24
+// Runs on OS stack, called from ·sigprocmask.
+TEXT ·sigprocmask1(SB),NOSPLIT,$0-24
 	MOVD	how+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
@@ -247,22 +247,22 @@ TEXT runtime·sigprocmask1(SB),NOSPLIT,$0-24
 	CSYSCALL()
 	RET
 
-// Runs on OS stack, called from runtime·usleep.
-TEXT runtime·usleep1(SB),NOSPLIT,$0-4
+// Runs on OS stack, called from ·usleep.
+TEXT ·usleep1(SB),NOSPLIT,$0-4
 	MOVW	us+0(FP), R3
 	MOVD	$libc_usleep(SB), R12
 	CSYSCALL()
 	RET
 
-// Runs on OS stack, called from runtime·exit.
-TEXT runtime·exit1(SB),NOSPLIT,$0-4
+// Runs on OS stack, called from ·exit.
+TEXT ·exit1(SB),NOSPLIT,$0-4
 	MOVW	code+0(FP), R3
 	MOVD	$libc_exit(SB), R12
 	CSYSCALL()
 	RET
 
-// Runs on OS stack, called from runtime·write1.
-TEXT runtime·write2(SB),NOSPLIT,$0-28
+// Runs on OS stack, called from ·write1.
+TEXT ·write2(SB),NOSPLIT,$0-28
 	MOVD	fd+0(FP), R3
 	MOVD	p+8(FP), R4
 	MOVW	n+16(FP), R5
@@ -271,16 +271,16 @@ TEXT runtime·write2(SB),NOSPLIT,$0-28
 	MOVW	R3, ret+24(FP)
 	RET
 
-// Runs on OS stack, called from runtime·pthread_attr_init.
-TEXT runtime·pthread_attr_init1(SB),NOSPLIT,$0-12
+// Runs on OS stack, called from ·pthread_attr_init.
+TEXT ·pthread_attr_init1(SB),NOSPLIT,$0-12
 	MOVD	attr+0(FP), R3
 	MOVD	$libpthread_attr_init(SB), R12
 	CSYSCALL()
 	MOVW	R3, ret+8(FP)
 	RET
 
-// Runs on OS stack, called from runtime·pthread_attr_setstacksize.
-TEXT runtime·pthread_attr_setstacksize1(SB),NOSPLIT,$0-20
+// Runs on OS stack, called from ·pthread_attr_setstacksize.
+TEXT ·pthread_attr_setstacksize1(SB),NOSPLIT,$0-20
 	MOVD	attr+0(FP), R3
 	MOVD	size+8(FP), R4
 	MOVD	$libpthread_attr_setstacksize(SB), R12
@@ -288,8 +288,8 @@ TEXT runtime·pthread_attr_setstacksize1(SB),NOSPLIT,$0-20
 	MOVW	R3, ret+16(FP)
 	RET
 
-// Runs on OS stack, called from runtime·pthread_setdetachstate.
-TEXT runtime·pthread_attr_setdetachstate1(SB),NOSPLIT,$0-20
+// Runs on OS stack, called from ·pthread_setdetachstate.
+TEXT ·pthread_attr_setdetachstate1(SB),NOSPLIT,$0-20
 	MOVD	attr+0(FP), R3
 	MOVW	state+8(FP), R4
 	MOVD	$libpthread_attr_setdetachstate(SB), R12
@@ -297,8 +297,8 @@ TEXT runtime·pthread_attr_setdetachstate1(SB),NOSPLIT,$0-20
 	MOVW	R3, ret+16(FP)
 	RET
 
-// Runs on OS stack, called from runtime·pthread_create.
-TEXT runtime·pthread_create1(SB),NOSPLIT,$0-36
+// Runs on OS stack, called from ·pthread_create.
+TEXT ·pthread_create1(SB),NOSPLIT,$0-36
 	MOVD	tid+0(FP), R3
 	MOVD	attr+8(FP), R4
 	MOVD	fn+16(FP), R5
@@ -308,8 +308,8 @@ TEXT runtime·pthread_create1(SB),NOSPLIT,$0-36
 	MOVW	R3, ret+32(FP)
 	RET
 
-// Runs on OS stack, called from runtime·sigaction.
-TEXT runtime·sigaction1(SB),NOSPLIT,$0-24
+// Runs on OS stack, called from ·sigaction.
+TEXT ·sigaction1(SB),NOSPLIT,$0-24
 	MOVD	sig+0(FP), R3
 	MOVD	new+8(FP), R4
 	MOVD	old+16(FP), R5
