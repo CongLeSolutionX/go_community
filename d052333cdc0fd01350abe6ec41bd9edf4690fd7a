@@ -16,6 +16,40 @@
       "message": "Thanks for the feedback. I\u0027ve answered Alexander\u0027s questions, incorporated the changes that Emmanuel suggested, and added \u0027testNotParallel\u0027 to hopefully fix the race detector error.",
       "revId": "d052333cdc0fd01350abe6ec41bd9edf4690fd7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bda36b84_cf9b2b65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-02-14T22:05:43Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "d052333cdc0fd01350abe6ec41bd9edf4690fd7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd1c73f9_d8d1cacc",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-02-14T22:05:43Z",
+      "side": 1,
+      "message": "One second is a long time, but there\u0027s not really any limit to the long tail of how slow a CI machine can be. In general, it\u0027s preferable to not set an expected maximum bound on how long something can take other than the overall test timeout. If this hangs, the test will time out and fail.",
+      "revId": "d052333cdc0fd01350abe6ec41bd9edf4690fd7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
