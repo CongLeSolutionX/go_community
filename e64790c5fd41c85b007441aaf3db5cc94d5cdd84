@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72f60ed0_a46f6450",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "We just checked that t.nextwhen \u003d\u003d 0 in the line above; t.nextwhen !\u003d 0 will never be true here.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c156b67f_cdd680ca",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "This condition will never be true, we just checked for it above.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f024535f_515ac338",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "Adding timerRemoved to this case does not seem to simplify the code, given the introduction of another switch below.  Is this for future work?",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8848671b_44a4f699",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "We just checked that t.nextwhen \u003d\u003d 0.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f474fb7_6740c78c",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "We just checked that t.nextwhen !\u003d 0.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a6deaa_cbedce6e",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "Just checked nextwhen.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba335a99_fd9d0a66",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "Just checked nextwhen.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7352476f_d9da7bde",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "Just checked nextwhen, similarly in the else clause.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2ab41d3_c48db01a",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:40:43Z",
+      "side": 1,
+      "message": "Just checked nextwhen, similarly in the else clause.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
