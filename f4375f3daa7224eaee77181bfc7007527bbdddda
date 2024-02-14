@@ -72,6 +72,24 @@
       "message": "This CL is ready for review.\nAdd runtime package Secondaries as reviewers, because the tests involved belong to the runtime package.",
       "revId": "f4375f3daa7224eaee77181bfc7007527bbdddda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e23a47_d02cbc14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-02-14T08:11:58Z",
+      "side": 1,
+      "message": "To clarify, not all, but most, of the tests that were affected (i.e. slowed down testing of individual packages) were runtime team related.\n\n```\n##### os/user with tag osusergo\nok      os/user 0.038s\n\n##### hash/maphash purego implementation\nok      hash/maphash    0.118s\n\n##### GOMAXPROCS\u003d2 runtime -cpu\u003d1,2,4 -quick\nok      runtime 185.082s (Originally about 150s)\n\n##### GOEXPERIMENT\u003drangefunc go test iter\nok      iter    0.020s\n\n##### Testing without libgcc.\nok      net     0.187s\nok      os/user 0.042s\n\n##### internal linking of -buildmode\u003dpie\nok      reflect 2.218s\nok      os/user 0.045s\n\n##### sync -cpu\u003d10\nok      sync    0.969s\n\n##### Testing race detector\nok      runtime/race    42.210s （Originally about 25s）\nok      flag    1.062s\nok      net     1.165s\nok      os      1.165s\nok      os/exec 2.101s\nok      encoding/gob    1.095s\nok      flag    1.056s\nok      os/exec 2.097s\n\n##### Testing cgo\nok      cmd/cgo/internal/test   0.433s\nok      cmd/cgo/internal/test   0.595s\nok      cmd/cgo/internal/test   0.638s\nok      cmd/cgo/internal/test   1.193s\nok      cmd/cgo/internal/test   0.467s\n\n##### ../test\nok      cmd/internal/testdir    74.343s\n\n##### API check\nok      cmd/api 81.654s (Originally about 65s)\n\n##### API release note check\nok      cmd/relnote     0.032s\n```",
+      "parentUuid": "009e635a_74c64d25",
+      "revId": "f4375f3daa7224eaee77181bfc7007527bbdddda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
