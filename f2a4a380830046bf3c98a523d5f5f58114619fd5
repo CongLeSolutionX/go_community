@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9536397f_f03ba4be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:26:41Z",
+      "side": 1,
+      "message": "Looks like the states got effectively merged in CL 337309, and I didn\u0027t notice.",
+      "revId": "f2a4a380830046bf3c98a523d5f5f58114619fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
