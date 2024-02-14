@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ef04fb02_4f217866",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3305801
+      },
+      "writtenOn": "2024-02-14T16:14:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "15e5b4e6_1ec04b84",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4a7b96b3_a56622f4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -78,6 +102,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c50ed40_8feff28b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3305801
+      },
+      "writtenOn": "2024-02-14T16:14:16Z",
+      "side": 1,
+      "message": "The race detector failed, because I didn\u0027t add \u0027testNotParallel\u0027 to the test.\n\nIt needs this to be set, because it uses the test helpers \u0027SetPendingDialHooks\u0027, and they set package-global variables.\n\nI\u0027ve now fixed that.",
+      "parentUuid": "b0481bea_e8bbdb1f",
+      "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1256e94d_4530a7c1",
@@ -91,6 +133,24 @@
       "writtenOn": "2024-02-14T13:35:22Z",
       "side": 1,
       "message": "Please separate these lines and appropriately close the clientServerTest so\n\n      cst :\u003d newClientServerTest(t, mode, h)\n      defer cst.close()\n      ts :\u003d cst.ts",
+      "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd4b4bf3_8177ac4f",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 3305801
+      },
+      "writtenOn": "2024-02-14T16:14:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1256e94d_4530a7c1",
       "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -112,6 +172,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2a27665_e7ddaf15",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 3305801
+      },
+      "writtenOn": "2024-02-14T16:14:16Z",
+      "side": 1,
+      "message": "No, that doesn\u0027t work, because Transport.roundTrip exits before calling getConn if the context is already cancelled.",
+      "parentUuid": "07088848_9c0ce9f6",
+      "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d30670d9_23eaf696",
@@ -125,6 +203,24 @@
       "writtenOn": "2024-02-14T13:38:00Z",
       "side": 1,
       "message": "What\u0027s is the purpose of calling SetPendingDialHooks?",
+      "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62ddc317_f8f1ada5",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 3305801
+      },
+      "writtenOn": "2024-02-14T16:14:16Z",
+      "side": 1,
+      "message": "As mentioned above, the context needs to be cancelled at exactly the right time in order to trigger the bug.\n\nIt needs to be after client.Do is called (because of the context check in Transport.roundTrip), but it needs to be early enough that waitConn.ctx is set to nil before it is checked in Transport.dialConnFor.",
+      "parentUuid": "d30670d9_23eaf696",
       "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
