@@ -2961,7 +2961,7 @@ func handoffp(pp *p) {
 
 	// The scheduler lock cannot be held when calling wakeNetPoller below
 	// because wakeNetPoller may call wakep which may call startm.
-	when := nobarrierWakeTime(pp)
+	when := pp.timers.wakeTime()
 	pidleput(pp, 0)
 	unlock(&sched.lock)
 
@@ -3158,7 +3158,7 @@ top:
 	// which may steal timers. It's important that between now
 	// and then, nothing blocks, so these numbers remain mostly
 	// relevant.
-	now, pollUntil, _ := checkTimers(pp, 0)
+	now, pollUntil, _ := pp.timers.check(0)
 
 	// Try to schedule the trace reader.
 	if traceEnabled() || traceShuttingDown() {
@@ -3575,7 +3575,7 @@ func stealWork(now int64) (gp *g, inheritTime bool, rnow, pollUntil int64, newWo
 			// timerpMask tells us whether the P may have timers at all. If it
 			// can't, no need to check at all.
 			if stealTimersOrRunNextG && timerpMask.read(enum.position()) {
-				tnow, w, ran := checkTimers(p2, now)
+				tnow, w, ran := p2.timers.check(now)
 				now = tnow
 				if w != 0 && (pollUntil == 0 || w < pollUntil) {
 					pollUntil = w
@@ -3641,7 +3641,7 @@ func checkRunqsNoP(allpSnapshot []*p, idlepMaskSnapshot pMask) *p {
 func checkTimersNoP(allpSnapshot []*p, timerpMaskSnapshot pMask, pollUntil int64) int64 {
 	for id, p2 := range allpSnapshot {
 		if timerpMaskSnapshot.read(uint32(id)) {
-			w := nobarrierWakeTime(p2)
+			w := p2.timers.wakeTime()
 			if w != 0 && (pollUntil == 0 || w < pollUntil) {
 				pollUntil = w
 			}
@@ -5418,7 +5418,7 @@ func (pp *p) init(id int32) {
 			pp.raceprocctx = raceproccreate()
 		}
 	}
-	lockInit(&pp.timersLock, lockRankTimers)
+	lockInit(&pp.timers.lock, lockRankTimers)
 
 	// This P may get timers when it starts running. Set the mask here
 	// since the P may not go through pidleget (notably P 0 on startup).
@@ -5450,7 +5450,7 @@ func (pp *p) destroy() {
 	}
 
 	// Move all timers to the local P.
-	adoptTimers(pp)
+	getg().m.p.ptr().timers.take(&pp.timers)
 
 	// Flush p's write barrier buffer.
 	if gcphase != _GCoff {
@@ -5481,7 +5481,7 @@ func (pp *p) destroy() {
 	gfpurge(pp)
 	traceProcFree(pp)
 	if raceenabled {
-		if pp.timerRaceCtx != 0 {
+		if pp.timers.raceCtx != 0 {
 			// The race detector code uses a callback to fetch
 			// the proc context, so arrange for that callback
 			// to see the right thing.
@@ -5491,8 +5491,8 @@ func (pp *p) destroy() {
 			phold := mp.p.ptr()
 			mp.p.set(pp)
 
-			racectxend(pp.timerRaceCtx)
-			pp.timerRaceCtx = 0
+			racectxend(pp.timers.raceCtx)
+			pp.timers.raceCtx = 0
 
 			mp.p.set(phold)
 		}
@@ -5843,7 +5843,7 @@ func checkdead() {
 
 	// There are no goroutines running, so we can look at the P's.
 	for _, pp := range allp {
-		if len(pp.timers) > 0 {
+		if len(pp.timers.heap) > 0 {
 			return
 		}
 	}
@@ -6179,7 +6179,7 @@ func schedtrace(detailed bool) {
 			} else {
 				print("nil")
 			}
-			print(" runqsize=", t-h, " gfreecnt=", pp.gFree.n, " timerslen=", len(pp.timers), "\n")
+			print(" runqsize=", t-h, " gfreecnt=", pp.gFree.n, " timerslen=", len(pp.timers.heap), "\n")
 		} else {
 			// In non-detailed mode format lengths of per-P run queues as:
 			// [len1 len2 len3 len4]
