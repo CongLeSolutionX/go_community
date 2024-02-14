@@ -74,6 +74,40 @@
       "message": "Please separate these lines and appropriately close the clientServerTest so\n\n      cst :\u003d newClientServerTest(t, mode, h)\n      defer cst.close()\n      ts :\u003d cst.ts",
       "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07088848_9c0ce9f6",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2024-02-14T13:38:00Z",
+      "side": 1,
+      "message": "Shouldn\u0027t cancel be called right away to obtain canceled context upfront?",
+      "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d30670d9_23eaf696",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2024-02-14T13:38:00Z",
+      "side": 1,
+      "message": "What\u0027s is the purpose of calling SetPendingDialHooks?",
+      "revId": "a116e6146508f00cad4bac4b08616338eebe7e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
