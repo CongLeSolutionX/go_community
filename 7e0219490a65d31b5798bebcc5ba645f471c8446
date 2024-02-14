@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8983335_c88f19cb",
+        "filename": "src/syscall/netlink_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3305798
+      },
+      "writtenOn": "2024-02-14T14:09:50Z",
+      "side": 1,
+      "message": "There was quite a lot of strange and bogus changes that mkall.sh produced, I must\u0027ve missed this one.",
+      "parentUuid": "5f7545b3_93b0e23d",
+      "revId": "7e0219490a65d31b5798bebcc5ba645f471c8446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24a6428f_496abd6e",
         "filename": "src/syscall/zerrors_freebsd_386.go",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2024-02-13T22:53:07Z",
       "side": 1,
       "message": "In general we don\u0027t want to arbitrarily update these files.  We want people to use the golang.org/x/sys/unix package if they need any newer funtionality.  We should only update these files where they are incorrect.",
+      "revId": "7e0219490a65d31b5798bebcc5ba645f471c8446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb1f6a0a_f32f8b4e",
+        "filename": "src/syscall/zerrors_freebsd_386.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3305798
+      },
+      "writtenOn": "2024-02-14T14:09:50Z",
+      "side": 1,
+      "message": "I guess I would have to be way more selective about to commit in such a change.\nre newer functionality: the main purpose is to add AF_NETLINK as known constant to FreeBSD, and thus allow FreeBSD to use the existing netlink related syscalls.",
+      "parentUuid": "24a6428f_496abd6e",
       "revId": "7e0219490a65d31b5798bebcc5ba645f471c8446",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
