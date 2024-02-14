@@ -74,6 +74,7 @@ type timers struct {
 
 	// The when field of the first entry on the timer heap.
 	// This is 0 if the timer heap is empty.
+	// NOTE(rsc): There may be races here.
 	timer0When atomic.Int64
 
 	// The earliest known nextwhen field of a timer with
@@ -107,6 +108,7 @@ const (
 // It returns the current m and the status prior to the lock.
 // The caller must call unlock with the same m and an updated status.
 func (t *timer) lock() (state uint32, mp *m) {
+	acquireLockRank(lockRankTimer)
 	for {
 		state := t.state.Load()
 		if state&timerLocked != 0 {
@@ -125,6 +127,7 @@ func (t *timer) lock() (state uint32, mp *m) {
 
 // unlock unlocks the timer.
 func (t *timer) unlock(state uint32, mp *m) {
+	releaseLockRank(lockRankTimer)
 	if t.state.Load()&timerLocked == 0 {
 		badTimer()
 	}

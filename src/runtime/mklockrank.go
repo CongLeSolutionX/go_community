@@ -80,6 +80,7 @@ assistQueue,
 sched < allg, allp;
 allp, wakeableSleep < timers;
 timers < netpollInit;
+timers < timer;
 
 # Channels
 scavenge, sweep, testR, wakeableSleep < hchan;
