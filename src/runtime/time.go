@@ -187,7 +187,7 @@ func timeSleep(ns int64) {
 // timer function, goroutineReady, before the goroutine has been parked.
 func resetForSleep(gp *g, ut unsafe.Pointer) bool {
 	t := (*timer)(ut)
-	resettimer(t, t.nextWhen)
+	t.reset(t.nextWhen)
 	return true
 }
 
@@ -201,7 +201,7 @@ func startTimer(t *timer) {
 	if t.state.Load() != 0 {
 		throw("startTimer called with initialized timer")
 	}
-	resettimer(t, t.when)
+	t.reset(t.when)
 }
 
 // stopTimer stops a timer.
@@ -209,7 +209,7 @@ func startTimer(t *timer) {
 //
 //go:linkname stopTimer time.stopTimer
 func stopTimer(t *timer) bool {
-	return deltimer(t)
+	return t.stop()
 }
 
 // resetTimer resets an inactive timer, adding it to the heap.
@@ -221,14 +221,14 @@ func resetTimer(t *timer, when int64) bool {
 	if raceenabled {
 		racerelease(unsafe.Pointer(t))
 	}
-	return resettimer(t, when)
+	return t.reset(when)
 }
 
 // modTimer modifies an existing timer.
 //
 //go:linkname modTimer time.modTimer
 func modTimer(t *timer, when, period int64) {
-	modtimer(t, when, period, t.f, t.arg, t.seq)
+	t.modify(when, period, t.f, t.arg, t.seq)
 }
 
 // Go runtime.
@@ -260,11 +260,11 @@ func doaddtimer(pp *p, t *timer) {
 	pp.numTimers.Add(1)
 }
 
-// deltimer deletes the timer t. It may be on some other P, so we can't
-// actually remove it from the timers heap. We can only mark it as deleted.
+// stop deletes the timer t. It may be on some other P, so we can't
+// actually remove it from the timers heap. We can only mark it as stopped.
 // It will be removed in due course by the P whose heap it is on.
-// Reports whether the timer was removed before it was run.
-func deltimer(t *timer) bool {
+// Reports whether the timer was stopped before it was run.
+func (t *timer) stop() bool {
 	state, mp := t.lock()
 	if state&timerHeaped != 0 && (state&timerNextWhen == 0 || t.nextWhen != 0) {
 		// Timer pending: stop it.
@@ -307,10 +307,10 @@ func dodeltimer0(pp *p) {
 	}
 }
 
-// modtimer modifies an existing timer.
+// modify modifies an existing timer.
 // This is called by the netpoll code or time.Ticker.Reset or time.Timer.Reset.
 // Reports whether the timer was modified before it was run.
-func modtimer(t *timer, when, period int64, f func(any, uintptr), arg any, seq uintptr) bool {
+func (t *timer) modify(when, period int64, f func(any, uintptr), arg any, seq uintptr) bool {
 	if when <= 0 {
 		throw("timer when must be positive")
 	}
@@ -374,13 +374,13 @@ func modtimer(t *timer, when, period int64, f func(any, uintptr), arg any, seq u
 	return pending
 }
 
-// resettimer resets the time when a timer should fire.
+// reset resets the time when a timer should fire.
 // If used for an inactive timer, the timer will become active.
 // This should be called instead of addtimer if the timer value has been,
 // or may have been, used previously.
 // Reports whether the timer was active and was stopped.
-func resettimer(t *timer, when int64) bool {
-	return modtimer(t, when, t.period, t.f, t.arg, t.seq)
+func (t *timer) reset(when int64) bool {
+	return t.modify(when, t.period, t.f, t.arg, t.seq)
 }
 
 // cleantimers cleans up the head of the timer queue. This speeds up
