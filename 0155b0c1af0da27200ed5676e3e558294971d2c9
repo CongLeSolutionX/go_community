@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8cae0e2_ab114af8",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-02-14T22:44:07Z",
+      "side": 1,
+      "message": "Personally I\u0027d rather see parentheses around \u0026\u0026 within ||.  Not everybody remembers the precedence.\n```suggestion\n\tif status \u003d\u003d timerWaiting || (status \u003d\u003d timerModified \u0026\u0026 t.nextwhen !\u003d 0) {\n```",
+      "revId": "0155b0c1af0da27200ed5676e3e558294971d2c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
