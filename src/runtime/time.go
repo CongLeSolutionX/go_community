@@ -449,52 +449,31 @@ func adoptTimers(pp *p) {
 // is expected to have locked the timers for pp.
 func moveTimers(pp *p, timers []*timer) {
 	for _, t := range timers {
-	loop:
-		for {
-			switch s := t.status.Load(); s {
-			case timerWaiting:
-				if !t.status.CompareAndSwap(s, timerLocked) {
-					continue
-				}
-				t.pp = 0
+		status, mp := t.lock()
+		switch status {
+		case timerWaiting:
+			t.pp = 0
+			// Unlock before add, to avoid append (allocation and write barriers)
+			// while holding lock. This would be correct even if the world wasn't
+			// stopped (but it is), and it makes staticlockranking happy.
+			t.unlock(status, mp)
+			doaddtimer(pp, t)
+			continue
+		case timerModified:
+			t.pp = 0
+			if t.nextwhen != 0 {
+				t.when = t.nextwhen
+				status = timerWaiting
+				t.unlock(status, mp)
 				doaddtimer(pp, t)
-				if !t.status.CompareAndSwap(timerLocked, timerWaiting) {
-					badTimer()
-				}
-				break loop
-			case timerModified:
-				if !t.status.CompareAndSwap(s, timerLocked) {
-					continue
-				}
-				t.pp = 0
-				if t.nextwhen != 0 {
-					if t.nextwhen == 0 {
-						badTimer()
-					}
-					t.when = t.nextwhen
-					doaddtimer(pp, t)
-					if !t.status.CompareAndSwap(timerLocked, timerWaiting) {
-						badTimer()
-					}
-				} else {
-					if t.nextwhen != 0 {
-						badTimer()
-					}
-					if !t.status.CompareAndSwap(timerLocked, timerRemoved) {
-						continue
-					}
-				}
-				break loop
-			case timerLocked:
-				// Loop until the modification is complete.
-				osyield()
-			case timerRemoved:
-				// We should not see these status values in a timers heap.
-				badTimer()
-			default:
-				badTimer()
+				continue
+			} else {
+				status = timerRemoved
 			}
+		case timerRemoved:
+			badTimer()
 		}
+		t.unlock(status, mp)
 	}
 }
 
