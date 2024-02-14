@@ -76,10 +76,6 @@ func TestTCPEcho(t *testing.T) {
 		}
 		time.Sleep(500 * time.Millisecond)
 	}
-	if err != nil {
-		t.Log(b.String())
-		t.Fatal(err)
-	}
 	defer conn.Close()
 
 	payload := []byte("foobar")

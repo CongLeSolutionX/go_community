@@ -837,7 +837,6 @@ func (check *Checker) rangeStmt(inner stmtContext, s *ast.RangeStmt) {
 	type identType = ast.Ident
 	identName := func(n *identType) string { return n.Name }
 	sKey, sValue := s.Key, s.Value
-	var sExtra ast.Expr = nil
 	isDef := s.Tok == token.DEFINE
 	rangeVar := s.X
 	noNewVarPos := inNode(s, s.TokPos)
@@ -864,8 +863,6 @@ func (check *Checker) rangeStmt(inner stmtContext, s *ast.RangeStmt) {
 			check.softErrorf(sKey, InvalidIterVar, "range over %s permits no iteration variables", &x)
 		case v == nil && sValue != nil:
 			check.softErrorf(sValue, InvalidIterVar, "range over %s permits only one iteration variable", &x)
-		case sExtra != nil:
-			check.softErrorf(sExtra, InvalidIterVar, "range clause permits at most two iteration variables")
 		case isFunc && ((k == nil) != (sKey == nil) || (v == nil) != (sValue == nil)):
 			var count string
 			switch {
