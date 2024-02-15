@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe545682_81649deb",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1453,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-02-15T10:06:36Z",
+      "side": 1,
+      "message": "I did that initially but the calls weren\u0027t being inlined and had enough of an impact to make the compiler 2~3% slower.\nI\u0027ve tried again and now the call does get inlined, not sure if it\u0027s because other changes put it under some magic complexity or if before I didn\u0027t get the benefits of PGO because I didn\u0027t use make.bash.",
+      "parentUuid": "11cafff9_41c55369",
+      "revId": "a414f61e5712c08d27db221b343e4c6b7a43db62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4842fcc5_2ff20b41",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-02-14T15:05:00Z",
       "side": 1,
       "message": "Similar here for this block. Better to keep in another file as a separate function.",
+      "revId": "a414f61e5712c08d27db221b343e4c6b7a43db62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a472928f_be09cb8b",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-02-15T10:06:36Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "4842fcc5_2ff20b41",
       "revId": "a414f61e5712c08d27db221b343e4c6b7a43db62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
