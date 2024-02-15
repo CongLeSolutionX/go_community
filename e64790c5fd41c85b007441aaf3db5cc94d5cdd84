@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fde6338f_942d347e",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Leftover refactoring assertions. Removed.",
+      "parentUuid": "72f60ed0_a46f6450",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c156b67f_cdd680ca",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-02-14T22:40:43Z",
       "side": 1,
       "message": "This condition will never be true, we just checked for it above.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6f7fe83_859a65b4",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c156b67f_cdd680ca",
       "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c104d71_40016043",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "It does simplify the code somewhat, since all three were doing the mp \u003d acuiqrem() dance, and now that\u0027s only in one place. It gets even simpler in future CLs.",
+      "parentUuid": "f024535f_515ac338",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8848671b_44a4f699",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-02-14T22:40:43Z",
       "side": 1,
       "message": "We just checked that t.nextwhen \u003d\u003d 0.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4c5037_791015e9",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8848671b_44a4f699",
       "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a206bd9_8e870acb",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f474fb7_6740c78c",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4a6deaa_cbedce6e",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-02-14T22:40:43Z",
       "side": 1,
       "message": "Just checked nextwhen.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be3c2ad6_64ad7389",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4a6deaa_cbedce6e",
       "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +228,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfdee1f5_0e90cf33",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba335a99_fd9d0a66",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7352476f_d9da7bde",
@@ -137,6 +263,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "828f3039_faffb25b",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7352476f_d9da7bde",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2ab41d3_c48db01a",
@@ -150,6 +294,24 @@
       "writtenOn": "2024-02-14T22:40:43Z",
       "side": 1,
       "message": "Just checked nextwhen, similarly in the else clause.",
+      "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b3cce7b_c27262f4",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-15T22:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2ab41d3_c48db01a",
       "revId": "e64790c5fd41c85b007441aaf3db5cc94d5cdd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
