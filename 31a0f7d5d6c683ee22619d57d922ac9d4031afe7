@@ -34,6 +34,24 @@
       "parentUuid": "19a1d1b1_921239fc",
       "revId": "31a0f7d5d6c683ee22619d57d922ac9d4031afe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "367a5716_8262a147",
+        "filename": "src/encoding/xml/read_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-15T21:48:57Z",
+      "side": 1,
+      "message": "Right, I understand that we currently accept other tokens, and I\u0027m wondering whether it would work to accept whitespace only.  It would be more strict than before, but the existing tests would continue to pass.  Maybe.  Basically I\u0027m thinking that if we are breaking our own tests with this change, then we\u0027re sure to break other people\u0027s too.  If we don\u0027t break our tests we have a better chance of not breaking other\u0027s.",
+      "parentUuid": "7ecd3028_3df70916",
+      "revId": "31a0f7d5d6c683ee22619d57d922ac9d4031afe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
