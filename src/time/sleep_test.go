@@ -79,7 +79,7 @@ func TestAfterFunc(t *testing.T) {
 	<-c
 }
 
-func TestAfterStress(t *testing.T) {
+func TestTickerStress(t *testing.T) {
 	var stop atomic.Bool
 	go func() {
 		for !stop.Load() {
@@ -94,6 +94,33 @@ func TestAfterStress(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		<-ticker.C
 	}
+	ticker.Stop()
+	stop.Store(true)
+}
+
+func TestTickerConcurrentStress(t *testing.T) {
+	var stop atomic.Bool
+	go func() {
+		for !stop.Load() {
+			runtime.GC()
+			// Yield so that the OS can wake up the timer thread,
+			// so that it can generate channel sends for the main goroutine,
+			// which will eventually set stop = 1 for us.
+			Sleep(Nanosecond)
+		}
+	}()
+	ticker := NewTicker(1)
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for i := 0; i < 100; i++ {
+				<-ticker.C
+			}
+		}()
+	}
+	wg.Wait()
 	ticker.Stop()
 	stop.Store(true)
 }
@@ -138,7 +165,6 @@ func TestAfterFuncStarvation(t *testing.T) {
 }
 
 func benchmark(b *testing.B, bench func(n int)) {
-
 	// Create equal number of garbage timers on each P before starting
 	// the benchmark.
 	var wg sync.WaitGroup
@@ -267,6 +293,7 @@ func TestAfter(t *testing.T) {
 }
 
 func TestAfterTick(t *testing.T) {
+	t.Parallel()
 	const Count = 10
 	Delta := 100 * Millisecond
 	if testing.Short() {
@@ -406,6 +433,7 @@ func TestTimerStopStress(t *testing.T) {
 	if testing.Short() {
 		return
 	}
+	t.Parallel()
 	for i := 0; i < 100; i++ {
 		go func(i int) {
 			timer := AfterFunc(2*Second, func() {

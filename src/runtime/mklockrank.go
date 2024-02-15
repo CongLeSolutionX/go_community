@@ -75,17 +75,17 @@ assistQueue,
 < SCHED
 # Below SCHED is the scheduler implementation.
 < allocmR,
-  execR
-< sched;
+  execR;
+scavenge, sweep, testR, wakeableSleep < hchan;
+allocmR, execR, hchan < sched;
 sched < allg, allp;
-allp, wakeableSleep < timers;
-timers < netpollInit;
-timers < timer;
 
 # Channels
-scavenge, sweep, testR, wakeableSleep < hchan;
 NONE < notifyList;
 hchan, notifyList < sudog;
+
+allp, hchan, wakeableSleep < timers;
+timers < timer, netpollInit;
 
 # Semaphores
 NONE < root;
@@ -112,6 +112,7 @@ traceBuf < traceStrings;
 # Malloc
 allg,
   allocmR,
+  allp, # procresize
   execR, # May grow stack
   execW, # May allocate after BeforeFork
   hchan,
@@ -143,6 +144,7 @@ gcBitsArenas,
   profInsert,
   profMemFuture,
   spanSetSpine,
+  timer,
   fin,
   root
 # Anything that can grow the stack can acquire STACKGROW.

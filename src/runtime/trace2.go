@@ -921,7 +921,7 @@ func newWakeableSleep() *wakeableSleep {
 	s.wakeup = make(chan struct{}, 1)
 	s.timer = new(timer)
 	s.timer.arg = s
-	s.timer.f = func(s any, _ uintptr) {
+	s.timer.f = func(s any, _ uintptr, _ int64) {
 		s.(*wakeableSleep).wake()
 	}
 	return s

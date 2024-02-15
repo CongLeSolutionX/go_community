@@ -36,7 +36,7 @@ func disablePlatformSources() (undo func()) {
 var Interrupt = interrupt
 var DaysIn = daysIn
 
-func empty(arg any, seq uintptr) {}
+func empty(arg any, seq uintptr, delta int64) {}
 
 // Test that a runtimeTimer with a period that would overflow when on
 // expiration does not throw or cause other timers to hang.
