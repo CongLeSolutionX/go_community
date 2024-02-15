@@ -89,6 +89,24 @@
       "parentUuid": "392fe3b0_fca59447",
       "revId": "7bd9ed549f78ae3dd6855e19ff50fe2b2985a80b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "add3d226_08e00167",
+        "filename": "src/cmd/cgo/internal/test/cgo_stubs_ppc64x_internal_linking_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-02-15T22:55:02Z",
+      "side": 1,
+      "message": "Probably, I used the android stub as reference.",
+      "parentUuid": "ab4a1c0c_13477595",
+      "revId": "7bd9ed549f78ae3dd6855e19ff50fe2b2985a80b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
