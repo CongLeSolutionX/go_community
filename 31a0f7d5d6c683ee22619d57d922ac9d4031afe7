@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19a1d1b1_921239fc",
+        "filename": "src/encoding/xml/read_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-15T00:58:20Z",
+      "side": 1,
+      "message": "Our history of XML changes in the last few years is that we roll back most of the changes because they break too many tests.  That seems likely to happen to this change as well.  Is there some way to address the problem that is less likely to break existing working code?  For example, could Encoder discard whitespace characters before ProcInst?",
+      "revId": "31a0f7d5d6c683ee22619d57d922ac9d4031afe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
