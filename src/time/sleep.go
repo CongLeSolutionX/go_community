@@ -16,11 +16,11 @@ type runtimeTimer struct {
 	ts       unsafe.Pointer
 	when     int64
 	period   int64
-	f        func(any, uintptr) // NOTE: must not be closure
+	f        func(any, uintptr, int64)
 	arg      any
 	seq      uintptr
+	state    uintptr
 	nextwhen int64
-	status   uint32
 }
 
 // when is a helper function for setting the 'when' field of a runtimeTimer.
@@ -85,6 +85,15 @@ func (t *Timer) Stop() bool {
 
 // NewTimer creates a new Timer that will send
 // the current time on its channel after at least duration d.
+//
+// Before Go 1.23, the garbage collector did not recover
+// timers that had not yet expired or been stopped, so code often
+// immediately deferred t.Stop after calling NewTimer, to make
+// the timer recoverable when it was no longer needed.
+// As of Go 1.23, the garbage collector can recover unreferenced
+// timers, even if they haven't expired or been stopped.
+// The Stop method is no longer necessary to help the garbage collector.
+// (Code may of course still want to call Stop to stop the timer for other reasons.)
 func NewTimer(d Duration) *Timer {
 	c := make(chan Time, 1)
 	t := &Timer{
@@ -142,9 +151,14 @@ func (t *Timer) Reset(d Duration) bool {
 }
 
 // sendTime does a non-blocking send of the current time on c.
-func sendTime(c any, seq uintptr) {
+func sendTime(c any, seq uintptr, delta int64) {
+	// delta is how long ago the channel send was supposed to happen.
+	// The current time can be arbitrarily far into the future, because the runtime
+	// can delay a sendTime call until a goroutines tries to receive from
+	// the channel. Subtract delta to go back to the old time that we
+	// used to send.
 	select {
-	case c.(chan Time) <- Now():
+	case c.(chan Time) <- Now().Add(Duration(-delta)):
 	default:
 	}
 }
@@ -155,6 +169,13 @@ func sendTime(c any, seq uintptr) {
 // The underlying Timer is not recovered by the garbage collector
 // until the timer fires. If efficiency is a concern, use NewTimer
 // instead and call Timer.Stop if the timer is no longer needed.
+//
+// Before Go 1.23, this documentation warned that the underlying
+// Timer would not be recovered by the garbage collector until the
+// timer fired, and that if efficiency was a concern, code should use
+// NewTimer instead and call Timer.Stop if the timer is no longer needed.
+// As of Go 1.23, the garbage collector can recover unreferenced,
+// unstopped timers. There is no reason to prefer NewTimer when After will do.
 func After(d Duration) <-chan Time {
 	return NewTimer(d).C
 }
@@ -175,6 +196,6 @@ func AfterFunc(d Duration, f func()) *Timer {
 	return t
 }
 
-func goFunc(arg any, seq uintptr) {
+func goFunc(arg any, seq uintptr, delta int64) {
 	go arg.(func())()
 }
