@@ -381,7 +381,7 @@ func memstats() any {
 }
 
 func init() {
-	http.HandleFunc("/debug/vars", expvarHandler)
+	http.HandleFunc("GET /debug/vars", expvarHandler)
 	Publish("cmdline", Func(cmdline))
 	Publish("memstats", Func(memstats))
 }
