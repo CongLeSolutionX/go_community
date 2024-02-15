@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ee995591_abd9afc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-15T18:53:56Z",
+      "side": 1,
+      "message": "Triggered manually.",
+      "parentUuid": "9ea9e7e5_0690e0fd",
+      "revId": "04c97ce40c469f419552cf6289e55539c057d5b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "07c2018e_110f2e8b",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2023-12-27T20:07:55Z",
       "side": 1,
       "message": "This seems confusing. Why would we want to avoid the check for \"special\" functions? Is one of them actually bigger than 1\u003c\u003c16?",
+      "range": {
+        "startLine": 472,
+        "startChar": 5,
+        "endLine": 472,
+        "endChar": 15
+      },
+      "revId": "04c97ce40c469f419552cf6289e55539c057d5b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a243c3d9_bcc76937",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-15T18:53:56Z",
+      "side": 1,
+      "message": "None of the special functions are big. This condition is that it is a problem if PC_B overflows 1\u003c\u003c16. If it doesn\u0027t use PC_B then technically the overflow is probably okay (although it never happens). Perhaps it is not worth special casing. I\u0027ll remove.",
+      "parentUuid": "07c2018e_110f2e8b",
       "range": {
         "startLine": 472,
         "startChar": 5,
@@ -54,6 +96,24 @@
       "writtenOn": "2023-12-27T20:07:55Z",
       "side": 1,
       "message": "This approach seems good to me for method tables, but what about some other symbol (not a method table) referring to a text symbol via R_ADDROFF?  Is that not a possibility here? Or are STEXT R_ADDROFF relocations only used for method tables?",
+      "revId": "04c97ce40c469f419552cf6289e55539c057d5b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00a4f6c1_76dfff5b",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-15T18:53:56Z",
+      "side": 1,
+      "message": "Changed to R_METHODOFF (which falls through to R_ADDROFF) to be more specific.",
+      "parentUuid": "529ab772_37419b14",
       "revId": "04c97ce40c469f419552cf6289e55539c057d5b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
