@@ -16,6 +16,24 @@
       "message": "Our history of XML changes in the last few years is that we roll back most of the changes because they break too many tests.  That seems likely to happen to this change as well.  Is there some way to address the problem that is less likely to break existing working code?  For example, could Encoder discard whitespace characters before ProcInst?",
       "revId": "31a0f7d5d6c683ee22619d57d922ac9d4031afe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ecd3028_3df70916",
+        "filename": "src/encoding/xml/read_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14425
+      },
+      "writtenOn": "2024-02-15T05:19:45Z",
+      "side": 1,
+      "message": "It is not just whitespace, though. The Decoder also accepts other tokens before the XML declaration: https://github.com/golang/go/issues/65691#issuecomment-1943203537\n\nI\u0027m very open to looking at other approaches. This seemed the easiest to implement and most correct one, but of course I was aware that it\u0027s problematic to make the Decoder stricter. I\u0027m not sure what the right tradeoff is and would have to refer to your experience.",
+      "parentUuid": "19a1d1b1_921239fc",
+      "revId": "31a0f7d5d6c683ee22619d57d922ac9d4031afe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
