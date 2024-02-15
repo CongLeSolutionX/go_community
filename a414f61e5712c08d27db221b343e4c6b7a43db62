@@ -103,6 +103,24 @@
       "message": "It wasn\u0027t clear from reading this what would happen if a restriction is violated. If I accidentally put a putvar in a \"for\" loop, will the test notice this and fail? Or will I just get mangled code somehow?\n\nDo we still have these restrictions if we move the auto-generated code to a separate function?",
       "revId": "a414f61e5712c08d27db221b343e4c6b7a43db62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "086033d5_aae144b3",
+        "filename": "src/cmd/internal/dwarf/putvarabbrevgen_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-02-15T10:09:16Z",
+      "side": 1,
+      "message": "All are either detected or produce invalid code, except for modifying the conditions after the abbrev is calculated.\n\n\u003e If I accidentally put a putvar in a \"for\" loop, will the test notice this and fail?\n\nThat should be handled by the ast.Inspect call at putvarabbrevgen_test.go:182",
+      "parentUuid": "eeccda2e_1df29609",
+      "revId": "a414f61e5712c08d27db221b343e4c6b7a43db62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
