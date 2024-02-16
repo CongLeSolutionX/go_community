@@ -16,6 +16,23 @@
       "message": "`joinNonEmpty` and `isUNC` were deprecated by CL 444280",
       "revId": "9db390d8241b5b5dc306bc12ce6f4e17c0b0db0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "715ff229_e0131a99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-16T20:23:37Z",
+      "side": 1,
+      "message": "Looks like the only call was removed in CL 444280.  Leaving for Damien.",
+      "revId": "9db390d8241b5b5dc306bc12ce6f4e17c0b0db0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
