@@ -157,6 +157,24 @@
       "parentUuid": "06e5440f_b4cf0c47",
       "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce0b44ba_9e9fbd55",
+        "filename": "src/cmd/compile/internal/ssa/_gen/RISCV64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-02-16T11:59:00Z",
+      "side": 1,
+      "message": "Right, the top bits already potentially get polluted and will later be dealt with by extending/storing/etc. Even with Rotate by 8 and 16, the SLL instruction can result in bits being set beyond the effective size.",
+      "parentUuid": "8b68c005_88b7a7bb",
+      "revId": "eece4a841cd95891aeaaee04b5057db7b09b87d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
