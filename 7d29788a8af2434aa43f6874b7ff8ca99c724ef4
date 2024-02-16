@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e65511f6_660f6b9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-02-16T14:47:20Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "7d29788a8af2434aa43f6874b7ff8ca99c724ef4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd17e243_5e3b881f",
+        "filename": "src/cmd/internal/dwarf/putvarabbrevgen_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-02-16T14:47:20Z",
+      "side": 1,
+      "message": "Given the way it works it\u0027s conceivable that this test may run into problems on things like the Android builder, but we can sort that out later on.",
+      "revId": "7d29788a8af2434aa43f6874b7ff8ca99c724ef4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
