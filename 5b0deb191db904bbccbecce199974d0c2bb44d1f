@@ -33,6 +33,24 @@
       "message": "This code makes me nervous, since it seems to (in effect) duplicate what\u0027s happening in typecheck.ClosureType (which implies that the two need to be kept in sync). Would it be viable to instead call ClosureType and then return the offset of fields within that type?",
       "revId": "5b0deb191db904bbccbecce199974d0c2bb44d1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc21dcd4_cfdef5cb",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-02-16T18:10:04Z",
+      "side": 1,
+      "message": "AFAIK we no longer have the ClosureExpr we need to call ClosureType and the struct returned doesn\u0027t have the offsets we need. However I could do the opposite: I could rewrite ClosureType in terms of ClosureStructIter.",
+      "parentUuid": "e449401f_9e1a05c0",
+      "revId": "5b0deb191db904bbccbecce199974d0c2bb44d1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
