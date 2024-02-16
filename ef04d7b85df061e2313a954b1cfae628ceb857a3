@@ -16,6 +16,23 @@
       "message": "This is what I during research https://go-review.googlesource.com/c/go/+/533015 wrote, and I found it useful, so I contributed it.",
       "revId": "ef04d7b85df061e2313a954b1cfae628ceb857a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c8d428f_f3ca6187",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-16T14:53:30Z",
+      "side": 1,
+      "message": "Thanks for the CL. But no thanks.\n\nThis CL does only one thing: generating the compiler\u0027s default profile. We do it on a Linux machine. There is no need to do it in other places. If you want to do something similar, the script is simple enough that you can run the commands yourself on the platform of your choice.",
+      "revId": "ef04d7b85df061e2313a954b1cfae628ceb857a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
