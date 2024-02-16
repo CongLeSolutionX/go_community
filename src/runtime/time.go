@@ -319,10 +319,12 @@ func goroutineReady(arg any, _ uintptr, _ int64) {
 	goready(arg.(*g), 0)
 }
 
-// add adds t to the timers.
-// The caller must have set t.ts = t, unlocked t,
-// and then locked ts.lock.
-func (ts *timers) add(t *timer) {
+// addHeap adds t to the timers heap.
+// The caller must hold ts.lock.
+// The caller must also have checked that t belongs in the heap.
+// Callers that are not sure can call t.maybeAdd instead,
+// but note that maybeAdd has different locking requirements.
+func (ts *timers) addHeap(t *timer) {
 	assertLockHeld(&ts.lock)
 	// Timers rely on the network poller, so make sure the poller
 	// has started.
@@ -330,13 +332,14 @@ func (ts *timers) add(t *timer) {
 		netpollGenericInit()
 	}
 
-	if t.ts != ts {
-		throw("ts not set in timer")
+	if t.ts != nil {
+		throw("ts set in timer")
 	}
+	t.ts = ts
 	ts.heap = append(ts.heap, t)
 	ts.siftUp(len(ts.heap) - 1)
 	if t == ts.heap[0] {
-		ts.minWhen.Store(t.when)
+		ts.updateMinWhen()
 	}
 	ts.len.Store(uint32(len(ts.heap)))
 }
@@ -417,7 +420,7 @@ func (ts *timers) deleteMin() {
 	ts.updateMinWhen()
 	ts.len.Store(uint32(last))
 	if last == 0 {
-		// If there are no timers, then clearly none are modified.
+		// If there are no timers, then clearly there are no timerNextWhen timers.
 		ts.minNextWhen.Store(0)
 	}
 }
@@ -482,7 +485,8 @@ Redo:
 		// is not in any heap, so the assignment cannot
 		// break heap invariants.
 		t.when = when
-		t.unlockAndAddToHeap(state, mp)
+		t.unlock(state, mp)
+		t.maybeAdd()
 		return false
 	}
 
@@ -518,28 +522,47 @@ Redo:
 	return pending
 }
 
-// unlockAndAddToHeap unlocks the timer and adds it to the
-// local P's timer heap.
-// The pair of operations must be done together because some
-// of the add happens before the unlock and some happens after.
-func (t *timer) unlockAndAddToHeap(state uintptr, mp *m) {
-	// Set up t for insertion but unlock first,
-	// to avoid lock inversion with timers lock.
-	// We set t.ts = ts so that any other concurrent
-	// updates to t after the unlock update the
-	// various atomic state in ts correctly,
-	// as if t were already in ts.
-	ts := &getg().m.p.ptr().timers
-	state |= timerHeaped
-	t.ts = ts
-	when := t.when
-	t.unlock(state, nil)
+// needsAdd reports whether t needs to be added to a timers heap.
+func (t *timer) needsAdd(state uintptr) bool {
+	return state&timerHeaped == 0 &&
+		t.when > 0 &&
+		(state&timerChan == 0 || state>>timerBlockedShift > 0)
+}
 
+// maybeAdd adds t to the local timers heap if it needs to be in a heap.
+// The caller must not hold t's lock nor any timers heap lock.
+// The caller probably just unlocked t, but that lock must be dropped
+// in order to acquire a ts.lock, to avoid lock inversions.
+// (timers.adjust holds ts.lock while acquiring each t's lock,
+// so we cannot hold any t's lock while acquiring ts.lock).
+//
+// Strictly speaking it *might* be okay to hold t.lock and
+// acquire ts.lock at the same time, because we know that
+// t is not in any ts.heap, so nothing holding a ts.lock would
+// be acquiring the t.lock at the same time, meaning there
+// isn't a possible deadlock. But it is easier and safer not to be
+// too clever and respect the static ordering.
+// (If we don't, we have to change the static lock checking of t and ts.)
+//
+// Because we are not holding t while acquiring ts,
+// concurrent calls to enqueueTimerChan may result in
+// concurrent calls to t.maybeAdd, so we cannot assume that
+// t is not in a heap on entry to t.maybeAdd.
+func (t *timer) maybeAdd() {
+	ts := &getg().m.p.ptr().timers
 	lock(&ts.lock)
-	ts.add(t)
+	state, mp := t.lock()
+	when := int64(0)
+	if t.needsAdd(state) {
+		state |= timerHeaped
+		ts.addHeap(t)
+		when = t.when
+	}
+	t.unlock(state, mp)
 	unlock(&ts.lock)
-	releasem(mp)
-	wakeNetPoller(when)
+	if when > 0 {
+		wakeNetPoller(when)
+	}
 }
 
 // reset resets the time when a timer should fire.
@@ -609,6 +632,7 @@ func (ts *timers) take(src *timers) {
 		src.len.Store(0)
 		src.zombies.Store(0)
 		src.minWhen.Store(0)
+		src.minNextWhen.Store(0)
 		unlock(&ts.lock)
 		unlock(&src.lock)
 	}
@@ -624,16 +648,10 @@ func (ts *timers) move(timers []*timer) {
 		state, mp := t.lock()
 		t.ts = nil
 		state, _ = t.updateHeap(state, nil)
-		// Unlock before add, to avoid append (allocation)
-		// while holding lock. This would be correct even if the world wasn't
-		// stopped (but it is), and it makes staticlockranking happy.
 		if state&timerHeaped != 0 {
-			t.ts = ts
+			ts.addHeap(t)
 		}
 		t.unlock(state, mp)
-		if state&timerHeaped != 0 {
-			ts.add(t)
-		}
 	}
 }
 
@@ -644,7 +662,7 @@ func (ts *timers) move(timers []*timer) {
 // and removes deleted timers. The caller must have locked ts.
 func (ts *timers) adjust(now int64, force bool) {
 	assertLockHeld(&ts.lock)
-	// If we haven't yet reached the time of the earliest timerModified
+	// If we haven't yet reached the time of the earliest modified
 	// timer, don't do anything. This speeds up programs that adjust
 	// a lot of timers back and forth if the timers rarely expire.
 	// We'll postpone looking through all the adjusted timers until
@@ -659,7 +677,49 @@ func (ts *timers) adjust(now int64, force bool) {
 		}
 	}
 
-	// We are going to clear all timerModified timers.
+	// minNextWhen is a lower bound on the earliest t.nextWhen
+	// among the timerNextWhen timers. We want to make it more precise:
+	// we are going to scan the heap and clean out all the timerNextWhen bits,
+	// at which point minNextWhen can be set to 0 (indicating none at all).
+	//
+	// Other P's can be calling ts.wakeTime concurrently, and we'd like to
+	// keep ts.wakeTime returning an accurate value throughout this entire process.
+	//
+	// Setting minNextWhen = 0 *before* the scan could make wakeTime
+	// return an incorrect value: if minNextWhen < nextWhen, then clearing
+	// it to 0 will make wakeTime return nextWhen (too late) until the scan finishes.
+	// To avoid that, we want to set minNextWhen to 0 *after* the scan.
+	//
+	// Setting minNextWhen = 0 *after* the scan could result in missing
+	// concurrent timer modifications in other goroutines; those will lock
+	// the specific timer, set the timerNextWhen bit, and set t.nextWhen.
+	// To avoid that, we want to set minNextWhen to 0 *before* the scan.
+	//
+	// The way out of this dilemma is to preserve wakeTime a different way.
+	// wakeTime is min(minWhen, minNextWhen), and minWhen is protected by
+	// ts.lock, which we hold, so we can modify it however we like in service
+	// of keeping wakeTime accurate.
+	//
+	// So we can:
+	//
+	//	1. Set minWhen = min(minWhen, minNextWhen)
+	//	2. Set minNextWhen = 0
+	//	   (Other goroutines may modify timers and update minNextWhen now.)
+	//	3. Scan timers
+	//	4. Set minWhen = heap[0].when
+	//
+	// That order preserves a correct value of wakeTime throughout the entire
+	// operation:
+	// Step 1 “locks in” an accurate wakeTime even with minNextWhen cleared.
+	// Step 2 makes sure concurrent nextWhen updates are not lost during the scan.
+	// Step 3 clears all the old nextWhen values, justifying minNextWhen = 0.
+	// Step 4 corrects minWhen to a precise value.
+	//
+	// The wakeTime method implementation reads minNextWhen *before* minWhen,
+	// so that if the minNextWhen observes a 0, that means the minWhen
+	// will include the information about what was zeroed.
+
+	ts.minWhen.Store(ts.wakeTime())
 	ts.minNextWhen.Store(0)
 
 	changed := false
@@ -688,11 +748,10 @@ func (ts *timers) adjust(now int64, force bool) {
 		}
 		t.unlock(state, mp)
 	}
-
 	if changed {
 		ts.initHeap()
-		ts.updateMinWhen()
 	}
+	ts.updateMinWhen()
 
 	if verifyTimers {
 		ts.verify()
@@ -706,12 +765,17 @@ func (ts *timers) adjust(now int64, force bool) {
 //
 //go:nowritebarrierrec
 func (ts *timers) wakeTime() int64 {
-	next := ts.minWhen.Load()
-	nextAdj := ts.minNextWhen.Load()
-	if next == 0 || (nextAdj != 0 && nextAdj < next) {
-		next = nextAdj
+	// Note that the order of these two loads matters:
+	// adjust updates minWhen to make it safe to clear minNextWhen.
+	// We read minWhen after reading minNextWhen so that
+	// if we see a cleared minNextWhen, we are guaranteed to see
+	// the updated minWhen.
+	nextWhen := ts.minNextWhen.Load()
+	when := ts.minWhen.Load()
+	if when == 0 || (nextWhen != 0 && nextWhen < when) {
+		when = nextWhen
 	}
-	return next
+	return when
 }
 
 // check runs any timers in ts that are ready.
@@ -727,12 +791,7 @@ func (ts *timers) wakeTime() int64 {
 func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 	// If it's not yet time for the first timer, or the first adjusted
 	// timer, then there is nothing to do.
-	next := ts.minWhen.Load()
-	nextAdj := ts.minNextWhen.Load()
-	if next == 0 || (nextAdj != 0 && nextAdj < next) {
-		next = nextAdj
-	}
-
+	next := ts.wakeTime()
 	if next == 0 {
 		// No timers to run or adjust.
 		return now, 0, false
@@ -998,14 +1057,8 @@ func timeSleepUntil() int64 {
 			continue
 		}
 
-		w := pp.timers.minWhen.Load()
-		if w != 0 && w < next {
-			next = w
-		}
-
-		w = pp.timers.minNextWhen.Load()
-		if w != 0 && w < next {
-			next = w
+		if w := pp.timers.wakeTime(); w != 0 {
+			next = min(next, w)
 		}
 	}
 	unlock(&allpLock)
@@ -1147,16 +1200,8 @@ func blockTimerChan(c *hchan) {
 	if state&timerChan == 0 {
 		badTimer()
 	}
-	state += 1 << timerBlockedShift
-	if state>>timerBlockedShift >= 2 {
-		// Already blocked and therefore in heap if running.
-		if t.when > 0 && state&timerHeaped == 0 {
-			badTimer()
-		}
-		t.unlock(state, mp)
-		return
-	}
 
+	state += 1 << timerBlockedShift
 	if state&timerHeaped != 0 {
 		// Already in heap, but if this the first enqueue after a recent dequeue,
 		// it may be marked for removal. Unmark it if so, but don't unmark
@@ -1165,18 +1210,19 @@ func blockTimerChan(c *hchan) {
 			state &^= timerZombie
 			t.ts.zombies.Add(-1)
 		}
-		t.unlock(state, mp)
-		return
 	}
 
-	if t.when == 0 {
-		// Timer not running. Skip adding to heap.
-		t.unlock(state, mp)
-		return
+	// t.maybeAdd must be called with t unlocked,
+	// because it needs to lock t.ts before t.
+	// Then it will do nothing if t.needsAdd(state) is false.
+	// Check that now before the unlock,
+	// avoiding the extra lock-lock-unlock-unlock
+	// inside maybeAdd when t does not need to be added.
+	add := t.needsAdd(state)
+	t.unlock(state, mp)
+	if add {
+		t.maybeAdd()
 	}
-
-	// Not in heap, but timer is running. Need to add to heap now.
-	t.unlockAndAddToHeap(state, mp)
 }
 
 // unblockTimerChan is called when a channel op that was blocked on c
