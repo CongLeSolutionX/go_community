@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc66cfa2_46d85aca",
+        "filename": "src/runtime/internal/syscall/defs_linux_386.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-16T03:43:55Z",
+      "side": 1,
+      "message": "`EFD_CLOEXEC` is good to go, but `EFD_NONBLOCK` on mips arch is different from the others.",
+      "parentUuid": "23657525_7c6bc7d3",
+      "revId": "2634f48acf881acfc81fa50dea786459276f43f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1efdfa8b_5e8a6664",
         "filename": "src/runtime/netpoll_epoll.go",
         "patchSetId": 5
