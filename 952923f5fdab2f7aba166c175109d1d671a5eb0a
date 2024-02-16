@@ -16,6 +16,23 @@
       "message": "Ping",
       "revId": "952923f5fdab2f7aba166c175109d1d671a5eb0a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88c0c01e_9b2f816e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-02-16T18:06:50Z",
+      "side": 1,
+      "message": "and this answers my question on the previous CL.",
+      "revId": "952923f5fdab2f7aba166c175109d1d671a5eb0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
