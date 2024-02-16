@@ -85,7 +85,7 @@ NONE < notifyList;
 hchan, notifyList < sudog;
 
 allp, hchan, wakeableSleep < timers;
-timers < timer, netpollInit;
+timers < timer < netpollInit;
 
 # Semaphores
 NONE < root;
@@ -118,7 +118,7 @@ allg,
   hchan,
   notifyList,
   reflectOffs,
-  timers,
+  timer,
   traceStrings,
   userArenaState
 # Above MALLOC are things that can allocate memory.
@@ -144,7 +144,6 @@ gcBitsArenas,
   profInsert,
   profMemFuture,
   spanSetSpine,
-  timer,
   fin,
   root
 # Anything that can grow the stack can acquire STACKGROW.
