@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f972e09e_ad8cd011",
+        "filename": "src/regexp/syntax/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-17T23:33:22Z",
+      "side": 1,
+      "message": "Looks like you need to run gofmt again.  Maybe mksyntaxgo should do that for you, one way or another.",
+      "revId": "c40de2fb9c8c58e6803b25cb8d20a28e6891fd53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
