@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5e51ac9_ad4181f5",
+        "filename": "src/cmd/asm/internal/asm/testdata/riscv64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Right now, none of architectures that check \"unrecognized suffix/condition code\" e2e test, since \"cond\" returns too early.\nI think I should submit another CL for check fix instead of RISCV related CL.",
+      "parentUuid": "0ec6d57e_415063a5",
+      "range": {
+        "startLine": 236,
+        "startChar": 1,
+        "endLine": 236,
+        "endChar": 11
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adef0268_ff67e4e5",
@@ -127,6 +151,30 @@
       "writtenOn": "2024-02-09T13:31:31Z",
       "side": 1,
       "message": "This should probably be two groups:\n\n```\n\"fmt\"\n\n\"cmd/internal/obj\"\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 6
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de337104_56a5639f",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adef0268_ff67e4e5",
       "range": {
         "startLine": 33,
         "startChar": 1,
@@ -160,6 +208,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a83fd5ad_1a1924b4",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ca24337_1365c35e",
+      "range": {
+        "startLine": 626,
+        "startChar": 12,
+        "endLine": 626,
+        "endChar": 22
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82a42d3a_c108245f",
@@ -173,6 +245,30 @@
       "writtenOn": "2024-02-09T13:31:31Z",
       "side": 1,
       "message": "Nit: `enc` seems more readable than just `e`",
+      "range": {
+        "startLine": 628,
+        "startChar": 1,
+        "endLine": 628,
+        "endChar": 2
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a35d7333_440194cb",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82a42d3a_c108245f",
       "range": {
         "startLine": 628,
         "startChar": 1,
@@ -206,6 +302,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08289b6a_c92d8a89",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0322e309_dced13f1",
+      "range": {
+        "startLine": 630,
+        "startChar": 20,
+        "endLine": 630,
+        "endChar": 50
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30b0d6da_da84ebe4",
@@ -219,6 +339,30 @@
       "writtenOn": "2024-02-09T13:31:31Z",
       "side": 1,
       "message": "`rmSuffixString` seems more appropriate, also consider dropping the names from return values.",
+      "range": {
+        "startLine": 636,
+        "startChar": 33,
+        "endLine": 636,
+        "endChar": 52
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e95226e_f4484ef2",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b0d6da_da84ebe4",
       "range": {
         "startLine": 636,
         "startChar": 33,
@@ -252,6 +396,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc6ff341_0ff29cf2",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a1e8491_b1a53b71",
+      "range": {
+        "startLine": 638,
+        "startChar": 33,
+        "endLine": 638,
+        "endChar": 39
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d91a5af4_825402bb",
@@ -275,6 +443,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5d48835_bcd9941c",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91a5af4_825402bb",
+      "range": {
+        "startLine": 647,
+        "startChar": 32,
+        "endLine": 647,
+        "endChar": 45
+      },
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fe4e49c_891dff27",
@@ -288,6 +480,24 @@
       "writtenOn": "2024-02-09T13:31:31Z",
       "side": 1,
       "message": "Seems it would be useful to add comments for each:\n\n```\nRM_RNE uint8 \u003d iota // round to nearest\nRM_RTZ              // round to zero\n...\n```",
+      "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "981dcf8e_d4736873",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-02-17T12:23:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fe4e49c_891dff27",
       "revId": "4562644bc027e00289566edaaea04a6b0f8edc83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
