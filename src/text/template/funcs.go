@@ -10,6 +10,7 @@ import (
 	"io"
 	"net/url"
 	"reflect"
+	"runtime"
 	"strings"
 	"sync"
 	"unicode"
@@ -89,12 +90,13 @@ func addValueFuncs(out map[string]reflect.Value, in FuncMap) {
 		if !goodName(name) {
 			panic(fmt.Errorf("function name %q is not a valid identifier", name))
 		}
+
 		v := reflect.ValueOf(fn)
 		if v.Kind() != reflect.Func {
 			panic("value for " + name + " not a function")
 		}
-		if !goodFunc(v.Type()) {
-			panic(fmt.Errorf("can't install method/function %q with %d results", name, v.Type().NumOut()))
+		if err := goodFunc(name, v.Type()); err != nil {
+			panic(err)
 		}
 		out[name] = v
 	}
@@ -109,15 +111,20 @@ func addFuncs(out, in FuncMap) {
 }
 
 // goodFunc reports whether the function or method has the right result signature.
-func goodFunc(typ reflect.Type) bool {
+func goodFunc(name string, typ reflect.Type) error {
+	numOut := typ.NumOut()
+
 	// We allow functions with 1 result or 2 results where the second is an error.
 	switch {
-	case typ.NumOut() == 1:
-		return true
-	case typ.NumOut() == 2 && typ.Out(1) == errorType:
-		return true
+	case numOut == 1:
+		return nil
+	case numOut == 2 && typ.Out(1) == errorType:
+		return nil
+	case numOut == 2:
+		return fmt.Errorf("invalid function signature for %s: second argument should be error; is %s", name, typ.Out(1))
+	default:
+		return fmt.Errorf("too many return values for %s", name)
 	}
-	return false
 }
 
 // goodName reports whether the function name is a valid identifier.
@@ -320,8 +327,13 @@ func call(fn reflect.Value, args ...reflect.Value) (reflect.Value, error) {
 	if typ.Kind() != reflect.Func {
 		return reflect.Value{}, fmt.Errorf("non-function of type %s", typ)
 	}
-	if !goodFunc(typ) {
-		return reflect.Value{}, fmt.Errorf("function called with %d args; should be 1 or 2", typ.NumOut())
+
+	fullname := runtime.FuncForPC(fn.Pointer()).Name()
+	nameParts := strings.Split(fullname, ".")
+	name := nameParts[len(nameParts)-1]
+
+	if err := goodFunc(name, typ); err != nil {
+		return reflect.Value{}, err
 	}
 	numIn := typ.NumIn()
 	var dddType reflect.Type
