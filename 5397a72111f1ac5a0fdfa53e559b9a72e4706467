@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da04ef7a_4b8e4bd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-02-19T18:42:22Z",
+      "side": 1,
+      "message": "@khr@golang.org can you submit this? Thanks.",
+      "revId": "5397a72111f1ac5a0fdfa53e559b9a72e4706467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
