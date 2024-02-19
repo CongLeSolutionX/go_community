@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7af952f_130a71b1",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-19T11:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fb4061d_bfa88e19",
+      "revId": "41eea336e3d2f2a563584e50fe4fbdadc5e3ea24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8936658_d59f3958",
@@ -83,6 +101,24 @@
       "writtenOn": "2024-02-19T10:05:26Z",
       "side": 1,
       "message": "I don\u0027t believe this is necessary, as you can\u0027t call a function unless it\u0027s been installed, and the installation code checks the name.\n\nIf you feel otherwise, please give an example.",
+      "revId": "41eea336e3d2f2a563584e50fe4fbdadc5e3ea24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5ad6220_e0389818",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-19T11:49:48Z",
+      "side": 1,
+      "message": "The installation code uses goodFunc to check the function in addValueFuncs. Should name be checked separately only during installation?",
+      "parentUuid": "d8936658_d59f3958",
       "revId": "41eea336e3d2f2a563584e50fe4fbdadc5e3ea24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -104,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41505c86_f7b0e13d",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-19T11:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61922d2a_4ebdbd4c",
+      "revId": "41eea336e3d2f2a563584e50fe4fbdadc5e3ea24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "833f2a78_9f78d652",
@@ -117,6 +171,24 @@
       "writtenOn": "2024-02-19T10:05:26Z",
       "side": 1,
       "message": "Here there is far too much information partly because this case is carrying too much load.\n\ncase n \u003d\u003d 1: ok\ncase n \u003d\u003d 2 \u0026\u0026 2nd is error: ok\n\nThat\u0027s pretty much what you have. Now break it down more:\n\ncase n \u003d\u003d 2: 2nd argument must have type error\ndefault: too many arguments\n\nAlso put typ.NumOut() into a variable. it\u0027s called too many times",
+      "revId": "41eea336e3d2f2a563584e50fe4fbdadc5e3ea24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06b0a468_d6ecf5bd",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-19T11:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833f2a78_9f78d652",
       "revId": "41eea336e3d2f2a563584e50fe4fbdadc5e3ea24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
