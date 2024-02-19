@@ -84,7 +84,6 @@ package runtime
 
 import (
 	"internal/goarch"
-	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"runtime/internal/math"
 	"unsafe"
@@ -223,7 +222,7 @@ func init() {
 // userArenaChunkReserveBytes returns the amount of additional bytes to reserve for
 // heap metadata.
 func userArenaChunkReserveBytes() uintptr {
-	if goexperiment.AllocHeaders {
+	if goexperimentAllocHeaders {
 		// In the allocation headers experiment, we reserve the end of the chunk for
 		// a pointer/scalar bitmap. We also reserve space for a dummy _type that
 		// refers to the bitmap. The PtrBytes field of the dummy _type indicates how
@@ -606,7 +605,7 @@ func newUserArenaChunk() (unsafe.Pointer, *mspan) {
 		// TODO(mknyszek): Track individual objects.
 		rzSize := computeRZlog(span.elemsize)
 		span.elemsize -= rzSize
-		if goexperiment.AllocHeaders {
+		if goexperimentAllocHeaders {
 			span.largeType.Size_ = span.elemsize
 		}
 		rzStart := span.base() + span.elemsize
@@ -923,7 +922,7 @@ func (h *mheap) allocUserArenaChunk() *mspan {
 	// visible to the background sweeper.
 	h.central[spc].mcentral.fullSwept(h.sweepgen).push(s)
 
-	if goexperiment.AllocHeaders {
+	if goexperimentAllocHeaders {
 		// Set up an allocation header. Avoid write barriers here because this type
 		// is not a real type, and it exists in an invalid location.
 		*(*uintptr)(unsafe.Pointer(&s.largeType)) = uintptr(unsafe.Pointer(s.limit))

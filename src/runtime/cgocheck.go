@@ -9,7 +9,6 @@ package runtime
 
 import (
 	"internal/goarch"
-	"internal/goexperiment"
 	"unsafe"
 )
 
@@ -177,7 +176,7 @@ func cgoCheckTypedBlock(typ *_type, src unsafe.Pointer, off, size uintptr) {
 	}
 
 	// src must be in the regular heap.
-	if goexperiment.AllocHeaders {
+	if goexperimentAllocHeaders {
 		tp := s.typePointersOf(uintptr(src), size)
 		for {
 			var addr uintptr

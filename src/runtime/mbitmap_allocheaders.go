@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build goexperiment.allocheaders
-
 // Garbage collector: type and heap bitmaps.
 //
 // Stack, data, and bss bitmaps
@@ -63,6 +61,8 @@ import (
 	"runtime/internal/sys"
 	"unsafe"
 )
+
+const goexperimentAllocHeaders = true // hardwired
 
 const (
 	// A malloc header is functionally a single type pointer, but

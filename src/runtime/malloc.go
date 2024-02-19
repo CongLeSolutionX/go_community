@@ -102,7 +102,6 @@ package runtime
 
 import (
 	"internal/goarch"
-	"internal/goexperiment"
 	"internal/goos"
 	"runtime/internal/atomic"
 	"runtime/internal/math"
@@ -425,7 +424,7 @@ func mallocinit() {
 		print("pagesPerArena (", pagesPerArena, ") is not divisible by pagesPerReclaimerChunk (", pagesPerReclaimerChunk, ")\n")
 		throw("bad pagesPerReclaimerChunk")
 	}
-	if goexperiment.AllocHeaders {
+	if goexperimentAllocHeaders {
 		// Check that the minimum size (exclusive) for a malloc header is also
 		// a size class boundary. This is important to making sure checks align
 		// across different parts of the runtime.
@@ -1132,7 +1131,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			size = maxTinySize
 		} else {
 			hasHeader := !noscan && !heapBitsInSpan(size)
-			if goexperiment.AllocHeaders && hasHeader {
+			if goexperimentAllocHeaders && hasHeader {
 				size += mallocHeaderSize
 			}
 			var sizeclass uint8
@@ -1152,7 +1151,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			if needzero && span.needzero != 0 {
 				memclrNoHeapPointers(x, size)
 			}
-			if goexperiment.AllocHeaders && hasHeader {
+			if goexperimentAllocHeaders && hasHeader {
 				header = (**_type)(x)
 				x = add(x, mallocHeaderSize)
 				size -= mallocHeaderSize
@@ -1174,12 +1173,12 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				memclrNoHeapPointers(x, size)
 			}
 		}
-		if goexperiment.AllocHeaders && !noscan {
+		if goexperimentAllocHeaders && !noscan {
 			header = &span.largeType
 		}
 	}
 	if !noscan {
-		if goexperiment.AllocHeaders {
+		if goexperimentAllocHeaders {
 			c.scanAlloc += heapSetType(uintptr(x), dataSize, typ, header, span)
 		} else {
 			var scanSize uintptr
@@ -1243,7 +1242,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		asanunpoison(x, userSize)
 	}
 
-	// If !goexperiment.AllocHeaders, "size" doesn't include the
+	// If !goexperimentAllocHeaders, "size" doesn't include the
 	// allocation header, so use span.elemsize as the "full" size
 	// for various computations below.
 	//
@@ -1253,7 +1252,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	// fragmentation and match the GC's accounting by using the
 	// whole allocation slot.
 	fullSize := size
-	if goexperiment.AllocHeaders {
+	if goexperimentAllocHeaders {
 		fullSize = span.elemsize
 	}
 	if rate := MemProfileRate; rate > 0 {
@@ -1276,7 +1275,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		if !noscan {
 			throw("delayed zeroing on data that may contain pointers")
 		}
-		if goexperiment.AllocHeaders && header != nil {
+		if goexperimentAllocHeaders && header != nil {
 			throw("unexpected malloc header in delayed zeroing of large object")
 		}
 		// N.B. size == fullSize always in this case.

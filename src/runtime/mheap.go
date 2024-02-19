@@ -11,7 +11,6 @@ package runtime
 import (
 	"internal/cpu"
 	"internal/goarch"
-	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -1397,7 +1396,7 @@ func (h *mheap) initSpan(s *mspan, typ spanAllocType, spanclass spanClass, base,
 			s.divMul = 0
 		} else {
 			s.elemsize = uintptr(class_to_size[sizeclass])
-			if goexperiment.AllocHeaders && !s.spanclass.noscan() && heapBitsInSpan(s.elemsize) {
+			if goexperimentAllocHeaders && !s.spanclass.noscan() && heapBitsInSpan(s.elemsize) {
 				// In the allocheaders experiment, reserve space for the pointer/scan bitmap at the end.
 				s.nelems = uint16((nbytes - (nbytes / goarch.PtrSize / 8)) / s.elemsize)
 			} else {
