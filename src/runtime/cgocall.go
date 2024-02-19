@@ -664,7 +664,7 @@ func cgoCheckUnknownPointer(p unsafe.Pointer, msg string) (base, i uintptr) {
 		if base == 0 {
 			return
 		}
-		if goexperiment.AllocHeaders {
+		if goexperimentAllocHeaders {
 			tp := span.typePointersOfUnchecked(base)
 			for {
 				var addr uintptr

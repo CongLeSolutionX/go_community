@@ -9,7 +9,6 @@ package runtime
 import (
 	"internal/abi"
 	"internal/goarch"
-	"internal/goexperiment"
 	"internal/goos"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
@@ -333,7 +332,7 @@ func benchSetType(n int, resetTimer func(), len int, x unsafe.Pointer, t *_type)
 	// an elaborate scenario to be able to benchmark the function safely, but doing
 	// this work for the allocheaders' version of the function would be complex.
 	// Just fail instead and rely on the test code making sure we never get here.
-	if goexperiment.AllocHeaders {
+	if goexperimentAllocHeaders {
 		panic("called benchSetType with allocheaders experiment enabled")
 	}
 
@@ -1999,3 +1998,5 @@ func UnsafePoint(pc uintptr) bool {
 		panic("invalid unsafe point code " + string(itoa(buf[:], uint64(v))))
 	}
 }
+
+const GoexperimentAllocHeaders = goexperimentAllocHeaders

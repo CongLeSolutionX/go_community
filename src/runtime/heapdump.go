@@ -14,7 +14,6 @@ package runtime
 import (
 	"internal/abi"
 	"internal/goarch"
-	"internal/goexperiment"
 	"unsafe"
 )
 
@@ -738,7 +737,7 @@ func makeheapobjbv(p uintptr, size uintptr) bitvector {
 	for i := uintptr(0); i < nptr/8+1; i++ {
 		tmpbuf[i] = 0
 	}
-	if goexperiment.AllocHeaders {
+	if goexperimentAllocHeaders {
 		s := spanOf(p)
 		tp := s.typePointersOf(p, size)
 		for {
