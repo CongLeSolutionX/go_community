@@ -70,6 +70,23 @@
       "message": "Related #44635, CL 333990",
       "revId": "08ebf3f15cb7b5d8411dc906fc47ca5f3889fa10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad9561c9_8756d91b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-19T20:56:01Z",
+      "side": 1,
+      "message": "Thanks for the change.  I\u0027m struggling with where this should be documented.  People should be able to rely on using errors.Is to pick up errors returned by a Value method, and that means that we should write that down somewhere.  But where?  Any ideas?",
+      "revId": "08ebf3f15cb7b5d8411dc906fc47ca5f3889fa10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
