@@ -123,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e89724c_6ed3ea4c",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-19T12:48:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5ad6220_e0389818",
+      "revId": "41eea336e3d2f2a563584e50fe4fbdadc5e3ea24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61922d2a_4ebdbd4c",
