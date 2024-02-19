@@ -59,6 +59,8 @@ func main() {
 
 	printClasses(&b, classes)
 
+	printCompactors(&b, classes)
+
 	out, err := format.Source(b.Bytes())
 	if err != nil {
 		log.Fatal(err)
@@ -352,4 +354,71 @@ func printClasses(w io.Writer, classes []class) {
 		fmt.Fprintf(w, "%d,", v)
 	}
 	fmt.Fprintln(w, "}")
+}
+
+func printCompactors(w io.Writer, classes []class) {
+	// TODO: do both 32 and 64 bit versions.
+
+	// bitRepeat repeats the bit pattern in the low n bits of m every n bits.
+	bitRepeat := func(m uint64, n int) uint64 {
+		var r uint64
+		for i := 0; i < 64; i++ {
+			r |= m << (i * n)
+		}
+		return r
+	}
+
+	fmt.Fprintln(w, "var compactors = [_NumSizeClasses]func(uintptr)uintptr {")
+	for i, c := range classes {
+		nq := c.size / 8
+		if nq >= 64 {
+			break
+		}
+		if nq == 0 {
+			continue
+		}
+		fmt.Fprintf(w, "%d /*%d*/: func(x uintptr) uintptr {\n", i, c.size)
+		if nq == 1 {
+			fmt.Fprintln(w, "return x")
+			fmt.Fprintln(w, "},")
+			continue
+		}
+
+		// OR together groups of bits, so that each group of nq bits
+		// is all ORed together in the low bit of the group.
+		r := nq - 1
+		for k := 1; r != 0; k *= 2 {
+			if k > r {
+				k = r
+			}
+			fmt.Fprintf(w, "x |= x>>%d\n", k)
+			r -= k
+		}
+
+		// Mask to keep just the low bit of each group.
+		fmt.Fprintf(w, "x &= 0x%x\n", bitRepeat(1, nq))
+
+		// Compact the remaining bits.
+		// generally we have
+		// 00000000xxxxx00000000xxxxx00000000xxxxx
+		// where we have runs of bits with runs of zeroes between them.
+		// All the runs of bits and zeroes are the same length.
+		// We wish to compact all the bits to low end.
+		nbits := (64 + nq - 1) / nq // 1 out of every nq bits in 64 bits, rounded up.
+		groupSize := 1
+		zeroes := nq - 1
+
+		for groupSize < nbits {
+			fmt.Fprintf(w, "x += x>>%d\n", zeroes)
+			groupSize *= 2
+			zeroes *= 2
+			// TODO: masking not always needed
+			fmt.Fprintf(w, "x &= 0x%x\n", bitRepeat(1<<groupSize-1, groupSize+zeroes))
+		}
+
+		fmt.Fprintln(w, "return x")
+		fmt.Fprintln(w, "},")
+	}
+	fmt.Fprintln(w, "}")
+
 }
