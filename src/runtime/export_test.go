@@ -2000,3 +2000,8 @@ func UnsafePoint(pc uintptr) bool {
 }
 
 const GoexperimentAllocHeaders = goexperimentAllocHeaders
+
+var Compactors = compactors
+var Class2Size = class_to_size
+
+const ObjectQuantum = objectQuantum
