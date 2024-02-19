@@ -7,6 +7,7 @@ package os_test
 import (
 	"errors"
 	"fmt"
+	"internal/godebug"
 	"internal/poll"
 	"internal/syscall/windows"
 	"internal/syscall/windows/registry"
@@ -26,6 +27,8 @@ import (
 	"unicode/utf16"
 	"unsafe"
 )
+
+var winsymlink = godebug.New("winsymlink")
 
 // For TestRawConnReadWrite.
 type syscallDescriptor = syscall.Handle
@@ -90,9 +93,10 @@ func TestSameWindowsFile(t *testing.T) {
 }
 
 type dirLinkTest struct {
-	name    string
-	mklink  func(link, target string) error
-	issueNo int // correspondent issue number (for broken tests)
+	name         string
+	mklink       func(link, target string) error
+	issueNo      int // correspondent issue number (for broken tests)
+	isMountPoint bool
 }
 
 func testDirLinks(t *testing.T, tests []dirLinkTest) {
@@ -158,9 +162,18 @@ func testDirLinks(t *testing.T, tests []dirLinkTest) {
 			t.Errorf("failed to lstat link %v: %v", link, err)
 			continue
 		}
-		if m := fi2.Mode(); m&fs.ModeSymlink == 0 {
-			t.Errorf("%q should be a link, but is not (mode=0x%x)", link, uint32(m))
-			continue
+		if test.isMountPoint && winsymlink.Value() != "0" {
+			if m := fi2.Mode(); m&fs.ModeIrregular == 0 {
+				t.Errorf("%q should be an irrefular file, but is not (mode=0x%x)", link, uint32(m))
+				continue
+			}
+		} else {
+			// This is either a real symlink, or a mount point treated as a symlink.
+			if m := fi2.Mode(); m&fs.ModeSymlink == 0 {
+				t.Errorf("%q should be a link, but is not (mode=0x%x)", link, uint32(m))
+				continue
+			}
+
 		}
 		if m := fi2.Mode(); m&fs.ModeDir != 0 {
 			t.Errorf("%q should be a link, not a directory (mode=0x%x)", link, uint32(m))
@@ -272,7 +285,8 @@ func TestDirectoryJunction(t *testing.T) {
 	var tests = []dirLinkTest{
 		{
 			// Create link similar to what mklink does, by inserting \??\ at the front of absolute target.
-			name: "standard",
+			name:         "standard",
+			isMountPoint: true,
 			mklink: func(link, target string) error {
 				var t reparseData
 				t.addSubstituteName(`\??\` + target)
@@ -282,7 +296,8 @@ func TestDirectoryJunction(t *testing.T) {
 		},
 		{
 			// Do as junction utility https://learn.microsoft.com/en-us/sysinternals/downloads/junction does - set PrintNameLength to 0.
-			name: "have_blank_print_name",
+			name:         "have_blank_print_name",
+			isMountPoint: true,
 			mklink: func(link, target string) error {
 				var t reparseData
 				t.addSubstituteName(`\??\` + target)
@@ -296,7 +311,8 @@ func TestDirectoryJunction(t *testing.T) {
 	if mklinkSupportsJunctionLinks {
 		tests = append(tests,
 			dirLinkTest{
-				name: "use_mklink_cmd",
+				name:         "use_mklink_cmd",
+				isMountPoint: true,
 				mklink: func(link, target string) error {
 					output, err := testenv.Command(t, "cmd", "/c", "mklink", "/J", link, target).CombinedOutput()
 					if err != nil {
@@ -1243,13 +1259,14 @@ func TestRootDirAsTemp(t *testing.T) {
 }
 
 func testReadlink(t *testing.T, path, want string) {
+	t.Helper()
 	got, err := os.Readlink(path)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	if got != want {
-		t.Errorf(`Readlink(%q): got %q, want %q`, path, got, want)
+		t.Errorf("Readlink(%q) = %q; want %q", path, got, want)
 	}
 }
 
@@ -1306,12 +1323,22 @@ func TestWindowsReadlink(t *testing.T) {
 	testReadlink(t, absdirjlink, dir)
 
 	ntdirjlink := filepath.Join(tmpdir, "ntdirjlink")
-	mklinkj(t, ntdirjlink, ntvol+absdirjlink[len(filepath.VolumeName(absdirjlink)):])
-	testReadlink(t, ntdirjlink, absdirjlink)
+	ntdirjtarget := filepath.Join(ntvol, absdirjlink[len(filepath.VolumeName(absdirjlink)):])
+	want := ntdirjtarget
+	if winsymlink.Value() == "0" {
+		want = absdirjlink
+	}
+	mklinkj(t, ntdirjlink, ntdirjtarget)
+	testReadlink(t, ntdirjlink, want)
 
 	ntdirjlinktolink := filepath.Join(tmpdir, "ntdirjlinktolink")
-	mklinkj(t, ntdirjlinktolink, ntvol+absdirjlink[len(filepath.VolumeName(absdirjlink)):])
-	testReadlink(t, ntdirjlinktolink, absdirjlink)
+	ntdirjlinktotarget := filepath.Join(ntvol, absdirjlink[len(filepath.VolumeName(absdirjlink)):])
+	want = ntdirjlinktotarget
+	if winsymlink.Value() == "0" {
+		want = absdirjlink
+	}
+	mklinkj(t, ntdirjlinktolink, ntdirjlinktotarget)
+	testReadlink(t, ntdirjlinktolink, want)
 
 	mklinkj(t, "reldirjlink", "dir")
 	testReadlink(t, "reldirjlink", dir) // relative directory junction resolves to absolute path
@@ -1324,8 +1351,13 @@ func TestWindowsReadlink(t *testing.T) {
 	testReadlink(t, absdirlink, dir)
 
 	ntdirlink := filepath.Join(tmpdir, "ntdirlink")
-	mklinkd(t, ntdirlink, ntvol+absdirlink[len(filepath.VolumeName(absdirlink)):])
-	testReadlink(t, ntdirlink, absdirlink)
+	ntdirtarget := filepath.Join(ntvol, absdirlink[len(filepath.VolumeName(absdirlink)):])
+	want = ntdirtarget
+	if winsymlink.Value() == "0" {
+		want = absdirlink
+	}
+	mklinkd(t, ntdirlink, ntdirtarget)
+	testReadlink(t, ntdirlink, want)
 
 	mklinkd(t, "reldirlink", "dir")
 	testReadlink(t, "reldirlink", "dir")
@@ -1341,8 +1373,13 @@ func TestWindowsReadlink(t *testing.T) {
 	testReadlink(t, filelink, file)
 
 	linktofilelink := filepath.Join(tmpdir, "linktofilelink")
-	mklink(t, linktofilelink, ntvol+filelink[len(filepath.VolumeName(filelink)):])
-	testReadlink(t, linktofilelink, filelink)
+	linktofiletarget := filepath.Join(ntvol, filelink[len(filepath.VolumeName(filelink)):])
+	want = linktofiletarget
+	if winsymlink.Value() == "0" {
+		want = filelink
+	}
+	mklink(t, linktofilelink, linktofiletarget)
+	testReadlink(t, linktofilelink, want)
 
 	mklink(t, "relfilelink", "file")
 	testReadlink(t, "relfilelink", "file")
