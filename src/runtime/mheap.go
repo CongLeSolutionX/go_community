@@ -239,6 +239,16 @@ var mheap_ mheap
 type heapArena struct {
 	_ sys.NotInHeap
 
+	// ptrTarget records during GC every object quantum that has
+	// at least one pointer to it.
+	ptrTarget [quantaPerArena / ptrBits]uintptr
+
+	// Dirty bits, one bit for each card of the arena.
+	// A card is dirty if one of the ptrTarget bits in it has been
+	// set since the last cleaning (scanning) of the card.
+	// Any dirty card must be queued in a work queue somewhere.
+	dirtyCards [cardsPerArena / ptrBits]uintptr
+
 	// spans maps from virtual address page ID within this arena to *mspan.
 	// For allocated spans, their pages map to the span itself.
 	// For free spans, only the lowest and highest pages map to the span itself.
@@ -983,7 +993,21 @@ func (h *mheap) allocManual(npages uintptr, typ spanAllocType) *mspan {
 	if !typ.manual() {
 		throw("manual span allocation called with non-manually-managed type")
 	}
-	return h.allocSpan(npages, typ, 0)
+	s := h.allocSpan(npages, typ, 0)
+
+	// Pre-set all the ptrTarget bits to make sure no cards in
+	// these spans ever get dirtied.
+	// (Pointers into manual (aka stack) spans are handled
+	// in other ways.)
+	for i := uintptr(0); i < s.npages; i++ {
+		p := s.base() + i*pageSize
+		ai := arenaIndex(p)
+		ha := mheap_.arenas[ai.l1()][ai.l2()]
+		x := p / objectQuantum % quantaPerArena
+		bitSet(ha.ptrTarget[:]).setInRange(x, x+pageSize/objectQuantum)
+	}
+
+	return s
 }
 
 // setSpans modifies the span map so [spanOf(base), spanOf(base+npage*pageSize))
@@ -1578,6 +1602,16 @@ func (h *mheap) freeSpan(s *mspan) {
 //go:systemstack
 func (h *mheap) freeManual(s *mspan, typ spanAllocType) {
 	pageTraceFree(getg().m.p.ptr(), 0, s.base(), s.npages)
+
+	// Clear all the ptrTarget bits so span can be reused for
+	// regular objects.
+	for i := uintptr(0); i < s.npages; i++ {
+		p := s.base() + i*pageSize
+		ai := arenaIndex(p)
+		ha := mheap_.arenas[ai.l1()][ai.l2()]
+		x := p / objectQuantum % quantaPerArena
+		bitSet(ha.ptrTarget[:]).clearInRange(x, x+pageSize/objectQuantum)
+	}
 
 	s.needzero = 1
 	lock(&h.lock)

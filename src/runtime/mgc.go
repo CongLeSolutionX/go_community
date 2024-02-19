@@ -695,6 +695,27 @@ func gcStart(trigger gcTrigger) {
 	// reclaimed until the next GC cycle.
 	clearpools()
 
+	// Check to make sure no ptrTarget bits are set yet (except stack spans).
+	if true {
+		for _, ai := range mheap_.allArenas {
+			ha := mheap_.arenas[ai.l1()][ai.l2()]
+			for c, x := range ha.ptrTarget[:] {
+				s := ha.spans[c*cardSize/pageSize]
+				if s != nil && s.state.get() == mSpanManual {
+					if ^x != 0 {
+						//println(hex(x))
+						//throw("ptrTarget bit not set")
+					}
+				} else {
+					if x != 0 {
+						println(hex(s.base()), s.elemsize, c, hex(x))
+						throw("ptrTarget bit set")
+					}
+				}
+			}
+		}
+	}
+
 	work.cycles.Add(1)
 
 	// Assists and workers can start the moment we start

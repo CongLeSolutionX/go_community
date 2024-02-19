@@ -255,7 +255,9 @@ const (
 	// heapArenaBitmapWords is the size of each heap arena's bitmap in uintptrs.
 	heapArenaBitmapWords = heapArenaWords / (8 * goarch.PtrSize)
 
-	pagesPerArena = heapArenaBytes / pageSize
+	pagesPerArena  = heapArenaBytes / pageSize
+	cardsPerArena  = heapArenaBytes / cardSize
+	quantaPerArena = heapArenaBytes / objectQuantum
 
 	// arenaL1Bits is the number of bits of the arena number
 	// covered by the first level arena map.
@@ -343,6 +345,13 @@ const (
 	// metadata mappings back to the OS. That would be quite complex to do in general
 	// as the heap is likely fragmented after a reduction in heap size.
 	minHeapForMetadataHugePages = 1 << 30
+
+	// Bytes in an object quantum. An (aligned) object quantum must never
+	// straddle an object boundary. In other words, there is a unique mapping
+	// from object quantum to object.
+	objectQuantum = 8
+
+	cardSize = objectQuantum * ptrBits // bytes in a card, the unit of work for the pointer target GC
 )
 
 // physPageSize is the size in bytes of the OS's physical pages.

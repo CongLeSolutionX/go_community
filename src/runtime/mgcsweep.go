@@ -650,7 +650,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 	if nalloc > s.allocCount {
 		// The zombie check above should have caught this in
 		// more detail.
-		print("runtime: nelems=", s.nelems, " nalloc=", nalloc, " previous allocCount=", s.allocCount, " nfreed=", nfreed, "\n")
+		print("runtime: nelems=", s.nelems, " nalloc=", nalloc, " previous allocCount=", s.allocCount, " nfreed=", nfreed, " base=", hex(s.base()), "\n")
 		throw("sweep increased allocation count")
 	}
 
@@ -673,6 +673,15 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 
 	// Initialize alloc bits cache.
 	s.refillAllocCache(0)
+
+	// Clear ptrTarget bits in preparation for next GC.
+	for i := uintptr(0); i < s.npages; i++ {
+		p := s.base() + i*pageSize
+		ai := arenaIndex(p)
+		ha := mheap_.arenas[ai.l1()][ai.l2()]
+		x := p / objectQuantum % quantaPerArena
+		bitSet(ha.ptrTarget[:]).clearInRange(x, x+pageSize/objectQuantum)
+	}
 
 	// The span must be in our exclusive ownership until we update sweepgen,
 	// check for potential races.

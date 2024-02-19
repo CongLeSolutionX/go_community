@@ -24,7 +24,6 @@ package runtime
 
 import (
 	"internal/goarch"
-	"internal/runtime/atomic"
 	"unsafe"
 )
 
@@ -211,13 +210,6 @@ func wbBufFlush1(pp *p) {
 		return
 	}
 
-	// Mark all of the pointers in the buffer and record only the
-	// pointers we greyed. We use the buffer itself to temporarily
-	// record greyed pointers.
-	//
-	// TODO: Should scanobject/scanblock just stuff pointers into
-	// the wbBuf? Then this would become the sole greying path.
-	//
 	// TODO: We could avoid shading any of the "new" pointers in
 	// the buffer if the stack has been shaded, or even avoid
 	// putting them in the buffer at all (which would double its
@@ -226,7 +218,6 @@ func wbBufFlush1(pp *p) {
 	// buffer, or just track globally whether there are any
 	// un-shaded stacks and flush after each stack scan.
 	gcw := &pp.gcw
-	pos := 0
 	for _, ptr := range ptrs {
 		if ptr < minLegalPointer {
 			// nil pointers are very common, especially
@@ -237,34 +228,8 @@ func wbBufFlush1(pp *p) {
 			// path to reduce the rate of flushes?
 			continue
 		}
-		obj, span, objIndex := findObject(ptr, 0, 0)
-		if obj == 0 {
-			continue
-		}
-		// TODO: Consider making two passes where the first
-		// just prefetches the mark bits.
-		mbits := span.markBitsForIndex(objIndex)
-		if mbits.isMarked() {
-			continue
-		}
-		mbits.setMarked()
-
-		// Mark span.
-		arena, pageIdx, pageMask := pageIndexOf(span.base())
-		if arena.pageMarks[pageIdx]&pageMask == 0 {
-			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
-		}
-
-		if span.spanclass.noscan() {
-			gcw.bytesMarked += uint64(span.elemsize)
-			continue
-		}
-		ptrs[pos] = obj
-		pos++
+		processLivePointer(gcw, ptr)
 	}
-
-	// Enqueue the greyed objects.
-	gcw.putBatch(ptrs[:pos])
 
 	pp.wbBuf.reset()
 }

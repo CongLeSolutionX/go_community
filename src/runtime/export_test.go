@@ -1886,3 +1886,8 @@ func (m *TraceMap) PutString(s string) (uint64, bool) {
 func (m *TraceMap) Reset() {
 	m.traceMap.reset()
 }
+
+var Compactors = compactors
+var Class2Size = class_to_size
+
+const ObjectQuantum = objectQuantum

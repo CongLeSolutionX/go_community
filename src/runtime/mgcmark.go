@@ -1237,7 +1237,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 			// Unable to get work.
 			break
 		}
-		scanobject(b, gcw)
+		scanCard(b, gcw)
 
 		// Flush background scan work credit to the global
 		// account if we've accumulated enough locally so
@@ -1326,7 +1326,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 			break
 		}
 
-		scanobject(b, gcw)
+		scanCard(b, gcw)
 
 		// Flush background scan work credit.
 		if gcw.heapScanWork >= gcCreditSlack {
@@ -1349,7 +1349,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 // This is used to scan non-heap roots, so it does not update
 // gcw.bytesMarked or gcw.heapScanWork.
 //
-// If stk != nil, possible stack pointers are also reported to stk.putPtr.
+// If stk != nil, possible stack pointers are reported to stk.putPtr.
 //
 //go:nowritebarrier
 func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState) {
@@ -1371,10 +1371,10 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 				// Same work as in scanobject; see comments there.
 				p := *(*uintptr)(unsafe.Pointer(b + i))
 				if p != 0 {
-					if obj, span, objIndex := findObject(p, b, i); obj != 0 {
-						greyobject(obj, b, i, span, gcw, objIndex)
-					} else if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
+					if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
 						stk.putPtr(p, false)
+					} else {
+						processLivePointer(gcw, p)
 					}
 				}
 			}
@@ -1385,12 +1385,23 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 }
 
 // scanobject scans the object starting at b, adding pointers to gcw.
-// b must point to the beginning of a heap object or an oblet.
+// b must point to the beginning of a heap object.
 // scanobject consults the GC bitmap for the pointer mask and the
 // spans for the size of the object.
+// Note: used only for scanning an object without marking it, which
+// is needed just for finalizers.
 //
 //go:nowritebarrier
 func scanobject(b uintptr, gcw *gcWork) {
+	s := spanOfUnchecked(b)
+	if !s.spanclass.noscan() {
+		scanObject(b, s, gcw)
+	}
+}
+
+// Scans the object starting at b and processes any pointers it finds.
+// b must be in s and s must not be a noscan span.
+func scanObject(b uintptr, s *mspan, gcw *gcWork) {
 	// Prefetch object before we scan it.
 	//
 	// This will overlap fetching the beginning of the object with initial
@@ -1398,49 +1409,11 @@ func scanobject(b uintptr, gcw *gcWork) {
 	sys.Prefetch(b)
 
 	// Find the bits for b and the size of the object at b.
-	//
-	// b is either the beginning of an object, in which case this
-	// is the size of the object to scan, or it points to an
-	// oblet, in which case we compute the size to scan below.
-	s := spanOfUnchecked(b)
 	n := s.elemsize
 	if n == 0 {
-		throw("scanobject n == 0")
+		throw("scanObject n == 0")
 	}
-	if s.spanclass.noscan() {
-		// Correctness-wise this is ok, but it's inefficient
-		// if noscan objects reach here.
-		throw("scanobject of a noscan object")
-	}
-
-	var tp typePointers
-	if n > maxObletBytes {
-		// Large object. Break into oblets for better
-		// parallelism and lower latency.
-		if b == s.base() {
-			// Enqueue the other oblets to scan later.
-			// Some oblets may be in b's scalar tail, but
-			// these will be marked as "no more pointers",
-			// so we'll drop out immediately when we go to
-			// scan those.
-			for oblet := b + maxObletBytes; oblet < s.base()+s.elemsize; oblet += maxObletBytes {
-				if !gcw.putFast(oblet) {
-					gcw.put(oblet)
-				}
-			}
-		}
-
-		// Compute the size of the oblet. Since this object
-		// must be a large object, s.base() is the beginning
-		// of the object.
-		n = s.base() + s.elemsize - b
-		n = min(n, maxObletBytes)
-		tp = s.typePointersOfUnchecked(s.base())
-		tp = tp.fastForward(b-tp.addr, b+n)
-	} else {
-		tp = s.typePointersOfUnchecked(b)
-	}
-
+	tp := s.typePointersOfUnchecked(b)
 	var scanSize uintptr
 	for {
 		var addr uintptr
@@ -1455,29 +1428,370 @@ func scanobject(b uintptr, gcw *gcWork) {
 		// now that we can skip scalar portions pretty efficiently?
 		scanSize = addr - b + goarch.PtrSize
 
-		// Work here is duplicated in scanblock and above.
-		// If you make changes here, make changes there too.
+		// Load pointer from pointer-typed slot in object.
 		obj := *(*uintptr)(unsafe.Pointer(addr))
 
-		// At this point we have extracted the next potential pointer.
 		// Quickly filter out nil and pointers back to the current object.
-		if obj != 0 && obj-b >= n {
-			// Test if obj points into the Go heap and, if so,
-			// mark the object.
-			//
-			// Note that it's possible for findObject to
-			// fail if obj points to a just-allocated heap
-			// object because of a race with growing the
-			// heap. In this case, we know the object was
-			// just allocated and hence will be marked by
-			// allocation itself.
-			if obj, span, objIndex := findObject(obj, b, addr-b); obj != 0 {
-				greyobject(obj, b, addr-b, span, gcw, objIndex)
+		if obj == 0 || obj-b < n {
+			continue
+		}
+
+		// At this point we have extracted the next potential pointer.
+		processLivePointer(gcw, obj)
+	}
+	gcw.heapScanWork += int64(scanSize)
+}
+
+// A bitSet is a set of bits that can be set or cleared, possibly
+// using atomic operations. The bits are packed tightly, so
+// a bitSet s holds len(s)*ptrBits bits.
+type bitSet []uintptr
+
+// atomicSet sets the ith bit atomically. Returns true if successful.
+func (s bitSet) atomicSet(i uintptr) bool {
+	word, bit := i/ptrBits, i%ptrBits
+	p := &s[word]
+	for {
+		mask := atomic.Loaduintptr(p) // TODO: need to be atomic (because of the early return below)?
+		if mask&(1<<bit) != 0 {
+			return false
+		}
+		if atomic.Casuintptr(p, mask, mask|1<<bit) {
+			return true
+		}
+		// TODO: use atomic.OR?
+	}
+}
+
+// atomicClear resets the ith bit atomically.
+func (s bitSet) atomicClear(i uintptr) {
+	word, bit := i/ptrBits, i%ptrBits
+	p := &s[word]
+	for {
+		mask := atomic.Loaduintptr(p)
+		if mask&(1<<bit) == 0 {
+			return
+		}
+		if atomic.Casuintptr(p, mask, mask&^(1<<bit)) {
+			return
+		}
+		// TODO: use atomic.AND?
+	}
+}
+
+// hasInRange reports whether s has any bits set in the range [i,j).
+func (s bitSet) hasInRange(i, j uintptr) bool {
+	iword, ibit := i/ptrBits, i%ptrBits
+	jword, jbit := j/ptrBits, j%ptrBits
+	if iword == jword {
+		return s[iword]&(1<<jbit-1)>>ibit != 0
+	}
+	if s[iword]>>ibit != 0 {
+		return true
+	}
+	if jbit != 0 && s[jword]&(1<<jbit-1) != 0 {
+		return true
+	}
+	for k := iword + 1; k < jword; k++ {
+		if s[k] != 0 {
+			return true
+		}
+	}
+	return false
+}
+
+// setInRange sets all the bits in [i,j).
+func (s bitSet) setInRange(i, j uintptr) {
+	iword, ibit := i/ptrBits, i%ptrBits
+	jword, jbit := j/ptrBits, j%ptrBits
+	if iword == jword {
+		m := uintptr(1)<<jbit - uintptr(1)<<ibit
+		p := &s[iword]
+		for {
+			mask := *p
+			if atomic.Casuintptr(p, mask, mask|m) {
+				break
+			}
+		}
+		return
+	}
+	{
+		m := ^uintptr(0) << ibit
+		p := &s[iword]
+		for {
+			mask := *p
+			if atomic.Casuintptr(p, mask, mask|m) {
+				break
 			}
 		}
 	}
-	gcw.bytesMarked += uint64(n)
-	gcw.heapScanWork += int64(scanSize)
+	if jbit != 0 {
+		m := uintptr(1)<<jbit - 1
+		p := &s[jword]
+		for {
+			mask := *p
+			if atomic.Casuintptr(p, mask, mask|m) {
+				break
+			}
+		}
+	}
+	for k := iword + 1; k < jword; k++ {
+		atomic.Storeuintptr(&s[k], ^uintptr(0))
+	}
+}
+
+// clearInRange resets all the bits in [i,j).
+func (s bitSet) clearInRange(i, j uintptr) {
+	iword, ibit := i/ptrBits, i%ptrBits
+	jword, jbit := j/ptrBits, j%ptrBits
+	if iword == jword {
+		m := uintptr(1)<<jbit - uintptr(1)<<ibit
+		p := &s[iword]
+		for {
+			mask := *p
+			if atomic.Casuintptr(p, mask, mask&^m) {
+				break
+			}
+		}
+		return
+	}
+	{
+		m := ^uintptr(0) << ibit
+		p := &s[iword]
+		for {
+			mask := *p
+			if atomic.Casuintptr(p, mask, mask&^m) {
+				break
+			}
+		}
+	}
+	if jbit != 0 {
+		m := uintptr(1)<<jbit - 1
+		p := &s[jword]
+		for {
+			mask := *p
+			if atomic.Casuintptr(p, mask, mask&^m) {
+				break
+			}
+		}
+	}
+	for k := iword + 1; k < jword; k++ {
+		atomic.Storeuintptr(&s[k], 0)
+	}
+}
+
+// processLivePointer takes p, a value known to be a live pointer.
+// p could be:
+//   - nil
+//   - a pointer to a heap object
+//   - a pointer to the stack
+//   - a pointer to globals, C memory, etc.
+//
+// p must not be:
+//   - a conservatively scanned "pointer"
+//
+//go:nowritebarrier
+func processLivePointer(gcw *gcWork, p uintptr) {
+	if p < minLegalPointer {
+		return
+	}
+
+	// Find heap arena the target is in.
+	ri := arenaIndex(p)
+	if arenaL1Bits == 0 {
+		// If there's no L1, then ri.l1() can't be out of bounds but ri.l2() can.
+		if ri.l2() >= uint(len(mheap_.arenas[0])) {
+			return
+		}
+	} else {
+		// If there's an L1, then ri.l1() can be out of bounds but ri.l2() can't.
+		if ri.l1() >= uint(len(mheap_.arenas)) {
+			return
+		}
+	}
+	l2 := mheap_.arenas[ri.l1()]
+	if arenaL1Bits != 0 && l2 == nil { // Should never happen if there's no L1.
+		return
+	}
+	ha := l2[ri.l2()]
+	if ha == nil {
+		return
+	}
+
+	// Set the pointed-to bit.
+	if !bitSet(ha.ptrTarget[:]).atomicSet(p / objectQuantum % quantaPerArena) {
+		return // bit already set - we're done.
+	}
+	// Set the dirty card bit.
+	if !bitSet(ha.dirtyCards[:]).atomicSet(p / cardSize % cardsPerArena) {
+		return // bit already set - card is already in a work queue
+	}
+
+	// Put newly-dirty card in a work queue.
+	c := p &^ (cardSize - 1)
+	if !gcw.putFast(c) {
+		gcw.put(c)
+	}
+}
+
+func scanCard(c uintptr, gcw *gcWork) {
+	if c%cardSize != 0 {
+		// TODO: oblet stuff
+		throw("oblet")
+	}
+
+	ai := arenaIndex(c)
+	ha := mheap_.arenas[ai.l1()][ai.l2()]
+
+	// Clear card dirty bit.
+	// This must be done before starting to work on the card,
+	// so that if more updates to the card come in, the card
+	// will get reinserted into a work queue and we will
+	// process it again.
+	bitSet(ha.dirtyCards[:]).atomicClear(c / cardSize % cardsPerArena)
+
+	s := ha.spans[c/pageSize%pagesPerArena]
+	if s == nil {
+		// This is probably a bad pointer of some sort.
+		throw("card from nonexistent span")
+	}
+	if s.state.get() == mSpanManual {
+		throw("card of stack span")
+	}
+	n := s.elemsize
+	if n == 0 {
+		// This is probably a bad pointer of some sort.
+		switch s.state.get() {
+		case mSpanManual:
+			throw("findWork manual span (stack?)")
+		case mSpanDead:
+			throw("findWork free span")
+		default:
+			throw("findWork in use span???")
+		}
+	}
+	scan := !s.spanclass.noscan()
+
+	// Grab the card's pointer target bits.
+	// Note that we don't use atomics here, as it is ok
+	// to get stale-ish data here.
+	// TODO: flush out this argument.
+	ptrTarget := ha.ptrTarget[c/cardSize%cardsPerArena]
+	if ptrTarget == 0 {
+		throw("dirty card with no pointer bits set")
+	}
+
+	// Check for bad pointers. These will be ptrTarget bits
+	// that are set for object quanta beyond the last object.
+	endOfData := s.base() + uintptr(s.nelems)*n
+	if endOfData <= c ||
+		endOfData-c < cardSize && ptrTarget>>((endOfData-c)/objectQuantum) != 0 {
+		// Whole card is junk, or junk portion has a bit set.
+		throw("pointer past data in span")
+	}
+
+	// Figure out the object containing the first byte of the card.
+	startIdx := s.divideByElemSize(c - s.base())
+	b := s.base() + startIdx*n
+	mb := s.markBitsForIndex(startIdx)
+	foundLiveObject := false
+
+	if n >= cardSize {
+
+		// Big objects: there can be at most one object start per card.
+		if b+n >= c+cardSize {
+			// Card is inside a single object.
+			if !mb.isMarked() {
+				mb.setMarked()
+				foundLiveObject = true
+				gcw.bytesMarked += uint64(n)
+				if scan {
+					scanObject(b, s, gcw)
+				}
+			}
+		} else {
+			// Card contains a boundary between 2 objects.
+			// Split the ptrTarget bits between the two objects.
+			split := (b + n - c) / objectQuantum
+			highPart := ptrTarget >> split
+			if ptrTarget != highPart<<split && !mb.isMarked() {
+				mb.setMarked()
+				foundLiveObject = true
+				gcw.bytesMarked += uint64(n)
+				if scan {
+					scanObject(b, s, gcw)
+				}
+			}
+			if highPart != 0 {
+				mb.advance()
+				if !mb.isMarked() {
+					mb.setMarked()
+					foundLiveObject = true
+					gcw.bytesMarked += uint64(n)
+					if scan {
+						scanObject(b+n, s, gcw)
+					}
+				}
+			}
+		}
+		// TODO: oblets
+
+	} else { // n < cardSize
+
+		if b != c {
+			// Card starts with the end of an object that starts in
+			// a previous card. Process that object.
+			nq := (b + n - c) / objectQuantum
+			if ptrTarget>>nq<<nq != ptrTarget && !mb.isMarked() {
+				mb.setMarked()
+				foundLiveObject = true
+				gcw.bytesMarked += uint64(n)
+				if scan {
+					scanObject(b, s, gcw)
+				}
+			}
+			ptrTarget >>= nq
+			if ptrTarget == 0 {
+				goto markSpan
+			}
+			b += n
+			startIdx++
+		}
+
+		markBits := s.manyMarkBitsForIndex(startIdx)
+		targetBits := compactors[s.spanclass.sizeclass()](ptrTarget)
+		newlyLive := targetBits &^ markBits
+		if newlyLive == 0 {
+			goto markSpan
+		}
+
+		// We need to process an object if there is a pointer to it
+		// and it hasn't been marked yet.
+		for newlyLive != 0 {
+			idx := uintptr(sys.TrailingZeros64(uint64(newlyLive)))
+			newlyLive &^= 1 << idx
+			s.markBitsForIndex(startIdx + idx).setMarked()
+			gcw.bytesMarked += uint64(n)
+
+			// Scan object.
+			if scan {
+				scanObject(b+idx*n, s, gcw)
+			}
+		}
+
+		foundLiveObject = true
+	}
+
+markSpan:
+	if foundLiveObject {
+		// Mark containing span.
+		page := s.base() / pageSize % pagesPerArena
+		pageIdx, pageBit := page/8, page%8
+		pageMask := byte(1) << pageBit
+		if ha.pageMarks[pageIdx]&pageMask == 0 {
+			atomic.Or8(&ha.pageMarks[pageIdx], pageMask)
+		}
+	}
 }
 
 // scanConservative scans block [b, b+n) conservatively, treating any
@@ -1570,8 +1884,11 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 		}
 
 		// val points to an allocated object. Mark it.
+		// (Might as well use the pointer to the start of
+		// the object, as we've already basically
+		// calculated it.)
 		obj := span.base() + idx*span.elemsize
-		greyobject(obj, b, i, span, gcw, idx)
+		processLivePointer(gcw, obj)
 	}
 }
 
@@ -1581,69 +1898,7 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 //
 //go:nowritebarrier
 func shade(b uintptr) {
-	if obj, span, objIndex := findObject(b, 0, 0); obj != 0 {
-		gcw := &getg().m.p.ptr().gcw
-		greyobject(obj, 0, 0, span, gcw, objIndex)
-	}
-}
-
-// obj is the start of an object with mark mbits.
-// If it isn't already marked, mark it and enqueue into gcw.
-// base and off are for debugging only and could be removed.
-//
-// See also wbBufFlush1, which partially duplicates this logic.
-//
-//go:nowritebarrierrec
-func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintptr) {
-	// obj should be start of allocation, and so must be at least pointer-aligned.
-	if obj&(goarch.PtrSize-1) != 0 {
-		throw("greyobject: obj not pointer-aligned")
-	}
-	mbits := span.markBitsForIndex(objIndex)
-
-	if useCheckmark {
-		if setCheckmark(obj, base, off, mbits) {
-			// Already marked.
-			return
-		}
-	} else {
-		if debug.gccheckmark > 0 && span.isFree(objIndex) {
-			print("runtime: marking free object ", hex(obj), " found at *(", hex(base), "+", hex(off), ")\n")
-			gcDumpObject("base", base, off)
-			gcDumpObject("obj", obj, ^uintptr(0))
-			getg().m.traceback = 2
-			throw("marking free object")
-		}
-
-		// If marked we have nothing to do.
-		if mbits.isMarked() {
-			return
-		}
-		mbits.setMarked()
-
-		// Mark span.
-		arena, pageIdx, pageMask := pageIndexOf(span.base())
-		if arena.pageMarks[pageIdx]&pageMask == 0 {
-			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
-		}
-
-		// If this is a noscan object, fast-track it to black
-		// instead of greying it.
-		if span.spanclass.noscan() {
-			gcw.bytesMarked += uint64(span.elemsize)
-			return
-		}
-	}
-
-	// We're adding obj to P's local workbuf, so it's likely
-	// this object will be processed soon by the same P.
-	// Even if the workbuf gets flushed, there will likely still be
-	// some benefit on platforms with inclusive shared caches.
-	sys.Prefetch(obj)
-	// Queue the obj for scanning.
-	if !gcw.putFast(obj) {
-		gcw.put(obj)
-	}
+	processLivePointer(&getg().m.p.ptr().gcw, b)
 }
 
 // gcDumpObject dumps the contents of obj for debugging and marks the
@@ -1717,6 +1972,26 @@ func gcmarknewobject(span *mspan, obj uintptr) {
 
 	gcw := &getg().m.p.ptr().gcw
 	gcw.bytesMarked += uint64(span.elemsize)
+
+	// Set ptrTarget bits for object, so processing pointers to it
+	// will not enqueue any new cards.
+	n := span.elemsize
+	obj = span.base() + objIndex*n // recompute to include header, if any
+	for {
+		ai := arenaIndex(obj)
+		ha := mheap_.arenas[ai.l1()][ai.l2()]
+		x := obj / objectQuantum % quantaPerArena // first bit to set
+		r := heapArenaBytes - obj%heapArenaBytes  // bytes until next arena boundary
+		if n <= r {
+			nq := n / objectQuantum
+			bitSet(ha.ptrTarget[:]).setInRange(x, x+nq)
+			break
+		}
+		nq := r / objectQuantum
+		bitSet(ha.ptrTarget[:]).setInRange(x, x+nq)
+		obj += r
+		n -= r
+	}
 }
 
 // gcMarkTinyAllocs greys all active tiny alloc blocks.
@@ -1730,8 +2005,6 @@ func gcMarkTinyAllocs() {
 		if c == nil || c.tiny == 0 {
 			continue
 		}
-		_, span, objIndex := findObject(c.tiny, 0, 0)
-		gcw := &p.gcw
-		greyobject(c.tiny, 0, 0, span, gcw, objIndex)
+		processLivePointer(&p.gcw, c.tiny)
 	}
 }

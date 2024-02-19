@@ -1213,6 +1213,28 @@ func (m *markBits) advance() {
 	m.index++
 }
 
+// manyMarkBitsForIndex returns a mask of mark bits starting
+// at object objIndex.
+func (s *mspan) manyMarkBitsForIndex(objIndex uintptr) uintptr {
+	// Start of mark bits.
+	p := (*uintptr)(unsafe.Pointer(s.gcmarkBits.bytep(0)))
+	if s.nelems <= ptrBits {
+		// All the mark bits are in a single word.
+		return *p >> objIndex
+	}
+	// Find out word index and offset within word of the bits we need.
+	w, b := objIndex/ptrBits, objIndex%ptrBits
+
+	// Read and assemble pointer bit mask.
+	q := (*[2]uintptr)(add(unsafe.Pointer(p), w*goarch.PtrSize))
+	m := q[0] >> b
+	if b != 0 && objIndex+(ptrBits-b) < uintptr(s.nelems) {
+		m += q[1] << (ptrBits - b)
+	}
+	return m
+	// TODO: this depends on endianness
+}
+
 // clobberdeadPtr is a special value that is used by the compiler to
 // clobber dead stack slots, when -clobberdead flag is set.
 const clobberdeadPtr = uintptr(0xdeaddead | 0xdeaddead<<((^uintptr(0)>>63)*32))

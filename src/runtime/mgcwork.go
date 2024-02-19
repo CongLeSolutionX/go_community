@@ -31,14 +31,18 @@ func init() {
 
 // Garbage collector work pool abstraction.
 //
-// This implements a producer/consumer model for pointers to grey
-// objects. A grey object is one that is marked and on a work
-// queue. A black object is marked and not on a work queue.
+// This implements a producer/consumer model for dirty cards.
+// A dirty card is one that we've found a pointer to, but has
+// yet to be processed.
+//
+// In terms of standard GC terminology, an object is gray if
+// it has one of its ptrTarget bits set, is unmarked, and one
+// of the cards it lives in is in a work queue.
 //
 // Write barriers, root discovery, stack scanning, and object scanning
-// produce pointers to grey objects. Scanning consumes pointers to
-// grey objects, thus blackening them, and then scans them,
-// potentially producing new pointers to grey objects.
+// produce dirty cards. Card cleaning consumes dirty cards, blackening
+// and scanning contained objects, potentially producing new dirty
+// cards.
 
 // A gcWork provides the interface to produce and consume work for the
 // garbage collector.
@@ -158,40 +162,6 @@ func (w *gcWork) putFast(obj uintptr) bool {
 	wbuf.obj[wbuf.nobj] = obj
 	wbuf.nobj++
 	return true
-}
-
-// putBatch performs a put on every pointer in obj. See put for
-// constraints on these pointers.
-//
-//go:nowritebarrierrec
-func (w *gcWork) putBatch(obj []uintptr) {
-	if len(obj) == 0 {
-		return
-	}
-
-	flushed := false
-	wbuf := w.wbuf1
-	if wbuf == nil {
-		w.init()
-		wbuf = w.wbuf1
-	}
-
-	for len(obj) > 0 {
-		for wbuf.nobj == len(wbuf.obj) {
-			putfull(wbuf)
-			w.flushedWork = true
-			w.wbuf1, w.wbuf2 = w.wbuf2, getempty()
-			wbuf = w.wbuf1
-			flushed = true
-		}
-		n := copy(wbuf.obj[wbuf.nobj:], obj)
-		wbuf.nobj += n
-		obj = obj[n:]
-	}
-
-	if flushed && gcphase == _GCmark {
-		gcController.enlistWorker()
-	}
 }
 
 // tryGet dequeues a pointer for the garbage collector to trace.
