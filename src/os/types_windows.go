@@ -5,6 +5,7 @@
 package os
 
 import (
+	"internal/godebug"
 	"internal/syscall/windows"
 	"sync"
 	"syscall"
@@ -145,34 +146,71 @@ func (fs *fileStat) isReparseTagNameSurrogate() bool {
 	return fs.ReparseTag&0x20000000 != 0
 }
 
-func (fs *fileStat) isSymlink() bool {
-	// As of https://go.dev/cl/86556, we treat MOUNT_POINT reparse points as
-	// symlinks because otherwise certain directory junction tests in the
-	// path/filepath package would fail.
-	//
-	// However,
-	// https://learn.microsoft.com/en-us/windows/win32/fileio/hard-links-and-junctions
-	// seems to suggest that directory junctions should be treated like hard
-	// links, not symlinks.
-	//
-	// TODO(bcmills): Get more input from Microsoft on what the behavior ought to
-	// be for MOUNT_POINT reparse points.
-
-	return fs.ReparseTag == syscall.IO_REPARSE_TAG_SYMLINK ||
-		fs.ReparseTag == windows.IO_REPARSE_TAG_MOUNT_POINT
-}
-
 func (fs *fileStat) Size() int64 {
 	return int64(fs.FileSizeHigh)<<32 + int64(fs.FileSizeLow)
 }
 
+var winsymlink = godebug.New("winsymlink")
+
 func (fs *fileStat) Mode() (m FileMode) {
+	if winsymlink.Value() == "0" {
+		return fs.modePreGo1_23()
+	}
 	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_READONLY != 0 {
 		m |= 0444
 	} else {
 		m |= 0666
 	}
-	if fs.isSymlink() {
+
+	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_REPARSE_POINT != 0 {
+		switch fs.ReparseTag {
+		case syscall.IO_REPARSE_TAG_SYMLINK:
+			return m | ModeSymlink
+		case windows.IO_REPARSE_TAG_AF_UNIX:
+			return m | ModeSocket
+		case windows.IO_REPARSE_TAG_DEDUP:
+			// If the Data Deduplication service is enabled on Windows Server, its
+			// Optimization job may convert regular files to IO_REPARSE_TAG_DEDUP
+			// whenever that job runs.
+			//
+			// However, DEDUP reparse points remain similar in most respects to
+			// regular files: they continue to support random-access reads and writes
+			// of persistent data, and they shouldn't add unexpected latency or
+			// unavailability in the way that a network filesystem might.
+			//
+			// Go programs may use ModeIrregular to filter out unusual files (such as
+			// raw device files on Linux, POSIX FIFO special files, and so on), so
+			// to avoid files changing unpredictably from regular to irregular we will
+			// consider DEDUP files to be close enough to regular to treat as such.
+		default:
+			return m | ModeIrregular
+		}
+	}
+
+	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_DIRECTORY != 0 {
+		m |= ModeDir | 0111
+	}
+	switch fs.filetype {
+	case syscall.FILE_TYPE_PIPE:
+		m |= ModeNamedPipe
+	case syscall.FILE_TYPE_CHAR:
+		m |= ModeDevice | ModeCharDevice
+	}
+	return
+}
+
+// modePreGo1_23 returns the FileMode for the fileStat, using the pre-Go 1.23
+// logic for determining the file mode.
+// The logic is subtle and not well-documented, so it is better to keep it
+// separate from the new logic.
+func (fs *fileStat) modePreGo1_23() (m FileMode) {
+	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_READONLY != 0 {
+		m |= 0444
+	} else {
+		m |= 0666
+	}
+	if fs.ReparseTag == syscall.IO_REPARSE_TAG_SYMLINK ||
+		fs.ReparseTag == windows.IO_REPARSE_TAG_MOUNT_POINT {
 		return m | ModeSymlink
 	}
 	if fs.FileAttributes&syscall.FILE_ATTRIBUTE_DIRECTORY != 0 {
@@ -190,19 +228,7 @@ func (fs *fileStat) Mode() (m FileMode) {
 		}
 		if m&ModeType == 0 {
 			if fs.ReparseTag == windows.IO_REPARSE_TAG_DEDUP {
-				// If the Data Deduplication service is enabled on Windows Server, its
-				// Optimization job may convert regular files to IO_REPARSE_TAG_DEDUP
-				// whenever that job runs.
-				//
-				// However, DEDUP reparse points remain similar in most respects to
-				// regular files: they continue to support random-access reads and writes
-				// of persistent data, and they shouldn't add unexpected latency or
-				// unavailability in the way that a network filesystem might.
-				//
-				// Go programs may use ModeIrregular to filter out unusual files (such as
-				// raw device files on Linux, POSIX FIFO special files, and so on), so
-				// to avoid files changing unpredictably from regular to irregular we will
-				// consider DEDUP files to be close enough to regular to treat as such.
+				// See comment in fs.Mode.
 			} else {
 				m |= ModeIrregular
 			}
