@@ -7,6 +7,7 @@ package filepath_test
 import (
 	"flag"
 	"fmt"
+	"internal/godebug"
 	"internal/testenv"
 	"io/fs"
 	"os"
@@ -486,6 +487,104 @@ func TestWalkDirectorySymlink(t *testing.T) {
 	testWalkMklink(t, "D")
 }
 
+func createMountPartition(t *testing.T, vhd string, args string) []byte {
+	t.Cleanup(func() {
+		testenv.Command(t, "powershell", "-Command", fmt.Sprintf("Dismount-Vhd %q", vhd)).CombinedOutput()
+	})
+
+	script := filepath.Join(t.TempDir(), "test.ps1")
+	cmd := "" +
+		fmt.Sprintf("$vhd = New-VHD -Path %q -SizeBytes 3MB -Fixed\n", vhd) +
+		"$vhd | Mount-VHD\n" +
+		fmt.Sprintf("$vhd = Get-VHD %q\n", vhd) +
+		"$vhd | Get-Disk | Initialize-Disk -PartitionStyle GPT\n" +
+		"$part = $vhd | Get-Disk | New-Partition -UseMaximumSize -AssignDriveLetter:$false\n" +
+		"$vol = $part | Format-Volume -FileSystem NTFS\n" +
+		args
+
+	err := os.WriteFile(script, []byte(cmd), 0666)
+	if err != nil {
+		t.Fatal(err)
+	}
+	output, err := testenv.Command(t, "powershell", "-File", script).CombinedOutput()
+	if err != nil {
+		// This can happen if Hyper-V is not installed or enabled.
+		t.Skip("skipping test because failed to create VHD: ", err, string(output))
+	}
+	return output
+}
+
+func sameFile(t *testing.T, f1, f2 string) bool {
+	fi1, err := os.Stat(f1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fi2, err := os.Stat(f2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return os.SameFile(fi1, fi2)
+}
+
+var winsymlink = godebug.New("winsymlink")
+
+func TestEvalSymlinksVolumeID(t *testing.T) {
+	// See go.dev/issue/39786.
+
+	if winsymlink.Value() == "0" {
+		t.Skip("skipping test because winsymlink is not enabled")
+	}
+
+	output, _ := exec.Command("cmd", "/c", "mklink", "/?").Output()
+	if !strings.Contains(string(output), " /J ") {
+		t.Skip("skipping test because mklink command does not support junctions")
+	}
+
+	tmpdir := tempDirCanonical(t)
+	vhd := filepath.Join(tmpdir, "Test.vhdx")
+	output = createMountPartition(t, vhd, "Write-Host $vol.Path -NoNewline")
+	vol := string(output)
+
+	dirlink := filepath.Join(tmpdir, "dirlink")
+	output, err := testenv.Command(t, "cmd", "/c", "mklink", "/J", dirlink, vol).CombinedOutput()
+	if err != nil {
+		t.Fatalf("failed to run mklink %v %v: %v %q", dirlink, vol, err, output)
+	}
+	got, err := filepath.EvalSymlinks(dirlink)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != dirlink {
+		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, dirlink, got, dirlink)
+	}
+}
+
+func TestEvalSymlinksValidRecursion(t *testing.T) {
+	// See go.dev/issue/40176.
+
+	if winsymlink.Value() == "0" {
+		t.Skip("skipping test because winsymlink is not enabled")
+	}
+
+	tmpdir := tempDirCanonical(t)
+	dirlink := filepath.Join(tmpdir, "dirlink")
+	err := os.Mkdir(dirlink, 0755)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	vhd := filepath.Join(tmpdir, "Test.vhdx")
+	createMountPartition(t, vhd, fmt.Sprintf("$part | Add-PartitionAccessPath -AccessPath %q\n", dirlink))
+
+	got, err := filepath.EvalSymlinks(dirlink)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !sameFile(t, got, dirlink) {
+		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, dirlink, got, dirlink)
+	}
+}
+
 func TestNTNamespaceSymlink(t *testing.T) {
 	output, _ := exec.Command("cmd", "/c", "mklink", "/?").Output()
 	if !strings.Contains(string(output), " /J ") {
@@ -511,7 +610,7 @@ func TestNTNamespaceSymlink(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if want := vol + `\`; got != want {
+	if want := vol + `\`; !sameFile(t, got, want) {
 		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, dirlink, got, want)
 	}
 
@@ -536,7 +635,7 @@ func TestNTNamespaceSymlink(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if want := file; got != want {
+	if want := file; !sameFile(t, got, want) {
 		t.Errorf(`EvalSymlinks(%q): got %q, want %q`, filelink, got, want)
 	}
 }
