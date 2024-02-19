@@ -378,7 +378,7 @@ type workType struct {
 	// markDoneSema protects transitions from mark to mark termination.
 	markDoneSema uint32
 
-	bgMarkDone  uint32 // cas to 1 when at a background mark completion point
+	bgMarkDone uint32 // cas to 1 when at a background mark completion point
 	// Background mark completion signaling
 
 	// mode is the concurrency mode of the current GC cycle.
@@ -687,6 +687,27 @@ func gcStart(trigger gcTrigger) {
 	// clearpools before we start the GC. If we wait the memory will not be
 	// reclaimed until the next GC cycle.
 	clearpools()
+
+	// Check to make sure no ptrTarget bits are set yet (except stack spans).
+	if true {
+		for _, ai := range mheap_.allArenas {
+			ha := mheap_.arenas[ai.l1()][ai.l2()]
+			for c, x := range ha.ptrTarget[:] {
+				s := ha.spans[c*cardSize/pageSize]
+				if s != nil && s.state.get() == mSpanManual {
+					if ^x != 0 {
+						//println(hex(x))
+						//throw("ptrTarget bit not set")
+					}
+				} else {
+					if x != 0 {
+						println(hex(s.base()), s.elemsize, c, hex(x))
+						throw("ptrTarget bit set")
+					}
+				}
+			}
+		}
+	}
 
 	work.cycles.Add(1)
 
