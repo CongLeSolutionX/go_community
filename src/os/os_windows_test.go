@@ -7,6 +7,7 @@ package os_test
 import (
 	"errors"
 	"fmt"
+	"internal/godebug"
 	"internal/poll"
 	"internal/syscall/windows"
 	"internal/syscall/windows/registry"
@@ -26,6 +27,8 @@ import (
 	"unicode/utf16"
 	"unsafe"
 )
+
+var winsymlink = godebug.New("winsymlink")
 
 // For TestRawConnReadWrite.
 type syscallDescriptor = syscall.Handle
@@ -90,9 +93,10 @@ func TestSameWindowsFile(t *testing.T) {
 }
 
 type dirLinkTest struct {
-	name    string
-	mklink  func(link, target string) error
-	issueNo int // correspondent issue number (for broken tests)
+	name         string
+	mklink       func(link, target string) error
+	issueNo      int // correspondent issue number (for broken tests)
+	isMountPoint bool
 }
 
 func testDirLinks(t *testing.T, tests []dirLinkTest) {
@@ -140,8 +144,8 @@ func testDirLinks(t *testing.T, tests []dirLinkTest) {
 			t.Errorf("failed to stat link %v: %v", link, err)
 			continue
 		}
-		if !fi1.IsDir() {
-			t.Errorf("%q should be a directory", link)
+		if tp := fi1.Mode().Type(); tp != fs.ModeDir {
+			t.Errorf("Stat(%q) is type %v; want %v", link, tp, fs.ModeDir)
 			continue
 		}
 		if fi1.Name() != filepath.Base(link) {
@@ -158,13 +162,16 @@ func testDirLinks(t *testing.T, tests []dirLinkTest) {
 			t.Errorf("failed to lstat link %v: %v", link, err)
 			continue
 		}
-		if m := fi2.Mode(); m&fs.ModeSymlink == 0 {
-			t.Errorf("%q should be a link, but is not (mode=0x%x)", link, uint32(m))
-			continue
+		var wantType fs.FileMode
+		if test.isMountPoint && winsymlink.Value() != "0" {
+			// Mount points are reparse points, and we no longer treat them as symlinks.
+			wantType = fs.ModeIrregular
+		} else {
+			// This is either a real symlink, or a mount point treated as a symlink.
+			wantType = fs.ModeSymlink
 		}
-		if m := fi2.Mode(); m&fs.ModeDir != 0 {
-			t.Errorf("%q should be a link, not a directory (mode=0x%x)", link, uint32(m))
-			continue
+		if tp := fi2.Mode().Type(); tp != wantType {
+			t.Errorf("Lstat(%q) is type %v; want %v", link, tp, fs.ModeDir)
 		}
 	}
 }
@@ -272,7 +279,8 @@ func TestDirectoryJunction(t *testing.T) {
 	var tests = []dirLinkTest{
 		{
 			// Create link similar to what mklink does, by inserting \??\ at the front of absolute target.
-			name: "standard",
+			name:         "standard",
+			isMountPoint: true,
 			mklink: func(link, target string) error {
 				var t reparseData
 				t.addSubstituteName(`\??\` + target)
@@ -282,7 +290,8 @@ func TestDirectoryJunction(t *testing.T) {
 		},
 		{
 			// Do as junction utility https://learn.microsoft.com/en-us/sysinternals/downloads/junction does - set PrintNameLength to 0.
-			name: "have_blank_print_name",
+			name:         "have_blank_print_name",
+			isMountPoint: true,
 			mklink: func(link, target string) error {
 				var t reparseData
 				t.addSubstituteName(`\??\` + target)
@@ -296,7 +305,8 @@ func TestDirectoryJunction(t *testing.T) {
 	if mklinkSupportsJunctionLinks {
 		tests = append(tests,
 			dirLinkTest{
-				name: "use_mklink_cmd",
+				name:         "use_mklink_cmd",
+				isMountPoint: true,
 				mklink: func(link, target string) error {
 					output, err := testenv.Command(t, "cmd", "/c", "mklink", "/J", link, target).CombinedOutput()
 					if err != nil {
@@ -1243,109 +1253,197 @@ func TestRootDirAsTemp(t *testing.T) {
 }
 
 func testReadlink(t *testing.T, path, want string) {
+	t.Helper()
 	got, err := os.Readlink(path)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	if got != want {
-		t.Errorf(`Readlink(%q): got %q, want %q`, path, got, want)
+		t.Errorf("Readlink(%#q) = %#q; want %#q", path, got, want)
 	}
 }
 
-func mklink(t *testing.T, link, target string) {
-	output, err := testenv.Command(t, "cmd", "/c", "mklink", link, target).CombinedOutput()
+// tempDirCanonical returns a temporary directory for the test to use, ensuring
+// that the returned path does not contain symlinks.
+func tempDirCanonical(t *testing.T) string {
+	t.Helper()
+	dir, err := filepath.EvalSymlinks(t.TempDir())
 	if err != nil {
-		t.Fatalf("failed to run mklink %v %v: %v %q", link, target, err, output)
+		t.Fatalf("tempDirCanonical: %v", err)
 	}
+	return dir
 }
 
-func mklinkj(t *testing.T, link, target string) {
-	output, err := testenv.Command(t, "cmd", "/c", "mklink", "/J", link, target).CombinedOutput()
+// replaceDriveWithVolumeID returns path with its volume name replaced with
+// the mounted volume ID. E.g. C:\foo -> \\?\Volume{GUID}\foo.
+func replaceDriveWithVolumeID(t *testing.T, path string) string {
+	t.Helper()
+	cmd := testenv.Command(t, "cmd", "/c", "mountvol", filepath.VolumeName(path), "/L")
+	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatalf("failed to run mklink %v %v: %v %q", link, target, err, output)
+		t.Fatalf("%v: %v\n%s", cmd, err, out)
 	}
+	vol := strings.Trim(string(out), " \n\r")
+	return filepath.Join(vol, path[len(filepath.VolumeName(path)):])
 }
 
-func mklinkd(t *testing.T, link, target string) {
-	output, err := testenv.Command(t, "cmd", "/c", "mklink", "/D", link, target).CombinedOutput()
-	if err != nil {
-		t.Fatalf("failed to run mklink %v %v: %v %q", link, target, err, output)
-	}
-}
+func TestReadlink_Junction_Absolute_Drive(t *testing.T) {
+	t.Parallel()
 
-func TestWindowsReadlink(t *testing.T) {
-	tmpdir, err := os.MkdirTemp("", "TestWindowsReadlink")
-	if err != nil {
+	tmpdir := tempDirCanonical(t)
+	link := filepath.Join(tmpdir, "link")
+	target := filepath.Join(tmpdir, "target")
+	if err := os.MkdirAll(target, 0777); err != nil {
 		t.Fatal(err)
 	}
-	defer os.RemoveAll(tmpdir)
-
-	// Make sure tmpdir is not a symlink, otherwise tests will fail.
-	tmpdir, err = filepath.EvalSymlinks(tmpdir)
-	if err != nil {
-		t.Fatal(err)
+	cmd := testenv.Command(t, "cmd", "/c", "mklink", "/J", link, target)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("%v: %v\n%s", cmd, err, out)
 	}
+	testReadlink(t, link, target)
+}
+
+func TestReadlink_Junction_Absolute_Volume(t *testing.T) {
+	t.Parallel()
+
+	tmpdir := tempDirCanonical(t)
+	link := filepath.Join(tmpdir, "link")
+	target := filepath.Join(tmpdir, "target")
+	volTarget := replaceDriveWithVolumeID(t, target)
+	cmd := testenv.Command(t, "cmd", "/c", "mklink", "/J", link, volTarget)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("%v: %v\n%s", cmd, err, out)
+	}
+	want := volTarget
+	if winsymlink.Value() == "0" {
+		if err := os.MkdirAll(target, 0777); err != nil {
+			t.Fatal(err)
+		}
+		want = target
+	}
+	testReadlink(t, link, want)
+}
+
+func TestReadlink_Junction_Relative(t *testing.T) {
+	tmpdir := t.TempDir()
+	link := "link"
+	target := "dir"
+	want := filepath.Join(tmpdir, target) // relative directory junction resolves to absolute path
 	chdir(t, tmpdir)
-
-	vol := filepath.VolumeName(tmpdir)
-	output, err := testenv.Command(t, "cmd", "/c", "mountvol", vol, "/L").CombinedOutput()
-	if err != nil {
-		t.Fatalf("failed to run mountvol %v /L: %v %q", vol, err, output)
+	cmd := testenv.Command(t, "cmd", "/c", "mklink", "/J", link, target)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("%v: %v\n%s", cmd, err, out)
 	}
-	ntvol := strings.Trim(string(output), " \n\r")
+	testReadlink(t, link, want)
+}
 
-	dir := filepath.Join(tmpdir, "dir")
-	err = os.MkdirAll(dir, 0777)
-	if err != nil {
+func TestReadlink_SymbolicLink_Directory_Absolute_Drive(t *testing.T) {
+	// Make sure we have sufficient privilege to run mklink command.
+	testenv.MustHaveSymlink(t)
+	t.Parallel()
+
+	tmpdir := tempDirCanonical(t)
+	link := filepath.Join(tmpdir, "link")
+	target := filepath.Join(tmpdir, "target")
+	if err := os.MkdirAll(target, 0777); err != nil {
 		t.Fatal(err)
 	}
+	if err := os.Symlink(target, link); err != nil {
+		t.Fatalf("Symlink(%#q, %#q): %v", target, link, err)
+	}
+	testReadlink(t, link, target)
+}
 
-	absdirjlink := filepath.Join(tmpdir, "absdirjlink")
-	mklinkj(t, absdirjlink, dir)
-	testReadlink(t, absdirjlink, dir)
+func TestReadlink_SymbolicLink_Directory_Absolute_Volume(t *testing.T) {
+	// Make sure we have sufficient privilege to run mklink command.
+	testenv.MustHaveSymlink(t)
+	t.Parallel()
 
-	ntdirjlink := filepath.Join(tmpdir, "ntdirjlink")
-	mklinkj(t, ntdirjlink, ntvol+absdirjlink[len(filepath.VolumeName(absdirjlink)):])
-	testReadlink(t, ntdirjlink, absdirjlink)
+	tmpdir := tempDirCanonical(t)
+	link := filepath.Join(tmpdir, "link")
+	target := filepath.Join(tmpdir, "target")
+	volTarget := replaceDriveWithVolumeID(t, target)
+	if err := os.MkdirAll(target, 0777); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(volTarget, link); err != nil {
+		t.Fatalf("Symlink(%#q, %#q): %v", target, link, err)
+	}
+	want := volTarget
+	if winsymlink.Value() == "0" {
+		want = target
+	}
+	testReadlink(t, link, want)
+}
 
-	ntdirjlinktolink := filepath.Join(tmpdir, "ntdirjlinktolink")
-	mklinkj(t, ntdirjlinktolink, ntvol+absdirjlink[len(filepath.VolumeName(absdirjlink)):])
-	testReadlink(t, ntdirjlinktolink, absdirjlink)
-
-	mklinkj(t, "reldirjlink", "dir")
-	testReadlink(t, "reldirjlink", dir) // relative directory junction resolves to absolute path
-
+func TestReadlink_SymbolicLink_Directory_Relative(t *testing.T) {
 	// Make sure we have sufficient privilege to run mklink command.
 	testenv.MustHaveSymlink(t)
 
-	absdirlink := filepath.Join(tmpdir, "absdirlink")
-	mklinkd(t, absdirlink, dir)
-	testReadlink(t, absdirlink, dir)
-
-	ntdirlink := filepath.Join(tmpdir, "ntdirlink")
-	mklinkd(t, ntdirlink, ntvol+absdirlink[len(filepath.VolumeName(absdirlink)):])
-	testReadlink(t, ntdirlink, absdirlink)
-
-	mklinkd(t, "reldirlink", "dir")
-	testReadlink(t, "reldirlink", "dir")
-
-	file := filepath.Join(tmpdir, "file")
-	err = os.WriteFile(file, []byte(""), 0666)
-	if err != nil {
+	link := "link"
+	target := "dir"
+	chdir(t, t.TempDir())
+	if err := os.MkdirAll(target, 0777); err != nil {
 		t.Fatal(err)
 	}
+	if err := os.Symlink(target, link); err != nil {
+		t.Fatalf("Symlink(%#q, %#q): %v", target, link, err)
+	}
+	testReadlink(t, link, target)
+}
 
-	filelink := filepath.Join(tmpdir, "filelink")
-	mklink(t, filelink, file)
-	testReadlink(t, filelink, file)
+func TestReadlink_SymbolicLink_File_Absolute_Drive(t *testing.T) {
+	// Make sure we have sufficient privilege to run mklink command.
+	testenv.MustHaveSymlink(t)
+	t.Parallel()
 
-	linktofilelink := filepath.Join(tmpdir, "linktofilelink")
-	mklink(t, linktofilelink, ntvol+filelink[len(filepath.VolumeName(filelink)):])
-	testReadlink(t, linktofilelink, filelink)
+	tmpdir := tempDirCanonical(t)
+	link := filepath.Join(tmpdir, "filelink")
+	target := filepath.Join(tmpdir, "file")
+	if err := os.Symlink(target, link); err != nil {
+		t.Fatalf("Symlink(%#q, %#q): %v", target, link, err)
+	}
+	testReadlink(t, link, target)
+}
 
-	mklink(t, "relfilelink", "file")
-	testReadlink(t, "relfilelink", "file")
+func TestReadlink_SymbolicLink_File_Absolute_Volume(t *testing.T) {
+	// Make sure we have sufficient privilege to run mklink command.
+	testenv.MustHaveSymlink(t)
+	t.Parallel()
+
+	tmpdir := tempDirCanonical(t)
+	link := filepath.Join(tmpdir, "link")
+	target := filepath.Join(tmpdir, "target")
+	volTarget := replaceDriveWithVolumeID(t, target)
+	if err := os.WriteFile(target, nil, 0666); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(volTarget, link); err != nil {
+		t.Fatalf("Symlink(%#q, %#q): %v", target, link, err)
+	}
+	want := volTarget
+	if winsymlink.Value() == "0" {
+		want = target
+	}
+	testReadlink(t, link, want)
+}
+
+func TestReadlink_SymbolicLink_File_Relative(t *testing.T) {
+	// Make sure we have sufficient privilege to run mklink command.
+	testenv.MustHaveSymlink(t)
+
+	link := "link"
+	target := "file"
+
+	chdir(t, t.TempDir())
+	if err := os.WriteFile(target, nil, 0666); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(target, link); err != nil {
+		t.Fatalf("Symlink(%#q, %#q): %v", target, link, err)
+	}
+	testReadlink(t, link, target)
 }
 
 func TestOpenDirTOCTOU(t *testing.T) {
@@ -1414,16 +1512,10 @@ func TestAppExecLinkStat(t *testing.T) {
 	if lfi.Name() != pythonExeName {
 		t.Errorf("Stat %s: got %q, but wanted %q", pythonPath, lfi.Name(), pythonExeName)
 	}
-	if m := lfi.Mode(); m&fs.ModeSymlink != 0 {
-		t.Errorf("%q should be a file, not a link (mode=0x%x)", pythonPath, uint32(m))
-	}
-	if m := lfi.Mode(); m&fs.ModeDir != 0 {
-		t.Errorf("%q should be a file, not a directory (mode=0x%x)", pythonPath, uint32(m))
-	}
-	if m := lfi.Mode(); m&fs.ModeIrregular == 0 {
+	if tp := lfi.Mode().Type(); tp != fs.ModeIrregular {
 		// A reparse point is not a regular file, but we don't have a more appropriate
 		// ModeType bit for it, so it should be marked as irregular.
-		t.Errorf("%q should not be a regular file (mode=0x%x)", pythonPath, uint32(m))
+		t.Errorf("%q should not be a an irregular file (mode=0x%x)", pythonPath, uint32(tp))
 	}
 
 	if sfi.Name() != pythonExeName {
