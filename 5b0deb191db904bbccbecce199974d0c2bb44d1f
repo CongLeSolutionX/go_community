@@ -51,6 +51,24 @@
       "parentUuid": "e449401f_9e1a05c0",
       "revId": "5b0deb191db904bbccbecce199974d0c2bb44d1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b2f69d2_a800b94e",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-02-20T19:32:29Z",
+      "side": 1,
+      "message": "Your idea sounds ok to me.  Matthew might want to weigh in?",
+      "parentUuid": "dc21dcd4_cfdef5cb",
+      "revId": "5b0deb191db904bbccbecce199974d0c2bb44d1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
