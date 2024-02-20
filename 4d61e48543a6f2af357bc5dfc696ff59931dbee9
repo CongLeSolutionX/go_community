@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "896e19dc_9c771ded",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-20T06:01:33Z",
+      "side": 1,
+      "message": "Unfortunately I\u0027m not sure we can make this change.  This is an exported name, and there may be existing code that refers to it.  Changing the name, even to fix a spelling error, may break the Go 1 compatibility guarantee.",
+      "revId": "4d61e48543a6f2af357bc5dfc696ff59931dbee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
