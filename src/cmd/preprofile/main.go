@@ -104,7 +104,7 @@ func readPprofFile(profileFile string, outputFile string, verbose bool) bool {
 	nFlat := make(map[string]int64)
 	nCum := make(map[string]int64)
 
-	// Accummulate weights for the same node.
+	// Accumulate weights for the same node.
 	for _, n := range g.Nodes {
 		canonicalName := n.Info.Name
 		nFlat[canonicalName] += n.FlatValue()
