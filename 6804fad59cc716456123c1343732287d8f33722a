@@ -16,6 +16,24 @@
       "message": "Should we backport this, or not?",
       "revId": "6804fad59cc716456123c1343732287d8f33722a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5a00a5_b8e06789",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-02-20T22:36:57Z",
+      "side": 1,
+      "message": "On balance I think I\u0027d rather backport this CL than backport my fix.",
+      "parentUuid": "06be90c8_be63522a",
+      "revId": "6804fad59cc716456123c1343732287d8f33722a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
