@@ -16,6 +16,24 @@
       "message": "\"instead\" doesn\u0027t really tell the future reader anything useful.  I suggest\n\nhtml/template: replace bytes.Compare call with bytes.Equal",
       "revId": "d38432d9ad9ceaac7b65f92bcecc0f759602c869",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12efc565_65d69d99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3291034
+      },
+      "writtenOn": "2024-02-20T09:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f57e7f79_8a9e5128",
+      "revId": "d38432d9ad9ceaac7b65f92bcecc0f759602c869",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
