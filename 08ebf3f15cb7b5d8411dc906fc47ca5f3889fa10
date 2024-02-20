@@ -158,6 +158,24 @@
       "message": "Relevant comments have been added",
       "revId": "08ebf3f15cb7b5d8411dc906fc47ca5f3889fa10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f578b36_a632706a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-20T19:20:32Z",
+      "side": 1,
+      "message": "Thanks.  I didn\u0027t realize how many comments this would require.  I think this is too repetitive.\n\nHow about instead we document this in database/sql/driver Valuer.",
+      "parentUuid": "c35a6e4c_8e2cbff9",
+      "revId": "08ebf3f15cb7b5d8411dc906fc47ca5f3889fa10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
