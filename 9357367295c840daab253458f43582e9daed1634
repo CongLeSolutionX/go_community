@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "841bce0d_f4f82058",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-20T20:40:59Z",
+      "side": 1,
+      "message": "Reverting due to flakiness. @2645477756@qq.com, feel free to resend once the cause is discovered/fixed.",
+      "revId": "9357367295c840daab253458f43582e9daed1634",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
