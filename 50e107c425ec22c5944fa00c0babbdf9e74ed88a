@@ -33,6 +33,24 @@
       "message": "This feels very clumsy to me. It would be much better to have the name available here somehow. I am not sure how, but this is just too back-door and expensive.\n\nI would prefer doing nothing to adding this code, but the right fix is to find a way to flow the name to call somehow.",
       "revId": "50e107c425ec22c5944fa00c0babbdf9e74ed88a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdfa9f50_6515a3e6",
+        "filename": "src/text/template/funcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-20T20:20:37Z",
+      "side": 1,
+      "message": "I\u0027ll try another way to read the name with better performance.",
+      "parentUuid": "e2660dca_40d94ff9",
+      "revId": "50e107c425ec22c5944fa00c0babbdf9e74ed88a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
