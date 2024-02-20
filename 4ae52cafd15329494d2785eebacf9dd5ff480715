@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa84d404_4e713fdd",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-20T19:34:32Z",
+      "side": 1,
+      "message": "Indeed. Done.",
+      "parentUuid": "117f58ab_d5571f17",
+      "range": {
+        "startLine": 157,
+        "startChar": 35,
+        "endLine": 157,
+        "endChar": 45
+      },
+      "revId": "4ae52cafd15329494d2785eebacf9dd5ff480715",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52b07026_3f612268",
@@ -74,6 +98,30 @@
       "writtenOn": "2024-02-09T13:45:58Z",
       "side": 1,
       "message": "It seems like it would be pretty easy to check types in renameSelector, and then you wouldn\u0027t need to write this bespoke handler for Sel.Value. The hardest part would be, I suppose, type checking types2.\n\n```\nrenameSelector(f, info, \"(syntax.Name).Value-\u003eName\")\n```",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 1
+      },
+      "revId": "4ae52cafd15329494d2785eebacf9dd5ff480715",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce689090_dccecebe",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-20T19:34:32Z",
+      "side": 1,
+      "message": "Yes, having type info could make all this much better.\nFor another CL.",
+      "parentUuid": "52b07026_3f612268",
       "range": {
         "startLine": 246,
         "startChar": 0,
@@ -107,6 +155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a7b1040_ca417e16",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-20T19:34:32Z",
+      "side": 1,
+      "message": "The atPos definitions are different. But I will look into it (for another CL).\nAdded TODO.",
+      "parentUuid": "3689e6db_8cf4d066",
+      "range": {
+        "startLine": 314,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 17
+      },
+      "revId": "4ae52cafd15329494d2785eebacf9dd5ff480715",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98cfa436_704440aa",
@@ -120,6 +192,30 @@
       "writtenOn": "2024-02-09T13:45:58Z",
       "side": 1,
       "message": "I think it may be simpler to extract these to a separate, ungenerated file.\n\nFor example, `errpositions.go`:\n\n```\npackage types\n\n// This file contains helper functions defining the positions of various errors.\n// This helps with generating go/types from types2.\n\nfunc invalidDotDotDotPos(call *ast.CallExpr) positioner { return atPos(call.Ellipsis) }\n```\n\nThat\u0027s a lot fewer lines of code, and seems a lot less brittle since it is integrated with the package definition, rather than in a layer on top.",
+      "range": {
+        "startLine": 386,
+        "startChar": 5,
+        "endLine": 386,
+        "endChar": 27
+      },
+      "revId": "4ae52cafd15329494d2785eebacf9dd5ff480715",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d46e9a3_fd4a082c",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-20T19:34:32Z",
+      "side": 1,
+      "message": "Indeed. Fixed.",
+      "parentUuid": "98cfa436_704440aa",
       "range": {
         "startLine": 386,
         "startChar": 5,
