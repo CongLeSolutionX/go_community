@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe926217_39448193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-20T21:13:52Z",
+      "side": 1,
+      "message": "I\u0027m curious as to why #65809 wasn\u0027t caught by existing tests.\n\nWe certainly need tests to be tolerant of timing jitter across platforms, but I would think that the test could at least be sensitive enough to notice a systematic factor of 1000 difference — and a unit mismatch like that isn\u0027t something that would disappear just by scaling up timeouts on retries.\n\n(Contrast with, say, the tests using `timeoutUpperBound` and `nextTimeout` in `net/timeout_test.go`, where we verify that the actual observed timeout duration eventually hits at least the right order of magnitude.)\n\nWould it be feasible to test the keep-alive settings (at least in non-`-short` mode) by measuring the time for an actual keep-alive to expire (as the user would observe), rather than just checking the result of `syscall.GetsockoptInt` against the values we expect to be passed to `syscall.SetsockoptInt` elsewhere in the code?",
+      "revId": "726a82d88a2be7c76d89c3f1902e6cc0a48a9b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d739416_a9187d03",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
