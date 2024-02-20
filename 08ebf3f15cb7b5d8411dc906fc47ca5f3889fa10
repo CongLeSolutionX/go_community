@@ -87,6 +87,24 @@
       "message": "Thanks for the change.  I\u0027m struggling with where this should be documented.  People should be able to rely on using errors.Is to pick up errors returned by a Value method, and that means that we should write that down somewhere.  But where?  Any ideas?",
       "revId": "08ebf3f15cb7b5d8411dc906fc47ca5f3889fa10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f55a8a2_c3908c98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2024-02-20T01:41:51Z",
+      "side": 1,
+      "message": "I suggest adding comments directly in the GoDoc comments for both the Query and Exec methods within the database/sql package. This approach keeps the information accessible right where developers will make use of it.\n\n```\n...\n// If any argument implements the driver.Valuer interface and \n// returns an error from its Value method, Query wraps these errors \n// using fmt.Errorf and %w verb. This allows callers to use errors.Is \n// to check for specific error values.\nfunc (db *DB) Query(query string, args ...any) (*Rows, error) {\n\treturn db.QueryContext(context.Background(), query, args...)\n}\n```\n\n```\n...\n// If any argument implements the driver.Valuer interface and \n// returns an error from its Value method, Exec wraps these errors \n// using fmt.Errorf and %w verb. This allows callers to use errors.Is \n// to check for specific error values.\nfunc (db *DB) Exec(query string, args ...any) (Result, error) {\n\treturn db.ExecContext(context.Background(), query, args...)\n}\n```\n\nWhat do you think?",
+      "parentUuid": "ad9561c9_8756d91b",
+      "revId": "08ebf3f15cb7b5d8411dc906fc47ca5f3889fa10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
