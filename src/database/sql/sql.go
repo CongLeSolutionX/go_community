@@ -1654,6 +1654,11 @@ func (db *DB) prepareDC(ctx context.Context, dc *driverConn, release func(error)
 
 // ExecContext executes a query without returning any rows.
 // The args are for any placeholder parameters in the query.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, ExecContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (db *DB) ExecContext(ctx context.Context, query string, args ...any) (Result, error) {
 	var res Result
 	var err error
@@ -1668,6 +1673,11 @@ func (db *DB) ExecContext(ctx context.Context, query string, args ...any) (Resul
 
 // Exec executes a query without returning any rows.
 // The args are for any placeholder parameters in the query.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, Exec wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 //
 // Exec uses [context.Background] internally; to specify the context, use
 // [DB.ExecContext].
@@ -1724,6 +1734,11 @@ func (db *DB) execDC(ctx context.Context, dc *driverConn, release func(error), q
 
 // QueryContext executes a query that returns rows, typically a SELECT.
 // The args are for any placeholder parameters in the query.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, QueryContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (db *DB) QueryContext(ctx context.Context, query string, args ...any) (*Rows, error) {
 	var rows *Rows
 	var err error
@@ -1738,6 +1753,11 @@ func (db *DB) QueryContext(ctx context.Context, query string, args ...any) (*Row
 
 // Query executes a query that returns rows, typically a SELECT.
 // The args are for any placeholder parameters in the query.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, Query wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 //
 // Query uses [context.Background] internally; to specify the context, use
 // [DB.QueryContext].
@@ -1828,6 +1848,12 @@ func (db *DB) queryDC(ctx, txctx context.Context, dc *driverConn, releaseConn fu
 // If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
 // Otherwise, [*Row.Scan] scans the first selected row and discards
 // the rest.
+//
+// if any argument implements the driver.Valuer interface and
+// returns an error from its Value method, this error will be captured and
+// wrapped using fmt.Errorf and the %w verb when it is processed during the call to Scan.
+// This approach allows callers to use errors.Is in the subsequent call to [*Row.Scan]
+// to check for specific error values, ensuring precise error handling.
 func (db *DB) QueryRowContext(ctx context.Context, query string, args ...any) *Row {
 	rows, err := db.QueryContext(ctx, query, args...)
 	return &Row{rows: rows, err: err}
@@ -1839,6 +1865,12 @@ func (db *DB) QueryRowContext(ctx context.Context, query string, args ...any) *R
 // If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
 // Otherwise, [*Row.Scan] scans the first selected row and discards
 // the rest.
+//
+// if any argument implements the driver.Valuer interface and
+// returns an error from its Value method, this error will be captured and
+// wrapped using fmt.Errorf and the %w verb when it is processed during the call to Scan.
+// This approach allows callers to use errors.Is in the subsequent call to [*Row.Scan]
+// to check for specific error values, ensuring precise error handling.
 //
 // QueryRow uses [context.Background] internally; to specify the context, use
 // [DB.QueryRowContext].
@@ -2009,6 +2041,11 @@ func (c *Conn) PingContext(ctx context.Context) error {
 
 // ExecContext executes a query without returning any rows.
 // The args are for any placeholder parameters in the query.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, ExecContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (c *Conn) ExecContext(ctx context.Context, query string, args ...any) (Result, error) {
 	dc, release, err := c.grabConn(ctx)
 	if err != nil {
@@ -2019,6 +2056,11 @@ func (c *Conn) ExecContext(ctx context.Context, query string, args ...any) (Resu
 
 // QueryContext executes a query that returns rows, typically a SELECT.
 // The args are for any placeholder parameters in the query.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, QueryContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (c *Conn) QueryContext(ctx context.Context, query string, args ...any) (*Rows, error) {
 	dc, release, err := c.grabConn(ctx)
 	if err != nil {
@@ -2033,6 +2075,12 @@ func (c *Conn) QueryContext(ctx context.Context, query string, args ...any) (*Ro
 // If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
 // Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
+//
+// if any argument implements the driver.Valuer interface and
+// returns an error from its Value method, this error will be captured and
+// wrapped using fmt.Errorf and the %w verb when it is processed during the call to Scan.
+// This approach allows callers to use errors.Is in the subsequent call to [*Row.Scan]
+// to check for specific error values, ensuring precise error handling.
 func (c *Conn) QueryRowContext(ctx context.Context, query string, args ...any) *Row {
 	rows, err := c.QueryContext(ctx, query, args...)
 	return &Row{rows: rows, err: err}
@@ -2498,6 +2546,11 @@ func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
 
 // ExecContext executes a query that doesn't return rows.
 // For example: an INSERT and UPDATE.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, ExecContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (tx *Tx) ExecContext(ctx context.Context, query string, args ...any) (Result, error) {
 	dc, release, err := tx.grabConn(ctx)
 	if err != nil {
@@ -2509,6 +2562,11 @@ func (tx *Tx) ExecContext(ctx context.Context, query string, args ...any) (Resul
 // Exec executes a query that doesn't return rows.
 // For example: an INSERT and UPDATE.
 //
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, Exec wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
+//
 // Exec uses [context.Background] internally; to specify the context, use
 // [Tx.ExecContext].
 func (tx *Tx) Exec(query string, args ...any) (Result, error) {
@@ -2516,6 +2574,11 @@ func (tx *Tx) Exec(query string, args ...any) (Result, error) {
 }
 
 // QueryContext executes a query that returns rows, typically a SELECT.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, QueryContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (tx *Tx) QueryContext(ctx context.Context, query string, args ...any) (*Rows, error) {
 	dc, release, err := tx.grabConn(ctx)
 	if err != nil {
@@ -2529,6 +2592,11 @@ func (tx *Tx) QueryContext(ctx context.Context, query string, args ...any) (*Row
 //
 // Query uses [context.Background] internally; to specify the context, use
 // [Tx.QueryContext].
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, Query wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (tx *Tx) Query(query string, args ...any) (*Rows, error) {
 	return tx.QueryContext(context.Background(), query, args...)
 }
@@ -2539,6 +2607,12 @@ func (tx *Tx) Query(query string, args ...any) (*Rows, error) {
 // If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
 // Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
+//
+// if any argument implements the driver.Valuer interface and
+// returns an error from its Value method, this error will be captured and
+// wrapped using fmt.Errorf and the %w verb when it is processed during the call to Scan.
+// This approach allows callers to use errors.Is in the subsequent call to [*Row.Scan]
+// to check for specific error values, ensuring precise error handling.
 func (tx *Tx) QueryRowContext(ctx context.Context, query string, args ...any) *Row {
 	rows, err := tx.QueryContext(ctx, query, args...)
 	return &Row{rows: rows, err: err}
@@ -2550,6 +2624,12 @@ func (tx *Tx) QueryRowContext(ctx context.Context, query string, args ...any) *R
 // If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
 // Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
+//
+// if any argument implements the driver.Valuer interface and
+// returns an error from its Value method, this error will be captured and
+// wrapped using fmt.Errorf and the %w verb when it is processed during the call to Scan.
+// This approach allows callers to use errors.Is in the subsequent call to [*Row.Scan]
+// to check for specific error values, ensuring precise error handling.
 //
 // QueryRow uses [context.Background] internally; to specify the context, use
 // [Tx.QueryRowContext].
@@ -2630,6 +2710,11 @@ type Stmt struct {
 
 // ExecContext executes a prepared statement with the given arguments and
 // returns a [Result] summarizing the effect of the statement.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, ExecContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (s *Stmt) ExecContext(ctx context.Context, args ...any) (Result, error) {
 	s.closemu.RLock()
 	defer s.closemu.RUnlock()
@@ -2651,6 +2736,11 @@ func (s *Stmt) ExecContext(ctx context.Context, args ...any) (Result, error) {
 
 // Exec executes a prepared statement with the given arguments and
 // returns a [Result] summarizing the effect of the statement.
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, Exec wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 //
 // Exec uses [context.Background] internally; to specify the context, use
 // [Stmt.ExecContext].
@@ -2770,6 +2860,11 @@ func (s *Stmt) prepareOnConnLocked(ctx context.Context, dc *driverConn) (*driver
 
 // QueryContext executes a prepared query statement with the given arguments
 // and returns the query results as a [*Rows].
+//
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, QueryContext wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
 func (s *Stmt) QueryContext(ctx context.Context, args ...any) (*Rows, error) {
 	s.closemu.RLock()
 	defer s.closemu.RUnlock()
@@ -2820,6 +2915,11 @@ func (s *Stmt) QueryContext(ctx context.Context, args ...any) (*Rows, error) {
 // Query executes a prepared query statement with the given arguments
 // and returns the query results as a *Rows.
 //
+// If any argument implements the driver.Valuer interface and
+// returns an error from its Value method, Query wraps these errors
+// using fmt.Errorf and %w verb. This allows callers to use errors.Is
+// to check for specific error values.
+//
 // Query uses [context.Background] internally; to specify the context, use
 // [Stmt.QueryContext].
 func (s *Stmt) Query(args ...any) (*Rows, error) {
@@ -2842,6 +2942,12 @@ func rowsiFromStatement(ctx context.Context, ci driver.Conn, ds *driverStmt, arg
 // If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
 // Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
+//
+// if any argument implements the driver.Valuer interface and
+// returns an error from its Value method, this error will be captured and
+// wrapped using fmt.Errorf and the %w verb when it is processed during the call to Scan.
+// This approach allows callers to use errors.Is in the subsequent call to [*Row.Scan]
+// to check for specific error values, ensuring precise error handling.
 func (s *Stmt) QueryRowContext(ctx context.Context, args ...any) *Row {
 	rows, err := s.QueryContext(ctx, args...)
 	if err != nil {
@@ -2856,6 +2962,12 @@ func (s *Stmt) QueryRowContext(ctx context.Context, args ...any) *Row {
 // If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
 // Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
+//
+// if any argument implements the driver.Valuer interface and
+// returns an error from its Value method, this error will be captured and
+// wrapped using fmt.Errorf and the %w verb when it is processed during the call to Scan.
+// This approach allows callers to use errors.Is in the subsequent call to [*Row.Scan]
+// to check for specific error values, ensuring precise error handling.
 //
 // Example usage:
 //
