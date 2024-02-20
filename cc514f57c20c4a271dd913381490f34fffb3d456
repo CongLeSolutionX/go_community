@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c54e766_eddeec9e",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-20T19:34:50Z",
+      "side": 1,
+      "message": "I think we may. For another CL.",
+      "parentUuid": "5b508e95_01c41389",
+      "range": {
+        "startLine": 212,
+        "startChar": 5,
+        "endLine": 212,
+        "endChar": 24
+      },
+      "revId": "cc514f57c20c4a271dd913381490f34fffb3d456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5fa8235_1ef6a5c9",
@@ -74,6 +98,30 @@
       "writtenOn": "2024-02-09T13:50:18Z",
       "side": 1,
       "message": "See comment on earlier CL. This would be simpler if it were `renameMap` and not `renameList`.",
+      "range": {
+        "startLine": 243,
+        "startChar": 3,
+        "endLine": 243,
+        "endChar": 26
+      },
+      "revId": "cc514f57c20c4a271dd913381490f34fffb3d456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58691739_e5949fcd",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-20T19:34:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5fa8235_1ef6a5c9",
       "range": {
         "startLine": 243,
         "startChar": 3,
