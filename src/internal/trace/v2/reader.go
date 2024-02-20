@@ -34,7 +34,7 @@ func NewReader(r io.Reader) (*Reader, error) {
 	if err != nil {
 		return nil, err
 	}
-	if v != version.Go122 {
+	if v != version.Go122 && v != version.Go123 {
 		return nil, fmt.Errorf("unknown or unsupported version go 1.%d", v)
 	}
 	return &Reader{
