@@ -85,8 +85,8 @@ func (r *Reader) ReadEvent() (e Event, err error) {
 		r.lastTs = e.base.time
 	}()
 
-	// Consume any extra events produced during parsing.
-	if ev := r.order.consumeExtraEvent(); ev.Kind() != EventBad {
+	// Consume any events on the queue first.
+	if ev, ok := r.order.queue.pop(); ok {
 		return ev, nil
 	}
 
@@ -161,11 +161,10 @@ func (r *Reader) ReadEvent() (e Event, err error) {
 		return Event{}, fmt.Errorf("broken trace: frontier is empty:\n[gen=%d]\n\n%s\n%s\n", r.gen.gen, dumpFrontier(r.frontier), dumpOrdering(&r.order))
 	}
 	bc := r.frontier[0]
-	if ctx, ok, err := r.order.advance(&bc.ev, r.gen.evTable, bc.m, r.gen.gen); err != nil {
+	if ev, err := r.order.advance(&bc.ev, r.gen.evTable, bc.m, r.gen.gen); err != nil {
 		return Event{}, err
-	} else if ok {
-		e := Event{table: r.gen.evTable, ctx: ctx, base: bc.ev}
-		return e, refresh(0)
+	} else if ev.Kind() != EventBad {
+		return ev, refresh(0)
 	}
 	// Sort the min-heap. A sorted min-heap is still a min-heap,
 	// but now we can iterate over the rest and try to advance in
@@ -174,11 +173,10 @@ func (r *Reader) ReadEvent() (e Event, err error) {
 	// Try to advance the rest of the frontier, in timestamp order.
 	for i := 1; i < len(r.frontier); i++ {
 		bc := r.frontier[i]
-		if ctx, ok, err := r.order.advance(&bc.ev, r.gen.evTable, bc.m, r.gen.gen); err != nil {
+		if ev, err := r.order.advance(&bc.ev, r.gen.evTable, bc.m, r.gen.gen); err != nil {
 			return Event{}, err
-		} else if ok {
-			e := Event{table: r.gen.evTable, ctx: ctx, base: bc.ev}
-			return e, refresh(i)
+		} else if ev.Kind() != EventBad {
+			return ev, refresh(i)
 		}
 	}
 	return Event{}, fmt.Errorf("broken trace: failed to advance: frontier:\n[gen=%d]\n\n%s\n%s\n", r.gen.gen, dumpFrontier(r.frontier), dumpOrdering(&r.order))
