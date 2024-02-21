@@ -34,6 +34,24 @@
       "parentUuid": "652fc7ca_aa047e7e",
       "revId": "b66e7029a87dd0210d25fa1c959f934b7e6ad214",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac4b0833_e8f9b359",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 57858
+      },
+      "writtenOn": "2024-02-21T13:42:17Z",
+      "side": 1,
+      "message": "done https://go-review.googlesource.com/c/go/+/565628",
+      "parentUuid": "4e5bb573_963cb053",
+      "revId": "b66e7029a87dd0210d25fa1c959f934b7e6ad214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
