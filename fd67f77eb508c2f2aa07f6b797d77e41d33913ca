@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d113a1d7_b56bd551",
+        "filename": "src/runtime/debug/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-21T20:41:07Z",
+      "side": 1,
+      "message": "I think concurrent calls should have well-defined semantics, but I\u0027m not sure a mutex here really helps. This function doesn\u0027t really do much with global scope (that is inside runtime_setCrashFD). I suppose a mutex would ensure a strict ordering of Close calls on previous FDs, but I have a hard time imagining why that would matter.",
+      "parentUuid": "7e48266c_7c9fdd82",
+      "range": {
+        "startLine": 43,
+        "startChar": 5,
+        "endLine": 43,
+        "endChar": 19
+      },
+      "revId": "fd67f77eb508c2f2aa07f6b797d77e41d33913ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1b8ea1d8_91d5ba97",
         "filename": "src/runtime/runtime.go",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2024-01-31T23:18:01Z",
       "side": 1,
       "message": "I thought through this and came to the same conclusions. I think this is correct.\n\nI don\u0027t know if you want to go so far as to guarantee this, but I think this is even correct when you consider multiple producers and one consume (that is, multiple concurrent setCrashFDs and a single writeErrData). because panicking is always incremented before the load of crashFD, concurrent swaps with the load in any order always result in none of the involved FDs getting closed.",
+      "range": {
+        "startLine": 262,
+        "startChar": 1,
+        "endLine": 275,
+        "endChar": 29
+      },
+      "revId": "fd67f77eb508c2f2aa07f6b797d77e41d33913ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2485768_84ba490f",
+        "filename": "src/runtime/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-21T20:41:07Z",
+      "side": 1,
+      "message": "Yes, we do want to support an arbitrary number of concurrent callers.",
+      "parentUuid": "1b8ea1d8_91d5ba97",
       "range": {
         "startLine": 262,
         "startChar": 1,
