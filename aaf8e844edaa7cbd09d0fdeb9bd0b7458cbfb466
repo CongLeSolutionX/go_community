@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "783b6036_875ac320",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57858
+      },
+      "writtenOn": "2024-02-21T03:05:23Z",
+      "side": 1,
+      "message": "I\u0027m very sorry. I just checked the this CL and found that when I was editing the file using Gerrit, I accidentally reverted a previous change(patchset 8-\u003epatchset 9). How can I fix this issue? The CL has already been merged into the master branch. I apologize for not paying attention.",
+      "revId": "aaf8e844edaa7cbd09d0fdeb9bd0b7458cbfb466",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
