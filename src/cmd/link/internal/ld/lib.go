@@ -1437,6 +1437,7 @@ func (ctxt *Link) hostlink() {
 		}
 	case objabi.Hopenbsd:
 		argv = append(argv, "-Wl,-nopie")
+		argv = append(argv, "-Wl,-z,nobtcfi")
 		argv = append(argv, "-pthread")
 		if ctxt.Arch.InFamily(sys.ARM64) {
 			// Disable execute-only on openbsd/arm64 - the Go arm64 assembler
