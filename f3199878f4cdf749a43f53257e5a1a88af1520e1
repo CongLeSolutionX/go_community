@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e66728d_b092cbfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-21T16:36:54Z",
+      "side": 1,
+      "message": "please change this line to:\n\ngo/doc: fix typo in comment\n\n(\"comment error\" sounds like the comment is incorrect - yet it\u0027s just a misspelling)\n\nthanks",
+      "revId": "f3199878f4cdf749a43f53257e5a1a88af1520e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2a76811e_683e6276",
