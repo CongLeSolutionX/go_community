@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea264fab_84a24bf7",
+        "filename": "doc/next/6-stdlib/99-minor/os/33357.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-21T16:51:10Z",
+      "side": 1,
+      "message": "s/its/a/\n\n(“its” would be for a specific file, not an entire category of files.)\n\n```suggestion\nhaving a reparse tag set to `IO_REPARSE_TAG_AF_UNIX`.\n```",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 10
+      },
+      "revId": "ecdae40b99410ab2628ac96f0d540c86ca3be5c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
