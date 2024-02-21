@@ -90,6 +90,24 @@
       "parentUuid": "7abcb01a_12a7acaf",
       "revId": "b453c1950418d4d9bb08d2b70d7a2f43bd703534",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6679981a_5ebcf2c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-21T02:54:46Z",
+      "side": 1,
+      "message": "It seems that this needs more time to investigate and process, and this CL will block CL 565495, so I\u0027m going to abandon this CL for now and pick it up again when CL 565495 is done.",
+      "parentUuid": "138ec302_003a9355",
+      "revId": "b453c1950418d4d9bb08d2b70d7a2f43bd703534",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
