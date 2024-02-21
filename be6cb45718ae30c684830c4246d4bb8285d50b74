@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f2dd486_0d01fcc4",
+        "filename": "src/runtime/debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-02-21T15:54:52Z",
+      "side": 1,
+      "message": "Thanks, now thinking more about it, msan is supported in arm64, amd64, loong64. Asan is supported in amd64, arm64, loong64, ppc64, riscv64.\n\nThis differs from the list of supported arches for race, which this build tag is accounting for.",
+      "revId": "be6cb45718ae30c684830c4246d4bb8285d50b74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
