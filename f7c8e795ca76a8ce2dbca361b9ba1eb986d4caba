@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23208ce8_a8e6b463",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-21T05:19:54Z",
+      "side": 1,
+      "message": "Hi all, this CL has gained sufficient votes for submission for a while, should we move forward with this?",
+      "revId": "f7c8e795ca76a8ce2dbca361b9ba1eb986d4caba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
