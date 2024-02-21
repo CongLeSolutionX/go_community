@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ab655e0_caa7b574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-21T22:57:42Z",
+      "side": 1,
+      "message": "IMO, flip this around:\n\n```\nruntime: disable debug call tests on msan/asan\n```",
+      "revId": "be6cb45718ae30c684830c4246d4bb8285d50b74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "875b2c73_7f6e02fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-21T22:57:42Z",
+      "side": 1,
+      "message": "Thanks",
+      "revId": "be6cb45718ae30c684830c4246d4bb8285d50b74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f2dd486_0d01fcc4",
         "filename": "src/runtime/debug_test.go",
         "patchSetId": 1
@@ -32,6 +66,24 @@
       "side": 1,
       "message": "I\u0027m not sure if it is safe, but perhaps we could simplify this with:\n\n```suggestion\n//go:build !race \u0026\u0026 !asan \u0026\u0026 !msan\n```\n\ns390x got race support as well a couple releases ago so the current build tags are not quite right.",
       "parentUuid": "8f2dd486_0d01fcc4",
+      "revId": "be6cb45718ae30c684830c4246d4bb8285d50b74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5069db1_84b59306",
+        "filename": "src/runtime/debug_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-21T22:57:42Z",
+      "side": 1,
+      "message": "I believe the first three arch tags are intended to be the arches that support debug calls (have the debugCallV2 symbol), so they need to remain.",
+      "parentUuid": "561c31cf_a16fdf9d",
       "revId": "be6cb45718ae30c684830c4246d4bb8285d50b74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
