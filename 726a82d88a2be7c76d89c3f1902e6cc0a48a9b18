@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c9f6dae_214bd2aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-02-21T00:54:04Z",
+      "side": 1,
+      "message": "\u003e I\u0027m curious as to why #65809 wasn\u0027t caught by existing tests.\n\nBecause the kernels don\u0027t recognize the time units explicitly, its system calls only require the amount in the specific time unit, so when we use the wrong time unit to generate that amount and set up TCP keep-alive via `setsockopt()`, we get the same amount by calling `getsockopt()`. The current test for TCP keep-alive only verifies whether all the socket options were set by the system call correctly, if so, we will let the kernel do its job. That said, we choose to trust the kernel and delegate the TCP keep-alive work to the kernel, after all, there is nothing we can do about it other than returning errors if the kernels don\u0027t run the TCP keep-alive as requested for some internal bugs. The tests are effective and based on a solid logic as long as we use the right time units, but it does have this defect: we need to take care of the time units on each platforms ourselves.\n\n\u003e Would it be feasible to test the keep-alive settings (at least in non--short mode) by measuring the time for an actual keep-alive to expire (as the user would observe), rather than just checking the result of syscall.GetsockoptInt against the values we expect to be passed to syscall.SetsockoptInt elsewhere in the code?\n\nAbsulotely, it would be great we can have such tests, but it is a bit more complicated to create those tests, which is also why we chose to go with the current tests that is simple yet effective in CL 542275. But I think that I will later spare some time to create some additional tests which verify the TCP keep-alive settings in the \"real world\". I\u0027ll create a tracking GitHub issue for this.",
+      "parentUuid": "fe926217_39448193",
+      "revId": "726a82d88a2be7c76d89c3f1902e6cc0a48a9b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d739416_a9187d03",
