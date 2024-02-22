@@ -16,6 +16,24 @@
       "message": "Using \\\" is not a good idea. That makes these names look like strings.\n\nLet\u0027s try \"`\" (\"\\x60\") and \"\u0027\" (\"\\x27\") - that matches default gcc/gccgo behavior and is different from any Go string or char - and see how that looks like.",
       "revId": "4210d878640da5746cb6dcfc1df4bf8af96f02c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd646dc8_f43839fc",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-22T10:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56dd217c_47a06f32",
+      "revId": "4210d878640da5746cb6dcfc1df4bf8af96f02c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
