@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56715593_94e3fa67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-22T15:18:33Z",
+      "side": 1,
+      "message": "Really nice how isTypes2 opens up so much more code to be generated.",
+      "revId": "1faa0d1254021110aa4e8496f9672d6064b89302",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
