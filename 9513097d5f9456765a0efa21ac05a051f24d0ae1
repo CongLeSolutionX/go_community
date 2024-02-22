@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3728e4b9_592ad49e",
+        "filename": "doc/next/6-stdlib/99-minor/net/http/64910.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-22T14:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a21c07d7_c8133b47",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 50
+      },
+      "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "400a3597_c19a3bd1",
@@ -109,6 +133,24 @@
       "side": 1,
       "message": "The proposal gives the regexp \u0027[ \\t]+\u0027: https://github.com/golang/go/issues/64910#issuecomment-1874416295",
       "parentUuid": "6e4bc20c_743aac41",
+      "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5834a789_106c56a6",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-22T14:17:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6a05a26_b5f883d6",
       "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
