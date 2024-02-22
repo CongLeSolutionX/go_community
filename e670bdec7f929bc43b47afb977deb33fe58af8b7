@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d06e88_988915c7",
+        "filename": "src/internal/trace/v2/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-22T18:50:10Z",
+      "side": 1,
+      "message": "mini-nit: I don\u0027t see any bugs, but it seems odd to me that this queue is only used for the one extra event case. IMO, the more intuitive cases would be:\n\n* `advance` does not return anything except an error. It puts all new events on the queue, and callers should drain the queue before calling advance again.\n* Alternatively, the queue is completely hidden inside `advance`. The first thing `advance` does it return something from the queue if non-empty.",
+      "revId": "e670bdec7f929bc43b47afb977deb33fe58af8b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
