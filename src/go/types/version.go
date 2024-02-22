@@ -118,7 +118,7 @@ func (check *Checker) verifyVersionf(at positioner, v goVersion, format string, 
 // fileFor returns the *ast.File which contains the position pos.
 // If there are no files, the result is nil.
 // The position must be valid.
-func (check *Checker) fileFor(pos token.Pos) *ast.File {
+func (check *Checker) fileFor(pos Pos) *ast.File {
 	assert(pos.IsValid())
 	// Eval and CheckExpr tests may not have any source files.
 	if len(check.files) == 0 {

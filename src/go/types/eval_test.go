@@ -19,7 +19,7 @@ import (
 	. "go/types"
 )
 
-func testEval(t *testing.T, fset *token.FileSet, pkg *Package, pos token.Pos, expr string, typ Type, typStr, valStr string) {
+func testEval(t *testing.T, fset *token.FileSet, pkg *Package, pos Pos, expr string, typ Type, typStr, valStr string) {
 	gotTv, err := Eval(fset, pkg, pos, expr)
 	if err != nil {
 		t.Errorf("Eval(%q) failed: %s", expr, err)
@@ -247,7 +247,7 @@ func f(a int, s string) S {
 		t.Fatal(err)
 	}
 
-	checkExpr := func(pos token.Pos, str string) (Object, error) {
+	checkExpr := func(pos Pos, str string) (Object, error) {
 		expr, err := parser.ParseExprFrom(fset, "eval", str, 0)
 		if err != nil {
 			return nil, err

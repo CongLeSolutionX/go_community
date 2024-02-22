@@ -21,7 +21,7 @@ func (check *Checker) reportAltDecl(obj Object) {
 	}
 }
 
-func (check *Checker) declare(scope *Scope, id *ast.Ident, obj Object, pos token.Pos) {
+func (check *Checker) declare(scope *Scope, id *ast.Ident, obj Object, pos Pos) {
 	// spec: "The blank identifier, represented by the underscore
 	// character _, may be used in a declaration like any other
 	// identifier but the declaration does not introduce a new
@@ -709,7 +709,7 @@ func (check *Checker) bound(x ast.Expr) Type {
 	return check.typ(x)
 }
 
-func (check *Checker) declareTypeParams(tparams []*TypeParam, names []*ast.Ident, scopePos token.Pos) []*TypeParam {
+func (check *Checker) declareTypeParams(tparams []*TypeParam, names []*ast.Ident, scopePos Pos) []*TypeParam {
 	// Use Typ[Invalid] for the type constraint to ensure that a type
 	// is present even if the actual constraint has not been assigned
 	// yet.

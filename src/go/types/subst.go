@@ -8,10 +8,6 @@
 
 package types
 
-import (
-	"go/token"
-)
-
 type substMap map[*TypeParam]Type
 
 // makeSubstMap creates a new substitution map mapping tpars[i] to targs[i].
@@ -54,7 +50,7 @@ func (m substMap) lookup(tpar *TypeParam) Type {
 //
 // If expanding is non-nil, it is the instance type currently being expanded.
 // One of expanding or ctxt must be non-nil.
-func (check *Checker) subst(pos token.Pos, typ Type, smap substMap, expanding *Named, ctxt *Context) Type {
+func (check *Checker) subst(pos Pos, typ Type, smap substMap, expanding *Named, ctxt *Context) Type {
 	assert(expanding != nil || ctxt != nil)
 
 	if smap.empty() {
@@ -81,7 +77,7 @@ func (check *Checker) subst(pos token.Pos, typ Type, smap substMap, expanding *N
 }
 
 type subster struct {
-	pos       token.Pos
+	pos       Pos
 	smap      substMap
 	check     *Checker // nil if called via Instantiate
 	expanding *Named   // if non-nil, the instance that is being expanded

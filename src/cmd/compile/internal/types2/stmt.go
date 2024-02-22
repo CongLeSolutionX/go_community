@@ -153,7 +153,7 @@ func (check *Checker) openScope(node syntax.Node, comment string) {
 	check.openScopeUntil(node, syntax.EndPos(node), comment)
 }
 
-func (check *Checker) openScopeUntil(node syntax.Node, end syntax.Pos, comment string) {
+func (check *Checker) openScopeUntil(node syntax.Node, end Pos, comment string) {
 	scope := NewScope(check.scope, node.Pos(), end, comment)
 	check.recordScope(node, scope)
 	check.scope = scope
@@ -228,7 +228,7 @@ func goVal(val constant.Value) interface{} {
 type (
 	valueMap  map[interface{}][]valueType // underlying Go value -> valueType
 	valueType struct {
-		pos syntax.Pos
+		pos Pos
 		typ Type
 	}
 )

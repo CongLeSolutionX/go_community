@@ -7,7 +7,6 @@ package types
 import (
 	"fmt"
 	"go/ast"
-	"go/token"
 	. "internal/types/errors"
 )
 
@@ -271,7 +270,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *ast.FieldList, ftyp *ast
 
 // collectParams declares the parameters of list in scope and returns the corresponding
 // variable list.
-func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, variadicOk bool, scopePos token.Pos) (params []*Var, variadic bool) {
+func (check *Checker) collectParams(scope *Scope, list *ast.FieldList, variadicOk bool, scopePos Pos) (params []*Var, variadic bool) {
 	if list == nil {
 		return
 	}

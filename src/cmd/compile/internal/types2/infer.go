@@ -7,7 +7,6 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
 	"fmt"
 	"strings"
 )
@@ -28,7 +27,7 @@ const enableReverseTypeInference = true // disable for debugging
 // If successful, infer returns the complete list of given and inferred type arguments, one for each
 // type parameter. Otherwise the result is nil. Errors are reported through the err parameter.
 // Note: infer may fail (return nil) due to invalid args operands without reporting additional errors.
-func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, params *Tuple, args []*operand, reverse bool, err *error_) (inferred []Type) {
+func (check *Checker) infer(pos Pos, tparams []*TypeParam, targs []Type, params *Tuple, args []*operand, reverse bool, err *error_) (inferred []Type) {
 	// Don't verify result conditions if there's no error handler installed:
 	// in that case, an error leads to an exit panic and the result value may
 	// be incorrect. But in that case it doesn't matter because callers won't
@@ -452,7 +451,7 @@ func containsNil(list []Type) bool {
 // If typ is a generic function, type parameters held with typ are not changed and
 // must be updated separately if desired.
 // The positions is only used for debug traces.
-func (check *Checker) renameTParams(pos syntax.Pos, tparams []*TypeParam, typ Type) ([]*TypeParam, Type) {
+func (check *Checker) renameTParams(pos Pos, tparams []*TypeParam, typ Type) ([]*TypeParam, Type) {
 	// For the purpose of type inference we must differentiate type parameters
 	// occurring in explicit type or value function arguments from the type
 	// parameters we are solving for via unification because they may be the

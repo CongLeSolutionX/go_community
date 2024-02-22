@@ -21,7 +21,7 @@ import (
 // same as in [CheckExpr]. An error is returned if expr cannot
 // be parsed successfully, or the resulting expr AST cannot be
 // type-checked.
-func Eval(fset *token.FileSet, pkg *Package, pos token.Pos, expr string) (_ TypeAndValue, err error) {
+func Eval(fset *token.FileSet, pkg *Package, pos Pos, expr string) (_ TypeAndValue, err error) {
 	// parse expressions
 	node, err := parser.ParseExprFrom(fset, "eval", expr, 0)
 	if err != nil {
@@ -53,7 +53,7 @@ func Eval(fset *token.FileSet, pkg *Package, pos token.Pos, expr string) (_ Type
 // functions ignore the context in which an expression is used (e.g., an
 // assignment). Thus, top-level untyped constants will return an
 // untyped type rather than the respective context-specific type.
-func CheckExpr(fset *token.FileSet, pkg *Package, pos token.Pos, expr ast.Expr, info *Info) (err error) {
+func CheckExpr(fset *token.FileSet, pkg *Package, pos Pos, expr ast.Expr, info *Info) (err error) {
 	// determine scope
 	var scope *Scope
 	if pkg == nil {

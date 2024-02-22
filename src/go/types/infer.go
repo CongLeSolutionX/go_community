@@ -10,7 +10,6 @@ package types
 
 import (
 	"fmt"
-	"go/token"
 	"strings"
 )
 
@@ -454,7 +453,7 @@ func containsNil(list []Type) bool {
 // If typ is a generic function, type parameters held with typ are not changed and
 // must be updated separately if desired.
 // The positions is only used for debug traces.
-func (check *Checker) renameTParams(pos token.Pos, tparams []*TypeParam, typ Type) ([]*TypeParam, Type) {
+func (check *Checker) renameTParams(pos Pos, tparams []*TypeParam, typ Type) ([]*TypeParam, Type) {
 	// For the purpose of type inference we must differentiate type parameters
 	// occurring in explicit type or value function arguments from the type
 	// parameters we are solving for via unification because they may be the

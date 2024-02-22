@@ -777,7 +777,7 @@ func init() {
 
 // If e != nil, it must be the binary expression; it may be nil for non-constant expressions
 // (when invoked for an assignment operation where the binary expression is implicit).
-func (check *Checker) binary(x *operand, e ast.Expr, lhs, rhs ast.Expr, op token.Token, opPos token.Pos) {
+func (check *Checker) binary(x *operand, e ast.Expr, lhs, rhs ast.Expr, op token.Token, opPos Pos) {
 	var y operand
 
 	check.expr(nil, x, lhs)

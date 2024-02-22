@@ -85,7 +85,7 @@ func (check *Checker) op(m opPredicates, x *operand, op syntax.Operator) bool {
 
 // opPos returns the position of the operator if x is an operation;
 // otherwise it returns the start position of x.
-func opPos(x syntax.Expr) syntax.Pos {
+func opPos(x syntax.Expr) Pos {
 	switch op := x.(type) {
 	case nil:
 		return nopos // don't crash

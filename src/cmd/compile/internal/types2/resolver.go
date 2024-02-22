@@ -49,7 +49,7 @@ func (d *declInfo) addDep(obj Object) {
 // have a matching number of names and initialization values.
 // If inherited is set, the initialization values are from
 // another (constant) declaration.
-func (check *Checker) arity(pos syntax.Pos, names []*syntax.Name, inits []syntax.Expr, constDecl, inherited bool) {
+func (check *Checker) arity(pos Pos, names []*syntax.Name, inits []syntax.Expr, constDecl, inherited bool) {
 	l := len(names)
 	r := len(inits)
 
@@ -112,7 +112,7 @@ func (check *Checker) declarePkgObj(ident *syntax.Name, obj Object, d *declInfo)
 // filename returns a filename suitable for debugging output.
 func (check *Checker) filename(fileNo int) string {
 	file := check.files[fileNo]
-	if pos := file.Pos(); pos.IsKnown() {
+	if pos := file.Pos(); isKnown(pos) {
 		// return check.fset.File(pos).Name()
 		// TODO(gri) do we need the actual file name here?
 		return pos.RelFilename()
@@ -120,7 +120,7 @@ func (check *Checker) filename(fileNo int) string {
 	return fmt.Sprintf("file[%d]", fileNo)
 }
 
-func (check *Checker) importPackage(pos syntax.Pos, path, dir string) *Package {
+func (check *Checker) importPackage(pos Pos, path, dir string) *Package {
 	// If we already have a package for the given (path, dir)
 	// pair, use it instead of doing a full import.
 	// Checker.impMap only caches packages that are marked Complete

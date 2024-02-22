@@ -21,7 +21,7 @@ import (
 )
 
 // nopos indicates an unknown position
-var nopos syntax.Pos
+var nopos Pos
 
 func mustParse(src string) *syntax.File {
 	f, err := syntax.Parse(syntax.NewFileBase(pkgName(src)), strings.NewReader(src), nil, nil, 0)
@@ -1666,7 +1666,7 @@ func main() {
 }
 
 // indexFor returns the index into s corresponding to the position pos.
-func indexFor(s string, pos syntax.Pos) int {
+func indexFor(s string, pos Pos) int {
 	i, line := 0, 1 // string index and corresponding line
 	target := int(pos.Line())
 	for line < target && i < len(s) {

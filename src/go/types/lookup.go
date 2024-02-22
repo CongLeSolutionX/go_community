@@ -10,7 +10,6 @@ package types
 
 import (
 	"bytes"
-	"go/token"
 )
 
 // Internal use of LookupFieldOrMethod: If the obj result is a method
@@ -533,7 +532,7 @@ func (check *Checker) assertableTo(V, T Type, cause *string) bool {
 // in constraint position (we have not yet defined that behavior in the spec).
 // The underlying type of V must be an interface.
 // If the result is false and cause is not nil, *cause is set to the error cause.
-func (check *Checker) newAssertableTo(pos token.Pos, V, T Type, cause *string) bool {
+func (check *Checker) newAssertableTo(pos Pos, V, T Type, cause *string) bool {
 	// no static check is required if T is an interface
 	// spec: "If T is an interface type, x.(T) asserts that the
 	//        dynamic type of x implements the interface T."

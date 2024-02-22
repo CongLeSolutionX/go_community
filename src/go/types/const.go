@@ -18,7 +18,7 @@ import (
 // overflow checks that the constant x is representable by its type.
 // For untyped constants, it checks that the value doesn't become
 // arbitrarily large.
-func (check *Checker) overflow(x *operand, opPos token.Pos) {
+func (check *Checker) overflow(x *operand, opPos Pos) {
 	assert(x.mode == constant_)
 
 	if x.val.Kind() == constant.Unknown {

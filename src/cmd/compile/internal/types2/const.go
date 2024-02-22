@@ -7,7 +7,6 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
 	"go/constant"
 	"go/token"
 	. "internal/types/errors"
@@ -17,7 +16,7 @@ import (
 // overflow checks that the constant x is representable by its type.
 // For untyped constants, it checks that the value doesn't become
 // arbitrarily large.
-func (check *Checker) overflow(x *operand, opPos syntax.Pos) {
+func (check *Checker) overflow(x *operand, opPos Pos) {
 	assert(x.mode == constant_)
 
 	if x.val.Kind() == constant.Unknown {

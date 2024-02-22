@@ -31,7 +31,7 @@ import (
 //
 // If an error (other than a version error) occurs in any case, it is reported
 // and x.mode is set to invalid.
-func (check *Checker) funcInst(T *target, pos syntax.Pos, x *operand, inst *syntax.IndexExpr, infer bool) ([]Type, []syntax.Expr) {
+func (check *Checker) funcInst(T *target, pos Pos, x *operand, inst *syntax.IndexExpr, infer bool) ([]Type, []syntax.Expr) {
 	assert(T != nil || inst != nil)
 
 	var instErrPos poser
@@ -130,7 +130,7 @@ func (check *Checker) funcInst(T *target, pos syntax.Pos, x *operand, inst *synt
 	return nil, nil
 }
 
-func (check *Checker) instantiateSignature(pos syntax.Pos, expr syntax.Expr, typ *Signature, targs []Type, xlist []syntax.Expr) (res *Signature) {
+func (check *Checker) instantiateSignature(pos Pos, expr syntax.Expr, typ *Signature, targs []Type, xlist []syntax.Expr) (res *Signature) {
 	assert(check != nil)
 	assert(len(targs) == typ.TypeParams().Len())
 
