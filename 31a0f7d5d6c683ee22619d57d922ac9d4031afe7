@@ -52,6 +52,24 @@
       "parentUuid": "7ecd3028_3df70916",
       "revId": "31a0f7d5d6c683ee22619d57d922ac9d4031afe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05be7cfd_c608557e",
+        "filename": "src/encoding/xml/read_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14425
+      },
+      "writtenOn": "2024-02-22T14:50:21Z",
+      "side": 1,
+      "message": "I modified the CL to a) only reject XML declarations preceded by non-WS in the Decoder and b) allow the Encoder to output WS before the XML declaration.\nThis still makes the Decoder a bit less forgiving, but doesn\u0027t break any pre-existing tests. And it makes the Encoder more forgiving. In total, this should mean the Decoder-\u003eEncoder pipeline should no longer error.\n\nPTAL.",
+      "parentUuid": "367a5716_8262a147",
+      "revId": "31a0f7d5d6c683ee22619d57d922ac9d4031afe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
