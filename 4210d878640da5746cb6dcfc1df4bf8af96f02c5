@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56dd217c_47a06f32",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-22T00:46:56Z",
+      "side": 1,
+      "message": "Using \\\" is not a good idea. That makes these names look like strings.\n\nLet\u0027s try \"`\" (\"\\x60\") and \"\u0027\" (\"\\x27\") - that matches default gcc/gccgo behavior and is different from any Go string or char - and see how that looks like.",
+      "revId": "4210d878640da5746cb6dcfc1df4bf8af96f02c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
