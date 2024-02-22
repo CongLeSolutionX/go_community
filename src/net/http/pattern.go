@@ -92,7 +92,14 @@ func parsePattern(s string) (_ *pattern, err error) {
 		}
 	}()
 
-	method, rest, found := strings.Cut(s, " ")
+	cutFunc := func(s string) (before, after string, found bool) {
+		if i := strings.IndexAny(s, " \t"); i >= 0 {
+			return s[:i], strings.TrimSpace(s[i+1:]), true
+		}
+		return s, "", false
+	}
+
+	method, rest, found := cutFunc(s)
 	if !found {
 		rest = method
 		method = ""
