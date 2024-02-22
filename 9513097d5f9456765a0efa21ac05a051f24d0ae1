@@ -39,6 +39,24 @@
       "message": "Why did you rewrite strings.Cut?",
       "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a734163_6be90fa4",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-22T11:52:54Z",
+      "side": 1,
+      "message": "Please see https://go.dev/play/p/R7tYs6Kszeq\nI think it\u0027s ok here.",
+      "parentUuid": "400a3597_c19a3bd1",
+      "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
