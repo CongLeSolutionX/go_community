@@ -12,7 +12,7 @@ import (
 )
 
 func (err *error_) recordAltDecl(obj Object) {
-	if pos := obj.Pos(); pos.IsKnown() {
+	if pos := obj.Pos(); isKnown(pos) {
 		// We use "other" rather than "previous" here because
 		// the first declaration seen may not be textually
 		// earlier in the source.
@@ -20,7 +20,7 @@ func (err *error_) recordAltDecl(obj Object) {
 	}
 }
 
-func (check *Checker) declare(scope *Scope, id *syntax.Name, obj Object, pos syntax.Pos) {
+func (check *Checker) declare(scope *Scope, id *syntax.Name, obj Object, pos Pos) {
 	// spec: "The blank identifier, represented by the underscore
 	// character _, may be used in a declaration like any other
 	// identifier but the declaration does not introduce a new
@@ -379,7 +379,7 @@ func (check *Checker) constDecl(obj *Const, typ, init syntax.Expr, inherited boo
 	assert(obj.typ == nil)
 
 	// use the correct value of iota and errpos
-	defer func(iota constant.Value, errpos syntax.Pos) {
+	defer func(iota constant.Value, errpos Pos) {
 		check.iota = iota
 		check.errpos = errpos
 	}(check.iota, check.errpos)
@@ -631,7 +631,7 @@ func (check *Checker) bound(x syntax.Expr) Type {
 	return check.typ(x)
 }
 
-func (check *Checker) declareTypeParam(name *syntax.Name, scopePos syntax.Pos) *TypeParam {
+func (check *Checker) declareTypeParam(name *syntax.Name, scopePos Pos) *TypeParam {
 	// Use Typ[Invalid] for the type constraint to ensure that a type
 	// is present even if the actual constraint has not been assigned
 	// yet.
@@ -687,7 +687,7 @@ func (check *Checker) collectMethods(obj *TypeName) {
 		// to it must be unique."
 		assert(m.name != "_")
 		if alt := mset.insert(m); alt != nil {
-			if alt.Pos().IsKnown() {
+			if isKnown(alt.Pos()) {
 				check.errorf(m.pos, DuplicateMethod, "method %s.%s already declared at %s", obj.Name(), m.name, alt.Pos())
 			} else {
 				check.errorf(m.pos, DuplicateMethod, "method %s.%s already declared", obj.Name(), m.name)

@@ -198,7 +198,7 @@ func embeddedFieldIdent(e syntax.Expr) *syntax.Name {
 	return nil // invalid embedded field
 }
 
-func (check *Checker) declareInSet(oset *objset, pos syntax.Pos, obj Object) bool {
+func (check *Checker) declareInSet(oset *objset, pos Pos, obj Object) bool {
 	if alt := oset.insert(obj); alt != nil {
 		var err error_
 		err.code = DuplicateDecl

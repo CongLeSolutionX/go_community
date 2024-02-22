@@ -6,7 +6,6 @@ package types
 
 import (
 	"go/ast"
-	"go/token"
 	. "internal/types/errors"
 )
 
@@ -15,12 +14,12 @@ import (
 
 // An Interface represents an interface type.
 type Interface struct {
-	check     *Checker     // for error reporting; nil once type set is computed
-	methods   []*Func      // ordered list of explicitly declared methods
-	embeddeds []Type       // ordered list of explicitly embedded elements
-	embedPos  *[]token.Pos // positions of embedded elements; or nil (for error messages) - use pointer to save space
-	implicit  bool         // interface is wrapper for type set literal (non-interface T, ~T, or A|B)
-	complete  bool         // indicates that obj, methods, and embeddeds are set and type set can be computed
+	check     *Checker // for error reporting; nil once type set is computed
+	methods   []*Func  // ordered list of explicitly declared methods
+	embeddeds []Type   // ordered list of explicitly embedded elements
+	embedPos  *[]Pos   // positions of embedded elements; or nil (for error messages) - use pointer to save space
+	implicit  bool     // interface is wrapper for type set literal (non-interface T, ~T, or A|B)
+	complete  bool     // indicates that obj, methods, and embeddeds are set and type set can be computed
 
 	tset *_TypeSet // type set described by this interface, computed lazily
 }
@@ -157,10 +156,10 @@ func (t *Interface) cleanup() {
 }
 
 func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, def *TypeName) {
-	addEmbedded := func(pos token.Pos, typ Type) {
+	addEmbedded := func(pos Pos, typ Type) {
 		ityp.embeddeds = append(ityp.embeddeds, typ)
 		if ityp.embedPos == nil {
-			ityp.embedPos = new([]token.Pos)
+			ityp.embedPos = new([]Pos)
 		}
 		*ityp.embedPos = append(*ityp.embedPos, pos)
 	}

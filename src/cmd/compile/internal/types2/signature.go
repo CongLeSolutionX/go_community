@@ -267,7 +267,7 @@ func (check *Checker) funcType(sig *Signature, recvPar *syntax.Field, tparams []
 
 // collectParams declares the parameters of list in scope and returns the corresponding
 // variable list.
-func (check *Checker) collectParams(scope *Scope, list []*syntax.Field, variadicOk bool, scopePos syntax.Pos) (params []*Var, variadic bool) {
+func (check *Checker) collectParams(scope *Scope, list []*syntax.Field, variadicOk bool, scopePos Pos) (params []*Var, variadic bool) {
 	if list == nil {
 		return
 	}

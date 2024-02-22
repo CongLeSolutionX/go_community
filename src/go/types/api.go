@@ -40,7 +40,7 @@ import (
 // behavior if ignored.
 type Error struct {
 	Fset *token.FileSet // file set for interpretation of Pos
-	Pos  token.Pos      // error position
+	Pos  Pos            // error position
 	Msg  string         // error message
 	Soft bool           // if set, error is "soft"
 
@@ -50,8 +50,8 @@ type Error struct {
 	// errorcodes_test.go), but beware that there is no guarantee of future
 	// compatibility.
 	go116code  Code
-	go116start token.Pos
-	go116end   token.Pos
+	go116start Pos
+	go116end   Pos
 }
 
 // Error returns an error string formatted as follows:

@@ -5,7 +5,6 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
 	. "internal/types/errors"
 	"sort"
 	"strings"
@@ -150,7 +149,7 @@ func (s *_TypeSet) underIs(f func(Type) bool) bool {
 var topTypeSet = _TypeSet{terms: allTermlist}
 
 // computeInterfaceTypeSet may be called with check == nil.
-func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_TypeSet {
+func computeInterfaceTypeSet(check *Checker, pos Pos, ityp *Interface) *_TypeSet {
 	if ityp.tset != nil {
 		return ityp.tset
 	}
@@ -169,7 +168,7 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 		// Types don't generally have position information.
 		// If we don't have a valid pos provided, try to use
 		// one close enough.
-		if !pos.IsKnown() && len(ityp.methods) > 0 {
+		if !isKnown(pos) && len(ityp.methods) > 0 {
 			pos = ityp.methods[0].pos
 		}
 
@@ -213,8 +212,8 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 
 	var seen objset
 	var allMethods []*Func
-	mpos := make(map[*Func]syntax.Pos) // method specification or method embedding position, for good error messages
-	addMethod := func(pos syntax.Pos, m *Func, explicit bool) {
+	mpos := make(map[*Func]Pos) // method specification or method embedding position, for good error messages
+	addMethod := func(pos Pos, m *Func, explicit bool) {
 		switch other := seen.insert(m); {
 		case other == nil:
 			allMethods = append(allMethods, m)
@@ -258,7 +257,7 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 		// The embedding position is nil for imported interfaces
 		// and also for interface copies after substitution (but
 		// in that case we don't need to report errors again).
-		var pos syntax.Pos // embedding position
+		var pos Pos // embedding position
 		if ityp.embedPos != nil {
 			pos = (*ityp.embedPos)[i]
 		}
@@ -372,7 +371,7 @@ var invalidTypeSet _TypeSet
 
 // computeUnionTypeSet may be called with check == nil.
 // The result is &invalidTypeSet if the union overflows.
-func computeUnionTypeSet(check *Checker, unionSets map[*Union]*_TypeSet, pos syntax.Pos, utyp *Union) *_TypeSet {
+func computeUnionTypeSet(check *Checker, unionSets map[*Union]*_TypeSet, pos Pos, utyp *Union) *_TypeSet {
 	if tset, _ := unionSets[utyp]; tset != nil {
 		return tset
 	}

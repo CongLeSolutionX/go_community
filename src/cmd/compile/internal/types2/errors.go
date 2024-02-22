@@ -42,7 +42,7 @@ type error_ struct {
 
 // An errorDesc describes part of a type-checking error.
 type errorDesc struct {
-	pos    syntax.Pos
+	pos    Pos
 	format string
 	args   []interface{}
 }
@@ -51,7 +51,7 @@ func (err *error_) empty() bool {
 	return err.desc == nil
 }
 
-func (err *error_) pos() syntax.Pos {
+func (err *error_) pos() Pos {
 	if err.empty() {
 		return nopos
 	}
@@ -67,7 +67,7 @@ func (err *error_) msg(qf Qualifier) string {
 		p := &err.desc[i]
 		if i > 0 {
 			fmt.Fprint(&buf, "\n\t")
-			if p.pos.IsKnown() {
+			if isKnown(p.pos) {
 				fmt.Fprintf(&buf, "%s: ", p.pos)
 			}
 		}
@@ -99,7 +99,7 @@ func sprintf(qf Qualifier, tpSubscripts bool, format string, args ...interface{}
 			panic("got operand instead of *operand")
 		case *operand:
 			arg = operandString(a, qf)
-		case syntax.Pos:
+		case Pos:
 			arg = a.String()
 		case syntax.Expr:
 			arg = ExprString(a)
@@ -207,7 +207,7 @@ func (check *Checker) report(err *error_) {
 	check.err(err.pos(), err.code, err.msg(check.qualifier), err.soft)
 }
 
-func (check *Checker) trace(pos syntax.Pos, format string, args ...interface{}) {
+func (check *Checker) trace(pos Pos, format string, args ...interface{}) {
 	fmt.Printf("%s:\t%s%s\n",
 		pos,
 		strings.Repeat(".  ", check.indent),
@@ -245,7 +245,7 @@ func (check *Checker) err(at poser, code Code, msg string, soft bool) {
 	// constant identifier. Use the provided errpos instead.
 	// TODO(gri) We may also want to augment the error message and
 	// refer to the position (pos) in the original expression.
-	if check.errpos.IsKnown() {
+	if isKnown(check.errpos) {
 		assert(check.iota != nil)
 		pos = check.errpos
 	}
@@ -282,7 +282,7 @@ const (
 )
 
 type poser interface {
-	Pos() syntax.Pos
+	Pos() Pos
 }
 
 func (check *Checker) error(at poser, code Code, msg string) {
@@ -304,7 +304,7 @@ func (check *Checker) versionErrorf(at poser, v goVersion, format string, args .
 }
 
 // atPos reports the left (= start) position of at.
-func atPos(at poser) syntax.Pos {
+func atPos(at poser) Pos {
 	switch x := at.(type) {
 	case *operand:
 		if x.expr != nil {

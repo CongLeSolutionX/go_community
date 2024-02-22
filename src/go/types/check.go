@@ -18,7 +18,7 @@ import (
 )
 
 // nopos, noposn indicate an unknown position
-var nopos token.Pos
+var nopos Pos
 var noposn = atPos(nopos)
 
 // debugging/development support
@@ -40,7 +40,7 @@ type exprInfo struct {
 type environment struct {
 	decl          *declInfo              // package-level declaration whose init expression/function body is checked
 	scope         *Scope                 // top-most scope for lookups
-	pos           token.Pos              // if valid, identifiers are looked up as if at position pos (used by Eval)
+	pos           Pos                    // if valid, identifiers are looked up as if at position pos (used by Eval)
 	iota          constant.Value         // value of iota in a constant declaration; nil otherwise
 	errpos        positioner             // if set, identifier position of a constant with inherited initializer
 	inTParamList  bool                   // set if inside a type parameter list

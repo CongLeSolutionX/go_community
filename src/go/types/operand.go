@@ -65,7 +65,7 @@ type operand struct {
 
 // Pos returns the position of the expression corresponding to x.
 // If x is invalid the position is nopos.
-func (x *operand) Pos() token.Pos {
+func (x *operand) Pos() Pos {
 	// x.expr may not be set if x is invalid
 	if x.expr == nil {
 		return nopos

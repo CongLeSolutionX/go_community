@@ -95,20 +95,20 @@ func (check *Checker) blockBranches(all *Scope, parent *block, lstmt *syntax.Lab
 	b := &block{parent, lstmt, nil}
 
 	var (
-		varDeclPos         syntax.Pos
+		varDeclPos         Pos
 		fwdJumps, badJumps []*syntax.BranchStmt
 	)
 
 	// All forward jumps jumping over a variable declaration are possibly
 	// invalid (they may still jump out of the block and be ok).
 	// recordVarDecl records them for the given position.
-	recordVarDecl := func(pos syntax.Pos) {
+	recordVarDecl := func(pos Pos) {
 		varDeclPos = pos
 		badJumps = append(badJumps[:0], fwdJumps...) // copy fwdJumps to badJumps
 	}
 
 	jumpsOverVarDecl := func(jmp *syntax.BranchStmt) bool {
-		if varDeclPos.IsKnown() {
+		if isKnown(varDeclPos) {
 			for _, bad := range badJumps {
 				if jmp == bad {
 					return true

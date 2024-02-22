@@ -225,7 +225,7 @@ func goVal(val constant.Value) any {
 type (
 	valueMap  map[any][]valueType // underlying Go value -> valueType
 	valueType struct {
-		pos token.Pos
+		pos Pos
 		typ Type
 	}
 )
@@ -723,7 +723,7 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 					T = x.typ
 				}
 				obj := NewVar(lhs.Pos(), check.pkg, lhs.Name, T)
-				scopePos := clause.Pos() + token.Pos(len("default")) // for default clause (len(List) == 0)
+				scopePos := clause.Pos() + Pos(len("default")) // for default clause (len(List) == 0)
 				if n := len(clause.List); n > 0 {
 					scopePos = clause.List[n-1].End()
 				}

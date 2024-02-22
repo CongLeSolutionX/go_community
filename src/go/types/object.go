@@ -10,7 +10,6 @@ import (
 	"bytes"
 	"fmt"
 	"go/constant"
-	"go/token"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -21,7 +20,7 @@ import (
 // All objects implement the Object interface.
 type Object interface {
 	Parent() *Scope // scope in which this object is declared; nil for methods and struct fields
-	Pos() token.Pos // position of object identifier in declaration
+	Pos() Pos       // position of object identifier in declaration
 	Pkg() *Package  // package to which this object belongs; nil for labels and objects in the Universe scope
 	Name() string   // package local object name
 	Type() Type     // object type
@@ -58,10 +57,10 @@ type Object interface {
 	sameId(pkg *Package, name string, foldCase bool) bool
 
 	// scopePos returns the start position of the scope of this Object
-	scopePos() token.Pos
+	scopePos() Pos
 
 	// setScopePos sets the start position of the scope for this Object.
-	setScopePos(pos token.Pos)
+	setScopePos(pos Pos)
 }
 
 func isExported(name string) bool {
@@ -92,13 +91,13 @@ func Id(pkg *Package, name string) string {
 // An object implements the common parts of an Object.
 type object struct {
 	parent    *Scope
-	pos       token.Pos
+	pos       Pos
 	pkg       *Package
 	name      string
 	typ       Type
 	order_    uint32
 	color_    color
-	scopePos_ token.Pos
+	scopePos_ Pos
 }
 
 // color encodes the color of an object (see Checker.objDecl for details).
@@ -137,7 +136,7 @@ func colorFor(t Type) color {
 func (obj *object) Parent() *Scope { return obj.parent }
 
 // Pos returns the declaration position of the object's identifier.
-func (obj *object) Pos() token.Pos { return obj.pos }
+func (obj *object) Pos() Pos { return obj.pos }
 
 // Pkg returns the package to which the object belongs.
 // The result is nil for labels and objects in the Universe scope.
@@ -157,16 +156,16 @@ func (obj *object) Exported() bool { return isExported(obj.name) }
 // Id is a wrapper for Id(obj.Pkg(), obj.Name()).
 func (obj *object) Id() string { return Id(obj.pkg, obj.name) }
 
-func (obj *object) String() string      { panic("abstract") }
-func (obj *object) order() uint32       { return obj.order_ }
-func (obj *object) color() color        { return obj.color_ }
-func (obj *object) scopePos() token.Pos { return obj.scopePos_ }
+func (obj *object) String() string { panic("abstract") }
+func (obj *object) order() uint32  { return obj.order_ }
+func (obj *object) color() color   { return obj.color_ }
+func (obj *object) scopePos() Pos  { return obj.scopePos_ }
 
-func (obj *object) setParent(parent *Scope)   { obj.parent = parent }
-func (obj *object) setType(typ Type)          { obj.typ = typ }
-func (obj *object) setOrder(order uint32)     { assert(order > 0); obj.order_ = order }
-func (obj *object) setColor(color color)      { assert(color != white); obj.color_ = color }
-func (obj *object) setScopePos(pos token.Pos) { obj.scopePos_ = pos }
+func (obj *object) setParent(parent *Scope) { obj.parent = parent }
+func (obj *object) setType(typ Type)        { obj.typ = typ }
+func (obj *object) setOrder(order uint32)   { assert(order > 0); obj.order_ = order }
+func (obj *object) setColor(color color)    { assert(color != white); obj.color_ = color }
+func (obj *object) setScopePos(pos Pos)     { obj.scopePos_ = pos }
 
 func (obj *object) sameId(pkg *Package, name string, foldCase bool) bool {
 	// If we don't care about capitalization, we also ignore packages.
@@ -234,7 +233,7 @@ type PkgName struct {
 
 // NewPkgName returns a new PkgName object representing an imported package.
 // The remaining arguments set the attributes found with all Objects.
-func NewPkgName(pos token.Pos, pkg *Package, name string, imported *Package) *PkgName {
+func NewPkgName(pos Pos, pkg *Package, name string, imported *Package) *PkgName {
 	return &PkgName{object{nil, pos, pkg, name, Typ[Invalid], 0, black, nopos}, imported, false}
 }
 
@@ -250,7 +249,7 @@ type Const struct {
 
 // NewConst returns a new constant with value val.
 // The remaining arguments set the attributes found with all Objects.
-func NewConst(pos token.Pos, pkg *Package, name string, typ Type, val constant.Value) *Const {
+func NewConst(pos Pos, pkg *Package, name string, typ Type, val constant.Value) *Const {
 	return &Const{object{nil, pos, pkg, name, typ, 0, colorFor(typ), nopos}, val}
 }
 
@@ -271,13 +270,13 @@ type TypeName struct {
 // It may also be nil such that the returned TypeName can be used as
 // argument for NewNamed, which will set the TypeName's type as a side-
 // effect.
-func NewTypeName(pos token.Pos, pkg *Package, name string, typ Type) *TypeName {
+func NewTypeName(pos Pos, pkg *Package, name string, typ Type) *TypeName {
 	return &TypeName{object{nil, pos, pkg, name, typ, 0, colorFor(typ), nopos}}
 }
 
 // NewTypeNameLazy returns a new defined type like NewTypeName, but it
 // lazily calls resolve to finish constructing the Named object.
-func _NewTypeNameLazy(pos token.Pos, pkg *Package, name string, load func(named *Named) (tparams []*TypeParam, underlying Type, methods []*Func)) *TypeName {
+func _NewTypeNameLazy(pos Pos, pkg *Package, name string, load func(named *Named) (tparams []*TypeParam, underlying Type, methods []*Func)) *TypeName {
 	obj := NewTypeName(pos, pkg, name, nil)
 	NewNamed(obj, nil, nil).loader = load
 	return obj
@@ -322,19 +321,19 @@ type Var struct {
 
 // NewVar returns a new variable.
 // The arguments set the attributes found with all Objects.
-func NewVar(pos token.Pos, pkg *Package, name string, typ Type) *Var {
+func NewVar(pos Pos, pkg *Package, name string, typ Type) *Var {
 	return &Var{object: object{nil, pos, pkg, name, typ, 0, colorFor(typ), nopos}}
 }
 
 // NewParam returns a new variable representing a function parameter.
-func NewParam(pos token.Pos, pkg *Package, name string, typ Type) *Var {
+func NewParam(pos Pos, pkg *Package, name string, typ Type) *Var {
 	return &Var{object: object{nil, pos, pkg, name, typ, 0, colorFor(typ), nopos}, used: true} // parameters are always 'used'
 }
 
 // NewField returns a new variable representing a struct field.
 // For embedded fields, the name is the unqualified type name
 // under which the field is accessible.
-func NewField(pos token.Pos, pkg *Package, name string, typ Type, embedded bool) *Var {
+func NewField(pos Pos, pkg *Package, name string, typ Type, embedded bool) *Var {
 	return &Var{object: object{nil, pos, pkg, name, typ, 0, colorFor(typ), nopos}, embedded: embedded, isField: true}
 }
 
@@ -375,7 +374,7 @@ type Func struct {
 
 // NewFunc returns a new function with the given signature, representing
 // the function's type.
-func NewFunc(pos token.Pos, pkg *Package, name string, sig *Signature) *Func {
+func NewFunc(pos Pos, pkg *Package, name string, sig *Signature) *Func {
 	// don't store a (typed) nil signature
 	var typ Type
 	if sig != nil {
@@ -446,7 +445,7 @@ type Label struct {
 }
 
 // NewLabel returns a new label.
-func NewLabel(pos token.Pos, pkg *Package, name string) *Label {
+func NewLabel(pos Pos, pkg *Package, name string) *Label {
 	return &Label{object{pos: pos, pkg: pkg, name: name, typ: Typ[Invalid], color_: black}, false}
 }
 

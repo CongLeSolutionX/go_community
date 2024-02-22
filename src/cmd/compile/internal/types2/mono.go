@@ -75,7 +75,7 @@ type monoEdge struct {
 	dst, src int
 	weight   int
 
-	pos syntax.Pos
+	pos Pos
 	typ Type
 }
 
@@ -170,7 +170,7 @@ func (w *monoGraph) recordCanon(mpar, tpar *TypeParam) {
 
 // recordInstance records that the given type parameters were
 // instantiated with the corresponding type arguments.
-func (w *monoGraph) recordInstance(pkg *Package, pos syntax.Pos, tparams []*TypeParam, targs []Type, xlist []syntax.Expr) {
+func (w *monoGraph) recordInstance(pkg *Package, pos Pos, tparams []*TypeParam, targs []Type, xlist []syntax.Expr) {
 	for i, tpar := range tparams {
 		pos := pos
 		if i < len(xlist) {
@@ -181,7 +181,7 @@ func (w *monoGraph) recordInstance(pkg *Package, pos syntax.Pos, tparams []*Type
 }
 
 // assign records that tpar was instantiated as targ at pos.
-func (w *monoGraph) assign(pkg *Package, pos syntax.Pos, tpar *TypeParam, targ Type) {
+func (w *monoGraph) assign(pkg *Package, pos Pos, tpar *TypeParam, targ Type) {
 	// Go generics do not have an analog to C++`s template-templates,
 	// where a template parameter can itself be an instantiable
 	// template. So any instantiation cycles must occur within a single
@@ -326,7 +326,7 @@ func (w *monoGraph) typeParamVertex(tpar *TypeParam) int {
 	return idx
 }
 
-func (w *monoGraph) addEdge(dst, src, weight int, pos syntax.Pos, typ Type) {
+func (w *monoGraph) addEdge(dst, src, weight int, pos Pos, typ Type) {
 	// TODO(mdempsky): Deduplicate redundant edges?
 	w.edges = append(w.edges, monoEdge{
 		dst:    dst,

@@ -148,7 +148,7 @@ func sprintf(fset *token.FileSet, qf Qualifier, tpSubscripts bool, format string
 			panic("got operand instead of *operand")
 		case *operand:
 			arg = operandString(a, qf)
-		case token.Pos:
+		case Pos:
 			if fset != nil {
 				arg = fset.Position(a).String()
 			}
@@ -200,7 +200,7 @@ func sprintf(fset *token.FileSet, qf Qualifier, tpSubscripts bool, format string
 	return fmt.Sprintf(format, args...)
 }
 
-func (check *Checker) trace(pos token.Pos, format string, args ...any) {
+func (check *Checker) trace(pos Pos, format string, args ...any) {
 	fmt.Printf("%s:\t%s%s\n",
 		check.fset.Position(pos),
 		strings.Repeat(".  ", check.indent),
@@ -326,7 +326,7 @@ func (check *Checker) versionErrorf(at positioner, v goVersion, format string, a
 // The positioner interface is used to extract the position of type-checker
 // errors.
 type positioner interface {
-	Pos() token.Pos
+	Pos() Pos
 }
 
 // posSpan holds a position range along with a highlighted position within that
@@ -335,17 +335,17 @@ type positioner interface {
 // and end defining the full span of syntax being considered when the error was
 // detected. Invariant: start <= pos < end || start == pos == end.
 type posSpan struct {
-	start, pos, end token.Pos
+	start, pos, end Pos
 }
 
-func (e posSpan) Pos() token.Pos {
+func (e posSpan) Pos() Pos {
 	return e.pos
 }
 
 // inNode creates a posSpan for the given node.
 // Invariant: node.Pos() <= pos < node.End() (node.End() is the position of the
 // first byte after node within the source).
-func inNode(node ast.Node, pos token.Pos) posSpan {
+func inNode(node ast.Node, pos Pos) posSpan {
 	start, end := node.Pos(), node.End()
 	if debug {
 		assert(start <= pos && pos < end)
@@ -353,11 +353,11 @@ func inNode(node ast.Node, pos token.Pos) posSpan {
 	return posSpan{start, pos, end}
 }
 
-// atPos wraps a token.Pos to implement the positioner interface.
-type atPos token.Pos
+// atPos wraps a Pos to implement the positioner interface.
+type atPos Pos
 
-func (s atPos) Pos() token.Pos {
-	return token.Pos(s)
+func (s atPos) Pos() Pos {
+	return Pos(s)
 }
 
 // spanOf extracts an error span from the given positioner. By default this is

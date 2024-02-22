@@ -17,6 +17,11 @@ import (
 
 const isTypes2 = true
 
+type Pos = syntax.Pos
+
+// isKnown reports whether the given position is known.
+func isKnown(p Pos) bool { return p.IsKnown() }
+
 // cmpPos compares the positions p and q and returns a result r as follows:
 //
 // r <  0: p is before q
@@ -25,7 +30,7 @@ const isTypes2 = true
 //
 // If p and q are in different files, p is before q if the filename
 // of p sorts lexicographically before the filename of q.
-func cmpPos(p, q syntax.Pos) int { return p.Cmp(q) }
+func cmpPos(p, q Pos) int { return p.Cmp(q) }
 
 // hasDots reports whether the last argument in the call is followed by ...
 func hasDots(call *syntax.CallExpr) bool { return call.HasDots }
@@ -43,10 +48,10 @@ func argErrPos(call *syntax.CallExpr) *syntax.CallExpr { return call }
 func ExprString(x syntax.Node) string { return syntax.String(x) }
 
 // startPos returns the start position of node n.
-func startPos(n syntax.Node) syntax.Pos { return syntax.StartPos(n) }
+func startPos(n syntax.Node) Pos { return syntax.StartPos(n) }
 
 // endPos returns the position of the first character immediately after node n.
-func endPos(n syntax.Node) syntax.Pos { return syntax.EndPos(n) }
+func endPos(n syntax.Node) Pos { return syntax.EndPos(n) }
 
 // makeFromLiteral returns the constant value for the given literal string and kind.
 func makeFromLiteral(lit string, kind syntax.LitKind) constant.Value {

@@ -17,6 +17,11 @@ import (
 
 const isTypes2 = false
 
+type Pos = token.Pos
+
+// isKnown reports whether the given position is known.
+func isKnown(p Pos) bool { return p.IsValid() }
+
 // cmpPos compares the positions p and q and returns a result r as follows:
 //
 // r <  0: p is before q
@@ -25,7 +30,7 @@ const isTypes2 = false
 //
 // If p and q are in different files, p is before q if the filename
 // of p sorts lexicographically before the filename of q.
-func cmpPos(p, q token.Pos) int { return int(p - q) }
+func cmpPos(p, q Pos) int { return int(p - q) }
 
 // hasDots reports whether the last argument in the call is followed by ...
 func hasDots(call *ast.CallExpr) bool { return call.Ellipsis.IsValid() }
@@ -37,10 +42,10 @@ func dddErrPos(call *ast.CallExpr) positioner { return atPos(call.Ellipsis) }
 func argErrPos(call *ast.CallExpr) positioner { return inNode(call, call.Rparen) }
 
 // startPos returns the start position of node n.
-func startPos(n ast.Node) token.Pos { return n.Pos() }
+func startPos(n ast.Node) Pos { return n.Pos() }
 
 // endPos returns the position of the first character immediately after node n.
-func endPos(n ast.Node) token.Pos { return n.End() }
+func endPos(n ast.Node) Pos { return n.End() }
 
 // makeFromLiteral returns the constant value for the given literal string and kind.
 func makeFromLiteral(lit string, kind token.Token) constant.Value {

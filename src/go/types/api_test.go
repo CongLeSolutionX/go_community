@@ -24,7 +24,7 @@ import (
 )
 
 // nopos indicates an unknown position
-var nopos token.Pos
+var nopos Pos
 
 func mustParse(fset *token.FileSet, src string) *ast.File {
 	f, err := parser.ParseFile(fset, pkgName(src), src, parser.ParseComments)

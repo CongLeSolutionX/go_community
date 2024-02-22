@@ -36,11 +36,11 @@ import (
 // package (such as "unused variable"); "hard" errors may lead to unpredictable
 // behavior if ignored.
 type Error struct {
-	Pos  syntax.Pos // error position
-	Msg  string     // default error message, user-friendly
-	Full string     // full error message, for debugging (may contain internal details)
-	Soft bool       // if set, error is "soft"
-	Code Code       // error code
+	Pos  Pos    // error position
+	Msg  string // default error message, user-friendly
+	Full string // full error message, for debugging (may contain internal details)
+	Soft bool   // if set, error is "soft"
+	Code Code   // error code
 }
 
 // Error returns an error string formatted as follows:

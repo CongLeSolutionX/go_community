@@ -12,7 +12,6 @@ package types
 import (
 	"errors"
 	"fmt"
-	"go/token"
 	. "internal/types/errors"
 )
 
@@ -77,7 +76,7 @@ func Instantiate(ctxt *Context, orig Type, targs []Type, validate bool) (Type, e
 // must be non-nil.
 //
 // For Named types the resulting instance may be unexpanded.
-func (check *Checker) instance(pos token.Pos, orig Type, targs []Type, expanding *Named, ctxt *Context) (res Type) {
+func (check *Checker) instance(pos Pos, orig Type, targs []Type, expanding *Named, ctxt *Context) (res Type) {
 	// The order of the contexts below matters: we always prefer instances in the
 	// expanding instance context in order to preserve reference cycles.
 	//
@@ -156,7 +155,7 @@ func (check *Checker) instance(pos token.Pos, orig Type, targs []Type, expanding
 // validateTArgLen checks that the number of type arguments (got) matches the
 // number of type parameters (want); if they don't match an error is reported.
 // If validation fails and check is nil, validateTArgLen panics.
-func (check *Checker) validateTArgLen(pos token.Pos, name string, want, got int) bool {
+func (check *Checker) validateTArgLen(pos Pos, name string, want, got int) bool {
 	var qual string
 	switch {
 	case got < want:
@@ -176,7 +175,7 @@ func (check *Checker) validateTArgLen(pos token.Pos, name string, want, got int)
 	panic(fmt.Sprintf("%v: %s", pos, msg))
 }
 
-func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type, ctxt *Context) (int, error) {
+func (check *Checker) verify(pos Pos, tparams []*TypeParam, targs []Type, ctxt *Context) (int, error) {
 	smap := makeSubstMap(tparams, targs)
 	for i, tpar := range tparams {
 		// Ensure that we have a (possibly implicit) interface as type bound (go.dev/issue/51048).
@@ -200,7 +199,7 @@ func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type, 
 //
 // If the provided cause is non-nil, it may be set to an error string
 // explaining why V does not implement (or satisfy, for constraints) T.
-func (check *Checker) implements(pos token.Pos, V, T Type, constraint bool, cause *string) bool {
+func (check *Checker) implements(pos Pos, V, T Type, constraint bool, cause *string) bool {
 	Vu := under(V)
 	Tu := under(T)
 	if !isValid(Vu) || !isValid(Tu) {

@@ -98,7 +98,7 @@ var filemap = map[string]action{
 	"alias.go": nil,
 	"assignments.go": func(f *ast.File) {
 		renameImportPath(f, `"cmd/compile/internal/syntax"->"go/ast"`)
-		renameSelectorExprs(f, "syntax.Name->ast.Ident", "ident.Value->ident.Name", "ast.Pos->token.Pos") // must happen before renaming identifiers
+		renameSelectorExprs(f, "syntax.Name->ast.Ident", "ident.Value->ident.Name") // must happen before renaming identifiers
 		renameIdents(f, "syntax->ast", "poser->positioner", "nopos->noposn")
 	},
 	"array.go":          nil,
@@ -117,7 +117,7 @@ var filemap = map[string]action{
 		renameIdents(f, "syntax->ast")
 	},
 	"chan.go":         nil,
-	"const.go":        func(f *ast.File) { fixTokenPos(f) },
+	"const.go":        nil,
 	"context.go":      nil,
 	"context_test.go": nil,
 	"conversions.go":  nil,
@@ -125,28 +125,27 @@ var filemap = map[string]action{
 	"gccgosizes.go":   nil,
 	"gcsizes.go":      func(f *ast.File) { renameIdents(f, "IsSyncAtomicAlign64->_IsSyncAtomicAlign64") },
 	"hilbert_test.go": func(f *ast.File) { renameImportPath(f, `"cmd/compile/internal/types2"->"go/types"`) },
-	"infer.go":        func(f *ast.File) { fixTokenPos(f); fixInferSig(f) },
+	"infer.go":        fixInferSig,
 	"initorder.go":    nil,
 	// "initorder.go": fixErrErrorfCall, // disabled for now due to unresolved error_ use implications for gopls
-	"instantiate.go":      func(f *ast.File) { fixTokenPos(f); fixCheckErrorfCall(f) },
+	"instantiate.go":      fixCheckErrorfCall,
 	"instantiate_test.go": func(f *ast.File) { renameImportPath(f, `"cmd/compile/internal/types2"->"go/types"`) },
-	"lookup.go":           func(f *ast.File) { fixTokenPos(f) },
+	"lookup.go":           nil,
 	"main_test.go":        nil,
 	"map.go":              nil,
 	"mono.go": func(f *ast.File) {
-		fixTokenPos(f)
-		insertImportPath(f, `"go/ast"`)
+		renameImportPath(f, `"cmd/compile/internal/syntax"->"go/ast"`)
 		renameSelectorExprs(f, "syntax.Expr->ast.Expr")
 	},
-	"named.go":       func(f *ast.File) { fixTokenPos(f); renameSelectors(f, "Trace->_Trace") },
-	"object.go":      func(f *ast.File) { fixTokenPos(f); renameIdents(f, "NewTypeNameLazy->_NewTypeNameLazy") },
+	"named.go":       func(f *ast.File) { renameSelectors(f, "Trace->_Trace") },
+	"object.go":      func(f *ast.File) { renameIdents(f, "NewTypeNameLazy->_NewTypeNameLazy") },
 	"object_test.go": func(f *ast.File) { renameImportPath(f, `"cmd/compile/internal/types2"->"go/types"`) },
 	"objset.go":      nil,
 	"operand.go": func(f *ast.File) {
 		insertImportPath(f, `"go/token"`)
 		renameImportPath(f, `"cmd/compile/internal/syntax"->"go/ast"`)
 		renameSelectorExprs(f,
-			"syntax.Pos->token.Pos", "syntax.LitKind->token.Token",
+			"syntax.Pos->Pos", "syntax.LitKind->token.Token",
 			"syntax.IntLit->token.INT", "syntax.FloatLit->token.FLOAT",
 			"syntax.ImagLit->token.IMAG", "syntax.RuneLit->token.CHAR",
 			"syntax.StringLit->token.STRING") // must happen before renaming identifiers
@@ -155,11 +154,11 @@ var filemap = map[string]action{
 	"package.go":       nil,
 	"pointer.go":       nil,
 	"predicates.go":    nil,
-	"scope.go":         func(f *ast.File) { fixTokenPos(f); renameIdents(f, "Squash->squash", "InsertLazy->_InsertLazy") },
+	"scope.go":         func(f *ast.File) { renameIdents(f, "Squash->squash", "InsertLazy->_InsertLazy") },
 	"selection.go":     nil,
 	"sizes.go":         func(f *ast.File) { renameIdents(f, "IsSyncAtomicAlign64->_IsSyncAtomicAlign64") },
 	"slice.go":         nil,
-	"subst.go":         func(f *ast.File) { fixTokenPos(f); renameSelectors(f, "Trace->_Trace") },
+	"subst.go":         func(f *ast.File) { renameSelectors(f, "Trace->_Trace") },
 	"termlist.go":      nil,
 	"termlist_test.go": nil,
 	"tuple.go":         nil,
@@ -171,7 +170,7 @@ var filemap = map[string]action{
 	"under.go":         nil,
 	"unify.go":         fixSprintf,
 	"universe.go":      fixGlobalTypVarDecl,
-	"util_test.go":     fixTokenPos,
+	"util_test.go":     nil,
 	"validtype.go":     nil,
 }
 
@@ -287,34 +286,6 @@ func insertImportPath(f *ast.File, path string) {
 	panic("no import declaration present")
 }
 
-// fixTokenPos changes imports of "cmd/compile/internal/syntax" to "go/token",
-// uses of syntax.Pos to token.Pos, and calls to x.IsKnown() to x.IsValid().
-func fixTokenPos(f *ast.File) {
-	m := makeRenameMap(`"cmd/compile/internal/syntax"->"go/token"`, "syntax.Pos->token.Pos", "IsKnown->IsValid")
-	ast.Inspect(f, func(n ast.Node) bool {
-		switch n := n.(type) {
-		case *ast.ImportSpec:
-			// rewrite import path "cmd/compile/internal/syntax" to "go/token"
-			if n.Path.Kind != token.STRING {
-				panic("invalid import path")
-			}
-			m.rename(&n.Path.Value)
-			return false
-		case *ast.SelectorExpr:
-			// rewrite syntax.Pos to token.Pos
-			m.renameSel(n)
-			return false
-		case *ast.CallExpr:
-			// rewrite x.IsKnown() to x.IsValid()
-			if fun, _ := n.Fun.(*ast.SelectorExpr); fun != nil && len(n.Args) == 0 {
-				m.rename(&fun.Sel.Name)
-				return false
-			}
-		}
-		return true
-	})
-}
-
 // fixSelValue updates the selector x.Sel.Value to x.Sel.Name.
 func fixSelValue(f *ast.File) {
 	ast.Inspect(f, func(n ast.Node) bool {
@@ -331,7 +302,7 @@ func fixSelValue(f *ast.File) {
 	})
 }
 
-// fixInferSig updates the Checker.infer signature to use a positioner instead of a token.Position
+// fixInferSig updates the Checker.infer signature to use a positioner instead of a Position
 // as first argument, renames the argument from "pos" to "posn", and updates a few internal uses of
 // "pos" to "posn" and "posn.Pos()" respectively.
 func fixInferSig(f *ast.File) {
@@ -339,7 +310,7 @@ func fixInferSig(f *ast.File) {
 		switch n := n.(type) {
 		case *ast.FuncDecl:
 			if n.Name.Name == "infer" {
-				// rewrite (pos token.Pos, ...) to (posn positioner, ...)
+				// rewrite (pos Pos, ...) to (posn positioner, ...)
 				par := n.Type.Params.List[0]
 				if len(par.Names) == 1 && par.Names[0].Name == "pos" {
 					par.Names[0] = newIdent(par.Names[0].Pos(), "posn")

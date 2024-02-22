@@ -9,7 +9,6 @@ package types
 import (
 	"go/ast"
 	"go/internal/typeparams"
-	"go/token"
 	. "internal/types/errors"
 	"strings"
 )
@@ -33,7 +32,7 @@ import (
 //
 // If an error (other than a version error) occurs in any case, it is reported
 // and x.mode is set to invalid.
-func (check *Checker) funcInst(T *target, pos token.Pos, x *operand, ix *typeparams.IndexExpr, infer bool) ([]Type, []ast.Expr) {
+func (check *Checker) funcInst(T *target, pos Pos, x *operand, ix *typeparams.IndexExpr, infer bool) ([]Type, []ast.Expr) {
 	assert(T != nil || ix != nil)
 
 	var instErrPos positioner
@@ -132,7 +131,7 @@ func (check *Checker) funcInst(T *target, pos token.Pos, x *operand, ix *typepar
 	return nil, nil
 }
 
-func (check *Checker) instantiateSignature(pos token.Pos, expr ast.Expr, typ *Signature, targs []Type, xlist []ast.Expr) (res *Signature) {
+func (check *Checker) instantiateSignature(pos Pos, expr ast.Expr, typ *Signature, targs []Type, xlist []ast.Expr) (res *Signature) {
 	assert(check != nil)
 	assert(len(targs) == typ.TypeParams().Len())
 

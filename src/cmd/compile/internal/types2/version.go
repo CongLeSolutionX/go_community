@@ -90,7 +90,7 @@ func (check *Checker) allowVersion(pkg *Package, at poser, v goVersion) bool {
 	// If no explicit file version is specified,
 	// fileVersion corresponds to the module version.
 	var fileVersion goVersion
-	if pos := at.Pos(); pos.IsKnown() {
+	if pos := at.Pos(); isKnown(pos) {
 		// We need version.Lang below because file versions
 		// can be (unaltered) Config.GoVersion strings that
 		// may contain dot-release information.
@@ -113,8 +113,8 @@ func (check *Checker) verifyVersionf(at poser, v goVersion, format string, args 
 // base finds the underlying PosBase of the source file containing pos,
 // skipping over intermediate PosBase layers created by //line directives.
 // The positions must be known.
-func base(pos syntax.Pos) *syntax.PosBase {
-	assert(pos.IsKnown())
+func base(pos Pos) *syntax.PosBase {
+	assert(isKnown(pos))
 	b := pos.Base()
 	for {
 		bb := b.Pos().Base()

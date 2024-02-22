@@ -7,7 +7,6 @@
 package types
 
 import (
-	"go/token"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -246,7 +245,7 @@ func (check *Checker) newNamed(obj *TypeName, underlying Type, methods []*Func) 
 //
 // If set, expanding is the named type instance currently being expanded, that
 // led to the creation of this instance.
-func (check *Checker) newNamedInstance(pos token.Pos, orig *Named, targs []Type, expanding *Named) *Named {
+func (check *Checker) newNamedInstance(pos Pos, orig *Named, targs []Type, expanding *Named) *Named {
 	assert(len(targs) > 0)
 
 	obj := NewTypeName(pos, orig.obj.pkg, orig.obj.name, nil)
