@@ -16,6 +16,24 @@
       "message": "This code is here so that it matches the types2 code (see comment on line 845).\nIt might be better to leave this alone.",
       "revId": "d90a57ffe8ad8f3cb0137822a768ae48cf80a09d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c42f862_93c99f97",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-02-22T17:25:38Z",
+      "side": 0,
+      "message": "Reverted, and added a comment at var sExtra.",
+      "parentUuid": "8b90a34e_0c63190c",
+      "revId": "d90a57ffe8ad8f3cb0137822a768ae48cf80a09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
