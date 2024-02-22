@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e54163ce_f73d825b",
+        "filename": "src/runtime/trace2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-02-22T18:28:43Z",
+      "side": 1,
+      "message": "Maybe I am overthinking this, but it seems to me that you need to actually call `publicatiomBarrier` here.\n\nThe Store here has release semantics. My thinking is that `trace.enable \u003d\u003d true` must be observed if `trace.gen !\u003d 0`. But readers do _not_ do a load-acquire of `trace.gen`, so I don\u0027t think they have ordering guarantees (they may observe `trace.enabled \u003d\u003d false` when `trace.gen !\u003d 0` because they never actually tried to load-acquire `trace.gen`).\n\nhttps://developer.arm.com/documentation/102336/0100/Load-Acquire-and-Store-Release-instructions\n\n----\n\nI am ignoring STW here. I think that STW provides a barrier on each M (by locking `sched.lock` in `gcstopm`). So perhaps this is unnecessary. But if we want to depend on STW barriers then we should just say that instead of implying they aren\u0027t necessary.",
+      "range": {
+        "startLine": 231,
+        "startChar": 63,
+        "endLine": 233,
+        "endChar": 27
+      },
+      "revId": "1eeee9e2005ab929b5af5ebc7e8cb6319079307f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
