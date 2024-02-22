@@ -110,6 +110,205 @@
       "message": "We had some discussion about the `ModeDir` bit in proposal #61893, and concluded that we should not set that bit because it is in general not safe to traverse reparse points as if they were directories (for example, because that may lead to infinite recursion).\n\nIt would be good to leave a comment somewhere in here summarizing that decision, though. 😅",
       "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b67cb1e_56c7a587",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "`testenv.MustHaveExecPath(t, \"powershell\")` before this, so that we don\u0027t pollute test logs with cleanup for a setup that can\u0027t possibly succeed?",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "582bb150_d4e135de",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "This output and exit code are dropped — seems like we should at least pass them to `t.Logf` (or perhaps `t.Errorf` if the script to create the mount point succeeded?)",
+      "range": {
+        "startLine": 492,
+        "startChar": 83,
+        "endLine": 492,
+        "endChar": 100
+      },
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc65022b_f0119e0d",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "(nit) use `strings.Join` (or `fmt.Fprintf` with a `strings.Builder`) instead of `+` to construct this program?",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c75ef79_012a7ba5",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "Does Windows have a race analogous to #22315?\n\nIf so, please add a comment at the beginning of each test that uses this to explain why the test cannot be parallel.\n\nOtherwise, consider making these tests parallel to improve overall test latency.",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86d32f2f_39bbcf0e",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "(nit) please move the definition of `sameFile` closer to where it is used. (`TestEvalSymlinksVolumeID` does not appear to use it.)",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1c87bbd_bdf90575",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "It would be helpful to either expand this comment or add one near the end of the test to explain what would have happened before this issue was fixed.",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daab63c1_e0b34725",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "I\u0027m not sure what `ValidRecursion` refers to here — it seems like what we\u0027re checking for is a _lack_ of recursion for mount points.",
+      "range": {
+        "startLine": 562,
+        "startChar": 5,
+        "endLine": 562,
+        "endChar": 35
+      },
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45629980_0b605ffd",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "(nit) It\u0027s ok for code comments to refer to issues, but the comment should also include at least a summary of the issue in a standalone form — it can be frustrating to have to open a bunch of links in a browser just to figure out what a test is doing if it happens to fail.",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f81871ad_4e4febc0",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "Is there an existing test for the equivalent case involving actual symlinks?\n\nOn POSIX systems that results in an error with the message \"EvalSymlinks: too many links\": https://go.dev/play/p/8aVW0DYjPBc",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2903b3a9_40f2e2b3",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "Since we\u0027re already starting from `tempDirCanonical`, I think the checks here and below should depend on the `winsymlink` setting, rather than using `sameFile`.\n\nIf `winsymlink` is `0`, I think we want the result of this call to be exactly equal to `want`, and otherwise IIUC it should be exactly equal to `dirlink`..?",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e62e2460_553e486d",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-22T21:35:52Z",
+      "side": 1,
+      "message": "Here I think we expect exactly `want` in all cases, since the target of the link is based on `tempDirCanonical` (and thus cannot itself contain symlinks)..?",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
