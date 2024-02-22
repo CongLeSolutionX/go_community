@@ -70,6 +70,24 @@
       "message": "I\u0027m not sure if I should keep the parentheses like this [DLL].",
       "revId": "512c72f1d3527f66701bdf44cf9f298a29630b1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c55244_7b6c78bb",
+        "filename": "src/syscall/dll_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-22T05:46:28Z",
+      "side": 1,
+      "message": "I think it\u0027s OK since d does indeed have type DLL.",
+      "parentUuid": "4ac3b9f3_3bb5ec61",
+      "revId": "512c72f1d3527f66701bdf44cf9f298a29630b1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
