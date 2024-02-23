@@ -28,6 +28,12 @@ func assert(p bool) {
 	}
 }
 
+// An errorDesc describes part of a type-checking error.
+type errorDesc struct {
+	pos syntax.Pos
+	msg string
+}
+
 // An error_ represents a type-checking error.
 // A new error_ is created with Checker.newError.
 // To report an error_, call error_.report.
@@ -44,13 +50,6 @@ func (check *Checker) newError(code Code) *error_ {
 		panic("error code must not be 0")
 	}
 	return &error_{check: check, code: code}
-}
-
-// An errorDesc describes part of a type-checking error.
-type errorDesc struct {
-	pos    syntax.Pos
-	format string
-	args   []interface{}
 }
 
 func (err *error_) empty() bool {
@@ -79,7 +78,7 @@ func (err *error_) msg() string {
 				fmt.Fprintf(&buf, "%s: ", p.pos)
 			}
 		}
-		buf.WriteString(err.check.sprintf(p.format, p.args...))
+		buf.WriteString(p.msg)
 	}
 	return buf.String()
 }
@@ -91,10 +90,10 @@ func (err *error_) msg() string {
 // in the error message (types2) or continuation errors identified by a tab-indented error
 // message (go/types).
 func (err *error_) addf(at poser, format string, args ...interface{}) {
-	err.desc = append(err.desc, errorDesc{atPos(at), format, args})
+	err.desc = append(err.desc, errorDesc{atPos(at), err.check.sprintf(format, args...)})
 }
 
-func sprintf(qf Qualifier, tpSubscripts bool, format string, args ...interface{}) string {
+func sprintf(qf Qualifier, tpSubscripts bool, format string, args ...any) string {
 	for i, arg := range args {
 		switch a := arg.(type) {
 		case nil:
@@ -196,7 +195,7 @@ func (check *Checker) markImports(pkg *Package) {
 }
 
 // check may be nil.
-func (check *Checker) sprintf(format string, args ...interface{}) string {
+func (check *Checker) sprintf(format string, args ...any) string {
 	var qf Qualifier
 	if check != nil {
 		qf = check.qualifier
@@ -204,7 +203,7 @@ func (check *Checker) sprintf(format string, args ...interface{}) string {
 	return sprintf(qf, false, format, args...)
 }
 
-func (check *Checker) trace(pos syntax.Pos, format string, args ...interface{}) {
+func (check *Checker) trace(pos syntax.Pos, format string, args ...any) {
 	fmt.Printf("%s:\t%s%s\n",
 		pos,
 		strings.Repeat(".  ", check.indent),
@@ -213,7 +212,7 @@ func (check *Checker) trace(pos syntax.Pos, format string, args ...interface{}) 
 }
 
 // dump is only needed for debugging
-func (check *Checker) dump(format string, args ...interface{}) {
+func (check *Checker) dump(format string, args ...any) {
 	fmt.Println(sprintf(check.qualifier, true, format, args...))
 }
 
@@ -252,9 +251,12 @@ func (err *error_) report() {
 	// follow-on errors which don't add useful information. Only
 	// exclude them if these strings are not at the beginning,
 	// and only if we have at least one error already reported.
-	isInvalidErr := strings.Index(msg, "invalid operand") > 0 || strings.Index(msg, "invalid type") > 0
-	if check.firstErr != nil && isInvalidErr {
-		return
+	if check.firstErr != nil {
+		// It is sufficient to look at the first message only.
+		msg := err.desc[0].msg
+		if strings.Index(msg, "invalid operand") > 0 || strings.Index(msg, "invalid type") > 0 {
+			return
+		}
 	}
 
 	// If we have a URL for error codes, add a link to the first line.
@@ -305,20 +307,20 @@ func (check *Checker) error(at poser, code Code, msg string) {
 	err.report()
 }
 
-func (check *Checker) errorf(at poser, code Code, format string, args ...interface{}) {
+func (check *Checker) errorf(at poser, code Code, format string, args ...any) {
 	err := check.newError(code)
 	err.addf(at, format, args...)
 	err.report()
 }
 
-func (check *Checker) softErrorf(at poser, code Code, format string, args ...interface{}) {
+func (check *Checker) softErrorf(at poser, code Code, format string, args ...any) {
 	err := check.newError(code)
 	err.addf(at, format, args...)
 	err.soft = true
 	err.report()
 }
 
-func (check *Checker) versionErrorf(at poser, v goVersion, format string, args ...interface{}) {
+func (check *Checker) versionErrorf(at poser, v goVersion, format string, args ...any) {
 	msg := check.sprintf(format, args...)
 	err := check.newError(UnsupportedFeature)
 	err.addf(at, "%s requires %s or later", msg, v)
