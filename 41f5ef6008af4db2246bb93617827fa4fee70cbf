@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f06ca17_c581d533",
+        "filename": "src/cmd/go/internal/script/engine_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T22:22:34Z",
+      "side": 1,
+      "message": "(nit) move the \"cmd \"+ part into the `parse` call, so that `quoted` can be logged as the exact output of `quoteArgs`.",
+      "range": {
+        "startLine": 22,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "41f5ef6008af4db2246bb93617827fa4fee70cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35a28cf3_707a8402",
+        "filename": "src/cmd/go/internal/script/engine_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T22:22:34Z",
+      "side": 1,
+      "message": "(https://go.dev/wiki/CodeReviewComments#useful-test-failures)\n\nInstead of just logging `expected` and `got`, also include a description of what was done to obtain those values. Something like:\n```go\n\tif !slices.Equal(s, args) {\n\t\tt.Fatalf(\"quoteArgs failed to round-trip. input:\\n\\t%#q\\nquoted:\\n\\t%q\\nparsed\\n\\t:%#q\", s, quoted, args)\n\t}\n```",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "41f5ef6008af4db2246bb93617827fa4fee70cbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
