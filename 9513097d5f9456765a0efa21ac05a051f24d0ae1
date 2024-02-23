@@ -171,6 +171,24 @@
       "parentUuid": "5834a789_106c56a6",
       "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "687f118f_19989a16",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-23T22:11:11Z",
+      "side": 1,
+      "message": "Maybe I\u0027d better revert this cutFunc? Like this:\n```\n\tcutFunc :\u003d func(s string) (before, after string, found bool) {\n\t\tif i :\u003d strings.IndexAny(s, \" \\t\"); i \u003e\u003d 0 {\n\t\t\tif j :\u003d strings.IndexFunc(s[i+1:], func(r rune) bool { return r !\u003d \u0027 \u0027 \u0026\u0026 r !\u003d \u0027\\t\u0027 }); j \u003e\u003d 0 {\n\t\t\t\treturn s[:i], s[i+1+j:], true\n\t\t\t}\n\t\t\treturn s[:i], \"\", true\n\t\t}\n\t\treturn s, \"\", false\n\t}\n```",
+      "parentUuid": "81502966_cb2cebbc",
+      "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
