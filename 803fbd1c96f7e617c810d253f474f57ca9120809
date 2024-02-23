@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0685686_426ba054",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T18:08:37Z",
+      "side": 1,
+      "message": "Please also add a release note in `doc/next/6-stdlib/os`.",
+      "revId": "803fbd1c96f7e617c810d253f474f57ca9120809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac89b5b8_9234a356",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T18:08:37Z",
+      "side": 1,
+      "message": "We should also check that the `ModeSymlink` and `ModeIrregular` bits of `fi1` are not set.\n\nI guess one way to do that would be to mask the value:\n\n```go\nif t :\u003d fi1.Mode()\u0026fs.ModeType; t !\u003d fs.ModeDir {\n\tt.Errorf(\"Stat(%q) is type %v; want %v\", link, t, fs.ModeDir)\n}\n```",
+      "revId": "803fbd1c96f7e617c810d253f474f57ca9120809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b65a523b_503749da",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T18:08:37Z",
+      "side": 1,
+      "message": "```go\nvar wantType fs.FileMode\nif test.isMountPoint \u0026\u0026 winsymlink.Value() !\u003d \"0\" {\n\t// Mount points are reparse points, and we no longer treat them as symlinks.\n\twantType \u003d fs.ModeIrregular\n} else {\n\t// This is either a real symlink, or a mount point treated as a symlink.\n\twantType \u003d fs.ModeSymlink\n}\nif t :\u003d fi2.Mode()\u0026fs.ModeType; t !\u003d wantType {\n    t.Errorf(\"Lstat(%q) is type %v; want %v\", link, t, fs.ModeDir)\n}\n```",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "803fbd1c96f7e617c810d253f474f57ca9120809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6cee643_76feb3bc",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T18:08:37Z",
+      "side": 1,
+      "message": "(nit)\n\nNow that `exec.Cmd` has a `String` method, I think it would probably be clearer to just inline these helper functions into the test — that would reduce indirection and make it clearer exactly what command is being run, without the need to add more noise from `t.Helper()` calls in the code.\n\nAnd we should probably also use `%#q` instead of `%q`, since we expect the paths to contain a lot of backslashes that would otherwise be quoted. 😅\n\nFinally, each section should have a short description about the scenario being tested.\n\nThen each call might look something like:\n\n```go\n\t// ntdirjlink is a directory junction linking directly\n\t// to a path on the underlying NT volume (not a drive letter).\n\tntdirjlink :\u003d filepath.Join(tmpdir, \"ntdirjlink\")\n\tntdirjtarget :\u003d filepath.Join(ntvol, absdirjlink[len(filepath.VolumeName(absdirjlink)):])\n\tcmd \u003d testenv.Command(t, \"cmd\", \"/c\", \"mklink\", \"/j\", ntdirjlink, ntdirjtarget)\n\tif out, err :\u003d cmd.CombinedOutput(); err !\u003d nil {\n\t\tt.Fatalf(\"%v: %v\\n%s\", cmd, err, out)\n\t}\n\n\t// Normally, Readlink should report the actual target of the junction.\n\twant :\u003d ntdirjtarget\n\tif winsymlink.Value() \u003d\u003d \"0\" {\n\t\t// ...but in winsymlink\u003d0 mode, it instead resolves\n\t\t// the volume back to a drive letter.\n\t\twant \u003d absdirjlink\n\t}\n\tif got, err :\u003d os.Readlink(path); err !\u003d nil || got !\u003d want {\n\t\tt.Errorf(\"Readlink(%#q) \u003d\\n\\t%#q, %v\\nwant\\n\\t%#q, \u003cnil\u003e\", path, got, err, want)\n\t}\n```\n\nwhich is somewhat longer but IMO much clearer about what is going on.",
+      "range": {
+        "startLine": 1260,
+        "startChar": 0,
+        "endLine": 1293,
+        "endChar": 0
+      },
+      "revId": "803fbd1c96f7e617c810d253f474f57ca9120809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3775d310_bf4c3bbb",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T18:08:37Z",
+      "side": 1,
+      "message": "(optional) Consider using the same `lfi.Mode()\u0026fs.ModeType` idiom in this test as suggested in `testDirLinks`.",
+      "range": {
+        "startLine": 1454,
+        "startChar": 0,
+        "endLine": 1465,
+        "endChar": 0
+      },
+      "revId": "803fbd1c96f7e617c810d253f474f57ca9120809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "577999ba_852a7824",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-23T18:08:37Z",
+      "side": 1,
+      "message": "Hmm. I think we want to run the `Dismount-VHD` command any time `Mount-VHD` succeeded, even if we ended up skipping due to a later failure in the powershell script.\n\nI assume that\u0027s safe to run even if we didn\u0027t successfully mount it, so maybe add the dismount command unconditionally but only mark it as an error if we didn\u0027t skip?\n\n```go\ncmd :\u003d testenv.Command(t, \"powershell\", \"-Command\", fmt.Sprintf(\"Dismount-VHD %q\", vhd))\nout, err :\u003d cmd.CombinedOutput()\nif err !\u003d nil {\n\tif t.Skipped() {\n\t\t// Probably failed to dismount because we never mounted it in\n\t\t// the first place. Log the error, but ignore it.\n\t\tt.Logf(\"%v: %v (skipped)\\n%s\", cmd, err, out)\n\t} else {\n\t\t// Something went wrong, and we don\u0027t want to leave dangling VHDs.\n\t\t// Better to fail the test than to just log the error and continue.\n\t\tt.Errorf(\"%v: %v\\n%s\", cmd, err, out)\n\t}\n}\n```",
+      "revId": "803fbd1c96f7e617c810d253f474f57ca9120809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
