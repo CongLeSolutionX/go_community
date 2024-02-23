@@ -22,7 +22,8 @@ func TestReadLine(t *testing.T) {
 
 	fd, err := os.Open(filename)
 	if err != nil {
-		t.Fatal(err)
+		// The file is missing even on some Unix systems.
+		t.Skipf("skipping because /etc/services does not exist")
 	}
 	defer fd.Close()
 	br := bufio.NewReader(fd)
