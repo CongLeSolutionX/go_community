@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09e3a840_bc8f42f9",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e148088_7958f2e8",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f79c3a5_39351e66",
@@ -68,6 +86,30 @@
       "writtenOn": "2024-02-22T17:17:26Z",
       "side": 1,
       "message": "I think this starts to kind of blur the meaning of “want”, since what we\u0027re passing in isn\u0027t really what we “want” in this case.\n\nCan we instead push this to the caller side, so that `want` always represents exactly the desired output? That would also help to illustrate what happens from a user\u0027s perspective if `os.Readlink` is called on a non-symlink.\n\nOn POSIX platforms it [returns `EINVAL` for non-symlinks](https://go.dev/play/p/Dbid32LD9k3), and in https://github.com/golang/go/issues/63703#issue-1958060170 I had originally intended to return a similar error, but in that case I think we wouldn\u0027t even reach this point — we would instead fail at line 1263.",
+      "range": {
+        "startLine": 1267,
+        "startChar": 0,
+        "endLine": 1268,
+        "endChar": 90
+      },
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a779baef_1f28b2f8",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "\u003e Can we instead push this to the caller side, so that want always represents exactly the desired output?\n\nMakes sense and simplifies the code, thanks!",
+      "parentUuid": "3f79c3a5_39351e66",
       "range": {
         "startLine": 1267,
         "startChar": 0,
@@ -95,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2e631bb_684b94c7",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1317,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "This is already being test inside `testDirLinks`, which is called in `TestDirectoryJunction` (for mount points) and in `TestDirectorySymbolicLink`.",
+      "parentUuid": "42948210_bf3417fd",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d96a6a3a_2b1d88bc",
@@ -112,6 +172,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c449a95d_7c61c552",
+        "filename": "src/os/types_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Huh, I got this implementation wrong. Got confused by reading my own proposal 😕. Fixed and comments added. Also, added a clarification comment in the proposal: https://github.com/golang/go/issues/61893#issuecomment-1960969333.",
+      "parentUuid": "d96a6a3a_2b1d88bc",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b67cb1e_56c7a587",
@@ -125,6 +203,24 @@
       "writtenOn": "2024-02-22T21:35:52Z",
       "side": 1,
       "message": "`testenv.MustHaveExecPath(t, \"powershell\")` before this, so that we don\u0027t pollute test logs with cleanup for a setup that can\u0027t possibly succeed?",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b58e219_bbd55257",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b67cb1e_56c7a587",
       "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -152,6 +248,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fef908d7_3d612142",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "582bb150_d4e135de",
+      "range": {
+        "startLine": 492,
+        "startChar": 83,
+        "endLine": 492,
+        "endChar": 100
+      },
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc65022b_f0119e0d",
@@ -165,6 +285,24 @@
       "writtenOn": "2024-02-22T21:35:52Z",
       "side": 1,
       "message": "(nit) use `strings.Join` (or `fmt.Fprintf` with a `strings.Builder`) instead of `+` to construct this program?",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0203337_1ef2c2dd",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc65022b_f0119e0d",
       "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -186,6 +324,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "764675ac_436a60e4",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Don\u0027t think so, as Windows doesn\u0027t support fork+exec model. Will make them parallel.",
+      "parentUuid": "4c75ef79_012a7ba5",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86d32f2f_39bbcf0e",
@@ -199,6 +355,24 @@
       "writtenOn": "2024-02-22T21:35:52Z",
       "side": 1,
       "message": "(nit) please move the definition of `sameFile` closer to where it is used. (`TestEvalSymlinksVolumeID` does not appear to use it.)",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3ae2376_9cfa7f40",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86d32f2f_39bbcf0e",
       "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -220,6 +394,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "958262d3_f9200f6f",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1c87bbd_bdf90575",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "daab63c1_e0b34725",
@@ -233,6 +425,30 @@
       "writtenOn": "2024-02-22T21:35:52Z",
       "side": 1,
       "message": "I\u0027m not sure what `ValidRecursion` refers to here — it seems like what we\u0027re checking for is a _lack_ of recursion for mount points.",
+      "range": {
+        "startLine": 562,
+        "startChar": 5,
+        "endLine": 562,
+        "endChar": 35
+      },
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b138a6e_032b351c",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daab63c1_e0b34725",
       "range": {
         "startLine": 562,
         "startChar": 5,
@@ -277,6 +493,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a1ac73b_84a6a610",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Nop, not even for linux. Added `TestEvalSymlinksTooManyLinks`.",
+      "parentUuid": "f81871ad_4e4febc0",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da6c998_940c9ddb",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45629980_0b605ffd",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2903b3a9_40f2e2b3",
@@ -294,6 +546,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afde5fee_4175a09a",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "2903b3a9_40f2e2b3",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e62e2460_553e486d",
@@ -307,6 +577,24 @@
       "writtenOn": "2024-02-22T21:35:52Z",
       "side": 1,
       "message": "Here I think we expect exactly `want` in all cases, since the target of the link is based on `tempDirCanonical` (and thus cannot itself contain symlinks)..?",
+      "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45aebbb5_fb8ca05b",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-23T11:35:01Z",
+      "side": 1,
+      "message": "The target of the link is based on a mounted volume that points to the `tempDirCanonical` volume. We can\u0027t use `file` directly.\nI\u0027ll apply the same logic as you mentioned in the previous comment.",
+      "parentUuid": "e62e2460_553e486d",
       "revId": "a23bd1af255d105ae6ade7e54a6e1377dd9375ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
