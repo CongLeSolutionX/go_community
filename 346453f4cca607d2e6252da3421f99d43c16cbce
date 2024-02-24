@@ -16,6 +16,24 @@
       "message": "\"iff\" is can be a shortened version of \"if and only if\" and not a typo.\n\nsee https://en.m.wikipedia.org/wiki/If_and_only_if for the details.\n\nas trying to change this comes up surprisingly often, it might be prudent to either replace all such occurrences with the longer form or put it into a contribution FAQ somewhere and link that in pull request template under spelling changes.",
       "revId": "346453f4cca607d2e6252da3421f99d43c16cbce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e9b380_d577d780",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-02-24T15:55:33Z",
+      "side": 1,
+      "message": "ok thx, I wasn\u0027t aware",
+      "parentUuid": "b25f44e8_7ee3ed11",
+      "revId": "346453f4cca607d2e6252da3421f99d43c16cbce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
