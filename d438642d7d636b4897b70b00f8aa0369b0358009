@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c322bf4_60dd6dcd",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-02-24T04:25:28Z",
+      "side": 1,
+      "message": "That doesn\u0027t look right but I need to look at this with a fresh mind.",
+      "revId": "d438642d7d636b4897b70b00f8aa0369b0358009",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5da0836f_0400c3a8",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-02-24T04:25:28Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "d438642d7d636b4897b70b00f8aa0369b0358009",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
