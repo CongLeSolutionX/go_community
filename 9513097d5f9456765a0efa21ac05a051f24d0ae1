@@ -225,6 +225,24 @@
       "parentUuid": "78c82597_c0bea227",
       "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "137bf383_0fc0514c",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-24T11:42:53Z",
+      "side": 1,
+      "message": "I think for compatibility this should be `strings.TrimLeft(s[i+1:], \" \\t\")`\nConsider this case \"Get /foo \\t\".",
+      "parentUuid": "eeb3cdbb_a5d2572c",
+      "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
