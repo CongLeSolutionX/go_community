@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"fmt"
+	"math"
 )
 
 type indVarFlags uint8
@@ -96,14 +97,19 @@ func findIndVar(f *Func) []indVar {
 		var limit *Value // ending value
 
 		// Check that the control if it either ind </<= limit or limit </<= ind.
-		// TODO: Handle unsigned comparisons?
 		c := b.Controls[0]
-		inclusive := false
+		var inclusive, unsigned bool
 		switch c.Op {
 		case OpLeq64, OpLeq32, OpLeq16, OpLeq8:
 			inclusive = true
 			fallthrough
 		case OpLess64, OpLess32, OpLess16, OpLess8:
+			ind, limit = c.Args[0], c.Args[1]
+		case OpLeq64U, OpLeq32U, OpLeq16U, OpLeq8U:
+			inclusive = true
+			fallthrough
+		case OpLess64U, OpLess32U, OpLess16U, OpLess8U:
+			unsigned = true
 			ind, limit = c.Args[0], c.Args[1]
 		default:
 			continue
@@ -189,6 +195,26 @@ func findIndVar(f *Func) []indVar {
 		// We use a function wrapper here for easy return true / return false / keep going logic.
 		// This function returns true if the increment will never overflow/underflow.
 		ok := func() bool {
+			if unsigned {
+				// This is limited but it's good enough for the loop inversion.
+				if step > 0 {
+					if limit.isGenericIntConst() && maxUintForConst(limit)-uint64(limit.AuxInt) >= uint64(step) {
+						return true
+					}
+					if step == 1 && !inclusive {
+						return true
+					}
+				} else {
+					if limit.isGenericIntConst() && uint64(limit.AuxInt) <= uint64(-step) {
+						return true
+					}
+					if step == -1 && !inclusive {
+						return true
+					}
+				}
+				return false
+			}
+
 			if step > 0 {
 				if limit.isGenericIntConst() {
 					// Figure out the actual largest value.
@@ -311,6 +337,21 @@ func findIndVar(f *Func) []indVar {
 	}
 
 	return iv
+}
+
+func maxUintForConst(v *Value) uint64 {
+	switch v.Op {
+	case OpConst64:
+		return math.MaxUint64
+	case OpConst32:
+		return math.MaxUint32
+	case OpConst16:
+		return math.MaxUint16
+	case OpConst8:
+		return math.MaxUint8
+	default:
+		panic("unreachable")
+	}
 }
 
 // addWillOverflow reports whether x+y would result in a value more than maxint.

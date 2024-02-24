@@ -9,3 +9,9 @@ func invert(b func(), n int) {
 		b()
 	}
 }
+
+func invertu(b func(), n uint) {
+	for i := uint(0); i < n; i++ { // ERROR "(Inverted loop iteration|Induction variable: limits \[0,\?\), increment 1)"
+		b()
+	}
+}

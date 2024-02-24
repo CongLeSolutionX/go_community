@@ -70,8 +70,15 @@ func f2(a []int) int {
 	return 34
 }
 
-func f3(a []uint) int {
-	for i := uint(0); i < uint(len(a)); i++ {
+func f3a(a []uint) int {
+	for i := uint(0); i < uint(len(a)); i++ { // ERROR "Induction variable: limits \[0,\?\), increment 1"
+		a[i] = i // ERROR "Proved IsInBounds$"
+	}
+	return 41
+}
+
+func f3b(a []uint) int {
+	for i := uint(0); i < uint(len(a)); i += 2 {
 		a[i] = i // ERROR "Proved IsInBounds$"
 	}
 	return 41
@@ -1107,7 +1114,7 @@ func modu2(x, y uint) int {
 
 func issue57077(s []int) (left, right []int) {
 	middle := len(s) / 2
-	left = s[:middle] // ERROR "Proved IsSliceInBounds$"
+	left = s[:middle]  // ERROR "Proved IsSliceInBounds$"
 	right = s[middle:] // ERROR "Proved IsSliceInBounds$"
 	return
 }
