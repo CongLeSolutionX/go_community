@@ -86,6 +86,24 @@
       "parentUuid": "f1f0b858_25d9662f",
       "revId": "7607f4010e671f45bf08c46133d1b71cd3574198",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16c4f88_56103572",
+        "filename": "src/net/textproto/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-24T18:49:40Z",
+      "side": 1,
+      "message": "Sorry, you\u0027re quite right.  I don\u0027t think I quite understood that in the original issue.  I will comment there.",
+      "parentUuid": "ba8b9222_fd4a72f3",
+      "revId": "7607f4010e671f45bf08c46133d1b71cd3574198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
