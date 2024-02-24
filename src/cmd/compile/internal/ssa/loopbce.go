@@ -171,7 +171,7 @@ func findIndVar(f *Func) []indVar {
 
 		// First condition: loop entry has a single predecessor, which
 		// is the header block.  This implies that b.Succs[0] is
-		// reached iff ind < limit.
+		// reached if ind < limit.
 		if len(b.Succs[0].b.Preds) != 1 {
 			// b.Succs[1] must exit the loop.
 			continue
