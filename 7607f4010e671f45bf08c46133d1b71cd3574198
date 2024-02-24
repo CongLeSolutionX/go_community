@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d70ca0a9_2e204d40",
+        "filename": "src/net/textproto/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 67298
+      },
+      "writtenOn": "2024-02-24T14:46:26Z",
+      "side": 1,
+      "message": "Thanks for the reply.\n\nI looked at the two previous attempts to fix this where you commented and saw that was a strong desire to not change the TestReadLine test so we maintain backwards compatibility for users.\n\nReturning the error here when it occurs means that we would break that compatibility because currently the user does not get an error the first time they read the line that errors with io.EOF.  It would break the TestReadLine test and I could not think of a way to maintain behavior without holding onto the error.",
+      "parentUuid": "e41ce47f_41397083",
+      "revId": "7607f4010e671f45bf08c46133d1b71cd3574198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1f0b858_25d9662f",
         "filename": "src/net/textproto/reader_test.go",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2024-02-23T20:25:47Z",
       "side": 1,
       "message": "Is this really right?  This Reader returns EOF multiple times?  That doesn\u0027t seem like a good implementation of the io.Reader interface.",
+      "revId": "7607f4010e671f45bf08c46133d1b71cd3574198",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba8b9222_fd4a72f3",
+        "filename": "src/net/textproto/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 67298
+      },
+      "writtenOn": "2024-02-24T14:46:26Z",
+      "side": 1,
+      "message": "I feel like I\u0027m missing something.  This was copied from the original issue on github and based the approach assuming this was our main concern.  There seems to be more to it; could you provide further direction for refinement?",
+      "parentUuid": "f1f0b858_25d9662f",
       "revId": "7607f4010e671f45bf08c46133d1b71cd3574198",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
