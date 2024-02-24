@@ -51,6 +51,74 @@
       "parentUuid": "c61ed1cc_974851ed",
       "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfe1d5ee_d4d8b3c9",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-24T19:17:46Z",
+      "side": 1,
+      "message": "This means that Index calls IndexRune and IndexRune calls Index, which means that we need subtle conditions to avoid an infinite recursion.  I don\u0027t see any reason to this that this is a common case, and I would rather avoid the subtlety.  Let\u0027s leave Index unchanged, and let IndexRune call Index unconditionally in the fallback case.",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c8637f_49aa658b",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-24T19:17:46Z",
+      "side": 1,
+      "message": "Don\u0027t use a line break here.  It\u0027s OK to have a long line.",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ded1396_1322534c",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-24T19:17:46Z",
+      "side": 1,
+      "message": "I don\u0027t understand this.  Why are we decoding the rune at the start of buf in order to decide how many bytes to clear at the end of buf?  What does the one have to do with the other?",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4180bd10_6c2fb25d",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2342,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-02-24T19:17:46Z",
+      "side": 1,
+      "message": "Why this change?",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
