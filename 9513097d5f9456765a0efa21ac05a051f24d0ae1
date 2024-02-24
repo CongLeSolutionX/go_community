@@ -189,6 +189,24 @@
       "parentUuid": "81502966_cb2cebbc",
       "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78c82597_c0bea227",
+        "filename": "src/net/http/pattern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-24T01:28:00Z",
+      "side": 1,
+      "message": "Try strings.Trim(s, \" \\t\")",
+      "parentUuid": "687f118f_19989a16",
+      "revId": "9513097d5f9456765a0efa21ac05a051f24d0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
