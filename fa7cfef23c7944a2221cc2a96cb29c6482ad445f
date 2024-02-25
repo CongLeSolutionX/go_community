@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c3fcdc_d2a53e34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-02-25T22:05:46Z",
+      "side": 1,
+      "message": "Please delete this line as it is redundant and all the information\nin the subject as well as down below explains it all.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f29827_e546ebd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-02-25T22:05:46Z",
+      "side": 1,
+      "message": "implements a new method http.Request.CookiesName, that allows\nretrieving all cookies that match the given name.",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 23
+      },
+      "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4ffa5fb_f978d9b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-02-25T22:05:46Z",
+      "side": 1,
+      "message": "This is an implementation detail that\u0027s not necessary, please delete it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fdfeb94a_5ae76d06",
@@ -14,6 +83,92 @@
       "writtenOn": "2024-02-11T07:15:23Z",
       "side": 1,
       "message": "@dneil@google.com is there any change this could be merged? I think all open points have been addressed and the proposal accepted.",
+      "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe1a4e0_43d8c798",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-02-25T22:05:46Z",
+      "side": 1,
+      "message": "Thank you for this fix Timo and much appreciated patience! I have added some comments but majorly, a suggestion for more rigorous tests by asserting/comparing\nvalues directly to avoid regressions.",
+      "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab919d81_37f6d6ea",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-02-25T22:05:46Z",
+      "side": 1,
+      "message": "We can simply make this name \"TestRequestCookiesByName\"",
+      "range": {
+        "startLine": 1259,
+        "startChar": 5,
+        "endLine": 1259,
+        "endChar": 35
+      },
+      "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5acc875_1954e386",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-02-25T22:05:46Z",
+      "side": 1,
+      "message": "It is much neater to splay the test values on their own instead of in this loop. Also just checking for length is not a rigorous way to catch bugs and prevent future regressions, we need to assert on the actual retrieved values so:\n\n        tests :\u003d []struct {\n\t\tin  []*Cookie\n\t\tfilter string\n\t\twant []*Cookie\n\t}{\n\t\t{\n\t\t\tin: []*Cookie{\n\t\t\t\t{Name: \"foo\", Value: \"foo-1\"},\n\t\t\t\t{Name: \"bar\", Value: \"bar\"},\n\t\t\t},\n\t\t\tfilter: \"foo\",\n\t\t\twant: []*Cookie{{Name: \"foo\", Value: \"foo-1\"},\n\t\t},\n\t\t{\n\t\t\tin: []*Cookie{\n\t\t\t\t{Name: \"foo\", Value: \"foo-1\"},\n\t\t\t\t{Name: \"foo\", Value: \"foo-2\"},\n\t\t\t\t{Name: \"bar\", Value: \"bar\"},\n\t\t\t},\n\t\t\tfilter: \"foo\",\n\t\t\twant: []*Cookie{\n\t\t\t      {Name: \"foo\", Value: \"foo-1\"},\n\t\t\t      {Name: \"foo\", Value: \"foo-2\"},\n\t\t\t},\n\t\t},\n\t\t{\n\t\t\tin: []*Cookie{\n\t\t\t\t{Name: \"bar\", Value: \"bar\"},\n\t\t\t},\n\t\t\tfilter: \"foo\",\n\t\t\twant: nil,\n\t\t},\n\t\t{\n\t\t\tin: []*Cookie{\n\t\t\t\t{Name: \"bar\", Value: \"bar\"},\n\t\t\t},\n\t\t\tfilter: \"\",\n\t\t\twant: nil,\n\t\t},\n\t}",
+      "range": {
+        "startLine": 1260,
+        "startChar": 1,
+        "endLine": 1296,
+        "endChar": 4
+      },
+      "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c1fcd30_f0e0c13c",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-02-25T22:05:46Z",
+      "side": 1,
+      "message": "for _, tt :\u003d range tests {\n                tt :\u003d tt\n                \n                t.Run(tt.filter, func(t *testing.T) {\n                        req, err :\u003d NewRequest(\"GET\", \"http://example.com/\", nil)\n\t\t        if err !\u003d nil {\n\t\t\t    t.Fatal(err)\n\t\t        }\n\t\t        for _, cookie :\u003d range tt.in {\n\t\t\t    req.AddCookie(cookie)\n\t\t        }\n\n\t\t        got :\u003d req.CookiesNamed(tt.filter)\n\n\t\t        if reflect.DeepEqual(got, tt.want) {\n\t\t               asStr :\u003d func(v any) string {\n\t\t                    blob, _ :\u003d json.MarshalIndent(v, \"\", \"  \")\n\t\t                    return string(blob)\n\t\t               }\n\t\t               \n\t\t               t.Fatalf(\"Result mismatch\\n\\tGot:  %s\\n\\tWant: %s\", asStr(got), asStr(tt.want))\n\t\t        }\n\t\t }\n\t}",
+      "range": {
+        "startLine": 1297,
+        "startChar": 2,
+        "endLine": 1309,
+        "endChar": 3
+      },
       "revId": "fa7cfef23c7944a2221cc2a96cb29c6482ad445f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
