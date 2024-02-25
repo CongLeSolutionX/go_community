@@ -33,6 +33,23 @@
       "message": "Comment removed by: Heschi Kreinick; Reason: cryptocurrency spam",
       "revId": "1f8e224dee4ac9781d2af2a3aa41184fb6173f3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b99fe6e4_e6970369",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-02-25T21:04:50Z",
+      "side": 1,
+      "message": "Thanks, from my local benchmarks this has a great improvement in the number of allocs! Would you mind attaching benchstat results for before/after `-bench ^BenchmarkThroughput$`?",
+      "revId": "1f8e224dee4ac9781d2af2a3aa41184fb6173f3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
