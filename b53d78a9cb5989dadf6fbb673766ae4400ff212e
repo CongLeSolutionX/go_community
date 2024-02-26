@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b8e6e62_7f5a1ee0",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-02-26T20:45:37Z",
+      "side": 1,
+      "message": "I don\u0027t know anything about the meta viewport tag. If we\u0027re going to need to keep changing this, I\u0027d like to see a reference to something authoritative that explains why the value we\u0027re changing it to is correct.\n\nI did a little bit of searching and found https://webhint.io/docs/user-guide/hints/hint-meta-viewport/ and https://www.quirksmode.org/blog/archives/2013/10/more_about_scal.html, which seems to indicate that `initial-scale` is only necessary to work around a bug in a ten-year-old version of mobile Safari.",
+      "revId": "b53d78a9cb5989dadf6fbb673766ae4400ff212e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
