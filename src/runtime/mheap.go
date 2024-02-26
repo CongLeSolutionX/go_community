@@ -1957,7 +1957,9 @@ func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *p
 			// Mark everything reachable from the object
 			// so it's retained for the finalizer.
 			if !span.spanclass.noscan() {
-				scanobject(base, gcw)
+				var mb markBuf
+				scanobject(base, gcw, &mb)
+				mb.flush(gcw, base, span.elemsize)
 			}
 			// Mark the finalizer itself, since the
 			// special isn't part of the GC'd heap.

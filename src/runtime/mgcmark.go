@@ -8,6 +8,7 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/cpu"
 	"internal/goarch"
 	"internal/goexperiment"
 	"internal/runtime/atomic"
@@ -387,7 +388,9 @@ func markrootSpans(gcw *gcWork, shard int) {
 				// the object (but *not* the object itself or
 				// we'll never collect it).
 				if !s.spanclass.noscan() {
-					scanobject(p, gcw)
+					var mb markBuf
+					scanobject(p, gcw, &mb)
+					mb.flush(gcw, p, s.elemsize)
 				}
 
 				// The special itself is a root.
@@ -1187,6 +1190,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 	}
 
 	// Drain root marking jobs.
+	var mb markBuf
 	if work.markrootNext < work.markrootJobs {
 		// Stop if we're preemptible, if someone wants to STW, or if
 		// someone is calling forEachP.
@@ -1226,18 +1230,24 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 		if b == 0 {
 			b = gcw.tryGet()
 			if b == 0 {
-				// Flush the write barrier
-				// buffer; this may create
-				// more work.
-				wbBufFlush()
+				// Flush the mark buffer; this may
+				// create more work.
+				mb.flush(gcw, 0, 0)
 				b = gcw.tryGet()
+				if b == 0 {
+					// Flush the write barrier
+					// buffer; this may create
+					// more work.
+					wbBufFlush()
+					b = gcw.tryGet()
+				}
 			}
 		}
 		if b == 0 {
 			// Unable to get work.
 			break
 		}
-		scanobject(b, gcw)
+		scanobject(b, gcw, &mb)
 
 		// Flush background scan work credit to the global
 		// account if we've accumulated enough locally so
@@ -1259,6 +1269,7 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 			}
 		}
 	}
+	mb.flush(gcw, 0, 0)
 
 done:
 	// Flush remaining scan work credit.
@@ -1295,6 +1306,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 
 	// In addition to backing out because of a preemption, back out
 	// if the GC CPU limiter is enabled.
+	var mb markBuf
 	gp := getg().m.curg
 	for !gp.preempt && !gcCPULimiter.limiting() && workFlushed+gcw.heapScanWork < scanWork {
 		// See gcDrain comment.
@@ -1306,10 +1318,16 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 		if b == 0 {
 			b = gcw.tryGet()
 			if b == 0 {
-				// Flush the write barrier buffer;
-				// this may create more work.
-				wbBufFlush()
+				// Flush the mark buffer; this may
+				// create more work.
+				mb.flush(gcw, 0, 0)
 				b = gcw.tryGet()
+				if b == 0 {
+					// Flush the write barrier buffer;
+					// this may create more work.
+					wbBufFlush()
+					b = gcw.tryGet()
+				}
 			}
 		}
 
@@ -1326,7 +1344,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 			break
 		}
 
-		scanobject(b, gcw)
+		scanobject(b, gcw, &mb)
 
 		// Flush background scan work credit.
 		if gcw.heapScanWork >= gcCreditSlack {
@@ -1335,6 +1353,7 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 			gcw.heapScanWork = 0
 		}
 	}
+	mb.flush(gcw, 0, 0)
 
 	// Unlike gcDrain, there's no need to flush remaining work
 	// here because this never flushes to bgScanCredit and
@@ -1384,13 +1403,75 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 	}
 }
 
+// markBuf is a buffer of pointer that need to be chased down and marked.
+type markBuf struct {
+	addrs [cpu.CacheLinePadSize / goarch.PtrSize]uintptr
+	len   int
+}
+
+// push adds a new address to the markBuf. Returns false
+// if it failed to add the address because the buffer is full.
+func (mb *markBuf) push(x uintptr) bool {
+	if mb.len >= len(mb.addrs) {
+		return false
+	}
+	mb.addrs[mb.len] = x
+	mb.len++
+	return true
+}
+
+// flush drains the scan buffer by finding the objects for all pointers
+// in the buffer, marking them, and queueing them in gcw.
+//
+// base and size are optional parameters that represents the current object being
+// scanned. It is used to quickly skip over pointers within the same object.
+//
+// flush also resets the markBuf.
+func (mb *markBuf) flush(gcw *gcWork, base, size uintptr) {
+	var objs [len(mb.addrs)]uintptr
+
+	// Chase pointers. These will probably be all over the heap.
+	for i := range mb.len {
+		// Work here is duplicated in scanblock and above.
+		// If you make changes here, make changes there too.
+		objs[i] = *(*uintptr)(unsafe.Pointer(mb.addrs[i]))
+	}
+
+	// Mark the objects pointed to by the addresses we collected.
+	for i := range mb.len {
+		obj := objs[i]
+
+		// At this point we have extracted the next potential pointer.
+		// Quickly filter out nil and pointers back to the current object.
+		if obj == 0 || obj-base < size {
+			continue
+		}
+
+		// Test if obj points into the Go heap and, if so,
+		// mark the object.
+		//
+		// Note that it's possible for findObject to
+		// fail if obj points to a just-allocated heap
+		// object because of a race with growing the
+		// heap. In this case, we know the object was
+		// just allocated and hence will be marked by
+		// allocation itself.
+		if obj, span, objIndex := findObject(obj, 0, 0); obj != 0 {
+			greyobject(obj, 0, 0, span, gcw, objIndex)
+		}
+	}
+
+	// Reset buffer.
+	mb.len = 0
+}
+
 // scanobject scans the object starting at b, adding pointers to gcw.
 // b must point to the beginning of a heap object or an oblet.
 // scanobject consults the GC bitmap for the pointer mask and the
 // spans for the size of the object.
 //
 //go:nowritebarrier
-func scanobject(b uintptr, gcw *gcWork) {
+func scanobject(b uintptr, gcw *gcWork, mb *markBuf) {
 	// Prefetch object before we scan it.
 	//
 	// This will overlap fetching the beginning of the object with initial
@@ -1441,43 +1522,85 @@ func scanobject(b uintptr, gcw *gcWork) {
 		tp = s.typePointersOfUnchecked(b)
 	}
 
-	var scanSize uintptr
+	// doubleCheck is a debug constant for debugging the loop below.
+	const doubleCheck = false
+
+	var objs [len(mb.addrs)]uintptr
+	var addr uintptr
 	for {
-		var addr uintptr
-		if tp, addr = tp.nextFast(); addr == 0 {
-			if tp, addr = tp.next(b + n); addr == 0 {
-				break
+		// Collect a bunch of addresses through the iterator's fast path.
+		nextFasts := tp.fastCount()
+		for j := uintptr(0); j < nextFasts; j++ {
+			tp, addr = tp.nextFast()
+
+			// Store addr for processing.
+			if mb.push(addr) {
+				// Prefetch the address before we dereference it shortly.
+				sys.Prefetch(addr)
+				continue
+			}
+
+			// The mark buffer is full. Flush it now.
+			//
+			// Work here is also duplicated in scanblock, markBuf.flush, and
+			// above for performance. If you make changes here, make changes
+			// there too.
+
+			// Chase pointers. These will probably be all over the heap.
+			for i := range mb.len {
+				objs[i] = *(*uintptr)(unsafe.Pointer(mb.addrs[i]))
+			}
+
+			// Mark the objects pointed to by the addresses we collected.
+			for i := range mb.len {
+				obj := objs[i]
+
+				// At this point we have extracted the next potential pointer.
+				// Quickly filter out nil and pointers back to the current object.
+				if obj == 0 || obj-b < n {
+					continue
+				}
+
+				// Test if obj points into the Go heap and, if so,
+				// mark the object.
+				//
+				// Note that it's possible for findObject to
+				// fail if obj points to a just-allocated heap
+				// object because of a race with growing the
+				// heap. In this case, we know the object was
+				// just allocated and hence will be marked by
+				// allocation itself.
+				if obj, span, objIndex := findObject(obj, 0, 0); obj != 0 {
+					greyobject(obj, 0, 0, span, gcw, objIndex)
+				}
+			}
+
+			// Reset buffer.
+			mb.len = 0
+			mb.push(addr)
+			sys.Prefetch(addr)
+		}
+		if doubleCheck {
+			var addr uintptr
+			tp, addr = tp.nextFast()
+			if addr != 0 {
+				print("runtime: addr=", hex(addr), " nextFasts=", nextFasts, "\n")
+				throw("unexpected non-nil after nextFasts iterations")
 			}
 		}
 
-		// Keep track of farthest pointer we found, so we can
-		// update heapScanWork. TODO: is there a better metric,
-		// now that we can skip scalar portions pretty efficiently?
-		scanSize = addr - b + goarch.PtrSize
-
-		// Work here is duplicated in scanblock and above.
-		// If you make changes here, make changes there too.
-		obj := *(*uintptr)(unsafe.Pointer(addr))
-
-		// At this point we have extracted the next potential pointer.
-		// Quickly filter out nil and pointers back to the current object.
-		if obj != 0 && obj-b >= n {
-			// Test if obj points into the Go heap and, if so,
-			// mark the object.
-			//
-			// Note that it's possible for findObject to
-			// fail if obj points to a just-allocated heap
-			// object because of a race with growing the
-			// heap. In this case, we know the object was
-			// just allocated and hence will be marked by
-			// allocation itself.
-			if obj, span, objIndex := findObject(obj, b, addr-b); obj != 0 {
-				greyobject(obj, b, addr-b, span, gcw, objIndex)
-			}
+		// Refill the iterator.
+		tp = tp.refill(b + n)
+		if tp.typ == nil {
+			break
 		}
 	}
+
+	// addr is always the farthest pointer we found. Use it to
+	// update heapScanWork. TODO: is there a better metric,
+	// now that we can skip scalar portions pretty efficiently?
+	gcw.heapScanWork += int64(addr - b + goarch.PtrSize)
 	gcw.bytesMarked += uint64(n)
-	gcw.heapScanWork += int64(scanSize)
 }
 
 // scanConservative scans block [b, b+n) conservatively, treating any
