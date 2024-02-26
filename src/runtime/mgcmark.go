@@ -1601,20 +1601,23 @@ func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintp
 	}
 	mbits := span.markBitsForIndex(objIndex)
 
-	if useCheckmark {
-		if setCheckmark(obj, base, off, mbits) {
-			// Already marked.
-			return
+	if goexperiment.GCCheckmark {
+		if useCheckmark {
+			if setCheckmark(obj, base, off, mbits) {
+				// Already marked.
+				return
+			}
+		} else {
+			if span.isFree(objIndex) {
+				print("runtime: marking free object ", hex(obj), " found at *(", hex(base), "+", hex(off), ")\n")
+				gcDumpObject("base", base, off)
+				gcDumpObject("obj", obj, ^uintptr(0))
+				getg().m.traceback = 2
+				throw("marking free object")
+			}
 		}
-	} else {
-		if debug.gccheckmark > 0 && span.isFree(objIndex) {
-			print("runtime: marking free object ", hex(obj), " found at *(", hex(base), "+", hex(off), ")\n")
-			gcDumpObject("base", base, off)
-			gcDumpObject("obj", obj, ^uintptr(0))
-			getg().m.traceback = 2
-			throw("marking free object")
-		}
-
+	}
+	if !goexperiment.GCCheckmark || (goexperiment.GCCheckmark && !useCheckmark) {
 		// If marked we have nothing to do.
 		if mbits.isMarked() {
 			return
