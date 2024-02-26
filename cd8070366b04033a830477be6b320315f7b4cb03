@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a154da22_0102c138",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-26T21:32:51Z",
+      "side": 1,
+      "message": "Thanks for investigating.",
+      "revId": "cd8070366b04033a830477be6b320315f7b4cb03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee7c4ede_ed3990e1",
+        "filename": "src/go/types/eval_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-26T21:32:51Z",
+      "side": 1,
+      "message": "Don\u0027t we have mustParse or mustTypecheck, that could be used here?",
+      "range": {
+        "startLine": 306,
+        "startChar": 1,
+        "endLine": 316,
+        "endChar": 2
+      },
+      "revId": "cd8070366b04033a830477be6b320315f7b4cb03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
