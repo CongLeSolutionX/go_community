@@ -1,0 +1,2 @@
+pkg testing, method (*T) SetGOMAXPROCS(int)
+pkg testing, type TB interface, SetGOMAXPROCS(int)
