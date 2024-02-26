@@ -110,4 +110,8 @@ type Flags struct {
 
 	// RangeFunc enables range over func.
 	RangeFunc bool
+
+	// GCCheckmark enables a debug mode for the garbage collector that
+	// double-checks the work the GC performs after each cycle.
+	GCCheckmark bool
 }
