@@ -130,6 +130,7 @@ package runtime
 
 import (
 	"internal/cpu"
+	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"unsafe"
 )
@@ -378,7 +379,7 @@ type workType struct {
 	// markDoneSema protects transitions from mark to mark termination.
 	markDoneSema uint32
 
-	bgMarkDone  uint32 // cas to 1 when at a background mark completion point
+	bgMarkDone uint32 // cas to 1 when at a background mark completion point
 	// Background mark completion signaling
 
 	// mode is the concurrency mode of the current GC cycle.
@@ -963,7 +964,7 @@ func gcMarkTermination(stw worldStop) {
 	var stwSwept bool
 	systemstack(func() {
 		work.heap2 = work.bytesMarked
-		if debug.gccheckmark > 0 {
+		if goexperiment.GCCheckmark {
 			// Run a full non-parallel, stop-the-world
 			// mark using checkmark bits, to check that we
 			// didn't forget to mark anything during the
@@ -1506,7 +1507,7 @@ func gcMark(startTime int64) {
 		panic("non-empty mark queue after concurrent mark")
 	}
 
-	if debug.gccheckmark > 0 {
+	if goexperiment.GCCheckmark {
 		// This is expensive when there's a large number of
 		// Gs, so only do it if checkmark is also enabled.
 		gcMarkRootCheck()
@@ -1529,7 +1530,7 @@ func gcMark(startTime int64) {
 		// ensured all reachable objects were marked, all of
 		// these must be pointers to black objects. Hence we
 		// can just discard the write barrier buffer.
-		if debug.gccheckmark > 0 {
+		if goexperiment.GCCheckmark {
 			// For debugging, flush the buffer and make
 			// sure it really was all marked.
 			wbBufFlush1(p)

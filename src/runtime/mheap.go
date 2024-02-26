@@ -285,8 +285,8 @@ type heapArena struct {
 	// during marking.
 	pageSpecials [pagesPerArena / 8]uint8
 
-	// checkmarks stores the debug.gccheckmark state. It is only
-	// used if debug.gccheckmark > 0.
+	// checkmarks stores the GC checkmark state. It is only
+	// used if the gccheckmark goexperiment is enabled.
 	checkmarks *checkmarksMap
 
 	// zeroedBase marks the first byte of the first page in this
