@@ -258,6 +258,47 @@ func (tp typePointers) nextFast() (typePointers, uintptr) {
 	return tp, tp.addr + uintptr(i)*goarch.PtrSize
 }
 
+// fastCount returns the number of elements nextFast will return before failing.
+func (tp typePointers) fastCount() uintptr {
+	return uintptr(sys.OnesCount64(uint64(tp.mask)))
+}
+
+// refill advances the iterator by refilling tp.mask. It must be called only once
+// tp.mask is 0.
+//
+// limit must be the same each time it is passed to next.
+//
+// nosplit because it is used during write barriers and must not be preempted.
+//
+//go:nosplit
+func (tp typePointers) refill(limit uintptr) typePointers {
+	// Stop if we don't actually have type information.
+	if tp.typ == nil {
+		return typePointers{}
+	}
+
+	// Advance to the next element if necessary.
+	if tp.addr+goarch.PtrSize*ptrBits >= tp.elem+tp.typ.PtrBytes {
+		tp.elem += tp.typ.Size_
+		tp.addr = tp.elem
+	} else {
+		tp.addr += ptrBits * goarch.PtrSize
+	}
+
+	// Check if we've exceeded the limit with the last update.
+	if tp.addr >= limit {
+		return typePointers{}
+	}
+
+	// Grab more bits and try again.
+	tp.mask = readUintptr(addb(tp.typ.GCData, (tp.addr-tp.elem)/goarch.PtrSize/8))
+	if tp.addr+goarch.PtrSize*ptrBits > limit {
+		bits := (tp.addr + goarch.PtrSize*ptrBits - limit) / goarch.PtrSize
+		tp.mask &^= ((1 << (bits)) - 1) << (ptrBits - bits)
+	}
+	return tp
+}
+
 // next advances the pointers iterator, returning the updated iterator and
 // the address of the next pointer.
 //
@@ -271,30 +312,9 @@ func (tp typePointers) next(limit uintptr) (typePointers, uintptr) {
 		if tp.mask != 0 {
 			return tp.nextFast()
 		}
-
-		// Stop if we don't actually have type information.
+		tp = tp.refill(limit)
 		if tp.typ == nil {
 			return typePointers{}, 0
-		}
-
-		// Advance to the next element if necessary.
-		if tp.addr+goarch.PtrSize*ptrBits >= tp.elem+tp.typ.PtrBytes {
-			tp.elem += tp.typ.Size_
-			tp.addr = tp.elem
-		} else {
-			tp.addr += ptrBits * goarch.PtrSize
-		}
-
-		// Check if we've exceeded the limit with the last update.
-		if tp.addr >= limit {
-			return typePointers{}, 0
-		}
-
-		// Grab more bits and try again.
-		tp.mask = readUintptr(addb(tp.typ.GCData, (tp.addr-tp.elem)/goarch.PtrSize/8))
-		if tp.addr+goarch.PtrSize*ptrBits > limit {
-			bits := (tp.addr + goarch.PtrSize*ptrBits - limit) / goarch.PtrSize
-			tp.mask &^= ((1 << (bits)) - 1) << (ptrBits - bits)
 		}
 	}
 }
