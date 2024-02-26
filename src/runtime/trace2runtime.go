@@ -471,7 +471,7 @@ func (tl traceLocker) GoSwitch(nextg *g, destroy bool) {
 // unblocked to the trace writer.
 func emitUnblockStatus(w traceWriter, gp *g, gen uintptr) traceWriter {
 	if !gp.trace.statusWasTraced(gen) && gp.trace.acquireStatus(gen) {
-		w = w.writeGoStatus(gp.goid, -1, traceGoWaiting, gp.inMarkAssist)
+		w = w.writeGoStatus(gp.goid, -1, traceGoWaiting, gp.inMarkAssist, traceStack(0, gp, gen))
 	}
 	return w
 }
