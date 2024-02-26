@@ -1,0 +1,397 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75a5acb8_b12a8dd4",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Update runtimeTimer in ../time/sleep.go",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2467f3dd_0c5e9a33",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Consider assertLockHeld(\u0026ts.lock)",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bfa39b2_362bf9e1",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Consider dropping these prefixes in the throw messages. You\u0027ll be able to see this context in the traceback.",
+      "range": {
+        "startLine": 282,
+        "startChar": 9,
+        "endLine": 282,
+        "endChar": 21
+      },
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f09b3a8_bbe11079",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Consider assertLockHeld(\u0026ts.lock)",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cb4b6e3_1273d9a0",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "timers.add? I think addtimer would now correspond to modTimer, but that\u0027s at the wrong layer to correspond to timers.add.",
+      "range": {
+        "startLine": 407,
+        "startChar": 36,
+        "endLine": 407,
+        "endChar": 44
+      },
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ac06a0_4dd38668",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "timers.add?",
+      "range": {
+        "startLine": 416,
+        "startChar": 14,
+        "endLine": 416,
+        "endChar": 22
+      },
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be4ff0dc_8ec6b210",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "assertLockHeld(\u0026ts.lock)",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bc854ad_c332627b",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Maybe assertWorldStopped()?",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0983254_ee1c73ec",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Stale comment",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "392a2473_fa7f37d2",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "assertLockHeld(\u0026ts.lock)?",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e319443_f1a58bbd",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "\"timers\"?",
+      "range": {
+        "startLine": 497,
+        "startChar": 24,
+        "endLine": 497,
+        "endChar": 62
+      },
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39930158_4ec46092",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "ts?",
+      "range": {
+        "startLine": 501,
+        "startChar": 59,
+        "endLine": 501,
+        "endChar": 76
+      },
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d232da00_8a5a9a54",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "assertLockHeld(\u0026ts.lock)",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dd6a0a6_021b7c36",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "\"in ts\"",
+      "range": {
+        "startLine": 573,
+        "startChar": 25,
+        "endLine": 573,
+        "endChar": 34
+      },
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c16a9271_6d51deb0",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Stale comment",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bf1457a_b0e08c47",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "assertLockHeld(\u0026ts.lock)",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c564e6_d1229405",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Maybe assertLockHeld(\u0026ts.lock) here, too, since the locking is kind of complicated.",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cee1e87_30a44049",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Stale comment",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e188fb3b_5fa79cc0",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Stale comment",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9398b725_7e5c5456",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "assertLockHeld(\u0026ts.lock)",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e17a6aa_157955f5",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-26T21:13:44Z",
+      "side": 1,
+      "message": "Stale comment",
+      "revId": "133ad48f8a85dbd285f89cd71b26f3955c05ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
