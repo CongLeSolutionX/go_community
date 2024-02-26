@@ -41,9 +41,9 @@ import (
 // [encoding.TextUnmarshaler.UnmarshalText] with the unquoted form of the string.
 //
 // To unmarshal JSON into a struct, Unmarshal matches incoming object
-// keys to the keys used by [Marshal] (either the struct field name or its tag),
-// preferring an exact match but also accepting a case-insensitive match. By
-// default, object keys which don't have a corresponding struct field are
+// keys to the keys used by [Marshal] (either the struct field name or its tag).
+// Case-insensitive matches are accepted, keeping the latest possible match.
+// By default, object keys which don't have a corresponding struct field are
 // ignored (see [Decoder.DisallowUnknownFields] for an alternative).
 //
 // To unmarshal JSON into an interface value,
