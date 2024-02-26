@@ -200,6 +200,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47b91aaa_df7631c9",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-02-26T22:00:58Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right way to fix this. I\u0027ve created https://go.dev/cl/567216 with what I think is a correct fix (although I may have missed something of course).\n\nThe `http.Transport` is behaving as documented. `httptrace.ClientTrace` hooks aren\u0027t guaranteed to be synchronized with `RoundTrip`. Making changes to add synchronization when there is no guarantee of such synchronization is confusing, and I think it\u0027s a mistake to try to do so.\n\nCL 567216 addresses the problem from the `ReverseProxy` side, by adding synchronization to handle the `ClientTrace` hook executing after `RoundTrip` has returned.\n\nI think this all points at `ClientTrace.Got1xxResponse` being a poor API for handling 1xx responses. It\u0027s fine for tracing to be asynchronous, but something which wants to take specific action in response to 1xx responses would be better served by something synchronized with `RoundTrip`. Perhaps something along the lines of:\n\n```\nreq, _ :\u003d http.NewRequest(\"GET\", url, nil)\nreq.On1xx \u003d func(code int, h http.Header) error {}\nresp, err :\u003d client.Do(req)\n// On1xx hooks are guaranteed to have completed by this time.\n```\n\nBut that\u0027s a separate issue.",
+      "parentUuid": "42673fda_c18e2b51",
+      "revId": "495f1d1636e3ab2ec32168bd734e1f4a6a623d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cef5a673_be6b6de5",
         "filename": "src/net/http/transport.go",
         "patchSetId": 6
