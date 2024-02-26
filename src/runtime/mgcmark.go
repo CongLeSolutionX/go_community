@@ -1441,27 +1441,52 @@ func scanobject(b uintptr, gcw *gcWork) {
 		tp = s.typePointersOfUnchecked(b)
 	}
 
+	// This set of nested loops looks big and complex, but it's really
+	// just reorganizing the iterator's operation slightly.
+	//
+	// There are two goals achieved by this structure:
+	// - Tell the CPU how many iterations we're going to be doing up-front.
+	//   This is going to be much friendlier to the branch predictor.
+	// - Separate iterator work from pointer chasing work from mark work.
+	//   We really want to try and hide the memory latency of the pointer
+	//   chasing as much as possible behind chasing other pointers.
 	var scanSize uintptr
-	for {
-		var addr uintptr
-		if tp, addr = tp.nextFast(); addr == 0 {
-			if tp, addr = tp.next(b + n); addr == 0 {
-				break
-			}
+	var addrs [goarch.PtrSize * 8]uintptr
+	refills := tp.refillsLeft(b + n)
+	for i := uintptr(0); i <= refills; i++ {
+		// Collect a bunch of addresses through the iterator's fast path.
+		nextFasts := tp.fastCount()
+
+		for j := uintptr(0); j < nextFasts; j++ {
+			var addr uintptr
+			tp, addr = tp.nextFast()
+
+			// Keep track of farthest pointer we found, so we can
+			// update heapScanWork. TODO: is there a better metric,
+			// now that we can skip scalar portions pretty efficiently?
+			scanSize = addr - b + goarch.PtrSize
+
+			// Store addr for processing.
+			addrs[j] = addr
 		}
 
-		// Keep track of farthest pointer we found, so we can
-		// update heapScanWork. TODO: is there a better metric,
-		// now that we can skip scalar portions pretty efficiently?
-		scanSize = addr - b + goarch.PtrSize
+		// Chase pointers. These will probably be all over the heap.
+		for j := uintptr(0); j < nextFasts; j++ {
+			// Work here is duplicated in scanblock and above.
+			// If you make changes here, make changes there too.
+			addrs[j] = *(*uintptr)(unsafe.Pointer(addrs[j]))
+		}
 
-		// Work here is duplicated in scanblock and above.
-		// If you make changes here, make changes there too.
-		obj := *(*uintptr)(unsafe.Pointer(addr))
+		// Mark the objects pointed to by the addresses we collected.
+		for j := uintptr(0); j < nextFasts; j++ {
+			addr := addrs[j]
 
-		// At this point we have extracted the next potential pointer.
-		// Quickly filter out nil and pointers back to the current object.
-		if obj != 0 && obj-b >= n {
+			// At this point we have extracted the next potential pointer.
+			// Quickly filter out nil and pointers back to the current object.
+			if addr == 0 || addr-b < n {
+				continue
+			}
+
 			// Test if obj points into the Go heap and, if so,
 			// mark the object.
 			//
@@ -1475,7 +1500,11 @@ func scanobject(b uintptr, gcw *gcWork) {
 				greyobject(obj, b, addr-b, span, gcw, objIndex)
 			}
 		}
+
+		// Refill the iterator.
+		tp = tp.refill(b + n)
 	}
+
 	gcw.bytesMarked += uint64(n)
 	gcw.heapScanWork += int64(scanSize)
 }
