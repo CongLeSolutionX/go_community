@@ -34,6 +34,23 @@
       "parentUuid": "83576bac_16a45153",
       "revId": "a785a33f5404f3f7677060c78ebc3db85cd54b17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3401d5bb_8bf72e87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-02-26T08:21:12Z",
+      "side": 1,
+      "message": "This is just a cosmetic change that removes casts, right?",
+      "revId": "a785a33f5404f3f7677060c78ebc3db85cd54b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
