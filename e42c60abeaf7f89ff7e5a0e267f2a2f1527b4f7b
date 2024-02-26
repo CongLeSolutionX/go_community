@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca47d74_f164d18b",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-02-26T06:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff066ef0_abac80b3",
+      "revId": "e42c60abeaf7f89ff7e5a0e267f2a2f1527b4f7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d285e638_c35a35ad",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e5075ec_b14f3dd5",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-02-26T06:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad81aea_6779bb9b",
+      "revId": "e42c60abeaf7f89ff7e5a0e267f2a2f1527b4f7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6821a59_35e63f65",
@@ -65,6 +101,24 @@
       "writtenOn": "2024-02-26T06:16:18Z",
       "side": 1,
       "message": "What about the other way around?  Calling t.SetGOMAXPROCS and then t.Parallel?  Is that OK?",
+      "revId": "e42c60abeaf7f89ff7e5a0e267f2a2f1527b4f7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9a27e4_c2047bdc",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-02-26T06:41:17Z",
+      "side": 1,
+      "message": "That should fail. #L1398-1400 checks whether t.Parallel called after t.SetGOMAXPROCS.",
+      "parentUuid": "b6821a59_35e63f65",
       "revId": "e42c60abeaf7f89ff7e5a0e267f2a2f1527b4f7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7edb10ee_0e2a932a",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1866,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-02-26T06:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2d890ac_76b58aa6",
+      "revId": "e42c60abeaf7f89ff7e5a0e267f2a2f1527b4f7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "010eccd3_ae8284ec",
@@ -99,6 +171,24 @@
       "writtenOn": "2024-02-26T06:16:18Z",
       "side": 1,
       "message": "Don\u0027t move this import.",
+      "revId": "e42c60abeaf7f89ff7e5a0e267f2a2f1527b4f7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8341dbd_9f61c295",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-02-26T06:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "010eccd3_ae8284ec",
       "revId": "e42c60abeaf7f89ff7e5a0e267f2a2f1527b4f7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
