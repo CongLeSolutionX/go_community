@@ -123,4 +123,8 @@ type Flags struct {
 	// ExecTracer2 controls whether to use the new execution trace
 	// implementation.
 	ExecTracer2 bool
+
+	// GCCheckmark enables a debug mode for the garbage collector that
+	// double-checks the work the GC performs after each cycle.
+	GCCheckmark bool
 }
