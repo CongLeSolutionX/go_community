@@ -33,6 +33,42 @@
       "message": "The existing comment is trying to say that if there are multiple fields with names that differ only by case, then encoding/json prefers to match a field with the exact case, and if there isn\u0027t one, will choose a field with a different case.  You are describing a different scenario, with a single field.  There may be something to change in the documentation, but I don\u0027t think this is the right change.",
       "revId": "41551c470cb10330eecef31d475e4b10d3770503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6dedca5_c7cec4b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3306309
+      },
+      "writtenOn": "2024-02-26T22:11:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure I fully understand, so let me check. Considering an adjustment to something like https://go.dev/play/p/TBSPQ28v6EX where the \u0027Example\u0027 struct gets two fields that differ only by case - say \u0027NAME\u0027 and \u0027name\u0027 - I read your explanation as saying that I should expect parsing a string like `{\"Name\": \"Name\", \"name\": \"name\", \"NAME\": \"NAME\"}` to fill both fields in question?\n\nMy impression is that this is also not the case here, and that in the last portion illustrated in the linked code we should expect unmarshalling of `{\"NAME\": \"A\", \"name\": \"b\"}` to leave the struct as something like `{b A}` instead of `{b 2}`?\n\nI\u0027m not sure if my understanding is correct here, but if it is this would lead me to the impression that the comment would be clearly wrong as it talks about behavior that is clearly missing?\n\nIf I misunderstand could you aid me with an example where the actual behavior described by this comment can be seen?\n\nCurrently it strikes me as more likely that the \u0027preferring\u0027 in the comment would indeed already apply to a single field.",
+      "parentUuid": "c95e66a3_a2c280e8",
+      "revId": "41551c470cb10330eecef31d475e4b10d3770503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bdbf627_3687076d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3306309
+      },
+      "writtenOn": "2024-02-26T22:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6aa4dc6_00bb5abb",
+      "revId": "41551c470cb10330eecef31d475e4b10d3770503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
