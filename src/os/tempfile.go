@@ -15,6 +15,7 @@ import (
 // We generate random temporary file names so that there's a good
 // chance the file doesn't exist yet - keeps the number of tries in
 // TempFile to a minimum.
+//
 //go:linkname runtime_rand runtime.rand
 func runtime_rand() uint64
 
