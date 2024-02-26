@@ -84,7 +84,6 @@ package runtime
 
 import (
 	"internal/goarch"
-	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"runtime/internal/math"
 	"unsafe"
@@ -223,14 +222,11 @@ func init() {
 // userArenaChunkReserveBytes returns the amount of additional bytes to reserve for
 // heap metadata.
 func userArenaChunkReserveBytes() uintptr {
-	if goexperiment.AllocHeaders {
-		// In the allocation headers experiment, we reserve the end of the chunk for
-		// a pointer/scalar bitmap. We also reserve space for a dummy _type that
-		// refers to the bitmap. The PtrBytes field of the dummy _type indicates how
-		// many of those bits are valid.
-		return userArenaChunkBytes/goarch.PtrSize/8 + unsafe.Sizeof(_type{})
-	}
-	return 0
+	// In the allocation headers experiment, we reserve the end of the chunk for
+	// a pointer/scalar bitmap. We also reserve space for a dummy _type that
+	// refers to the bitmap. The PtrBytes field of the dummy _type indicates how
+	// many of those bits are valid.
+	return userArenaChunkBytes/goarch.PtrSize/8 + unsafe.Sizeof(_type{})
 }
 
 type userArena struct {
@@ -548,6 +544,61 @@ func userArenaHeapBitsSetSliceType(typ *_type, n int, ptr unsafe.Pointer, s *msp
 	}
 }
 
+// userArenaHeapBitsSetType is the equivalent of heapSetType but for
+// non-slice-backing-store Go values allocated in a user arena chunk. It
+// sets up the type metadata for the value with type typ allocated at address ptr.
+// base is the base address of the arena chunk.
+func userArenaHeapBitsSetType(typ *_type, ptr unsafe.Pointer, s *mspan) {
+	base := s.base()
+	h := s.writeUserArenaHeapBits(uintptr(ptr))
+
+	p := typ.GCData // start of 1-bit pointer mask (or GC program)
+	var gcProgBits uintptr
+	if typ.Kind_&kindGCProg != 0 {
+		// Expand gc program, using the object itself for storage.
+		gcProgBits = runGCProg(addb(p, 4), (*byte)(ptr))
+		p = (*byte)(ptr)
+	}
+	nb := typ.PtrBytes / goarch.PtrSize
+
+	for i := uintptr(0); i < nb; i += ptrBits {
+		k := nb - i
+		if k > ptrBits {
+			k = ptrBits
+		}
+		// N.B. On big endian platforms we byte swap the data that we
+		// read from GCData, which is always stored in little-endian order
+		// by the compiler. writeUserArenaHeapBits handles data in
+		// a platform-ordered way for efficiency, but stores back the
+		// data in little endian order, since we expose the bitmap through
+		// a dummy type.
+		h = h.write(s, readUintptr(addb(p, i/8)), k)
+	}
+	// Note: we call pad here to ensure we emit explicit 0 bits
+	// for the pointerless tail of the object. This ensures that
+	// there's only a single noMorePtrs mark for the next object
+	// to clear. We don't need to do this to clear stale noMorePtrs
+	// markers from previous uses because arena chunk pointer bitmaps
+	// are always fully cleared when reused.
+	h = h.pad(s, typ.Size_-typ.PtrBytes)
+	h.flush(s, uintptr(ptr), typ.Size_)
+
+	if typ.Kind_&kindGCProg != 0 {
+		// Zero out temporary ptrmask buffer inside object.
+		memclrNoHeapPointers(ptr, (gcProgBits+7)/8)
+	}
+
+	// Update the PtrBytes value in the type information. After this
+	// point, the GC will observe the new bitmap.
+	s.largeType.PtrBytes = uintptr(ptr) - base + typ.PtrBytes
+
+	// Double-check that the bitmap was written out correctly.
+	const doubleCheck = false
+	if doubleCheck {
+		doubleCheckHeapPointersInterior(uintptr(ptr), uintptr(ptr), typ.Size_, typ.Size_, typ, &s.largeType, s)
+	}
+}
+
 // newUserArenaChunk allocates a user arena chunk, which maps to a single
 // heap arena and single span. Returns a pointer to the base of the chunk
 // (this is really important: we need to keep the chunk alive) and the span.
@@ -606,9 +657,7 @@ func newUserArenaChunk() (unsafe.Pointer, *mspan) {
 		// TODO(mknyszek): Track individual objects.
 		rzSize := computeRZlog(span.elemsize)
 		span.elemsize -= rzSize
-		if goexperiment.AllocHeaders {
-			span.largeType.Size_ = span.elemsize
-		}
+		span.largeType.Size_ = span.elemsize
 		rzStart := span.base() + span.elemsize
 		span.userArenaChunkFree = makeAddrRange(span.base(), rzStart)
 		asanpoison(unsafe.Pointer(rzStart), span.limit-rzStart)
@@ -923,13 +972,12 @@ func (h *mheap) allocUserArenaChunk() *mspan {
 	// visible to the background sweeper.
 	h.central[spc].mcentral.fullSwept(h.sweepgen).push(s)
 
-	if goexperiment.AllocHeaders {
-		// Set up an allocation header. Avoid write barriers here because this type
-		// is not a real type, and it exists in an invalid location.
-		*(*uintptr)(unsafe.Pointer(&s.largeType)) = uintptr(unsafe.Pointer(s.limit))
-		*(*uintptr)(unsafe.Pointer(&s.largeType.GCData)) = s.limit + unsafe.Sizeof(_type{})
-		s.largeType.PtrBytes = 0
-		s.largeType.Size_ = s.elemsize
-	}
+	// Set up an allocation header. Avoid write barriers here because this type
+	// is not a real type, and it exists in an invalid location.
+	*(*uintptr)(unsafe.Pointer(&s.largeType)) = uintptr(unsafe.Pointer(s.limit))
+	*(*uintptr)(unsafe.Pointer(&s.largeType.GCData)) = s.limit + unsafe.Sizeof(_type{})
+	s.largeType.PtrBytes = 0
+	s.largeType.Size_ = s.elemsize
+
 	return s
 }
