@@ -18,8 +18,12 @@ import (
 )
 
 // maxArgs is the maximum number of arguments for "plain" events,
-// i.e. anything that could reasonably be represented as a Base.
-const maxArgs = 5
+// i.e. anything that could reasonably be represented as a baseEvent.
+//
+// TODO(mknyszek): This is only 6 instead of 5 because GoStatusStack
+// has 5 arguments and needs to smuggle in a 6th. Figure out a way to
+// shrink this in the future.
+const maxArgs = 6
 
 // baseEvent is the basic unprocessed event. This serves as a common
 // fundamental data structure across.
