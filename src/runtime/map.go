@@ -368,7 +368,7 @@ func makeBucketArray(t *maptype, b uint8, dirtyalloc unsafe.Pointer) (buckets un
 		// but may not be empty.
 		buckets = dirtyalloc
 		size := t.Bucket.Size_ * nbuckets
-		if t.Bucket.PtrBytes != 0 {
+		if t.Bucket.Pointers() {
 			memclrHasPointers(buckets, size)
 		} else {
 			memclrNoHeapPointers(buckets, size)
@@ -749,13 +749,13 @@ search:
 			// Only clear key if there are pointers in it.
 			if t.IndirectKey() {
 				*(*unsafe.Pointer)(k) = nil
-			} else if t.Key.PtrBytes != 0 {
+			} else if t.Key.Pointers() {
 				memclrHasPointers(k, t.Key.Size_)
 			}
 			e := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.KeySize)+i*uintptr(t.ValueSize))
 			if t.IndirectElem() {
 				*(*unsafe.Pointer)(e) = nil
-			} else if t.Elem.PtrBytes != 0 {
+			} else if t.Elem.Pointers() {
 				memclrHasPointers(e, t.Elem.Size_)
 			} else {
 				memclrNoHeapPointers(e, t.Elem.Size_)
@@ -1260,7 +1260,7 @@ func evacuate(t *maptype, h *hmap, oldbucket uintptr) {
 			}
 		}
 		// Unlink the overflow buckets & clear key/elem to help GC.
-		if h.flags&oldIterator == 0 && t.Bucket.PtrBytes != 0 {
+		if h.flags&oldIterator == 0 && t.Bucket.Pointers() {
 			b := add(h.oldbuckets, oldbucket*uintptr(t.BucketSize))
 			// Preserve b.tophash because the evacuation
 			// state is maintained there.

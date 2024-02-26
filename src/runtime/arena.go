@@ -504,7 +504,7 @@ func (s *mspan) userArenaNextFree(typ *_type, cap int) unsafe.Pointer {
 		throw("arena chunk needs zeroing, but should already be zeroed")
 	}
 	// Set up heap bitmap and do extra accounting.
-	if typ.PtrBytes != 0 {
+	if typ.Pointers() {
 		if cap >= 0 {
 			userArenaHeapBitsSetSliceType(typ, cap, ptr, s)
 		} else {

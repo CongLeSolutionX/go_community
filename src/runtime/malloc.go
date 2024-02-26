@@ -1188,7 +1188,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 				// Array allocation. If there are any
 				// pointers, GC has to scan to the last
 				// element.
-				if typ.PtrBytes != 0 {
+				if typ.Pointers() {
 					scanSize = dataSize - typ.Size_ + typ.PtrBytes
 				}
 			} else {
