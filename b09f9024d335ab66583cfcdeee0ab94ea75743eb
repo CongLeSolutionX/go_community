@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "b09f9024d335ab66583cfcdeee0ab94ea75743eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e794a1e_db6cbe23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2024-02-26T07:01:03Z",
+      "side": 1,
+      "message": "Thanks for the commit-queue. Your emails iant@golang.org and iant@google.com were used in the review process. LUCI reset vote from iant@golang.org and review enforcement is now missing. I am not sure of what there is to do to trigger the merge.",
+      "revId": "b09f9024d335ab66583cfcdeee0ab94ea75743eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
