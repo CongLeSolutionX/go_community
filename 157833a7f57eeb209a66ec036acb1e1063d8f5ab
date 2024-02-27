@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84f5a7b7_c36513e5",
+        "filename": "src/cmd/compile/internal/types2/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-27T18:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55adfcca_0a988689",
+      "range": {
+        "startLine": 262,
+        "startChar": 22,
+        "endLine": 262,
+        "endChar": 38
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1fa2b2c_ca3886bd",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4818bae_8b2129ef",
+        "filename": "src/cmd/compile/internal/types2/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-27T18:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1fa2b2c_ca3886bd",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfbac69f_5a42ffdd",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-02-27T18:01:22Z",
       "side": 1,
       "message": "I don\u0027t think this clause is correct -- it seems wrong to link index \u003d\u003d 0 and check.conf.ErrorURL !\u003d \"\". Don\u0027t you want the `else` to be index \u003e 0?",
+      "range": {
+        "startLine": 287,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 44
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dccf717b_e9907705",
+        "filename": "src/cmd/compile/internal/types2/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-27T18:27:48Z",
+      "side": 1,
+      "message": "Left-over. We already know that index \u003d\u003d 0 from line 269.\nAdjusted.",
+      "parentUuid": "cfbac69f_5a42ffdd",
       "range": {
         "startLine": 287,
         "startChar": 5,
