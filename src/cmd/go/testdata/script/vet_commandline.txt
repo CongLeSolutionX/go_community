@@ -1,0 +1,28 @@
+go vet example.com/m
+! stdout .
+go vet main.go
+! stdout .
+
+go vet -x -json example.com/m
+stderr '"GoVersion": "go1.22.0"'
+go vet -x -json main.go
+stderr '"GoVersion": "go1.22.0"'
+
+go get go@1.21.1
+! go vet example.com/m
+! go vet main.go
+
+-- go.mod --
+module example.com/m
+
+go 1.22.0
+
+
+-- main.go --
+package main
+
+func main() {
+        for i := range 10 {
+                go func() { println(i) }()
+        }
+}

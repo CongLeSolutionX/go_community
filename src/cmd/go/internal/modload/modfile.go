@@ -568,6 +568,10 @@ func goModSummary(m module.Version) (*modFileSummary, error) {
 		// We don't know what versions the vendored module actually relies on,
 		// so assume that it requires everything.
 		summary.require = vendorList
+
+		if v, ok := rawGoVersion.Load(m); ok {
+			summary.goVersion = v.(string)
+		}
 		return summary, nil
 	}
 

@@ -65,8 +65,8 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 
 	pkgpath := pkgPath(a)
 	defaultGcFlags := []string{"-p", pkgpath}
-	if p.Module != nil {
-		v := p.Module.GoVersion
+	if p.Module != nil || p.Internal.CmdlineFiles {
+		v := p.Internal.GoVersion
 		if v == "" {
 			v = gover.DefaultGoModVersion
 		}
