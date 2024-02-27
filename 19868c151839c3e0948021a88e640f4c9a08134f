@@ -16,6 +16,24 @@
       "message": "Is this in reference to the deleted code:\n\n\t\t\t// Prevent preemption while the timer is in timerLocked.\n\t\t\t// This could lead to a self-deadlock. See #38070.\n\t\t\t\nDidn\u0027t that just move to timer.lock?\n\nIf that\u0027s not what you mean, maybe expand the commit message a bit.",
       "revId": "19868c151839c3e0948021a88e640f4c9a08134f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a86105a_cc917772",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-27T19:52:47Z",
+      "side": 1,
+      "message": "Done. It was a reference to new line 325 or so pointing out unlocking the individual timer before locking \u0027timers\u0027.",
+      "parentUuid": "bdb23780_f0e987ea",
+      "revId": "19868c151839c3e0948021a88e640f4c9a08134f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
