@@ -69,6 +69,24 @@
       "parentUuid": "c6aa4dc6_00bb5abb",
       "revId": "41551c470cb10330eecef31d475e4b10d3770503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b45870_d029446d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-02-27T00:06:56Z",
+      "side": 1,
+      "message": "The example code is flawed since \"name\" is an unexported field and ignored by the \"encoding/json\" package.",
+      "parentUuid": "b6dedca5_c7cec4b5",
+      "revId": "41551c470cb10330eecef31d475e4b10d3770503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
