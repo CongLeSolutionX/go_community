@@ -211,6 +211,30 @@
       },
       "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef83399a_feddd96d",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-02-27T23:26:37Z",
+      "side": 1,
+      "message": "Never mind. I see what you mean.",
+      "parentUuid": "85bb4e28_77a7eedd",
+      "range": {
+        "startLine": 298,
+        "startChar": 3,
+        "endLine": 298,
+        "endChar": 62
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
