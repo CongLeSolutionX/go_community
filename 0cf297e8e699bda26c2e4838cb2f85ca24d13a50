@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff82f025_197949f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2024-02-27T03:28:20Z",
+      "side": 1,
+      "message": "This is getting good. Just a couple minor tweaks left.",
+      "revId": "0cf297e8e699bda26c2e4838cb2f85ca24d13a50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00574d84_c5710765",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2024-02-27T03:28:20Z",
+      "side": 1,
+      "message": "s.errorf(\"%v\", err)\n\ncalling Error strips any embedded structure. it\u0027s not a big deal here, but a good habit to avoid this pattern\n\nalso usually a bad idea to provide an unknown string as the first argument to a formatting routine",
+      "revId": "0cf297e8e699bda26c2e4838cb2f85ca24d13a50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c87085bd_eaa9a424",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2024-02-27T03:28:20Z",
+      "side": 1,
+      "message": "worth a comment, this is magic (but ok)",
+      "revId": "0cf297e8e699bda26c2e4838cb2f85ca24d13a50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03a8163_d5b6dce5",
+        "filename": "src/text/template/exec_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1756,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2024-02-27T03:28:20Z",
+      "side": 1,
+      "message": "add something like {{call (2+3) 5}}. what will it print in the error?\n\nmore generally, in the CL description give a before-and-after example so we can see that the new code is fixing the problem.",
+      "revId": "0cf297e8e699bda26c2e4838cb2f85ca24d13a50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
