@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc30e6f9_e197622e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-27T17:55:09Z",
+      "side": 1,
+      "message": "Commented on the issue: this isn\u0027t strictly backwards compatible.",
+      "revId": "50b9e42817efd4593dfe1e32dd7b053544514a22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
