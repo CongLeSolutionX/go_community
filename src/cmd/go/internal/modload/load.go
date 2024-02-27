@@ -279,7 +279,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 				// the loader iterations.
 				m.Pkgs = m.Pkgs[:0]
 				for _, dir := range m.Dirs {
-					pkg, err := resolveLocalPackage(ctx, dir, rs)
+					pkg, _, err := resolveLocalPackage(ctx, dir, rs)
 					if err != nil {
 						if !m.IsLiteral() && (err == errPkgIsBuiltin || err == errPkgIsGorootSrc) {
 							continue // Don't include "builtin" or GOROOT/src in wildcard patterns.
@@ -495,14 +495,17 @@ func matchLocalDirs(ctx context.Context, modRoots []string, m *search.Match, rs 
 				break
 			}
 		}
-		if !found && search.InDir(absDir, cfg.GOROOTsrc) == "" && pathInModuleCache(ctx, absDir, rs) == "" {
-			m.Dirs = []string{}
-			scope := "main module or its selected dependencies"
-			if inWorkspaceMode() {
-				scope = "modules listed in go.work or their selected dependencies"
+		if !found && search.InDir(absDir, cfg.GOROOTsrc) == "" {
+			if path, _ := pathInModuleCache(ctx, absDir, rs); path == "" {
+				m.Dirs = []string{}
+				scope := "main module or its selected dependencies"
+				if inWorkspaceMode() {
+					scope = "modules listed in go.work or their selected dependencies"
+				}
+				m.AddError(fmt.Errorf("directory prefix %s does not contain %s", base.ShortPath(absDir), scope))
+				return
 			}
-			m.AddError(fmt.Errorf("directory prefix %s does not contain %s", base.ShortPath(absDir), scope))
-			return
+
 		}
 	}
 
@@ -510,7 +513,7 @@ func matchLocalDirs(ctx context.Context, modRoots []string, m *search.Match, rs 
 }
 
 // resolveLocalPackage resolves a filesystem path to a package path.
-func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (string, error) {
+func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (string, module.Version, error) {
 	var absDir string
 	if filepath.IsAbs(dir) {
 		absDir = filepath.Clean(dir)
@@ -531,9 +534,9 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 			if os.IsNotExist(err) {
 				// Canonicalize OS-specific errors to errDirectoryNotFound so that error
 				// messages will be easier for users to search for.
-				return "", &fs.PathError{Op: "stat", Path: absDir, Err: errDirectoryNotFound}
+				return "", module.Version{}, &fs.PathError{Op: "stat", Path: absDir, Err: errDirectoryNotFound}
 			}
-			return "", err
+			return "", module.Version{}, err
 		}
 		if _, noGo := err.(*build.NoGoError); noGo {
 			// A directory that does not contain any Go source files — even ignored
@@ -544,7 +547,7 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 			// Any other error indicates that the package “exists” (at least in the
 			// sense that it cannot exist in any other module), but has some other
 			// problem (such as a syntax error).
-			return "", err
+			return "", module.Version{}, err
 		}
 	}
 
@@ -552,9 +555,9 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 		modRoot := MainModules.ModRoot(mod)
 		if modRoot != "" && absDir == modRoot {
 			if absDir == cfg.GOROOTsrc {
-				return "", errPkgIsGorootSrc
+				return "", module.Version{}, errPkgIsGorootSrc
 			}
-			return MainModules.PathPrefix(mod), nil
+			return MainModules.PathPrefix(mod), mod, nil
 		}
 	}
 
@@ -569,14 +572,15 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 			suffix := filepath.ToSlash(str.TrimFilePathPrefix(absDir, modRoot))
 			if pkg, found := strings.CutPrefix(suffix, "vendor/"); found {
 				if cfg.BuildMod != "vendor" {
-					return "", fmt.Errorf("without -mod=vendor, directory %s has no package path", absDir)
+					return "", module.Version{}, fmt.Errorf("without -mod=vendor, directory %s has no package path", absDir)
 				}
 
 				readVendorList(VendorDir())
-				if _, ok := vendorPkgModule[pkg]; !ok {
-					return "", fmt.Errorf("directory %s is not a package listed in vendor/modules.txt", absDir)
+				mod, ok := vendorPkgModule[pkg]
+				if !ok {
+					return "", module.Version{}, fmt.Errorf("directory %s is not a package listed in vendor/modules.txt", absDir)
 				}
-				return pkg, nil
+				return pkg, mod, nil
 			}
 
 			mainModulePrefix := MainModules.PathPrefix(mainModule)
@@ -586,14 +590,14 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 					// "builtin" is a pseudo-package with a real source file.
 					// It's not included in "std", so it shouldn't resolve from "."
 					// within module "std" either.
-					return "", errPkgIsBuiltin
+					return "", module.Version{}, errPkgIsBuiltin
 				}
-				return pkg, nil
+				return pkg, mainModule, nil
 			}
 
 			pkg := pathpkg.Join(mainModulePrefix, suffix)
 			if _, ok, err := dirInModule(pkg, mainModulePrefix, modRoot, true); err != nil {
-				return "", err
+				return "", module.Version{}, err
 			} else if !ok {
 				// This main module could contain the directory but doesn't. Other main
 				// modules might contain the directory, so wait till we finish the loop
@@ -605,22 +609,22 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 				}
 				continue
 			}
-			return pkg, nil
+			return pkg, mainModule, nil
 		}
 	}
 	if pkgNotFoundErr != nil {
-		return "", pkgNotFoundErr
+		return "", module.Version{}, pkgNotFoundErr
 	}
 
 	if sub := search.InDir(absDir, cfg.GOROOTsrc); sub != "" && sub != "." && !strings.Contains(sub, "@") {
 		pkg := filepath.ToSlash(sub)
 		if pkg == "builtin" {
-			return "", errPkgIsBuiltin
+			return "", module.Version{}, errPkgIsBuiltin
 		}
-		return pkg, nil
+		return pkg, module.Version{}, nil
 	}
 
-	pkg := pathInModuleCache(ctx, absDir, rs)
+	pkg, mod := pathInModuleCache(ctx, absDir, rs)
 	if pkg == "" {
 		dirstr := fmt.Sprintf("directory %s", base.ShortPath(absDir))
 		if dirstr == "directory ." {
@@ -628,13 +632,13 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 		}
 		if inWorkspaceMode() {
 			if mr := findModuleRoot(absDir); mr != "" {
-				return "", fmt.Errorf("%s is contained in a module that is not one of the workspace modules listed in go.work. You can add the module to the workspace using:\n\tgo work use %s", dirstr, base.ShortPath(mr))
+				return "", module.Version{}, fmt.Errorf("%s is contained in a module that is not one of the workspace modules listed in go.work. You can add the module to the workspace using:\n\tgo work use %s", dirstr, base.ShortPath(mr))
 			}
-			return "", fmt.Errorf("%s outside modules listed in go.work or their selected dependencies", dirstr)
+			return "", module.Version{}, fmt.Errorf("%s outside modules listed in go.work or their selected dependencies", dirstr)
 		}
-		return "", fmt.Errorf("%s outside main module or its selected dependencies", dirstr)
+		return "", module.Version{}, fmt.Errorf("%s outside main module or its selected dependencies", dirstr)
 	}
-	return pkg, nil
+	return pkg, mod, nil
 }
 
 var (
@@ -645,7 +649,7 @@ var (
 
 // pathInModuleCache returns the import path of the directory dir,
 // if dir is in the module cache copy of a module in our build list.
-func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string {
+func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) (string, module.Version) {
 	tryMod := func(m module.Version) (string, bool) {
 		if gover.IsToolchain(m.Path) {
 			return "", false
@@ -686,7 +690,7 @@ func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string
 			if importPath, ok := tryMod(m); ok {
 				// checkMultiplePaths ensures that a module can be used for at most one
 				// requirement, so this must be it.
-				return importPath
+				return importPath, m
 			}
 		}
 	}
@@ -701,14 +705,39 @@ func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string
 
 	mg, _ := rs.Graph(ctx)
 	var importPath string
+	var mod module.Version
 	for _, m := range mg.BuildList() {
 		var found bool
 		importPath, found = tryMod(m)
 		if found {
+			mod = m
 			break
 		}
 	}
-	return importPath
+	return importPath, mod
+}
+
+// ModuleGoVersion returns the go version of the module that contains dir.
+func ModuleGoVersion(ctx context.Context, dir string) (goVersion string) {
+	rs := LoadModFile(ctx)
+	if path, m := MainModules.DirImportPath(ctx, dir); path != "." {
+		return gover.FromGoMod(MainModules.ModFile(m))
+	}
+	_, m, err := resolveLocalPackage(ctx, dir, rs)
+	if err != nil {
+		return MainModules.GoVersion()
+	}
+	if m == (module.Version{}) { // dir is in the standard library
+		return gover.Lang(gover.Local())
+	}
+	s, err := goModSummary(m)
+	if err != nil {
+		base.Fatal(err)
+	}
+	if s.goVersion == "" {
+		return gover.DefaultGoModVersion
+	}
+	return s.goVersion
 }
 
 // ImportFromFiles adds modules to the build list as needed

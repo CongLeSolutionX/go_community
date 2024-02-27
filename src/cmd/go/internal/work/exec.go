@@ -1169,8 +1169,8 @@ func buildVetConfig(a *Action, srcfiles []string) {
 		PackageFile:  make(map[string]string),
 		Standard:     make(map[string]bool),
 	}
-	if a.Package.Module != nil {
-		v := a.Package.Module.GoVersion
+	if a.Package.Module != nil || a.Package.Internal.CmdlineFiles {
+		v := a.Package.Internal.GoVersion
 		if v == "" {
 			v = gover.DefaultGoModVersion
 		}

@@ -262,6 +262,9 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 		if pxtestNeedsPtest {
 			pxtest.Internal.Imports = append(pxtest.Internal.Imports, ptest)
 		}
+		if p.Module != nil {
+			pxtest.Internal.GoVersion = p.Module.GoVersion
+		}
 	}
 
 	// Arrange for testing.Testing to report true.
@@ -290,7 +293,9 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			PGOProfile:     p.Internal.PGOProfile,
 		},
 	}
-
+	if p.Module != nil {
+		pmain.Internal.GoVersion = p.Module.GoVersion
+	}
 	pb := p.Internal.Build
 	pmain.DefaultGODEBUG = defaultGODEBUG(pmain, pb.Directives, pb.TestDirectives, pb.XTestDirectives)
 

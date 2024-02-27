@@ -237,6 +237,7 @@ type PackageInternal struct {
 	OrigImportPath    string               // original import path before adding '_test' suffix
 	PGOProfile        string               // path to PGO profile
 	ForMain           string               // the main package if this package is built specifically for it
+	GoVersion         string               // this package's go version
 
 	Asmflags   []string // -asmflags for this package
 	Gcflags    []string // -gcflags for this package
@@ -1964,6 +1965,11 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 	}
 	if cfg.ModulesEnabled {
 		p.Module = modload.PackageModuleInfo(ctx, pkgPath)
+		if p.Module != nil {
+			p.Internal.GoVersion = p.Module.GoVersion
+		} else if p.Internal.CmdlineFiles {
+			p.Internal.GoVersion = modload.ModuleGoVersion(ctx, bp.Dir)
+		}
 	}
 	p.DefaultGODEBUG = defaultGODEBUG(p, nil, nil, nil)
 
