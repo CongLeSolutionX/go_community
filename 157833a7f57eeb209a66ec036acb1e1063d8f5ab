@@ -163,6 +163,30 @@
       },
       "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab91201_0917acc8",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-27T23:21:29Z",
+      "side": 1,
+      "message": "This is still a problem. I don\u0027t think we want to format the error in this case: that information is redundant with types.Error.Pos.",
+      "parentUuid": "390b4a20_92924333",
+      "range": {
+        "startLine": 298,
+        "startChar": 3,
+        "endLine": 298,
+        "endChar": 62
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
