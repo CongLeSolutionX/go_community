@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2dbbe86_e4bbd2eb",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-02-27T01:37:00Z",
+      "side": 1,
+      "message": "\u003e \"seeting\" is a possible misspelling of \"seating\", \"setting\", or \"seething\".\n\nPlease fix.",
+      "parentUuid": "c17f690b_043837ab",
+      "range": {
+        "startLine": 1711,
+        "startChar": 5,
+        "endLine": 1711,
+        "endChar": 12
+      },
+      "revId": "111116bea737b05d15ddb5618abbb083675c5e76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
