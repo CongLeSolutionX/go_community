@@ -87,6 +87,30 @@
       },
       "revId": "a3e152ba3a24c6699423b4d244f40a6019de9182",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57eb11af_4b2c71e0",
+        "filename": "src/runtime/internal/atomic/atomic_mips64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-27T17:00:36Z",
+      "side": 1,
+      "message": "Hmmm, the code above does jump to -4(PC) and redo the SYNC.",
+      "parentUuid": "32287435_b20e4692",
+      "range": {
+        "startLine": 322,
+        "startChar": 9,
+        "endLine": 322,
+        "endChar": 11
+      },
+      "revId": "a3e152ba3a24c6699423b4d244f40a6019de9182",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
