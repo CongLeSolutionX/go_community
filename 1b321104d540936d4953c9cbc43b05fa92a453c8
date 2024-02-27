@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "394b68ab_fa5cdab2",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-27T20:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "872ffa02_46f878ee",
+      "revId": "1b321104d540936d4953c9cbc43b05fa92a453c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a03f34cf_10f898ea",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69a1bf3_be9d6a16",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-27T20:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a03f34cf_10f898ea",
+      "revId": "1b321104d540936d4953c9cbc43b05fa92a453c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1902bcea_b58769b4",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-02-16T02:45:00Z",
       "side": 1,
       "message": "Fairly sure state always \u003d\u003d timerHeaped here.",
+      "revId": "1b321104d540936d4953c9cbc43b05fa92a453c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfbdad2d_80997992",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-27T20:01:10Z",
+      "side": 1,
+      "message": "For now, yes, but not in later CLs.",
+      "parentUuid": "1902bcea_b58769b4",
       "revId": "1b321104d540936d4953c9cbc43b05fa92a453c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
