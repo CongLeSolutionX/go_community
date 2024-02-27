@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d567e5_6da81ee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-02-27T00:19:39Z",
+      "side": 1,
+      "message": "It should be ready to submit now, unless there are any pending considerations for this fix.",
+      "revId": "b47fd82ac595fbfc78aa53aa33f4ede92de3d7c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
