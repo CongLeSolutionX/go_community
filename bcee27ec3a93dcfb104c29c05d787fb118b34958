@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "70f978f8_b1758973",
+        "filename": "doc/godebug.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "140fa4b7_9dbeb8ca",
+      "range": {
+        "startLine": 131,
+        "startChar": 33,
+        "endLine": 131,
+        "endChar": 41
+      },
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "280b8f56_5f055329",
         "filename": "doc/godebug.md",
         "patchSetId": 7
@@ -100,6 +124,30 @@
       "writtenOn": "2024-02-26T22:16:46Z",
       "side": 1,
       "message": "I think this should be combined with what is currently the first sentence, so that we mention all of the mode-bit changes together.\n\nThen we can follow up with the impact on `EvalSymlinks`, and conclude with the (somewhat orthogonal) change to `os.Readlink`?\n\nMaybe:\n\n```\nGo 1.23 changed the mode bits reported by `os.Stat` and `os.Lstat` for\nreparse points. Mount points no longer have `ModeSymlink` set, mount points\nand symbolic links to directories no longer have `ModeDir` set, and\nreparse points that are not symlinks, sockets, or `DEDUP` files now\nalways have `ModeIrregular` set. As a result of these changes,\n[`filepath.EvalSymlinks`](/pkg/path/filepath#EvalSymlinks) no longer evaluates\nmount points, which was a source of many inconsistencies and bugs.\n\n`os.Readlink` continues to report the substitute names for mount points,\nbut if the substitute name is relative or refers to an NT volume, `Readlink`\nno longer tries to resolve a drive letter for it (which was not always\neven possible).\n```",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 44
+      },
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baf75ce3_42f456ad",
+        "filename": "doc/godebug.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "I like it. I\u0027ll remove the following sentence, though: `mount points\nand symbolic links to directories no longer have `ModeDir` set`. Mount points and symlinks never had the `ModeDir` set.",
+      "parentUuid": "6b462ce1_98cf87c2",
       "range": {
         "startLine": 135,
         "startChar": 0,
@@ -179,6 +227,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18bb7c14_5ce23cef",
+        "filename": "doc/next/6-stdlib/99-minor/os/63703.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db3249ef_c63978ca",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 2,
+        "endChar": 43
+      },
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ba303b8_d3ad84e5",
@@ -192,6 +264,30 @@
       "writtenOn": "2024-02-26T22:16:46Z",
       "side": 1,
       "message": "I think we can omit these lines (176–179), now that we\u0027re checking the mode bits unconditionally at line 173.",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 3
+      },
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb8199c1_f0d423fb",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ba303b8_d3ad84e5",
       "range": {
         "startLine": 176,
         "startChar": 0,
@@ -219,6 +315,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c2d29c2_cb9d0dc6",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfcd29c0_2b63d383",
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c0ae437_059073b9",
@@ -232,6 +346,24 @@
       "writtenOn": "2024-02-26T22:16:46Z",
       "side": 1,
       "message": "(nit) “replaces” is a bit ambiguous — it took me a bit to understand that it doesn\u0027t modify a mount point on disk.\n\nHow about “returns path with its volume name replaced with the mounted volume ID”?",
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32753c07_4e9bd9b7",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c0ae437_059073b9",
       "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -253,6 +385,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15d7dd3_14609587",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "It is a `cmd` command: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/mklink.",
+      "parentUuid": "30ed236c_c31e297f",
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb84eeea_216611d6",
@@ -266,6 +416,24 @@
       "writtenOn": "2024-02-26T22:16:46Z",
       "side": 1,
       "message": "(not sure) Does creating a junction require elevated permissions, or is that something anyone can do? (Do these tests need skips if the `mklink` commands fail?)",
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "549a1abe_d8abd539",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "Anyone can create junctions, no special permissions needed. This is why they have been historically preferred over symbolic links on Windows.",
+      "parentUuid": "fb84eeea_216611d6",
       "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -293,6 +461,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f478d08c_186e247f",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "Yep, calling `os.Symlink` is much cleaner.",
+      "parentUuid": "e68dfccf_32b70c5c",
+      "range": {
+        "startLine": 1353,
+        "startChar": 0,
+        "endLine": 1356,
+        "endChar": 2
+      },
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02d0bc47_56b8f9d6",
@@ -306,6 +498,30 @@
       "writtenOn": "2024-02-26T22:16:46Z",
       "side": 1,
       "message": "It seems like the variations here are systematic: we have variations by file/directory and by relative/absolute-drive/absolute-volume.\n\nCan these be factored into one or more table-driven tests (https://go.dev/wiki/TableDrivenTests), or would those end up too complicated?",
+      "range": {
+        "startLine": 1345,
+        "startChar": 0,
+        "endLine": 1449,
+        "endChar": 1
+      },
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00cab6c_fe9d4149",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1449,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-02-27T10:51:37Z",
+      "side": 1,
+      "message": "I\u0027ve factored them out into a single function, although I might overengineered a bit...",
+      "parentUuid": "02d0bc47_56b8f9d6",
       "range": {
         "startLine": 1345,
         "startChar": 0,
