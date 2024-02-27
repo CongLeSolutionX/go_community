@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f419ce0e_640c64d1",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-02-27T22:04:15Z",
+      "side": 1,
+      "message": "Maybe this should be called GoVersion to distinguish from its module\u0027s version?",
+      "range": {
+        "startLine": 240,
+        "startChar": 1,
+        "endLine": 240,
+        "endChar": 8
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05c79e4e_09e680c7",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-02-27T22:04:15Z",
+      "side": 1,
+      "message": "It seems like the only thing that ImportFromFiles has that we need is the requirements. I wonder whether this would make more sense its own function, say\n\n    func ModuleGoVersion(dir string) (version string)\n    \n?",
+      "range": {
+        "startLine": 721,
+        "startChar": 60,
+        "endLine": 721,
+        "endChar": 88
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e0419e4_82bf5705",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-02-27T22:04:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this argument be the module roots?\n\n    matchLocalDirs(ctx, modRoots, m, rs)",
+      "range": {
+        "startLine": 730,
+        "startChar": 21,
+        "endLine": 730,
+        "endChar": 35
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86680b5d_13bee512",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-02-27T22:04:15Z",
+      "side": 1,
+      "message": "If there\u0027s a single main module I wonder if we can avoid doing the match? We could only match that main module in that case, so the result couldn\u0027t be different, right?",
+      "range": {
+        "startLine": 731,
+        "startChar": 0,
+        "endLine": 736,
+        "endChar": 2
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "272a4d66_14688c81",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-02-27T22:04:15Z",
+      "side": 1,
+      "message": "I wonder if we can also set a.Package.Internal.Version when a.Package.Module is non-nil and then just use that value",
+      "range": {
+        "startLine": 1178,
+        "startChar": 1,
+        "endLine": 1184,
+        "endChar": 2
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
