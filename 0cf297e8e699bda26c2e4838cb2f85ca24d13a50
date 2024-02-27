@@ -103,6 +103,24 @@
       "message": "add something like {{call (2+3) 5}}. what will it print in the error?\n\nmore generally, in the CL description give a before-and-after example so we can see that the new code is fixing the problem.",
       "revId": "0cf297e8e699bda26c2e4838cb2f85ca24d13a50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6330c5a7_8c13339a",
+        "filename": "src/text/template/exec_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1756,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-02-27T04:14:39Z",
+      "side": 1,
+      "message": "I have updated the CL description, but {{call (2+3) 5}} seems results to a parse error, is this expected?",
+      "parentUuid": "f03a8163_d5b6dce5",
+      "revId": "0cf297e8e699bda26c2e4838cb2f85ca24d13a50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
