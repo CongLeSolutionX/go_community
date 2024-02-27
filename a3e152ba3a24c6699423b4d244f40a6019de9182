@@ -135,6 +135,30 @@
       },
       "revId": "a3e152ba3a24c6699423b4d244f40a6019de9182",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d59e2dc2_72e0c529",
+        "filename": "src/runtime/internal/atomic/atomic_mips64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-27T21:35:16Z",
+      "side": 1,
+      "message": "Interesting. Yeah, we don\u0027t redo the SYNC in some functions. My feeling is that it might be correct either way -- if the SC fails and we don\u0027t redo the SYNC, the LL might still load the stale value and the SC will fail again and it just loops more, until eventually it succeeds. Maybe this is fine. Redoing the SYNC might make it succeed quicker?\n\nI just checked the code generation for GCC (12.2). It does not redo the SYNC. So it is probably okay to not redo it.",
+      "parentUuid": "264f45f8_873fad9c",
+      "range": {
+        "startLine": 322,
+        "startChar": 9,
+        "endLine": 322,
+        "endChar": 11
+      },
+      "revId": "a3e152ba3a24c6699423b4d244f40a6019de9182",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
