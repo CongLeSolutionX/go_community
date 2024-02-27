@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55adfcca_0a988689",
+        "filename": "src/cmd/compile/internal/types2/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-27T18:01:22Z",
+      "side": 1,
+      "message": "Rename this to \u0027handleError\u0027? It is invoked whether or not there is an error handler in the config.",
+      "range": {
+        "startLine": 262,
+        "startChar": 22,
+        "endLine": 262,
+        "endChar": 38
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1fa2b2c_ca3886bd",
+        "filename": "src/cmd/compile/internal/types2/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-27T18:01:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure what\u0027s more useful: showing all the errors, or just the main error? Probably the latter, in which case we should lift this up to error_.report.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 2
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfbac69f_5a42ffdd",
+        "filename": "src/cmd/compile/internal/types2/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-27T18:01:22Z",
+      "side": 1,
+      "message": "I don\u0027t think this clause is correct -- it seems wrong to link index \u003d\u003d 0 and check.conf.ErrorURL !\u003d \"\". Don\u0027t you want the `else` to be index \u003e 0?",
+      "range": {
+        "startLine": 287,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 44
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "390b4a20_92924333",
+        "filename": "src/go/types/errors.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-02-27T18:01:22Z",
+      "side": 1,
+      "message": "Won\u0027t this lead to redundant position information in the error message, when it is formatted with e.Pos?",
+      "range": {
+        "startLine": 298,
+        "startChar": 3,
+        "endLine": 298,
+        "endChar": 62
+      },
+      "revId": "157833a7f57eeb209a66ec036acb1e1063d8f5ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
