@@ -1175,6 +1175,13 @@ func buildVetConfig(a *Action, srcfiles []string) {
 		}
 		vcfg.GoVersion = "go" + v
 	}
+	if a.Package.Internal.CmdlineFiles {
+		v := a.Package.Internal.GoVersion
+		if v == "" {
+			v = gover.DefaultGoModVersion
+		}
+		vcfg.GoVersion = "go" + v
+	}
 	a.vetCfg = vcfg
 	for i, raw := range a.Package.Internal.RawImports {
 		final := a.Package.Imports[i]
