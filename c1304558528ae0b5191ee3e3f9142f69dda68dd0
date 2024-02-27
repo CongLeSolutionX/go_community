@@ -16,6 +16,24 @@
       "message": "The new comment is more accurate in one dimension, but now less accurate in another dimension.\n\nWe need to capture two effects:\n* When matching a particular JSON name to a Go struct field, we prefer exact match over a case-insensitive match (e.g., https://go.dev/play/p/8PHUZJFqDHO).\n* JSON object members are unmarhaled in the order syntactically seen. Thus, latter members that matches a previously seen Go struct field will be \"merged\" into the field.\n\nI use the term \"merge\" loosely since it\u0027s neither true merging nor overriding. The exact semantics are complicated.",
       "revId": "c1304558528ae0b5191ee3e3f9142f69dda68dd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66cefe5b_39973052",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3325703
+      },
+      "writtenOn": "2024-02-27T06:50:20Z",
+      "side": 1,
+      "message": "Why is it to overwriting? See here: https://go.dev/play/p/2a3kQ03Ij10\n\nIn both cases the first field gets overwritten by the json field \"NAME\". I would not expect this and i think its a bug and not just an unprecise documentation.\n\nIn the example i would expect the output:\n\n{Foo Bar}\n{Bar Foo} \n\nbut it is \n\n{BAZ Bar}\n{BAR Foo}\n\nThe decoder is correctly assigning fields with exact matches. But if it has a field where no exact match can be found, it selects the first field in the struct and just writes its value, even if the value is already set.",
+      "parentUuid": "965bc6eb_fdca77c1",
+      "revId": "c1304558528ae0b5191ee3e3f9142f69dda68dd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
