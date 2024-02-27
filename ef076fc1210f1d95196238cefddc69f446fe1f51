@@ -26,6 +26,154 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d071a759_5c1c115d",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "(nit) At this point we have enough different versions in play that it\u0027s good to be explicit about which kind — please name this field `GoVersion` instead of just `Version`.",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5093a0a2_99778c11",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "(First, see my comment at line 730 of this file.)\n\n```go\nreturn MainModules.PathPrefix(mod), mod, nil\n```",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c792c0_38023734",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "```go\nmod, ok :\u003d vendorPkgModule[pkg]\nif !ok {\n\t…\n}\nreturn pkg, mod, nil\n```",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 578,
+        "endChar": 19
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e6b937_c92295eb",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "```go\nreturn pkg, mainModule, nil\n```",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8033dd90_d3da0eaf",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "```go\nreturn pkg, mainModule, nil\n```",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a876e126_bee1529d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "```go\nreturn pkg, module.Version{}, nil\n```\n\n(This case means that `pkg` is in the standard library.)",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b31826f_5e055463",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "```go\npkg, mod :\u003d pathInModuleCache(ctx, absDir, rs)\nif pkg \u003d\u003d \"\" {\n\t…\n}\nreturn pkg, mod, nil\n```",
+      "range": {
+        "startLine": 622,
+        "startChar": 0,
+        "endLine": 636,
+        "endChar": 16
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "825861b9_21ee7f17",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "Update this to return `(string, module.Version, bool)`, and then use it to return `(string, module.Version)` from `pathInModuleCache` (for use in `resolveLocalPackage` above).",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "05c79e4e_09e680c7",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 2
@@ -42,6 +190,29 @@
         "startChar": 60,
         "endLine": 721,
         "endChar": 88
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37498e87_a90d5d28",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "s/version/goVersion/",
+      "range": {
+        "startLine": 721,
+        "startChar": 73,
+        "endLine": 721,
+        "endChar": 80
       },
       "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -72,6 +243,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6eac37a_eb9f7021",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "The second parameter to `matchLocalDirs` is a slice of module roots, but `dir` is not necessarily the root of any module.\n\nWe need to do a few steps here:\n1) figure out whether `dir` is in a module that we recognize,\n2) identify what module that actually is,\n3) read the module\u0027s `go.mod` file to identify its Go version.\n\n----\n\n`resolveLocalPackage` looks like it will work for (1) as-is.\n\n(2) is trickier: `resolveLocalPackage` is currently doing basically all of the work for that, but then throwing away the result. So maybe we can change it to instead return the module as an additional argument; I will add some further comments about how to do that.\n\nOnce we have that, step (3) depends on whether we found the directory among the main modules or in a dependency.\n\n----\n\nPutting that all together, it might look something like:\n\n```go\nvar goVersion string\nif path, m :\u003d MainModules.DirImportPath(ctx, dir); path !\u003d \".\" {\n\tgoVersion \u003d gover.FromGoMod(MainModules.ModFile(m))\n} else if path, m, err :\u003d resolveLocalPackage(ctx, dir, rs); err \u003d\u003d nil {\n\tif m \u003d\u003d (module.Version{}) {\n\t\t// dir is in the standard library.\n\t\tgoVersion \u003d gover.Lang(gover.Local())\n\t} else {\n\t\ts, err :\u003d goModSummary(m)\n\t\tif err !\u003d nil {\n\t\t\tbase.Fatal(err)\n\t\t}\n\t\tif s.goVersion \u003d\u003d \"\" {\n\t\t\tgoVersion \u003d gover.DefaultGoModVersion\n\t\t} else {\n\t\t\tgoVersion \u003d s.goVersion\n\t\t}\n\t}\n} else {\n\tgoVersion \u003d mainModules.GoVersion()\n}\n```",
+      "range": {
+        "startLine": 730,
+        "startChar": 21,
+        "endLine": 730,
+        "endChar": 34
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86680b5d_13bee512",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 2
@@ -95,6 +289,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5567bf93_b6f74b42",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "We should also add here:\n```go\nif v, ok :\u003d rawGoVersion.Load(m); ok {\n\tsummary.goVersion \u003d v.(string)\n}\n```\n\n(to incorporate the data cached in https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modload/vendor.go;l\u003d113;drc\u003df8b4653500744da567767b641378193638d4fcf8 for use in `ImportFromFiles`).",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "272a4d66_14688c81",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 2
@@ -111,6 +322,29 @@
         "startChar": 1,
         "endLine": 1184,
         "endChar": 2
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6578a5_161f2d8b",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T22:39:26Z",
+      "side": 1,
+      "message": "I think we should instead provide (and document) the invariant that `p.Internal.CmdlineFiles` implies `p.Internal.Version !\u003d \"\"`. That way we don\u0027t have to remember to check for it at every point of use.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
       },
       "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
