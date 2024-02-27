@@ -237,6 +237,7 @@ type PackageInternal struct {
 	OrigImportPath    string               // original import path before adding '_test' suffix
 	PGOProfile        string               // path to PGO profile
 	ForMain           string               // the main package if this package is built specifically for it
+	Version           string               // this package's go version
 
 	Asmflags   []string // -asmflags for this package
 	Gcflags    []string // -gcflags for this package
@@ -3200,10 +3201,6 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 	}
 	ctxt.ReadDir = func(string) ([]fs.FileInfo, error) { return dirent, nil }
 
-	if cfg.ModulesEnabled {
-		modload.ImportFromFiles(ctx, gofiles)
-	}
-
 	var err error
 	if dir == "" {
 		dir = base.Cwd()
@@ -3212,9 +3209,11 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 	if err != nil {
 		base.Fatalf("%s", err)
 	}
-
-	bp, err := ctxt.ImportDir(dir, 0)
 	pkg := new(Package)
+	if cfg.ModulesEnabled {
+		pkg.Internal.Version = modload.ImportFromFiles(ctx, gofiles, dir)
+	}
+	bp, err := ctxt.ImportDir(dir, 0)
 	pkg.Internal.Local = true
 	pkg.Internal.CmdlineFiles = true
 	pkg.load(ctx, opts, "command-line-arguments", &stk, nil, bp, err)

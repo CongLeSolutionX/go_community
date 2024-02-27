@@ -711,19 +711,28 @@ func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string
 }
 
 // ImportFromFiles adds modules to the build list as needed
-// to satisfy the imports in the named Go source files.
+// to satisfy the imports in the named Go source files and
+// returns the go version of the containing module.
 //
 // Errors in missing dependencies are silenced.
 //
 // TODO(bcmills): Silencing errors seems off. Take a closer look at this and
 // figure out what the error-reporting actually ought to be.
-func ImportFromFiles(ctx context.Context, gofiles []string) {
+func ImportFromFiles(ctx context.Context, gofiles []string, dir string) (version string) {
 	rs := LoadModFile(ctx)
 
 	tags := imports.Tags()
 	imports, testImports, err := imports.ScanFiles(gofiles, tags)
 	if err != nil {
 		base.Fatal(err)
+	}
+	m := search.NewMatch(dir)
+	matchLocalDirs(ctx, []string{dir}, m, rs)
+	version = MainModules.GoVersion()
+	if len(m.Pkgs) != 0 { // set the go version to its containing module's version
+		if pkg, ok := loaded.pkgCache.Get(m.Pkgs[0]); ok {
+			version = pkg.mod.Version
+		}
 	}
 
 	loaded = loadFromRoots(ctx, loaderParams{
@@ -746,6 +755,7 @@ func ImportFromFiles(ctx context.Context, gofiles []string) {
 			base.Fatal(err)
 		}
 	}
+	return version
 }
 
 // DirImportPath returns the effective import path for dir,

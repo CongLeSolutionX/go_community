@@ -74,6 +74,15 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 			defaultGcFlags = append(defaultGcFlags, "-lang=go"+gover.Lang(v))
 		}
 	}
+	if p.Internal.CmdlineFiles {
+		v := a.Package.Internal.Version
+		if v == "" {
+			v = gover.DefaultGoModVersion
+		}
+		if allowedVersion(v) {
+			defaultGcFlags = append(defaultGcFlags, "-lang=go"+gover.Lang(v))
+		}
+	}
 	if p.Standard {
 		defaultGcFlags = append(defaultGcFlags, "-std")
 	}
