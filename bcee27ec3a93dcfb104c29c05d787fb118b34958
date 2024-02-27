@@ -230,6 +230,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "890a8f71_0a8ea78b",
+        "filename": "doc/godebug.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-27T19:20:31Z",
+      "side": 1,
+      "message": "Maybe `winreadlinkvolume` for the `os.Readlink` change, with `winreadlinkvolume\u003d0` meaning “try to normalize volumes to drive letters” (the old behavior) and `winreadlinkvolume\u003d1` meaning “return volumes from `os.Readlink` without trying to normalize them” (the new behavior)?",
+      "parentUuid": "a73dfe43_7c45ed6d",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "bcee27ec3a93dcfb104c29c05d787fb118b34958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db3249ef_c63978ca",
         "filename": "doc/next/6-stdlib/99-minor/os/63703.md",
         "patchSetId": 7
