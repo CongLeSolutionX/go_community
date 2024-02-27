@@ -34,6 +34,24 @@
       "parentUuid": "965bc6eb_fdca77c1",
       "revId": "c1304558528ae0b5191ee3e3f9142f69dda68dd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "470dea52_f34dadf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-02-27T06:59:37Z",
+      "side": 1,
+      "message": "\u003e But if it has a field where no exact match can be found, it selects the first field in the struct and just writes its value\n\nThe first effect I stated can be further refined with \"In the event that multiple case-insensitive matches exist, the first one is selected.\" It doesn\u0027t just select the \"first field in the struct\", but the first field of all that have a case-insensitive match.\n\n\u003e Why is it to overwriting? In both cases the first field gets overwritten by the json field \"NAME\". \n\nThe \"overwriting\" is due to merge semantics for scalar values generally being equivalent to overwriting. What you are observing is the application of the second rule that I stated (i.e., duplicate fields are merged into previously seen fields).\n\nAll-in-all, the rules around this is a mess because case-insensitive matching is the default semantic in v1 \"encoding/json\". The proposed v2 design makes matching case-sensitive by default, which avoids this whole can of worms.",
+      "parentUuid": "66cefe5b_39973052",
+      "revId": "c1304558528ae0b5191ee3e3f9142f69dda68dd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
