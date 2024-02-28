@@ -225,8 +225,10 @@ func computeInterfaceTypeSet(check *Checker, pos token.Pos, ityp *Interface) *_T
 			mpos[m] = pos
 		case explicit:
 			if check != nil {
-				check.errorf(atPos(pos), DuplicateDecl, "duplicate method %s", m.name)
-				check.errorf(atPos(mpos[other.(*Func)]), DuplicateDecl, "\tother declaration of %s", m.name) // secondary error, \t indented
+				err := check.newError(DuplicateDecl)
+				err.addf(atPos(pos), "duplicate method %s", m.name)
+				err.addf(atPos(mpos[other.(*Func)]), "other declaration of %s", m.name)
+				err.report()
 			}
 		default:
 			// We have a duplicate method name in an embedded (not explicitly declared) method.
@@ -237,8 +239,10 @@ func computeInterfaceTypeSet(check *Checker, pos token.Pos, ityp *Interface) *_T
 			if check != nil {
 				check.later(func() {
 					if !check.allowVersion(m.pkg, atPos(pos), go1_14) || !Identical(m.typ, other.Type()) {
-						check.errorf(atPos(pos), DuplicateDecl, "duplicate method %s", m.name)
-						check.errorf(atPos(mpos[other.(*Func)]), DuplicateDecl, "\tother declaration of %s", m.name) // secondary error, \t indented
+						err := check.newError(DuplicateDecl)
+						err.addf(atPos(pos), "duplicate method %s", m.name)
+						err.addf(atPos(mpos[other.(*Func)]), "other declaration of %s", m.name)
+						err.report()
 					}
 				}).describef(atPos(pos), "duplicate method check for %s", m.name)
 			}
