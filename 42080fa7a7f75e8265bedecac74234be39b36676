@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6288a712_eb3f9373",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64098
+      },
+      "writtenOn": "2024-02-28T06:05:16Z",
+      "side": 1,
+      "message": "@dneil@google.com I\u0027ve addressed your feedback (see the comment and the latest revision). Thank you!",
+      "revId": "42080fa7a7f75e8265bedecac74234be39b36676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9958cc20_dd84405e",
@@ -68,6 +85,24 @@
       "writtenOn": "2024-02-26T18:07:16Z",
       "side": 1,
       "message": "Why return nil if name is empty? This seems like an odd special case.\n\nIn general, distinguishing between a non-nil, zero-length slice and a nil slice is confusing. There are cases where it\u0027s useful to make a distinction between \"zero length list\" and \"no list at all\", but this doesn\u0027t seem like one of them.\n\nI think we should drop the special case.",
+      "revId": "42080fa7a7f75e8265bedecac74234be39b36676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c0f4634_04bfff27",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 64098
+      },
+      "writtenOn": "2024-02-28T06:05:16Z",
+      "side": 1,
+      "message": "The reason I added it was upon @Carlana Johnsons suggestion, see https://go-review.googlesource.com/c/go/+/511516/5..10/src/net/http/request.go#b421.\n\n\u003e I think we should drop the special case.\n\nAnyways, the special case is required, because passing an empty string to as a filter to readCookies would return all cookies, which is not what we want.\n\nIf the nil slice is confusing I can change it to return an empty slice instead - which is what I\u0027ve done in the latest revision.",
+      "parentUuid": "9958cc20_dd84405e",
       "revId": "42080fa7a7f75e8265bedecac74234be39b36676",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
