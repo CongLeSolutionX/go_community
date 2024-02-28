@@ -66,6 +66,9 @@ func (a *Alias) TypeArgs() *TypeList { return a.targs }
 // declaration "type A = R", which may be another alias.
 func (a *Alias) Rhs() Type { return a.fromRHS }
 
+// Alias implements genericType
+func (a *Alias) clone() genericType { copy := *a; return &copy }
+
 // Unalias returns t if it is not an alias type;
 // otherwise it follows t's alias chain until it
 // reaches a non-alias type which is then returned.
