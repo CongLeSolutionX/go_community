@@ -15,24 +15,28 @@ import (
 )
 
 // Instantiate instantiates the type orig with the given type arguments targs.
-// orig must be a *Named or a *Signature type. If there is no error, the
-// resulting Type is an instantiated type of the same kind (either a *Named or
-// a *Signature). Methods attached to a *Named type are also instantiated, and
-// associated with a new *Func that has the same position as the original
-// method, but nil function scope.
+// orig must be an *Alias, *Named, or a *Signature type. If there is no error,
+// the resulting Type is an instantiated type of the same kind (*Alias, *Named
+// or *Signature, respectively).
 //
-// If ctxt is non-nil, it may be used to de-duplicate the instance against
-// previous instances with the same identity. As a special case, generic
-// *Signature origin types are only considered identical if they are pointer
-// equivalent, so that instantiating distinct (but possibly identical)
-// signatures will yield different instances. The use of a shared context does
-// not guarantee that identical instances are deduplicated in all cases.
+// Methods attached to a *Named type are also instantiated, and associated with
+// a new *Func that has the same position as the original method, but nil function
+// scope.
+//
+// A non-nil shared context ensures that instantiating a generic named type
+// (*Named, *Alias) will lead to a finite number of instantiated types in the
+// presence of type cycles, by deduplicating (pointer-) distinct but identical
+// types. A shared context does not guarantee that all identical types are
+// deduplicated; type identity must be tested by calling Identical, not by
+// comparing pointers.
+//
+// Unnamed signatures cannot create type cycles and they are not deduplicated.
 //
 // If validate is set, Instantiate verifies that the number of type arguments
-// and parameters match, and that the type arguments satisfy their
-// corresponding type constraints. If verification fails, the resulting error
-// may wrap an *ArgumentError indicating which type argument did not satisfy
-// its corresponding type parameter constraint, and why.
+// and parameters match, and that the type arguments satisfy their respective
+// type constraints. If verification fails, the resulting error may wrap an
+// *ArgumentError indicating which type argument did not satisfy its type parameter
+// constraint, and why.
 //
 // If validate is not set, Instantiate does not verify the type argument count
 // or whether the type arguments satisfy their constraints. Instantiate is
@@ -41,17 +45,21 @@ import (
 // count is incorrect; for *Named types, a panic may occur later inside the
 // *Named API.
 func Instantiate(ctxt *Context, orig Type, targs []Type, validate bool) (Type, error) {
+	assert(len(targs) > 0)
 	if ctxt == nil {
 		ctxt = NewContext()
 	}
 	if validate {
 		var tparams []*TypeParam
 		switch t := orig.(type) {
+		case *Alias:
+			tparams = t.tparams.list()
 		case *Named:
 			tparams = t.TypeParams().list()
 		case *Signature:
 			tparams = t.TypeParams().list()
 		}
+		assert(len(tparams) > 0)
 		if len(targs) != len(tparams) {
 			return nil, fmt.Errorf("got %d type arguments but %s has %d type parameters", len(targs), orig, len(tparams))
 		}
@@ -115,6 +123,30 @@ func (check *Checker) instance(pos syntax.Pos, orig Type, targs []Type, expandin
 	}
 
 	switch orig := orig.(type) {
+	case *Alias:
+		// TODO(gri) what to do with expanding?
+
+		tparams := orig.tparams
+		// TODO(gri) investigate if this is needed (type argument and parameter count seem to be correct here)
+		if !check.validateTArgLen(pos, orig.String(), tparams.Len(), len(targs)) {
+			return Typ[Invalid]
+		}
+		if tparams.Len() == 0 {
+			return orig // nothing to do (minor optimization)
+		}
+		alias := check.subst(pos, orig, makeSubstMap(tparams.list(), targs), nil, ctxt).(*Alias)
+		// If the alias doesn't use its type parameters, subst
+		// will not make a copy. In that case, make a copy now (so
+		// we can set tparams to nil w/o causing side-effects).
+		if alias == orig {
+			copy := *alias
+			alias = &copy
+		}
+		// After instantiating a generic alias, it is not generic
+		// anymore; we need to set tparams to nil.
+		alias.tparams = nil
+		res = alias
+
 	case *Named:
 		res = check.newNamedInstance(pos, orig, targs, expanding) // substituted lazily
 

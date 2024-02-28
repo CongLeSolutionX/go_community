@@ -445,6 +445,22 @@ func (check *Checker) instantiatedType(ix *typeparams.IndexExpr, def *TypeName) 
 		return gtyp // error already reported
 	}
 
+	// TODO(gri) this code needs to be refactored
+	if alias, _ := gtyp.(*Alias); alias != nil {
+		// evaluate arguments
+		targs := check.typeList(ix.Indices)
+		if targs == nil {
+			setDefType(def, Typ[Invalid]) // avoid errors later due to lazy instantiation
+			return Typ[Invalid]
+		}
+
+		// create the instance
+		inst := check.instance(ix.Pos(), alias, targs, nil, check.context()).(*Alias)
+		setDefType(def, inst)
+
+		return inst
+	}
+
 	orig := asNamed(gtyp)
 	if orig == nil {
 		panic(fmt.Sprintf("%v: cannot instantiate %v", ix.Pos(), gtyp))
