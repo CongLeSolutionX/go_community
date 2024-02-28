@@ -492,6 +492,10 @@ func (t *Named) methodIndex(name string, foldCase bool) int {
 func (t *Named) Underlying() Type { return Unalias(t.resolve().underlying) }
 func (t *Named) String() string   { return TypeString(t, nil) }
 
+// Named implements genericType
+func (t *Named) ptparams() **TypeParamList { return &t.tparams }
+func (t *Named) clone() genericType        { panic("unreachable") }
+
 // ----------------------------------------------------------------------------
 // Implementation
 //
