@@ -497,6 +497,9 @@ func (t *Named) Underlying() Type {
 
 func (t *Named) String() string { return TypeString(t, nil) }
 
+// Named implements genericType
+func (t *Named) clone() genericType { panic("unreachable") }
+
 // ----------------------------------------------------------------------------
 // Implementation
 //
