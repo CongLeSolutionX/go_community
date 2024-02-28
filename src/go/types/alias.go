@@ -17,6 +17,8 @@ import "fmt"
 type Alias struct {
 	obj     *TypeName      // corresponding declared alias object
 	tparams *TypeParamList // type parameters, or nil
+	targs   *TypeList      // type arguments, or nil
+	orig    *Alias         // original, uninstantiated alias
 	fromRHS Type           // RHS of type alias declaration; may be an alias
 	actual  Type           // actual (aliased) type; never an alias
 }
@@ -33,6 +35,10 @@ func NewAlias(obj *TypeName, rhs Type) *Alias {
 func (a *Alias) Obj() *TypeName   { return a.obj }
 func (a *Alias) Underlying() Type { return unalias(a).Underlying() }
 func (a *Alias) String() string   { return TypeString(a, nil) }
+
+// Alias implements genericType
+func (a *Alias) ptparams() **TypeParamList { return &a.tparams }
+func (a *Alias) clone() genericType        { copy := *a; return &copy }
 
 // Unalias returns t if it is not an alias type;
 // otherwise it follows t's alias chain until it
@@ -71,7 +77,8 @@ func asNamed(t Type) *Named {
 // rhs must not be nil.
 func (check *Checker) newAlias(obj *TypeName, rhs Type) *Alias {
 	assert(rhs != nil)
-	a := &Alias{obj, nil, rhs, nil}
+	a := &Alias{obj, nil, nil, nil, rhs, nil}
+	a.orig = a
 	if obj.typ == nil {
 		obj.typ = a
 	}
