@@ -91,6 +91,10 @@ func (s *Signature) Variadic() bool { return s.variadic }
 func (s *Signature) Underlying() Type { return s }
 func (s *Signature) String() string   { return TypeString(s, nil) }
 
+// Signature implements genericType
+func (s *Signature) ptparams() **TypeParamList { return &s.tparams }
+func (s *Signature) clone() genericType        { copy := *s; return &copy }
+
 // ----------------------------------------------------------------------------
 // Implementation
 
