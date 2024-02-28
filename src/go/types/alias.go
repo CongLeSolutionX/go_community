@@ -7,7 +7,10 @@
 
 package types
 
-import "fmt"
+import (
+	"fmt"
+	"go/token"
+)
 
 // An Alias represents an alias type.
 // Whether or not Alias types are created is controlled by the
@@ -126,6 +129,19 @@ func (check *Checker) newAlias(obj *TypeName, rhs Type) *Alias {
 	}
 
 	return a
+}
+
+// newAliasInstance creates a new alias instance for the given origin and type
+// arguments, recording pos as the position of its synthetic object (for error
+// reporting).
+func (check *Checker) newAliasInstance(pos token.Pos, orig *Alias, targs []Type, ctxt *Context) *Alias {
+	assert(len(targs) > 0)
+	obj := NewTypeName(pos, orig.obj.pkg, orig.obj.name, nil)
+	rhs := check.subst(pos, orig.fromRHS, makeSubstMap(orig.TypeParams().list(), targs), nil, ctxt)
+	res := check.newAlias(obj, rhs)
+	res.tparams = orig.tparams
+	res.targs = newTypeList(targs)
+	return res
 }
 
 func (a *Alias) cleanup() {
