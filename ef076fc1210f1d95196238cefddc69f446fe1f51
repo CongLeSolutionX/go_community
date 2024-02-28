@@ -41,6 +41,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "825c8766_79366312",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d071a759_5c1c115d",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dce42904_c62755b1",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f419ce0e_640c64d1",
+      "range": {
+        "startLine": 240,
+        "startChar": 1,
+        "endLine": 240,
+        "endChar": 8
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5093a0a2_99778c11",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-02-27T22:39:26Z",
       "side": 1,
       "message": "(First, see my comment at line 730 of this file.)\n\n```go\nreturn MainModules.PathPrefix(mod), mod, nil\n```",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e50791_2e22935c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5093a0a2_99778c11",
       "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -81,6 +141,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7178e75_35b360ad",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52c792c0_38023734",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 578,
+        "endChar": 19
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68e6b937_c92295eb",
@@ -94,6 +178,24 @@
       "writtenOn": "2024-02-27T22:39:26Z",
       "side": 1,
       "message": "```go\nreturn pkg, mainModule, nil\n```",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cef85bf_95098394",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68e6b937_c92295eb",
       "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -115,6 +217,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32d7b14c_d9f65e01",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8033dd90_d3da0eaf",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a876e126_bee1529d",
@@ -128,6 +248,24 @@
       "writtenOn": "2024-02-27T22:39:26Z",
       "side": 1,
       "message": "```go\nreturn pkg, module.Version{}, nil\n```\n\n(This case means that `pkg` is in the standard library.)",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11fa3907_80778727",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a876e126_bee1529d",
       "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -155,6 +293,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "862cca37_a3005e14",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b31826f_5e055463",
+      "range": {
+        "startLine": 622,
+        "startChar": 0,
+        "endLine": 636,
+        "endChar": 16
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "825861b9_21ee7f17",
@@ -168,6 +330,24 @@
       "writtenOn": "2024-02-27T22:39:26Z",
       "side": 1,
       "message": "Update this to return `(string, module.Version, bool)`, and then use it to return `(string, module.Version)` from `pathInModuleCache` (for use in `resolveLocalPackage` above).",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fbb52c4_d5d5825e",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Used the boolean to indicate that m in tryMod(m) is the module.Version.",
+      "parentUuid": "825861b9_21ee7f17",
       "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -213,6 +393,54 @@
         "startChar": 73,
         "endLine": 721,
         "endChar": 80
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09e964b1_d71a7c91",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37498e87_a90d5d28",
+      "range": {
+        "startLine": 721,
+        "startChar": 73,
+        "endLine": 721,
+        "endChar": 80
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80ffbc9_af43bd86",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Good suggestion! Separated into its own function.",
+      "parentUuid": "05c79e4e_09e680c7",
+      "range": {
+        "startLine": 721,
+        "startChar": 60,
+        "endLine": 721,
+        "endChar": 88
       },
       "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -264,6 +492,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eae8d32_4c1f6a50",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Thanks for the stellar and comprehensive guide! I implemented this approach. PTAL!",
+      "parentUuid": "b6eac37a_eb9f7021",
+      "range": {
+        "startLine": 730,
+        "startChar": 21,
+        "endLine": 730,
+        "endChar": 34
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12542180_a876383f",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0e0419e4_82bf5705",
+      "range": {
+        "startLine": 730,
+        "startChar": 21,
+        "endLine": 730,
+        "endChar": 35
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86680b5d_13bee512",
@@ -277,6 +553,30 @@
       "writtenOn": "2024-02-27T22:04:15Z",
       "side": 1,
       "message": "If there\u0027s a single main module I wonder if we can avoid doing the match? We could only match that main module in that case, so the result couldn\u0027t be different, right?",
+      "range": {
+        "startLine": 731,
+        "startChar": 0,
+        "endLine": 736,
+        "endChar": 2
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "782532a0_84c52b12",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "86680b5d_13bee512",
       "range": {
         "startLine": 731,
         "startChar": 0,
@@ -304,6 +604,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b06e46d_f9d2e7d0",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5567bf93_b6f74b42",
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "272a4d66_14688c81",
@@ -327,6 +645,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d0cfd19_084ab837",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "I tried doing this but then it failed the test, so I\u0027m thinking we can\u0027t",
+      "parentUuid": "272a4d66_14688c81",
+      "range": {
+        "startLine": 1178,
+        "startChar": 1,
+        "endLine": 1184,
+        "endChar": 2
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a6578a5_161f2d8b",
@@ -340,6 +682,30 @@
       "writtenOn": "2024-02-27T22:39:26Z",
       "side": 1,
       "message": "I think we should instead provide (and document) the invariant that `p.Internal.CmdlineFiles` implies `p.Internal.Version !\u003d \"\"`. That way we don\u0027t have to remember to check for it at every point of use.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7904edc1_1ee09701",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-02-28T18:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a6578a5_161f2d8b",
       "range": {
         "startLine": 79,
         "startChar": 0,
