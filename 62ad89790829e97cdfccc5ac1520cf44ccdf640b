@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "529de157_da300859",
+        "filename": "doc/godebug.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-28T17:17:54Z",
+      "side": 1,
+      "message": "Hmm, I think we need to be more explicit about which behaviors correspond to the 0 and 1 settings. Will suggest something shortly.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 44
+      },
+      "revId": "62ad89790829e97cdfccc5ac1520cf44ccdf640b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
