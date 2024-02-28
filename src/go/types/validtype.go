@@ -73,14 +73,18 @@ func (check *Checker) validType0(pos token.Pos, typ Type, nest, path []*Named) b
 		}
 
 	case *Named:
-		// Exit early if we already know t is valid.
-		// This is purely an optimization but it prevents excessive computation
-		// times in pathological cases such as testdata/fixedbugs/issue6977.go.
-		// (Note: The valids map could also be allocated locally, once for each
-		// validType call.)
-		if check.valids.lookup(t) != nil {
-			break
-		}
+		// TODO(gri) The optimization below is incorrect (see go.dev/issue/65711),
+		//           yet important for pathological cases. Keep code around for
+		//           reference until we find a correct solution.
+		//
+		// // Exit early if we already know t is valid.
+		// // This is purely an optimization but it prevents excessive computation
+		// // times in pathological cases such as testdata/fixedbugs/issue6977.go.
+		// // (Note: The valids map could also be allocated locally, once for each
+		// // validType call.)
+		// if check.valids.lookup(t) != nil {
+		// 	break
+		// }
 
 		// Don't report a 2nd error if we already know the type is invalid
 		// (e.g., if a cycle was detected earlier, via under).
@@ -142,7 +146,8 @@ func (check *Checker) validType0(pos token.Pos, typ Type, nest, path []*Named) b
 			return false
 		}
 
-		check.valids.add(t) // t is valid
+		// see TODO above
+		// check.valids.add(t) // t is valid
 
 	case *TypeParam:
 		// A type parameter stands for the type (argument) it was instantiated with.
