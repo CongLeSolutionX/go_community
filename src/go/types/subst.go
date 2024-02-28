@@ -101,13 +101,8 @@ func (subst *subster) typ(typ Type) Type {
 	case *Alias:
 		rhs := subst.typ(t.fromRHS)
 		if rhs != t.fromRHS {
-			// This branch cannot be reached because the RHS of an alias
-			// may only contain type parameters of an enclosing function.
-			// Such function bodies are never "instantiated" and thus
-			// substitution is not called on locally declared alias types.
-			// TODO(gri) adjust once parameterized aliases are supported
-			panic("unreachable for unparameterized aliases")
-			// return subst.check.newAlias(t.obj, rhs)
+			// TODO(gri) do we need to do more here?
+			return subst.check.newAlias(t.obj, rhs)
 		}
 
 	case *Array:
