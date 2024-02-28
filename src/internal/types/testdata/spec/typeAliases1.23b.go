@@ -28,14 +28,10 @@ type _[P any, Q int] = RHS[P, Q]
 type _[P int | float64] = RHS[P, int]
 type _[P, Q any] = RHS[P, Q /* ERROR "Q does not satisfy ~int" */]
 
-// ----------------------------------------------------------------------------
-// NOTE: The code below does now work yet.
-// TODO: Implement this.
-
 // A generic type alias may be used like any other generic type.
 type A[P any] = RHS[P, int]
 
-func _(a A /* ERROR "not a generic type" */ [string]) {
+func _(a A[string]) {
 	a.p = "foo"
 	a.q = 42
 }
