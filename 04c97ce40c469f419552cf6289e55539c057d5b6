@@ -116,6 +116,24 @@
       "parentUuid": "529ab772_37419b14",
       "revId": "04c97ce40c469f419552cf6289e55539c057d5b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d67973_a89fac89",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-02-28T20:09:24Z",
+      "side": 1,
+      "message": "It turns out we do use R_ADDROFF in a couple of other places, and they also have the problem of overflow. The new version of the CL handles all R_ADDROFF (and R_METHODOFF), with the comment updated.\n\nPTAL. Thanks.",
+      "parentUuid": "00a4f6c1_76dfff5b",
+      "revId": "04c97ce40c469f419552cf6289e55539c057d5b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
