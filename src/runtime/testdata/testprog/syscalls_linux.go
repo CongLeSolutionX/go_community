@@ -17,12 +17,21 @@ func gettid() int {
 }
 
 func tidExists(tid int) (exists, supported bool) {
-	stat, err := os.ReadFile(fmt.Sprintf("/proc/self/task/%d/stat", tid))
+	statFile := fmt.Sprintf("/proc/self/task/%d/stat", tid)
+	stat, err := os.ReadFile(statFile)
 	if os.IsNotExist(err) {
 		return false, true
 	}
+	if err != nil {
+		return false, false
+	}
+	fields := bytes.Fields(stat)
+	if len(fields) < 3 {
+		// This has been observed to fail on the builders.
+		return false, false
+	}
 	// Check if it's a zombie thread.
-	state := bytes.Fields(stat)[2]
+	state := fields[2]
 	return !(len(state) == 1 && state[0] == 'Z'), true
 }
 
