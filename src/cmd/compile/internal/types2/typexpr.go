@@ -454,6 +454,22 @@ func (check *Checker) instantiatedType(x syntax.Expr, xlist []syntax.Expr, def *
 		return gtyp // error already reported
 	}
 
+	// TODO(gri) this code needs to be refactored
+	if alias, _ := gtyp.(*Alias); alias != nil {
+		// evaluate arguments
+		targs := check.typeList(xlist)
+		if targs == nil {
+			setDefType(def, Typ[Invalid]) // avoid errors later due to lazy instantiation
+			return Typ[Invalid]
+		}
+
+		// create the instance
+		inst := check.instance(x.Pos(), alias, targs, nil, check.context()).(*Alias)
+		setDefType(def, inst)
+
+		return inst
+	}
+
 	orig := asNamed(gtyp)
 	if orig == nil {
 		panic(fmt.Sprintf("%v: cannot instantiate %v", x.Pos(), gtyp))
