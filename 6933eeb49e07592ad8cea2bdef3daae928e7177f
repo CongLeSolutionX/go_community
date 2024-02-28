@@ -16,6 +16,24 @@
       "message": "The change to types/type.go seems reasonable, but I don\u0027t immediately see how it relates to the issue.\n\nCan the test be simplified? It seems to still contain a lot of code unnecessary to reproducing the issue.",
       "revId": "6933eeb49e07592ad8cea2bdef3daae928e7177f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db9f0a8_b50299d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64363
+      },
+      "writtenOn": "2024-02-28T02:54:31Z",
+      "side": 1,
+      "message": "Thank @khr@golang.org for providing a simpler reproducer. \n\n```\nvar s \u003d []rune{0, 1, 2, 3}\n```\nThe staticinit pass will use the `noalg.[4]int32` type for this assignment. The compiler will produce a `*[4]int32` type which elem is `noalg.[4]int32` when writing `noalg.[4]int32`\u0027s PtrToThis field. This bug is due to the wrong `*[4]int32` type put in typelinks and load by runtime.",
+      "parentUuid": "6b565a60_b9e939f2",
+      "revId": "6933eeb49e07592ad8cea2bdef3daae928e7177f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
