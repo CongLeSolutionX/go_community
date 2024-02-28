@@ -22,6 +22,30 @@
       },
       "revId": "62ad89790829e97cdfccc5ac1520cf44ccdf640b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12becf6a_1282fed6",
+        "filename": "doc/godebug.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-28T17:26:52Z",
+      "side": 1,
+      "message": "How about something like:\n```\nAs of Go 1.21 (`winsymlink\u003d1`), mount points no longer ….\n\nAt previous versions (`winsymlink\u003d0`), mount points are treated as symlinks, and other reparse points with non-default `ModeType` bits (such as `ModeDir`) do not have the `ModeIrregular` bit set.\n```",
+      "parentUuid": "529de157_da300859",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 44
+      },
+      "revId": "62ad89790829e97cdfccc5ac1520cf44ccdf640b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
