@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2db1e09b_b33bd367",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-02-28T20:12:14Z",
+      "side": 1,
+      "message": "Stale",
+      "range": {
+        "startLine": 663,
+        "startChar": 5,
+        "endLine": 663,
+        "endChar": 18
+      },
+      "revId": "022d16decee42df96fbb1040777bbe664304e4f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
