@@ -135,8 +135,15 @@ and reparse points that are not symlinks, Unix sockets, or dedup files now
 always have [`os.ModeIrregular`](/pkg/os#ModeIrregular) set. As a result of these changes,
 [`filepath.EvalSymlinks`](/pkg/path/filepath#EvalSymlinks) no longer evaluates
 mount points, which was a source of many inconsistencies and bugs.
+This behavior is controlled by the `winsymlink` setting.
 For Go 1.23, it defaults to `winsymlink=1`.
 Previous versions default to `winsymlink=0`.
+
+Go 1.23 changed [`os.Readlink`](/pkg/os#Readlink) and [`filepath.EvalSymlinks`](/pkg/path/filepath#EvalSymlinks)
+to avoid trying to normalize volumes to drive letters, which was not always even possible.
+This behavior is controlled by the `winreadlinkvolume` setting.
+For Go 1.23, it defaults to `winreadlinkvolume=1`.
+Previous versions default to `winreadlinkvolume=0`.
 
 ### Go 1.22
 

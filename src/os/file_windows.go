@@ -6,6 +6,7 @@ package os
 
 import (
 	"errors"
+	"internal/godebug"
 	"internal/poll"
 	"internal/syscall/windows"
 	"runtime"
@@ -353,6 +354,8 @@ func openSymlink(path string) (syscall.Handle, error) {
 	return h, nil
 }
 
+var winreadlinkvolume = godebug.New("winreadlinkvolume")
+
 // normaliseLinkPath converts absolute paths returned by
 // DeviceIoControl(h, FSCTL_GET_REPARSE_POINT, ...)
 // into paths acceptable by all Windows APIs.
@@ -360,7 +363,7 @@ func openSymlink(path string) (syscall.Handle, error) {
 //
 //	\??\C:\foo\bar into C:\foo\bar
 //	\??\UNC\foo\bar into \\foo\bar
-//	\??\Volume{abc}\ into C:\
+//	\??\Volume{abc}\ into \\?\Volume{abc}\
 func normaliseLinkPath(path string) (string, error) {
 	if len(path) < 4 || path[:4] != `\??\` {
 		// unexpected path, return it as is
@@ -375,7 +378,10 @@ func normaliseLinkPath(path string) (string, error) {
 		return `\\` + s[4:], nil
 	}
 
-	// handle paths, like \??\Volume{abc}\...
+	// \??\Volume{abc}\
+	if winreadlinkvolume.Value() != "0" {
+		return `\\?\` + path[4:], nil
+	}
 
 	h, err := openSymlink(path)
 	if err != nil {
