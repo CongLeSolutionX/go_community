@@ -21,11 +21,13 @@ type genericType interface {
 }
 
 // Instantiate instantiates the type orig with the given type arguments targs.
-// orig must be a *Named or a *Signature type. If there is no error, the
-// resulting Type is an instantiated type of the same kind (either a *Named or
-// a *Signature). Methods attached to a *Named type are also instantiated, and
-// associated with a new *Func that has the same position as the original
-// method, but nil function scope.
+// orig must be an *Alias, *Named, or *Signature type. If there is no error,
+// the resulting Type is an instantiated type of the same kind (*Alias, *Named
+// or *Signature, respectively).
+//
+// Methods attached to a *Named type are also instantiated, and associated with
+// a new *Func that has the same position as the original method, but nil function
+// scope.
 //
 // If ctxt is non-nil, it may be used to de-duplicate the instance against
 // previous instances with the same identity. As a special case, generic
@@ -34,11 +36,13 @@ type genericType interface {
 // signatures will yield different instances. The use of a shared context does
 // not guarantee that identical instances are deduplicated in all cases.
 //
+// Unnamed signatures cannot create type cycles and they are not deduplicated.
+//
 // If validate is set, Instantiate verifies that the number of type arguments
-// and parameters match, and that the type arguments satisfy their
-// corresponding type constraints. If verification fails, the resulting error
-// may wrap an *ArgumentError indicating which type argument did not satisfy
-// its corresponding type parameter constraint, and why.
+// and parameters match, and that the type arguments satisfy their respective
+// type constraints. If verification fails, the resulting error may wrap an
+// *ArgumentError indicating which type argument did not satisfy its type parameter
+// constraint, and why.
 //
 // If validate is not set, Instantiate does not verify the type argument count
 // or whether the type arguments satisfy their constraints. Instantiate is
@@ -101,8 +105,9 @@ func (check *Checker) instance(pos syntax.Pos, orig genericType, targs []Type, e
 		hashes[i] = ctxt.instanceHash(orig, targs)
 	}
 
-	// If local is non-nil, updateContexts return the type recorded in
-	// local.
+	// Record the result in all contexts.
+	// Prefer to re-use existing types from expanding context, if it exists, to reduce
+	// the memory pinned by the Named type.
 	updateContexts := func(res Type) Type {
 		for i := len(ctxts) - 1; i >= 0; i-- {
 			res = ctxts[i].update(hashes[i], orig, targs, res)
@@ -122,7 +127,8 @@ func (check *Checker) instance(pos syntax.Pos, orig genericType, targs []Type, e
 	case *Named:
 		res = check.newNamedInstance(pos, orig, targs, expanding) // substituted lazily
 
-	case *Signature:
+	case *Alias, *Signature:
+		// TODO(gri) is this assert correct for Alias types?
 		assert(expanding == nil) // function instances cannot be reached from Named types
 
 		tparams := orig.TypeParams()
@@ -130,21 +136,22 @@ func (check *Checker) instance(pos syntax.Pos, orig genericType, targs []Type, e
 		if !check.validateTArgLen(pos, orig.String(), tparams.Len(), len(targs)) {
 			return Typ[Invalid]
 		}
-		if tparams.Len() == 0 {
-			return orig // nothing to do (minor optimization)
+
+		inst := check.subst(pos, orig, makeSubstMap(tparams.list(), targs), nil, ctxt).(genericType)
+
+		// instance is not generic anymore - set tparams to nil for signatures
+		if sig, _ := inst.(*Signature); sig != nil {
+			// If t doesn't use its type parameters, subst will not make a copy.
+			// In that case, make a copy now so we can reset the tparams to nil w/o
+			// causing orig to change.
+			if sig == orig {
+				a := *sig
+				sig = &a
+				inst = sig
+			}
+			sig.tparams = nil
 		}
-		sig := check.subst(pos, orig, makeSubstMap(tparams.list(), targs), nil, ctxt).(*Signature)
-		// If the signature doesn't use its type parameters, subst
-		// will not make a copy. In that case, make a copy now (so
-		// we can set tparams to nil w/o causing side-effects).
-		if sig == orig {
-			copy := *sig
-			sig = &copy
-		}
-		// After instantiating a generic signature, it is not generic
-		// anymore; we need to set tparams to nil.
-		sig.tparams = nil
-		res = sig
+		res = inst
 
 	default:
 		// only types and functions can be generic
