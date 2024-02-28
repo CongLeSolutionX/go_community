@@ -16,14 +16,27 @@ func gettid() int {
 	return syscall.Gettid()
 }
 
-func tidExists(tid int) (exists, supported bool) {
-	stat, err := os.ReadFile(fmt.Sprintf("/proc/self/task/%d/stat", tid))
+func tidExists(tid int) (exists, supported bool, err error) {
+	statusFile := fmt.Sprintf("/proc/self/task/%d/status", tid)
+	status, err := os.ReadFile(statusFile)
 	if os.IsNotExist(err) {
-		return false, true
+		return false, true, nil
+	}
+	if err != nil {
+		return false, false, err
+	}
+	lines := bytes.Split(status, []byte{'\n'})
+	if len(lines) < 3 {
+		// Malformed status file?
+		return false, false, fmt.Errorf("unexpected status file format: %s:\n%s", statusFile, status)
+	}
+	stateLine := bytes.SplitN(lines[2], []byte{':'}, 2)
+	if len(stateLine) != 2 {
+		// Malformed status file?
+		return false, false, fmt.Errorf("unexpected status file format: %s:\n%s", statusFile, status)
 	}
 	// Check if it's a zombie thread.
-	state := bytes.Fields(stat)[2]
-	return !(len(state) == 1 && state[0] == 'Z'), true
+	return !bytes.Contains(stateLine[1], []byte{'Z'}), true, nil
 }
 
 func getcwd() (string, error) {
