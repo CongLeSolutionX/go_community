@@ -34,6 +34,24 @@
       "parentUuid": "6b565a60_b9e939f2",
       "revId": "6933eeb49e07592ad8cea2bdef3daae928e7177f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fbfd735_3dbe7a90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-02-28T05:07:33Z",
+      "side": 1,
+      "message": "Thank you. The new test is much clearer.",
+      "parentUuid": "2db9f0a8_b50299d0",
+      "revId": "6933eeb49e07592ad8cea2bdef3daae928e7177f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
