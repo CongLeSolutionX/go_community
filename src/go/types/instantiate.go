@@ -49,6 +49,8 @@ func Instantiate(ctxt *Context, orig Type, targs []Type, validate bool) (Type, e
 	if validate {
 		var tparams []*TypeParam
 		switch t := orig.(type) {
+		case *Alias:
+			tparams = t.tparams.list()
 		case *Named:
 			tparams = t.TypeParams().list()
 		case *Signature:
@@ -117,6 +119,30 @@ func (check *Checker) instance(pos token.Pos, orig Type, targs []Type, expanding
 	}
 
 	switch orig := orig.(type) {
+	case *Alias:
+		// TODO(gri) what to do with expanding?
+
+		tparams := orig.tparams
+		// TODO(gri) investigate if this is needed (type argument and parameter count seem to be correct here)
+		if !check.validateTArgLen(pos, orig.String(), tparams.Len(), len(targs)) {
+			return Typ[Invalid]
+		}
+		if tparams.Len() == 0 {
+			return orig // nothing to do (minor optimization)
+		}
+		alias := check.subst(pos, orig, makeSubstMap(tparams.list(), targs), nil, ctxt).(*Alias)
+		// If the alias doesn't use its type parameters, subst
+		// will not make a copy. In that case, make a copy now (so
+		// we can set tparams to nil w/o causing side-effects).
+		if alias == orig {
+			copy := *alias
+			alias = &copy
+		}
+		// After instantiating a generic alias, it is not generic
+		// anymore; we need to set tparams to nil.
+		alias.tparams = nil
+		res = alias
+
 	case *Named:
 		res = check.newNamedInstance(pos, orig, targs, expanding) // substituted lazily
 
