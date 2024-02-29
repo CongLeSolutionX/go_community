@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4337f2c5_dd66265e",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-02-29T17:19:55Z",
+      "side": 1,
+      "message": "How about:\n\n\u003e Each JSON object key is matched with a struct field using a exact match on the field name,\n\u003e otherwise it uses the first case-insensitive match on the field name.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 77
+      },
+      "revId": "d2e2ccf5d4c79a1a5da0f56c5daba3a70e180311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a274f77_a1f4e525",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-02-29T17:19:55Z",
+      "side": 1,
+      "message": "Let\u0027s delete this sentence it\u0027s a bit confusing as it\u0027s blending matching and merge ordering. Let\u0027s talk about ordering at the end.",
+      "revId": "d2e2ccf5d4c79a1a5da0f56c5daba3a70e180311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edbfc0b5_67932da3",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-02-29T17:19:55Z",
+      "side": 1,
+      "message": "Replace \"don\u0027t have a correspond\" with \"do not match any\" to be consistent with the \"match\" terminology above.",
+      "revId": "d2e2ccf5d4c79a1a5da0f56c5daba3a70e180311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9099e94_6e5d7eb5",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-02-29T17:19:55Z",
+      "side": 1,
+      "message": "How about adding:\n\u003e JSON object members are unmarshaled in the order they appear in the data.\n\u003e Each object member value is merged into the matched struct field,\n\u003e which generally overwrites the previous value for primitive types.",
+      "revId": "d2e2ccf5d4c79a1a5da0f56c5daba3a70e180311",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
