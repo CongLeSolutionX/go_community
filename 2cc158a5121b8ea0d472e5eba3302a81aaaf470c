@@ -16,6 +16,23 @@
       "message": "please take a look.",
       "revId": "2cc158a5121b8ea0d472e5eba3302a81aaaf470c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "641757f8_02416fc5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-02-29T22:00:44Z",
+      "side": 1,
+      "message": "I\u0027d rather put all the maxbg-modifying code in one place. (In cmd/dist/main.go.)\nIn particular, I think we still want to have the GOMAXPROCS\u003d1 special case, and I\u0027m not sure the consequences of changing maxbg after bginit is called.",
+      "revId": "2cc158a5121b8ea0d472e5eba3302a81aaaf470c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
