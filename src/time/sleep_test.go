@@ -18,6 +18,17 @@ import (
 	_ "unsafe" // for go:linkname
 )
 
+// newTimerFunc simulates NewTimer using AfterFunc,
+// but this version will not hit the special cases for channels
+// that are used when calling NewTimer.
+// This makes it easy to test both paths.
+func newTimerFunc(d Duration) *Timer {
+	c := make(chan Time, 1)
+	t := AfterFunc(d, func() { c <- Now() })
+	t.C = c
+	return t
+}
+
 // haveHighResSleep is true if the system supports at least ~1ms sleeps.
 //
 //go:linkname haveHighResSleep runtime.haveHighResSleep
@@ -58,7 +69,7 @@ func TestSleep(t *testing.T) {
 	}
 }
 
-// Test the basic function calling behavior. Correct queueing
+// Test the basic function calling behavior. Correct queuing
 // behavior is tested elsewhere, since After and AfterFunc share
 // the same code.
 func TestAfterFunc(t *testing.T) {
@@ -205,6 +216,14 @@ func BenchmarkStop(b *testing.B) {
 	})
 }
 
+func BenchmarkStopFunc(b *testing.B) {
+	benchmark(b, func(n int) {
+		for i := 0; i < n; i++ {
+			newTimerFunc(1 * Second).Stop()
+		}
+	})
+}
+
 func BenchmarkSimultaneousAfterFunc(b *testing.B) {
 	benchmark(b, func(n int) {
 		var wg sync.WaitGroup
@@ -232,6 +251,16 @@ func BenchmarkStartStop(b *testing.B) {
 func BenchmarkReset(b *testing.B) {
 	benchmark(b, func(n int) {
 		t := NewTimer(Hour)
+		for i := 0; i < n; i++ {
+			t.Reset(Hour)
+		}
+		t.Stop()
+	})
+}
+
+func BenchmarkResetFunc(b *testing.B) {
+	benchmark(b, func(n int) {
+		t := newTimerFunc(Hour)
 		for i := 0; i < n; i++ {
 			t.Reset(Hour)
 		}
@@ -288,6 +317,14 @@ func TestAfterTick(t *testing.T) {
 }
 
 func TestAfterStop(t *testing.T) {
+	testAfterStop(t, NewTimer)
+}
+
+func TestAfterStopFunc(t *testing.T) {
+	testAfterStop(t, newTimerFunc)
+}
+
+func testAfterStop(t *testing.T, newTimer func(Duration) *Timer) {
 	// We want to test that we stop a timer before it runs.
 	// We also want to test that it didn't run after a longer timer.
 	// Since we don't want the test to run for too long, we don't
@@ -303,7 +340,7 @@ func TestAfterStop(t *testing.T) {
 
 	for i := 0; i < 5; i++ {
 		AfterFunc(100*Millisecond, func() {})
-		t0 := NewTimer(50 * Millisecond)
+		t0 := newTimer(50 * Millisecond)
 		c1 := make(chan bool, 1)
 		t1 := AfterFunc(150*Millisecond, func() { c1 <- true })
 		c2 := After(200 * Millisecond)
@@ -344,13 +381,21 @@ func TestAfterStop(t *testing.T) {
 }
 
 func TestAfterQueuing(t *testing.T) {
+	testAfterQueuing(t, After)
+}
+
+func TestAfterQueuingFunc(t *testing.T) {
+	testAfterQueuing(t, func(d Duration) <-chan Time { return newTimerFunc(d).C })
+}
+
+func testAfterQueuing(t *testing.T, after func(Duration) <-chan Time) {
 	// This test flakes out on some systems,
 	// so we'll try it a few times before declaring it a failure.
 	const attempts = 5
 	err := errors.New("!=nil")
 	for i := 0; i < attempts && err != nil; i++ {
 		delta := Duration(20+i*50) * Millisecond
-		if err = testAfterQueuing(delta); err != nil {
+		if err = testAfterQueuing1(delta, after); err != nil {
 			t.Logf("attempt %v failed: %v", i, err)
 		}
 	}
@@ -370,9 +415,9 @@ func await(slot int, result chan<- afterResult, ac <-chan Time) {
 	result <- afterResult{slot, <-ac}
 }
 
-func testAfterQueuing(delta Duration) error {
+func testAfterQueuing1(delta Duration, after func(Duration) <-chan Time) error {
 	// make the result channel buffered because we don't want
-	// to depend on channel queueing semantics that might
+	// to depend on channel queuing semantics that might
 	// possibly change in the future.
 	result := make(chan afterResult, len(slots))
 
@@ -566,13 +611,21 @@ func TestZeroTimerStopPanics(t *testing.T) {
 
 // Test that zero duration timers aren't missed by the scheduler. Regression test for issue 44868.
 func TestZeroTimer(t *testing.T) {
+	testZeroTimer(t, NewTimer)
+}
+
+func TestZeroTimerFunc(t *testing.T) {
+	testZeroTimer(t, newTimerFunc)
+}
+
+func testZeroTimer(t *testing.T, newTimer func(Duration) *Timer) {
 	if testing.Short() {
 		t.Skip("-short")
 	}
 
 	for i := 0; i < 1000000; i++ {
 		s := Now()
-		ti := NewTimer(0)
+		ti := newTimer(0)
 		<-ti.C
 		if diff := Since(s); diff > 2*Second {
 			t.Errorf("Expected time to get value from Timer channel in less than 2 sec, took %v", diff)
@@ -591,7 +644,7 @@ func TestTimerModifiedEarlier(t *testing.T) {
 	count := 1000
 	fail := 0
 	for i := 0; i < count; i++ {
-		timer := NewTimer(Hour)
+		timer := newTimerFunc(Hour)
 		for j := 0; j < 10; j++ {
 			if !timer.Stop() {
 				<-timer.C
@@ -638,7 +691,8 @@ func TestAdjustTimers(t *testing.T) {
 
 		switch state {
 		case 0:
-			timers[i] = NewTimer(0)
+			timers[i] = newTimerFunc(0)
+
 		case 1:
 			<-timer.C // Timer is now idle.
 
