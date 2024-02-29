@@ -337,12 +337,12 @@ func goroutineReady(arg any, _ uintptr, _ int64) {
 }
 
 // addHeap adds t to the timers heap.
-// The caller must hold ts.lock.
+// The caller must hold ts.lock or the world must be stopped.
 // The caller must also have checked that t belongs in the heap.
 // Callers that are not sure can call t.maybeAdd instead,
 // but note that maybeAdd has different locking requirements.
 func (ts *timers) addHeap(t *timer) {
-	assertLockHeld(&ts.mu)
+	assertWorldStoppedOrLockHeld(&ts.mu)
 	// Timers rely on the network poller, so make sure the poller
 	// has started.
 	if netpollInited.Load() == 0 {
@@ -636,19 +636,16 @@ func (ts *timers) cleanHead() {
 func (ts *timers) take(src *timers) {
 	assertWorldStopped()
 	if len(src.heap) > 0 {
-		// The world is stopped, but we acquire timersLock to
-		// protect against sysmon calling timeSleepUntil.
-		// This is the only case where we hold more than one ts.lock,
-		// so there are no deadlock concerns.
-		src.lock()
-		ts.lock()
+		// The world is stopped, so we ignore the locking here.
+		// This would introduce a sched < timers lock ordering,
+		// which we'd rather avoid in the static ranking.
 		ts.move(src.heap)
 		src.heap = nil
 		src.zombies.Store(0)
 		src.minWhen.Store(0)
 		src.minNextWhen.Store(0)
-		ts.unlock()
-		src.unlock()
+		src.len.Store(0)
+		ts.len.Store(uint32(len(ts.heap)))
 	}
 }
 
@@ -657,15 +654,15 @@ func (ts *timers) take(src *timers) {
 // This is currently called when the world is stopped, but the caller
 // is expected to have locked ts.
 func (ts *timers) move(timers []*timer) {
-	assertLockHeld(&ts.mu)
+	assertWorldStopped()
 	for _, t := range timers {
-		state, mp := t.lock()
+		state := t.state.Load()
 		t.ts = nil
 		state, _ = t.updateHeap(state, nil)
 		if state&timerHeaped != 0 {
 			ts.addHeap(t)
 		}
-		t.unlock(state, mp)
+		t.state.Store(state)
 	}
 }
 
@@ -998,9 +995,9 @@ func (ts *timers) verify() {
 }
 
 // updateMinWhen sets ts.minWhen to ts.heap[0].when.
-// The caller must have locked ts.
+// The caller must have locked ts or the world must be stopped.
 func (ts *timers) updateMinWhen() {
-	assertLockHeld(&ts.mu)
+	assertWorldStoppedOrLockHeld(&ts.mu)
 	if len(ts.heap) == 0 {
 		ts.minWhen.Store(0)
 	} else {

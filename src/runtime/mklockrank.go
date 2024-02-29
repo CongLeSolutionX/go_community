@@ -56,15 +56,12 @@ NONE <
 NONE < testR, testW;
 
 # Scheduler, timers, netpoll
-NONE <
-  allocmW,
-  execW,
-  cpuprof,
-  pollDesc,
-  wakeableSleep;
+NONE < allocmW, execW, cpuprof, pollDesc, wakeableSleep;
+scavenge, sweep, testR, wakeableSleep < hchan;
 assistQueue,
   cpuprof,
   forcegc,
+  hchan,
   pollDesc, # pollDesc can interact with timers, which can lock sched.
   scavenge,
   sweep,
@@ -76,7 +73,6 @@ assistQueue,
 # Below SCHED is the scheduler implementation.
 < allocmR,
   execR;
-scavenge, sweep, testR, wakeableSleep < hchan;
 allocmR, execR, hchan < sched;
 sched < allg, allp;
 
@@ -84,7 +80,7 @@ sched < allg, allp;
 NONE < notifyList;
 hchan, notifyList < sudog;
 
-allp, hchan, wakeableSleep < timers;
+hchan, pollDesc, wakeableSleep < timers;
 timers < timer < netpollInit;
 
 # Semaphores
