@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff9c018c_65f18efd",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-02-29T17:04:48Z",
+      "side": 1,
+      "message": "I think there\u0027s no package that has assembly implementations for every single platform, so there\u0027s always at least one platform testing the generic implementation.\n\nAlso, packages that do follow the TargetSpecific policy will test the generic implementation on every platform.\n\nRerunning all tests with purego is appealing but might add a lot of runtime to longtests.",
+      "parentUuid": "b9f958e4_d7378ad6",
+      "revId": "d65f69cc5ca1f3cfb02ecd85e057cfad660e25cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "391c73f9_9eaff70a",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-02-20T17:22:14Z",
       "side": 1,
       "message": "Somewhat unrelated to this change, but it feels like this and the other arm64_noasm.go file should be unified into a single noasm.go file, if purego is set they are both built regardless of the arch, which is somewhat confusing.",
+      "revId": "d65f69cc5ca1f3cfb02ecd85e057cfad660e25cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fcd20ac_baf73a43",
+        "filename": "src/crypto/internal/edwards25519/field/fe_amd64_noasm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-02-29T17:04:48Z",
+      "side": 1,
+      "message": "I agree it\u0027s confusing and an annoying violation of my own TargetSpecific policy, but they can\u0027t simply be merged: amd64 has custom feMul/feSquare while arm64 has a custom carryPropagate. With purego they are both built, but without only one of the two is.",
+      "parentUuid": "391c73f9_9eaff70a",
       "revId": "d65f69cc5ca1f3cfb02ecd85e057cfad660e25cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
