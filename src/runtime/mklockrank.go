@@ -84,7 +84,7 @@ sched < allg, allp;
 NONE < notifyList;
 hchan, notifyList < sudog;
 
-allp, hchan, wakeableSleep < timers;
+hchan, pollDesc, wakeableSleep < timers;
 timers < timer < netpollInit;
 
 # Semaphores
