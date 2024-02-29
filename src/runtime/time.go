@@ -54,9 +54,9 @@ type timer struct {
 
 // A timers is a per-P set of timers.
 type timers struct {
-	// lock protects timers; timers are per-P, but the scheduler can
+	// mu protects timers; timers are per-P, but the scheduler can
 	// access the timers of another P, so we have to lock.
-	lock mutex
+	mu mutex
 
 	// heap is the set of timers, ordered by t.when.
 	// Must hold lock to access.
@@ -82,6 +82,14 @@ type timers struct {
 	// heap[i].nextWhen over timers with the timerNextWhen bit set.
 	// If minNextWhen = 0, it means there are no timerNextWhen timers in the heap.
 	minNextWhen atomic.Int64
+}
+
+func (ts *timers) lock() {
+	lock(&ts.mu)
+}
+
+func (ts *timers) unlock() {
+	unlock(&ts.mu)
 }
 
 // Timer state field.
@@ -325,7 +333,7 @@ func goroutineReady(arg any, _ uintptr, _ int64) {
 // Callers that are not sure can call t.maybeAdd instead,
 // but note that maybeAdd has different locking requirements.
 func (ts *timers) addHeap(t *timer) {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 	// Timers rely on the network poller, so make sure the poller
 	// has started.
 	if netpollInited.Load() == 0 {
@@ -402,7 +410,7 @@ Redo:
 // deleteMin removes timer 0 from ts.
 // ts must be locked.
 func (ts *timers) deleteMin() {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 	t := ts.heap[0]
 	if t.ts != ts {
 		throw("wrong timers")
@@ -550,7 +558,7 @@ func (t *timer) needsAdd(state uintptr) bool {
 // t is not in a heap on entry to t.maybeAdd.
 func (t *timer) maybeAdd() {
 	ts := &getg().m.p.ptr().timers
-	lock(&ts.lock)
+	ts.lock()
 	state, mp := t.lock()
 	when := int64(0)
 	if t.needsAdd(state) {
@@ -559,7 +567,7 @@ func (t *timer) maybeAdd() {
 		when = t.when
 	}
 	t.unlock(state, mp)
-	unlock(&ts.lock)
+	ts.unlock()
 	if when > 0 {
 		wakeNetPoller(when)
 	}
@@ -577,7 +585,7 @@ func (t *timer) reset(when int64) bool {
 // slows down heap operations.
 // The caller must have locked ts.
 func (ts *timers) cleanHead() {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 	gp := getg()
 	for {
 		if len(ts.heap) == 0 {
@@ -625,16 +633,15 @@ func (ts *timers) take(src *timers) {
 		// protect against sysmon calling timeSleepUntil.
 		// This is the only case where we hold more than one ts.lock,
 		// so there are no deadlock concerns.
-		lock(&src.lock)
-		lock(&ts.lock)
+		src.lock()
+		ts.lock()
 		ts.move(src.heap)
 		src.heap = nil
-		src.len.Store(0)
 		src.zombies.Store(0)
 		src.minWhen.Store(0)
 		src.minNextWhen.Store(0)
-		unlock(&ts.lock)
-		unlock(&src.lock)
+		ts.unlock()
+		src.unlock()
 	}
 }
 
@@ -643,7 +650,7 @@ func (ts *timers) take(src *timers) {
 // This is currently called when the world is stopped, but the caller
 // is expected to have locked ts.
 func (ts *timers) move(timers []*timer) {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 	for _, t := range timers {
 		state, mp := t.lock()
 		t.ts = nil
@@ -661,7 +668,7 @@ func (ts *timers) move(timers []*timer) {
 // it also moves timers that have been modified to run later,
 // and removes deleted timers. The caller must have locked ts.
 func (ts *timers) adjust(now int64, force bool) {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 	// If we haven't yet reached the time of the earliest modified
 	// timer, don't do anything. This speeds up programs that adjust
 	// a lot of timers back and forth if the timers rarely expire.
@@ -817,7 +824,7 @@ func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 		return now, next, false
 	}
 
-	lock(&ts.lock)
+	ts.lock()
 	if len(ts.heap) > 0 {
 		ts.adjust(now, force)
 		for len(ts.heap) > 0 {
@@ -831,8 +838,7 @@ func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 			ran = true
 		}
 	}
-
-	unlock(&ts.lock)
+	ts.unlock()
 
 	return now, pollUntil, ran
 }
@@ -846,7 +852,7 @@ func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 //
 //go:systemstack
 func (ts *timers) run(now int64) int64 {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 Redo:
 	if len(ts.heap) == 0 {
 		return -1
@@ -881,7 +887,7 @@ Redo:
 	}
 
 	t.unlockAndRun(now, state, mp)
-	assertLockHeld(&ts.lock) // t is unlocked now, but not ts
+	assertLockHeld(&ts.mu) // t is unlocked now, but not ts
 	return 0
 }
 
@@ -892,7 +898,7 @@ Redo:
 //go:systemstack
 func (t *timer) unlockAndRun(now int64, state uintptr, mp *m) {
 	if t.ts != nil {
-		assertLockHeld(&t.ts.lock)
+		assertLockHeld(&t.ts.mu)
 	}
 	if raceenabled {
 		// Note that we are running on a system stack,
@@ -947,11 +953,11 @@ func (t *timer) unlockAndRun(now int64, state uintptr, mp *m) {
 	}
 
 	if ts != nil {
-		unlock(&ts.lock)
+		ts.unlock()
 	}
 	f(arg, seq, delay)
 	if ts != nil {
-		lock(&ts.lock)
+		ts.lock()
 	}
 
 	if raceenabled {
@@ -993,18 +999,18 @@ func updateTimerPMask(pp *p) {
 	// Looks like there are no timers, however another P
 	// may be adding one at this very moment.
 	// Take the lock to synchronize.
-	lock(&pp.timers.lock)
+	pp.timers.lock()
 	if len(pp.timers.heap) == 0 {
 		timerpMask.clear(pp.id)
 	}
-	unlock(&pp.timers.lock)
+	pp.timers.unlock()
 }
 
 // verifyTimerHeap verifies that the timers is in a valid state.
 // This is only for debugging, and is only called if verifyTimers is true.
 // The caller must have locked ts.
 func (ts *timers) verify() {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 	for i, t := range ts.heap {
 		if i == 0 {
 			// First timer has no parent.
@@ -1027,7 +1033,7 @@ func (ts *timers) verify() {
 // updateMinWhen sets ts.minWhen to ts.heap[0].when.
 // The caller must have locked ts.
 func (ts *timers) updateMinWhen() {
-	assertLockHeld(&ts.lock)
+	assertLockHeld(&ts.mu)
 	if len(ts.heap) == 0 {
 		ts.minWhen.Store(0)
 	} else {
