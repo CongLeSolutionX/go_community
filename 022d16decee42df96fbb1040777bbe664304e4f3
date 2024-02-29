@@ -41,6 +41,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b120271_7ae46026",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-29T17:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed4fe963_e48d4d06",
+      "revId": "022d16decee42df96fbb1040777bbe664304e4f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95e787ca_51ae4947",
@@ -54,6 +72,24 @@
       "writtenOn": "2024-02-28T22:50:57Z",
       "side": 1,
       "message": "Is this saying updateTimerModifiedEarliest won\u0027t lock ts, or is this a requirement on the caller?",
+      "revId": "022d16decee42df96fbb1040777bbe664304e4f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8755b23_763046d7",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-02-29T17:03:50Z",
+      "side": 1,
+      "message": "Changed to \"need not be locked\". It\u0027s a non-requirement on the caller.",
+      "parentUuid": "95e787ca_51ae4947",
       "revId": "022d16decee42df96fbb1040777bbe664304e4f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
