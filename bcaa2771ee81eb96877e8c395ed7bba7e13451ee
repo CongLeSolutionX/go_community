@@ -16,6 +16,24 @@
       "message": "You can maybe do something like:\n\n```\n{\nvar x [4]int\n_ \u003d x\n}\n{\nvar y [4]int\n_ \u003d y\n}\n```\n\nI believe anonymous types (other than pointers and slices) should construct new *types.Type instances.\n\nIf that doesn\u0027t work, you might try putting the types into a separate package to prevent deduplication during export. Something like:\n\n```\npackage a\ntype A \u003d [4]int\n\npackage b\ntype B \u003d [4]int\n\npackage x\n...\n{ var x a.A; _ \u003d x}\n{ var y b.B; _ \u003d y}\n```",
       "revId": "bcaa2771ee81eb96877e8c395ed7bba7e13451ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "458fa2b5_3535f9a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-02-29T21:14:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c8819ea4_ce3b6b4a",
+      "revId": "bcaa2771ee81eb96877e8c395ed7bba7e13451ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
