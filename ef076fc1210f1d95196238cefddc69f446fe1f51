@@ -669,6 +669,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed67b58f_a3666fd7",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-29T22:53:16Z",
+      "side": 1,
+      "message": "Hmm. Probably we would need to update all of the sites that construct `Package` instances:\nhttps://cs.opensource.google/search?q\u003dfile:cmd%2Fgo%2Finternal%20(%22%26Package%7B%22%20OR%20%22new(Package)%22)\u0026ss\u003dgo%2Fgo",
+      "parentUuid": "1d0cfd19_084ab837",
+      "range": {
+        "startLine": 1178,
+        "startChar": 1,
+        "endLine": 1184,
+        "endChar": 2
+      },
+      "revId": "ef076fc1210f1d95196238cefddc69f446fe1f51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a6578a5_161f2d8b",

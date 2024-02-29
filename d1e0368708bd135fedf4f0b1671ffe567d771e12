@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f857dd3_f1bb0850",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-29T22:53:16Z",
+      "side": 1,
+      "message": "(nit, https://go.dev/wiki/CodeReviewComments#indent-error-flow)\n\nSince this is a separate function now, you can reduce the indentation substantially with `return` statements:\n\n```go\nif path, m :\u003d MainModules.DirImportPath(ctx, dir); path !\u003d \".\" {\n\treturn gover.FromGoMod(…)\n}\n_, m, err :\u003d resolveLocalPackage(…)\nif err !\u003d nil {\n\treturn MainModules.GoVersion()\n}\n…\n```",
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25c36ba9_bd3ecb35",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-29T22:53:16Z",
+      "side": 1,
+      "message": "(nit) `} else if … {`",
+      "range": {
+        "startLine": 1177,
+        "startChar": 1,
+        "endLine": 1178,
+        "endChar": 4
+      },
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb32bfa_8b7c43fc",
+        "filename": "src/cmd/go/testdata/script/vet_commandline.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-02-29T22:53:16Z",
+      "side": 1,
+      "message": "This experiment should have a control case associated with it.\n\nPerhaps we could run `go get go@1.21` after the `go1.22.0` tests, and verify that `go vet example.com/m` and `go vet main.go` both fail and report errors in that case?",
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
