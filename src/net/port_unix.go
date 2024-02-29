@@ -10,6 +10,7 @@ package net
 
 import (
 	"internal/bytealg"
+	"strings"
 	"sync"
 )
 
@@ -23,6 +24,10 @@ func readServices() {
 	defer file.close()
 
 	for line, ok := file.readLine(); ok; line, ok = file.readLine() {
+		// skip comment lines
+		if strings.HasPrefix(line, "#") {
+			continue
+		}
 		// "http 80/tcp www www-http # World Wide Web HTTP"
 		if i := bytealg.IndexByteString(line, '#'); i >= 0 {
 			line = line[:i]
