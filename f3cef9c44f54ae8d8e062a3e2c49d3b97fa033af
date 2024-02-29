@@ -16,6 +16,24 @@
       "message": "Since `k` seems to not be needed anywhere else, maybe inline it:\n\n```suggestion\n\tswitch t.Kind() {\n```",
       "revId": "f3cef9c44f54ae8d8e062a3e2c49d3b97fa033af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eba3c25_585f3ab2",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-02-29T11:16:36Z",
+      "side": 1,
+      "message": "```\nfunc (v Value) OverflowComplex(x complex128) bool {\n\tk :\u003d v.kind()\n\tswitch k {\n\tcase Complex64:\n\t\treturn overflowFloat32(real(x)) || overflowFloat32(imag(x))\n\tcase Complex128:\n\t\treturn false\n\t}\n\tpanic(\u0026ValueError{\"reflect.Value.OverflowComplex\", v.kind()})\n}\n```\nThanks for pointing this out, the code above has the same style. I think for consistency it\u0027s ok to leave it like this.\nSearching `k :\u003d v.kind()`, I found a lot code in this style,\nif we do the inlining, perhaps in a separate CL?\nPersonaly, I think it\u0027s just fine.",
+      "parentUuid": "165b8ed2_62fb01e3",
+      "revId": "f3cef9c44f54ae8d8e062a3e2c49d3b97fa033af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
