@@ -34,6 +34,24 @@
       "parentUuid": "7ec7017d_dfed135a",
       "revId": "2d21bfad1a27601024840e383d378bdb20605f4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4950fdf4_e8666891",
+        "filename": "src/net/port_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-01T01:39:21Z",
+      "side": 1,
+      "message": "Sorry, I think this is just churn.  The existing code is efficient and clear.",
+      "parentUuid": "dec63d59_0c020550",
+      "revId": "2d21bfad1a27601024840e383d378bdb20605f4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
