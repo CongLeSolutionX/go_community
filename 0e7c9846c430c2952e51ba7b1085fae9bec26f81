@@ -16,6 +16,24 @@
       "message": "After this change, could we simplify the rules down here?",
       "revId": "0e7c9846c430c2952e51ba7b1085fae9bec26f81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "835239c1_8882e0e7",
+        "filename": "src/cmd/compile/internal/ssa/_gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-03-01T16:19:25Z",
+      "side": 0,
+      "message": "To simplify theses we would need to be sure they can always eat raw Mod operations.\nTheses already run in late opt `\u0026\u0026 v.Block.Func.pass.name !\u003d \"opt\"` and from what I got in an other CL you were against the idea of relying on rules ordering, so I can\u0027t move theses above the strength reduction rules so they run first. I think it would be overkill to create two late opt passes to sequence `x%c \u003d\u003d 0` with strength reduction.",
+      "parentUuid": "3cd0a0a7_1730596d",
+      "revId": "0e7c9846c430c2952e51ba7b1085fae9bec26f81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
