@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5ad1f35_226df5aa",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-01T16:26:47Z",
+      "side": 1,
+      "message": "What does setting the executable bit do?",
+      "range": {
+        "startLine": 2191,
+        "startChar": 0,
+        "endLine": 2191,
+        "endChar": 21
+      },
+      "revId": "6e6951bd9a3789b6f9033a7b37097808aef51efc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
