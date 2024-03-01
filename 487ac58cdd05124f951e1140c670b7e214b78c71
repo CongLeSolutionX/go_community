@@ -16,6 +16,23 @@
       "message": "I somehow managed to revert changes from Pacthset 3 during the rebase. Fixed it now.",
       "revId": "487ac58cdd05124f951e1140c670b7e214b78c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "844d6962_86bbb910",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-03-01T09:03:23Z",
+      "side": 1,
+      "message": "Please resolve the merge conflicts, thanks!",
+      "revId": "487ac58cdd05124f951e1140c670b7e214b78c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
