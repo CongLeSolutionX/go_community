@@ -52,6 +52,24 @@
       "parentUuid": "835239c1_8882e0e7",
       "revId": "0e7c9846c430c2952e51ba7b1085fae9bec26f81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aadf494_c1fd0f5d",
+        "filename": "src/cmd/compile/internal/ssa/_gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-03-01T16:54:49Z",
+      "side": 0,
+      "message": "\u003e (Eq64 (Mod64u x (Const64 [c])) (Const64 [0])) \u003d\u003e (Eq64 x (Mul64u x (Div64u x (Const64 [c])) (Const64 [c])))\n\nI don\u0027t understand why this wouldn\u0027t work previously, what changed before and after this patch impacting this ?\n\nIs it because previously we wouldn\u0027t want to rely on rule ordering inside `opt` for `x%c \u003d\u003d 0` → `x \u003d\u003d c*(x/c)` ? (as it would need to always run before strength reduction) ?",
+      "parentUuid": "c20f528a_b769587a",
+      "revId": "0e7c9846c430c2952e51ba7b1085fae9bec26f81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
