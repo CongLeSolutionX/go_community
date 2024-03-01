@@ -198,14 +198,16 @@ func (fs *fileStat) Mode() (m FileMode) {
 			m |= ModeSocket
 		}
 		if m&ModeType == 0 {
-			if fs.ReparseTag == windows.IO_REPARSE_TAG_DEDUP {
+			if (fs.ReparseTag == windows.IO_REPARSE_TAG_DEDUP) ||
+				(fs.ReparseTag == windows.IO_REPARSE_TAG_SIS) {
 				// If the Data Deduplication service is enabled on Windows Server, its
 				// Optimization job may convert regular files to IO_REPARSE_TAG_DEDUP
-				// whenever that job runs.
+				// whenever that job runs. On older systems, a similar service may
+				// convert regular files to IO_REPARSE_TAG_SIS.
 				//
-				// However, DEDUP reparse points remain similar in most respects to
-				// regular files: they continue to support random-access reads and writes
-				// of persistent data, and they shouldn't add unexpected latency or
+				// However, DEDUP (and SIS) reparse points remain similar in most respects
+				// to regular files: they continue to support random-access reads and
+				// writes of persistent data, and they shouldn't add unexpected latency or
 				// unavailability in the way that a network filesystem might.
 				//
 				// Go programs may use ModeIrregular to filter out unusual files (such as
