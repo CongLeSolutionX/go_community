@@ -34,6 +34,24 @@
       "parentUuid": "3cd0a0a7_1730596d",
       "revId": "0e7c9846c430c2952e51ba7b1085fae9bec26f81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c20f528a_b769587a",
+        "filename": "src/cmd/compile/internal/ssa/_gen/generic.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-01T16:43:19Z",
+      "side": 0,
+      "message": "If we\u0027re not modifying unsigned % in the opt pass, then we can be sure they always get raw mod ops.\n\nI think I mean to just do x%c \u003d\u003d 0 \u003d\u003e x \u003d\u003d c*(x/c) in the opt pass, and then this rule doesn\u0027t need to match the result of lowering %.\n\nSomething like:\n\n(Eq64 (Mod64u x (Const64 [c])) (Const64 [0])) \u003d\u003e (Eq64 x (Mul64u x (Div64u x (Const64 [c])) (Const64 [c])))\n\n...or do we introduce more instances of x%c\u003d\u003d0 after opt but before late opt? If that was the case then yes, my suggestion wouldn\u0027t work.",
+      "parentUuid": "835239c1_8882e0e7",
+      "revId": "0e7c9846c430c2952e51ba7b1085fae9bec26f81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
