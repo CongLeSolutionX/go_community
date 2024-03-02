@@ -33,6 +33,24 @@
       "message": "I\u0027d rather put all the maxbg-modifying code in one place. (In cmd/dist/main.go.)\nIn particular, I think we still want to have the GOMAXPROCS\u003d1 special case, and I\u0027m not sure the consequences of changing maxbg after bginit is called.",
       "revId": "2cc158a5121b8ea0d472e5eba3302a81aaaf470c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "934e7d82_6a82a5be",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-02T04:34:59Z",
+      "side": 1,
+      "message": "```\n$ grep -r -n bgrun\nbuild.go:918:           bgrun(\u0026wg, dir, asmabis...)\nbuild.go:973:   // We use bgrun and immediately wait for it instead of calling run() synchronously.\nbuild.go:976:   bgrun(\u0026wg, dir, compile...)\nbuild.go:990:           bgrun(\u0026wg, dir, compile...)\nbuild.go:1007:  bgrun(\u0026wg, \"\", link...)\nutil.go:71:// Background job. Only bgrun should use the Background mode,\nutil.go:160:// bgrun is like run but runs the command in the background.\nutil.go:162:// bgrun adds 1 to wg immediately, and calls Done when the work completes.\nutil.go:163:func bgrun(wg *sync.WaitGroup, dir string, cmd ...string) {\nutil.go:171:// bgwait waits for pending bgruns to finish.\n```\nand see https://github.com/golang/go/blob/master/src/cmd/dist/util.go#L135-#L158\nchanging maxbg after calling bginit is no problem here because no behavior has changed.\n\nPut the maxbg modification here because only need to increase parallelism from GOMAXPROCS\u003d2 runtime .\n\nGOMAXPROCS\u003d1 special case done.",
+      "parentUuid": "641757f8_02416fc5",
+      "revId": "2cc158a5121b8ea0d472e5eba3302a81aaaf470c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
