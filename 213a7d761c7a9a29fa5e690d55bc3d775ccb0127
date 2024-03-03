@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ece02e25_57665bd3",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "I did have fun with these.",
+      "parentUuid": "220a13b0_aa87c814",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 2
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff1b0edc_0d1536b1",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "I personally like to define a constant called log2prime \u003d 12 for this",
+      "range": {
+        "startLine": 52,
+        "startChar": 22,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6962f984_0a55ddfe",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff1b0edc_0d1536b1",
       "range": {
         "startLine": 52,
         "startChar": 22,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41c47d0a_bb4773f5",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "091c3d40_701d9444",
+      "range": {
+        "startLine": 53,
+        "startChar": 22,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "295d847d_100037b9",
@@ -110,6 +182,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c4ad2e_65e60c0d",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "295d847d_100037b9",
+      "range": {
+        "startLine": 54,
+        "startChar": 22,
+        "endLine": 54,
+        "endChar": 23
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ddfc84a_caff3185",
@@ -123,6 +219,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "spacing inconsistent",
+      "range": {
+        "startLine": 59,
+        "startChar": 22,
+        "endLine": 59,
+        "endChar": 23
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22f5cad8_a1faa7ac",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "This is gofmt spacing. It does this to make the operator precedence visually clear.\n\nAs with most gofmt things: gofmt\u0027s style is nobody\u0027s favourite, but gofmt is everybody\u0027s favourite.",
+      "parentUuid": "0ddfc84a_caff3185",
       "range": {
         "startLine": 59,
         "startChar": 22,
@@ -158,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35c852c4_659ee01c",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "I don\u0027t think they are directly related. The shared key is a chopped hash output of the FO transform.\n\n(There are a couple places where I was using 32 and could use SharedKeySize, though. Fixed.)",
+      "parentUuid": "f34b7563_48b29e9d",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 14
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82a169bf_25b09d04",
         "filename": "src/crypto/internal/mlkem768/mlkem768.go",
         "patchSetId": 3
@@ -169,6 +313,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "I assume this is faster/better in go than using [][]nttElement?",
+      "range": {
+        "startLine": 106,
+        "startChar": 25,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1b141f6_cce436c1",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Correct, this lets the value live on the stack, because k*k is a constant, rather than get reallocated a number of times.\n\nAlso I find \"A[i*k+j] \u003d \" a little more readable than append() in this case.",
+      "parentUuid": "82a169bf_25b09d04",
       "range": {
         "startLine": 106,
         "startChar": 25,
@@ -192,6 +360,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "nit: This can be its own method, taking a pointer to N, but I leave that up to you.",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 121,
+        "endChar": 2
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0afd3553_52b55a34",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "It\u0027s unrolled in K-PKE.KeyGen(), and not reused anywhere else, and not interesting to unit test, so I\u0027m leaning towards locality rather than DRY.",
+      "parentUuid": "c996bc15_02c48cd9",
       "range": {
         "startLine": 118,
         "startChar": 1,
@@ -250,6 +442,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "169648a7_dc086a27",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Yeah I was toying with making key types in the API specifically to avoid the double expansion between keygen and decrypt. It got hairy so I scrapped that specific attempt, but I will do it in a following PS.",
+      "parentUuid": "87f46b8e_21a9d7cf",
+      "range": {
+        "startLine": 197,
+        "startChar": 1,
+        "endLine": 212,
+        "endChar": 2
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c362870_9e348cc5",
         "filename": "src/crypto/internal/mlkem768/mlkem768.go",
         "patchSetId": 3
@@ -261,6 +477,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "Maybe add a comment that this will only err on public inputs, so we are not leaking any side channel information if we return early here. Having if\u0027s in the FO path makes me nervous otherwise",
+      "range": {
+        "startLine": 280,
+        "startChar": 1,
+        "endLine": 282,
+        "endChar": 2
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d76b53ae_f0e910f1",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c362870_9e348cc5",
       "range": {
         "startLine": 280,
         "startChar": 1,
@@ -294,6 +534,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83757975_911a7131",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Done.\n\nGood point! I generally prefer to be defensive anyway with slice lengths, and show panics are not possible, but showing side channels are not possible might be more valuable here.",
+      "parentUuid": "54dc36d8_4c03281f",
+      "range": {
+        "startLine": 294,
+        "startChar": 1,
+        "endLine": 297,
+        "endChar": 0
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f7c5e2d_b1ff4cae",
@@ -317,6 +581,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8960b83_866eab63",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "I wish but alas there are no codepoints for r or t, and the combining characters are not allowed in identifiers, so I want to avoid being inconsistent.\n\nhttps://en.wikipedia.org/wiki/Circumflex#Unicode",
+      "parentUuid": "1f7c5e2d_b1ff4cae",
+      "range": {
+        "startLine": 329,
+        "startChar": 1,
+        "endLine": 329,
+        "endChar": 2
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "793dd8e2_aabbb7e0",
@@ -330,6 +618,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "I like calling this variable `mask`, since that is what it is functionally doing, but I won\u0027t argue variable names here, so up to you.",
+      "range": {
+        "startLine": 339,
+        "startChar": 5,
+        "endLine": 339,
+        "endChar": 10
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75517982_6775a2db",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Uuuh much better.",
+      "parentUuid": "793dd8e2_aabbb7e0",
       "range": {
         "startLine": 339,
         "startChar": 5,
@@ -411,6 +723,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3bc8d3be_a843f129",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Yep, clearer 2^k * 2^k is more clear than 4^k. Done.",
+      "parentUuid": "3d798ac9_0bdb87eb",
+      "range": {
+        "startLine": 378,
+        "startChar": 29,
+        "endLine": 378,
+        "endChar": 32
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "41715169_5f541c22",
         "filename": "src/crypto/internal/mlkem768/mlkem768.go",
         "patchSetId": 3
@@ -457,6 +793,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c9911ba5_54a5f845",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf4e9ad_ffd26ae9",
+      "range": {
+        "startLine": 550,
+        "startChar": 28,
+        "endLine": 550,
+        "endChar": 33
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "90059526_b7457c76",
         "filename": "src/crypto/internal/mlkem768/mlkem768.go",
         "patchSetId": 3
@@ -468,6 +828,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "I am amazed at you knowing the operator precedence between \u003e\u003e and \u0026 😊",
+      "range": {
+        "startLine": 645,
+        "startChar": 30,
+        "endLine": 645,
+        "endChar": 36
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f08f1ff2_c1bea1b3",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "In Go there\u0027s really only two levels, with addition and (X)OR binding weaker, and the rest stronger. This here is just left-to-right.\n\nhttps://go.dev/ref/spec#Operator_precedence",
+      "parentUuid": "90059526_b7457c76",
       "range": {
         "startLine": 645,
         "startChar": 30,
@@ -501,6 +885,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66280430_8355d844",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "This is an int literal in the spec, and is only used here, so I think a constant would not help review. Added the same comment as the spec though.",
+      "parentUuid": "01d9b77c_51f890a4",
+      "range": {
+        "startLine": 729,
+        "startChar": 24,
+        "endLine": 729,
+        "endChar": 28
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93c2c61d_eaa9cc41",
@@ -514,6 +922,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "you should also be able to test that |decompress(compress(x)) - x| \u003c\u003d 2^d",
+      "range": {
+        "startLine": 73,
+        "startChar": 3,
+        "endLine": 73,
+        "endChar": 25
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a72bc9a_7ebca17b",
+        "filename": "src/crypto/internal/mlkem768/mlkem768_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "I assume you meant \u003c\u003d q/2^d. Done.",
+      "parentUuid": "93c2c61d_eaa9cc41",
       "range": {
         "startLine": 73,
         "startChar": 3,
@@ -547,6 +979,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ac847ac_501494ed",
+        "filename": "src/vendor/golang.org/x/crypto/sha3/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "There are! They just are in the \"upstream\" golang.org/x/crypto module, and they don\u0027t get vendored in.\n\nhttps://cs.opensource.google/go/x/crypto/+/master:ssh/",
+      "parentUuid": "41ff1e57_443e847f",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 54
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85f5b0b9_b3fb1c4b",
@@ -560,6 +1016,30 @@
       "writtenOn": "2024-02-28T21:56:23Z",
       "side": 1,
       "message": "Nit: Extendable-output function (XOF)",
+      "range": {
+        "startLine": 6,
+        "startChar": 13,
+        "endLine": 6,
+        "endChar": 50
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccfd8927_308f64d4",
+        "filename": "src/vendor/golang.org/x/crypto/sha3/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-03T20:27:02Z",
+      "side": 1,
+      "message": "Took a note to fix upstream in the next change.",
+      "parentUuid": "85f5b0b9_b3fb1c4b",
       "range": {
         "startLine": 6,
         "startChar": 13,
