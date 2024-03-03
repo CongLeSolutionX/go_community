@@ -1294,7 +1294,7 @@ func zeroUpper32Bits(x *Value, depth int) bool {
 		OpARM64MULW, OpARM64MNEGW, OpARM64UDIVW, OpARM64DIVW, OpARM64UMODW,
 		OpARM64MADDW, OpARM64MSUBW, OpARM64RORW, OpARM64RORWconst:
 		return true
-	case OpArg:
+	case OpArg: // note: but not ArgIntReg
 		return x.Type.Size() == 4
 	case OpPhi, OpSelect0, OpSelect1:
 		// Phis can use each-other as an arguments, instead of tracking visited values,
@@ -1318,7 +1318,7 @@ func zeroUpper48Bits(x *Value, depth int) bool {
 	switch x.Op {
 	case OpAMD64MOVWQZX, OpAMD64MOVWload, OpAMD64MOVWloadidx1, OpAMD64MOVWloadidx2:
 		return true
-	case OpArg:
+	case OpArg: // note: but not ArgIntReg
 		return x.Type.Size() == 2
 	case OpPhi, OpSelect0, OpSelect1:
 		// Phis can use each-other as an arguments, instead of tracking visited values,
@@ -1342,7 +1342,7 @@ func zeroUpper56Bits(x *Value, depth int) bool {
 	switch x.Op {
 	case OpAMD64MOVBQZX, OpAMD64MOVBload, OpAMD64MOVBloadidx1:
 		return true
-	case OpArg:
+	case OpArg: // note: but not ArgIntReg
 		return x.Type.Size() == 1
 	case OpPhi, OpSelect0, OpSelect1:
 		// Phis can use each-other as an arguments, instead of tracking visited values,
@@ -1359,6 +1359,14 @@ func zeroUpper56Bits(x *Value, depth int) bool {
 
 	}
 	return false
+}
+
+// widenType sets the type of v to the wider of v.Type and t, and returns true.
+func widenType(v *Value, t *types.Type) bool {
+	if v.Type.Size() < t.Size() {
+		v.Type = t
+	}
+	return true
 }
 
 func isInlinableMemclr(c *Config, sz int64) bool {

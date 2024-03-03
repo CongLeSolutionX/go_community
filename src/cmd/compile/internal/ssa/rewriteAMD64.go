@@ -9641,11 +9641,11 @@ func rewriteValueAMD64_OpAMD64MOVBQZX(v *Value) bool {
 		return true
 	}
 	// match: (MOVBQZX x)
-	// cond: zeroUpper56Bits(x,3)
+	// cond: zeroUpper56Bits(x,3) && widenType(x, v.Type)
 	// result: x
 	for {
 		x := v_0
-		if !(zeroUpper56Bits(x, 3)) {
+		if !(zeroUpper56Bits(x, 3) && widenType(x, v.Type)) {
 			break
 		}
 		v.copyOf(x)
@@ -10393,11 +10393,11 @@ func rewriteValueAMD64_OpAMD64MOVLQZX(v *Value) bool {
 		return true
 	}
 	// match: (MOVLQZX x)
-	// cond: zeroUpper32Bits(x,3)
+	// cond: zeroUpper32Bits(x,3) && widenType(x, v.Type)
 	// result: x
 	for {
 		x := v_0
-		if !(zeroUpper32Bits(x, 3)) {
+		if !(zeroUpper32Bits(x, 3) && widenType(x, v.Type)) {
 			break
 		}
 		v.copyOf(x)
@@ -12757,11 +12757,11 @@ func rewriteValueAMD64_OpAMD64MOVWQZX(v *Value) bool {
 		return true
 	}
 	// match: (MOVWQZX x)
-	// cond: zeroUpper48Bits(x,3)
+	// cond: zeroUpper48Bits(x,3) && widenType(x, v.Type)
 	// result: x
 	for {
 		x := v_0
-		if !(zeroUpper48Bits(x, 3)) {
+		if !(zeroUpper48Bits(x, 3) && widenType(x, v.Type)) {
 			break
 		}
 		v.copyOf(x)
