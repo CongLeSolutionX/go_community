@@ -8365,157 +8365,157 @@ func rewriteValueARM64_OpARM64MOVBUreg(v *Value) bool {
 		return true
 	}
 	// match: (MOVBUreg x:(Equal _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64Equal {
+		if x.Op != OpARM64Equal || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(NotEqual _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64NotEqual {
+		if x.Op != OpARM64NotEqual || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(LessThan _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64LessThan {
+		if x.Op != OpARM64LessThan || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(LessThanU _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64LessThanU {
+		if x.Op != OpARM64LessThanU || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(LessThanF _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64LessThanF {
+		if x.Op != OpARM64LessThanF || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(LessEqual _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64LessEqual {
+		if x.Op != OpARM64LessEqual || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(LessEqualU _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64LessEqualU {
+		if x.Op != OpARM64LessEqualU || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(LessEqualF _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64LessEqualF {
+		if x.Op != OpARM64LessEqualF || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(GreaterThan _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64GreaterThan {
+		if x.Op != OpARM64GreaterThan || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(GreaterThanU _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64GreaterThanU {
+		if x.Op != OpARM64GreaterThanU || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(GreaterThanF _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64GreaterThanF {
+		if x.Op != OpARM64GreaterThanF || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(GreaterEqual _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64GreaterEqual {
+		if x.Op != OpARM64GreaterEqual || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(GreaterEqualU _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64GreaterEqualU {
+		if x.Op != OpARM64GreaterEqualU || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x:(GreaterEqualF _))
-	// result: (MOVDreg x)
+	// cond: setType(x, v.Type)
+	// result: x
 	for {
 		x := v_0
-		if x.Op != OpARM64GreaterEqualF {
+		if x.Op != OpARM64GreaterEqualF || !(setType(x, v.Type)) {
 			break
 		}
-		v.reset(OpARM64MOVDreg)
-		v.AddArg(x)
+		v.copyOf(x)
 		return true
 	}
 	// match: (MOVBUreg x)
@@ -12112,11 +12112,11 @@ func rewriteValueARM64_OpARM64MOVWUreg(v *Value) bool {
 		return true
 	}
 	// match: (MOVWUreg x)
-	// cond: zeroUpper32Bits(x, 3)
+	// cond: zeroUpper32Bits(x, 3) && setType(x, v.Type)
 	// result: x
 	for {
 		x := v_0
-		if !(zeroUpper32Bits(x, 3)) {
+		if !(zeroUpper32Bits(x, 3) && setType(x, v.Type)) {
 			break
 		}
 		v.copyOf(x)
