@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "934ecc03_87ec8bd4",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-04T22:13:12Z",
+      "side": 1,
+      "message": "Looks so much cleaner now! Thanks, I\u0027ll keep this in mind going forward.",
+      "parentUuid": "9f857dd3_f1bb0850",
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25c36ba9_bd3ecb35",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25a443d0_b53aabe3",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-04T22:13:12Z",
+      "side": 1,
+      "message": "Combined if statements since Internal.GoVersion will be set for both cases.",
+      "parentUuid": "25c36ba9_bd3ecb35",
+      "range": {
+        "startLine": 1177,
+        "startChar": 1,
+        "endLine": 1178,
+        "endChar": 4
+      },
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cb32bfa_8b7c43fc",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-02-29T22:53:16Z",
       "side": 1,
       "message": "This experiment should have a control case associated with it.\n\nPerhaps we could run `go get go@1.21` after the `go1.22.0` tests, and verify that `go vet example.com/m` and `go vet main.go` both fail and report errors in that case?",
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74978f77_5b48b420",
+        "filename": "src/cmd/go/testdata/script/vet_commandline.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-04T22:13:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cb32bfa_8b7c43fc",
       "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
