@@ -47,6 +47,7 @@ var bootstrapDirs = []string{
 	"cmd/internal/notsha256",
 	"cmd/internal/obj/...",
 	"cmd/internal/objabi",
+	"cmd/internal/pgo",
 	"cmd/internal/pkgpath",
 	"cmd/internal/quoted",
 	"cmd/internal/src",
