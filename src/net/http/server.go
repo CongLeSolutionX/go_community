@@ -2173,9 +2173,15 @@ func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
 // writes are done to w.
 // The error message should be plain text.
 func Error(w ResponseWriter, error string, code int) {
-	w.Header().Del("Content-Length")
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.Header().Set("X-Content-Type-Options", "nosniff")
+	h := w.Header()
+	delete(h, "Content-Type")
+	delete(h, "Content-Length")
+	delete(h, "Content-Encoding")
+	delete(h, "Etag")
+	delete(h, "Last-Modified")
+	h.Set("Cache-Control", "no-cache")
+	h.Set("Content-Type", "text/plain; charset=utf-8")
+	h.Set("X-Content-Type-Options", "nosniff")
 	w.WriteHeader(code)
 	fmt.Fprintln(w, error)
 }
