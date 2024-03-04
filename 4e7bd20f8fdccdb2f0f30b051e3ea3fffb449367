@@ -16,6 +16,24 @@
       "message": "Awesome to see this being merged. But I think we should still clear more headers for ServeContent API. Care to look at my last comment at https://go-review.googlesource.com/c/go/+/544019 ? I think I should revert to my previous implementation where I clear only a fixed set of headers (those known to be invalid, or at least highly likely to be invalid).",
       "revId": "4e7bd20f8fdccdb2f0f30b051e3ea3fffb449367",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10fa4061_ab7e91cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-04T17:32:34Z",
+      "side": 1,
+      "message": "Responded on https://go.dev/cl/544019; tl,dr, I think you\u0027re right that clearing those additional headers (probably in Error?) seems reasonable.",
+      "parentUuid": "172e8172_c0a5d03b",
+      "revId": "4e7bd20f8fdccdb2f0f30b051e3ea3fffb449367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
