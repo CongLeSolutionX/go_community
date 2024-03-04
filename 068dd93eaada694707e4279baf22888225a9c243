@@ -194,6 +194,24 @@
       "parentUuid": "25dd66bb_be13e46f",
       "revId": "068dd93eaada694707e4279baf22888225a9c243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e851081e_6bd6aeff",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 37209
+      },
+      "writtenOn": "2024-03-04T21:05:44Z",
+      "side": 1,
+      "message": "I updated this CL.\n\nI decided to not remove `Vary`. After more thinking I think this is better. If somebody set `Vary` based on what the response depends on, and the response happens to become an error, that still holds (probably the code path to the error depends on some request headers). With `no-cache` there is little utility to `Vary`, but I think it is fine.\n\nFor `no-cache` I am not completely convinced. We should definitely remove any prior `Cache-Control` (maybe I set it to `immutable` and then error happens). I think setting it to `no-cache` is safe and reasonable. But maybe it should be `no-cache, private`?",
+      "parentUuid": "94fd000b_cf77e7de",
+      "revId": "068dd93eaada694707e4279baf22888225a9c243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
