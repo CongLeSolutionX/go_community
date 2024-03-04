@@ -16,6 +16,24 @@
       "message": "One thought: try flushing the markbuf somewhere in here. It could be that there are pointers in the markbuf and we\u0027re out of full workbufs, so we exit the loop and flush, but then return to gcBgMarkWorker, which parks.",
       "revId": "671ac93b12d6f31e1a9f1646ad087481f4023d1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64832d1c_847c50ae",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-04T22:38:22Z",
+      "side": 1,
+      "message": "Done, that resolved some of the differences I was seeing. I\u0027ll rerun the benchmarks.",
+      "parentUuid": "e5bdb55f_9e69213a",
+      "revId": "671ac93b12d6f31e1a9f1646ad087481f4023d1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
