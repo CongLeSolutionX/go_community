@@ -34,6 +34,23 @@
       "parentUuid": "f163b597_74e87614",
       "revId": "c62f1d5fcfeb73325658cf151fae0cb2b795d6ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fa1ccbd_2101821d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-04T17:38:52Z",
+      "side": 1,
+      "message": "Kindly requesting reviews. The 386 and mips at https://go-review.googlesource.com/c/go/+/558698 are the only missing arches for crash stack support.",
+      "revId": "c62f1d5fcfeb73325658cf151fae0cb2b795d6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
