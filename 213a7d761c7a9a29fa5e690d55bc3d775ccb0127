@@ -512,6 +512,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7849a55d_a90fe4b0",
+        "filename": "src/crypto/internal/mlkem768/mlkem768.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-03-04T17:24:22Z",
+      "side": 1,
+      "message": "Yup, this is an internal package, so we can refactor it before exposing it.",
+      "parentUuid": "e432594f_1d5ebdad",
+      "range": {
+        "startLine": 197,
+        "startChar": 1,
+        "endLine": 212,
+        "endChar": 2
+      },
+      "revId": "213a7d761c7a9a29fa5e690d55bc3d775ccb0127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c362870_9e348cc5",
