@@ -176,6 +176,24 @@
       "parentUuid": "12ff474f_8cd8fe6c",
       "revId": "068dd93eaada694707e4279baf22888225a9c243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94fd000b_cf77e7de",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-04T17:30:50Z",
+      "side": 1,
+      "message": "The original set of headers you were stripping is:\n\n```\nContent-Type\nContent-Length\nContent-Encoding\nEtag\nLast-Modified\nVary\n```\n\nAnd also adding:\n\n```\nCache-Control: no-cache\n```\n\nDoing all of that in `http.Error` seems reasonable to me. Want to either send me a CL for that or update this one to strip them in `Error`? (Or I can make a CL if you prefer.)",
+      "parentUuid": "25dd66bb_be13e46f",
+      "revId": "068dd93eaada694707e4279baf22888225a9c243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
