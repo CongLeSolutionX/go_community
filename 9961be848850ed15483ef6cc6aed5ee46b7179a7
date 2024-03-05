@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e38663a_044e62c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-05T22:56:43Z",
+      "side": 1,
+      "message": "Thanks! Looks good to me.",
+      "revId": "9961be848850ed15483ef6cc6aed5ee46b7179a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0295120a_b1697931",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2179,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-05T22:56:43Z",
+      "side": 1,
+      "message": "We set Content-Type below, so no need to delete it here.",
+      "revId": "9961be848850ed15483ef6cc6aed5ee46b7179a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
