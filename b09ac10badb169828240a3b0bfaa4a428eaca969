@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c1c3dbe_9026fbdd",
+        "filename": "doc/next/6-stdlib/99-minor/os/63703.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-05T14:59:15Z",
+      "side": 1,
+      "message": "Wops, good catch. Fixed in CL 569195.",
+      "parentUuid": "006c7915_ddcc072f",
+      "revId": "b09ac10badb169828240a3b0bfaa4a428eaca969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0b55054_a13b168c",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-03-05T11:04:53Z",
       "side": 1,
       "message": "s|/pkg/path/filepath#EvalSymlinks|pkg/os#Readlink|",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "b09ac10badb169828240a3b0bfaa4a428eaca969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "974d671d_3adbc65d",
+        "filename": "doc/next/6-stdlib/99-minor/os/63703.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-05T14:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0b55054_a13b168c",
       "range": {
         "startLine": 7,
         "startChar": 28,
