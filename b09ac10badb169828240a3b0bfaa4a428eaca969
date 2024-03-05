@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "024a1d88_9d36e8a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-05T11:04:53Z",
+      "side": 1,
+      "message": "LGTM.\n\nAlex",
+      "revId": "b09ac10badb169828240a3b0bfaa4a428eaca969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "006c7915_ddcc072f",
+        "filename": "doc/next/6-stdlib/99-minor/os/63703.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-05T11:04:53Z",
+      "side": 1,
+      "message": "I don\u0027t understand why lines 1 to 6 refer to the setting controlled by the winsymlink flag. The winsymlink is not implemented in this CL.\n\nI suspect you just want to delete lines 1 to 6.",
+      "revId": "b09ac10badb169828240a3b0bfaa4a428eaca969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b55054_a13b168c",
+        "filename": "doc/next/6-stdlib/99-minor/os/63703.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-05T11:04:53Z",
+      "side": 1,
+      "message": "s|/pkg/path/filepath#EvalSymlinks|pkg/os#Readlink|",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "b09ac10badb169828240a3b0bfaa4a428eaca969",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
