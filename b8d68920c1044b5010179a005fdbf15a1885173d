@@ -16,6 +16,24 @@
       "message": "(not sure) Is is feasible to move the call to `modload.ModuleGoVersion` up here, so that both assignments to `p.Internal.GoVersion` happen in nearby locations in the code?\n\nSomething like:\n\n```go\nif cfg.ModulesEnabled {\n\tp.Module \u003d modload.PackageModuleInfo(ctx, pkgPath)\n\tif p.Module !\u003d nil {\n\t\tp.Internal.GoVersion \u003d p.Module.GoVersion\n\t} else if p.Internal.CmdlineFiles {\n\t\tp.Internal.GoVersion \u003d modload.ModuleGoVersion(ctx, bp.Dir)\n\t}\n}\n```",
       "revId": "b8d68920c1044b5010179a005fdbf15a1885173d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da753e3_4ec51cc6",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1962,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-05T15:27:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "221473e2_35208615",
+      "revId": "b8d68920c1044b5010179a005fdbf15a1885173d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
