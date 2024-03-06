@@ -378,6 +378,12 @@ func asmArgs(a *Action, p *load.Package) []any {
 		}
 	}
 
+	if cfg.Goarch == "arm64" {
+		if cfg.GOARM64_LSE {
+			args = append(args, "-D", "GOARM64_LSE")
+		}
+	}
+
 	return args
 }
 
