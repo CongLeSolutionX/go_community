@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4888e7d8_d99fe7f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-06T14:50:04Z",
+      "side": 1,
+      "message": "@cherryyz@google.com, @Fannie.Zhang@arm.com, @mauri870@gmail.com, @scw@google.com, @mengzhuo1203@gmail.com, you reviewed https://go-review.googlesource.com/c/go/+/559555; this patch actually uses GOARM64 variable to disable dynamic checks for ARM64 architectures that support LSE.\n\nThis patch shows repeatable +4.6% performance gain for a real-world application (etcd) on my ARM64 server (Kunpeng920 chip).",
+      "revId": "f0e9cfc2d6656a844a44b3cc859b12a72bbed74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
