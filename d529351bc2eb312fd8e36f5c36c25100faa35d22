@@ -16,6 +16,24 @@
       "message": "I think we should keep this at least. This is how user can directly put binary-encoded instructions in a function, like the \".byte\" or \".long\" in GNU assembler, which is useful for instructions that we don\u0027t yet support.",
       "revId": "d529351bc2eb312fd8e36f5c36c25100faa35d22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d78b7890_27440299",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-03-06T08:44:21Z",
+      "side": 0,
+      "message": "Thanks, I understand, the instructions WORD, TEQ, TNE will be retained.",
+      "parentUuid": "e99801cc_3ae132fb",
+      "revId": "d529351bc2eb312fd8e36f5c36c25100faa35d22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
