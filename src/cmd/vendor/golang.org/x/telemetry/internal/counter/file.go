@@ -206,7 +206,10 @@ func fileValidity(now time.Time) (int, error) {
 	weekends := filepath.Join(telemetry.LocalDir, "weekends")
 	day := fmt.Sprintf("%d\n", rand.Intn(7))
 	if _, err := os.ReadFile(weekends); err != nil {
+		fmt.Fprintf(os.Stderr, "failed to read weekends file %v: %v", weekends, err)
 		if err := os.MkdirAll(telemetry.LocalDir, 0777); err != nil {
+			fmt.Fprintf(os.Stderr, "failed to create localdir %v: %v", telemetry.LocalDir, err)
+
 			debugPrintf("%v: could not create telemetry.LocalDir %s", err, telemetry.LocalDir)
 			return 7, err
 		}
