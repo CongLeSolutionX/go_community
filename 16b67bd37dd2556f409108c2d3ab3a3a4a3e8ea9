@@ -16,6 +16,24 @@
       "message": "Heads up, this has not been tested. I mean, all the automatic test ran successfully, but I don\u0027t have easy access to a Windows box to build this on, especially one with SIS reparse points.",
       "revId": "16b67bd37dd2556f409108c2d3ab3a3a4a3e8ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58327ae2_1152ba8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3325999
+      },
+      "writtenOn": "2024-03-06T17:21:44Z",
+      "side": 1,
+      "message": "I wrote a small test application and ran it on a Windows box with access to a drive with SIS reparse points. This patch does appear to work.",
+      "parentUuid": "ece7c7e6_5ec23e1e",
+      "revId": "16b67bd37dd2556f409108c2d3ab3a3a4a3e8ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
