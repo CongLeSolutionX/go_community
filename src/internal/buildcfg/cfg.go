@@ -127,7 +127,7 @@ func goarm() (g goarmFeatures) {
 	return
 }
 
-type goarm64Features struct {
+type Goarm64Features struct {
 	Version string
 	// Large Systems Extension
 	LSE bool
@@ -139,7 +139,7 @@ type goarm64Features struct {
 	Crypto bool
 }
 
-func (g goarm64Features) String() string {
+func (g Goarm64Features) String() string {
 	arm64Str := g.Version
 	if g.LSE {
 		arm64Str += ",lse"
@@ -150,7 +150,7 @@ func (g goarm64Features) String() string {
 	return arm64Str
 }
 
-func parseGoarm64(v string) (g goarm64Features) {
+func ParseGoarm64(v string) (g Goarm64Features) {
 	const (
 		lseOpt    = ",lse"
 		cryptoOpt = ",crypto"
@@ -192,13 +192,13 @@ func parseGoarm64(v string) (g goarm64Features) {
 	return
 }
 
-func goarm64() goarm64Features {
-	return parseGoarm64(envOr("GOARM64", defaultGOARM64))
+func goarm64() Goarm64Features {
+	return ParseGoarm64(envOr("GOARM64", defaultGOARM64))
 }
 
 // Returns true if g supports giving ARM64 ISA
 // Note that this function doesn't accept / test suffixes (like ",lse" or ",crypto")
-func (g goarm64Features) Supports(s string) bool {
+func (g Goarm64Features) Supports(s string) bool {
 	// We only accept "v{8-9}.{0-9}. Everything else is malformed.
 	if len(s) != 4 {
 		return false
