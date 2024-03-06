@@ -69,6 +69,24 @@
       "parentUuid": "dc21dcd4_cfdef5cb",
       "revId": "5b0deb191db904bbccbecce199974d0c2bb44d1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5381a272_bcbf16a6",
+        "filename": "src/cmd/compile/internal/typecheck/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-03-06T15:22:26Z",
+      "side": 1,
+      "message": "Resolving this.",
+      "parentUuid": "3b2f69d2_a800b94e",
+      "revId": "5b0deb191db904bbccbecce199974d0c2bb44d1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
