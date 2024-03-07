@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a7e58c_9d9971bb",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T18:44:30Z",
+      "side": 1,
+      "message": "It is unfortunate that gp has a zero waitreason temporarily (though https://cs.opensource.google/go/go/+/master:src/runtime/traceback.go;l\u003d1212;drc\u003d70fbc88288143c218fde9f905a38d55505adfb2b;bpv\u003d1;bpt\u003d1 seems to handle it ok). Perhaps pass the wait reason to newproc1 as well?",
+      "revId": "40b797bf0637485006a89f05b4108eea14e734fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d94475_781f0b94",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T18:44:30Z",
+      "side": 1,
+      "message": "nit: TODO(go.dev/issue/65889) seems to be our most popular form, followed closely by TODO(#65889). A raw number is quite rare.",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "40b797bf0637485006a89f05b4108eea14e734fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40e236bd_a90359fe",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T18:44:30Z",
+      "side": 1,
+      "message": "Can we delete the v1 tracer? This means you can\u0027t use iterators with the v1 tracer, right? If those end up enabled by default it seems we ought to have the v1 tracer deleted.",
+      "revId": "40b797bf0637485006a89f05b4108eea14e734fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

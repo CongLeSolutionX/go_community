@@ -46,6 +46,46 @@
       },
       "revId": "08c0688789656b90cdd84f2f2a4230e86eae4579",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25387f61_78591ca4",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T18:44:30Z",
+      "side": 1,
+      "message": "This seems worthy of a release blocker bug.",
+      "revId": "08c0688789656b90cdd84f2f2a4230e86eae4579",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6281605a_ad97b584",
+        "filename": "src/runtime/trace2runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T18:44:30Z",
+      "side": 1,
+      "message": "GoSwitch\n\n(Though I have a maybe have a slight preference for having Coro in the name. Do you think we could reuse this event if we added other direct switches (e.g., optimizing some channel sends with a direct switch to the receiver)? That would be a good reason to keep the generic name.)",
+      "range": {
+        "startLine": 455,
+        "startChar": 3,
+        "endLine": 455,
+        "endChar": 15
+      },
+      "revId": "08c0688789656b90cdd84f2f2a4230e86eae4579",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
