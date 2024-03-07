@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5704cbcb_cd806982",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-07T23:47:17Z",
+      "side": 1,
+      "message": "I think we can \"bytes\" instead of \"8-bit words\".  For utf16 we had to say \"16-bit words\" because there is no widely used term for a 16-bit value.  But for an 8-bit value there is a term.",
+      "revId": "402fcb364c31189eb4c345415087c0e698a2ba83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
