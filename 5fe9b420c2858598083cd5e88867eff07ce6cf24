@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4293d4_cca5bd3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T19:29:30Z",
+      "side": 1,
+      "message": "Thanks",
+      "revId": "5fe9b420c2858598083cd5e88867eff07ce6cf24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d742fb5e_7125e06a",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1693,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T19:29:30Z",
+      "side": 1,
+      "message": "This is theoretically slower than the old approach of `return pcBuf[1:]`.\n\nI don\u0027t know how often this comes up in practice. If often, this function could return a slice either into pcBuf or dst (which I\u0027d rename to `scratch`).",
+      "revId": "5fe9b420c2858598083cd5e88867eff07ce6cf24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
