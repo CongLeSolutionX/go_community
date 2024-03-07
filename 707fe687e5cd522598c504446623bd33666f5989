@@ -73,6 +73,108 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "130df91a_65bfb0bb",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-07T14:41:26Z",
+      "side": 1,
+      "message": "```suggestion\n(Div32u ...) \u003d\u003e (I32DivU ...)\n```",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9fee40_03ce8357",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-07T14:41:26Z",
+      "side": 1,
+      "message": "```suggestion\n(Mod32u ...) \u003d\u003e (I32RemU ...)\n```",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f128aa5_983bff82",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-07T14:41:26Z",
+      "side": 1,
+      "message": "```suggestion\n(Or(32|16|8|B) ...) \u003d\u003e (I32Or ...)\n```",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a59862ed_ffaf3d70",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-07T14:41:26Z",
+      "side": 1,
+      "message": "```suggestion\n(Neq32  ...) \u003d\u003e (I32Ne ...)\n```",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acf18313_0c1a96de",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-07T14:41:26Z",
+      "side": 1,
+      "message": "```suggestion\n(Move [8] dst src mem) \u003d\u003e\n```",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e0dee70_2edd97bc",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-07T14:41:26Z",
+      "side": 1,
+      "message": "```suggestion\n(RotateLeft32 ...) \u003d\u003e (I32Rotl ...)\n```",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1beb9d0e_fedbe542",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 3
@@ -102,6 +204,24 @@
       "side": 1,
       "message": "Hm, perhaps. I\u0027m wondering why I didn\u0027t add one here..",
       "parentUuid": "1beb9d0e_fedbe542",
+      "revId": "707fe687e5cd522598c504446623bd33666f5989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27573d4a_2cc02cf4",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2684,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-03-07T14:41:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "15e4991d_2c0dfe54",
       "revId": "707fe687e5cd522598c504446623bd33666f5989",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
