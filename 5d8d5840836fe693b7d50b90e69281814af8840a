@@ -179,6 +179,30 @@
       },
       "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de67943f_d33d9c45",
+        "filename": "src/unicode/utf16/utf16.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-03-07T10:19:28Z",
+      "side": 1,
+      "message": "// RuneLen returns the number of 16-bit words in the UTF-16 encoding of the rune.\n// RuneLen returns the number of 8-bit words in the `UTF-8` encoding of the rune.\n\nFixed typo.\n\nOnce `RuneLen` is added, I think `Encode` can be simplified as\n```\n// Encode returns the UTF-16 encoding of the Unicode code point sequence s.\nfunc Encode(s []rune) []uint16 {\n\tn :\u003d len(s)\n\tfor _, v :\u003d range s {\n\t\tif v \u003e\u003d surrSelf {\n\t\t\tn++\n\t\t}\n\t}\n\n\ta :\u003d make([]uint16, n)\n\tn \u003d 0\n\tfor _, v :\u003d range s {\n\t\tswitch RuneLen(v) {\n\t\tcase 1: // normal rune\n\t\t\ta[n] \u003d uint16(v)\n\t\t\tn++\n\t\tcase 2: // needs surrogate sequence\n\t\t\tr1, r2 :\u003d EncodeRune(v)\n\t\t\ta[n] \u003d uint16(r1)\n\t\t\ta[n+1] \u003d uint16(r2)\n\t\t\tn +\u003d 2\n\t\tdefault:\n\t\t\ta[n] \u003d uint16(replacementChar)\n\t\t\tn++\n\t\t}\n\t}\n\treturn a[:n]\n}\n```",
+      "parentUuid": "e89d25d7_112cb761",
+      "range": {
+        "startLine": 34,
+        "startChar": 33,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
