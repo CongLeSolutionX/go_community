@@ -46,6 +46,30 @@
       },
       "revId": "1eeee9e2005ab929b5af5ebc7e8cb6319079307f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d3403e2_6f33af86",
+        "filename": "src/runtime/trace2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T17:41:47Z",
+      "side": 1,
+      "message": "Thanks, this is more clear.",
+      "parentUuid": "07709784_066b28f8",
+      "range": {
+        "startLine": 231,
+        "startChar": 63,
+        "endLine": 233,
+        "endChar": 27
+      },
+      "revId": "1eeee9e2005ab929b5af5ebc7e8cb6319079307f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
