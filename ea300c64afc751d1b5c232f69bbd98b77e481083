@@ -16,6 +16,24 @@
       "message": "This needs a test case.\nAlso, need to check if we should guarantee that this should never be nil.",
       "revId": "ea300c64afc751d1b5c232f69bbd98b77e481083",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78ef1a83_dd094b19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-03-07T17:38:29Z",
+      "side": 1,
+      "message": "This seems only happen when we use gotip to as GOROOT_BOOTSTRAP when building go from source, that\u0027s the only way the problem can be reproduced. I\u0027m not sure how to add test case.",
+      "parentUuid": "2f1794b3_4906e086",
+      "revId": "ea300c64afc751d1b5c232f69bbd98b77e481083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
