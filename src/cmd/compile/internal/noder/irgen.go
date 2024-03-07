@@ -74,7 +74,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info) {
 			}
 			fileVersion := info.FileVersions[posBase]
 			file := posBaseMap[posBase]
-			if file.GoVersion == fileVersion {
+			if file != nil && file.GoVersion == fileVersion {
 				// If we have a version error caused by //go:build, report it.
 				msg = fmt.Sprintf("%s (file declares //go:build %s)", msg, fileVersion)
 			} else {
