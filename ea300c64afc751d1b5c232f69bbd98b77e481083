@@ -52,6 +52,24 @@
       "parentUuid": "78ef1a83_dd094b19",
       "revId": "ea300c64afc751d1b5c232f69bbd98b77e481083",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7657f00_eeae942a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-03-07T19:17:04Z",
+      "side": 1,
+      "message": "Ack. I think we should first check that we indeed have the correct pos base (on types2 and noder side); i.e., we don\u0027t want to hide another bug with the nil check.",
+      "parentUuid": "76959e90_95723e23",
+      "revId": "ea300c64afc751d1b5c232f69bbd98b77e481083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
