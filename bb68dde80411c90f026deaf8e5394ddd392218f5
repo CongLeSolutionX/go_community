@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d42da6e5_bba8e033",
+        "filename": "src/internal/trace/v2/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-07T17:45:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t// Generates an event from the current context.\n```",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 14
+      },
+      "revId": "bb68dde80411c90f026deaf8e5394ddd392218f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
