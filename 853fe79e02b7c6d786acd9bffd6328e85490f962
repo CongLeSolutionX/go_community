@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49af81b8_faaa895a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-03-07T21:26:14Z",
+      "side": 1,
+      "message": "Thanks Cuong. This seems reasonable for backporting.",
+      "revId": "853fe79e02b7c6d786acd9bffd6328e85490f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eac6d964_3a144eae",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-03-07T21:26:14Z",
+      "side": 1,
+      "message": "nit: rename to \"arg0\" since it\u0027s singular.",
+      "range": {
+        "startLine": 646,
+        "startChar": 3,
+        "endLine": 646,
+        "endChar": 8
+      },
+      "revId": "853fe79e02b7c6d786acd9bffd6328e85490f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fc62713_2ed16ebc",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-03-07T21:26:14Z",
+      "side": 1,
+      "message": "nit: Add a comment like:\n\n```\n// ir.SameSafeExpr skips OCONVNOPs, so we must do the same here (#XXX).\n```",
+      "revId": "853fe79e02b7c6d786acd9bffd6328e85490f962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
