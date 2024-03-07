@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76ec7be2_e9d3eb63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-07T02:13:44Z",
+      "side": 1,
+      "message": "Please write this as\n\nsort: fix typo in sort_test.go\n\nSee https://go.dev/wiki/CommitMessage.  Thanks.",
+      "revId": "4cf189396b3df4af9d89b5d6eba83f1018e0cae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
