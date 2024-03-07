@@ -610,7 +610,7 @@ func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 	// If this is the local P, and there are a lot of deleted timers,
 	// clear them out. We only do this for the local P to reduce
 	// lock contention on timersLock.
-	force := ts == &getg().m.p.ptr().timers && int(ts.zombies.Load()) > int(ts.len.Load())/4
+	force := ts == &getg().m.p.ptr().timers && int(int32(ts.zombies.Load())) > int(ts.len.Load())/4
 
 	if now < next && !force {
 		// Next timer is not ready to run, and we don't need to clear deleted timers.
