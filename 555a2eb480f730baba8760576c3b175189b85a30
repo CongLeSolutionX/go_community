@@ -16,6 +16,24 @@
       "message": "Please confirm that the `longtest` builder passes before merging.",
       "revId": "555a2eb480f730baba8760576c3b175189b85a30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80a0f38_3beb2ef8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-03-07T05:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e3bbc43_5853fab4",
+      "revId": "555a2eb480f730baba8760576c3b175189b85a30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
