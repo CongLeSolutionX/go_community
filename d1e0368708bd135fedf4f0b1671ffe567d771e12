@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf69db5b_162bcd88",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3216,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-03-07T16:08:04Z",
+      "side": 1,
+      "message": "Could we move this back up to the previous line? (just to reduce unnecessary diffs)",
+      "range": {
+        "startLine": 3216,
+        "startChar": 1,
+        "endLine": 3216,
+        "endChar": 34
+      },
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f857dd3_f1bb0850",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 4
