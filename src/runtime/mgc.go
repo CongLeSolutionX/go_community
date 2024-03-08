@@ -741,18 +741,18 @@ func gcStart(trigger gcTrigger) {
 	// returns, so make sure we're not preemptible.
 	mp = acquirem()
 
+	// Update the CPU stats pause time.
+	//
+	// Use maxprocs instead of stwprocs here because the total time
+	// computed in the CPU stats is based on maxprocs, and we want them
+	// to be comparable.
+	work.cpuStats.accumulateGCPauseTime(nanotime()-work.tSweepTerm, work.maxprocs)
+
 	// Concurrent mark.
 	systemstack(func() {
 		now = startTheWorldWithSema(0, stw)
 		work.pauseNS += now - stw.start
 		work.tMark = now
-
-		// Update the CPU stats pause time.
-		//
-		// Use maxprocs instead of stwprocs here because the total time
-		// computed in the CPU stats is based on maxprocs, and we want them
-		// to be comparable.
-		work.cpuStats.accumulateGCPauseTime(now-work.tSweepTerm, work.maxprocs)
 
 		// Release the CPU limiter.
 		gcCPULimiter.finishGCTransition(now)
