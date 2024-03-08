@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d4158df_8c1ea0b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-08T15:41:54Z",
+      "side": 1,
+      "message": "Are you sure it can\u0027t be inlined? The Go compiler reports it as inlinable on my computer.",
+      "revId": "881fdfc4ebd661d603863d0b83517499b8de1022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
