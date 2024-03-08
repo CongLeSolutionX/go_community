@@ -77,11 +77,14 @@ func Encode(s []rune) []uint16 {
 	a := make([]uint16, n)
 	n = 0
 	for _, v := range s {
-		switch RuneLen(v) {
-		case 1: // normal rune
+		// Note: using RuneLen(v) is a bit slower.
+		switch {
+		case 0 <= v && v < surr1, surr3 <= v && v < surrSelf:
+			// normal rune
 			a[n] = uint16(v)
 			n++
-		case 2: // needs surrogate sequence
+		case surrSelf <= v && v <= maxRune:
+			// needs surrogate sequence
 			r1, r2 := EncodeRune(v)
 			a[n] = uint16(r1)
 			a[n+1] = uint16(r2)
