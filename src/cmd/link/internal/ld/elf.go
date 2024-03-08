@@ -1564,7 +1564,7 @@ func (ctxt *Link) doelf() {
 		/* global offset table */
 		got := ldr.CreateSymForUpdate(".got", 0)
 		if ctxt.UseRelro() {
-			got.SetType(sym.SRODATARELRO)
+			got.SetType(sym.SELFRELROSECT)
 		} else {
 			got.SetType(sym.SELFGOT) // writable
 		}
@@ -1581,7 +1581,7 @@ func (ctxt *Link) doelf() {
 
 		gotplt := ldr.CreateSymForUpdate(".got.plt", 0)
 		if ctxt.UseRelro() && *flagBindNow {
-			gotplt.SetType(sym.SRODATARELRO)
+			gotplt.SetType(sym.SELFRELROSECT)
 		} else {
 			gotplt.SetType(sym.SELFSECT) // writable
 		}
@@ -1610,7 +1610,7 @@ func (ctxt *Link) doelf() {
 		case thearch.ELF.DynamicReadOnly:
 			dynamic.SetType(sym.SELFROSECT)
 		case ctxt.UseRelro():
-			dynamic.SetType(sym.SRODATARELRO)
+			dynamic.SetType(sym.SELFRELROSECT)
 		default:
 			dynamic.SetType(sym.SELFSECT)
 		}
