@@ -357,7 +357,7 @@ func TestReadMetricsConsistency(t *testing.T) {
 		if cpu.idle <= 0 {
 			t.Errorf("found no idle time: %f", cpu.idle)
 		}
-		if total := cpu.gcDedicated + cpu.gcAssist + cpu.gcIdle + cpu.gcPause; !withinEpsilon(cpu.gcTotal, total, 0.01) {
+		if total := cpu.gcDedicated + cpu.gcAssist + cpu.gcIdle + cpu.gcPause; !withinEpsilon(cpu.gcTotal, total, 0.001) {
 			t.Errorf("calculated total GC CPU not within 1%% of sampled total: %f vs. %f", total, cpu.gcTotal)
 		}
 		if total := cpu.scavengeAssist + cpu.scavengeBg; !withinEpsilon(cpu.scavengeTotal, total, 0.01) {
@@ -369,7 +369,7 @@ func TestReadMetricsConsistency(t *testing.T) {
 		if cpu.user <= 0 {
 			t.Errorf("found no user time passed")
 		}
-		if total := cpu.gcTotal + cpu.scavengeTotal + cpu.user + cpu.idle; !withinEpsilon(cpu.total, total, 0.02) {
+		if total := cpu.gcTotal + cpu.scavengeTotal + cpu.user + cpu.idle; !withinEpsilon(cpu.total, total, 0.001) {
 			t.Errorf("calculated total CPU not within 2%% of sampled total: %f vs. %f", total, cpu.total)
 		}
 	}
