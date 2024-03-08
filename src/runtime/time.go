@@ -733,6 +733,9 @@ func (ts *timers) adjust(now int64, force bool) {
 		if state&timerHeaped == 0 {
 			badTimer()
 		}
+		if state&timerZombie != 0 {
+			ts.zombies.Add(-1) // updateHeap will return updated=true and we will delete t
+		}
 		state, updated := t.updateHeap(state, nil)
 		if updated {
 			changed = true
@@ -742,7 +745,6 @@ func (ts *timers) adjust(now int64, force bool) {
 				ts.heap[n-1] = nil
 				ts.heap = ts.heap[:n-1]
 				t.ts = nil
-				ts.zombies.Add(-1)
 				i--
 			}
 		}
@@ -804,7 +806,11 @@ func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 	// If this is the local P, and there are a lot of deleted timers,
 	// clear them out. We only do this for the local P to reduce
 	// lock contention on timersLock.
-	force := ts == &getg().m.p.ptr().timers && int(int32(ts.zombies.Load())) > int(ts.len.Load())/4
+	zombies := ts.zombies.Load()
+	if int32(zombies) < 0 {
+		badTimer()
+	}
+	force := ts == &getg().m.p.ptr().timers && int(zombies) > int(ts.len.Load())/4
 
 	if now < next && !force {
 		// Next timer is not ready to run, and we don't need to clear deleted timers.
@@ -922,6 +928,7 @@ func (t *timer) unlockAndRun(now int64, state uintptr, mp *m) {
 		state |= timerNextWhen
 		if next == 0 {
 			state |= timerZombie
+			t.ts.zombies.Add(1)
 		}
 	} else {
 		t.when = next
@@ -1202,14 +1209,14 @@ func blockTimerChan(c *hchan) {
 	}
 
 	state += 1 << timerBlockedShift
-	if state&timerHeaped != 0 {
-		// Already in heap, but if this the first enqueue after a recent dequeue,
-		// it may be marked for removal. Unmark it if so, but don't unmark
-		// if the removal is because the timer is not running at all.
-		if state&timerNextWhen == 0 || t.nextWhen != 0 {
-			state &^= timerZombie
-			t.ts.zombies.Add(-1)
-		}
+
+	// If this is the first enqueue after a recent dequeue,
+	// the timer may still be in the heap but marked as a zombie.
+	// Unmark it in this case, if the timer is still pending.
+	if state&timerHeaped != 0 && state&timerZombie != 0 &&
+		(state&timerNextWhen == 0 || t.nextWhen != 0) {
+		state &^= timerZombie
+		t.ts.zombies.Add(-1)
 	}
 
 	// t.maybeAdd must be called with t unlocked,
