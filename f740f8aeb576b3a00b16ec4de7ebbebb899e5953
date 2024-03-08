@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43bc1f1c_10c5f986",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-03-08T23:02:48Z",
+      "side": 1,
+      "message": "There used to be a check for EPERM here which is now removed. Since pidfdWait uses pidfdWorks internally, and the latter check that pidfd_wait works, getting EPERM is not possible here.",
+      "revId": "f740f8aeb576b3a00b16ec4de7ebbebb899e5953",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
