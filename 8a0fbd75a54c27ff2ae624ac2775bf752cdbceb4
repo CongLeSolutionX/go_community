@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8213285_607dada2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-08T18:11:35Z",
+      "side": 1,
+      "message": "This is breaking a variety of tests inside Google that are parsing XML.\nMy guess is this means it will break tests outside Google too.\n\nProbably we should roll this back?",
+      "revId": "8a0fbd75a54c27ff2ae624ac2775bf752cdbceb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
