@@ -404,6 +404,10 @@ var (
 )
 
 func checkCounters(t *testing.T, telemetryDir string) {
+	switch runtime.GOOS {
+	case "illumos", "openbsd", "plan9", "solaris":
+		t.Skip("counters not implemented on %s", runtime.GOOS)
+	}
 	allowedCountersOnce.Do(func() {
 		for _, counter := range strings.Fields(countersTxt) {
 			allowedCounters[counter] = true
