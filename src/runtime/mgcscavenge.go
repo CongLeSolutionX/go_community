@@ -361,6 +361,7 @@ func (s *scavengerState) init() {
 	s.g = getg()
 
 	s.timer = new(timer)
+	s.timer.init()
 	s.timer.arg = s
 	s.timer.f = func(s any, _ uintptr) {
 		s.(*scavengerState).wake()

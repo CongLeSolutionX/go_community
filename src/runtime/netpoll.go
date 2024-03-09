@@ -696,13 +696,15 @@ func (c *pollCache) alloc() *pollDesc {
 		mem := persistentalloc(n*pdSize, 0, &memstats.other_sys)
 		for i := uintptr(0); i < n; i++ {
 			pd := (*pollDesc)(add(mem, i*pdSize))
+			lockInit(&pd.lock, lockRankPollDesc)
+			pd.rt.init()
+			pd.wt.init()
 			pd.link = c.first
 			c.first = pd
 		}
 	}
 	pd := c.first
 	c.first = pd.link
-	lockInit(&pd.lock, lockRankPollDesc)
 	unlock(&c.lock)
 	return pd
 }
