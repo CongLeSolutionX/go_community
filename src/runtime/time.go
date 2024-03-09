@@ -130,6 +130,33 @@ const (
 	timerZombie
 )
 
+const timerDebug = false
+
+func (t *timer) trace(op string, state uintptr) {
+	if timerDebug {
+		t.trace1(op, state)
+	}
+}
+
+func (t *timer) trace1(op string, state uintptr) {
+	if !timerDebug {
+		return
+	}
+	bits := [5]string{"l", "h", "m", "z", "c"}
+	for i := range bits {
+		if state&(1<<i) == 0 {
+			bits[i] = "-"
+		}
+	}
+	print("T ", t, " ", bits[0], bits[1], bits[2], bits[3], bits[4], " ", op, "\n")
+}
+
+func (ts *timers) trace(op string) {
+	if timerDebug {
+		println("TS", ts, op)
+	}
+}
+
 // lock locks the timer, allowing reading or writing any of the timer fields.
 // It returns the current m and the status prior to the lock.
 // The caller must call unlock with the same m and an updated status.
@@ -145,6 +172,7 @@ func (t *timer) lock() (state uintptr, mp *m) {
 		// This could lead to a self-deadlock. See #38070.
 		mp := acquirem()
 		if t.state.CompareAndSwap(state, state|timerLocked) {
+			t.trace("lock", state)
 			return state, mp
 		}
 		releasem(mp)
@@ -155,6 +183,7 @@ func (t *timer) lock() (state uintptr, mp *m) {
 // If mp == nil, the caller is responsible for calling
 // releasem(mp) with the mp returned by t.lock.
 func (t *timer) unlock(state uintptr, mp *m) {
+	t.trace("unlock", state)
 	releaseLockRank(lockRankTimer)
 	if t.state.Load()&timerLocked == 0 {
 		badTimer()
@@ -175,6 +204,7 @@ func (t *timer) unlock(state uintptr, mp *m) {
 // If ts == nil, then t must not be in a heap (or is in a heap that is
 // temporarily not maintaining its invariant, such as during timers.adjust).
 func (t *timer) updateHeap(state uintptr, ts *timers) (newState uintptr, updated bool) {
+	t.trace("updateHeap", state)
 	if ts != nil {
 		assertLockHeld(&ts.mu)
 	}
@@ -273,6 +303,7 @@ type timeTimer struct {
 //go:linkname newTimer time.newTimer
 func newTimer(when, period int64, f func(any, uintptr), arg any) *timeTimer {
 	t := new(timeTimer)
+	t.trace("new", 0)
 	t.when = when
 	t.period = period
 	t.f = f
@@ -353,6 +384,7 @@ func (ts *timers) addHeap(t *timer) {
 // Reports whether the timer was stopped before it was run.
 func (t *timer) stop() bool {
 	state, mp := t.lock()
+	t.trace("stop", state)
 	if state&timerHeaped != 0 {
 		state |= timerModified
 		if state&timerZombie == 0 {
@@ -404,6 +436,7 @@ func (t *timer) modify(when, period int64, f func(any, uintptr), arg any, seq ui
 	}
 
 	state, mp := t.lock()
+	t.trace("modify", state)
 	t.period = period
 	t.f = f
 	t.arg = arg
@@ -440,8 +473,13 @@ func (t *timer) modify(when, period int64, f func(any, uintptr), arg any, seq ui
 
 // needsAdd reports whether t needs to be added to a timers heap.
 func (t *timer) needsAdd(state uintptr) bool {
-	return state&timerHeaped == 0 &&
-		t.when > 0
+	need := state&timerHeaped == 0 && t.when > 0
+	if need {
+		t.trace("needsAdd+", state)
+	} else {
+		t.trace("needsAdd-", state)
+	}
+	return need
 }
 
 // maybeAdd adds t to the local timers heap if it needs to be in a heap.
@@ -468,6 +506,7 @@ func (t *timer) maybeAdd() {
 	ts.lock()
 	ts.cleanHead()
 	state, mp := t.lock()
+	t.trace("maybeAdd", state)
 	when := int64(0)
 	if t.needsAdd(state) {
 		state |= timerHeaped
@@ -493,6 +532,7 @@ func (t *timer) reset(when int64) bool {
 // slows down heap operations.
 // The caller must have locked ts.
 func (ts *timers) cleanHead() {
+	ts.trace("cleanHead")
 	assertLockHeld(&ts.mu)
 	gp := getg()
 	for {
@@ -534,6 +574,7 @@ func (ts *timers) cleanHead() {
 // The caller must not have locked either timers.
 // For now this is only called when the world is stopped.
 func (ts *timers) take(src *timers) {
+	ts.trace("take")
 	assertWorldStopped()
 	if len(src.heap) > 0 {
 		// The world is stopped, so we ignore the locking of ts and src here.
@@ -571,6 +612,7 @@ func (ts *timers) move(timers []*timer) {
 // it also moves timers that have been modified to run later,
 // and removes deleted timers. The caller must have locked ts.
 func (ts *timers) adjust(now int64, force bool) {
+	ts.trace("adjust")
 	assertLockHeld(&ts.mu)
 	// If we haven't yet reached the time of the earliest modified
 	// timer, don't do anything. This speeds up programs that adjust
@@ -702,6 +744,7 @@ func (ts *timers) wakeTime() int64 {
 //
 //go:yeswritebarrierrec
 func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
+	ts.trace("check")
 	// If it's not yet time for the first timer, or the first adjusted
 	// timer, then there is nothing to do.
 	next := ts.wakeTime()
@@ -756,6 +799,7 @@ func (ts *timers) check(now int64) (rnow, pollUntil int64, ran bool) {
 //
 //go:systemstack
 func (ts *timers) run(now int64) int64 {
+	ts.trace("run")
 	assertLockHeld(&ts.mu)
 Redo:
 	if len(ts.heap) == 0 {
@@ -801,6 +845,7 @@ Redo:
 //
 //go:systemstack
 func (t *timer) unlockAndRun(now int64, state uintptr, mp *m) {
+	t.trace("unlockAndRun", state)
 	if t.ts != nil {
 		assertLockHeld(&t.ts.mu)
 	}
