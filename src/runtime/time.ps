@@ -1,0 +1,1445 @@
+%!PS-Adobe-2.0
+%!PS-Adobe-2.0
+%%DocumentFonts: InconsolataGo-Regular Times-Bold
+%%Title: time.go (mpage)
+%%Creator: mpage 2.5.7 June 2017
+%%CreationDate: Fri Feb 16 15:53:06 2024
+%%Orientation: Landscape
+%%DocumentMedia: Letter 612 792
+%%BoundingBox: 18 18 594 774
+%%Pages: (atend)
+%%EndComments
+
+%%BeginProlog
+
+/mp_stm usertime def
+/mp_pgc statusdict begin pagecount end def
+statusdict begin /jobname (time.go) def end
+statusdict /setduplexmode known { statusdict begin true setduplexmode end } if
+/textfont /InconsolataGo-Regular findfont 11 scalefont def
+/textfontbold /InconsolataGo-Bold findfont 11 scalefont def
+/fnamefont /Times-Bold findfont 14 scalefont def
+/headerfont /Times-Bold findfont 12 scalefont def
+textfont setfont
+(a) stringwidth pop /mp_a_x exch def
+%%EndProlog
+%%BeginSetup
+%%BeginFeature: *Duplex DuplexNoTumble
+<< /Duplex true /Tumble false >> setpagedevice
+%%EndFeature
+%%EndSetup
+%%Page: 1 1
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 1) stringwidth pop sub 3 sub 796 moveto (Page 1) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+0 780 moveto (// Copyright 2009 The Go Authors. All rights reserved.) show
+0 768 moveto (// Use of this source code is governed by a BSD-style) show
+0 756 moveto (// license that can be found in the LICENSE file.) show
+0 732 moveto (// Time-related runtime and pieces of package time.) show
+0 708 moveto (package runtime) show
+0 684 moveto (import \() show
+4 mp_a_x mul 672 moveto ("internal/abi") show
+4 mp_a_x mul 660 moveto ("runtime/internal/atomic") show
+4 mp_a_x mul 648 moveto ("runtime/internal/sys") show
+4 mp_a_x mul 636 moveto ("unsafe") show
+0 624 moveto (\)) show
+0 600 moveto (// A timer is a potentially repeating trigger for calling t.f\(t.arg, t.seq\).) show
+0 588 moveto (// Timers are allocated by client code, often as part of other data structures.) show
+0 576 moveto (// Each P has a heap of pointers to timers that it manages.) show
+0 564 moveto (//) show
+0 552 moveto (// A timer is expected to be used by only one client goroutine at a time,) show
+0 540 moveto (// but there will be concurrent access by the P managing that timer.) show
+0 528 moveto (// The fundamental state about the timer is managed in the atomic state field,) show
+0 516 moveto (// including a lock bit to manage access to the other fields.) show
+0 504 moveto (// The lock bit supports a manual cas-based spin lock that handles) show
+0 492 moveto (// contention by yielding the OS thread. The expectation is that critical) show
+0 480 moveto (// sections are very short and contention on the lock bit is low.) show
+0 468 moveto (//) show
+0 456 moveto (// Package time knows the layout of this structure.) show
+0 444 moveto (// If this struct changes, adjust ../time/sleep.go:/runtimeTimer.) show
+0 432 moveto (type timer struct {) show
+4 mp_a_x mul 420 moveto (ts *timers) show
+4 mp_a_x mul 396 moveto (// Timer wakes up at when, and then at when+period, ... \(period > 0 only\)) show
+4 mp_a_x mul 384 moveto (// each time calling f\(arg, now\) in the timer goroutine, so f must be) show
+4 mp_a_x mul 372 moveto (// a well-behaved function and not block.) show
+4 mp_a_x mul 360 moveto (//) show
+4 mp_a_x mul 348 moveto (// when must be positive on an active timer.) show
+4 mp_a_x mul 336 moveto (// Timers in heaps are ordered by when.) show
+4 mp_a_x mul 324 moveto (when   int64) show
+4 mp_a_x mul 312 moveto (period int64) show
+4 mp_a_x mul 300 moveto (f      func\(any, uintptr, int64\)) show
+4 mp_a_x mul 288 moveto (arg    any) show
+4 mp_a_x mul 276 moveto (seq    uintptr) show
+4 mp_a_x mul 252 moveto (// The state field holds state bits, defined below.) show
+4 mp_a_x mul 240 moveto (state atomic.Uintptr) show
+4 mp_a_x mul 216 moveto (// nextWhen is the next value for when,) show
+4 mp_a_x mul 204 moveto (// set if state&timerNextWhen is true.) show
+4 mp_a_x mul 192 moveto (// In that case, the actual update of when = nextWhen) show
+4 mp_a_x mul 180 moveto (// must be delayed until the heap can be fixed at the same time.) show
+4 mp_a_x mul 168 moveto (nextWhen int64) show
+0 156 moveto (}) show
+0 132 moveto (// A timers is a per-P set of timers.) show
+0 120 moveto (type timers struct {) show
+4 mp_a_x mul 108 moveto (// lock protects timers; timers are per-P, but the scheduler can) show
+4 mp_a_x mul 96 moveto (// access the timers of another P, so we have to lock.) show
+4 mp_a_x mul 84 moveto (lock mutex) show
+4 mp_a_x mul 60 moveto (// heap is the set of timers, ordered by t.when.) show
+4 mp_a_x mul 48 moveto (// Must hold lock to access.) show
+4 mp_a_x mul 36 moveto (heap []*timer) show
+4 mp_a_x mul 12 moveto (// len is an atomic copy of len\(heap\).) show
+4 mp_a_x mul 0 moveto (len atomic.Uint32) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 2) stringwidth pop sub 3 sub 796 moveto (Page 2) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+4 mp_a_x mul 768 moveto (// zombies is the number of timers in the heap) show
+4 mp_a_x mul 756 moveto (// that are marked for removal.) show
+4 mp_a_x mul 744 moveto (zombies atomic.Uint32) show
+4 mp_a_x mul 720 moveto (// raceCtx is the race context used while executing timer functions.) show
+4 mp_a_x mul 708 moveto (raceCtx uintptr) show
+4 mp_a_x mul 684 moveto (// timer0When is an atomic copy of of heap[0].when.) show
+4 mp_a_x mul 672 moveto (// If len\(heap\) == 0, timer0When is 0.) show
+4 mp_a_x mul 660 moveto (timer0When atomic.Int64) show
+4 mp_a_x mul 636 moveto (// timerModifiedEarliest holds the earliest known heap[i].nextWhen field) show
+4 mp_a_x mul 624 moveto (// for the heap entries with a new nextWhen pending) show
+4 mp_a_x mul 612 moveto (// \(that is, with the timerNextWhen bit set in t.state\).) show
+4 mp_a_x mul 600 moveto (// Because timers can be modified multiple times,) show
+4 mp_a_x mul 588 moveto (// timerModifiedEarliest can be set to a nextWhen that has since) show
+4 mp_a_x mul 576 moveto (// been replaced with a later time.) show
+4 mp_a_x mul 564 moveto (// If this is 0, it means there are no timerNextWhen timers in the heap.) show
+4 mp_a_x mul 552 moveto (timerModifiedEarliest atomic.Int64) show
+0 540 moveto (}) show
+0 516 moveto (// Timer state field.) show
+0 504 moveto (const \() show
+4 mp_a_x mul 492 moveto (// timerLocked is set when the timer is locked,) show
+4 mp_a_x mul 480 moveto (// meaning other goroutines cannot read or write mutable fields.) show
+4 mp_a_x mul 468 moveto (// Goroutines can still read the state word atomically to see) show
+4 mp_a_x mul 456 moveto (// what the state was before it was locked.) show
+4 mp_a_x mul 444 moveto (// The lock is implemented as a cas on the state field with osyield on contention;) show
+4 mp_a_x mul 432 moveto (// the expectation is very short critical sections with little to no contention.) show
+4 mp_a_x mul 420 moveto (timerLocked = 1 << iota) show
+4 mp_a_x mul 396 moveto (// timerHeaped is set when the timer is stored in some P's heap.) show
+4 mp_a_x mul 384 moveto (timerHeaped) show
+4 mp_a_x mul 360 moveto (// timerNextWhen is set when a pending change to the timer's when) show
+4 mp_a_x mul 348 moveto (// field has been stored in t.nextwhen. The change to t.when waits) show
+4 mp_a_x mul 336 moveto (// until the heap in which the timer appears can also be updated.) show
+4 mp_a_x mul 324 moveto (// Only set when timerHeaped is also set.) show
+4 mp_a_x mul 312 moveto (timerNextWhen) show
+4 mp_a_x mul 288 moveto (// timerZombie is set when the timer has been stopped) show
+4 mp_a_x mul 276 moveto (// but is still present in some P's heap.) show
+4 mp_a_x mul 264 moveto (// Only set when timerHeaped is also set.) show
+4 mp_a_x mul 252 moveto (// It is possible for timerNextWhen and timerZombie to both) show
+4 mp_a_x mul 240 moveto (// be set, meaning that the timer was modified and then stopped.) show
+4 mp_a_x mul 228 moveto (// A timer sending to a channel may be placed in timerZombie) show
+4 mp_a_x mul 216 moveto (// to take it out of the heap even though the timer is not stopped,) show
+4 mp_a_x mul 204 moveto (// as long as nothing is reading from the channel.) show
+4 mp_a_x mul 192 moveto (timerZombie) show
+4 mp_a_x mul 168 moveto (// timerChan is set when a timer is recognized as only existing) show
+4 mp_a_x mul 156 moveto (// to send to a channel. We take the timer out of the heap when) show
+4 mp_a_x mul 144 moveto (// nothing is watching the channel, so that the channel and) show
+4 mp_a_x mul 132 moveto (// the timer can be garbage collected if they become unreferenced,) show
+4 mp_a_x mul 120 moveto (// even if the timer is still pending.) show
+4 mp_a_x mul 108 moveto (timerChan) show
+4 mp_a_x mul 84 moveto (// timerBlocked is a value added repeatedly to the state, once per) show
+4 mp_a_x mul 72 moveto (// goroutine blocked on a timerChan timer.) show
+4 mp_a_x mul 60 moveto (// \(That is, the number of blocked goroutines is state/timerBlocked.\)) show
+4 mp_a_x mul 48 moveto (// Must be last, since it is not just a single bit.) show
+4 mp_a_x mul 36 moveto (timerBlocked) show
+0 24 moveto (\)) show
+0 0 moveto (// lock locks the timer, allowing reading or writing any of the timer fields.) show
+grestore
+restore
+showpage
+%%Page: 2 2
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 3) stringwidth pop sub 3 sub 796 moveto (Page 3) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+0 780 moveto (// It returns the current m and the status prior to the lock.) show
+0 768 moveto (// The caller must call unlock with the same m and an updated status.) show
+0 756 moveto (func \(t *timer\) lock\(\) \(state uintptr, mp *m\) {) show
+4 mp_a_x mul 744 moveto (acquireLockRank\(lockRankTimer\)) show
+4 mp_a_x mul 732 moveto (for {) show
+8 mp_a_x mul 720 moveto (state := t.state.Load\(\)) show
+8 mp_a_x mul 708 moveto (if state&timerLocked != 0 {) show
+12 mp_a_x mul 696 moveto (osyield\(\)) show
+12 mp_a_x mul 684 moveto (continue) show
+8 mp_a_x mul 672 moveto (}) show
+8 mp_a_x mul 660 moveto (// Prevent preemption while the timer is locked.) show
+8 mp_a_x mul 648 moveto (// This could lead to a self-deadlock. See #38070.) show
+8 mp_a_x mul 636 moveto (mp := acquirem\(\)) show
+8 mp_a_x mul 624 moveto (if t.state.CompareAndSwap\(state, state|timerLocked\) {) show
+12 mp_a_x mul 612 moveto (return state, mp) show
+8 mp_a_x mul 600 moveto (}) show
+8 mp_a_x mul 588 moveto (releasem\(mp\)) show
+4 mp_a_x mul 576 moveto (}) show
+0 564 moveto (}) show
+0 540 moveto (// unlock unlocks the timer.) show
+0 528 moveto (// If mp == nil, the caller is responsible for calling) show
+0 516 moveto (// releasem\(mp\) with the mp returned by t.lock.) show
+0 504 moveto (func \(t *timer\) unlock\(state uintptr, mp *m\) {) show
+4 mp_a_x mul 492 moveto (releaseLockRank\(lockRankTimer\)) show
+4 mp_a_x mul 480 moveto (if t.state.Load\(\)&timerLocked == 0 {) show
+8 mp_a_x mul 468 moveto (badTimer\(\)) show
+4 mp_a_x mul 456 moveto (}) show
+4 mp_a_x mul 444 moveto (if state&timerLocked != 0 {) show
+8 mp_a_x mul 432 moveto (badTimer\(\)) show
+4 mp_a_x mul 420 moveto (}) show
+4 mp_a_x mul 408 moveto (t.state.Store\(state\)) show
+4 mp_a_x mul 396 moveto (if mp != nil {) show
+8 mp_a_x mul 384 moveto (releasem\(mp\)) show
+4 mp_a_x mul 372 moveto (}) show
+0 360 moveto (}) show
+0 336 moveto (// initChan checks to see if a timer exists to feed a channel.) show
+0 324 moveto (// If so, it sets the timerChan bit in the state and also records) show
+0 312 moveto (// the timer in the channel's c.timer field.) show
+0 300 moveto (// initChan returns the updated state, to be passed to t.unlock.) show
+0 288 moveto (func \(t *timer\) initChan\(state uintptr\) uintptr {) show
+4 mp_a_x mul 276 moveto (if state&timerChan == 0 && t.arg != nil {) show
+8 mp_a_x mul 264 moveto (if e := efaceOf\(&t.arg\); e._type.Kind\(\) == kindChan {) show
+12 mp_a_x mul 252 moveto (state |= timerChan) show
+12 mp_a_x mul 240 moveto (t.hchan\(state\).timer = t) show
+8 mp_a_x mul 228 moveto (}) show
+4 mp_a_x mul 216 moveto (}) show
+4 mp_a_x mul 204 moveto (return state) show
+0 192 moveto (}) show
+0 168 moveto (// hchan returns the channel associated with the timer t.) show
+0 156 moveto (// It must only be called for timerChan timers.) show
+0 144 moveto (func \(t *timer\) hchan\(state uintptr\) *hchan {) show
+4 mp_a_x mul 132 moveto (if state&timerChan == 0 {) show
+8 mp_a_x mul 120 moveto (badTimer\(\)) show
+4 mp_a_x mul 108 moveto (}) show
+4 mp_a_x mul 96 moveto (return \(*hchan\)\(efaceOf\(&t.arg\).data\)) show
+0 84 moveto (}) show
+0 60 moveto (// updateHeap updates t.when as directed by state, returning the new state) show
+0 48 moveto (// and a bool indicating whether the state \(and t.when\) changed.) show
+0 36 moveto (// If ts != nil, then t must be ts.heap[0], and updateHeap takes care of) show
+0 24 moveto (// moving t within the timers heap to preserve the heap invariants.) show
+0 12 moveto (// If ts == nil, then t must not be in a heap \(or is in a heap that is) show
+0 0 moveto (// temporarily not maintaining its invariant, such as during timers.adjust\).) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 4) stringwidth pop sub 3 sub 796 moveto (Page 4) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+0 780 moveto (func \(t *timer\) updateHeap\(state uintptr, ts *timers\) \(newState uintptr, updated bool\) {) show
+4 mp_a_x mul 768 moveto (if state&timerZombie != 0 {) show
+8 mp_a_x mul 756 moveto (// Take timer out of heap, applying final t.when update first.) show
+8 mp_a_x mul 744 moveto (state &^= timerHeaped | timerZombie) show
+8 mp_a_x mul 732 moveto (if state&timerNextWhen != 0 {) show
+12 mp_a_x mul 720 moveto (state &^= timerNextWhen) show
+12 mp_a_x mul 708 moveto (t.when = t.nextWhen) show
+8 mp_a_x mul 696 moveto (}) show
+8 mp_a_x mul 684 moveto (if ts != nil {) show
+12 mp_a_x mul 672 moveto (if t != ts.heap[0] {) show
+16 mp_a_x mul 660 moveto (badTimer\(\)) show
+12 mp_a_x mul 648 moveto (}) show
+12 mp_a_x mul 636 moveto (ts.zombies.Add\(-1\)) show
+12 mp_a_x mul 624 moveto (ts.deleteMin\(\)) show
+8 mp_a_x mul 612 moveto (}) show
+8 mp_a_x mul 600 moveto (return state, true) show
+4 mp_a_x mul 588 moveto (}) show
+4 mp_a_x mul 564 moveto (if state&timerNextWhen != 0 {) show
+8 mp_a_x mul 552 moveto (// Apply t.when update and move within heap.) show
+8 mp_a_x mul 540 moveto (state &^= timerNextWhen) show
+8 mp_a_x mul 528 moveto (t.when = t.nextWhen) show
+8 mp_a_x mul 516 moveto (// Move t to the right position.) show
+8 mp_a_x mul 504 moveto (if ts != nil {) show
+12 mp_a_x mul 492 moveto (if t != ts.heap[0] {) show
+16 mp_a_x mul 480 moveto (badTimer\(\)) show
+12 mp_a_x mul 468 moveto (}) show
+12 mp_a_x mul 456 moveto (ts.siftDown\(0\)) show
+12 mp_a_x mul 444 moveto (ts.updateTimer0When\(\)) show
+8 mp_a_x mul 432 moveto (}) show
+8 mp_a_x mul 420 moveto (return state, true) show
+4 mp_a_x mul 408 moveto (}) show
+4 mp_a_x mul 384 moveto (return state, false) show
+0 372 moveto (}) show
+0 348 moveto (// maxWhen is the maximum value for timer's when field.) show
+0 336 moveto (const maxWhen = 1<<63 - 1) show
+0 312 moveto (// verifyTimers can be set to true to add debugging checks that the) show
+0 300 moveto (// timer heaps are valid.) show
+0 288 moveto (const verifyTimers = false) show
+0 264 moveto (// Package time APIs.) show
+0 252 moveto (// Godoc uses the comments in package time, not these.) show
+0 228 moveto (// time.now is implemented in assembly.) show
+0 204 moveto (// timeSleep puts the current goroutine to sleep for at least ns nanoseconds.) show
+0 192 moveto (//) show
+0 180 moveto (//go:linkname timeSleep time.Sleep) show
+0 168 moveto (func timeSleep\(ns int64\) {) show
+4 mp_a_x mul 156 moveto (if ns <= 0 {) show
+8 mp_a_x mul 144 moveto (return) show
+4 mp_a_x mul 132 moveto (}) show
+4 mp_a_x mul 108 moveto (gp := getg\(\)) show
+4 mp_a_x mul 96 moveto (t := gp.timer) show
+4 mp_a_x mul 84 moveto (if t == nil {) show
+8 mp_a_x mul 72 moveto (t = new\(timer\)) show
+8 mp_a_x mul 60 moveto (gp.timer = t) show
+4 mp_a_x mul 48 moveto (}) show
+4 mp_a_x mul 36 moveto (t.f = goroutineReady) show
+4 mp_a_x mul 24 moveto (t.arg = gp) show
+4 mp_a_x mul 12 moveto (t.nextWhen = nanotime\(\) + ns) show
+4 mp_a_x mul 0 moveto (if t.nextWhen < 0 { // check for overflow.) show
+grestore
+restore
+showpage
+%%Page: 3 3
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 5) stringwidth pop sub 3 sub 796 moveto (Page 5) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+8 mp_a_x mul 780 moveto (t.nextWhen = maxWhen) show
+4 mp_a_x mul 768 moveto (}) show
+4 mp_a_x mul 756 moveto (gopark\(resetForSleep, unsafe.Pointer\(t\), waitReasonSleep, traceBlockSleep, 1\)) show
+0 744 moveto (}) show
+0 720 moveto (// resetForSleep is called after the goroutine is parked for timeSleep.) show
+0 708 moveto (// We can't call resettimer in timeSleep itself because if this is a short) show
+0 696 moveto (// sleep and there are many goroutines then the P can wind up running the) show
+0 684 moveto (// timer function, goroutineReady, before the goroutine has been parked.) show
+0 672 moveto (func resetForSleep\(gp *g, ut unsafe.Pointer\) bool {) show
+4 mp_a_x mul 660 moveto (t := \(*timer\)\(ut\)) show
+4 mp_a_x mul 648 moveto (t.reset\(t.nextWhen\)) show
+4 mp_a_x mul 636 moveto (return true) show
+0 624 moveto (}) show
+0 600 moveto (// startTimer adds t to the timer heap.) show
+0 588 moveto (//) show
+0 576 moveto (//go:linkname startTimer time.startTimer) show
+0 564 moveto (func startTimer\(t *timer\) {) show
+4 mp_a_x mul 552 moveto (if raceenabled {) show
+8 mp_a_x mul 540 moveto (racerelease\(unsafe.Pointer\(t\)\)) show
+4 mp_a_x mul 528 moveto (}) show
+4 mp_a_x mul 516 moveto (if t.state.Load\(\) != 0 {) show
+8 mp_a_x mul 504 moveto (throw\("startTimer called with initialized timer"\)) show
+4 mp_a_x mul 492 moveto (}) show
+4 mp_a_x mul 480 moveto (t.reset\(t.when\)) show
+0 468 moveto (}) show
+0 444 moveto (// stopTimer stops a timer.) show
+0 432 moveto (// It reports whether t was stopped before being run.) show
+0 420 moveto (//) show
+0 408 moveto (//go:linkname stopTimer time.stopTimer) show
+0 396 moveto (func stopTimer\(t *timer\) bool {) show
+4 mp_a_x mul 384 moveto (return t.stop\(\)) show
+0 372 moveto (}) show
+0 348 moveto (// resetTimer resets an inactive timer, adding it to the heap.) show
+0 336 moveto (//) show
+0 324 moveto (// Reports whether the timer was modified before it was run.) show
+0 312 moveto (//) show
+0 300 moveto (//go:linkname resetTimer time.resetTimer) show
+0 288 moveto (func resetTimer\(t *timer, when int64\) bool {) show
+4 mp_a_x mul 276 moveto (if raceenabled {) show
+8 mp_a_x mul 264 moveto (racerelease\(unsafe.Pointer\(t\)\)) show
+4 mp_a_x mul 252 moveto (}) show
+4 mp_a_x mul 240 moveto (return t.reset\(when\)) show
+0 228 moveto (}) show
+0 204 moveto (// modTimer modifies an existing timer.) show
+0 192 moveto (//) show
+0 180 moveto (//go:linkname modTimer time.modTimer) show
+0 168 moveto (func modTimer\(t *timer, when, period int64\) {) show
+4 mp_a_x mul 156 moveto (t.modify\(when, period, t.f, t.arg, t.seq\)) show
+0 144 moveto (}) show
+0 120 moveto (// Go runtime.) show
+0 96 moveto (// Ready the goroutine arg.) show
+0 84 moveto (func goroutineReady\(arg any, _ uintptr, _ int64\) {) show
+4 mp_a_x mul 72 moveto (goready\(arg.\(*g\), 0\)) show
+0 60 moveto (}) show
+0 36 moveto (// add adds t to the timers.) show
+0 24 moveto (// The caller must have set t.ts = t, unlocked t,) show
+0 12 moveto (// and then locked ts.lock.) show
+0 0 moveto (func \(ts *timers\) add\(t *timer\) {) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 6) stringwidth pop sub 3 sub 796 moveto (Page 6) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+4 mp_a_x mul 780 moveto (// Timers rely on the network poller, so make sure the poller) show
+4 mp_a_x mul 768 moveto (// has started.) show
+4 mp_a_x mul 756 moveto (if netpollInited.Load\(\) == 0 {) show
+8 mp_a_x mul 744 moveto (netpollGenericInit\(\)) show
+4 mp_a_x mul 732 moveto (}) show
+4 mp_a_x mul 708 moveto (if t.ts != ts {) show
+8 mp_a_x mul 696 moveto (throw\("timers.add: ts not set in timer"\)) show
+4 mp_a_x mul 684 moveto (}) show
+4 mp_a_x mul 672 moveto (ts.heap = append\(ts.heap, t\)) show
+4 mp_a_x mul 660 moveto (ts.siftUp\(len\(ts.heap\) - 1\)) show
+4 mp_a_x mul 648 moveto (if t == ts.heap[0] {) show
+8 mp_a_x mul 636 moveto (ts.updateTimer0When\(\)) show
+4 mp_a_x mul 624 moveto (}) show
+4 mp_a_x mul 612 moveto (ts.len.Store\(uint32\(len\(ts.heap\)\)\)) show
+0 600 moveto (}) show
+0 576 moveto (// stop stops the timer t. It may be on some other P, so we can't) show
+0 564 moveto (// actually remove it from the timers heap. We can only mark it as stopped.) show
+0 552 moveto (// It will be removed in due course by the P whose heap it is on.) show
+0 540 moveto (// Reports whether the timer was stopped before it was run.) show
+0 528 moveto (func \(t *timer\) stop\(\) bool {) show
+4 mp_a_x mul 516 moveto (state, mp := t.lock\(\)) show
+0 504 moveto (Redo:) show
+4 mp_a_x mul 492 moveto (pending := false) show
+4 mp_a_x mul 480 moveto (switch {) show
+4 mp_a_x mul 468 moveto (case state&timerHeaped != 0:) show
+8 mp_a_x mul 456 moveto (// Timer is in some heap, but is possibly already stopped) show
+8 mp_a_x mul 444 moveto (// \(indicated by a nextWhen update to 0\).) show
+8 mp_a_x mul 432 moveto (if state&timerNextWhen == 0 || t.nextWhen > 0 {) show
+12 mp_a_x mul 420 moveto (// Timer pending: stop it.) show
+12 mp_a_x mul 408 moveto (t.nextWhen = 0) show
+12 mp_a_x mul 396 moveto (state |= timerNextWhen) show
+12 mp_a_x mul 384 moveto (pending = true) show
+8 mp_a_x mul 372 moveto (}) show
+8 mp_a_x mul 360 moveto (// Mark timer for removal unless already marked.) show
+8 mp_a_x mul 348 moveto (// \(A timerChan timer might be marked for removal but not yet stopped.\)) show
+8 mp_a_x mul 336 moveto (if state&timerZombie == 0 {) show
+12 mp_a_x mul 324 moveto (state |= timerZombie) show
+12 mp_a_x mul 312 moveto (t.ts.zombies.Add\(1\)) show
+8 mp_a_x mul 300 moveto (}) show
+4 mp_a_x mul 276 moveto (case state&timerChan != 0 && t.when != 0:) show
+8 mp_a_x mul 264 moveto (// Active timer attached to channel but not in heap, because) show
+8 mp_a_x mul 252 moveto (// nothing is waiting on the channel or timer is stopped.) show
+8 mp_a_x mul 240 moveto (// If it should have triggered already \(but nothing looked yet\),) show
+8 mp_a_x mul 228 moveto (// trigger now, so that a receive after the stop sees the "old") show
+8 mp_a_x mul 216 moveto (// value that should be there.) show
+8 mp_a_x mul 204 moveto (if state >= timerBlocked { // state&timerHeaped == 0) show
+12 mp_a_x mul 192 moveto (badTimer\(\)) show
+8 mp_a_x mul 180 moveto (}) show
+8 mp_a_x mul 168 moveto (if now := nanotime\(\); t.when <= now {) show
+12 mp_a_x mul 156 moveto (systemstack\(func\(\) {) show
+16 mp_a_x mul 144 moveto (t.unlockAndRun\(now, state, mp\) // resets t.when) show
+12 mp_a_x mul 132 moveto (}\)) show
+12 mp_a_x mul 120 moveto (state, mp = t.lock\(\)) show
+12 mp_a_x mul 108 moveto (if state&timerHeaped != 0 {) show
+16 mp_a_x mul 96 moveto (// While it was unlocked to run the channel send,) show
+16 mp_a_x mul 84 moveto (// the timer moved into the heap.) show
+16 mp_a_x mul 72 moveto (// Behave as though the send happened long ago) show
+16 mp_a_x mul 60 moveto (// and stop was just called now.) show
+16 mp_a_x mul 48 moveto (goto Redo) show
+12 mp_a_x mul 36 moveto (}) show
+8 mp_a_x mul 24 moveto (}) show
+8 mp_a_x mul 12 moveto (pending = t.when > 0) show
+8 mp_a_x mul 0 moveto (t.when = 0) show
+grestore
+restore
+showpage
+%%Page: 4 4
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 7) stringwidth pop sub 3 sub 796 moveto (Page 7) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+4 mp_a_x mul 780 moveto (}) show
+4 mp_a_x mul 756 moveto (t.unlock\(state, mp\)) show
+4 mp_a_x mul 744 moveto (return pending) show
+0 732 moveto (}) show
+0 708 moveto (// deleteMin removes timer 0 from ts.) show
+0 696 moveto (// ts must be locked.) show
+0 684 moveto (func \(ts *timers\) deleteMin\(\) {) show
+4 mp_a_x mul 672 moveto (t := ts.heap[0]) show
+4 mp_a_x mul 660 moveto (if t.ts != ts {) show
+8 mp_a_x mul 648 moveto (throw\("deleteMin: wrong timers"\)) show
+4 mp_a_x mul 636 moveto (}) show
+4 mp_a_x mul 624 moveto (t.ts = nil) show
+4 mp_a_x mul 612 moveto (last := len\(ts.heap\) - 1) show
+4 mp_a_x mul 600 moveto (if last > 0 {) show
+8 mp_a_x mul 588 moveto (ts.heap[0] = ts.heap[last]) show
+4 mp_a_x mul 576 moveto (}) show
+4 mp_a_x mul 564 moveto (ts.heap[last] = nil) show
+4 mp_a_x mul 552 moveto (ts.heap = ts.heap[:last]) show
+4 mp_a_x mul 540 moveto (if last > 0 {) show
+8 mp_a_x mul 528 moveto (ts.siftDown\(0\)) show
+4 mp_a_x mul 516 moveto (}) show
+4 mp_a_x mul 504 moveto (ts.updateTimer0When\(\)) show
+4 mp_a_x mul 492 moveto (ts.len.Store\(uint32\(last\)\)) show
+4 mp_a_x mul 480 moveto (if last == 0 {) show
+8 mp_a_x mul 468 moveto (// If there are no timers, then clearly none are modified.) show
+8 mp_a_x mul 456 moveto (ts.timerModifiedEarliest.Store\(0\)) show
+4 mp_a_x mul 444 moveto (}) show
+0 432 moveto (}) show
+0 408 moveto (// modify modifies an existing timer.) show
+0 396 moveto (// This is called by the netpoll code or time.Ticker.Reset or time.Timer.Reset.) show
+0 384 moveto (// Reports whether the timer was modified before it was run.) show
+0 372 moveto (func \(t *timer\) modify\(when, period int64, f func\(any, uintptr, int64\), arg any, seq uintptr\) bool {) show
+4 mp_a_x mul 360 moveto (if when <= 0 {) show
+8 mp_a_x mul 348 moveto (throw\("timer when must be positive"\)) show
+4 mp_a_x mul 336 moveto (}) show
+4 mp_a_x mul 324 moveto (if period < 0 {) show
+8 mp_a_x mul 312 moveto (throw\("timer period must be non-negative"\)) show
+4 mp_a_x mul 300 moveto (}) show
+4 mp_a_x mul 276 moveto (state, mp := t.lock\(\)) show
+0 264 moveto (Redo:) show
+4 mp_a_x mul 252 moveto (t.period = period) show
+4 mp_a_x mul 240 moveto (t.f = f) show
+4 mp_a_x mul 228 moveto (t.arg = arg) show
+4 mp_a_x mul 216 moveto (t.seq = seq) show
+4 mp_a_x mul 192 moveto (if state&timerHeaped == 0 {) show
+8 mp_a_x mul 180 moveto (// Timer not in any heap, so either stopped/new) show
+8 mp_a_x mul 168 moveto (// or a timer for a currently unused channel.) show
+8 mp_a_x mul 156 moveto (// If this is a timer for a channel, initialize but leave out of heap,) show
+8 mp_a_x mul 144 moveto (// so that GC can collect it. The channel code will add the timer) show
+8 mp_a_x mul 132 moveto (// to the heap as needed to serve blocked channel ops.) show
+8 mp_a_x mul 120 moveto (// See enqueueTimerChan, dequeueTimerChan.) show
+8 mp_a_x mul 108 moveto (if state = t.initChan\(state\); state&timerChan != 0 && state < timerBlocked {) show
+12 mp_a_x mul 96 moveto (pending := false) show
+12 mp_a_x mul 84 moveto (if t.when != 0 {) show
+16 mp_a_x mul 72 moveto (if now := nanotime\(\); t.when <= now {) show
+20 mp_a_x mul 60 moveto (systemstack\(func\(\) {) show
+24 mp_a_x mul 48 moveto (t.unlockAndRun\(now, state, mp\) // resets t.when) show
+20 mp_a_x mul 36 moveto (}\)) show
+20 mp_a_x mul 24 moveto (state, mp = t.lock\(\)) show
+20 mp_a_x mul 12 moveto (if state&timerHeaped != 0 {) show
+24 mp_a_x mul 0 moveto (// While it as unlocked to run the channel send,) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 8) stringwidth pop sub 3 sub 796 moveto (Page 8) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+24 mp_a_x mul 780 moveto (// the timer moved into the heap. Behave as though) show
+24 mp_a_x mul 768 moveto (// the channel send happened long ago and the) show
+24 mp_a_x mul 756 moveto (// modify call just started at this instant.) show
+24 mp_a_x mul 744 moveto (goto Redo) show
+20 mp_a_x mul 732 moveto (}) show
+16 mp_a_x mul 720 moveto (}) show
+12 mp_a_x mul 708 moveto (}) show
+12 mp_a_x mul 696 moveto (pending = t.when > 0) show
+12 mp_a_x mul 684 moveto (t.when = when) show
+12 mp_a_x mul 672 moveto (t.unlock\(state, mp\)) show
+12 mp_a_x mul 660 moveto (return pending) show
+8 mp_a_x mul 648 moveto (}) show
+8 mp_a_x mul 624 moveto (// Not a timer for a channel, so needs to go into heap.) show
+8 mp_a_x mul 612 moveto (// Assigning to when is permitted because the timer) show
+8 mp_a_x mul 600 moveto (// is not in any heap, so the assignment cannot) show
+8 mp_a_x mul 588 moveto (// break heap invariants.) show
+8 mp_a_x mul 576 moveto (t.when = when) show
+8 mp_a_x mul 564 moveto (t.unlockAndQueue\(state, mp\)) show
+8 mp_a_x mul 552 moveto (return false) show
+4 mp_a_x mul 540 moveto (}) show
+4 mp_a_x mul 516 moveto (pending := true // in the heap) show
+4 mp_a_x mul 492 moveto (if state&timerZombie != 0 {) show
+8 mp_a_x mul 480 moveto (// In the heap but marked for removal.) show
+8 mp_a_x mul 468 moveto (// Therefore not pending; unmark it.) show
+8 mp_a_x mul 456 moveto (pending = false) show
+8 mp_a_x mul 444 moveto (t.ts.zombies.Add\(-1\)) show
+8 mp_a_x mul 432 moveto (state &^= timerZombie) show
+4 mp_a_x mul 420 moveto (}) show
+4 mp_a_x mul 396 moveto (// The timer is in some P's heap \(perhaps another P\),) show
+4 mp_a_x mul 384 moveto (// so we can't change the when field.) show
+4 mp_a_x mul 372 moveto (// If we did, the other P's heap would be out of order.) show
+4 mp_a_x mul 360 moveto (// So we put the new when value in the nextWhen field) show
+4 mp_a_x mul 348 moveto (// and set timerNextWhen, leaving the other P set the when) show
+4 mp_a_x mul 336 moveto (// field when it is prepared to maintain the heap invariant.) show
+4 mp_a_x mul 324 moveto (t.nextWhen = when) show
+4 mp_a_x mul 312 moveto (state |= timerNextWhen) show
+4 mp_a_x mul 300 moveto (earlier := when < t.when) show
+4 mp_a_x mul 288 moveto (if earlier {) show
+8 mp_a_x mul 276 moveto (t.ts.updateTimerModifiedEarliest\(when\)) show
+4 mp_a_x mul 264 moveto (}) show
+4 mp_a_x mul 252 moveto (t.unlock\(state, mp\)) show
+4 mp_a_x mul 228 moveto (// If the new status is earlier, wake up the poller.) show
+4 mp_a_x mul 216 moveto (if earlier {) show
+8 mp_a_x mul 204 moveto (wakeNetPoller\(when\)) show
+4 mp_a_x mul 192 moveto (}) show
+4 mp_a_x mul 168 moveto (return pending) show
+0 156 moveto (}) show
+0 132 moveto (// unlockAndQueue unlocks the timer and adds it to the) show
+0 120 moveto (// local P's timer heap.) show
+0 108 moveto (func \(t *timer\) unlockAndQueue\(state uintptr, mp *m\) {) show
+4 mp_a_x mul 96 moveto (// Set up t for insertion but unlock first,) show
+4 mp_a_x mul 84 moveto (// to avoid lock inversion with timers lock.) show
+4 mp_a_x mul 72 moveto (// We set t.ts = ts so that any other concurrent) show
+4 mp_a_x mul 60 moveto (// updates to t after the unlock update the) show
+4 mp_a_x mul 48 moveto (// various atomic state in ts correctly,) show
+4 mp_a_x mul 36 moveto (// as if t were already in ts.) show
+4 mp_a_x mul 24 moveto (ts := &getg\(\).m.p.ptr\(\).timers) show
+4 mp_a_x mul 12 moveto (state |= timerHeaped) show
+4 mp_a_x mul 0 moveto (t.ts = ts) show
+grestore
+restore
+showpage
+%%Page: 5 5
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 9) stringwidth pop sub 3 sub 796 moveto (Page 9) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+4 mp_a_x mul 780 moveto (when := t.when) show
+4 mp_a_x mul 768 moveto (t.unlock\(state, nil\)) show
+4 mp_a_x mul 744 moveto (lock\(&ts.lock\)) show
+4 mp_a_x mul 732 moveto (ts.add\(t\)) show
+4 mp_a_x mul 720 moveto (unlock\(&ts.lock\)) show
+4 mp_a_x mul 708 moveto (releasem\(mp\)) show
+4 mp_a_x mul 696 moveto (wakeNetPoller\(when\)) show
+0 684 moveto (}) show
+0 660 moveto (// reset resets the time when a timer should fire.) show
+0 648 moveto (// If used for an inactive timer, the timer will become active.) show
+0 636 moveto (// This should be called instead of addtimer if the timer value has been,) show
+0 624 moveto (// or may have been, used previously.) show
+0 612 moveto (// Reports whether the timer was active and was stopped.) show
+0 600 moveto (func \(t *timer\) reset\(when int64\) bool {) show
+4 mp_a_x mul 588 moveto (return t.modify\(when, t.period, t.f, t.arg, t.seq\)) show
+0 576 moveto (}) show
+0 552 moveto (// cleanHead cleans up the head of the timer queue. This speeds up) show
+0 540 moveto (// programs that create and delete timers; leaving them in the heap) show
+0 528 moveto (// slows down addtimer.) show
+0 516 moveto (// The caller must have locked ts.) show
+0 504 moveto (func \(ts *timers\) cleanHead\(\) {) show
+4 mp_a_x mul 492 moveto (gp := getg\(\)) show
+4 mp_a_x mul 480 moveto (for {) show
+8 mp_a_x mul 468 moveto (if len\(ts.heap\) == 0 {) show
+12 mp_a_x mul 456 moveto (return) show
+8 mp_a_x mul 444 moveto (}) show
+8 mp_a_x mul 420 moveto (// This loop can theoretically run for a while, and because) show
+8 mp_a_x mul 408 moveto (// it is holding timersLock it cannot be preempted.) show
+8 mp_a_x mul 396 moveto (// If someone is trying to preempt us, just return.) show
+8 mp_a_x mul 384 moveto (// We can clean the timers later.) show
+8 mp_a_x mul 372 moveto (if gp.preemptStop {) show
+12 mp_a_x mul 360 moveto (return) show
+8 mp_a_x mul 348 moveto (}) show
+8 mp_a_x mul 324 moveto (t := ts.heap[0]) show
+8 mp_a_x mul 312 moveto (if t.ts != ts {) show
+12 mp_a_x mul 300 moveto (throw\("timers.cleanHead: bad ts"\)) show
+8 mp_a_x mul 288 moveto (}) show
+8 mp_a_x mul 264 moveto (if t.state.Load\(\)&\(timerNextWhen|timerZombie\) == 0 {) show
+12 mp_a_x mul 252 moveto (// Fast path: head of timers does not need adjustment.) show
+12 mp_a_x mul 240 moveto (return) show
+8 mp_a_x mul 228 moveto (}) show
+8 mp_a_x mul 204 moveto (state, mp := t.lock\(\)) show
+8 mp_a_x mul 192 moveto (state, updated := t.updateHeap\(state, ts\)) show
+8 mp_a_x mul 180 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 168 moveto (if !updated {) show
+12 mp_a_x mul 156 moveto (// Head of timers does not need adjustment.) show
+12 mp_a_x mul 144 moveto (return) show
+8 mp_a_x mul 132 moveto (}) show
+4 mp_a_x mul 120 moveto (}) show
+0 108 moveto (}) show
+0 84 moveto (// take moves any timers from src into ts) show
+0 72 moveto (// and then clears the timer state from src,) show
+0 60 moveto (// because src is being destroyed.) show
+0 48 moveto (// The caller must not have locked either timers.) show
+0 36 moveto (func \(ts *timers\) take\(src *timers\) {) show
+4 mp_a_x mul 24 moveto (if len\(src.heap\) > 0 {) show
+8 mp_a_x mul 12 moveto (// The world is stopped, but we acquire timersLock to) show
+8 mp_a_x mul 0 moveto (// protect against sysmon calling timeSleepUntil.) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 10) stringwidth pop sub 3 sub 796 moveto (Page 10) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+8 mp_a_x mul 780 moveto (// This is the only case where we hold the timersLock of) show
+8 mp_a_x mul 768 moveto (// more than one P, so there are no deadlock concerns.) show
+8 mp_a_x mul 756 moveto (lock\(&src.lock\)) show
+8 mp_a_x mul 744 moveto (lock\(&ts.lock\)) show
+8 mp_a_x mul 732 moveto (ts.move\(src.heap\)) show
+8 mp_a_x mul 720 moveto (src.heap = nil) show
+8 mp_a_x mul 708 moveto (src.len.Store\(0\)) show
+8 mp_a_x mul 696 moveto (src.zombies.Store\(0\)) show
+8 mp_a_x mul 684 moveto (src.timer0When.Store\(0\)) show
+8 mp_a_x mul 672 moveto (src.timerModifiedEarliest.Store\(0\)) show
+8 mp_a_x mul 660 moveto (unlock\(&ts.lock\)) show
+8 mp_a_x mul 648 moveto (unlock\(&src.lock\)) show
+4 mp_a_x mul 636 moveto (}) show
+0 624 moveto (}) show
+0 600 moveto (// moveTimers moves a slice of timers to pp. The slice has been taken) show
+0 588 moveto (// from a different P.) show
+0 576 moveto (// This is currently called when the world is stopped, but the caller) show
+0 564 moveto (// is expected to have locked the timers for pp.) show
+0 552 moveto (func \(ts *timers\) move\(timers []*timer\) {) show
+4 mp_a_x mul 540 moveto (for _, t := range timers {) show
+8 mp_a_x mul 528 moveto (state, mp := t.lock\(\)) show
+8 mp_a_x mul 516 moveto (t.ts = nil) show
+8 mp_a_x mul 504 moveto (state, _ = t.updateHeap\(state, nil\)) show
+8 mp_a_x mul 492 moveto (// Unlock before add, to avoid append \(allocation\)) show
+8 mp_a_x mul 480 moveto (// while holding lock. This would be correct even if the world wasn't) show
+8 mp_a_x mul 468 moveto (// stopped \(but it is\), and it makes staticlockranking happy.) show
+8 mp_a_x mul 456 moveto (if state&timerHeaped != 0 {) show
+12 mp_a_x mul 444 moveto (t.ts = ts) show
+8 mp_a_x mul 432 moveto (}) show
+8 mp_a_x mul 420 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 408 moveto (if state&timerHeaped != 0 {) show
+12 mp_a_x mul 396 moveto (ts.add\(t\)) show
+8 mp_a_x mul 384 moveto (}) show
+4 mp_a_x mul 372 moveto (}) show
+0 360 moveto (}) show
+0 336 moveto (// adjust looks through the timers in the current P's heap for) show
+0 324 moveto (// any timers that have been modified to run earlier, and puts them in) show
+0 312 moveto (// the correct place in the heap. While looking for those timers,) show
+0 300 moveto (// it also moves timers that have been modified to run later,) show
+0 288 moveto (// and removes deleted timers. The caller must have locked the timers for pp.) show
+0 276 moveto (func \(ts *timers\) adjust\(now int64, force bool\) {) show
+4 mp_a_x mul 264 moveto (// If we haven't yet reached the time of the earliest timerModified) show
+4 mp_a_x mul 252 moveto (// timer, don't do anything. This speeds up programs that adjust) show
+4 mp_a_x mul 240 moveto (// a lot of timers back and forth if the timers rarely expire.) show
+4 mp_a_x mul 228 moveto (// We'll postpone looking through all the adjusted timers until) show
+4 mp_a_x mul 216 moveto (// one would actually expire.) show
+4 mp_a_x mul 204 moveto (if !force {) show
+8 mp_a_x mul 192 moveto (first := ts.timerModifiedEarliest.Load\(\)) show
+8 mp_a_x mul 180 moveto (if first == 0 || first > now {) show
+12 mp_a_x mul 168 moveto (if verifyTimers {) show
+16 mp_a_x mul 156 moveto (ts.verify\(\)) show
+12 mp_a_x mul 144 moveto (}) show
+12 mp_a_x mul 132 moveto (return) show
+8 mp_a_x mul 120 moveto (}) show
+4 mp_a_x mul 108 moveto (}) show
+4 mp_a_x mul 84 moveto (// We are going to clear all timerModified timers.) show
+4 mp_a_x mul 72 moveto (ts.timerModifiedEarliest.Store\(0\)) show
+4 mp_a_x mul 48 moveto (changed := false) show
+4 mp_a_x mul 36 moveto (for i := 0; i < len\(ts.heap\); i++ {) show
+8 mp_a_x mul 24 moveto (t := ts.heap[i]) show
+8 mp_a_x mul 12 moveto (if t.ts != ts {) show
+12 mp_a_x mul 0 moveto (throw\("timers.adjust: bad ts"\)) show
+grestore
+restore
+showpage
+%%Page: 6 6
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 11) stringwidth pop sub 3 sub 796 moveto (Page 11) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+8 mp_a_x mul 780 moveto (}) show
+8 mp_a_x mul 756 moveto (state, mp := t.lock\(\)) show
+8 mp_a_x mul 744 moveto (if state&timerHeaped == 0 {) show
+12 mp_a_x mul 732 moveto (badTimer\(\)) show
+8 mp_a_x mul 720 moveto (}) show
+8 mp_a_x mul 708 moveto (state, updated := t.updateHeap\(state, nil\)) show
+8 mp_a_x mul 696 moveto (if updated {) show
+12 mp_a_x mul 684 moveto (changed = true) show
+12 mp_a_x mul 672 moveto (if state&timerHeaped == 0 {) show
+16 mp_a_x mul 660 moveto (n := len\(ts.heap\)) show
+16 mp_a_x mul 648 moveto (ts.heap[i] = ts.heap[n-1]) show
+16 mp_a_x mul 636 moveto (ts.heap[n-1] = nil) show
+16 mp_a_x mul 624 moveto (ts.heap = ts.heap[:n-1]) show
+16 mp_a_x mul 612 moveto (t.ts = nil) show
+16 mp_a_x mul 600 moveto (ts.zombies.Add\(-1\)) show
+16 mp_a_x mul 588 moveto (i--) show
+12 mp_a_x mul 576 moveto (}) show
+8 mp_a_x mul 564 moveto (}) show
+8 mp_a_x mul 552 moveto (t.unlock\(state, mp\)) show
+4 mp_a_x mul 540 moveto (}) show
+4 mp_a_x mul 516 moveto (if changed {) show
+8 mp_a_x mul 504 moveto (ts.initHeap\(\)) show
+8 mp_a_x mul 492 moveto (ts.updateTimer0When\(\)) show
+4 mp_a_x mul 480 moveto (}) show
+4 mp_a_x mul 456 moveto (if verifyTimers {) show
+8 mp_a_x mul 444 moveto (ts.verify\(\)) show
+4 mp_a_x mul 432 moveto (}) show
+0 420 moveto (}) show
+0 396 moveto (// wakeTime looks at ts's timers and returns the time when we) show
+0 384 moveto (// should wake up the netpoller. It returns 0 if there are no timers.) show
+0 372 moveto (// This function is invoked when dropping a P, so it must run without) show
+0 360 moveto (// any write barriers.) show
+0 348 moveto (//) show
+0 336 moveto (//go:nowritebarrierrec) show
+0 324 moveto (func \(ts *timers\) wakeTime\(\) int64 {) show
+4 mp_a_x mul 312 moveto (next := ts.timer0When.Load\(\)) show
+4 mp_a_x mul 300 moveto (nextAdj := ts.timerModifiedEarliest.Load\(\)) show
+4 mp_a_x mul 288 moveto (if next == 0 || \(nextAdj != 0 && nextAdj < next\) {) show
+8 mp_a_x mul 276 moveto (next = nextAdj) show
+4 mp_a_x mul 264 moveto (}) show
+4 mp_a_x mul 252 moveto (return next) show
+0 240 moveto (}) show
+0 216 moveto (// check runs any timers for the P that are ready.) show
+0 204 moveto (// If now is not 0 it is the current time.) show
+0 192 moveto (// It returns the passed time or the current time if now was passed as 0.) show
+0 180 moveto (// and the time when the next timer should run or 0 if there is no next timer,) show
+0 168 moveto (// and reports whether it ran any timers.) show
+0 156 moveto (// If the time when the next timer should run is not 0,) show
+0 144 moveto (// it is always larger than the returned time.) show
+0 132 moveto (// We pass now in and out to avoid extra calls of nanotime.) show
+0 120 moveto (//) show
+0 108 moveto (//go:yeswritebarrierrec) show
+0 96 moveto (func \(ts *timers\) check\(now int64\) \(rnow, pollUntil int64, ran bool\) {) show
+4 mp_a_x mul 84 moveto (// If it's not yet time for the first timer, or the first adjusted) show
+4 mp_a_x mul 72 moveto (// timer, then there is nothing to do.) show
+4 mp_a_x mul 60 moveto (next := ts.wakeTime\(\)) show
+4 mp_a_x mul 48 moveto (if next == 0 {) show
+8 mp_a_x mul 36 moveto (// No timers to run or adjust.) show
+8 mp_a_x mul 24 moveto (return now, 0, false) show
+4 mp_a_x mul 12 moveto (}) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 12) stringwidth pop sub 3 sub 796 moveto (Page 12) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+4 mp_a_x mul 780 moveto (if now == 0 {) show
+8 mp_a_x mul 768 moveto (now = nanotime\(\)) show
+4 mp_a_x mul 756 moveto (}) show
+4 mp_a_x mul 732 moveto (// If this is the local P, and there are a lot of deleted timers,) show
+4 mp_a_x mul 720 moveto (// clear them out. We only do this for the local P to reduce) show
+4 mp_a_x mul 708 moveto (// lock contention on timersLock.) show
+4 mp_a_x mul 696 moveto (force := ts == &getg\(\).m.p.ptr\(\).timers && int\(ts.zombies.Load\(\)\) > int\(ts.len.Load\(\)\)/4) show
+4 mp_a_x mul 672 moveto (if now < next && !force {) show
+8 mp_a_x mul 660 moveto (// Next timer is not ready to run, and we don't need to clear deleted timers.) show
+8 mp_a_x mul 648 moveto (return now, next, false) show
+4 mp_a_x mul 636 moveto (}) show
+4 mp_a_x mul 612 moveto (lock\(&ts.lock\)) show
+4 mp_a_x mul 600 moveto (if len\(ts.heap\) > 0 {) show
+8 mp_a_x mul 588 moveto (ts.adjust\(now, force\)) show
+8 mp_a_x mul 576 moveto (for len\(ts.heap\) > 0 {) show
+12 mp_a_x mul 564 moveto (// Note that runtimer may temporarily unlock) show
+12 mp_a_x mul 552 moveto (// pp.timersLock.) show
+12 mp_a_x mul 540 moveto (if tw := ts.run\(now\); tw != 0 {) show
+16 mp_a_x mul 528 moveto (if tw > 0 {) show
+20 mp_a_x mul 516 moveto (pollUntil = tw) show
+16 mp_a_x mul 504 moveto (}) show
+16 mp_a_x mul 492 moveto (break) show
+12 mp_a_x mul 480 moveto (}) show
+12 mp_a_x mul 468 moveto (ran = true) show
+8 mp_a_x mul 456 moveto (}) show
+4 mp_a_x mul 444 moveto (}) show
+4 mp_a_x mul 420 moveto (unlock\(&ts.lock\)) show
+4 mp_a_x mul 396 moveto (return now, pollUntil, ran) show
+0 384 moveto (}) show
+0 360 moveto (// run examines the first timer in timers. If it is ready based on now,) show
+0 348 moveto (// it runs the timer and removes or updates it.) show
+0 336 moveto (// Returns 0 if it ran a timer, -1 if there are no more timers, or the time) show
+0 324 moveto (// when the first timer should run.) show
+0 312 moveto (// The caller must have locked the timers for pp.) show
+0 300 moveto (// If a timer is run, this will temporarily unlock the timers.) show
+0 288 moveto (//) show
+0 276 moveto (//go:systemstack) show
+0 264 moveto (func \(ts *timers\) run\(now int64\) int64 {) show
+0 252 moveto (Redo:) show
+4 mp_a_x mul 240 moveto (if len\(ts.heap\) == 0 {) show
+8 mp_a_x mul 228 moveto (return -1) show
+4 mp_a_x mul 216 moveto (}) show
+4 mp_a_x mul 204 moveto (t := ts.heap[0]) show
+4 mp_a_x mul 192 moveto (if t.ts != ts {) show
+8 mp_a_x mul 180 moveto (throw\("timers.run: bad ts"\)) show
+4 mp_a_x mul 168 moveto (}) show
+4 mp_a_x mul 144 moveto (if t.state.Load\(\)&\(timerNextWhen|timerZombie\) == 0 && t.when > now {) show
+8 mp_a_x mul 132 moveto (// Fast path: not ready to run.) show
+8 mp_a_x mul 120 moveto (// The access of t.when is protected by the caller holding) show
+8 mp_a_x mul 108 moveto (// pp.timersLock, even though t itself is unlocked.) show
+8 mp_a_x mul 96 moveto (return t.when) show
+4 mp_a_x mul 84 moveto (}) show
+4 mp_a_x mul 60 moveto (state, mp := t.lock\(\)) show
+4 mp_a_x mul 48 moveto (state, updated := t.updateHeap\(state, ts\)) show
+4 mp_a_x mul 36 moveto (if updated {) show
+8 mp_a_x mul 24 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 12 moveto (goto Redo) show
+4 mp_a_x mul 0 moveto (}) show
+grestore
+restore
+showpage
+%%Page: 7 7
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 13) stringwidth pop sub 3 sub 796 moveto (Page 13) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+4 mp_a_x mul 768 moveto (if state&timerHeaped == 0 {) show
+8 mp_a_x mul 756 moveto (badTimer\(\)) show
+4 mp_a_x mul 744 moveto (}) show
+4 mp_a_x mul 720 moveto (if t.when > now {) show
+8 mp_a_x mul 708 moveto (// Not ready to run.) show
+8 mp_a_x mul 696 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 684 moveto (return t.when) show
+4 mp_a_x mul 672 moveto (}) show
+4 mp_a_x mul 648 moveto (t.unlockAndRun\(now, state, mp\)) show
+4 mp_a_x mul 636 moveto (return 0) show
+0 624 moveto (}) show
+0 600 moveto (// unlockAndRun unlocks and runs the timer t.) show
+0 588 moveto (// If t is in a timer set \(t.ts != nil\), the caller must have locked the timer set,) show
+0 576 moveto (// and this call will temporarily unlock the timer set while running the timer function.) show
+0 564 moveto (//) show
+0 552 moveto (//go:systemstack) show
+0 540 moveto (func \(t *timer\) unlockAndRun\(now int64, state uintptr, mp *m\) {) show
+4 mp_a_x mul 528 moveto (if raceenabled {) show
+8 mp_a_x mul 516 moveto (// Note that we are running on a system stack,) show
+8 mp_a_x mul 504 moveto (// so there is no chance of getg\(\).m being reassigned) show
+8 mp_a_x mul 492 moveto (// out from under us while this function executes.) show
+8 mp_a_x mul 480 moveto (tsLocal := &getg\(\).m.p.ptr\(\).timers) show
+8 mp_a_x mul 468 moveto (if tsLocal.raceCtx == 0 {) show
+12 mp_a_x mul 456 moveto (tsLocal.raceCtx = racegostart\(abi.FuncPCABIInternal\(\(*timers\).run\) + sys.PCQuantum\)) show
+8 mp_a_x mul 444 moveto (}) show
+8 mp_a_x mul 432 moveto (raceacquirectx\(tsLocal.raceCtx, unsafe.Pointer\(t\)\)) show
+4 mp_a_x mul 420 moveto (}) show
+4 mp_a_x mul 396 moveto (if state&\(timerNextWhen|timerZombie\) != 0 {) show
+8 mp_a_x mul 384 moveto (badTimer\(\)) show
+4 mp_a_x mul 372 moveto (}) show
+4 mp_a_x mul 348 moveto (f := t.f) show
+4 mp_a_x mul 336 moveto (arg := t.arg) show
+4 mp_a_x mul 324 moveto (seq := t.seq) show
+4 mp_a_x mul 312 moveto (var next int64) show
+4 mp_a_x mul 300 moveto (delay := now - t.when) show
+4 mp_a_x mul 288 moveto (if t.period > 0 {) show
+8 mp_a_x mul 276 moveto (// Leave in heap but adjust next time to fire.) show
+8 mp_a_x mul 264 moveto (next = t.when + t.period*\(1+delay/t.period\)) show
+8 mp_a_x mul 252 moveto (if next < 0 { // check for overflow.) show
+12 mp_a_x mul 240 moveto (next = maxWhen) show
+8 mp_a_x mul 228 moveto (}) show
+4 mp_a_x mul 216 moveto (} else {) show
+8 mp_a_x mul 204 moveto (next = 0) show
+4 mp_a_x mul 192 moveto (}) show
+4 mp_a_x mul 180 moveto (if state&timerHeaped != 0 {) show
+8 mp_a_x mul 168 moveto (t.nextWhen = next) show
+8 mp_a_x mul 156 moveto (state |= timerNextWhen) show
+8 mp_a_x mul 144 moveto (if next == 0 {) show
+12 mp_a_x mul 132 moveto (state |= timerZombie) show
+8 mp_a_x mul 120 moveto (}) show
+4 mp_a_x mul 108 moveto (} else {) show
+8 mp_a_x mul 96 moveto (t.when = next) show
+4 mp_a_x mul 84 moveto (}) show
+4 mp_a_x mul 72 moveto (ts := t.ts) show
+4 mp_a_x mul 60 moveto (state, _ = t.updateHeap\(state, ts\)) show
+4 mp_a_x mul 48 moveto (t.unlock\(state, mp\)) show
+4 mp_a_x mul 24 moveto (if raceenabled {) show
+8 mp_a_x mul 12 moveto (// Temporarily use the current P's racectx for g0.) show
+8 mp_a_x mul 0 moveto (gp := getg\(\)) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 14) stringwidth pop sub 3 sub 796 moveto (Page 14) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+8 mp_a_x mul 780 moveto (if gp.racectx != 0 {) show
+12 mp_a_x mul 768 moveto (throw\("timers.run: unexpected racectx"\)) show
+8 mp_a_x mul 756 moveto (}) show
+8 mp_a_x mul 744 moveto (gp.racectx = gp.m.p.ptr\(\).timers.raceCtx) show
+4 mp_a_x mul 732 moveto (}) show
+4 mp_a_x mul 708 moveto (if ts != nil {) show
+8 mp_a_x mul 696 moveto (unlock\(&ts.lock\)) show
+4 mp_a_x mul 684 moveto (}) show
+4 mp_a_x mul 672 moveto (f\(arg, seq, delay\)) show
+4 mp_a_x mul 660 moveto (if ts != nil {) show
+8 mp_a_x mul 648 moveto (lock\(&ts.lock\)) show
+4 mp_a_x mul 636 moveto (}) show
+4 mp_a_x mul 612 moveto (if raceenabled {) show
+8 mp_a_x mul 600 moveto (gp := getg\(\)) show
+8 mp_a_x mul 588 moveto (gp.racectx = 0) show
+4 mp_a_x mul 576 moveto (}) show
+0 564 moveto (}) show
+0 540 moveto (// updateTimerPMask clears pp's timer mask if it has no timers on its heap.) show
+0 528 moveto (//) show
+0 516 moveto (// Ideally, the timer mask would be kept immediately consistent on any timer) show
+0 504 moveto (// operations. Unfortunately, updating a shared global data structure in the) show
+0 492 moveto (// timer hot path adds too much overhead in applications frequently switching) show
+0 480 moveto (// between no timers and some timers.) show
+0 468 moveto (//) show
+0 456 moveto (// As a compromise, the timer mask is updated only on pidleget / pidleput. A) show
+0 444 moveto (// running P \(returned by pidleget\) may add a timer at any time, so its mask) show
+0 432 moveto (// must be set. An idle P \(passed to pidleput\) cannot add new timers while) show
+0 420 moveto (// idle, so if it has no timers at that time, its mask may be cleared.) show
+0 408 moveto (//) show
+0 396 moveto (// Thus, we get the following effects on timer-stealing in findrunnable:) show
+0 384 moveto (//) show
+0 372 moveto (//   - Idle Ps with no timers when they go idle are never checked in findrunnable) show
+0 360 moveto (//     \(for work- or timer-stealing; this is the ideal case\).) show
+0 348 moveto (//   - Running Ps must always be checked.) show
+0 336 moveto (//   - Idle Ps whose timers are stolen must continue to be checked until they run) show
+0 324 moveto (//     again, even after timer expiration.) show
+0 312 moveto (//) show
+0 300 moveto (// When the P starts running again, the mask should be set, as a timer may be) show
+0 288 moveto (// added at any time.) show
+0 276 moveto (//) show
+0 264 moveto (// TODO\(prattmic\): Additional targeted updates may improve the above cases.) show
+0 252 moveto (// e.g., updating the mask when stealing a timer.) show
+0 240 moveto (func updateTimerPMask\(pp *p\) {) show
+4 mp_a_x mul 228 moveto (if pp.timers.len.Load\(\) > 0 {) show
+8 mp_a_x mul 216 moveto (return) show
+4 mp_a_x mul 204 moveto (}) show
+4 mp_a_x mul 180 moveto (// Looks like there are no timers, however another P may transiently) show
+4 mp_a_x mul 168 moveto (// decrement numTimers when handling a timerModified timer in) show
+4 mp_a_x mul 156 moveto (// checkTimers. We must take timersLock to serialize with these changes.) show
+4 mp_a_x mul 144 moveto (lock\(&pp.timers.lock\)) show
+4 mp_a_x mul 132 moveto (if pp.timers.len.Load\(\) == 0 {) show
+8 mp_a_x mul 120 moveto (timerpMask.clear\(pp.id\)) show
+4 mp_a_x mul 108 moveto (}) show
+4 mp_a_x mul 96 moveto (unlock\(&pp.timers.lock\)) show
+0 84 moveto (}) show
+0 60 moveto (// verifyTimerHeap verifies that the timers is in a valid state.) show
+0 48 moveto (// This is only for debugging, and is only called if verifyTimers is true.) show
+0 36 moveto (// The caller must have locked the timers.) show
+0 24 moveto (func \(ts *timers\) verify\(\) {) show
+4 mp_a_x mul 12 moveto (for i, t := range ts.heap {) show
+8 mp_a_x mul 0 moveto (if i == 0 {) show
+grestore
+restore
+showpage
+%%Page: 8 8
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 15) stringwidth pop sub 3 sub 796 moveto (Page 15) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+12 mp_a_x mul 780 moveto (// First timer has no parent.) show
+12 mp_a_x mul 768 moveto (continue) show
+8 mp_a_x mul 756 moveto (}) show
+8 mp_a_x mul 732 moveto (// The heap is 4-ary. See siftupTimer and siftdownTimer.) show
+8 mp_a_x mul 720 moveto (p := \(i - 1\) / 4) show
+8 mp_a_x mul 708 moveto (if t.when < ts.heap[p].when {) show
+12 mp_a_x mul 696 moveto (print\("bad timer heap at ", i, ": ", p, ": ", ts.heap[p].when, ", ", i, ": ", t.when, "\\n"\)) show
+12 mp_a_x mul 684 moveto (throw\("bad timer heap"\)) show
+8 mp_a_x mul 672 moveto (}) show
+4 mp_a_x mul 660 moveto (}) show
+4 mp_a_x mul 648 moveto (if n := int\(ts.len.Load\(\)\); len\(ts.heap\) != n {) show
+8 mp_a_x mul 636 moveto (println\("timer heap len", len\(ts.heap\), "!= atomic len", n\)) show
+8 mp_a_x mul 624 moveto (throw\("bad timer heap len"\)) show
+4 mp_a_x mul 612 moveto (}) show
+0 600 moveto (}) show
+0 576 moveto (// updateTimer0When sets the P's timer0When field.) show
+0 564 moveto (// The caller must have locked the timers for pp.) show
+0 552 moveto (func \(ts *timers\) updateTimer0When\(\) {) show
+4 mp_a_x mul 540 moveto (if len\(ts.heap\) == 0 {) show
+8 mp_a_x mul 528 moveto (ts.timer0When.Store\(0\)) show
+4 mp_a_x mul 516 moveto (} else {) show
+8 mp_a_x mul 504 moveto (ts.timer0When.Store\(ts.heap[0].when\)) show
+4 mp_a_x mul 492 moveto (}) show
+0 480 moveto (}) show
+0 456 moveto (// updateTimerModifiedEarliest updates the recorded nextwhen field of the) show
+0 444 moveto (// earlier timerModifiedEarier value.) show
+0 432 moveto (// The timers for pp will not be locked.) show
+0 420 moveto (func \(ts *timers\) updateTimerModifiedEarliest\(nextwhen int64\) {) show
+4 mp_a_x mul 408 moveto (// The low bit of timerModifiedEarliest tracks how the value was set.) show
+4 mp_a_x mul 396 moveto (// Low bit 1 means it was set by updateTimerModifiedEarliest) show
+4 mp_a_x mul 384 moveto (// \(without holding ts.lock\).) show
+4 mp_a_x mul 372 moveto (nextwhen |= 1) show
+4 mp_a_x mul 360 moveto (for {) show
+8 mp_a_x mul 348 moveto (old := ts.timerModifiedEarliest.Load\(\)) show
+8 mp_a_x mul 336 moveto (if old != 0 && old < nextwhen {) show
+12 mp_a_x mul 324 moveto (return) show
+8 mp_a_x mul 312 moveto (}) show
+8 mp_a_x mul 288 moveto (if ts.timerModifiedEarliest.CompareAndSwap\(old, nextwhen\) {) show
+12 mp_a_x mul 276 moveto (return) show
+8 mp_a_x mul 264 moveto (}) show
+4 mp_a_x mul 252 moveto (}) show
+0 240 moveto (}) show
+0 216 moveto (// timeSleepUntil returns the time when the next timer should fire. Returns) show
+0 204 moveto (// maxWhen if there are no timers.) show
+0 192 moveto (// This is only called by sysmon and checkdead.) show
+0 180 moveto (func timeSleepUntil\(\) int64 {) show
+4 mp_a_x mul 168 moveto (next := int64\(maxWhen\)) show
+4 mp_a_x mul 144 moveto (// Prevent allp slice changes. This is like retake.) show
+4 mp_a_x mul 132 moveto (lock\(&allpLock\)) show
+4 mp_a_x mul 120 moveto (for _, pp := range allp {) show
+8 mp_a_x mul 108 moveto (if pp == nil {) show
+12 mp_a_x mul 96 moveto (// This can happen if procresize has grown) show
+12 mp_a_x mul 84 moveto (// allp but not yet created new Ps.) show
+12 mp_a_x mul 72 moveto (continue) show
+8 mp_a_x mul 60 moveto (}) show
+8 mp_a_x mul 36 moveto (if w := pp.timers.wakeTime\(\); w != 0 {) show
+12 mp_a_x mul 24 moveto (next = min\(next, w\)) show
+8 mp_a_x mul 12 moveto (}) show
+4 mp_a_x mul 0 moveto (}) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 16) stringwidth pop sub 3 sub 796 moveto (Page 16) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+4 mp_a_x mul 780 moveto (unlock\(&allpLock\)) show
+4 mp_a_x mul 756 moveto (return next) show
+0 744 moveto (}) show
+0 720 moveto (// Heap maintenance algorithms.) show
+0 708 moveto (// These algorithms check for slice index errors manually.) show
+0 696 moveto (// Slice index error can happen if the program is using racy) show
+0 684 moveto (// access to timers. We don't want to panic here, because) show
+0 672 moveto (// it will cause the program to crash with a mysterious) show
+0 660 moveto (// "panic holding locks" message. Instead, we panic while not) show
+0 648 moveto (// holding a lock.) show
+0 624 moveto (// siftUp puts the timer at position i in the right place) show
+0 612 moveto (// in the heap by moving it up toward the top of the heap.) show
+0 600 moveto (func \(ts *timers\) siftUp\(i int\) {) show
+4 mp_a_x mul 588 moveto (t := ts.heap) show
+4 mp_a_x mul 576 moveto (if i >= len\(t\) {) show
+8 mp_a_x mul 564 moveto (badTimer\(\)) show
+4 mp_a_x mul 552 moveto (}) show
+4 mp_a_x mul 540 moveto (when := t[i].when) show
+4 mp_a_x mul 528 moveto (if when <= 0 {) show
+8 mp_a_x mul 516 moveto (badTimer\(\)) show
+4 mp_a_x mul 504 moveto (}) show
+4 mp_a_x mul 492 moveto (tmp := t[i]) show
+4 mp_a_x mul 480 moveto (for i > 0 {) show
+8 mp_a_x mul 468 moveto (p := \(i - 1\) / 4 // parent) show
+8 mp_a_x mul 456 moveto (if when >= t[p].when {) show
+12 mp_a_x mul 444 moveto (break) show
+8 mp_a_x mul 432 moveto (}) show
+8 mp_a_x mul 420 moveto (t[i] = t[p]) show
+8 mp_a_x mul 408 moveto (i = p) show
+4 mp_a_x mul 396 moveto (}) show
+4 mp_a_x mul 384 moveto (if tmp != t[i] {) show
+8 mp_a_x mul 372 moveto (t[i] = tmp) show
+4 mp_a_x mul 360 moveto (}) show
+0 348 moveto (}) show
+0 324 moveto (// siftDown puts the timer at position i in the right place) show
+0 312 moveto (// in the heap by moving it down toward the bottom of the heap.) show
+0 300 moveto (func \(ts *timers\) siftDown\(i int\) {) show
+4 mp_a_x mul 288 moveto (t := ts.heap) show
+4 mp_a_x mul 276 moveto (n := len\(t\)) show
+4 mp_a_x mul 264 moveto (if i >= n {) show
+8 mp_a_x mul 252 moveto (badTimer\(\)) show
+4 mp_a_x mul 240 moveto (}) show
+4 mp_a_x mul 228 moveto (when := t[i].when) show
+4 mp_a_x mul 216 moveto (if when <= 0 {) show
+8 mp_a_x mul 204 moveto (badTimer\(\)) show
+4 mp_a_x mul 192 moveto (}) show
+4 mp_a_x mul 180 moveto (tmp := t[i]) show
+4 mp_a_x mul 168 moveto (for {) show
+8 mp_a_x mul 156 moveto (c := i*4 + 1 // left child) show
+8 mp_a_x mul 144 moveto (c3 := c + 2  // mid child) show
+8 mp_a_x mul 132 moveto (if c >= n {) show
+12 mp_a_x mul 120 moveto (break) show
+8 mp_a_x mul 108 moveto (}) show
+8 mp_a_x mul 96 moveto (w := t[c].when) show
+8 mp_a_x mul 84 moveto (if c+1 < n && t[c+1].when < w {) show
+12 mp_a_x mul 72 moveto (w = t[c+1].when) show
+12 mp_a_x mul 60 moveto (c++) show
+8 mp_a_x mul 48 moveto (}) show
+8 mp_a_x mul 36 moveto (if c3 < n {) show
+12 mp_a_x mul 24 moveto (w3 := t[c3].when) show
+12 mp_a_x mul 12 moveto (if c3+1 < n && t[c3+1].when < w3 {) show
+16 mp_a_x mul 0 moveto (w3 = t[c3+1].when) show
+grestore
+restore
+showpage
+%%Page: 9 9
+save
+0 setlinewidth
+18 18 moveto 0 756 rlineto
+576 0 rlineto 0 -756 rlineto closepath stroke
+18 396 moveto 576 0 rlineto stroke
+gsave
+18 774 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 17) stringwidth pop sub 3 sub 796 moveto (Page 17) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+16 mp_a_x mul 780 moveto (c3++) show
+12 mp_a_x mul 768 moveto (}) show
+12 mp_a_x mul 756 moveto (if w3 < w {) show
+16 mp_a_x mul 744 moveto (w = w3) show
+16 mp_a_x mul 732 moveto (c = c3) show
+12 mp_a_x mul 720 moveto (}) show
+8 mp_a_x mul 708 moveto (}) show
+8 mp_a_x mul 696 moveto (if w >= when {) show
+12 mp_a_x mul 684 moveto (break) show
+8 mp_a_x mul 672 moveto (}) show
+8 mp_a_x mul 660 moveto (t[i] = t[c]) show
+8 mp_a_x mul 648 moveto (i = c) show
+4 mp_a_x mul 636 moveto (}) show
+4 mp_a_x mul 624 moveto (if tmp != t[i] {) show
+8 mp_a_x mul 612 moveto (t[i] = tmp) show
+4 mp_a_x mul 600 moveto (}) show
+0 588 moveto (}) show
+0 564 moveto (// initHeap reestablishes the heap order in the slice ts.heap.) show
+0 552 moveto (// It takes O\(n\) time for n=len\(ts.heap\), not the O\(n log n\) of n repeated add operations.) show
+0 540 moveto (func \(ts *timers\) initHeap\(\) {) show
+4 mp_a_x mul 528 moveto (// Last possible element that needs sifting down is parent of last element;) show
+4 mp_a_x mul 516 moveto (// last element is len\(t\)-1; parent of last element is \(len\(t\)-1-1\)/4.) show
+4 mp_a_x mul 504 moveto (if len\(ts.heap\) <= 1 {) show
+8 mp_a_x mul 492 moveto (return) show
+4 mp_a_x mul 480 moveto (}) show
+4 mp_a_x mul 468 moveto (for i := \(len\(ts.heap\) - 1 - 1\) / 4; i >= 0; i-- {) show
+8 mp_a_x mul 456 moveto (ts.siftDown\(i\)) show
+4 mp_a_x mul 444 moveto (}) show
+0 432 moveto (}) show
+0 408 moveto (// badTimer is called if the timer data structures have been corrupted,) show
+0 396 moveto (// presumably due to racy use by the program. We panic here rather than) show
+0 384 moveto (// panicking due to invalid slice access while holding locks.) show
+0 372 moveto (// See issue #25686.) show
+0 360 moveto (func badTimer\(\) {) show
+4 mp_a_x mul 348 moveto (throw\("timer data corruption"\)) show
+0 336 moveto (}) show
+0 312 moveto (// Timer channels.) show
+0 288 moveto (// maybeRunChan checks whether the timer needs to run) show
+0 276 moveto (// to send a value to its associated channel. If so, it does.) show
+0 264 moveto (// The timer must not be locked.) show
+0 252 moveto (func \(t *timer\) maybeRunChan\(\) {) show
+4 mp_a_x mul 240 moveto (if t.state.Load\(\)&timerHeaped != 0 {) show
+8 mp_a_x mul 228 moveto (// If the timer is in the heap, the ordinary timer code) show
+8 mp_a_x mul 216 moveto (// is in charge of sending when appropriate.) show
+8 mp_a_x mul 204 moveto (return) show
+4 mp_a_x mul 192 moveto (}) show
+4 mp_a_x mul 168 moveto (state, mp := t.lock\(\)) show
+4 mp_a_x mul 156 moveto (now := nanotime\(\)) show
+4 mp_a_x mul 144 moveto (if state&timerHeaped != 0 || t.when == 0 || t.when > now {) show
+8 mp_a_x mul 132 moveto (// Timer in the heap, or not running at all, or not triggered.) show
+8 mp_a_x mul 120 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 108 moveto (return) show
+4 mp_a_x mul 96 moveto (}) show
+4 mp_a_x mul 84 moveto (systemstack\(func\(\) {) show
+8 mp_a_x mul 72 moveto (t.unlockAndRun\(now, state, mp\)) show
+4 mp_a_x mul 60 moveto (}\)) show
+0 48 moveto (}) show
+0 24 moveto (// enqueueTimerChan is called when a channel op has decided to block on c.) show
+0 12 moveto (// The caller holds the channel lock for c and possibly other channels.) show
+0 0 moveto (// enqueueTimerChan makes sure that c is in the timer heap,) show
+grestore
+gsave
+18 396 translate
+-90 rotate
+0 0 moveto 0 576 rlineto 378 0 rlineto 0 -576 rlineto closepath clip
+378 80 mp_a_x mul div 576 808 div scale
+newpath 0 792 moveto 80 mp_a_x mul 0 rlineto stroke
+headerfont setfont
+3 796 moveto (Fri Feb 16 15:45:42 2024) show
+80 mp_a_x mul dup (Page 18) stringwidth pop sub 3 sub 796 moveto (Page 18) show
+fnamefont setfont
+(time.go) stringwidth pop sub 2 div 796 moveto
+(time.go) show
+4 7 translate 370 378 div 784 792 div scale
+textfont setfont
+0 780 moveto (// adding it if needed.) show
+0 768 moveto (func enqueueTimerChan\(c *hchan\) {) show
+4 mp_a_x mul 756 moveto (t := c.timer) show
+4 mp_a_x mul 744 moveto (state, mp := t.lock\(\)) show
+4 mp_a_x mul 732 moveto (if state&timerChan == 0 {) show
+8 mp_a_x mul 720 moveto (state = t.initChan\(state\)) show
+8 mp_a_x mul 708 moveto (if state&timerChan == 0 {) show
+12 mp_a_x mul 696 moveto (badTimer\(\)) show
+8 mp_a_x mul 684 moveto (}) show
+4 mp_a_x mul 672 moveto (}) show
+4 mp_a_x mul 660 moveto (state += timerBlocked) show
+4 mp_a_x mul 648 moveto (if state >= 2*timerBlocked {) show
+8 mp_a_x mul 636 moveto (// Already blocked and therefore in heap if running.) show
+8 mp_a_x mul 624 moveto (if t.when > 0 && state&timerHeaped == 0 {) show
+12 mp_a_x mul 612 moveto (badTimer\(\)) show
+8 mp_a_x mul 600 moveto (}) show
+8 mp_a_x mul 588 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 576 moveto (return) show
+4 mp_a_x mul 564 moveto (}) show
+4 mp_a_x mul 540 moveto (if state&timerHeaped != 0 {) show
+8 mp_a_x mul 528 moveto (// Already in heap, but if this the first enqueue after a recent dequeue,) show
+8 mp_a_x mul 516 moveto (// it may be marked for removal. Unmark it if so, but don't unmark) show
+8 mp_a_x mul 504 moveto (// if the removal is because the timer is not running at all.) show
+8 mp_a_x mul 492 moveto (if state&timerNextWhen == 0 || t.nextWhen != 0 {) show
+12 mp_a_x mul 480 moveto (state &^= timerZombie) show
+12 mp_a_x mul 468 moveto (t.ts.zombies.Add\(-1\)) show
+8 mp_a_x mul 456 moveto (}) show
+8 mp_a_x mul 444 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 432 moveto (return) show
+4 mp_a_x mul 420 moveto (}) show
+4 mp_a_x mul 396 moveto (if t.when == 0 {) show
+8 mp_a_x mul 384 moveto (// Timer not running. Skip adding to heap.) show
+8 mp_a_x mul 372 moveto (t.unlock\(state, mp\)) show
+8 mp_a_x mul 360 moveto (return) show
+4 mp_a_x mul 348 moveto (}) show
+4 mp_a_x mul 324 moveto (// Not in heap, but timer is running. Need to add to heap now.) show
+4 mp_a_x mul 312 moveto (t.unlockAndQueue\(state, mp\)) show
+0 300 moveto (}) show
+0 276 moveto (// dequeueTimerChan is called when a channel op that was blocked on c) show
+0 264 moveto (// is no longer blocked. Every call to enqueueTimerChan must be paired with) show
+0 252 moveto (// a call to dequeueTimerChan.) show
+0 240 moveto (// The caller holds the channel lock for c and possibly other channels.) show
+0 228 moveto (// dequeueTimerChan removes c from the timer heap when nothing is) show
+0 216 moveto (// blocked on it anymore.) show
+0 204 moveto (func dequeueTimerChan\(c *hchan\) {) show
+4 mp_a_x mul 192 moveto (t := c.timer) show
+4 mp_a_x mul 180 moveto (state, mp := t.lock\(\)) show
+4 mp_a_x mul 168 moveto (if state&timerChan == 0 || state < timerBlocked {) show
+8 mp_a_x mul 156 moveto (badTimer\(\)) show
+4 mp_a_x mul 144 moveto (}) show
+4 mp_a_x mul 132 moveto (state -= timerBlocked) show
+4 mp_a_x mul 120 moveto (if state < timerBlocked && state&timerHeaped != 0 && state&timerZombie == 0 {) show
+8 mp_a_x mul 108 moveto (// Last goroutine that was blocked on this timer.) show
+8 mp_a_x mul 96 moveto (// Mark for removal from heap but do not clear t.when,) show
+8 mp_a_x mul 84 moveto (// so that we know what time it is still meant to trigger.) show
+8 mp_a_x mul 72 moveto (state |= timerZombie) show
+8 mp_a_x mul 60 moveto (t.ts.zombies.Add\(1\)) show
+4 mp_a_x mul 48 moveto (}) show
+4 mp_a_x mul 36 moveto (t.unlock\(state, mp\)) show
+0 24 moveto (}) show
+grestore
+restore
+showpage
+%%Trailer
+%%Pages: 9

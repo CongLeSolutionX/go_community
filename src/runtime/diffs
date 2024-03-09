@@ -1,0 +1,477 @@
+diff --git a/src/runtime/chan.go b/src/runtime/chan.go
+index 1ecb452864..f28bd74a2f 100644
+--- a/src/runtime/chan.go
++++ b/src/runtime/chan.go
+@@ -323,6 +323,32 @@ func send(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func(), skip int) {
+ 	goready(gp, skip+1)
+ }
+ 
++// chandrain removes all elements in channel c's buffer.
++// It reports whether any elements were removed.
++func chandrain(c *hchan) bool {
++	// Note: Cannot use empty(c) because we are called
++	// while holding c.timer.sendLock, and empty(c) will
++	// call c.timer.maybeRunChan, which will deadlock.
++	// We are emptying the channel, so we only care about
++	// the count, not about potentially filling it up.
++	if atomic.Loaduint(&c.qcount) == 0 {
++		return false
++	}
++	lock(&c.lock)
++	any := false
++	for c.qcount > 0 {
++		any = true
++		typedmemclr(c.elemtype, chanbuf(c, c.recvx))
++		c.recvx++
++		if c.recvx == c.dataqsiz {
++			c.recvx = 0
++		}
++		c.qcount--
++	}
++	unlock(&c.lock)
++	return any
++}
++
+ // Sends and receives on unbuffered or empty-buffered channels are the
+ // only operations where one running goroutine writes to the stack of
+ // another running goroutine. The GC assumes that stack writes only
+@@ -749,7 +775,7 @@ func chanlen(c *hchan) int {
+ 		return 0
+ 	}
+ 	if c.timer != nil {
+-		c.timer.maybeRunChan()
++		return 0
+ 	}
+ 	return int(c.qcount)
+ }
+@@ -758,6 +784,9 @@ func chancap(c *hchan) int {
+ 	if c == nil {
+ 		return 0
+ 	}
++	if c.timer != nil {
++		return 0
++	}
+ 	return int(c.dataqsiz)
+ }
+ 
+diff --git a/src/runtime/lockrank.go b/src/runtime/lockrank.go
+index 23fa897e1c..6fad12946b 100644
+--- a/src/runtime/lockrank.go
++++ b/src/runtime/lockrank.go
+@@ -20,6 +20,7 @@ const (
+ 	lockRankSweep
+ 	lockRankTestR
+ 	lockRankTestW
++	lockRankTimerSend
+ 	lockRankAllocmW
+ 	lockRankExecW
+ 	lockRankCpuprof
+@@ -90,6 +91,7 @@ var lockNames = []string{
+ 	lockRankSweep:           "sweep",
+ 	lockRankTestR:           "testR",
+ 	lockRankTestW:           "testW",
++	lockRankTimerSend:       "timerSend",
+ 	lockRankAllocmW:         "allocmW",
+ 	lockRankExecW:           "execW",
+ 	lockRankCpuprof:         "cpuprof",
+@@ -166,6 +168,7 @@ var lockPartialOrder [][]lockRank = [][]lockRank{
+ 	lockRankSweep:           {},
+ 	lockRankTestR:           {},
+ 	lockRankTestW:           {},
++	lockRankTimerSend:       {},
+ 	lockRankAllocmW:         {},
+ 	lockRankExecW:           {},
+ 	lockRankCpuprof:         {},
+@@ -173,39 +176,39 @@ var lockPartialOrder [][]lockRank = [][]lockRank{
+ 	lockRankWakeableSleep:   {},
+ 	lockRankAllocmR:         {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep},
+ 	lockRankExecR:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep},
+-	lockRankHchan:           {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankWakeableSleep, lockRankHchan},
+-	lockRankSched:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan},
+-	lockRankAllg:            {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched},
+-	lockRankAllp:            {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched},
++	lockRankHchan:           {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankWakeableSleep, lockRankHchan},
++	lockRankSched:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan},
++	lockRankAllg:            {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched},
++	lockRankAllp:            {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched},
+ 	lockRankNotifyList:      {},
+-	lockRankSudog:           {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankWakeableSleep, lockRankHchan, lockRankNotifyList},
+-	lockRankTimers:          {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankWakeableSleep, lockRankHchan, lockRankTimers},
+-	lockRankTimer:           {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankWakeableSleep, lockRankHchan, lockRankTimers},
+-	lockRankNetpollInit:     {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankWakeableSleep, lockRankHchan, lockRankTimers, lockRankTimer},
++	lockRankSudog:           {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankWakeableSleep, lockRankHchan, lockRankNotifyList},
++	lockRankTimers:          {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankWakeableSleep, lockRankHchan, lockRankTimers},
++	lockRankTimer:           {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankWakeableSleep, lockRankHchan, lockRankTimers},
++	lockRankNetpollInit:     {lockRankSysmon, lockRankScavenge, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankWakeableSleep, lockRankHchan, lockRankTimers, lockRankTimer},
+ 	lockRankRoot:            {},
+ 	lockRankItab:            {},
+ 	lockRankReflectOffs:     {lockRankItab},
+ 	lockRankUserArenaState:  {},
+ 	lockRankTraceBuf:        {lockRankSysmon, lockRankScavenge},
+ 	lockRankTraceStrings:    {lockRankSysmon, lockRankScavenge, lockRankTraceBuf},
+-	lockRankFin:             {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
+-	lockRankSpanSetSpine:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
+-	lockRankMspanSpecial:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
+-	lockRankGcBitsArenas:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankMspanSpecial},
+-	lockRankProfInsert:      {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
+-	lockRankProfBlock:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
+-	lockRankProfMemActive:   {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
+-	lockRankProfMemFuture:   {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankProfMemActive},
+-	lockRankGscan:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture},
+-	lockRankStackpool:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan},
+-	lockRankStackLarge:      {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan},
+-	lockRankHchanLeaf:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankHchanLeaf},
+-	lockRankWbufSpans:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan},
+-	lockRankMheap:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans},
+-	lockRankMheapSpecial:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap},
+-	lockRankGlobalAlloc:     {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap, lockRankMheapSpecial},
+-	lockRankTrace:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap},
+-	lockRankTraceStackTab:   {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap, lockRankTrace},
++	lockRankFin:             {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
++	lockRankSpanSetSpine:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
++	lockRankMspanSpecial:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
++	lockRankGcBitsArenas:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankMspanSpecial},
++	lockRankProfInsert:      {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
++	lockRankProfBlock:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
++	lockRankProfMemActive:   {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings},
++	lockRankProfMemFuture:   {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankProfMemActive},
++	lockRankGscan:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture},
++	lockRankStackpool:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan},
++	lockRankStackLarge:      {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan},
++	lockRankHchanLeaf:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankHchanLeaf},
++	lockRankWbufSpans:       {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan},
++	lockRankMheap:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans},
++	lockRankMheapSpecial:    {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap},
++	lockRankGlobalAlloc:     {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap, lockRankMheapSpecial},
++	lockRankTrace:           {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap},
++	lockRankTraceStackTab:   {lockRankSysmon, lockRankScavenge, lockRankForcegc, lockRankDefer, lockRankSweepWaiters, lockRankAssistQueue, lockRankSweep, lockRankTestR, lockRankTimerSend, lockRankExecW, lockRankCpuprof, lockRankPollDesc, lockRankWakeableSleep, lockRankAllocmR, lockRankExecR, lockRankHchan, lockRankSched, lockRankAllg, lockRankAllp, lockRankNotifyList, lockRankSudog, lockRankTimers, lockRankTimer, lockRankNetpollInit, lockRankRoot, lockRankItab, lockRankReflectOffs, lockRankUserArenaState, lockRankTraceBuf, lockRankTraceStrings, lockRankFin, lockRankSpanSetSpine, lockRankMspanSpecial, lockRankGcBitsArenas, lockRankProfInsert, lockRankProfBlock, lockRankProfMemActive, lockRankProfMemFuture, lockRankGscan, lockRankStackpool, lockRankStackLarge, lockRankWbufSpans, lockRankMheap, lockRankTrace},
+ 	lockRankPanic:           {},
+ 	lockRankDeadlock:        {lockRankPanic, lockRankDeadlock},
+ 	lockRankRaceFini:        {lockRankPanic},
+diff --git a/src/runtime/mklockrank.go b/src/runtime/mklockrank.go
+index d92af8edb7..5fa7f0d9fa 100644
+--- a/src/runtime/mklockrank.go
++++ b/src/runtime/mklockrank.go
+@@ -55,6 +55,8 @@ NONE <
+ # Test only
+ NONE < testR, testW;
+ 
++NONE < timerSend;
++
+ # Scheduler, timers, netpoll
+ NONE <
+   allocmW,
+@@ -76,7 +78,7 @@ assistQueue,
+ # Below SCHED is the scheduler implementation.
+ < allocmR,
+   execR;
+-scavenge, sweep, testR, wakeableSleep < hchan;
++scavenge, sweep, testR, wakeableSleep, timerSend < hchan;
+ allocmR, execR, hchan < sched;
+ sched < allg, allp;
+ 
+@@ -85,7 +87,7 @@ NONE < notifyList;
+ hchan, notifyList < sudog;
+ 
+ hchan, wakeableSleep < timers;
+-timers < timer < netpollInit;
++timers, timerSend < timer < netpollInit;
+ 
+ # Semaphores
+ NONE < root;
+diff --git a/src/runtime/time.go b/src/runtime/time.go
+index 69830e6a22..414d82285e 100644
+--- a/src/runtime/time.go
++++ b/src/runtime/time.go
+@@ -36,11 +36,11 @@ type timer struct {
+ 	//
+ 	// when must be positive on an active timer.
+ 	// Timers in heaps are ordered by when.
+-	when   int64
+-	period int64
+-	f      func(any, uintptr, int64)
+-	arg    any
+-	seq    uintptr
++	when   int64 // protected by ts.lock when ts != nil; otherwise by t.lock
++	period int64 // protected by t.lock
++	f      func(any, uintptr, int64) // protected by t.lock; immutable for package time timers
++	arg    any // immutable // protected by t.lock; immutable for package time timers
++	seq    uintptr // protected by t.lock; also by t.sendLock for timer chan (can read with either; must hold both to write)
+ 
+ 	// The state field holds state bits, defined below.
+ 	state atomic.Uintptr
+@@ -50,6 +50,11 @@ type timer struct {
+ 	// In that case, the actual update of when = nextWhen
+ 	// must be delayed until the heap can be fixed at the same time.
+ 	nextWhen int64
++
++	// sendLock synchronizes stop/reset with sending
++	// on a timer channel, so that we can guarantee that
++	// no old values will be received after stop/reset returns.
++	sendLock mutex
+ }
+ 
+ // A timers is a per-P set of timers.
+@@ -182,6 +187,12 @@ func (t *timer) unlock(state uintptr, mp *m) {
+ 	}
+ }
+ 
++// hchan returns the channel in t.arg.
++// t must be a timer with a channel.
++func (t *timer) hchan() *hchan {
++	return (*hchan)(efaceOf(&t.arg).data)
++}
++
+ // initChan checks to see if a timer exists to feed a channel.
+ // If so, it sets the timerChan bit in the state and also records
+ // the timer in the channel's c.timer field.
+@@ -292,6 +303,7 @@ func resetForSleep(gp *g, ut unsafe.Pointer) bool {
+ //go:linkname newTimer time.newTimer
+ func newTimer(when, period int64, f func(any, uintptr, int64), arg any, c *hchan) *timer {
+ 	t := new(timer)
++	lockInit(&t.sendLock, lockRankTimerSend)
+ 	if c != nil {
+ 		t.state.Store(timerChan)
+ 		c.timer = t
+@@ -376,8 +388,11 @@ func (ts *timers) addHeap(t *timer) {
+ // It will be removed in due course by the P whose heap it is on.
+ // Reports whether the timer was stopped before it was run.
+ func (t *timer) stop() bool {
++	if t.state.Load()&timerChan != 0 {
++		lock(&t.sendLock)
++	}
++
+ 	state, mp := t.lock()
+-Redo:
+ 	pending := false
+ 	switch {
+ 	case state&timerHeaped != 0:
+@@ -397,32 +412,26 @@ Redo:
+ 		}
+ 
+ 	case state&timerChan != 0 && t.when != 0:
+-		// Active timer attached to channel but not in heap, because
+-		// nothing is waiting on the channel or timer is stopped.
+-		// If it should have triggered already (but nothing looked yet),
+-		// trigger now, so that a receive after the stop sees the "old"
+-		// value that should be there.
++		// Active timer attached to channel but not in heap,
++		// because nothing is waiting on the channel.
+ 		if state>>timerBlockedShift > 0 {
+ 			badTimer()
+ 		}
+-		if now := nanotime(); t.when <= now {
+-			systemstack(func() {
+-				t.unlockAndRun(now, state, mp) // resets t.when
+-			})
+-			state, mp = t.lock()
+-			if state&timerHeaped != 0 {
+-				// While it was unlocked to run the channel send,
+-				// the timer moved into the heap.
+-				// Behave as though the send happened long ago
+-				// and stop was just called now.
+-				goto Redo
+-			}
+-		}
+-		pending = t.when > 0
++		pending = true
+ 		t.when = 0
+ 	}
+-
++	if state&timerChan != 0 {
++		t.seq++
++	}
+ 	t.unlock(state, mp)
++
++	if state&timerChan != 0 {
++		if chandrain(t.hchan()) {
++			pending = true
++		}
++		unlock(&t.sendLock)
++	}
++
+ 	return pending
+ }
+ 
+@@ -462,8 +471,15 @@ func (t *timer) modify(when, period int64, f func(any, uintptr, int64), arg any,
+ 		throw("timer period must be non-negative")
+ 	}
+ 
++	if t.state.Load()&timerChan != 0 {
++		lock(&t.sendLock)
++	}
++
++	wake := false
++	add := false
++	pending := false
++
+ 	state, mp := t.lock()
+-Redo:
+ 	t.period = period
+ 	t.f = f
+ 	t.arg = arg
+@@ -472,76 +488,51 @@ Redo:
+ 	if state&timerHeaped == 0 {
+ 		// Timer not in any heap, so either stopped/new
+ 		// or a timer for a currently unused channel.
++		pending = t.when > 0
++		t.when = when
++		t.when = when
++		add = t.needsAdd(state)
++	} else {
++		pending = true // in the heap
+ 
+-		// If this is a timer for an unblocked channel, initialize but leave out of heap,
+-		// so that GC can collect it. The channel code will add the timer
+-		// to the heap as needed to serve blocked channel ops.
+-		// See blockTimerChan, unblockTimerChan.
+-		if state&timerChan != 0 && state>>timerBlockedShift == 0 {
+-			pending := false
+-			if t.when != 0 {
+-				if now := nanotime(); t.when <= now {
+-					// The timer should have run already,
+-					// but nothing has checked it yet.
+-					// Run it now.
+-					systemstack(func() {
+-						t.unlockAndRun(now, state, mp) // resets t.when
+-					})
+-					state, mp = t.lock()
+-					if state&timerHeaped != 0 {
+-						// While it was unlocked to run the channel send,
+-						// the timer moved into the heap. Behave as though
+-						// the channel send happened long ago and the
+-						// modify call just started at this instant.
+-						goto Redo
+-					}
+-				}
+-			}
+-			pending = t.when > 0
+-			t.when = when
+-			t.unlock(state, mp)
+-			return pending
++		if state&timerZombie != 0 {
++			// In the heap but marked for removal (by a Stop); therefore not pending.
++			// Unmark it, since it has been Reset and will be running again.
++			pending = false
++			t.ts.zombies.Add(-1)
++			state &^= timerZombie
+ 		}
+ 
+-		// Not a timer for a channel,
+-		// or a timer for a channel with goroutines blocked on it
+-		// that isn't in the heap already because the timer was stopped.
+-		// Either way, needs to go into heap now.
+-		// Assigning to when is permitted because the timer
+-		// is not in any heap, so the assignment cannot
+-		// break heap invariants.
+-		t.when = when
+-		t.unlock(state, mp)
+-		t.maybeAdd()
+-		return false
++		// The timer is in some P's heap (perhaps another P),
++		// so we can't change the when field.
++		// If we did, the other P's heap would be out of order.
++		// So we put the new when value in the nextWhen field
++		// and set timerNextWhen, leaving the other P set the when
++		// field when it is prepared to maintain the heap invariant.
++		t.nextWhen = when
++		state |= timerNextWhen
++		if when < t.when {
++			wake = true // earlier deadline: wake up poller
++			t.ts.updateMinNextWhen(when)
++		}
+ 	}
+ 
+-	pending := true // in the heap
+-
+-	if state&timerZombie != 0 {
+-		// In the heap but marked for removal (by a Stop); therefore not pending.
+-		// Unmark it, since it has been Reset and will be running again.
+-		pending = false
+-		t.ts.zombies.Add(-1)
+-		state &^= timerZombie
+-	}
+-
+-	// The timer is in some P's heap (perhaps another P),
+-	// so we can't change the when field.
+-	// If we did, the other P's heap would be out of order.
+-	// So we put the new when value in the nextWhen field
+-	// and set timerNextWhen, leaving the other P set the when
+-	// field when it is prepared to maintain the heap invariant.
+-	t.nextWhen = when
+-	state |= timerNextWhen
+-	earlier := when < t.when
+-	if earlier {
+-		t.ts.updateMinNextWhen(when)
++	if state&timerChan != 0 {
++		t.seq++
+ 	}
++
+ 	t.unlock(state, mp)
++	if state&timerChan != 0 {
++		if chandrain(t.hchan()) {
++			pending = true
++		}
++		unlock(&t.sendLock)
++	}
+ 
+-	// If the new status is earlier, wake up the poller.
+-	if earlier {
++	if add {
++		t.maybeAdd()
++	}
++	if wake {
+ 		wakeNetPoller(when)
+ 	}
+ 
+@@ -596,7 +587,7 @@ func (t *timer) maybeAdd() {
+ // If used for an inactive timer, the timer will become active.
+ // Reports whether the timer was active and was stopped.
+ func (t *timer) reset(when int64) bool {
+-	return t.modify(when, t.period, t.f, t.arg, t.seq)
++	return t.modify(when, 0, t.f, t.arg, t.seq)
+ }
+ 
+ // cleanHead cleans up the head of the timer queue. This speeds up
+@@ -928,11 +919,11 @@ func (t *timer) unlockAndRun(now int64, state uintptr, mp *m) {
+ 	f := t.f
+ 	arg := t.arg
+ 	seq := t.seq
++	when := t.when
+ 	var next int64
+-	delay := now - t.when
+ 	if t.period > 0 {
+ 		// Leave in heap but adjust next time to fire.
+-		next = t.when + t.period*(1+delay/t.period)
++		next = t.when + t.period*(1+(now-when)/t.period)
+ 		if next < 0 { // check for overflow.
+ 			next = maxWhen
+ 		}
+@@ -964,7 +955,26 @@ func (t *timer) unlockAndRun(now int64, state uintptr, mp *m) {
+ 	if ts != nil {
+ 		ts.unlock()
+ 	}
+-	f(arg, seq, delay)
++
++	do := true
++	if state&timerChan != 0 {
++		lock(&t.sendLock)
++		if t.seq != seq {
++			// Timer has been stopped or reset since we unlocked it.
++			// (Seq is protected by sendLock so it is okay to read.)
++			// Skip calling f to send, since it would send a stale value.
++			do = false
++		}
++	}
++
++	if do {
++		f(arg, seq, nanotime()-when)
++	}
++
++	if state&timerChan != 0 {
++		unlock(&t.sendLock)
++	}
++
+ 	if ts != nil {
+ 		ts.lock()
+ 	}
