@@ -25,28 +25,35 @@ import (
 // contention by yielding the OS thread. The expectation is that critical
 // sections are very short and contention on the lock bit is low.
 type timer struct {
-	ts *timers
+	// Protects all fields below.
+	mu mutex
+
+	astate atomic.Uint8 // atomic copy of state bits at last unlock; can be read without lock
+	state uint8 // state bits
 
 	// Timer wakes up at when, and then at when+period, ... (period > 0 only)
 	// each time calling f(arg, now) in the timer goroutine, so f must be
 	// a well-behaved function and not block.
-	//
-	// when must be positive on an active timer.
-	// Timers in heaps are ordered by when.
 	when   int64
 	period int64
 	f      func(any, uintptr)
 	arg    any
 	seq    uintptr
 
-	// nextWhen is the next value for when,
-	// set if state&timerNextWhen is true.
-	// In that case, the actual update of when = nextWhen
-	// must be delayed until the heap can be fixed at the same time.
-	nextWhen int64
+	// If non-nil, the timers containing t.
+	ts *timers
 
-	// The state field holds state bits, defined below.
-	state atomic.Uint32
+	// whenHeap is a (perhaps outdated) copy of t.when for use
+	// ordering t within t.ts.heap.
+	// When t is in a heap but t.whenHeap is outdated,
+	// the timerModified state bit is set.
+	// The actual update t.whenHeap = t.when must be
+	// delayed until the heap can be reordered at the same time
+	// (meaning t's lock must be held for whenHeap,
+	// and t.ts's lock must be held for the heap reordering).
+	// Since whenHeap is effectively protected by two locks,
+	// it is permitted to read whenHeap when holding either one.
+	whenHeap int64
 }
 
 // A timers is a per-P set of timers.
@@ -55,7 +62,7 @@ type timers struct {
 	// access the timers of another P, so we have to lock.
 	mu mutex
 
-	// heap is the set of timers, ordered by t.when.
+	// heap is the set of timers, ordered by t.whenHeap.
 	// Must hold lock to access.
 	heap []*timer
 
@@ -69,16 +76,16 @@ type timers struct {
 	// raceCtx is the race context used while executing timer functions.
 	raceCtx uintptr
 
-	// minWhen is the minimum heap[i].when value (= heap[0].when).
+	// minHeapWhen is the minimum heap[i].whenHeap value (= heap[0].whenHeap).
 	// The wakeTime method uses minWhen and minNextWhen to determine
 	// the next wake time.
-	// If minWhen = 0, it means there are no timers in the heap.
-	minWhen atomic.Int64
+	// If minHeapWhen = 0, it means there are no timers in the heap.
+	minHeapWhen atomic.Int64
 
-	// minNextWhen is a lower bound on the minimum
-	// heap[i].nextWhen over timers with the timerNextWhen bit set.
-	// If minNextWhen = 0, it means there are no timerNextWhen timers in the heap.
-	minNextWhen atomic.Int64
+	// minModWhen is a lower bound on the minimum
+	// heap[i].when over timers with the timerModified bit set.
+	// If minModWhen = 0, it means there are no timerModified timers in the heap.
+	minModWhen atomic.Int64
 }
 
 func (ts *timers) lock() {
@@ -101,85 +108,55 @@ func (ts *timers) unlock() {
 // Timer state field.
 // Timers start zeroed, so the zero state should be "unlocked, not in heap".
 const (
-	// timerLocked is set when the timer is locked,
-	// meaning other goroutines cannot read or write mutable fields.
-	// Goroutines can still read the state word atomically to see
-	// what the state was before it was locked.
-	// The lock is implemented as a cas on the state field with osyield on contention;
-	// the expectation is very short critical sections with little to no contention.
-	timerLocked = 1 << iota
-
 	// timerHeaped is set when the timer is stored in some P's heap.
-	timerHeaped
+	timerHeaped uint8 = 1<<iota
 
-	// timerNextWhen is set when a pending change to the timer's when
-	// field has been stored in t.nextwhen. The change to t.when waits
+	// timerModified is set when a pending change to the timer's when
+	// field has been stored in t.nextwhen. The change to t.whenHeap waits
 	// until the heap in which the timer appears can also be updated.
 	// Only set when timerHeaped is also set.
-	timerNextWhen
+	timerModified
 
 	// timerZombie is set when the timer has been stopped
 	// but is still present in some P's heap.
 	// Only set when timerHeaped is also set.
-	// It is possible for timerNextWhen and timerZombie to both
+	// It is possible for timerModified and timerZombie to both
 	// be set, meaning that the timer was modified and then stopped.
 	timerZombie
 )
 
 // lock locks the timer, allowing reading or writing any of the timer fields.
-// It returns the current m and the status prior to the lock.
-// The caller must call unlock with the same m and an updated status.
-func (t *timer) lock() (state uint32, mp *m) {
-	acquireLockRank(lockRankTimer)
-	for {
-		state := t.state.Load()
-		if state&timerLocked != 0 {
-			osyield()
-			continue
-		}
-		// Prevent preemption while the timer is locked.
-		// This could lead to a self-deadlock. See #38070.
-		mp := acquirem()
-		if t.state.CompareAndSwap(state, state|timerLocked) {
-			return state, mp
-		}
-		releasem(mp)
-	}
+func (t *timer) lock() {
+	lock(&t.mu)
 }
 
-// unlock unlocks the timer.
-// If mp == nil, the caller is responsible for calling
-// releasem(mp) with the mp returned by t.lock.
-func (t *timer) unlock(state uint32, mp *m) {
-	releaseLockRank(lockRankTimer)
-	if t.state.Load()&timerLocked == 0 {
-		badTimer()
-	}
-	if state&timerLocked != 0 {
-		badTimer()
-	}
-	t.state.Store(state)
-	if mp != nil {
-		releasem(mp)
-	}
+// unlock updates t.whenHeapValid and unlocks the timer.
+func (t *timer) unlock() {
+	// Let heap fast paths know whether t.whenNext is accurate.
+	t.astate.Store(t.state)
+	unlock(&t.mu)
 }
 
-// updateHeap updates t.when as directed by state, returning the new state
-// and a bool indicating whether the state (and t.when) changed.
+// updateHeap updates t.whenHeap as directed by state, returning the new state
+// and a bool indicating whether the state (and t.whenHeap) changed.
 // If ts != nil, then ts must be locked, t must be ts.heap[0], and updateHeap
 // takes care of moving t within the timers heap to preserve the heap invariants.
 // If ts == nil, then t must not be in a heap (or is in a heap that is
 // temporarily not maintaining its invariant, such as during timers.adjust).
-func (t *timer) updateHeap(state uint32, ts *timers) (newState uint32, updated bool) {
+func (t *timer) updateHeap(ts *timers) (updated bool) {
+	assertWorldStoppedOrLockHeld(&t.mu)
 	if ts != nil {
+		if t.ts != ts {
+			badTimer()
+		}
 		assertLockHeld(&ts.mu)
 	}
-	if state&timerZombie != 0 {
-		// Take timer out of heap, applying final t.when update first.
-		state &^= timerHeaped | timerZombie
-		if state&timerNextWhen != 0 {
-			state &^= timerNextWhen
-			t.when = t.nextWhen
+	if t.state&timerZombie != 0 {
+		// Take timer out of heap, applying final t.whenHeap update first.
+		t.state &^= timerHeaped | timerZombie
+		if t.state&timerModified != 0 {
+			t.state &^= timerModified
+			t.whenHeap = t.when
 		}
 		if ts != nil {
 			if t != ts.heap[0] {
@@ -188,25 +165,25 @@ func (t *timer) updateHeap(state uint32, ts *timers) (newState uint32, updated b
 			ts.zombies.Add(-1)
 			ts.deleteMin()
 		}
-		return state, true
+		return true
 	}
 
-	if state&timerNextWhen != 0 {
-		// Apply t.when update and move within heap.
-		state &^= timerNextWhen
-		t.when = t.nextWhen
+	if t.state&timerModified != 0 {
+		// Apply t.whenHeap update and move within heap.
+		t.state &^= timerModified
+		t.whenHeap = t.when
 		// Move t to the right position.
 		if ts != nil {
 			if t != ts.heap[0] {
 				badTimer()
 			}
 			ts.siftDown(0)
-			ts.updateMinWhen()
+			ts.updateMinHeapWhen()
 		}
-		return state, true
+		return true
 	}
 
-	return state, false
+	return false
 }
 
 // maxWhen is the maximum value for timer's when field.
@@ -237,9 +214,9 @@ func timeSleep(ns int64) {
 	}
 	t.f = goroutineReady
 	t.arg = gp
-	t.nextWhen = nanotime() + ns
-	if t.nextWhen < 0 { // check for overflow.
-		t.nextWhen = maxWhen
+	t.when = nanotime() + ns
+	if t.when < 0 { // check for overflow.
+		t.when = maxWhen
 	}
 	gopark(resetForSleep, unsafe.Pointer(t), waitReasonSleep, traceBlockSleep, 1)
 }
@@ -250,7 +227,7 @@ func timeSleep(ns int64) {
 // timer function, goroutineReady, before the goroutine has been parked.
 func resetForSleep(gp *g, ut unsafe.Pointer) bool {
 	t := (*timer)(ut)
-	t.reset(t.nextWhen)
+	t.reset(t.when)
 	return true
 }
 
@@ -269,6 +246,7 @@ type timeTimer struct {
 //go:linkname newTimer time.newTimer
 func newTimer(when, period int64, f func(any, uintptr), arg any) *timeTimer {
 	t := new(timeTimer)
+	lockInit(&t.mu, lockRankTimer)
 	t.when = when
 	t.period = period
 	t.f = f
@@ -335,37 +313,30 @@ func (ts *timers) addHeap(t *timer) {
 		throw("ts set in timer")
 	}
 	t.ts = ts
+	t.whenHeap = t.when
 	ts.heap = append(ts.heap, t)
 	ts.siftUp(len(ts.heap) - 1)
 	if t == ts.heap[0] {
-		ts.updateMinWhen()
+		ts.updateMinHeapWhen()
 	}
 }
 
-// stop deletes the timer t. It may be on some other P, so we can't
+// stop stops the timer t. It may be on some other P, so we can't
 // actually remove it from the timers heap. We can only mark it as stopped.
 // It will be removed in due course by the P whose heap it is on.
 // Reports whether the timer was stopped before it was run.
 func (t *timer) stop() bool {
-	state, mp := t.lock()
-	pending := false
-	if state&timerHeaped != 0 {
-		// Timer is in some heap, but is possibly already stopped
-		// (indicated by a nextWhen update to 0).
-		if state&timerNextWhen == 0 || t.nextWhen > 0 {
-			// Timer pending: stop it.
-			t.nextWhen = 0
-			state |= timerNextWhen
-			pending = true
-		}
-		// Mark timer for removal unless already marked.
-		if state&timerZombie == 0 {
-			state |= timerZombie
+	t.lock()
+	if t.state&timerHeaped != 0 {
+		t.state |= timerModified
+		if t.state&timerZombie == 0 {
+			t.state |= timerZombie
 			t.ts.zombies.Add(1)
 		}
 	}
-
-	t.unlock(state, mp)
+	pending := t.when > 0
+	t.when = 0
+	t.unlock()
 	return pending
 }
 
@@ -387,10 +358,10 @@ func (ts *timers) deleteMin() {
 	if last > 0 {
 		ts.siftDown(0)
 	}
-	ts.updateMinWhen()
+	ts.updateMinHeapWhen()
 	if last == 0 {
-		// If there are no timers, then clearly there are no timerNextWhen timers.
-		ts.minNextWhen.Store(0)
+		// If there are no timers, then clearly there are no timerModified timers.
+		ts.minModWhen.Store(0)
 	}
 }
 
@@ -405,49 +376,35 @@ func (t *timer) modify(when, period int64, f func(any, uintptr), arg any, seq ui
 		throw("timer period must be non-negative")
 	}
 
-	state, mp := t.lock()
+	t.lock()
 	t.period = period
 	t.f = f
 	t.arg = arg
 	t.seq = seq
 
-	if state&timerHeaped == 0 {
-		// Set up t for insertion but unlock first,
-		// to avoid lock inversion with timers lock.
-		// Since t is not in a heap yet, nothing will
-		// find and modify it until after the ts.add.
-		t.when = when
-		t.unlock(state, mp)
+	wake := false
+	pending := t.when > 0
+	t.when = when
+	if t.state&timerHeaped != 0 {
+		t.state |= timerModified
+		if t.state&timerZombie != 0 {
+			// In the heap but marked for removal (by a Stop).
+			// Unmark it, since it has been Reset and will be running again.
+			t.ts.zombies.Add(-1)
+			t.state &^= timerZombie
+		}
+		if when < t.whenHeap {
+			wake = true
+			t.ts.updateMinModWhen(when)
+		}
+	}
+
+	add := t.needsAdd()
+	t.unlock()
+	if add {
 		t.maybeAdd()
-		return false
 	}
-
-	pending := true // in the heap
-
-	if state&timerZombie != 0 {
-		// In the heap but marked for removal (by a Stop); therefore not pending.
-		// Unmark it, since it has been Reset and will be running again.
-		pending = false
-		t.ts.zombies.Add(-1)
-		state &^= timerZombie
-	}
-
-	// The timer is in some P's heap (perhaps another P),
-	// so we can't change the when field.
-	// If we did, the other P's heap would be out of order.
-	// So we put the new when value in the nextWhen field
-	// and set timerNextWhen, leaving the other P set the when
-	// field when it is prepared to maintain the heap invariant.
-	t.nextWhen = when
-	state |= timerNextWhen
-	earlier := when < t.when
-	if earlier {
-		t.ts.updateMinNextWhen(when)
-	}
-	t.unlock(state, mp)
-
-	// If the new status is earlier, wake up the poller.
-	if earlier {
+	if wake {
 		wakeNetPoller(when)
 	}
 
@@ -455,9 +412,10 @@ func (t *timer) modify(when, period int64, f func(any, uintptr), arg any, seq ui
 }
 
 // needsAdd reports whether t needs to be added to a timers heap.
-func (t *timer) needsAdd(state uint32) bool {
-	return state&timerHeaped == 0 &&
-		t.when > 0
+// t must be locked.
+func (t *timer) needsAdd() bool {
+	assertLockHeld(&t.mu)
+	return t.state&timerHeaped == 0 && t.when > 0
 }
 
 // maybeAdd adds t to the local timers heap if it needs to be in a heap.
@@ -483,14 +441,14 @@ func (t *timer) maybeAdd() {
 	ts := &getg().m.p.ptr().timers
 	ts.lock()
 	ts.cleanHead()
-	state, mp := t.lock()
+	t.lock()
 	when := int64(0)
-	if t.needsAdd(state) {
-		state |= timerHeaped
-		ts.addHeap(t)
+	if t.needsAdd() {
+		t.state |= timerHeaped
 		when = t.when
+		ts.addHeap(t)
 	}
-	t.unlock(state, mp)
+	t.unlock()
 	ts.unlock()
 	if when > 0 {
 		wakeNetPoller(when)
@@ -529,14 +487,14 @@ func (ts *timers) cleanHead() {
 			throw("bad ts")
 		}
 
-		if t.state.Load()&(timerNextWhen|timerZombie) == 0 {
+		if t.astate.Load()&(timerModified|timerZombie) == 0 {
 			// Fast path: head of timers does not need adjustment.
 			return
 		}
 
-		state, mp := t.lock()
-		state, updated := t.updateHeap(state, ts)
-		t.unlock(state, mp)
+		t.lock()
+		updated := t.updateHeap(ts)
+		t.unlock()
 		if !updated {
 			// Head of timers does not need adjustment.
 			return
@@ -558,7 +516,8 @@ func (ts *timers) take(src *timers) {
 		ts.move(src.heap)
 		src.heap = nil
 		src.zombies.Store(0)
-		src.minWhen.Store(0)
+		src.minHeapWhen.Store(0)
+		src.minModWhen.Store(0)
 		src.len.Store(0)
 		ts.len.Store(uint32(len(ts.heap)))
 	}
@@ -570,13 +529,11 @@ func (ts *timers) take(src *timers) {
 func (ts *timers) move(timers []*timer) {
 	assertWorldStopped()
 	for _, t := range timers {
-		state := t.state.Load()
 		t.ts = nil
-		state, _ = t.updateHeap(state, nil)
-		if state&timerHeaped != 0 {
+		t.updateHeap(nil)
+		if t.state&timerHeaped != 0 {
 			ts.addHeap(t)
 		}
-		t.state.Store(state)
 	}
 }
 
@@ -593,7 +550,7 @@ func (ts *timers) adjust(now int64, force bool) {
 	// We'll postpone looking through all the adjusted timers until
 	// one would actually expire.
 	if !force {
-		first := ts.minNextWhen.Load()
+		first := ts.minModWhen.Load()
 		if first == 0 || first > now {
 			if verifyTimers {
 				ts.verify()
@@ -602,9 +559,9 @@ func (ts *timers) adjust(now int64, force bool) {
 		}
 	}
 
-	// minNextWhen is a lower bound on the earliest t.nextWhen
-	// among the timerNextWhen timers. We want to make it more precise:
-	// we are going to scan the heap and clean out all the timerNextWhen bits,
+	// minNextWhen is a lower bound on the earliest t.when
+	// among the timerModified timers. We want to make it more precise:
+	// we are going to scan the heap and clean out all the timerModified bits,
 	// at which point minNextWhen can be set to 0 (indicating none at all).
 	//
 	// Other P's can be calling ts.wakeTime concurrently, and we'd like to
@@ -617,7 +574,7 @@ func (ts *timers) adjust(now int64, force bool) {
 	//
 	// Setting minNextWhen = 0 *after* the scan could result in missing
 	// concurrent timer modifications in other goroutines; those will lock
-	// the specific timer, set the timerNextWhen bit, and set t.nextWhen.
+	// the specific timer, set the timerModified bit, and set t.when.
 	// To avoid that, we want to set minNextWhen to 0 *before* the scan.
 	//
 	// The way out of this dilemma is to preserve wakeTime a different way.
@@ -631,7 +588,7 @@ func (ts *timers) adjust(now int64, force bool) {
 	//	2. Set minNextWhen = 0
 	//	   (Other goroutines may modify timers and update minNextWhen now.)
 	//	3. Scan timers
-	//	4. Set minWhen = heap[0].when
+	//	4. Set minWhen = heap[0].whenHeap
 	//
 	// That order preserves a correct value of wakeTime throughout the entire
 	// operation:
@@ -644,8 +601,8 @@ func (ts *timers) adjust(now int64, force bool) {
 	// so that if the minNextWhen observes a 0, that means the minWhen
 	// will include the information about what was zeroed.
 
-	ts.minWhen.Store(ts.wakeTime())
-	ts.minNextWhen.Store(0)
+	ts.minHeapWhen.Store(ts.wakeTime())
+	ts.minModWhen.Store(0)
 
 	changed := false
 	for i := 0; i < len(ts.heap); i++ {
@@ -654,17 +611,16 @@ func (ts *timers) adjust(now int64, force bool) {
 			throw("bad ts")
 		}
 
-		state, mp := t.lock()
-		if state&timerHeaped == 0 {
+		t.lock()
+		if t.state&timerHeaped == 0 {
 			badTimer()
 		}
-		if state&timerZombie != 0 {
+		if t.state&timerZombie != 0 {
 			ts.zombies.Add(-1) // updateHeap will return updated=true and we will delete t
 		}
-		state, updated := t.updateHeap(state, nil)
-		if updated {
+		if t.updateHeap(nil) {
 			changed = true
-			if state&timerHeaped == 0 {
+			if t.state&timerHeaped == 0 {
 				n := len(ts.heap)
 				ts.heap[i] = ts.heap[n-1]
 				ts.heap[n-1] = nil
@@ -673,13 +629,13 @@ func (ts *timers) adjust(now int64, force bool) {
 				i--
 			}
 		}
-		t.unlock(state, mp)
+		t.unlock()
 	}
 
 	if changed {
 		ts.initHeap()
 	}
-	ts.updateMinWhen()
+	ts.updateMinHeapWhen()
 
 	if verifyTimers {
 		ts.verify()
@@ -698,8 +654,8 @@ func (ts *timers) wakeTime() int64 {
 	// We read minWhen after reading minNextWhen so that
 	// if we see a cleared minNextWhen, we are guaranteed to see
 	// the updated minWhen.
-	nextWhen := ts.minNextWhen.Load()
-	when := ts.minWhen.Load()
+	nextWhen := ts.minModWhen.Load()
+	when := ts.minHeapWhen.Load()
 	if when == 0 || (nextWhen != 0 && nextWhen < when) {
 		when = nextWhen
 	}
@@ -781,31 +737,30 @@ Redo:
 		throw("bad ts")
 	}
 
-	if t.state.Load()&(timerNextWhen|timerZombie) == 0 && t.when > now {
+	if t.astate.Load()&(timerModified|timerZombie) == 0 && t.whenHeap > now {
 		// Fast path: not ready to run.
-		// The access of t.when is protected by the caller holding
+		// The access of t.whenHeap is protected by the caller holding
 		// ts.lock, even though t itself is unlocked.
-		return t.when
+		return t.whenHeap
 	}
 
-	state, mp := t.lock()
-	state, updated := t.updateHeap(state, ts)
-	if updated {
-		t.unlock(state, mp)
+	t.lock()
+	if t.updateHeap(ts) {
+		t.unlock()
 		goto Redo
 	}
 
-	if state&timerHeaped == 0 {
+	if t.state&timerHeaped == 0 || t.state&timerModified != 0 {
 		badTimer()
 	}
 
 	if t.when > now {
 		// Not ready to run.
-		t.unlock(state, mp)
+		t.unlock()
 		return t.when
 	}
 
-	ts.unlockAndRun(t, now, state, mp)
+	t.unlockAndRun(now)
 	assertLockHeld(&ts.mu) // t is unlocked now, but not ts
 	return 0
 }
@@ -815,9 +770,14 @@ Redo:
 // and this call will temporarily unlock the timer set while running the timer function.
 //
 //go:systemstack
-func (ts *timers) unlockAndRun(t *timer, now int64, state uint32, mp *m) {
-	assertLockHeld(&ts.mu)
+func (t *timer) unlockAndRun(now int64) {
+	if t.ts != nil {
+		assertLockHeld(&t.ts.mu)
+	}
 	if raceenabled {
+		// Note that we are running on a system stack,
+		// so there is no chance of getg().m being reassigned
+		// out from under us while this function executes.
 		tsLocal := &getg().m.p.ptr().timers
 		if tsLocal.raceCtx == 0 {
 			tsLocal.raceCtx = racegostart(abi.FuncPCABIInternal((*timers).run) + sys.PCQuantum)
@@ -825,7 +785,7 @@ func (ts *timers) unlockAndRun(t *timer, now int64, state uint32, mp *m) {
 		raceacquirectx(tsLocal.raceCtx, unsafe.Pointer(t))
 	}
 
-	if state&(timerNextWhen|timerZombie) != 0 {
+	if t.state&(timerModified|timerZombie) != 0 {
 		badTimer()
 	}
 
@@ -843,18 +803,19 @@ func (ts *timers) unlockAndRun(t *timer, now int64, state uint32, mp *m) {
 	} else {
 		next = 0
 	}
-	if state&timerHeaped != 0 {
-		t.nextWhen = next
-		state |= timerNextWhen
+	if t.state&timerHeaped != 0 {
+		t.when = next
+		t.state |= timerModified
 		if next == 0 {
-			state |= timerZombie
+			t.state |= timerZombie
 			t.ts.zombies.Add(1)
 		}
 	} else {
 		t.when = next
 	}
-	state, _ = t.updateHeap(state, ts)
-	t.unlock(state, mp)
+	ts := t.ts
+	t.updateHeap(ts)
+	t.unlock()
 
 	if raceenabled {
 		// Temporarily use the current P's racectx for g0.
@@ -865,9 +826,13 @@ func (ts *timers) unlockAndRun(t *timer, now int64, state uint32, mp *m) {
 		gp.racectx = gp.m.p.ptr().timers.raceCtx
 	}
 
-	ts.unlock()
+	if ts != nil {
+		ts.unlock()
+	}
 	f(arg, seq)
-	ts.lock()
+	if ts != nil {
+		ts.lock()
+	}
 
 	if raceenabled {
 		gp := getg()
@@ -888,8 +853,8 @@ func (ts *timers) verify() {
 
 		// The heap is 4-ary. See siftupTimer and siftdownTimer.
 		p := (i - 1) / 4
-		if t.when < ts.heap[p].when {
-			print("bad timer heap at ", i, ": ", p, ": ", ts.heap[p].when, ", ", i, ": ", t.when, "\n")
+		if t.whenHeap < ts.heap[p].whenHeap {
+			print("bad timer heap at ", i, ": ", p, ": ", ts.heap[p].whenHeap, ", ", i, ": ", t.whenHeap, "\n")
 			throw("bad timer heap")
 		}
 	}
@@ -899,26 +864,26 @@ func (ts *timers) verify() {
 	}
 }
 
-// updateMinWhen sets ts.minWhen to ts.heap[0].when.
+// updateMinHeapWhen sets ts.minHeapWhen to ts.heap[0].whenHeap.
 // The caller must have locked ts or the world must be stopped.
-func (ts *timers) updateMinWhen() {
+func (ts *timers) updateMinHeapWhen() {
 	assertWorldStoppedOrLockHeld(&ts.mu)
 	if len(ts.heap) == 0 {
-		ts.minWhen.Store(0)
+		ts.minHeapWhen.Store(0)
 	} else {
-		ts.minWhen.Store(ts.heap[0].when)
+		ts.minHeapWhen.Store(ts.heap[0].whenHeap)
 	}
 }
 
-// updateMinNextWhen updates ts.minNextWhen to be <= when.
+// updateMinModWhen updates ts.minModWhen to be <= when.
 // ts need not be (and usually is not) locked.
-func (ts *timers) updateMinNextWhen(when int64) {
+func (ts *timers) updateMinModWhen(when int64) {
 	for {
-		old := ts.minNextWhen.Load()
+		old := ts.minModWhen.Load()
 		if old != 0 && old < when {
 			return
 		}
-		if ts.minNextWhen.CompareAndSwap(old, when) {
+		if ts.minModWhen.CompareAndSwap(old, when) {
 			return
 		}
 	}
@@ -963,14 +928,14 @@ func (ts *timers) siftUp(i int) {
 	if i >= len(t) {
 		badTimer()
 	}
-	when := t[i].when
+	when := t[i].whenHeap
 	if when <= 0 {
 		badTimer()
 	}
 	tmp := t[i]
 	for i > 0 {
 		p := (i - 1) / 4 // parent
-		if when >= t[p].when {
+		if when >= t[p].whenHeap {
 			break
 		}
 		t[i] = t[p]
@@ -989,7 +954,7 @@ func (ts *timers) siftDown(i int) {
 	if i >= n {
 		badTimer()
 	}
-	when := t[i].when
+	when := t[i].whenHeap
 	if when <= 0 {
 		badTimer()
 	}
@@ -1000,15 +965,15 @@ func (ts *timers) siftDown(i int) {
 		if c >= n {
 			break
 		}
-		w := t[c].when
-		if c+1 < n && t[c+1].when < w {
-			w = t[c+1].when
+		w := t[c].whenHeap
+		if c+1 < n && t[c+1].whenHeap < w {
+			w = t[c+1].whenHeap
 			c++
 		}
 		if c3 < n {
-			w3 := t[c3].when
-			if c3+1 < n && t[c3+1].when < w3 {
-				w3 = t[c3+1].when
+			w3 := t[c3].whenHeap
+			if c3+1 < n && t[c3+1].whenHeap < w3 {
+				w3 = t[c3+1].whenHeap
 				c3++
 			}
 			if w3 < w {
