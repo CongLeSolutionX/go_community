@@ -16,6 +16,24 @@
       "message": "I don\u0027t know how to interpret the benchmark results, and they should be in the CL description in any case, using benchcmp.\n\nThat issue aside, unless the performance difference is dramatic, which I don\u0027t think it is, the previous code is much clearer, as well as hiding the mess around surrogates. I would prefer it stayed as is.",
       "revId": "1796f42745939b935e4cb07f9d0bfe4ba2cba22a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "319e74ac_aeed297d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-03-10T13:01:22Z",
+      "side": 1,
+      "message": "Thanks, but I think -9.38% is an obvious reduction.",
+      "parentUuid": "8ece5ea2_d47b0756",
+      "revId": "1796f42745939b935e4cb07f9d0bfe4ba2cba22a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
