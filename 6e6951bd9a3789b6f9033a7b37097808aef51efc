@@ -22,6 +22,30 @@
       },
       "revId": "6e6951bd9a3789b6f9033a7b37097808aef51efc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9a48b66_0b4bd14b",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-03-10T04:12:23Z",
+      "side": 1,
+      "message": "This matches what is done in LLVM\u0027s lld:\n\n  https://github.com/openbsd/src/blob/master/gnu/llvm/lld/ELF/Writer.cpp#L2420\n\nI presume it is marked PF_X since it is a permission that applies to binary execution.",
+      "parentUuid": "e5ad1f35_226df5aa",
+      "range": {
+        "startLine": 2191,
+        "startChar": 0,
+        "endLine": 2191,
+        "endChar": 21
+      },
+      "revId": "6e6951bd9a3789b6f9033a7b37097808aef51efc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
