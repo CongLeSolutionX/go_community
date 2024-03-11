@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf40ae67_8d3380d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-11T21:15:31Z",
+      "side": 1,
+      "message": "I\u0027m worried about those, too. Maybe it is fine for now.",
+      "revId": "76113fbd1d692ddc1a7cbcd9f83e27665728f270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e43cd344_f207a5a9",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-11T21:15:31Z",
+      "side": 1,
+      "message": "(Not specifically this CL) on some architectures (including ARM64), OpArg is loaded with a zero- or sign-extension based on the signedness of the type, e.g. for an int32 typed arg, it uses a signed 32-bit load. Maybe we should check for whether the type is unsigned, at least on some architectures. (Maybe we can change the load instruction to be always unsigned? Not sure.)",
+      "range": {
+        "startLine": 1297,
+        "startChar": 0,
+        "endLine": 1298,
+        "endChar": 27
+      },
+      "revId": "76113fbd1d692ddc1a7cbcd9f83e27665728f270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
