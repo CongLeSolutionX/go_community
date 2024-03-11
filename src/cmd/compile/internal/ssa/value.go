@@ -485,6 +485,16 @@ func (v *Value) Reg() int16 {
 	return reg.(*Register).objNum
 }
 
+func (v *Value) HasReg() bool {
+	reg := v.Block.Func.RegAlloc[v.ID]
+	if reg == nil {
+		v.Fatalf("nil register for value: %s\n%s\n", v.LongString(), v.Block.Func)
+	}
+
+	_, ok := reg.(*Register)
+	return ok
+}
+
 // Reg0 returns the register assigned to the first output of v, in cmd/internal/obj/$ARCH numbering.
 func (v *Value) Reg0() int16 {
 	reg := v.Block.Func.RegAlloc[v.ID].(LocPair)[0]

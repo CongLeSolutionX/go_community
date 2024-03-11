@@ -70,6 +70,7 @@ type opData struct {
 	unsafePoint       bool   // this op is an unsafe point, i.e. not safe for async preemption
 	symEffect         string // effect this op has on symbol in aux
 	scale             uint8  // amd64/386 indexed load scale
+	wasmForceStack    bool   // indicates that an op will not participate in OnWasmStack optz
 }
 
 type blockData struct {
@@ -359,6 +360,10 @@ func genOp() {
 			if v.scale != 0 {
 				fmt.Fprintf(w, "scale: %d,\n", v.scale)
 			}
+			if v.wasmForceStack {
+				fmt.Fprintf(w, "wasmForceStack: true,\n")
+			}
+
 			fmt.Fprintln(w, "reg:regInfo{")
 
 			// Compute input allocation order. We allocate from the

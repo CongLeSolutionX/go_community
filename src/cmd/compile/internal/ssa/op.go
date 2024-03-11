@@ -45,6 +45,7 @@ type opInfo struct {
 	unsafePoint       bool      // this op is an unsafe point, i.e. not safe for async preemption
 	symEffect         SymEffect // effect this op has on symbol in aux
 	scale             uint8     // amd64/386 indexed load scale
+	wasmForceStack    bool      // indicates that an op will not participate in OnWasmStack optz
 }
 
 type inputInfo struct {

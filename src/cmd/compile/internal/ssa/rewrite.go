@@ -2156,7 +2156,7 @@ func canRotate(c *Config, bits int64) bool {
 	switch c.arch {
 	case "386", "amd64", "arm64", "riscv64":
 		return true
-	case "arm", "s390x", "ppc64", "ppc64le", "wasm", "loong64":
+	case "arm", "s390x", "ppc64", "ppc64le", "wasm", "wasm32", "loong64":
 		return bits >= 32
 	default:
 		return false

@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package wasm
+package wasm32
 
 import "cmd/internal/obj"
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p wasm
+//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p wasm32
 
 const (
 	/* mark flags */
@@ -18,7 +18,7 @@ const (
  *	wasm
  */
 const (
-	AGet = obj.ABaseWasm + obj.A_ARCHSPECIFIC + iota
+	AGet = obj.ABaseWasm32 + obj.A_ARCHSPECIFIC + iota
 	ASet
 	ATee
 	ANot // alias for I32Eqz
@@ -266,7 +266,7 @@ const (
 
 const (
 	// globals
-	REG_SP = obj.RBaseWasm + iota // SP is currently 32-bit, until 64-bit memory operations are available
+	REG_SP = obj.RBaseWasm32 + iota
 	REG_CTXT
 	REG_g
 	// RET* are used by runtime.return0 and runtime.reflectcall. These functions pass return values in registers.

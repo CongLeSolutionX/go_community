@@ -402,7 +402,7 @@ func (p *Parser) asmJump(op obj.As, cond string, a []obj.Addr) {
 	targetAddr := &prog.To
 	switch len(a) {
 	case 0:
-		if p.arch.Family == sys.Wasm {
+		if p.arch.Family == sys.Wasm || p.arch.Family == sys.Wasm32 {
 			target = &obj.Addr{Type: obj.TYPE_NONE}
 			break
 		}

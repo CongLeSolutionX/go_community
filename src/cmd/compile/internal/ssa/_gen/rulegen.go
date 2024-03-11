@@ -221,7 +221,7 @@ func genRulesSuffix(arch arch, suff string) {
 		fn.add(declReserved("typ", "&b.Func.Config.Types"))
 		for _, rule := range rules {
 			if rr != nil && !rr.CanFail {
-				log.Fatalf("unconditional rule %s is followed by other rules", rr.Match)
+				log.Fatalf("unconditional rule %s is followed by other rules (%s)", rr.Match, op)
 			}
 			rr = &RuleRewrite{Loc: rule.Loc}
 			rr.Match, rr.Cond, rr.Result = rule.parse()

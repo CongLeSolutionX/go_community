@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package wasm
+package wasm32
 
 import (
 	"bytes"
@@ -95,7 +95,7 @@ var registerNames []string
 
 func init() {
 	obj.RegisterRegister(MINREG, MAXREG, rconv)
-	obj.RegisterOpcode(obj.ABaseWasm, Anames)
+	obj.RegisterOpcode(obj.ABaseWasm32, Anames)
 
 	registerNames = make([]string, MAXREG-MINREG)
 	for name, reg := range Register {
@@ -128,14 +128,6 @@ var unaryDst = map[obj.As]bool{
 }
 
 var Linkwasm = obj.LinkArch{
-	Arch:       sys.ArchWasm,
-	Init:       instinit,
-	Preprocess: preprocess,
-	Assemble:   assemble,
-	UnaryDst:   unaryDst,
-}
-
-var Linkwasm32 = obj.LinkArch{
 	Arch:       sys.ArchWasm32,
 	Init:       instinit,
 	Preprocess: preprocess,
@@ -169,20 +161,6 @@ func instinit(ctxt *obj.Link) {
 }
 
 func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
-	MOVR := AMOVD
-	if ctxt.Arch.PtrSize == 4 {
-		MOVR = AMOVW
-	}
-
-	AIntConst := AI64Const
-	AIntStore := AI64Store
-	AIntAdd := AI64Add
-	if ctxt.Arch.PtrSize == 4 {
-		AIntConst = AI32Const
-		AIntStore = AI32Store
-		AIntAdd = AI32Add
-	}
-
 	appendp := func(p *obj.Prog, as obj.As, args ...obj.Addr) *obj.Prog {
 		if p.As != obj.ANOP {
 			p2 := obj.Appendp(p, newprog)
@@ -269,56 +247,32 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				// from sp because we store the return address as an int64 at the bottom of the stack.
 				// Ie the stack looks like [return_addr, param3, param2, param1, etc]
 
-				if ctxt.Arch.PtrSize == 8 {
-					// Ergo, we add 8 to the true byte offset of the param to skip the return address.
-					loadOffset := f.Offset + 8
+				// Ergo, we add 8 to the true byte offset of the param to skip the return address.
+				loadOffset := f.Offset + 4
 
-					// We're reading the value from the Go stack onto the WASM stack and leaving it there
-					// for CALL to pick them up.
-					switch f.Type {
-					case obj.WasmI32:
-						p = appendp(p, AI32Load, constAddr(loadOffset))
-					case obj.WasmI64:
-						p = appendp(p, AI64Load, constAddr(loadOffset))
-					case obj.WasmF32:
-						p = appendp(p, AF32Load, constAddr(loadOffset))
-					case obj.WasmF64:
-						p = appendp(p, AF64Load, constAddr(loadOffset))
-					case obj.WasmPtr:
-						p = appendp(p, AI64Load, constAddr(loadOffset))
-						p = appendp(p, AI32WrapI64)
-					default:
-						panic("bad param type")
-					}
-				} else {
-					// Ergo, we add 4 to the true byte offset of the param to skip the return address.
-					loadOffset := f.Offset + 4
+				// We're reading the value from the Go stack onto the WASM stack and leaving it there
+				// for CALL to pick them up.
+				switch f.Type {
+				case obj.WasmI64:
+					p = appendp(p, AI32Load, constAddr(loadOffset+4))
+					p = appendp(p, AI64ExtendI32S)
+					p = appendp(p, AI64Const, constAddr(32))
+					p = appendp(p, AI64Shl)
 
-					// We're reading the value from the Go stack onto the WASM stack and leaving it there
-					// for CALL to pick them up.
-					switch f.Type {
-					case obj.WasmI64:
-						p = appendp(p, AI32Load, constAddr(loadOffset+4))
-						p = appendp(p, AI64ExtendI32S)
-						p = appendp(p, AI64Const, constAddr(32))
-						p = appendp(p, AI64Shl)
-
-						p = appendp(p, AGet, regAddr(REG_SP))
-						p = appendp(p, AI32Load, constAddr(loadOffset))
-						p = appendp(p, AI64ExtendI32U)
-						p = appendp(p, AI64Or)
-					case obj.WasmI32:
-						p = appendp(p, AI32Load, constAddr(loadOffset))
-					case obj.WasmF32:
-						p = appendp(p, AF32Load, constAddr(loadOffset))
-					case obj.WasmF64:
-						p = appendp(p, AF64Load, constAddr(loadOffset))
-					case obj.WasmPtr:
-						p = appendp(p, AI32Load, constAddr(loadOffset))
-					default:
-						panic("bad param type")
-					}
-
+					p = appendp(p, AGet, regAddr(REG_SP))
+					p = appendp(p, AI32Load, constAddr(loadOffset))
+					p = appendp(p, AI64ExtendI32U)
+					p = appendp(p, AI64Or)
+				case obj.WasmI32:
+					p = appendp(p, AI32Load, constAddr(loadOffset))
+				case obj.WasmF32:
+					p = appendp(p, AF32Load, constAddr(loadOffset))
+				case obj.WasmF64:
+					p = appendp(p, AF64Load, constAddr(loadOffset))
+				case obj.WasmPtr:
+					p = appendp(p, AI32Load, constAddr(loadOffset))
+				default:
+					panic("bad param type")
 				}
 			}
 
@@ -331,59 +285,33 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			if len(wi.Results) == 1 {
 				f := wi.Results[0]
 
-				if ctxt.Arch.PtrSize == 8 {
-					// Much like with the params, we need to adjust the offset we store the result value
-					// to by 8 bytes to account for the return address on the Go stack.
-					storeOffset := f.Offset + 8
+				// Much like with the params, we need to adjust the offset we store the result value
+				// to by 8 bytes to account for the return address on the Go stack.
+				storeOffset := f.Offset + 4
 
-					// This code is paired the code above that reads the stack pointer onto the wasm
-					// stack. We've done this so we have a consistent view of the sp value as it might
-					// be manipulated by the call and we want to ignore that manipulation here.
-					switch f.Type {
-					case obj.WasmI32:
-						p = appendp(p, AI32Store, constAddr(storeOffset))
-					case obj.WasmI64:
-						p = appendp(p, AI64Store, constAddr(storeOffset))
-					case obj.WasmF32:
-						p = appendp(p, AF32Store, constAddr(storeOffset))
-					case obj.WasmF64:
-						p = appendp(p, AF64Store, constAddr(storeOffset))
-					case obj.WasmPtr:
-						p = appendp(p, AI64ExtendI32U)
-						p = appendp(p, AI64Store, constAddr(storeOffset))
-					default:
-						panic("bad result type")
-					}
-				} else {
-					// Much like with the params, we need to adjust the offset we store the result value
-					// to by 8 bytes to account for the return address on the Go stack.
-					storeOffset := f.Offset + 4
-
-					// This code is paired the code above that reads the stack pointer onto the wasm
-					// stack. We've done this so we have a consistent view of the sp value as it might
-					// be manipulated by the call and we want to ignore that manipulation here.
-					switch f.Type {
-					case obj.WasmI64:
-						p = appendp(p, ATee, regAddr(REG_X0))
-						p = appendp(p, AI64Const, constAddr(32))
-						p = appendp(p, AI64ShrS)
-						p = appendp(p, AI32WrapI64)
-						p = appendp(p, AI32Store, constAddr(storeOffset+4))
-						p = appendp(p, AGet, regAddr(REG_X0))
-						p = appendp(p, AI32WrapI64)
-						p = appendp(p, AI32Store, constAddr(storeOffset))
-					case obj.WasmI32:
-						p = appendp(p, AI32Store, constAddr(storeOffset))
-					case obj.WasmF32:
-						p = appendp(p, AF32Store, constAddr(storeOffset))
-					case obj.WasmF64:
-						p = appendp(p, AF64Store, constAddr(storeOffset))
-					case obj.WasmPtr:
-						p = appendp(p, AI32Store, constAddr(storeOffset))
-					default:
-						panic("bad result type")
-					}
-
+				// This code is paired the code above that reads the stack pointer onto the wasm
+				// stack. We've done this so we have a consistent view of the sp value as it might
+				// be manipulated by the call and we want to ignore that manipulation here.
+				switch f.Type {
+				case obj.WasmI64:
+					p = appendp(p, ATee, regAddr(REG_X0))
+					p = appendp(p, AI64Const, constAddr(32))
+					p = appendp(p, AI64ShrS)
+					p = appendp(p, AI32WrapI64)
+					p = appendp(p, AI32Store, constAddr(storeOffset+4))
+					p = appendp(p, AGet, regAddr(REG_X0))
+					p = appendp(p, AI32WrapI64)
+					p = appendp(p, AI32Store, constAddr(storeOffset))
+				case obj.WasmI32:
+					p = appendp(p, AI32Store, constAddr(storeOffset))
+				case obj.WasmF32:
+					p = appendp(p, AF32Store, constAddr(storeOffset))
+				case obj.WasmF64:
+					p = appendp(p, AF64Store, constAddr(storeOffset))
+				case obj.WasmPtr:
+					p = appendp(p, AI32Store, constAddr(storeOffset))
+				default:
+					panic("bad result type")
 				}
 			}
 		}
@@ -429,43 +357,22 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		}
 
 		p := s.Func().Text
+		p = appendp(p, AMOVD, gpanic, regAddr(REG_X0))
 
-		if ctxt.Arch.PtrSize == 8 {
-			p = appendp(p, AMOVD, gpanic, regAddr(REG_R0))
+		p = appendp(p, AGet, regAddr(REG_X0))
+		p = appendp(p, AI64Eqz)
+		p = appendp(p, ANot)
+		p = appendp(p, AIf)
 
-			p = appendp(p, AGet, regAddr(REG_R0))
-			p = appendp(p, AI64Eqz)
-			p = appendp(p, ANot)
-			p = appendp(p, AIf)
+		p = appendp(p, AGet, regAddr(REG_SP))
+		p = appendp(p, AI32Const, constAddr(framesize+4))
+		p = appendp(p, AI32Add)
+		p = appendp(p, AI32Load, panicargp) // HERE
 
-			p = appendp(p, AGet, regAddr(REG_SP))
-			p = appendp(p, AI64ExtendI32U)
-			p = appendp(p, AI64Const, constAddr(framesize+8))
-			p = appendp(p, AI64Add)
-			p = appendp(p, AI64Load, panicargp)
-
-			p = appendp(p, AI64Eq)
-			p = appendp(p, AIf)
-			p = appendp(p, AMOVD, regAddr(REG_SP), panicargp)
-			p = appendp(p, AEnd)
-		} else {
-			p = appendp(p, AMOVD, gpanic, regAddr(REG_X0))
-
-			p = appendp(p, AGet, regAddr(REG_X0))
-			p = appendp(p, AI64Eqz)
-			p = appendp(p, ANot)
-			p = appendp(p, AIf)
-
-			p = appendp(p, AGet, regAddr(REG_SP))
-			p = appendp(p, AI32Const, constAddr(framesize+4))
-			p = appendp(p, AI32Add)
-			p = appendp(p, AI32Load, panicargp) // HERE
-
-			p = appendp(p, AI32Eq)
-			p = appendp(p, AIf)
-			p = appendp(p, AMOVW, regAddr(REG_SP), panicargp)
-			p = appendp(p, AEnd)
-		}
+		p = appendp(p, AI32Eq)
+		p = appendp(p, AIf)
+		p = appendp(p, AMOVW, regAddr(REG_SP), panicargp)
+		p = appendp(p, AEnd)
 
 		p = appendp(p, AEnd)
 	}
@@ -492,18 +399,18 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		p := pMorestack
 
 		// Save REGCTXT on the stack.
-		var tempFrame = int64(ctxt.Arch.PtrSize)
+		const tempFrame = 4
 		p = appendp(p, AGet, regAddr(REG_SP))
 		p = appendp(p, AI32Const, constAddr(tempFrame))
 		p = appendp(p, AI32Sub)
 		p = appendp(p, ASet, regAddr(REG_SP))
-		p.Spadj = int32(tempFrame)
+		p.Spadj = tempFrame
 		ctxtp := obj.Addr{
 			Type:   obj.TYPE_MEM,
 			Reg:    REG_SP,
 			Offset: 0,
 		}
-		p = appendp(p, MOVR, regAddr(REGCTXT), ctxtp)
+		p = appendp(p, AMOVW, regAddr(REGCTXT), ctxtp)
 
 		// maymorestack must not itself preempt because we
 		// don't have full stack information, so this can be
@@ -514,12 +421,12 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: sym}
 
 		// Restore REGCTXT.
-		p = appendp(p, MOVR, ctxtp, regAddr(REGCTXT))
+		p = appendp(p, AMOVW, ctxtp, regAddr(REGCTXT))
 		p = appendp(p, AGet, regAddr(REG_SP))
 		p = appendp(p, AI32Const, constAddr(tempFrame))
 		p = appendp(p, AI32Add)
 		p = appendp(p, ASet, regAddr(REG_SP))
-		p.Spadj = -int32(tempFrame)
+		p.Spadj = -tempFrame
 
 		// Add an explicit ARESUMEPOINT after maymorestack for
 		// morestack to resume at.
@@ -593,15 +500,11 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			// small stack: SP <= stackguard
 			// Get SP
 			// Get g
-			// I32WrapI64
 			// I32Load $stackguard0
 			// I32GtU
 
 			p = appendp(p, AGet, regAddr(REG_SP))
 			p = appendp(p, AGet, regAddr(REGG))
-			if ctxt.Arch.RegSize == 8 {
-				p = appendp(p, AI32WrapI64)
-			}
 			p = appendp(p, AI32Load, constAddr(2*int64(ctxt.Arch.PtrSize))) // G.stackguard0
 			p = appendp(p, AI32LeU)
 		} else {
@@ -609,7 +512,6 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			//              SP <= stackguard+(framesize-StackSmall)
 			// Get SP
 			// Get g
-			// I32WrapI64
 			// I32Load $stackguard0
 			// I32Const $(framesize-StackSmall)
 			// I32Add
@@ -617,9 +519,6 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 			p = appendp(p, AGet, regAddr(REG_SP))
 			p = appendp(p, AGet, regAddr(REGG))
-			if ctxt.Arch.RegSize == 8 {
-				p = appendp(p, AI32WrapI64)
-			}
 			p = appendp(p, AI32Load, constAddr(2*int64(ctxt.Arch.PtrSize))) // G.stackguard0
 			p = appendp(p, AI32Const, constAddr(framesize-abi.StackSmall))
 			p = appendp(p, AI32Add)
@@ -682,9 +581,6 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 			case obj.TYPE_NONE:
 				// (target PC is on stack)
-				if ctxt.Arch.RegSize == 8 {
-					p = appendp(p, AI32WrapI64)
-				}
 				p = appendp(p, AI32Const, constAddr(16)) // only needs PC_F bits (16-31), PC_B bits (0-15) are zero
 				p = appendp(p, AI32ShrU)
 
@@ -713,21 +609,21 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				pcAfterCall-- // sigpanic expects to be called without advancing the pc
 			}
 
-			// SP -= ptrSize
+			// SP -= 4
 			p = appendp(p, AGet, regAddr(REG_SP))
-			p = appendp(p, AI32Const, constAddr(int64(ctxt.Arch.PtrSize)))
+			p = appendp(p, AI32Const, constAddr(4))
 			p = appendp(p, AI32Sub)
 			p = appendp(p, ASet, regAddr(REG_SP))
 
 			// write return address to Go stack
 			p = appendp(p, AGet, regAddr(REG_SP))
-			p = appendp(p, AIntConst, obj.Addr{
+			p = appendp(p, AI32Const, obj.Addr{
 				Type:   obj.TYPE_ADDR,
 				Name:   obj.NAME_EXTERN,
 				Sym:    s,           // PC_F
 				Offset: pcAfterCall, // PC_B
 			})
-			p = appendp(p, AIntStore, constAddr(0))
+			p = appendp(p, AI32Store, constAddr(0))
 
 			// low-level WebAssembly call to function
 			switch call.To.Type {
@@ -740,9 +636,6 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 			case obj.TYPE_NONE:
 				// (target PC is on stack)
-				if ctxt.Arch.RegSize == 8 {
-					p = appendp(p, AI32WrapI64)
-				}
 				p = appendp(p, AI32Const, constAddr(16)) // only needs PC_F bits (16-31), PC_B bits (0-15) are zero
 				p = appendp(p, AI32ShrU)
 
@@ -761,7 +654,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			}
 
 			// return value of call is on the top of the stack, indicating whether to unwind the WebAssembly stack
-			if false && call.As == ACALLNORESUME && call.To.Sym != sigpanic { // sigpanic unwinds the stack, but it never resumes
+			if call.As == ACALLNORESUME && call.To.Sym != sigpanic { // sigpanic unwinds the stack, but it never resumes
 				// trying to unwind WebAssembly stack but call has no resume point, terminate with error
 				p = appendp(p, AIf)
 				p = appendp(p, obj.AUNDEF)
@@ -796,9 +689,9 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				break
 			}
 
-			// SP += ptrSize
+			// SP += 4
 			p = appendp(p, AGet, regAddr(REG_SP))
-			p = appendp(p, AI32Const, constAddr(int64(ctxt.Arch.PtrSize)))
+			p = appendp(p, AI32Const, constAddr(4))
 			p = appendp(p, AI32Add)
 			p = appendp(p, ASet, regAddr(REG_SP))
 
@@ -821,7 +714,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			p.From.Offset += framesize
 		case obj.NAME_PARAM:
 			p.From.Reg = REG_SP
-			p.From.Offset += framesize + int64(ctxt.Arch.PtrSize) // parameters are after the frame and the (4/8)-byte return address
+			p.From.Offset += framesize + 4 // parameters are after the frame and the 4-byte return address
 		}
 
 		switch p.To.Name {
@@ -829,7 +722,7 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			p.To.Offset += framesize
 		case obj.NAME_PARAM:
 			p.To.Reg = REG_SP
-			p.To.Offset += framesize + int64(ctxt.Arch.PtrSize) // parameters are after the frame and the (4/8)-byte return address
+			p.To.Offset += framesize + 4 // parameters are after the frame and the 4-byte return address
 		}
 
 		switch p.As {
@@ -840,15 +733,12 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 				switch get.From.Name {
 				case obj.NAME_EXTERN:
-					p = appendp(p, AIntConst, get.From)
+					p = appendp(p, AI32Const, get.From)
 				case obj.NAME_AUTO, obj.NAME_PARAM:
 					p = appendp(p, AGet, regAddr(get.From.Reg))
-					if get.From.Reg == REG_SP && ctxt.Arch.RegSize == 8 {
-						p = appendp(p, AI64ExtendI32U)
-					}
 					if get.From.Offset != 0 {
-						p = appendp(p, AIntConst, constAddr(get.From.Offset))
-						p = appendp(p, AIntAdd)
+						p = appendp(p, AI32Const, constAddr(get.From.Offset))
+						p = appendp(p, AI32Add)
 					}
 				default:
 					panic("bad Get: invalid name")
@@ -856,16 +746,13 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			}
 
 		case AI32Load, AI64Load, AF32Load, AF64Load, AI32Load8S, AI32Load8U, AI32Load16S, AI32Load16U, AI64Load8S, AI64Load8U, AI64Load16S, AI64Load16U, AI64Load32S, AI64Load32U:
+			// case AI32Load, AF32Load, AF64Load, AI32Load8S, AI32Load8U, AI32Load16S, AI32Load16U:
 			if p.From.Type == obj.TYPE_MEM {
 				as := p.As
 				from := p.From
 
 				p.As = AGet
 				p.From = regAddr(from.Reg)
-
-				if ctxt.Arch.PtrSize == 8 && from.Reg != REG_SP {
-					p = appendp(p, AI32WrapI64)
-				}
 
 				p = appendp(p, as, constAddr(from.Offset))
 			}
@@ -876,70 +763,45 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 			var loadAs obj.As
 			var storeAs obj.As
-
-			if ctxt.Arch.PtrSize == 8 {
-				switch mov.As {
-				case AMOVB:
-					loadAs = AI64Load8U
-					storeAs = AI64Store8
-				case AMOVH:
-					loadAs = AI64Load16U
-					storeAs = AI64Store16
-				case AMOVW:
-					loadAs = AI64Load32U
-					storeAs = AI64Store32
-				case AMOVD:
-					loadAs = AI64Load
-					storeAs = AI64Store
-				}
-			} else {
-				switch mov.As {
-				case AMOVB:
-					loadAs = AI32Load8U
-					storeAs = AI32Store8
-				case AMOVH:
-					loadAs = AI32Load16U
-					storeAs = AI32Store16
-				case AMOVW:
-					loadAs = AI32Load
-					storeAs = AI32Store
-				case AMOVD:
-					loadAs = AI64Load
-					storeAs = AI64Store
-				}
+			switch mov.As {
+			case AMOVB:
+				loadAs = AI32Load8U
+				storeAs = AI32Store8
+			case AMOVH:
+				loadAs = AI32Load16U
+				storeAs = AI32Store16
+			case AMOVW:
+				loadAs = AI32Load
+				storeAs = AI32Store
+			case AMOVD:
+				loadAs = AI64Load
+				storeAs = AI64Store
+			default:
+				panic("bad move pardner")
 			}
 
 			appendValue := func() {
 				switch mov.From.Type {
 				case obj.TYPE_CONST:
-					p = appendp(p, AIntConst, constAddr(mov.From.Offset))
+					p = appendp(p, AI32Const, constAddr(mov.From.Offset))
 
 				case obj.TYPE_ADDR:
 					switch mov.From.Name {
 					case obj.NAME_NONE, obj.NAME_PARAM, obj.NAME_AUTO:
 						p = appendp(p, AGet, regAddr(mov.From.Reg))
-						if ctxt.Arch.PtrSize == 8 && mov.From.Reg == REG_SP {
-							p = appendp(p, AI64ExtendI32U)
-						}
-						p = appendp(p, AIntConst, constAddr(mov.From.Offset))
-						p = appendp(p, AIntAdd)
+						p = appendp(p, AI32Const, constAddr(mov.From.Offset))
+						p = appendp(p, AI32Add)
 					case obj.NAME_EXTERN:
-						p = appendp(p, AIntConst, mov.From)
+						p = appendp(p, AI32Const, mov.From)
 					default:
 						panic("bad name for MOV")
 					}
 
 				case obj.TYPE_REG:
 					p = appendp(p, AGet, mov.From)
-					if ctxt.Arch.PtrSize == 8 && mov.From.Reg == REG_SP {
-						p = appendp(p, AI64ExtendI32U)
-					}
 
 				case obj.TYPE_MEM:
 					p = appendp(p, AGet, regAddr(mov.From.Reg))
-					if ctxt.Arch.PtrSize == 8 && mov.From.Reg != REG_SP {
-						p = appendp(p, AI32WrapI64)
-					}
 					p = appendp(p, loadAs, constAddr(mov.From.Offset))
 
 				default:
@@ -950,18 +812,12 @@ func preprocess(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			switch mov.To.Type {
 			case obj.TYPE_REG:
 				appendValue()
-				if ctxt.Arch.PtrSize == 8 && mov.To.Reg == REG_SP {
-					p = appendp(p, AI32WrapI64)
-				}
 				p = appendp(p, ASet, mov.To)
 
 			case obj.TYPE_MEM:
 				switch mov.To.Name {
 				case obj.NAME_NONE, obj.NAME_PARAM:
 					p = appendp(p, AGet, regAddr(mov.To.Reg))
-					if ctxt.Arch.PtrSize == 8 && mov.To.Reg != REG_SP {
-						p = appendp(p, AI32WrapI64)
-					}
 				case obj.NAME_EXTERN:
 					p = appendp(p, AI32Const, obj.Addr{Type: obj.TYPE_ADDR, Name: obj.NAME_EXTERN, Sym: mov.To.Sym})
 				default:
@@ -1041,6 +897,9 @@ func constAddr(value int64) obj.Addr {
 }
 
 func regAddr(reg int16) obj.Addr {
+	if reg == 16392 {
+		panic("nope")
+	}
 	return obj.Addr{Type: obj.TYPE_REG, Reg: reg}
 }
 
@@ -1069,23 +928,6 @@ var notUsePC_B = map[string]bool{
 	"memeqbody":               true,
 	"memcmp":                  true,
 	"memchr":                  true,
-
-	"runtime.panicExtendIndexU":      true,
-	"runtime.panicExtendIndex":       true,
-	"runtime.panicExtendSliceAlen":   true,
-	"runtime.panicExtendSliceAlenU":  true,
-	"runtime.panicExtendSliceAcap":   true,
-	"runtime.panicExtendSliceAcapU":  true,
-	"runtime.panicExtendSliceB":      true,
-	"runtime.panicExtendSliceBU":     true,
-	"runtime.panicExtendSlice3Alen":  true,
-	"runtime.panicExtendSlice3AlenU": true,
-	"runtime.panicExtendSlice3Acap":  true,
-	"runtime.panicExtendSlice3AcapU": true,
-	"runtime.panicExtendSlice3B":     true,
-	"runtime.panicExtendSlice3BU":    true,
-	"runtime.panicExtendSlice3C":     true,
-	"runtime.panicExtendSlice3CU":    true,
 }
 
 func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
@@ -1117,15 +959,10 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		}
 	}
 
-	regIType := i64
-	if ctxt.Arch.RegSize == 4 {
-		regIType = i32
-	}
-
 	// Function starts with declaration of locals: numbers and types.
 	// Some functions use a special calling convention.
 	switch s.Name {
-	case "_rt0_wasm_js", "_rt0_wasm_wasip1", "_rt0_wasm32_wasip1", "wasm_export_run", "wasm_export_resume", "wasm_export_getsp",
+	case "_rt0_wasm_js", "_rt0_wasm32_wasip1", "wasm_export_run", "wasm_export_resume", "wasm_export_getsp",
 		"wasm_pc_f_loop", "runtime.wasmDiv", "runtime.wasmTruncS", "runtime.wasmTruncU", "memeqbody":
 		varDecls = []*varDecl{}
 		useAssemblyRegMap()
@@ -1133,10 +970,10 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		varDecls = []*varDecl{{count: 2, typ: i32}}
 		useAssemblyRegMap()
 	case "cmpbody":
-		varDecls = []*varDecl{{count: 2, typ: regIType}}
+		varDecls = []*varDecl{{count: 2, typ: i32}}
 		useAssemblyRegMap()
 	case "gcWriteBarrier":
-		varDecls = []*varDecl{{count: 5, typ: regIType}}
+		varDecls = []*varDecl{{count: 5, typ: i32}}
 		useAssemblyRegMap()
 	case "runtime.gcWriteBarrier1",
 		"runtime.gcWriteBarrier2",
@@ -1159,6 +996,10 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 				regUsed[p.From.Reg-MINREG] = true
 			}
 			if p.To.Reg != 0 {
+				if p.To.Reg < MINREG {
+					fmt.Printf("bad reg in %s: %s %#v\n", s.Name, p.As.String(), p)
+					panic("bad reg")
+				}
 				regUsed[p.To.Reg-MINREG] = true
 			}
 		}
@@ -1172,7 +1013,7 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 		var lastDecl *varDecl
 		for i, reg := range regs {
-			t := regType(reg, ctxt.Arch.PtrSize)
+			t := regType(reg)
 			if lastDecl == nil || lastDecl.typ != t {
 				lastDecl = &varDecl{
 					count: 0,
@@ -1226,28 +1067,50 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 		case ASet:
 			if p.To.Type != obj.TYPE_REG {
-				panic("bad Set: argument is not a register")
-			}
-			reg := p.To.Reg
-			v := regVars[reg-MINREG]
-			if v == nil {
-				panic("bad Set: invalid register")
-			}
-			if reg == REG_SP && hasLocalSP {
-				writeOpcode(w, ALocalTee)
-				writeUleb128(w, 1) // local SP
-			}
-			if v.global {
-				writeOpcode(w, AGlobalSet)
-			} else {
-				if p.Link.As == AGet && p.Link.From.Reg == reg {
-					writeOpcode(w, ALocalTee)
-					p = p.Link
-				} else {
+				if p.To.Type == obj.TYPE_REGREG {
+					fmt.Printf("WARN: using wrong regreg")
+					reg := p.To.Reg
+					v := regVars[reg-MINREG]
+					if v == nil {
+						panic("bad Set: invalid register")
+					}
 					writeOpcode(w, ALocalSet)
+					writeUleb128(w, v.index)
+
+					/*
+						reg = int16(p.To.Offset)
+						v = regVars[reg-MINREG]
+						if v == nil {
+							panic(fmt.Sprintf("bad Set: invalid register in regreg: %d", reg))
+						}
+						writeOpcode(w, ALocalSet)
+						writeUleb128(w, v.index)
+					*/
+				} else {
+					panic("bad Set: argument is not a register")
 				}
+			} else {
+				reg := p.To.Reg
+				v := regVars[reg-MINREG]
+				if v == nil {
+					panic("bad Set: invalid register")
+				}
+				if reg == REG_SP && hasLocalSP {
+					writeOpcode(w, ALocalTee)
+					writeUleb128(w, 1) // local SP
+				}
+				if v.global {
+					writeOpcode(w, AGlobalSet)
+				} else {
+					if p.Link.As == AGet && p.Link.From.Reg == reg {
+						writeOpcode(w, ALocalTee)
+						p = p.Link
+					} else {
+						writeOpcode(w, ALocalSet)
+					}
+				}
+				writeUleb128(w, v.index)
 			}
-			writeUleb128(w, v.index)
 			continue
 
 		case ATee:
@@ -1358,8 +1221,11 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			w.Write(b)
 
 		case AI32Load, AI64Load, AF32Load, AF64Load, AI32Load8S, AI32Load8U, AI32Load16S, AI32Load16U, AI64Load8S, AI64Load8U, AI64Load16S, AI64Load16U, AI64Load32S, AI64Load32U:
+			//case AI32Load, AF32Load, AF64Load, AI32Load8S, AI32Load8U, AI32Load16S, AI32Load16U:
 			if p.From.Offset < 0 {
-				panic("negative offset for *Load")
+				panic(fmt.Sprintf("negative offset for *Load of %d: %s %d. Next 3: %s %s %s",
+					p.From.Reg,
+					p.As, p.From.Offset, p.Link.As, p.Link.Link.As, p.Link.Link.Link.As))
 			}
 			if p.From.Type != obj.TYPE_CONST {
 				panic("bad type for *Load")
@@ -1371,6 +1237,7 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 			writeUleb128(w, uint64(p.From.Offset))
 
 		case AI32Store, AI64Store, AF32Store, AF64Store, AI32Store8, AI32Store16, AI64Store8, AI64Store16, AI64Store32:
+			//case AI32Store, AF32Store, AF64Store, AI32Store8, AI32Store16:
 			if p.To.Offset < 0 {
 				panic("negative offset")
 			}
@@ -1433,14 +1300,11 @@ const (
 	f64 valueType = 0x7C
 )
 
-func regType(reg int16, ptrSize int) valueType {
+func regType(reg int16) valueType {
 	switch {
 	case reg == REG_SP:
 		return i32
 	case reg >= REG_R0 && reg <= REG_R15:
-		if ptrSize == 8 {
-			return i64
-		}
 		return i32
 	case reg >= REG_F0 && reg <= REG_F15:
 		return f32
@@ -1449,7 +1313,7 @@ func regType(reg int16, ptrSize int) valueType {
 	case reg >= REG_X0 && reg <= REG_X9:
 		return i64
 	default:
-		panic("invalid register")
+		panic(fmt.Sprintf("invalid register: %d", reg))
 	}
 }
 
