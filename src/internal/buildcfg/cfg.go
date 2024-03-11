@@ -32,6 +32,7 @@ var (
 	GOPPC64   = goppc64()
 	GORISCV64 = goriscv64()
 	GOWASM    = gowasm()
+	GOWASM32  = gowasm32()
 	ToolTags  = toolTags()
 	GO_LDSO   = defaultGO_LDSO
 	Version   = version
@@ -292,6 +293,22 @@ func (f gowasmFeatures) String() string {
 }
 
 func gowasm() (f gowasmFeatures) {
+	for _, opt := range strings.Split(envOr("GOWASM", ""), ",") {
+		switch opt {
+		case "satconv":
+			f.SatConv = true
+		case "signext":
+			f.SignExt = true
+		case "":
+			// ignore
+		default:
+			Error = fmt.Errorf("invalid GOWASM: no such feature %q", opt)
+		}
+	}
+	return
+}
+
+func gowasm32() (f gowasmFeatures) {
 	for _, opt := range strings.Split(envOr("GOWASM", ""), ",") {
 		switch opt {
 		case "satconv":

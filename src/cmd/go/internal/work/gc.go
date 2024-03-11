@@ -324,6 +324,11 @@ func asmArgs(a *Action, p *load.Package) []any {
 		}
 	}
 
+	if cfg.Goarch == "wasm32" {
+		// Define GO386_value from cfg.GO386.
+		args = append(args, "-D", "GOWASM32_"+cfg.GOWASM)
+	}
+
 	if cfg.Goarch == "386" {
 		// Define GO386_value from cfg.GO386.
 		args = append(args, "-D", "GO386_"+cfg.GO386)

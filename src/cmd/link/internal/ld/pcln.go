@@ -126,7 +126,7 @@ func computeDeferReturn(ctxt *Link, deferReturnSym, s loader.Sym) uint32 {
 	relocs := ldr.Relocs(s)
 	for ri := 0; ri < relocs.Count(); ri++ {
 		r := relocs.At(ri)
-		if target.IsWasm() && r.Type() == objabi.R_ADDR {
+		if (target.IsWasm() || target.IsWasm32()) && r.Type() == objabi.R_ADDR {
 			// wasm/ssa.go generates an ARESUMEPOINT just
 			// before the deferreturn call. The "PC" of
 			// the deferreturn call is stored in the
@@ -134,7 +134,7 @@ func computeDeferReturn(ctxt *Link, deferReturnSym, s loader.Sym) uint32 {
 			lastWasmAddr = uint32(r.Add())
 		}
 		if r.Type().IsDirectCall() && (r.Sym() == deferReturnSym || ldr.IsDeferReturnTramp(r.Sym())) {
-			if target.IsWasm() {
+			if target.IsWasm() || target.IsWasm32() {
 				deferreturn = lastWasmAddr - 1
 			} else {
 				// Note: the relocation target is in the call instruction, but

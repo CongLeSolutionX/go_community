@@ -433,7 +433,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	// for which we have computed the size and offset, in a
 	// mmap'd region. The second part writes more content, for
 	// which we don't know the size.
-	if ctxt.Arch.Family != sys.Wasm {
+	if ctxt.Arch.Family != sys.Wasm && ctxt.Arch.Family != sys.Wasm32 {
 		// Don't mmap if we're building for Wasm. Wasm file
 		// layout is very different so filesize is meaningless.
 		if err := ctxt.Out.Mmap(filesize); err != nil {
