@@ -89,6 +89,24 @@
       "message": "I think we have to update the reuse_git test to not check for \"git fetch\" directly since we\u0027re now putting the -c protocol.version\u003d2 between the \"git\" and the \"fetch\"",
       "revId": "e768dd1dc5d9e53f3bfaf2e8bb03a573f7f51196",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96ee58d5_05de10cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-03-11T19:29:34Z",
+      "side": 1,
+      "message": "Acknowledged\n\n(Old patchset.)",
+      "parentUuid": "788f2b41_307d1196",
+      "revId": "e768dd1dc5d9e53f3bfaf2e8bb03a573f7f51196",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
