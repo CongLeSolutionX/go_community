@@ -197,6 +197,7 @@ func TestNewFileNonBlocking(t *testing.T) {
 	if fd != uintptr(p[0]) {
 		t.Errorf("Fd returned %d, want %d", fd, p[0])
 	}
+	defer f.Close()
 	nonblock, err = unix.IsNonblock(p[0])
 	if err != nil {
 		t.Fatal(err)
