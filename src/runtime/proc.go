@@ -923,6 +923,9 @@ func mcommoninit(mp *m, id int64) {
 	if iscgo || GOOS == "solaris" || GOOS == "illumos" || GOOS == "windows" {
 		mp.cgoCallers = new(cgoCallers)
 	}
+	if GOOS == "windows" {
+		mp.syscall = new(libcall)
+	}
 }
 
 func (mp *m) becomeSpinning() {
