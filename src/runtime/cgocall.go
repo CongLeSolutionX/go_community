@@ -181,7 +181,16 @@ func cgocall(fn, arg unsafe.Pointer) int32 {
 
 	osPreemptExtExit(mp)
 
-	exitsyscall()
+	if fn == asmstdcallAddr {
+		// When calling asmstdcallAddr the caller expects cgocall
+		// to put the syscall result in the new M's syscall field
+		// so the caller doesn't need to call LockOSThread.
+		syscall := mp.syscall
+		exitsyscall()
+		getg().m.syscall = syscall
+	} else {
+		exitsyscall()
+	}
 
 	// Note that raceacquire must be called only after exitsyscall has
 	// wired this M to a P.

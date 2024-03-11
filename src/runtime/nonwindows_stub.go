@@ -6,6 +6,8 @@
 
 package runtime
 
+import "unsafe"
+
 // osRelaxMinNS is the number of nanoseconds of idleness to tolerate
 // without performing an osRelax. Since osRelax may reduce the
 // precision of timers, this should be enough larger than the relaxed
@@ -21,3 +23,5 @@ func osRelax(relax bool) {}
 // enableWER is called by setTraceback("wer").
 // Windows Error Reporting (WER) is only supported on Windows.
 func enableWER() {}
+
+var asmstdcallAddr unsafe.Pointer
