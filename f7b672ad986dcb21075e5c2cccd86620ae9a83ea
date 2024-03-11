@@ -34,6 +34,23 @@
       "parentUuid": "6b4e59f4_84927c42",
       "revId": "f7b672ad986dcb21075e5c2cccd86620ae9a83ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dae67ad6_224421f5",
+        "filename": "src/strconv/makeisprint.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-11T16:41:37Z",
+      "side": 1,
+      "message": "You could probably make some of these clearer with something like\n\n_, found :\u003d slices.BinarySearch(except, rr)\nreturn !found",
+      "revId": "f7b672ad986dcb21075e5c2cccd86620ae9a83ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
