@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64fda7e1_c4f07f87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-11T18:11:20Z",
+      "side": 1,
+      "message": "Thanks for the fix.",
+      "revId": "db299ce5a7aa7a74da8f53fef877a9c28ccabd20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a3680d1_940e3280",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-11T18:11:20Z",
+      "side": 1,
+      "message": "The code says \"what\"; comments should explain \"why\":\n\n// A go.work file implicitly requires go1.18\n// even when it doesn\u0027t list any version.",
+      "revId": "db299ce5a7aa7a74da8f53fef877a9c28ccabd20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
