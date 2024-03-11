@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f89d16f_ca51a83e",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-11T19:14:00Z",
+      "side": 1,
+      "message": "I think we need a comment clarifying exactly what mu protects.",
+      "revId": "18c8da493178304c70a134a8037121a128472cd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
