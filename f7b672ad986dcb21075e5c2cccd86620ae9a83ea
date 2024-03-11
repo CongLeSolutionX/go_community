@@ -51,6 +51,24 @@
       "message": "You could probably make some of these clearer with something like\n\n_, found :\u003d slices.BinarySearch(except, rr)\nreturn !found",
       "revId": "f7b672ad986dcb21075e5c2cccd86620ae9a83ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b678c36_04e58f75",
+        "filename": "src/strconv/makeisprint.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-03-11T17:42:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dae67ad6_224421f5",
+      "revId": "f7b672ad986dcb21075e5c2cccd86620ae9a83ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
