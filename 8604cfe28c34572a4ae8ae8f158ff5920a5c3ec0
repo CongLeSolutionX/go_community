@@ -16,6 +16,24 @@
       "message": "Alternate approach (which I think gets what you\u0027re actually looking for) in https://go.dev/cl/567537.",
       "revId": "8604cfe28c34572a4ae8ae8f158ff5920a5c3ec0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09a9edc4_f3021b46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66298
+      },
+      "writtenOn": "2024-03-11T19:28:49Z",
+      "side": 1,
+      "message": "Sort of, but are there any conditions where we see errors that would be wrapped that are not context.DeadlineExceeded? I will try to find some bandwidth to look into this soon.",
+      "parentUuid": "a5254a2a_72d6de7b",
+      "revId": "8604cfe28c34572a4ae8ae8f158ff5920a5c3ec0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
