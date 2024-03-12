@@ -1430,7 +1430,7 @@ TEXT runtime·panicSliceConvert<ABIInternal>(SB),NOSPLIT,$0-16
 // These are only used when linking such cgo code internally. Note, R12
 // and R0 may be used in different ways than regular ELF compliant
 // functions.
-TEXT runtime·elf_savegpr0(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_savegpr0<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R0 holds the LR of the caller's caller, R1 holds save location
 	MOVD	R14, -144(R1)
 	MOVD	R15, -136(R1)
@@ -1452,7 +1452,7 @@ TEXT runtime·elf_savegpr0(SB),NOSPLIT|NOFRAME,$0
 	MOVD	R31, -8(R1)
 	MOVD	R0, 16(R1)
 	RET
-TEXT runtime·elf_restgpr0(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_restgpr0<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R1 holds save location. This returns to the LR saved on stack (bypassing the caller)
 	MOVD	-144(R1), R14
 	MOVD	-136(R1), R15
@@ -1475,7 +1475,7 @@ TEXT runtime·elf_restgpr0(SB),NOSPLIT|NOFRAME,$0
 	MOVD	16(R1), R0	// Load and return to saved LR
 	MOVD	R0, LR
 	RET
-TEXT runtime·elf_savegpr1(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_savegpr1<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R12 holds the save location
 	MOVD	R14, -144(R12)
 	MOVD	R15, -136(R12)
@@ -1496,7 +1496,7 @@ TEXT runtime·elf_savegpr1(SB),NOSPLIT|NOFRAME,$0
 	MOVD	g, -16(R12)
 	MOVD	R31, -8(R12)
 	RET
-TEXT runtime·elf_restgpr1(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_restgpr1<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R12 holds the save location
 	MOVD	-144(R12), R14
 	MOVD	-136(R12), R15
@@ -1517,7 +1517,7 @@ TEXT runtime·elf_restgpr1(SB),NOSPLIT|NOFRAME,$0
 	MOVD	-16(R12), g
 	MOVD	-8(R12), R31
 	RET
-TEXT runtime·elf_savefpr(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_savefpr<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R0 holds the LR of the caller's caller, R1 holds save location
 	FMOVD	F14, -144(R1)
 	FMOVD	F15, -136(R1)
@@ -1539,7 +1539,7 @@ TEXT runtime·elf_savefpr(SB),NOSPLIT|NOFRAME,$0
 	FMOVD	F31, -8(R1)
 	MOVD	R0, 16(R1)
 	RET
-TEXT runtime·elf_restfpr(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_restfpr<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R1 holds save location. This returns to the LR saved on stack (bypassing the caller)
 	FMOVD	-144(R1), F14
 	FMOVD	-136(R1), F15
@@ -1562,7 +1562,7 @@ TEXT runtime·elf_restfpr(SB),NOSPLIT|NOFRAME,$0
 	MOVD	16(R1), R0	// Load and return to saved LR
 	MOVD	R0, LR
 	RET
-TEXT runtime·elf_savevr(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_savevr<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R0 holds the save location, R12 is clobbered
 	MOVD	$-192, R12
 	STVX	V20, (R0+R12)
@@ -1589,7 +1589,7 @@ TEXT runtime·elf_savevr(SB),NOSPLIT|NOFRAME,$0
 	MOVD	$-16, R12
 	STVX	V31, (R0+R12)
 	RET
-TEXT runtime·elf_restvr(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·elf_restvr<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
 	// R0 holds the save location, R12 is clobbered
 	MOVD	$-192, R12
 	LVX	(R0+R12), V20

@@ -445,7 +445,7 @@ func genaddmoduledata(ctxt *ld.Link, ldr *loader.Loader) {
 //
 // Final note, this is only needed when linking internally. The external linker will generate these
 // functions if they are used.
-func rewriteABIFuncReloc(ctxt *ld.Link, ldr *loader.Loader, tname string, r loader.Reloc) (sym loader.Sym, firstUse bool) {
+func rewriteABIFuncReloc(ctxt *ld.Link, ldr *loader.Loader, tname string, r loader.Reloc) (rsym loader.Sym, firstUse bool) {
 	s := strings.Split(tname, "_")
 	// A valid call will split like {"", "savegpr0", "20"}
 	if len(s) != 3 {
@@ -469,7 +469,7 @@ func rewriteABIFuncReloc(ctxt *ld.Link, ldr *loader.Loader, tname string, r load
 
 	// tname is a valid relocation to an ABI defined register save/restore function. Re-relocate
 	// them to a go version of these functions in runtime/asm_ppc64x.s
-	ts := ldr.LookupOrCreateSym("runtime.elf_"+s[1], 0)
+	ts := ldr.LookupOrCreateSym("runtime.elf_"+s[1], sym.SymVerABIInternal)
 	r.SetSym(ts)
 	r.SetAdd(int64((n - minReg) * offMul))
 	firstUse = !ldr.AttrReachable(ts)
