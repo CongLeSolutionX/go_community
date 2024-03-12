@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de991b29_4372cf8f",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-12T04:43:38Z",
+      "side": 1,
+      "message": "Since this is the minimum of whenHeap values, I wonder if it should be minWhenHeap.  (I always regret a flipped name later even if it looks better initially.)  The next field could perhaps be minWhenModified.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38020b81_1e72d433",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-12T04:43:38Z",
+      "side": 1,
+      "message": "This comment is a bit outdated as the state no longer includes the lock.  It\u0027s also less important after CL 568339 and now that there is a mandatory init method.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b7b5c1e_1a3bff44",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-12T04:43:38Z",
+      "side": 1,
+      "message": "Comment is out of date: this method no longer returns the new state.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c424325_d1a3e78f",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-12T04:43:38Z",
+      "side": 1,
+      "message": "May as well write\n\n    if t.ts !\u003d ts || t !\u003d ts.heap[0] {\n\nand remove the two t !\u003d ts.heap[0] tests below.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "481e4726_27484f62",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-12T04:43:38Z",
+      "side": 1,
+      "message": "This note doesn\u0027t seem sufficient, because this method is also called for the netpoll pollDesc timers, which aren\u0027t time.Timer\u0027s.  It might be cleaner to change the netpoll code to call the modify method directly; right now it seems to set the fields and then call reset, which doesn\u0027t seem necessary.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e108aa51_07d71c44",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-12T04:43:38Z",
+      "side": 1,
+      "message": "Also t must be locked.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ef40b0_d0c7d183",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-12T04:43:38Z",
+      "side": 1,
+      "message": "assertLockHeld(\u0026t.mu) ?",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
