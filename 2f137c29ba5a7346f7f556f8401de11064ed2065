@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f92beac_71bd7a0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2024-03-12T16:58:06Z",
+      "side": 1,
+      "message": "This CL is superceded by CL 570835",
+      "revId": "2f137c29ba5a7346f7f556f8401de11064ed2065",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
