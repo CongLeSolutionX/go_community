@@ -16,6 +16,63 @@
       "message": "please take a look.",
       "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8e98513_6a0303ce",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-12T16:51:25Z",
+      "side": 1,
+      "message": "Do you mean \u003c\u003d here?",
+      "range": {
+        "startLine": 1306,
+        "startChar": 25,
+        "endLine": 1306,
+        "endChar": 26
+      },
+      "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97a45577_ec5e59c9",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-12T16:51:25Z",
+      "side": 1,
+      "message": "Mention the issue number.",
+      "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "816ef72e_403b9827",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-12T16:51:25Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be numcpu/2? If we\u0027re running a bunch of tests that each use 2 cpus, then we want numcpu/2 of them.",
+      "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
