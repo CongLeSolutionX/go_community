@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfac6bec_a991150e",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "Not strictly stale, but this could probably use a sentence describing how the state is managed between the two state fields.",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 22,
+        "endChar": 77
+      },
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4aaf2de_e95bba81",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "Stale",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de991b29_4372cf8f",
         "filename": "src/runtime/time.go",
         "patchSetId": 9
@@ -32,6 +78,29 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "de991b29_4372cf8f",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b08ad45_54f0eef7",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "minModWhen?",
+      "range": {
+        "startLine": 86,
+        "startChar": 41,
+        "endLine": 86,
+        "endChar": 52
+      },
       "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -73,6 +142,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec3c9823_254e4187",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "whenHeap",
+      "range": {
+        "startLine": 120,
+        "startChar": 62,
+        "endLine": 120,
+        "endChar": 66
+      },
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6be83e90_39164df4",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "t.when",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 39
+      },
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a84b98be_91d88628",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "? t.astate?",
+      "range": {
+        "startLine": 139,
+        "startChar": 20,
+        "endLine": 139,
+        "endChar": 33
+      },
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b7b5c1e_1a3bff44",
         "filename": "src/runtime/time.go",
         "patchSetId": 9
@@ -108,6 +246,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ef7c786_407b2739",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "Mention locking requirements on t?",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c424325_d1a3e78f",
         "filename": "src/runtime/time.go",
         "patchSetId": 9
@@ -137,6 +292,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "5c424325_d1a3e78f",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "337aa426_6dd69214",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-03-12T15:46:07Z",
+      "side": 1,
+      "message": "I AM HERE",
       "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
