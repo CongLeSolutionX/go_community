@@ -370,11 +370,11 @@ func fixInferSig(f *ast.File) {
 						return false
 					}
 				case "allowVersion":
-					// rewrite check.allowVersion(..., pos, ...) to check.allowVersion(..., posn, ...)
-					if isIdent(n.Args[1], "pos") {
-						pos := n.Args[1].Pos()
+					// rewrite check.allowVersion(pos, ...) to check.allowVersion(posn, ...)
+					if isIdent(n.Args[0], "pos") {
+						pos := n.Args[0].Pos()
 						arg := newIdent(pos, "posn")
-						n.Args[1] = arg
+						n.Args[0] = arg
 						return false
 					}
 				}

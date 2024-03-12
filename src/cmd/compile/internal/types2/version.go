@@ -49,31 +49,23 @@ var (
 	go_current = asGoVersion(fmt.Sprintf("go1.%d", goversion.Version))
 )
 
-// allowVersion reports whether the given package is allowed to use version v.
-func (check *Checker) allowVersion(pkg *Package, at poser, v goVersion) bool {
-	// We assume that imported packages have all been checked,
-	// so we only have to check for the local package.
-	if pkg != check.pkg {
-		return true
-	}
+// allowVersion reports whether the current package at the given position
+// is allowed to use version v. The position must be known.
+func (check *Checker) allowVersion(at poser, v goVersion) bool {
+	assert(at.Pos().IsKnown())
 
-	// If no explicit file version is specified,
-	// fileVersion corresponds to the module version.
-	var fileVersion goVersion
-	if pos := at.Pos(); pos.IsKnown() {
-		// We need version.Lang below because file versions
-		// can be (unaltered) Config.GoVersion strings that
-		// may contain dot-release information.
-		fileVersion = asGoVersion(check.versions[base(pos)])
-	}
+	// We need asGoVersion (which calls version.Lang) below
+	// because file versions may be (unaltered) Config.GoVersion
+	// strings that may contain dot-release information.
+	fileVersion := asGoVersion(check.versions[base(at.Pos())])
+
 	return !fileVersion.isValid() || fileVersion.cmp(v) >= 0
 }
 
 // verifyVersionf is like allowVersion but also accepts a format string and arguments
-// which are used to report a version error if allowVersion returns false. It uses the
-// current package.
+// which are used to report a version error if allowVersion returns false.
 func (check *Checker) verifyVersionf(at poser, v goVersion, format string, args ...interface{}) bool {
-	if !check.allowVersion(check.pkg, at, v) {
+	if !check.allowVersion(at, v) {
 		check.versionErrorf(at, v, format, args...)
 		return false
 	}
