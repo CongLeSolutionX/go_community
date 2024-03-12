@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb880e79_1172d66f",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-12T13:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de991b29_4372cf8f",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38020b81_1e72d433",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-12T04:43:38Z",
       "side": 1,
       "message": "This comment is a bit outdated as the state no longer includes the lock.  It\u0027s also less important after CL 568339 and now that there is a mandatory init method.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02d418e6_378c1b2f",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-12T13:39:47Z",
+      "side": 1,
+      "message": "Good point. Removed.",
+      "parentUuid": "38020b81_1e72d433",
       "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f546394_ab591320",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-12T13:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b7b5c1e_1a3bff44",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c424325_d1a3e78f",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-03-12T04:43:38Z",
       "side": 1,
       "message": "May as well write\n\n    if t.ts !\u003d ts || t !\u003d ts.heap[0] {\n\nand remove the two t !\u003d ts.heap[0] tests below.",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc87668_7bfb40bd",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-12T13:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c424325_d1a3e78f",
       "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "362e761b_3f1ba3a5",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-12T13:39:47Z",
+      "side": 1,
+      "message": "Fair enough. I had seen the modify calls in netpoll but missed the direct accesses. I think it may have worked out today, but it\u0027s clearly not set up well for the future. Reworked to make the fields fully protected.",
+      "parentUuid": "481e4726_27484f62",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e108aa51_07d71c44",
@@ -103,6 +193,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdb937df_438fd751",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-12T13:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e108aa51_07d71c44",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78ef40b0_d0c7d183",
@@ -116,6 +224,24 @@
       "writtenOn": "2024-03-12T04:43:38Z",
       "side": 1,
       "message": "assertLockHeld(\u0026t.mu) ?",
+      "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ffa7f10_54d4d10b",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-12T13:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78ef40b0_d0c7d183",
       "revId": "1b6ab084b7a96961fc80e6fd48faa9ba3e330d71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
