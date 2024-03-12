@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d200ba23_4e69ba00",
+        "filename": "src/internal/goexperiment/exp_exectracer2_off.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-12T20:52:22Z",
+      "side": 0,
+      "message": "This is weird. Do we still need the old build syntax?\n(Maybe you are using an old gofmt?)",
+      "revId": "34d28ba932cc26af9ae6c0233f4967a9b7cd94c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
