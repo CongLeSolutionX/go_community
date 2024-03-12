@@ -1160,8 +1160,6 @@ NextCert:
 			}
 		}
 
-		const invalidUsage ExtKeyUsage = -1
-
 	NextRequestedUsage:
 		for i, requestedUsage := range usages {
 			if requestedUsage == invalidUsage {
