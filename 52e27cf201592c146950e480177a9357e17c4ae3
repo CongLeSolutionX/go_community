@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7534504_124a8aee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2024-03-12T21:23:15Z",
+      "side": 1,
+      "message": "I\u0027m trying to understand what is happening here.\n\nDoes this mean there are \"dummy\" functions written in Go asm somewhere (in the runtime?) and there is a known/fixed list of them. They are needed when linking with code compiled with gcc -Os. Somehow these are known as stackmap symbols?\n\nI don\u0027t know what it means that the linker \"enables\" them.\n\nI thought this was an issue with internal linking only? But your description doesn\u0027t mention that.",
+      "revId": "52e27cf201592c146950e480177a9357e17c4ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e073d8c0_3e00432f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2024-03-12T21:23:15Z",
+      "side": 1,
+      "message": "I don\u0027t know what the extra bookkeeping symbols are, and what gets tripped up? Are the bookkeeping symbols the stackmap symbols mentioned in the title, or are they something else?",
+      "revId": "52e27cf201592c146950e480177a9357e17c4ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f41a831e_79193cdd",
