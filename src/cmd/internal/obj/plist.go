@@ -9,6 +9,7 @@ import (
 	"cmd/internal/src"
 	"fmt"
 	"internal/abi"
+	"internal/buildcfg"
 	"strings"
 )
 
@@ -120,6 +121,13 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc) {
 			// TODO(cherryyz): Fix cmd/link's handling of plugins (see
 			// discussion on CL 523355).
 			if s.Name == "runtime.addmoduledata" {
+				continue
+			}
+			// These are helper functions for external objects enabled by
+			// the linker for ELF objects compiled by gcc with -Os on PPC64.
+			// They are never used by Go. These extra references break
+			// internal linking, and are not needed (ex. #66265).
+			if (buildcfg.GOARCH == "ppc64le" || buildcfg.GOARCH == "ppc64") && strings.HasPrefix(s.Name, "runtime.elf_") {
 				continue
 			}
 			foundArgMap, foundArgInfo := false, false
