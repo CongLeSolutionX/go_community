@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6c9a7f_5917c7fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-03-13T15:33:31Z",
+      "side": 1,
+      "message": "This is ready for review, thanks.\n\nFYI: I decided to just stick with no position \u003d\u003d imported type because it\u0027s the simplest approach. Also, adding a pkg field to Interface would be problematic because it would need to be set by clients (importers) or otherwise would need to be updated, possibly leading to race conditions.",
+      "revId": "88da91b775819d42b6e9f99c017ad2711b0efeec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
