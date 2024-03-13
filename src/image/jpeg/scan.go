@@ -305,37 +305,80 @@ func (d *decoder) processSOS(n int) error {
 			} // for i
 			mcu++
 			if d.ri > 0 && mcu%d.ri == 0 && mcu < mxx*myy {
-				// A more sophisticated decoder could use RST[0-7] markers to resynchronize from corrupt input,
-				// but this one assumes well-formed input, and hence the restart marker follows immediately.
-				if err := d.readFull(d.tmp[:2]); err != nil {
-					return err
-				}
+				var err error
 
-				// Section F.1.2.3 says that "Byte alignment of markers is
-				// achieved by padding incomplete bytes with 1-bits. If padding
-				// with 1-bits creates a X’FF’ value, a zero byte is stuffed
-				// before adding the marker."
-				//
-				// Seeing "\xff\x00" here is not spec compliant, as we are not
-				// expecting an *incomplete* byte (that needed padding). Still,
-				// some real world encoders (see golang.org/issue/28717) insert
-				// it, so we accept it and re-try the 2 byte read.
-				//
-				// libjpeg issues a warning (but not an error) for this:
-				// https://github.com/LuaDist/libjpeg/blob/6c0fcb8ddee365e7abc4d332662b06900612e923/jdmarker.c#L1041-L1046
-				if d.tmp[0] == 0xff && d.tmp[1] == 0x00 {
-					if err := d.readFull(d.tmp[:2]); err != nil {
+				// Find the next restart marker. It should be the first byte,
+				// but that's not always the case. This loop scans through the
+				// bytes until the right marker is found, or at least an acceptable
+				// marker is found (leaving the rest up to the entropy decoder)
+				// Based on the logic here: https://github.com/LuaDist/libjpeg/blob/6c0fcb8ddee365e7abc4d332662b06900612e923/jdmarker.c#L1293-L1340
+				for {
+					// Read the first byte to decide what to do next.
+					d.tmp[0], err = d.readByte()
+					if err != nil {
 						return err
 					}
+
+					// Discard non 0xFF (if we're at a marker there shouldn't be any).
+					for d.tmp[0] != 0xff {
+						d.tmp[0], err = d.readByte()
+						if err != nil {
+							return err
+						}
+					}
+
+					// Discard duplicate 0xFF's (padding bytes).
+					for d.tmp[0] == 0xff {
+						d.tmp[0], err = d.readByte()
+						if err != nil {
+							return err
+						}
+					}
+
+					// Check for a stuffed zero and start over if we find one.
+					// Section F.1.2.3 says that "Byte alignment of markers is
+					// achieved by padding incomplete bytes with 1-bits. If padding
+					// with 1-bits creates a X’FF’ value, a zero byte is stuffed
+					// before adding the marker."
+					//
+					// Seeing "\xff\x00" here is not spec compliant, as we are not
+					// expecting an *incomplete* byte (that needed padding). Still,
+					// some real world encoders (see golang.org/issue/28717) insert
+					// it, so we accept it and re-try the 2 byte read.
+					//
+					// libjpeg issues a warning (but not an error) for this:
+					// https://github.com/LuaDist/libjpeg/blob/6c0fcb8ddee365e7abc4d332662b06900612e923/jdmarker.c#L1041-L1046
+					if d.tmp[0] == 0x00 {
+						continue
+					}
+
+					// If it's the correct restart marker, increment and break
+					// out to reset Huffman.
+					if d.tmp[0] == expectedRST {
+						expectedRST++
+						if expectedRST == rst7Marker+1 {
+							expectedRST = rst0Marker
+						}
+						break
+					}
+
+					// If the restart marker is within 2 of what is expected,
+					// keep scanning until another marker is found.
+					if d.abs(int(d.tmp[0])-int(expectedRST)) < 3 {
+						continue
+					}
+
+					// If the marker is valid, but not a restart marker, switch
+					// back to the entropy decoder and let it handle the marker.
+					if (d.tmp[0] >= sof0Marker && d.tmp[0] < rst0Marker) || (d.tmp[0] > rst7Marker) {
+						break
+					}
+
+					// If this code is reached, the marker is invalid, most
+					// likely < 0xC0/sof0Marker random data. Continue the process
+					// and strip data to search for something valid.
 				}
 
-				if d.tmp[0] != 0xff || d.tmp[1] != expectedRST {
-					return FormatError("bad RST marker")
-				}
-				expectedRST++
-				if expectedRST == rst7Marker+1 {
-					expectedRST = rst0Marker
-				}
 				// Reset the Huffman decoder.
 				d.bits = bits{}
 				// Reset the DC components, as per section F.2.1.3.1.
@@ -520,4 +563,14 @@ func (d *decoder) reconstructBlock(b *block, bx, by, compIndex int) error {
 		}
 	}
 	return nil
+}
+
+// Abs returns the absolute value of a given int.
+// This is a quick function to save a bunch of additional includes to cast
+// bytes to float64 for math.Abs.
+func (d *decoder) abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }

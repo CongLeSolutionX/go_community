@@ -504,6 +504,21 @@ func TestIssue56724(t *testing.T) {
 	}
 }
 
+func TestBadRestartMarker(t *testing.T) {
+	// Image sourced from: https://github.com/photoprism/photoprism/issues/1673
+	// Referenced here: https://go-review.googlesource.com/c/go/+/260837
+
+	f, err := os.Open("../testdata/jpeg-bad-rst-marker-001.jpeg")
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+
+	defer f.Close()
+	if _, err = Decode(f); err != nil {
+		t.Fatalf("Decode: %v", err)
+	}
+}
+
 func benchmarkDecode(b *testing.B, filename string) {
 	data, err := os.ReadFile(filename)
 	if err != nil {
