@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f7bdf6f_6a5500e5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-13T15:48:55Z",
+      "side": 1,
+      "message": "I don\u0027t see why these channels need buffering. Only one thing is ever going to be sent to them.",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8ef87dd_94a2f1b9",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-13T15:48:55Z",
+      "side": 1,
+      "message": "I don\u0027t think we should be modifying the global maxbg. It has already been read in util.go and setting it to a different value will not affect the number of goroutines in that work pool.\n\nSetting it here only affects the loop below, so you should probably read maxbg above this loop into a local, and use/modify that local subsequently.",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfd9f9fd_c384bc8b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-13T15:48:55Z",
+      "side": 1,
+      "message": "I still don\u0027t understand why numcpu*2.\nI mean, I understand that you see that it makes your all.bash faster.\nI just don\u0027t understand why. This setting kind of implies that the tasks in the worklist only take 1/2 a CPU (each, on average). Is that really true?",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
