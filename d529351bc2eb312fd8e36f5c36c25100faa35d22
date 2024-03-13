@@ -34,6 +34,24 @@
       "parentUuid": "e99801cc_3ae132fb",
       "revId": "d529351bc2eb312fd8e36f5c36c25100faa35d22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb37aab1_a3bfab5d",
+        "filename": "src/cmd/internal/obj/loong64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-03-13T11:36:00Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d78b7890_27440299",
+      "revId": "d529351bc2eb312fd8e36f5c36c25100faa35d22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
