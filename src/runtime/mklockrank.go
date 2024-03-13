@@ -132,9 +132,12 @@ MALLOC, mspanSpecial < gcBitsArenas;
 MPROF < profInsert, profBlock, profMemActive;
 profMemActive < profMemFuture;
 
+NONE < pollCache;
+
 # Stack allocation and copying
 gcBitsArenas,
   netpollInit,
+  pollCache,
   profBlock,
   profInsert,
   profMemFuture,
