@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b8c2882_b34a9341",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-13T01:02:15Z",
+      "side": 1,
+      "message": "I meant to delete that here, since it is on the very next line anyway. Done.",
+      "parentUuid": "cd8ff5a0_f3bf1b45",
+      "revId": "eacc12894b11868dd68ce773989ddbaf27305ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "344da410_279bcb70",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-12T19:48:07Z",
       "side": 1,
       "message": "s/resettimer/timer.reset/",
+      "revId": "eacc12894b11868dd68ce773989ddbaf27305ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1be9dfa1_8d0f12d9",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-13T01:02:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "344da410_279bcb70",
       "revId": "eacc12894b11868dd68ce773989ddbaf27305ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e168c36_54d9f6d0",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-13T01:02:15Z",
+      "side": 1,
+      "message": "It\u0027s still true: calls to maybeAdd are done after t.unlock, so if multiple goroutines can be deciding to add it to the heap, they can run maybeAdd simultaneously. I\u0027ve updated the comment to mention \ntime.Timer.Reset instead.",
+      "parentUuid": "a1bcec69_36fccd59",
+      "range": {
+        "startLine": 428,
+        "startChar": 23,
+        "endLine": 428,
+        "endChar": 39
+      },
+      "revId": "eacc12894b11868dd68ce773989ddbaf27305ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4124b41_638a69f8",
@@ -71,6 +131,24 @@
       "writtenOn": "2024-03-12T19:48:07Z",
       "side": 1,
       "message": "s/minNextWhen/minWhenModified/ ?  Here and below.",
+      "revId": "eacc12894b11868dd68ce773989ddbaf27305ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f708b076_0edb1cac",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-13T01:02:15Z",
+      "side": 1,
+      "message": "Done, throughout.",
+      "parentUuid": "b4124b41_638a69f8",
       "revId": "eacc12894b11868dd68ce773989ddbaf27305ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
