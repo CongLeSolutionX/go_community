@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98788c68_375e29c1",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-13T09:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8e98513_6a0303ce",
+      "range": {
+        "startLine": 1306,
+        "startChar": 25,
+        "endLine": 1306,
+        "endChar": 26
+      },
+      "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97a45577_ec5e59c9",
@@ -58,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e50d6c79_5dda1317",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-13T09:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97a45577_ec5e59c9",
+      "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "816ef72e_403b9827",
@@ -71,6 +113,24 @@
       "writtenOn": "2024-03-12T16:51:25Z",
       "side": 1,
       "message": "Shouldn\u0027t this be numcpu/2? If we\u0027re running a bunch of tests that each use 2 cpus, then we want numcpu/2 of them.",
+      "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0732b1ca_026f009e",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-13T09:37:06Z",
+      "side": 1,
+      "message": "These tests, if maxbg is not large enough, cmd/internal/testdir and cmd/api will not run in parallel with runtime.\nThe end result is lower CPU usage and longer execution times.\n```\n##### GOMAXPROCS\u003d2 runtime -cpu\u003d1 -quick\nok      runtime 68.359s\n\n##### GOMAXPROCS\u003d2 runtime -cpu\u003d2 -quick\nok      runtime 67.446s\n\n##### GOMAXPROCS\u003d2 runtime -cpu\u003d4 -quick\nok      runtime 68.392s\n\n##### GOEXPERIMENT\u003drangefunc go test iter\nok      iter    0.032s\n\n##### Testing without libgcc.\nok      net     0.094s\nok      os/user 0.059s\n\n##### internal linking of -buildmode\u003dpie\nok      reflect 0.925s\nok      os/user 0.042s\n\n##### sync -cpu\u003d10\nok      sync    0.450s\n\n##### Testing race detector\nok      runtime/race    65.098s\nok      flag    1.074s\nok      net     1.161s\nok      os      1.185s\nok      os/exec 2.148s\nok      encoding/gob    1.121s\nok      flag    1.076s\nok      os/exec 2.124s\n\n##### Testing cgo\nok      cmd/cgo/internal/test   0.395s\nok      cmd/cgo/internal/test   0.757s\nok      cmd/cgo/internal/test   0.622s\nok      cmd/cgo/internal/test   0.763s\nok      cmd/cgo/internal/test   0.447s\n\n##### ../test\nok      cmd/internal/testdir    103.544s\n\n##### API check\nok      cmd/api 110.163s\n\n##### API release note check\nok      cmd/relnote     0.052s\n```",
+      "parentUuid": "816ef72e_403b9827",
       "revId": "1d0ca531607d0036919c2c36687d154a1b899281",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
