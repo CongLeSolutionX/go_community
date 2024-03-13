@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12e329e2_1df81465",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-13T02:07:35Z",
+      "side": 1,
+      "message": "Hoisting these up (so that we don\u0027t have to assume init is safe to call a second time on a reused value) took what used to be a few write barriers per c.lock critical section and made it n*a few for the first call. That caused a wbuf flush, which in turn triggered a static lock ranking failure. I\u0027ve sent out CL 571195 below this one to fix that preexisting rare but now more common failure, rather than continuing to pile into this CL.",
+      "revId": "592003f4ef55d94a457888714759f376a65d3c72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
