@@ -67,6 +67,29 @@
       "message": "One thing that puzzles me about this bug:\n\nI see in https://go.googlesource.com/go/+/45b641ce15159e29fa4494b837493042d1e10384/src/cmd/link/internal/ld/pcln.go#730 that we already have code in the linker that is checking for this specific case. Is the comment stale?  The comment seems to be implying that only the compiler emits these syms (and I don\u0027t see any declaration in Go code for these symbols).",
       "revId": "52e27cf201592c146950e480177a9357e17c4ae3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95cff21c_6b30136f",
+        "filename": "src/cmd/internal/obj/plist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-14T17:30:50Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to solve this by adding a special case here. I think we can handle this by adding dummy Go function declarations (even they are not used in Go code).",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 4
+      },
+      "revId": "52e27cf201592c146950e480177a9357e17c4ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
