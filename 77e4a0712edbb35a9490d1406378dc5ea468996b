@@ -16,6 +16,69 @@
       "message": "I want to break up this change a little bit and take the de-systemstack-ification out of it as much as I can.",
       "revId": "77e4a0712edbb35a9490d1406378dc5ea468996b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "995ce3df_82ea7e85",
+        "filename": "src/runtime/trace2map.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-14T15:29:02Z",
+      "side": 1,
+      "message": "Please include a brief summary of the data structure. Key pieces that weren\u0027t immediately obvious to me:\n\n* 4-ary trie. Child nodes are indexed by the upper 2 (remaining) bits of the hash. e.g., top level uses bits [63:62], next level uses [61:60] and so on.\n* New nodes are placed at the first empty level encountered.\n* When the first child is added to a node, the existing value is _not_ moved into a child. This means that you must check the key at each level, not just at the leaf.\n* No deletion or rebalancing.",
+      "revId": "77e4a0712edbb35a9490d1406378dc5ea468996b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f41f26c8_c2c97bbc",
+        "filename": "src/runtime/trace2map.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-14T15:29:02Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we free it if we don\u0027t use it?\n\nEdit: right, traceRegionAlloc has no free. Nevermind.",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 69,
+        "endChar": 37
+      },
+      "revId": "77e4a0712edbb35a9490d1406378dc5ea468996b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cb3922d_cc0d08bf",
+        "filename": "src/runtime/trace2map.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-14T15:29:02Z",
+      "side": 1,
+      "message": "What do you mean by \"value\" here? We clearly can race on inserting new nodes for different `data` values.",
+      "range": {
+        "startLine": 70,
+        "startChar": 46,
+        "endLine": 70,
+        "endChar": 51
+      },
+      "revId": "77e4a0712edbb35a9490d1406378dc5ea468996b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
