@@ -489,11 +489,6 @@ func (check *Checker) instantiatedType(x syntax.Expr, xlist []syntax.Expr, def *
 				check.mono.recordInstance(check.pkg, x.Pos(), inst.TypeParams().list(), inst.TypeArgs().list(), xlist)
 			}
 		}
-
-		// TODO(rfindley): remove this call: we don't need to call validType here,
-		// as cycles can only occur for types used inside a Named type declaration,
-		// and so it suffices to call validType from declared types.
-		check.validType(inst)
 	}).describef(x, "resolve instance %s", inst)
 
 	return inst
