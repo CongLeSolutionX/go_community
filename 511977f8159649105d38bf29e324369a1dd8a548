@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4406bc6b_a3fbdeb0",
+        "filename": "src/debug/elf/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-14T23:35:49Z",
+      "side": 1,
+      "message": "If the ELF file is corrupt phnum can be very large.  Allocating a complete slice like this can cause the program to run out of memory and crash.  This code should instead use saferio.ReadAt.  Similarly for the section headers.",
+      "revId": "511977f8159649105d38bf29e324369a1dd8a548",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
