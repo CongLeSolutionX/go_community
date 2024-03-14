@@ -182,7 +182,14 @@ func main() {
 		base.SetExitStatus(2)
 		base.Exit()
 	}
-	telemetry.Inc("go/subcommand:" + strings.ReplaceAll(cfg.CmdName, " ", "-"))
+	subcommandForCounter := strings.ReplaceAll(cfg.CmdName, " ", "-")
+	if cfg.CmdName == "tool" && len(args[used:]) >= 1 {
+		// For tools, specify which tool we're executing, if a tool name was provided.
+		// TODO(matloob): do we want to treate go tool dist list specially
+		// here since we might not execute the actual dist command to run it?
+		subcommandForCounter = "tool-" + args[used]
+	}
+	telemetry.Inc("go/subcommand:" + subcommandForCounter)
 	invoke(cmd, args[used-1:])
 	base.Exit()
 }
