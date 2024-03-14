@@ -52,6 +52,23 @@
       "parentUuid": "f498f57b_dd035d6c",
       "revId": "643d816c8b4348850a8a2a622d73256beea104cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a8c1da2_9955f832",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-14T19:31:34Z",
+      "side": 1,
+      "message": "Real revert is CL 571797.",
+      "revId": "643d816c8b4348850a8a2a622d73256beea104cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
