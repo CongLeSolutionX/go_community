@@ -50,6 +50,23 @@
       "message": "I am not sure if this is the preferred way around this particular bug. I\u0027ll update with a test case too.",
       "revId": "52e27cf201592c146950e480177a9357e17c4ae3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c52074cf_a4530bcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-03-14T17:24:37Z",
+      "side": 1,
+      "message": "One thing that puzzles me about this bug:\n\nI see in https://go.googlesource.com/go/+/45b641ce15159e29fa4494b837493042d1e10384/src/cmd/link/internal/ld/pcln.go#730 that we already have code in the linker that is checking for this specific case. Is the comment stale?  The comment seems to be implying that only the compiler emits these syms (and I don\u0027t see any declaration in Go code for these symbols).",
+      "revId": "52e27cf201592c146950e480177a9357e17c4ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
