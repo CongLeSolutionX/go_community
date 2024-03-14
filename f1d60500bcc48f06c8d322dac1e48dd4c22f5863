@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b6a75e6_e1107d05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-14T16:36:02Z",
+      "side": 1,
+      "message": "Can you provide a link to the breakage that warranted the revert? Thanks.",
+      "revId": "f1d60500bcc48f06c8d322dac1e48dd4c22f5863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
