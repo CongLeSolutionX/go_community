@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1642a975_6840ce1d",
+        "filename": "src/cmd/go/internal/modload/edit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2024-03-14T21:08:06Z",
+      "side": 1,
+      "message": "This transition from the `pruned` graph to the `unpruned` graph corresponds to the transition from `unpruned` to `pruned` in the assignment at line 794.",
+      "range": {
+        "startLine": 845,
+        "startChar": 0,
+        "endLine": 850,
+        "endChar": 3
+      },
+      "revId": "96f9ffa7794a441e29aa814dc5bcaa6a1b982bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
