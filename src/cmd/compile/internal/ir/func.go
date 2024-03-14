@@ -138,6 +138,7 @@ type Func struct {
 	// WasmImport is used by the //go:wasmimport directive to store info about
 	// a WebAssembly function import.
 	WasmImport *WasmImport
+	BBFreqMap  map[int64]int64
 }
 
 // WasmImport stores metadata associated with the //go:wasmimport pragma.
