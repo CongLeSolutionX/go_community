@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4f498b2_59910eb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-14T18:54:41Z",
+      "side": 1,
+      "message": "Use shorter link https://go.dev/cl/473495 , or just \"CL 473495\" (which Gerrit will link).",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "74cdcf4944e7d4eb9e1bb354b835c6b14cfedd6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
