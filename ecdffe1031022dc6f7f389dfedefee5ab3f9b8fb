@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82f22185_d7b8e4d9",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-14T13:30:00Z",
+      "side": 1,
+      "message": "Because I\u0027ve found that if don\u0027t, when run tests, there\u0027s actually no added parallelism, and the task manager still sees the runtime testing and not have other packages testing.",
+      "parentUuid": "9f7bdf6f_6a5500e5",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8ef87dd_94a2f1b9",
@@ -48,6 +66,42 @@
       "writtenOn": "2024-03-13T15:48:55Z",
       "side": 1,
       "message": "I still don\u0027t understand why numcpu*2.\nI mean, I understand that you see that it makes your all.bash faster.\nI just don\u0027t understand why. This setting kind of implies that the tasks in the worklist only take 1/2 a CPU (each, on average). Is that really true?",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d9217a5_60bb9974",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-14T13:30:00Z",
+      "side": 1,
+      "message": "See https://go-review.googlesource.com/c/go/+/563916/4..5/src/cmd/dist/test.go#b1315\nmany tests are completed in seconds, So before long, there were only six test processes of four packages(runtime,runtime/race,cmd/internal/testdir,cmd/api) consuming CPU.\nAlso, runtime and runtime/race finish faster than the remaining two packages, and then only two packages occupy the CPU.",
+      "parentUuid": "dfd9f9fd_c384bc8b",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eba0215_ff419280",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-14T13:30:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8ef87dd_94a2f1b9",
       "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
