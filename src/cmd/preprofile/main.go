@@ -97,6 +97,7 @@ func readPprofFile(profileFile string, outputFile string, verbose bool) bool {
 	TotalEdgeWeight := int64(0)
 
 	NodeMap := make(map[NodeMapKey]int64)
+	NodeWeightMap := make(map[string]map[int64]int64)
 
 	for _, n := range g.Nodes {
 		canonicalName := n.Info.Name
@@ -121,6 +122,13 @@ func readPprofFile(profileFile string, outputFile string, verbose bool) bool {
 				w = e.WeightValue()
 				NodeMap[nodeinfo] = w
 			}
+		}
+		columnno := int64(0) // int64(n.Info.Columnno)
+		if _, ok := (NodeWeightMap)[canonicalName]; ok {
+			(NodeWeightMap)[canonicalName][columnno] += n.FlatValue()
+		} else {
+			(NodeWeightMap)[canonicalName] = make(map[int64]int64)
+			(NodeWeightMap)[canonicalName][columnno] = n.FlatValue()
 		}
 	}
 
@@ -160,6 +168,32 @@ func readPprofFile(profileFile string, outputFile string, verbose bool) bool {
 		w.WriteString(line)
 		w.Flush()
 		count += 1
+	}
+
+	var fNodeWeightMap *os.File
+	if outputFile == "" {
+		fNodeWeightMap = os.Stdout
+	} else {
+		var err error
+		//write out NodeWeightMap to a file
+		fNodeWeightMap, err = os.Create(outputFile + ".weight")
+		if err != nil {
+			log.Fatal("Create tmp file failed")
+			return false
+		}
+		defer fNodeWeightMap.Close()
+	}
+
+	w1 := bufio.NewWriter(fNodeWeightMap)
+	for funcName, bbMap := range NodeWeightMap {
+		fline := funcName + "\n"
+		var line string
+		for bbId, bbCount := range bbMap {
+			w1.WriteString(fline)
+			line = strconv.FormatInt(bbId, 10) + " " + strconv.FormatInt(bbCount, 10) + "\n"
+			w1.WriteString(line)
+		}
+		w1.Flush()
 	}
 
 	if TotalEdgeWeight == 0 {

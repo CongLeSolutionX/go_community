@@ -1106,7 +1106,11 @@ func (d *dotWriter) writeFuncSVG(w io.Writer, phase string, f *Func) {
 		if f.laidout {
 			layout = fmt.Sprintf(" #%d", i)
 		}
-		fmt.Fprintf(pipe, `%v [label="%v%s\n%v",id="graph_node_%v_%v",tooltip="%v"];`, b, b, layout, b.Kind.String(), id, b, b.LongString())
+		execCount := ""
+		if b.BBFreq.RawCount != 0 {
+			execCount = fmt.Sprintf(" 1")
+		}
+		fmt.Fprintf(pipe, `%v [label="%v%s%s\n%v",id="graph_node_%v_%v",tooltip="%v"];`, b, b, execCount, layout, b.Kind.String(), id, b, b.LongString())
 	}
 	indexOf := make([]int, f.NumBlocks())
 	for i, b := range f.Blocks {
@@ -1210,6 +1214,9 @@ func (p htmlFuncPrinter) startBlock(b *Block, reachable bool) {
 			pred := e.b
 			fmt.Fprintf(p.w, " %s", pred.HTML())
 		}
+	}
+	if b.BBFreq.RawCount != 0 {
+		fmt.Fprintf(p.w, " freq %v", b.BBFreq.RawCount)
 	}
 	if len(b.Values) > 0 {
 		io.WriteString(p.w, `<button onclick="hideBlock(this)">-</button>`)

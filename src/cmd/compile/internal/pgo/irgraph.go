@@ -50,6 +50,7 @@ import (
 	"fmt"
 	"internal/profile"
 	"io"
+	"log"
 	"os"
 	"sort"
 	"strconv"
@@ -126,6 +127,10 @@ type CallSiteInfo struct {
 	Callee     *ir.Func
 }
 
+type NodeWeightMap struct {
+	Weight map[string]map[int64]int64
+}
+
 // Profile contains the processed PGO profile and weighted call graph used for
 // PGO optimizations.
 type Profile struct {
@@ -135,7 +140,8 @@ type Profile struct {
 
 	// NamedEdgeMap contains all unique call edges in the profile and their
 	// edge weight.
-	NamedEdgeMap NamedEdgeMap
+	NamedEdgeMap  NamedEdgeMap
+	NodeWeightMap NodeWeightMap
 
 	// WeightedCG represents the IRGraph built from profile, which we will
 	// update as part of inlining.
@@ -176,6 +182,8 @@ func New(profileFile string) (*Profile, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error processing preprocessed PGO profile: %w", err)
 		}
+		profile.repackingNodeWeightMap(profileFile)
+		profile.updateFuncProf()
 		return profile, nil
 	}
 
@@ -183,8 +191,70 @@ func New(profileFile string) (*Profile, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error processing pprof PGO profile: %w", err)
 	}
+	profile.updateFuncProf()
 	return profile, nil
 
+}
+
+func (p *Profile) updateFuncProf() {
+	if p.NodeWeightMap.Weight == nil {
+		return
+	}
+	ir.VisitFuncsBottomUp(typecheck.Target.Funcs, func(list []*ir.Func, recursive bool) {
+		for _, fn := range list {
+			funcName := ir.LinkFuncName(fn)
+			if p.NodeWeightMap.Weight[funcName] == nil {
+				continue
+			}
+			if fn.BBFreqMap == nil {
+				fn.BBFreqMap = make(map[int64]int64)
+			}
+			for bbId, bbFreq := range p.NodeWeightMap.Weight[funcName] {
+				//fmt.Printf("%v %v %v\n", funcName, bbId, bbFreq)
+				fn.BBFreqMap[bbId] = bbFreq
+			}
+		}
+	})
+
+}
+
+// restore NodeWeightMap information from a preprofile file
+func (p *Profile) repackingNodeWeightMap(preprofileFile string) {
+	if base.Flag.PgoBb == 0 {
+		return
+	}
+	preprofileFile += ".weight"
+	readFile, err := os.Open(preprofileFile)
+	if err != nil {
+		log.Fatal("link: failed to open file " + preprofileFile)
+		return
+	}
+	defer readFile.Close()
+
+	fileScanner := bufio.NewScanner(readFile)
+	fileScanner.Split(bufio.ScanLines)
+	p.NodeWeightMap.Weight = make(map[string]map[int64]int64)
+
+	for fileScanner.Scan() {
+		readStr := fileScanner.Text()
+		canonicalName := readStr
+		if !fileScanner.Scan() {
+			log.Fatal("missing features in NodeWeightMap !!")
+		}
+		readStr = fileScanner.Text()
+		split := strings.Split(readStr, " ")
+		if p.NodeWeightMap.Weight[canonicalName] == nil {
+			// If not, create it
+			p.NodeWeightMap.Weight[canonicalName] = make(map[int64]int64)
+		}
+		if len(split) == 2 {
+			bbId, _ := strconv.ParseInt(split[0], 10, 64)
+			value, _ := strconv.ParseInt(split[1], 10, 64)
+			p.NodeWeightMap.Weight[canonicalName][bbId] = value
+		} else {
+			log.Fatal("missing features in NodeWeightMap !!")
+		}
+	}
 }
 
 // processProto generates a profile-graph from the profile.
@@ -233,11 +303,13 @@ func processProto(r io.Reader) (*Profile, error) {
 
 	// Create package-level call graph with weights from profile and IR.
 	wg := createIRGraph(namedEdgeMap)
+	nodeWeightMap := createNodeWeightMap(g)
 
 	return &Profile{
-		TotalWeight:  totalWeight,
-		NamedEdgeMap: namedEdgeMap,
-		WeightedCG:   wg,
+		TotalWeight:   totalWeight,
+		NamedEdgeMap:  namedEdgeMap,
+		WeightedCG:    wg,
+		NodeWeightMap: nodeWeightMap,
 	}, nil
 }
 
@@ -355,6 +427,21 @@ func createNamedEdgeMapFromPreprocess(r io.Reader) (edgeMap NamedEdgeMap, totalW
 
 	return postProcessNamedEdgeMap(weight, totalWeight)
 
+}
+
+func createNodeWeightMap(g *profile.Graph) (nodeWeightMap NodeWeightMap) {
+	nodeWeightMap.Weight = make(map[string]map[int64]int64)
+	for _, n := range g.Nodes {
+		canonicalName := n.Info.Name
+		columnno := int64(0) //int64(n.Info.Columnno)
+		if _, ok := nodeWeightMap.Weight[canonicalName]; ok {
+			nodeWeightMap.Weight[canonicalName][columnno] += n.FlatValue()
+		} else {
+			nodeWeightMap.Weight[canonicalName] = make(map[int64]int64)
+			nodeWeightMap.Weight[canonicalName][columnno] = n.FlatValue()
+		}
+	}
+	return nodeWeightMap
 }
 
 // createNamedEdgeMap builds a map of callsite-callee edge weights from the

@@ -9,6 +9,10 @@ import (
 	"fmt"
 )
 
+type BBFrequency struct {
+	RawCount int64
+}
+
 // Block represents a basic block in the control flow graph of a function.
 type Block struct {
 	// A unique identifier for the block. The system will attempt to allocate
@@ -66,6 +70,9 @@ type Block struct {
 	succstorage [2]Edge
 	predstorage [4]Edge
 	valstorage  [9]*Value
+	BBFreq      BBFrequency
+	// Index in the current layout.
+	LayoutIndex int
 }
 
 // Edge represents a CFG edge.
@@ -98,7 +105,8 @@ type Edge struct {
 	//   e := x.Succs[idx]
 	//   e.b.Preds[e.i] = Edge{x,idx}
 	// and similarly for predecessors.
-	i int
+	i        int
+	EdgeFreq BBFrequency
 }
 
 func (e Edge) Block() *Block {
@@ -272,8 +280,8 @@ func (b *Block) truncateValues(i int) {
 func (b *Block) AddEdgeTo(c *Block) {
 	i := len(b.Succs)
 	j := len(c.Preds)
-	b.Succs = append(b.Succs, Edge{c, j})
-	c.Preds = append(c.Preds, Edge{b, i})
+	b.Succs = append(b.Succs, Edge{b: c, i: j})
+	c.Preds = append(c.Preds, Edge{b: b, i: i})
 	b.Func.invalidateCFG()
 }
 
