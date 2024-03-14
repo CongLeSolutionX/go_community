@@ -237,8 +237,8 @@ func insertLoopReschedChecks(f *Func) {
 		// if false, rewrite edge to header.
 		// do NOT remove+add, because that will perturb all the other phi functions
 		// as well as messing up other edges to the header.
-		test.Succs = append(test.Succs, Edge{h, i})
-		h.Preds[i] = Edge{test, 1}
+		test.Succs = append(test.Succs, Edge{b: h, i: i})
+		h.Preds[i] = Edge{b: test, i: 1}
 		headerMemPhi.SetArg(i, mem0)
 
 		test.Likely = BranchUnlikely
@@ -252,8 +252,8 @@ func insertLoopReschedChecks(f *Func) {
 		sched.AddEdgeTo(h)
 		headerMemPhi.AddArg(mem1)
 
-		bb.Succs[p.i] = Edge{test, 0}
-		test.Preds = append(test.Preds, Edge{bb, p.i})
+		bb.Succs[p.i] = Edge{b: test, i: 0}
+		test.Preds = append(test.Preds, Edge{b: bb, i: p.i})
 
 		// Must correct all the other phi functions in the header for new incoming edge.
 		// Except for mem phis, it will be the same value seen on the original

@@ -457,6 +457,7 @@ commas. For example:
 var passes = [...]pass{
 	// TODO: combine phielim and copyelim into a single pass?
 	{name: "number lines", fn: numberLines, required: true},
+	//{name: "prof prop", fn: freqPropagate, required: true},
 	{name: "early phielim", fn: phielim},
 	{name: "early copyelim", fn: copyelim},
 	{name: "early deadcode", fn: deadcode}, // remove generated dead code to avoid doing pointless work during opt
@@ -510,6 +511,9 @@ var passes = [...]pass{
 	{name: "regalloc", fn: regalloc, required: true},   // allocate int & float registers + stack slots
 	{name: "loop rotate", fn: loopRotate},
 	{name: "trim", fn: trim}, // remove empty blocks
+	{name: "prof prop", fn: freqPropagate, required: true},
+	{name: "layoutPGO", fn: layoutPGO, required: true}, // schedule blocks
+	{name: "tspreorder", fn: tspReorderBasicBlocks, required: true},
 }
 
 // Double-check phase ordering constraints.
@@ -585,6 +589,9 @@ var passOrder = [...]constraint{
 	{"late fuse", "memcombine"},
 	// memcombine is a arch-independent pass.
 	{"memcombine", "lower"},
+	{"trim", "prof prop"},
+	{"prof prop", "layoutPGO"},
+	{"prof prop", "tspreorder"},
 }
 
 func init() {

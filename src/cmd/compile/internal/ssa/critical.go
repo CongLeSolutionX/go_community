@@ -62,6 +62,7 @@ func critical(f *Func) {
 					// the new blocks to be re-examined.
 					d = f.NewBlock(BlockPlain)
 					d.Pos = p.Pos
+					d.BBFreq.RawCount = b.BBFreq.RawCount
 					blocks[argID] = d
 					if f.pass.debug > 0 {
 						f.Warnl(p.Pos, "split critical edge")
@@ -74,6 +75,7 @@ func critical(f *Func) {
 				// to place on the edge
 				d = f.NewBlock(BlockPlain)
 				d.Pos = p.Pos
+				d.BBFreq.RawCount = b.BBFreq.RawCount
 				if f.pass.debug > 0 {
 					f.Warnl(p.Pos, "split critical edge")
 				}
@@ -85,8 +87,8 @@ func critical(f *Func) {
 			// predecessors and phi args
 			if reusedBlock {
 				// Add p->d edge
-				p.Succs[pi] = Edge{d, len(d.Preds)}
-				d.Preds = append(d.Preds, Edge{p, pi})
+				p.Succs[pi] = Edge{b: d, i: len(d.Preds)}
+				d.Preds = append(d.Preds, Edge{b: p, i: pi})
 
 				// Remove p as a predecessor from b.
 				b.removePred(i)
@@ -100,10 +102,10 @@ func critical(f *Func) {
 				// an unprocessed predecessor down into slot i.
 			} else {
 				// splice it in
-				p.Succs[pi] = Edge{d, 0}
-				b.Preds[i] = Edge{d, 0}
-				d.Preds = append(d.Preds, Edge{p, pi})
-				d.Succs = append(d.Succs, Edge{b, i})
+				p.Succs[pi] = Edge{b: d, i: 0}
+				b.Preds[i] = Edge{b: d, i: 0}
+				d.Preds = append(d.Preds, Edge{b: p, i: pi})
+				d.Succs = append(d.Succs, Edge{b: b, i: i})
 				i++
 			}
 		}
