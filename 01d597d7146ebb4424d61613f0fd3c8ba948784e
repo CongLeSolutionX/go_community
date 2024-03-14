@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a6a98db_db8f72c4",
+        "filename": "src/cmd/compile/internal/types2/version.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-03-14T15:27:14Z",
+      "side": 1,
+      "message": "I don\u0027t see how we can guarantee this assertion. Do we document that all AST passed to go/types must be produced by go/parser, or that it must have valid positions?",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 55,
+        "endChar": 27
+      },
+      "revId": "01d597d7146ebb4424d61613f0fd3c8ba948784e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
