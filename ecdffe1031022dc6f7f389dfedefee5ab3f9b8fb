@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90cf9ebc_c3bbf730",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-15T17:09:18Z",
+      "side": 1,
+      "message": "I\u0027m afraid that the argument \"I made a random change and it magically fixed something\" is not a good enough reason to accept a change. We need to understand why it is necessary before we check it in.\nParticularly, if it is subtle, like this probably is, we need a comment explaining why it is the way it is so that the next person to modify this code doesn\u0027t undo it accidentally.",
+      "parentUuid": "82f22185_d7b8e4d9",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8ef87dd_94a2f1b9",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 5
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "c8ef87dd_94a2f1b9",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f92c8586_29efbaa2",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-15T17:09:18Z",
+      "side": 1,
+      "message": "Again, I think we need more understanding here beyond \"I made a random change and it helped\". Here, I think you\u0027re actually making some progress on that front.\n\nSo there are a few really long tests that form the long tail of this execution.\n\nWhat would happen if we sorted the worklist to just put those four packages first? That way they would all start immediately so we wouldn\u0027t be in a situation where we started them late and they are the last ones we\u0027re waiting for.\n\nI suspect that making maxbg larger just happens to get those tests started earlier. But it also introduces a lot of other tests running simultaneously, which will slow them down due to sharing the CPU. If we get them started right away and give them full access to the CPU, it might be even better. Additional tasks will only be scheduled when those first heavy ones start completing.",
+      "parentUuid": "4d9217a5_60bb9974",
       "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
