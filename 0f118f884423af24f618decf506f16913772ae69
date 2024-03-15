@@ -70,6 +70,29 @@
       "message": "TRY\u003dppc64,ppc64le,linux-ppc64le-power10",
       "revId": "0f118f884423af24f618decf506f16913772ae69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb14db6c_5065b8f8",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-15T18:10:42Z",
+      "side": 1,
+      "message": "The prologue is generated at https://cs.opensource.google/go/go/+/master:src/cmd/internal/obj/ppc64/obj9.go;l\u003d797 . Could we guard this code to skip these elf_ functions instead? We already do this for Duff functions.",
+      "range": {
+        "startLine": 482,
+        "startChar": 2,
+        "endLine": 483,
+        "endChar": 24
+      },
+      "revId": "0f118f884423af24f618decf506f16913772ae69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
