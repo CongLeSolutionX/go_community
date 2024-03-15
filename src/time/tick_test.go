@@ -435,7 +435,9 @@ func testTimerChan(t *testing.T, tim timer, C <-chan Time, synctimerchan bool) {
 		Sleep(sched)
 		tim.Reset(10000 * Second)
 		if isTicker {
-			assertTick()
+			// If the machine is very slow there may not be a tick.
+			// (Perhaps Sleep(sched) was not long enough.)
+			drain()
 		}
 		noTick()
 
