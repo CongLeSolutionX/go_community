@@ -16,6 +16,23 @@
       "message": "Simple fix for a subtle problem.\nAn alternative approach would be to use nest[:d:d] in types2/validType.go:176.\nThis would ensure that recursive calls make a copy if needed.\nThe current fix avoids such copies.",
       "revId": "413c1faf0dbf28eed4108dbf45aeb88af6b2a4d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dfba4af_646a812c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-03-15T13:21:51Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "413c1faf0dbf28eed4108dbf45aeb88af6b2a4d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
