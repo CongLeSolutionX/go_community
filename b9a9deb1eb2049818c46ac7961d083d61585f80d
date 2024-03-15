@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10670e6c_04a6fb5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-15T11:12:56Z",
+      "side": 1,
+      "message": "See https://github.com/golang/proposal\nAdding an API to the standard library goes through a proposal process.",
+      "revId": "b9a9deb1eb2049818c46ac7961d083d61585f80d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
