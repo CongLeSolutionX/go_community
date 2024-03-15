@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c4669e4a_0870fb2c",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-15T22:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7a7e58c_9d9971bb",
+      "revId": "40b797bf0637485006a89f05b4108eea14e734fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "11d94475_781f0b94",
         "filename": "src/runtime/coro.go",
         "patchSetId": 6
@@ -31,6 +49,30 @@
       "writtenOn": "2024-03-07T18:44:30Z",
       "side": 1,
       "message": "nit: TODO(go.dev/issue/65889) seems to be our most popular form, followed closely by TODO(#65889). A raw number is quite rare.",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "40b797bf0637485006a89f05b4108eea14e734fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f9c7533_b04d3f5e",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-15T22:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11d94475_781f0b94",
       "range": {
         "startLine": 96,
         "startChar": 9,
@@ -54,6 +96,24 @@
       "writtenOn": "2024-03-07T18:44:30Z",
       "side": 1,
       "message": "Can we delete the v1 tracer? This means you can\u0027t use iterators with the v1 tracer, right? If those end up enabled by default it seems we ought to have the v1 tracer deleted.",
+      "revId": "40b797bf0637485006a89f05b4108eea14e734fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9384971a_b39dce78",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-15T22:41:30Z",
+      "side": 1,
+      "message": "spoke offline, Carlos is on it",
+      "parentUuid": "40e236bd_a90359fe",
       "revId": "40b797bf0637485006a89f05b4108eea14e734fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
