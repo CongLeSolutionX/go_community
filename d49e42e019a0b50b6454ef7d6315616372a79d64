@@ -16,6 +16,24 @@
       "message": "Should we check, that the successor has only one predecessor?",
       "revId": "d49e42e019a0b50b6454ef7d6315616372a79d64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a9526e5_52740d4b",
+        "filename": "src/cmd/compile/internal/ssa/layout.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 59058
+      },
+      "writtenOn": "2024-03-15T16:25:24Z",
+      "side": 1,
+      "message": "We possess the edge frequency data for each edge, which is determined through phase profpropagation. This process computes the frequency, eliminating the necessity to inspect a single predecessor.",
+      "parentUuid": "6f8e7220_eecc2429",
+      "revId": "d49e42e019a0b50b6454ef7d6315616372a79d64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
