@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cc6705ce_ca6434f5",
+        "filename": "src/runtime/trace2map.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-15T22:42:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "995ce3df_82ea7e85",
+      "revId": "77e4a0712edbb35a9490d1406378dc5ea468996b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f41f26c8_c2c97bbc",
         "filename": "src/runtime/trace2map.go",
         "patchSetId": 5
@@ -71,6 +89,30 @@
       "writtenOn": "2024-03-14T15:29:02Z",
       "side": 1,
       "message": "What do you mean by \"value\" here? We clearly can race on inserting new nodes for different `data` values.",
+      "range": {
+        "startLine": 70,
+        "startChar": 46,
+        "endLine": 70,
+        "endChar": 51
+      },
+      "revId": "77e4a0712edbb35a9490d1406378dc5ea468996b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dd1a477_31e15002",
+        "filename": "src/runtime/trace2map.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-15T22:42:23Z",
+      "side": 1,
+      "message": "I tried to clarify more. what I mean is the value being inserted into the map. if two threads are racing to insert the same value (same string, for example) then they might both create nodes, but one of those nodes *will* lose the race and get dropped on the floor.\n\nif two threads trying to insert different values race on the CAS, then that\u0027s fine. both nodes will still ultimately get inserted.\n\nI tried to clarify in the comment, let me know if it makes sense.",
+      "parentUuid": "8cb3922d_cc0d08bf",
       "range": {
         "startLine": 70,
         "startChar": 46,
