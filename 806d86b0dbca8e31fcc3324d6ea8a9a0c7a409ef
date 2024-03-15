@@ -52,6 +52,24 @@
       "parentUuid": "a4c1323b_79913556",
       "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d31b011d_a75a9976",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 15722
+      },
+      "writtenOn": "2024-03-15T23:06:15Z",
+      "side": 1,
+      "message": "@khr@golang.org Hi Keith! Sorry for reaching you out directly, but I stumbled upon this CL and may I wonder how the decision on acceptance is going? Can\u0027t this CL fall into the \"housekeeping\" category, removing old and obsolete \"corner-cased\" parts of the code? Thank you in advance!",
+      "parentUuid": "c0f0134e_4a693d1f",
+      "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
