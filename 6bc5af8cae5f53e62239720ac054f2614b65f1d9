@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69f3c2c1_1439885e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-15T19:10:13Z",
+      "side": 1,
+      "message": "Issue 57346 is about omitting -trimpath only inside GOROOT. Omitting it in general doesn\u0027t sound right, as packages will be compiled differently with/without -trimpath.",
+      "revId": "6bc5af8cae5f53e62239720ac054f2614b65f1d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
