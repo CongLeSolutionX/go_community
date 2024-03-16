@@ -89,6 +89,23 @@
       "message": "TRY\u003dopenbsd-386",
       "revId": "c40c7360cb92006bcc0ee861973be11ce9d1bde7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29fca1b6_6edf9369",
+        "filename": "src/internal/syscall/unix/tcsetpgrp_bsd.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-16T19:44:13Z",
+      "side": 1,
+      "message": "We usually put these go:linkname comments immediately before the function declaration.",
+      "revId": "c40c7360cb92006bcc0ee861973be11ce9d1bde7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
