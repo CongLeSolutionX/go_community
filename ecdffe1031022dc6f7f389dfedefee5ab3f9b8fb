@@ -54,6 +54,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62f794db_9bc4116d",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-16T03:44:29Z",
+      "side": 1,
+      "message": "After changing the test order, this is no longer necessary.",
+      "parentUuid": "90cf9ebc_c3bbf730",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbbfae4e_385545d5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-16T03:44:29Z",
+      "side": 1,
+      "message": "This is probably the result of strat and end chan send order dependencies, I\u0027ll add comments later.",
+      "parentUuid": "90cf9ebc_c3bbf730",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8ef87dd_94a2f1b9",
@@ -138,6 +174,24 @@
       "side": 1,
       "message": "Again, I think we need more understanding here beyond \"I made a random change and it helped\". Here, I think you\u0027re actually making some progress on that front.\n\nSo there are a few really long tests that form the long tail of this execution.\n\nWhat would happen if we sorted the worklist to just put those four packages first? That way they would all start immediately so we wouldn\u0027t be in a situation where we started them late and they are the last ones we\u0027re waiting for.\n\nI suspect that making maxbg larger just happens to get those tests started earlier. But it also introduces a lot of other tests running simultaneously, which will slow them down due to sharing the CPU. If we get them started right away and give them full access to the CPU, it might be even better. Additional tasks will only be scheduled when those first heavy ones start completing.",
       "parentUuid": "4d9217a5_60bb9974",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8b9975_f181c585",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-16T03:44:29Z",
+      "side": 1,
+      "message": "As I wrote in the submission information:\nThis CL speeds up the go tool dist test,\nmost of the speed up is due to the fact that the\nthree time-consuming tests\ncmd/internal/testdir and API check and runtime/race\ncan be done in parallel with the GOMAXPROCS\u003d2 runtime\non a machine with enough CPU cores.\nSo it is feasible to adjust the sequence of test runs to solve #65164.\n\nI put these four packages at the end of the test.\nHowever, still need to modify maxbg, otherwise runtime tests will block other package tests, because https://github.com/golang/go/blob/master/src/cmd/dist/test.go#L1320C1-L1324C4\nif maxbg is the default 4, then only one of the other tests can run in parallel with the runtime until all three processes of the runtime have run, at the same time, can\u0027t revert to https://go-review.googlesource.com/c/go/+/560597, the runtime only a testing process.\nBecause if there is only one run time test process, it can execute for a long time until other tests have passed before it is completed.\n\nHowever, it is now possible to set maxbg to runtime.NumCPU(), which is sufficient for all time-consuming tests to run in parallel, resulting in a 100% CPU usage,result is faster running of all tests at once.",
+      "parentUuid": "f92c8586_29efbaa2",
       "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
