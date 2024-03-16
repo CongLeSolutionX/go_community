@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c2e7130_3a16da25",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-16T04:31:07Z",
+      "side": 1,
+      "message": "Accidentally sent an outdated draft resulting in an error marked as unresolved, sorry.",
+      "parentUuid": "bbbfae4e_385545d5",
+      "revId": "ecdffe1031022dc6f7f389dfedefee5ab3f9b8fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8ef87dd_94a2f1b9",
