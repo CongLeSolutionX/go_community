@@ -70,6 +70,24 @@
       "parentUuid": "c0f0134e_4a693d1f",
       "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3413de29_3a2da2cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-03-16T00:31:27Z",
+      "side": 1,
+      "message": "It\u0027s not obsolete if it makes binaries smaller.\nI think my comment earlier stands, code which does string concatenation probably isn\u0027t very hot, so code size is more important than raw speed.",
+      "parentUuid": "d31b011d_a75a9976",
+      "revId": "806d86b0dbca8e31fcc3324d6ea8a9a0c7a409ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
