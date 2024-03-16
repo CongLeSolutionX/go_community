@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89a5f468_8fbf5d45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59058
+      },
+      "writtenOn": "2024-03-16T01:23:15Z",
+      "side": 1,
+      "message": "Google sweet\n                     │ myconfig.pgo.results │      myconfig.pgo_bb.results       │\n                     │        sec/op        │   sec/op     vs base               │\nBiogoIgor                        23.43 ± 1%    23.44 ± 1%       ~ (p\u003d0.684 n\u003d10)\nBiogoKrishna                     16.71 ± 1%    16.65 ± 0%  -0.38% (p\u003d0.035 n\u003d10)\nBleveIndexBatch100               4.664 ± 2%    4.732 ± 3%       ~ (p\u003d0.063 n\u003d10)\nEtcdPut                         45.02m ± 2%   45.68m ± 9%       ~ (p\u003d0.353 n\u003d10)\nEtcdSTM                         127.9m ± 1%   128.1m ± 4%       ~ (p\u003d0.684 n\u003d10)\nGoBuildKubelet                   49.61 ± 1%    46.75 ± 0%  -5.75% (p\u003d0.000 n\u003d10)\nGoBuildKubeletLink               8.874 ± 2%    8.740 ± 1%       ~ (p\u003d0.052 n\u003d10)\nGoBuildIstioctl                  49.01 ± 0%    46.28 ± 1%  -5.56% (p\u003d0.000 n\u003d10)\nGoBuildIstioctlLink              9.142 ± 0%    9.127 ± 1%  -0.16% (p\u003d0.035 n\u003d10)\nGoBuildFrontend                  21.78 ± 1%    20.51 ± 1%  -5.84% (p\u003d0.000 n\u003d10)\nGoBuildFrontendLink              1.566 ± 6%    1.472 ± 7%       ~ (p\u003d0.393 n\u003d10)\nGopherLuaKNucleotide             22.29 ± 0%    22.33 ± 1%       ~ (p\u003d0.529 n\u003d10)\nMarkdownRenderXHTML             336.7m ± 4%   327.1m ± 9%       ~ (p\u003d0.529 n\u003d10)\nTile38QueryLoad                 591.5µ ± 0%   594.8µ ± 1%       ~ (p\u003d0.052 n\u003d10)\ngeomean                          2.470         2.426       -1.77%",
+      "revId": "5cee77c7415731077faf646bad8a6a6f058ef8a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
