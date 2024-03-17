@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f36bb448_879b45be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-17T09:13:45Z",
+      "side": 1,
+      "message": "Great to meet you here Sugawara and congratulations on your first Go change. I look forward to us moving it forward, please take a look at the review comments as they roll in from myself and other reviews. Thank you!",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "478e952a_9504ce78",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-17T09:13:45Z",
+      "side": 1,
+      "message": "please keep the variable “mantissa” as it was, reducing it to “man” makes it even harder to read and I don’t think is necessary for this change.",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4204cc4_001bd7f3",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-17T09:13:45Z",
+      "side": 1,
+      "message": "This can never happen given that a freshly assigned ui unit has a value of 0, but even more per the specification of Go: uint is the unsigned variant of the bit size and len is always the signed variant of the bit size so no way that 0 can ever be greater than max int even if len(s)\u003dmaxing but also len(s) will never be less than 0",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e35588_e069ab56",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-17T09:13:45Z",
+      "side": 1,
+      "message": "you forgot to assign ui above, does this code actually run?",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
