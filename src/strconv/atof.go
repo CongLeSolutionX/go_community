@@ -173,138 +173,113 @@ func (b *decimal) set(s string) (ok bool) {
 // readFloat reports the number of bytes consumed (i), and whether the number
 // is valid (ok).
 func readFloat(s string) (mantissa uint64, exp int, neg, trunc, hex bool, i int, ok bool) {
-	underscores := false
-
-	// optional sign
-	if i >= len(s) {
+	var ui uint // Unsigned to remove bounds check of negative indexes.
+	// Optional sign.
+	if ui >= uint(len(s)) {
 		return
-	}
-	switch {
-	case s[i] == '+':
-		i++
-	case s[i] == '-':
+	} else if s[ui] == '+' {
+		ui++
+	} else if s[ui] == '-' {
+		ui++
 		neg = true
-		i++
 	}
-
-	// digits
-	base := uint64(10)
-	maxMantDigits := 19 // 10^19 fits in uint64
-	expChar := byte('e')
-	if i+2 < len(s) && s[i] == '0' && lower(s[i+1]) == 'x' {
-		base = 16
-		maxMantDigits = 16 // 16^16 fits in uint64
-		i += 2
-		expChar = 'p'
-		hex = true
+	lim := uint64(0x1999999999999999) // mantissa*10+ 9 fits in uint64 before lim.
+	if ui+2 < uint(len(s)) && s[ui] == '0' && lower(s[ui+1]) == 'x' {
+		hex, lim = true, uint64(0x1000000000000000) // mantissa*16+15 fits in uint64 before lim.
+		ui += 2
 	}
-	sawdot := false
-	sawdigits := false
-	nd := 0
-	ndMant := 0
-	dp := 0
+	var dot, digits, underscores bool
+	// Digits.
 loop:
-	for ; i < len(s); i++ {
-		switch c := s[i]; true {
+	for ; ui < uint(len(s)); ui++ {
+		c, n := s[ui], byte(0)
+		switch l := lower(s[ui]); {
 		case c == '_':
 			underscores = true
 			continue
-
-		case c == '.':
-			if sawdot {
-				break loop
-			}
-			sawdot = true
-			dp = nd
+		case c == '.' && !dot:
+			dot = true
 			continue
-
-		case '0' <= c && c <= '9':
-			sawdigits = true
-			if c == '0' && nd == 0 { // ignore leading zeros
-				dp--
-				continue
-			}
-			nd++
-			if ndMant < maxMantDigits {
-				mantissa *= base
-				mantissa += uint64(c - '0')
-				ndMant++
-			} else if c != '0' {
-				trunc = true
-			}
-			continue
-
-		case base == 16 && 'a' <= lower(c) && lower(c) <= 'f':
-			sawdigits = true
-			nd++
-			if ndMant < maxMantDigits {
-				mantissa *= 16
-				mantissa += uint64(lower(c) - 'a' + 10)
-				ndMant++
-			} else {
-				trunc = true
-			}
+		case l >= 'a' && l <= 'f' && hex:
+			digits = true
+			n = l - 'a' + 10
+		case c >= '0' && c <= '9':
+			digits = true
+			n = c - '0'
+		default:
+			break loop
+		}
+		if dot {
+			exp--
+		}
+		if mantissa >= lim {
+			exp++
+			trunc = trunc || c != '0'
 			continue
 		}
-		break
+		if hex {
+			mantissa = mantissa<<4 | uint64(n)
+		} else {
+			mantissa = mantissa*10 + uint64(n)
+		}
 	}
-	if !sawdigits {
+	if !digits {
 		return
 	}
-	if !sawdot {
-		dp = nd
+	if hex {
+		// Decimal scales by 1 digit, hexadecimal scales by 4 bits.
+		exp *= 4
 	}
-
-	if base == 16 {
-		dp *= 4
-		ndMant *= 4
+	if (ui >= uint(len(s)) || lower(s[ui]) != 'p') && hex {
+		// Must have an exponent.
+		return
 	}
-
-	// optional exponent moves decimal point.
+	if (ui >= uint(len(s)) || lower(s[ui]) != 'e') && !hex {
+		i, ok = int(ui), true
+		return
+	}
+	ui++
+	var eneg, edigits bool
+	if ui >= uint(len(s)) {
+		return
+	} else if s[ui] == '+' {
+		ui++
+	} else if s[ui] == '-' {
+		ui++
+		eneg = true
+	}
+	// Optional exponent moves decimal point.
 	// if we read a very large, very long number,
 	// just be sure to move the decimal point by
 	// a lot (say, 100000).  it doesn't matter if it's
 	// not the exact number.
-	if i < len(s) && lower(s[i]) == expChar {
-		i++
-		if i >= len(s) {
-			return
+	var e int
+	for ; ui < uint(len(s)); ui++ {
+		c := s[ui]
+		if c == '_' {
+			underscores = true
+			continue
 		}
-		esign := 1
-		if s[i] == '+' {
-			i++
-		} else if s[i] == '-' {
-			i++
-			esign = -1
+		if c < '0' || c > '9' {
+			break
 		}
-		if i >= len(s) || s[i] < '0' || s[i] > '9' {
-			return
+		edigits = true
+		if e < 10000 {
+			e = e*10 + int(c-'0')
 		}
-		e := 0
-		for ; i < len(s) && ('0' <= s[i] && s[i] <= '9' || s[i] == '_'); i++ {
-			if s[i] == '_' {
-				underscores = true
-				continue
-			}
-			if e < 10000 {
-				e = e*10 + int(s[i]) - '0'
-			}
-		}
-		dp += e * esign
-	} else if base == 16 {
-		// Must have exponent.
+	}
+	if !edigits {
 		return
 	}
-
-	if mantissa != 0 {
-		exp = dp - ndMant
+	if eneg {
+		exp -= e
+	} else {
+		exp += e
 	}
-
-	if underscores && !underscoreOK(s[:i]) {
+	if underscores && !underscoreOK(s[:ui]) {
 		return
 	}
-
-	ok = true
+	i, ok = int(ui), true
 	return
 }
 
