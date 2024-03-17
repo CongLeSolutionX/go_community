@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4321cbff_087a5b91",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 3337092
+      },
+      "writtenOn": "2024-03-17T11:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "478e952a_9504ce78",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4204cc4_001bd7f3",
@@ -91,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb3a59dc_2b0b0f4c",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 3337092
+      },
+      "writtenOn": "2024-03-17T11:39:54Z",
+      "side": 1,
+      "message": "Hi, thank you for the review.\nI\u0027m confused as i \u003e\u003d len(s) is used for checking if the length is zero which is present even before this change.\nCan you clarify the first part \"This can never happen\"? Thanks.",
+      "parentUuid": "b4204cc4_001bd7f3",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3e35588_e069ab56",
         "filename": "src/strconv/atof.go",
         "patchSetId": 1
@@ -102,6 +138,24 @@
       "writtenOn": "2024-03-17T09:13:45Z",
       "side": 1,
       "message": "you forgot to assign ui above, does this code actually run?",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af006805_00a34fac",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 3337092
+      },
+      "writtenOn": "2024-03-17T11:39:54Z",
+      "side": 1,
+      "message": "As far as I know, this runs (I tested some in local). If it\u0027s possible, I\u0027d like to see examples of the cases it wouldn\u0027t work in the intended way. Thank you.",
+      "parentUuid": "a3e35588_e069ab56",
       "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
