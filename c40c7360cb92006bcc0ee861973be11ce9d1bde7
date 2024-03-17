@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "91998405_431f5233",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-03-17T13:52:06Z",
+      "side": 1,
+      "message": "Sorry, but that doesn\u0027t really make sense - `Tcpsetpgrp` is an implementation of a POSIX API and it\u0027s not linked through anything (in one case it calls syscall.ioctlPtr, in another it calls syscall.Syscall - both are implementation details).",
+      "parentUuid": "bc8f8022_8515f670",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "c40c7360cb92006bcc0ee861973be11ce9d1bde7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1905ebb4_2a8defcf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -127,6 +151,24 @@
       "writtenOn": "2024-03-16T19:44:13Z",
       "side": 1,
       "message": "We usually put these go:linkname comments immediately before the function declaration.",
+      "revId": "c40c7360cb92006bcc0ee861973be11ce9d1bde7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d99c9ac6_637f8c59",
+        "filename": "src/internal/syscall/unix/tcsetpgrp_bsd.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-03-17T13:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29fca1b6_6edf9369",
       "revId": "c40c7360cb92006bcc0ee861973be11ce9d1bde7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
