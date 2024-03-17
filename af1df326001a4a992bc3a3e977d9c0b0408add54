@@ -16,6 +16,24 @@
       "message": "How is the module path provided to the analyses?",
       "revId": "af1df326001a4a992bc3a3e977d9c0b0408add54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de915192_676f64f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-03-17T17:54:29Z",
+      "side": 1,
+      "message": "It is written as JSON into \"vet.cfg\" (in some work directory) which is then passed on the command line to the analysis.  The analysis may in turn convert that into a fact for the package being analyzed, for import by dependent analyses.",
+      "parentUuid": "e9d0cb85_c98335f6",
+      "revId": "af1df326001a4a992bc3a3e977d9c0b0408add54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
