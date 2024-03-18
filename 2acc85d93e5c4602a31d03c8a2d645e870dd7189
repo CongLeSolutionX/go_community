@@ -33,6 +33,24 @@
       "message": "Some syscalls are nosplit because they are called from nosplit context in the runtime. Are we sure that the places that they are called are all okay to grow the stack or preempt?",
       "revId": "2acc85d93e5c4602a31d03c8a2d645e870dd7189",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a15fd37_addfacd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-18T16:26:49Z",
+      "side": 1,
+      "message": "Yep, I\u0027ve double checked that it is safe to drop nosplit.",
+      "parentUuid": "bff27739_802170ab",
+      "revId": "2acc85d93e5c4602a31d03c8a2d645e870dd7189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
