@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "472f5aa4_6d8931f8",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2024-03-18T19:02:53Z",
+      "side": 1,
+      "message": "`ui` is always zero, I guess you meant `ui :\u003d uint(i)`",
+      "parentUuid": "cb3a59dc_2b0b0f4c",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3e35588_e069ab56",
         "filename": "src/strconv/atof.go",
         "patchSetId": 1
