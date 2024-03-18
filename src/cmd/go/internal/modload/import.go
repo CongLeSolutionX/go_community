@@ -338,16 +338,29 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 
 		if HasModRoot() {
 			vendorDir := VendorDir()
-			dir, vendorOK, _ := dirInModule(path, "", vendorDir, false)
-			if vendorOK {
+			dir, inVendorDir, _ := dirInModule(path, "", vendorDir, false)
+			if inVendorDir {
 				readVendorList(vendorDir)
-				// TODO(#60922): It's possible for a package to manually have been added to the
-				// vendor directory, causing the dirInModule to succeed, but no vendorPkgModule
-				// to exist, causing an empty module path to be reported. Do better checking
-				// here.
-				mods = append(mods, vendorPkgModule[path])
-				dirs = append(dirs, dir)
-				roots = append(roots, vendorDir)
+				// if vendorPkgModule does not contain an entry for path then it's probably because:
+				// 1. vendor/modules.txt does not exist as it was not required prior to 1.14
+				// 2. The user manually added directories to the vendor directory.
+				// We chose to ignore this import post 1.14 and treat modules.txt as the source of truth.
+				pre114 := false
+				if gover.Compare(MainModules.GoVersion(), "1.14") < 0 {
+					pre114 = true
+				}
+				_, ok := vendorPkgModule[path]
+				if pre114 || ok {
+					mods = append(mods, vendorPkgModule[path])
+					dirs = append(dirs, dir)
+					roots = append(roots, vendorDir)
+				} else {
+					envContext := "mod"
+					if inWorkspaceMode() {
+						envContext = "work"
+					}
+					fmt.Fprintf(os.Stdout, "go: ignoring package %s which exists in the vendor directory but is either missing from vendor/modules.txt or is an invalid path. To sync the vendor directory run go %s vendor.\n", path, envContext)
+				}
 			}
 		}
 
@@ -359,10 +372,9 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			return module.Version{}, "", "", nil, mainErr
 		}
 
-		if len(dirs) == 0 {
+		if len(mods) == 0 {
 			return module.Version{}, "", "", nil, &ImportMissingError{Path: path}
 		}
-
 		return mods[0], roots[0], dirs[0], nil, nil
 	}
 
