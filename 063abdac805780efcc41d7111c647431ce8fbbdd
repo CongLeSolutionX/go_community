@@ -16,6 +16,24 @@
       "message": "One of the new tests is failing.",
       "revId": "063abdac805780efcc41d7111c647431ce8fbbdd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8707b7bd_ab0ee4c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-03-18T10:31:12Z",
+      "side": 1,
+      "message": "Since type T, B and F have to implement testing.TB and now type T only implements it, so I guess it happened. But it\u0027s weird that it makes the function that does nothing to avoid this error. How can I pass check TryBot does.",
+      "parentUuid": "008049e5_d2e85a5f",
+      "revId": "063abdac805780efcc41d7111c647431ce8fbbdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
