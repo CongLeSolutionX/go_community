@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38b0e594_bec05c1c",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4877,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2024-03-18T20:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23eccc9f_75110d61",
+      "revId": "a6f540f15d7df72c1682df84dc4ca071cac47765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a9b546_cabc70ec",
@@ -68,6 +86,24 @@
       "writtenOn": "2024-03-18T17:24:37Z",
       "side": 1,
       "message": "We generally put a newline after a semicolon here.  (The exceptions are probably mistakes.)",
+      "revId": "a6f540f15d7df72c1682df84dc4ca071cac47765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aae3919_20ec273b",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2024-03-18T20:21:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a9b546_cabc70ec",
       "revId": "a6f540f15d7df72c1682df84dc4ca071cac47765",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
