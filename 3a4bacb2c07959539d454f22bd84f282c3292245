@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7f57d85_01757fa2",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5020
+      },
+      "writtenOn": "2024-03-18T19:34:58Z",
+      "side": 1,
+      "message": "This can happen precisely when len(s) \u003d\u003d 0. It would seem clearer to just check for that, though, and to use s[0] instead of s[ui] to check for a sign.",
+      "parentUuid": "472f5aa4_6d8931f8",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3e35588_e069ab56",
         "filename": "src/strconv/atof.go",
         "patchSetId": 1
