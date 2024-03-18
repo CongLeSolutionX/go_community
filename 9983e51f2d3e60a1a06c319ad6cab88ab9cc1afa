@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a980114_05dc48be",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3574,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2024-03-18T15:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3e2dc9c_ab90d88b",
+      "range": {
+        "startLine": 3574,
+        "startChar": 62,
+        "endLine": 3574,
+        "endChar": 72
+      },
+      "revId": "9983e51f2d3e60a1a06c319ad6cab88ab9cc1afa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4be6ade_e03c36bc",
@@ -110,6 +134,30 @@
       "writtenOn": "2024-03-18T05:13:22Z",
       "side": 1,
       "message": "the item",
+      "range": {
+        "startLine": 3587,
+        "startChar": 22,
+        "endLine": 3587,
+        "endChar": 24
+      },
+      "revId": "9983e51f2d3e60a1a06c319ad6cab88ab9cc1afa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6eb8095_fe849f00",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3587,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2024-03-18T15:08:48Z",
+      "side": 1,
+      "message": "done. went with \"element\" though to match the earlier sentence.",
+      "parentUuid": "b4be6ade_e03c36bc",
       "range": {
         "startLine": 3587,
         "startChar": 22,
@@ -143,6 +191,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6d6e5fa_8de78648",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3608,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2024-03-18T15:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa5712db_6f1c78c4",
+      "range": {
+        "startLine": 3608,
+        "startChar": 59,
+        "endLine": 3608,
+        "endChar": 65
+      },
+      "revId": "9983e51f2d3e60a1a06c319ad6cab88ab9cc1afa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1a3b7f1_3d311314",
@@ -156,6 +228,30 @@
       "writtenOn": "2024-03-18T05:13:22Z",
       "side": 1,
       "message": "Minor nit: \"removes\"",
+      "range": {
+        "startLine": 3612,
+        "startChar": 14,
+        "endLine": 3612,
+        "endChar": 33
+      },
+      "revId": "9983e51f2d3e60a1a06c319ad6cab88ab9cc1afa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e36ced_acb8a0c3",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3612,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2024-03-18T15:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1a3b7f1_3d311314",
       "range": {
         "startLine": 3612,
         "startChar": 14,
