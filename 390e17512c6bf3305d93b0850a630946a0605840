@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eec193d_99ed8921",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-18T19:37:39Z",
+      "side": 1,
+      "message": "for future reference, there\u0027s no need to put a hold on CLs unless they\u0027re pending some kind of proposal, or there\u0027s something about the CL that requires a decision or further discussion. I don\u0027t see either of those being true in this case.",
+      "revId": "390e17512c6bf3305d93b0850a630946a0605840",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
