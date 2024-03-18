@@ -53,6 +53,10 @@ const (
 	// or later, every module must have a go version line ≥ all its dependencies.
 	// It is also the version after which "too new" a version is considered a fatal error.
 	GoStrictVersion = "1.21"
+
+	// ExplicitImportModulesVersion is the Go version at which packages need to be present
+	// in modules.txt to be imported.
+	ExplicitImportModulesVersion = "1.23"
 )
 
 // FromGoMod returns the go version from the go.mod file.

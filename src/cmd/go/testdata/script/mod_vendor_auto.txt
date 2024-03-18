@@ -123,6 +123,7 @@ rm go.mod
 rm vendor/modules.txt
 
 go mod init example.com/auto
+go mod edit -go=1.22
 go list -f {{.Dir}} -tags tools -e all
 stdout '^'$WORK'[/\\]auto$'
 stdout '^'$WORK'[/\\]auto[/\\]vendor[/\\]example.com[/\\]printversion$'
