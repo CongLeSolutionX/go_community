@@ -338,14 +338,18 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 
 		if HasModRoot() {
 			vendorDir := VendorDir()
-			dir, vendorOK, _ := dirInModule(path, "", vendorDir, false)
-			if vendorOK {
+			dir, inVendorDir, _ := dirInModule(path, "", vendorDir, false)
+			if inVendorDir {
 				readVendorList(vendorDir)
-				// TODO(#60922): It's possible for a package to manually have been added to the
-				// vendor directory, causing the dirInModule to succeed, but no vendorPkgModule
-				// to exist, causing an empty module path to be reported. Do better checking
-				// here.
-				mods = append(mods, vendorPkgModule[path])
+				// if vendorPkgModule does not contain an entry for path then
+				// it's probably because the user manually added directories
+				// to the vendor directory. We chose to ignore this import
+				// as modules.txt is the source of truth.
+				if _, ok := vendorPkgModule[path]; ok {
+					mods = append(mods, vendorPkgModule[path])
+				} else {
+					fmt.Fprintf(os.Stdout, "go: detected manually added module to vendor/: %s, ignoring\n", path)
+				}
 				dirs = append(dirs, dir)
 				roots = append(roots, vendorDir)
 			}
@@ -359,10 +363,9 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			return module.Version{}, "", "", nil, mainErr
 		}
 
-		if len(dirs) == 0 {
+		if len(mods) == 0 || len(roots) == 0 || len(dirs) == 0 {
 			return module.Version{}, "", "", nil, &ImportMissingError{Path: path}
 		}
-
 		return mods[0], roots[0], dirs[0], nil, nil
 	}
 
