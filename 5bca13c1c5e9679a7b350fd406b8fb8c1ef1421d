@@ -41,6 +41,63 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69aaf0be_07bd415b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-18T22:36:13Z",
+      "side": 1,
+      "message": "LGTM overall. Thanks.",
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78295cb2_6af22d75",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-18T22:36:13Z",
+      "side": 1,
+      "message": "Is this just `buildcfg.GOARM64.Version`? Can we just use that?",
+      "range": {
+        "startLine": 405,
+        "startChar": 32,
+        "endLine": 405,
+        "endChar": 125
+      },
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cdc4d3a_1494c334",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-18T22:36:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure we need this variable. Could we just use buildcfg.GOARM64?",
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ed14fcb_baa1b06d",
@@ -72,6 +129,24 @@
       "side": 1,
       "message": "TBH, this is completely orthogonal to my patch.\n\nWhile your suggestion might make sense in general, I don\u0027t think it\u0027s a good idea to fix two distinct problems in a single patch.",
       "parentUuid": "9ed14fcb_baa1b06d",
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe572233_5b37f053",
+        "filename": "src/cmd/internal/testdir/testdir_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-18T22:36:13Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem to be completely orthogonal. This CL modifies the regexp, so it is reasonable to have some comment explaining what it is.",
+      "parentUuid": "9c074b50_02fb3b84",
       "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
