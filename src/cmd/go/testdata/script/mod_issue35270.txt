@@ -25,6 +25,10 @@ func main() {
 -- b/go.mod --
 module test
 
+-- b/vendor/modules.txt --
+# image v0.1.2
+image
+
 -- b/vendor/image/b.go --
 package image
 func Add(a, b int) int {
