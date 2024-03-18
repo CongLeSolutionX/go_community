@@ -6,7 +6,7 @@ env GO111MODULE=on
 
 cd $WORK/auto
 cp go.mod go.mod.orig
-cp $WORK/modules-1.13.txt $WORK/auto/modules.txt
+cp $WORK/modules-1.13.txt $WORK/auto/vendor/modules.txt
 
 # An explicit -mod=vendor should force use of the vendor directory.
 env GOFLAGS=-mod=vendor
@@ -125,8 +125,6 @@ rm vendor/modules.txt
 go mod init example.com/auto
 go list -f {{.Dir}} -tags tools -e all
 stdout '^'$WORK'[/\\]auto$'
-stdout '^'$WORK'[/\\]auto[/\\]vendor[/\\]example.com[/\\]printversion$'
-stdout '^'$WORK'[/\\]auto[/\\]vendor[/\\]example.com[/\\]version$'
 
 # If information about dependencies is added to a 1.14 go.mod file, subsequent
 # list commands should error out if vendor/modules.txt is missing or incomplete.
@@ -142,12 +140,12 @@ stderr '^\tTo ignore the vendor directory, use -mod=readonly or -mod=mod.\n\tTo 
 
 # If -mod=vendor is set, limited consistency checks should apply even when
 # the go version is 1.13 or earlier.
-# An incomplete or missing vendor/modules.txt should resolve the vendored packages...
+# An incomplete or missing vendor/modules.txt should not resolve the vendored packages...
 go mod edit -go=1.13
 go list -mod=vendor -f {{.Dir}} -tags tools -e all
 stdout '^'$WORK'[/\\]auto$'
-stdout '^'$WORK'[/\\]auto[/\\]vendor[/\\]example.com[/\\]printversion$'
-stdout '^'$WORK'[/\\]auto[/\\]vendor[/\\]example.com[/\\]version$'
+! stdout '^'$WORK'[/\\]auto[/\\]vendor[/\\]example.com[/\\]printversion$'
+! stdout '^'$WORK'[/\\]auto[/\\]vendor[/\\]example.com[/\\]version$'
 
 # ...but a version mismatch for an explicit dependency should be noticed.
 cp $WORK/modules-bad-1.13.txt vendor/modules.txt
