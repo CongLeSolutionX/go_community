@@ -16,6 +16,23 @@
       "message": "LGTM. Looks like they are already being inlined away in any case",
       "revId": "2acc85d93e5c4602a31d03c8a2d645e870dd7189",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bff27739_802170ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-18T16:09:23Z",
+      "side": 1,
+      "message": "Some syscalls are nosplit because they are called from nosplit context in the runtime. Are we sure that the places that they are called are all okay to grow the stack or preempt?",
+      "revId": "2acc85d93e5c4602a31d03c8a2d645e870dd7189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
