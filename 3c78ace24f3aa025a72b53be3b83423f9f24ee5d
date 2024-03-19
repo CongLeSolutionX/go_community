@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b1f36cd_5a326264",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2024-03-19T09:56:02Z",
+      "side": 1,
+      "message": "did you intend for the zeroes string to be half as long? I didn\u0027t find any mention of that in the comments or commit message",
+      "revId": "3c78ace24f3aa025a72b53be3b83423f9f24ee5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
