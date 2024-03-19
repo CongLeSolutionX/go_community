@@ -117,6 +117,30 @@
       },
       "revId": "0f118f884423af24f618decf506f16913772ae69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49e5f7e4_38e51ac2",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T15:38:33Z",
+      "side": 1,
+      "message": "I think handling this in the assembler by not generating the prologue at first is better than changing the relocation to skip two instructions at link time. Thanks.",
+      "parentUuid": "176ac33f_6055ec15",
+      "range": {
+        "startLine": 482,
+        "startChar": 2,
+        "endLine": 483,
+        "endChar": 24
+      },
+      "revId": "0f118f884423af24f618decf506f16913772ae69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
