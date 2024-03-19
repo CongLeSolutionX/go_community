@@ -93,6 +93,30 @@
       },
       "revId": "0f118f884423af24f618decf506f16913772ae69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176ac33f_6055ec15",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-03-19T15:21:19Z",
+      "side": 1,
+      "message": "I had hoped to remove that particular workaround, but that works too.",
+      "parentUuid": "fb14db6c_5065b8f8",
+      "range": {
+        "startLine": 482,
+        "startChar": 2,
+        "endLine": 483,
+        "endChar": 24
+      },
+      "revId": "0f118f884423af24f618decf506f16913772ae69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
