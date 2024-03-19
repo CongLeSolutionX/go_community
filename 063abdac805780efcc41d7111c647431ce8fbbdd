@@ -52,6 +52,24 @@
       "parentUuid": "8707b7bd_ab0ee4c7",
       "revId": "063abdac805780efcc41d7111c647431ce8fbbdd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "702367db_5d48d1c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-03-19T02:26:15Z",
+      "side": 1,
+      "message": "@iant@golang.org\n\nI\u0027m sorry, I hadn\u0027t been able to describe clearly about the problem. \n`go test testing` works properly for me, but I comfirmed that build is failed. The report is following.\n```\n    main_test.go:181: API database problems found\n    main_test.go:184: API differences found\n+pkg testing, method (*B) SetGOMAXPROCS(int)\n+pkg testing, method (*F) SetGOMAXPROCS(int)\n```\n\nFrom the above, I commented like that.\nAs you can see, One of the new test is failed. So I will survey about the reason why it\u0027s failed.",
+      "parentUuid": "42ba796b_aa1af11f",
+      "revId": "063abdac805780efcc41d7111c647431ce8fbbdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
