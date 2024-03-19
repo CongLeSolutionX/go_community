@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fbe8ed0_ca9edc18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "See https://go.dev/wiki/CommitMessage for the CL description. It probably would look like\n\n```\ncmd/compile: add wasm32 target\n\n... details ...\n\nFor #65333.\n```\n(mention issue number in the CL description.)",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8902bfd3_3557f420",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Thanks for the CL. Looks good overall. A main question is how 64-bit integers are handled. I think that needs some explanation, either in the CL description, or in a comment at the top of a file, or better, both. Thanks.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f3d8de_46ef41f6",
+        "filename": "src/cmd/compile/internal/ir/node_gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "The changes in this file doesn\u0027t seem to be related to wasm32. Undo. Thanks.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b23f1702_5e672e60",
+        "filename": "src/cmd/compile/internal/ir/op_string.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Same. Undo changes in this file.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "236c40d8_8d5706a6",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Remove trailing space.",
+      "range": {
+        "startLine": 310,
+        "startChar": 25,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7c9bed4_7a7afbbe",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Remove trailing space. Also lines below.",
+      "range": {
+        "startLine": 592,
+        "startChar": 23,
+        "endLine": 592,
+        "endChar": 24
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d11fa5f_7b536183",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Why can\u0027t we just use dec64?",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef5529d_15e94570",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "What are they? They also don\u0027t seem to appear in register masks.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d8c9372_a6ab2fbd",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "These need comments.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 127
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21293454_97b6acd6",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "So the current plan is to use only 32-bit locals? A comment may be good.\n\nHow do we plan to handle Wasm/WASI APIs that uses 64-bit integers, if any?",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea71261e_0e87f89c",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "This is weird. If reg size is 4, we should decompose, otherwise reg size should not be 4.",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 54
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "625b94cc_21e9e663",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Why do we need this whereas the existing wasm port doesn\u0027t?",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e18f486e_b041b276",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8190,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Undo unrelated change. Thanks.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee49fb13_2bda3120",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "Also here, related to the reg size question.",
+      "range": {
+        "startLine": 660,
+        "startChar": 25,
+        "endLine": 660,
+        "endChar": 66
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d12faaf4_524948b6",
+        "filename": "src/cmd/internal/obj/wasm32/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-19T17:35:23Z",
+      "side": 1,
+      "message": "As commented earlier, I think we should just use the cmd/internal/obj/wasm package to handle both wasm32 and the existing \"wasm\", just like the x86 package handles 386 and amd64, and the mips package handles mips32 and mips64. wasm32 and wasm are similar enough that one package is preferred. Thanks.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
