@@ -16,6 +16,24 @@
       "message": "This problem is might happened due to the runtime is WASI, but I haven\u0027t been able to finding the evidence, yet. But given all.bash succeeded for my laptop, it might be right and it should pass by checking whether the runtime is WASI or not.",
       "revId": "cf16932b6dc2360b07a81065aca442078cf69a08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05054497_8b4c8a83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-19T16:58:12Z",
+      "side": 1,
+      "message": "Yes, it\u0027s probably fine to skip the tests is GOOS \u003d\u003d \"wasm\".",
+      "parentUuid": "c18764d5_3f95f357",
+      "revId": "cf16932b6dc2360b07a81065aca442078cf69a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
