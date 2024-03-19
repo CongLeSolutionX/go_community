@@ -35,6 +35,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2657beeb_fc7d125b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Going to go make these changes now Cherry. Please let me know if the explanation of why dec64 isn\u0027t used and how 64bit ints are handled isn\u0027t clear! Happy to get into it more, it\u0027s interesting given how strange webassembly is as a platform.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ac84ae6_12b3c47e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "No problem, I\u0027ll add that. For anyone reading before I\u0027ve added, it works just like how x86 handles 64bit ints, with the caveat that rather than use carry flags to implement it (like x86 does), 64bit wasm locals are used just to perform the operation, then the results are destructured.\n\nIn the future, we could also add support for treating 64ints differently than 32bit ints (similar to how floats are treated differently than ints) and use a set of 64bit registers to perform the operations with.",
+      "parentUuid": "8902bfd3_3557f420",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8f3d8de_46ef41f6",
@@ -54,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75233f78_deaa22e6",
+        "filename": "src/cmd/compile/internal/ir/node_gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c8f3d8de_46ef41f6",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b23f1702_5e672e60",
         "filename": "src/cmd/compile/internal/ir/op_string.go",
         "patchSetId": 1
@@ -65,6 +118,24 @@
       "writtenOn": "2024-03-19T17:35:23Z",
       "side": 1,
       "message": "Same. Undo changes in this file.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59705c63_89ee3092",
+        "filename": "src/cmd/compile/internal/ir/op_string.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b23f1702_5e672e60",
       "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -94,6 +165,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cfc71ef_21df5c22",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "236c40d8_8d5706a6",
+      "range": {
+        "startLine": 310,
+        "startChar": 25,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7c9bed4_7a7afbbe",
         "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
         "patchSetId": 1
@@ -105,6 +200,30 @@
       "writtenOn": "2024-03-19T17:35:23Z",
       "side": 1,
       "message": "Remove trailing space. Also lines below.",
+      "range": {
+        "startLine": 592,
+        "startChar": 23,
+        "endLine": 592,
+        "endChar": 24
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09d9f3b9_9f18d6d9",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c7c9bed4_7a7afbbe",
       "range": {
         "startLine": 592,
         "startChar": 23,
@@ -157,6 +276,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b36d5a1_b8fd719d",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "These (and only X0) are used to perform the operation the Decomp operations. The code generated by, for example, Add64Decomp, references X0 to access a 64bit wasm local. This is necessary because wasm does not have stack dup! So I need to be able to access a wasm local, and the easiest way to do that was to set them up as registers to be access directly.\n\nThey\u0027re not in the mask because they can\u0027t be used between operations, only as a temporary within the Decomp operations.\n\nWe can remove all off the X1-X9 if you\u0027d prefer.\n\nPart of the reason I added them as I had begun to experiment with having 64bit types live in a different set of registers that than the general purpose ones, but ran into the complexity of the type conversion code and decided not do that at this stage.",
+      "parentUuid": "5ef5529d_15e94570",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d8c9372_a6ab2fbd",
         "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
         "patchSetId": 1
@@ -168,6 +311,30 @@
       "writtenOn": "2024-03-19T17:35:23Z",
       "side": 1,
       "message": "These need comments.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 127
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2050bda0_4ab11146",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0d8c9372_a6ab2fbd",
       "range": {
         "startLine": 159,
         "startChar": 0,
@@ -197,6 +364,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4174cabc_443869bb",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Yup! Handling them like x86 32bit. As I mention above, we could also expand this to handle 64bit operations in a different set of registers if you\u0027d prefer.",
+      "parentUuid": "21293454_97b6acd6",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea71261e_0e87f89c",
         "filename": "src/cmd/compile/internal/ssa/decompose.go",
         "patchSetId": 1
@@ -208,6 +393,30 @@
       "writtenOn": "2024-03-19T17:35:23Z",
       "side": 1,
       "message": "This is weird. If reg size is 4, we should decompose, otherwise reg size should not be 4.",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 54
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cecab13d_9c10c3a3",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "The reason we don\u0027t do this is because dec64 depends on a very specific usage of using carry flags to implement decomp, and we want to implement decomp our own specific way.",
+      "parentUuid": "ea71261e_0e87f89c",
       "range": {
         "startLine": 30,
         "startChar": 26,
@@ -237,6 +446,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62f671d8_c3ce64ca",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "The reason here is that while working on decomp operations, I needed to force them to not participate in the OnWasmStack optimization because they\u0027d end up failing the lowering phases, so I added this to just opt them out of the optimization entirely.\n\nMaybe there is a better way to handle this.",
+      "parentUuid": "625b94cc_21e9e663",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e18f486e_b041b276",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 1
@@ -248,6 +475,24 @@
       "writtenOn": "2024-03-19T17:35:23Z",
       "side": 1,
       "message": "Undo unrelated change. Thanks.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e4927e_117ba594",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8190,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e18f486e_b041b276",
       "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -277,6 +522,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8a998030_82419808",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Another great call out!\n\nThe reason here is that this code exists for 32bit platforms as they don\u0027t have a good way to implement 64bit div and thusly call out to this helper function to perform the operation.\n\nBut wasm32 does have a good, native way to perform 64bit div, so we disable this so we can handle them later on with Div64Decomp.\n\nWebassembly is a strange platform as it\u0027s a 64bit platform with 32bit pointers, so we run into these unique situations.",
+      "parentUuid": "ee49fb13_2bda3120",
+      "range": {
+        "startLine": 660,
+        "startChar": 25,
+        "endLine": 660,
+        "endChar": 66
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d12faaf4_524948b6",
         "filename": "src/cmd/internal/obj/wasm32/a.out.go",
         "patchSetId": 1
@@ -288,6 +557,24 @@
       "writtenOn": "2024-03-19T17:35:23Z",
       "side": 1,
       "message": "As commented earlier, I think we should just use the cmd/internal/obj/wasm package to handle both wasm32 and the existing \"wasm\", just like the x86 package handles 386 and amd64, and the mips package handles mips32 and mips64. wasm32 and wasm are similar enough that one package is preferred. Thanks.",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b91d398_a3a2c44f",
+        "filename": "src/cmd/internal/obj/wasm32/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-19T21:41:27Z",
+      "side": 1,
+      "message": "Ah yup, no problem!",
+      "parentUuid": "d12faaf4_524948b6",
       "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
