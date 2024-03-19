@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9d0d59e_3553380c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-19T21:38:26Z",
+      "side": 1,
+      "message": "@cherryyz@google.com Thanks for the review! I did as you suggested for the only remaining unresolved comment.",
+      "revId": "45ee6551c3c768cf5a41728c56bbf66fdcdcb379",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
