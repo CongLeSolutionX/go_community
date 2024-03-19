@@ -339,7 +339,10 @@ start:
 	// 12.6: Double-Precision Floating-Point Classify Instruction
 	FCLASSD	F0, X5					// d31200e2
 
+	//
 	// RISC-V Bit-Manipulation ISA-extensions (1.0)
+	//
+
 	// 1.1: Address Generation Instructions (Zba)
 	ADDUW		X10, X11, X12			// 3b86a508
 	ADDUW		X10, X11			// bb85a508
@@ -386,20 +389,22 @@ start:
 	ZEXTH	X19, X20				// 3bca0908
 
 	// 1.3: Bitwise Rotation (Zbb)
-	ROL	X8, X9, X10				// 33958460
-	ROL	X8, X9					// b3948460
-	ROLW	X9, X10, X11				// bb159560
-	ROLW	X9, X10					// 3b159560
-	ROR	X10, X11, X12				// 33d6a560
-	ROR	X10, X11				// b3d5a560
-	ROR	$63, X11				// 93d5f563
-	RORI	$63, X11, X12				// 13d6f563
-	RORI	$1, X12, X13				// 93561660
-	RORIW	$31, X13, X14				// 1bd7f661
-	RORIW	$1, X14, X15				// 9b571760
-	RORW	X15, X16, X17				// bb58f860
-	RORW	X15, X16				// 3b58f860
-	RORW	$31, X13				// 9bd6f661
+	ROL	X5, X6, X7				// b30f5040b35ff301b3135300b3e37f00
+	ROL	X5, X6					// b30f5040b35ff3013313530033e36f00
+	ROLW	X5, X6, X7				// b30f5040bb5ff301bb135300b3e37f00
+	ROLW	X5, X6					// b30f5040bb5ff3013b13530033e36f00
+	ROR	X5, X6, X7				// b30f5040b31ff301b3535300b3e37f00
+	ROR	X5, X6					// b30f5040b31ff3013353530033e36f00
+	RORW	X5, X6, X7				// b30f5040bb1ff301bb535300b3e37f00
+	RORW	X5, X6					// b30f5040bb1ff3013b53530033e36f00
+	RORI	$5, X6, X7				// 935f53009313b303b3e37f00
+	RORI	$5, X6					// 935f53001313b30333e36f00
+	RORIW	$5, X6, X7				// 9b5f53009b13b301b3e37f00
+	RORIW	$5, X6					// 9b5f53001b13b30133e36f00
+	ROR	$5, X6, X7				// 935f53009313b303b3e37f00
+	ROR	$5, X6					// 935f53001313b30333e36f00
+	RORW	$5, X6, X7				// 9b5f53009b13b301b3e37f00
+	RORW	$5, X6					// 9b5f53001b13b30133e36f00
 	ORCB	X5, X6					// 13d37228
 	REV8	X7, X8					// 13d4836b
 
@@ -494,24 +499,6 @@ start:
 	NEG	X5, X6					// 33035040
 	NEGW	X5					// bb025040
 	NEGW	X5, X6					// 3b035040
-
-	// Bitwise rotation pseudo-instructions
-	ROL	X5, X6, X7				// b30f5040b35ff301b3135300b3e37f00
-	ROL	X5, X6					// b30f5040b35ff3013313530033e36f00
-	ROLW	X5, X6, X7				// b30f5040bb5ff301bb135300b3e37f00
-	ROLW	X5, X6					// b30f5040bb5ff3013b13530033e36f00
-	ROR	X5, X6, X7				// b30f5040b31ff301b3535300b3e37f00
-	ROR	X5, X6					// b30f5040b31ff3013353530033e36f00
-	RORW	X5, X6, X7				// b30f5040bb1ff301bb535300b3e37f00
-	RORW	X5, X6					// b30f5040bb1ff3013b53530033e36f00
-	RORI	$5, X6, X7				// 935f53009313b303b3e37f00
-	RORI	$5, X6					// 935f53001313b30333e36f00
-	RORIW	$5, X6, X7				// 9b5f53009b13b301b3e37f00
-	RORIW	$5, X6					// 9b5f53001b13b30133e36f00
-	ROR	$5, X6, X7				// 935f53009313b303b3e37f00
-	ROR	$5, X6					// 935f53001313b30333e36f00
-	RORW	$5, X6, X7				// 9b5f53009b13b301b3e37f00
-	RORW	$5, X6					// 9b5f53001b13b30133e36f00
 
 	// This jumps to the second instruction in the function (the
 	// first instruction is an invisible stack pointer adjustment).
