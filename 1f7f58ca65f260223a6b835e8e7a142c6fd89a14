@@ -53,6 +53,46 @@
       "message": "I don\u0027t think we need this doc change at all, and definitely not here.\n\nThis is just the expected behavior of crytpo.PublickKey.Equal, not of any particular implementation of said (not actually declared, but expected) method. If anything, docs should go with crypto.PublicKey.Equal so we don\u0027t have to put them at all implementations.\n\nBut even then, looking at #49136 I think the confusion is much deeper than just Equal. If you mistakenly do\n\nvar pk crypto.PublicKey \u003d rsa.PublicKey{}\n\nthen you can\u0027t do anything with that pk, as it has no methods (Equal, Size) that it should have.\n\nIt certainly would have helped to have crypto.PublicKey have at least one method, which would catch this error immediately. But for backwards compatibility reasons we can\u0027t enforce that now.",
       "revId": "1f7f58ca65f260223a6b835e8e7a142c6fd89a14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b36cfb5_ebfad522",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-19T19:27:20Z",
+      "side": 1,
+      "message": "@qiulaidongfeng please see Keith\u0027s feedback about not needing this change at all.\nMeanwhile I\u0027ve also posted some suggestions. Thank you!",
+      "revId": "1f7f58ca65f260223a6b835e8e7a142c6fd89a14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0297053b_d255047c",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-19T19:27:20Z",
+      "side": 1,
+      "message": "This method applies only to [*PublicKey], it returns false in other cases.",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "1f7f58ca65f260223a6b835e8e7a142c6fd89a14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
