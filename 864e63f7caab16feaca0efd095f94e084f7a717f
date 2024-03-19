@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "869f98dd_9f98dcec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-19T07:12:16Z",
+      "side": 1,
+      "message": "All the comments bar one resolved. For the unresolved comment I need some guidance. Please check again.",
+      "revId": "864e63f7caab16feaca0efd095f94e084f7a717f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

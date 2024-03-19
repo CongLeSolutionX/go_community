@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "345f6dae_d9b08378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-19T07:12:16Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "205597da_a4759f0a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2f8c3622_f4f4de8b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -81,6 +105,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24532dff_78155161",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-19T07:12:16Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "78295cb2_6af22d75",
+      "range": {
+        "startLine": 405,
+        "startChar": 32,
+        "endLine": 405,
+        "endChar": 125
+      },
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cdc4d3a_1494c334",
@@ -94,6 +142,24 @@
       "writtenOn": "2024-03-18T22:36:13Z",
       "side": 1,
       "message": "I\u0027m not sure we need this variable. Could we just use buildcfg.GOARM64?",
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c13ec57_c6879f9c",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-19T07:12:16Z",
+      "side": 1,
+      "message": "TBH, I don\u0027t understand why a separate set of \"buildcfg\" and \"cfg\" variables is required. Apparently, they are necessary for different scenarios of go tools invocation. Note that all the vars here are set to an environment variable value *or* something else if a variable is not set (\"envOr\" function) -- so using buildcfg.GOARM64.Version instead would break this logic.\n\nIf you sure replacing cfg.GOARM64 with buildcfg.GOARM64.Version won\u0027t break anything -- sure, I can do so.\n\nAnother option is to remove it completely, as I don\u0027t need it for this patch and added just for the sake of completeness.\n\n@cherryyz@google.com What would you suggest?",
+      "parentUuid": "1cdc4d3a_1494c334",
       "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -147,6 +213,24 @@
       "side": 1,
       "message": "It doesn\u0027t seem to be completely orthogonal. This CL modifies the regexp, so it is reasonable to have some comment explaining what it is.",
       "parentUuid": "9c074b50_02fb3b84",
+      "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb64b30f_e82727da",
+        "filename": "src/cmd/internal/testdir/testdir_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-19T07:12:16Z",
+      "side": 1,
+      "message": "OK -- I added a [quite cumbersome, but can\u0027t think of anything better] comment. Please check.",
+      "parentUuid": "fe572233_5b37f053",
       "revId": "5bca13c1c5e9679a7b350fd406b8fb8c1ef1421d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
