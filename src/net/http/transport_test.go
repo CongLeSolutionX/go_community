@@ -7031,3 +7031,53 @@ func TestTransportReqCancelerCleanupOnRequestBodyWriteError(t *testing.T) {
 		return true
 	})
 }
+
+func TestValidateClientRequestTrailers_h1(t *testing.T) {
+	testValidateClientRequestTrailers(t, http1Mode)
+}
+
+func TestValidateClientRequestTrailers_h2(t *testing.T) {
+	testValidateClientRequestTrailers(t, http2Mode)
+}
+
+func testValidateClientRequestTrailers(t *testing.T, mode testMode) {
+	cst := httptest.NewUnstartedServer(HandlerFunc(func(rw ResponseWriter, req *Request) {
+		rw.Write([]byte("Hello"))
+	}))
+	if mode == http2Mode {
+		cst.EnableHTTP2 = true
+		cst.StartTLS()
+	} else {
+		cst.Start()
+	}
+	defer cst.Close()
+
+	cases := []struct {
+		trailer Header
+		wantErr string
+	}{
+		{Header{"Trx": {"x\r\nX-Another-One"}}, `invalid trailer field value for "Trx"`},
+		{Header{"\r\nTrx": {"X-Another-One"}}, `invalid trailer field name "\r\nTrx"`},
+	}
+
+	for i, tt := range cases {
+		testName := fmt.Sprintf("%s%d", mode, i)
+		t.Run(testName, func(t *testing.T) {
+			req, err := NewRequest("GET", cst.URL, nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+			req.Trailer = tt.trailer
+			res, err := cst.Client().Do(req)
+			if err == nil {
+				t.Fatal("Expected an error")
+			}
+			if g, w := err.Error(), tt.wantErr; !strings.Contains(g, w) {
+				t.Fatalf("Mismatched error\n\t%q\ndoes not contain\n\t%q", g, w)
+			}
+			if res != nil {
+				t.Fatal("Unexpected non-nil response")
+			}
+		})
+	}
+}
