@@ -103,6 +103,7 @@ var (
 	FlagTextAddr      = flag.Int64("T", -1, "set the start address of text symbols")
 	flagEntrySymbol   = flag.String("E", "", "set `entry` symbol name")
 	flagPruneWeakMap  = flag.Bool("pruneweakmap", true, "prune weak mapinit refs")
+	flagPruneDeadMeth = flag.Bool("prunedeadmeth", false, "prune dead methods")
 	flagRandLayout    = flag.Int64("randlayout", 0, "randomize function layout")
 	cpuprofile        = flag.String("cpuprofile", "", "write cpu profile to `file`")
 	memprofile        = flag.String("memprofile", "", "write memory profile to `file`")

@@ -306,7 +306,8 @@ func (n *ConvExpr) SetOp(op Op) {
 	switch op {
 	default:
 		panic(n.no("SetOp " + op.String()))
-	case OCONV, OCONVIFACE, OCONVNOP, OBYTES2STR, OBYTES2STRTMP, ORUNES2STR, OSTR2BYTES, OSTR2BYTESTMP, OSTR2RUNES, ORUNESTR, OSLICE2ARR, OSLICE2ARRPTR:
+
+	case OCONV, OCONVIFACE, OCONVNOP, OBYTES2STR, OBYTES2STRTMP, ORUNES2STR, OSTR2BYTES, OSTR2BYTESTMP, OSTR2RUNES, ORUNESTR, OSLICE2ARR, OSLICE2ARRPTR, OFUNCIFACE:
 		n.op = op
 	}
 }
@@ -1254,3 +1255,7 @@ func MethodExprFunc(n Node) *types.Field {
 	base.Fatalf("unexpected node: %v (%v)", n, n.Op())
 	panic("unreachable")
 }
+
+// IfaceFuncSuffix suffix used for the method sym.
+// TODO(amedee) move to a more appropriate location.
+const IfaceFuncSuffix string = "-fi"

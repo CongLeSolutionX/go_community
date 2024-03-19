@@ -42,6 +42,12 @@ func (d *deadcodePass) init() {
 		d.ldr.Reachparent = make([]loader.Sym, d.ldr.NSym())
 	}
 	d.dynlink = d.ctxt.DynlinkingGo()
+	if !*flagPruneDeadMeth {
+		// Assume all exported methods can be called dynamically
+		// if pruning is disabled.
+		d.reflectSeen = true
+		d.dynlink = true
+	}
 
 	if d.ctxt.BuildMode == BuildModeShared {
 		// Mark all symbols defined in this library as reachable when
@@ -146,10 +152,14 @@ func (d *deadcodePass) flood() {
 			r := relocs.At(i)
 			if r.Weak() {
 				convertWeakToStrong := false
+				if !*flagPruneDeadMeth {
+					convertWeakToStrong = true
+				}
 				// When build with "-linkshared", we can't tell if the
 				// interface method in itab will be used or not.
 				// Ignore the weak attribute.
-				if d.ctxt.linkShared && d.ldr.IsItab(symIdx) {
+				// Also ignore if method pruning is disabled.
+				if (d.ctxt.linkShared || !*flagPruneDeadMeth) && d.ldr.IsItab(symIdx) {
 					convertWeakToStrong = true
 				}
 				// If the program uses plugins, we can no longer treat

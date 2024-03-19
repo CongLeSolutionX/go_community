@@ -193,6 +193,24 @@ func (x *operand) convertibleTo(check *Checker, T Type, cause *string) bool {
 		return true
 	}
 
+	// "V is a function and T is a single method interface.
+	// The function signature and the single method in the interface must have the same signature"
+	if s, _ := Vu.(*Signature); s != nil && IsInterface(Tu) {
+		i := Tu.(*Interface)
+
+		// interface should only contain a single method
+		if i.NumMethods() != 1 {
+			if cause != nil {
+				*cause = check.sprintf("%s is not a single method interface", T)
+			}
+			return false
+		}
+		if Identical(s, i.Method(0).typ.(*Signature)) {
+			return true
+		}
+		return false
+	}
+
 	// "V is a slice, T is an array or pointer-to-array type,
 	// and the slice and array types have identical element types."
 	if s, _ := Vu.(*Slice); s != nil {
@@ -311,4 +329,10 @@ func isBytesOrRunes(typ Type) bool {
 		return t != nil && (t.kind == Byte || t.kind == Rune)
 	}
 	return false
+}
+
+// isSignature reports whether typ is a signature type.
+func isSignature(typ Type) bool {
+	_, ok := under(typ).(*Signature)
+	return ok
 }

@@ -100,7 +100,7 @@ func CompareRType(pos src.XPos, n *ir.BinaryExpr) ir.Node {
 //   - *runtime.itab, for T2I conversions
 //   - *runtime._type for the source type, for T2E conversions
 func ConvIfaceTypeWord(pos src.XPos, n *ir.ConvExpr) ir.Node {
-	assertOp(n, ir.OCONVIFACE)
+	assertOp2(n, ir.OCONVIFACE, ir.OFUNCIFACE)
 	src, dst := n.X.Type(), n.Type()
 	base.AssertfAt(dst.IsInterface(), n.Pos(), "want interface type, have %L", n)
 	if hasRType(n, n.TypeWord, "TypeWord") {
