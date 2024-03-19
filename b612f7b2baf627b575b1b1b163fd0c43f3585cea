@@ -16,6 +16,24 @@
       "message": "@sean@liao.dev What was the reason to close this change? Is it not making the right changes, or is there another CL that supersedes it? Thanks.",
       "revId": "b612f7b2baf627b575b1b1b163fd0c43f3585cea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d8e4985_f57d4538",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2024-03-19T22:59:03Z",
+      "side": 1,
+      "message": "I believe the key parts were implemented in \nhttps://go-review.googlesource.com/c/go/+/553155",
+      "parentUuid": "cf956e74_c02efb72",
+      "revId": "b612f7b2baf627b575b1b1b163fd0c43f3585cea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
