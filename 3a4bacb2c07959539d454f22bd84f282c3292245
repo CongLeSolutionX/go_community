@@ -163,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73d479c6_1eb80874",
+        "filename": "src/strconv/atof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-19T19:10:09Z",
+      "side": 1,
+      "message": "Indeed as Dominik and Alexander mentioned; we can simply make that check explicit by:\n\n```go\nif len(s) \u003d\u003d 0 {\n   return\n}\n\nif s[0] \u003d\u003d \u0027+\u0027 {\n    ui++\n} else if s[0] \u003d\u003d \u0027-\u0027 {\n    ui++\n    neg \u003d true\n}\n```\n\nbecause that check has no bearing on bounds checks for negative indices, I believe it was just a mistake in the prior code.",
+      "parentUuid": "c7f57d85_01757fa2",
+      "revId": "3a4bacb2c07959539d454f22bd84f282c3292245",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3e35588_e069ab56",
         "filename": "src/strconv/atof.go",
         "patchSetId": 1
