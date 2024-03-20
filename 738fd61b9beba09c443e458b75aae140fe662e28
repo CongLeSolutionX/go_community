@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "891aaf0c_092f63af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-03-20T11:54:09Z",
+      "side": 1,
+      "message": "Hold because 1.22 branch is frozen for pending security fix.",
+      "revId": "738fd61b9beba09c443e458b75aae140fe662e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
