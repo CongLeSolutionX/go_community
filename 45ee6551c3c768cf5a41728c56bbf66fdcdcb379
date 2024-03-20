@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6586f30b_241226e1",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-20T19:59:28Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "b7f8829c_548df27e",
+      "revId": "45ee6551c3c768cf5a41728c56bbf66fdcdcb379",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a3aea9b_6fd74aeb",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-03-20T18:58:27Z",
       "side": 1,
       "message": "We should derive this from cfg.GOARM64 instead. (See the other comment for why buildcfg isn\u0027t enough.)",
+      "range": {
+        "startLine": 382,
+        "startChar": 5,
+        "endLine": 382,
+        "endChar": 20
+      },
+      "revId": "45ee6551c3c768cf5a41728c56bbf66fdcdcb379",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0337e11_9feafe00",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-20T19:59:28Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "3a3aea9b_6fd74aeb",
       "range": {
         "startLine": 382,
         "startChar": 5,

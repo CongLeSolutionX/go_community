@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a220a760_743b1b38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49133
+      },
+      "writtenOn": "2024-03-20T19:59:28Z",
+      "side": 1,
+      "message": "@cherryyz@google.com, I get rid of GOARM64_LSE. Please check.",
+      "revId": "3769279aad09e2bba498bf31d710be4f3b59367d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
