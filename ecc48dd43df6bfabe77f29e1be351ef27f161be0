@@ -16,6 +16,24 @@
       "message": "So this is just pushing the race and runtime cpu tests later, past the api tests?\n\nSeems ok, although I worry about the fragility of the ordering. There\u0027s no indication anywhere why the ordering was chosen as it is.\nThen again, the same could be said of the previous ordering 😞",
       "revId": "ecc48dd43df6bfabe77f29e1be351ef27f161be0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3343b14_1a7009d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-20T12:16:04Z",
+      "side": 1,
+      "message": "On my laptop, using Patchset 7, running all.bat sped up to take 4 minutes and 57 seconds.\n\n#65164 is caused by reason\nThe first reason, GOMAXPROCS\u003d2 runtime -cpu\u003d1,2,4 -quick execution takes a very long, have repair by https://go-review.googlesource.com/c/go/+/560597.\nThe second reason, GOMAXPROCS\u003d2 runtime This test prevents other tests from running, resulting in low CPU usage and increasing the total time. This CL fixes the situation.\n\nSo what this CL is doing now is:\n1. change maxbg to increase test parallelism. (That\u0027s all CL did at first.)\n2. adjust test sequence. \n\nbecause your say \n\u003e I suspect that making maxbg larger just happens to get those tests started earlier. But it also introduces a lot of other tests running simultaneously, which will slow them down due to sharing the CPU. If we get them started right away and give them full access to the CPU, it might be even better. Additional tasks will only be scheduled when those first heavy ones start completing.\n\nin https://go-review.googlesource.com/c/go/+/563916/5..7/src/cmd/dist/test.go#b1326 \n\nI tried adjust test sequence. as a result, cmd/internal/testdir and cmd/api speed up from 100+ seconds to 90+ seconds.\n\nI did not think of how to change the submission title to better express what this CL does as mentioned above, so I did not change this somewhat outdated submission title. This submission title should be modified to better describe what it does, and I may need some suggestions on how to modify the submission title of this CL.",
+      "parentUuid": "c5d14907_aa888c85",
+      "revId": "ecc48dd43df6bfabe77f29e1be351ef27f161be0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
