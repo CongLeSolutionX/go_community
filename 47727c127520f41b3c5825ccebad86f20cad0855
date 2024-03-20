@@ -16,6 +16,23 @@
       "message": "Thanks Cuong.",
       "revId": "47727c127520f41b3c5825ccebad86f20cad0855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ce756cd_b100f338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-03-20T12:15:20Z",
+      "side": 1,
+      "message": "1.22 is frozen for pending security fix.",
+      "revId": "47727c127520f41b3c5825ccebad86f20cad0855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
