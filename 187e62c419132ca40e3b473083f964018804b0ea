@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "541c88b0_78802ad1",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-20T18:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e0469cb_672ae3a3",
+      "range": {
+        "startLine": 341,
+        "startChar": 8,
+        "endLine": 341,
+        "endChar": 16
+      },
+      "revId": "187e62c419132ca40e3b473083f964018804b0ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37e0f2d3_4530c9ff",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-18T21:06:41Z",
       "side": 1,
       "message": "let\u0027s mention that if vendorPkgModule[path] is not true it\u0027s probably because the user manually added directories to the vendor directory",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 65
+      },
+      "revId": "187e62c419132ca40e3b473083f964018804b0ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2435d401_aec926c7",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-20T18:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37e0f2d3_4530c9ff",
       "range": {
         "startLine": 344,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7ac416f_383a07a3",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-20T18:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bdea4f8_aabef217",
+      "range": {
+        "startLine": 347,
+        "startChar": 4,
+        "endLine": 347,
+        "endChar": 5
+      },
+      "revId": "187e62c419132ca40e3b473083f964018804b0ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c5618bc_e3bf3506",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-03-18T21:06:41Z",
       "side": 1,
       "message": "don\u0027t we always add entries to mods and roots exactly when we add them to dirs? Are there any cases where they can get out of sync?",
+      "range": {
+        "startLine": 361,
+        "startChar": 5,
+        "endLine": 361,
+        "endChar": 41
+      },
+      "revId": "187e62c419132ca40e3b473083f964018804b0ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3687e8b_1a6c5cf7",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-20T18:21:23Z",
+      "side": 1,
+      "message": "with this new code, it\u0027s possible that len(mods)\u003d0 and len(roots) \u003e 0 and len(dirs) \u003e 0.\nI only moved mods \u003d append(mods, vendorPkgModule[path]) into the if statement.\n\nI also added this line because we\u0027re referencing mods[0] roots[0] and dirs[0] without checking if they contain an element which seemed unsafe.",
+      "parentUuid": "6c5618bc_e3bf3506",
       "range": {
         "startLine": 361,
         "startChar": 5,
