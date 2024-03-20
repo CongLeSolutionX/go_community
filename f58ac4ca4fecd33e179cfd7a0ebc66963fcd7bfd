@@ -70,6 +70,24 @@
       "message": "From the bitmanip spec, it could be better to use add.uw to rewrite the AMOVWU.",
       "revId": "f58ac4ca4fecd33e179cfd7a0ebc66963fcd7bfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f068c1e_029f54ef",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2183,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-03-20T10:08:19Z",
+      "side": 1,
+      "message": "Thanks, done (the ZEXT.W pseudo-instruction is somewhat hidden...)",
+      "parentUuid": "d0ed9215_e3f629ca",
+      "revId": "f58ac4ca4fecd33e179cfd7a0ebc66963fcd7bfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
