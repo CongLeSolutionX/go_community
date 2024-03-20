@@ -16,6 +16,23 @@
       "message": "@cherryyz@google.com, I get rid of GOARM64_LSE. Please check.",
       "revId": "3769279aad09e2bba498bf31d710be4f3b59367d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6473ad9_e6981cb5",
+        "filename": "src/internal/buildcfg/cfg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-20T20:12:47Z",
+      "side": 1,
+      "message": "This function sets the Error global variable, which may not be desired (at least harder to reason about). As an exported function maybe we return an error instead. `goarm64()` below could set the Error global (something like\n```\nfunc goarm64() (g Goarm64Features) {\n\tg, Error \u003d ParseGoarm64(envOr(\"GOARM64\", defaultGOARM64))\n\treturn\n}\n```\n)",
+      "revId": "3769279aad09e2bba498bf31d710be4f3b59367d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
