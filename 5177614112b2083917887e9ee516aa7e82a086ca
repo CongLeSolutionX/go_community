@@ -70,6 +70,23 @@
       "message": "I had a quick play with this today.  Seems to be working nicely and generating the correct instructions.  LGTM.",
       "revId": "5177614112b2083917887e9ee516aa7e82a086ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "858ca2b3_3623a500",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-03-20T14:14:54Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "5177614112b2083917887e9ee516aa7e82a086ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
