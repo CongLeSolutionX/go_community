@@ -70,6 +70,24 @@
       "parentUuid": "9a3682c3_e2076ace",
       "revId": "cf16932b6dc2360b07a81065aca442078cf69a08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b008658_c5901af8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2024-03-20T07:01:34Z",
+      "side": 1,
+      "message": "Thanks for your feedback. I add the condition to skip if GOARCH is wasm.",
+      "parentUuid": "627757c3_19d8c8df",
+      "revId": "cf16932b6dc2360b07a81065aca442078cf69a08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
