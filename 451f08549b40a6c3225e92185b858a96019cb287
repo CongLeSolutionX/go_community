@@ -16,6 +16,23 @@
       "message": "Hold because 1.22 branch is frozen for pending security fix.",
       "revId": "451f08549b40a6c3225e92185b858a96019cb287",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1d41918_fd40e44a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-03-20T16:50:35Z",
+      "side": 1,
+      "message": "branch is unfrozen, security release delayed.",
+      "revId": "451f08549b40a6c3225e92185b858a96019cb287",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
