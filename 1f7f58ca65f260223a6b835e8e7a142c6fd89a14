@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "143365b8_21c3d426",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-03-20T12:47:02Z",
+      "side": 1,
+      "message": "Thank you for your reminders and suggestions!\nAfter research #49136, I dropped this CL because I thought it might be more appropriate to change the documentation in crytpo.PublickKey.Equal.\nAnd if I put documentation on one implementation, I don\u0027t see a reason why I shouldn\u0027t put documentation on another implementation, but I don\u0027t think it\u0027s a good idea to repeat the same documentation.",
+      "parentUuid": "8b36cfb5_ebfad522",
+      "revId": "1f7f58ca65f260223a6b835e8e7a142c6fd89a14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0297053b_d255047c",
