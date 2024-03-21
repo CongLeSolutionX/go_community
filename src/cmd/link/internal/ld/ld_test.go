@@ -439,3 +439,80 @@ func d()
 		t.Errorf("Trampoline b-tramp0 exists unnecessarily")
 	}
 }
+
+func TestLoong64Trampoline(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skip trampoline test on loong64 if tests running on short mode.")
+	}
+
+	testenv.MustHaveGoBuild(t)
+	t.Parallel()
+
+	tmpDir := t.TempDir()
+	tmpFile := filepath.Join(tmpDir, "trampoline.s")
+
+	// Calling b from a or c should not use trampolines, however
+	// calling from d to a will require one.
+	buf := new(bytes.Buffer)
+	fmt.Fprintf(buf, "TEXT a(SB),$0-0\n")
+	for i := 0; i < 1<<26; i++ {
+		fmt.Fprintf(buf, "\tADDV $0, R0, R0\n")
+	}
+	fmt.Fprintf(buf, "\tCALL b(SB)\n")
+	fmt.Fprintf(buf, "\tRET\n")
+
+	fmt.Fprintf(buf, "TEXT b(SB),$0-0\n")
+	fmt.Fprintf(buf, "\tRET\n")
+
+	fmt.Fprintf(buf, "TEXT c(SB),$0-0\n")
+	fmt.Fprintf(buf, "\tCALL b(SB)\n")
+	fmt.Fprintf(buf, "\tRET\n")
+
+	fmt.Fprintf(buf, "TEXT main·d(SB),0,$0-0\n")
+	for i := 0; i < 1<<26; i++ {
+		fmt.Fprintf(buf, "\tADDV $0, R0, R0\n")
+	}
+	fmt.Fprintf(buf, "\tCALL a(SB)\n")
+	fmt.Fprintf(buf, "\tCALL c(SB)\n")
+
+	fmt.Fprintf(buf, "\tRET\n")
+
+	if err := os.WriteFile(tmpFile, buf.Bytes(), 0644); err != nil {
+		t.Fatalf("Failed to write assembly file: %v", err)
+	}
+
+	if err := os.WriteFile(filepath.Join(tmpDir, "go.mod"), []byte("module loong64tramp"), 0644); err != nil {
+		t.Fatalf("Failed to write file: %v\n", err)
+	}
+	main := `package main
+func main() {
+	d()
+}
+
+func d()
+`
+	if err := os.WriteFile(filepath.Join(tmpDir, "trampoline.go"), []byte(main), 0644); err != nil {
+		t.Fatalf("failed to write trampolines.go: %v\n", err)
+	}
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "build", "-o", "trampoline", "-ldflags=-linkmode=internal")
+	cmd.Dir = tmpDir
+	cmd.Env = append(os.Environ(), "GOARCH=loong64", "GOOS=linux")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("Build failed: %v, output: %s", err, out)
+	}
+
+	// Check what trampolines exist.
+	cmd = testenv.Command(t, testenv.GoToolPath(t), "tool", "nm", filepath.Join(tmpDir, "trampoline"))
+	cmd.Env = append(os.Environ(), "GOARCH=loong64", "GOOS=linux")
+	out, err = cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("nm failure: %s\n%s\n", err, string(out))
+	}
+	if !bytes.Contains(out, []byte(" T a+0-tramp0")) {
+		t.Errorf("Trampoline a+0-tramp0 is missing")
+	}
+	if bytes.Contains(out, []byte(" T b+0-tramp0")) {
+		t.Errorf("Trampoline b-tramp0 exists unnecessarily")
+	}
+}
