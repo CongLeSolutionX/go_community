@@ -41,3 +41,35 @@ func TestAttrNoAlloc(t *testing.T) {
 	_ = s
 	_ = x
 }
+
+func BenchmarkAttrString(b *testing.B) {
+	var (
+		is string
+		u  string
+		f  string
+		bn string
+		s  string
+		x  string
+		p  = &is
+		d  time.Duration
+		ds string
+	)
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		is = Int64("key", 1).String()
+		u = Uint64("key", 1).String()
+		f = Float64("key", 1).String()
+		bn = Bool("key", true).String()
+		s = String("key", "foo").String()
+		ds = Duration("key", d).String()
+		x = Any("key", p).String()
+	}
+	_ = is
+	_ = ds
+	_ = bn
+	_ = u
+	_ = f
+	_ = s
+	_ = x
+	_ = p
+}
