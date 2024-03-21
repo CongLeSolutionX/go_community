@@ -187,6 +187,30 @@
       },
       "revId": "187e62c419132ca40e3b473083f964018804b0ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88453da3_132d14f9",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-03-21T20:30:45Z",
+      "side": 1,
+      "message": "Oh I see. The rest of this function maintains the invariant that the ith element of mods and roots correspond to the ith element of dirs. We should keep that invariant and always update mods roots and dirs together.\n\nIf we do that I think it\u0027s reasonable to assume that if len(mods) \u003d\u003d 0 then the same is true for roots and dirs. We do that at lines 456(check)/469(return) of this patchset.",
+      "parentUuid": "b3687e8b_1a6c5cf7",
+      "range": {
+        "startLine": 361,
+        "startChar": 5,
+        "endLine": 361,
+        "endChar": 41
+      },
+      "revId": "187e62c419132ca40e3b473083f964018804b0ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

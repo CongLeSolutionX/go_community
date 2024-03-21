@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "379641a1_854bfe51",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-03-21T20:30:45Z",
+      "side": 1,
+      "message": "how about something like \"go: ignoring package %s which exists in the vendor directory but is missing from vendor/modules.txt\" which gives a little hint about how to fix it. I\u0027m also wondering if we should suggest running go mod vendor to update the vendor directory, though that would overwrite any local changes the user\nmade which might not be what they want",
+      "range": {
+        "startLine": 351,
+        "startChar": 29,
+        "endLine": 351,
+        "endChar": 75
+      },
+      "revId": "406f9e1c5091910ede7da0d9c9b9e9792d058b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
