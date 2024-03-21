@@ -33,6 +33,24 @@
       "message": "Hmmm, this changes a cast to a dereference, which doesn\u0027t seem right. It seems the `void *port` arg is from pthread_create at line 204, which passes `(void*)port_set` as the arg, which is casted from `uintptr_t port_set \u003d (uintptr_t)mach_exception_handler_port_set;`.\n\nMaybe here we cast to `uintptr_t` first then to `mach_port_t`, which probably will suppress the warning. Or we pass a reference (which seems more complicated than necessary). Or we just use the global variable `mach_exception_handler_port_set` without the parameter.",
       "revId": "eefad1dfe94e6a9a57c79bbe812c49e5ba13be95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3035d8de_731ee660",
+        "filename": "src/runtime/cgo/gcc_signal_ios_arm64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-03-21T20:43:05Z",
+      "side": 1,
+      "message": "At first I just did the double case (`(mach_port_t)(uintptr_t`), but couldn\u0027t find any precedence elsewhere. Re-reading the apple example, they are passing in a `*mach_port_t` as `void *`, so I guess it makes sense there but not here.\n\nSwitching back to `(mach_port_t)(uintptr_t)` seems reasonable (and seems to be working on the simulator as expected. (C continues to be incredibly confusing)",
+      "parentUuid": "90b894cd_cd48d62c",
+      "revId": "eefad1dfe94e6a9a57c79bbe812c49e5ba13be95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
