@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79c76e19_10260631",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 3340440
+      },
+      "writtenOn": "2024-03-21T22:55:04Z",
+      "side": 1,
+      "message": "So I thought that the reason behind having that check for the `ref.Opaque !\u003d \"\"` was that merging a `base.path` with `ref.Opaque` would always result in just the `ref.Opaque` and thus just reset the authority section and return, but that\u0027s not the case. If the base URL has an opaque value, that conclusion is correct, but if it has a path, then applying `resolvePath(base.path, ref.Opaque)`  results in the merge of the URL\u0027s (which seems to be according to spec).\nThat got me thinking that there\u0027s an issue with the `ref.Opaque !\u003d \"\"` condition, but then as I investigated/tested further I figured that for a URL to be parsed and store an opaque value, it needs to follow the template: `scheme:text` (where `text` will be parsed as opaque and can not include a \u0027/\u0027 at the beginning) as stated in the documentation for the URL class: https://go-review.googlesource.com/c/go/+/572915/1/src/net/url/url.go#349\n\nSo, if the URL needs to have a scheme to have an opaque value, how wouldn\u0027t it enter the first condition ( `if ref.Scheme !\u003d \"\" || ref.Host !\u003d \"\" || ref.User !\u003d nil`)? If it enters that first condition, the behavior is according to spec, no problem, but if it doesn\u0027t then it won\u0027t have an opaque value, turning the `ref.Opaque !\u003d \"\"` condition obsolete.\nIf we parse something like \"`text`\", it will be treated as a path (inserting a \u0027/\u0027 before the text) and will fall back to the \"abs_path\" or \"rel_path\" cases, where the path will be handled correctly, merging `base.path/opaque` with `ref.Opaque` in `resolvePath(base, ref)`, [which will ignore the given base as the ref has a \u0027/\u0027 prefix](https://go-review.googlesource.com/c/go/+/572915/1/src/net/url/url.go#1007), turning completely irrelevant what is passed for `base` (whether a path or opaque).\nI tried removing the `ref.Opaque !\u003d \"\"` condition and all the tests passed, so right now I\u0027m not sure if the condition just won\u0027t ever evaluate to true and so is irrelevant or if there exists another issue here.",
+      "parentUuid": "48b98b85_f27d914b",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55252b1b_96b1e17d",
         "filename": "src/net/url/url.go",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-21T00:33:52Z",
       "side": 1,
       "message": "What about the case where `ref.Path !\u003d \"\" \u0026\u0026 u.Opaque !\u003d \"\"`?",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d334067c_83fceb72",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 3340440
+      },
+      "writtenOn": "2024-03-21T22:55:04Z",
+      "side": 1,
+      "message": "Since the opaque is stored separately, if we reach the end of the funcion (the \"abs_path\" or \"rel_path\" cases), we know that the ref doesn\u0027t have an opaque value (either because we entered the `ref.Opaque !\u003d \"\"` condition or because for it to have an opaque value it needs a scheme and so entered that first condition mentioned previously: `if ref.Scheme !\u003d \"\" || ref.Host !\u003d \"\" || ref.User !\u003d nil` ), so if its path is `!\u003d \"\"` (and a path in the URI class starts with a \u0027/\u0027) the corresponding pseudocode that would be executed is: \n```\nif (R.path starts-with \"/\") then\n  T.path \u003d remove_dot_segments(R.path);\n``` \nIn the current implementation, the final path will be `resolvePath(u.EscapedPath(), ref.EscapedPath())`, which should return what would be expected from the `remove_dot_segments(R.path)` call in the pseudocode (and from my understanding of the function and testing, it does), independently if the base URL has an opaque or not (since only the `R.path` should be taken into account here), because otherwise this general case (when `R.scheme \u003d\u003d \"\" \u0026\u0026 R.Authority \u003d\u003d \"\" \u0026\u0026 R.path !\u003d \"\"`) is not according to the spec and there\u0027s another issue here (not related with the opaque issue).",
+      "parentUuid": "55252b1b_96b1e17d",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
