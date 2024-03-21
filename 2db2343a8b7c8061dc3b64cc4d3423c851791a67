@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b98b85_f27d914b",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-21T00:33:52Z",
+      "side": 1,
+      "message": "If we\u0027re strictly following RFC 3986 Section 5.2.2, should this be merging `u.Path`/`u.Opaque` with `ref.Opaque`?\n\n(I\u0027m not sure, the relationship between Opaque and Path is confusing me.)",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55252b1b_96b1e17d",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-21T00:33:52Z",
+      "side": 1,
+      "message": "What about the case where `ref.Path !\u003d \"\" \u0026\u0026 u.Opaque !\u003d \"\"`?",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
