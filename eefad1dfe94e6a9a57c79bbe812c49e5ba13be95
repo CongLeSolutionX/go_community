@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f56a418_c4e9f75b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-03-21T16:08:02Z",
+      "side": 1,
+      "message": "Unclear to me if this is necessarily the best way to do this, but it seems to match what Apple does, i.e. https://github.com/apple/darwin-xnu/blob/main/tests/immovable_send.c#L138-L150.",
+      "revId": "eefad1dfe94e6a9a57c79bbe812c49e5ba13be95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
