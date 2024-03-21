@@ -1,0 +1,221 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96e4bc76_e7fe9e2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Looks good overall. Thanks.",
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58215ddb_a9c1423e",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Add this at the end of the CL chain. Once this is added, it will start building this port, which will fail until all things are added.",
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef012c01_4f70a5da",
+        "filename": "src/cmd/go/internal/mmap/mmap_other.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Just \"js\".",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 41
+      },
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b982c2a_e8bd7383",
+        "filename": "src/cmd/go/internal/modload/stat_openfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Samer here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 41
+      },
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86bed37e_0a63667f",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Are you using any of the macros in assembly code? If not, we don\u0027t need to define the macro for now (as the existing wasm port doesn\u0027t).",
+      "range": {
+        "startLine": 329,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 2
+      },
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f8eda5_edaee420",
+        "filename": "src/cmd/go/stop_other_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 51
+      },
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c7974d_e47011eb",
+        "filename": "src/cmd/go/stop_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 19,
+        "endLine": 5,
+        "endChar": 49
+      },
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "153be545_fc55b49a",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "This should belong to the previous CL.",
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e24c793b_89649b91",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Same, move to previous CL.",
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a8acb8_3661c572",
+        "filename": "src/cmd/internal/sys/arch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "Changes in this file should probably be moved to the previous CL.",
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4cc5a91_a30b856b",
+        "filename": "src/cmd/link/internal/wasm32/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T20:52:11Z",
+      "side": 1,
+      "message": "This code seems very similar to the existing wasm code. Can we just use the same code with some conditionals?",
+      "revId": "9dc52e8f1ba9028d689a3e560a653c2c44c2b0e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
