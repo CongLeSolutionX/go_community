@@ -16,6 +16,29 @@
       "message": "Last comment resolved.",
       "revId": "40c0fbeedd3fe48cb3e022c7b60c7881724aad57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b119efa_4f918997",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-21T14:52:02Z",
+      "side": 1,
+      "message": "One last minor comment: Conventionally we name the error variable `err`.",
+      "range": {
+        "startLine": 383,
+        "startChar": 5,
+        "endLine": 383,
+        "endChar": 6
+      },
+      "revId": "40c0fbeedd3fe48cb3e022c7b60c7881724aad57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
