@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81f41903_3376e606",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2024-03-22T05:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b83615e2_ea9f7624",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "ba9eb3160b6852b3ea6dd660fb630e16de86dbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaf1e3c7_93f6dafc",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-22T00:57:49Z",
       "side": 1,
       "message": "Plain string concatentation with the plus operator for Attr.String\nis much faster than invoking fmt.Sprintf.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "ba9eb3160b6852b3ea6dd660fb630e16de86dbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "970ac219_04f70cdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2024-03-22T05:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaf1e3c7_93f6dafc",
       "range": {
         "startLine": 9,
         "startChar": 0,
