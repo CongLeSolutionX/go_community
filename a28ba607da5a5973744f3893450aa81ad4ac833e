@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15425635_3e7a77ac",
+        "filename": "src/internal/bytealg/compare_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Is this only necessary because cmd/dist hasn\u0027t made understand wasm32 as a GOARCH? \n\nAdd a blank line between the copyright header and this line.",
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7501acc6_14c75bdf",
+        "filename": "src/internal/bytealg/compare_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Should be 28 instead.\n\nAlso the arg size for the next function.",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e79fe716_78c09dfc",
+        "filename": "src/internal/bytealg/compare_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "12?",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c28a7f_a0e468cf",
+        "filename": "src/internal/bytealg/compare_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "16?",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57ac707e_72c6131f",
+        "filename": "src/internal/bytealg/equal_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Same, add a blank line above.",
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6266b81f_80b19fb3",
+        "filename": "src/internal/bytealg/equal_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "13",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecdc6fbe_92b92515",
+        "filename": "src/internal/bytealg/equal_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Does this need to change to 4?",
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d50a3c9_c742e9a0",
+        "filename": "src/internal/bytealg/indexbyte_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Same, add a blank line.",
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a293e8_0873cafa",
+        "filename": "src/internal/bytealg/indexbyte_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "20",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae5a30b_808f3de1",
+        "filename": "src/internal/bytealg/indexbyte_wasm32.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "16",
+      "range": {
+        "startLine": 28,
+        "startChar": 39,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aefe958d_dbae6d09",
+        "filename": "src/internal/poll/fd_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Combine to just \"js\".",
+      "range": {
+        "startLine": 5,
+        "startChar": 19,
+        "endLine": 5,
+        "endChar": 50
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53166e55_e765df46",
+        "filename": "src/internal/poll/hook_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 19,
+        "endLine": 5,
+        "endChar": 49
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85e21b2a_9aa077ca",
+        "filename": "src/internal/poll/sys_cloexec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T18:17:53Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 8,
+        "startChar": 28,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
