@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66b86db5_0bf0bc22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-22T22:34:05Z",
+      "side": 1,
+      "message": "One note is that when we say registers, we\u0027re talking about webassembly locals, which are typed. So the \"hack\" here is that we treat these locals are registers within the Go compiler, but the result is that we can type them to whatever we want, it\u0027s just that the Go compiler isn\u0027t setup to have different registers having different properties.\n\nWe certainly could set the locals/registers to 64bits, the only thing that would make easier is we wouldn\u0027t need to add the X* registers because the *Decomp operations could cheat and use all the bits of the register.",
+      "parentUuid": "48e6ec1e_ec53dcb2",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8f3d8de_46ef41f6",
         "filename": "src/cmd/compile/internal/ir/node_gen.go",
         "patchSetId": 1
@@ -342,6 +360,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55c1bf63_aca0f080",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-22T22:34:05Z",
+      "side": 1,
+      "message": "Ah ok, will do!",
+      "parentUuid": "379ba6f0_7c4c94c1",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d8c9372_a6ab2fbd",
         "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
         "patchSetId": 1
@@ -401,6 +443,30 @@
       "side": 1,
       "message": "Also, could shifts (even compares etc.) be handled similarly as well?",
       "parentUuid": "2050bda0_4ab11146",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 127
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6968d44_39b61ce1",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-22T22:34:05Z",
+      "side": 1,
+      "message": "64bit shift and compares? Sure, they could.",
+      "parentUuid": "939e179d_dc9f6b50",
       "range": {
         "startLine": 159,
         "startChar": 0,
@@ -507,6 +573,30 @@
       "side": 1,
       "message": "It looks like the wasm32 rules still duplicate a good portion of dec64 rules. I think we should deduplicate them. One option may be that we still run dec64, but mark certain rules (Add64, Mul64, etc.) conditioned so they won\u0027t fire on wasm32. It may still be good to lower, say, 64-bit load and stores in dec64.",
       "parentUuid": "cecab13d_9c10c3a3",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 54
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a85b0c64_250a27d5",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2024-03-22T22:34:05Z",
+      "side": 1,
+      "message": "I can certainly do that, change dec64 to not use it\u0027s Mul/Div/Mod/Add/Sub for wasm32.",
+      "parentUuid": "58eefedb_27b41ac5",
       "range": {
         "startLine": 30,
         "startChar": 26,
