@@ -69,6 +69,23 @@
       "parentUuid": "55252b1b_96b1e17d",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "876a6fae_48c130fa",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-22T17:50:00Z",
+      "side": 1,
+      "message": "Some additional cases:\n\n```\n        {\"http:opaque\", \"g\", \"http:opaque/g\"},\n        {\"http:opaque\", \".\", \"http:opaque\"},\n        {\"http:opaque\", \"..\", \"http:\"},\n        {\"http:opaque?p\", \"g?q\", \"http:opaque/g?q\"},\n        {\"http:a/./b\", \"c\", \"http:a/b/c\"},\n        {\"http:a/./b\", \"?q\", \"http:a/b?q\"},\n```\n\nI think those expectations are correct; if so, the current code is mishandling these cases. But I might be wrong about the correct expected output.",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
