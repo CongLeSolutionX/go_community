@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3476e6b0_432f2ec4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-03-22T11:49:43Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "ae1061b3ee629345874e923080081e2955a07601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c283e27e_edabfcf4",
+        "filename": "src/log/slog/attr_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-03-22T11:49:43Z",
+      "side": 1,
+      "message": "Move ds to be just below x.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "ae1061b3ee629345874e923080081e2955a07601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a09857f_7d39c0f2",
+        "filename": "src/log/slog/attr_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2024-03-22T11:49:43Z",
+      "side": 1,
+      "message": "Put these in the same order so it\u0027s easy to check.",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 6
+      },
+      "revId": "ae1061b3ee629345874e923080081e2955a07601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
