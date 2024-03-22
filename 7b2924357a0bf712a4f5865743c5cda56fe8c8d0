@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48e6ec1e_ec53dcb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T19:01:10Z",
+      "side": 1,
+      "message": "Thanks.\n\nOkay, I think I see the difficulty of adding 64-bit registers. If we do that, we\u0027d need three different set of registers (32-bit and 64-bit integers, and FP), which probably take quite some work to add. Some other options:\n- Just use 64-bit registers. They should be fine for most cases (like, Add32 can still be a 64-bit add, we don\u0027t care the high bits), but it needs a truncation instruction when dereferencing an address. What is the overhead of this? Maybe it is acceptable?\n- Just use 32-bit registers, assuming 64-bit registers don\u0027t exist just like x86 or 32-bit mips. This should work, and is probably simpler, but less performant for 64-bit operations. What is the overhead? Is it not acceptable?\n\nThe approach we take here is to have 32-bit registers mostly, but use 64-bit operations just in \"local\" situations directly in code generation, so 64-bit values won\u0027t be live for very long. This is probably okay for now, if this is better than the other options.",
+      "parentUuid": "4ac84ae6_12b3c47e",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8f3d8de_46ef41f6",
         "filename": "src/cmd/compile/internal/ir/node_gen.go",
         "patchSetId": 1
@@ -300,6 +318,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "379ba6f0_7c4c94c1",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T19:01:10Z",
+      "side": 1,
+      "message": "\u003e We can remove all off the X1-X9 if you\u0027d prefer.\n\nI think we should remove them if they are not used.\n\nX0 doesn\u0027t seem to be used by the register allocator (ssa/regalloc.go, through register masks). So it doesn\u0027t need to be added here either. (We can still use it in code generation in wasm32/ssa.go without adding it here.)",
+      "parentUuid": "1b36d5a1_b8fd719d",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d8c9372_a6ab2fbd",
         "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
         "patchSetId": 1
@@ -335,6 +377,30 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "0d8c9372_a6ab2fbd",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 127
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "939e179d_dc9f6b50",
+        "filename": "src/cmd/compile/internal/ssa/_gen/Wasm32Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T19:01:10Z",
+      "side": 1,
+      "message": "Also, could shifts (even compares etc.) be handled similarly as well?",
+      "parentUuid": "2050bda0_4ab11146",
       "range": {
         "startLine": 159,
         "startChar": 0,
@@ -417,6 +483,30 @@
       "side": 1,
       "message": "The reason we don\u0027t do this is because dec64 depends on a very specific usage of using carry flags to implement decomp, and we want to implement decomp our own specific way.",
       "parentUuid": "ea71261e_0e87f89c",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 54
+      },
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58eefedb_27b41ac5",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-22T19:01:10Z",
+      "side": 1,
+      "message": "It looks like the wasm32 rules still duplicate a good portion of dec64 rules. I think we should deduplicate them. One option may be that we still run dec64, but mark certain rules (Add64, Mul64, etc.) conditioned so they won\u0027t fire on wasm32. It may still be good to lower, say, 64-bit load and stores in dec64.",
+      "parentUuid": "cecab13d_9c10c3a3",
       "range": {
         "startLine": 30,
         "startChar": 26,
