@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "429be36e_e2086602",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-22T18:50:17Z",
+      "side": 1,
+      "message": "internal/bytealg, internal/poll: add wasm32 implementations\n\n\nSee https://go.dev/wiki/CommitMessage.  Thanks.",
+      "revId": "a28ba607da5a5973744f3893450aa81ad4ac833e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "15425635_3e7a77ac",
         "filename": "src/internal/bytealg/compare_wasm32.s",
         "patchSetId": 1
