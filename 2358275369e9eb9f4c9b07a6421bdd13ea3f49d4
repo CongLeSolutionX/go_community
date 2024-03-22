@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "846f0989_66c33965",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-22T23:13:03Z",
+      "side": 1,
+      "message": "```\nnet/http: move rlock to inside serveMux121.shouldRedirect\n\nCL 113996 moved a RLock/defer RUnlock out of the shouldRedirect\nmethod, since at the time the defer came with a performance\ncost. Defers are no longer expensive, so we can move the lock\nback into shouldRedirect.\n```",
+      "revId": "2358275369e9eb9f4c9b07a6421bdd13ea3f49d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cacc8a33_59149d82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-22T23:13:03Z",
+      "side": 1,
+      "message": "When reporting benchmarks, it\u0027s generally best to use the benchstat command to compute a statistical summary over several runs:\n\nhttps://pkg.go.dev/golang.org/x/perf/cmd/benchstat\n\n(The godoc has examples of usage.)\n\nI think you\u0027ve provided enough information here that you could just drop the benchmark results from the commit message.",
+      "revId": "2358275369e9eb9f4c9b07a6421bdd13ea3f49d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4414ef8e_a90e2ac9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -32,6 +66,24 @@
       "side": 1,
       "message": "@dneil@google.com",
       "parentUuid": "4414ef8e_a90e2ac9",
+      "revId": "2358275369e9eb9f4c9b07a6421bdd13ea3f49d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71bd0ceb_2cdb7386",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-22T23:13:03Z",
+      "side": 1,
+      "message": "Sorry, I missed that this CL was updated. (If you mark unresolved comments as \"Done\" in Gerrit, it helps the reviewer know that the comment has been addressed.)\n\nSince this CL was created, `ServeMux` has been rewritten, and the `redirectToPathSlash` method has moved to `servemux121.go`.",
+      "parentUuid": "3001b1fa_08bb0087",
       "revId": "2358275369e9eb9f4c9b07a6421bdd13ea3f49d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
