@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b83615e2_ea9f7624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-22T00:57:49Z",
+      "side": 1,
+      "message": "log/slog: use plain string concatenation instead of fmt.Sprintf for Attr.String",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "ba9eb3160b6852b3ea6dd660fb630e16de86dbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf1e3c7_93f6dafc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-22T00:57:49Z",
+      "side": 1,
+      "message": "Plain string concatentation with the plus operator for Attr.String\nis much faster than invoking fmt.Sprintf.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "ba9eb3160b6852b3ea6dd660fb630e16de86dbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a23d0c4e_1649f0b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-03-22T00:57:49Z",
+      "side": 1,
+      "message": "Thank you Kevin! LGTM, but with suggestions to update the commit message.",
+      "revId": "ba9eb3160b6852b3ea6dd660fb630e16de86dbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
