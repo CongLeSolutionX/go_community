@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65726e31_7b822314",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-23T05:06:39Z",
+      "side": 1,
+      "message": "See some comments below.\n\nAlex",
+      "revId": "cff7267e0d77f02d582c613c272b6f8ebf1c0412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1309d969_c2c1fda5",
+        "filename": "src/internal/syscall/windows/version_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-23T05:06:39Z",
+      "side": 1,
+      "message": "RtlGetVersion returns NTSTATUS, not nothing.",
+      "revId": "cff7267e0d77f02d582c613c272b6f8ebf1c0412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10afcbe3_0ca63249",
+        "filename": "src/internal/syscall/windows/version_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-23T05:06:39Z",
+      "side": 1,
+      "message": "Should you be checking for STATUS_SUCCESS returned here?",
+      "revId": "cff7267e0d77f02d582c613c272b6f8ebf1c0412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22dc0f90_b01040ba",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-23T05:06:39Z",
+      "side": 1,
+      "message": "RtlGetVersion returns NTSTATUS. Should you be checking for STATUS_SUCCESS returned here?",
+      "revId": "cff7267e0d77f02d582c613c272b6f8ebf1c0412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
