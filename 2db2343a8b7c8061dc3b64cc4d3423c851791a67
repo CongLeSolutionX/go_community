@@ -86,6 +86,24 @@
       "message": "Some additional cases:\n\n```\n        {\"http:opaque\", \"g\", \"http:opaque/g\"},\n        {\"http:opaque\", \".\", \"http:opaque\"},\n        {\"http:opaque\", \"..\", \"http:\"},\n        {\"http:opaque?p\", \"g?q\", \"http:opaque/g?q\"},\n        {\"http:a/./b\", \"c\", \"http:a/b/c\"},\n        {\"http:a/./b\", \"?q\", \"http:a/b?q\"},\n```\n\nI think those expectations are correct; if so, the current code is mishandling these cases. But I might be wrong about the correct expected output.",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e136aab_d319c1e4",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 3340440
+      },
+      "writtenOn": "2024-03-23T16:42:34Z",
+      "side": 1,
+      "message": "The first four cases all fall into the following pseudo algorithm case:\n```\nif (R.path starts-with \"/\") then\n  [...]\nelse  \u003c-- this case\n  T.path \u003d merge(Base.path, R.path);\n  T.path \u003d remove_dot_segments(T.path);\n```\nso the test cases should be as follows (current implementation results in side comment):\n```\n{\"http:opaque\", \"g\", \"http:g\"}, // \"http:///g\"\n{\"http:opaque\", \".\", \"http:\"}, // \"http:///\"\n{\"http:opaque\", \"..\", \"http:\"}, // \"http:///\"\n{\"http:opaque?p\", \"g?q\", \"http:g?q\"}, // \"http:///g?q\"\n```\nwhich are correctly being handled using `resolvePath(u.EscapedPath(), ref.EscapedPath())`, but all of them print an empty authority section \"//\", which seems related to [this issue](https://github.com/golang/go/issues/46059)\n\nFrom my interpretation of what an opaque value represents (which would be something that does not describe a path to a resource, not hierarchical, just a random sequence of characters), I don\u0027t think that the opaque value should be parsed (or merged with another path) in any way like a path is (for example removing dot segments as in the 5th and 6th provided test cases), especially given that we\u0027re storing the opaque separately from the path and [treating an opaque URL in a completely different way from an URL with a path](https://go-review.googlesource.com/c/go/+/572915/1/src/net/url/url.go#349). With this in mind, I would suggest that the above four cases should just ignore the base opaque value (by setting the final path to `resolvePath(u.EscapedPath(), ref.EscapedPath())`, which is the current behavior), since that if the base opaque has a \u0027/\u0027 character and the `ref.path` doesn\u0027t start with one, then applying `resolvePath` to the base opaque and the ref path [would be merging part of the opaque with the ref path](https://go-review.googlesource.com/c/go/+/572915/1/src/net/url/url.go#1005), and that\u0027s probably undesired given the way an opaque URL is treated here.\n\nThe fix I proposed is for the case where the reference doesn\u0027t have a scheme, an authority section, or a path and the base url is opaque. The result should be the base opaque proceeded by the reference fragment and/or query (if they exist) since that\u0027s the way an opaque URL is interpreted in this class, as I mentioned previously. The current implementation doesn\u0027t support this case as the opaque is stored separately and the \"abs_path\" or \"rel_path\" case will only take into account paths, thus the need for checking this specific case.",
+      "parentUuid": "876a6fae_48c130fa",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
