@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"unicode/utf8"
 )
 
@@ -141,6 +142,9 @@ type pp struct {
 	wrapErrs bool
 	// wrappedErrs records the targets of the %w verb.
 	wrappedErrs []int
+
+	maxNBytes int64
+	nWritten  *atomic.Int64
 }
 
 var ppFree = sync.Pool{
@@ -155,6 +159,16 @@ func newPrinter() *pp {
 	p.wrapErrs = false
 	p.fmt.init(&p.buf)
 	return p
+}
+
+func newLimitedPrinter(limit int64) *pp {
+	if limit < 0 {
+		panic("printer limit be >= 0")
+	}
+	pp := newPrinter()
+	pp.maxNBytes = limit
+	pp.nWritten = new(atomic.Int64)
+	return pp
 }
 
 // free saves used pp structs in ppFree; avoids an allocation per invocation.
@@ -203,16 +217,84 @@ func (p *pp) Flag(b int) bool {
 
 // Implement Write so we can call Fprintf on a pp (through State), for
 // recursive use in custom verbs.
-func (p *pp) Write(b []byte) (ret int, err error) {
-	p.buf.write(b)
-	return len(b), nil
+func (p *pp) Write(bb []byte) (ret int, err error) {
+	if p.maxNBytes <= 0 {
+		p.buf.write(bb)
+		return len(bb), nil
+	}
+
+	n := p.nestimate(len(bb))
+	if n > 0 {
+		// println(".Write", n, "bb", string(bb[:n]))
+		p.buf.write(bb[:n])
+		p.nWritten.Add(n)
+	}
+	return int(n), nil
 }
 
 // Implement WriteString so that we can call io.WriteString
 // on a pp (through state), for efficiency.
 func (p *pp) WriteString(s string) (ret int, err error) {
-	p.buf.writeString(s)
-	return len(s), nil
+	if p.maxNBytes <= 0 {
+		p.buf.writeString(s)
+		return len(s), nil
+	}
+
+	n := p.nestimate(len(s))
+	if n > 0 {
+		// println(".WriteString", n, "s[:n]", s[:n], "s", s)
+		p.buf.writeString(s[:n])
+		p.nWritten.Add(n)
+	}
+	return int(n), nil
+}
+
+func (p *pp) writeRune(r rune) {
+	if p.maxNBytes <= 0 {
+		p.buf.writeRune(r)
+		return
+	}
+
+	// We can't just print a portion of a rune, hence
+	// skip any formatting if the length of string(r) > p.maxNBytes.
+	lr := len(string(r))
+	if ne := p.nestimate(lr); ne == int64(lr) {
+		// println(".writeRune", ne, "r", r)
+		p.buf.writeRune(r)
+		p.nWritten.Add(ne)
+	}
+}
+
+func (p *pp) writeByte(b byte) (ret int, err error) {
+	if p.maxNBytes <= 0 {
+		p.buf.writeByte(b)
+		return 1, nil
+	}
+
+	if p.nWritten.Load()+1 <= p.maxNBytes {
+		// println(".writeByte", string(b))
+		p.buf.writeByte(b)
+		p.nWritten.Add(1)
+		return 1, nil
+	}
+	return 0, nil
+}
+
+func (p *pp) nestimate(n int) int64 {
+	nl := int64(n)
+
+	// 1. Trivial case, nothing left to print.
+	if p.nWritten.Load() >= p.maxNBytes {
+		return 0
+	}
+
+	// 2. Abundant space to print out content.
+	diff := p.maxNBytes - p.nWritten.Load()
+	if diff >= nl {
+		return nl
+	}
+
+	return diff
 }
 
 // These routines end in 'f' and take a format string.
@@ -237,6 +319,25 @@ func Printf(format string, a ...any) (n int, err error) {
 func Sprintf(format string, a ...any) string {
 	p := newPrinter()
 	p.doPrintf(format, a)
+	s := string(p.buf)
+	p.free()
+	return s
+}
+
+// Snprint operates like Sprintf but formats to a maximum of limit bytes.
+func Snprintf(limit int, format string, a ...any) string {
+	p := newLimitedPrinter(int64(limit))
+	p.doPrintf(format, a)
+	s := string(p.buf)
+	p.free()
+	return s
+}
+
+// Snprint operates like Sprint but formats to a maximum of limit bytes.
+// Spaces are added between operands when neither is a string.
+func Snprint(limit int, a ...any) string {
+	p := newLimitedPrinter(int64(limit))
+	p.doPrint(a)
 	s := string(p.buf)
 	p.free()
 	return s
@@ -370,32 +471,32 @@ func parsenum(s string, start, end int) (num int, isnum bool, newi int) {
 
 func (p *pp) unknownType(v reflect.Value) {
 	if !v.IsValid() {
-		p.buf.writeString(nilAngleString)
+		p.WriteString(nilAngleString)
 		return
 	}
-	p.buf.writeByte('?')
-	p.buf.writeString(v.Type().String())
-	p.buf.writeByte('?')
+	p.writeByte('?')
+	p.WriteString(v.Type().String())
+	p.writeByte('?')
 }
 
 func (p *pp) badVerb(verb rune) {
 	p.erroring = true
-	p.buf.writeString(percentBangString)
-	p.buf.writeRune(verb)
-	p.buf.writeByte('(')
+	p.WriteString(percentBangString)
+	p.writeRune(verb)
+	p.writeByte('(')
 	switch {
 	case p.arg != nil:
-		p.buf.writeString(reflect.TypeOf(p.arg).String())
-		p.buf.writeByte('=')
+		p.WriteString(reflect.TypeOf(p.arg).String())
+		p.writeByte('=')
 		p.printArg(p.arg, 'v')
 	case p.value.IsValid():
-		p.buf.writeString(p.value.Type().String())
-		p.buf.writeByte('=')
+		p.WriteString(p.value.Type().String())
+		p.writeByte('=')
 		p.printValue(p.value, 'v', 0)
 	default:
-		p.buf.writeString(nilAngleString)
+		p.WriteString(nilAngleString)
 	}
-	p.buf.writeByte(')')
+	p.writeByte(')')
 	p.erroring = false
 }
 
@@ -473,12 +574,12 @@ func (p *pp) fmtComplex(v complex128, size int, verb rune) {
 	switch verb {
 	case 'v', 'b', 'g', 'G', 'x', 'X', 'f', 'F', 'e', 'E':
 		oldPlus := p.fmt.plus
-		p.buf.writeByte('(')
+		p.writeByte('(')
 		p.fmtFloat(real(v), size/2, verb)
 		// Imaginary part always has a sign.
 		p.fmt.plus = true
 		p.fmtFloat(imag(v), size/2, verb)
-		p.buf.writeString("i)")
+		p.WriteString("i)")
 		p.fmt.plus = oldPlus
 	default:
 		p.badVerb(verb)
@@ -510,28 +611,28 @@ func (p *pp) fmtBytes(v []byte, verb rune, typeString string) {
 	switch verb {
 	case 'v', 'd':
 		if p.fmt.sharpV {
-			p.buf.writeString(typeString)
+			p.WriteString(typeString)
 			if v == nil {
-				p.buf.writeString(nilParenString)
+				p.WriteString(nilParenString)
 				return
 			}
-			p.buf.writeByte('{')
+			p.writeByte('{')
 			for i, c := range v {
 				if i > 0 {
-					p.buf.writeString(commaSpaceString)
+					p.WriteString(commaSpaceString)
 				}
 				p.fmt0x64(uint64(c), true)
 			}
-			p.buf.writeByte('}')
+			p.writeByte('}')
 		} else {
-			p.buf.writeByte('[')
+			p.writeByte('[')
 			for i, c := range v {
 				if i > 0 {
-					p.buf.writeByte(' ')
+					p.writeByte(' ')
 				}
 				p.fmt.fmtInteger(uint64(c), 10, unsigned, verb, ldigits)
 			}
-			p.buf.writeByte(']')
+			p.writeByte(']')
 		}
 	case 's':
 		p.fmt.fmtBs(v)
@@ -559,15 +660,15 @@ func (p *pp) fmtPointer(value reflect.Value, verb rune) {
 	switch verb {
 	case 'v':
 		if p.fmt.sharpV {
-			p.buf.writeByte('(')
-			p.buf.writeString(value.Type().String())
-			p.buf.writeString(")(")
+			p.writeByte('(')
+			p.WriteString(value.Type().String())
+			p.WriteString(")(")
 			if u == 0 {
-				p.buf.writeString(nilString)
+				p.WriteString(nilString)
 			} else {
 				p.fmt0x64(uint64(u), true)
 			}
-			p.buf.writeByte(')')
+			p.writeByte(')')
 		} else {
 			if u == 0 {
 				p.fmt.padString(nilAngleString)
@@ -590,7 +691,7 @@ func (p *pp) catchPanic(arg any, verb rune, method string) {
 		// Stringer that fails to guard against nil or a nil pointer for a
 		// value receiver, and in either case, "<nil>" is a nice result.
 		if v := reflect.ValueOf(arg); v.Kind() == reflect.Pointer && v.IsNil() {
-			p.buf.writeString(nilAngleString)
+			p.WriteString(nilAngleString)
 			return
 		}
 		// Otherwise print a concise panic message. Most of the time the panic
@@ -604,15 +705,15 @@ func (p *pp) catchPanic(arg any, verb rune, method string) {
 		// For this output we want default behavior.
 		p.fmt.clearflags()
 
-		p.buf.writeString(percentBangString)
-		p.buf.writeRune(verb)
-		p.buf.writeString(panicString)
-		p.buf.writeString(method)
-		p.buf.writeString(" method: ")
+		p.WriteString(percentBangString)
+		p.writeRune(verb)
+		p.WriteString(panicString)
+		p.WriteString(method)
+		p.WriteString(" method: ")
 		p.panicking = true
 		p.printArg(err, 'v')
 		p.panicking = false
-		p.buf.writeByte(')')
+		p.writeByte(')')
 
 		p.fmt.fmtFlags = oldFlags
 	}
@@ -777,11 +878,11 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 	switch f := value; value.Kind() {
 	case reflect.Invalid:
 		if depth == 0 {
-			p.buf.writeString(invReflectString)
+			p.WriteString(invReflectString)
 		} else {
 			switch verb {
 			case 'v':
-				p.buf.writeString(nilAngleString)
+				p.WriteString(nilAngleString)
 			default:
 				p.badVerb(verb)
 			}
@@ -804,63 +905,63 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 		p.fmtString(f.String(), verb)
 	case reflect.Map:
 		if p.fmt.sharpV {
-			p.buf.writeString(f.Type().String())
+			p.WriteString(f.Type().String())
 			if f.IsNil() {
-				p.buf.writeString(nilParenString)
+				p.WriteString(nilParenString)
 				return
 			}
-			p.buf.writeByte('{')
+			p.writeByte('{')
 		} else {
-			p.buf.writeString(mapString)
+			p.WriteString(mapString)
 		}
 		sorted := fmtsort.Sort(f)
 		for i, key := range sorted.Key {
 			if i > 0 {
 				if p.fmt.sharpV {
-					p.buf.writeString(commaSpaceString)
+					p.WriteString(commaSpaceString)
 				} else {
-					p.buf.writeByte(' ')
+					p.writeByte(' ')
 				}
 			}
 			p.printValue(key, verb, depth+1)
-			p.buf.writeByte(':')
+			p.writeByte(':')
 			p.printValue(sorted.Value[i], verb, depth+1)
 		}
 		if p.fmt.sharpV {
-			p.buf.writeByte('}')
+			p.writeByte('}')
 		} else {
-			p.buf.writeByte(']')
+			p.writeByte(']')
 		}
 	case reflect.Struct:
 		if p.fmt.sharpV {
-			p.buf.writeString(f.Type().String())
+			p.WriteString(f.Type().String())
 		}
-		p.buf.writeByte('{')
+		p.writeByte('{')
 		for i := 0; i < f.NumField(); i++ {
 			if i > 0 {
 				if p.fmt.sharpV {
-					p.buf.writeString(commaSpaceString)
+					p.WriteString(commaSpaceString)
 				} else {
-					p.buf.writeByte(' ')
+					p.writeByte(' ')
 				}
 			}
 			if p.fmt.plusV || p.fmt.sharpV {
 				if name := f.Type().Field(i).Name; name != "" {
-					p.buf.writeString(name)
-					p.buf.writeByte(':')
+					p.WriteString(name)
+					p.writeByte(':')
 				}
 			}
 			p.printValue(getField(f, i), verb, depth+1)
 		}
-		p.buf.writeByte('}')
+		p.writeByte('}')
 	case reflect.Interface:
 		value := f.Elem()
 		if !value.IsValid() {
 			if p.fmt.sharpV {
-				p.buf.writeString(f.Type().String())
-				p.buf.writeString(nilParenString)
+				p.WriteString(f.Type().String())
+				p.WriteString(nilParenString)
 			} else {
-				p.buf.writeString(nilAngleString)
+				p.WriteString(nilAngleString)
 			}
 		} else {
 			p.printValue(value, verb, depth+1)
@@ -888,28 +989,28 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 			}
 		}
 		if p.fmt.sharpV {
-			p.buf.writeString(f.Type().String())
+			p.WriteString(f.Type().String())
 			if f.Kind() == reflect.Slice && f.IsNil() {
-				p.buf.writeString(nilParenString)
+				p.WriteString(nilParenString)
 				return
 			}
-			p.buf.writeByte('{')
+			p.writeByte('{')
 			for i := 0; i < f.Len(); i++ {
 				if i > 0 {
-					p.buf.writeString(commaSpaceString)
+					p.WriteString(commaSpaceString)
 				}
 				p.printValue(f.Index(i), verb, depth+1)
 			}
-			p.buf.writeByte('}')
+			p.writeByte('}')
 		} else {
-			p.buf.writeByte('[')
+			p.writeByte('[')
 			for i := 0; i < f.Len(); i++ {
 				if i > 0 {
-					p.buf.writeByte(' ')
+					p.writeByte(' ')
 				}
 				p.printValue(f.Index(i), verb, depth+1)
 			}
-			p.buf.writeByte(']')
+			p.writeByte(']')
 		}
 	case reflect.Pointer:
 		// pointer to array or slice or struct? ok at top level
@@ -917,7 +1018,7 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 		if depth == 0 && f.UnsafePointer() != nil {
 			switch a := f.Elem(); a.Kind() {
 			case reflect.Array, reflect.Slice, reflect.Struct, reflect.Map:
-				p.buf.writeByte('&')
+				p.writeByte('&')
 				p.printValue(a, verb, depth+1)
 				return
 			}
@@ -1005,15 +1106,15 @@ func (p *pp) argNumber(argNum int, format string, i int, numArgs int) (newArgNum
 }
 
 func (p *pp) badArgNum(verb rune) {
-	p.buf.writeString(percentBangString)
-	p.buf.writeRune(verb)
-	p.buf.writeString(badIndexString)
+	p.WriteString(percentBangString)
+	p.writeRune(verb)
+	p.WriteString(badIndexString)
 }
 
 func (p *pp) missingArg(verb rune) {
-	p.buf.writeString(percentBangString)
-	p.buf.writeRune(verb)
-	p.buf.writeString(missingString)
+	p.WriteString(percentBangString)
+	p.writeRune(verb)
+	p.WriteString(missingString)
 }
 
 func (p *pp) doPrintf(format string, a []any) {
@@ -1029,7 +1130,7 @@ formatLoop:
 			i++
 		}
 		if i > lasti {
-			p.buf.writeString(format[lasti:i])
+			p.WriteString(format[lasti:i])
 		}
 		if i >= end {
 			// done processing format string
@@ -1090,7 +1191,7 @@ formatLoop:
 			p.fmt.wid, p.fmt.widPresent, argNum = intFromArg(a, argNum)
 
 			if !p.fmt.widPresent {
-				p.buf.writeString(badWidthString)
+				p.WriteString(badWidthString)
 			}
 
 			// We have a negative width, so take its value and ensure
@@ -1124,7 +1225,7 @@ formatLoop:
 					p.fmt.precPresent = false
 				}
 				if !p.fmt.precPresent {
-					p.buf.writeString(badPrecString)
+					p.WriteString(badPrecString)
 				}
 				afterIndex = false
 			} else {
@@ -1141,7 +1242,7 @@ formatLoop:
 		}
 
 		if i >= end {
-			p.buf.writeString(noVerbString)
+			p.WriteString(noVerbString)
 			break
 		}
 
@@ -1153,7 +1254,7 @@ formatLoop:
 
 		switch {
 		case verb == '%': // Percent does not absorb operands and ignores f.wid and f.prec.
-			p.buf.writeByte('%')
+			p.writeByte('%')
 		case !p.goodArgNum:
 			p.badArgNum(verb)
 		case argNum >= len(a): // No argument left over to print for the current verb.
@@ -1180,20 +1281,20 @@ formatLoop:
 	// been used and arguably OK if they're not.
 	if !p.reordered && argNum < len(a) {
 		p.fmt.clearflags()
-		p.buf.writeString(extraString)
+		p.WriteString(extraString)
 		for i, arg := range a[argNum:] {
 			if i > 0 {
-				p.buf.writeString(commaSpaceString)
+				p.WriteString(commaSpaceString)
 			}
 			if arg == nil {
-				p.buf.writeString(nilAngleString)
+				p.WriteString(nilAngleString)
 			} else {
-				p.buf.writeString(reflect.TypeOf(arg).String())
-				p.buf.writeByte('=')
+				p.WriteString(reflect.TypeOf(arg).String())
+				p.writeByte('=')
 				p.printArg(arg, 'v')
 			}
 		}
-		p.buf.writeByte(')')
+		p.writeByte(')')
 	}
 }
 
@@ -1203,7 +1304,7 @@ func (p *pp) doPrint(a []any) {
 		isString := arg != nil && reflect.TypeOf(arg).Kind() == reflect.String
 		// Add a space between two non-string arguments.
 		if argNum > 0 && !isString && !prevString {
-			p.buf.writeByte(' ')
+			p.writeByte(' ')
 		}
 		p.printArg(arg, 'v')
 		prevString = isString
@@ -1215,9 +1316,9 @@ func (p *pp) doPrint(a []any) {
 func (p *pp) doPrintln(a []any) {
 	for argNum, arg := range a {
 		if argNum > 0 {
-			p.buf.writeByte(' ')
+			p.writeByte(' ')
 		}
 		p.printArg(arg, 'v')
 	}
-	p.buf.writeByte('\n')
+	p.writeByte('\n')
 }

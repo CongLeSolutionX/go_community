@@ -119,6 +119,16 @@ func ExampleSprint() {
 	// Kim is 22 years old.
 }
 
+func ExampleSnprint() {
+	const name, age = "Kim", 22
+	s := fmt.Snprint(12, name, " is ", age, " years old.\n")
+
+	io.WriteString(os.Stdout, s) // Ignoring error for simplicity.
+
+	// Output:
+	// Kim is 22 years o
+}
+
 func ExampleSprintln() {
 	const name, age = "Kim", 22
 	s := fmt.Sprintln(name, "is", age, "years old.")
@@ -137,6 +147,16 @@ func ExampleSprintf() {
 
 	// Output:
 	// Kim is 22 years old.
+}
+
+func ExampleSnprintf() {
+	const name, age = "Kim", 22
+	s := fmt.Snprintf(12, "%s is %d years old.\n", name, age)
+
+	io.WriteString(os.Stdout, s) // Ignoring error for simplicity.
+
+	// Output:
+	// Kim is 22 years o
 }
 
 func ExampleFprint() {
