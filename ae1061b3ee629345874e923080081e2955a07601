@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ed5d666_5ad11662",
+        "filename": "src/log/slog/attr_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2024-03-25T17:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c283e27e_edabfcf4",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "ae1061b3ee629345874e923080081e2955a07601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a09857f_7d39c0f2",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-03-22T11:49:43Z",
       "side": 1,
       "message": "Put these in the same order so it\u0027s easy to check.",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 6
+      },
+      "revId": "ae1061b3ee629345874e923080081e2955a07601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9888dc98_0a8263bd",
+        "filename": "src/log/slog/attr_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2024-03-25T17:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a09857f_7d39c0f2",
       "range": {
         "startLine": 67,
         "startChar": 1,
