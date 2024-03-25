@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "930f7831_a5c34497",
+        "filename": "src/cmd/go/testdata/script/mod_ambiguous_import.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-25T16:15:53Z",
+      "side": 1,
+      "message": "@matloob@golang.org Stuck on this test case, having trouble understanding what correct behavior is? I no longer get an ambiguous import error",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "53c51ac3383ea0131b1cacdfdd6a914f36954bd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

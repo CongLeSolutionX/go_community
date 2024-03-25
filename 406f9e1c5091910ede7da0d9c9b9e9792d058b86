@@ -22,6 +22,30 @@
       },
       "revId": "406f9e1c5091910ede7da0d9c9b9e9792d058b86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a114079_6128b420",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-03-25T16:15:53Z",
+      "side": 1,
+      "message": "I added \u0027consider running go mod vendor\u0027 wdyt?",
+      "parentUuid": "379641a1_854bfe51",
+      "range": {
+        "startLine": 351,
+        "startChar": 29,
+        "endLine": 351,
+        "endChar": 75
+      },
+      "revId": "406f9e1c5091910ede7da0d9c9b9e9792d058b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
