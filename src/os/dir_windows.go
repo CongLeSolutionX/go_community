@@ -8,7 +8,6 @@ import (
 	"internal/syscall/windows"
 	"io"
 	"io/fs"
-	"runtime"
 	"sync"
 	"syscall"
 	"unsafe"
@@ -91,12 +90,12 @@ func (d *dirInfo) init(h syscall.Handle) {
 	}
 }
 
-func (file *File) readdir(n int, mode readdirMode) (names []string, dirents []DirEntry, infos []FileInfo, err error) {
-	if file.dirinfo == nil {
-		file.dirinfo = new(dirInfo)
-		file.dirinfo.init(file.pfd.Sysfd)
+// readdir reads the contents of the directory entries in d.
+// The dirInfo must have been initialized by a prior call to d.init.
+func readdir(d *dirInfo, n int, mode readdirMode) (names []string, dirents []DirEntry, infos []FileInfo, err error) {
+	if d.h == 0 {
+		panic("os: dirInfo not initialized")
 	}
-	d := file.dirinfo
 	if d.buf == nil {
 		d.buf = dirBufPool.Get().(*[]byte)
 	}
@@ -107,8 +106,7 @@ func (file *File) readdir(n int, mode readdirMode) (names []string, dirents []Di
 	for n != 0 {
 		// Refill the buffer if necessary
 		if d.bufp == 0 {
-			err = windows.GetFileInformationByHandleEx(file.pfd.Sysfd, d.class, (*byte)(unsafe.Pointer(&(*d.buf)[0])), uint32(len(*d.buf)))
-			runtime.KeepAlive(file)
+			err = windows.GetFileInformationByHandleEx(d.h, d.class, (*byte)(unsafe.Pointer(&(*d.buf)[0])), uint32(len(*d.buf)))
 			if err != nil {
 				if err == syscall.ERROR_NO_MORE_FILES {
 					// Optimization: we can return the buffer to the pool, there is nothing else to read.
@@ -129,10 +127,10 @@ func (file *File) readdir(n int, mode readdirMode) (names []string, dirents []Di
 					// [1] https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fsa/fa8194e0-53ec-413b-8315-e8fa85396fd8
 					break
 				}
-				if s, _ := file.Stat(); s != nil && !s.IsDir() {
-					err = &PathError{Op: "readdir", Path: file.name, Err: syscall.ENOTDIR}
-				} else {
-					err = &PathError{Op: "GetFileInformationByHandleEx", Path: file.name, Err: err}
+				var fi syscall.ByHandleFileInformation
+				err = syscall.GetFileInformationByHandle(d.h, &fi)
+				if err == nil && fi.FileAttributes&syscall.FILE_ATTRIBUTE_DIRECTORY == 0 {
+					err = syscall.ENOTDIR
 				}
 				return
 			}
@@ -199,6 +197,18 @@ func (file *File) readdir(n int, mode readdirMode) (names []string, dirents []Di
 		return nil, nil, nil, io.EOF
 	}
 	return names, dirents, infos, nil
+}
+
+func (file *File) readdir(n int, mode readdirMode) (names []string, dirents []DirEntry, infos []FileInfo, err error) {
+	if file.dirinfo == nil {
+		file.dirinfo = new(dirInfo)
+		file.dirinfo.init(file.pfd.Sysfd)
+	}
+	names, dirents, infos, err = readdir(file.dirinfo, n, mode)
+	if err != nil && err != io.EOF {
+		err = &PathError{Op: "readdir", Path: file.name, Err: err}
+	}
+	return
 }
 
 type dirEntry struct {
