@@ -46,6 +46,30 @@
       },
       "revId": "406f9e1c5091910ede7da0d9c9b9e9792d058b86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25b46c9d_cf27e4f0",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-03-25T21:30:06Z",
+      "side": 1,
+      "message": "Maybe we should say \"To sync the vendor directory run go mod vendor\"? That\u0027s the message printed if there\u0027s an inconsistency between the vendor directory and modules.txt\n\nAnother thing: if the vendor directory was produced by a workspace, then they should run `go work vendor` not `go mod vendor`. We already check that the vendor directory was produced by a workspace if we\u0027re in workspace mode, so I think we can just check if we\u0027re in workspace mode, and suggest go work vendor if so.",
+      "parentUuid": "3a114079_6128b420",
+      "range": {
+        "startLine": 351,
+        "startChar": 29,
+        "endLine": 351,
+        "endChar": 75
+      },
+      "revId": "406f9e1c5091910ede7da0d9c9b9e9792d058b86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
