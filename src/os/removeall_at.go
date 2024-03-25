@@ -13,18 +13,6 @@ import (
 )
 
 func removeAll(path string) error {
-	if path == "" {
-		// fail silently to retain compatibility with previous behavior
-		// of RemoveAll. See issue 28830.
-		return nil
-	}
-
-	// The rmdir system call does not permit removing ".",
-	// so we don't permit it either.
-	if endsWithDot(path) {
-		return &PathError{Op: "RemoveAll", Path: path, Err: syscall.EINVAL}
-	}
-
 	// Simple case: if Remove works, we're done.
 	err := Remove(path)
 	if err == nil || IsNotExist(err) {
