@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2701b05_0fd44cff",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-03-25T22:56:32Z",
+      "side": 1,
+      "message": "Isn\u0027t it more walltime than CPU time? Also perhaps a comment stating in prose what `stoppingCPUTime` is meant to represent.",
+      "range": {
+        "startLine": 1328,
+        "startChar": 1,
+        "endLine": 1328,
+        "endChar": 16
+      },
+      "revId": "1c4278eee332ae1078ce3777e07fc48a0a914bc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34b724f7_9208b838",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1531,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-03-25T22:56:32Z",
+      "side": 1,
+      "message": "Not for now, but this smells like a duration, naming could be better in that case.",
+      "range": {
+        "startLine": 1531,
+        "startChar": 1,
+        "endLine": 1531,
+        "endChar": 10
+      },
+      "revId": "1c4278eee332ae1078ce3777e07fc48a0a914bc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
