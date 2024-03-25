@@ -16,6 +16,24 @@
       "message": "the failure is not great, but it\u0027s not related to this CL at least -- we\u0027ve been seeing this on-and-off for some time. this test just allocates really rapidly and I suspect has a tendency to use too much memory. we should do something about that, but it\u0027s orthogonal to this CL, I think.\n\nre-running trybots.",
       "revId": "f0e12b22c7f715e5360c1b33f9e3a7451d0e81f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f1222b_9799a9ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-03-25T19:07:31Z",
+      "side": 1,
+      "message": "huh! OK, maybe it *is* related to this CL!",
+      "parentUuid": "4421ea56_e356db81",
+      "revId": "f0e12b22c7f715e5360c1b33f9e3a7451d0e81f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
