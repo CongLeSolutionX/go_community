@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !unix
+//go:build !unix && !windows
 
 package os
 
@@ -13,19 +13,6 @@ import (
 )
 
 func removeAll(path string) error {
-	if path == "" {
-		// fail silently to retain compatibility with previous behavior
-		// of RemoveAll. See issue 28830.
-		return nil
-	}
-
-	// The rmdir system call permits removing "." on Plan 9,
-	// so we don't permit it to remain consistent with the
-	// "at" implementation of RemoveAll.
-	if endsWithDot(path) {
-		return &PathError{Op: "RemoveAll", Path: path, Err: syscall.EINVAL}
-	}
-
 	// Simple case: if Remove works, we're done.
 	err := Remove(path)
 	if err == nil || IsNotExist(err) {
