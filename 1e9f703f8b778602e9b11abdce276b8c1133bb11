@@ -87,6 +87,57 @@
       "parentUuid": "b5899bce_b6aaa890",
       "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9f1695c_fb5d8508",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-25T15:27:39Z",
+      "side": 1,
+      "message": "This is very subtle, so I\u0027m not a huge fan, but I don\u0027t see correctness issues.",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ceb6df2_3ae819e1",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-25T15:27:39Z",
+      "side": 1,
+      "message": "How painful is this copy? IMO this could would be more readable if it unconditionally did the copy (cgocallbackg already does so, even on non-Windows).\n\nWe could make the `m.syscall` field a type that on Windows build tags is `libcall`, but on other OSes is `struct{}`, though that would still incur a copy on non-syscall cgocall on Windows.\n\nAt minimum, I think this would be slightly more clear if the exitsyscall was kept unconditional. Something like\n\n```\nvar syscall libcall\nif fn \u003d\u003d asmstdcallAddr {\n  syscall \u003d mp.syscall\n}\n\nexitsyscall()\n\nif fn \u003d\u003d asmstdcallAddr {\n  getg().m.syscall \u003d syscall\n}\n```",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee4e4c4c_24822048",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-25T15:27:39Z",
+      "side": 1,
+      "message": "Unrelated, but shouldn\u0027t there be a `KeepAlive(args)` here? What keeps args from being collected between L515 and the cgocall call?",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
