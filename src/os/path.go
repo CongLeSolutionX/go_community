@@ -71,6 +71,18 @@ func MkdirAll(path string, perm FileMode) error {
 // returns nil (no error).
 // If there is an error, it will be of type [*PathError].
 func RemoveAll(path string) error {
+	if path == "" {
+		// fail silently to retain compatibility with previous behavior
+		// of RemoveAll. See issue 28830.
+		return nil
+	}
+
+	// The rmdir system call permits removing "." on Plan 9,
+	// so we don't permit it to remain consistent with the
+	// "at" implementation of RemoveAll.
+	if endsWithDot(path) {
+		return &PathError{Op: "RemoveAll", Path: path, Err: syscall.EINVAL}
+	}
 	return removeAll(path)
 }
 
@@ -83,4 +95,40 @@ func endsWithDot(path string) bool {
 		return true
 	}
 	return false
+}
+
+func splitPath(path string) (string, string) {
+	// if no better parent is found, the path is relative from "here"
+	dirname := "."
+
+	volLen := filepathlite.VolumeNameLen(path)
+	// Remove all but one leading slash.
+	for len(path) >= volLen && len(path) > 1 && IsPathSeparator(path[0]) && IsPathSeparator(path[1]) {
+		path = path[1:]
+	}
+
+	i := len(path) - 1
+
+	// Remove trailing slashes.
+	for ; i > volLen && IsPathSeparator(path[i]); i-- {
+		path = path[:i]
+	}
+
+	// if no slashes in path, base is path
+	basename := path
+
+	// Remove leading directory path
+	for i--; i >= volLen; i-- {
+		if IsPathSeparator(path[i]) {
+			if i == 0 {
+				dirname = path[:1]
+			} else {
+				dirname = path[:i]
+			}
+			basename = path[i+1:]
+			break
+		}
+	}
+
+	return dirname, basename
 }
