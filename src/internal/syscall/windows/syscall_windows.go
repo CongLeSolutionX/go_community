@@ -474,6 +474,10 @@ const (
 //sys	QueryServiceStatus(hService syscall.Handle, lpServiceStatus *SERVICE_STATUS) (err error)  = advapi32.QueryServiceStatus
 //sys    OpenSCManager(machineName *uint16, databaseName *uint16, access uint32) (handle syscall.Handle, err error)  [failretval==0] = advapi32.OpenSCManagerW
 
+// NT Native APIs
+//sys	rtlNtStatusToDosError(ntstatus NTStatus) (ret syscall.Errno) = ntdll.RtlNtStatusToDosError
+//sys	NtCreateFile(handle *syscall.Handle, access uint32, oa *OBJECT_ATTRIBUTES, iosb *IO_STATUS_BLOCK, allocationSize *int64, attributes uint32, share uint32, disposition uint32, options uint32, eabuffer uintptr, ealength uint32) (ntstatus error) = ntdll.NtCreateFile
+
 func FinalPath(h syscall.Handle, flags uint32) (string, error) {
 	buf := make([]uint16, 100)
 	for {
