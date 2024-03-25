@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3d26259_fe18a9ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-25T16:12:16Z",
+      "side": 1,
+      "message": "\u003e One note is that when we say registers, we\u0027re talking about webassembly locals, which are typed. So the \"hack\" here is that we treat these locals are registers within the Go compiler, but the result is that we can type them to whatever we want, it\u0027s just that the Go compiler isn\u0027t setup to have different registers having different properties.\n\nYes. I think we are on the same page here :)\n\n\u003e We certainly could set the locals/registers to 64bits, the only thing that would make easier is we wouldn\u0027t need to add the X* registers because the *Decomp operations could cheat and use all the bits of the register.\n\nIf we use 64-bit registers we don\u0027t need the Decomp operations. E.g. an Add64 is just I64Add. The only downside is probably when dereferencing, as the Wasm Load and Store instructions expect 32-bit addresses, we need to truncate the address to 32-bit before load or store. Would you like to try using 64-bit registers?",
+      "parentUuid": "66b86db5_0bf0bc22",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8f3d8de_46ef41f6",
         "filename": "src/cmd/compile/internal/ir/node_gen.go",
         "patchSetId": 1
@@ -638,6 +656,24 @@
       "side": 1,
       "message": "The reason here is that while working on decomp operations, I needed to force them to not participate in the OnWasmStack optimization because they\u0027d end up failing the lowering phases, so I added this to just opt them out of the optimization entirely.\n\nMaybe there is a better way to handle this.",
       "parentUuid": "625b94cc_21e9e663",
+      "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73ae8fdb_d78ccd54",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-25T16:12:16Z",
+      "side": 1,
+      "message": "Is it only set on Decomp operations? Maybe we could check if the result is a tuple instead? Also, what does the failure look like?",
+      "parentUuid": "62f671d8_c3ce64ca",
       "revId": "7b2924357a0bf712a4f5865743c5cda56fe8c8d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
