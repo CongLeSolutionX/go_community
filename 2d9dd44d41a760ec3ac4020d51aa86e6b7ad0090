@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdeef304_ede5f52c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-25T16:29:37Z",
+      "side": 1,
+      "message": "There are preprocessed profiles in testdata that are not sorted, e.g. cmd/compile/internal/test/testdata/pgo/inline/inline_hot.pprof.node_map . They\u0027ll need update.",
+      "revId": "2d9dd44d41a760ec3ac4020d51aa86e6b7ad0090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
