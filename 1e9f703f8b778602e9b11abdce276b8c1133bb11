@@ -51,6 +51,24 @@
       "parentUuid": "194ddb5a_d4ed4a7a",
       "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5899bce_b6aaa890",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-03-25T13:00:28Z",
+      "side": 1,
+      "message": "For lockOSThread probably Michael or Cherry. I will mention this CL the next time we chat.\n\nOne corner case that we worry about periodically is the Go -\u003e C -\u003e Go scenario, e.g. C code calls back into Go via function pointer. Could this happen with a syscall? I assume the answer is no, but I thought I would check.",
+      "parentUuid": "97e20e7c_d370bebe",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
