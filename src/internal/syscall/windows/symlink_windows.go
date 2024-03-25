@@ -32,6 +32,7 @@ const (
 	FileIdInfo                     = 0x12 // FILE_ID_INFO
 	FileIdExtdDirectoryInfo        = 0x13 // FILE_ID_EXTD_DIR_INFO
 	FileIdExtdDirectoryRestartInfo = 0x14 // FILE_ID_EXTD_DIR_INFO
+	FileDispositionInfoEx          = 0x15 // FILE_DISPOSITION_INFO_EX
 )
 
 type FILE_ATTRIBUTE_TAG_INFO struct {
