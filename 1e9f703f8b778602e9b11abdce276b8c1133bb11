@@ -69,6 +69,24 @@
       "parentUuid": "97e20e7c_d370bebe",
       "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "198ae9dc_3b0e15e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-25T13:17:40Z",
+      "side": 1,
+      "message": "Callbacks can happen in a syscall, but there is already a lockOsThread call in that code path, and it is tested in `TestReturnAfterStackGrowInCallback`.",
+      "parentUuid": "b5899bce_b6aaa890",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
