@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6463917_56ca45fd",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1346,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-03-25T16:59:32Z",
+      "side": 1,
+      "message": "This is necessary because we build the compiler with PGO?",
+      "range": {
+        "startLine": 1346,
+        "startChar": 74,
+        "endLine": 1346,
+        "endChar": 90
+      },
+      "revId": "d9052dfbf1b90c4c0526905613d0a024860c9428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
