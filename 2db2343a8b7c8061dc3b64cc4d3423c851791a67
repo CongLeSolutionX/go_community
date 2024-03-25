@@ -104,6 +104,24 @@
       "parentUuid": "876a6fae_48c130fa",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad77b872_3642d0f3",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-25T17:51:27Z",
+      "side": 1,
+      "message": "Ah, I was misunderstanding `merge`; it replaces the last path segment.\n\nRFC 3986 Section 1.2.3 (https://www.rfc-editor.org/rfc/rfc3986.html#section-1.2.3) says:\n\n\u003e URI scheme specifications can define opaque identifiers by disallowing use of slash characters, question mark characters, and the URIs \"scheme:.\" and \"scheme:..\".\n\nThat is, if an identifier is supposed to be opaque, it shouldn\u0027t contain characters that get special processing by `merge` and `remove_dot_segments` (`/`, `?`, or the bare path `.` or `..`).\n\nThis is distinct from `URL.Opaque`, which is an identifier that doesn\u0027t start with a `/` and has a scheme. A URL of `http:a/./b/../c` is not \"opaque\" as described in Section 1.2.3, even though `net/url` would put the path in the `Opaque` field.\n\nI think if we\u0027re strictly following RFC 3986, my examples above should be:\n\n```\n        {\"http:opaque\", \"g\", \"http:g\"},\n        {\"http:opaque\", \".\", \"http:\"},\n        {\"http:opaque\", \"..\", \"http:\"},\n        {\"http:opaque?p\", \"g?q\", \"http:g?q\"},\n        {\"http:a/./b\", \"c\", \"http:a/c\"},\n        {\"http:a/./b\", \"?q\", \"http:a/b?q\"},\n```",
+      "parentUuid": "6e136aab_d319c1e4",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
