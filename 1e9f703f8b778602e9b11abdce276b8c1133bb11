@@ -108,6 +108,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d5f2ee6d_7520911b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-25T16:12:19Z",
+      "side": 1,
+      "message": "I made this a little less subtle by removing the `fn \u003d\u003d asmstdcallAddr` check and unconditionally copying the params, as done in `cgocallbackg`. The params are now an empty struct on non-Windows, so it shouldn\u0027t have any noticeable performance cost. Thoughts?",
+      "parentUuid": "d9f1695c_fb5d8508",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9ceb6df2_3ae819e1",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 9
@@ -125,6 +143,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "85f94e40_c6d643a5",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-25T16:12:19Z",
+      "side": 1,
+      "message": "Did the `struct{}` trick, I think it makes sense.",
+      "parentUuid": "9ceb6df2_3ae819e1",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ee4e4c4c_24822048",
         "filename": "src/runtime/syscall_windows.go",
         "patchSetId": 9
@@ -136,6 +172,24 @@
       "writtenOn": "2024-03-25T15:27:39Z",
       "side": 1,
       "message": "Unrelated, but shouldn\u0027t there be a `KeepAlive(args)` here? What keeps args from being collected between L515 and the cgocall call?",
+      "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4d7d476_654785e4",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2024-03-25T16:12:19Z",
+      "side": 1,
+      "message": "`cgocall` already calls `KeepAlive(args)`, so AFAIU there is no need to do it here again.",
+      "parentUuid": "ee4e4c4c_24822048",
       "revId": "1e9f703f8b778602e9b11abdce276b8c1133bb11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
