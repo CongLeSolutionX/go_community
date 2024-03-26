@@ -7084,10 +7084,14 @@ func doInit1(t *initTask) {
 			before tracestat
 		)
 
+		firstFunc := add(unsafe.Pointer(t), 8)
 		if inittrace.active {
 			start = nanotime()
 			// Load stats non-atomically since tracinit is updated only by this init goroutine.
 			before = inittrace
+			f := *(*func())(unsafe.Pointer(&firstFunc))
+			pkg := funcpkgpath(findfunc(abi.FuncPCABIInternal(f)))
+			print("init ", pkg)
 		}
 
 		if t.nfns == 0 {
@@ -7095,7 +7099,6 @@ func doInit1(t *initTask) {
 			throw("inittask with no functions")
 		}
 
-		firstFunc := add(unsafe.Pointer(t), 8)
 		for i := uint32(0); i < t.nfns; i++ {
 			p := add(firstFunc, uintptr(i)*goarch.PtrSize)
 			f := *(*func())(unsafe.Pointer(&p))
@@ -7107,11 +7110,8 @@ func doInit1(t *initTask) {
 			// Load stats non-atomically since tracinit is updated only by this init goroutine.
 			after := inittrace
 
-			f := *(*func())(unsafe.Pointer(&firstFunc))
-			pkg := funcpkgpath(findfunc(abi.FuncPCABIInternal(f)))
-
 			var sbuf [24]byte
-			print("init ", pkg, " @")
+			print(" @")
 			print(string(fmtNSAsMS(sbuf[:], uint64(start-runtimeInitTime))), " ms, ")
 			print(string(fmtNSAsMS(sbuf[:], uint64(end-start))), " ms clock, ")
 			print(string(itoa(sbuf[:], after.bytes-before.bytes)), " bytes, ")
