@@ -6,6 +6,7 @@ package pprof
 
 import (
 	"context"
+	"fmt"
 	"reflect"
 	"sort"
 	"testing"
@@ -115,4 +116,73 @@ func TestLabelMapStringer(t *testing.T) {
 			t.Errorf("%#v.String() = %q; want %q", tbl.m, got, tbl.expected)
 		}
 	}
+}
+
+func BenchmarkLabels(b *testing.B) {
+	ctx := context.Background()
+	manyLabels := func() []string {
+		var pairs []string
+		for i := 0; i < 10; i++ {
+			pairs = append(pairs, fmt.Sprintf("key%03d", i), fmt.Sprintf("value%03d", i))
+		}
+		return pairs
+	}
+
+	b.Run("set", func(b *testing.B) {
+		b.ReportAllocs()
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			Do(ctx, Labels("key", "value"), func(context.Context) {})
+		}
+	})
+
+	b.Run("set-many", func(b *testing.B) {
+		b.ReportAllocs()
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			Do(ctx, Labels(manyLabels()...), func(context.Context) {})
+		}
+	})
+
+	b.Run("merge", func(b *testing.B) {
+		ctx := WithLabels(context.Background(), Labels("key1", "val1"))
+
+		b.ReportAllocs()
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			Do(ctx, Labels("key2", "value2"), func(context.Context) {})
+		}
+	})
+
+	b.Run("merge-many", func(b *testing.B) {
+		pairs := manyLabels()
+		ctx := WithLabels(context.Background(), Labels(pairs[:len(pairs)/2]...))
+
+		b.ResetTimer()
+		b.ReportAllocs()
+		for i := 0; i < b.N; i++ {
+			Do(ctx, Labels(pairs[len(pairs)/2:]...), func(context.Context) {})
+		}
+	})
+
+	b.Run("overwrite", func(b *testing.B) {
+		ctx := WithLabels(context.Background(), Labels("key", "val"))
+
+		b.ReportAllocs()
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			Do(ctx, Labels("key", "value"), func(context.Context) {})
+		}
+	})
+
+	b.Run("overwrite-many", func(b *testing.B) {
+		pairs := manyLabels()
+		ctx := WithLabels(context.Background(), Labels(pairs...))
+
+		b.ReportAllocs()
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			Do(ctx, Labels(pairs...), func(context.Context) {})
+		}
+	})
 }
