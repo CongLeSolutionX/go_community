@@ -122,6 +122,24 @@
       "parentUuid": "6e136aab_d319c1e4",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc809718_d50e09e7",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 3340440
+      },
+      "writtenOn": "2024-03-26T11:13:28Z",
+      "side": 1,
+      "message": "I agree with the given expected outputs for the tests.\n\nBut if the `URL.opaque` isn\u0027t necessarily an opaque as described in the spec, but it is intended to be treated as a path is in the spec, isn\u0027t the whole opaque separation pointless? Just storing the path always as a path would probably be better, since with the current implementation of `URL` it will be needed to check for both `base.opaque` and `base.path` and treat them differently to get the output according to spec when the merging behavior should be universal (in my opinion), which would be achieved by not storing opaque separately.\n\nThe `resolvePath` function is just meant to handle paths (either starting with \u0027/\u0027 or not), not opaques, since one of its core behaviors is always printing a \u0027/\u0027 at the beginning, which is not desired when handling an opaque, as described in the 5th and 6th given test cases, but is intended for paths as tests are expecting it.\n\nThe refactoring of the whole opaque handling to make it completely according to spec should be opened as another issue since it will be much deeper than what this issue is about. There\u0027s also the previously mentioned problem, where there\u0027s being printed an empty authority section, which would make writing tests for the opaque merging behavior difficult (since the tests would have to expect the empty authority, even though that wouldn\u0027t be desired).\n\nThis issue is just about the specific case where the reference doesn\u0027t have a scheme, an authority section, or a path and the base url is opaque, which doesn\u0027t require any path merging as the `ref.Path` is empty.",
+      "parentUuid": "ad77b872_3642d0f3",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
