@@ -52,6 +52,27 @@ func VeryBadOfSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
 	}
 }
 
+// SwallowPanicOfSliceIndex hides panics and converts them to normal return
+func SwallowPanicOfSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		for i, v := range s {
+			done := false
+			func() {
+				defer func() {
+					if r := recover(); r != nil {
+						done = true
+					}
+				}()
+				done = !yield(i, v)
+			}()
+			if done {
+				return
+			}
+		}
+		return
+	}
+}
+
 // PanickyOfSliceIndex iterates the slice but panics if it exits the loop early
 func PanickyOfSliceIndex[T any, S ~[]T](s S) Seq2[int, T] {
 	return func(yield func(int, T) bool) {
@@ -940,7 +961,7 @@ func TestPanickyIterator2(t *testing.T) {
 			result = append(result, y)
 
 			// converts early exit into a panic --> 1, 2
-			for k, z := range PanickyOfSliceIndex([]int{1, 2}) {
+			for k, z := range PanickyOfSliceIndex([]int{1, 2}) { // iterator panics
 				result = append(result, z)
 				if k == 1 {
 					break Y
@@ -972,7 +993,7 @@ func TestPanickyIterator3(t *testing.T) {
 		for _, y := range VeryBadOfSliceIndex([]int{10, 20}) {
 			result = append(result, y)
 
-			for k, z := range OfSliceIndex([]int{1, 2}) {
+			for k, z := range OfSliceIndex([]int{1, 2}) { // iterator does not panic
 				result = append(result, z)
 				if k == 1 {
 					break Y
@@ -980,6 +1001,30 @@ func TestPanickyIterator3(t *testing.T) {
 			}
 		}
 	}
+}
+
+func TestPanickyIterator4(t *testing.T) {
+	var result []int
+	var expect = []int{1, 2, 3}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		}
+	}()
+	for _, x := range SwallowPanicOfSliceIndex([]int{1, 2, 3, 4}) {
+		result = append(result, x)
+		if x == 3 {
+			panic("x is 3")
+		}
+	}
+
 }
 
 // veryBad tests that a loop nest behaves sensibly in the face of a

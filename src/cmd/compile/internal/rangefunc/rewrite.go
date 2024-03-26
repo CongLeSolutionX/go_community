@@ -580,11 +580,11 @@ type rewriter struct {
 	rewritten map[*syntax.ForStmt]syntax.Stmt
 
 	// Declared variables in generated code for outermost loop.
-	declStmt     *syntax.DeclStmt
-	nextVar      types2.Object
-	retVars      []types2.Object
-	defers       types2.Object
-	exitVarCount int // exitvars are referenced from their respective loops
+	declStmt      *syntax.DeclStmt
+	nextVar       types2.Object
+	retVars       []types2.Object
+	defers        types2.Object
+	stateVarCount int // stateVars are referenced from their respective loops
 }
 
 // A branch is a single labeled branch.
@@ -596,8 +596,8 @@ type branch struct {
 // A forLoop describes a single range-over-func loop being processed.
 type forLoop struct {
 	nfor         *syntax.ForStmt // actual syntax
-	exitFlag     *types2.Var     // #exit variable for this loop
-	exitFlagDecl *syntax.VarDecl
+	stateVar     *types2.Var     // #state variable for this loop
+	stateVarDecl *syntax.VarDecl
 	depth        int // outermost loop has depth 1, otherwise depth = depth(parent)+1
 
 	checkRet      bool     // add check for "return" after loop
@@ -607,12 +607,16 @@ type forLoop struct {
 	checkBranch   []branch // add check for labeled branch after loop
 }
 
-const DONE = 0      // body of loop has exited in a non-panic way
-const READY = 1     // body of loop has not exited yet, is not running
-const PANIC = 2     // body of loop is either currently running, or has panicked
-const EXHAUSTED = 3 // iterator function return, i.e., sequence is "exhausted"
+type State int
 
-const MISSING_PANIC = 1 // overload "READY" for panic call
+const (
+	DONE      = State(iota) // body of loop has exited in a non-panic way
+	READY                   // body of loop has not exited yet, is not running
+	PANIC                   // body of loop is either currently running, or has panicked
+	EXHAUSTED               // iterator function return, i.e., sequence is "exhausted"
+)
+
+const MISSING_PANIC = READY // overload "READY" for panic call
 
 // Rewrite rewrites all the range-over-funcs in the files.
 func Rewrite(pkg *types2.Package, info *types2.Info, files []*syntax.File) {
@@ -722,8 +726,8 @@ func (r *rewriter) startLoop(loop *forLoop) {
 		r.rewritten = make(map[*syntax.ForStmt]syntax.Stmt)
 	}
 	if r.checkFuncMisuse() {
-		// declare the exit flag for this loop's body
-		loop.exitFlag, loop.exitFlagDecl = r.exitVar(loop.nfor.Pos())
+		// declare the state flag for this loop's body
+		loop.stateVar, loop.stateVarDecl = r.stateVar(loop.nfor.Pos())
 	}
 }
 
@@ -774,17 +778,17 @@ func (r *rewriter) editDefer(x *syntax.CallStmt) syntax.Stmt {
 	return x
 }
 
-func (r *rewriter) exitVar(pos syntax.Pos) (*types2.Var, *syntax.VarDecl) {
-	r.exitVarCount++
+func (r *rewriter) stateVar(pos syntax.Pos) (*types2.Var, *syntax.VarDecl) {
+	r.stateVarCount++
 
-	name := fmt.Sprintf("#exit%d", r.exitVarCount)
-	typ := r.bool.Type()
+	name := fmt.Sprintf("#state%d", r.stateVarCount)
+	typ := r.int.Type()
 	obj := types2.NewVar(pos, r.pkg, name, typ)
 	n := syntax.NewName(pos, name)
 	setValueType(n, typ)
 	r.info.Defs[n] = obj
 
-	return obj, &syntax.VarDecl{NameList: []*syntax.Name{n}}
+	return obj, &syntax.VarDecl{NameList: []*syntax.Name{n}, Values: r.stateConst(READY)}
 }
 
 // editReturn returns the replacement for the return statement x.
@@ -818,10 +822,8 @@ func (r *rewriter) editReturn(x *syntax.ReturnStmt) syntax.Stmt {
 	}
 	bl.List = append(bl.List, &syntax.AssignStmt{Lhs: r.next(), Rhs: r.intConst(next)})
 	if r.checkFuncMisuse() {
-		// mark all enclosing loop bodies as exited
-		for i := 0; i < len(r.forStack); i++ {
-			bl.List = append(bl.List, r.setExitedAt(i))
-		}
+		// mark this loop as exited, the others (which will be exited if iterators do not interfere) have not, yet.
+		bl.List = append(bl.List, r.setState(DONE, x.Pos()))
 	}
 	bl.List = append(bl.List, &syntax.ReturnStmt{Results: r.useVar(r.false)})
 	setPos(bl, x.Pos())
@@ -904,22 +906,21 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 		// break/continue of labeled range-over-func loop.
 		depth := len(r.forStack) - 1 - i
 
-		// For continue of innermost loop, use "return true".
-		// Otherwise we are breaking the innermost loop, so "return false".
-
-		if depth == 0 && x.Tok == syntax.Continue {
-			ret = &syntax.ReturnStmt{Results: r.useVar(r.true)}
-			setPos(ret, x.Pos())
-			return ret
-		}
-		ret = &syntax.ReturnStmt{Results: r.useVar(r.false)}
-
-		// If this is a simple break, mark this loop as exited and return false.
-		// No adjustments to #next.
 		if depth == 0 {
+			// Simple break or continue.
+			// Continue returns true, break returns false, optionally both adjust state,
+			// neither modifies #next.
+			var state State
+			if x.Tok == syntax.Continue {
+				ret = &syntax.ReturnStmt{Results: r.useVar(r.true)}
+				state = READY
+			} else {
+				ret = &syntax.ReturnStmt{Results: r.useVar(r.false)}
+				state = DONE
+			}
 			var stmts []syntax.Stmt
 			if r.checkFuncMisuse() {
-				stmts = []syntax.Stmt{r.setExited(), ret}
+				stmts = []syntax.Stmt{r.setState(state, x.Pos()), ret}
 			} else {
 				stmts = []syntax.Stmt{ret}
 			}
@@ -929,6 +930,8 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 			setPos(bl, x.Pos())
 			return bl
 		}
+
+		ret = &syntax.ReturnStmt{Results: r.useVar(r.false)}
 
 		// The loop inside the one we are break/continue-ing
 		// needs to make that happen when we break out of it.
@@ -959,10 +962,9 @@ func (r *rewriter) editBranch(x *syntax.BranchStmt) syntax.Stmt {
 	}
 
 	if r.checkFuncMisuse() {
-		// Set #exitK for this loop and those exited by the control flow.
-		for i := exitFrom; i < len(r.forStack); i++ {
-			bl.List = append(bl.List, r.setExitedAt(i))
-		}
+		// Set #stateK for this loop.
+		// The exterior loops have not exited yet, and the iterator might interfere.
+		bl.List = append(bl.List, r.setState(DONE, x.Pos()))
 	}
 
 	bl.List = append(bl.List, ret)
@@ -1066,18 +1068,27 @@ func (r *rewriter) endLoop(loop *forLoop) {
 		block.List = append(block.List, r.declStmt)
 	}
 
-	// declare the exitFlag here so it has proper scope and zeroing
+	// declare the state variable here so it has proper scope and initialization
 	if r.checkFuncMisuse() {
-		exitFlagDecl := &syntax.DeclStmt{DeclList: []syntax.Decl{loop.exitFlagDecl}}
-		block.List = append(block.List, exitFlagDecl)
+		stateVarDecl := &syntax.DeclStmt{DeclList: []syntax.Decl{loop.stateVarDecl}}
+		setPos(stateVarDecl, start)
+		block.List = append(block.List, stateVarDecl)
 	}
 
 	// iteratorFunc(bodyFunc)
 	block.List = append(block.List, call)
 
 	if r.checkFuncMisuse() {
-		// iteratorFunc has exited, mark the exit flag for the body
-		block.List = append(block.List, r.setExited())
+		// iteratorFunc has exited, check for swallowed panic, and set body state to EXHAUSTED
+		nif := &syntax.IfStmt{
+			Cond: r.cond(syntax.Eql, r.useVar(loop.stateVar), r.stateConst(PANIC)),
+			Then: &syntax.BlockStmt{
+				List: []syntax.Stmt{r.callPanic(start, r.stateConst(MISSING_PANIC))},
+			},
+		}
+		setPos(nif, end)
+		block.List = append(block.List, nif)
+		block.List = append(block.List, r.setState(EXHAUSTED, end))
 	}
 	block.List = append(block.List, checks...)
 
@@ -1091,15 +1102,25 @@ func (r *rewriter) endLoop(loop *forLoop) {
 	r.rewritten[nfor] = block
 }
 
-func (r *rewriter) setExited() *syntax.AssignStmt {
-	return r.setExitedAt(len(r.forStack) - 1)
+func (r *rewriter) cond(op syntax.Operator, x, y syntax.Expr) *syntax.Operation {
+	cond := &syntax.Operation{Op: op, X: x, Y: y}
+	tv := syntax.TypeAndValue{Type: r.bool.Type()}
+	tv.SetIsValue()
+	cond.SetTypeInfo(tv)
+	return cond
 }
 
-func (r *rewriter) setExitedAt(index int) *syntax.AssignStmt {
+func (r *rewriter) setState(val State, pos syntax.Pos) *syntax.AssignStmt {
+	ss := r.setStateAt(len(r.forStack)-1, val)
+	setPos(ss, pos)
+	return ss
+}
+
+func (r *rewriter) setStateAt(index int, stateVal State) *syntax.AssignStmt {
 	loop := r.forStack[index]
 	return &syntax.AssignStmt{
-		Lhs: r.useVar(loop.exitFlag),
-		Rhs: r.useVar(r.true),
+		Lhs: r.useVar(loop.stateVar),
+		Rhs: r.stateConst(stateVal),
 	}
 }
 
@@ -1158,13 +1179,17 @@ func (r *rewriter) bodyFunc(body []syntax.Stmt, lhs []syntax.Expr, def bool, fty
 	loop := r.forStack[len(r.forStack)-1]
 
 	if r.checkFuncMisuse() {
-		bodyFunc.Body.List = append(bodyFunc.Body.List, r.assertNotExited(start, loop))
+		bodyFunc.Body.List = append(bodyFunc.Body.List, r.assertReady(start, loop))
+		bodyFunc.Body.List = append(bodyFunc.Body.List, r.setState(PANIC, start))
 	}
 
 	// Original loop body (already rewritten by editStmt during inspect).
 	bodyFunc.Body.List = append(bodyFunc.Body.List, body...)
 
-	// return true to continue at end of loop body
+	// end of loop body, set state to READY and return true to continue iteration
+	if r.checkFuncMisuse() {
+		bodyFunc.Body.List = append(bodyFunc.Body.List, r.setState(READY, end))
+	}
 	ret := &syntax.ReturnStmt{Results: r.useVar(r.true)}
 	ret.SetPos(end)
 	bodyFunc.Body.List = append(bodyFunc.Body.List, ret)
@@ -1175,6 +1200,7 @@ func (r *rewriter) bodyFunc(body []syntax.Stmt, lhs []syntax.Expr, def bool, fty
 // checks returns the post-call checks that need to be done for the given loop.
 func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 	var list []syntax.Stmt
+	// fmt.Printf("Checks loop %d at line %d\n", loop.depth, pos.Line())
 	if len(loop.checkBranch) > 0 {
 		did := make(map[branch]bool)
 		for _, br := range loop.checkBranch {
@@ -1186,6 +1212,10 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 			list = append(list, r.ifNext(syntax.Eql, r.branchNext[br], doBranch, true))
 		}
 	}
+
+	curLoop := loop.depth - 1
+	curLoopIndex := curLoop - 1
+
 	if len(r.forStack) == 1 {
 		if loop.checkRetArgs {
 			list = append(list, r.ifNext(syntax.Eql, -2, retStmt(r.useList(r.retVars)), false))
@@ -1201,7 +1231,7 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 		// if #next != 0 {
 		//   if #next >= perLoopStep*N-1 { // this loop
 		//   	if #next >= perLoopStep*N+1 { // error checking
-		//        runtime.panicrangeexit()
+		//        runtime.panicrangestate(DONE)
 		//   	}
 		//   	rv := #next & 1 == 1 // code generates into #next&1
 		// 	#next = 0
@@ -1213,24 +1243,47 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 		if loop.checkRetArgs || loop.checkRet {
 			// Note: next < 0 also handles gotos handled by outer loops.
 			// We set checkRet in that case to trigger this check.
-			list = append(list, r.ifNext(syntax.Lss, 0, retStmt(r.useVar(r.false)), false))
+			if r.checkFuncMisuse() {
+				list = append(list, r.ifNext2(syntax.Lss, 0, r.setStateAt(curLoopIndex, DONE), retStmt(r.useVar(r.false)), false))
+			} else {
+				list = append(list, r.ifNext(syntax.Lss, 0, retStmt(r.useVar(r.false)), false))
+			}
 		}
 
-		depthStep := perLoopStep * (loop.depth - 1)
+		depthStep := perLoopStep * (curLoop)
 
 		if r.checkFuncMisuse() {
-			list = append(list, r.ifNext(syntax.Gtr, depthStep, r.callPanic(pos), false))
+			list = append(list, r.ifNext(syntax.Gtr, depthStep, r.callPanic(pos, r.stateConst(DONE)), false))
 		} else {
 			list = append(list, r.ifNext(syntax.Gtr, depthStep, nil, true))
 		}
 
-		if loop.checkContinue {
-			list = append(list, r.ifNext(syntax.Eql, depthStep-1, retStmt(r.useVar(r.true)), true))
-		}
+		if r.checkFuncMisuse() {
+			if loop.checkContinue {
+				// fmt.Printf("ifNext2 #next == %d {#state(%d)=READY; return true}\n", depthStep-1, curLoopIndex)
+				list = append(list, r.ifNext2(syntax.Eql, depthStep-1, r.setStateAt(curLoopIndex, READY), retStmt(r.useVar(r.true)), true))
+			}
 
-		if loop.checkBreak {
-			list = append(list, r.ifNext(syntax.Eql, depthStep, retStmt(r.useVar(r.false)), true))
-			list = append(list, r.ifNext(syntax.Gtr, 0, retStmt(r.useVar(r.false)), false))
+			if loop.checkBreak {
+				// fmt.Printf("ifNext2 #next == %d {#state(%d)=DONE; return false}\n", depthStep, curLoopIndex)
+				list = append(list, r.ifNext2(syntax.Eql, depthStep, r.setStateAt(curLoopIndex, DONE), retStmt(r.useVar(r.false)), true))
+			}
+
+			if loop.checkContinue || loop.checkBreak {
+				// fmt.Printf("ifNext2 #next > 0 {#state(%d)=DONE; return false}\n", curLoopIndex)
+				list = append(list, r.ifNext2(syntax.Gtr, 0, r.setStateAt(curLoopIndex, DONE), retStmt(r.useVar(r.false)), false))
+			}
+
+		} else {
+			if loop.checkContinue {
+				list = append(list, r.ifNext(syntax.Eql, depthStep-1, retStmt(r.useVar(r.true)), true))
+			}
+			if loop.checkBreak {
+				list = append(list, r.ifNext(syntax.Eql, depthStep, retStmt(r.useVar(r.false)), true))
+			}
+			if loop.checkContinue || loop.checkBreak {
+				list = append(list, r.ifNext(syntax.Gtr, 0, retStmt(r.useVar(r.false)), false))
+			}
 		}
 	}
 
@@ -1265,15 +1318,31 @@ func (r *rewriter) ifNext(op syntax.Operator, c int, then syntax.Stmt, zeroNext 
 		thenList = append(thenList, then)
 	}
 	nif := &syntax.IfStmt{
-		Cond: &syntax.Operation{Op: op, X: r.next(), Y: r.intConst(c)},
+		Cond: r.cond(op, r.next(), r.intConst(c)),
 		Then: &syntax.BlockStmt{
 			List: thenList,
 		},
 	}
-	tv := syntax.TypeAndValue{Type: r.bool.Type()}
-	tv.SetIsValue()
-	nif.Cond.SetTypeInfo(tv)
+	return nif
+}
 
+func (r *rewriter) ifNext2(op syntax.Operator, c int, then1, then2 syntax.Stmt, zeroNext bool) syntax.Stmt {
+	var thenList []syntax.Stmt
+	if zeroNext {
+		clr := &syntax.AssignStmt{
+			Lhs: r.next(),
+			Rhs: r.intConst(0),
+		}
+		thenList = append(thenList, clr)
+	}
+	thenList = append(thenList, then1)
+	thenList = append(thenList, then2)
+	nif := &syntax.IfStmt{
+		Cond: r.cond(op, r.next(), r.intConst(c)),
+		Then: &syntax.BlockStmt{
+			List: thenList,
+		},
+	}
 	return nif
 }
 
@@ -1284,25 +1353,26 @@ func setValueType(x syntax.Expr, typ syntax.Type) {
 	x.SetTypeInfo(tv)
 }
 
-// assertNotExited returns the statement:
+// assertReady returns the statement:
 //
-//	if #exitK { runtime.panicrangeexit() }
+//	if #stateK != READY { runtime.panicrangestate(#stateK) }
 //
-// where #exitK is the exit guard for loop.
-func (r *rewriter) assertNotExited(start syntax.Pos, loop *forLoop) syntax.Stmt {
+// where #stateK is the state variable for loop.
+func (r *rewriter) assertReady(start syntax.Pos, loop *forLoop) syntax.Stmt {
 	nif := &syntax.IfStmt{
-		Cond: r.useVar(loop.exitFlag),
+		Cond: r.cond(syntax.Neq, r.useVar(loop.stateVar), r.stateConst(READY)),
 		Then: &syntax.BlockStmt{
-			List: []syntax.Stmt{r.callPanic(start)},
+			List: []syntax.Stmt{r.callPanic(start, r.useVar(loop.stateVar))},
 		},
 	}
 	setPos(nif, start)
 	return nif
 }
 
-func (r *rewriter) callPanic(start syntax.Pos) syntax.Stmt {
+func (r *rewriter) callPanic(start syntax.Pos, arg syntax.Expr) syntax.Stmt {
 	callPanicExpr := &syntax.CallExpr{
-		Fun: runtimeSym(r.info, "panicrangeexit"),
+		Fun:     runtimeSym(r.info, "panicrangestate"),
+		ArgList: []syntax.Expr{arg},
 	}
 	setValueType(callPanicExpr, nil) // no result type
 	return &syntax.ExprStmt{X: callPanicExpr}
@@ -1345,6 +1415,10 @@ func (r *rewriter) intConst(c int) *syntax.BasicLit {
 	tv.SetIsValue()
 	lit.SetTypeInfo(tv)
 	return lit
+}
+
+func (r *rewriter) stateConst(s State) *syntax.BasicLit {
+	return r.intConst(int(s))
 }
 
 // useVar returns syntax for a reference to decl, which should be its declaration.
@@ -1402,13 +1476,14 @@ var runtimePkg = func() *types2.Package {
 	var nopos syntax.Pos
 	pkg := types2.NewPackage("runtime", "runtime")
 	anyType := types2.Universe.Lookup("any").Type()
+	intType := types2.Universe.Lookup("int").Type()
 
 	// func deferrangefunc() unsafe.Pointer
 	obj := types2.NewFunc(nopos, pkg, "deferrangefunc", types2.NewSignatureType(nil, nil, nil, nil, types2.NewTuple(types2.NewParam(nopos, pkg, "extra", anyType)), false))
 	pkg.Scope().Insert(obj)
 
-	// func panicrangeexit()
-	obj = types2.NewFunc(nopos, pkg, "panicrangeexit", types2.NewSignatureType(nil, nil, nil, nil, nil, false))
+	// func panicrangestate()
+	obj = types2.NewFunc(nopos, pkg, "panicrangestate", types2.NewSignatureType(nil, nil, nil, types2.NewTuple(types2.NewParam(nopos, pkg, "state", intType)), nil, false))
 	pkg.Scope().Insert(obj)
 
 	return pkg
