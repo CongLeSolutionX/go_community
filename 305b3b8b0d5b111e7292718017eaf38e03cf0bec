@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "914aaebb_731adc60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 15105
+      },
+      "writtenOn": "2024-03-26T09:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8cdfcaa_62bbe139",
+      "revId": "305b3b8b0d5b111e7292718017eaf38e03cf0bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "45e492da_3fed8786",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2024-03-21T19:55:59Z",
       "side": 1,
       "message": "I agree that the test image is too large for the repo.  We need a different approach.",
+      "revId": "305b3b8b0d5b111e7292718017eaf38e03cf0bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3d85690_1d6a24ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 15105
+      },
+      "writtenOn": "2024-03-26T09:39:10Z",
+      "side": 1,
+      "message": "I sadly don\u0027t know enough about JPEG to purposely make a working image that has the same issue.",
+      "parentUuid": "9a4b7130_7b471aa7",
       "revId": "305b3b8b0d5b111e7292718017eaf38e03cf0bec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
