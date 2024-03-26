@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47316392_269dae73",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-03-26T08:55:17Z",
+      "side": 1,
+      "message": "Right, it\u0027s CPU time in the sense of the `/cpu/...` metrics. But those aren\u0027t CPU time either as most people would understand it.\n\nI guess if there\u0027s internal consistency that\u0027s OK.",
+      "parentUuid": "34dfd600_e4738bd5",
+      "range": {
+        "startLine": 1328,
+        "startChar": 1,
+        "endLine": 1328,
+        "endChar": 16
+      },
+      "revId": "1c4278eee332ae1078ce3777e07fc48a0a914bc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34b724f7_9208b838",
