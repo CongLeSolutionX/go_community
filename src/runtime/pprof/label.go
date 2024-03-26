@@ -27,7 +27,7 @@ type labelContextKey struct{}
 func labelValue(ctx context.Context) labelMap {
 	labels, _ := ctx.Value(labelContextKey{}).(*labelMap)
 	if labels == nil {
-		return labelMap(nil)
+		return labelMap{}
 	}
 	return *labels
 }
@@ -35,7 +35,9 @@ func labelValue(ctx context.Context) labelMap {
 // labelMap is the representation of the label set held in the context type.
 // This is an initial implementation, but it will be replaced with something
 // that admits incremental immutable modification more efficiently.
-type labelMap map[string]string
+type labelMap struct {
+	LabelSet
+}
 
 // String satisfies Stringer and returns key, value pairs in a consistent
 // order.
@@ -43,13 +45,11 @@ func (l *labelMap) String() string {
 	if l == nil {
 		return ""
 	}
-	keyVals := make([]string, 0, len(*l))
+	keyVals := make([]string, 0, len(l.list))
 
-	for k, v := range *l {
+	for k, v := range l.list {
 		keyVals = append(keyVals, fmt.Sprintf("%q:%q", k, v))
 	}
-
-	sort.Strings(keyVals)
 
 	return "{" + strings.Join(keyVals, ", ") + "}"
 }
@@ -58,17 +58,44 @@ func (l *labelMap) String() string {
 // A label overwrites a prior label with the same key.
 func WithLabels(ctx context.Context, labels LabelSet) context.Context {
 	parentLabels := labelValue(ctx)
-	childLabels := make(labelMap, len(parentLabels))
-	// TODO(matloob): replace the map implementation with something
-	// more efficient so creating a child context WithLabels doesn't need
-	// to clone the map.
-	for k, v := range parentLabels {
-		childLabels[k] = v
+	return context.WithValue(ctx, labelContextKey{}, &labelMap{merge(parentLabels.LabelSet, labels)})
+}
+
+func merge(left, right LabelSet) LabelSet {
+	if len(left.list) == 0 {
+		return right
+	} else if len(right.list) == 0 {
+		return left
 	}
-	for _, label := range labels.list {
-		childLabels[label.key] = label.value
+
+	l, r := 0, 0
+	result := make([]label, 0, len(right.list))
+
+	for l < len(left.list) && r < len(right.list) {
+		switch {
+		case left.list[l].key < right.list[r].key:
+			result = append(result, left.list[l])
+			l++
+		case left.list[l].key > right.list[r].key:
+			result = append(result, right.list[r])
+			r++
+		default:
+			// Keys are equal; prefer right's value
+			result = append(result, right.list[r])
+			l++
+			r++
+		}
 	}
-	return context.WithValue(ctx, labelContextKey{}, &childLabels)
+
+	// Append the remaining elements
+	for ; l < len(left.list); l++ {
+		result = append(result, left.list[l])
+	}
+	for ; r < len(right.list); r++ {
+		result = append(result, right.list[r])
+	}
+
+	return LabelSet{list: result}
 }
 
 // Labels takes an even number of strings representing key-value pairs
@@ -82,8 +109,17 @@ func Labels(args ...string) LabelSet {
 		panic("uneven number of arguments to pprof.Labels")
 	}
 	list := make([]label, 0, len(args)/2)
+	sorted := true
 	for i := 0; i+1 < len(args); i += 2 {
 		list = append(list, label{key: args[i], value: args[i+1]})
+		sorted = sorted && (i < 2 || args[i] > args[i-2])
+	}
+	if !sorted {
+		// slow path: keys are unsorted, contain duplicates, or both
+		sort.Slice(list, func(i, j int) bool {
+			return list[i].key < list[j].key
+		})
+		// TODO: remove duplicates
 	}
 	return LabelSet{list: list}
 }
@@ -92,16 +128,20 @@ func Labels(args ...string) LabelSet {
 // whether that label exists.
 func Label(ctx context.Context, key string) (string, bool) {
 	ctxLabels := labelValue(ctx)
-	v, ok := ctxLabels[key]
-	return v, ok
+	for _, lbl := range ctxLabels.list {
+		if lbl.key == key {
+			return lbl.value, true
+		}
+	}
+	return "", false
 }
 
 // ForLabels invokes f with each label set on the context.
 // The function f should return true to continue iteration or false to stop iteration early.
 func ForLabels(ctx context.Context, f func(key, value string) bool) {
 	ctxLabels := labelValue(ctx)
-	for k, v := range ctxLabels {
-		if !f(k, v) {
+	for _, lbl := range ctxLabels.list {
+		if !f(lbl.key, lbl.value) {
 			break
 		}
 	}
