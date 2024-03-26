@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65dd5a94_abbce3cf",
+        "filename": "src/cmd/go/testdata/script/build_cache_pgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-26T21:03:50Z",
+      "side": 1,
+      "message": "Done. It didn\u0027t even require any changes. I just mindlessly copied this from another test.",
+      "parentUuid": "c5e5b5ab_24d37eb8",
+      "revId": "49a9ed7515e15790a9ea39853b0aae4cb755686f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58e7c8ea_cd0bdf07",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-25T18:27:14Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "49a9ed7515e15790a9ea39853b0aae4cb755686f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a176f385_e680e5a3",
+        "filename": "src/crypto/upload.token",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-26T21:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e7c8ea_cd0bdf07",
       "revId": "49a9ed7515e15790a9ea39853b0aae4cb755686f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
