@@ -296,11 +296,39 @@ func deferproc(fn func()) {
 	// been set and must not be clobbered.
 }
 
+// TODO(drchase) remove when rewrite is changed
 var rangeExitError = error(errorString("range function continued iteration after exit"))
 
 //go:noinline
 func panicrangeexit() {
 	panic(rangeExitError)
+}
+
+var rangeDoneError = error(errorString("range function continued iteration after loop body exit"))
+var rangePanicError = error(errorString("range function continued iteration after loop body panic"))
+var rangeExhaustedError = error(errorString("range function continued iteration after whole loop exit"))
+var rangeMissingPanicError = error(errorString("range function swallowed loop body panic"))
+
+//go:noinline
+func panicrangestate(state int) {
+	const (
+		// These duplicate magic numbers in cmd/compile/internal/rangefunc
+		DONE          = 0 // body of loop has exited in a non-panic way
+		PANIC         = 2 // body of loop is either currently running, or has panicked
+		EXHAUSTED     = 3 // iterator function return, i.e., sequence is "exhausted"
+		MISSING_PANIC = 1 // overload "READY" for panic call
+	)
+	switch state {
+	case DONE:
+		panic(rangeDoneError)
+	case PANIC:
+		panic(rangePanicError)
+	case EXHAUSTED:
+		panic(rangeExhaustedError)
+	case MISSING_PANIC:
+		panic(rangeMissingPanicError)
+	}
+	throw("unexpected state passed to panicrangestate")
 }
 
 // deferrangefunc is called by functions that are about to

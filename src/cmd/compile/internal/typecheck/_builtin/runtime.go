@@ -117,8 +117,12 @@ func interfaceSwitch(s *byte, t *byte) (int, *byte)
 func ifaceeq(tab *uintptr, x, y unsafe.Pointer) (ret bool)
 func efaceeq(typ *uintptr, x, y unsafe.Pointer) (ret bool)
 
+// TODO(drchase) remove after compiler update, rerun mkbuiltin, here and in cmd/internal/goobj
 // panic for iteration after exit in range func
 func panicrangeexit()
+
+// panic for various rangefunc iterator errors
+func panicrangestate(state int)
 
 // defer in range over func
 func deferrangefunc() interface{}
