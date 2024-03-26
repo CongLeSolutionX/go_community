@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6d1a0bd_a5958fb8",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-26T21:03:06Z",
+      "side": 1,
+      "message": "Correct. The indirect dependency should be fine for normal released versions of Go (the compiler will change between versions and force everything to rebuild).\n\nBut for those of us working on the toolchain itself, if I edit preprofile and `go install cmd/preprofile`, I want that to invalidate the cache and force a rebuild (as the processed file may change). This dependency is intended to ensure that (together with the preprocess action depending on the version of the preprofile tool).",
+      "parentUuid": "8c082113_adb450d1",
+      "range": {
+        "startLine": 403,
+        "startChar": 0,
+        "endLine": 406,
+        "endChar": 0
+      },
+      "revId": "053f2c092033af8a3ed25346968040359616c1ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f51e14d_be923adf",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-03-25T16:57:21Z",
       "side": 1,
       "message": "Maybe this shouldn\u0027t check the \"prof\" part as well?",
+      "range": {
+        "startLine": 41,
+        "startChar": 43,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "053f2c092033af8a3ed25346968040359616c1ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4baa1a36_ba0b11ed",
+        "filename": "src/cmd/go/testdata/script/build_pgo.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-03-26T21:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f51e14d_be923adf",
       "range": {
         "startLine": 41,
         "startChar": 43,
