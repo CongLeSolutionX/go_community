@@ -264,6 +264,11 @@ func (check *Checker) collectObjects() {
 					return
 				}
 
+				if path == "C" && check.conf.FakeImportC && check.conf.go115UsesCgo {
+					check.error(d.spec.Path, BadImportPath, "cannot use FakeImportC and go115UsesCgo together")
+					return
+				}
+
 				imp := check.importPackage(d.spec.Path, path, fileDir)
 				if imp == nil {
 					return
