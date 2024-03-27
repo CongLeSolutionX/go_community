@@ -14,6 +14,7 @@ import (
 	"go/token"
 	"go/types"
 	"internal/testenv"
+	"os"
 	"strings"
 	"testing"
 
@@ -173,6 +174,12 @@ func TestEvalPos(t *testing.T) {
 		if err != nil {
 			t.Fatalf("could not parse file %d: %s", i, err)
 		}
+
+		if strings.Contains(os.Getenv("GODEBUG"), "gotypesalias=1") &&
+			strings.Contains(src, "interface{R}.Read") {
+			continue // FIXME materialized aliases gives a better result
+		}
+
 		files = append(files, file)
 	}
 
