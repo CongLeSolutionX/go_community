@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08e9b0e5_db354abd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-03-27T22:21:31Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "6e72af957446d59e25b9f46b60082f088034e917",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e84c5e20_cb58a0ee",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-03-27T22:21:31Z",
+      "side": 1,
+      "message": "I suspect tests won\u0027t be happy about this line being added. You can either remove it manually or `go install golang.org/x/tools/cmd/bundle@latest` and regen.",
+      "revId": "6e72af957446d59e25b9f46b60082f088034e917",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
