@@ -157,6 +157,16 @@ func MustHaveParallelism(t testing.TB) {
 	}
 }
 
+// FlakyParallelism reports whether the OS running the test has limited
+// in practice parallelism.
+func FlakyParallelism() bool {
+	switch runtime.GOOS {
+	case "openbsd":
+		return false
+	}
+	return HasParallelism()
+}
+
 // GoToolPath reports the path to the Go tool.
 // It is a convenience wrapper around GoTool.
 // If the tool is unavailable GoToolPath calls t.Skip.

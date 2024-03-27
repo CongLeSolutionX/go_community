@@ -90,7 +90,9 @@ func TestVet(t *testing.T) {
 	} {
 		pkg := pkg
 		t.Run(pkg, func(t *testing.T) {
-			t.Parallel()
+			if !testenv.FlakyParallelism() {
+				t.Parallel()
+			}
 
 			// Skip cgo test on platforms without cgo.
 			if pkg == "cgo" && !cgoEnabled(t) {
