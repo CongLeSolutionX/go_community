@@ -335,6 +335,7 @@ func dynimport(obj string) {
 		if err != nil {
 			fatalf("%s", err)
 		}
+		defer f.Close()
 		stdout = f
 	}
 
@@ -364,6 +365,7 @@ func dynimport(obj string) {
 		for _, l := range lib {
 			fmt.Fprintf(stdout, "//go:cgo_import_dynamic _ _ %q\n", l)
 		}
+		f.Close()
 		return
 	}
 
@@ -380,6 +382,7 @@ func dynimport(obj string) {
 		for _, l := range lib {
 			fmt.Fprintf(stdout, "//go:cgo_import_dynamic _ _ %q\n", l)
 		}
+		f.Close()
 		return
 	}
 
@@ -392,10 +395,12 @@ func dynimport(obj string) {
 			checkImportSymName(ss[0])
 			fmt.Fprintf(stdout, "//go:cgo_import_dynamic %s %s %q\n", name, ss[0], strings.ToLower(ss[1]))
 		}
+		f.Close()
 		return
 	}
 
 	if f, err := xcoff.Open(obj); err == nil {
+		defer f.Close()
 		sym, err := f.ImportedSymbols()
 		if err != nil {
 			fatalf("cannot load imported symbols from XCOFF file %s: %v", obj, err)
