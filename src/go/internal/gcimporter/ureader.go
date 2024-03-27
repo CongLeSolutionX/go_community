@@ -7,6 +7,7 @@ package gcimporter
 import (
 	"go/token"
 	"go/types"
+	"internal/godebug"
 	"internal/pkgbits"
 	"sort"
 )
@@ -479,7 +480,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
 		case pkgbits.ObjAlias:
 			pos := r.pos()
 			typ := r.typ()
-			declare(types.NewTypeName(pos, objPkg, objName, typ))
+			declare(newAliasTypeName(pos, objPkg, objName, typ))
 
 		case pkgbits.ObjConst:
 			pos := r.pos()
@@ -654,4 +655,17 @@ func pkgScope(pkg *types.Package) *types.Scope {
 		return pkg.Scope()
 	}
 	return types.Universe
+}
+
+// When GODEBUG=gotypesalias=1, the Type() of the return value is a
+// *types.Alias. Copied from x/tools/internal/aliases.NewAlias.
+func newAliasTypeName(pos token.Pos, pkg *types.Package, name string, rhs types.Type) *types.TypeName {
+	if godebug.New("gotypesalias").String() == "1" {
+		tname := types.NewTypeName(pos, pkg, name, nil)
+		a := types.NewAlias(tname, rhs)
+		// TODO(go.dev/issue/65455): Remove kludgy workaround to set a.actual as a side-effect.
+		types.Unalias(a)
+		return tname
+	}
+	return types.NewTypeName(pos, pkg, name, rhs)
 }
