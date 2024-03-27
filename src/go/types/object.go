@@ -544,6 +544,9 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		}
 		if tname.IsAlias() {
 			buf.WriteString(" =")
+			if alias, ok := typ.(*Alias); ok { // materialized? (gotypesalias=1)
+				typ = alias.fromRHS // remove only one Alias
+			}
 		} else if t, _ := typ.(*TypeParam); t != nil {
 			typ = t.bound
 		} else {
