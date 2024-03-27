@@ -53,6 +53,24 @@
       "message": "Checking on this CL (wearing my release interrupts hat) -- doesn\u0027t looks submittable for the next minor release, does it need to be rebased? Michael and/or Sam let me know if I can help here. Thanks",
       "revId": "5a557a71609034624b65b9ed1e69fd3a570fe850",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28f23df1_1248f5d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-03-27T16:48:15Z",
+      "side": 1,
+      "message": "It\u0027s not submittable because one of the submit requirements is unsatisfied. Namely, the \u0027Matching-Subject-Prefix\u0027 submit requirement, which is intended to catch a mismatch between the actual target branch and the one indicated in the commit message.\n\nIn this case the actual target branch looks right, it\u0027s just the commit message forgot to indicate it. Adding a \"[release-branch.go1.22] \" prefix to the commit message will fix that. Done in Patch Set 2.",
+      "parentUuid": "db08b048_cf61a122",
+      "revId": "5a557a71609034624b65b9ed1e69fd3a570fe850",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
