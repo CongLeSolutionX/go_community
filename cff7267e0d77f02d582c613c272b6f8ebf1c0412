@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98475f56_e4e5d79c",
+        "filename": "src/internal/syscall/windows/version_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-03-27T06:14:17Z",
+      "side": 1,
+      "message": "Correct.\n\nSorry for the noise.",
+      "parentUuid": "c8258d9e_b33cab3f",
+      "revId": "cff7267e0d77f02d582c613c272b6f8ebf1c0412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10afcbe3_0ca63249",
