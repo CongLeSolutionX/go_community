@@ -831,7 +831,24 @@ func (w *writer) doObj(wext *writer, obj types2.Object) pkgbits.CodeObj {
 	case *types2.TypeName:
 		if obj.IsAlias() {
 			w.pos(obj)
-			w.typ(types2.Unalias(obj.Type()))
+
+			t := obj.Type()
+			if alias, ok := t.(*types2.Alias); ok {
+				// materialized alias
+				//
+				// To preserve the structure of the types and
+				// improve error messages, don't strip all alias
+				// constructors, only unexported ones.
+				for {
+					t = alias.Rhs()
+					alias, ok := t.(*types2.Alias)
+					if !ok || alias.Obj().Exported() {
+						break
+					}
+				}
+			}
+			w.typ(t)
+
 			return pkgbits.ObjAlias
 		}
 
