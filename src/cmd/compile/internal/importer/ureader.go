@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"cmd/internal/src"
+	"internal/godebug"
 	"internal/pkgbits"
 )
 
@@ -409,7 +410,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 		case pkgbits.ObjAlias:
 			pos := r.pos()
 			typ := r.typ()
-			return types2.NewTypeName(pos, objPkg, objName, typ)
+			return newAliasTypeName(pos, objPkg, objName, typ)
 
 		case pkgbits.ObjConst:
 			pos := r.pos()
@@ -533,3 +534,20 @@ func (r *reader) ident(marker pkgbits.SyncMarker) (*types2.Package, string) {
 	r.Sync(marker)
 	return r.pkg(), r.String()
 }
+
+// newAliasTypeName returns a new TypeName, with a materialized *types.Alias if supported.
+func newAliasTypeName(pos syntax.Pos, pkg *types2.Package, name string, rhs types2.Type) *types2.TypeName {
+	// Copied from x/tools/internal/aliases.NewAlias via
+	// GOROOT/src/go/internal/gcimporter/ureader.go.
+	if gotypesalias.String() == "1" {
+		tname := types2.NewTypeName(pos, pkg, name, nil)
+		a := types2.NewAlias(tname, rhs)
+		// TODO(go.dev/issue/65455): Remove kludgy workaround to set a.actual as a side-effect.
+		types2.Unalias(a)
+		return tname
+	}
+	return types2.NewTypeName(pos, pkg, name, rhs)
+}
+
+// gotypesalias controls the use of Alias types.
+var gotypesalias = godebug.New("#gotypesalias")
