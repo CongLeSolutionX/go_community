@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"cmd/internal/src"
+	"internal/godebug"
 	"internal/pkgbits"
 )
 
@@ -409,7 +410,9 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 		case pkgbits.ObjAlias:
 			pos := r.pos()
 			typ := r.typ()
-			return types2.NewTypeName(pos, objPkg, objName, typ)
+			// FIXME reconstruct the alias.
+			return newAliasTypeName(pos, objPkg, objName, typ)
+			//return types2.NewTypeName(pos, objPkg, objName, typ)
 
 		case pkgbits.ObjConst:
 			pos := r.pos()
@@ -532,4 +535,18 @@ func (r *reader) selector() (*types2.Package, string)       { return r.ident(pkg
 func (r *reader) ident(marker pkgbits.SyncMarker) (*types2.Package, string) {
 	r.Sync(marker)
 	return r.pkg(), r.String()
+}
+
+// When GODEBUG=gotypesalias=1, the Type() of the return value is a
+// *types2.Alias. Copied from x/tools/internal/aliases.NewAlias via
+// GOROOT/src/go/internal/gcimporter/ureader.go.
+func newAliasTypeName(pos syntax.Pos, pkg *types2.Package, name string, rhs types2.Type) *types2.TypeName {
+	if godebug.New("gotypesalias").String() == "1" { // FIXME wrong predicate. Use true?
+		tname := types2.NewTypeName(pos, pkg, name, nil)
+		a := types2.NewAlias(tname, rhs)
+		// TODO(go.dev/issue/65455): Remove kludgy workaround to set a.actual as a side-effect.
+		types2.Unalias(a)
+		return tname
+	}
+	return types2.NewTypeName(pos, pkg, name, rhs)
 }
