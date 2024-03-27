@@ -34,6 +34,40 @@
       "parentUuid": "ae38ed22_501977af",
       "revId": "935297625d5896c24bb02caed09ef9cbf134c346",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e7a2a2_25c2dca8",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-27T16:17:12Z",
+      "side": 1,
+      "message": "This is a file opened for writing, so we should check the error result of calling Close.  If Close returns non-nil, we should pass that to fatalf (something like fatalf(\"error closing %s: %v\", *dynout, err)).",
+      "revId": "935297625d5896c24bb02caed09ef9cbf134c346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8d4e48_c78b1666",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-03-27T16:17:12Z",
+      "side": 1,
+      "message": "In these different clauses let\u0027s be consistent in whether we use defer or not.",
+      "revId": "935297625d5896c24bb02caed09ef9cbf134c346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
