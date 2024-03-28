@@ -122,6 +122,30 @@
       },
       "revId": "2fca8b35c9bbc01e68815437eb8af240501561cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb657263_225e484e",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-28T21:49:06Z",
+      "side": 1,
+      "message": "I agree it would be nice but this seemed good enough.",
+      "parentUuid": "41ceb4c8_c56d75a9",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 10
+      },
+      "revId": "2fca8b35c9bbc01e68815437eb8af240501561cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
