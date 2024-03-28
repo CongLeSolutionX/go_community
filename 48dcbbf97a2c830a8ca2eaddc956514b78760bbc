@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f2df8047_eb983ad0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-03-28T13:25:41Z",
+      "side": 1,
+      "message": "Yes, `runtime/minmax_test.go`. Though they are not as strict as Math.Min and Math.Max as min/max has lessened requirements when comparing zero and -zero values.",
+      "parentUuid": "c3fd3bf5_bd80e603",
+      "revId": "48dcbbf97a2c830a8ca2eaddc956514b78760bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8766106e_1e7e5ec2",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 1
@@ -85,6 +103,24 @@
       "writtenOn": "2024-03-27T18:03:31Z",
       "side": 1,
       "message": "Hmm, I wonder why these had a separate case before?",
+      "revId": "48dcbbf97a2c830a8ca2eaddc956514b78760bbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5dfab59_047ffe26",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1692,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-03-28T13:25:41Z",
+      "side": 1,
+      "message": "I guess that resides with the original author. I am of the opinion we should minimize the size of optab.",
+      "parentUuid": "8766106e_1e7e5ec2",
       "revId": "48dcbbf97a2c830a8ca2eaddc956514b78760bbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
