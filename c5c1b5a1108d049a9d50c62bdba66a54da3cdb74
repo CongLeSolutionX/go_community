@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca2986d_dd886b1d",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-28T21:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daa2001d_6448fcf1",
+      "revId": "c5c1b5a1108d049a9d50c62bdba66a54da3cdb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66976f5c_5a3cb3c5",
@@ -66,6 +84,30 @@
       "writtenOn": "2024-03-28T21:16:02Z",
       "side": 1,
       "message": "Seems like we should address this here as well?\ni.e., the answer to gri\u0027s question is: yes!",
+      "range": {
+        "startLine": 553,
+        "startChar": 3,
+        "endLine": 553,
+        "endChar": 50
+      },
+      "revId": "c5c1b5a1108d049a9d50c62bdba66a54da3cdb74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e8b9887_996a515c",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-28T21:41:35Z",
+      "side": 1,
+      "message": "This is the same question you raised in https://github.com/golang/go/issues/66559#issuecomment-2025541264, and my answer is that we haven\u0027t decided that question yet. Either way, I don\u0027t think it belongs in this CL.\n\nI added that link to the comment.",
+      "parentUuid": "66976f5c_5a3cb3c5",
       "range": {
         "startLine": 553,
         "startChar": 3,
