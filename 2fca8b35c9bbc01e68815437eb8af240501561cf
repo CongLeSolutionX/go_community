@@ -39,6 +39,30 @@
       },
       "revId": "2fca8b35c9bbc01e68815437eb8af240501561cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb965fd_430b8eca",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-28T21:35:44Z",
+      "side": 1,
+      "message": "Done. I settled on this wording:\n\n    generate_test.go:94: file on disk in /src/go/types/ is stale:\n        diff object_test.go (on disk in /src/go/types/) object_test.go (generated from /src/cmd/compile/internal/types2/)\n        --- object_test.go (on disk in /src/go/types/)\n        +++ object_test.go (generated from /src/cmd/compile/internal/types2/)\n        ...\n        \nIt\u0027s tempting to print less, but it was confusing because \"generated\" is not associated with the destination filename, because it\u0027s \"generated from\" the source file.",
+      "parentUuid": "a8eac144_7f2729f4",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 10
+      },
+      "revId": "2fca8b35c9bbc01e68815437eb8af240501561cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
