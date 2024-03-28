@@ -33,6 +33,24 @@
       "message": "I suspect tests won\u0027t be happy about this line being added. You can either remove it manually or `go install golang.org/x/tools/cmd/bundle@latest` and regen.",
       "revId": "6e72af957446d59e25b9f46b60082f088034e917",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98e3675f_99299541",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-03-28T14:54:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e84c5e20_cb58a0ee",
+      "revId": "6e72af957446d59e25b9f46b60082f088034e917",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
