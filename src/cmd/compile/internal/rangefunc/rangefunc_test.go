@@ -165,6 +165,13 @@ func (ti *TrickyIterator) fail() {
 	}
 }
 
+const DONE = 0      // body of loop has exited in a non-panic way
+const READY = 1     // body of loop has not exited yet, is not running
+const PANIC = 2     // body of loop is either currently running, or has panicked
+const EXHAUSTED = 3 // iterator function return, i.e., sequence is "exhausted"
+
+const MISSING_PANIC = 1 // overload "READY" for panic call
+
 // Check wraps the function body passed to iterator forall
 // in code that ensures that it cannot (successfully) be called
 // either after body return false (control flow out of loop) or
@@ -173,16 +180,39 @@ func (ti *TrickyIterator) fail() {
 // Note that this can catch errors before the inserted checks.
 func Check[U, V any](forall Seq2[U, V]) Seq2[U, V] {
 	return func(body func(U, V) bool) {
-		ret := true
+		state := READY
 		forall(func(u U, v V) bool {
-			if !ret {
-				panic("Checked iterator access after exit")
+			if state != READY {
+				panic(fail[state])
 			}
-			ret = body(u, v)
+			state = PANIC
+			ret := body(u, v)
+			if ret {
+				state = READY
+			} else {
+				state = DONE
+			}
 			return ret
 		})
-		ret = false
+		if state == PANIC {
+			panic(fail[MISSING_PANIC])
+		}
+		state = EXHAUSTED
 	}
+}
+
+// An errorString represents a runtime error described by a single string.
+type errorString string
+
+func (e errorString) Error() string {
+	return "checked rangefunc error: " + string(e)
+}
+
+var fail []error = []error{
+	errorString("loop iteration after done"),
+	errorString("loop iterator swallowed panic"),
+	errorString("loop iteration after panic"),
+	errorString("loop iteration after iterator exit"),
 }
 
 func TestCheck(t *testing.T) {
@@ -224,7 +254,7 @@ func TestCooperativeBadOfSliceIndex(t *testing.T) {
 	}
 }
 
-func TestCheckCooperativeBadOfSliceIndex(t *testing.T) {
+func TestCooperativeBadOfSliceIndexCheck(t *testing.T) {
 	i := 0
 	proceed := make(chan any)
 	for _, x := range Check(CooperativeBadOfSliceIndex([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, proceed)) {
@@ -321,7 +351,7 @@ func TestTrickyIterZero(t *testing.T) {
 	trickItZero.fail()
 }
 
-func TestCheckTrickyIterZero(t *testing.T) {
+func TestTrickyIterZeroCheck(t *testing.T) {
 	trickItZero := TrickyIterator{}
 	i := 0
 	for _, x := range Check(trickItZero.iterZero([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})) {
@@ -940,6 +970,27 @@ func TestPanickyIterator1(t *testing.T) {
 	}
 }
 
+func TestPanickyIterator1Check(t *testing.T) {
+	var result []int
+	var expect = []int{1, 2, 3, 4}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			t.Errorf("Wanted to see a failure, result was %v", result)
+		}
+	}()
+	for _, z := range Check(PanickyOfSliceIndex([]int{1, 2, 3, 4})) {
+		result = append(result, z)
+		if z == 4 {
+			break
+		}
+	}
+}
+
 func TestPanickyIterator2(t *testing.T) {
 	var result []int
 	var expect = []int{100, 10, 1, 2}
@@ -962,6 +1013,37 @@ func TestPanickyIterator2(t *testing.T) {
 
 			// converts early exit into a panic --> 1, 2
 			for k, z := range PanickyOfSliceIndex([]int{1, 2}) { // iterator panics
+				result = append(result, z)
+				if k == 1 {
+					break Y
+				}
+			}
+		}
+	}
+}
+
+func TestPanickyIterator2Check(t *testing.T) {
+	var result []int
+	var expect = []int{100, 10, 1, 2}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			t.Errorf("Wanted to see a failure, result was %v", result)
+		}
+	}()
+	for _, x := range Check(OfSliceIndex([]int{100, 200})) {
+		result = append(result, x)
+	Y:
+		// swallows panics and iterates to end BUT `break Y` disables the body, so--> 10, 1, 2
+		for _, y := range Check(VeryBadOfSliceIndex([]int{10, 20})) {
+			result = append(result, y)
+
+			// converts early exit into a panic --> 1, 2
+			for k, z := range Check(PanickyOfSliceIndex([]int{1, 2})) { // iterator panics
 				result = append(result, z)
 				if k == 1 {
 					break Y
@@ -1002,6 +1084,37 @@ func TestPanickyIterator3(t *testing.T) {
 		}
 	}
 }
+func TestPanickyIterator3Check(t *testing.T) {
+	var result []int
+	var expect = []int{100, 10, 1, 2, 200, 10, 1, 2}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Errorf("Unexpected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		}
+	}()
+	for _, x := range Check(OfSliceIndex([]int{100, 200})) {
+		result = append(result, x)
+	Y:
+		// swallows panics and iterates to end BUT `break Y` disables the body, so--> 10, 1, 2
+		for _, y := range Check(VeryBadOfSliceIndex([]int{10, 20})) {
+			result = append(result, y)
+
+			for k, z := range Check(OfSliceIndex([]int{1, 2})) { // iterator does not panic
+				result = append(result, z)
+				if k == 1 {
+					break Y
+				}
+			}
+		}
+	}
+}
 
 func TestPanickyIterator4(t *testing.T) {
 	var result []int
@@ -1019,6 +1132,29 @@ func TestPanickyIterator4(t *testing.T) {
 		}
 	}()
 	for _, x := range SwallowPanicOfSliceIndex([]int{1, 2, 3, 4}) {
+		result = append(result, x)
+		if x == 3 {
+			panic("x is 3")
+		}
+	}
+
+}
+func TestPanickyIterator4Check(t *testing.T) {
+	var result []int
+	var expect = []int{1, 2, 3}
+	defer func() {
+		if r := recover(); r != nil {
+			t.Logf("Saw expected panic '%v'", r)
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		} else {
+			if !slices.Equal(expect, result) {
+				t.Errorf("Expected %v, got %v", expect, result)
+			}
+		}
+	}()
+	for _, x := range Check(SwallowPanicOfSliceIndex([]int{1, 2, 3, 4})) {
 		result = append(result, x)
 		if x == 3 {
 			panic("x is 3")
@@ -1052,10 +1188,10 @@ X:
 	return result
 }
 
-// checkVeryBad wraps a "very bad" iterator with Check,
+// veryBadCheck wraps a "very bad" iterator with Check,
 // demonstrating that the very bad iterator also hides panics
 // thrown by Check.
-func checkVeryBad(s []int) []int {
+func veryBadCheck(s []int) []int {
 	var result []int
 X:
 	for _, x := range OfSliceIndex([]int{1, 2, 3}) {
@@ -1121,8 +1257,8 @@ func TestVeryBad2(t *testing.T) {
 
 // TestCheckVeryBad checks the behavior of an extremely poorly behaved iterator,
 // which also suppresses the exceptions from "Check"
-func TestCheckVeryBad(t *testing.T) {
-	result := checkVeryBad([]int{10, 20, 30, 40}) // even length
+func TestVeryBadCheck(t *testing.T) {
+	result := veryBadCheck([]int{10, 20, 30, 40}) // even length
 	expect := []int{1, 10}
 
 	if !slices.Equal(expect, result) {
