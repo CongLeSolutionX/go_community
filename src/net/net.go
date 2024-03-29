@@ -617,11 +617,23 @@ func (e *DNSConfigError) Temporary() bool { return false }
 
 // Various errors contained in DNSError.
 var (
-	errNoSuchHost = errors.New("no such host")
+	errNoSuchHost  = &notFoundError{"no such host"}
+	errUnknownPort = &notFoundError{"unknown port"}
+
+	errUnknownNetwork = errors.New("unknown network")
+	errInvalidAddress = errors.New("invalid address")
+	errInvalidPort    = errors.New("invalid port")
 )
+
+// notFoundError is a special error understood by the newWrappingDNSError function,
+// which causes a creation of a DNSError with IsNotFound field set to true.
+type notFoundError struct{ s string }
+
+func (e *notFoundError) Error() string { return e.s }
 
 // DNSError represents a DNS lookup error.
 type DNSError struct {
+	UnwrapErr   error  // error returned by the [DNSError.Unwrap] method, might be nil
 	Err         string // description of the error
 	Name        string // name looked for
 	Server      string // server used
@@ -633,6 +645,43 @@ type DNSError struct {
 	// or the name itself was not found (NXDOMAIN).
 	IsNotFound bool
 }
+
+// newWrappingDNSError creates a new *DNSError.
+// Based on the err, it sets the UnwrapErr, IsTimeout, IsTemporary, IsNotFound fields.
+func newWrappingDNSError(err error, name, server string) *DNSError {
+	var (
+		isTimeout   bool
+		isTemporary bool
+		unwrapErr   error
+	)
+
+	if err, ok := err.(timeout); ok {
+		isTimeout = err.Timeout()
+	}
+	if err, ok := err.(temporary); ok {
+		isTemporary = err.Temporary()
+	}
+
+	if errors.Is(err, context.DeadlineExceeded) {
+		unwrapErr = errTimeout
+	} else if errors.Is(err, context.Canceled) {
+		unwrapErr = errCanceled
+	}
+
+	_, isNotFound := err.(*notFoundError)
+	return &DNSError{
+		UnwrapErr:   unwrapErr,
+		Err:         err.Error(),
+		Name:        name,
+		Server:      server,
+		IsTimeout:   isTimeout,
+		IsTemporary: isTemporary,
+		IsNotFound:  isNotFound,
+	}
+}
+
+// Unwrap returns e.UnwrapErr.
+func (e *DNSError) Unwrap() error { return e.UnwrapErr }
 
 func (e *DNSError) Error() string {
 	if e == nil {
