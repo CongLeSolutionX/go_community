@@ -1400,7 +1400,7 @@ func profilealloc(mp *m, x unsafe.Pointer, size uintptr) {
 		throw("profilealloc called without a P or outside bootstrapping")
 	}
 	c.nextSample = nextSample()
-	mProf_Malloc(x, size)
+	mProf_Malloc(mp, x, size)
 }
 
 // nextSample returns the next sampling point for heap profiling. The goal is
