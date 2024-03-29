@@ -78,7 +78,6 @@ func TestVet(t *testing.T) {
 		"method",
 		"nilfunc",
 		"print",
-		"rangeloop",
 		"shift",
 		"slog",
 		"structtag",
@@ -120,6 +119,23 @@ func TestVet(t *testing.T) {
 			errchk(cmd, files, t)
 		})
 	}
+
+	// The loopclosure analyzer (aka "rangeloop" before CL 140578)
+	// is a no-op for files whose version >= go1.22, so we use a
+	// go.mod file in the rangeloop directory to "downgrade".
+	t.Run("loopclosure", func(t *testing.T) {
+		cmd := testenv.Command(t, testenv.GoToolPath(t), "vet", "-vettool="+vetPath(t), ".")
+		cmd.Env = append(os.Environ(), "GOWORK=off")
+		cmd.Dir = "testdata/rangeloop"
+		cmd.Stderr = new(strings.Builder) // all vet output goes to stderr
+		cmd.Run()
+		// Use FromSlash for parity with Glob, above:
+		filename := filepath.FromSlash("testdata/rangeloop/rangeloop.go")
+		if err := errorCheck(cmd.Stderr.(fmt.Stringer).String(), false, filename, filepath.Base(filename)); err != nil {
+			t.Errorf("error check failed: %s", err)
+			t.Log("vet stderr:\n", cmd.Stderr)
+		}
+	})
 }
 
 func cgoEnabled(t *testing.T) bool {
