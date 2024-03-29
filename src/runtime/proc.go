@@ -922,6 +922,12 @@ func mcommoninit(mp *m, id int64) {
 	if iscgo || GOOS == "solaris" || GOOS == "illumos" || GOOS == "windows" {
 		mp.cgoCallers = new(cgoCallers)
 	}
+	mprofstackinit(mp)
+}
+
+func mprofstackinit(mp *m) {
+	mp.profstack = make([]uintptr, maxStack)
+	mp.mLockProfile.stack = make([]uintptr, maxStack)
 }
 
 func (mp *m) becomeSpinning() {
