@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "316821b6_25ff92c6",
+        "filename": "src/cmd/vendor/golang.org/x/tools/go/analysis/passes/ifaceassert/parameterized.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-03-29T22:32:11Z",
+      "side": 1,
+      "message": "(This diff will disappear when CL 575315 lands.)",
+      "revId": "19e2545c19f618644eab3b3e754e6ddbbf933868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
