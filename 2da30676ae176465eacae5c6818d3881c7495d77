@@ -70,6 +70,24 @@
       "message": "Trybot failure seems to be real, there’s runtime code that still depends on buggy behavior. I will dig further once I’m back with my laptop.",
       "revId": "2da30676ae176465eacae5c6818d3881c7495d77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77795baf_b08e245e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-03-30T10:44:40Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9a8eea27_141ac835",
+      "revId": "2da30676ae176465eacae5c6818d3881c7495d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
