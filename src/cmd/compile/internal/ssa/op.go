@@ -527,3 +527,15 @@ func boundsABI(b int64) int {
 // width+lsb<64 for 64-bit variant, width+lsb<32 for 32-bit variant.
 // the meaning of width and lsb are instruction-dependent.
 type arm64BitField int16
+
+// FaultOnNilArg0 returns whether this op may fault if its first arg
+// is nil. Used by stack slot merging liveness analysis.
+func (v *Value) FaultOnNilArg0() bool {
+	return opcodeTable[v.Op].faultOnNilArg0
+}
+
+// FaultOnNilArg0 returns whether this op may fault if its second arg
+// is nil. Used by stack slot merging liveness analysis.
+func (v *Value) FaultOnNilArg1() bool {
+	return opcodeTable[v.Op].faultOnNilArg1
+}
