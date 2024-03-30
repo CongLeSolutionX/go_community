@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a0fa5d4_968db17b",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-03-30T04:42:06Z",
+      "side": 1,
+      "message": "Changed IndexRune to not fallback to Index and instead perform a brute-force-search on platforms that do not have bytealg.IndexString.\n\nThe rationale for the using a brute-force-search on platforms that do not have bytealg.IndexString is that Index will have to first use IndexByte to search for the first byte (and IndexByte is not optimized on all these platforms) and if that fails fallback to Rabin-Karp which is slower than a BFS for 2-4 bytes. Basically, it\u0027s a bet that the first byte is better that makes complexity/runtime-perf harder to predict.",
+      "parentUuid": "dfe1d5ee_d4d8b3c9",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14c8637f_49aa658b",
         "filename": "src/bytes/bytes_test.go",
         "patchSetId": 5
@@ -83,6 +101,24 @@
       "writtenOn": "2024-02-24T19:17:46Z",
       "side": 1,
       "message": "Don\u0027t use a line break here.  It\u0027s OK to have a long line.",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4897a39_ae670594",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-03-30T04:42:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "14c8637f_49aa658b",
       "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50c49766_e41d9636",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-03-30T04:42:06Z",
+      "side": 1,
+      "message": "Good catch and I meant to call utf8.DecodeLastRune here (fixed)",
+      "parentUuid": "4ded1396_1322534c",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4180bd10_6c2fb25d",
         "filename": "src/bytes/bytes_test.go",
         "patchSetId": 5
@@ -117,6 +171,24 @@
       "writtenOn": "2024-02-24T19:17:46Z",
       "side": 1,
       "message": "Why this change?",
+      "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a92aed8_e8bb122c",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2342,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-03-30T04:42:06Z",
+      "side": 1,
+      "message": "Oops that was made by `go fmt -s` and was accidently added.",
+      "parentUuid": "4180bd10_6c2fb25d",
       "revId": "faff1fb8efaffedd0cf86a7d90755644c9c73702",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
