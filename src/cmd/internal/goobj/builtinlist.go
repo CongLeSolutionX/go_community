@@ -81,7 +81,6 @@ var builtins = [...]struct {
 	{"runtime.interfaceSwitch", 1},
 	{"runtime.ifaceeq", 1},
 	{"runtime.efaceeq", 1},
-	{"runtime.panicrangeexit", 1},
 	{"runtime.panicrangestate", 1},
 	{"runtime.deferrangefunc", 1},
 	{"runtime.rand32", 1},
