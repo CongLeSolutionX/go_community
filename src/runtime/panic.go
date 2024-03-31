@@ -296,14 +296,6 @@ func deferproc(fn func()) {
 	// been set and must not be clobbered.
 }
 
-// TODO(drchase) remove when rewrite is changed
-var rangeExitError = error(errorString("range function continued iteration after exit"))
-
-//go:noinline
-func panicrangeexit() {
-	panic(rangeExitError)
-}
-
 var rangeDoneError = error(errorString("range function continued iteration after loop body exit"))
 var rangePanicError = error(errorString("range function continued iteration after loop body panic"))
 var rangeExhaustedError = error(errorString("range function continued iteration after whole loop exit"))
