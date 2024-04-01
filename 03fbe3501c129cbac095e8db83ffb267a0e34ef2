@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "bf61f7f7_d386c027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-01T16:37:08Z",
+      "side": 1,
+      "message": "Here\u0027s a diff of the places that are different relative to the original CL.\n\n```\ndiff --git a/src/cmd/compile/internal/liveness/mergelocals.go b/src/cmd/compile/internal/liveness/mergelocals.go\nindex a1342efce6..ee307a5388 100644\n--- a/src/cmd/compile/internal/liveness/mergelocals.go\n+++ b/src/cmd/compile/internal/liveness/mergelocals.go\n@@ -525,10 +525,6 @@ func performMerging(lv *liveness, cs *cstate, regions []candRegion) *MergeLocals\n \t\tfmt.Fprintf(os.Stderr, \"\\n\")\n \t}\n \n-\tif base.Debug.MergeLocalsTrace \u003e 1 {\n-\t\tfmt.Fprintf(os.Stderr, \"\u003d-\u003d len(regions) \u003d %d\\n\", len(regions))\n-\t}\n-\n \t// Apply a greedy merge/overlap strategy within each region\n \t// of compatible variables.\n \tfor _, cr :\u003d range regions {\n@@ -540,6 +536,57 @@ func performMerging(lv *liveness, cs *cstate, regions []candRegion) *MergeLocals\n \treturn mls\n }\n \n+// mlValueEffects analyzes v and returns a tuple \u003cslot,effects\u003e containing\n+// any live-related effects for v (upwards-exposed use or kill). In addition\n+// to looking to see if the value itself refers to a candidate variable,\n+// this function looks at selected arguments read by the function to\n+// see if they are fed by a previous op that takes the address of a\n+// candidate variable. Example from PPC64:\n+//\n+//\tv35 \u003d VarDef \u003cmem\u003e {abc}\n+//\tv37 \u003d MoveAddr \u003c...\u003e {abc} v2 : R6\n+//\tv59 \u003d LoweredQuadMoveShort \u003cmem\u003e [32] v37 v56 v57\n+//\tv62 \u003d VarDef \u003cmem\u003e {xyz} v59\n+//\tv24 \u003d MOVDaddr \u003c...\u003e {xyz} v2 : R4\n+//\tv64 \u003d LoweredQuadMoveShort \u003cmem\u003e [32] v24 v61 v62\n+//\tv72 \u003d ADDconst \u003c*p256Element\u003e [32] v27 : R3\n+//\tv73 \u003d LoweredQuadMoveShort \u003cmem\u003e [32] v72 v37 v69\n+//\n+// If we were to only look at the ops that directly refer to symbols\n+// \"abc\" and \"xyz\", it would appear that they are accessed disjointly.\n+// The last instruction v73 however is a store that sources a previously\n+// materialized address for \"abc\", however, so in fact the two\n+// variables can\u0027t share the same stack slot.\n+func mlValueEffects(lv *liveness, v *ssa.Value) (int32, liveEffect) {\n+\tpos, e :\u003d lv.valueEffects(v)\n+\tif pos !\u003d -1 {\n+\t\treturn pos, e\n+\t}\n+\tif v.FaultOnNilArg0() {\n+\t\targ0 :\u003d v.Args[0]\n+\t\tif base.Debug.MergeLocalsTrace \u003e 2 {\n+\t\t\tfmt.Fprintf(os.Stderr, \"\u003d-\u003d check mayfault arg0 %v from %s\\n\",\n+\t\t\t\targ0, arg0.LongString())\n+\t\t}\n+\t\tpos, e \u003d lv.valueEffects(arg0)\n+\t\tif pos !\u003d -1 {\n+\t\t\treturn pos, e\n+\t\t}\n+\t}\n+\tif v.FaultOnNilArg1() {\n+\t\targ1 :\u003d v.Args[1]\n+\t\tif base.Debug.MergeLocalsTrace \u003e 2 {\n+\t\t\tfmt.Fprintf(os.Stderr, \"\u003d-\u003d check mayfault arg1 %v from %s\\n\",\n+\t\t\t\targ1, arg1.LongString())\n+\t\t}\n+\t\tpos, e \u003d lv.valueEffects(arg1)\n+\t\tif pos !\u003d -1 {\n+\t\t\treturn pos, e\n+\t\t}\n+\t}\n+\treturn pos, e\n+}\n+\n // computeIntervals performs a backwards sweep over the instructions\n // of the function we\u0027re compiling, building up an Intervals object\n // for each candidate variable by looking for upwards exposed uses\n@@ -624,7 +671,7 @@ func computeIntervals(lv *liveness, cs *cstate) {\n \n \t\t\t// Update liveness based on what we see happening in this\n \t\t\t// instruction.\n-\t\t\tpos, e :\u003d lv.valueEffects(v)\n+\t\t\tpos, e :\u003d mlValueEffects(lv, v)\n \t\t\tbecomeslive :\u003d e\u0026uevar !\u003d 0\n \t\t\tiskilled :\u003d e\u0026varkill !\u003d 0\n \t\t\tif becomeslive \u0026\u0026 iskilled {\ndiff --git a/src/cmd/compile/internal/liveness/plive.go b/src/cmd/compile/internal/liveness/plive.go\nindex ab1a7df930..8de1db4dbb 100644\n--- a/src/cmd/compile/internal/liveness/plive.go\n+++ b/src/cmd/compile/internal/liveness/plive.go\n@@ -460,8 +460,8 @@ func (lv *liveness) blockEffects(b *ssa.Block) *blockEffects {\n // argument is a slice of *Nodes.\n func (lv *liveness) pointerMap(liveout bitvec.BitVec, vars []*ir.Name, args, locals bitvec.BitVec) {\n \tvar slotsSeen map[int64]*ir.Name\n-\tcheckForDuplicateSlots :\u003d base.Debug.MergeLocals !\u003d 0\n-\tif checkForDuplicateSlots {\n+\tpruneDuplicateSlots :\u003d base.Debug.MergeLocals !\u003d 0\n+\tif pruneDuplicateSlots {\n \t\tslotsSeen \u003d make(map[int64]*ir.Name)\n \t}\n \tfor i :\u003d int32(0); ; i++ {\n@@ -481,11 +481,11 @@ func (lv *liveness) pointerMap(liveout bitvec.BitVec, vars []*ir.Name, args, loc\n \t\t\t}\n \t\t\tfallthrough // PPARAMOUT in registers acts memory-allocates like an AUTO\n \t\tcase ir.PAUTO:\n+\t\t\tif pruneDuplicateSlots \u0026\u0026 slotsSeen[node.FrameOffset()] !\u003d nil {\n+\t\t\t\tcontinue\n+\t\t\t}\n \t\t\ttypebits.Set(node.Type(), node.FrameOffset()+lv.stkptrsize, locals)\n-\t\t\tif checkForDuplicateSlots {\n-\t\t\t\tif prev, ok :\u003d slotsSeen[node.FrameOffset()]; ok {\n-\t\t\t\t\tbase.FatalfAt(node.Pos(), \"two vars live at pointerMap generation: %q and %q\", prev.Sym().Name, node.Sym().Name)\n-\t\t\t\t}\n+\t\t\tif pruneDuplicateSlots {\n \t\t\t\tslotsSeen[node.FrameOffset()] \u003d node\n \t\t\t}\n \t\t}\ndiff --git a/src/cmd/compile/internal/ssa/op.go b/src/cmd/compile/internal/ssa/op.go\nindex cb151b2f6c..d08e9673b2 100644\n--- a/src/cmd/compile/internal/ssa/op.go\n+++ b/src/cmd/compile/internal/ssa/op.go\n@@ -527,3 +527,15 @@ func boundsABI(b int64) int {\n // width+lsb\u003c64 for 64-bit variant, width+lsb\u003c32 for 32-bit variant.\n // the meaning of width and lsb are instruction-dependent.\n type arm64BitField int16\n+\n+// FaultOnNilArg0 returns whether this op may fault if its first arg\n+// is nil. Used by stack slot merging liveness analysis.\n+func (v *Value) FaultOnNilArg0() bool {\n+\treturn opcodeTable[v.Op].faultOnNilArg0\n+}\n+\n+// FaultOnNilArg0 returns whether this op may fault if its second arg\n+// is nil. Used by stack slot merging liveness analysis.\n+func (v *Value) FaultOnNilArg1() bool {\n+\treturn opcodeTable[v.Op].faultOnNilArg1\n+}\n```",
+      "parentUuid": "e9e1b4ee_182dd2f8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0e277949_d3cea8f8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -108,6 +132,24 @@
       "writtenOn": "2024-04-01T16:04:56Z",
       "side": 1,
       "message": "I\u0027m not sure we want to base on FaultOnNilArg. FaultOnNilArg is currently just an optimization, for nil check removal. It is possible that we may not mark all the loads/stores with FaultOnNilArg, which still generates correct code, just with redundant nil checks. Also some loads/stores cannot be marked with FaultOnNilArg, e.g. it reads with a variable index/offset, which may not fault if the index/offset is large, but it is still a read.\n\nWhat if we just don\u0027t merge slots with its address taken in SSA (which are not marked AddrTaken on the ir.Name, but some SSA operation has SymAddr effect)? Do we still get good benefits without this?\n\nAnother possibility is for slots that has SymAddr values, make it live until the next Call. The address cannot live across a call (SymAddr operation should always be rematerializable), otherwise the GC will not track it correctly. That will make the code mode complicated, though.",
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58bfee1_a135cc4c",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-01T16:37:08Z",
+      "side": 1,
+      "message": "The FaultOnNilArg0/FaultOnNilArg1 properties that the new code is looking at are part of the optab, not the instruction itself, thus the issue with loads having too large an index/offset doesn\u0027t seem like it would apply. Are you aware of any existing load or store ops that don\u0027t have FaultOnNilArg0 or FaultOnNilArg1 set in their optab entry?",
+      "parentUuid": "a6d45abe_d844d804",
       "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
