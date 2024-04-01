@@ -152,6 +152,24 @@
       "parentUuid": "a6d45abe_d844d804",
       "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a707bda8_bb4b8db2",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-01T17:26:14Z",
+      "side": 1,
+      "message": "OK, never mind, I think I just answered my own question (e.g. MOVDstoreidx on PPC64, there are many others). I\u0027ll work on coming up with another strategy. \n\n\u003e\u003e\u003eWhat if we just don\u0027t merge slots with its address taken in SSA (which are not marked AddrTaken on the ir.Name, but some SSA operation has SymAddr effect)? Do we still get good benefits without this?\n\nNot sure; I can run some experiments. If do this I am pretty sure it will make the optimization a lot less effective on PPC64 and like.",
+      "parentUuid": "f58bfee1_a135cc4c",
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
