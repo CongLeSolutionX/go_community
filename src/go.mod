@@ -3,7 +3,7 @@ module std
 go 1.23
 
 require (
-	golang.org/x/crypto v0.21.0
+	golang.org/x/crypto v0.21.1-0.20240326215738-8d0d405eedb9
 	golang.org/x/net v0.22.1-0.20240320112724-d73acffdc949
 )
 
