@@ -221,9 +221,10 @@ func (n *CallExpr) SetOp(op Op) {
 // A ClosureExpr is a function literal expression.
 type ClosureExpr struct {
 	miniExpr
-	Func     *Func `mknode:"-"`
-	Prealloc *Name
-	IsGoWrap bool // whether this is wrapper closure of a go statement
+	Func        *Func `mknode:"-"`
+	RangeParent *Func // if this closure is the body of a range function this points to the first non-range body function containing it
+	Prealloc    *Name
+	IsGoWrap    bool // whether this is wrapper closure of a go statement
 }
 
 // A CompLitExpr is a composite literal Type{Vals}.
