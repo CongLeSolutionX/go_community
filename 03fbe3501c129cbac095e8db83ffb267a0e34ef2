@@ -170,6 +170,24 @@
       "parentUuid": "f58bfee1_a135cc4c",
       "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd44052b_2552f30a",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-01T23:32:26Z",
+      "side": 1,
+      "message": "(I thought I posted this earlier, but I realized that I forgot to actually post. You have mostly already answered. I\u0027ll post anyway for thought. Thanks.)\n\n\u003e The FaultOnNilArg0/FaultOnNilArg1 properties that the new code is looking at are part of the optab, not the instruction itself, thus the issue with loads having too large an index/offset doesn\u0027t seem like it would apply. \n\nYeah, I\u0027m talking about the optab. I can imagine something like\n```\nv1 \u003d MOVaddr {x}           // v1 \u003d \u0026x\nv2 \u003d MOVloadidx v1 idx mem // v2 \u003d *(v1+idx)\n```\nThe `MOVloadidx` op is not FaultOnNilArg0 because it may not always fault if `idx` is large. But it is a load from `x`.\n\n\u003e Are you aware of any existing load or store ops that don\u0027t have FaultOnNilArg0 or FaultOnNilArg1 set in their optab entry?\n\nI have not examined all the operations. Maybe they do, but I\u0027m not sure it is a good idea to use an optimization hint for correctness. If it is helpful, maybe we want to add another attribute (UseAddr?), which could also include the indexed operations.",
+      "parentUuid": "f58bfee1_a135cc4c",
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
