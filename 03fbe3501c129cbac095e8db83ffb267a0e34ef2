@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9e1b4ee_182dd2f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-01T16:04:56Z",
+      "side": 1,
+      "message": "Maybe add some explanation about what is changed.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0e277949_d3cea8f8",
@@ -68,6 +91,23 @@
       "writtenOn": "2024-03-31T20:07:12Z",
       "side": 1,
       "message": "Roll forward of my original CL plus some small fixes. The fixed bit is the new function mlValueEffects in mergelocals.go, PTAL.",
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d45abe_d844d804",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-01T16:04:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure we want to base on FaultOnNilArg. FaultOnNilArg is currently just an optimization, for nil check removal. It is possible that we may not mark all the loads/stores with FaultOnNilArg, which still generates correct code, just with redundant nil checks. Also some loads/stores cannot be marked with FaultOnNilArg, e.g. it reads with a variable index/offset, which may not fault if the index/offset is large, but it is still a read.\n\nWhat if we just don\u0027t merge slots with its address taken in SSA (which are not marked AddrTaken on the ir.Name, but some SSA operation has SymAddr effect)? Do we still get good benefits without this?\n\nAnother possibility is for slots that has SymAddr values, make it live until the next Call. The address cannot live across a call (SymAddr operation should always be rematerializable), otherwise the GC will not track it correctly. That will make the code mode complicated, though.",
       "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
