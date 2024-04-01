@@ -197,6 +197,24 @@
       "parentUuid": "99eeb170_5eeae889",
       "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589b6751_69c5e923",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-04-01T05:52:32Z",
+      "side": 1,
+      "message": "\u003e I added relevant benchmark. I didn\u0027t change `time.Now` behavior yet.\n\u003e \n\u003e Note, I\u0027m using stdcall1 in runtime, because it reduces the overhead from 80ns (using syscall) to 30ns.\n\u003e \n\u003e I did not call it directly from assembly, because I\u0027m not certain it\u0027s valid to do so. There\u0027s some extra logic happening in https://github.com/golang/go/blob/master/src/runtime/os_windows.go#L953. The direct call from assembly was ~20ns, https://github.com/egonelbre/exp/blob/main/bench/qpc/main.s, but I didn\u0027t include it in this comparison, because I wasn\u0027t certain it was correct code.\n\u003e \n\u003e I\u0027m not sure what the implications are replacing INTERRUPT_TIME with QPC in time.Now are. Things I\u0027m wondering about:\n\u003e \n\u003e 1. Are there systems where QPC is significantly slower? (e.g. instead of 20ns it takes 1000ns)\n\u003e 2. What\u0027s the max measureable duration for QPC and do we need to fallback to \"non-monotonic measurement\" after some time? e.g. if it would measure 100 days, are there going to be any problems?\n\u003e 3. Is there a reason, other than call overhead, it wasn\u0027t used before?\n\nMakes sense.\n\nI also don\u0027t have enough time to spend looking at your CL.\n\nSo let\u0027s try to go with your CL as is.\n\nI have not reviewed your CL yet. I would like you to rebase your CL on current tip, in case there are some performance changes there. In particular\n\nhttps://go-review.googlesource.com/c/go/+/562915\n\nThen I will review your CL.\n\nThank you.",
+      "parentUuid": "4fef3be8_aeec4d90",
+      "revId": "6990cb2279c68d4c5dc1a25fde3d5bd90b9bbdd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
