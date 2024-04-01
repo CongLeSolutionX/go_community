@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f982ab53_53cccf63",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-01T15:09:22Z",
+      "side": 1,
+      "message": "if module.CheckImportPath returns an error then vendorPkgModule is not set: https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modload/vendor.go;l\u003d124?q\u003dsrc%2Fcmd%2Fgo%2Finternal%2Fmodload%2Fvendor.go\u0026ss\u003dgo%2Fgo",
+      "parentUuid": "0a42d19f_d7fcce42",
+      "range": {
+        "startLine": 353,
+        "startChar": 136,
+        "endLine": 353,
+        "endChar": 157
+      },
+      "revId": "53c51ac3383ea0131b1cacdfdd6a914f36954bd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "930f7831_a5c34497",
         "filename": "src/cmd/go/testdata/script/mod_ambiguous_import.txt",
         "patchSetId": 6
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "We discussed this a bit offline. I think we want to keep the behavior the same for 1.13 and earlier.",
       "parentUuid": "930f7831_a5c34497",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "53c51ac3383ea0131b1cacdfdd6a914f36954bd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4f2e16a_3ceb63dc",
+        "filename": "src/cmd/go/testdata/script/mod_ambiguous_import.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-01T15:09:22Z",
+      "side": 1,
+      "message": "We will also defer to Russ\u0027s decision on whether to enforce this 1.14 and beyond or 1.23 and beyond",
+      "parentUuid": "ff34dea4_3ecb0fb2",
       "range": {
         "startLine": 12,
         "startChar": 0,
