@@ -16,6 +16,24 @@
       "message": "Looks like the new test doesn\u0027t work on the LUCI builders.",
       "revId": "8c31beb7c959906f81db0921ccb082c2c1c3948e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa7a24a_c694dcd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-01T18:09:01Z",
+      "side": 1,
+      "message": "Yeah, the new test is sort of garbage (see https://go-review.git.corp.google.com/c/go/+/575315/2/src/cmd/vet/vet_test.go) as it downloads a toolchain. I was unable to coax go1.23 into applying go1.21 semantics to the test file using a go.mod file and a build tag; what am I missing?",
+      "parentUuid": "59cefc60_cf147245",
+      "revId": "8c31beb7c959906f81db0921ccb082c2c1c3948e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
