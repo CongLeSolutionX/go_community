@@ -1,4 +1,4 @@
-# golang.org/x/crypto v0.21.0
+# golang.org/x/crypto v0.21.1-0.20240326215738-8d0d405eedb9
 ## explicit; go 1.18
 golang.org/x/crypto/chacha20
 golang.org/x/crypto/chacha20poly1305
