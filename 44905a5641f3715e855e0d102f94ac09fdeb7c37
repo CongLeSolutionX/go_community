@@ -16,6 +16,23 @@
       "message": "Rebased.\nFixed commit message to correctly mention that we now use errors.Join.",
       "revId": "44905a5641f3715e855e0d102f94ac09fdeb7c37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdcae31a_1387274d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-01T18:12:42Z",
+      "side": 1,
+      "message": "This change should have a release note in $GOROOT/doc/next/6-stdlib.  Thanks.",
+      "revId": "44905a5641f3715e855e0d102f94ac09fdeb7c37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
