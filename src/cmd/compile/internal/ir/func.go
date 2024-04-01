@@ -420,6 +420,11 @@ func closureName(outerfn *Func, pos src.XPos, why Op) *types.Sym {
 	pkg := types.LocalPkg
 	outer := "glob."
 	var prefix string
+	var suffix string
+	if why == ORANGE {
+		why = OCLOSURE
+		suffix = ".RF" // any function name ending in ".RF" is a range func body closure.
+	}
 	switch why {
 	default:
 		base.FatalfAt(pos, "closureName: bad Op: %v", why)
@@ -460,7 +465,7 @@ func closureName(outerfn *Func, pos src.XPos, why Op) *types.Sym {
 	}
 
 	*gen++
-	return pkg.Lookup(fmt.Sprintf("%s.%s%d", outer, prefix, *gen))
+	return pkg.Lookup(fmt.Sprintf("%s.%s%d%s", outer, prefix, *gen, suffix))
 }
 
 // NewClosureFunc creates a new Func to represent a function literal

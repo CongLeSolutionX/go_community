@@ -2316,6 +2316,7 @@ func (w *writer) funcLit(expr *syntax.FuncLit) {
 	w.Sync(pkgbits.SyncFuncLit)
 	w.pos(expr)
 	w.signature(sig)
+	w.Bool(expr.IsRangeFuncBody)
 
 	w.Len(len(closureVars))
 	for _, cv := range closureVars {

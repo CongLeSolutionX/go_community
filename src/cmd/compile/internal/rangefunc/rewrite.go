@@ -1143,6 +1143,7 @@ func (r *rewriter) bodyFunc(body []syntax.Stmt, lhs []syntax.Expr, def bool, fty
 			List:   []syntax.Stmt{},
 			Rbrace: end,
 		},
+		IsRangeFuncBody: true,
 	}
 	setPos(bodyFunc, start)
 
