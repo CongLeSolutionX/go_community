@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "844f38bb_9f63242d",
+        "filename": "src/cmd/compile/internal/ssa/looprotate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-04-02T19:54:04Z",
+      "side": 1,
+      "message": "It might be clearer if we named this variable \"header\" and then instead of \"b0 :\u003d b\" below we did \"b :\u003d header\".",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "7e0a160b6d4c1b429bef47f2c98c272ef7577383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a73f5c9_cc919082",
+        "filename": "src/cmd/compile/internal/ssa/looprotate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-04-02T19:54:04Z",
+      "side": 1,
+      "message": "add \"latest-in-schedule\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 21,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "7e0a160b6d4c1b429bef47f2c98c272ef7577383",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
