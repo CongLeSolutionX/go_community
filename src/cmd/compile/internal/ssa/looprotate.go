@@ -40,47 +40,45 @@ func loopRotate(f *Func) {
 	move := map[ID]struct{}{}
 
 	// Map from block ID to the moving blocks that should
-	// come right after it.
-	after := map[ID][]*Block{}
+	// come before before it.
+	before := map[ID][]*Block{}
 
 	// Check each loop header and decide if we want to move it.
 	for _, loop := range loopnest.loops {
 		b := loop.header
 		var p *Block // b's in-loop predecessor
 		for _, e := range b.Preds {
-			if e.b.Kind != BlockPlain {
-				continue
-			}
 			if loopnest.b2l[e.b.ID] != loop {
 				continue
 			}
-			p = e.b
+			if e.b.Kind != BlockPlain {
+				continue
+			}
+			if p == nil || idToIdx[e.b.ID] > idToIdx[p.ID] {
+				p = e.b
+			}
 		}
 		if p == nil || p == b {
 			continue
 		}
-		after[p.ID] = []*Block{b}
+		b0 := b
+		before[b.ID] = []*Block{}
 		for {
 			nextIdx := idToIdx[b.ID] + 1
 			if nextIdx >= len(f.Blocks) { // reached end of function (maybe impossible?)
 				break
 			}
 			nextb := f.Blocks[nextIdx]
-			if nextb == p { // original loop predecessor is next
-				break
-			}
 			if loopnest.b2l[nextb.ID] == loop {
-				after[p.ID] = append(after[p.ID], nextb)
+				before[b0.ID] = append(before[b0.ID], nextb)
+			}
+			if nextb == p { // original b will follow its predecessor.
+				break
 			}
 			b = nextb
 		}
-		// Swap b and p so that we'll handle p before b when moving blocks.
-		f.Blocks[idToIdx[loop.header.ID]] = p
-		f.Blocks[idToIdx[p.ID]] = loop.header
-		idToIdx[loop.header.ID], idToIdx[p.ID] = idToIdx[p.ID], idToIdx[loop.header.ID]
 
-		// Place b after p.
-		for _, b := range after[p.ID] {
+		for _, b := range before[b0.ID] {
 			move[b.ID] = struct{}{}
 		}
 	}
@@ -100,12 +98,13 @@ func loopRotate(f *Func) {
 		if _, ok := move[b.ID]; ok {
 			continue
 		}
-		f.Blocks[j] = b
-		j++
-		for _, a := range after[b.ID] {
+		for _, a := range before[b.ID] {
 			f.Blocks[j] = a
 			j++
 		}
+		f.Blocks[j] = b
+		j++
+
 	}
 	if j != len(oldOrder) {
 		f.Fatalf("bad reordering in looprotate")
