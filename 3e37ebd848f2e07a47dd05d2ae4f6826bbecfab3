@@ -16,6 +16,108 @@
       "message": "Release notes added.",
       "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c0dbd18_5b055da0",
+        "filename": "doc/next/6-stdlib/99-minor/testing/fstest/63675.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-02T18:44:36Z",
+      "side": 1,
+      "message": "s/allows to inspect/allows inspecting/",
+      "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8041a0d8_a5158eca",
+        "filename": "doc/next/6-stdlib/99-minor/testing/fstest/63675.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-02T18:44:36Z",
+      "side": 1,
+      "message": "We can omit this paragraph.  The release notes point to the documentation.",
+      "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0325967a_dcc01cf7",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-02T18:44:36Z",
+      "side": 1,
+      "message": "This comment paragraph needs to be updated.",
+      "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5211bcb_d2d26745",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-02T18:44:36Z",
+      "side": 1,
+      "message": "This doc comment is now wrong.",
+      "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42317e98_41519f42",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-02T18:44:36Z",
+      "side": 1,
+      "message": "Not sure what this line is trying to say.",
+      "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6460866_6361ac6e",
+        "filename": "src/testing/fstest/testfs_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-02T18:44:36Z",
+      "side": 1,
+      "message": "This message looks likes a test error occurred, but it didn\u0027t.\n\n    t.Logf(\"TestFS returned expected error %v\", err)",
+      "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
