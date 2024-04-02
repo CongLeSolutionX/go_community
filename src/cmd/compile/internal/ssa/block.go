@@ -31,6 +31,9 @@ type Block struct {
 	// After flagalloc, records whether flags are live at the end of the block.
 	FlagsLiveAtEnd bool
 
+	// A block that would be good to align (according to the optimizer's guesses)
+	GoodToAlign bool
+
 	// Subsequent blocks, if any. The number and order depend on the block kind.
 	Succs []Edge
 

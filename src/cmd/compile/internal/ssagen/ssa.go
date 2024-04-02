@@ -291,7 +291,7 @@ func (s *state) emitOpenDeferInfo() {
 
 // buildssa builds an SSA function for fn.
 // worker indicates which of the backend workers is doing the processing.
-func buildssa(fn *ir.Func, worker int) *ssa.Func {
+func buildssa(fn *ir.Func, worker int, isPgoHot bool) *ssa.Func {
 	name := ir.FuncName(fn)
 
 	abiSelf := abiForFunc(fn, ssaConfig.ABI0, ssaConfig.ABI1)
@@ -373,6 +373,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	// Allocate starting block
 	s.f.Entry = s.f.NewBlock(ssa.BlockPlain)
 	s.f.Entry.Pos = fn.Pos()
+	s.f.IsPgoHot = isPgoHot
 
 	if printssa {
 		ssaDF := ssaDumpFile
@@ -7302,11 +7303,28 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 
 	var argLiveIdx int = -1 // argument liveness info index
 
+	var hot_align int64
+
+	switch base.Ctxt.Arch.Name {
+	// Also tested on arm64, was not helpful there.
+	// TODO(drchase) Coordinate w/ other architectures' maintainers to measure those.
+	// Gratuitous PC alignment is not free, at least according to benchmarks.
+	case "amd64", "386":
+		hot_align = 64
+	}
+
 	// Emit basic blocks
 	for i, b := range f.Blocks {
-		s.bstart[b.ID] = s.pp.Next
+
 		s.lineRunStart = nil
 		s.SetPos(s.pp.Pos.WithNotStmt()) // It needs a non-empty Pos, but cannot be a statement boundary (yet).
+
+		if hot_align > 0 && b.GoodToAlign {
+			p := s.pp.Prog(obj.APCALIGN)
+			p.From.SetConst(hot_align)
+		}
+
+		s.bstart[b.ID] = s.pp.Next
 
 		if idx, ok := argLiveBlockMap[b.ID]; ok && idx != argLiveIdx {
 			argLiveIdx = idx
