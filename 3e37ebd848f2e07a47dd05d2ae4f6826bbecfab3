@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36460c90_a6f45087",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2024-04-02T09:42:48Z",
+      "side": 1,
+      "message": "Release notes added.",
+      "revId": "3e37ebd848f2e07a47dd05d2ae4f6826bbecfab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
