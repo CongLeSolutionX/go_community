@@ -16,6 +16,23 @@
       "message": "Please adjust cmd/objdump/objdump_test.go to run the disassembler test on s390.  You\u0027ll need to add some cases to look for in the test.  Thanks.",
       "revId": "d27038b1be569c471c6e258d9104a8b2ae9c729a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e39ba716_c9dde940",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-02T17:45:57Z",
+      "side": 1,
+      "message": "Does this build today?  I think you\u0027ll need to update the vendored packages.",
+      "revId": "d27038b1be569c471c6e258d9104a8b2ae9c729a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
