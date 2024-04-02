@@ -291,7 +291,7 @@ func (s *state) emitOpenDeferInfo() {
 
 // buildssa builds an SSA function for fn.
 // worker indicates which of the backend workers is doing the processing.
-func buildssa(fn *ir.Func, worker int) *ssa.Func {
+func buildssa(fn *ir.Func, worker int, isPgoHot bool) *ssa.Func {
 	name := ir.FuncName(fn)
 
 	abiSelf := abiForFunc(fn, ssaConfig.ABI0, ssaConfig.ABI1)
@@ -373,6 +373,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	// Allocate starting block
 	s.f.Entry = s.f.NewBlock(ssa.BlockPlain)
 	s.f.Entry.Pos = fn.Pos()
+	s.f.IsPgoHot = isPgoHot
 
 	if printssa {
 		ssaDF := ssaDumpFile
@@ -7301,11 +7302,38 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 
 	var argLiveIdx int = -1 // argument liveness info index
 
+	const hot_align = 64
+	const hot_pad = 0
+
+	nopSize := 4
+	if base.Ctxt.Arch.Name == "amd64" || base.Ctxt.Arch.Name == "386" {
+		nopSize = 1
+	} else if base.Ctxt.Arch.Name == "wasm" {
+		nopSize = 0
+	}
+
+	pad := func() {
+		if nopSize <= 0 {
+			return
+		}
+		for i := 0; i < hot_pad; i += nopSize {
+			Arch.Ginsnop(s.pp)
+		}
+	}
+
 	// Emit basic blocks
 	for i, b := range f.Blocks {
-		s.bstart[b.ID] = s.pp.Next
+
 		s.lineRunStart = nil
 		s.SetPos(s.pp.Pos.WithNotStmt()) // It needs a non-empty Pos, but cannot be a statement boundary (yet).
+
+		if b.GoodToAlign {
+			p := s.pp.Prog(obj.APCALIGN)
+			p.From.SetConst(hot_align)
+			pad()
+		}
+
+		s.bstart[b.ID] = s.pp.Next
 
 		if idx, ok := argLiveBlockMap[b.ID]; ok && idx != argLiveIdx {
 			argLiveIdx = idx
