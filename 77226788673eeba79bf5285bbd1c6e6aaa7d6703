@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbda5d81_071864c0",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2024-04-02T14:04:19Z",
+      "side": 1,
+      "message": "I don\u0027t know if the description here is accurate, please pay special attention",
+      "revId": "77226788673eeba79bf5285bbd1c6e6aaa7d6703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
