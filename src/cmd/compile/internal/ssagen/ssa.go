@@ -7301,6 +7301,14 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 
 	var argLiveIdx int = -1 // argument liveness info index
 
+	const hot_align = 64
+
+	if f.IsPgoHot {
+		p := s.pp.Prog(obj.APCALIGN)
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = hot_align
+	}
+
 	// Emit basic blocks
 	for i, b := range f.Blocks {
 		s.bstart[b.ID] = s.pp.Next
@@ -7314,6 +7322,11 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 			p.To.SetConst(int64(idx))
 		}
 
+		if b.GoodToAlign {
+			p := s.pp.Prog(obj.APCALIGN)
+			p.From.Type = obj.TYPE_CONST
+			p.From.Offset = hot_align
+		}
 		// Emit values in block
 		Arch.SSAMarkMoves(&s, b)
 		for _, v := range b.Values {

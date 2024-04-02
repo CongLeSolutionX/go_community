@@ -218,6 +218,17 @@ func GarbageCollectUnreferencedHiddenClosures() {
 	}
 }
 
+func IsPgoHotFunc(fn *ir.Func, profile *pgoir.Profile) bool {
+	if profile == nil {
+		return false
+	}
+	if n, ok := profile.WeightedCG.IRNodes[ir.LinkFuncName(fn)]; ok {
+		_, ok := candHotCalleeMap[n]
+		return ok
+	}
+	return false
+}
+
 // inlineBudget determines the max budget for function 'fn' prior to
 // analyzing the hairiness of the body of 'fn'. We pass in the pgo
 // profile if available (which can change the budget), also a
@@ -229,12 +240,10 @@ func inlineBudget(fn *ir.Func, profile *pgoir.Profile, relaxed bool, verbose boo
 	// Update the budget for profile-guided inlining.
 	budget := int32(inlineMaxBudget)
 	if profile != nil {
-		if n, ok := profile.WeightedCG.IRNodes[ir.LinkFuncName(fn)]; ok {
-			if _, ok := candHotCalleeMap[n]; ok {
-				budget = inlineHotMaxBudget
-				if verbose {
-					fmt.Printf("hot-node enabled increased budget=%v for func=%v\n", budget, ir.PkgFuncName(fn))
-				}
+		if IsPgoHotFunc(fn, profile) {
+			budget = inlineHotMaxBudget
+			if verbose {
+				fmt.Printf("hot-node enabled increased budget=%v for func=%v\n", budget, ir.PkgFuncName(fn))
 			}
 		}
 	}
