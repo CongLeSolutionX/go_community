@@ -119,6 +119,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a3f912d_c6e09a5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2024-04-02T00:58:53Z",
+      "side": 1,
+      "message": "\u003e Variables must be greater than (3*types.PtrSize) in size\nto be considered for merging.\n\nCurious: what\u0027s the background on that? algorithm too costly to do for all? goal is to primarily get slices?",
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6d45abe_d844d804",
