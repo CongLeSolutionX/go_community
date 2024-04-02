@@ -56,9 +56,16 @@ func loopRotate(f *Func) {
 			}
 			p = e.b
 		}
-		if p == nil || p == b {
+		if p == nil {
 			continue
 		}
+		// p is head of loop, one way or another.
+		p.GoodToAlign = f.IsPgoHot && f.pass.debug > 0
+
+		if p == b {
+			continue
+		}
+		// p follows the loop header.
 		after[p.ID] = []*Block{b}
 		for {
 			nextIdx := idToIdx[b.ID] + 1
