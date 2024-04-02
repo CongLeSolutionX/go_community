@@ -16,6 +16,24 @@
       "message": "We don\u0027t want (f) here.  The (f) is after Fprint because it represents the first argument to Fprint (the io.Writer).  Sprint doesn\u0027t have a corresponding argument.",
       "revId": "d0dc414bbcd5bf593648283471c2a410fae528b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dfeceae_09359450",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2024-04-02T08:12:39Z",
+      "side": 1,
+      "message": "Oh yes, I missed that. Fixed.",
+      "parentUuid": "65cfac5a_b2a03f67",
+      "revId": "d0dc414bbcd5bf593648283471c2a410fae528b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
