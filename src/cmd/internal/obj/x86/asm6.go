@@ -2151,7 +2151,7 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 					s.Grow(int64(c) + int64(v))
 					fillnop(s.P[c:], int(v))
 				}
-
+				p.Pc = int64(c)
 				c += int32(v)
 				pPrev = p
 				continue
