@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "331632b5499871decb6d2ca0bf66b7c17e555a01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6f525d_0009fcae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-04-02T21:57:37Z",
+      "side": 1,
+      "message": "There\u0027s a merge conflict with the overlapping older CL 535082 that was just submitted; please rebase and resolve.",
+      "revId": "331632b5499871decb6d2ca0bf66b7c17e555a01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
