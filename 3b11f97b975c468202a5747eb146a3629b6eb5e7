@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd3d2a52_bedde023",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 57198
+      },
+      "writtenOn": "2024-04-03T10:28:23Z",
+      "side": 1,
+      "message": "The counter propagation is made in the latest passes and it does not correct the likely branch information. But for example, regalloc uses likely/unlikely information, maybe other optimizations too. Would it be better to move profile propagation to the beginning of ssa passes?",
+      "revId": "3b11f97b975c468202a5747eb146a3629b6eb5e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
