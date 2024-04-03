@@ -22,6 +22,30 @@
       },
       "revId": "ef4c9e0590b676da768f46b1cab52d356d7a60a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "427b54df_e346167e",
+        "filename": "src/cmd/compile/internal/importer/ureader.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-03T19:40:41Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t notice this issue was already closed.",
+      "parentUuid": "58951fec_1434acfa",
+      "range": {
+        "startLine": 545,
+        "startChar": 2,
+        "endLine": 545,
+        "endChar": 89
+      },
+      "revId": "ef4c9e0590b676da768f46b1cab52d356d7a60a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
