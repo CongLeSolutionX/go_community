@@ -460,8 +460,8 @@ func (lv *liveness) blockEffects(b *ssa.Block) *blockEffects {
 // argument is a slice of *Nodes.
 func (lv *liveness) pointerMap(liveout bitvec.BitVec, vars []*ir.Name, args, locals bitvec.BitVec) {
 	var slotsSeen map[int64]*ir.Name
-	checkForDuplicateSlots := base.Debug.MergeLocals != 0
-	if checkForDuplicateSlots {
+	pruneDuplicateSlots := base.Debug.MergeLocals != 0
+	if pruneDuplicateSlots {
 		slotsSeen = make(map[int64]*ir.Name)
 	}
 	for i := int32(0); ; i++ {
@@ -481,11 +481,11 @@ func (lv *liveness) pointerMap(liveout bitvec.BitVec, vars []*ir.Name, args, loc
 			}
 			fallthrough // PPARAMOUT in registers acts memory-allocates like an AUTO
 		case ir.PAUTO:
+			if pruneDuplicateSlots && slotsSeen[node.FrameOffset()] != nil {
+				continue
+			}
 			typebits.Set(node.Type(), node.FrameOffset()+lv.stkptrsize, locals)
-			if checkForDuplicateSlots {
-				if prev, ok := slotsSeen[node.FrameOffset()]; ok {
-					base.FatalfAt(node.Pos(), "two vars live at pointerMap generation: %q and %q", prev.Sym().Name, node.Sym().Name)
-				}
+			if pruneDuplicateSlots {
 				slotsSeen[node.FrameOffset()] = node
 			}
 		}

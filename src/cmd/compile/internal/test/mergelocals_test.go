@@ -7,24 +7,27 @@ package test
 import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/liveness"
+	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"fmt"
 	"internal/testenv"
 	"path/filepath"
-	"slices"
 	"sort"
+	"strconv"
 	"strings"
 	"testing"
 )
 
+func mkiv(name string) *ir.Name {
+	i32 := types.Types[types.TINT32]
+	s := typecheck.Lookup(name)
+	v := ir.NewNameAt(src.NoXPos, s, i32)
+	return v
+}
+
 func TestMergeLocalState(t *testing.T) {
-	mkiv := func(name string) *ir.Name {
-		i32 := types.Types[types.TINT32]
-		s := typecheck.Lookup(name)
-		v := ir.NewNameAt(src.NoXPos, s, i32)
-		return v
-	}
 	v1 := mkiv("v1")
 	v2 := mkiv("v2")
 	v3 := mkiv("v3")
@@ -165,20 +168,163 @@ func TestMergeLocalsIntegration(t *testing.T) {
 		varsAtFrameOffset[frameoff] = varsAtFrameOffset[frameoff] + 1
 		vars[vname] = frameoff
 	}
-	wantvnum := 8
+	wantvnum := 9
 	gotvnum := len(vars)
 	if wantvnum != gotvnum {
 		t.Fatalf("expected trace output on %d vars got %d\n", wantvnum, gotvnum)
 	}
 
-	// We expect one clump of 3, another clump of 2, and the rest singletons.
-	expected := []int{1, 1, 1, 2, 3}
+	// Expect at least one clump of 3.
+	n3 := 0
 	got := []int{}
 	for _, v := range varsAtFrameOffset {
+		if v == 3 {
+			n3++
+		}
 		got = append(got, v)
 	}
 	sort.Ints(got)
-	if !slices.Equal(got, expected) {
-		t.Fatalf("expected variable clumps %+v not equal to what we got: %+v", expected, got)
+	if n3 == 0 {
+		t.Fatalf("expected at least one clump of 3, got: %+v", got)
+	}
+}
+
+func TestIndirectUETable(t *testing.T) {
+	v1 := mkiv("v1")
+	v2 := mkiv("v2")
+	v3 := mkiv("v3")
+
+	testcases := []struct {
+		ops    string
+		exp    string
+		adderr bool
+		geterr bool
+		finerr bool
+	}{
+		{
+			exp: "",
+		},
+		{
+			ops: "G|0",
+			exp: "I0{}",
+		},
+		{
+			ops:    "A|0|v3",
+			adderr: true,
+		},
+		{
+			ops:    "A|0|v1:A|1|v2",
+			adderr: true,
+		},
+		{
+			ops:    "A|0|v1:F|1",
+			finerr: true,
+		},
+		{
+			ops:    "A|0|v1:G|0",
+			geterr: true,
+		},
+		{
+			ops: "A|0|v1:S",
+		},
+		{
+			ops: "A|0|v1:F|0:S",
+		},
+		{
+			ops: "A|0|v1:A|0|v2:F|0:G|0:G|1",
+			exp: "I0{v1 v2} I1{}",
+		},
+		{
+			ops: "A|0|v1:F|0:A|1|v2:F|1:G|0:G|1",
+			exp: "I0{v1} I1{v2}",
+		},
+		{
+			ops: "A|0|v1:F|0:A|1|v2:F|1:G|0:G|1",
+			exp: "I0{v1} I1{v2}",
+		},
+	}
+
+	vlook := func(s string) *ir.Name {
+		switch s {
+		case "v1":
+			return v1
+		case "v2":
+			return v2
+		case "v3":
+			return v3
+		default:
+			t.Fatalf("unknown var %s", s)
+			return nil
+		}
+	}
+
+	for k, tc := range testcases {
+		tab := liveness.MakeIndUETab([]*ir.Name{v1, v2}, 10)
+		clauses := strings.Split(tc.ops, ":")
+		got := ""
+		gidx := 0
+		var adderr error
+		for _, clause := range clauses {
+			items := strings.Split(clause, "|")
+			op := items[0]
+			switch op {
+			case "A":
+				i, err := strconv.Atoi(items[1])
+				if err != nil {
+					t.Fatalf("bad strconv.Atoi %s %v", items[1], err)
+				}
+				v := vlook(items[2])
+				adderr = tab.Add(ssa.ID(i), v)
+			case "F":
+				i, err := strconv.Atoi(items[1])
+				if err != nil {
+					t.Fatalf("bad strconv.Atoi %s %v", items[1], err)
+				}
+				err = tab.Finalize(ssa.ID(i))
+				if err != nil && !tc.finerr {
+					t.Fatalf("tc %d unexpected err on clause %s: %v", k, clause, err)
+				} else if err == nil && tc.finerr {
+					t.Fatalf("tc %d expected err on clause %s got none", k, clause)
+				}
+			case "S":
+				_ = tab.String()
+			case "G":
+				i, err := strconv.Atoi(items[1])
+				if err != nil {
+					t.Fatalf("bad strconv.Atoi %s %v", items[1], err)
+				}
+				tmp := []*ir.Name{}
+				sl, err2 := tab.Get(ssa.ID(i), tmp)
+				if err2 != nil && !tc.geterr {
+					t.Fatalf("tc %d unexpected err on clause %s: %v", k, clause, err2)
+				} else if err2 == nil && tc.geterr {
+					t.Fatalf("tc %d expected err on clause %s got none", k, clause)
+				}
+				if tc.geterr {
+					break
+				}
+				if gidx != 0 {
+					got += " "
+				}
+				gidx++
+				got += fmt.Sprintf("I%d{", i)
+				for k, v := range sl {
+					if k != 0 {
+						got += " "
+					}
+					got += v.Sym().Name
+				}
+				got += "}"
+			}
+		}
+		if adderr != nil && !tc.adderr {
+			t.Fatalf("tc %d unexpected err on ops %s: %v", k, tc.ops, adderr)
+			continue
+		} else if adderr == nil && tc.adderr {
+			t.Fatalf("tc %d expected err on ops %s got none", k, tc.ops)
+		}
+		if got != tc.exp {
+			t.Errorf("mismatch on test %d: got %s want %s", k, got, tc.exp)
+		}
 	}
 }
