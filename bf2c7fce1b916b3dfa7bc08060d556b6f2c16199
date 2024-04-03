@@ -16,6 +16,24 @@
       "message": "This implies that we will always return the result of errors.Join, but there are some cases in TestFS where that is not the case.  Should we always return errors.Join?  Or adjust the comment?",
       "revId": "bf2c7fce1b916b3dfa7bc08060d556b6f2c16199",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6342a577_e64286d0",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2024-04-03T23:48:39Z",
+      "side": 1,
+      "message": "I have reviewed the existing cases where a single error non-nil might be returned (when testing a SubFS). I don\u0027t think that it is worth to add a constraint that the error returned is a list.\n\nOn the other hand, the existing documentation already says \"it returns an error reporting all of them\" while in fact in some cases it already returns only the *first* error it finds. So the implementation before my change was already not in sync with the documentation.\n\nIt seems to me that for the Testing use case, reporting the first error to avoid unnecessarly flooding the user with error (which takes resources to build) is good enough, so I would prefer to relax the rule and align the documentation with the implementation.\n\nWhat about this?\n\n\u003e If TestFS finds any misbehaviors, it returns either the first error or a list of errors. Use [errors.Is] or [errors.As] to inspect.",
+      "parentUuid": "12c65c45_cab56008",
+      "revId": "bf2c7fce1b916b3dfa7bc08060d556b6f2c16199",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
