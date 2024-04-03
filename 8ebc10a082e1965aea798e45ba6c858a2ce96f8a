@@ -34,6 +34,24 @@
       "parentUuid": "d90fc582_06f199c7",
       "revId": "8ebc10a082e1965aea798e45ba6c858a2ce96f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b655191_e66ed181",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-04-03T10:23:00Z",
+      "side": 1,
+      "message": "I have had time to look more into this and I have a counterproposal:\n\nhttps://go-review.googlesource.com/c/go/+/576035\n\nIf I haven\u0027t made any mistakes this would add a -rangeN at the end of the symbol name for range body closures, and there would never be more than one of those in a symbol.",
+      "parentUuid": "e5051f55_9fb12f98",
+      "revId": "8ebc10a082e1965aea798e45ba6c858a2ce96f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
