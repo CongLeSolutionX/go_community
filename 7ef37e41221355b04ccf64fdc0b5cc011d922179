@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aa7c7ec_1e5960b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2024-04-03T15:34:44Z",
+      "side": 1,
+      "message": "This exact tree (including VERSION file content) was tested and passed during release testing, so adding bypass to not wait longer. (Notably \u0027net/http.TestRequestLimit/h2\u0027 passed on linux-386 this time.)",
+      "revId": "7ef37e41221355b04ccf64fdc0b5cc011d922179",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
