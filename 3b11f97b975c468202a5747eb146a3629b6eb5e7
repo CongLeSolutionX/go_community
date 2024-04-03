@@ -16,6 +16,24 @@
       "message": "The counter propagation is made in the latest passes and it does not correct the likely branch information. But for example, regalloc uses likely/unlikely information, maybe other optimizations too. Would it be better to move profile propagation to the beginning of ssa passes?",
       "revId": "3b11f97b975c468202a5747eb146a3629b6eb5e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c5a954_19e9f701",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 59058
+      },
+      "writtenOn": "2024-04-03T16:19:25Z",
+      "side": 1,
+      "message": "This change is based on https://go-review.googlesource.com/c/go/+/560781, which uses the basic block ID at the last SSA pass as the discriminator value. When the profile is fed back to the compiler, it has to be at the last pass. Otherwise, it may not find the corresponding basic block.",
+      "parentUuid": "bd3d2a52_bedde023",
+      "revId": "3b11f97b975c468202a5747eb146a3629b6eb5e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
