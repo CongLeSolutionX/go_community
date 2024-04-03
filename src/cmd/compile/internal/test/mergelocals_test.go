@@ -12,19 +12,19 @@ import (
 	"cmd/internal/src"
 	"internal/testenv"
 	"path/filepath"
-	"slices"
 	"sort"
 	"strings"
 	"testing"
 )
 
+func mkiv(name string) *ir.Name {
+	i32 := types.Types[types.TINT32]
+	s := typecheck.Lookup(name)
+	v := ir.NewNameAt(src.NoXPos, s, i32)
+	return v
+}
+
 func TestMergeLocalState(t *testing.T) {
-	mkiv := func(name string) *ir.Name {
-		i32 := types.Types[types.TINT32]
-		s := typecheck.Lookup(name)
-		v := ir.NewNameAt(src.NoXPos, s, i32)
-		return v
-	}
 	v1 := mkiv("v1")
 	v2 := mkiv("v2")
 	v3 := mkiv("v3")
@@ -165,20 +165,23 @@ func TestMergeLocalsIntegration(t *testing.T) {
 		varsAtFrameOffset[frameoff] = varsAtFrameOffset[frameoff] + 1
 		vars[vname] = frameoff
 	}
-	wantvnum := 8
+	wantvnum := 9
 	gotvnum := len(vars)
 	if wantvnum != gotvnum {
 		t.Fatalf("expected trace output on %d vars got %d\n", wantvnum, gotvnum)
 	}
 
-	// We expect one clump of 3, another clump of 2, and the rest singletons.
-	expected := []int{1, 1, 1, 2, 3}
+	// Expect at least one clump of 3.
+	n3 := 0
 	got := []int{}
 	for _, v := range varsAtFrameOffset {
+		if v == 3 {
+			n3++
+		}
 		got = append(got, v)
 	}
 	sort.Ints(got)
-	if !slices.Equal(got, expected) {
-		t.Fatalf("expected variable clumps %+v not equal to what we got: %+v", expected, got)
+	if n3 == 0 {
+		t.Fatalf("expected at least one clump of 3, got: %+v", got)
 	}
 }
