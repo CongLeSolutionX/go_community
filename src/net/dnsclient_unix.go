@@ -48,7 +48,7 @@ var (
 	// errServerTemporarilyMisbehaving is like errServerMisbehaving, except
 	// that when it gets translated to a DNSError, the IsTemporary field
 	// gets set to true.
-	errServerTemporarilyMisbehaving = errors.New("server misbehaving")
+	errServerTemporarilyMisbehaving = &temporaryError{"server misbehaving"}
 )
 
 func newRequest(q dnsmessage.Question, ad bool) (id uint16, udpReq, tcpReq []byte, err error) {
@@ -290,7 +290,7 @@ func (r *Resolver) tryOneName(ctx context.Context, cfg *dnsConfig, name string, 
 
 	n, err := dnsmessage.NewName(name)
 	if err != nil {
-		return dnsmessage.Parser{}, "", errCannotMarshalDNSMessage
+		return dnsmessage.Parser{}, "", newWrappingDNSError(errCannotMarshalDNSMessage, name, "")
 	}
 	q := dnsmessage.Question{
 		Name:  n,
@@ -304,14 +304,7 @@ func (r *Resolver) tryOneName(ctx context.Context, cfg *dnsConfig, name string, 
 
 			p, h, err := r.exchange(ctx, server, q, cfg.timeout, cfg.useTCP, cfg.trustAD)
 			if err != nil {
-				dnsErr := &DNSError{
-					Err:    err.Error(),
-					Name:   name,
-					Server: server,
-				}
-				if nerr, ok := err.(Error); ok && nerr.Timeout() {
-					dnsErr.IsTimeout = true
-				}
+				dnsErr := newWrappingDNSError(err, name, server)
 				// Set IsTemporary for socket-level errors. Note that this flag
 				// may also be used to indicate a SERVFAIL response.
 				if _, ok := err.(*OpError); ok {
@@ -322,41 +315,22 @@ func (r *Resolver) tryOneName(ctx context.Context, cfg *dnsConfig, name string, 
 			}
 
 			if err := checkHeader(&p, h); err != nil {
-				dnsErr := &DNSError{
-					Err:    err.Error(),
-					Name:   name,
-					Server: server,
-				}
-				if err == errServerTemporarilyMisbehaving {
-					dnsErr.IsTemporary = true
-				}
 				if err == errNoSuchHost {
-					// The name does not exist, so trying
-					// another server won't help.
-
-					dnsErr.IsNotFound = true
-					return p, server, dnsErr
+					return p, server, newWrappingDNSError(errNoSuchHost, name, server)
 				}
-				lastErr = dnsErr
+				lastErr = newWrappingDNSError(err, name, server)
 				continue
 			}
 
-			err = skipToAnswer(&p, qtype)
-			if err == nil {
-				return p, server, nil
+			if err := skipToAnswer(&p, qtype); err != nil {
+				if err == errNoSuchHost {
+					return p, server, newWrappingDNSError(errNoSuchHost, name, server)
+				}
+				lastErr = newWrappingDNSError(err, name, server)
+				continue
 			}
-			lastErr = &DNSError{
-				Err:    err.Error(),
-				Name:   name,
-				Server: server,
-			}
-			if err == errNoSuchHost {
-				// The name does not exist, so trying another
-				// server won't help.
 
-				lastErr.(*DNSError).IsNotFound = true
-				return p, server, lastErr
-			}
+			return p, server, nil
 		}
 	}
 	return dnsmessage.Parser{}, "", lastErr
@@ -456,7 +430,7 @@ func (r *Resolver) lookup(ctx context.Context, name string, qtype dnsmessage.Typ
 		// Other lookups might allow broader name syntax
 		// (for example Multicast DNS allows UTF-8; see RFC 6762).
 		// For consistency with libc resolvers, report no such host.
-		return dnsmessage.Parser{}, "", &DNSError{Err: errNoSuchHost.Error(), Name: name, IsNotFound: true}
+		return dnsmessage.Parser{}, "", newWrappingDNSError(errNoSuchHost, name, "")
 	}
 
 	if conf == nil {
@@ -584,7 +558,7 @@ func (r *Resolver) goLookupHostOrder(ctx context.Context, name string, order hos
 		}
 
 		if order == hostLookupFiles {
-			return nil, &DNSError{Err: errNoSuchHost.Error(), Name: name, IsNotFound: true}
+			return nil, newWrappingDNSError(errNoSuchHost, name, "")
 		}
 	}
 	ips, _, err := r.goLookupIPCNAMEOrder(ctx, "ip", name, order, conf)
@@ -634,13 +608,13 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 		}
 
 		if order == hostLookupFiles {
-			return nil, dnsmessage.Name{}, &DNSError{Err: errNoSuchHost.Error(), Name: name, IsNotFound: true}
+			return nil, dnsmessage.Name{}, newWrappingDNSError(errNoSuchHost, name, "")
 		}
 	}
 
 	if !isDomainName(name) {
 		// See comment in func lookup above about use of errNoSuchHost.
-		return nil, dnsmessage.Name{}, &DNSError{Err: errNoSuchHost.Error(), Name: name, IsNotFound: true}
+		return nil, dnsmessage.Name{}, newWrappingDNSError(errNoSuchHost, name, "")
 	}
 	type result struct {
 		p      dnsmessage.Parser
@@ -725,11 +699,7 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 			for {
 				h, err := result.p.AnswerHeader()
 				if err != nil && err != dnsmessage.ErrSectionDone {
-					lastErr = &DNSError{
-						Err:    errCannotUnmarshalDNSMessage.Error(),
-						Name:   name,
-						Server: result.server,
-					}
+					lastErr = newWrappingDNSError(errCannotUnmarshalDNSMessage, name, result.server)
 				}
 				if err != nil {
 					break
@@ -738,11 +708,7 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 				case dnsmessage.TypeA:
 					a, err := result.p.AResource()
 					if err != nil {
-						lastErr = &DNSError{
-							Err:    errCannotUnmarshalDNSMessage.Error(),
-							Name:   name,
-							Server: result.server,
-						}
+						lastErr = newWrappingDNSError(errCannotUnmarshalDNSMessage, name, result.server)
 						break loop
 					}
 					addrs = append(addrs, IPAddr{IP: IP(a.A[:])})
@@ -753,11 +719,7 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 				case dnsmessage.TypeAAAA:
 					aaaa, err := result.p.AAAAResource()
 					if err != nil {
-						lastErr = &DNSError{
-							Err:    errCannotUnmarshalDNSMessage.Error(),
-							Name:   name,
-							Server: result.server,
-						}
+						lastErr = newWrappingDNSError(errCannotUnmarshalDNSMessage, name, result.server)
 						break loop
 					}
 					addrs = append(addrs, IPAddr{IP: IP(aaaa.AAAA[:])})
@@ -768,11 +730,7 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 				case dnsmessage.TypeCNAME:
 					c, err := result.p.CNAMEResource()
 					if err != nil {
-						lastErr = &DNSError{
-							Err:    errCannotUnmarshalDNSMessage.Error(),
-							Name:   name,
-							Server: result.server,
-						}
+						lastErr = newWrappingDNSError(errCannotUnmarshalDNSMessage, name, result.server)
 						break loop
 					}
 					if cname.Length == 0 && c.CNAME.Length > 0 {
@@ -781,11 +739,7 @@ func (r *Resolver) goLookupIPCNAMEOrder(ctx context.Context, network, name strin
 
 				default:
 					if err := result.p.SkipAnswer(); err != nil {
-						lastErr = &DNSError{
-							Err:    errCannotUnmarshalDNSMessage.Error(),
-							Name:   name,
-							Server: result.server,
-						}
+						lastErr = newWrappingDNSError(errCannotUnmarshalDNSMessage, name, result.server)
 						break loop
 					}
 					continue
@@ -845,7 +799,7 @@ func (r *Resolver) goLookupPTR(ctx context.Context, addr string, order hostLooku
 		}
 
 		if order == hostLookupFiles {
-			return nil, &DNSError{Err: errNoSuchHost.Error(), Name: addr, IsNotFound: true}
+			return nil, newWrappingDNSError(errNoSuchHost, addr, "")
 		}
 	}
 
@@ -855,8 +809,7 @@ func (r *Resolver) goLookupPTR(ctx context.Context, addr string, order hostLooku
 	}
 	p, server, err := r.lookup(ctx, arpa, dnsmessage.TypePTR, conf)
 	if err != nil {
-		var dnsErr *DNSError
-		if errors.As(err, &dnsErr) && dnsErr.IsNotFound {
+		if errors.Is(err, errNoSuchHost) {
 			if order == hostLookupDNSFiles {
 				names := lookupStaticAddr(addr)
 				if len(names) > 0 {
@@ -873,30 +826,18 @@ func (r *Resolver) goLookupPTR(ctx context.Context, addr string, order hostLooku
 			break
 		}
 		if err != nil {
-			return nil, &DNSError{
-				Err:    errCannotUnmarshalDNSMessage.Error(),
-				Name:   addr,
-				Server: server,
-			}
+			return nil, newWrappingDNSError(errCannotUnmarshalDNSMessage, addr, server)
 		}
 		if h.Type != dnsmessage.TypePTR {
 			err := p.SkipAnswer()
 			if err != nil {
-				return nil, &DNSError{
-					Err:    errCannotUnmarshalDNSMessage.Error(),
-					Name:   addr,
-					Server: server,
-				}
+				return nil, newWrappingDNSError(errCannotUnmarshalDNSMessage, addr, server)
 			}
 			continue
 		}
 		ptr, err := p.PTRResource()
 		if err != nil {
-			return nil, &DNSError{
-				Err:    errCannotUnmarshalDNSMessage.Error(),
-				Name:   addr,
-				Server: server,
-			}
+			return nil, newWrappingDNSError(errCannotUnmarshalDNSMessage, addr, server)
 		}
 		ptrs = append(ptrs, ptr.PTR.String())
 
