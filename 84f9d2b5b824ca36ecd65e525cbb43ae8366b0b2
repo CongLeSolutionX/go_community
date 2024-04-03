@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d0c8999_8de42839",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-04-03T17:48:50Z",
+      "side": 1,
+      "message": "I\u0027m reading https://research.swtch.com/xz-timeline and Russ wrote:\n\n\u003e 2024-02-23: Jia Tan merges hidden backdoor binary code well hidden inside some binary test input files. The README already said (from long before Jia Tan showed up) “This directory contains bunch of files to test handling of .xz, .lzma (LZMA_Alone), and .lz (lzip) files in decoder implementations. Many of the files have been created by hand with a hex editor, thus there is no better \"source code\" than the files themselves.” Having these kinds of test files is very common for this kind of library. Jia Tan took advantage of this to add a few files that wouldn\u0027t be carefully reviewed.\n\nHahaha... more commentary around random blobs of binary was what this CL was trying to address.\n\nAnyways, I\u0027m not trying to resurrect this CL unless others think it has value.",
+      "revId": "84f9d2b5b824ca36ecd65e525cbb43ae8366b0b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
