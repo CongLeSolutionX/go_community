@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c65c45_cab56008",
+        "filename": "src/testing/fstest/testfs.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-03T22:44:31Z",
+      "side": 1,
+      "message": "This implies that we will always return the result of errors.Join, but there are some cases in TestFS where that is not the case.  Should we always return errors.Join?  Or adjust the comment?",
+      "revId": "bf2c7fce1b916b3dfa7bc08060d556b6f2c16199",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
