@@ -33,6 +33,24 @@
       "message": "Does this build today?  I think you\u0027ll need to update the vendored packages.",
       "revId": "d27038b1be569c471c6e258d9104a8b2ae9c729a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac7d155_cd8440a7",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 61503
+      },
+      "writtenOn": "2024-04-03T12:01:21Z",
+      "side": 1,
+      "message": "Thanks Ian, for your review.\nYou are right that it will not build until my other CL (https://go-review.googlesource.com/c/arch/+/575675) gets merged. So, I will make this CL as dependent on the CL which has s390xasm package defined.\nI suppose, we will not need to update the vendored packages manually. Once the other CL is merged, the vendor package will automatically get updated.\nPlease correct me if my understanding is incorrect here.. Thanks..",
+      "parentUuid": "e39ba716_c9dde940",
+      "revId": "d27038b1be569c471c6e258d9104a8b2ae9c729a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
