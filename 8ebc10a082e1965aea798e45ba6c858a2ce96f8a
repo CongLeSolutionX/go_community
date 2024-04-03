@@ -88,6 +88,24 @@
       "parentUuid": "ea71c700_6d2856cf",
       "revId": "8ebc10a082e1965aea798e45ba6c858a2ce96f8a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a46deada_815e62b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-04-03T18:19:04Z",
+      "side": 1,
+      "message": "Yes, that looks like what I would expect, feel free to incorporate it if you like it.\nOn a related note, I also tried fixing the inlined closure naming issue myself (#60324 and #66517) but so far I haven\u0027t managed it.",
+      "parentUuid": "e62b63c5_fc053335",
+      "revId": "8ebc10a082e1965aea798e45ba6c858a2ce96f8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
