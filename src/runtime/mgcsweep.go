@@ -553,31 +553,69 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		mbits := s.markBitsForIndex(objIndex)
 		if !mbits.isMarked() {
 			// This object is not marked and has at least one special record.
-			// Pass 1: see if it has at least one finalizer.
-			hasFin := false
+			// Pass 1: see if it has a finalizer or weak handle.
+			hasFin, hasWeak, revived := false, false, false
 			endOffset := p - s.base() + size
 			for tmp := siter.s; tmp != nil && uintptr(tmp.offset) < endOffset; tmp = tmp.next {
 				if tmp.kind == _KindSpecialFinalizer {
+					if hasWeak {
+						throw("found weak handle and finalizer on the same object")
+					}
 					// Stop freeing of object if it has a finalizer.
 					mbits.setMarkedNonAtomic()
+					revived = true
 					hasFin = true
-					break
+				}
+				if tmp.kind == _KindSpecialWeakHandle {
+					if hasFin {
+						throw("found weak handle and finalizer on the same object")
+					}
+					p := s.base() + uintptr(tmp.offset)
+					sw := (*specialWeakHandle)(unsafe.Pointer(tmp))
+					hv := sw.handle.Load()
+					if hv == uint64(p) {
+						// Mark the object as dying and revive it.
+						sw.handle.CompareAndSwap(hv, hv|weakHandleDyingBit)
+						mbits.setMarkedNonAtomic()
+						revived = true
+					} else if hv == uint64(p)|weakHandleDyingBit {
+						// The object has been dying for a full cycle, with no
+						// strong pointer created from the handle. Try to kill it.
+						if !sw.handle.CompareAndSwap(hv, 0) {
+							// We failed to kill it. A strong pointer was made
+							// concurrently.
+							mbits.setMarkedNonAtomic()
+							revived = true
+						}
+					}
+					hasWeak = true
 				}
 			}
-			// Pass 2: queue all finalizers _or_ handle profile record.
-			for siter.valid() && uintptr(siter.s.offset) < endOffset {
-				// Find the exact byte for which the special was setup
-				// (as opposed to object beginning).
-				special := siter.s
-				p := s.base() + uintptr(special.offset)
-				if special.kind == _KindSpecialFinalizer || !hasFin {
+			if !revived {
+				// Pass 2: the object is dead, free (and handle) all specials.
+				for siter.valid() && uintptr(siter.s.offset) < endOffset {
+					// Find the exact byte for which the special was setup
+					// (as opposed to object beginning).
+					special := siter.s
+					p := s.base() + uintptr(special.offset)
 					siter.unlinkAndNext()
 					freeSpecial(special, unsafe.Pointer(p), size)
-				} else {
-					// The object has finalizers, so we're keeping it alive.
-					// All other specials only apply when an object is freed,
-					// so just keep the special record.
-					siter.next()
+				}
+			} else if revived && hasFin {
+				// Pass 2: queue all finalizers.
+				for siter.valid() && uintptr(siter.s.offset) < endOffset {
+					// Find the exact byte for which the special was setup
+					// (as opposed to object beginning).
+					special := siter.s
+					p := s.base() + uintptr(special.offset)
+					if special.kind == _KindSpecialFinalizer {
+						siter.unlinkAndNext()
+						freeSpecial(special, unsafe.Pointer(p), size)
+					} else {
+						// All other specials only apply when an object is freed,
+						// so just keep the special record.
+						siter.next()
+					}
 				}
 			}
 		} else {
