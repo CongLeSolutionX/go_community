@@ -552,31 +552,41 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		mbits := s.markBitsForIndex(objIndex)
 		if !mbits.isMarked() {
 			// This object is not marked and has at least one special record.
-			// Pass 1: see if it has at least one finalizer.
-			hasFin := false
+			// Pass 1: see if it has a finalizer.
+			hasFinAndRevived := false
 			endOffset := p - s.base() + size
 			for tmp := siter.s; tmp != nil && uintptr(tmp.offset) < endOffset; tmp = tmp.next {
 				if tmp.kind == _KindSpecialFinalizer {
 					// Stop freeing of object if it has a finalizer.
 					mbits.setMarkedNonAtomic()
-					hasFin = true
-					break
+					hasFinAndRevived = true
 				}
 			}
-			// Pass 2: queue all finalizers _or_ handle profile record.
-			for siter.valid() && uintptr(siter.s.offset) < endOffset {
-				// Find the exact byte for which the special was setup
-				// (as opposed to object beginning).
-				special := siter.s
-				p := s.base() + uintptr(special.offset)
-				if special.kind == _KindSpecialFinalizer || !hasFin {
+			if hasFinAndRevived {
+				// Pass 2: queue all finalizers.
+				for siter.valid() && uintptr(siter.s.offset) < endOffset {
+					// Find the exact byte for which the special was setup
+					// (as opposed to object beginning).
+					special := siter.s
+					p := s.base() + uintptr(special.offset)
+					if special.kind == _KindSpecialFinalizer {
+						siter.unlinkAndNext()
+						freeSpecial(special, unsafe.Pointer(p), size)
+					} else {
+						// All other specials only apply when an object is freed,
+						// so just keep the special record.
+						siter.next()
+					}
+				}
+			} else {
+				// Pass 2: the object is truly dead, free (and handle) all specials.
+				for siter.valid() && uintptr(siter.s.offset) < endOffset {
+					// Find the exact byte for which the special was setup
+					// (as opposed to object beginning).
+					special := siter.s
+					p := s.base() + uintptr(special.offset)
 					siter.unlinkAndNext()
 					freeSpecial(special, unsafe.Pointer(p), size)
-				} else {
-					// The object has finalizers, so we're keeping it alive.
-					// All other specials only apply when an object is freed,
-					// so just keep the special record.
-					siter.next()
 				}
 			}
 		} else {
