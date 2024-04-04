@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "82fb4867_e8a6fee2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-04T21:54:22Z",
+      "side": 1,
+      "message": "Update: I think it will be easier for reviewers if I do a roll-forward of the original CL but with mergelocals flagged off, then I\u0027ll send a successor CL that adds on the necessary changes to handle indirect accesses properly.\n\nTo that end I am going to convert this patch (CL 575415) into the pure roll-forward with flag off, then the successor patch will be where the interesting stuff lands.",
+      "parentUuid": "bf61f7f7_d386c027",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0e277949_d3cea8f8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
