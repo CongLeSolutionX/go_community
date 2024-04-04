@@ -130,6 +130,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "859a1537_6930afc0",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-04T21:52:51Z",
+      "side": 1,
+      "message": "Looks good.",
+      "parentUuid": "23aaac0e_177d96fa",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 76
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c32c9a0_3ed0cc83",
@@ -167,6 +191,30 @@
       "side": 1,
       "message": "Yeah else is better",
       "parentUuid": "5c32c9a0_3ed0cc83",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 7
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "816a6d5c_199bdd80",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-04T21:52:51Z",
+      "side": 1,
+      "message": "The second sentence is no longer needed.",
+      "parentUuid": "c618e8ea_52e07084",
       "range": {
         "startLine": 100,
         "startChar": 4,
