@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eedfeed_bcc2f063",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-04T23:17:41Z",
+      "side": 1,
+      "message": "This description doesn\u0027t seem quite right.  It seems to me that we already implement the fast path.  What this CL is doing is removing the slow path from non-Solaris code.",
+      "revId": "4870dd5eff9aa28d0a365472303f1ebcdd46b9e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "13d68735_b3c330d1",
