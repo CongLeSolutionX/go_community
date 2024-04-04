@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb2ba818_7f63a0fe",
+        "filename": "src/cmd/go/counters_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-04T21:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e829f46c_5c51b7fc",
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "311b9bed_cb373920",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-04-04T21:32:30Z",
       "side": 1,
       "message": "It seems fine to look only at files.",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 134,
+        "endChar": 28
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd8490c7_4a5c9384",
+        "filename": "src/cmd/go/counters_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-04T21:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "311b9bed_cb373920",
       "range": {
         "startLine": 133,
         "startChar": 3,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23aaac0e_177d96fa",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-04T21:51:05Z",
+      "side": 1,
+      "message": "How\u0027s this?",
+      "parentUuid": "6515a35c_ae3b8a51",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 76
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c32c9a0_3ed0cc83",
         "filename": "src/cmd/go/internal/tool/tool.go",
         "patchSetId": 6
@@ -77,6 +143,30 @@
       "writtenOn": "2024-04-04T21:32:30Z",
       "side": 1,
       "message": "\"is additionally incremented\"\n\n(Is that desirable? Might an \u0027else\u0027 here be better?)",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 7
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c618e8ea_52e07084",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-04T21:51:05Z",
+      "side": 1,
+      "message": "Yeah else is better",
+      "parentUuid": "5c32c9a0_3ed0cc83",
       "range": {
         "startLine": 100,
         "startChar": 4,
