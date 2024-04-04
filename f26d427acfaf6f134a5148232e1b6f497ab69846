@@ -16,6 +16,23 @@
       "message": "Test failures appear to be unrelated to this PR (Windows/amd64 TestChan), could someone kick off the tests again? Thanks!",
       "revId": "f26d427acfaf6f134a5148232e1b6f497ab69846",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99ab5396_944b2ed9",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-04T22:40:02Z",
+      "side": 1,
+      "message": "It\u0027s a struggle for me to see all of this code duplication as being worthwhile.  Do we really need to optimize for different rune lengths?  I would not be surprised if it makes a measurable improvement on a benchmark of IndexRune, but I would be surprised if it matters for any real code.  And it\u0027s a lot of of code that has to be almost but not quite identical.  Can we just call IndexByte with the last byte of the rune and then use loops to compare, rather than macro-expanding for three possible sizes?",
+      "revId": "f26d427acfaf6f134a5148232e1b6f497ab69846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
