@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e829f46c_5c51b7fc",
+        "filename": "src/cmd/go/counters_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-04T21:32:30Z",
+      "side": 1,
+      "message": "// toolNames returns the list of basenames of executables in the tool dir.",
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "311b9bed_cb373920",
+        "filename": "src/cmd/go/counters_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-04T21:32:30Z",
+      "side": 1,
+      "message": "It seems fine to look only at files.",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 134,
+        "endChar": 28
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6515a35c_ae3b8a51",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-04T21:32:30Z",
+      "side": 1,
+      "message": "dist is already very obscure; that seems unlikely to be necessary.\nDowngrade TODO to mere comment?",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 76
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c32c9a0_3ed0cc83",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-04T21:32:30Z",
+      "side": 1,
+      "message": "\"is additionally incremented\"\n\n(Is that desirable? Might an \u0027else\u0027 here be better?)",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 7
+      },
+      "revId": "ad84abc4f7fbc9975938f35e96b830927dcd94ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
