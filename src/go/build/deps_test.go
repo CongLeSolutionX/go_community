@@ -151,6 +151,9 @@ var depsRules = `
 	RUNTIME, math/rand/v2
 	< internal/concurrent;
 
+	RUNTIME, internal/concurrent
+	< unique;
+
 	MATH, unicode/utf8
 	< strconv;
 
