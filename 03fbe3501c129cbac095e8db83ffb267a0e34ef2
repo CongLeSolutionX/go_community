@@ -265,6 +265,24 @@
       "parentUuid": "bd44052b_2552f30a",
       "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f0f02bc_aebeda41",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-04T21:55:37Z",
+      "side": 1,
+      "message": "See note about moving the indirect access code to a new patch.",
+      "parentUuid": "2a7a5509_8a3b420b",
+      "revId": "03fbe3501c129cbac095e8db83ffb267a0e34ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
