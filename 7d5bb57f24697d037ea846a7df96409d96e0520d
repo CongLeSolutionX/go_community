@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd0107b8_95ac091f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43278a21_72f0d19c",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9c2f50a_e6daa565",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34fa28bc_146637bb",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done, created another CL.",
+      "parentUuid": "e9c2f50a_e6daa565",
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8276927c_71e7f761",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-04-05T20:04:16Z",
       "side": 1,
       "message": "I wonder how much this saves/matters. Is it too bad just use a map? A value mostly interacts with one or two names. If it matters, can this be `map[ssa.ID][2]*ir.Name`, or maybe [3] or [4]?",
+      "range": {
+        "startLine": 16,
+        "startChar": 55,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ddcd75_71931380",
+        "filename": "src/cmd/compile/internal/liveness/indirectuetab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "I don\u0027t have any measurements, perhaps you are right we should just go with the simpler implementation.  What bothered me about using map[ssa.ID][]*ir.Name is that the map is going to have lots of pointers for the GC to scan, but in fact the pointers are all to the same small set of candidate names. Probably I am getting ahead of myself with the space optimization, I\u0027ll go back to the simpler scheme.",
+      "parentUuid": "8276927c_71e7f761",
       "range": {
         "startLine": 16,
         "startChar": 55,
@@ -87,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb968ffd_d05a7d11",
+        "filename": "src/cmd/compile/internal/liveness/indirectuetab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "69aa3b07_55af6608",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51b6bd93_4d42bc95",
@@ -100,6 +190,30 @@
       "writtenOn": "2024-04-05T20:04:16Z",
       "side": 1,
       "message": "This doesn\u0027t seem to matter. It is from iterating a map, which is unstable to begin with.",
+      "range": {
+        "startLine": 236,
+        "startChar": 11,
+        "endLine": 236,
+        "endChar": 17
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82737f27_a728d7fa",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "OK, I\u0027ve pruned that out. I think that was a leftover from when I was trying to chase down my make.bash nondeterminism problem.",
+      "parentUuid": "51b6bd93_4d42bc95",
       "range": {
         "startLine": 236,
         "startChar": 11,
@@ -133,6 +247,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c52ac9f_889c1e77",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e76fd1b_1bb8ebd8",
+      "range": {
+        "startLine": 292,
+        "startChar": 16,
+        "endLine": 292,
+        "endChar": 20
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b48b91f_da32f632",
@@ -146,6 +284,24 @@
       "writtenOn": "2024-04-05T20:04:16Z",
       "side": 1,
       "message": "Add a comment for what this map is. Others are mostly obvious, but this is less so.",
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d923a82c_0a223b20",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b48b91f_da32f632",
       "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -167,6 +323,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb1d7a2_563c2f65",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "d78c86f3_cef5055d",
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e04117cb_0b76abba",
@@ -180,6 +354,30 @@
       "writtenOn": "2024-04-05T20:04:16Z",
       "side": 1,
       "message": "Same here, stable sort doesn\u0027t seem to matter.",
+      "range": {
+        "startLine": 555,
+        "startChar": 11,
+        "endLine": 555,
+        "endChar": 17
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7f5b858_7f7f31b2",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e04117cb_0b76abba",
       "range": {
         "startLine": 555,
         "startChar": 11,
@@ -213,6 +411,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f64cd103_fdd58dc7",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "199abb89_34f067af",
+      "range": {
+        "startLine": 945,
+        "startChar": 0,
+        "endLine": 945,
+        "endChar": 32
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6971654_8fe20de8",
@@ -226,6 +448,30 @@
       "writtenOn": "2024-04-05T20:04:16Z",
       "side": 1,
       "message": "Maybe use `const checkLive \u003d false; if checkLive \u0026\u0026 b \u003d\u003d lv.f.Entry ...`",
+      "range": {
+        "startLine": 962,
+        "startChar": 2,
+        "endLine": 962,
+        "endChar": 30
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb57ba0_6f405455",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6971654_8fe20de8",
       "range": {
         "startLine": 962,
         "startChar": 2,
@@ -261,6 +507,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49f25cb3_a84048e2",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Liveness for stack maps is done on pointerful autos, so it is in fact possible that we wind up with vars N and M both live at a call and they both have the same frame offset. I am not sure what I had in mind when I wrote the original code, but the current check for duplicates does fire in some instances.  Another alternative would be to change liveness to avoid putting things into the candidate set that have the same frame offset, if you think that would be better.",
+      "parentUuid": "bbd1da04_cc55ba00",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 4
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22ab7165_689e32f1",
         "filename": "src/cmd/compile/internal/test/testdata/mergelocals/integration.go",
         "patchSetId": 2
@@ -272,6 +542,30 @@
       "writtenOn": "2024-04-05T20:04:16Z",
       "side": 1,
       "message": "Incomplete comment?",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 44
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bcecd2f_f9c843d0",
+        "filename": "src/cmd/compile/internal/test/testdata/mergelocals/integration.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-05T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22ab7165_689e32f1",
       "range": {
         "startLine": 59,
         "startChar": 30,
