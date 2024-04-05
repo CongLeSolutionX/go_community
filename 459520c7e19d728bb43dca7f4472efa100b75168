@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc8dd5e7_5f839f38",
+        "filename": "src/cmd/compile/internal/types2/api_predicates.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-04-05T23:05:02Z",
+      "side": 1,
+      "message": "I think we use \"context\" instead of \"realm\"; the latter is a term not seen so far in the type checkers.",
+      "range": {
+        "startLine": 75,
+        "startChar": 53,
+        "endLine": 75,
+        "endChar": 58
+      },
+      "revId": "459520c7e19d728bb43dca7f4472efa100b75168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "231b5f36_7f35f3f8",
         "filename": "src/go/types/api_predicates.go",
         "patchSetId": 2
