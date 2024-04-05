@@ -1,0 +1,8 @@
+# go.dev/issue/66092
+# All compilations should specify some -lang.
+
+go run -n x.go
+stderr '-lang=go1\.[0-9]+'
+
+-- x.go --
+package main
