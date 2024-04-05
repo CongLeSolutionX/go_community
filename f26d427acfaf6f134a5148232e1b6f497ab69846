@@ -33,6 +33,24 @@
       "message": "It\u0027s a struggle for me to see all of this code duplication as being worthwhile.  Do we really need to optimize for different rune lengths?  I would not be surprised if it makes a measurable improvement on a benchmark of IndexRune, but I would be surprised if it matters for any real code.  And it\u0027s a lot of of code that has to be almost but not quite identical.  Can we just call IndexByte with the last byte of the rune and then use loops to compare, rather than macro-expanding for three possible sizes?",
       "revId": "f26d427acfaf6f134a5148232e1b6f497ab69846",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5363a77_7a697c78",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-04-05T03:42:54Z",
+      "side": 1,
+      "message": "I updated IndexRune to use a loop instead of a switch based on rune size. This adds a small amount of overhead which is only significant when the string being searched is small (\u003c\u003d32) - for larger strings there is no measurable impact. IMHO, the switch and size dependent code makes following what\u0027s going on a little bit easier since stepping back in a loop requires the developer to reason about taking a negative index offset in two separate slices.\n\nThat said, I defer to you and will update the corresponding code in the strings.IndexRune function based upon what you decide is best here.\n\nFor context, I actually never considered using a loop (so thank you) and this change was prompted by me discovering that my case-insensitive github.com/charlievieth/strcase.IndexRune was faster than the stdlib\u0027s IndexRune so I copied the pattern that used there.",
+      "parentUuid": "99ab5396_944b2ed9",
+      "revId": "f26d427acfaf6f134a5148232e1b6f497ab69846",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
