@@ -58,6 +58,66 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd22f160_35deffc4",
+        "filename": "doc/next/6-stdlib/99-minor/net/63116.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-05T17:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82e8a8cc_c463c1b2",
+      "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb06c593_20aa2890",
+        "filename": "doc/next/6-stdlib/99-minor/net/63116.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-05T17:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91eb6ddb_a08a92c3",
+      "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac99102a_15216663",
+        "filename": "doc/next/6-stdlib/99-minor/net/63116.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-05T17:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2509913_5464d029",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e9454a5_56b3e28f",
@@ -71,6 +131,24 @@
       "writtenOn": "2024-04-05T16:24:21Z",
       "side": 1,
       "message": "Don\u0027t change every construction of DNSError. For example, there\u0027s no reason to change this line: We aren\u0027t wrapping `errUnknownNetwork`, and we aren\u0027t setting any fields other than `Err` and `Name`. The existing code is fine.\n\nThe only places that need to change are ones which may contain a cancellation or timeout.",
+      "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2a4ebe4_375494d2",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-05T17:36:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e9454a5_56b3e28f",
       "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
