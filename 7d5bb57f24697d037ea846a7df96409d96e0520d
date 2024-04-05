@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43278a21_72f0d19c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Maybe worth also noting that v12 (DUFFZERO) is a write without directly referring to \"t\". (It is not a problem here because there is a later \"direct\" read/write.)",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 31
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9c2f50a_e6daa565",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Maybe split this to separate CL? In case something goes off, we only need to revert this one line. (Up to you.)",
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8276927c_71e7f761",
+        "filename": "src/cmd/compile/internal/liveness/indirectuetab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "I wonder how much this saves/matters. Is it too bad just use a map? A value mostly interacts with one or two names. If it matters, can this be `map[ssa.ID][2]*ir.Name`, or maybe [3] or [4]?",
+      "range": {
+        "startLine": 16,
+        "startChar": 55,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69aa3b07_55af6608",
+        "filename": "src/cmd/compile/internal/liveness/indirectuetab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Fields need some comments.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51b6bd93_4d42bc95",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to matter. It is from iterating a map, which is unstable to begin with.",
+      "range": {
+        "startLine": 236,
+        "startChar": 11,
+        "endLine": 236,
+        "endChar": 17
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e76fd1b_1bb8ebd8",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Typo.",
+      "range": {
+        "startLine": 292,
+        "startChar": 16,
+        "endLine": 292,
+        "endChar": 20
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b48b91f_da32f632",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Add a comment for what this map is. Others are mostly obvious, but this is less so.",
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d78c86f3_cef5055d",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Is the sorting necessary? Here we just use one map to populate/delete entries from other maps.",
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04117cb_0b76abba",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Same here, stable sort doesn\u0027t seem to matter.",
+      "range": {
+        "startLine": 555,
+        "startChar": 11,
+        "endLine": 555,
+        "endChar": 17
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "199abb89_34f067af",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "No this line, right?",
+      "range": {
+        "startLine": 945,
+        "startChar": 0,
+        "endLine": 945,
+        "endChar": 32
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6971654_8fe20de8",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Maybe use `const checkLive \u003d false; if checkLive \u0026\u0026 b \u003d\u003d lv.f.Entry ...`",
+      "range": {
+        "startLine": 962,
+        "startChar": 2,
+        "endLine": 962,
+        "endChar": 30
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd1da04_cc55ba00",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the change here. We still shouldn\u0027t see duplicate slots live at the same call, right?",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 4
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22ab7165_689e32f1",
+        "filename": "src/cmd/compile/internal/test/testdata/mergelocals/integration.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T20:04:16Z",
+      "side": 1,
+      "message": "Incomplete comment?",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 44
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
