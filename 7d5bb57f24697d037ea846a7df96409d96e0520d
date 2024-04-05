@@ -531,6 +531,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "286aeaed_3bffbf8f",
+        "filename": "src/cmd/compile/internal/liveness/plive.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-05T21:32:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow. If they are both live at the same call, meaning that they are live at the same time, which means they shouldn\u0027t be overlapped in the frame... Or, putting it in another way, if they are both live at the same call, the GC would need to scan both, but if they have the same stack offsets the GC won\u0027t be able to see both...",
+      "parentUuid": "49f25cb3_a84048e2",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 4
+      },
+      "revId": "7d5bb57f24697d037ea846a7df96409d96e0520d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22ab7165_689e32f1",
         "filename": "src/cmd/compile/internal/test/testdata/mergelocals/integration.go",
         "patchSetId": 2
