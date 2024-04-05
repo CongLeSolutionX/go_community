@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2efd4862_269d4188",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-04-05T20:20:26Z",
+      "side": 1,
+      "message": "Please pull in the changes from CL 576955 and harmonize them with the changes here for vet. After that, we should be always passing -lang to cmd/compile and always passing the same -lang to cmd/vet. At that point you can add Fixes #66092 to the commit message.",
+      "revId": "976f815878f5d3d978a457a96e7ba4dc18de9998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d97da9e6_ece386f6",
