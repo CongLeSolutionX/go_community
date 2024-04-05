@@ -70,6 +70,17 @@ func Satisfies(V Type, T *Interface) bool {
 
 // Identical reports whether x and y are identical types.
 // Receivers of [Signature] types are ignored.
+//
+// Predicates such as [Identical], [Implements], and [Satisfies]
+// assume that both operands belong to a consistent "realm" of symbols
+// ([Object] values). For example, non-parameterized [Named] types are
+// canonical, so they are identical only if they are represented by
+// the same variable. A realm of symbols is consistent if, for each
+// logical package whose path is P, the creation of those symbols
+// involved at most one call to [NewPackage](P, ...). To establish a
+// consistent realm, use a single [Importer] for all loaded packages
+// and their dependencies. For more information,
+// see https://github.com/golang/go/issues/57497.
 func Identical(x, y Type) bool {
 	var c comparer
 	return c.identical(x, y, nil)
