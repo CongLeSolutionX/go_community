@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d76570e0_1018a0a5",
+        "filename": "src/cmd/compile/internal/types2/api_predicates.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-07T17:45:31Z",
+      "side": 1,
+      "message": "Fair enough. I settled on \"collection of symbols\" as I think context may be confusing in other ways.",
+      "parentUuid": "bc8dd5e7_5f839f38",
+      "range": {
+        "startLine": 75,
+        "startChar": 53,
+        "endLine": 75,
+        "endChar": 58
+      },
+      "revId": "459520c7e19d728bb43dca7f4472efa100b75168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "231b5f36_7f35f3f8",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-04-05T22:09:11Z",
       "side": 1,
       "message": "Is the word \"canonical\" well known? Also, can we remove the non-parameterized qualifier, as it may be distracting?\n\nYou could say \"[Named] types are identical only if their [TypeName] objects reported by [Named.Obj] are the same pointers, and their type arguments are identical.\"",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 80,
+        "endChar": 12
+      },
+      "revId": "459520c7e19d728bb43dca7f4472efa100b75168",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bec93ca6_01b8c03d",
+        "filename": "src/go/types/api_predicates.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-07T17:45:31Z",
+      "side": 1,
+      "message": "Thanks. Changed to:\n\n// Predicates such as [Identical], [Implements], and\n// [Satisfies] assume that both operands belong to a\n// consistent collection of symbols ([Object] values).\n// For example, two [Named] types can be identical only if their\n// [Named.Obj] methods return the same [TypeName] symbol.\n// A collection of symbols is consistent if, for each logical\n// package whose path is P, the creation of those symbols\n// involved at most one call to [NewPackage](P, ...).\n// To ensure consistency, use a single [Importer] for\n// all loaded packages and their dependencies.",
+      "parentUuid": "231b5f36_7f35f3f8",
       "range": {
         "startLine": 80,
         "startChar": 3,
