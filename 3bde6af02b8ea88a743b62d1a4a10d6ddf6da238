@@ -33,6 +33,24 @@
       "message": "Do you think this is worth leaving a note for in the Go 1.23 release notes, or fine not to talk about it there? You can add it while you\u0027re here if it\u0027s worth including. Up to you.",
       "revId": "3bde6af02b8ea88a743b62d1a4a10d6ddf6da238",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "760281aa_727ccfcf",
+        "filename": "doc/next/7-ports.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2024-04-08T17:31:24Z",
+      "side": 1,
+      "message": "Great idea, I\u0027ll add something.",
+      "parentUuid": "023f645c_5d77ce71",
+      "revId": "3bde6af02b8ea88a743b62d1a4a10d6ddf6da238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
