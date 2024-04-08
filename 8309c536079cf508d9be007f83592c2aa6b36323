@@ -70,6 +70,24 @@
       "message": "I think this doc comment is getting unwieldy and we should probably clean it up to include less exhaustive detail about specific OSs, but this seems fine for now.",
       "revId": "8309c536079cf508d9be007f83592c2aa6b36323",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2367d65_cca32df1",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-04-08T22:44:43Z",
+      "side": 1,
+      "message": "It\u0027s indeed a little bit over-detailed with some platform-specific (Windows and SunOS-based OS\u0027s) details, but the amount of annotation is still within acceptable limits and these details are pragmatic for users. Furthermore, this addition ought to be the last piece of the puzzle:)",
+      "parentUuid": "eb8a984b_5a12c947",
+      "revId": "8309c536079cf508d9be007f83592c2aa6b36323",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
