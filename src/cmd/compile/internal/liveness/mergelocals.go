@@ -8,9 +8,7 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/bitvec"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/reflectdata"
 	"cmd/compile/internal/ssa"
-	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
 	"os"
@@ -23,12 +21,14 @@ import (
 // (stack-allocated) variables within a function can be safely
 // merged/overlapped, e.g. share a stack slot with some other auto).
 // An instance of MergeLocalsState is produced by MergeLocals() below
-// and then consumed in ssagen.AllocFrame. The map 'partition' contains
-// entries of the form <N,SL> where N is an *ir.Name and SL is a slice
-// holding the indices (within 'vars') of other variables that share the
-// same slot. For example, if a function contains five variables where
-// v1/v2/v3 are safe to overlap and v4/v5 are safe to overlap, the
-// MergeLocalsState content might look like
+// and then consumed in ssagen.AllocFrame. The map 'partition'
+// contains entries of the form <N,SL> where N is an *ir.Name and SL
+// is a slice holding the indices (within 'vars') of other variables
+// that share the same slot, specifically the slot of the first
+// element in the partition, which we'll call the "leader". For
+// example, if a function contains five variables where v1/v2/v3 are
+// safe to overlap and v4/v5 are safe to overlap, the MergeLocalsState
+// content might look like
 //
 //	vars: [v1, v2, v3, v4, v5]
 //	partition: v1 -> [1, 0, 2], v2 -> [1, 0, 2], v3 -> [1, 0, 2]
@@ -47,6 +47,21 @@ type MergeLocalsState struct {
 // [st,en] within the list of candidate variables.
 type candRegion struct {
 	st, en int
+}
+
+// cstate holds state information we'll need during the analysis
+// phase of stack slot merging but can be discarded when the analysis
+// is done.
+type cstate struct {
+	fn         *ir.Func
+	f          *ssa.Func
+	lv         *liveness
+	cands      []*ir.Name
+	nameToSlot map[*ir.Name]int32
+	regions    []candRegion
+	indirectUE map[ssa.ID][]*ir.Name
+	ivs        []Intervals
+	trace      int // debug trace level
 }
 
 // MergeLocals analyzes the specified ssa function f to determine which
@@ -330,6 +345,8 @@ func (cs *cstate) collectMergeCandidates() {
 	}
 }
 
+// genRegions generates a set of regions within cands corresponding
+// to potentially overlappable/mergeable variables.
 func genRegions(cands []*ir.Name) ([]*ir.Name, []candRegion) {
 	var pruned []*ir.Name
 	var regions []candRegion
@@ -586,29 +603,30 @@ type nameCount struct {
 	count int32
 }
 
-// nameLess compares ci with cj to see if ci should be less than cj
-// in a relative ordering of candidate variables. This is used to
-// sort vars by size, pointerness, and GC shape.
+// nameLess compares ci with cj to see if ci should be less than cj in
+// a relative ordering of candidate variables. This is used to sort
+// vars by pointerness (variables with pointers first), then in order
+// of decreasing alignment, then by decreasing size. We are assuming a
+// merging algorithm that merges later entries in the list into
+// earlier entries. An example ordered candidate list produced by
+// nameLess:
+//
+//	idx   name    type       align    size
+//	0:    abc     [10]*int   8        80
+//	1:    xyz     [9]*int    8        72
+//	2:    qrs     [2]*int    8        16
+//	3:    tuv     [9]int     8        72
+//	4:    wxy     [9]int32   4        36
+//	5:    jkl     [8]int32   4        32
 func nameLess(ci, cj *ir.Name) bool {
-	ihp, jhp := 0, 0
-	var ilsym, jlsym *obj.LSym
-	if ci.Type().HasPointers() {
-		ihp = 1
-		ilsym, _, _ = reflectdata.GCSym(ci.Type())
+	if ci.Type().HasPointers() != cj.Type().HasPointers() {
+		return ci.Type().HasPointers()
 	}
-	if cj.Type().HasPointers() {
-		jhp = 1
-		jlsym, _, _ = reflectdata.GCSym(cj.Type())
-	}
-	if ihp != jhp {
-		return ihp < jhp
+	if ci.Type().Alignment() != cj.Type().Alignment() {
+		return cj.Type().Alignment() < ci.Type().Alignment()
 	}
 	if ci.Type().Size() != cj.Type().Size() {
-		return ci.Type().Size() < cj.Type().Size()
-	}
-	if ihp != 0 && jhp != 0 && ilsym != jlsym {
-		// FIXME: find less clunky way to do this
-		return fmt.Sprintf("%v", ilsym) < fmt.Sprintf("%v", jlsym)
+		return cj.Type().Size() < ci.Type().Size()
 	}
 	if ci.Sym().Name != cj.Sym().Name {
 		return ci.Sym().Name < cj.Sym().Name
@@ -617,53 +635,25 @@ func nameLess(ci, cj *ir.Name) bool {
 }
 
 // nextRegion starts at location idx and walks forward in the cands
-// slice looking for variables that are "compatible" (overlappable)
-// with the variable at position idx; it returns the end of the new
-// region (range of compatible variables starting at idx).
+// slice looking for variables that are "compatible" (potentially
+// overlappable, in the sense that they could potentially share the
+// stack slot of cands[idx]); it returns the end of the new region
+// (range of compatible variables starting at idx).
 func nextRegion(cands []*ir.Name, idx int) int {
 	n := len(cands)
 	if idx >= n {
 		return -1
 	}
 	c0 := cands[idx]
-	hp0 := c0.Type().HasPointers()
+	sz0 := c0.Type().Size()
 	for j := idx + 1; j < n; j++ {
 		cj := cands[j]
-		hpj := cj.Type().HasPointers()
-		ok := true
-		if hp0 {
-			if !hpj || c0.Type().Size() != cj.Type().Size() {
-				return j - 1
-			}
-			// GC shape must match if both types have pointers.
-			gcsym0, _, _ := reflectdata.GCSym(c0.Type())
-			gcsymj, _, _ := reflectdata.GCSym(cj.Type())
-			if gcsym0 != gcsymj {
-				return j - 1
-			}
-		} else {
-			// If no pointers, match size only.
-			if !ok || hp0 != hpj || c0.Type().Size() != cj.Type().Size() {
-				return j - 1
-			}
+		szj := cj.Type().Size()
+		if szj > sz0 {
+			return j - 1
 		}
 	}
 	return n - 1
-}
-
-// cstate holds state information we'll need during the analysis
-// phase of stack slot merging but can be discarded when the analysis
-// is done.
-type cstate struct {
-	fn         *ir.Func
-	f          *ssa.Func
-	lv         *liveness
-	cands      []*ir.Name
-	nameToSlot map[*ir.Name]int32
-	regions    []candRegion
-	indirectUE map[ssa.ID][]*ir.Name
-	ivs        []Intervals
-	trace      int // debug trace level
 }
 
 // mergeVisitRegion tries to perform overlapping of variables with a
@@ -673,7 +663,13 @@ type cstate struct {
 // size, etc. Overlapping is done in a a greedy fashion: we select the
 // first element in the st->en range, then walk the rest of the
 // elements adding in vars whose lifetimes don't overlap with the
-// first element, then repeat the process until we run out of work to do.
+// first element, then repeat the process until we run out of work.
+// Ordering of the candidates within the region [st,en] is important;
+// within the list the assumption is that if we overlap two variables
+// X and Y where X precedes Y in the list, we need to make X the
+// "leader" (keep X's slot and set Y's frame offset to X's) as opposed
+// to the other way around, since it's possible that Y is smaller in
+// size than X.
 func (cs *cstate) mergeVisitRegion(mls *MergeLocalsState, st, en int) {
 	if cs.trace > 1 {
 		fmt.Fprintf(os.Stderr, "=-= mergeVisitRegion(st=%d, en=%d)\n", st, en)
