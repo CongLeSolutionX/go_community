@@ -151,6 +151,24 @@
       "parentUuid": "8e9454a5_56b3e28f",
       "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "390af3c3_626d4bd3",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-08T20:09:06Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be done? There are lots of places that are still wrapping non-context errors.\n\nAccording to the accepted proposal, the only errors that should appear in the `DNSError.UnwrapErr` field are context errors.",
+      "parentUuid": "e2a4ebe4_375494d2",
+      "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
