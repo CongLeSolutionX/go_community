@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c63f197_08e403a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-04-08T16:11:13Z",
+      "side": 1,
+      "message": "there\u0027s clearly a liveness bug lurking in one of the previous CLs. removing reviewers for now.",
+      "revId": "ce5a8ed12d1e528d3fc9df642211819bcba9eedf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
