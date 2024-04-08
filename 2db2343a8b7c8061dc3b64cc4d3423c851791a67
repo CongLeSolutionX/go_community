@@ -140,6 +140,24 @@
       "parentUuid": "ad77b872_3642d0f3",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecf1ada5_542a1e89",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-08T20:15:50Z",
+      "side": 1,
+      "message": "I don\u0027t know what the history behind the `Opaque` field is. It does seem to me like it would be simpler to just have `Path` contain the path, including the `/` prefix when present. But we can\u0027t change that now.\n\nI don\u0027t have a strong opinion about whether we need to handle resolving paths with no `/` prefix exactly according to the spec or not. I do think that `\"http:opaque\".ResolveReference(\"g\")` should be `http:g`, not `http:///g`.\n\nWould you mind adding this set of test cases? They seem like cases where our choice of behavior should be deliberate and exercised by tests. If there are ones where you think it\u0027s okay for us to diverge from the letter of the specification, or where we\u0027re currently doing the wrong thing and this CL doesn\u0027t make the situation worse, then include an explanatory comment.\n\nThanks.",
+      "parentUuid": "fc809718_d50e09e7",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
