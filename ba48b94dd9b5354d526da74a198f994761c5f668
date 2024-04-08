@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f14dbe9_9ef0d7e3",
+        "filename": "src/runtime/trace2map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-04-08T20:02:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5cc9251_20eef992",
+      "range": {
+        "startLine": 62,
+        "startChar": 15,
+        "endLine": 62,
+        "endChar": 31
+      },
+      "revId": "ba48b94dd9b5354d526da74a198f994761c5f668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4c1c240_1a273c88",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-08T17:33:48Z",
       "side": 1,
       "message": "it looks to me like this is \"the same new hash prefix\", not the value.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 20
+      },
+      "revId": "ba48b94dd9b5354d526da74a198f994761c5f668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a15109a_15da0cd1",
+        "filename": "src/runtime/trace2map.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-04-08T20:02:05Z",
+      "side": 1,
+      "message": "it really is the same value, not just the hash bits. if you run out of hash bits (that is, there\u0027s a total collision), it\u0027ll just keep trying insert into the zeroth child, effectively forming a linked list that both writers are doing full comparisons against.",
+      "parentUuid": "b4c1c240_1a273c88",
       "range": {
         "startLine": 83,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "013d4de4_69595d7a",
+        "filename": "src/runtime/trace2region.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-04-08T20:02:05Z",
+      "side": 1,
+      "message": "there\u0027s nothing that requires 16-byte alignment or higher, no. but I think it\u0027s a technicality; theoretically a caller could unknowingly allocate something containing an atomic.Uint64. switched the alignment to 8 bytes and documented it.",
+      "parentUuid": "ab356e4e_ae51b9d6",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 37
+      },
+      "revId": "ba48b94dd9b5354d526da74a198f994761c5f668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1ecf8da_35703224",
@@ -93,6 +165,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4615915_9794a39b",
+        "filename": "src/runtime/trace2region.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-04-08T20:02:05Z",
+      "side": 1,
+      "message": "documented. the fact that nothing else is modifying this is ensured by the tracer. see L555 of trace2.go",
+      "parentUuid": "f1ecf8da_35703224",
+      "range": {
+        "startLine": 96,
+        "startChar": 27,
+        "endLine": 96,
+        "endChar": 31
+      },
+      "revId": "ba48b94dd9b5354d526da74a198f994761c5f668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e6c7017_46811503",
@@ -106,6 +202,30 @@
       "writtenOn": "2024-04-08T17:33:48Z",
       "side": 1,
       "message": "is there a lock that could be grabbed, or a flag to set?  if nothing is adding to the table, it will be uncontended, right?",
+      "range": {
+        "startLine": 85,
+        "startChar": 50,
+        "endLine": 86,
+        "endChar": 23
+      },
+      "revId": "ba48b94dd9b5354d526da74a198f994761c5f668",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67df6c2_4df53e9a",
+        "filename": "src/runtime/trace2string.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-04-08T20:02:05Z",
+      "side": 1,
+      "message": "the design of the tracer is such that it can guarantee no further concurrent writes to the table. holding a lock would make this non-preemptible which is a real problem we\u0027ve seen in practice that I\u0027ve put some effort into avoiding. see https://cs.opensource.google/go/go/+/master:src/runtime/trace2.go;l\u003d554;drc\u003d5ec7395afc5756e9334f969fcc8b538c83857634 and CL 572095.\n\nsetting a flag to catch concurrent writes is a good idea though. I added such a flag to `traceRegionAlloc` because it\u0027s really the root of the unsafety, the callers mostly just forward its guarantees (to the stack and string tables, I mean).",
+      "parentUuid": "6e6c7017_46811503",
       "range": {
         "startLine": 85,
         "startChar": 50,
