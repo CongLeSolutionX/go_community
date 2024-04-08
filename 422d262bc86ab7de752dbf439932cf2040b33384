@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4436456_6604495b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-08T16:04:31Z",
+      "side": 1,
+      "message": "Please write as\n\ntime: update name of Windows IST timezone\n\nSee https://go.dev/wiki/CommitMessage.  Thanks.",
+      "revId": "422d262bc86ab7de752dbf439932cf2040b33384",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "697b2e7d_32b56311",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-08T16:04:31Z",
+      "side": 1,
+      "message": "We don\u0027t use markdown in commit messages.",
+      "revId": "422d262bc86ab7de752dbf439932cf2040b33384",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85bdb1c3_798d62d5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
