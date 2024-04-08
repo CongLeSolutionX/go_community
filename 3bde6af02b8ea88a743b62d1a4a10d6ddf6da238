@@ -51,6 +51,24 @@
       "parentUuid": "023f645c_5d77ce71",
       "revId": "3bde6af02b8ea88a743b62d1a4a10d6ddf6da238",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ba48ed_ecef3563",
+        "filename": "doc/next/7-ports.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2024-04-08T19:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "760281aa_727ccfcf",
+      "revId": "3bde6af02b8ea88a743b62d1a4a10d6ddf6da238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
