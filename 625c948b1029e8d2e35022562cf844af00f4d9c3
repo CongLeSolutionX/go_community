@@ -16,6 +16,24 @@
       "message": "Thanks, the types2 doc LGTM. (go/types needs to be updated)",
       "revId": "625c948b1029e8d2e35022562cf844af00f4d9c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab34a8d7_26c80e1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-08T16:10:03Z",
+      "side": 1,
+      "message": "Forgot to re-generate. Done.",
+      "parentUuid": "cd499d35_e443aa4a",
+      "revId": "625c948b1029e8d2e35022562cf844af00f4d9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
