@@ -178,7 +178,7 @@ func TestEvalPos(t *testing.T) {
 		// Materialized aliases give a different (better)
 		// result for the final test, so skip it for now.
 		// TODO(adonovan): reenable when gotypesalias=1 is the default.
-		if gotypesalias.Value() == "1" && strings.Contains(src, "interface{R}.Read") {
+		if gotypesalias.Value() != "1" && strings.Contains(src, "interface{R}.Read") {
 			continue
 		}
 
