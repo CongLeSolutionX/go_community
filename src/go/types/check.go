@@ -13,6 +13,7 @@ import (
 	"go/token"
 	"internal/godebug"
 	. "internal/types/errors"
+	"os"
 	"strings"
 )
 
@@ -25,6 +26,13 @@ const debug = false // leave on during development
 
 // gotypesalias controls the use of Alias types
 var gotypesalias = godebug.New("gotypesalias")
+
+func init() {
+	// What is the correct way to change the default value of a godebug.Setting?
+	if !strings.Contains(os.Getenv("GODEBUG"), "gotypesalias=0") {
+		os.Setenv("GODEBUG", "gotypesalias=1")
+	}
+}
 
 // exprInfo stores information about an untyped expression.
 type exprInfo struct {
