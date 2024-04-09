@@ -1857,6 +1857,7 @@ const (
 	OpLOONG64LoweredGetCallerSP
 	OpLOONG64LoweredGetCallerPC
 	OpLOONG64LoweredWB
+	OpLOONG64LoweredPubBarrier
 	OpLOONG64LoweredPanicBoundsA
 	OpLOONG64LoweredPanicBoundsB
 	OpLOONG64LoweredPanicBoundsC
@@ -24914,6 +24915,13 @@ var opcodeTable = [...]opInfo{
 				{0, 268435456}, // R29
 			},
 		},
+	},
+	{
+		name:           "LoweredPubBarrier",
+		argLen:         1,
+		hasSideEffects: true,
+		asm:            loong64.ADBAR,
+		reg:            regInfo{},
 	},
 	{
 		name:    "LoweredPanicBoundsA",
