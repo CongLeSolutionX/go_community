@@ -169,6 +169,24 @@
       "parentUuid": "e2a4ebe4_375494d2",
       "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66bf5073_19cd178c",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-09T10:18:29Z",
+      "side": 1,
+      "message": "Yes, but only context errors are wrapped (see `net.go:665`), i\u0027ve made it this way to simplify the code a bit, so that we don\u0027t have to set the `UnwrapErr`, `IsTimeout`, `IsTemporary`, `IsNotFound` fields manually each time the `DnsError` is constructed, this will be now automatically set based on the error in the `newWrappingDNSError` constructor. Isn\u0027t this fine?",
+      "parentUuid": "390af3c3_626d4bd3",
+      "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
