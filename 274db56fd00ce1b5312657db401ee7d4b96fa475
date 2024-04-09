@@ -187,6 +187,24 @@
       "parentUuid": "390af3c3_626d4bd3",
       "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4282d01_89daa50b",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-09T17:13:36Z",
+      "side": 1,
+      "message": "Ah, I misread `newWrappingDNSError` as always wrapping the passed error. Sorry.",
+      "parentUuid": "66bf5073_19cd178c",
+      "revId": "274db56fd00ce1b5312657db401ee7d4b96fa475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

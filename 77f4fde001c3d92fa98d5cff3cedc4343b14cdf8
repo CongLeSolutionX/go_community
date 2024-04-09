@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6c12da1_b3567c2a",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-09T17:13:36Z",
+      "side": 1,
+      "message": "For consistency, probably should use `newWrappingDNSError` here as well.\n```suggestion\n\t\treturn dnsmessage.Parser{}, \"\", newWrappingDNSError(errCannotMarshalDNSMessage, name, \"\")\n```",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "343c5566_0135f2fc",
+        "filename": "src/net/net.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-09T17:13:36Z",
+      "side": 1,
+      "message": "Most of the time, this function isn\u0027t going to wrap the error. How about we call it `newDNSError` for clarity?",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c83b4c4c_72eea061",
+        "filename": "src/net/net.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-09T17:13:36Z",
+      "side": 1,
+      "message": "I don\u0027t believe anything is going to wrap `DeadlineExceeded` or `Canceled` here, and multiple `errors.Is` calls are inefficient because each one needs to walk the error tree. Probably not really important here (the tree will be small), but I think this should just be:\n\n```\nif err \u003d\u003d context.DeadlineExceeded || err \u003d\u003d context.Canceled {\n  unwrapErr \u003d err\n}\n```",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
