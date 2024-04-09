@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "855372d7_1989db0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-04-09T20:47:23Z",
+      "side": 1,
+      "message": "I understand this makes `GODEBUG\u003dgotypesalias\u003d1 go test cmd/api -check` behave identically to how `GODEBUG\u003dgotypesalias\u003d0 go test cmd/api -check` currently behaves, i.e., just fixes the panic due to the missing *types.Alias case. Issue #65437 is not in scope here, and so it remains open to possibly change how type aliases are handled for the purpose of the API check.\n\nThanks.",
+      "revId": "75494ed3281a1ef4972be929165a93b3fa428a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
