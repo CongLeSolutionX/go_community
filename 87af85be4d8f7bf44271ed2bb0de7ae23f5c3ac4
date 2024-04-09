@@ -16,6 +16,24 @@
       "message": "Is there an issue to reference here? Or any more commentary on why the experiment is being removed? What were the results? Poor, I guess?",
       "revId": "87af85be4d8f7bf44271ed2bb0de7ae23f5c3ac4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a31cbe_0c8e4cfe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-09T04:08:14Z",
+      "side": 1,
+      "message": "It is already enabled by default. Removing the experiment so it is always enabled and fallback path are removed. Performance is good, https://go.dev/doc/go1.22#runtime . Thanks.",
+      "parentUuid": "f7e29a82_6f242ca7",
+      "revId": "87af85be4d8f7bf44271ed2bb0de7ae23f5c3ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
