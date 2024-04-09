@@ -539,7 +539,8 @@ func (r *reader) ident(marker pkgbits.SyncMarker) (*types2.Package, string) {
 func newAliasTypeName(pos syntax.Pos, pkg *types2.Package, name string, rhs types2.Type) *types2.TypeName {
 	// Copied from x/tools/internal/aliases.NewAlias via
 	// GOROOT/src/go/internal/gcimporter/ureader.go.
-	if gotypesalias.Value() == "1" {
+	switch gotypesalias.Value() {
+	case "", "1":
 		tname := types2.NewTypeName(pos, pkg, name, nil)
 		_ = types2.NewAlias(tname, rhs) // form TypeName -> Alias cycle
 		return tname

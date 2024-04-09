@@ -9,7 +9,7 @@ import "fmt"
 // An Alias represents an alias type.
 // Whether or not Alias types are created is controlled by the
 // gotypesalias setting with the GODEBUG environment variable.
-// For gotypesalias=1, alias declarations produce an Alias type.
+// For gotypesalias=1 (or unset), alias declarations produce an Alias type.
 // Otherwise, the alias information is only in the type name,
 // which points directly to the actual (aliased) type.
 type Alias struct {

@@ -254,8 +254,14 @@ func NewChecker(conf *Config, pkg *Package, info *Info) *Checker {
 	//
 	// (previously, pkg.goVersion was mutated here: go.dev/issue/61212)
 
+	enableAlias := false
+	switch gotypesalias.Value() {
+	case "", "1":
+		enableAlias = true
+	}
+
 	return &Checker{
-		enableAlias: gotypesalias.Value() == "1",
+		enableAlias: enableAlias,
 		conf:        conf,
 		ctxt:        conf.Context,
 		pkg:         pkg,

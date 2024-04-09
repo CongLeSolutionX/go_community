@@ -117,7 +117,7 @@ func TestObjectString(t *testing.T) {
 	for i, test := range testObjects {
 		t.Run(fmt.Sprint(i), func(t *testing.T) {
 			if test.alias {
-				t.Setenv("GODEBUG", "gotypesalias=1")
+				// t.Setenv("GODEBUG", "gotypesalias=1") // now the default
 			}
 
 			src := "package p; " + test.src

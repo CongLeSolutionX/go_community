@@ -681,7 +681,7 @@ func (check *Checker) packageObjects() {
 		// With Alias nodes we can process declarations in any order.
 		//
 		// TODO(adonovan): unfortunately, Alias nodes
-		// (GODEBUG=gotypesalias=1) don't entirely resolve
+		// (GODEBUG=gotypesalias=1 or unset) don't entirely resolve
 		// problems with cycles. For example, in
 		// GOROOT/test/typeparam/issue50259.go,
 		//
