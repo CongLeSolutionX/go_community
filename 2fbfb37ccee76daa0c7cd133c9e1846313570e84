@@ -57,6 +57,30 @@
       },
       "revId": "2fbfb37ccee76daa0c7cd133c9e1846313570e84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69fd9e71_e2b6a0c5",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-04-09T06:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26c37256_a6d72ada",
+      "range": {
+        "startLine": 1995,
+        "startChar": 1,
+        "endLine": 1997,
+        "endChar": 19
+      },
+      "revId": "2fbfb37ccee76daa0c7cd133c9e1846313570e84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
