@@ -4259,7 +4259,7 @@ func InitTables() {
 			s.vars[memVar] = s.newValue1(ssa.OpPubBarrier, types.TypeMem, s.mem())
 			return nil
 		},
-		sys.ARM64, sys.PPC64, sys.RISCV64)
+		sys.ARM64, sys.Loong64, sys.PPC64, sys.RISCV64)
 
 	brev_arch := []sys.ArchFamily{sys.AMD64, sys.I386, sys.ARM64, sys.ARM, sys.S390X}
 	if buildcfg.GOPPC64 >= 10 {
