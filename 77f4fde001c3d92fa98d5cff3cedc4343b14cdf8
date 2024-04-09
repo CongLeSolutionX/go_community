@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "301f71f4_e1f2f095",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-09T17:37:08Z",
+      "side": 1,
+      "message": "I don\u0027t think so, see other references of the `errCannotUnmarshalDNSMessage`/`errCannotMarshalDNSMessage` errors, we currently use `newDNSError` only for errors that might set the `UnwrapErr`, `IsTimeout`,`IsTemporary`, `IsNotFound` fields, otherwise we keep the previous form.",
+      "parentUuid": "f6c12da1_b3567c2a",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "343c5566_0135f2fc",
         "filename": "src/net/net.go",
         "patchSetId": 10
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-09T17:13:36Z",
       "side": 1,
       "message": "Most of the time, this function isn\u0027t going to wrap the error. How about we call it `newDNSError` for clarity?",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5ded732_bd2219ec",
+        "filename": "src/net/net.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-09T17:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343c5566_0135f2fc",
       "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2024-04-09T17:13:36Z",
       "side": 1,
       "message": "I don\u0027t believe anything is going to wrap `DeadlineExceeded` or `Canceled` here, and multiple `errors.Is` calls are inefficient because each one needs to walk the error tree. Probably not really important here (the tree will be small), but I think this should just be:\n\n```\nif err \u003d\u003d context.DeadlineExceeded || err \u003d\u003d context.Canceled {\n  unwrapErr \u003d err\n}\n```",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cff9d353_8dbd27bf",
+        "filename": "src/net/net.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-09T17:37:08Z",
+      "side": 1,
+      "message": "The context errors might be wrapped, see https://github.com/golang/go/issues/63116#issuecomment-2002371005, this is what the default Resolver.Dial even does, also err is never going to be `context.DeadlineExceeded`, but `errTimeout`, because we use `mapErr`.",
+      "parentUuid": "c83b4c4c_72eea061",
       "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
