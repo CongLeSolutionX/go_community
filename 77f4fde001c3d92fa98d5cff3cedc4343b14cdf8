@@ -104,6 +104,24 @@
       "parentUuid": "c83b4c4c_72eea061",
       "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a17df30_bf1b1dbe",
+        "filename": "src/net/net.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-10T20:01:09Z",
+      "side": 1,
+      "message": "I\u0027m sorry for the iterations here, but the flow of errors through this package is tremendously confusing and I keep getting lost.\n\nIf I\u0027m following correctly, with the CL as it is now, we can have (as one example):\n\n- `dnsPacketRoundTrip` calls `Conn.Write` and gets a `context.DeadlineExceeded` error\n- `Resolver.exchange` passes this to `mapErr`, which turns it into `errTimeout`\n- `Resolver.tryOneName` passes this to `newDNSError`\n- `newDNSError` uses `errors.Is(err, context.DeadlineExceeded)`, which calls `errCanceled.Is`, which reports a match\n- `newDNSError` turns the wrapped error into `errTimeout` (which it already was)\n\nThat\u0027s a lot of steps, and at least two of them seem to be redundant: Why is `mapErr` doing one layer of error mapping, and `newDNSError` doing a second one?\n\n(I believe the answer to that is that `mapErr` exists to map the *text* of a context error, while preserving its semantic content: Historically, various `net` package functions returned errors with the text \"operation was canceled\" or \"i/o timeout\", and we didn\u0027t want to change that when introducing contexts. `mapErr` doesn\u0027t follow the error chain, because it doesn\u0027t need to adjust the text of wrapped errors. In contrast, `newDNSError` wants to preserve all context errors in the chain.)\n\nA question here is what `UnwrapErr` should be when `err` matches, but is not equal to, `context.DeadlineExceeded`: `err`, `errTimeout`, or `context.DeadlineExceeded`?\n\nIt seems very odd for `dnsErr.UnwrapErr.Error()` to not be equal to `dnsErr.Err`.\n\nOn the other hand, if we\u0027re exposing the least amount of semantic information necessary to make `errors.Is(dnsErr, context.DeadlineExceeded)` behave as expected, then perhaps we should set `UnwrapErr` to the most focused error possible, which would be `context.Canceled`/`context.DeadlineExceeded`.\n\nI\u0027m inclined to say that the least surprising behavior is to preserve the property that `dnsErr.Err \u003d\u003d dnsErr.UnwrapErr.Error()`, and that the information leakage in this case is not of concern, but I could be convinced otherwise.\n\nWhatever we do, this is subtle, and I think there should be some more commentary in the code to help unpack it for future readers (especially if `unwrapErr !\u003d err`). How about:\n\n```\n// At this time, the only errors we wrap are context errors, to allow\n// users to check for canceled/timed out requests.\nif errors.Is(err, context.DeadlineExceeded) || errors.Is(err, context.Canceled) {\n  unwrapErr \u003d err\n}\n```",
+      "parentUuid": "cff9d353_8dbd27bf",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
