@@ -60,11 +60,18 @@ func loopRotate(f *Func) {
 			continue
 		}
 		// p is head of loop, one way or another.
-		p.GoodToAlign = f.IsPgoHot && f.pass.debug > 0
-
 		if p == b {
+			if f.IsPgoHot {
+				b.Hotness = PgoHotLHThruIn
+			}
 			continue
 		}
+		if f.IsPgoHot {
+			b.Hotness = PgoHotLH
+		} else {
+			b.Hotness = LHNotThruIn
+		}
+
 		// p follows the loop header.
 		after[p.ID] = []*Block{b}
 		for {

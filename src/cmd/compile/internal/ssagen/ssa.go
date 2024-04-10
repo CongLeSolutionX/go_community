@@ -7302,23 +7302,21 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 
 	var argLiveIdx int = -1 // argument liveness info index
 
-	const hot_align = 64
-	const hot_pad = 0
+	// These control cache line alignment; if the required portion of
+	// a cache line is not available, then pad to obtain cache line
+	// alignment.  Not implemented on all architectures, may not be
+	// useful on all architectures.  Does benchmark to help amd64.
+	var hotAlign, hotRequire int64
+	var warmAlign, warmRequire int64
 
-	nopSize := 4
-	if base.Ctxt.Arch.Name == "amd64" || base.Ctxt.Arch.Name == "386" {
-		nopSize = 1
-	} else if base.Ctxt.Arch.Name == "wasm" {
-		nopSize = 0
-	}
-
-	pad := func() {
-		if nopSize <= 0 {
-			return
-		}
-		for i := 0; i < hot_pad; i += nopSize {
-			Arch.Ginsnop(s.pp)
-		}
+	switch base.Ctxt.Arch.Name {
+	// enable this on a case-by-case basis, with benchmarking.
+	// currently shown good for amd64, testing on arm64
+	case "amd64", "386", "arm64":
+		hotAlign = 64
+		warmAlign = 32
+		hotRequire = 48
+		warmRequire = 8
 	}
 
 	// Emit basic blocks
@@ -7327,10 +7325,15 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		s.lineRunStart = nil
 		s.SetPos(s.pp.Pos.WithNotStmt()) // It needs a non-empty Pos, but cannot be a statement boundary (yet).
 
-		if b.GoodToAlign {
-			p := s.pp.Prog(obj.APCALIGN)
-			p.From.SetConst(hot_align)
-			pad()
+		// Currently NOT adding extra alignment to any loop with a flow-in entry; not yet benchmarked to help.
+		if hotAlign > 0 && (b.Hotness == ssa.PgoHotLH || b.Hotness == ssa.LHNotThruIn) {
+			align, require := warmAlign, warmRequire
+			if b.Hotness == ssa.PgoHotLH {
+				align, require = hotAlign, hotRequire
+			}
+			p := s.pp.Prog(obj.APCALIGNIF)
+			p.From.SetConst(align)
+			p.To.SetConst(require)
 		}
 
 		s.bstart[b.ID] = s.pp.Next
@@ -7493,7 +7496,8 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 		// going to emit anyway, and use those instructions instead of the
 		// inline marks.
 		for p := s.pp.Text; p != nil; p = p.Link {
-			if p.As == obj.ANOP || p.As == obj.AFUNCDATA || p.As == obj.APCDATA || p.As == obj.ATEXT || p.As == obj.APCALIGN || Arch.LinkArch.Family == sys.Wasm {
+			if p.As == obj.ANOP || p.As == obj.AFUNCDATA || p.As == obj.APCDATA || p.As == obj.ATEXT ||
+				p.As == obj.APCALIGN || p.As == obj.APCALIGNIF || Arch.LinkArch.Family == sys.Wasm {
 				// Don't use 0-sized instructions as inline marks, because we need
 				// to identify inline mark instructions by pc offset.
 				// (Some of these instructions are sometimes zero-sized, sometimes not.
