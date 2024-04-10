@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68da81a6_49046811",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-10T18:57:38Z",
+      "side": 1,
+      "message": "If we do this, we can\u0027t use 0777 as the mode.  We must use 0o700.  Otherwise we may unintentionally expose Go source code that is not visible to other users on the system.",
+      "revId": "77d88090e7c5f884c7fd211d8de4de43cfc8cf76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
