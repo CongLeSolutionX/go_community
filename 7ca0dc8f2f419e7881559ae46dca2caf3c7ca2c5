@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13308754_bcad0e37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-10T20:23:43Z",
+      "side": 1,
+      "message": "We\u0027re ready to flip the flag now.",
+      "revId": "7ca0dc8f2f419e7881559ae46dca2caf3c7ca2c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1851dcb7_6f8772aa",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-10T20:23:43Z",
+      "side": 1,
+      "message": "(Obviously this isn\u0027t sound since it clobbers any other elements of GODEBUG.)",
+      "revId": "7ca0dc8f2f419e7881559ae46dca2caf3c7ca2c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
