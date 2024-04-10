@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5b5c564_90f821df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-10T18:43:33Z",
+      "side": 1,
+      "message": "Removing Brad\u0027s hold because the executable is gone.",
+      "revId": "ee1f83951d0a54c58b8d18a36ec4791288e95f5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
