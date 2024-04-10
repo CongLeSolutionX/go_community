@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d63f516c_71771762",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-10T14:35:08Z",
+      "side": 1,
+      "message": "The original performance numbers I got from this patch looked great, however I think that may have been something of a fluke -- from the runs I did last night there wasn\u0027t much speedup.  \n\nOn the other hand, this does increase the total stack slot bytes saved (across all functions) from 91256 to 124336 bytes for the sweet benchmarks, so I think it is certainly increasing the amount of slot sharing.  I\u0027ll try to do some more perf runs tonight.",
+      "revId": "43340a56f477e2462189033f2198055a61a21556",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
