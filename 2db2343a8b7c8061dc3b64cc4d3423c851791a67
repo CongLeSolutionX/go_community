@@ -158,6 +158,24 @@
       "parentUuid": "fc809718_d50e09e7",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3dbe1e1_ebd46f99",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 3340440
+      },
+      "writtenOn": "2024-04-10T22:14:06Z",
+      "side": 1,
+      "message": "Sorry, but I\u0027m not sure I understood your request.\nDo you want the given test cases to be added, and thus all the functionality for merging Opaques according to spec? That is, fixing the overall missing behavior for handling Opaques instead of just the reported case.",
+      "parentUuid": "ecf1ada5_542a1e89",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
