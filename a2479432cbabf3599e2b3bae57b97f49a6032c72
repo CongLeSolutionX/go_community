@@ -39,6 +39,30 @@
       },
       "revId": "a2479432cbabf3599e2b3bae57b97f49a6032c72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb49178_40d6e949",
+        "filename": "doc/next/6-stdlib/99-minor/sync/61696.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-04-10T15:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96573454_98f20f41",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 18
+      },
+      "revId": "a2479432cbabf3599e2b3bae57b97f49a6032c72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
