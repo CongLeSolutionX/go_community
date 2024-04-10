@@ -32,7 +32,7 @@ type Block struct {
 	FlagsLiveAtEnd bool
 
 	// A block that would be good to align (according to the optimizer's guesses)
-	GoodToAlign bool
+	Hotness Hotness
 
 	// Subsequent blocks, if any. The number and order depend on the block kind.
 	Succs []Edge
@@ -428,4 +428,12 @@ const (
 	BranchUnlikely = BranchPrediction(-1)
 	BranchUnknown  = BranchPrediction(0)
 	BranchLikely   = BranchPrediction(+1)
+)
+
+type Hotness int8 // Could use negative numbers for specifically non-hot blocks, but don't, yet.
+const (
+	NotHot         = 0
+	LHNotThruIn    = 1 // typically a rotated loop header, loop is entepred with a branch
+	PgoHotLHThruIn = 2 // special case; loop header with a flow-in entry, but pgo says it is hot
+	PgoHotLH       = 3 // pgo says it is hot, and the loop is rotated so flow enters loop with a branch
 )
