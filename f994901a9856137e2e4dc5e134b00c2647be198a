@@ -16,6 +16,24 @@
       "message": "These are probably a bit too big for the tree. If they\u0027ll end up in Wycheproof we can add them to x/crypto/internal/wycheproof instead.",
       "revId": "f994901a9856137e2e4dc5e134b00c2647be198a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ed4442_b7a8c5f1",
+        "filename": "src/crypto/internal/mlkem768/testdata/decaps768draft.gz",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-04-10T10:09:45Z",
+      "side": 1,
+      "message": "All the vectors in testdata are headed for Wycheproof, removed from the tree. We still have TestPQCrystalsAccumulated to catch major mistakes early.",
+      "parentUuid": "2836c022_b7753939",
+      "revId": "f994901a9856137e2e4dc5e134b00c2647be198a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
