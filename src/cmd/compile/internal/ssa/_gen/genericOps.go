@@ -613,6 +613,10 @@ var genericOps = []opData{
 	{name: "AtomicAnd32", argLength: 3, typ: "Mem", hasSideEffects: true},                      // *arg0 &= arg1.  arg2=memory.  Returns memory.
 	{name: "AtomicOr8", argLength: 3, typ: "Mem", hasSideEffects: true},                        // *arg0 |= arg1.  arg2=memory.  Returns memory.
 	{name: "AtomicOr32", argLength: 3, typ: "Mem", hasSideEffects: true},                       // *arg0 |= arg1.  arg2=memory.  Returns memory.
+	{name: "AtomicAnd64", argLength: 3, typ: "(Uint64, Mem)", hasSideEffects: true},            // *arg0 &= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
+	{name: "AtomicAnd32r", argLength: 3, typ: "(Uint32, Mem)", hasSideEffects: true},           // *arg0 &= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
+	{name: "AtomicOr64", argLength: 3, typ: "(Uint64, Mem)", hasSideEffects: true},             // *arg0 |= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
+	{name: "AtomicOr32r", argLength: 3, typ: "(Uint32, Mem)", hasSideEffects: true},            // *arg0 |= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
 
 	// Atomic operation variants
 	// These variants have the same semantics as above atomic operations.
@@ -628,6 +632,10 @@ var genericOps = []opData{
 	{name: "AtomicAnd32Variant", argLength: 3, typ: "Mem", hasSideEffects: true},                   // *arg0 &= arg1.  arg2=memory.  Returns memory.
 	{name: "AtomicOr8Variant", argLength: 3, typ: "Mem", hasSideEffects: true},                     // *arg0 |= arg1.  arg2=memory.  Returns memory.
 	{name: "AtomicOr32Variant", argLength: 3, typ: "Mem", hasSideEffects: true},                    // *arg0 |= arg1.  arg2=memory.  Returns memory.
+	{name: "AtomicAnd64Variant", argLength: 3, typ: "(Uint64, Mem)", hasSideEffects: true},         // *arg0 &= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
+	{name: "AtomicOr64Variant", argLength: 3, typ: "(Uint64, Mem)", hasSideEffects: true},          // *arg0 |= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
+	{name: "AtomicAnd32rVariant", argLength: 3, typ: "(Uint32, Mem)", hasSideEffects: true},        // *arg0 &= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
+	{name: "AtomicOr32rVariant", argLength: 3, typ: "(Uint32, Mem)", hasSideEffects: true},         // *arg0 |= arg1.  arg2=memory.  Returns old contents of *arg0 and new memory.
 
 	// Publication barrier
 	{name: "PubBarrier", argLength: 1, hasSideEffects: true}, // Do data barrier. arg0=memory.

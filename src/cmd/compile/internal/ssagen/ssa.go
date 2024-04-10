@@ -4464,7 +4464,18 @@ func InitTables() {
 	addF("internal/runtime/atomic", "Xadd64",
 		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicAdd64, ssa.OpAtomicAdd64Variant, types.TUINT64, types.TUINT64, atomicXchgXaddEmitterARM64),
 		sys.ARM64)
-
+	addF("internal/runtime/atomic", "And64",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicAnd64, ssa.OpAtomicAnd64Variant, types.TUINT64, types.TUINT64, atomicXchgXaddEmitterARM64),
+		sys.ARM64)
+	addF("internal/runtime/atomic", "And32",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicAnd32r, ssa.OpAtomicAnd32rVariant, types.TUINT32, types.TUINT32, atomicXchgXaddEmitterARM64),
+		sys.ARM64)
+	addF("internal/runtime/atomic", "Or64",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicOr64, ssa.OpAtomicOr64Variant, types.TUINT64, types.TUINT64, atomicXchgXaddEmitterARM64),
+		sys.ARM64)
+	addF("internal/runtime/atomic", "Or32",
+		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicOr32r, ssa.OpAtomicOr32rVariant, types.TUINT32, types.TUINT32, atomicXchgXaddEmitterARM64),
+		sys.ARM64)
 	addF("internal/runtime/atomic", "Cas",
 		func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value {
 			v := s.newValue4(ssa.OpAtomicCompareAndSwap32, types.NewTuple(types.Types[types.TBOOL], types.TypeMem), args[0], args[1], args[2], s.mem())
@@ -4541,7 +4552,6 @@ func InitTables() {
 	addF("internal/runtime/atomic", "Or",
 		makeAtomicGuardedIntrinsicARM64(ssa.OpAtomicOr32, ssa.OpAtomicOr32Variant, types.TNIL, types.TNIL, atomicAndOrEmitterARM64),
 		sys.ARM64)
-
 	// Aliases for atomic load operations
 	alias("internal/runtime/atomic", "Loadint32", "internal/runtime/atomic", "Load", all...)
 	alias("internal/runtime/atomic", "Loadint64", "internal/runtime/atomic", "Load64", all...)

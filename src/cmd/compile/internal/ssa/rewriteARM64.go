@@ -473,6 +473,18 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpAtomicAnd32(v)
 	case OpAtomicAnd32Variant:
 		return rewriteValueARM64_OpAtomicAnd32Variant(v)
+	case OpAtomicAnd32r:
+		v.Op = OpARM64LoweredAtomicAnd32r
+		return true
+	case OpAtomicAnd32rVariant:
+		v.Op = OpARM64LoweredAtomicAnd32rVariant
+		return true
+	case OpAtomicAnd64:
+		v.Op = OpARM64LoweredAtomicAnd64
+		return true
+	case OpAtomicAnd64Variant:
+		v.Op = OpARM64LoweredAtomicAnd64Variant
+		return true
 	case OpAtomicAnd8:
 		return rewriteValueARM64_OpAtomicAnd8(v)
 	case OpAtomicAnd8Variant:
@@ -517,6 +529,18 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpAtomicOr32(v)
 	case OpAtomicOr32Variant:
 		return rewriteValueARM64_OpAtomicOr32Variant(v)
+	case OpAtomicOr32r:
+		v.Op = OpARM64LoweredAtomicOr32r
+		return true
+	case OpAtomicOr32rVariant:
+		v.Op = OpARM64LoweredAtomicOr32rVariant
+		return true
+	case OpAtomicOr64:
+		v.Op = OpARM64LoweredAtomicOr64
+		return true
+	case OpAtomicOr64Variant:
+		v.Op = OpARM64LoweredAtomicOr64Variant
+		return true
 	case OpAtomicOr8:
 		return rewriteValueARM64_OpAtomicOr8(v)
 	case OpAtomicOr8Variant:
