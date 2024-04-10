@@ -713,9 +713,7 @@ func init() {
 		// STLXR	Rout, (Rarg0), Rtmp
 		// CBNZ		Rtmp, -3(PC)
 		{name: "LoweredAtomicAnd8", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "AND", typ: "(UInt8,Mem)", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true},
-		{name: "LoweredAtomicAnd32", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "AND", typ: "(UInt32,Mem)", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true},
 		{name: "LoweredAtomicOr8", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "ORR", typ: "(UInt8,Mem)", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true},
-		{name: "LoweredAtomicOr32", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "ORR", typ: "(UInt32,Mem)", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true},
 
 		// atomic and/or variant.
 		// *arg0 &= (|=) arg1. arg2=mem. returns <new content of *arg0, memory>. auxint must be zero.
@@ -730,6 +728,15 @@ func init() {
 		{name: "LoweredAtomicAnd32Variant", argLength: 3, reg: gpxchg, resultNotInArgs: true, typ: "(UInt32,Mem)", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true},
 		{name: "LoweredAtomicOr8Variant", argLength: 3, reg: gpxchg, resultNotInArgs: true, typ: "(UInt8,Mem)", faultOnNilArg0: true, hasSideEffects: true},
 		{name: "LoweredAtomicOr32Variant", argLength: 3, reg: gpxchg, resultNotInArgs: true, typ: "(UInt32,Mem)", faultOnNilArg0: true, hasSideEffects: true},
+
+		{name: "LoweredAtomicAnd64", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "AND", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true, needIntTemp: true},
+		{name: "LoweredAtomicOr64", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "ORR", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true, needIntTemp: true},
+		{name: "LoweredAtomicAnd32", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "AND", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true, needIntTemp: true},
+		{name: "LoweredAtomicOr32", argLength: 3, reg: gpxchg, resultNotInArgs: true, asm: "ORR", faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true, needIntTemp: true},
+		{name: "LoweredAtomicAnd64Variant", argLength: 3, reg: gpxchg, resultNotInArgs: true, faultOnNilArg0: true, hasSideEffects: true},
+		{name: "LoweredAtomicOr64Variant", argLength: 3, reg: gpxchg, resultNotInArgs: true, faultOnNilArg0: true, hasSideEffects: true},
+		{name: "LoweredAtomicAnd32rVariant", argLength: 3, reg: gpxchg, resultNotInArgs: true, faultOnNilArg0: true, hasSideEffects: true},
+		{name: "LoweredAtomicOr32rVariant", argLength: 3, reg: gpxchg, resultNotInArgs: true, faultOnNilArg0: true, hasSideEffects: true},
 
 		// LoweredWB invokes runtime.gcWriteBarrier. arg0=mem, auxint=# of buffer entries needed
 		// It saves all GP registers if necessary,
