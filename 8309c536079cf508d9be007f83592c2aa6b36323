@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "95aec1dc_3b2e3141",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-11T22:27:08Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I don\u0027t know what this paragraph is telling me.  Can we just say\n\nIllumos does not support setting only one of Idle and Interval to a negative value.  Both must be negative or both must be non-negative.",
+      "revId": "8309c536079cf508d9be007f83592c2aa6b36323",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "eb8a984b_5a12c947",
