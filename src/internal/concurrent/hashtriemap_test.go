@@ -335,16 +335,16 @@ func init() {
 }
 
 func dumpMap[K, V comparable](ht *HashTrieMap[K, V]) {
-	dumpNode(ht, &ht.root.node, 0)
+	dumpNode(ht, ht.root.nodePointer(), 0)
 }
 
-func dumpNode[K, V comparable](ht *HashTrieMap[K, V], n *node[K, V], depth int) {
+func dumpNode[K, V comparable](ht *HashTrieMap[K, V], n nodePointer[K, V], depth int) {
 	var sb strings.Builder
 	for range depth {
 		fmt.Fprintf(&sb, "\t")
 	}
 	prefix := sb.String()
-	if n.isEntry {
+	if n.isEntry() {
 		e := n.entry()
 		for e != nil {
 			fmt.Printf("%s%p [Entry Key=%v Value=%v Overflow=%p, Hash=%016x]\n", prefix, e, e.key, e.value, e.overflow.Load(), ht.keyHash(unsafe.Pointer(&e.key), ht.seed))
@@ -364,7 +364,7 @@ func dumpNode[K, V comparable](ht *HashTrieMap[K, V], n *node[K, V], depth int) 
 	fmt.Printf("]]\n")
 	for j := range i.children {
 		c := i.children[j].Load()
-		if c != nil {
+		if !c.isNil() {
 			dumpNode(ht, c, depth+1)
 		}
 	}
