@@ -16,6 +16,40 @@
       "message": "Thanks for the suggestion, I\u0027ve applied it.",
       "revId": "db48b8e05d938f348c6847b65d5eab00407b7eb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd4d61a1_16228413",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-11T22:06:30Z",
+      "side": 1,
+      "message": "The description says that this is consistent with the behavior of -o, but as far as I can see that is not the case.  What -o option are you thinking of?\n\nIn general we don\u0027t expect people to run cgo themselves.  What is invoking cgo with -objdir?",
+      "revId": "db48b8e05d938f348c6847b65d5eab00407b7eb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f88e34d_37e1bbec",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-11T22:06:30Z",
+      "side": 1,
+      "message": "Seems like if we are going to do this we should call os.MkdirAll.",
+      "revId": "db48b8e05d938f348c6847b65d5eab00407b7eb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
