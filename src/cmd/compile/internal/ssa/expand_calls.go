@@ -185,6 +185,9 @@ func expandCalls(f *Func) {
 	}
 
 	rewriteCall := func(v *Value, newOp Op, argStart int) {
+		if x.debug == -2 && newOp == OpTailCall {
+			x.f.Warnl(v.Pos, "rewrite TailCall(%s)", v.LongString())
+		}
 		// Break aggregate args passed to call into smaller pieces.
 		x.rewriteCallArgs(v, argStart)
 		v.Op = newOp
