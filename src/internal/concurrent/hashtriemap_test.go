@@ -369,3 +369,36 @@ func dumpNode[K, V comparable](ht *HashTrieMap[K, V], n nodePointer[K, V], depth
 		}
 	}
 }
+
+func TestHashTrieMapMemory(t *testing.T) {
+	m := NewHashTrieMap[string, int]()
+	for i, s := range testDataLarge {
+		m.LoadOrStore(s, i)
+	}
+	kv, all := memFootprintOf(m)
+	t.Logf("memory footprint for %d elements: %d key-value bytes, %d total bytes (%.2f%% overhead)", len(testDataLarge), kv, all, float64(all-kv)/float64(all)*100)
+}
+
+func memFootprintOf[K, V comparable](ht *HashTrieMap[K, V]) (kvBytes, allBytes uintptr) {
+	return memFootprintOfSubtree(ht, ht.root.nodePointer())
+}
+
+func memFootprintOfSubtree[K, V comparable](ht *HashTrieMap[K, V], n nodePointer[K, V]) (kvBytes, allBytes uintptr) {
+	if n.isEntry() {
+		e := n.entry()
+		allBytes += unsafe.Sizeof(*e)
+		kvBytes += unsafe.Sizeof(e.key) + unsafe.Sizeof(e.value)
+		return
+	}
+	i := n.indirect()
+	for j := range i.children {
+		c := i.children[j].Load()
+		if !c.isNil() {
+			cKV, cAll := memFootprintOfSubtree(ht, c)
+			kvBytes += cKV
+			allBytes += cAll
+		}
+	}
+	allBytes += unsafe.Sizeof(*i)
+	return
+}
