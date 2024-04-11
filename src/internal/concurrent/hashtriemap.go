@@ -30,7 +30,7 @@ func NewHashTrieMap[K, V comparable]() *HashTrieMap[K, V] {
 	var m map[K]V
 	mapType := abi.TypeOf(m).MapType()
 	ht := &HashTrieMap[K, V]{
-		root:     newIndirectNode[K, V](nil),
+		root:     newIndirectNode[K, V](),
 		keyHash:  mapType.Hasher,
 		keyEqual: mapType.Key.Equal,
 		valEqual: mapType.Elem.Equal,
@@ -136,14 +136,14 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 		//
 		// Publish the node last, which will make both oldEntry and newEntry visible. We
 		// don't want readers to be able to observe that oldEntry isn't in the tree.
-		slot.Store(ht.expand(oldEntry, newEntry, hash, hashShift, i))
+		slot.Store(ht.expand(oldEntry, newEntry, hash, hashShift))
 	}
 	return value, false
 }
 
 // expand takes oldEntry and newEntry whose hashes conflict from bit 64 down to hashShift and
 // produces a subtree of indirect nodes to hold the two new entries.
-func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uintptr, hashShift uint, parent *indirect[K, V]) nodePointer[K, V] {
+func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uintptr, hashShift uint) nodePointer[K, V] {
 	// Check for a hash collision.
 	oldHash := ht.keyHash(unsafe.Pointer(&oldEntry.key), ht.seed)
 	if oldHash == newHash {
@@ -153,7 +153,7 @@ func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uin
 		return newEntry.nodePointer()
 	}
 	// We have to add an indirect node. Worse still, we may need to add more than one.
-	newIndirect := newIndirectNode(parent)
+	newIndirect := newIndirectNode[K, V]()
 	top := newIndirect
 	for {
 		if hashShift == 0 {
@@ -167,7 +167,7 @@ func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uin
 			newIndirect.children[ni].Store(newEntry.nodePointer())
 			break
 		}
-		nextIndirect := newIndirectNode(newIndirect)
+		nextIndirect := newIndirectNode[K, V]()
 		newIndirect.children[oi].Store(nextIndirect.nodePointer())
 		newIndirect = nextIndirect
 	}
@@ -184,6 +184,8 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 	var hashShift uint
 	var slot *atomicNodePointer[K, V]
 	var n nodePointer[K, V]
+	var parents [goarch.PtrSize * 8 / nChildrenLog2]*indirect[K, V]
+	var depth int
 	for {
 		// Find the key or return when there's nothing to delete.
 		i = ht.root
@@ -206,7 +208,9 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 				// We've got something to delete.
 				break
 			}
+			parents[depth] = i
 			i = n.indirect()
+			depth++
 		}
 		if hashShift == 0 {
 			panic("internal/concurrent.HashMapTrie: ran out of hash bits while iterating")
@@ -247,14 +251,16 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 	slot.Store(nodePointer[K, V]{})
 
 	// Check if the node is now empty (and isn't the root), and delete it if able.
-	for i.parent != nil && i.empty() {
+	depth-- // parents[depth] refers to the slot after i, so this will make it refer to i.
+	for depth >= 0 && i.empty() {
 		if hashShift == 64 {
 			panic("internal/concurrent.HashMapTrie: ran out of hash bits while iterating")
 		}
 		hashShift += nChildrenLog2
 
 		// Delete the current node in the parent.
-		parent := i.parent
+		parent := parents[depth]
+		depth--
 		parent.mu.Lock()
 		i.dead.Store(true)
 		parent.children[(hash>>hashShift)&nChildrenMask].Store(nodePointer[K, V]{})
@@ -312,12 +318,11 @@ type indirect[K, V comparable] struct {
 	_        [0]atomic.Uint64 // Ensure 8-byte alignment.
 	dead     atomic.Bool
 	mu       sync.Mutex // Protects mutation to children and any children that are entry nodes.
-	parent   *indirect[K, V]
 	children [nChildren]atomicNodePointer[K, V]
 }
 
-func newIndirectNode[K, V comparable](parent *indirect[K, V]) *indirect[K, V] {
-	return &indirect[K, V]{parent: parent}
+func newIndirectNode[K, V comparable]() *indirect[K, V] {
+	return &indirect[K, V]{}
 }
 
 func (i *indirect[K, V]) nodePointer() nodePointer[K, V] {
