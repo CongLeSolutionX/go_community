@@ -8,9 +8,12 @@
 package types
 
 type gcSizes struct {
-	WordSize int64 // word size in bytes - must be >= 4 (32bits)
-	MaxAlign int64 // maximum alignment in bytes - must be >= 1
+	WordSize    int64       // word size in bytes - must be >= 4 (32bits)
+	MaxAlign    int64       // maximum alignment in bytes - must be >= 1
+	SpecialCase specialCase // some architectures have special rules signaled by structs.HostLayout
 }
+
+type specialCase uint32
 
 func (s *gcSizes) Alignof(T Type) (result int64) {
 	defer func() {
@@ -40,8 +43,10 @@ func (s *gcSizes) Alignof(T Type) (result int64) {
 		// is the largest of the values unsafe.Alignof(x.f) for each
 		// field f of x, but at least 1."
 		max := int64(1)
+
 		for _, f := range t.fields {
-			if a := s.Alignof(f.typ); a > max {
+			a := s.Alignof(f.typ)
+			if a > max {
 				max = a
 			}
 		}
@@ -76,9 +81,21 @@ func (s *gcSizes) Alignof(T Type) (result int64) {
 	return a
 }
 
+func isHostPlatform(T Type) bool {
+	named := asNamed(T)
+	if named == nil {
+		return false
+	}
+	obj := named.Obj()
+	return obj.Name() == "HostLayout" &&
+		obj.Pkg() != nil &&
+		(obj.Pkg().Path() == "structs")
+}
+
 func (s *gcSizes) Offsetsof(fields []*Var) []int64 {
 	offsets := make([]int64, len(fields))
 	var offs int64
+
 	for i, f := range fields {
 		if offs < 0 {
 			// all remaining offsets are too large

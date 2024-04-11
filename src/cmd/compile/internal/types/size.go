@@ -158,13 +158,28 @@ func expandiface(t *Type) {
 	t.SetAllMethods(methods)
 }
 
+func isHostLayoutType(t *Type) bool {
+	if sym := t.Sym(); sym != nil {
+		return sym.Name == "HostLayout" && sym.Pkg.Prefix == "structs"
+	}
+	return false
+}
+
 // calcStructOffset computes the offsets of a sequence of fields,
 // starting at the given offset. It returns the resulting offset and
 // maximum field alignment.
-func calcStructOffset(t *Type, fields []*Field, offset int64) int64 {
+func calcStructOffset(t *Type, fields []*Field, offset int64) (int64, uint8) {
+	maxAlign := uint8(1)
+
 	for _, f := range fields {
 		CalcSize(f.Type)
-		offset = RoundUp(offset, int64(f.Type.align))
+		ft := f.Type
+		fAlign := ft.align
+
+		offset = RoundUp(offset, int64(fAlign))
+		if fAlign > maxAlign {
+			maxAlign = fAlign
+		}
 
 		if t.IsStruct() { // param offsets depend on ABI
 			f.Offset = offset
@@ -192,7 +207,7 @@ func calcStructOffset(t *Type, fields []*Field, offset int64) int64 {
 		}
 	}
 
-	return offset
+	return offset, maxAlign
 }
 
 func isAtomicStdPkg(p *Pkg) bool {
@@ -470,10 +485,10 @@ func CalcSize(t *Type) {
 	case TFUNCARGS:
 		t1 := t.FuncArgs()
 		// TODO(mdempsky): Should package abi be responsible for computing argwid?
-		w = calcStructOffset(t1, t1.Recvs(), 0)
-		w = calcStructOffset(t1, t1.Params(), w)
+		w, _ = calcStructOffset(t1, t1.Recvs(), 0)
+		w, _ = calcStructOffset(t1, t1.Params(), w)
 		w = RoundUp(w, int64(RegSize))
-		w = calcStructOffset(t1, t1.Results(), w)
+		w, _ = calcStructOffset(t1, t1.Results(), w)
 		w = RoundUp(w, int64(RegSize))
 		t1.extra.(*Func).Argwid = w
 		t.align = 1
@@ -500,19 +515,18 @@ func CalcSize(t *Type) {
 // filling in t.width, t.align, t.intRegs, and t.floatRegs,
 // even if size calculation is otherwise disabled.
 func CalcStructSize(t *Type) {
-	var maxAlign uint8 = 1
+
+	fields := t.Fields()
+	size, maxAlign := calcStructOffset(t, fields, 0)
 
 	// Recognize special types. This logic is duplicated in go/types and
 	// cmd/compile/internal/types2.
 	if sym := t.Sym(); sym != nil {
 		switch {
-		case sym.Name == "align64" && isAtomicStdPkg(sym.Pkg):
+		case maxAlign < 8 && sym.Name == "align64" && isAtomicStdPkg(sym.Pkg):
 			maxAlign = 8
 		}
 	}
-
-	fields := t.Fields()
-	size := calcStructOffset(t, fields, 0)
 
 	// For non-zero-sized structs which end in a zero-sized field, we
 	// add an extra byte of padding to the type. This padding ensures
@@ -525,12 +539,6 @@ func CalcStructSize(t *Type) {
 	var intRegs, floatRegs uint64
 	for _, field := range fields {
 		typ := field.Type
-
-		// The alignment of a struct type is the maximum alignment of its
-		// field types.
-		if align := typ.align; align > maxAlign {
-			maxAlign = align
-		}
 
 		// Each field needs its own registers.
 		// We sum in uint64 to avoid possible overflows.
