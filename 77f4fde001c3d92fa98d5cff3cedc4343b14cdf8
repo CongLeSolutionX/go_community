@@ -122,6 +122,24 @@
       "parentUuid": "cff9d353_8dbd27bf",
       "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4c4f481_18ecf57a",
+        "filename": "src/net/net.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-11T16:01:29Z",
+      "side": 1,
+      "message": "Thanks, you convinced me that the `dnsErr.Err \u003d\u003d dnsErr.UnwrapErr.Error()` should hold true, updated the code.",
+      "parentUuid": "2a17df30_bf1b1dbe",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
