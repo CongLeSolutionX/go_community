@@ -353,7 +353,7 @@ func dumpNode[K, V comparable](ht *HashTrieMap[K, V], n nodePointer[K, V], depth
 		return
 	}
 	i := n.indirect()
-	fmt.Printf("%s%p [Indirect Parent=%p Dead=%t Children=[", prefix, i, i.parent, i.dead.Load())
+	fmt.Printf("%s%p [Indirect Dead=%t Children=[", prefix, i, i.dead.Load())
 	for j := range i.children {
 		c := i.children[j].Load()
 		fmt.Printf("%p", c)
