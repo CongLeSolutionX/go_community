@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6519101_76a2a4f6",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-11T21:04:53Z",
+      "side": 1,
+      "message": "Minor, but it\u0027s easier to see that the code is correct when it matches the similar code elsewhere.  Here that means leaving n as the result of utf8.EncodeRune, and not subtracting 1.  Set t :\u003d len(s) - n + 1, as in Index.  Then introduce a new variable, perhaps last :\u003d n - 1.  Replace b[n] with b[last], etc.  In the loop on j, use j \u003c n, not j \u003c last+1.",
+      "revId": "58a49c81a5fbabdc8080fb0d479c9d38fd39c3e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0667f43b_e3b1fd56",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-11T21:04:53Z",
+      "side": 1,
+      "message": "The logic of this CL suggests that this should be written as\n\n    if s[j+1] \u003d\u003d b[1] \u0026\u0026 s[j] \u003d\u003d b[0]\n\nSimilarly below.",
+      "revId": "58a49c81a5fbabdc8080fb0d479c9d38fd39c3e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
