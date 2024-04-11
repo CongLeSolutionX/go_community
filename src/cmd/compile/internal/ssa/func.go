@@ -110,6 +110,11 @@ func (f *Func) NumValues() int {
 	return f.vid.num()
 }
 
+// IsHuge returns true if this is a very large function (more than 10k blocks).
+func (f *Func) IsHuge() bool {
+	return f.NumBlocks() > 10000
+}
+
 // NameABI returns the function name followed by comma and the ABI number.
 // This is intended for use with GOSSAFUNC and HTML dumps, and differs from
 // the linker's "<1>" convention because "<" and ">" require shell quoting

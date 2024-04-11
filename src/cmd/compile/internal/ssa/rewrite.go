@@ -154,7 +154,7 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter, deadcode deadValu
 			break
 		}
 		iters++
-		if (iters > 1000 || debug >= 2) && change {
+		if !f.IsHuge() && (iters > 1000 || debug >= 2) && change {
 			// We've done a suspiciously large number of rewrites (or we're in debug mode).
 			// As of Sep 2021, 90% of rewrites complete in 4 iterations or fewer
 			// and the maximum value encountered during make.bash is 12.
@@ -162,6 +162,8 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter, deadcode deadValu
 			// Note: we avoid this path for deadChange-only iterations, to fix #51639.
 			if states == nil {
 				states = make(map[string]bool)
+				fmt.Fprintf(os.Stderr, "=-= %d blocks %d values\n",
+					f.NumBlocks(), f.NumValues())
 			}
 			h := f.rewriteHash()
 			if _, ok := states[h]; ok {

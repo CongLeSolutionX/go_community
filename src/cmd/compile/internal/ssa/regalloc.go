@@ -763,7 +763,7 @@ func (s *regAllocState) init(f *Func) {
 	// The clobberdeadreg experiment inserts code to clobber dead registers
 	// at call sites.
 	// Ignore huge functions to avoid doing too much work.
-	if base.Flag.ClobberDeadReg && len(s.f.Blocks) <= 10000 {
+	if base.Flag.ClobberDeadReg && !f.IsHuge() {
 		// TODO: honor GOCLOBBERDEADHASH, or maybe GOSSAHASH.
 		s.doClobber = true
 	}
