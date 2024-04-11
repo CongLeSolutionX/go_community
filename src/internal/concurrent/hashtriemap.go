@@ -54,10 +54,10 @@ func (ht *HashTrieMap[K, V]) Load(key K) (value V, ok bool) {
 		hashShift -= nChildrenLog2
 
 		n := i.children[(hash>>hashShift)&nChildrenMask].Load()
-		if n == nil {
+		if n.isNil() {
 			return *new(V), false
 		}
-		if n.isEntry {
+		if n.isEntry() {
 			return n.entry().lookup(key, ht.keyEqual)
 		}
 		i = n.indirect()
@@ -72,8 +72,8 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 	hash := ht.keyHash(abi.NoEscape(unsafe.Pointer(&key)), ht.seed)
 	var i *indirect[K, V]
 	var hashShift uint
-	var slot *atomic.Pointer[node[K, V]]
-	var n *node[K, V]
+	var slot *atomicNodePointer[K, V]
+	var n nodePointer[K, V]
 	for {
 		// Find the key or a candidate location for insertion.
 		i = ht.root
@@ -83,11 +83,11 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 
 			slot = &i.children[(hash>>hashShift)&nChildrenMask]
 			n = slot.Load()
-			if n == nil {
+			if n.isNil() {
 				// We found a nil slot which is a candidate for insertion.
 				break
 			}
-			if n.isEntry {
+			if n.isEntry() {
 				// We found an existing entry, which is as far as we can go.
 				// If it stays this way, we'll have to replace it with an
 				// indirect node.
@@ -105,7 +105,7 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 		// Grab the lock and double-check what we saw.
 		i.mu.Lock()
 		n = slot.Load()
-		if (n == nil || n.isEntry) && !i.dead.Load() {
+		if (n.isNil() || n.isEntry()) && !i.dead.Load() {
 			// What we saw is still true, so we can continue with the insert.
 			break
 		}
@@ -120,7 +120,7 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 	defer i.mu.Unlock()
 
 	var oldEntry *entry[K, V]
-	if n != nil {
+	if !n.isNil() {
 		oldEntry = n.entry()
 		if v, ok := oldEntry.lookup(key, ht.keyEqual); ok {
 			// Easy case: by loading again, it turns out exactly what we wanted is here!
@@ -130,7 +130,7 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 	newEntry := newEntryNode(key, value)
 	if oldEntry == nil {
 		// Easy case: create a new entry and store it.
-		slot.Store(&newEntry.node)
+		slot.Store(newEntry.nodePointer())
 	} else {
 		// We possibly need to expand the entry already there into one or more new nodes.
 		//
@@ -143,14 +143,14 @@ func (ht *HashTrieMap[K, V]) LoadOrStore(key K, value V) (result V, loaded bool)
 
 // expand takes oldEntry and newEntry whose hashes conflict from bit 64 down to hashShift and
 // produces a subtree of indirect nodes to hold the two new entries.
-func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uintptr, hashShift uint, parent *indirect[K, V]) *node[K, V] {
+func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uintptr, hashShift uint, parent *indirect[K, V]) nodePointer[K, V] {
 	// Check for a hash collision.
 	oldHash := ht.keyHash(unsafe.Pointer(&oldEntry.key), ht.seed)
 	if oldHash == newHash {
 		// Store the old entry in the new entry's overflow list, then store
 		// the new entry.
 		newEntry.overflow.Store(oldEntry)
-		return &newEntry.node
+		return newEntry.nodePointer()
 	}
 	// We have to add an indirect node. Worse still, we may need to add more than one.
 	newIndirect := newIndirectNode(parent)
@@ -163,15 +163,15 @@ func (ht *HashTrieMap[K, V]) expand(oldEntry, newEntry *entry[K, V], newHash uin
 		oi := (oldHash >> hashShift) & nChildrenMask
 		ni := (newHash >> hashShift) & nChildrenMask
 		if oi != ni {
-			newIndirect.children[oi].Store(&oldEntry.node)
-			newIndirect.children[ni].Store(&newEntry.node)
+			newIndirect.children[oi].Store(oldEntry.nodePointer())
+			newIndirect.children[ni].Store(newEntry.nodePointer())
 			break
 		}
 		nextIndirect := newIndirectNode(newIndirect)
-		newIndirect.children[oi].Store(&nextIndirect.node)
+		newIndirect.children[oi].Store(nextIndirect.nodePointer())
 		newIndirect = nextIndirect
 	}
-	return &top.node
+	return top.nodePointer()
 }
 
 // CompareAndDelete deletes the entry for key if its value is equal to old.
@@ -182,8 +182,8 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 	hash := ht.keyHash(abi.NoEscape(unsafe.Pointer(&key)), ht.seed)
 	var i *indirect[K, V]
 	var hashShift uint
-	var slot *atomic.Pointer[node[K, V]]
-	var n *node[K, V]
+	var slot *atomicNodePointer[K, V]
+	var n nodePointer[K, V]
 	for {
 		// Find the key or return when there's nothing to delete.
 		i = ht.root
@@ -193,11 +193,11 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 
 			slot = &i.children[(hash>>hashShift)&nChildrenMask]
 			n = slot.Load()
-			if n == nil {
+			if n.isNil() {
 				// Nothing to delete. Give up.
 				return
 			}
-			if n.isEntry {
+			if n.isEntry() {
 				// We found an entry. Check if it matches.
 				if _, ok := n.entry().lookup(key, ht.keyEqual); !ok {
 					// No match, nothing to delete.
@@ -216,12 +216,12 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 		i.mu.Lock()
 		n = slot.Load()
 		if !i.dead.Load() {
-			if n == nil {
+			if n.isNil() {
 				// Valid node that doesn't contain what we need. Nothing to delete.
 				i.mu.Unlock()
 				return
 			}
-			if n.isEntry {
+			if n.isEntry() {
 				// What we saw is still true, so we can continue with the delete.
 				break
 			}
@@ -239,12 +239,12 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 	if e != nil {
 		// We didn't actually delete the whole entry, just one entry in the chain.
 		// Nothing else to do, since the parent is definitely not empty.
-		slot.Store(&e.node)
+		slot.Store(e.nodePointer())
 		i.mu.Unlock()
 		return true
 	}
 	// Delete the entry.
-	slot.Store(nil)
+	slot.Store(nodePointer[K, V]{})
 
 	// Check if the node is now empty (and isn't the root), and delete it if able.
 	for i.parent != nil && i.empty() {
@@ -257,7 +257,7 @@ func (ht *HashTrieMap[K, V]) CompareAndDelete(key K, old V) (deleted bool) {
 		parent := i.parent
 		parent.mu.Lock()
 		i.dead.Store(true)
-		parent.children[(hash>>hashShift)&nChildrenMask].Store(nil)
+		parent.children[(hash>>hashShift)&nChildrenMask].Store(nodePointer[K, V]{})
 		i.mu.Unlock()
 		i = parent
 	}
@@ -277,10 +277,10 @@ func (ht *HashTrieMap[K, V]) Enumerate(yield func(key K, value V) bool) {
 func (ht *HashTrieMap[K, V]) iter(i *indirect[K, V], yield func(key K, value V) bool) bool {
 	for j := range i.children {
 		n := i.children[j].Load()
-		if n == nil {
+		if n.isNil() {
 			continue
 		}
-		if !n.isEntry {
+		if !n.isEntry() {
 			if !ht.iter(n.indirect(), yield) {
 				return false
 			}
@@ -309,21 +309,25 @@ const (
 
 // indirect is an internal node in the hash-trie.
 type indirect[K, V comparable] struct {
-	node[K, V]
+	_        [0]atomic.Uint64 // Ensure 8-byte alignment.
 	dead     atomic.Bool
 	mu       sync.Mutex // Protects mutation to children and any children that are entry nodes.
 	parent   *indirect[K, V]
-	children [nChildren]atomic.Pointer[node[K, V]]
+	children [nChildren]atomicNodePointer[K, V]
 }
 
 func newIndirectNode[K, V comparable](parent *indirect[K, V]) *indirect[K, V] {
-	return &indirect[K, V]{node: node[K, V]{isEntry: false}, parent: parent}
+	return &indirect[K, V]{parent: parent}
+}
+
+func (i *indirect[K, V]) nodePointer() nodePointer[K, V] {
+	return nodePointer[K, V]{unsafe.Pointer(i)}
 }
 
 func (i *indirect[K, V]) empty() bool {
 	nc := 0
 	for j := range i.children {
-		if i.children[j].Load() != nil {
+		if !i.children[j].Load().isNil() {
 			nc++
 		}
 	}
@@ -332,18 +336,18 @@ func (i *indirect[K, V]) empty() bool {
 
 // entry is a leaf node in the hash-trie.
 type entry[K, V comparable] struct {
-	node[K, V]
+	_        [0]atomic.Uint64            // Ensure 8-byte alignment.
 	overflow atomic.Pointer[entry[K, V]] // Overflow for hash collisions.
 	key      K
 	value    V
 }
 
 func newEntryNode[K, V comparable](key K, value V) *entry[K, V] {
-	return &entry[K, V]{
-		node:  node[K, V]{isEntry: true},
-		key:   key,
-		value: value,
-	}
+	return &entry[K, V]{key: key, value: value}
+}
+
+func (e *entry[K, V]) nodePointer() nodePointer[K, V] {
+	return nodePointer[K, V]{unsafe.Pointer(uintptr(unsafe.Pointer(e)) | 1)}
 }
 
 func (e *entry[K, V]) lookup(key K, equal equalFunc) (V, bool) {
@@ -380,22 +384,40 @@ func (head *entry[K, V]) compareAndDelete(key K, value V, keyEqual, valEqual equ
 	return head, false
 }
 
-// node is the header for a node. It's polymorphic and
-// is actually either an entry or an indirect.
-type node[K, V comparable] struct {
-	isEntry bool
+type nodePointer[K, V comparable] struct {
+	p unsafe.Pointer
 }
 
-func (n *node[K, V]) entry() *entry[K, V] {
-	if !n.isEntry {
+func (np nodePointer[K, V]) isNil() bool {
+	return np.p == nil
+}
+
+func (np nodePointer[K, V]) isEntry() bool {
+	return uintptr(np.p)&1 != 0
+}
+
+func (np nodePointer[K, V]) entry() *entry[K, V] {
+	if !np.isEntry() {
 		panic("called entry on non-entry node")
 	}
-	return (*entry[K, V])(unsafe.Pointer(n))
+	return (*entry[K, V])(unsafe.Pointer(uintptr(np.p) &^ 1))
 }
 
-func (n *node[K, V]) indirect() *indirect[K, V] {
-	if n.isEntry {
+func (np nodePointer[K, V]) indirect() *indirect[K, V] {
+	if np.isEntry() {
 		panic("called indirect on entry node")
 	}
-	return (*indirect[K, V])(unsafe.Pointer(n))
+	return (*indirect[K, V])(unsafe.Pointer(uintptr(np.p) &^ 1))
+}
+
+type atomicNodePointer[K, V comparable] struct {
+	a unsafe.Pointer
+}
+
+func (np *atomicNodePointer[K, V]) Load() nodePointer[K, V] {
+	return nodePointer[K, V]{atomic.LoadPointer(&np.a)}
+}
+
+func (np *atomicNodePointer[K, V]) Store(p nodePointer[K, V]) {
+	atomic.StorePointer(&np.a, p.p)
 }
