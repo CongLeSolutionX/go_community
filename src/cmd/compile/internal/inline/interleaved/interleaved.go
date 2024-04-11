@@ -134,8 +134,13 @@ func fixpoint(fn *ir.Func, match func(ir.Node) bool, edit func(ir.Node) ir.Node)
 	var parens []*ir.ParenExpr
 	var mark func(ir.Node) ir.Node
 	mark = func(n ir.Node) ir.Node {
-		if _, ok := n.(*ir.ParenExpr); ok {
+
+		switch nt := n.(type) {
+		case *ir.ParenExpr:
 			return n // already visited n.X before wrapping
+		case *ir.TailCallStmt:
+			nt.Call.NoInline = true // can't inline yet
+			return n                // don't wrap the child CallExpr into ParenExpr
 		}
 
 		ok := match(n)
