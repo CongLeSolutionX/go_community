@@ -50,6 +50,23 @@
       "message": "please take a look.",
       "revId": "6217826db95e9fdcbf374c41378b334bbfe42da9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73baab35_97fccc29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-11T21:31:01Z",
+      "side": 1,
+      "message": "Thanks, but this change seems to break the unsafe.Pointer rules.  It seems to be trying to implement ad hoc sharding across CPUs.  To me it seems better to work on a general approach like issue #18802.\n\nThat said, this is really up to the runtime team to see what approach they want to take.",
+      "revId": "6217826db95e9fdcbf374c41378b334bbfe42da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
