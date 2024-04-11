@@ -3916,13 +3916,18 @@ func addTailCall(pos src.XPos, fn *ir.Func, recv ir.Node, method *types.Field) {
 		args[i] = param.Nname.(*ir.Name)
 	}
 
-	// TODO(mdempsky): Support creating OTAILCALL, when possible. See reflectdata.methodWrapper.
-	// Not urgent though, because tail calls are currently incompatible with regabi anyway.
-
-	fn.SetWrapper(true) // TODO(mdempsky): Leave unset for tail calls?
-
 	dot := typecheck.XDotMethod(pos, recv, method.Sym, true)
 	call := typecheck.Call(pos, dot, args, method.Type.IsVariadic()).(*ir.CallExpr)
+
+	if recv.Type() != nil && recv.Type().IsPtr() && method.Type.Recv().Type.IsPtr() &&
+		method.Embedded != 0 && !types.IsInterfaceMethod(method.Type) &&
+		!(base.Ctxt.Arch.Name == "ppc64le" && base.Ctxt.Flag_dynlink) {
+		// Prefer OTAILCALL to reduce code size when possible. See also reflectdata.methodWrapper.
+		fn.Body.Append(ir.NewTailCallStmt(method.Pos, call))
+		return
+	}
+
+	fn.SetWrapper(true) // TODO(mdempsky): Leave unset for tail calls?
 
 	if method.Type.NumResults() == 0 {
 		fn.Body.Append(call)

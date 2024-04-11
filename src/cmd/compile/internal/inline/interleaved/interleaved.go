@@ -140,7 +140,9 @@ func fixpoint(fn *ir.Func, match func(ir.Node) bool, edit func(ir.Node) ir.Node)
 
 		ok := match(n)
 
-		ir.EditChildren(n, mark)
+		if _, tailcall := n.(*ir.TailCallStmt); !tailcall { // can't wrap TailCall's child into ParenExpr
+			ir.EditChildren(n, mark)
+		}
 
 		if ok {
 			paren := ir.NewParenExpr(n.Pos(), n)
