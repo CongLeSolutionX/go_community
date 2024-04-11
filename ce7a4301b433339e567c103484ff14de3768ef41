@@ -51,6 +51,24 @@
       "message": "No, thank you. This package is frozen. Yes, the doc comment says it doesn\u0027t accept new features, but it also doesn\u0027t need to accept code changes with no real effect. It\u0027s best to leave it alone.",
       "revId": "ce7a4301b433339e567c103484ff14de3768ef41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "222178eb_c33d392d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-04-11T06:15:49Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ll close this CL.",
+      "parentUuid": "c891f1ac_b12462b2",
+      "revId": "ce7a4301b433339e567c103484ff14de3768ef41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
