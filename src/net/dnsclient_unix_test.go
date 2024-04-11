@@ -1230,10 +1230,11 @@ func TestStrictErrorsLookupIP(t *testing.T) {
 	}
 	makeTimeout := func() error {
 		return &DNSError{
-			Err:       os.ErrDeadlineExceeded.Error(),
-			Name:      name,
-			Server:    server,
-			IsTimeout: true,
+			Err:         os.ErrDeadlineExceeded.Error(),
+			Name:        name,
+			Server:      server,
+			IsTimeout:   true,
+			IsTemporary: true,
 		}
 	}
 	makeNxDomain := func() error {
@@ -1486,10 +1487,11 @@ func TestStrictErrorsLookupTXT(t *testing.T) {
 		var wantRRs int
 		if strict {
 			wantErr = &DNSError{
-				Err:       os.ErrDeadlineExceeded.Error(),
-				Name:      name,
-				Server:    server,
-				IsTimeout: true,
+				Err:         os.ErrDeadlineExceeded.Error(),
+				Name:        name,
+				Server:      server,
+				IsTimeout:   true,
+				IsTemporary: true,
 			}
 		} else {
 			wantRRs = 1
