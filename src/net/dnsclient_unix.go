@@ -253,6 +253,31 @@ func skipToAnswer(p *dnsmessage.Parser, qtype dnsmessage.Type) error {
 	}
 }
 
+<<<<<<< HEAD   (891ac9 [release-branch.go1.21] net/http: update bundled golang.org/)
+=======
+// extractExtendedRCode extracts the extended RCode from the OPT resource (EDNS(0))
+// If an OPT record is not found, the RCode from the hdr is returned.
+// Another return value indicates whether an additional resource was found.
+func extractExtendedRCode(p dnsmessage.Parser, hdr dnsmessage.Header) (dnsmessage.RCode, bool) {
+	p.SkipAllAnswers()
+	p.SkipAllAuthorities()
+	hasAdd := false
+	for {
+		ahdr, err := p.AdditionalHeader()
+		if err != nil {
+			return hdr.RCode, hasAdd
+		}
+		hasAdd = true
+		if ahdr.Type == dnsmessage.TypeOPT {
+			return ahdr.ExtendedRCode(hdr.RCode), hasAdd
+		}
+		if err := p.SkipAdditional(); err != nil {
+			return hdr.RCode, hasAdd
+		}
+	}
+}
+
+>>>>>>> CHANGE (ddfab2 net: check SkipAdditional error result)
 // Do a lookup for a single name, which must be rooted
 // (otherwise answer will not find the answers).
 func (r *Resolver) tryOneName(ctx context.Context, cfg *dnsConfig, name string, qtype dnsmessage.Type) (dnsmessage.Parser, string, error) {
