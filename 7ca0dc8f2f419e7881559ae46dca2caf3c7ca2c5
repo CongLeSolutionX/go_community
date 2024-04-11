@@ -51,6 +51,24 @@
       "message": "(Obviously this isn\u0027t sound since it clobbers any other elements of GODEBUG.)",
       "revId": "7ca0dc8f2f419e7881559ae46dca2caf3c7ca2c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12629638_3764c3d1",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-04-11T23:32:13Z",
+      "side": 1,
+      "message": "Indeed, this is not the right approach.\nIn general, because the default is changing, \nyou need to change all the uses of gotypesalias,\nboth to assign a different meaning to the value \"\"\nand to fix the times when IncNonDefault is called.\nIt looks like go/types never calls IncNonDefault,\nwhich is unfortunate (#66216) but at least avoids \nneeding to think about that part right now.\n\nI see only one use:\n\n\tenableAlias: gotypesalias.Value() \u003d\u003d \"1\",\n\nThis changes to\n\n\tenableAlias: gotypesalias.Value() !\u003d \"0\",\t\t\n\nYou also need to edit internal/godebugs/table.go\nto add `Changed: 23, Old: \"0\"` to the gotypesalias line.",
+      "parentUuid": "1851dcb7_6f8772aa",
+      "revId": "7ca0dc8f2f419e7881559ae46dca2caf3c7ca2c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
