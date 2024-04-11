@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab3b09e9_9f42d4ec",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-11T17:32:53Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "301f71f4_e1f2f095",
+      "revId": "77f4fde001c3d92fa98d5cff3cedc4343b14cdf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "343c5566_0135f2fc",
