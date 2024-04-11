@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e088be0_f2c895d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-04-11T21:23:12Z",
+      "side": 1,
+      "message": "Would it have made sense to continue using the randomly-sized byte slice on non windows-386 instances?",
+      "revId": "cf0c677cb9804e18009e4ac255e419880254bd17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
