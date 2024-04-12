@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e83e613_3bc877f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-04-12T23:41:29Z",
+      "side": 1,
+      "message": "One of the tests in the new package is failing, but it seems to happen only on one Go port. Filed #66804 for it.",
+      "revId": "1bac2528fc83f0b75c436184c010697198eb0782",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
