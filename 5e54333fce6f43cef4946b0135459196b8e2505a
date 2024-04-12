@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f1e844_40a602ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-12T20:49:10Z",
+      "side": 1,
+      "message": "Should we have some test of the new functionality?  For example, I think passing a canceled context to Dial should return an error for which errors.Is(err, context.Canceled) returns true, where that doesn\u0027t happen today.",
+      "revId": "5e54333fce6f43cef4946b0135459196b8e2505a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea92d5c0_d1eb241d",
+        "filename": "src/net/net.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-12T20:49:10Z",
+      "side": 1,
+      "message": "Add a brief doc comment for temporaryError.",
+      "revId": "5e54333fce6f43cef4946b0135459196b8e2505a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
