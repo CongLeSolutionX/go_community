@@ -87,6 +87,24 @@
       "parentUuid": "12629638_3764c3d1",
       "revId": "7ca0dc8f2f419e7881559ae46dca2caf3c7ca2c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9bcbb85_78c67e0c",
+        "filename": "src/go/types/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-12T19:40:31Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I\u0027ve update the CL accordingly, but I wonder if it might not make sense for future transitions for the godebug package to have a notion of a default string to be returned by Value when the actual value is unset.",
+      "parentUuid": "d0293932_b77da551",
+      "revId": "7ca0dc8f2f419e7881559ae46dca2caf3c7ca2c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
