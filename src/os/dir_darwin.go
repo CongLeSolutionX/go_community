@@ -25,16 +25,17 @@ func (d *dirInfo) close() {
 }
 
 func (f *File) readdir(n int, mode readdirMode) (names []string, dirents []DirEntry, infos []FileInfo, err error) {
-	if f.dirinfo == nil {
+	d := f.dirinfo.Load()
+	if d == nil {
 		dir, call, errno := f.pfd.OpenDir()
 		if errno != nil {
 			return nil, nil, nil, &PathError{Op: call, Path: f.name, Err: errno}
 		}
-		f.dirinfo = &dirInfo{
-			dir: dir,
+		d = &dirInfo{dir: dir}
+		if prev := f.dirinfo.Swap(d); prev != nil {
+			prev.close()
 		}
 	}
-	d := f.dirinfo
 
 	size := n
 	if size <= 0 {

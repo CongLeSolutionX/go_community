@@ -13,6 +13,9 @@ import (
 func Getpagesize() int { return syscall.Getpagesize() }
 
 // File represents an open file descriptor.
+//
+// Methods of File are not safe for concurrent use, even when their
+// corresponding file system calls are concurrency-safe.
 type File struct {
 	*file // os specific
 }
