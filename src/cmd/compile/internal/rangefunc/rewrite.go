@@ -99,47 +99,31 @@ The return false breaks the loop. Then when f returns, the "check
 
 which causes the return we want.
 
-Return with arguments is more involved. We need somewhere to store the
-arguments while we break out of f, so we add them to the var
-declaration, like:
+Return with arguments is more involved, and has to deal with
+corner cases involving panic, defer, and recover.  The results
+of the enclosing function or closure are rewritten to give them
+names if they don't have them already, and the names are assigned
+at the return site
 
-	{
-		var (
-			#next int
-			#r1 type1
-			#r2 type2
-		)
-		f(func(x T1) bool {
-			...
-			{
-				// return a, b
-				#r1, #r2 = a, b
-				#next = -2
-				return false
-			}
-			...
-			return true
-		})
-		if #next == -2 { return #r1, #r2 }
-	}
+	  func f() (#rv1 A, #rv2 B) {
 
-TODO: What about:
-
-	func f() (x bool) {
-		for range g(&x) {
-			return true
+		{
+			var (
+				#next int
+			)
+			f(func(x T1) bool {
+				...
+				{
+					// return a, b
+					#rv1, #rv2 = a, b
+					#next = -2
+					return false
+				}
+				...
+				return true
+			})
+			if #next == -1 { return }
 		}
-	}
-
-	func g(p *bool) func(func() bool) {
-		return func(yield func() bool) {
-			yield()
-			// Is *p true or false here?
-		}
-	}
-
-With this rewrite the "return true" is not visible after yield returns,
-but maybe it should be?
 
 # Checking
 
@@ -258,8 +242,8 @@ becomes
 				...
 				{
 					// return a, b
-					#r1, #r2 = a, b
-					#next = -2
+					#rv1, #rv2 = a, b
+					#next = -1
 					#state1, #state2 = DONE, DONE
 					return false
 				}
@@ -281,8 +265,8 @@ becomes
 	       	panic(runtime.panicrangestate(MISSING_PANIC))
 	    }
 		#state1 = EXHAUSTED
-		if #next == -2 {
-			return #r1, #r2
+		if #next == -1 {
+			return
 		}
 	}
 
@@ -559,6 +543,7 @@ var nopos syntax.Pos
 type rewriter struct {
 	pkg   *types2.Package
 	info  *types2.Info
+	sig   *types2.Signature
 	outer *syntax.FuncType
 	body  *syntax.BlockStmt
 
@@ -601,7 +586,6 @@ type forLoop struct {
 	depth        int // outermost loop has depth 1, otherwise depth = depth(parent)+1
 
 	checkRet      bool     // add check for "return" after loop
-	checkRetArgs  bool     // add check for "return args" after loop
 	checkBreak    bool     // add check for "break" after loop
 	checkContinue bool     // add check for "continue" after loop
 	checkBranch   []branch // add check for labeled branch after loop
@@ -624,10 +608,16 @@ func Rewrite(pkg *types2.Package, info *types2.Info, files []*syntax.File) {
 		syntax.Inspect(file, func(n syntax.Node) bool {
 			switch n := n.(type) {
 			case *syntax.FuncDecl:
-				rewriteFunc(pkg, info, n.Type, n.Body)
+				sig, _ := info.Defs[n.Name].Type().(*types2.Signature)
+				rewriteFunc(pkg, info, n.Type, n.Body, sig)
 				return false
 			case *syntax.FuncLit:
-				rewriteFunc(pkg, info, n.Type, n.Body)
+				sig, _ := info.Types[n].Type.(*types2.Signature)
+				if sig == nil {
+					tv := n.GetTypeInfo()
+					sig = tv.Type.(*types2.Signature)
+				}
+				rewriteFunc(pkg, info, n.Type, n.Body, sig)
 				return false
 			}
 			return true
@@ -637,7 +627,7 @@ func Rewrite(pkg *types2.Package, info *types2.Info, files []*syntax.File) {
 
 // rewriteFunc rewrites all the range-over-funcs in a single function (a top-level func or a func literal).
 // The typ and body are the function's type and body.
-func rewriteFunc(pkg *types2.Package, info *types2.Info, typ *syntax.FuncType, body *syntax.BlockStmt) {
+func rewriteFunc(pkg *types2.Package, info *types2.Info, typ *syntax.FuncType, body *syntax.BlockStmt, sig *types2.Signature) {
 	if body == nil {
 		return
 	}
@@ -646,6 +636,7 @@ func rewriteFunc(pkg *types2.Package, info *types2.Info, typ *syntax.FuncType, b
 		info:  info,
 		outer: typ,
 		body:  body,
+		sig:   sig,
 	}
 	syntax.Inspect(body, r.inspect)
 	if (base.Flag.W != 0) && r.forStack != nil {
@@ -665,7 +656,12 @@ func (r *rewriter) checkFuncMisuse() bool {
 func (r *rewriter) inspect(n syntax.Node) bool {
 	switch n := n.(type) {
 	case *syntax.FuncLit:
-		rewriteFunc(r.pkg, r.info, n.Type, n.Body)
+		sig, _ := r.info.Types[n].Type.(*types2.Signature)
+		if sig == nil {
+			tv := n.GetTypeInfo()
+			sig = tv.Type.(*types2.Signature)
+		}
+		rewriteFunc(r.pkg, r.info, n.Type, n.Body, sig)
 		return false
 
 	default:
@@ -796,12 +792,30 @@ func (r *rewriter) stateVar(pos syntax.Pos) (*types2.Var, *syntax.VarDecl) {
 func (r *rewriter) editReturn(x *syntax.ReturnStmt) syntax.Stmt {
 	// #next = -1 is return with no arguments; -2 is return with arguments.
 	var next int
+
+	bl := &syntax.BlockStmt{}
+
+	if x.Results != nil {
+		if len(r.outer.ResultList) > 0 {
+			// Make sure that result parameters all have names
+			for i, a := range r.outer.ResultList {
+				if a.Name == nil {
+					a.Name = r.makeParamName(a.Pos(), i, a.Type.GetTypeInfo().Type)
+				}
+			}
+		}
+		// Assign to them
+		results := []types2.Object{}
+		for _, a := range r.outer.ResultList {
+			results = append(results, r.info.Defs[a.Name])
+		}
+		bl.List = append(bl.List, &syntax.AssignStmt{Lhs: r.useList(results), Rhs: x.Results})
+		x.Results = nil
+	}
+
 	if x.Results == nil {
 		next = -1
 		r.forStack[0].checkRet = true
-	} else {
-		next = -2
-		r.forStack[0].checkRetArgs = true
 	}
 
 	// Tell the loops along the way to check for a return.
@@ -809,17 +823,8 @@ func (r *rewriter) editReturn(x *syntax.ReturnStmt) syntax.Stmt {
 		loop.checkRet = true
 	}
 
-	// Assign results, set #next, and return false.
-	bl := &syntax.BlockStmt{}
-	if x.Results != nil {
-		if r.retVars == nil {
-			for i, a := range r.outer.ResultList {
-				obj := r.declVar(fmt.Sprintf("#r%d", i+1), a.Type.GetTypeInfo().Type, nil)
-				r.retVars = append(r.retVars, obj)
-			}
-		}
-		bl.List = append(bl.List, &syntax.AssignStmt{Lhs: r.useList(r.retVars), Rhs: x.Results})
-	}
+	// Set #next, and return false.
+
 	bl.List = append(bl.List, &syntax.AssignStmt{Lhs: r.next(), Rhs: r.intConst(next)})
 	if r.checkFuncMisuse() {
 		// mark this loop as exited, the others (which will be exited if iterators do not interfere) have not, yet.
@@ -1218,9 +1223,6 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 	curLoopIndex := curLoop - 1
 
 	if len(r.forStack) == 1 {
-		if loop.checkRetArgs {
-			list = append(list, r.ifNext(syntax.Eql, -2, retStmt(r.useList(r.retVars)), false))
-		}
 		if loop.checkRet {
 			list = append(list, r.ifNext(syntax.Eql, -1, retStmt(nil), false))
 		}
@@ -1241,7 +1243,7 @@ func (r *rewriter) checks(loop *forLoop, pos syntax.Pos) []syntax.Stmt {
 		//   return false // or handle returns and gotos
 		// }
 
-		if loop.checkRetArgs || loop.checkRet {
+		if loop.checkRet {
 			// Note: next < 0 also handles gotos handled by outer loops.
 			// We set checkRet in that case to trigger this check.
 			if r.checkFuncMisuse() {
@@ -1444,18 +1446,33 @@ func (r *rewriter) useList(vars []types2.Object) syntax.Expr {
 	return &syntax.ListExpr{ElemList: new}
 }
 
+func (r *rewriter) makeVarName(pos syntax.Pos, name string, typ types2.Type) (*types2.Var, *syntax.Name) {
+	obj := types2.NewVar(pos, r.pkg, name, typ)
+	n := syntax.NewName(pos, name)
+	tv := syntax.TypeAndValue{Type: typ}
+	tv.SetIsValue()
+	n.SetTypeInfo(tv)
+	r.info.Defs[n] = obj
+	return obj, n
+}
+
+func (r *rewriter) makeParamName(pos syntax.Pos, i int, typ types2.Type) *syntax.Name {
+	obj := r.sig.RenameResult(i, pos)
+	n := syntax.NewName(pos, obj.Name())
+	tv := syntax.TypeAndValue{Type: typ}
+	tv.SetIsValue()
+	n.SetTypeInfo(tv)
+	r.info.Defs[n] = obj
+	return n
+}
+
 // declVar declares a variable with a given name type and initializer value.
 func (r *rewriter) declVar(name string, typ types2.Type, init syntax.Expr) *types2.Var {
 	if r.declStmt == nil {
 		r.declStmt = &syntax.DeclStmt{}
 	}
 	stmt := r.declStmt
-	obj := types2.NewVar(stmt.Pos(), r.pkg, name, typ)
-	n := syntax.NewName(stmt.Pos(), name)
-	tv := syntax.TypeAndValue{Type: typ}
-	tv.SetIsValue()
-	n.SetTypeInfo(tv)
-	r.info.Defs[n] = obj
+	obj, n := r.makeVarName(stmt.Pos(), name, typ)
 	stmt.DeclList = append(stmt.DeclList, &syntax.VarDecl{
 		NameList: []*syntax.Name{n},
 		// Note: Type is ignored
