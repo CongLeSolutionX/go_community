@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c4126de_9cab7efb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3378790
+      },
+      "writtenOn": "2024-04-12T14:37:29Z",
+      "side": 1,
+      "message": "\u003e What -o option are you thinking of?\n`cmd/compile` and `cmd/asm` - when output file doesn\u0027t exits they create it.\n\n\u003e What is invoking cgo with -objdir?\n- go build - `cmd/go/internal/work`\n- Bazel\n- Buck/Buck2 \n- other build systems\n\nI\u0027m working on Buck2 integration for Go, that\u0027s how I noticed this.",
+      "parentUuid": "bd4d61a1_16228413",
+      "revId": "db48b8e05d938f348c6847b65d5eab00407b7eb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f88e34d_37e1bbec",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-04-11T22:06:30Z",
       "side": 1,
       "message": "Seems like if we are going to do this we should call os.MkdirAll.",
+      "revId": "db48b8e05d938f348c6847b65d5eab00407b7eb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f9b6246_9b90c6f8",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 3378790
+      },
+      "writtenOn": "2024-04-12T14:37:29Z",
+      "side": 1,
+      "message": "I also have been thinking this could be useful, let me fix this.",
+      "parentUuid": "3f88e34d_37e1bbec",
       "revId": "db48b8e05d938f348c6847b65d5eab00407b7eb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
