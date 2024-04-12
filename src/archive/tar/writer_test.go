@@ -944,8 +944,10 @@ func TestSplitUSTARPath(t *testing.T) {
 		{sr("a", prefixSize) + "/a", sr("a", prefixSize), "a", true},
 		{sr("a", nameSize+1), "", "", false},
 		{sr("/", nameSize+1), sr("/", nameSize-1), "/", true},
-		{sr("a", prefixSize) + "/" + sr("b", nameSize),
-			sr("a", prefixSize), sr("b", nameSize), true},
+		{
+			sr("a", prefixSize) + "/" + sr("b", nameSize),
+			sr("a", prefixSize), sr("b", nameSize), true,
+		},
 		{sr("a", prefixSize) + "//" + sr("b", nameSize), "", "", false},
 		{sr("a/", nameSize), sr("a/", 77) + "a", sr("a/", 22), true},
 	}
@@ -1338,7 +1340,9 @@ func TestFileWriter(t *testing.T) {
 
 func TestWriterAddFS(t *testing.T) {
 	fsys := fstest.MapFS{
+		"emptyfolder":          {Mode: 0755 | os.ModeDir},
 		"file.go":              {Data: []byte("hello")},
+		"subfolder":            {Mode: 0755 | os.ModeDir},
 		"subfolder/another.go": {Data: []byte("world")},
 	}
 	var buf bytes.Buffer
@@ -1346,21 +1350,26 @@ func TestWriterAddFS(t *testing.T) {
 	if err := tw.AddFS(fsys); err != nil {
 		t.Fatal(err)
 	}
+	if err := tw.Close(); err != nil {
+		t.Fatal(err)
+	}
 
 	// Test that we can get the files back from the archive
 	tr := NewReader(&buf)
 
-	entries, err := fsys.ReadDir(".")
-	if err != nil {
-		t.Fatal(err)
+	names := make([]string, 0, len(fsys))
+	for name := range fsys {
+		names = append(names, name)
 	}
+	sort.Strings(names)
 
-	var curfname string
-	for _, entry := range entries {
-		curfname = entry.Name()
-		if entry.IsDir() {
-			curfname += "/"
-			continue
+	entriesLeft := len(fsys)
+	for _, name := range names {
+		entriesLeft--
+
+		entryInfo, err := fsys.Stat(name)
+		if err != nil {
+			t.Fatalf("getting entry info error: %v", err)
 		}
 		hdr, err := tr.Next()
 		if err == io.EOF {
@@ -1370,21 +1379,32 @@ func TestWriterAddFS(t *testing.T) {
 			t.Fatal(err)
 		}
 
+		if hdr.Name != name {
+			t.Fatalf("test fs has filename %v; archive header has %v",
+				name, hdr.Name)
+		}
+
+		if entryInfo.Mode() != hdr.FileInfo().Mode() {
+			t.Fatalf("%s: test fs has mode %v; archive header has %v",
+				name, entryInfo.Mode(), hdr.FileInfo().Mode())
+		}
+
+		if entryInfo.IsDir() {
+			continue
+		}
+
 		data, err := io.ReadAll(tr)
 		if err != nil {
 			t.Fatal(err)
 		}
-
-		if hdr.Name != curfname {
-			t.Fatalf("got filename %v, want %v",
-				curfname, hdr.Name)
-		}
-
-		origdata := fsys[curfname].Data
+		origdata := fsys[name].Data
 		if string(data) != string(origdata) {
-			t.Fatalf("got file content %v, want %v",
+			t.Fatalf("test fs has file content %v; archive header has %v",
 				data, origdata)
 		}
+	}
+	if entriesLeft > 0 {
+		t.Fatalf("not all entries are in the archive")
 	}
 }
 

@@ -108,7 +108,7 @@ func TestWriter(t *testing.T) {
 
 // TestWriterComment is test for EOCD comment read/write.
 func TestWriterComment(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		comment string
 		ok      bool
 	}{
@@ -158,7 +158,7 @@ func TestWriterComment(t *testing.T) {
 }
 
 func TestWriterUTF8(t *testing.T) {
-	var utf8Tests = []struct {
+	utf8Tests := []struct {
 		name    string
 		comment string
 		nonUTF8 bool
@@ -620,9 +620,17 @@ func TestWriterAddFS(t *testing.T) {
 	w := NewWriter(buf)
 	tests := []WriteTest{
 		{
+			Name: "emptyfolder",
+			Mode: 0755 | os.ModeDir,
+		},
+		{
 			Name: "file.go",
 			Data: []byte("hello"),
 			Mode: 0644,
+		},
+		{
+			Name: "subfolder",
+			Mode: 0755 | os.ModeDir,
 		},
 		{
 			Name: "subfolder/another.go",
