@@ -91,6 +91,20 @@ func (s *Signature) Variadic() bool { return s.variadic }
 func (s *Signature) Underlying() Type { return s }
 func (s *Signature) String() string   { return TypeString(s, nil) }
 
+// RenameResult is used by rangefunc to make results assignable from within a closure.
+// This is a hack, as narrowly targeted as possible to prevent any other use.
+func (s *Signature) RenameResult(i int, pos syntax.Pos) *Var {
+	obj := s.Results().At(i)
+	if obj.name != "" {
+		panic("Cannot change an existing name")
+	}
+	name := fmt.Sprintf("#rv%d", i+1)
+	obj.name = name
+	s.scope.Insert(obj)
+	obj.setScopePos(pos)
+	return obj
+}
+
 // ----------------------------------------------------------------------------
 // Implementation
 
