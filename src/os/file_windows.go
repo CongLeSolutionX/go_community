@@ -11,6 +11,7 @@ import (
 	"internal/syscall/windows"
 	"runtime"
 	"sync"
+	"sync/atomic"
 	"syscall"
 	"unsafe"
 )
@@ -25,8 +26,8 @@ const _UTIME_OMIT = -1
 type file struct {
 	pfd        poll.FD
 	name       string
-	dirinfo    *dirInfo // nil unless directory being read
-	appendMode bool     // whether file is opened for appending
+	dirinfo    atomic.Pointer[dirInfo] // nil unless directory being read
+	appendMode bool                    // whether file is opened for appending
 }
 
 // Fd returns the Windows handle referencing the open file.
