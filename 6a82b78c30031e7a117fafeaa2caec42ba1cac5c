@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bf4b504_ae887332",
+        "filename": "src/os/dir.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-12T20:35:12Z",
+      "side": 1,
+      "message": "You don\u0027t need to link to the thing that you are documenting.  It will just bring the user right back here, which isn\u0027t helpful.\n\nSimilarly elsewhere.",
+      "revId": "6a82b78c30031e7a117fafeaa2caec42ba1cac5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c97405fc_2bc6b24c",
+        "filename": "src/os/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-12T20:35:12Z",
+      "side": 1,
+      "message": "This isn\u0027t currently accurate.  It\u0027s actually fine to call almost all File methods concurrently.  Although it\u0027s hard to call Read or Write concurrently on an ordinary file because they rely on the file position, it\u0027s fine to call them concurrently on a pipe.  It\u0027s really Readdir that is the odd method out.\n\nNote that the os package docs (https://pkg.go.dev/os) say \"Note: The maximum number of concurrent operations on a File may be limited by the OS or the system. The number should be high, but exceeding it may degrade performance or cause other issues\" so we are already promising some support for concurrency.",
+      "revId": "6a82b78c30031e7a117fafeaa2caec42ba1cac5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
