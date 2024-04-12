@@ -36,6 +36,8 @@ const (
 // and a non-nil error.
 //
 // Most clients are better served by the more efficient ReadDir method.
+//
+// [Readdir] is not safe for concurrent use.
 func (f *File) Readdir(n int) ([]FileInfo, error) {
 	if f == nil {
 		return nil, ErrInvalid
@@ -65,6 +67,8 @@ func (f *File) Readdir(n int) ([]FileInfo, error) {
 // nil error. If it encounters an error before the end of the
 // directory, Readdirnames returns the names read until that point and
 // a non-nil error.
+//
+// [Readdirnames] is not safe for concurrent use.
 func (f *File) Readdirnames(n int) (names []string, err error) {
 	if f == nil {
 		return nil, ErrInvalid
@@ -93,6 +97,8 @@ type DirEntry = fs.DirEntry
 //
 // If n <= 0, ReadDir returns all the DirEntry records remaining in the directory.
 // When it succeeds, it returns a nil error (not io.EOF).
+//
+// [ReadDir] is not safe for concurrent use.
 func (f *File) ReadDir(n int) ([]DirEntry, error) {
 	if f == nil {
 		return nil, ErrInvalid
