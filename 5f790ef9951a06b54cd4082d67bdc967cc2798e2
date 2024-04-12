@@ -16,6 +16,24 @@
       "message": "Before this CL the _C_EAI_SYSTEM case would force err to be non-nil and then return a DNSError.  With this CL it appears that this case will just keep running, as there is no longer a return statement after the switch.",
       "revId": "5f790ef9951a06b54cd4082d67bdc967cc2798e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b59a7eef_36716326",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-12T04:36:40Z",
+      "side": 1,
+      "message": "ooh, right done.",
+      "parentUuid": "7dd8ea0e_551fec15",
+      "revId": "5f790ef9951a06b54cd4082d67bdc967cc2798e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
