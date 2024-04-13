@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cd24a8c_bb503e13",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-13T05:47:27Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "610bdedd_91f9a803",
+      "revId": "890179d949da55aaa09d60c4fe2c25397d2ce906",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f13712d2_bc0cf3ad",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-12T20:49:10Z",
       "side": 0,
       "message": "Let\u0027s preserve this comment in the new code.",
+      "revId": "890179d949da55aaa09d60c4fe2c25397d2ce906",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ebdd640_3f23b7d3",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-04-13T05:47:27Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f13712d2_bc0cf3ad",
       "revId": "890179d949da55aaa09d60c4fe2c25397d2ce906",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
