@@ -45,7 +45,7 @@ var depsRules = `
 	  internal/cpu, internal/goarch, internal/godebugs,
 	  internal/goexperiment, internal/goos,
 	  internal/goversion, internal/nettrace, internal/platform,
-	  internal/trace/traceviewer/format,
+	  internal/profilerecord, internal/trace/traceviewer/format,
 	  log/internal,
 	  unicode/utf8, unicode/utf16, unicode,
 	  unsafe;
@@ -64,7 +64,8 @@ var depsRules = `
 	internal/goarch,
 	internal/godebugs,
 	internal/goexperiment,
-	internal/goos
+	internal/goos,
+	internal/profilerecord
 	< internal/bytealg
 	< internal/stringslite
 	< internal/byteorder

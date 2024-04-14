@@ -929,9 +929,13 @@ func mcommoninit(mp *m, id int64) {
 // malloc and runtime locks for mLockProfile.
 // TODO(mknyszek): Implement lazy allocation if this becomes a problem.
 func mProfStackInit(mp *m) {
-	mp.profStack = make([]uintptr, maxStack)
-	mp.mLockProfile.stack = make([]uintptr, maxStack)
+	mp.profStack = makeProfStack()
+	mp.mLockProfile.stack = makeProfStack()
 }
+
+// makeProfStack creates a buffer large enough to hold a maximum-sized stack
+// trace.
+func makeProfStack() []uintptr { return make([]uintptr, maxStack) }
 
 func (mp *m) becomeSpinning() {
 	mp.spinning = true
@@ -3131,7 +3135,7 @@ func execute(gp *g, inheritTime bool) {
 		// Make sure that gp has had its stack written out to the goroutine
 		// profile, exactly as it was when the goroutine profiler first stopped
 		// the world.
-		tryRecordGoroutineProfile(gp, osyield)
+		tryRecordGoroutineProfile(gp, nil, osyield)
 	}
 
 	// Assign gp.m before entering _Grunning so running Gs have an
