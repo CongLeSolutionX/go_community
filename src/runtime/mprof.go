@@ -43,7 +43,7 @@ const (
 	// Note that it's only used internally as a guard against
 	// wildly out-of-bounds slicing of the PCs that come after
 	// a bucket struct, and it could increase in the future.
-	maxStack = 32
+	maxStack = 128
 )
 
 type bucketType int
@@ -796,20 +796,20 @@ func mutexevent(cycles int64, skip int) {
 
 // Go interface to profile data.
 
-// A StackRecord describes a single execution stack.
+// A StackRecord describes a stack trace. Stack0 holds the first 32 frames for
+// historical reasons. Users should use the Stack() method to access the full
+// stack trace. StackRecords with more then 32 frames are not guaranteed to be
+// equal to each other, even if they return the same Stack() values.
 type StackRecord struct {
-	Stack0 [32]uintptr // stack trace for this record; ends at first 0 entry
+	Stack0 [32]uintptr // stack trace for this record; ends at first 0 entry; use Stack() to access
+	stack1
 }
 
-// Stack returns the stack trace associated with the record,
-// a prefix of r.Stack0.
+// Stack returns the stack trace associated with the record. For stacks with
+// less than 32 entries, this is a prefix of r.Stack0. This method may allocate
+// a new slice for every call.
 func (r *StackRecord) Stack() []uintptr {
-	for i, v := range r.Stack0 {
-		if v == 0 {
-			return r.Stack0[0:i]
-		}
-	}
-	return r.Stack0[0:]
+	return mergeProfStacks(&r.Stack0, &r.stack1)
 }
 
 // MemProfileRate controls the fraction of memory allocations
@@ -833,12 +833,16 @@ var MemProfileRate int = 512 * 1024
 // elsewhere.
 var disableMemoryProfiling bool
 
-// A MemProfileRecord describes the live objects allocated
-// by a particular call sequence (stack trace).
+// A MemProfileRecord describes the live objects allocated by a particular call
+// sequence (stack trace). Stack0 holds the first 32 frames for historical
+// reasons. Users should use the Stack() method to access the full stack trace.
+// StackRecords with more then 32 frames are not guaranteed to be equal to each
+// other, even if they return the same Stack() values.
 type MemProfileRecord struct {
 	AllocBytes, FreeBytes     int64       // number of bytes allocated, freed
 	AllocObjects, FreeObjects int64       // number of objects allocated, freed
-	Stack0                    [32]uintptr // stack trace for this record; ends at first 0 entry
+	Stack0                    [32]uintptr // stack trace for this record; ends at first 0 entry; use Stack() to access
+	stack1                                // extra stack trace if Stack0 is not enough
 }
 
 // InUseBytes returns the number of bytes in use (AllocBytes - FreeBytes).
@@ -849,15 +853,32 @@ func (r *MemProfileRecord) InUseObjects() int64 {
 	return r.AllocObjects - r.FreeObjects
 }
 
-// Stack returns the stack trace associated with the record,
-// a prefix of r.Stack0.
+// Stack returns the stack trace associated with the record. For stacks with
+// less than 32 entries, this is a prefix of r.Stack0. This method may allocate
+// a new slice for every call.
 func (r *MemProfileRecord) Stack() []uintptr {
-	for i, v := range r.Stack0 {
+	return mergeProfStacks(&r.Stack0, &r.stack1)
+}
+
+// stack1 is similar to a []uintptr, but we can't use that type because it would
+// cause StackRecord and MemProfileRecord to become invalid map keys which could
+// break existing Go programs.
+type stack1 struct {
+	stk  unsafe.Pointer
+	nstk int
+}
+
+// mergeProfStacks merges stack0 and stack1 into a single slice.
+func mergeProfStacks(stack0 *[32]uintptr, stack1 *stack1) []uintptr {
+	for i, v := range stack0 {
 		if v == 0 {
-			return r.Stack0[0:i]
+			return stack0[0:i]
 		}
 	}
-	return r.Stack0[0:]
+	if stack1.stk == nil {
+		return stack0[0:]
+	}
+	return append(stack0[0:], unsafe.Slice((*uintptr)(stack1.stk), stack1.nstk)...)
 }
 
 // MemProfile returns a profile of memory allocated and freed per allocation
@@ -952,8 +973,7 @@ func record(r *MemProfileRecord, b *bucket) {
 	if asanenabled {
 		asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 	}
-	copy(r.Stack0[:], b.stk())
-	clear(r.Stack0[b.nstk:])
+	applyProfStack(b.stk(), &r.Stack0, &r.stack1, false)
 }
 
 func iterate_memprof(fn func(*bucket, uintptr, *uintptr, uintptr, uintptr, uintptr)) {
@@ -1008,13 +1028,33 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 			if asanenabled {
 				asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 			}
-			i := copy(r.Stack0[:], b.stk())
-			clear(r.Stack0[i:])
+			applyProfStack(b.stk(), &r.Stack0, &r.stack1, false)
 			p = p[1:]
 		}
 	}
 	unlock(&profBlockLock)
 	return
+}
+
+// applyProfStack copies stk to stack0 and points stack1 to any remaining
+// frames. If alloc is true, applyProfStack allocates a new slice for stack1.
+// Otherwise stack1 points into stk, which means it must be treated as immutable
+// by callers.
+func applyProfStack(stk []uintptr, stack0 *[32]uintptr, stack1 *stack1, alloc bool) {
+	i := copy(stack0[:], stk)
+	clear(stack0[i:])
+	if len(stk) > len(stack0) {
+		stk1 := stk[len(stack0):]
+		if alloc {
+			stk1 = make([]uintptr, len(stk)-len(stack0))
+			copy(stk1, stk[len(stack0):])
+		}
+		stack1.stk = unsafe.Pointer(&stk1[0])
+		stack1.nstk = len(stk1)
+	} else {
+		stack1.stk = nil
+		stack1.nstk = 0
+	}
 }
 
 // MutexProfile returns n, the number of records in the current mutex profile.
@@ -1036,8 +1076,7 @@ func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
 			r := &p[0]
 			r.Count = int64(bp.count)
 			r.Cycles = bp.cycles
-			i := copy(r.Stack0[:], b.stk())
-			clear(r.Stack0[i:])
+			applyProfStack(b.stk(), &r.Stack0, &r.stack1, false)
 			p = p[1:]
 		}
 	}
@@ -1414,10 +1453,10 @@ func GoroutineProfile(p []StackRecord) (n int, ok bool) {
 func saveg(pc, sp uintptr, gp *g, r *StackRecord) {
 	var u unwinder
 	u.initAt(pc, sp, 0, gp, unwindSilentErrors)
-	n := tracebackPCs(&u, 0, r.Stack0[:])
-	if n < len(r.Stack0) {
-		r.Stack0[n] = 0
-	}
+	mp := acquirem()
+	n := tracebackPCs(&u, 0, mp.profStack)
+	applyProfStack(mp.profStack[0:n], &r.Stack0, &r.stack1, true)
+	releasem(mp)
 }
 
 // Stack formats a stack trace of the calling goroutine into buf
