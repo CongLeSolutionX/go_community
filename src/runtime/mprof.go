@@ -9,6 +9,7 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/profilerecord"
 	"internal/runtime/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -43,7 +44,7 @@ const (
 	// Note that it's only used internally as a guard against
 	// wildly out-of-bounds slicing of the PCs that come after
 	// a bucket struct, and it could increase in the future.
-	maxStack = 32
+	maxStack = 128
 )
 
 type bucketType int
@@ -796,13 +797,17 @@ func mutexevent(cycles int64, skip int) {
 
 // Go interface to profile data.
 
-// A StackRecord describes a single execution stack.
+// A StackRecord describes a stack trace. Stack0 holds the first 32 frames for
+// historical reasons. Users should use the Stack() method to access the full
+// stack trace. StackRecords with more then 32 frames are not guaranteed to be
+// equal to each other, even if they return the same Stack() values.
 type StackRecord struct {
-	Stack0 [32]uintptr // stack trace for this record; ends at first 0 entry
+	Stack0 [32]uintptr // stack trace for this record; ends at first 0 entry; use Stack() to access
 }
 
-// Stack returns the stack trace associated with the record,
-// a prefix of r.Stack0.
+// Stack returns the stack trace associated with the record. For stacks with
+// less than 32 entries, this is a prefix of r.Stack0. This method may allocate
+// a new slice for every call.
 func (r *StackRecord) Stack() []uintptr {
 	for i, v := range r.Stack0 {
 		if v == 0 {
@@ -860,6 +865,83 @@ func (r *MemProfileRecord) Stack() []uintptr {
 	return r.Stack0[0:]
 }
 
+// stack1 is similar to a []uintptr, but we can't use that type because it would
+// cause StackRecord and MemProfileRecord to become invalid map keys which could
+// break existing Go programs.
+type stack1 struct {
+	stk  unsafe.Pointer
+	nstk int
+}
+
+// mergeProfStacks merges stack0 and stack1 into a single slice.
+func mergeProfStacks(stack0 *[32]uintptr, stack1 *stack1) []uintptr {
+	for i, v := range stack0 {
+		if v == 0 {
+			return stack0[0:i]
+		}
+	}
+	if stack1.stk == nil {
+		return stack0[0:]
+	}
+	return append(stack0[0:], unsafe.Slice((*uintptr)(stack1.stk), stack1.nstk)...)
+}
+
+// copyProfStack copies the stack frames from stack0 and stack1 into dst and
+// returns a slice of dst containing the copied frames.
+func copyProfStack(dst []uintptr, stack0 *[32]uintptr, stack1 *stack1) []uintptr {
+	n := 0
+	for _, v := range stack0 {
+		if v == 0 || n >= len(dst) {
+			return dst[0:n]
+		}
+		dst[n] = v
+		n++
+	}
+	if stack1.stk == nil {
+		return dst[0:n]
+	}
+	for _, v := range unsafe.Slice((*uintptr)(stack1.stk), stack1.nstk) {
+		if n >= len(dst) {
+			return dst[0:n]
+		}
+		dst[n] = v
+		n++
+	}
+	return dst[0:n]
+}
+
+// applyProfStackMode determines how applyProfStack should handle stacks that
+// exceed the size of stack0.
+type applyProfStackMode int
+
+const (
+	// profStackCopy is used for m.profstack slices which are mutable.
+	profStackCopy = iota
+	// profStackRef is used for (*bucket).stk() slices, which are immutable.
+	profStackRef
+)
+
+// applyProfStack copies stk to stack0 and points stack1 to any remaining frames
+// according to the given mode. If the mode is profStackRef, the caller must
+// ensure that stk is not modified after applyProfStack returns. Otherwise
+// profStackCopy must be used, which will allocate a new slice as needed.
+func applyProfStack(stk []uintptr, stack0 *[32]uintptr, stack1 *stack1, mode applyProfStackMode) {
+	i := copy(stack0[:], stk)
+	clear(stack0[i:])
+	if len(stk) > len(stack0) {
+		stk1 := stk[len(stack0):]
+		if mode == profStackCopy {
+			stk1 = make([]uintptr, len(stk)-len(stack0))
+			copy(stk1, stk[len(stack0):])
+		}
+		stack1.stk = unsafe.Pointer(&stk1[0])
+		stack1.nstk = len(stk1)
+	} else {
+		stack1.stk = nil
+		stack1.nstk = 0
+	}
+}
+
 // MemProfile returns a profile of memory allocated and freed per allocation
 // site.
 //
@@ -882,6 +964,22 @@ func (r *MemProfileRecord) Stack() []uintptr {
 // the testing package's -test.memprofile flag instead
 // of calling MemProfile directly.
 func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
+	records := make([]profilerecord.MemProfileRecord, len(p))
+	n, ok = memProfileInternal(records, inuseZero)
+	if !ok {
+		return
+	}
+	for i, mr := range records[0:n] {
+		copy(p[i].Stack0[:], mr.Stk)
+		p[i].AllocBytes = mr.AllocBytes
+		p[i].AllocObjects = mr.AllocObjects
+		p[i].FreeBytes = mr.FreeBytes
+		p[i].FreeObjects = mr.FreeObjects
+	}
+	return
+}
+
+func memProfileInternal(p []profilerecord.MemProfileRecord, inuseZero bool) (n int, ok bool) {
 	cycle := mProfCycle.read()
 	// If we're between mProf_NextCycle and mProf_Flush, take care
 	// of flushing to the active profile so we only have to look
@@ -936,24 +1034,28 @@ func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
 	return
 }
 
+//go:linkname pprof_runtime_memProfileInternal runtime/pprof.runtime_memProfileInternal
+func pprof_runtime_memProfileInternal(p []profilerecord.MemProfileRecord, inuseZero bool) (n int, ok bool) {
+	return memProfileInternal(p, inuseZero)
+}
+
 // Write b's data to r.
-func record(r *MemProfileRecord, b *bucket) {
+func record(r *profilerecord.MemProfileRecord, b *bucket) {
 	mp := b.mp()
 	r.AllocBytes = int64(mp.active.alloc_bytes)
 	r.FreeBytes = int64(mp.active.free_bytes)
 	r.AllocObjects = int64(mp.active.allocs)
 	r.FreeObjects = int64(mp.active.frees)
 	if raceenabled {
-		racewriterangepc(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0), getcallerpc(), abi.FuncPCABIInternal(MemProfile))
+		// racewriterangepc(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0), getcallerpc(), abi.FuncPCABIInternal(MemProfile))
 	}
 	if msanenabled {
-		msanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
+		// msanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 	}
 	if asanenabled {
-		asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
+		// asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 	}
-	copy(r.Stack0[:], b.stk())
-	clear(r.Stack0[b.nstk:])
+	r.Stk = b.stk()
 }
 
 func iterate_memprof(fn func(*bucket, uintptr, *uintptr, uintptr, uintptr, uintptr)) {
@@ -982,6 +1084,20 @@ type BlockProfileRecord struct {
 // the [testing] package's -test.blockprofile flag instead
 // of calling BlockProfile directly.
 func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
+	records := make([]profilerecord.BlockProfileRecord, len(p))
+	n, ok = blockProfileInternal(records)
+	if !ok {
+		return
+	}
+	for i, mr := range records[0:n] {
+		copy(p[i].Stack0[:], mr.Stk)
+		p[i].Count = mr.Count
+		p[i].Cycles = mr.Cycles
+	}
+	return
+}
+
+func blockProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool) {
 	lock(&profBlockLock)
 	head := (*bucket)(bbuckets.Load())
 	for b := head; b != nil; b = b.allnext {
@@ -1000,21 +1116,25 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 			}
 			r.Cycles = bp.cycles
 			if raceenabled {
-				racewriterangepc(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0), getcallerpc(), abi.FuncPCABIInternal(BlockProfile))
+				// racewriterangepc(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0), getcallerpc(), abi.FuncPCABIInternal(BlockProfile))
 			}
 			if msanenabled {
-				msanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
+				// msanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 			}
 			if asanenabled {
-				asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
+				// asanwrite(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0))
 			}
-			i := copy(r.Stack0[:], b.stk())
-			clear(r.Stack0[i:])
+			r.Stk = b.stk()
 			p = p[1:]
 		}
 	}
 	unlock(&profBlockLock)
 	return
+}
+
+//go:linkname pprof_runtime_blockProfileInternal runtime/pprof.runtime_blockProfileInternal
+func pprof_runtime_blockProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool) {
+	return blockProfileInternal(p)
 }
 
 // MutexProfile returns n, the number of records in the current mutex profile.
@@ -1024,6 +1144,20 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 // Most clients should use the [runtime/pprof] package
 // instead of calling MutexProfile directly.
 func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
+	records := make([]profilerecord.BlockProfileRecord, len(p))
+	n, ok = mutexProfileInternal(records)
+	if !ok {
+		return
+	}
+	for i, mr := range records[0:n] {
+		copy(p[i].Stack0[:], mr.Stk)
+		p[i].Count = mr.Count
+		p[i].Cycles = mr.Cycles
+	}
+	return
+}
+
+func mutexProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool) {
 	lock(&profBlockLock)
 	head := (*bucket)(xbuckets.Load())
 	for b := head; b != nil; b = b.allnext {
@@ -1036,13 +1170,17 @@ func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
 			r := &p[0]
 			r.Count = int64(bp.count)
 			r.Cycles = bp.cycles
-			i := copy(r.Stack0[:], b.stk())
-			clear(r.Stack0[i:])
+			r.Stk = b.stk()
 			p = p[1:]
 		}
 	}
 	unlock(&profBlockLock)
 	return
+}
+
+//go:linkname pprof_runtime_mutexProfileInternal runtime/pprof.runtime_mutexProfileInternal
+func pprof_runtime_mutexProfileInternal(p []profilerecord.BlockProfileRecord) (n int, ok bool) {
+	return mutexProfileInternal(p)
 }
 
 // ThreadCreateProfile returns n, the number of records in the thread creation profile.
@@ -1052,6 +1190,18 @@ func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
 // Most clients should use the runtime/pprof package instead
 // of calling ThreadCreateProfile directly.
 func ThreadCreateProfile(p []StackRecord) (n int, ok bool) {
+	records := make([]profilerecord.StackRecord, len(p))
+	n, ok = threadCreateProfileInternal(records)
+	if !ok {
+		return
+	}
+	for i, mr := range records[0:n] {
+		copy(p[i].Stack0[:], mr.Stk)
+	}
+	return
+}
+
+func threadCreateProfileInternal(p []profilerecord.StackRecord) (n int, ok bool) {
 	first := (*m)(atomic.Loadp(unsafe.Pointer(&allm)))
 	for mp := first; mp != nil; mp = mp.alllink {
 		n++
@@ -1060,20 +1210,25 @@ func ThreadCreateProfile(p []StackRecord) (n int, ok bool) {
 		ok = true
 		i := 0
 		for mp := first; mp != nil; mp = mp.alllink {
-			p[i].Stack0 = mp.createstack
+			p[i].Stk = mp.createstack[:]
 			i++
 		}
 	}
 	return
 }
 
-//go:linkname runtime_goroutineProfileWithLabels runtime/pprof.runtime_goroutineProfileWithLabels
-func runtime_goroutineProfileWithLabels(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+//go:linkname pprof_runtime_threadCreateInternal runtime/pprof.runtime_threadCreateInternal
+func pprof_runtime_threadCreateInternal(p []profilerecord.StackRecord) (n int, ok bool) {
+	return threadCreateProfileInternal(p)
+}
+
+//go:linkname pprof_runtime_goroutineProfileWithLabels runtime/pprof.runtime_goroutineProfileWithLabels
+func pprof_runtime_goroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	return goroutineProfileWithLabels(p, labels)
 }
 
 // labels may be nil. If labels is non-nil, it must have the same length as p.
-func goroutineProfileWithLabels(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+func goroutineProfileWithLabels(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	if labels != nil && len(labels) != len(p) {
 		labels = nil
 	}
@@ -1085,7 +1240,7 @@ var goroutineProfile = struct {
 	sema    uint32
 	active  bool
 	offset  atomic.Int64
-	records []StackRecord
+	records []profilerecord.StackRecord
 	labels  []unsafe.Pointer
 }{
 	sema: 1,
@@ -1124,7 +1279,7 @@ func (p *goroutineProfileStateHolder) CompareAndSwap(old, new goroutineProfileSt
 	return (*atomic.Uint32)(p).CompareAndSwap(uint32(old), uint32(new))
 }
 
-func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	if len(p) == 0 {
 		// An empty slice is obviously too small. Return a rough
 		// allocation estimate without bothering to STW. As long as
@@ -1331,7 +1486,7 @@ func doRecordGoroutineProfile(gp1 *g) {
 	}
 }
 
-func goroutineProfileWithLabelsSync(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+func goroutineProfileWithLabelsSync(p []profilerecord.StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	gp := getg()
 
 	isOK := func(gp1 *g) bool {
@@ -1407,17 +1562,31 @@ func goroutineProfileWithLabelsSync(p []StackRecord, labels []unsafe.Pointer) (n
 // Most clients should use the [runtime/pprof] package instead
 // of calling GoroutineProfile directly.
 func GoroutineProfile(p []StackRecord) (n int, ok bool) {
+	records := make([]profilerecord.StackRecord, len(p))
+	n, ok = goroutineProfileInternal(records)
+	if !ok {
+		return
+	}
+	for i, mr := range records[0:n] {
+		copy(p[i].Stack0[:], mr.Stk)
+	}
+	return
+}
 
+func goroutineProfileInternal(p []profilerecord.StackRecord) (n int, ok bool) {
 	return goroutineProfileWithLabels(p, nil)
 }
 
-func saveg(pc, sp uintptr, gp *g, r *StackRecord) {
+func saveg(pc, sp uintptr, gp *g, r *profilerecord.StackRecord) {
 	var u unwinder
 	u.initAt(pc, sp, 0, gp, unwindSilentErrors)
-	n := tracebackPCs(&u, 0, r.Stack0[:])
-	if n < len(r.Stack0) {
-		r.Stack0[n] = 0
+	mp := acquirem()
+	n := tracebackPCs(&u, 0, mp.profStack)
+	if len(r.Stk) < n {
+		r.Stk = make([]uintptr, n)
 	}
+	copy(r.Stk, mp.profStack[:n])
+	releasem(mp)
 }
 
 // Stack formats a stack trace of the calling goroutine into buf
