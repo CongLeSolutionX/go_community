@@ -2431,3 +2431,125 @@ func TestTimeVDSO(t *testing.T) {
 		}
 	}
 }
+
+func TestProfilerStackDepth(t *testing.T) {
+	// Disable sampling, otherwise it's difficult to assert anything.
+	oldMemRate := runtime.MemProfileRate
+	runtime.MemProfileRate = 1
+	runtime.SetBlockProfileRate(1)
+	oldMutexRate := runtime.SetMutexProfileFraction(1)
+	t.Cleanup(func() {
+		runtime.MemProfileRate = oldMemRate
+		runtime.SetBlockProfileRate(0)
+		runtime.SetMutexProfileFraction(oldMutexRate)
+	})
+
+	const depth = 128
+	go produceProfileEvents(t, depth)
+	awaitBlockedGoroutine(t, "chan receive", "goroutineDeep", 1)
+
+	tests := []struct {
+		profiler     string
+		sentinelFunc string
+		sentinelIdx  int
+	}{
+		{"heap", "runtime/pprof.allocDeep", 1},
+		{"block", "runtime/pprof.blockChanDeep", 1},
+		{"mutex", "runtime/pprof.blockMutexDeep", 1},
+		{"goroutine", "runtime/pprof.goroutineDeep", 3},
+	}
+
+	for _, test := range tests {
+		t.Run(test.profiler, func(t *testing.T) {
+			var buf bytes.Buffer
+			if err := Lookup(test.profiler).WriteTo(&buf, 0); err != nil {
+				t.Fatalf("failed to write heap profile: %v", err)
+			}
+			p, err := profile.Parse(&buf)
+			if err != nil {
+				t.Fatalf("failed to parse heap profile: %v", err)
+			}
+			t.Logf("Profile = %v", p)
+
+			stks := stacks(p)
+			var stk []string
+			for _, s := range stks {
+				if len(s) > test.sentinelIdx && s[test.sentinelIdx] == test.sentinelFunc {
+					stk = s
+					break
+				}
+			}
+			if len(stk) != depth {
+				t.Fatalf("want stack depth = %d, got %d", depth, len(stk))
+			}
+
+			if rootFn, wantFn := stk[depth-1], "runtime/pprof.produceProfileEvents"; rootFn != wantFn {
+				t.Fatalf("want stack stack root %s, got %v", wantFn, rootFn)
+			}
+		})
+	}
+}
+
+// ensure that stack records are valid map keys (comparable)
+var _ = map[runtime.MemProfileRecord]struct{}{}
+var _ = map[runtime.StackRecord]struct{}{}
+
+// allocDeep calls itself n times before calling fn.
+func allocDeep(n int) {
+	if n > 1 {
+		allocDeep(n - 1)
+		return
+	}
+	memSink = make([]byte, 1<<20)
+}
+
+// blockChanDeep produces a block profile event at stack depth n, including the
+// caller.
+func blockChanDeep(n int) {
+	if n > 1 {
+		blockChanDeep(n - 1)
+		return
+	}
+	<-time.After(time.Millisecond)
+}
+
+// blockMutexDeep produces a block profile event at stack depth n, including the
+// caller.
+func blockMutexDeep(t *testing.T, n int) {
+	if n > 1 {
+		blockMutexDeep(t, n-1)
+		return
+	}
+	var mu sync.Mutex
+	go func() {
+		mu.Lock()
+		mu.Lock()
+	}()
+	awaitBlockedGoroutine(t, "sync.Mutex.Lock", "blockMutexDeep", 1)
+	mu.Unlock()
+}
+
+// goroutineDeep blocks at stack depth n, including the caller until the test is
+// finished.
+func goroutineDeep(t *testing.T, n int) {
+	if n > 1 {
+		goroutineDeep(t, n-1)
+		return
+	}
+	wait := make(chan struct{}, 1)
+	t.Cleanup(func() {
+		wait <- struct{}{}
+	})
+	<-wait
+}
+
+// produceProfileEvents produces pprof events at the given stack depth and then
+// blocks in goroutineDeep until the test completes.
+func produceProfileEvents(t *testing.T, depth int) {
+	allocDeep(depth - 1)       // -1 for produceProfileEvents, **
+	blockChanDeep(depth - 2)   // -2 for produceProfileEvents, **, chanrecv1
+	blockMutexDeep(t, depth-2) // -2 for produceProfileEvents, **, Unlock
+	memSink = nil
+	runtime.GC()
+	goroutineDeep(t, depth-4) // -4 for produceProfileEvents, **, chanrecv1, chanrev, gopark
+}
