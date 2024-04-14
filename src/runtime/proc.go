@@ -929,8 +929,14 @@ func mcommoninit(mp *m, id int64) {
 // malloc and runtime locks for mLockProfile.
 // TODO(mknyszek): Implement lazy allocation if this becomes a problem.
 func mProfStackInit(mp *m) {
-	mp.profStack = make([]uintptr, maxStack)
-	mp.mLockProfile.stack = make([]uintptr, maxStack)
+	mp.profStack = makeProfStack()
+	mp.mLockProfile.stack = makeProfStack()
+}
+
+// makeProfStack creates a buffer large enough to hold a maximum-sized stack
+// trace.
+func makeProfStack() []uintptr {
+	return make([]uintptr, maxStack)
 }
 
 func (mp *m) becomeSpinning() {
