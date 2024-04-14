@@ -34,6 +34,41 @@
       "parentUuid": "97d03af6_9416a1c1",
       "revId": "6f8f8cd3193a0e8cb109e251874e27332ddc77a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de47f7bf_5d50fc75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-14T18:13:58Z",
+      "side": 1,
+      "message": "Sorry, I missed that.",
+      "parentUuid": "1f471fb4_755bcffc",
+      "revId": "6f8f8cd3193a0e8cb109e251874e27332ddc77a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d00a8a2_02de8051",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-14T18:13:58Z",
+      "side": 1,
+      "message": "Joe, any thoughts on this?  Thanks.\n\nSong, this should have a release note under $GOROOT/doc/next.  Thanks.",
+      "revId": "6f8f8cd3193a0e8cb109e251874e27332ddc77a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
