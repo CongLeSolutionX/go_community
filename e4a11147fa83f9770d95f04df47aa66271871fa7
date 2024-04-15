@@ -33,6 +33,24 @@
       "message": "Is this really right?  It suggests that if two calls to the method start at the same time, they could both see a nil f.dirinfo.  Then the first one calls OpenDir, stores the value in f.dirinfo, and proceeds to read from it.  Then the second one calls OpenDir, swaps the value into f.dirinfo, and closes the first one.  That could cause the first concurrent call to fail to read all the entries if n \u003d\u003d -1.",
       "revId": "e4a11147fa83f9770d95f04df47aa66271871fa7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb4daf9a_e1804ae4",
+        "filename": "src/os/dir_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-15T18:02:41Z",
+      "side": 1,
+      "message": "\u003e Is this really right? \n\nNo; good catch. Changed (here and for windows) to use CompareAndSet(nil, d) and to retry the Load if we lose the race. That way we only call close() on the unpublished dirInfo that we just created.",
+      "parentUuid": "4f8328d6_bf17ec97",
+      "revId": "e4a11147fa83f9770d95f04df47aa66271871fa7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
