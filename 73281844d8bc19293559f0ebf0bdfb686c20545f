@@ -34,6 +34,23 @@
       "parentUuid": "2c60440a_5731d12a",
       "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b777d2_e87d1ee9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-15T16:40:03Z",
+      "side": 1,
+      "message": "Thanks, but I don\u0027t think we want to make changes here. serveMux121 exists solely to provide a snapshot of the pre-Go 1.22 ServeMux implementation for backwards compatibility. It\u0027s better for it to remain frozen.",
+      "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
