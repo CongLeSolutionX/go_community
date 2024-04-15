@@ -135,6 +135,24 @@ func dataWord(conv *ir.ConvExpr, init *ir.Nodes) ir.Node {
 		return n
 	}
 
+	assignedRO := func(n ir.Node) ir.Node {
+		if base.Debug.AssignedRO == 0 {
+			return nil
+		}
+		nn, ok := n.(*ir.Name)
+		if !ok {
+			return nil
+		}
+		if nn.Class != ir.PAUTO {
+			return nil
+		}
+		v := ir.StaticValue(nn)
+		if v.(*ir.Name).Class == ir.PEXTERN && v.(*ir.Name).Readonly() {
+			return v
+		}
+		return nil
+	}
+
 	isInteger := fromType.IsInteger()
 	isBool := fromType.IsBoolean()
 	if sc := fromType.SoleComponent(); sc != nil {
@@ -167,6 +185,9 @@ func dataWord(conv *ir.ConvExpr, init *ir.Nodes) ir.Node {
 	case n.Op() == ir.ONAME && n.(*ir.Name).Class == ir.PEXTERN && n.(*ir.Name).Readonly():
 		// n is a readonly global; use it directly.
 		value = n
+	case n.Op() == ir.ONAME && assignedRO(n) != nil:
+		// n is assigned a readonly global; use the readonly global directly.
+		value = assignedRO(n)
 	case conv.Esc() == ir.EscNone && fromType.Size() <= 1024:
 		// n does not escape. Use a stack temporary initialized to n.
 		value = typecheck.TempAt(base.Pos, ir.CurFunc, fromType)

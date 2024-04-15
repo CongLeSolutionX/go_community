@@ -17,6 +17,7 @@ var Debug DebugFlags
 // Each setting is name=value; for ints, name is short for name=1.
 type DebugFlags struct {
 	Append                int    `help:"print information about append compilation"`
+	AssignedRO            int    `help:"thanm hack" concurrent:"ok"`
 	Checkptr              int    `help:"instrument unsafe pointer conversions\n0: instrumentation disabled\n1: conversions involving unsafe.Pointer are instrumented\n2: conversions to unsafe.Pointer force heap allocation" concurrent:"ok"`
 	Closure               int    `help:"print information about closure compilation"`
 	Defer                 int    `help:"print information about defer compilation"`
