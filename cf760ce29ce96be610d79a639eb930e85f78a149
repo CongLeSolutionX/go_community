@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b732bed1_673c66bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-15T22:52:51Z",
+      "side": 1,
+      "message": "This CL seems to break some longtest builders, e.g. https://ci.chromium.org/ui/p/golang/builders/ci/gotip-linux-amd64-longtest/b8750561762328156017/overview",
+      "revId": "cf760ce29ce96be610d79a639eb930e85f78a149",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
