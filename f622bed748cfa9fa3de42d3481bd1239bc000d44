@@ -34,6 +34,24 @@
       "parentUuid": "27e44d2f_f4bf1eff",
       "revId": "f622bed748cfa9fa3de42d3481bd1239bc000d44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78f001b7_8a6f1752",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-04-15T18:05:02Z",
+      "side": 1,
+      "message": "Got it. I suppose it\u0027s lucky that the files that need to be changed are not yet generated.\n\nI still suggest the following, to keep go/types and types2 as close as possible: underneath `var gotypesalias \u003d ...`, define a helper `func useNewAliasNode() bool`, and make the implementation of that func the *only* difference between go/types and types2.\n\nWhere you have commented out `os.Setenv`, make it\n```\nif !useNewAliasNode() {\n  os.Setenv(\"GODEBUG\", \"gotypesalias\u003d1\") // this test expects Alias nodes\n}\n```\n\nEtc. Sorry to make you jump through hoops, but we\u0027ve learned from experience to try to keep go/types and types2 always as close to eachother as possible. Like spinning plates, we don\u0027t want to deviate too far from the center...",
+      "parentUuid": "7ca5ce7f_e750c96c",
+      "revId": "f622bed748cfa9fa3de42d3481bd1239bc000d44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
