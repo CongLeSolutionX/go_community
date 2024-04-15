@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfa75b67_a532283c",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3216,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-15T17:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf69db5b_162bcd88",
+      "range": {
+        "startLine": 3216,
+        "startChar": 1,
+        "endLine": 3216,
+        "endChar": 34
+      },
+      "revId": "d1e0368708bd135fedf4f0b1671ffe567d771e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f857dd3_f1bb0850",

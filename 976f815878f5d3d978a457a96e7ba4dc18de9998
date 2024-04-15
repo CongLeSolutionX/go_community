@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8616781_6ccdc2a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-15T17:39:39Z",
+      "side": 1,
+      "message": "Sounds good. Done. (Hope I pulled it in correctly)",
+      "parentUuid": "2efd4862_269d4188",
+      "revId": "976f815878f5d3d978a457a96e7ba4dc18de9998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d97da9e6_ece386f6",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-05T20:18:19Z",
       "side": 1,
       "message": "I don\u0027t understand the use of modload.ModuleGoVersion here. Why is this not GoVersion \u003d gover.Latest()?",
+      "revId": "976f815878f5d3d978a457a96e7ba4dc18de9998",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78825c3f_022f5483",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1969,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-15T17:39:39Z",
+      "side": 1,
+      "message": "I can\u0027t seem to find a gover.Latest() function.\nCould you point me to this method?\n\nCreating a modload.ModuleGoVersion was advice from Bryan (See https://go-review.git.corp.google.com/c/go/+/567435/comment/b6eac37a_eb9f7021/)\n\nWe want to:\n1) figure out whether dir is in a module that we recognize,\n2) identify what module that actually is,\n3) read the module\u0027s go.mod file to identify its Go version.\n\nIf there\u0027s a better way to do this, feel free to let me know!",
+      "parentUuid": "d97da9e6_ece386f6",
       "revId": "976f815878f5d3d978a457a96e7ba4dc18de9998",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
