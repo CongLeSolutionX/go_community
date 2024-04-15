@@ -87,6 +87,24 @@
       "parentUuid": "da149b4e_606a5162",
       "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36792ca8_00f61215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-04-15T20:59:15Z",
+      "side": 1,
+      "message": "Yes. I will send a CL later.",
+      "parentUuid": "ba70e468_770d8688",
+      "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
