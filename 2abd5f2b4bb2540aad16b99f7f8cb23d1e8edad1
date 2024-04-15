@@ -33,6 +33,41 @@
       "message": "Thanks, but as the test failures show we can\u0027t yet make this change.",
       "revId": "2abd5f2b4bb2540aad16b99f7f8cb23d1e8edad1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c7d4fd5_b3c30518",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2024-04-15T04:17:14Z",
+      "side": 1,
+      "message": "If the boot compiler is changed to Go 1.21 or later, this CL can continue to process, let\u0027s wait for it",
+      "revId": "2abd5f2b4bb2540aad16b99f7f8cb23d1e8edad1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b248f16_39984e39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51461
+      },
+      "writtenOn": "2024-04-15T04:17:14Z",
+      "side": 1,
+      "message": "\u003e Thanks, but as the test failures show we can\u0027t yet make this change.\n\nIf the boot compiler is changed to Go 1.21 or later, this CL can continue to process, let\u0027s wait for it",
+      "parentUuid": "8067ebdf_cc655eba",
+      "revId": "2abd5f2b4bb2540aad16b99f7f8cb23d1e8edad1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
