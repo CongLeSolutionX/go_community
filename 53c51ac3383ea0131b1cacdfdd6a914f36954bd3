@@ -117,6 +117,30 @@
       },
       "revId": "53c51ac3383ea0131b1cacdfdd6a914f36954bd3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67fc89c4_148d87bf",
+        "filename": "src/cmd/go/testdata/script/mod_ambiguous_import.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-15T15:21:15Z",
+      "side": 1,
+      "message": "Decision is to enforce 1.23+ according to Russ.",
+      "parentUuid": "c4f2e16a_3ceb63dc",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "53c51ac3383ea0131b1cacdfdd6a914f36954bd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
