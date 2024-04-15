@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ce047ea_cfa8b2ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3378790
+      },
+      "writtenOn": "2024-04-15T13:10:47Z",
+      "side": 1,
+      "message": "\u003e cmd/compile and cmd/asm create the output file, yes. But they don\u0027t create the directory that contains the output file\n\nYes, that\u0027s right. The difference is that for cmd/cgo the \"output artifact\" we specify on as a CLI argument is a directory (not a file).\nAnd the difference in the behavior when the parent directory of an \"output artifact\" exist, but the artifact itself isn\u0027t exist:\n- cmd/compile - successfully creates the output file\n- cmd/cgo - fails because the output directory doesn\u0027t exist\n\n\n\u003e What I am wondering about is what calls cgo with -objdir in such a way that the directory may or may not exist.\n\n[Buck2](https://buck2.build/) doesn\u0027t create an output artifact, but creates the parent directory of an output artifact. Then after running the build action it checks if the artifact was created.\n\nSo, following `.bzl` code has similar structure but works differently on cmd/compile and cmd/cgo.\n\n\n```\n# works\nout_file \u003d ctx.actions.declare_output(\"out.a\")\nctx.actions.run(\"go\", \"tool\", \"compile\", \"-o\", out_file, ...)\n\n\n# fails\nout_dir \u003d ctx.actions.declare_output(\"cgo_out\", dir \u003d True)\nctx.actions.run(\"go\", \"tool\", \"cgo\", \"-objdir\", out_dir, ...)\n```\n\n\nIf we could fix this behavior we would be able to get rid of this [ugly wrapper](https://github.com/facebook/buck2-prelude/blob/main/go/tools/cgo_wrapper.py#L28C7-L28C39) that does only one important thing, creates the directory 😀",
+      "parentUuid": "1490dbc4_7fbb097e",
+      "revId": "db48b8e05d938f348c6847b65d5eab00407b7eb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f88e34d_37e1bbec",
