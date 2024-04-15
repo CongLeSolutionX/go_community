@@ -4,10 +4,11 @@
 
 //go:build goexperiment.rangefunc
 
-package iter
+package iter_test
 
 import (
 	"fmt"
+	. "iter"
 	"runtime"
 	"testing"
 )
