@@ -16,6 +16,167 @@
       "message": "Ready to be reviewed!",
       "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a9f350b_62cf0b26",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-15T21:52:31Z",
+      "side": 1,
+      "message": "Our usual style is to write non doc comments comments in a similar format to doc comments with complete sentences. (Because for doc comments everything is formatted into one line.) Could we capitalize the \"if\" at the beginning and replaced the list with \"then it\u0027s probably either because vendor/modules.txt does not exist or the user manually added directories under the vendor directory\"?",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 70
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5f7fb8_8ac8d3c0",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-15T21:52:31Z",
+      "side": 1,
+      "message": "Maybe something like:\n\n    Go 1.23 and later require packages to be present in modules.txt to be imported.\n  \n?",
+      "range": {
+        "startLine": 347,
+        "startChar": 4,
+        "endLine": 347,
+        "endChar": 93
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0a5e971_0f9fa212",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-15T21:52:31Z",
+      "side": 1,
+      "message": "We should add a constant for this in gover/version.go.\n\nThen on line 353 we could change the condition to \n\n  if ok || gover.Compare(MainModules.GoVersion",
+      "range": {
+        "startLine": 349,
+        "startChar": 46,
+        "endLine": 349,
+        "endChar": 52
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2166a3c3_304489c7",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-15T21:52:31Z",
+      "side": 1,
+      "message": "subCommand?",
+      "range": {
+        "startLine": 358,
+        "startChar": 5,
+        "endLine": 358,
+        "endChar": 15
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c28c713a_79e6e719",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-15T21:52:31Z",
+      "side": 1,
+      "message": "we should print to stderr",
+      "range": {
+        "startLine": 362,
+        "startChar": 17,
+        "endLine": 362,
+        "endChar": 26
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a47164b3_58e1634b",
+        "filename": "src/cmd/go/testdata/script/mod_go_version_missing.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-15T21:52:31Z",
+      "side": 1,
+      "message": "Does this change happen because we\u0027re now modifying mods, dirs, and roots together?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 104
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a9ce38_e588645d",
+        "filename": "src/cmd/go/testdata/script/mod_import_vendor.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-15T21:52:31Z",
+      "side": 1,
+      "message": "call this one go.mod because it\u0027s now the default case?",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
