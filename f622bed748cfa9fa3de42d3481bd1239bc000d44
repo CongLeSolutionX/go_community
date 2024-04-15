@@ -16,6 +16,24 @@
       "message": "This needs changes in types2 as well, no?",
       "revId": "f622bed748cfa9fa3de42d3481bd1239bc000d44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ca5ce7f_e750c96c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-15T16:18:08Z",
+      "side": 1,
+      "message": "No; I tried that initially but realized that the compiler is free to do its own thing, and (as noted in the CL description) is still not ready to make the switch.",
+      "parentUuid": "27e44d2f_f4bf1eff",
+      "revId": "f622bed748cfa9fa3de42d3481bd1239bc000d44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
