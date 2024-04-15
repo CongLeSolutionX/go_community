@@ -51,6 +51,24 @@
       "message": "Thanks, but I don\u0027t think we want to make changes here. serveMux121 exists solely to provide a snapshot of the pre-Go 1.22 ServeMux implementation for backwards compatibility. It\u0027s better for it to remain frozen.",
       "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da149b4e_606a5162",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-04-15T17:07:44Z",
+      "side": 1,
+      "message": "Maybe we should document that this file needs to remain frozen, like \"net/rpc\" did in its doc?",
+      "parentUuid": "e0b777d2_e87d1ee9",
+      "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
