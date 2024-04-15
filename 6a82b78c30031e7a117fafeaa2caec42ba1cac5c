@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c42a2e5_6257887e",
+        "filename": "src/os/dir.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-15T16:48:18Z",
+      "side": 1,
+      "message": "Quite right; that was a vestige of an earlier draft that mentioned the other Readdir symbols as well.\n\nMoot now.",
+      "parentUuid": "0bf4b504_ae887332",
+      "revId": "6a82b78c30031e7a117fafeaa2caec42ba1cac5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c97405fc_2bc6b24c",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-12T20:35:12Z",
       "side": 1,
       "message": "This isn\u0027t currently accurate.  It\u0027s actually fine to call almost all File methods concurrently.  Although it\u0027s hard to call Read or Write concurrently on an ordinary file because they rely on the file position, it\u0027s fine to call them concurrently on a pipe.  It\u0027s really Readdir that is the odd method out.\n\nNote that the os package docs (https://pkg.go.dev/os) say \"Note: The maximum number of concurrent operations on a File may be limited by the OS or the system. The number should be high, but exceeding it may degrade performance or cause other issues\" so we are already promising some support for concurrency.",
+      "revId": "6a82b78c30031e7a117fafeaa2caec42ba1cac5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "857d99d6_00c4f56a",
+        "filename": "src/os/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-15T16:48:18Z",
+      "side": 1,
+      "message": "\u003e This isn\u0027t currently accurate. It\u0027s actually fine to call almost all File methods concurrently.\n\nGood point. I audited and found that it really is just the three Readdir calls that are the outliers; even Close is safe. In light of that, I have expanded the package doc comment to state explicitly that all these methods are safe, and updated the Readdir variants to use atomic operations instead of the previously racy accesses.\n\nPTAL.",
+      "parentUuid": "c97405fc_2bc6b24c",
       "revId": "6a82b78c30031e7a117fafeaa2caec42ba1cac5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
