@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c4d4b03_0b082a15",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Ah, you\u0027re right",
+      "parentUuid": "c8c7785d_48510c51",
+      "range": {
+        "startLine": 353,
+        "startChar": 136,
+        "endLine": 353,
+        "endChar": 157
+      },
+      "revId": "53c51ac3383ea0131b1cacdfdd6a914f36954bd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "930f7831_a5c34497",

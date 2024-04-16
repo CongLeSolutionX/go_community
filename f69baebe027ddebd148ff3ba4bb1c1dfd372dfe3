@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5eeb496_77495eb4",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Noted. Done.",
+      "parentUuid": "6a9f350b_62cf0b26",
+      "range": {
+        "startLine": 344,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 70
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b5f7fb8_8ac8d3c0",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-04-15T21:52:31Z",
       "side": 1,
       "message": "Maybe something like:\n\n    Go 1.23 and later require packages to be present in modules.txt to be imported.\n  \n?",
+      "range": {
+        "startLine": 347,
+        "startChar": 4,
+        "endLine": 347,
+        "endChar": 93
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2927cd9_4ff306bd",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b5f7fb8_8ac8d3c0",
       "range": {
         "startLine": 347,
         "startChar": 4,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24852b6e_5a526ea6",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Done. Added ExplicitImportModulesVersion, lmk if there\u0027s a better name you think would fit.",
+      "parentUuid": "a0a5e971_0f9fa212",
+      "range": {
+        "startLine": 349,
+        "startChar": 46,
+        "endLine": 349,
+        "endChar": 52
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2166a3c3_304489c7",
@@ -110,6 +182,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94129171_2540742b",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2166a3c3_304489c7",
+      "range": {
+        "startLine": 358,
+        "startChar": 5,
+        "endLine": 358,
+        "endChar": 15
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c28c713a_79e6e719",
@@ -123,6 +219,30 @@
       "writtenOn": "2024-04-15T21:52:31Z",
       "side": 1,
       "message": "we should print to stderr",
+      "range": {
+        "startLine": 362,
+        "startChar": 17,
+        "endLine": 362,
+        "endChar": 26
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e2eb16d_0cbcda0f",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c28c713a_79e6e719",
       "range": {
         "startLine": 362,
         "startChar": 17,
@@ -158,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5eb38518_6a0ed591",
+        "filename": "src/cmd/go/testdata/script/mod_go_version_missing.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Hmm weird, there are no changes to this file but it still shows up in the diff.\nThis file is the same from head. I reverted changes to this file because we changed the explicit import rule to apply 1.23+",
+      "parentUuid": "a47164b3_58e1634b",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 104
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6a9ce38_e588645d",
         "filename": "src/cmd/go/testdata/script/mod_import_vendor.txt",
         "patchSetId": 11
@@ -169,6 +313,30 @@
       "writtenOn": "2024-04-15T21:52:31Z",
       "side": 1,
       "message": "call this one go.mod because it\u0027s now the default case?",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae0efb1_1e4bf7b1",
+        "filename": "src/cmd/go/testdata/script/mod_import_vendor.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T16:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6a9ce38_e588645d",
       "range": {
         "startLine": 30,
         "startChar": 3,
