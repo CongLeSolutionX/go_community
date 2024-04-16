@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f4a250e_45c6f42d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-04-16T13:56:43Z",
+      "side": 1,
+      "message": "Nice catch. This seems like a straight forward simplification of the carry bit handling.",
+      "revId": "59dd312a73ba8901f03e03875c1f5c185574e827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
