@@ -34,6 +34,24 @@
       "parentUuid": "b732bed1_673c66bd",
       "revId": "cf760ce29ce96be610d79a639eb930e85f78a149",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c37cf9bf_87ff059e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-16T20:09:55Z",
+      "side": 1,
+      "message": "CL 579415 disables the tests for now, issue #66859 tracks a proper fix.",
+      "parentUuid": "af729ca6_d16fe74b",
+      "revId": "cf760ce29ce96be610d79a639eb930e85f78a149",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
