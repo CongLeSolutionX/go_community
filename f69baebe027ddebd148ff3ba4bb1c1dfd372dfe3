@@ -300,6 +300,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83b9dfde_c79d068d",
+        "filename": "src/cmd/go/testdata/script/mod_go_version_missing.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-16T20:19:46Z",
+      "side": 1,
+      "message": "Ah my bad! I was not setting the diffbase to Base",
+      "parentUuid": "5eb38518_6a0ed591",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 104
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6a9ce38_e588645d",

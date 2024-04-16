@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6402263f_37bbac62",
+        "filename": "src/cmd/go/internal/gover/version.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-16T20:19:46Z",
+      "side": 1,
+      "message": "I think we should make a mention of vendoring or modules.txt in the name.\n\nMaybe\n\n    ExplicitModulesTxtImportVersion\n    \n?",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 32
+      },
+      "revId": "dc180d2536444becfb0837c051943e68d23c06dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e57474ac_f28e59a2",
+        "filename": "src/cmd/go/internal/gover/version.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-16T20:19:46Z",
+      "side": 1,
+      "message": "vendored packages?",
+      "range": {
+        "startLine": 57,
+        "startChar": 60,
+        "endLine": 57,
+        "endChar": 68
+      },
+      "revId": "dc180d2536444becfb0837c051943e68d23c06dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d72c322_34bfb83c",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_auto.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-16T20:19:46Z",
+      "side": 1,
+      "message": "do we need this?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "dc180d2536444becfb0837c051943e68d23c06dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
