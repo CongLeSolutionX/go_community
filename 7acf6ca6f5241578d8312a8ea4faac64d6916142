@@ -16,6 +16,97 @@
       "message": "The merge conflict has been resolved.\nThe proposal has been accepted.\nThis CL is ready for review.",
       "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "775bbe59_98386078",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-16T19:18:57Z",
+      "side": 1,
+      "message": "Thanks for contributing this fix.\n\nIt seems like a lot of logic for a simple concept. I had imagined that we would compute the default settings, compute the effective settings, then report the difference. Can we simplify the implementation?\n\nPlease ensure that all documentation (doc comments and tool help messages) is up to the usual standards for the the project.",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c29d32dc_58de6518",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-16T19:18:57Z",
+      "side": 1,
+      "message": "This boolean result needs a doc comment.",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90c765dd_b80a47db",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-16T19:18:57Z",
+      "side": 1,
+      "message": "And this one.",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d20b42_9b4497c3",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-16T19:18:57Z",
+      "side": 1,
+      "message": "doc comment",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35184a96_ac0e2bb5",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-16T19:18:57Z",
+      "side": 1,
+      "message": "This should accurately describe the feature as specified in https://github.com/golang/go/issues/34208#issuecomment-2038257362, though ideally in fewer words.",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
