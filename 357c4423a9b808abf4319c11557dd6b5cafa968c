@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ef1eab_0ea65a55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-16T04:13:39Z",
+      "side": 1,
+      "message": "I think XOR seed at Fallbacks return is good enough for hashmap collision attack.",
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d5f8339_5aeb56fc",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-16T04:13:39Z",
+      "side": 1,
+      "message": "```suggestion\n\treturn mix(m5^s, mix(a^m2^hashkey[1], b^seed))\n```",
+      "range": {
+        "startLine": 68,
+        "startChar": 24,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dacddc9_36f1963d",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-16T04:13:39Z",
+      "side": 1,
+      "message": "```suggestion\n\treturn mix(m5^4, mix(a^m2^hashkey[1], a^seed^hashkey[0]^m1))\n```",
+      "range": {
+        "startLine": 73,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 26
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f5e1932_311332f8",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-16T04:13:39Z",
+      "side": 1,
+      "message": "```suggestion\n\treturn mix(m5^8, mix(a^m2^hashkey[1], a^seed^hashkey[0]^m1))\n```",
+      "range": {
+        "startLine": 78,
+        "startChar": 24,
+        "endLine": 78,
+        "endChar": 26
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6154d96_536abe58",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-16T04:13:39Z",
+      "side": 1,
+      "message": "```suggestion\n\thi, lo :\u003d math.Mul64(uint64(a), uint64(b))\n```",
+      "range": {
+        "startLine": 82,
+        "startChar": 30,
+        "endLine": 82,
+        "endChar": 41
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
