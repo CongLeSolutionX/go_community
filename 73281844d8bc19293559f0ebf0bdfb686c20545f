@@ -105,6 +105,24 @@
       "parentUuid": "ba70e468_770d8688",
       "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47074489_28f2342c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-04-16T08:18:09Z",
+      "side": 1,
+      "message": "I\u0027ve sent CL 579118 to add this comments. Please take a look.",
+      "parentUuid": "36792ca8_00f61215",
+      "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
