@@ -16,6 +16,24 @@
       "message": "At least I can\u0027t think of why it would be. But this is also in package runtime, so there may be something I\u0027m not taking into account.\n\nI happened to look at the implementation of Callers and felt puzzled as to why the slice was being sliced. Then I looked at the history and figured it may just be left over from before. If so, removing it should avoid others running into the same question.",
       "revId": "9a46b5161c2703b503291b759d3a96c793be83ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ef74d2b_a7910378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-04-16T14:44:33Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "8ac7fed6_2d710db8",
+      "revId": "9a46b5161c2703b503291b759d3a96c793be83ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
