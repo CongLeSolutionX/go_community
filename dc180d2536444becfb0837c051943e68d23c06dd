@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "276fb72e_ff9ba1b6",
+        "filename": "src/cmd/go/internal/gover/version.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T20:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e57474ac_f28e59a2",
+      "range": {
+        "startLine": 57,
+        "startChar": 60,
+        "endLine": 57,
+        "endChar": 68
+      },
+      "revId": "dc180d2536444becfb0837c051943e68d23c06dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ae31932_691a8f89",
+        "filename": "src/cmd/go/internal/gover/version.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T20:35:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6402263f_37bbac62",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 32
+      },
+      "revId": "dc180d2536444becfb0837c051943e68d23c06dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d72c322_34bfb83c",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-04-16T20:19:46Z",
       "side": 1,
       "message": "do we need this?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "dc180d2536444becfb0837c051943e68d23c06dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bee24fe_52fd9f9f",
+        "filename": "src/cmd/go/testdata/script/mod_vendor_auto.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T20:35:12Z",
+      "side": 1,
+      "message": "I believe so. This is that weird test case where they remove go.mod and vendor/modules.txt\n\ngo mod init example.com/auto sets the go directive to the local go version which may break in the future (I think?). At least locally it broke this test because it set the go version to 1.23 and without a vendor/modules.txt then it won\u0027t import any packages.",
+      "parentUuid": "7d72c322_34bfb83c",
       "range": {
         "startLine": 126,
         "startChar": 0,

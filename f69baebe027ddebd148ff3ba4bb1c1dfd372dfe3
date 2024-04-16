@@ -324,6 +324,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee63b6b0_ec4956f5",
+        "filename": "src/cmd/go/testdata/script/mod_go_version_missing.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-04-16T20:35:12Z",
+      "side": 1,
+      "message": "No worries!",
+      "parentUuid": "83b9dfde_c79d068d",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 104
+      },
+      "revId": "f69baebe027ddebd148ff3ba4bb1c1dfd372dfe3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6a9ce38_e588645d",
