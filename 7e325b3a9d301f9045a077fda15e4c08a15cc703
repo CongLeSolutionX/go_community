@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33cbfbb_eca0a194",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-16T12:27:03Z",
+      "side": 1,
+      "message": "This CL is ready for review.\nCL can be review but submit need wait https://go-review.googlesource.com/c/go/+/557836.",
+      "revId": "7e325b3a9d301f9045a077fda15e4c08a15cc703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
