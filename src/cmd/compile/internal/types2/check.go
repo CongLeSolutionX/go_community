@@ -7,6 +7,7 @@
 package types2
 
 import (
+	basepkg "cmd/compile/internal/base"
 	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/constant"
@@ -24,7 +25,15 @@ const debug = false // leave on during development
 // As of Apr 16 2024 they are used by default.
 // To disable their use, set GODEBUG to gotypesalias=0.
 // This GODEBUG flag will be removed in the near future (tentatively Go 1.24).
-var gotypesalias = godebug.New("gotypesalias")
+var gotypesalias *godebug.Setting
+
+func init() {
+	if basepkg.CompilerBootstrap {
+		gotypesalias = godebug.New("#gotypesalias")
+	} else {
+		gotypesalias = godebug.New("gotypesalias")
+	}
+}
 
 // exprInfo stores information about an untyped expression.
 type exprInfo struct {
