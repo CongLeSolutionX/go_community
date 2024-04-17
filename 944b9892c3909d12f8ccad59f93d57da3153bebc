@@ -46,6 +46,30 @@
       },
       "revId": "944b9892c3909d12f8ccad59f93d57da3153bebc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd458e01_c9c783bb",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-17T18:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88b81d7b_3ed3a249",
+      "range": {
+        "startLine": 157,
+        "startChar": 5,
+        "endLine": 157,
+        "endChar": 34
+      },
+      "revId": "944b9892c3909d12f8ccad59f93d57da3153bebc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
