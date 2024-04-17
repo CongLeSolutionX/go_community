@@ -512,6 +512,11 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *TypeN
 			// TODO(gri) Should be able to use nil instead of Typ[Invalid] to mark
 			//           the alias as incomplete. Currently this causes problems
 			//           with certain cycles. Investigate.
+			//
+			// NOTE(adonovan): to avoid the Invalid being prematurely observed
+			// by (e.g.) a var whose type is an unfinished cycle,
+			// Unalias does not memoize if Invalid. Perhaps we should use a
+			// special sentinel distinct from Invalid.
 			alias := check.newAlias(obj, Typ[Invalid])
 			setDefType(def, alias)
 
@@ -527,8 +532,24 @@ func (check *Checker) typeDecl(obj *TypeName, tdecl *syntax.TypeDecl, def *TypeN
 			alias.fromRHS = rhs
 			Unalias(alias) // resolve alias.actual
 		} else {
+			// With Go1.23, the default behavior is to use Alias nodes,
+			// reflected by check.enableAlias. Signal non-default behavior
+			// by calling gotypesalias.IncNonDefault().
+			//
+			// Note: As of Go 1.23, Settings.IncNonDefault is not present
+			// in internal/godebug/godebug.go used during bootstrapping,
+			// only after the tool chain is built and recompiles itself.
+			// Check dynamically for the presence of IncNonDefault.
+			// (This is not an issue for go/types because it is not used
+			// during bootstrap.)
+			//
+			// TODO(gri) replace with direct call when we bootstrap with Go 1.20
+			if s, ok := any(gotypesalias).(interface{ IncNonDefault() }); ok {
+				s.IncNonDefault()
+			}
+
 			if !versionErr && tparam0 != nil {
-				check.error(tdecl, UnsupportedFeature, "generic type alias requires GODEBUG=gotypesalias=1")
+				check.error(tdecl, UnsupportedFeature, "generic type alias requires GODEBUG=gotypesalias=1 or unset")
 				versionErr = true
 			}
 

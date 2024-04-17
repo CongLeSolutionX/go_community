@@ -8,7 +8,6 @@ import (
 	"internal/abi"
 	"internal/cpu"
 	"internal/goarch"
-	"internal/goexperiment"
 	"internal/goos"
 	"internal/runtime/atomic"
 	"runtime/internal/sys"
@@ -1208,6 +1207,17 @@ func casGToWaiting(gp *g, old uint32, reason waitReason) {
 	casgstatus(gp, old, _Gwaiting)
 }
 
+// casGToWaitingForGC transitions gp from old to _Gwaiting, and sets the wait reason.
+// The wait reason must be a valid isWaitingForGC wait reason.
+//
+// Use this over casgstatus when possible to ensure that a waitreason is set.
+func casGToWaitingForGC(gp *g, old uint32, reason waitReason) {
+	if !reason.isWaitingForGC() {
+		throw("casGToWaitingForGC with non-isWaitingForGC wait reason")
+	}
+	casGToWaiting(gp, old, reason)
+}
+
 // casgstatus(gp, oldstatus, Gcopystack), assuming oldstatus is Gwaiting or Grunnable.
 // Returns old status. Cannot call casgstatus directly, because we are racing with an
 // async wakeup that might come in from netpoll. If we see Gwaiting from the readgstatus,
@@ -1311,8 +1321,10 @@ var stwReasonStrings = [...]string{
 // worldStop provides context from the stop-the-world required by the
 // start-the-world.
 type worldStop struct {
-	reason stwReason
-	start  int64
+	reason           stwReason
+	startedStopping  int64
+	finishedStopping int64
+	stoppingCPUTime  int64
 }
 
 // Temporary variable for stopTheWorld, when it can't write to the stack.
@@ -1356,7 +1368,7 @@ func stopTheWorld(reason stwReason) worldStop {
 		// N.B. The execution tracer is not aware of this status
 		// transition and handles it specially based on the
 		// wait reason.
-		casGToWaiting(gp, _Grunning, waitReasonStoppingTheWorld)
+		casGToWaitingForGC(gp, _Grunning, waitReasonStoppingTheWorld)
 		stopTheWorldContext = stopTheWorldWithSema(reason) // avoid write to stack
 		casgstatus(gp, _Gwaiting, _Grunning)
 	})
@@ -1468,6 +1480,7 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 	preemptall()
 	// stop current P
 	gp.m.p.ptr().status = _Pgcstop // Pgcstop is only diagnostic.
+	gp.m.p.ptr().gcStopTime = start
 	sched.stopwait--
 	// try to retake all P's in Psyscall status
 	trace = traceAcquire()
@@ -1475,10 +1488,10 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 		s := pp.status
 		if s == _Psyscall && atomic.Cas(&pp.status, s, _Pgcstop) {
 			if trace.ok() {
-				trace.GoSysBlock(pp)
 				trace.ProcSteal(pp, false)
 			}
 			pp.syscalltick++
+			pp.gcStopTime = nanotime()
 			sched.stopwait--
 		}
 	}
@@ -1494,6 +1507,7 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 			break
 		}
 		pp.status = _Pgcstop
+		pp.gcStopTime = nanotime()
 		sched.stopwait--
 	}
 	wait := sched.stopwait > 0
@@ -1511,14 +1525,19 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 		}
 	}
 
-	startTime := nanotime() - start
+	finish := nanotime()
+	startTime := finish - start
 	if reason.isGC() {
 		sched.stwStoppingTimeGC.record(startTime)
 	} else {
 		sched.stwStoppingTimeOther.record(startTime)
 	}
 
-	// sanity checks
+	// Double-check we actually stopped everything, and all the invariants hold.
+	// Also accumulate all the time spent by each P in _Pgcstop up to the point
+	// where everything was stopped. This will be accumulated into the total pause
+	// CPU time by the caller.
+	stoppingCPUTime := int64(0)
 	bad := ""
 	if sched.stopwait != 0 {
 		bad = "stopTheWorld: not stopped (stopwait != 0)"
@@ -1527,6 +1546,11 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 			if pp.status != _Pgcstop {
 				bad = "stopTheWorld: not stopped (status != _Pgcstop)"
 			}
+			if pp.gcStopTime == 0 && bad == "" {
+				bad = "stopTheWorld: broken CPU time accounting"
+			}
+			stoppingCPUTime += finish - pp.gcStopTime
+			pp.gcStopTime = 0
 		}
 	}
 	if freezing.Load() {
@@ -1543,7 +1567,12 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 
 	worldStopped()
 
-	return worldStop{reason: reason, start: start}
+	return worldStop{
+		reason:           reason,
+		startedStopping:  start,
+		finishedStopping: finish,
+		stoppingCPUTime:  stoppingCPUTime,
+	}
 }
 
 // reason is the same STW reason passed to stopTheWorld. start is the start
@@ -1599,7 +1628,7 @@ func startTheWorldWithSema(now int64, w worldStop) int64 {
 	if now == 0 {
 		now = nanotime()
 	}
-	totalTime := now - w.start
+	totalTime := now - w.startedStopping
 	if w.reason.isGC() {
 		sched.stwTotalTimeGC.record(totalTime)
 	} else {
@@ -1903,7 +1932,7 @@ func forEachP(reason waitReason, fn func(*p)) {
 		// N.B. The execution tracer is not aware of this status
 		// transition and handles it specially based on the
 		// wait reason.
-		casGToWaiting(gp, _Grunning, reason)
+		casGToWaitingForGC(gp, _Grunning, reason)
 		forEachPInternal(fn)
 		casgstatus(gp, _Gwaiting, _Grunning)
 	})
@@ -1967,7 +1996,6 @@ func forEachPInternal(fn func(*p)) {
 		if s == _Psyscall && p2.runSafePointFn == 1 && atomic.Cas(&p2.status, s, _Pidle) {
 			if trace.ok() {
 				// It's important that we traceRelease before we call handoffp, which may also traceAcquire.
-				trace.GoSysBlock(p2)
 				trace.ProcSteal(p2, false)
 				traceRelease(trace)
 			}
@@ -2228,12 +2256,12 @@ func needm(signal bool) {
 	minit()
 
 	// Emit a trace event for this dead -> syscall transition,
-	// but only in the new tracer and only if we're not in a signal handler.
+	// but only if we're not in a signal handler.
 	//
 	// N.B. the tracer can run on a bare M just fine, we just have
 	// to make sure to do this before setg(nil) and unminit.
 	var trace traceLocker
-	if goexperiment.ExecTracer2 && !signal {
+	if !signal {
 		trace = traceAcquire()
 	}
 
@@ -2241,7 +2269,7 @@ func needm(signal bool) {
 	casgstatus(mp.curg, _Gdead, _Gsyscall)
 	sched.ngsys.Add(-1)
 
-	if goexperiment.ExecTracer2 && !signal {
+	if !signal {
 		if trace.ok() {
 			trace.GoCreateSyscall(mp.curg)
 			traceRelease(trace)
@@ -2367,13 +2395,12 @@ func dropm() {
 	// with no pointer manipulation.
 	mp := getg().m
 
-	// Emit a trace event for this syscall -> dead transition,
-	// but only in the new tracer.
+	// Emit a trace event for this syscall -> dead transition.
 	//
 	// N.B. the tracer can run on a bare M just fine, we just have
 	// to make sure to do this before setg(nil) and unminit.
 	var trace traceLocker
-	if goexperiment.ExecTracer2 && !mp.isExtraInSig {
+	if !mp.isExtraInSig {
 		trace = traceAcquire()
 	}
 
@@ -2382,29 +2409,27 @@ func dropm() {
 	mp.curg.preemptStop = false
 	sched.ngsys.Add(1)
 
-	if goexperiment.ExecTracer2 && !mp.isExtraInSig {
+	if !mp.isExtraInSig {
 		if trace.ok() {
 			trace.GoDestroySyscall()
 			traceRelease(trace)
 		}
 	}
 
-	if goexperiment.ExecTracer2 {
-		// Trash syscalltick so that it doesn't line up with mp.old.syscalltick anymore.
-		//
-		// In the new tracer, we model needm and dropm and a goroutine being created and
-		// destroyed respectively. The m then might get reused with a different procid but
-		// still with a reference to oldp, and still with the same syscalltick. The next
-		// time a G is "created" in needm, it'll return and quietly reacquire its P from a
-		// different m with a different procid, which will confuse the trace parser. By
-		// trashing syscalltick, we ensure that it'll appear as if we lost the P to the
-		// tracer parser and that we just reacquired it.
-		//
-		// Trash the value by decrementing because that gets us as far away from the value
-		// the syscall exit code expects as possible. Setting to zero is risky because
-		// syscalltick could already be zero (and in fact, is initialized to zero).
-		mp.syscalltick--
-	}
+	// Trash syscalltick so that it doesn't line up with mp.old.syscalltick anymore.
+	//
+	// In the new tracer, we model needm and dropm and a goroutine being created and
+	// destroyed respectively. The m then might get reused with a different procid but
+	// still with a reference to oldp, and still with the same syscalltick. The next
+	// time a G is "created" in needm, it'll return and quietly reacquire its P from a
+	// different m with a different procid, which will confuse the trace parser. By
+	// trashing syscalltick, we ensure that it'll appear as if we lost the P to the
+	// tracer parser and that we just reacquired it.
+	//
+	// Trash the value by decrementing because that gets us as far away from the value
+	// the syscall exit code expects as possible. Setting to zero is risky because
+	// syscalltick could already be zero (and in fact, is initialized to zero).
+	mp.syscalltick--
 
 	// Reset trace state unconditionally. This goroutine is being 'destroyed'
 	// from the perspective of the tracer.
@@ -2413,10 +2438,7 @@ func dropm() {
 	// Flush all the M's buffers. This is necessary because the M might
 	// be used on a different thread with a different procid, so we have
 	// to make sure we don't write into the same buffer.
-	//
-	// N.B. traceThreadDestroy is a no-op in the old tracer, so avoid the
-	// unnecessary acquire/release of the lock.
-	if goexperiment.ExecTracer2 && (traceEnabled() || traceShuttingDown()) {
+	if traceEnabled() || traceShuttingDown() {
 		// Acquire sched.lock across thread destruction. One of the invariants of the tracer
 		// is that a thread cannot disappear from the tracer's view (allm or freem) without
 		// it noticing, so it requires that sched.lock be held over traceThreadDestroy.
@@ -2932,6 +2954,7 @@ func handoffp(pp *p) {
 	lock(&sched.lock)
 	if sched.gcwaiting.Load() {
 		pp.status = _Pgcstop
+		pp.gcStopTime = nanotime()
 		sched.stopwait--
 		if sched.stopwait == 0 {
 			notewakeup(&sched.stopnote)
@@ -3074,6 +3097,7 @@ func gcstopm() {
 	pp := releasep()
 	lock(&sched.lock)
 	pp.status = _Pgcstop
+	pp.gcStopTime = nanotime()
 	sched.stopwait--
 	if sched.stopwait == 0 {
 		notewakeup(&sched.stopnote)
@@ -3121,11 +3145,6 @@ func execute(gp *g, inheritTime bool) {
 
 	trace := traceAcquire()
 	if trace.ok() {
-		// GoSysExit has to happen when we have a P, but before GoStart.
-		// So we emit it here.
-		if !goexperiment.ExecTracer2 && gp.syscallsp != 0 {
-			trace.GoSysExit(true)
-		}
 		trace.GoStart()
 		traceRelease(trace)
 	}
@@ -3961,11 +3980,16 @@ func park_m(gp *g) {
 
 	trace := traceAcquire()
 
+	if trace.ok() {
+		// Trace the event before the transition. It may take a
+		// stack trace, but we won't own the stack after the
+		// transition anymore.
+		trace.GoPark(mp.waitTraceBlockReason, mp.waitTraceSkip)
+	}
 	// N.B. Not using casGToWaiting here because the waitreason is
 	// set by park_m's caller.
 	casgstatus(gp, _Grunning, _Gwaiting)
 	if trace.ok() {
-		trace.GoPark(mp.waitTraceBlockReason, mp.waitTraceSkip)
 		traceRelease(trace)
 	}
 
@@ -3995,13 +4019,18 @@ func goschedImpl(gp *g, preempted bool) {
 		dumpgstatus(gp)
 		throw("bad g status")
 	}
-	casgstatus(gp, _Grunning, _Grunnable)
 	if trace.ok() {
+		// Trace the event before the transition. It may take a
+		// stack trace, but we won't own the stack after the
+		// transition anymore.
 		if preempted {
 			trace.GoPreempt()
 		} else {
 			trace.GoSched()
 		}
+	}
+	casgstatus(gp, _Grunning, _Grunnable)
+	if trace.ok() {
 		traceRelease(trace)
 	}
 
@@ -4104,9 +4133,14 @@ func goyield() {
 func goyield_m(gp *g) {
 	trace := traceAcquire()
 	pp := gp.m.p.ptr()
+	if trace.ok() {
+		// Trace the event before the transition. It may take a
+		// stack trace, but we won't own the stack after the
+		// transition anymore.
+		trace.GoPreempt()
+	}
 	casgstatus(gp, _Grunning, _Grunnable)
 	if trace.ok() {
-		trace.GoPreempt()
 		traceRelease(trace)
 	}
 	dropg()
@@ -4250,19 +4284,6 @@ func save(pc, sp uintptr) {
 // must always point to a valid stack frame. entersyscall below is the normal
 // entry point for syscalls, which obtains the SP and PC from the caller.
 //
-// Syscall tracing (old tracer):
-// At the start of a syscall we emit traceGoSysCall to capture the stack trace.
-// If the syscall does not block, that is it, we do not emit any other events.
-// If the syscall blocks (that is, P is retaken), retaker emits traceGoSysBlock;
-// when syscall returns we emit traceGoSysExit and when the goroutine starts running
-// (potentially instantly, if exitsyscallfast returns true) we emit traceGoStart.
-// To ensure that traceGoSysExit is emitted strictly after traceGoSysBlock,
-// we remember current value of syscalltick in m (gp.m.syscalltick = gp.m.p.ptr().syscalltick),
-// whoever emits traceGoSysBlock increments p.syscalltick afterwards;
-// and we wait for the increment before emitting traceGoSysExit.
-// Note that the increment is done even if tracing is not enabled,
-// because tracing can be enabled in the middle of syscall. We don't want the wait to hang.
-//
 //go:nosplit
 func reentersyscall(pc, sp uintptr) {
 	trace := traceAcquire()
@@ -4359,23 +4380,19 @@ func entersyscall_gcwait() {
 	trace := traceAcquire()
 	if sched.stopwait > 0 && atomic.Cas(&pp.status, _Psyscall, _Pgcstop) {
 		if trace.ok() {
-			if goexperiment.ExecTracer2 {
-				// This is a steal in the new tracer. While it's very likely
-				// that we were the ones to put this P into _Psyscall, between
-				// then and now it's totally possible it had been stolen and
-				// then put back into _Psyscall for us to acquire here. In such
-				// case ProcStop would be incorrect.
-				//
-				// TODO(mknyszek): Consider emitting a ProcStop instead when
-				// gp.m.syscalltick == pp.syscalltick, since then we know we never
-				// lost the P.
-				trace.ProcSteal(pp, true)
-			} else {
-				trace.GoSysBlock(pp)
-				trace.ProcStop(pp)
-			}
+			// This is a steal in the new tracer. While it's very likely
+			// that we were the ones to put this P into _Psyscall, between
+			// then and now it's totally possible it had been stolen and
+			// then put back into _Psyscall for us to acquire here. In such
+			// case ProcStop would be incorrect.
+			//
+			// TODO(mknyszek): Consider emitting a ProcStop instead when
+			// gp.m.syscalltick == pp.syscalltick, since then we know we never
+			// lost the P.
+			trace.ProcSteal(pp, true)
 			traceRelease(trace)
 		}
+		pp.gcStopTime = nanotime()
 		pp.syscalltick++
 		if sched.stopwait--; sched.stopwait == 0 {
 			notewakeup(&sched.stopnote)
@@ -4433,7 +4450,6 @@ func entersyscallblock_handoff() {
 	trace := traceAcquire()
 	if trace.ok() {
 		trace.GoSysCall()
-		trace.GoSysBlock(getg().m.p.ptr())
 		traceRelease(trace)
 	}
 	handoffp(releasep())
@@ -4477,13 +4493,11 @@ func exitsyscall() {
 		if trace.ok() {
 			lostP := oldp != gp.m.p.ptr() || gp.m.syscalltick != gp.m.p.ptr().syscalltick
 			systemstack(func() {
-				if goexperiment.ExecTracer2 {
-					// Write out syscall exit eagerly in the experiment.
-					//
-					// It's important that we write this *after* we know whether we
-					// lost our P or not (determined by exitsyscallfast).
-					trace.GoSysExit(lostP)
-				}
+				// Write out syscall exit eagerly.
+				//
+				// It's important that we write this *after* we know whether we
+				// lost our P or not (determined by exitsyscallfast).
+				trace.GoSysExit(lostP)
 				if lostP {
 					// We lost the P at some point, even though we got it back here.
 					// Trace that we're starting again, because there was a traceGoSysBlock
@@ -4522,17 +4536,6 @@ func exitsyscall() {
 		return
 	}
 
-	if !goexperiment.ExecTracer2 {
-		// In the old tracer, because we don't have a P we can't
-		// actually record the true time we exited the syscall.
-		// Record it.
-		trace := traceAcquire()
-		if trace.ok() {
-			trace.RecordSyscallExitedTime(gp, oldp)
-			traceRelease(trace)
-		}
-	}
-
 	gp.m.locks--
 
 	// Call the scheduler.
@@ -4551,8 +4554,6 @@ func exitsyscall() {
 
 //go:nosplit
 func exitsyscallfast(oldp *p) bool {
-	gp := getg()
-
 	// Freezetheworld sets stopwait but does not retake P's.
 	if sched.stopwait == freezeStopWait {
 		return false
@@ -4578,22 +4579,6 @@ func exitsyscallfast(oldp *p) bool {
 		var ok bool
 		systemstack(func() {
 			ok = exitsyscallfast_pidle()
-			if ok && !goexperiment.ExecTracer2 {
-				trace := traceAcquire()
-				if trace.ok() {
-					if oldp != nil {
-						// Wait till traceGoSysBlock event is emitted.
-						// This ensures consistency of the trace (the goroutine is started after it is blocked).
-						for oldp.syscalltick == gp.m.syscalltick {
-							osyield()
-						}
-					}
-					// In the experiment, we write this in exitsyscall.
-					// Don't write it here unless the experiment is off.
-					trace.GoSysExit(true)
-					traceRelease(trace)
-				}
-			}
 		})
 		if ok {
 			return true
@@ -4615,17 +4600,10 @@ func exitsyscallfast_reacquired(trace traceLocker) {
 			// traceGoSysBlock for this syscall was already emitted,
 			// but here we effectively retake the p from the new syscall running on the same p.
 			systemstack(func() {
-				if goexperiment.ExecTracer2 {
-					// In the experiment, we're stealing the P. It's treated
-					// as if it temporarily stopped running. Then, start running.
-					trace.ProcSteal(gp.m.p.ptr(), true)
-					trace.ProcStart()
-				} else {
-					// Denote blocking of the new syscall.
-					trace.GoSysBlock(gp.m.p.ptr())
-					// Denote completion of the current syscall.
-					trace.GoSysExit(true)
-				}
+				// We're stealing the P. It's treated
+				// as if it temporarily stopped running. Then, start running.
+				trace.ProcSteal(gp.m.p.ptr(), true)
+				trace.ProcStart()
 			})
 		}
 		gp.m.p.ptr().syscalltick++
@@ -4655,21 +4633,17 @@ func exitsyscallfast_pidle() bool {
 //go:nowritebarrierrec
 func exitsyscall0(gp *g) {
 	var trace traceLocker
-	if goexperiment.ExecTracer2 {
-		traceExitingSyscall()
-		trace = traceAcquire()
-	}
+	traceExitingSyscall()
+	trace = traceAcquire()
 	casgstatus(gp, _Gsyscall, _Grunnable)
-	if goexperiment.ExecTracer2 {
-		traceExitedSyscall()
-		if trace.ok() {
-			// Write out syscall exit eagerly in the experiment.
-			//
-			// It's important that we write this *after* we know whether we
-			// lost our P or not (determined by exitsyscallfast).
-			trace.GoSysExit(true)
-			traceRelease(trace)
-		}
+	traceExitedSyscall()
+	if trace.ok() {
+		// Write out syscall exit eagerly.
+		//
+		// It's important that we write this *after* we know whether we
+		// lost our P or not (determined by exitsyscallfast).
+		trace.GoSysExit(true)
+		traceRelease(trace)
 	}
 	dropg()
 	lock(&sched.lock)
@@ -5613,7 +5587,7 @@ func procresize(nprocs int32) *p {
 			if trace.ok() {
 				// Pretend that we were descheduled
 				// and then scheduled again to keep
-				// the trace sane.
+				// the trace consistent.
 				trace.GoSched()
 				trace.ProcStop(gp.m.p.ptr())
 				traceRelease(trace)
@@ -6109,7 +6083,6 @@ func retake(now int64) uint32 {
 			trace := traceAcquire()
 			if atomic.Cas(&pp.status, s, _Pidle) {
 				if trace.ok() {
-					trace.GoSysBlock(pp)
 					trace.ProcSteal(pp, false)
 					traceRelease(trace)
 				}
