@@ -19,28 +19,24 @@ import "io"
 //   - On Windows, Reader uses the ProcessPrng API.
 //   - On js/wasm, Reader uses the Web Crypto API.
 //   - On wasip1/wasm, Reader uses random_get from wasi_snapshot_preview1.
-var Reader io.Reader
+var Reader io.Reader = randReader
 
-// Read is a helper function that calls Reader.Read using io.ReadFull.
+// Read is a helper function that reads data from the [Reader] and populates
+// the entire out byte slice with cryptographically secure random data.
+// It has the same behaviour as calling io.ReadFull with the [Reader].
 // On return, n == len(b) if and only if err == nil.
-func Read(b []byte) (n int, err error) {
-	return io.ReadFull(Reader, b)
-}
-
-// batched returns a function that calls f to populate a []byte by chunking it
-// into subslices of, at most, readMax bytes.
-func batched(f func([]byte) error, readMax int) func([]byte) error {
-	return func(out []byte) error {
-		for len(out) > 0 {
-			read := len(out)
-			if read > readMax {
-				read = readMax
-			}
-			if err := f(out[:read]); err != nil {
-				return err
-			}
-			out = out[read:]
-		}
-		return nil
+func Read(out []byte) (n int, err error) {
+	// To avoid escaping the out slice, inline the io.ReadFull function.
+	// The following code has the same behaviour as: io.ReadFull(Reader, out).
+	for n < len(out) && err == nil {
+		var nn int
+		nn, err = randReader.Read(out[n:])
+		n += nn
 	}
+	if n >= len(out) {
+		err = nil
+	} else if n > 0 && err == io.EOF {
+		err = io.ErrUnexpectedEOF
+	}
+	return
 }
