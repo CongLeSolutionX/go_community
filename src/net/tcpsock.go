@@ -126,6 +126,9 @@ type TCPConn struct {
 // By contrast, if only one of Idle and Interval is set to a non-negative value,
 // the other will be set to the system default value, and ultimately,
 // set both Idle and Interval to negative values if you want to leave them unchanged.
+//
+// Note that Solaris and its derivatives do not support setting Interval to a non-negative value
+// and Count to a negative value, or vice-versa.
 type KeepAliveConfig struct {
 	// If Enable is true, keep-alive probes are enabled.
 	Enable bool
@@ -241,8 +244,8 @@ func (c *TCPConn) SetKeepAlive(keepalive bool) error {
 // SetKeepAlivePeriod sets the duration the connection needs to
 // remain idle before TCP starts sending keepalive probes.
 //
-// Note that calling this method on Windows will reset the KeepAliveInterval
-// to the default system value, which is normally 1 second.
+// Note that calling this method on Windows prior to Windows 10 version 1709
+// will reset the KeepAliveInterval to the default system value, which is normally 1 second.
 func (c *TCPConn) SetKeepAlivePeriod(d time.Duration) error {
 	if !c.ok() {
 		return syscall.EINVAL

@@ -763,6 +763,9 @@ type p struct {
 	// scheduler ASAP (regardless of what G is running on it).
 	preempt bool
 
+	// gcStopTime is the nanotime timestamp that this P last entered _Pgcstop.
+	gcStopTime int64
+
 	// pageTraceBuf is a buffer for writing out page allocation/free/scavenge traces.
 	//
 	// Used only if GOEXPERIMENT=pagetrace.
@@ -1148,6 +1151,29 @@ func (w waitReason) isMutexWait() bool {
 	return w == waitReasonSyncMutexLock ||
 		w == waitReasonSyncRWMutexRLock ||
 		w == waitReasonSyncRWMutexLock
+}
+
+func (w waitReason) isWaitingForGC() bool {
+	return isWaitingForGC[w]
+}
+
+// isWaitingForGC indicates that a goroutine is only entering _Gwaiting and
+// setting a waitReason because it needs to be able to let the GC take ownership
+// of its stack. The G is always actually executing on the system stack, in
+// these cases.
+//
+// TODO(mknyszek): Consider replacing this with a new dedicated G status.
+var isWaitingForGC = [len(waitReasonStrings)]bool{
+	waitReasonStoppingTheWorld:      true,
+	waitReasonGCMarkTermination:     true,
+	waitReasonGarbageCollection:     true,
+	waitReasonGarbageCollectionScan: true,
+	waitReasonTraceGoroutineStatus:  true,
+	waitReasonTraceProcStatus:       true,
+	waitReasonPageTraceFlush:        true,
+	waitReasonGCAssistMarking:       true,
+	waitReasonGCWorkerActive:        true,
+	waitReasonFlushProcCaches:       true,
 }
 
 var (
