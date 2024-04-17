@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b5792b1_bb4a4a58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-17T13:17:14Z",
+      "side": 1,
+      "message": "I don\u0027t know how to simplify the implementation.\nBecause the acquisition of various environment variables is decentralized.\nThe simplest implementation I can think of is to when getting the environment variables, if can also get whether it is not the default value just do this.",
+      "parentUuid": "775bbe59_98386078",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c29d32dc_58de6518",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-04-16T19:18:57Z",
       "side": 1,
       "message": "This boolean result needs a doc comment.",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45f5d7a1_16f33fea",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-17T13:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c29d32dc_58de6518",
       "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -69,6 +105,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22145fd2_89b8c733",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-17T13:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90c765dd_b80a47db",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25d20b42_9b4497c3",
@@ -86,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93cbe54c_ac5d0ef1",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-17T13:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25d20b42_9b4497c3",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35184a96_ac0e2bb5",
@@ -99,6 +171,30 @@
       "writtenOn": "2024-04-16T19:18:57Z",
       "side": 1,
       "message": "This should accurately describe the feature as specified in https://github.com/golang/go/issues/34208#issuecomment-2038257362, though ideally in fewer words.",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3b3d838_d3d48091",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-17T13:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35184a96_ac0e2bb5",
       "range": {
         "startLine": 56,
         "startChar": 18,
