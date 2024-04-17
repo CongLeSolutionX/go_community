@@ -16,6 +16,24 @@
       "message": "The original performance numbers I got from this patch looked great, however I think that may have been something of a fluke -- from the runs I did last night there wasn\u0027t much speedup.  \n\nOn the other hand, this does increase the total stack slot bytes saved (across all functions) from 91256 to 124336 bytes for the sweet benchmarks, so I think it is certainly increasing the amount of slot sharing.  I\u0027ll try to do some more perf runs tonight.",
       "revId": "43340a56f477e2462189033f2198055a61a21556",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a50215d_62132f26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-17T13:53:11Z",
+      "side": 1,
+      "message": "Performance numbers from last night.\n\n```\n                     │ /tmp/base.txt      │         /tmp/new.txt               │\n                     │       sec/op       │   sec/op     vs base               │\nBiogoIgor                      13.01 ± 0%    12.78 ± 0%  -1.77% (p\u003d0.000 n\u003d30)\nBiogoKrishna                   16.67 ± 0%    16.72 ± 0%  +0.35% (p\u003d0.004 n\u003d30)\nBleveIndexBatch100             5.278 ± 1%    5.318 ± 1%  +0.76% (p\u003d0.030 n\u003d30)\nEtcdPut                       21.15m ± 1%   21.34m ± 1%  +0.90% (p\u003d0.019 n\u003d30)\nEtcdSTM                       128.6m ± 0%   127.8m ± 0%  -0.59% (p\u003d0.000 n\u003d30)\nGoBuildKubelet                 53.24 ± 1%    52.64 ± 2%       ~ (p\u003d0.504 n\u003d30)\nGoBuildKubeletLink             8.543 ± 1%    8.527 ± 1%       ~ (p\u003d0.878 n\u003d30)\nGoBuildIstioctl                47.18 ± 0%    47.36 ± 1%       ~ (p\u003d0.088 n\u003d30)\nGoBuildIstioctlLink            8.893 ± 0%    8.938 ± 1%  +0.51% (p\u003d0.008 n\u003d30)\nGoBuildFrontend                16.18 ± 0%    16.09 ± 0%  -0.56% (p\u003d0.000 n\u003d30)\nGoBuildFrontendLink            1.343 ± 0%    1.331 ± 0%  -0.89% (p\u003d0.000 n\u003d30)\nGopherLuaKNucleotide           21.66 ± 0%    21.63 ± 0%       ~ (p\u003d0.063 n\u003d30)\nMarkdownRenderXHTML           187.5m ± 0%   186.7m ± 0%       ~ (p\u003d0.168 n\u003d30)\nTile38QueryLoad               555.2µ ± 0%   575.0µ ± 0%  +3.57% (p\u003d0.000 n\u003d30)\ngeomean                        2.084         2.085       +0.04%\n```\n\nGeomean is a wash, but I am still confident this is still a good change to make. The tile38 +3% regression is puzzling given that the new algorithm increases total stack savings (statically) from 11056 bytes to 19240 bytes, which seems as though it should be a good thing(?).",
+      "parentUuid": "d63f516c_71771762",
+      "revId": "43340a56f477e2462189033f2198055a61a21556",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
