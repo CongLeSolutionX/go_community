@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e3a3928_7c9fdf6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "Ah, that makes sense. (I misunderstood the desired behavior, which is not to compare against the environment, but to compare against the effective values in an empty environment.)",
+      "parentUuid": "2b5792b1_bb4a4a58",
+      "revId": "7acf6ca6f5241578d8312a8ea4faac64d6916142",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c29d32dc_58de6518",

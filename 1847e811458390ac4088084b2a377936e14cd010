@@ -1,0 +1,411 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8397659d_ffa30636",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "\"The new `go env -changed` flag causes the command to print only those settings whose effective value differs from the default value that would be obtained in an empty environment with no prior uses of the -w flag.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7501b70_7accf6c2",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "bool // effective value differs from $GOCACHE",
+      "range": {
+        "startLine": 72,
+        "startChar": 19,
+        "endLine": 72,
+        "endChar": 23
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9cc57f_9b02b737",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "\", and reports whether the effective value differs from GOCACHE.\"",
+      "range": {
+        "startLine": 77,
+        "startChar": 44,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36e5883b_8a67638b",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "In this case, defaultDir is equal to Getenv(\"GOCACHE\"), so shouldn\u0027t it return true?",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 88,
+        "endChar": 27
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7f4a3fc_b896a3e3",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "(Preexisting) This condition is weaker than both arms of L87, so it might be clearer as:\n\n\tif defaultDir !\u003d \"\" {\n\t\tif filepath.IsAbs(defaultDir) || defaultDir \u003d\u003d \"off\" {\n\t\t\treturn\n\t\t}\n\t\tdefaultDir \u003d \"off\"\n\t\tdefaultDirChanged \u003d true\n\t\tdefaultDirErr \u003d fmt.Errorf(\"GOCACHE is not an absolute path\")\n\t\treturn\n\t}",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 23
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "165af839_47e5deb4",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "(Preexisting) where does this error value get used? There\u0027s no mention of it in the doc comment of DefaultDir.",
+      "range": {
+        "startLine": 94,
+        "startChar": 3,
+        "endLine": 94,
+        "endChar": 16
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd90165_39944749",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "Doesn\u0027t this case need defaultDirChanged \u003d true too?",
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0055f796_4a2c21cf",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "bool // effective Value differs from default\n\n(Or use EnvChanged -- see below)",
+      "range": {
+        "startLine": 268,
+        "startChar": 9,
+        "endLine": 268,
+        "endChar": 13
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "856657a7_bb312f5d",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "\", and reports whether the effective value differs from the default.\"",
+      "range": {
+        "startLine": 284,
+        "startChar": 68,
+        "endLine": 285,
+        "endChar": 74
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33d4adde_65734bf0",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "false\n\n(You can return zero values in case of error.)",
+      "range": {
+        "startLine": 289,
+        "startChar": 14,
+        "endLine": 289,
+        "endChar": 18
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb92e896_1f6c0f9c",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "returns",
+      "range": {
+        "startLine": 426,
+        "startChar": 19,
+        "endLine": 426,
+        "endChar": 22
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef61003a_c77c2191",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "reports whether it differs",
+      "range": {
+        "startLine": 427,
+        "startChar": 7,
+        "endLine": 427,
+        "endChar": 32
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f08ceec3_7ab5ae39",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "Might it help to introduce a type for all these booleans as then all these functions becomes self-documenting?\n```\ntype EnvChanged uint8\nconst (\n    EnvDefault EnvChanged \u003d iota // effective value is the default \n    EnvNonDefault                // effective value differs from the default\n)\n```",
+      "range": {
+        "startLine": 428,
+        "startChar": 48,
+        "endLine": 428,
+        "endChar": 52
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bd6c6b6_1b673962",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "changed",
+      "range": {
+        "startLine": 143,
+        "startChar": 11,
+        "endLine": 143,
+        "endChar": 18
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a64f702_0c477dfe",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "// e.g. GOAMD64",
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8779f954_1afa53b4",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "ev :\u003d \u0026ret[i]\n\nand factor below",
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9680c4de_3001123c",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "Move this comment after the case.",
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15bd435b_58e7c22e",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "ev.Changed \u003d ev.Value !\u003d \"\"\n\nditto below",
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95a4e4b4_9c653039",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-17T14:58:06Z",
+      "side": 1,
+      "message": "What ret[i].Name does this correspond to? A default case here seems fragile.",
+      "range": {
+        "startLine": 266,
+        "startChar": 3,
+        "endLine": 266,
+        "endChar": 42
+      },
+      "revId": "1847e811458390ac4088084b2a377936e14cd010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
