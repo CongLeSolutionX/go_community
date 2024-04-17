@@ -2868,30 +2868,43 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 		return objdir + fmt.Sprintf("_x%03d.o", oseq)
 	}
 
+	sem := make(chan bool, cfg.BuildP)
+	errChan := make(chan error)
+	var wg sync.WaitGroup
+
 	// gcc
 	cflags := str.StringList(cgoCPPFLAGS, cgoCFLAGS)
 	for _, cfile := range cfiles {
 		ofile := nextOfile()
-		if err := b.gcc(a, a.Objdir, ofile, cflags, objdir+cfile); err != nil {
-			return nil, nil, err
-		}
+		wg.Add(1)
+		go func(ofile string) {
+			sem <- true
+			defer func() { <-sem; wg.Done() }()
+			errChan <- b.gcc(a, a.Objdir, ofile, cflags, objdir+cfile)
+		}(ofile)
 		outObj = append(outObj, ofile)
 	}
 
 	for _, file := range gccfiles {
 		ofile := nextOfile()
-		if err := b.gcc(a, a.Objdir, ofile, cflags, file); err != nil {
-			return nil, nil, err
-		}
+		wg.Add(1)
+		go func(ofile string) {
+			sem <- true
+			defer func() { <-sem; wg.Done() }()
+			errChan <- b.gcc(a, a.Objdir, ofile, cflags, file)
+		}(ofile)
 		outObj = append(outObj, ofile)
 	}
 
 	cxxflags := str.StringList(cgoCPPFLAGS, cgoCXXFLAGS)
 	for _, file := range gxxfiles {
 		ofile := nextOfile()
-		if err := b.gxx(a, a.Objdir, ofile, cxxflags, file); err != nil {
-			return nil, nil, err
-		}
+		wg.Add(1)
+		go func(ofile string) {
+			sem <- true
+			defer func() { <-sem; wg.Done() }()
+			errChan <- b.gxx(a, a.Objdir, ofile, cxxflags, file)
+		}(ofile)
 		outObj = append(outObj, ofile)
 	}
 
@@ -2910,6 +2923,17 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 			return nil, nil, err
 		}
 		outObj = append(outObj, ofile)
+	}
+
+	go func() {
+		wg.Wait()
+		close(errChan)
+	}()
+
+	for err := range errChan {
+		if err != nil {
+			return nil, nil, err
+		}
 	}
 
 	switch cfg.BuildToolchainName {
