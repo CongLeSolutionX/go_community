@@ -136,6 +136,7 @@ func Select() {
 		if min != "local" {
 			v := gover.FromToolchain(min)
 			if v == "" {
+				counterErrorsInvalidToolchainInFile.Inc()
 				if plus {
 					base.Fatalf("invalid GOTOOLCHAIN %q: invalid minimum toolchain %q", gotoolchain, min)
 				}
@@ -187,6 +188,14 @@ func Select() {
 			}
 			if gover.Compare(goVers, minVers) > 0 {
 				gotoolchain = "go" + goVers
+				// Starting with Go 1.21, the first released version contains a .0 patch.
+				// Don't try to download a language version without a patch (such as go1.22)
+				// that is not a release version. Instead default to the first release of
+				// that version (such as 1.22.0).
+				// See golang.org/issue/62278.
+				if gover.IsLang(goVers) && gover.Compare(goVers, "1.21") >= 0 {
+					gotoolchain += ".0"
+				}
 				gover.Startup.AutoGoVersion = goVers
 				gover.Startup.AutoToolchain = "" // in case we are overriding it for being too old
 			}
@@ -307,6 +316,16 @@ func Exec(gotoolchain string) {
 	modload.ForceUseModules = true
 	modload.RootMode = modload.NoRoot
 	modload.Init()
+
+	// Check that the toolchain is valid prior to downloading.
+	toolVers := gover.FromToolchain(gotoolchain)
+	if !gover.IsToolchainVersion(toolVers) {
+		counterErrorsInvalidToolchainInFile.Inc()
+		if gover.IsLang(toolVers) && gover.Compare(toolVers, "1.21") >= 0 {
+			base.Fatalf("invalid toolchain: %s is a language version but not a toolchain version (%s.x)", gotoolchain, gotoolchain)
+		}
+		base.Fatalf("invalid toolchain %q", gotoolchain)
+	}
 
 	// Download and unpack toolchain module into module cache.
 	// Note that multiple go commands might be doing this at the same time,

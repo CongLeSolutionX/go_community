@@ -88,6 +88,15 @@ func Lang(x string) string {
 	return v.Major + "." + v.Minor
 }
 
+// IsToolchainVersion reports whether x denotes a toolchain version.
+// Starting with the Go 1.21 release, "1.x" is not a valid toolchain
+// version except for the case where kind is present.
+// i.e. 1.21 is not valid but 1.21rc1 is valid.
+func IsToolchainVersion(x string) bool {
+	v := Parse(x)
+	return v != Version{} && (v.Patch != "" || v.Kind != "")
+}
+
 // IsValid reports whether the version x is valid.
 func IsValid(x string) bool {
 	return Parse(x) != Version{}
@@ -132,7 +141,7 @@ func Parse(x string) Version {
 
 	// Parse patch if present.
 	if x[0] == '.' {
-		v.Patch, x, ok = cutInt(x[1:])
+		p, x, ok := cutInt(x[1:])
 		if !ok || x != "" {
 			// Note that we are disallowing prereleases (alpha, beta, rc) for patch releases here (x != "").
 			// Allowing them would be a bit confusing because we already have:
@@ -142,6 +151,11 @@ func Parse(x string) Version {
 			// We've never needed them before, so let's not start now.
 			return Version{}
 		}
+		// A ".0" patch version did not exist before 1.21.
+		if p == "0" && CmpInt(v.Minor, "21") < 0 {
+			return Version{}
+		}
+		v.Patch = p
 		return v
 	}
 
