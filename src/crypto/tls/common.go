@@ -1441,6 +1441,12 @@ func (c *Certificate) leaf() (*x509.Certificate, error) {
 }
 
 type handshakeMessage interface {
+	// originalBytes should return the original bytes that were passed to
+	// unmarshal to create the message. If the message was not produced by
+	// unmarshal, it should return nil. If the marshalled representation is
+	// stable such that calling marshal returns the same bytes that were
+	// originally passed to unmarshal, orginalBytes can also return nil.
+	originalBytes() []byte
 	marshal() ([]byte, error)
 	unmarshal([]byte) bool
 }
