@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "418750b0_551fec40",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-18T14:12:24Z",
+      "side": 1,
+      "message": "I\u0027ve tuned up the comments and reworked things so that we no longer need this additional confusing \"quiethd\". The new code makes the hash bisection earlier and then uses it here to gate trace output, then later on for the overlap decision. Hopefully this will be clearer.",
+      "parentUuid": "caf33a5e_511cdac7",
+      "revId": "43340a56f477e2462189033f2198055a61a21556",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fee75896_6ac5cc53",
@@ -66,6 +84,30 @@
       "writtenOn": "2024-04-17T20:24:54Z",
       "side": 1,
       "message": "We only check here because the sorting guarantees that pointerful vars comes before pointerless ones, and alignment in decreasing order? Perhaps still good to double check. Also, in theory, if we go from pointerful to pointerless but alignment increases, e.g. on a 32-bit machine, A is [2]*int (pointerful, alignment 4, size 8), B is atomic.Uint64 (pointerless, alignment 8, size 8), A cannot lead B due to alignment. Alignment larger than pointer size is rare, but may still be good to guard against it.",
+      "range": {
+        "startLine": 664,
+        "startChar": 0,
+        "endLine": 666,
+        "endChar": 3
+      },
+      "revId": "43340a56f477e2462189033f2198055a61a21556",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f6ee51_9a9ac5b2",
+        "filename": "src/cmd/compile/internal/liveness/mergelocals.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-18T14:12:24Z",
+      "side": 1,
+      "message": "Interesting observation -- I\u0027ll add in an alignment check as you suggest. Thanks.",
+      "parentUuid": "fee75896_6ac5cc53",
       "range": {
         "startLine": 664,
         "startChar": 0,
