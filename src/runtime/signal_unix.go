@@ -272,6 +272,8 @@ func clearSignalHandlers() {
 	}
 }
 
+var sigprofTimerID int32 // guarded by prof.signalLock
+
 // setProcessCPUProfilerTimer is called when the profiling timer changes.
 // It is called with prof.signalLock held. hz is the new timer, and is 0 if
 // profiling is being disabled. Enable or disable the signal as
@@ -301,13 +303,39 @@ func setProcessCPUProfilerTimer(hz int32) {
 			setsig(_SIGPROF, abi.FuncPCABIInternal(sighandler))
 		}
 
-		var it itimerval
-		it.it_interval.tv_sec = 0
-		it.it_interval.set_usec(1000000 / hz)
-		it.it_value = it.it_interval
-		setitimer(_ITIMER_PROF, &it, nil)
+		spec := new(itimerspec)
+		spec.it_value.setNsec(1 + int64(cheaprandn(uint32(1e9/hz))))
+		spec.it_interval.setNsec(1e9 / int64(hz))
+
+		var timerid int32
+		var sevp sigevent
+		sevp.notify = _SIGEV_SIGNAL
+		sevp.signo = _SIGPROF
+		ret := timer_create(_CLOCK_PROCESS_CPUTIME_ID, &sevp, &timerid)
+		if ret != 0 {
+			print("timer_create=", ret, "\n")
+			throw("could not create process-wide profiling timer")
+			// If we cannot create a timer for this M, leave profileTimerValid false
+			// to fall back to the process-wide setitimer profiler.
+			return
+		}
+
+		ret = timer_settime(timerid, 0, spec, nil)
+		if ret != 0 {
+			print("runtime: failed to configure profiling timer; timer_settime(", timerid,
+				", 0, {interval: {",
+				spec.it_interval.tv_sec, "s + ", spec.it_interval.tv_nsec, "ns} value: {",
+				spec.it_value.tv_sec, "s + ", spec.it_value.tv_nsec, "ns}}, nil) errno=", -ret, "\n")
+			throw("timer_settime")
+		}
+		sigprofTimerID = timerid
 	} else {
-		setitimer(_ITIMER_PROF, &itimerval{}, nil)
+		timerid := sigprofTimerID
+		ret := timer_delete(timerid)
+		if ret != 0 {
+			print("runtime: failed to disable profiling timer; timer_delete(", timerid, ") errno=", -ret, "\n")
+			throw("timer_delete")
+		}
 
 		// If the Go signal handler should be disabled by default,
 		// switch back to the signal handler that was installed

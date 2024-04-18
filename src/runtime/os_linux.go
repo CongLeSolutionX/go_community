@@ -609,6 +609,7 @@ func setThreadCPUProfiler(hz int32) {
 	mp := getg().m
 	mp.profilehz = hz
 
+	mp.profileTimerValid.Store(false)
 	// destroy any active timer
 	if mp.profileTimerValid.Load() {
 		timerid := mp.profileTimer
@@ -626,6 +627,9 @@ func setThreadCPUProfiler(hz int32) {
 		// If the goal was to disable profiling for this thread, then the job's done.
 		return
 	}
+
+	mp.profileTimerValid.Store(true)
+	return
 
 	// The period of the timer should be 1/Hz. For every "1/Hz" of additional
 	// work, the user should expect one additional sample in the profile.
