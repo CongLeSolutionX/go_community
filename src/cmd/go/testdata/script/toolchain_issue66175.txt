@@ -1,0 +1,35 @@
+env GOTOOLCHAIN=go1.14
+! go version
+stderr 'go: downloading go1.14'
+
+env GOTOOLCHAIN=go1.20
+! go version
+stderr 'go: downloading go1.20'
+
+env GOTOOLCHAIN=go1.21
+! go version
+stderr 'go: downloading go1.21.0'
+
+env GOTOOLCHAIN=go1.22
+! go version
+stderr 'go: downloading go1.22.0'
+
+env GOTOOLCHAIN=go1.21rc3
+! go version
+stderr 'go: downloading go1.21rc3'
+
+env GOTOOLCHAIN=go1.22rc2
+! go version
+stderr 'go: downloading go1.22rc2'
+
+env GOTOOLCHAIN=go1.66
+! go version
+stderr 'go: downloading go1.66.0'
+
+env GOTOOLCHAIN=go1.18beta2
+! go version
+stderr 'go: downloading go1.18beta2'
+
+env GOTOOLCHAIN=go1.21+path
+! go version
+stderr 'go: cannot find "go1.21" in PATH'
