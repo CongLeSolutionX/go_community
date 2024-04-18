@@ -123,6 +123,24 @@
       "parentUuid": "36792ca8_00f61215",
       "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07afa49b_58ccdac4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-04-18T16:33:15Z",
+      "side": 1,
+      "message": "I\u0027ll close this because CL 579118 has been merged.",
+      "parentUuid": "47074489_28f2342c",
+      "revId": "73281844d8bc19293559f0ebf0bdfb686c20545f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
