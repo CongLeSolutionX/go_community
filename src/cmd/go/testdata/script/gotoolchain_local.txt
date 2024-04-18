@@ -21,31 +21,31 @@ env GOTOOLCHAIN=asdf
 stderr '^go: invalid GOTOOLCHAIN "asdf"$'
 
 # GOTOOLCHAIN=version is used directly.
-env GOTOOLCHAIN=go1.600
+env GOTOOLCHAIN=go1.600.0
 go version
-stdout go1.600
+stdout go1.600.0
 
-env GOTOOLCHAIN=go1.400
+env GOTOOLCHAIN=go1.400.0
 go version
-stdout go1.400
+stdout go1.400.0
 
 # GOTOOLCHAIN=version+auto sets a minimum.
-env GOTOOLCHAIN=go1.600+auto
+env GOTOOLCHAIN=go1.600.0+auto
 go version
-stdout go1.600
+stdout go1.600.0
 
 env GOTOOLCHAIN=go1.400.0+auto
 go version
 stdout go1.400.0
 
 # GOTOOLCHAIN=version+path sets a minimum too.
-env GOTOOLCHAIN=go1.600+path
+env GOTOOLCHAIN=go1.600.0+path
 go version
-stdout go1.600
+stdout go1.600.0
 
-env GOTOOLCHAIN=go1.400+path
+env GOTOOLCHAIN=go1.400.0+path
 go version
-stdout go1.400
+stdout go1.400.0
 
 # Create a go.mod file and test interactions with auto and path.
 
@@ -54,7 +54,7 @@ env GOTOOLCHAIN=auto
 go mod init m
 go mod edit -go=1.700 -toolchain=none
 go version
-stdout 1.700
+stdout 1.700.0
 
 go mod edit -go=1.300 -toolchain=none
 go version
@@ -62,7 +62,7 @@ stdout 1.500 # local toolchain is newer
 
 go mod edit -go=1.700 -toolchain=go1.300
 go version
-stdout go1.700 # toolchain too old, ignored
+stdout go1.700.0 # toolchain too old, ignored
 
 go mod edit -go=1.300 -toolchain=default
 go version
@@ -78,7 +78,7 @@ stderr '^go: go.mod requires go >= 1.700 \(running go 1.500; go.mod sets toolcha
 env GOTOOLCHAIN=path
 go mod edit -go=1.700 -toolchain=none
 go version
-stdout 1.700
+stdout 1.700.0
 
 go mod edit -go=1.300 -toolchain=none
 go version
@@ -86,7 +86,7 @@ stdout 1.500 # local toolchain is newer
 
 go mod edit -go=1.700 -toolchain=go1.300
 go version
-stdout go1.700 # toolchain too old, ignored
+stdout go1.700.0 # toolchain too old, ignored
 
 go mod edit -go=1.300 -toolchain=default
 go version
@@ -100,25 +100,25 @@ stderr '^go: go.mod requires go >= 1.700 \(running go 1.500; GOTOOLCHAIN=path; g
 
 # GOTOOLCHAIN=min+auto with toolchain default uses min, not local
 
-env GOTOOLCHAIN=go1.400+auto
+env GOTOOLCHAIN=go1.400.0+auto
 go mod edit -go=1.300 -toolchain=default
 go version
-stdout 1.400 # not 1.500 local toolchain
+stdout 1.400.0 # not 1.500 local toolchain
 
-env GOTOOLCHAIN=go1.600+auto
+env GOTOOLCHAIN=go1.600.0+auto
 go mod edit -go=1.300 -toolchain=default
 go version
-stdout 1.600 # not 1.500 local toolchain
+stdout 1.600.0 # not 1.500 local toolchain
 
 # GOTOOLCHAIN names can have -suffix
-env GOTOOLCHAIN=go1.800-bigcorp
+env GOTOOLCHAIN=go1.800.0-bigcorp
 go version
-stdout go1.800-bigcorp
+stdout go1.800.0-bigcorp
 
 env GOTOOLCHAIN=auto
 go mod edit -go=1.999 -toolchain=go1.800-bigcorp
 go version
-stdout go1.999
+stdout go1.999.0
 
 go mod edit -go=1.777 -toolchain=go1.800-bigcorp
 go version
@@ -143,7 +143,7 @@ stdout go1.500
 
 go work edit -toolchain=none
 go version
-stdout go1.600
+stdout go1.600.0
 
 rm go.work
 
@@ -154,7 +154,7 @@ stdout go1.500
 
 go mod edit -toolchain=none
 go version
-stdout go1.600
+stdout go1.600.0
 
 # toolchain built with a custom version should know how it compares to others
 
@@ -177,12 +177,12 @@ stdout go1.500-bigcorp
 
 go mod edit -go=1.501 -toolchain=none
 go version
-stdout go1.501
+stdout go1.501.0
 
 	# If toolchain > go, we must upgrade to the indicated toolchain (not just the go version).
 go mod edit -go=1.499 -toolchain=go1.501
 go version
-stdout go1.501
+stdout go1.501.0
 
 env TESTGO_VERSION='go1.500 (bigcorp)'
 go mod edit -go=1.499 -toolchain=none
@@ -195,7 +195,7 @@ stdout 'go1.500 \(bigcorp\)'
 
 go mod edit -go=1.501 -toolchain=none
 go version
-stdout go1.501
+stdout go1.501.0
 
 # go install m@v and go run m@v should ignore go.mod and use m@v
 env TESTGO_VERSION=go1.2.3

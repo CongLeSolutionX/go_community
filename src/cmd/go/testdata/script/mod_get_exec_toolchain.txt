@@ -12,7 +12,7 @@ grep 'go 1.23' go.mod
 grep 'toolchain go1.23.9' go.mod
 
 # GOTOOLCHAIN=min+auto should run the newer toolchain
-env GOTOOLCHAIN=go1.21+auto
+env GOTOOLCHAIN=go1.21.0+auto
 cp go.mod.new go.mod
 go get rsc.io/needgo121 rsc.io/needgo122 rsc.io/needgo123 rsc.io/needall
 stderr '^go: rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
@@ -21,8 +21,8 @@ stderr '^go: added rsc.io/needall v0.0.1'
 grep 'go 1.23' go.mod
 grep 'toolchain go1.23.9' go.mod
 
-# GOTOOLCHAIN=go1.21 should NOT run the newer toolchain
-env GOTOOLCHAIN=go1.21
+# GOTOOLCHAIN=go1.21.0 should NOT run the newer toolchain
+env GOTOOLCHAIN=go1.21.0
 cp go.mod.new go.mod
 ! go get rsc.io/needgo121 rsc.io/needgo122 rsc.io/needgo123 rsc.io/needall
 ! stderr switching
