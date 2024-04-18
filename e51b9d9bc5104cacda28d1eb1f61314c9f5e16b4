@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9bde4c2_cae16e4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-04-18T21:19:14Z",
+      "side": 1,
+      "message": "Great!",
+      "revId": "e51b9d9bc5104cacda28d1eb1f61314c9f5e16b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4e1c7a_4c50bdbd",
+        "filename": "src/cmd/trace/v2/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-04-18T21:19:14Z",
+      "side": 1,
+      "message": "nit (feel free to ignore): include the word \"bytes\" making it \"200 of 400 bytes ... processed...\"",
+      "range": {
+        "startLine": 179,
+        "startChar": 22,
+        "endLine": 179,
+        "endChar": 23
+      },
+      "revId": "e51b9d9bc5104cacda28d1eb1f61314c9f5e16b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ddd400_68aecfae",
+        "filename": "src/cmd/trace/v2/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-04-18T21:19:14Z",
+      "side": 1,
+      "message": "nit: validEvents might be easier read? I think it would be valid.",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 225,
+        "endChar": 14
+      },
+      "revId": "e51b9d9bc5104cacda28d1eb1f61314c9f5e16b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
