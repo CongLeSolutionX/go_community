@@ -53,6 +53,11 @@ const (
 	// or later, every module must have a go version line ≥ all its dependencies.
 	// It is also the version after which "too new" a version is considered a fatal error.
 	GoStrictVersion = "1.21"
+
+	// ToolchainStrictSyntaxVersion is the Go version at which
+	// major.minor syntax is no longer a valid toolchain.
+	// See https://golang.org/issue/66175.
+	ToolchainStrictSyntaxVersion = "1.21"
 )
 
 // FromGoMod returns the go version from the go.mod file.
