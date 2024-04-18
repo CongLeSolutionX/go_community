@@ -487,33 +487,33 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg0()
 		s.Prog(loong64.ADBAR)
-	case ssa.OpLOONG64LoweredAtomicStore8, ssa.OpLOONG64LoweredAtomicStore32, ssa.OpLOONG64LoweredAtomicStore64:
-		as := loong64.AMOVV
-		switch v.Op {
-		case ssa.OpLOONG64LoweredAtomicStore8:
-			as = loong64.AMOVB
-		case ssa.OpLOONG64LoweredAtomicStore32:
-			as = loong64.AMOVW
+
+	case ssa.OpLOONG64LoweredAtomicStore32, ssa.OpLOONG64LoweredAtomicStore64:
+		// AMSWAPx	Rarg1, (Rarg0), Rout
+		amswapx := loong64.AAMSWAPDBV
+		if v.Op == ssa.OpLOONG64LoweredAtomicStore32 {
+			amswapx = loong64.AAMSWAPDBW
 		}
-		s.Prog(loong64.ADBAR)
-		p := s.Prog(as)
+		p := s.Prog(amswapx)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[1].Reg()
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
-		s.Prog(loong64.ADBAR)
-	case ssa.OpLOONG64LoweredAtomicStorezero32, ssa.OpLOONG64LoweredAtomicStorezero64:
-		as := loong64.AMOVV
-		if v.Op == ssa.OpLOONG64LoweredAtomicStorezero32 {
-			as = loong64.AMOVW
-		}
-		s.Prog(loong64.ADBAR)
-		p := s.Prog(as)
-		p.From.Type = obj.TYPE_REG
-		p.From.Reg = loong64.REGZERO
-		p.To.Type = obj.TYPE_MEM
-		p.To.Reg = v.Args[0].Reg()
-		s.Prog(loong64.ADBAR)
+		p.RegTo2 = loong64.REGZERO
+
+	case ssa.OpLOONG64LoweredAtomicStore8:
+		// DBAR 0x12
+		// MOVB (Rarg1), Rout
+		p := s.Prog(loong64.ADBAR)
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = 0x12
+
+		p1 := s.Prog(loong64.AMOVB)
+		p1.From.Type = obj.TYPE_REG
+		p1.From.Reg = v.Args[1].Reg()
+		p1.To.Type = obj.TYPE_MEM
+		p1.To.Reg = v.Args[0].Reg()
+
 	case ssa.OpLOONG64LoweredAtomicExchange32, ssa.OpLOONG64LoweredAtomicExchange64:
 		// AMSWAPx	Rarg1, (Rarg0), Rout
 		amswapx := loong64.AAMSWAPDBV

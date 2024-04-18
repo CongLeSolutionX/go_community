@@ -502,8 +502,6 @@
 	&& is32Bit(int64(off1)+int64(off2)) && (ptr.Op != OpSB || !config.ctxt.Flag_dynlink) =>
 	(MOV(B|H|W|V)storezero [off1+int32(off2)] {mergeSym(sym1,sym2)} ptr mem)
 
-(LoweredAtomicStore(32|64) ptr (MOVVconst [0]) mem) => (LoweredAtomicStorezero(32|64) ptr mem)
-
 // don't extend after proper load
 (MOVBreg x:(MOVBload _ _)) => (MOVVreg x)
 (MOVBUreg x:(MOVBUload _ _)) => (MOVVreg x)
