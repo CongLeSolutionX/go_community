@@ -46,6 +46,30 @@
       },
       "revId": "38087c80ae5ebb44baa0fde311d7eca35a5bc3cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb8d2f6_7ead27ea",
+        "filename": "src/cmd/go/testdata/script/build_cache_pgo.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-18T15:32:39Z",
+      "side": 1,
+      "message": "Oops, I missed that. Sorry.",
+      "parentUuid": "418711c9_17ce54b6",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 14
+      },
+      "revId": "38087c80ae5ebb44baa0fde311d7eca35a5bc3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
