@@ -266,6 +266,13 @@ func Exec(gotoolchain string) {
 	os.Setenv(countEnv, fmt.Sprint(count+1))
 
 	env := cfg.Getenv("GOTOOLCHAIN")
+
+	// Verify that the GOTOOLCHAIN matches proper toolchain syntax.
+	toolVers := gover.FromToolchain(env)
+	if gover.IsLang(toolVers) && gover.Compare(toolVers, gover.ToolchainStrictSyntaxVersion) >= 0 {
+		base.Fatalf("invalid GOTOOLCHAIN: %s is a language version but not a toolchain version", gotoolchain)
+	}
+
 	pathOnly := env == "path" || strings.HasSuffix(env, "+path")
 
 	// For testing, if TESTGO_VERSION is already in use
@@ -300,6 +307,12 @@ func Exec(gotoolchain string) {
 	// GOTOOLCHAIN=path only looks in PATH.
 	if pathOnly {
 		base.Fatalf("cannot find %q in PATH", gotoolchain)
+	}
+
+	// For 1.21 and beyond, assume the toolchain has an implict .0 patch if not specified.
+	toolVers = gover.FromToolchain(gotoolchain)
+	if gover.IsLang(toolVers) && gover.Compare(toolVers, gover.ToolchainStrictSyntaxVersion) >= 0 {
+		gotoolchain += ".0"
 	}
 
 	// Set up modules without an explicit go.mod, to download distribution.

@@ -1,0 +1,9 @@
+env GO111MODULE=on
+
+env GOTOOLCHAIN=go1.21
+! go mod download rsc.io/quote@v1.5.1
+stderr 'go: invalid GOTOOLCHAIN: go1.21 is a language version but not a toolchain version'
+
+env GOTOOLCHAIN=go1.22
+! go mod download rsc.io/quote@v1.5.1
+stderr 'go: invalid GOTOOLCHAIN: go1.22 is a language version but not a toolchain version'
