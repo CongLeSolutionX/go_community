@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01c58fdc_6f1c4d2d",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-18T17:54:49Z",
+      "side": 1,
+      "message": "I don\u0027t think this was the intention of issue 34208. They seem to be saying that GOOS and GOARCH are usually not changed because the users usually don\u0027t change from the default because they are usually not set by the user.\n\nIf a user sets GOOS and GOARCH in their environment, for example because they\u0027re cross-compiling, we should print those.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 52
+      },
+      "revId": "2697f903e967e5b09067a7d524dcca67bb0810c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08ce8133_51e76099",
+        "filename": "src/cmd/go/testdata/script/env_changed.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-18T17:54:49Z",
+      "side": 1,
+      "message": "we should add cases for \"go env -changed \u003cargs\u003e\"\nand check that we print the VAR\u003d or set VAR\u003d prefixes.",
+      "revId": "2697f903e967e5b09067a7d524dcca67bb0810c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
