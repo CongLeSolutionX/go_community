@@ -88,6 +88,15 @@ func Lang(x string) string {
 	return v.Major + "." + v.Minor
 }
 
+// IsToolchainValid reports whether x denotes a toolchain version.
+// Starting with the Go 1.21 release, "1.x" is not a valid toolchain
+// version except for the case where kind is present.
+// i.e. 1.21 is not valid but 1.21rc1 is valid.
+func IsToolchainValid(x string) bool {
+	v := Parse(x)
+	return v != Version{} && (v.Patch != "" || v.Kind != "")
+}
+
 // IsValid reports whether the version x is valid.
 func IsValid(x string) bool {
 	return Parse(x) != Version{}
