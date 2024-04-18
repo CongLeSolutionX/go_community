@@ -16,6 +16,24 @@
       "message": "Looks like the new test is failing on the windows longtest builder:\n\nhttps://ci.chromium.org/ui/p/golang/builders/ci/gotip-windows-amd64-longtest/b8750306024580390097/overview\n\nI suspect that it\u0027s a \"/\" \u003c\u003d\u003e \"\\\" issue when looking at the compiler output.",
       "revId": "84fbdf01ffde21fcf0a5359d98a65dc6ee16f5a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9178d4b1_94454ec5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-04-18T18:06:57Z",
+      "side": 1,
+      "message": "Oops, thanks for the heads up. Fix in CL 580137.",
+      "parentUuid": "dfde8712_f71a6f32",
+      "revId": "84fbdf01ffde21fcf0a5359d98a65dc6ee16f5a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
