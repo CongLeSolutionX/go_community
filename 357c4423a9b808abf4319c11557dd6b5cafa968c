@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6ed320d_d31f1c6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-04-18T16:22:17Z",
+      "side": 1,
+      "message": "I agree. I also think the extra XOR at the call site is a bit more clear, since they occur on the clearly attacker controlled values.",
+      "parentUuid": "04ef1eab_0ea65a55",
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d5f8339_5aeb56fc",
