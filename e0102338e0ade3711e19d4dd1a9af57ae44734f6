@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e759e762_9e1136e3",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-04-18T14:05:56Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me whether IncNonDefault should be called once for every alias, or once every type checking pass, etc..\n\nBut this seems OK.",
+      "range": {
+        "startLine": 615,
+        "startChar": 3,
+        "endLine": 615,
+        "endChar": 31
+      },
+      "revId": "e0102338e0ade3711e19d4dd1a9af57ae44734f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
