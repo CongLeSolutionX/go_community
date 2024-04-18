@@ -233,6 +233,9 @@ func (d *Disasm) Print(w io.Writer, filter *regexp.Regexp, start, end uint64, pr
 		d.Decode(symStart, symEnd, relocs, gnuAsm, func(pc, size uint64, file string, line int, text string) {
 			i := pc - d.textStart
 
+			if text == "?" {
+				return
+			}
 			if printCode {
 				if file != lastFile || line != lastLine {
 					if srcLine, err := fc.Line(file, line); err == nil {
@@ -384,19 +387,15 @@ func disasm_ppc64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.By
 	return text, size
 }
 
-func disasm_s390x(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.ByteOrder, gnuAsm bool) (string, int) {
-	inst, err := s390xasm.Decode(code, byteOrder)
+func disasm_s390x(code []byte, pc uint64, lookup lookupFunc, _ binary.ByteOrder, _ bool) (string, int) {
+	inst, err := s390xasm.Decode(code)
 	var text string
 	size := inst.Len
-	if err != nil || size == 0 {
-		size = 4
+	if err != nil || size == 0 || inst.Op == 0 {
+		size = 2
 		text = "?"
 	} else {
-		if gnuAsm {
-			text = fmt.Sprintf("%-36s // %s", s390xasm.GoSyntax(inst, pc, lookup), s390xasm.GNUSyntax(inst, pc))
-		} else {
-			text = s390xasm.GoSyntax(inst, pc, lookup)
-		}
+		text = s390xasm.GNUSyntax(inst, pc)
 	}
 	return text, size
 }
