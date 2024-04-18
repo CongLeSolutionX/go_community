@@ -134,10 +134,11 @@ func parseFlags(src []byte, flags *flag.FlagSet) error {
 //
 // If provided, opts may be used to mutate the Config before type-checking.
 func testFiles(t *testing.T, filenames []string, srcs [][]byte, manual bool, opts ...func(*Config)) {
-	// Alias types are enabled by default
+	enableAlias := true
+	opts = append(opts, func(conf *Config) { *boolFieldAddr(conf, "_EnableAlias") = enableAlias })
 	testFilesImpl(t, filenames, srcs, manual, opts...)
 	if !manual {
-		t.Setenv("GODEBUG", "gotypesalias=0")
+		enableAlias = false
 		testFilesImpl(t, filenames, srcs, manual, opts...)
 	}
 }
@@ -195,6 +196,7 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 	if err := parseFlags(srcs[0], flags); err != nil {
 		t.Fatal(err)
 	}
+	*boolFieldAddr(&conf, "_EnableAlias") = gotypesalias != "0"
 
 	exp, err := buildcfg.ParseGOEXPERIMENT(runtime.GOOS, runtime.GOARCH, goexperiment)
 	if err != nil {
@@ -205,11 +207,6 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 		buildcfg.Experiment = old
 	}()
 	buildcfg.Experiment = *exp
-
-	// By default, gotypesalias is not set.
-	if gotypesalias != "" {
-		t.Setenv("GODEBUG", "gotypesalias="+gotypesalias)
-	}
 
 	// Provide Config.Info with all maps so that info recording is tested.
 	info := Info{
