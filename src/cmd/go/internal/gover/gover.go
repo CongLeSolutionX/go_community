@@ -48,6 +48,14 @@ func Lang(x string) string {
 	return gover.Lang(x)
 }
 
+// IsToolchainValid reports whether x denotes the toolchain version.
+// Starting with the Go 1.21 release, "1.x" is not a valid toolchain
+// version except for the case where kind is present.
+// i.e. 1.21 is not valid but 1.21rc1 is valid.
+func IsToolchainValid(x string) bool {
+	return gover.IsToolchainValid(x)
+}
+
 // IsPrerelease reports whether v denotes a Go prerelease version.
 func IsPrerelease(x string) bool {
 	return gover.Parse(x).Kind != ""
