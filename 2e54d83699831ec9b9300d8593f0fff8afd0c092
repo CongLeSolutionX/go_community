@@ -16,6 +16,24 @@
       "message": "rand isn\u0027t initialized until after alginit. so hashkey is getting deterministic initial values since 1.22. I think this warrants a backport fix.",
       "revId": "2e54d83699831ec9b9300d8593f0fff8afd0c092",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec25dd11_df4fd1b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-04-18T17:37:42Z",
+      "side": 1,
+      "message": "I\u0027ve filed #66885 and will send a CL with regression test.",
+      "parentUuid": "0be300b1_201ba504",
+      "revId": "2e54d83699831ec9b9300d8593f0fff8afd0c092",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
