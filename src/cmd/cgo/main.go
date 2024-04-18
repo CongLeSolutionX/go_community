@@ -24,6 +24,7 @@ import (
 	"runtime"
 	"sort"
 	"strings"
+	"sync"
 
 	"cmd/internal/edit"
 	"cmd/internal/notsha256"
@@ -344,43 +345,58 @@ func main() {
 	// Use the beginning of the notsha256 of the input to disambiguate.
 	h := notsha256.New()
 	io.WriteString(h, *importPath)
+	var once sync.Once
+	var wg sync.WaitGroup
+	wg.Add(len(goFiles))
 	fs := make([]*File, len(goFiles))
 	for i, input := range goFiles {
-		if *srcDir != "" {
-			input = filepath.Join(*srcDir, input)
-		}
+		i := i
+		input := input
+		go func() {
+			if *srcDir != "" {
+				input = filepath.Join(*srcDir, input)
+			}
 
-		// Create absolute path for file, so that it will be used in error
-		// messages and recorded in debug line number information.
-		// This matches the rest of the toolchain. See golang.org/issue/5122.
-		if aname, err := filepath.Abs(input); err == nil {
-			input = aname
-		}
+			// Create absolute path for file, so that it will be used in error
+			// messages and recorded in debug line number information.
+			// This matches the rest of the toolchain. See golang.org/issue/5122.
+			if aname, err := filepath.Abs(input); err == nil {
+				input = aname
+			}
 
-		b, err := os.ReadFile(input)
-		if err != nil {
-			fatalf("%s", err)
-		}
-		if _, err = h.Write(b); err != nil {
-			fatalf("%s", err)
-		}
+			b, err := os.ReadFile(input)
+			if err != nil {
+				fatalf("%s", err)
+			}
+			if _, err = h.Write(b); err != nil {
+				fatalf("%s", err)
+			}
 
-		// Apply trimpath to the file path. The path won't be read from after this point.
-		input, _ = objabi.ApplyRewrites(input, *trimpath)
-		if strings.ContainsAny(input, "\r\n") {
-			// ParseGo, (*Package).writeOutput, and printer.Fprint in SourcePos mode
-			// all emit line directives, which don't permit newlines in the file path.
-			// Bail early if we see anything newline-like in the trimmed path.
-			fatalf("input path contains newline character: %q", input)
-		}
-		goFiles[i] = input
+			// Apply trimpath to the file path. The path won't be read from after this point.
+			input, _ = objabi.ApplyRewrites(input, *trimpath)
+			if strings.ContainsAny(input, "\r\n") {
+				// ParseGo, (*Package).writeOutput, and printer.Fprint in SourcePos mode
+				// all emit line directives, which don't permit newlines in the file path.
+				// Bail early if we see anything newline-like in the trimmed path.
+				fatalf("input path contains newline character: %q", input)
+			}
+			goFiles[i] = input
 
-		f := new(File)
-		f.Edit = edit.NewBuffer(b)
-		f.ParseGo(input, b)
-		f.ProcessCgoDirectives()
-		fs[i] = f
+			f := new(File)
+			f.Edit = edit.NewBuffer(b)
+			f.ParseGo(input, b)
+			f.ProcessCgoDirectives()
+			gccIsClang := f.loadDefines(p.GccOptions)
+			once.Do(func() {
+				p.GccIsClang = gccIsClang
+			})
+
+			fs[i] = f
+			wg.Done()
+		}()
 	}
+
+	wg.Wait()
 
 	cPrefix = fmt.Sprintf("_%x", h.Sum(nil)[0:6])
 
