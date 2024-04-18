@@ -195,7 +195,6 @@ func (p *Package) Translate(f *File) {
 	var conv typeConv
 	conv.Init(p.PtrSize, p.IntSize)
 
-	p.loadDefines(f)
 	p.typedefs = map[string]bool{}
 	p.typedefList = nil
 	numTypedefs := -1
@@ -235,11 +234,11 @@ func (p *Package) Translate(f *File) {
 
 // loadDefines coerces gcc into spitting out the #defines in use
 // in the file f and saves relevant renamings in f.Name[name].Define.
-func (p *Package) loadDefines(f *File) {
+func (f *File) loadDefines(gccOptions []string) (gccIsClang bool) {
 	var b bytes.Buffer
 	b.WriteString(builtinProlog)
 	b.WriteString(f.Preamble)
-	stdout := p.gccDefines(b.Bytes())
+	stdout := gccDefines(b.Bytes(), gccOptions)
 
 	for _, line := range strings.Split(stdout, "\n") {
 		if len(line) < 9 || line[0:7] != "#define" {
@@ -263,7 +262,7 @@ func (p *Package) loadDefines(f *File) {
 		}
 
 		if key == "__clang__" {
-			p.GccIsClang = true
+			gccIsClang = true
 		}
 
 		if n := f.Name[key]; n != nil {
@@ -273,6 +272,7 @@ func (p *Package) loadDefines(f *File) {
 			n.Define = val
 		}
 	}
+	return gccIsClang
 }
 
 // guessKinds tricks gcc into revealing the kind of each
@@ -1724,7 +1724,7 @@ func checkGCCBaseCmd() ([]string, error) {
 }
 
 // gccMachine returns the gcc -m flag to use, either "-m32", "-m64" or "-marm".
-func (p *Package) gccMachine() []string {
+func gccMachine() []string {
 	switch goarch {
 	case "amd64":
 		if goos == "darwin" {
@@ -1797,7 +1797,7 @@ func (p *Package) gccCmd() []string {
 	}
 
 	c = append(c, p.GccOptions...)
-	c = append(c, p.gccMachine()...)
+	c = append(c, gccMachine()...)
 	if goos == "aix" {
 		c = append(c, "-maix64")
 		c = append(c, "-mcmodel=large")
@@ -2189,10 +2189,10 @@ func (p *Package) gccDebug(stdin []byte, nnames int) (d *dwarf.Data, ints []int6
 // and returns the corresponding standard output, which is the
 // #defines that gcc encountered while processing the input
 // and its included files.
-func (p *Package) gccDefines(stdin []byte) string {
+func gccDefines(stdin []byte, gccOptions []string) string {
 	base := append(gccBaseCmd, "-E", "-dM", "-xc")
-	base = append(base, p.gccMachine()...)
-	stdout, _ := runGcc(stdin, append(append(base, p.GccOptions...), "-"))
+	base = append(base, gccMachine()...)
+	stdout, _ := runGcc(stdin, append(append(base, gccOptions...), "-"))
 	return stdout
 }
 
