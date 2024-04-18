@@ -96,6 +96,35 @@ var isValidTests = []testCase1[string, bool]{
 	{"1", true},
 }
 
+func TestIsToolchainVersion(t *testing.T) {
+	test1(t, IsToolchainVersionTests, "IsToolchainVersion", IsToolchainVersion)
+}
+
+var IsToolchainVersionTests = []testCase1[string, bool]{
+	{"1.2rc3", true},
+	{"1.2.3", true},
+	{"1.999testmod", true},
+	{"1.600+auto", false},
+	{"1.21.0+auto", false},
+	{"1.22.0+auto", false},
+	{"1.23+auto", false},
+	{"1.22", false},
+	{"1.21.0", true},
+	{"1.21rc2", true},
+	{"1.21", false},
+	{"1.20.0", false},
+	{"1.19.0", false},
+	{"1.18.0", false},
+	{"1.14.0", false},
+	{"1.14.1", true},
+	{"1.20.1", true},
+	{"1.20", true},
+	{"1.19", true},
+	{"1.3", true},
+	{"1.2", true},
+	{"1", true},
+}
+
 type testCase1[In, Out any] struct {
 	in  In
 	out Out
