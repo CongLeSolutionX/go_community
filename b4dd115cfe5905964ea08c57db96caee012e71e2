@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd13c797_4acbdd14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-04-18T13:23:20Z",
+      "side": 1,
+      "message": "Is this CL ready for merging?",
+      "revId": "b4dd115cfe5905964ea08c57db96caee012e71e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
