@@ -1,0 +1,98 @@
+env TESTGO_VERSION=go1.14
+
+# toolchain: download 1.X.0 for go1.21 and beyond
+go mod init m
+go mod edit -go=1.14 -toolchain=go1.22
+! go version
+stderr 'go: download go1.22.0'
+
+rm go.mod
+go mod init m
+go mod edit -go=1.14 -toolchain=go1.21
+! go version
+stderr 'go: download go1.21.0'
+
+# toolchain: download 1.X for go1.20 and lower
+rm go.mod
+go mod init m
+go mod edit -go=1.14 -toolchain=go1.20
+! go version
+stderr 'go: download go1.20 '
+
+# GOTOOLCHAIN: download 1.X.0 for go1.21 and beyond
+env GOTOOLCHAIN=go1.14
+go version
+stdout 'go1.14 '
+
+env GOTOOLCHAIN=go1.20
+! go version
+stderr 'go: download go1.20 '
+
+env GOTOOLCHAIN=go1.21
+! go version
+stderr 'go: download go1.21.0'
+
+env GOTOOLCHAIN=go1.22
+! go version
+stderr 'go: download go1.22.0'
+
+env GOTOOLCHAIN=go1.20+auto
+! go version
+stderr 'go: download go1.20 '
+
+env GOTOOLCHAIN=go1.21+auto
+! go version
+stderr 'go: download go1.21.0'
+
+env GOTOOLCHAIN=go1.22+auto
+! go version
+stderr 'go: download go1.22.0'
+
+env GOTOOLCHAIN=go1.21rc3
+! go version
+stderr 'go: download go1.21rc3 '
+
+env GOTOOLCHAIN=go1.22rc2
+! go version
+stderr 'go: download go1.22rc2 '
+
+env GOTOOLCHAIN=go1.66
+! go version
+stderr 'go: download go1.66.0'
+
+env GOTOOLCHAIN=go1.18beta2
+! go version
+stderr 'go: download go1.18beta2 '
+
+# go1.X is okay for path lookups
+env GOTOOLCHAIN=go1.20+path
+! go version
+stderr 'go: cannot find "go1.20" in PATH'
+
+env GOTOOLCHAIN=go1.21+path
+! go version
+stderr 'go: cannot find "go1.21" in PATH'
+
+env GOTOOLCHAIN=go1.22+path
+! go version
+stderr 'go: cannot find "go1.22" in PATH'
+
+# When a toolchain download takes place, download 1.X.0 for 1.21 and beyond
+env GOTOOLCHAIN=auto
+rm go.mod
+go mod init m
+go mod edit -go=1.300 -toolchain=none
+! go version
+stderr 'go: download go1.300.0'
+
+rm go.mod
+go mod init m
+go mod edit -go=1.22 -toolchain=none
+! go version
+stderr 'go: download go1.22.0'
+
+rm go.mod
+go mod init m
+go mod edit -go=1.15 -toolchain=none
+! go version
+stderr 'go: download go1.15 '
