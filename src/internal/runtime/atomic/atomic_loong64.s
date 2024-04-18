@@ -158,25 +158,21 @@ TEXT ·StoreReluintptr(SB), NOSPLIT, $0-16
 TEXT ·Store(SB), NOSPLIT, $0-12
 	MOVV	ptr+0(FP), R4
 	MOVW	val+8(FP), R5
-	DBAR
-	MOVW	R5, 0(R4)
-	DBAR
+	AMSWAPDBW	R5, (R4), R0
 	RET
 
 TEXT ·Store8(SB), NOSPLIT, $0-9
 	MOVV	ptr+0(FP), R4
 	MOVB	val+8(FP), R5
-	DBAR
+	// StoreRelease barrier
+	DBAR	$0x12
 	MOVB	R5, 0(R4)
-	DBAR
 	RET
 
 TEXT ·Store64(SB), NOSPLIT, $0-16
 	MOVV	ptr+0(FP), R4
 	MOVV	val+8(FP), R5
-	DBAR
-	MOVV	R5, 0(R4)
-	DBAR
+	AMSWAPDBV	R5, (R4), R0
 	RET
 
 // void	Or8(byte volatile*, byte);
