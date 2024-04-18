@@ -15,13 +15,13 @@ stderr '^go: rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
 ! stderr '\(running'
 
 # GOTOOLCHAIN=min+auto should run the newer toolchain
-env GOTOOLCHAIN=go1.21+auto
+env GOTOOLCHAIN=go1.21.0+auto
 go mod download rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
 stderr '^go: rsc.io/needall@v0.0.1 requires go >= 1.23; switching to go1.23.9$'
 ! stderr '\(running'
 
-# GOTOOLCHAIN=go1.21 should NOT run the newer toolchain
-env GOTOOLCHAIN=go1.21
+# GOTOOLCHAIN=go1.21.0 should NOT run the newer toolchain
+env GOTOOLCHAIN=go1.21.0
 ! go mod download rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
 ! stderr switching
 stderr 'rsc.io/needgo122@v0.0.1 requires go >= 1.22'
@@ -42,13 +42,13 @@ stdout -count=1 '"Path": "rsc.io/needgo122",'
 stdout -count=1 '"Path": "rsc.io/needgo123",'
 stdout -count=1 '"Path": "rsc.io/needall",'
 
-# GOTOOLCHAIN=go1.21 should write the errors in the JSON Error fields, not to stderr.
-env GOTOOLCHAIN=go1.21
+# GOTOOLCHAIN=go1.21.0 should write the errors in the JSON Error fields, not to stderr.
+env GOTOOLCHAIN=go1.21.0
 ! go mod download -json rsc.io/needgo121@latest rsc.io/needgo122@latest rsc.io/needgo123@latest rsc.io/needall@latest
 ! stderr switching
-stdout -count=1 '"Error": "rsc.io/needgo122@v0.0.1 requires go .*= 1.22 \(running go 1.21; GOTOOLCHAIN=go1.21\)"'
-stdout -count=1 '"Error": "rsc.io/needgo123@v0.0.1 requires go .*= 1.23 \(running go 1.21; GOTOOLCHAIN=go1.21\)"'
-stdout -count=1 '"Error": "rsc.io/needall@v0.0.1 requires go .*= 1.23 \(running go 1.21; GOTOOLCHAIN=go1.21\)"'
+stdout -count=1 '"Error": "rsc.io/needgo122@v0.0.1 requires go .*= 1.22 \(running go 1.21.0; GOTOOLCHAIN=go1.21.0\)"'
+stdout -count=1 '"Error": "rsc.io/needgo123@v0.0.1 requires go .*= 1.23 \(running go 1.21.0; GOTOOLCHAIN=go1.21.0\)"'
+stdout -count=1 '"Error": "rsc.io/needall@v0.0.1 requires go .*= 1.23 \(running go 1.21.0; GOTOOLCHAIN=go1.21.0\)"'
 ! stdout '"Error": "rsc.io/needgo121'  # We can handle this one.
 ! stderr .
 
@@ -75,10 +75,10 @@ cmp go.mod go.mod.orig
 go mod edit -require=rsc.io/needall@v0.0.1
 cp go.mod go.mod.121
 
-# If an upgrade is needed, GOTOOLCHAIN=go1.21 should cause
+# If an upgrade is needed, GOTOOLCHAIN=go1.21.0 should cause
 # the command to fail without changing go.mod.
 
-env GOTOOLCHAIN=go1.21
+env GOTOOLCHAIN=go1.21.0
 ! go mod download
 stderr 'rsc.io/needall@v0.0.1 requires go >= 1.23'
 ! stderr switching

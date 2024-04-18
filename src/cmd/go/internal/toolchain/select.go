@@ -136,8 +136,17 @@ func Select() {
 		if min != "local" {
 			v := gover.FromToolchain(min)
 			if v == "" {
+				counterErrorsInvalidToolchainInFile.Inc()
 				if plus {
 					base.Fatalf("invalid GOTOOLCHAIN %q: invalid minimum toolchain %q", gotoolchain, min)
+				}
+				base.Fatalf("invalid GOTOOLCHAIN %q", gotoolchain)
+			}
+			// Verify that the GOTOOLCHAIN matches toolchain syntax for 1.21 and beyond.
+			if !gover.IsToolchainValid(v) && gover.Compare(v, gover.ToolchainStrictSyntaxVersion) >= 0 {
+				counterErrorsInvalidToolchainInFile.Inc()
+				if gover.IsLang(v) {
+					base.Fatalf("invalid GOTOOLCHAIN: %s is a language version but not a toolchain version", gotoolchain)
 				}
 				base.Fatalf("invalid GOTOOLCHAIN %q", gotoolchain)
 			}
@@ -266,7 +275,15 @@ func Exec(gotoolchain string) {
 	os.Setenv(countEnv, fmt.Sprint(count+1))
 
 	env := cfg.Getenv("GOTOOLCHAIN")
+
 	pathOnly := env == "path" || strings.HasSuffix(env, "+path")
+
+	// For 1.21 and beyond, assume the toolchain has an implict .0 patch if not provided.
+	// See golang.org/issue/62278
+	toolVers := gover.FromToolchain(gotoolchain)
+	if gover.IsLang(toolVers) && gover.Compare(toolVers, gover.ToolchainStrictSyntaxVersion) >= 0 {
+		gotoolchain += ".0"
+	}
 
 	// For testing, if TESTGO_VERSION is already in use
 	// (only happens in the cmd/go test binary)
