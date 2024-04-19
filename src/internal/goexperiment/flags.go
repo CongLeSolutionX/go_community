@@ -116,4 +116,7 @@ type Flags struct {
 
 	// RangeFunc enables range over func.
 	RangeFunc bool
+
+	// SwissMap enables the SwissTable-based map implementation.
+	SwissMap bool
 }
