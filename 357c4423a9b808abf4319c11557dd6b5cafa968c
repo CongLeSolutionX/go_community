@@ -59,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a35ff08_08a83339",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-19T12:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d5f8339_5aeb56fc",
+      "range": {
+        "startLine": 68,
+        "startChar": 24,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dacddc9_36f1963d",
@@ -72,6 +96,30 @@
       "writtenOn": "2024-04-16T04:13:39Z",
       "side": 1,
       "message": "```suggestion\n\treturn mix(m5^4, mix(a^m2^hashkey[1], a^seed^hashkey[0]^m1))\n```",
+      "range": {
+        "startLine": 73,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 26
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6648ffc7_84869732",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-19T12:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dacddc9_36f1963d",
       "range": {
         "startLine": 73,
         "startChar": 22,
@@ -105,6 +153,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5afb6027_4aecb6d8",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-19T12:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5e1932_311332f8",
+      "range": {
+        "startLine": 78,
+        "startChar": 24,
+        "endLine": 78,
+        "endChar": 26
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6154d96_536abe58",
@@ -118,6 +190,30 @@
       "writtenOn": "2024-04-16T04:13:39Z",
       "side": 1,
       "message": "```suggestion\n\thi, lo :\u003d math.Mul64(uint64(a), uint64(b))\n```",
+      "range": {
+        "startLine": 82,
+        "startChar": 30,
+        "endLine": 82,
+        "endChar": 41
+      },
+      "revId": "357c4423a9b808abf4319c11557dd6b5cafa968c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa54c8e5_90acef8f",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-04-19T12:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6154d96_536abe58",
       "range": {
         "startLine": 82,
         "startChar": 30,
