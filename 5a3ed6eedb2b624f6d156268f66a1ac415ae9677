@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8468d856_286d890a",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-04-19T16:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0327ed5b_207f1dcf",
+      "range": {
+        "startLine": 335,
+        "startChar": 49,
+        "endLine": 336,
+        "endChar": 35
+      },
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64ff42ef_9eb1769f",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-04-19T07:49:54Z",
       "side": 1,
       "message": "Add a comment explaining what is happening here, including why we don\u0027t use marshal, and how it\u0027s relevant to only some cases of the read path. The function comment sounds like it\u0027s only about the write path.",
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb688c9_cc550615",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1787,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-04-19T16:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64ff42ef_9eb1769f",
       "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +130,24 @@
       "writtenOn": "2024-04-19T07:49:54Z",
       "side": 1,
       "message": "Leftover?",
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f232649_354ab1a5",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-04-19T16:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "144cc97a_1f16605f",
       "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
