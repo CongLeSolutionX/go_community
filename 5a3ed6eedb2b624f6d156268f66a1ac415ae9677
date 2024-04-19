@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0327ed5b_207f1dcf",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-04-19T07:49:54Z",
+      "side": 1,
+      "message": "Outdated comment.",
+      "range": {
+        "startLine": 335,
+        "startChar": 49,
+        "endLine": 336,
+        "endChar": 35
+      },
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64ff42ef_9eb1769f",
+        "filename": "src/crypto/tls/handshake_messages.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1787,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-04-19T07:49:54Z",
+      "side": 1,
+      "message": "Add a comment explaining what is happening here, including why we don\u0027t use marshal, and how it\u0027s relevant to only some cases of the read path. The function comment sounds like it\u0027s only about the write path.",
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8fc205d_08d2cbdc",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-04-19T07:49:54Z",
+      "side": 1,
+      "message": "Yay for the new range variable semantics 😊",
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61757ef4_04f264a1",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-04-19T07:49:54Z",
+      "side": 1,
+      "message": "Might be nice to get a more complete fuzzer that tries to marshal and compares. The hellos will use the original bytes and that\u0027s ok, the others will test our assumption that only the hellos need it. (It will probably break on certificate extensions, which is fine because we hash those from the wire.)",
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "144cc97a_1f16605f",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-04-19T07:49:54Z",
+      "side": 1,
+      "message": "Leftover?",
+      "revId": "5a3ed6eedb2b624f6d156268f66a1ac415ae9677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
