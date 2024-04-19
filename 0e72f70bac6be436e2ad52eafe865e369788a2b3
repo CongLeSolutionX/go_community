@@ -70,6 +70,23 @@
       "message": "Friendly ping",
       "revId": "0e72f70bac6be436e2ad52eafe865e369788a2b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05beabf3_3280d75b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-04-19T10:35:27Z",
+      "side": 1,
+      "message": "Gentle ping. \nThanks.",
+      "revId": "0e72f70bac6be436e2ad52eafe865e369788a2b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
