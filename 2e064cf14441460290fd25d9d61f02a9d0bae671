@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "449074ce_f481ae5c",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-19T15:08:53Z",
+      "side": 0,
+      "message": "Was this function deleted so that the two copies of it (here and in go/build) could be combined? I don\u0027t think that\u0027s the right move, as it breaks the dependency constraints. Just add a comment on each copy signposting the other one.",
+      "revId": "2e064cf14441460290fd25d9d61f02a9d0bae671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

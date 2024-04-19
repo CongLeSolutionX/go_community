@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87185071_f116524c",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-19T15:08:53Z",
+      "side": 1,
+      "message": "`-changed`\n`-w`\n\n(backquotes \u003d\u003e code face)",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ce3ae3a_a7756dd2",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-19T15:08:53Z",
+      "side": 1,
+      "message": "Let\u0027s adapt the phrasing from the release notes:\n\nThe -changed flag prints only those settings whose effective\nvalue differs from the default value that would be obtained in\nan empty environment with no prior uses of the -w flag.",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13bc9390_5e207af2",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-19T15:08:53Z",
+      "side": 1,
+      "message": "Merge this statement with the same one at L89 and move before L88.",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac8a924_489ca177",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-19T15:08:53Z",
+      "side": 1,
+      "message": "Can we factor this common tail with LL380-385?",
+      "range": {
+        "startLine": 355,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 2
+      },
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f41e7f3_0e90bbfa",
+        "filename": "src/cmd/go/testdata/script/env_changed.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-19T15:08:53Z",
+      "side": 1,
+      "message": "Why does the output of this test, but not the other env tests, vary by OS?",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
