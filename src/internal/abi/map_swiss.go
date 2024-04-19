@@ -12,17 +12,17 @@ import (
 // runtime/runtime-gdb.py:MapTypePrinter contains its own copy
 const (
 	// Maximum number of key/elem pairs a bucket can hold.
-	OldMapBucketCountBits = 3 // log2 of number of elements in a bucket.
-	OldMapBucketCount     = 1 << OldMapBucketCountBits
+	SwissMapBucketCountBits = 3 // log2 of number of elements in a bucket.
+	SwissMapBucketCount     = 1 << SwissMapBucketCountBits
 
 	// Maximum key or elem size to keep inline (instead of mallocing per element).
 	// Must fit in a uint8.
 	// Note: fast map functions cannot handle big elems (bigger than MapMaxElemBytes).
-	OldMapMaxKeyBytes  = 128
-	OldMapMaxElemBytes = 128 // Must fit in a uint8.
+	SwissMapMaxKeyBytes  = 128
+	SwissMapMaxElemBytes = 128 // Must fit in a uint8.
 )
 
-type OldMapType struct {
+type SwissMapType struct {
 	Type
 	Key    *Type
 	Elem   *Type
@@ -37,19 +37,19 @@ type OldMapType struct {
 
 // Note: flag values must match those used in the TMAP case
 // in ../cmd/compile/internal/reflectdata/reflect.go:writeType.
-func (mt *OldMapType) IndirectKey() bool { // store ptr to key instead of key itself
+func (mt *SwissMapType) IndirectKey() bool { // store ptr to key instead of key itself
 	return mt.Flags&1 != 0
 }
-func (mt *OldMapType) IndirectElem() bool { // store ptr to elem instead of elem itself
+func (mt *SwissMapType) IndirectElem() bool { // store ptr to elem instead of elem itself
 	return mt.Flags&2 != 0
 }
-func (mt *OldMapType) ReflexiveKey() bool { // true if k==k for all keys
+func (mt *SwissMapType) ReflexiveKey() bool { // true if k==k for all keys
 	return mt.Flags&4 != 0
 }
-func (mt *OldMapType) NeedKeyUpdate() bool { // true if we need to update key on an overwrite
+func (mt *SwissMapType) NeedKeyUpdate() bool { // true if we need to update key on an overwrite
 	return mt.Flags&8 != 0
 }
-func (mt *OldMapType) HashMightPanic() bool { // true if hash function might panic
+func (mt *SwissMapType) HashMightPanic() bool { // true if hash function might panic
 	return mt.Flags&16 != 0
 }
 
