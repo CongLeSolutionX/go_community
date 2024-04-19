@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1890d3f5_44a5c147",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-04-19T14:56:03Z",
+      "side": 1,
+      "message": "I think this will need to be partially reverted, since types.Universe is a global and contains Aliases.",
+      "revId": "9101bf19165ecde1967a0163d2fafa168e40ac6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
