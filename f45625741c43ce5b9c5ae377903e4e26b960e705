@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29686d5a_eaa6cf4e",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-20T02:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87185071_f116524c",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ce3ae3a_a7756dd2",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8df1f9f_5e90c055",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-20T02:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ce3ae3a_a7756dd2",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13bc9390_5e207af2",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-04-19T15:08:53Z",
       "side": 1,
       "message": "Merge this statement with the same one at L89 and move before L88.",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58578bde_7198109c",
+        "filename": "src/cmd/go/internal/cache/default.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-20T02:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13bc9390_5e207af2",
       "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -81,6 +141,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b90db68c_5b9d4328",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-20T02:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac8a924_489ca177",
+      "range": {
+        "startLine": 355,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 2
+      },
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f41e7f3_0e90bbfa",
@@ -94,6 +178,24 @@
       "writtenOn": "2024-04-19T15:08:53Z",
       "side": 1,
       "message": "Why does the output of this test, but not the other env tests, vary by OS?",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dad10e5_033e88aa",
+        "filename": "src/cmd/go/testdata/script/env_changed.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-20T02:26:37Z",
+      "side": 1,
+      "message": "Because https://github.com/golang/go/blob/master/src/cmd/go/internal/envcmd/env.go#L434-L504",
+      "parentUuid": "2f41e7f3_0e90bbfa",
       "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
