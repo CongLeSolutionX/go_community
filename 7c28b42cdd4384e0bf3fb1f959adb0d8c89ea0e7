@@ -16,6 +16,24 @@
       "message": "We generally don\u0027t use unnecessary import aliases.\n\nThe desire to use one here suggests that internal/runtime is not a good package name.",
       "revId": "7c28b42cdd4384e0bf3fb1f959adb0d8c89ea0e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "600012c2_bfabe819",
+        "filename": "src/sync/atomic/value.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-21T03:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2965e36b_1fb88214",
+      "revId": "7c28b42cdd4384e0bf3fb1f959adb0d8c89ea0e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
