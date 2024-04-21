@@ -86,6 +86,24 @@
       "parentUuid": "ba61f1e5_e07ec0d4",
       "revId": "92245c6841a4e0d7bf4e598f00fb83e0e4d0e670",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "509afe1b_8e4b585e",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-21T21:05:33Z",
+      "side": 1,
+      "message": "That comment is saying that right now, today, it doesn\u0027t have to differ from sort.Strings.  But if we add GO386, or some other GO environment variable that starts with a digit, then it matters again.\n\nAnd actually I don\u0027t understand why the comment says that GO386 was removed, it\u0027s still there.  What changed in Go 1.16 is that we dropped GO386\u003d387.  But GO386\u003dsoftfloat is still supported as far as I know.",
+      "parentUuid": "93e9bdf9_8401bfcd",
+      "revId": "92245c6841a4e0d7bf4e598f00fb83e0e4d0e670",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
