@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dfe74f8_d592453f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-04-21T08:51:46Z",
+      "side": 1,
+      "message": "We have green tick from TryBots. So your turn, Egon.\n\nThank you.",
+      "revId": "4158deba66451d1dd0eda955edd8f9ce18a964b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f68cdf30_1a8d4c14",
