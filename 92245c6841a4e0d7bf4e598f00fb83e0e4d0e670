@@ -122,6 +122,24 @@
       "parentUuid": "509afe1b_8e4b585e",
       "revId": "92245c6841a4e0d7bf4e598f00fb83e0e4d0e670",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f0cb78_427712cf",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-21T21:23:25Z",
+      "side": 1,
+      "message": "I sent CL 580675 to correct the comment.",
+      "parentUuid": "5cd1e97b_ea0cff50",
+      "revId": "92245c6841a4e0d7bf4e598f00fb83e0e4d0e670",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
