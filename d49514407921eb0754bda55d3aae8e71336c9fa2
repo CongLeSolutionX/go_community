@@ -127,6 +127,24 @@
       "parentUuid": "98b0f550_f5a6ae98",
       "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b7252d_a8f2d437",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-04-22T15:49:46Z",
+      "side": 1,
+      "message": "Good point about amd. Given that newer AMDs also support AVX-512 actually not depending on AVX but instead letting the CPU microcode pick the fastest options might be better there too. I dont know if ERMS FSRM is a good proxy for newer AMD rep move either. The niceness of not having useAVXmemmove anymore would be too just give it into the hands of CPU implementors to optimize and not benchmark around them continously as we rarely have done recently.\n\nI think the linux kernel also mostly just uses rep move and not special cases for large copies these days:\nhttps://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id\u003dca96b162bfd21a5d55e3cd6099e4ee357a0eeb68\n\nThat could be a hint it should also be good enough for Go and we avoid manually tuning this by generations and AMD vs Intel.",
+      "parentUuid": "858a0b20_1df82a1d",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
