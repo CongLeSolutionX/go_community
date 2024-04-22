@@ -56,6 +56,24 @@
       "message": "How do we do this without having to update this list every time a new processor comes out? Is there a CPUID feature or something we could use?",
       "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23e3ffa0_efe41c7b",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-04-22T14:49:30Z",
+      "side": 1,
+      "message": "That was my thought too. Can we instead check for FSRM:\"Fast Short REP MOVSB\" (if thats a good proxy for new cpus with fast rep mov) and prefer REP MOV for those newer CPUs that have FSRM set instead of letting this list grow into future?\n\nActually I would lean more towards removing this special casing altogether. Sandy and Ivy Bridge are quiet old and we should not care much to optimize their performance anymore. So as an option before adding more complexity: just remove this list altogether and remove the special casing for isIntelBridgeFamily.",
+      "parentUuid": "ea8fd34a_9ddc61e7",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
