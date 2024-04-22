@@ -56,7 +56,7 @@ func test() {
 	}
 	for range 'x' {
 	}
-	for range 1.0 /* ERROR "cannot range over 1.0 (untyped float constant 1)" */ {
+	for range 1.0 {
 	}
 	for _ = range MyFunc1(nil) {
 	}
