@@ -898,7 +898,8 @@ func (check *Checker) rangeStmt(inner stmtContext, s *ast.RangeStmt) {
 	lhs := [2]Expr{sKey, sValue} // sKey, sValue may be nil
 	rhs := [2]Type{key, val}     // key, val may be nil
 
-	constIntRange := x.mode == constant_ && isInteger(x.typ)
+	untypedRangeExpr := x.mode == constant_ && isUntyped(x.typ) && isNumeric(x.typ)
+	integerRangeExpr := isInteger(x.typ)
 
 	if isDef {
 		// short variable declaration
@@ -923,19 +924,33 @@ func (check *Checker) rangeStmt(inner stmtContext, s *ast.RangeStmt) {
 				check.errorf(lhs, InvalidSyntaxTree, "cannot declare %s", lhs)
 				obj = NewVar(lhs.Pos(), check.pkg, "_", nil) // dummy variable
 			}
+			assert(obj.typ == nil)
 
-			// initialize lhs variable
-			if constIntRange {
-				check.initVar(obj, &x, "range clause")
-			} else if typ := rhs[i]; typ != nil {
-				x.mode = value
-				x.expr = lhs // we don't have a better rhs expression to use here
-				x.typ = typ
-				check.initVar(obj, &x, "assignment") // error is on variable, use "assignment" not "range clause"
-			} else {
+			// initialize lhs iteration variable, if any
+			typ := rhs[i]
+			if typ == nil {
 				obj.typ = Typ[Invalid]
 				obj.used = true // don't complain about unused variable
+				continue
 			}
+
+			switch {
+			case untypedRangeExpr:
+				assert(i == 0)              // at most one iteration variable
+				obj.typ = defaultInt(x.typ) // the iteration variable must be assignable to rune or int
+				check.initVar(obj, &x, "range clause")
+			case integerRangeExpr:
+				assert(i == 0) // at most one iteration variable
+				// obj.typ will be inferred from x.typ
+				check.initVar(obj, &x, "range clause")
+			default:
+				var y operand
+				y.mode = value
+				y.expr = lhs // we don't have a better rhs expression to use here
+				y.typ = typ
+				check.initVar(obj, &y, "assignment") // error is on variable, use "assignment" not "range clause"
+			}
+			assert(obj.typ != nil)
 		}
 
 		// declare variables
@@ -954,22 +969,42 @@ func (check *Checker) rangeStmt(inner stmtContext, s *ast.RangeStmt) {
 				continue
 			}
 
-			if constIntRange {
+			// assign to lhs iteration variable, if any
+			typ := rhs[i]
+			if typ == nil {
+				continue
+			}
+
+			switch {
+			case untypedRangeExpr:
+				assert(i == 0) // at most one iteration variable
 				check.assignVar(lhs, nil, &x, "range clause")
-			} else if typ := rhs[i]; typ != nil {
-				x.mode = value
-				x.expr = lhs // we don't have a better rhs expression to use here
-				x.typ = typ
-				check.assignVar(lhs, nil, &x, "assignment") // error is on variable, use "assignment" not "range clause"
+				// If the assignment succeeded, the (formerly) untyped x now has a type.
+				// It must be an integer.
+				if x.mode != invalid && !isInteger(x.typ) {
+					check.softErrorf(&x, InvalidRangeExpr, "cannot range over %s", &x)
+				}
+			case integerRangeExpr:
+				assert(i == 0) // at most one iteration variable
+				check.assignVar(lhs, nil, &x, "range clause")
+			default:
+				var y operand
+				y.mode = value
+				y.expr = lhs // we don't have a better rhs expression to use here
+				y.typ = typ
+				check.assignVar(lhs, nil, &y, "assignment") // error is on variable, use "assignment" not "range clause"
 			}
 		}
-	} else if constIntRange {
+	} else if untypedRangeExpr {
 		// If we don't have any iteration variables, we still need to
-		// check that a (possibly untyped) integer range expression x
-		// is valid.
-		// We do this by checking the assignment _ = x. This ensures
-		// that an untyped x can be converted to a value of type int.
-		check.assignment(&x, nil, "range clause")
+		// check that an untyped range expression x is valid.
+		// We do this by checking the assignment var _ T = x where T
+		// is either rune or int. This ensures that an untyped x can
+		// be converted to a value of type T.
+		check.assignment(&x, defaultInt(x.typ), "range clause")
+		if x.mode != invalid && !isInteger(x.typ) {
+			check.softErrorf(&x, InvalidRangeExpr, "cannot range over %s", &x)
+		}
 	}
 
 	check.stmt(inner, s.Body)
@@ -997,7 +1032,8 @@ func rangeKeyVal(typ Type, allowVersion func(goVersion) bool) (key, val Type, ca
 		if isString(typ) {
 			return Typ[Int], universeRune, "", false, true // use 'rune' name
 		}
-		if isInteger(typ) {
+		if isInteger(typ) || isUntyped(typ) && isNumeric(typ) {
+			// untyped numeric constants may be representable as integer values
 			if allowVersion != nil && !allowVersion(go1_22) {
 				return bad("requires go1.22 or later")
 			}
