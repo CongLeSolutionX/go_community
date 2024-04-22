@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "529cdca5_b1aaabca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-22T15:56:50Z",
+      "side": 1,
+      "message": "FYI, the new test I added is failing in a couple of the less-used builders (loong64, ppc64le). I am going to send CL with a skip, then work on it offline. Thanks.",
+      "revId": "2dddc7ef881669276c96356ec44c4e46ec20b1e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
