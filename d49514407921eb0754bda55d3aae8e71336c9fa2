@@ -74,6 +74,24 @@
       "parentUuid": "ea8fd34a_9ddc61e7",
       "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98b0f550_f5a6ae98",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-04-22T14:52:52Z",
+      "side": 1,
+      "message": "Actually two cleanup options:\n1) useAVXmemmove \u003d cpu.X86.HasAVX \u0026\u0026 !cpu.X86.HasFSRM (later needs a tiny bit of new internal/cpu code)\n2) remove useAVXmemmove altogether and always use rep mov for large copies.",
+      "parentUuid": "23e3ffa0_efe41c7b",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
