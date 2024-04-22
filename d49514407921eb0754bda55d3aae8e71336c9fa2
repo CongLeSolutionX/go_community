@@ -163,6 +163,24 @@
       "parentUuid": "858a0b20_1df82a1d",
       "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08bc42d8_2576f79a",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2024-04-22T17:06:26Z",
+      "side": 1,
+      "message": "\u003e Can we instead check for FSRM:\"Fast Short REP MOVSB\" \n\nI believe looking at specific CPUID bits like this one is the right way to detect support.\n\n\u003e I think the linux kernel also mostly just uses rep move and not special cases for large copies these days:\n\nNote this is only for copies of data from userspace. Kernel is not generally doing lots of copies, and it\u0027s not doing lots of copies from userspace in particular. User copies are not expected to be large as well. Go program workloads may be very different in this respect.\nAnd note that kernel still uses other ways to copy in other cases:\nhttps://elixir.bootlin.com/linux/v6.9-rc5/source/arch/x86/lib/copy_page_64.S\nhttps://elixir.bootlin.com/linux/v6.9-rc5/source/arch/x86/lib/memcpy_64.S",
+      "parentUuid": "93b7252d_a8f2d437",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
