@@ -234,6 +234,24 @@
       "parentUuid": "5228b3d5_00d22ad4",
       "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef8516ac_d2456b11",
+        "filename": "src/cmd/go/testdata/script/env_changed.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-04-22T14:25:46Z",
+      "side": 1,
+      "message": "Got it. This looks fine.",
+      "parentUuid": "22306f62_aff7e716",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
