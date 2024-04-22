@@ -51,6 +51,24 @@
       "message": "@thanm@google.com please note the following:\n\nWith `-Wl,-z,now` (that`-bindnow` translates into) `lld`, `mold` and `gold` map `.got.plt` section to the GNU_RELRO segment whereas `ld` and `bfd` merge `.got.plt` into `.got`.\n\nGiven different builders might have different linkers this may be unpredictable. And that\u0027s the reason I ended up removing majority of external linker tests... \n\n`.dynamic` and `.got` must be present everywhere in both relro modes anyways.",
       "revId": "2dddc7ef881669276c96356ec44c4e46ec20b1e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0ed6451_7ad0ae96",
+        "filename": "src/cmd/link/internal/ld/elf_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-04-22T18:58:46Z",
+      "side": 1,
+      "message": "Thanks. That does indeed look like a lot of confusion, I agree that we should just test for \".got\" and \".dynamic\".",
+      "parentUuid": "c7186ffb_67c8111a",
+      "revId": "2dddc7ef881669276c96356ec44c4e46ec20b1e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
