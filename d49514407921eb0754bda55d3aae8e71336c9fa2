@@ -181,6 +181,24 @@
       "parentUuid": "93b7252d_a8f2d437",
       "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e5b54c5_f54cc35d",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-04-22T17:33:48Z",
+      "side": 1,
+      "message": "Thanks for the pointers. I would assume kernel also wants to avoid globbering larger registers and thereby resorts to lots of movq instead of SSE or AVX. That said it seems to dispatch to rep mov also if FSRM set in https://elixir.bootlin.com/linux/v6.9-rc5/source/arch/x86/lib/memcpy_64.S#L33",
+      "parentUuid": "08bc42d8_2576f79a",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
