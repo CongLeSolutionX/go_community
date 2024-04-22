@@ -16,6 +16,46 @@
       "message": "Hi!",
       "revId": "b4298b6ea0299e61bbee21955dd145bbcf43533c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6a6d574_30f63315",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2024-04-22T14:32:09Z",
+      "side": 1,
+      "message": "Counter-proposal:\nhttps://go-review.googlesource.com/c/go/+/580755",
+      "revId": "b4298b6ea0299e61bbee21955dd145bbcf43533c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6906cd_ae1b2613",
+        "filename": "src/image/jpeg/scan.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2024-04-22T14:32:09Z",
+      "side": 1,
+      "message": "As I said previously:\n\n\u003e Abs isn\u0027t the right calculation. For example, RST0 and RST7 marker values are 0xD0 and 0xD7 and are \"within 2\" of each other, conceptually, but the absolute value of the difference is 7, which fails this \"less than 3\" test.\n\nhttps://go-review.googlesource.com/c/go/+/382754/1/src/image/jpeg/scan.go#379",
+      "range": {
+        "startLine": 367,
+        "startChar": 10,
+        "endLine": 367,
+        "endChar": 13
+      },
+      "revId": "b4298b6ea0299e61bbee21955dd145bbcf43533c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
