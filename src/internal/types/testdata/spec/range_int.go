@@ -30,7 +30,7 @@ func _() {
 	}
 	for range 'x' {
 	}
-	for range 1.0 /* ERROR "cannot range over 1.0 (untyped float constant 1)" */ {
+	for range 1.0 {
 	}
 
 	var i int
@@ -127,5 +127,51 @@ func issue65133() {
 	for u8 = range 255 {
 	}
 	for u8 = range 256 /* ERROR "cannot use 256 (untyped int constant) as uint8 value in range clause (overflows)" */ {
+	}
+}
+
+func issue66561() {
+	for range 10.0 {
+	}
+	for range 1e3 {
+	}
+	for range 1 + 0i {
+	}
+
+	for range 1.1 /* ERROR "cannot use 1.1 (untyped float constant) as int value in range clause (truncated)" */ {
+	}
+	for range 1i /* ERROR "cannot use 1i (untyped complex constant (0 + 1i)) as int value in range clause (truncated)" */ {
+	}
+
+	for i := range 10.0 {
+		_ = i
+	}
+	for i := range 1e3 {
+		_ = i
+	}
+	for i := range 1 + 0i {
+		_ = i
+	}
+
+	for i := range 1.1 /* ERROR "cannot use 1.1 (untyped float constant) as int value in range clause (truncated)" */ {
+		_ = i
+	}
+	for i := range 1i /* ERROR "cannot use 1i (untyped complex constant (0 + 1i)) as int value in range clause (truncated)" */ {
+		_ = i
+	}
+
+	var j float64
+	_ = j
+	for j = range 1 /* ERROR "cannot range over 1 (constant of type float64)" */ {
+	}
+	for j = range 1.1 /* ERROR "cannot range over 1.1 (constant of type float64)" */ {
+	}
+	for j = range 10.0 /* ERROR "cannot range over 10.0 (constant 10 of type float64)" */ {
+	}
+
+	// There shouldn't be assignment errors if there are more iteration variables than permitted.
+	var i int
+	_ = i
+	for i, j /* ERROR "range over 10 (untyped int constant) permits only one iteration variable" */ = range 10 {
 	}
 }
