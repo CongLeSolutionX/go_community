@@ -51,6 +51,7 @@ package godebug
 import (
 	"internal/bisect"
 	"internal/godebugs"
+	"internal/goexperiment"
 	"sync"
 	"sync/atomic"
 	"unsafe"
@@ -226,6 +227,7 @@ func newIncNonDefault(name string) func() {
 }
 
 var updateMu sync.Mutex
+var updateCount int
 
 // update records an updated GODEBUG setting.
 // def is the default GODEBUG setting for the running binary,
@@ -241,6 +243,18 @@ func update(def, env string) {
 	did := make(map[string]bool)
 	parse(did, env)
 	parse(did, def)
+
+	// TODO(#54766): swissmap has temporarily disabled map iteration. The
+	// cache.Range below is the only use of map iteration in a fundamental
+	// package. Skip it to keep more packages working without iteration.
+	// Panic if clearing the cache would be important.
+	if goexperiment.SwissMap {
+		updateCount++
+		if updateCount > 1 {
+			panic("GOEXPERIMENT=swissmap GODEBUG update not supported")
+		}
+		return
+	}
 
 	// Clear any cached values that are no longer present.
 	cache.Range(func(name, s any) bool {

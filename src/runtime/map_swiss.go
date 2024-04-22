@@ -58,7 +58,6 @@ package runtime
 import (
 	"internal/abi"
 	"internal/goarch"
-	"internal/runtime/atomic"
 	"runtime/internal/math"
 	"unsafe"
 )
@@ -810,175 +809,11 @@ search:
 // by the compilers order pass or on the heap by reflect_mapiterinit.
 // Both need to have zeroed hiter since the struct contains pointers.
 func mapiterinit(t *maptype, h *hmap, it *hiter) {
-	if raceenabled && h != nil {
-		callerpc := getcallerpc()
-		racereadpc(unsafe.Pointer(h), callerpc, abi.FuncPCABIInternal(mapiterinit))
-	}
-
-	it.t = t
-	if h == nil || h.count == 0 {
-		return
-	}
-
-	if unsafe.Sizeof(hiter{})/goarch.PtrSize != 12 {
-		throw("hash_iter size incorrect") // see cmd/compile/internal/reflectdata/reflect.go
-	}
-	it.h = h
-
-	// grab snapshot of bucket state
-	it.B = h.B
-	it.buckets = h.buckets
-	if !t.Bucket.Pointers() {
-		// Allocate the current slice and remember pointers to both current and old.
-		// This preserves all relevant overflow buckets alive even if
-		// the table grows and/or overflow buckets are added to the table
-		// while we are iterating.
-		h.createOverflow()
-		it.overflow = h.extra.overflow
-		it.oldoverflow = h.extra.oldoverflow
-	}
-
-	// decide where to start
-	r := uintptr(rand())
-	it.startBucket = r & bucketMask(h.B)
-	it.offset = uint8(r >> h.B & (abi.SwissMapBucketCount - 1))
-
-	// iterator state
-	it.bucket = it.startBucket
-
-	// Remember we have an iterator.
-	// Can run concurrently with another mapiterinit().
-	if old := h.flags; old&(iterator|oldIterator) != iterator|oldIterator {
-		atomic.Or8(&h.flags, iterator|oldIterator)
-	}
-
-	mapiternext(it)
+	throw("mapiterinit unimplemented")
 }
 
 func mapiternext(it *hiter) {
-	h := it.h
-	if raceenabled {
-		callerpc := getcallerpc()
-		racereadpc(unsafe.Pointer(h), callerpc, abi.FuncPCABIInternal(mapiternext))
-	}
-	if h.flags&hashWriting != 0 {
-		fatal("concurrent map iteration and map write")
-	}
-	t := it.t
-	bucket := it.bucket
-	b := it.bptr
-	i := it.i
-	checkBucket := it.checkBucket
-
-next:
-	if b == nil {
-		if bucket == it.startBucket && it.wrapped {
-			// end of iteration
-			it.key = nil
-			it.elem = nil
-			return
-		}
-		if h.growing() && it.B == h.B {
-			// Iterator was started in the middle of a grow, and the grow isn't done yet.
-			// If the bucket we're looking at hasn't been filled in yet (i.e. the old
-			// bucket hasn't been evacuated) then we need to iterate through the old
-			// bucket and only return the ones that will be migrated to this bucket.
-			oldbucket := bucket & it.h.oldbucketmask()
-			b = (*bmap)(add(h.oldbuckets, oldbucket*uintptr(t.BucketSize)))
-			if !evacuated(b) {
-				checkBucket = bucket
-			} else {
-				b = (*bmap)(add(it.buckets, bucket*uintptr(t.BucketSize)))
-				checkBucket = noCheck
-			}
-		} else {
-			b = (*bmap)(add(it.buckets, bucket*uintptr(t.BucketSize)))
-			checkBucket = noCheck
-		}
-		bucket++
-		if bucket == bucketShift(it.B) {
-			bucket = 0
-			it.wrapped = true
-		}
-		i = 0
-	}
-	for ; i < abi.SwissMapBucketCount; i++ {
-		offi := (i + it.offset) & (abi.SwissMapBucketCount - 1)
-		if isEmpty(b.tophash[offi]) || b.tophash[offi] == evacuatedEmpty {
-			// TODO: emptyRest is hard to use here, as we start iterating
-			// in the middle of a bucket. It's feasible, just tricky.
-			continue
-		}
-		k := add(unsafe.Pointer(b), dataOffset+uintptr(offi)*uintptr(t.KeySize))
-		if t.IndirectKey() {
-			k = *((*unsafe.Pointer)(k))
-		}
-		e := add(unsafe.Pointer(b), dataOffset+abi.SwissMapBucketCount*uintptr(t.KeySize)+uintptr(offi)*uintptr(t.ValueSize))
-		if checkBucket != noCheck && !h.sameSizeGrow() {
-			// Special case: iterator was started during a grow to a larger size
-			// and the grow is not done yet. We're working on a bucket whose
-			// oldbucket has not been evacuated yet. Or at least, it wasn't
-			// evacuated when we started the bucket. So we're iterating
-			// through the oldbucket, skipping any keys that will go
-			// to the other new bucket (each oldbucket expands to two
-			// buckets during a grow).
-			if t.ReflexiveKey() || t.Key.Equal(k, k) {
-				// If the item in the oldbucket is not destined for
-				// the current new bucket in the iteration, skip it.
-				hash := t.Hasher(k, uintptr(h.hash0))
-				if hash&bucketMask(it.B) != checkBucket {
-					continue
-				}
-			} else {
-				// Hash isn't repeatable if k != k (NaNs).  We need a
-				// repeatable and randomish choice of which direction
-				// to send NaNs during evacuation. We'll use the low
-				// bit of tophash to decide which way NaNs go.
-				// NOTE: this case is why we need two evacuate tophash
-				// values, evacuatedX and evacuatedY, that differ in
-				// their low bit.
-				if checkBucket>>(it.B-1) != uintptr(b.tophash[offi]&1) {
-					continue
-				}
-			}
-		}
-		if (b.tophash[offi] != evacuatedX && b.tophash[offi] != evacuatedY) ||
-			!(t.ReflexiveKey() || t.Key.Equal(k, k)) {
-			// This is the golden data, we can return it.
-			// OR
-			// key!=key, so the entry can't be deleted or updated, so we can just return it.
-			// That's lucky for us because when key!=key we can't look it up successfully.
-			it.key = k
-			if t.IndirectElem() {
-				e = *((*unsafe.Pointer)(e))
-			}
-			it.elem = e
-		} else {
-			// The hash table has grown since the iterator was started.
-			// The golden data for this key is now somewhere else.
-			// Check the current hash table for the data.
-			// This code handles the case where the key
-			// has been deleted, updated, or deleted and reinserted.
-			// NOTE: we need to regrab the key as it has potentially been
-			// updated to an equal() but not identical key (e.g. +0.0 vs -0.0).
-			rk, re := mapaccessK(t, h, k)
-			if rk == nil {
-				continue // key has been deleted
-			}
-			it.key = rk
-			it.elem = re
-		}
-		it.bucket = bucket
-		if it.bptr != b { // avoid unnecessary write barrier; see issue 14921
-			it.bptr = b
-		}
-		it.i = i + 1
-		it.checkBucket = checkBucket
-		return
-	}
-	b = b.overflow(t)
-	i = 0
-	goto next
+	throw("mapiternext unimplemented")
 }
 
 // mapclear deletes all keys from a map.
