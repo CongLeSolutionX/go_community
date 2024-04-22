@@ -243,6 +243,11 @@ func reflectlite_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	reflect_typedmemmove(typ, dst, src)
 }
 
+//go:linkname maps_typedmemmove internal/runtime/maps.typedmemmove
+func maps_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
+	typedmemmove(typ, dst, src)
+}
+
 // reflectcallmove is invoked by reflectcall to copy the return values
 // out of the stack and into the heap, invoking the necessary write
 // barriers. dst, src, and size describe the return value area to
@@ -387,6 +392,12 @@ func typedmemclr(typ *_type, ptr unsafe.Pointer) {
 func reflect_typedmemclr(typ *_type, ptr unsafe.Pointer) {
 	typedmemclr(typ, ptr)
 }
+
+//go:linkname maps_typedmemclr internal/runtime/maps.typedmemclr
+func maps_typedmemclr(typ *_type, ptr unsafe.Pointer) {
+	typedmemclr(typ, ptr)
+}
+
 
 //go:linkname reflect_typedmemclrpartial reflect.typedmemclrpartial
 func reflect_typedmemclrpartial(typ *_type, ptr unsafe.Pointer, off, size uintptr) {
