@@ -216,6 +216,24 @@
       "parentUuid": "3dad10e5_033e88aa",
       "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22306f62_aff7e716",
+        "filename": "src/cmd/go/testdata/script/env_changed.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-22T14:22:23Z",
+      "side": 1,
+      "message": "Because most of the other env related tests don\u0027t match the regular expression key\u003dvalue, instead the regular expression only matches value.\n\nOr like https://github.com/golang/go/blob/master/src/cmd/go/testdata/script/env_exp.txt#L12",
+      "parentUuid": "5228b3d5_00d22ad4",
+      "revId": "f45625741c43ce5b9c5ae377903e4e26b960e705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
