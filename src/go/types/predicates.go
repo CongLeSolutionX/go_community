@@ -513,7 +513,9 @@ func identicalInstance(xorig Type, xargs []Type, yorig Type, yargs []Type) bool 
 // it returns the incoming type for all other types. The default type
 // for untyped nil is untyped nil.
 func Default(t Type) Type {
-	if t, ok := Unalias(t).(*Basic); ok {
+	// Alias and named types cannot denote untyped types
+	// so there's no need to call Unalias or under, below.
+	if t, _ := t.(*Basic); t != nil {
 		switch t.kind {
 		case UntypedBool:
 			return Typ[Bool]
@@ -530,6 +532,17 @@ func Default(t Type) Type {
 		}
 	}
 	return t
+}
+
+// defaultInt returns the default integer type for t:
+// rune for untyped rune, int for all other types.
+func defaultInt(t Type) Type {
+	// Alias and named types cannot denote untyped types
+	// so there's no need to call Unalias or under, below.
+	if t, _ := t.(*Basic); t != nil && t.kind == UntypedRune {
+		return Typ[Rune]
+	}
+	return Typ[Int]
 }
 
 // maxType returns the "largest" type that encompasses both x and y.
