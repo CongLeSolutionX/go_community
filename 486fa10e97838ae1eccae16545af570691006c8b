@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b9d9305_6c573043",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-04-23T15:45:30Z",
+      "side": 1,
+      "message": "Another possibility is to check the section is read-only only when it exists, and also allow the section to be absent.",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "486fa10e97838ae1eccae16545af570691006c8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
