@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9cc07e1_9392bd25",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-04-23T21:00:21Z",
+      "side": 1,
+      "message": "Done in follow-up CL.",
+      "parentUuid": "15370001_3388dcb2",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 543,
+        "endChar": 1
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdeea219_f2b75006",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-23T17:40:46Z",
       "side": 1,
       "message": "I think we should inline defaultInt here, as a function variable.\n\nThe logic of defaultInt only makes sense in the context of a rangeStmt.",
+      "range": {
+        "startLine": 901,
+        "startChar": 1,
+        "endLine": 901,
+        "endChar": 80
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "966a0dfa_bf9e144a",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-04-23T21:00:21Z",
+      "side": 1,
+      "message": "Done in follow-up CL.",
+      "parentUuid": "bdeea219_f2b75006",
       "range": {
         "startLine": 901,
         "startChar": 1,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f81e069d_bdf4b10e",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-04-23T21:00:21Z",
+      "side": 1,
+      "message": "x is used in the previous case and even though the assert is there ensuring that that x is the correct one, it seemed cleaner and clearer to not reuse the same x here.",
+      "parentUuid": "d4851013_65fdb009",
+      "range": {
+        "startLine": 947,
+        "startChar": 4,
+        "endLine": 947,
+        "endChar": 17
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff8c2b31_b95de312",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-04-23T17:40:46Z",
       "side": 1,
       "message": "Why is this a soft error? Shouldn\u0027t it be a hard error?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 9,
+        "endLine": 1006,
+        "endChar": 19
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20358f34_36512c42",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-04-23T21:00:21Z",
+      "side": 1,
+      "message": "Type-checking can continue w/o problems.\nSee the soft errors on line 884.\nBut I agree it\u0027s not consistent (e.g. the assignVar or 989 will have hard errors).\nMaybe for another CL to clean up.",
+      "parentUuid": "ff8c2b31_b95de312",
       "range": {
         "startLine": 1006,
         "startChar": 9,
