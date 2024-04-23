@@ -196,8 +196,9 @@ func (mu *fdMutex) rwunlock(read bool) bool {
 func runtime_Semacquire(sema *uint32)
 func runtime_Semrelease(sema *uint32)
 
-// incref adds a reference to fd.
+// Incref adds a reference to fd.
 // It returns an error when fd cannot be used.
+func (fd *FD) Incref() error { return fd.incref() }
 func (fd *FD) incref() error {
 	if !fd.fdmu.incref() {
 		return errClosing(fd.isFile)
@@ -205,9 +206,10 @@ func (fd *FD) incref() error {
 	return nil
 }
 
-// decref removes a reference from fd.
+// Decref removes a reference from fd.
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
+func (fd *FD) Decref() error { return fd.decref() }
 func (fd *FD) decref() error {
 	if fd.fdmu.decref() {
 		return fd.destroy()
