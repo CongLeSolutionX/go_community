@@ -206,6 +206,11 @@ func newFile(fd int, name string, kind newFileKind, nonBlocking bool) *File {
 			if (runtime.GOOS == "darwin" || runtime.GOOS == "ios") && typ == syscall.S_IFIFO {
 				pollable = false
 			}
+		case "wasip1":
+			// Work around a wazero bug.
+			// TODO: Move this into a separate CL.
+			syscall.SetNonblock(fd, false)
+			pollable = false
 		}
 	}
 
