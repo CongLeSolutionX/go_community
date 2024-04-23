@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4c5b1a_a526fbe2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-04-23T11:35:19Z",
+      "side": 1,
+      "message": "net: make sendfile work again with non-*os.File readers on macOS",
+      "revId": "ce9f5ee360a5dc6becfe1a3ba29c0a68fe5ed40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9fc1028c_4bbdadb2",
