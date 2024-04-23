@@ -7,10 +7,26 @@ package types2
 type gcSizes struct {
 	WordSize    int64       // word size in bytes - must be >= 4 (32bits)
 	MaxAlign    int64       // maximum alignment in bytes - must be >= 1
-	SpecialCase specialCase // some architectures have special rules signaled by structs.HostLayout
+	SpecialCase specialCase // some architectures have special rules
 }
 
 type specialCase uint32
+
+const ( // Special cases
+	isWasm32 = specialCase(1) << iota // structs.HostLayout gives 8-byte alignment to 8-byte primitive types.
+)
+
+func wasm32Align(a int64, ft Type) int64 {
+	if a < 8 {
+		if bt, ok := under(ft).(*Basic); ok {
+			switch bt.Kind() {
+			case Int64, Uint64, Float64:
+				a = 8
+			}
+		}
+	}
+	return a
+}
 
 func (s *gcSizes) Alignof(T Type) (result int64) {
 	defer func() {
@@ -41,8 +57,13 @@ func (s *gcSizes) Alignof(T Type) (result int64) {
 		// field f of x, but at least 1."
 		max := int64(1)
 
+		isWasm32HP := s.isWasm32HostPlatform(t.fields) // 8-byte int and float fields are 8 byte-aligned
+
 		for _, f := range t.fields {
 			a := s.Alignof(f.typ)
+			if isWasm32HP {
+				a = wasm32Align(a, f.typ)
+			}
 			if a > max {
 				max = a
 			}
@@ -89,9 +110,23 @@ func isHostPlatform(T Type) bool {
 		(obj.Pkg().Path() == "structs")
 }
 
+func (s *gcSizes) isWasm32HostPlatform(fields []*Var) bool {
+	if s.SpecialCase&isWasm32 == 0 {
+		return false
+	}
+	for _, f := range fields {
+		if isHostPlatform(f.typ) {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *gcSizes) Offsetsof(fields []*Var) []int64 {
 	offsets := make([]int64, len(fields))
 	var offs int64
+
+	isWasm32HP := s.isWasm32HostPlatform(fields) // 8-byte int and float fields are 8 byte-aligned
 
 	for i, f := range fields {
 		if offs < 0 {
@@ -101,6 +136,9 @@ func (s *gcSizes) Offsetsof(fields []*Var) []int64 {
 		}
 		// offs >= 0
 		a := s.Alignof(f.typ)
+		if isWasm32HP {
+			a = wasm32Align(a, f.typ)
+		}
 		offs = align(offs, a) // possibly < 0 if align overflows
 		offsets[i] = offs
 		if d := s.Sizeof(f.typ); d >= 0 && offs >= 0 {

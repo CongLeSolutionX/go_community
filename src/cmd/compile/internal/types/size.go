@@ -165,16 +165,35 @@ func isHostLayoutType(t *Type) bool {
 	return false
 }
 
+func isWasm32HostLayout(fields []*Field) bool {
+	if base.Ctxt.Arch.Name != "wasm32" {
+		return false
+	}
+	for _, f := range fields {
+		if isHostLayoutType(f.Type) {
+			return true
+		}
+	}
+	return false
+}
+
 // calcStructOffset computes the offsets of a sequence of fields,
 // starting at the given offset. It returns the resulting offset and
 // maximum field alignment.
 func calcStructOffset(t *Type, fields []*Field, offset int64) (int64, uint8) {
+	wasm32HostLayout := isWasm32HostLayout(fields)
 	maxAlign := uint8(1)
 
 	for _, f := range fields {
 		CalcSize(f.Type)
 		ft := f.Type
 		fAlign := ft.align
+		if wasm32HostLayout && ft.width == 8 && fAlign < 8 {
+			switch ft.Kind() {
+			case TFLOAT64, TUINT64, TINT64:
+				fAlign = 8
+			}
+		}
 
 		offset = RoundUp(offset, int64(fAlign))
 		if fAlign > maxAlign {
