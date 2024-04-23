@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9b7842a_5e651123",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:31:44Z",
+      "side": 1,
+      "message": "this?",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5789ec_d7991e44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:31:44Z",
+      "side": 1,
+      "message": "I feel like this is kind of over-aligning, in cases like\n\nfunc f() {\n   for { hotCall() }\n   for { coldCall() }\n}\n\nThis will align both loops, when really only the first one matters.\nIs there more fine-grained info available about which loops are hot or not?\nMaybe we could walk hot-ness up the dominator tree or something, so only loops with hot calls in them would get aligned, instead of this CL which does \"hot call anywhere, align everywhere\".",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29bcaab2_8922bf2d",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:31:44Z",
+      "side": 1,
+      "message": "I don\u0027t think you need the profile!\u003dnil wrapper any more.",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcef722d_fa9630f4",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:31:44Z",
+      "side": 1,
+      "message": "Also describe the 3rd return value here.",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a7094fa_64688337",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:31:44Z",
+      "side": 1,
+      "message": "Kind of unfortunate this bumps Block up in size.\nWe could have a flags uint8 field instead to share space with FlagsLiveAtEnd.\nWe could also make BlockKind a uint8 instead of an int16.",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9adbac9c_8d9ce5ee",
+        "filename": "src/cmd/compile/internal/ssa/looprotate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:31:44Z",
+      "side": 1,
+      "message": "We\u0027re using \"head\" in two different senses here. Perhaps we should use a different name.\nCurrently \"head\" \u003d first block of the loop to be executed.\n\nI kind of lead towards\n\"initial\" \u003d first block of the loop to be executed\n\"head\" \u003d first block of the loop in PC order\nbut that\u0027s kind of a confusing rename given the current meaning. Other suggestions welcome.",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "741b6551_0527638b",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:31:44Z",
+      "side": 0,
+      "message": "Describe 4th return value here.",
+      "revId": "aa63ef4b8b997e59ab895841d8643afdae786edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
