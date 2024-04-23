@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d48d273_622a8af7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T20:04:03Z",
+      "side": 1,
+      "message": "Could you be more specific about what wrappers this applies to? Some examples would help.",
+      "revId": "641ae10ae838d6f9c3951438fe43b5907eb47b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42ef8b73_b3caf99a",
+        "filename": "src/cmd/compile/internal/inline/interleaved/interleaved.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T20:04:03Z",
+      "side": 1,
+      "message": "I feel like this is a very general function and shouldn\u0027t be updating NoInline specifially. Can\u0027t we do this in one of the match/edit functions that are passed in?",
+      "revId": "641ae10ae838d6f9c3951438fe43b5907eb47b07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
