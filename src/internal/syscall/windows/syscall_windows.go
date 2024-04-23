@@ -5,8 +5,10 @@
 package windows
 
 import (
+	"internal/itoa"
 	"sync"
 	"syscall"
+	"unicode/utf16"
 	"unsafe"
 )
 
@@ -502,3 +504,32 @@ func QueryPerformanceCounter() int64 // Implemented in runtime package.
 func QueryPerformanceFrequency() int64 // Implemented in runtime package.
 
 //sys   GetModuleHandle(modulename *uint16) (handle syscall.Handle, err error) = kernel32.GetModuleHandleW
+
+// NTStatus corresponds with NTSTATUS, error values returned by ntdll.dll and
+// other native functions.
+type NTStatus uint32
+
+func (s NTStatus) Errno() syscall.Errno {
+	return rtlNtStatusToDosErrorNoTeb(s)
+}
+
+func langID(pri, sub uint16) uint32 { return uint32(sub)<<10 | uint32(pri) }
+
+func (s NTStatus) Error() string {
+	b := make([]uint16, 300)
+	n, err := FormatMessage(syscall.FORMAT_MESSAGE_FROM_SYSTEM|syscall.FORMAT_MESSAGE_FROM_HMODULE|syscall.FORMAT_MESSAGE_ARGUMENT_ARRAY, modntdll.Handle(), uint32(s), langID(syscall.LANG_ENGLISH, syscall.SUBLANG_ENGLISH_US), b, nil)
+	if err != nil {
+		return "NTSTATUS 0x" + itoa.Uitox(uint(s))
+	}
+	// trim terminating \r and \n
+	for ; n > 0 && (b[n-1] == '\n' || b[n-1] == '\r'); n-- {
+	}
+	return string(utf16.Decode(b[:n]))
+}
+
+//sys   FormatMessage(flags uint32, msgsrc uintptr, msgid uint32, langid uint32, buf []uint16, args *byte) (n uint32, err error) = FormatMessageW
+
+// NT Native APIs
+//sys   RtlInitUnicodeString(destinationString *NTUnicodeString, sourceString *uint16) = ntdll.RtlInitUnicodeString
+//sys   NtCreateFile(handle *syscall.Handle, access uint32, oa *OBJECT_ATTRIBUTES, iosb *IO_STATUS_BLOCK, allocationSize *int64, attributes uint32, share uint32, disposition uint32, options uint32, eabuffer uintptr, ealength uint32) (ntstatus error) = ntdll.NtCreateFile
+//sys   rtlNtStatusToDosErrorNoTeb(ntstatus NTStatus) (ret syscall.Errno) = ntdll.RtlNtStatusToDosErrorNoTeb
