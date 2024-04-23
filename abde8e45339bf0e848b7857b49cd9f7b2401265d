@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c64bbd96_621ab5ed",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-23T17:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52fd8ca4_40940a40",
+      "revId": "abde8e45339bf0e848b7857b49cd9f7b2401265d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78df3e73_1c28619b",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-22T18:12:10Z",
       "side": 1,
       "message": "I don\u0027t think we need the issue reference.",
+      "revId": "abde8e45339bf0e848b7857b49cd9f7b2401265d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ba3865_d69fee25",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-23T17:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78df3e73_1c28619b",
       "revId": "abde8e45339bf0e848b7857b49cd9f7b2401265d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
