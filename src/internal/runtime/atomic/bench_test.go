@@ -43,6 +43,14 @@ func BenchmarkAtomicStore(b *testing.B) {
 	}
 }
 
+func BenchmarkAtomicLoad8(b *testing.B) {
+	var x uint8
+	sink = &x
+	for i := 0; i < b.N; i++ {
+		atomic.Load8(&x)
+	}
+}
+
 func BenchmarkAtomicStore8(b *testing.B) {
 	var x uint8
 	sink = &x
