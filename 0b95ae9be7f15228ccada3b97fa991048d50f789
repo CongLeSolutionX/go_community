@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2ea905a_ad185d9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:57:32Z",
+      "side": 1,
+      "message": "Maybe an easier way to explain this is \"PCALIGNIF x, y\" is \"align to x byte boundary, if you can do it by spending at most y bytes\".",
+      "revId": "0b95ae9be7f15228ccada3b97fa991048d50f789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "637fa737_4f03b141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:57:32Z",
+      "side": 1,
+      "message": "I have a suspicion here, and it is just that: this is useful because it prevents the end of the loop from spilling over into an extra cache line (instruction decode cache line?).\n\nFor instance, suppose the loop was 70 bytes of code. Aligning to 64 bytes gives you 64 bytes in the first cache line and 6 in the second. But splitting 32|38 is also just 2 cache lines. It\u0027s not clear that 64|6 is any better than 32|38. Only cases like 3|64|3 are really worth avoiding. So in that case we\u0027d want PCALIGNIF 64, 5.\n\nThat all depends on knowing the total byte count for a loop, which I don\u0027t think we know at this point in compilation, unfortunately.\n\nIt also depends on the #cache lines being the performance problem. I think it is plausible but I have no evidence for that.",
+      "revId": "0b95ae9be7f15228ccada3b97fa991048d50f789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8980cc52_1d730ff9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-23T16:57:32Z",
+      "side": 1,
+      "message": "This looks like it didn\u0027t get rebased properly on the other CL, so it has all those changes as well.",
+      "revId": "0b95ae9be7f15228ccada3b97fa991048d50f789",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
