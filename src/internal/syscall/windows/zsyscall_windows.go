@@ -62,6 +62,7 @@ var (
 	procProcessPrng                       = modbcryptprimitives.NewProc("ProcessPrng")
 	procGetAdaptersAddresses              = modiphlpapi.NewProc("GetAdaptersAddresses")
 	procCreateEventW                      = modkernel32.NewProc("CreateEventW")
+	procFormatMessageW                    = modkernel32.NewProc("FormatMessageW")
 	procGetACP                            = modkernel32.NewProc("GetACP")
 	procGetComputerNameExW                = modkernel32.NewProc("GetComputerNameExW")
 	procGetConsoleCP                      = modkernel32.NewProc("GetConsoleCP")
@@ -88,7 +89,10 @@ var (
 	procNetUserAdd                        = modnetapi32.NewProc("NetUserAdd")
 	procNetUserDel                        = modnetapi32.NewProc("NetUserDel")
 	procNetUserGetLocalGroups             = modnetapi32.NewProc("NetUserGetLocalGroups")
+	procNtCreateFile                      = modntdll.NewProc("NtCreateFile")
 	procRtlGetVersion                     = modntdll.NewProc("RtlGetVersion")
+	procRtlInitUnicodeString              = modntdll.NewProc("RtlInitUnicodeString")
+	procRtlNtStatusToDosErrorNoTeb        = modntdll.NewProc("RtlNtStatusToDosErrorNoTeb")
 	procGetProcessMemoryInfo              = modpsapi.NewProc("GetProcessMemoryInfo")
 	procCreateEnvironmentBlock            = moduserenv.NewProc("CreateEnvironmentBlock")
 	procDestroyEnvironmentBlock           = moduserenv.NewProc("DestroyEnvironmentBlock")
@@ -228,6 +232,19 @@ func CreateEvent(eventAttrs *SecurityAttributes, manualReset uint32, initialStat
 	r0, _, e1 := syscall.Syscall6(procCreateEventW.Addr(), 4, uintptr(unsafe.Pointer(eventAttrs)), uintptr(manualReset), uintptr(initialState), uintptr(unsafe.Pointer(name)), 0, 0)
 	handle = syscall.Handle(r0)
 	if handle == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func FormatMessage(flags uint32, msgsrc uintptr, msgid uint32, langid uint32, buf []uint16, args *byte) (n uint32, err error) {
+	var _p0 *uint16
+	if len(buf) > 0 {
+		_p0 = &buf[0]
+	}
+	r0, _, e1 := syscall.Syscall9(procFormatMessageW.Addr(), 7, uintptr(flags), uintptr(msgsrc), uintptr(msgid), uintptr(langid), uintptr(unsafe.Pointer(_p0)), uintptr(len(buf)), uintptr(unsafe.Pointer(args)), 0, 0)
+	n = uint32(r0)
+	if n == 0 {
 		err = errnoErr(e1)
 	}
 	return
@@ -439,8 +456,27 @@ func NetUserGetLocalGroups(serverName *uint16, userName *uint16, level uint32, f
 	return
 }
 
+func NtCreateFile(handle *syscall.Handle, access uint32, oa *OBJECT_ATTRIBUTES, iosb *IO_STATUS_BLOCK, allocationSize *int64, attributes uint32, share uint32, disposition uint32, options uint32, eabuffer uintptr, ealength uint32) (ntstatus error) {
+	r0, _, _ := syscall.Syscall12(procNtCreateFile.Addr(), 11, uintptr(unsafe.Pointer(handle)), uintptr(access), uintptr(unsafe.Pointer(oa)), uintptr(unsafe.Pointer(iosb)), uintptr(unsafe.Pointer(allocationSize)), uintptr(attributes), uintptr(share), uintptr(disposition), uintptr(options), uintptr(eabuffer), uintptr(ealength), 0)
+	if r0 != 0 {
+		ntstatus = NTStatus(r0)
+	}
+	return
+}
+
 func rtlGetVersion(info *_OSVERSIONINFOW) {
 	syscall.Syscall(procRtlGetVersion.Addr(), 1, uintptr(unsafe.Pointer(info)), 0, 0)
+	return
+}
+
+func RtlInitUnicodeString(destinationString *NTUnicodeString, sourceString *uint16) {
+	syscall.Syscall(procRtlInitUnicodeString.Addr(), 2, uintptr(unsafe.Pointer(destinationString)), uintptr(unsafe.Pointer(sourceString)), 0)
+	return
+}
+
+func rtlNtStatusToDosErrorNoTeb(ntstatus NTStatus) (ret syscall.Errno) {
+	r0, _, _ := syscall.Syscall(procRtlNtStatusToDosErrorNoTeb.Addr(), 1, uintptr(ntstatus), 0, 0)
+	ret = syscall.Errno(r0)
 	return
 }
 
