@@ -229,11 +229,81 @@ func TestReaddirRemoveRace(t *testing.T) {
 }
 
 // Issue 23120: respect umask when doing Mkdir with the sticky bit
+func TestStickyUmask(t *testing.T) {
+	oldUmask := syscall.Umask(0077)
+	defer syscall.Umask(oldUmask)
+
+	for _, test := range []struct {
+		name   string
+		create func(t *testing.T, path string, mode FileMode) error
+	}{{
+		name: "Mkdir",
+		create: func(t *testing.T, path string, mode FileMode) error {
+			return Mkdir(path, mode)
+		},
+	}, {
+		name: "OpenFile",
+		create: func(t *testing.T, path string, mode FileMode) error {
+			f, err := OpenFile(path, O_CREATE|O_RDWR, mode)
+			if err == nil {
+				f.Close()
+			}
+			return err
+		},
+	}, {
+		name: "RootOpenFile",
+		create: func(t *testing.T, path string, mode FileMode) error {
+			dir, name := filepath.Split(path)
+			r, err := OpenRoot(dir)
+			if err != nil {
+				t.Fatal(err)
+			}
+			f, err := r.OpenFile(name, O_CREATE|O_RDWR, mode)
+			if err == nil {
+				f.Close()
+			}
+			return err
+		},
+	}} {
+		t.Run(test.name, func(t *testing.T) {
+			dir := t.TempDir()
+
+			// We have set a umask, but if the parent directory happens to have a default
+			// ACL, the umask may be ignored. To prevent spurious failures from an ACL,
+			// we create a non-sticky directory as a “control case” to compare against our
+			// sticky-bit “experiment”.
+			control := filepath.Join(dir, "control")
+			if err := test.create(t, control, 0755); err != nil {
+				t.Fatal(err)
+			}
+			cfi, err := Stat(control)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			p := filepath.Join(dir, "dir1")
+			if err := test.create(t, p, ModeSticky|0755); err != nil {
+				t.Fatal(err)
+			}
+			fi, err := Stat(p)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			got := fi.Mode()
+			want := cfi.Mode() | ModeSticky
+			if got != want {
+				t.Errorf("create file with mode ModeSticky|0755 created file with mode %v; want %v", got, want)
+			}
+		})
+	}
+}
+
+// Issue 23120: respect umask when doing Mkdir with the sticky bit
 func TestMkdirStickyUmask(t *testing.T) {
 	if runtime.GOOS == "wasip1" {
 		t.Skip("file permissions not supported on " + runtime.GOOS)
 	}
-	t.Parallel()
 
 	const umask = 0077
 	dir := t.TempDir()
