@@ -233,7 +233,6 @@ func TestMkdirStickyUmask(t *testing.T) {
 	if runtime.GOOS == "wasip1" {
 		t.Skip("file permissions not supported on " + runtime.GOOS)
 	}
-	t.Parallel()
 
 	const umask = 0077
 	dir := t.TempDir()

@@ -452,26 +452,13 @@ func appendCleanPath(buf []byte, path string, lookupParent bool) ([]byte, bool) 
 // fixed capacity). Since it will significantly increase code complexity,
 // we prefer to optimize for readability and maintainability at this time.
 func joinPath(dir, file string) string {
-	buf := make([]byte, 0, len(dir)+len(file)+1)
-	if isAbs(dir) {
-		buf = append(buf, '/')
+	for stringslite.HasSuffix(dir, "/") {
+		dir = dir[:len(dir)-1]
 	}
-	buf, lookupParent := appendCleanPath(buf, dir, false)
-	buf, _ = appendCleanPath(buf, file, lookupParent)
-	// The appendCleanPath function cleans the path so it does not inject
-	// references to the current directory. If both the dir and file args
-	// were ".", this results in the output buffer being empty so we handle
-	// this condition here.
-	if len(buf) == 0 {
-		buf = append(buf, '.')
+	for stringslite.HasPrefix(file, "/") {
+		file = file[1:]
 	}
-	// If the file ended with a '/' we make sure that the output also ends
-	// with a '/'. This is needed to ensure that programs have a mechanism
-	// to represent dereferencing symbolic links pointing to directories.
-	if buf[len(buf)-1] != '/' && isDir(file) {
-		buf = append(buf, '/')
-	}
-	return unsafe.String(&buf[0], len(buf))
+	return dir + "/" + file
 }
 
 func isAbs(path string) bool {
@@ -520,7 +507,14 @@ func Open(path string, openmode int, perm uint32) (int, error) {
 		return -1, EINVAL
 	}
 	dirFd, pathPtr, pathLen := preparePath(path)
+	return openat(dirFd, pathPtr, pathLen, openmode, perm)
+}
 
+func Openat(dirFd int, path string, openmode int, perm uint32) (int, error) {
+	return openat(int32(dirFd), stringPointer(path), size(len(path)), openmode, perm)
+}
+
+func openat(dirFd int32, pathPtr unsafe.Pointer, pathLen size, openmode int, perm uint32) (int, error) {
 	var oflags oflags
 	if (openmode & O_CREATE) != 0 {
 		oflags |= OFLAG_CREATE
@@ -558,10 +552,15 @@ func Open(path string, openmode int, perm uint32) (int, error) {
 		fdflags |= FDFLAG_SYNC
 	}
 
+	var lflags lookupflags
+	if openmode&O_NOFOLLOW == 0 {
+		lflags = LOOKUP_SYMLINK_FOLLOW
+	}
+
 	var fd int32
 	errno := path_open(
 		dirFd,
-		LOOKUP_SYMLINK_FOLLOW,
+		lflags,
 		pathPtr,
 		pathLen,
 		oflags,
