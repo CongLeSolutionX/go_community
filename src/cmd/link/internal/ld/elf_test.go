@@ -194,6 +194,16 @@ func TestElfBindNow(t *testing.T) {
 		progC = `package main; import "C"; func main() {}`
 	)
 
+	// For linux/amd64 and linux/arm64, for relro we'll always see
+	// a .got section when building with -buildmode=pie (in addition
+	// to .dynamic); for some other less mainstream archs (ppc64le,
+	// s390) this is not the case. Keep things simple; look for
+	// readonly .got only for arm64 and amd64.
+	expectedROSecs := []string{".dynamic"}
+	if runtime.GOARCH == "amd64" || runtime.GOARCH == "arm64" {
+		expectedROSecs = []string{".dynamic", ".got"}
+	}
+
 	tests := []struct {
 		name                 string
 		args                 []string
@@ -214,7 +224,7 @@ func TestElfBindNow(t *testing.T) {
 			mustHaveBuildModePIE: true,
 			mustInternalLink:     true,
 			wantDf1Pie:           true,
-			wantSecsRO:           []string{".dynamic", ".got"},
+			wantSecsRO:           expectedROSecs,
 		},
 		{
 			name:             "bindnow-linkmode-internal",
@@ -234,7 +244,7 @@ func TestElfBindNow(t *testing.T) {
 			wantDfBindNow:        true,
 			wantDf1Now:           true,
 			wantDf1Pie:           true,
-			wantSecsRO:           []string{".dynamic", ".got", ".got.plt"},
+			wantSecsRO:           expectedROSecs,
 		},
 		{
 			name:                 "bindnow-pie-linkmode-external",
@@ -246,7 +256,7 @@ func TestElfBindNow(t *testing.T) {
 			wantDf1Now:           true,
 			wantDf1Pie:           true,
 			// NB: external linker produces .plt.got, not .got.plt
-			wantSecsRO: []string{".dynamic", ".got"},
+			wantSecsRO: expectedROSecs,
 		},
 	}
 
@@ -339,54 +349,50 @@ func TestElfBindNow(t *testing.T) {
 				t.Fatalf("DT_FLAGS_1 DF_1_PIE got: %v, want: %v", gotDf1Pie, test.wantDf1Pie)
 			}
 
-			// Skipping this newer portion of the test temporarily pending resolution of problems on ppc64le, loonpg64, possibly others.
-			if false {
+			for _, wsroname := range test.wantSecsRO {
+				// Locate section of interest.
+				var wsro *elf.Section
+				for _, s := range elfFile.Sections {
+					if s.Name == wsroname {
+						wsro = s
+						break
+					}
+				}
+				if wsro == nil {
+					t.Fatalf("test %s: can't locate %q section",
+						test.name, wsroname)
+				}
 
-				for _, wsroname := range test.wantSecsRO {
-					// Locate section of interest.
-					var wsro *elf.Section
-					for _, s := range elfFile.Sections {
-						if s.Name == wsroname {
-							wsro = s
-							break
+				// Now walk the program headers. Section should be part of
+				// some segment that is readonly.
+				foundRO := false
+				foundSegs := []*elf.Prog{}
+				for _, p := range elfFile.Progs {
+					if segContainsSec(p, wsro) {
+						foundSegs = append(foundSegs, p)
+						if p.Flags == elf.PF_R {
+							foundRO = true
 						}
 					}
-					if wsro == nil {
-						t.Fatalf("test %s: can't locate %q section",
-							test.name, wsroname)
+				}
+				if !foundRO {
+					// Things went off the rails. Write out some
+					// useful information for a human looking at the
+					// test failure.
+					t.Logf("test %s: %q section not in readonly segment",
+						wsro.Name, test.name)
+					t.Logf("section %s location: st=0x%x en=0x%x\n",
+						wsro.Name, wsro.Addr, wsro.Addr+wsro.FileSize)
+					t.Logf("sec %s found in these segments: ", wsro.Name)
+					for _, p := range foundSegs {
+						t.Logf(" %q", p.Type)
 					}
-
-					// Now walk the program headers. Section should be part of
-					// some segment that is readonly.
-					foundRO := false
-					foundSegs := []*elf.Prog{}
-					for _, p := range elfFile.Progs {
-						if segContainsSec(p, wsro) {
-							foundSegs = append(foundSegs, p)
-							if p.Flags == elf.PF_R {
-								foundRO = true
-							}
-						}
+					t.Logf("\nall segments: \n")
+					for k, p := range elfFile.Progs {
+						t.Logf("%d t=%s fl=%s st=0x%x en=0x%x\n",
+							k, p.Type, p.Flags, p.Vaddr, p.Vaddr+p.Filesz)
 					}
-					if !foundRO {
-						// Things went off the rails. Write out some
-						// useful information for a human looking at the
-						// test failure.
-						t.Logf("test %s: %q section not in readonly segment",
-							wsro.Name, test.name)
-						t.Logf("section %s location: st=0x%x en=0x%x\n",
-							wsro.Name, wsro.Addr, wsro.Addr+wsro.FileSize)
-						t.Logf("sec %s found in these segments: ", wsro.Name)
-						for _, p := range foundSegs {
-							t.Logf(" %q", p.Type)
-						}
-						t.Logf("\nall segments: \n")
-						for k, p := range elfFile.Progs {
-							t.Logf("%d t=%s fl=%s st=0x%x en=0x%x\n",
-								k, p.Type, p.Flags, p.Vaddr, p.Vaddr+p.Filesz)
-						}
-						t.Fatalf("test %s failed", test.name)
-					}
+					t.Fatalf("test %s failed", test.name)
 				}
 			}
 		})
