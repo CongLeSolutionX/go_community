@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31ebff3c_bf1d2863",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-04-23T11:59:17Z",
+      "side": 1,
+      "message": "We need 2 * +1 from Googlers before we can submit your CL.\n\nBut I can see your CL listed at https://go.dev/s/needs-review now.\n\nSo we will wait now.\n\nAlex",
+      "revId": "488685cceece60992699eb8b00a8e33fe5669a44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
