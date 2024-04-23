@@ -38,3 +38,39 @@ func Openat(dirfd int, path string, flags int, perm uint32) (int, error) {
 
 	return int(fd), nil
 }
+
+func Readlinkat(dirfd int, path string, buf []byte) (int, error) {
+	p, err := syscall.BytePtrFromString(path)
+	if err != nil {
+		return 0, err
+	}
+
+	n, _, errno := syscall.Syscall6(readlinkatTrap,
+		uintptr(dirfd),
+		uintptr(unsafe.Pointer(p)),
+		uintptr(unsafe.Pointer(&buf[0])),
+		uintptr(len(buf)),
+		0, 0)
+	if errno != 0 {
+		return 0, errno
+	}
+
+	return int(n), nil
+}
+
+func Mkdirat(dirfd int, path string, mode uint32) error {
+	p, err := syscall.BytePtrFromString(path)
+	if err != nil {
+		return err
+	}
+
+	_, _, errno := syscall.Syscall6(mkdiratTrap,
+		uintptr(dirfd),
+		uintptr(unsafe.Pointer(p)),
+		uintptr(mode),
+		0, 0, 0)
+	if errno != 0 {
+		return errno
+	}
+	return nil
+}
