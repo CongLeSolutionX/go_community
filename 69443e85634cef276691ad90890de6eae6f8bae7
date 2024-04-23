@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15370001_3388dcb2",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-04-23T17:40:46Z",
+      "side": 1,
+      "message": "This helper doesn\u0027t make a lot of sense in isolation. See comment about inlining below.",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 543,
+        "endChar": 1
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdeea219_f2b75006",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-04-23T17:40:46Z",
+      "side": 1,
+      "message": "I think we should inline defaultInt here, as a function variable.\n\nThe logic of defaultInt only makes sense in the context of a rangeStmt.",
+      "range": {
+        "startLine": 901,
+        "startChar": 1,
+        "endLine": 901,
+        "endChar": 80
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4851013_65fdb009",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-04-23T17:40:46Z",
+      "side": 1,
+      "message": "Why did we change to declaring a new operand here rather than reusing x?\n\nCan we extract the call to initVar out of this switch statement?\n\n(I always find operand usage to be confusing)",
+      "range": {
+        "startLine": 947,
+        "startChar": 4,
+        "endLine": 947,
+        "endChar": 17
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff8c2b31_b95de312",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-04-23T17:40:46Z",
+      "side": 1,
+      "message": "Why is this a soft error? Shouldn\u0027t it be a hard error?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 9,
+        "endLine": 1006,
+        "endChar": 19
+      },
+      "revId": "69443e85634cef276691ad90890de6eae6f8bae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
