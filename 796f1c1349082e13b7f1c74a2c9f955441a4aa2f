@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c095411_8b0ddbf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-04-23T16:06:19Z",
+      "side": 1,
+      "message": "I\u0027m skeptical of moving things so piecemeal like this, especially if it requires creating such a small package (and still using linkname!). It\u0027s great to see whole packages moving over to internal/runtime, but I think we want to hold off on this one.",
+      "revId": "796f1c1349082e13b7f1c74a2c9f955441a4aa2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
