@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7017607_da192566",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "start the first line with \"cmd/go: \"?\n\nI think since we\u0027re",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b8d5458_19389c2e",
+        "filename": "src/cmd/go/internal/gover/version.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "Hmmm, this is a bit different from the others. All the other constants are thresholds for behavior changes for the go version stated in the go.mod file, while this is more related to the definition of a toolchain version. I\u0027m wondering if we can have this encapsulated in IsToolchainValid: so IsToolchainValid returns false for 1.21 but true for 1.20?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29c24773_69ef1de2",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "This strengthens the error condition: now we\u0027ll also return an error to the user if they set GOTOOLCHAIN\u003dgo1.23 even if a binary named go1.23 exists on their PATH. Before this change, we would run the binary named go1.23 because we do a minimal check on the name of the toolchain.\n\nI think we should probably continue to allow that to work since we\u0027ve been really flexible about what we\u0027ve allowed up until now.\n\nWe could add another case right before the download on line 334 checking if the version is a toolchain version and returning the \"is a language version but not a toolchain version\" then. So we still avoid attempting a download that\u0027s going to fail, but allow the binary on PATH case to continue to work.\n\nThat would have the additional benefit that we\u0027d surface the error if the toolchain directive bumped up the toolchain value to to an incorrect value.",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 4
+      },
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e43f8d_5efeefa7",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "I think we should only add the .0 for the version we pass in on line 332 to download the go toolchain.\n\nIf someone has a `go 1.22` directive in their go.mod, and they have a program named go1.22 on their system, we should use that instead of trying to find a program named go1.22.0. (If that didn\u0027t exist, it might make sense to look for a go1.22.0, instead of downloading it/looking in the modcache, but it will be easier to not to that to keep things simple.\n\nMaybe the comment can say something like:\n\n    Starting with Go 1.21, the first released version contains a .0 patch.\n    Don\u0027t try to download a language version without a patch (such as go1.22)\n    that is not a release version. Instead default to the first release of\n    that version (such as 1.22.0), which is likely what the user intended.\n    See golang.org/issue/62278.",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 2
+      },
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e54fd34_41a1a632",
+        "filename": "src/cmd/go/testdata/script/toolchain_issue66175.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "The default behavior for GO111MODULE is now to be on (since Go 1.16) so this line shouldn\u0027t be required even without a go.mod file. Is your test failing without it?\n\nSee https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modload/init.go;l\u003d390",
+      "range": {
+        "startLine": 1,
+        "startChar": 15,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56196324_25fb22b8",
+        "filename": "src/cmd/go/testdata/script/toolchain_issue66175.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "We should probably have \"control\" cases that test that 1.21.0 and 1.22.0 work.",
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acc12bbf_b91b937f",
+        "filename": "src/internal/gover/gover.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "\"a\" ?",
+      "range": {
+        "startLine": 91,
+        "startChar": 46,
+        "endLine": 91,
+        "endChar": 49
+      },
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e5176b_67e9a138",
+        "filename": "src/internal/gover/gover.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "Can we call this just \"IsToolchain\"?",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 95,
+        "endChar": 21
+      },
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03cafc9c_79f90713",
+        "filename": "src/internal/gover/gover.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-24T01:11:06Z",
+      "side": 1,
+      "message": "This should probably return true for Go 1.19? See comment on ToolchainStrictSyntaxVersion. We could move the constant to be defined within and encapsulated in this function.",
+      "revId": "54736d2c91b611bebaa785bed3127e4949167b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
