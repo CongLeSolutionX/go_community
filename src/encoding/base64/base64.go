@@ -456,7 +456,12 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 
 	// Refill buffer.
 	for d.nbuf < 4 && d.readErr == nil {
-		nn := len(p) / 3 * 4
+		nn := 0
+		if d.enc.padChar == NoPadding {
+			nn = (len(p) + 2) / 3 * 4
+		} else {
+			nn = len(p) / 3 * 4
+		}
 		if nn < 4 {
 			nn = 4
 		}
@@ -467,7 +472,7 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 		d.nbuf += nn
 	}
 
-	if d.nbuf < 4 {
+	if d.nbuf < 4 || (d.nbuf%4 != 0 && d.enc.padChar == NoPadding) {
 		if d.enc.padChar == NoPadding && d.nbuf > 0 {
 			// Decode final fragment, without padding.
 			var nw int
