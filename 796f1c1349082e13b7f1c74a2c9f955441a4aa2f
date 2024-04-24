@@ -34,6 +34,24 @@
       "parentUuid": "4c095411_8b0ddbf6",
       "revId": "796f1c1349082e13b7f1c74a2c9f955441a4aa2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf0f2af_d20264a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-24T11:49:03Z",
+      "side": 1,
+      "message": "To clarify, although the go:linkname is used but the proc.Pin and proc.Unpin for this CL have only one link name, just like runtime.keys.\n\nI use \n```\ngo tool nm ..\\bin\\go.exe \u003e n\ngrep Pin n\n```\n\nI confirmed it.",
+      "parentUuid": "a8adb7c1_cd6eb70b",
+      "revId": "796f1c1349082e13b7f1c74a2c9f955441a4aa2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
