@@ -215,6 +215,22 @@ func TestDecoderBuffering(t *testing.T) {
 	}
 }
 
+func TestDecoderBufferingRaw(t *testing.T) {
+	for bs := 0; bs <= 12; bs++ {
+		for _, s := range pairs {
+			decoder := NewDecoder(RawStdEncoding, strings.NewReader(rawRef(s.encoded)))
+			buf := make([]byte, len(rawRef(s.decoded))+bs)
+			var n int
+			var err error
+			n, err = decoder.Read(buf)
+			if err != nil && err != io.EOF {
+				t.Errorf("Read from %q at pos %d = %d, unexpected error %v", rawRef(s.encoded), len(rawRef(s.decoded)), n, err)
+			}
+			testEqual(t, "Decoding/%d of %q = %q, want %q\n", bs, rawRef(s.encoded), string(buf[:n]), s.decoded)
+		}
+	}
+}
+
 func TestDecodeCorrupt(t *testing.T) {
 	testCases := []struct {
 		input  string
