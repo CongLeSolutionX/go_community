@@ -1,0 +1,1 @@
+pkg go/types, func (*Alias).Rhs() types.Type #66559
