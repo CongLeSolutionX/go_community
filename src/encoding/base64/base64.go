@@ -8,6 +8,7 @@ package base64
 import (
 	"encoding/binary"
 	"io"
+	"math"
 	"slices"
 	"strconv"
 )
@@ -456,7 +457,13 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 
 	// Refill buffer.
 	for d.nbuf < 4 && d.readErr == nil {
-		nn := len(p) / 3 * 4
+		nn := 0
+		if d.enc.padChar == NoPadding {
+			nn = int(math.Ceil(float64(len(p))/float64(3))) * 4
+		} else {
+			nn = len(p) / 3 * 4
+		}
+		// nn := len(p) / 3 * 4
 		if nn < 4 {
 			nn = 4
 		}
@@ -467,7 +474,8 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 		d.nbuf += nn
 	}
 
-	if d.nbuf < 4 {
+	if d.nbuf < 4 || d.nbuf%4 != 0 && d.enc.padChar == NoPadding {
+		// if d.nbuf < 4 {
 		if d.enc.padChar == NoPadding && d.nbuf > 0 {
 			// Decode final fragment, without padding.
 			var nw int
