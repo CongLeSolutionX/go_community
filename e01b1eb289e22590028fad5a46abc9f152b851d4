@@ -16,6 +16,24 @@
       "message": "Combined effects of stack slot merging (go.dev/cl/576681 and go.dev/cl/577615):\n\n                     │ /tmp/base.txt      │         /tmp/new.txt               │\n                     │       sec/op       │   sec/op     vs base               │\nBiogoIgor                      12.82 ± 0%    12.37 ± 0%  -3.49% (p\u003d0.000 n\u003d30)\nBiogoKrishna                   16.44 ± 0%    15.89 ± 0%  -3.39% (p\u003d0.000 n\u003d30)\nBleveIndexBatch100             5.067 ± 1%    4.847 ± 1%  -4.34% (p\u003d0.000 n\u003d30)\nEtcdPut                       21.25m ± 1%   21.02m ± 1%  -1.06% (p\u003d0.034 n\u003d30)\nEtcdSTM                       132.6m ± 0%   126.2m ± 0%  -4.84% (p\u003d0.000 n\u003d30)\nGoBuildKubelet                 52.93 ± 3%    52.69 ± 1%       ~ (p\u003d0.100 n\u003d30)\nGoBuildKubeletLink             8.211 ± 0%    8.187 ± 1%       ~ (p\u003d0.192 n\u003d30)\nGoBuildIstioctl                46.79 ± 2%    47.40 ± 1%       ~ (p\u003d0.504 n\u003d30)\nGoBuildIstioctlLink            8.735 ± 1%    8.652 ± 1%  -0.95% (p\u003d0.000 n\u003d30)\nGoBuildFrontend                15.83 ± 0%    15.58 ± 0%  -1.58% (p\u003d0.000 n\u003d30)\nGoBuildFrontendLink            1.302 ± 1%    1.259 ± 1%  -3.30% (p\u003d0.000 n\u003d30)\nGopherLuaKNucleotide           21.22 ± 0%    21.45 ± 0%  +1.10% (p\u003d0.000 n\u003d30)\nMarkdownRenderXHTML           185.1m ± 0%   184.3m ± 0%  -0.46% (p\u003d0.000 n\u003d30)\nTile38QueryLoad               540.5µ ± 0%   540.0µ ± 0%       ~ (p\u003d0.177 n\u003d30)\ngeomean                        2.052         2.019       -1.58%",
       "revId": "e01b1eb289e22590028fad5a46abc9f152b851d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37001271_667c3be0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-04-24T15:53:13Z",
+      "side": 1,
+      "message": "Trying again\n\n```\n                     │ /tmp/base.txt      │         /tmp/new.txt               │\n                     │       sec/op       │   sec/op     vs base               │\nBiogoIgor                      12.82 ± 0%    12.37 ± 0%  -3.49% (p\u003d0.000 n\u003d30)\nBiogoKrishna                   16.44 ± 0%    15.89 ± 0%  -3.39% (p\u003d0.000 n\u003d30)\nBleveIndexBatch100             5.067 ± 1%    4.847 ± 1%  -4.34% (p\u003d0.000 n\u003d30)\nEtcdPut                       21.25m ± 1%   21.02m ± 1%  -1.06% (p\u003d0.034 n\u003d30)\nEtcdSTM                       132.6m ± 0%   126.2m ± 0%  -4.84% (p\u003d0.000 n\u003d30)\nGoBuildKubelet                 52.93 ± 3%    52.69 ± 1%       ~ (p\u003d0.100 n\u003d30)\nGoBuildKubeletLink             8.211 ± 0%    8.187 ± 1%       ~ (p\u003d0.192 n\u003d30)\nGoBuildIstioctl                46.79 ± 2%    47.40 ± 1%       ~ (p\u003d0.504 n\u003d30)\nGoBuildIstioctlLink            8.735 ± 1%    8.652 ± 1%  -0.95% (p\u003d0.000 n\u003d30)\nGoBuildFrontend                15.83 ± 0%    15.58 ± 0%  -1.58% (p\u003d0.000 n\u003d30)\nGoBuildFrontendLink            1.302 ± 1%    1.259 ± 1%  -3.30% (p\u003d0.000 n\u003d30)\nGopherLuaKNucleotide           21.22 ± 0%    21.45 ± 0%  +1.10% (p\u003d0.000 n\u003d30)\nMarkdownRenderXHTML           185.1m ± 0%   184.3m ± 0%  -0.46% (p\u003d0.000 n\u003d30)\nTile38QueryLoad               540.5µ ± 0%   540.0µ ± 0%       ~ (p\u003d0.177 n\u003d30)\ngeomean                        2.052         2.019       -1.58%\n```",
+      "parentUuid": "0c626abb_30e1e4b2",
+      "revId": "e01b1eb289e22590028fad5a46abc9f152b851d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
