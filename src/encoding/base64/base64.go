@@ -342,6 +342,13 @@ func (enc *Encoding) decodeQuantum(dst, src []byte, si int) (nsi, n int, err err
 			continue
 		}
 
+		// an empty input should only occure at the end of the slice
+		// when NoPadding is used. In that case skip over it to the end
+		if in == 0x0 && enc.padChar == NoPadding {
+			j--
+			continue
+		}
+
 		if rune(in) != enc.padChar {
 			return si, 0, CorruptInputError(si - 1)
 		}
@@ -456,7 +463,7 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 
 	// Refill buffer.
 	for d.nbuf < 4 && d.readErr == nil {
-		nn := len(p) / 3 * 4
+		nn := len(d.buf) / 3 * 4
 		if nn < 4 {
 			nn = 4
 		}
@@ -465,6 +472,10 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 		}
 		nn, d.readErr = d.r.Read(d.buf[d.nbuf:nn])
 		d.nbuf += nn
+		// if NoPadding is used, make sure to ceil the byte count to read the entire buffer
+		if d.enc.padChar == NoPadding {
+			d.nbuf += nn % 4
+		}
 	}
 
 	if d.nbuf < 4 {
