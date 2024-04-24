@@ -73,7 +73,7 @@ func newTable(mt *abi.SwissMapType, capacity uint32) *table {
 
 // Get performs a lookup of the key that key points to. It returns a pointer to
 // the element, or false if the key doesn't exist.
-func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool)  {
+func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
 	hash := t.typ.Hasher(key, t.seed)
 
 	// To find the location of a key in the table, we compute hash(key). From
@@ -207,6 +207,51 @@ func (t *table) Put(key, elem unsafe.Pointer) {
 			}
 
 			panic("grow unimplemented")
+		}
+	}
+}
+
+func (t *table) Delete(key unsafe.Pointer) {
+	hash := t.typ.Hasher(key, t.seed)
+
+	seq := makeProbeSeq(h1(hash), t.groups.length-1)
+	for ; ; seq = seq.next() {
+		g := t.groups.group(uint64(seq.offset))
+		match := g.ctrls().matchH2(h2(hash))
+
+		for match != 0 {
+			i := match.first()
+			slotKey := g.key(i)
+			if t.typ.Key.Equal(key, slotKey) {
+				// TODO(prattmic): Zero the slot? Important for GC!
+				t.used--
+
+				// Only a full group can appear in the middle
+				// of a probe sequence (a group with at least
+				// one empty slot terminates probing). Once a
+				// group becomes full, it stays full until
+				// rehashing/resizing. So if the group isn't
+				// full now, we can simply remove the element.
+				// Otherwise, we create a tombstone to mark the
+				// slot as deleted.
+				if g.ctrls().matchEmpty() != 0 {
+					g.ctrls().set(i, ctrlEmpty)
+					t.growthLeft++
+				} else {
+					g.ctrls().set(i, ctrlDeleted)
+				}
+
+				t.checkInvariants()
+				return
+			}
+			match = match.removeFirst()
+		}
+
+		match = g.ctrls().matchEmpty()
+		if match != 0 {
+			// Finding an empty slot means we've reached the end of
+			// the probe sequence.
+			return
 		}
 	}
 }

@@ -24,7 +24,7 @@ func newTestTable[K comparable, V any](length uint32) *table {
 	return newTable(mt, length)
 }
 
-func TestTable(t *testing.T) {
+func TestTablePut(t *testing.T) {
 	tab := newTestTable[uint32, uint64](32)
 
 	key := uint32(0)
@@ -53,6 +53,43 @@ func TestTable(t *testing.T) {
 		gotElem := *(*uint64)(got)
 		if gotElem != elem {
 			t.Errorf("Get(%d) got elem %d want %d", key, gotElem, elem)
+		}
+	}
+}
+
+func TestTableDelete(t *testing.T) {
+	tab := newTestTable[uint32, uint64](32)
+
+	key := uint32(0)
+	elem := uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if debugLog {
+			fmt.Printf("After put %d: %v\n", key, tab)
+		}
+	}
+
+	key = uint32(0)
+	elem = uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		tab.Delete(unsafe.Pointer(&key))
+	}
+
+	key = uint32(0)
+	elem = uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		_, ok := tab.Get(unsafe.Pointer(&key))
+		if ok {
+			t.Errorf("Get(%d) got ok true want false", key)
 		}
 	}
 }
