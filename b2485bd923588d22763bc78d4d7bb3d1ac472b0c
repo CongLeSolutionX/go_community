@@ -16,6 +16,24 @@
       "message": "\"walkaround\" is not correct here.  Also I\u0027m not sure we need to say this, we just said it two paragraphs up.",
       "revId": "b2485bd923588d22763bc78d4d7bb3d1ac472b0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b96d6f6_f2e65791",
+        "filename": "src/time/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3391449
+      },
+      "writtenOn": "2024-04-24T02:43:17Z",
+      "side": 1,
+      "message": "Thank you for your patience, Ian. I removed duplicated hint, and refined it, try to tell people a possible way to solve it.",
+      "parentUuid": "416f697b_d0eda5e7",
+      "revId": "b2485bd923588d22763bc78d4d7bb3d1ac472b0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
