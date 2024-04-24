@@ -11,7 +11,7 @@ import (
 	"unsafe"
 )
 
-func newTestTable[K comparable, V any](length uint32) *table {
+func newTestTable[K comparable, V any](length uint64) *table {
 	var m map[K]V
 	mTyp := abi.TypeOf(m)
 	omt := (*abi.OldMapType)(unsafe.Pointer(mTyp))

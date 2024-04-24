@@ -15,11 +15,11 @@ const debugLog = false
 func (t *table) checkInvariants() {
 	// For every non-empty slot, verify we can retrieve the key using Get.
 	// Count the number of used and deleted slots.
-	var used uint32
-	var deleted uint32
-	var empty uint32
-	for i := uint32(0); i < t.groups.length; i++ {
-		g := t.groups.group(uint64(i))
+	var used uint64
+	var deleted uint64
+	var empty uint64
+	for i := uint64(0); i < t.groups.length; i++ {
+		g := t.groups.group(i)
 		for j := uint32(0); j < groupSlots; j++ {
 			c := g.ctrls().get(j)
 			switch {
@@ -67,10 +67,10 @@ func (t *table) String() string {
 	groups:
 `, t.seed, t.capacity, t.growthLeft)
 
-	for i := uint32(0); i < t.groups.length; i++ {
+	for i := uint64(0); i < t.groups.length; i++ {
 		s += fmt.Sprintf("\t\tgroup %#x\n", i)
 
-		g := t.groups.group(uint64(i))
+		g := t.groups.group(i)
 		ctrls := g.ctrls()
 		for j := uint32(0); j < groupSlots; j++ {
 			s += fmt.Sprintf("\t\t\tslot %d\n", j)

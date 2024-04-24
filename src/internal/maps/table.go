@@ -37,19 +37,19 @@ type table struct {
 
 	// The total number of slots (always 2^N). Equal to
 	// `groups.length*groupSlots`.
-	capacity uint32
+	capacity uint64
 	// The number of filled slots (i.e. the number of elements in the bucket).
-	used uint32
+	used uint64
 	// The number of slots we can still fill without needing to rehash.
 	//
 	// This is stored separately due to tombstones: we do not include
 	// tombstones in the growth capacity because we'd like to rehash when the
 	// table is filled with tombstones as otherwise probe sequences might get
 	// unacceptably long without triggering a rehash.
-	growthLeft uint32
+	growthLeft uint64
 }
 
-func newTable(mt *abi.SwissMapType, capacity uint32) *table {
+func newTable(mt *abi.SwissMapType, capacity uint64) *table {
 	// N.B. group count must be a power of two for probeSeq to visit every
 	// group.
 	capacity = alignUpPow2(capacity)
@@ -63,8 +63,8 @@ func newTable(mt *abi.SwissMapType, capacity uint32) *table {
 		growthLeft: capacity-1,
 	}
 
-	for i := uint32(0); i < t.groups.length; i++ {
-		g := t.groups.group(uint64(i))
+	for i := uint64(0); i < t.groups.length; i++ {
+		g := t.groups.group(i)
 		g.ctrls().setEmpty()
 	}
 
@@ -104,7 +104,7 @@ func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
 	// less than 1/8 per find.
 	seq := makeProbeSeq(h1(hash), t.groups.length-1)
 	for ; ; seq = seq.next() {
-		g := t.groups.group(uint64(seq.offset))
+		g := t.groups.group(seq.offset)
 		match := g.ctrls().matchH2(h2(hash))
 
 		for match != 0 {
@@ -136,7 +136,7 @@ func (t *table) Put(key, elem unsafe.Pointer) {
 	//startOffset := seq.offset
 
 	for ; ; seq = seq.next() {
-		g := t.groups.group(uint64(seq.offset))
+		g := t.groups.group(seq.offset)
 		match := g.ctrls().matchH2(h2(hash))
 
 		if debugLog {
@@ -216,7 +216,7 @@ func (t *table) Delete(key unsafe.Pointer) {
 
 	seq := makeProbeSeq(h1(hash), t.groups.length-1)
 	for ; ; seq = seq.next() {
-		g := t.groups.group(uint64(seq.offset))
+		g := t.groups.group(seq.offset)
 		match := g.ctrls().matchH2(h2(hash))
 
 		for match != 0 {
@@ -268,15 +268,15 @@ func (t *table) Delete(key unsafe.Pointer) {
 // the number of groups is a power of two, since (i^2+i)/2 is a bijection in
 // Z/(2^m). See https://en.wikipedia.org/wiki/Quadratic_probing
 type probeSeq struct {
-	mask   uint32
-	offset uint32
-	index  uint32
+	mask   uint64
+	offset uint64
+	index  uint64
 }
 
-func makeProbeSeq(hash uintptr, mask uint32) probeSeq {
+func makeProbeSeq(hash uintptr, mask uint64) probeSeq {
 	return probeSeq{
 		mask:   mask,
-		offset: uint32(hash) & mask,
+		offset: uint64(hash) & mask,
 		index:  0,
 	}
 }

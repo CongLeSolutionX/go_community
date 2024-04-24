@@ -142,12 +142,12 @@ func alignUp(n, a uintptr) uintptr {
 }
 
 // alignUpPow2 rounds n up to the next power of 2.
-func alignUpPow2(n uint32) uint32 {
-	v := (uint32(1) << bits.Len32(uint32(n-1)))
+func alignUpPow2(n uint64) uint64 {
+	v := (uint64(1) << bits.Len64(n-1))
 	if v != 0 {
 		return v
 	}
-	return uint32(1) << 31
+	return uint64(1) << 63
 }
 
 // slotSize returns the size of a slot struct and the offset of elem in a slot.
@@ -199,14 +199,14 @@ type groups struct {
 	data unsafe.Pointer // data *[length]realGroup
 
 	// length is the number of groups in data. Must be a power of two.
-	length uint32
+	length uint64
 }
 
 // newGroups allocates a new array of length groups.
-func newGroups(typ *abi.SwissMapType, length uint32) groups {
+func newGroups(typ *abi.SwissMapType, length uint64) groups {
 	// TODO(prattmic): this is only GC safe as long as key/elem don't
 	// contain pointers.
-	data := make([]byte, uintptr(length)*groupSize(typ))
+	data := make([]byte, length*uint64(groupSize(typ)))
 	return groups{
 		typ:    typ,
 		data:   unsafe.Pointer(&data[0]),
@@ -216,6 +216,8 @@ func newGroups(typ *abi.SwissMapType, length uint32) groups {
 
 // group returns the group at index i.
 func (g *groups) group(i uint64) group {
+	// TODO(prattmic): Do something here about truncation on cast to
+	// uintptr on 32-bit systems?
 	offset := uintptr(i)*groupSize(g.typ)
 
 	return group{
