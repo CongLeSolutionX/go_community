@@ -7,6 +7,7 @@ package base32
 
 import (
 	"io"
+	"math"
 	"slices"
 	"strconv"
 )
@@ -467,7 +468,7 @@ func (d *decoder) Read(p []byte) (n int, err error) {
 	}
 
 	// Read a chunk.
-	nn := len(p) / 5 * 8
+	nn := int(math.Ceil(float64(len(p))/float64(5)) * 8)
 	if nn < 8 {
 		nn = 8
 	}
