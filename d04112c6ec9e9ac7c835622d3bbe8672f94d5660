@@ -16,6 +16,24 @@
       "message": "Let\u0027s not turn an integer operation into a floating-point operation.  Let\u0027s keep it in integers.  Seems like (len(p) + 4) / 5 * 8 should work.",
       "revId": "d04112c6ec9e9ac7c835622d3bbe8672f94d5660",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b6afcc_3a995c67",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 3406606
+      },
+      "writtenOn": "2024-04-25T08:27:27Z",
+      "side": 1,
+      "message": "Thank you for the suggestion, that makes more than sense.",
+      "parentUuid": "0f1fc851_f813080a",
+      "revId": "d04112c6ec9e9ac7c835622d3bbe8672f94d5660",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
