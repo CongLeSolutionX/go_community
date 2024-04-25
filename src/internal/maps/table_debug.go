@@ -13,6 +13,10 @@ import (
 const debugLog = false
 
 func (t *table) checkInvariants() {
+	if debugLog {
+		fmt.Printf("checkInvariants\n")
+	}
+
 	// For every non-empty slot, verify we can retrieve the key using Get.
 	// Count the number of used and deleted slots.
 	var used uint64
@@ -31,8 +35,8 @@ func (t *table) checkInvariants() {
 				key := g.key(j)
 				if _, ok := t.Get(key); !ok {
 					hash := t.typ.Hasher(key, t.seed)
-					panic(fmt.Sprintf("invariant failed: slot(%d/%d): key %v not found [h2=%02x h1=%07x]\n%#v",
-					i, j, hexdump(key, t.typ.Key.Size_), h2(hash), h1(hash), t))
+					panic(fmt.Sprintf("invariant failed: slot(%d/%d): key %v not found [hash=%#x, h2=%#02x h1=%#07x]\n%v",
+					i, j, hexdump(key, t.typ.Key.Size_), hash, h2(hash), h1(hash), t))
 				}
 				used++
 			}
@@ -40,7 +44,7 @@ func (t *table) checkInvariants() {
 	}
 
 	if used != t.used {
-		panic(fmt.Sprintf("invariant failed: found %d used slots, but used count is %d\n%#v",
+		panic(fmt.Sprintf("invariant failed: found %d used slots, but used count is %d\n%v",
 		used, t.used, t))
 	}
 
@@ -55,7 +59,7 @@ func (t *table) checkInvariants() {
 	//}
 
 	if empty == 0 {
-		panic(fmt.Sprintf("invariant failed: found no empty slots (violates probe invariant)\n%#v", t))
+		panic(fmt.Sprintf("invariant failed: found no empty slots (violates probe invariant)\n%v", t))
 	}
 }
 

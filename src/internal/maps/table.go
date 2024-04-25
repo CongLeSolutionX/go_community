@@ -50,31 +50,47 @@ type table struct {
 }
 
 func newTable(mt *abi.SwissMapType, capacity uint64) *table {
+	t := &table{
+		typ:        mt,
+		//seed:       uintptr(fastrand64()),
+	}
+
 	// N.B. group count must be a power of two for probeSeq to visit every
 	// group.
 	capacity = alignUpPow2(capacity)
-	groupCount := capacity/groupSlots
+	t.reset(capacity)
 
-	t := &table{
-		typ:        mt,
-		seed:       uintptr(fastrand64()),
-		groups:     newGroups(mt, groupCount),
-		capacity:   capacity,
-		growthLeft: capacity-1,
+	return t
+}
+
+// reset resets the table with new, empty groups with the specified new total
+// capacity.
+func (t *table) reset(capacity uint64) {
+	if capacity != alignUpPow2(capacity) {
+		panic(fmt.Sprintf("capacity must be a power of two. got %#x", capacity))
 	}
+
+	groupCount := capacity/groupSlots
+	t.groups = newGroups(t.typ, groupCount)
+	t.capacity = capacity
+	// There must be at least one empty slot for the probe sequence to
+	// terminate.
+	t.growthLeft = capacity-1
 
 	for i := uint64(0); i < t.groups.length; i++ {
 		g := t.groups.group(i)
 		g.ctrls().setEmpty()
 	}
-
-	return t
 }
 
 // Get performs a lookup of the key that key points to. It returns a pointer to
 // the element, or false if the key doesn't exist.
 func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
 	hash := t.typ.Hasher(key, t.seed)
+
+	if debugLog {
+		fmt.Printf("Get hash %#x\n", hash)
+	}
 
 	// To find the location of a key in the table, we compute hash(key). From
 	// h1(hash(key)) and the capacity, we construct a probeSeq that visits
@@ -105,10 +121,20 @@ func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
 	seq := makeProbeSeq(h1(hash), t.groups.length-1)
 	for ; ; seq = seq.next() {
 		g := t.groups.group(seq.offset)
+
+		if debugLog {
+			fmt.Printf("Get seq group %#x\n", seq.offset)
+		}
+
 		match := g.ctrls().matchH2(h2(hash))
 
 		for match != 0 {
 			i := match.first()
+
+			if debugLog {
+				fmt.Printf("Get seq group %#x match %d\n", seq.offset, i)
+			}
+
 			slotKey := g.key(i)
 			if t.typ.Key.Equal(key, slotKey) {
 				return g.elem(i), true
@@ -120,6 +146,9 @@ func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
 		if match != 0 {
 			// Finding an empty slot means we've reached the end of
 			// the probe sequence.
+			if debugLog {
+				fmt.Printf("Get seq group %#x match empty\n", seq.offset)
+			}
 			return nil, false
 		}
 	}
@@ -196,17 +225,71 @@ func (t *table) Put(key, elem unsafe.Pointer) {
 			// cockroachlabs/swiss restarts search of the probe
 			// sequence for a deleted slot.
 			//
-			// We don't do that, instead leaving it for
-			// rehashInPlace. We likely want this optimization
-			// back. If we do add it back, we could search for the
-			// first deleted slot during the main search, but only
-			// use it if we don't find an existing entry.
+			// We likely want this optimization back. If we do add
+			// it back, we could search for the first deleted slot
+			// during the main search, but only use it if we don't
+			// find an existing entry.
 
 			if t.growthLeft != 0 {
 				panic(fmt.Sprintf("invariant failed: growthLeft is unexpectedly non-zero: %d\n%#v", t.growthLeft, t))
 			}
 
-			panic("grow unimplemented")
+			t.rehash()
+
+			// Note that we don't have to restart the entire Put process as we
+			// know the key doesn't exist in the map.
+			t.uncheckedPut(hash, key, elem)
+			t.used++
+			t.checkInvariants()
+			return
+		}
+	}
+}
+
+// uncheckedPut inserts an entry known not to be in the table. Used by Put
+// after it has failed to find an existing entry to overwrite duration
+// insertion.
+//
+// Updates growthLeft if necessary, but does not update used.
+func (t *table) uncheckedPut(hash uintptr, key, elem unsafe.Pointer) {
+	if t.growthLeft == 0 {
+		panic(fmt.Sprintf("invariant failed: growthLeft is unexpectedly 0\n%#v", t))
+	}
+
+	if debugLog {
+		fmt.Printf("uncheckedPut hash %#x\n", hash)
+	}
+
+	// Given key and its hash hash(key), to insert it, we construct a
+	// probeSeq, and use it to find the first group with an unoccupied (empty
+	// or deleted) slot. We place the key/value into the first such slot in
+	// the group and mark it as full with key's H2.
+	seq := makeProbeSeq(h1(hash), t.groups.length-1)
+	for ; ; seq = seq.next() {
+		g := t.groups.group(seq.offset)
+
+		if debugLog {
+			fmt.Printf("uncheckedPut seq group %#x\n", seq.offset)
+		}
+
+		match := g.ctrls().matchEmptyOrDeleted()
+		if match != 0 {
+			if debugLog {
+				fmt.Printf("uncheckedPut seq group %#x match empty/deleted\n", seq.offset)
+			}
+
+			i := match.first()
+
+			slotKey := g.key(i)
+			typedmemmove(t.typ.Key, slotKey, key)
+			slotElem := g.elem(i)
+			typedmemmove(t.typ.Elem, slotElem, elem)
+
+			if g.ctrls().get(i) == ctrlEmpty {
+				t.growthLeft--
+			}
+			g.ctrls().set(i, ctrl(h2(hash)))
+			return
 		}
 	}
 }
@@ -254,6 +337,51 @@ func (t *table) Delete(key unsafe.Pointer) {
 			return
 		}
 	}
+}
+
+func (t *table) rehash() {
+	// TODO(prattmic): rehash in place (clear deleted slots)
+
+	// TODO(prattmic): split table
+
+	newCapacity := 2 * t.capacity
+	t.resize(newCapacity)
+}
+
+// resize the capacity of the table by allocating a bigger array and
+// uncheckedPutting each element of the table into the new array (we know that
+// no insertion here will Put an already-present value), and discard the old
+// backing array.
+func (t *table) resize(newCapacity uint64) {
+	if debugLog {
+		fmt.Printf("Before resize: %s\n", t)
+	}
+
+	oldGroups := t.groups
+	oldCapacity := t.capacity
+	t.reset(newCapacity)
+
+	if oldCapacity > 0 {
+		for i := uint64(0); i < oldGroups.length; i++ {
+			g := oldGroups.group(i)
+			for j := uint32(0); j < groupSlots; j++ {
+				if (g.ctrls().get(j) & ctrlEmpty) == ctrlEmpty {
+					// Empty or deleted
+					continue
+				}
+				key := g.key(j)
+				elem := g.elem(j)
+				hash := t.typ.Hasher(key, t.seed)
+				t.uncheckedPut(hash, key, elem)
+			}
+		}
+	}
+
+	if debugLog {
+		fmt.Printf("After resize: %s\n", t)
+	}
+
+	t.checkInvariants()
 }
 
 // probeSeq maintains the state for a probe sequence that iterates through the

@@ -25,7 +25,7 @@ func newTestTable[K comparable, V any](length uint64) *table {
 }
 
 func TestTablePut(t *testing.T) {
-	tab := newTestTable[uint32, uint64](32)
+	tab := newTestTable[uint32, uint64](8)
 
 	key := uint32(0)
 	elem := uint64(256+0)
