@@ -88,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45fcf374_747b7ce0",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3556,
+      "author": {
+        "id": 50353
+      },
+      "writtenOn": "2024-04-25T11:57:57Z",
+      "side": 1,
+      "message": "No, it doesn\u0027t. The 1st value is the index, the 2nd value is the element, see the \"Range expression\" table at https://go.dev/ref/spec#For_range",
+      "parentUuid": "6af41ffa_a85ad1d0",
+      "revId": "7e325b3a9d301f9045a077fda15e4c08a15cc703",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b179b9a_87fade6b",
