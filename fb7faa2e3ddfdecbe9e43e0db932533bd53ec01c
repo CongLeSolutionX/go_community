@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fdc6a5b_d2d8477f",
+        "filename": "doc/next/6-stdlib/99-minor/reflect/66056.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "The new methods [Value.Seq] and [Value.Seq2] return sequences that iterate over the value as though it were used in a for/range loop.\nThe new methods [Type.CanSeq] and [Type.CanSeq2] report whether calling [Value.Seq] and [Value.Seq2], respectively, will succeed without panicking.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00d308e9_76dad5ab",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8670,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "It\u0027s a bit more complicated, but let\u0027s test a string with some Unicode runes that are more than one byte.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4bee812_ece76f6a",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8685,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "Might as well be thorough and test that we see the right values.  Something like\n\n    copy :\u003d maps.Clone(m)\n    for v :\u003d range s {\n        if _, ok :\u003d copy[v.String()]; !ok { t.Fatal(...) }\n        delete(copy, v.String())\n    }\n    if len(copy) !\u003d 0 { t.Error(...) }",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84745409_ef67e9bb",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8708,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "Why not close(c) above when we create it?",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a243a91b_2e8be6cb",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8715,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "Call the parameter f, not yield, that\u0027s pretty much what we always do.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25a29281_f6095afe",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8717,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "if !yield(i) { return }",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac64daf6_40ea1c02",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8795,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "Test runes with more than one UTF-8 byte.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a8a38b1_6163ac0a",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8814,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "Check that all values are seen.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2193346e_1a715143",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "CanSeq reports whether a [Value] with this type can be iterated over using [Value.Seq].",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b758deb_3c4bdfa2",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3563,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T20:53:02Z",
+      "side": 1,
+      "message": "This actually looks wrong for String.  It won\u0027t loop over runs the way for/range does.  Similarly for Seq2.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
