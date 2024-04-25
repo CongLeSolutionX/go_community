@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aecd82a_311a60a7",
+        "filename": "src/encoding/base32/base32_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-25T19:56:06Z",
+      "side": 1,
+      "message": "The bug report specifically discusses the case of NoPadding, so it seems that we ought to have a test for the NoPadding case.",
+      "revId": "8afdd4ee10b33336985633eb9b9ce90d79a7fdd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
