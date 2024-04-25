@@ -51,6 +51,24 @@
       "parentUuid": "9fc1028c_4bbdadb2",
       "revId": "ce9f5ee360a5dc6becfe1a3ba29c0a68fe5ed40f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26808805_d97c1a55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-25T19:03:05Z",
+      "side": 1,
+      "message": "This is all a giant mess, and it seems to have gotten messier since CL 462475. (When copying from an *os.File to a *net.TCPConn, sendfile may now be called by either the net or os package depending on the GOOS. That\u0027s not confusing at all.)\n\nhttps://go.dev/cl/581778 adds validation that sendfile is called when expected to `net/sendfile_test.go`. Let\u0027s go ahead with your CL here as-is, which fixes the immediate issue of #66988, and then we can add the tests from CL 581778.",
+      "parentUuid": "7169b67d_7fb607e0",
+      "revId": "ce9f5ee360a5dc6becfe1a3ba29c0a68fe5ed40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
