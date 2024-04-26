@@ -52,7 +52,14 @@ type table struct {
 func newTable(mt *abi.SwissMapType, capacity uint64) *table {
 	t := &table{
 		typ:        mt,
+		//TODO
 		//seed:       uintptr(fastrand64()),
+	}
+
+	if capacity == 0 {
+		// No real reason to support zero capacity table, since an
+		// empty Map simply won't have a table.
+		panic("table must have positive capacity")
 	}
 
 	// N.B. group count must be a power of two for probeSeq to visit every
@@ -361,6 +368,26 @@ func (t *table) Delete(key unsafe.Pointer) {
 // so as not to violate the probing invariant.
 func (t *table) tombstones() uint64 {
 	return (t.capacity*maxAvgGroupLoad)/groupSlots - t.used - t.growthLeft
+}
+
+// Clear deletes all entries from the map resulting in an empty map.
+func (t *table) Clear() {
+	for i := uint64(0); i < t.groups.length; i++ {
+		g := t.groups.group(i)
+		g.ctrls().setEmpty()
+		for j := uint32(0); j < groupSlots; j++ {
+			// TODO(prattmic): Zero the slot? Important for GC!
+		}
+	}
+
+	t.used = 0
+	t.resetGrowthLeft()
+
+	// Reset the hash seed to make it more difficult for attackers to
+	// repeatedly trigger hash collisions. See issue
+	// https://github.com/golang/go/issues/25237.
+	// TODO
+	//t.seed = uintptr(fastrand64())
 }
 
 func (t *table) rehash() {

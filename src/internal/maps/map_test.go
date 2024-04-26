@@ -93,3 +93,38 @@ func TestTableDelete(t *testing.T) {
 		}
 	}
 }
+
+func TestTableClear(t *testing.T) {
+	tab := newTestTable[uint32, uint64](32)
+
+	key := uint32(0)
+	elem := uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if debugLog {
+			fmt.Printf("After put %d: %v\n", key, tab)
+		}
+	}
+
+	tab.Clear()
+
+	if tab.used != 0 {
+		t.Errorf("Clear() used got %d want 0", tab.used)
+	}
+
+	key = uint32(0)
+	elem = uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		_, ok := tab.Get(unsafe.Pointer(&key))
+		if ok {
+			t.Errorf("Get(%d) got ok true want false", key)
+		}
+	}
+}
