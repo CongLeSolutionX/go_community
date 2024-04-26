@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62fadcec_886c6a17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-04-26T20:07:44Z",
+      "side": 1,
+      "message": "Thanks for this. I sent CL 582076 which simplifies the script a little and should also avoid the ksh bug.\n\nThe subshell approach would have worked but we\u0027d have needed an || exit 1 at the end of the line to force \"set -e\" behavior.",
+      "revId": "1f2b7253c431d042363eeb8d8657e1023d867c31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
