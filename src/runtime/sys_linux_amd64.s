@@ -320,6 +320,15 @@ TEXT runtime·callCgoSigaction(SB),NOSPLIT,$16
 	MOVL	AX, ret+24(FP)
 	RET
 
+TEXT runtime·getErrno(SB),NOSPLIT,$0-4
+	MOVQ	_cgo_geterrno(SB), AX
+	MOVQ	SP, BX	// callee-saved
+	ANDQ	$~15, SP	// alignment as per amd64 psABI
+	CALL	AX
+	MOVQ	BX, SP
+	MOVL	AX, ret+0(FP)
+	RET
+
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	fn+0(FP),    AX
 	MOVL	sig+8(FP),   DI
