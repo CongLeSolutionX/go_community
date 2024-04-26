@@ -20,3 +20,9 @@ import _ "unsafe"
 //go:linkname _cgo_sigaction _cgo_sigaction
 var x_cgo_sigaction byte
 var _cgo_sigaction = &x_cgo_sigaction
+
+//go:cgo_import_static x_cgo_geterrno
+//go:linkname x_cgo_geterrno x_cgo_geterrno
+//go:linkname _cgo_geterrno _cgo_geterrno
+var x_cgo_geterrno byte
+var _cgo_geterrno = &x_cgo_geterrno
