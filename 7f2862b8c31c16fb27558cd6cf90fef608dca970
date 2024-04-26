@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d0d5ccf_1c427dd5",
+        "filename": "src/internal/stringslite/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-26T21:51:00Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "revId": "7f2862b8c31c16fb27558cd6cf90fef608dca970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b86c6f2_c05d917e",
+        "filename": "src/internal/stringslite/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-26T21:51:00Z",
+      "side": 1,
+      "message": "Here you changed IndexByte to bytealg.IndexByteString, but you didn\u0027t change it below.  May as well be consistent one way or the other.",
+      "revId": "7f2862b8c31c16fb27558cd6cf90fef608dca970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
