@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0cb8e5fa_854d0b0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-26T17:08:21Z",
+      "side": 1,
+      "message": "Your phrasing is a bit better, but I think the one on the CL is good enough. I\u0027m going to resolve this comment so we can submit the fix CL and follow up with CL 581778 to add some tests.",
+      "parentUuid": "3e4c5b1a_a526fbe2",
+      "revId": "ce9f5ee360a5dc6becfe1a3ba29c0a68fe5ed40f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9fc1028c_4bbdadb2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
