@@ -417,6 +417,23 @@ func sigFetchG(c *sigctxt) *g {
 	return getg()
 }
 
+//go:linkname _cgo_geterrno _cgo_geterrno
+var _cgo_geterrno unsafe.Pointer
+
+func getErrno() int32
+
+//go:nosplit
+func checkErrno() {
+	if GOARCH == "amd64" && GOOS == "linux" && // only implemented on linux/amd64 for now
+		*cgo_yield != nil && // TSAN only
+		_cgo_geterrno != nil {
+		if e := getErrno(); e != 99 {
+			println("errno", e)
+			throw("errno")
+		}
+	}
+}
+
 // sigtrampgo is called from the signal handler function, sigtramp,
 // written in assembly code.
 // This is called by the signal handler, and the world may be stopped.
@@ -432,6 +449,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	if sigfwdgo(sig, info, ctx) {
 		return
 	}
+	checkErrno()
 	c := &sigctxt{info, ctx}
 	gp := sigFetchG(c)
 	setg(gp)
@@ -442,6 +460,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 			if validSIGPROF(nil, c) {
 				sigprofNonGoPC(c.sigpc())
 			}
+			checkErrno()
 			return
 		}
 		if sig == sigPreempt && preemptMSupported && debug.asyncpreemptoff == 0 {
@@ -455,6 +474,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 			if GOOS == "darwin" || GOOS == "ios" {
 				pendingPreemptSignals.Add(-1)
 			}
+			checkErrno()
 			return
 		}
 		c.fixsigcode(sig)
@@ -470,6 +490,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 		if gp != nil {
 			setg(gp)
 		}
+		checkErrno()
 		return
 	}
 
@@ -492,6 +513,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	if setStack {
 		restoreGsignalStack(&gsignalStack)
 	}
+	checkErrno()
 }
 
 // If the signal handler receives a SIGPROF signal on a non-Go thread,
@@ -617,6 +639,9 @@ var testSigusr1 func(gp *g) bool
 //
 //go:nowritebarrierrec
 func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
+	// mmap(nil, 0, 0, 0, 0, 0) // may call libc mmap, uncomment and checkErrno will fail
+	checkErrno()
+
 	// The g executing the signal handler. This is almost always
 	// mp.gsignal. See delayedSignal for an exception.
 	gsignal := getg()
@@ -641,6 +666,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		if !delayedSignal && validSIGPROF(mp, c) {
 			sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, mp)
 		}
+		checkErrno()
 		return
 	}
 
@@ -658,6 +684,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		// in non-cgo binaries. Since this signal is not _SigNotify,
 		// there is nothing more to do once we run the syscall.
 		runPerThreadSyscall()
+		checkErrno()
 		return
 	}
 
@@ -702,16 +729,19 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		gp.sigpc = c.sigpc()
 
 		c.preparePanic(sig, gp)
+		checkErrno()
 		return
 	}
 
 	if c.sigFromUser() || flags&_SigNotify != 0 {
 		if sigsend(sig) {
+			checkErrno()
 			return
 		}
 	}
 
 	if c.sigFromUser() && signal_ignored(sig) {
+		checkErrno()
 		return
 	}
 
@@ -724,6 +754,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	// was sent to us by a program (c.sigFromUser() is true);
 	// in that case, if we didn't handle it in sigsend, we exit now.
 	if flags&(_SigThrow|_SigPanic) == 0 {
+		checkErrno()
 		return
 	}
 
