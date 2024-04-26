@@ -453,6 +453,17 @@ func checkMergedShifts32(a [256]uint32, b [256]uint64, u uint32, v uint32) {
 	b[2] = b[v>>25]
 }
 
+func checkMergedShifts64(a [256]uint32, b [256]uint64, v uint64) {
+	// ppc64x: -"CLRLSLDI", "RLWNM\t[$]10, R[0-9]+, [$]22, [$]29, R[0-9]+"
+	a[0] = a[uint8(v>>24)]
+	// ppc64x: -"CLRLSLDI", "RLWNM\t[$]12, R[0-9]+, [$]21, [$]28, R[0-9]+"
+	b[0] = b[uint8(v>>23)]
+	// ppc64x: -"CLRLSLDI", "RLWNM\t[$]15, R[0-9]+, [$]21, [$]28, R[0-9]+"
+	b[1] = b[(v>>20)&0xFF]
+	// ppc64x: "SRD", "CLRLSLDI", -"RLWNM"
+	a[0] = a[uint8(v>>25)]
+}
+
 // 128 bit shifts
 
 func check128bitShifts(x, y uint64, bits uint) (uint64, uint64) {
