@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c45d46ce_9efb185c",
+        "filename": "src/internal/stringslite/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-26T22:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d0d5ccf_1c427dd5",
+      "revId": "7f2862b8c31c16fb27558cd6cf90fef608dca970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b86c6f2_c05d917e",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-26T21:51:00Z",
       "side": 1,
       "message": "Here you changed IndexByte to bytealg.IndexByteString, but you didn\u0027t change it below.  May as well be consistent one way or the other.",
+      "revId": "7f2862b8c31c16fb27558cd6cf90fef608dca970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "641145d6_ee65b715",
+        "filename": "src/internal/stringslite/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-04-26T22:03:35Z",
+      "side": 1,
+      "message": "Changed back to IndexByte.",
+      "parentUuid": "6b86c6f2_c05d917e",
       "revId": "7f2862b8c31c16fb27558cd6cf90fef608dca970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
