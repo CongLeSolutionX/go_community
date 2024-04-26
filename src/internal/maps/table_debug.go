@@ -67,9 +67,10 @@ func (t *table) String() string {
 	s := fmt.Sprintf(`table{
 	seed: %#x
 	capacity: %d
+	used: %d
 	growthLeft: %d
 	groups:
-`, t.seed, t.capacity, t.growthLeft)
+`, t.seed, t.capacity, t.used, t.growthLeft)
 
 	for i := uint64(0); i < t.groups.length; i++ {
 		s += fmt.Sprintf("\t\tgroup %#x\n", i)

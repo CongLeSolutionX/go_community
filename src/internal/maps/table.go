@@ -391,7 +391,23 @@ func (t *table) Clear() {
 }
 
 func (t *table) rehash() {
-	// TODO(prattmic): rehash in place (clear deleted slots)
+	// Rehash in place if we can recover >= 1/3 of the capacity. Note that
+	// this heuristic differs from Abseil's and was experimentally determined
+	// to balance performance on the PutDelete benchmark vs achieving a
+	// reasonable load-factor.
+	//
+	// Abseil notes that in the worst case it takes ~4 Put/Delete pairs to
+	// create a single tombstone. Rehashing in place is significantly faster
+	// than resizing because the common case is that elements remain in their
+	// current location. The performance of rehashInPlace is dominated by
+	// recomputing the hash of every key. We know how much space we're going
+	// to reclaim because every tombstone will be dropped and we're only
+	// called if we've reached the thresold of capacity/8 empty slots. So the
+	// number of tomstones is capacity*7/8 - used.
+	if t.capacity > groupSlots && t.tombstones() >= t.capacity/3 {
+		t.rehashInPlace()
+		return
+	}
 
 	// TODO(prattmic): split table
 
@@ -431,6 +447,116 @@ func (t *table) resize(newCapacity uint64) {
 	if debugLog {
 		fmt.Printf("After resize: %s\n", t)
 	}
+
+	t.checkInvariants()
+}
+
+// rehashInPlace reclaimed every deleted slot.
+func (t *table) rehashInPlace() {
+	if t.capacity == 0 {
+		return
+	}
+
+	// We want to drop all of the deletes in place. We first walk over the
+	// control bytes and mark every DELETED slot as EMPTY and every FULL slot
+	// as DELETED. Marking the DELETED slots as EMPTY has effectively dropped
+	// the tombstones, but we fouled up the probe invariant. Marking the FULL
+	// slots as DELETED gives us a marker to locate the previously FULL slots.
+
+	// Mark all DELETED slots as EMPTY and all FULL slots as DELETED.
+	for i := uint64(0); i < t.groups.length; i++ {
+		g := t.groups.group(i)
+		g.ctrls().convertNonFullToEmptyAndFullToDeleted()
+	}
+
+	// Now we walk over all of the DELETED slots (a.k.a. the previously FULL
+	// slots). For each slot we find the first probe group we can place the
+	// element in, which reestablishes the probe invariant. Note that as this
+	// loop proceeds we have the invariant that there are no DELETED slots in
+	// the range [0, i). We may move the element at i to the range [0, i) if
+	// that is where the first group with an empty slot in its probe chain
+	// resides, but we never set a slot in [0, i) to DELETED.
+	for i := uint64(0); i < t.groups.length; i++ {
+		g := t.groups.group(i)
+		for j := uint32(0); j < groupSlots; j++ {
+			if g.ctrls().get(j) != ctrlDeleted {
+				continue
+			}
+
+			key := g.key(j)
+			elem := g.elem(j)
+			hash := t.typ.Hasher(key, t.seed)
+			seq := makeProbeSeq(h1(hash), t.groups.length-1)
+			desiredOffset := seq.offset
+
+			var targetGroup group
+			var target uint32
+			for ; ; seq = seq.next() {
+				targetGroup = t.groups.group(seq.offset)
+				if match := targetGroup.ctrls().matchEmptyOrDeleted(); match != 0 {
+					target = match.first()
+					break
+				}
+			}
+
+			switch {
+			case i == desiredOffset:
+				// If the target index falls within the first probe group
+				// then we don't need to move the element as it already
+				// falls in the best probe position.
+				g.ctrls().set(j, ctrl(h2(hash)))
+
+			case targetGroup.ctrls().get(target) == ctrlEmpty:
+				// The target slot is empty. Transfer the element to the
+				// empty slot and mark the slot at index i as empty.
+				targetGroup.ctrls().set(target, ctrl(h2(hash)))
+
+				targetKey := targetGroup.key(target)
+				typedmemmove(t.typ.Key, targetKey, key)
+				targetElem := targetGroup.elem(target)
+				typedmemmove(t.typ.Elem, targetElem, elem)
+
+				// Clear old slot.
+				// TODO(prattmic): zero old key/elem.
+				g.ctrls().set(j, ctrlEmpty)
+
+			case targetGroup.ctrls().get(target) == ctrlDeleted:
+				// The slot at target has an element (i.e. it was FULL).
+				// We're going to swap our current element with that
+				// element and then repeat processing of index j which now
+				// holds the element which was at target.
+				targetGroup.ctrls().set(target, ctrl(h2(hash)))
+
+				// TODO(prattmic): Put a scratch slot somewhere
+				// to avoid allocation here.
+				scratchKey := make([]byte, t.typ.Key.Size_)
+				scratchElem := make([]byte, t.typ.Elem.Size_)
+
+				targetKey := targetGroup.key(target)
+				targetElem := targetGroup.elem(target)
+
+				typedmemmove(t.typ.Key, unsafe.Pointer(&scratchKey[0]), key)
+				typedmemmove(t.typ.Elem, unsafe.Pointer(&scratchElem[0]), elem)
+
+				typedmemmove(t.typ.Key, key, targetKey)
+				typedmemmove(t.typ.Elem, elem, targetElem)
+
+				typedmemmove(t.typ.Key, targetKey, unsafe.Pointer(&scratchKey[0]))
+				typedmemmove(t.typ.Elem, targetElem, unsafe.Pointer(&scratchElem[0]))
+
+				// Repeat processing of the j'th slot which now holds a
+				// new key/value.
+				j--
+
+			default:
+				panic(fmt.Sprintf("ctrl at position %d (%02x) should be empty or deleted",
+					target, targetGroup.ctrls().get(target)))
+			}
+		}
+	}
+
+	t.resetGrowthLeft()
+	t.growthLeft -= t.used
 
 	t.checkInvariants()
 }
