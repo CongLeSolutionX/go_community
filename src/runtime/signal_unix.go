@@ -417,6 +417,21 @@ func sigFetchG(c *sigctxt) *g {
 	return getg()
 }
 
+//go:linkname _cgo_geterrno _cgo_geterrno
+var _cgo_geterrno unsafe.Pointer
+
+//go:nosplit
+func checkErrno(sig uint32, gp *g) {
+	if GOARCH == "amd64" && GOOS == "linux" && // only implemented on linux/amd64 for now
+		*cgo_yield != nil && // TSAN only
+		_cgo_geterrno != nil {
+		if e := getErrno(); e != 99 {
+			println("errno", e, "sig", sig, "gp", gp)
+			throw("errno")
+		}
+	}
+}
+
 // sigtrampgo is called from the signal handler function, sigtramp,
 // written in assembly code.
 // This is called by the signal handler, and the world may be stopped.
@@ -435,6 +450,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	c := &sigctxt{info, ctx}
 	gp := sigFetchG(c)
 	setg(gp)
+	checkErrno(sig, gp)
 	if gp == nil || (gp.m != nil && gp.m.isExtraInC) {
 		if sig == _SIGPROF {
 			// Some platforms (Linux) have per-thread timers, which we use in
@@ -442,6 +458,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 			if validSIGPROF(nil, c) {
 				sigprofNonGoPC(c.sigpc())
 			}
+			checkErrno(sig, gp)
 			return
 		}
 		if sig == sigPreempt && preemptMSupported && debug.asyncpreemptoff == 0 {
@@ -455,6 +472,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 			if GOOS == "darwin" || GOOS == "ios" {
 				pendingPreemptSignals.Add(-1)
 			}
+			checkErrno(sig, gp)
 			return
 		}
 		c.fixsigcode(sig)
@@ -465,11 +483,12 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 		if gp != nil {
 			setg(nil)
 		}
-		badsignal(uintptr(sig), c)
+		badsignal(uintptr(sig), c, gp)
 		// Restore g
 		if gp != nil {
 			setg(gp)
 		}
+		checkErrno(sig, gp)
 		return
 	}
 
@@ -492,6 +511,7 @@ func sigtrampgo(sig uint32, info *siginfo, ctx unsafe.Pointer) {
 	if setStack {
 		restoreGsignalStack(&gsignalStack)
 	}
+	checkErrno(sig, gp)
 }
 
 // If the signal handler receives a SIGPROF signal on a non-Go thread,
@@ -617,6 +637,9 @@ var testSigusr1 func(gp *g) bool
 //
 //go:nowritebarrierrec
 func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
+	// mmap(nil, 0, 0, 0, 0, 0) // may call libc mmap, uncomment and checkErrno will fail
+	checkErrno(sig, gp)
+
 	// The g executing the signal handler. This is almost always
 	// mp.gsignal. See delayedSignal for an exception.
 	gsignal := getg()
@@ -641,6 +664,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		if !delayedSignal && validSIGPROF(mp, c) {
 			sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, mp)
 		}
+		checkErrno(sig, gp)
 		return
 	}
 
@@ -658,6 +682,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		// in non-cgo binaries. Since this signal is not _SigNotify,
 		// there is nothing more to do once we run the syscall.
 		runPerThreadSyscall()
+		checkErrno(sig, gp)
 		return
 	}
 
@@ -702,16 +727,19 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		gp.sigpc = c.sigpc()
 
 		c.preparePanic(sig, gp)
+		checkErrno(sig, gp)
 		return
 	}
 
 	if c.sigFromUser() || flags&_SigNotify != 0 {
 		if sigsend(sig) {
+			checkErrno(sig, gp)
 			return
 		}
 	}
 
 	if c.sigFromUser() && signal_ignored(sig) {
+		checkErrno(sig, gp)
 		return
 	}
 
@@ -724,6 +752,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	// was sent to us by a program (c.sigFromUser() is true);
 	// in that case, if we didn't handle it in sigsend, we exit now.
 	if flags&(_SigThrow|_SigPanic) == 0 {
+		checkErrno(sig, gp)
 		return
 	}
 
@@ -946,7 +975,7 @@ func dieFromSignal(sig uint32) {
 // raisebadsignal is called when a signal is received on a non-Go
 // thread, and the Go program does not want to handle it (that is, the
 // program has not called os/signal.Notify for the signal).
-func raisebadsignal(sig uint32, c *sigctxt) {
+func raisebadsignal(sig uint32, c *sigctxt, gp *g) {
 	if sig == _SIGPROF {
 		// Ignore profiling signals that arrive on non-Go threads.
 		return
@@ -975,7 +1004,9 @@ func raisebadsignal(sig uint32, c *sigctxt) {
 	// it. That means that we don't have to worry about blocking it
 	// again.
 	unblocksig(sig)
+	checkErrno(sig, gp)
 	setsig(sig, handler)
+	checkErrno(sig, gp)
 
 	// If we're linked into a non-Go program we want to try to
 	// avoid modifying the original context in which the signal
@@ -992,6 +1023,7 @@ func raisebadsignal(sig uint32, c *sigctxt) {
 	}
 
 	raise(sig)
+	checkErrno(sig, gp)
 
 	// Give the signal a chance to be delivered.
 	// In almost all real cases the program is about to crash,
@@ -1087,7 +1119,7 @@ func signalDuringFork(sig uint32) {
 //go:nosplit
 //go:norace
 //go:nowritebarrierrec
-func badsignal(sig uintptr, c *sigctxt) {
+func badsignal(sig uintptr, c *sigctxt, gp *g) {
 	if !iscgo && !cgoHasExtraM {
 		// There is no extra M. needm will not be able to grab
 		// an M. Instead of hanging, just crash.
@@ -1097,10 +1129,12 @@ func badsignal(sig uintptr, c *sigctxt) {
 		*(*uintptr)(unsafe.Pointer(uintptr(123))) = 2
 	}
 	needm(true)
+	checkErrno(uint32(sig), gp)
 	if !sigsend(uint32(sig)) {
 		// A foreign thread received the signal sig, and the
 		// Go code does not want to handle it.
-		raisebadsignal(uint32(sig), c)
+		raisebadsignal(uint32(sig), c, gp)
+		checkErrno(uint32(sig), gp)
 	}
 	dropm()
 }

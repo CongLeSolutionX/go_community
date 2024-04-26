@@ -44,3 +44,13 @@ TEXT ·switchToCrashStack0<ABIInternal>(SB),NOSPLIT,$0-0
 #endif
 #endif
 #endif
+
+#ifndef GOARCH_amd64
+TEXT runtime·getErrno(SB),NOSPLIT,$0-4
+	UNDEF
+#else
+#ifndef GOOS_linux
+TEXT runtime·getErrno(SB),NOSPLIT,$0-4
+	UNDEF
+#endif
+#endif
