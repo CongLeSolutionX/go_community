@@ -419,3 +419,5 @@ func sigpanic0()
 //
 // Protected by finlock.
 var intArgRegs = abi.IntArgRegs
+
+func getErrno() int32

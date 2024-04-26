@@ -80,3 +80,5 @@ x_cgo_sigaction(intptr_t signum, const go_sigaction_t *goact, go_sigaction_t *ol
 	_cgo_tsan_release();
 	return ret;
 }
+
+int32_t x_cgo_geterrno() { return errno; }
