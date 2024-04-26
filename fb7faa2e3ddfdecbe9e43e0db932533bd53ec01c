@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1333c67d_d7480d55",
+        "filename": "doc/next/6-stdlib/99-minor/reflect/66056.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fdc6a5b_d2d8477f",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00d308e9_76dad5ab",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-25T20:53:02Z",
       "side": 1,
       "message": "It\u0027s a bit more complicated, but let\u0027s test a string with some Unicode runes that are more than one byte.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0910f9b6_f08673f1",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8670,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00d308e9_76dad5ab",
       "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcc08c1b_245a6360",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8685,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4bee812_ece76f6a",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84745409_ef67e9bb",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-04-25T20:53:02Z",
       "side": 1,
       "message": "Why not close(c) above when we create it?",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4188274_1c1d7fc2",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8708,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84745409_ef67e9bb",
       "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "071863c3_a77f9445",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8715,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a243a91b_2e8be6cb",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25a29281_f6095afe",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-04-25T20:53:02Z",
       "side": 1,
       "message": "if !yield(i) { return }",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e04f06bf_a08b72cd",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8717,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25a29281_f6095afe",
       "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +228,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30c0dce2_64ab4bd5",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8795,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac64daf6_40ea1c02",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a8a38b1_6163ac0a",
@@ -133,6 +259,24 @@
       "writtenOn": "2024-04-25T20:53:02Z",
       "side": 1,
       "message": "Check that all values are seen.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c34c7b94_5eb241a8",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8814,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8a38b1_6163ac0a",
       "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -154,6 +298,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "496aebd2_26970cf8",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2193346e_1a715143",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b758deb_3c4bdfa2",
@@ -167,6 +329,24 @@
       "writtenOn": "2024-04-25T20:53:02Z",
       "side": 1,
       "message": "This actually looks wrong for String.  It won\u0027t loop over runs the way for/range does.  Similarly for Seq2.",
+      "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c1d4445_5e9a136c",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3563,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-04-26T09:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b758deb_3c4bdfa2",
       "revId": "fb7faa2e3ddfdecbe9e43e0db932533bd53ec01c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
