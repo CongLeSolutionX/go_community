@@ -48,15 +48,15 @@ func (t *table) checkInvariants() {
 		used, t.used, t))
 	}
 
-	//growthLeft := (b.capacity*maxAvgGroupLoad)/groupSize - b.used - deleted
-	//if growthLeft != b.growthLeft {
-	//	panic(fmt.Sprintf("invariant failed: found %d growthLeft, but expected %d\n%#v",
-	//	b.growthLeft, growthLeft, b))
-	//}
-	//if deleted != b.tombstones() {
-	//	panic(fmt.Sprintf("invariant failed: found %d tombstones, but expected %d\n%#v",
-	//	deleted, b.tombstones(), b))
-	//}
+	growthLeft := (t.capacity*maxAvgGroupLoad)/groupSlots - t.used - deleted
+	if growthLeft != t.growthLeft {
+		panic(fmt.Sprintf("invariant failed: found %d growthLeft, but expected %d\n%v",
+		t.growthLeft, growthLeft, t))
+	}
+	if deleted != t.tombstones() {
+		panic(fmt.Sprintf("invariant failed: found %d tombstones, but expected %d\n%v",
+		deleted, t.tombstones(), t))
+	}
 
 	if empty == 0 {
 		panic(fmt.Sprintf("invariant failed: found no empty slots (violates probe invariant)\n%v", t))

@@ -73,14 +73,31 @@ func (t *table) reset(capacity uint64) {
 	groupCount := capacity/groupSlots
 	t.groups = newGroups(t.typ, groupCount)
 	t.capacity = capacity
-	// There must be at least one empty slot for the probe sequence to
-	// terminate.
-	t.growthLeft = capacity-1
+	t.resetGrowthLeft()
 
 	for i := uint64(0); i < t.groups.length; i++ {
 		g := t.groups.group(i)
 		g.ctrls().setEmpty()
 	}
+}
+
+func (t *table) resetGrowthLeft() {
+	var growthLeft uint64
+	if t.capacity == 0 {
+		growthLeft = 0
+	} else if t.capacity <= groupSlots {
+		// If the map fits in a single group then we're able to fill all of
+		// the slots except 1 (an empty slot is needed to terminate find
+		// operations).
+		growthLeft = t.capacity - 1
+	} else {
+		if t.capacity * maxAvgGroupLoad < t.capacity {
+			// TODO(prattmic): Do something cleaner.
+			panic(fmt.Sprintf("overflow of %d * maxAvgGroupLoad", t.capacity))
+		}
+		growthLeft = (t.capacity * maxAvgGroupLoad) / groupSlots
+	}
+	t.growthLeft = growthLeft
 }
 
 // Get performs a lookup of the key that key points to. It returns a pointer to
@@ -337,6 +354,13 @@ func (t *table) Delete(key unsafe.Pointer) {
 			return
 		}
 	}
+}
+
+// tombstones returns the number of deleted (tombstone) entries in the table. A
+// tombstone is a slot that has been deleted but is still considered occupied
+// so as not to violate the probing invariant.
+func (t *table) tombstones() uint64 {
+	return (t.capacity*maxAvgGroupLoad)/groupSlots - t.used - t.growthLeft
 }
 
 func (t *table) rehash() {

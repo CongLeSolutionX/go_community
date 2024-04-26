@@ -14,6 +14,13 @@ const (
 	// groupSlots is the number of slots in a group.
 	groupSlots = 8
 
+	// Maximum load factor prior to growing.
+	//
+	// 7/8 is the same load factor used by Abseil, but Abseil defaults to
+	// 16 slots per group, so they get two empty slots vs our one empty
+	// slot. We may want to reevaluate if this is best for us.
+	maxAvgGroupLoad = 7
+
 	ctrlEmpty   ctrl = 0b10000000
 	ctrlDeleted ctrl = 0b11111110
 
