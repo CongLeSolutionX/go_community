@@ -40,24 +40,6 @@ const (
 	// size of bucket hash table
 	buckHashSize = 179999
 
-	// maxStack is the max depth of stack to record in bucket.
-	// Note that it's only used internally as a guard against
-	// wildly out-of-bounds slicing of the PCs that come after
-	// a bucket struct, and it could increase in the future.
-	// The term "1" accounts for the first stack entry being
-	// taken up by a "skip" sentinel value for profilers which
-	// defer inline frame expansion until the profile is reported.
-	// The term "maxSkip" is for frame pointer unwinding, where we
-	// want to end up with maxLogicalStack frames but will discard
-	// some "physical" frames to account for skipping.
-	maxStack = 1 + maxSkip + maxLogicalStack
-
-	// maxLogicalStack is the maximum stack size of a call stack
-	// to encode in a profile. This counts "logical" frames, which
-	// includes inlined frames. We may record more than this many
-	// "physical" frames when using frame pointer unwinding to account
-	// for deferred handling of skipping frames & inline expansion.
-	maxLogicalStack = 128
 	// maxSkip is to account for deferred inline expansion
 	// when using frame pointer unwinding. We record the stack
 	// with "physical" frame pointers but handle skipping "logical"
@@ -67,6 +49,11 @@ const (
 	// This should be at least as large as the largest skip value
 	// used for profiling; otherwise stacks may be truncated inconsistently
 	maxSkip = 5
+
+	// maxProfStackDepth is the highest valid value for debug.profstackdepth.
+	// It's used for the bucket.stk func.
+	// TODO(fg): can we get rid of this?
+	maxProfStackDepth = 1024
 )
 
 type bucketType int
@@ -254,10 +241,11 @@ func newBucket(typ bucketType, nstk int) *bucket {
 	return b
 }
 
-// stk returns the slice in b holding the stack.
+// stk returns the slice in b holding the stack. The caller can asssume that the
+// backing array is immutable.
 func (b *bucket) stk() []uintptr {
-	stk := (*[maxStack]uintptr)(add(unsafe.Pointer(b), unsafe.Sizeof(*b)))
-	if b.nstk > maxStack {
+	stk := (*[maxProfStackDepth]uintptr)(add(unsafe.Pointer(b), unsafe.Sizeof(*b)))
+	if b.nstk > maxProfStackDepth {
 		// prove that slicing works; otherwise a failure requires a P
 		throw("bad profile stack count")
 	}
@@ -446,7 +434,7 @@ func mProf_PostSweep() {
 
 // Called by malloc to record a profiled block.
 func mProf_Malloc(mp *m, p unsafe.Pointer, size uintptr) {
-	nstk := callers(4, mp.profStack[:maxLogicalStack])
+	nstk := callers(4, mp.profStack[:debug.profstackdepth])
 	index := (mProfCycle.read() + 2) % uint32(len(memRecord{}.future))
 
 	b := stkbucket(memProfile, size, mp.profStack[:nstk], true)
@@ -771,7 +759,7 @@ func (prof *mLockProfile) store() {
 	mp := acquirem()
 	prof.disabled = true
 
-	nstk := maxStack
+	nstk := int(debug.profstackdepth)
 	for i := 0; i < nstk; i++ {
 		if pc := prof.stack[i]; pc == 0 {
 			nstk = i
@@ -1273,7 +1261,7 @@ func goroutineProfileWithLabelsConcurrent(p []profilerecord.StackRecord, labels 
 
 	ourg := getg()
 
-	pcbuf := makeProfStack()[:maxLogicalStack] // see saveg() for explanation
+	pcbuf := makeProfStack()[:debug.profstackdepth] // // see saveg() for explanation
 	stw := stopTheWorld(stwGoroutineProfile)
 	// Using gcount while the world is stopped should give us a consistent view
 	// of the number of live goroutines, minus the number of goroutines that are
@@ -1572,7 +1560,7 @@ func saveg(pc, sp uintptr, gp *g, r *profilerecord.StackRecord, pcbuf []uintptr)
 	// syscall when the goroutine profile started or for goroutines that manage
 	// to execute before we finish iterating over all the goroutines.
 	if pcbuf == nil {
-		pcbuf = makeProfStack()[:maxLogicalStack]
+		pcbuf = makeProfStack()[:debug.profstackdepth]
 	}
 
 	var u unwinder

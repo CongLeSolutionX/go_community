@@ -818,6 +818,9 @@ func schedinit() {
 		MemProfileRate = 0
 	}
 
+	// mcommoninit runs before parsedebugvars, so init profstacks again.
+	mProfStackInit(gp.m)
+
 	lock(&sched.lock)
 	sched.lastpoll.Store(nanotime())
 	procs := ncpu
@@ -936,7 +939,15 @@ func mProfStackInit(mp *m) {
 
 // makeProfStack creates a buffer large enough to hold a maximum-sized stack
 // trace.
-func makeProfStack() []uintptr { return make([]uintptr, maxStack) }
+func makeProfStack() []uintptr {
+	// The "1" term is to account for the first stack entry being
+	// taken up by a "skip" sentinel value for profilers which
+	// defer inline frame expansion until the profile is reported.
+	// The "maxSkip" term is for frame pointer unwinding, where we
+	// want to end up with debug.profstackdebth frames but will discard
+	// some "physical" frames to account for skipping.
+	return make([]uintptr, 1+maxSkip+debug.profstackdepth)
+}
 
 func (mp *m) becomeSpinning() {
 	mp.spinning = true
