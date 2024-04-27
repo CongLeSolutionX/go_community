@@ -34,6 +34,23 @@
       "parentUuid": "4ccb6d49_1637d9a1",
       "revId": "02e9021d283fe79ca7d4694999a0a4275d9b9c54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "869ee5e4_027a2810",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-04-27T10:18:24Z",
+      "side": 1,
+      "message": "LGTM.\n\nThanks for fixing so quickly.\n\nAlex",
+      "revId": "02e9021d283fe79ca7d4694999a0a4275d9b9c54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
