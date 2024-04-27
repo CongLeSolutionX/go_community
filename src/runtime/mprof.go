@@ -39,11 +39,9 @@ const (
 	// size of bucket hash table
 	buckHashSize = 179999
 
-	// maxStack is the max depth of stack to record in bucket.
-	// Note that it's only used internally as a guard against
-	// wildly out-of-bounds slicing of the PCs that come after
-	// a bucket struct, and it could increase in the future.
-	maxStack = 128
+	// maxProfStackDepth is the highest valid value for debug.profstackdepth.
+	// It's used for the bucket.stk func. // TODO: can we get rid of this?
+	maxProfStackDepth = 1024
 )
 
 type bucketType int
@@ -231,10 +229,11 @@ func newBucket(typ bucketType, nstk int) *bucket {
 	return b
 }
 
-// stk returns the slice in b holding the stack.
+// stk returns the slice in b holding the stack. The caller can asssume that the
+// backing array is immutable.
 func (b *bucket) stk() []uintptr {
-	stk := (*[maxStack]uintptr)(add(unsafe.Pointer(b), unsafe.Sizeof(*b)))
-	if b.nstk > maxStack {
+	stk := (*[maxProfStackDepth]uintptr)(add(unsafe.Pointer(b), unsafe.Sizeof(*b)))
+	if b.nstk > maxProfStackDepth {
 		// prove that slicing works; otherwise a failure requires a P
 		throw("bad profile stack count")
 	}
@@ -717,7 +716,7 @@ func (prof *mLockProfile) store() {
 	mp := acquirem()
 	prof.disabled = true
 
-	nstk := maxStack
+	nstk := int(debug.profstackdepth)
 	for i := 0; i < nstk; i++ {
 		if pc := prof.stack[i]; pc == 0 {
 			nstk = i

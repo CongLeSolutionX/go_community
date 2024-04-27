@@ -818,6 +818,9 @@ func schedinit() {
 		MemProfileRate = 0
 	}
 
+	// mcommoninit runs before parsedebugvars, so init profstacks again.
+	mprofstackinit(gp.m)
+
 	lock(&sched.lock)
 	sched.lastpoll.Store(nanotime())
 	procs := ncpu
@@ -926,8 +929,8 @@ func mcommoninit(mp *m, id int64) {
 }
 
 func mprofstackinit(mp *m) {
-	mp.profstack = make([]uintptr, maxStack)
-	mp.mLockProfile.stack = make([]uintptr, maxStack)
+	mp.profstack = make([]uintptr, debug.profstackdepth)
+	mp.mLockProfile.stack = make([]uintptr, debug.profstackdepth)
 }
 
 func (mp *m) becomeSpinning() {
