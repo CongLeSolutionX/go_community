@@ -817,6 +817,9 @@ func schedinit() {
 		MemProfileRate = 0
 	}
 
+	// mcommoninit runs before parsedebugvars, so init profstacks again.
+	mProfStackInit(gp.m)
+
 	lock(&sched.lock)
 	sched.lastpoll.Store(nanotime())
 	procs := ncpu
@@ -929,8 +932,8 @@ func mcommoninit(mp *m, id int64) {
 // malloc and runtime locks for mLockProfile.
 // TODO(mknyszek): Implement lazy allocation if this becomes a problem.
 func mProfStackInit(mp *m) {
-	mp.profStack = make([]uintptr, maxStack)
-	mp.mLockProfile.stack = make([]uintptr, maxStack)
+	mp.profStack = make([]uintptr, debug.profstackdepth)
+	mp.mLockProfile.stack = make([]uintptr, debug.profstackdepth)
 }
 
 func (mp *m) becomeSpinning() {
