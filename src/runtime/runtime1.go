@@ -330,6 +330,7 @@ var debug struct {
 	tracefpunwindoff         int32
 	traceadvanceperiod       int32
 	traceCheckStackOwnership int32
+	profstackdepth           int32
 
 	// debug.malloc is used as a combined debug check
 	// in the malloc function and should be set
@@ -372,6 +373,7 @@ var dbgvars = []*dbgVar{
 	{name: "invalidptr", value: &debug.invalidptr},
 	{name: "madvdontneed", value: &debug.madvdontneed},
 	{name: "panicnil", atomic: &debug.panicnil},
+	{name: "profstackdepth", value: &debug.profstackdepth, def: 128},
 	{name: "runtimecontentionstacks", atomic: &debug.runtimeContentionStacks},
 	{name: "sbrk", value: &debug.sbrk},
 	{name: "scavtrace", value: &debug.scavtrace},
@@ -426,6 +428,7 @@ func parsedebugvars() {
 	parsegodebug(godebug, nil)
 
 	debug.malloc = (debug.allocfreetrace | debug.inittrace | debug.sbrk) != 0
+	debug.profstackdepth = min(debug.profstackdepth, maxProfStackDepth)
 
 	setTraceback(gogetenv("GOTRACEBACK"))
 	traceback_env = traceback_cache
