@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e6ab0f_0ae2cd36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-04-27T15:04:51Z",
+      "side": 1,
+      "message": "Please add a mention of the tracking issue, so this change will be easier to find:\n\n```\nFor #31160.\n```",
+      "revId": "54fa6e65511f05255990eacdc1fa89441c7aa68f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d42ee14_91674eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-04-27T15:04:51Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "54fa6e65511f05255990eacdc1fa89441c7aa68f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
