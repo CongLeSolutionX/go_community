@@ -16,6 +16,23 @@
       "message": "Thank you everyone for pushing this along.\n\nAlex",
       "revId": "1c4704991aeae5c9e0c6816a227390829b724ab5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ee2da6e_fc55f66f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-04-27T07:51:22Z",
+      "side": 1,
+      "message": "It appears this change broke all arm systems. I created\n\nhttps://github.com/golang/go/issues/67077\n\nto keep track of the breakage.\n\nLet me know if I should revert this CL.\n\nThank you.\n\nAlex",
+      "revId": "1c4704991aeae5c9e0c6816a227390829b724ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
