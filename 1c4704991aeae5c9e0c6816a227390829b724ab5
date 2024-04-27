@@ -33,6 +33,23 @@
       "message": "It appears this change broke all arm systems. I created\n\nhttps://github.com/golang/go/issues/67077\n\nto keep track of the breakage.\n\nLet me know if I should revert this CL.\n\nThank you.\n\nAlex",
       "revId": "1c4704991aeae5c9e0c6816a227390829b724ab5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce4e2c0a_fe46b78b",
+        "filename": "src/testing/testing_other.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-04-27T14:39:00Z",
+      "side": 1,
+      "message": "Is it intentional this is implemented as `time.Now().Sub(b.now)` instead of `time.Since(b.now)`? As far as I can tell, that skips over the optimization in https://cs.opensource.google/go/go/+/refs/tags/go1.22.2:src/time/time.go;l\u003d930-933;drc\u003d65e1fc7f1974ad49679a91046154083d9a3a9d6c. Is that not going to make a difference in this context?",
+      "revId": "1c4704991aeae5c9e0c6816a227390829b724ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
