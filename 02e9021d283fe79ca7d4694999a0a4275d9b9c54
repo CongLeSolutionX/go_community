@@ -51,6 +51,23 @@
       "message": "LGTM.\n\nThanks for fixing so quickly.\n\nAlex",
       "revId": "02e9021d283fe79ca7d4694999a0a4275d9b9c54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83029640_f92d859d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-04-27T19:31:00Z",
+      "side": 1,
+      "message": "This is a dup of CL 581375. Not that I mind whichever one gets in.",
+      "revId": "02e9021d283fe79ca7d4694999a0a4275d9b9c54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
