@@ -818,6 +818,9 @@ func schedinit() {
 		MemProfileRate = 0
 	}
 
+	// mcommoninit runs before parsedebugvars, so init profstacks again.
+	mProfStackInit(gp.m)
+
 	lock(&sched.lock)
 	sched.lastpoll.Store(nanotime())
 	procs := ncpu
@@ -937,7 +940,7 @@ func mProfStackInit(mp *m) {
 // makeProfStack creates a buffer large enough to hold a maximum-sized stack
 // trace.
 func makeProfStack() []uintptr {
-	return make([]uintptr, maxStack)
+	return make([]uintptr, debug.profstackdepth)
 }
 
 //go:linkname pprof_runtime_makeProfStack runtime/pprof.runtime_makeProfStack
