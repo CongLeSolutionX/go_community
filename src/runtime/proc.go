@@ -818,6 +818,9 @@ func schedinit() {
 		MemProfileRate = 0
 	}
 
+	// mcommoninit runs before parsedebugvars, so init profstacks again.
+	mProfStackInit(gp.m)
+
 	lock(&sched.lock)
 	sched.lastpoll.Store(nanotime())
 	procs := ncpu
@@ -944,12 +947,12 @@ func makeProfStackFP() []uintptr {
 	// The "maxSkip" term is for frame pointer unwinding, where we
 	// want to end up with debug.profstackdebth frames but will discard
 	// some "physical" frames to account for skipping.
-	return make([]uintptr, 1+maxSkip+maxLogicalStack)
+	return make([]uintptr, 1+maxSkip+debug.profstackdepth)
 }
 
 // makeProfStack returns a buffer large enough to hold a maximum-sized stack
 // trace.
-func makeProfStack() []uintptr { return make([]uintptr, maxLogicalStack) }
+func makeProfStack() []uintptr { return make([]uintptr, debug.profstackdepth) }
 
 //go:linkname pprof_makeProfStack
 func pprof_makeProfStack() []uintptr { return makeProfStack() }
