@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "be738a97a550cdfe6edf520b9920db0c6aa74ea4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de11c4d6_de43979a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-28T01:14:19Z",
+      "side": 1,
+      "message": "The change doesn\u0027t bootstrap.  We\u0027ll need to move Value.Seq and Value.Seqs into a separate file with an appropriate build tag.",
+      "revId": "be738a97a550cdfe6edf520b9920db0c6aa74ea4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
