@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a97fe6dd_53c75787",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-28T01:16:04Z",
+      "side": 1,
+      "message": "This seems like an unlikely case.  Why would somebody use index/suffixarray in this way?  And the savings, while real, are in the nanoseconds.",
+      "revId": "167d2cfa1602907310990638d09760b390b8f0e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
