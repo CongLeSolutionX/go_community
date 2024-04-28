@@ -51,6 +51,24 @@
       "parentUuid": "de11c4d6_de43979a",
       "revId": "be738a97a550cdfe6edf520b9920db0c6aa74ea4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bbef62d_fdba54a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-04-28T01:29:57Z",
+      "side": 1,
+      "message": "Yes, we can wait for that.\n\nBut I think the CL still needs to be changed so that it bootstraps with earlier releases.",
+      "parentUuid": "90fe961f_1973f2df",
+      "revId": "be738a97a550cdfe6edf520b9920db0c6aa74ea4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
