@@ -14,3 +14,6 @@ func fastrand64() uint64
 
 //go:linkname typedmemmove runtime.typedmemmove
 func typedmemmove(typ *abi.Type, dst, src unsafe.Pointer)
+
+//go:linkname typedmemclr runtime.typedmemclr
+func typedmemclr(typ *abi.Type, ptr unsafe.Pointer)

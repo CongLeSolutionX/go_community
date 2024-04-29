@@ -330,8 +330,10 @@ func (t *table) Delete(key unsafe.Pointer) {
 			i := match.first()
 			slotKey := g.key(i)
 			if t.typ.Key.Equal(key, slotKey) {
-				// TODO(prattmic): Zero the slot? Important for GC!
 				t.used--
+
+				typedmemclr(t.typ.Key, slotKey)
+				typedmemclr(t.typ.Elem, g.elem(i))
 
 				// Only a full group can appear in the middle
 				// of a probe sequence (a group with at least
@@ -376,7 +378,8 @@ func (t *table) Clear() {
 		g := t.groups.group(i)
 		g.ctrls().setEmpty()
 		for j := uint32(0); j < groupSlots; j++ {
-			// TODO(prattmic): Zero the slot? Important for GC!
+			typedmemclr(t.typ.Key, g.key(j))
+			typedmemclr(t.typ.Elem, g.elem(j))
 		}
 	}
 
@@ -517,7 +520,8 @@ func (t *table) rehashInPlace() {
 				typedmemmove(t.typ.Elem, targetElem, elem)
 
 				// Clear old slot.
-				// TODO(prattmic): zero old key/elem.
+				typedmemclr(t.typ.Key, key)
+				typedmemclr(t.typ.Elem, elem)
 				g.ctrls().set(j, ctrlEmpty)
 
 			case targetGroup.ctrls().get(target) == ctrlDeleted:
@@ -543,6 +547,9 @@ func (t *table) rehashInPlace() {
 
 				typedmemmove(t.typ.Key, targetKey, unsafe.Pointer(&scratchKey[0]))
 				typedmemmove(t.typ.Elem, targetElem, unsafe.Pointer(&scratchElem[0]))
+
+				typedmemclr(t.typ.Key, unsafe.Pointer(&scratchKey[0]))
+				typedmemclr(t.typ.Elem, unsafe.Pointer(&scratchElem[0]))
 
 				// Repeat processing of the j'th slot which now holds a
 				// new key/value.
