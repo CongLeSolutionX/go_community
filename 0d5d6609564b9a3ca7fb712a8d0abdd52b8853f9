@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9520c235_d377fc52",
+        "filename": "src/cmd/go/internal/gover/gover_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-29T17:49:43Z",
+      "side": 1,
+      "message": "could we also add \u003cvalid toolchain\u003e+auto, for example \"1.21.0+auto\" to test that we want valid toolchain versions but not GOTOOLCHAIN values?",
+      "range": {
+        "startLine": 107,
+        "startChar": 1,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "0d5d6609564b9a3ca7fb712a8d0abdd52b8853f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5edb29a_558a465a",
+        "filename": "src/cmd/go/internal/gover/gover_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-29T17:49:43Z",
+      "side": 1,
+      "message": "should 1.20.0 be valid? There was no 1.20.0 release",
+      "range": {
+        "startLine": 112,
+        "startChar": 1,
+        "endLine": 112,
+        "endChar": 18
+      },
+      "revId": "0d5d6609564b9a3ca7fb712a8d0abdd52b8853f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1448c0ae_379122d8",
+        "filename": "src/cmd/go/testdata/script/toolchain_issue66175.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-04-29T17:49:43Z",
+      "side": 1,
+      "message": "Should we name this file gotoolchain_issue66175.txt instead? We already have a bunch of toolchain tests that start with gotoolchain (they mostly test GOTOOLCHAIN but one of them is just testing general toolchain things).",
+      "revId": "0d5d6609564b9a3ca7fb712a8d0abdd52b8853f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
