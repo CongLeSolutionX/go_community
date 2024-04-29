@@ -16,6 +16,24 @@
       "message": "This change is converting a 64 bit CLRLSLDI into 32 bit RLWNM. Since the RLWNM will clear out the upper 32 bits, its seems like you\u0027d want more testcases to verify you aren\u0027t allowing any cases that might set one of the upper 32 bits. These are all using uint8 with \u003e\u003e and AND with 0xFF so will always be in the lower 32 bits.",
       "revId": "e0ccf28cd4ad5f10b46f173dbb44cbe125be04c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bfe2bda_0e889271",
+        "filename": "test/codegen/shift.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-04-29T15:58:46Z",
+      "side": 1,
+      "message": "I added a few more interesting test cases.",
+      "parentUuid": "c83501c9_bfc9f4d5",
+      "revId": "e0ccf28cd4ad5f10b46f173dbb44cbe125be04c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
