@@ -282,3 +282,271 @@ func TestTableRehashInPlace(t *testing.T) {
 		}
 	}
 }
+
+func TestTableIteration(t *testing.T) {
+	tab := newTestTable[uint32, uint64](8)
+
+	key := uint32(0)
+	elem := uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if debugLog {
+			fmt.Printf("After put %d: %v\n", key, tab)
+		}
+	}
+
+	got := make(map[uint32]uint64)
+
+	tab.All(func(keyPtr, elemPtr unsafe.Pointer) bool {
+		key := *(*uint32)(keyPtr)
+		elem := *(*uint64)(elemPtr)
+		got[key] = elem
+		return true
+	})
+
+	if len(got) != 31 {
+		t.Errorf("All got %d entries, want 31: %+v", len(got), got)
+	}
+
+	key = uint32(0)
+	elem = uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		gotElem, ok := got[key]
+		if !ok {
+			t.Errorf("All missing key %d", key)
+			continue
+		}
+		if gotElem != elem {
+			t.Errorf("All key %d got elem %d want %d", key, gotElem, elem)
+		}
+	}
+}
+
+// Deleted keys shouldn't be visible in iteration.
+func TestTableIterationDelete(t *testing.T) {
+	tab := newTestTable[uint32, uint64](8)
+
+	key := uint32(0)
+	elem := uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if debugLog {
+			fmt.Printf("After put %d: %v\n", key, tab)
+		}
+	}
+
+	got := make(map[uint32]uint64)
+	first := true
+	deletedKey := uint32(1)
+	tab.All(func(keyPtr, elemPtr unsafe.Pointer) bool {
+		key := *(*uint32)(keyPtr)
+		elem := *(*uint64)(elemPtr)
+		got[key] = elem
+
+		if first {
+			first = false
+
+			// If the key we intended to delete was the one we just
+			// saw, pick another to delete.
+			if key == deletedKey {
+				deletedKey++
+			}
+			tab.Delete(unsafe.Pointer(&deletedKey))
+		}
+		return true
+	})
+
+	if len(got) != 30 {
+		t.Errorf("All got %d entries, want 30: %+v", len(got), got)
+	}
+
+	key = uint32(0)
+	elem = uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+
+		wantOK := true
+		if key == deletedKey {
+			wantOK = false
+		}
+
+		gotElem, gotOK := got[key]
+		if gotOK != wantOK {
+			t.Errorf("All key %d got ok %v want ok %v", key, gotOK, wantOK)
+			continue
+		}
+		if wantOK && gotElem != elem {
+			t.Errorf("All key %d got elem %d want %d", key, gotElem, elem)
+		}
+	}
+}
+
+// Deleted keys shouldn't be visible in iteration even after a grow.
+//
+// TODO(prattmic): Uh-oh, the map doesn't support this.
+//
+// If the table has grown, then just do a full lookup of the target key in the
+// resized table.
+//
+// TODO: what about rehash in place?
+func TestTableIterationGrowDelete(t *testing.T) {
+	tab := newTestTable[uint32, uint64](8)
+
+	key := uint32(0)
+	elem := uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if debugLog {
+			fmt.Printf("After put %d: %v\n", key, tab)
+		}
+	}
+
+	got := make(map[uint32]uint64)
+	first := true
+	deletedKey := uint32(1)
+	tab.All(func(keyPtr, elemPtr unsafe.Pointer) bool {
+		key := *(*uint32)(keyPtr)
+		elem := *(*uint64)(elemPtr)
+		got[key] = elem
+
+		if first {
+			first = false
+
+			// If the key we intended to delete was the one we just
+			// saw, pick another to delete.
+			if key == deletedKey {
+				deletedKey++
+			}
+
+			// Double the number of elements to force a grow.
+			key := uint32(32)
+			elem := uint64(256+32)
+
+			for i := 0; i < 31; i++ {
+				key += 1
+				elem += 1
+				tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+				if debugLog {
+					fmt.Printf("After put %d: %v\n", key, tab)
+				}
+			}
+
+			// Then delete from the grown map.
+			tab.Delete(unsafe.Pointer(&deletedKey))
+		}
+		return true
+	})
+
+	// Don't check length: the number of new elements we'll see is
+	// unspecified.
+
+	// Check values only of the original pre-iteration entries.
+	key = uint32(0)
+	elem = uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+
+		wantOK := true
+		if key == deletedKey {
+			wantOK = false
+		}
+
+		gotElem, gotOK := got[key]
+		if gotOK != wantOK {
+			t.Errorf("All key %d got ok %v want ok %v", key, gotOK, wantOK)
+			continue
+		}
+		if wantOK && gotElem != elem {
+			t.Errorf("All key %d got elem %d want %d", key, gotElem, elem)
+		}
+	}
+}
+
+func TestStdIterationGrowDelete(t *testing.T) {
+	m := make(map[uint32]uint64)
+
+	key := uint32(0)
+	elem := uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		m[key] = elem
+	}
+
+	got := make(map[uint32]uint64)
+	first := true
+	deletedKey := uint32(1)
+	for key, elem := range m {
+		got[key] = elem
+
+		if first {
+			first = false
+
+			// If the key we intended to delete was the one we just
+			// saw, pick another to delete.
+			if key == deletedKey {
+				deletedKey++
+			}
+
+			// Double the number of elements to force a grow.
+			key := uint32(32)
+			elem := uint64(256+32)
+
+			for i := 0; i < 31; i++ {
+				key += 1
+				elem += 1
+				m[key] = elem
+			}
+
+			// Then delete from the grown map.
+			delete(m, deletedKey)
+		}
+	}
+
+	// Don't check length: the number of new elements we'll see is
+	// unspecified.
+
+	// Check values only of the original pre-iteration entries.
+	key = uint32(0)
+	elem = uint64(256+0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+
+		wantOK := true
+		if key == deletedKey {
+			wantOK = false
+		}
+
+		gotElem, gotOK := got[key]
+		if gotOK != wantOK {
+			t.Errorf("All key %d got ok %v want ok %v", key, gotOK, wantOK)
+			continue
+		}
+		if wantOK && gotElem != elem {
+			t.Errorf("All key %d got elem %d want %d", key, gotElem, elem)
+		}
+	}
+}

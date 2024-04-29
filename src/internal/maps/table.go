@@ -393,6 +393,40 @@ func (t *table) Clear() {
 	//t.seed = uintptr(fastrand64())
 }
 
+// All calls yield sequentially for each key and value present in the table. If
+// yield returns false, range stops the iteration. The table can be mutated
+// during iteration, though there is no guarantee that the mutations will be
+// visible to the iteration.
+func (t *table) All(yield func(key, elem unsafe.Pointer) bool) {
+	// Randomize iteration order by starting iteration at a random bucket and
+	// within each bucket at a random offset.
+	offset := fastrand64()
+
+	if t.used == 0 {
+		return
+	}
+
+	// Snapshot the groups, to use during iteration. If the table resizes
+	// during iteration, we continue to iterate over the old groups.
+	groups := t.groups
+
+	for i := uint64(0); i < groups.length; i++ {
+		g := groups.group((i + offset) % groups.length)
+		// TODO(orattmic): Skip over groups that are composed of only empty
+		// or deleted slots using matchEmptyOrDeleted() and counting the
+		// number of bits set.
+		for j := uint32(0); j < groupSlots; j++ {
+			k := (j + uint32(offset)) % groupSlots
+			// Match full entries which have a high-bit of zero.
+			if (g.ctrls().get(k) & ctrlEmpty) != ctrlEmpty {
+				if !yield(g.key(k), g.elem(k)) {
+					return
+				}
+			}
+		}
+	}
+}
+
 func (t *table) rehash() {
 	// Rehash in place if we can recover >= 1/3 of the capacity. Note that
 	// this heuristic differs from Abseil's and was experimentally determined
