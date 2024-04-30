@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "017b6f50_0112229c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-04-30T07:56:55Z",
+      "side": 1,
+      "message": "I\u0027m now working on that. ETA is this week",
+      "parentUuid": "9cd37289_c9a91197",
+      "revId": "5be4ecd4fb92d468e5b260a2f7b92d61529edf3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edb93c2b_3031ddf9",
