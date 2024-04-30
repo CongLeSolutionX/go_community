@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0b9a04_91b3c95e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2024-04-30T17:24:52Z",
+      "side": 1,
+      "message": "I\u0027ve changed the interface naming to match what @dsnet proposed in https://github.com/golang/go/issues/49580#issuecomment-2079908258",
+      "revId": "ed9d2278218ddf0b46dec7d29bc0af7183a114d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
