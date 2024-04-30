@@ -16,6 +16,24 @@
       "message": "I have to remove the two newly added test cases:  {\"-\", maxInt, \" out of \"}.\nThe reason is, on Windows (on which LUCI runs), Repeat(\"-\", maxInt) causes\n\"out of memory\" panic, which is not recoverable. (On Linus, the panic is\n\"makeslice: len out of range\", which is recoverable.)",
       "revId": "c4118ad8c480b1db71a35a166a012dc21a2d00d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ce5a37f_6eedc2a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2024-04-30T16:21:19Z",
+      "side": 1,
+      "message": "The actually difference is not OS. It is 32-bit arch vs. 64-bit arch.\nIt looks the LUCI server runs on a 32-bit Windows OS.\nOn 32-bit arch, the execution will not enter the if-block (which calls\npanicmakeslicelen) in bytealg_MakeNoZero.",
+      "parentUuid": "60df5944_0969e27f",
+      "revId": "c4118ad8c480b1db71a35a166a012dc21a2d00d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
