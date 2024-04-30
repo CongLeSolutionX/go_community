@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1d93ec9_9c2ca261",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-04-30T12:52:10Z",
+      "side": 1,
+      "message": "The new benchmark results are available in the latest commit message",
+      "parentUuid": "017b6f50_0112229c",
+      "revId": "5be4ecd4fb92d468e5b260a2f7b92d61529edf3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edb93c2b_3031ddf9",
@@ -71,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b224cc44_0467110f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-04-30T12:52:10Z",
+      "side": 1,
+      "message": "This change was reverted in the latest version",
+      "parentUuid": "ef71221c_89d6a898",
+      "revId": "5be4ecd4fb92d468e5b260a2f7b92d61529edf3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef821404_9f40a2ac",
@@ -84,6 +120,24 @@
       "writtenOn": "2024-03-12T21:24:49Z",
       "side": 1,
       "message": "This isn\u0027t measuring what users will actually use, so the benchmark may report percentage improvements that are misleadingly high.\n\nInstead, have the benchmark actually run a `go` command that is representative of what a user would run; compare with the existing `BenchmarkExecGoEnv`.",
+      "revId": "5be4ecd4fb92d468e5b260a2f7b92d61529edf3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f53e90ed_e097ea50",
+        "filename": "src/cmd/go/internal/modload/list_test/list_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-04-30T12:52:10Z",
+      "side": 1,
+      "message": "The new benchmark executes the go command as you suggested",
+      "parentUuid": "ef821404_9f40a2ac",
       "revId": "5be4ecd4fb92d468e5b260a2f7b92d61529edf3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
