@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5709eafa_51162165",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-01T11:33:41Z",
+      "side": 1,
+      "message": "Your sentinel will trigger here, causing cases 1-6 to not run on 32 bit.\n\nI\u0027d rather you do\n\ntests :\u003d []struct { ... } { ... cases 1-6 ... }\nif _64bit {\n   tests \u003d append(tests, struct { ... } { case 8 ... }\n}\nfor i, tt :\u003d range tests {\n}\n\n(and maybe define the struct type first to avoid repeating it.)",
+      "range": {
+        "startLine": 1252,
+        "startChar": 6,
+        "endLine": 1252,
+        "endChar": 8
+      },
+      "revId": "dd88b635cdf41e2ee68351f0520144307a6262ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "346cc199_dc23bf43",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-01T11:33:41Z",
+      "side": 1,
+      "message": "This is weird. I realize it is what the runtime does, but that\u0027s because the runtime needs a 0/1. Here we can just do\n\nconst _64bit \u003d ^uintptr(0)\u003e\u003e63 !\u003d 0\n\nand use that as a boolean.",
+      "revId": "dd88b635cdf41e2ee68351f0520144307a6262ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655dd324_6a5ffe01",
+        "filename": "src/strings/strings_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-01T11:33:41Z",
+      "side": 1,
+      "message": "should probably use maxInt here also, now that it is defined.",
+      "range": {
+        "startLine": 1180,
+        "startChar": 10,
+        "endLine": 1180,
+        "endChar": 28
+      },
+      "revId": "dd88b635cdf41e2ee68351f0520144307a6262ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
