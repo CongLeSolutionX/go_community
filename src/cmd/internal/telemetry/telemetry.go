@@ -59,3 +59,18 @@ func NewStackCounter(name string, depth int) *counter.StackCounter {
 func CountFlags(prefix string, flagSet flag.FlagSet) {
 	counter.CountFlags(prefix, flagSet)
 }
+
+// CountFlagValue creates a counter for the flag value
+// if it is set and increments the counter. The name of the
+// counter is the concatenation of prefix, the flagName, the separator
+// and value.String() for the flag's value.
+func CountFlagValue(prefix string, flagSet flag.FlagSet, flagName string, separator string) {
+	// TODO(matloob): Maybe pass in a list of flagNames if we end up counting
+	// values for more than one?
+	// TODO(matloob): Add this to x/telemetry?
+	flagSet.Visit(func(f *flag.Flag) {
+		if f.Name == flagName {
+			counter.New(prefix + f.Name + separator + f.Value.String()).Inc()
+		}
+	})
+}
