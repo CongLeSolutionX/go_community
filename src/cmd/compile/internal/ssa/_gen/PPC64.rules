@@ -645,6 +645,16 @@
 (MOVBreg (MOVBZreg x)) => (MOVBreg x)
 (MOVBZreg (MOVBreg x)) => (MOVBZreg x)
 
+// Catch any remaining rotate+shift cases
+(MOVBZreg (SRWconst x [s])) && mergePPC64AndSrwi(0xFF,s) != 0 => (RLWINM [mergePPC64AndSrwi(0xFF,s)] x)
+(MOVBZreg (RLWINM [a] y)) && mergePPC64AndRlwinm(0xFF,a) != 0 => (RLWINM [mergePPC64AndRlwinm(0xFF,a)] y)
+(Select0 (ANDCCconst [m] (RLWINM [r] y))) && mergePPC64AndRlwinm(uint32(m),r) != 0 => (RLWINM [mergePPC64AndRlwinm(uint32(m),r)] y)
+(SLDconst [s] (RLWINM [r] y)) && mergePPC64SldiRlwinm(s,r) != 0 => (RLWINM [mergePPC64SldiRlwinm(s,r)] y)
+(MOVWZreg (RLWINM [r] y)) && mergePPC64AndRlwinm(0xFFFFFFFF,r) != 0 => (RLWINM [mergePPC64AndRlwinm(0xFFFFFFFF,r)] y)
+// SLWconst is a special case of RLWNM. This usage of RLWNM always zero-extends the 32 bit result.
+(SLWconst [s] (MOVWZreg w)) => (SLWconst [s] w)
+(MOVWZreg w:(SLWconst u)) => w
+
 // H - there are more combinations than these
 
 (MOVHZreg y:(MOV(H|B)Zreg _)) => y // repeat
