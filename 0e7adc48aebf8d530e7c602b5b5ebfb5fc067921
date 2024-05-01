@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e06bc2_944cce5a",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-01T16:35:26Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to use a type alias here. Probably better to go without.",
+      "range": {
+        "startLine": 1245,
+        "startChar": 15,
+        "endLine": 1245,
+        "endChar": 16
+      },
+      "revId": "0e7adc48aebf8d530e7c602b5b5ebfb5fc067921",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
