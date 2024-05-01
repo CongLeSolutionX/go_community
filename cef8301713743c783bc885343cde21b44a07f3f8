@@ -122,6 +122,23 @@
       "message": "There is a merge conflict, please resolve it.\nPlease address other outstanding comments.",
       "revId": "cef8301713743c783bc885343cde21b44a07f3f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9eb6966_eb8ee3e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-01T18:49:52Z",
+      "side": 1,
+      "message": "Hi Andrew, I\u0027d like to follow up on this CL. Are you able to sync to head and resolve the merge conflicts?",
+      "revId": "cef8301713743c783bc885343cde21b44a07f3f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
