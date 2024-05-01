@@ -26,6 +26,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/run"
 	"cmd/go/internal/work"
+	"cmd/internal/telemetry"
 
 	"golang.org/x/mod/module"
 )
@@ -81,7 +82,7 @@ func FilterEnv(env []string) []string {
 	return out
 }
 
-var counterErrorsInvalidToolchainInFile = base.NewCounter("go/errors:invalid-toolchain-in-file")
+var counterErrorsInvalidToolchainInFile = telemetry.NewCounter("go/errors:invalid-toolchain-in-file")
 
 // Select invokes a different Go toolchain if directed by
 // the GOTOOLCHAIN environment variable or the user's configuration
