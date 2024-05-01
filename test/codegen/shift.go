@@ -467,11 +467,19 @@ func checkMergedShifts64(a [256]uint32, b [256]uint64, v uint64) {
 	// ppc64x: "SRD", "CLRLSLDI", -"RLWNM"
 	a[5] = a[(v>>32)&0x01]
 	// ppc64x: "SRD", "CLRLSLDI", -"RLWNM"
-	a[5] = a[(v>>34)&0x03]
+	a[6] = a[(v>>34)&0x03]
 	// ppc64x: -"CLRLSLDI", "RLWNM\t[$]12, R[0-9]+, [$]21, [$]28, R[0-9]+"
 	b[0] = b[uint8(v>>23)]
 	// ppc64x: -"CLRLSLDI", "RLWNM\t[$]15, R[0-9]+, [$]21, [$]28, R[0-9]+"
 	b[1] = b[(v>>20)&0xFF]
+}
+
+func checkShiftMask(a uint32) (z, y uint32) {
+	//ppc64x: -"MOVBZ", -"SRW", "RLWNM"
+	z = uint32(uint8(a >> 5))
+	//ppc64x: -"MOVBZ", -"SRW", "RLWNM"
+	y = uint32(uint8((a >> 4) & 0x7e))
+	return
 }
 
 // 128 bit shifts

@@ -1653,6 +1653,19 @@ func mergePPC64ClrlsldiRlwinm(sld int32, rlw int64) int64 {
 	return encodePPC64RotateMask(r_3, int64(mask_3), 32)
 }
 
+// Test if RLWINM feeding into an ANDconst can be merged. Return the encoded RLWINM constant,
+// or 0 if they cannot be merged.
+func mergePPC64AndRlwinm(mask uint32, rlw int64) int64 {
+	r, _, _, mask_rlw := DecodePPC64RotateMask(rlw)
+	mask_out := (mask_rlw & uint64(mask))
+
+	// Verify the result is still a valid bitmask of <= 32 bits.
+	if !isPPC64WordRotateMask(int64(mask_out)) {
+		return 0
+	}
+	return encodePPC64RotateMask(r, int64(mask_out), 32)
+}
+
 // Compute the encoded RLWINM constant from combining (SLDconst [sld] (SRWconst [srw] x)),
 // or return 0 if they cannot be combined.
 func mergePPC64SldiSrw(sld, srw int64) int64 {

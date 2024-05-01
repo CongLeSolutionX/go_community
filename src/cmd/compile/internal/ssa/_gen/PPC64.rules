@@ -645,6 +645,10 @@
 (MOVBreg (MOVBZreg x)) => (MOVBreg x)
 (MOVBZreg (MOVBreg x)) => (MOVBZreg x)
 
+// Catch any remaining non-trivial zero-extended byte shifts
+(MOVBZreg (SRWconst x [s])) && mergePPC64AndSrwi(0xFF,s) != 0 => (RLWINM [mergePPC64AndSrwi(0xFF,s)] x)
+(MOVBZreg (RLWINM [a] y)) && mergePPC64AndRlwinm(0xFF,a) != 0 => (RLWINM [mergePPC64AndRlwinm(0xFF,a)] y)
+
 // H - there are more combinations than these
 
 (MOVHZreg y:(MOV(H|B)Zreg _)) => y // repeat
