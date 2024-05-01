@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16dd733b_1e28acdc",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-01T17:00:37Z",
+      "side": 1,
+      "message": "As above, unfortunately IsToolchain already exists: https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/gover/mod.go;l\u003d25?q\u003dIsToolchain\u0026ss\u003dgo%2Fgo",
+      "parentUuid": "490a463b_b0c44685",
+      "range": {
+        "startLine": 55,
+        "startChar": 5,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "30d07f63ef74a27bc9c404257051c8eeb052a6e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "843ee3d2_67257d63",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad4d2b78_5fdade54",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-01T17:00:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "843ee3d2_67257d63",
+      "range": {
+        "startLine": 191,
+        "startChar": 57,
+        "endLine": 191,
+        "endChar": 65
+      },
+      "revId": "30d07f63ef74a27bc9c404257051c8eeb052a6e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0ccc89b_cec28529",
@@ -60,6 +108,24 @@
       "writtenOn": "2024-04-29T20:53:17Z",
       "side": 1,
       "message": "The grammar is a little confusing here. How about:\n\n\n// Don\u0027t try to download a language version (sans patch component), such as go1.22.\n// Instead, use the first toolchain of that language version, such as 1.22.0.",
+      "revId": "30d07f63ef74a27bc9c404257051c8eeb052a6e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c74a278_fe35584a",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-01T17:00:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0ccc89b_cec28529",
       "revId": "30d07f63ef74a27bc9c404257051c8eeb052a6e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
