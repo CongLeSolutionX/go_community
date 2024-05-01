@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef8aa952_5b83bbf3",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2024-05-01T16:00:25Z",
+      "side": 1,
+      "message": "What a silly mistake. :D",
+      "parentUuid": "5709eafa_51162165",
+      "range": {
+        "startLine": 1252,
+        "startChar": 6,
+        "endLine": 1252,
+        "endChar": 8
+      },
+      "revId": "dd88b635cdf41e2ee68351f0520144307a6262ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "346cc199_dc23bf43",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02205fec_abc9d3f8",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2024-05-01T16:00:25Z",
+      "side": 1,
+      "message": "For consistency with other part, I use\n\n  1 \u003c\u003c (^uintptr(0) \u003e\u003e 63) / 2 !\u003d 0\n  \nhere.",
+      "parentUuid": "346cc199_dc23bf43",
+      "revId": "dd88b635cdf41e2ee68351f0520144307a6262ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "655dd324_6a5ffe01",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-05-01T11:33:41Z",
       "side": 1,
       "message": "should probably use maxInt here also, now that it is defined.",
+      "range": {
+        "startLine": 1180,
+        "startChar": 10,
+        "endLine": 1180,
+        "endChar": 28
+      },
+      "revId": "dd88b635cdf41e2ee68351f0520144307a6262ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "829806e0_3238f360",
+        "filename": "src/strings/strings_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 27938
+      },
+      "writtenOn": "2024-05-01T16:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655dd324_6a5ffe01",
       "range": {
         "startLine": 1180,
         "startChar": 10,
