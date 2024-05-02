@@ -950,8 +950,8 @@
 (ISEL [4] x _ (Flag(EQ|GT))) => x
 (ISEL [4] _ y (FlagLT)) => y
 
-(ISEL [2] x y ((CMP|CMPW)const [0] (Select0 (ANDCCconst [n] z)))) => (ISEL [2] x y (Select1 <types.TypeFlags> (ANDCCconst [n] z )))
-(ISEL [6] x y ((CMP|CMPW)const [0] (Select0 (ANDCCconst [n] z)))) => (ISEL [6] x y (Select1 <types.TypeFlags> (ANDCCconst [n] z )))
+(ISEL [2] x y ((CMP|CMPW)const [0] (Select0 a:(ANDCCconst [n] z)))) => (ISEL [2] x y (Select1 <types.TypeFlags> a))
+(ISEL [6] x y ((CMP|CMPW)const [0] (Select0 a:(ANDCCconst [n] z)))) => (ISEL [6] x y (Select1 <types.TypeFlags> a))
 (SETBC [n] (InvertFlags bool)) => (SETBCR [n] bool)
 (SETBCR [n] (InvertFlags bool)) => (SETBC [n] bool)
 
@@ -961,11 +961,11 @@
 (XORconst [1] (SETBCR [n] cmp)) => (SETBC [n] cmp)
 (XORconst [1] (SETBC [n] cmp)) => (SETBCR [n] cmp)
 
-(SETBC [2] ((CMP|CMPW)const [0] (Select0 (ANDCCconst [1] z)))) => (XORconst [1] (Select0 <typ.UInt64> (ANDCCconst [1] z )))
-(SETBCR [2] ((CMP|CMPW)const [0] (Select0 (ANDCCconst [1] z)))) => (Select0 <typ.UInt64> (ANDCCconst [1] z ))
+(SETBC [2] ((CMP|CMPW)const [0] a:(Select0 (ANDCCconst [1] z)))) => (XORconst [1] a)
+(SETBCR [2] ((CMP|CMPW)const [0] a:(Select0 (ANDCCconst [1] z)))) => a
 
-(SETBC [2] (CMPWconst [0] (Select0 (ANDCCconst [n] z)))) => (SETBC [2] (Select1 <types.TypeFlags> (ANDCCconst [n] z )))
-(SETBCR [2] (CMPWconst [0] (Select0 (ANDCCconst [n] z)))) => (SETBCR [2] (Select1 <types.TypeFlags> (ANDCCconst [n] z )))
+(SETBC [2] (CMPWconst [0] (Select0 a:(ANDCCconst [n] z)))) => (SETBC [2] (Select1 <types.TypeFlags> a))
+(SETBCR [2] (CMPWconst [0] (Select0 a:(ANDCCconst [n] z)))) => (SETBCR [2] (Select1 <types.TypeFlags> a))
 
 // Only CMPconst for these in case AND|OR|XOR result is > 32 bits
 (SETBC [2] (CMPconst [0] a:(AND y z))) && a.Uses == 1 => (SETBC [2] (Select1 <types.TypeFlags> (ANDCC y z )))
