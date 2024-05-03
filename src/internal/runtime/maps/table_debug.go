@@ -7,7 +7,6 @@ package maps
 
 import (
 	"internal/abi"
-	sabi "internal/runtime/maps/internal/abi"
 	"unsafe"
 )
 
@@ -25,7 +24,7 @@ func (t *table) checkInvariants() {
 	var empty uint64
 	for i := uint64(0); i <= t.groups.lengthMask; i++ {
 		g := t.groups.group(i)
-		for j := uint32(0); j < sabi.SwissMapGroupSlots; j++ {
+		for j := uint32(0); j < abi.SwissMapGroupSlots; j++ {
 			c := g.ctrls().get(j)
 			switch {
 			case c == ctrlDeleted:
@@ -58,7 +57,7 @@ func (t *table) checkInvariants() {
 		panic("invariant failed: found mismatched used slot count")
 	}
 
-	growthLeft := (t.capacity*maxAvgGroupLoad)/sabi.SwissMapGroupSlots - t.used - deleted
+	growthLeft := (t.capacity*maxAvgGroupLoad)/abi.SwissMapGroupSlots - t.used - deleted
 	if growthLeft != t.growthLeft {
 		//panic(fmt.Sprintf("invariant failed: found %d growthLeft, but expected %d\n%v",
 		//t.growthLeft, growthLeft, t))
