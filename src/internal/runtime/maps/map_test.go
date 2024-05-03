@@ -6,8 +6,8 @@ package maps_test
 
 import (
 	"fmt"
+	"internal/abi"
 	"internal/runtime/maps"
-	"internal/runtime/maps/internal/abi"
 	"math"
 	"testing"
 	"unsafe"
