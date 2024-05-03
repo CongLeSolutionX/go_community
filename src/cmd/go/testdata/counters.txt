@@ -125,6 +125,7 @@ go/subcommand:doc
 go/subcommand:help-doc
 go/subcommand:env
 go/flag:env-C
+go/flag:env-changed
 go/flag:env-json
 go/flag:env-n
 go/flag:env-u
