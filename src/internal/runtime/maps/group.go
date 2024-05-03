@@ -5,7 +5,7 @@
 package maps
 
 import (
-	"internal/runtime/maps/internal/abi"
+	"internal/abi"
 	"internal/runtime/sys"
 	"unsafe"
 )
