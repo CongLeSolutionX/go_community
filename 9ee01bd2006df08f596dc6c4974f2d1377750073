@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9177994_b61c3086",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-03T22:10:43Z",
+      "side": 1,
+      "message": "The counter is for the toolchain directive in the file right? I think we\u0027re checking the GOTOOLCHAIN environment variable here.",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 39
+      },
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "621ca80d_1bded89d",
+        "filename": "src/internal/gover/gover.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-03T22:10:43Z",
+      "side": 1,
+      "message": "I think we should only do this in IsToolchainVersion.\n\nIt will make the change safer to get in for backports.\n\n(The way the rest of this CL is written, it shouldn\u0027t produce errors for cases where errors weren\u0027t produced before this CL. We should try to maintain that property.)",
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
