@@ -42,10 +42,6 @@ func Abandon() {
 // provided by runtime
 func runtime_arg0() string
 
-func hasSuffix(s, t string) bool {
-	return len(s) > len(t) && s[len(s)-len(t):] == t
-}
-
 // Required reports whether FIPS-approved settings are required.
 func Required() bool {
 	return required.Load()
