@@ -519,7 +519,10 @@ func unindent(lines []string) []string {
 	prefix := leadingSpace(lines[0])
 	for _, line := range lines[1:] {
 		if !isBlank(line) {
-			prefix = commonPrefix(prefix, leadingSpace(line))
+			leading := leadingSpace(line)
+			if len(leading) != len(line) {
+				prefix = commonPrefix(prefix, leading)
+			}
 		}
 	}
 

@@ -1,0 +1,19 @@
+package multiline
+
+/*
+    This is a multiline
+    doc-comment
+ */
+func A()	{}
+
+/*
+    This is a multiline
+    comment
+ */
+
+/*
+This is a multiline doc-comment with code:
+	a := 1
+	B(a)
+ */
+func B(int)	{}
