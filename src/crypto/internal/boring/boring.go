@@ -39,10 +39,6 @@ func Unreachable() {
 // provided by runtime to avoid os import.
 func runtime_arg0() string
 
-func hasSuffix(s, t string) bool {
-	return len(s) > len(t) && s[len(s)-len(t):] == t
-}
-
 // UnreachableExceptTests marks code that should be unreachable
 // when BoringCrypto is in use. It panics.
 func UnreachableExceptTests() {
