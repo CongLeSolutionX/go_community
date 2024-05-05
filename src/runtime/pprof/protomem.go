@@ -26,10 +26,11 @@ func writeHeapProto(w io.Writer, p []runtime.MemProfileRecord, rate int64, defau
 
 	values := []int64{0, 0, 0, 0}
 	var locs []uint64
+	pcbuf := runtime_makeProfStack()
 	for _, r := range p {
 		hideRuntime := true
 		for tries := 0; tries < 2; tries++ {
-			stk := r.Stack()
+			stk := runtime_memProfileRecordStack(&r, pcbuf)
 			// For heap profiles, all stack
 			// addresses are return PCs, which is
 			// what appendLocsForStack expects.

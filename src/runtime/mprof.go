@@ -812,6 +812,14 @@ func (r *StackRecord) Stack() []uintptr {
 	return mergeProfStacks(&r.Stack0, &r.stack1)
 }
 
+// pprof_runtime_stackRecordStack copies the stack trace associated with the
+// record into dst and returns a slice of dst containing the stack trace.
+//
+//go:linkname pprof_runtime_stackRecordStack runtime/pprof.runtime_stackRecordStack
+func pprof_runtime_stackRecordStack(r *StackRecord, dst []uintptr) []uintptr {
+	return copyProfStack(dst, &r.Stack0, &r.stack1)
+}
+
 // MemProfileRate controls the fraction of memory allocations
 // that are recorded and reported in the memory profile.
 // The profiler aims to sample an average of
@@ -860,6 +868,14 @@ func (r *MemProfileRecord) Stack() []uintptr {
 	return mergeProfStacks(&r.Stack0, &r.stack1)
 }
 
+// pprof_runtime_memProfileRecordStack copies the stack trace associated with
+// the record into dst and returns a slice of dst containing the stack trace.
+//
+//go:linkname pprof_runtime_memProfileRecordStack runtime/pprof.runtime_memProfileRecordStack
+func pprof_runtime_memProfileRecordStack(r *MemProfileRecord, dst []uintptr) []uintptr {
+	return copyProfStack(dst, &r.Stack0, &r.stack1)
+}
+
 // stack1 is similar to a []uintptr, but we can't use that type because it would
 // cause StackRecord and MemProfileRecord to become invalid map keys which could
 // break existing Go programs.
@@ -879,6 +895,30 @@ func mergeProfStacks(stack0 *[32]uintptr, stack1 *stack1) []uintptr {
 		return stack0[0:]
 	}
 	return append(stack0[0:], unsafe.Slice((*uintptr)(stack1.stk), stack1.nstk)...)
+}
+
+// copyProfStack copies the stack frames from stack0 and stack1 into dst and
+// returns the number of frames copied.
+func copyProfStack(dst []uintptr, stack0 *[32]uintptr, stack1 *stack1) []uintptr {
+	n := 0
+	for _, v := range stack0 {
+		if v == 0 || n >= len(dst) {
+			return dst[0:n]
+		}
+		dst[n] = v
+		n++
+	}
+	if stack1.stk == nil {
+		return dst[0:n]
+	}
+	for _, v := range unsafe.Slice((*uintptr)(stack1.stk), stack1.nstk) {
+		if n >= len(dst) {
+			return dst[0:n]
+		}
+		dst[n] = v
+		n++
+	}
+	return dst[0:n]
 }
 
 // MemProfile returns a profile of memory allocated and freed per allocation
