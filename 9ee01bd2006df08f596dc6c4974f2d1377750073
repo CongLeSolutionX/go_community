@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6fcbf0f_81fa617e",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-05T19:46:09Z",
+      "side": 1,
+      "message": "Let\u0027s revert all the changes to this package and internal/gover.",
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9177994_b61c3086",
         "filename": "src/cmd/go/internal/toolchain/select.go",
         "patchSetId": 15
@@ -20,6 +37,47 @@
         "endLine": 139,
         "endChar": 39
       },
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "339669e6_c41cdfda",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-05T19:46:09Z",
+      "side": 1,
+      "message": "I suggestion dropping this from this CL, so that it can be backported cleanly.\nIt can be in a separate CL in the stack instead.",
+      "parentUuid": "b9177994_b61c3086",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 39
+      },
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6330330b_40767fa8",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-05T19:46:09Z",
+      "side": 1,
+      "message": "I don\u0027t think this is what we decided on. The important part of making any changes to this code is to make them absolutely future-proof, since they will be running (to update to newer toolchains) long after this toolchain is no longer supported.\n\nWe should _not_ be inserting unprompted errors here. We should always do the download, and then if the download fails, we can adjust the error message to try to give more context.\n\nSo this block should be deleted, and then below where we get to \"toolchain not available\", there can be a special case for IsLang \u0026\u0026 Compare \u003e\u003d 0 where we change the error message to say \"is a language version but not a toolchain version\".\n\nThe important point is that we are never _causing_ new errors, just explaining errors that have already happened.\n\nThe other benefit is that you don\u0027t need IsToolchainVersion at all, which makes the diff smaller.",
       "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
