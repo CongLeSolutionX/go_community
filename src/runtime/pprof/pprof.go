@@ -393,9 +393,9 @@ func (p *Profile) WriteTo(w io.Writer, debug int) error {
 
 type stackProfile [][]uintptr
 
-func (x stackProfile) Len() int              { return len(x) }
-func (x stackProfile) Stack(i int) []uintptr { return x[i] }
-func (x stackProfile) Label(i int) *labelMap { return nil }
+func (x stackProfile) Len() int                           { return len(x) }
+func (x stackProfile) Stack(_ []uintptr, i int) []uintptr { return x[i] }
+func (x stackProfile) Label(i int) *labelMap              { return nil }
 
 // A countProfile is a set of stack traces to be printed as counts
 // grouped by stack trace. There are multiple implementations:
@@ -403,7 +403,7 @@ func (x stackProfile) Label(i int) *labelMap { return nil }
 // and obtain each trace in turn.
 type countProfile interface {
 	Len() int
-	Stack(i int) []uintptr
+	Stack(dst []uintptr, i int) []uintptr
 	Label(i int) *labelMap
 }
 
@@ -422,13 +422,14 @@ func printCountCycleProfile(w io.Writer, countName, cycleName string, records []
 	cpuGHz := float64(runtime_cyclesPerSecond()) / 1e9
 
 	values := []int64{0, 0}
+	pcbuf := runtime_makeProfStack()
 	var locs []uint64
 	for _, r := range records {
 		values[0] = r.Count
 		values[1] = int64(float64(r.Cycles) / cpuGHz)
 		// For count profiles, all stack addresses are
 		// return PCs, which is what appendLocsForStack expects.
-		locs = b.appendLocsForStack(locs[:0], r.Stack())
+		locs = b.appendLocsForStack(locs[:0], runtime_copyStackRecordStack(&r.StackRecord, pcbuf))
 		b.pbSample(values, locs, nil)
 	}
 	b.build()
@@ -456,8 +457,9 @@ func printCountProfile(w io.Writer, debug int, name string, p countProfile) erro
 	index := map[string]int{}
 	var keys []string
 	n := p.Len()
+	pcbuf := runtime_makeProfStack()
 	for i := 0; i < n; i++ {
-		k := key(p.Stack(i), p.Label(i))
+		k := key(p.Stack(pcbuf, i), p.Label(i))
 		if count[k] == 0 {
 			index[k] = i
 			keys = append(keys, k)
@@ -473,7 +475,7 @@ func printCountProfile(w io.Writer, debug int, name string, p countProfile) erro
 		fmt.Fprintf(tw, "%s profile: total %d\n", name, p.Len())
 		for _, k := range keys {
 			fmt.Fprintf(tw, "%d %s\n", count[k], k)
-			printStackRecord(tw, p.Stack(index[k]), false)
+			printStackRecord(tw, p.Stack(pcbuf, index[k]), false)
 		}
 		return tw.Flush()
 	}
@@ -490,7 +492,7 @@ func printCountProfile(w io.Writer, debug int, name string, p countProfile) erro
 		values[0] = int64(count[k])
 		// For count profiles, all stack addresses are
 		// return PCs, which is what appendLocsForStack expects.
-		locs = b.appendLocsForStack(locs[:0], p.Stack(index[k]))
+		locs = b.appendLocsForStack(locs[:0], p.Stack(pcbuf, index[k]))
 		idx := index[k]
 		var labels func()
 		if p.Label(idx) != nil {
@@ -788,8 +790,10 @@ type runtimeProfile struct {
 	labels []unsafe.Pointer
 }
 
-func (p *runtimeProfile) Len() int              { return len(p.stk) }
-func (p *runtimeProfile) Stack(i int) []uintptr { return p.stk[i].Stack() }
+func (p *runtimeProfile) Len() int { return len(p.stk) }
+func (p *runtimeProfile) Stack(dst []uintptr, i int) []uintptr {
+	return runtime_copyStackRecordStack(&p.stk[i], dst)
+}
 func (p *runtimeProfile) Label(i int) *labelMap { return (*labelMap)(p.labels[i]) }
 
 var cpu struct {
@@ -949,3 +953,6 @@ func writeProfileInternal(w io.Writer, debug int, name string, runtimeProfile fu
 }
 
 func runtime_cyclesPerSecond() int64
+func runtime_copyMemProfileRecordStack(r *runtime.MemProfileRecord, dst []uintptr) []uintptr
+func runtime_copyStackRecordStack(r *runtime.StackRecord, dst []uintptr) []uintptr
+func runtime_makeProfStack() []uintptr

@@ -812,6 +812,11 @@ func (r *StackRecord) Stack() []uintptr {
 	return mergeProfStacks(&r.Stack0, &r.stack1)
 }
 
+//go:linkname pprof_runtime_copyStackRecordStack runtime/pprof.runtime_copyStackRecordStack
+func pprof_runtime_copyStackRecordStack(r *StackRecord, dst []uintptr) []uintptr {
+	return copyProfStack(dst, &r.Stack0, &r.stack1)
+}
+
 // MemProfileRate controls the fraction of memory allocations
 // that are recorded and reported in the memory profile.
 // The profiler aims to sample an average of
@@ -858,6 +863,11 @@ func (r *MemProfileRecord) InUseObjects() int64 {
 // a new slice for every call.
 func (r *MemProfileRecord) Stack() []uintptr {
 	return mergeProfStacks(&r.Stack0, &r.stack1)
+}
+
+//go:linkname pprof_runtime_copyMemProfileRecordStack runtime/pprof.runtime_copyMemProfileRecordStack
+func pprof_runtime_copyMemProfileRecordStack(r *MemProfileRecord, dst []uintptr) []uintptr {
+	return copyProfStack(dst, &r.Stack0, &r.stack1)
 }
 
 // stack1 is similar to a []uintptr, but we can't use that type because it would
