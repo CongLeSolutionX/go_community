@@ -771,6 +771,19 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		if nfreed != 0 {
 			// Free large object span to heap.
 
+			// Count the free in the consistent, external stats.
+			//
+			// Do this before freeSpan, which might update heapStats' inHeap
+			// value. If it does so, then metrics that subtract object footprint
+			// from inHeap might overflow. See #67019.
+			stats := memstats.heapStats.acquire()
+			atomic.Xadd64(&stats.largeFreeCount, 1)
+			atomic.Xadd64(&stats.largeFree, int64(size))
+			memstats.heapStats.release()
+
+			// Count the free in the inconsistent, internal stats.
+			gcController.totalFree.Add(int64(size))
+
 			// NOTE(rsc,dvyukov): The original implementation of efence
 			// in CL 22060046 used sysFree instead of sysFault, so that
 			// the operating system would eventually give the memory
@@ -791,6 +804,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 			} else {
 				mheap_.freeSpan(s)
 			}
+<<<<<<< HEAD   (752b00 [release-branch.go1.21] go1.21.10)
 
 			// Count the free in the consistent, external stats.
 			stats := memstats.heapStats.acquire()
@@ -801,6 +815,20 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 			// Count the free in the inconsistent, internal stats.
 			gcController.totalFree.Add(int64(size))
 
+=======
+			if s.largeType != nil && s.largeType.TFlag&abi.TFlagUnrolledBitmap != 0 {
+				// The unrolled GCProg bitmap is allocated separately.
+				// Free the space for the unrolled bitmap.
+				systemstack(func() {
+					s := spanOf(uintptr(unsafe.Pointer(s.largeType)))
+					mheap_.freeManual(s, spanAllocPtrScalarBits)
+				})
+				// Make sure to zero this pointer without putting the old
+				// value in a write buffer, as the old value might be an
+				// invalid pointer. See arena.go:(*mheap).allocUserArenaChunk.
+				*(*uintptr)(unsafe.Pointer(&s.largeType)) = 0
+			}
+>>>>>>> CHANGE (36d32f runtime: update large object stats before freeSpan in sweep)
 			return true
 		}
 
