@@ -34,6 +34,24 @@
       "parentUuid": "c7cc7f7c_eb7159af",
       "revId": "a50998b7ef2fd9353a69e26798a4bccc04cd2825",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ea785bc_64a3748e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-05-05T20:12:37Z",
+      "side": 1,
+      "message": "I have no qualms with adding the truncation dummy frame. please feel free to send a CL!",
+      "parentUuid": "5e974fd5_f28d677b",
+      "revId": "a50998b7ef2fd9353a69e26798a4bccc04cd2825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
