@@ -16,6 +16,24 @@
       "message": "Thanks, but this change is not needed.  The Write method always returns z.err anyhow.  Avoiding all warnings from a third-party checker like golangci-lint is not a goal.",
       "revId": "457fde688cc9e30ed8d3d4e7a71927c701cee681",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9648cd73_3d63c528",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3413064
+      },
+      "writtenOn": "2024-05-06T01:00:27Z",
+      "side": 1,
+      "message": "\u003e The Write method always returns z.err anyhow.\n\nOkay. If future changes won\u0027t broke this guarantee, the PR should be closed.",
+      "parentUuid": "e7f66107_f661a45f",
+      "revId": "457fde688cc9e30ed8d3d4e7a71927c701cee681",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
