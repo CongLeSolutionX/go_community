@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80cf0add_93da57f9",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-05-06T10:20:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "438e2945_73bd375b",
+      "range": {
+        "startLine": 883,
+        "startChar": 0,
+        "endLine": 883,
+        "endChar": 64
+      },
+      "revId": "71b84ef6fc3cf9ce330aae0601de6638af598aa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adb19321_5d3050c8",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-05-05T20:09:20Z",
       "side": 1,
       "message": "we\u0027re generally trying to move toward linknames that are matched perfectly (that is, the runtime name specifically calls out the package it\u0027s linknaming to). this is typically done by writing wrapper functions that are linknamed. see, for example, the linknames for sync.Pool in the runtime.",
+      "range": {
+        "startLine": 957,
+        "startChar": 0,
+        "endLine": 957,
+        "endChar": 78
+      },
+      "revId": "71b84ef6fc3cf9ce330aae0601de6638af598aa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b798023_6c3efdfb",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-05-06T10:20:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adb19321_5d3050c8",
       "range": {
         "startLine": 957,
         "startChar": 0,
