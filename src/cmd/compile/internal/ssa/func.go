@@ -847,15 +847,16 @@ func (f *Func) NewLocal(pos src.XPos, typ *types.Type) *ir.Name {
 // stack slot merging. For now we're restricting the set to things to
 // items larger than what CanSSA would allow (approximateky, we disallow things
 // marked as open defer slots so as to avoid complicating liveness
-// analysis.
+// analysis. Note also that we allow address-taken autos, however
+// there are limits later on in the merging process that can apply there.
 func IsMergeCandidate(n *ir.Name) bool {
 	if base.Debug.MergeLocals == 0 ||
 		base.Flag.N != 0 ||
 		n.Class != ir.PAUTO ||
 		n.Type().Size() <= int64(3*types.PtrSize) ||
-		n.Addrtaken() ||
 		n.NonMergeable() ||
-		n.OpenDeferSlot() {
+		n.OpenDeferSlot() ||
+		(n.Addrtaken() && base.Debug.MergeLocalsAddrTaken == 0) {
 		return false
 	}
 	return true

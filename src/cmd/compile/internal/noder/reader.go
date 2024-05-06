@@ -10,6 +10,7 @@ import (
 	"go/constant"
 	"internal/buildcfg"
 	"internal/pkgbits"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -3499,7 +3500,7 @@ func unifiedInlineCall(callerfn *ir.Func, call *ir.CallExpr, fn *ir.Func, inlInd
 	body := ir.Nodes(r.curfn.Body)
 
 	// Reparent any declarations into the caller function.
-	for _, name := range r.curfn.Dcl {
+	for k, name := range r.curfn.Dcl {
 		name.Curfn = callerfn
 
 		if name.Class != ir.PAUTO {
@@ -3509,6 +3510,7 @@ func unifiedInlineCall(callerfn *ir.Func, call *ir.CallExpr, fn *ir.Func, inlInd
 		} else {
 			name.SetInlLocal(true)
 		}
+		recordInlineVarMergeCandidate(name, k, callerfn, fn)
 	}
 	callerfn.Dcl = append(callerfn.Dcl, r.curfn.Dcl...)
 
@@ -3975,4 +3977,49 @@ func shapeSig(fn *ir.Func, dict *readerDict) *types.Type {
 	}
 
 	return types.NewSignature(recv, params, results)
+}
+
+// recordInlineVarMergeCandidate records name as a potential candidate
+// for stack slot merging within function fn, provided that name meets
+// our criteria: an address-taken, non-pointer-containing AUTO that
+// has is being reparented from its original func into fn during an
+// inline.
+func recordInlineVarMergeCandidate(name *ir.Name, idx int, callerfn *ir.Func, calleefn *ir.Func) {
+	if base.Debug.MergeLocals == 0 || base.Debug.MergeLocalsAddrTaken == 0 {
+		return
+	}
+	if !name.OnStack() || !name.Addrtaken() {
+		return
+	}
+	// FIXME: exclude stack objects for the time being. May be able to
+	// lift this restriction if we add logic to the back end stack
+	// object generation machinery to handle the case where you have
+	// two vars that share the same slot.
+	if name.Type().HasPointers() {
+		return
+	}
+	if typecheck.Target.InlVarMergeCands == nil {
+		typecheck.Target.InlVarMergeCands =
+			make(map[*ir.Func]map[*ir.Name]*ir.Name)
+	}
+	m := typecheck.Target.InlVarMergeCands[callerfn]
+	if m == nil {
+		m = make(map[*ir.Name]*ir.Name)
+		typecheck.Target.InlVarMergeCands[callerfn] = m
+	}
+
+	if base.Debug.MergeLocalsTrace > 1 {
+		fmt.Fprintf(os.Stderr, "=-= record inlvarmergecand idx %d %q func %v esc %d\n", idx, name.Sym().Name, callerfn, name.Esc())
+		fmt.Fprintf(os.Stderr, "=-= callee %v t=%+v dcl:\n", calleefn.Type(), calleefn)
+		for k, c := range calleefn.Dcl {
+			fmt.Fprintf(os.Stderr, " %d: %q sz=%d at=%v hp=%v align=%d t=%v\n",
+				k, c.Sym().Name, c.Type().Size(),
+				c.Addrtaken(), c.Type().HasPointers(),
+				c.Type().Alignment(), c.Type())
+		}
+	}
+	if name.Sym().Name != calleefn.Dcl[idx].Sym().Name {
+		base.FatalfAt(name.Pos(), "unexpected name mismatch recording inlvar")
+	}
+	m[name] = calleefn.Dcl[idx]
 }

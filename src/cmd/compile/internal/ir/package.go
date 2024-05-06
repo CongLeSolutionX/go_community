@@ -39,4 +39,11 @@ type Package struct {
 	// for -buildmode=plugin (i.e., compiling package main and -dynlink
 	// is set).
 	PluginExports []*Name
+
+	// InlVarMergeCands is a side table holding information about
+	// functions containing address-taken auto variables
+	// created by inlining that can potentially share stack slots.
+	// It is populated during inlining, then consumed late
+	// in the compilation process during stack frame layout.
+	InlVarMergeCands map[*Func]map[*Name]*Name
 }

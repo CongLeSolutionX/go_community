@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/bitvec"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/ssa"
+	"cmd/compile/internal/typecheck"
 	"cmd/internal/src"
 	"fmt"
 	"os"
@@ -284,6 +285,17 @@ func (mls *MergeLocalsState) String() string {
 	return sb.String()
 }
 
+// posInlIndex returns the entry in the context's inlining tree for xpos
+// if xpos is in fact a position created by an inline operation (e.g.
+// statement from an inlined func body), or -1 if xpos has no inline info.
+func posInlIndex(xpos src.XPos) int {
+	pos := base.Ctxt.PosTable.Pos(xpos)
+	if b := pos.Base(); b != nil {
+		return b.InliningIndex()
+	}
+	return -1
+}
+
 // collectMergeCandidates visits all of the AUTO vars declared in
 // function fn and identifies a list of candidate variables for
 // merging / overlapping. On return the "cands" field of cs will be
@@ -295,6 +307,19 @@ func (mls *MergeLocalsState) String() string {
 func (cs *cstate) collectMergeCandidates() {
 	var cands []*ir.Name
 
+	qualifyingAddrTaken := func(n *ir.Name) bool {
+		atvm := typecheck.Target.InlVarMergeCands[cs.fn]
+		if atvm == nil {
+			return false
+		}
+		if nn, ok := atvm[n]; !ok {
+			return false
+		} else if nn.Esc() == ir.EscHeap {
+			return false
+		}
+		return true
+	}
+
 	// Collect up the available set of appropriate AUTOs in the
 	// function as a first step, and bail if we have fewer than
 	// two candidates.
@@ -303,6 +328,12 @@ func (cs *cstate) collectMergeCandidates() {
 			continue
 		}
 		if !ssa.IsMergeCandidate(n) {
+			continue
+		}
+		if n.Addrtaken() && !qualifyingAddrTaken(n) {
+			// Allow address-taken variables only if they are derived
+			// from an inlined function body, and if they did not
+			// escape their original func prior to inlining.
 			continue
 		}
 		cands = append(cands, n)
@@ -466,6 +497,10 @@ func (cs *cstate) setupHashBisection(cands []*ir.Name) {
 // we hit zero, remove the map entry. If we hit the end of the basic
 // block and we still have map entries, then evict the name in
 // question from the candidate set.
+//
+// Note that if a var is in fact truly address taken, we'll bypass it
+// during this analysis (there is a separate inline-based mechanism
+// for tracking such vars).
 func (cs *cstate) populateIndirectUseTable(cands []*ir.Name) ([]*ir.Name, []candRegion) {
 
 	// main indirect UE table, this is what we're producing in this func
@@ -493,7 +528,7 @@ func (cs *cstate) populateIndirectUseTable(cands []*ir.Name) ([]*ir.Name, []cand
 		genmapclear(blockIndirectUE)
 		b := cs.f.Blocks[k]
 		for _, v := range b.Values {
-			if n, e := affectedVar(v); n != nil {
+			if n, e := affectedVar(v); n != nil && !n.Addrtaken() {
 				if _, ok := rawcands[n]; ok {
 					if e&ssa.SymAddr != 0 && v.Uses != 0 {
 						// we're taking the address of candidate var n
@@ -738,11 +773,12 @@ func (cs *cstate) mergeVisitRegion(mls *MergeLocalsState, st, en int) {
 				continue
 			}
 			if cs.trace > 1 {
-				fmt.Fprintf(os.Stderr, "  =-= overlap of %d[%v] {%s} with %d[%v] {%s} is: %v\n", leader, cands[leader], lints.String(), succ, cands[succ], ivs[succ].String(), lints.Overlaps(ivs[succ]))
+				over := cs.canBeOverlapped(elems, lints, succ, ivs[succ])
+				fmt.Fprintf(os.Stderr, "  =-= overlap of %d[%v] {%s} with %d[%v] {%s} is: %v\n", leader, cands[leader], lints.String(), succ, cands[succ], ivs[succ].String(), over)
 			}
 
 			// Can we overlap leader with this var?
-			if lints.Overlaps(ivs[succ]) {
+			if !cs.canBeOverlapped(elems, lints, succ, ivs[succ]) {
 				continue
 			} else {
 				// Add to overlap set.
@@ -777,6 +813,91 @@ func (cs *cstate) mergeVisitRegion(mls *MergeLocalsState, st, en int) {
 	}
 }
 
+// fromDisjointInlines returns TRUE if the two names in question were
+// added to the current func as a result of separate/disjoint inlines.
+// Example:
+//
+//	func a() {
+//	  b(); c()
+//	}
+//	func b() {
+//	   var bvar ...
+//	   d(); ...othercode...
+//	}
+//
+//	func c() {
+//	   var cvar ../
+//	}
+//	func d() {
+//	   var dvar ../
+//	}
+//
+// Assuming all calls above are inlined, "bvar" and "cvar" are from
+// disjoint inlines in that neither inline is a parent of the other,
+// whereas "dvar" and "bvar" are not from disjoint inlines in that
+// b is a parent of d in the inlining tree.  Here "bvar" would not
+// be safe to overlap with "dvar" since the assumption is that both
+// are address-taken, and thus there could be accesses to "bvar"
+// in the region marked "othercode" above.
+func fromDisjointInlines(x, y *ir.Name) bool {
+	xi := posInlIndex(x.Pos())
+	yi := posInlIndex(y.Pos())
+	if xi == -1 || yi == -1 {
+		panic("should only be called on vars from inlines")
+	}
+	if xi == yi {
+		return false
+	}
+	if base.Debug.MergeLocalsTrace > 1 {
+		fmt.Fprintf(os.Stderr, "=-= fromDisjointInlines(%q i%d, %q i%d)\n",
+			x.Sym().Name, xi, y.Sym().Name, yi)
+	}
+	isAncestor := func(in1, in2 int) bool {
+		par := in1
+		for {
+			npar := base.Ctxt.InlTree.Parent(par)
+			if npar == in2 {
+				return true
+			}
+			if npar < 0 {
+				break
+			}
+			par = npar
+		}
+		return false
+	}
+	if isAncestor(xi, yi) {
+		return false
+	}
+	if isAncestor(yi, xi) {
+		return false
+	}
+	return true
+}
+
+func (cs *cstate) canBeOverlapped(elems []int, eivs Intervals, y int, yivs Intervals) bool {
+	if base.Debug.MergeLocalsAddrTaken != 0 {
+		yi := posInlIndex(cs.cands[y].Pos())
+		ei := posInlIndex(cs.cands[elems[0]].Pos())
+		yisinl := yi != -1
+		eisinl := ei != -1
+		yisat := cs.cands[y].Addrtaken()
+		eisat := cs.cands[elems[0]].Addrtaken()
+		if yisinl != eisinl || yisat != eisat {
+			return false
+		}
+		if yisinl && yisat {
+			for _, e := range elems {
+				if !fromDisjointInlines(cs.cands[e], cs.cands[y]) {
+					return false
+				}
+			}
+			return true
+		}
+	}
+	return !eivs.Overlaps(yivs)
+}
+
 // performMerging carries out variable merging within each of the
 // candidate ranges in regions, returning a state object
 // that describes the variable overlaps.
@@ -792,8 +913,9 @@ func (cs *cstate) performMerging() *MergeLocalsState {
 		fmt.Fprintf(os.Stderr, "=-= cands live before overlap:\n")
 		for i := range cands {
 			c := cands[i]
-			fmt.Fprintf(os.Stderr, "%d: %v sz=%d ivs=%s\n",
-				i, c.Sym().Name, c.Type().Size(), cs.ivs[i].String())
+			fmt.Fprintf(os.Stderr, "%d: %v sz=%d at=%v ivs=%s\n",
+				i, c.Sym().Name, c.Type().Size(), c.Addrtaken(),
+				cs.ivs[i].String())
 		}
 		fmt.Fprintf(os.Stderr, "=-= regions (%d): ", len(cs.regions))
 		for _, cr := range cs.regions {
@@ -1020,9 +1142,9 @@ func fmtFullPos(p src.XPos) string {
 }
 
 func dumpCand(c *ir.Name, i int) {
-	fmt.Fprintf(os.Stderr, " %d: %s %q sz=%d hp=%v align=%d t=%v\n",
+	fmt.Fprintf(os.Stderr, " %d: %s %q sz=%d at=%v hp=%v align=%d t=%v\n",
 		i, fmtFullPos(c.Pos()), c.Sym().Name, c.Type().Size(),
-		c.Type().HasPointers(), c.Type().Alignment(), c.Type())
+		c.Addrtaken(), c.Type().HasPointers(), c.Type().Alignment(), c.Type())
 }
 
 // for unit testing only.
