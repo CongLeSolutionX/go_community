@@ -16,6 +16,24 @@
       "message": "This needs to be removed",
       "revId": "b8a08dcf1608c9f7879d6260047c361c57ea49d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6834eae2_eda7f9e9",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-06T18:25:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4112c2f8_3a1e3db1",
+      "revId": "b8a08dcf1608c9f7879d6260047c361c57ea49d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
