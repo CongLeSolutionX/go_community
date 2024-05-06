@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f136c195_52be85ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-06T14:33:05Z",
+      "side": 1,
+      "message": "The toolchain in the go.mod. Updated commit message.",
+      "parentUuid": "d390299f_d17ca5d3",
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6fcbf0f_81fa617e",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-05T19:46:09Z",
       "side": 1,
       "message": "Let\u0027s revert all the changes to this package and internal/gover.",
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f1be38_3e7fab79",
+        "filename": "src/cmd/go/internal/gover/gover.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-06T14:33:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6fcbf0f_81fa617e",
       "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -82,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f499f4a1_317318fc",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-06T14:33:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "339669e6_c41cdfda",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 39
+      },
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6330330b_40767fa8",
@@ -99,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de13e0ff_5c6b9342",
+        "filename": "src/cmd/go/internal/toolchain/select.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-06T14:33:05Z",
+      "side": 1,
+      "message": "Sounds good. I presumed it would be better to avoid doing an unnecessary download but if that\u0027s not a concern then it makes sense to do the check there.",
+      "parentUuid": "6330330b_40767fa8",
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "621ca80d_1bded89d",
@@ -112,6 +190,24 @@
       "writtenOn": "2024-05-03T22:10:43Z",
       "side": 1,
       "message": "I think we should only do this in IsToolchainVersion.\n\nIt will make the change safer to get in for backports.\n\n(The way the rest of this CL is written, it shouldn\u0027t produce errors for cases where errors weren\u0027t produced before this CL. We should try to maintain that property.)",
+      "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75021f85_5dbb6f09",
+        "filename": "src/internal/gover/gover.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-06T14:33:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "621ca80d_1bded89d",
       "revId": "9ee01bd2006df08f596dc6c4974f2d1377750073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
