@@ -154,6 +154,11 @@ type PackageOpts struct {
 	// packages.
 	Tidy bool
 
+	// TidyDiff, if true, analyzes the necessary changes to go.mod and go.sum
+	// to make them tidy. It does not modify these files, but exits with
+	// a non-zero code if updates are needed.
+	TidyDiff bool
+
 	// TidyCompatibleVersion is the oldest Go version that must be able to
 	// reproducibly reload the requested packages.
 	//
@@ -382,6 +387,24 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 	}
 
 	if opts.Tidy {
+		if opts.TidyDiff {
+			cfg.BuildMod = "readonly"
+			loaded = ld
+			requirements = loaded.requirements
+
+			for _, pkg := range ld.pkgs {
+				if !pkg.isTest() {
+					loadedPackages = append(loadedPackages, pkg.path)
+				}
+			}
+			sort.Strings(loadedPackages)
+			if err := commitRequirements(ctx, WriteOpts{TidyDiff: true}); err != nil {
+				base.Fatal(err)
+			}
+			base.SetExitStatus(0)
+			base.Exit()
+		}
+
 		if cfg.BuildV {
 			mg, _ := ld.requirements.Graph(ctx)
 			for _, m := range initialRS.rootModules {
@@ -439,7 +462,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 			// loaded.requirements, but here we may have also loaded (and want to
 			// preserve checksums for) additional entities from compatRS, which are
 			// only needed for compatibility with ld.TidyCompatibleVersion.
-			if err := modfetch.WriteGoSum(ctx, keep, mustHaveCompleteRequirements()); err != nil {
+			if err := modfetch.WriteGoSum(ctx, keep, modfetch.WriteOpts{ReadOnly: mustHaveCompleteRequirements()}); err != nil {
 				base.Fatal(err)
 			}
 		}

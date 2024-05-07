@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"internal/diff"
 	"internal/lazyregexp"
 	"io"
 	"os"
@@ -1684,6 +1685,7 @@ func findImportComment(file string) string {
 type WriteOpts struct {
 	DropToolchain     bool // go get toolchain@none
 	ExplicitToolchain bool // go get has set explicit toolchain version
+	TidyDiff          bool // go mod tidy has set -diff
 
 	// TODO(bcmills): Make 'go mod tidy' update the go version in the Requirements
 	// instead of writing directly to the modfile.File
@@ -1709,7 +1711,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 	if inWorkspaceMode() {
 		// go.mod files aren't updated in workspace mode, but we still want to
 		// update the go.work.sum file.
-		return modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements())
+		return modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), modfetch.WriteOpts{ReadOnly: mustHaveCompleteRequirements()})
 	}
 	if MainModules.Len() != 1 || MainModules.ModRoot(MainModules.Versions()[0]) == "" {
 		// We aren't in a module, so we don't have anywhere to write a go.mod file.
@@ -1717,9 +1719,10 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 	}
 	mainModule := MainModules.mustGetSingleMainModule()
 	modFile := MainModules.ModFile(mainModule)
+	orig, _ := modFile.Format()
 	if modFile == nil {
 		// command-line-arguments has no .mod file to write.
-		return nil
+		return errors.New("missing go.mod")
 	}
 	modFilePath := modFilePath(MainModules.ModRoot(mainModule))
 
@@ -1799,6 +1802,22 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 	}
 	modFile.Cleanup()
 
+	if opts.TidyDiff {
+		goSumOpts := modfetch.WriteOpts{ReadOnly: true, TidyDiff: true}
+		new, _ := modFile.Format()
+		d := diff.Diff("old go.mod", orig, "new go.mod", new)
+		goModChanged := d != nil
+		if goModChanged {
+			fmt.Println(string(d))
+		}
+		err := modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), goSumOpts)
+		goSumChanged := err != nil
+		if goModChanged || goSumChanged {
+			return errors.New("updates to go.mod or go.sum needed")
+		}
+		return nil
+	}
+
 	index := MainModules.GetSingleIndexOrNil()
 	dirty := index.modFileIsDirty(modFile)
 	if dirty && cfg.BuildMod != "mod" {
@@ -1813,7 +1832,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 		// Don't write go.mod, but write go.sum in case we added or trimmed sums.
 		// 'go mod init' shouldn't write go.sum, since it will be incomplete.
 		if cfg.CmdName != "mod init" {
-			if err := modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements()); err != nil {
+			if err := modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), modfetch.WriteOpts{ReadOnly: mustHaveCompleteRequirements()}); err != nil {
 				return err
 			}
 		}
@@ -1838,7 +1857,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 		// 'go mod init' shouldn't write go.sum, since it will be incomplete.
 		if cfg.CmdName != "mod init" {
 			if err == nil {
-				err = modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), mustHaveCompleteRequirements())
+				err = modfetch.WriteGoSum(ctx, keepSums(ctx, loaded, requirements, addBuildListZipSums), modfetch.WriteOpts{ReadOnly: mustHaveCompleteRequirements()})
 			}
 		}
 	}()
