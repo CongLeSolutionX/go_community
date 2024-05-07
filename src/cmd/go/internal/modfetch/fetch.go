@@ -12,6 +12,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"internal/diff"
 	"io"
 	"io/fs"
 	"os"
@@ -826,13 +827,19 @@ func isValidSum(data []byte) bool {
 
 var ErrGoSumDirty = errors.New("updates to go.sum needed, disabled by -mod=readonly")
 
+// WriteOpts control the behavior of WriteGoSum.
+type WriteOpts struct {
+	ReadOnly bool
+	TidyDiff bool // go mod tidy has set -diff
+}
+
 // WriteGoSum writes the go.sum file if it needs to be updated.
 //
 // keep is used to check whether a newly added sum should be saved in go.sum.
 // It should have entries for both module content sums and go.mod sums
 // (version ends with "/go.mod"). Existing sums will be preserved unless they
 // have been marked for deletion with TrimGoSum.
-func WriteGoSum(ctx context.Context, keep map[module.Version]bool, readonly bool) error {
+func WriteGoSum(ctx context.Context, keep map[module.Version]bool, opts WriteOpts) error {
 	goSum.mu.Lock()
 	defer goSum.mu.Unlock()
 
@@ -855,10 +862,25 @@ Outer:
 			}
 		}
 	}
+	if opts.TidyDiff {
+		old, _ := lockedfile.Read(GoSumFile)
+		if old == nil {
+			old = []byte{}
+		}
+		new, _ := updateGoSum(keep, old)
+		d := diff.Diff("old go.sum", old, "new go.sum", new)
+		if len(d) == 0 {
+			return nil
+		}
+		fmt.Println(string(d))
+		return nil
+	}
+
 	if !dirty {
 		return nil
 	}
-	if readonly {
+
+	if opts.ReadOnly {
 		return ErrGoSumDirty
 	}
 	if _, ok := fsys.OverlayPath(GoSumFile); ok {
@@ -872,39 +894,7 @@ Outer:
 	}
 
 	err := lockedfile.Transform(GoSumFile, func(data []byte) ([]byte, error) {
-		if !goSum.overwrite {
-			// Incorporate any sums added by other processes in the meantime.
-			// Add only the sums that we actually checked: the user may have edited or
-			// truncated the file to remove erroneous hashes, and we shouldn't restore
-			// them without good reason.
-			goSum.m = make(map[module.Version][]string, len(goSum.m))
-			readGoSum(goSum.m, GoSumFile, data)
-			for ms, st := range goSum.status {
-				if st.used && !sumInWorkspaceModulesLocked(ms.mod) {
-					addModSumLocked(ms.mod, ms.sum)
-				}
-			}
-		}
-
-		var mods []module.Version
-		for m := range goSum.m {
-			mods = append(mods, m)
-		}
-		module.Sort(mods)
-
-		var buf bytes.Buffer
-		for _, m := range mods {
-			list := goSum.m[m]
-			sort.Strings(list)
-			str.Uniq(&list)
-			for _, h := range list {
-				st := goSum.status[modSum{m, h}]
-				if (!st.dirty || (st.used && keep[m])) && !sumInWorkspaceModulesLocked(m) {
-					fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
-				}
-			}
-		}
-		return buf.Bytes(), nil
+		return updateGoSum(keep, data)
 	})
 
 	if err != nil {
@@ -914,6 +904,42 @@ Outer:
 	goSum.status = make(map[modSum]modSumStatus)
 	goSum.overwrite = false
 	return nil
+}
+
+func updateGoSum(keep map[module.Version]bool, data []byte) ([]byte, error) {
+	if !goSum.overwrite {
+		// Incorporate any sums added by other processes in the meantime.
+		// Add only the sums that we actually checked: the user may have edited or
+		// truncated the file to remove erroneous hashes, and we shouldn't restore
+		// them without good reason.
+		goSum.m = make(map[module.Version][]string, len(goSum.m))
+		readGoSum(goSum.m, GoSumFile, data)
+		for ms, st := range goSum.status {
+			if st.used && !sumInWorkspaceModulesLocked(ms.mod) {
+				addModSumLocked(ms.mod, ms.sum)
+			}
+		}
+	}
+
+	var mods []module.Version
+	for m := range goSum.m {
+		mods = append(mods, m)
+	}
+	module.Sort(mods)
+
+	var buf bytes.Buffer
+	for _, m := range mods {
+		list := goSum.m[m]
+		sort.Strings(list)
+		str.Uniq(&list)
+		for _, h := range list {
+			st := goSum.status[modSum{m, h}]
+			if (!st.dirty || (st.used && keep[m])) && !sumInWorkspaceModulesLocked(m) {
+				fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
+			}
+		}
+	}
+	return buf.Bytes(), nil
 }
 
 func sumInWorkspaceModulesLocked(m module.Version) bool {
@@ -941,7 +967,6 @@ func TrimGoSum(keep map[module.Version]bool) {
 	if !inited {
 		return
 	}
-
 	for m, hs := range goSum.m {
 		if !keep[m] {
 			for _, h := range hs {
