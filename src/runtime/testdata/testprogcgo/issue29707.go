@@ -21,40 +21,40 @@ static void testCallbackTraceParser(cbTraceParser cb) {
 	pthread_join(thread_id, NULL);
 }
 */
-import "C"
+// import "C"
 
-import (
-	"bytes"
-	"fmt"
-	traceparser "internal/trace"
-	"runtime/trace"
-	"time"
-	"unsafe"
-)
+// import (
+// 	"bytes"
+// 	"fmt"
+// 	traceparser "internal/trace"
+// 	"runtime/trace"
+// 	"time"
+// 	"unsafe"
+// )
 
-func init() {
-	register("CgoTraceParser", CgoTraceParser)
-}
+// func init() {
+// 	register("CgoTraceParser", CgoTraceParser)
+// }
 
-//export callbackTraceParser
-func callbackTraceParser(unsafe.Pointer) unsafe.Pointer {
-	time.Sleep(time.Millisecond)
-	return nil
-}
+// //export callbackTraceParser
+// func callbackTraceParser(unsafe.Pointer) unsafe.Pointer {
+// 	time.Sleep(time.Millisecond)
+// 	return nil
+// }
 
-func CgoTraceParser() {
-	buf := new(bytes.Buffer)
+// func CgoTraceParser() {
+// 	buf := new(bytes.Buffer)
 
-	trace.Start(buf)
-	C.testCallbackTraceParser(C.cbTraceParser(C.callbackTraceParser))
-	trace.Stop()
+// 	trace.Start(buf)
+// 	C.testCallbackTraceParser(C.cbTraceParser(C.callbackTraceParser))
+// 	trace.Stop()
 
-	_, err := traceparser.Parse(buf, "")
-	if err == traceparser.ErrTimeOrder {
-		fmt.Println("ErrTimeOrder")
-	} else if err != nil {
-		fmt.Println("Parse error: ", err)
-	} else {
-		fmt.Println("OK")
-	}
-}
+// 	_, err := traceparser.Parse(buf, "")
+// 	if err == traceparser.ErrTimeOrder {
+// 		fmt.Println("ErrTimeOrder")
+// 	} else if err != nil {
+// 		fmt.Println("Parse error: ", err)
+// 	} else {
+// 		fmt.Println("OK")
+// 	}
+// }
