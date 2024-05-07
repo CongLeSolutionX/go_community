@@ -16,6 +16,24 @@
       "message": "The cherry-pick issue #67164 hasn\u0027t been approved (\"CherryPickApproved\" label). It would be good not to submit the CL until it is approved. This time it is probably fine as I\u0027d expect it will approved. (Maybe I should not +2 until the issue is approved?)\nThanks.",
       "revId": "58e77ad9b9e2b3323c1d8c1cb5e701412e206368",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "808d50e7_3d44b815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-05-07T16:04:58Z",
+      "side": 1,
+      "message": "Sorry about that, I didn\u0027t think it through.",
+      "parentUuid": "acf2827b_d8c78325",
+      "revId": "58e77ad9b9e2b3323c1d8c1cb5e701412e206368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
