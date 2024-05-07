@@ -273,11 +273,7 @@ func runEdit(ctx context.Context, cmd *base.Command, args []string) {
 		return
 	}
 
-	out, err := modFile.Format()
-	if err != nil {
-		base.Fatal(err)
-	}
-
+	out := modFile.Format()
 	if *editPrint {
 		os.Stdout.Write(out)
 		return

@@ -961,8 +961,8 @@ func modulePathMajor(path string) (string, error) {
 	return major, nil
 }
 
-func (f *File) Format() ([]byte, error) {
-	return Format(f.Syntax), nil
+func (f *File) Format() []byte {
+	return Format(f.Syntax)
 }
 
 // Cleanup cleans up the file f after any edit operations.
