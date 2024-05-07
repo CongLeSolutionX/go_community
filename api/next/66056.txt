@@ -1,0 +1,2 @@
+pkg reflect, type Type interface, CanSeq() bool #66056
+pkg reflect, type Type interface, CanSeq2() bool #66056
