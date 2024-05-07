@@ -110,4 +110,8 @@ type Flags struct {
 
 	// RangeFunc enables range over func.
 	RangeFunc bool
+
+	// TraceHeapGraph enables tracing every pointer write as well as program
+	// roots as part of the execution tracer.
+	TraceHeapGraph bool
 }

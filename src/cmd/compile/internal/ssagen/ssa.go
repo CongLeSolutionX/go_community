@@ -140,6 +140,8 @@ func InitConfig() {
 	ir.Syms.Racereadrange = typecheck.LookupRuntimeFunc("racereadrange")
 	ir.Syms.Racewrite = typecheck.LookupRuntimeFunc("racewrite")
 	ir.Syms.Racewriterange = typecheck.LookupRuntimeFunc("racewriterange")
+	ir.Syms.TraceMemmove = typecheck.LookupRuntimeFunc("traceMemmove")
+	ir.Syms.TracePtrWrite = typecheck.LookupRuntimeFunc("tracePtrWrite")
 	ir.Syms.TypeAssert = typecheck.LookupRuntimeFunc("typeAssert")
 	ir.Syms.WBZero = typecheck.LookupRuntimeFunc("wbZero")
 	ir.Syms.WBMove = typecheck.LookupRuntimeFunc("wbMove")
@@ -8236,6 +8238,10 @@ func (e *ssafn) Syslook(name string) *obj.LSym {
 		return ir.Syms.CgoCheckMemmove
 	case "cgoCheckPtrWrite":
 		return ir.Syms.CgoCheckPtrWrite
+	case "traceMemmove":
+		return ir.Syms.TraceMemmove
+	case "tracePtrWrite":
+		return ir.Syms.TracePtrWrite
 	}
 	e.Fatalf(src.NoXPos, "unknown Syslook func %v", name)
 	return nil
