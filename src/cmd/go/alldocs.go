@@ -1352,7 +1352,7 @@
 //
 // Usage:
 //
-//	go mod tidy [-e] [-v] [-x] [-go=version] [-compat=version]
+//	go mod tidy [-e] [-v] [-x] [-diff] [-go=version] [-compat=version]
 //
 // Tidy makes sure go.mod matches the source code in the module.
 // It adds any missing modules necessary to build the current module's
@@ -1365,6 +1365,10 @@
 //
 // The -e flag causes tidy to attempt to proceed despite errors
 // encountered while loading packages.
+//
+// The -diff flag analyzes the necessary changes to go.mod and go.sum
+// to make them tidy. It does not modify these files, but exits with
+// a non-zero code if updates are needed.
 //
 // The -go flag causes tidy to update the 'go' directive in the go.mod
 // file to the given version, which may change which module dependencies

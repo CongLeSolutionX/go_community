@@ -154,6 +154,11 @@ type PackageOpts struct {
 	// packages.
 	Tidy bool
 
+	// TidyDiff, if true, analyzes the necessary changes to go.mod and go.sum
+	// to make them tidy. It does not modify these files, but exits with
+	// a non-zero code if updates are needed.
+	TidyDiff bool
+
 	// TidyCompatibleVersion is the oldest Go version that must be able to
 	// reproducibly reload the requested packages.
 	//
@@ -429,6 +434,25 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 			for m := range keepSums(ctx, ld, compatRS, loadedZipSumsOnly) {
 				keep[m] = true
 			}
+		}
+
+		if opts.TidyDiff {
+			cfg.BuildMod = "readonly"
+			modfetch.TrimGoSum(keep)
+			loaded = ld
+			requirements = loaded.requirements
+
+			for _, pkg := range ld.pkgs {
+				if !pkg.isTest() {
+					loadedPackages = append(loadedPackages, pkg.path)
+				}
+			}
+			sort.Strings(loadedPackages)
+			if err := commitRequirements(ctx, WriteOpts{TidyDiff: true}); err != nil {
+				base.Fatal(err)
+			}
+			base.SetExitStatus(0)
+			base.Exit()
 		}
 
 		if !ExplicitWriteGoMod {
