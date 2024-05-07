@@ -58,6 +58,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79860046_170e2141",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-07T17:38:44Z",
+      "side": 1,
+      "message": "Fixed these in remarks in the version of the CL that we want to keep.",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29bcaab2_8922bf2d",
@@ -71,6 +88,24 @@
       "writtenOn": "2024-04-23T16:31:44Z",
       "side": 1,
       "message": "I don\u0027t think you need the profile!\u003dnil wrapper any more.",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9c78de1_4d0d97d4",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-07T17:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29bcaab2_8922bf2d",
       "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -92,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a94a687_0dddff9e",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-07T17:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcef722d_fa9630f4",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a7094fa_64688337",
@@ -109,6 +162,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d232d6f7_24665ce4",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-07T17:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a7094fa_64688337",
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9adbac9c_8d9ce5ee",
@@ -122,6 +193,30 @@
       "writtenOn": "2024-04-23T16:31:44Z",
       "side": 1,
       "message": "We\u0027re using \"head\" in two different senses here. Perhaps we should use a different name.\nCurrently \"head\" \u003d first block of the loop to be executed.\n\nI kind of lead towards\n\"initial\" \u003d first block of the loop to be executed\n\"head\" \u003d first block of the loop in PC order\nbut that\u0027s kind of a confusing rename given the current meaning. Other suggestions welcome.",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "bbacb963143ea64ea17b65b9958b9601bf2896f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab9c3ce5_520eb367",
+        "filename": "src/cmd/compile/internal/ssa/looprotate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-07T17:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adbac9c_8d9ce5ee",
       "range": {
         "startLine": 62,
         "startChar": 10,
