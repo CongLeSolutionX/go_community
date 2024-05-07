@@ -1,0 +1,57 @@
+# Test go mod tidy -diff
+# If set, -diff should not update go.mod or go.sum and instead return a non-zero exit code if updates are needed.
+
+# Missing go.mod and go.sum should fail and not update.
+! exists go.mod go.sum
+! go mod tidy -diff
+! exists go.mod go.sum
+
+# Missing go.sum should fail and not update.
+go mod init example.com
+exists go.mod
+! exists go.sum
+! go mod tidy -diff
+stderr 'updates to go.mod or go.sum needed'
+! exists go.sum
+
+# Everything is tidy, should return zero exit code.
+go mod tidy
+go mod tidy -diff
+
+# go.mod requires updates, should return non-zero exit code.
+cp go.mod.orig go.mod
+! go mod tidy -diff
+stderr 'updates to go.mod or go.sum needed'
+cmp go.mod.orig go.mod
+
+# go.sum requires updates, should return non-zero exit code.
+cp go.sum.orig go.sum
+! go mod tidy -diff
+stderr 'updates to go.mod or go.sum needed'
+cmp go.sum.orig go.sum
+
+-- main.go --
+package main
+
+import "rsc.io/quote"
+
+func main() {
+	println(quote.Hello())
+}
+
+-- go.mod.orig --
+module example.com
+
+go 1.22
+
+-- go.sum.orig --
+rsc.io/quote v1.5.2 h1:3fEykkD9k7lYzXqCYrwGAf7iNhbk4yCjHmKBN9td4L0=
+
+-- main.go --
+package main
+
+import "rsc.io/quote"
+
+func main() {
+        println(quote.Hello())
+}
