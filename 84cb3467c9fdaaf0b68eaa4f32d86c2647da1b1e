@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f55b4032_b7edb440",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-07T22:23:45Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to add iter here any more, it has been added to RUNTIME.",
+      "revId": "84cb3467c9fdaaf0b68eaa4f32d86c2647da1b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45ea0ba_1abd39b3",
+        "filename": "src/reflect/iter.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-07T22:23:45Z",
+      "side": 1,
+      "message": "We don\u0027t need this go:build line, this is the standard library.",
+      "revId": "84cb3467c9fdaaf0b68eaa4f32d86c2647da1b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9670f28_2984d176",
+        "filename": "src/reflect/iter_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-07T22:23:45Z",
+      "side": 1,
+      "message": "We don\u0027t need this go:build line any more.",
+      "revId": "84cb3467c9fdaaf0b68eaa4f32d86c2647da1b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
