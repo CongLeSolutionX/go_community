@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"internal/diff"
 	"internal/godebugs"
 	"internal/lazyregexp"
 	"io"
@@ -1739,6 +1740,7 @@ func findImportComment(file string) string {
 type WriteOpts struct {
 	DropToolchain     bool // go get toolchain@none
 	ExplicitToolchain bool // go get has set explicit toolchain version
+	TidyDiff          bool // go mod tidy has set -diff
 
 	// TODO(bcmills): Make 'go mod tidy' update the go version in the Requirements
 	// instead of writing directly to the modfile.File
@@ -1776,6 +1778,7 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 		// command-line-arguments has no .mod file to write.
 		return nil
 	}
+	currentGoMod, formatErr := modFile.Format()
 	modFilePath := modFilePath(MainModules.ModRoot(mainModule))
 
 	var list []*modfile.Require
@@ -1853,6 +1856,34 @@ func commitRequirements(ctx context.Context, opts WriteOpts) (err error) {
 		modFile.SetRequireSeparateIndirect(list)
 	}
 	modFile.Cleanup()
+
+	if opts.TidyDiff {
+		if formatErr != nil {
+			return formatErr
+		}
+		tidyGoMod, err := modFile.Format()
+		if err != nil {
+			return err
+		}
+		goModDiff := diff.Diff("current go.mod", currentGoMod, "tidy go.mod", tidyGoMod)
+		goModChanged := len(goModDiff) != 0
+		currentGoSum, tidyGoSum := modfetch.TidyGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums))
+		goSumDiff := diff.Diff("current go.sum", currentGoSum, "tidy go.sum", tidyGoSum)
+		goSumChanged := len(goSumDiff) != 0
+
+		if goModChanged && goSumChanged {
+			fmt.Println(string(goModDiff))
+			fmt.Println(string(goSumDiff))
+			return errors.New("updates to go.mod and go.sum needed")
+		} else if goModChanged {
+			fmt.Println(string(goModDiff))
+			return errors.New("updates to go.mod needed")
+		} else if goSumChanged {
+			fmt.Println(string(goSumDiff))
+			return errors.New("updates to go.sum needed")
+		}
+		return nil
+	}
 
 	index := MainModules.GetSingleIndexOrNil()
 	dirty := index.modFileIsDirty(modFile)
