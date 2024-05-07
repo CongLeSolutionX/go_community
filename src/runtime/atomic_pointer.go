@@ -36,6 +36,9 @@ func atomicstorep(ptr unsafe.Pointer, new unsafe.Pointer) {
 	if goexperiment.CgoCheck2 {
 		cgoCheckPtrWrite((*unsafe.Pointer)(ptr), new)
 	}
+	if goexperiment.TraceHeapGraph {
+		tracePtrWrite((*unsafe.Pointer)(ptr), new)
+	}
 	atomic.StorepNoWB(noescape(ptr), new)
 }
 
@@ -60,6 +63,9 @@ func atomic_casPointer(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
 	if goexperiment.CgoCheck2 {
 		cgoCheckPtrWrite(ptr, new)
 	}
+	if goexperiment.TraceHeapGraph {
+		tracePtrWrite(ptr, new)
+	}
 	return atomic.Casp1(ptr, old, new)
 }
 
@@ -79,6 +85,9 @@ func sync_atomic_StorePointer(ptr *unsafe.Pointer, new unsafe.Pointer) {
 	if goexperiment.CgoCheck2 {
 		cgoCheckPtrWrite(ptr, new)
 	}
+	if goexperiment.TraceHeapGraph {
+		tracePtrWrite(ptr, new)
+	}
 	sync_atomic_StoreUintptr((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 }
 
@@ -93,6 +102,9 @@ func sync_atomic_SwapPointer(ptr *unsafe.Pointer, new unsafe.Pointer) unsafe.Poi
 	}
 	if goexperiment.CgoCheck2 {
 		cgoCheckPtrWrite(ptr, new)
+	}
+	if goexperiment.TraceHeapGraph {
+		tracePtrWrite(ptr, new)
 	}
 	old := unsafe.Pointer(sync_atomic_SwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(new)))
 	return old
@@ -109,6 +121,9 @@ func sync_atomic_CompareAndSwapPointer(ptr *unsafe.Pointer, old, new unsafe.Poin
 	}
 	if goexperiment.CgoCheck2 {
 		cgoCheckPtrWrite(ptr, new)
+	}
+	if goexperiment.TraceHeapGraph {
+		tracePtrWrite(ptr, new)
 	}
 	return sync_atomic_CompareAndSwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(old), uintptr(new))
 }

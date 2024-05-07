@@ -413,6 +413,7 @@ func (span *mspan) objBase(addr uintptr) uintptr {
 // When in doubt, pass nil for typ. That is safe and will always work.
 //
 // Callers must perform cgo checks if goexperiment.CgoCheck2.
+// Callers must emit trace events if goexperiment.TraceHeapGraph.
 //
 //go:nosplit
 func bulkBarrierPreWrite(dst, src, size uintptr, typ *abi.Type) {
@@ -1364,6 +1365,7 @@ func bulkBarrierBitmap(dst, src, size, maskOffset uintptr, bits *uint8) {
 // and the GC must observe them as an atomic action.
 //
 // Callers must perform cgo checks if goexperiment.CgoCheck2.
+// Callers must emit trace events if goexperiment.TraceHeapGraph.
 //
 //go:nosplit
 func typeBitsBulkBarrier(typ *_type, dst, src, size uintptr) {

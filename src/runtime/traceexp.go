@@ -43,6 +43,9 @@ const (
 
 	// traceExperimentAllocFree is an experiment to add alloc/free events to the trace.
 	traceExperimentAllocFree
+
+	// traceExperimentHeapGraph is an experiment to add pointer write events to the trace.
+	traceExperimentHeapGraph
 )
 
 // Experimental events.

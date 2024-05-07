@@ -173,6 +173,7 @@ func writebarrier(f *Func) {
 
 	var sb, sp, wbaddr, const0 *Value
 	var cgoCheckPtrWrite, cgoCheckMemmove *obj.LSym
+	var tracePtrWrite, traceMemmove *obj.LSym
 	var wbZero, wbMove *obj.LSym
 	var stores, after []*Value
 	var sset, sset2 *sparseSet
@@ -230,6 +231,10 @@ func writebarrier(f *Func) {
 			if buildcfg.Experiment.CgoCheck2 {
 				cgoCheckPtrWrite = f.fe.Syslook("cgoCheckPtrWrite")
 				cgoCheckMemmove = f.fe.Syslook("cgoCheckMemmove")
+			}
+			if buildcfg.Experiment.TraceHeapGraph {
+				tracePtrWrite = f.fe.Syslook("tracePtrWrite")
+				traceMemmove = f.fe.Syslook("traceMemmove")
 			}
 			const0 = f.ConstInt32(f.Config.Types.UInt32, 0)
 
@@ -468,6 +473,10 @@ func writebarrier(f *Func) {
 					// Issue cgo checking code.
 					mem = wbcall(pos, bEnd, cgoCheckPtrWrite, sp, mem, ptr, val)
 				}
+				if buildcfg.Experiment.TraceHeapGraph {
+					// Issue heap graph tracing code.
+					mem = wbcall(pos, bEnd, tracePtrWrite, sp, mem, ptr, val)
+				}
 				mem = bEnd.NewValue3A(pos, OpStore, types.TypeMem, w.Aux, ptr, val, mem)
 			case OpZeroWB:
 				dst := w.Args[0]
@@ -489,6 +498,12 @@ func writebarrier(f *Func) {
 					typ := reflectdata.TypeLinksym(w.Aux.(*types.Type))
 					taddr := b.NewValue1A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb)
 					mem = wbcall(pos, bEnd, cgoCheckMemmove, sp, mem, taddr, dst, src)
+				}
+				if buildcfg.Experiment.TraceHeapGraph {
+					// Issue heap graph tracing code.
+					typ := reflectdata.TypeLinksym(w.Aux.(*types.Type))
+					taddr := b.NewValue1A(pos, OpAddr, b.Func.Config.Types.Uintptr, typ, sb)
+					mem = wbcall(pos, bEnd, traceMemmove, sp, mem, taddr, dst, src)
 				}
 				mem = bEnd.NewValue3I(pos, OpMove, types.TypeMem, w.AuxInt, dst, src, mem)
 				mem.Aux = w.Aux
