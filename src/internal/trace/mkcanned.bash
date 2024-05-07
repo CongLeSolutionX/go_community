@@ -13,8 +13,8 @@ if [ $# != 1 ]; then
     exit 1
 fi
 
-go test -run '^$' -bench ClientServerParallel4 -benchtime 10x -trace "testdata/http_$1_good" net/http
+go test -run '^$' -bench ClientServerParallel4 -benchtime 10x -trace "testdata_v1/http_$1_good" net/http
 go test -run 'TraceStress$|TraceStressStartStop$|TestUserTaskRegion$' runtime/trace -savetraces
-mv ../../runtime/trace/TestTraceStress.trace "testdata/stress_$1_good"
-mv ../../runtime/trace/TestTraceStressStartStop.trace "testdata/stress_start_stop_$1_good"
-mv ../../runtime/trace/TestUserTaskRegion.trace "testdata/user_task_region_$1_good"
+mv ../../runtime/trace/TestTraceStress.trace "testdata_v1/stress_$1_good"
+mv ../../runtime/trace/TestTraceStressStartStop.trace "testdata_v1/stress_start_stop_$1_good"
+mv ../../runtime/trace/TestUserTaskRegion.trace "testdata_v1/user_task_region_$1_good"
