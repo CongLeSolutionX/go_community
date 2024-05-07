@@ -33,6 +33,24 @@
       "message": "It\u0027s not clear to me yet if the correct behavior here is to do nothing, panic, or otherwise. Should I also check for n \u003c\u003d 0 instead?",
       "revId": "979cd04d380204deaa171c46960fd99ca8c1250a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b51e9dda_d9cd19b2",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-07T16:39:05Z",
+      "side": 1,
+      "message": "It would be consistent with slices.Grow to panic if n \u003c\u003d 0.  That should be done in Chunk itself, not in the function literal that Chunk returns.",
+      "parentUuid": "e836eed9_0f1eee29",
+      "revId": "979cd04d380204deaa171c46960fd99ca8c1250a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

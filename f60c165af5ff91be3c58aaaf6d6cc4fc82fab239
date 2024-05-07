@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de71cf9_acef9b4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-07T16:39:05Z",
+      "side": 1,
+      "message": "Thanks.  Let\u0027s get something like CL 568477 in first, it would be odd for this to be the first iterator function in the slices package.",
+      "revId": "f60c165af5ff91be3c58aaaf6d6cc4fc82fab239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
