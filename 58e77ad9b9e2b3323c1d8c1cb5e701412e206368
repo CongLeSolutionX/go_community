@@ -34,6 +34,24 @@
       "parentUuid": "acf2827b_d8c78325",
       "revId": "58e77ad9b9e2b3323c1d8c1cb5e701412e206368",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce204dc_66d6a234",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-07T16:05:47Z",
+      "side": 1,
+      "message": "No worries. Once the release is done I\u0027ll recreate the CLs.",
+      "parentUuid": "808d50e7_3d44b815",
+      "revId": "58e77ad9b9e2b3323c1d8c1cb5e701412e206368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
