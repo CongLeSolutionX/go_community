@@ -98,6 +98,7 @@ import (
 	"errors"
 	"fmt"
 	"go/build"
+	"internal/diff"
 	"io/fs"
 	"maps"
 	"os"
@@ -153,6 +154,11 @@ type PackageOpts struct {
 	// the minimal dependencies needed to reproducibly reload the requested
 	// packages.
 	Tidy bool
+
+	// TidyDiff, if true, analyzes the necessary changes to go.mod and go.sum
+	// to make them tidy. It does not modify these files, but exits with
+	// a non-zero code if updates are needed.
+	TidyDiff bool
 
 	// TidyCompatibleVersion is the oldest Go version that must be able to
 	// reproducibly reload the requested packages.
@@ -431,6 +437,36 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 			}
 		}
 
+		if opts.TidyDiff {
+			cfg.BuildMod = "readonly"
+			modfetch.TrimGoSum(keep)
+			loaded = ld
+			requirements = loaded.requirements
+			currentGoMod, updatedGoMod, _, err := UpdateGoModFromReqs(ctx, WriteOpts{})
+			if err != nil {
+				base.Fatal(err)
+			}
+			goModDiff := diff.Diff("current go.mod", currentGoMod, "tidy go.mod", updatedGoMod)
+			goModChanged := len(goModDiff) != 0
+			currentGoSum, tidyGoSum := modfetch.TidyGoSum(keepSums(ctx, loaded, requirements, addBuildListZipSums))
+			goSumDiff := diff.Diff("current go.sum", currentGoSum, "tidy go.sum", tidyGoSum)
+			goSumChanged := len(goSumDiff) != 0
+
+			if goModChanged && goSumChanged {
+				fmt.Println(string(goModDiff))
+				fmt.Println(string(goSumDiff))
+				base.Fatalf("updates to go.mod and go.sum needed")
+			} else if goModChanged {
+				fmt.Println(string(goModDiff))
+				base.Fatalf("updates to go.mod needed")
+			} else if goSumChanged {
+				fmt.Println(string(goSumDiff))
+				base.Fatalf("updates to go.sum needed")
+			}
+			base.SetExitStatus(0)
+			base.Exit()
+		}
+
 		if !ExplicitWriteGoMod {
 			modfetch.TrimGoSum(keep)
 
@@ -443,6 +479,10 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 				base.Fatal(err)
 			}
 		}
+	}
+
+	if opts.TidyDiff && !opts.Tidy {
+		panic("TidyDiff is set but Tidy is not.")
 	}
 
 	// Success! Update go.mod and go.sum (if needed) and return the results.
