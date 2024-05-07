@@ -858,6 +858,7 @@ Outer:
 	if !dirty {
 		return nil
 	}
+
 	if readonly {
 		return ErrGoSumDirty
 	}
@@ -872,39 +873,8 @@ Outer:
 	}
 
 	err := lockedfile.Transform(GoSumFile, func(data []byte) ([]byte, error) {
-		if !goSum.overwrite {
-			// Incorporate any sums added by other processes in the meantime.
-			// Add only the sums that we actually checked: the user may have edited or
-			// truncated the file to remove erroneous hashes, and we shouldn't restore
-			// them without good reason.
-			goSum.m = make(map[module.Version][]string, len(goSum.m))
-			readGoSum(goSum.m, GoSumFile, data)
-			for ms, st := range goSum.status {
-				if st.used && !sumInWorkspaceModulesLocked(ms.mod) {
-					addModSumLocked(ms.mod, ms.sum)
-				}
-			}
-		}
-
-		var mods []module.Version
-		for m := range goSum.m {
-			mods = append(mods, m)
-		}
-		module.Sort(mods)
-
-		var buf bytes.Buffer
-		for _, m := range mods {
-			list := goSum.m[m]
-			sort.Strings(list)
-			str.Uniq(&list)
-			for _, h := range list {
-				st := goSum.status[modSum{m, h}]
-				if (!st.dirty || (st.used && keep[m])) && !sumInWorkspaceModulesLocked(m) {
-					fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
-				}
-			}
-		}
-		return buf.Bytes(), nil
+		tidyGoSum := tidyGoSum(data, keep)
+		return tidyGoSum, nil
 	})
 
 	if err != nil {
@@ -914,6 +884,54 @@ Outer:
 	goSum.status = make(map[modSum]modSumStatus)
 	goSum.overwrite = false
 	return nil
+}
+
+// TidyGoSum will return a tidy version of the go.sum file.
+// A missing go.sum will be treated as an empty before []byte.
+func TidyGoSum(keep map[module.Version]bool) (before []byte, after []byte) {
+	goSum.mu.Lock()
+	defer goSum.mu.Unlock()
+	before, _ = lockedfile.Read(GoSumFile)
+	after = tidyGoSum(before, keep)
+	return before, after
+}
+
+// tidyGoSum will return a tidy version of the go.sum file.
+// The goSum lock must be held.
+func tidyGoSum(data []byte, keep map[module.Version]bool) []byte {
+	if !goSum.overwrite {
+		// Incorporate any sums added by other processes in the meantime.
+		// Add only the sums that we actually checked: the user may have edited or
+		// truncated the file to remove erroneous hashes, and we shouldn't restore
+		// them without good reason.
+		goSum.m = make(map[module.Version][]string, len(goSum.m))
+		readGoSum(goSum.m, GoSumFile, data)
+		for ms, st := range goSum.status {
+			if st.used && !sumInWorkspaceModulesLocked(ms.mod) {
+				addModSumLocked(ms.mod, ms.sum)
+			}
+		}
+	}
+
+	var mods []module.Version
+	for m := range goSum.m {
+		mods = append(mods, m)
+	}
+	module.Sort(mods)
+
+	var buf bytes.Buffer
+	for _, m := range mods {
+		list := goSum.m[m]
+		sort.Strings(list)
+		str.Uniq(&list)
+		for _, h := range list {
+			st := goSum.status[modSum{m, h}]
+			if (!st.dirty || (st.used && keep[m])) && !sumInWorkspaceModulesLocked(m) {
+				fmt.Fprintf(&buf, "%s %s %s\n", m.Path, m.Version, h)
+			}
+		}
+	}
+	return buf.Bytes()
 }
 
 func sumInWorkspaceModulesLocked(m module.Version) bool {
