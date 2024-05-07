@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e09a08df_257fb129",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-07T22:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "177df13c_ccd8fd16",
+      "range": {
+        "startLine": 414,
+        "startChar": 12,
+        "endLine": 414,
+        "endChar": 28
+      },
+      "revId": "bc1d3520e57738612711e979ef8897a2c5f09cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a6b2dcd_ee0534b5",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-05-07T19:58:50Z",
       "side": 1,
       "message": "goRISCV64Changed",
+      "range": {
+        "startLine": 459,
+        "startChar": 33,
+        "endLine": 459,
+        "endChar": 49
+      },
+      "revId": "bc1d3520e57738612711e979ef8897a2c5f09cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70478b31_68004ff3",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-07T22:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a6b2dcd_ee0534b5",
       "range": {
         "startLine": 459,
         "startChar": 33,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1de6351e_531df550",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-07T22:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c381c1b1_2a871c1a",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 33
+      },
+      "revId": "bc1d3520e57738612711e979ef8897a2c5f09cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd3069e5_61d5ac97",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-05-07T19:58:50Z",
       "side": 1,
       "message": "can you do\n\n    stdout \u0027GOTOOLCHAIN\u003d\u0027\u0027?local\u0027\u0027?\u0027",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "bc1d3520e57738612711e979ef8897a2c5f09cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac0eb838_03fd7b9d",
+        "filename": "src/cmd/go/testdata/script/env_changed.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-07T22:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd3069e5_61d5ac97",
       "range": {
         "startLine": 13,
         "startChar": 7,
@@ -133,6 +229,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b836b5_b4a6dacb",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-07T22:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1854be13_11b8c9c9",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 83
+      },
+      "revId": "bc1d3520e57738612711e979ef8897a2c5f09cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aff50620_7fd6741e",
@@ -156,6 +276,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36028466_58dfcf89",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-07T22:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aff50620_7fd6741e",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 46
+      },
+      "revId": "bc1d3520e57738612711e979ef8897a2c5f09cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2dd4791_96e180c0",
@@ -169,6 +313,30 @@
       "writtenOn": "2024-05-07T19:58:50Z",
       "side": 1,
       "message": "I don\u0027t understand why this is necessary here.",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 8
+      },
+      "revId": "bc1d3520e57738612711e979ef8897a2c5f09cc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53cb9ff9_f6da0ac3",
+        "filename": "src/internal/cfg/cfg.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-07T22:30:16Z",
+      "side": 1,
+      "message": "Because if not have, happan panic in https://github.com/golang/go/blob/master/src/cmd/go/internal/cfg/cfg.go#L366-L372",
+      "parentUuid": "d2dd4791_96e180c0",
       "range": {
         "startLine": 72,
         "startChar": 1,
