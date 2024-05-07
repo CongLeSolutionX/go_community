@@ -1,0 +1,4 @@
++pkg go/types, method (*Alias) Origin() *Alias
++pkg go/types, method (*Alias) SetTypeParams([]*TypeParam)
++pkg go/types, method (*Alias) TypeArgs() *TypeList
++pkg go/types, method (*Alias) TypeParams() *TypeParamList
