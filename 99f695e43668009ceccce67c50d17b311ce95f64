@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7067e8a_3b5d83c0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-05-08T17:51:24Z",
+      "side": 1,
+      "message": "Nit: this feels a bit over-complicated. We could alternatively move the maxStack constant somewhere like `internal/abi` and let runtime/pprof make the slice itself.",
+      "range": {
+        "startLine": 937,
+        "startChar": 0,
+        "endLine": 944,
+        "endChar": 71
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "93872026_ec5bbfb9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/proc.go",
+              "range": {
+                "startLine": 937,
+                "startChar": 0,
+                "endLine": 939,
+                "endChar": 0
+              },
+              "replacement": "// makeProfStack creates a buffer large enough to hold a maximum-sized stack trace.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "99f695e43668009ceccce67c50d17b311ce95f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
