@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59950e55_13daa2d9",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-08T16:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0933b6e_b9f1084a",
+      "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "720d6914_b87883bb",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f2f9de_a1b573d2",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-08T16:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "720d6914_b87883bb",
+      "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39aed407_ee988cd1",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-05-08T16:24:08Z",
       "side": 1,
       "message": "This seems *super* fragile. Can the test at least self-check somehow, perhaps by using append\u0027s \"grow to the next size class\" behavior?\n\nThis is also 64-bit specific, though I\u0027m less concerned about that.",
+      "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "474956ee_6b6ccf90",
+        "filename": "test/fixedbugs/issue67255.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-08T16:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39aed407_ee988cd1",
       "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
