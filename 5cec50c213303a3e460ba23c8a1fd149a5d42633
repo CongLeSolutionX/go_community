@@ -33,6 +33,23 @@
       "message": "Mention hp is the problematic past-the-end pointer.",
       "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39aed407_ee988cd1",
+        "filename": "test/fixedbugs/issue67255.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-08T16:24:08Z",
+      "side": 1,
+      "message": "This seems *super* fragile. Can the test at least self-check somehow, perhaps by using append\u0027s \"grow to the next size class\" behavior?\n\nThis is also 64-bit specific, though I\u0027m less concerned about that.",
+      "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
