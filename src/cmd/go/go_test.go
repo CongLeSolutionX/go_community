@@ -2801,3 +2801,51 @@ func TestExecInDeletedDir(t *testing.T) {
 	// `go version` should not fail
 	tg.run("version")
 }
+
+// Test for go clean -telemetry
+func TestCleanTelemetry(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+
+	tg.tempDir("temp")
+	var userconfig string
+	switch runtime.GOOS {
+	case "windows":
+		tg.setenv("AppData", tg.path("temp"))
+		userconfig = tg.path("temp")
+	case "darwin", "ios":
+		tg.setenv("HOME", tg.path("temp"))
+		userconfig = filepath.Join(tg.path("temp"), "Library", "Application Support")
+	case "plan9":
+		tg.setenv("home", tg.path("temp"))
+		userconfig = filepath.Join(tg.path("temp"), "lib")
+	default: // Unix
+		tg.setenv("HOME", tg.path("temp"))
+		userconfig = filepath.Join(tg.path("temp"), ".config")
+	}
+	telemetryDir := filepath.Join(userconfig, "go", "telemetry")
+
+	tg.run("help", "telemetry")
+	var shouldBeDeleted []string
+	if !disabledOnPlatform {
+		localDir := filepath.Join(telemetryDir, "local")
+		localEntries, err := os.ReadDir(localDir)
+		tg.must(err)
+		for _, entry := range localEntries {
+			if strings.HasSuffix(entry.Name(), ".count") || strings.HasSuffix(entry.Name(), ".json") {
+				shouldBeDeleted = append(shouldBeDeleted, filepath.Join(telemetryDir, "local", entry.Name()))
+			}
+		}
+		uploadFile := filepath.Join(telemetryDir, "upload", "foo.json")
+		tg.must(os.Mkdir(filepath.Join(telemetryDir, "upload"), 0755))
+		tg.must(os.WriteFile(uploadFile, []byte("{}"), 0644))
+		shouldBeDeleted = append(shouldBeDeleted, uploadFile)
+	}
+
+	tg.run("clean", "-telemetry")
+
+	for _, f := range shouldBeDeleted {
+		tg.mustNotExist(f)
+	}
+}
