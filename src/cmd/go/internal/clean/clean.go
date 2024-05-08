@@ -25,6 +25,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/str"
 	"cmd/go/internal/work"
+	"cmd/internal/telemetry"
 )
 
 var CmdClean = &base.Command{
@@ -84,6 +85,11 @@ new inputs are found that provide the same coverage. These files are
 distinct from those stored in testdata directory; clean does not remove
 those files.
 
+The -telemetry flag causes clean to remove locally collected telemetry
+counters and reports. Removing counter files that are currently in use
+may fail on some operating systems. clean does not affect the current
+telemetry mode.
+
 For more about build flags, see 'go help build'.
 
 For more about specifying packages, see 'go help packages'.
@@ -97,6 +103,7 @@ var (
 	cleanFuzzcache bool // clean -fuzzcache flag
 	cleanModcache  bool // clean -modcache flag
 	cleanTestcache bool // clean -testcache flag
+	cleanTelemetry bool // clean -telemetry flag
 )
 
 func init() {
@@ -109,6 +116,7 @@ func init() {
 	CmdClean.Flag.BoolVar(&cleanFuzzcache, "fuzzcache", false, "")
 	CmdClean.Flag.BoolVar(&cleanModcache, "modcache", false, "")
 	CmdClean.Flag.BoolVar(&cleanTestcache, "testcache", false, "")
+	CmdClean.Flag.BoolVar(&cleanTelemetry, "telemetry", false, "")
 
 	// -n and -x are important enough to be
 	// mentioned explicitly in the docs but they
@@ -119,19 +127,21 @@ func init() {
 
 func runClean(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) > 0 {
-		cacheFlag := ""
+		targetFlag := ""
 		switch {
 		case cleanCache:
-			cacheFlag = "-cache"
+			targetFlag = "-cache"
 		case cleanTestcache:
-			cacheFlag = "-testcache"
+			targetFlag = "-testcache"
 		case cleanFuzzcache:
-			cacheFlag = "-fuzzcache"
+			targetFlag = "-fuzzcache"
 		case cleanModcache:
-			cacheFlag = "-modcache"
+			targetFlag = "-modcache"
+		case cleanTelemetry:
+			targetFlag = "-telemetry"
 		}
-		if cacheFlag != "" {
-			base.Fatalf("go: clean %s cannot be used with package arguments", cacheFlag)
+		if targetFlag != "" {
+			base.Fatalf("go: clean %s cannot be used with package arguments", targetFlag)
 		}
 	}
 
@@ -140,7 +150,7 @@ func runClean(ctx context.Context, cmd *base.Command, args []string) {
 	// or no other target (such as a cache) was requested to be cleaned.
 	cleanPkg := len(args) > 0 || cleanI || cleanR
 	if (!modload.Enabled() || modload.HasModRoot()) &&
-		!cleanCache && !cleanModcache && !cleanTestcache && !cleanFuzzcache {
+		!cleanCache && !cleanModcache && !cleanTestcache && !cleanFuzzcache && !cleanTelemetry {
 		cleanPkg = true
 	}
 
@@ -224,6 +234,41 @@ func runClean(ctx context.Context, cmd *base.Command, args []string) {
 		fuzzDir := cache.Default().FuzzDir()
 		if err := sh.RemoveAll(fuzzDir); err != nil {
 			base.Error(err)
+		}
+	}
+
+	if cleanTelemetry {
+		telemetryDir := telemetry.Dir()
+		entries, err := os.ReadDir(telemetryDir)
+		if err != nil {
+			if !os.IsNotExist(err) {
+				base.Errorf("go: failed to read telemetry dir: %v", err)
+			}
+		} else {
+			for _, entry := range entries {
+				switch entry.Name() {
+				case "mode":
+					continue // keep the mode file
+				case "debug":
+					// TODO(matloob): do we want to keep these?
+					continue // keep the debug logs
+				case "local":
+					// keep the weekends file, but delete everything else
+					localDir := filepath.Join(telemetryDir, "local")
+					localEntries, err := os.ReadDir(localDir)
+					if err != nil {
+						base.Errorf("go: failed to read telemetry local dir: %v", err)
+					}
+					for _, entry := range localEntries {
+						if entry.Name() == "weekends" {
+							continue
+						}
+						sh.RemoveAll(filepath.Join(localDir, entry.Name()))
+					}
+				default:
+					sh.RemoveAll(filepath.Join(telemetryDir, entry.Name()))
+				}
+			}
 		}
 	}
 }
