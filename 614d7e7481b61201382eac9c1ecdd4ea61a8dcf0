@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cfd8229_ab8e2d81",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-08T16:45:09Z",
+      "side": 1,
+      "message": "This isn\u0027t correct. CGOChanged needs to be determined from the logic below that decides the default value of CGO_ENABLED. The logic here sets CGOChanged when the CGO_ENABLED value is not \u00270\u0027 but often times (probably most of the time for most users) cgo is enabled by default.",
+      "range": {
+        "startLine": 135,
+        "startChar": 45,
+        "endLine": 135,
+        "endChar": 56
+      },
+      "revId": "614d7e7481b61201382eac9c1ecdd4ea61a8dcf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "346e6ed3_1ffac311",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-08T16:45:09Z",
+      "side": 1,
+      "message": "see here: Getenv is supposed to panic for GODEBUG",
+      "range": {
+        "startLine": 366,
+        "startChar": 35,
+        "endLine": 366,
+        "endChar": 42
+      },
+      "revId": "614d7e7481b61201382eac9c1ecdd4ea61a8dcf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc530c9e_9d4f8e1f",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-08T16:45:09Z",
+      "side": 1,
+      "message": "you can\u0027t use EnvOrAndChanged here. Just manually get the environment variable and check it.",
+      "range": {
+        "startLine": 132,
+        "startChar": 38,
+        "endLine": 132,
+        "endChar": 53
+      },
+      "revId": "614d7e7481b61201382eac9c1ecdd4ea61a8dcf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
