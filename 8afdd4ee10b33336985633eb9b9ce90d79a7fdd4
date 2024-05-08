@@ -52,6 +52,24 @@
       "parentUuid": "37d06a04_3b215768",
       "revId": "8afdd4ee10b33336985633eb9b9ce90d79a7fdd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87ce345e_49d0b313",
+        "filename": "src/encoding/base32/base32_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-08T20:05:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "909e048d_5dad651a",
+      "revId": "8afdd4ee10b33336985633eb9b9ce90d79a7fdd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
