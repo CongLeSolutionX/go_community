@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0933b6e_b9f1084a",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-08T16:22:23Z",
+      "side": 1,
+      "message": "Update the pseudo-code",
+      "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720d6914_b87883bb",
+        "filename": "src/cmd/compile/internal/walk/assign.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-08T16:22:23Z",
+      "side": 1,
+      "message": "Mention hp is the problematic past-the-end pointer.",
+      "revId": "5cec50c213303a3e460ba23c8a1fd149a5d42633",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
