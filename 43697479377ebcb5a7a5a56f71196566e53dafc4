@@ -16,6 +16,24 @@
       "message": "Did you get a chance to do large scale testing of this change? I wonder if any/how many fragile tests might break.",
       "revId": "43697479377ebcb5a7a5a56f71196566e53dafc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "617a7b74_39cf66ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-08T18:51:39Z",
+      "side": 1,
+      "message": "No, I have not. This would only affect tests that fork+exec a Go program that crashes, and all such tests must be partly abstracted over the text that gets printed since it varies from one run to the next. So I would think it is relatively low risk.\n\nThe testing package seems like a typical failure, in which a specific substring of the log is sought, and now the number of newlines in the substring will have to change.",
+      "parentUuid": "c0f802bd_bb045a3d",
+      "revId": "43697479377ebcb5a7a5a56f71196566e53dafc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
