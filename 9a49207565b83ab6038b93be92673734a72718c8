@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0c12735_00faba79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-08T18:36:20Z",
+      "side": 1,
+      "message": "runtime: don\u0027t fetch c-archive/c-shared os.Args on musl/uclinux",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e9b85d4_b1b41a55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-08T18:36:20Z",
+      "side": 1,
+      "message": "Please add line breaks here and elsewhere.  Thanks.",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "278d2250_f189cd99",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +48,57 @@
       "writtenOn": "2024-05-08T12:21:02Z",
       "side": 1,
       "message": "I spotted some possible problems.\n\nThese findings are based on simple heuristics. If a finding appears wrong, briefly reply here saying so. Otherwise, please address any problems and update the GitHub PR. When complete, mark this comment as \u0027Done\u0027 and click the [blue \u0027Reply\u0027 button](https://go.dev/wiki/GerritBot#i-left-a-reply-to-a-comment-in-gerrit-but-no-one-but-me-can-see-it) above.\n\nPossible problems detected:\n  1. Lines in the commit message should be wrapped at ~76 characters unless needed for things like URLs or tables. You have a 361 character line.\n  2. You usually need to reference a bug number for all but trivial or cosmetic fixes. For this repo, the format is usually \u0027Fixes #12345\u0027 or \u0027Updates #12345\u0027 at the end of the commit message. Should you have a bug reference?\n\nThe commit title and commit message body come from the GitHub PR title and description, and must be edited in the GitHub web interface (not via git). For instructions, see [here](https://go.dev/wiki/GerritBot/#how-does-gerritbot-determine-the-final-commit-message). For guidelines on commit messages for the Go project, see [here](https://go.dev/doc/contribute#commit_messages).\n\n\n(In general for Gerrit code reviews, the change author is expected to [log in to Gerrit](https://go-review.googlesource.com/login/) with a Gmail or other Google account and then close out each piece of feedback by marking it as \u0027Done\u0027 if implemented as suggested or otherwise reply to each review comment. See the [Review](https://go.dev/doc/contribute#review) section of the Contributing Guide for details.)",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1e9aa48_2031f100",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-08T18:36:20Z",
+      "side": 1,
+      "message": "Why include \u003climits.h\u003e ?",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52bf8f73_e905dfc3",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-08T18:36:20Z",
+      "side": 1,
+      "message": "This needs a better comment explaining when it is called and what it does.",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6afe30bd_3ffc3e91",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-08T18:36:20Z",
+      "side": 1,
+      "message": "What about other operating systems that don\u0027t use glibc?",
       "revId": "9a49207565b83ab6038b93be92673734a72718c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
