@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "432742cc_94ee1f52",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-08T22:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cfd8229_ab8e2d81",
+      "range": {
+        "startLine": 135,
+        "startChar": 45,
+        "endLine": 135,
+        "endChar": 56
+      },
+      "revId": "614d7e7481b61201382eac9c1ecdd4ea61a8dcf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "346e6ed3_1ffac311",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d20ab19_062a4b09",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-08T22:24:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "346e6ed3_1ffac311",
+      "range": {
+        "startLine": 366,
+        "startChar": 35,
+        "endLine": 366,
+        "endChar": 42
+      },
+      "revId": "614d7e7481b61201382eac9c1ecdd4ea61a8dcf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc530c9e_9d4f8e1f",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-05-08T16:45:09Z",
       "side": 1,
       "message": "you can\u0027t use EnvOrAndChanged here. Just manually get the environment variable and check it.",
+      "range": {
+        "startLine": 132,
+        "startChar": 38,
+        "endLine": 132,
+        "endChar": 53
+      },
+      "revId": "614d7e7481b61201382eac9c1ecdd4ea61a8dcf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a1955b8_f0b8627e",
+        "filename": "src/cmd/go/internal/envcmd/env.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-08T22:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc530c9e_9d4f8e1f",
       "range": {
         "startLine": 132,
         "startChar": 38,
