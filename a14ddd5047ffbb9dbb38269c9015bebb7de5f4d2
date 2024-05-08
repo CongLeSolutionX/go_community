@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bf8c33f_9f98f891",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-05-08T16:18:23Z",
+      "side": 1,
+      "message": "Unclear if I should remove the GODEBUG entirely, so that it is no longer documented in the generated docs?",
+      "revId": "a14ddd5047ffbb9dbb38269c9015bebb7de5f4d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
