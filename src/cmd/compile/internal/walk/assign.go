@@ -671,11 +671,18 @@ func extendSlice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	s := typecheck.TempAt(base.Pos, ir.CurFunc, l1.Type())
 	nodes = append(nodes, ir.NewAssignStmt(base.Pos, s, l1))
 
+	// if l2 > 0 {
+	// Avoid work if we're not appending anything. But more importantly,
+	// avoid past-the-end pointers when clearing. See issue 67255.
+	nifnz := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.ONE, l2, ir.NewInt(base.Pos, 0)), nil, nil)
+	nifnz.Likely = true
+	nodes = append(nodes, nifnz)
+
 	elemtype := s.Type().Elem()
 
 	// n := s.len + l2
 	nn := typecheck.TempAt(base.Pos, ir.CurFunc, types.Types[types.TINT])
-	nodes = append(nodes, ir.NewAssignStmt(base.Pos, nn, ir.NewBinaryExpr(base.Pos, ir.OADD, ir.NewUnaryExpr(base.Pos, ir.OLEN, s), l2)))
+	nifnz.Body = append(nifnz.Body, ir.NewAssignStmt(base.Pos, nn, ir.NewBinaryExpr(base.Pos, ir.OADD, ir.NewUnaryExpr(base.Pos, ir.OLEN, s), l2)))
 
 	// if uint(n) <= uint(s.cap)
 	nuint := typecheck.Conv(nn, types.Types[types.TUINT])
@@ -697,7 +704,7 @@ func extendSlice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 			l2)),
 	}
 
-	nodes = append(nodes, nif)
+	nifnz.Body = append(nifnz.Body, nif)
 
 	// hp := &s[s.len - l2]
 	// TODO: &s[s.len] - hn?
@@ -718,12 +725,13 @@ func extendSlice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	var clr ir.Nodes
 	clrfn := mkcall(clrname, nil, &clr, hp, hn)
 	clr.Append(clrfn)
+
 	if hasPointers {
 		// growslice will have cleared the new entries, so only
 		// if growslice isn't called do we need to do the zeroing ourselves.
 		nif.Body = append(nif.Body, clr...)
 	} else {
-		nodes = append(nodes, clr...)
+		nifnz.Body = append(nifnz.Body, clr...)
 	}
 
 	typecheck.Stmts(nodes)
