@@ -51,6 +51,24 @@
       ],
       "revId": "98488347493765022e14182970cbdf0a67b3c810",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f5ba374_e77435ae",
+        "filename": "src/reflect/iter.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-08T22:06:40Z",
+      "side": 1,
+      "message": "This comment is from https://github.com/golang/go/issues/66056#issuecomment-1998291912 and https://github.com/golang/go/issues/66056#issuecomment-2023399120\nI\u0027m not sure if I want to change it, because nobody in the proposal is proposing anything else for content.",
+      "parentUuid": "4fe19aca_8a9829d2",
+      "revId": "98488347493765022e14182970cbdf0a67b3c810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
