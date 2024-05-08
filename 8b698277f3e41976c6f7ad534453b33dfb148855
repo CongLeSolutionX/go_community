@@ -16,6 +16,23 @@
       "message": "encoding/base32: use correct length for unpadded buffer in Read",
       "revId": "8b698277f3e41976c6f7ad534453b33dfb148855",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dadf86fc_9823b2d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-05-08T22:55:15Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "8b698277f3e41976c6f7ad534453b33dfb148855",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
