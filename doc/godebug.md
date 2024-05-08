@@ -183,6 +183,10 @@ Go 1.23 enabled the experimental post-quantum key exchange mechanism
 X25519Kyber768Draft00 by default. The default can be reverted using the
 [`tlskyber` setting](/pkg/crypto/tls/#Config.CurvePreferences).
 
+Go 1.23 re-enabled support in html/template for ECMAScript 6 template literals by default.
+The [`jstmpllitinterp` setting](/pkg/html/template#hdr-Security_Model) no longer has
+any effect.
+
 ### Go 1.22
 
 Go 1.22 adds a configurable limit to control the maximum acceptable RSA key size
