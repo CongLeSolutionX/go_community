@@ -34,6 +34,24 @@
       "parentUuid": "5aecd82a_311a60a7",
       "revId": "8afdd4ee10b33336985633eb9b9ce90d79a7fdd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "909e048d_5dad651a",
+        "filename": "src/encoding/base32/base32_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 3406606
+      },
+      "writtenOn": "2024-05-08T14:04:59Z",
+      "side": 1,
+      "message": "Ahh yeah I get it, sorry, I misunderstood you there.",
+      "parentUuid": "37d06a04_3b215768",
+      "revId": "8afdd4ee10b33336985633eb9b9ce90d79a7fdd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
