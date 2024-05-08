@@ -152,6 +152,10 @@ This behavior is controlled by the `winreadlinkvolume` setting.
 For Go 1.23, it defaults to `winreadlinkvolume=1`.
 Previous versions default to `winreadlinkvolume=0`.
 
+Go 1.23 re-enabled support in html/template for ECMAScript 6 template literals by default.
+The [`jstmpllitinterp` setting](/pkg/html/template#hdr-Security_Model) no longer has
+any effect.
+
 ### Go 1.22
 
 Go 1.22 adds a configurable limit to control the maximum acceptable RSA key size
