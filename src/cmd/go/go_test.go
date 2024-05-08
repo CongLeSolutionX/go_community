@@ -2801,3 +2801,54 @@ func TestExecInDeletedDir(t *testing.T) {
 	// `go version` should not fail
 	tg.run("version")
 }
+
+// Test for go clean -telemetry
+func TestCleanTelemetry(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+
+	tg.tempDir("home")
+	var userconfig string
+	switch runtime.GOOS {
+	case "windows":
+		tg.setenv("AppData", tg.path("home"))
+		userconfig = tg.path("home")
+	case "darwin", "ios":
+		tg.setenv("HOME", tg.path("home"))
+		userconfig = filepath.Join(tg.path("home"), "Library", "Application Support")
+	case "plan9":
+		tg.setenv("home", tg.path("home"))
+		userconfig = filepath.Join(tg.path("home"), "lib")
+	default: // Unix
+		tg.setenv("HOME", tg.path("home"))
+		userconfig = filepath.Join(tg.path("home"), ".config")
+	}
+	telemetryDir := filepath.Join(userconfig, "go", "telemetry")
+
+	tg.run("help", "telemetry") // Run arbitrary go command to write counters.
+	tg.run("telemetry", "off")  // Stop writing counters (so go clean -telemetry doesn't race with counter writes).
+
+	var shouldBeDeleted []string
+	if !disabledOnPlatform {
+		for _, dir := range []string{"local", "upload", "debug"} {
+			entries, err := os.ReadDir(filepath.Join(telemetryDir, dir))
+			if err != nil && !os.IsNotExist(err) {
+				t.Error(err)
+			}
+			for _, entry := range entries {
+				shouldBeDeleted = append(shouldBeDeleted, filepath.Join(telemetryDir, dir, entry.Name()))
+			}
+		}
+		uploadFile := filepath.Join(telemetryDir, "upload", "foo.json")
+		tg.must(os.Mkdir(filepath.Join(telemetryDir, "upload"), 0755))
+		tg.must(os.WriteFile(uploadFile, []byte("{}"), 0644))
+		shouldBeDeleted = append(shouldBeDeleted, uploadFile)
+	}
+
+	tg.run("clean", "-telemetry")
+
+	for _, f := range shouldBeDeleted {
+		tg.mustNotExist(f)
+	}
+}
