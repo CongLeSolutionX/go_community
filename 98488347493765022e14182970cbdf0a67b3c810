@@ -16,6 +16,41 @@
       "message": "Thanks.",
       "revId": "98488347493765022e14182970cbdf0a67b3c810",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fe19aca_8a9829d2",
+        "filename": "src/reflect/iter.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-08T19:49:37Z",
+      "side": 1,
+      "message": "The accepted types for Seq2 is different from Seq. Should we mention it explicitly?",
+      "fixSuggestions": [
+        {
+          "fixId": "e8c3c05c_fd3bdd12",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/reflect/iter.go",
+              "range": {
+                "startLine": 90,
+                "startChar": 0,
+                "endLine": 91,
+                "endChar": 0
+              },
+              "replacement": "// Seq2 is like Seq but for two values. The accepted types are the same as for Seq,\n// except that the type of v must be a pointer to an array.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "98488347493765022e14182970cbdf0a67b3c810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
