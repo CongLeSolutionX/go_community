@@ -19,3 +19,7 @@ func NewCounter(name string) dummyCounter                                 { retu
 func NewStackCounter(name string, depth int) dummyCounter                 { return dummyCounter{} }
 func CountFlags(name string, flagSet flag.FlagSet)                        {}
 func CountFlagValue(prefix string, flagSet flag.FlagSet, flagName string) {}
+func Mode() string                                                        { return "" }
+func ModeEffective() time.Time                                            { return time.Time{} }
+func SetMode(mode string) error                                           { return nil }
+func Dir() string                                                         { return "" }
