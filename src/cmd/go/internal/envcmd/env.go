@@ -7,6 +7,7 @@ package envcmd
 
 import (
 	"bytes"
+	"cmd/internal/telemetry"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -105,6 +106,8 @@ func MkEnv() []cfg.EnvVar {
 		{Name: "GOVCS", Value: cfg.GOVCS},
 		{Name: "GOVERSION", Value: runtime.Version()},
 		{Name: "GODEBUG", Value: os.Getenv("GODEBUG")},
+		{Name: "GOTELEMETRY", Value: telemetry.Mode()},
+		{Name: "GOTELEMETRYDIR", Value: telemetry.Dir()},
 	}
 
 	if work.GccgoBin != "" {
