@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e1ed6b2_19dec6ab",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-08T19:38:35Z",
+      "side": 1,
+      "message": "(AI guessed my suggestion before I typed a character)",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 34
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "773b7883_3c0dc7bb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/instantiate.go",
+              "range": {
+                "startLine": 57,
+                "startChar": 0,
+                "endLine": 58,
+                "endChar": 0
+              },
+              "replacement": "\t\ttparams :\u003d orig_.TypeParams().list()\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b84c7770d8053cfaf259934303257003b2df4f08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
