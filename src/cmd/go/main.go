@@ -34,6 +34,7 @@ import (
 	"cmd/go/internal/modget"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/run"
+	"cmd/go/internal/telemetrycmd"
 	"cmd/go/internal/test"
 	"cmd/go/internal/tool"
 	"cmd/go/internal/toolchain"
@@ -61,6 +62,7 @@ func init() {
 		modcmd.CmdMod,
 		workcmd.CmdWork,
 		run.CmdRun,
+		telemetrycmd.CmdTelemetry,
 		test.CmdTest,
 		tool.CmdTool,
 		version.CmdVersion,
@@ -92,7 +94,9 @@ var counterErrorsGOPATHEntryRelative = telemetry.NewCounter("go/errors:gopath-en
 
 func main() {
 	log.SetFlags(0)
-	telemetry.StartWithUpload() // Open the telemetry counter file so counters can be written to it.
+	if !isCleanTelemetry() { // Don't start telemetry for go clean -telemetry to avoid keeping counter file open when we try to delete it
+		telemetry.StartWithUpload() // Open the telemetry counter file so counters can be written to it.
+	}
 	handleChdirFlag()
 	toolchain.Select()
 
@@ -346,4 +350,20 @@ func handleChdirFlag() {
 	if err := os.Chdir(dir); err != nil {
 		base.Fatalf("go: %v", err)
 	}
+}
+
+func isCleanTelemetry() bool {
+	var clean, telemetry bool
+
+	for _, arg := range os.Args {
+		if arg == "clean" {
+			clean = true
+			continue
+		}
+		if arg == "-telemetry" || arg == "--telemetry" {
+			telemetry = true
+		}
+	}
+
+	return clean && telemetry
 }
