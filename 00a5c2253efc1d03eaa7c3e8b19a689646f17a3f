@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ad9bf5_b0bf93cb",
+        "filename": "src/cmd/internal/telemetry/telemetry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-08T13:33:00Z",
+      "side": 1,
+      "message": "flagName, separator string\n\nBut also, do we need to pass in separator here? Seems simpler to at least start by assuming it is always \u0027:\u0027.",
+      "range": {
+        "startLine": 67,
+        "startChar": 57,
+        "endLine": 67,
+        "endChar": 90
+      },
+      "revId": "00a5c2253efc1d03eaa7c3e8b19a689646f17a3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
