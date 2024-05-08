@@ -51,6 +51,57 @@
       "parentUuid": "b8619d20_f2acfdc8",
       "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd51e92_918a6754",
+        "filename": "src/internal/types/testdata/spec/range_int.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-08T22:57:51Z",
+      "side": 1,
+      "message": "This error message is confusing. I think the semantics are correct, but the error should really be on the \u0027i\u0027, with an appropriate message, since it is the type of i that causes the incorrect constant type.",
+      "range": {
+        "startLine": 188,
+        "startChar": 18,
+        "endLine": 188,
+        "endChar": 80
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a6e92e09_c0a40bfb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/internal/types/testdata/spec/range_int.go",
+              "range": {
+                "startLine": 171,
+                "startChar": 0,
+                "endLine": 172,
+                "endChar": 0
+              },
+              "replacement": "\tfor j \u003d range 1 {\n"
+            },
+            {
+              "path": "src/internal/types/testdata/spec/range_int.go",
+              "range": {
+                "startLine": 188,
+                "startChar": 0,
+                "endLine": 189,
+                "endChar": 0
+              },
+              "replacement": "\tfor i \u003d range 10 {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
