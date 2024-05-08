@@ -83,6 +83,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec513ef4_024762bf",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-08T23:17:41Z",
+      "side": 1,
+      "message": "If it\u0027s bits:\n\nHotNotFlowIn Hotness \u003d 1 \u003c\u003c iota\nHotHeader\nHotPgo\n\nand for now we care about\n\nHotPgoHeader\nHotPgoHeaderNotFlowIn\n\nOne problem is that we don\u0027t compute these accurately for all blocks, but someone could easily make the case that a block that is PgoHot, not a header, but not flowed in, was worth a little alignment.",
+      "parentUuid": "4094d3d5_44e61f98",
+      "revId": "b28fd252ab2e96d97c5e97897cf2e23832908c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c155977_b00fb328",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 4
