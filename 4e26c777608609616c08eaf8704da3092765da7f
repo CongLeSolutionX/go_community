@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97403fe7_4ea0868d",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-05-09T14:01:51Z",
+      "side": 1,
+      "message": "I didn\u0027t observe any. However, I inspecting some binaries more closely, I see (RLWNM (MOVHZreg x)) show up more often now. I am working on a patch for that, and ANDCCconst inputs to RLWNM.",
+      "parentUuid": "d1d9b628_9a5100ba",
+      "revId": "4e26c777608609616c08eaf8704da3092765da7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44c590c1_f65be063",
         "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
         "patchSetId": 3
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fcbd26e_05a9da66",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-05-09T14:01:51Z",
+      "side": 1,
+      "message": "If mb \u003e\u003d me (a wrapping mask), the upper 32 bits are effectively undefined (If I read the ISA correctly, they\u0027re the lower 32 bits copied and rotated by sh).",
+      "parentUuid": "44c590c1_f65be063",
+      "revId": "4e26c777608609616c08eaf8704da3092765da7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2aeb9dee_1967d8a8",
         "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
         "patchSetId": 3
@@ -65,6 +101,24 @@
       "writtenOn": "2024-05-09T13:52:36Z",
       "side": 1,
       "message": "Couldn\u0027t you have similar rules for all the RLW... opcodes since they leave the upper 32 bits clear?",
+      "revId": "4e26c777608609616c08eaf8704da3092765da7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56077587_f74d9d1b",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-05-09T14:01:51Z",
+      "side": 1,
+      "message": "See above, not always.",
+      "parentUuid": "2aeb9dee_1967d8a8",
       "revId": "4e26c777608609616c08eaf8704da3092765da7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
