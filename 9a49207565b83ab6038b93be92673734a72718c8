@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "054d012b_f8a18af6",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T18:34:22Z",
+      "side": 1,
+      "message": "\u003cfeatures.h\u003e isn\u0027t a standard header file as far as I know.  It\u0027s unlikely to be present on all operating systems.  And it shouldn\u0027t be necessary to #include it here, as the other headers are bound to bring it in.",
+      "parentUuid": "115790a8_49138a33",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52bf8f73_e905dfc3",
         "filename": "src/runtime/cgo/gcc_libinit.c",
         "patchSetId": 1
@@ -153,6 +171,24 @@
       "side": 1,
       "message": "My understanding is that the DT_INIT_ARRAY is optional per https://www.sco.com/developers/gabi/latest/ch5.dynamic.html#init_fini\n\nSo glibc may be the only library that optionally passes these arguments - I know that neither musl/uclibc do however",
       "parentUuid": "6afe30bd_3ffc3e91",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d2e197a_1405073d",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T18:34:22Z",
+      "side": 1,
+      "message": "glibc is not the only library that passes these arguments.  They are also passed on at least some *BSD systems.  I think this function must return 1 _except_ for the case of uclibc.",
+      "parentUuid": "66d7b1f0_d1f2ffe2",
       "revId": "9a49207565b83ab6038b93be92673734a72718c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
