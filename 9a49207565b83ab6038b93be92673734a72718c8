@@ -227,6 +227,24 @@
       "parentUuid": "6d2e197a_1405073d",
       "revId": "9a49207565b83ab6038b93be92673734a72718c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb478c25_938433ca",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 52973
+      },
+      "writtenOn": "2024-05-09T19:01:29Z",
+      "side": 1,
+      "message": "typo - there is NOT a macro to detect MUSL and they did that by design\nhttps://wiki.musl-libc.org/faq.html",
+      "parentUuid": "1d1ca293_476669f9",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
