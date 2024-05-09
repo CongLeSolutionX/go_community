@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f428c5e2_6796fb34",
+        "filename": "src/slices/iter_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T20:44:49Z",
+      "side": 1,
+      "message": "You don\u0027t need to write this out, you can just\n\n    return slices.EqualFunc(s1, s2, slices.Equal[Slice]).",
+      "revId": "bcad8f25a19c129b2093a5c63b962e5f95a1032d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
