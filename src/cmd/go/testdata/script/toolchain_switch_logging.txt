@@ -1,0 +1,65 @@
+env TESTGO_VERSION=go1.14
+
+go mod init m
+go mod edit -go=1.21 -toolchain=none
+! go -x version
+stderr 'go: switched from go1.14 to go1.21.0'
+stderr 'go: downloading go1.21.0 '
+
+rm go.mod
+go mod init m
+go mod edit -go=1.21 -toolchain=go1.21.2
+
+! go version
+! stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+! go -x version
+stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+# Make sure go build does the same thing
+! go build
+! stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+! go build -x
+! stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+! go -x build
+stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+! go -x build -x
+stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+! go -x build -x=false
+stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+! go -x=false build -x
+! stderr 'go: switched from go1.14 to go1.21.2'
+stderr 'go: downloading go1.21.2 '
+
+# Test multiple switches
+env TESTGO_VERSION=go1.21.0
+
+rm go.mod
+go mod init m
+go mod edit -go=1.22 -toolchain=go1.21.2
+
+! go -x version
+stderr 'go: switched from go1.21.0 to go1.21.2'
+stderr 'go: switched from go1.21.2 to go1.22.0'
+stderr 'go: downloading go1.22.0 '
+
+env TESTGO_VERSION=go1.14
+
+# test no switch
+rm go.mod
+go mod init m
+go mod edit -go=1.14 -toolchain=go1.14
+go -x version
+! stderr 'go: switched from go1.14 to go1.14'
