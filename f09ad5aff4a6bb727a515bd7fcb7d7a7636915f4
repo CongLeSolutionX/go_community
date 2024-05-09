@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e71a04c3_e9c0cc94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-05-09T22:27:55Z",
+      "side": 1,
+      "message": "LGTM. I am similarly unclear on why inlining would factor into the checking, hopefully someone with more insight into the runtime can elucidate.",
+      "revId": "f09ad5aff4a6bb727a515bd7fcb7d7a7636915f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
