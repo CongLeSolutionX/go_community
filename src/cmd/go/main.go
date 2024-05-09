@@ -84,6 +84,7 @@ func init() {
 		test.HelpTestfunc,
 		modget.HelpVCS,
 	}
+	flag.BoolVar(&cfg.BuildX, "x", false, "")
 }
 
 var _ = go11tag
@@ -94,10 +95,11 @@ func main() {
 	log.SetFlags(0)
 	telemetry.StartWithUpload() // Open the telemetry counter file so counters can be written to it.
 	handleChdirFlag()
-	toolchain.Select()
 
 	flag.Usage = base.Usage
 	flag.Parse()
+
+	toolchain.Select()
 	telemetry.CountFlags("go/flag:", *flag.CommandLine)
 
 	args := flag.Args()
