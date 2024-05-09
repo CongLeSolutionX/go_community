@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c63709b_00003734",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52973
+      },
+      "writtenOn": "2024-05-09T18:28:23Z",
+      "side": 1,
+      "message": "I created an example sandbox repository to demonstrate the issue before/after the patch has been applied https://github.com/1800alex/go-cshared-example",
+      "revId": "7f5be0f2aacf5300fd05c0607d4dc5a7ca4b81d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
