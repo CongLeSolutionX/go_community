@@ -123,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7918d5ec_dbbbe9d4",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T20:53:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e5cf53b_7f11448f",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52bf8f73_e905dfc3",
@@ -154,6 +172,24 @@
       "side": 1,
       "message": "Pushed with more detail, let me know if that is sufficient",
       "parentUuid": "52bf8f73_e905dfc3",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6653c5e_a3c96679",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T20:53:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fddaca3a_c5c9fee0",
       "revId": "9a49207565b83ab6038b93be92673734a72718c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -243,6 +279,24 @@
       "side": 1,
       "message": "typo - there is NOT a macro to detect MUSL and they did that by design\nhttps://wiki.musl-libc.org/faq.html",
       "parentUuid": "1d1ca293_476669f9",
+      "revId": "9a49207565b83ab6038b93be92673734a72718c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d8dc230_40483b06",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T20:53:12Z",
+      "side": 1,
+      "message": "This nested #if is somewhat confusing.  How about something like\n\n// On Linux systems, uClibc does not pass argc/argv to libraries.\n#define hasSharedArgs !defined(__linux__) || (defined(__GLIBC__) \u0026\u0026 !defined(__UCLIBC__))\n\n  return hasSharedArgs;",
+      "parentUuid": "fb478c25_938433ca",
       "revId": "9a49207565b83ab6038b93be92673734a72718c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

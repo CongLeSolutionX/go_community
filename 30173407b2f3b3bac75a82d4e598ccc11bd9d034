@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9eb4cb_f69fb5a4",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T20:53:12Z",
+      "side": 1,
+      "message": "Do we really need to allocate this memory?  Perhaps instead anything that might use can check whether the arguments are valid.",
+      "revId": "30173407b2f3b3bac75a82d4e598ccc11bd9d034",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7630300e_97bc7c2f",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-09T20:53:12Z",
+      "side": 1,
+      "message": "Remove trailing whitespace.",
+      "revId": "30173407b2f3b3bac75a82d4e598ccc11bd9d034",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
