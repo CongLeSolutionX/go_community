@@ -69,6 +69,24 @@
       "parentUuid": "4fe19aca_8a9829d2",
       "revId": "98488347493765022e14182970cbdf0a67b3c810",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86f670aa_4e6ead9d",
+        "filename": "src/reflect/iter.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-09T11:53:30Z",
+      "side": 1,
+      "message": "I\u0027ll look into whether it needs to be changed.Documentation does not affect the functionality implemented.Let\u0027s submit this CL first.If the documentation needs to be changed, it can be done in the subsequent CL.",
+      "parentUuid": "9f5ba374_e77435ae",
+      "revId": "98488347493765022e14182970cbdf0a67b3c810",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
