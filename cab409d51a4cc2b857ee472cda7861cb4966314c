@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5daa6f2_586e2463",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-09T21:00:01Z",
+      "side": 1,
+      "message": "this doesn\u0027t look right either.\n\nMy suggestion is to start with ctxt.CgoEnabled, run the logic in the `else if` and `else` branches first to determine what the default value of cgoEnabled is, and then set cgoenabled and see whether it\u0027s different from the default. Something like\n \n    // The go/build rule for whether cgo is enabled is:\n\t//\t1. If $CGO_ENABLED is set, respect it.\n\t//\t2. Otherwise, if this is a cross-compile, disable cgo.\n\t//\t3. Otherwise, use built-in default for GOOS/GOARCH.\n\t// Recreate that logic here with the new GOOS/GOARCH setting.\n\t// We need to run steps 2 and 3 to determine what the default value\n\t// of CgoEnabled would be for computing CGOChanged.\n    defaultCgoEnabled :\u003d ctxt.CgoEnabled\n    if ctxt.GOOS !\u003d runtime.GOOS || ctxt.GOARCH !\u003d runtime.GOARCH {\n\t\tdefaultCgoEnabled \u003d false\n\t} else {\n\t\t// Use built-in default cgo setting for GOOS/GOARCH.\n\t\t// Note that ctxt.GOOS/GOARCH are derived from the preference list\n\t\t// (1) environment, (2) go/env file, (3) runtime constants,\n\t\t// while go/build.Default.GOOS/GOARCH are derived from the preference list\n\t\t// (1) environment, (2) runtime constants.\n\t\t//\n\t\t// We know ctxt.GOOS/GOARCH \u003d\u003d runtime.GOOS/GOARCH;\n\t\t// no matter how that happened, go/build.Default will make the\n\t\t// same decision (either the environment variables are set explicitly\n\t\t// to match the runtime constants, or else they are unset, in which\n\t\t// case go/build falls back to the runtime constants), so\n\t\t// go/build.Default.GOOS/GOARCH \u003d\u003d runtime.GOOS/GOARCH.\n\t\t// So ctxt.CgoEnabled (\u003d\u003d go/build.Default.CgoEnabled) is correct\n\t\t// as is and can be left unmodified.\n\t\t//\n\t\t// All that said, starting in Go 1.20 we layer one more rule\n\t\t// on top of the go/build decision: if CC is unset and\n\t\t// the default C compiler we\u0027d look for is not in the PATH,\n\t\t// we automatically default cgo to off.\n\t\t// This makes go builds work automatically on systems\n\t\t// without a C compiler installed.\n\t\tif ctxt.CgoEnabled {\n\t\t\tif os.Getenv(\"CC\") \u003d\u003d \"\" {\n\t\t\t\tcc :\u003d DefaultCC(ctxt.GOOS, ctxt.GOARCH)\n\t\t\t\tif _, err :\u003d LookPath(cc); err !\u003d nil {\n\t\t\t\t\tdefaultCgoEnabled \u003d false\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\tctxt.CgoEnabled \u003d defaultCgoEnabled\n\tif v :\u003d Getenv(\"CGO_ENABLED\"); v \u003d\u003d \"0\" || v \u003d\u003d \"1\" {\n\t\tctxt.CgoEnabled \u003d v[0] \u003d\u003d \u00271\u0027\n\t}\n\tCGOChanged \u003d ctxt.CgoEnabled !\u003d defaultCgoEnabled",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 0
+      },
+      "revId": "cab409d51a4cc2b857ee472cda7861cb4966314c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
