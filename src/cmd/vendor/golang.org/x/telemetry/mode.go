@@ -4,7 +4,10 @@
 
 package telemetry
 
-import "golang.org/x/telemetry/internal/telemetry"
+import (
+	"golang.org/x/telemetry/internal/telemetry"
+	"time"
+)
 
 // Mode returns the current telemetry mode.
 //
@@ -26,6 +29,14 @@ func Mode() string {
 	return mode
 }
 
+// ModeEffective the time that the mode was effective.
+//
+// If there is no effective time, the result is the zero time.
+func ModeEffective() time.Time {
+	_, start := telemetry.Default.Mode()
+	return start
+}
+
 // SetMode sets the global telemetry mode to the given value.
 //
 // See the documentation of [Mode] for a description of the supported mode
@@ -35,4 +46,9 @@ func Mode() string {
 // occurs while persisting the mode value to the file system.
 func SetMode(mode string) error {
 	return telemetry.Default.SetMode(mode)
+}
+
+// Dir returns the telemetry directory.
+func Dir() string {
+	return telemetry.Default.Dir()
 }

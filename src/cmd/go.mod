@@ -19,3 +19,5 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	rsc.io/markdown v0.0.0-20240117044121-669d2fdf1650 // indirect
 )
+
+replace golang.org/x/telemetry => /Users/matloob/telemetry
