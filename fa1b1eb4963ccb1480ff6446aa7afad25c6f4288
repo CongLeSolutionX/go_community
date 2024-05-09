@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e2fcf5_619ef132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-09T13:32:55Z",
+      "side": 1,
+      "message": "\"...for range with floating-point operand\"\n\nIn \"for k, v :\u003d range x\", the iteration variables are k, v, but here I think you mean x.",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bd37aa13_c9b1255a",
@@ -49,6 +72,120 @@
       "side": 1,
       "message": "For the record, I was not (and am still not) in the attention set of this change. Comments from @gri@google.com do not trigger reviewer attention when the CL is authored by @gri@golang.org. This is why I had not yet reviewed.",
       "parentUuid": "b8619d20_f2acfdc8",
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ffec934_e6657fc5",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-09T13:32:55Z",
+      "side": 1,
+      "message": "Where was this invariant established?",
+      "fixSuggestions": [
+        {
+          "fixId": "19f96647_2cc071f2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/stmt.go",
+              "range": {
+                "startLine": 937,
+                "startChar": 0,
+                "endLine": 938,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\tassert(i \u003d\u003d 0)                         // at most one iteration variable (checked by parser)\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/types2/stmt.go",
+              "range": {
+                "startLine": 972,
+                "startChar": 0,
+                "endLine": 973,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\tassert(i \u003d\u003d 0) // at most one iteration variable (checked by parser)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5708d42_4f2346e2",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-09T13:32:55Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "494f275c_56b9176d",
+        "filename": "src/internal/types/testdata/check/stmt0.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-09T13:32:55Z",
+      "side": 1,
+      "message": "What happens with 1.0, which is an untyped floating-point constant whose value is an integer?",
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7672058b_f19cde5d",
+        "filename": "src/internal/types/testdata/spec/range_int.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-09T13:32:55Z",
+      "side": 1,
+      "message": "This is inconsistent with other places in the spec where an untyped constant is used as a dimension: for arrays, the dimension may be any untyped constant whose value is a nonnegative integer, even if the type is untyped float or untyped complex.\n\nExample: https://go.dev/play/p/5k2SDJ5N8cK\n\nIs that intentional?",
+      "fixSuggestions": [
+        {
+          "fixId": "bcb1ee61_cd2b5de8",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/internal/types/testdata/spec/range_int.go",
+              "range": {
+                "startLine": 175,
+                "startChar": 0,
+                "endLine": 176,
+                "endChar": 0
+              },
+              "replacement": "\tfor j \u003d range 10.0 {\n"
+            }
+          ]
+        }
+      ],
       "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
