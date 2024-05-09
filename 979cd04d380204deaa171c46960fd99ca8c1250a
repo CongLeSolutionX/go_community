@@ -51,6 +51,24 @@
       "parentUuid": "e836eed9_0f1eee29",
       "revId": "979cd04d380204deaa171c46960fd99ca8c1250a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bddd531f_d4e6e69a",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2024-05-09T19:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b51e9dda_d9cd19b2",
+      "revId": "979cd04d380204deaa171c46960fd99ca8c1250a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
