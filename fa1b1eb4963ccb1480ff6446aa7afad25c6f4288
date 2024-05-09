@@ -123,6 +123,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52d2827d_47cdd723",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-09T14:26:51Z",
+      "side": 1,
+      "message": "FWIW I also was confused by this at first. But the invariant is a consequence of rangeKeyVal behavior for numeric operands, I assume. For lhs[1], rhs[1] will be nil on line 929, so we won\u0027t get here. Agree that\u0027s rather hard to see.",
+      "parentUuid": "2ffec934_e6657fc5",
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5708d42_4f2346e2",
         "filename": "src/cmd/compile/internal/types2/stmt.go",
         "patchSetId": 9
