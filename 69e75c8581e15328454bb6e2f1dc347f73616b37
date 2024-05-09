@@ -52,6 +52,24 @@
       "parentUuid": "d2247f2a_cdb2b148",
       "revId": "69e75c8581e15328454bb6e2f1dc347f73616b37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53731e76_ef6ea72d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-05-09T20:05:50Z",
+      "side": 1,
+      "message": "Thanks. Bisection points to runtime/type.go:34 as the inlined call that triggers the problem. If it is ok with you I will send a CL that marks \"throw\" as non-inlinable as a temporary workaround, just to get the longtest builders back on line (channeling my inner Brian here).",
+      "parentUuid": "9dcd8bc6_dbc5a6d5",
+      "revId": "69e75c8581e15328454bb6e2f1dc347f73616b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
