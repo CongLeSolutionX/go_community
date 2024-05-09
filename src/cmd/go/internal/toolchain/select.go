@@ -189,6 +189,9 @@ func Select() {
 					base.Fatalf("invalid toolchain %q in %s", toolchain, base.ShortPath(file))
 				}
 				if gover.Compare(toolVers, minVers) > 0 {
+					if cfg.BuildX {
+						log.Printf("switched from go%v to %v\n", minVers, toolchain)
+					}
 					gotoolchain = toolchain
 					minVers = toolVers
 					gover.Startup.AutoToolchain = toolchain
@@ -205,6 +208,9 @@ func Select() {
 				}
 				gover.Startup.AutoGoVersion = goVers
 				gover.Startup.AutoToolchain = "" // in case we are overriding it for being too old
+				if cfg.BuildX {
+					log.Printf("switched from go%v to %v \n", minVers, gotoolchain)
+				}
 			}
 		}
 	}
@@ -309,6 +315,9 @@ func Exec(gotoolchain string) {
 	// This allows custom toolchains as well as reuse of toolchains
 	// already installed using go install golang.org/dl/go1.2.3@latest.
 	if exe, err := cfg.LookPath(gotoolchain); err == nil {
+		if cfg.BuildX {
+			log.Printf("using %v from PATH\n", gotoolchain)
+		}
 		execGoToolchain(gotoolchain, "", exe)
 	}
 
