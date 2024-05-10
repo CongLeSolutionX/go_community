@@ -195,6 +195,23 @@
       "message": "Submitting a `Commit-Queue+1` vote as requested by @mpratt@google.com for testing purposes.",
       "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02b120b2_26d619fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62743
+      },
+      "writtenOn": "2024-05-10T04:03:32Z",
+      "side": 1,
+      "message": "This change also seems to help the other flaky test failure seen on s390x https://github.com/golang/go/issues/64650. That would really help our builds get going, thank you for this CL!",
+      "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
