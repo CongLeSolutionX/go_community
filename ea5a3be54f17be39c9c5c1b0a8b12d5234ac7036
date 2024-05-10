@@ -69,6 +69,24 @@
       "parentUuid": "c5108373_a2adcd4f",
       "revId": "ea5a3be54f17be39c9c5c1b0a8b12d5234ac7036",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f355d0_e4aecd70",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-10T23:47:34Z",
+      "side": 1,
+      "message": "Thanks.  Honestly that new code seems better to me.  The cost of the more complex fails condition seems outweighed by not having to duplicate the loop.",
+      "parentUuid": "649d5749_0b79d050",
+      "revId": "ea5a3be54f17be39c9c5c1b0a8b12d5234ac7036",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
