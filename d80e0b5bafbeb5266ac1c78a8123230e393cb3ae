@@ -144,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "95dbf1cd_704ef64d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 66668
+      },
+      "writtenOn": "2024-05-10T02:50:37Z",
+      "side": 1,
+      "message": "So sorry, I should had a mis-unstanding on the gerrit terms. I used to thought ack(acknowledged) means to say I acknowledged or received your comments/suggestions, and when I finish it, I can reply it as Done. For your comments, I tottaly aggree, but I\u0027m currently not around my personal PC, I will get this done later today. Again sorry for bothering. I should also replied it with more useful informations. Thanks.",
+      "parentUuid": "bc5f2741_13c8a6bc",
+      "revId": "d80e0b5bafbeb5266ac1c78a8123230e393cb3ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "43b872bb_25a46a42",
