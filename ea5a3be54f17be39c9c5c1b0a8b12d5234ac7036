@@ -16,6 +16,41 @@
       "message": "Apologies for the delay and thank you for the review. I\u0027ve updated the code in bytes.IndexRune as per your suggestion and have also updated the code in the strings.IndexRune to match that of the bytes package. \n\nOne question that I have is: this PR originally had both {bytes,strings}.Index use IndexRune when the needle was a single rune, but now that strings.Index has been moved to the stringslite package we cannot call IndexRune without both moving IndexRune to the stringslite package and updating the deps test to allow stringslite to import \"unicode/utf8\" or implementing utf8.ValidRune in stringslite - I\u0027m wondering if any of these approaches are viable or if we should simply not have Index call IndexRune when the needle is a single rune (my only concern is that this would introduce a performance discrepency)?",
       "revId": "ea5a3be54f17be39c9c5c1b0a8b12d5234ac7036",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44536c0_2d0b91e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-10T21:42:03Z",
+      "side": 1,
+      "message": "I think for now let\u0027s just not have strings.Index call strings.IndexRune.",
+      "parentUuid": "42acda15_44671c8f",
+      "revId": "ea5a3be54f17be39c9c5c1b0a8b12d5234ac7036",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5108373_a2adcd4f",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-10T21:42:03Z",
+      "side": 1,
+      "message": "Should this be MaxLen rather than MaxBruteForce?  That would seem to match the switch.\n\nBut also I wonder whether we should just move the n \u003c\u003d bytealg.MaxLen out of the switch.  Then we don\u0027t need to duplicate the code that calls IndexRune.",
+      "revId": "ea5a3be54f17be39c9c5c1b0a8b12d5234ac7036",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
