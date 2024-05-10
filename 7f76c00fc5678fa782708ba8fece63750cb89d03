@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e180f64_4284c19e",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-10T15:09:49Z",
+      "side": 0,
+      "message": "Removing this makes the old (non-r) version incorrect, right? Maybe we should make it conditional instead of removing.",
+      "range": {
+        "startLine": 847,
+        "startChar": 0,
+        "endLine": 852,
+        "endChar": 17
+      },
+      "revId": "7f76c00fc5678fa782708ba8fece63750cb89d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "268d61a8_f57b0bb7",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-10T15:09:49Z",
+      "side": 0,
+      "message": "Same here.",
+      "range": {
+        "startLine": 872,
+        "startChar": 0,
+        "endLine": 877,
+        "endChar": 17
+      },
+      "revId": "7f76c00fc5678fa782708ba8fece63750cb89d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "494ddafd_a4afd265",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4544,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-10T15:09:49Z",
+      "side": 0,
+      "message": "Undo.",
+      "revId": "7f76c00fc5678fa782708ba8fece63750cb89d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
