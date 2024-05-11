@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70bf7897_8d6d89d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-11T21:28:22Z",
+      "side": 1,
+      "message": "Code looks fine.\n\nI\u0027m wondering about compatibility with softfloat, which we need for GOARM\u003d5 and GOARM\u003dsoftfloat. We don\u0027t have float registers in those cases. Is that a problem here or will the sources of these rewrites never appear in that case?\n\nThis could use a test somewhere in test/codegen, probably math.go:fromFloat32/toFloat32.",
+      "revId": "d92cdebb2d9add3294d6b0237d7f35bf1f0b2b5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
