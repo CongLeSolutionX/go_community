@@ -81,6 +81,30 @@
       },
       "revId": "99f695e43668009ceccce67c50d17b311ce95f64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ce2c4f8_b4d65572",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-05-11T20:49:14Z",
+      "side": 1,
+      "message": "I took this approach in preparation of the follow-up CL that replaces maxStack with `debug.profstackdepth`: https://go-review.googlesource.com/c/go/+/581917\n\nIf we don\u0027t merge that CL, then I agree with using an internal package.",
+      "parentUuid": "455bd062_b669dd56",
+      "range": {
+        "startLine": 937,
+        "startChar": 0,
+        "endLine": 944,
+        "endChar": 71
+      },
+      "revId": "99f695e43668009ceccce67c50d17b311ce95f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
