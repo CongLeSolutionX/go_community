@@ -80,6 +80,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa802fc0_40700767",
+        "filename": "src/cmd/compile/internal/ssa/_gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-11T07:49:50Z",
+      "side": 1,
+      "message": "It is good idea. We can just use the new one.\nBut what about the name of AtomicAnd32rVariant? If we need to keep the `AND` instruction for the old(non-r) version, it seems that the AtomicAnd32Variant op cannot use the same one as the new one, right?\nThank you.",
+      "parentUuid": "1d4c0c17_035add82",
+      "range": {
+        "startLine": 617,
+        "startChar": 9,
+        "endLine": 617,
+        "endChar": 21
+      },
+      "revId": "ef18c02a959015ae9cfd4cfcb476c1d02ce9bbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9a2bb3d_7e64875a",
         "filename": "src/cmd/compile/internal/ssagen/phi.go",
         "patchSetId": 1
@@ -91,6 +115,30 @@
       "writtenOn": "2024-05-10T15:09:49Z",
       "side": 1,
       "message": "This doesn\u0027t look right. The format has two %v but we now have three arguments.",
+      "range": {
+        "startLine": 486,
+        "startChar": 57,
+        "endLine": 486,
+        "endChar": 65
+      },
+      "revId": "ef18c02a959015ae9cfd4cfcb476c1d02ce9bbfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fcaaab6_0e7ff24f",
+        "filename": "src/cmd/compile/internal/ssagen/phi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-11T07:49:50Z",
+      "side": 1,
+      "message": "Oh, this is the code I added for debugging, but it has not been deleted. Done.",
+      "parentUuid": "a9a2bb3d_7e64875a",
       "range": {
         "startLine": 486,
         "startChar": 57,
