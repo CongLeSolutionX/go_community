@@ -16,6 +16,24 @@
       "message": "Before go1.22, the example in #65625 can be run successfully, though the core issue is in old version glibc, but it will be better to provide this backward compatibility to let people can upgrade to go 1.22+.",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64cd181_f858f36c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-12T08:57:29Z",
+      "side": 1,
+      "message": "Because glibc didn\u0027t provide Convenient methods to let user clear tid cache in struct pthread, people need to try lots of work and do some hack way(maybe a incorrect way) to let cgo with clone(2) can work like before after they upgrade to go 1.22.",
+      "parentUuid": "ca51e583_fc08d83a",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
