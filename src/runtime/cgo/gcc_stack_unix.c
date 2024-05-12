@@ -17,24 +17,45 @@ x_cgo_getstackbound(uintptr bounds[2])
 	pthread_attr_t attr;
 	void *addr;
 	size_t size;
+	bool noinit;
+	int err;
 
 #if defined(__GLIBC__) || (defined(__sun) && !defined(__illumos__))
 	// pthread_getattr_np is a GNU extension supported in glibc.
 	// Solaris is not glibc but does support pthread_getattr_np
 	// (and the fallback doesn't work...). Illumos does not.
-	pthread_getattr_np(pthread_self(), &attr);  // GNU extension
-	pthread_attr_getstack(&attr, &addr, &size); // low address
+	err = pthread_getattr_np(pthread_self(), &attr);  // GNU extension
+	if (err != 0) {
+		noinit = true;
+		goto failback;
+	}
+	err = pthread_attr_getstack(&attr, &addr, &size); // low address
+	if (err != 0) {
+		goto failback;
+	}
+	goto ret;
 #elif defined(__illumos__)
 	pthread_attr_init(&attr);
-	pthread_attr_get_np(pthread_self(), &attr);
-	pthread_attr_getstack(&attr, &addr, &size); // low address
-#else
+	err = pthread_attr_get_np(pthread_self(), &attr);
+	if (err != 0) {
+		goto failback;
+	}
+	err = pthread_attr_getstack(&attr, &addr, &size); // low address
+	if (err != 0) {
+		goto failback;
+	}
+	goto ret;
+#endif
+failback:
 	// We don't know how to get the current stacks, so assume they are the
 	// same as the default stack bounds.
+	if (!noinit) {
+		pthread_attr_destroy(&attr);
+	}
 	pthread_attr_init(&attr);
 	pthread_attr_getstacksize(&attr, &size);
 	addr = __builtin_frame_address(0) + 4096 - size;
-#endif
+ret:
 	pthread_attr_destroy(&attr);
 
 	bounds[0] = (uintptr)addr;
