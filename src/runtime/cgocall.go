@@ -237,17 +237,12 @@ func callbackUpdateSystemStack(mp *m, sp uintptr, signal bool) {
 		// Note that this case isn't possible for signal == true, as
 		// that is always passing a new M from needm.
 
-		// Stack is bogus, but reset the bounds anyway so we can print.
 		hi := g0.stack.hi
 		lo := g0.stack.lo
-		g0.stack.hi = sp + 1024
-		g0.stack.lo = sp - 32*1024
-		g0.stackguard0 = g0.stack.lo + stackGuard
-		g0.stackguard1 = g0.stackguard0
-
-		print("M ", mp.id, " procid ", mp.procid, " runtime: cgocallback with sp=", hex(sp), " out of bounds [", hex(lo), ", ", hex(hi), "]")
-		print("\n")
-		exit(2)
+		switchToCrashStack(func() {
+			print("M ", mp.id, " procid ", mp.procid, " runtime: cgocallback with sp=", hex(sp), " out of bounds [", hex(lo), ", ", hex(hi), "]\n")
+			throw("cgocallback SP out of bounds")
+		})
 	}
 
 	if !mp.isextra {
