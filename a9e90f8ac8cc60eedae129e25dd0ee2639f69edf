@@ -16,6 +16,80 @@
       "message": "This is for merging into the parent CL, if this is deemed worthy (or at least, an improvement).",
       "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d486024a_0dbedde5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-13T19:27:22Z",
+      "side": 1,
+      "message": "LGTM but the names could be better.",
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e166565d_7887c7df",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-13T19:27:22Z",
+      "side": 1,
+      "message": "s/otherInfo/rangeInfo/",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 10
+      },
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef5930e_7aab2044",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-13T19:27:22Z",
+      "side": 1,
+      "message": "s/otherInfo/rangeInfo/ ?",
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "225b1fee_0be53abd",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-13T19:27:22Z",
+      "side": 1,
+      "message": "Do you anticipate more stuff to go here? If not, why not just use the map directly?\nCall the map rangeBodyMap and the field rangeBodies?",
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
