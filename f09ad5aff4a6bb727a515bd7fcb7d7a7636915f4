@@ -51,6 +51,24 @@
       "parentUuid": "e71a04c3_e9c0cc94",
       "revId": "f09ad5aff4a6bb727a515bd7fcb7d7a7636915f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "136d0bc0_9f8536ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-13T14:38:06Z",
+      "side": 1,
+      "message": "Thanks for clarifying. I added this comment to the assertion logic:\n\n```\n\t\t\t// Seeing this error in a failed CI run? It indicates that\n\t\t\t// a function in the runtime package marked nowritebarrierrec\n\t\t\t// (the outermost stack element) was found, by a static\n\t\t\t// reachability analysis over the fully lowered optimized code,\n\t\t\t// to call a function (fn) that involves a write barrier.\n\t\t\t//\n\t\t\t// Even if the call path is infeasable,\n\t\t\t// you will need to reorganize the code to avoid it.\n\t\t\tbase.ErrorfAt(fn.WBPos, 0, \"write barrier prohibited by caller; %v%s\", fn.Nname, err.String())\n```",
+      "parentUuid": "39c07c3b_142c706a",
+      "revId": "f09ad5aff4a6bb727a515bd7fcb7d7a7636915f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
