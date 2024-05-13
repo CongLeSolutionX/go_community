@@ -21,6 +21,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"cmd/internal/telemetry"
 )
 
 func cmdtest() {
@@ -45,6 +47,7 @@ func cmdtest() {
 	flag.BoolVar(&t.json, "json", false, "report test results in JSON")
 
 	xflagparse(-1) // any number of args
+	telemetry.CountFlags("dist/test/flag:", *flag.CommandLine)
 	if noRebuild {
 		t.rebuild = false
 	}

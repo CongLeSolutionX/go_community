@@ -20,6 +20,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"cmd/internal/telemetry"
 )
 
 // Initialization for any invocation.
@@ -1222,6 +1224,7 @@ func cmdenv() {
 	plan9 := flag.Bool("9", gohostos == "plan9", "emit plan 9 syntax")
 	windows := flag.Bool("w", gohostos == "windows", "emit windows syntax")
 	xflagparse(0)
+	telemetry.CountFlags("dist/env/flag:", *flag.CommandLine)
 
 	format := "%s=\"%s\";\n" // Include ; to separate variables when 'dist env' output is used with eval.
 	switch {
@@ -1376,6 +1379,7 @@ func cmdbootstrap() {
 	flag.BoolVar(&noClean, "no-clean", noClean, "print deprecation warning")
 
 	xflagparse(0)
+	telemetry.CountFlags("dist/bootstrap/flag:", *flag.CommandLine)
 
 	if noClean {
 		xprintf("warning: --no-clean is deprecated and has no effect; use 'go install std cmd' instead\n")
@@ -1852,6 +1856,7 @@ func defaulttarg() string {
 // Install installs the list of packages named on the command line.
 func cmdinstall() {
 	xflagparse(-1)
+	telemetry.CountFlags("dist/install/flag:", *flag.CommandLine)
 
 	if flag.NArg() == 0 {
 		install(defaulttarg())
@@ -1865,12 +1870,14 @@ func cmdinstall() {
 // Clean deletes temporary objects.
 func cmdclean() {
 	xflagparse(0)
+	telemetry.CountFlags("dist/clean/flag:", *flag.CommandLine)
 	clean()
 }
 
 // Banner prints the 'now you've installed Go' banner.
 func cmdbanner() {
 	xflagparse(0)
+	telemetry.CountFlags("dist/banner/flag:", *flag.CommandLine)
 	banner()
 }
 
@@ -1912,6 +1919,7 @@ func banner() {
 // Version prints the Go version.
 func cmdversion() {
 	xflagparse(0)
+	telemetry.CountFlags("dist/version/flag:", *flag.CommandLine)
 	xprintf("%s\n", findgoversion())
 }
 
@@ -1920,6 +1928,7 @@ func cmdlist() {
 	jsonFlag := flag.Bool("json", false, "produce JSON output")
 	brokenFlag := flag.Bool("broken", false, "include broken ports")
 	xflagparse(0)
+	telemetry.CountFlags("dist/list/flag:", *flag.CommandLine)
 
 	var plats []string
 	for p := range cgoEnabled {

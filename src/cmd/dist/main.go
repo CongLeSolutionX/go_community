@@ -10,6 +10,8 @@ import (
 	"os"
 	"runtime"
 	"strings"
+
+	"cmd/internal/telemetry"
 )
 
 func usage() {
@@ -175,6 +177,8 @@ func main() {
 
 // The OS-specific main calls into the portable code here.
 func xmain() {
+	telemetry.Start()
+	telemetry.Inc("dist/invocations")
 	if len(os.Args) < 2 {
 		usage()
 	}
