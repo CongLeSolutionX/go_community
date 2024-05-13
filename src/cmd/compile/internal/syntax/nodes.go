@@ -176,9 +176,8 @@ type (
 
 	// func Type { Body }
 	FuncLit struct {
-		Type            *FuncType
-		Body            *BlockStmt
-		IsRangeFuncBody bool
+		Type *FuncType
+		Body *BlockStmt
 		expr
 	}
 

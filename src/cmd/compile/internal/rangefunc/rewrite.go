@@ -568,6 +568,8 @@ type rewriter struct {
 	retVars       []types2.Object
 	defers        types2.Object
 	stateVarCount int // stateVars are referenced from their respective loops
+
+	rangeFuncBodies map[*syntax.FuncLit]bool
 }
 
 // A branch is a single labeled branch.
@@ -600,13 +602,14 @@ const (
 )
 
 // Rewrite rewrites all the range-over-funcs in the files.
-func Rewrite(pkg *types2.Package, info *types2.Info, files []*syntax.File) {
+func Rewrite(pkg *types2.Package, info *types2.Info, files []*syntax.File) map[*syntax.FuncLit]bool {
+	rfb := make(map[*syntax.FuncLit]bool)
 	for _, file := range files {
 		syntax.Inspect(file, func(n syntax.Node) bool {
 			switch n := n.(type) {
 			case *syntax.FuncDecl:
 				sig, _ := info.Defs[n.Name].Type().(*types2.Signature)
-				rewriteFunc(pkg, info, n.Type, n.Body, sig)
+				rewriteFunc(pkg, info, n.Type, n.Body, sig, rfb)
 				return false
 			case *syntax.FuncLit:
 				sig, _ := info.Types[n].Type.(*types2.Signature)
@@ -614,26 +617,28 @@ func Rewrite(pkg *types2.Package, info *types2.Info, files []*syntax.File) {
 					tv := n.GetTypeInfo()
 					sig = tv.Type.(*types2.Signature)
 				}
-				rewriteFunc(pkg, info, n.Type, n.Body, sig)
+				rewriteFunc(pkg, info, n.Type, n.Body, sig, rfb)
 				return false
 			}
 			return true
 		})
 	}
+	return rfb
 }
 
 // rewriteFunc rewrites all the range-over-funcs in a single function (a top-level func or a func literal).
 // The typ and body are the function's type and body.
-func rewriteFunc(pkg *types2.Package, info *types2.Info, typ *syntax.FuncType, body *syntax.BlockStmt, sig *types2.Signature) {
+func rewriteFunc(pkg *types2.Package, info *types2.Info, typ *syntax.FuncType, body *syntax.BlockStmt, sig *types2.Signature, rfb map[*syntax.FuncLit]bool) {
 	if body == nil {
 		return
 	}
 	r := &rewriter{
-		pkg:   pkg,
-		info:  info,
-		outer: typ,
-		body:  body,
-		sig:   sig,
+		pkg:             pkg,
+		info:            info,
+		outer:           typ,
+		body:            body,
+		sig:             sig,
+		rangeFuncBodies: rfb,
 	}
 	syntax.Inspect(body, r.inspect)
 	if (base.Flag.W != 0) && r.forStack != nil {
@@ -658,7 +663,7 @@ func (r *rewriter) inspect(n syntax.Node) bool {
 			tv := n.GetTypeInfo()
 			sig = tv.Type.(*types2.Signature)
 		}
-		rewriteFunc(r.pkg, r.info, n.Type, n.Body, sig)
+		rewriteFunc(r.pkg, r.info, n.Type, n.Body, sig, r.rangeFuncBodies)
 		return false
 
 	default:
@@ -1138,8 +1143,8 @@ func (r *rewriter) bodyFunc(body []syntax.Stmt, lhs []syntax.Expr, def bool, fty
 			List:   []syntax.Stmt{},
 			Rbrace: end,
 		},
-		IsRangeFuncBody: true,
 	}
+	r.rangeFuncBodies[bodyFunc] = true
 	setPos(bodyFunc, start)
 
 	for i := 0; i < ftyp.Params().Len(); i++ {

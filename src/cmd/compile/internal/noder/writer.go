@@ -62,9 +62,10 @@ import (
 type pkgWriter struct {
 	pkgbits.PkgEncoder
 
-	m      posMap
-	curpkg *types2.Package
-	info   *types2.Info
+	m         posMap
+	curpkg    *types2.Package
+	info      *types2.Info
+	otherInfo *otherInfo // non-public information, e.g., which functions are range function closures?
 
 	// Indices for previously written syntax and types2 things.
 
@@ -87,15 +88,20 @@ type pkgWriter struct {
 	cgoPragmas [][]string
 }
 
+type otherInfo struct {
+	rangeFuncBodies map[*syntax.FuncLit]bool
+}
+
 // newPkgWriter returns an initialized pkgWriter for the specified
 // package.
-func newPkgWriter(m posMap, pkg *types2.Package, info *types2.Info) *pkgWriter {
+func newPkgWriter(m posMap, pkg *types2.Package, info *types2.Info, otherInfo *otherInfo) *pkgWriter {
 	return &pkgWriter{
 		PkgEncoder: pkgbits.NewPkgEncoder(base.Debug.SyncFrames),
 
-		m:      m,
-		curpkg: pkg,
-		info:   info,
+		m:         m,
+		curpkg:    pkg,
+		info:      info,
+		otherInfo: otherInfo,
 
 		pkgsIdx: make(map[*types2.Package]pkgbits.Index),
 		objsIdx: make(map[types2.Object]pkgbits.Index),
@@ -2323,7 +2329,7 @@ func (w *writer) funcLit(expr *syntax.FuncLit) {
 	w.Sync(pkgbits.SyncFuncLit)
 	w.pos(expr)
 	w.signature(sig)
-	w.Bool(expr.IsRangeFuncBody)
+	w.Bool(w.p.otherInfo.rangeFuncBodies[expr])
 
 	w.Len(len(closureVars))
 	for _, cv := range closureVars {
