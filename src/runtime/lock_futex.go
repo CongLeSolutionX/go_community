@@ -72,12 +72,32 @@ func lock2(l *mutex) {
 	if ncpu > 1 {
 		spin = active_spin
 	}
+	var enqueued bool
 Loop:
 	for i := 0; ; i++ {
 		v := atomic.Loaduintptr(&l.key)
 		if v&mutex_locked == 0 {
 			// Unlocked. Try to lock.
 			if atomic.Casuintptr(&l.key, v, v|mutex_locked) {
+				// We now own the mutex
+				for {
+					old := v
+
+					head := muintptr(v &^ (mutex_sleeping | mutex_locked))
+					head = fixMutexWaitList(head)
+					head = removeMutexWaitList(head, gp.m)
+
+					v = (v & mutex_locked)
+					if head != 0 {
+						v = v | uintptr(head) | mutex_sleeping
+					}
+
+					if v == old || atomic.Casuintptr(&l.key, old, v) {
+						gp.m.mWaitList.clearLinks()
+						break
+					}
+					v = atomic.Loaduintptr(&l.key)
+				}
 				timer.end()
 				return
 			}
@@ -89,10 +109,19 @@ Loop:
 			osyield()
 		} else {
 			// Someone else has it.
+			// l->key points to a linked list of M's waiting
+			// for this lock, chained through m->mWaitList.next.
+			// Queue this M.
 			for {
 				head := v &^ (mutex_locked | mutex_sleeping)
-				if atomic.Casuintptr(&l.key, v, head|mutex_locked|mutex_sleeping) {
-					break
+				if !enqueued {
+					gp.m.mWaitList.next = muintptr(head)
+					head = uintptr(unsafe.Pointer(gp.m))
+					if atomic.Casuintptr(&l.key, v, head|mutex_locked|mutex_sleeping) {
+						enqueued = true
+						break
+					}
+					gp.m.mWaitList.next = 0
 				}
 				v = atomic.Loaduintptr(&l.key)
 				if v&mutex_locked == 0 {

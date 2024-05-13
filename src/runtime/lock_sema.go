@@ -60,12 +60,28 @@ func lock2(l *mutex) {
 	if ncpu > 1 {
 		spin = active_spin
 	}
+	var enqueued bool
 Loop:
 	for i := 0; ; i++ {
 		v := atomic.Loaduintptr(&l.key)
 		if v&locked == 0 {
 			// Unlocked. Try to lock.
 			if atomic.Casuintptr(&l.key, v, v|locked) {
+				// We now own the mutex
+				for {
+					old := v
+
+					head := muintptr(v &^ locked)
+					head = fixMutexWaitList(head)
+					head = removeMutexWaitList(head, gp.m)
+					v = (v & locked) | uintptr(head)
+
+					if v == old || atomic.Casuintptr(&l.key, old, v) {
+						gp.m.mWaitList.clearLinks()
+						break
+					}
+					v = atomic.Loaduintptr(&l.key)
+				}
 				timer.end()
 				return
 			}
@@ -81,10 +97,15 @@ Loop:
 			// for this lock, chained through m->mWaitList.next.
 			// Queue this M.
 			for {
-				gp.m.mWaitList.next = muintptr(v &^ locked)
-				if atomic.Casuintptr(&l.key, v, uintptr(unsafe.Pointer(gp.m))|locked) {
-					break
+				if !enqueued {
+					gp.m.mWaitList.next = muintptr(v &^ locked)
+					if atomic.Casuintptr(&l.key, v, uintptr(unsafe.Pointer(gp.m))|locked) {
+						enqueued = true
+						break
+					}
+					gp.m.mWaitList.next = 0
 				}
+
 				v = atomic.Loaduintptr(&l.key)
 				if v&locked == 0 {
 					continue Loop
@@ -94,6 +115,12 @@ Loop:
 				// Queued. Wait.
 				semasleep(-1)
 				i = 0
+				enqueued = false
+				// unlock2 removed this M from the list (it was at the head). We
+				// need to erase the metadata about its former position in the
+				// list -- and since it's no longer a published member we can do
+				// so without races.
+				gp.m.mWaitList.clearLinks()
 			}
 		}
 	}
