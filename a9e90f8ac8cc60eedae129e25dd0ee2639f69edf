@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82870829_327dd251",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-13T19:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e166565d_7887c7df",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 10
+      },
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bef5930e_7aab2044",
@@ -75,6 +99,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca512fff_67a3853c",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-13T19:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bef5930e_7aab2044",
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "225b1fee_0be53abd",
@@ -88,6 +130,24 @@
       "writtenOn": "2024-05-13T19:27:22Z",
       "side": 1,
       "message": "Do you anticipate more stuff to go here? If not, why not just use the map directly?\nCall the map rangeBodyMap and the field rangeBodies?",
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff5dfd3d_37493dcb",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-13T19:38:12Z",
+      "side": 1,
+      "message": "I\u0027m going to see if I can fix the other please-don\u0027t-do-this from the parent CL, which would mean more stuff here.",
+      "parentUuid": "225b1fee_0be53abd",
       "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
