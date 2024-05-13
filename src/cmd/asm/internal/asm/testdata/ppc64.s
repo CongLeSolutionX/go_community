@@ -262,9 +262,17 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$0
 
 	// TODO: the order of CR operands don't match
 	CMP R3, R4                      // 7c232000
+	CMP R3, $0                      // 2c230000
+	CMP R3, R0                      // 7c230000
 	CMPU R3, R4                     // 7c232040
+	CMPU R3, $0                     // 28230000
+	CMPU R3, R0                     // 7c230040
 	CMPW R3, R4                     // 7c032000
+	CMPW R3, $0                     // 2c030000
+	CMPW R3, R0                     // 7c030000
 	CMPWU R3, R4                    // 7c032040
+	CMPWU R3, $0                    // 28030000
+	CMPWU R3, R0                    // 7c030040
 	CMPB R3,R4,R4                   // 7c6423f8
 	CMPEQB R3,R4,CR6                // 7f0321c0
 

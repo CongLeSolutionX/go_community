@@ -3456,7 +3456,12 @@ func asmout(c *ctxt9, p *obj.Prog, o *Optab, out *[5]uint32) {
 		} else {
 			r = (int(p.Reg) & 7) << 2
 		}
-		o1 = AOP_RRR(c.oprrr(p.As), uint32(r), uint32(p.From.Reg), uint32(p.To.Reg))
+		// A special case to matching rules where cmp rX,$0[,crX] matches as cmp rX,r0[,crX]
+		if p.To.Type == obj.TYPE_CONST {
+			o1 = AOP_RRR(c.opirr(p.As), uint32(r), uint32(p.From.Reg), 0)
+		} else {
+			o1 = AOP_RRR(c.oprrr(p.As), uint32(r), uint32(p.From.Reg), uint32(p.To.Reg))
+		}
 
 	case 71: /* cmp[l] r,i,cr*/
 		var r int
