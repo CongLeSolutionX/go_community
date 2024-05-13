@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1b481dc_751313a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-13T23:25:32Z",
+      "side": 1,
+      "message": "The Go project doesn\u0027t use \u0027Signed-off-by\u0027 footers. See https://go.dev/wiki/CommitMessage.",
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47093946_1590e714",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
