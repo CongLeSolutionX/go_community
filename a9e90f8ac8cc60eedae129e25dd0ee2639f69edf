@@ -119,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15089b62_524f5f1d",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-05-13T21:53:08Z",
+      "side": 1,
+      "message": "nit: If you need a more general name, \u0027transformInfo\u0027, \u0027syntaxInfo\u0027.",
+      "parentUuid": "ca512fff_67a3853c",
+      "revId": "a9e90f8ac8cc60eedae129e25dd0ee2639f69edf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "225b1fee_0be53abd",
         "filename": "src/cmd/compile/internal/noder/writer.go",
         "patchSetId": 1
