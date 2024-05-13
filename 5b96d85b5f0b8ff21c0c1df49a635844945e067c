@@ -34,6 +34,24 @@
       "parentUuid": "ca51e583_fc08d83a",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bb95b0f_8f6ff5a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-13T15:29:15Z",
+      "side": 1,
+      "message": "This workaround doesn\u0027t seem too bad. But the ultimate bug is the use of clone(2) in runc isn\u0027t safe, which should be addressed, instead of being worked around. In theory a stale tid cache can lead to any weird behavior, not just the crashing.",
+      "parentUuid": "d64cd181_f858f36c",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
