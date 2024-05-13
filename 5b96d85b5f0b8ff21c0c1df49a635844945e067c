@@ -52,6 +52,24 @@
       "parentUuid": "d64cd181_f858f36c",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "653ce634_9e032339",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-05-13T18:44:45Z",
+      "side": 1,
+      "message": "I agree. I think attempting to continue in this state is asking for trouble. In https://github.com/golang/go/issues/65625#issuecomment-1939390070, I noted my opinion that we should abort the process entirely on these errors. IMO, that still seems like the safest approach.",
+      "parentUuid": "9bb95b0f_8f6ff5a1",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
