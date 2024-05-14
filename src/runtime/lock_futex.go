@@ -78,8 +78,7 @@ func lock2(l *mutex) {
 	stackguard0, throwsplit := gp.stackguard0, gp.throwsplit
 	gp.stackguard0, gp.throwsplit = stackPreempt, true
 
-	timer := &lockTimer{lock: l}
-	timer.begin()
+	gp.m.mWaitList.acquireTimes = timePair{nanotime: nanotime(), cputicks: cputicks()}
 	// On uniprocessors, no point spinning.
 	// On multiprocessors, spin for ACTIVE_SPIN attempts.
 	spin := 0
@@ -111,11 +110,11 @@ Loop:
 
 					if v == old || atomic.Casuintptr(&l.key, old, v) {
 						gp.m.mWaitList.clearLinks()
+						gp.m.mWaitList.acquireTimes = timePair{}
 						break
 					}
 					v = atomic.Loaduintptr(&l.key)
 				}
-				timer.end()
 				gp.stackguard0, gp.throwsplit = stackguard0, throwsplit
 				return
 			}
@@ -160,6 +159,7 @@ func unlock(l *mutex) {
 }
 
 func unlock2(l *mutex) {
+	now, dt := timePair{nanotime: nanotime(), cputicks: cputicks()}, timePair{}
 	for {
 		v := atomic.Loaduintptr(&l.key)
 		if v == mutex_locked {
@@ -169,6 +169,12 @@ func unlock2(l *mutex) {
 		} else if v&mutex_locked == 0 {
 			throw("unlock of unlocked lock")
 		} else {
+			if now != (timePair{}) {
+				head := muintptr(v &^ (mutex_sleeping | mutex_locked))
+				dt = claimMutexWaitTime(now, head)
+				now = timePair{}
+			}
+
 			// Other M's are waiting for the lock.
 			if atomic.Casuintptr(&l.key, v, v&^mutex_locked) {
 				futexwakeup(key32(&l.key), 1)
@@ -178,7 +184,7 @@ func unlock2(l *mutex) {
 	}
 
 	gp := getg()
-	gp.m.mLockProfile.recordUnlock(l)
+	gp.m.mLockProfile.recordUnlock(dt)
 	gp.m.locks--
 	if gp.m.locks < 0 {
 		throw("runtime·unlock: lock count")
