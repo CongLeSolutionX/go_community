@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87d3b43_8508796a",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7334,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-14T21:29:01Z",
+      "side": 1,
+      "message": "I was thinking that I should leave this in, that perhaps this would entice someone with more time on their hands to further refine this heuristic; this CL is the result of 2 successful iterations (and a fair number of unsuccessful ones)",
+      "parentUuid": "9874d53a_290efc01",
+      "revId": "4636ab1e28053ec255bbf9679daffdb304559d70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f384508e_c5a886b8",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-05-14T16:41:43Z",
       "side": 1,
       "message": "non-negative",
+      "range": {
+        "startLine": 714,
+        "startChar": 44,
+        "endLine": 714,
+        "endChar": 61
+      },
+      "revId": "4636ab1e28053ec255bbf9679daffdb304559d70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa3a9f8_ca310dbd",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-14T21:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f384508e_c5a886b8",
       "range": {
         "startLine": 714,
         "startChar": 44,
