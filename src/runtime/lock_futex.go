@@ -23,9 +23,9 @@ import (
 //		If any procs are sleeping on addr, wake up at most cnt.
 
 const (
-	mutex_unlocked = 0
-	mutex_locked   = 1
-	mutex_sleeping = 2
+	mutex_unlocked = 0x0
+	mutex_locked   = 0x1
+	mutex_sleeping = 0x2 // Ensure futex's low 32 bits won't be all zeros
 
 	active_spin     = 4
 	active_spin_cnt = 30
@@ -54,26 +54,15 @@ func lock(l *mutex) {
 
 func lock2(l *mutex) {
 	gp := getg()
-
 	if gp.m.locks < 0 {
 		throw("runtime·lock: lock count")
 	}
 	gp.m.locks++
 
 	// Speculative grab for lock.
-	v := atomic.Xchg(key32(&l.key), mutex_locked)
-	if v == mutex_unlocked {
+	if atomic.Casuintptr(&l.key, 0, mutex_locked) {
 		return
 	}
-
-	// wait is either MUTEX_LOCKED or MUTEX_SLEEPING
-	// depending on whether there is a thread sleeping
-	// on this mutex. If we ever change l->key from
-	// MUTEX_SLEEPING to some other value, we must be
-	// careful to change it back to MUTEX_SLEEPING before
-	// returning, to ensure that the sleeping thread gets
-	// its wakeup call.
-	wait := v
 
 	timer := &lockTimer{lock: l}
 	timer.begin()
@@ -83,37 +72,39 @@ func lock2(l *mutex) {
 	if ncpu > 1 {
 		spin = active_spin
 	}
-	for {
-		// Try for lock, spinning.
-		for i := 0; i < spin; i++ {
-			for l.key == mutex_unlocked {
-				if atomic.Cas(key32(&l.key), mutex_unlocked, wait) {
-					timer.end()
-					return
-				}
+Loop:
+	for i := 0; ; i++ {
+		v := atomic.Loaduintptr(&l.key)
+		if v&mutex_locked == 0 {
+			// Unlocked. Try to lock.
+			if atomic.Casuintptr(&l.key, v, v|mutex_locked) {
+				timer.end()
+				return
 			}
+			i = 0
+		}
+		if i < spin {
 			procyield(active_spin_cnt)
-		}
-
-		// Try for lock, rescheduling.
-		for i := 0; i < passive_spin; i++ {
-			for l.key == mutex_unlocked {
-				if atomic.Cas(key32(&l.key), mutex_unlocked, wait) {
-					timer.end()
-					return
+		} else if i < spin+passive_spin {
+			osyield()
+		} else {
+			// Someone else has it.
+			for {
+				head := v &^ (mutex_locked | mutex_sleeping)
+				if atomic.Casuintptr(&l.key, v, head|mutex_locked|mutex_sleeping) {
+					break
+				}
+				v = atomic.Loaduintptr(&l.key)
+				if v&mutex_locked == 0 {
+					continue Loop
 				}
 			}
-			osyield()
+			if v&mutex_locked != 0 {
+				// Queued. Wait.
+				futexsleep(key32(&l.key), uint32(v), -1)
+				i = 0
+			}
 		}
-
-		// Sleep.
-		v = atomic.Xchg(key32(&l.key), mutex_sleeping)
-		if v == mutex_unlocked {
-			timer.end()
-			return
-		}
-		wait = mutex_sleeping
-		futexsleep(key32(&l.key), mutex_sleeping, -1)
 	}
 }
 
@@ -122,12 +113,21 @@ func unlock(l *mutex) {
 }
 
 func unlock2(l *mutex) {
-	v := atomic.Xchg(key32(&l.key), mutex_unlocked)
-	if v == mutex_unlocked {
-		throw("unlock of unlocked lock")
-	}
-	if v == mutex_sleeping {
-		futexwakeup(key32(&l.key), 1)
+	for {
+		v := atomic.Loaduintptr(&l.key)
+		if v == mutex_locked {
+			if atomic.Casuintptr(&l.key, mutex_locked, 0) {
+				break
+			}
+		} else if v&mutex_locked == 0 {
+			throw("unlock of unlocked lock")
+		} else {
+			// Other M's are waiting for the lock.
+			if atomic.Casuintptr(&l.key, v, v&^mutex_locked) {
+				futexwakeup(key32(&l.key), 1)
+				break
+			}
+		}
 	}
 
 	gp := getg()
