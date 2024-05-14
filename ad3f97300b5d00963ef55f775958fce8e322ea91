@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "718993c5_71146051",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T00:25:06Z",
+      "side": 1,
+      "message": "Don\u0027t use a named result parameter for a method this large.  Named result parameters should be reserved for very short functions or for functions where a deferred function needs to change a result.\n\nAlso, document the result in the method doc comment.",
+      "revId": "ad3f97300b5d00963ef55f775958fce8e322ea91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e02cbbc7_61a5a07a",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T00:25:06Z",
+      "side": 1,
+      "message": "Since gccDefines invokes the C compiler, and since it is independent of f, we should arrange to run it just once, rather than once per input file.",
+      "revId": "ad3f97300b5d00963ef55f775958fce8e322ea91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83719bbd_e2f02289",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T00:25:06Z",
+      "side": 1,
+      "message": "Slightly cleaner to do wg.Add(1) just before the go statement.  Then there will be no future confusion if anybody adds a continue or break to this loop for some reason.",
+      "revId": "ad3f97300b5d00963ef55f775958fce8e322ea91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "020d6bef_b0c6bdac",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T00:25:06Z",
+      "side": 1,
+      "message": "These kinds of assignments are no longer needed.  See https://go.dev/wiki/LoopvarExperiment.  We don\u0027t have to worry about compiling cmd/cgo with older compilers.",
+      "revId": "ad3f97300b5d00963ef55f775958fce8e322ea91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f1743de_7baa6b78",
+        "filename": "src/cmd/cgo/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T00:25:06Z",
+      "side": 1,
+      "message": "Put \"defer wg.Done()\" as the first line in the function literal, rather than the last line.  That way things will work if anybody adds an early return.",
+      "revId": "ad3f97300b5d00963ef55f775958fce8e322ea91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
