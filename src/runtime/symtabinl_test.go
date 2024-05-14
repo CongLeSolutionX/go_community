@@ -6,6 +6,7 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/stringslite"
 	"runtime/internal/sys"
 )
 
@@ -58,10 +59,10 @@ func XTestInlineUnwinder(t TestingT) {
 
 			name := sf.name()
 			const namePrefix = "runtime."
-			if hasPrefix(name, namePrefix) {
+			if stringslite.HasPrefix(name, namePrefix) {
 				name = name[len(namePrefix):]
 			}
-			if !hasPrefix(name, "tiu") {
+			if !stringslite.HasPrefix(name, "tiu") {
 				t.Errorf("tiuTest+%#x: unexpected function %s", pc-pc1, name)
 			}
 
