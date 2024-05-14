@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e98db5a_fab2e3de",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-14T15:50:51Z",
+      "side": 1,
+      "message": "The `do` function is also invoked from tests. Do we want to include or exclude them?",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
+      "revId": "43cb87941e4edd129e077582ab331db3959f2c0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41aad96a_a3350903",
+        "filename": "src/cmd/pprof/pprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-14T15:50:51Z",
+      "side": 1,
+      "message": "We could increment this early, as this doesn\u0027t depend on flags? (in case the driver exists abnormally)",
+      "revId": "43cb87941e4edd129e077582ab331db3959f2c0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
