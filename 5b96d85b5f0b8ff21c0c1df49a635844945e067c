@@ -70,6 +70,24 @@
       "parentUuid": "9bb95b0f_8f6ff5a1",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70a040b3_b0e9c722",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-14T09:52:43Z",
+      "side": 1,
+      "message": "I think we can abort the process entirely when there is an error on calling `pthread_*` functions, except `pthread_getattr_np`. Because there is a fact that in cgo, only `pthread_getattr_np`\u0027s error is related to `tid dirty cache`, other `pthread_*` functions\u0027 error has no relationship to `tid dirty cache`. Consider the new version glibc has removed `tid cache`, so I think we can have a backwork compatibility for `pthread_getattr_np`. I think it is safe enough for golang.\n\nI have read the gblic code, and this is the list of `pthread_*` function list that could be influenced by `tid dirty cache`:\npthread_getaffinity_np\npthread_getcpuclockid\npthread_getname_np\npthread_getschedparam\npthread_kill\npthread_setaffinity_np\npthread_setname_np\npthread_setschedparam\npthread_sigqueue\npthread_getattr_np\n\nOnly the last one is used by cgo.",
+      "parentUuid": "653ce634_9e032339",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
