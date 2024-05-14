@@ -88,6 +88,24 @@
       "parentUuid": "653ce634_9e032339",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105b9c55_efee4c6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-14T10:24:50Z",
+      "side": 1,
+      "message": "And do you agree that it’s not necessary using ‘pthread_getattr_np’ here, the failback codes are enough in before. But using ‘pthread_getattr_np’ looks better for new versions glibc, so I think backwards compatibility is safe enough.",
+      "parentUuid": "70a040b3_b0e9c722",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
