@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f8d74ff_03fd5198",
+        "filename": "test/codegen/shift.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-05-14T22:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0c3d05d_6c2f5519",
+      "range": {
+        "startLine": 482,
+        "startChar": 1,
+        "endLine": 482,
+        "endChar": 9
+      },
+      "revId": "1ea1bb6280cb54a38f76ef3ecc1587b0dab2374a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fba9bacf_d46fc79c",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-14T21:55:42Z",
       "side": 1,
       "message": "Also here.",
+      "range": {
+        "startLine": 484,
+        "startChar": 1,
+        "endLine": 484,
+        "endChar": 9
+      },
+      "revId": "1ea1bb6280cb54a38f76ef3ecc1587b0dab2374a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "176c677a_cad5e526",
+        "filename": "test/codegen/shift.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-05-14T22:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fba9bacf_d46fc79c",
       "range": {
         "startLine": 484,
         "startChar": 1,
