@@ -137,6 +137,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e36644_40ddbc98",
+        "filename": "src/internal/syscall/unix/siginfo_linux.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-14T21:59:57Z",
+      "side": 1,
+      "message": "Okay, thanks.",
+      "parentUuid": "0cfaf39c_1e4bdc7d",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55db2184_bafa1f79",
