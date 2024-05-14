@@ -1235,7 +1235,7 @@ TEXT runtime·debugCallV2<ABIInternal>(SB), NOSPLIT|NOFRAME, $0-0
 	CALL	runtime·debugCallCheck(SB)
 	MOVD	40(R1), R22
 	XOR	R0, R0
-	CMP	R22, R0
+	CMP	R22, $0
 	BEQ	good
 	MOVD	48(R1), R22
 	MOVD	$8, R20

@@ -348,9 +348,9 @@ TEXT ·shlVU(SB), NOSPLIT, $0
 	MOVD    s+48(FP), R9
 	MOVD    z_len+8(FP), R4
 	MOVD    x_len+32(FP), R7
-	CMP     R9, R0          // s==0 copy(z,x)
+	CMP     R9, $0          // s==0 copy(z,x)
 	BEQ     zeroshift
-	CMP     R4, R0          // len(z)==0 return
+	CMP     R4, $0          // len(z)==0 return
 	BEQ     done
 
 	ADD     $-1, R4, R5     // len(z)-1
@@ -360,7 +360,7 @@ TEXT ·shlVU(SB), NOSPLIT, $0
 	ADD     R3, R7, R16     // save starting address &z[len(z)-1]
 	MOVD    (R6)(R7), R14
 	SRD     R4, R14, R7     // compute x[len(z)-1]>>ŝ into R7
-	CMP     R5, R0          // iterate from i=len(z)-1 to 0
+	CMP     R5, $0          // iterate from i=len(z)-1 to 0
 	BEQ     loopexit        // Already at end?
 	MOVD	0(R15),R10	// x[i]
 	PCALIGN $16
@@ -382,7 +382,7 @@ loopexit:
 	RET
 
 zeroshift:
-	CMP     R6, R0          // x is null, nothing to copy
+	CMP     R6, $0          // x is null, nothing to copy
 	BEQ     done
 	CMP     R6, R3          // if x is same as z, nothing to copy
 	BEQ     done
@@ -423,9 +423,9 @@ TEXT ·shrVU(SB), NOSPLIT, $0
 	MOVD    z_len+8(FP), R4
 	MOVD    x_len+32(FP), R7
 
-	CMP     R9, R0          // s==0, copy(z,x)
+	CMP     R9, $0          // s==0, copy(z,x)
 	BEQ     zeroshift
-	CMP     R4, R0          // len(z)==0 return
+	CMP     R4, $0          // len(z)==0 return
 	BEQ     done
 	SUBC    R9, $64, R5     // ŝ=_W-s, we skip & by _W-1 as the caller ensures s < _W(64)
 
@@ -480,7 +480,7 @@ loopexit:
 	RET
 
 zeroshift:
-	CMP     R6, R0          // x is null, nothing to copy
+	CMP     R6, $0          // x is null, nothing to copy
 	BEQ     done
 	CMP     R6, R3          // if x is same as z, nothing to copy
 	BEQ     done
