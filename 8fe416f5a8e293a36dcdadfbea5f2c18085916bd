@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "857c77fb_77d828d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T16:40:50Z",
+      "side": 1,
+      "message": "We don\u0027t use Signed-off-by lines, please remove.",
+      "revId": "8fe416f5a8e293a36dcdadfbea5f2c18085916bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf593f2_93207f83",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T16:40:50Z",
+      "side": 1,
+      "message": "Remove this commented-out line.",
+      "revId": "8fe416f5a8e293a36dcdadfbea5f2c18085916bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fda4f6a_237a5b7e",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T16:40:50Z",
+      "side": 1,
+      "message": "Put parentheses around the \u0026\u0026 within the ||.",
+      "revId": "8fe416f5a8e293a36dcdadfbea5f2c18085916bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebf52bff_5f546296",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-14T16:40:50Z",
+      "side": 1,
+      "message": "Remove this comment.",
+      "revId": "8fe416f5a8e293a36dcdadfbea5f2c18085916bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
