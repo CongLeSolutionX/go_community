@@ -47,6 +47,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34b8b0bb_a3a17e4a",
+        "filename": "src/cmd/go/internal/telemetrycmd/telemetry.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-14T21:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9518fbbf_cc5e0e00",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "b7138359fc2af8615f0b9ee68220c0db777ab9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bce57a27_82c852c5",
@@ -64,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c02b50_42f1cff2",
+        "filename": "src/cmd/go/internal/telemetrycmd/telemetry.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-14T21:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bce57a27_82c852c5",
+      "revId": "b7138359fc2af8615f0b9ee68220c0db777ab9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbf2fa4e_f009ee4c",
@@ -77,6 +119,24 @@
       "writtenOn": "2024-05-14T03:10:25Z",
       "side": 1,
       "message": "go telemetry off",
+      "revId": "b7138359fc2af8615f0b9ee68220c0db777ab9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f45c74b7_f4f30c4c",
+        "filename": "src/cmd/go/internal/telemetrycmd/telemetry.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-14T21:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbf2fa4e_f009ee4c",
       "revId": "b7138359fc2af8615f0b9ee68220c0db777ab9a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
