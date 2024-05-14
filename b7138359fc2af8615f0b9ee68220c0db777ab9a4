@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71caa063_eb665b15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-14T14:58:26Z",
+      "side": 1,
+      "message": "Missing bug number?",
+      "range": {
+        "startLine": 13,
+        "startChar": 19,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "b7138359fc2af8615f0b9ee68220c0db777ab9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bce57a27_82c852c5",
         "filename": "src/cmd/go/internal/telemetrycmd/telemetry.go",
         "patchSetId": 8
