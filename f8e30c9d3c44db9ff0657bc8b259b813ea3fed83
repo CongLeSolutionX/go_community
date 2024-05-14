@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfb2ab26_0cd49a3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "e1b481dc_751313a4",
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47093946_1590e714",
@@ -95,6 +113,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cfaf39c_1e4bdc7d",
+        "filename": "src/internal/syscall/unix/siginfo_linux.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "This code was originally written, published, and even committed to this repo in 2023 (CL 528438, mentioned in the commit message).\n\nIANAL but https://www.copyrightlaws.com/copyright-symbol-notice-year/ says:\n\n\u003e The general rule is that the year to include in a copyright notice is the year of first publication of the work. First publication is when the work is made available to the public without restriction. \n\nSo I guess 2023 is the correct year. Please let me know if you want me to change the copyright year regardless.",
+      "parentUuid": "11a1e466_bafa7b6a",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55db2184_bafa1f79",
@@ -108,6 +150,30 @@
       "writtenOn": "2024-05-09T15:31:30Z",
       "side": 1,
       "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "804f6d9c_75b3d951",
+        "filename": "src/internal/syscall/unix/siginfo_linux_mipsx.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/570036/comment/11a1e466_bafa7b6a/",
+      "parentUuid": "55db2184_bafa1f79",
       "range": {
         "startLine": 1,
         "startChar": 13,
@@ -141,6 +207,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad7d0450_7be77559",
+        "filename": "src/internal/syscall/unix/siginfo_linux_other.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/570036/comment/11a1e466_bafa7b6a/",
+      "parentUuid": "427152a0_e804fcba",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61f7925c_8f32aae4",
@@ -154,6 +244,30 @@
       "writtenOn": "2024-05-09T15:31:30Z",
       "side": 1,
       "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0d57f29_a1bbbb40",
+        "filename": "src/internal/syscall/unix/siginfo_linux_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/570036/comment/11a1e466_bafa7b6a/",
+      "parentUuid": "61f7925c_8f32aae4",
       "range": {
         "startLine": 1,
         "startChar": 13,
@@ -187,6 +301,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac38f345_6e4fcc31",
+        "filename": "src/os/pidfd_linux.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/570036/comment/11a1e466_bafa7b6a/",
+      "parentUuid": "8d0248da_34c60994",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "126c29e1_39625feb",
@@ -200,6 +338,24 @@
       "writtenOn": "2024-05-09T15:31:30Z",
       "side": 1,
       "message": "This isn\u0027t needed (the file name implies it).",
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b5bea00_4839b1bb",
+        "filename": "src/os/pidfd_linux.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/570036/comment/11a1e466_bafa7b6a/",
+      "parentUuid": "126c29e1_39625feb",
       "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -221,6 +377,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7177758d_a2ab8aae",
+        "filename": "src/os/pidfd_linux_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "aac8d11e_581b55cf",
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a4c79cd_871397fd",
@@ -234,6 +408,30 @@
       "writtenOn": "2024-05-09T15:31:30Z",
       "side": 1,
       "message": "Minor: 2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "f8e30c9d3c44db9ff0657bc8b259b813ea3fed83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "316a2b88_91820fde",
+        "filename": "src/os/pidfd_other.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-14T20:42:00Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/go/+/570036/comment/11a1e466_bafa7b6a/",
+      "parentUuid": "8a4c79cd_871397fd",
       "range": {
         "startLine": 1,
         "startChar": 13,
