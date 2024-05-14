@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9874d53a_290efc01",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7334,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-14T16:41:43Z",
+      "side": 1,
+      "message": "If I understand correctly, this means we\u0027re never actually using the no-flow-in bit?\nIt\u0027s kind of unfortunate that we\u0027re adding the complexity of computing it and then not using it.\nI understand it is useful for experiments, but maybe we could keep that part in a separate, un-checked-in CL?\nUp to you. I\u0027m ok with it as is, it isn\u0027t that much additional complexity.",
+      "revId": "4636ab1e28053ec255bbf9679daffdb304559d70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f384508e_c5a886b8",
+        "filename": "src/cmd/internal/obj/util.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-05-14T16:41:43Z",
+      "side": 1,
+      "message": "non-negative",
+      "range": {
+        "startLine": 714,
+        "startChar": 44,
+        "endLine": 714,
+        "endChar": 61
+      },
+      "revId": "4636ab1e28053ec255bbf9679daffdb304559d70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
