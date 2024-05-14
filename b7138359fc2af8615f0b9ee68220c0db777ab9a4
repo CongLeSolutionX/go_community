@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9518fbbf_cc5e0e00",
+        "filename": "src/cmd/go/internal/telemetrycmd/telemetry.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-14T15:14:28Z",
+      "side": 1,
+      "message": "Perhaps say \"When telemetry is off\", or \"When the telemetry mode is off\", (and similar below). In a way, saying \"disabled\" and \"enabled\" assumes that folks already know the definition of \"off\" and \"on\".\n\n(We should also reflect improved wording to x/telemetry/cmd/gotelemetry.)",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "b7138359fc2af8615f0b9ee68220c0db777ab9a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bce57a27_82c852c5",
         "filename": "src/cmd/go/internal/telemetrycmd/telemetry.go",
         "patchSetId": 8
