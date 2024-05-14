@@ -52,8 +52,7 @@ func lock2(l *mutex) {
 	}
 	semacreate(gp.m)
 
-	timer := &lockTimer{lock: l}
-	timer.begin()
+	gp.m.mWaitList.acquireTimes = timePair{nanotime: nanotime(), cputicks: cputicks()}
 	// On uniprocessor's, no point spinning.
 	// On multiprocessors, spin for ACTIVE_SPIN attempts.
 	spin := 0
@@ -78,11 +77,11 @@ Loop:
 
 					if v == old || atomic.Casuintptr(&l.key, old, v) {
 						gp.m.mWaitList.clearLinks()
+						gp.m.mWaitList.acquireTimes = timePair{}
 						break
 					}
 					v = atomic.Loaduintptr(&l.key)
 				}
-				timer.end()
 				return
 			}
 			i = 0
@@ -97,6 +96,7 @@ Loop:
 			// for this lock, chained through m->mWaitList.next.
 			// Queue this M.
 			for {
+
 				if !enqueued {
 					gp.m.mWaitList.next = muintptr(v &^ locked)
 					if atomic.Casuintptr(&l.key, v, uintptr(unsafe.Pointer(gp.m))|locked) {
@@ -134,6 +134,7 @@ func unlock(l *mutex) {
 //
 //go:nowritebarrier
 func unlock2(l *mutex) {
+	now, dt := timePair{nanotime: nanotime(), cputicks: cputicks()}, timePair{}
 	gp := getg()
 	var mp *m
 	for {
@@ -143,6 +144,11 @@ func unlock2(l *mutex) {
 				break
 			}
 		} else {
+			if now != (timePair{}) {
+				dt = claimMutexWaitTime(now, muintptr(v&^locked))
+				now = timePair{}
+			}
+
 			// Other M's are waiting for the lock.
 			// Dequeue an M.
 			mp = muintptr(v &^ locked).ptr()
@@ -153,7 +159,8 @@ func unlock2(l *mutex) {
 			}
 		}
 	}
-	gp.m.mLockProfile.recordUnlock(l)
+
+	gp.m.mLockProfile.recordUnlock(dt)
 	gp.m.locks--
 	if gp.m.locks < 0 {
 		throw("runtime·unlock: lock count")
