@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb0b5158_fedbf848",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-15T17:36:23Z",
+      "side": 1,
+      "message": "The TestServerGracefulClose/h1 failure looks like a pre-existing flake, not newly caused by changes in this CL. All other tests passed. Adding bypass.",
+      "revId": "c37b2a3ef667a9d443ebb082dbde8b4c28dfe0f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
