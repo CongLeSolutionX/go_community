@@ -70,6 +70,24 @@
       "message": "After this is merged you may also update https://go.dev/doc/articles/race_detector#Requirements.\n\nI believe it is `_content/doc/articles/race_detector` in x/website",
       "revId": "1d44bedc01ee1e334f77fda202890f8c620cb6a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3408e682_e26bf824",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-05-15T05:12:04Z",
+      "side": 1,
+      "message": "Thanks, CL 585675 is ready.",
+      "parentUuid": "c23455af_659a5464",
+      "revId": "1d44bedc01ee1e334f77fda202890f8c620cb6a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
