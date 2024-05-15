@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7987b91f_bd566da4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2024-05-15T18:34:52Z",
+      "side": 1,
+      "message": "These comments are mostly about the correctness of the existing rules.",
+      "revId": "14454b9356855c25c03275ed8fcaa41d83df45b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "481dfbdc_49663fa8",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2024-05-15T18:34:52Z",
+      "side": 1,
+      "message": "At one time I think I saw a problem when I tried to reuse the ANDCCconst subrule on the left side for these which is why it was done this way, but these appear to be OK now. Maybe something has changed since then that magically eliminated that problem.\n\nThese rules are different than most because they do an ANDCCconst with n instead of 1. I see the rule that generates the ANDCCconst above requires the constant to be U16Bit. I don\u0027t see any others that could generate the ANDCCconst with a bigger constant; otherwise CMPWconst might not be correct for these if n \u003e 32 bits?",
+      "revId": "14454b9356855c25c03275ed8fcaa41d83df45b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24503dbf_2967c532",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2024-05-15T18:34:52Z",
+      "side": 1,
+      "message": "Same comment as above about the size of n. Maybe it just needs to check that n fits in 32 bits. I don\u0027t recall why these are only CMPW and don\u0027t allow CMP also?",
+      "revId": "14454b9356855c25c03275ed8fcaa41d83df45b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
