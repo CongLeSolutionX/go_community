@@ -39,23 +39,34 @@ import (
 var depsRules = `
 	# No dependencies allowed for any of these packages.
 	NONE
-	< cmp, container/list, container/ring,
-	  internal/cfg, internal/coverage, internal/coverage/rtcov,
-	  internal/coverage/uleb128, internal/coverage/calloc,
-	  internal/goarch, internal/godebugs,
-	  internal/goexperiment, internal/goos, internal/byteorder,
-	  internal/goversion, internal/nettrace, internal/platform,
-	  internal/profilerecord, internal/trace/traceviewer/format,
+	< unsafe
+	< cmp,
+	  container/list,
+	  container/ring,
+	  internal/cfg,
+	  internal/coverage,
+	  internal/coverage/rtcov,
+	  internal/coverage/uleb128,
+	  internal/coverage/calloc,
+	  internal/cpu,
+	  internal/goarch,
+	  internal/godebugs,
+	  internal/goexperiment,
+	  internal/goos,
+	  internal/byteorder,
+	  internal/goversion,
+	  internal/nettrace,
+	  internal/platform,
+	  internal/profilerecord,
+	  internal/trace/traceviewer/format,
 	  log/internal,
-	  unicode/utf8, unicode/utf16, unicode,
-	  unsafe;
+	  maps,
+	  unicode,
+	  unicode/utf8,
+	  unicode/utf16;
 
-	# internal/abi depends only on internal/goarch and unsafe.
-	internal/goarch, unsafe < internal/abi;
-
-	internal/byteorder, internal/goarch, unsafe < internal/chacha8rand;
-
-	unsafe < internal/cpu;
+	internal/goarch < internal/abi;
+	internal/byteorder, internal/goarch < internal/chacha8rand;
 
 	# RUNTIME is the core runtime group of packages, all of them very light-weight.
 	internal/abi,
@@ -87,21 +98,13 @@ var depsRules = `
 	< internal/reflectlite
 	< errors
 	< internal/oserror, math/bits
+	< cmp
 	< iter
+	< maps, slices
 	< RUNTIME;
 
-	RUNTIME, unsafe
-	< maps;
-
-	# slices depends on unsafe for overlapping check, cmp for comparison
-	# semantics, and math/bits for # calculating bitlength of numbers.
-	RUNTIME, unsafe, cmp, math/bits
-	< slices;
-
-	RUNTIME, slices
-	< sort;
-
-	sort
+	RUNTIME
+	< sort
 	< container/heap;
 
 	RUNTIME
@@ -663,7 +666,7 @@ var depsRules = `
 	< internal/trace/traceviewer;
 
 	# Coverage.
-	FMT, crypto/md5, encoding/binary, regexp, sort, text/tabwriter, unsafe,
+	FMT, crypto/md5, encoding/binary, regexp, sort, text/tabwriter,
 	internal/coverage, internal/coverage/uleb128
 	< internal/coverage/cmerge,
 	  internal/coverage/pods,
