@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a8bbba_4021f881",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-15T22:02:34Z",
+      "side": 1,
+      "message": "I think we ideally want to check the option for printing the diff in one place and handle the mod tidy -diff logic there.\n\nI think we want the sum logic to be more like the mod logic: we should have a function that just produces the diff in the sum so we don\u0027t need to add the option to writesum.",
+      "revId": "0a374d865435fb8c1d722dd4c94ec9b5226aa148",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
