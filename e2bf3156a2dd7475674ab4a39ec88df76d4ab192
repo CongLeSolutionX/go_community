@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34cd45a0_667b951d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-15T20:35:47Z",
+      "side": 1,
+      "message": "Partially duplicated with https://go-review.git.corp.google.com/c/go/+/585557\n\nCL 585557 has slightly better documentation and adds the necessary API checks, but this CL updates tests in a way that will be necessary.",
+      "revId": "e2bf3156a2dd7475674ab4a39ec88df76d4ab192",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
