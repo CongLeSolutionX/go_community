@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84f8d944_1cd077fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-15T16:35:40Z",
+      "side": 1,
+      "message": "Thanks. Sorry about the delay.",
+      "revId": "fbf257db63509cf470fb09d379a2b11773f5a817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c77ac7d_0e95a8d2",
+        "filename": "doc/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-15T16:35:40Z",
+      "side": 1,
+      "message": "It certainly makes sense to use the relative \u0027/issue/nnn\u0027 path in actual links, since they\u0027ll work as intended when they\u0027re rendered on each website.\n\nBut that doesn\u0027t apply to comment, so you could suggest writing the absolute \u0027go.dev/issue/12345\u0027 URL, which will make more sense to readers and is still recognized by relnote.",
+      "range": {
+        "startLine": 35,
+        "startChar": 5,
+        "endLine": 35,
+        "endChar": 6
+      },
+      "revId": "fbf257db63509cf470fb09d379a2b11773f5a817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
