@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "440b2f7d_ff5d59b7",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-05-15T21:55:09Z",
+      "side": 1,
+      "message": "Right. Looking at this again, these rules can be further cleaned up.",
+      "parentUuid": "481dfbdc_49663fa8",
+      "revId": "14454b9356855c25c03275ed8fcaa41d83df45b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24503dbf_2967c532",
         "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2024-05-15T18:34:52Z",
       "side": 1,
       "message": "Same comment as above about the size of n. Maybe it just needs to check that n fits in 32 bits. I don\u0027t recall why these are only CMPW and don\u0027t allow CMP also?",
+      "revId": "14454b9356855c25c03275ed8fcaa41d83df45b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03c6847f_45ad0ca0",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-05-15T21:55:09Z",
+      "side": 1,
+      "message": "That is kind of odd. I have a better idea to simplify these.",
+      "parentUuid": "24503dbf_2967c532",
       "revId": "14454b9356855c25c03275ed8fcaa41d83df45b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
