@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db49b685_f2271e04",
+        "filename": "src/cmd/vendor/golang.org/x/telemetry/internal/crashmonitor/crash_go123.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-15T20:31:59Z",
+      "side": 1,
+      "message": "It seems like it might be easier to just do this with reflection and make a single change to std? But whatever.",
+      "revId": "053ddf598795a6a2039fcb597ed63be346360e8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
