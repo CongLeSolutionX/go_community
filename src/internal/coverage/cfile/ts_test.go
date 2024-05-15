@@ -5,6 +5,7 @@
 package cfile
 
 import (
+	"flag"
 	"encoding/json"
 	"internal/coverage"
 	"internal/goexperiment"
@@ -17,13 +18,11 @@ import (
 	_ "unsafe"
 )
 
-//go:linkname testing_testGoCoverDir testing.testGoCoverDir
-func testing_testGoCoverDir() string
-
 func testGoCoverDir(t *testing.T) string {
-	tgcd := testing_testGoCoverDir()
-	if tgcd != "" {
-		return tgcd
+	if f := flag.Lookup("test.gocoverdir"); f != nil {
+		if dir := f.Value.String(); dir != "" {
+			return dir
+		}
 	}
 	return t.TempDir()
 }
