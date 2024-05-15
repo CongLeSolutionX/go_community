@@ -22,6 +22,30 @@
       },
       "revId": "60812e73a13fc2ffde3ba2b80aa788ef102452fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4fed7b8_209f9cc0",
+        "filename": "src/cmd/go/internal/clean/clean.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-15T16:58:03Z",
+      "side": 1,
+      "message": "discussed offline. the only thing we\u0027ll keep is the mode",
+      "parentUuid": "9bc73905_cb328bb2",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 48
+      },
+      "revId": "60812e73a13fc2ffde3ba2b80aa788ef102452fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
