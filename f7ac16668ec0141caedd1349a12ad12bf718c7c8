@@ -16,6 +16,23 @@
       "message": "Still unrelated x/tools breakage.",
       "revId": "f7ac16668ec0141caedd1349a12ad12bf718c7c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1645b77_d80a9de4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-16T17:52:48Z",
+      "side": 1,
+      "message": "Note that the parent commit is almost 1k commits old, which is much for a bigger change like this, causing trybot results to be less very representative. I\u0027ll rebase and restart trybots, just in case. (It was hard to rebase the parent CL since it was imported from a GitHub PR, but easy for Gerrit CLs.)",
+      "revId": "f7ac16668ec0141caedd1349a12ad12bf718c7c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
