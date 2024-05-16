@@ -1,0 +1,79 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7ad27a2_ce2ee3db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-16T15:11:33Z",
+      "side": 1,
+      "message": "D\u0027oh! Thanks for spotting and fixing this.",
+      "revId": "9be4ead6372d45ae3489126c0d3cfb7a627f69cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55607554_1dd06b9f",
+        "filename": "src/go/ast/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-16T15:11:33Z",
+      "side": 1,
+      "message": "Do you mind if we rephrase this as we had it originally?\n\n\tif n !\u003d nil {\n\t\tok \u003d ok \u0026\u0026 yield(n)\n\t}\n\nIn general, an iterator should compute\n\n    _ \u003d fold(yield, \u0026\u0026)\n\nacross the elements of the sequence, discarding the final boolean, and\n\n    ok \u003d ok \u0026\u0026 yield(n)\n\nis the clearest expression of the iterated short-circuit \u0026\u0026 operation.",
+      "range": {
+        "startLine": 384,
+        "startChar": 3,
+        "endLine": 386,
+        "endChar": 4
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "dd1f9d6a_e7946e52",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/go/ast/walk.go",
+              "range": {
+                "startLine": 384,
+                "startChar": 0,
+                "endLine": 386,
+                "endChar": 0
+              },
+              "replacement": "\t\t\tif n !\u003d nil {\n\t\t\t\tok \u003d ok \u0026\u0026 yield(n)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9be4ead6372d45ae3489126c0d3cfb7a627f69cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cefa9525_35ade07c",
+        "filename": "src/go/ast/walk_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-16T15:11:33Z",
+      "side": 1,
+      "message": "Odd that neither Walk nor Inspect is called from a proper (non-Example) test!",
+      "revId": "9be4ead6372d45ae3489126c0d3cfb7a627f69cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
