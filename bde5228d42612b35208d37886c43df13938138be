@@ -1,0 +1,80 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db6fce5_7a75a7ba",
+        "filename": "src/go/ast/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-16T15:45:47Z",
+      "side": 1,
+      "message": "Apologies for suggesting an incorrect change - this is more subtle than meets the eye at first. This could probably use a comment, maybe:\n// yield must not be called anymore once ok is false.",
+      "range": {
+        "startLine": 385,
+        "startChar": 15,
+        "endLine": 385,
+        "endChar": 20
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8cfb7523_d7a66ca6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/go/ast/walk.go",
+              "range": {
+                "startLine": 385,
+                "startChar": 0,
+                "endLine": 385,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\t// yield must not be called anymore once ok is false.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bde5228d42612b35208d37886c43df13938138be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41d8e0eb_1584467e",
+        "filename": "src/go/ast/walk_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-16T15:45:47Z",
+      "side": 1,
+      "message": "Can you elaborate? How does the test fail if the break is not handled correctly?",
+      "fixSuggestions": [
+        {
+          "fixId": "776b9437_60a489aa",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/go/ast/walk_test.go",
+              "range": {
+                "startLine": 16,
+                "startChar": 0,
+                "endLine": 17,
+                "endChar": 0
+              },
+              "replacement": "\t// middle of walking a node. In particular, it checks that the break\n\t// statement is not visited.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bde5228d42612b35208d37886c43df13938138be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
