@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81249c9d_126866cd",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-05-16T18:10:38Z",
+      "side": 1,
+      "message": "nit-ish: the algorithm identifier if just a property of the SignatureAlgorithm, and seems to only ever be used when we have the SignatureAlgorithm anyway. Could we make `algorithmIdentifier() pkix.AlgorithmIdentifier` a private method on SignatureAlgorithm, so that we just need to carry that around, instead of both of these?",
+      "range": {
+        "startLine": 1495,
+        "startChar": 19,
+        "endLine": 1498,
+        "endChar": 4
+      },
+      "revId": "032cd477a9bff8b9edafd2088d8031e4cfa58d8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18770820_eefc4c12",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-05-16T18:10:38Z",
+      "side": 1,
+      "message": "nit: this naming here and throughout is a bit confusing, algorithmIdentifier is perhaps a clearer indicator of what it actually is.",
+      "range": {
+        "startLine": 1622,
+        "startChar": 21,
+        "endLine": 1622,
+        "endChar": 34
+      },
+      "revId": "032cd477a9bff8b9edafd2088d8031e4cfa58d8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
