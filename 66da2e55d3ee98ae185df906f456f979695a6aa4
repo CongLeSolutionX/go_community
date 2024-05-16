@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33aec4a3_27a625b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-16T02:07:14Z",
+      "side": 1,
+      "message": "LGTM with trybot failure fixed. Thanks.",
+      "revId": "66da2e55d3ee98ae185df906f456f979695a6aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "290038d6_c711fa1f",
+        "filename": "src/internal/coverage/rtcov/rtcov.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-16T02:07:14Z",
+      "side": 1,
+      "message": "Looks like you want to rename the type, but the code below doesn\u0027t do so.",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "66da2e55d3ee98ae185df906f456f979695a6aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2e49a4_f15a3b8a",
+        "filename": "src/internal/coverage/rtcov/rtcov.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-16T02:07:14Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "66da2e55d3ee98ae185df906f456f979695a6aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
