@@ -87,6 +87,24 @@
       "parentUuid": "649d5749_0b79d050",
       "revId": "ea5a3be54f17be39c9c5c1b0a8b12d5234ac7036",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "736eff44_6dd03fc1",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-05-16T04:20:54Z",
+      "side": 1,
+      "message": "SGTM and I cleaned up the above and updated bytes/byes.Index. \n\nI ended up splitting up the fails condition into an `if..else if` so that `bytealg.Cutover` takes precedence, when implemented and the needle is small since it\u0027s possible that on systems with `bytealg.Index(String)?` we might want to fallback to it sooner than when only Rabin-Karp (this matches the original behavior). N.B. using a nested `fails \u003e bytealg.Cutover(i)` check under the `if n \u003c\u003d bytealg.MaxLen` check was about ~5-6% faster than checking if `n \u003e bytealg.MaxLen` in the `else if`.",
+      "parentUuid": "b5f355d0_e4aecd70",
+      "revId": "ea5a3be54f17be39c9c5c1b0a8b12d5234ac7036",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
