@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "414ed6f9_18149c24",
+        "filename": "src/internal/trace/mkcanned.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-05-16T18:29:40Z",
+      "side": 1,
+      "message": "you can probably delete this. we won\u0027t be generating test data for old trace versions anymore. the new tests are more thorough anyway.",
+      "revId": "e84b5f86cefad8ff7bc9a6dece70a963e99dd965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
