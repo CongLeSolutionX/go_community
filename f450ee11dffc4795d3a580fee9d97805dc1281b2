@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "facfcea3_a193ff5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-16T11:16:28Z",
+      "side": 1,
+      "message": "Missing test.",
+      "revId": "f450ee11dffc4795d3a580fee9d97805dc1281b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc9e5b4_131d1659",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-16T11:16:28Z",
+      "side": 1,
+      "message": "Hmm, this can be spoofed by an attacker as the first message, to force a client to allocate the large buffer even without doing the work of getting to the Certificate message.\n\nDo we have a signal to check if we\u0027re past the Client Hello?",
+      "revId": "f450ee11dffc4795d3a580fee9d97805dc1281b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
