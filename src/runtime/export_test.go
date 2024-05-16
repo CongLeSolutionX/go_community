@@ -39,6 +39,8 @@ var Atoi32 = atoi32
 var ParseByteCount = parseByteCount
 
 var Nanotime = nanotime
+var Cputicks = cputicks
+var CyclesPerSecond = runtime_pprof_runtime_cyclesPerSecond
 var NetpollBreak = netpollBreak
 var Usleep = usleep
 
