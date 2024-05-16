@@ -16,6 +16,24 @@
       "message": "extra newline?",
       "revId": "68b28cd3fd0ff56fb2f8c02ab4b3b0fdb1d2c6f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "458eea49_1688141a",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-16T16:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9e329c1_1c5b7582",
+      "revId": "68b28cd3fd0ff56fb2f8c02ab4b3b0fdb1d2c6f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
