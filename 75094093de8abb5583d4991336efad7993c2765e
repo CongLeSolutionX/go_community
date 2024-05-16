@@ -70,6 +70,24 @@
       "message": "I think that this change should remove all of these helper functions and rework the UnmarshalDir function. These helepers are only used there.",
       "revId": "75094093de8abb5583d4991336efad7993c2765e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41230d9c_09ba0b61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2024-05-16T16:56:29Z",
+      "side": 1,
+      "message": "I think the helpers are still pretty convenient to not having to calculate slice offsets manually. Similar helpers are e.g. also still used in crypto/sha{1,256,512}.",
+      "parentUuid": "aa014d23_50bec612",
+      "revId": "75094093de8abb5583d4991336efad7993c2765e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
