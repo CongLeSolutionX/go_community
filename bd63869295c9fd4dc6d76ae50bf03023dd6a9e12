@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d4be46f_7b31fe5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11916
+      },
+      "writtenOn": "2024-05-16T20:59:33Z",
+      "side": 1,
+      "message": "Bryan - We ran into this issue again in Buildroot and applying this patch fixed the problem: https://lists.buildroot.org/pipermail/buildroot/2024-May/376706.html\n\nI have not had time to revisit this patch \u0026 address your comments yet, apologies for the delay!",
+      "parentUuid": "a72c8baf_3e57c224",
+      "revId": "bd63869295c9fd4dc6d76ae50bf03023dd6a9e12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c33395c8_04fe88f7",
         "filename": "src/cmd/dist/buildtool.go",
         "patchSetId": 3
