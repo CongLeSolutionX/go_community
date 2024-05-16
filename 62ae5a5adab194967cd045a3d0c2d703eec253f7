@@ -33,6 +33,23 @@
       "message": "Please submit.Thanks",
       "revId": "62ae5a5adab194967cd045a3d0c2d703eec253f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e1433a_bc55c1f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-05-16T13:19:52Z",
+      "side": 1,
+      "message": "Go 1.23 release freeze is coming soon, please submit this CL. thank you.",
+      "revId": "62ae5a5adab194967cd045a3d0c2d703eec253f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
