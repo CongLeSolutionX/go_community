@@ -16,6 +16,58 @@
       "message": "Thanks.",
       "revId": "04d1452a610c3ffa92bfc68df099a57c5e7da073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7279d97f_1f4b96a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-05-16T13:55:38Z",
+      "side": 1,
+      "message": "Thanks looks good overall. There is another related CL in flight https://go.dev/cl/559395 but I think this one supercedes (I commented on 559395).",
+      "revId": "04d1452a610c3ffa92bfc68df099a57c5e7da073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a9cba17_48e714b6",
+        "filename": "src/runtime/coverage/init.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-05-16T13:55:38Z",
+      "side": 1,
+      "message": "not needed any more",
+      "fixSuggestions": [
+        {
+          "fixId": "9fdbbe33_59fd60d7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/coverage/init.go",
+              "range": {
+                "startLine": 9,
+                "startChar": 0,
+                "endLine": 10,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "04d1452a610c3ffa92bfc68df099a57c5e7da073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
