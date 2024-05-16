@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "223fdf3a_e7930832",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-16T18:32:36Z",
+      "side": 1,
+      "message": "No I mean the iteration variable.",
+      "parentUuid": "39e2fcf5_619ef132",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bd37aa13_c9b1255a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -139,6 +163,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d38111f9_8260ed6f",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-16T18:32:36Z",
+      "side": 1,
+      "message": "added more commentary",
+      "parentUuid": "52d2827d_47cdd723",
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5708d42_4f2346e2",
@@ -152,6 +194,24 @@
       "writtenOn": "2024-05-09T13:32:55Z",
       "side": 1,
       "message": "ditto",
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a5afee_cd33f478",
+        "filename": "src/cmd/compile/internal/types2/stmt.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-16T18:32:36Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "c5708d42_4f2346e2",
       "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -226,6 +286,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22b98d6f_3bee8e1b",
+        "filename": "src/internal/types/testdata/spec/range_int.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-16T18:32:36Z",
+      "side": 1,
+      "message": "Yes. Intentional. See discussion in issue #66561 (https://github.com/golang/go/issues/66561#issuecomment-2078256208).",
+      "parentUuid": "7672058b_f19cde5d",
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dd51e92_918a6754",
@@ -273,6 +351,30 @@
           ]
         }
       ],
+      "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805dc96a_0fa00432",
+        "filename": "src/internal/types/testdata/spec/range_int.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-16T18:32:36Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "9dd51e92_918a6754",
+      "range": {
+        "startLine": 188,
+        "startChar": 18,
+        "endLine": 188,
+        "endChar": 80
+      },
       "revId": "fa1b1eb4963ccb1480ff6446aa7afad25c6f4288",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
