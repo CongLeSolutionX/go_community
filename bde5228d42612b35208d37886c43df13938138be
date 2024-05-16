@@ -42,6 +42,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb27e14d_b79ab0e9",
+        "filename": "src/go/ast/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-16T16:10:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5db6fce5_7a75a7ba",
+      "range": {
+        "startLine": 385,
+        "startChar": 15,
+        "endLine": 385,
+        "endChar": 20
+      },
+      "revId": "bde5228d42612b35208d37886c43df13938138be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41d8e0eb_1584467e",
@@ -73,6 +97,24 @@
           ]
         }
       ],
+      "revId": "bde5228d42612b35208d37886c43df13938138be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f2eace6_bb92ff28",
+        "filename": "src/go/ast/walk_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-16T16:10:09Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve elaborated, and explained that the test previously failed with a runtime panic.",
+      "parentUuid": "41d8e0eb_1584467e",
       "revId": "bde5228d42612b35208d37886c43df13938138be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
