@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc6ec99c_977f15b0",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/x509/45990.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-16T13:49:00Z",
+      "side": 1,
+      "message": "FYI you can now write this in a simpler way as [CreateCertificateRequest]. It will be auto-linked as an identifier in this same package, like in godoc.\n\nSee [doc/README.md](https://cs.opensource.google/go/go/+/master:doc/README.md;l\u003d42;drc\u003dee0bf1d1b6227bd803c9df737a597c07adbe2aed) where this is now documented. (CC @jba@google.com We should also add an example without the \"http.\" prefix, otherwise people might not discover it works for local identifiers.)\nAlso see an [example](https://cs.opensource.google/go/go/+/master:doc/next/6-stdlib/99-minor/archive/tar/50102.md;l\u003d1;drc\u003d19626726205b5653ff9a1820d35bf1b7e820d4ce) of it being used elsewhere.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 71
+      },
+      "revId": "0b1b9281d0a3b8384fcac831ab4ca98a65d47366",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
