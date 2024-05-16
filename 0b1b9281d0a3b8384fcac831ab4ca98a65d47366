@@ -22,6 +22,30 @@
       },
       "revId": "0b1b9281d0a3b8384fcac831ab4ca98a65d47366",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4052def_69a65b45",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/x509/45990.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-16T14:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc6ec99c_977f15b0",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 71
+      },
+      "revId": "0b1b9281d0a3b8384fcac831ab4ca98a65d47366",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
