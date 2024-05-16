@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76b729f_6e8617dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-05-16T16:54:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facfcea3_a193ff5c",
+      "revId": "f450ee11dffc4795d3a580fee9d97805dc1281b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edc9e5b4_131d1659",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-16T11:16:28Z",
       "side": 1,
       "message": "Hmm, this can be spoofed by an attacker as the first message, to force a client to allocate the large buffer even without doing the work of getting to the Certificate message.\n\nDo we have a signal to check if we\u0027re past the Client Hello?",
+      "revId": "f450ee11dffc4795d3a580fee9d97805dc1281b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d2276c5_f612b6b5",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-05-16T16:54:26Z",
+      "side": 1,
+      "message": "We use haveVers elsewhere for this purpose (ish).",
+      "parentUuid": "edc9e5b4_131d1659",
       "revId": "f450ee11dffc4795d3a580fee9d97805dc1281b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
