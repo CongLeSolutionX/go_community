@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "910bf6c3_0398a08f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-17T18:50:57Z",
+      "side": 1,
+      "message": "Thanks Michael. I\u0027ll turn my replies on mprof.go into better comments, and will fix the first-iteration bug in lock_futex.go/lock_sema.go.",
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "548c62ed_b974af4e",
@@ -38,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbadf787_0f56ccd2",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-17T18:50:57Z",
+      "side": 1,
+      "message": "Thanks! Will fix.",
+      "parentUuid": "548c62ed_b974af4e",
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ce2d062_92f653c2",
         "filename": "src/runtime/lock_futex.go",
         "patchSetId": 1
@@ -61,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ccc3ef4_d5bd87f8",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-17T18:50:57Z",
+      "side": 1,
+      "message": "Right, will fix.",
+      "parentUuid": "0ce2d062_92f653c2",
+      "range": {
+        "startLine": 95,
+        "startChar": 20,
+        "endLine": 95,
+        "endChar": 53
+      },
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fea3cd2a_ff7d7a78",
         "filename": "src/runtime/mprof.go",
         "patchSetId": 1
@@ -72,6 +131,30 @@
       "writtenOn": "2024-05-17T17:59:14Z",
       "side": 1,
       "message": "How could it still be waiting if this is called when we just successfully locked the mutex? Do you mean it may have been waiting prior to this call and we haven\u0027t consumed the acquireTimes from that wait yet?",
+      "range": {
+        "startLine": 592,
+        "startChar": 55,
+        "endLine": 593,
+        "endChar": 72
+      },
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6853d75_cae8d571",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-17T18:50:57Z",
+      "side": 1,
+      "message": "Two of the places this is called, yes.\n\nBut lock_sema.go calls this when the thread (at the head of the list, because lock_sema\u0027s wait list is a stack) is woken up for an _attempt_ to grab the lock. But a new thread may have come along and grabbed the lock first, skipping the line.\n\nFor that case, the thread that had been sleeping may fail again to grab the lock, and will need to go to sleep again, and should not modify the acquireTimes in doing so.",
+      "parentUuid": "fea3cd2a_ff7d7a78",
       "range": {
         "startLine": 592,
         "startChar": 55,
@@ -118,6 +201,24 @@
       "writtenOn": "2024-05-17T17:59:14Z",
       "side": 1,
       "message": "Is this possible? Should it throw?",
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89c2c03_1aadf5cf",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-17T18:50:57Z",
+      "side": 1,
+      "message": "When the node at the head of the list acquires the lock (thread A), it needs to update mutex.key in order to remove itself from the list of waiters. Other threads updating the mutex.key -- to push themselves onto the head of the list (thread B) -- can cause that CAS to fail.\n\nThread A needs to try again ... first fixing the list invariants (thread B\u0027s next field will point to thread A, and A\u0027s next field wasn\u0027t modified by removeMutexWaitList, so the singly-linked part of the list is still intact), and then by checking again to see if a CAS is necessary (and successful).",
+      "parentUuid": "5e4f87ec_7117d8d2",
       "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
