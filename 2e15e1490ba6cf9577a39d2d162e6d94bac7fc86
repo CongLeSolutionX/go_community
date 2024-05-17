@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure why we check this. Do we still need it with the MustHaveCGO?",
       "revId": "2e15e1490ba6cf9577a39d2d162e6d94bac7fc86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5600b7f_d50d7456",
+        "filename": "src/runtime/coro_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-17T21:36:13Z",
+      "side": 1,
+      "message": "It turns out the C code isn\u0027t quite portable: https://go-review.git.corp.google.com/c/go/+/586536/3#message-8c2a52b46d0c09bcb77734cca8cad8b260ecb321",
+      "parentUuid": "33f654dc_55523f54",
+      "revId": "2e15e1490ba6cf9577a39d2d162e6d94bac7fc86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
