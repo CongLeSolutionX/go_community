@@ -1,0 +1,125 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "548c62ed_b974af4e",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-05-17T17:59:14Z",
+      "side": 1,
+      "message": "We own the mutex, so `mutex_locked` must always be set, regardless of any updates to head/sleeping, right? Thus I think it would be clearer to say `v \u003d mutex_locked`.\n\nAnd on the first iteration, `v` won\u0027t have `mutex_locked` set at all because it is the value from _before_ locking. But I think the bug below prevents this from causing a correctness issue.",
+      "fixSuggestions": [
+        {
+          "fixId": "07543ac7_ef7df953",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/lock_futex.go",
+              "range": {
+                "startLine": 90,
+                "startChar": 0,
+                "endLine": 91,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\t\tv \u003d mutex_locked\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce2d062_92f653c2",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-05-17T17:59:14Z",
+      "side": 1,
+      "message": "Won\u0027t this always fail on the first iteration because old is the value of key _before_ we locked it?",
+      "range": {
+        "startLine": 95,
+        "startChar": 20,
+        "endLine": 95,
+        "endChar": 53
+      },
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fea3cd2a_ff7d7a78",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-05-17T17:59:14Z",
+      "side": 1,
+      "message": "How could it still be waiting if this is called when we just successfully locked the mutex? Do you mean it may have been waiting prior to this call and we haven\u0027t consumed the acquireTimes from that wait yet?",
+      "range": {
+        "startLine": 592,
+        "startChar": 55,
+        "endLine": 593,
+        "endChar": 72
+      },
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab201c07_9267a7cd",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-05-17T17:59:14Z",
+      "side": 1,
+      "message": "The return is always the same as the input. Why bother returning it?",
+      "range": {
+        "startLine": 616,
+        "startChar": 37,
+        "endLine": 616,
+        "endChar": 45
+      },
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e4f87ec_7117d8d2",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-05-17T17:59:14Z",
+      "side": 1,
+      "message": "Is this possible? Should it throw?",
+      "revId": "ff3a1bfd012590c016c596eba58276db8c9055c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
