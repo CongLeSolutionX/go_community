@@ -52,6 +52,24 @@
       "parentUuid": "da974eef_d9f6110c",
       "revId": "dbe0297d2b5ea5dd32cc9bf09d27cc6c8621bad2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78242187_c7750d76",
+        "filename": "src/runtime/testdata/testprogcgo/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-05-17T21:22:35Z",
+      "side": 0,
+      "message": "I removed the !windows from the build tag in this CL, though.",
+      "parentUuid": "e46a73d5_c4159777",
+      "revId": "dbe0297d2b5ea5dd32cc9bf09d27cc6c8621bad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Update imports.",
       "revId": "5aa35f77ff8a5ee9e3fcc54aeb1b7ff2232c6ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9e91de8_e942a02e",
+        "filename": "src/runtime/coro_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-05-17T21:22:35Z",
+      "side": 1,
+      "message": "yeah, vim decided to completely ignore my \"goimports on save\" rules because gopls decided to start crashing...",
+      "parentUuid": "2aa0d610_74165dbb",
+      "revId": "5aa35f77ff8a5ee9e3fcc54aeb1b7ff2232c6ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
