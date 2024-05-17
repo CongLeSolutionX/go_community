@@ -273,7 +273,7 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-has:unresolved"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["has:unresolved"],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"-has:unresolved"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["has:unresolved"]}
       },
       "overrideExpressionResult": {
         "value": {"expression":{"expressionString":"hashtag:allow-unresolved-comments"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["hashtag:allow-unresolved-comments"]}
