@@ -86,6 +86,23 @@
       "message": "Thanks, could anyone submit this change?",
       "revId": "dfa530d2e3c773838f8fad7f96cc958591205fc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e54ec0a_c7253846",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-05-17T15:40:54Z",
+      "side": 1,
+      "message": "The release freeze is coming soon, I see it\u0027s ready to submit, but I am not able to do that.",
+      "revId": "dfa530d2e3c773838f8fad7f96cc958591205fc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
