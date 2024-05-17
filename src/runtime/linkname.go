@@ -34,9 +34,6 @@ import _ "unsafe"
 //go:linkname overflowError
 //go:linkname divideError
 
-// used in runtime/coverage and in tests
-//go:linkname addExitHook
-
 // used in x/sys/cpu
 //go:linkname getAuxv
 
