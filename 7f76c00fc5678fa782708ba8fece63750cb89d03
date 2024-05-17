@@ -145,6 +145,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5461331f_72d93a6c",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-17T18:29:46Z",
+      "side": 0,
+      "message": "It looks like the existing code is actually buggy right now? If so, this CL isn\u0027t just intrinsifying some new operations, but also fixing",
+      "fixSuggestions": [
+        {
+          "fixId": "f030ea2b_02e84150",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/arm64/ssa.go",
+              "range": {
+                "startLine": 815,
+                "startChar": 0,
+                "endLine": 816,
+                "endChar": 0
+              },
+              "replacement": "\t\tp1.From.Reg \u003d out\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7f76c00fc5678fa782708ba8fece63750cb89d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "494ddafd_a4afd265",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 1
