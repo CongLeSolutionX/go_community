@@ -30,9 +30,7 @@ func TestCoroLockOSThread(t *testing.T) {
 }
 
 func TestCoroCgoCallback(t *testing.T) {
-	if runtime.GOOS == "windows" {
-		t.Skip("coro cgo callback tests not supported on Windows")
-	}
+	testenv.MustHaveCGO(t)
 	for _, test := range []string{
 		"CoroCgoIterCallback",
 		"CoroCgoIterCallbackYield",
