@@ -58,6 +58,7 @@ var depsRules = `
 	  internal/nettrace,
 	  internal/platform,
 	  internal/profilerecord,
+	  internal/runtime/exithook,
 	  internal/trace/traceviewer/format,
 	  log/internal,
 	  maps,
@@ -77,7 +78,8 @@ var depsRules = `
 	internal/godebugs,
 	internal/goexperiment,
 	internal/goos,
-	internal/profilerecord
+	internal/profilerecord,
+	internal/runtime/exithook
 	< internal/bytealg
 	< internal/stringslite
 	< internal/itoa
