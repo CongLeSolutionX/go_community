@@ -34,6 +34,24 @@
       "parentUuid": "b552c545_14868656",
       "revId": "dbe0297d2b5ea5dd32cc9bf09d27cc6c8621bad2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e46a73d5_c4159777",
+        "filename": "src/runtime/testdata/testprogcgo/coro.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-17T21:20:26Z",
+      "side": 0,
+      "message": "Maybe I\u0027m missing something, but this is what I\u0027m thinking:\n\nTestCoroCgoCallback will run on Windows, and not skip. It will try to run, say, CoroCgoIterCallback, which will exec \"testprogcgo CoroCgoIterCallback\". Since this file is !windows, the init function that registers CoroCgoIterCallback won\u0027t run, so its main will fail because it doesn\u0027t recognize CoroCgoIterCallback.",
+      "parentUuid": "da974eef_d9f6110c",
+      "revId": "dbe0297d2b5ea5dd32cc9bf09d27cc6c8621bad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
