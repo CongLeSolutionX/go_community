@@ -1,0 +1,56 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41c933bc_18af5d1e",
+        "filename": "src/crypto/tls/badlinkname.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-17T16:03:24Z",
+      "side": 1,
+      "message": "I\u0027m confused by these. Is there something in the wild linkname\u0027ing this method? If nothing in this package refers to badlinkname_halfConn_incSeq, what does this actually accomplish?",
+      "revId": "c5fe0b539eb9d3771a2f77fdef242c30bf9af7bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e83d01c0_7e1079b4",
+        "filename": "src/runtime/time_nofake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-17T16:03:24Z",
+      "side": 1,
+      "message": "Leave a common explaining why this is linknamed? (Is the AI suggested fix actually right? 😄)",
+      "fixSuggestions": [
+        {
+          "fixId": "f5ebdd4b_2a4eef9b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/time_nofake.go",
+              "range": {
+                "startLine": 24,
+                "startChar": 0,
+                "endLine": 24,
+                "endChar": 0
+              },
+              "replacement": "// This is linkname\u0027d because it is used by the playground.\n//\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c5fe0b539eb9d3771a2f77fdef242c30bf9af7bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
