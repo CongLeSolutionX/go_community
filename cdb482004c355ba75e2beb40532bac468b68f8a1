@@ -154,6 +154,29 @@
       },
       "revId": "cdb482004c355ba75e2beb40532bac468b68f8a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a0ee256_e91181e9",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2602,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-17T00:11:28Z",
+      "side": 1,
+      "message": "Consider adding a `Cq-Include-Trybots: luci.golang.try:gotip-linux-amd64-longtest`  footer (detailed instructions [here](https://go.dev/wiki/SlowBots#using-slowbots)) so trybot signal would be more comprehensive.",
+      "range": {
+        "startLine": 2600,
+        "startChar": 0,
+        "endLine": 2602,
+        "endChar": 2
+      },
+      "revId": "cdb482004c355ba75e2beb40532bac468b68f8a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
