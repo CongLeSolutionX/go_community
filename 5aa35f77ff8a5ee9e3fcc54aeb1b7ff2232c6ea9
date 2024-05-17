@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aa0d610_74165dbb",
+        "filename": "src/runtime/coro_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-17T21:21:19Z",
+      "side": 1,
+      "message": "Update imports.",
+      "revId": "5aa35f77ff8a5ee9e3fcc54aeb1b7ff2232c6ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
