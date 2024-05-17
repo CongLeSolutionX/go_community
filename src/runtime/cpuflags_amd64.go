@@ -8,17 +8,13 @@ import (
 	"internal/cpu"
 )
 
-var useAVXmemmove bool
+var (
+	useAVXmemmove bool
+	useERMS       bool
+)
 
 func init() {
-	// Let's remove stepping and reserved fields
-	processor := processorVersionInfo & 0x0FFF3FF0
-
-	isIntelBridgeFamily := isIntel &&
-		processor == 0x206A0 ||
-		processor == 0x206D0 ||
-		processor == 0x306A0 ||
-		processor == 0x306E0
-
-	useAVXmemmove = cpu.X86.HasAVX && !isIntelBridgeFamily
+	isERMSNiceCPU := isIntel
+	useERMS = isERMSNiceCPU && cpu.X86.HasERMS
+	useAVXmemmove = cpu.X86.HasAVX
 }
