@@ -16,6 +16,24 @@
       "message": "you can probably delete this. we won\u0027t be generating test data for old trace versions anymore. the new tests are more thorough anyway.",
       "revId": "e84b5f86cefad8ff7bc9a6dece70a963e99dd965",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27c7b5c6_8bfe2b66",
+        "filename": "src/internal/trace/mkcanned.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-05-17T17:53:28Z",
+      "side": 1,
+      "message": "Deleting mkcanned.bash and the testdata_v1 directory contents as well.",
+      "parentUuid": "414ed6f9_18149c24",
+      "revId": "e84b5f86cefad8ff7bc9a6dece70a963e99dd965",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
