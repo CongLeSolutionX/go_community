@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d7841ea_d33a7c39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-05-17T15:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81ef7f52_4631872b",
+      "revId": "49266af7e323e2add948a75ef956396b18402eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1af25a28_ad4b78ab",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4eec1cd_227856e9",
+        "filename": "src/internal/chacha8rand/chacha8.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-05-17T15:19:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1af25a28_ad4b78ab",
+      "revId": "49266af7e323e2add948a75ef956396b18402eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed6de2e4_c5db8f51",
@@ -104,6 +140,24 @@
       "writtenOn": "2024-05-17T04:28:41Z",
       "side": 1,
       "message": "x is an uint64, why waste CPU time by only using 8b from it?",
+      "revId": "49266af7e323e2add948a75ef956396b18402eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd3bcef7_e88ca530",
+        "filename": "src/internal/chacha8rand/chacha8.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-05-17T15:19:03Z",
+      "side": 1,
+      "message": "Thanks for the heads up, updated the code.",
+      "parentUuid": "ed6de2e4_c5db8f51",
       "revId": "49266af7e323e2add948a75ef956396b18402eef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
