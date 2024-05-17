@@ -158,3 +158,19 @@ func Unmarshal(s *State, data []byte) error {
 	}
 	return nil
 }
+
+// Read reads random bytes from the state into p.
+func Read(s *State, p []byte) (n int) {
+	for n = 0; n < len(p); n++ {
+		for {
+			x, ok := s.Next()
+			if ok {
+				p[n] = byte(x)
+				n++
+				break
+			}
+			s.Refill()
+		}
+	}
+	return
+}
