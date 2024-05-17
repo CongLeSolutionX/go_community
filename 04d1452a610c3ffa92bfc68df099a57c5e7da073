@@ -68,6 +68,24 @@
       ],
       "revId": "04d1452a610c3ffa92bfc68df099a57c5e7da073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aefb9d09_0f69d873",
+        "filename": "src/runtime/coverage/init.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-17T16:20:21Z",
+      "side": 1,
+      "message": "Done (deleted this whole file, moved the one function into coverage.go)",
+      "parentUuid": "5a9cba17_48e714b6",
+      "revId": "04d1452a610c3ffa92bfc68df099a57c5e7da073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
