@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c37cacd_c774f629",
+        "filename": "src/internal/coverage/rtcov/rtcov.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-17T16:20:21Z",
+      "side": 1,
+      "message": "I started but it was too much work. Thanks. Fixed the comment.",
+      "parentUuid": "290038d6_c711fa1f",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "66da2e55d3ee98ae185df906f456f979695a6aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d2e49a4_f15a3b8a",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-05-16T02:07:14Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "66da2e55d3ee98ae185df906f456f979695a6aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d1137a_fd3da6f1",
+        "filename": "src/internal/coverage/rtcov/rtcov.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-17T16:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d2e49a4_f15a3b8a",
       "range": {
         "startLine": 29,
         "startChar": 3,
