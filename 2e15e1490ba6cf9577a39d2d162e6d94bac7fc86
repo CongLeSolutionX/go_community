@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33f654dc_55523f54",
+        "filename": "src/runtime/coro_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-17T21:08:55Z",
+      "side": 1,
+      "message": "I\u0027m not sure why we check this. Do we still need it with the MustHaveCGO?",
+      "revId": "2e15e1490ba6cf9577a39d2d162e6d94bac7fc86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
