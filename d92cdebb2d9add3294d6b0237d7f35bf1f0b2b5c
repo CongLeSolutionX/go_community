@@ -16,6 +16,24 @@
       "message": "Code looks fine.\n\nI\u0027m wondering about compatibility with softfloat, which we need for GOARM\u003d5 and GOARM\u003dsoftfloat. We don\u0027t have float registers in those cases. Is that a problem here or will the sources of these rewrites never appear in that case?\n\nThis could use a test somewhere in test/codegen, probably math.go:fromFloat32/toFloat32.",
       "revId": "d92cdebb2d9add3294d6b0237d7f35bf1f0b2b5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5f35197_4de44299",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2024-05-17T06:03:13Z",
+      "side": 1,
+      "message": "Thank you for your reminder. But I meet soem problems with `arm/7,softfloat` combine, and I will try to reslove it.",
+      "parentUuid": "70bf7897_8d6d89d8",
+      "revId": "d92cdebb2d9add3294d6b0237d7f35bf1f0b2b5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
