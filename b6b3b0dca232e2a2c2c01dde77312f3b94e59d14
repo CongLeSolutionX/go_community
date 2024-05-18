@@ -16,6 +16,24 @@
       "message": "we can set: b.SetBytes(3) and same below.",
       "revId": "b6b3b0dca232e2a2c2c01dde77312f3b94e59d14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "540366e3_79fc044a",
+        "filename": "src/math/rand/v2/chacha8_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-05-18T15:41:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "789c44ae_8b8ea9be",
+      "revId": "b6b3b0dca232e2a2c2c01dde77312f3b94e59d14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
