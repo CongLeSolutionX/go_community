@@ -51,6 +51,23 @@
       "message": "Contradicting my comment from the last CL somewhat, I don\u0027t think this materially changes the tree because fmt uses reflect, which pulls in runtime, which ends up pulling in everything anyway.\n\nThis change is OK in isolation, but it would be a tax on the maintainers to deal with a thousand little CLs like this to inject the new packages. Instead, I would like to see a policy developed about how to handle changes like this, and the effect of that policy to be a single CL that applies the sort-\u003eslice change, for example, over the whole tree in one go.",
       "revId": "ef1059236fed8b321abfc4fd95d0821ac4f149da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ee2529_e4cde881",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2024-05-18T21:10:22Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/issues/67510",
+      "revId": "ef1059236fed8b321abfc4fd95d0821ac4f149da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
