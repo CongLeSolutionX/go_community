@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"internal/byteorder"
 	. "internal/chacha8rand"
 	"slices"
 	"testing"
@@ -26,6 +27,38 @@ func TestOutput(t *testing.T) {
 				break
 			}
 			s.Refill()
+		}
+	}
+}
+
+func TestFillRand(t *testing.T) {
+	expect := make([]byte, 0, len(output)*8)
+	for _, v := range output {
+		expect = byteorder.LeAppendUint64(expect, v)
+	}
+
+	cases := []struct {
+		expect [][]byte
+	}{
+		{[][]byte{expect}},
+		{[][]byte{expect[:1], expect[8:9]}},
+		{[][]byte{expect[:4], expect[8:12]}},
+		{[][]byte{expect[:4], expect[8:12]}},
+		{[][]byte{expect[:8], expect[8:16]}},
+		{[][]byte{expect[:128], expect[128:256]}},
+		{[][]byte{expect[:128], expect[128:]}},
+		{[][]byte{expect[:100], expect[104:]}},
+	}
+
+	var s State
+	for _, tt := range cases {
+		s.Init(seed)
+		for _, expect := range tt.expect {
+			got := make([]byte, len(expect))
+			s.FillRand(got)
+			if !bytes.Equal(expect, got) {
+				t.Errorf("got = %#x; want = %#x", got, expect)
+			}
 		}
 	}
 }
