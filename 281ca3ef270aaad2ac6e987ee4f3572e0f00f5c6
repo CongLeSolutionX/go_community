@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08732cf7_fb339e40",
+        "filename": "src/internal/chacha8rand/chacha8.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-05-18T16:40:39Z",
+      "side": 1,
+      "message": "This implementation might waste up to 7 bytes from State.buf per call, not sure\nwhether it is worth complicating the code just to fix that.",
+      "revId": "281ca3ef270aaad2ac6e987ee4f3572e0f00f5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
