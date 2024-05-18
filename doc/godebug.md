@@ -176,6 +176,10 @@ This behavior is controlled by the `winreadlinkvolume` setting.
 For Go 1.23, it defaults to `winreadlinkvolume=1`.
 Previous versions default to `winreadlinkvolume=0`.
 
+Go 1.23 enabled the experimental post-quantum key exchange mechanism
+X25519Kyber768Draft00 by default. The default can be reverted using the
+[`tlskyber` setting](/pkg/crypto/tls/#Config.CurvePreferences).
+
 ### Go 1.22
 
 Go 1.22 adds a configurable limit to control the maximum acceptable RSA key size

@@ -26,18 +26,26 @@ import (
 )
 
 func TestBoringServerProtocolVersion(t *testing.T) {
-	test := func(name string, v uint16, msg string) {
+	test := func(t *testing.T, name string, v uint16, msg string) {
 		t.Run(name, func(t *testing.T) {
 			serverConfig := testConfig.Clone()
 			serverConfig.MinVersion = VersionSSL30
-			clientHello := &clientHelloMsg{
-				vers:               v,
-				random:             make([]byte, 32),
-				cipherSuites:       allCipherSuites(),
-				compressionMethods: []uint8{compressionNone},
-				supportedVersions:  []uint16{v},
+			clientConfig := testConfig.Clone()
+			clientConfig.MinVersion = v
+			clientConfig.MaxVersion = v
+			_, _, err := testHandshake(t, clientConfig, serverConfig)
+			if msg == "" {
+				if err != nil {
+					t.Fatalf("got error: %v, expected success", err)
+				}
+			} else {
+				if err == nil {
+					t.Fatalf("got success, expected error")
+				}
+				if !strings.Contains(err.Error(), msg) {
+					t.Fatalf("got error %v, expected %q", err, msg)
+				}
 			}
-			testClientHelloFailure(t, serverConfig, clientHello, msg)
 		})
 	}
 
@@ -46,13 +54,14 @@ func TestBoringServerProtocolVersion(t *testing.T) {
 	test("VersionTLS12", VersionTLS12, "")
 	test("VersionTLS13", VersionTLS13, "")
 
-	fipstls.Force()
-	defer fipstls.Abandon()
-	test("VersionSSL30", VersionSSL30, "client offered only unsupported versions")
-	test("VersionTLS10", VersionTLS10, "client offered only unsupported versions")
-	test("VersionTLS11", VersionTLS11, "client offered only unsupported versions")
-	test("VersionTLS12", VersionTLS12, "")
-	test("VersionTLS13", VersionTLS13, "client offered only unsupported versions")
+	t.Run("fipstls", func(t *testing.T) {
+		fipstls.Force()
+		defer fipstls.Abandon()
+		test(t, "VersionTLS10", VersionTLS10, "client offered only unsupported versions")
+		test(t, "VersionTLS11", VersionTLS11, "client offered only unsupported versions")
+		test(t, "VersionTLS12", VersionTLS12, "")
+		test(t, "VersionTLS13", VersionTLS13, "client offered only unsupported versions")
+	})
 }
 
 func isBoringVersion(v uint16) bool {
@@ -154,26 +163,26 @@ func TestBoringServerCurves(t *testing.T) {
 
 	for _, curveid := range defaultCurvePreferences {
 		t.Run(fmt.Sprintf("curve=%d", curveid), func(t *testing.T) {
-			clientHello := &clientHelloMsg{
-				vers:               VersionTLS12,
-				random:             make([]byte, 32),
-				cipherSuites:       []uint16{TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256},
-				compressionMethods: []uint8{compressionNone},
-				supportedCurves:    []CurveID{curveid},
-				supportedPoints:    []uint8{pointFormatUncompressed},
+			clientConfig := testConfig.Clone()
+			clientConfig.CurvePreferences = []CurveID{curveid}
+			if curveid == x25519Kyber768Draft00 {
+				// x25519Kyber768Draft00 is not supported standalone.
+				clientConfig.CurvePreferences = append(clientConfig.CurvePreferences, X25519)
 			}
-
-			testClientHello(t, serverConfig, clientHello)
+			if _, _, err := testHandshake(t, clientConfig, serverConfig); err != nil {
+				t.Fatalf("got error: %v, expected success", err)
+			}
 
 			// With fipstls forced, bad curves should be rejected.
 			t.Run("fipstls", func(t *testing.T) {
 				fipstls.Force()
 				defer fipstls.Abandon()
-				msg := ""
-				if !isBoringCurve(curveid) {
-					msg = "no cipher suite supported by both client and server"
+				_, _, err := testHandshake(t, clientConfig, serverConfig)
+				if err != nil && isBoringCurve(curveid) {
+					t.Fatalf("got error: %v, expected success", err)
+				} else if err == nil && !isBoringCurve(curveid) {
+					t.Fatalf("got success, expected error")
 				}
-				testClientHelloFailure(t, serverConfig, clientHello, msg)
 			})
 		})
 	}
