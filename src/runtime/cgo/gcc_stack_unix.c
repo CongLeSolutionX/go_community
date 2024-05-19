@@ -9,6 +9,8 @@
 #endif
 
 #include <pthread.h>
+#include <stdbool.h>
+#include <string.h>
 #include "libcgo.h"
 
 void
@@ -17,25 +19,67 @@ x_cgo_getstackbound(uintptr bounds[2])
 	pthread_attr_t attr;
 	void *addr;
 	size_t size;
+#if defined(__GLIBC__) || defined(__illumos__)
+	bool initialized = false;
+	int err;
+#endif
 
 #if defined(__GLIBC__) || (defined(__sun) && !defined(__illumos__))
 	// pthread_getattr_np is a GNU extension supported in glibc.
 	// Solaris is not glibc but does support pthread_getattr_np
 	// (and the fallback doesn't work...). Illumos does not.
-	pthread_getattr_np(pthread_self(), &attr);  // GNU extension
-	pthread_attr_getstack(&attr, &addr, &size); // low address
+	err = pthread_getattr_np(pthread_self(), &attr);  // GNU extension
+	if (err != 0) {
+		goto failback;
+	}
+	initialized = true;
+	err = pthread_attr_getstack(&attr, &addr, &size); // low address
+	if (err != 0) {
+		goto failback;
+	}
+	goto ret;
 #elif defined(__illumos__)
-	pthread_attr_init(&attr);
-	pthread_attr_get_np(pthread_self(), &attr);
-	pthread_attr_getstack(&attr, &addr, &size); // low address
-#else
+	err = pthread_attr_init(&attr);
+	if (err != 0) {
+		goto failback;
+	}
+	initialized = true;
+	err = pthread_attr_get_np(pthread_self(), &attr);
+	if (err != 0) {
+		goto failback;
+	}
+	err = pthread_attr_getstack(&attr, &addr, &size); // low address
+	if (err != 0) {
+		goto failback;
+	}
+	goto ret;
+#endif
 	// We don't know how to get the current stacks, so assume they are the
 	// same as the default stack bounds.
-	pthread_attr_init(&attr);
-	pthread_attr_getstacksize(&attr, &size);
-	addr = __builtin_frame_address(0) + 4096 - size;
+#if defined(__GLIBC__) || defined(__illumos__)
+failback:
+	if (initialized) {
+		err = pthread_attr_destroy(&attr);
+		if (err != 0) {
+			fatalf("pthread_attr_destroy failed: %s", strerror(err));
+		}
+	}
 #endif
-	pthread_attr_destroy(&attr);
+	err = pthread_attr_init(&attr);
+	if (err != 0) {
+		fatalf("pthread_attr_init failed: %s", strerror(err));
+	}
+	err = pthread_attr_getstacksize(&attr, &size);
+	if (err != 0) {
+		fatalf("pthread_attr_getstacksize failed: %s", strerror(err));
+	}
+	addr = __builtin_frame_address(0) + 4096 - size;
+	goto ret;
+ret:
+	err = pthread_attr_destroy(&attr);
+	if (err != 0) {
+		fatalf("pthread_attr_destroy failed: %s", strerror(err));
+	}
 
 	bounds[0] = (uintptr)addr;
 	bounds[1] = (uintptr)addr + size;
