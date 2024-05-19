@@ -1019,6 +1019,61 @@ func TestPageAllocAllocAndFree(t *testing.T) {
 				{true, PallocChunkPages * 8, PageBase(BaseChunkIdx, 0)},
 			},
 		},
+		"Straddle2": {
+			init: map[ChunkIdx][]BitRange{
+				BaseChunkIdx + 0: {{0, PallocChunkPages / 2}},
+				BaseChunkIdx + 1: {{PallocChunkPages / 2, PallocChunkPages / 2}},
+			},
+			hits: []hit{
+				{true, PallocChunkPages, PageBase(BaseChunkIdx, PallocChunkPages/2)},
+				{false, PallocChunkPages, PageBase(BaseChunkIdx, 0)},
+				{true, PallocChunkPages, PageBase(BaseChunkIdx, 0)},
+				{false, PallocChunkPages, PageBase(BaseChunkIdx, 0)},
+			},
+		},
+		"FreeThenAlloc": {
+			init: map[ChunkIdx][]BitRange{
+				BaseChunkIdx + 0: {{0, PallocChunkPages}},
+				BaseChunkIdx + 1: {{0, PallocChunkPages}},
+				BaseChunkIdx + 2: {{0, PallocChunkPages}},
+				BaseChunkIdx + 3: {{0, PallocChunkPages}},
+			},
+			hits: []hit{
+				{false, 1, PageBase(BaseChunkIdx, 10)},
+				{true, 1, PageBase(BaseChunkIdx, 10)},
+				{false, 1, PageBase(BaseChunkIdx+2, 33)},
+				{true, 1, PageBase(BaseChunkIdx+2, 33)},
+				{false, 1, PageBase(BaseChunkIdx+1, 45)},
+				{true, 1, PageBase(BaseChunkIdx+1, 45)},
+				{false, 1, PageBase(BaseChunkIdx+3, 15)},
+				{true, 1, PageBase(BaseChunkIdx+3, 15)},
+			},
+		},
+		"Alloc6Free1Alloc1": {
+			init: map[ChunkIdx][]BitRange{
+				BaseChunkIdx: {},
+			},
+			hits: []hit{
+				{true, 1, PageBase(BaseChunkIdx, 0)},
+				{true, 1, PageBase(BaseChunkIdx, 1)},
+				{true, 1, PageBase(BaseChunkIdx, 2)},
+				{true, 1, PageBase(BaseChunkIdx, 3)},
+				{true, 1, PageBase(BaseChunkIdx, 4)},
+				{true, 1, PageBase(BaseChunkIdx, 5)},
+				{false, 1, PageBase(BaseChunkIdx, 5)},
+				{true, 1, PageBase(BaseChunkIdx, 5)},
+				{false, 1, PageBase(BaseChunkIdx, 4)},
+				{true, 1, PageBase(BaseChunkIdx, 4)},
+				{false, 1, PageBase(BaseChunkIdx, 3)},
+				{true, 1, PageBase(BaseChunkIdx, 3)},
+				{false, 1, PageBase(BaseChunkIdx, 2)},
+				{true, 1, PageBase(BaseChunkIdx, 2)},
+				{false, 1, PageBase(BaseChunkIdx, 1)},
+				{true, 1, PageBase(BaseChunkIdx, 1)},
+				{false, 1, PageBase(BaseChunkIdx, 0)},
+				{true, 1, PageBase(BaseChunkIdx, 0)},
+			},
+		},
 	}
 	for name, v := range tests {
 		v := v
