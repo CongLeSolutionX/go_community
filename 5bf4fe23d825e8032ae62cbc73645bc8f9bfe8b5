@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25cbc8d4_5ae87719",
+        "filename": "src/internal/chacha8rand/chacha8.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-05-19T12:58:37Z",
+      "side": 1,
+      "message": "I believe that we also need here:\n```\ns.readPos \u003d 0\ns.readVal \u003d 0\n```",
+      "revId": "5bf4fe23d825e8032ae62cbc73645bc8f9bfe8b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
