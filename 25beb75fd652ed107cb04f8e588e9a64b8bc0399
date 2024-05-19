@@ -51,6 +51,24 @@
       "parentUuid": "8a11c601_74103d28",
       "revId": "25beb75fd652ed107cb04f8e588e9a64b8bc0399",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a49b3d87_c62382a5",
+        "filename": "src/runtime/cgo/gcc_stack_unix.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-19T14:32:00Z",
+      "side": 1,
+      "message": "Resolved, and add some other error check.",
+      "parentUuid": "255026f4_83064e48",
+      "revId": "25beb75fd652ed107cb04f8e588e9a64b8bc0399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
