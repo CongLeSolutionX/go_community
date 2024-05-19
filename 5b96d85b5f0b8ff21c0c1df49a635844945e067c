@@ -106,6 +106,24 @@
       "parentUuid": "70a040b3_b0e9c722",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "177cfc5b_6ebb104b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-19T14:38:28Z",
+      "side": 1,
+      "message": "I have a strong opinion to suggest to consider this backward compatibility. Because maintainers in runc have tried many solutions to replace `clone(2)`, but each solution are not perfect.\n\nConsider the following code, cgo in 1.22 also can\u0027t work with SYS_clone3:\n```c\npackage main\n/*\n#cgo CFLAGS: -Wall\n#define _GNU_SOURCE\n#include \u003clinux/sched.h\u003e\n#include \u003csched.h\u003e\n#include \u003csignal.h\u003e\n#include \u003cstdio.h\u003e\n#include \u003csys/syscall.h\u003e\n#include \u003cunistd.h\u003e\n#include \u003cerrno.h\u003e\n\nstatic int child_fn(void *args) {\n    printf(\"Hello from C!\\n\");\n    return 0;\n}\n\nvoid clone3() {\n    struct clone_args args \u003d {\n        .exit_signal \u003d SIGCHLD,\n    };\n\n    pid_t pid \u003d syscall(SYS_clone3, \u0026args, sizeof(args));\n    if (pid \u003d\u003d -1) {\n        perror(\"clone3 failed\");\n        _exit(-1);\n    } else if (pid \u003d\u003d 0) { // Child process\n        child_fn(NULL);\n    } else { // Parent process\n        _exit(0);\n    }\n}\nvoid __attribute__((constructor)) init(void) {\n        clone3();\n}\n*/\nimport \"C\"\n\nimport \"fmt\"\n\nfunc main() {\n        fmt.Println(\"Hello from go!\");\n}\n```",
+      "parentUuid": "105b9c55_efee4c6d",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
