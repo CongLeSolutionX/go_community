@@ -228,7 +228,7 @@ func LastIndexAny(s, chars string) int {
 
 // LastIndexByte returns the index of the last instance of c in s, or -1 if c is not present in s.
 func LastIndexByte(s string, c byte) int {
-	return bytealg.LastIndexByteString(s, c)
+	return stringslite.LastIndexByte(s, c)
 }
 
 // Generic split: splits after each instance of sep,

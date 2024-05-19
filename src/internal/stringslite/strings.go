@@ -25,6 +25,10 @@ func IndexByte(s string, c byte) int {
 	return bytealg.IndexByteString(s, c)
 }
 
+func LastIndexByte(s string, c byte) int {
+	return bytealg.LastIndexByteString(s, c)
+}
+
 func Index(s, substr string) int {
 	n := len(substr)
 	switch {
