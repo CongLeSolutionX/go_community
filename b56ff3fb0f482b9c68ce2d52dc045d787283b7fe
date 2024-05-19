@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a466ac7e_5823f047",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-19T21:34:44Z",
+      "side": 1,
+      "message": "The Windows failures make me wonder if one of the function calls on that platform is not marked nosplit. Or, an extra assertion in the preamble for the g0 stack. I\u0027ve changed the use of throwsplit to only affect curg. (I expect using stackFork would give a better / prompter error message, I may try that later.)",
+      "revId": "b56ff3fb0f482b9c68ce2d52dc045d787283b7fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
