@@ -55,7 +55,9 @@ var depsRules = `
 
 	internal/byteorder, internal/goarch, unsafe < internal/chacha8rand;
 
-	unsafe < internal/cpu, maps;
+	unsafe < internal/cpu;
+
+	RUNTIME, unsafe < maps;
 
 	# RUNTIME is the core runtime group of packages, all of them very light-weight.
 	internal/abi,
