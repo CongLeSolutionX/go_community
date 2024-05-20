@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2bb6bdb_c2d0ae6b",
+        "filename": "src/embed/embed.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-20T15:51:19Z",
+      "side": 1,
+      "message": "Oh, yeah, I misread what is happening here.",
+      "parentUuid": "25c4d5f8_dfce54ec",
+      "revId": "232154bfd55763a4543ed4591c54ba72458d5ffa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9fc4c78_d1aa9d29",
