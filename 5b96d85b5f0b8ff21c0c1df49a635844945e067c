@@ -142,6 +142,24 @@
       "parentUuid": "177cfc5b_6ebb104b",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5775558_de49b097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-20T00:41:36Z",
+      "side": 1,
+      "message": "It’s because when we unshare or enter an new pid namespace, this has no effects for the caller process, we must create an new process to enter this new pid namespace. If runc uses fork(2), it must use ‘PR_SET_CHILD_SUBREAPER’ to reap this forked process, but this will cause all grandchildren processes reparent to the caller process after their parent dead, maybe this is a broken change for runc lib users, because the API has served for about ten years.\n\nIf you have any other suggestions to solve this broken change, it will also appreciated.",
+      "parentUuid": "4c17ebd9_dda61d84",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
