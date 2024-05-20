@@ -35,6 +35,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/run"
 	"cmd/go/internal/telemetrycmd"
+	"cmd/go/internal/telemetrystats"
 	"cmd/go/internal/test"
 	"cmd/go/internal/tool"
 	"cmd/go/internal/toolchain"
@@ -103,6 +104,9 @@ func main() {
 	flag.Parse()
 	telemetry.Inc("go/invocations")
 	telemetry.CountFlags("go/flag:", *flag.CommandLine)
+	if !modload.WillBeEnabled() {
+		telemetry.Inc("go/")
+	}
 
 	args := flag.Args()
 	if len(args) < 1 {
@@ -206,6 +210,7 @@ func main() {
 	if cfg.CmdName != "tool" {
 		telemetry.Inc("go/subcommand:" + strings.ReplaceAll(cfg.CmdName, " ", "-"))
 	}
+	telemetrystats.Increment()
 	invoke(cmd, args[used-1:])
 	base.Exit()
 }
