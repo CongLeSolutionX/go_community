@@ -232,6 +232,24 @@
       "parentUuid": "82af6827_48bcd60e",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18e8c370_baff563e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-20T17:32:51Z",
+      "side": 1,
+      "message": "Oh my god, the core issue is not the tid dirty cache, because the tid cache removal PR has been back-ported to glibc \u003e\u003d 2.25. (Maybe still has wrong tid cache issue for newer glibc.)\nAnd @prattmic has indicated that the core issue of cgo failed with clone(2) is that: before 2.32, `pthread_getattr_np` did not call `__pthread_attr_init (attr)`, we need to init the attr in go runtime. (https://github.com/golang/go/issues/65625#issuecomment-1939390070)\n\nI have a test in runc, it indeed solves the issue. (https://github.com/opencontainers/runc/pull/4278)",
+      "parentUuid": "dd59c3e4_dccdef40",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
