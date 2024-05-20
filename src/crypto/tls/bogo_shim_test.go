@@ -15,6 +15,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"testing"
 )
 
@@ -39,6 +40,9 @@ var (
 	shimWritesFirst = flag.Bool("shim-writes-first", false, "")
 
 	resumeCount = flag.Int("resume-count", 0, "")
+
+	_             = flag.String("curves", "", "")
+	expectedCurve = flag.String("expect-curve-id", "", "")
 
 	shimID = flag.Uint64("shim-id", 0, "")
 	_      = flag.Bool("ipv6", false, "")
@@ -221,6 +225,16 @@ func bogoShim() {
 				log.Fatalf("write err: %s", err)
 			}
 		}
+
+		if *expectedCurve != "" {
+			expectedCurveID, err := strconv.Atoi(*expectedCurve)
+			if err != nil {
+				log.Fatalf("failed to parse -expect-curve-id: %s", err)
+			}
+			if tlsConn.curveID != CurveID(expectedCurveID) {
+				log.Fatalf("unexpected curve id: want %d, got %d", expectedCurveID, tlsConn.curveID)
+			}
+		}
 	}
 }
 
@@ -238,7 +252,7 @@ func TestBogoSuite(t *testing.T) {
 		t.Skip("#66913: windows network connections are flakey on builders")
 	}
 
-	const boringsslModVer = "v0.0.0-20240412155355-1c6e10495e4f"
+	const boringsslModVer = "v0.0.0-20240517213134-ba62c812f01f"
 	output, err := exec.Command("go", "mod", "download", "-json", "github.com/google/boringssl@"+boringsslModVer).CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to download boringssl: %s", err)
@@ -263,6 +277,8 @@ func TestBogoSuite(t *testing.T) {
 		"-shim-extra-flags=-bogo-mode",
 		"-allow-unimplemented",
 		"-loose-errors", // TODO(roland): this should be removed eventually
+		"-pipe",
+		"-v",
 	}
 	if *bogoFilter != "" {
 		args = append(args, fmt.Sprintf("-test=%s", *bogoFilter))
