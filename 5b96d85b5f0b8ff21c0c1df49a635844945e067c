@@ -214,6 +214,24 @@
       "parentUuid": "ade9a492_349c95a9",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd59c3e4_dccdef40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-20T16:09:39Z",
+      "side": 1,
+      "message": "After clone, there will only be a single thread of execution running.  If any goroutine before clone is holding a lock, that lock will never be released.  That could be the garbage collector--it\u0027s not under the control of your application.  So calling clone and then continuing to run means that your program will occasionally and predictably deadlock trying to acquire a lock that will never be released.  That is just one example of the kind of problem that can occur if a Go program continues to run after calling clone.",
+      "parentUuid": "82af6827_48bcd60e",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
