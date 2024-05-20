@@ -178,6 +178,24 @@
       "parentUuid": "e5775558_de49b097",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ade9a492_349c95a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-20T05:20:50Z",
+      "side": 1,
+      "message": "To be clear, I\u0027m not asking why you use clone.  I\u0027m saying that in Go it is only OK to use clone if the cloned child is going to run execve very quickly.  It is never OK to use clone in any other circumstance.\n\nWhen runc calls clone, does the child call execve very quickly?\n\nIf not, calling clone is going to leave the child in an unsafe state.  We should not let that case succeed.",
+      "parentUuid": "7ecf33d7_af577fc4",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
