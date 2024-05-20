@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf5cc5b_386bed86",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1762,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-20T20:45:51Z",
+      "side": 1,
+      "message": "we tend to write all the comments out in full sentences so the first line would be The returned currentGoMod contains the contents of the go.mod file before the update. But I don\u0027t think we need extra comments for currentGoMod, updatedGoMod and err. Two of the remaining return values can be removed and one replaced:\n\nWe don\u0027t need to return mainModule. We can call mustGetSingleMainModule in commit requirements.\nInstead of modfile I think we should just return a modFileIsDirty value (we\u0027ll do extra work in the tidy case but i don\u0027t think that\u0027s a big deal).\nIn the `ok \u0026\u0026 err \u003d\u003d nil` case let\u0027s just return a special error to represent the case where there\u0027s no go.mod file and then in commitrequirements check for that and return nil.",
+      "range": {
+        "startLine": 1757,
+        "startChar": 0,
+        "endLine": 1762,
+        "endChar": 24
+      },
+      "revId": "2365e82d4633ad3116ded18473faa8ca86756841",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6af4b1b5_bc8be717",
@@ -20,6 +43,86 @@
         "endLine": 1763,
         "endChar": 24
       },
+      "revId": "2365e82d4633ad3116ded18473faa8ca86756841",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f8f994a_ca8ba9d0",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-20T20:45:51Z",
+      "side": 1,
+      "message": "we don\u0027t need the newlines. remove here and below",
+      "range": {
+        "startLine": 461,
+        "startChar": 52,
+        "endLine": 461,
+        "endChar": 54
+      },
+      "revId": "2365e82d4633ad3116ded18473faa8ca86756841",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b49de1_d1228829",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-20T20:45:51Z",
+      "side": 1,
+      "message": "could we add an panic if tidy is not set but tidydiff is?",
+      "revId": "2365e82d4633ad3116ded18473faa8ca86756841",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7613e982_29fd83f3",
+        "filename": "src/cmd/go/testdata/script/mod_tidy_diff.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-20T20:45:51Z",
+      "side": 1,
+      "message": "could we test the diff output for this case? We could put it in a file and then cmp stdout \u003cfile\u003e?",
+      "range": {
+        "startLine": 42,
+        "startChar": 26,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "2365e82d4633ad3116ded18473faa8ca86756841",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd99f631_3bc1bc74",
+        "filename": "src/cmd/go/testdata/script/mod_tidy_diff.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-20T20:45:51Z",
+      "side": 1,
+      "message": "could we test the branch where both go.mod and go.sum require updates?",
       "revId": "2365e82d4633ad3116ded18473faa8ca86756841",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
