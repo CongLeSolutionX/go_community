@@ -196,6 +196,24 @@
       "parentUuid": "7ecf33d7_af577fc4",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82af6827_48bcd60e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-20T09:26:33Z",
+      "side": 1,
+      "message": "\u003e\u003e\u003e When runc calls clone, does the child call execve very quickly?\n\nNo, after calling `clone(2)`, runc has to do lots of work before calling `execve`, and the `execve` calling is in the go routine, not in C env. Before go 1.22, it works fine in runc, the main reason is that both Go and runc are not using `pthread lib` to deal with the main business. This is also the main reason I recommend to have a backward compatibility. Because the `tid dirty cache` bug is a `pthread lib` bug, neither a kernel bug, nor a runtime / user code bug. So I think if we know there is a bug in a lib, we should not use it, but we think that there is no bug in the newer version pthread lib, so we want to adopt it, I admit that it makes sense, but we should have a backward compatibility.\n\n\u003e\u003e\u003e calling clone is going to leave the child in an unsafe state\n\nI think it is `pthread lib` let the child in an unsafe state, not go runtime. If the child does not use `pthread lib`, it will not in an unsafe state. Whether using `pthread lib` or not is determined by the child, not go runtime. The child should take responsibility for this unsafe state if he uses `pthread lib`, I think go runtime should have no responsibility for this unsafe state.\n\nWDYT",
+      "parentUuid": "ade9a492_349c95a9",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
