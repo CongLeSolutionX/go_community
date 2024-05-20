@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78232c3a_53efef93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-05-20T19:41:25Z",
+      "side": 1,
+      "message": "The TryBot failure was fixed in the parent CL.",
+      "revId": "0b136507e9c4b964015e3d07a64774be3a36d885",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
