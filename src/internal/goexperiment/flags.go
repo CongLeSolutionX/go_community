@@ -110,4 +110,8 @@ type Flags struct {
 
 	// RangeFunc enables range over func.
 	RangeFunc bool
+
+	// AliasTypeParams enables type parameters for alias types.
+	// Requires that gotypesalias=1 is set with GODEBUG.
+	AliasTypeParams bool
 }
