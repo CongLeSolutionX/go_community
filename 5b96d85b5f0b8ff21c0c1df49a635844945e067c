@@ -124,6 +124,24 @@
       "parentUuid": "105b9c55_efee4c6d",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c17ebd9_dda61d84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-20T00:02:30Z",
+      "side": 1,
+      "message": "You really can\u0027t call clone in a Go program if you don\u0027t immediately call execve.  It just can\u0027t work.  A CL like this seems like it is just papering over the cracks.  But it\u0027s actually better to fail fast and reliably than it is to fail slowly and unpredictably.  The latter is just a source of lingering unfixable bugs.\n\nIf there is some reason that the use of clone in runc is OK, please explain why it is OK.  Thanks.",
+      "parentUuid": "177cfc5b_6ebb104b",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
