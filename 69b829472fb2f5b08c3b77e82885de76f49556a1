@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd118754_fdd76117",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-20T04:13:49Z",
+      "side": 1,
+      "message": "This condition is confusing enough that it needs a comment.",
+      "revId": "69b829472fb2f5b08c3b77e82885de76f49556a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36840099_f11a7659",
+        "filename": "src/encoding/base64/base64_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-20T04:13:49Z",
+      "side": 1,
+      "message": "Calling rawRef on s.decoded doesn\u0027t seem to make sense.  It\u0027s not going to affect any of the strings.",
+      "revId": "69b829472fb2f5b08c3b77e82885de76f49556a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
