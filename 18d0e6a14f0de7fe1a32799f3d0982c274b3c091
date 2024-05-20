@@ -16,6 +16,24 @@
       "message": "Nice. Please add a release note.",
       "revId": "18d0e6a14f0de7fe1a32799f3d0982c274b3c091",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b699617_f50a422c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-20T18:40:03Z",
+      "side": 1,
+      "message": "See https://go.dev/cl/586895 .",
+      "parentUuid": "e784f804_8d51c764",
+      "revId": "18d0e6a14f0de7fe1a32799f3d0982c274b3c091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
