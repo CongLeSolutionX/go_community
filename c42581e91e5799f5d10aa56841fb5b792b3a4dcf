@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b85324e_64f02134",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-20T21:24:25Z",
+      "side": 1,
+      "message": "That sounds like a great flag, yes! You\u0027d marked this comment as \"resolved\", so I assume you\u0027re not requesting that for the Go 1.23 cycle.",
+      "parentUuid": "123dda2f_0f1999d2",
+      "revId": "c42581e91e5799f5d10aa56841fb5b792b3a4dcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f30f304_48a08b90",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "998808b6_34d67339",
+        "filename": "src/runtime/lock_futex.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-20T21:24:25Z",
+      "side": 1,
+      "message": "This structure comes from lock_sema.go, and dates from the C implementation. It looks like early revisions of https://golang.org/cl/5140043 needed it, before a reviewer suggested a restructure to avoid a second atomic lookup.\n\nIt would be hard for this to be false. If `spin` and `spin+passive_spin` are both 0, then the `i\u003d0` at the end of the failed CAS wouldn\u0027t be enough to force a reload of `v` before landing in this block. But if that\u0027s the case (would require changing the `passive_spin` const to 0, and running on a uniprocessor), then the real bug is a few lines above this where we set the `mutex_locked` flag without acknowledging ownership of the mutex. (This is present in go1.22.3\u0027s lock_sema.go as well.)\n\nI think the next step for lock2/unlock2 (in a future cycle) is to factor out this new bookkeeping code and perhaps to unify their implementations across platforms. They\u0027ve grown very big and very similar.",
+      "parentUuid": "7f30f304_48a08b90",
+      "revId": "c42581e91e5799f5d10aa56841fb5b792b3a4dcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b3d0652_e0765044",
         "filename": "src/runtime/lock_sema.go",
         "patchSetId": 4
@@ -48,6 +84,24 @@
       "writtenOn": "2024-05-20T16:31:50Z",
       "side": 1,
       "message": "This doesn\u0027t clear mp.mWaitList.next.prev.\n\nI don\u0027t see any bugs around this (e.g., in removeMutexWaitList), but it seems like an easy mistake to make to follow a prev pointer and end up off the list (and possibly corrupting some other list).\n\nCan we safely clear that here? (I haven\u0027t thought too hard about it)",
+      "revId": "c42581e91e5799f5d10aa56841fb5b792b3a4dcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "958c760e_3eae99f2",
+        "filename": "src/runtime/lock_sema.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-20T21:24:25Z",
+      "side": 1,
+      "message": "We still own the lock here, so we can safely manipulate any mWaitList field of any M that has published itself as a member of the list.\n\nI\u0027m wary of adding extra handling here, since lock_sema\u0027s wakeup behavior is a special case of what we get in lock_futex: here, we always wake the head of the list but with futex it could be any entry (including the head). So if there\u0027s a problem with the logic in removeMutexWaitList, it would still be a problem for the futex-based ports.",
+      "parentUuid": "0b3d0652_e0765044",
       "revId": "c42581e91e5799f5d10aa56841fb5b792b3a4dcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
