@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c540d9ae_7e55415c",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-21T14:59:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "017af955_24bd9a66",
+      "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d45c5a9_c5be8b50",
@@ -104,6 +122,24 @@
       "side": 1,
       "message": "Good suggestion. I will add it. Thank you.",
       "parentUuid": "7d45c5a9_c5be8b50",
+      "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0fd722c_55dea121",
+        "filename": "src/cmd/compile/internal/ssa/_gen/genericOps.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-21T14:59:30Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "23699896_2ab15425",
       "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -156,6 +192,24 @@
       "side": 1,
       "message": "Yes, we should. I think it can be done in this CL. Thank you.",
       "parentUuid": "bf0770aa_c5b6c87b",
+      "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70bfe85f_d47bb683",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5036,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-21T14:59:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27c903d1_1629e88c",
       "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
