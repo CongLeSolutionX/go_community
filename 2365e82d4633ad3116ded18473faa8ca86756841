@@ -200,6 +200,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edf12c32_1fd465bf",
+        "filename": "src/cmd/go/testdata/script/mod_tidy_diff.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-21T20:58:05Z",
+      "side": 1,
+      "message": "I instead added individual stdout checks. LMK if that\u0027s sufficient.",
+      "parentUuid": "cbd950ce_bc3afc5f",
+      "range": {
+        "startLine": 42,
+        "startChar": 26,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "2365e82d4633ad3116ded18473faa8ca86756841",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd99f631_3bc1bc74",
