@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "017af955_24bd9a66",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-21T08:35:33Z",
+      "side": 1,
+      "message": "Got it. I will change it.",
+      "parentUuid": "d7a3256f_9c36b081",
+      "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d45c5a9_c5be8b50",
         "filename": "src/cmd/compile/internal/ssa/_gen/genericOps.go",
         "patchSetId": 5
@@ -68,6 +86,24 @@
       "writtenOn": "2024-05-17T18:29:46Z",
       "side": 1,
       "message": "Can we update this comment to explain what these variants actually do, even if it\u0027s ARM64-only? If I understand correctly, it\u0027s something like\n\n// Atomic operation variants\n// These variants have the same semantics as above atomic operations.\n// On ARM64, these are used when the LSE hardware feature is available (either known at compile time or detected at runtime). If LSE is not available, then we use the basic atomic operations instead.\n// These are not currently used on any other platform.",
+      "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23699896_2ab15425",
+        "filename": "src/cmd/compile/internal/ssa/_gen/genericOps.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-21T08:35:33Z",
+      "side": 1,
+      "message": "Good suggestion. I will add it. Thank you.",
+      "parentUuid": "7d45c5a9_c5be8b50",
       "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -102,6 +138,24 @@
       "writtenOn": "2024-05-17T18:29:46Z",
       "side": 1,
       "message": "Maybe this should be a separate CL, but shouldn\u0027t we alias all of the And/Or operations into sync/atomic here?",
+      "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27c903d1_1629e88c",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5036,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-21T08:35:33Z",
+      "side": 1,
+      "message": "Yes, we should. I think it can be done in this CL. Thank you.",
+      "parentUuid": "bf0770aa_c5b6c87b",
       "revId": "b6fb7b77a1271b9637cc7d1c28d6656ae2ebcba2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

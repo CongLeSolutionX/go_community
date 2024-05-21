@@ -180,6 +180,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c2c2970_f1dd57c5",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-21T08:35:33Z",
+      "side": 0,
+      "message": "I\u0027m not sure whether the existing code is an error, because the atomic.And|And8|Or|Or8 function has no return value. \n\nAnd The comment in the ARM64.rules explains it\n\n// Currently the updated value is not used, but we need a register to temporarily hold it.\n\nI will mention this change in the commit message.",
+      "parentUuid": "5461331f_72d93a6c",
+      "revId": "7f76c00fc5678fa782708ba8fece63750cb89d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "494ddafd_a4afd265",
         "filename": "src/cmd/compile/internal/ssagen/ssa.go",
         "patchSetId": 1
