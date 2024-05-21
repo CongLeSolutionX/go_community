@@ -34,6 +34,23 @@
       "parentUuid": "2a2a1673_efce6860",
       "revId": "df48e07a22e16213df5129a290a036c785d6f7db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0892c32b_428d8080",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-21T22:38:49Z",
+      "side": 1,
+      "message": "Thanks.\n\nAs with Rob\u0027s comment on https://go.dev/cl/586616: This change looks fine in isolation, but we should update the whole tree to use slices.Sort at once, rather than in many small CLs reviewed by different people.\n\nLet\u0027s get a decision on https://go.dev/issue/67510 before trying to do that, though.",
+      "revId": "df48e07a22e16213df5129a290a036c785d6f7db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
