@@ -268,6 +268,24 @@
       "parentUuid": "18e8c370_baff563e",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77ed326f_5c535e57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-21T17:47:54Z",
+      "side": 1,
+      "message": "Then I guess I don\u0027t understand the problem.\n\nBut stepping back, I do see that glibc 2.32 adds the call to pthread_attr_init in pthread_getattr_np.  glibc 2.32 was released 2020-08-05, so it seems reasonable for us to always call pthread_attr_init before pthread_getattr_np.  Can you change the CL to do that?  On an error, we should crash.  Thanks.",
+      "parentUuid": "2bf5a30f_68b2c93b",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
