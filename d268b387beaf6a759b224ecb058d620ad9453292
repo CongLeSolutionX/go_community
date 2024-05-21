@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9ae926_75eaccc8",
+        "filename": "src/cmd/go/internal/telemetrystats/telemetrystats.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-21T21:21:04Z",
+      "side": 1,
+      "message": "\"Telemetry is enabled\" sounds like the non-default behavior. But this writes local counter data in the default mode of \"local\". Perhaps omit this, or write as \"if local telemetry collection is enabled\".",
+      "range": {
+        "startLine": 17,
+        "startChar": 38,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32922459_9ae3f257",
+        "filename": "src/cmd/go/internal/telemetrystats/telemetrystats.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-21T21:21:04Z",
+      "side": 1,
+      "message": "Are any of these buckets volatile? Are they provided by the user? It makes me a little uncomfortable to have an unbounded number of counters incremented. In almost all previous cases we\u0027ve enumerated all of the counter names in the code, not synthesized a counter name out of a user-provided value. (The one exception to this would be /gopls/client-other, for which the number of distinct clients should be very small, and for the most part this is provided by the LSP client, not the user directly).",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 2
+      },
+      "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
