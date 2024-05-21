@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1240cd18_0c559816",
+        "filename": "doc/next/6-stdlib/99-minor/net/http/62490.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-21T21:40:49Z",
+      "side": 1,
+      "message": "```\nThe new [Cookie.Partitioned] field identifies cookies\nwith the Partitioned attribute.\n```",
+      "revId": "96c7c37c092906e47cc36f624637dc2e441aa544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd8fec7c_a1dbb452",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-21T21:40:49Z",
+      "side": 1,
+      "message": "What\u0027s the source for requiring `Path\u003d/`? I can\u0027t seem to find that requirement in https://github.com/privacycg/CHIPS, https://datatracker.ietf.org/doc/html/draft-cutler-httpbis-partitioned-cookies, or https://developer.mozilla.org/en-US/docs/Web/Privacy/Privacy_sandbox/Partitioned_cookies.",
+      "revId": "96c7c37c092906e47cc36f624637dc2e441aa544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
