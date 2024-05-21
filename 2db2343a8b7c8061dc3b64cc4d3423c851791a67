@@ -176,6 +176,24 @@
       "parentUuid": "ecf1ada5_542a1e89",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db95980_c4ecaa87",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-21T22:46:21Z",
+      "side": 1,
+      "message": "Sorry for losing track of this, many distractions.\n\nWhat I\u0027d like is for us to have tests that cover these cases, so we document our current behavior and can identify in the future if it changes either intentionally or unintentionally.\n\nI\u0027m okay if the tests verify that we produce incorrect/spec-noncompliant output, so long as the test includes a comment explaining that we\u0027re doing the wrong thing and identifying what we think the right thing would be.\n\nDon\u0027t worry about it, though, I can add them myself in a followup CL. I\u0027ve been convinced that this one is a strict improvement as-is.  Thanks.",
+      "parentUuid": "c3dbe1e1_ebd46f99",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
