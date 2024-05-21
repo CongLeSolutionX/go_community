@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b05b4e0c_c7526fc0",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-21T22:47:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "79c76e19_10260631",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55252b1b_96b1e17d",
@@ -85,6 +103,24 @@
       "side": 1,
       "message": "Since the opaque is stored separately, if we reach the end of the funcion (the \"abs_path\" or \"rel_path\" cases), we know that the ref doesn\u0027t have an opaque value (either because we entered the `ref.Opaque !\u003d \"\"` condition or because for it to have an opaque value it needs a scheme and so entered that first condition mentioned previously: `if ref.Scheme !\u003d \"\" || ref.Host !\u003d \"\" || ref.User !\u003d nil` ), so if its path is `!\u003d \"\"` (and a path in the URI class starts with a \u0027/\u0027) the corresponding pseudocode that would be executed is: \n```\nif (R.path starts-with \"/\") then\n  T.path \u003d remove_dot_segments(R.path);\n``` \nIn the current implementation, the final path will be `resolvePath(u.EscapedPath(), ref.EscapedPath())`, which should return what would be expected from the `remove_dot_segments(R.path)` call in the pseudocode (and from my understanding of the function and testing, it does), independently if the base URL has an opaque or not (since only the `R.path` should be taken into account here), because otherwise this general case (when `R.scheme \u003d\u003d \"\" \u0026\u0026 R.Authority \u003d\u003d \"\" \u0026\u0026 R.path !\u003d \"\"`) is not according to the spec and there\u0027s another issue here (not related with the opaque issue).",
       "parentUuid": "55252b1b_96b1e17d",
+      "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd32565_67b9ebae",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-21T22:47:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d334067c_83fceb72",
       "revId": "2db2343a8b7c8061dc3b64cc4d3423c851791a67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
