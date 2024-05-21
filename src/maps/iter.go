@@ -7,6 +7,7 @@ package maps
 import "iter"
 
 // All returns an iterator over key-value pairs from m.
+// The iteration order is undefined and may differ each time.
 func All[Map ~map[K]V, K comparable, V any](m Map) iter.Seq2[K, V] {
 	return func(yield func(K, V) bool) {
 		for k, v := range m {
@@ -18,6 +19,7 @@ func All[Map ~map[K]V, K comparable, V any](m Map) iter.Seq2[K, V] {
 }
 
 // Keys returns an iterator over keys in m.
+// The iteration order is undefined and may differ each time.
 func Keys[Map ~map[K]V, K comparable, V any](m Map) iter.Seq[K] {
 	return func(yield func(K) bool) {
 		for k := range m {
@@ -29,6 +31,7 @@ func Keys[Map ~map[K]V, K comparable, V any](m Map) iter.Seq[K] {
 }
 
 // Values returns an iterator over values in m.
+// The iteration order is undefined and may differ each time.
 func Values[Map ~map[K]V, K comparable, V any](m Map) iter.Seq[V] {
 	return func(yield func(V) bool) {
 		for _, v := range m {
@@ -40,6 +43,7 @@ func Values[Map ~map[K]V, K comparable, V any](m Map) iter.Seq[V] {
 }
 
 // Insert adds the key-value pairs from seq to m.
+// If a key in seq already exists in m, its value will be overwritten.
 func Insert[Map ~map[K]V, K comparable, V any](m Map, seq iter.Seq2[K, V]) {
 	for k, v := range seq {
 		m[k] = v
