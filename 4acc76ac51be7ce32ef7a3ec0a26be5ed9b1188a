@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bfd992b_163c1956",
+        "filename": "src/crypto/internal/hpke/hpke_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T21:39:28Z",
+      "side": 1,
+      "message": "t.Cleanup(func() { testingOnlyGenerateKey \u003d nil })",
+      "revId": "4acc76ac51be7ce32ef7a3ec0a26be5ed9b1188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
