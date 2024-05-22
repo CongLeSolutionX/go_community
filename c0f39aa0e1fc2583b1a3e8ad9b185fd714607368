@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "707f5461_5eeb6f5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-22T20:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37941d59_18c2ed79",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 3
+      },
+      "revId": "c0f39aa0e1fc2583b1a3e8ad9b185fd714607368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcc60d97_c17a2ecc",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-22T20:50:32Z",
       "side": 1,
       "message": "Nit: by convention: len(\".\").",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 17
+      },
+      "revId": "c0f39aa0e1fc2583b1a3e8ad9b185fd714607368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c54f8f85_e9e88fc0",
+        "filename": "src/cmd/go/internal/telemetrystats/version_unix.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-22T20:52:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc60d97_c17a2ecc",
       "range": {
         "startLine": 51,
         "startChar": 16,
