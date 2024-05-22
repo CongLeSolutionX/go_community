@@ -45,6 +45,47 @@
       },
       "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e61b4900_bc64b061",
+        "filename": "src/cmd/go/internal/telemetrystats/version_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T14:51:04Z",
+      "side": 1,
+      "message": "Is it necessary to copy the array since we don\u0027t use v.Sysname again?",
+      "range": {
+        "startLine": 31,
+        "startChar": 49,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cf03dcfc_bdecf9ee",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/go/internal/telemetrystats/version_unix.go",
+              "range": {
+                "startLine": 31,
+                "startChar": 0,
+                "endLine": 32,
+                "endChar": 0
+              },
+              "replacement": "\tmajor, minor, ok :\u003d majorMinor(convert(v.Sysname))\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
