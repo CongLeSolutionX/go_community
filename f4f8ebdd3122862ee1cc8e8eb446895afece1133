@@ -1,0 +1,411 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14bdaecd_28bf5344",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "string type, makes call sites cleaner and harder to mix things up.",
+      "range": {
+        "startLine": 25,
+        "startChar": 50,
+        "endLine": 25,
+        "endChar": 55
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1338f733_65cc6b5c",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "make([]byte, 0, ...)",
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6159ae2f_5a8c7e90",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 32,
+        "startChar": 54,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a03a174c_f39b2875",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "```suggestion\n// dhKEM implements the KEM specified in RFC 9180, Section 4.1.\n```\n\nI tried to be very consistent because one day I hope to make these clickable in vscode-go.",
+      "range": {
+        "startLine": 47,
+        "startChar": 41,
+        "endLine": 47,
+        "endChar": 65
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8669d456_8d01c09d",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tsuiteID: binary.BigEndian.AppendUint16([]byte(\"KEM\"), kemID),\n```\n\nI don\u0027t think here there\u0027s an allocations benefit since it\u0027s a single append.",
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17a897a8_af63e20a",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "nil",
+      "range": {
+        "startLine": 85,
+        "startChar": 48,
+        "endLine": 85,
+        "endChar": 58
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29cc1dba_2d1b215d",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "Named returns, as they can\u0027t be told apart.",
+      "range": {
+        "startLine": 89,
+        "startChar": 54,
+        "endLine": 89,
+        "endChar": 68
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fbae192_d291b357",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 123,
+        "startChar": 87,
+        "endLine": 123,
+        "endChar": 101
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41e4798c_85de012e",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "This can\u0027t be right. dhB is Recipient+Sender in AuthDecap, and AuthDecap doesn\u0027t have either privEph or privSender, so it could never produce this value.\n\nThere are no tests for Decap, AuthEncap, and AuthDecap. Either add them or delete them. (I lean towards deleting in this CL, and adding them back later.",
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09532fe5_0dabfcc1",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "nit: here and everywhere the RFC is mentioned with a section, \"RFC 9180, Section 7.3\". (See above.)",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 192,
+        "endChar": 24
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ffdb8f8_badce803",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "Make this an aesGCMNew variable.",
+      "range": {
+        "startLine": 193,
+        "startChar": 44,
+        "endLine": 199,
+        "endChar": 2
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be528af0_9ddcaf01",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "```suggestion\n\t0x0003: {keySize: chacha20poly1305.KeySize, nonceSize: chacha20poly1305.NonceSize, aead: chacha20poly1305.New},\n```",
+      "range": {
+        "startLine": 207,
+        "startChar": 34,
+        "endLine": 207,
+        "endChar": 36
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4676974_34576304",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "For the next API iteration, I\u0027m not a fan of the sequence of three uint16. Maybe the answer is just named types, maybe it\u0027s a SuiteID type that the user constructs.",
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89b1fb13_d1522bcb",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "Panic on type mismatch here is a bit harsh.",
+      "range": {
+        "startLine": 222,
+        "startChar": 49,
+        "endLine": 222,
+        "endChar": 70
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5660c625_83bb2b66",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "Here and elsewhere, nil.",
+      "range": {
+        "startLine": 238,
+        "startChar": 42,
+        "endLine": 238,
+        "endChar": 52
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ad0d77e_d723f198",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right to me, it allows 2^95 (because the addOne happens after the check) but then doesn\u0027t allow 2^95 + 1 to 2^96 - 1, but I see it\u0027s like this in Section 5.2, and it\u0027s not reachable anyway, so ok to keep as-is, maybe with a comment.\n\nActually, make that a panic so you don\u0027t have to return an error from nextNonce.",
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd7732ed_f50e734c",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "Marge these two, as it would always be a mistake (and a bad one) to call computeNonce and forget to call incrementSeqNum. Maybe it can be called nextNonce.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 1
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eda387f_1800790e",
+        "filename": "src/crypto/internal/hpke/hpke.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "pretty",
+      "range": {
+        "startLine": 306,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 1
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4215220a_5abad57d",
+        "filename": "src/crypto/internal/hpke/hpke_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T07:53:11Z",
+      "side": 1,
+      "message": "Hmm, this is very fragile. Suggestion: remove fakeRand and all the \"rand io.Reader\" plumbing everywhere. Replace dh.dh.GenerateKey(dh.rand) with\n\n```\nif testingOnlyGenerateKey !\u003d nil {\n    testingOnlyGenerateKey()\n} else {\n    dh.dh.GenerateKey(crypto/rand.Reader)\n}\n```",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 4
+      },
+      "revId": "f4f8ebdd3122862ee1cc8e8eb446895afece1133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
