@@ -1,0 +1,397 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ff55311_c151ed9b",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "\"causes tidy not to modify the files but instead print the necessary changes as a unified diff. It exits...\"",
+      "range": {
+        "startLine": 1370,
+        "startChar": 18,
+        "endLine": 1371,
+        "endChar": 20
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5b8a6f0c_42a41a45",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/go/alldocs.go",
+              "range": {
+                "startLine": 1370,
+                "startChar": 0,
+                "endLine": 1373,
+                "endChar": 0
+              },
+              "replacement": "// The -diff flag causes tidy not to modify the files but instead\n// to print the necessary changes as a unified diff instead of applying\n// them directly to the files.\n"
+            },
+            {
+              "path": "src/cmd/go/alldocs.go",
+              "range": {
+                "startLine": 1388,
+                "startChar": 0,
+                "endLine": 1388,
+                "endChar": 0
+              },
+              "replacement": "// The -v flag causes tidy to print information about removed modules\n// to standard error.\n//\n"
+            }
+          ]
+        }
+      ],
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48c121f9_0c05a075",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "returns\n\n(present tense)",
+      "range": {
+        "startLine": 888,
+        "startChar": 13,
+        "endLine": 888,
+        "endChar": 24
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b8c5649_76fb013e",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "\"a missing go.sum file is treated as if empty\"",
+      "range": {
+        "startLine": 889,
+        "startChar": 20,
+        "endLine": 889,
+        "endChar": 61
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbc97854_1b508562",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "factor the types: before, after []byte",
+      "range": {
+        "startLine": 890,
+        "startChar": 46,
+        "endLine": 890,
+        "endChar": 67
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1973861c_44a4072b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/go/internal/modfetch/fetch.go",
+              "range": {
+                "startLine": 890,
+                "startChar": 0,
+                "endLine": 891,
+                "endChar": 0
+              },
+              "replacement": "func TidyGoSum(keep map[module.Version]bool) (before, after []byte) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "548401bd_666f4589",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "Never ignore errors from I/O, as they are more diverse than one can imagine. The error message in a CI test log may be your only indication of a transient hardware failure.\n\nCheck explicitly for IsNotExist and fail on all other errors.",
+      "range": {
+        "startLine": 893,
+        "startChar": 9,
+        "endLine": 893,
+        "endChar": 10
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d33ac1b9_9d300109",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/go/internal/modfetch/fetch.go",
+              "range": {
+                "startLine": 893,
+                "startChar": 0,
+                "endLine": 894,
+                "endChar": 0
+              },
+              "replacement": "\tbefore, err :\u003d lockedfile.Read(GoSumFile)\n\tif err !\u003d nil \u0026\u0026 !os.IsNotExist(err) {\n\t\tbase.Fatalf(\"verifying %v\", module.VersionError(module.Version{}, err))\n\t}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3512e9d2_30bccf2c",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "Error messages start with a lowercase letter and don\u0027t end with a period, so they can be concatenated. e.g.\n\n\"Error: battle lost: no horses: all horses unshod: nail supply exhausted\".",
+      "range": {
+        "startLine": 1754,
+        "startChar": 30,
+        "endLine": 1754,
+        "endChar": 47
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "66a06d17_2a9ad07e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/go/internal/modload/init.go",
+              "range": {
+                "startLine": 1866,
+                "startChar": 0,
+                "endLine": 1867,
+                "endChar": 0
+              },
+              "replacement": "\t// If the update was unsuccessful, return early.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "966a8462_3d41dec6",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1756,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "updates (present tense)\n\nExcept it doesn\u0027t really update, it \"returns a copy modified to use the current requirements\", or somesuch.",
+      "range": {
+        "startLine": 1756,
+        "startChar": 23,
+        "endLine": 1756,
+        "endChar": 34
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b07eec19_a3b9e354",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/go/internal/modload/init.go",
+              "range": {
+                "startLine": 1756,
+                "startChar": 0,
+                "endLine": 1758,
+                "endChar": 0
+              },
+              "replacement": "// UpdateGoModFromReqs updates the go.mod using the current requirements.\n// It returns a modified go.mod file, but does not commit these changes to disk.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc1e3ed_3a733516",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "Where does the \"current\" result come from? It appears to read it, parse it, and reformat it.",
+      "range": {
+        "startLine": 1757,
+        "startChar": 3,
+        "endLine": 1757,
+        "endChar": 44
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e054878_c82279ff",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1758,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "before, after []byte",
+      "range": {
+        "startLine": 1758,
+        "startChar": 63,
+        "endLine": 1758,
+        "endChar": 96
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc5c5a7_524bfbac",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1765,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "Don\u0027t ignore the error.",
+      "range": {
+        "startLine": 1765,
+        "startChar": 15,
+        "endLine": 1765,
+        "endChar": 16
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "505c9c3c_9f90db28",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1846,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "This assignment to err is clobbered by the \"return nil\" on the following line.",
+      "range": {
+        "startLine": 1846,
+        "startChar": 15,
+        "endLine": 1846,
+        "endChar": 18
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26b97f1b_8e8d846f",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1866,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "unsuccessful\n\nBut the comment merely restates the code, so it can be deleted.",
+      "range": {
+        "startLine": 1866,
+        "startChar": 22,
+        "endLine": 1866,
+        "endChar": 33
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c51009b_28582387",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T15:13:18Z",
+      "side": 1,
+      "message": "Are these error messages necessary? The diff and the exit code should suffice.\n\nThen you can factor the repetition.",
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
