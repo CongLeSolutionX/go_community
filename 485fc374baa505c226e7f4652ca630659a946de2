@@ -70,6 +70,24 @@
       "message": "Actually this might be considered a breaking change when someone changes the default Reader:\n\n```\nimport \"crypto/rand\"\n\nfunc init() {\n    rand.Reader \u003d myRandReader{}\n}\n```",
       "revId": "485fc374baa505c226e7f4652ca630659a946de2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54637399_bd412394",
+        "filename": "src/crypto/rand/rand.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-05-22T12:49:23Z",
+      "side": 1,
+      "message": "Indeed, this came up for https://go-review.googlesource.com/c/go/+/511375/comment/c2b3138b_f2d7b5c9/ too. I\u0027m afraid #66779 might be unfixable.",
+      "parentUuid": "3bf74501_01145400",
+      "revId": "485fc374baa505c226e7f4652ca630659a946de2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
