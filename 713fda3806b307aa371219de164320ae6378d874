@@ -477,6 +477,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3a2a46_c3400256",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-05-22T16:46:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "df287427_262c5a84",
+      "range": {
+        "startLine": 1757,
+        "startChar": 3,
+        "endLine": 1757,
+        "endChar": 44
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e054878_c82279ff",
