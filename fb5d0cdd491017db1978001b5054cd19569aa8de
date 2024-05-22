@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78a00f8e_1d26a603",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-22T21:48:54Z",
+      "side": 1,
+      "message": "A new flag likely needs a release note. Sent CL 587695.",
+      "revId": "fb5d0cdd491017db1978001b5054cd19569aa8de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
