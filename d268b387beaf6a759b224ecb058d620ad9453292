@@ -86,6 +86,30 @@
       ],
       "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2417596c_8a067256",
+        "filename": "src/cmd/go/internal/telemetrystats/version_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-22T17:13:35Z",
+      "side": 1,
+      "message": "discussed offline",
+      "parentUuid": "e61b4900_bc64b061",
+      "range": {
+        "startLine": 31,
+        "startChar": 49,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
