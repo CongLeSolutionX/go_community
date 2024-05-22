@@ -95,6 +95,53 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd8c596_903387d9",
+        "filename": "src/cmd/go/internal/telemetrystats/telemetrystats.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-22T17:40:05Z",
+      "side": 1,
+      "message": "I think it would be very strange for the user to keep getting an error with distinct invalid values, such that they fill up the counter file.\n\nSo I think this is fine.",
+      "parentUuid": "bf53b160_246bf94e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 2
+      },
+      "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edbad4c9_5d3226b3",
+        "filename": "src/cmd/go/internal/telemetrystats/version_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-22T17:40:05Z",
+      "side": 1,
+      "message": "What are all these %d supposed to be? Is this a format verb?",
+      "range": {
+        "startLine": 28,
+        "startChar": 34,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e61b4900_bc64b061",
@@ -155,6 +202,29 @@
         "startChar": 49,
         "endLine": 31,
         "endChar": 52
+      },
+      "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3ce383d_5bc3daac",
+        "filename": "src/cmd/go/internal/telemetrystats/version_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-22T17:40:05Z",
+      "side": 1,
+      "message": "I may be missing something... but isn\u0027t this one too many format verbs? How did this pass vet? (I _must_ be missing something)",
+      "range": {
+        "startLine": 36,
+        "startChar": 62,
+        "endLine": 36,
+        "endChar": 67
       },
       "revId": "d268b387beaf6a759b224ecb058d620ad9453292",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
