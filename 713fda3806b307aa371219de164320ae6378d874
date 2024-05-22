@@ -52,6 +52,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3478eb93_b3c063e0",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ff55311_c151ed9b",
+      "range": {
+        "startLine": 1370,
+        "startChar": 18,
+        "endLine": 1371,
+        "endChar": 20
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48c121f9_0c05a075",
@@ -75,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc784381_435c46a2",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48c121f9_0c05a075",
+      "range": {
+        "startLine": 888,
+        "startChar": 13,
+        "endLine": 888,
+        "endChar": 24
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b8c5649_76fb013e",
@@ -88,6 +136,30 @@
       "writtenOn": "2024-05-22T15:13:18Z",
       "side": 1,
       "message": "\"a missing go.sum file is treated as if empty\"",
+      "range": {
+        "startLine": 889,
+        "startChar": 20,
+        "endLine": 889,
+        "endChar": 61
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24d7d47c_fb26513c",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b8c5649_76fb013e",
       "range": {
         "startLine": 889,
         "startChar": 20,
@@ -139,6 +211,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d59c3b7d_49510bca",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbc97854_1b508562",
+      "range": {
+        "startLine": 890,
+        "startChar": 46,
+        "endLine": 890,
+        "endChar": 67
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "548401bd_666f4589",
@@ -176,6 +272,30 @@
           ]
         }
       ],
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd40192e_3c3df9a9",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "548401bd_666f4589",
+      "range": {
+        "startLine": 893,
+        "startChar": 9,
+        "endLine": 893,
+        "endChar": 10
+      },
       "revId": "713fda3806b307aa371219de164320ae6378d874",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -221,6 +341,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d298c97_dd3b467b",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3512e9d2_30bccf2c",
+      "range": {
+        "startLine": 1754,
+        "startChar": 30,
+        "endLine": 1754,
+        "endChar": 47
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "966a8462_3d41dec6",
@@ -262,6 +406,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe082995_86e4a2bc",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1756,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966a8462_3d41dec6",
+      "range": {
+        "startLine": 1756,
+        "startChar": 23,
+        "endLine": 1756,
+        "endChar": 34
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccc1e3ed_3a733516",
@@ -275,6 +443,30 @@
       "writtenOn": "2024-05-22T15:13:18Z",
       "side": 1,
       "message": "Where does the \"current\" result come from? It appears to read it, parse it, and reformat it.",
+      "range": {
+        "startLine": 1757,
+        "startChar": 3,
+        "endLine": 1757,
+        "endChar": 44
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df287427_262c5a84",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "The current result comes from storing the modFile.Format() before doing the modFile operations. Based on how it was previously written, it only commits these changes when `MainModules.SetIndex` is called.",
+      "parentUuid": "ccc1e3ed_3a733516",
       "range": {
         "startLine": 1757,
         "startChar": 3,
@@ -308,6 +500,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8c50df3_2f3d7f88",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1758,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e054878_c82279ff",
+      "range": {
+        "startLine": 1758,
+        "startChar": 63,
+        "endLine": 1758,
+        "endChar": 96
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccc5c5a7_524bfbac",
@@ -321,6 +537,30 @@
       "writtenOn": "2024-05-22T15:13:18Z",
       "side": 1,
       "message": "Don\u0027t ignore the error.",
+      "range": {
+        "startLine": 1765,
+        "startChar": 15,
+        "endLine": 1765,
+        "endChar": 16
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee25979f_7c128ac2",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1765,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccc5c5a7_524bfbac",
       "range": {
         "startLine": 1765,
         "startChar": 15,
@@ -354,6 +594,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eec5f7a2_8a8bd6c0",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1846,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "505c9c3c_9f90db28",
+      "range": {
+        "startLine": 1846,
+        "startChar": 15,
+        "endLine": 1846,
+        "endChar": 18
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26b97f1b_8e8d846f",
@@ -377,6 +641,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1026e35b_225d431a",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1866,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26b97f1b_8e8d846f",
+      "range": {
+        "startLine": 1866,
+        "startChar": 22,
+        "endLine": 1866,
+        "endChar": 33
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c51009b_28582387",
@@ -390,6 +678,24 @@
       "writtenOn": "2024-05-22T15:13:18Z",
       "side": 1,
       "message": "Are these error messages necessary? The diff and the exit code should suffice.\n\nThen you can factor the repetition.",
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f2dfd57_c1cd6e6d",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T16:23:03Z",
+      "side": 1,
+      "message": "I suppose it\u0027s not necessary. Removed",
+      "parentUuid": "9c51009b_28582387",
       "revId": "713fda3806b307aa371219de164320ae6378d874",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
