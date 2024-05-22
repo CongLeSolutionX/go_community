@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb82e2d_f0fe917c",
+        "filename": "src/math/big/arith_decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-22T19:52:36Z",
+      "side": 1,
+      "message": "I didn\u0027t do that file because I think cmd/dist is the only user of math_big_pure_go, and it is not also building the code that uses the linkname.\nHappy to add it if we find out that\u0027s wrong.",
+      "parentUuid": "9410fdf1_6fb2444e",
+      "revId": "b2f5ac4c33fa920a1524f7b5e81e94ab075a5dd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfafcb3e_8985bd16",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-22T17:57:12Z",
       "side": 1,
       "message": "Also need the linkname in time_fake.go.",
+      "revId": "b2f5ac4c33fa920a1524f7b5e81e94ab075a5dd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44da1181_caeb0ea2",
+        "filename": "src/runtime/time_nofake.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-22T19:52:36Z",
+      "side": 1,
+      "message": "Done. (Looks like this was in the 2,000 CL, but I pulled it forward.)",
+      "parentUuid": "bfafcb3e_8985bd16",
       "revId": "b2f5ac4c33fa920a1524f7b5e81e94ab075a5dd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
