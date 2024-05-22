@@ -22,6 +22,30 @@
       },
       "revId": "0b6828ab8fce3a4589570bc1c3d44c3a9044b1a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7279e923_36cbd4bd",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-22T20:21:22Z",
+      "side": 1,
+      "message": "Removed. Thanks!",
+      "parentUuid": "8dcd2e0f_a884b2d3",
+      "range": {
+        "startLine": 107,
+        "startChar": 1,
+        "endLine": 110,
+        "endChar": 0
+      },
+      "revId": "0b6828ab8fce3a4589570bc1c3d44c3a9044b1a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
