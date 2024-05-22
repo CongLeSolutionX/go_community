@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a004c609_944129cb",
+        "filename": "doc/next/6-stdlib/99-minor/net/http/62490.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 65459
+      },
+      "writtenOn": "2024-05-22T00:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1240cd18_0c559816",
+      "revId": "96c7c37c092906e47cc36f624637dc2e441aa544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd8fec7c_a1dbb452",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Hi, please refer to link this https://developers.google.com/privacy-sandbox/blog/chips-origin-trial#additional_details",
       "parentUuid": "cd8fec7c_a1dbb452",
+      "revId": "96c7c37c092906e47cc36f624637dc2e441aa544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3ec78a9_87557ac2",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 65459
+      },
+      "writtenOn": "2024-05-22T00:39:33Z",
+      "side": 1,
+      "message": "It seems that the spec has been updated, I will remove the check.",
+      "parentUuid": "506afed3_8308f890",
       "revId": "96c7c37c092906e47cc36f624637dc2e441aa544",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
