@@ -106,6 +106,24 @@
       "parentUuid": "54637399_bd412394",
       "revId": "485fc374baa505c226e7f4652ca630659a946de2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef6f9b3_8b7b64b0",
+        "filename": "src/crypto/rand/rand.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-05-22T13:31:26Z",
+      "side": 1,
+      "message": "This might also be fixed with the help of the compiler, the only thing that prevents us from using Reader in the Read function is the io.Reader interface, compiler could see that the global is never reassigned and thus it can devirtualize it.",
+      "parentUuid": "3b3681f1_47afa338",
+      "revId": "485fc374baa505c226e7f4652ca630659a946de2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
