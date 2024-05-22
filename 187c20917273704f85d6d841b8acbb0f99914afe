@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9357f2e_6679c0e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-05-22T19:15:00Z",
+      "side": 1,
+      "message": "I\u0027m continuing to struggle with testing runtime-internal mutex profiles, especially with the comparison between clock domains. After CL 586796 reduced the sampling rate for `nanotime` calls, the `TestRuntimeLockMetricsAndProfile` test started flaking again on the build dashboard.",
+      "revId": "187c20917273704f85d6d841b8acbb0f99914afe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
