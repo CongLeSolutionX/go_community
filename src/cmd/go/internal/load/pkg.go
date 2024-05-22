@@ -2397,6 +2397,9 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 			appendSetting("-ldflags", ldflags)
 		}
 	}
+	if cfg.BuildCover {
+		appendSetting("-cover", "true")
+	}
 	if cfg.BuildMSan {
 		appendSetting("-msan", "true")
 	}
