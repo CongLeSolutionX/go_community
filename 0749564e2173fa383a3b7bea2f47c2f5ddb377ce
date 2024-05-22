@@ -22,6 +22,30 @@
       },
       "revId": "0749564e2173fa383a3b7bea2f47c2f5ddb377ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbfa3a1a_385ef264",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-05-22T17:43:24Z",
+      "side": 1,
+      "message": "Unfortunately not.  In practice people do write offsets of 24 hours or 60 minutes or 60 seconds, even though it doesn\u0027t necessarily make sense.  If we use \u003e\u003d here, tests that currently work will fail.",
+      "parentUuid": "d67e6822_7fdeb482",
+      "range": {
+        "startLine": 1245,
+        "startChar": 9,
+        "endLine": 1245,
+        "endChar": 10
+      },
+      "revId": "0749564e2173fa383a3b7bea2f47c2f5ddb377ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
