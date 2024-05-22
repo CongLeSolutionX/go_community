@@ -35,7 +35,6 @@ import _ "unsafe"
 //go:linkname divideError
 
 // used in x/sys/cpu
-//go:linkname getAuxv
 
 // used in tests
 //go:linkname extraMInUse
