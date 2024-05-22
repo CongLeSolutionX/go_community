@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef21410c_46ba74e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-22T07:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06029b0_e3ea3861",
+      "range": {
+        "startLine": 13,
+        "startChar": 14,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03b6d970_62fd7cac",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-05-21T14:59:30Z",
       "side": 1,
       "message": "Mention that the other change is that the existing operations don\u0027t use their result, but now we need the old value and not the new value for the result.",
+      "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4535190a_bda411f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-22T07:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03b6d970_62fd7cac",
       "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -202,6 +244,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8270ab83_b3a1af9b",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-22T07:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f61a6488_ec9c9f21",
+      "range": {
+        "startLine": 790,
+        "startChar": 5,
+        "endLine": 790,
+        "endChar": 17
+      },
+      "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bd6e782_3c4d8195",
@@ -215,6 +281,30 @@
       "writtenOn": "2024-05-21T14:59:30Z",
       "side": 1,
       "message": "Nit: We should probably rename atomicXchgXaddEmitterARM64. I think it\u0027s used for all of the ARM64 atomics now? So it could be pretty general, like atomicEmitterARM64.",
+      "range": {
+        "startLine": 4530,
+        "startChar": 103,
+        "endLine": 4530,
+        "endChar": 129
+      },
+      "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ce9202f_96989fc5",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4530,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-22T07:11:15Z",
+      "side": 1,
+      "message": "We aslo have `atomicCasEmitterARM64` function which emits function with three elements. \n\nWhat about `atomicEmitterValue3ARM64` and rename `atomicCasEmitterARM64` as `atomicEmitterValue4ARM64`? Thanks.",
+      "parentUuid": "0bd6e782_3c4d8195",
       "range": {
         "startLine": 4530,
         "startChar": 103,
