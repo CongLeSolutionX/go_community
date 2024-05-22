@@ -16,6 +16,24 @@
       "message": "t.Cleanup(func() { testingOnlyGenerateKey \u003d nil })",
       "revId": "4acc76ac51be7ce32ef7a3ec0a26be5ed9b1188a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b81e1bb3_8cd142a5",
+        "filename": "src/crypto/internal/hpke/hpke_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-05-22T22:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bfd992b_163c1956",
+      "revId": "4acc76ac51be7ce32ef7a3ec0a26be5ed9b1188a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
