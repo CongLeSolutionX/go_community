@@ -114,6 +114,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fd1b3f_48ac4e5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-22T02:24:43Z",
+      "side": 1,
+      "message": "LGTM with Austin\u0027s comments addressed. Thanks.",
+      "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f61a6488_ec9c9f21",
