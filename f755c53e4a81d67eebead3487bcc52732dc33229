@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a1bcc41_adefc69a",
+        "filename": "src/runtime/linkname.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-22T19:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2954f464_1b050dff",
+      "revId": "f755c53e4a81d67eebead3487bcc52732dc33229",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a92132a7_32a7beb4",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "054988bd_476af292",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-22T19:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a92132a7_32a7beb4",
+      "range": {
+        "startLine": 1404,
+        "startChar": 3,
+        "endLine": 1404,
+        "endChar": 21
+      },
+      "revId": "f755c53e4a81d67eebead3487bcc52732dc33229",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51bf8980_885027e0",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-05-22T16:19:16Z",
       "side": 1,
       "message": "syscall_getprocaddress",
+      "range": {
+        "startLine": 440,
+        "startChar": 30,
+        "endLine": 440,
+        "endChar": 41
+      },
+      "revId": "f755c53e4a81d67eebead3487bcc52732dc33229",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d39f09d_c9cbb0b1",
+        "filename": "src/runtime/syscall_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-22T19:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51bf8980_885027e0",
       "range": {
         "startLine": 440,
         "startChar": 30,
