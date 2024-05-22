@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9ebdd49_7ccb565a",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 1771,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T18:38:04Z",
+      "side": 1,
+      "message": "We don\u0027t want to return err here.\nWe still want to return errNoChange here so that commitRequirements will return nil and not an error.",
+      "parentUuid": "a22ab52c_076d5237",
+      "range": {
+        "startLine": 1771,
+        "startChar": 24,
+        "endLine": 1771,
+        "endChar": 35
+      },
+      "revId": "175b48aaf13901e45262027d1cf5512a5850842d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fa34086_3a5b628a",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 26
@@ -54,6 +78,30 @@
       "writtenOn": "2024-05-22T16:46:30Z",
       "side": 1,
       "message": "SetExitStatus(0) is a no-op because it is initially zero, and the Set operation only increases it monotonically (for safety).\n\nSo you can simplify again:\n\n\tif len(goModDiff) \u003e 0 {\n\t\tfmt.Println(string(goModDiff))\t\n\t\tbase.SetExitStatus(1)\n\t}\n\t...ditto for sum...\n\t\n\t\nYou should check whether the resulting patch is valid when it covers both files (by piping go mod tidy | patch), as it\u0027s possible that Println adds an unwanted extra newline that causes the patch to no longer be valid. If so, then use os.Stdout.Write(goModDiff).",
+      "range": {
+        "startLine": 469,
+        "startChar": 3,
+        "endLine": 471,
+        "endChar": 4
+      },
+      "revId": "175b48aaf13901e45262027d1cf5512a5850842d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b008781b_951cb1a9",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T18:38:04Z",
+      "side": 1,
+      "message": "Done. As we discussed IRL, we will add a patch test in the future.",
+      "parentUuid": "5fa34086_3a5b628a",
       "range": {
         "startLine": 469,
         "startChar": 3,

@@ -747,6 +747,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e919fbc_f7563239",
+        "filename": "src/cmd/go/testdata/script/mod_tidy_diff_compat.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T18:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71c22bbe_0a61489f",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 32
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c87775f9_e2241003",
@@ -760,6 +784,30 @@
       "writtenOn": "2024-05-22T17:04:29Z",
       "side": 1,
       "message": "Maybe something like\n\nThe go.mod produced to be diffed with the current go.mod with -compat should by default preserve...",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 90
+      },
+      "revId": "713fda3806b307aa371219de164320ae6378d874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffa74dd6_bd4d4a4a",
+        "filename": "src/cmd/go/testdata/script/mod_tidy_diff_compat.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-22T18:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c87775f9_e2241003",
       "range": {
         "startLine": 2,
         "startChar": 0,
