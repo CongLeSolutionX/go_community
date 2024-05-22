@@ -351,6 +351,30 @@
       },
       "revId": "2922a79036f39943cadc3c45a4a31f69a5167612",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54bf8904_1289c0e0",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-22T22:59:52Z",
+      "side": 1,
+      "message": "Correct, they are not set.\nIt works because after instantiation, the RHS is instantiated and the Alias\u0027 type parameters are removed (set to nil, at least in the original CL), so the Alias type is not generic anymore. All we care about is the RHS which (eventually) is a non-alias type (even a Named type) and the code for that exists already.\n\nAlternatively, we record the type arguments but leave the type parameters (so that the Alias type is not considered generic anymore).",
+      "parentUuid": "9d3355ba_b54d444d",
+      "range": {
+        "startLine": 101,
+        "startChar": 3,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "2922a79036f39943cadc3c45a4a31f69a5167612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
