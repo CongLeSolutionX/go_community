@@ -15,7 +15,7 @@ that would be obtained in an empty environment with no prior uses of the `-w` fl
 ### Vet {#vet}
 
 The `go vet` subcommand now includes the
-[stdversion](https://beta.pkg.go.dev/golang.org/x/tools/go/analysis/passes/stdversion)
+[stdversion](https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/stdversion)
 analyzer, which flags references to symbols that are too new for the version
 of Go in effect in the referring file. (The effective version is determined
 by the `go` directive in the file's enclosing `go.mod` file, and
