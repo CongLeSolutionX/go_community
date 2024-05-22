@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13858e87_6b5f9a2d",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 1771,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-22T19:11:06Z",
+      "side": 1,
+      "message": "In practice Format always returns nil so this should never happen (see https://cs.opensource.google/go/x/mod/+/master:modfile/rule.go;l\u003d964;drc\u003dc0bdc7bd01c96a3472df419bc2b082e06b09a219 ), but I think if there was an error formatting the file (maybe because x/mod changed to return an error in some cases) I think it would be better to not drop the error.\n\nIf we can\u0027t format the file, it probably means that the file is broken somehow, and it would make sense for commitRequirements to return an error.",
+      "parentUuid": "e9ebdd49_7ccb565a",
+      "range": {
+        "startLine": 1771,
+        "startChar": 24,
+        "endLine": 1771,
+        "endChar": 35
+      },
+      "revId": "175b48aaf13901e45262027d1cf5512a5850842d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fa34086_3a5b628a",
         "filename": "src/cmd/go/internal/modload/load.go",
         "patchSetId": 26

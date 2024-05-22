@@ -22,6 +22,30 @@
       },
       "revId": "43ad505b22d108293035c3cb4ee0424eb846862a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04790ef3_9f5bdc51",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-22T19:11:06Z",
+      "side": 1,
+      "message": "could we combine the Line 450 and lines 452/453 comments into a single comment? Let\u0027s mention that we need to trim with both keep sets in the post 1.17 case.",
+      "parentUuid": "61b532aa_680bb3d0",
+      "range": {
+        "startLine": 451,
+        "startChar": 3,
+        "endLine": 451,
+        "endChar": 27
+      },
+      "revId": "43ad505b22d108293035c3cb4ee0424eb846862a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
