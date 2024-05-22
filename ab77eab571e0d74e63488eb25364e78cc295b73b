@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d92f1b1_9994d694",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-22T17:04:29Z",
+      "side": 1,
+      "message": "That works!",
+      "parentUuid": "654704a5_4b8c3dfd",
+      "range": {
+        "startLine": 38,
+        "startChar": 15,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "ab77eab571e0d74e63488eb25364e78cc295b73b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34d6baaa_0deb7e6c",
