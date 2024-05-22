@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab4ddc62_f8f26473",
+        "filename": "src/reflect/badlinkname.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-22T17:41:35Z",
+      "side": 0,
+      "message": "This is removed here but added in type.go.",
+      "revId": "e741d37eb54003f4f7fd4b345be130f352c44ee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
