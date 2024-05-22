@@ -1818,7 +1818,7 @@ func issue10353b() {
 			println(*x)
 		}
 	}
-	_ = f
+	f()
 }
 
 func issue11387(x int) func() int {

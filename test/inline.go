@@ -64,7 +64,7 @@ var somethingWrong error
 
 // local closures can be inlined
 func l(x, y int) (int, int, error) { // ERROR "can inline l"
-	e := func(err error) (int, int, error) { // ERROR "can inline l.func1" "func literal does not escape" "leaking param: err to result"
+	e := func(err error) (int, int, error) { // ERROR "can inline l.func1"
 		return 0, 0, err
 	}
 	if x == y {
@@ -108,15 +108,15 @@ func p() int { // ERROR "can inline p"
 }
 
 func q(x int) int { // ERROR "can inline q"
-	foo := func() int { return x * 2 } // ERROR "can inline q.func1" "func literal does not escape"
+	foo := func() int { return x * 2 } // ERROR "can inline q.func1"
 	return foo()                       // ERROR "inlining call to q.func1"
 }
 
 func r(z int) int {
-	foo := func(x int) int { // ERROR "can inline r.func1" "func literal does not escape"
+	foo := func(x int) int { // ERROR "can inline r.func1"
 		return x + z
 	}
-	bar := func(x int) int { // ERROR "func literal does not escape" "can inline r.func2"
+	bar := func(x int) int { // ERROR "can inline r.func2"
 		return x + func(y int) int { // ERROR "can inline r.func2.1" "can inline r.r.func2.func3"
 			return 2*y + x*z
 		}(x) // ERROR "inlining call to r.func2.1"
@@ -125,7 +125,7 @@ func r(z int) int {
 }
 
 func s0(x int) int { // ERROR "can inline s0"
-	foo := func() { // ERROR "can inline s0.func1" "func literal does not escape"
+	foo := func() { // ERROR "can inline s0.func1"
 		x = x + 1
 	}
 	foo() // ERROR "inlining call to s0.func1"
@@ -133,7 +133,7 @@ func s0(x int) int { // ERROR "can inline s0"
 }
 
 func s1(x int) int { // ERROR "can inline s1"
-	foo := func() int { // ERROR "can inline s1.func1" "func literal does not escape"
+	foo := func() int { // ERROR "can inline s1.func1"
 		return x
 	}
 	x = x + 1

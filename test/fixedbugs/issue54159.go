@@ -7,7 +7,7 @@
 package main
 
 func run() { // ERROR "cannot inline run: recursive"
-	f := func() { // ERROR "can inline run.func1 with cost .* as:.*" "func literal does not escape"
+	f := func() { // ERROR "can inline run.func1 with cost .* as:.*"
 		g() // ERROR "inlining call to g"
 	}
 	f() // ERROR "inlining call to run.func1" "inlining call to g"
