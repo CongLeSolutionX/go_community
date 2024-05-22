@@ -87,6 +87,24 @@
       "parentUuid": "506afed3_8308f890",
       "revId": "96c7c37c092906e47cc36f624637dc2e441aa544",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e87be132_57987707",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-22T16:20:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d3ec78a9_87557ac2",
+      "revId": "96c7c37c092906e47cc36f624637dc2e441aa544",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
