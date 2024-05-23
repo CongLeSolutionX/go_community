@@ -16,6 +16,24 @@
       "message": "Thanks, but we\u0027re going to keep the linkname for some period of time so that older versions keep working.",
       "revId": "13b48d35afdf53a79d871265271a33a3d50cfbf0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af315806_d19f71e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-23T23:14:48Z",
+      "side": 1,
+      "message": "There are no older versions, if we talk about github.com/opencontainers/runc (the only one listed).\n\nThe code that refers to origRlimitNofileCache was just merged a few weeks (https://github.com/opencontainers/runc/pull/4265) / days (https://github.com/opencontainers/runc/pull/4277) ago, and was never in a released version of runc. As long as CL 588076 is merged (and, ideally, backported), it never will be.\n\nTo summarize, we don\u0027t need this in Go 1.23, as long as we have CL 588076.",
+      "parentUuid": "5469a4a8_fa3096b9",
+      "revId": "13b48d35afdf53a79d871265271a33a3d50cfbf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
