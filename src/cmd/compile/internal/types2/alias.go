@@ -140,6 +140,7 @@ func (check *Checker) newAliasInstance(pos syntax.Pos, orig *Alias, targs []Type
 	rhs := check.subst(pos, orig.fromRHS, makeSubstMap(orig.TypeParams().list(), targs), nil, ctxt)
 	res := check.newAlias(obj, rhs)
 	res.tparams = orig.tparams
+	res.orig = orig
 	res.targs = newTypeList(targs)
 	return res
 }

@@ -128,17 +128,7 @@ func (subst *subster) typ(typ Type) Type {
 
 		// TODO(gri) The code below is similar but not quite identical to
 		//           newAliasInstance. Try to factor better.
-
-		rhs := subst.typ(t.fromRHS)
-		if rhs != t.fromRHS {
-			rhs = subst.check.newAlias(t.obj, rhs)
-		}
-
-		obj := NewTypeName(subst.pos, t.orig.obj.pkg, t.orig.obj.name, nil)
-		res := subst.check.newAlias(obj, rhs)
-		res.tparams = t.orig.tparams
-		res.targs = newTypeList(newTArgs)
-		return res
+		return subst.check.newAliasInstance(subst.pos, t.orig, newTArgs, subst.ctxt)
 
 	case *Array:
 		elem := subst.typOrNil(t.elem)
