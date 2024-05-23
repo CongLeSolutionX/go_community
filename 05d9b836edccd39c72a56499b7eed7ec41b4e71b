@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d118bc23_b9b49c64",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-23T02:03:21Z",
+      "side": 1,
+      "message": "This isn\u0027t right. I think you\u0027re overfitting to the test.",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 41
+      },
+      "revId": "05d9b836edccd39c72a56499b7eed7ec41b4e71b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a3f0254_25b0892d",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-23T02:03:21Z",
+      "side": 1,
+      "message": "Need to set res.orig correctly here, or re-instantiation won\u0027t work.\n\nAs in typeAliases.1.23b.go:43.",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 35
+      },
+      "revId": "05d9b836edccd39c72a56499b7eed7ec41b4e71b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
