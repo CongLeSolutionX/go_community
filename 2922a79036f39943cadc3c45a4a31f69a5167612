@@ -375,6 +375,30 @@
       },
       "revId": "2922a79036f39943cadc3c45a4a31f69a5167612",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2844387b_44f9ca5e",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-23T00:16:16Z",
+      "side": 1,
+      "message": "If we don\u0027t capture the TypeArgs, how will we format them correctly in error messages?\n\nI thought this is what we wanted, which is why we added TypeArgs to the Alias API.\n\nIf we\u0027re not going to record TypeArgs, we should remove the TypeArgs API ASAP!",
+      "parentUuid": "54bf8904_1289c0e0",
+      "range": {
+        "startLine": 101,
+        "startChar": 3,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "2922a79036f39943cadc3c45a4a31f69a5167612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
