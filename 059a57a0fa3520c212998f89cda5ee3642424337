@@ -200,6 +200,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4376de3_081f66b0",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T01:57:29Z",
+      "side": 1,
+      "message": "Addressed.",
+      "parentUuid": "ee4a074c_f4b47ade",
+      "range": {
+        "startLine": 104,
+        "startChar": 5,
+        "endLine": 104,
+        "endChar": 21
+      },
+      "revId": "059a57a0fa3520c212998f89cda5ee3642424337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "935a5a62_205e3655",
