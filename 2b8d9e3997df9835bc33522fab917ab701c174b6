@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33819ac9_f3064322",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-05-23T14:03:31Z",
+      "side": 1,
+      "message": "Looks like this change is making the various *bsd builders unhappy, e.g. https://build.golang.org/log/63277cae176ecc3aa08a740708ec565a3353187e\n\nexcerpt:\nBuilding packages and commands for freebsd/386.\npanic: runtime error: slice bounds out of range [:-1]\n\ngoroutine 1 [running]:\ncmd/go/internal/telemetrystats.majorMinor({0x290be914, 0xb})\n\tcmd/go/internal/telemetrystats/version_unix.go:53 +0xf9\ncmd/go/internal/telemetrystats.incrementVersionCounters()\n\tcmd/go/internal/telemetrystats/version_unix.go:35 +0x14a\ncmd/go/internal/telemetrystats.Increment()\n\tcmd/go/internal/telemetrystats/telemetrystats.go:18 +0x16\nmain.main()\n\tcmd/go/main.go:210 +0xfc8",
+      "revId": "2b8d9e3997df9835bc33522fab917ab701c174b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
