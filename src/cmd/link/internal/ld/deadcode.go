@@ -50,6 +50,16 @@ func (d *deadcodePass) init() {
 		n := d.ldr.NDef()
 		for i := 1; i < n; i++ {
 			s := loader.Sym(i)
+
+			fi := d.ldr.FuncInfo(s)
+			if fi.Valid() {
+				fi.Preload()
+				if d.ldr.Pcsp(s) == 0 {
+					// 	fmt.Printf("deadcode mark sees zero pcsp for %v\n", d.ldr.SymName(s))
+					continue
+				}
+			}
+
 			d.mark(s, 0)
 		}
 		d.mark(d.ctxt.mainInittasks, 0)
