@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cda59228_361312f4",
+        "filename": "src/runtime/cgo/gcc_stack_unix.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-23T16:23:34Z",
+      "side": 1,
+      "message": "As Ian mentioned, I think calling pthread_attr_init before pthread_getattr_np is reasonable. But I don\u0027t think we want to work around any error case.",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 25
+      },
+      "revId": "50afdbfc3d292e3fe4cd5188d06eebbb6e17c056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
