@@ -91,6 +91,24 @@
       "message": "The failure on this builder seems to have nothing to do with this patch. Please help review when you have time. Thanks",
       "revId": "1829e0b974c8e8ebfbe0ce0005ca53027cd38c26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9aacd9a_c879ad06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-05-23T15:22:23Z",
+      "side": 1,
+      "message": "You\u0027re right that those builders are broken right now, so these failures are expected.",
+      "parentUuid": "833dfea4_e11c282a",
+      "revId": "1829e0b974c8e8ebfbe0ce0005ca53027cd38c26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
