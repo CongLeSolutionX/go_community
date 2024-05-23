@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1afcdbdc_820aa15b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-23T23:02:32Z",
+      "side": 1,
+      "message": "Backport of CL 587919 to go1.22",
+      "revId": "b872333b9d7c5fb36775f2e791b669df2473bfa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
