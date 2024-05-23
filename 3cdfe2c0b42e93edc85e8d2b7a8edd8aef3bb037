@@ -16,6 +16,69 @@
       "message": "PTAL",
       "revId": "3cdfe2c0b42e93edc85e8d2b7a8edd8aef3bb037",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ee254e0_aa993ea0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-23T02:33:50Z",
+      "side": 1,
+      "message": "Thanks, LGTM for an initial implementation -- all the parts are there, and look approximately correct, though I think we both need to remember how Named type instantiation works again..",
+      "revId": "3cdfe2c0b42e93edc85e8d2b7a8edd8aef3bb037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34dfa038_a86ac683",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 34
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-23T02:33:50Z",
+      "side": 1,
+      "message": "Hmm, tried to break this and can\u0027t yet. Will need to study the code some more.",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 31
+      },
+      "revId": "3cdfe2c0b42e93edc85e8d2b7a8edd8aef3bb037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f267c06_dcdd7680",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 34
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-23T02:33:50Z",
+      "side": 1,
+      "message": "Agree. This probably isn\u0027t needed, but in that case we need to document our invariants more clearly. Later.",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 44
+      },
+      "revId": "3cdfe2c0b42e93edc85e8d2b7a8edd8aef3bb037",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
