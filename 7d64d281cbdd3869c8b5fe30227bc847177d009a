@@ -337,6 +337,30 @@
       },
       "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e60ed9d5_c0652595",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 4530,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2024-05-23T06:10:05Z",
+      "side": 1,
+      "message": "\u003e I think atomicEmitterARM64 would also be fine since it\u0027s the common case and atomicCasEmitterARM64 is sort of a \"special\" case for CAS.\n\nThat makes sense. Using `atomicEmitterARM64` is better.",
+      "parentUuid": "ab98239e_5e4c0f2a",
+      "range": {
+        "startLine": 4530,
+        "startChar": 103,
+        "endLine": 4530,
+        "endChar": 129
+      },
+      "revId": "7d64d281cbdd3869c8b5fe30227bc847177d009a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
