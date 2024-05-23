@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc035176_dd8b4496",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-23T21:50:02Z",
+      "side": 1,
+      "message": "Hmmm, right, too bad.  Let\u0027s leave this for now.",
+      "parentUuid": "88950f41_b9b0ac97",
+      "revId": "ad3f97300b5d00963ef55f775958fce8e322ea91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83719bbd_e2f02289",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efd1d3cd_cd7fd3e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-23T21:50:02Z",
+      "side": 1,
+      "message": "We\u0027re in the release freeze so holding for 1.24.",
+      "revId": "3d1b444d1c38e3ebbe2102a0c731104ff3460eeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
