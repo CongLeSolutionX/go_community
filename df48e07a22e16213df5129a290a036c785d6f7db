@@ -51,6 +51,23 @@
       "message": "Thanks.\n\nAs with Rob\u0027s comment on https://go.dev/cl/586616: This change looks fine in isolation, but we should update the whole tree to use slices.Sort at once, rather than in many small CLs reviewed by different people.\n\nLet\u0027s get a decision on https://go.dev/issue/67510 before trying to do that, though.",
       "revId": "df48e07a22e16213df5129a290a036c785d6f7db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c29807_92911fea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-23T22:34:52Z",
+      "side": 1,
+      "message": "Parts of this code were changed by the large https://go.dev/cl/587655, and this CL now has a merge conflict.\n\n(Also it is now past the release freeze so this will need to wait for 1.24).",
+      "revId": "df48e07a22e16213df5129a290a036c785d6f7db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
