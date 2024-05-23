@@ -286,6 +286,24 @@
       "parentUuid": "2bf5a30f_68b2c93b",
       "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b63ac3_ecc58a76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-23T15:50:25Z",
+      "side": 1,
+      "message": "\u003e\u003e because the tid cache removal PR has been back-ported to glibc \u003e\u003d 2.25. (Maybe still has wrong tid cache issue for newer glibc.)\n\nSorry, sorry, I has a mistake here, which causes you confused.\nThis is not tid cache removal, this is a pid/tid cache removal, but it causes tid dirty cache issue after calling `clone(2)` in almost all glibc versions, and this is still unresolved currently. This has been indicated by @cyphar in https://github.com/golang/go/issues/65625#issuecomment-2036320298\n\nSo, there are two bugs when calling `pthread_getattr_np` in cgo:\n1. For glibc before 2.32, we need to call `pthread_attr_init` firstly, or else `pthread_attr_destroy` will free some unknown memory when fail, which will cause golang crash;\n2. Because of the tid cache issue after calling `clone(2)`, `pthread_getattr_np` will fail, but this failure could be ignored because the error is from `__pthread_getaffinity_np`, which is unrelated with the stack info. In cgo, we use `pthread_getattr_np` only to get the stack\u0027s low address and size. For other errors, we can let the process crash here.",
+      "parentUuid": "77ed326f_5c535e57",
+      "revId": "5b96d85b5f0b8ff21c0c1df49a635844945e067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
