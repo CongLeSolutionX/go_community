@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8211af73_58d7b536",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-23T21:34:17Z",
+      "side": 1,
+      "message": "Tested to fix crash in runc+go1.22+old-glibc in the least ugly way possible.\n\nPlease consider merging and backporting to Go 1.22.x.",
+      "revId": "c815c9b6a55fb1cd20901a29788dd460750a79a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
