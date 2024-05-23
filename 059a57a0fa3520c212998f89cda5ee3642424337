@@ -16,6 +16,47 @@
       "message": "PTAL",
       "revId": "059a57a0fa3520c212998f89cda5ee3642424337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19a9a45_73b27b29",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T00:29:02Z",
+      "side": 1,
+      "message": "oops - this code shouldn\u0027t be here but when I remove it the code breaks - sigh",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 21
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "27cc750b_57d8a8e6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/subst.go",
+              "range": {
+                "startLine": 104,
+                "startChar": 0,
+                "endLine": 108,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "059a57a0fa3520c212998f89cda5ee3642424337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
