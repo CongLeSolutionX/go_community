@@ -238,6 +238,30 @@
       },
       "revId": "c815c9b6a55fb1cd20901a29788dd460750a79a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6a90d9f_5937e0bf",
+        "filename": "src/runtime/cgo/gcc_stack_unix.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-05-23T23:02:41Z",
+      "side": 1,
+      "message": "Also, from https://storage.googleapis.com/go-build-log/c815c9b6/freebsd-amd64-12_3_bb9c074b.log, `\u003d {}` doesn\u0027t always work. So pthread_attr_init is better. Also, pthread_attr_init is supposed to work uninitialized data, so it shouldn\u0027t look at the data content, even if it is already initialized. So double init shouldn\u0027t be a problem.",
+      "parentUuid": "e754746e_c60e6044",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "c815c9b6a55fb1cd20901a29788dd460750a79a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
