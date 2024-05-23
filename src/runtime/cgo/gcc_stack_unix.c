@@ -14,7 +14,7 @@
 void
 x_cgo_getstackbound(uintptr bounds[2])
 {
-	pthread_attr_t attr;
+	pthread_attr_t attr = {};
 	void *addr;
 	size_t size;
 
