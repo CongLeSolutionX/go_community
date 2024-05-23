@@ -34,6 +34,23 @@
       "parentUuid": "2b64546c_a0b66d0f",
       "revId": "7cd597f598588c7e0bb62a3969e949e4f9d14010",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2f37f9b_a0afe24a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-23T21:45:00Z",
+      "side": 1,
+      "message": "Thanks.  Holding for 1.24.",
+      "revId": "7cd597f598588c7e0bb62a3969e949e4f9d14010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
