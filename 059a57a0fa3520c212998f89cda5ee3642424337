@@ -64,6 +64,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a51631f7_63abd7ac",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T00:56:18Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7aa7a712_8826926f",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 80
+      },
+      "revId": "059a57a0fa3520c212998f89cda5ee3642424337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b19a9a45_73b27b29",
@@ -121,6 +145,30 @@
       "range": {
         "startLine": 104,
         "startChar": 5,
+        "endLine": 104,
+        "endChar": 21
+      },
+      "revId": "059a57a0fa3520c212998f89cda5ee3642424337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "148f9774_6e1266f8",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T00:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b19a9a45_73b27b29",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
         "endLine": 104,
         "endChar": 21
       },
