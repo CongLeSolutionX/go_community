@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f25a7ff8_111f3dcc",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-23T02:08:17Z",
+      "side": 1,
+      "message": "More specifically: calling newAliasInstance here *will* work, if you update it to set orig correctly.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 54
+      },
+      "revId": "05d9b836edccd39c72a56499b7eed7ec41b4e71b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d118bc23_b9b49c64",
         "filename": "src/cmd/compile/internal/types2/subst.go",
         "patchSetId": 33
