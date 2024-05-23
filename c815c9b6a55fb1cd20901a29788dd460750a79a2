@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "25fce4f6_5c3c0dba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-23T22:21:40Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "da870590_326bf322",
+      "range": {
+        "startLine": 13,
+        "startChar": 62,
+        "endLine": 13,
+        "endChar": 70
+      },
+      "revId": "c815c9b6a55fb1cd20901a29788dd460750a79a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8211af73_58d7b536",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -181,6 +205,30 @@
       "writtenOn": "2024-05-23T22:03:31Z",
       "side": 1,
       "message": "Let\u0027s call pthread_attr_init, with a comment saying that before glibc 2.32 pthread_getattr_np did not actually call pthread_attr_init.",
+      "parentUuid": "bf7afc38_a0fc4428",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "c815c9b6a55fb1cd20901a29788dd460750a79a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e754746e_c60e6044",
+        "filename": "src/runtime/cgo/gcc_stack_unix.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-23T22:21:40Z",
+      "side": 1,
+      "message": "So, I went ahead with `pthread_attr_init`, although theoretically in case of subsequent `pthread_getattr_np` it could mean \"double init\", yet practically glibc doesn\u0027t do anything fancy (like dynamic allocation) in `pthread_attr_init` (see e.g. glibc\u0027s nptl/pthread_attr_init.c, https://sourceware.org/git/?p\u003dglibc.git;a\u003dblob;f\u003dnptl/pthread_attr_init.c;hb\u003drefs/heads/release/2.39/master).\n\nAdded the comment and updated the commit message accordingly.",
       "parentUuid": "bf7afc38_a0fc4428",
       "range": {
         "startLine": 17,
