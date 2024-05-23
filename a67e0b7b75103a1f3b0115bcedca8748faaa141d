@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43982bc2_b9ffb687",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T00:25:15Z",
+      "side": 1,
+      "message": "I think they are ok. We now use the type parameters and arguments.",
+      "parentUuid": "7167f5e8_439f2d9f",
+      "revId": "a67e0b7b75103a1f3b0115bcedca8748faaa141d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96b04bbc_bcf59b52",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-05-23T00:16:16Z",
       "side": 1,
       "message": "It looks like we do deduplicate signatures.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 78
+      },
+      "revId": "a67e0b7b75103a1f3b0115bcedca8748faaa141d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cba8de47_e7a757a9",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T00:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96b04bbc_bcf59b52",
       "range": {
         "startLine": 39,
         "startChar": 0,

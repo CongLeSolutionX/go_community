@@ -399,6 +399,30 @@
       },
       "revId": "2922a79036f39943cadc3c45a4a31f69a5167612",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655313d8_86a79aec",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T00:25:15Z",
+      "side": 1,
+      "message": "PS: We should record the type argumenys, if only for error messages.",
+      "parentUuid": "54bf8904_1289c0e0",
+      "range": {
+        "startLine": 101,
+        "startChar": 3,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "2922a79036f39943cadc3c45a4a31f69a5167612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
