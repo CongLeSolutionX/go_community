@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a59b6b0_884c68ff",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T02:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f25a7ff8_111f3dcc",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 54
+      },
+      "revId": "05d9b836edccd39c72a56499b7eed7ec41b4e71b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d118bc23_b9b49c64",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c9f64c2_81ecda0f",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T02:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d118bc23_b9b49c64",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 41
+      },
+      "revId": "05d9b836edccd39c72a56499b7eed7ec41b4e71b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a3f0254_25b0892d",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-05-23T02:03:21Z",
       "side": 1,
       "message": "Need to set res.orig correctly here, or re-instantiation won\u0027t work.\n\nAs in typeAliases.1.23b.go:43.",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 35
+      },
+      "revId": "05d9b836edccd39c72a56499b7eed7ec41b4e71b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de61f723_b814653b",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T02:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a3f0254_25b0892d",
       "range": {
         "startLine": 139,
         "startChar": 2,
