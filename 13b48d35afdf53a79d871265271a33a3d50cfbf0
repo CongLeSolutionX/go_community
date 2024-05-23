@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5469a4a8_fa3096b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-23T21:39:49Z",
+      "side": 1,
+      "message": "Thanks, but we\u0027re going to keep the linkname for some period of time so that older versions keep working.",
+      "revId": "13b48d35afdf53a79d871265271a33a3d50cfbf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
