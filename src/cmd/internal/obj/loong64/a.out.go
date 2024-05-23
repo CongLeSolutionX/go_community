@@ -223,6 +223,7 @@ const (
 	C_ZOREG
 	C_SOREG
 	C_LOREG
+	C_ROFF // register offset
 	C_GOK
 	C_ADDR
 	C_TLS_LE

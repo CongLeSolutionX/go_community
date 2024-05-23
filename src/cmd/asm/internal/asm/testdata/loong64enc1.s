@@ -281,3 +281,26 @@ lable2:
 	AMMAXDBVU	R14, (R13), R12 // acb97038
 	AMMINDBWU	R14, (R13), R12 // ac397138
 	AMMINDBVU	R14, (R13), R12 // acb97138
+
+	// Loong64 LDX.{B,BU,H,HU,W,WU,D} instructions
+	MOVB		(R14)(R13), R12	// cc350038
+	MOVBU		(R14)(R13), R12	// cc352038
+	MOVH		(R14)(R13), R12	// cc350438
+	MOVHU		(R14)(R13), R12	// cc352438
+	MOVW		(R14)(R13), R12	// cc350838
+	MOVWU		(R14)(R13), R12	// cc352838
+	MOVV		(R14)(R13), R12	// cc350c38
+
+	// Loong64 STX.{B,H,W,D} instructions
+	MOVB		R12, (R14)(R13)	// cc351038
+	MOVH		R12, (R14)(R13)	// cc351438
+	MOVW		R12, (R14)(R13)	// cc351838
+	MOVV		R12, (R14)(R13)	// cc351c38
+
+	// Loong64 FLDX.{S,D} instructions
+	MOVF		(R14)(R13), F2	// c2353038
+	MOVD		(R14)(R13), F2	// c2353438
+
+	// Loong64 FSTX.{S,D} instructions
+	MOVF		F2, (R14)(R13)	// c2353838
+	MOVD		F2, (R14)(R13)	// c2353c38

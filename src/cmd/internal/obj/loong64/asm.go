@@ -86,8 +86,9 @@ var optab = []Optab{
 	{ACMPEQF, C_FREG, C_REG, C_NONE, C_NONE, C_NONE, 32, 4, 0, 0},
 	{AABSF, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 33, 4, 0, 0},
 	{AMOVVF, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 33, 4, 0, 0},
-	{AMOVF, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 33, 4, 0, 0},
-	{AMOVD, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 33, 4, 0, 0},
+
+	{AMOVF, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 9, 4, 0, 0},
+	{AMOVD, C_FREG, C_NONE, C_NONE, C_FREG, C_NONE, 9, 4, 0, 0},
 
 	{AMOVW, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
 	{AMOVWU, C_REG, C_NONE, C_NONE, C_SEXT, C_NONE, 7, 4, 0, 0},
@@ -358,6 +359,23 @@ var optab = []Optab{
 	{ARDTIMELW, C_NONE, C_NONE, C_NONE, C_REG, C_REG, 62, 4, 0, 0},
 	{AAMSWAPW, C_REG, C_NONE, C_NONE, C_ZOREG, C_REG, 66, 4, 0, 0},
 	{ANOOP, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 49, 4, 0, 0},
+
+	/* store with extended register offset */
+	{AMOVB, C_REG, C_NONE, C_NONE, C_ROFF, C_NONE, 20, 4, 0, 0},
+	{AMOVW, C_REG, C_NONE, C_NONE, C_ROFF, C_NONE, 20, 4, 0, 0},
+	{AMOVV, C_REG, C_NONE, C_NONE, C_ROFF, C_NONE, 20, 4, 0, 0},
+	{AMOVF, C_FREG, C_NONE, C_NONE, C_ROFF, C_NONE, 20, 4, 0, 0},
+	{AMOVD, C_FREG, C_NONE, C_NONE, C_ROFF, C_NONE, 20, 4, 0, 0},
+
+	/* load with extended register offset */
+	{AMOVB, C_ROFF, C_NONE, C_NONE, C_REG, C_NONE, 21, 4, 0, 0},
+	{AMOVBU, C_ROFF, C_NONE, C_NONE, C_REG, C_NONE, 21, 4, 0, 0},
+	{AMOVB, C_ROFF, C_NONE, C_NONE, C_REG, C_NONE, 21, 4, 0, 0},
+	{AMOVW, C_ROFF, C_NONE, C_NONE, C_REG, C_NONE, 21, 4, 0, 0},
+	{AMOVWU, C_ROFF, C_NONE, C_NONE, C_REG, C_NONE, 21, 4, 0, 0},
+	{AMOVV, C_ROFF, C_NONE, C_NONE, C_REG, C_NONE, 21, 4, 0, 0},
+	{AMOVF, C_ROFF, C_NONE, C_NONE, C_FREG, C_NONE, 21, 4, 0, 0},
+	{AMOVD, C_ROFF, C_NONE, C_NONE, C_FREG, C_NONE, 21, 4, 0, 0},
 
 	{obj.APCALIGN, C_SCON, C_NONE, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0},
 	{obj.APCDATA, C_LCON, C_NONE, C_NONE, C_LCON, C_NONE, 0, 0, 0, 0},
@@ -735,6 +753,14 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 			return C_LAUTO
 
 		case obj.NAME_NONE:
+			if a.Index != 0 {
+				if a.Offset != 0 {
+					return C_GOK
+				}
+				// register offset
+				return C_ROFF
+			}
+
 			c.instoffset = a.Offset
 			if c.instoffset == 0 {
 				return C_ZOREG
@@ -1420,14 +1446,15 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = OP_12IRR(c.opirr(-p.As), uint32(v), uint32(r), uint32(p.To.Reg))
 
 	case 9: // sll r1,[r2],r3
-		if p.As != ACLO && p.As != ACLZ {
+		switch p.As {
+		case ACLO, ACLZ, AMOVF, AMOVD:
+			o1 = OP_RR(c.oprr(p.As), uint32(p.From.Reg), uint32(p.To.Reg))
+		default:
 			r := int(p.Reg)
 			if r == 0 {
 				r = int(p.To.Reg)
 			}
 			o1 = OP_RRR(c.oprrr(p.As), uint32(p.From.Reg), uint32(r), uint32(p.To.Reg))
-		} else { // clo r1,r2
-			o1 = OP_RR(c.oprr(p.As), uint32(p.From.Reg), uint32(p.To.Reg))
 		}
 
 	case 10: // add $con,[r1],r2 ==> mov $con, t; add t,[r1],r2
@@ -1544,6 +1571,12 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		v := c.regoff(&p.From)
 		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
 		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 20: // mov Rsrc, (Rbase)(Roff)
+		o1 = OP_RRR(c.oprrr(p.As), uint32(p.To.Index), uint32(p.To.Reg), uint32(p.From.Reg))
+
+	case 21: // mov (Rbase)(Roff), Rdst
+		o1 = OP_RRR(c.oprrr(-p.As), uint32(p.From.Index), uint32(p.From.Reg), uint32(p.To.Reg))
 
 	case 23: // add $lcon,r1,r2
 		v := c.regoff(&p.From)
@@ -2050,10 +2083,6 @@ func (c *ctxt0) oprrr(a obj.As) uint32 {
 		return 0x4501 << 10
 	case AABSD:
 		return 0x4502 << 10
-	case AMOVF:
-		return 0x4525 << 10
-	case AMOVD:
-		return 0x4526 << 10
 	case ANEGF:
 		return 0x4505 << 10
 	case ANEGD:
@@ -2075,6 +2104,37 @@ func (c *ctxt0) oprrr(a obj.As) uint32 {
 		return 0x4511 << 10
 	case ASQRTD:
 		return 0x4512 << 10
+
+	case -AMOVB:
+		return 0x07000 << 15 // ldx.b
+	case -AMOVH:
+		return 0x07008 << 15 // ldx.h
+	case -AMOVW:
+		return 0x07010 << 15 // ldx.w
+	case -AMOVV:
+		return 0x07018 << 15 // ldx.d
+	case -AMOVBU:
+		return 0x07040 << 15 // ldx.bu
+	case -AMOVHU:
+		return 0x07048 << 15 // ldx.hu
+	case -AMOVWU:
+		return 0x07050 << 15 // ldx.wu
+	case AMOVB:
+		return 0x07020 << 15 // stx.b
+	case AMOVH:
+		return 0x07028 << 15 // stx.h
+	case AMOVW:
+		return 0x07030 << 15 // stx.w
+	case AMOVV:
+		return 0x07038 << 15 // stx.d
+	case -AMOVF:
+		return 0x07060 << 15 // fldx.s
+	case -AMOVD:
+		return 0x07068 << 15 // fldx.d
+	case AMOVF:
+		return 0x07070 << 15 // fstx.s
+	case AMOVD:
+		return 0x07078 << 15 // fstx.d
 	}
 
 	if a < 0 {
@@ -2097,6 +2157,10 @@ func (c *ctxt0) oprr(a obj.As) uint32 {
 		return 0x19 << 10
 	case ARDTIMED:
 		return 0x1a << 10
+	case AMOVF:
+		return 0x4525 << 10 // fmov.s
+	case AMOVD:
+		return 0x4526 << 10 // fmov.d
 	}
 
 	c.ctxt.Diag("bad rr opcode %v", a)
