@@ -34,6 +34,23 @@
       "parentUuid": "2b66fe66_ef39e15b",
       "revId": "d05bd13102eaeb4c1c3b3edfdd176a3bf97e2015",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d2cc12c_ca1ed471",
+        "filename": "src/runtime/pprof/label_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-05-23T15:01:19Z",
+      "side": 1,
+      "message": "This should be a separate CL; mixing different cleanups in a giant CL like this one gets confusing.",
+      "revId": "d05bd13102eaeb4c1c3b3edfdd176a3bf97e2015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
