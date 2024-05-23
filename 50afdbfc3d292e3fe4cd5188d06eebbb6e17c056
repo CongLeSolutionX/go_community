@@ -22,6 +22,30 @@
       },
       "revId": "50afdbfc3d292e3fe4cd5188d06eebbb6e17c056",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00210225_aae72d5a",
+        "filename": "src/runtime/cgo/gcc_stack_unix.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-23T22:21:08Z",
+      "side": 1,
+      "message": "I suggest to handle this error, or else other contributors will introduce this error again when working around this. https://go.dev/cl/563379\n\nAt least I think we should add a comment about this bug from glibc to let other people know we can’t just only check err!\u003d0 when adding error assert.",
+      "parentUuid": "cda59228_361312f4",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 25
+      },
+      "revId": "50afdbfc3d292e3fe4cd5188d06eebbb6e17c056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
