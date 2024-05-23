@@ -142,6 +142,30 @@
       },
       "revId": "c815c9b6a55fb1cd20901a29788dd460750a79a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf7afc38_a0fc4428",
+        "filename": "src/runtime/cgo/gcc_stack_unix.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-05-23T21:58:50Z",
+      "side": 1,
+      "message": "Initially I thought so, too, but unlike other `pthread_*` functions, `pthread_getattr_np` is supposed to initialize the `attr` argument (as denoted by the `getattr` part), so, strictly speaking, pthread_attr_init is not needed.\n\nFrom the man page (https://man7.org/linux/man-pages/man3/pthread_getattr_np.3.html):\n\n\u003e The pthread_getattr_np() function initializes the thread attributes object referred to by attr \u003c...\u003e\n\nAlas, in some circumstances it doesn\u0027t do that.\n\nOTOH, pthread_attr_init won\u0027t hurt either. I\u0027m just not using it because someone will read the above man page and decide the pthread_attr_init is not needed. Well, we can add a comment...\n\nLet me know which way you prefer.",
+      "parentUuid": "25045728_2bb3249b",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "c815c9b6a55fb1cd20901a29788dd460750a79a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
