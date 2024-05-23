@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43790602_75d82cbb",
+        "filename": "src/cmd/compile/internal/types2/alias.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T01:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21a06773_dcd69e7a",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 136,
+        "endChar": 58
+      },
+      "revId": "059a57a0fa3520c212998f89cda5ee3642424337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7aa7a712_8826926f",
@@ -189,6 +213,30 @@
       "writtenOn": "2024-05-23T00:39:51Z",
       "side": 1,
       "message": "Here we reuse t.obj, and so should do when creating instances.",
+      "range": {
+        "startLine": 106,
+        "startChar": 31,
+        "endLine": 106,
+        "endChar": 36
+      },
+      "revId": "059a57a0fa3520c212998f89cda5ee3642424337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7786bcb1_e66db9db",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-23T01:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "935a5a62_205e3655",
       "range": {
         "startLine": 106,
         "startChar": 31,
