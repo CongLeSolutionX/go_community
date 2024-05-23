@@ -189,6 +189,37 @@
     },
     {
       "submitRequirement": {
+        "name": "No-Signed-off-by-Footer",
+        "description": {
+          "value": "Changes with a Signed-off-by footer are not submittable. See https://go.dev/wiki/CommitMessage."
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "hasfooter:Signed-off-by"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "is:false"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"hasfooter:Signed-off-by"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["hasfooter:Signed-off-by"]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"is:false"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "f56cae5a26ca56c40f59bc20c2ab027136e17a1a",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
         "name": "No-Unresolved-Comments",
         "description": {
           "value": "Changes that have unresolved comments are not submittable, unless overriden by adding the hashtag allow-unresolved-comments."
