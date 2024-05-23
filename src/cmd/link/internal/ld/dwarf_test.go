@@ -450,8 +450,10 @@ func TestVarDeclLine(t *testing.T) {
 func main() {
 
 	var i int
-	i = i
+	sink = i
+
 }
+var sink int
 `
 	tests := []struct {
 		name string
