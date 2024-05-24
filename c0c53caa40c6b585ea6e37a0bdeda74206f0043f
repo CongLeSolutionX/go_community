@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df078bc0_28bab87f",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-24T16:12:13Z",
+      "side": 1,
+      "message": "remove current",
+      "range": {
+        "startLine": 27,
+        "startChar": 65,
+        "endLine": 27,
+        "endChar": 72
+      },
+      "revId": "c0c53caa40c6b585ea6e37a0bdeda74206f0043f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51026deb_938f529e",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-24T16:12:13Z",
+      "side": 1,
+      "message": "suggest using active voice: ..let\u0027s you view...",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1da1391a_9c8366e3",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "doc/next/3-tools.md",
+              "range": {
+                "startLine": 27,
+                "startChar": 0,
+                "endLine": 28,
+                "endChar": 0
+              },
+              "replacement": "The new `go` `telemetry` command lets you view and set the current telemetry\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c0c53caa40c6b585ea6e37a0bdeda74206f0043f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
