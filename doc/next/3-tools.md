@@ -24,8 +24,11 @@ The `go` `list` `-m` `-json` command now includes new `Sum` and `GoModSum` field
 This is similar to the existing behavior of the `go` `mod` `download` `-json` command.
 
 <!-- go.dev/issue/67111 ("cmd/go: add go telemetry subcommand") -->
-The new `go` `telemetry` command should be documented here,
-as well as `GOTELEMETRY` and `GOTELEMETRYDIR` environment variables.
+The new `go` `telemetry` command can be used to view and set the current telemetry
+collection mode. `go` `env` now lists the `GOTELEMETRY` variable, which
+contains the telemetry collection mode, and `GOTELEMETRYDIR` which contains
+the directory telemetry data and configuration are written to.
+
 <!-- go.dev/issue/58894 ("all: add opt-in transparent telemetry to Go toolchain") -->
 <!-- TODO: document Go 1.23 behavior (from https://go.dev/cl/559199, https://go.dev/cl/559519, https://go.dev/cl/559795, https://go.dev/cl/562715, https://go.dev/cl/562735, https://go.dev/cl/564555, https://go.dev/cl/570679, https://go.dev/cl/570736, https://go.dev/cl/582695, https://go.dev/cl/584276, https://go.dev/cl/585235, https://go.dev/cl/586138) -->
 
