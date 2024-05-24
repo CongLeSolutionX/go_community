@@ -34,3 +34,11 @@ module whose go.mod file specifies `go 1.21`.
 
 ### Cgo {#cgo}
 
+### Trace {#trace}
+
+<!-- go.dev/issue/65316 -->
+The `trace` tool now better tolerates with partially broken traces by attempting
+to recover what trace data it can. This functionality is particularly helpful
+when viewing a trace that was collected during a program crash, since the trace
+data leading up to the crash will now [be recoverable](/issue/65319) under most
+circumstances.
