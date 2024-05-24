@@ -55,6 +55,11 @@ func TestExitHooks(t *testing.T) {
 				expected: "",
 				musthave: "fatal error: internal error: exit hook invoked exit",
 			},
+			{
+				mode:     "exit2",
+				expected: "",
+				musthave: "",
+			},
 		}
 
 		exe, err := buildTestProg(t, "testexithooks", bmode)
@@ -73,18 +78,18 @@ func TestExitHooks(t *testing.T) {
 			outs = strings.TrimSpace(outs)
 			if s.expected != "" {
 				if s.expected != outs {
-					t.Logf("raw output: %q", outs)
-					t.Errorf("failed%s mode %s: wanted %q got %q", bt,
+					t.Errorf("failed%s mode %s: wanted %q\noutput:\n%s", bt,
 						s.mode, s.expected, outs)
 				}
 			} else if s.musthave != "" {
 				if !strings.Contains(outs, s.musthave) {
-					t.Logf("raw output: %q", outs)
-					t.Errorf("failed mode %s: output does not contain %q",
-						s.mode, s.musthave)
+					t.Errorf("failed mode %s: output does not contain %q\noutput:\n%s",
+						s.mode, s.musthave, outs)
 				}
 			} else {
-				panic("badly written scenario")
+				if outs != "" {
+					t.Errorf("failed mode %s: wanted no output\noutput:\n%s", s.mode, outs)
+				}
 			}
 		}
 	}
