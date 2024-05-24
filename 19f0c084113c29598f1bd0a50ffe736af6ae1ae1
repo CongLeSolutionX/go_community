@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef5d2e3_7dace117",
+        "filename": "src/io/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-05-24T17:20:58Z",
+      "side": 1,
+      "message": "This test should look more like this:\n\n```\nvar (\n\trSink *PipeReader\n\twSink *PipeWriter\n)\n\nfunc TestPipeAllocations(t *testing.T) {\n\tn :\u003d testing.AllocsPerRun(10, func() {\n\t\trSink, wSink \u003d Pipe()\n\t})\n\n\t// 4 is chosen because go.dev/cl/473535 claimed this.\n\tif n \u003e 4 {\n\t\tt.Fatalf(\"too many allocations for io.Pipe() call: %f\", n)\n\t}\n}\n```\n\nPipeReader, PipeWriter is mostly going to be used in a seperate goroutine, so it will escape to the heap.",
+      "revId": "19f0c084113c29598f1bd0a50ffe736af6ae1ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
