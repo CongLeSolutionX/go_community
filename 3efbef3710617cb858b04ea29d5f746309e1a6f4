@@ -53,6 +53,24 @@
       "message": "@dmitshur@golang.org this is CL for #65286 , can you remove wait-issue tag?",
       "revId": "3efbef3710617cb858b04ea29d5f746309e1a6f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29498e95_69fe3de0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-24T13:00:53Z",
+      "side": 1,
+      "message": "Issue #65286 is a proposal that hasn\u0027t been accepted yet. I understand this CL is currently waiting on that proposal to be accepted.",
+      "parentUuid": "103c715e_e7824530",
+      "revId": "3efbef3710617cb858b04ea29d5f746309e1a6f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
