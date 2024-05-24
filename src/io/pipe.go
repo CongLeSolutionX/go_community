@@ -123,7 +123,7 @@ func (p *pipe) writeCloseError() error {
 }
 
 // A PipeReader is the read half of a pipe.
-type PipeReader struct{ pipe }
+type PipeReader struct{ pipe pipe }
 
 // Read implements the standard Read interface:
 // it reads data from the pipe, blocking until a writer
