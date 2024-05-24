@@ -7,6 +7,7 @@ package io_test
 import (
 	"bytes"
 	"fmt"
+	"io"
 	. "io"
 	"slices"
 	"strings"
@@ -410,6 +411,26 @@ func TestPipeConcurrent(t *testing.T) {
 			t.Errorf("got: %q; want: %q", got, want)
 		}
 	})
+}
+
+func TestIssue67633(t *testing.T) {
+	r, w := io.Pipe()
+	go func() {
+		w.Write([]byte("hello"))
+		w.Close()
+	}()
+	_ = fmt.Sprintf("(%[1]T=%[1]v)", r)
+	buf := make([]byte, 5)
+	n, err := r.Read(buf)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if n != 5 {
+		t.Fatalf("unexpected number of bytes read: %d", n)
+	}
+	if string(buf) != "hello" {
+		t.Fatalf("unexpected read content: %s", buf)
+	}
 }
 
 func sortBytesInGroups(b []byte, n int) []byte {
