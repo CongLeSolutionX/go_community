@@ -31,6 +31,7 @@ package types_test
 
 import (
 	"bytes"
+	"errors"
 	"flag"
 	"fmt"
 	"go/ast"
@@ -40,7 +41,6 @@ import (
 	"go/token"
 	"internal/buildcfg"
 	"internal/testenv"
-	"internal/types/errors"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -51,6 +51,7 @@ import (
 	"testing"
 
 	. "go/types"
+	. "internal/types/errors"
 )
 
 var (
@@ -116,7 +117,7 @@ func parseFlags(src []byte, flags *flag.FlagSet) error {
 	end := bytes.Index(src, []byte("\n"))
 	const maxLen = 256
 	if end < 0 || end > maxLen {
-		return fmt.Errorf("flags comment line too long")
+		return errors.New("flags comment line too long")
 	}
 
 	return flags.Parse(strings.Fields(string(src[:end])))
@@ -333,9 +334,9 @@ func testFilesImpl(t *testing.T, filenames []string, srcs [][]byte, manual bool,
 	}
 }
 
-func readCode(err Error) errors.Code {
+func readCode(err Error) Code {
 	v := reflect.ValueOf(err)
-	return errors.Code(v.FieldByName("go116code").Int())
+	return Code(v.FieldByName("go116code").Int())
 }
 
 // boolFieldAddr(conf, name) returns the address of the boolean field conf.<name>.
