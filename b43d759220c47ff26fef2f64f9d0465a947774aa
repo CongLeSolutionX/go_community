@@ -16,6 +16,24 @@
       "message": "I don\u0027t understand the testshared failures; hoping that sync+mail+retest will make them go away.",
       "revId": "b43d759220c47ff26fef2f64f9d0465a947774aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20df7c76_22d85277",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-05-24T14:19:46Z",
+      "side": 1,
+      "message": "Shared build mode... my favorite (the gift that keeps giving)",
+      "parentUuid": "eb6bd300_7bbd19f5",
+      "revId": "b43d759220c47ff26fef2f64f9d0465a947774aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
