@@ -123,7 +123,7 @@ func (p *pipe) writeCloseError() error {
 }
 
 // A PipeReader is the read half of a pipe.
-type PipeReader struct{ pipe }
+type PipeReader struct{ *pipe }
 
 // Read implements the standard Read interface:
 // it reads data from the pipe, blocking until a writer
@@ -193,7 +193,7 @@ func (w *PipeWriter) CloseWithError(err error) error {
 // Parallel calls to Read and parallel calls to Write are also safe:
 // the individual calls will be gated sequentially.
 func Pipe() (*PipeReader, *PipeWriter) {
-	pw := &PipeWriter{r: PipeReader{pipe: pipe{
+	pw := &PipeWriter{r: PipeReader{pipe: &pipe{
 		wrCh: make(chan []byte),
 		rdCh: make(chan int),
 		done: make(chan struct{}),
