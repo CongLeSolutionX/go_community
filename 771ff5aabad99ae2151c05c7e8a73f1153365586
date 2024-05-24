@@ -107,6 +107,24 @@
       "parentUuid": "ddcdca9a_77fc8c04",
       "revId": "771ff5aabad99ae2151c05c7e8a73f1153365586",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5381cd3f_318d9c8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29495
+      },
+      "writtenOn": "2024-05-24T05:08:27Z",
+      "side": 1,
+      "message": "Not at all, but to anyone who read to here, we should know that, even we have done a initialize pthread attr, `pthread_getattr_np` still failed indeed, it returns 3, not 0. We should consider this in the future.",
+      "parentUuid": "be94e988_04f90469",
+      "revId": "771ff5aabad99ae2151c05c7e8a73f1153365586",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
