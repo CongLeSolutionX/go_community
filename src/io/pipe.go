@@ -9,7 +9,9 @@ package io
 
 import (
 	"errors"
+	"internal/itoa"
 	"sync"
+	"unsafe"
 )
 
 // onceError is an object that will only store an error once.
@@ -120,6 +122,10 @@ func (p *pipe) writeCloseError() error {
 		return rerr
 	}
 	return ErrClosedPipe
+}
+
+func (p *pipe) String() string {
+	return itoa.Uitox(uint(uintptr(unsafe.Pointer(p))))
 }
 
 // A PipeReader is the read half of a pipe.
