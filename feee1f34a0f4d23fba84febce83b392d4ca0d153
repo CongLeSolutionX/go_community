@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ec29dbd_45e7f0b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-05-24T17:12:14Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "feee1f34a0f4d23fba84febce83b392d4ca0d153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26fc7e3a_fd923e06",
@@ -14,6 +31,24 @@
       "writtenOn": "2024-05-24T14:24:31Z",
       "side": 1,
       "message": "Sorry, is this a good choice? If so see also\nhttps://go.googlesource.com/go/+/1e12eab8705d1d8d7472be9147a39caa1c8380db/src/context/context.go#710",
+      "revId": "feee1f34a0f4d23fba84febce83b392d4ca0d153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4bd82c7_9df4de7f",
+        "filename": "src/encoding/json/stream.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-05-24T17:12:14Z",
+      "side": 1,
+      "message": "I wonder if the \"[any]\" syntax works for builtin types. Thus having it link over to builtin.any would be clear what the meaning is.\n\nOtherwise, I personally might have written something like \"any interface value\" to be unambigious. Up to you.",
+      "parentUuid": "26fc7e3a_fd923e06",
       "revId": "feee1f34a0f4d23fba84febce83b392d4ca0d153",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
