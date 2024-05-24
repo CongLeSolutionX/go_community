@@ -34,6 +34,24 @@
       "parentUuid": "eb6bd300_7bbd19f5",
       "revId": "b43d759220c47ff26fef2f64f9d0465a947774aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4114357_47e8a461",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2024-05-24T15:04:23Z",
+      "side": 1,
+      "message": "It looks real and it looks like the linker is dying generating the pclntab. I can\u0027t reproduce on my Mac and have to run out for a bit, but I will try to reproduce on a Linux gomote when I get back.",
+      "parentUuid": "20df7c76_22d85277",
+      "revId": "b43d759220c47ff26fef2f64f9d0465a947774aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
