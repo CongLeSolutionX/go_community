@@ -421,3 +421,15 @@ func sortBytesInGroups(b []byte, n int) []byte {
 	slices.SortFunc(groups, bytes.Compare)
 	return bytes.Join(groups, nil)
 }
+
+func TestPipeAllocations(t *testing.T) {
+	n := testing.AllocsPerRun(10, func() {
+		r, w := Pipe()
+		_, _ = r, w
+	})
+
+	// 4 is chosen because go.dev/cl/473535 claimed this.
+	if n > 4 {
+		t.Fatalf("too many allocations for io.Pipe() call: %f", n)
+	}
+}
