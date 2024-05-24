@@ -40,6 +40,30 @@
       ],
       "revId": "118fbcdae0b1ebfd22c4b3e4e76188ccbdcfa67c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e682753_7f7720fe",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-05-24T21:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "339a2f7d_610645cc",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 42
+      },
+      "revId": "118fbcdae0b1ebfd22c4b3e4e76188ccbdcfa67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
