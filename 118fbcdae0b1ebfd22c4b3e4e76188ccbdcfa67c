@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "339a2f7d_610645cc",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-05-24T20:38:00Z",
+      "side": 1,
+      "message": "s/with//",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 42
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8b249dab_c8f9bea9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "doc/next/3-tools.md",
+              "range": {
+                "startLine": 60,
+                "startChar": 0,
+                "endLine": 61,
+                "endChar": 0
+              },
+              "replacement": "The `trace` tool now better tolerates partially broken traces by attempting\n"
+            }
+          ]
+        }
+      ],
+      "revId": "118fbcdae0b1ebfd22c4b3e4e76188ccbdcfa67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
