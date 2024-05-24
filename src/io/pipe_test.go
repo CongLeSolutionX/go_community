@@ -412,6 +412,26 @@ func TestPipeConcurrent(t *testing.T) {
 	})
 }
 
+func TestIssue67633(t *testing.T) {
+	r, w := Pipe()
+	go func() {
+		w.Write([]byte("hello"))
+		w.Close()
+	}()
+	_ = fmt.Sprintf("(%[1]T=%[1]v)", r)
+	buf := make([]byte, 5)
+	n, err := r.Read(buf)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if n != 5 {
+		t.Fatalf("unexpected number of bytes read: %d", n)
+	}
+	if string(buf) != "hello" {
+		t.Fatalf("unexpected read content: %s", buf)
+	}
+}
+
 func sortBytesInGroups(b []byte, n int) []byte {
 	var groups [][]byte
 	for len(b) > 0 {
