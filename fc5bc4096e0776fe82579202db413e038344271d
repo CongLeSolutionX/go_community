@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9320e04_87260a7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-05-24T17:14:45Z",
+      "side": 1,
+      "message": "This is an unfortunate re-introduction of an allocation to resolve a use-case which I\u0027m not sure is legitimate. I\u0027d like some closure on the discussion before submitting this. Otherwise, the change itself LGTM.",
+      "revId": "fc5bc4096e0776fe82579202db413e038344271d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
