@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a062db5c_3689bb3b",
+        "filename": "doc/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-24T16:41:17Z",
+      "side": 1,
+      "message": "Turns out out this breaks if run outside of x/website directory because it tries to find _content even if doesn\u0027t exist. Setting the -content flag to empty string explicitly gets it to use the embedded content as I intended.",
+      "range": {
+        "startLine": 51,
+        "startChar": 48,
+        "endLine": 51,
+        "endChar": 49
+      },
+      "revId": "c020bc6cc8e3b886e4b5f967ea0a451cecc29669",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
