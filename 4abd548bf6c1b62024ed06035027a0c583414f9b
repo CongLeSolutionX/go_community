@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "661ada6c_71f5d6b1",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-05-24T16:30:08Z",
+      "side": 1,
+      "message": "How about this: The new go telemetry command controls Go\u0027s telemetry. Without arguments, it displays the current mode. With local, on or off...",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 92
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f3b1e9f1_95c9bccb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "doc/next/3-tools.md",
+              "range": {
+                "startLine": 27,
+                "startChar": 0,
+                "endLine": 32,
+                "endChar": 0
+              },
+              "replacement": "The new `go` `telemetry` command controls Go\u0027s telemetry.\nWithout arguments, it displays the current mode. With `local`, `on` or `off`,\nit sets the collection mode. `go` `env` now lists two values: the `GOTELEMETRY`\nvalue, which contains the telemetry collection mode, and the `GOTELEMETRYDIR`\nvalue setting which contains the directory telemetry data and configuration are\nwritten to.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "4abd548bf6c1b62024ed06035027a0c583414f9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
