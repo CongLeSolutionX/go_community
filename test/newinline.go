@@ -73,6 +73,9 @@ func l(x, y int) (int, int, error) { // ERROR "can inline l"
 		f := e
 		f(nil) // ERROR "inlining call to l.func1"
 	}
+	if e == nil { // make e not be trivially dead after inlining
+		return 0, 0, nil
+	}
 	return y, x, nil
 }
 
@@ -109,7 +112,10 @@ func p() int { // ERROR "can inline p"
 
 func q(x int) int { // ERROR "can inline q"
 	foo := func() int { return x * 2 } // ERROR "can inline q.func1" "func literal does not escape"
-	return foo()                       // ERROR "inlining call to q.func1"
+	if foo == nil {                    // make foo not be trivially dead after inlining
+		return 0
+	}
+	return foo() // ERROR "inlining call to q.func1"
 }
 
 func r(z int) int { // ERROR "can inline r"
@@ -121,6 +127,9 @@ func r(z int) int { // ERROR "can inline r"
 			return 2*y + x*z
 		}(x) // ERROR "inlining call to r.func2.1"
 	}
+	if foo == nil || bar == nil { // make foo, bar not be trivially dead after inlining
+		return 0
+	}
 	return foo(42) + bar(42) // ERROR "inlining call to r.func1" "inlining call to r.func2" "inlining call to r.r.func2.func3"
 }
 
@@ -128,7 +137,10 @@ func s0(x int) int { // ERROR "can inline s0"
 	foo := func() { // ERROR "can inline s0.func1" "func literal does not escape"
 		x = x + 1
 	}
-	foo() // ERROR "inlining call to s0.func1"
+	foo()           // ERROR "inlining call to s0.func1"
+	if foo == nil { // make foo not be trivially dead after inlining
+		return 0
+	}
 	return x
 }
 
@@ -137,6 +149,9 @@ func s1(x int) int { // ERROR "can inline s1"
 		return x
 	}
 	x = x + 1
+	if foo == nil { // make foo not be trivially dead after inlining
+		return 0
+	}
 	return foo() // ERROR "inlining call to s1.func1"
 }
 
