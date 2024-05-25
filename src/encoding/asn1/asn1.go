@@ -1048,7 +1048,7 @@ func setDefaultValue(v reflect.Value, params fieldParameters) (ok bool) {
 //
 //   - An ASN.1 PrintableString, IA5String, or NumericString can be written to a string.
 //
-//   - Any of the above ASN.1 values can be written to an interface{}.
+//   - Any of the above ASN.1 values can be written to an interface value.
 //     The value stored in the interface has the corresponding Go type.
 //     For integers, that type is int64.
 //

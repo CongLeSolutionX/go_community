@@ -1470,7 +1470,7 @@ func (v Value) CanInterface() bool {
 	return v.flag&flagRO == 0
 }
 
-// Interface returns v's current value as an interface{}.
+// Interface returns v's current value as an interface value.
 // It is equivalent to:
 //
 //	var i interface{} = (v's underlying value)

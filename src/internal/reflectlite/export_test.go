@@ -76,7 +76,7 @@ func Zero(typ Type) Value {
 	return Value{t, nil, fl}
 }
 
-// ToInterface returns v's current value as an interface{}.
+// ToInterface returns v's current value as an interface value.
 // It is equivalent to:
 //
 //	var i interface{} = (v's underlying value)
