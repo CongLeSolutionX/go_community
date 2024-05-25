@@ -16,6 +16,23 @@
       "message": "David, does this CL help with the issue you run into? Thanks.",
       "revId": "226de7050e8809f1a62145d6c6c1448815750a21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bbea96a_ec7eed37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-05-25T18:06:07Z",
+      "side": 1,
+      "message": "It seems to work locally, and is getting a proper test in a combo CL https://go.dev/cl/588455 that is supposed to pass (I hope).",
+      "revId": "226de7050e8809f1a62145d6c6c1448815750a21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
