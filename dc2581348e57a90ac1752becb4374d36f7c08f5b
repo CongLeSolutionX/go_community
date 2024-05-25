@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3b3d91b_98071d30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-25T23:39:29Z",
+      "side": 1,
+      "message": "As noted in a couple of comments I don\u0027t think this change is correct in general.  There is a difference in the implementation of interface{} aka any and other interface types.  To just say \"an interface value\" suggests that any interface type is OK, but at least in some of these comments that is not the case.",
+      "revId": "dc2581348e57a90ac1752becb4374d36f7c08f5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f717fb3_914329d9",
+        "filename": "src/cmd/compile/internal/devirtualize/pgo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-25T23:39:29Z",
+      "side": 1,
+      "message": "Here I think it\u0027s relevant that it\u0027s type \"any\" or \"interface{}\", and not some other interface type.",
+      "revId": "dc2581348e57a90ac1752becb4374d36f7c08f5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f28f25c_28e45685",
+        "filename": "src/cmd/compile/internal/ir/func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-25T23:39:29Z",
+      "side": 1,
+      "message": "It\u0027s relevant that this is interface{}.",
+      "revId": "dc2581348e57a90ac1752becb4374d36f7c08f5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
