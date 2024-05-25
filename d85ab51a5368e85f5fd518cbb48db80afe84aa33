@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "32b5a001_672121df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2024-05-25T03:27:30Z",
+      "side": 1,
+      "message": "I can confirm this fixed riscv64 builder. Thanks!",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "d85ab51a5368e85f5fd518cbb48db80afe84aa33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "dafe8a54_507b131b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
