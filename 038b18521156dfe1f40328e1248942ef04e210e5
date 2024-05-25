@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32ea4d9e_e61f43e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-05-25T14:47:07Z",
+      "side": 1,
+      "message": "See https://go-review.googlesource.com/c/go/+/588118/comment/26fc7e3a_fd923e06/",
+      "revId": "038b18521156dfe1f40328e1248942ef04e210e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
