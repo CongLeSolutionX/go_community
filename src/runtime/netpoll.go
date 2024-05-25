@@ -711,7 +711,7 @@ func (c *pollCache) alloc() *pollDesc {
 	return pd
 }
 
-// makeArg converts pd to an interface{}.
+// makeArg converts pd to an interface value.
 // makeArg does not do any allocation. Normally, such
 // a conversion requires an allocation because pointers to
 // types which embed runtime/internal/sys.NotInHeap (which pollDesc is)

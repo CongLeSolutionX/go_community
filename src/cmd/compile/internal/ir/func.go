@@ -546,7 +546,7 @@ func IsIfaceOfFunc(n Node) *Func {
 // n should be a Node of an interface type, as is passed to
 // internal/abi.FuncPC{ABI0,ABIInternal}.
 //
-// TODO(prattmic): Since n is simply an interface{} there is no assertion that
+// TODO(prattmic): Since n is simply an interface value there is no assertion that
 // it is actually a function at all. Perhaps we should emit a runtime type
 // assertion?
 func FuncPC(pos src.XPos, n Node, wantABI obj.ABI) Node {
