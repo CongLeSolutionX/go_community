@@ -33,6 +33,24 @@
       "message": "CL 582076 also made changes to make.rc, the bug might exist there too, i have not tested it.",
       "revId": "7eb331ab37b50fef60ed1279e0dd398e229da941",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a347cb_a085d4b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-05-26T16:08:34Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1495a5de_df8a0baa",
+      "revId": "7eb331ab37b50fef60ed1279e0dd398e229da941",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
