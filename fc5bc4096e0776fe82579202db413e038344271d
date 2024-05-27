@@ -16,6 +16,24 @@
       "message": "This is an unfortunate re-introduction of an allocation to resolve a use-case which I\u0027m not sure is legitimate. I\u0027d like some closure on the discussion before submitting this. Otherwise, the change itself LGTM.",
       "revId": "fc5bc4096e0776fe82579202db413e038344271d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76661ee0_a68f8f6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-05-27T07:15:24Z",
+      "side": 1,
+      "message": "Or we could just make pipe to be a non-embeded field.",
+      "parentUuid": "e9320e04_87260a7a",
+      "revId": "fc5bc4096e0776fe82579202db413e038344271d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
