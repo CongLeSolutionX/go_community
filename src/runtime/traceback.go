@@ -261,6 +261,12 @@ func (u *unwinder) resolveInternal(innermost, isSyscall bool) {
 		return
 	}
 
+	if f.funcID == abi.FuncID_shadowTrampolineASM || f.funcID == abi.FuncID_shadowTrampolineGo {
+		frame.pc = gp.shadowStack.pcs[0]
+		frame.fn = findfunc(frame.pc)
+		f = frame.fn
+	}
+
 	// Compute function info flags.
 	flag := f.flag
 	if f.funcID == abi.FuncID_cgocallback {
