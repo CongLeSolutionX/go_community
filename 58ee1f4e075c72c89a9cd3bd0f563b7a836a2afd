@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5610ea5_3da8ab3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59289
+      },
+      "writtenOn": "2024-05-27T17:16:36Z",
+      "side": 1,
+      "message": "Thank\u0027s @billotosyr@gmail.com Addressed all the review comments",
+      "revId": "58ee1f4e075c72c89a9cd3bd0f563b7a836a2afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
