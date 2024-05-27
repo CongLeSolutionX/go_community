@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76ea38d_2c4b1c32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59289
+      },
+      "writtenOn": "2024-05-27T17:14:47Z",
+      "side": 1,
+      "message": "Thanks for the review. I have updated copyrights for all the new files",
+      "parentUuid": "e2d080de_2e957591",
+      "revId": "a93540b0796cec0e0fea22c7ec6e90a34694b90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aded4d9c_bf318277",
