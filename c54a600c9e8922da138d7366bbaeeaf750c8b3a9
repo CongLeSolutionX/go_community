@@ -159,6 +159,24 @@
       "parentUuid": "3cfb14f0_3b52d56a",
       "revId": "c54a600c9e8922da138d7366bbaeeaf750c8b3a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb01226_def453f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38590
+      },
+      "writtenOn": "2024-05-27T16:53:01Z",
+      "side": 1,
+      "message": "I have rebased.",
+      "parentUuid": "0011cb04_a8950778",
+      "revId": "c54a600c9e8922da138d7366bbaeeaf750c8b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
