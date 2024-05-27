@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c206a363_bb9f76e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59289
+      },
+      "writtenOn": "2024-05-27T17:17:21Z",
+      "side": 1,
+      "message": "Thanks @vishwanatha.hd@ibm.com for the review",
+      "parentUuid": "dfa1f664_ee0127d3",
+      "revId": "a93540b0796cec0e0fea22c7ec6e90a34694b90b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aded4d9c_bf318277",
