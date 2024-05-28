@@ -87,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "937dd437_f0c3d56a",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 61503
+      },
+      "writtenOn": "2024-05-28T14:11:56Z",
+      "side": 1,
+      "message": "Thanks for the review @Pokala.Srinivas@ibm.com\nI have modified the code accordingly to take care of printing only the GNU syntax for now..",
+      "parentUuid": "49704b88_0e1492c0",
+      "revId": "802434d7d29586e9eb1c023dffdca6905343bf62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0bfdd07_ce6b5143",
@@ -100,6 +118,24 @@
       "writtenOn": "2024-05-28T07:11:41Z",
       "side": 1,
       "message": "Hi @vishwanatha.hd@ibm.com as currently disassembler support on s390x CL  is providing for only GNU syntax, as GoSyntax Implementation not added there. In that case it will it undefined GOSyntax. Can you please bypass GoSyntax usage till the time it got implemented.",
+      "revId": "802434d7d29586e9eb1c023dffdca6905343bf62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07374d00_9e7f82ff",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 61503
+      },
+      "writtenOn": "2024-05-28T14:11:56Z",
+      "side": 1,
+      "message": "Thanks for the review @Pokala.Srinivas@ibm.com\nI have modified the code accordingly to take care of printing only the GNU syntax for now..",
+      "parentUuid": "a0bfdd07_ce6b5143",
       "revId": "802434d7d29586e9eb1c023dffdca6905343bf62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
