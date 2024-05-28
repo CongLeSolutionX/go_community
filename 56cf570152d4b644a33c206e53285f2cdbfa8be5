@@ -34,6 +34,24 @@
       "parentUuid": "8243fddb_7803ed26",
       "revId": "56cf570152d4b644a33c206e53285f2cdbfa8be5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa26cb8b_145b36e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-05-28T16:08:44Z",
+      "side": 1,
+      "message": "You\u0027re welcome to abandon this CL and send a new one, or update it.\nNote that the freeze for 1.23 has started, so any changes will have to wait for 1.24.\nThanks.",
+      "parentUuid": "0c8cc305_78f31841",
+      "revId": "56cf570152d4b644a33c206e53285f2cdbfa8be5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
