@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "50d9d936529b59d92547794919df4bf5095f8781",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db11a7ed_44b644e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-28T21:39:42Z",
+      "side": 1,
+      "message": "CL 525375 also made this change. I\u0027ll close it after this is submitted. Thanks.",
+      "revId": "50d9d936529b59d92547794919df4bf5095f8781",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
