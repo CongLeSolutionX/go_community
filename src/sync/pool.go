@@ -149,7 +149,10 @@ func (p *Pool) Get() any {
 			race.Acquire(poolRaceAddr(x))
 		}
 	}
-	if x == nil && p.New != nil {
+	if x != nil {
+		return x
+	}
+	if p.New != nil {
 		x = p.New()
 	}
 	return x
