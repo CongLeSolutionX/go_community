@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f25d5935_0bb8acec",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-28T19:06:30Z",
+      "side": 1,
+      "message": "Unfortunately I don\u0027t really understand that comment.  It repeats the condition without really explaining why that condition is correct.  The \"if d.nbuf \u003c 4\" condition is effectively \"if d.readErr !\u003d nil\", because as far as I can tell there is no other way for \"d.nbuf \u003c 4\" can be true, given the loop just above.  Why is \"d.nbuf%4 !\u003d 0\" the right condition to test here?  I\u0027m not sure.",
+      "parentUuid": "52c3848b_eebd2d8e",
+      "revId": "69b829472fb2f5b08c3b77e82885de76f49556a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36840099_f11a7659",
         "filename": "src/encoding/base64/base64_test.go",
         "patchSetId": 4
