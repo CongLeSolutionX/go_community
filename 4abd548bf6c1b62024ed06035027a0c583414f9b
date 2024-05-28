@@ -59,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1cecb95_13c7eca8",
+        "filename": "doc/next/3-tools.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-05-28T17:06:00Z",
+      "side": 1,
+      "message": "Hmmmm I see your point about the first sentence not capturing the full operation of the go telemetry command, but I don\u0027t think that \"controls\" captures the full operation either... How about:\n\n    The new `go` `telemetry` command can be used to view and configure the\n    telemetry collection mode. Without arguments, it displays the current mode.\n    With `local`, `on`, or `off`...",
+      "parentUuid": "661ada6c_71f5d6b1",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 92
+      },
+      "revId": "4abd548bf6c1b62024ed06035027a0c583414f9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7de65124_68a3ba7c",
