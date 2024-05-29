@@ -66,15 +66,17 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 
 	pkgpath := pkgPath(a)
 	defaultGcFlags := []string{"-p", pkgpath}
-	if p.Module != nil {
-		v := p.Module.GoVersion
+	vers := gover.Local()
+	if p.Module != nil || p.Internal.CmdlineFiles {
+		v := p.Internal.GoVersion
 		if v == "" {
 			v = gover.DefaultGoModVersion
 		}
 		if allowedVersion(v) {
-			defaultGcFlags = append(defaultGcFlags, "-lang=go"+gover.Lang(v))
+			vers = v
 		}
 	}
+	defaultGcFlags = append(defaultGcFlags, "-lang=go"+gover.Lang(vers))
 	if p.Standard {
 		defaultGcFlags = append(defaultGcFlags, "-std")
 	}
