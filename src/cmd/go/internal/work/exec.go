@@ -431,7 +431,7 @@ func (b *Builder) needCgoHdr(a *Action) bool {
 
 // allowedVersion reports whether the version v is an allowed version of go
 // (one that we can compile).
-// v is known to be of the form "1.23".
+// v is known to be of the form "1.23" or "1.23.0".
 func allowedVersion(v string) bool {
 	// Special case: no requirement.
 	if v == "" {
@@ -1180,17 +1180,12 @@ func buildVetConfig(a *Action, srcfiles []string) {
 		PackageFile:  make(map[string]string),
 		Standard:     make(map[string]bool),
 	}
-	if a.Package.Module != nil {
-		v := a.Package.Module.GoVersion
-		if v == "" {
-			v = gover.DefaultGoModVersion
-		}
-		vcfg.GoVersion = "go" + v
 
-		if a.Package.Module.Error == nil {
-			vcfg.ModulePath = a.Package.Module.Path
-			vcfg.ModuleVersion = a.Package.Module.Version
-		}
+	vers := a.Package.Internal.GoVersion
+	vcfg.GoVersion = "go" + vers
+	if a.Package.Module != nil && a.Package.Module.Error == nil {
+		vcfg.ModulePath = a.Package.Module.Path
+		vcfg.ModuleVersion = a.Package.Module.Version
 	}
 	a.vetCfg = vcfg
 	for i, raw := range a.Package.Internal.RawImports {
