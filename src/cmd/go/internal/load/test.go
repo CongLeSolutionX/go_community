@@ -24,6 +24,7 @@ import (
 
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
+	"cmd/go/internal/gover"
 	"cmd/go/internal/str"
 	"cmd/go/internal/trace"
 )
@@ -257,10 +258,14 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 				Embed:          xtestEmbed,
 				OrigImportPath: p.Internal.OrigImportPath,
 				PGOProfile:     p.Internal.PGOProfile,
+				GoVersion:      gover.Local(),
 			},
 		}
 		if pxtestNeedsPtest {
 			pxtest.Internal.Imports = append(pxtest.Internal.Imports, ptest)
+		}
+		if p.Module != nil {
+			pxtest.Internal.GoVersion = p.Module.GoVersion
 		}
 	}
 
@@ -288,9 +293,12 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			Gccgoflags:     gccgoflags,
 			OrigImportPath: p.Internal.OrigImportPath,
 			PGOProfile:     p.Internal.PGOProfile,
+			GoVersion:      gover.Local(),
 		},
 	}
-
+	if p.Module != nil {
+		pmain.Internal.GoVersion = p.Module.GoVersion
+	}
 	pb := p.Internal.Build
 	pmain.DefaultGODEBUG = defaultGODEBUG(pmain, pb.Directives, pb.TestDirectives, pb.XTestDirectives)
 
