@@ -257,6 +257,7 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 				Embed:          xtestEmbed,
 				OrigImportPath: p.Internal.OrigImportPath,
 				PGOProfile:     p.Internal.PGOProfile,
+				GoVersion:      p.Internal.GoVersion,
 			},
 		}
 		if pxtestNeedsPtest {
@@ -288,9 +289,9 @@ func TestPackagesAndErrors(ctx context.Context, done func(), opts PackageOpts, p
 			Gccgoflags:     gccgoflags,
 			OrigImportPath: p.Internal.OrigImportPath,
 			PGOProfile:     p.Internal.PGOProfile,
+			GoVersion:      p.Internal.GoVersion,
 		},
 	}
-
 	pb := p.Internal.Build
 	pmain.DefaultGODEBUG = defaultGODEBUG(pmain, pb.Directives, pb.TestDirectives, pb.XTestDirectives)
 
