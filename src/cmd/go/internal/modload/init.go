@@ -888,6 +888,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 				{Path: "toolchain", Version: gover.LocalToolchain()},
 			}
 		} else {
+			// TODO(samthanawalla): Investigate why we use gover.Local() instead of the containing modules go version.
 			goVersion = gover.Local()
 			pruning = pruningForGoVersion(goVersion)
 			roots = []module.Version{
