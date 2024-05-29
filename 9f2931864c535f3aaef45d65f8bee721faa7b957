@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1ae23df_f45fa430",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-29T15:16:30Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "9f2931864c535f3aaef45d65f8bee721faa7b957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8033036d_a37a70b7",
+        "filename": "doc/next/7-ports.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-29T15:16:30Z",
+      "side": 1,
+      "message": "Since these are Go 1.23 release notes, consider adding a sentence in front of this one:\n\n```\nGo 1.23 is the last release that ...\n```\n\nSimilar to how it was done in https://go.dev/doc/go1.20#ports (\"1.20 is the last ... 1.21 will require ...\").\n\nAlso, proposal #67001 includes an exception for Linux kernel 3.10 patched with getrandom(2). Just confirming that it left out because the goal of this note to be brief and higher level.",
+      "revId": "9f2931864c535f3aaef45d65f8bee721faa7b957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
