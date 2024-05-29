@@ -239,7 +239,7 @@ func (mms *MainModuleSet) GoVersion() string {
 		}
 		return gover.FromGoMod(f)
 	}
-	return gover.DefaultGoModVersion
+	return gover.Local()
 }
 
 // Godebugs returns the godebug lines set on the single module, in module mode,
@@ -893,6 +893,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 				{Path: "toolchain", Version: gover.LocalToolchain()},
 			}
 		} else {
+			// TODO(samthanawalla): Investigate why we use gover.Local() instead of the containing modules go version.
 			goVersion = gover.Local()
 			pruning = pruningForGoVersion(goVersion)
 			roots = []module.Version{
