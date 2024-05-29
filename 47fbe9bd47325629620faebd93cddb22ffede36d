@@ -16,6 +16,23 @@
       "message": "Modified the code to take care of the code review changes.\nRequest you to please review again and give your comments.",
       "revId": "47fbe9bd47325629620faebd93cddb22ffede36d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2729c7ce_dbb036ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59289
+      },
+      "writtenOn": "2024-05-29T06:00:30Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "47fbe9bd47325629620faebd93cddb22ffede36d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
