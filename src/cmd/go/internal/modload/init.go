@@ -869,7 +869,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 		// make MainModules.Len() == 0 mean that we're in module mode but not inside
 		// any module.
 		mainModule := module.Version{Path: "command-line-arguments"}
-		MainModules = makeMainModules([]module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil}, nil)
+		MainModules = makeMainModules([]module.Version{mainModule}, []string{""}, []*modfile.File{nil}, []*modFileIndex{nil}, workFile)
 		var (
 			goVersion string
 			pruning   modPruning
