@@ -1,0 +1,50 @@
+# go vet should set the GoVersion to the modules go version.
+# The module and the file should return the same version.
+go vet -x -json example.com/m
+stderr '"GoVersion": "go1.22.0"'
+go vet -x -json main.go
+stderr '"GoVersion": "go1.22.0"'
+
+go mod edit -go 1.21.1
+! go vet -x -json example.com/m
+stderr 'requires go1.22 '
+! go vet -x -json main.go
+stderr 'requires go1.22 '
+
+# In workspace mode, the GoVersion should still be the modules go version.
+cp go.work.orig go.work
+go mod edit -go 1.22.0
+go vet -x -json example.com/m
+stderr '"GoVersion": "go1.22.0"'
+go vet -x -json main.go
+stderr '"GoVersion": "go1.22.0"'
+
+go work edit -go 1.22.1
+go vet -x -json main.go
+stderr '"GoVersion": "go1.22.0"'
+
+env TESTGO_VERSION=go1.22.3
+# If there is no containing module, then use the local go version.
+rm go.mod
+rm go.work
+go vet -x -json main.go
+stderr '"GoVersion": "go1.22.3"'
+
+-- go.mod --
+module example.com/m
+
+go 1.22.0
+
+-- go.work.orig --
+go 1.22.2
+
+use .
+
+-- main.go --
+package main
+
+func main() {
+        for i := range 10 {
+                go func() { println(i) }()
+        }
+}
