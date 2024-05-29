@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68ee20ce_1f67683b",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2024-05-29T19:18:00Z",
+      "side": 1,
+      "message": "For modern AMDs I have 3400g, 3800x, 5800x3d (and 5600x, 5950x). I can test around a bit if they work well if we just use rep mov instead for longer moves. I dont think we would care much for performance pre Ryzen (2017).\n\nFor Intel I guess only Sandy and IvyBridge have ERMS+AVX AND wont work well with AVX custom loop. These CPUs are from around 2011/2012. I have a sandy bridge AVX CPU I can test against.\n\nI can benchmark around with rep mov vs avx path on different generations but it will take me a few weeks.\n\nIdeally (and I would prefer) we shouldnt need to special case AMD vs INTEL and just rely on CPUID flags. That means we can just always use rep mov if ERMS is enabled if that also works well on Ryzen. Then the other decision to make is if destination is unaligned we keep a custom AVX loop or this can be optimized/simplified too.",
+      "parentUuid": "41aac2c5_dac19f28",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
