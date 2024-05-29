@@ -33,6 +33,24 @@
       "message": "Since these are Go 1.23 release notes, consider adding a sentence in front of this one:\n\n```\nGo 1.23 is the last release that ...\n```\n\nSimilar to how it was done in https://go.dev/doc/go1.20#ports (\"1.20 is the last ... 1.21 will require ...\").\n\nAlso, proposal #67001 includes an exception for Linux kernel 3.10 patched with getrandom(2). Just confirming that it left out because the goal of this note to be brief and higher level.",
       "revId": "9f2931864c535f3aaef45d65f8bee721faa7b957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c014aeb_3d7976fa",
+        "filename": "doc/next/7-ports.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-05-29T15:57:20Z",
+      "side": 1,
+      "message": "I didn\u0027t know how specific to get. The CL was intended to gather feedback on what people thought I should note (between 3.17 and 3.10 patched with getrandom(2)).\n\nI will prepend the sentence as suggested above.",
+      "parentUuid": "8033036d_a37a70b7",
+      "revId": "9f2931864c535f3aaef45d65f8bee721faa7b957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
