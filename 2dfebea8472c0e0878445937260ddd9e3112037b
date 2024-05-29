@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f41b087b_3c8e3e28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-05-29T00:31:52Z",
+      "side": 1,
+      "message": "This one is not a bug fix, so holding for 1.24.  Thanks.",
+      "revId": "2dfebea8472c0e0878445937260ddd9e3112037b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
