@@ -7,6 +7,11 @@ As [announced](go1.22#darwin) in the Go 1.22 release notes,
 Go 1.23 requires macOS 11 Big Sur or later;
 support for previous versions has been discontinued.
 
+### Linux {#linux}
+
+<!-- go.dev/issue/67001 -->
+Go 1.24 will require Linux kernel version 3.17 or later.
+
 ### OpenBSD {#openbsd}
 
 <!-- go.dev/issue/55999, CL 518629, CL 518630 -->
