@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b290de7_fa4ce597",
+        "filename": "doc/next/7-ports.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-05-30T14:08:45Z",
+      "side": 1,
+      "message": "@iant@golang.org I understood the proposal was about 3.10 (exactly) patched with getrandom, meaning we don\u0027t make the exception for another version like 3.11 even if it\u0027s patched. Or is \"or later\" meant to be supported anyway?",
+      "range": {
+        "startLine": 13,
+        "startChar": 176,
+        "endLine": 13,
+        "endChar": 189
+      },
+      "revId": "fbb61c49a4652eb437edc7244d9e2db55363a1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
