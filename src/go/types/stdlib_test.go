@@ -400,6 +400,7 @@ func typecheckFiles(path string, filenames []string, importer Importer) (*Packag
 		},
 		Importer: importer,
 	}
+	*boolFieldAddr(&conf, "_EnableAlias") = true
 	info := Info{Uses: make(map[*ast.Ident]Object)}
 	pkg, _ := conf.Check(path, fset, files, &info)
 	err := errors.Join(errs...)
