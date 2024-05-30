@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdab92b8_95cb20bc",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-05-30T01:53:47Z",
+      "side": 1,
+      "message": "Sorry, we don\u0027t have any AMD processors\u0027 data.\nThe current ERMS strategy is basically the same as glibc. https://sourceware.org/git/?p\u003dglibc.git;a\u003dblob;f\u003dsysdeps/x86/dl-cacheinfo.h;h\u003df34d12846caf9422c07264e744baf20e45742a12;hb\u003daa4249266e9906c4bc833e4847f4d8feef59504f#l992\nI think for now just checking the ERMS bits is acceptable, at least for modern Intel CPUs.",
+      "parentUuid": "41aac2c5_dac19f28",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabfb34c_562cc837",
@@ -49,6 +67,24 @@
       "writtenOn": "2024-05-17T15:20:25Z",
       "side": 1,
       "message": "This test seems backwards? It skips erms if the destination is aligned.",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af23706c_06d5d55c",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-05-30T01:53:47Z",
+      "side": 1,
+      "message": "\u003e This test seems backwards? It skips erms if the destination is aligned.\n\nThank you for point this! It is my mistake.",
+      "parentUuid": "cabfb34c_562cc837",
       "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

@@ -16,6 +16,24 @@
       "message": "I think to make progress here I want to invert the sense of this test.\nWe should check the ERMS (and maybe also FSRM?) bits and use REP MOVB if they are set, and have a list of exceptions to that rule. That way we have what I think is the right behavior for future processors.",
       "revId": "dfce6c0275c3562537d695c1b0fd848e209370f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66a78c06_42018248",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-05-30T01:53:47Z",
+      "side": 1,
+      "message": "\u003e I think to make progress here I want to invert the sense of this test.\n\u003e We should check the ERMS (and maybe also FSRM?) bits and use REP MOVB if they are set, and have a list of exceptions to that rule. That way we have what I think is the right behavior for future processors.\n\nI have updated the code according to your suggestions, thank you very much!",
+      "parentUuid": "dc15a340_2fd14c70",
+      "revId": "dfce6c0275c3562537d695c1b0fd848e209370f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

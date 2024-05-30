@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed587480_5027548a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-05-30T01:53:47Z",
+      "side": 1,
+      "message": "Yes, I have provided the benchmark numbers in latest commit message. Thank you!",
+      "parentUuid": "d25d3d77_2f45b34d",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94d7f3f0_b6ee73dc",
@@ -53,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "246172f6_6b43955f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-05-30T01:53:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94d7f3f0_b6ee73dc",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04569f73_94b65cbc",
@@ -66,6 +102,30 @@
       "writtenOn": "2024-04-22T14:39:47Z",
       "side": 1,
       "message": "Maybe this needs a different name now, as it includes non-Bridge processors?",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12862565_2d87f98e",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-05-30T01:53:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04569f73_94b65cbc",
       "range": {
         "startLine": 17,
         "startChar": 1,
@@ -197,6 +257,24 @@
       "side": 1,
       "message": "Thanks for the pointers. I would assume kernel also wants to avoid globbering larger registers and thereby resorts to lots of movq instead of SSE or AVX. That said it seems to dispatch to rep mov also if FSRM set in https://elixir.bootlin.com/linux/v6.9-rc5/source/arch/x86/lib/memcpy_64.S#L33",
       "parentUuid": "08bc42d8_2576f79a",
+      "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0000f26_1924b237",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-05-30T01:53:47Z",
+      "side": 1,
+      "message": "The FSRM (Fast Short REP MOVSB) enhancement applies to string lengths between 1 and 128 bytes long. A CPU supporting FSRM or ERMS does not always mean better performance with rep movsb.",
+      "parentUuid": "6e5b54c5_f54cc35d",
       "revId": "d49514407921eb0754bda55d3aae8e71336c9fa2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
