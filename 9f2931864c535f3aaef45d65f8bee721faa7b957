@@ -69,6 +69,24 @@
       "parentUuid": "2c014aeb_3d7976fa",
       "revId": "9f2931864c535f3aaef45d65f8bee721faa7b957",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7810fdd_4832f336",
+        "filename": "doc/next/7-ports.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-05-30T13:58:29Z",
+      "side": 1,
+      "message": "Thanks for the feedback. I\u0027ve made the suggested changes.",
+      "parentUuid": "509b2b3f_c245b96f",
+      "revId": "9f2931864c535f3aaef45d65f8bee721faa7b957",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
