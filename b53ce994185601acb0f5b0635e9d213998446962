@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c41e7c93_51fcf18d",
+        "filename": "src/cmd/compile/internal/types2/stdlib_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-05-30T00:56:56Z",
+      "side": 1,
+      "message": "How about just changing stdlib type checking to enable aliases?\n\nThe race is because the default value of universe.Lookup differs from the value during type checking, where EnableAlias is unset.",
+      "range": {
+        "startLine": 413,
+        "startChar": 2,
+        "endLine": 419,
+        "endChar": 3
+      },
+      "revId": "b53ce994185601acb0f5b0635e9d213998446962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
