@@ -8,6 +8,7 @@ package iter
 
 import (
 	"internal/race"
+	"runtime"
 	"unsafe"
 )
 
@@ -56,6 +57,8 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		yieldNext  bool
 		racer      int
 		panicValue any
+		seqDone    bool // to detect Goexit
+		seqGoexit  bool
 	)
 	c := newcoro(func(c *coro) {
 		race.Acquire(unsafe.Pointer(&racer))
@@ -77,6 +80,8 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		defer func() {
 			if p := recover(); p != nil {
 				panicValue = p
+			} else if !seqDone {
+				seqGoexit = true
 			}
 			race.Release(unsafe.Pointer(&racer))
 		}()
@@ -84,12 +89,17 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		var v0 V
 		v, ok = v0, false
 		done = true
+		seqDone = true
 	})
 	next = func() (v1 V, ok1 bool) {
 		race.Write(unsafe.Pointer(&racer)) // detect races
 
 		// Propagate panics from seq, and make them "sticky"
 		// by reporting the same panic on each reentry.
+		//
+		// N.B. No need to check for runtime.Goexit. We must
+		// have switched back through next or stop, in which
+		// case we would have already exited.
 		if panicValue != nil {
 			panic(panicValue)
 		}
@@ -108,6 +118,10 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		if panicValue != nil {
 			panic(panicValue)
 		}
+		// Propagate runtime.Goexit from seq.
+		if seqGoexit {
+			runtime.Goexit()
+		}
 		return v, ok
 	}
 	stop = func() {
@@ -115,6 +129,10 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 
 		// Propagate panics from seq, and make them "sticky"
 		// by reporting the same panic on each reentry.
+		//
+		// N.B. No need to check for runtime.Goexit. We must
+		// have switched back through next or stop, in which
+		// case we would have already exited.
 		if panicValue != nil {
 			panic(panicValue)
 		}
@@ -127,6 +145,10 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 			// Propagate panics from seq.
 			if panicValue != nil {
 				panic(panicValue)
+			}
+			// Propagate runtime.Goexit from seq.
+			if seqGoexit {
+				runtime.Goexit()
 			}
 		}
 	}
@@ -161,6 +183,8 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		yieldNext  bool
 		racer      int
 		panicValue any
+		seqDone    bool
+		seqGoexit  bool
 	)
 	c := newcoro(func(c *coro) {
 		race.Acquire(unsafe.Pointer(&racer))
@@ -182,6 +206,8 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		defer func() {
 			if p := recover(); p != nil {
 				panicValue = p
+			} else if !seqDone {
+				seqGoexit = true
 			}
 			race.Release(unsafe.Pointer(&racer))
 		}()
@@ -190,12 +216,17 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		var v0 V
 		k, v, ok = k0, v0, false
 		done = true
+		seqDone = true
 	})
 	next = func() (k1 K, v1 V, ok1 bool) {
 		race.Write(unsafe.Pointer(&racer)) // detect races
 
 		// Propagate panics from seq, and make them "sticky"
 		// by reporting the same panic on each reentry.
+		//
+		// N.B. No need to check for runtime.Goexit. We must
+		// have switched back through next or stop, in which
+		// case we would have already exited.
 		if panicValue != nil {
 			panic(panicValue)
 		}
@@ -214,6 +245,10 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		if panicValue != nil {
 			panic(panicValue)
 		}
+		// Propagate runtime.Goexit from seq.
+		if seqGoexit {
+			runtime.Goexit()
+		}
 		return k, v, ok
 	}
 	stop = func() {
@@ -221,6 +256,10 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 
 		// Propagate panics from seq, and make them "sticky"
 		// by reporting the same panic on each reentry.
+		//
+		// N.B. No need to check for runtime.Goexit. We must
+		// have switched back through next or stop, in which
+		// case we would have already exited.
 		if panicValue != nil {
 			panic(panicValue)
 		}
@@ -233,6 +272,10 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 			// Propagate panics from seq.
 			if panicValue != nil {
 				panic(panicValue)
+			}
+			// Propagate runtime.Goexit from seq.
+			if seqGoexit {
+				runtime.Goexit()
 			}
 		}
 	}
