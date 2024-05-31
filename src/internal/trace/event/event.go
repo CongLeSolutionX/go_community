@@ -4,7 +4,7 @@
 
 package event
 
-// Type is the common in-memory representation of the low-leve
+// Type is the common in-memory representation of the low-level.
 type Type uint8
 
 // Spec is a specification for a trace event. It contains sufficient information
