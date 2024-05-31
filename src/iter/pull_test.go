@@ -315,3 +315,70 @@ func panics(f func()) (panicked bool) {
 	f()
 	return
 }
+
+func TestPullGoexit(t *testing.T) {
+	t.Run("next", func(t *testing.T) {
+		if !goexits(t, func() {
+			next, _ := Pull(goexitSeq())
+			next()
+		}) {
+			t.Fatal("failed to Goexit from next")
+		}
+
+	})
+	t.Run("stop", func(t *testing.T) {
+		if !goexits(t, func() {
+			_, stop := Pull(goexitSeq())
+			stop()
+		}) {
+			t.Fatal("failed to Goexit from stop")
+		}
+	})
+}
+
+func goexitSeq() Seq[int] {
+	return func(yield func(int) bool) {
+		runtime.Goexit()
+	}
+}
+
+func TestPull2Goexit(t *testing.T) {
+	t.Run("next", func(t *testing.T) {
+		if !goexits(t, func() {
+			next, _ := Pull2(goexitSeq2())
+			next()
+		}) {
+			t.Fatal("failed to Goexit from next")
+		}
+
+	})
+	t.Run("stop", func(t *testing.T) {
+		if !goexits(t, func() {
+			_, stop := Pull2(goexitSeq2())
+			stop()
+		}) {
+			t.Fatal("failed to Goexit from stop")
+		}
+	})
+}
+
+func goexitSeq2() Seq2[int, int] {
+	return func(yield func(int, int) bool) {
+		runtime.Goexit()
+	}
+}
+
+func goexits(t *testing.T, f func()) bool {
+	t.Helper()
+
+	exit := make(chan bool)
+	go func() {
+		cleanExit := false
+		defer func() {
+			exit <- recover() == nil && !cleanExit
+		}()
+		f()
+		cleanExit = true
+	}()
+	return <-exit
+}
