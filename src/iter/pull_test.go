@@ -241,3 +241,77 @@ func storeYield2() Seq2[int, int] {
 }
 
 var yieldSlot2 func(int, int) bool
+
+func TestPullPanic(t *testing.T) {
+	t.Run("next", func(t *testing.T) {
+		next, stop := Pull(panicSeq())
+		if !panics(func() { next() }) {
+			t.Fatal("failed to propagate panic on first next")
+		}
+		// Make sure we don't panic again if we try to call next or stop.
+		if _, ok := next(); ok {
+			t.Fatal("next returned true after iterator panicked")
+		}
+		// Calling stop again should be a no-op.
+		stop()
+	})
+	t.Run("stop", func(t *testing.T) {
+		next, stop := Pull(panicSeq())
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to propagate panic on first stop")
+		}
+		// Make sure we don't panic again if we try to call next or stop.
+		if _, ok := next(); ok {
+			t.Fatal("next returned true after iterator panicked")
+		}
+		// Calling stop again should be a no-op.
+		stop()
+	})
+}
+
+func panicSeq() Seq[int] {
+	return func(yield func(int) bool) {
+		panic("boom")
+	}
+}
+
+func TestPull2Panic(t *testing.T) {
+	t.Run("next", func(t *testing.T) {
+		next, stop := Pull2(panicSeq2())
+		if !panics(func() { next() }) {
+			t.Fatal("failed to propagate panic on first next")
+		}
+		// Make sure we don't panic again if we try to call next or stop.
+		if _, _, ok := next(); ok {
+			t.Fatal("next returned true after iterator panicked")
+		}
+		// Calling stop again should be a no-op.
+		stop()
+	})
+	t.Run("stop", func(t *testing.T) {
+		next, stop := Pull2(panicSeq2())
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to propagate panic on first stop")
+		}
+		// Make sure we don't panic again if we try to call next or stop.
+		if _, _, ok := next(); ok {
+			t.Fatal("next returned true after iterator panicked")
+		}
+		// Calling stop again should be a no-op.
+		stop()
+	})
+}
+
+func panicSeq2() Seq2[int, int] {
+	return func(yield func(int, int) bool) {
+		panic("boom")
+	}
+}
+
+func panics(f func()) (panicked bool) {
+	defer func() {
+		panicked = recover() != nil
+	}()
+	f()
+	return
+}
