@@ -312,6 +312,76 @@ func panicSeq2() Seq2[int, int] {
 	}
 }
 
+func TestPullGoexit(t *testing.T) {
+	t.Run("next", func(t *testing.T) {
+		next, stop := Pull(goexitSeq())
+		if !panics(func() { next() }) {
+			t.Fatal("failed to panic on Goexit from first next")
+		}
+		// Make sure we panic again if we try to call next or stop.
+		if !panics(func() { next() }) {
+			t.Fatal("failed to panic on Goexit from second next")
+		}
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to panic on Goexit from stop")
+		}
+	})
+	t.Run("stop", func(t *testing.T) {
+		next, stop := Pull(goexitSeq())
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to panic on Goexit from first stop")
+		}
+		// Make sure we panic again if we try to call next or stop.
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to panic on Goexit from second stop")
+		}
+		if !panics(func() { next() }) {
+			t.Fatal("failed to panic on Goexit from next")
+		}
+	})
+}
+
+func goexitSeq() Seq[int] {
+	return func(yield func(int) bool) {
+		runtime.Goexit()
+	}
+}
+
+func TestPull2Goexit(t *testing.T) {
+	t.Run("next", func(t *testing.T) {
+		next, stop := Pull2(goexitSeq2())
+		if !panics(func() { next() }) {
+			t.Fatal("failed to panic on Goexit from first next")
+		}
+		// Make sure we panic again if we try to call next or stop.
+		if !panics(func() { next() }) {
+			t.Fatal("failed to panic on Goexit from second next")
+		}
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to panic on Goexit from stop")
+		}
+	})
+	t.Run("stop", func(t *testing.T) {
+		next, stop := Pull2(goexitSeq2())
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to panic on Goexit from first stop")
+		}
+		// Make sure we panic again if we try to call next or stop.
+		if !panics(func() { stop() }) {
+			t.Fatal("failed to panic on Goexit from second stop")
+		}
+		if !panics(func() { next() }) {
+			t.Fatal("failed to panic on Goexit from next")
+		}
+	})
+}
+
+func goexitSeq2() Seq2[int, int] {
+	return func(yield func(int, int) bool) {
+		runtime.Goexit()
+	}
+}
+
 func panics(f func()) (panicked bool) {
 	defer func() {
 		panicked = recover() != nil

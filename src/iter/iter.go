@@ -56,6 +56,7 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		yieldNext  bool
 		racer      int
 		panicValue any
+		seqDone    bool // to detect Goexit
 	)
 	c := newcoro(func(c *coro) {
 		race.Acquire(unsafe.Pointer(&racer))
@@ -77,12 +78,15 @@ func Pull[V any](seq Seq[V]) (next func() (V, bool), stop func()) {
 		defer func() {
 			if p := recover(); p != nil {
 				panicValue = p
+			} else if !seqDone {
+				panicValue = "iterator called runtime.Goexit"
 			}
 		}()
 		seq(yield)
 		var v0 V
 		v, ok = v0, false
 		done = true
+		seqDone = true
 		race.Release(unsafe.Pointer(&racer))
 	})
 	next = func() (v1 V, ok1 bool) {
@@ -161,6 +165,7 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		yieldNext  bool
 		racer      int
 		panicValue any
+		seqDone    bool
 	)
 	c := newcoro(func(c *coro) {
 		race.Acquire(unsafe.Pointer(&racer))
@@ -182,6 +187,8 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		defer func() {
 			if p := recover(); p != nil {
 				panicValue = p
+			} else if !seqDone {
+				panicValue = "iterator called runtime.Goexit"
 			}
 		}()
 		seq(yield)
@@ -189,6 +196,7 @@ func Pull2[K, V any](seq Seq2[K, V]) (next func() (K, V, bool), stop func()) {
 		var v0 V
 		k, v, ok = k0, v0, false
 		done = true
+		seqDone = true
 		race.Release(unsafe.Pointer(&racer))
 	})
 	next = func() (k1 K, v1 V, ok1 bool) {
