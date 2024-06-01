@@ -16,6 +16,24 @@
       "message": "Thanks, but this still looks incomplete.",
       "revId": "945459c5a238ccd597dd5fc052692fd89132232c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fac8ab3_15ae3431",
+        "filename": "src/internal/trace/event/event.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10420
+      },
+      "writtenOn": "2024-06-01T18:15:40Z",
+      "side": 1,
+      "message": "Thanks for review.\nWhat any suggestions for it? like we should more describe to \"Type\" type details?",
+      "parentUuid": "fe7ef969_b86cc43f",
+      "revId": "945459c5a238ccd597dd5fc052692fd89132232c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
