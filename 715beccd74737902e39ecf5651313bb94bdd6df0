@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45818007_0720c831",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2024-06-03T20:39:49Z",
+      "side": 1,
+      "message": "net/http CL landed on net, so I think this can be regenerated and should pass the race bots",
+      "revId": "715beccd74737902e39ecf5651313bb94bdd6df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
