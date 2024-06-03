@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05e46cc0_cdb7c0bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-06-03T19:40:59Z",
+      "side": 1,
+      "message": "One question -- should it propagate the panic just once and reset, or just panic, and panic, and panic, e.g., if they panic, recover, then stop, should it panic a second time?",
+      "revId": "c532060b50edb67ac3893b533935686b5820df03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
