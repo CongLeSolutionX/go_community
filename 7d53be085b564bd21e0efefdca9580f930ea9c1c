@@ -252,6 +252,30 @@
       },
       "revId": "7d53be085b564bd21e0efefdca9580f930ea9c1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8b77a8a_6393350f",
+        "filename": "src/net/lookup_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2024-06-03T21:33:05Z",
+      "side": 1,
+      "message": "Unfortunately, the stringslite package doesn\u0027t implement the Contains function.",
+      "parentUuid": "14892731_d422f344",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 0
+      },
+      "revId": "7d53be085b564bd21e0efefdca9580f930ea9c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
