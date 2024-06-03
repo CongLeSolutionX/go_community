@@ -1048,8 +1048,8 @@ func errWorkTooOld(gomod string, wf *modfile.WorkFile, goVers string) error {
 		// even when it doesn't list any version.
 		verb = "implicitly requires"
 	}
-	return fmt.Errorf("module %s listed in go.work file requires go >= %s, but go.work %s go %s; to update it:\n\tgo work use",
-		base.ShortPath(filepath.Dir(gomod)), goVers, verb, gover.FromGoWork(wf))
+	return fmt.Errorf("module %s listed in go.work file requires go >= %s, but go.work %s go %s; to download and use go %s:\n\tgo work use",
+		base.ShortPath(filepath.Dir(gomod)), goVers, verb, gover.FromGoWork(wf), goVers)
 }
 
 // CreateModFile initializes a new module by creating a go.mod file.
