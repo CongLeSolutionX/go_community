@@ -16,6 +16,24 @@
       "message": "One question -- should it propagate the panic just once and reset, or just panic, and panic, and panic, e.g., if they panic, recover, then stop, should it panic a second time?",
       "revId": "c532060b50edb67ac3893b533935686b5820df03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10865d57_e1a8f168",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-06-03T19:58:41Z",
+      "side": 1,
+      "message": "hm, maybe not. panicking repeatedly does make\n\n```\ndefer stop()\n```\n\na panic-during-panic hazard. perhaps the iterator should just become invalid, and not return anything new.",
+      "parentUuid": "05e46cc0_cdb7c0bd",
+      "revId": "c532060b50edb67ac3893b533935686b5820df03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
