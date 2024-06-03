@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c0b417_a4502198",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-03T04:03:54Z",
+      "side": 1,
+      "message": "Thanks, but this doesn\u0027t seem to be any clearer to me.",
+      "revId": "7e81026ec871ba6fc4dd3c5a97f48189ace8fc48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
