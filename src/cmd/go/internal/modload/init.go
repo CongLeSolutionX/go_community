@@ -681,7 +681,7 @@ func loadWorkFile(path string) (workFile *modfile.WorkFile, modRoots []string, e
 	workDir := filepath.Dir(path)
 	wf, err := ReadWorkFile(path)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, fmt.Errorf("reading go.work: %w", err)
 	}
 	seen := map[string]bool{}
 	for _, d := range wf.Use {
@@ -691,7 +691,7 @@ func loadWorkFile(path string) (workFile *modfile.WorkFile, modRoots []string, e
 		}
 
 		if seen[modRoot] {
-			return nil, nil, fmt.Errorf("path %s appears multiple times in workspace", modRoot)
+			return nil, nil, fmt.Errorf("%s:%d: path %s appears multiple times in workspace", base.ShortPath(path), d.Syntax.Start.Line, modRoot)
 		}
 		seen[modRoot] = true
 		modRoots = append(modRoots, modRoot)
@@ -699,7 +699,7 @@ func loadWorkFile(path string) (workFile *modfile.WorkFile, modRoots []string, e
 
 	for _, g := range wf.Godebug {
 		if err := CheckGodebug("godebug", g.Key, g.Value); err != nil {
-			return nil, nil, err
+			return nil, nil, fmt.Errorf("%s:%d: %w", base.ShortPath(path), g.Syntax.Start.Line, err)
 		}
 	}
 
@@ -836,7 +836,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 		var err error
 		workFile, modRoots, err = loadWorkFile(workFilePath)
 		if err != nil {
-			return nil, fmt.Errorf("reading go.work: %w", err)
+			return nil, err
 		}
 		for _, modRoot := range modRoots {
 			sumFile := strings.TrimSuffix(modFilePath(modRoot), ".mod") + ".sum"
@@ -946,7 +946,7 @@ func loadModFile(ctx context.Context, opts *PackageOpts) (*Requirements, error) 
 			ok := true
 			for _, g := range f.Godebug {
 				if err := CheckGodebug("godebug", g.Key, g.Value); err != nil {
-					errs = append(errs, fmt.Errorf("%s: %v", base.ShortPath(filepath.Dir(gomod)), err))
+					errs = append(errs, fmt.Errorf("%s:%d: %v", base.ShortPath(gomod), g.Syntax.Start.Line, err))
 					ok = false
 				}
 			}
