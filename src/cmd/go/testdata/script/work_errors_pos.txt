@@ -1,0 +1,33 @@
+# Test case for #67623 in go.work files: make sure the errors are
+# printed on lines starting with file and line number so they
+# can be easily parsed by tools.
+
+cp go.work.repeated.txt go.work
+! go list
+stderr '^go.work:4: path .* appears multiple times in workspace$'
+
+cp go.work.badgodebug.txt go.work
+! go list
+stderr '^go.work:3: unknown godebug "foo"$'
+
+cp go.work.unparsable.txt go.work
+! go list
+stderr '^go.work:5: unknown directive: notadirective'
+
+-- foo/go.mod --
+module example.com/foo
+-- go.work.repeated.txt --
+
+
+use foo
+use foo
+-- go.work.badgodebug.txt --
+
+
+godebug foo=1
+-- go.work.unparsable.txt --
+
+
+
+
+notadirective
