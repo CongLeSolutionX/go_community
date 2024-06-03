@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a215c987_0be7e038",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-06-03T10:10:14Z",
+      "side": 1,
+      "message": "I think it would be good to add more impact analysis.\n\nDoes this make Ivy Bridge worse? (that can be ok as a tradeoff but we should at least mention it so its an expected side effect and tradeoff)",
+      "parentUuid": "fdab92b8_95cb20bc",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
@@ -85,6 +103,29 @@
       "side": 1,
       "message": "\u003e This test seems backwards? It skips erms if the destination is aligned.\n\nThank you for point this! It is my mistake.",
       "parentUuid": "cabfb34c_562cc837",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fd881a6_83505060",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-06-03T10:10:14Z",
+      "side": 1,
+      "message": "why not use fwdBy8 with repmovsq? If rep movb is always faster than we change that block to also use rep movsb and avoid having two different rep mov blocks.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
       "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
