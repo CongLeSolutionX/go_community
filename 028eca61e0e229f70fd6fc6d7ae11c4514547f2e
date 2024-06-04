@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76cba74a_c9c57ace",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-04T05:39:35Z",
+      "side": 1,
+      "message": "@moehrmann@google.com  This will not make Ivy Bridge worse, because the previous code \"processor \u003d\u003d 0x306A0 || processor \u003d\u003d 0x306E0\" is for Ivy Bridge.",
+      "parentUuid": "a215c987_0be7e038",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
@@ -120,6 +138,30 @@
       "writtenOn": "2024-06-03T10:10:14Z",
       "side": 1,
       "message": "why not use fwdBy8 with repmovsq? If rep movb is always faster than we change that block to also use rep movsb and avoid having two different rep mov blocks.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "101ffa84_68730a93",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-04T05:39:35Z",
+      "side": 1,
+      "message": "@moehrmann@google.com\nAccording to https://www.intel.com/content/www/us/en/content-details/671488/intel-64-and-ia-32-architectures-optimization-reference-manual-volume-1.html 3.7.5, REP MOVSD+B is faster than REP MOVSB if the CPU does not support ERMS. I think REP MOVSQ is a good path for memmove if the CPU  does not support ERMS and AVX. Also if we do not care about those old CPUs ( over 10 years ), I think just keep one REP MOVSB block is OK. Thank you.",
+      "parentUuid": "6fd881a6_83505060",
       "range": {
         "startLine": 107,
         "startChar": 0,
