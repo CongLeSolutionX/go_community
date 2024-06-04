@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b6563dff_64e9df4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 66688
+      },
+      "writtenOn": "2024-06-04T12:17:33Z",
+      "side": 1,
+      "message": "I apologize my local commit message was overriden accidentally. It is resolved now.",
+      "parentUuid": "88c286da_5a2cf658",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 73
+      },
+      "revId": "b0f47e98cf6ce6014a94dea58dc32a1ea8a78b2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e505abf1_5c4e02e7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
