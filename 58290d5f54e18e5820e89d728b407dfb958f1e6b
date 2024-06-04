@@ -51,6 +51,24 @@
       "message": "Shouldn\u0027t we return true for this case? Like we do for zero values of `OID` (line 114). Or maybe we should make the zero values of `OID` not equal.",
       "revId": "58290d5f54e18e5820e89d728b407dfb958f1e6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f91878a8_e9d5d561",
+        "filename": "src/crypto/x509/oid_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-06-04T18:21:51Z",
+      "side": 1,
+      "message": "These are not technically valid OIDs, so I think it\u0027s probably fine to say they are not equal.",
+      "parentUuid": "723d8187_c6710650",
+      "revId": "58290d5f54e18e5820e89d728b407dfb958f1e6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
