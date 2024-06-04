@@ -16,6 +16,24 @@
       "message": "Maybe the second sentence can be\n\nCopy returns z. If x and z are identical, Copy is a no-op.",
       "revId": "61e5f25fc64579ca9803d0696f5cbc72be97c5f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fdeb7cc_3a1dc714",
+        "filename": "src/math/big/float.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-04T22:28:01Z",
+      "side": 1,
+      "message": "ACK.\nWaiting for r@ to comment as the prior doc was a unclear and said as much.",
+      "parentUuid": "d64dcee0_0009d86b",
+      "revId": "61e5f25fc64579ca9803d0696f5cbc72be97c5f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
