@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67ba949e_22ce8681",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-04T08:16:37Z",
+      "side": 1,
+      "message": "@moehrmann@google.com I think it will not get worse performance. I will try my best to get some other generations machines, test and prove it. And this might take some time.",
+      "parentUuid": "1f41c0af_cc2be4b5",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
