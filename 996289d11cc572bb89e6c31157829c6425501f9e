@@ -16,6 +16,24 @@
       "message": "I think we can omit \"Subsequent.\"",
       "revId": "996289d11cc572bb89e6c31157829c6425501f9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "412439a4_6dece328",
+        "filename": "doc/next/2-language.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-04T23:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b10d1d9_907c788e",
+      "revId": "996289d11cc572bb89e6c31157829c6425501f9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
