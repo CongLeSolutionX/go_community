@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b95f5b_8e4445d7",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-06-05T18:16:34Z",
+      "side": 1,
+      "message": "Set done unconditionally in the defer, rather than in three separate places",
+      "revId": "1b64a6638ffff39b4704a04e0318ccc9cfaf7b10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a2eccc4_f23780b9",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-06-05T18:16:34Z",
+      "side": 1,
+      "message": "Nit: It\u0027s probably slightly faster if we can do a single check here (which will almost always be false) and then do more work to separate panics from Goexits.\n\nMaybe just a designated unexported value you set panicValue to, to signal this code that it\u0027s an abnormal exit, then it can look at the value and decide whether to panic or Goexit.",
+      "revId": "1b64a6638ffff39b4704a04e0318ccc9cfaf7b10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97cf459d_a7a2d6fb",
+        "filename": "src/iter/iter.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-06-05T18:16:34Z",
+      "side": 1,
+      "message": "Missing `done \u003d true` (but that should be fixed by lifting `done \u003d true` unconditionally into the defer). This suggests a missing test, though.",
+      "revId": "1b64a6638ffff39b4704a04e0318ccc9cfaf7b10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d5ce9c_7be89d0a",
+        "filename": "src/runtime/coro.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-06-05T18:16:34Z",
+      "side": 1,
+      "message": "Nit: Was this not necessary in the parent CL to deal with panics?",
+      "revId": "1b64a6638ffff39b4704a04e0318ccc9cfaf7b10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
