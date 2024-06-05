@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a9b1e3d3_72e4d50c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 36153
+      },
+      "writtenOn": "2024-06-05T04:40:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6085c840_8e220ad2",
+      "revId": "cef8301713743c783bc885343cde21b44a07f3f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fc83804d_c58421c7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -137,6 +155,42 @@
       "writtenOn": "2024-05-01T18:49:52Z",
       "side": 1,
       "message": "Hi Andrew, I\u0027d like to follow up on this CL. Are you able to sync to head and resolve the merge conflicts?",
+      "revId": "cef8301713743c783bc885343cde21b44a07f3f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7d6d95e_6379dc23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36153
+      },
+      "writtenOn": "2024-06-05T04:40:27Z",
+      "side": 1,
+      "message": "Sorry @matloob@golang.org, I didn\u0027t get a notification about this (and I didn\u0027t check since I thought the change was all approved and ready to go.)\n\nI synced and resolved the conflicts.  I\u0027ll check back later to make sure I didn\u0027t do anything stupid.",
+      "parentUuid": "d9eb6966_eb8ee3e6",
+      "revId": "cef8301713743c783bc885343cde21b44a07f3f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0df4d841_36390967",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36153
+      },
+      "writtenOn": "2024-06-05T04:40:27Z",
+      "side": 1,
+      "message": "Sorry for the delay. I resolved the conflict. What are the \"other outstanding comments\" (I\u0027m not familiar with Gerrit)",
+      "parentUuid": "ad377753_9377e9b7",
       "revId": "cef8301713743c783bc885343cde21b44a07f3f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
