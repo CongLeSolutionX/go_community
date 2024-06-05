@@ -2996,6 +2996,7 @@ func (r *reader) compLit() ir.Node {
 		rtype = r.rtype(pos)
 	}
 	isStruct := typ.Kind() == types.TSTRUCT
+	isIface := typ.Kind() == types.TINTER
 
 	elems := make([]ir.Node, r.Len())
 	for i := range elems {
@@ -3003,6 +3004,9 @@ func (r *reader) compLit() ir.Node {
 
 		if isStruct {
 			sk := ir.NewStructKeyExpr(r.pos(), typ.Field(r.Len()), nil)
+			*elemp, elemp = sk, &sk.Value
+		} else if isIface {
+			sk := ir.NewInterfaceKeyExpr(r.pos(), typ.AllMethods()[i], nil)
 			*elemp, elemp = sk, &sk.Value
 		} else if r.Bool() {
 			kv := ir.NewKeyExpr(r.pos(), r.expr(), nil)
@@ -3996,9 +4000,7 @@ func finishWrapperFunc(fn *ir.Func, target *ir.Package) {
 }
 
 // newWrapperType returns a copy of the given signature type, but with
-// the receiver parameter type substituted with recvType.
-// If recvType is nil, newWrapperType returns a signature
-// without a receiver parameter.
+// the receiver parameter type substituted with recv.
 func newWrapperType(recv *types.Field, sig *types.Type) *types.Type {
 	clone := func(params []*types.Field) []*types.Field {
 		res := make([]*types.Field, len(params))

@@ -1347,6 +1347,44 @@ func (check *Checker) exprInternal(T *target, x *operand, e syntax.Expr, hint Ty
 				check.assignment(x, utyp.elem, "map literal")
 			}
 
+		case *Interface:
+			if utyp.methods == nil {
+				check.error(e, InvalidTypeCycle, "invalid recursive type")
+				goto Error
+			}
+			if len(e.ElemList) == 0 {
+				break
+			}
+			methods := utyp.methods
+			if _, ok := e.ElemList[0].(*syntax.KeyValueExpr); ok {
+				// all elements must have keys
+				visited := make([]bool, len(methods))
+				for _, e := range e.ElemList {
+					kv, _ := e.(*syntax.KeyValueExpr)
+					if kv == nil {
+						check.error(e, MixedStructLit, "mixture of field:value and value elements in interface literal")
+						continue
+					}
+					key, _ := kv.Key.(*syntax.Name)
+					// do all possible checks early (before exiting due to errors)
+					// so we don't drop information on the floor
+					check.expr(nil, x, kv.Value)
+					if key == nil {
+						check.errorf(kv, InvalidLitField, "invalid field name %s in interface literal", kv.Key)
+						continue
+					}
+					i, f := methodIndex(methods, check.pkg, key.Value, false)
+					if i < 0 {
+						panic("implement error msg")
+					}
+					if !Identical(f.typ, utyp.Method(i).typ.(*Signature)) {
+						panic("implement error msg")
+					}
+					visited[i] = true
+				}
+			}
+			// TODO(amedee) implememt the omission of method name if there is only one def
+
 		default:
 			// when "using" all elements unpack KeyValueExpr
 			// explicitly because check.use doesn't accept them
