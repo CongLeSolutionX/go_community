@@ -1329,6 +1329,73 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr, hint Type)
 				check.assignment(x, utyp.elem, "map literal")
 			}
 
+		case *Interface:
+			// Prevent crash if the interface referred to is not yet set up.
+			// See analogous comment for *Array.
+			if !utyp.complete {
+				check.error(e, InvalidTypeCycle, "invalid recursive type")
+				goto Error
+			}
+			// Handle empty interfaces upfront for better error messages.
+			methods := utyp.typeSet().methods
+			if len(methods) == 0 && len(e.Elts) > 0 {
+				check.errorf(e.Elts[0], InvalidLit, "non-empty interface literal for empty interface %s", utyp)
+				// TODO(gri): consider "using" all elements, but note that check.use doesn't want KeyValueExprs
+				break // ok to continue
+			}
+			// len(methods) > 0
+			visited := make([]bool, len(methods))
+			for _, elem := range e.Elts {
+				// TODO(gri) find/declare suitable error codes for the error messages below
+				var key ast.Expr
+				val := elem
+				if kv, _ := elem.(*ast.KeyValueExpr); kv != nil {
+					key = kv.Key
+					val = kv.Value
+				}
+				// check method name
+				var meth *Func
+				if key == nil {
+					if len(methods) == 1 {
+						meth = methods[0]
+					} else {
+						check.error(elem, MissingLitKey, "missing method name")
+						continue
+					}
+				} else if mname, _ := key.(*ast.Ident); mname != nil {
+					var i int
+					if i, meth = methodIndex(methods, check.pkg, mname.Name, false); i < 0 {
+						check.errorf(mname, InvalidLit /* MissingMethod */, "method %s not found in interface %s", mname.Name, base)
+						continue
+					}
+					// 0 <= i < len(methods)
+					if visited[i] {
+						check.errorf(mname, DuplicateLitKey, "duplicate method name %s in interface literal", mname.Name)
+						continue
+					}
+					visited[i] = true
+				} else {
+					check.error(key, InvalidLit /* InvalidMethodName */, "method name must be an identifier")
+					continue
+				}
+				// check method value
+				check.expr(nil, x, val)
+				if x.mode == invalid {
+					continue
+				}
+				if x.isNil() {
+					continue // nil is ok
+				}
+				ftyp, _ := x.typ.(*Signature)
+				if ftyp == nil {
+					check.error(val, InvalidLit /* InvalidFuncValue */, "interface literal element is not a function")
+				} else if !Identical(ftyp, meth.typ) {
+					// TODO(gri) error messages like the one below can be tricky (see corresponding code in Checker.missingMethod)
+					check.errorf(val, InvalidLit /* InvalidFuncValue */, "wrong type for method %s\n\t\thave %s\n\t\twant %s", meth.name, ftyp, meth.typ)
+					continue
+				}
+			}
+
 		default:
 			// when "using" all elements unpack KeyValueExpr
 			// explicitly because check.use doesn't accept them
