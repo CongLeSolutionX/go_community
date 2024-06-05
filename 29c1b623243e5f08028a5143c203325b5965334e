@@ -1,0 +1,144 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb912d8_0f71dac2",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-05T20:34:57Z",
+      "side": 1,
+      "message": "Is this correct? what if the interface doesn\u0027t have methods to begin with?\nI think you need to look for the \u0027complete\u0027 flag.\nIdentify problems with corresponding test cases.",
+      "fixSuggestions": [
+        {
+          "fixId": "c7aaaacf_626706db",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/expr.go",
+              "range": {
+                "startLine": 1351,
+                "startChar": 0,
+                "endLine": 1352,
+                "endChar": 0
+              },
+              "replacement": "\t\t\tif !utyp.complete {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50f4e09a_275076f8",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-05T20:34:57Z",
+      "side": 1,
+      "message": "I think you don\u0027t need this - in general we always need the method name (this is different from struct literals), only if there\u0027s just one element we can leave it away. Easier to check when that happens.",
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d662b556_aa8a82a3",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-05T20:34:57Z",
+      "side": 1,
+      "message": "```\nvar key *syntax.Name\nvar val syntax.Expr\nif kv \u003d\u003d nil {\n   if len(e.ElemList) \u003d\u003d 1 {\n      // ok to omit method name\n      key \u003d // set to name of only method\n      val \u003d ...\n   } else {\n      check.error(e, \"missing method name in interface literal\")\n      continue\n   }\n} else {\n  key \u003d ...\n  val \u003d ...\n}\n```\n\nand adjust the code below accordingly",
+      "fixSuggestions": [
+        {
+          "fixId": "c33b8ba2_0aa08c7b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/types2/expr.go",
+              "range": {
+                "startLine": 1361,
+                "startChar": 0,
+                "endLine": 1362,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\tvisited :\u003d make(map[string]bool, len(methods))\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/types2/expr.go",
+              "range": {
+                "startLine": 1376,
+                "startChar": 0,
+                "endLine": 1382,
+                "endChar": 0
+              },
+              "replacement": "\t\t\t\t\tif len(e.ElemList) \u003d\u003d 1 {\n\t\t\t\t\t\t// ok to omit method name\n\t\t\t\t\t\tif !visited[key.Value] {\n\t\t\t\t\t\t\tcheck.expr(nil, x, kv.Value)\n\t\t\t\t\t\t\tcheck.assignment(x, utyp.Method(0).typ.(*Signature), \"interface literal\")\n\t\t\t\t\t\t\tvisited[key.Value] \u003d true\n\t\t\t\t\t\t}\n\t\t\t\t\t} else {\n\t\t\t\t\t\ti, f :\u003d methodIndex(methods, check.pkg, key.Value, false)\n\t\t\t\t\t\tif i \u003c 0 {\n\t\t\t\t\t\t\tpanic(\"implement error msg\")\n\t\t\t\t\t\t}\n\t\t\t\t\t\tif !Identical(f.typ, utyp.Method(i).typ.(*Signature)) {\n\t\t\t\t\t\t\tpanic(\"implement error msg\")\n\t\t\t\t\t\t}\n\t\t\t\t\t\tvisited[i] \u003d true\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/types2/expr.go",
+              "range": {
+                "startLine": 1383,
+                "startChar": 0,
+                "endLine": 1384,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "src/cmd/compile/internal/types2/expr.go",
+              "range": {
+                "startLine": 1386,
+                "startChar": 0,
+                "endLine": 1387,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7085c71_e5a80f61",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1373,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-05T20:34:57Z",
+      "side": 1,
+      "message": "s/field/method/",
+      "range": {
+        "startLine": 1373,
+        "startChar": 49,
+        "endLine": 1373,
+        "endChar": 54
+      },
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
