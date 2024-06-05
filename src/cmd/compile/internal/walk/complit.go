@@ -114,6 +114,8 @@ func getdyn(n ir.Node, top bool) initGenType {
 		switch n1.Op() {
 		case ir.OKEY:
 			n1 = n1.(*ir.KeyExpr).Value
+		case ir.OIFACEKEY:
+			n1 = n1.(*ir.InterfaceKeyExpr).Value
 		case ir.OSTRUCTKEY:
 			n1 = n1.(*ir.StructKeyExpr).Value
 		}

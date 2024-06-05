@@ -865,6 +865,34 @@ func (n *InlinedCallExpr) editChildrenWithHidden(edit func(Node) Node) {
 	editNodes(n.ReturnVars, edit)
 }
 
+func (n *InterfaceKeyExpr) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
+func (n *InterfaceKeyExpr) copy() Node {
+	c := *n
+	c.init = copyNodes(c.init)
+	return &c
+}
+func (n *InterfaceKeyExpr) doChildren(do func(Node) bool) bool {
+	if doNodes(n.init, do) {
+		return true
+	}
+	if n.Value != nil && do(n.Value) {
+		return true
+	}
+	return false
+}
+func (n *InterfaceKeyExpr) editChildren(edit func(Node) Node) {
+	editNodes(n.init, edit)
+	if n.Value != nil {
+		n.Value = edit(n.Value).(Node)
+	}
+}
+func (n *InterfaceKeyExpr) editChildrenWithHidden(edit func(Node) Node) {
+	editNodes(n.init, edit)
+	if n.Value != nil {
+		n.Value = edit(n.Value).(Node)
+	}
+}
+
 func (n *InterfaceSwitchStmt) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }
 func (n *InterfaceSwitchStmt) copy() Node {
 	c := *n
