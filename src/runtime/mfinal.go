@@ -378,8 +378,9 @@ func blockUntilEmptyFinalizerQueue(timeout int64) bool {
 // the object is reachable until it is no longer required.
 // Objects stored in global variables, or that can be found by tracing
 // pointers from a global variable, are reachable. For other objects,
-// pass the object to a call of the [KeepAlive] function to mark the
-// last point in the function where the object must be reachable.
+// including receivers, pass the object to a call of the [KeepAlive]
+// function to mark the last point in the function where the object must
+// be reachable.
 //
 // For example, if p points to a struct, such as os.File, that contains
 // a file descriptor d, and p has a finalizer that closes that file
