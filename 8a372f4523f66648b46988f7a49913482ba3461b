@@ -33,6 +33,63 @@
       "message": "Gentle ping! Please have a look when you have time.",
       "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76420599_65c6d5a5",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3930,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-06-05T17:44:50Z",
+      "side": 1,
+      "message": "This comment needs updating, as we now *do* leave the wrapper bit unset for tail calls.\n\nBut stepping back, why would we not mark this as a wrapper? AFAIU a wrapper mark just elides something in tracebacks unless it is the final frame (is it used for anything else? I\u0027m not sure). This is never going to be a non-final frame, so maybe it doesn\u0027t matter, but I would still consider it a wrapper.",
+      "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd7d27f3_7cd696e2",
+        "filename": "test/codegen/tailcall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-06-05T17:44:50Z",
+      "side": 1,
+      "message": "So is it this anonymous type that is getting a wrapper generated for it?\n\nI think I\u0027d rather have this type explicitly defined, if that\u0027s possible. Then we can put a reasonable comment on it.",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72151c50_27695810",
+        "filename": "test/codegen/tailcall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-06-05T17:44:50Z",
+      "side": 1,
+      "message": "Can\u0027t we just do this for the test?\n\nvar i any\nfunc init() {\n    i \u003d struct{int64, *Foo, string}{1, f, \"first\"}\n}\n\nWhy do we need to wrap things in closures?",
+      "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
