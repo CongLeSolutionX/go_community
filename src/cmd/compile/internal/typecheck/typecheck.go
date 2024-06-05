@@ -963,7 +963,7 @@ func Lookdot(n *ir.SelectorExpr, t *types.Type, dostrcmp int) *types.Field {
 
 func nokeys(l ir.Nodes) bool {
 	for _, n := range l {
-		if n.Op() == ir.OKEY || n.Op() == ir.OSTRUCTKEY {
+		if n.Op() == ir.OKEY || n.Op() == ir.OSTRUCTKEY || n.Op() == ir.OIFACEKEY {
 			return false
 		}
 	}

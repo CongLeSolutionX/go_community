@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"internal/buildcfg"
 	"internal/types/errors"
+	"os"
 	"regexp"
 	"sort"
 
@@ -153,6 +154,12 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 	// and bodyReaderFor will fail.
 	rangeInfo := rangefunc.Rewrite(pkg, info, files)
 
+	if DEBUG() {
+		rewrite(pkg, info, files)
+		// pkg, err = conf.Check(base.Ctxt.Pkgpath, files, info)
+		// base.ExitIfErrors()
+		os.Exit(2)
+	}
 	return pkg, info, rangeInfo
 }
 
