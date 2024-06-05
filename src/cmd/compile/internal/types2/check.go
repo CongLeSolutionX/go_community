@@ -726,6 +726,18 @@ func (check *Checker) recordImplicit(node syntax.Node, obj Object) {
 	}
 }
 
+func RecordSelection(info *Info, x *syntax.SelectorExpr, kind SelectionKind, recv Type, obj Object, index []int, indirect bool) {
+	assert(obj != nil && (recv == nil || len(index) > 0))
+	assert(x.Sel != nil)
+	assert(obj != nil)
+	if m := info.Uses; m != nil {
+		m[x.Sel] = obj
+	}
+	if m := info.Selections; m != nil {
+		m[x] = &Selection{kind, recv, obj, index, indirect}
+	}
+}
+
 func (check *Checker) recordSelection(x *syntax.SelectorExpr, kind SelectionKind, recv Type, obj Object, index []int, indirect bool) {
 	assert(obj != nil && (recv == nil || len(index) > 0))
 	check.recordUse(x.Sel, obj)

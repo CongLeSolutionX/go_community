@@ -153,6 +153,9 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 	// and bodyReaderFor will fail.
 	rangeInfo := rangefunc.Rewrite(pkg, info, files)
 
+	//if DEBUG() {
+	rewrite(pkg, info, files)
+	//}
 	return pkg, info, rangeInfo
 }
 
