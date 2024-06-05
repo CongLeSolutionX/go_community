@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a67fd83_4bc3cfa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-06-05T02:56:44Z",
+      "side": 1,
+      "message": "Added suggestions to mark the TODO for proposal #46477 as completed, and minor formatting suggestions. Thanks.",
+      "revId": "1c7008cc9e0ba605bfaad8430e86772f9a23175d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51e5a009_4e9bf367",
+        "filename": "doc/next/2-language.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-06-05T02:56:44Z",
+      "side": 1,
+      "message": "```suggestion\nGo 1.23 includes preview support for [generic type aliases](/issue/46477).\n```",
+      "revId": "1c7008cc9e0ba605bfaad8430e86772f9a23175d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d9dcad3_8eba2f70",
+        "filename": "doc/next/2-language.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-06-05T02:56:44Z",
+      "side": 1,
+      "message": "```suggestion\nBuilding the toolchain with `GOEXPERIMENT\u003daliastypeparams` enables this feature.\n```",
+      "revId": "1c7008cc9e0ba605bfaad8430e86772f9a23175d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d32e3da_59f5fa4f",
+        "filename": "doc/next/6-stdlib/99-minor/go/types/46477.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-06-05T02:56:44Z",
+      "side": 1,
+      "message": "```suggestion\n\u003c!-- see ../../../../2-language.md --\u003e\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 3
+      },
+      "revId": "1c7008cc9e0ba605bfaad8430e86772f9a23175d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
