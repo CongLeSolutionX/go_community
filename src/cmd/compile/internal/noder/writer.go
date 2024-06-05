@@ -644,6 +644,10 @@ func (w *writer) unionType(typ *types2.Union) {
 	}
 }
 
+func DEBUG() bool {
+	return os.Getenv("DEBUG25860") == "true"
+}
+
 func (w *writer) interfaceType(typ *types2.Interface) {
 	// If typ has no embedded types but it's not a basic interface, then
 	// the natural description we write out below will fail to
@@ -2290,9 +2294,12 @@ func (w *writer) compLit(lit *syntax.CompositeLit) {
 	}
 	var keyType, elemType types2.Type
 	var structType *types2.Struct
+	var ifaceType *types2.Interface
 	switch typ0 := typ; typ := types2.CoreType(typ).(type) {
 	default:
 		w.p.fatalf(lit, "unexpected composite literal type: %v", typ)
+	case *types2.Interface:
+		ifaceType = typ
 	case *types2.Array:
 		elemType = typ.Elem()
 	case *types2.Map:
@@ -2317,6 +2324,20 @@ func (w *writer) compLit(lit *syntax.CompositeLit) {
 				w.pos(elem)
 			}
 			elemType = structType.Field(i).Type()
+			//fmt.Printf("struct w.len=%d\n", i)
+			w.Len(i)
+		} else if ifaceType != nil {
+			if kv, ok := elem.(*syntax.KeyValueExpr); ok {
+				// use position of expr.Key rather than of elem (which has position of ':')
+				w.pos(kv.Key)
+
+				i = fieldIndexIface(w.p.info, ifaceType, kv.Key.(*syntax.Name))
+				elem = kv.Value
+			} else {
+				w.pos(elem)
+			}
+			elemType = ifaceType.Method(i).Type()
+			//fmt.Printf("iface w.len=%d\n", i)
 			w.Len(i)
 		} else {
 			if kv, ok := elem.(*syntax.KeyValueExpr); w.Bool(ok) {
@@ -2943,6 +2964,18 @@ func fieldIndex(info *types2.Info, str *types2.Struct, key *syntax.Name) int {
 	}
 
 	panic(fmt.Sprintf("%s: %v is not a field of %v", key.Pos(), field, str))
+}
+
+// fieldIndex returns the index of the interface field named by key.
+//
+// interfaces don't have fields. How are interfaces converted?
+func fieldIndexIface(info *types2.Info, iface *types2.Interface, key *syntax.Name) int {
+	for i := 0; i < iface.NumMethods(); i++ {
+		if iface.Method(i).Name() == key.Value {
+			return i
+		}
+	}
+	panic(fmt.Sprintf("%s: %v is not a name of %v", key.Pos(), key.Value, iface))
 }
 
 // objTypeParams returns the type parameters on the given object.

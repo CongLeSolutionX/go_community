@@ -195,6 +195,7 @@ const (
 	OINDEXMAP      // X[Index] (index of map)
 	OKEY           // Key:Value (key:value in struct/array/map literal)
 	OSTRUCTKEY     // Field:Value (key:value in struct literal, after type checking)
+	OIFACEKEY      // Method:Value (key:value in interface literal, after type checking)
 	OLEN           // len(X)
 	OMAKE          // make(Args) (before type checking converts to one of the following)
 	OMAKECHAN      // make(Type[, Len]) (type is chan)

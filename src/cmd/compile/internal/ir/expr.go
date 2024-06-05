@@ -306,7 +306,6 @@ func (n *ConvExpr) SetOp(op Op) {
 	switch op {
 	default:
 		panic(n.no("SetOp " + op.String()))
-
 	case OCONV, OCONVIFACE, OCONVNOP, OBYTES2STR, OBYTES2STRTMP, ORUNES2STR, OSTR2BYTES, OSTR2BYTESTMP, OSTR2RUNES, ORUNESTR, OSLICE2ARR, OSLICE2ARRPTR, OFUNCIFACE:
 		n.op = op
 	}
@@ -362,6 +361,20 @@ func NewStructKeyExpr(pos src.XPos, field *types.Field, value Node) *StructKeyEx
 	n := &StructKeyExpr{Field: field, Value: value}
 	n.pos = pos
 	n.op = OSTRUCTKEY
+	return n
+}
+
+// A InterfaceKeyExpr is a Field: Value composite literal key.
+type InterfaceKeyExpr struct {
+	miniExpr
+	Field *types.Field
+	Value Node
+}
+
+func NewInterfaceKeyExpr(pos src.XPos, field *types.Field, value Node) *InterfaceKeyExpr {
+	n := &InterfaceKeyExpr{Field: field, Value: value}
+	n.pos = pos
+	n.op = OIFACEKEY
 	return n
 }
 

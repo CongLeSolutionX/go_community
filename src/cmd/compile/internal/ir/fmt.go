@@ -661,6 +661,10 @@ func exprFmt(n Node, s fmt.State, prec int) {
 		n := n.(*StructKeyExpr)
 		fmt.Fprintf(s, "%v:%v", n.Field, n.Value)
 
+	case OIFACEKEY:
+		n := n.(*InterfaceKeyExpr)
+		fmt.Fprintf(s, "%v:%v", n.Field, n.Value)
+
 	case OXDOT, ODOT, ODOTPTR, ODOTINTER, ODOTMETH, OMETHVALUE, OMETHEXPR:
 		n := n.(*SelectorExpr)
 		exprFmt(n.X, s, nprec)
