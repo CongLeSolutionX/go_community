@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "169827b7_13d0d02d",
+        "filename": "src/iter/pull_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-06-05T18:05:00Z",
+      "side": 1,
+      "message": "Consider checking for the \"boom\" panic specifically and letting the panic through if it\u0027s anything else. The current code runs the risk of the test silently breaking in some other way. (Fine to do in a follow-up CL.)",
+      "fixSuggestions": [
+        {
+          "fixId": "1d36e39e_d9c65c93",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/iter/pull_test.go",
+              "range": {
+                "startLine": 313,
+                "startChar": 0,
+                "endLine": 314,
+                "endChar": 0
+              },
+              "replacement": "\t\tif r :\u003d recover(); r !\u003d nil {\n\t\t\tif r !\u003d \"boom\" {\n\t\t\t\tpanic(r)\n\t\t\t}\n\t\t\tpanicked \u003d true\n\t\t}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "13cc7ae8139ba4a2cf5e1fe260563dee727dee22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
