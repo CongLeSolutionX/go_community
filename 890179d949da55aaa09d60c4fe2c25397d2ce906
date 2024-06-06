@@ -16,6 +16,24 @@
       "message": "Probably better to do something simple like\n\n// can\u0027t wrap TailCall\u0027s child into ParenExpr\nif n.Op \u003d\u003d OTAILCALL { ok \u003d false }\n\nOr maybe we just edit the TailCall struct to make its field a Node and not a *CallExpr. Then we need to cast in a few other places, like we do for, e.g., GoDeferStmt nodes. (If we go that route, that could be a separate prequel CL.)",
       "revId": "890179d949da55aaa09d60c4fe2c25397d2ce906",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f392c8d_aa896eeb",
+        "filename": "src/cmd/compile/internal/inline/interleaved/interleaved.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-06-06T19:48:43Z",
+      "side": 0,
+      "message": "Here we need to avoid editing the TailCall\u0027s immediate child only, and it\u0027s ok to wrap the TailCall itself (i.e. we don\u0027t need to set ok\u003dfalse), maybe to preserve generality of `fixpoint` it\u0027s better to go straight to its field, so that it will be walked too.\nIf that approach looks OK, I\u0027d prefer to leave updating the TailCall\u0027s field for some future change (maybe it\u0027s better to update that together with considering inlining of TailCalls, i.e. we\u0027d pay some minor cost for using of Node instead of plain CallExpr and that would improve in some cases because of enabling inlining or some other transformation using `fixpoint`).",
+      "parentUuid": "a30349de_cc005418",
+      "revId": "890179d949da55aaa09d60c4fe2c25397d2ce906",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

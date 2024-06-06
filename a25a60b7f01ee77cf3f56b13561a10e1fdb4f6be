@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95654aa_55c53e8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-06-06T19:48:43Z",
+      "side": 1,
+      "message": "Hello, I resolved the review comments. Please have a look at the updated version.\nThanks!",
+      "revId": "a25a60b7f01ee77cf3f56b13561a10e1fdb4f6be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

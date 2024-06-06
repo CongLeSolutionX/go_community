@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "690fa430_3179efbf",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3930,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-06-06T19:48:43Z",
+      "side": 1,
+      "message": "In addition to eliding in tracebacks the wrapper mark on a function enables generation of target-specific assembly code to update the `argp` field in `g._panic` structure. It is used by the gorecover function and I expect it should be never needed in our case with immediate tail call. I\u0027m not sure if such update might be still be sometimes avoided in general case, e.g. do we need the `g._panic` update when the wrapper has its own frame and it\u0027s a method wrapper... But we still want to elide it in traceback so it seems the TODO may be removed here.",
+      "parentUuid": "76420599_65c6d5a5",
+      "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd7d27f3_7cd696e2",
@@ -75,6 +93,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b5037d8_419a5281",
+        "filename": "test/codegen/tailcall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-06-06T19:48:43Z",
+      "side": 1,
+      "message": "Yes, it works fine. The new version looks more readable, thank you for suggestion.",
+      "parentUuid": "bd7d27f3_7cd696e2",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72151c50_27695810",
@@ -88,6 +130,24 @@
       "writtenOn": "2024-06-05T17:44:50Z",
       "side": 1,
       "message": "Can\u0027t we just do this for the test?\n\nvar i any\nfunc init() {\n    i \u003d struct{int64, *Foo, string}{1, f, \"first\"}\n}\n\nWhy do we need to wrap things in closures?",
+      "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "074b8f41_1e4fb5df",
+        "filename": "test/codegen/tailcall.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 68008
+      },
+      "writtenOn": "2024-06-06T19:48:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72151c50_27695810",
       "revId": "8a372f4523f66648b46988f7a49913482ba3461b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
