@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18adbdd0_1c3aa2f1",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-06T21:28:21Z",
+      "side": 1,
+      "message": "and returns the containing module?",
+      "range": {
+        "startLine": 555,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 68
+      },
+      "revId": "d9c5f57ede7f27226bac8d243a7fef89f413d397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c599796c_8e248613",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-06T21:28:21Z",
+      "side": 1,
+      "message": "mention it returns the containing module",
+      "range": {
+        "startLine": 692,
+        "startChar": 0,
+        "endLine": 692,
+        "endChar": 68
+      },
+      "revId": "d9c5f57ede7f27226bac8d243a7fef89f413d397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76bc6b59_40abe95c",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-06T21:28:21Z",
+      "side": 1,
+      "message": "I think the panic in goModSummary is enough here. ModuleGoVersion will show up in the stack.",
+      "range": {
+        "startLine": 778,
+        "startChar": 9,
+        "endLine": 778,
+        "endChar": 49
+      },
+      "revId": "d9c5f57ede7f27226bac8d243a7fef89f413d397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed6487e9_59454827",
+        "filename": "src/cmd/go/testdata/script/run_vers.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-06T21:28:21Z",
+      "side": 1,
+      "message": "we should mention that this is specifically testing files named on the command line?",
+      "revId": "d9c5f57ede7f27226bac8d243a7fef89f413d397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
