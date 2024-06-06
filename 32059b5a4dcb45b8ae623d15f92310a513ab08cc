@@ -16,6 +16,24 @@
       "message": "Suggest to add:\n\n1. test case for line numbers at the 1st line or 0th line if it\u0027s 0-indexed.\n2. test case if two errors occur at different line numbers, the first one is returned.",
       "revId": "32059b5a4dcb45b8ae623d15f92310a513ab08cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7df36492_ede23224",
+        "filename": "src/cmd/go/testdata/script/work_errors_pos.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-06T18:20:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "381a45a5_38e39171",
+      "revId": "32059b5a4dcb45b8ae623d15f92310a513ab08cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
