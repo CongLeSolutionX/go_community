@@ -33,6 +33,24 @@
       "message": "Sorry for being picky, but this seems out of place here.  We\u0027ve talked about \"objects\" for several paragraphs, and now near the end we suddenly throw in \"including receivers\".  There really isn\u0027t anything special about receivers here.  Maybe what we need is \"A finalizer may run as soon as an object becomes unreachable. A function argument or receiver may become unreachable at the last point where the function mentions it.\"",
       "revId": "21c33560f234c63fd4977473cf67ced1845cb81f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f175dbb2_b60fb775",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 57778
+      },
+      "writtenOn": "2024-06-06T04:27:14Z",
+      "side": 1,
+      "message": "Thanks, agree the direct point about unreachable at the last point it\u0027s mentioned (which isn\u0027t the end of the function usually) is clear, and that it applies to function arguments as well as receivers.\n\nI have tried rewording along those lines, making some changes since it was difficult working with \"For other\". Let me know if it sounds ok or happy to make ore tweaks",
+      "parentUuid": "72cd5cdd_16bbbbc9",
+      "revId": "21c33560f234c63fd4977473cf67ced1845cb81f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
