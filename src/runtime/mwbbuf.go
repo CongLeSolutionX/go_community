@@ -249,6 +249,16 @@ func wbBufFlush1(pp *p) {
 		}
 		mbits.setMarked()
 
+		if traceGCScanEnabled() {
+			// We try to trace only write barriers that may contribute to
+			// reachability.
+			trace := traceAcquire()
+			if trace.ok() {
+				trace.GCScanWB(ptr, obj != 0)
+				traceRelease(trace)
+			}
+		}
+
 		// Mark span.
 		arena, pageIdx, pageMask := pageIndexOf(span.base())
 		if arena.pageMarks[pageIdx]&pageMask == 0 {
