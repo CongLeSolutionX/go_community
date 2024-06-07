@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeffd80d_07920955",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3465090
+      },
+      "writtenOn": "2024-06-07T18:04:10Z",
+      "side": 1,
+      "message": "I am not sure if the best approach is to fix the existing format \nstrings, or define new (more conformant) ones... since conceivably \nsomeone could be depending on the leading 0 defined in the current \nstrings.",
+      "revId": "7f5d7f9417b5268001de3fc4bb412090f917afdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
