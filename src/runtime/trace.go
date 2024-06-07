@@ -293,6 +293,8 @@ func StartTrace() error {
 		traceSnapshotMemory(firstGen)
 	}
 
+	tl.GCScanHeader()
+
 	// Record the heap goal so we have it at the very beginning of the trace.
 	tl.HeapGoal()
 

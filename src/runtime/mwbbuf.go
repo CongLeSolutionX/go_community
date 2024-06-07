@@ -238,6 +238,13 @@ func wbBufFlush1(pp *p) {
 			continue
 		}
 		obj, span, objIndex := findObject(ptr, 0, 0)
+		if traceGCScanEnabled() {
+			trace := traceAcquire()
+			if trace.ok() {
+				trace.GCScanWB(ptr, obj != 0)
+				traceRelease(trace)
+			}
+		}
 		if obj == 0 {
 			continue
 		}
