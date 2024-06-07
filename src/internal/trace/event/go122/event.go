@@ -84,6 +84,8 @@ const (
 const (
 	// AllocFree is the alloc-free events experiment.
 	AllocFree event.Experiment = 1 + iota
+
+	GCScan
 )
 
 // Experimental events.
@@ -106,6 +108,14 @@ const (
 	EvGoroutineStack      // stack exists [timestamp, id, order]
 	EvGoroutineStackAlloc // stack alloc [timestamp, id, order]
 	EvGoroutineStackFree  // stack free [timestamp, id]
+
+	// Experimental events for ExperimentGCScan.
+
+	EvGCScanGCStart
+	EvGCScanSpan
+	EvGCScanWB
+	EvGCScanAllocBlack
+	EvGCScanGCDone
 )
 
 // EventString returns the name of a Go 1.22 event.
@@ -454,6 +464,36 @@ var specs = [...]event.Spec{
 		Args:         []string{"dt", "id"},
 		IsTimedEvent: true,
 		Experiment:   AllocFree,
+	},
+	EvGCScanGCStart: event.Spec{
+		Name:         "GCScanGCStart",
+		Args:         []string{"dt", "numgc", "gomaxprocs"},
+		IsTimedEvent: true,
+		Experiment:   GCScan,
+	},
+	EvGCScanSpan: event.Spec{
+		Name:         "GCScanSpan",
+		Args:         []string{"dt", "b", "size"}, // spanclass | (if large: npages << 8)
+		IsTimedEvent: true,
+		Experiment:   GCScan,
+	},
+	EvGCScanWB: event.Spec{
+		Name:         "GCScanWB",
+		Args:         []string{"dt", "p"}, // "found" encoded in p & 0b11
+		IsTimedEvent: true,
+		Experiment:   GCScan,
+	},
+	EvGCScanAllocBlack: event.Spec{
+		Name:         "GCScanAllocBlack",
+		Args:         []string{"dt", "b"},
+		IsTimedEvent: true,
+		Experiment:   GCScan,
+	},
+	EvGCScanGCDone: event.Spec{
+		Name:         "GCScanGCDone",
+		Args:         []string{"dt", "numgc"},
+		IsTimedEvent: true,
+		Experiment:   GCScan,
 	},
 }
 

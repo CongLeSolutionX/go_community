@@ -1367,10 +1367,15 @@ HaveSpan:
 	memstats.heapStats.release()
 
 	// Trace the span alloc.
-	if traceAllocFreeEnabled() {
+	if traceAllocFreeEnabled() || (traceGCScanEnabled() && gcphase != _GCoff) {
 		trace := traceAcquire()
 		if trace.ok() {
-			trace.SpanAlloc(s)
+			if traceAllocFreeEnabled() {
+				trace.SpanAlloc(s)
+			}
+			if traceGCScanEnabled() && gcphase != _GCoff {
+				trace.GCScanSpan(s)
+			}
 			traceRelease(trace)
 		}
 	}
@@ -1980,7 +1985,15 @@ func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *p
 			// Mark everything reachable from the object
 			// so it's retained for the finalizer.
 			if !span.spanclass.noscan() {
+				if traceGCScanEnabled() {
+					traceGCScanForceType(scanTypeRoot)
+				}
+
 				scanobject(base, gcw)
+
+				if traceGCScanEnabled() {
+					traceGCScanForceType(scanTypeNone)
+				}
 			}
 			// Mark the finalizer itself, since the
 			// special isn't part of the GC'd heap.

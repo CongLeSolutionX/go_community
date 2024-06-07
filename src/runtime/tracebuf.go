@@ -269,17 +269,28 @@ func (buf *traceBuf) byte(v byte) {
 //go:nosplit
 func (buf *traceBuf) varint(v uint64) {
 	pos := buf.pos
-	arr := buf.arr[pos : pos+traceBytesPerNumber]
+	arr := buf.arr[pos:]
 	for i := range arr {
 		if v < 0x80 {
-			pos += i + 1
 			arr[i] = byte(v)
-			break
+			buf.pos += i + 1
+			return
 		}
 		arr[i] = 0x80 | byte(v)
 		v >>= 7
 	}
-	buf.pos = pos
+	throw("not enough space in trace buffer")
+}
+
+func varintLen(v uint64) int {
+	len := 0
+	for {
+		if v < 0x80 {
+			return len + 1
+		}
+		len++
+		v >>= 7
+	}
 }
 
 // varintReserve reserves enough space in buf to hold any varint.
@@ -294,6 +305,21 @@ func (buf *traceBuf) varintReserve() int {
 	p := buf.pos
 	buf.pos += traceBytesPerNumber
 	return p
+}
+
+// uint64 appends v to buf in little endian order.
+//
+// nosplit because it's part of writing an event for an M, which must not
+// have any stack growth.
+//
+//go:nosplit
+func (buf *traceBuf) uint64(v uint64) {
+	_ = buf.arr[buf.pos+7]
+	for i := range 8 {
+		buf.arr[buf.pos+i] = byte(v)
+		v = v >> 8
+	}
+	buf.pos += 8
 }
 
 // stringData appends s's data directly to buf.

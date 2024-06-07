@@ -1216,6 +1216,14 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	// a race marking the bit.
 	if gcphase != _GCoff {
 		gcmarknewobject(span, uintptr(x))
+
+		if traceGCScanEnabled() {
+			trace := traceAcquire()
+			if trace.ok() {
+				trace.GCScanAllocBlack(uintptr(x))
+				traceRelease(trace)
+			}
+		}
 	}
 
 	if raceenabled {

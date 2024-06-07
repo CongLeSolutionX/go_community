@@ -392,7 +392,17 @@ func markrootSpans(gcw *gcWork, shard int) {
 					// the object (but *not* the object itself or
 					// we'll never collect it).
 					if !s.spanclass.noscan() {
+						if traceGCScanEnabled() {
+							// Make the next scanobject report what it finds as
+							// a root, since we don't enqueue the object itself.
+							traceGCScanForceType(scanTypeRoot)
+						}
+
 						scanobject(p, gcw)
+
+						if traceGCScanEnabled() {
+							traceGCScanForceType(scanTypeNone)
+						}
 					}
 
 					// The special itself is a root.
@@ -1343,6 +1353,14 @@ func gcDrainN(gcw *gcWork, scanWork int64) int64 {
 //
 //go:nowritebarrier
 func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState) {
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScan(b0, n0, scanTypeRoot)
+			traceRelease(trace)
+		}
+	}
+
 	// Use local copies of original parameters, so that a stack trace
 	// due to one of the throws below shows the original block
 	// base and extent.
@@ -1360,16 +1378,33 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 			if bits&1 != 0 {
 				// Same work as in scanobject; see comments there.
 				p := *(*uintptr)(unsafe.Pointer(b + i))
+				found := false
 				if p != 0 {
 					if obj, span, objIndex := findObject(p, b, i); obj != 0 {
+						found = true
 						greyobject(obj, b, i, span, gcw, objIndex)
 					} else if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
 						stk.putPtr(p, false)
 					}
 				}
+				if traceGCScanEnabled() {
+					trace := traceAcquire()
+					if trace.ok() {
+						trace.GCScanPointer(p, i, found)
+						traceRelease(trace)
+					}
+				}
 			}
 			bits >>= 1
 			i += goarch.PtrSize
+		}
+	}
+
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScanEnd()
+			traceRelease(trace)
 		}
 	}
 }
@@ -1403,7 +1438,16 @@ func scanobject(b uintptr, gcw *gcWork) {
 		throw("scanobject of a noscan object")
 	}
 
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScan(b, n, scanTypeObject)
+			traceRelease(trace)
+		}
+	}
+
 	var tp typePointers
+	objStart := b // Only for tracing
 	if n > maxObletBytes {
 		// Large object. Break into oblets for better
 		// parallelism and lower latency.
@@ -1427,6 +1471,8 @@ func scanobject(b uintptr, gcw *gcWork) {
 		n = min(n, maxObletBytes)
 		tp = s.typePointersOfUnchecked(s.base())
 		tp = tp.fastForward(b-tp.addr, b+n)
+
+		objStart = s.base()
 	} else {
 		tp = s.typePointersOfUnchecked(b)
 	}
@@ -1451,6 +1497,7 @@ func scanobject(b uintptr, gcw *gcWork) {
 
 		// At this point we have extracted the next potential pointer.
 		// Quickly filter out nil and pointers back to the current object.
+		found := false
 		if obj != 0 && obj-b >= n {
 			// Test if obj points into the Go heap and, if so,
 			// mark the object.
@@ -1462,12 +1509,29 @@ func scanobject(b uintptr, gcw *gcWork) {
 			// just allocated and hence will be marked by
 			// allocation itself.
 			if obj, span, objIndex := findObject(obj, b, addr-b); obj != 0 {
+				found = true
 				greyobject(obj, b, addr-b, span, gcw, objIndex)
+			}
+		}
+
+		if traceGCScanEnabled() {
+			trace := traceAcquire()
+			if trace.ok() {
+				trace.GCScanPointer(obj, addr-objStart, found)
+				traceRelease(trace)
 			}
 		}
 	}
 	gcw.bytesMarked += uint64(n)
 	gcw.heapScanWork += int64(scanSize)
+
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScanEnd()
+			traceRelease(trace)
+		}
+	}
 }
 
 // scanConservative scans block [b, b+n) conservatively, treating any
@@ -1479,6 +1543,14 @@ func scanobject(b uintptr, gcw *gcWork) {
 // If state != nil, it's assumed that [b, b+n) is a block in the stack
 // and may contain pointers to stack objects.
 func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackScanState) {
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScan(b, n, scanTypeRoot)
+			traceRelease(trace)
+		}
+	}
+
 	if debugScanConservative {
 		printlock()
 		print("conservatively scanning [", hex(b), ",", hex(b+n), ")\n")
@@ -1562,6 +1634,22 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 		// val points to an allocated object. Mark it.
 		obj := span.base() + idx*span.elemsize
 		greyobject(obj, b, i, span, gcw, idx)
+
+		if traceGCScanEnabled() {
+			trace := traceAcquire()
+			if trace.ok() {
+				trace.GCScanPointer(val, i, true)
+				traceRelease(trace)
+			}
+		}
+	}
+
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScanEnd()
+			traceRelease(trace)
+		}
 	}
 }
 
@@ -1715,6 +1803,14 @@ func gcmarknewobject(span *mspan, obj uintptr) {
 func gcMarkTinyAllocs() {
 	assertWorldStopped()
 
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScan(0, 0, scanTypeRoot)
+			traceRelease(trace)
+		}
+	}
+
 	for _, p := range allp {
 		c := p.mcache
 		if c == nil || c.tiny == 0 {
@@ -1723,5 +1819,20 @@ func gcMarkTinyAllocs() {
 		_, span, objIndex := findObject(c.tiny, 0, 0)
 		gcw := &p.gcw
 		greyobject(c.tiny, 0, 0, span, gcw, objIndex)
+		if traceGCScanEnabled() {
+			trace := traceAcquire()
+			if trace.ok() {
+				trace.GCScanPointer(c.tiny, 0, true)
+				traceRelease(trace)
+			}
+		}
+	}
+
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			trace.GCScanEnd()
+			traceRelease(trace)
+		}
 	}
 }
