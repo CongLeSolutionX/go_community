@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "68562eca_68dde4bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-07T21:45:01Z",
+      "side": 1,
+      "message": "could you fix the commit message lines to wrap at 76 characters?",
+      "range": {
+        "startLine": 9,
+        "startChar": 68,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "de31438589ebcee9b1a7f756987e7e7356aa65c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18c00376_7458f0db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-07T21:45:01Z",
+      "side": 1,
+      "message": "fmt",
+      "range": {
+        "startLine": 11,
+        "startChar": 75,
+        "endLine": 11,
+        "endChar": 78
+      },
+      "revId": "de31438589ebcee9b1a7f756987e7e7356aa65c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d2fe01ac_e92a2567",
@@ -14,6 +60,23 @@
       "writtenOn": "2024-06-05T04:40:27Z",
       "side": 1,
       "message": "I modified the code that conflicted with Austin\u0027s change.\n(Sorry for my Gerrit ineptitude - my replies were sitting there as drafts.)",
+      "revId": "de31438589ebcee9b1a7f756987e7e7356aa65c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52eb127a_d2b89c63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-07T21:45:01Z",
+      "side": 1,
+      "message": "Could you add a test for this?\n\nThe tests go in the directory src/cmd/go/internal/testdata/script and are .txt files.\n\nSo you can make a file called \n\n    src/cmd/go/internal/testdata/script/build_repeated_godebug_issue62346.txt\n\nWith the contents:\n\n    [short] skip # runs go build\n    ! go build file.go\n    ! stderr \u0027panic:\u0027\n    ! stderr \u0027runtime error\u0027\n    stderr \u0027file.go:2:1: repeated //go:debug for panicnil\u0027\n\n    -- file.go --\n    //go:debug panicnil\u003d1\n    //go:debug panicnil\u003d1\n    \n    package main\n    \n    func main() {\n    }\n\nTo run the test:\n\n    go test cmd/go -run TestScript/build_repeated_godebug_issue62346",
       "revId": "de31438589ebcee9b1a7f756987e7e7356aa65c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
