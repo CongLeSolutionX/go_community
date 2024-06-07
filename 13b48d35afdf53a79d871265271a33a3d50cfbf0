@@ -70,6 +70,23 @@
       "parentUuid": "9d37a992_f6e54b3b",
       "revId": "13b48d35afdf53a79d871265271a33a3d50cfbf0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80a8de52_a2dc72c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-06-07T16:19:45Z",
+      "side": 1,
+      "message": "We have removed origRlimitNofile use from runc when Go 1.23+ is used (relying on what\u0027s done in CL 588076 instead):\n - main branch: https://github.com/opencontainers/runc/pull/4290\n - release-1.1 branch: https://github.com/opencontainers/runc/pull/4299\n\nSo, this patch can be merged now.",
+      "revId": "13b48d35afdf53a79d871265271a33a3d50cfbf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
