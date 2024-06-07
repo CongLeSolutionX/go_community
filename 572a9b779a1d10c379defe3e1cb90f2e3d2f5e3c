@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6c62d0c_a936c26c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-07T18:20:31Z",
+      "side": 1,
+      "message": "The syntax 1*2DIGIT means at least 1 and at most 2 DIGIT values.  It doesn\u0027t mean that the leading digit should be a 1.",
+      "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "542896b7_26ecca4e",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-07T18:20:31Z",
+      "side": 1,
+      "message": "We can\u0027t make this change.  These constants are part of the Go 1 guarantee.  Changing them would change the behavior of existing Go programs.  We aren\u0027t willing to break compatibility in that way.",
+      "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
