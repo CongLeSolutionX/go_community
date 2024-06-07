@@ -725,6 +725,13 @@ var go122Type2Kind = [...]EventKind{
 	go122.EvGoroutineStack:      EventExperimental,
 	go122.EvGoroutineStackAlloc: EventExperimental,
 	go122.EvGoroutineStackFree:  EventExperimental,
+	go122.EvGCScanClass:         EventExperimental,
+	go122.EvGCScanSpan:          EventExperimental,
+	go122.EvGCScan:              EventExperimental,
+	go122.EvGCScanEnd:           EventExperimental,
+	go122.EvGCScanPointer:       EventExperimental,
+	go122.EvGCScanWB:            EventExperimental,
+	go122.EvGCScanAllocBlack:    EventExperimental,
 	evSync:                      EventSync,
 }
 

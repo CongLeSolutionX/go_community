@@ -43,6 +43,8 @@ const (
 
 	// traceExperimentAllocFree is an experiment to add alloc/free events to the trace.
 	traceExperimentAllocFree
+
+	traceExperimentGCScan
 )
 
 // Experimental events.
@@ -65,4 +67,14 @@ const (
 	traceEvGoroutineStack      // stack exists [timestamp, id, order]
 	traceEvGoroutineStackAlloc // stack alloc [timestamp, id, order]
 	traceEvGoroutineStackFree  // stack free [timestamp, id]
+
+	// Experimental events for ExperimentGCScan.
+
+	traceEvGCScanClass
+	traceEvGCScanSpan
+	traceEvGCScan
+	traceEvGCScanEnd
+	traceEvGCScanPointer
+	traceEvGCScanWB
+	traceEvGCScanAllocBlack
 )

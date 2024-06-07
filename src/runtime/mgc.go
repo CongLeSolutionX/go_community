@@ -738,6 +738,16 @@ func gcStart(trigger gcTrigger) {
 	// possible.
 	setGCPhase(_GCmark)
 
+	if traceGCScanEnabled() {
+		trace := traceAcquire()
+		if trace.ok() {
+			for _, span := range mheap_.allspans {
+				trace.GCScanSpan(span)
+			}
+			traceRelease(trace)
+		}
+	}
+
 	gcBgMarkPrepare() // Must happen before assists are enabled.
 	gcMarkRootPrepare()
 

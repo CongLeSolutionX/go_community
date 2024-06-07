@@ -1367,10 +1367,15 @@ HaveSpan:
 	memstats.heapStats.release()
 
 	// Trace the span alloc.
-	if traceAllocFreeEnabled() {
+	if traceAllocFreeEnabled() || (traceGCScanEnabled() && gcphase != _GCoff) {
 		trace := traceTryAcquire()
 		if trace.ok() {
-			trace.SpanAlloc(s)
+			if traceAllocFreeEnabled() {
+				trace.SpanAlloc(s)
+			}
+			if traceGCScanEnabled() && gcphase != _GCoff {
+				trace.GCScanSpan(s)
+			}
 			traceRelease(trace)
 		}
 	}

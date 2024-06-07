@@ -160,6 +160,16 @@ var orderingDispatch = [256]orderingHandleFunc{
 	go122.EvGoroutineStack:      (*ordering).advanceAllocFree,
 	go122.EvGoroutineStackAlloc: (*ordering).advanceAllocFree,
 	go122.EvGoroutineStackFree:  (*ordering).advanceAllocFree,
+
+	// Experimental events for ExperimentGCScan.
+
+	go122.EvGCScanClass:      (*ordering).advanceAllocFree,
+	go122.EvGCScanSpan:       (*ordering).advanceAllocFree,
+	go122.EvGCScan:           (*ordering).advanceAllocFree,
+	go122.EvGCScanEnd:        (*ordering).advanceAllocFree,
+	go122.EvGCScanPointer:    (*ordering).advanceAllocFree,
+	go122.EvGCScanWB:         (*ordering).advanceAllocFree,
+	go122.EvGCScanAllocBlack: (*ordering).advanceAllocFree,
 }
 
 func (o *ordering) advanceProcStatus(ev *baseEvent, evt *evTable, m ThreadID, gen uint64, curCtx schedCtx) (schedCtx, bool, error) {
