@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36deea7e_0cb68852",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3465090
+      },
+      "writtenOn": "2024-06-07T19:24:53Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a6c62d0c_a936c26c",
+      "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "542896b7_26ecca4e",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-06-07T18:20:31Z",
       "side": 1,
       "message": "We can\u0027t make this change.  These constants are part of the Go 1 guarantee.  Changing them would change the behavior of existing Go programs.  We aren\u0027t willing to break compatibility in that way.",
+      "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ced73b27_55e1e7f7",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 3465090
+      },
+      "writtenOn": "2024-06-07T19:24:53Z",
+      "side": 1,
+      "message": "Can we at least add a comment so that folks looking to use this format string for this purpose have a heads up? (and perhaps a new constant that fixes the bug? although that\u0027s not really clean)",
+      "parentUuid": "542896b7_26ecca4e",
       "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
