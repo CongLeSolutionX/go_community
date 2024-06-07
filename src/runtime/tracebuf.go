@@ -186,17 +186,28 @@ func (buf *traceBuf) byte(v byte) {
 // varint appends v to buf in little-endian-base-128 encoding.
 func (buf *traceBuf) varint(v uint64) {
 	pos := buf.pos
-	arr := buf.arr[pos : pos+traceBytesPerNumber]
+	arr := buf.arr[pos:]
 	for i := range arr {
 		if v < 0x80 {
-			pos += i + 1
 			arr[i] = byte(v)
-			break
+			buf.pos += i + 1
+			return
 		}
 		arr[i] = 0x80 | byte(v)
 		v >>= 7
 	}
-	buf.pos = pos
+	throw("not enough space in trace buffer")
+}
+
+func varintLen(v uint64) int {
+	len := 0
+	for {
+		if v < 0x80 {
+			return len + 1
+		}
+		len++
+		v >>= 7
+	}
 }
 
 // varintReserve reserves enough space in buf to hold any varint.
