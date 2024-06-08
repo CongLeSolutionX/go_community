@@ -69,6 +69,24 @@
       "parentUuid": "542896b7_26ecca4e",
       "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "032dc688_7fed2a49",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-08T00:05:01Z",
+      "side": 1,
+      "message": "We do already say \"when used with time.Parse they do not accept all the time formats permitted by the RFCs and they do accept time formats not formally defined.\"",
+      "parentUuid": "ced73b27_55e1e7f7",
+      "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
