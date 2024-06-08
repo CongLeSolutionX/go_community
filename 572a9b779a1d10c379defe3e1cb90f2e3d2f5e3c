@@ -87,6 +87,24 @@
       "parentUuid": "ced73b27_55e1e7f7",
       "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b8b6e2e_c11e45e7",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 3465090
+      },
+      "writtenOn": "2024-06-08T01:05:45Z",
+      "side": 1,
+      "message": "In this case though, it accepts _no_ time in the given format that happens to have a day-of-month less than 10. It\u0027s not a matter of accepting a subset of the RFC, it\u0027s just plain wrong.\n\nThe RFC in question says:\n\n\u003e the numeric day-of-month MUST be between 1 and the number of days allowed for the specified month (in the specified year)\n\nThere is no mention of leading zeroes being allowed at all. So it is really a case if it simply not being correct.\n\nI think this at least deserves an errata in the documentation indicating that the misleadingly-named RFC1123{,Z} format string should _not_ be used to parse strings for it\u0027s explicit purpose. Similar to how the documentation already states the following:\n\n\u003e The RFC3339Nano format removes trailing zeros from the seconds field\nand thus may not sort correctly once formatted.",
+      "parentUuid": "032dc688_7fed2a49",
+      "revId": "572a9b779a1d10c379defe3e1cb90f2e3d2f5e3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
