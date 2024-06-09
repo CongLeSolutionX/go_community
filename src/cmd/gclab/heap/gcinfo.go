@@ -22,7 +22,9 @@ type GCInfo struct {
 func (i *GCInfo) CompareMarks(h *Heap, got bitmap.Set[ObjectID]) {
 	for addr, objID := range h.Objects() {
 		if i.Marks.Has(objID) && !got.Has(objID) {
-			log.Printf("object %s: want marked, got not marked", addr)
+			span := h.FindSpan(addr)
+			log.Printf("object %s: want marked, got not marked", span.ObjectIDRange(objID))
+			log.Printf("  index %d in span %s", objID-span.FirstObject, span.Range())
 		} else if !i.Marks.Has(objID) && got.Has(objID) {
 			log.Printf("object %s: want not marked, got marked", addr)
 		}
