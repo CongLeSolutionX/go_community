@@ -118,6 +118,14 @@ func (s *Span) ObjectRange(i int) Range {
 	return Range{s.Start.Plus(size.Mul(i)), size}
 }
 
+func (s *Span) ObjectIDRange(oid ObjectID) Range {
+	last := s.FirstObject + ObjectID(s.NObjects())
+	if oid < s.FirstObject || oid >= last {
+		panic(fmt.Sprintf("object %s out of range [%s,%s)", oid, s.FirstObject, last))
+	}
+	return s.ObjectRange(int(oid - s.FirstObject))
+}
+
 type ObjectID uint64
 
 func NewHeap(sc []SizeClass) *Heap {
