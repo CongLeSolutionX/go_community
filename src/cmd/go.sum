@@ -1,3 +1,5 @@
+github.com/aclements/go-perfevent v0.0.0-20240703205258-f34bb3e1a4e4 h1:+zUQJxbs0q9R8RSKYrBqE+0tcdBip3b4W1wqmbsmhwo=
+github.com/aclements/go-perfevent v0.0.0-20240703205258-f34bb3e1a4e4/go.mod h1:tMDTce/yLLN/SK8gMOxQfnyeMeCg8KGzp0D1cbECEeo=
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/google/pprof v0.0.0-20240722153945-304e4f0156b8 h1:ssNFCCVmib/GQSzx3uCWyfMgOamLGWuGqlMS77Y1m3Y=

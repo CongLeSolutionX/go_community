@@ -3,6 +3,7 @@ module cmd
 go 1.24
 
 require (
+	github.com/aclements/go-perfevent v0.0.0-20240703205258-f34bb3e1a4e4
 	github.com/google/pprof v0.0.0-20240722153945-304e4f0156b8
 	golang.org/x/arch v0.10.1-0.20240910142527-7874f23b9c06
 	golang.org/x/build v0.0.0-20240722200705-b9910f320300
