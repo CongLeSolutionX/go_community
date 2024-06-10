@@ -5,6 +5,7 @@
 package os_test
 
 import (
+	"errors"
 	"internal/testenv"
 	"math"
 	"os"
@@ -93,8 +94,8 @@ func TestProcessAlreadyDone(t *testing.T) {
 		t.Fatalf("FindProcess(math.MaxInt32) got err %v, want nil", err)
 	}
 
-	if ps, err := p.Wait(); err != os.ErrProcessDone {
-		t.Errorf("Wait() got err %v (ps %+v), want ErrProcessDone", err, ps)
+	if ps, err := p.Wait(); !errors.Is(err, syscall.ECHILD) {
+		t.Errorf("Wait() got err %v (ps %+v), want %v", err, ps, syscall.ECHILD)
 	}
 
 	if err := p.Release(); err != nil {
