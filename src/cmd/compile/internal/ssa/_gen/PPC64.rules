@@ -576,21 +576,21 @@
 (ORconst [0] x) => x
 
 // zero-extend of small and => small and
-(MOVBZreg y:(ANDconst [c] _)) && uint64(c) <= 0xFF => y
-(MOVHZreg y:(ANDconst [c] _)) && uint64(c) <= 0xFFFF => y
-(MOVWZreg y:(ANDconst [c] _)) && uint64(c) <= 0xFFFFFFFF => y
-(MOVWZreg y:(AND (MOVDconst [c]) _)) && uint64(c) <= 0xFFFFFFFF => y
+(MOVBZreg <t> y:(ANDconst [c] _)) && uint64(c) <= 0xFF && setType(y,t) => y
+(MOVHZreg <t> y:(ANDconst [c] _)) && uint64(c) <= 0xFFFF && setType(y,t) => y
+(MOVWZreg <t> y:(ANDconst [c] _)) && uint64(c) <= 0xFFFFFFFF && setType(y,t) => y
+(MOVWZreg <t> y:(AND (MOVDconst [c]) _)) && uint64(c) <= 0xFFFFFFFF && setType(y,t) => y
 
 // sign extend of small-positive and => small-positive-and
-(MOVBreg y:(ANDconst [c] _)) && uint64(c) <= 0x7F => y
-(MOVHreg y:(ANDconst [c] _)) && uint64(c) <= 0x7FFF => y
-(MOVWreg y:(ANDconst [c] _)) && uint64(c) <= 0xFFFF => y // 0xFFFF is largest immediate constant, when regarded as 32-bit is > 0
-(MOVWreg y:(AND (MOVDconst [c]) _)) && uint64(c) <= 0x7FFFFFFF => y
+(MOVBreg <t> y:(ANDconst [c] _)) && uint64(c) <= 0x7F && setType(y,t) => y
+(MOVHreg <t> y:(ANDconst [c] _)) && uint64(c) <= 0x7FFF && setType(y,t) => y
+(MOVWreg <t> y:(ANDconst [c] _)) && uint64(c) <= 0xFFFF && setType(y,t) => y // 0xFFFF is largest immediate constant, when regarded as 32-bit is > 0
+(MOVWreg <t> y:(AND (MOVDconst [c]) _)) && uint64(c) <= 0x7FFFFFFF && setType(y,t) => y
 
 // small and of zero-extend => either zero-extend or small and
-(ANDconst [c] y:(MOVBZreg _)) && c&0xFF == 0xFF => y
+(ANDconst <t> [c] y:(MOVBZreg _)) && c&0xFF == 0xFF && setType(y,t) => y
 (ANDconst [0xFF] (MOVBreg x)) => (MOVBZreg x)
-(ANDconst [c] y:(MOVHZreg _))  && c&0xFFFF == 0xFFFF => y
+(ANDconst <t> [c] y:(MOVHZreg _))  && c&0xFFFF == 0xFFFF && setType(y,t) => y
 (ANDconst [0xFFFF] (MOVHreg x)) => (MOVHZreg x)
 
 (AND (MOVDconst [c]) y:(MOVWZreg _))  && c&0xFFFFFFFF == 0xFFFFFFFF => y
@@ -637,8 +637,8 @@
 (MOVWreg (SRDconst [c] x)) && c==32 => (SRADconst [c] x)
 
 // Various redundant zero/sign extension combinations.
-(MOVBZreg y:(MOVBZreg _)) => y  // repeat
-(MOVBreg y:(MOVBreg _)) => y // repeat
+(MOVBZreg <t> y:(MOVBZreg _)) && setType(y,t) => y  // repeat
+(MOVBreg <t> y:(MOVBreg _)) && setType(y,t) => y // repeat
 (MOVBreg (MOVBZreg x)) => (MOVBreg x)
 (MOVBZreg (MOVBreg x)) => (MOVBZreg x)
 
@@ -653,21 +653,21 @@
 (RLWINM [r] (ANDconst [a] u)) && mergePPC64RlwinmAnd(r,uint32(a)) != 0 => (RLWINM [mergePPC64RlwinmAnd(r,uint32(a))] u)
 // SLWconst is a special case of RLWNM which always zero-extends the result.
 (SLWconst [s] (MOVWZreg w)) => (SLWconst [s] w)
-(MOVWZreg w:(SLWconst u)) => w
+(MOVWZreg <t> w:(SLWconst u)) && setType(w,t) => w
 
 // H - there are more combinations than these
 
-(MOVHZreg y:(MOV(H|B)Zreg _)) => y // repeat
-(MOVHZreg y:(MOVHBRload _ _)) => y
+(MOVHZreg <t> y:(MOV(H|B)Zreg _)) && setType(y,t) => y // repeat
+(MOVHZreg <t> y:(MOVHBRload _ _)) && setType(y,t) => y
 
-(MOVHreg y:(MOV(H|B)reg _)) => y // repeat
+(MOVHreg <t> y:(MOV(H|B)reg _)) && setType(y,t) => y // repeat
 
 (MOV(H|HZ)reg y:(MOV(HZ|H)reg x)) => (MOV(H|HZ)reg x)
 
 // W - there are more combinations than these
 
-(MOV(WZ|WZ|WZ|W|W|W)reg y:(MOV(WZ|HZ|BZ|W|H|B)reg _)) => y // repeat
-(MOVWZreg y:(MOV(H|W)BRload _ _)) => y
+(MOV(WZ|WZ|WZ|W|W|W)reg <t> y:(MOV(WZ|HZ|BZ|W|H|B)reg _)) && setType(y,t) => y // repeat
+(MOVWZreg <t> y:(MOV(H|W)BRload _ _)) && setType(y,t) => y
 
 (MOV(W|WZ)reg y:(MOV(WZ|W)reg x)) => (MOV(W|WZ)reg x)
 
@@ -679,10 +679,11 @@
 (MOVBZreg ((OR|XOR|AND) <t> x (MOVHZreg y))) => (MOVBZreg ((OR|XOR|AND) <t> x y))
 (MOVBZreg ((OR|XOR|AND) <t> x (MOVBZreg y))) => (MOVBZreg ((OR|XOR|AND) <t> x y))
 
-(MOV(B|H|W)Zreg z:(ANDconst [c] (MOVBZload ptr x))) => z
-(MOV(B|H|W)Zreg z:(AND y (MOV(B|H|W)Zload ptr x))) => z
-(MOV(H|W)Zreg z:(ANDconst [c] (MOVHZload ptr x))) => z
-(MOVWZreg z:(ANDconst [c] (MOVWZload ptr x))) => z
+// Fold zero-extended operations. Promote the type too.
+(MOV(B|H|W)Zreg <t> z:(ANDconst [c] (MOVBZload ptr x))) && setType(z, t) => z
+(MOV(B|H|W)Zreg <t> z:(AND y (MOV(B|H|W)Zload ptr x))) && setType(z, t) => z
+(MOV(H|W)Zreg <t> z:(ANDconst [c] (MOVHZload ptr x))) && setType(z, t) => z
+(MOVWZreg <t> z:(ANDconst [c] (MOVWZload ptr x))) && setType(z, t) => z
 
 // Arithmetic constant ops
 
@@ -819,17 +820,18 @@
 
 // Note that MOV??reg returns a 64-bit int, x is not necessarily that wide
 // This may interact with other patterns in the future. (Compare with arm64)
-(MOV(B|H|W)Zreg x:(MOVBZload _ _)) => x
-(MOV(B|H|W)Zreg x:(MOVBZloadidx _ _ _)) => x
-(MOV(H|W)Zreg x:(MOVHZload _ _)) => x
-(MOV(H|W)Zreg x:(MOVHZloadidx _ _ _)) => x
-(MOV(H|W)reg x:(MOVHload _ _)) => x
-(MOV(H|W)reg x:(MOVHloadidx _ _ _)) => x
-(MOV(WZ|W)reg x:(MOV(WZ|W)load _ _)) => x
-(MOV(WZ|W)reg x:(MOV(WZ|W)loadidx _ _ _)) => x
-(MOV(B|W)Zreg x:(Select0 (LoweredAtomicLoad(8|32) _ _))) => x
+(MOV(B|H|W)Zreg <t> x:(MOVBZload _ _)) && setType(x, t) => x
+(MOV(B|H|W)Zreg <t> x:(MOVBZloadidx _ _ _)) && setType(x, t) => x
+(MOV(H|W)Zreg  <t> x:(MOVHZload _ _)) && setType(x, t) => x
+(MOV(H|W)Zreg <t> x:(MOVHZloadidx _ _ _)) && setType(x, t) => x
+(MOV(H|W)reg <t> x:(MOVHload _ _)) && setType(x, t) => x
+(MOV(H|W)reg <t> x:(MOVHloadidx _ _ _)) && setType(x, t) => x
+(MOV(WZ|W)reg <t> x:(MOV(WZ|W)load _ _)) && setType(x, t) => x
+(MOV(WZ|W)reg <t> x:(MOV(WZ|W)loadidx _ _ _)) && setType(x, t) => x
+(MOV(B|W)Zreg <t> x:(Select0 (LoweredAtomicLoad(8|32) _ _))) && setType(x, t) => x
 
-// don't extend if argument is already extended
+// Do not extend if argument is already extended. Likewise, do not update type, as
+// this will generate incorrectly typed load/stores if Arg feeds a LoadReg/StoreReg.
 (MOVBreg x:(Arg <t>)) && is8BitInt(t) && t.IsSigned() => x
 (MOVBZreg x:(Arg <t>)) && is8BitInt(t) && !t.IsSigned() => x
 (MOVHreg x:(Arg <t>)) && (is8BitInt(t) || is16BitInt(t)) && t.IsSigned() => x
@@ -891,9 +893,11 @@
 // Canonicalize the order of arguments to comparisons - helps with CSE.
 ((CMP|CMPW|CMPU|CMPWU) x y) && canonLessThan(x,y) => (InvertFlags ((CMP|CMPW|CMPU|CMPWU) y x))
 
-// n is always a zero-extended uint16 value, so n & z is always a non-negative 32 or 64 bit value.
-// Rewrite to a cmp int64(0) to lower into ANDCCconst in the latelower pass.
-(CMP(W|U|WU)const [0] a:(ANDconst [n] z)) => (CMPconst [0] a)
+// Convert CMPconst for potential folding in latelower if result is non-negative.
+// Also, ensure the rewrite preserves the widened type.
+(CMPUconst [0] a:(ANDconst [n] z)) => (CMPconst [0] a)
+(CMPWUconst [0] a:(ANDconst [n] z)) && setType(a,typ.UInt64) => (CMPconst [0] a)
+(CMPWconst [0] a:(ANDconst [n] z)) && int32(n) >= 0 && setType(a,typ.UInt64) => (CMPconst [0] a)
 
 // SETBC auxInt values 0=LT 1=GT 2=EQ   Crbit==1 ? 1 : 0
 // SETBCR auxInt values 0=LT 1=GT 2=EQ   Crbit==1 ? 0 : 1

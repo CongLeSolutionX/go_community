@@ -2326,3 +2326,10 @@ func setPos(v *Value, pos src.XPos) bool {
 	v.Pos = pos
 	return true
 }
+
+// setType sets v to type t. Useful for promoting types
+// when widening operations are folded into v.
+func setType(v *Value, t *types.Type) bool {
+	v.Type = t
+	return true
+}

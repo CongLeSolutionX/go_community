@@ -4541,13 +4541,14 @@ func rewriteValuePPC64_OpPPC64ANDconst(v *Value) bool {
 		v.AuxInt = int64ToAuxInt(0)
 		return true
 	}
-	// match: (ANDconst [c] y:(MOVBZreg _))
-	// cond: c&0xFF == 0xFF
+	// match: (ANDconst <t> [c] y:(MOVBZreg _))
+	// cond: c&0xFF == 0xFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		c := auxIntToInt64(v.AuxInt)
 		y := v_0
-		if y.Op != OpPPC64MOVBZreg || !(c&0xFF == 0xFF) {
+		if y.Op != OpPPC64MOVBZreg || !(c&0xFF == 0xFF && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -4564,13 +4565,14 @@ func rewriteValuePPC64_OpPPC64ANDconst(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (ANDconst [c] y:(MOVHZreg _))
-	// cond: c&0xFFFF == 0xFFFF
+	// match: (ANDconst <t> [c] y:(MOVHZreg _))
+	// cond: c&0xFFFF == 0xFFFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		c := auxIntToInt64(v.AuxInt)
 		y := v_0
-		if y.Op != OpPPC64MOVHZreg || !(c&0xFFFF == 0xFFFF) {
+		if y.Op != OpPPC64MOVHZreg || !(c&0xFFFF == 0xFFFF && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -5235,6 +5237,8 @@ func rewriteValuePPC64_OpPPC64CMPWU(v *Value) bool {
 }
 func rewriteValuePPC64_OpPPC64CMPWUconst(v *Value) bool {
 	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
 	// match: (CMPWUconst [d] (ANDconst z [c]))
 	// cond: uint64(d) > uint64(c)
 	// result: (FlagLT)
@@ -5296,6 +5300,7 @@ func rewriteValuePPC64_OpPPC64CMPWUconst(v *Value) bool {
 		return true
 	}
 	// match: (CMPWUconst [0] a:(ANDconst [n] z))
+	// cond: setType(a,typ.UInt64)
 	// result: (CMPconst [0] a)
 	for {
 		if auxIntToInt32(v.AuxInt) != 0 {
@@ -5303,6 +5308,9 @@ func rewriteValuePPC64_OpPPC64CMPWUconst(v *Value) bool {
 		}
 		a := v_0
 		if a.Op != OpPPC64ANDconst {
+			break
+		}
+		if !(setType(a, typ.UInt64)) {
 			break
 		}
 		v.reset(OpPPC64CMPconst)
@@ -5314,6 +5322,8 @@ func rewriteValuePPC64_OpPPC64CMPWUconst(v *Value) bool {
 }
 func rewriteValuePPC64_OpPPC64CMPWconst(v *Value) bool {
 	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
 	// match: (CMPWconst (MOVDconst [x]) [y])
 	// cond: int32(x)==int32(y)
 	// result: (FlagEQ)
@@ -5360,6 +5370,7 @@ func rewriteValuePPC64_OpPPC64CMPWconst(v *Value) bool {
 		return true
 	}
 	// match: (CMPWconst [0] a:(ANDconst [n] z))
+	// cond: int32(n) >= 0 && setType(a,typ.UInt64)
 	// result: (CMPconst [0] a)
 	for {
 		if auxIntToInt32(v.AuxInt) != 0 {
@@ -5367,6 +5378,10 @@ func rewriteValuePPC64_OpPPC64CMPWconst(v *Value) bool {
 		}
 		a := v_0
 		if a.Op != OpPPC64ANDconst {
+			break
+		}
+		n := auxIntToInt64(a.AuxInt)
+		if !(int32(n) >= 0 && setType(a, typ.UInt64)) {
 			break
 		}
 		v.reset(OpPPC64CMPconst)
@@ -6777,16 +6792,17 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
-	// match: (MOVBZreg y:(ANDconst [c] _))
-	// cond: uint64(c) <= 0xFF
+	// match: (MOVBZreg <t> y:(ANDconst [c] _))
+	// cond: uint64(c) <= 0xFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64ANDconst {
 			break
 		}
 		c := auxIntToInt64(y.AuxInt)
-		if !(uint64(c) <= 0xFF) {
+		if !(uint64(c) <= 0xFF && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -6862,11 +6878,13 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (MOVBZreg y:(MOVBZreg _))
+	// match: (MOVBZreg <t> y:(MOVBZreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVBZreg {
+		if y.Op != OpPPC64MOVBZreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -7133,9 +7151,11 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 		}
 		break
 	}
-	// match: (MOVBZreg z:(ANDconst [c] (MOVBZload ptr x)))
+	// match: (MOVBZreg <t> z:(ANDconst [c] (MOVBZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64ANDconst {
 			break
@@ -7144,12 +7164,17 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 		if z_0.Op != OpPPC64MOVBZload {
 			break
 		}
+		if !(setType(z, t)) {
+			break
+		}
 		v.copyOf(z)
 		return true
 	}
-	// match: (MOVBZreg z:(AND y (MOVBZload ptr x)))
+	// match: (MOVBZreg <t> z:(AND y (MOVBZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64AND {
 			break
@@ -7161,40 +7186,49 @@ func rewriteValuePPC64_OpPPC64MOVBZreg(v *Value) bool {
 			if z_1.Op != OpPPC64MOVBZload {
 				continue
 			}
+			if !(setType(z, t)) {
+				continue
+			}
 			v.copyOf(z)
 			return true
 		}
 		break
 	}
-	// match: (MOVBZreg x:(MOVBZload _ _))
+	// match: (MOVBZreg <t> x:(MOVBZload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVBZload {
+		if x.Op != OpPPC64MOVBZload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVBZreg x:(MOVBZloadidx _ _ _))
+	// match: (MOVBZreg <t> x:(MOVBZloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVBZloadidx {
+		if x.Op != OpPPC64MOVBZloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVBZreg x:(Select0 (LoweredAtomicLoad8 _ _)))
+	// match: (MOVBZreg <t> x:(Select0 (LoweredAtomicLoad8 _ _)))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
 		if x.Op != OpSelect0 {
 			break
 		}
 		x_0 := x.Args[0]
-		if x_0.Op != OpPPC64LoweredAtomicLoad8 {
+		if x_0.Op != OpPPC64LoweredAtomicLoad8 || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
@@ -7232,16 +7266,17 @@ func rewriteValuePPC64_OpPPC64MOVBreg(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
-	// match: (MOVBreg y:(ANDconst [c] _))
-	// cond: uint64(c) <= 0x7F
+	// match: (MOVBreg <t> y:(ANDconst [c] _))
+	// cond: uint64(c) <= 0x7F && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64ANDconst {
 			break
 		}
 		c := auxIntToInt64(y.AuxInt)
-		if !(uint64(c) <= 0x7F) {
+		if !(uint64(c) <= 0x7F && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -7385,11 +7420,13 @@ func rewriteValuePPC64_OpPPC64MOVBreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (MOVBreg y:(MOVBreg _))
+	// match: (MOVBreg <t> y:(MOVBreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVBreg {
+		if y.Op != OpPPC64MOVBreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -8646,16 +8683,17 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
-	// match: (MOVHZreg y:(ANDconst [c] _))
-	// cond: uint64(c) <= 0xFFFF
+	// match: (MOVHZreg <t> y:(ANDconst [c] _))
+	// cond: uint64(c) <= 0xFFFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64ANDconst {
 			break
 		}
 		c := auxIntToInt64(y.AuxInt)
-		if !(uint64(c) <= 0xFFFF) {
+		if !(uint64(c) <= 0xFFFF && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -8767,31 +8805,37 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
-	// match: (MOVHZreg y:(MOVHZreg _))
+	// match: (MOVHZreg <t> y:(MOVHZreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVHZreg {
+		if y.Op != OpPPC64MOVHZreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVHZreg y:(MOVBZreg _))
+	// match: (MOVHZreg <t> y:(MOVBZreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVBZreg {
+		if y.Op != OpPPC64MOVBZreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVHZreg y:(MOVHBRload _ _))
+	// match: (MOVHZreg <t> y:(MOVHBRload _ _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVHBRload {
+		if y.Op != OpPPC64MOVHBRload || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -8953,9 +8997,11 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		}
 		break
 	}
-	// match: (MOVHZreg z:(ANDconst [c] (MOVBZload ptr x)))
+	// match: (MOVHZreg <t> z:(ANDconst [c] (MOVBZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64ANDconst {
 			break
@@ -8964,12 +9010,17 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		if z_0.Op != OpPPC64MOVBZload {
 			break
 		}
+		if !(setType(z, t)) {
+			break
+		}
 		v.copyOf(z)
 		return true
 	}
-	// match: (MOVHZreg z:(AND y (MOVHZload ptr x)))
+	// match: (MOVHZreg <t> z:(AND y (MOVHZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64AND {
 			break
@@ -8981,14 +9032,19 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 			if z_1.Op != OpPPC64MOVHZload {
 				continue
 			}
+			if !(setType(z, t)) {
+				continue
+			}
 			v.copyOf(z)
 			return true
 		}
 		break
 	}
-	// match: (MOVHZreg z:(ANDconst [c] (MOVHZload ptr x)))
+	// match: (MOVHZreg <t> z:(ANDconst [c] (MOVHZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64ANDconst {
 			break
@@ -8997,44 +9053,55 @@ func rewriteValuePPC64_OpPPC64MOVHZreg(v *Value) bool {
 		if z_0.Op != OpPPC64MOVHZload {
 			break
 		}
+		if !(setType(z, t)) {
+			break
+		}
 		v.copyOf(z)
 		return true
 	}
-	// match: (MOVHZreg x:(MOVBZload _ _))
+	// match: (MOVHZreg <t> x:(MOVBZload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVBZload {
+		if x.Op != OpPPC64MOVBZload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVHZreg x:(MOVBZloadidx _ _ _))
+	// match: (MOVHZreg <t> x:(MOVBZloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVBZloadidx {
+		if x.Op != OpPPC64MOVBZloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVHZreg x:(MOVHZload _ _))
+	// match: (MOVHZreg <t> x:(MOVHZload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHZload {
+		if x.Op != OpPPC64MOVHZload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVHZreg x:(MOVHZloadidx _ _ _))
+	// match: (MOVHZreg <t> x:(MOVHZloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHZloadidx {
+		if x.Op != OpPPC64MOVHZloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
@@ -9185,16 +9252,17 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
-	// match: (MOVHreg y:(ANDconst [c] _))
-	// cond: uint64(c) <= 0x7FFF
+	// match: (MOVHreg <t> y:(ANDconst [c] _))
+	// cond: uint64(c) <= 0x7FFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64ANDconst {
 			break
 		}
 		c := auxIntToInt64(y.AuxInt)
-		if !(uint64(c) <= 0x7FFF) {
+		if !(uint64(c) <= 0x7FFF && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -9357,21 +9425,25 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (MOVHreg y:(MOVHreg _))
+	// match: (MOVHreg <t> y:(MOVHreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVHreg {
+		if y.Op != OpPPC64MOVHreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVHreg y:(MOVBreg _))
+	// match: (MOVHreg <t> y:(MOVBreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVBreg {
+		if y.Op != OpPPC64MOVBreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -9389,21 +9461,25 @@ func rewriteValuePPC64_OpPPC64MOVHreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (MOVHreg x:(MOVHload _ _))
+	// match: (MOVHreg <t> x:(MOVHload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHload {
+		if x.Op != OpPPC64MOVHload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVHreg x:(MOVHloadidx _ _ _))
+	// match: (MOVHreg <t> x:(MOVHloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHloadidx {
+		if x.Op != OpPPC64MOVHloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
@@ -9972,25 +10048,27 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
-	// match: (MOVWZreg y:(ANDconst [c] _))
-	// cond: uint64(c) <= 0xFFFFFFFF
+	// match: (MOVWZreg <t> y:(ANDconst [c] _))
+	// cond: uint64(c) <= 0xFFFFFFFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64ANDconst {
 			break
 		}
 		c := auxIntToInt64(y.AuxInt)
-		if !(uint64(c) <= 0xFFFFFFFF) {
+		if !(uint64(c) <= 0xFFFFFFFF && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWZreg y:(AND (MOVDconst [c]) _))
-	// cond: uint64(c) <= 0xFFFFFFFF
+	// match: (MOVWZreg <t> y:(AND (MOVDconst [c]) _))
+	// cond: uint64(c) <= 0xFFFFFFFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64AND {
 			break
@@ -10002,7 +10080,7 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 				continue
 			}
 			c := auxIntToInt64(y_0.AuxInt)
-			if !(uint64(c) <= 0xFFFFFFFF) {
+			if !(uint64(c) <= 0xFFFFFFFF && setType(y, t)) {
 				continue
 			}
 			v.copyOf(y)
@@ -10118,61 +10196,76 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		v.AddArg(y)
 		return true
 	}
-	// match: (MOVWZreg w:(SLWconst u))
+	// match: (MOVWZreg <t> w:(SLWconst u))
+	// cond: setType(w,t)
 	// result: w
 	for {
+		t := v.Type
 		w := v_0
 		if w.Op != OpPPC64SLWconst {
+			break
+		}
+		if !(setType(w, t)) {
 			break
 		}
 		v.copyOf(w)
 		return true
 	}
-	// match: (MOVWZreg y:(MOVWZreg _))
+	// match: (MOVWZreg <t> y:(MOVWZreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVWZreg {
+		if y.Op != OpPPC64MOVWZreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWZreg y:(MOVHZreg _))
+	// match: (MOVWZreg <t> y:(MOVHZreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVHZreg {
+		if y.Op != OpPPC64MOVHZreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWZreg y:(MOVBZreg _))
+	// match: (MOVWZreg <t> y:(MOVBZreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVBZreg {
+		if y.Op != OpPPC64MOVBZreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWZreg y:(MOVHBRload _ _))
+	// match: (MOVWZreg <t> y:(MOVHBRload _ _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVHBRload {
+		if y.Op != OpPPC64MOVHBRload || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWZreg y:(MOVWBRload _ _))
+	// match: (MOVWZreg <t> y:(MOVWBRload _ _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVWBRload {
+		if y.Op != OpPPC64MOVWBRload || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -10262,9 +10355,11 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		}
 		break
 	}
-	// match: (MOVWZreg z:(ANDconst [c] (MOVBZload ptr x)))
+	// match: (MOVWZreg <t> z:(ANDconst [c] (MOVBZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64ANDconst {
 			break
@@ -10273,12 +10368,17 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if z_0.Op != OpPPC64MOVBZload {
 			break
 		}
+		if !(setType(z, t)) {
+			break
+		}
 		v.copyOf(z)
 		return true
 	}
-	// match: (MOVWZreg z:(AND y (MOVWZload ptr x)))
+	// match: (MOVWZreg <t> z:(AND y (MOVWZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64AND {
 			break
@@ -10290,14 +10390,19 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 			if z_1.Op != OpPPC64MOVWZload {
 				continue
 			}
+			if !(setType(z, t)) {
+				continue
+			}
 			v.copyOf(z)
 			return true
 		}
 		break
 	}
-	// match: (MOVWZreg z:(ANDconst [c] (MOVHZload ptr x)))
+	// match: (MOVWZreg <t> z:(ANDconst [c] (MOVHZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64ANDconst {
 			break
@@ -10306,12 +10411,17 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if z_0.Op != OpPPC64MOVHZload {
 			break
 		}
+		if !(setType(z, t)) {
+			break
+		}
 		v.copyOf(z)
 		return true
 	}
-	// match: (MOVWZreg z:(ANDconst [c] (MOVWZload ptr x)))
+	// match: (MOVWZreg <t> z:(ANDconst [c] (MOVWZload ptr x)))
+	// cond: setType(z, t)
 	// result: z
 	for {
+		t := v.Type
 		z := v_0
 		if z.Op != OpPPC64ANDconst {
 			break
@@ -10320,78 +10430,95 @@ func rewriteValuePPC64_OpPPC64MOVWZreg(v *Value) bool {
 		if z_0.Op != OpPPC64MOVWZload {
 			break
 		}
+		if !(setType(z, t)) {
+			break
+		}
 		v.copyOf(z)
 		return true
 	}
-	// match: (MOVWZreg x:(MOVBZload _ _))
+	// match: (MOVWZreg <t> x:(MOVBZload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVBZload {
+		if x.Op != OpPPC64MOVBZload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWZreg x:(MOVBZloadidx _ _ _))
+	// match: (MOVWZreg <t> x:(MOVBZloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVBZloadidx {
+		if x.Op != OpPPC64MOVBZloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWZreg x:(MOVHZload _ _))
+	// match: (MOVWZreg <t> x:(MOVHZload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHZload {
+		if x.Op != OpPPC64MOVHZload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWZreg x:(MOVHZloadidx _ _ _))
+	// match: (MOVWZreg <t> x:(MOVHZloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHZloadidx {
+		if x.Op != OpPPC64MOVHZloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWZreg x:(MOVWZload _ _))
+	// match: (MOVWZreg <t> x:(MOVWZload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVWZload {
+		if x.Op != OpPPC64MOVWZload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWZreg x:(MOVWZloadidx _ _ _))
+	// match: (MOVWZreg <t> x:(MOVWZloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVWZloadidx {
+		if x.Op != OpPPC64MOVWZloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWZreg x:(Select0 (LoweredAtomicLoad32 _ _)))
+	// match: (MOVWZreg <t> x:(Select0 (LoweredAtomicLoad32 _ _)))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
 		if x.Op != OpSelect0 {
 			break
 		}
 		x_0 := x.Args[0]
-		if x_0.Op != OpPPC64LoweredAtomicLoad32 {
+		if x_0.Op != OpPPC64LoweredAtomicLoad32 || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
@@ -10542,25 +10669,27 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	typ := &b.Func.Config.Types
-	// match: (MOVWreg y:(ANDconst [c] _))
-	// cond: uint64(c) <= 0xFFFF
+	// match: (MOVWreg <t> y:(ANDconst [c] _))
+	// cond: uint64(c) <= 0xFFFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64ANDconst {
 			break
 		}
 		c := auxIntToInt64(y.AuxInt)
-		if !(uint64(c) <= 0xFFFF) {
+		if !(uint64(c) <= 0xFFFF && setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWreg y:(AND (MOVDconst [c]) _))
-	// cond: uint64(c) <= 0x7FFFFFFF
+	// match: (MOVWreg <t> y:(AND (MOVDconst [c]) _))
+	// cond: uint64(c) <= 0x7FFFFFFF && setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
 		if y.Op != OpPPC64AND {
 			break
@@ -10572,7 +10701,7 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 				continue
 			}
 			c := auxIntToInt64(y_0.AuxInt)
-			if !(uint64(c) <= 0x7FFFFFFF) {
+			if !(uint64(c) <= 0x7FFFFFFF && setType(y, t)) {
 				continue
 			}
 			v.copyOf(y)
@@ -10705,31 +10834,37 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (MOVWreg y:(MOVWreg _))
+	// match: (MOVWreg <t> y:(MOVWreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVWreg {
+		if y.Op != OpPPC64MOVWreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWreg y:(MOVHreg _))
+	// match: (MOVWreg <t> y:(MOVHreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVHreg {
+		if y.Op != OpPPC64MOVHreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
 		return true
 	}
-	// match: (MOVWreg y:(MOVBreg _))
+	// match: (MOVWreg <t> y:(MOVBreg _))
+	// cond: setType(y,t)
 	// result: y
 	for {
+		t := v.Type
 		y := v_0
-		if y.Op != OpPPC64MOVBreg {
+		if y.Op != OpPPC64MOVBreg || !(setType(y, t)) {
 			break
 		}
 		v.copyOf(y)
@@ -10747,41 +10882,49 @@ func rewriteValuePPC64_OpPPC64MOVWreg(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (MOVWreg x:(MOVHload _ _))
+	// match: (MOVWreg <t> x:(MOVHload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHload {
+		if x.Op != OpPPC64MOVHload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWreg x:(MOVHloadidx _ _ _))
+	// match: (MOVWreg <t> x:(MOVHloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVHloadidx {
+		if x.Op != OpPPC64MOVHloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWreg x:(MOVWload _ _))
+	// match: (MOVWreg <t> x:(MOVWload _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVWload {
+		if x.Op != OpPPC64MOVWload || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
 		return true
 	}
-	// match: (MOVWreg x:(MOVWloadidx _ _ _))
+	// match: (MOVWreg <t> x:(MOVWloadidx _ _ _))
+	// cond: setType(x, t)
 	// result: x
 	for {
+		t := v.Type
 		x := v_0
-		if x.Op != OpPPC64MOVWloadidx {
+		if x.Op != OpPPC64MOVWloadidx || !(setType(x, t)) {
 			break
 		}
 		v.copyOf(x)
