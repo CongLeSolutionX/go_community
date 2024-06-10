@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"internal/trace"
 	"internal/trace/testdata/cmd/gclab/heap"
+	"internal/trace/testdata/cmd/gclab/shortest"
 	"io"
 	"log"
 	"os"
@@ -135,6 +136,7 @@ func main() {
 	}
 	h := new(Heaper)
 	eventers = append(eventers, h)
+	h.AtEnd = append(h.AtEnd, shortest.Scanner)
 
 	expBatchIDs := make(map[*trace.ExperimentalData]bool)
 	var expBatches []trace.ExperimentalBatch
