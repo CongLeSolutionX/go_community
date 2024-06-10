@@ -10,6 +10,7 @@ package main
 import (
 	"bytes"
 	"cmd/gclab/heap"
+	"cmd/gclab/shortest"
 	"encoding/binary"
 	"flag"
 	"fmt"
@@ -176,6 +177,7 @@ func main() {
 	}
 	h := new(Heaper)
 	eventers = append(eventers, h)
+	h.AtEnd = append(h.AtEnd, shortest.Scanner)
 
 	expBatchIDs := make(map[*trace.ExperimentalData]bool)
 	var expBatches []trace.ExperimentalBatch
