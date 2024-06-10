@@ -39,6 +39,24 @@ func checkUidGid(t *testing.T, path string, uid, gid int) {
 	}
 }
 
+func TestShowInfo(t *testing.T) {
+	out, err := testenv.Command(t, "uname", "-a").CombinedOutput()
+	if err != nil {
+		t.Error(err)
+	} else {
+		t.Logf("uname -a: %s", out)
+	}
+
+	mounts, err := ReadFile("/proc/mounts")
+	if err != nil {
+		t.Error(err)
+	} else {
+		t.Logf("/proc/mounts:\n%s", mounts)
+	}
+
+	t.Errorf("localTmp: %s", localTmp())
+}
+
 func TestChown(t *testing.T) {
 	if runtime.GOOS == "wasip1" {
 		t.Skip("file ownership not supported on " + runtime.GOOS)
