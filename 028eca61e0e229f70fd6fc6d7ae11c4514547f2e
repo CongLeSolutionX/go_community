@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a7a33c4_33864678",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-11T05:33:59Z",
+      "side": 1,
+      "message": "@moehrmann@google.com \n\nCASCADE LAKE:\n```\ngoos: linux\ngoarch: amd64\npkg: runtime\ncpu: Intel(R) Xeon(R) Platinum 8255C CPU @ 2.50GHz\n                │ ./pr/old.txt │             ./pr/new.txt             │\n                │    sec/op    │    sec/op     vs base                │\nMemmove/2048-96    19.43n ± 1%   29.67n ± 15%  +52.66% (p\u003d0.000 n\u003d10)\nMemmove/4096-96    38.57n ± 1%   45.10n ±  3%  +16.93% (p\u003d0.000 n\u003d10)\ngeomean            27.38n        36.58n        +33.61%\n\n                │ ./pr/old.txt │             ./pr/new.txt              │\n                │     B/s      │      B/s       vs base                │\nMemmove/2048-96   98.12Gi ± 1%   64.29Gi ± 13%  -34.48% (p\u003d0.000 n\u003d10)\nMemmove/4096-96   98.90Gi ± 1%   84.59Gi ±  3%  -14.47% (p\u003d0.000 n\u003d10)\ngeomean           98.51Gi        73.74Gi        -25.14%\n```\nCASCADE LAKE (VM):\n```\ngoos: linux\ngoarch: amd64\npkg: runtime\ncpu: Intel(R) Xeon(R) Platinum 8255C CPU @ 2.50GHz\n               │  ./old.txt  │              ./new.txt              │\n               │   sec/op    │   sec/op     vs base                │\nMemmove/2048-2   24.91n ± 2%   36.95n ± 2%  +48.33% (p\u003d0.000 n\u003d10)\nMemmove/4096-2   47.91n ± 1%   58.03n ± 2%  +21.13% (p\u003d0.000 n\u003d10)\ngeomean          34.55n        46.31n       +34.05%\n\n               │  ./old.txt   │              ./new.txt               │\n               │     B/s      │     B/s       vs base                │\nMemmove/2048-2   76.57Gi ± 2%   51.62Gi ± 2%  -32.59% (p\u003d0.000 n\u003d10)\nMemmove/4096-2   79.62Gi ± 1%   65.73Gi ± 2%  -17.45% (p\u003d0.000 n\u003d10)\ngeomean          78.08Gi        58.25Gi       -25.40%\n```\n\nSKYLAKE:\n```\ngoos: linux\ngoarch: amd64\npkg: runtime\ncpu: Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz\n             │  ./old.txt  │               ./new.txt                │\n             │   sec/op    │    sec/op      vs base                 │\nMemmove/2048   19.64n ± 0%   70.47n ±   1%  +258.78% (p\u003d0.000 n\u003d10)\nMemmove/4096   37.73n ± 0%   33.31n ± 137%         ~ (p\u003d0.469 n\u003d10)\ngeomean        27.22n        48.44n          +77.97%\n\n             │  ./old.txt   │               ./new.txt               │\n             │     B/s      │      B/s       vs base                │\nMemmove/2048   97.12Gi ± 0%   27.07Gi ±  1%  -72.13% (p\u003d0.000 n\u003d10)\nMemmove/4096   101.1Gi ± 0%   114.5Gi ± 58%        ~ (p\u003d0.481 n\u003d10)\ngeomean        99.10Gi        55.68Gi        -43.82%\n```\nUnfortunately I could not find any more older platform machines. I did some testing on a VM Broadwell, but it does not support the ERMS feature.\n\nAnd as the results show, You are right, the performance of ERMS repmovsb is worse on these platforms.\n\nI think using the original allowlist strategy is much better here.\n\n@khr@golang.org what do you think?",
+      "parentUuid": "67ba949e_22ce8681",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
