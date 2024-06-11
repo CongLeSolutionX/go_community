@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "176682a2_141e9833",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-06-11T17:13:04Z",
+      "side": 1,
+      "message": "Reading the optimization manual, we should consider both the erms bit (3.7.6) and the fast_short_rep_movsb bit (3.7.6.1). I think the latter might help us here? On those processors where you saw slowdown, is that latter bit set?",
+      "parentUuid": "5a7a33c4_33864678",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
