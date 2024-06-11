@@ -16,6 +16,24 @@
       "message": "Might make sense to check that the error returned from the second Wait hasn\u0027t changed.",
       "revId": "185fb8c553133efc2fbdad816c4b8b797e7d44c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d95f594_ea1f2775",
+        "filename": "src/os/pidfd_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-06-11T19:50:24Z",
+      "side": 1,
+      "message": "Checked; second wait returns _almost_ the same thing before/after:\n```\n[kir@kir-tp1 wait]$ ../../golang/go/bin/go run main.go\n2024/06/11 12:48:46 2nd wait: wait: no child processes\n[kir@kir-tp1 wait]$ go run main.go\n2024/06/11 12:48:55 2nd wait: waitid: no child processes\n```\n\nI guess the syscall name is irrelevant (and also platform-dependent).",
+      "parentUuid": "47a2dc2c_477cfa25",
+      "revId": "185fb8c553133efc2fbdad816c4b8b797e7d44c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
