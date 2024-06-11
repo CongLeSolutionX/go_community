@@ -1222,6 +1222,12 @@ func casgstatus(gp *g, oldval, newval uint32) {
 		}
 	}
 
+	if gp.syncGroup != nil {
+		systemstack(func() {
+			gp.syncGroup.changegstatus(gp, oldval, newval)
+		})
+	}
+
 	if oldval == _Grunning {
 		// Track every gTrackingPeriod time a goroutine transitions out of running.
 		if casgstatusAlwaysTrack || gp.trackingSeq%gTrackingPeriod == 0 {
@@ -1318,6 +1324,9 @@ func casgcopystack(gp *g) uint32 {
 			throw("copystack: bad status, not Gwaiting or Grunnable")
 		}
 		if gp.atomicstatus.CompareAndSwap(oldstatus, _Gcopystack) {
+			if sg := gp.syncGroup; sg != nil {
+				sg.changegstatus(gp, oldstatus, _Gcopystack)
+			}
 			return oldstatus
 		}
 	}
@@ -1334,6 +1343,12 @@ func casGToPreemptScan(gp *g, old, new uint32) {
 	acquireLockRankAndM(lockRankGscan)
 	for !gp.atomicstatus.CompareAndSwap(_Grunning, _Gscan|_Gpreempted) {
 	}
+	// We never notify gp.syncGroup that the goroutine state has moved
+	// from _Grunning to _Gpreempted. We call syncGroup.changegstatus
+	// after status changes happen, but doing so here would violate the
+	// ordering between the gscan and synctest locks. syncGroup doesn't
+	// distinguish between _Grunning and _Gpreempted anyway, so not
+	// notifying it is fine.
 }
 
 // casGFromPreempted attempts to transition gp from _Gpreempted to
@@ -1344,7 +1359,13 @@ func casGFromPreempted(gp *g, old, new uint32) bool {
 		throw("bad g transition")
 	}
 	gp.waitreason = waitReasonPreempted
-	return gp.atomicstatus.CompareAndSwap(_Gpreempted, _Gwaiting)
+	if !gp.atomicstatus.CompareAndSwap(_Gpreempted, _Gwaiting) {
+		return false
+	}
+	if sg := gp.syncGroup; sg != nil {
+		sg.changegstatus(gp, _Gpreempted, _Gwaiting)
+	}
+	return true
 }
 
 // stwReason is an enumeration of reasons the world is stopping.
@@ -1436,8 +1457,11 @@ var stopTheWorldContext worldStop
 // Returns the STW context. When starting the world, this context must be
 // passed to startTheWorld.
 func stopTheWorld(reason stwReason) worldStop {
-	semacquire(&worldsema)
 	gp := getg()
+	if gp.syncGroup != nil {
+		gp.syncGroup.incActive()
+	}
+	semacquire(&worldsema)
 	gp.m.preemptoff = reason.String()
 	systemstack(func() {
 		// Mark the goroutine which called stopTheWorld preemptible so its
@@ -1486,6 +1510,10 @@ func startTheWorld(w worldStop) {
 	mp.preemptoff = ""
 	semrelease1(&worldsema, true, 0)
 	releasem(mp)
+
+	if sg := getg().syncGroup; sg != nil {
+		sg.decActive()
+	}
 }
 
 // stopTheWorldGC has the same effect as stopTheWorld, but blocks
@@ -4081,6 +4109,15 @@ func park_m(gp *g) {
 
 	trace := traceAcquire()
 
+	// If g is in a synctest group, we don't want to let the group
+	// become idle until after the waitunlockf (if any) has confirmed
+	// that the park is happening.
+	// We need to record gp.syncGroup here, since waitunlockf can change it.
+	sg := gp.syncGroup
+	if sg != nil {
+		sg.incActive()
+	}
+
 	if trace.ok() {
 		// Trace the event before the transition. It may take a
 		// stack trace, but we won't own the stack after the
@@ -4103,6 +4140,9 @@ func park_m(gp *g) {
 		if !ok {
 			trace := traceAcquire()
 			casgstatus(gp, _Gwaiting, _Grunnable)
+			if sg != nil {
+				sg.decActive()
+			}
 			if trace.ok() {
 				trace.GoUnpark(gp, 2)
 				traceRelease(trace)
@@ -4110,6 +4150,11 @@ func park_m(gp *g) {
 			execute(gp, true) // Schedule it back, never returns.
 		}
 	}
+
+	if sg != nil {
+		sg.decActive()
+	}
+
 	schedule()
 }
 
@@ -4263,6 +4308,9 @@ func goyield_m(gp *g) {
 // Finishes execution of the current goroutine.
 func goexit1() {
 	if raceenabled {
+		if gp := getg(); gp.syncGroup != nil {
+			racereleasemergeg(gp, gp.syncGroup.raceaddr())
+		}
 		racegoend()
 	}
 	trace := traceAcquire()
@@ -4301,6 +4349,7 @@ func gdestroy(gp *g) {
 	gp.param = nil
 	gp.labels = nil
 	gp.timer = nil
+	gp.syncGroup = nil
 
 	if gcBlackenEnabled != 0 && gp.gcAssistBytes > 0 {
 		// Flush assist credit to the global pool. This gives
@@ -5044,7 +5093,8 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr, parked bool, waitreaso
 	if isSystemGoroutine(newg, false) {
 		sched.ngsys.Add(1)
 	} else {
-		// Only user goroutines inherit pprof labels.
+		// Only user goroutines inherit synctest groups and pprof labels.
+		newg.syncGroup = callergp.syncGroup
 		if mp.curg != nil {
 			newg.labels = mp.curg.labels
 		}
@@ -5071,7 +5121,6 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr, parked bool, waitreaso
 		status = _Gwaiting
 		newg.waitreason = waitreason
 	}
-	casgstatus(newg, _Gdead, status)
 	if pp.goidcache == pp.goidcacheend {
 		// Sched.goidgen is the last allocated id,
 		// this batch must be [sched.goidgen+1, sched.goidgen+GoidCacheBatch].
@@ -5081,6 +5130,7 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr, parked bool, waitreaso
 		pp.goidcacheend = pp.goidcache + _GoidCacheBatch
 	}
 	newg.goid = pp.goidcache
+	casgstatus(newg, _Gdead, status)
 	pp.goidcache++
 	newg.trace.reset()
 	if trace.ok() {

@@ -1239,6 +1239,9 @@ func goroutineheader(gp *g) {
 	if gp.lockedm != 0 {
 		print(", locked to thread")
 	}
+	if sg := gp.syncGroup; sg != nil {
+		print(", synctest group ", sg.root.goid)
+	}
 	print("]:\n")
 }
 

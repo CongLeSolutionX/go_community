@@ -422,6 +422,12 @@ func gcAssistAlloc(gp *g) {
 		return
 	}
 
+	if gp := getg(); gp.syncGroup != nil {
+		// Mark the group as active even if we block somewhere below.
+		gp.syncGroup.incActive()
+		defer gp.syncGroup.decActive()
+	}
+
 	// This extremely verbose boolean indicates whether we've
 	// entered mark assist from the perspective of the tracer.
 	//

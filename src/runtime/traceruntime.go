@@ -101,6 +101,7 @@ const (
 	traceBlockDebugCall
 	traceBlockUntilGCEnds
 	traceBlockSleep
+	traceBlockSynctest
 )
 
 var traceBlockReasonStrings = [...]string{
@@ -119,6 +120,7 @@ var traceBlockReasonStrings = [...]string{
 	traceBlockDebugCall:       "wait for debug call",
 	traceBlockUntilGCEnds:     "wait until GC ends",
 	traceBlockSleep:           "sleep",
+	traceBlockSynctest:        "synctest",
 }
 
 // traceGoStopReason is an enumeration of reasons a goroutine might yield.

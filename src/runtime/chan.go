@@ -35,6 +35,7 @@ type hchan struct {
 	dataqsiz uint           // size of the circular queue
 	buf      unsafe.Pointer // points to an array of dataqsiz elements
 	elemsize uint16
+	synctest bool // true if created in a synctest bubble
 	closed   uint32
 	timer    *timer // timer feeding this chan
 	elemtype *_type // element type
@@ -111,6 +112,9 @@ func makechan(t *chantype, size int) *hchan {
 	c.elemsize = uint16(elem.Size_)
 	c.elemtype = elem
 	c.dataqsiz = uint(size)
+	if getg().syncGroup != nil {
+		c.synctest = true
+	}
 	lockInit(&c.lock, lockRankHchan)
 
 	if debugChan {
@@ -183,6 +187,10 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 
 	if raceenabled {
 		racereadpc(c.raceaddr(), callerpc, abi.FuncPCABIInternal(chansend))
+	}
+
+	if c.synctest && getg().syncGroup == nil {
+		panic(plainError("send on synctest channel from outside bubble"))
 	}
 
 	// Fast path: check for failed non-blocking operation without acquiring the lock.
@@ -267,7 +275,11 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	// changes and when we set gp.activeStackChans is not safe for
 	// stack shrinking.
 	gp.parkingOnChan.Store(true)
-	gopark(chanparkcommit, unsafe.Pointer(&c.lock), waitReasonChanSend, traceBlockChanSend, 2)
+	reason := waitReasonChanSend
+	if c.synctest {
+		reason = waitReasonSynctestChanSend
+	}
+	gopark(chanparkcommit, unsafe.Pointer(&c.lock), reason, traceBlockChanSend, 2)
 	// Ensure the value being sent is kept alive until the
 	// receiver copies it out. The sudog has a pointer to the
 	// stack object, but sudogs aren't considered as roots of the
@@ -517,6 +529,10 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 		throw("unreachable")
 	}
 
+	if c.synctest && getg().syncGroup == nil {
+		panic(plainError("receive on synctest channel from outside bubble"))
+	}
+
 	if c.timer != nil {
 		c.timer.maybeRunChan()
 	}
@@ -636,7 +652,11 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 	// changes and when we set gp.activeStackChans is not safe for
 	// stack shrinking.
 	gp.parkingOnChan.Store(true)
-	gopark(chanparkcommit, unsafe.Pointer(&c.lock), waitReasonChanReceive, traceBlockChanRecv, 2)
+	reason := waitReasonChanReceive
+	if c.synctest {
+		reason = waitReasonSynctestChanReceive
+	}
+	gopark(chanparkcommit, unsafe.Pointer(&c.lock), reason, traceBlockChanRecv, 2)
 
 	// someone woke us up
 	if mysg != gp.waiting {
@@ -875,8 +895,23 @@ func (q *waitq) dequeue() *sudog {
 		// We use a flag in the G struct to tell us when someone
 		// else has won the race to signal this goroutine but the goroutine
 		// hasn't removed itself from the queue yet.
-		if sgp.isSelect && !sgp.g.selectDone.CompareAndSwap(0, 1) {
-			continue
+		if sgp.isSelect {
+			sg := sgp.g.syncGroup
+			if sg != nil {
+				// We don't want the goroutine's synctest group to become idle,
+				// but the goroutine hasn't unparked yet. Mark the group as
+				// active. The active count is either decremented by us if we
+				// lose the race below, or by the newly-woken goroutine after
+				// it unparks.
+				sg.incActive()
+			}
+			if !sgp.g.selectDone.CompareAndSwap(0, 1) {
+				// We lost the race to wake this goroutine.
+				if sg != nil {
+					sg.decActive()
+				}
+				continue
+			}
 		}
 
 		return sgp

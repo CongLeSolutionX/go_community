@@ -1297,11 +1297,20 @@ func daysIn(m Month, year int) int {
 }
 
 // Provided by package runtime.
+//
+// now returns the current real time, and is superseded by runtimeNow which returns
+// the fake synctest clock when appropriate.
 func now() (sec int64, nsec int32, mono int64)
+
+// runtimeNow returns the current time.
+// When called within a synctest.Run group, it returns the group's fake clock.
+//
+//go:linkname runtimeNow
+func runtimeNow() (sec int64, nsec int32, mono int64)
 
 // runtimeNano returns the current value of the runtime clock in nanoseconds.
 //
-//go:linkname runtimeNano runtime.nanotime
+//go:linkname runtimeNano
 func runtimeNano() int64
 
 // Monotonic times are reported as offsets from startNano.
@@ -1317,7 +1326,10 @@ var startNano int64 = runtimeNano() - 1
 
 // Now returns the current local time.
 func Now() Time {
-	sec, nsec, mono := now()
+	sec, nsec, mono := runtimeNow()
+	if mono == 0 {
+		return Time{uint64(nsec), sec + unixToInternal, Local}
+	}
 	mono -= startNano
 	sec += unixToInternal - minWall
 	if uint64(sec)>>33 != 0 {

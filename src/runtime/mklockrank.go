@@ -88,6 +88,9 @@ timers, timerSend < timer < netpollInit;
 # Semaphores
 NONE < root;
 
+# Synctest
+hchan, root, timers, timer, notifyList < synctest;
+
 # Itabs
 NONE
 < itab
@@ -143,6 +146,7 @@ gcBitsArenas,
   profInsert,
   profMemFuture,
   spanSetSpine,
+  synctest,
   fin,
   root
 # Anything that can grow the stack can acquire STACKGROW.

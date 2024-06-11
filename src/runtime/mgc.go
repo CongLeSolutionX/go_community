@@ -617,6 +617,12 @@ func gcStart(trigger gcTrigger) {
 	releasem(mp)
 	mp = nil
 
+	if gp := getg(); gp.syncGroup != nil {
+		// Mark the group as active even if we block somewhere below.
+		gp.syncGroup.incActive()
+		defer gp.syncGroup.decActive()
+	}
+
 	// Pick up the remaining unswept/not being swept spans concurrently
 	//
 	// This shouldn't happen if we're being invoked in background
@@ -1269,8 +1275,14 @@ func gcBgMarkStartWorkers() {
 	//
 	// TODO(prattmic): cleanup gcStart to use a more explicit "in gcStart"
 	// check for bailing.
+	//
+	// Allocate the chan on the system stack to avoid associating this channel
+	// with the current G's synctest bubble, if any.
 	mp := acquirem()
-	ready := make(chan struct{}, 1)
+	var ready chan struct{}
+	systemstack(func() {
+		ready = make(chan struct{}, 1)
+	})
 	releasem(mp)
 
 	for gcBgMarkWorkerCount < gomaxprocs {
@@ -1724,8 +1736,12 @@ func boring_registerCache(p unsafe.Pointer) {
 
 //go:linkname unique_runtime_registerUniqueMapCleanup unique.runtime_registerUniqueMapCleanup
 func unique_runtime_registerUniqueMapCleanup(f func()) {
+	// Create the channel on the system stack so it doesn't inherit the current G's
+	// synctest bubble (if any).
+	systemstack(func() {
+		uniqueMapCleanup = make(chan struct{}, 1)
+	})
 	// Start the goroutine in the runtime so it's counted as a system goroutine.
-	uniqueMapCleanup = make(chan struct{}, 1)
 	go func(cleanup func()) {
 		for {
 			<-uniqueMapCleanup

@@ -482,6 +482,7 @@ type g struct {
 	timer         *timer         // cached timer for time.Sleep
 	sleepWhen     int64          // when to sleep until
 	selectDone    atomic.Uint32  // are we participating in a select and did someone win the race?
+	syncGroup     *synctestGroup
 
 	// goroutineProfiled indicates the status of this goroutine's stack for the
 	// current in-progress goroutine profile
@@ -1068,6 +1069,11 @@ const (
 	waitReasonTraceProcStatus                         // "trace proc status"
 	waitReasonPageTraceFlush                          // "page trace flush"
 	waitReasonCoroutine                               // "coroutine"
+	waitReasonSynctestRun                             // "synctest.Run"
+	waitReasonSynctestWait                            // "synctest.Wait"
+	waitReasonSynctestChanReceive                     // "chan receive (synctest)"
+	waitReasonSynctestChanSend                        // "chan send (synctest)"
+	waitReasonSynctestSelect                          // "select (synctest)"
 )
 
 var waitReasonStrings = [...]string{
@@ -1108,6 +1114,11 @@ var waitReasonStrings = [...]string{
 	waitReasonTraceProcStatus:       "trace proc status",
 	waitReasonPageTraceFlush:        "page trace flush",
 	waitReasonCoroutine:             "coroutine",
+	waitReasonSynctestRun:           "synctest.Run",
+	waitReasonSynctestWait:          "synctest.Wait",
+	waitReasonSynctestChanReceive:   "chan receive (synctest)",
+	waitReasonSynctestChanSend:      "chan send (synctest)",
+	waitReasonSynctestSelect:        "select (synctest)",
 }
 
 func (w waitReason) String() string {
@@ -1144,6 +1155,26 @@ var isWaitingForGC = [len(waitReasonStrings)]bool{
 	waitReasonGCAssistMarking:       true,
 	waitReasonGCWorkerActive:        true,
 	waitReasonFlushProcCaches:       true,
+}
+
+func (w waitReason) isIdleInSynctest() bool {
+	return isIdleInSynctest[w]
+}
+
+// isIdleInSynctest indicates that a goroutine is considered idle by synctest.Wait.
+var isIdleInSynctest = [len(waitReasonStrings)]bool{
+	waitReasonChanReceiveNilChan:  true,
+	waitReasonChanSendNilChan:     true,
+	waitReasonSelectNoCases:       true,
+	waitReasonSemacquire:          true,
+	waitReasonSleep:               true,
+	waitReasonSyncCondWait:        true,
+	waitReasonCoroutine:           true,
+	waitReasonSynctestRun:         true,
+	waitReasonSynctestWait:        true,
+	waitReasonSynctestChanReceive: true,
+	waitReasonSynctestChanSend:    true,
+	waitReasonSynctestSelect:      true,
 }
 
 var (
