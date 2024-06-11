@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "505a4d81_a66a4018",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63133
+      },
+      "writtenOn": "2024-06-11T23:07:19Z",
+      "side": 1,
+      "message": "Contrary to my initial opinion, it is officially recommended that go.work should not be committed to Git. Therefore, my PR is not as significant as I initially thought.",
+      "revId": "a7e9f6f3e2a55d2e0860bfd356554be4ea1d7329",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f96d16c6_edd4eb72",
