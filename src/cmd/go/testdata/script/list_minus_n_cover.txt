@@ -1,0 +1,103 @@
+
+# Adding -cover to "go test -n" should not cause failures.
+
+go test -n -cover ./...
+
+-- go.mod --
+module M
+
+go 1.21
+-- a/a.go --
+package a
+
+import "M/f"
+
+func init() {
+	println("package 'a' init: launch the missiles!")
+}
+
+func AFunc() int {
+	return f.Id()
+}
+-- a/a_test.go --
+package a
+
+import "testing"
+
+func TestA(t *testing.T) {
+	if AFunc() != 42 {
+		t.Fatalf("bad!")
+	}
+}
+-- b/b.go --
+package b
+
+func init() {
+	println("package 'b' init: release the kraken")
+}
+
+func BFunc() int {
+	return -42
+}
+-- b/b_test.go --
+package b
+
+import "testing"
+
+func TestB(t *testing.T) {
+	if BFunc() != -42 {
+		t.Fatalf("bad!")
+	}
+}
+-- f/f.go --
+package f
+
+func Id() int {
+     return 42
+}
+-- main/main.go --
+package main
+
+import (
+	"M/a"
+	"M/b"
+)
+
+func MFunc() string {
+	return "42"
+}
+
+func M2Func() int {
+	return a.AFunc() + b.BFunc()
+}
+
+func init() {
+	println("package 'main' init")
+}
+
+func main() {
+	println(a.AFunc() + b.BFunc())
+}
+-- main/main_test.go --
+package main
+
+import "testing"
+
+func TestMain(t *testing.T) {
+	if MFunc() != "42" {
+		t.Fatalf("bad!")
+	}
+	if M2Func() != 0 {
+		t.Fatalf("also bad!")
+	}
+}
+-- n/n.go --
+package n
+
+type N int
+-- x/x.go --
+package x
+
+func XFunc() int {
+	return 2 * 2
+}
