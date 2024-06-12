@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f782df92_fc01e1a3",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-12T03:01:29Z",
+      "side": 1,
+      "message": "@khr@golang.org FSRM (Fast Short Rep Movsb) is a feature that has been supported by Intel CPUs since the Ice Lake generation, so on the older platform, there is no FSRM. \n\nAs the manual said: \n\n\u003e Beginning with processors based on Ice Lake Client microarchitecture, REP MOVSB performance of short operations\n\u003e is enhanced. **The enhancement applies to string lengths between 1 and 128 bytes long.** Support for fast-short REP\n\u003e MOVSB is enumerated by the CPUID feature flag: CPUID [EAX\u003d7H, ECX\u003d0H).EDX.FAST_SHORT_REP_MOVSB[bit 4] \u003d 1.\n\u003e There is no change in the REP STOS performance.\n\nIt seems unlikely that the FSRM will have any effect on data of 2KB in size.\nBut I think it is OK to use it as a trick: a CPU with FSRM support often offered better performance when copying large amounts of data using REP MOVSB (not always ). And this may not be causally related.",
+      "parentUuid": "176682a2_141e9833",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
