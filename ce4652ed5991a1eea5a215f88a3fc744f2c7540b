@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "523d2bcc_081d0181",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-12T18:53:08Z",
+      "side": 1,
+      "message": "Trybot failure is unrelated.",
+      "revId": "ce4652ed5991a1eea5a215f88a3fc744f2c7540b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
