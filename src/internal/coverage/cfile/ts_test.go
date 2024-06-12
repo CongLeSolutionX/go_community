@@ -86,23 +86,26 @@ func thisFunctionOnlyCalledFromSnapshotTest(n int) int {
 	return t
 }
 
-// Tests runtime/coverage.snapshot() directly. Note that if
-// coverage is not enabled, the hook is designed to just return
-// zero.
+// Kicks off a sub-test to verify that Snapshot() works properly.
+// We do this as a separate shell-out, so as to avoid potential
+// interactions with -coverpkg. For example, if you do
+//
+//	$ cd `go env GOROOT`
+//	$ cd src/internal/coverage
+//	$ go test -coverpkg=internal/coverage/decodecounter ./...
+//	...
+//	$
+//
+// The previous version of this test could fail due to the fact
+// that "cfile" itself was not being instrumented, as in then
+// scenario above.
 func TestCoverageSnapshot(t *testing.T) {
-	C1 := Snapshot()
-	thisFunctionOnlyCalledFromSnapshotTest(15)
-	C2 := Snapshot()
-	cond := "C1 > C2"
-	val := C1 > C2
-	if testing.CoverMode() != "" {
-		cond = "C1 >= C2"
-		val = C1 >= C2
-	}
-	t.Logf("%f %f\n", C1, C2)
-	if val {
-		t.Errorf("erroneous snapshots, %s = true C1=%f C2=%f",
-			cond, C1, C2)
+	testenv.MustHaveGoRun(t)
+	args := []string{"test", "-tags", "SELECT_USING_THIS_TAG",
+		"-cover", "-run=TestCoverageSnapshotImpl", "internal/coverage/cfile"}
+	cmd := exec.Command(testenv.GoToolPath(t), args...)
+	if b, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("go test failed (%v): %s", err, b)
 	}
 }
 
