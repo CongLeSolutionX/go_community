@@ -1,0 +1,4 @@
+
+[short] skip
+cd $GOROOT/src
+go test -n -coverpkg=internal/coverage/decodecounter ./...
