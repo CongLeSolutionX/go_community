@@ -953,6 +953,14 @@ func (c *gcControllerState) heapGoalInternal() (goal, minTrigger uint64) {
 
 // memoryLimitHeapGoal returns a heap goal derived from memoryLimit.
 func (c *gcControllerState) memoryLimitHeapGoal() uint64 {
+
+	ml := c.memoryLimit.Load()
+
+	//Check if GOMEMLIMIT, by default off and set to maxInt64, applies and, if not, return early
+	if ml == maxInt64 {
+		return uint64(ml)
+	}
+
 	// Start by pulling out some values we'll need. Be careful about overflow.
 	var heapFree, heapAlloc, mappedReady uint64
 	for {
@@ -1023,7 +1031,7 @@ func (c *gcControllerState) memoryLimitHeapGoal() uint64 {
 	// Shorter GC cycles and less GC work means noisy external factors like the OS scheduler have a
 	// greater impact.
 
-	memoryLimit := uint64(c.memoryLimit.Load())
+	memoryLimit := uint64(ml)
 
 	// Compute term 1.
 	nonHeapMemory := mappedReady - heapFree - heapAlloc
