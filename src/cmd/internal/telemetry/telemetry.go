@@ -27,12 +27,23 @@ func Start() {
 	})
 }
 
-// StartWithUpload opens the counter files for writing if telemetry
+// MaybeParent opens the counter files for writing if telemetry
 // is supported on the current platform and also enables a once a day
 // check to see if the weekly reports are ready to be uploaded.
-// It should only be called by cmd/go
-func StartWithUpload() {
+// It should only be called by cmd/go.
+func MaybeParent() {
 	telemetry.Start(telemetry.Config{
+		Upload:       true,
+		TelemetryDir: os.Getenv("TEST_TELEMETRY_DIR"),
+	})
+}
+
+// MaybeChild executes the telemetry child logic if the calling program is
+// the telemetry child process, and does nothing otherwise. It is meant to be
+// called as the first thing in a program that uses telemetry.Start but cannot
+// call telemetry.Start immediately when it starts.
+func MaybeChild() {
+	telemetry.MaybeChild(telemetry.Config{
 		Upload:       true,
 		TelemetryDir: os.Getenv("TEST_TELEMETRY_DIR"),
 	})
