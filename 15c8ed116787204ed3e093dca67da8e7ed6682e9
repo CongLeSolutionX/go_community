@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a356cc2_dee08abb",
+        "filename": "src/cmd/go/testdata/script/cover_single_vs_multiple.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-13T19:53:00Z",
+      "side": 1,
+      "message": "remove blank line?",
+      "revId": "15c8ed116787204ed3e093dca67da8e7ed6682e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
