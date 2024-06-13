@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faa6f5e8_39042cda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-06-13T11:20:44Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "f327cc12b80374c76a0acc210a120841133a5a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56c454fa_e775403a",
@@ -31,6 +48,30 @@
       "writtenOn": "2024-06-13T01:49:57Z",
       "side": 1,
       "message": "\"the\", I think.",
+      "range": {
+        "startLine": 100,
+        "startChar": 57,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "f327cc12b80374c76a0acc210a120841133a5a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4772c0f7_490a807f",
+        "filename": "src/internal/coverage/cfile/ts_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-06-13T11:20:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56c454fa_e775403a",
       "range": {
         "startLine": 100,
         "startChar": 57,
