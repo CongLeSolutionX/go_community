@@ -106,8 +106,8 @@ func lineNumber() int {
 
 // Below here is the test data for XTestInlineUnwinder
 
-var tiuStart = lineNumber() // +0
-var tiu1, tiu2, tiu3 int    // +1
+var tiuStart = lineNumber()  // +0
+var tiu1, tiu2, tiu3 float64 // +1. Note float64 to avoid combining two ++ into a +=2.
 func tiuInlined1() { // +2
 	tiu1++ // +3
 } // +4
