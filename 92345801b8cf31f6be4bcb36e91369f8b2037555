@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df00595_ffbba61e",
+        "filename": "src/cmd/go/testdata/script/list_n_cover.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-13T19:56:33Z",
+      "side": 1,
+      "message": "Could we change this to `./f`?",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "92345801b8cf31f6be4bcb36e91369f8b2037555",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
