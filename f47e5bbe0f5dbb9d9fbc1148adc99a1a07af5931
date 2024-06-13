@@ -22,6 +22,30 @@
       },
       "revId": "f47e5bbe0f5dbb9d9fbc1148adc99a1a07af5931",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "322ef971_6c5fd020",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-06-13T19:41:04Z",
+      "side": 1,
+      "message": "Actually that does look inverted... don\u0027t think it will matter, but I will switch it up to make the code a bit less weird.",
+      "parentUuid": "044659f2_392ac9b1",
+      "range": {
+        "startLine": 231,
+        "startChar": 2,
+        "endLine": 236,
+        "endChar": 3
+      },
+      "revId": "f47e5bbe0f5dbb9d9fbc1148adc99a1a07af5931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
