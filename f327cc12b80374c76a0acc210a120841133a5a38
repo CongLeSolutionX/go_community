@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "443ab6e3_8515648e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-06-13T01:49:57Z",
+      "side": 1,
+      "message": "one typo but lgtm",
+      "revId": "f327cc12b80374c76a0acc210a120841133a5a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56c454fa_e775403a",
+        "filename": "src/internal/coverage/cfile/ts_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-06-13T01:49:57Z",
+      "side": 1,
+      "message": "\"the\", I think.",
+      "range": {
+        "startLine": 100,
+        "startChar": 57,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "f327cc12b80374c76a0acc210a120841133a5a38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
