@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a980816d_ba99aff4",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-06-13T18:34:07Z",
+      "side": 1,
+      "message": "Now that the go command API is split into these three actions, perhaps we should just call this telemetry.OpenCounters.",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 16
+      },
+      "revId": "3a7a72bc0a39ebc693b91e1e1453238139bd2574",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e185924_e4259712",
+        "filename": "src/cmd/internal/telemetry/telemetry.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-06-13T18:34:07Z",
+      "side": 1,
+      "message": "I don\u0027t actually understand why we need to panic if !startCalled. There is no reason that Start must be called prior to MaybeParent.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 16
+      },
+      "revId": "3a7a72bc0a39ebc693b91e1e1453238139bd2574",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
