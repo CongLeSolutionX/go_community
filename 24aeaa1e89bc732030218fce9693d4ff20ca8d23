@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c00b250_824acfd2",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-13T18:02:09Z",
+      "side": 1,
+      "message": "My understanding is that the complexity with implementing this is that BuildActionCoverMetaFile essentially requires a shell \"if\" statement. I do think that\u0027s complex enough to not support now, especially since -n and -x are informational, but we should probably add a comment, todo, or issue (or all three) about why we don\u0027t support -n here.",
+      "range": {
+        "startLine": 1408,
+        "startChar": 0,
+        "endLine": 1408,
+        "endChar": 99
+      },
+      "revId": "24aeaa1e89bc732030218fce9693d4ff20ca8d23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "935f4442_18c29c7a",
+        "filename": "src/cmd/go/testdata/script/list_minus_n_cover.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-13T18:02:09Z",
+      "side": 1,
+      "message": "We\u0027re not totally consistent on this, but most of the test that use a flag just include the flag name (without \"minus\" or \"dash\"). So this file would be called list_n_cover.txt",
+      "revId": "24aeaa1e89bc732030218fce9693d4ff20ca8d23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8781411_272cc7ac",
+        "filename": "src/cmd/go/testdata/script/list_minus_n_cover.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-13T18:02:09Z",
+      "side": 1,
+      "message": "remove empty line at beginning of file?",
+      "revId": "24aeaa1e89bc732030218fce9693d4ff20ca8d23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef37fc10_561f3822",
+        "filename": "src/cmd/go/testdata/script/list_minus_n_cover.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-06-13T18:02:09Z",
+      "side": 1,
+      "message": "Could we add a comment about what the packages in this test are exercising?",
+      "revId": "24aeaa1e89bc732030218fce9693d4ff20ca8d23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
