@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "044659f2_392ac9b1",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-06-13T15:18:15Z",
+      "side": 1,
+      "message": "I assume there\u0027s a reason for this ordering, ordinarily I would put the ifnil test before the reset.",
+      "range": {
+        "startLine": 231,
+        "startChar": 2,
+        "endLine": 236,
+        "endChar": 3
+      },
+      "revId": "f47e5bbe0f5dbb9d9fbc1148adc99a1a07af5931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
