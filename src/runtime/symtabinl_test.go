@@ -109,7 +109,7 @@ func lineNumber() int {
 var tiuStart = lineNumber() // +0
 var tiu1, tiu2, tiu3 int    // +1
 func tiuInlined1() { // +2
-	tiu1++ // +3
+	tiu1 /= 3 // +3
 } // +4
 func tiuInlined2() { // +5
 	tiuInlined1() // +6
