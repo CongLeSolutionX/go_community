@@ -22,6 +22,30 @@
       },
       "revId": "92345801b8cf31f6be4bcb36e91369f8b2037555",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0185f696_bab40a45",
+        "filename": "src/cmd/go/testdata/script/list_n_cover.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-06-13T20:00:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df00595_ffbba61e",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "92345801b8cf31f6be4bcb36e91369f8b2037555",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
