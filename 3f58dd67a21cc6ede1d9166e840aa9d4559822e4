@@ -16,6 +16,69 @@
       "message": "Friendly ping.\n\nOr the review here waiting on proposal #62048? Please feel free to add wait-issue hashtag if so.",
       "revId": "3f58dd67a21cc6ede1d9166e840aa9d4559822e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "112ecf6c_d9321961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-06-14T17:34:18Z",
+      "side": 1,
+      "message": "Maybe mention that SHA-1 CRLs are unaffected? Not sure that\u0027s necessary, up to you.",
+      "revId": "3f58dd67a21cc6ede1d9166e840aa9d4559822e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21e02ed4_243560e3",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/x509/62048.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-06-14T17:34:18Z",
+      "side": 1,
+      "message": "```suggestion\nbe removed in the next Go major release (Go 1.24). This will mean that crypto/x509\n```\n\nI think we tend to stick to referring to versions always as Go 1.X.",
+      "range": {
+        "startLine": 2,
+        "startChar": 41,
+        "endLine": 2,
+        "endChar": 45
+      },
+      "revId": "3f58dd67a21cc6ede1d9166e840aa9d4559822e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddeb84ca_775a3898",
+        "filename": "doc/next/6-stdlib/99-minor/crypto/x509/62048.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-06-14T17:34:18Z",
+      "side": 1,
+      "message": "```suggestion\nwill no longer support verifying signatures on certificates that use SHA-1 based\n```",
+      "range": {
+        "startLine": 3,
+        "startChar": 69,
+        "endLine": 3,
+        "endChar": 73
+      },
+      "revId": "3f58dd67a21cc6ede1d9166e840aa9d4559822e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
