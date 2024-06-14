@@ -200,6 +200,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14fe8955_a984de91",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-14T05:26:24Z",
+      "side": 1,
+      "message": "@khr@golang.org OK, I will update the code as you want",
+      "parentUuid": "db15ea44_a78e153b",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
@@ -294,6 +312,30 @@
       "side": 1,
       "message": "It is important that we write pointers atomically, that is, either all bits in a pointer is updated, or none. MOVSQ makes sure we write 8 bytes a time. I\u0027m not sure if MOVSB has this guarantee? Using MOVSB unconditionally can be problematic.",
       "parentUuid": "101ffa84_68730a93",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3994497b_4c09f218",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-14T05:26:24Z",
+      "side": 1,
+      "message": "@cherryyz@google.com Using REP MOVSB is not a new method added in this pull request, the behavior has been here for a long time.",
+      "parentUuid": "5928e72f_c0066a1d",
       "range": {
         "startLine": 107,
         "startChar": 0,
