@@ -910,9 +910,13 @@ func (c *gcControllerState) heapGoalInternal() (goal, minTrigger uint64) {
 	// Start with the goal calculated for gcPercent.
 	goal = c.gcPercentHeapGoal.Load()
 
-	// Check if the memory-limit-based goal is smaller, and if so, pick that.
-	if newGoal := c.memoryLimitHeapGoal(); newGoal < goal {
-		goal = newGoal
+	memoryLimit := c.memoryLimit.Load()
+	//Check first if memoryLimit is set
+	if memoryLimit != maxInt64 {
+		// Check if the memory-limit-based goal is smaller, and if so, pick that.
+		if newGoal := c.memoryLimitHeapGoal(); newGoal < goal {
+			goal = newGoal
+		}
 	} else {
 		// We're not limited by the memory limit goal, so perform a series of
 		// adjustments that might move the goal forward in a variety of circumstances.
