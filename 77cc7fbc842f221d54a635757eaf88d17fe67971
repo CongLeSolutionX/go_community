@@ -16,6 +16,24 @@
       "message": "Thanks. It looks like the relative links for issues don’t work as I expected.\n\nThe pre-proposal discussion link on the live site now goes to the following, which doesn’t work:\n\nhttps://tip.golang.org/issue/56413\n\nIt seems a preexisting issue URL a couple of paragraphs down on the live site has a similar issue:\n\nhttps://tip.golang.org/issue/62047\n\nI can send a new CL in a bit.",
       "revId": "77cc7fbc842f221d54a635757eaf88d17fe67971",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e79bcd1e_f8e0fd6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-06-17T22:54:10Z",
+      "side": 1,
+      "message": "The \"/issue/nnn\" pattern is what we want to use long term. It will work fine once the release notes are moved to x/website\u0027s _content/doc directory. It would be good to make it work on tip.golang.org but let\u0027s leave that to be dealt with holistically. (We don\u0027t want to make `tip.golang.org/issue/12345` links something other than 404 to avoid them being used by accident; but x/website can rewrite them when rendering at tip.golang.org.)",
+      "parentUuid": "7eb9e4a7_ff24c159",
+      "revId": "77cc7fbc842f221d54a635757eaf88d17fe67971",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
