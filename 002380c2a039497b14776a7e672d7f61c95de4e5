@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d924ac36_4b98b243",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-06-17T19:27:18Z",
+      "side": 1,
+      "message": "this structure came mostly from the old trace command, and IIUC, it existed specifically for filtering by goroutine, as you say.\n\n+1 to preprocessing all this in the initial parse. this may be where we end up going anyway because Carlos was going to work on making cmd/trace not fall over for big traces anyway, which would probably want to preprocess all this stuff anyway.",
+      "range": {
+        "startLine": 203,
+        "startChar": 19,
+        "endLine": 205,
+        "endChar": 77
+      },
+      "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d3f649_bd2fc98c",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-06-17T19:27:18Z",
+      "side": 1,
+      "message": "maybe we have a dummy goroutine? NoGoroutine is a valid GoID, for example.\n\neither that, or we generalize this even further (pToIntervals, mToIntervals) ... or we break the CPU profiles out of this structure entirely.",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 222,
+        "endChar": 52
+      },
+      "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
