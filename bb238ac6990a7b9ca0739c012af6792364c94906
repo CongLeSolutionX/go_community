@@ -56,6 +56,30 @@
       },
       "revId": "bb238ac6990a7b9ca0739c012af6792364c94906",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e250f5_d02b1445",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-17T15:14:34Z",
+      "side": 1,
+      "message": "I have a CL forthcoming that handles this.",
+      "parentUuid": "883e44fd_7c1c0e20",
+      "range": {
+        "startLine": 766,
+        "startChar": 4,
+        "endLine": 767,
+        "endChar": 72
+      },
+      "revId": "bb238ac6990a7b9ca0739c012af6792364c94906",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
