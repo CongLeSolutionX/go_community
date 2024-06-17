@@ -198,6 +198,40 @@ func makeComputePprofFunc(state trace.GoState, trackReason func(string) bool) co
 	}
 }
 
+// pprofCPU is a computePprofFunc that extract CPU profile events into a pprof profile.
+//
+// TODO(prattmic): IMO, we've overcomplicated this a bit by putting this so far
+// into cmd/trace parsing. This could be done much earlier. OTOH, this gives us
+// interesting things like filtering the CPU profile to a specific goroutine.
+func pprofCPU(gToIntervals map[trace.GoID][]interval, events []trace.Event) ([]traceviewer.ProfileRecord, error) {
+	stacks := newStackMap()
+
+	for i := range events {
+		ev := &events[i]
+
+		// Filter out any non-state-transitions and events without stacks.
+		if ev.Kind() != trace.EventStackSample {
+			continue
+		}
+		stack := ev.Stack()
+		if stack == trace.NoStack {
+			// XXX: add empty sample?
+			continue
+		}
+
+		// XXX: What to do with samples with no goroutine?
+		id := ev.Goroutine()
+		overlapping := pprofOverlappingDuration(gToIntervals, id, interval{ev.Time(), ev.Time()+1}) // XXX: sample is instaneous. Is a 1ns interval a fine interval?
+		if overlapping > 0 {
+			rec := stacks.getOrAdd(stack)
+			rec.Count++
+			rec.Time += 10*time.Millisecond // XXX: is sample rate in the trace?
+		}
+	}
+
+	return stacks.profile(), nil
+}
+
 // pprofOverlappingDuration returns the overlapping duration between
 // the time intervals in gToIntervals and the specified event.
 // If gToIntervals is nil, this simply returns the event's duration.

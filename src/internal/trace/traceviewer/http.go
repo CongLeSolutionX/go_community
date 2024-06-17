@@ -184,12 +184,17 @@ var templMain = template.Must(template.New("").Parse(`
   In addition there is a link to download the profile for offline
   analysis with pprof.
 
-  All four profiles represent causes of delay that prevent a goroutine
+  The CPU profile requires that CPU profiling was enabled during trace
+  collection. If so, the CPU profile is equivalent to the collected CPU profile
+  during trace collection.
+
+  The four latter profiles represent causes of delay that prevent a goroutine
   from running on a logical processor: because it was waiting for the network,
   for a synchronization operation on a mutex or channel, for a system call,
   or for a logical processor to become available.
 </p>
 <ul>
+<li><a href="/cpu">CPU profile</a> (<a href="/cpu?raw=1" download="cpu.profile">⬇</a>)</li>
 <li><a href="/io">Network blocking profile</a> (<a href="/io?raw=1" download="io.profile">⬇</a>)</li>
 <li><a href="/block">Synchronization blocking profile</a> (<a href="/block?raw=1" download="block.profile">⬇</a>)</li>
 <li><a href="/syscall">Syscall profile</a> (<a href="/syscall?raw=1" download="syscall.profile">⬇</a>)</li>
