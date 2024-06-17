@@ -54,6 +54,24 @@
       ],
       "revId": "b1d6485ebb2798fe20ab244ad79f3ed6d3f81160",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f25d07b_da223404",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 3490117
+      },
+      "writtenOn": "2024-06-17T16:01:41Z",
+      "side": 1,
+      "message": "Done :)",
+      "parentUuid": "4f023043_66cde36e",
+      "revId": "b1d6485ebb2798fe20ab244ad79f3ed6d3f81160",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
