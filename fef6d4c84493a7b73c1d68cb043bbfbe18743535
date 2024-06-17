@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "38ded6d4_44589a36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3490117
+      },
+      "writtenOn": "2024-06-17T11:16:24Z",
+      "side": 1,
+      "message": "Hey, i am a new contributer, thought this was a small issue so i picked \nit up. Is there something that i havent touched or something that i dont\n know ?",
+      "parentUuid": "c0f3cd4f_6883c9a8",
+      "revId": "fef6d4c84493a7b73c1d68cb043bbfbe18743535",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e4fcdbb_15907ccf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
