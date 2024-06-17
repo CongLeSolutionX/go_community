@@ -16,6 +16,46 @@
       "message": "At your leisure. For Go 1.24.",
       "revId": "bb238ac6990a7b9ca0739c012af6792364c94906",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b296047_a5ae0b07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-06-17T14:53:45Z",
+      "side": 1,
+      "message": "Nice simplification.",
+      "revId": "bb238ac6990a7b9ca0739c012af6792364c94906",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "883e44fd_7c1c0e20",
+        "filename": "src/go/types/stmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-06-17T14:53:45Z",
+      "side": 1,
+      "message": "We should probably re-route this TODO 😞.",
+      "range": {
+        "startLine": 766,
+        "startChar": 4,
+        "endLine": 767,
+        "endChar": 72
+      },
+      "revId": "bb238ac6990a7b9ca0739c012af6792364c94906",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
