@@ -62,6 +62,64 @@
       },
       "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9e3d8ac_751f06a9",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-06-17T22:24:10Z",
+      "side": 1,
+      "message": "A note for the record -- we expect no (user) goroutine for samples that arrive within the scheduler. I\u0027ve seen it somewhat often in spinning Ms when they\u0027ve woken up, but haven\u0027t quite found work yet.\n\nSo, use `GoID(-1)` to represent `g0`? Could work, both 0 and -1 are unusual numbers here.",
+      "parentUuid": "a6d3f649_bd2fc98c",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 222,
+        "endChar": 52
+      },
+      "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff5b81af_007c4994",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-06-17T22:24:10Z",
+      "side": 1,
+      "message": "In my execution trace hacking, I\u0027ve _tried_ to be a bit strict on the intervals being half-open. I\u0027m not sure it\u0027s helped me at all, but if it\u0027s in use here then it would mean that the interval `[T,T+1)` doesn\u0027t contain anything but `T`.",
+      "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a15f574a_c3822acf",
+        "filename": "src/internal/trace/traceviewer/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-06-17T22:24:10Z",
+      "side": 1,
+      "message": "The execution trace doesn\u0027t include goroutine labels (yet), right? The profiles would be equivalent, except for that omission.",
+      "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
