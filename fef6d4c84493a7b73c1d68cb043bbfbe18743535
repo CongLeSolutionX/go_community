@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8066b84b_ef7c3430",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-06-17T12:47:26Z",
+      "side": 1,
+      "message": "I think it should be all for this particular task. Let\u0027s wait for an official team member to review your changes.",
+      "parentUuid": "38ded6d4_44589a36",
+      "revId": "fef6d4c84493a7b73c1d68cb043bbfbe18743535",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e4fcdbb_15907ccf",
