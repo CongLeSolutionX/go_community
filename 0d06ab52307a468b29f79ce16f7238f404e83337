@@ -78,6 +78,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "524910aa_1f44398a",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-06-18T19:13:16Z",
+      "side": 1,
+      "message": "Usually rep movb is slightly faster than rep movq: https://stackoverflow.com/a/43837564",
+      "parentUuid": "a4960246_55ec6b95",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b296e176_71c62297",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 9
