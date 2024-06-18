@@ -440,6 +440,30 @@
       },
       "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54a0ee5f_f5d0de9f",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-06-18T19:16:27Z",
+      "side": 1,
+      "message": "disregard my comment it was an old draft.\n\nThat said I am not sure it is given the compiler would never create a call to memmove with unaligned source where later there isnt an aligned pointer in it. I was thinking maybe that could happen when copying parts of structs and starting somewhere in the middle. e.g. int32, in32, pointer, .... and it start copying from the second int32. Over time a bunch of optimization might get us there with noone noticing.",
+      "parentUuid": "028ceecf_8beb3ae8",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
