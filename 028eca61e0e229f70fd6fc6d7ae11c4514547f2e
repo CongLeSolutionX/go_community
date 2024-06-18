@@ -368,6 +368,30 @@
       },
       "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "114ac3b0_23350831",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-18T13:40:16Z",
+      "side": 1,
+      "message": "@cherryyz@google.com\n\"the old code uses REP MOVSQ for 8-byte aligned words (fwdBy8).\" :  Yes, and it does not check the pointer problem either, if the addresses are not aligned you may still enter the rep movsb path.\nI have updated the code, the new code uses MOVSQ to ensure that writing pointers atomically as possible",
+      "parentUuid": "6bdc609f_ff508227",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

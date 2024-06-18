@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22783f35_49c81d9b",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-18T13:40:16Z",
+      "side": 1,
+      "message": "\u003e I think this variable would be better called useREPMOV or something like that.\nI combined these two bool variables into one `memmoveBits`.\nSo that, I can keep the performance of the code the same as before on the machines that do not support ERMS.",
+      "parentUuid": "27392ca0_8fc4b74b",
+      "revId": "c61543a2372e812c1e6919a2926613df5aaa023a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecf697b7_2168d79e",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 7
