@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0670c5fc_a5c0439d",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-06-18T16:44:33Z",
+      "side": 1,
+      "message": "This is the same as 0b1. I think you mean 0b10?",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cf2600bb_bd692e63",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/runtime/cpuflags_amd64.go",
+              "range": {
+                "startLine": 25,
+                "startChar": 0,
+                "endLine": 26,
+                "endChar": 0
+              },
+              "replacement": "\t\tmemmoveBits |\u003d 0b10\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4cd4f64_1c5f0d4b",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-06-18T16:44:33Z",
+      "side": 1,
+      "message": "Add a comment like \"we have AVX but we don\u0027t want to use REPMOV\"",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4960246_55ec6b95",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-06-18T16:44:33Z",
+      "side": 1,
+      "message": "Maybe just add ORL BX, AX here, then we don\u0027t have to worry about BX not being a multiple of 8 below.\nAll pointer-containing objects should have a size that is a multiple of 8. (That is, if the size is not a multiple of 8, there can\u0027t be any pointers, even if the object is large enough to hold one.)\nPerformance of odd-sized copies probably isn\u0027t a huge deal. But maybe - how much slower is REP MOVSB vs. REP MOVSQ?",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b296e176_71c62297",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-06-18T16:44:33Z",
+      "side": 1,
+      "message": "This could use a comment. Something about loading the last (possibly partially overlapping) word and writing it at the end.",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f92fbb95_763e6233",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-06-18T16:44:33Z",
+      "side": 1,
+      "message": "Maybe LEAQ -1(BX), CX ?\nThat way when things are aligned the last write is not just overwriting the word we already copied.",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c3f05d1_dc299f42",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-06-18T16:44:33Z",
+      "side": 1,
+      "message": "This modification of BX is no longer necessary if we\u0027re not jumping to tail anymore.",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
