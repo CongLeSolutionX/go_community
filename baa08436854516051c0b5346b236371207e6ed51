@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ad61e8_223cb610",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-18T16:25:55Z",
+      "side": 1,
+      "message": "See comment above.\nThat said, I don\u0027t think this needs to change at all.",
+      "revId": "baa08436854516051c0b5346b236371207e6ed51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ad5ecc8_1fe1fe9b",
+        "filename": "src/container/heap/heap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-18T16:25:55Z",
+      "side": 1,
+      "message": "The \"have smaller values\" part is misleading: the example referred to (example_pq_test.go) doesn\u0027t work like that. The higher priority items in that example sort such that the ones with higher priority (larger _priority_ values!) sort earlier.\n\n0: index \u003d 0, value \u003d orange, priority \u003d 5\n1: index \u003d 1, value \u003d pear, priority \u003d 4\n2: index \u003d 2, value \u003d banana, priority \u003d 3\n3: index \u003d 3, value \u003d apple, priority \u003d 2\n\nThe fact that the example also uses a value field that\u0027s unrelated to the priority makes this sentence even more confusing.\n\nThus, I would just say:\n\nThe higher priority items are those that sort earlier. The Examples include ...",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6b1571c3_61c1eae8",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/container/heap/heap.go",
+              "range": {
+                "startLine": 15,
+                "startChar": 0,
+                "endLine": 17,
+                "endChar": 0
+              },
+              "replacement": "// that sort earlier (have smaller values).\n"
+            }
+          ]
+        }
+      ],
+      "revId": "baa08436854516051c0b5346b236371207e6ed51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
