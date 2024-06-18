@@ -81,6 +81,30 @@
       },
       "revId": "baa08436854516051c0b5346b236371207e6ed51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd016494_e3f81cab",
+        "filename": "src/container/heap/heap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-18T21:09:28Z",
+      "side": 1,
+      "message": "I think mentioning \"smaller\" confuses people even if we say \"according to Less\", and mentioning \"values\" doesn\u0027t help because the \"values\" field in the example is not the field we care about.\n\nGiven that this package really is frozen at this point, I don\u0027t know that we need to make any changes unless they make the comment substantially clearer.",
+      "parentUuid": "34d7c178_5195405a",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "baa08436854516051c0b5346b236371207e6ed51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
