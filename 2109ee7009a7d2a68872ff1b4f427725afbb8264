@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6694cc_a2034328",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3400833
+      },
+      "writtenOn": "2024-06-18T09:55:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "42c5dc20_746497a4",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 24
+      },
+      "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81c41d4c_b4de7503",
@@ -91,6 +115,24 @@
       "writtenOn": "2024-06-17T15:51:06Z",
       "side": 1,
       "message": "I think we should set -o to make sure the output is written to the temp directory, not the current directory.",
+      "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3dde08c_e2693de5",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3400833
+      },
+      "writtenOn": "2024-06-18T09:55:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "81c41d4c_b4de7503",
       "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -112,6 +154,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d92fddca_012d1fba",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3400833
+      },
+      "writtenOn": "2024-06-18T09:55:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "035bc705_c58ed9f4",
+      "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d1427f5_63ee8507",
@@ -125,6 +185,30 @@
       "writtenOn": "2024-06-17T15:51:06Z",
       "side": 1,
       "message": "I don\u0027t see why we need these tests. cmd/asm already has some basic (and not so basic) tests.",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 0
+      },
+      "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe52dabb_57577fb2",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 3400833
+      },
+      "writtenOn": "2024-06-18T09:55:48Z",
+      "side": 1,
+      "message": "I\u0027m aiming next to rearrange span7 slightly to make it easier to introduce a separate helper for SVE instructions, so I\u0027ve added these to make sure I don\u0027t break any of the logic in that function (mainly the branch emission). I\u0027ve found it helpful to have this simple baseline to work from while experimenting with changes. Maybe they would be better placed in cmd/asm though? If this functionality is already being tested like this there I may have missed it, happy to remove them in that case.",
+      "parentUuid": "8d1427f5_63ee8507",
       "range": {
         "startLine": 222,
         "startChar": 0,
