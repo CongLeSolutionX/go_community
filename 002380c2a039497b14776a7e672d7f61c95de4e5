@@ -120,6 +120,24 @@
       "message": "The execution trace doesn\u0027t include goroutine labels (yet), right? The profiles would be equivalent, except for that omission.",
       "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91b05fd2_7b56d97e",
+        "filename": "src/internal/trace/traceviewer/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2024-06-18T06:57:29Z",
+      "side": 1,
+      "message": "Yes, no labels yet. See https://github.com/golang/go/issues/56295",
+      "parentUuid": "a15f574a_c3822acf",
+      "revId": "002380c2a039497b14776a7e672d7f61c95de4e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
