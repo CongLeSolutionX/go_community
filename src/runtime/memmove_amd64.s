@@ -72,9 +72,9 @@ tail:
 	CMPQ	BX, $256
 	JBE	move_129through256
 
-	TESTB	$1, runtime·useAVXmemmove(SB)
-	JNZ	avxUnaligned
-
+	MOVB	runtime·memmoveBits(SB), AX
+	CMPB	AX, $0b1
+	JEQ	avxUnaligned
 /*
  * check and set for backwards
  */
@@ -82,16 +82,22 @@ tail:
 	JLS	back
 
 /*
- * forward copy loop
- */
+* forward copy loop
+*/
 forward:
 	CMPQ	BX, $2048
+	JL	check_avx
+	// ERMS is slow if destination address is unaligned.
+	TESTQ	$15,DI
+	JNZ	check_avx
+	TESTB	$0b10, AX
+	JNZ	fwdBy8
+check_avx:
+	TESTB	$0b1, AX
+	JNZ	avxUnaligned
+
+	CMPQ	BX, $2048
 	JLS	move_256through2048
-
-	// If REP MOVSB isn't fast, don't use it
-	CMPB	internal∕cpu·X86+const_offsetX86HasERMS(SB), $1 // enhanced REP MOVSB/STOSB
-	JNE	fwdBy8
-
 	// Check alignment
 	MOVL	SI, AX
 	ORL	DI, AX
@@ -104,12 +110,15 @@ forward:
 	RET
 
 fwdBy8:
+	MOVQ	-8(SI)(BX*1), AX
+	LEAQ	-8(DI)(BX*1), DX
 	// Do 8 bytes at a time
 	MOVQ	BX, CX
 	SHRQ	$3, CX
 	ANDQ	$7, BX
 	REP;	MOVSQ
-	JMP	tail
+	MOVQ	AX, (DX)
+	RET
 
 back:
 /*
@@ -119,6 +128,9 @@ back:
 	ADDQ	BX, CX
 	CMPQ	CX, DI
 	JLS	forward
+
+	TESTB	$1, AX
+	JNZ	avxUnaligned
 /*
  * whole thing backwards has
  * adjusted addresses
