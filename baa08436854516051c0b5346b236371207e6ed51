@@ -57,6 +57,30 @@
       ],
       "revId": "baa08436854516051c0b5346b236371207e6ed51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d7c178_5195405a",
+        "filename": "src/container/heap/heap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-06-18T16:51:26Z",
+      "side": 1,
+      "message": "\"have smaller values according to Less\"?\nLess defines priority according to the API. The fact that an example defines Less using \u003e is confusing, but I think \"smaller\" is correct for the API.",
+      "parentUuid": "6ad5ecc8_1fe1fe9b",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "baa08436854516051c0b5346b236371207e6ed51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
