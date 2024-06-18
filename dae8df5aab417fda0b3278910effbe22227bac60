@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "dae8df5aab417fda0b3278910effbe22227bac60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b2d837b_6220838d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2024-06-18T17:27:42Z",
+      "side": 1,
+      "message": "The documented behavior is a bug but IIRC previous attempts at fixing led to too many breakages. Still, it\u0027s better to document what actually happens today, rather than what we ideally want it to do (which we can fix in v2).",
+      "revId": "dae8df5aab417fda0b3278910effbe22227bac60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
