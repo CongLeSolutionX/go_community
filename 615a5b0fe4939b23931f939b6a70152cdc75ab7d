@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87fc3544_d71c156f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-06-18T19:03:02Z",
+      "side": 1,
+      "message": "It\u0027s worth noting that the scope does indeed change here (previously, it was the start of the next clause, or position of }), though not in a semantically significant way.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "615a5b0fe4939b23931f939b6a70152cdc75ab7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
