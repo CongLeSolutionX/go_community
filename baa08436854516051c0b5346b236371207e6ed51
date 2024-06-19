@@ -105,6 +105,30 @@
       },
       "revId": "baa08436854516051c0b5346b236371207e6ed51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7da6a232_2e408c97",
+        "filename": "src/container/heap/heap.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 34699
+      },
+      "writtenOn": "2024-06-19T03:37:08Z",
+      "side": 1,
+      "message": "What about leaving just \"The higher priority items are those that sort earlier.\" ? This statement already makes it very clear IMO.",
+      "parentUuid": "fd016494_e3f81cab",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "baa08436854516051c0b5346b236371207e6ed51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
