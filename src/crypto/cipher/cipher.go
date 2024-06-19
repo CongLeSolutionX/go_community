@@ -36,7 +36,7 @@ type Stream interface {
 	//
 	// Multiple calls to XORKeyStream behave as if the concatenation of
 	// the src buffers was passed in a single run. That is, Stream
-	// maintains state and does not reset at each XORKeyStream call.
+	// maintains state and does not reset at each XORKeyStream ca∏ll.
 	XORKeyStream(dst, src []byte)
 }
 
