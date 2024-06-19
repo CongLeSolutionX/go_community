@@ -8,8 +8,14 @@ import (
 	"bytes"
 	"crypto/cipher"
 	"crypto/des"
+	"crypto/internal/cryptotest"
 	"testing"
 )
+
+func TestBlockInterface(t *testing.T) {
+	cryptotest.TestBlock(t, 8, des.NewCipher)
+	cryptotest.TestBlock(t, 24, des.NewTripleDESCipher)
+}
 
 type CryptTest struct {
 	key []byte
