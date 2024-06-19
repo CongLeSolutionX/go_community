@@ -50,6 +50,24 @@
       "message": "Hi Dmitri , it still needs a Google employee to approve, can you please take a look? Thanks.",
       "revId": "dae8df5aab417fda0b3278910effbe22227bac60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b56ebe00_f2f96969",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-19T17:04:16Z",
+      "side": 1,
+      "message": "Note that it is a U.S. holiday today.",
+      "parentUuid": "1dbe4049_57fb16ab",
+      "revId": "dae8df5aab417fda0b3278910effbe22227bac60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
