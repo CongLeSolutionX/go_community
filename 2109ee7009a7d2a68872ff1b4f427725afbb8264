@@ -217,6 +217,30 @@
       },
       "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50458ba9_e04753b5",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-06-20T20:04:02Z",
+      "side": 1,
+      "message": "cmd/asm/internal/asm.TestARM64EndToEnd (with data file cmd/asm/internal/asm/testdata/arm64.s) should cover most of them. Feel free to add a case there if you think anything is missing. Also it is easier to maintain the testdata file instead of generating the input in code.",
+      "parentUuid": "fe52dabb_57577fb2",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 0
+      },
+      "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
