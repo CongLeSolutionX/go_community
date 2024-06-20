@@ -1,0 +1,23 @@
+// compile -goexperiment aliastypeparams
+
+// Copyright 2024 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package main
+
+type Seq[V any] = func(yield func(V) bool)
+
+func f[E any](seq Seq[E]) {
+	return
+}
+
+type OVal[O any] struct{}
+
+type TVal[T any] = OVal[T]
+
+var x TVal[bool]
+
+func main() {
+	f(Seq[int](nil))
+}
