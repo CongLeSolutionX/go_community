@@ -42,6 +42,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e74549aa_bf101777",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-20T15:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0670c5fc_a5c0439d",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4cd4f64_1c5f0d4b",
@@ -55,6 +79,24 @@
       "writtenOn": "2024-06-18T16:44:33Z",
       "side": 1,
       "message": "Add a comment like \"we have AVX but we don\u0027t want to use REPMOV\"",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc341e4f_d7b629d0",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-20T15:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4cd4f64_1c5f0d4b",
       "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -128,6 +170,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c3d4a4_af92df5f",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-20T15:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f92fbb95_763e6233",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c3f05d1_dc299f42",
@@ -141,6 +201,24 @@
       "writtenOn": "2024-06-18T16:44:33Z",
       "side": 1,
       "message": "This modification of BX is no longer necessary if we\u0027re not jumping to tail anymore.",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f28c8a86_e53fd6c3",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-20T15:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c3f05d1_dc299f42",
       "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

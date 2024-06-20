@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "081c8f64_5783bfe7",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-20T15:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22783f35_49c81d9b",
+      "revId": "c61543a2372e812c1e6919a2926613df5aaa023a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecf697b7_2168d79e",
@@ -83,6 +101,24 @@
       "writtenOn": "2024-06-13T15:27:00Z",
       "side": 1,
       "message": "Delete extraneous tab.",
+      "revId": "c61543a2372e812c1e6919a2926613df5aaa023a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e316bb8_48919f20",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-20T15:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03cf14ce_05bd7f9d",
       "revId": "c61543a2372e812c1e6919a2926613df5aaa023a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
