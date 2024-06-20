@@ -1,0 +1,117 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd746bf_3f02df6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-20T16:23:52Z",
+      "side": 1,
+      "message": "Great, thanks!",
+      "revId": "360904eb943613392ac31d9546fb6ff32d1c4da6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64b04537_6320d19f",
+        "filename": "test/fixedbugs/issue68054.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-20T16:23:52Z",
+      "side": 1,
+      "message": "Let\u0027s simplify this to:\n\ntype T[P any] struct{}\ntype A[P any] \u003d T[P]\n\nvar _ A[int]",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b1b1f09f_c25f8be6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "test/fixedbugs/issue68054.go",
+              "range": {
+                "startLine": 15,
+                "startChar": 0,
+                "endLine": 16,
+                "endChar": 0
+              },
+              "replacement": "type T[P any] struct{}\n"
+            },
+            {
+              "path": "test/fixedbugs/issue68054.go",
+              "range": {
+                "startLine": 17,
+                "startChar": 0,
+                "endLine": 18,
+                "endChar": 0
+              },
+              "replacement": "type A[P any] \u003d T[P]\n"
+            },
+            {
+              "path": "test/fixedbugs/issue68054.go",
+              "range": {
+                "startLine": 19,
+                "startChar": 0,
+                "endLine": 20,
+                "endChar": 0
+              },
+              "replacement": "var _ A[int]\n"
+            }
+          ]
+        }
+      ],
+      "revId": "360904eb943613392ac31d9546fb6ff32d1c4da6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb5ad841_0d9fe3b6",
+        "filename": "test/fixedbugs/issue68054.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-20T16:23:52Z",
+      "side": 1,
+      "message": "move this up to below f where it belongs?\nWe have 2 separate test cases here.",
+      "fixSuggestions": [
+        {
+          "fixId": "714ee20f_702ea15d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "test/fixedbugs/issue68054.go",
+              "range": {
+                "startLine": 19,
+                "startChar": 0,
+                "endLine": 21,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "360904eb943613392ac31d9546fb6ff32d1c4da6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
