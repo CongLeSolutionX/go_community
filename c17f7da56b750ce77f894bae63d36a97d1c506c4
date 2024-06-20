@@ -33,6 +33,24 @@
       "message": "needs tests",
       "revId": "c17f7da56b750ce77f894bae63d36a97d1c506c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18750e77_0db9bd7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-06-20T19:45:43Z",
+      "side": 1,
+      "message": "before the trybots even failed, I realized the problem with this CL: it uses running on the thread stack as a signal that it should try to find the goroutine that transitioned _to_ the thread stack and take *its* backtrace. in many cases the behavior in this CL is actually wrong.\n\nwhat we really need to do is refactor the stack trace acquisition code to have the caller be much more explicit about what is the right choice.",
+      "parentUuid": "93b5eb12_622990b0",
+      "revId": "c17f7da56b750ce77f894bae63d36a97d1c506c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
