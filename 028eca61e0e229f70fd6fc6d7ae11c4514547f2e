@@ -488,6 +488,30 @@
       },
       "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cfc7db4_c6a401b2",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-06-20T15:31:39Z",
+      "side": 1,
+      "message": "This seems resolved now. The new version keeps MOVSQ.",
+      "parentUuid": "26f0a9e1_3efd317b",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
