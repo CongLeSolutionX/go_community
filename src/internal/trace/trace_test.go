@@ -367,10 +367,12 @@ func TestTraceStacks(t *testing.T) {
 				{"main.main", mainLine + 86},
 			}},
 			{trace.EventStateTransition, "Goroutine Running->Waiting", []frame{
+				{"internal/sync.(*Mutex).Lock", 0},
 				{"sync.(*Mutex).Lock", 0},
 				{"main.main.func7", 0},
 			}},
 			{trace.EventStateTransition, "Goroutine Waiting->Runnable", []frame{
+				{"internal/sync.(*Mutex).Unlock", 0},
 				{"sync.(*Mutex).Unlock", 0},
 				{"main.main", 0},
 			}},
