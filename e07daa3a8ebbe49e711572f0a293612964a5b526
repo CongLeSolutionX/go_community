@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b6beb7d_633a1aa4",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-06-21T06:20:07Z",
+      "side": 1,
+      "message": "Use symbol constant here.",
+      "range": {
+        "startLine": 132,
+        "startChar": 8,
+        "endLine": 132,
+        "endChar": 9
+      },
+      "revId": "e07daa3a8ebbe49e711572f0a293612964a5b526",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
