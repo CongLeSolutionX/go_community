@@ -38,7 +38,7 @@ func main() {
 		_ = x
 	}
 	{
-		x := sync.Mutex{0, 0} // ERROR "assignment.*Mutex"
+		x := sync.Mutex{0} // ERROR "assignment.*Mutex"
 		_ = x
 	}
 	{
