@@ -16,6 +16,24 @@
       "message": "Could we define named constants for these bits? The named constants can also be used in assembly as `const_xxx` where xxx is the name.",
       "revId": "a1d640c05b0b37627f9628a9f76fffd68c4b5cf7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ede16f3_a61f6e93",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-21T05:10:18Z",
+      "side": 1,
+      "message": "\u003e Could we define named constants for these bits? The named constants can also be used in assembly as `const_xxx` where xxx is the name.\nSure, I updated the code, thank you very much!",
+      "parentUuid": "6947ef41_edc3c175",
+      "revId": "a1d640c05b0b37627f9628a9f76fffd68c4b5cf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
