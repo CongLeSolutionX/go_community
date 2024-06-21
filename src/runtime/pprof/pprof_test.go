@@ -908,12 +908,14 @@ func TestBlockProfile(t *testing.T) {
 			name: "mutex",
 			f:    blockMutex,
 			stk: []string{
+				"internal/sync.(*Mutex).Lock",
 				"sync.(*Mutex).Lock",
 				"runtime/pprof.blockMutex",
 				"runtime/pprof.TestBlockProfile",
 			},
 			re: `
 [0-9]+ [0-9]+ @( 0x[[:xdigit:]]+)+
+#	0x[0-9a-f]+	internal/sync\.\(\*Mutex\)\.Lock\+0x[0-9a-f]+	.*sync/mutex\.go:[0-9]+
 #	0x[0-9a-f]+	sync\.\(\*Mutex\)\.Lock\+0x[0-9a-f]+	.*sync/mutex\.go:[0-9]+
 #	0x[0-9a-f]+	runtime/pprof\.blockMutex\+0x[0-9a-f]+	.*runtime/pprof/pprof_test.go:[0-9]+
 #	0x[0-9a-f]+	runtime/pprof\.TestBlockProfile\+0x[0-9a-f]+	.*runtime/pprof/pprof_test.go:[0-9]+
@@ -1270,8 +1272,8 @@ func TestMutexProfile(t *testing.T) {
 		}
 		prof = strings.Trim(prof, "\n")
 		lines := strings.Split(prof, "\n")
-		if len(lines) < 6 {
-			t.Fatalf("expected >=6 lines, got %d %q\n%s", len(lines), prof, prof)
+		if len(lines) < 7 {
+			t.Fatalf("expected >=7 lines, got %d %q\n%s", len(lines), prof, prof)
 		}
 		// checking that the line is like "35258904 1 @ 0x48288d 0x47cd28 0x458931"
 		r2 := `^\d+ \d+ @(?: 0x[[:xdigit:]]+)+`
@@ -1279,8 +1281,8 @@ func TestMutexProfile(t *testing.T) {
 			t.Errorf("%q didn't match %q", lines[3], r2)
 		}
 		r3 := "^#.*runtime/pprof.blockMutex.*$"
-		if ok, err := regexp.MatchString(r3, lines[5]); err != nil || !ok {
-			t.Errorf("%q didn't match %q", lines[5], r3)
+		if ok, err := regexp.MatchString(r3, lines[6]); err != nil || !ok {
+			t.Errorf("%q didn't match %q", lines[6], r3)
 		}
 		t.Log(prof)
 	})
@@ -1299,7 +1301,7 @@ func TestMutexProfile(t *testing.T) {
 
 		stks := profileStacks(p)
 		for _, want := range [][]string{
-			{"sync.(*Mutex).Unlock", "runtime/pprof.blockMutexN.func1"},
+			{"internal/sync.(*Mutex).Unlock", "sync.(*Mutex).Unlock", "runtime/pprof.blockMutexN.func1"},
 		} {
 			if !containsStack(stks, want) {
 				t.Errorf("No matching stack entry for %+v", want)
@@ -2528,7 +2530,7 @@ func TestProfilerStackDepth(t *testing.T) {
 	}{
 		{"heap", []string{"runtime/pprof.allocDeep"}},
 		{"block", []string{"runtime.chanrecv1", "runtime/pprof.blockChanDeep"}},
-		{"mutex", []string{"sync.(*Mutex).Unlock", "runtime/pprof.blockMutexDeep"}},
+		{"mutex", []string{"internal/sync.(*Mutex).Unlock", "sync.(*Mutex).Unlock", "runtime/pprof.blockMutexDeep"}},
 		{"goroutine", []string{"runtime.gopark", "runtime.chanrecv", "runtime.chanrecv1", "runtime/pprof.goroutineDeep"}},
 	}
 
@@ -2655,7 +2657,7 @@ func goroutineDeep(t *testing.T, n int) {
 func produceProfileEvents(t *testing.T, depth int) {
 	allocDeep(depth - 1)       // -1 for produceProfileEvents, **
 	blockChanDeep(t, depth-2)  // -2 for produceProfileEvents, **, chanrecv1
-	blockMutexDeep(t, depth-2) // -2 for produceProfileEvents, **, Unlock
+	blockMutexDeep(t, depth-3) // -2 for produceProfileEvents, **, Unlock, Unlock
 	memSink = nil
 	runtime.GC()
 	goroutineDeep(t, depth-4) // -4 for produceProfileEvents, **, chanrecv1, chanrev, gopark
