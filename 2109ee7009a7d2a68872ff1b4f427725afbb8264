@@ -241,6 +241,30 @@
       },
       "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a49d80_31725dba",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 3400833
+      },
+      "writtenOn": "2024-06-21T15:22:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "50458ba9_e04753b5",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 0
+      },
+      "revId": "2109ee7009a7d2a68872ff1b4f427725afbb8264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
