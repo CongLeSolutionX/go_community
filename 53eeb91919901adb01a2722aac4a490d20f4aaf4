@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00861647_0ddbfeb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-06-21T21:48:37Z",
+      "side": 1,
+      "message": "I was wrong, with noatime flag set NetBSD does not update atime via utimensat(2).",
+      "revId": "53eeb91919901adb01a2722aac4a490d20f4aaf4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
