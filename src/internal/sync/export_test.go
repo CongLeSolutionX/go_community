@@ -14,11 +14,12 @@ import (
 func NewBadHashTrieMap[K, V comparable]() *HashTrieMap[K, V] {
 	// Stub out the good hash function with a terrible one.
 	// Everything should still work as expected.
-	m := NewHashTrieMap[K, V]()
+	var m HashTrieMap[K, V]
+	m.init()
 	m.keyHash = func(_ unsafe.Pointer, _ uintptr) uintptr {
 		return 0
 	}
-	return m
+	return &m
 }
 
 // NewTruncHashTrieMap creates a new HashTrieMap for the provided key and value
