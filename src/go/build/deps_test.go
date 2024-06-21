@@ -101,8 +101,7 @@ var depsRules = `
 	< internal/godebug
 	< internal/reflectlite
 	< errors
-	< internal/oserror
-	< internal/concurrent;
+	< internal/oserror;
 
 	cmp, internal/race, math/bits
 	< iter
