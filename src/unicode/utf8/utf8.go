@@ -385,13 +385,14 @@ func appendRuneNonASCII(p []byte, r rune) []byte {
 	switch i := uint32(r); {
 	case i <= rune2Max:
 		return append(p, t2|byte(r>>6), tx|byte(r)&maskx)
-	case i > MaxRune, surrogateMin <= i && i <= surrogateMax:
-		r = RuneError
-		fallthrough
+	case surrogateMin <= i && i <= surrogateMax:
+		return append(p, 239, 191, 189) // RuneError
 	case i <= rune3Max:
 		return append(p, t3|byte(r>>12), tx|byte(r>>6)&maskx, tx|byte(r)&maskx)
-	default:
+	case i <= MaxRune:
 		return append(p, t4|byte(r>>18), tx|byte(r>>12)&maskx, tx|byte(r>>6)&maskx, tx|byte(r)&maskx)
+	default:
+		return append(p, 239, 191, 189) // RuneError
 	}
 }
 

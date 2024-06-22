@@ -659,10 +659,45 @@ func BenchmarkAppendASCIIRune(b *testing.B) {
 	}
 }
 
+func BenchmarkAppendSpanishRune(b *testing.B) {
+	buf := make([]byte, UTFMax)
+	for i := 0; i < b.N; i++ {
+		AppendRune(buf[:0], 'Ñ') // 2 bytes
+	}
+}
+
 func BenchmarkAppendJapaneseRune(b *testing.B) {
 	buf := make([]byte, UTFMax)
 	for i := 0; i < b.N; i++ {
-		AppendRune(buf[:0], '本')
+		AppendRune(buf[:0], '本') // 3 bytes
+	}
+}
+
+func BenchmarkAppendMaxRune(b *testing.B) {
+	buf := make([]byte, UTFMax)
+	for i := 0; i < b.N; i++ {
+		AppendRune(buf[:0], MaxRune) // 4 bytes
+	}
+}
+
+func BenchmarkAppendInvalidRuneMaxPlusOne(b *testing.B) {
+	buf := make([]byte, UTFMax)
+	for i := 0; i < b.N; i++ {
+		AppendRune(buf[:0], MaxRune+1) // 3 bytes: RuneError
+	}
+}
+
+func BenchmarkAppendInvalidRuneSurrogate(b *testing.B) {
+	buf := make([]byte, UTFMax)
+	for i := 0; i < b.N; i++ {
+		AppendRune(buf[:0], 0xD800) // 3 bytes: RuneError
+	}
+}
+
+func BenchmarkAppendInvalidRuneNegative(b *testing.B) {
+	buf := make([]byte, UTFMax)
+	for i := 0; i < b.N; i++ {
+		AppendRune(buf[:0], -1) // 3 bytes: RuneError
 	}
 }
 
