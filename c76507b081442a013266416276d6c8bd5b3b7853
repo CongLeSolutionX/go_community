@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b843574_837ac2d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36654
+      },
+      "writtenOn": "2024-06-22T10:20:34Z",
+      "side": 1,
+      "message": "Benchmarks taken with:\n```\ngo test -count\u003d20 -timeout\u003d30m -run\u003d- -bench\u003dBenchmarkAppend\n```\nCompared results:\n```\n$ benchstat old.txt new.txt \ngoos: linux\ngoarch: amd64\npkg: unicode/utf8\ncpu: 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz\n                              │   old.txt    │               new.txt                │\n                              │    sec/op    │    sec/op     vs base                │\nAppendASCIIRune-8               0.2140n ± 0%   0.2140n ± 0%        ~ (p\u003d0.406 n\u003d20)\nAppendSpanishRune-8              1.627n ± 2%    1.597n ± 2%   -1.90% (p\u003d0.021 n\u003d20)\nAppendJapaneseRune-8             2.171n ± 1%    2.156n ± 0%   -0.69% (p\u003d0.038 n\u003d20)\nAppendMaxRune-8                  2.635n ± 1%    2.413n ± 1%   -8.41% (p\u003d0.000 n\u003d20)\nAppendInvalidRuneMaxPlusOne-8    2.190n ± 1%    2.359n ± 0%   +7.72% (p\u003d0.000 n\u003d20)\nAppendInvalidRuneSurrogate-8     2.225n ± 1%    1.747n ± 1%  -21.47% (p\u003d0.000 n\u003d20)\nAppendInvalidRuneNegative-8      2.181n ± 0%    2.357n ± 0%   +8.05% (p\u003d0.000 n\u003d20)\ngeomean                          1.547n         1.502n        -2.87%\n```\n\nAlready existing benchmarks:\n* `AppendASCIIRune`: 1 byte rune\n* `AppendJapaneseRune`: 3 bytes rune\n\nAdded benchmarks:\n* `AppendSpanishRune`: 2 bytes rune\n* `AppendMaxRune`: 4 bytes rune\n* `AppendInvalidRuneMaxPlusOne`: overflow. Converted to RuneError (3 bytes)\n* `AppendInvalidRuneSurrogate`: in surrogate range. Converted to RuneError (3 bytes)\n* `AppendInvalidRuneNegative`: a negative rune, probably coming from an arithmetic error. Converted to RuneError (3 bytes)",
+      "revId": "c76507b081442a013266416276d6c8bd5b3b7853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
