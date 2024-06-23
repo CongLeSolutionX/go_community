@@ -69,6 +69,24 @@
       "parentUuid": "d01d26a7_c6cd37fd",
       "revId": "f26d8ffef2948fbae9259995e7ede29da91f4036",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c88cd782_86225cca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-23T00:47:31Z",
+      "side": 1,
+      "message": "Yes, please add them to the commit message.  Thanks.",
+      "parentUuid": "7957daea_2a04e43c",
+      "revId": "f26d8ffef2948fbae9259995e7ede29da91f4036",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
