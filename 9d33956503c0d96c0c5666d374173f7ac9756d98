@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2833ea5_4cd5169f",
+        "filename": "src/compress/flate/flate_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-23T00:33:21Z",
+      "side": 0,
+      "message": "This test has a clear explanation of why the test is here and why we don\u0027t want the behavior to change.  Why is it being removed?  That doesn\u0027t seem right.",
+      "revId": "9d33956503c0d96c0c5666d374173f7ac9756d98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
