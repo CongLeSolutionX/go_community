@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e1aef5_7057b50e",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-24T03:49:28Z",
+      "side": 1,
+      "message": "I think it\u0027s probably worth naming these since they appear twice, something like\n\nconst (\n    runeErrorByte0 \u003d t3 | (RuneError\u003e\u003e12)\n    runeErrorByte1 \u003d tx | (RuneError\u003e\u003e6)\u0026maskx\n    runeErrorByte2 \u003d tx | Runeerror\u0026maskx\n)",
+      "revId": "ea426a3fb889d069ca92fe53c30fafae9b12e8b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
