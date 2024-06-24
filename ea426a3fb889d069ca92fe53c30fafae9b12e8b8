@@ -16,6 +16,24 @@
       "message": "I think it\u0027s probably worth naming these since they appear twice, something like\n\nconst (\n    runeErrorByte0 \u003d t3 | (RuneError\u003e\u003e12)\n    runeErrorByte1 \u003d tx | (RuneError\u003e\u003e6)\u0026maskx\n    runeErrorByte2 \u003d tx | Runeerror\u0026maskx\n)",
       "revId": "ea426a3fb889d069ca92fe53c30fafae9b12e8b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96bfd87b_1c4d70bc",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 36654
+      },
+      "writtenOn": "2024-06-24T11:30:16Z",
+      "side": 1,
+      "message": "Agree, will fix. I will also update the linked issue and add a similar change to EncodeRune, where there seems to be a comparable improvement as well.",
+      "parentUuid": "80e1aef5_7057b50e",
+      "revId": "ea426a3fb889d069ca92fe53c30fafae9b12e8b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
