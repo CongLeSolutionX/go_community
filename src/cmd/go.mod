@@ -2,6 +2,8 @@ module cmd
 
 go 1.23
 
+// a test change inside a go.mod file
+
 require (
 	github.com/google/pprof v0.0.0-20240528025155-186aa0362fba
 	golang.org/x/arch v0.8.0
