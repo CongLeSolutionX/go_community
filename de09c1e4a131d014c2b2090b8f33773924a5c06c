@@ -51,6 +51,24 @@
       "parentUuid": "176324d9_7b4ecf35",
       "revId": "de09c1e4a131d014c2b2090b8f33773924a5c06c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2207653f_f6bf993f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-25T21:31:47Z",
+      "side": 1,
+      "message": "There are no plans to ever create a Go version 2.  It will always be Go 1.N.  So it only makes sense to describe the N as a major version.",
+      "parentUuid": "e30865df_52926f11",
+      "revId": "de09c1e4a131d014c2b2090b8f33773924a5c06c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
