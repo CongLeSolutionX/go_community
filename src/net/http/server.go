@@ -2721,13 +2721,15 @@ func (mux *ServeMux) matchingMethods(host, path string) []string {
 	ms := map[string]bool{}
 	mux.tree.matchingMethods(host, path, ms)
 	// matchOrRedirect will try appending a trailing slash if there is no match.
-	mux.tree.matchingMethods(host, path+"/", ms)
+	if !strings.HasSuffix(path, "/") {
+		mux.tree.matchingMethods(host, path+"/", ms)
+	}
 	methods := mapKeys(ms)
 	slices.Sort(methods)
 	return methods
 }
 
-// TODO(jba): replace with maps.Keys when it is defined.
+// mapKeys collects keys from map m.
 func mapKeys[K comparable, V any](m map[K]V) []K {
 	var ks []K
 	for k := range m {
