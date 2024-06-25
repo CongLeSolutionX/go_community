@@ -613,6 +613,22 @@ func TestMuxNoSlashRedirectWithTrailingSlash(t *testing.T) {
 	}
 }
 
+// Test that we don't attempt trailing-slash response "Method Not Allowed" on
+// a path that already has a trailing slash.
+// See issue #67657.
+func TestMuxNoSlashMethodNotAllowedWithTrailingSlash(t *testing.T) {
+	mux := NewServeMux()
+	mux.HandleFunc("GET /a/{x}/", func(w ResponseWriter, r *Request) {
+		fmt.Fprintln(w, "ok")
+	})
+	w := httptest.NewRecorder()
+	req, _ := NewRequest("GET", "/a/", nil)
+	mux.ServeHTTP(w, req)
+	if g, w := w.Code, 404; g != w {
+		t.Errorf("got %d, want %d", g, w)
+	}
+}
+
 func TestShouldRedirectConcurrency(t *testing.T) { run(t, testShouldRedirectConcurrency) }
 func testShouldRedirectConcurrency(t *testing.T, mode testMode) {
 	mux := NewServeMux()
