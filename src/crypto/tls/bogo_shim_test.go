@@ -54,6 +54,7 @@ var (
 	echConfigListB64           = flag.String("ech-config-list", "", "")
 	expectECHAccepted          = flag.Bool("expect-ech-accept", false, "")
 	expectHRR                  = flag.Bool("expect-hrr", false, "")
+	expectNoHRR                = flag.Bool("expect-no-hrr", false, "")
 	expectedECHRetryConfigs    = flag.String("expect-ech-retry-configs", "", "")
 	expectNoECHRetryConfigs    = flag.Bool("expect-no-ech-retry-configs", false, "")
 	onInitialExpectECHAccepted = flag.Bool("on-initial-expect-ech-accept", false, "")
@@ -268,6 +269,10 @@ func bogoShim() {
 
 			if *expectHRR && !cs.testingOnlyDidHRR {
 				log.Fatal("expected HRR but did not do it")
+			}
+
+			if *expectNoHRR && cs.testingOnlyDidHRR {
+				log.Fatal("expected no HRR but did do it")
 			}
 
 			if *expectSessionMiss && cs.DidResume {
