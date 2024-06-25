@@ -59,6 +59,7 @@ type Status struct {
 	Revision    string    // Optional.
 	CommitTime  time.Time // Optional.
 	Uncommitted bool      // Required.
+	Version     string    // Optional.
 }
 
 var (
@@ -239,6 +240,17 @@ func parseRevTime(out []byte) (string, time.Time, error) {
 	return rev, time.Unix(secs, 0), nil
 }
 
+// getVersion determines the version associated with the current revision.
+// If the current revision's hash matches a tagged version's hash then that tag is returned
+// otherwise a pseudo version is returned.
+// Tags must be a valid semantic version string, otherwise a psuedoversion is returned.
+func getVersion(prevTag string, prevRevision string, currentRevTime time.Time, currentRevision string) string {
+	if currentRevision == prevRevision {
+		return prevTag
+	}
+	return module.PseudoVersion("", prevTag, currentRevTime, fmt.Sprintf("%.12s", currentRevision))
+}
+
 // vcsGit describes how to use Git.
 var vcsGit = &Cmd{
 	Name: "Git",
@@ -334,8 +346,9 @@ func gitStatus(vcsGit *Cmd, rootDir string) (Status, error) {
 	// "git status" works for empty repositories, but "git log" does not.
 	// Assume there are no commits in the repo when "git log" fails with
 	// uncommitted files and skip tagging revision / committime.
-	var rev string
+	var rev, vers string
 	var commitTime time.Time
+	var prevTag, prevRevision string
 	out, err = vcsGit.runOutputVerboseOnly(rootDir, "-c log.showsignature=false log -1 --format=%H:%ct")
 	if err != nil && !uncommitted {
 		return Status{}, err
@@ -345,11 +358,23 @@ func gitStatus(vcsGit *Cmd, rootDir string) (Status, error) {
 			return Status{}, err
 		}
 	}
+	out, err = vcsGit.runOutput(rootDir, "describe --tags --abbrev=0")
+	if err == nil {
+		prevTag = string(bytes.TrimSpace(out))
+	}
+
+	out, err = vcsGit.runOutput(rootDir, "rev-list -n 1 --tags")
+	if err == nil {
+		prevRevision = string(bytes.TrimSpace(out))
+	}
+
+	vers = getVersion(prevTag, prevRevision, commitTime, rev)
 
 	return Status{
 		Revision:    rev,
 		CommitTime:  commitTime,
 		Uncommitted: uncommitted,
+		Version:     vers,
 	}, nil
 }
 
