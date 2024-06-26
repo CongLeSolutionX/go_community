@@ -9,7 +9,7 @@ import (
 	"internal/goarch"
 	"internal/runtime/atomic"
 	"internal/stringslite"
-	"runtime/internal/sys"
+	"internal/runtime/sys"
 	"unsafe"
 )
 
