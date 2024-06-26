@@ -71,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b35c4ef_4c8eb05a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2729,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-06-26T16:39:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "049fc6fd_fabd6b9e",
+      "range": {
+        "startLine": 2727,
+        "startChar": 1,
+        "endLine": 2729,
+        "endChar": 15
+      },
+      "revId": "57980d23661cbc45a2bb7d8998fa40880d99543b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "790c3b2c_48dcb712",
@@ -84,6 +108,30 @@
       "writtenOn": "2024-06-26T10:00:52Z",
       "side": 1,
       "message": "You can now delete this function.",
+      "range": {
+        "startLine": 2732,
+        "startChar": 1,
+        "endLine": 2732,
+        "endChar": 2
+      },
+      "revId": "57980d23661cbc45a2bb7d8998fa40880d99543b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41517f7d_a52a07ce",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2732,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-06-26T16:39:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "790c3b2c_48dcb712",
       "range": {
         "startLine": 2732,
         "startChar": 1,
