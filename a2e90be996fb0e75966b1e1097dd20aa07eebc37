@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9602d5cf_1722645a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-06-26T19:48:13Z",
+      "side": 1,
+      "message": "The dragonfly kernel issue when both times are omitted is now fixed (see https://github.com/DragonFlyBSD/DragonFlyBSD/commit/c7c71870ed0) so we can remove the exception in a few years down the road.",
+      "revId": "a2e90be996fb0e75966b1e1097dd20aa07eebc37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
