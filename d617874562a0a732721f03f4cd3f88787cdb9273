@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4101f1f_02282200",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 36654
+      },
+      "writtenOn": "2024-06-26T01:49:12Z",
+      "side": 1,
+      "message": "This version reduces the time for valid 3 byte runes by ~12%, but increases the time for 4 byte runes by ~3%. This is persistently observed. I tried my best to understand why is this happening but can\u0027t give a sensible answer.\n\nIMO, the 3% penalty seems very small, but I want to highlight that I tried another alternative which also inlines the ASCII path and has no visible impact on the valid 4 byte runes case, but has a considerably smaller improvement on the byte runes case. Adding the results of the other case here as a comment, please let me know if it would be better to use the more conservative alternative.\n\n```\ngoos: linux\ngoarch: amd64\npkg: unicode/utf8\ncpu: 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz\n                              │ baseline.test-encode.txt │   encode-rune-two-invalid.test.txt   │\n                              │          sec/op          │    sec/op     vs base                │\nEncodeASCIIRune-8                           1.0950n ± 1%   0.2140n ± 0%  -80.46% (p\u003d0.000 n\u003d20)\nEncodeSpanishRune-8                          1.499n ± 0%    1.435n ± 2%   -4.27% (p\u003d0.000 n\u003d20)\nEncodeJapaneseRune-8                         1.960n ± 2%    1.904n ± 1%   -2.81% (p\u003d0.000 n\u003d20)\nEncodeMaxRune-8                              2.145n ± 2%    2.150n ± 2%        ~ (p\u003d0.064 n\u003d20)\nEncodeInvalidRuneMaxPlusOne-8                1.955n ± 2%    1.781n ± 2%   -8.93% (p\u003d0.000 n\u003d20)\nEncodeInvalidRuneSurrogate-8                 1.946n ± 3%    1.419n ± 1%  -27.06% (p\u003d0.000 n\u003d20)\nEncodeInvalidRuneNegative-8                  1.968n ± 2%    1.782n ± 1%   -9.48% (p\u003d0.000 n\u003d20)\ngeomean                                      1.757n         1.281n       -27.08%\n```",
+      "revId": "d617874562a0a732721f03f4cd3f88787cdb9273",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
