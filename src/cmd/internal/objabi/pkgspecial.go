@@ -45,9 +45,9 @@ var runtimePkgs = []string{
 
 	"internal/runtime/atomic",
 	"internal/runtime/exithook",
-	"runtime/internal/math",
-	"runtime/internal/sys",
+	"internal/runtime/sys",
 	"internal/runtime/syscall",
+	"runtime/internal/math",
 
 	"internal/abi",
 	"internal/bytealg",

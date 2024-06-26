@@ -86,8 +86,8 @@ import (
 	"internal/abi"
 	"internal/goarch"
 	"internal/runtime/atomic"
+	"internal/runtime/sys"
 	"runtime/internal/math"
-	"runtime/internal/sys"
 	"unsafe"
 )
 
