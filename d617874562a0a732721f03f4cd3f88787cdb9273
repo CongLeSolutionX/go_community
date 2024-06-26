@@ -52,6 +52,24 @@
       "parentUuid": "1dfaa47e_8e34a9ad",
       "revId": "d617874562a0a732721f03f4cd3f88787cdb9273",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "531f7e55_d3540cae",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-06-26T03:52:13Z",
+      "side": 1,
+      "message": "We should not complicate the code for the compiler.  The compiler will change.  And the measurements here are tiny.  Readability and maintainability are more important.  If you think the compiler is generating clearly bad code, open an issue against the compiler.",
+      "parentUuid": "71ec9cae_9753d106",
+      "revId": "d617874562a0a732721f03f4cd3f88787cdb9273",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
