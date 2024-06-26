@@ -87,7 +87,7 @@ import (
 	"internal/goarch"
 	"internal/runtime/atomic"
 	"runtime/internal/math"
-	"runtime/internal/sys"
+	"internal/runtime/sys"
 	"unsafe"
 )
 

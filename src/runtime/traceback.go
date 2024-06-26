@@ -9,7 +9,7 @@ import (
 	"internal/bytealg"
 	"internal/goarch"
 	"internal/stringslite"
-	"runtime/internal/sys"
+	"internal/runtime/sys"
 	"unsafe"
 )
 
