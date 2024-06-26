@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78844e4b_6c5127b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3447888
+      },
+      "writtenOn": "2024-06-26T14:28:22Z",
+      "side": 1,
+      "message": "TestBogoSuite runs the shim with the -allow-unimplemented flag which causes tests with unrecognized flags to be skipped.\n\nThis change actually enables three previously failing tests run and pass:\n\nBasic-Client-TLS-Sync\n\nBasic-Client-TLS-Sync-SplitHandshakeRecords\n\nBasic-Client-TLS-Sync-PackHandshake",
+      "parentUuid": "5e2189de_4d945a9c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 72
+      },
+      "revId": "2801a0463163d438c063a3a33b04ecad3a6108b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73e534d8_5422b564",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-06-25T20:36:15Z",
       "side": 1,
       "message": "It looks like -expect-no-hrr is being used in Basic-Client and Basic-Server test case prefixes (https://github.com/google/boringssl/blob/master/ssl/test/runner/runner.go).\n\nCan you verify that these test cases are running now?\nAlso, are there any test cases that should be removed from DisabledTests (crypto/tls/bogo_config.json) as part of this change?",
+      "revId": "2801a0463163d438c063a3a33b04ecad3a6108b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "730cda45_9691fb85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3447888
+      },
+      "writtenOn": "2024-06-26T14:28:22Z",
+      "side": 1,
+      "message": "Adding the flag will run tests that were previously being skipped. For example, Basic-Client-TLS-Sync runs and passes with this change. \n\nI tried running the disabled tests that use the -expect-no-hrr flag, but they continue to fail for unrelated reasons.",
+      "parentUuid": "73e534d8_5422b564",
       "revId": "2801a0463163d438c063a3a33b04ecad3a6108b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
