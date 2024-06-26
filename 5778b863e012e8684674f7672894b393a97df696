@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7f59ef_8723934b",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-06-26T21:36:21Z",
+      "side": 1,
+      "message": "Maybe call this Cycle to match with cipher.BlockMode tester name",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "5778b863e012e8684674f7672894b393a97df696",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
