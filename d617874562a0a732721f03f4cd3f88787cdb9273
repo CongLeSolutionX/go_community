@@ -34,6 +34,24 @@
       "parentUuid": "f4101f1f_02282200",
       "revId": "d617874562a0a732721f03f4cd3f88787cdb9273",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71ec9cae_9753d106",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 36654
+      },
+      "writtenOn": "2024-06-26T02:34:45Z",
+      "side": 1,
+      "message": "Ok, I know why it is actually: apparently when the compiler sees an OR in a switch case it generates a few more jumps, what I didn\u0027t know is how to circumvent that. What I have just tried is using the silly `a OR b \u003d !(a AND b)`, and it works better. The 3 bytes case gets an ~8% improvement instead of ~12%, and the 4 bytes case receives no penalty (unchanged from the original).\n\nThe bad thing is that it looks much uglier, diff:\n```\n-       case i \u003c surrogateMin, surrogateMax \u003c i \u0026\u0026 i \u003c\u003d rune3Max:\n+       case !(surrogateMin \u003c\u003d i \u0026\u0026 (i \u003c\u003d surrogateMax || rune3Max \u003c i)):\n```\n\nThis prevents the compiler from adding those extra jumps for the 4 bytes case, but it adds an odd and redundant jump for the 3 bytes case:\n\n\n```\n        CMPL    DI, $55296\n        JCS     command-line-arguments_encodeRuneNonASCII_pc199 \u003c- one of the 3 byte cases\n        LEAL    -57344(DI), DX\n        CMPL    DX, $8191\n        JLS     command-line-arguments_encodeRuneNonASCII_pc199 \u003c- the other the 3 byte case\n        LEAL    -65536(DI), DX\n        NOP\n        CMPL    DX, $1048575\n        JHI     command-line-arguments_encodeRuneNonASCII_pc173 \u003c- the default case\n        ... the 4 bytes branch code\n        ... the default case\n        ... the 3 bytes branch code ¯\\_(ツ)_/¯\n        \n```\n\nAnyway, that\u0027s my best shot.",
+      "parentUuid": "1dfaa47e_8e34a9ad",
+      "revId": "d617874562a0a732721f03f4cd3f88787cdb9273",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
