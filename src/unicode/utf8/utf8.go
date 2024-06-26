@@ -61,6 +61,12 @@ const (
 	s7 = 0x44 // accept 4, size 4
 )
 
+const (
+	runeErrorByte0 = t3 | (RuneError >> 12)
+	runeErrorByte1 = tx | (RuneError>>6)&maskx
+	runeErrorByte2 = tx | RuneError&maskx
+)
+
 // first is information about the first byte in a UTF-8 sequence.
 var first = [256]uint8{
 	//   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
@@ -385,13 +391,12 @@ func appendRuneNonASCII(p []byte, r rune) []byte {
 	switch i := uint32(r); {
 	case i <= rune2Max:
 		return append(p, t2|byte(r>>6), tx|byte(r)&maskx)
-	case i > MaxRune, surrogateMin <= i && i <= surrogateMax:
-		r = RuneError
-		fallthrough
-	case i <= rune3Max:
+	case i < surrogateMin, surrogateMax < i && i <= rune3Max:
 		return append(p, t3|byte(r>>12), tx|byte(r>>6)&maskx, tx|byte(r)&maskx)
-	default:
+	case i > rune3Max && i <= MaxRune:
 		return append(p, t4|byte(r>>18), tx|byte(r>>12)&maskx, tx|byte(r>>6)&maskx, tx|byte(r)&maskx)
+	default:
+		return append(p, runeErrorByte0, runeErrorByte1, runeErrorByte2)
 	}
 }
 
