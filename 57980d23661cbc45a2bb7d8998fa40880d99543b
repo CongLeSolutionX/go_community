@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34f463fe_a3f75797",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-06-26T16:24:55Z",
+      "side": 1,
+      "message": "It\u0027s not to test `MethodNotAllowed`, but to avoid replying `MethodNotAllowed`.\nI copied `TestMuxNoSlashRedirectWithTrailingSlash`, changed `HandleFunc(\"/{x}/\"...` to `HandleFunc(\"GET /{x}/\"`:\n```\nfunc TestMuxNoSlash405WithTrailingSlash(t *testing.T) {\n\tmux :\u003d NewServeMux()\n\tmux.HandleFunc(\"GET /{x}/\", func(w ResponseWriter, r *Request) {\n\t\tfmt.Fprintln(w, \"ok\")\n\t})\n\tw :\u003d httptest.NewRecorder()\n\treq, _ :\u003d NewRequest(\"GET\", \"/\", nil)\n\tmux.ServeHTTP(w, req)\n\tif g, w :\u003d w.Code, 404; g !\u003d w {\n\t\tt.Errorf(\"got %d, want %d\", g, w)\n\t}\n}\n```\nJust to fix #67657, please let me know if I\u0027m on the wrong way.",
+      "parentUuid": "ac647f1b_6a13e159",
+      "range": {
+        "startLine": 619,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 4
+      },
+      "revId": "57980d23661cbc45a2bb7d8998fa40880d99543b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "049fc6fd_fabd6b9e",
         "filename": "src/net/http/server.go",
         "patchSetId": 2
