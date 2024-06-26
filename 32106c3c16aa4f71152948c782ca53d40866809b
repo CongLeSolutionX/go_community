@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "32106c3c16aa4f71152948c782ca53d40866809b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f56a1fdd_829f5336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-06-26T20:33:17Z",
+      "side": 1,
+      "message": "@iant@golang.org We\u0027re in freeze for 1.23 and this is a performance improvement. Should this target 1.24 instead?",
+      "revId": "32106c3c16aa4f71152948c782ca53d40866809b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
