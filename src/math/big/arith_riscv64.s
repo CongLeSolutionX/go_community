@@ -294,7 +294,98 @@ done:
 	RET
 
 TEXT ·shlVU(SB),NOSPLIT,$0
-	JMP ·shlVU_g(SB)
+	MOV	x+24(FP), X5
+	MOV	s+48(FP), X25
+	MOV	z+0(FP), X6
+	MOV	z_len+8(FP), X30
+
+	MOV	$0, X29		// c = 0
+	BEQZ	X30, done
+
+	AND	$63, X25
+	MOV	$64, X26
+	SUB	X25, X26, X26	// sinv
+	AND	$63, X26
+
+	SUB	$1, X30
+	MOV	$8, X10
+	MUL	X10, X30, X10
+	ADD	X10, X5		// x[len(z)-1]
+	ADD	X10, X6		// z[len(z)-1]
+
+	MOV	(X5), X24	// c = x[len(z)-1] >> sinv
+	SRL	X26, X24, X29
+	SEQZ	X25, X10	// c = 0, if s == 0
+	SUB	$1, X10, X19
+	AND	X19, X29
+
+	BEQZ	X30, last
+
+	MOV	$4, X28
+	BLTU	X30, X28, loop1
+
+loop4:
+	MOV	X24, X20	// x[i-0]
+	MOV	(-1*8)(X5), X21	// x[i-1]
+	MOV	(-2*8)(X5), X22	// x[i-2]
+	MOV	(-3*8)(X5), X23	// x[i-3]
+	MOV	(-4*8)(X5), X24	// x[i-4]
+
+	SLL	X25, X20, X10	// x[i-0] << s
+	SLL	X25, X21, X12	// x[i-1] << s
+	SLL	X25, X22, X14	// x[i-2] << s
+	SLL	X25, X23, X16	// x[i-3] << s
+
+	SRL	X26, X21, X11	// x[i-1] >> sinv
+	SRL	X26, X22, X13	// x[i-2] >> sinv
+	SRL	X26, X23, X15	// x[i-3] >> sinv
+	SRL	X26, X24, X17	// x[i-4] >> sinv
+
+	AND	X19, X11
+	AND	X19, X13
+	AND	X19, X15
+	AND	X19, X17
+
+	OR	X10, X11, X10	// x[i-0]<<s | x[i-1]>>sinv
+	OR	X12, X13, X12	// x[i-1]<<s | x[i-2]>>sinv
+	OR	X14, X15, X14	// x[i-2]<<s | x[i-3]>>sinv
+	OR	X16, X17, X16	// x[i-3]<<s | x[i-4]>>sinv
+
+	MOV	X10, (-0*8)(X6)	// z[i-0] = x[i-0]<<s | x[i-1]>>sinv
+	MOV	X12, (-1*8)(X6)	// z[i-1] = x[i-1]<<s | x[i-2]>>sinv
+	MOV	X14, (-2*8)(X6)	// z[i-2] = x[i-2]<<s | x[i-3]>>sinv
+	MOV	X16, (-3*8)(X6)	// z[i-3] = x[i-3]<<s | x[i-4]>>sinv
+
+	SUB	$32, X5
+	SUB	$32, X6
+	SUB	$4, X30
+
+	BGEU	X30, X28, loop4
+	BEQZ	X30, last
+
+loop1:
+	MOV	X24, X20	// x[i]
+	MOV	(-1*8)(X5), X24	// x[i-1]
+	SLL	X25, X20, X10	// x[i] << s
+	SRL	X26, X24, X11	// x[i-1] >> sinv
+	AND	X19, X11
+	OR	X10, X11, X12	// x[i]<<s | x[i-1]>>sinv
+	MOV	X12, (X6)	// z[i] = x[i]<<s | x[i-1]>>sinv
+
+	SUB	$8, X5
+	SUB	$8, X6
+	SUB	$1, X30
+
+	BNEZ	X30, loop1
+
+last:
+	MOV	(X5), X10	// x[0]
+	SLL	X25, X10	// x[0] << s
+	MOV	X10, (X6)	// z[0] = x[0]<<s
+
+done:
+	MOV	X29, c+56(FP)	// return c
+	RET
 
 TEXT ·shrVU(SB),NOSPLIT,$0
 	JMP ·shrVU_g(SB)
