@@ -51,6 +51,24 @@
       "message": "I\u0027m not convinced the wording for All or Backward needs any change; the problem with Values is that it mentioned slice[0], which doesn\u0027t exist in all cases.",
       "revId": "6665ac8874758b9b3dfda18a09d5d2ce4a2d70c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ddb502a_5567aed4",
+        "filename": "src/slices/iter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 66749
+      },
+      "writtenOn": "2024-06-27T16:28:08Z",
+      "side": 1,
+      "message": "If `s` is nil, `from 0 through len(s)-1` means `from 0 through -1`.\nI think it\u0027s weird. Is that backward?",
+      "parentUuid": "868469f2_556e274a",
+      "revId": "6665ac8874758b9b3dfda18a09d5d2ce4a2d70c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
