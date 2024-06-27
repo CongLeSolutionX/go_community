@@ -33,6 +33,24 @@
       "message": "Do we want to check const_repmovsPreferred for backward copy?",
       "revId": "4ab2f0462261215b555e569f1d32cec0f6c942c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d3c2df_c7de97e6",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-27T15:43:42Z",
+      "side": 1,
+      "message": "\u003e Do we want to check const_repmovsPreferred for backward copy?\nFor backward copy, REP MOVSx performs worse than avx",
+      "parentUuid": "b15d7ab3_c76d72b0",
+      "revId": "4ab2f0462261215b555e569f1d32cec0f6c942c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
