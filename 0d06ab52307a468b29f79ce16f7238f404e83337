@@ -136,6 +136,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b00d12f_f217cf7a",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-27T12:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "524910aa_1f44398a",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b296e176_71c62297",
@@ -149,6 +167,24 @@
       "writtenOn": "2024-06-18T16:44:33Z",
       "side": 1,
       "message": "This could use a comment. Something about loading the last (possibly partially overlapping) word and writing it at the end.",
+      "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed04aac1_06a2fc42",
+        "filename": "src/runtime/memmove_amd64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 3406889
+      },
+      "writtenOn": "2024-06-27T12:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b296e176_71c62297",
       "revId": "0d06ab52307a468b29f79ce16f7238f404e83337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
