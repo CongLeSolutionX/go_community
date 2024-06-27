@@ -236,6 +236,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79fdce3d_969d7840",
+        "filename": "src/runtime/cpuflags_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-06-27T15:10:14Z",
+      "side": 1,
+      "message": "Have we decided what to do with AMD CPUs? From this code it seems we don\u0027t use REP MOV on AMD chips? This is not obvious to me from the comment or the discussion above. Sorry if I missed it. Thanks.",
+      "parentUuid": "fb9aeb24_1161dc8b",
+      "revId": "028eca61e0e229f70fd6fc6d7ae11c4514547f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cabfb34c_562cc837",
         "filename": "src/runtime/memmove_amd64.s",
         "patchSetId": 3
