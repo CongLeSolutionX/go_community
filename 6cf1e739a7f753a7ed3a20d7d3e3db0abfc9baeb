@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589c8891_70ae31b5",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-06-27T13:29:04Z",
+      "side": 1,
+      "message": "Much of this code is modified from Filippo\u0027s older CL here, so this code will have some comments throughout with my own questions on the code",
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9883ce9a_a38e4010",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-06-27T13:29:04Z",
+      "side": 1,
+      "message": "Should this include a test for TripleDES being used in BlockMode as well?",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6997ef4_4b08a279",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-06-27T13:29:04Z",
+      "side": 1,
+      "message": "Why is this a skip?",
+      "range": {
+        "startLine": 68,
+        "startChar": 3,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d848fdf7_ae062c11",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-06-27T13:29:04Z",
+      "side": 1,
+      "message": "This check is direcly related to Aliasing.  What do the other two expectEqual checks in this loop, while important, have to do with aliasing?",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 5
+      },
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b958040_197aee48",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-06-27T13:29:04Z",
+      "side": 1,
+      "message": "How is this different than the test in Aliasing that errors with message \"CryptBlocks modified dst past len(src)\"?  Seems to be addressing a specific Issue # (22104), but what\u0027s the difference? Is it that this checks for writing outside of the slice\u0027s length itself?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 102
+      },
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
