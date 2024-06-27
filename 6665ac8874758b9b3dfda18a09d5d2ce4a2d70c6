@@ -69,6 +69,24 @@
       "parentUuid": "868469f2_556e274a",
       "revId": "6665ac8874758b9b3dfda18a09d5d2ce4a2d70c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "666c8ea9_37609812",
+        "filename": "src/slices/iter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-06-27T16:34:28Z",
+      "side": 1,
+      "message": "How about:\n\n// All returns an iterator over index-value pairs in the slice\n// in the usual order.\n\n// Backward returns an iterator over index-value pairs in the slice,\n// traversing it backward with descending indices.",
+      "parentUuid": "3ddb502a_5567aed4",
+      "revId": "6665ac8874758b9b3dfda18a09d5d2ce4a2d70c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
