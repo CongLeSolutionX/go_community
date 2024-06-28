@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3bf950_f04afea6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2024-06-28T15:02:03Z",
+      "side": 1,
+      "message": "FYI, this is for 1.24, not 1.23 ... so please take your time.",
+      "revId": "1b4ad9561cc44827653961374078d8599630ea62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
