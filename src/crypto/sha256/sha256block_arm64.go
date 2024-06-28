@@ -7,8 +7,9 @@
 package sha256
 
 import "internal/cpu"
+import "crypto/internal/sharc"
 
-var k = _K
+var k = sharc.K256
 
 //go:noescape
 func sha256block(h []uint32, p []byte, k []uint32)
