@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff21498e_ded11eeb",
+        "filename": "src/cmd/compile/internal/types2/resolver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-28T17:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afedea5e_511275fc",
+      "range": {
+        "startLine": 510,
+        "startChar": 57,
+        "endLine": 510,
+        "endChar": 61
+      },
+      "revId": "8433df2faecfd38925f9e3a49074fc7fcf2e8964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d812fc5_3ab69dd0",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-06-27T17:47:05Z",
       "side": 1,
       "message": "Is this right? From the CL description it sounds like you mean to return the IndexExpr in this case?\n\nOr am I not understanding what the \u0027base type expression\u0027 is?",
+      "range": {
+        "startLine": 540,
+        "startChar": 2,
+        "endLine": 540,
+        "endChar": 15
+      },
+      "revId": "8433df2faecfd38925f9e3a49074fc7fcf2e8964",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb51462b_ab7b154b",
+        "filename": "src/cmd/compile/internal/types2/resolver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-06-28T17:26:44Z",
+      "side": 1,
+      "message": "This is correct (it was like this before except for the variable rename). The base type expression is unindexed. Clarified the doc string.",
+      "parentUuid": "6d812fc5_3ab69dd0",
       "range": {
         "startLine": 540,
         "startChar": 2,
