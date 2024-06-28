@@ -7,8 +7,9 @@
 package sha256
 
 import "internal/cpu"
+import "crypto/sha256/internal"
 
-var k = _K
+var k = sha256rc.K
 
 //go:noescape
 func sha256block(h []uint32, p []byte, k []uint32)
