@@ -1551,14 +1551,10 @@ func unmarshalCertificate(s *cryptobyte.String, certificate *Certificate) bool {
 				if !extData.ReadUint16LengthPrefixed(&sctList) || sctList.Empty() {
 					return false
 				}
-				for !sctList.Empty() {
-					var sct []byte
-					if !readUint16LengthPrefixed(&sctList, &sct) ||
-						len(sct) == 0 {
-						return false
-					}
-					certificate.SignedCertificateTimestamps = append(
-						certificate.SignedCertificateTimestamps, sct)
+				ok := false
+				certificate.SignedCertificateTimestamps, ok = parseSignedCertificateTimestamps(&sctList)
+				if !ok {
+					return false
 				}
 			default:
 				// Ignore unknown extensions.
@@ -1571,6 +1567,20 @@ func unmarshalCertificate(s *cryptobyte.String, certificate *Certificate) bool {
 		}
 	}
 	return true
+}
+
+func parseSignedCertificateTimestamps(sctList *cryptobyte.String) ([][]byte, bool) {
+
+	var timeStamps [][]byte
+	for !sctList.Empty() {
+		var sct []byte
+		if !readUint16LengthPrefixed(sctList, &sct) ||
+			len(sct) == 0 {
+			return nil, false
+		}
+		timeStamps = append(timeStamps, sct)
+	}
+	return timeStamps, true
 }
 
 type serverKeyExchangeMsg struct {

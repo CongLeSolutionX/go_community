@@ -44,6 +44,9 @@ var (
 
 	requireAnyClientCertificate = flag.Bool("require-any-client-certificate", false, "")
 
+	_                          = flag.Bool("enable-signed-cert-timestamps", false, "")
+	expectSignedCertTimestamps = flag.String("expect-signed-cert-timestamps", "", "")
+
 	shimWritesFirst = flag.Bool("shim-writes-first", false, "")
 
 	resumeCount = flag.Int("resume-count", 0, "")
@@ -284,6 +287,28 @@ func bogoShim() {
 		}
 
 		cs := tlsConn.ConnectionState()
+
+		// 		if *expectSignedCertTimestamps != "" && i == 0 {
+
+		// 			expectedRaw, err := base64.StdEncoding.DecodeString(*expectSignedCertTimestamps)
+		// 			if err != nil {
+		// 				log.Fatalf("could not decode -expect-signed-cert-timestamps argument value")
+		// 			}
+
+		// 			s := cryptobyte.String(expectedRaw)
+		// 			s.Skip(2)
+
+		// 			expected, ok := parseSignedCertificateTimestamps(&s)
+		// 			if !ok {
+		// 				log.Fatalf("could not parse -expect-signed-cert-timestamps arguments")
+		// 			}
+
+		// 			actual := cs.SignedCertificateTimestamps
+
+		// 			if !reflect.DeepEqual(expected, actual) {
+		// 				log.Fatalf("expected SignedCertificateTimestamps %v, actual %v", expected, actual)
+		// 			}
+		// 		}
 		if cs.HandshakeComplete {
 			if *expectALPN != "" && cs.NegotiatedProtocol != *expectALPN {
 				log.Fatalf("unexpected protocol negotiated: want %q, got %q", *expectALPN, cs.NegotiatedProtocol)
@@ -294,6 +319,7 @@ func bogoShim() {
 			if *declineALPN && cs.NegotiatedProtocol != "" {
 				log.Fatal("unexpected ALPN protocol")
 			}
+
 			if *expectECHAccepted && !cs.ECHAccepted {
 				log.Fatal("expected ECH to be accepted, but connection state shows it was not")
 			} else if i == 0 && *onInitialExpectECHAccepted && !cs.ECHAccepted {
