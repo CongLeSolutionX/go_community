@@ -25,7 +25,7 @@ type ExperimentFlags struct {
 // (This is not necessarily the set of experiments the compiler itself
 // was built with.)
 //
-// experimentBaseline specifies the experiment flags that are enabled by
+// Experiment.baseline specifies the experiment flags that are enabled by
 // default in the current toolchain. This is, in effect, the "control"
 // configuration and any variation from this is an experiment.
 var Experiment ExperimentFlags = func() ExperimentFlags {
