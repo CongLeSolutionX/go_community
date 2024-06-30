@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce8f55aa_864f8568",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61853
+      },
+      "writtenOn": "2024-06-30T21:22:25Z",
+      "side": 1,
+      "message": "git fetch https://go.googlesource.com/go refs/changes/15/513715/3 \u0026\u0026 git checkout -b change-513715 FETCH_HEAD",
+      "revId": "b25266c58debb831cd880a7372b197466e75b833",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
