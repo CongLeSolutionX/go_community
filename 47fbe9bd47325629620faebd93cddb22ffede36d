@@ -50,6 +50,52 @@
       "message": "Hi @iant@golang.org and @khr@golang.org..\nPlease help us merge the CLs which are enabling the support for Go disassembler on s390x.. s390x arch review is completed and we are fine with the changes.. Thanks..",
       "revId": "47fbe9bd47325629620faebd93cddb22ffede36d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc28870f_a0755777",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-01T18:40:28Z",
+      "side": 1,
+      "message": "Why this change? For an unknown instruction, I think we still want to print the Pc and line number, along with \"?\".",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 4
+      },
+      "revId": "47fbe9bd47325629620faebd93cddb22ffede36d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e5a169_a83f1372",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-01T18:40:28Z",
+      "side": 1,
+      "message": "Seems we only support GNU syntax for now? We should check for gnuAsm, and error out if it is false.",
+      "range": {
+        "startLine": 391,
+        "startChar": 81,
+        "endLine": 391,
+        "endChar": 87
+      },
+      "revId": "47fbe9bd47325629620faebd93cddb22ffede36d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
