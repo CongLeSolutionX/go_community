@@ -30,6 +30,8 @@ const (
 	drainAddress
 )
 
+const useAVX = false
+
 const (
 	traceFlush     = false
 	traceEnqueue   = false
