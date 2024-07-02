@@ -9,6 +9,7 @@ import (
 	"cmd/gclab/invivo"
 	"log"
 	"slices"
+	"unsafe"
 )
 
 const xxxDebug = false
@@ -133,7 +134,11 @@ func (c *CNet) flush(layer int, bufI int) {
 		gStats.LAddr32s.Add(int(src.n))
 
 		tmp := tmpBuf.asLAddr32()
-		bucketSort(src.asLAddr32()[:src.n], tmp, &counts, shift)
+		if useAVX {
+			bucketSort32AVX(src.asLAddr32()[:src.n], tmp, &counts, shift)
+		} else {
+			bucketSort(src.asLAddr32()[:src.n], tmp, &counts, shift)
+		}
 		copy32To32(tmp[:src.n], dsts, &counts, full)
 		if xxxDebug {
 			invivo.Invalidate()
@@ -191,6 +196,8 @@ func bucketSort[T ~uint32 | ~uint64](src, dst []T, counts *[radixBase]uint16, sh
 	// 512 KiB for uint64). E.g., see stackoverflow.com/questions/61122144
 
 	// Count the digit.
+	//
+	// TODO: Use separate count32* functions.
 	mask := T(len(counts) - 1)
 	for _, val := range src {
 		counts[(val>>shift)&mask]++
@@ -205,6 +212,100 @@ func bucketSort[T ~uint32 | ~uint64](src, dst []T, counts *[radixBase]uint16, sh
 	}
 
 	// Sort into output buffer.
+	//
+	// TODO: It may be just as well to write directly into the next layer,
+	// though it does mean we'd have to interleave a lot of overflow checking.
+	//
+	// TODO: Prefetch?
+	for _, val := range src {
+		digit := (val >> shift) & mask
+		dst[offs[digit]] = val
+		offs[digit]++
+	}
+}
+
+func count32Go(src []LAddr32, shift uint, counts *[radixBase]uint16) {
+	mask := LAddr32(len(counts) - 1)
+	for _, val := range src {
+		counts[(val>>shift)&mask]++
+	}
+}
+
+func bucketSort32x16(src, dst []LAddr32, counts *[16]int, shift uint) {
+	if shift >= 32 {
+		panic("bad shift")
+	}
+	var counts0, counts1 [16]int
+	const mask = uint64(len(counts) - 1)
+	const mask32 = LAddr32(len(counts) - 1)
+	src64 := unsafe.Slice((*uint64)(unsafe.Pointer(unsafe.SliceData(src))), len(src)/2)
+	shift2 := shift + 32
+	if shift2 >= 64 {
+		panic("bad shift")
+	}
+	for _, vv := range src64 {
+		counts0[(vv>>shift)&mask]++
+		counts1[(vv>>shift2)&mask]++
+	}
+	if len(src)%2 == 1 {
+		val0 := src[len(src)-1]
+		counts0[(val0>>shift)&mask32]++
+	}
+	for i := range counts {
+		counts[i] = counts0[i] + counts1[i]
+	}
+
+	// Turn the counts into offsets.
+	var offs [len(counts)]int
+	pos := 0
+	for i, count := range counts {
+		offs[i] = pos
+		pos += count
+	}
+
+	// Sort into output buffer.
+	//
+	// TODO: Prefetch?
+	for _, val := range src {
+		digit := (val >> shift) & mask32
+		dst[offs[digit]] = val
+		offs[digit]++
+	}
+}
+
+func count32AVX2(src []LAddr32, shift uint, counts *[16]uint16) {
+	// The assembly core works in multiples of 32 bytes, or 8 entries.
+	const blockSize = 32 / 4
+	nBlock := len(src) / blockSize * blockSize
+	count32AVX2Asm(src[:nBlock], shift, counts)
+	// Handle the tail.
+	if nBlock > 0 {
+		const mask = LAddr32(len(counts) - 1)
+		for _, val := range src[nBlock:] {
+			counts[(val>>shift)&mask]++
+		}
+	}
+}
+
+func count32AVX2Asm(src []LAddr32, shift uint, counts *[16]uint16)
+
+func bucketSort32AVX(src, dst []LAddr32, counts *[16]uint16, shift uint) {
+	// Count each digit.
+	mask := LAddr32(len(counts) - 1)
+	count32AVX2(src, shift, counts)
+
+	// Turn the counts into offsets.
+	var offs [len(counts)]uint16
+	var pos uint16
+	for i, count := range counts {
+		offs[i] = pos
+		pos += count
+	}
+
+	// Sort into output buffer.
+	//
+	// TODO: There are a ton of bounds checks in this. Consider overriding those
+	// or perhaps doing this whole thing in assembly.
 	//
 	// TODO: Prefetch?
 	for _, val := range src {
