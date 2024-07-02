@@ -8,6 +8,7 @@ import (
 	"internal/trace/testdata/cmd/gclab/heap"
 	"log"
 	"slices"
+	"unsafe"
 )
 
 const xxxDebug = false
@@ -177,9 +178,93 @@ func bucketSort[T ~uint32 | ~uint64](src, dst []T, counts *[radixBase]int, shift
 	// 512 KiB for uint64). E.g., see stackoverflow.com/questions/61122144
 
 	// Count the digit.
+	//
+	// TODO: Use separate count32* functions.
 	mask := T(len(counts) - 1)
 	for _, val := range src {
 		counts[(val>>shift)&mask]++
+	}
+
+	// Turn the counts into offsets.
+	var offs [len(counts)]int
+	pos := 0
+	for i, count := range counts {
+		offs[i] = pos
+		pos += count
+	}
+
+	// Sort into output buffer.
+	//
+	// TODO: It may be just as well to write directly into the next layer,
+	// though it does mean we'd have to interleave a lot of overflow checking.
+	//
+	// TODO: Prefetch?
+	for _, val := range src {
+		digit := (val >> shift) & mask
+		dst[offs[digit]] = val
+		offs[digit]++
+	}
+}
+
+func count32Go(src []LAddr32, shift uint, counts *[radixBase]uint16) {
+	mask := LAddr32(len(counts) - 1)
+	for _, val := range src {
+		counts[(val>>shift)&mask]++
+	}
+}
+
+func bucketSort32x16(src, dst []LAddr32, counts *[16]int, shift uint) {
+	if shift >= 32 {
+		panic("bad shift")
+	}
+	var counts0, counts1 [16]int
+	const mask = uint64(len(counts) - 1)
+	const mask32 = LAddr32(len(counts) - 1)
+	src64 := unsafe.Slice((*uint64)(unsafe.Pointer(unsafe.SliceData(src))), len(src)/2)
+	shift2 := shift + 32
+	if shift2 >= 64 {
+		panic("bad shift")
+	}
+	for _, vv := range src64 {
+		counts0[(vv>>shift)&mask]++
+		counts1[(vv>>shift2)&mask]++
+	}
+	if len(src)%2 == 1 {
+		val0 := src[len(src)-1]
+		counts0[(val0>>shift)&mask32]++
+	}
+	for i := range counts {
+		counts[i] = counts0[i] + counts1[i]
+	}
+
+	// Turn the counts into offsets.
+	var offs [len(counts)]int
+	pos := 0
+	for i, count := range counts {
+		offs[i] = pos
+		pos += count
+	}
+
+	// Sort into output buffer.
+	//
+	// TODO: Prefetch?
+	for _, val := range src {
+		digit := (val >> shift) & mask32
+		dst[offs[digit]] = val
+		offs[digit]++
+	}
+}
+
+// TODO: Handle buffers that aren't a multiple of 32 bytes.
+func count32AVX2(src []LAddr32, shift uint, counts *[16]uint16)
+
+func bucketSort32AVX(src, dst []LAddr32, counts *[16]int, shift uint) {
+	// TODO: Just use [16]uint16 for the counts.
+	mask := LAddr32(len(counts) - 1)
+	var packedCounts [16]uint16
+	count32AVX2(src, shift, &packedCounts)
+	for i := range counts {
+		counts[i] = int(packedCounts[i])
 	}
 
 	// Turn the counts into offsets.

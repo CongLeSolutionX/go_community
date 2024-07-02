@@ -11,24 +11,60 @@ import (
 	"testing"
 )
 
-func TestBucketSort32(t *testing.T) {
+func TestCount32(t *testing.T) {
 	const iters = 32
 	const bufLen = 4 << 10
 
-	src := make([]uint32, bufLen)
-	dst := make([]uint32, bufLen)
+	// TODO: Test for counter overflow.
+	// TODO: Test buffers that aren't nice lengths.
+
+	src := make([]LAddr32, bufLen/4)
 
 	rnd := rand.New(rand.NewPCG(0, 0))
 
 	for range iters {
 		// Generate random source data.
 		for i := range src {
-			src[i] = rnd.Uint32()
+			src[i] = LAddr32(rnd.Uint32())
+		}
+		// Generate a random shift.
+		shift := rnd.UintN(31)
+
+		// Do the counting.
+		var counts [16]uint16
+		count32AVX2(src, shift, &counts)
+
+		// Reference implementation.
+		var wantCounts [16]uint16
+		for _, val := range src {
+			wantCounts[(val>>shift)&0xF]++
+		}
+		if counts != wantCounts {
+			t.Fatalf("want %v, got %v", wantCounts, counts)
+		}
+	}
+}
+
+func TestBucketSort32(t *testing.T) {
+	const iters = 32
+	const bufLen = 4 << 10
+
+	src := make([]LAddr32, bufLen)
+	dst := make([]LAddr32, bufLen)
+
+	rnd := rand.New(rand.NewPCG(0, 0))
+
+	for range iters {
+		// Generate random source data.
+		for i := range src {
+			src[i] = LAddr32(rnd.Uint32())
 		}
 		// Generate a random shift.
 		shift := rnd.UintN(31)
 
 		// Do the bucketing.
+		//
+		// TODO: Test different implementations
 		var counts [radixBase]int
 		bucketSort(src, dst, &counts, shift)
 
@@ -39,7 +75,7 @@ func TestBucketSort32(t *testing.T) {
 			sub := dst[pos : pos+count]
 			for i, val := range sub {
 				got := (val >> shift) % radixBase
-				if got != uint32(digit) {
+				if got != LAddr32(digit) {
 					t.Fatalf("dst[%d]=%d, got digit %d, want %d", pos+i, val, got, digit)
 				}
 			}
@@ -48,11 +84,27 @@ func TestBucketSort32(t *testing.T) {
 	}
 }
 
-func BenchmarkBucketSort(b *testing.B) {
+var bufBytes = makeBufBytes()
+
+func makeBufBytes() []int {
 	var bufBytes []int
 	for i := 64; i <= 32<<10; i *= 2 {
 		bufBytes = append(bufBytes, i)
 	}
+	return bufBytes
+}
+
+func BenchmarkBucketSort(b *testing.B) {
+	// I've experimented with some ways to speed this up.
+	//
+	// Computing counts as 4 uint64s split into 4 16 bit lanes using lots of
+	// shifts and branch-free code. This wound up being about 3x slower.
+	//
+	// Computing two histograms in parallel from even/odd elements is closer,
+	// but still slower than the obvious approach. To eliminate bounds and shift
+	// checks, I had to unsafe cast the []LAddr32 source to []uint64, precompute
+	// the larger shift, and check the two shift values before the loop.
+
 	// We can't really change the radix because it's a const, but we can do an
 	// okay job of simulating it in how we generate the input data.
 	var radixes []int
@@ -60,7 +112,7 @@ func BenchmarkBucketSort(b *testing.B) {
 		radixes = append(radixes, i)
 	}
 
-	b.Run("type=uint32", func(b *testing.B) {
+	b.Run("type=uint32/impl=base", func(b *testing.B) {
 		for _, radix := range radixes {
 			b.Run(fmt.Sprintf("radix=%d", radix), func(b *testing.B) {
 				for _, n := range bufBytes {
@@ -76,6 +128,28 @@ func BenchmarkBucketSort(b *testing.B) {
 						for range b.N {
 							var counts [radixBase]int
 							bucketSort(src, dst, &counts, 0)
+						}
+					})
+				}
+			})
+		}
+	})
+	b.Run("type=uint32/impl=avx", func(b *testing.B) {
+		for _, radix := range radixes {
+			b.Run(fmt.Sprintf("radix=%d", radix), func(b *testing.B) {
+				for _, n := range bufBytes {
+					// Generate data.
+					src := make([]LAddr32, n/4)
+					dst := make([]LAddr32, n/4)
+					rnd := rand.New(rand.NewPCG(0, 0))
+					for i := range src {
+						src[i] = LAddr32(rnd.Uint32N(uint32(radix)))
+					}
+					b.Run(fmt.Sprintf("bytes=%d", n), func(b *testing.B) {
+						b.SetBytes(int64(n))
+						for range b.N {
+							var counts [radixBase]int
+							bucketSort32AVX(src, dst, &counts, 0)
 						}
 					})
 				}
@@ -129,5 +203,38 @@ func BenchmarkSliceSort(b *testing.B) {
 				}
 			})
 		}
+	})
+}
+
+func BenchmarkCount32(b *testing.B) {
+	gen := func(b *testing.B, run func(b *testing.B, src []LAddr32)) {
+		for _, n := range bufBytes {
+			// Generate data.
+			src := make([]LAddr32, n/4)
+			rnd := rand.New(rand.NewPCG(0, 0))
+			for i := range src {
+				src[i] = LAddr32(rnd.Uint32())
+			}
+			b.Run(fmt.Sprintf("bytes=%d", n), func(b *testing.B) {
+				b.SetBytes(int64(n))
+				run(b, src)
+			})
+		}
+	}
+	b.Run("impl=go", func(b *testing.B) {
+		gen(b, func(b *testing.B, src []LAddr32) {
+			var counts [16]uint16
+			for range b.N {
+				count32Go(src, 0, &counts)
+			}
+		})
+	})
+	b.Run("impl=avx2", func(b *testing.B) {
+		gen(b, func(b *testing.B, src []LAddr32) {
+			var counts [16]uint16
+			for range b.N {
+				count32AVX2(src, 0, &counts)
+			}
+		})
 	})
 }
