@@ -1,3 +1,7 @@
+# github.com/aclements/go-perfevent v0.0.0-20240703205258-f34bb3e1a4e4
+## explicit; go 1.21
+github.com/aclements/go-perfevent/events
+github.com/aclements/go-perfevent/perf
 # github.com/google/pprof v0.0.0-20240528025155-186aa0362fba
 ## explicit; go 1.19
 github.com/google/pprof/driver
