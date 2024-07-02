@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bf5ff12_f234be44",
+        "filename": "src/cmd/compile/internal/types/pkg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2024-07-02T14:50:14Z",
+      "side": 1,
+      "message": "Haha",
+      "range": {
+        "startLine": 19,
+        "startChar": 65,
+        "endLine": 19,
+        "endChar": 87
+      },
+      "revId": "30c28a91cd76f2637de1f0ec043b8b75b8265873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
