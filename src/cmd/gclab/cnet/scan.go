@@ -28,6 +28,8 @@ const (
 	drainRandom
 )
 
+const useAVX = false
+
 const (
 	traceFlush     = false
 	traceEnqueue   = false
