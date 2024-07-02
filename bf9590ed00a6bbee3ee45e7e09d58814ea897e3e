@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c683e4c_3c3909f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-07-02T18:11:46Z",
+      "side": 1,
+      "message": "We might need to let relui re-create another instance of this CL (after the workaround for #68276). Let\u0027s not submit this one to avoid the possibility of it causing other problems (e.g. #62481).\n\nNo need to wait for trybots on the identical future CL though.",
+      "revId": "bf9590ed00a6bbee3ee45e7e09d58814ea897e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
