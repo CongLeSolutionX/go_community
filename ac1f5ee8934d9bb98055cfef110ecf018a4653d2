@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adef2b6b_48901463",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "I thought part of the point of a swiss table is that all the metadata is together (the 1 byte/entry piece) and all of the key/value pairs are together. Maybe I\u0027m remembering an older version of it. Currently your code is more like the current maps, where we alternate 8 bytes of metadata with 8 key/value pairs. Any reason to prefer one over the other?\n\nSmall maps - how small are they (memory footprint)? Currently a zero-entry map is 48 bytes and a 1-entry map[uint64]uint64 is 48+144 \u003d 192 bytes.\n\nI\u0027m most excited about getting rid of the hack to do something special gc-wise when both the key and value have no pointers. That all just falls out naturally in this open hashing implementation.",
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d519055f_6a369206",
+        "filename": "src/internal/runtime/maps/export_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "these should probably be defined constants somewhere?",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97a7a4f4_f0a095b4",
+        "filename": "src/internal/runtime/maps/group.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "It might be nice if empty was all 0s. Which we could do if we flip the meaning of the top bit?\nJust a thought, might be more of a pain than it is worth.",
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0b9b8e8_911a432b",
+        "filename": "src/internal/runtime/maps/group.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "Is this realGroup mentioned below?\n\nI would call this \"group\", and the type you currently call group I would call \"groupReference\" or \"groupHandle\".",
+      "range": {
+        "startLine": 153,
+        "startChar": 9,
+        "endLine": 153,
+        "endChar": 18
+      },
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7d46605_e51c00e8",
+        "filename": "src/internal/runtime/maps/group.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "I don\u0027t see realGroup mentioned above. I think I know what it means, though.",
+      "range": {
+        "startLine": 215,
+        "startChar": 43,
+        "endLine": 216,
+        "endChar": 27
+      },
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e949ffa1_d9e2edce",
+        "filename": "src/internal/runtime/maps/group.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "minus 1",
+      "range": {
+        "startLine": 219,
+        "startChar": 47,
+        "endLine": 219,
+        "endChar": 52
+      },
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd8c72c_4392447e",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "We could put a special case in find that allows all slots to be filled if there\u0027s just one group.",
+      "range": {
+        "startLine": 115,
+        "startChar": 24,
+        "endLine": 116,
+        "endChar": 16
+      },
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73e4b47e_3068ff79",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "Yes, this sounds like it would be important.\n\nWe could just remember that we saw a tombstone, and if so use uncheckedPutSlot?",
+      "range": {
+        "startLine": 269,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 29
+      },
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f23021f0_e82bbbc2",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "This seems impossible. We just checked \u003e0 and returned above.",
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc668eb9_e5a42bff",
+        "filename": "src/internal/runtime/maps/table.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-02T22:37:46Z",
+      "side": 1,
+      "message": "It might be nice to have a combo type for {Key,Elem}, or even [abi.SwissMapGroupSlots]{Key,Elem}, so we can just call typedmemclr once.",
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
