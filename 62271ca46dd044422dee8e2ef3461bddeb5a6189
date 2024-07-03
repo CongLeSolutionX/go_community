@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c048c0a2_c755d249",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-03T22:12:16Z",
+      "side": 1,
+      "message": "I really do think this would be better as separate test cases, particularly because the cognitive load of thinking about how they interact is non-trivial.\n\nFor example, figuring out that the \"dst\" value calculated in the first test case is being used as the expected value for the second was not immediately obvious - it\u0027d be easier to understand if it was called \"expectedCryptext\" or something.",
+      "range": {
+        "startLine": 68,
+        "startChar": 7,
+        "endLine": 68,
+        "endChar": 17
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97f0d030_4438376e",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-03T22:12:16Z",
+      "side": 1,
+      "message": "This is confusing to me because \"dst\" is overloaded - it refers to both the first argument of cipher and the variable defined on line 71, where the former is correct and the latter is the \"obvious\" interpretation.\n\nCan we say \"input and output locations are the same\" or something to that effect?",
+      "range": {
+        "startLine": 80,
+        "startChar": 66,
+        "endLine": 80,
+        "endChar": 73
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0064b574_08cda6fa",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-03T22:12:16Z",
+      "side": 1,
+      "message": "Nit: I\u0027d describe this as \u0027different cryptext produced when...\u0027",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf672aa_4eea1d83",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-03T22:12:16Z",
+      "side": 1,
+      "message": "nit: expectedDst?",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 9
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc3a48a_b33d8272",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-03T22:12:16Z",
+      "side": 1,
+      "message": "Would it be accurate to say \"one byte overlap\" here?",
+      "range": {
+        "startLine": 170,
+        "startChar": 30,
+        "endLine": 170,
+        "endChar": 45
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
