@@ -276,7 +276,7 @@
 //
 // Usage:
 //
-//	go clean [-i] [-r] [-cache] [-testcache] [-modcache] [-fuzzcache] [build flags] [packages]
+//	go clean [-i] [-r] [-cache] [-modcache] [-fuzzcache] [-testcache] [build flags] [packages]
 //
 // Clean removes object files from package source directories.
 // The go command builds most objects in a temporary directory,
