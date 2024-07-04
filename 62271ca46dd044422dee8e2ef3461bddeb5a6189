@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e05c135_b2ef6b06",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-04T23:34:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c048c0a2_c755d249",
+      "range": {
+        "startLine": 68,
+        "startChar": 7,
+        "endLine": 68,
+        "endChar": 17
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97f0d030_4438376e",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-03T22:12:16Z",
       "side": 1,
       "message": "This is confusing to me because \"dst\" is overloaded - it refers to both the first argument of cipher and the variable defined on line 71, where the former is correct and the latter is the \"obvious\" interpretation.\n\nCan we say \"input and output locations are the same\" or something to that effect?",
+      "range": {
+        "startLine": 80,
+        "startChar": 66,
+        "endLine": 80,
+        "endChar": 73
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6cc5732_9579bfc5",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-04T23:34:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97f0d030_4438376e",
       "range": {
         "startLine": 80,
         "startChar": 66,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b18258_c43038dc",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-04T23:34:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0064b574_08cda6fa",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 45
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bf672aa_4eea1d83",
@@ -93,6 +165,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ed02ec_a1446f38",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-04T23:34:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bf672aa_4eea1d83",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 9
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcc3a48a_b33d8272",
@@ -106,6 +202,30 @@
       "writtenOn": "2024-07-03T22:12:16Z",
       "side": 1,
       "message": "Would it be accurate to say \"one byte overlap\" here?",
+      "range": {
+        "startLine": 170,
+        "startChar": 30,
+        "endLine": 170,
+        "endChar": 45
+      },
+      "revId": "62271ca46dd044422dee8e2ef3461bddeb5a6189",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8da3d4d9_9eed2711",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-04T23:34:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc3a48a_b33d8272",
       "range": {
         "startLine": 170,
         "startChar": 30,
