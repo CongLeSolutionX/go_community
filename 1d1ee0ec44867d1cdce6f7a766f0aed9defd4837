@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff5c50c5_8ff1b471",
+        "filename": "src/crypto/aes/aes_block_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-04T23:43:36Z",
+      "side": 1,
+      "message": "NewCipher seems to conditionally return different implementations.\nShould we call each implementation individually here instead? i.e. boring.NewAESCipher, newCipherGeneric, and newCipher?",
+      "revId": "1d1ee0ec44867d1cdce6f7a766f0aed9defd4837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
