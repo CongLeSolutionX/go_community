@@ -7,7 +7,7 @@ package buffer
 
 import "sync"
 
-// buffer adapted from go/src/fmt/print.go
+// Buffer adapted from go/src/fmt/print.go
 type Buffer []byte
 
 // Having an initial size gives a dramatic speedup.
