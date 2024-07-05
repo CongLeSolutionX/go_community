@@ -16,6 +16,23 @@
       "message": "@iant@golang.org @joetsai@digital-static.net Whether we are going to do https://go-review.googlesource.com/c/go/+/588220 or not, we could go forward with this CL to prevent regression in allocations of Pipe function.",
       "revId": "63785f6c920d140a343923e295206d77fa01adc8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83e32ad2_60bee304",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-07-05T11:24:04Z",
+      "side": 1,
+      "message": "Hi @iant@golang.org, do you think this CL can be land for go1.23?",
+      "revId": "63785f6c920d140a343923e295206d77fa01adc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
