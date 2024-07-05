@@ -72,6 +72,24 @@
       "message": "Thanks.",
       "revId": "50c0f32861030015aacd522e067ba2708f3babef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e0001b4_5a539a57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-07-05T02:52:24Z",
+      "side": 1,
+      "message": "Unless there\u0027s a particular need for a specific legacy trybot, there\u0027s no need to trigger them. Just LUCI trybots is fine.",
+      "parentUuid": "f702dced_38bcebfd",
+      "revId": "50c0f32861030015aacd522e067ba2708f3babef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa0d6d36_88afacee",
+        "filename": "src/log/slog/internal/buffer/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-07-05T02:52:24Z",
+      "side": 0,
+      "message": "Done.",
+      "parentUuid": "8fc863d3_793020a2",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "82c14346d89ec0eeca114f9ca0e88516b2cda454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "674cfe23_041728fc",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-04T17:26:09Z",
       "side": 0,
       "message": "The lower-case `poolDequeue` refers to what this interface helps test.\n\n```suggestion\n// Export for poolDequeue testing.\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "82c14346d89ec0eeca114f9ca0e88516b2cda454",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2895860d_ad3847bc",
+        "filename": "src/sync/export_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-07-05T02:52:24Z",
+      "side": 0,
+      "message": "Done.",
+      "parentUuid": "674cfe23_041728fc",
       "range": {
         "startLine": 13,
         "startChar": 3,
