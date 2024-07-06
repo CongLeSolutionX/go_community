@@ -33,6 +33,23 @@
       "message": "Hi @iant@golang.org, do you think this CL can be land for go1.23?",
       "revId": "63785f6c920d140a343923e295206d77fa01adc8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddc9b2a8_a781d0ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-07-06T21:35:19Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "63785f6c920d140a343923e295206d77fa01adc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
