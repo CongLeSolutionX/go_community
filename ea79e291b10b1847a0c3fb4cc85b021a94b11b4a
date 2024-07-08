@@ -33,6 +33,24 @@
       "message": "Please rebase to master to resolve the failure caused by an old branch.Thanks.",
       "revId": "ea79e291b10b1847a0c3fb4cc85b021a94b11b4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd75f3ef_439576b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-08T18:29:38Z",
+      "side": 1,
+      "message": "Hi Laidongfeng,\nThanks for pointing it out!\nRebased the to master branch.\nThanks,\nXin",
+      "parentUuid": "22b5033b_6c0059ac",
+      "revId": "ea79e291b10b1847a0c3fb4cc85b021a94b11b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
