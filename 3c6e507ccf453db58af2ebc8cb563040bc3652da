@@ -51,6 +51,24 @@
       "parentUuid": "de5459d9_28da8901",
       "revId": "3c6e507ccf453db58af2ebc8cb563040bc3652da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03b5b412_4c9708c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-07-08T12:15:57Z",
+      "side": 1,
+      "message": "CL commit description comes from the first content of github PR, if want to change the commit description, please change there.",
+      "parentUuid": "311cb65a_f53a1922",
+      "revId": "3c6e507ccf453db58af2ebc8cb563040bc3652da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
