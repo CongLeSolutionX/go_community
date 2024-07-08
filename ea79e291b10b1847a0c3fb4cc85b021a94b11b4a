@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e57b98c8_7c68cc6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-08T04:53:29Z",
+      "side": 1,
+      "message": "I will keep in mind to not use markdown in comments.",
+      "revId": "ea79e291b10b1847a0c3fb4cc85b021a94b11b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
