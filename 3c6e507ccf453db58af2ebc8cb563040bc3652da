@@ -69,6 +69,24 @@
       "parentUuid": "311cb65a_f53a1922",
       "revId": "3c6e507ccf453db58af2ebc8cb563040bc3652da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "709cad7a_5c5e77b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-08T18:31:34Z",
+      "side": 1,
+      "message": "Thanks for the info! The only thing I was trying to change is to remove the markdown syntax.",
+      "parentUuid": "03b5b412_4c9708c2",
+      "revId": "3c6e507ccf453db58af2ebc8cb563040bc3652da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
