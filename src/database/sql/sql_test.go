@@ -4946,3 +4946,47 @@ func BenchmarkConnRequestSet(b *testing.B) {
 		}
 	}
 }
+
+type (
+	unknownInputsConnector      struct{}
+	unknownInputsConn           struct{}
+	unknownInputsStmt           struct{}
+	unknownInputsValueConverter struct{}
+)
+
+func (unknownInputsConnector) Connect(context.Context) (driver.Conn, error) {
+	return unknownInputsConn{}, nil
+}
+
+func (unknownInputsConnector) Driver() driver.Driver          { return nil }
+func (unknownInputsConn) Prepare(string) (driver.Stmt, error) { return unknownInputsStmt{}, nil }
+func (unknownInputsConn) Close() error                        { return nil }
+func (unknownInputsConn) Begin() (driver.Tx, error)           { return nil, nil }
+func (unknownInputsStmt) Close() error                        { return nil }
+func (unknownInputsStmt) NumInput() int                       { return -1 }
+func (unknownInputsStmt) Exec(args []driver.Value) (driver.Result, error) {
+	if _, ok := args[0].(string); !ok {
+		return nil, fmt.Errorf("Expected string, got %T", args[0])
+	}
+	return nil, nil
+}
+func (unknownInputsStmt) Query([]driver.Value) (driver.Rows, error) { return nil, nil }
+func (unknownInputsStmt) ColumnConverter(idx int) driver.ValueConverter {
+	return unknownInputsValueConverter{}
+}
+
+func (unknownInputsValueConverter) ConvertValue(v any) (driver.Value, error) {
+	return "string", nil
+}
+
+func TestColumnConverterWithUnknownInputCount(t *testing.T) {
+	db := OpenDB(&unknownInputsConnector{})
+	stmt, err := db.Prepare("SELECT ?")
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = stmt.Exec(1)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
