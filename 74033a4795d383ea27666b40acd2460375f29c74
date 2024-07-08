@@ -1,0 +1,79 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f3837a_a94177f7",
+        "filename": "src/crypto/cipher/cbc_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-07-08T20:32:16Z",
+      "side": 1,
+      "message": "Add copyright header.",
+      "revId": "74033a4795d383ea27666b40acd2460375f29c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf19896_3227ef23",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-07-08T20:32:16Z",
+      "side": 1,
+      "message": "Add copyright header.",
+      "revId": "74033a4795d383ea27666b40acd2460375f29c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4839cbde_57417dca",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2024-07-08T20:32:16Z",
+      "side": 1,
+      "message": "nit: Roundtrip",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 13
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5e653074_68c2e0bb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/crypto/internal/cryptotest/blockmode.go",
+              "range": {
+                "startLine": 63,
+                "startChar": 0,
+                "endLine": 64,
+                "endChar": 0
+              },
+              "replacement": "\tt.Run(\"Roundtrip\", func(t *testing.T) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "74033a4795d383ea27666b40acd2460375f29c74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
