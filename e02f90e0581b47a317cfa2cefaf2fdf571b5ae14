@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "878c59f3_ce119fff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-08T20:28:30Z",
+      "side": 1,
+      "message": "Another question : do I need to create an issue on github for the code change? Sorry for my basic question.",
+      "revId": "e02f90e0581b47a317cfa2cefaf2fdf571b5ae14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
