@@ -16,6 +16,23 @@
       "message": "I will keep in mind to not use markdown in comments.",
       "revId": "ea79e291b10b1847a0c3fb4cc85b021a94b11b4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22b5033b_6c0059ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64033
+      },
+      "writtenOn": "2024-07-08T12:29:57Z",
+      "side": 1,
+      "message": "Please rebase to master to resolve the failure caused by an old branch.Thanks.",
+      "revId": "ea79e291b10b1847a0c3fb4cc85b021a94b11b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
