@@ -16,6 +16,24 @@
       "message": "Note: The function newRandReader is in the hash.go file in the cryptotest package which lives in a separate CL.  \nIs there a protocol for how to handle a namespace spread across multiple CLs since I imagine LUCI will fail checks since newRandReader isn\u0027t defined in this CL without hash.go being merged first?",
       "revId": "b0837b82fcadde15c08d2210eea596d58f5712ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ec1298a_370bc0e7",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-09T15:56:59Z",
+      "side": 1,
+      "message": "Now that the hash CL is checked in, you should be able to update this CL to include the hash changes.\n\nhttps://pkg.go.dev/golang.org/x/review/git-codereview#hdr-Sync\n\n(Make sure you see the changes in this CL in Gerrit - you might have to git codereview mail)\n\n\nThe more general way of doing this is to use a multiple commit work branch:\nhttps://pkg.go.dev/golang.org/x/review/git-codereview#hdr-Multiple_Commit_Work_Branches",
+      "parentUuid": "46a36ef9_68269efa",
+      "revId": "b0837b82fcadde15c08d2210eea596d58f5712ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
