@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46a36ef9_68269efa",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-09T00:05:06Z",
+      "side": 1,
+      "message": "Note: The function newRandReader is in the hash.go file in the cryptotest package which lives in a separate CL.  \nIs there a protocol for how to handle a namespace spread across multiple CLs since I imagine LUCI will fail checks since newRandReader isn\u0027t defined in this CL without hash.go being merged first?",
+      "revId": "b0837b82fcadde15c08d2210eea596d58f5712ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
