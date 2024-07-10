@@ -16,6 +16,23 @@
       "message": "Seems reasonable to me. Thanks.",
       "revId": "75ed57d7395079aeab0a31be6b7b5041fb19e5b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40cf92d4_23878dd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-07-10T02:42:42Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "75ed57d7395079aeab0a31be6b7b5041fb19e5b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
