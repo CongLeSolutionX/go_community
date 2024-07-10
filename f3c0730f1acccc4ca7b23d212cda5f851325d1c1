@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e32180_7d544a8d",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-10T17:48:02Z",
+      "side": 1,
+      "message": "I don\u0027t know why we would ever see a 0 byte.",
+      "revId": "f3c0730f1acccc4ca7b23d212cda5f851325d1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da7e1c1_f4810bcf",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-10T17:48:02Z",
+      "side": 1,
+      "message": "This seems like it will potentially introduce garbage characters.  We shouldn\u0027t be reaching past the end of what we read into d.buf.",
+      "revId": "f3c0730f1acccc4ca7b23d212cda5f851325d1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
