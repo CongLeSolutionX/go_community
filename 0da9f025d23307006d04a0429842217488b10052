@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44ed0087_2ba0f7b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16693
+      },
+      "writtenOn": "2024-07-10T04:31:53Z",
+      "side": 1,
+      "message": "Not sure what the repo convention is for showing homework, so I\u0027ll leave as a comment:\n\nA delve into the Unicode standard and what it has to say about handling invalid encodings generally (and UTF-8 in particular) is at https://groups.google.com/g/golang-nuts/c/NASC721rNZA/m/Flq4Y3IiAAAJ\n\nVia godbolt, I checked the output of gc 1.14 and gccgo 4.9.4, the oldest available. They match current behavior.\n\nThe behavior of range over string when it encounters invalid UTF-8 has been in the spec since 7aee71bd4f743973d104e081586a892ebdaeed67, seven months before Go 1.0. I haven\u0027t checked against a 1.0 compiler, but it seems reasonable to assume the runtime has always handled string to rune slice conversion using the same logic.\n\nI tried finding a built of gollvm to test, but ran out of time and then found out that it uses gccgo\u0027s frontend, so presumable will hand the backend the same rune conversion IR as gccgo.",
+      "revId": "0da9f025d23307006d04a0429842217488b10052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
