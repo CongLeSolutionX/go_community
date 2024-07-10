@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34061f43_936e8dde",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 3406606
+      },
+      "writtenOn": "2024-07-10T14:23:58Z",
+      "side": 1,
+      "message": "Sorry for the late response, i kinda lost track of this. However, when looking into it again, I noticed I was merely using a workaround to fix a deeper lying issue. I tracked that down to the decodeQuantum function were it would fail when seeing empty input in a block of 4 bytes. However, empty input is valid in case of NoPadding. I removed the workaround and fixed the underlying issue. This should now be way easier to understand",
+      "parentUuid": "f25d5935_0bb8acec",
+      "revId": "69b829472fb2f5b08c3b77e82885de76f49556a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36840099_f11a7659",
         "filename": "src/encoding/base64/base64_test.go",
         "patchSetId": 4
