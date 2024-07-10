@@ -380,6 +380,7 @@ func TestIssue60181(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	defer Remove(a.Name())
 	a.WriteString(want[:5])
 	a.Close()
 
@@ -387,6 +388,7 @@ func TestIssue60181(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	defer Remove(b.Name())
 	b.WriteString(want[5:])
 	b.Close()
 
