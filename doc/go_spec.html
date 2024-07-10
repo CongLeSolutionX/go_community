@@ -5613,10 +5613,13 @@ bytes("hellø")              // []byte{'h', 'e', 'l', 'l', '\xc3', '\xb8'}
 <li>
 Converting a value of a string type to a slice of runes type
 yields a slice containing the individual Unicode code points of the string.
+Invalid UTF-8 byte sequences are translated to one Unicode replacement
+character (<code>0xFFFD</code>) per invalid byte.
 
 <pre>
 []rune(myString("白鵬翔"))   // []rune{0x767d, 0x9d6c, 0x7fd4}
 []rune("")                  // []rune{}
+[]rune("\x80bad\xC0\x80")   // []rune{0xfffd, 0x62, 0x61, 0x64, 0xfffd, 0xfffd}
 
 runes("白鵬翔")              // []rune{0x767d, 0x9d6c, 0x7fd4}
 
