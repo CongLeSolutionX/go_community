@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5577cd84_39b90310",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-10T18:41:19Z",
+      "side": 1,
+      "message": "Do this include only top-level types, or it also includes types defined in an inner scope?",
+      "revId": "33edb27e423855fab270906d91733f37163f55b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
