@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6552612_b8018f0d",
+        "filename": "src/os/os_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-10T16:04:51Z",
+      "side": 1,
+      "message": "I suggest that we instead change the CreateTemp calls to pass \".\" as the first argument, since we\u0027ve already changed to a temporary directory.  Thanks.",
+      "revId": "a1116ae70d7bb742a10e2dbf78a5b2f60980d837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
