@@ -330,16 +330,38 @@ const (
 	C_ZCON
 	C_SCON // 12 bit signed
 	C_UCON // 32 bit signed, low 12 bits 0
+
+	// When the immediate value is SCON, it can choose either the ADDCON implementation
+	// or the ANDCON implementation, using ADD0CON/AND0CON to distinguish them, so that
+	// the program can choose the implementation with fewer instructions.
 	C_ADD0CON
 	C_AND0CON
-	C_ADDCON  // -0x800 <= v < 0
-	C_ANDCON  // 0 < v <= 0xFFF
-	C_LCON    // other 32
-	C_DCON    // other 64 (could subdivide further)
-	C_SACON   // $n(REG) where n <= int12
-	C_LACON   // $n(REG) where int12 < n <= int32
-	C_DACON   // $n(REG) where int32 < n
-	C_EXTADDR // external symbol address
+
+	C_ADDCON      // -0x800 <= v < 0
+	C_ANDCON      // 0 < v <= 0xFFF
+	C_LCON        // other 32
+	C_DCON20S_0   // 64 bit signed, low 32 bits 0, hi12 bits is 0x0 or 0xfff
+	C_DCON12_0    // 64 bit signed, low 52 bits 0
+	C_DCON32_0    // 64 bit signed, low 32 bits 0
+	C_DCON0_20S   // 64 bit signed, low 12 bits 0, hi32 bits is 0x0 or 0xffffffff
+	C_DCON12_20S  // 64 bit signed, low 12 bits 0, bits 32~51 is 0x0 or 0xfffff
+	C_DCON20S_20  // 64 bit signed, low 12 bits 0, hi12 bits is 0x0 or 0xfff
+	C_DCON32_20   // 64 bit signed, low 12 bits 0
+	C_DCON0_12S   // 64 bit signed, hi52 bits is 0x0 or 0xfffffffffffff
+	C_DCON12_12S  // 64 bit signed, 12~51 bits is 0x0 or 0xffffffffff
+	C_DCON20S_12S // 64 bit signed, 12~31 bits is 0x0 or 0xfffff, hi12 bits is 0x0 or 0xfff
+	C_DCON32_12S  // 64 bit signed, 12~31 bits is 0x0 or 0xfffff
+	C_DCON0_32S   // 64 bit signed, 32~63 bits is 0x0 or 0xffffffff
+	C_DCON12_32S  // 64 bit signed, 32~51 bits is 0x0 or 0xfffff
+	C_DCON20S_32  // 64 bit signed, hi12 bits is 0x0 or 0xfff
+	C_DCON12_12U  // 64 bit signed, 12~51 bits 0
+	C_DCON20S_12U // 64 bit signed, 12~31 bits 0, hi12 bits is 0x0 or 0xfff
+	C_DCON32_12U  // 64 bit signed, 12~32 bits 0
+	C_DCON        // other 64
+	C_SACON       // $n(REG) where n <= int12
+	C_LACON       // $n(REG) where int12 < n <= int32
+	C_DACON       // $n(REG) where int32 < n
+	C_EXTADDR     // external symbol address
 	C_BRAN
 	C_SAUTO
 	C_LAUTO
