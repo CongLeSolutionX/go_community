@@ -34,6 +34,24 @@
       "parentUuid": "5577cd84_39b90310",
       "revId": "33edb27e423855fab270906d91733f37163f55b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f0e37c7_b6aaa817",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-11T14:35:45Z",
+      "side": 1,
+      "message": "LGTM. Thanks.",
+      "parentUuid": "967cdd1f_ed348189",
+      "revId": "33edb27e423855fab270906d91733f37163f55b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
