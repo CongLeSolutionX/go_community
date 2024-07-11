@@ -9,6 +9,7 @@ import (
 	"cmd/internal/objabi"
 	"fmt"
 	"log"
+	"math/bits"
 	"slices"
 )
 
@@ -177,6 +178,21 @@ var optab = []Optab{
 	{AMOVV, C_UCON, C_NONE, C_NONE, C_REG, C_NONE, 24, 4, 0, 0},
 	{AMOVW, C_LCON, C_NONE, C_NONE, C_REG, C_NONE, 19, 8, 0, NOTUSETMP},
 	{AMOVV, C_LCON, C_NONE, C_NONE, C_REG, C_NONE, 19, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON12_0, C_NONE, C_NONE, C_REG, C_NONE, 67, 4, 0, NOTUSETMP},
+	{AMOVV, C_DCON0_20S, C_NONE, C_NONE, C_REG, C_NONE, 68, 4, 0, NOTUSETMP},
+	{AMOVV, C_DCON12_20S, C_NONE, C_NONE, C_REG, C_NONE, 69, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON20S_20, C_NONE, C_NONE, C_REG, C_NONE, 70, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON32_20, C_NONE, C_NONE, C_REG, C_NONE, 71, 12, 0, NOTUSETMP},
+	{AMOVV, C_DCON12_32S, C_NONE, C_NONE, C_REG, C_NONE, 72, 12, 0, NOTUSETMP},
+	{AMOVV, C_DCON0_12S, C_NONE, C_NONE, C_REG, C_NONE, 73, 4, 0, NOTUSETMP},
+	{AMOVV, C_DCON12_12S, C_NONE, C_NONE, C_REG, C_NONE, 74, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON20S_12S, C_NONE, C_NONE, C_REG, C_NONE, 75, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON32_12S, C_NONE, C_NONE, C_REG, C_NONE, 76, 12, 0, NOTUSETMP},
+	{AMOVV, C_DCON0_32S, C_NONE, C_NONE, C_REG, C_NONE, 77, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON20S_32, C_NONE, C_NONE, C_REG, C_NONE, 78, 12, 0, NOTUSETMP},
+	{AMOVV, C_DCON12_12U, C_NONE, C_NONE, C_REG, C_NONE, 79, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON20S_12U, C_NONE, C_NONE, C_REG, C_NONE, 80, 8, 0, NOTUSETMP},
+	{AMOVV, C_DCON32_12U, C_NONE, C_NONE, C_REG, C_NONE, 81, 12, 0, NOTUSETMP},
 	{AMOVV, C_DCON, C_NONE, C_NONE, C_REG, C_NONE, 59, 16, 0, NOTUSETMP},
 
 	{AADD, C_ADD0CON, C_REG, C_NONE, C_REG, C_NONE, 4, 4, 0, 0},
@@ -210,6 +226,36 @@ var optab = []Optab{
 
 	{AADDV, C_DCON, C_NONE, C_NONE, C_REG, C_NONE, 60, 20, 0, 0},
 	{AADDV, C_DCON, C_REG, C_NONE, C_REG, C_NONE, 60, 20, 0, 0},
+	{AADDV, C_DCON12_0, C_NONE, C_NONE, C_REG, C_NONE, 82, 8, 0, 0},
+	{AADDV, C_DCON12_0, C_REG, C_NONE, C_REG, C_NONE, 82, 8, 0, 0},
+	{AADDV, C_DCON0_20S, C_NONE, C_NONE, C_REG, C_NONE, 83, 8, 0, 0},
+	{AADDV, C_DCON0_20S, C_REG, C_NONE, C_REG, C_NONE, 83, 8, 0, 0},
+	{AADDV, C_DCON12_20S, C_NONE, C_NONE, C_REG, C_NONE, 84, 12, 0, 0},
+	{AADDV, C_DCON12_20S, C_REG, C_NONE, C_REG, C_NONE, 84, 12, 0, 0},
+	{AADDV, C_DCON20S_20, C_NONE, C_NONE, C_REG, C_NONE, 85, 12, 0, 0},
+	{AADDV, C_DCON20S_20, C_REG, C_NONE, C_REG, C_NONE, 85, 12, 0, 0},
+	{AADDV, C_DCON32_20, C_NONE, C_NONE, C_REG, C_NONE, 86, 16, 0, 0},
+	{AADDV, C_DCON32_20, C_REG, C_NONE, C_REG, C_NONE, 86, 16, 0, 0},
+	{AADDV, C_DCON12_32S, C_NONE, C_NONE, C_REG, C_NONE, 87, 16, 0, 0},
+	{AADDV, C_DCON12_32S, C_REG, C_NONE, C_REG, C_NONE, 87, 16, 0, 0},
+	{AADDV, C_DCON0_12S, C_NONE, C_NONE, C_REG, C_NONE, 88, 8, 0, 0},
+	{AADDV, C_DCON0_12S, C_REG, C_NONE, C_REG, C_NONE, 88, 8, 0, 0},
+	{AADDV, C_DCON12_12S, C_NONE, C_NONE, C_REG, C_NONE, 89, 12, 0, 0},
+	{AADDV, C_DCON12_12S, C_REG, C_NONE, C_REG, C_NONE, 89, 12, 0, 0},
+	{AADDV, C_DCON20S_12S, C_NONE, C_NONE, C_REG, C_NONE, 90, 12, 0, 0},
+	{AADDV, C_DCON20S_12S, C_REG, C_NONE, C_REG, C_NONE, 90, 12, 0, 0},
+	{AADDV, C_DCON32_12S, C_NONE, C_NONE, C_REG, C_NONE, 91, 16, 0, 0},
+	{AADDV, C_DCON32_12S, C_REG, C_NONE, C_REG, C_NONE, 91, 16, 0, 0},
+	{AADDV, C_DCON0_32S, C_NONE, C_NONE, C_REG, C_NONE, 92, 12, 0, 0},
+	{AADDV, C_DCON0_32S, C_REG, C_NONE, C_REG, C_NONE, 92, 12, 0, 0},
+	{AADDV, C_DCON20S_32, C_NONE, C_NONE, C_REG, C_NONE, 93, 16, 0, 0},
+	{AADDV, C_DCON20S_32, C_REG, C_NONE, C_REG, C_NONE, 93, 16, 0, 0},
+	{AADDV, C_DCON12_12U, C_NONE, C_NONE, C_REG, C_NONE, 94, 12, 0, 0},
+	{AADDV, C_DCON12_12U, C_REG, C_NONE, C_REG, C_NONE, 94, 12, 0, 0},
+	{AADDV, C_DCON20S_12U, C_NONE, C_NONE, C_REG, C_NONE, 95, 12, 0, 0},
+	{AADDV, C_DCON20S_12U, C_REG, C_NONE, C_REG, C_NONE, 95, 12, 0, 0},
+	{AADDV, C_DCON32_12U, C_NONE, C_NONE, C_REG, C_NONE, 96, 16, 0, 0},
+	{AADDV, C_DCON32_12U, C_REG, C_NONE, C_REG, C_NONE, 96, 16, 0, 0},
 
 	{ASLL, C_SCON, C_REG, C_NONE, C_REG, C_NONE, 16, 4, 0, 0},
 	{ASLL, C_SCON, C_NONE, C_NONE, C_REG, C_NONE, 16, 4, 0, 0},
@@ -757,7 +803,7 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 		}
 
 		if c.instoffset != int64(int32(c.instoffset)) {
-			return C_DCON
+			return dconClass(c.instoffset)
 		}
 
 		if c.instoffset >= 0 {
@@ -795,6 +841,158 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 	}
 
 	return C_GOK
+}
+
+const (
+	ALL1 = iota
+	ALL0
+	ST1
+	ST0
+)
+
+func mask(suf int8, len int8) (uint64, uint64) {
+	if len == 12 {
+		if suf == 0 {
+			return 0xfff, 0x800
+		} else { // suf == 52
+			return 0xfff0000000000000, 0x8000000000000000
+		}
+	} else { // len == 20
+		if suf == 12 {
+			return 0xfffff000, 0x80000000
+		} else { // suf == 32
+			return 0xfffff00000000, 0x8000000000000
+		}
+	}
+}
+
+// bitField return a number represent status of val in bitfield
+//
+//	0: bitfield is all 1
+//	1: bitfield is all 0
+//	2: bitfield start with 1, not all 1
+//	3: bitfield start with 0, not all 0
+func bitField(val int64, suf int8, len int8) int8 {
+	mask1, mask2 := mask(suf, len)
+	if uint64(val)&mask1 == mask1 {
+		return ALL1
+	} else if uint64(val)&mask1 == 0x0 {
+		return ALL0
+	} else if uint64(val)&mask2 == mask2 {
+		return ST1
+	} else {
+		return ST0
+	}
+}
+
+func dconClass(offset int64) int {
+	tzb := bits.TrailingZeros64(uint64(offset))
+	hi12 := bitField(offset, 52, 12)
+	hi20 := bitField(offset, 32, 20)
+	lo20 := bitField(offset, 12, 20)
+	lo12 := bitField(offset, 0, 12)
+	if tzb >= 52 {
+		return C_DCON12_0 // lu52i.d
+	} else if tzb >= 32 {
+		if ((hi20 == ALL1 || hi20 == ST1) && hi12 == ALL1) || ((hi20 == ALL0 || hi20 == ST0) && hi12 == ALL0) {
+			return C_DCON20S_0 // ori/lu12i.w + lu32i.d
+		}
+		return C_DCON32_0 // ori/lu12i.w + lu32i.d + lu52i.d
+	} else if tzb >= 12 {
+		if lo20 == ST1 || lo20 == ALL1 {
+			if hi20 == ALL1 {
+				if hi12 == ALL1 {
+					return C_DCON0_20S // lu12i.w
+				} else {
+					return C_DCON12_20S // lu12i.w + lu52i.d
+				}
+			} else if (hi20 == ST1 && hi12 == ALL1) || ((hi20 == ST0 || hi20 == ALL1) && hi12 == ALL0) {
+				return C_DCON20S_20 // lu12i.w + lu32i.d
+			}
+			return C_DCON32_20 // lu12i.w + lu32i.d + lu52i.d
+		} else {
+			if hi20 == ALL0 {
+				if hi12 == ALL0 {
+					return C_DCON0_20S // lu12i.w
+				} else {
+					return C_DCON12_20S // lu12i.w + lu52i.d
+				}
+			} else if (hi20 == ST0 && hi12 == ALL0) || ((hi20 == ST1 || hi20 == ALL1) && hi12 == ALL1) {
+				return C_DCON20S_20 // lu12i.w + lu32i.d
+			}
+			return C_DCON32_20 // lu12i.w + lu32i.d + lu52i.d
+		}
+	} else {
+		if lo12 == ST1 || lo12 == ALL1 {
+			if lo20 == ALL1 {
+				if hi20 == ALL1 {
+					if hi12 == ALL1 {
+						return C_DCON0_12S // addi.d
+					}
+					return C_DCON12_12S // addi.d + lu52i.d
+				} else if (hi20 == ST1 && hi12 == ALL1) || ((hi20 == ST0 || hi20 == ALL0) && hi12 == ALL0) {
+					return C_DCON20S_12S // addi.w + lu32i.d
+				}
+				return C_DCON32_12S // addi.w + lu32i.d + lu52i.d
+			} else if lo20 == ST1 {
+				if hi20 == ALL1 {
+					if hi12 == ALL1 {
+						return C_DCON0_32S // lu12i.w + ori
+					}
+					return C_DCON12_32S // lu12i.w + ori + lu52i.d
+				} else if (hi20 == ST1 && hi12 == ALL1) || ((hi20 == ST0 || hi20 == ALL0) && hi12 == ALL0) {
+					return C_DCON20S_32 // lu12i.w + ori + lu32i.d
+				}
+				return C_DCON // lu12i.w + ori + lu32i.d + lu52i.d
+			} else if lo20 == ALL0 {
+				if hi20 == ALL0 {
+					return C_DCON12_12U // ori + lu52i.d
+				} else if ((hi20 == ST1 || hi20 == ALL1) && hi12 == ALL1) || (hi20 == ST0 && hi12 == ALL0) {
+					return C_DCON20S_12U // ori + lu32i.d
+				}
+				return C_DCON32_12U // ori + lu32i.d + lu52i.d
+			} else {
+				if hi20 == ALL0 {
+					if hi12 == ALL0 {
+						return C_DCON0_32S // lu12i.w + ori
+					}
+					return C_DCON12_32S // lu12i.w + ori + lu52i.d
+				} else if ((hi20 == ST1 || hi20 == ALL1) && hi12 == ALL1) || (hi20 == ST0 && hi12 == ALL0) {
+					return C_DCON20S_32 // lu12i.w + ori + lu32i.d
+				}
+				return C_DCON // lu12i.w + ori + lu32i.d + lu52i.d
+			}
+		} else {
+			if lo20 == ALL0 {
+				if hi20 == ALL0 {
+					return C_DCON12_12U // ori + lu52i.d
+				} else if ((hi20 == ST1 || hi20 == ALL1) && hi12 == ALL1) || (hi20 == ST0 && hi12 == ALL0) {
+					return C_DCON20S_12U // ori + lu32i.d
+				}
+				return C_DCON32_12U // ori + lu32i.d + lu52i.d
+			} else if lo20 == ST1 || lo20 == ALL1 {
+				if hi20 == ALL1 {
+					if hi12 == ALL1 {
+						return C_DCON0_32S // lu12i.w + ori
+					}
+					return C_DCON12_32S // lu12i.w + ori + lu52i.d
+				} else if (hi20 == ST1 && hi12 == ALL1) || ((hi20 == ST0 || hi20 == ALL0) && hi12 == ALL0) {
+					return C_DCON20S_32 // lu12i.w + ori + lu32i.d
+				}
+				return C_DCON
+			} else {
+				if hi20 == ALL0 {
+					if hi12 == ALL0 {
+						return C_DCON0_32S // lu12i.w + ori
+					}
+					return C_DCON12_32S // lu12i.w + ori + lu52i.d
+				} else if ((hi20 == ST1 || hi20 == ALL1) && hi12 == ALL1) || (hi20 == ST0 && hi12 == ALL0) {
+					return C_DCON20S_32 // lu12i.w + ori + lu32i.d
+				}
+				return C_DCON
+			}
+		}
+	}
 }
 
 // In Loong64，there are 8 CFRs, denoted as fcc0-fcc7.
@@ -894,12 +1092,25 @@ func cmp(a int, b int) bool {
 	}
 	switch a {
 	case C_DCON:
-		if b == C_LCON {
+		if b == C_LCON || b == C_DCON32_0 || b == C_DCON12_0 || b == C_DCON20S_0 || b == C_DCON0_20S || b == C_DCON12_20S ||
+			b == C_DCON20S_20 || b == C_DCON32_20 || b == C_DCON0_12S || b == C_DCON12_12S || b == C_DCON20S_12S ||
+			b == C_DCON32_12S || b == C_DCON0_32S || b == C_DCON12_32S || b == C_DCON20S_32 || b == C_DCON12_12U ||
+			b == C_DCON20S_12U || b == C_DCON32_12U {
 			return true
 		}
 		fallthrough
 	case C_LCON:
 		if b == C_ZCON || b == C_SCON || b == C_UCON || b == C_ADDCON || b == C_ANDCON {
+			return true
+		}
+
+	case C_DCON32_12S:
+		if b == C_DCON32_0 {
+			return true
+		}
+
+	case C_DCON20S_12S:
+		if b == C_DCON20S_0 {
 			return true
 		}
 
@@ -1825,6 +2036,235 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("illegal register combination: %v\n", p)
 		}
 		o1 = OP_RRR(atomicInst[p.As], uint32(rk), uint32(rj), uint32(rd))
+
+	case 67: // mov $dcon12_0, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(0), uint32(p.To.Reg))
+
+	case 68: // mov $dcon0_20S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
+
+	case 69: // mov $dcon12_20S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
+		o2 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 70: // mov $dcon20S_20, r
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
+
+	case 71: // mov $dcon32_20, r
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 72: // mov $dcon12_32S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
+		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(p.To.Reg), uint32(p.To.Reg))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 73: // mov $dcon0_12S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(p.To.Reg))
+
+	case 74: // mov $dcon12_12S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(p.To.Reg))
+		o2 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 75: // mov $dcon20S_12S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(p.To.Reg))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
+
+	case 76: // mov $dcon32_12S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(p.To.Reg))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 77: // mov $dcon0_32S, r
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
+		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 78: // mov $dcon20S_32, r
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(p.To.Reg))
+		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(p.To.Reg), uint32(p.To.Reg))
+		o3 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
+
+	case 79: // mov $dcon12_12U, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(0), uint32(p.To.Reg))
+		o2 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 80: // mov $dcon20S_12U, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(0), uint32(p.To.Reg))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
+
+	case 81: // mov $dcon32_12U, r
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(0), uint32(p.To.Reg))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(p.To.Reg))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 82: // add $dcon12_0,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(0), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o2 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 83: // add $dcon0_20S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o2 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 84: // add $dcon12_20S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
+		o2 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 85: // add $dcon20S_20,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 86: // add $dcon32_20,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o4 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 87: // add $dcon12_32S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
+		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(REGTMP), uint32(REGTMP))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o4 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 88: // add $dcon0_12S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o2 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 89: // add $dcon12_12S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(REGTMP))
+		o2 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 90: // add $dcon20S_12S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(REGTMP))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 91: // add $dcon32_12S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AADDV), uint32(v), uint32(0), uint32(REGTMP))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o4 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 92: // add $dcon0_32S,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
+		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 93: // add $dcon20S_32,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_IR(c.opir(ALU12IW), uint32(v>>12), uint32(REGTMP))
+		o2 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(REGTMP), uint32(REGTMP))
+		o3 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o4 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 94: // add $dcon12_12U,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(0), uint32(REGTMP))
+		o2 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 95: // add $dcon20S_12U,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(0), uint32(REGTMP))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o3 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
+
+	case 96: // add $dcon32_12U,[r1],r2
+		v := c.vregoff(&p.From)
+		o1 = OP_12IRR(c.opirr(AOR), uint32(v), uint32(0), uint32(REGTMP))
+		o2 = OP_IR(c.opir(ALU32ID), uint32(v>>32), uint32(REGTMP))
+		o3 = OP_12IRR(c.opirr(ALU52ID), uint32(v>>52), uint32(REGTMP), uint32(REGTMP))
+		r := int(p.Reg)
+		if r == 0 {
+			r = int(p.To.Reg)
+		}
+		o4 = OP_RRR(c.oprrr(p.As), uint32(REGTMP), uint32(r), uint32(p.To.Reg))
 	}
 
 	out[0] = o1
