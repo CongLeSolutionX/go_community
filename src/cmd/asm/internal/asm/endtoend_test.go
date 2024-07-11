@@ -465,6 +465,7 @@ func TestLOONG64Encoder(t *testing.T) {
 	testEndToEnd(t, "loong64", "loong64enc1")
 	testEndToEnd(t, "loong64", "loong64enc2")
 	testEndToEnd(t, "loong64", "loong64enc3")
+	testEndToEnd(t, "loong64", "loong64enc4")
 	testEndToEnd(t, "loong64", "loong64")
 }
 
