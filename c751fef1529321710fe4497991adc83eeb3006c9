@@ -34,6 +34,29 @@
       "parentUuid": "f55677cd_78dad6ff",
       "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6348f9b0_e8d31896",
+        "filename": "src/cmd/go/testdata/script/list_pkgconfig_error.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-12T21:26:18Z",
+      "side": 1,
+      "message": "it would be nice if we could keep testing for the general structure of the printed output. could we modify the regular expression to check for the structure and then check for the two stderr regexps below?",
+      "range": {
+        "startLine": 5,
+        "startChar": 6,
+        "endLine": 5,
+        "endChar": 7
+      },
+      "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
