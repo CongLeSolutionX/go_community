@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a0df60a_83fdf6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-12T23:05:15Z",
+      "side": 1,
+      "message": "Hi All, my issue was duplicated, the first issue link: https://github.com/golang/go/issues/66078\nThanks!",
+      "revId": "f08f054d30d4c88cdfb692fa8f684057def61d6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
