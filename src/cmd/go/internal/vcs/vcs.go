@@ -29,6 +29,7 @@ import (
 	"cmd/go/internal/web"
 
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // A Cmd describes how to use a version control system
@@ -49,9 +50,10 @@ type Cmd struct {
 	Scheme  []string
 	PingCmd string
 
-	RemoteRepo  func(v *Cmd, rootDir string) (remoteRepo string, err error)
-	ResolveRepo func(v *Cmd, rootDir, remoteRepo string) (realRepo string, err error)
-	Status      func(v *Cmd, rootDir string) (Status, error)
+	RemoteRepo   func(v *Cmd, rootDir string) (remoteRepo string, err error)
+	ResolveRepo  func(v *Cmd, rootDir, remoteRepo string) (realRepo string, err error)
+	Status       func(v *Cmd, rootDir string) (Status, error)
+	BuildVersion func(v *Cmd, rootDir string, prevTag string) (version string, err error) // Build Version assocoiated with VCS state
 }
 
 // Status is the current state of a local repository.
@@ -239,6 +241,17 @@ func parseRevTime(out []byte) (string, time.Time, error) {
 	return rev, time.Unix(secs, 0), nil
 }
 
+// getVersion determines the version associated with the current revision.
+// If the current revision's hash matches a tagged version's hash then that tag is returned
+// otherwise a pseudo version is returned.
+// Tags must be a valid semantic version string, otherwise a psuedoversion is returned.
+func getVersion(prevTag string, prevRevision string, currentRevTime time.Time, currentRevision string) string {
+	if semver.IsValid(prevTag) && currentRevision == prevRevision {
+		return prevTag
+	}
+	return module.PseudoVersion("", prevTag, currentRevTime, fmt.Sprintf("%.12s", currentRevision))
+}
+
 // vcsGit describes how to use Git.
 var vcsGit = &Cmd{
 	Name: "Git",
@@ -274,8 +287,9 @@ var vcsGit = &Cmd{
 	// See golang.org/issue/33836.
 	PingCmd: "ls-remote {scheme}://{repo}",
 
-	RemoteRepo: gitRemoteRepo,
-	Status:     gitStatus,
+	RemoteRepo:   gitRemoteRepo,
+	Status:       gitStatus,
+	BuildVersion: gitBuildVersion,
 }
 
 // scpSyntaxRe matches the SCP-like addresses used by Git to access
@@ -351,6 +365,23 @@ func gitStatus(vcsGit *Cmd, rootDir string) (Status, error) {
 		CommitTime:  commitTime,
 		Uncommitted: uncommitted,
 	}, nil
+}
+
+func gitBuildVersion(vcsGit *Cmd, rootDir string, prevTag string) (version string, err error) {
+	out, err := vcsGit.runOutputVerboseOnly(rootDir, "-c log.showsignature=false log -1 --format=%H:%ct")
+	if err != nil {
+		return "", err
+	}
+	rev, commitTime, err := parseRevTime(out)
+	if err != nil {
+		return "", err
+	}
+	out, err = vcsGit.runOutputVerboseOnly(rootDir, "rev-parse "+prevTag)
+	if err != nil {
+		return "", err
+	}
+	prevRevision := string(bytes.TrimSpace(out))
+	return getVersion(prevTag, prevRevision, commitTime, rev), nil
 }
 
 // vcsBzr describes how to use Bazaar.

@@ -36,6 +36,7 @@ import (
 	"cmd/go/internal/gover"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/modindex"
 	"cmd/go/internal/modinfo"
 	"cmd/go/internal/modload"
@@ -2497,6 +2498,33 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 			appendSetting("vcs.time", stamp)
 		}
 		appendSetting("vcs.modified", strconv.FormatBool(st.Uncommitted))
+
+		if p.Module == nil {
+			return
+		}
+		// Stamp the version of the binary using VCS state.
+		remote, err := vcsCmd.RemoteRepo(vcsCmd, repoDir)
+		if err != nil {
+			return
+		}
+		repo, err := codehost.NewRepo(ctx, vcsCmd.Cmd, remote)
+		prevTag, err := repo.RecentTag(ctx, st.Revision, "", func(string) bool {
+			return true
+		})
+		if err != nil {
+			return
+		}
+		vers, err := vcsCmd.BuildVersion(vcsCmd, repoDir, prevTag)
+		if err != nil {
+			return
+		}
+
+		if vers != "" {
+			if st.Uncommitted {
+				vers += "+dirty"
+			}
+			info.Main.Version = vers
+		}
 	}
 omitVCS:
 
