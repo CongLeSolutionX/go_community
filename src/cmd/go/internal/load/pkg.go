@@ -2487,7 +2487,6 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 			setVCSError(err)
 			return
 		}
-
 		appendSetting("vcs", vcsCmd.Cmd)
 		if st.Revision != "" {
 			appendSetting("vcs.revision", st.Revision)
@@ -2497,6 +2496,20 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 			appendSetting("vcs.time", stamp)
 		}
 		appendSetting("vcs.modified", strconv.FormatBool(st.Uncommitted))
+		p.Internal.BuildInfo = info
+		// Determine the correct version of this module at the current revision and update the build metadata accordingly.
+		repo := modfetch.Lookup(ctx, "local", p.Module.Dir)
+		revInfo, err := repo.Stat(ctx, st.Revision)
+		if err != nil {
+			return
+		}
+		vers := revInfo.Version
+		if vers != "" {
+			if st.Uncommitted {
+				vers += "+dirty"
+			}
+			info.Main.Version = vers
+		}
 	}
 omitVCS:
 
