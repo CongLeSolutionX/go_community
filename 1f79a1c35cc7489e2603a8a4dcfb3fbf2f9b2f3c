@@ -76,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de863fa5_f6bd4220",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3291034
+      },
+      "writtenOn": "2024-07-15T01:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ae5c234_63804699",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 17
+      },
+      "revId": "1f79a1c35cc7489e2603a8a4dcfb3fbf2f9b2f3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37b28021_532057ae",
@@ -89,6 +113,30 @@
       "writtenOn": "2024-07-15T00:24:28Z",
       "side": 1,
       "message": "You could make this sequence:\n\n      io.ReadAll((res.Body)\n      res.Body.Close()\n      \n      \n instead of the defer res.Body.Close()",
+      "range": {
+        "startLine": 1575,
+        "startChar": 0,
+        "endLine": 1577,
+        "endChar": 21
+      },
+      "revId": "1f79a1c35cc7489e2603a8a4dcfb3fbf2f9b2f3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0039412a_5faa66b1",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1577,
+      "author": {
+        "id": 3291034
+      },
+      "writtenOn": "2024-07-15T01:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37b28021_532057ae",
       "range": {
         "startLine": 1575,
         "startChar": 0,
