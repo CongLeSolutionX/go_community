@@ -34,6 +34,69 @@
       "parentUuid": "db614947_b5b608a0",
       "revId": "1f79a1c35cc7489e2603a8a4dcfb3fbf2f9b2f3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "298b8744_c55d32da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-07-15T00:24:28Z",
+      "side": 1,
+      "message": "Thank you guoguangwu, please see my comments.",
+      "revId": "1f79a1c35cc7489e2603a8a4dcfb3fbf2f9b2f3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae5c234_63804699",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-07-15T00:24:28Z",
+      "side": 1,
+      "message": "Minor nit, could you please move this res.Body.Close next to line 139 and keep the flow of the newline away from the new request sequence?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 17
+      },
+      "revId": "1f79a1c35cc7489e2603a8a4dcfb3fbf2f9b2f3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37b28021_532057ae",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1577,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-07-15T00:24:28Z",
+      "side": 1,
+      "message": "You could make this sequence:\n\n      io.ReadAll((res.Body)\n      res.Body.Close()\n      \n      \n instead of the defer res.Body.Close()",
+      "range": {
+        "startLine": 1575,
+        "startChar": 0,
+        "endLine": 1577,
+        "endChar": 21
+      },
+      "revId": "1f79a1c35cc7489e2603a8a4dcfb3fbf2f9b2f3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
