@@ -1122,7 +1122,7 @@ func lookupRepo(ctx context.Context, proxy, path string) (repo versionRepo, err 
 		err = module.CheckPath(path)
 	}
 	if err == nil {
-		repo = modfetch.Lookup(ctx, proxy, path)
+		repo = modfetch.Lookup(ctx, proxy, path, false)
 	} else {
 		repo = emptyRepo{path: path, err: err}
 	}
