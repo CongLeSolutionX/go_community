@@ -12,8 +12,11 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"cmd/go/internal/web"
+
+	"golang.org/x/mod/module"
 )
 
 func init() {
@@ -576,6 +579,41 @@ func TestGOVCSErrors(t *testing.T) {
 		_, err := parseGOVCS(tt.s)
 		if err == nil || !strings.Contains(err.Error(), tt.err) {
 			t.Errorf("parseGOVCS(%s): err=%v, want %v", tt.s, err, tt.err)
+		}
+	}
+}
+
+var revisionTags = []struct {
+	prevTag         string
+	prevRevision    string
+	currentRevTime  string // use 20060102150405 format.
+	currentRevision string
+	want            string
+}{
+	{"v1", "b6d3be110168", "20060102150405", "b6d3be110168", "v1"},
+	{"v1.0", "b6d3be110168", "20060102150405", "b6d3be110168", "v1.0"},
+	{"v1.2.3", "b6d3be110168", "20060102150405", "b6d3be110168", "v1.2.3"},
+	{"v1.0", "b6d3be110168", "20060102150405", "abcdefghijkl", "v1.0.1-0.20060102150405-abcdefghijkl"},
+	{"v1.0.1", "b6d3be110168", "20060102150405", "abcdefghijkl", "v1.0.2-0.20060102150405-abcdefghijkl"},
+	{"v1.1", "b6d3be110168", "20060102150405", "abcdefghijkl", "v1.1.1-0.20060102150405-abcdefghijkl"},
+	{"v1.2.3", "b6d3be110168", "20060102150405", "abcdefghijkl", "v1.2.4-0.20060102150405-abcdefghijkl"},
+	{"", "b6d3be110168", "20060102150405", "abcdefghijkl", "v0.0.0-20060102150405-abcdefghijkl"},
+	{"", "b6d3be110168", "20060102150405", "b6d3be110168", "v0.0.0-20060102150405-b6d3be110168"},
+	{"1.2.3", "b6d3be110168", "20060102150405", "b6d3be110168", "v0.0.0-20060102150405-b6d3be110168"},
+	{"1.2.3", "b6d3be110168", "20060102150405", "abcdefghijkl", "v0.0.0-20060102150405-abcdefghijkl"},
+	{"v1.2.3.4", "b6d3be110168", "20060102150405", "b6d3be110168", "v0.0.0-20060102150405-b6d3be110168"},
+	{"v1", "b6d3be110168", "20060102150405", "abcdefghijkl", "v1.0.1-0.20060102150405-abcdefghijkl"},
+}
+
+func TestTaggedVers(t *testing.T) {
+	for _, tt := range revisionTags {
+		currentRevTime, err := time.Parse(module.PseudoVersionTimestampFormat, tt.currentRevTime)
+		if tt.currentRevTime != "" && err != nil {
+			t.Errorf(err.Error())
+		}
+		vers := getVersion(tt.prevTag, tt.prevRevision, currentRevTime, tt.currentRevision)
+		if vers != tt.want {
+			t.Errorf("getVersion(%s, %s, %s, %s)\n got:  %s \n want: %s", tt.prevTag, tt.prevRevision, tt.currentRevTime, tt.currentRevision, vers, tt.want)
 		}
 	}
 }
