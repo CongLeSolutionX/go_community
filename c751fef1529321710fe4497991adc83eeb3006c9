@@ -81,6 +81,30 @@
       },
       "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dd1fe63_d369612d",
+        "filename": "src/cmd/go/testdata/script/list_pkgconfig_error.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-15T14:24:41Z",
+      "side": 1,
+      "message": "The pkg-config outputs are different but the structure of what the go command prints around them is the same. I\u0027d like to keep the part that checks for what the go command prints out",
+      "parentUuid": "aa4c3fdc_0d0135d4",
+      "range": {
+        "startLine": 5,
+        "startChar": 6,
+        "endLine": 5,
+        "endChar": 7
+      },
+      "revId": "c751fef1529321710fe4497991adc83eeb3006c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
