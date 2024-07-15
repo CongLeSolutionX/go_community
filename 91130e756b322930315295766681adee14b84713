@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a8961ed_82adef75",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-07-15T20:46:52Z",
+      "side": 1,
+      "message": "Discussed offline with matloob, need to change this to share the same logic as RecentTag which does additional work to filter tags.",
+      "range": {
+        "startLine": 366,
+        "startChar": 1,
+        "endLine": 366,
+        "endChar": 52
+      },
+      "revId": "91130e756b322930315295766681adee14b84713",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
