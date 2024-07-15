@@ -67,7 +67,12 @@ func localGitURL(t testing.TB) string {
 		if localGitURLErr != nil {
 			return
 		}
-		_, localGitURLErr = Run(context.Background(), localGitRepo, "git", "config", "daemon.uploadarch", "true")
+		args := RunArgs{
+			dir:     localGitRepo,
+			cmdline: []any{"git", "config", "daemon.uploadarch", "true"},
+			env:     []string{"GIT_DIR=" + localGitRepo}, // The git clone command will create a bare repo.
+		}
+		_, localGitURLErr = RunWithArgs(context.Background(), args)
 	})
 
 	if localGitURLErr != nil {
@@ -171,7 +176,7 @@ func (w *testWriter) Write(p []byte) (int, error) {
 
 func testRepo(ctx context.Context, t *testing.T, remote string) (Repo, error) {
 	if remote == "localGitRepo" {
-		return LocalGitRepo(ctx, localGitURL(t))
+		return NewRepo(ctx, "git", localGitURL(t), false)
 	}
 	vcsName := "git"
 	for _, k := range []string{"hg"} {
@@ -186,7 +191,7 @@ func testRepo(ctx context.Context, t *testing.T, remote string) (Repo, error) {
 	if runtime.GOOS == "android" && strings.HasSuffix(testenv.Builder(), "-corellium") {
 		testenv.SkipFlaky(t, 59940)
 	}
-	return NewRepo(ctx, vcsName, remote)
+	return NewRepo(ctx, vcsName, remote, false)
 }
 
 func TestTags(t *testing.T) {

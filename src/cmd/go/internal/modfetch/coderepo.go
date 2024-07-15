@@ -636,12 +636,20 @@ func (r *codeRepo) convert(ctx context.Context, info *codehost.RevInfo, statVers
 		return !isRetracted(v)
 	}
 	if pseudoBase == "" {
-		tag, err := r.code.RecentTag(ctx, info.Name, tagPrefix, tagAllowed)
+		// Find recent tag; use it if it matches the revision hash, else derive pseudo-version from it.
+		recentTag, err := r.code.RecentTag(ctx, info.Name, tagPrefix, tagAllowed)
 		if err != nil && !errors.Is(err, errors.ErrUnsupported) {
 			return nil, err
 		}
-		if tag != "" {
-			pseudoBase, _ = tagToVersion(tag)
+		if recentTag != "" {
+			recentTagV, tagIsCanonical := tagToVersion(recentTag)
+			if tagIsCanonical {
+				recentTagInfo, err := r.Stat(ctx, recentTagV)
+				if err == nil && recentTagInfo.Name == info.Name {
+					return checkCanonical(recentTagV)
+				}
+			}
+			pseudoBase = recentTagV
 		}
 	}
 
