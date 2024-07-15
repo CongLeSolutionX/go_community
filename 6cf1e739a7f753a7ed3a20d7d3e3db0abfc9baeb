@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a6a94b8_62da4db6",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-15T22:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589c8891_70ae31b5",
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9883ce9a_a38e4010",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2524c28c_30208001",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-15T22:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9883ce9a_a38e4010",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6997ef4_4b08a279",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-06-27T13:29:04Z",
       "side": 1,
       "message": "Why is this a skip?",
+      "range": {
+        "startLine": 68,
+        "startChar": 3,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "350bd07b_6368e175",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-15T22:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6997ef4_4b08a279",
       "range": {
         "startLine": 68,
         "startChar": 3,
@@ -124,6 +190,30 @@
       "writtenOn": "2024-06-27T13:29:04Z",
       "side": 1,
       "message": "How is this different than the test in Aliasing that errors with message \"CryptBlocks modified dst past len(src)\"?  Seems to be addressing a specific Issue # (22104), but what\u0027s the difference? Is it that this checks for writing outside of the slice\u0027s length itself?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 102
+      },
+      "revId": "6cf1e739a7f753a7ed3a20d7d3e3db0abfc9baeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c275df_b51d32ed",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-15T22:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b958040_197aee48",
       "range": {
         "startLine": 137,
         "startChar": 2,
