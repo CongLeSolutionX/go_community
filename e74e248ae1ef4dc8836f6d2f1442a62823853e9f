@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9350ca5a_d0fc9b53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-15T14:54:40Z",
+      "side": 1,
+      "message": "I think we should say \"the package\u0027s module\" here. \"Source root\" is a bit of a confusing term when we\u0027re not in GOPATH mode.",
+      "revId": "e74e248ae1ef4dc8836f6d2f1442a62823853e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
