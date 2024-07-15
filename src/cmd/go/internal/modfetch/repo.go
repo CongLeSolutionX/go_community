@@ -202,6 +202,8 @@ type lookupCacheKey struct {
 // For the distinguished proxy "off", Lookup always returns a Repo that returns
 // a non-nil error for every method call.
 //
+// A proxy set to "local" will only use local VCS information to fetch the Repo.
+//
 // A successful return does not guarantee that the module
 // has any defined versions.
 func Lookup(ctx context.Context, proxy, path string) Repo {
@@ -222,7 +224,7 @@ func Lookup(ctx context.Context, proxy, path string) Repo {
 
 // lookup returns the module with the given module path.
 func lookup(ctx context.Context, proxy, path string) (r Repo, err error) {
-	if cfg.BuildMod == "vendor" {
+	if cfg.BuildMod == "vendor" && proxy != "local" {
 		return nil, errLookupDisabled
 	}
 
@@ -235,6 +237,8 @@ func lookup(ctx context.Context, proxy, path string) (r Repo, err error) {
 		switch proxy {
 		case "noproxy", "direct":
 			return lookupDirect(ctx, path)
+		case "local":
+			return lookupLocal(ctx, path)
 		default:
 			return nil, errNoproxy
 		}
@@ -247,6 +251,8 @@ func lookup(ctx context.Context, proxy, path string) (r Repo, err error) {
 		return lookupDirect(ctx, path)
 	case "noproxy":
 		return nil, errUseProxy
+	case "local":
+		return lookupLocal(ctx, path)
 	default:
 		return newProxyRepo(proxy, path)
 	}
@@ -302,6 +308,18 @@ func lookupCodeRepo(ctx context.Context, rr *vcs.RepoRoot) (codehost.Repo, error
 		return nil, fmt.Errorf("lookup %s: %v", rr.Root, err)
 	}
 	return code, nil
+}
+
+func lookupLocal(ctx context.Context, path string) (Repo, error) {
+	repoDir, vcsCmd, err := vcs.FromDir(path, "", true)
+	if err != nil {
+		return nil, err
+	}
+	code, err := lookupCodeRepo(ctx, &vcs.RepoRoot{Repo: repoDir, Root: repoDir, VCS: vcsCmd})
+	if err != nil {
+		return nil, err
+	}
+	return newCodeRepo(code, repoDir, path)
 }
 
 // A loggingRepo is a wrapper around an underlying Repo

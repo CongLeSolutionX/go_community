@@ -82,7 +82,7 @@ type vcsRepo struct {
 
 func newVCSRepo(ctx context.Context, vcs, remote string) (Repo, error) {
 	if vcs == "git" {
-		return newGitRepo(ctx, remote, false)
+		return newGitRepo(ctx, remote)
 	}
 	cmd := vcsCmds[vcs]
 	if cmd == nil {
