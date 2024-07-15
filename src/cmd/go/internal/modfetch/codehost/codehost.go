@@ -16,6 +16,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -321,9 +322,6 @@ func RunWithStdin(ctx context.Context, dir string, stdin io.Reader, cmdline ...a
 	}
 
 	cmd := str.StringList(cmdline...)
-	if os.Getenv("TESTGOVCS") == "panic" {
-		panic(fmt.Sprintf("use of vcs: %v", cmd))
-	}
 	if xLog, ok := cfg.BuildXWriter(ctx); ok {
 		text := new(strings.Builder)
 		if dir != "" {
@@ -358,17 +356,29 @@ func RunWithStdin(ctx context.Context, dir string, stdin io.Reader, cmdline ...a
 	}
 	// TODO: Impose limits on command output size.
 	// TODO: Set environment to get English error messages.
-	var stderr bytes.Buffer
-	var stdout bytes.Buffer
-	c := exec.CommandContext(ctx, cmd[0], cmd[1:]...)
-	c.Cancel = func() error { return c.Process.Signal(os.Interrupt) }
-	c.Dir = dir
-	c.Stdin = stdin
-	c.Stderr = &stderr
-	c.Stdout = &stdout
+	var stdout, stderr bytes.Buffer
+	createCommand := func(cmd []string, env []string) (c *exec.Cmd) {
+		stderr = bytes.Buffer{}
+		stdout = bytes.Buffer{}
+		c = exec.CommandContext(ctx, cmd[0], cmd[1:]...)
+		c.Cancel = func() error { return c.Process.Signal(os.Interrupt) }
+		c.Dir = dir
+		c.Stdin = nil
+		c.Stderr = &stderr
+		c.Stdout = &stdout
+		c.Env = append(c.Environ(), env...)
+		return c
+	}
 	// For Git commands, manually supply GIT_DIR so Git works with safe.bareRepository=explicit set. Noop for other commands.
-	c.Env = append(c.Environ(), "GIT_DIR="+dir)
-	err := c.Run()
+	var env []string
+	isBareCmd := createCommand([]string{"git", "rev-parse", "--is-bare-repository"}, []string{"GIT_DIR=" + dir})
+	if err := isBareCmd.Run(); err == nil {
+		isBare, err := strconv.ParseBool(strings.TrimSpace(stdout.String()))
+		if err == nil && isBare {
+			env = append(env, "GIT_DIR="+dir)
+		}
+	}
+	err := createCommand(cmd, env).Run()
 	if err != nil {
 		err = &RunError{Cmd: strings.Join(cmd, " ") + " in " + dir, Stderr: stderr.Bytes(), Err: err}
 	}
