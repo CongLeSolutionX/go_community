@@ -16,6 +16,24 @@
       "message": "Hi All, my issue was duplicated, the first issue link: https://github.com/golang/go/issues/66078\nThanks!",
       "revId": "f08f054d30d4c88cdfb692fa8f684057def61d6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d7d0606_f6d63199",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-15T14:28:54Z",
+      "side": 1,
+      "message": "Thanks! let\u0027s continue the discussion on that issue. I agree with the issue author that we should just print the basename of the file instead of the full path. I think adding line numbers to the file name sounds reasonable too.",
+      "parentUuid": "7a0df60a_83fdf6be",
+      "revId": "f08f054d30d4c88cdfb692fa8f684057def61d6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
