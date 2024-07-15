@@ -478,20 +478,25 @@ func mgf1XOR(out []byte, hash hash.Hash, seed []byte) {
 // be returned if the size of the salt is too large.
 var ErrMessageTooLong = errors.New("crypto/rsa: message too long for RSA key size")
 
-func encrypt(pub *PublicKey, plaintext []byte) ([]byte, error) {
+func encrypt(pub *PublicKey, plaintext []byte) (result []byte, err error) {
 	boring.Unreachable()
 
-	N, err := bigmod.NewModulusFromBig(pub.N)
-	if err != nil {
-		return nil, err
-	}
-	m, err := bigmod.NewNat().SetBytes(plaintext, N)
-	if err != nil {
-		return nil, err
-	}
-	e := uint(pub.E)
+	subtle.WithDataIndependentTiming(func() {
+		var N *bigmod.Modulus
+		N, err = bigmod.NewModulusFromBig(pub.N)
+		if err != nil {
+			return
+		}
+		var m *bigmod.Nat
+		m, err = bigmod.NewNat().SetBytes(plaintext, N)
+		if err != nil {
+			return
+		}
+		e := uint(pub.E)
 
-	return bigmod.NewNat().ExpShortVarTime(m, e, N).Bytes(N), nil
+		result = bigmod.NewNat().ExpShortVarTime(m, e, N).Bytes(N)
+	})
+	return result, err
 }
 
 // EncryptOAEP encrypts the given message with RSA-OAEP.
@@ -637,61 +642,69 @@ const noCheck = false
 // decrypt performs an RSA decryption of ciphertext into out. If check is true,
 // m^e is calculated and compared with ciphertext, in order to defend against
 // errors in the CRT computation.
-func decrypt(priv *PrivateKey, ciphertext []byte, check bool) ([]byte, error) {
+func decrypt(priv *PrivateKey, ciphertext []byte, check bool) (result []byte, err error) {
 	if len(priv.Primes) <= 2 {
 		boring.Unreachable()
 	}
 
-	var (
-		err  error
-		m, c *bigmod.Nat
-		N    *bigmod.Modulus
-		t0   = bigmod.NewNat()
-	)
-	if priv.Precomputed.n == nil {
-		N, err = bigmod.NewModulusFromBig(priv.N)
-		if err != nil {
-			return nil, ErrDecryption
-		}
-		c, err = bigmod.NewNat().SetBytes(ciphertext, N)
-		if err != nil {
-			return nil, ErrDecryption
-		}
-		m = bigmod.NewNat().Exp(c, priv.D.Bytes(), N)
-	} else {
-		N = priv.Precomputed.n
-		P, Q := priv.Precomputed.p, priv.Precomputed.q
-		Qinv, err := bigmod.NewNat().SetBytes(priv.Precomputed.Qinv.Bytes(), P)
-		if err != nil {
-			return nil, ErrDecryption
-		}
-		c, err = bigmod.NewNat().SetBytes(ciphertext, N)
-		if err != nil {
-			return nil, ErrDecryption
+	subtle.WithDataIndependentTiming(func() {
+		var (
+			m, c *bigmod.Nat
+			N    *bigmod.Modulus
+			t0   = bigmod.NewNat()
+		)
+		if priv.Precomputed.n == nil {
+			N, err = bigmod.NewModulusFromBig(priv.N)
+			if err != nil {
+				err = ErrDecryption
+				return
+			}
+			c, err = bigmod.NewNat().SetBytes(ciphertext, N)
+			if err != nil {
+				err = ErrDecryption
+				return
+			}
+			m = bigmod.NewNat().Exp(c, priv.D.Bytes(), N)
+		} else {
+			N = priv.Precomputed.n
+			P, Q := priv.Precomputed.p, priv.Precomputed.q
+			var Qinv *bigmod.Nat
+			Qinv, err = bigmod.NewNat().SetBytes(priv.Precomputed.Qinv.Bytes(), P)
+			if err != nil {
+				err = ErrDecryption
+				return
+			}
+			c, err = bigmod.NewNat().SetBytes(ciphertext, N)
+			if err != nil {
+				err = ErrDecryption
+				return
+			}
+
+			// m = c ^ Dp mod p
+			m = bigmod.NewNat().Exp(t0.Mod(c, P), priv.Precomputed.Dp.Bytes(), P)
+			// m2 = c ^ Dq mod q
+			m2 := bigmod.NewNat().Exp(t0.Mod(c, Q), priv.Precomputed.Dq.Bytes(), Q)
+			// m = m - m2 mod p
+			m.Sub(t0.Mod(m2, P), P)
+			// m = m * Qinv mod p
+			m.Mul(Qinv, P)
+			// m = m * q mod N
+			m.ExpandFor(N).Mul(t0.Mod(Q.Nat(), N), N)
+			// m = m + m2 mod N
+			m.Add(m2.ExpandFor(N), N)
 		}
 
-		// m = c ^ Dp mod p
-		m = bigmod.NewNat().Exp(t0.Mod(c, P), priv.Precomputed.Dp.Bytes(), P)
-		// m2 = c ^ Dq mod q
-		m2 := bigmod.NewNat().Exp(t0.Mod(c, Q), priv.Precomputed.Dq.Bytes(), Q)
-		// m = m - m2 mod p
-		m.Sub(t0.Mod(m2, P), P)
-		// m = m * Qinv mod p
-		m.Mul(Qinv, P)
-		// m = m * q mod N
-		m.ExpandFor(N).Mul(t0.Mod(Q.Nat(), N), N)
-		// m = m + m2 mod N
-		m.Add(m2.ExpandFor(N), N)
-	}
-
-	if check {
-		c1 := bigmod.NewNat().ExpShortVarTime(m, uint(priv.E), N)
-		if c1.Equal(c) != 1 {
-			return nil, ErrDecryption
+		if check {
+			c1 := bigmod.NewNat().ExpShortVarTime(m, uint(priv.E), N)
+			if c1.Equal(c) != 1 {
+				err = ErrDecryption
+				return
+			}
 		}
-	}
 
-	return m.Bytes(N), nil
+		result = m.Bytes(N)
+	})
+	return result, err
 }
 
 // DecryptOAEP decrypts ciphertext using RSA-OAEP.
