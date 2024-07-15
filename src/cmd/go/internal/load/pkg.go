@@ -2497,6 +2497,14 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 			appendSetting("vcs.time", stamp)
 		}
 		appendSetting("vcs.modified", strconv.FormatBool(st.Uncommitted))
+
+		if p.Module != nil && st.Version != "" {
+			vers := st.Version
+			if st.Uncommitted {
+				vers += "+dirty"
+			}
+			info.Main.Version = vers
+		}
 	}
 omitVCS:
 
