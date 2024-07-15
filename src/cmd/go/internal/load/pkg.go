@@ -2497,6 +2497,30 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 			appendSetting("vcs.time", stamp)
 		}
 		appendSetting("vcs.modified", strconv.FormatBool(st.Uncommitted))
+		p.Internal.BuildInfo = info
+		if p.Module == nil {
+			return
+		}
+		var vers string
+		// Determine the correct version of this module at the current revision and update the build metadata accordingly.
+		err = modfetch.TryProxies(func(proxy string) error {
+			repo := modfetch.Lookup(ctx, proxy, p.Module.Path, true)
+			revInfo, err := repo.Stat(ctx, st.Revision)
+			if err != nil {
+				return err
+			}
+			vers = revInfo.Version
+			return nil
+		})
+		if err != nil {
+			return
+		}
+		if vers != "" {
+			if st.Uncommitted {
+				vers += "+dirty"
+			}
+			info.Main.Version = vers
+		}
 	}
 omitVCS:
 

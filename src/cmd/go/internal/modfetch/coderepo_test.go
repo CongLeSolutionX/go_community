@@ -603,7 +603,7 @@ func TestCodeRepo(t *testing.T) {
 				}
 				ctx := context.Background()
 
-				repo := Lookup(ctx, "direct", tt.path)
+				repo := Lookup(ctx, "direct", tt.path, false)
 
 				if tt.mpath == "" {
 					tt.mpath = tt.path
@@ -831,7 +831,7 @@ func TestCodeRepoVersions(t *testing.T) {
 			}
 			ctx := context.Background()
 
-			repo := Lookup(ctx, "direct", tt.path)
+			repo := Lookup(ctx, "direct", tt.path, false)
 			list, err := repo.Versions(ctx, tt.prefix)
 			if err != nil {
 				t.Fatalf("Versions(%q): %v", tt.prefix, err)
@@ -899,7 +899,7 @@ func TestLatest(t *testing.T) {
 			}
 			ctx := context.Background()
 
-			repo := Lookup(ctx, "direct", tt.path)
+			repo := Lookup(ctx, "direct", tt.path, false)
 			info, err := repo.Latest(ctx)
 			if err != nil {
 				if tt.err != "" {
