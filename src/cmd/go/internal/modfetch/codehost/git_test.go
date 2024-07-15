@@ -186,7 +186,7 @@ func testRepo(ctx context.Context, t *testing.T, remote string) (Repo, error) {
 	if runtime.GOOS == "android" && strings.HasSuffix(testenv.Builder(), "-corellium") {
 		testenv.SkipFlaky(t, 59940)
 	}
-	return NewRepo(ctx, vcsName, remote)
+	return NewRepo(ctx, vcsName, remote, false)
 }
 
 func TestTags(t *testing.T) {

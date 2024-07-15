@@ -47,13 +47,14 @@ func vcsErrorf(format string, a ...any) error {
 }
 
 type vcsCacheKey struct {
-	vcs    string
-	remote string
+	vcs     string
+	remote  string
+	localOK bool
 }
 
-func NewRepo(ctx context.Context, vcs, remote string) (Repo, error) {
-	return vcsRepoCache.Do(vcsCacheKey{vcs, remote}, func() (Repo, error) {
-		repo, err := newVCSRepo(ctx, vcs, remote)
+func NewRepo(ctx context.Context, vcs, remote string, localOK bool) (Repo, error) {
+	return vcsRepoCache.Do(vcsCacheKey{vcs, remote, localOK}, func() (Repo, error) {
+		repo, err := newVCSRepo(ctx, vcs, remote, localOK)
 		if err != nil {
 			return nil, &VCSError{err}
 		}
@@ -80,9 +81,9 @@ type vcsRepo struct {
 	fetchErr  error
 }
 
-func newVCSRepo(ctx context.Context, vcs, remote string) (Repo, error) {
+func newVCSRepo(ctx context.Context, vcs, remote string, localOK bool) (Repo, error) {
 	if vcs == "git" {
-		return newGitRepo(ctx, remote, false)
+		return newGitRepo(ctx, remote, localOK)
 	}
 	cmd := vcsCmds[vcs]
 	if cmd == nil {

@@ -65,8 +65,8 @@ func newGitRepoCached(ctx context.Context, remote string, localOK bool) (Repo, e
 
 func newGitRepo(ctx context.Context, remote string, localOK bool) (Repo, error) {
 	r := &gitRepo{remote: remote}
-	if strings.Contains(remote, "://") {
-		// This is a remote path.
+	if strings.Contains(remote, "://") { // This is a remote path.
+		r.bare = true
 		var err error
 		r.dir, r.mu.Path, err = WorkDir(ctx, gitWorkDirType, r.remote)
 		if err != nil {
@@ -88,7 +88,7 @@ func newGitRepo(ctx context.Context, remote string, localOK bool) (Repo, error) 
 			// but this lets us say git fetch origin instead, which
 			// is a little nicer. More importantly, using a named remote
 			// avoids a problem with Git LFS. See golang.org/issue/25605.
-			if _, err := Run(ctx, r.dir, "git", "remote", "add", "origin", "--", r.remote); err != nil {
+			if _, err := RunWithArgs(ctx, r.gitArgs("git", "remote", "add", "origin", "--", r.remote)); err != nil {
 				os.RemoveAll(r.dir)
 				return nil, err
 			}
@@ -102,7 +102,7 @@ func newGitRepo(ctx context.Context, remote string, localOK bool) (Repo, error) 
 				// long branch names.
 				//
 				// See https://github.com/git-for-windows/git/wiki/Git-cannot-create-a-file-or-directory-with-a-long-path.
-				if _, err := Run(ctx, r.dir, "git", "config", "core.longpaths", "true"); err != nil {
+				if _, err := RunWithArgs(ctx, r.gitArgs("git", "config", "core.longpaths", "true")); err != nil {
 					os.RemoveAll(r.dir)
 					return nil, err
 				}
@@ -110,15 +110,14 @@ func newGitRepo(ctx context.Context, remote string, localOK bool) (Repo, error) 
 		}
 		r.remoteURL = r.remote
 		r.remote = "origin"
-	} else {
-		// Local path.
-		// Disallow colon (not in ://) because sometimes
-		// that's rcp-style host:path syntax and sometimes it's not (c:\work).
-		// The go command has always insisted on URL syntax for ssh.
-		if strings.Contains(remote, ":") {
-			return nil, fmt.Errorf("git remote cannot use host:path syntax")
-		}
+	} else { // Local path.
 		if !localOK {
+			// Disallow colon (not in ://) because sometimes
+			// that's rcp-style host:path syntax and sometimes it's not (c:\work).
+			// The go command has always insisted on URL syntax for ssh.
+			if strings.Contains(remote, ":") {
+				return nil, fmt.Errorf("git remote must not be local directory (use URL syntax not host:path syntax)")
+			}
 			return nil, fmt.Errorf("git remote must not be local directory")
 		}
 		r.local = true
@@ -141,6 +140,7 @@ type gitRepo struct {
 	remote, remoteURL string
 	local             bool
 	dir               string
+	bare              bool
 
 	mu lockedfile.Mutex // protects fetchLevel and git repo state
 
@@ -171,7 +171,7 @@ func (r *gitRepo) loadLocalTags(ctx context.Context) {
 	// The git protocol sends all known refs and ls-remote filters them on the client side,
 	// so we might as well record both heads and tags in one shot.
 	// Most of the time we only care about tags but sometimes we care about heads too.
-	out, err := Run(ctx, r.dir, "git", "tag", "-l")
+	out, err := RunWithArgs(ctx, r.gitArgs("git", "tag", "-l"))
 	if err != nil {
 		return
 	}
@@ -246,7 +246,7 @@ func (r *gitRepo) loadRefs(ctx context.Context) (map[string]string, error) {
 			r.refsErr = err
 			return
 		}
-		out, gitErr := Run(ctx, r.dir, "git", "ls-remote", "-q", r.remote)
+		out, gitErr := RunWithArgs(ctx, r.gitArgs("git", "ls-remote", "-q", r.remote))
 		release()
 
 		if gitErr != nil {
@@ -509,7 +509,7 @@ func (r *gitRepo) stat(ctx context.Context, rev string) (info *RevInfo, err erro
 			if fromTag && !slices.Contains(info.Tags, tag) {
 				// The local repo includes the commit hash we want, but it is missing
 				// the corresponding tag. Add that tag and try again.
-				_, err := Run(ctx, r.dir, "git", "tag", tag, hash)
+				_, err := RunWithArgs(ctx, r.gitArgs("git", "tag", tag, hash))
 				if err != nil {
 					return nil, err
 				}
@@ -554,7 +554,7 @@ func (r *gitRepo) stat(ctx context.Context, rev string) (info *RevInfo, err erro
 		// an apparent Git bug introduced in Git 2.21 (commit 61c771),
 		// which causes the handler for protocol version 1 to sometimes miss
 		// tags that point to the requested commit (see https://go.dev/issue/56881).
-		_, err = Run(ctx, r.dir, "git", "-c", "protocol.version=2", "fetch", "-f", "--depth=1", r.remote, refspec)
+		_, err = RunWithArgs(ctx, r.gitArgs("git", "-c", "protocol.version=2", "fetch", "-f", "--depth=1", r.remote, refspec))
 		release()
 
 		if err == nil {
@@ -597,12 +597,12 @@ func (r *gitRepo) fetchRefsLocked(ctx context.Context) error {
 		}
 		defer release()
 
-		if _, err := Run(ctx, r.dir, "git", "fetch", "-f", r.remote, "refs/heads/*:refs/heads/*", "refs/tags/*:refs/tags/*"); err != nil {
+		if _, err := RunWithArgs(ctx, r.gitArgs("git", "fetch", "-f", r.remote, "refs/heads/*:refs/heads/*", "refs/tags/*:refs/tags/*")); err != nil {
 			return err
 		}
 
 		if _, err := os.Stat(filepath.Join(r.dir, "shallow")); err == nil {
-			if _, err := Run(ctx, r.dir, "git", "fetch", "--unshallow", "-f", r.remote); err != nil {
+			if _, err := RunWithArgs(ctx, r.gitArgs("git", "fetch", "--unshallow", "-f", r.remote)); err != nil {
 				return err
 			}
 		}
@@ -615,7 +615,7 @@ func (r *gitRepo) fetchRefsLocked(ctx context.Context) error {
 // statLocal returns a new RevInfo describing rev in the local git repository.
 // It uses version as info.Version.
 func (r *gitRepo) statLocal(ctx context.Context, version, rev string) (*RevInfo, error) {
-	out, err := Run(ctx, r.dir, "git", "-c", "log.showsignature=false", "log", "--no-decorate", "-n1", "--format=format:%H %ct %D", rev, "--")
+	out, err := RunWithArgs(ctx, r.gitArgs("git", "-c", "log.showsignature=false", "log", "--no-decorate", "-n1", "--format=format:%H %ct %D", rev, "--"))
 	if err != nil {
 		// Return info with Origin.RepoSum if possible to allow caching of negative lookup.
 		var info *RevInfo
@@ -691,7 +691,7 @@ func (r *gitRepo) ReadFile(ctx context.Context, rev, file string, maxSize int64)
 	if err != nil {
 		return nil, err
 	}
-	out, err := Run(ctx, r.dir, "git", "cat-file", "blob", info.Name+":"+file)
+	out, err := RunWithArgs(ctx, r.gitArgs("git", "cat-file", "blob", info.Name+":"+file))
 	if err != nil {
 		return nil, fs.ErrNotExist
 	}
@@ -709,7 +709,7 @@ func (r *gitRepo) RecentTag(ctx context.Context, rev, prefix string, allowed fun
 	// result is definitive.
 	describe := func() (definitive bool) {
 		var out []byte
-		out, err = Run(ctx, r.dir, "git", "for-each-ref", "--format", "%(refname)", "refs/tags", "--merged", rev)
+		out, err = RunWithArgs(ctx, r.gitArgs("git", "for-each-ref", "--format", "%(refname)", "refs/tags", "--merged", rev))
 		if err != nil {
 			return true
 		}
@@ -793,7 +793,7 @@ func (r *gitRepo) DescendsFrom(ctx context.Context, rev, tag string) (bool, erro
 	//
 	// git merge-base --is-ancestor exits with status 0 if rev is an ancestor, or
 	// 1 if not.
-	_, err := Run(ctx, r.dir, "git", "merge-base", "--is-ancestor", "--", tag, rev)
+	_, err := RunWithArgs(ctx, r.gitArgs("git", "merge-base", "--is-ancestor", "--", tag, rev))
 
 	// Git reports "is an ancestor" with exit code 0 and "not an ancestor" with
 	// exit code 1.
@@ -837,7 +837,7 @@ func (r *gitRepo) DescendsFrom(ctx context.Context, rev, tag string) (bool, erro
 		}
 	}
 
-	_, err = Run(ctx, r.dir, "git", "merge-base", "--is-ancestor", "--", tag, rev)
+	_, err = RunWithArgs(ctx, r.gitArgs("git", "merge-base", "--is-ancestor", "--", tag, rev))
 	if err == nil {
 		return true, nil
 	}
@@ -873,7 +873,7 @@ func (r *gitRepo) ReadZip(ctx context.Context, rev, subdir string, maxSize int64
 	// text file line endings. Setting -c core.autocrlf=input means only
 	// translate files on the way into the repo, not on the way out (archive).
 	// The -c core.eol=lf should be unnecessary but set it anyway.
-	archive, err := Run(ctx, r.dir, "git", "-c", "core.autocrlf=input", "-c", "core.eol=lf", "archive", "--format=zip", "--prefix=prefix/", info.Name, args)
+	archive, err := RunWithArgs(ctx, r.gitArgs("git", "-c", "core.autocrlf=input", "-c", "core.eol=lf", "archive", "--format=zip", "--prefix=prefix/", info.Name, args))
 	if err != nil {
 		if bytes.Contains(err.(*RunError).Stderr, []byte("did not match any files")) {
 			return nil, fs.ErrNotExist
@@ -922,4 +922,13 @@ func ensureGitAttributes(repoDir string) (err error) {
 	}
 
 	return nil
+}
+
+func (r *gitRepo) gitArgs(cmdline ...any) RunArgs {
+	var env []string
+	if r.bare {
+		// Manually supply GIT_DIR so Git works with safe.bareRepository=explicit set.
+		env = []string{"GIT_DIR=" + r.dir}
+	}
+	return RunArgs{cmdline: cmdline, dir: r.dir, env: env, local: r.local}
 }

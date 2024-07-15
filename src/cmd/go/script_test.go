@@ -261,12 +261,11 @@ func scriptEnv(srv *vcstest.Server, srvCertFile string) ([]string, error) {
 			"GIT_REDACT_COOKIES=o,SSO,GSSO_Uberproxy")
 	}
 	if testing.Short() {
-		// VCS commands are always somewhat slow: they either require access to external hosts,
+		// Remote VCS commands are always somewhat slow: they either require access to external hosts,
 		// or they require our intercepted vcs-test.golang.org to regenerate the repository.
 		// Require all tests that use VCS commands to be skipped in short mode.
-		env = append(env, "TESTGOVCS=panic")
+		env = append(env, "TESTGOVCSREMOTE=panic")
 	}
-
 	if os.Getenv("CGO_ENABLED") != "" || runtime.GOOS != goHostOS || runtime.GOARCH != goHostArch {
 		// If the actual CGO_ENABLED might not match the cmd/go default, set it
 		// explicitly in the environment. Otherwise, leave it unset so that we also
