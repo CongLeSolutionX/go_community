@@ -1841,6 +1841,10 @@ func mstart1() {
 		mstartm0()
 	}
 
+	if debug.dataindependenttiming == 1 {
+		enableDIT()
+	}
+
 	if fn := gp.m.mstartfn; fn != nil {
 		fn()
 	}
