@@ -6,6 +6,7 @@ package vcs
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"internal/lazyregexp"
@@ -24,11 +25,13 @@ import (
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/search"
 	"cmd/go/internal/str"
 	"cmd/go/internal/web"
 
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // A Cmd describes how to use a version control system
@@ -59,6 +62,7 @@ type Status struct {
 	Revision    string    // Optional.
 	CommitTime  time.Time // Optional.
 	Uncommitted bool      // Required.
+	Version     string    // Optional.
 }
 
 var (
@@ -239,6 +243,17 @@ func parseRevTime(out []byte) (string, time.Time, error) {
 	return rev, time.Unix(secs, 0), nil
 }
 
+// getVersion determines the version associated with the current revision.
+// If the current revision's hash matches a tagged version's hash then that tag is returned
+// otherwise a pseudo version is returned.
+// Tags must be a valid semantic version string, otherwise a psuedoversion is returned.
+func getVersion(prevTag string, prevRevision string, currentRevTime time.Time, currentRevision string) string {
+	if semver.IsValid(prevTag) && currentRevision == prevRevision {
+		return prevTag
+	}
+	return module.PseudoVersion("", prevTag, currentRevTime, fmt.Sprintf("%.12s", currentRevision))
+}
+
 // vcsGit describes how to use Git.
 var vcsGit = &Cmd{
 	Name: "Git",
@@ -336,6 +351,7 @@ func gitStatus(vcsGit *Cmd, rootDir string) (Status, error) {
 	// uncommitted files and skip tagging revision / committime.
 	var rev string
 	var commitTime time.Time
+	var prevTag, prevRevision string
 	out, err = vcsGit.runOutputVerboseOnly(rootDir, "-c log.showsignature=false log -1 --format=%H:%ct")
 	if err != nil && !uncommitted {
 		return Status{}, err
@@ -345,12 +361,34 @@ func gitStatus(vcsGit *Cmd, rootDir string) (Status, error) {
 			return Status{}, err
 		}
 	}
-
-	return Status{
+	status := Status{
 		Revision:    rev,
 		CommitTime:  commitTime,
 		Uncommitted: uncommitted,
-	}, nil
+	}
+	// Attempt to build a pseudo-version from tag info.
+	remote, err := gitRemoteRepo(vcsGit, rootDir)
+	if err != nil {
+		return status, nil
+	}
+	ctx := context.Background()
+	repo, err := codehost.LocalGitRepo(ctx, remote)
+	if err != nil {
+		return status, nil
+	}
+	prevTag, err = repo.RecentTag(ctx, rev, "", func(string) bool { return true })
+	if err != nil {
+		return status, nil
+	}
+	// Get the revision associated with the last tag.
+	out, err = vcsGit.runOutputVerboseOnly(rootDir, "rev-parse "+prevTag)
+	if err != nil {
+		return status, nil
+	}
+	prevRevision = string(bytes.TrimSpace(out))
+
+	status.Version = getVersion(prevTag, prevRevision, commitTime, rev)
+	return status, nil
 }
 
 // vcsBzr describes how to use Bazaar.
