@@ -276,7 +276,7 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 		if unrecoverableErr != nil {
 			return unrecoverableErr
 		}
-		repo := Lookup(ctx, proxy, mod.Path)
+		repo := Lookup(ctx, proxy, mod.Path, false)
 		err := repo.Zip(ctx, f, mod.Version)
 		if err != nil {
 			// Zip may have partially written to f before failing.
