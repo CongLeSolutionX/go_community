@@ -173,6 +173,17 @@ program on any error. This setting is controlled by the `randcrash` setting.
 For Go 1.24 it defaults to `randcrash=1`.
 Using `randcrash=0` reverts to the pre-Go 1.24 behavior.
 
+Go 1.24 introduced a mechanism for enabling platform specific Data Independent
+Timing (DIT) modes in the [`crypto/subtle`](/pkg/crypto/subtle) package. This
+mode can be enabled for an entire program with the `dataindependenttiming` setting.
+For Go 1.24 it defaults to `dataindependenttiming=0`. There is no change in default
+behavior from Go 1.23 when `dataindependenttiming` is unset.
+Using `dataindependenttiming=1` enables the DIT mode for the entire Go program.
+When enabled, DIT will be enabled when calling into C from Go. When enabled,
+calling into Go code from C will enable DIT, and disable it before returning to
+C if it was not enabled when Go code was entered.
+This currently only affects arm64 programs. For all other platforms it is a no-op.
+
 ### Go 1.23
 
 Go 1.23 changed the channels created by package time to be unbuffered
