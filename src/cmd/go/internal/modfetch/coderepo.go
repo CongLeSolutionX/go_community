@@ -641,7 +641,14 @@ func (r *codeRepo) convert(ctx context.Context, info *codehost.RevInfo, statVers
 			return nil, err
 		}
 		if tag != "" {
-			pseudoBase, _ = tagToVersion(tag)
+			v, tagIsCanonical := tagToVersion(tag)
+			if tagIsCanonical {
+				tagInfo, err := r.Stat(ctx, v)
+				if err == nil && tagInfo.Name == info.Name {
+					return checkCanonical(v)
+				}
+			}
+			pseudoBase = v
 		}
 	}
 
