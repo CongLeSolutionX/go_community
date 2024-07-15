@@ -32,7 +32,9 @@ package arm64
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/sys"
 	"fmt"
+	"io"
 )
 
 var strcond = [16]string{
@@ -57,6 +59,7 @@ var strcond = [16]string{
 func init() {
 	obj.RegisterRegister(obj.RBaseARM64, REG_SPECIAL+1024, rconv)
 	obj.RegisterOpcode(obj.ABaseARM64, Anames)
+	obj.RegisterRegHandler(sys.ARM64, regWriter)
 	obj.RegisterRegisterList(obj.RegListARM64Lo, obj.RegListARM64Hi, rlconv)
 	obj.RegisterOpSuffix("arm64", obj.CConvARM)
 	obj.RegisterSpecialOperands(int64(SPOP_BEGIN), int64(SPOP_END), SPCconv)
@@ -173,6 +176,20 @@ func rconv(r int) string {
 		return name
 	}
 	return fmt.Sprintf("badreg(%d)", r)
+}
+
+// Custom handler for printing registers.
+func regWriter(w io.Writer, a *obj.Addr) {
+	if a.Name != obj.NAME_NONE || a.Sym != nil {
+		a.WriteNameTo(w)
+		fmt.Fprintf(w, "(%v)(REG)", rconv(int(a.Reg)))
+		return
+	}
+
+	io.WriteString(w, rconv(int(a.Reg)))
+	if REG_ELEM <= a.Reg && a.Reg < REG_ELEM_END {
+		fmt.Fprintf(w, "[%d]", a.Index)
+	}
 }
 
 func DRconv(a int) string {
