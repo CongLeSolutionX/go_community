@@ -29,6 +29,7 @@ import (
 	"cmd/go/internal/web"
 
 	"golang.org/x/mod/module"
+	"golang.org/x/mod/semver"
 )
 
 // A Cmd describes how to use a version control system
@@ -49,9 +50,10 @@ type Cmd struct {
 	Scheme  []string
 	PingCmd string
 
-	RemoteRepo  func(v *Cmd, rootDir string) (remoteRepo string, err error)
-	ResolveRepo func(v *Cmd, rootDir, remoteRepo string) (realRepo string, err error)
-	Status      func(v *Cmd, rootDir string) (Status, error)
+	RemoteRepo   func(v *Cmd, rootDir string) (remoteRepo string, err error)
+	ResolveRepo  func(v *Cmd, rootDir, remoteRepo string) (realRepo string, err error)
+	Status       func(v *Cmd, rootDir string) (Status, error)
+	BuildVersion func(v *Cmd, rootDir string, prevTag string) (version string, err error) // Build Version assocoiated with VCS state
 }
 
 // Status is the current state of a local repository.
@@ -172,10 +174,11 @@ var vcsHg = &Cmd{
 	TagSyncCmd:     []string{"update -r {tag}"},
 	TagSyncDefault: []string{"update default"},
 
-	Scheme:     []string{"https", "http", "ssh"},
-	PingCmd:    "identify -- {scheme}://{repo}",
-	RemoteRepo: hgRemoteRepo,
-	Status:     hgStatus,
+	Scheme:       []string{"https", "http", "ssh"},
+	PingCmd:      "identify -- {scheme}://{repo}",
+	RemoteRepo:   hgRemoteRepo,
+	Status:       hgStatus,
+	BuildVersion: func(v *Cmd, rootDir string, prevTag string) (version string, err error) { return "", nil },
 }
 
 func hgRemoteRepo(vcsHg *Cmd, rootDir string) (remoteRepo string, err error) {
@@ -239,6 +242,17 @@ func parseRevTime(out []byte) (string, time.Time, error) {
 	return rev, time.Unix(secs, 0), nil
 }
 
+// getVersion determines the version associated with the current revision.
+// If the current revision's hash matches a tagged version's hash then that tag is returned
+// otherwise a pseudo version is returned.
+// Tags must be a valid semantic version string, otherwise a psuedoversion is returned.
+func getVersion(prevTag string, prevRevision string, currentRevTime time.Time, currentRevision string) string {
+	if semver.IsValid(prevTag) && currentRevision == prevRevision {
+		return prevTag
+	}
+	return module.PseudoVersion("", prevTag, currentRevTime, fmt.Sprintf("%.12s", currentRevision))
+}
+
 // vcsGit describes how to use Git.
 var vcsGit = &Cmd{
 	Name: "Git",
@@ -274,8 +288,9 @@ var vcsGit = &Cmd{
 	// See golang.org/issue/33836.
 	PingCmd: "ls-remote {scheme}://{repo}",
 
-	RemoteRepo: gitRemoteRepo,
-	Status:     gitStatus,
+	RemoteRepo:   gitRemoteRepo,
+	Status:       gitStatus,
+	BuildVersion: gitBuildVersion,
 }
 
 // scpSyntaxRe matches the SCP-like addresses used by Git to access
@@ -353,6 +368,23 @@ func gitStatus(vcsGit *Cmd, rootDir string) (Status, error) {
 	}, nil
 }
 
+func gitBuildVersion(vcsGit *Cmd, rootDir string, prevTag string) (version string, err error) {
+	out, err := vcsGit.runOutputVerboseOnly(rootDir, "-c log.showsignature=false log -1 --format=%H:%ct")
+	if err != nil {
+		return "", err
+	}
+	rev, commitTime, err := parseRevTime(out)
+	if err != nil {
+		return "", err
+	}
+	out, err = vcsGit.runOutputVerboseOnly(rootDir, "rev-parse "+prevTag)
+	if err != nil {
+		return "", err
+	}
+	prevRevision := string(bytes.TrimSpace(out))
+	return getVersion(prevTag, prevRevision, commitTime, rev), nil
+}
+
 // vcsBzr describes how to use Bazaar.
 var vcsBzr = &Cmd{
 	Name: "Bazaar",
@@ -371,11 +403,12 @@ var vcsBzr = &Cmd{
 	TagSyncCmd:     []string{"update -r {tag}"},
 	TagSyncDefault: []string{"update -r revno:-1"},
 
-	Scheme:      []string{"https", "http", "bzr", "bzr+ssh"},
-	PingCmd:     "info -- {scheme}://{repo}",
-	RemoteRepo:  bzrRemoteRepo,
-	ResolveRepo: bzrResolveRepo,
-	Status:      bzrStatus,
+	Scheme:       []string{"https", "http", "bzr", "bzr+ssh"},
+	PingCmd:      "info -- {scheme}://{repo}",
+	RemoteRepo:   bzrRemoteRepo,
+	ResolveRepo:  bzrResolveRepo,
+	Status:       bzrStatus,
+	BuildVersion: func(v *Cmd, rootDir string, prevTag string) (version string, err error) { return "", nil },
 }
 
 func bzrRemoteRepo(vcsBzr *Cmd, rootDir string) (remoteRepo string, err error) {
@@ -490,9 +523,10 @@ var vcsSvn = &Cmd{
 	// There is no tag command in subversion.
 	// The branch information is all in the path names.
 
-	Scheme:     []string{"https", "http", "svn", "svn+ssh"},
-	PingCmd:    "info -- {scheme}://{repo}",
-	RemoteRepo: svnRemoteRepo,
+	Scheme:       []string{"https", "http", "svn", "svn+ssh"},
+	PingCmd:      "info -- {scheme}://{repo}",
+	RemoteRepo:   svnRemoteRepo,
+	BuildVersion: func(v *Cmd, rootDir string, prevTag string) (version string, err error) { return "", nil },
 }
 
 func svnRemoteRepo(vcsSvn *Cmd, rootDir string) (remoteRepo string, err error) {
@@ -545,9 +579,10 @@ var vcsFossil = &Cmd{
 	TagSyncCmd:     []string{"up tag:{tag}"},
 	TagSyncDefault: []string{"up trunk"},
 
-	Scheme:     []string{"https", "http"},
-	RemoteRepo: fossilRemoteRepo,
-	Status:     fossilStatus,
+	Scheme:       []string{"https", "http"},
+	RemoteRepo:   fossilRemoteRepo,
+	Status:       fossilStatus,
+	BuildVersion: func(v *Cmd, rootDir string, prevTag string) (version string, err error) { return "", nil },
 }
 
 func fossilRemoteRepo(vcsFossil *Cmd, rootDir string) (remoteRepo string, err error) {
