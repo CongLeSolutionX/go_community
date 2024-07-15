@@ -65,8 +65,7 @@ func newGitRepoCached(ctx context.Context, remote string, localOK bool) (Repo, e
 
 func newGitRepo(ctx context.Context, remote string, localOK bool) (Repo, error) {
 	r := &gitRepo{remote: remote}
-	if strings.Contains(remote, "://") {
-		// This is a remote path.
+	if strings.Contains(remote, "://") { // This is a remote path.
 		var err error
 		r.dir, r.mu.Path, err = WorkDir(ctx, gitWorkDirType, r.remote)
 		if err != nil {
@@ -110,15 +109,14 @@ func newGitRepo(ctx context.Context, remote string, localOK bool) (Repo, error) 
 		}
 		r.remoteURL = r.remote
 		r.remote = "origin"
-	} else {
-		// Local path.
-		// Disallow colon (not in ://) because sometimes
-		// that's rcp-style host:path syntax and sometimes it's not (c:\work).
-		// The go command has always insisted on URL syntax for ssh.
-		if strings.Contains(remote, ":") {
-			return nil, fmt.Errorf("git remote cannot use host:path syntax")
-		}
+	} else { // Local path.
 		if !localOK {
+			// Disallow colon (not in ://) because sometimes
+			// that's rcp-style host:path syntax and sometimes it's not (c:\work).
+			// The go command has always insisted on URL syntax for ssh.
+			if strings.Contains(remote, ":") {
+				return nil, fmt.Errorf("git remote must not be local directory (use URL syntax not host:path syntax)")
+			}
 			return nil, fmt.Errorf("git remote must not be local directory")
 		}
 		r.local = true
