@@ -7,6 +7,7 @@ package obj
 import (
 	"bytes"
 	"cmd/internal/objabi"
+	"cmd/internal/sys"
 	"fmt"
 	"internal/abi"
 	"internal/buildcfg"
@@ -173,7 +174,8 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 	}
 	if p.Reg != REG_NONE {
 		// Should not happen but might as well show it if it does.
-		fmt.Fprintf(w, "%s%v", sep, Rconv(int(p.Reg)))
+		io.WriteString(w, sep)
+		WriteDconv(w, p, &Addr{Type: TYPE_REG, Reg: p.Reg})
 		sep = ", "
 	}
 	for i := range p.RestArgs {
@@ -201,7 +203,9 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 		sep = ", "
 	}
 	if p.RegTo2 != REG_NONE {
-		fmt.Fprintf(w, "%s%v", sep, Rconv(int(p.RegTo2)))
+		io.WriteString(w, sep)
+		WriteDconv(w, p, &Addr{Type: TYPE_REG, Reg: p.RegTo2})
+		sep = ", "
 	}
 	for i := range p.RestArgs {
 		if p.RestArgs[i].Pos == Destination {
@@ -257,6 +261,15 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 		}
 
 	case TYPE_REG:
+		// If there is a register handler available for this architecture,
+		// use that one instead.
+		if p.Ctxt != nil && p.Ctxt.Arch != nil {
+			if handler, ok := regHandlers[p.Ctxt.Arch.Family]; ok {
+				handler(w, a)
+				return
+			}
+		}
+
 		// TODO(rsc): This special case is for x86 instructions like
 		//	PINSRQ	CX,$1,X6
 		// where the $1 is included in the p->to Addr.
@@ -271,10 +284,6 @@ func writeDconv(w io.Writer, p *Prog, a *Addr, abiDetail bool) {
 			fmt.Fprintf(w, "(%v)(REG)", Rconv(int(a.Reg)))
 		} else {
 			io.WriteString(w, Rconv(int(a.Reg)))
-		}
-		if (RBaseARM64+1<<10+1<<9) /* arm64.REG_ELEM */ <= a.Reg &&
-			a.Reg < (RBaseARM64+1<<11) /* arm64.REG_ELEM_END */ {
-			fmt.Fprintf(w, "[%d]", a.Index)
 		}
 
 	case TYPE_BRANCH:
@@ -649,6 +658,17 @@ var Anames = []string{
 	"GETCALLERPC",
 	"TEXT",
 	"UNDEF",
+}
+
+type regHandler = func(io.Writer, *Addr)
+
+var regHandlers = map[sys.ArchFamily]regHandler{}
+
+// Register a custom handler for printing registers. This will take
+// override the register printing logic in DConv when printing an Addr
+// with TYPE_REG.
+func RegisterRegHandler(family sys.ArchFamily, handler regHandler) {
+	regHandlers[family] = handler
 }
 
 func Bool2int(b bool) int {
