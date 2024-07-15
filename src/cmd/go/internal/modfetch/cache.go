@@ -346,7 +346,7 @@ func InfoFile(ctx context.Context, path, version string) (*RevInfo, string, erro
 	var info *RevInfo
 	var err2info map[error]*RevInfo
 	err := TryProxies(func(proxy string) error {
-		i, err := Lookup(ctx, proxy, path).Stat(ctx, version)
+		i, err := Lookup(ctx, proxy, path, false).Stat(ctx, version)
 		if err == nil {
 			info = i
 		} else {
@@ -383,7 +383,7 @@ func GoMod(ctx context.Context, path, rev string) ([]byte, error) {
 				return nil, err
 			}
 			err := TryProxies(func(proxy string) error {
-				info, err := Lookup(ctx, proxy, path).Stat(ctx, rev)
+				info, err := Lookup(ctx, proxy, path, false).Stat(ctx, rev)
 				if err == nil {
 					rev = info.Version
 				}
@@ -401,7 +401,7 @@ func GoMod(ctx context.Context, path, rev string) ([]byte, error) {
 	}
 
 	err = TryProxies(func(proxy string) (err error) {
-		data, err = Lookup(ctx, proxy, path).GoMod(ctx, rev)
+		data, err = Lookup(ctx, proxy, path, false).GoMod(ctx, rev)
 		return err
 	})
 	return data, err
