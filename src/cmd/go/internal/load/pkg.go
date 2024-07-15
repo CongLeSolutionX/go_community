@@ -36,6 +36,7 @@ import (
 	"cmd/go/internal/gover"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modfetch/codehost"
 	"cmd/go/internal/modindex"
 	"cmd/go/internal/modinfo"
 	"cmd/go/internal/modload"
@@ -2497,6 +2498,41 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
 			appendSetting("vcs.time", stamp)
 		}
 		appendSetting("vcs.modified", strconv.FormatBool(st.Uncommitted))
+		p.Internal.BuildInfo = info
+		if p.Module == nil {
+			return
+		}
+		// Stamp the version of the binary using VCS state.
+		remote, err := vcsCmd.RemoteRepo(vcsCmd, repoDir)
+		if err != nil {
+			return
+		}
+		repo, err := codehost.NewRepo(ctx, vcsCmd.Cmd, remote)
+		if err != nil {
+			return
+		}
+		// Allow all tags.
+		// We will stamp the module regardless if it is retracted.
+		// We don't need to check if +incompatible can be used.
+		allowed := func(string) bool {
+			return true
+		}
+		// No tagPrefix needed as we should be in the root directory.
+		prevTag, err := repo.RecentTag(ctx, st.Revision, "", allowed)
+		if err != nil {
+			return
+		}
+		vers, err := vcsCmd.BuildVersion(vcsCmd, repoDir, prevTag)
+		if err != nil {
+			return
+		}
+
+		if vers != "" {
+			if st.Uncommitted {
+				vers += "+dirty"
+			}
+			info.Main.Version = vers
+		}
 	}
 omitVCS:
 
