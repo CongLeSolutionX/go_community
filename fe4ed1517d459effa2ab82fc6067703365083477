@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b32c80c_0b2d7baf",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-07-16T19:34:41Z",
+      "side": 1,
+      "message": "Can\u0027t use modfetch.ShortenSHA1 since that would create a circular dependency. I think it would make sense to move ShortenSHA1 to x/mod/module/pseudo.go",
+      "range": {
+        "startLine": 252,
+        "startChar": 58,
+        "endLine": 252,
+        "endChar": 90
+      },
+      "revId": "fe4ed1517d459effa2ab82fc6067703365083477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
