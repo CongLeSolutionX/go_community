@@ -50,6 +50,7 @@ import (
 	"internal/testlog"
 	"io"
 	"io/fs"
+	"path"
 	"runtime"
 	"syscall"
 	"time"
@@ -684,11 +685,16 @@ func (f *File) SyscallConn() (syscall.RawConn, error) {
 //
 // The directory dir must not be "".
 //
-// The result implements [io/fs.StatFS], [io/fs.ReadFileFS] and
-// [io/fs.ReadDirFS].
+// The result implements [io/fs.StatFS], [io/fs.ReadFileFS], [io/fs.ReadDirFS], and
+// [io/fs.ReadLinkFS].
 func DirFS(dir string) fs.FS {
 	return dirFS(dir)
 }
+
+var _ fs.StatFS = dirFS("")
+var _ fs.ReadFileFS = dirFS("")
+var _ fs.ReadDirFS = dirFS("")
+var _ fs.ReadLinkFS = dirFS("")
 
 type dirFS string
 
@@ -759,6 +765,39 @@ func (dir dirFS) Stat(name string) (fs.FileInfo, error) {
 		return nil, err
 	}
 	return f, nil
+}
+
+func (dir dirFS) StatLink(name string) (fs.FileInfo, error) {
+	fullname, err := dir.join(name)
+	if err != nil {
+		return nil, &PathError{Op: "lstat", Path: name, Err: err}
+	}
+	f, err := Lstat(fullname)
+	if err != nil {
+		// See comment in dirFS.Open.
+		err.(*PathError).Path = name
+		return nil, err
+	}
+	return f, nil
+}
+
+func (dir dirFS) ReadLink(name string) (string, error) {
+	fullname, err := dir.join(name)
+	if err != nil {
+		return "", &PathError{Op: "readlink", Path: name, Err: err}
+	}
+	target, err := Readlink(fullname)
+	if err != nil {
+		return "", err
+	}
+	if isAbs(target) {
+		return "", &PathError{Op: "readlink", Path: name, Err: errors.New("target " + target + " is absolute")}
+	}
+	slashTarget := toSlash(target)
+	if stringsHasPrefix(path.Join(path.Dir(name), slashTarget), "../") {
+		return "", &PathError{Op: "readlink", Path: name, Err: errors.New("target " + target + " is outside the file system")}
+	}
+	return slashTarget, nil
 }
 
 // join returns the path for name in dir.
@@ -837,4 +876,39 @@ func WriteFile(name string, data []byte, perm FileMode) error {
 		err = err1
 	}
 	return err
+}
+
+// stringsHasPrefix is the same as strings.HasPrefix.
+func stringsHasPrefix(s, prefix string) bool {
+	return len(s) >= len(prefix) && s[0:len(prefix)] == prefix
+}
+
+func toSlash(path string) string {
+	if PathSeparator == '/' {
+		return path
+	}
+	// This is a specialized version of strings.ReplaceAll.
+	// For dependency reasons, we can't use it directly.
+	hasPathSep := false
+	for _, c := range path {
+		if c == PathSeparator {
+			hasPathSep = true
+			break
+		}
+	}
+	if !hasPathSep {
+		return path
+	}
+	buf := make([]byte, 0, len(path))
+	for _, c := range path {
+		if c == PathSeparator {
+			buf = append(buf, '/')
+		} else if c < 0x80 {
+			// ASCII: Just convert to byte.
+			buf = append(buf, byte(c))
+		} else {
+			buf = append(buf, string(c)...)
+		}
+	}
+	return string(buf)
 }
