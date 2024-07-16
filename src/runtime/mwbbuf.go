@@ -267,6 +267,9 @@ func wbBufFlush1(pp *p) {
 
 		if span.spanclass.noscan() {
 			gcw.bytesMarked += uint64(span.elemsize)
+			if debug.gcratetrace > 0 {
+				getg().m.p.ptr().noscanBytes += span.elemsize
+			}
 			continue
 		}
 		ptrs[pos] = obj
