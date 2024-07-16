@@ -332,6 +332,8 @@ var debug struct {
 	traceCheckStackOwnership int32
 	profstackdepth           int32
 
+	gcratetrace int32
+
 	// debug.malloc is used as a combined debug check
 	// in the malloc function and should be set
 	// if any of the below debug options is != 0.
@@ -391,6 +393,8 @@ var dbgvars = []*dbgVar{
 	{name: "tracecheckstackownership", value: &debug.traceCheckStackOwnership},
 	{name: "tracebackancestors", value: &debug.tracebackancestors},
 	{name: "tracefpunwindoff", value: &debug.tracefpunwindoff},
+
+	{name: "gcratetrace", value: &debug.gcratetrace},
 }
 
 func parsedebugvars() {
