@@ -73,6 +73,8 @@ var (
 	_                          = flag.Bool("on-resume-expect-no-ech-name-override", false, "")
 	expectedServerName         = flag.String("expect-server-name", "", "")
 
+	expectCertificateTypes = flag.String("expect-certificate-types", "", "")
+
 	expectSessionMiss = flag.Bool("expect-session-miss", false, "")
 
 	_                       = flag.Bool("enable-early-data", false, "")
@@ -145,6 +147,45 @@ func bogoShim() {
 				}
 			}
 			return nil, nil
+		},
+
+		VerifyPeerCertificate: func(rawCerts [][]byte, verifiedChains [][]*x509.Certificate) error {
+			if *expectCertificateTypes != "" {
+
+				expectedCertTypesDecoded, err := base64.StdEncoding.DecodeString(*expectCertificateTypes)
+				if err != nil {
+					log.Fatalf("could not decode *expectCertificateTypes argument: %s", err)
+				}
+
+				acceptedCertPublicKeyAlgorithms := make(map[x509.PublicKeyAlgorithm]struct{}, len(expectedCertTypesDecoded))
+
+				for _, expectedCert := range expectedCertTypesDecoded {
+					switch expectedCert {
+					case 0x01:
+						acceptedCertPublicKeyAlgorithms[x509.RSA] = struct{}{}
+					case 0x02:
+						acceptedCertPublicKeyAlgorithms[x509.DSA] = struct{}{}
+					case 0x40:
+						acceptedCertPublicKeyAlgorithms[x509.ECDSA] = struct{}{}
+						acceptedCertPublicKeyAlgorithms[x509.Ed25519] = struct{}{}
+					default:
+						log.Fatalf("unacceptable public key algorithm passed in")
+
+					}
+				}
+
+				for _, rawCert := range rawCerts {
+					cert, err := x509.ParseCertificate(rawCert)
+					if err != nil {
+						log.Fatalf("could not parse certificate: %s", err)
+					}
+
+					if _, ok := acceptedCertPublicKeyAlgorithms[cert.PublicKeyAlgorithm]; !ok {
+						log.Fatalf("could not find matching public key algorithm")
+					}
+				}
+			}
+			return nil
 		},
 	}
 
