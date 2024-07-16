@@ -1123,6 +1123,15 @@ func gcMarkTermination(stw worldStop) {
 		throw("non-concurrent sweep failed to drain all sweep queues")
 	}
 
+	var spanBytes uintptr
+	if debug.gcratetrace > 0 {
+		for _, s := range mheap_.allspans {
+			if s.state.get() == mSpanInUse {
+				spanBytes += s.npages * pageSize
+			}
+		}
+	}
+
 	systemstack(func() {
 		// The memstats updated above must be updated with the world
 		// stopped to ensure consistency of some values, such as
@@ -1225,6 +1234,24 @@ func gcMarkTermination(stw worldStop) {
 		if work.userForced {
 			print(" (forced)")
 		}
+		print("\n")
+		printunlock()
+	}
+
+	if debug.gcratetrace > 0 {
+		var sbuf [24]byte
+		printlock()
+		print("gcrate ", argslice[0], " pid ", getpid(), " numgc ", memstats.numgc, " gomaxprocs ", gomaxprocs, " ")
+		print(" assist ", gcController.assistTime.Load(), " ")
+		print("dedicated ", gcController.dedicatedMarkTime.Load(), " ")
+		print("fractional ", gcController.fractionalMarkTime.Load(), " ")
+		print("idle ", gcController.idleMarkTime.Load(), " ")
+		print(" spanBytes ", spanBytes, " ")
+		print("allocated ", work.heap1, " ")
+		print("marked ", work.heap2, " ")
+		markedBytes := work.heap2
+		totalNS := gcController.assistTime.Load() + gcController.dedicatedMarkTime.Load() + gcController.fractionalMarkTime.Load() + gcController.idleMarkTime.Load()
+		print("  marked-MB/sec ", string(itoaDiv(sbuf[:], 1e3*(1e9/1e6)*markedBytes/uint64(totalNS), 3))) // (markedBytes / 1e6) / (totalNS / 1e9)
 		print("\n")
 		printunlock()
 	}
