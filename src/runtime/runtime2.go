@@ -743,8 +743,26 @@ type p struct {
 
 	evScan evScanPerP
 
+	// gcratetrace metrics
+	gcrateStats
+
 	// Padding is no longer needed. False sharing is now not a worry because p is large enough
 	// that its size class is an integer multiple of the cache line size (for any of our architectures).
+}
+
+type gcrateStats struct {
+	rootBytes       uintptr
+	heapBytes       uintptr
+	noscanBytes     uintptr
+	allocBlackBytes uintptr
+}
+
+func (s *gcrateStats) accum(o *gcrateStats) {
+	s.rootBytes += o.rootBytes
+	s.heapBytes += o.heapBytes
+	s.noscanBytes += o.noscanBytes
+	s.allocBlackBytes += o.allocBlackBytes
+	*o = gcrateStats{}
 }
 
 type schedt struct {

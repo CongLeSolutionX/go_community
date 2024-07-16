@@ -1400,6 +1400,10 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 		}
 	}
 
+	if debug.gcratetrace > 0 {
+		getg().m.p.ptr().rootBytes += n
+	}
+
 	if traceGCScanEnabled() {
 		trace := traceAcquire()
 		if trace.ok() {
@@ -1524,6 +1528,10 @@ func scanobject(b uintptr, gcw *gcWork) {
 	}
 	gcw.bytesMarked += uint64(n)
 	gcw.heapScanWork += int64(scanSize)
+
+	if debug.gcratetrace > 0 {
+		getg().m.p.ptr().heapBytes += n
+	}
 
 	if traceGCScanEnabled() {
 		trace := traceAcquire()
@@ -1709,6 +1717,9 @@ func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintp
 		// instead of greying it.
 		if span.spanclass.noscan() {
 			gcw.bytesMarked += uint64(span.elemsize)
+			if debug.gcratetrace > 0 {
+				getg().m.p.ptr().noscanBytes += span.elemsize
+			}
 			return
 		}
 	}
@@ -1795,6 +1806,9 @@ func gcmarknewobject(span *mspan, obj uintptr) {
 
 	gcw := &getg().m.p.ptr().gcw
 	gcw.bytesMarked += uint64(span.elemsize)
+	if debug.gcratetrace > 0 {
+		getg().m.p.ptr().allocBlackBytes += span.elemsize
+	}
 }
 
 // gcMarkTinyAllocs greys all active tiny alloc blocks.
