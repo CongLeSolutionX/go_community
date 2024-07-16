@@ -1124,6 +1124,15 @@ func gcMarkTermination(stw worldStop) {
 		throw("non-concurrent sweep failed to drain all sweep queues")
 	}
 
+	var spanBytes uintptr
+	if debug.gcratetrace > 0 {
+		for _, s := range mheap_.allspans {
+			if s.state.get() == mSpanInUse {
+				spanBytes += s.npages * pageSize
+			}
+		}
+	}
+
 	systemstack(func() {
 		// The memstats updated above must be updated with the world
 		// stopped to ensure consistency of some values, such as
@@ -1226,6 +1235,20 @@ func gcMarkTermination(stw worldStop) {
 		if work.userForced {
 			print(" (forced)")
 		}
+		print("\n")
+		printunlock()
+	}
+
+	if debug.gcratetrace > 0 {
+		printlock()
+		print("gcrate ", argslice[0], " ", getpid(), " ")
+		print(" assist ", gcController.assistTime.Load(), " ")
+		print("dedicated ", gcController.dedicatedMarkTime.Load(), " ")
+		print("fractional ", gcController.fractionalMarkTime.Load(), " ")
+		print("idle ", gcController.idleMarkTime.Load(), " ")
+		print(" spanBytes ", spanBytes, " ")
+		print("allocated ", work.heap1, " ")
+		print("marked ", work.heap2, " ")
 		print("\n")
 		printunlock()
 	}
