@@ -326,7 +326,7 @@ func (p *Package) setLoadPackageDataError(err error, path string, stk *ImportSta
 	// move the modload errors into this package to avoid a package import cycle,
 	// and from having to export an error type for the errors produced in build.
 	if !isMatchErr && (nogoErr != nil || isScanErr) {
-		stk.Push(path)
+		stk.Push(&ImportInfo{Pkg: path, Pos: importPos})
 		defer stk.Pop()
 	}
 
@@ -337,7 +337,11 @@ func (p *Package) setLoadPackageDataError(err error, path string, stk *ImportSta
 	}
 	p.Incomplete = true
 
-	if path != stk.Top() {
+	top := ""
+	if stk.Top() != nil {
+		top = stk.Top().Pkg
+	}
+	if path != top {
 		p.Error.setPos(importPos)
 	}
 }
@@ -558,12 +562,17 @@ func (e *importError) ImportPath() string {
 	return e.importPath
 }
 
+type ImportInfo struct {
+	Pkg string
+	Pos []token.Position
+}
+
 // An ImportStack is a stack of import paths, possibly with the suffix " (test)" appended.
 // The import path of a test package is the import path of the corresponding
 // non-test package with the suffix "_test" added.
-type ImportStack []string
+type ImportStack []*ImportInfo
 
-func (s *ImportStack) Push(p string) {
+func (s *ImportStack) Push(p *ImportInfo) {
 	*s = append(*s, p)
 }
 
@@ -572,12 +581,58 @@ func (s *ImportStack) Pop() {
 }
 
 func (s *ImportStack) Copy() []string {
-	return append([]string{}, *s...)
+	ss := make([]string, 0, len(*s))
+	for _, v := range *s {
+		ss = append(ss, v.Pkg)
+	}
+	return ss
 }
 
-func (s *ImportStack) Top() string {
-	if len(*s) == 0 {
+func delimiter(r rune) bool {
+	return r == '/' || r == '\\'
+}
+
+func convertToBasename(path string) string {
+	tokens := strings.FieldsFunc(path, delimiter)
+	length := len(tokens)
+	if length == 0 {
 		return ""
+	}
+	return tokens[length-1]
+}
+
+func trimLineNumber(basename string) string {
+	tokens := strings.Split(basename, ":")
+	length := len(tokens)
+	if length == 0 {
+		return ""
+	}
+	return tokens[0]
+}
+
+func (s *ImportStack) CopyWithPos() []string {
+	ss := make([]string, 0, len(*s))
+	for _, v := range *s {
+		bn := ""
+		lensPos := len(v.Pos)
+		if lensPos > 0 {
+			bn = trimLineNumber(convertToBasename(v.Pos[0].String()))
+			if lensPos > 1 {
+				bn+=" and more"
+			}
+		}
+		if bn != "" {
+			ss = append(ss, v.Pkg+" from "+bn)
+		} else {
+			ss = append(ss, v.Pkg)
+		}
+	}
+	return ss
+}
+
+func (s *ImportStack) Top() *ImportInfo {
+	if len(*s) == 0 {
+		return nil
 	}
 	return (*s)[len(*s)-1]
 }
@@ -592,8 +647,12 @@ func (sp *ImportStack) shorterThan(t []string) bool {
 	}
 	// If they are the same length, settle ties using string ordering.
 	for i := range s {
-		if s[i] != t[i] {
-			return s[i] < t[i]
+		siPkg := ""
+		if s[i] != nil {
+			siPkg = s[i].Pkg
+		}
+		if siPkg != t[i] {
+			return siPkg < t[i]
 		}
 	}
 	return false // they are equal
@@ -707,7 +766,7 @@ func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDi
 			// sequence that empirically doesn't trigger for these errors, guarded by
 			// a somewhat complex condition. Figure out how to generalize that
 			// condition and eliminate the explicit calls here.
-			stk.Push(path)
+			stk.Push(&ImportInfo{Pkg: path, Pos: importPos})
 			defer stk.Pop()
 		}
 		p.setLoadPackageDataError(err, path, stk, nil)
@@ -726,7 +785,7 @@ func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDi
 	importPath := bp.ImportPath
 	p := packageCache[importPath]
 	if p != nil {
-		stk.Push(path)
+		stk.Push(&ImportInfo{Pkg: path, Pos: importPos})
 		p = reusePackage(p, stk)
 		stk.Pop()
 		setCmdline(p)
@@ -1398,7 +1457,7 @@ func reusePackage(p *Package, stk *ImportStack) *Package {
 	if p.Internal.Imports == nil {
 		if p.Error == nil {
 			p.Error = &PackageError{
-				ImportStack:   stk.Copy(),
+				ImportStack:   stk.CopyWithPos(),
 				Err:           errors.New("import cycle not allowed"),
 				IsImportCycle: true,
 			}
@@ -1739,7 +1798,11 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 			// then the cause of the error is not within p itself: the error
 			// must be either in an explicit command-line argument,
 			// or on the importer side (indicated by a non-empty importPos).
-			if path != stk.Top() && len(importPos) > 0 {
+			top := ""
+			if stk.Top() != nil {
+				top = stk.Top().Pkg
+			}
+			if path != top && len(importPos) > 0 {
 				p.Error.setPos(importPos)
 			}
 		}
@@ -1905,7 +1968,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 	// Errors after this point are caused by this package, not the importing
 	// package. Pushing the path here prevents us from reporting the error
 	// with the position of the import declaration.
-	stk.Push(path)
+	stk.Push(&ImportInfo{Pkg: path, Pos: importPos})
 	defer stk.Pop()
 
 	pkgPath := p.ImportPath
