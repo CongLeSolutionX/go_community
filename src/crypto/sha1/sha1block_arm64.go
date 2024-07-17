@@ -7,13 +7,9 @@
 package sha1
 
 import "internal/cpu"
+import "crypto/internal/sharc"
 
-var k = []uint32{
-	0x5A827999,
-	0x6ED9EBA1,
-	0x8F1BBCDC,
-	0xCA62C1D6,
-}
+var k = sharc.K1
 
 //go:noescape
 func sha1block(h []uint32, p []byte, k []uint32)

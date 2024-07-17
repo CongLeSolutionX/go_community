@@ -3,6 +3,16 @@
 // https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
 package sharc
 
+// sha1 round constants as described in FIPS 180-4
+//
+// https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
+var K1 = []uint32{
+	0x5A827999,
+	0x6ED9EBA1,
+	0x8F1BBCDC,
+	0xCA62C1D6,
+}
+
 // sha256 round constants as described in FIPS 180-4
 //
 // https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
