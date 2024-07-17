@@ -107,6 +107,13 @@ func (p *Process) pidSignal(s syscall.Signal) error {
 		return errors.New("os: process not initialized")
 	}
 
+	// syscall.Kill has special handling for PID 0 and -1.
+	// They don't represent a single process. Don't try to
+	// send them a signal.
+	if p.Pid == 0 || p.Pid == -1 {
+		return errors.New("os: invalid PID")
+	}
+
 	p.sigMu.RLock()
 	defer p.sigMu.RUnlock()
 
