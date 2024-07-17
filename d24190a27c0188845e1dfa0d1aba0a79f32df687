@@ -16,6 +16,24 @@
       "message": "Thanks, but I\u0027m not sure this kind of change is always better.  Is there some issue that says that we should make this change?",
       "revId": "d24190a27c0188845e1dfa0d1aba0a79f32df687",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f703d7a2_c99a6ad5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3528195
+      },
+      "writtenOn": "2024-07-17T21:14:21Z",
+      "side": 1,
+      "message": "Thanks for the quick response. The simple equality check in the http server Shutdown() example (https://pkg.go.dev/net/http#example-Server.Shutdown) and my IDE suggesting errors.Is() brought me here.\n\nI\u0027m also not sure if this is better. There is no issue that justifies this change. For consistency reasons I thought it would help if errors.Is() is used for every error simple equality check except for io.EOF. The rule of thumb always use errors.Is() except for io.EOF is maybe not applicable here and maybe there are other circumstances in the standard library.\nMaybe \"is preferable to\" in the errors documentation (https://pkg.go.dev/errors) means that still simple equality check can be used.\nIt is totally fine if this PR gets closed.",
+      "parentUuid": "e75ce8b3_4724d316",
+      "revId": "d24190a27c0188845e1dfa0d1aba0a79f32df687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
