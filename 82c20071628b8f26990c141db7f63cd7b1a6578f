@@ -16,6 +16,24 @@
       "message": "Thanks.",
       "revId": "82c20071628b8f26990c141db7f63cd7b1a6578f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9824e3f6_2f2a5bbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3537151
+      },
+      "writtenOn": "2024-07-17T09:46:09Z",
+      "side": 1,
+      "message": "Hey! Could this change be back-ported on 1.21 and 1.22 as well? This would spare me from having to switch toolchain versions mid-flight in my CI setup...",
+      "parentUuid": "ea4ed25d_18381dc2",
+      "revId": "82c20071628b8f26990c141db7f63cd7b1a6578f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
