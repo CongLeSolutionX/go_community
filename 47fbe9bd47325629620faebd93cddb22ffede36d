@@ -75,6 +75,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a06db25_22c2edd7",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 61503
+      },
+      "writtenOn": "2024-07-17T12:37:33Z",
+      "side": 1,
+      "message": "Made the necessary code changes to take care of this review comment",
+      "parentUuid": "cc28870f_a0755777",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 4
+      },
+      "revId": "47fbe9bd47325629620faebd93cddb22ffede36d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3e5a169_a83f1372",
