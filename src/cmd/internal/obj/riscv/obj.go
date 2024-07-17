@@ -2212,8 +2212,8 @@ func instructionsForMOV(p *obj.Prog) []*instruction {
 			//
 			// AUIPC $off_hi, Rd
 			// L $off_lo, Rd, Rd
-			insAUIPC := &instruction{as: AAUIPC, rd: ins.rd}
-			ins.as, ins.rs1, ins.rs2, ins.imm = movToLoad(p.As), ins.rd, obj.REG_NONE, 0
+			insAUIPC := &instruction{as: AAUIPC, rd: REG_TMP}
+			ins.as, ins.rs1, ins.rs2, ins.imm = movToLoad(p.As), REG_TMP, obj.REG_NONE, 0
 			inss = []*instruction{insAUIPC, ins}
 
 		default:

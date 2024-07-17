@@ -271,65 +271,29 @@
 
 // We need to fold MOVaddr into the LD/MOVDstore ops so that the live variable analysis
 // knows what variables are being read/written by the ops.
-(MOVBUload [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVBUload [off1+off2] {mergeSym(sym1,sym2)} base mem)
-(MOVBload  [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVBload  [off1+off2] {mergeSym(sym1,sym2)} base mem)
-(MOVHUload [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVHUload [off1+off2] {mergeSym(sym1,sym2)} base mem)
-(MOVHload  [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVHload  [off1+off2] {mergeSym(sym1,sym2)} base mem)
-(MOVWUload [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVWUload [off1+off2] {mergeSym(sym1,sym2)} base mem)
-(MOVWload  [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVWload  [off1+off2] {mergeSym(sym1,sym2)} base mem)
-(MOVDload  [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVDload  [off1+off2] {mergeSym(sym1,sym2)} base mem)
+(MOV(B|BU|H|HU|W|WU|D)load [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
+	(MOV(B|BU|H|HU|W|WU|D)load [off1+off2] {mergeSym(sym1,sym2)} base mem)
+(FMOV(W|D)load [off1] {sym1} (MOVaddr [off2] {sym2} base) mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
+	(FMOV(W|D)load [off1+off2] {mergeSym(sym1,sym2)} base mem)
 
-(MOVBstore [off1] {sym1} (MOVaddr [off2] {sym2} base) val mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVBstore [off1+off2] {mergeSym(sym1,sym2)} base val mem)
-(MOVHstore [off1] {sym1} (MOVaddr [off2] {sym2} base) val mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVHstore [off1+off2] {mergeSym(sym1,sym2)} base val mem)
-(MOVWstore [off1] {sym1} (MOVaddr [off2] {sym2} base) val mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVWstore [off1+off2] {mergeSym(sym1,sym2)} base val mem)
-(MOVDstore [off1] {sym1} (MOVaddr [off2] {sym2} base) val mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
-	(MOVDstore [off1+off2] {mergeSym(sym1,sym2)} base val mem)
-(MOVBstorezero [off1] {sym1} (MOVaddr [off2] {sym2} ptr) mem) && canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) =>
-	(MOVBstorezero [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
-(MOVHstorezero [off1] {sym1} (MOVaddr [off2] {sym2} ptr) mem) && canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) =>
-	(MOVHstorezero [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
-(MOVWstorezero [off1] {sym1} (MOVaddr [off2] {sym2} ptr) mem) && canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) =>
-	(MOVWstorezero [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
-(MOVDstorezero [off1] {sym1} (MOVaddr [off2] {sym2} ptr) mem) && canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) =>
-	(MOVDstorezero [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
+(MOV(B|H|W|D)store [off1] {sym1} (MOVaddr [off2] {sym2} base) val mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
+	(MOV(B|H|W|D)store [off1+off2] {mergeSym(sym1,sym2)} base val mem)
+(MOV(B|H|W|D)storezero [off1] {sym1} (MOVaddr [off2] {sym2} ptr) mem) && canMergeSym(sym1,sym2) && is32Bit(int64(off1)+int64(off2)) =>
+	(MOV(B|H|W|D)storezero [off1+off2] {mergeSym(sym1,sym2)} ptr mem)
+(FMOV(W|D)store [off1] {sym1} (MOVaddr [off2] {sym2} base) val mem) && is32Bit(int64(off1)+int64(off2)) && canMergeSym(sym1, sym2) =>
+	(FMOV(W|D)store [off1+off2] {mergeSym(sym1,sym2)} base val mem)
 
-(MOVBUload [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
-	(MOVBUload [off1+int32(off2)] {sym} base mem)
-(MOVBload  [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
-	(MOVBload  [off1+int32(off2)] {sym} base mem)
-(MOVHUload [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
-	(MOVHUload [off1+int32(off2)] {sym} base mem)
-(MOVHload  [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
-	(MOVHload  [off1+int32(off2)] {sym} base mem)
-(MOVWUload [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
-	(MOVWUload [off1+int32(off2)] {sym} base mem)
-(MOVWload  [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
-	(MOVWload  [off1+int32(off2)] {sym} base mem)
-(MOVDload  [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
-	(MOVDload  [off1+int32(off2)] {sym} base mem)
+(MOV(B|BU|H|HU|W|WU|D)load [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
+	(MOV(B|BU|H|HU|W|WU|D)load [off1+int32(off2)] {sym} base mem)
+(FMOV(W|D)load [off1] {sym} (ADDI [off2] base) mem) && is32Bit(int64(off1)+off2) =>
+	(FMOV(W|D)load [off1+int32(off2)] {sym} base mem)
 
-(MOVBstore [off1] {sym} (ADDI [off2] base) val mem) && is32Bit(int64(off1)+off2) =>
-	(MOVBstore [off1+int32(off2)] {sym} base val mem)
-(MOVHstore [off1] {sym} (ADDI [off2] base) val mem) && is32Bit(int64(off1)+off2) =>
-	(MOVHstore [off1+int32(off2)] {sym} base val mem)
-(MOVWstore [off1] {sym} (ADDI [off2] base) val mem) && is32Bit(int64(off1)+off2) =>
-	(MOVWstore [off1+int32(off2)] {sym} base val mem)
-(MOVDstore [off1] {sym} (ADDI [off2] base) val mem) && is32Bit(int64(off1)+off2) =>
-	(MOVDstore [off1+int32(off2)] {sym} base val mem)
-(MOVBstorezero [off1] {sym} (ADDI [off2] ptr) mem) && is32Bit(int64(off1)+off2) => (MOVBstorezero [off1+int32(off2)] {sym} ptr mem)
-(MOVHstorezero [off1] {sym} (ADDI [off2] ptr) mem) && is32Bit(int64(off1)+off2) => (MOVHstorezero [off1+int32(off2)] {sym} ptr mem)
-(MOVWstorezero [off1] {sym} (ADDI [off2] ptr) mem) && is32Bit(int64(off1)+off2) => (MOVWstorezero [off1+int32(off2)] {sym} ptr mem)
-(MOVDstorezero [off1] {sym} (ADDI [off2] ptr) mem) && is32Bit(int64(off1)+off2) => (MOVDstorezero [off1+int32(off2)] {sym} ptr mem)
+(MOV(B|H|W|D)store [off1] {sym} (ADDI [off2] base) val mem) && is32Bit(int64(off1)+off2) =>
+	(MOV(B|H|W|D)store [off1+int32(off2)] {sym} base val mem)
+(MOV(B|H|W|D)storezero [off1] {sym} (ADDI [off2] ptr) mem) && is32Bit(int64(off1)+off2) =>
+	(MOV(B|H|W|D)storezero [off1+int32(off2)] {sym} ptr mem)
+(FMOV(W|D)store [off1] {sym} (ADDI [off2] base) val mem) && is32Bit(int64(off1)+off2) =>
+	(FMOV(W|D)store [off1+int32(off2)] {sym} base val mem)
 
 // Similarly, fold ADDI into MOVaddr to avoid confusing live variable analysis
 // with OffPtr -> ADDI.
@@ -706,6 +670,22 @@
 (MOVBUreg <t> x:(MOVBload  [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVBUload <t> [off] {sym} ptr mem)
 (MOVHUreg <t> x:(MOVHload  [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVHUload <t> [off] {sym} ptr mem)
 (MOVWUreg <t> x:(MOVWload  [off] {sym} ptr mem)) && x.Uses == 1 && clobber(x) => @x.Block (MOVWUload <t> [off] {sym} ptr mem)
+
+// Replace load from same location as preceding store with copy.
+(MOVDload  [off] {sym} ptr1 (MOVDstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVDreg x)
+(MOVWload  [off] {sym} ptr1 (MOVWstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVWreg x)
+(MOVHload  [off] {sym} ptr1 (MOVHstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVHreg x)
+(MOVBload  [off] {sym} ptr1 (MOVBstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVBreg x)
+(MOVWUload [off] {sym} ptr1 (MOVWstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVWUreg x)
+(MOVHUload [off] {sym} ptr1 (MOVHstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVHUreg x)
+(MOVBUload [off] {sym} ptr1 (MOVBstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVBUreg x)
+(MOVDload  [off] {sym} ptr1 (FMOVDstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (FMVXD x)
+(FMOVDload [off] {sym} ptr1 (MOVDstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (FMVDX x)
+(MOVWload  [off] {sym} ptr1 (FMOVWstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (FMVXS x)
+(MOVWUload [off] {sym} ptr1 (FMOVWstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (MOVWUreg (FMVXS x))
+(FMOVWload [off] {sym} ptr1 (MOVWstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => (FMVSX x)
+(FMOVDload [off] {sym} ptr1 (FMOVDstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => x
+(FMOVWload [off] {sym} ptr1 (FMOVWstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) => x
 
 // If a register move has only 1 use, just use the same register without emitting instruction
 // MOVnop does not emit an instruction, only for ensuring the type.
