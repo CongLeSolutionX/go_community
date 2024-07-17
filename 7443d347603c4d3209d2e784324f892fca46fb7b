@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebe67254_a1e51d5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-17T17:13:49Z",
+      "side": 1,
+      "message": "Hi All, we have some discussion on the issue: https://github.com/golang/go/issues/66078\nPlease feel free to add comments.\nThank you!",
+      "revId": "7443d347603c4d3209d2e784324f892fca46fb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
