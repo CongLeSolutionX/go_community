@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e75ce8b3_4724d316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-17T20:33:53Z",
+      "side": 1,
+      "message": "Thanks, but I\u0027m not sure this kind of change is always better.  Is there some issue that says that we should make this change?",
+      "revId": "d24190a27c0188845e1dfa0d1aba0a79f32df687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
