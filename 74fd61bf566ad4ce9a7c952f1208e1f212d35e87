@@ -22,6 +22,30 @@
       },
       "revId": "74fd61bf566ad4ce9a7c952f1208e1f212d35e87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c805fa_a4bc05bc",
+        "filename": "src/os/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-17T17:47:47Z",
+      "side": 1,
+      "message": "Thanks for catching that.  I changed the code to match the Go 1.22 code.",
+      "parentUuid": "564c8673_7aedcf37",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 14
+      },
+      "revId": "74fd61bf566ad4ce9a7c952f1208e1f212d35e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
