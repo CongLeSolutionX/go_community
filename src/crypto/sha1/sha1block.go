@@ -5,15 +5,11 @@
 package sha1
 
 import (
+	"crypto/sha1/internal"
 	"math/bits"
 )
 
-const (
-	_K0 = 0x5A827999
-	_K1 = 0x6ED9EBA1
-	_K2 = 0x8F1BBCDC
-	_K3 = 0xCA62C1D6
-)
+var _K = sha1rc.K
 
 // blockGeneric is a portable, pure Go version of the SHA-1 block step.
 // It's used by sha1block_generic.go and tests.
@@ -37,7 +33,7 @@ func blockGeneric(dig *digest, p []byte) {
 		i := 0
 		for ; i < 16; i++ {
 			f := b&c | (^b)&d
-			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K0
+			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K[0]
 			a, b, c, d, e = t, a, bits.RotateLeft32(b, 30), c, d
 		}
 		for ; i < 20; i++ {
@@ -45,28 +41,28 @@ func blockGeneric(dig *digest, p []byte) {
 			w[i&0xf] = bits.RotateLeft32(tmp, 1)
 
 			f := b&c | (^b)&d
-			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K0
+			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K[0]
 			a, b, c, d, e = t, a, bits.RotateLeft32(b, 30), c, d
 		}
 		for ; i < 40; i++ {
 			tmp := w[(i-3)&0xf] ^ w[(i-8)&0xf] ^ w[(i-14)&0xf] ^ w[(i)&0xf]
 			w[i&0xf] = bits.RotateLeft32(tmp, 1)
 			f := b ^ c ^ d
-			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K1
+			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K[1]
 			a, b, c, d, e = t, a, bits.RotateLeft32(b, 30), c, d
 		}
 		for ; i < 60; i++ {
 			tmp := w[(i-3)&0xf] ^ w[(i-8)&0xf] ^ w[(i-14)&0xf] ^ w[(i)&0xf]
 			w[i&0xf] = bits.RotateLeft32(tmp, 1)
 			f := ((b | c) & d) | (b & c)
-			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K2
+			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K[2]
 			a, b, c, d, e = t, a, bits.RotateLeft32(b, 30), c, d
 		}
 		for ; i < 80; i++ {
 			tmp := w[(i-3)&0xf] ^ w[(i-8)&0xf] ^ w[(i-14)&0xf] ^ w[(i)&0xf]
 			w[i&0xf] = bits.RotateLeft32(tmp, 1)
 			f := b ^ c ^ d
-			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K3
+			t := bits.RotateLeft32(a, 5) + f + e + w[i&0xf] + _K[3]
 			a, b, c, d, e = t, a, bits.RotateLeft32(b, 30), c, d
 		}
 

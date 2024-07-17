@@ -7,13 +7,9 @@
 package sha1
 
 import "internal/cpu"
+import "crypto/sha1/internal"
 
-var k = []uint32{
-	0x5A827999,
-	0x6ED9EBA1,
-	0x8F1BBCDC,
-	0xCA62C1D6,
-}
+var k = sha1rc.K
 
 //go:noescape
 func sha1block(h []uint32, p []byte, k []uint32)
