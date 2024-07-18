@@ -470,7 +470,10 @@ var depsRules = `
 
 	crypto/boring
 	< crypto/aes, crypto/des, crypto/hmac, crypto/md5, crypto/rc4,
-	  crypto/sha1, crypto/sha256, crypto/sha512;
+	  crypto/sha1, crypto/sha256;
+
+	NONE < crypto/internal/sharc;
+	crypto/boring, crypto/internal/sharc < crypto/sha512;
 
 	crypto/boring, crypto/internal/edwards25519/field
 	< crypto/ecdh;
