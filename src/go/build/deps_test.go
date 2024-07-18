@@ -469,14 +469,13 @@ var depsRules = `
 	< crypto/internal/edwards25519;
 
 	crypto/boring
-	< crypto/aes, crypto/des, crypto/hmac, crypto/md5, crypto/rc4,
-	  crypto/sha512;
+	< crypto/aes, crypto/des, crypto/hmac, crypto/md5, crypto/rc4;
 
 	crypto/boring, crypto/internal/edwards25519/field
 	< crypto/ecdh;
 
 	NONE < crypto/internal/sharc;
-	crypto/boring, crypto/internal/sharc < crypto/sha1, crypto/sha256;
+	crypto/boring, crypto/internal/sharc < crypto/sha1, crypto/sha256, crypto/sha512;
 
 	# Unfortunately, stuck with reflect via encoding/binary.
 	encoding/binary, crypto/boring < golang.org/x/crypto/sha3;
