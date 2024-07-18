@@ -284,16 +284,32 @@ func bogoShim() {
 		}
 
 		cs := tlsConn.ConnectionState()
+
+		if *expectVersion != 0 && cs.Version != uint16(*expectVersion) {
+			log.Fatalf("expected ssl version %q, got %q", uint16(*expectVersion), cs.Version)
+		}
+
+		if *expectHRR && !cs.testingOnlyDidHRR {
+			log.Fatal("expected HRR but did not do it")
+		}
+
+		if *expectNoHRR && cs.testingOnlyDidHRR {
+			log.Fatal("expected no HRR but did do it")
+		}
+
+		if *expectedServerName != "" && cs.ServerName != *expectedServerName {
+			log.Fatalf("unexpected server name: got %q, want %q", cs.ServerName, *expectedServerName)
+		}
+
 		if cs.HandshakeComplete {
 			if *expectALPN != "" && cs.NegotiatedProtocol != *expectALPN {
 				log.Fatalf("unexpected protocol negotiated: want %q, got %q", *expectALPN, cs.NegotiatedProtocol)
 			}
-			if *expectVersion != 0 && cs.Version != uint16(*expectVersion) {
-				log.Fatalf("expected ssl version %q, got %q", uint16(*expectVersion), cs.Version)
-			}
+
 			if *declineALPN && cs.NegotiatedProtocol != "" {
 				log.Fatal("unexpected ALPN protocol")
 			}
+
 			if *expectECHAccepted && !cs.ECHAccepted {
 				log.Fatal("expected ECH to be accepted, but connection state shows it was not")
 			} else if i == 0 && *onInitialExpectECHAccepted && !cs.ECHAccepted {
@@ -304,20 +320,8 @@ func bogoShim() {
 				log.Fatal("did not expect ECH, but it was accepted")
 			}
 
-			if *expectHRR && !cs.testingOnlyDidHRR {
-				log.Fatal("expected HRR but did not do it")
-			}
-
-			if *expectNoHRR && cs.testingOnlyDidHRR {
-				log.Fatal("expected no HRR but did do it")
-			}
-
 			if *expectSessionMiss && cs.DidResume {
 				log.Fatal("unexpected session resumption")
-			}
-
-			if *expectedServerName != "" && cs.ServerName != *expectedServerName {
-				log.Fatalf("unexpected server name: got %q, want %q", cs.ServerName, *expectedServerName)
 			}
 		}
 
