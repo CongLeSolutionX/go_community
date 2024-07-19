@@ -1,0 +1,52 @@
+go list tools
+stdout example.com/dependency/cmd/bar
+go list all
+stdout example.com/dependency/cmd/bar
+
+cd workspace
+go list tools
+stdout example.com/dependency/cmd/bar
+stdout example.com/dependency/cmd/baz
+go list all
+stdout example.com/dependency/cmd/bar
+stdout example.com/dependency/cmd/baz
+-- go.mod --
+module example.com/foo
+
+go 1.24
+
+tool example.com/dependency/cmd/bar
+
+replace example.com/dependency => ./dependency
+
+require example.com/dependency v1.0.0
+
+-- dependency/go.mod --
+module example.com/dependency
+
+go 1.24
+-- dependency/cmd/bar/main.go --
+package main
+
+func main(){}
+-- dependency/cmd/baz/main.go --
+package main
+
+func main() {}
+-- other/go.mod --
+module example.com/other
+
+go 1.24
+
+tool example.com/dependency/cmd/baz
+
+replace example.com/dependency => ../dependency
+
+require example.com/dependency v1.0.0
+-- workspace/go.work --
+go 1.24
+
+use (
+    ../
+    ../other
+)
