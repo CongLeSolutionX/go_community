@@ -1,0 +1,11 @@
+go mod edit -tool example.com/tools/cmd/hello
+go mod tidy
+
+go list tools
+stdout example.com/tools/cmd/hello
+go list all
+stdout example.com/tools/cmd/hello
+
+-- go.mod --
+module m
+go 1.23

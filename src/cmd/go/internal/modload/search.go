@@ -184,9 +184,20 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			root, modPrefix string
 			isLocal         bool
 		)
+
 		if MainModules.Contains(mod.Path) {
 			if MainModules.ModRoot(mod) == "" {
 				continue // If there is no main module, we can't search in it.
+			}
+			modFile := MainModules.ModFile(mod)
+			for _, tool := range modFile.Tool {
+				path := qualifiedToolPath(modFile, tool)
+				if !have[path] && isMatch(path) {
+					have[path] = true
+					q.Add(func() {
+						addPkg(path)
+					})
+				}
 			}
 			root = MainModules.ModRoot(mod)
 			modPrefix = MainModules.PathPrefix(mod)
