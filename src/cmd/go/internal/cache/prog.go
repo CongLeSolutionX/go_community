@@ -39,13 +39,13 @@ type ProgCache struct {
 	// This is effectively the versioning mechanism.
 	can map[ProgCmd]bool
 
-	// fuzzDirCache is another Cache implementation to use for the FuzzDir
-	// method. In practice this is the default GOCACHE disk-based
-	// implementation.
+	// localCache is another Cache implementation to use for the FuzzDir
+	// and ToolDir methods. In practice this is the default GOCACHE
+	// disk-based implementation.
 	//
 	// TODO(bradfitz): maybe this isn't ideal. But we'd need to extend the Cache
-	// interface and the fuzzing callers to be less disk-y to do more here.
-	fuzzDirCache Cache
+	// interface and the callers to be less disk-y to do more here.
+	localCache Cache
 
 	closing      atomic.Bool
 	ctx          context.Context    // valid until Close via ctxClose
@@ -145,9 +145,9 @@ type ProgResponse struct {
 //
 // It blocks a few seconds to wait for the child process to successfully start
 // and advertise its capabilities.
-func startCacheProg(progAndArgs string, fuzzDirCache Cache) Cache {
-	if fuzzDirCache == nil {
-		panic("missing fuzzDirCache")
+func startCacheProg(progAndArgs string, localCache Cache) Cache {
+	if localCache == nil {
+		panic("missing localCache")
 	}
 	args, err := quoted.Split(progAndArgs)
 	if err != nil {
@@ -180,7 +180,7 @@ func startCacheProg(progAndArgs string, fuzzDirCache Cache) Cache {
 	pc := &ProgCache{
 		ctx:          ctx,
 		ctxCancel:    ctxCancel,
-		fuzzDirCache: fuzzDirCache,
+		localCache:   localCache,
 		cmd:          cmd,
 		stdout:       out,
 		stdin:        in,
@@ -423,5 +423,9 @@ func (c *ProgCache) Close() error {
 func (c *ProgCache) FuzzDir() string {
 	// TODO(bradfitz): figure out what to do here. For now just use the
 	// disk-based default.
-	return c.fuzzDirCache.FuzzDir()
+	return c.localCache.FuzzDir()
+}
+
+func (c *ProgCache) ToolDir() string {
+	return c.localCache.ToolDir()
 }
