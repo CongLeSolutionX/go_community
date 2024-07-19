@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19042a13_1494fb11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 9885
+      },
+      "writtenOn": "2024-07-19T23:29:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "065a3c79_3ea4c013",
+      "revId": "26053a33dc52ca0bba92069096c91b7d5c1256ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9f07fd2_81c5a1c2",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-07-19T00:23:34Z",
       "side": 1,
       "message": "Something probably changed. I\u0027d like to know what, because I believe this wasn\u0027t necessary in the past.\n\nBut the change itself is fine.",
+      "revId": "26053a33dc52ca0bba92069096c91b7d5c1256ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f79c0b11_2d4a0fa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9885
+      },
+      "writtenOn": "2024-07-19T23:29:59Z",
+      "side": 1,
+      "message": "I believe it was the recent change that enabled lists in Go doc. Blank lines are now needed.",
+      "parentUuid": "74db17e4_f4c9a4db",
       "revId": "26053a33dc52ca0bba92069096c91b7d5c1256ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
