@@ -1861,7 +1861,7 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 	if pkg.dir == "" {
 		return
 	}
-	if MainModules.Contains(pkg.mod.Path) || MainModules.Tools()[pkg.path] {
+	if MainModules.Contains(pkg.mod.Path) {
 		// Go ahead and mark pkg as in "all". This provides the invariant that a
 		// package that is *only* imported by other packages in "all" is always
 		// marked as such before loading its imports.
@@ -1871,6 +1871,11 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 		// about (by reducing churn on the flag bits of dependencies), and costs
 		// essentially nothing (these atomic flag ops are essentially free compared
 		// to scanning source code for imports).
+		ld.applyPkgFlags(ctx, pkg, pkgInAll)
+	}
+	if _, ok := MainModules.Tools()[pkg.path]; ok {
+		// If the package is a tool, mark it as in "all" so dependencies are
+		// resolved.
 		ld.applyPkgFlags(ctx, pkg, pkgInAll)
 	}
 	if ld.AllowPackage != nil {

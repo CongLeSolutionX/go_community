@@ -16,11 +16,20 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"path"
+	"path/filepath"
 	"sort"
 	"strings"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cache"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/load"
+	"cmd/go/internal/modload"
+	"cmd/go/internal/str"
+	"cmd/go/internal/work"
+
+	"golang.org/x/mod/module"
 )
 
 var CmdTool = &base.Command{
@@ -29,12 +38,16 @@ var CmdTool = &base.Command{
 	Short:     "run specified go tool",
 	Long: `
 Tool runs the go tool command identified by the arguments.
+
+Go ships with a number of builtin tools, and additional tools
+may be defined in the go.mod of the current module.
+
 With no arguments it prints the list of known tools.
 
 The -n flag causes tool to print the command that would be
 executed but not execute it.
 
-For more about each tool command, see 'go doc cmd/<command>'.
+For more about each builtin tool command, see 'go doc cmd/<command>'.
 `,
 }
 
@@ -59,20 +72,10 @@ func init() {
 func runTool(ctx context.Context, cmd *base.Command, args []string) {
 	if len(args) == 0 {
 		counter.Inc("go/subcommand:tool")
-		listTools()
+		listTools(ctx)
 		return
 	}
 	toolName := args[0]
-	// The tool name must be lower-case letters, numbers or underscores.
-	for _, c := range toolName {
-		switch {
-		case 'a' <= c && c <= 'z', '0' <= c && c <= '9', c == '_':
-		default:
-			fmt.Fprintf(os.Stderr, "go: bad tool name %q\n", toolName)
-			base.SetExitStatus(2)
-			return
-		}
-	}
 
 	toolPath, err := base.ToolPath(toolName)
 	if err != nil {
@@ -91,7 +94,15 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 			}
 		}
 
+		for _, tool := range loadModTools(ctx, nil) {
+			if (!tool.conflict && tool.name == toolName) || tool.pkgPath == toolName {
+				buildAndRunModtool(ctx, tool, args[1:])
+				return
+			}
+		}
+
 		counter.Inc("go/subcommand:tool-unknown")
+
 		// Emit the usual error for the missing tool.
 		_ = base.Tool(toolName)
 	} else {
@@ -143,7 +154,7 @@ func runTool(ctx context.Context, cmd *base.Command, args []string) {
 }
 
 // listTools prints a list of the available tools in the tools directory.
-func listTools() {
+func listTools(ctx context.Context) {
 	f, err := os.Open(build.ToolDir)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "go: no tool directory: %s\n", err)
@@ -158,6 +169,11 @@ func listTools() {
 		return
 	}
 
+	modTools := loadModTools(ctx, names)
+	if len(modTools) > 0 {
+		fmt.Println("# builtin tools")
+	}
+
 	sort.Strings(names)
 	for _, name := range names {
 		// Unify presentation by going to lower case.
@@ -170,6 +186,20 @@ func listTools() {
 			continue
 		}
 		fmt.Println(name)
+	}
+
+	if len(modTools) == 0 {
+		return
+	}
+
+	fmt.Println("# go.mod tools")
+
+	for _, tool := range modTools {
+		if tool.conflict {
+			fmt.Println(tool.pkgPath)
+		} else {
+			fmt.Println(tool.name)
+		}
 	}
 }
 
@@ -230,4 +260,111 @@ func impersonateDistList(args []string) (handled bool) {
 
 	os.Stdout.Write(out)
 	return true
+}
+
+type modTool struct {
+	name     string
+	pkgPath  string
+	modPath  string
+	conflict bool
+}
+
+func loadModTools(ctx context.Context, builtins []string) []modTool {
+	modload.InitWorkfile()
+	modload.LoadModGraph(ctx, "")
+
+	count := map[string]int{}
+	modTools := modload.MainModules.Tools()
+	if len(modTools) > 0 {
+		for tool, mod := range modTools {
+			if err := module.CheckImportPath(tool); err != nil {
+				modFile := modload.MainModules.ModFile(mod).Syntax.Name
+				base.Fatalf("go: %v: invalid tool path %q: %v\n", modFile, tool, err)
+			}
+			count[path.Base(tool)] += 1
+		}
+	}
+
+	for _, name := range builtins {
+		count[name] += 1
+	}
+
+	ret := []modTool{}
+	for tool, mod := range modload.MainModules.Tools() {
+		ret = append(ret, modTool{
+			name:     path.Base(tool),
+			pkgPath:  tool,
+			modPath:  mod.Path,
+			conflict: count[path.Base(tool)] > 1,
+		})
+	}
+	return ret
+}
+
+func buildAndRunModtool(ctx context.Context, tool modTool, args []string) {
+	work.BuildInit()
+	b := work.NewBuilder("")
+	defer func() {
+		if err := b.Close(); err != nil {
+			base.Fatal(err)
+		}
+	}()
+
+	pkgOpts := load.PackageOpts{MainOnly: true}
+	p := load.PackagesAndErrors(ctx, pkgOpts, []string{tool.pkgPath})[0]
+	p.Internal.OmitDebug = true
+
+	cacheDir := filepath.Join(cache.Default().ToolDir(), tool.modPath)
+	p.Target = filepath.Join(cacheDir, tool.name)
+
+	if err := os.MkdirAll(cacheDir, 0777); err != nil {
+		base.Fatal(err)
+	}
+	a1 := b.LinkAction(work.ModeInstall, work.ModeBuild, p)
+	a := &work.Action{Mode: "go tool", Actor: work.ActorFunc(runBuiltTool), Args: args, Deps: []*work.Action{a1}}
+	b.Do(ctx, a)
+}
+
+func runBuiltTool(b *work.Builder, ctx context.Context, a *work.Action) error {
+	cmdline := str.StringList(work.FindExecCmd(), a.Deps[0].Target, a.Args)
+
+	if toolN {
+		fmt.Println(strings.Join(cmdline, " "))
+		return nil
+	}
+
+	toolCmd := &exec.Cmd{
+		Path:   cmdline[0],
+		Args:   cmdline[1:],
+		Stdin:  os.Stdin,
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+	err := toolCmd.Start()
+	if err == nil {
+		c := make(chan os.Signal, 100)
+		signal.Notify(c)
+		go func() {
+			for sig := range c {
+				toolCmd.Process.Signal(sig)
+			}
+		}()
+		err = toolCmd.Wait()
+		signal.Stop(c)
+		close(c)
+	}
+	if err != nil {
+		// Only print about the exit status if the command
+		// didn't even run (not an ExitError)
+		// Assume if command exited cleanly (even with non-zero status)
+		// it printed any messages it wanted to print.
+		if e, ok := err.(*exec.ExitError); ok {
+			base.SetExitStatus(e.ExitCode())
+		} else {
+			fmt.Fprintf(os.Stderr, "go tool %s: %s\n", filepath.Base(a.Deps[0].Target), err)
+			base.SetExitStatus(1)
+		}
+	}
+
+	return nil
 }

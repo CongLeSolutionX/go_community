@@ -108,7 +108,8 @@ type MainModuleSet struct {
 
 	modFiles map[module.Version]*modfile.File
 
-	tools map[string]bool
+	// Each tool defined in the workspace; mapped to the first module that declares it
+	tools map[string]module.Version
 
 	modContainingCWD module.Version
 
@@ -137,7 +138,11 @@ func (mms *MainModuleSet) Versions() []module.Version {
 	return mms.versions
 }
 
-func (mms *MainModuleSet) Tools() map[string]bool {
+// Tools returns a map that containing a key per tool declared in each
+// of the main modules. The value is the module that defines it, or
+// in the case that many modules declare the same tool, the first
+// lexicographically.
+func (mms *MainModuleSet) Tools() map[string]module.Version {
 	if mms == nil {
 		return nil
 	}
@@ -1228,7 +1233,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		modFiles:        map[module.Version]*modfile.File{},
 		indices:         map[module.Version]*modFileIndex{},
 		highestReplaced: map[string]string{},
-		tools:           map[string]bool{},
+		tools:           map[string]module.Version{},
 		workFile:        workFile,
 	}
 	var workFileReplaces []*modfile.Replace
@@ -1314,10 +1319,18 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 
 			for _, tool := range modFiles[i].Tool {
 				p := tool.Path
-				if strings.HasPrefix(p, "./") {
-					p = path.Join(modFiles[i].Module.Mod.Path, p)
+				if p == "." {
+					p = modFiles[i].Module.Mod.Path
+				} else if strings.HasPrefix(p, "./") {
+					// no path.Join, we want ./../  to be an error
+					p = modFiles[i].Module.Mod.Path + p[1:]
 				}
-				mainModules.tools[p] = true
+				// If multiple modules in one workspace define the same tool
+				// we need to cache it in the same location consistently.
+				if existing, ok := mainModules.tools[p]; ok && existing.Path > m.Path {
+					continue
+				}
+				mainModules.tools[p] = m
 			}
 		}
 	}

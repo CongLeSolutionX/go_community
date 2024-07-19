@@ -345,6 +345,9 @@ func parseToolPath(flag, arg string) (path string) {
 		base.Fatalf("go: -%s=%s: need just path, not path@version", flag, arg)
 	}
 	toCheck := arg
+	if arg == "." {
+		return arg
+	}
 	if strings.HasPrefix(arg, "./") {
 		toCheck = arg[2:]
 	}

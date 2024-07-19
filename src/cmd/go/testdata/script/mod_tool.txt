@@ -1,11 +1,68 @@
+# add hello to go.mod
 go mod edit -tool example.com/tools/cmd/hello
 go mod tidy
 
-go list all
-stdout example.com/tools/cmd/hello
+# verify hello is present in the module graph
 go list tools
 stdout example.com/tools/cmd/hello
+go list all
+stdout example.com/tools/cmd/hello
+
+# verify go tool with module tools
+go tool
+stdout '# go.mod tools'
+stdout 'hello'
+go tool hello
+stdout 'hello, world'
+go tool example.com/tools/cmd/hello
+stdout 'hello, world'
+
+# verify support for relative tools
+go mod edit -tool ./cmd
+go tool cmd
+stdout 'running cmd'
+
+# verify clean -cache removes built tool
+# (set GOCACHE explicitly to not race with other tests)
+env GOCACHE=$WORK/.cache
+go tool -n hello
+stdout ^$GOCACHE/tool/m/n/hello$
+exists $GOCACHE/tool/m/n/hello
+go clean -cache
+! exists $GOCACHE/tool/m/n/hello
+
+# verify go.work mode
+go work init . ./b
+go tool b
+stdout 'running b'
+
+# verify error messages
+go work use error
+! go tool oops
+stderr 'go: error/go.mod: invalid tool path "/oops"'
 
 -- go.mod --
-module m
+module m/n
 go 1.23
+
+-- cmd/main.go --
+package main
+import "fmt"
+func main() { fmt.Println("running cmd") }
+
+-- b/go.mod --
+module m/n/b
+go 1.23
+
+tool .
+
+-- b/main.go --
+package main
+import "fmt"
+func main() { fmt.Println("running b") }
+
+-- error/go.mod --
+module m/n/error
+go 1.23
+
+tool /oops
