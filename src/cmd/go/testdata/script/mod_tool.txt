@@ -1,0 +1,74 @@
+# verify go tool with module tools
+go tool
+stdout 'hello'
+stdout 'cmd'
+go tool hello
+stdout 'running hello'
+go tool cmd
+stdout 'running cmd'
+
+# verify clean -cache removes built tool
+# (set GOCACHE explicitly to not race with other tests)
+env GOCACHE=$WORK/.cache
+go tool -n hello
+stdout ^$GOCACHE/tool/example.com/foo/hello$
+exists $GOCACHE/tool/example.com/foo/hello
+go clean -cache
+! exists $GOCACHE/tool/m/n/hello
+
+# verify workspace
+cd workspace
+go tool
+stdout 'example.com/foo/cmd'
+stdout 'example.com/other/cmd'
+stdout 'hello'
+! go tool cmd
+stderr 'tool "cmd" is ambiguous'
+go tool example.com/other/cmd
+stdout 'running other'
+
+-- go.mod --
+module example.com/foo
+go 1.24
+
+replace example.com/tool/hello => ./hello
+
+require example.com/tool/hello v1.0.0
+
+tool (
+    example.com/tool/hello
+    ./cmd
+)
+
+-- cmd/main.go --
+package main
+import "fmt"
+func main() { fmt.Println("running cmd") }
+
+-- hello/go.mod --
+module example.com/tool/hello
+go 1.24
+
+-- hello/main.go --
+package main
+import "fmt"
+func main() { fmt.Println("running hello") }
+
+-- other/go.mod --
+module example.com/other
+go 1.24
+
+tool ./cmd
+
+-- other/cmd/main.go --
+package main
+import "fmt"
+func main() { fmt.Println("running other") }
+
+-- workspace/go.work --
+go 1.24
+
+use (
+   ..
+   ../other
+)

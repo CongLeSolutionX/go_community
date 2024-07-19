@@ -2209,3 +2209,7 @@ func (t *Tool) PkgPath() string {
 	}
 	return t.Path
 }
+
+func (t *Tool) ShortName() string {
+	return path.Base(t.PkgPath())
+}
