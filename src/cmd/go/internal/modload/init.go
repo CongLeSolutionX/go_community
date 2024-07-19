@@ -108,6 +108,8 @@ type MainModuleSet struct {
 
 	modFiles map[module.Version]*modfile.File
 
+	tools map[string]module.Version
+
 	modContainingCWD module.Version
 
 	workFile *modfile.WorkFile
@@ -133,6 +135,16 @@ func (mms *MainModuleSet) Versions() []module.Version {
 		return nil
 	}
 	return mms.versions
+}
+
+// Tools returns the tools defined by all the main modules.
+// The key is the absolute package path of the tool, and the
+// value is the first module (lexicographically) that defined the tool.
+func (mms *MainModuleSet) Tools() map[string]module.Version {
+	if mms == nil {
+		return nil
+	}
+	return mms.tools
 }
 
 func (mms *MainModuleSet) Contains(path string) bool {
@@ -1219,6 +1231,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		modFiles:        map[module.Version]*modfile.File{},
 		indices:         map[module.Version]*modFileIndex{},
 		highestReplaced: map[string]string{},
+		tools:           map[string]module.Version{},
 		workFile:        workFile,
 	}
 	var workFileReplaces []*modfile.Replace
@@ -1299,6 +1312,46 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 				v, ok := mainModules.highestReplaced[r.Old.Path]
 				if !ok || gover.ModCompare(r.Old.Path, r.Old.Version, v) > 0 {
 					mainModules.highestReplaced[r.Old.Path] = r.Old.Version
+				}
+			}
+
+			for _, t := range modFiles[i].Tool {
+				toolPath := t.Path
+				modPath := modFiles[i].Module.Mod.Path
+
+				if toolPath == "." {
+					toolPath = modPath
+				} else if subPath, ok := strings.CutPrefix(toolPath, "./"); ok {
+					if err := module.CheckImportPath(subPath); err != nil {
+						if e, ok := err.(*module.InvalidPathError); ok {
+							e.Path = t.Path
+							e.Kind = "tool"
+						}
+						base.Fatal(err)
+					}
+
+					toolPath = path.Join(modPath, subPath)
+					dir, _, err := dirInModule(toolPath, modPath, rootDirs[i], true)
+					if err != nil {
+						base.Fatalf("go: error resolving tool %v: %v", t.Path, err)
+					}
+					if dir == "" {
+						base.Fatal(&module.InvalidPathError{
+							Kind: "tool",
+							Path: t.Path,
+							Err:  errors.New("resolves outside of module"),
+						})
+					}
+				} else if err := module.CheckImportPath(toolPath); err != nil {
+					if e, ok := err.(*module.InvalidPathError); ok {
+						e.Path = t.Path
+						e.Kind = "tool"
+					}
+					base.Fatal(err)
+				}
+
+				if existing, ok := mainModules.tools[toolPath]; !ok || existing.Path > m.Path {
+					mainModules.tools[toolPath] = m
 				}
 			}
 		}
