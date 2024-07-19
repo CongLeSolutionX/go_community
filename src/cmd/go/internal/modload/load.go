@@ -36,6 +36,7 @@ package modload
 // A package matches the "all" pattern if:
 // 	- it is in the main module, or
 // 	- it is imported by any test in the main module, or
+//	- it is imported by a tool of the main module, or
 // 	- it is imported by another package in "all", or
 // 	- the main module specifies a go version ≤ 1.15, and the package is imported
 // 	  by a *test of* another package in "all".
@@ -337,12 +338,19 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 					// enumerate the full list of "all".
 					m.Pkgs = ld.computePatternAll()
 				}
+				for tool, _ := range MainModules.Tools() {
+					m.Pkgs = append(m.Pkgs, tool)
+				}
 
 			case m.Pattern() == "std" || m.Pattern() == "cmd":
 				if m.Pkgs == nil {
 					m.MatchPackages() // Locate the packages within GOROOT/src.
 				}
 
+			case m.Pattern() == "tools":
+				for tool, _ := range MainModules.Tools() {
+					m.Pkgs = append(m.Pkgs, tool)
+				}
 			default:
 				panic(fmt.Sprintf("internal error: modload missing case for pattern %s", m.Pattern()))
 			}
@@ -1853,7 +1861,7 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 	if pkg.dir == "" {
 		return
 	}
-	if MainModules.Contains(pkg.mod.Path) {
+	if MainModules.Contains(pkg.mod.Path) || MainModules.Tools()[pkg.path] {
 		// Go ahead and mark pkg as in "all". This provides the invariant that a
 		// package that is *only* imported by other packages in "all" is always
 		// marked as such before loading its imports.

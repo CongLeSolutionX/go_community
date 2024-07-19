@@ -108,6 +108,8 @@ type MainModuleSet struct {
 
 	modFiles map[module.Version]*modfile.File
 
+	tools map[string]bool
+
 	modContainingCWD module.Version
 
 	workFile *modfile.WorkFile
@@ -133,6 +135,13 @@ func (mms *MainModuleSet) Versions() []module.Version {
 		return nil
 	}
 	return mms.versions
+}
+
+func (mms *MainModuleSet) Tools() map[string]bool {
+	if mms == nil {
+		return nil
+	}
+	return mms.tools
 }
 
 func (mms *MainModuleSet) Contains(path string) bool {
@@ -1219,6 +1228,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		modFiles:        map[module.Version]*modfile.File{},
 		indices:         map[module.Version]*modFileIndex{},
 		highestReplaced: map[string]string{},
+		tools:           map[string]bool{},
 		workFile:        workFile,
 	}
 	var workFileReplaces []*modfile.Replace
@@ -1300,6 +1310,14 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 				if !ok || gover.ModCompare(r.Old.Path, r.Old.Version, v) > 0 {
 					mainModules.highestReplaced[r.Old.Path] = r.Old.Version
 				}
+			}
+
+			for _, tool := range modFiles[i].Tool {
+				p := tool.Path
+				if strings.HasPrefix(p, "./") {
+					p = path.Join(modFiles[i].Module.Mod.Path, p)
+				}
+				mainModules.tools[p] = true
 			}
 		}
 	}
