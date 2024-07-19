@@ -60,14 +60,14 @@ func (m *Match) IsLocal() bool {
 }
 
 // IsMeta reports whether the pattern is a “meta-package” keyword that represents
-// multiple packages, such as "std", "cmd", or "all".
+// multiple packages, such as "std", "cmd", "tools", or "all".
 func (m *Match) IsMeta() bool {
 	return IsMetaPackage(m.pattern)
 }
 
 // IsMetaPackage checks if name is a reserved package name that expands to multiple packages.
 func IsMetaPackage(name string) bool {
-	return name == "std" || name == "cmd" || name == "all"
+	return name == "std" || name == "cmd" || name == "all" || name == "tools"
 }
 
 // A MatchError indicates an error that occurred while attempting to match a
