@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e060daa_09dc2135",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-19T21:20:22Z",
+      "side": 1,
+      "message": "Also add a bullet in cmd/internal/objabi/pkgspecial.go:PkgSpecial.Runtime\u0027s doc to say that checkptr is always disabled?",
+      "revId": "0d21d81447282e9b4bf76e7a0bfca2315c0cf368",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
