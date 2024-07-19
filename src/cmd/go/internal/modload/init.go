@@ -108,7 +108,7 @@ type MainModuleSet struct {
 
 	modFiles map[module.Version]*modfile.File
 
-	tools map[string]bool
+	tools map[string]module.Version
 
 	modContainingCWD module.Version
 
@@ -139,7 +139,8 @@ func (mms *MainModuleSet) Versions() []module.Version {
 
 // Tools returns the tools defined by all the main modules.
 // The key is the absolute package path of the tool.
-func (mms *MainModuleSet) Tools() map[string]bool {
+// The value is the first (lexicographically) module that includes the tool
+func (mms *MainModuleSet) Tools() map[string]module.Version {
 	if mms == nil {
 		return nil
 	}
@@ -1230,7 +1231,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		modFiles:        map[module.Version]*modfile.File{},
 		indices:         map[module.Version]*modFileIndex{},
 		highestReplaced: map[string]string{},
-		tools:           map[string]bool{},
+		tools:           map[string]module.Version{},
 		workFile:        workFile,
 	}
 	var workFileReplaces []*modfile.Replace
@@ -1322,8 +1323,9 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 					}
 					base.Fatal(err)
 				}
-
-				mainModules.tools[t.Path] = true
+				if existing, ok := mainModules.tools[t.Path]; !ok || existing.Path > m.Path {
+					mainModules.tools[t.Path] = m
+				}
 			}
 		}
 	}
