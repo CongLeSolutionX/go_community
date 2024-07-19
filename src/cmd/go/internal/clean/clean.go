@@ -160,6 +160,7 @@ func runClean(ctx context.Context, cmd *base.Command, args []string) {
 			// and not something that we want to remove. Also, we'd like to preserve
 			// the access log for future analysis, even if the cache is cleared.
 			subdirs, _ := filepath.Glob(filepath.Join(str.QuoteGlob(dir), "[0-9a-f][0-9a-f]"))
+			subdirs = append(subdirs, cache.Default().ToolDir())
 			printedErrors := false
 			if len(subdirs) > 0 {
 				if err := sh.RemoveAll(subdirs...); err != nil && !printedErrors {

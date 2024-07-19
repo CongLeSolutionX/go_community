@@ -1872,7 +1872,7 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 		// essentially nothing (these atomic flag ops are essentially free compared
 		// to scanning source code for imports).
 		ld.applyPkgFlags(ctx, pkg, pkgInAll)
-	} else if MainModules.Tools()[pkg.path] {
+	} else if _, ok := MainModules.Tools()[pkg.path]; ok {
 		// Tools declared by main modules are always in "all".
 		ld.applyPkgFlags(ctx, pkg, pkgInAll)
 	}
