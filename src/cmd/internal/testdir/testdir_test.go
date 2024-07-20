@@ -541,6 +541,7 @@ func (t test) run() error {
 
 	goexp := goExperiment
 	godebug := goDebug
+	gomod := ""
 
 	// collect flags
 	for len(args) > 0 && strings.HasPrefix(args[0], "-") {
@@ -580,6 +581,10 @@ func (t test) run() error {
 			}
 			godebug += args[0]
 			runenv = append(runenv, "GODEBUG="+godebug)
+
+		case "-gomod": // set the go.mod contents
+			args = args[1:]
+			gomod = args[0]
 
 		default:
 			flags = append(flags, args[0])
@@ -898,7 +903,12 @@ func (t test) run() error {
 			t.Fatal(err)
 		}
 
-		modFile := fmt.Sprintf("module %s\ngo 1.14\n", modName)
+		// TODO(taking): flag feels off still.
+		modVersion := gomod
+		if modVersion == "" {
+			modVersion = "go 1.14"
+		}
+		modFile := fmt.Sprintf("module %s\n%s\n", modName, modVersion)
 		if err := os.WriteFile(filepath.Join(gopathSrcDir, "go.mod"), []byte(modFile), 0666); err != nil {
 			t.Fatal(err)
 		}
