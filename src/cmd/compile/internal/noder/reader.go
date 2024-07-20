@@ -640,7 +640,9 @@ func (r *reader) obj() ir.Node {
 // and returns the encoded reference to it, without instantiating it.
 func (r *reader) objInfo() objInfo {
 	r.Sync(pkgbits.SyncObject)
-	assert(!r.Bool()) // TODO(mdempsky): Remove; was derived func inst.
+	if r.Version() <= pkgbits.Version1 {
+		assert(!r.Bool()) // "derived func inst" was removed in Version2.
+	}
 	idx := r.Reloc(pkgbits.RelocObj)
 
 	explicits := make([]typeInfo, r.Len())
@@ -743,6 +745,10 @@ func (pr *pkgReader) objIdxMayFail(idx pkgbits.Index, implicits, explicits []*ty
 
 	case pkgbits.ObjAlias:
 		name := do(ir.OTYPE, false)
+
+		if r.Version() >= pkgbits.Version2 {
+			r.typeParamNames()
+		}
 
 		// Clumsy dance: the r.typ() call here might recursively find this
 		// type alias name, before we've set its type (#66873). So we

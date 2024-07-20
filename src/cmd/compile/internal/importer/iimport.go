@@ -321,10 +321,18 @@ func (r *importReader) obj(name string) {
 	pos := r.pos()
 
 	switch tag {
-	case 'A':
-		typ := r.typ()
-
-		r.declare(types2.NewTypeName(pos, r.currPkg, name, typ))
+	case 'A', 'B':
+		var tparams []*types2.TypeParam
+		if tag == 'B' {
+			tparams = r.tparamList()
+		}
+		// We parse the RHS before creating the TypeName for simplicity.
+		// The TypeName cannot be referenced in the RHS in well typed code.
+		rhs := r.typ()
+		obj := types2.NewTypeName(pos, r.currPkg, name, rhs)
+		alias := types2.NewAlias(obj, rhs)
+		alias.SetTypeParams(tparams)
+		r.declare(obj)
 
 	case 'C':
 		typ, val := r.value()

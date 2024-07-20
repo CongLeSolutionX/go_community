@@ -15,16 +15,43 @@ import (
 	"strings"
 )
 
-// currentVersion is the current version number.
+// Version is an internal representation of how the Unified IR data is serialized.
 //
-//   - v0: initial prototype
+// Versions are numeric and each new version is greater than the last.
 //
-//   - v1: adds the flags uint32 word
+// A new higher version should be released each time the serialization
+// format is modified in a non-backwards compatible way.
+// This is most changes.
 //
-// TODO(mdempsky): For the next version bump:
+// Versions can be compared using x >= y to determine if x is after y.
+//
+// History of version numbers:
+//
+// Version0: TODO(taking) version info
+//   - initial prototype
+//
+// Version1: TODO(taking) version info
+//
+//   - adds the flags uint32 word
+//
+// Version2: TODO(taking) version info
+//
+//   - adds support for generic type aliases
+//
 //   - remove the legacy "has init" bool from the public root
+//
 //   - remove obj's "derived func instance" bool
-const currentVersion uint32 = 1
+type Version uint32 // TODO(taking): do we get much out of having a type?
+
+const (
+	Version0 Version = iota
+	Version1
+	Version2
+)
+
+// currentVersion is the current version number.
+// At the moment, this is the only version supported for writing.
+const currentVersion = Version2
 
 // A PkgEncoder provides methods for encoding a package's Unified IR
 // export data.
@@ -44,6 +71,9 @@ type PkgEncoder struct {
 
 // SyncMarkers reports whether pw uses sync markers.
 func (pw *PkgEncoder) SyncMarkers() bool { return pw.syncFrames >= 0 }
+
+// Version returns the version of the file format being encoded.
+func (pw *PkgEncoder) Version() Version { return currentVersion }
 
 // NewPkgEncoder returns an initialized PkgEncoder.
 //
@@ -69,7 +99,8 @@ func (pw *PkgEncoder) DumpTo(out0 io.Writer) (fingerprint [8]byte) {
 		assert(binary.Write(out, binary.LittleEndian, x) == nil)
 	}
 
-	writeUint32(currentVersion)
+	const version = uint32(currentVersion)
+	writeUint32(version)
 
 	var flags uint32
 	if pw.SyncMarkers() {
@@ -191,6 +222,8 @@ func (w *Encoder) Flush() Index {
 
 	return w.Idx
 }
+
+func (w *Encoder) Version() Version { return w.p.Version() }
 
 func (w *Encoder) checkErr(err error) {
 	if err != nil {

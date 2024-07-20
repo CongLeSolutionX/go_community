@@ -21,7 +21,7 @@ import (
 // export data.
 type PkgDecoder struct {
 	// version is the file format version.
-	version uint32
+	version Version
 
 	// sync indicates whether the file uses sync markers.
 	sync bool
@@ -80,17 +80,19 @@ func NewPkgDecoder(pkgPath, input string) PkgDecoder {
 
 	r := strings.NewReader(input)
 
-	assert(binary.Read(r, binary.LittleEndian, &pr.version) == nil)
+	var version uint32
+	assert(binary.Read(r, binary.LittleEndian, &version) == nil)
+	pr.version = Version(version)
 
 	switch pr.version {
-	default:
-		panic(fmt.Errorf("unsupported version: %v", pr.version))
-	case 0:
+	case Version0:
 		// no flags
-	case 1:
+	case Version1, Version2:
 		var flags uint32
 		assert(binary.Read(r, binary.LittleEndian, &flags) == nil)
 		pr.sync = flags&flagSyncMarkers != 0
+	default:
+		panic(fmt.Errorf("unsupported version: %v", pr.version))
 	}
 
 	assert(binary.Read(r, binary.LittleEndian, pr.elemEndsEnds[:]) == nil)
@@ -106,6 +108,9 @@ func NewPkgDecoder(pkgPath, input string) PkgDecoder {
 
 	return pr
 }
+
+// Version returns the version of the file format being decoded.
+func (pr *PkgDecoder) Version() Version { return pr.version }
 
 // NumElems returns the number of elements in section k.
 func (pr *PkgDecoder) NumElems(k RelocKind) int {
@@ -469,6 +474,8 @@ func (r *Decoder) bigFloat() *big.Float {
 	assert(v.UnmarshalText([]byte(r.String())) == nil)
 	return v
 }
+
+func (r *Decoder) Version() Version { return r.common.Version() }
 
 // @@@ Helpers
 

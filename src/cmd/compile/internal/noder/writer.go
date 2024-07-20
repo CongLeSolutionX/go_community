@@ -726,7 +726,9 @@ func (w *writer) obj(obj types2.Object, explicits *types2.TypeList) {
 // bitstream.
 func (w *writer) objInfo(info objInfo) {
 	w.Sync(pkgbits.SyncObject)
-	w.Bool(false) // TODO(mdempsky): Remove; was derived func inst.
+	if w.p.Version() <= pkgbits.Version1 { // DELETE INSTEAD?
+		w.Bool(false) // "derived func inst" was removed in Version2.
+	}
 	w.Reloc(pkgbits.RelocObj, info.idx)
 
 	w.Len(len(info.explicits))
@@ -849,11 +851,18 @@ func (w *writer) doObj(wext *writer, obj types2.Object) pkgbits.CodeObj {
 	case *types2.TypeName:
 		if obj.IsAlias() {
 			w.pos(obj)
-			t := obj.Type()
-			if alias, ok := t.(*types2.Alias); ok { // materialized alias
-				t = alias.Rhs()
+			rhs := obj.Type()
+			var tparams *types2.TypeParamList
+			if alias, ok := rhs.(*types2.Alias); ok { // materialized alias
+				assert(alias.TypeArgs() == nil)
+				tparams = alias.TypeParams()
+				rhs = alias.Rhs()
 			}
-			w.typ(t)
+
+			assert(tparams.Len() == 0 || buildcfg.Experiment.AliasTypeParams)
+			assert(w.p.Version() >= pkgbits.Version2)
+			w.typeParamNames(tparams)
+			w.typ(rhs)
 			return pkgbits.ObjAlias
 		}
 

@@ -329,7 +329,9 @@ func writePkgStub(m posMap, noders []*noder) string {
 	{
 		w := publicRootWriter
 		w.pkg(pkg)
-		w.Bool(false) // TODO(mdempsky): Remove; was "has init"
+		if w.p.Version() <= pkgbits.Version1 { // DELETE INSTEAD?
+			w.Bool(false) // "has init" was removed in Version2
+		}
 
 		scope := pkg.Scope()
 		names := scope.Names()
@@ -410,11 +412,15 @@ func readPackage(pr *pkgReader, importpkg *types.Pkg, localStub bool) {
 			base.ErrorExit()
 		}
 
-		r.Bool() // TODO(mdempsky): Remove; was "has init"
+		if r.Version() <= pkgbits.Version1 {
+			r.Bool() // "has init" was removed in Version2.
+		}
 
 		for i, n := 0, r.Len(); i < n; i++ {
 			r.Sync(pkgbits.SyncObject)
-			assert(!r.Bool())
+			if r.Version() <= pkgbits.Version1 {
+				assert(!r.Bool()) // "derived func inst" was removed in Version2.
+			}
 			idx := r.Reloc(pkgbits.RelocObj)
 			assert(r.Len() == 0)
 
@@ -477,11 +483,15 @@ func writeUnifiedExport(out io.Writer) {
 		r.Sync(pkgbits.SyncPkg)
 		selfPkgIdx = l.relocIdx(pr, pkgbits.RelocPkg, r.Reloc(pkgbits.RelocPkg))
 
-		r.Bool() // TODO(mdempsky): Remove; was "has init"
+		if r.Version() <= pkgbits.Version1 {
+			r.Bool() // "has init" was removed in Version2.
+		}
 
 		for i, n := 0, r.Len(); i < n; i++ {
 			r.Sync(pkgbits.SyncObject)
-			assert(!r.Bool())
+			if r.Version() <= pkgbits.Version1 {
+				assert(!r.Bool()) // "derived func info" was removed in Version2.
+			}
 			idx := r.Reloc(pkgbits.RelocObj)
 			assert(r.Len() == 0)
 
@@ -508,12 +518,17 @@ func writeUnifiedExport(out io.Writer) {
 
 		w.Sync(pkgbits.SyncPkg)
 		w.Reloc(pkgbits.RelocPkg, selfPkgIdx)
-		w.Bool(false) // TODO(mdempsky): Remove; was "has init"
+
+		if w.Version() <= pkgbits.Version1 {
+			w.Bool(false) // "has init" was removed in Version2.
+		}
 
 		w.Len(len(idxs))
 		for _, idx := range idxs {
 			w.Sync(pkgbits.SyncObject)
-			w.Bool(false)
+			if w.Version() <= pkgbits.Version1 { // delete instead?
+				w.Bool(false) // "derived func info" was removed in Version2.
+			}
 			w.Reloc(pkgbits.RelocObj, idx)
 			w.Len(0)
 		}

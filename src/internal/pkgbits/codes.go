@@ -75,3 +75,5 @@ const (
 	ObjVar
 	ObjStub
 )
+
+// TODO(taking): Add layout of CodeObj like iexport.go
