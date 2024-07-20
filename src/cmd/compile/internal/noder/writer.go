@@ -739,6 +739,7 @@ func (w *writer) objInfo(info objInfo) {
 // list of type arguments used to instantiate it, adding them to the
 // export data as needed.
 func (pw *pkgWriter) objInstIdx(obj types2.Object, explicits *types2.TypeList, dict *writerDict) objInfo {
+	// println("writing out .. ", obj.Name(), "with", explicits.Len())
 	explicitInfos := make([]typeInfo, explicits.Len())
 	for i := range explicitInfos {
 		explicitInfos[i] = pw.typIdx(explicits.At(i), dict)
@@ -850,9 +851,17 @@ func (w *writer) doObj(wext *writer, obj types2.Object) pkgbits.CodeObj {
 		if obj.IsAlias() {
 			w.pos(obj)
 			t := obj.Type()
+			var tparams *types2.TypeParamList
 			if alias, ok := t.(*types2.Alias); ok { // materialized alias
+				assert(alias.TypeArgs() == nil)
+				tparams = alias.TypeParams()
+
+				//wext.typeExt(obj) // TODO(taking): Does this need special support?
+
 				t = alias.Rhs()
 			}
+
+			w.typeParamNames(tparams)
 			w.typ(t)
 			return pkgbits.ObjAlias
 		}

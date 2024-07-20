@@ -752,6 +752,7 @@ func (pr *pkgReader) objIdxMayFail(idx pkgbits.Index, implicits, explicits []*ty
 		if hack {
 			sym.Def = nil
 		}
+		r.typeParamNames() // taking@: seems like it is needed?
 		typ := r.typ()
 		if hack {
 			if sym.Def != nil {
@@ -762,6 +763,7 @@ func (pr *pkgReader) objIdxMayFail(idx pkgbits.Index, implicits, explicits []*ty
 			sym.Def = name
 		}
 
+		// TODO(taking): what to do with type param names?
 		setType(name, typ)
 		name.SetAlias(true)
 		return name, nil

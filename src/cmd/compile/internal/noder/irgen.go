@@ -57,6 +57,7 @@ func checkFiles(m posMap, noders []*noder) (*types2.Package, *types2.Info, map[*
 		Importer:           &importer,
 		Sizes:              types2.SizesFor("gc", buildcfg.GOARCH),
 		EnableAlias:        true,
+		// Trace:              true,
 	}
 	if base.Flag.ErrorURL {
 		conf.ErrorURL = " [go.dev/e/%s]"

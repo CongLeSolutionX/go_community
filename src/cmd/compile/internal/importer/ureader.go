@@ -32,7 +32,7 @@ func ReadPackage(ctxt *types2.Context, imports map[string]*types2.Package, input
 		imports: imports,
 		// Currently, the compiler panics when using Alias types.
 		// TODO(gri) set to true once this is fixed (issue #66873)
-		enableAlias: false,
+		enableAlias: true,
 
 		posBases: make([]*syntax.PosBase, input.NumElems(pkgbits.RelocPosBase)),
 		pkgs:     make([]*types2.Package, input.NumElems(pkgbits.RelocPkg)),
@@ -257,7 +257,9 @@ func (r *reader) doTyp() (res types2.Type) {
 		return name.Type()
 
 	case pkgbits.TypeTypeParam:
-		return r.dict.tparams[r.Len()]
+		l := r.Len()
+		// println("reader doTyp", len(r.dict.tparams), ",", l)
+		return r.dict.tparams[l]
 
 	case pkgbits.TypeArray:
 		len := int64(r.Uint64())
@@ -411,9 +413,12 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 			panic("weird")
 
 		case pkgbits.ObjAlias:
+			// println("objIdx", idx, "objPkg", objPkg, "objName", objName)
 			pos := r.pos()
+			tparams := r.typeParamNames()
+			// println("tparams ", len(tparams))
 			typ := r.typ()
-			return newAliasTypeName(pr.enableAlias, pos, objPkg, objName, typ)
+			return newAliasTypeName(pr.enableAlias, pos, objPkg, objName, typ, tparams)
 
 		case pkgbits.ObjConst:
 			pos := r.pos()
@@ -430,6 +435,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 		case pkgbits.ObjType:
 			pos := r.pos()
 
+			// println("ObjType ", objPkg.Name(), " named ", objName)
 			return types2.NewTypeNameLazy(pos, objPkg, objName, func(named *types2.Named) (tparams []*types2.TypeParam, underlying types2.Type, methods []*types2.Func) {
 				tparams = r.typeParamNames()
 
@@ -539,12 +545,13 @@ func (r *reader) ident(marker pkgbits.SyncMarker) (*types2.Package, string) {
 }
 
 // newAliasTypeName returns a new TypeName, with a materialized *types2.Alias if supported.
-func newAliasTypeName(aliases bool, pos syntax.Pos, pkg *types2.Package, name string, rhs types2.Type) *types2.TypeName {
+func newAliasTypeName(aliases bool, pos syntax.Pos, pkg *types2.Package, name string, rhs types2.Type, tparams []*types2.TypeParam) *types2.TypeName {
 	// Copied from x/tools/internal/aliases.NewAlias via
 	// GOROOT/src/go/internal/gcimporter/ureader.go.
 	if aliases {
 		tname := types2.NewTypeName(pos, pkg, name, nil)
-		_ = types2.NewAlias(tname, rhs) // form TypeName -> Alias cycle
+		alias := types2.NewAlias(tname, rhs) // form TypeName -> Alias cycle
+		alias.SetTypeParams(tparams)
 		return tname
 	}
 	return types2.NewTypeName(pos, pkg, name, rhs)
