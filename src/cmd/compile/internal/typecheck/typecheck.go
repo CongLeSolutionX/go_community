@@ -143,6 +143,10 @@ func typekind(t *types.Type) string {
 	return fmt.Sprintf("etype=%d", et)
 }
 
+func init() {
+	base.Flag.LowerT = false // taking
+}
+
 // typecheck type checks node n.
 // The result of typecheck MUST be assigned back to n, e.g.
 //

@@ -28,7 +28,7 @@ func Exit(code int) {
 }
 
 // To enable tracing support (-t flag), set EnableTrace to true.
-const EnableTrace = false
+const EnableTrace = false // TODO(taking)
 
 // forEachGC calls fn each GC cycle until it returns false.
 func forEachGC(fn func() bool) {
