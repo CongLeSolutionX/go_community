@@ -850,8 +850,19 @@ func (w *writer) doObj(wext *writer, obj types2.Object) pkgbits.CodeObj {
 		if obj.IsAlias() {
 			w.pos(obj)
 			t := obj.Type()
+			var tparams *types2.TypeParamList
 			if alias, ok := t.(*types2.Alias); ok { // materialized alias
+				assert(alias.TypeArgs() == nil)
+				tparams = alias.TypeParams()
+
 				t = alias.Rhs()
+			}
+
+			if tparams.Len() > 0 { // type parameterized alias
+				assert(buildcfg.Experiment.AliasTypeParams)
+				w.typeParamNames(tparams)
+				w.typ(t)
+				return pkgbits.ObjGenericAlias
 			}
 			w.typ(t)
 			return pkgbits.ObjAlias

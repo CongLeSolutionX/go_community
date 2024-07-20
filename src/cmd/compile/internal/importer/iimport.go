@@ -321,10 +321,16 @@ func (r *importReader) obj(name string) {
 	pos := r.pos()
 
 	switch tag {
-	case 'A':
-		typ := r.typ()
-
-		r.declare(types2.NewTypeName(pos, r.currPkg, name, typ))
+	case 'A', 'B':
+		var tparams []*types2.TypeParam
+		if tag == 'B' {
+			tparams = r.tparamList()
+		}
+		typ := r.typ() // TODO different than named. rhs must not be nil.
+		obj := types2.NewTypeName(pos, r.currPkg, name, typ)
+		alias := types2.NewAlias(obj, typ)
+		alias.SetTypeParams(tparams)
+		r.declare(obj)
 
 	case 'C':
 		typ, val := r.value()

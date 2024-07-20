@@ -74,4 +74,5 @@ const (
 	ObjFunc
 	ObjVar
 	ObjStub
+	ObjGenericAlias
 )
