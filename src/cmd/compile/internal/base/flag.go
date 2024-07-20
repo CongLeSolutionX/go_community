@@ -183,7 +183,7 @@ func ParseFlags() {
 	Debug.InlStaticInit = 1
 	Debug.PGOInline = 1
 	Debug.PGODevirtualize = 2
-	Debug.SyncFrames = -1 // disable sync markers by default
+	Debug.SyncFrames = 10 // disable sync markers by default
 	Debug.ZeroCopy = 1
 	Debug.RangeFuncCheck = 1
 	Debug.MergeLocals = 1
