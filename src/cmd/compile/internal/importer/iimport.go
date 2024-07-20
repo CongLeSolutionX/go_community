@@ -322,6 +322,7 @@ func (r *importReader) obj(name string) {
 
 	switch tag {
 	case 'A':
+		r.tparamList()
 		typ := r.typ()
 
 		r.declare(types2.NewTypeName(pos, r.currPkg, name, typ))
