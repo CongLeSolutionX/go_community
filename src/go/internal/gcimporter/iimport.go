@@ -333,10 +333,13 @@ func (r *importReader) obj(name string) {
 	pos := r.pos()
 
 	switch tag {
-	case 'A':
+	case 'A', 'B':
+		var tparams []*types.TypeParam
+		if tag == 'B' {
+			tparams = r.tparamList()
+		}
 		typ := r.typ()
-
-		r.declare(types.NewTypeName(pos, r.currPkg, name, typ))
+		r.declare(newAliasTypeName(pos, r.currPkg, name, typ, tparams))
 
 	case 'C':
 		typ, val := r.value()

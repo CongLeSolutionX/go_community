@@ -741,7 +741,7 @@ func (pr *pkgReader) objIdxMayFail(idx pkgbits.Index, implicits, explicits []*ty
 	default:
 		panic("unexpected object")
 
-	case pkgbits.ObjAlias:
+	case pkgbits.ObjAlias, pkgbits.ObjGenericAlias:
 		name := do(ir.OTYPE, false)
 
 		// Clumsy dance: the r.typ() call here might recursively find this
@@ -751,6 +751,10 @@ func (pr *pkgReader) objIdxMayFail(idx pkgbits.Index, implicits, explicits []*ty
 		hack := sym.Def == name
 		if hack {
 			sym.Def = nil
+		}
+		if tag == pkgbits.ObjGenericAlias {
+			assert(buildcfg.Experiment.AliasTypeParams)
+			r.typeParamNames()
 		}
 		typ := r.typ()
 		if hack {
