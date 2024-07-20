@@ -104,6 +104,24 @@
       "parentUuid": "e9f07fd2_81c5a1c2",
       "revId": "26053a33dc52ca0bba92069096c91b7d5c1256ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a3aa99a_6c04e22d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9885
+      },
+      "writtenOn": "2024-07-20T18:43:27Z",
+      "side": 1,
+      "message": "There must have been a bug in the related gofmt doc conversion. CC @rsc.",
+      "parentUuid": "f79c0b11_2d4a0fa2",
+      "revId": "26053a33dc52ca0bba92069096c91b7d5c1256ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
