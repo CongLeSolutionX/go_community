@@ -359,6 +359,7 @@ var excluded = map[string]bool{
 	// See go.dev/issue/46027: some imports are missing for this submodule.
 	"crypto/internal/edwards25519/field/_asm": true,
 	"crypto/internal/bigmod/_asm":             true,
+	"crypto/md5/_asm":                         true,
 }
 
 // printPackageMu synchronizes the printing of type-checked package files in
