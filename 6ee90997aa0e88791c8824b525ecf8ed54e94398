@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23941713_73fc12a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3467065
+      },
+      "writtenOn": "2024-07-21T06:24:20Z",
+      "side": 1,
+      "message": "0 Diff between Reference and Avo-generated Assembly",
+      "revId": "6ee90997aa0e88791c8824b525ecf8ed54e94398",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
