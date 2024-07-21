@@ -298,8 +298,11 @@ type failureToReadBody struct{}
 func (failureToReadBody) Read([]byte) (int, error) { return 0, errNoBody }
 func (failureToReadBody) Close() error             { return nil }
 
-// emptyBody is an instance of empty reader.
-var emptyBody = io.NopCloser(strings.NewReader(""))
+// emptyBody is a zero-length io.ReadCloser.
+type emptyBody struct{}
+
+func (emptyBody) Read(b []byte) (int, error) { return 0, io.EOF }
+func (emptyBody) Close() error               { return nil }
 
 // DumpResponse is like DumpRequest but dumps a response.
 func DumpResponse(resp *http.Response, body bool) ([]byte, error) {
@@ -312,12 +315,12 @@ func DumpResponse(resp *http.Response, body bool) ([]byte, error) {
 		// For content length of zero. Make sure the body is an empty
 		// reader, instead of returning error through failureToReadBody{}.
 		if resp.ContentLength == 0 {
-			resp.Body = emptyBody
+			resp.Body = emptyBody{}
 		} else {
 			resp.Body = failureToReadBody{}
 		}
 	} else if resp.Body == nil {
-		resp.Body = emptyBody
+		resp.Body = emptyBody{}
 	} else {
 		save, resp.Body, err = drainBody(resp.Body)
 		if err != nil {
