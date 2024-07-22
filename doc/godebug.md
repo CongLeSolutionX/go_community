@@ -152,6 +152,11 @@ and the [go command documentation](/cmd/go#hdr-Build_and_test_caching).
 
 ### Go 1.23
 
+Go 1.23 changed the behavior of the encoding/xml package to more strictly parse
+chars in comments, processing instructions, and directives, based on
+[go/69503](https://github.com/golang/go/issues/69503). The `xmlvalidatechars`
+setting disables this change.
+
 Go 1.23 changed the channels created by package time to be unbuffered
 (synchronous), which makes correct use of the [`Timer.Stop`](/pkg/time/#Timer.Stop)
 and [`Timer.Reset`](/pkg/time/#Timer.Reset) method results much easier.
