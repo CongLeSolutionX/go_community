@@ -33,6 +33,24 @@
       "message": "@dneil@google.com Do you intend for this fix to be for Go 1.24 or 1.23?",
       "revId": "5dde66dc4f2f468d228fb01ef00fc591429e80fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a68026_fab6f14e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-07-22T22:55:58Z",
+      "side": 1,
+      "message": "1.24. (Would need a backport issue for 1.23, but I don\u0027t think this is something we\u0027d backport.)",
+      "parentUuid": "07f5a229_9116694e",
+      "revId": "5dde66dc4f2f468d228fb01ef00fc591429e80fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
