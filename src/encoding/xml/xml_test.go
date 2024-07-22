@@ -786,6 +786,9 @@ var characterTests = []struct {
 	{"<doc>&\x01;</doc>", "invalid character entity & (no semicolon)"},
 	{"<doc>&\xef\xbf\xbe;</doc>", "invalid character entity &\uFFFE;"},
 	{"<doc>&hello;</doc>", "invalid character entity &hello;"},
+	{"<?xml version=\"1.0\"?><doc><!-- invalid character: \x01 --></doc>", "illegal character code U+0001"},
+	{"<?xml version=\"1.0\"?><doc><!ELEMENT \x01 EMPTY></doc>", "illegal character code U+0001"},
+	{"<?xml tag=\x01 ?>", "illegal character code U+0001"},
 }
 
 func TestDisallowedCharacters(t *testing.T) {
