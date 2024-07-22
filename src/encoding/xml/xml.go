@@ -650,6 +650,11 @@ func (d *Decoder) rawToken() (Token, error) {
 				d.switchToReader(newr)
 			}
 		}
+
+		if err := d.isAllAllowedChars(data); err != nil {
+			d.err = err
+			return nil, d.err
+		}
 		return ProcInst{target, data}, nil
 
 	case '!':
@@ -687,6 +692,10 @@ func (d *Decoder) rawToken() (Token, error) {
 			}
 			data := d.buf.Bytes()
 			data = data[0 : len(data)-3] // chop -->
+			if err := d.isAllAllowedChars(data); err != nil {
+				d.err = err
+				return nil, d.err
+			}
 			return Comment(data), nil
 
 		case '[': // <![
@@ -774,6 +783,10 @@ func (d *Decoder) rawToken() (Token, error) {
 				// Directive, taking new semantic meaning.
 				d.buf.WriteByte(' ')
 			}
+		}
+		if err := d.isAllAllowedChars(d.buf.Bytes()); err != nil {
+			d.err = err
+			return nil, d.err
 		}
 		return Directive(d.buf.Bytes()), nil
 	}
@@ -1133,21 +1146,28 @@ Input:
 	data = data[0 : len(data)-trunc]
 
 	// Inspect each rune for being a disallowed character.
+	if err := d.isAllAllowedChars(data); err != nil {
+		d.err = err
+		return nil
+	}
+
+	return data
+}
+
+// Inspect each rune in a byte slice to ensure they are allowed characters
+func (d *Decoder) isAllAllowedChars(data []byte) error {
 	buf := data
 	for len(buf) > 0 {
 		r, size := utf8.DecodeRune(buf)
 		if r == utf8.RuneError && size == 1 {
-			d.err = d.syntaxError("invalid UTF-8")
-			return nil
+			return d.syntaxError("invalid UTF-8")
 		}
 		buf = buf[size:]
 		if !isInCharacterRange(r) {
-			d.err = d.syntaxError(fmt.Sprintf("illegal character code %U", r))
-			return nil
+			return d.syntaxError(fmt.Sprintf("illegal character code %U", r))
 		}
 	}
-
-	return data
+	return nil
 }
 
 // Decide whether the given rune is in the XML Character Range, per
