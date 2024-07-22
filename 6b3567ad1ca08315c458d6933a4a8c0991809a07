@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da097ff6_869c9fcf",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-07-22T18:20:07Z",
+      "side": 1,
+      "message": "// emptyBody is a zero-length io.ReadCloser.",
+      "revId": "6b3567ad1ca08315c458d6933a4a8c0991809a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4226c818_6a6c9d2d",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-07-22T18:20:07Z",
+      "side": 1,
+      "message": "This isn\u0027t right: This returns 0, nil on every Read call, indicating that nothing happened. You want to return 0, io.EOF.",
+      "revId": "6b3567ad1ca08315c458d6933a4a8c0991809a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
