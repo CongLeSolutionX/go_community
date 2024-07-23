@@ -16,6 +16,42 @@
       "message": "hijackLocked is supposed to be called with c.mu held; it\u0027s in both the function documentation and in the name. (A \"...Locked\" method generally indicates that the method expects some mutex to be held when it is called.)\n\nHow does moving the lock here avoid a deadlock? The CL description says \"affects lock copies\", but I don\u0027t understand what that means and there aren\u0027t any tests demonstrating what is being fixed.",
       "revId": "578548ff5909f59b7033985632a078ecd7db5ee4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38392a69_2c1cdb8e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 3523357
+      },
+      "writtenOn": "2024-07-23T08:37:40Z",
+      "side": 1,
+      "message": "This is just a private lock for internal use",
+      "parentUuid": "38f4a670_d17cdafa",
+      "revId": "578548ff5909f59b7033985632a078ecd7db5ee4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f83ace_3d867b8a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 3523357
+      },
+      "writtenOn": "2024-07-23T08:37:40Z",
+      "side": 1,
+      "message": "This is just a private lock for internal use",
+      "parentUuid": "38f4a670_d17cdafa",
+      "revId": "578548ff5909f59b7033985632a078ecd7db5ee4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
