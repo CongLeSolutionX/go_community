@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdcb1602_a8cfaf2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-07-23T20:02:26Z",
+      "side": 1,
+      "message": "Left a comment on [CL 600436](https://go-review.googlesource.com/c/go/+/600436#message-8) about the TestNewReleaseRebuildsStalePackagesInGOPATH failure.",
+      "revId": "1395b66f5ac1586df446dcf1f1d5ef3883a5a2bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
