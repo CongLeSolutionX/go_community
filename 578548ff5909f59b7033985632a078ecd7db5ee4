@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd4182ee_daeec22c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3523357
+      },
+      "writtenOn": "2024-07-23T09:02:44Z",
+      "side": 1,
+      "message": "this does not comply with the coding standard: 1. private variables are used externally. 2. pointer types containing locks cannot be copied and used",
+      "revId": "578548ff5909f59b7033985632a078ecd7db5ee4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38f4a670_d17cdafa",
