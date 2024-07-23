@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aed925b_1009e851",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-07-23T16:49:33Z",
+      "side": 1,
+      "message": "These have been fixed by importing gri\u0027s CL.",
+      "parentUuid": "fdb912d8_0f71dac2",
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50f4e09a_275076f8",
@@ -49,6 +67,24 @@
       "writtenOn": "2024-06-05T20:34:57Z",
       "side": 1,
       "message": "I think you don\u0027t need this - in general we always need the method name (this is different from struct literals), only if there\u0027s just one element we can leave it away. Easier to check when that happens.",
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08eaebc2_5c90ba6e",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-07-23T16:49:33Z",
+      "side": 1,
+      "message": "These have been fixed by importing gri\u0027s CL.",
+      "parentUuid": "50f4e09a_275076f8",
       "revId": "29c1b623243e5f08028a5143c203325b5965334e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -118,6 +154,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91840579_9a4c1b00",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-07-23T16:49:33Z",
+      "side": 1,
+      "message": "These have been fixed by importing gri\u0027s CL.",
+      "parentUuid": "d662b556_aa8a82a3",
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7085c71_e5a80f61",
@@ -131,6 +185,30 @@
       "writtenOn": "2024-06-05T20:34:57Z",
       "side": 1,
       "message": "s/field/method/",
+      "range": {
+        "startLine": 1373,
+        "startChar": 49,
+        "endLine": 1373,
+        "endChar": 54
+      },
+      "revId": "29c1b623243e5f08028a5143c203325b5965334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4022fbdd_fd05fb15",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1373,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-07-23T16:49:33Z",
+      "side": 1,
+      "message": "These have been fixed by importing gri\u0027s CL.",
+      "parentUuid": "b7085c71_e5a80f61",
       "range": {
         "startLine": 1373,
         "startChar": 49,
