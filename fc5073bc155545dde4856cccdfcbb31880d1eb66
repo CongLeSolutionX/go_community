@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca63fac6_cf84fad1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-07-23T19:59:15Z",
+      "side": 1,
+      "message": "The cmd/go.TestNewReleaseRebuildsStalePackagesInGOPATH test is failing (e.g., https://ci.chromium.org/b/8741595849470417761). Is it a matter of updating the test case or is there more to do? Please feel free to revert if this\u0027ll need some time.",
+      "revId": "fc5073bc155545dde4856cccdfcbb31880d1eb66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
