@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fa66334_4a2292cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-23T17:05:09Z",
+      "side": 1,
+      "message": "Some of these things might be just as good in internal/math as internal/runtime/math or internal/runtime/sys.",
+      "revId": "afc8fec4992f7915cd462b165a4850f1ad9f1894",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
