@@ -9,6 +9,7 @@ import (
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"cmd/internal/src"
+	"internal/buildcfg"
 	"internal/pkgbits"
 )
 
@@ -257,6 +258,15 @@ func (r *reader) doTyp() (res types2.Type) {
 		return name.Type()
 
 	case pkgbits.TypeTypeParam:
+		if buildcfg.Experiment.AliasTypeParams {
+			// Temporary work-around for issue #68526: avoid index-out-of-bounds
+			// panic due to missing exported type parameters for Alias types.
+			// (not needed for 1.24 which contains the correct fix).
+			if i := r.Len(); i < len(r.dict.tparams) {
+				return r.dict.tparams[i]
+			}
+			return types2.Typ[types2.Invalid]
+		}
 		return r.dict.tparams[r.Len()]
 
 	case pkgbits.TypeArray:
