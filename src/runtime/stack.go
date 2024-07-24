@@ -946,6 +946,12 @@ func copystack(gp *g, newsize uintptr) {
 	}
 
 	// free old stack
+	if gp.secret > 0 {
+		// Some portion of the old stack has secret stuff on it.
+		// We don't really know where we entered secret mode,
+		// so just clear the whole thing.
+		memclrNoHeapPointers(unsafe.Pointer(old.lo), old.hi-old.lo)
+	}
 	if stackPoisonCopy != 0 {
 		fillstack(old, 0xfc)
 	}
