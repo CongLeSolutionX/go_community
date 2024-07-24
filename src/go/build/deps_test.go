@@ -89,6 +89,7 @@ var depsRules = `
 	< internal/runtime/exithook
 	< internal/runtime/math
 	< runtime
+	< runtime/secret
 	< sync/atomic
 	< internal/race
 	< internal/msan
