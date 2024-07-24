@@ -619,6 +619,9 @@ func Goexit() {
 	// bypassed by a recover().
 	var p _panic
 	p.goexit = true
+	// Remember that there was a runtime/secret.Do frame on the stack, so when
+	// goexit finishes we can remember to zero the stack.
+	p.secret = getg().secret > 0
 
 	p.start(getcallerpc(), unsafe.Pointer(getcallersp()))
 	for {

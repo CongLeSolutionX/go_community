@@ -494,6 +494,7 @@ type g struct {
 	runnableTime  int64 // the amount of time spent runnable, cleared when running, only used when tracking
 	lockedm       muintptr
 	sig           uint32
+	secret        uint32 // current nesting of runtime/secret.Do calls.
 	writebuf      []byte
 	sigcode0      uintptr
 	sigcode1      uintptr
@@ -1035,6 +1036,7 @@ type _panic struct {
 	recovered   bool // whether this panic has been recovered
 	goexit      bool
 	deferreturn bool
+	secret      bool // whether runtime/secret.Do is on the stack. Only set when goexit==true.
 }
 
 // savedOpenDeferState tracks the extra state from _panic that's
