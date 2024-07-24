@@ -16,6 +16,23 @@
       "message": "Hi Michael, Laidongfeng, by chance you have time, could you help me to trigger a TryBots-Pass build? Thank you!!",
       "revId": "592c7962ba8c36f748211e37a971079c70485657",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f7cb0f_f0945c5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-24T14:55:13Z",
+      "side": 1,
+      "message": "Some tests are failing due to the expected error message not matching what we now produce.\n\nThere also seems to be a test failing in x/tools. It looks like it\u0027s parsing the error message. We\u0027ll have to update go/packages to expect the new format.",
+      "revId": "592c7962ba8c36f748211e37a971079c70485657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
