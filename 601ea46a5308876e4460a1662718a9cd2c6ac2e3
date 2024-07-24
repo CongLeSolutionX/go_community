@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ac28a3a_ce86fdd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2024-07-24T08:05:39Z",
+      "side": 1,
+      "message": "Would it make sense to detect [x86-v4](https://en.wikipedia.org/wiki/X86-64) and in that case just make memmove an intrinsic that generates the correct `REP MOVSB` (for all sizees)? I\u0027m curious if beneficial binary size / icache effects would  see benefits.",
+      "revId": "601ea46a5308876e4460a1662718a9cd2c6ac2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
