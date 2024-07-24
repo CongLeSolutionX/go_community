@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d035c0c_92065295",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-07-24T16:47:45Z",
+      "side": 1,
+      "message": "\u003e I thought part of the point of a swiss table is that all the metadata is together (the 1 byte/entry piece) and all of the key/value pairs are together. Maybe I\u0027m remembering an older version of it. Currently your code is more like the current maps, where we alternate 8 bytes of metadata with 8 key/value pairs. Any reason to prefer one over the other?\n\nThe key point of a swiss table is that the 8 bytes (or 16 w/ SSE) of metadata allow you to effectively check for a match on 8 (or 16) keys at once.\n\nKey references:\n\nhttps://abseil.io/about/design/swisstables\nhttps://cs.opensource.google/abseil/abseil-cpp/+/master:absl/container/internal/raw_hash_set.h;l\u003d54;drc\u003d4eb81046b2df1804220ef5af3fda54b6fa614c27\n\nI don\u0027t think whether the metadata is all together or alongside the slots to a key part, but we do need to decide which is better.\n\nAbseil _does_ put all of the metadata together. Peter\u0027s implementation [changed this](https://github.com/cockroachdb/swiss/blob/main/map.go#L43-L50), claiming it reduces cache misses. I have not personally verified which is better.\n\nThere are several different cache locality trade-offs that I think we need to evaluate:\n\n1. Putting all of the metadata together is good if we need to probe more than one group. The second word of metadata we look at would likely already be in cache. This is probably good at high load, which is when we need to probe multiple groups.\n\n2. Putting the metadata with the keys is good we get a match in the metadata. We then check the actual key, which is likely already in cache.\n\n3. Putting the value with the key is also good when we get a match of the key. The caller will likely read the value, which is likely already in cache. But if the key is too big, this could invalidate (2), as it could push keys to a different cache line from the metadata.\n\nI think the (1) vs (2) decision will come down to optimizing for high load or low load.\n\n\u003e \n\u003e Small maps - how small are they (memory footprint)? Currently a zero-entry map is 48 bytes and a 1-entry map[uint64]uint64 is 48+144 \u003d 192 bytes.\n\nI thus far haven\u0027t paid close attention to size, I plan to come back to this.\n\n\u003e \n\u003e I\u0027m most excited about getting rid of the hack to do something special gc-wise when both the key and value have no pointers. That all just falls out naturally in this open hashing implementation.",
+      "parentUuid": "adef2b6b_48901463",
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d519055f_6a369206",
         "filename": "src/internal/runtime/maps/export_test.go",
         "patchSetId": 12
@@ -71,6 +89,30 @@
       "writtenOn": "2024-07-02T22:37:46Z",
       "side": 1,
       "message": "Is this realGroup mentioned below?\n\nI would call this \"group\", and the type you currently call group I would call \"groupReference\" or \"groupHandle\".",
+      "range": {
+        "startLine": 153,
+        "startChar": 9,
+        "endLine": 153,
+        "endChar": 18
+      },
+      "revId": "ac1f5ee8934d9bb98055cfef110ecf018a4653d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1cde42a_e293aaf6",
+        "filename": "src/internal/runtime/maps/group.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-07-24T16:47:45Z",
+      "side": 1,
+      "message": "Yes. You can also see this defined for real as instantiatedGroup in export_test.go.",
+      "parentUuid": "e0b9b8e8_911a432b",
       "range": {
         "startLine": 153,
         "startChar": 9,
