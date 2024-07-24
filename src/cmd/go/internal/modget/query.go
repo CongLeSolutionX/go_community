@@ -175,7 +175,7 @@ func newQuery(raw string) (*query, error) {
 // validate reports a non-nil error if q is not sensible and well-formed.
 func (q *query) validate() error {
 	if q.patternIsLocal {
-		if q.rawVersion != "" {
+		if q.rawVersion != "" && (q.rawVersion != "none" && *getTool) {
 			return fmt.Errorf("can't request explicit version %q of path %q in main module", q.rawVersion, q.pattern)
 		}
 		return nil
