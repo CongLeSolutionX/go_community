@@ -34,6 +34,24 @@
       "parentUuid": "0ac28a3a_ce86fdd8",
       "revId": "601ea46a5308876e4460a1662718a9cd2c6ac2e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17a29512_526ba2c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2024-07-24T08:17:40Z",
+      "side": 1,
+      "message": "One thing that the inlined rep mov would compete against is the current jump into a list of move instructions (that just does the right amount based on the jump): https://github.com/golang/go/blob/master/src/runtime/mkduff.go \n\nThe upside around the current jump is it has very low startup cost (apart from any icache misses).\n\nFor very dynamic memmove sizes there is still a considerable startup cost for small rep mov memmoves.\n\nIf the compiler could prove the memmove is always large, I agree inlining rep memmove would be a good option to try out.",
+      "parentUuid": "61c5ad20_ed0cba12",
+      "revId": "601ea46a5308876e4460a1662718a9cd2c6ac2e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
