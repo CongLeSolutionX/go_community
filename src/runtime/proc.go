@@ -4264,6 +4264,16 @@ func goexit1() {
 
 // goexit continuation on g0.
 func goexit0(gp *g) {
+	if p := gp._panic; p != nil {
+		if !p.goexit {
+			throw("still panicking during goexit0")
+		}
+		if p.secret {
+			// Erase the whole stack. This path only occurs when
+			// runtime.Goexit is called from within a runtime/secret.Do call.
+			memclrNoHeapPointers(unsafe.Pointer(gp.stack.lo), gp.stack.hi-gp.stack.lo)
+		}
+	}
 	gdestroy(gp)
 	schedule()
 }

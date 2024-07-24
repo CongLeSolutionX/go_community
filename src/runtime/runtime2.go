@@ -529,6 +529,9 @@ type g struct {
 	// and check for debt in the malloc hot path. The assist ratio
 	// determines how this corresponds to scan work debt.
 	gcAssistBytes int64
+
+	// current nesting of runtime/secret.Do calls.
+	secret int64
 }
 
 // gTrackingPeriod is the number of transitions out of _Grunning between
@@ -1035,6 +1038,7 @@ type _panic struct {
 	recovered   bool // whether this panic has been recovered
 	goexit      bool
 	deferreturn bool
+	secret      bool // whether runtime/secret.Do is on the stack. Only set when goexit==true.
 }
 
 // savedOpenDeferState tracks the extra state from _panic that's
