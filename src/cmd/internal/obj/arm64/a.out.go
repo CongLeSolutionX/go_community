@@ -1137,6 +1137,7 @@ const (
 	AWFI
 	AWORD
 	AYIELD
+	AZBFDOT
 	ALAST
 	AB  = obj.AJMP
 	ABL = obj.ACALL

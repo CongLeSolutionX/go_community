@@ -168,6 +168,26 @@ func (p *Prog) WriteInstructionString(w io.Writer) {
 	io.WriteString(w, sc)
 	sep := "\t"
 
+	if p.Ctxt.Arch.Family == sys.ARM64 {
+		// While the SVE assembler is separate from the old assembler, we need
+		// to check if the Prog represents an SVE instruction and if so, print
+		// the operands from RestArgs instead of the other fields. The SVE
+		// assembler uses a stack of marked arguments in RestArgs. If there aren't
+		// any arguments like this, then it wasn't an SVE Prog and we just continue.
+		wasSve := false
+		for _, arg := range p.RestArgs {
+			if arg.Pos != Source && arg.Pos != Destination {
+				io.WriteString(w, sep)
+				WriteDconv(w, p, &arg.Addr)
+				sep = ", "
+				wasSve = true
+			}
+		}
+		if wasSve {
+			return
+		}
+	}
+
 	if p.From.Type != TYPE_NONE {
 		io.WriteString(w, sep)
 		WriteDconv(w, p, &p.From)

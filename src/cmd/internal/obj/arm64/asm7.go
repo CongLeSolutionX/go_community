@@ -1200,7 +1200,10 @@ func (c *ctxt7) asmsizeBytes(p *obj.Prog) int {
 	case obj.ANOP, obj.AFUNCDATA, obj.APCDATA:
 		return 0
 	default:
-		o := c.oplook(p)
+		o, err := c.oplook(p)
+		if o == nil || err != nil {
+			return 4
+		}
 		return o.size(c.ctxt, p)
 	}
 }
@@ -1210,7 +1213,11 @@ func (c *ctxt7) asmsizeBytes(p *obj.Prog) int {
 func (c *ctxt7) fixUpLongBranch(p *obj.Prog) bool {
 	var toofar bool
 
-	o := c.oplook(p)
+	o, err := c.oplook(p)
+
+	if o == nil || err != nil {
+		return false
+	}
 
 	/* very large branches */
 	if (o.flag&BRANCH14BITS != 0 || o.flag&BRANCH19BITS != 0) && p.To.Target() != nil {
@@ -1242,7 +1249,11 @@ func (c *ctxt7) fixUpLongBranch(p *obj.Prog) bool {
 
 // Adds literal values from the Prog into the literal pool if necessary.
 func (c *ctxt7) addLiteralsToPool(p *obj.Prog) {
-	o := c.oplook(p)
+	o, err := c.oplook(p)
+
+	if o == nil || err != nil {
+		return
+	}
 
 	if o.flag&LFROM != 0 {
 		c.addpool(p, &p.From)
@@ -1277,7 +1288,10 @@ func (c *ctxt7) isRestartable(p *obj.Prog) bool {
 	// of assembler-inserted REGTMP fall into this category.
 	// If p doesn't use REGTMP, it can be simply preempted, so we don't
 	// mark it.
-	o := c.oplook(p)
+	o, err := c.oplook(p)
+	if o == nil || err != nil {
+		return false
+	}
 	return o.size(c.ctxt, p) > 4 && o.flag&NOTUSETMP == 0
 }
 
@@ -2233,10 +2247,10 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 	return C_GOK
 }
 
-func (c *ctxt7) oplook(p *obj.Prog) *Optab {
+func (c *ctxt7) oplook(p *obj.Prog) (*Optab, error) {
 	a1 := int(p.Optab)
 	if a1 != 0 {
-		return &optab[a1-1]
+		return &optab[a1-1], nil
 	}
 	a1 = int(p.From.Class)
 	if a1 == 0 {
@@ -2332,14 +2346,14 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 			op := &ops[i]
 			if c1[op.a1] && c2[op.a2] && c3[op.a3] && c4[op.a4] && c5[op.a5] && p.Scond == op.scond {
 				p.Optab = uint16(cap(optab) - cap(ops) + i + 1)
-				return op
+				return op, nil
 			}
 		}
 	}
 
-	c.ctxt.Diag("illegal combination: %v %v %v %v %v %v, %d %d", p, DRconv(a1), DRconv(a2), DRconv(a3), DRconv(a4), DRconv(a5), p.From.Type, p.To.Type)
-	// Turn illegal instruction into an UNDEF, avoid crashing in asmout
-	return &Optab{obj.AUNDEF, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0}
+	return nil, fmt.Errorf(
+		"illegal combination: %v %v %v %v %v %v, %d %d",
+		p, DRconv(a1), DRconv(a2), DRconv(a3), DRconv(a4), DRconv(a5), p.From.Type, p.To.Type)
 }
 
 func cmp(a int, b int) bool {
@@ -3473,7 +3487,18 @@ func (c *ctxt7) checkShiftAmount(p *obj.Prog, a *obj.Addr) {
 }
 
 func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
-	o := c.oplook(p)
+
+	o, err := c.oplook(p)
+	if o == nil || err != nil {
+		opcode, sveErr := assembleSVE(p)
+		if sveErr == nil {
+			out[0] = opcode
+			return 1
+		}
+		c.ctxt.Diag(err.Error())
+		out[0] = 0x0 // udf
+		return 1
+	}
 
 	var os [5]uint32
 	o1 := uint32(0)

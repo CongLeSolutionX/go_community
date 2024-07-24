@@ -458,3 +458,77 @@ func ARM64RegisterListOffset(firstReg, regCnt int, arrangement int64) (int64, er
 	offset |= 1 << 60
 	return offset, nil
 }
+
+func expectRegister(prog *obj.Prog, op obj.As, addr *obj.Addr) (int16, error) {
+	if addr.Type != obj.TYPE_REG || addr.Offset != 0 || addr.Name != 0 || addr.Index != 0 {
+		return 0, fmt.Errorf("%s: expected register; found %s", op, obj.Dconv(prog, addr))
+	}
+	return addr.Reg, nil
+}
+
+func ARM64AsmInstruction(prog *obj.Prog, op obj.As, cond string, a []obj.Addr) error {
+	switch len(a) {
+	case 0:
+	case 1:
+		if arm64.Linkarm64.UnaryDst[op] || op == obj.ARET || op == obj.AGETCALLERPC {
+			prog.To = a[0]
+		} else {
+			prog.From = a[0]
+		}
+	case 2:
+		prog.From = a[0]
+		if IsARM64CMP(op) {
+			reg, err := expectRegister(prog, op, &a[1])
+			if err != nil {
+				return err
+			}
+			prog.Reg = reg
+		} else {
+			prog.To = a[1]
+		}
+	case 3:
+		prog.From = a[0]
+		if IsARM64STLXR(op) {
+			// ARM64 instructions with one input and two outputs.
+			prog.To = a[1]
+			if a[2].Type != obj.TYPE_REG {
+				return fmt.Errorf("invalid addressing modes for third operand to %s instruction, must be register", op)
+			}
+			prog.RegTo2 = a[2].Reg
+		} else if IsARM64TBL(op) {
+			// one of its inputs does not fit into prog.Reg.
+			prog.AddRestSource(a[1])
+			prog.To = a[2]
+		} else if IsARM64CASP(op) {
+			prog.To = a[1]
+			// both 1st operand and 3rd operand are (Rs, Rs+1) register pair.
+			// And the register pair must be contiguous.
+			if (a[0].Type != obj.TYPE_REGREG) || (a[2].Type != obj.TYPE_REGREG) {
+				return fmt.Errorf("invalid addressing modes for 1st or 3rd operand to %s instruction, must be register pair", op)
+			}
+			// For ARM64 CASP-like instructions, its 2nd destination operand is register pair(Rt, Rt+1) that can
+			// not fit into prog.RegTo2, so save it to the prog.RestArgs.
+			prog.AddRestDest(a[2])
+		} else {
+			reg, err := expectRegister(prog, op, &a[1])
+			if err != nil {
+				return err
+			}
+			prog.Reg = reg
+			prog.To = a[2]
+		}
+	case 4:
+		prog.From = a[0]
+		reg, err := expectRegister(prog, op, &a[1])
+		if err != nil {
+			return err
+		}
+		prog.Reg = reg
+		prog.AddRestSource(a[2])
+		prog.To = a[3]
+	default:
+		return fmt.Errorf("can't handle %s instruction with %d operands", op, len(a))
+	}
+
+	return nil
+}
