@@ -4264,6 +4264,13 @@ func goexit1() {
 
 // goexit continuation on g0.
 func goexit0(gp *g) {
+	if gp.secret > 0 {
+		// Erase the whole stack. This path only occurs when
+		// runtime.Goexit is called from within a runtime/secret.Do call.
+		memclrNoHeapPointers(unsafe.Pointer(gp.stack.lo), gp.stack.hi-gp.stack.lo)
+		// Also erase registers, as we didn't do that when unwinding secret.Do.
+		secretEraseRegisters()
+	}
 	gdestroy(gp)
 	schedule()
 }
