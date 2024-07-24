@@ -54,7 +54,7 @@ import (
 var CmdGet = &base.Command{
 	// Note: flags below are listed explicitly because they're the most common.
 	// Do not send CLs removing them because they're covered by [get flags].
-	UsageLine: "go get [-t] [-u] [-v] [build flags] [packages]",
+	UsageLine: "go get [-t] [-u] [-v] [-tool] [build flags] [packages]",
 	Short:     "add dependencies to current module and install them",
 	Long: `
 Get resolves its command-line arguments to packages at specific module versions,
@@ -108,6 +108,9 @@ but changes the default to select patch releases.
 
 When the -t and -u flags are used together, get will update
 test dependencies as well.
+
+The -tool flag instructs go to add a matching tool line to go.mod for each
+listed package. If -tool is used with @none, the line will be removed.
 
 The -x flag prints commands as they are executed. This is useful for
 debugging version control commands when a module is downloaded directly
@@ -217,6 +220,7 @@ var (
 	getM        = CmdGet.Flag.Bool("m", false, "")
 	getT        = CmdGet.Flag.Bool("t", false, "")
 	getU        upgradeFlag
+	getTool     = CmdGet.Flag.Bool("tool", false, "")
 	getInsecure = CmdGet.Flag.Bool("insecure", false, "")
 	// -v is cfg.BuildV
 )
@@ -332,6 +336,19 @@ func runGet(ctx context.Context, cmd *base.Command, args []string) {
 	for _, q := range queries {
 		if q.pattern == "toolchain" {
 			opts.ExplicitToolchain = true
+		}
+		if *getTool {
+			if q.isWildcard() {
+				base.Fatalf("go: go get -tool does not work with wildcards.")
+			}
+			if search.IsMetaPackage(q.pattern) {
+				base.Fatalf("go: go get -tool does not work with '%s'.", q)
+			}
+			if q.version == "none" {
+				opts.DropTools = append(opts.DropTools, q.pattern)
+			} else {
+				opts.AddTools = append(opts.AddTools, q.pattern)
+			}
 		}
 	}
 

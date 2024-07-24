@@ -1,0 +1,13 @@
+# test go get -tool
+go get -tool example.com/tools/cmd/hello
+go tool
+stdout 'hello'
+
+# test -tool with @none
+go get -tool example.com/tools/cmd/hello@none
+go tool
+! stdout 'hello'
+
+-- go.mod --
+module example.com/foo
+go 1.24
