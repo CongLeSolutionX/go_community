@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9603ec07_9de79dc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3467065
+      },
+      "writtenOn": "2024-07-24T02:00:14Z",
+      "side": 1,
+      "message": "Revised a line to provide metadata. One line diff as of patch set 3:\n\nhttps://gist.github.com/Garrett-Bodley/00f2c84c75c853d95ef0bc0afbdd3c2b",
+      "revId": "61f898852954e8a8b7daf31ec0ad7d9b839d0479",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
