@@ -494,6 +494,7 @@ type g struct {
 	runnableTime  int64 // the amount of time spent runnable, cleared when running, only used when tracking
 	lockedm       muintptr
 	sig           uint32
+	secret        uint32 // current nesting of runtime/secret.Do calls.
 	writebuf      []byte
 	sigcode0      uintptr
 	sigcode1      uintptr
