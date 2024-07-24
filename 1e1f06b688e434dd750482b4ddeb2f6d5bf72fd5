@@ -33,6 +33,23 @@
       "message": "Hi @khr@golang.org, @iant@golang.org, @khr@google.com, @billotosyr@gmail.com, @cherryyz@google.com, @ilya.leoshkevich@gmail.com, @Pokala.Srinivas@ibm.com\n\nI have taken care of all the code review comments. Please help merge this CL since this is pending since sometime now.. Thanks.. !!",
       "revId": "1e1f06b688e434dd750482b4ddeb2f6d5bf72fd5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f70f513_d1839f94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-24T19:02:58Z",
+      "side": 1,
+      "message": "Thanks. LGTM but hold for vendoring the disassembler from x/arch repo.",
+      "revId": "1e1f06b688e434dd750482b4ddeb2f6d5bf72fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
