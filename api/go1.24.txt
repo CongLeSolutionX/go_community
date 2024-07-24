@@ -1,0 +1,2 @@
+pkg runtime/secret, func Do(func()) #21865
+pkg runtime/secret, func Enabled() bool #21865
