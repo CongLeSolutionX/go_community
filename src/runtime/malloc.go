@@ -1321,6 +1321,12 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		x = add(x, size-dataSize)
 	}
 
+	if getg().secret > 0 {
+		// Mark any object allocated while in secret mode as secret.
+		// This ensures we zero it immediately when freeing it.
+		addSecret(x)
+	}
+
 	return x
 }
 

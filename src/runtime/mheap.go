@@ -208,6 +208,7 @@ type mheap struct {
 	specialReachableAlloc  fixalloc // allocator for specialReachable
 	specialPinCounterAlloc fixalloc // allocator for specialPinCounter
 	specialWeakHandleAlloc fixalloc // allocator for specialWeakHandle
+	specialSecretAlloc     fixalloc // allocator for specialSecret
 	speciallock            mutex    // lock for special record allocators.
 	arenaHintAlloc         fixalloc // allocator for arenaHints
 
@@ -746,6 +747,7 @@ func (h *mheap) init() {
 	h.specialprofilealloc.init(unsafe.Sizeof(specialprofile{}), nil, nil, &memstats.other_sys)
 	h.specialReachableAlloc.init(unsafe.Sizeof(specialReachable{}), nil, nil, &memstats.other_sys)
 	h.specialPinCounterAlloc.init(unsafe.Sizeof(specialPinCounter{}), nil, nil, &memstats.other_sys)
+	h.specialSecretAlloc.init(unsafe.Sizeof(specialSecret{}), nil, nil, &memstats.other_sys)
 	h.specialWeakHandleAlloc.init(unsafe.Sizeof(specialWeakHandle{}), nil, nil, &memstats.gcMiscSys)
 	h.arenaHintAlloc.init(unsafe.Sizeof(arenaHint{}), nil, nil, &memstats.other_sys)
 
@@ -1824,6 +1826,9 @@ const (
 	// _KindSpecialPinCounter is a special used for objects that are pinned
 	// multiple times
 	_KindSpecialPinCounter = 5
+	// _KindSpecialSecret is a special used to mark an object
+	// as needing zeroing immediately upon freeing.
+	_KindSpecialSecret = 6
 )
 
 type special struct {
@@ -2247,6 +2252,11 @@ func freeSpecial(s *special, p unsafe.Pointer, size uintptr) {
 	case _KindSpecialPinCounter:
 		lock(&mheap_.speciallock)
 		mheap_.specialPinCounterAlloc.free(unsafe.Pointer(s))
+		unlock(&mheap_.speciallock)
+	case _KindSpecialSecret:
+		memclrNoHeapPointers(p, size)
+		lock(&mheap_.speciallock)
+		mheap_.specialSecretAlloc.free(unsafe.Pointer(s))
 		unlock(&mheap_.speciallock)
 	default:
 		throw("bad special kind")
