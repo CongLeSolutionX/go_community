@@ -623,6 +623,10 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	mp := gsignal.m
 	c := &sigctxt{info, ctxt}
 
+	if mp.curg != nil && mp.curg.secret > 0 {
+		mp.clearSigStk = true
+	}
+
 	// Cgo TSAN (not the Go race detector) intercepts signals and calls the
 	// signal handler at a later time. When the signal handler is called, the
 	// memory may have changed, but the signal context remains old. The

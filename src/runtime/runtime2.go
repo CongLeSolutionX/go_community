@@ -467,6 +467,7 @@ type g struct {
 	runnableTime  int64 // the amount of time spent runnable, cleared when running, only used when tracking
 	lockedm       muintptr
 	sig           uint32
+	secret        uint32 // current nesting of runtime/secret.Do calls.
 	writebuf      []byte
 	sigcode0      uintptr
 	sigcode1      uintptr
@@ -558,6 +559,7 @@ type m struct {
 	freeWait      atomic.Uint32 // Whether it is safe to free g0 and delete m (one of freeMRef, freeMStack, freeMWait)
 	needextram    bool
 	traceback     uint8
+	clearSigStk   bool
 	ncgocall      uint64        // number of cgo calls in total
 	ncgo          int32         // number of cgo calls currently in progress
 	cgoCallersUse atomic.Uint32 // if non-zero, cgoCallers in use temporarily

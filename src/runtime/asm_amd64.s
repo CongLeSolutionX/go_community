@@ -427,6 +427,13 @@ TEXT gogo<>(SB), NOSPLIT, $0
 // Fn must never return. It should gogo(&g->sched)
 // to keep running g.
 TEXT runtime·mcall<ABIInternal>(SB), NOSPLIT, $0-8
+	CMPL	g_secret(R14), $0
+	JEQ	nosecret
+	MOVQ	AX, fn+0(FP)
+	CALL	·secretEraseRegisters(SB)
+	MOVQ	fn+0(FP), AX
+nosecret:
+
 	MOVQ	AX, DX	// DX = fn
 
 	// Save state in g->sched. The caller's SP and PC are restored by gogo to
@@ -481,6 +488,15 @@ TEXT runtime·systemstack_switch(SB), NOSPLIT, $0-0
 
 // func systemstack(fn func())
 TEXT runtime·systemstack(SB), NOSPLIT, $0-8
+	// If in secret mode, erase registers on transition
+	// from G stack to M stack,
+	get_tls(CX)
+	MOVQ	g(CX), AX
+	CMPL	g_secret(AX), $0
+	JEQ	nosecret
+	CALL	·secretEraseRegisters(SB)
+nosecret:
+
 	MOVQ	fn+0(FP), DI	// DI = fn
 	get_tls(CX)
 	MOVQ	g(CX), AX	// AX = g
@@ -589,7 +605,7 @@ TEXT runtime·morestack(SB),NOSPLIT|NOFRAME,$0-0
 	LEAQ	8(SP), AX // f's SP
 	MOVQ	AX, (g_sched+gobuf_sp)(DI)
 	MOVQ	BP, (g_sched+gobuf_bp)(DI)
-	MOVQ	DX, (g_sched+gobuf_ctxt)(DI)
+	MOVQ	DX, (g_sched+gobuf_ctxt)(DI) // TODO: need to erase this?
 
 	MOVQ	m_g0(BX), SI  // SI = m.g0
 	CMPQ	DI, SI
@@ -612,6 +628,16 @@ TEXT runtime·morestack(SB),NOSPLIT|NOFRAME,$0-0
 	LEAQ	16(SP), AX	// f's caller's SP
 	MOVQ	AX, (m_morebuf+gobuf_sp)(BX)
 	MOVQ	DI, (m_morebuf+gobuf_g)(BX)
+
+	// If in secret mode, erase registers on transition
+	// from G stack to M stack,
+	CMPL	g_secret(DI), $0
+	JEQ	nosecret
+	CALL	·secretEraseRegisters(SB)
+	get_tls(CX)
+	MOVQ	g(CX), DI     // DI = g
+	MOVQ	g_m(DI), BX   // BX = m
+nosecret:
 
 	// Call newstack on m->g0's stack.
 	MOVQ	m_g0(BX), BX
@@ -885,6 +911,7 @@ TEXT ·asmcgocall_landingpad(SB),NOSPLIT,$0-0
 // aligned appropriately for the gcc ABI.
 // See cgocall.go for more details.
 TEXT ·asmcgocall(SB),NOSPLIT,$0-20
+	// TODO: transition
 	MOVQ	fn+0(FP), AX
 	MOVQ	arg+8(FP), BX
 

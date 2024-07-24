@@ -1069,7 +1069,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	// size class has a single object in it already, precisely to make the transition
 	// to large objects smooth.
 	if size <= maxSmallSize-mallocHeaderSize {
-		if noscan && size < maxTinySize {
+		if noscan && size < maxTinySize && getg().secret == 0 {
 			// Tiny allocator.
 			//
 			// Tiny allocator combines several tiny allocation requests
@@ -1086,6 +1086,10 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			// 32 bytes provides more opportunities for combining,
 			// but can lead to 4x worst case wastage.
 			// The best case winning is 8x regardless of block size.
+			//
+			// The tiny allocator is turned off in secret mode, so that
+			// a secret object will not share a lifetime with any other
+			// possibly long-lived object.
 			//
 			// Objects obtained from tiny allocator must not be freed explicitly.
 			// So when an object will be freed explicitly, we ensure that
@@ -1319,6 +1323,12 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		// tinyalloc ones. It's tricky because of pointer maps.
 		// Maybe just all noscan objects?
 		x = add(x, size-dataSize)
+	}
+
+	if getg().secret > 0 {
+		// Mark any object allocated while in secret mode as secret.
+		// This ensures we zero it immediately when freeing it.
+		addSecret(x)
 	}
 
 	return x

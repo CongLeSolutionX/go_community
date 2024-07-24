@@ -946,6 +946,18 @@ func copystack(gp *g, newsize uintptr) {
 	}
 
 	// free old stack
+	if gp.secret > 0 {
+		// Some portion of the old stack has secret stuff on it.
+		// We don't really know where we entered secret mode,
+		// so just clear the whole thing.
+		memclrNoHeapPointers(unsafe.Pointer(old.lo), old.hi-old.lo)
+		// The memmove call above might put secrets from the stack into registers.
+		secretEraseRegisters()
+		// TODO: the various adjust* calls above might put secret
+		// pointers into registers or stack frames below this one.
+		// Erasing registers handles the former, but the latter might
+		// leave secrets (pointers only) on the g0 stack.
+	}
 	if stackPoisonCopy != 0 {
 		fillstack(old, 0xfc)
 	}
@@ -1014,6 +1026,15 @@ func newstack() {
 	thisg.m.morebuf.lr = 0
 	thisg.m.morebuf.sp = 0
 	thisg.m.morebuf.g = 0
+
+	if gp.secret > 0 {
+		// If we're entering here from a secret context, clear
+		// all the registers. This is important because we
+		// might context switch to a different goroutine which
+		// is not in secret mode, and it will not be careful
+		// about clearing its registers.
+		secretEraseRegisters()
+	}
 
 	// NOTE: stackguard0 may change underfoot, if another thread
 	// is about to try to preempt gp. Read it just once and use that same

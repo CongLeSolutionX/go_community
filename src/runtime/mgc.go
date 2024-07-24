@@ -706,6 +706,12 @@ func gcStart(trigger gcTrigger) {
 	// reclaimed until the next GC cycle.
 	clearpools()
 
+	for mp := allm; mp != nil; mp = mp.alllink {
+		if mp.clearSigStk {
+			// TODO
+		}
+	}
+
 	work.cycles.Add(1)
 
 	// Assists and workers can start the moment we start

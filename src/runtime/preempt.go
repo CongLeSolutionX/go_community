@@ -380,6 +380,16 @@ func isAsyncSafePoint(gp *g, pc, sp, lr uintptr) (bool, uintptr) {
 		return false, 0
 	}
 
+	// If we're in the middle of a secret computation, we can't
+	// allow any conservative scanning of stacks, as that may lead
+	// to secrets leaking out from the stack into work buffers.
+	// TODO: even non-conservative scanning is problematic because
+	// crypto code can encode secrets in pointers. Do we really
+	// need to zero all the GC workbufs?
+	if gp.secret > 0 {
+		return false, 0
+	}
+
 	// Check if PC is an unsafe-point.
 	f := findfunc(pc)
 	if !f.valid() {
