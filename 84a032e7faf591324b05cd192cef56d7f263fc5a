@@ -62,6 +62,30 @@
       },
       "revId": "84a032e7faf591324b05cd192cef56d7f263fc5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87be4b54_56d05dd1",
+        "filename": "src/runtime/secret/secret_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-25T05:05:53Z",
+      "side": 1,
+      "message": "When we free an object, we might do something like put it in a linked list. That will set maybe the first field to a nonzero value. So asserting that it is definitely zero might be too strong.\nWe have the same problem with stack fields. Some of them might be overwritten by a subsequent call.",
+      "parentUuid": "a9a99620_f1716bbb",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 53
+      },
+      "revId": "84a032e7faf591324b05cd192cef56d7f263fc5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
