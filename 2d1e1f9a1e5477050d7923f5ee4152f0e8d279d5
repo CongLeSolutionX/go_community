@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be70f4d3_63e3c997",
+        "filename": "src/crypto/cipher/cbc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-07-25T13:34:42Z",
+      "side": 1,
+      "message": "Not really, although that was not obvious ten years ago.",
+      "parentUuid": "f6cdbec6_828d4a76",
+      "revId": "2d1e1f9a1e5477050d7923f5ee4152f0e8d279d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88ff08f1_ac40439f",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-07-25T01:03:32Z",
       "side": 1,
       "message": "Would it make sense to specify serialDst[:length] or serialDst[:length:length] here?",
+      "range": {
+        "startLine": 215,
+        "startChar": 20,
+        "endLine": 215,
+        "endChar": 29
+      },
+      "revId": "2d1e1f9a1e5477050d7923f5ee4152f0e8d279d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d13c3ba8_5b4b8242",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-07-25T13:34:42Z",
+      "side": 1,
+      "message": "The behavior for short inputs is tested above, so this is fine.",
+      "parentUuid": "88ff08f1_ac40439f",
       "range": {
         "startLine": 215,
         "startChar": 20,
