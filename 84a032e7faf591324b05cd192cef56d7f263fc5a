@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa0a66e_2fb04bc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-07-25T01:22:09Z",
+      "side": 1,
+      "message": "Thank you Keith and long time! Please see my initial set of comments for the tests.",
+      "revId": "84a032e7faf591324b05cd192cef56d7f263fc5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0a2753f_904ca8a5",
+        "filename": "src/runtime/secret/secret_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-07-25T01:22:09Z",
+      "side": 1,
+      "message": "Could we perhaps make these checks much more rigorous to ensure that the value in either .a or .b are the zero values of secretType? Perhaps this\n```\n    zero :\u003d secretType(0)\n    if secretValue \u003d\u003d zero {\n         t.Fatal(\"failed logical check for secretValue !\u003d 0\")\n    }\n    if t1.a !\u003d zero || t1.a \u003d\u003d secretValue || t1.b !\u003d zero || t1.b \u003d\u003d secretValue {\n         t.Error(\"t1 not cleared\")\n    }\n    if t2.a !\u003d zero || t2.a \u003d\u003d secretValue || t2.b !\u003d zero || t2.b \u003d\u003d secretValue {\n         t.Error(\"t2 not cleared\")\n    }\n```",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 2
+      },
+      "revId": "84a032e7faf591324b05cd192cef56d7f263fc5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9a99620_f1716bbb",
+        "filename": "src/runtime/secret/secret_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2024-07-25T01:22:09Z",
+      "side": 1,
+      "message": "Ditto, let\u0027s please ensure that each of these fields is equal to actually 0, to have air tight logical assertions.",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 53
+      },
+      "revId": "84a032e7faf591324b05cd192cef56d7f263fc5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
