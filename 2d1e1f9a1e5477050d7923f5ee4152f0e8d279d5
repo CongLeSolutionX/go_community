@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6cdbec6_828d4a76",
+        "filename": "src/crypto/cipher/cbc_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-25T01:03:32Z",
+      "side": 1,
+      "message": "Are there any other BlockMode implementations worth noting?",
+      "revId": "2d1e1f9a1e5477050d7923f5ee4152f0e8d279d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88ff08f1_ac40439f",
+        "filename": "src/crypto/internal/cryptotest/blockmode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-25T01:03:32Z",
+      "side": 1,
+      "message": "Would it make sense to specify serialDst[:length] or serialDst[:length:length] here?",
+      "range": {
+        "startLine": 215,
+        "startChar": 20,
+        "endLine": 215,
+        "endChar": 29
+      },
+      "revId": "2d1e1f9a1e5477050d7923f5ee4152f0e8d279d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
