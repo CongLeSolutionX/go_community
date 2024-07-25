@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60669028_452f3ca2",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-25T17:16:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "324704b4_7cbdd3e2",
+      "revId": "f36c59116444d8f6cbd6f2dbeea054056a3902c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd45871b_6f4cc822",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-25T13:19:04Z",
       "side": 1,
       "message": "```suggestion\n\t// for each block cipher implementation.\n```",
+      "revId": "f36c59116444d8f6cbd6f2dbeea054056a3902c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff90c42_48ec7107",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-25T17:16:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd45871b_6f4cc822",
       "revId": "f36c59116444d8f6cbd6f2dbeea054056a3902c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeed4b47_4057d484",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-25T17:16:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a974ec9c_814b9b45",
+      "revId": "f36c59116444d8f6cbd6f2dbeea054056a3902c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a1353b2_ffb8b48a",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-07-25T13:19:04Z",
       "side": 1,
       "message": "Add a similar test that prefills out with random bytes, and makes sure the non-zero out doesn\u0027t influence the output.",
+      "revId": "f36c59116444d8f6cbd6f2dbeea054056a3902c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a809e414_6c25b8a1",
+        "filename": "src/crypto/internal/cryptotest/block.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 3467999
+      },
+      "writtenOn": "2024-07-25T17:16:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a1353b2_ffb8b48a",
       "revId": "f36c59116444d8f6cbd6f2dbeea054056a3902c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
