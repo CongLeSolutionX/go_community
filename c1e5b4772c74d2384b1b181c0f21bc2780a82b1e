@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fc20bf_9d81a1f6",
+        "filename": "src/cmd/compile/internal/importer/ureader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-07-25T00:21:45Z",
+      "side": 1,
+      "message": "Can we report an error here instead? This would depend on who is reading this.\n\nThis would be harsher, but it would result in more likely to be correct error messages. \"not a generic type\" is a bit weird.",
+      "range": {
+        "startLine": 268,
+        "startChar": 10,
+        "endLine": 268,
+        "endChar": 36
+      },
+      "revId": "c1e5b4772c74d2384b1b181c0f21bc2780a82b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
