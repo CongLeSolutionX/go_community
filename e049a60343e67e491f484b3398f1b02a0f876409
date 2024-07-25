@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33d0357c_604070fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-07-25T23:17:44Z",
+      "side": 1,
+      "message": "After discussion, let\u0027s investigate whether we can do a version bump instead.",
+      "revId": "e049a60343e67e491f484b3398f1b02a0f876409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
