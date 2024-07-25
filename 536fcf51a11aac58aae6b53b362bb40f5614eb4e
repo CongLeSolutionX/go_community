@@ -33,6 +33,40 @@
       "message": "@khr@golang.org You +2ed this but this was previously waiting for the tree to reopen. Submit now?",
       "revId": "536fcf51a11aac58aae6b53b362bb40f5614eb4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcc6f7ab_bafde93d",
+        "filename": "test/codegen/tailcall.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-25T22:20:29Z",
+      "side": 1,
+      "message": "Do these JMPs really get the line number here? I would hope they would be at line 17, where Bar is defined.\nMaybe that\u0027s not the case though. Possibly related, CL 416455.",
+      "revId": "536fcf51a11aac58aae6b53b362bb40f5614eb4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cfc157b_f0faefaa",
+        "filename": "test/codegen/tailcall.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-25T22:20:29Z",
+      "side": 1,
+      "message": "More generally, I\u0027m not sure making a tail call is always the right thing to do. Particularly, if the standard call will be inlined we end up with better code.\n\nThis example is a case in point. Before your CL, `Bar.GetVals` and `(*Bar).GetVals` are both very short and contain no calls at all, tail or otherwise, because the call to (*Foo).GetVals was inlined. After your CL, the inlining doesn\u0027t happen.\n\nMaybe that could be fixed by teaching the inliner to inline tail calls, although that does seem a bit odd. The other possibility is to only convert to a tail call if we know the regular call won\u0027t inline.",
+      "revId": "536fcf51a11aac58aae6b53b362bb40f5614eb4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
