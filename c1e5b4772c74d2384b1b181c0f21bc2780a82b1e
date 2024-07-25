@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae8face_d9f2f548",
+        "filename": "src/cmd/compile/internal/importer/ureader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-25T23:02:42Z",
+      "side": 1,
+      "message": "The noder/reader.go has the same problem, it\u0027s just that we don\u0027t get to it if type-check fails, I believe.",
+      "parentUuid": "c7d9be92_894cf791",
+      "range": {
+        "startLine": 266,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 28
+      },
+      "revId": "c1e5b4772c74d2384b1b181c0f21bc2780a82b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72fc20bf_9d81a1f6",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-25T00:21:45Z",
       "side": 1,
       "message": "Can we report an error here instead? This would depend on who is reading this.\n\nThis would be harsher, but it would result in more likely to be correct error messages. \"not a generic type\" is a bit weird.",
+      "range": {
+        "startLine": 268,
+        "startChar": 10,
+        "endLine": 268,
+        "endChar": 36
+      },
+      "revId": "c1e5b4772c74d2384b1b181c0f21bc2780a82b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc972151_e47dc5bc",
+        "filename": "src/cmd/compile/internal/importer/ureader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-25T23:02:42Z",
+      "side": 1,
+      "message": "CL changed per discussion.",
+      "parentUuid": "72fc20bf_9d81a1f6",
       "range": {
         "startLine": 268,
         "startChar": 10,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9700c143_49247e27",
+        "filename": "test/fixedbugs/issue68526.dir/a.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-25T23:02:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "09691b7b_ffa07f70",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "c1e5b4772c74d2384b1b181c0f21bc2780a82b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3f48edb_71337f62",
@@ -83,6 +155,24 @@
       "writtenOn": "2024-07-25T16:10:03Z",
       "side": 1,
       "message": "Let\u0027s say there is a `type B[_ any] \u003d struct{f int}`. This would succeed and act in other packages as if it was `type B \u003d struct{f int}`. Odd.\n\nhttps://go.dev/play/p/oiOokXhfXl8?v\u003dgotip",
+      "revId": "c1e5b4772c74d2384b1b181c0f21bc2780a82b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e3fd456_a835dbb6",
+        "filename": "test/fixedbugs/issue68526.dir/a.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-25T23:02:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a3f48edb_71337f62",
       "revId": "c1e5b4772c74d2384b1b181c0f21bc2780a82b1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
