@@ -29,12 +29,13 @@ const (
 
 // event is the JSON struct we emit.
 type event struct {
-	Time    *time.Time `json:",omitempty"`
-	Action  string
-	Package string     `json:",omitempty"`
-	Test    string     `json:",omitempty"`
-	Elapsed *float64   `json:",omitempty"`
-	Output  *textBytes `json:",omitempty"`
+	Time       *time.Time `json:",omitempty"`
+	Action     string
+	Package    string     `json:",omitempty"`
+	Test       string     `json:",omitempty"`
+	Elapsed    *float64   `json:",omitempty"`
+	Output     *textBytes `json:",omitempty"`
+	OutputType string     `json:",omitempty"`
 }
 
 // textBytes is a hack to get JSON to emit a []byte as a string
@@ -49,16 +50,18 @@ func (b textBytes) MarshalText() ([]byte, error) { return b, nil }
 // It implements io.WriteCloser; the caller writes test output in,
 // and the converter writes JSON output to w.
 type Converter struct {
-	w          io.Writer  // JSON output stream
-	pkg        string     // package to name in events
-	mode       Mode       // mode bits
-	start      time.Time  // time converter started
-	testName   string     // name of current test, for output attribution
-	report     []*event   // pending test result reports (nested for subtests)
-	result     string     // overall test result if seen
-	input      lineBuffer // input buffer
-	output     lineBuffer // output buffer
-	needMarker bool       // require ^V marker to introduce test framing line
+	w           io.Writer  // JSON output stream
+	pkg         string     // package to name in events
+	mode        Mode       // mode bits
+	start       time.Time  // time converter started
+	testName    string     // name of current test, for output attribution
+	report      []*event   // pending test result reports (nested for subtests)
+	result      string     // overall test result if seen
+	input       lineBuffer // input buffer
+	output      lineBuffer // output buffer
+	markFraming bool       // require ^V marker to introduce test framing line
+	markErrEnd  bool       // within an error, require ^N marker to end
+	isFraming   bool       // indicates the output being written is framing
 }
 
 // inBuffer and outBuffer are the input and output buffer sizes.
@@ -85,22 +88,29 @@ var (
 	outBuffer = 1024
 )
 
-// NewConverter returns a "test to json" converter.
-// Writes on the returned writer are written as JSON to w,
-// with minimal delay.
+// NewConverter returns a "test to json" converter. Writes on the returned
+// writer are written as JSON to w, with minimal delay.
 //
-// The writes to w are whole JSON events ending in \n,
-// so that it is safe to run multiple tests writing to multiple converters
-// writing to a single underlying output stream w.
-// As long as the underlying output w can handle concurrent writes
-// from multiple goroutines, the result will be a JSON stream
-// describing the relative ordering of execution in all the concurrent tests.
+// Writes on the returned writer are expected to contain markers. Test framing
+// such as "=== RUN" and friends are expected to be prefixed with ^V (\x22).
+// Error output is expected to be prefixed with ^O (\x0f) and suffixed with ^N
+// (\x0e). Other occurrences of these control characters (e.g. calls to T.Log)
+// must be escaped with ^[ (\x1b). Test framing will generate events such as
+// start, run, etc as well as output events with an output type of "frame".
+// Error output will generate output events with an output type of "error" or
+// "error-continue". See cmd/test2json help for details.
 //
-// The mode flag adjusts the behavior of the converter.
-// Passing ModeTime includes event timestamps and elapsed times.
+// The writes to w are whole JSON events ending in \n, so that it is safe to run
+// multiple tests writing to multiple converters writing to a single underlying
+// output stream w. As long as the underlying output w can handle concurrent
+// writes from multiple goroutines, the result will be a JSON stream describing
+// the relative ordering of execution in all the concurrent tests.
 //
-// The pkg string, if present, specifies the import path to
-// report in the JSON stream.
+// The mode flag adjusts the behavior of the converter. Passing ModeTime
+// includes event timestamps and elapsed times.
+//
+// The pkg string, if present, specifies the import path to report in the JSON
+// stream.
 func NewConverter(w io.Writer, pkg string, mode Mode) *Converter {
 	c := new(Converter)
 	*c = Converter{
@@ -140,7 +150,12 @@ func (c *Converter) Exited(err error) {
 	}
 }
 
-const marker = byte(0x16) // ^V
+const (
+	markFraming  byte = 'V' &^ '@' // ^V: framing
+	markErrBegin byte = 'O' &^ '@' // ^O: start of error
+	markErrEnd   byte = 'N' &^ '@' // ^N: end of error
+	markEscape   byte = '[' &^ '@' // ^[: escape
+)
 
 var (
 	// printed by test on successful run.
@@ -188,11 +203,11 @@ func (c *Converter) handleInputLine(line []byte) {
 		return
 	}
 	sawMarker := false
-	if c.needMarker && line[0] != marker {
+	if c.markFraming && line[0] != markFraming {
 		c.output.write(line)
 		return
 	}
-	if line[0] == marker {
+	if line[0] == markFraming {
 		c.output.flush()
 		sawMarker = true
 		line = line[1:]
@@ -217,8 +232,8 @@ func (c *Converter) handleInputLine(line []byte) {
 	if bytes.Equal(trim, bigPass) || bytes.Equal(trim, bigFail) || bytes.HasPrefix(trim, bigFailErrorPrefix) {
 		c.flushReport(0)
 		c.testName = ""
-		c.needMarker = sawMarker
-		c.output.write(line)
+		c.markFraming = sawMarker
+		c.writeFraming(line)
 		if bytes.Equal(trim, bigPass) {
 			c.result = "pass"
 		} else {
@@ -313,17 +328,17 @@ func (c *Converter) handleInputLine(line []byte) {
 			return
 		}
 		// Flush reports at this indentation level or deeper.
-		c.needMarker = sawMarker
+		c.markFraming = sawMarker
 		c.flushReport(indent)
 		e.Test = name
 		c.testName = name
 		c.report = append(c.report, e)
-		c.output.write(origLine)
+		c.writeFraming(origLine)
 		return
 	}
 	// === update.
 	// Finish any pending PASS/FAIL reports.
-	c.needMarker = sawMarker
+	c.markFraming = sawMarker
 	c.flushReport(0)
 	c.testName = name
 
@@ -337,14 +352,22 @@ func (c *Converter) handleInputLine(line []byte) {
 		// For a pause, we want to write the pause notification before
 		// delivering the pause event, just so it doesn't look like the test
 		// is generating output immediately after being paused.
-		c.output.write(origLine)
+		c.writeFraming(origLine)
 	}
 	c.writeEvent(e)
 	if action != "pause" {
-		c.output.write(origLine)
+		c.writeFraming(origLine)
 	}
 
 	return
+}
+
+func (c *Converter) writeFraming(line []byte) {
+	// This is a less than ideal way to 'pass' state around, but it's the best
+	// we can do without substantially modifying the line buffer.
+	c.isFraming = true
+	defer func() { c.isFraming = false }()
+	c.output.write(line)
 }
 
 // flushReport flushes all pending PASS/FAIL reports at levels >= depth.
@@ -376,9 +399,35 @@ func (c *Converter) Close() error {
 
 // writeOutputEvent writes a single output event with the given bytes.
 func (c *Converter) writeOutputEvent(out []byte) {
+	var typ string
+	if c.isFraming {
+		typ = "frame"
+	} else if c.markErrEnd {
+		typ = "error-continue"
+	} else if !c.markErrEnd && bytes.HasPrefix(out, []byte{markErrBegin}) {
+		c.markErrEnd = true
+		typ = "error"
+		out = out[1:]
+	}
+
+	// Unescape and check for the end of the error frame
+	for i := 0; i < len(out); i++ {
+		switch {
+		case out[i] == markEscape:
+			// Unescape and skip the next character
+			out = append(out[:i], out[i+1:]...)
+
+		case c.markErrEnd && out[i] == markErrEnd:
+			// End of error frame
+			out = append(out[:i], out[i+1:]...)
+			c.markErrEnd = false
+		}
+	}
+
 	c.writeEvent(&event{
-		Action: "output",
-		Output: (*textBytes)(&out),
+		Action:     "output",
+		Output:     (*textBytes)(&out),
+		OutputType: typ,
 	})
 }
 
@@ -484,7 +533,15 @@ func indexEOL(b []byte) (pos, wid int) {
 		if c == '\n' {
 			return i, 1
 		}
-		if c == marker && i > 0 { // test -v=json emits ^V at start of framing lines
+		if c == markFraming && i > 0 { // test -v=json emits ^V at start of framing lines
+			if b[i-1] == markEscape {
+				// BUG: If T.Error is called with a string that contains "^[^V",
+				// ^V will be elided and the following output will be put in a
+				// separate output event. The line processor needs to be
+				// context-aware so it can handle escapes properly instead of
+				// this hack.
+				continue
+			}
 			return i, 0
 		}
 	}
