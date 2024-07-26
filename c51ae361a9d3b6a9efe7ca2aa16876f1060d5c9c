@@ -70,6 +70,30 @@
       },
       "revId": "c51ae361a9d3b6a9efe7ca2aa16876f1060d5c9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f94aad96_b25859c1",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-26T04:10:07Z",
+      "side": 1,
+      "message": "Let\u0027s leave this for another CL specific to this.",
+      "parentUuid": "157fe1de_950699a5",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 50
+      },
+      "revId": "c51ae361a9d3b6a9efe7ca2aa16876f1060d5c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
