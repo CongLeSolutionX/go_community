@@ -16,6 +16,24 @@
       "message": "From the test file it seems this is more similar to RDTIME*. Why put it here instead of the case above?",
       "revId": "988766c9b2cf8eb24a36cd423ab52bdd33e71b96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d215a34_985b28a4",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1233,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-07-26T11:58:08Z",
+      "side": 1,
+      "message": "Thanks!\n\nI adjusted the position of CPUCFG in the test file loong64enc1.s.  The format of CPUCFG is more similar to CLO: \"CPUCFG Rin，Rout\", and the format of RDTIME instruction is: \"RDTIMED Rout, Rout\"",
+      "parentUuid": "c968c526_73b39f54",
+      "revId": "988766c9b2cf8eb24a36cd423ab52bdd33e71b96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
