@@ -380,6 +380,7 @@ import (
 	"math/rand"
 	"os"
 	"reflect"
+	"regexp"
 	"runtime"
 	"runtime/debug"
 	"runtime/trace"
@@ -524,11 +525,37 @@ func (f *chattyFlag) Get() any {
 	return f.on
 }
 
-const marker = byte(0x16) // ^V for framing
+const (
+	markFraming  byte = 'V' &^ '@' // ^V: framing
+	markErrBegin byte = 'O' &^ '@' // ^O: start of error
+	markErrEnd   byte = 'N' &^ '@' // ^N: end of error
+	markEscape   byte = '[' &^ '@' // ^[: escape
+)
+
+var reMark = regexp.MustCompile(`[` +
+	string(markFraming) +
+	string(markErrBegin) +
+	string(markErrEnd) +
+	string(markEscape) +
+	`]`)
 
 func (f *chattyFlag) prefix() string {
 	if f.json {
-		return string(marker)
+		return string(markFraming)
+	}
+	return ""
+}
+
+func (f *chattyFlag) errBegin() string {
+	if f.json {
+		return string(markErrBegin)
+	}
+	return ""
+}
+
+func (f *chattyFlag) errEnd() string {
+	if f.json {
+		return string(markErrEnd)
 	}
 	return ""
 }
@@ -550,7 +577,30 @@ func newChattyPrinter(w io.Writer) *chattyPrinter {
 // that as not in json mode (because it's not chatty at all).
 func (p *chattyPrinter) prefix() string {
 	if p != nil && p.json {
-		return string(marker)
+		return string(markFraming)
+	}
+	return ""
+}
+
+func (p *chattyPrinter) escape(s string) string {
+	if true || p != nil && p.json {
+		return reMark.ReplaceAllStringFunc(s, func(s string) string {
+			return string(markEscape) + s
+		})
+	}
+	return s
+}
+
+func (p *chattyPrinter) errBegin() string {
+	if p != nil && p.json {
+		return string(markErrBegin)
+	}
+	return ""
+}
+
+func (p *chattyPrinter) errEnd() string {
+	if p != nil && p.json {
+		return string(markErrEnd)
 	}
 	return ""
 }
@@ -767,7 +817,7 @@ func (c *common) frameSkip(skip int) runtime.Frame {
 // decorate prefixes the string with the file and line of the call site
 // and inserts the final newline if needed and indentation spaces for formatting.
 // This function must be called with c.mu held.
-func (c *common) decorate(s string, skip int) string {
+func (c *common) decorate(s string, skip int, isErr bool) string {
 	frame := c.frameSkip(skip)
 	file := frame.File
 	line := frame.Line
@@ -783,8 +833,9 @@ func (c *common) decorate(s string, skip int) string {
 	if line == 0 {
 		line = 1
 	}
-	buf := new(strings.Builder)
+
 	// Every line is indented at least 4 spaces.
+	buf := new(strings.Builder)
 	buf.WriteString("    ")
 	fmt.Fprintf(buf, "%s:%d: ", file, line)
 	lines := strings.Split(s, "\n")
@@ -798,6 +849,20 @@ func (c *common) decorate(s string, skip int) string {
 		}
 		buf.WriteString(line)
 	}
+
+	if !isErr {
+		buf.WriteByte('\n')
+		return buf.String()
+	}
+
+	// Escape framing characters
+	s = c.chatty.escape(buf.String())
+
+	// Bracket with error markers
+	buf.Reset()
+	buf.WriteString(c.chatty.errBegin())
+	buf.WriteString(s)
+	buf.WriteString(c.chatty.errEnd())
 	buf.WriteByte('\n')
 	return buf.String()
 }
@@ -859,8 +924,8 @@ func (w indenter) Write(b []byte) (n int, err error) {
 		// An indent of 4 spaces will neatly align the dashes with the status
 		// indicator of the parent.
 		line := b[:end]
-		if line[0] == marker {
-			w.c.output = append(w.c.output, marker)
+		if line[0] == markFraming {
+			w.c.output = append(w.c.output, markFraming)
 			line = line[1:]
 		}
 		const indent = "    "
@@ -1007,12 +1072,12 @@ func (c *common) FailNow() {
 }
 
 // log generates the output. It's always at the same stack depth.
-func (c *common) log(s string) {
-	c.logDepth(s, 3) // logDepth + log + public function
+func (c *common) log(s string, isErr bool) {
+	c.logDepth(s, 3, isErr) // logDepth + log + public function
 }
 
 // logDepth generates the output at an arbitrary stack depth.
-func (c *common) logDepth(s string, depth int) {
+func (c *common) logDepth(s string, depth int, isErr bool) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.done {
@@ -1022,7 +1087,7 @@ func (c *common) logDepth(s string, depth int) {
 			parent.mu.Lock()
 			defer parent.mu.Unlock()
 			if !parent.done {
-				parent.output = append(parent.output, parent.decorate(s, depth+1)...)
+				parent.output = append(parent.output, parent.decorate(s, depth+1, isErr)...)
 				return
 			}
 		}
@@ -1032,14 +1097,14 @@ func (c *common) logDepth(s string, depth int) {
 			if c.bench {
 				// Benchmarks don't print === CONT, so we should skip the test
 				// printer and just print straight to stdout.
-				fmt.Print(c.decorate(s, depth+1))
+				fmt.Print(c.decorate(s, depth+1, isErr))
 			} else {
-				c.chatty.Printf(c.name, "%s", c.decorate(s, depth+1))
+				c.chatty.Printf(c.name, "%s", c.decorate(s, depth+1, isErr))
 			}
 
 			return
 		}
-		c.output = append(c.output, c.decorate(s, depth+1)...)
+		c.output = append(c.output, c.decorate(s, depth+1, isErr)...)
 	}
 }
 
@@ -1049,7 +1114,7 @@ func (c *common) logDepth(s string, depth int) {
 // printed to avoid having performance depend on the value of the -test.v flag.
 func (c *common) Log(args ...any) {
 	c.checkFuzzFn("Log")
-	c.log(fmt.Sprintln(args...))
+	c.log(fmt.Sprintln(args...), false)
 }
 
 // Logf formats its arguments according to the format, analogous to Printf, and
@@ -1059,48 +1124,48 @@ func (c *common) Log(args ...any) {
 // depend on the value of the -test.v flag.
 func (c *common) Logf(format string, args ...any) {
 	c.checkFuzzFn("Logf")
-	c.log(fmt.Sprintf(format, args...))
+	c.log(fmt.Sprintf(format, args...), false)
 }
 
 // Error is equivalent to Log followed by Fail.
 func (c *common) Error(args ...any) {
 	c.checkFuzzFn("Error")
-	c.log(fmt.Sprintln(args...))
+	c.log(fmt.Sprintln(args...), true)
 	c.Fail()
 }
 
 // Errorf is equivalent to Logf followed by Fail.
 func (c *common) Errorf(format string, args ...any) {
 	c.checkFuzzFn("Errorf")
-	c.log(fmt.Sprintf(format, args...))
+	c.log(fmt.Sprintf(format, args...), true)
 	c.Fail()
 }
 
 // Fatal is equivalent to Log followed by FailNow.
 func (c *common) Fatal(args ...any) {
 	c.checkFuzzFn("Fatal")
-	c.log(fmt.Sprintln(args...))
+	c.log(fmt.Sprintln(args...), true)
 	c.FailNow()
 }
 
 // Fatalf is equivalent to Logf followed by FailNow.
 func (c *common) Fatalf(format string, args ...any) {
 	c.checkFuzzFn("Fatalf")
-	c.log(fmt.Sprintf(format, args...))
+	c.log(fmt.Sprintf(format, args...), true)
 	c.FailNow()
 }
 
 // Skip is equivalent to Log followed by SkipNow.
 func (c *common) Skip(args ...any) {
 	c.checkFuzzFn("Skip")
-	c.log(fmt.Sprintln(args...))
+	c.log(fmt.Sprintln(args...), false)
 	c.SkipNow()
 }
 
 // Skipf is equivalent to Logf followed by SkipNow.
 func (c *common) Skipf(format string, args ...any) {
 	c.checkFuzzFn("Skipf")
-	c.log(fmt.Sprintf(format, args...))
+	c.log(fmt.Sprintf(format, args...), false)
 	c.SkipNow()
 }
 

@@ -1,0 +1,6 @@
+{"Action":"start"}
+{"Action":"run","Test":"TestAscii"}
+{"Action":"output","Test":"TestAscii","Output":"=== RUN   TestAscii\n","OutputType":"frame"}
+{"Action":"output","Test":"TestAscii","Output":"    ascii_test.go:123: \u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n","OutputType":"error"}
+{"Action":"output","Test":"TestAscii","Output":"        \u000b\f\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f \n","OutputType":"error-continue"}
+{"Action":"output","Test":"TestAscii","Output":"--- FAIL: TestAscii\n","OutputType":"frame"}

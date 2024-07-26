@@ -1,0 +1,4 @@
+=== RUN   TestAscii
+    ascii_test.go:123: 	
+         
+--- FAIL: TestAscii
