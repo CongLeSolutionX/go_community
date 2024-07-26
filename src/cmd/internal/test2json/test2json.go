@@ -29,12 +29,13 @@ const (
 
 // event is the JSON struct we emit.
 type event struct {
-	Time    *time.Time `json:",omitempty"`
-	Action  string
-	Package string     `json:",omitempty"`
-	Test    string     `json:",omitempty"`
-	Elapsed *float64   `json:",omitempty"`
-	Output  *textBytes `json:",omitempty"`
+	Time       *time.Time `json:",omitempty"`
+	Action     string
+	Package    string     `json:",omitempty"`
+	Test       string     `json:",omitempty"`
+	Elapsed    *float64   `json:",omitempty"`
+	Output     *textBytes `json:",omitempty"`
+	OutputType string     `json:",omitempty"`
 }
 
 // textBytes is a hack to get JSON to emit a []byte as a string
@@ -59,6 +60,8 @@ type Converter struct {
 	input      lineBuffer // input buffer
 	output     lineBuffer // output buffer
 	needMarker bool       // require ^V marker to introduce test framing line
+	inError    bool       // within an error, require ^O marker to end
+	isFraming  bool       // indicates the output being written is framing
 }
 
 // inBuffer and outBuffer are the input and output buffer sizes.
@@ -140,7 +143,9 @@ func (c *Converter) Exited(err error) {
 	}
 }
 
-const marker = byte(0x16) // ^V
+const markFraming = byte(0x16)  // ^V for framing
+const markErrBegin = byte(0x0f) // ^N for start of error
+const markErrEnd = byte(0x0e)   // ^O for end of error
 
 var (
 	// printed by test on successful run.
@@ -188,11 +193,11 @@ func (c *Converter) handleInputLine(line []byte) {
 		return
 	}
 	sawMarker := false
-	if c.needMarker && line[0] != marker {
+	if c.needMarker && line[0] != markFraming {
 		c.output.write(line)
 		return
 	}
-	if line[0] == marker {
+	if line[0] == markFraming {
 		c.output.flush()
 		sawMarker = true
 		line = line[1:]
@@ -218,7 +223,7 @@ func (c *Converter) handleInputLine(line []byte) {
 		c.flushReport(0)
 		c.testName = ""
 		c.needMarker = sawMarker
-		c.output.write(line)
+		c.writeFraming(line)
 		if bytes.Equal(trim, bigPass) {
 			c.result = "pass"
 		} else {
@@ -318,7 +323,7 @@ func (c *Converter) handleInputLine(line []byte) {
 		e.Test = name
 		c.testName = name
 		c.report = append(c.report, e)
-		c.output.write(origLine)
+		c.writeFraming(origLine)
 		return
 	}
 	// === update.
@@ -337,14 +342,20 @@ func (c *Converter) handleInputLine(line []byte) {
 		// For a pause, we want to write the pause notification before
 		// delivering the pause event, just so it doesn't look like the test
 		// is generating output immediately after being paused.
-		c.output.write(origLine)
+		c.writeFraming(origLine)
 	}
 	c.writeEvent(e)
 	if action != "pause" {
-		c.output.write(origLine)
+		c.writeFraming(origLine)
 	}
 
 	return
+}
+
+func (c *Converter) writeFraming(line []byte) {
+	c.isFraming = true
+	defer func() { c.isFraming = false }()
+	c.output.write(line)
 }
 
 // flushReport flushes all pending PASS/FAIL reports at levels >= depth.
@@ -376,9 +387,27 @@ func (c *Converter) Close() error {
 
 // writeOutputEvent writes a single output event with the given bytes.
 func (c *Converter) writeOutputEvent(out []byte) {
+	var typ string
+	if c.isFraming {
+		typ = "frame"
+	} else if c.inError {
+		typ = "error-continue"
+	} else if bytes.HasPrefix(out, []byte{markErrBegin}) {
+		c.inError = true
+		typ = "error"
+		out = out[1:]
+	}
+
+	i := bytes.IndexByte(out, markErrEnd)
+	if i >= 0 && len(bytes.TrimSpace(out[i+1:])) == 0 {
+		c.inError = false
+		out = append(out[:i], out[i+1:]...)
+	}
+
 	c.writeEvent(&event{
-		Action: "output",
-		Output: (*textBytes)(&out),
+		Action:     "output",
+		Output:     (*textBytes)(&out),
+		OutputType: typ,
 	})
 }
 
@@ -484,7 +513,7 @@ func indexEOL(b []byte) (pos, wid int) {
 		if c == '\n' {
 			return i, 1
 		}
-		if c == marker && i > 0 { // test -v=json emits ^V at start of framing lines
+		if c == markFraming && i > 0 { // test -v=json emits ^V at start of framing lines
 			return i, 0
 		}
 	}

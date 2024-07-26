@@ -220,7 +220,7 @@ func TestTRun(t *T) {
 ^V--- SKIP: chatty with recursion and json/#00/#01 (N.NNs)
 ^V=== NAME  chatty with recursion and json/#00
 ^V=== RUN   chatty with recursion and json/#00/#02
-    sub_test.go:NNN: fail
+^N    sub_test.go:NNN: fail^O
 ^V--- FAIL: chatty with recursion and json/#00/#02 (N.NNs)
 ^V=== NAME  chatty with recursion and json/#00
 ^V--- FAIL: chatty with recursion and json/#00 (N.NNs)
@@ -734,7 +734,9 @@ func TestBRun(t *T) {
 
 func makeRegexp(s string) string {
 	s = regexp.QuoteMeta(s)
-	s = strings.ReplaceAll(s, "^V", "\x16")
+	s = strings.ReplaceAll(s, "^V", string(markFraming))
+	s = strings.ReplaceAll(s, "^N", string(markErrBegin))
+	s = strings.ReplaceAll(s, "^O", string(markErrEnd))
 	s = strings.ReplaceAll(s, ":NNN:", `:\d\d\d\d?:`)
 	s = strings.ReplaceAll(s, "N\\.NNs", `\d*\.\d*s`)
 	return s
