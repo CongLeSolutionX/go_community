@@ -33,6 +33,23 @@
       "message": "Some tests are failing due to the expected error message not matching what we now produce.\n\nThere also seems to be a test failing in x/tools. It looks like it\u0027s parsing the error message. We\u0027ll have to update go/packages to expect the new format.",
       "revId": "592c7962ba8c36f748211e37a971079c70485657",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "353ea18b_19bbdc03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-26T04:01:53Z",
+      "side": 1,
+      "message": "Thanks Michael for triggering the tests! I found that there are tests in which we check if the output of error message of import cycle matches the expected error messages, the tests are from some places inside golang repo and golang/x/tool repo. I will make changes in the tests and maybe another PR for golang/x/tool repo.",
+      "revId": "592c7962ba8c36f748211e37a971079c70485657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
