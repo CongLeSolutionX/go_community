@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09e83fcc_f7efd9df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-27T14:51:11Z",
+      "side": 1,
+      "message": "It might be a pain but when we get a signal we can see if the current g is in secret mode and put the current m on a list to have its signal stack cleared sometime after the g leaves secret mode.",
+      "parentUuid": "a814b1da_f027139b",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0b5045_05ce6e48",
         "filename": "src/runtime/secret.go",
         "patchSetId": 18
