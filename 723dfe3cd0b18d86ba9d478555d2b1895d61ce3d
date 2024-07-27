@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "644b785a_2e04131a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-27T00:17:43Z",
+      "side": 1,
+      "message": "Maybe I missed it, but I don\u0027t see anything clearing the system stack.  That is necessary for, at least, 1) cgo calls to some C function that takes secret values passed on the stack; 2) registers saved during the cgo process that hold secret values; 3) registers saved during a non-cgo call in the runtime that uses the system stack.",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0b5045_05ce6e48",
+        "filename": "src/runtime/secret.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-27T00:17:43Z",
+      "side": 1,
+      "message": "Are we still asking the question?  Presumably this CL has an answer.",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c772b559_3fbd1627",
+        "filename": "src/runtime/secret.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-27T00:17:43Z",
+      "side": 1,
+      "message": "Convention is a plain \"//\" before the \"go:linkname\" line.",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
