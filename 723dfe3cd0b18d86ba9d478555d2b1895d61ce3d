@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a814b1da_f027139b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-27T04:37:19Z",
+      "side": 1,
+      "message": "Another option for the cgo case is to just forbid (by panicking) cgo calls from within secret.Do.",
+      "parentUuid": "49b397a3_1aa802d6",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0b5045_05ce6e48",
         "filename": "src/runtime/secret.go",
         "patchSetId": 18
