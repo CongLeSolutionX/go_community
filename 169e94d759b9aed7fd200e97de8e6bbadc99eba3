@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e45777_a645fff7",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-07-27T01:28:10Z",
+      "side": 1,
+      "message": "This is a gross way of \u0027passing\u0027 data through the line buffer to `writeOutputEvent` but it seems in line with what\u0027s already happening (e.g. c.testName) and actually passing the data through would involve significant modifications to the line buffer and code that uses it.",
+      "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
