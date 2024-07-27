@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49b397a3_1aa802d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-27T04:34:12Z",
+      "side": 1,
+      "message": "The problem I see with signals is that by the time runtime.Do returns, we don\u0027t know which signal stack was used. We may have moved between Ms in the meantime. So maybe it is not the current thread\u0027s signal stack. It could be several other signal stacks.\nSomehow we\u0027d have to record which signal stacks were used during a secret.Do so we could zero them at the end? And then do that zeroing somehow safely?\nThis problem seems not limited to Go (although our async preemption makes it worse), so I would be curious how other languages solve this problem, if at all.\n\nWorst case, maybe we just zero signal stacks periodically, if any secret.Do were executed recently?",
+      "parentUuid": "c8f214a1_d30fcfcf",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0b5045_05ce6e48",
         "filename": "src/runtime/secret.go",
         "patchSetId": 18
