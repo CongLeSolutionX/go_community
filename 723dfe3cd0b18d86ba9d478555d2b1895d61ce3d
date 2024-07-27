@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8f214a1_d30fcfcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-07-27T03:27:01Z",
+      "side": 1,
+      "message": "Good point that we don\u0027t know how far down to zero the system stack, and it would be painful to zero out the whole thing even if know the size.  One step we can take is to zero out all registers not used to pass arguments to cgo functions.  And then I guess we have to document that the user is responsible for the C stack of any functions called from Go.\n\nFor non-cgo uses of the system stack I\u0027m thinking of cases where a register might hold user secret data itself, and we might save that register value on the system stack when we switch to it.  Perhaps that doesn\u0027t happen.\n\nFor signals, registers are saved on the signal stack.  So if we zero the top of the signal stack when we exit secret.Do we should be OK.  The amount we have to zero out is the size of the signal context.  We currently give that a name like \"type sigcontext\" or \"type ucontext\", but frankly I think that our current definitions are wrong--they are good enough for us dump some registers when we crash, but they aren\u0027t the full amount of data that the signal handler stashes.  Also at least on x86 it seems that the signal handler actually saves the data in two pieces: first the FPU state, then the regular register state, with the latter pointing to the former.  In any case, it seems likely that if we record the stack pointer in sigtramp or sigtrampgo, then we will be OK if zero out everything from the top of the signal stack to the point of the saved stack pointer.",
+      "parentUuid": "63b76f61_662f619f",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0b5045_05ce6e48",
         "filename": "src/runtime/secret.go",
         "patchSetId": 18
