@@ -50,6 +50,23 @@
       "message": "Thanks Michael for triggering the tests! I found that there are tests in which we check if the output of error message of import cycle matches the expected error messages, the tests are from some places inside golang repo and golang/x/tool repo. I will make changes in the tests and maybe another PR for golang/x/tool repo.",
       "revId": "592c7962ba8c36f748211e37a971079c70485657",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f692282_56bd329d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-27T23:57:45Z",
+      "side": 1,
+      "message": "Hi Michael, I added changes to fix the tests in golang repo. Also I created another PR for a x/tools\u0027 test. https://github.com/golang/tools/pull/507, and I do not have a permission to add you as reviewer. By chance you have time, could you take a look?\nAlso, It seems we may need to merge the PR of x/tools first to be able to fix the test for the golang CL. Sorry for the inconvenience.",
+      "revId": "592c7962ba8c36f748211e37a971079c70485657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
