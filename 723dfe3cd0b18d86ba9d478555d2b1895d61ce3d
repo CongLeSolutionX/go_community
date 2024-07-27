@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63b76f61_662f619f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2024-07-27T00:45:39Z",
+      "side": 1,
+      "message": "I haven\u0027t considered how cgo would work yet. I presume the caller would be on their own for the c side of things. I suppose we could zero the whole c stack (4MB?) on every return to Go code.\n\nWe could figure out what to do on the Go side.\n\nFor most other switches to the g0 stack, I don\u0027t think there is much to do. User data doesn\u0027t normally cross that boundary. Just things like morestack, which have some G pointers, stack pointers, and such, but nothing secret from the g stack or registers. Unless we get down to C abi when callee-save registers might have (dead) secret stuff in them that gets saved to the stack?\n\nSpeaking of which, I\u0027m worried about signals, which is related but not the same. When we get a signal (SIGURG from the GC, probably, but this applies for any signal), where does the OS write the register state? Is that on the signal stack? How do we erase that information? The signal handler can\u0027t erase it because it would corrupt the registers when the handler returns. Can we ask the OS to zero out the register info in memory after it copies that info into the OS\u0027s thread state? Or do we have to remember that we got a signal somehow and figure out how to zero that information later?\n\nLots of tricky corners.",
+      "parentUuid": "610c989a_47dc24b4",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0b5045_05ce6e48",
         "filename": "src/runtime/secret.go",
         "patchSetId": 18
