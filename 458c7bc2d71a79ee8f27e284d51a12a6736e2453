@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7000cad7_ed9fc46f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-07-28T00:56:20Z",
+      "side": 1,
+      "message": "Update:\nThe x/tools\u0027 PR was imported to Gerrit: https://go-review.googlesource.com/c/tools/+/601575",
+      "revId": "458c7bc2d71a79ee8f27e284d51a12a6736e2453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
