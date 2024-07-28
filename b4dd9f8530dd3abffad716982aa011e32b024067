@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3994700b_34b0f538",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-07-28T15:07:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5301381_70d9cb20",
+      "revId": "b4dd9f8530dd3abffad716982aa011e32b024067",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "770f8653_adfe04ca",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-28T14:55:52Z",
       "side": 1,
       "message": "This line just repeats the topic.  Please remove.",
+      "revId": "b4dd9f8530dd3abffad716982aa011e32b024067",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc0d7eb_44e556fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-07-28T15:07:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770f8653_adfe04ca",
       "revId": "b4dd9f8530dd3abffad716982aa011e32b024067",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
