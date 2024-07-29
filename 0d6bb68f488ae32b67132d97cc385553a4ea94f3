@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd10c711_3c4f320d",
+        "filename": "src/cmd/go/internal/base/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-29T20:46:26Z",
+      "side": 1,
+      "message": "What the requirements are for a valid tool name? This seems to be more restrictive than, for example, what module.CheckImportPath does. (I might have missed the discussion on the issue thread).",
+      "parentUuid": "09223c6b_488c210b",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 12
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d466c61_873c4948",
         "filename": "src/cmd/go/internal/tool/tool.go",
         "patchSetId": 7
