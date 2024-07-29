@@ -1,0 +1,85 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09223c6b_488c210b",
+        "filename": "src/cmd/go/internal/base/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-07-29T17:24:16Z",
+      "side": 1,
+      "message": "can we use unicode.IsLower and unicode.IsDigit instead?\n\nWe can also invert the logic to avoid having to use the default case.\n\nSomething like this:\n\n```\nfor _, c :\u003d range toolName {\n        if !unicode.IsLower(c) \u0026\u0026 !unicode.IsDigit(c) \u0026\u0026 c !\u003d \u0027_\u0027 {\n            return false\n        }\n    }\nreturn true\n\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 12
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d466c61_873c4948",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-07-29T17:24:16Z",
+      "side": 1,
+      "message": "nit: unnecessary new line",
+      "fixSuggestions": [
+        {
+          "fixId": "1f1343a4_7950dd49",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/go/internal/tool/tool.go",
+              "range": {
+                "startLine": 114,
+                "startChar": 0,
+                "endLine": 115,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46eea20_64e49006",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-07-29T17:24:16Z",
+      "side": 1,
+      "message": "nit: keep consistent with above.\n```\n\nif len(modTools) \u003e 0 {\n\tfmt.Println(\"# go.mod tools\")\n}\n\n```",
+      "range": {
+        "startLine": 200,
+        "startChar": 1,
+        "endLine": 202,
+        "endChar": 2
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
