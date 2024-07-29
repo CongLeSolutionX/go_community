@@ -128,6 +128,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6411dd27_331214e1",
+        "filename": "api/go1.24.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-07-29T18:54:54Z",
+      "side": 1,
+      "message": "This file should be named `api/next/21865.txt` for now; it\u0027ll be merged along with others into api/go1.24.txt at the start of the Go 1.24 release freeze.",
+      "revId": "723dfe3cd0b18d86ba9d478555d2b1895d61ce3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0b5045_05ce6e48",
         "filename": "src/runtime/secret.go",
         "patchSetId": 18
