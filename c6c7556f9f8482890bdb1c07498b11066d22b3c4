@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88444785_b83b5004",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-29T15:35:22Z",
+      "side": 1,
+      "message": "The benchmark testdata files are really big. I think it probably needs to be as big as it is to show the gains that you show but I don\u0027t know if we should check them in as is because it will be a part of the go distribution. If we can\u0027t think of a better solution we should remove them and check them into an external repo that we can use to run the tests.\n\nOne option for keeping them would be to make a script that downloads the go.mod file from a known version of kubernetes and strips it",
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7452fdd0_965df6a8",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-29T15:35:22Z",
+      "side": 1,
+      "message": "restore these imports to the section below?",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "332029a3_4470fb7f",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-29T15:35:22Z",
+      "side": 1,
+      "message": "could we use a par.Queue here? something like\n\n    q :\u003d par.NewQueue(runtime.GOMAXPROCS(0)\n    fetchedMods :\u003d make([]*modinfo.ModulePublic, len(matches))\n    for i, m :\u003d rangeMatches {\n        q.Add(func() {\n            fetchedMods[i] \u003d moduleInfo(ctx, rs, m, mode, reuse)\n        })\n    }\n    \u003c-q.Idle()\n    mods \u003d append(mods, fetchedMods...)",
+      "range": {
+        "startLine": 285,
+        "startChar": 6,
+        "endLine": 285,
+        "endChar": 7
+      },
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "609d6cb0_cd3f5b0b",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-07-29T15:35:22Z",
+      "side": 1,
+      "message": "we can move this up to after the loop where matches is filled.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 3
+      },
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
