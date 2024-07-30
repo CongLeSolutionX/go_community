@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2935d9ed_037bb8f3",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-07-30T07:10:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc926be_1248e422",
+      "range": {
+        "startLine": 197,
+        "startChar": 5,
+        "endLine": 197,
+        "endChar": 33
+      },
+      "revId": "dde0fa727a72bdfd68848842cc4f09d788df25f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "227ebe0f_044bc844",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-29T20:05:50Z",
       "side": 1,
       "message": "If the struct contains multiple fields, it should also be readrange, right? So maybe we should just always use readrange.",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 49
+      },
+      "revId": "dde0fa727a72bdfd68848842cc4f09d788df25f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "466a95f9_ea29a955",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-07-30T07:10:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "227ebe0f_044bc844",
       "range": {
         "startLine": 201,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3933ac83_c02129f0",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-07-30T07:10:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eefe9c3b_a978d4d0",
+      "range": {
+        "startLine": 207,
+        "startChar": 32,
+        "endLine": 207,
+        "endChar": 59
+      },
+      "revId": "dde0fa727a72bdfd68848842cc4f09d788df25f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6bec77d_384c9c79",
@@ -83,6 +155,24 @@
       "writtenOn": "2024-07-29T20:05:50Z",
       "side": 1,
       "message": "Maybe better to add the test to the runtime/race package, perhaps in output_test.go.",
+      "revId": "dde0fa727a72bdfd68848842cc4f09d788df25f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccbc1435_17b4bb1e",
+        "filename": "test/fixedbugs/issue61204.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-07-30T07:10:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6bec77d_384c9c79",
       "revId": "dde0fa727a72bdfd68848842cc4f09d788df25f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
