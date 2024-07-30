@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b0e002_1bec9c70",
+        "filename": "src/crypto/tls/bogo_shim_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-30T17:29:17Z",
+      "side": 1,
+      "message": "Add something to indicate where these magic numbers are coming from.",
+      "range": {
+        "startLine": 164,
+        "startChar": 10,
+        "endLine": 164,
+        "endChar": 14
+      },
+      "revId": "40cc90f1a359543af08fa5ce99cea7eb820edb98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7637e6fb_446d1dfe",
+        "filename": "src/crypto/tls/bogo_shim_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 3467131
+      },
+      "writtenOn": "2024-07-30T17:29:17Z",
+      "side": 1,
+      "message": "Let\u0027s check the BoringSSL tests to see whether they intend for \"we have certs for some but not all of these expected cert types\" to be a successful pass.",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "40cc90f1a359543af08fa5ce99cea7eb820edb98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
