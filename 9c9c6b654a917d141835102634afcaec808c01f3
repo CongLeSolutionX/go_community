@@ -16,6 +16,24 @@
       "message": "The tree is now open for changes. Julian, should I submit this CL for you?",
       "revId": "9c9c6b654a917d141835102634afcaec808c01f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb96cebb_6ec50720",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3509523
+      },
+      "writtenOn": "2024-07-30T14:06:30Z",
+      "side": 1,
+      "message": "Yea, that would be nice. Thanks!",
+      "parentUuid": "1f8f218a_7bf22559",
+      "revId": "9c9c6b654a917d141835102634afcaec808c01f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
