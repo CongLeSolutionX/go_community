@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "014a82f8_02e33317",
+        "filename": "src/cmd/compile/testdata/script/script_test_basics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-30T16:52:20Z",
+      "side": 1,
+      "message": "Is this just a proof of concept, or there is actually a reason to skip this test?",
+      "revId": "d7c8c7cf53ec2f40c65e8c32b30243fe62791a76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
