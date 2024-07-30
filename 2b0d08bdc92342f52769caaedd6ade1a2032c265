@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87aa9cb8_55434776",
+        "filename": "src/internal/bytealg/equal_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-07-30T14:15:39Z",
+      "side": 1,
+      "message": "The len\u003d\u003d0 and a.ptr\u003d\u003db.ptr checks here are now redundant. Could we remove them?\n(It could just be a load and jump, I think.)",
+      "revId": "2b0d08bdc92342f52769caaedd6ade1a2032c265",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
