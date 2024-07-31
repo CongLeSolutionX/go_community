@@ -67,12 +67,18 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	pkgpath := pkgPath(a)
 	defaultGcFlags := []string{"-p", pkgpath}
 	vers := gover.Local()
+	if !cfg.ModulesEnabled && !p.Standard {
+		v := gover.BeforeSemanticLoopChangeVersion
+		if allowedVersion(v) {
+			vers = v
+		}
+	}
 	if p.Module != nil {
 		v := p.Module.GoVersion
 		if v == "" {
 			v = gover.DefaultGoModVersion
 		}
-		// TODO(samthanawalla): Investigate when allowedVersion is not true.
+		// TODO(#68050): Investigate when allowedVersion is not true.
 		if allowedVersion(v) {
 			vers = v
 		}
