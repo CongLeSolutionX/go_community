@@ -20,6 +20,106 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94758b0b_94269286",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:35:33Z",
+      "side": 1,
+      "message": "- don\u0027t throw away the type once you have it!\n- you will need to also call types2.Unalias first",
+      "fixSuggestions": [
+        {
+          "fixId": "283aafe6_08112107",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 47,
+                "startChar": 0,
+                "endLine": 48,
+                "endChar": 0
+              },
+              "replacement": "\t\ttyp :\u003d n.Type.GetTypeInfo().Type\n\t\tif _, ok :\u003d types2.Unwrap(typ).(*types2.Interface); !ok {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5945a409_903ab15b",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:35:33Z",
+      "side": 1,
+      "message": "s/typ/lit/ this is not a type",
+      "fixSuggestions": [
+        {
+          "fixId": "e0d45edb_1ec6e45f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 190,
+                "startChar": 0,
+                "endLine": 191,
+                "endChar": 0
+              },
+              "replacement": "func (r *rewriter) rewriteCompIface(lit *syntax.CompositeLit) {\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 196,
+                "startChar": 0,
+                "endLine": 197,
+                "endChar": 0
+              },
+              "replacement": "\tsn, _ :\u003d lit.Type.(*syntax.Name)\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 199,
+                "startChar": 0,
+                "endLine": 200,
+                "endChar": 0
+              },
+              "replacement": "\tfor _, e :\u003d range lit.ElemList {\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 232,
+                "startChar": 0,
+                "endLine": 233,
+                "endChar": 0
+              },
+              "replacement": "\tr.downCompLit(lit, structName)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b062eb89_2f038216",
         "filename": "src/cmd/compile/internal/noder/rewrite.go",
         "patchSetId": 8
