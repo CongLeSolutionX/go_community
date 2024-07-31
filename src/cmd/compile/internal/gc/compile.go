@@ -186,6 +186,10 @@ func compileFunctions(profile *pgoir.Profile) {
 		for _, fn := range fns {
 			fn := fn
 			queue(func(worker int) {
+				if base.Flag.PgoBb && profile != nil {
+					pgoir.CorrectProfileAfterInline(profile.FunctionsCounters, fn)
+				}
+
 				ssagen.Compile(fn, worker, profile)
 				compile(fn.Closures)
 				wg.Done()

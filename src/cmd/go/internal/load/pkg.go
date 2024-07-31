@@ -237,6 +237,7 @@ type PackageInternal struct {
 	Embed             map[string][]string  // //go:embed comment mapping
 	OrigImportPath    string               // original import path before adding '_test' suffix
 	PGOProfile        string               // path to PGO profile
+	PGObb             bool                 // enable basic block PGO
 	ForMain           string               // the main package if this package is built specifically for it
 
 	Asmflags   []string // -asmflags for this package
@@ -2948,6 +2949,10 @@ func setPGOProfilePath(pkgs []*Package) {
 			return
 		}
 
+		if cfg.BuildPGOBB {
+			appendBuildSetting(p.Internal.BuildInfo, "-pgobb", "true")
+		}
+
 		if cfg.BuildTrimpath {
 			appendBuildSetting(p.Internal.BuildInfo, "-pgo", filepath.Base(file))
 		} else {
@@ -2961,6 +2966,9 @@ func setPGOProfilePath(pkgs []*Package) {
 
 	switch cfg.BuildPGO {
 	case "off":
+		if cfg.BuildPGOBB {
+			base.Fatalf("The \"-pgobb\" option can be enabled only if \"-pgo\" is not \"off\"")
+		}
 		return
 
 	case "auto":
@@ -3013,6 +3021,7 @@ func setPGOProfilePath(pkgs []*Package) {
 					visited[p] = p
 				}
 				p.Internal.PGOProfile = file
+				p.Internal.PGObb = cfg.BuildPGOBB
 				updateBuildInfo(p, file)
 				// Recurse to dependencies.
 				for i, pp := range p.Internal.Imports {
@@ -3035,6 +3044,7 @@ func setPGOProfilePath(pkgs []*Package) {
 
 		for _, p := range PackageList(pkgs) {
 			p.Internal.PGOProfile = file
+			p.Internal.PGObb = cfg.BuildPGOBB
 			updateBuildInfo(p, file)
 		}
 	}
