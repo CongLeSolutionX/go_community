@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42ebfb8f_cab03599",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-31T18:46:32Z",
+      "side": 1,
+      "message": "The one below is done, but not this one.",
+      "parentUuid": "4a49cbdb_9844b438",
+      "range": {
+        "startLine": 480,
+        "startChar": 3,
+        "endLine": 480,
+        "endChar": 27
+      },
+      "revId": "e677e5e7018ce29bccbe53c7ba48e067b981f8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a568979_e7415e37",
         "filename": "src/runtime/race/output_test.go",
         "patchSetId": 6
