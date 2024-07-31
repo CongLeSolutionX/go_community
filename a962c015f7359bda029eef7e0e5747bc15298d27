@@ -1,0 +1,372 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f11c65b_de3e1b97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "Some initial comments.",
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b062eb89_2f038216",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "maybe you can re-use Signature here (even if that has some more stuff attached to it)",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 12
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b9aa0db6_e89c54c4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 191,
+                "startChar": 0,
+                "endLine": 196,
+                "endChar": 0
+              },
+              "replacement": "\tmethods :\u003d map[string]*syntax.FuncType{}\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 204,
+                "startChar": 0,
+                "endLine": 208,
+                "endChar": 0
+              },
+              "replacement": "\t\t\tmethods[n.Value] \u003d fl.Type\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 215,
+                "startChar": 0,
+                "endLine": 216,
+                "endChar": 0
+              },
+              "replacement": "\t\tmethodFields \u003d append(methodFields, r.makeField(funcToPriKey(methodName), values.ParamList, values.ResultList))\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 223,
+                "startChar": 0,
+                "endLine": 224,
+                "endChar": 0
+              },
+              "replacement": "\t\tfuncdecls \u003d append(funcdecls, r.makeFuncDecl(k, structName, v.ParamList, v.ResultList))\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85cc589c_45b371ae",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "s/kve/kve/",
+      "range": {
+        "startLine": 200,
+        "startChar": 5,
+        "endLine": 200,
+        "endChar": 8
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1ad02a46_9baf0322",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 200,
+                "startChar": 0,
+                "endLine": 203,
+                "endChar": 0
+              },
+              "replacement": "\t\tif kv, ok :\u003d e.(*syntax.KeyValueExpr); ok {\n\t\t\tn, _ :\u003d kv.Key.(*syntax.Name)\n\t\t\tfl, _ :\u003d kv.Value.(*syntax.FuncLit)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17703300_d1b7c760",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "// Declare struct type matching the interface literal.\n// Given\n//\n// T{name1: funclit1, name2: funclit2, ...}\n//\n// declare a struct of the form\n//\n// type Tstruct struct {\n//    name1: signature1\n//    name2: signature2\n//    ...\n// }\n//\n// where each signature is derived from the corresponding function literal.",
+      "fixSuggestions": [
+        {
+          "fixId": "0a4e6164_b1e6cb74",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 211,
+                "startChar": 0,
+                "endLine": 212,
+                "endChar": 0
+              },
+              "replacement": "\t// Declare struct type matching the interface literal.\n\t// Given\n\t//\n\t// T{name1: funclit1, name2: funclit2, ...}\n\t//\n\t// declare a struct of the form\n\t//\n\t// type Tstruct struct {\n\t//    name1: signature1\n\t//    name2: signature2\n\t//    ...\n\t// }\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 220,
+                "startChar": 0,
+                "endLine": 221,
+                "endChar": 0
+              },
+              "replacement": "\t// Declare functions matching the interface literal.\n\t// Given\n\t//\n\t// T{name1: funclit1, name2: funclit2, ...}\n\t//\n\t// declare a function of the form\n\t//\n\t// func name1(i Tstruct) {\n\t//    i.name1()\n\t// }\n\t// func name2(i Tstruct) {\n\t//    i.name2()\n\t// }\n\t// ...\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bc73f5e_1e89e892",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "move pkg parameter after pos",
+      "range": {
+        "startLine": 235,
+        "startChar": 63,
+        "endLine": 235,
+        "endChar": 66
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6d3e2914_65f5bc36",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 235,
+                "startChar": 0,
+                "endLine": 236,
+                "endChar": 0
+              },
+              "replacement": "func makeVarName(pos syntax.Pos, pkg *types2.Package, name string, typ types2.Type, info *types2.Info) (*types2.Var, *syntax.Name) {\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 250,
+                "startChar": 0,
+                "endLine": 251,
+                "endChar": 0
+              },
+              "replacement": "\tobj, n :\u003d makeVarName(stmt.Pos(), pkg, name, typ, info)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fce21478_4b8c50ac",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "s/makeVarName/makeVar/ seems sufficient",
+      "range": {
+        "startLine": 235,
+        "startChar": 5,
+        "endLine": 235,
+        "endChar": 16
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "699834fe_d176235a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 235,
+                "startChar": 0,
+                "endLine": 236,
+                "endChar": 0
+              },
+              "replacement": "func makeVar(pos syntax.Pos, name string, typ types2.Type, pkg *types2.Package, info *types2.Info) (*types2.Var, *syntax.Name) {\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 250,
+                "startChar": 0,
+                "endLine": 251,
+                "endChar": 0
+              },
+              "replacement": "\tobj, n :\u003d makeVar(stmt.Pos(), name, typ, pkg, info)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36823c61_50665f72",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "s/ value//\nor\ns/value/expression/",
+      "range": {
+        "startLine": 245,
+        "startChar": 78,
+        "endLine": 245,
+        "endChar": 83
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d82fa62d_228adbde",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 245,
+                "startChar": 0,
+                "endLine": 246,
+                "endChar": 0
+              },
+              "replacement": "// declSingleVar declares a variable with a given name, type, and initializer expression,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d8f194_07d24f5f",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:23:39Z",
+      "side": 1,
+      "message": "s/declSingleVar/declVar/",
+      "range": {
+        "startLine": 248,
+        "startChar": 5,
+        "endLine": 248,
+        "endChar": 18
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "752e82fa_e735ee76",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 245,
+                "startChar": 0,
+                "endLine": 246,
+                "endChar": 0
+              },
+              "replacement": "// declVar declares a variable with a given name, type, and initializer value,\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 248,
+                "startChar": 0,
+                "endLine": 249,
+                "endChar": 0
+              },
+              "replacement": "func declVar(name string, typ types2.Type, init syntax.Expr, pkg *types2.Package, info *types2.Info) (*syntax.DeclStmt, *types2.Var) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
