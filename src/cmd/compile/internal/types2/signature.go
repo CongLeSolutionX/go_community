@@ -171,7 +171,14 @@ func (check *Checker) collectRecv(rparam *syntax.Field, scopePos syntax.Pos) (re
 		// after typechecking rbase (see go.dev/issue/52038).
 		recvTParams := make([]*TypeParam, len(rtparams))
 		for i, rparam := range rtparams {
-			recvTParams[i] = check.declareTypeParam(rparam, scopePos)
+			tpar := check.declareTypeParam(rparam, scopePos)
+			recvTParams[i] = tpar
+			// For historic reasons, type parameters in receiver type expressions
+			// are considered both definitions and uses and thus also show up in
+			// the Info.Types map (see go.dev/issue/68670).
+			name := rtparams[i]
+			check.recordUse(name, tpar.obj)
+			check.recordTypeAndValue(name, typexpr, tpar, nil)
 		}
 		recvTParamsList = bindTParams(recvTParams)
 
