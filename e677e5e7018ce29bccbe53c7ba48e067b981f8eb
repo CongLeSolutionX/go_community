@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "921972fd_01303f99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-31T15:33:14Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "e677e5e7018ce29bccbe53c7ba48e067b981f8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15fc624b_15272180",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-31T15:33:14Z",
+      "side": 1,
+      "message": "Minor: \"race_instrumentation_for\" seems redundant. All tests here are about race. Some of them are more compiler instrumentation related, some are more runtime related. But that is more of a detail, no need to call out. (Same below.)",
+      "range": {
+        "startLine": 480,
+        "startChar": 3,
+        "endLine": 480,
+        "endChar": 27
+      },
+      "revId": "e677e5e7018ce29bccbe53c7ba48e067b981f8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a568979_e7415e37",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-07-31T15:33:14Z",
+      "side": 1,
+      "message": "It should report race even changing just one element. Maybe test that instead (best not be the first element).",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 499,
+        "endChar": 2
+      },
+      "revId": "e677e5e7018ce29bccbe53c7ba48e067b981f8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
