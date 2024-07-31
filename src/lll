@@ -1,0 +1,471 @@
+Building Go cmd/dist using /home/amarkin/Downloads/go. (go1.23.3 linux/amd64)
+Building Go toolchain1 using /home/amarkin/Downloads/go.
+Building Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.
+Building Go toolchain2 using go_bootstrap and Go toolchain1.
+Building Go toolchain3 using go_bootstrap and Go toolchain2.
+Building packages and commands for linux/amd64.
+
+##### Test execution environment.
+# GOARCH: amd64
+# CPU: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+# GOOS: linux
+# OS Version: Linux 6.8.0-45-generic #45~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Wed Sep 11 15:25:05 UTC 2 x86_64
+
+##### Testing packages.
+ok  	archive/tar	0.165s
+ok  	archive/zip	0.114s
+ok  	bufio	0.051s
+ok  	bytes	0.198s
+ok  	cmp	0.008s
+ok  	compress/bzip2	0.066s
+ok  	compress/flate	0.450s
+ok  	compress/gzip	1.386s
+ok  	compress/lzw	0.007s
+ok  	compress/zlib	0.014s
+ok  	container/heap	0.004s
+ok  	container/list	0.003s
+ok  	container/ring	0.004s
+ok  	context	0.023s
+ok  	crypto	0.476s
+ok  	crypto/aes	0.017s
+ok  	crypto/cipher	0.421s
+ok  	crypto/des	0.007s
+ok  	crypto/dsa	0.003s
+ok  	crypto/ecdh	0.033s
+ok  	crypto/ecdsa	0.027s
+ok  	crypto/ed25519	0.051s
+ok  	crypto/elliptic	0.008s
+ok  	crypto/hmac	0.015s
+ok  	crypto/internal/alias	0.002s
+ok  	crypto/internal/bigmod	0.054s
+ok  	crypto/internal/boring	0.008s
+ok  	crypto/internal/boring/bcache	0.082s
+ok  	crypto/internal/edwards25519	0.081s
+ok  	crypto/internal/edwards25519/field	0.017s
+ok  	crypto/internal/fips	0.014s
+ok  	crypto/internal/fips/check	0.008s
+ok  	crypto/internal/fips/sha3	1.607s
+ok  	crypto/internal/fips/subtle	0.114s
+ok  	crypto/internal/hpke	0.006s
+ok  	crypto/internal/mlkem768	0.258s
+ok  	crypto/internal/nistec	0.129s
+ok  	crypto/internal/nistec/fiat	0.002s [no tests to run]
+ok  	crypto/md5	0.004s
+ok  	crypto/rand	0.340s
+ok  	crypto/rc4	0.040s
+ok  	crypto/rsa	0.378s
+ok  	crypto/sha1	0.019s
+ok  	crypto/sha256	0.012s
+ok  	crypto/sha512	0.009s
+ok  	crypto/subtle	0.007s
+ok  	crypto/tls	0.624s
+ok  	crypto/x509	0.343s
+ok  	database/sql	0.542s
+ok  	database/sql/driver	0.002s
+ok  	debug/buildinfo	0.018s
+ok  	debug/dwarf	0.017s
+ok  	debug/elf	0.152s
+ok  	debug/gosym	0.304s
+ok  	debug/macho	0.005s
+ok  	debug/pe	0.015s
+ok  	debug/plan9obj	0.003s
+ok  	embed	0.004s [no tests to run]
+ok  	embed/internal/embedtest	0.003s
+ok  	encoding/ascii85	0.004s
+ok  	encoding/asn1	0.004s
+ok  	encoding/base32	0.026s
+ok  	encoding/base64	0.005s
+ok  	encoding/binary	0.011s
+ok  	encoding/csv	0.008s
+ok  	encoding/gob	1.797s
+ok  	encoding/hex	0.003s
+ok  	encoding/json	0.282s
+ok  	encoding/pem	0.640s
+ok  	encoding/xml	0.073s
+ok  	errors	0.004s
+ok  	expvar	0.009s
+ok  	flag	0.071s
+ok  	fmt	0.060s
+ok  	go/ast	0.004s
+ok  	go/ast/internal/tests	0.002s
+ok  	go/build	3.630s
+ok  	go/build/constraint	0.071s
+ok  	go/constant	0.005s
+ok  	go/doc	0.043s
+ok  	go/doc/comment	0.964s
+ok  	go/format	0.007s
+ok  	go/importer	0.332s
+ok  	go/internal/gccgoimporter	0.009s
+ok  	go/internal/gcimporter	1.744s
+ok  	go/internal/srcimporter	7.097s
+ok  	go/parser	0.231s
+ok  	go/printer	0.161s
+ok  	go/scanner	0.004s
+ok  	go/token	0.011s
+ok  	go/types	4.131s
+ok  	go/version	0.006s
+ok  	hash	0.004s
+ok  	hash/adler32	0.006s
+ok  	hash/crc32	0.006s
+ok  	hash/crc64	0.002s
+ok  	hash/fnv	0.003s
+ok  	hash/maphash	0.304s
+ok  	html	0.003s
+ok  	html/template	0.094s
+ok  	image	0.053s
+ok  	image/color	0.017s
+ok  	image/draw	0.102s
+ok  	image/gif	0.221s
+ok  	image/jpeg	0.180s
+ok  	image/png	0.355s
+ok  	index/suffixarray	0.165s
+ok  	internal/abi	0.039s
+ok  	internal/buildcfg	0.002s
+ok  	internal/chacha8rand	0.006s
+ok  	internal/concurrent	0.230s
+ok  	internal/coverage/cfile	0.681s
+ok  	internal/coverage/cformat	0.003s
+ok  	internal/coverage/cmerge	0.003s
+ok  	internal/coverage/pods	0.006s
+ok  	internal/coverage/slicereader	0.003s
+ok  	internal/coverage/slicewriter	0.004s
+ok  	internal/coverage/test	0.013s
+ok  	internal/cpu	0.010s
+ok  	internal/dag	0.004s
+ok  	internal/diff	0.004s
+ok  	internal/fmtsort	0.002s
+ok  	internal/fuzz	0.007s
+ok  	internal/godebug	0.747s
+ok  	internal/godebugs	7.112s
+ok  	internal/gover	0.005s
+ok  	internal/itoa	0.002s
+ok  	internal/pkgbits	0.003s
+ok  	internal/platform	0.973s
+ok  	internal/poll	0.120s
+ok  	internal/profile	0.002s
+ok  	internal/reflectlite	0.002s
+ok  	internal/runtime/atomic	0.041s
+ok  	internal/runtime/maps	0.006s
+ok  	internal/runtime/math	0.005s
+ok  	internal/runtime/sys	0.005s
+ok  	internal/runtime/syscall	0.002s
+ok  	internal/saferio	0.035s
+ok  	internal/singleflight	0.017s
+ok  	internal/syscall/unix	0.002s
+ok  	internal/sysinfo	0.002s
+ok  	internal/testenv	0.280s
+ok  	internal/trace	17.190s
+ok  	internal/trace/internal/oldtrace	0.163s
+ok  	internal/types/errors	0.622s
+ok  	internal/unsafeheader	0.007s
+ok  	internal/weak	0.036s
+ok  	internal/xcoff	0.017s
+ok  	internal/zstd	0.636s
+ok  	io	0.033s
+ok  	io/fs	0.485s
+ok  	io/ioutil	0.014s
+ok  	iter	0.003s
+ok  	log	0.005s
+ok  	log/slog	0.022s
+ok  	log/slog/internal/benchmarks	0.003s
+ok  	log/slog/internal/buffer	0.003s
+ok  	log/syslog	1.228s
+ok  	maps	0.003s
+ok  	math	0.006s
+ok  	math/big	0.853s
+ok  	math/bits	0.008s
+ok  	math/cmplx	0.003s
+ok  	math/rand	0.116s
+ok  	math/rand/v2	0.261s
+ok  	mime	0.014s
+ok  	mime/multipart	0.960s
+ok  	mime/quotedprintable	0.025s
+ok  	net	3.114s
+ok  	net/http	4.881s
+ok  	net/http/cgi	0.140s
+ok  	net/http/cookiejar	0.006s
+ok  	net/http/fcgi	0.211s
+ok  	net/http/httptest	0.034s
+ok  	net/http/httptrace	0.004s
+ok  	net/http/httputil	0.572s
+ok  	net/http/internal	0.219s
+ok  	net/http/internal/ascii	0.005s
+ok  	net/http/pprof	5.128s
+ok  	net/internal/cgotest	0.003s
+ok  	net/internal/socktest	0.003s
+ok  	net/mail	0.011s
+ok  	net/netip	0.848s
+ok  	net/rpc	0.050s
+ok  	net/rpc/jsonrpc	0.019s
+ok  	net/smtp	0.038s
+ok  	net/textproto	0.035s
+ok  	net/url	0.015s
+ok  	os	1.301s
+ok  	os/exec	0.268s
+ok  	os/exec/internal/fdtest	0.003s
+ok  	os/signal	2.082s
+ok  	os/user	0.005s
+ok  	path	0.004s
+ok  	path/filepath	0.038s
+ok  	plugin	0.004s
+ok  	reflect	0.124s
+ok  	regexp	0.348s
+ok  	regexp/syntax	0.535s
+ok  	runtime	38.733s
+ok  	runtime/cgo	0.004s
+ok  	runtime/debug	0.062s
+ok  	runtime/internal/wasitest	0.003s
+ok  	runtime/metrics	0.005s
+ok  	runtime/pprof	18.885s
+ok  	runtime/trace	0.110s
+ok  	slices	0.061s
+ok  	sort	0.040s
+ok  	strconv	0.344s
+ok  	strings	0.130s
+ok  	sync	0.375s
+ok  	sync/atomic	0.459s
+ok  	syscall	2.325s
+ok  	testing	1.051s
+ok  	testing/fstest	0.004s
+ok  	testing/iotest	0.003s
+ok  	testing/quick	0.039s
+ok  	testing/slogtest	0.003s
+ok  	text/scanner	0.006s
+ok  	text/tabwriter	0.003s
+ok  	text/template	0.024s
+ok  	text/template/parse	0.006s
+ok  	time	7.017s
+ok  	unicode	0.005s
+ok  	unicode/utf16	0.003s
+ok  	unicode/utf8	0.007s
+ok  	unique	0.059s
+ok  	cmd/addr2line	0.585s
+ok  	cmd/api	13.160s
+ok  	cmd/asm/internal/asm	0.540s
+ok  	cmd/asm/internal/lex	0.003s
+ok  	cmd/cgo/internal/swig	0.008s
+ok  	cmd/cgo/internal/test	0.943s
+ok  	cmd/cgo/internal/testcarchive	0.003s
+ok  	cmd/cgo/internal/testcshared	0.003s
+ok  	cmd/cgo/internal/testerrors	17.869s
+ok  	cmd/cgo/internal/testfortran	0.015s
+ok  	cmd/cgo/internal/testgodefs	0.888s
+ok  	cmd/cgo/internal/testlife	0.949s
+ok  	cmd/cgo/internal/testnocgo	0.002s
+ok  	cmd/cgo/internal/testplugin	0.005s
+ok  	cmd/cgo/internal/testsanitizers	0.246s
+ok  	cmd/cgo/internal/testshared	0.006s
+ok  	cmd/cgo/internal/testso	2.621s
+ok  	cmd/cgo/internal/teststdio	2.673s
+ok  	cmd/cgo/internal/testtls	0.007s
+ok  	cmd/compile	0.804s
+ok  	cmd/compile/internal/abt	0.018s
+ok  	cmd/compile/internal/amd64	6.323s
+ok  	cmd/compile/internal/base	0.010s
+ok  	cmd/compile/internal/compare	0.007s
+ok  	cmd/compile/internal/devirtualize	0.014s
+ok  	cmd/compile/internal/dwarfgen	0.638s
+ok  	cmd/compile/internal/importer	3.072s
+ok  	cmd/compile/internal/inline/inlheur	1.123s
+ok  	cmd/compile/internal/ir	0.011s
+ok  	cmd/compile/internal/liveness	0.063s
+ok  	cmd/compile/internal/logopt	0.647s
+ok  	cmd/compile/internal/loopvar	57.899s
+ok  	cmd/compile/internal/noder	0.009s
+ok  	cmd/compile/internal/rangefunc	0.011s
+ok  	cmd/compile/internal/reflectdata	0.014s [no tests to run]
+ok  	cmd/compile/internal/ssa	51.790s
+ok  	cmd/compile/internal/ssagen	0.014s
+ok  	cmd/compile/internal/syntax	0.044s
+ok  	cmd/compile/internal/test	146.419s
+ok  	cmd/compile/internal/typecheck	0.680s
+ok  	cmd/compile/internal/types	0.003s
+ok  	cmd/compile/internal/types2	4.950s
+ok  	cmd/covdata	0.015s
+ok  	cmd/cover	1.615s
+ok  	cmd/dist	0.005s
+ok  	cmd/distpack	0.007s
+ok  	cmd/doc	0.159s
+ok  	cmd/fix	1.581s
+ok  	cmd/go	44.871s
+ok  	cmd/go/internal/auth	0.004s
+ok  	cmd/go/internal/cache	0.093s
+ok  	cmd/go/internal/cfg	0.002s [no tests to run]
+ok  	cmd/go/internal/envcmd	0.025s
+ok  	cmd/go/internal/fsys	0.023s
+ok  	cmd/go/internal/generate	0.020s
+ok  	cmd/go/internal/gover	0.013s
+ok  	cmd/go/internal/imports	0.042s
+ok  	cmd/go/internal/load	0.011s
+ok  	cmd/go/internal/lockedfile	0.179s
+ok  	cmd/go/internal/lockedfile/internal/filelock	0.043s
+ok  	cmd/go/internal/modfetch	0.028s
+ok  	cmd/go/internal/modfetch/codehost	2.536s
+ok  	cmd/go/internal/modfetch/zip_sum_test	0.017s
+ok  	cmd/go/internal/modindex	0.441s
+ok  	cmd/go/internal/modload	0.027s
+ok  	cmd/go/internal/mvs	0.025s
+ok  	cmd/go/internal/str	0.014s
+ok  	cmd/go/internal/test	0.052s
+ok  	cmd/go/internal/toolchain	0.035s
+ok  	cmd/go/internal/vcs	0.018s
+ok  	cmd/go/internal/vcweb	0.035s
+ok  	cmd/go/internal/vcweb/vcstest	1.511s
+ok  	cmd/go/internal/web	0.018s
+ok  	cmd/go/internal/work	0.122s
+ok  	cmd/gofmt	0.081s
+ok  	cmd/internal/archive	1.348s
+ok  	cmd/internal/bootstrap_test	0.017s
+ok  	cmd/internal/buildid	0.548s
+ok  	cmd/internal/cov	0.817s
+ok  	cmd/internal/dwarf	0.038s
+ok  	cmd/internal/edit	0.016s
+ok  	cmd/internal/goobj	0.011s
+ok  	cmd/internal/moddeps	3.238s
+ok  	cmd/internal/obj	1.176s
+ok  	cmd/internal/obj/arm64	0.697s
+ok  	cmd/internal/obj/loong64	0.127s
+ok  	cmd/internal/obj/ppc64	0.393s
+ok  	cmd/internal/obj/riscv	0.157s
+ok  	cmd/internal/obj/s390x	0.019s
+ok  	cmd/internal/obj/x86	0.707s
+ok  	cmd/internal/objabi	0.007s
+ok  	cmd/internal/osinfo	0.010s
+ok  	cmd/internal/par	0.031s
+ok  	cmd/internal/pgo	0.011s
+ok  	cmd/internal/pkgpath	0.032s
+ok  	cmd/internal/pkgpattern	0.015s
+ok  	cmd/internal/quoted	0.016s
+ok  	cmd/internal/src	0.009s
+ok  	cmd/internal/sys	0.008s
+ok  	cmd/internal/test2json	0.383s
+ok  	cmd/link	25.200s
+ok  	cmd/link/internal/benchmark	0.029s
+ok  	cmd/link/internal/ld	17.950s
+ok  	cmd/link/internal/loader	0.068s
+ok  	cmd/nm	3.987s
+ok  	cmd/objdump	16.857s
+ok  	cmd/pack	1.954s
+ok  	cmd/pprof	2.926s
+ok  	cmd/relnote	0.019s
+ok  	cmd/trace	0.154s
+ok  	cmd/vet	10.342s
+
+##### os/user with tag osusergo
+ok  	os/user	0.056s
+
+##### hash/maphash purego implementation
+ok  	hash/maphash	2.404s
+
+##### crypto with tag purego
+ok  	crypto	0.011s [no tests to run]
+ok  	crypto/aes	0.013s [no tests to run]
+ok  	crypto/cipher	0.027s [no tests to run]
+ok  	crypto/des	0.017s [no tests to run]
+ok  	crypto/dsa	0.011s [no tests to run]
+ok  	crypto/ecdh	0.024s [no tests to run]
+?   	crypto/internal/boring/bbig	[no test files]
+?   	crypto/internal/cryptotest	[no test files]
+?   	crypto/internal/boring/sig	[no test files]
+ok  	crypto/ecdsa	0.008s [no tests to run]
+ok  	crypto/ed25519	0.004s [no tests to run]
+ok  	crypto/elliptic	0.009s [no tests to run]
+ok  	crypto/hmac	0.003s [no tests to run]
+ok  	crypto/internal/alias	0.002s [no tests to run]
+ok  	crypto/internal/bigmod	0.002s [no tests to run]
+ok  	crypto/internal/boring	0.006s [no tests to run]
+ok  	crypto/internal/boring/bcache	0.010s [no tests to run]
+ok  	crypto/internal/edwards25519	0.003s [no tests to run]
+ok  	crypto/internal/edwards25519/field	0.009s [no tests to run]
+ok  	crypto/internal/fips	0.002s [no tests to run]
+?   	crypto/internal/fips/check/checktest	[no test files]
+?   	crypto/internal/fips/hmac	[no test files]
+?   	crypto/internal/fips/sha256	[no test files]
+?   	crypto/internal/fips/sha512	[no test files]
+?   	crypto/internal/impl	[no test files]
+ok  	crypto/internal/fips/check	0.005s [no tests to run]
+ok  	crypto/internal/fips/sha3	0.004s [no tests to run]
+ok  	crypto/internal/fips/subtle	0.006s [no tests to run]
+ok  	crypto/internal/hpke	0.007s [no tests to run]
+?   	crypto/internal/randutil	[no test files]
+ok  	crypto/internal/mlkem768	0.004s [no tests to run]
+ok  	crypto/internal/nistec	0.008s [no tests to run]
+ok  	crypto/internal/nistec/fiat	0.006s [no tests to run]
+ok  	crypto/md5	0.012s [no tests to run]
+?   	crypto/rand/internal/seccomp	[no test files]
+ok  	crypto/rand	0.005s [no tests to run]
+ok  	crypto/rc4	0.003s [no tests to run]
+ok  	crypto/rsa	0.004s [no tests to run]
+ok  	crypto/sha1	0.002s [no tests to run]
+ok  	crypto/sha256	0.003s [no tests to run]
+ok  	crypto/sha512	0.002s [no tests to run]
+ok  	crypto/subtle	0.004s [no tests to run]
+?   	crypto/x509/pkix	[no test files]
+ok  	crypto/tls	0.009s [no tests to run]
+ok  	crypto/x509	0.003s [no tests to run]
+
+##### Testing without libgcc.
+ok  	net	0.008s
+ok  	os/user	0.016s
+
+##### internal linking, -buildmode=pie
+ok  	reflect	0.228s
+ok  	crypto/internal/fips/check	0.032s
+ok  	os/user	0.018s
+
+##### external linking, -buildmode=exe
+ok  	crypto/internal/fips/check	0.057s
+
+##### external linking, -buildmode=pie
+ok  	crypto/internal/fips/check	0.018s
+
+##### sync -cpu=10
+ok  	sync	1.062s
+
+##### Testing cgo
+ok  	cmd/cgo/internal/test	1.668s
+ok  	cmd/cgo/internal/test	0.708s
+ok  	cmd/cgo/internal/testtls	0.017s
+ok  	cmd/cgo/internal/testtls	0.002s
+ok  	cmd/cgo/internal/testnocgo	0.009s
+ok  	cmd/cgo/internal/testnocgo	0.002s
+ok  	cmd/cgo/internal/test	0.895s
+ok  	cmd/cgo/internal/test	0.737s
+ok  	cmd/cgo/internal/test	0.925s
+ok  	cmd/cgo/internal/test	0.916s
+ok  	cmd/cgo/internal/testtls	0.003s
+ok  	cmd/cgo/internal/testnocgo	0.009s
+
+##### API release note check
+ok  	cmd/relnote	0.018s
+
+##### API check
+ok  	cmd/api	26.767s
+
+##### GOMAXPROCS=2 runtime -cpu=1 -quick
+ok  	runtime	15.001s
+
+##### GOMAXPROCS=2 runtime -cpu=2 -quick
+ok  	runtime	14.865s
+
+##### GOMAXPROCS=2 runtime -cpu=4 -quick
+ok  	runtime	13.788s
+
+##### Testing race detector
+ok  	runtime/race	8.485s
+ok  	flag	1.045s
+ok  	net	1.114s
+ok  	os	1.168s
+ok  	os/exec	2.041s
+ok  	encoding/gob	1.076s
+ok  	flag	1.023s
+ok  	os/exec	2.024s
+
+##### ../test
+ok  	cmd/internal/testdir	48.071s
+
+ALL TESTS PASSED
+---
+Installed Go for linux/amd64 in /home/amarkin/repo/go
+Installed commands in /home/amarkin/repo/go/bin
+*** You need to add /home/amarkin/repo/go/bin to your PATH.
