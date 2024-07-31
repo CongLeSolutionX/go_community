@@ -57,6 +57,10 @@ const (
 	// ExplicitModulesTxtImportVersion is the Go version at which vendored packages need to be present
 	// in modules.txt to be imported.
 	ExplicitModulesTxtImportVersion = "1.23"
+
+	// BeforeSemanticLoopChangeVersion is the Go version before the breaking change to how
+	// the loop variable in a for loop is handled.
+	BeforeSemanticLoopChangeVersion = "1.21"
 )
 
 // FromGoMod returns the go version from the go.mod file.
