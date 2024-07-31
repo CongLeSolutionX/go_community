@@ -22,6 +22,30 @@
       },
       "revId": "79c1a0e4da00064835fa6f06c27cb76ca2aacf45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "464d4606_942811ac",
+        "filename": "src/go/types/generate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-07-31T21:39:43Z",
+      "side": 1,
+      "message": "It changes calls of the form \"atPos(x)\" (in types2) to the corresponding \"x.Pos()\" (in go/types).",
+      "parentUuid": "ba6cd318_a2e1829a",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 17
+      },
+      "revId": "79c1a0e4da00064835fa6f06c27cb76ca2aacf45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
