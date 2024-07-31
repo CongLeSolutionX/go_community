@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9262a9bf_93e65b23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3299376
+      },
+      "writtenOn": "2024-07-31T04:18:37Z",
+      "side": 1,
+      "message": "Thanks! I left some comments and I have some other ongoing changes about riscv-opcodes.",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a770552_96db9d49",
+        "filename": "src/cmd/internal/obj/riscv/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 3299376
+      },
+      "writtenOn": "2024-07-31T04:18:37Z",
+      "side": 1,
+      "message": "We are missing segment load/store here.",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ebd482_bf81b453",
+        "filename": "src/cmd/internal/obj/riscv/inst.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3299376
+      },
+      "writtenOn": "2024-07-31T04:18:37Z",
+      "side": 1,
+      "message": "We\u0027d better not set default rs1 to 0. It may make encoding process hard to distinguish the real rs1 of aninstruction. I set it to 0xFFFFFFFF in my patch.",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
