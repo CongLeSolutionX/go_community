@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a49cbdb_9844b438",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-07-31T16:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15fc624b_15272180",
+      "range": {
+        "startLine": 480,
+        "startChar": 3,
+        "endLine": 480,
+        "endChar": 27
+      },
+      "revId": "e677e5e7018ce29bccbe53c7ba48e067b981f8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a568979_e7415e37",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-07-31T15:33:14Z",
       "side": 1,
       "message": "It should report race even changing just one element. Maybe test that instead (best not be the first element).",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 499,
+        "endChar": 2
+      },
+      "revId": "e677e5e7018ce29bccbe53c7ba48e067b981f8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28aec00c_ccb7c7dc",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-07-31T16:31:07Z",
+      "side": 1,
+      "message": "Fair point. I changed the test to test with random element instead.",
+      "parentUuid": "5a568979_e7415e37",
       "range": {
         "startLine": 497,
         "startChar": 0,
