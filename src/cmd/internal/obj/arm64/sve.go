@@ -126,6 +126,10 @@ func (e *encoding) getFormattedArgs(prog *obj.Prog) ([]*obj.Addr, bool) {
 func validateArg(arg *obj.Addr, fmt int) bool {
 	switch getType(fmt) {
 	case REG_R, REG_V, REG_Z, REG_P:
+		if arg.Type != obj.TYPE_REG {
+			return false
+		}
+
 		if !IsSVERegister(arg.Reg) {
 			return false
 		}
@@ -133,6 +137,28 @@ func validateArg(arg *obj.Addr, fmt int) bool {
 		if reg.Format() != fmt {
 			return false
 		}
+		return true
+	case REG_V_INDEXED, REG_Z_INDEXED, REG_P_INDEXED:
+		if arg.Type != obj.TYPE_REGINDEX {
+			return false
+		}
+
+		if !IsSVERegister(arg.Reg) {
+			return false
+		}
+		reg := AsSVERegister(arg.Reg)
+		
+		if int(reg.Ext()) != getExt(fmt) {
+			return false
+		}
+
+		// Rebase type on REG_V to get base register type without index
+		group := getType(fmt) - REG_V_INDEXED + REG_V
+
+		if reg.Group() != group {
+			return false
+		}
+
 		return true
 	default:
 		return false

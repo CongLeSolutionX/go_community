@@ -53,6 +53,9 @@ const (
 	REG_V
 	REG_Z
 	REG_P
+	REG_V_INDEXED
+	REG_Z_INDEXED
+	REG_P_INDEXED
 )
 
 // Bit extractors for Type and Extension from Register.Format()

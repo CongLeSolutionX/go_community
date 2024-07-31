@@ -357,13 +357,13 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 		r := arm64.NewSVERegister(reg, arm64.EXT_NONE)
 
 		switch {
-		case ext == "B" && isAmount:
+		case ext == "B":
 			r.SetExt(arm64.EXT_B)
-		case ext == "H" && isAmount:
+		case ext == "H":
 			r.SetExt(arm64.EXT_H)
-		case ext == "S" && isAmount:
+		case ext == "S":
 			r.SetExt(arm64.EXT_S)
-		case ext == "D" && isAmount:
+		case ext == "D":
 			r.SetExt(arm64.EXT_D)
 		default:
 			return fmt.Errorf(
@@ -371,6 +371,12 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 				ext, isAmount, isIndex)
 		}
 		a.Reg = r.ToInt16()
+
+		if isIndex {
+			a.Type = obj.TYPE_REGINDEX
+			a.Index = num
+		}
+
 		return nil
 	} else if reg <= arm64.REG_P15 && reg >= arm64.REG_P0 {
 		if isIndex {
@@ -510,11 +516,15 @@ func ARM64AsmInstruction(prog *obj.Prog, op obj.As, cond string, a []obj.Addr) e
 			// not fit into prog.RegTo2, so save it to the prog.RestArgs.
 			prog.AddRestDest(a[2])
 		} else {
-			reg, err := expectRegister(prog, op, &a[1])
-			if err != nil {
-				return err
+			if a[1].Type == obj.TYPE_REG {
+				reg, err := expectRegister(prog, op, &a[1])
+				if err != nil {
+					return err
+				}
+				prog.Reg = reg
+			} else {
+				prog.AddRestSource(a[1])
 			}
-			prog.Reg = reg
 			prog.To = a[2]
 		}
 	case 4:

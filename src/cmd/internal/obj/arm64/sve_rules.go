@@ -33,3 +33,13 @@ func Rm(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
 	return p(uint32(r.Number()), 20, 16)
 }
+
+func Rmi2(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	v, okv := p(uint32(r.Number()), 18, 16)
+	u, oku := p(uint32(vals[0].Index), 20, 19)
+	if !okv || !oku {
+		return 0, false
+	}
+	return v | u, true
+}

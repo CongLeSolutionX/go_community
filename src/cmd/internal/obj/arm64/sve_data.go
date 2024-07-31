@@ -16,23 +16,27 @@ import "cmd/internal/obj"
 // <T> into {B,H,S,D} to make it easier for the assembler to find a match with user input.
 var instructionTable = map[obj.As][]encoding{
 	AZBFDOT: {
-		{0x64608000, F_ZdaS_ZnH_ZmH, E_Rd_Rn_Rm}, // BFDOT <Zda>.S, <Zn>.H, <Zm>.H
+		{0x64608000, F_ZdaS_ZnH_ZmH, E_Rd_Rn_Rm},        // BFDOT <Zda>.S, <Zn>.H, <Zm>.H
+		{0x64604000, F_ZdaS_ZnH_ZmHidx, E_Zda_Zn_Zm_i2}, // BFDOT <Zda>.S, <Zn>.H, <Zm>.H[<imm>]
 	},
 }
 
 // Key into the format table.
 const (
 	F_ZdaS_ZnH_ZmH = iota
+	F_ZdaS_ZnH_ZmHidx
 )
 
 // The format table holds a representation of the operand syntax for an instruction.
 var formats = map[int]format{
-	F_ZdaS_ZnH_ZmH: []int{REG_Z | EXT_S, REG_Z | EXT_H, REG_Z | EXT_H}, // <Zd>.S, <Zn>.H, <Zm>.H
+	F_ZdaS_ZnH_ZmH:    []int{REG_Z | EXT_S, REG_Z | EXT_H, REG_Z | EXT_H},         // <Zd>.S, <Zn>.H, <Zm>.H
+	F_ZdaS_ZnH_ZmHidx: []int{REG_Z | EXT_S, REG_Z | EXT_H, REG_Z_INDEXED | EXT_H}, // <Zd>.S, <Zn>.H, <Zm>.H[<imm>]
 }
 
 // Key into the encoder table.
 const (
 	E_Rd_Rn_Rm = iota
+	E_Zda_Zn_Zm_i2
 )
 
 // The encoder table holds a list of encoding schemes for operands. Each scheme contains
@@ -40,5 +44,6 @@ const (
 // rule. Each rule produces a 32-bit number which should be OR'd with the base to create
 // an instruction encoding.
 var encoders = map[int]encoder{
-	E_Rd_Rn_Rm: {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rm}}},
+	E_Rd_Rn_Rm:     {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rm}}},
+	E_Zda_Zn_Zm_i2: {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rmi2}}},
 }
