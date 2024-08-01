@@ -74,6 +74,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d17bf5ea_a09ed55d",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-01T21:10:33Z",
+      "side": 1,
+      "message": "I think the flow would look a little nicer if we had a function to lookup a tool. Something like:\n\n    toolpkgpath, err :\u003d lookupModTool(ctx, toolName)\n    if err !\u003d nil {\n         // fatal error\n    }\n    // run tool at toolpkgpath",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d466c61_873c4948",
         "filename": "src/cmd/go/internal/tool/tool.go",
         "patchSetId": 7
@@ -125,6 +148,52 @@
         "startChar": 1,
         "endLine": 202,
         "endChar": 2
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17755540_32a80c2d",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-01T21:10:33Z",
+      "side": 1,
+      "message": "I wonder if we should always print the full package path of the module defined tools? One benefit of doing that is that it would be clear which tools are built in and which are module defined tools without needing to add the comment lines. I think we probably also want to encourage people to use full package paths when running go tool because they\u0027re more robust.",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 207,
+        "endChar": 26
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e7dfd8d_ff5eb712",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-01T21:10:33Z",
+      "side": 1,
+      "message": "I think calling modload.Init() should be sufficient since I think we\u0027re only using MainModules.Tools() here and we don\u0027t need to actually load the module graph.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 30
       },
       "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
