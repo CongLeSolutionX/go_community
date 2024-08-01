@@ -502,14 +502,14 @@ func testHandshake(t *testing.T, clientConfig, serverConfig *Config) (serverStat
 		if _, err := io.WriteString(server, sentinel); err != nil {
 			t.Errorf("failed to call server.Write: %v", err)
 		}
-		if err := server.Close(); err != nil {
-			t.Errorf("failed to call server.Close: %v", err)
-		}
 	} else {
 		err = fmt.Errorf("server: %v", err)
-		s.Close()
 	}
+	// First wait for the client to finish, then close the server-side
+	// connection. We discard the error because sending on a closed connection
+	// (or even closing it) can hit a RST. One side has to give.
 	err = errors.Join(err, <-errChan)
+	server.Close()
 	return
 }
 
