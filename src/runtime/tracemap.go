@@ -138,3 +138,31 @@ func (tab *traceMap) reset() {
 	tab.seq.Store(0)
 	tab.mem.drop()
 }
+
+// all calls yield for every entry in tab.
+//
+// This can be used as a range-func. It doesn't follow the typical pattern of
+// returning the iterator because that would require a heap-allocated closure.
+func (tab *traceMap) all(yield func(id uint64, data unsafe.Pointer) bool) {
+	if root := (*traceMapNode)(tab.root.Load()); root != nil {
+		root.allRec(yield)
+	}
+}
+
+func (n *traceMapNode) allRec(yield func(id uint64, data unsafe.Pointer) bool) bool {
+	data := *(*unsafe.Pointer)(unsafe.Pointer(&n.data[0]))
+	if !yield(n.id, data) {
+		return false
+	}
+	// Recursively walk the children.
+	for i := range n.children {
+		child := (*traceMapNode)(n.children[i].Load())
+		if child == nil {
+			continue
+		}
+		if !child.allRec(yield) {
+			return false
+		}
+	}
+	return true
+}

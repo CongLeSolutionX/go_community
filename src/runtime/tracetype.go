@@ -36,15 +36,15 @@ func (t *traceTypeTable) put(typ *abi.Type) uint64 {
 // can guarantee that there are no more writers to the table.
 func (t *traceTypeTable) dump(gen uintptr) {
 	w := unsafeTraceExpWriter(gen, nil, traceExperimentAllocFree)
-	if root := (*traceMapNode)(t.tab.root.Load()); root != nil {
-		w = dumpTypesRec(root, w)
+	for id, typ := range t.tab.all {
+		w = dumpType(w, id, (*abi.Type)(typ))
+
 	}
 	w.flush().end()
 	t.tab.reset()
 }
 
-func dumpTypesRec(node *traceMapNode, w traceWriter) traceWriter {
-	typ := (*abi.Type)(*(*unsafe.Pointer)(unsafe.Pointer(&node.data[0])))
+func dumpType(w traceWriter, id uint64, typ *abi.Type) traceWriter {
 	typName := toRType(typ).string()
 
 	// The maximum number of bytes required to hold the encoded type.
@@ -63,20 +63,12 @@ func dumpTypesRec(node *traceMapNode, w traceWriter) traceWriter {
 	}
 
 	// Emit type.
-	w.varint(uint64(node.id))
+	w.varint(uint64(id))
 	w.varint(uint64(uintptr(unsafe.Pointer(typ))))
 	w.varint(uint64(typ.Size()))
 	w.varint(uint64(typ.PtrBytes))
 	w.varint(uint64(len(typName)))
 	w.stringData(typName)
 
-	// Recursively walk all child nodes.
-	for i := range node.children {
-		child := node.children[i].Load()
-		if child == nil {
-			continue
-		}
-		w = dumpTypesRec((*traceMapNode)(child), w)
-	}
 	return w
 }
