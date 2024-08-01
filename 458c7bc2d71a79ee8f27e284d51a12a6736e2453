@@ -16,6 +16,23 @@
       "message": "Update:\nThe x/tools\u0027 PR was imported to Gerrit: https://go-review.googlesource.com/c/tools/+/601575",
       "revId": "458c7bc2d71a79ee8f27e284d51a12a6736e2453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d1f098f_58801117",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-08-01T07:44:52Z",
+      "side": 1,
+      "message": "Hi Michael, sorry for my late, addressed your comment and submitted the changes. Right now, we keep ImportStack as it was without position info, and add ImportStackWithPos which has the position info. So that, ImportStack is backward compatible.",
+      "revId": "458c7bc2d71a79ee8f27e284d51a12a6736e2453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
