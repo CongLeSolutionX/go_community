@@ -1602,6 +1602,7 @@ func testBidiStreamReverseProxy(t *testing.T, mode testMode) {
 		_, err := io.CopyN(io.MultiWriter(h, pw), rand.Reader, size)
 		go pw.Close()
 		if err != nil {
+			t.Errorf("body copy: %v", err)
 			bodyRes <- err
 		} else {
 			bodyRes <- h
