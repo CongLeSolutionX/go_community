@@ -22,6 +22,30 @@
       },
       "revId": "fc2f596414b021875f95504c0794aafd3dfd0b20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30aaa324_40744119",
+        "filename": "test/live_regabi.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-08-01T20:00:46Z",
+      "side": 0,
+      "message": "I had interpreted these tests as specifically validating that the fast variants are used, which `mapassign.*` would defeat.\n\nBut with a fresh set of eyes, I suppose this is more about checking liveness with the key returned from a call directly in the map access expression.\n\nDo we have/want any tests specifically about whether fast variants are used? Those would probably be best in test/codegen/maps.go, which doesn\u0027t quite contain any such tests.",
+      "parentUuid": "601448ce_81186df0",
+      "range": {
+        "startLine": 280,
+        "startChar": 43,
+        "endLine": 280,
+        "endChar": 60
+      },
+      "revId": "fc2f596414b021875f95504c0794aafd3dfd0b20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
