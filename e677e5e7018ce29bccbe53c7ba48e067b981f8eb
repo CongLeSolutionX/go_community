@@ -89,6 +89,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05e1cc48_ca472f9b",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-08-01T08:42:18Z",
+      "side": 1,
+      "message": "Ops, fixed.",
+      "parentUuid": "42ebfb8f_cab03599",
+      "range": {
+        "startLine": 480,
+        "startChar": 3,
+        "endLine": 480,
+        "endChar": 27
+      },
+      "revId": "e677e5e7018ce29bccbe53c7ba48e067b981f8eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a568979_e7415e37",
