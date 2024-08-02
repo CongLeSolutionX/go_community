@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd4512dd_4c041b3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2024-08-02T19:49:04Z",
+      "side": 1,
+      "message": "TRY\u003dfreebsd-386, freebsd-amd64",
+      "revId": "5ee3c46399e84a5498848d31203b2c64f2f2d23f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
