@@ -148,26 +148,33 @@ func (check *Checker) unary(x *operand, e *syntax.Operation) {
 		return
 
 	case syntax.Recv:
-		u := coreType(x.typ)
-		if u == nil {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from %s (no core type)", x)
-			x.mode = invalid
+		// TODO(gri) The error messages should reflect whether we operate on
+		//           an ordinary type or a type parameter.
+		var elem Type
+		if underIs(x.typ, func(u Type) bool {
+			ch, _ := u.(*Chan)
+			if ch == nil {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from non-channel %s", x)
+				return false
+			}
+			if ch.dir == SendOnly {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from send-only channel %s", x)
+				return false
+			}
+			if elem == nil {
+				elem = ch.elem
+			} else if !Identical(elem, ch.elem) {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from channels in %s: element types are different", x)
+				return false
+			}
+			return true
+		}) {
+			x.mode = commaok
+			x.typ = elem
+			check.hasCallOrRecv = true
 			return
 		}
-		ch, _ := u.(*Chan)
-		if ch == nil {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from non-channel %s", x)
-			x.mode = invalid
-			return
-		}
-		if ch.dir == SendOnly {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from send-only channel %s", x)
-			x.mode = invalid
-			return
-		}
-		x.mode = commaok
-		x.typ = ch.elem
-		check.hasCallOrRecv = true
+		x.mode = invalid
 		return
 
 	case syntax.Tilde:
