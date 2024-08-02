@@ -16,6 +16,29 @@
       "message": "Ping? Lynn has retired, so I think I am the only active PPC64 maintainer now.",
       "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6fcdd12_3897e4b1",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-02T19:29:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure it\u0027s a good idea to change a Value\u0027s type. It may be okay if this is the only use of y, but if y has other uses, those may get confuse. Maybe a possibility is to issue a \"copy\", like\n\n(MOVBZreg (ANDconst [c] z)) \u0026\u0026 uint64(c) \u003c\u003d 0xFF \u003d\u003e (ANDconst [c] z)\n\nThe ANDconst value on the RHS will get the same type of LHS.",
+      "range": {
+        "startLine": 579,
+        "startChar": 58,
+        "endLine": 579,
+        "endChar": 71
+      },
+      "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
