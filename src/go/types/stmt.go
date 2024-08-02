@@ -460,27 +460,26 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 		check.errorf(&x, code, "%s %s", &x, msg)
 
 	case *ast.SendStmt:
-		var ch, val operand
-		check.expr(nil, &ch, s.Chan)
-		check.expr(nil, &val, s.Value)
-		if ch.mode == invalid || val.mode == invalid {
+		var x, v operand
+		check.expr(nil, &x, s.Chan)
+		check.expr(nil, &v, s.Value)
+		if x.mode == invalid || v.mode == invalid {
 			return
 		}
-		u := coreType(ch.typ)
-		if u == nil {
-			check.errorf(inNode(s, s.Arrow), InvalidSend, invalidOp+"cannot send to %s: no core type", &ch)
-			return
-		}
-		uch, _ := u.(*Chan)
-		if uch == nil {
-			check.errorf(inNode(s, s.Arrow), InvalidSend, invalidOp+"cannot send to non-channel %s", &ch)
-			return
-		}
-		if uch.dir == RecvOnly {
-			check.errorf(inNode(s, s.Arrow), InvalidSend, invalidOp+"cannot send to receive-only channel %s", &ch)
-			return
-		}
-		check.assignment(&val, uch.elem, "send")
+		typeset(x.typ, func(_, u Type) bool {
+			ch, _ := u.(*Chan)
+			if ch == nil {
+				check.errorf(inNode(s, s.Arrow), InvalidSend, invalidOp+"cannot send to non-channel %s", &x)
+				return false
+			}
+			if ch.dir == RecvOnly {
+				check.errorf(inNode(s, s.Arrow), InvalidSend, invalidOp+"cannot send to receive-only channel %s", &x)
+				return false
+			}
+			w := v // don't change v - make a copy
+			check.assignment(&w, ch.elem, "send")
+			return w.mode != invalid
+		})
 
 	case *ast.IncDecStmt:
 		var op token.Token
