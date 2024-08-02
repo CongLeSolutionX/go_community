@@ -6062,11 +6062,16 @@ len("foo")  // illegal if len is the built-in function
 
 <p>
 A send statement sends a value on a channel.
-The channel expression's <a href="#Core_types">core type</a>
-must be a <a href="#Channel_types">channel</a>,
+The channel expression must be of <a href="#Channel_types">channel type</a>,
 the channel direction must permit send operations,
 and the type of the value to be sent must be <a href="#Assignability">assignable</a>
 to the channel's element type.
+</p>
+
+<p>
+If the type of the channel expression is a
+<a href="#Type_parameter_declarations">type parameter</a>,
+the send statement must be valid for each type in the type parameter's type set.
 </p>
 
 <pre class="ebnf">
