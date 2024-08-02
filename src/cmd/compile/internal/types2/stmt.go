@@ -465,21 +465,20 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 		if ch.mode == invalid || val.mode == invalid {
 			return
 		}
-		u := coreType(ch.typ)
-		if u == nil {
-			check.errorf(s, InvalidSend, invalidOp+"cannot send to %s: no core type", &ch)
-			return
-		}
-		uch, _ := u.(*Chan)
-		if uch == nil {
-			check.errorf(s, InvalidSend, invalidOp+"cannot send to non-channel %s", &ch)
-			return
-		}
-		if uch.dir == RecvOnly {
-			check.errorf(s, InvalidSend, invalidOp+"cannot send to receive-only channel %s", &ch)
-			return
-		}
-		check.assignment(&val, uch.elem, "send")
+		underIs(ch.typ, func(u Type) bool {
+			uch, _ := u.(*Chan)
+			if uch == nil {
+				check.errorf(s, InvalidSend, invalidOp+"cannot send to non-channel %s", &ch)
+				return false
+			}
+			if uch.dir == RecvOnly {
+				check.errorf(s, InvalidSend, invalidOp+"cannot send to receive-only channel %s", &ch)
+				return false
+			}
+			v := val
+			check.assignment(&v, uch.elem, "send")
+			return v.mode != invalid
+		})
 
 	case *syntax.AssignStmt:
 		if s.Rhs == nil {
