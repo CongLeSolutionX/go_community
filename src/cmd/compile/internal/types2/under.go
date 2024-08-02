@@ -15,6 +15,14 @@ func under(t Type) Type {
 	return t.Underlying()
 }
 
+func underDo(t Type, f func(u Type) bool) bool {
+	t = Unalias(t)
+	if tpar, _ := t.(*TypeParam); tpar != nil {
+		return tpar.underIs(f)
+	}
+	return f(under(t))
+}
+
 // If t is not a type parameter, coreType returns the underlying type.
 // If t is a type parameter, coreType returns the single underlying
 // type of all types in its type set if it exists, or nil otherwise. If the
