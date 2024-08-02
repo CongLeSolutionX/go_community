@@ -70,6 +70,30 @@
       },
       "revId": "fc2f596414b021875f95504c0794aafd3dfd0b20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f05c4c_cea27ee9",
+        "filename": "test/live_regabi.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2024-08-02T16:17:27Z",
+      "side": 0,
+      "message": "Ah, right. I\u0027d forgotten that there is also an extra autotmp string in the swiss version. I haven\u0027t investigated closely yet, it might just be because we aren\u0027t using the faststr version?\n\nEither way, I still need the split (with a TODO in the swiss files to investigate).",
+      "parentUuid": "e86e51ee_8cecc806",
+      "range": {
+        "startLine": 280,
+        "startChar": 43,
+        "endLine": 280,
+        "endChar": 60
+      },
+      "revId": "fc2f596414b021875f95504c0794aafd3dfd0b20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
