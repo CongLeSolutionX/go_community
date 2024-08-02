@@ -147,27 +147,34 @@ func (check *Checker) unary(x *operand, e *ast.UnaryExpr) {
 		return
 
 	case token.ARROW:
-		u := coreType(x.typ)
-		if u == nil {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from %s (no core type)", x)
-			x.mode = invalid
+		var elem Type
+		typeset(x.typ, func(t, u Type) bool {
+			ch, _ := u.(*Chan)
+			if ch == nil {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from non-channel %s", x)
+				elem = nil
+				return false
+			}
+			if ch.dir == SendOnly {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from send-only channel %s", x)
+				elem = nil
+				return false
+			}
+			if elem != nil && !Identical(elem, ch.elem) {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from channels in %s: element types are different", x)
+				elem = nil
+				return false
+			}
+			elem = ch.elem
+			return true
+		})
+		if elem != nil {
+			x.mode = commaok
+			x.typ = elem
+			check.hasCallOrRecv = true
 			return
 		}
-		ch, _ := u.(*Chan)
-		if ch == nil {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from non-channel %s", x)
-			x.mode = invalid
-			return
-		}
-		if ch.dir == SendOnly {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from send-only channel %s", x)
-			x.mode = invalid
-			return
-		}
-
-		x.mode = commaok
-		x.typ = ch.elem
-		check.hasCallOrRecv = true
+		x.mode = invalid
 		return
 
 	case token.TILDE:
