@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Language version go1.23 (Oct 1, 2024)",
+	"Subtitle": "Language version go1.23 (Oct 8, 2024)",
 	"Path": "/ref/spec"
 }-->
 
@@ -5302,11 +5302,20 @@ var x *int = nil
 <h3 id="Receive_operator">Receive operator</h3>
 
 <p>
-For an operand <code>ch</code> whose <a href="#Core_types">core type</a> is a
-<a href="#Channel_types">channel</a>,
+For an operand <code>ch</code> of <a href="#Channel_types">channel type</a>,
 the value of the receive operation <code>&lt;-ch</code> is the value received
-from the channel <code>ch</code>. The channel direction must permit receive operations,
+from the channel <code>ch</code>.
+The channel direction must permit receive operations,
 and the type of the receive operation is the element type of the channel.
+</p>
+
+<p>
+If the operand type is a <a href="#Type_parameter_declarations">type parameter</a>,
+the receive operation must be valid for each type in the type parameter's type set,
+and the results must all be of identical type.
+</p>
+
+<p>
 The expression blocks until a value is available.
 Receiving from a <code>nil</code> channel blocks forever.
 A receive operation on a <a href="#Close">closed</a> channel can always proceed
