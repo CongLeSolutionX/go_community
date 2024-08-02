@@ -16,6 +16,24 @@
       "message": "Why is size 0?",
       "revId": "b70e5df2d89d15fb7687e3f6083c026630a25a46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dc65295_cdf22b8d",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-08-02T02:16:36Z",
+      "side": 1,
+      "message": "These two relocations do not affect the instructions themselves, they exist to help the linker optimize the final executable file.",
+      "parentUuid": "3baa2efe_9898a53a",
+      "revId": "b70e5df2d89d15fb7687e3f6083c026630a25a46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
