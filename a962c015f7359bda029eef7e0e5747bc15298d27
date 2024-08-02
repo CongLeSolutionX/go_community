@@ -55,6 +55,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "128de448_1e888a2b",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-08-02T18:31:00Z",
+      "side": 1,
+      "message": "modify, must be literal",
+      "range": {
+        "startLine": 187,
+        "startChar": 1,
+        "endLine": 187,
+        "endChar": 44
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "58f1136f_92258785",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 187,
+                "startChar": 0,
+                "endLine": 188,
+                "endChar": 0
+              },
+              "replacement": "\tcl.Type \u003d syntax.NewLiteral(nopos, structName)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5945a409_903ab15b",
         "filename": "src/cmd/compile/internal/noder/rewrite.go",
         "patchSetId": 8
@@ -69,6 +110,77 @@
       "fixSuggestions": [
         {
           "fixId": "e0d45edb_1ec6e45f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 190,
+                "startChar": 0,
+                "endLine": 191,
+                "endChar": 0
+              },
+              "replacement": "func (r *rewriter) rewriteCompIface(lit *syntax.CompositeLit) {\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 196,
+                "startChar": 0,
+                "endLine": 197,
+                "endChar": 0
+              },
+              "replacement": "\tsn, _ :\u003d lit.Type.(*syntax.Name)\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 199,
+                "startChar": 0,
+                "endLine": 200,
+                "endChar": 0
+              },
+              "replacement": "\tfor _, e :\u003d range lit.ElemList {\n"
+            },
+            {
+              "path": "src/cmd/compile/internal/noder/rewrite.go",
+              "range": {
+                "startLine": 232,
+                "startChar": 0,
+                "endLine": 233,
+                "endChar": 0
+              },
+              "replacement": "\tr.downCompLit(lit, structName)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a962c015f7359bda029eef7e0e5747bc15298d27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c60d4af_aecf3f7e",
+        "filename": "src/cmd/compile/internal/noder/rewrite.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2024-08-02T18:31:00Z",
+      "side": 1,
+      "message": "lit not typ",
+      "range": {
+        "startLine": 190,
+        "startChar": 36,
+        "endLine": 190,
+        "endChar": 39
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "85aeec57_dd732fbe",
           "description": "prompt_to_edit API",
           "replacements": [
             {
