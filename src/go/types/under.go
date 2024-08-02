@@ -18,6 +18,16 @@ func under(t Type) Type {
 	return t.Underlying()
 }
 
+// If typ is a type parameter, underIs returns the result of typ.underIs(f).
+// Otherwise, underIs returns the result of f(under(typ)).
+func underIs(typ Type, f func(Type) bool) bool {
+	typ = Unalias(typ)
+	if tpar, _ := typ.(*TypeParam); tpar != nil {
+		return tpar.underIs(f)
+	}
+	return f(under(typ))
+}
+
 // If t is not a type parameter, coreType returns the underlying type.
 // If t is a type parameter, coreType returns the single underlying
 // type of all types in its type set if it exists, or nil otherwise. If the
