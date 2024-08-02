@@ -128,16 +128,6 @@ var op2str2 = [...]string{
 	syntax.Shl: "shift",
 }
 
-// If typ is a type parameter, underIs returns the result of typ.underIs(f).
-// Otherwise, underIs returns the result of f(under(typ)).
-func underIs(typ Type, f func(Type) bool) bool {
-	typ = Unalias(typ)
-	if tpar, _ := typ.(*TypeParam); tpar != nil {
-		return tpar.underIs(f)
-	}
-	return f(under(typ))
-}
-
 func (check *Checker) unary(x *operand, e *syntax.Operation) {
 	check.expr(nil, x, e.X)
 	if x.mode == invalid {
@@ -159,26 +149,33 @@ func (check *Checker) unary(x *operand, e *syntax.Operation) {
 		return
 
 	case syntax.Recv:
-		u := coreType(x.typ)
-		if u == nil {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from %s (no core type)", x)
-			x.mode = invalid
+		// TODO(gri) The error messages should reflect whether we operate on
+		//           an ordinary type or a type parameter.
+		var elem Type
+		if underIs(x.typ, func(u Type) bool {
+			ch, _ := u.(*Chan)
+			if ch == nil {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from non-channel %s", x)
+				return false
+			}
+			if ch.dir == SendOnly {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from send-only channel %s", x)
+				return false
+			}
+			if elem == nil {
+				elem = ch.elem
+			} else if !Identical(elem, ch.elem) {
+				check.errorf(x, InvalidReceive, invalidOp+"cannot receive from channels in %s: element types are different", x)
+				return false
+			}
+			return true
+		}) {
+			x.mode = commaok
+			x.typ = elem
+			check.hasCallOrRecv = true
 			return
 		}
-		ch, _ := u.(*Chan)
-		if ch == nil {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from non-channel %s", x)
-			x.mode = invalid
-			return
-		}
-		if ch.dir == SendOnly {
-			check.errorf(x, InvalidReceive, invalidOp+"cannot receive from send-only channel %s", x)
-			x.mode = invalid
-			return
-		}
-		x.mode = commaok
-		x.typ = ch.elem
-		check.hasCallOrRecv = true
+		x.mode = invalid
 		return
 
 	case syntax.Tilde:
