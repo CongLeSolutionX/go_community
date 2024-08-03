@@ -1132,14 +1132,18 @@ func (r *reader) funcExt(name *ir.Name, method *types.Sym) {
 	r.linkname(name)
 
 	if buildcfg.GOARCH == "wasm" {
-		xmod := r.String()
-		xname := r.String()
+		importmod := r.String()
+		importname := r.String()
+		exportname := r.String()
 
-		if xmod != "" && xname != "" {
+		if importmod != "" && importname != "" {
 			fn.WasmImport = &ir.WasmImport{
-				Module: xmod,
-				Name:   xname,
+				Module: importmod,
+				Name:   importname,
 			}
+		}
+		if exportname != "" {
+			fn.WasmExport = &ir.WasmExport{Name: exportname}
 		}
 	}
 
