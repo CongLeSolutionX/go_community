@@ -15203,6 +15203,29 @@ func rewriteValueARM64_OpARM64ORshiftLL(v *Value) bool {
 		v.AddArg2(x2, x)
 		return true
 	}
+	// match: (ORshiftLL [s] (ANDconst [xc] x) (ANDconst [yc] y))
+	// cond: xc == ^(yc << s) && yc & (yc+1) == 0 && yc > 0 && yc << s >> s == yc
+	// result: (BFI [armBFAuxInt(s, log64(yc+1))] x y)
+	for {
+		s := auxIntToInt64(v.AuxInt)
+		if v_0.Op != OpARM64ANDconst {
+			break
+		}
+		xc := auxIntToInt64(v_0.AuxInt)
+		x := v_0.Args[0]
+		if v_1.Op != OpARM64ANDconst {
+			break
+		}
+		yc := auxIntToInt64(v_1.AuxInt)
+		y := v_1.Args[0]
+		if !(xc == ^(yc<<s) && yc&(yc+1) == 0 && yc > 0 && yc<<s>>s == yc) {
+			break
+		}
+		v.reset(OpARM64BFI)
+		v.AuxInt = arm64BitFieldToAuxInt(armBFAuxInt(s, log64(yc+1)))
+		v.AddArg2(x, y)
+		return true
+	}
 	// match: (ORshiftLL [sc] (UBFX [bfc] x) (SRLconst [sc] y))
 	// cond: sc == bfc.getARM64BFwidth()
 	// result: (BFXIL [bfc] y x)
