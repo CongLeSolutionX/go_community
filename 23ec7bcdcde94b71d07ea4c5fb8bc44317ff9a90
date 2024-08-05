@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf1ef476_f69a7f44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-08-05T20:32:39Z",
+      "side": 1,
+      "message": "Thanks, this looks like a reasonable solution to the problem.\nWill defer to Sam for +2 and more thorough review (trying to burn down a large queue of reviews post vacation).",
+      "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
