@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c6d4275_a16ffcd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3527442
+      },
+      "writtenOn": "2024-08-05T19:04:03Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "ded1c55a8c17ee62f27cce756367f5fa06721b79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51bfbecd_3f77508d",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 3527442
+      },
+      "writtenOn": "2024-08-05T19:04:03Z",
+      "side": 1,
+      "message": "I assume a given func can\u0027t be both import and export? If so then maybe when wasmexport rolls out this can become a single WasmImportExport, or something like that.",
+      "revId": "ded1c55a8c17ee62f27cce756367f5fa06721b79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
