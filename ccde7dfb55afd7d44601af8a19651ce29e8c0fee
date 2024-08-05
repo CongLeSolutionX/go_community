@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7265c8ad_4998f688",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-08-05T03:30:06Z",
+      "side": 1,
+      "message": "I think it would be better to write a separate function for filtering symbol prefixes",
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
