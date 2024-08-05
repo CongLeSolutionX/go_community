@@ -87,6 +87,30 @@
       },
       "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385f177b_c451b832",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-08-05T21:40:28Z",
+      "side": 1,
+      "message": "I\u0027ll investigate the impact. As for the latelower rules, the rules calling convertPPC64OpToOpCC works best if the logical/arithmetic op isn\u0027t duplicated.\n\nIf a copy is created with a different type, would a CSE pass immediately afterwards recombine these despite the type difference? If so, what type would it have?",
+      "parentUuid": "d490aa2e_4e64c359",
+      "range": {
+        "startLine": 579,
+        "startChar": 58,
+        "endLine": 579,
+        "endChar": 71
+      },
+      "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
