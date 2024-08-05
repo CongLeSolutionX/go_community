@@ -30,7 +30,7 @@ import (
 // ReadModFile reads and parses the mod file at gomod. ReadModFile properly applies the
 // overlay, locks the file while reading, and applies fix, if applicable.
 func ReadModFile(gomod string, fix modfile.VersionFixer) (data []byte, f *modfile.File, err error) {
-	gomod = base.ShortPath(gomod) // use short path in any errors
+	gomod = base.ShortPathConservative(gomod) // use short path in any errors
 	if gomodActual, ok := fsys.OverlayPath(gomod); ok {
 		// Don't lock go.mod if it's part of the overlay.
 		// On Plan 9, locking requires chmod, and we don't want to modify any file
