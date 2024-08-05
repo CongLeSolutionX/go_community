@@ -16,6 +16,52 @@
       "message": "Thanks, this looks like a reasonable solution to the problem.\nWill defer to Sam for +2 and more thorough review (trying to burn down a large queue of reviews post vacation).",
       "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c0faf31_871e995e",
+        "filename": "src/cmd/go/internal/base/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-05T20:45:45Z",
+      "side": 1,
+      "message": "perhaps log this (if cfg.BuildX is true) and include relpath/basepath in the error?",
+      "range": {
+        "startLine": 73,
+        "startChar": 50,
+        "endLine": 73,
+        "endChar": 85
+      },
+      "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a766d54_57300ba6",
+        "filename": "src/cmd/go/testdata/script/work_use_symlink_issue68383.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-05T20:45:45Z",
+      "side": 1,
+      "message": "windows uses \u0027\\\\\u0027 instead of \u0027/\u0027 I believe",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
