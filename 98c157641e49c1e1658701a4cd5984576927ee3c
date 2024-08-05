@@ -105,6 +105,24 @@
       "parentUuid": "e394bdbf_4d0d47d1",
       "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d2eb5c8_773d91e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-05T17:46:56Z",
+      "side": 1,
+      "message": "I think you are right. For x/tools this would require a 1.24 compiler to be picked up. Apologies for the noise.",
+      "parentUuid": "82f71594_fdcf8469",
+      "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
