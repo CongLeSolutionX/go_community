@@ -63,6 +63,30 @@
       },
       "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d490aa2e_4e64c359",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-05T20:11:33Z",
+      "side": 1,
+      "message": "Maybe. But I\u0027m still not very comfortable with changing a Value\u0027s type. Why extra copy would interfere latelower to convert to ANDCCconst? I don\u0027t see a rule in latelower that depends on number of copies of uses. If that matters, we could also consider running some CSE before latelower.\n\nAnother possibility is changing the type only when it is the only use. Would that cover most cases?",
+      "parentUuid": "48d9b8db_796f6edd",
+      "range": {
+        "startLine": 579,
+        "startChar": 58,
+        "endLine": 579,
+        "endChar": 71
+      },
+      "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
