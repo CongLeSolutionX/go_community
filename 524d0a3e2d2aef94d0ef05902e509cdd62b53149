@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d31e96d_faede256",
+        "filename": "src/cmd/compile/internal/loong64/ssa.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2024-08-05T03:21:32Z",
+      "side": 1,
+      "message": "Should we use AADDV or AADDVU here, considering that the AADDU instruction on loong64 actually performs sign extension on the result?",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 23
+      },
+      "revId": "524d0a3e2d2aef94d0ef05902e509cdd62b53149",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
