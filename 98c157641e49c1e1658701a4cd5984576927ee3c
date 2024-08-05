@@ -51,6 +51,24 @@
       "message": "Many of the go/types files are near duplicates of the files with the same names in cmd/compile/internal/types2.  We should change them both at the same time.\n\nAnd note that the files in cmd/compile/internal/types2 can only uses the slices package once https://go.dev/issue/64751 is completed.",
       "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a10e9a_1b7037af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-08-05T16:32:30Z",
+      "side": 1,
+      "message": "What Ian said.\n\nAlso, all the changes should first be made in types2. Then the generator (go generate in go/types) should be run to auto-generate files that can be auto-generated. Then the remaining files in go/types should be adjusted accordingly. We keep types2 and go/types strictly in sync.\n\nAn an aside, there\u0027s no urgency to make these changes at this point.",
+      "parentUuid": "ec5144b9_687e45ea",
+      "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
