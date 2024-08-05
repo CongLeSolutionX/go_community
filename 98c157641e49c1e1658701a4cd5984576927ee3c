@@ -87,6 +87,24 @@
       "parentUuid": "c3a10e9a_1b7037af",
       "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82f71594_fdcf8469",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-08-05T17:44:53Z",
+      "side": 1,
+      "message": "I don\u0027t think that matters here. While, for example, x/tools may target an old Go version, it certainly builds with 1.22, so I don\u0027t think there is any compatibility problem.",
+      "parentUuid": "e394bdbf_4d0d47d1",
+      "revId": "98c157641e49c1e1658701a4cd5984576927ee3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
