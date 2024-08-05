@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "edca7514_2723352f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-05T19:55:23Z",
+      "side": 1,
+      "message": "Thanks for review! (First time on your new email 😊)",
+      "parentUuid": "7c6d4275_a16ffcd9",
+      "revId": "ded1c55a8c17ee62f27cce756367f5fa06721b79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "51bfbecd_3f77508d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2024-08-05T19:04:03Z",
       "side": 1,
       "message": "I assume a given func can\u0027t be both import and export? If so then maybe when wasmexport rolls out this can become a single WasmImportExport, or something like that.",
+      "revId": "ded1c55a8c17ee62f27cce756367f5fa06721b79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b56dc3b_7de17757",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-05T19:55:23Z",
+      "side": 1,
+      "message": "You\u0027re right that a function can\u0027t be both import and export. Maybe it makes sense to combine, or put a few rarely-used fields (wasmimport, wasmexport, seh) into a side struct? If the size of this type is an issue we can do that. Either way, this will be after wasmexport is added.\n\nCL 603055 is an in-progress CL that adds wasmexport. It is not fully working yet (e.g. stack switch doesn\u0027t work), but the machinery for passing information between the compiler and the linker is there. You\u0027re welcome to review. Thanks.",
+      "parentUuid": "51bfbecd_3f77508d",
       "revId": "ded1c55a8c17ee62f27cce756367f5fa06721b79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
