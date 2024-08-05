@@ -111,6 +111,30 @@
       },
       "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fa4a71c_ea4a76c1",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-05T21:44:33Z",
+      "side": 1,
+      "message": "\u003e If a copy is created with a different type, would a CSE pass immediately afterwards recombine these despite the type difference?\n\nNo, it won\u0027t combine ones with different types. If there are multiple copies with same type, e.g. the rule that generates a copy gets fired multiple times, it will combine them. If the old y becomes dead after the rule rewrites, which is likely in many cases, it will have only the copy with the new type.",
+      "parentUuid": "385f177b_c451b832",
+      "range": {
+        "startLine": 579,
+        "startChar": 58,
+        "endLine": 579,
+        "endChar": 71
+      },
+      "revId": "a045681c9e5de344379ebf0a78989c87c2145091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
