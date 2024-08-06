@@ -88,6 +88,24 @@
       "parentUuid": "2ed8ade5_e4808db1",
       "revId": "b81d0c931d800e3b97d4ecb10476f211ba67bcff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "295a56d2_4f71d24f",
+        "filename": "src/syscall/zsyscall_linux_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-08-06T23:35:46Z",
+      "side": 1,
+      "message": "Hah, and I thought this would be needless when running it on an actual Linux machine.",
+      "parentUuid": "58413ff2_42718f69",
+      "revId": "b81d0c931d800e3b97d4ecb10476f211ba67bcff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
