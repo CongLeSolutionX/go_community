@@ -25,6 +25,20 @@ func underIs(typ Type, f func(Type) bool) bool {
 	return f(under(typ))
 }
 
+// Like Identical, but considers []byte and strings also as identical.
+func identicalOrString(x, y Type) bool {
+	if Identical(x, y) {
+		return true
+	}
+	if isString(x) {
+		x = NewSlice(universeByte)
+	}
+	if isString(y) {
+		y = NewSlice(universeByte)
+	}
+	return Identical(x, y)
+}
+
 // If t is not a type parameter, coreType returns the underlying type.
 // If t is a type parameter, coreType returns the single underlying
 // type of all types in its type set if it exists, or nil otherwise. If the
