@@ -3986,9 +3986,18 @@ Assigning to an element of a <code>nil</code> map causes a
 
 <p>
 Slice expressions construct a substring or slice from a string, array, pointer
-to array, or slice. There are two variants: a simple form that specifies a low
+to array, or slice operand.
+There are two variants: a simple form that specifies a low
 and high bound, and a full form that also specifies a bound on the capacity.
 </p>
+
+<p>
+For either variant, if the type of the operand is a
+<a href="#Type_parameter_declarations">type parameter</a>,
+the slice expression must be valid for all types in the type parameter's type set.
+</p>
+
+<!-- TODO(gri) need to specify result type in case of type parameter operand -->
 
 <h4>Simple slice expressions</h4>
 
