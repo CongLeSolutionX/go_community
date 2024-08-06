@@ -22,6 +22,30 @@
       },
       "revId": "524d0a3e2d2aef94d0ef05902e509cdd62b53149",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26d10a60_3d31377e",
+        "filename": "src/cmd/compile/internal/loong64/ssa.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-08-06T11:59:24Z",
+      "side": 1,
+      "message": "Thanks, I have updated to AADDV. \nThe AMADDDB {V,W} instruction on Loong64 is sign extension.",
+      "parentUuid": "2d31e96d_faede256",
+      "range": {
+        "startLine": 559,
+        "startChar": 3,
+        "endLine": 559,
+        "endChar": 23
+      },
+      "revId": "524d0a3e2d2aef94d0ef05902e509cdd62b53149",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
