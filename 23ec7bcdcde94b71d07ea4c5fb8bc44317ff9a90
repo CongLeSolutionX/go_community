@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25b8e4a1_ac6275f7",
+        "filename": "src/cmd/go/internal/base/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-06T14:57:04Z",
+      "side": 1,
+      "message": "I don\u0027t think this is an user-facing error condition (despite the error being returned). Similarly to Rel, there are a paths that just can\u0027t be relativized because we don\u0027t have enough information. I think we should just drop it.\n\nI\u0027m returning the error just to communicate to ShortPathConservative that we should return the input path. I think any error value would be fine here.",
+      "parentUuid": "1c0faf31_871e995e",
+      "range": {
+        "startLine": 73,
+        "startChar": 50,
+        "endLine": 73,
+        "endChar": 85
+      },
+      "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a766d54_57300ba6",
         "filename": "src/cmd/go/testdata/script/work_use_symlink_issue68383.txt",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2024-08-05T20:45:45Z",
       "side": 1,
       "message": "windows uses \u0027\\\\\u0027 instead of \u0027/\u0027 I believe",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3216a55_dc8b2547",
+        "filename": "src/cmd/go/testdata/script/work_use_symlink_issue68383.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-06T14:57:04Z",
+      "side": 1,
+      "message": "I\u0027ve gotten tripped by this so many times haha.",
+      "parentUuid": "5a766d54_57300ba6",
       "range": {
         "startLine": 23,
         "startChar": 0,
