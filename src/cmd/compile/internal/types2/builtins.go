@@ -493,21 +493,28 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 			return
 		}
 
-		var min int // minimum number of arguments
-		switch coreType(T).(type) {
-		case *Slice:
-			min = 2
-		case *Map, *Chan:
-			min = 1
-		case nil:
-			check.errorf(arg0, InvalidMake, invalidArg+"cannot make %s: no core type", arg0)
-			return
-		default:
-			check.errorf(arg0, InvalidMake, invalidArg+"cannot make %s; type must be slice, map, or channel", arg0)
-			return
-		}
-		if nargs < min || min+1 < nargs {
-			check.errorf(call, WrongArgCount, invalidOp+"%v expects %d or %d arguments; found %d", call, min, min+1, nargs)
+		if !underIs(T, func(u Type) bool {
+			var min int // minimum number of arguments
+			switch u.(type) {
+			case *Slice:
+				min = 2
+			case *Map, *Chan:
+				if min == 0 {
+					min = 1
+				}
+			default:
+				check.errorf(arg0, InvalidMake, invalidArg+"cannot make %s; type must be slice, map, or channel", arg0)
+				return false
+			}
+			if nargs < min || min+1 < nargs {
+				check.errorf(call, WrongArgCount, invalidOp+"%v expects %d or %d arguments; found %d", call, min, min+1, nargs)
+				// TODO(gri) in this case we could still continue with the correct result type
+				//           but perhaps not with registering the built-in type
+				return false
+			}
+			return true
+
+		}) {
 			return
 		}
 
