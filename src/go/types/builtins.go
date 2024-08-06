@@ -496,21 +496,28 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 			return
 		}
 
-		var min int // minimum number of arguments
-		switch coreType(T).(type) {
-		case *Slice:
-			min = 2
-		case *Map, *Chan:
-			min = 1
-		case nil:
-			check.errorf(arg0, InvalidMake, invalidArg+"cannot make %s: no core type", arg0)
-			return
-		default:
-			check.errorf(arg0, InvalidMake, invalidArg+"cannot make %s; type must be slice, map, or channel", arg0)
-			return
-		}
-		if nargs < min || min+1 < nargs {
-			check.errorf(call, WrongArgCount, invalidOp+"%v expects %d or %d arguments; found %d", call, min, min+1, nargs)
+		// argument count must be ok for all types in T's type set
+		ok := true
+		typeset(T, func(_, u Type) bool {
+			var min int // minimum number of arguments (incl. type) required
+			switch u.(type) {
+			case *Slice:
+				min = 2
+			case *Map, *Chan:
+				min = 1
+			default:
+				check.errorf(arg0, InvalidMake, invalidArg+"cannot make %s; type must be slice, map, or channel", arg0)
+				ok = false
+				return false
+			}
+			if nargs < min || min+1 < nargs {
+				check.errorf(call, WrongArgCount, invalidOp+"%v expects %d or %d arguments; found %d", call, min, min+1, nargs)
+				ok = false
+				return false
+			}
+			return true
+		})
+		if !ok {
 			return
 		}
 
