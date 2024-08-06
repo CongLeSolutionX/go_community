@@ -62,13 +62,13 @@ func _[T C5[X], X any](ch T) {
 // copy
 
 func _[T any](x, y T) {
-	copy(x /* ERROR "copy expects slice arguments" */ , y)
+	copy(x /* ERROR "copy expects slice arguments" */, y)
 }
 
 func _[T ~[]byte](x, y T) {
 	copy(x, y)
 	copy(x, "foo")
-	copy("foo" /* ERROR "expects slice arguments" */ , y)
+	copy("foo" /* ERROR "expects slice arguments" */, y)
 
 	var x2 []byte
 	copy(x2, y) // element types are identical
@@ -76,22 +76,22 @@ func _[T ~[]byte](x, y T) {
 
 	type myByte byte
 	var x3 []myByte
-	copy(x3 /* ERROR "different element types" */ , y)
-	copy(y /* ERROR "different element types" */ , x3)
+	copy(x3 /* ERROR "different element types" */, y)
+	copy(y /* ERROR "different element types" */, x3)
 }
 
 func _[T ~[]E, E any](x T, y []E) {
 	copy(x, y)
-	copy(x /* ERROR "different element types" */ , "foo")
+	copy(x /* ERROR "different element types" */, "foo")
 }
 
 func _[T ~string](x []byte, y T) {
 	copy(x, y)
-	copy(y /* ERROR "expects slice arguments" */ , x)
+	copy(y /* ERROR "expects slice arguments" */, x)
 }
 
-func _[T ~[]byte|~string](x T, y []byte) {
-	copy(x /* ERROR "expects slice arguments" */ , y)
+func _[T ~[]byte | ~string](x T, y []byte) {
+	copy(x /* ERROR "expects slice arguments" */, y)
 	copy(y, x)
 }
 
@@ -106,7 +106,9 @@ func _[T L0 | L1](x, y T) {
 
 type M0 interface{ int }
 type M1 interface{ map[string]int }
-type M2 interface { map[string]int | map[string]float64 }
+type M2 interface {
+	map[string]int | map[string]float64
+}
 type M3 interface{ map[string]int | map[rune]int }
 type M4[K comparable, V any] interface{ map[K]V | map[rune]V }
 
@@ -162,32 +164,35 @@ func _[
 	_ = make /* ERROR "expects 2 or 3 arguments" */ (S1)
 	_ = make(S1, 10, 20)
 	_ = make /* ERROR "expects 2 or 3 arguments" */ (S1, 10, 20, 30)
-	_ = make(S2 /* ERROR "cannot make S2: no core type" */ , 10)
+	_ = make(S2, 10)
+	var _ S2 = make(S2, 10)
 
 	type M0 map[string]int
 	_ = make(map[string]int)
 	_ = make(M0)
 	_ = make(M1)
 	_ = make(M1, 10)
-	_ = make/* ERROR "expects 1 or 2 arguments" */(M1, 10, 20)
-	_ = make(M2 /* ERROR "cannot make M2: no core type" */ )
+	_ = make /* ERROR "expects 1 or 2 arguments" */ (M1, 10, 20)
+	_ = make(M2)
+	var _ M2 = make(M2)
 
 	type C0 chan int
 	_ = make(chan int)
 	_ = make(C0)
 	_ = make(C1)
 	_ = make(C1, 10)
-	_ = make/* ERROR "expects 1 or 2 arguments" */(C1, 10, 20)
-	_ = make(C2 /* ERROR "cannot make C2: no core type" */ )
+	_ = make /* ERROR "expects 1 or 2 arguments" */ (C1, 10, 20)
+	_ = make(C2)
 	_ = make(C3)
+	var _ C3 = make(C3)
 }
 
 // max
 
 func _[
-	P1 ~int|~float64,
-	P2 ~int|~string|~uint,
-	P3 ~int|bool,
+	P1 ~int | ~float64,
+	P2 ~int | ~string | ~uint,
+	P3 ~int | bool,
 ]() {
 	var x1 P1
 	_ = max(x1)
@@ -200,15 +205,15 @@ func _[
 	_ = max(x2, x2)
 	_ = max(1, 2 /* ERROR "cannot convert 2 (untyped int constant) to type P2" */, x2) // error at 2 because max is 2
 
-	_ = max(x1, x2 /* ERROR "mismatched types P1 (previous argument) and P2 (type of x2)" */ )
+	_ = max(x1, x2 /* ERROR "mismatched types P1 (previous argument) and P2 (type of x2)" */)
 }
 
 // min
 
 func _[
-	P1 ~int|~float64,
-	P2 ~int|~string|~uint,
-	P3 ~int|bool,
+	P1 ~int | ~float64,
+	P2 ~int | ~string | ~uint,
+	P3 ~int | bool,
 ]() {
 	var x1 P1
 	_ = min(x1)
@@ -219,9 +224,9 @@ func _[
 	var x2 P2
 	_ = min(x2)
 	_ = min(x2, x2)
-	_ = min(1 /* ERROR "cannot convert 1 (untyped int constant) to type P2" */ , 2, x2) // error at 1 because min is 1
+	_ = min(1 /* ERROR "cannot convert 1 (untyped int constant) to type P2" */, 2, x2) // error at 1 because min is 1
 
-	_ = min(x1, x2 /* ERROR "mismatched types P1 (previous argument) and P2 (type of x2)" */ )
+	_ = min(x1, x2 /* ERROR "mismatched types P1 (previous argument) and P2 (type of x2)" */)
 }
 
 // unsafe.Alignof
@@ -242,8 +247,8 @@ func _[T comparable]() {
 
 	const bb = unsafe.Alignof(b)
 	assert(bb == 8)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(a)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(s)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(a)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(s)
 	const pp = unsafe.Alignof(p)
 	assert(pp == 8)
 	const ll = unsafe.Alignof(l)
@@ -256,7 +261,7 @@ func _[T comparable]() {
 	assert(cc == 8)
 	const mm = unsafe.Alignof(m)
 	assert(mm == 8)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(t)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(t)
 }
 
 // unsafe.Offsetof
@@ -277,8 +282,8 @@ func _[T comparable]() {
 
 	const bb = unsafe.Offsetof(b.f)
 	assert(bb == 8)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(a)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(s)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(a)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(s)
 	const pp = unsafe.Offsetof(p.f)
 	assert(pp == 8)
 	const ll = unsafe.Offsetof(l.f)
@@ -291,7 +296,7 @@ func _[T comparable]() {
 	assert(cc == 8)
 	const mm = unsafe.Offsetof(m.f)
 	assert(mm == 8)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(t)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(t)
 }
 
 // unsafe.Sizeof
@@ -312,8 +317,8 @@ func _[T comparable]() {
 
 	const bb = unsafe.Sizeof(b)
 	assert(bb == 8)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(a)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(s)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(a)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(s)
 	const pp = unsafe.Sizeof(p)
 	assert(pp == 8)
 	const ll = unsafe.Sizeof(l)
@@ -326,5 +331,5 @@ func _[T comparable]() {
 	assert(cc == 8)
 	const mm = unsafe.Sizeof(m)
 	assert(mm == 8)
-	const _ = unsafe /* ERROR "not constant" */ .Alignof(t)
+	const _ = unsafe. /* ERROR "not constant" */ Alignof(t)
 }
