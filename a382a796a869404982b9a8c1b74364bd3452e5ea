@@ -18,6 +18,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb626b36_e034596b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-08-06T15:06:20Z",
+      "side": 1,
+      "message": "What will we do for the Vector CSRs, e.g., vlenb?  We\u0027re going to need a way to access them.\n\nIt seems that there are no pseudo instructions defined by the spec to access these CSRs so there are no obvious pseudo instructions we can use to provide access.  In addition, as far as I can tell, the assembler does not currently have a mechanism for supporting CSR names and the CSR instructions, and some of the pseudo instructions (e.g., FRCSR), are only partially implemented and do not work.  So there is probably a separate piece of work to be done here to provide full CSR support.  Perhaps, this was already a known issue, but it wasn\u0027t obvious to me until I started reviewing the vector commits, so thought it worth flagging.",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "003c7026_b2b5548c",
+        "filename": "src/cmd/internal/obj/riscv/anames.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-08-06T15:06:20Z",
+      "side": 1,
+      "message": "Will we support any of the assembler pseudo instructions such as vnot (voxr.vi vd, vs, -1)?  The spec defines a whole pile of these, e.g., vneg, vl1r.v, vwcvt.x.x.v, vmmv.m.  Note some of the pseudo instructions in the spec expand to multiple real instructions, e.g., vmsge.",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a770552_96db9d49",
