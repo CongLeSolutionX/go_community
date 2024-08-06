@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e6c23a2_d1ec8e4b",
+        "filename": "src/cmd/go/internal/base/path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-06T17:18:37Z",
+      "side": 1,
+      "message": "Got it. SGTM",
+      "parentUuid": "25b8e4a1_ac6275f7",
+      "range": {
+        "startLine": 73,
+        "startChar": 50,
+        "endLine": 73,
+        "endChar": 85
+      },
+      "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a766d54_57300ba6",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "I\u0027ve gotten tripped by this so many times haha.",
       "parentUuid": "5a766d54_57300ba6",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "23ec7bcdcde94b71d07ea4c5fb8bc44317ff9a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83fa83db_cbc31f63",
+        "filename": "src/cmd/go/testdata/script/work_use_symlink_issue68383.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-06T17:18:37Z",
+      "side": 1,
+      "message": "Heh same. Maybe we need bot that catches these 😄",
+      "parentUuid": "e3216a55_dc8b2547",
       "range": {
         "startLine": 23,
         "startChar": 0,
