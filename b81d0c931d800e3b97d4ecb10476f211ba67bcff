@@ -16,6 +16,24 @@
       "message": "We want to keep calling rawSyscallNoError.  It is possible that the generating script needs updating.",
       "revId": "b81d0c931d800e3b97d4ecb10476f211ba67bcff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "286c409b_a1875f99",
+        "filename": "src/syscall/zsyscall_linux_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-08-06T18:13:29Z",
+      "side": 1,
+      "message": "```go\n\t# Determine which form to use; pad args with zeros.\n\tmy $asm \u003d \"Syscall\";\n\tif ($nonblock) {\n\t\tif ($errvar eq \"\" \u0026\u0026 $ENV{\u0027GOOS\u0027} eq \"linux\") {\n\t\t\t$asm \u003d \"rawSyscallNoError\";\n\t\t} else {\n\t\t\t$asm \u003d \"RawSyscall\";\n\t\t}\n\t}\n```\nThat portion of the script is pretty old, and it seems right?",
+      "parentUuid": "226d1075_e9a81590",
+      "revId": "b81d0c931d800e3b97d4ecb10476f211ba67bcff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
