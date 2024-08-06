@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f0b8109_6ca15488",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-08-06T17:20:40Z",
+      "side": 1,
+      "message": "you can probably leave away this sentence. The title line says it all.",
+      "revId": "f03e343ee57b4dbaecc311c5ff41169340c2b150",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
