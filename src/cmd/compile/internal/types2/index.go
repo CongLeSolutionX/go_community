@@ -213,65 +213,87 @@ func (check *Checker) sliceExpr(x *operand, e *syntax.SliceExpr) {
 		return
 	}
 
-	valid := false
+	var typ Type
+	synthetic := false
 	length := int64(-1) // valid if >= 0
-	switch u := coreString(x.typ).(type) {
-	case nil:
-		check.errorf(x, NonSliceableOperand, invalidOp+"cannot slice %s: %s has no core type", x, x.typ)
-		x.mode = invalid
-		return
-
-	case *Basic:
-		if isString(u) {
-			if e.Full {
-				at := e.Index[2]
-				if at == nil {
-					at = e // e.Index[2] should be present but be careful
+	if !underIs(x.typ, func(u Type) bool {
+		valid := false
+		utyp := u
+		ulength := int64(-1) // valid if >= 0
+		switch u := u.(type) {
+		case *Basic:
+			if isString(u) {
+				if e.Full {
+					at := e.Index[2]
+					if at == nil {
+						at = e // e.Index[2] should be present but be careful
+					}
+					check.error(at, InvalidSliceExpr, invalidOp+"3-index slice of string")
+					return false
 				}
-				check.error(at, InvalidSliceExpr, invalidOp+"3-index slice of string")
-				x.mode = invalid
-				return
+				valid = true
+				// spec: "For untyped string operands the result
+				// is a non-constant value of type string."
+				if isUntyped(x.typ) {
+					utyp = Typ[String]
+					synthetic = true
+				}
+				if x.mode == constant_ {
+					ulength = int64(len(constant.StringVal(x.val)))
+				}
+			}
+
+		case *Array:
+			if x.mode != variable {
+				check.errorf(x, NonSliceableOperand, invalidOp+"%s (slice of unaddressable value)", x)
+				return false
 			}
 			valid = true
-			if x.mode == constant_ {
-				length = int64(len(constant.StringVal(x.val)))
-			}
-			// spec: "For untyped string operands the result
-			// is a non-constant value of type string."
-			if isUntyped(x.typ) {
-				x.typ = Typ[String]
-			}
-		}
+			utyp = &Slice{elem: u.elem}
+			synthetic = true
+			ulength = u.len
 
-	case *Array:
-		valid = true
-		length = u.len
-		if x.mode != variable {
-			check.errorf(x, NonSliceableOperand, invalidOp+"%s (slice of unaddressable value)", x)
-			x.mode = invalid
-			return
-		}
-		x.typ = &Slice{elem: u.elem}
+		case *Pointer:
+			if u, _ := under(u.base).(*Array); u != nil {
+				valid = true
+				utyp = &Slice{elem: u.elem}
+				synthetic = true
+				ulength = u.len
+			}
 
-	case *Pointer:
-		if u, _ := under(u.base).(*Array); u != nil {
+		case *Slice:
 			valid = true
-			length = u.len
-			x.typ = &Slice{elem: u.elem}
+			// utyp doesn't change
 		}
 
-	case *Slice:
-		valid = true
-		// x.typ doesn't change
-	}
+		if !valid {
+			check.errorf(x, NonSliceableOperand, invalidOp+"cannot slice %s", x)
+			return false
+		}
 
-	if !valid {
-		check.errorf(x, NonSliceableOperand, invalidOp+"cannot slice %s", x)
+		if typ == nil {
+			typ = utyp
+		} else if !identicalOrString(typ, utyp) {
+			// TODO(gri) is this correct/good enough?
+			check.errorf(x, NonSliceableOperand, invalidOp+"%s (results of different types %s, %s)", x, typ, utyp)
+			return false
+		}
+
+		if ulength >= 0 && (length < 0 || length > ulength) {
+			length = ulength
+		}
+
+		return true
+	}) {
 		x.mode = invalid
 		return
 	}
 
+	assert(typ != nil)
 	x.mode = value
+	if synthetic {
+		x.typ = typ
+	}
 
 	// spec: "Only the first index may be omitted; it defaults to 0."
 	if e.Full && (e.Index[1] == nil || e.Index[2] == nil) {
