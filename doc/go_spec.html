@@ -7641,25 +7641,29 @@ var z complex128
 
 <p>
 The built-in function <code>make</code> takes a type <code>T</code>,
+which must be a slice, map or channel type,
 optionally followed by a type-specific list of expressions.
-The <a href="#Core_types">core type</a> of <code>T</code> must
-be a slice, map or channel.
 It returns a value of type <code>T</code> (not <code>*T</code>).
 The memory is initialized as described in the section on
 <a href="#The_zero_value">initial values</a>.
 </p>
 
+<p>
+If <code>T</code> is a type parameter, the <code>make</code> call
+must be valid for each type in <code>T</code>'s type set.
+</p>
+
 <pre class="grammar">
-Call             Core type    Result
+Call             Type T       Result
 
-make(T, n)       slice        slice of type T with length n and capacity n
-make(T, n, m)    slice        slice of type T with length n and capacity m
+make(T, n)       slice      slice of type T with length n and capacity n
+make(T, n, m)    slice      slice of type T with length n and capacity m
 
-make(T)          map          map of type T
-make(T, n)       map          map of type T with initial space for approximately n elements
+make(T)          map        map of type T
+make(T, n)       map        map of type T with initial space for approximately n elements
 
-make(T)          channel      unbuffered channel of type T
-make(T, n)       channel      buffered channel of type T, buffer size n
+make(T)          channel    unbuffered channel of type T
+make(T, n)       channel    buffered channel of type T, buffer size n
 </pre>
 
 <p>
