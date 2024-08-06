@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac9dd624_b5afb309",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 26710
+      },
+      "writtenOn": "2024-08-06T21:43:04Z",
+      "side": 1,
+      "message": "This old comment could maybe be clearer now that a new method is being introduced.",
+      "revId": "12f34c34a2bfb27ec1050a1d19156a624de5dea0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
