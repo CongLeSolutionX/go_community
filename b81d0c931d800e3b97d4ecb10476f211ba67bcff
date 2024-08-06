@@ -70,6 +70,24 @@
       "parentUuid": "8147cc1b_01d786d0",
       "revId": "b81d0c931d800e3b97d4ecb10476f211ba67bcff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58413ff2_42718f69",
+        "filename": "src/syscall/zsyscall_linux_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-06T22:58:28Z",
+      "side": 1,
+      "message": "The right thing happens if I explicitly set `GOOS\u003dlinux` in the environment when running mksyscall.pl.",
+      "parentUuid": "2ed8ade5_e4808db1",
+      "revId": "b81d0c931d800e3b97d4ecb10476f211ba67bcff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
