@@ -40,6 +40,20 @@ func typeset(t Type, yield func(t, u Type) bool) {
 	yield(t, under(t))
 }
 
+// Like Identical, but considers []byte and strings also as identical.
+func identicalOrString(x, y Type) bool {
+	if Identical(x, y) {
+		return true
+	}
+	if isString(x) {
+		x = NewSlice(universeByte)
+	}
+	if isString(y) {
+		y = NewSlice(universeByte)
+	}
+	return Identical(x, y)
+}
+
 // If t is not a type parameter, coreType returns the underlying type.
 // If t is a type parameter, coreType returns the single underlying
 // type of all types in its type set if it exists, or nil otherwise. If the
