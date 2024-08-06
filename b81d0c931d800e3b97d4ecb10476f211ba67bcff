@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226d1075_e9a81590",
+        "filename": "src/syscall/zsyscall_linux_arm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-06T16:15:06Z",
+      "side": 1,
+      "message": "We want to keep calling rawSyscallNoError.  It is possible that the generating script needs updating.",
+      "revId": "b81d0c931d800e3b97d4ecb10476f211ba67bcff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
