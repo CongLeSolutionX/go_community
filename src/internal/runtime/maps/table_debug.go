@@ -82,6 +82,8 @@ func (t *table) checkInvariants() {
 func (t *table) Print() {
 	print(`table{
 	seed: `, t.seed, `
+	index: `, t.index, `
+	localDepth: `, t.localDepth, `
 	capacity: `, t.capacity, `
 	used: `, t.used, `
 	growthLeft: `, t.growthLeft, `
