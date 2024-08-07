@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "552b69f6_c265f175",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-07T04:40:06Z",
+      "side": 1,
+      "message": "Note that in #68663 there was one case where it failed with omitAt \u003d\u003d true (see https://github.com/golang/go/issues/68663#issuecomment-2272424742).",
+      "revId": "8b12b7f259de7df781670dffefd3188d06b6d12c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
