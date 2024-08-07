@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db40bfe2_1ce02e43",
+        "filename": "src/net/url/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-07T20:23:13Z",
+      "side": 1,
+      "message": "Ideally examples should show a typical way of using a method.  This doesn\u0027t do that.  That said, I\u0027m not sure anybody is likely to call this method themselves, so perhaps we don\u0027t need an example at all.",
+      "revId": "67e655ec77ee0a7806c2295fb10bbb4b4369d637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
