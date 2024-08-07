@@ -15,8 +15,17 @@ const DebugLog = debugLog
 
 var AlignUpPow2 = alignUpPow2
 
-func (t *table) Type() *abi.SwissMapType {
-	return t.typ
+const MaxTableCapacity = maxTableCapacity
+
+func NewTestMap[K comparable, V any](length uint64) (*Map, *abi.SwissMapType) {
+	mt := newTestMapType[K, V]()
+	return NewMap(mt, length), mt
+}
+
+func (m *Map) TableFor(key unsafe.Pointer) *table {
+	hash := m.typ.Hasher(key, m.seed)
+	idx := m.directoryIndex(hash)
+	return m.directory[idx]
 }
 
 // Returns the start address of the groups array.
