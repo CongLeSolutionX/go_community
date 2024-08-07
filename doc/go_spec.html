@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Language version go1.23 (Oct 8, 2024)",
+	"Subtitle": "Language version go1.23 (Oct 9, 2024)",
 	"Path": "/ref/spec"
 }-->
 
@@ -7367,22 +7367,29 @@ by the arguments overlaps.
 
 <p>
 The <a href="#Function_types">variadic</a> function <code>append</code>
-appends zero or more values <code>x</code> to a slice <code>s</code>
-and returns the resulting slice of the same type as <code>s</code>.
-The <a href="#Core_types">core type</a> of <code>s</code> must be a slice
-of type <code>[]E</code>.
+appends zero or more values <code>x</code> to a slice <code>s</code> of
+type <code>S</code> and returns the resulting slice, also of type
+<code>S</code>.
 The values <code>x</code> are passed to a parameter of type <code>...E</code>
+where <code>E</code> is the element type of <code>S</code>
 and the respective <a href="#Passing_arguments_to_..._parameters">parameter
 passing rules</a> apply.
-As a special case, if the core type of <code>s</code> is <code>[]byte</code>,
-<code>append</code> also accepts a second argument with core type
-<a href="#Core_types"><code>bytestring</code></a> followed by <code>...</code>.
-This form appends the bytes of the byte slice or string.
+As a special case, <code>append</code> also accepts a first argument assignable
+to type <code>[]byte</code> with a second argument of <code>string</code> type
+followed by <code>...</code>.
+This form appends the bytes of the string.
 </p>
 
 <pre class="grammar">
 append(s S, x ...E) S  // core type of S is []E
 </pre>
+
+<p>
+If <code>S</code> is a type parameter, all types in its type set must be
+slices with identical element type <code>E</code>.
+In the special case, if the second argument's type is a type parameter,
+all types in its type set must be <code>[]byte</code> slices or strings.
+</p>
 
 <p>
 If the capacity of <code>s</code> is not large enough to fit the additional
