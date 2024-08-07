@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e18a794c_4d6f4dfd",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-08-07T21:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b8edcf2_52a4a704",
+      "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bade15b5_e03451e4",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-08-06T20:19:20Z",
       "side": 1,
       "message": "markFraming",
+      "range": {
+        "startLine": 62,
+        "startChar": 34,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50a43f45_2b0bbcde",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-08-07T21:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bade15b5_e03451e4",
       "range": {
         "startLine": 62,
         "startChar": 34,
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93124c02_e18907cd",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-08-07T21:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ccfa4a_2ea35bf9",
+      "range": {
+        "startLine": 63,
+        "startChar": 51,
+        "endLine": 63,
+        "endChar": 60
+      },
+      "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf044200_9fffc393",
@@ -77,6 +143,24 @@
       "writtenOn": "2024-08-06T20:19:20Z",
       "side": 1,
       "message": "Use const ( ... ) so that they line up neatly.\n\n\nIf you like, you can compute the codes without arbitrary numbers:\n```\nconst ( \n    markFraming  byte \u003d \u0027V\u0027 \u0026^ \u0027@\u0027 // ^V: framing\n    markErrBegin byte \u003d \u0027N\u0027 \u0026^ \u0027@\u0027 // ^N: start of error\n    markErrEnd   byte \u003d \u0027O\u0027 \u0026^ \u0027@\u0027 // ^O: end of error\n)\n```",
+      "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fcd2034_6283e5be",
+        "filename": "src/cmd/internal/test2json/test2json.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 52633
+      },
+      "writtenOn": "2024-08-07T21:37:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf044200_9fffc393",
       "revId": "169e94d759b9aed7fd200e97de8e6bbadc99eba3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
