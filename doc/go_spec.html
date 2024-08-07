@@ -4210,8 +4210,8 @@ No <a href="#Run_time_panics">run-time panic</a> occurs in this case.
 <h3 id="Calls">Calls</h3>
 
 <p>
-Given an expression <code>f</code> with a <a href="#Core_types">core type</a>
-<code>F</code> of <a href="#Function_types">function type</a>,
+Given an expression <code>f</code> of <a href="#Function_types">function type</a>
+<code>F</code>,
 </p>
 
 <pre>
@@ -4240,6 +4240,12 @@ pt.Scale(3.5)     // method call with receiver pt
 If <code>f</code> denotes a generic function, it must be
 <a href="#Instantiations">instantiated</a> before it can be called
 or used as a function value.
+</p>
+
+<p>
+If <code>F</code> is a <a href="#Type_parameter_declarations">type parameter</a>,
+all types in the type parameter's type set must be identical function types, and
+the function call must be valid for those types.
 </p>
 
 <p>
