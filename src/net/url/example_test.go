@@ -264,6 +264,18 @@ func ExampleURL_MarshalBinary() {
 	// https://example.org
 }
 
+func ExampleURL_AppendBinary() {
+	u, _ := url.Parse("https://example.org")
+	b := make([]byte, 4, 32)
+	b, err := u.AppendBinary(b)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", b[4:])
+	// Output:
+	// https://example.org
+}
+
 func ExampleURL_Parse() {
 	u, err := url.Parse("https://example.org")
 	if err != nil {
