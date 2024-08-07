@@ -241,9 +241,23 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 	cgocall := x.mode == cgofunc
 
 	// a type parameter may be "called" if all types have the same signature
-	sig, _ := coreType(x.typ).(*Signature)
-	if sig == nil {
-		check.errorf(x, InvalidCall, invalidOp+"cannot call non-function %s", x)
+	var sig *Signature
+	if !underIs(x.typ, func(u Type) bool {
+		s, _ := u.(*Signature)
+		if s == nil {
+			check.errorf(x, InvalidCall, invalidOp+"cannot call non-function %s", x)
+			return false
+		}
+		if sig != nil {
+			if !Identical(s, sig) {
+				// TODO(gri) better error message
+				check.errorf(x, InvalidCall, invalidOp+"cannot call non-function %s", x)
+				return false
+			}
+		}
+		sig = s
+		return true
+	}) {
 		x.mode = invalid
 		x.expr = call
 		return statement
