@@ -1471,6 +1471,17 @@ func testChtimesOmit(t *testing.T, omitAt, omitMt bool) {
 			} else {
 				t.Error(errormsg)
 			}
+		case "linux":
+			if !omitAt {
+				// On a relatime file system, atime may be
+				// left equal to ctime or mtime.
+				if gotAtime.Equal(gotMtime) || gotAtime.Equal(Ctime(fs)) {
+					t.Log(errormsg)
+					t.Log("Known Linux issue (atime surprisingly updated on relatime system; ignoring.")
+					break
+				}
+			}
+			t.Error(errormsg)
 		default:
 			t.Error(errormsg)
 		}

@@ -366,3 +366,7 @@ func sameFile(fs1, fs2 *fileStat) bool {
 func atime(fi FileInfo) time.Time {
 	return time.Unix(0, fi.Sys().(*syscall.Win32FileAttributeData).LastAccessTime.Nanoseconds())
 }
+
+func ctime(fi FileInfo) time.Time {
+	return time.Unix(0, fi.Sys().(*syscall.Win32FileAttributeData).CreationTime.Nanoseconds())
+}

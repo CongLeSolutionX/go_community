@@ -46,3 +46,7 @@ func fillFileStatFromSys(fs *fileStat, name string) {
 func atime(fi FileInfo) time.Time {
 	return time.Unix(fi.Sys().(*syscall.Stat_t).Atim.Unix())
 }
+
+func ctime(fi FileInfo) time.Time {
+	return time.Unix(fi.Sys().(*syscall.Stat_t).Ctim.Unix())
+}

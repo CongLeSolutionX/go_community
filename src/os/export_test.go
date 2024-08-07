@@ -7,6 +7,7 @@ package os
 // Export for testing.
 
 var Atime = atime
+var Ctime = ctime
 var LstatP = &lstat
 var ErrWriteAtInAppendMode = errWriteAtInAppendMode
 var TestingForceReadDirLstat = &testingForceReadDirLstat

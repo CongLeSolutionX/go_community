@@ -112,3 +112,8 @@ func lstatNolog(name string) (FileInfo, error) {
 func atime(fi FileInfo) time.Time {
 	return time.Unix(int64(fi.Sys().(*syscall.Dir).Atime), 0)
 }
+
+func ctime(fi FileInfo) time.Time {
+	// Plan 9 doesn't have ctime. That's OK, we shouldn't call it.
+	panic("ctime")
+}

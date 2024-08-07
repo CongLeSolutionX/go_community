@@ -50,3 +50,7 @@ func stTimespecToTime(ts syscall.StTimespec_t) time.Time {
 func atime(fi FileInfo) time.Time {
 	return stTimespecToTime(fi.Sys().(*syscall.Stat_t).Atim)
 }
+
+func ctime(fi FileInfo) time.Time {
+	return stTimespecToTime(fi.Sys().(*syscall.Stat_t).Ctim)
+}

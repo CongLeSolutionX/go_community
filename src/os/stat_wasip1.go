@@ -39,3 +39,8 @@ func atime(fi FileInfo) time.Time {
 	st := fi.Sys().(*syscall.Stat_t)
 	return time.Unix(0, int64(st.Atime))
 }
+
+func ctime(fi FileInfo) time.Time {
+	st := fi.Sys().(*syscall.Stat_t)
+	return time.Unix(0, int64(st.Ctime))
+}
