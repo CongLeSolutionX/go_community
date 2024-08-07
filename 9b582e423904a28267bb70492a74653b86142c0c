@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5ebcdce_ac09d6c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-07T10:42:42Z",
+      "side": 1,
+      "message": "Thanks for fixing this.\n\nJust a couple of comments need adjustment, and then LGTM.\n\nAlex",
+      "revId": "9b582e423904a28267bb70492a74653b86142c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "128c5d3f_f0a4ee6c",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-07T10:42:42Z",
+      "side": 1,
+      "message": "I suspect you meant\n\ns/GetUserName/syscall.OpenCurrentProcessToken/",
+      "range": {
+        "startLine": 206,
+        "startChar": 13,
+        "endLine": 206,
+        "endChar": 24
+      },
+      "revId": "9b582e423904a28267bb70492a74653b86142c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "163b3b36_5299f4e5",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-07T10:42:42Z",
+      "side": 1,
+      "message": "Why \"terminating goroutine: \" in the middle of that message? I would just remove it.\n\ns|os/user: terminating goroutine: failed|os/user: failed|",
+      "range": {
+        "startLine": 257,
+        "startChar": 12,
+        "endLine": 257,
+        "endChar": 50
+      },
+      "revId": "9b582e423904a28267bb70492a74653b86142c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d8565f4_734dcc48",
+        "filename": "src/os/user/user_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-07T10:42:42Z",
+      "side": 1,
+      "message": "s/2011/2024/\n\nall new files have to use current year in their copyright.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "9b582e423904a28267bb70492a74653b86142c0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
