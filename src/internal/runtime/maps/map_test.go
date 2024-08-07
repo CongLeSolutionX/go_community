@@ -12,8 +12,8 @@ import (
 	"unsafe"
 )
 
-func TestTablePut(t *testing.T) {
-	tab := maps.NewTestTable[uint32, uint64](8)
+func TestMapPut(t *testing.T) {
+	m := maps.NewTestMap[uint32, uint64](8)
 
 	key := uint32(0)
 	elem := uint64(256 + 0)
@@ -21,11 +21,15 @@ func TestTablePut(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 		if maps.DebugLog {
-			fmt.Printf("After put %d: %v\n", key, tab)
+			fmt.Printf("After put %d: %v\n", key, m)
 		}
+	}
+
+	if m.Used() != 31 {
+		t.Errorf("Used() used got %d want 31", m.Used())
 	}
 
 	key = uint32(0)
@@ -34,7 +38,7 @@ func TestTablePut(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		got, ok := tab.Get(unsafe.Pointer(&key))
+		got, ok := m.Get(unsafe.Pointer(&key))
 		if !ok {
 			t.Errorf("Get(%d) got ok false want true", key)
 		}
@@ -45,8 +49,46 @@ func TestTablePut(t *testing.T) {
 	}
 }
 
-func TestTableDelete(t *testing.T) {
-	tab := maps.NewTestTable[uint32, uint64](32)
+// Grow enough to cause a table split.
+func TestMapSplit(t *testing.T) {
+	m := maps.NewTestMap[uint32, uint64](0)
+
+	key := uint32(0)
+	elem := uint64(256 + 0)
+
+	for i := 0; i < 2*maps.MaxTableCapacity; i++ {
+		key += 1
+		elem += 1
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if maps.DebugLog {
+			fmt.Printf("After put %d: %v\n", key, m)
+		}
+	}
+
+	if m.Used() != 2*maps.MaxTableCapacity {
+		t.Errorf("Used() used got %d want 31", m.Used())
+	}
+
+	key = uint32(0)
+	elem = uint64(256 + 0)
+
+	for i := 0; i < 2*maps.MaxTableCapacity; i++ {
+		key += 1
+		elem += 1
+		got, ok := m.Get(unsafe.Pointer(&key))
+		if !ok {
+			t.Errorf("Get(%d) got ok false want true", key)
+		}
+		gotElem := *(*uint64)(got)
+		if gotElem != elem {
+			t.Errorf("Get(%d) got elem %d want %d", key, gotElem, elem)
+		}
+	}
+}
+
+func TestMapDelete(t *testing.T) {
+	m := maps.NewTestMap[uint32, uint64](32)
 
 	key := uint32(0)
 	elem := uint64(256 + 0)
@@ -54,10 +96,10 @@ func TestTableDelete(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 		if maps.DebugLog {
-			fmt.Printf("After put %d: %v\n", key, tab)
+			fmt.Printf("After put %d: %v\n", key, m)
 		}
 	}
 
@@ -66,7 +108,11 @@ func TestTableDelete(t *testing.T) {
 
 	for i := 0; i < 31; i++ {
 		key += 1
-		tab.Delete(unsafe.Pointer(&key))
+		m.Delete(unsafe.Pointer(&key))
+	}
+
+	if m.Used() != 0 {
+		t.Errorf("Used() used got %d want 0", m.Used())
 	}
 
 	key = uint32(0)
@@ -75,7 +121,7 @@ func TestTableDelete(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		_, ok := tab.Get(unsafe.Pointer(&key))
+		_, ok := m.Get(unsafe.Pointer(&key))
 		if ok {
 			t.Errorf("Get(%d) got ok true want false", key)
 		}
@@ -83,7 +129,7 @@ func TestTableDelete(t *testing.T) {
 }
 
 func TestTableClear(t *testing.T) {
-	tab := maps.NewTestTable[uint32, uint64](32)
+	m := maps.NewTestMap[uint32, uint64](32)
 
 	key := uint32(0)
 	elem := uint64(256 + 0)
@@ -91,17 +137,17 @@ func TestTableClear(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 		if maps.DebugLog {
-			fmt.Printf("After put %d: %v\n", key, tab)
+			fmt.Printf("After put %d: %v\n", key, m)
 		}
 	}
 
-	tab.Clear()
+	m.Clear()
 
-	if tab.Used() != 0 {
-		t.Errorf("Clear() used got %d want 0", tab.Used())
+	if m.Used() != 0 {
+		t.Errorf("Clear() used got %d want 0", m.Used())
 	}
 
 	key = uint32(0)
@@ -110,7 +156,7 @@ func TestTableClear(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		_, ok := tab.Get(unsafe.Pointer(&key))
+		_, ok := m.Get(unsafe.Pointer(&key))
 		if ok {
 			t.Errorf("Get(%d) got ok true want false", key)
 		}
@@ -120,29 +166,29 @@ func TestTableClear(t *testing.T) {
 // +0.0 and -0.0 compare equal, but we must still must update the key slot when
 // overwriting.
 func TestTableKeyUpdate(t *testing.T) {
-	tab := maps.NewTestTable[float64, uint64](8)
+	m := maps.NewTestMap[float64, uint64](8)
 
 	zero := float64(0.0)
 	negZero := math.Copysign(zero, -1.0)
 	elem := uint64(0)
 
-	tab.Put(unsafe.Pointer(&zero), unsafe.Pointer(&elem))
+	m.Put(unsafe.Pointer(&zero), unsafe.Pointer(&elem))
 	if maps.DebugLog {
-		fmt.Printf("After put %f: %v\n", zero, tab)
+		fmt.Printf("After put %f: %v\n", zero, m)
 	}
 
 	elem = 1
-	tab.Put(unsafe.Pointer(&negZero), unsafe.Pointer(&elem))
+	m.Put(unsafe.Pointer(&negZero), unsafe.Pointer(&elem))
 	if maps.DebugLog {
-		fmt.Printf("After put %f: %v\n", negZero, tab)
+		fmt.Printf("After put %f: %v\n", negZero, m)
 	}
 
-	if tab.Used() != 1 {
-		t.Errorf("Used() used got %d want 1", tab.Used())
+	if m.Used() != 1 {
+		t.Errorf("Used() used got %d want 1", m.Used())
 	}
 
 	it := new(maps.Iter)
-	it.Init(tab.Type(), tab)
+	it.Init(m.Type(), m)
 	it.Next()
 	keyPtr, elemPtr := it.Key(), it.Elem()
 	if keyPtr == nil {
@@ -160,7 +206,7 @@ func TestTableKeyUpdate(t *testing.T) {
 }
 
 func TestTableIteration(t *testing.T) {
-	tab := maps.NewTestTable[uint32, uint64](8)
+	m := maps.NewTestMap[uint32, uint64](8)
 
 	key := uint32(0)
 	elem := uint64(256 + 0)
@@ -168,17 +214,17 @@ func TestTableIteration(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 		if maps.DebugLog {
-			fmt.Printf("After put %d: %v\n", key, tab)
+			fmt.Printf("After put %d: %v\n", key, m)
 		}
 	}
 
 	got := make(map[uint32]uint64)
 
 	it := new(maps.Iter)
-	it.Init(tab.Type(), tab)
+	it.Init(m.Type(), m)
 	for {
 		it.Next()
 		keyPtr, elemPtr := it.Key(), it.Elem()
@@ -214,7 +260,7 @@ func TestTableIteration(t *testing.T) {
 
 // Deleted keys shouldn't be visible in iteration.
 func TestTableIterationDelete(t *testing.T) {
-	tab := maps.NewTestTable[uint32, uint64](8)
+	m := maps.NewTestMap[uint32, uint64](8)
 
 	key := uint32(0)
 	elem := uint64(256 + 0)
@@ -222,10 +268,10 @@ func TestTableIterationDelete(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 		if maps.DebugLog {
-			fmt.Printf("After put %d: %v\n", key, tab)
+			fmt.Printf("After put %d: %v\n", key, m)
 		}
 	}
 
@@ -233,7 +279,7 @@ func TestTableIterationDelete(t *testing.T) {
 	first := true
 	deletedKey := uint32(1)
 	it := new(maps.Iter)
-	it.Init(tab.Type(), tab)
+	it.Init(m.Type(), m)
 	for {
 		it.Next()
 		keyPtr, elemPtr := it.Key(), it.Elem()
@@ -253,7 +299,7 @@ func TestTableIterationDelete(t *testing.T) {
 			if key == deletedKey {
 				deletedKey++
 			}
-			tab.Delete(unsafe.Pointer(&deletedKey))
+			m.Delete(unsafe.Pointer(&deletedKey))
 		}
 	}
 
@@ -286,7 +332,7 @@ func TestTableIterationDelete(t *testing.T) {
 
 // Deleted keys shouldn't be visible in iteration even after a grow.
 func TestTableIterationGrowDelete(t *testing.T) {
-	tab := maps.NewTestTable[uint32, uint64](8)
+	m := maps.NewTestMap[uint32, uint64](8)
 
 	key := uint32(0)
 	elem := uint64(256 + 0)
@@ -294,10 +340,10 @@ func TestTableIterationGrowDelete(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 		if maps.DebugLog {
-			fmt.Printf("After put %d: %v\n", key, tab)
+			fmt.Printf("After put %d: %v\n", key, m)
 		}
 	}
 
@@ -305,7 +351,7 @@ func TestTableIterationGrowDelete(t *testing.T) {
 	first := true
 	deletedKey := uint32(1)
 	it := new(maps.Iter)
-	it.Init(tab.Type(), tab)
+	it.Init(m.Type(), m)
 	for {
 		it.Next()
 		keyPtr, elemPtr := it.Key(), it.Elem()
@@ -333,15 +379,15 @@ func TestTableIterationGrowDelete(t *testing.T) {
 			for i := 0; i < 31; i++ {
 				key += 1
 				elem += 1
-				tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+				m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 				if maps.DebugLog {
-					fmt.Printf("After put %d: %v\n", key, tab)
+					fmt.Printf("After put %d: %v\n", key, m)
 				}
 			}
 
 			// Then delete from the grown map.
-			tab.Delete(unsafe.Pointer(&deletedKey))
+			m.Delete(unsafe.Pointer(&deletedKey))
 		}
 	}
 
@@ -370,6 +416,69 @@ func TestTableIterationGrowDelete(t *testing.T) {
 			t.Errorf("Iteration key %d got elem %d want %d", key, gotElem, elem)
 		}
 	}
+}
+
+func testTableIterationGrowDuplicate(t *testing.T, grow int) {
+	m := maps.NewTestMap[uint32, uint64](8)
+
+	key := uint32(0)
+	elem := uint64(256 + 0)
+
+	for i := 0; i < 31; i++ {
+		key += 1
+		elem += 1
+		m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+		if maps.DebugLog {
+			fmt.Printf("After put %d: %v\n", key, m)
+		}
+	}
+
+	got := make(map[uint32]uint64)
+	it := new(maps.Iter)
+	it.Init(m.Type(), m)
+	for i := 0; ; i++ {
+		it.Next()
+		keyPtr, elemPtr := it.Key(), it.Elem()
+		if keyPtr == nil {
+			break
+		}
+
+		key := *(*uint32)(keyPtr)
+		elem := *(*uint64)(elemPtr)
+		if _, ok := got[key]; ok {
+			t.Errorf("iteration got key %v more than once", key)
+		}
+		got[key] = elem
+
+		// Grow halfway through iteration.
+		if i == 16 {
+			key := uint32(32)
+			elem := uint64(256 + 32)
+
+			for i := 0; i < grow; i++ {
+				key += 1
+				elem += 1
+				m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+
+				if maps.DebugLog {
+					fmt.Printf("After put %d: %v\n", key, m)
+				}
+			}
+		}
+	}
+
+	// Don't check length: the number of new elements we'll see is
+	// unspecified.
+}
+
+// Grow should not allow duplicate keys to appear.
+func TestTableIterationGrowDuplicate(t *testing.T) {
+	// Small grow, only enough to cause table grow.
+	t.Run("grow", func(t *testing.T) { testTableIterationGrowDuplicate(t, 32) })
+
+	// Large grow, to cause table split.
+	t.Run("split", func(t *testing.T) { testTableIterationGrowDuplicate(t, 2*maps.MaxTableCapacity) })
 }
 
 func TestAlignUpPow2(t *testing.T) {
@@ -415,20 +524,20 @@ func TestAlignUpPow2(t *testing.T) {
 	}
 }
 
-// Verify that a table with zero-size slot is safe to use.
-func TestTableZeroSizeSlot(t *testing.T) {
-	tab := maps.NewTestTable[struct{}, struct{}](8)
+// Verify that a map with zero-size slot is safe to use.
+func TestMapZeroSizeSlot(t *testing.T) {
+	m := maps.NewTestMap[struct{}, struct{}](8)
 
 	key := struct{}{}
 	elem := struct{}{}
 
-	tab.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
+	m.Put(unsafe.Pointer(&key), unsafe.Pointer(&elem))
 
 	if maps.DebugLog {
-		fmt.Printf("After put %d: %v\n", key, tab)
+		fmt.Printf("After put %d: %v\n", key, m)
 	}
 
-	got, ok := tab.Get(unsafe.Pointer(&key))
+	got, ok := m.Get(unsafe.Pointer(&key))
 	if !ok {
 		t.Errorf("Get(%d) got ok false want true", key)
 	}
