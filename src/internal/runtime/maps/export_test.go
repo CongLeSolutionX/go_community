@@ -12,6 +12,18 @@ const DebugLog = debugLog
 
 var AlignUpPow2 = alignUpPow2
 
+const MaxTableCapacity = maxTableCapacity
+
+func NewTestMap[K comparable, V any](length uint64) *Map {
+	mt := newTestMapType[K, V]()
+	return NewMap(mt, length)
+}
+
+//func NewTestTable[K comparable, V any](length uint64) *table {
+//	mt := newTestMapType[K, V]()
+//	return newTable(mt, length)
+//}
+
 func (t *table) Type() *abi.SwissMapType {
 	return t.typ
 }
