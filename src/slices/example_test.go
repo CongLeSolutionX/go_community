@@ -385,6 +385,125 @@ func ExampleRepeat() {
 	// [0 1 2 3 0 1 2 3]
 }
 
+func ExampleAll() {
+	names := []string{"Alice", "Bob", "Vera"}
+	for i, v := range slices.All(names) {
+		fmt.Println(i, ":", v)
+	}
+	// Output:
+	// 0 : Alice
+	// 1 : Bob
+	// 2 : Vera
+}
+
+func ExampleBackward() {
+	names := []string{"Alice", "Bob", "Vera"}
+	for i, v := range slices.Backward(names) {
+		fmt.Println(i, ":", v)
+	}
+	// Output:
+	// 2 : Vera
+	// 1 : Bob
+	// 0 : Alice
+}
+
+func ExampleValues() {
+	names := []string{"Alice", "Bob", "Vera"}
+	for v := range slices.Values(names) {
+		fmt.Println(v)
+	}
+	// Output:
+	// Alice
+	// Bob
+	// Vera
+}
+
+func ExampleAppendSeq() {
+	seq := func(yield func(int) bool) {
+		for i := 0; i < 10; i += 2 {
+			if !yield(i) {
+				return
+			}
+		}
+	}
+
+	s := slices.AppendSeq([]int{1, 2}, seq)
+	fmt.Println(s)
+	// Output:
+	// [1 2 0 2 4 6 8]
+}
+
+func ExampleCollect() {
+	seq := func(yield func(int) bool) {
+		for i := 0; i < 10; i += 2 {
+			if !yield(i) {
+				return
+			}
+		}
+	}
+
+	s := slices.Collect(seq)
+	fmt.Println(s)
+	// Output:
+	// [0 2 4 6 8]
+}
+
+func ExampleSorted() {
+	seq := func(yield func(int) bool) {
+		flag := -1
+		for i := 0; i < 10; i += 2 {
+			flag = -flag
+			if !yield(i * flag) {
+				return
+			}
+		}
+	}
+
+	s := slices.Sorted(seq)
+	fmt.Println(s)
+	fmt.Println(slices.IsSorted(s))
+	// Output:
+	// [-6 -2 0 4 8]
+	// true
+}
+
+func ExampleSortedFunc() {
+	seq := func(yield func(int) bool) {
+		flag := -1
+		for i := 0; i < 10; i += 2 {
+			flag = -flag
+			if !yield(i * flag) {
+				return
+			}
+		}
+	}
+
+	s := slices.SortedFunc(seq, func(a, b int) int { return b - a })
+	fmt.Println(s)
+	// Output:
+	// [8 4 0 -2 -6]
+}
+
+func ExampleSortedStableFunc() {
+	type Person struct {
+		Name string
+		Age  int
+	}
+
+	people := []Person{
+		{"Gopher", 13},
+		{"Alice", 20},
+		{"Bob", 5},
+		{"Vera", 24},
+		{"Zac", 15},
+	}
+
+	s := slices.SortedStableFunc(slices.Values(people[:]), func(x, y Person) int { return x.Age - y.Age })
+	fmt.Println(s)
+	// Output:
+	// [{Bob 5} {Gopher 13} {Zac 15} {Alice 20} {Vera 24}]
+}
+
 func ExampleChunk() {
 	type Person struct {
 		Name string
