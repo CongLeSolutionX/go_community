@@ -87,44 +87,6 @@ func coreType(t Type) Type {
 	return nil
 }
 
-// coreString is like coreType but also considers []byte
-// and strings as identical. In this case, if successful and we saw
-// a string, the result is of type (possibly untyped) string.
-func coreString(t Type) Type {
-	t = Unalias(t)
-	tpar, _ := t.(*TypeParam)
-	if tpar == nil {
-		return under(t) // string or untyped string
-	}
-
-	var su Type
-	hasString := false
-	if underIs(tpar, func(u Type) bool {
-		if u == nil {
-			return false
-		}
-		if isString(u) {
-			u = NewSlice(universeByte)
-			hasString = true
-		}
-		if su != nil {
-			u = match(su, u)
-			if u == nil {
-				return false
-			}
-		}
-		// su == nil || match(su, u) != nil
-		su = u
-		return true
-	}) {
-		if hasString {
-			return Typ[String]
-		}
-		return su
-	}
-	return nil
-}
-
 // If x and y are identical, match returns x.
 // If x and y are identical channels but for their direction
 // and one of them is unrestricted, match returns the channel
