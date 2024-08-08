@@ -373,14 +373,37 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Copy:
 		// copy(x, y []T) int
-		dst, _ := coreType(x.typ).(*Slice)
+		var dst *Slice
+		typeset(x.typ, func(_, u Type) bool {
+			s, _ := u.(*Slice)
+			if s == nil || dst != nil && !Identical(dst, s) {
+				dst = nil
+				return false
+			}
+			dst = s
+			return true
+		})
+
+		isByte := func(t Type) bool {
+			b, _ := under(t).(*Basic)
+			return b != nil && b.kind == Byte
+		}
 
 		y := args[1]
-		src0 := coreString(y.typ)
-		if src0 != nil && isString(src0) {
-			src0 = NewSlice(universeByte)
-		}
-		src, _ := src0.(*Slice)
+		var src *Slice
+		typeset(y.typ, func(_, u Type) bool {
+			if u != nil && isString(u) && (src == nil || isByte(src.elem)) {
+				src = NewSlice(universeByte)
+				return true
+			}
+			s, _ := u.(*Slice)
+			if s == nil || src != nil && !Identical(src, s) {
+				src = nil
+				return false
+			}
+			src = s
+			return true
+		})
 
 		if dst == nil || src == nil {
 			check.errorf(x, InvalidCopy, invalidArg+"copy expects slice arguments; found %s and %s", x, y)
