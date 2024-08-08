@@ -32,7 +32,7 @@ type Signature struct {
 // NewSignatureType creates a new function type for the given receiver,
 // receiver type parameters, type parameters, parameters, and results. If
 // variadic is set, params must hold at least one parameter and the last
-// parameter's core type must be of unnamed slice or bytestring type.
+// parameter's core type must be of unnamed slice or string type.
 // If recv is non-nil, typeParams must be empty. If recvTypeParams is
 // non-empty, recv must be non-nil.
 func NewSignatureType(recv *Var, recvTypeParams, typeParams []*TypeParam, params, results *Tuple, variadic bool) *Signature {
@@ -41,10 +41,20 @@ func NewSignatureType(recv *Var, recvTypeParams, typeParams []*TypeParam, params
 		if n == 0 {
 			panic("variadic function must have at least one parameter")
 		}
-		core := coreString(params.At(n - 1).typ)
-		if _, ok := core.(*Slice); !ok && !isString(core) {
-			panic(fmt.Sprintf("got %s, want variadic parameter with unnamed slice type or string as core type", core.String()))
-		}
+		var S *Slice
+		typeset(params.At(n-1).typ, func(t, _ Type) bool {
+			var s *Slice
+			if isString(t) {
+				s = NewSlice(universeByte)
+			} else {
+				s, _ = Unalias(t).(*Slice) // don't accept a named slice type
+			}
+			if s == nil || S != nil && !Identical(S, s) {
+				panic(fmt.Sprintf("got %s, want variadic parameter with unnamed slice type or string as core type", S))
+			}
+			S = s
+			return true
+		})
 	}
 	sig := &Signature{recv: recv, params: params, results: results, variadic: variadic}
 	if len(recvTypeParams) != 0 {
