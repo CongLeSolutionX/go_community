@@ -52,10 +52,17 @@ func NewSignatureType(recv *Var, recvTypeParams, typeParams []*TypeParam, params
 		if n == 0 {
 			panic("variadic function must have at least one parameter")
 		}
-		core := coreString(params.At(n - 1).typ)
-		if _, ok := core.(*Slice); !ok && !isString(core) {
-			panic(fmt.Sprintf("got %s, want variadic parameter with unnamed slice type or string as core type", core.String()))
-		}
+		var S *Slice
+		underIs(params.At(n-1).typ, func(u Type) bool {
+			if isString(u) {
+				u = NewSlice(universeByte)
+			}
+			s, _ := u.(*Slice)
+			if S != nil && !Identical(S, s) {
+				panic(fmt.Sprintf("got %s, want variadic parameter with unnamed slice type or string as core type", S))
+			}
+			return true
+		})
 	}
 	sig := &Signature{recv: recv, params: params, results: results, variadic: variadic}
 	if len(recvTypeParams) != 0 {
