@@ -92,22 +92,24 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 		// of S and the respective parameter passing rules apply."
 		S := x.typ
 		var T Type
-		if s, _ := coreType(S).(*Slice); s != nil {
-			T = s.elem
-		} else {
-			var cause string
-			switch {
-			case x.isNil():
-				cause = "have untyped nil"
-			case isTypeParam(S):
-				if u := coreType(S); u != nil {
-					cause = check.sprintf("%s has core type %s", x, u)
-				} else {
-					cause = check.sprintf("%s has no core type", x)
+		var cause string
+		if !underIs(S, func(u Type) bool {
+			s, _ := u.(*Slice)
+			if s == nil {
+				if x.isNil() {
+					cause = "have untyped nil"
+					return false
 				}
-			default:
 				cause = check.sprintf("have %s", x)
+				return false
 			}
+			if T != nil && !Identical(T, s.elem) {
+				cause = check.sprintf("mismatched element types %s and %s", T, s.elem)
+				return false
+			}
+			T = s.elem
+			return true
+		}) {
 			// don't use invalidArg prefix here as it would repeat "argument" in the error message
 			check.errorf(x, InvalidAppend, "first argument to append must be a slice; %s", cause)
 			return
@@ -119,7 +121,15 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 		if nargs == 2 && hasDots(call) {
 			if ok, _ := x.assignableTo(check, NewSlice(universeByte), nil); ok {
 				y := args[1]
-				if t := coreString(y.typ); t != nil && isString(t) {
+				if underIs(y.typ, func(u Type) bool {
+					if s, _ := u.(*Slice); s != nil && Identical(s.elem, universeByte) {
+						return true
+					}
+					if isString(u) {
+						return true
+					}
+					return false
+				}) {
 					if check.recordTypes() {
 						sig := makeSig(S, S, y.typ)
 						sig.variadic = true
@@ -360,14 +370,39 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 
 	case _Copy:
 		// copy(x, y []T) int
-		dst, _ := coreType(x.typ).(*Slice)
+		var dst *Slice
+		underIs(x.typ, func(u Type) bool {
+			s, _ := u.(*Slice)
+			if s == nil || dst != nil && !Identical(dst, s) {
+				dst = nil
+				return false
+			}
+			dst = s
+			return true
+		})
 
-		y := args[1]
-		src0 := coreString(y.typ)
-		if src0 != nil && isString(src0) {
-			src0 = NewSlice(universeByte)
+		// TODO(gri) find a better place or solution for this
+		isByte := func(t Type) bool {
+			b, _ := under(t).(*Basic)
+			return b != nil && b.kind == Byte
 		}
-		src, _ := src0.(*Slice)
+
+		// TODO(gri) factor out this code
+		y := args[1]
+		var src *Slice
+		underIs(y.typ, func(u Type) bool {
+			if u != nil && isString(u) && (src == nil || isByte(src.elem)) {
+				src = NewSlice(universeByte)
+				return true
+			}
+			s, _ := u.(*Slice)
+			if s == nil || src != nil && !Identical(src, s) {
+				src = nil
+				return false
+			}
+			src = s
+			return true
+		})
 
 		if dst == nil || src == nil {
 			check.errorf(x, InvalidCopy, invalidArg+"copy expects slice arguments; found %s and %s", x, y)
