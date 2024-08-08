@@ -844,7 +844,17 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 		// unsafe.Slice(ptr *T, len IntegerType) []T
 		check.verifyVersionf(call.Fun, go1_17, "unsafe.Slice")
 
-		ptr, _ := coreType(x.typ).(*Pointer)
+		var ptr *Pointer
+		typeset(x.typ, func(_, u Type) bool {
+			p, _ := u.(*Pointer)
+			if p == nil || ptr != nil && !Identical(ptr, p) {
+				ptr = nil
+				return false
+			}
+			ptr = p
+			return true
+		})
+
 		if ptr == nil {
 			check.errorf(x, InvalidUnsafeSlice, invalidArg+"%s is not a pointer", x)
 			return
@@ -865,7 +875,17 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 		// unsafe.SliceData(slice []T) *T
 		check.verifyVersionf(call.Fun, go1_20, "unsafe.SliceData")
 
-		slice, _ := coreType(x.typ).(*Slice)
+		var slice *Slice
+		typeset(x.typ, func(_, u Type) bool {
+			s, _ := u.(*Slice)
+			if s == nil || slice != nil && !Identical(slice, s) {
+				slice = nil
+				return false
+			}
+			slice = s
+			return true
+		})
+
 		if slice == nil {
 			check.errorf(x, InvalidUnsafeSliceData, invalidArg+"%s is not a slice", x)
 			return
