@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23984441_d235ae60",
+        "filename": "src/slices/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-08T23:20:51Z",
+      "side": 1,
+      "message": "Please add a comment pointing out that the comparison is being done in reverse.  Thanks.",
+      "revId": "e97832f082dfea36720e30a758c337f13a66de40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0628e7e7_0c580bdb",
+        "filename": "src/slices/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-08T23:20:51Z",
+      "side": 1,
+      "message": "No need for [:] here.",
+      "revId": "e97832f082dfea36720e30a758c337f13a66de40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
