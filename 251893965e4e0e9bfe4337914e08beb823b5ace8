@@ -50,6 +50,23 @@
       "message": "Thanks for figuring this out!  I can confirm that this fixes the problems on my laptop.",
       "revId": "251893965e4e0e9bfe4337914e08beb823b5ace8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c03e0590_fd50b1af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-08T23:26:17Z",
+      "side": 1,
+      "message": "It works! No failures for 10000 iterations when testing this in CL 604155: https://ci.chromium.org/ui/p/golang/builders/try/gotip-linux-arm/b8740142369743700065/test-results?sortby\u003d\u0026groupby\u003d",
+      "revId": "251893965e4e0e9bfe4337914e08beb823b5ace8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
