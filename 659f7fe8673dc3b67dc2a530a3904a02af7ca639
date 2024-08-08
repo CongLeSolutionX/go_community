@@ -33,6 +33,24 @@
       "message": "The new code is harder to read. Do you have any evidence that there\u0027s a performance problem here? Optimizations such like this one need a benchmark showing clear improvements.",
       "revId": "659f7fe8673dc3b67dc2a530a3904a02af7ca639",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86aab263_f219ad35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-08-08T20:43:15Z",
+      "side": 1,
+      "message": "As an aside, this also applies to previously submitted CL: there\u0027s no benchmark showing a clear improvement.",
+      "parentUuid": "ab62a5ba_64bdb355",
+      "revId": "659f7fe8673dc3b67dc2a530a3904a02af7ca639",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
