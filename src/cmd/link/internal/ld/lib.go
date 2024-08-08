@@ -788,6 +788,10 @@ func (ctxt *Link) loadcgodirectives() {
 // Set up flags and special symbols depending on the platform build mode.
 // This version works with loader.Loader.
 func (ctxt *Link) linksetup() {
+	if ctxt.loader.Lookup(*flagEntrySymbol, 0) == 0 {
+		Errorf(nil, "entry symbol %s not defined", *flagEntrySymbol)
+	}
+
 	switch ctxt.BuildMode {
 	case BuildModeCShared, BuildModePlugin:
 		symIdx := ctxt.loader.LookupOrCreateSym("runtime.islibrary", 0)

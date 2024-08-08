@@ -2564,7 +2564,12 @@ func externalLinkingReason(p *Package) (what string) {
 
 	// Some build modes always require external linking.
 	switch cfg.BuildBuildmode {
-	case "c-shared", "plugin":
+	case "c-shared":
+		if cfg.BuildContext.GOARCH == "wasm" {
+			break
+		}
+		fallthrough
+	case "plugin":
 		return "-buildmode=" + cfg.BuildBuildmode
 	}
 
