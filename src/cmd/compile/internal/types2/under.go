@@ -80,44 +80,6 @@ func coreType(t Type) Type {
 	return su
 }
 
-// coreString is like coreType but also considers []byte
-// and strings as identical. In this case, if successful and we saw
-// a string, the result is of type (possibly untyped) string.
-func coreString(t Type) Type {
-	// This explicit case is needed because otherwise the
-	// result would be string if t is an untyped string.
-	if !isTypeParam(t) {
-		return under(t) // untyped string remains untyped
-	}
-
-	var su Type
-	hasString := false
-	typeset(t, func(_, u Type) bool {
-		if u == nil {
-			return false
-		}
-		if isString(u) {
-			u = NewSlice(universeByte)
-			hasString = true
-		}
-		if su != nil {
-			u = match(su, u)
-			if u == nil {
-				su = nil
-				hasString = false
-				return false
-			}
-		}
-		// su == nil || match(su, u) != nil
-		su = u
-		return true
-	})
-	if hasString {
-		return Typ[String]
-	}
-	return su
-}
-
 // If x and y are identical, match returns x.
 // If x and y are identical channels but for their direction
 // and one of them is unrestricted, match returns the channel
