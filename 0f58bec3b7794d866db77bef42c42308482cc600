@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36c4c287_10a817af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 41
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "Move this below the next paragraph?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17fc9e20_1a7c71d1",
+        "filename": "src/cmd/go/internal/modfetch/repo.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "we can move this to right before the LookupLocal definition?\n\nalso maybe we can call this lookupLocalCache?",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 58
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23e5031c_fe322244",
+        "filename": "src/cmd/go/internal/modfetch/repo.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "I think we can combine these similar to how we do after the call to lookup on 216:\n\n    r, err :\u003d newCodeRepo(code, repoDir, path)\n    if err \u003d\u003d nil \u0026\u0026 traceRepo {\n        r \u003d newLoggingRepo(r)\n    }\n    return r, err",
+      "range": {
+        "startLine": 242,
+        "startChar": 3,
+        "endLine": 247,
+        "endChar": 4
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1744101_45704dbf",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "I understand why this is needed in get_issue53955, but I don\u0027t think the remote should be relevant here? I think we should be able to use a non-github module name, right?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 118
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbce81d7_e49621b7",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "do we need these? do we use the remote?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "043a9e67_6da1d14f",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "can we remove this too?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b176f23_92482719",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "\"Use a pseudo-version\" or \"Use a 0.0.0 pseudo-version\" ?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 24
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d31040f_6c0fafc7",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "Could we test for the exact pseudo versions with the commit hash included? The \u0027.\u0027 can capture everything. I don\u0027t think it\u0027s likely to match something we don\u0027t want to match, but I think it\u0027s better to avoid it if we can.",
+      "range": {
+        "startLine": 46,
+        "startChar": 67,
+        "endLine": 46,
+        "endChar": 72
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91678d70_c32ab59d",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "So if there are multiple tags for the commit, we find one that has a valid semantic version?",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93ae5b71_a0724f75",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "pseudo-version?",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 88,
+        "endChar": 22
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59c98f27_d5a5f4be",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "should we add \\s+ to the end of the regexp?",
+      "range": {
+        "startLine": 98,
+        "startChar": 77,
+        "endLine": 98,
+        "endChar": 79
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42fa4bb5_cb1361e9",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "\u0027to generate the pseudo-version\u0027?",
+      "range": {
+        "startLine": 101,
+        "startChar": 55,
+        "endLine": 101,
+        "endChar": 57
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2d8594a_6e062b69",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "nit: indent the [user] section the same as the [remote \"origin\"] section? (but I don\u0027t think the remote section is necessary. see below).",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 17
+      },
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfefbffb_c75b34f7",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-08T20:36:14Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this remote section since we should never have to access a remote.",
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
