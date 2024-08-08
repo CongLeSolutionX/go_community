@@ -7415,20 +7415,26 @@ b = append(b, "bar"...)            // append string contents      b is []byte{'b
 The function <code>copy</code> copies slice elements from
 a source <code>src</code> to a destination <code>dst</code> and returns the
 number of elements copied.
-The <a href="#Core_types">core types</a> of both arguments must be slices
-with <a href="#Type_identity">identical</a> element type.
+Both arguments must be slices with <a href="#Type_identity">identical</a>
+element type.
 The number of elements copied is the minimum of
 <code>len(src)</code> and <code>len(dst)</code>.
-As a special case, if the destination's core type is <code>[]byte</code>,
-<code>copy</code> also accepts a source argument with core type
-<a href="#Core_types"><code>bytestring</code></a>.
-This form copies the bytes from the byte slice or string into the byte slice.
+As a special case, <code>copy</code> also accepts a destination argument
+assignable to type <code>[]byte</code> with a source argument of a
+<code>string</code> type.
+This form copies the bytes from the string into the byte slice.
 </p>
 
 <pre class="grammar">
 copy(dst, src []T) int
 copy(dst []byte, src string) int
 </pre>
+
+<p>
+If the type of one or both of the arguments is a type parameter,
+<code>copy</code> must be valid for any possible combination of types
+in the respective type sets.
+</p>
 
 <p>
 Examples:
