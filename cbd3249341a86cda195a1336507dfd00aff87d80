@@ -88,6 +88,24 @@
       "parentUuid": "94a1cb30_0ab58ec1",
       "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d469cb6_9bdc0dc4",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2024-08-09T21:22:11Z",
+      "side": 1,
+      "message": "I agree, I don\u0027t quite see how we can merge the two loops. but with context on the Wasm conventions, the loop is fairly simple IMO. I think the second loop is simpler than the two-wrappers approach as well.",
+      "parentUuid": "24ffd06c_fdc5f85a",
+      "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
