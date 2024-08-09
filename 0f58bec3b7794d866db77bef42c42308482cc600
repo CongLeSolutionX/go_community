@@ -645,6 +645,24 @@
       "parentUuid": "cfefbffb_c75b34f7",
       "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef6f2d1_40a97465",
+        "filename": "src/cmd/go/testdata/script/build_version_stamping_git.txt",
+        "patchSetId": 41
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-09T21:06:56Z",
+      "side": 1,
+      "message": "Hm, would that test what we want it to? As I understand it, the TESTGONETWORK\u003dpanic option only panics if the go command itself tries to make a get request, but it can\u0027t tell if the git command is trying to.\n\nnet is also disallowed on the js/wasi builders and I don\u0027t think they run the script tests.",
+      "parentUuid": "31999545_0d6bb050",
+      "revId": "0f58bec3b7794d866db77bef42c42308482cc600",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
