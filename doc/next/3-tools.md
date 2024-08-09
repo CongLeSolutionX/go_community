@@ -10,3 +10,8 @@ and `void f(double)`, cgo will report an error instead of possibly generating an
 incorrect call sequence for `f(0)`. New in this release is a better detector for
 this error condition when the incompatible declarations appear in different
 files. See [#67699](/issue/67699).
+
+### Compiler Toolchain {#compiler}
+
+The DWARF debug information recorded in binaries has contained string constants
+now.
