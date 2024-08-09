@@ -46,6 +46,30 @@
       },
       "revId": "760b722c344d312ab62a5c2f94865a869ce0bab9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c87e39_3bb67382",
+        "filename": "src/internal/goexperiment/flags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-09T22:22:02Z",
+      "side": 0,
+      "message": "As I understand the situation, neither can implement type parameterized aliases when either the GODEBUG or the GOEXPERIMENT is disabled. It is definitely the case that the GODEBUG is with us until 1.27 https://go.dev/cl/585457 . The GODEBUG commits go/types to not being able to produce a type parameterized alias when it is off. (There is no alternative to materializing an exported alias when importing.) \n\nIt is a strange situation. Maybe we can do better?  I\u0027ll try to think harder about whether go/types and the compiler can have asymmetric behavior here.",
+      "parentUuid": "aca88a46_7daf1686",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 21
+      },
+      "revId": "760b722c344d312ab62a5c2f94865a869ce0bab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
