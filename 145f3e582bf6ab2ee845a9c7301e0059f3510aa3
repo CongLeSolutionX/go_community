@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f1fcc3_d0ad5ab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61328
+      },
+      "writtenOn": "2024-08-09T20:32:07Z",
+      "side": 1,
+      "message": "docker pull ghcr.io/maxmind/geoipupdate:v7.0.1",
+      "revId": "145f3e582bf6ab2ee845a9c7301e0059f3510aa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
