@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04cb18eb_ce69780d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-08-09T18:26:49Z",
+      "side": 1,
+      "message": "LGTM.  This code, wow.",
+      "revId": "b55a5ff0e532f8d98e3e03df36acd2cdcb64c06c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
