@@ -1814,7 +1814,6 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 		}
 		return ft.newLimit(v, l)
 	}
-	// TODO: mul/lsh, rsh, div/mod, and/or/xor
 	return false
 }
 
