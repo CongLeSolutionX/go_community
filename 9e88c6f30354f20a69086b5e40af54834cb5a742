@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8edda660_6f9041d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-08-09T09:40:55Z",
+      "side": 1,
+      "message": "Just a few small questions.",
+      "revId": "9e88c6f30354f20a69086b5e40af54834cb5a742",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd72bd3_d1cc3369",
+        "filename": "src/math/big/arith_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-08-09T09:40:55Z",
+      "side": 1,
+      "message": "Any reason to not just do a SLLI $3, X30, X10?",
+      "revId": "9e88c6f30354f20a69086b5e40af54834cb5a742",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98dcbac5_893e7f2c",
+        "filename": "src/math/big/arith_riscv64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-08-09T09:40:55Z",
+      "side": 1,
+      "message": "Why do we need to AND with the mask?  Is this to handle the case where s \u003d 0?  I note that the pure go version and the arm versions, provide a separate code path for the case where s \u003d 0.  Originally, I didn\u0027t see the point of optimising for this edge case, but perhaps by having a separate path for s \u003d\u003d 0, the main code path can be simplified, e.g., by eliminating the masks.  Or am I just misunderstanding the code?",
+      "revId": "9e88c6f30354f20a69086b5e40af54834cb5a742",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
