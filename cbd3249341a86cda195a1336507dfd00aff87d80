@@ -52,6 +52,24 @@
       "parentUuid": "1e3a0435_65c6e624",
       "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94a1cb30_0ab58ec1",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-09T18:37:42Z",
+      "side": 1,
+      "message": "Renamed wasm_pc_f_loop_until to wasm_pc_f_loop_export.\n\nLeaving wasm_pc_f_loop unchanged for now, as apparently js/wasm calls it not just for the top level entry point, but also for handling events. The event handling semantics there is that it lets the runtime run as many runnable goroutines as possible, and return when there is no work to do. This is different than the proposed semantic for wasmexport (return to the host when the export function returns), so we can\u0027t simply reuse that.",
+      "parentUuid": "cc3da47c_bb634e86",
+      "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
