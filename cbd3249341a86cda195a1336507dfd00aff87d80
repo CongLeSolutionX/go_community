@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "260a38ca_19ace930",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2024-08-09T06:39:38Z",
+      "side": 1,
+      "message": "If I\u0027m understanding correctly, wasm_pc_f_loop is always the \"top level\" entry point that ends up calling main.main, while wasm_pc_f_loop_until is used for other wasmexport functions.\n\n- Could we simplify by expressing wasm_pc_f_loop in terms of wasm_pc_f_loop_until, passing the PC of main.main? (potentially never reached since proc_exit would be called?)\n\n- If we keep both functions, maybe we could edit the names to better reflect the intent (e.g., wasm_pc_f_loop_main, wasm_pc_f_loop_export)?\n\nI don\u0027t hold strong opinions on either; I just wanted to bring it up in case we think these could be useful changes to make.",
+      "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
