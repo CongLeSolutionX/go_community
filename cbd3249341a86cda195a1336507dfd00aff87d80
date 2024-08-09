@@ -34,6 +34,24 @@
       "parentUuid": "260a38ca_19ace930",
       "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc3da47c_bb634e86",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2024-08-09T17:43:35Z",
+      "side": 1,
+      "message": "OK, let\u0027s keep it two functions, a little copying is better at this stage.",
+      "parentUuid": "1e3a0435_65c6e624",
+      "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
