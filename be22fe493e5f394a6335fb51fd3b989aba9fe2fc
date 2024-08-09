@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23c47d0_e18732a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-08-09T20:34:56Z",
+      "side": 1,
+      "message": "div/mod aren\u0027t handled either. But this comment isn\u0027t really useful, so CL looks fine.",
+      "revId": "be22fe493e5f394a6335fb51fd3b989aba9fe2fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
