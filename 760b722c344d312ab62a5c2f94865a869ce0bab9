@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fad1590_0cd3c878",
+        "filename": "src/internal/goexperiment/flags.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-09T21:43:32Z",
+      "side": 0,
+      "message": "I recall after the related GODEBUG discussion (earliest that can be removed is 1.27) there was a decision that we needed to support the GOEXPERIMENT for the release that includes that the default value flipping. So 1.24 would need it. So the earliest this can be removed is 1.25 by this logic.\n\nI am having trouble recalling who I discussed this with. It should be clearly documented either way.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 21
+      },
+      "revId": "760b722c344d312ab62a5c2f94865a869ce0bab9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
