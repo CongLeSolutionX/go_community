@@ -130,10 +130,6 @@ func (check *Checker) instance(pos token.Pos, orig genericType, targs []Type, ex
 		res = check.newNamedInstance(pos, orig, targs, expanding) // substituted lazily
 
 	case *Alias:
-		if !buildcfg.Experiment.AliasTypeParams {
-			assert(expanding == nil) // Alias instances cannot be reached from Named types
-		}
-
 		tparams := orig.TypeParams()
 		// TODO(gri) investigate if this is needed (type argument and parameter count seem to be correct here)
 		if !check.validateTArgLen(pos, orig.String(), tparams.Len(), len(targs)) {

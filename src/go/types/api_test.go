@@ -11,6 +11,7 @@ import (
 	"go/importer"
 	"go/parser"
 	"go/token"
+	"go/types"
 	"internal/goversion"
 	"internal/testenv"
 	"reflect"
@@ -3161,6 +3162,47 @@ type C = int
 	got, want := A.Type().(*Alias).Rhs().String(), "p.B"
 	if got != want {
 		t.Errorf("A.Rhs = %s, want %s", got, want)
+	}
+}
+
+func TestUnaliasOfParameterizedAlias(t *testing.T) {
+	setGotypesalias(t, true)
+	const src = `
+package a
+
+type Map[K comparable, V any] = map[K]V
+type Set[T comparable] = Map[T, bool]
+type StringSet = Set[string]
+func f[P comparable]() {
+	type Local = Set[P]
+	type Local2[I int] = Set[I]
+}
+`
+	info := &Info{
+		Types: make(map[ast.Expr]TypeAndValue),
+		Defs:  make(map[*ast.Ident]Object),
+	}
+	_ = mustTypecheck(src, nil, info)
+	got := make(map[string]string)
+	for id, obj := range info.Defs {
+		if obj != nil {
+			if alias, ok := obj.Type().(*types.Alias); ok {
+				got[id.Name] = Unalias(alias).String()
+			}
+		}
+	}
+
+	want := map[string]string{
+		// The Unaliased type may have free type parameters.
+		"Map":       "map[K]V",
+		"Set":       "map[T]bool",
+		"StringSet": "map[string]bool",
+		"Local":     "map[P]bool",
+		"Local2":    "map[I]bool",
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
 	}
 }
 
