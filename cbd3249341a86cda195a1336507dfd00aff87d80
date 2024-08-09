@@ -70,6 +70,24 @@
       "parentUuid": "cc3da47c_bb634e86",
       "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24ffd06c_fdc5f85a",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-09T19:43:12Z",
+      "side": 1,
+      "message": "Another possibility I considered but didn\u0027t implement: for a Go wasmexport function (say `main.F`), we generate _two_ wrappers, say `F` and `F2`. `F` is the exported function callable from the host, which stores the args on stack, and push `F2`\u0027s entry PC, then call (the old) `wasm_pc_f_loop`, which will start the execution in `F2`. `F2` calls `main.F`. If `main.F` unwinds the stack, `F2` returns, back to `wasm_pc_f_loop`. When `main.F` returns, `F2` sets PAUSE to 1, and returns to `wasm_pc_f_loop`, which exits the loop, returns to `F`, which stores the result and returns to the host.\n\nThis way we don\u0027t need to write another pc_f loop. But we need two wrappers, which complicates things and sounds convoluted. We need two wrappers because `F` follows the Wasm calling convention, whereas `F2` uses the Go calling convention (takes PC_B as arg, returns unwinding status) so pc_f loop can handle. `F2` may also need a fake frame size that matches `F`\u0027s.",
+      "parentUuid": "94a1cb30_0ab58ec1",
+      "revId": "cbd3249341a86cda195a1336507dfd00aff87d80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
