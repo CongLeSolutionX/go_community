@@ -123,6 +123,40 @@
       "parentUuid": "cc354b19_1a933335",
       "revId": "864b19879e2acfdd01888a5fbf12b515622e14e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dec80a77_b6ff145f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2024-08-10T17:23:13Z",
+      "side": 1,
+      "message": "Suggested an test case for dwarf encoding.",
+      "revId": "864b19879e2acfdd01888a5fbf12b515622e14e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f632a0b_7d8737e2",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2024-08-10T17:23:13Z",
+      "side": 1,
+      "message": "Could you add a case with a 0 inside? \n\ne.g. \"before zero\\x00 after zero\"\n\nand check that you get that string? This would cross check whether the right type has been chosen to encode strings.",
+      "revId": "864b19879e2acfdd01888a5fbf12b515622e14e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
