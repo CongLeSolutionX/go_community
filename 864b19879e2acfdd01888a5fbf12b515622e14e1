@@ -16,6 +16,24 @@
       "message": "How much does this increase the size of executables (for example the compiler)?",
       "revId": "864b19879e2acfdd01888a5fbf12b515622e14e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c5fdc01_5b7577d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 64694
+      },
+      "writtenOn": "2024-08-10T16:01:05Z",
+      "side": 1,
+      "message": "I don\u0027t think it makes sense to test this value now, there are obvious bugs in this patch that need to be fixed, and the fixes may change the size of the final binary.",
+      "parentUuid": "9cad9c52_0437235a",
+      "revId": "864b19879e2acfdd01888a5fbf12b515622e14e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
