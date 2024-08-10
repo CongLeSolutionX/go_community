@@ -51,6 +51,24 @@
       "message": "I\u0027d like to explain the problem I\u0027m having: the DW_AT_type is supposed to point to a type description, but the string type itself has a type that is not available here. go uses a StringHeader to describe a string, a length uint, and a pointer to the location of the string, but for const strings go handles it specifically Only the string data itself is stored, so we should use a fixed-length uint8 array to describe the data.\n\nI tried to expose this newly generated type using reflectdata.TypeLinksym, but it seems that this function will also add the type to go\u0027s runtime type, which is obviously pointless, the type should only exist in a dwarf.\n\n@alessandro.arzilli@gmail.com Any suggestions?",
       "revId": "864b19879e2acfdd01888a5fbf12b515622e14e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5907d395_92bd7770",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2024-08-10T16:17:40Z",
+      "side": 1,
+      "message": "DW_TAG_constant DIEs do not need to have a type attribute, that\u0027s one possibility, but we should see how other debuggers (gdb, lldb) react to that. Another way could be to write to .rodata the string struct (although what about relocations) and give the DIEs a DW_AT_location attribute.",
+      "parentUuid": "818f09d5_dfaed463",
+      "revId": "864b19879e2acfdd01888a5fbf12b515622e14e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
