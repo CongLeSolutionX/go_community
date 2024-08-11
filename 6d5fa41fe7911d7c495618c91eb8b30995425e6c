@@ -16,6 +16,24 @@
       "message": "Looking at this again, it\u0027s not clear why any of the code here is changing.  This isn\u0027t part of IndexRune.  Perhaps these changes should be done in a separate patch.",
       "revId": "6d5fa41fe7911d7c495618c91eb8b30995425e6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9606760_234a8303",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-08-11T17:36:55Z",
+      "side": 1,
+      "message": "Sounds good, I removed the changes to bytes.Index and will submit this change in a subsequent PR.",
+      "parentUuid": "225b7516_3068e749",
+      "revId": "6d5fa41fe7911d7c495618c91eb8b30995425e6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
