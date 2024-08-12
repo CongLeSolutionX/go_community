@@ -70,7 +70,7 @@ Examples:
 	BEQ	R0, R4, lable1  <=>  beq R0, R4, lable1
 	JMP	lable1          <=>  b lable1
 
-(2) BSTRPICKW, BSTRPICKV $<msb>, <Rj>, $<lsb>, <Rd>
+(2) BSTRPICKW, BSTRPICKV, BSTRINSW, BSTRINSV $<msb>, <Rj>, $<lsb>, <Rd>
 
 Examples:
 

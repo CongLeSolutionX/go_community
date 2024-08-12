@@ -1165,6 +1165,8 @@ func buildop(ctxt *obj.Link) {
 
 		case ABSTRPICKW:
 			opset(ABSTRPICKV, r0)
+			opset(ABSTRINSW, r0)
+			opset(ABSTRINSV, r0)
 
 		case ASUB:
 			opset(ASUBU, r0)
@@ -1502,7 +1504,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 		// check the range of msb and lsb
 		var b uint32
-		if p.As == ABSTRPICKW {
+		if p.As == ABSTRPICKW || p.As == ABSTRINSW {
 			b = 32
 		} else {
 			b = 64
@@ -2287,6 +2289,10 @@ func (c *ctxt0) opirr(a obj.As) uint32 {
 
 func (c *ctxt0) opirir(a obj.As) uint32 {
 	switch a {
+	case ABSTRINSW:
+		return 0x3<<21 | 0x0<<15 // bstrins.w
+	case ABSTRINSV:
+		return 0x2 << 22 // bstrins.d
 	case ABSTRPICKW:
 		return 0x3<<21 | 0x1<<15 // bstrpick.w
 	case ABSTRPICKV:
