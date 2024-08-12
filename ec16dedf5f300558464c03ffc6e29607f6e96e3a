@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca2a796b_a6514e71",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2024-08-12T14:52:03Z",
+      "side": 1,
+      "message": "Is there a condition under which _rt0_wasm_wasip1_lib wouldn\u0027t be defined?",
+      "revId": "ec16dedf5f300558464c03ffc6e29607f6e96e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d671d9f0_5888a055",
+        "filename": "src/runtime/rt0_wasip1_wasm.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2024-08-12T14:52:03Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand why we need this indirection, nor what prevents main.main from being called when the entry point is _initialize if we simply delegate to _rt0_wasm_wasip1.\n\nIs this still just a placeholder?",
+      "revId": "ec16dedf5f300558464c03ffc6e29607f6e96e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
