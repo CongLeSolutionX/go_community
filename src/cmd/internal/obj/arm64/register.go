@@ -200,3 +200,7 @@ func (r *SVERegister) Format() int {
 func (r *SVERegister) ToInt16() int16 {
 	return int16(r.uint16)
 }
+
+func (r *SVERegister) HasLaneSize() bool {
+	return EXT_B <= r.Ext() && r.Ext() <= EXT_D
+}

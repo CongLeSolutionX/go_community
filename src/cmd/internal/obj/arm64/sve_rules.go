@@ -43,3 +43,42 @@ func Rmi2(vals ...*obj.Addr) (uint32, bool) {
 	}
 	return v | u, true
 }
+
+func Pg(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	return p(uint32(r.Number()), 12, 10)
+}
+
+func sveT(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	for _, v := range vals[1:] {
+		r2 := AsSVERegister(v.Reg)
+		if !r.HasLaneSize() || (r.Ext() != r2.Ext()) {
+			return 0, false
+		}
+	}
+
+	t := uint32(0)
+	switch r.Ext() {
+	case EXT_B:
+		t = 0
+	case EXT_H:
+		t = 1
+	case EXT_S:
+		t = 2
+	case EXT_D:
+		t = 3
+	default:
+		panic("unreachable")
+	}
+	return p(t, 23, 22)
+}
+
+func Zdn(vals ...*obj.Addr) (uint32, bool) {
+	r1 := AsSVERegister(vals[0].Reg)
+	r2 := AsSVERegister(vals[1].Reg)
+	if r1.Number() != r2.Number() {
+		return 0, false
+	}
+	return p(uint32(r1.Number()), 4, 0)
+}

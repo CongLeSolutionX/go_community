@@ -12,7 +12,7 @@ type encoding struct {
 	// Concatenation of all fixed bits in the encoding.
 	base uint32
 	// Which operand format does this encoding require? Key into format table.
-	format int
+	format []int
 	// Which encoder does this encoding use? Key into encoder table.
 	encoder int
 }
@@ -77,50 +77,58 @@ func assembleSVE(p *obj.Prog) (uint32, error) {
 // are validated against the format of this encoding instance, if there is a match it
 // will return true as the second return value, otherwise false.
 func (e *encoding) getFormattedArgs(prog *obj.Prog) ([]*obj.Addr, bool) {
-	fmt := formats[e.format]
+	for _, format := range e.format {
+		fmt := formats[format]
 
-	args := []*obj.Addr{}
+		args := []*obj.Addr{}
 
-	if prog.To.Type != obj.TYPE_NONE {
-		args = append(args, &prog.To)
-	}
-
-	if prog.RegTo2 != obj.REG_NONE {
-		args = append(args, &obj.Addr{Type: obj.TYPE_REG, Reg: prog.RegTo2})
-	}
-
-	for _, arg := range prog.RestArgs {
-		if arg.Pos == obj.Destination {
-			args = append(args, &arg.Addr)
+		if prog.To.Type != obj.TYPE_NONE {
+			args = append(args, &prog.To)
 		}
-	}
 
-	if prog.From.Type != obj.TYPE_NONE {
-		args = append(args, &prog.From)
-	}
-
-	if prog.Reg != obj.REG_NONE {
-		args = append(args, &obj.Addr{Type: obj.TYPE_REG, Reg: prog.Reg})
-	}
-
-	for _, arg := range prog.RestArgs {
-		if arg.Pos == obj.Source {
-			args = append(args, &arg.Addr)
+		if prog.RegTo2 != obj.REG_NONE {
+			args = append(args, &obj.Addr{Type: obj.TYPE_REG, Reg: prog.RegTo2})
 		}
-	}
 
-	if len(args) != len(fmt) {
-		return []*obj.Addr{}, false
-	}
+		for _, arg := range prog.RestArgs {
+			if arg.Pos == obj.Destination {
+				args = append(args, &arg.Addr)
+			}
+		}
 
-	for i, arg := range args {
-		ok := validateArg(arg, fmt[i])
+		if prog.From.Type != obj.TYPE_NONE {
+			args = append(args, &prog.From)
+		}
+
+		if prog.Reg != obj.REG_NONE {
+			args = append(args, &obj.Addr{Type: obj.TYPE_REG, Reg: prog.Reg})
+		}
+
+		for _, arg := range prog.RestArgs {
+			if arg.Pos == obj.Source {
+				args = append(args, &arg.Addr)
+			}
+		}
+
+		if len(args) != len(fmt) {
+			return nil, false
+		}
+
+		ok := true
+		for i, arg := range args {
+			ok = validateArg(arg, fmt[i])
+			if !ok {
+				break
+			}
+		}
 		if !ok {
-			return []*obj.Addr{}, false
+			continue
 		}
+
+		return args, true
 	}
 
-	return args, true
+	return nil, false
 }
 
 func validateArg(arg *obj.Addr, fmt int) bool {
@@ -131,8 +139,10 @@ func validateArg(arg *obj.Addr, fmt int) bool {
 		}
 
 		if !IsSVERegister(arg.Reg) {
-			return false
+			r := NewSVERegister(arg.Reg, EXT_NONE)
+			arg.Reg = r.ToInt16()
 		}
+
 		reg := AsSVERegister(arg.Reg)
 		if reg.Format() != fmt {
 			return false
@@ -143,11 +153,8 @@ func validateArg(arg *obj.Addr, fmt int) bool {
 			return false
 		}
 
-		if !IsSVERegister(arg.Reg) {
-			return false
-		}
 		reg := AsSVERegister(arg.Reg)
-		
+
 		if int(reg.Ext()) != getExt(fmt) {
 			return false
 		}
