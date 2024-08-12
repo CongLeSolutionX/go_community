@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcf88ed1_b8295bde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-08-12T19:59:40Z",
+      "side": 1,
+      "message": "Thanks for sticking with this.",
+      "revId": "2819b81b1896066aee29db9624b4058df7ecefa7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
