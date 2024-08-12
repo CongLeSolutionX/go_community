@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db6e6bf7_30c47ff3",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-12T16:15:05Z",
+      "side": 1,
+      "message": "No. It should always be defined, unless something in the toolchain is wrong. Here it is just a sanity check. When I started working on this, I forgot to define the symbol, and the link succeeded but generated a weird binary. I\u0027d rather it fail loud here, instead of some weird failure later.",
+      "parentUuid": "ca2a796b_a6514e71",
+      "revId": "ec16dedf5f300558464c03ffc6e29607f6e96e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4bb489bf_17e51920",
         "filename": "src/runtime/proc.go",
         "patchSetId": 5
@@ -48,6 +66,30 @@
       "writtenOn": "2024-08-12T15:26:37Z",
       "side": 1,
       "message": "is this just because there\u0027s no means of returning to the host? I would\u0027ve expected that if all goroutines are blocked that we would return to the host (via the scheduler; in beforeIdle I think?) on the assumption that some goroutine is waiting for the host to trigger some event.",
+      "range": {
+        "startLine": 5928,
+        "startChar": 29,
+        "endLine": 5928,
+        "endChar": 54
+      },
+      "revId": "ec16dedf5f300558464c03ffc6e29607f6e96e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63cc430a_48880958",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5928,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-12T16:15:05Z",
+      "side": 1,
+      "message": "Maybe. We might be able to return to the host. But that is weird, too, in that it looks like the wasmexport function returns, except not really.\n\nI think the current proposed semantic is that the wasmexport call is synchronous.\n\nWe probably could relax and remove the check if we want and have a better design. I\u0027d have to think more.",
+      "parentUuid": "4bb489bf_17e51920",
       "range": {
         "startLine": 5928,
         "startChar": 29,
@@ -89,6 +131,24 @@
       "side": 1,
       "message": "I suspect that, at the very least, this is for consistency with other platforms. for instance, there\u0027s an `_rt0_amd64` and `_rt0_amd64_lib`.",
       "parentUuid": "d671d9f0_5888a055",
+      "revId": "ec16dedf5f300558464c03ffc6e29607f6e96e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b681986_d3483177",
+        "filename": "src/runtime/rt0_wasip1_wasm.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-12T16:15:05Z",
+      "side": 1,
+      "message": "The _lib is just a convention. The linker looks for _rt0_GOARCH_GOOS_lib sybmol as the start symbol for library mode. We could set _initialize to point to _rt0_wasm_wasip1, but I\u0027d rather keep consistency.\n\nWhat prevents main.main from being called is at https://go-review.googlesource.com/c/go/+/604316/5/src/runtime/proc.go#266. The linker sets `islibrary` to true, so it stops after init.",
+      "parentUuid": "d94b1a77_6ef2eb66",
       "revId": "ec16dedf5f300558464c03ffc6e29607f6e96e3a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
