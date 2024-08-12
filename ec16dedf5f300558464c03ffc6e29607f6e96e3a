@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27824862_884beac0",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-12T16:18:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "db6e6bf7_30c47ff3",
+      "revId": "ec16dedf5f300558464c03ffc6e29607f6e96e3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bb489bf_17e51920",
