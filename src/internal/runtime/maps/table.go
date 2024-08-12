@@ -567,7 +567,7 @@ func (it *Iter) Next() {
 		// N.B. This computation would be inconsistent when the
 		// directory grows, but if the directory grows we will always
 		// skip the new entries, so it doesn't matter.
-		dirIdx := int((uint64(it.dirIdx)+it.dirOffset) % uint64(len(it.m.directory)))
+		dirIdx := int((uint64(it.dirIdx)+it.dirOffset) & uint64(len(it.m.directory)-1))
 		newTab := it.m.directory[dirIdx]
 		if newTab.index != dirIdx {
 			// Skip duplicate entries to the same table.
