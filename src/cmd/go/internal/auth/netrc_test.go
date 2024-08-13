@@ -5,6 +5,7 @@
 package auth
 
 import (
+	"net/http"
 	"reflect"
 	"testing"
 )
@@ -44,15 +45,20 @@ password too-late-in-file
 `
 
 func TestParseNetrc(t *testing.T) {
-	lines := parseNetrc(testNetrc)
+	parseNetrc(testNetrc)
 	want := []netrcLine{
 		{"api.github.com", "user", "pwd"},
 		{"test.host", "user2", "pwd2"},
 		{"oneline", "user3", "pwd3"},
 		{"hasmacro.too", "user4", "pwd4"},
 	}
-
-	if !reflect.DeepEqual(lines, want) {
-		t.Errorf("parseNetrc:\nhave %q\nwant %q", lines, want)
+	for _, w := range want {
+		wantReq := http.Request{Header: make(http.Header)}
+		wantReq.SetBasicAuth(w.login, w.password)
+		gotReq := &http.Request{Header: make(http.Header)}
+		ok := loadCredential(gotReq, w.machine)
+		if !ok || !reflect.DeepEqual(gotReq.Header, wantReq.Header) {
+			t.Errorf("parseNetrc:\nhave %q\nwant %q", gotReq.Header, wantReq.Header)
+		}
 	}
 }

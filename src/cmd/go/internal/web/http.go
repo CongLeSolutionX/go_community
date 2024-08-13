@@ -187,7 +187,7 @@ func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 			return nil, err
 		}
 		if url.Scheme == "https" {
-			auth.AddCredentials(req)
+			auth.AddCredentials(req, "") // Use initial credentials from GOAUTH the commands.
 		}
 		t, intercepted := interceptURL(req.URL)
 		if intercepted {
