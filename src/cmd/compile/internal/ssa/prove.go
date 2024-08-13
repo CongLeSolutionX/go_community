@@ -1806,6 +1806,21 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 		b := ft.limits[v.Args[1].ID]
 		// Underflow in the arithmetic below is ok, it gives to MaxUint64 which does nothing to the limit.
 		return ft.unsignedMax(v, minU(a.umax, b.umax-1))
+	case OpDiv64u, OpDiv32u, OpDiv16u, OpDiv8u:
+		a := ft.limits[v.Args[0].ID]
+		b := ft.limits[v.Args[1].ID]
+		if b.umax == 0 {
+			break // this block will never execute.
+		}
+		min := a.umin / b.umax
+		var max uint64
+		if b.umin == 0 {
+			// it would never happen at runtime, setting to MaxUint64 does nothing to the limit.
+			max = math.MaxUint64
+		} else {
+			max = a.umax / b.umin
+		}
+		return ft.unsignedMinMax(v, min, max)
 
 	case OpPhi:
 		// Compute the union of all the input phis.
