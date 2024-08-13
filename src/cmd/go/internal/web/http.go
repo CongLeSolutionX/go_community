@@ -201,15 +201,19 @@ func get(security SecurityMode, url *urlpkg.URL) (*Response, error) {
 		}
 
 		var res *http.Response
-		if security == Insecure && url.Scheme == "https" { // fail earlier
-			res, err = impatientInsecureHTTPClient.Do(req)
+		var client *http.Client
+		if security == Insecure && url.Scheme == "https" {
+			client = impatientInsecureHTTPClient
+		} else if intercepted && t.Client != nil {
+			client = securityPreservingHTTPClient(t.Client)
 		} else {
-			if intercepted && t.Client != nil {
-				client := securityPreservingHTTPClient(t.Client)
-				res, err = client.Do(req)
-			} else {
-				res, err = securityPreservingDefaultClient.Do(req)
-			}
+			client = securityPreservingDefaultClient
+		}
+		res, err = client.Do(req)
+
+		if security == SecureOnly && url.Scheme == "https" && res != nil && res.StatusCode >= 400 && res.StatusCode < 500 {
+			auth.AddCredentials(req, req.Host) // Try re-invoking the GOAUTH commands with host as an argument.
+			res, err = client.Do(req)
 		}
 
 		if err != nil {
