@@ -65,7 +65,7 @@ func runGoAuth(prefix string) {
 			}
 			runGitAuth(cmdParts[1], prefix)
 		default:
-			continue // TODO
+			runAuthCommand(cmdStr, prefix)
 		}
 	}
 }
