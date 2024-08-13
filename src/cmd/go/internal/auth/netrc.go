@@ -5,6 +5,9 @@
 package auth
 
 import (
+	"cmd/go/internal/cfg"
+	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -18,16 +21,11 @@ type netrcLine struct {
 	password string
 }
 
-var (
-	netrcOnce sync.Once
-	netrc     []netrcLine
-	netrcErr  error
-)
+var netrcOnce sync.Once
 
-func parseNetrc(data string) []netrcLine {
+func parseNetrc(data string) {
 	// See https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html
 	// for documentation on the .netrc format.
-	var nrc []netrcLine
 	var l netrcLine
 	inMacro := false
 	for _, line := range strings.Split(data, "\n") {
@@ -62,8 +60,9 @@ func parseNetrc(data string) []netrcLine {
 				inMacro = true
 			}
 			if l.machine != "" && l.login != "" && l.password != "" {
-				nrc = append(nrc, l)
-				l = netrcLine{}
+				r := http.Request{Header: make(http.Header)}
+				r.SetBasicAuth(l.login, l.password)
+				storeCredential([]string{l.machine}, r.Header)
 			}
 		}
 
@@ -72,8 +71,6 @@ func parseNetrc(data string) []netrcLine {
 			break
 		}
 	}
-
-	return nrc
 }
 
 func netrcPath() (string, error) {
@@ -94,17 +91,20 @@ func netrcPath() (string, error) {
 func readNetrc() {
 	path, err := netrcPath()
 	if err != nil {
-		netrcErr = err
+		if cfg.BuildX {
+			log.Printf("missing netrc path: %s", err)
+		}
 		return
 	}
 
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if !os.IsNotExist(err) {
-			netrcErr = err
+			if cfg.BuildX {
+				log.Printf("missing netrc file: %s", err)
+			}
 		}
 		return
 	}
-
-	netrc = parseNetrc(string(data))
+	parseNetrc(string(data))
 }
