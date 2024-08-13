@@ -1801,6 +1801,14 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 		a := ft.limits[v.Args[0].ID]
 		b := ft.limits[v.Args[1].ID]
 		return ft.newLimit(v, a.mul(b.exp2(8), 8))
+	case OpMod64, OpMod32, OpMod16, OpMod8:
+		a := ft.limits[v.Args[0].ID]
+		b := ft.limits[v.Args[1].ID]
+
+		if !(a.nonnegative() && b.nonnegative()) {
+			break
+		}
+		fallthrough
 	case OpMod64u, OpMod32u, OpMod16u, OpMod8u:
 		a := ft.limits[v.Args[0].ID]
 		b := ft.limits[v.Args[1].ID]
@@ -1809,6 +1817,14 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 		}
 		// TODO: remove the mod if we can prove a < b ?
 		return ft.unsignedMax(v, minU(a.umax, b.umax-1))
+	case OpDiv64, OpDiv32, OpDiv16, OpDiv8:
+		a := ft.limits[v.Args[0].ID]
+		b := ft.limits[v.Args[1].ID]
+
+		if !(a.nonnegative() && b.nonnegative()) {
+			break
+		}
+		fallthrough
 	case OpDiv64u, OpDiv32u, OpDiv16u, OpDiv8u:
 		a := ft.limits[v.Args[0].ID]
 		b := ft.limits[v.Args[1].ID]
