@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f05420c_cabfe69b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2024-08-13T19:28:32Z",
+      "side": 1,
+      "message": "Fixed the middle of rune cutover bug for platforms that do not have bytealg.IndexString (this also slightly simplifies the fallback logic). IndexRune should now be correct for all platforms and apologies that this was caught so late in the review process.",
+      "revId": "6a4a16be934c3a4e18ec7bfc8f0d08eb9eb4ad1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
