@@ -1478,6 +1478,25 @@ func mod64uWithIdenticalMax(a, b uint64, ensureBothBranchesCouldHappen bool) int
 	return z
 }
 
+func div64u(a, b uint64, ensureBothBranchesCouldHappen bool) uint64 {
+	a &= 0xffff
+	a |= 0xfff
+	b &= 0xff
+	b |= 0xf
+
+	z := a / b // ERROR "Proved Neq64$"
+	if ensureBothBranchesCouldHappen {
+		if z > 0xffff/0xf { // ERROR "Disproved Less64U$"
+			return 42
+		}
+	} else {
+		if z < 0xfff/0xff { // ERROR "Disproved Less64U$"
+			return 1337
+		}
+	}
+	return z
+}
+
 //go:noinline
 func useInt(a int) {
 }

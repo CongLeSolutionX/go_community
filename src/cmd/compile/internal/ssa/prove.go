@@ -1808,6 +1808,21 @@ func (ft *factsTable) flowLimit(v *Value) bool {
 			break // this block will never execute.
 		}
 		return ft.unsignedMax(v, minU(a.umax, b.umax-1))
+	case OpDiv64u, OpDiv32u, OpDiv16u, OpDiv8u:
+		a := ft.limits[v.Args[0].ID]
+		b := ft.limits[v.Args[1].ID]
+		if b.umax == 0 {
+			break // this block will never execute.
+		}
+		min := a.umin / b.umax
+		var max uint64
+		if b.umin == 0 {
+			// idk what to do here, this would never happen at runtime but I don't want to panic here since in case prove fails to discover this properly.
+			max = math.MaxUint64
+		} else {
+			max = a.umax / b.umin
+		}
+		return ft.unsignedMinMax(v, min, max)
 
 	case OpPhi:
 		// Compute the union of all the input phis.
