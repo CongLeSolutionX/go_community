@@ -6,6 +6,7 @@
 package auth
 
 import (
+	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"log"
 	"net/http"
@@ -31,8 +32,11 @@ func AddCredentials(req *http.Request, prefix string) (ok bool) {
 		return false
 	}
 	authOnce.Do(func() {
-		runGoAuth()
+		runGoAuth("")
 	})
+	if prefix != "" { // First fetch failed; re-invoke GOAUTH with prefix.
+		runGoAuth(prefix)
+	}
 	if prefix == "" {
 		prefix = req.Host
 		if prefix == "" {
@@ -47,7 +51,7 @@ func AddCredentials(req *http.Request, prefix string) (ok bool) {
 // and storing retrieved credentials for future module access.
 // These credentials will be used for go-import resolution and the
 // HTTPS module proxy protocol.
-func runGoAuth() {
+func runGoAuth(prefix string) {
 	goAuthCmds := strings.Split(cfg.GOAUTH, ";")
 	for _, cmdStr := range goAuthCmds {
 		cmdStr = strings.TrimSpace(cmdStr)
@@ -55,7 +59,11 @@ func runGoAuth() {
 		case cmdStr == "netrc":
 			netrcOnce.Do(readNetrc)
 		case strings.HasPrefix(cmdStr, "git"):
-			continue // TODO
+			cmdParts := strings.Fields(cmdStr)
+			if len(cmdParts) != 2 { // git $HOME
+				base.Fatalf("provide the absolute path to the 'git' command's working directory as the first argument.")
+			}
+			runGitAuth(cmdParts[1], prefix)
 		default:
 			continue // TODO
 		}

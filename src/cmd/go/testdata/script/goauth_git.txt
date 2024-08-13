@@ -1,0 +1,57 @@
+# This test covers the HTTP authentication mechanism over GOAUTH
+# See golang.org/issue/26232
+
+[short] skip 'constructs a local git repo'
+[!git] skip
+
+env GOPROXY=direct
+env GOSUMDB=off
+env GOVCS='*:off'
+
+exec git init
+exec git config credential.helper 'store --file=.git-credentials'
+
+# Set GOAUTH to git without a working directory.
+env GOAUTH='git'
+cp go.mod.orig go.mod
+! go mod tidy
+stderr 'GOAUTH: provide the absolute path'
+
+# Set GOAUTH to git and use a blank .git-credentials.
+# Without credentials, downloading a module from a path that requires HTTPS
+# basic auth should fail.
+mkdir gitDir
+env GOAUTH='git gitDir'
+cp go.mod.orig go.mod
+! go mod tidy
+stderr '^\tserver response: ACCESS DENIED, buddy$'
+stderr '^\tserver response: File\? What file\?$'
+
+# With credentials from git credentials, it should succeed.
+cp .git-credentials.cred .git-credentials
+go mod tidy
+go list all
+stdout vcs-test.golang.org/auth/or401
+stdout vcs-test.golang.org/auth/or404
+
+# Clearing GOAUTH credentials should result in failures.
+env GOAUTH='off'
+# Without credentials, downloading a module from a path that requires HTTPS
+# basic auth should fail.
+cp go.mod.orig go.mod
+! go mod tidy
+stderr '^\tserver response: ACCESS DENIED, buddy$'
+stderr '^\tserver response: File\? What file\?$'
+
+-- go.mod.orig --
+module private.example.com
+-- main.go --
+package useprivate
+
+import (
+	_ "vcs-test.golang.org/auth/or401"
+	_ "vcs-test.golang.org/auth/or404"
+)
+-- .git-credentials --
+-- .git-credentials.cred --
+https://aladdin:opensesame@vcs-test.golang.org
