@@ -428,29 +428,71 @@ type copyFileHook struct {
 	err     error
 }
 
-func createTempFile(t *testing.T, name string, size int64) (*File, []byte) {
-	f, err := CreateTemp(t.TempDir(), name)
+func createTempFile(tb testing.TB, name string, size int64) (*File, []byte) {
+	f, err := CreateTemp(tb.TempDir(), name)
 	if err != nil {
-		t.Fatalf("failed to create temporary file: %v", err)
+		tb.Fatalf("failed to create temporary file: %v", err)
 	}
-	t.Cleanup(func() {
+	tb.Cleanup(func() {
 		f.Close()
 	})
 
 	randSeed := time.Now().Unix()
-	t.Logf("random data seed: %d\n", randSeed)
+	tb.Logf("random data seed: %d\n", randSeed)
 	prng := rand.New(rand.NewSource(randSeed))
 	data := make([]byte, size)
 	prng.Read(data)
 	if _, err := f.Write(data); err != nil {
-		t.Fatalf("failed to create and feed the file: %v", err)
+		tb.Fatalf("failed to create and feed the file: %v", err)
 	}
 	if err := f.Sync(); err != nil {
-		t.Fatalf("failed to save the file: %v", err)
+		tb.Fatalf("failed to save the file: %v", err)
 	}
 	if _, err := f.Seek(0, io.SeekStart); err != nil {
-		t.Fatalf("failed to rewind the file: %v", err)
+		tb.Fatalf("failed to rewind the file: %v", err)
 	}
 
 	return f, data
+}
+
+func BenchmarkSendFile(b *testing.B) {
+	hook := hookSendFileTB(b)
+
+	// 1 GiB file size for copy.
+	const fileSize = 1 << 30
+
+	src, _ := createTempFile(b, "benchmark-sendfile-src", int64(fileSize))
+	dst, err := CreateTemp(b.TempDir(), "benchmark-sendfile-dst")
+	if err != nil {
+		b.Fatalf("failed to create temporary file of destination: %v", err)
+	}
+	b.Cleanup(func() {
+		dst.Close()
+	})
+
+	b.ReportAllocs()
+	b.SetBytes(int64(fileSize))
+	b.ResetTimer()
+
+	for i := 0; i <= b.N; i++ {
+		sent, err := io.Copy(dst, src)
+
+		if err != nil {
+			b.Fatalf("failed to copy data: %v", err)
+		}
+		if !hook.called {
+			b.Fatalf("should have called the sendfile(2)")
+		}
+		if sent != int64(fileSize) {
+			b.Fatalf("sent %d bytes, want %d", sent, fileSize)
+		}
+
+		// Rewind the files for the next iteration.
+		if _, err := src.Seek(0, io.SeekStart); err != nil {
+			b.Fatalf("failed to rewind the source file: %v", err)
+		}
+		if _, err := dst.Seek(0, io.SeekStart); err != nil {
+			b.Fatalf("failed to rewind the destination file: %v", err)
+		}
+	}
 }
