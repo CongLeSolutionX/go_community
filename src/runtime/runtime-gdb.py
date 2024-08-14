@@ -169,10 +169,28 @@ class MapTypePrinter:
 	def swiss_map_children(self):
 		SwissMapGroupSlots = 8 # see internal/abi:SwissMapGroupSlots
 
+		# The linker DWARF generation
+		# (cmd/link/internal/ld.(*dwctxt).synthesizemaptypesSwiss) records
+		# dirPtr as a **table[K,V], but it is actually a pointer to
+		# variable length array *[dirLen]*table[K,V]. In other words, dirPtr +
+		# dirLen are a deconstructed slice []*table[K,V].
+		#
+		# N.B. array() takes an _inclusive_ upper bound.
+
+		# *table[K,V]
+		ptr_table_type = self.val['dirPtr'].type.target()
+		# [dirLen]*table[K,V]
+		array_ptr_table_type = ptr_table_type.array(self.val['dirLen']-1)
+		# *[dirLen]*table[K,V]
+		ptr_array_ptr_table_type = array_ptr_table_type.pointer()
+		# tables = (*[dirLen]*table[K,V])(dirPtr)
+		tables = self.val['dirPtr'].cast(ptr_array_ptr_table_type)
+
 		cnt = 0
-		directory = SliceValue(self.val['directory'])
-		for table in directory:
+		for t in xrange(self.val['dirLen']):
+			table = tables[t]
 			table = table.dereference()
+
 			groups = table['groups']['data']
 			length = table['groups']['lengthMask'] + 1
 
