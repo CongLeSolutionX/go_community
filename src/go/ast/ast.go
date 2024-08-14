@@ -8,6 +8,7 @@ package ast
 
 import (
 	"go/token"
+	"iter"
 	"strings"
 )
 
@@ -184,6 +185,55 @@ func isDirective(c string) bool {
 		}
 	}
 	return true
+}
+
+// A Directive is a comment line with special meaning to the Go
+// toolchain or another tool. It has the form:
+//
+//	//tool:name args
+//
+// The "tool:" portion is missing for the three directives named
+// line, extern, and export.
+//
+// See https://go.dev/doc/comment#Syntax for details of Go comment
+// syntax and https://pkg.go.dev/cmd/compile#hdr-Compiler_Directives
+// for details of directives used by the Go compiler.
+type Directive struct {
+	Pos  token.Pos // of preceding "//"
+	Tool string
+	Name string
+	Args string // may contain internal spaces
+}
+
+// Directives returns an iterator over the directives within the comment.
+func (g *CommentGroup) Directives() iter.Seq[*Directive] {
+	return func(yield func(*Directive) bool) {
+		if g != nil {
+			for _, c := range g.List {
+				if len(c.Text) > 2 &&
+					c.Text[1] == '/' &&
+					c.Text[2] != ' ' &&
+					isDirective(c.Text[2:]) {
+
+					tool, nameargs, ok := strings.Cut(c.Text[2:], ":")
+					if !ok {
+						// Must be one of {line,extern,export}.
+						tool, nameargs = "", tool
+					}
+					name, args, _ := strings.Cut(nameargs, " ") // tab??
+					dir := &Directive{
+						Pos:  c.Slash,
+						Tool: tool,
+						Name: name,
+						Args: strings.TrimSpace(args),
+					}
+					if !yield(dir) {
+						break
+					}
+				}
+			}
+		}
+	}
 }
 
 // ----------------------------------------------------------------------------

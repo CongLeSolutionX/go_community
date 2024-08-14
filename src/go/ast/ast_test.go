@@ -2,9 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ast
+package ast_test
 
 import (
+	. "go/ast"
+	"go/parser"
+	"go/token"
 	"testing"
 )
 
@@ -52,31 +55,81 @@ func TestCommentText(t *testing.T) {
 	}
 }
 
-var isDirectiveTests = []struct {
-	in string
-	ok bool
+var directiveTests = []struct {
+	in               string
+	tool, name, args string // name="" => not a directive
 }{
-	{"abc", false},
-	{"go:inline", true},
-	{"Go:inline", false},
-	{"go:Inline", false},
-	{":inline", false},
-	{"lint:ignore", true},
-	{"lint:1234", true},
-	{"1234:lint", true},
-	{"go: inline", false},
-	{"go:", false},
-	{"go:*", false},
-	{"go:x*", true},
-	{"export foo", true},
-	{"extern foo", true},
-	{"expert foo", false},
+	{"abc",
+		"", "", ""},
+	{"go:inline",
+		"go", "inline", ""},
+	{"Go:inline",
+		"", "", ""},
+	{"go:Inline",
+		"", "", ""},
+	{":inline",
+		"", "", ""},
+	{"lint:ignore",
+		"lint", "ignore", ""},
+	{"lint:1234",
+		"lint", "1234", ""},
+	{"1234:lint",
+		"1234", "lint", ""},
+	{"go: inline",
+		"", "", ""},
+	{"go:",
+		"", "", ""},
+	{"go:*",
+		"", "", ""},
+	{"go:x*",
+		"go", "x*", ""},
+	{"export foo",
+		"", "export", "foo"},
+	{"extern foo",
+		"", "extern", "foo"},
+	{"expert foo",
+		"", "", ""},
+	{"tool:name     args with  spaces ",
+		"tool", "name", "args with  spaces"},
+	{"foo file.go:1234",
+		"", "", ""},
+	// //line directives get swallowed by the scanner
+	// and are not part of the comment.
+	// {"line file.go:1234",
+	// 	"", "line", "file.go:1234"},
 }
 
+// TestIsDirective exercises the internal isDirective helper function.
 func TestIsDirective(t *testing.T) {
-	for _, tt := range isDirectiveTests {
-		if ok := isDirective(tt.in); ok != tt.ok {
-			t.Errorf("isDirective(%q) = %v, want %v", tt.in, ok, tt.ok)
+	for _, test := range directiveTests {
+		want := test.name != ""
+		if got := IsDirective(test.in); got != want {
+			t.Errorf("isDirective(%q) = %v, want %v", test.in, got, want)
+		}
+	}
+}
+
+func TestCommentGroup_Directives(t *testing.T) {
+	fset := token.NewFileSet()
+	for _, test := range directiveTests {
+		src := "package p\n\n//" + test.in + "\nfunc f()"
+		f, err := parser.ParseFile(fset, "a.go", src, parser.ParseComments)
+		if err != nil {
+			t.Fatal(err)
+		}
+		doc := f.Decls[0].(*FuncDecl).Doc
+		for dir := range doc.Directives() {
+			// The column should always be 1 in these tests.
+			col := fset.Position(dir.Pos).Column
+			if col != 1 {
+				t.Errorf("%q: column was %d, want 1", test.in, col)
+			}
+			if dir.Tool != test.tool ||
+				dir.Name != test.name ||
+				dir.Args != test.args {
+				t.Errorf("%q: got %#v, want tool=%q name=%q args=%q",
+					test.in, dir, test.tool, test.name, test.args)
+			}
 		}
 	}
 }
