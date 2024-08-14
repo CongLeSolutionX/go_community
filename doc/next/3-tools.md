@@ -2,6 +2,13 @@
 
 ### Go command {#go-command}
 
+#### go version
+
+The go command now adds versioning to binaries. The
+runtime/debug.BuildInfo.Main.Version field will include the VCS tag if available
+or a pseudo-version. A +dirty suffix indicates uncommitted changes.
+Use -buildvcs=false to omit version control information.
+
 ### Cgo {#cgo}
 
 Cgo currently refuses to compile calls to a C function which has multiple
