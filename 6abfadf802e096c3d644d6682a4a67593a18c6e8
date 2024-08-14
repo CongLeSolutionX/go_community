@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4086f526_2e234bb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-08-14T19:31:13Z",
+      "side": 1,
+      "message": "Thanks for the fast and thorough review.",
+      "revId": "6abfadf802e096c3d644d6682a4a67593a18c6e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d018d63_57dfeb8c",
@@ -14,6 +31,30 @@
       "writtenOn": "2024-08-14T19:06:31Z",
       "side": 1,
       "message": "this could be misinterpreted to refer to medial spaces but this may contain leading or trailing whitespace as well",
+      "range": {
+        "startLine": 205,
+        "startChar": 28,
+        "endLine": 205,
+        "endChar": 34
+      },
+      "revId": "6abfadf802e096c3d644d6682a4a67593a18c6e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4ea5fc_f1bc9672",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-08-14T19:31:13Z",
+      "side": 1,
+      "message": "Good point; changed to \"interior spaces\", applied TrimSpace, and added a test.",
+      "parentUuid": "5d018d63_57dfeb8c",
       "range": {
         "startLine": 205,
         "startChar": 28,
@@ -41,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a00330_6fbafcc3",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-08-14T19:31:13Z",
+      "side": 1,
+      "message": "Good catch; fixed.",
+      "parentUuid": "244c4149_cb28a0c9",
+      "revId": "6abfadf802e096c3d644d6682a4a67593a18c6e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "154faecf_11a6d165",
@@ -54,6 +113,24 @@
       "writtenOn": "2024-08-14T19:06:31Z",
       "side": 1,
       "message": "as // is part of the syntax shouldn\u0027t this just pass c.Slash through?",
+      "revId": "6abfadf802e096c3d644d6682a4a67593a18c6e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d90fe3b_e1aa6535",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-08-14T19:31:13Z",
+      "side": 1,
+      "message": "Yeah, that seems to be a better reading of the Syntax section. Done.",
+      "parentUuid": "154faecf_11a6d165",
       "revId": "6abfadf802e096c3d644d6682a4a67593a18c6e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
