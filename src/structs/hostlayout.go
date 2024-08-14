@@ -14,6 +14,20 @@ package structs
 //
 // By convention, HostLayout should be used as the type of a field
 // named "_", placed at the beginning of the struct type definition.
+//
+// HostLayout should be used in types that are passed to, returned from,
+// or accessed via a pointer passed to/from host APIs. Without this marker,
+// struct layout order is not guaranteed by the language spec, though up to
+// and including Go 1.23 the host and language layouts happen to match.
+// For example, syscall.fdstat in fs_wasip1.go needs to specify host layout:
+//
+//	type fdstat struct {
+//		_                structs.HostLayout
+//		filetype         filetype
+//		fdflags          uint16
+//		rightsBase       rights
+//		rightsInheriting rights
+//	}
 type HostLayout struct {
 	_ hostLayout // prevent accidental conversion with plain struct{}
 }
