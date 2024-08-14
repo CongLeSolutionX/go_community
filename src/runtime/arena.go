@@ -557,8 +557,8 @@ func userArenaHeapBitsSetType(typ *_type, ptr unsafe.Pointer, s *mspan) {
 	p := typ.GCData // start of 1-bit pointer mask (or GC program)
 	var gcProgBits uintptr
 	if typ.Kind_&abi.KindGCProg != 0 {
-		// Expand gc program, using the object itself for storage.
-		gcProgBits = runGCProg(addb(p, 4), (*byte)(ptr))
+		// Write out pointer bits, using the object itself for storage.
+		gcProgBits = materializePtrBits(typ, (*byte)(ptr))
 		p = (*byte)(ptr)
 	}
 	nb := typ.PtrBytes / goarch.PtrSize

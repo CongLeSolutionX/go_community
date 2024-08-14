@@ -739,8 +739,8 @@ func heapSetType(x, dataSize uintptr, typ *_type, header **_type, span *mspan) (
 			gctyp.GCData = (*byte)(add(unsafe.Pointer(progSpan.base()), heapBitsOff))
 			gctyp.TFlag = abi.TFlagUnrolledBitmap
 
-			// Expand the GC program into space reserved at the end of the new span.
-			runGCProg(addb(typ.GCData, 4), gctyp.GCData)
+			// Write the pointer bits into space reserved at the end of the new span.
+			materializePtrBits(typ, gctyp.GCData)
 		}
 
 		// Write out the header.
@@ -1462,6 +1462,127 @@ func progToPointerMask(prog *byte, size uintptr) bitvector {
 	return bitvector{int32(n), &x[0]}
 }
 
+// A bitCursor is a simple cursor to memory to which we
+// can write a set of bits.
+type bitCursor struct {
+	ptr *byte   // base of region
+	n   uintptr // cursor points to bit n of region
+}
+
+// Write to b cnt bits starting at bit 0 of data.
+// Requires cnt>0.
+func (b bitCursor) write(data *byte, cnt uintptr) {
+	// Starting byte for writing.
+	p := addb(b.ptr, b.n/8)
+
+	// Note: if we're starting halfway through a byte, we load the
+	// existing lower bits so we don't clobber them.
+	n := b.n % 8                    // # of valid bits in buf
+	buf := uintptr(*p) & (1<<n - 1) // buffered bits to start
+
+	// Work 8 bits at a time.
+	for cnt > 8 {
+		// Read 8 more bits, now buf has 8-15 valid bits in it.
+		buf |= uintptr(*data) << n
+		n += 8
+		data = addb(data, 1)
+		cnt -= 8
+		// Write 8 of the buffered bits out.
+		*p = byte(buf)
+		buf >>= 8
+		n -= 8
+		p = addb(p, 1)
+	}
+	// Read remaining bits.
+	buf |= (uintptr(*data) & (1<<cnt - 1)) << n
+	n += cnt
+
+	// Flush remaining bits.
+	if n > 8 {
+		*p = byte(buf)
+		buf >>= 8
+		n -= 8
+		p = addb(p, 1)
+	}
+	*p &^= 1<<n - 1
+	*p |= byte(buf)
+}
+
+func (b bitCursor) offset(cnt uintptr) bitCursor {
+	return bitCursor{ptr: b.ptr, n: b.n + cnt}
+}
+
+// materializePtrBits writes the ptr/nonptr bitmap for t to dst.
+// t must have a pointer.
+func materializePtrBits(t *_type, dst *byte) uintptr {
+	systemstack(func() {
+		materializePtrBits1(t, bitCursor{ptr: dst, n: 0})
+	})
+	return t.Size_ / goarch.PtrSize
+}
+
+// materializePtrBits1 writes the ptr/nonptr bitmap for t to dst.
+// t must have a pointer.
+func materializePtrBits1(t *_type, dst bitCursor) {
+	// Note: we want to avoid a situation where materializePtrBits1 gets into
+	// a very deep recursion, because M stacks are fixed size and pretty small
+	// (16KB). We do that by ensuring that any recursive
+	// call operates on a type at most half the size of its parent.
+	// Thus, the recursive chain can be at most 64 calls deep (on a
+	// 64-bit machine).
+	// Recursion is avoided by using a "tail call" (jumping to the
+	// "top" label) for any recursive call with a large subtype.
+top:
+	if t.Kind_&abi.KindGCProg == 0 {
+		// copy t.GCData to dst
+		dst.write(t.GCData, t.PtrBytes/goarch.PtrSize)
+		return
+	}
+	// The above case should handle all kinds except
+	// possibly arrays and structs.
+	switch t.Kind() {
+	case abi.Array:
+		a := (*arraytype)(unsafe.Pointer(t))
+		if a.Len == 1 {
+			// Avoid recursive call for element type that
+			// isn't smaller than the parent type.
+			t = a.Elem
+			goto top
+		}
+		e := a.Elem
+		for i := uintptr(0); i < a.Len; i++ {
+			// TODO: this could be somewhat expensive if
+			// the array is large but the element is small.
+			materializePtrBits1(e, dst)
+			dst = dst.offset(e.Size_ / goarch.PtrSize)
+		}
+	case abi.Struct:
+		s := (*structtype)(unsafe.Pointer(t))
+		var bigField abi.StructField
+		for _, f := range s.Fields {
+			ft := f.Typ
+			if !ft.Pointers() {
+				continue
+			}
+			if ft.Size_ > t.Size_/2 {
+				// Avoid recursive call for field type that
+				// is larger than half of the parent type.
+				// There can be only one.
+				bigField = f
+				continue
+			}
+			materializePtrBits1(ft, dst.offset(f.Offset/goarch.PtrSize))
+		}
+		if bigField.Typ != nil {
+			t = bigField.Typ
+			dst = dst.offset(bigField.Offset / goarch.PtrSize)
+			goto top
+		}
+	default:
+		throw("unexpected kind")
+	}
+}
+
 // Packed GC pointer bitmaps, aka GC programs.
 //
 // For large types containing arrays, the type information has a
@@ -1669,24 +1790,6 @@ Run:
 		bits >>= 8
 	}
 	return totalBits
-}
-
-// materializeGCProg allocates space for the (1-bit) pointer bitmask
-// for an object of size ptrdata.  Then it fills that space with the
-// pointer bitmask specified by the program prog.
-// The bitmask starts at s.startAddr.
-// The result must be deallocated with dematerializeGCProg.
-func materializeGCProg(ptrdata uintptr, prog *byte) *mspan {
-	// Each word of ptrdata needs one bit in the bitmap.
-	bitmapBytes := divRoundUp(ptrdata, 8*goarch.PtrSize)
-	// Compute the number of pages needed for bitmapBytes.
-	pages := divRoundUp(bitmapBytes, pageSize)
-	s := mheap_.allocManual(pages, spanAllocPtrScalarBits)
-	runGCProg(addb(prog, 4), (*byte)(unsafe.Pointer(s.startAddr)))
-	return s
-}
-func dematerializeGCProg(s *mspan) {
-	mheap_.freeManual(s, spanAllocPtrScalarBits)
 }
 
 func dumpGCProg(p *byte) {

@@ -1843,3 +1843,18 @@ func (m *TraceMap) PutString(s string) (uint64, bool) {
 func (m *TraceMap) Reset() {
 	m.traceMap.reset()
 }
+
+type BitCursor struct {
+	b bitCursor
+}
+
+func NewBitCursor(buf *byte) BitCursor {
+	return BitCursor{b: bitCursor{ptr: buf, n: 0}}
+}
+
+func (b BitCursor) Write(data *byte, cnt uintptr) {
+	b.b.write(data, cnt)
+}
+func (b BitCursor) Offset(cnt uintptr) BitCursor {
+	return BitCursor{b: b.b.offset(cnt)}
+}
