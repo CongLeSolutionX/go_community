@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ececb7fd_4940de22",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-08-14T15:50:48Z",
+      "side": 1,
+      "message": "We should check for `RORI` here.",
+      "revId": "b70ece11f1995e1ca6aa3ccdb142697939132a59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbf78dc6_727c001b",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2024-08-14T15:50:48Z",
+      "side": 1,
+      "message": "We should include ROLW here.",
+      "revId": "b70ece11f1995e1ca6aa3ccdb142697939132a59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
