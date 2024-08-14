@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8afc75f2_0e0bd333",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2024-08-14T20:19:57Z",
+      "side": 1,
+      "message": "The syntax is different for line/etc. than new directives. line/etc. have a \" \" as part of the syntax so you want to cut on \" \" but for new directives the argument is everything after it stops being a directive so you want to make the cut after the last character matching [a-z0-9]. For example \"//a:a Z\" has args \" Z\" and \"//a:aZ\" has args \"Z\".",
+      "revId": "24b0f036d41d7d669652be915075b4969e5633f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5af9556_40982815",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2024-08-14T20:19:57Z",
+      "side": 1,
+      "message": "Without acceptance of proposal https://github.com/golang/go/issues/68092 the trailing/leading whitespace is part of the arguments even if everyone should ignore it. Of course, I think that this is the correct place to handle it, which I why I filed the proposal!",
+      "revId": "24b0f036d41d7d669652be915075b4969e5633f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
