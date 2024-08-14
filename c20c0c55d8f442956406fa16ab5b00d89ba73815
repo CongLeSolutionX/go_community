@@ -71,6 +71,23 @@
       "message": "Hi Michael, seeing errors in the tests, will fix them. Thanks!",
       "revId": "c20c0c55d8f442956406fa16ab5b00d89ba73815",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a356f809_9508089b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-08-14T05:38:00Z",
+      "side": 1,
+      "message": "Hi Michael, I fixed the npe and some other error. And I have questions about the tests under /TestScript, somehow it does not use the golang change in this CL instead it uses the golang version without the CL change.\nWondering how to specify to use go version in the CL instead of local go version? Thanks!",
+      "revId": "c20c0c55d8f442956406fa16ab5b00d89ba73815",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
