@@ -253,6 +253,27 @@ func BenchmarkMapLast(b *testing.B) {
 	}
 }
 
+type doubleInt struct {
+	a int
+	b int
+}
+
+func BenchmarkMapMidBig(b *testing.B) {
+	for n := 1; n <= 16; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			// Big enough to avoid fast64 optimization.
+			m := make(map[doubleInt]bool)
+			for i := 0; i < n; i++ {
+				m[doubleInt{i, 0}] = true
+			}
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				_ = m[doubleInt{n>>1, 0}]
+			}
+		})
+	}
+}
+
 func BenchmarkMapCycle(b *testing.B) {
 	// Arrange map entries to be a permutation, so that
 	// we hit all entries, and one lookup is data dependent
