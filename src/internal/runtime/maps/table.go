@@ -563,12 +563,12 @@ func (it *Iter) Next() {
 	}
 
 	// Continue iteration until we find a full slot.
-	for ; it.dirIdx < len(it.m.directory); {
+	for ; it.dirIdx < it.m.dirLen; {
 		// N.B. This computation would be inconsistent when the
 		// directory grows, but if the directory grows we will always
 		// skip the new entries, so it doesn't matter.
-		dirIdx := int((uint64(it.dirIdx)+it.dirOffset) & uint64(len(it.m.directory)-1))
-		newTab := it.m.directory[dirIdx]
+		dirIdx := int((uint64(it.dirIdx)+it.dirOffset) & uint64(it.m.dirLen-1))
+		newTab := it.m.directoryAt(uintptr(dirIdx))
 		if newTab.index != dirIdx {
 			// Skip duplicate entries to the same table.
 			it.dirIdx++
