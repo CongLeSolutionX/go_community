@@ -1,0 +1,6 @@
+pkg go/ast, method (*CommentGroup) Directives() iter.Seq[*Directive] #68021
+pkg go/ast, type Directive struct #68021
+pkg go/ast, type Directive struct, Args string #68021
+pkg go/ast, type Directive struct, Name string $68021
+pkg go/ast, type Directive struct, Pos token.Pos #68021
+pkg go/ast, type Directive struct, Tool string #68021
