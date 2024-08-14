@@ -34,6 +34,29 @@
       "parentUuid": "ac9dd624_b5afb309",
       "revId": "12f34c34a2bfb27ec1050a1d19156a624de5dea0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2608077b_76be27e3",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-14T14:29:39Z",
+      "side": 1,
+      "message": "nit: store base.ShortPathConservative in a var to minimize calls since evaluating symlinks could be intensive",
+      "range": {
+        "startLine": 134,
+        "startChar": 51,
+        "endLine": 134,
+        "endChar": 86
+      },
+      "revId": "12f34c34a2bfb27ec1050a1d19156a624de5dea0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

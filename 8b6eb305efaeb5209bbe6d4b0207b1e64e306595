@@ -46,6 +46,30 @@
       },
       "revId": "8b6eb305efaeb5209bbe6d4b0207b1e64e306595",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c1030f2_ee733711",
+        "filename": "src/cmd/go/internal/base/path.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-14T14:29:39Z",
+      "side": 1,
+      "message": "Got it. Sounds good.",
+      "parentUuid": "f1eb76ad_2d5a4469",
+      "range": {
+        "startLine": 42,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 14
+      },
+      "revId": "8b6eb305efaeb5209bbe6d4b0207b1e64e306595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
