@@ -2,6 +2,13 @@
 
 ### Go command {#go-command}
 
+#### go version
+
+The Go Command enhances versioning for binaries built within Git repositories.
+The runtime/debug.BuildInfo.Main.Version field will now reflect the associated
+Git tag or a pseudo-version when untagged. The +dirty suffix signals uncommitted
+changes in the build. This information may be omitted using the flag -buildvcs=false.
+
 ### Cgo {#cgo}
 
 Cgo currently refuses to compile calls to a C function which has multiple
