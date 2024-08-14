@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06fe2881_4784d9d8",
+        "filename": "src/cmd/go/internal/base/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-08-14T14:19:50Z",
+      "side": 1,
+      "message": ":+1: I just moved the existing logic. We could possibly use an existing function from somewhere but as we control all the tool names it seems reasonable to use something more restrictive and less likely to be broken by unrelated refactoring. I think the important requirement is we don\u0027t allow path traversal or any special windows paths.\n\nI have *not* renamed these to `Builtin*` as they are used throughout the codebase, but can add another patch on top of this CL if you\u0027d like to do this still.",
+      "parentUuid": "97dfa4d1_f0b69d9b",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 12
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d17bf5ea_a09ed55d",
         "filename": "src/cmd/go/internal/tool/tool.go",
         "patchSetId": 7
@@ -85,6 +109,30 @@
       "writtenOn": "2024-08-01T21:10:33Z",
       "side": 1,
       "message": "I think the flow would look a little nicer if we had a function to lookup a tool. Something like:\n\n    toolpkgpath, err :\u003d lookupModTool(ctx, toolName)\n    if err !\u003d nil {\n         // fatal error\n    }\n    // run tool at toolpkgpath",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c1f851b_305805ef",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-08-14T14:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d17bf5ea_a09ed55d",
       "range": {
         "startLine": 96,
         "startChar": 0,
@@ -130,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4982d768_d58b7244",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-08-14T14:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d466c61_873c4948",
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f46eea20_64e49006",
@@ -143,6 +209,30 @@
       "writtenOn": "2024-07-29T17:24:16Z",
       "side": 1,
       "message": "nit: keep consistent with above.\n```\n\nif len(modTools) \u003e 0 {\n\tfmt.Println(\"# go.mod tools\")\n}\n\n```",
+      "range": {
+        "startLine": 200,
+        "startChar": 1,
+        "endLine": 202,
+        "endChar": 2
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10ca658a_9fc2400d",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-08-14T14:19:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f46eea20_64e49006",
       "range": {
         "startLine": 200,
         "startChar": 1,
@@ -176,6 +266,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17412708_01c2fac9",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-08-14T14:19:50Z",
+      "side": 1,
+      "message": "I\u0027ve gone ahead and done this because I like not needing the comments.\n\nAs mentioned in the proposal one of the motivators for `go tool` over `go run` is the shorter syntax, so I expect in practice most people will prefer to use the base name.",
+      "parentUuid": "17755540_32a80c2d",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 207,
+        "endChar": 26
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e7dfd8d_ff5eb712",
@@ -189,6 +303,30 @@
       "writtenOn": "2024-08-01T21:10:33Z",
       "side": 1,
       "message": "I think calling modload.Init() should be sufficient since I think we\u0027re only using MainModules.Tools() here and we don\u0027t need to actually load the module graph.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 30
+      },
+      "revId": "0d6bb68f488ae32b67132d97cc385553a4ea94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc1cd40_96ca1bdd",
+        "filename": "src/cmd/go/internal/tool/tool.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 12445
+      },
+      "writtenOn": "2024-08-14T14:19:50Z",
+      "side": 1,
+      "message": "I\u0027ve updated this to use modload.LoadModFile as that\u0027s what calls makeMainModules; but you\u0027re right we don\u0027t need the full graph.",
+      "parentUuid": "8e7dfd8d_ff5eb712",
       "range": {
         "startLine": 284,
         "startChar": 0,
