@@ -262,6 +262,9 @@ func (m *Map) Type() *abi.SwissMapType {
 }
 
 func (m *Map) directoryIndex(hash uintptr) uintptr {
+	if m.dirLen == 1 {
+		return 0
+	}
 	// TODO(prattmic): Store the shift as globalShift, as we need that more
 	// often than globalDepth.
 	if goarch.PtrSize == 4 {
@@ -271,6 +274,10 @@ func (m *Map) directoryIndex(hash uintptr) uintptr {
 }
 
 func (m *Map) directoryAt(i uintptr) *table {
+	if i == 0 {
+		// XXX: doesn't make a difference
+		return *(**table)(unsafe.Pointer(uintptr(m.dirPtr)))
+	}
 	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i))
 }
 
