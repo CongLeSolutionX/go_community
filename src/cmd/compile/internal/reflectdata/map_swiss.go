@@ -144,7 +144,9 @@ func SwissMapType() *types.Type {
 	//     typ  unsafe.Pointer // *abi.SwissMapType
 	//     seed uintptr
 	//
-	//     directory []*table
+	//     dirPtr unsafe.Pointer
+	//     dirLen int
+	//     dirCap int
 	//
 	//     globalDepth uint8
 	//     // N.B Padding
@@ -156,7 +158,9 @@ func SwissMapType() *types.Type {
 		makefield("used", types.Types[types.TUINT64]),
 		makefield("typ", types.Types[types.TUNSAFEPTR]),
 		makefield("seed", types.Types[types.TUINTPTR]),
-		makefield("directory", types.NewSlice(types.NewPtr(swissTableType()))),
+		makefield("dirPtr", types.Types[types.TUNSAFEPTR]),
+		makefield("dirLen", types.Types[types.TINT]),
+		makefield("dirCap", types.Types[types.TINT]),
 		makefield("globalDepth", types.Types[types.TUINT8]),
 		makefield("clearSeq", types.Types[types.TUINT64]),
 	}
@@ -171,7 +175,7 @@ func SwissMapType() *types.Type {
 
 	// The size of Map should be 64 bytes on 64 bit
 	// and 40 bytes on 32 bit platforms.
-	if size := int64(2*8 + 6*types.PtrSize); m.Size() != size {
+	if size := int64(2*8 + 6*types.PtrSize /* one extra for globalDepth + padding */); m.Size() != size {
 		base.Fatalf("internal/runtime/maps.Map size not correct: got %d, want %d", m.Size(), size)
 	}
 

@@ -564,15 +564,15 @@ func (it *Iter) Next() {
 	}
 
 	// Continue iteration until we find a full slot.
-	for it.dirIdx < len(it.m.directory) {
+	for it.dirIdx < it.m.dirLen {
 		// TODO(prattmic): We currently look up the latest table on
 		// every call, even if it.tab is set because the inner loop
 		// checks if it.tab has grown by checking it.tab != newTab.
 		//
 		// We could avoid most of these lookups if we left a flag
 		// behind on the old table to denote that it is stale.
-		dirIdx := int((uint64(it.dirIdx) + it.dirOffset) & uint64(len(it.m.directory)-1))
-		newTab := it.m.directory[dirIdx]
+		dirIdx := int((uint64(it.dirIdx) + it.dirOffset) & uint64(it.m.dirLen-1))
+		newTab := it.m.directoryAt(uintptr(dirIdx))
 		if it.tab == nil {
 			if newTab.index != dirIdx {
 				// Normally we skip past all duplicates of the
