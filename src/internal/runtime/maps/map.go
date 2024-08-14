@@ -211,7 +211,10 @@ type Map struct {
 	// The directory of tables. The length of this slice is
 	// `1 << globalDepth`. Multiple entries may point to the same table.
 	// See top-level comment for more details.
-	directory []*table
+	//directory []*table
+	dirPtr unsafe.Pointer
+	dirLen int // XXX
+	dirCap int
 
 	// The number of bits to use in table directory lookups.
 	globalDepth uint32
@@ -239,15 +242,21 @@ func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 		//TODO
 		//seed: uintptr(rand()),
 
-		directory: make([]*table, dirSize),
+		//directory: make([]*table, dirSize),
 
 		globalDepth: globalDepth,
 	}
 
-	for i := range m.directory {
+	directory := make([]*table, dirSize)
+
+	for i := range directory {
 		// TODO: Think more about initial table capacity.
-		m.directory[i] = newTable(mt, capacity/dirSize, i, globalDepth)
+		directory[i] = newTable(mt, capacity/dirSize, i, globalDepth)
 	}
+
+	m.dirPtr = unsafe.Pointer(&directory[0])
+	m.dirLen = len(directory)
+	m.dirCap = cap(directory)
 
 	return m
 }
@@ -265,12 +274,21 @@ func (m *Map) directoryIndex(hash uintptr) uintptr {
 	return hash >> (64 - m.globalDepth)
 }
 
+func (m *Map) directoryAt(i uintptr) *table {
+	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i))
+}
+
+func (m *Map) directorySet(i uintptr, nt *table) {
+	*(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i)) = nt
+}
+
 func (m *Map) replaceTable(nt *table) {
 	// The number of entries that reference the same table doubles for each
 	// time the globalDepth grows without the table splitting.
 	entries := 1 << (m.globalDepth - nt.localDepth)
 	for i := 0; i < entries; i++ {
-		m.directory[nt.index+i] = nt
+		//m.directory[nt.index+i] = nt
+		m.directorySet(uintptr(nt.index+i), nt)
 	}
 }
 
@@ -278,8 +296,9 @@ func (m *Map) installTableSplit(old, left, right *table) {
 	if old.localDepth == m.globalDepth {
 		// No room for another level in the directory. Grow the
 		// directory.
-		newDir := make([]*table, len(m.directory)*2)
-		for i, t := range m.directory {
+		newDir := make([]*table, m.dirLen*2)
+		for i := range m.dirLen {
+			t := m.directoryAt(uintptr(i))
 			newDir[2*i] = t
 			newDir[2*i+1] = t
 			// t may already exist in multiple indicies. We should
@@ -292,7 +311,10 @@ func (m *Map) installTableSplit(old, left, right *table) {
 			}
 		}
 		m.globalDepth++
-		m.directory = newDir
+		//m.directory = newDir
+		m.dirPtr = unsafe.Pointer(&newDir[0])
+		m.dirLen = len(newDir)
+		m.dirCap = cap(newDir)
 	}
 
 	// N.B. left and right may still consume multiple indicies if the
@@ -320,7 +342,7 @@ func (m *Map) getWithKey(key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bo
 	hash := m.typ.Hasher(key, m.seed)
 
 	idx := m.directoryIndex(hash)
-	return m.directory[idx].getWithKey(hash, key)
+	return m.directoryAt(idx).getWithKey(hash, key)
 }
 
 func (m *Map) Put(key, elem unsafe.Pointer) {
@@ -337,7 +359,7 @@ func (m *Map) PutSlot(key unsafe.Pointer) unsafe.Pointer {
 
 	for {
 		idx := m.directoryIndex(hash)
-		elem, ok := m.directory[idx].PutSlot(m, hash, key)
+		elem, ok := m.directoryAt(idx).PutSlot(m, hash, key)
 		if !ok {
 			continue
 		}
@@ -349,13 +371,14 @@ func (m *Map) Delete(key unsafe.Pointer) {
 	hash := m.typ.Hasher(key, m.seed)
 
 	idx := m.directoryIndex(hash)
-	m.directory[idx].Delete(m, key)
+	m.directoryAt(idx).Delete(m, key)
 }
 
 // Clear deletes all entries from the map resulting in an empty map.
 func (m *Map) Clear() {
 	var lastTab *table
-	for _, t := range m.directory {
+	for i := range m.dirLen {
+		t := m.directoryAt(uintptr(i))
 		if t == lastTab {
 			continue
 		}
