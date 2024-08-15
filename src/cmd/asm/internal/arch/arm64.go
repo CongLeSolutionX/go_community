@@ -116,6 +116,17 @@ func IsARM64CMP(op obj.As) bool {
 	return false
 }
 
+// Returns true when the opcode is in the SVE compare and terminate loop family.
+// This requires special handling when constructing a Prog because as it has 2
+// source operands and no destination operands.
+func IsARM64CTERM(op obj.As) bool {
+	switch op {
+	case arm64.ACTERMEQ, arm64.ACTERMEQW, arm64.ACTERMNE, arm64.ACTERMNEW:
+		return true
+	}
+	return false
+}
+
 // IsARM64STLXR reports whether the op (as defined by an arm64.A*
 // constant) is one of the STLXR-like instructions that require special
 // handling.
@@ -497,6 +508,9 @@ func ARM64AsmInstruction(prog *obj.Prog, op obj.As, cond string, a []obj.Addr) e
 				return err
 			}
 			prog.Reg = reg
+		} else if IsARM64CTERM(op) {
+			prog.From = a[0]
+			prog.AddRestSource(a[1])
 		} else {
 			prog.To = a[1]
 		}

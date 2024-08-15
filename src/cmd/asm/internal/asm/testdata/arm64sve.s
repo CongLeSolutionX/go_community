@@ -24,6 +24,22 @@ TEXT svetest(SB),$0
     ZBFDOT Z11.H, Z4.H[1], Z10.S                     // 6a416c64
     ZBFDOT Z31.H, Z7.H[3], Z31.S                     // ff437f64
 
+    ZBFMLALT Z0.H, Z0.H, Z0.S                        // 0084e064
+    ZBFMLALT Z11.H, Z12.H, Z10.S                     // 6a85ec64
+    ZBFMLALT Z31.H, Z31.H, Z31.S                     // ff87ff64
+    ZBFMLALT Z0.H, Z0.H[0], Z0.S                     // 0044e064
+    ZBFMLALT Z11.H, Z4.H[2], Z10.S                   // 6a45ec64
+    ZBFMLALT Z31.H, Z7.H[7], Z31.S                   // ff4fff64
+    ZBFMLALB Z0.H, Z0.H, Z0.S                        // 0080e064
+    ZBFMLALB Z11.H, Z12.H, Z10.S                     // 6a81ec64
+    ZBFMLALB Z31.H, Z31.H, Z31.S                     // ff83ff64
+    ZBFMLALB Z0.H, Z0.H[0], Z0.S                     // 0040e064
+    ZBFMLALB Z11.H, Z4.H[2], Z10.S                   // 6a41ec64
+    ZBFMLALB Z31.H, Z7.H[7], Z31.S                   // ff4bff64
+    ZBFMMLA Z0.H, Z0.H, Z0.S                         // 00e46064
+    ZBFMMLA Z11.H, Z12.H, Z10.S                      // 6ae56c64
+    ZBFMMLA Z31.H, Z31.H, Z31.S                      // ffe77f64
+
     ZCNOT P0.M, Z0.B, Z0.B                           // 00a01b04
     ZCNOT P3.M, Z12.B, Z10.B                         // 8aad1b04
     ZCNOT P7.M, Z31.B, Z31.B                         // ffbf1b04
@@ -805,6 +821,8 @@ TEXT svetest(SB),$0
     ZSTR $(R11), P5                                   // 650180e5
     ZSTR $255(RSP), P15                              // ef1f9fe5
 
+    SETFFR                                          // 00902c25
+
 // SADDV   <Dd>, <Pg>, <Zn>.<T>
     ZSADDV P0, Z0.B, F0                              // 00200004
     ZSADDV P3, Z12.B, F10                            // 8a2d0004
@@ -1314,5 +1332,1144 @@ TEXT svetest(SB),$0
     ZCMPNE P0.Z, Z0.S, Z0.D, P0.S                    // 10208024
     ZCMPNE P3.Z, Z12.S, Z13.D, P5.S                  // 952d8d24
     ZCMPNE P7.Z, Z31.S, Z31.D, P15.S                 // ff3f9f24
+
+// REV     <Pd>.<T>, <Pn>.<T>
+    ZREV P0.B, P0.B                                  // 00403405
+    ZREV P6.B, P5.B                                  // c5403405
+    ZREV P15.B, P15.B                                // ef413405
+    ZREV P0.H, P0.H                                  // 00407405
+    ZREV P6.H, P5.H                                  // c5407405
+    ZREV P15.H, P15.H                                // ef417405
+    ZREV P0.S, P0.S                                  // 0040b405
+    ZREV P6.S, P5.S                                  // c540b405
+    ZREV P15.S, P15.S                                // ef41b405
+    ZREV P0.D, P0.D                                  // 0040f405
+    ZREV P6.D, P5.D                                  // c540f405
+    ZREV P15.D, P15.D                                // ef41f405
+
+// TRN1    <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
+    PTRN1 P0.B, P0.B, P0.B                           // 00502005
+    PTRN1 P6.B, P7.B, P5.B                           // c5502705
+    PTRN1 P15.B, P15.B, P15.B                        // ef512f05
+    PTRN1 P0.H, P0.H, P0.H                           // 00506005
+    PTRN1 P6.H, P7.H, P5.H                           // c5506705
+    PTRN1 P15.H, P15.H, P15.H                        // ef516f05
+    PTRN1 P0.S, P0.S, P0.S                           // 0050a005
+    PTRN1 P6.S, P7.S, P5.S                           // c550a705
+    PTRN1 P15.S, P15.S, P15.S                        // ef51af05
+    PTRN1 P0.D, P0.D, P0.D                           // 0050e005
+    PTRN1 P6.D, P7.D, P5.D                           // c550e705
+    PTRN1 P15.D, P15.D, P15.D                        // ef51ef05
+
+// TRN2    <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
+    PTRN2 P0.B, P0.B, P0.B                           // 00542005
+    PTRN2 P6.B, P7.B, P5.B                           // c5542705
+    PTRN2 P15.B, P15.B, P15.B                        // ef552f05
+    PTRN2 P0.H, P0.H, P0.H                           // 00546005
+    PTRN2 P6.H, P7.H, P5.H                           // c5546705
+    PTRN2 P15.H, P15.H, P15.H                        // ef556f05
+    PTRN2 P0.S, P0.S, P0.S                           // 0054a005
+    PTRN2 P6.S, P7.S, P5.S                           // c554a705
+    PTRN2 P15.S, P15.S, P15.S                        // ef55af05
+    PTRN2 P0.D, P0.D, P0.D                           // 0054e005
+    PTRN2 P6.D, P7.D, P5.D                           // c554e705
+    PTRN2 P15.D, P15.D, P15.D                        // ef55ef05
+
+// UZP1    <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
+    PUZP1 P0.B, P0.B, P0.B                           // 00482005
+    PUZP1 P6.B, P7.B, P5.B                           // c5482705
+    PUZP1 P15.B, P15.B, P15.B                        // ef492f05
+    PUZP1 P0.H, P0.H, P0.H                           // 00486005
+    PUZP1 P6.H, P7.H, P5.H                           // c5486705
+    PUZP1 P15.H, P15.H, P15.H                        // ef496f05
+    PUZP1 P0.S, P0.S, P0.S                           // 0048a005
+    PUZP1 P6.S, P7.S, P5.S                           // c548a705
+    PUZP1 P15.S, P15.S, P15.S                        // ef49af05
+    PUZP1 P0.D, P0.D, P0.D                           // 0048e005
+    PUZP1 P6.D, P7.D, P5.D                           // c548e705
+    PUZP1 P15.D, P15.D, P15.D                        // ef49ef05
+
+// UZP2    <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
+    PUZP2 P0.B, P0.B, P0.B                           // 004c2005
+    PUZP2 P6.B, P7.B, P5.B                           // c54c2705
+    PUZP2 P15.B, P15.B, P15.B                        // ef4d2f05
+    PUZP2 P0.H, P0.H, P0.H                           // 004c6005
+    PUZP2 P6.H, P7.H, P5.H                           // c54c6705
+    PUZP2 P15.H, P15.H, P15.H                        // ef4d6f05
+    PUZP2 P0.S, P0.S, P0.S                           // 004ca005
+    PUZP2 P6.S, P7.S, P5.S                           // c54ca705
+    PUZP2 P15.S, P15.S, P15.S                        // ef4daf05
+    PUZP2 P0.D, P0.D, P0.D                           // 004ce005
+    PUZP2 P6.D, P7.D, P5.D                           // c54ce705
+    PUZP2 P15.D, P15.D, P15.D                        // ef4def05
+
+// ZIP1    <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
+    PZIP1 P0.B, P0.B, P0.B                           // 00402005
+    PZIP1 P6.B, P7.B, P5.B                           // c5402705
+    PZIP1 P15.B, P15.B, P15.B                        // ef412f05
+    PZIP1 P0.H, P0.H, P0.H                           // 00406005
+    PZIP1 P6.H, P7.H, P5.H                           // c5406705
+    PZIP1 P15.H, P15.H, P15.H                        // ef416f05
+    PZIP1 P0.S, P0.S, P0.S                           // 0040a005
+    PZIP1 P6.S, P7.S, P5.S                           // c540a705
+    PZIP1 P15.S, P15.S, P15.S                        // ef41af05
+    PZIP1 P0.D, P0.D, P0.D                           // 0040e005
+    PZIP1 P6.D, P7.D, P5.D                           // c540e705
+    PZIP1 P15.D, P15.D, P15.D                        // ef41ef05
+
+// ZIP2    <Pd>.<T>, <Pn>.<T>, <Pm>.<T>
+    PZIP2 P0.B, P0.B, P0.B                           // 00442005
+    PZIP2 P6.B, P7.B, P5.B                           // c5442705
+    PZIP2 P15.B, P15.B, P15.B                        // ef452f05
+    PZIP2 P0.H, P0.H, P0.H                           // 00446005
+    PZIP2 P6.H, P7.H, P5.H                           // c5446705
+    PZIP2 P15.H, P15.H, P15.H                        // ef456f05
+    PZIP2 P0.S, P0.S, P0.S                           // 0044a005
+    PZIP2 P6.S, P7.S, P5.S                           // c544a705
+    PZIP2 P15.S, P15.S, P15.S                        // ef45af05
+    PZIP2 P0.D, P0.D, P0.D                           // 0044e005
+    PZIP2 P6.D, P7.D, P5.D                           // c544e705
+    PZIP2 P15.D, P15.D, P15.D                        // ef45ef05
+
+// WHILELE <Pd>.<T>, <R><n>, <R><m>
+    WHILELEW R0, R0, P0.B                           // 10042025
+    WHILELEW R11, R12, P5.B                         // 75052c25
+    WHILELEW R30, R30, P15.B                        // df073e25
+    WHILELE  R0, R0, P0.B                           // 10142025
+    WHILELE  R11, R12, P5.B                         // 75152c25
+    WHILELE  R30, R30, P15.B                        // df173e25
+    WHILELEW R0, R0, P0.H                           // 10046025
+    WHILELEW R11, R12, P5.H                         // 75056c25
+    WHILELEW R30, R30, P15.H                        // df077e25
+    WHILELE  R0, R0, P0.H                           // 10146025
+    WHILELE  R11, R12, P5.H                         // 75156c25
+    WHILELE  R30, R30, P15.H                        // df177e25
+    WHILELEW R0, R0, P0.S                           // 1004a025
+    WHILELEW R11, R12, P5.S                         // 7505ac25
+    WHILELEW R30, R30, P15.S                        // df07be25
+    WHILELE  R0, R0, P0.S                           // 1014a025
+    WHILELE  R11, R12, P5.S                         // 7515ac25
+    WHILELE  R30, R30, P15.S                        // df17be25
+    WHILELEW R0, R0, P0.D                           // 1004e025
+    WHILELEW R11, R12, P5.D                         // 7505ec25
+    WHILELEW R30, R30, P15.D                        // df07fe25
+    WHILELE R0, R0, P0.D                            // 1014e025
+    WHILELE R11, R12, P5.D                          // 7515ec25
+    WHILELE R30, R30, P15.D                         // df17fe25
+
+// WHILELO <Pd>.<T>, <R><n>, <R><m>
+    WHILELOW R0, R0, P0.B                           // 000c2025
+    WHILELOW R11, R12, P5.B                         // 650d2c25
+    WHILELOW R30, R30, P15.B                        // cf0f3e25
+    WHILELO R0, R0, P0.B                            // 001c2025
+    WHILELO R11, R12, P5.B                          // 651d2c25
+    WHILELO R30, R30, P15.B                         // cf1f3e25
+    WHILELOW R0, R0, P0.H                           // 000c6025
+    WHILELOW R11, R12, P5.H                         // 650d6c25
+    WHILELOW R30, R30, P15.H                        // cf0f7e25
+    WHILELO  R0, R0, P0.H                           // 001c6025
+    WHILELO  R11, R12, P5.H                         // 651d6c25
+    WHILELO  R30, R30, P15.H                        // cf1f7e25
+    WHILELOW R0, R0, P0.S                           // 000ca025
+    WHILELOW R11, R12, P5.S                         // 650dac25
+    WHILELOW R30, R30, P15.S                        // cf0fbe25
+    WHILELO  R0, R0, P0.S                           // 001ca025
+    WHILELO  R11, R12, P5.S                         // 651dac25
+    WHILELO  R30, R30, P15.S                        // cf1fbe25
+    WHILELOW R0, R0, P0.D                           // 000ce025
+    WHILELOW R11, R12, P5.D                         // 650dec25
+    WHILELOW R30, R30, P15.D                        // cf0ffe25
+    WHILELO R0, R0, P0.D                            // 001ce025
+    WHILELO R11, R12, P5.D                          // 651dec25
+    WHILELO R30, R30, P15.D                         // cf1ffe25
+
+// WHILELS <Pd>.<T>, <R><n>, <R><m>
+    WHILELSW R0, R0, P0.B                           // 100c2025
+    WHILELSW R11, R12, P5.B                         // 750d2c25
+    WHILELSW R30, R30, P15.B                        // df0f3e25
+    WHILELS  R0, R0, P0.B                           // 101c2025
+    WHILELS  R11, R12, P5.B                         // 751d2c25
+    WHILELS  R30, R30, P15.B                        // df1f3e25
+    WHILELSW R0, R0, P0.H                           // 100c6025
+    WHILELSW R11, R12, P5.H                         // 750d6c25
+    WHILELSW R30, R30, P15.H                        // df0f7e25
+    WHILELS  R0, R0, P0.H                           // 101c6025
+    WHILELS  R11, R12, P5.H                         // 751d6c25
+    WHILELS  R30, R30, P15.H                        // df1f7e25
+    WHILELSW R0, R0, P0.S                           // 100ca025
+    WHILELSW R11, R12, P5.S                         // 750dac25
+    WHILELSW R30, R30, P15.S                        // df0fbe25
+    WHILELS  R0, R0, P0.S                           // 101ca025
+    WHILELS  R11, R12, P5.S                         // 751dac25
+    WHILELS  R30, R30, P15.S                        // df1fbe25
+    WHILELSW R0, R0, P0.D                           // 100ce025
+    WHILELSW R11, R12, P5.D                         // 750dec25
+    WHILELSW R30, R30, P15.D                        // df0ffe25
+    WHILELS R0, R0, P0.D                            // 101ce025
+    WHILELS R11, R12, P5.D                          // 751dec25
+    WHILELS R30, R30, P15.D                         // df1ffe25
+
+// WHILELT <Pd>.<T>, <R><n>, <R><m>
+    WHILELTW R0, R0, P0.B                           // 00042025
+    WHILELTW R11, R12, P5.B                         // 65052c25
+    WHILELTW R30, R30, P15.B                        // cf073e25
+    WHILELT  R0, R0, P0.B                           // 00142025
+    WHILELT  R11, R12, P5.B                         // 65152c25
+    WHILELT  R30, R30, P15.B                        // cf173e25
+    WHILELTW R0, R0, P0.H                           // 00046025
+    WHILELTW R11, R12, P5.H                         // 65056c25
+    WHILELTW R30, R30, P15.H                        // cf077e25
+    WHILELT  R0, R0, P0.H                           // 00146025
+    WHILELT  R11, R12, P5.H                         // 65156c25
+    WHILELT  R30, R30, P15.H                        // cf177e25
+    WHILELTW R0, R0, P0.S                           // 0004a025
+    WHILELTW R11, R12, P5.S                         // 6505ac25
+    WHILELTW R30, R30, P15.S                        // cf07be25
+    WHILELT  R0, R0, P0.S                           // 0014a025
+    WHILELT  R11, R12, P5.S                         // 6515ac25
+    WHILELT  R30, R30, P15.S                        // cf17be25
+    WHILELTW R0, R0, P0.D                           // 0004e025
+    WHILELTW R11, R12, P5.D                         // 6505ec25
+    WHILELTW R30, R30, P15.D                        // cf07fe25
+    WHILELT R0, R0, P0.D                            // 0014e025
+    WHILELT R11, R12, P5.D                          // 6515ec25
+    WHILELT R30, R30, P15.D                         // cf17fe25
+
+// PFALSE  <Pd>.B
+    PFALSE P0.B                                     // 00e41825
+    PFALSE P5.B                                     // 05e41825
+    PFALSE P15.B                                    // 0fe41825
+
+// RDFFR   <Pd>.B
+    RDFFR P0.B                                     // 00f01925
+    RDFFR P5.B                                     // 05f01925
+    RDFFR P15.B                                    // 0ff01925
+
+// ANDS    <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PANDS P0.Z, P0.B, P0.B, P0.B                     // 00404025
+    PANDS P6.Z, P7.B, P8.B, P5.B                     // e5584825
+    PANDS P15.Z, P15.B, P15.B, P15.B                 // ef7d4f25
+
+// BIC     <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PBIC P0.Z, P0.B, P0.B, P0.B                      // 10400025
+    PBIC P6.Z, P7.B, P8.B, P5.B                      // f5580825
+    PBIC P15.Z, P15.B, P15.B, P15.B                  // ff7d0f25
+
+// BICS    <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PBICS P0.Z, P0.B, P0.B, P0.B                     // 10404025
+    PBICS P6.Z, P7.B, P8.B, P5.B                     // f5584825
+    PBICS P15.Z, P15.B, P15.B, P15.B                 // ff7d4f25
+
+// BRKPA   <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    BRKPA P0.Z, P0.B, P0.B, P0.B                    // 00c00025
+    BRKPA P6.Z, P7.B, P8.B, P5.B                    // e5d80825
+    BRKPA P15.Z, P15.B, P15.B, P15.B                // effd0f25
+
+// BRKPAS  <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    BRKPAS P0.Z, P0.B, P0.B, P0.B                   // 00c04025
+    BRKPAS P6.Z, P7.B, P8.B, P5.B                   // e5d84825
+    BRKPAS P15.Z, P15.B, P15.B, P15.B               // effd4f25
+
+// BRKPB   <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    BRKPB P0.Z, P0.B, P0.B, P0.B                    // 10c00025
+    BRKPB P6.Z, P7.B, P8.B, P5.B                    // f5d80825
+    BRKPB P15.Z, P15.B, P15.B, P15.B                // fffd0f25
+
+// BRKPBS  <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    BRKPBS P0.Z, P0.B, P0.B, P0.B                   // 10c04025
+    BRKPBS P6.Z, P7.B, P8.B, P5.B                   // f5d84825
+    BRKPBS P15.Z, P15.B, P15.B, P15.B               // fffd4f25
+
+// EOR     <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PEOR P0.Z, P0.B, P0.B, P0.B                      // 00420025
+    PEOR P6.Z, P7.B, P8.B, P5.B                      // e55a0825
+    PEOR P15.Z, P15.B, P15.B, P15.B                  // ef7f0f25
+
+// EORS    <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PEORS P0.Z, P0.B, P0.B, P0.B                     // 00424025
+    PEORS P6.Z, P7.B, P8.B, P5.B                     // e55a4825
+    PEORS P15.Z, P15.B, P15.B, P15.B                 // ef7f4f25
+
+// NAND    <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PNAND P0.Z, P0.B, P0.B, P0.B                     // 10428025
+    PNAND P6.Z, P7.B, P8.B, P5.B                     // f55a8825
+    PNAND P15.Z, P15.B, P15.B, P15.B                 // ff7f8f25
+
+// NANDS   <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PNANDS P0.Z, P0.B, P0.B, P0.B                    // 1042c025
+    PNANDS P6.Z, P7.B, P8.B, P5.B                    // f55ac825
+    PNANDS P15.Z, P15.B, P15.B, P15.B                // ff7fcf25
+
+// NOR     <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PNOR P0.Z, P0.B, P0.B, P0.B                      // 00428025
+    PNOR P6.Z, P7.B, P8.B, P5.B                      // e55a8825
+    PNOR P15.Z, P15.B, P15.B, P15.B                  // ef7f8f25
+
+// NORS    <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PNORS P0.Z, P0.B, P0.B, P0.B                     // 0042c025
+    PNORS P6.Z, P7.B, P8.B, P5.B                     // e55ac825
+    PNORS P15.Z, P15.B, P15.B, P15.B                 // ef7fcf25
+
+// ORN     <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    ORN P0.Z, P0.B, P0.B, P0.B                      // 10408025
+    ORN P6.Z, P7.B, P8.B, P5.B                      // f5588825
+    ORN P15.Z, P15.B, P15.B, P15.B                  // ff7d8f25
+
+// ORNS    <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    ORNS P0.Z, P0.B, P0.B, P0.B                     // 1040c025
+    ORNS P6.Z, P7.B, P8.B, P5.B                     // f558c825
+    ORNS P15.Z, P15.B, P15.B, P15.B                 // ff7dcf25
+
+// ORR     <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PORR P0.Z, P0.B, P0.B, P0.B                      // 00408025
+    PORR P6.Z, P7.B, P8.B, P5.B                      // e5588825
+    PORR P15.Z, P15.B, P15.B, P15.B                  // ef7d8f25
+
+// ORRS    <Pd>.B, <Pg>/Z, <Pn>.B, <Pm>.B
+    PORRS P0.Z, P0.B, P0.B, P0.B                     // 0040c025
+    PORRS P6.Z, P7.B, P8.B, P5.B                     // e558c825
+    PORRS P15.Z, P15.B, P15.B, P15.B                 // ef7dcf25
+
+// SEL     <Pd>.B, <Pg>, <Pn>.B, <Pm>.B
+    PSEL P0, P0.B, P0.B, P0.B                        // 10420025
+    PSEL P6, P7.B, P8.B, P5.B                        // f55a0825
+    PSEL P15, P15.B, P15.B, P15.B                    // ff7f0f25
+
+// RDFFR   <Pd>.B, <Pg>/Z
+    RDFFR P0.Z, P0.B                                // 00f01825
+    RDFFR P6.Z, P5.B                                // c5f01825
+    RDFFR P15.Z, P15.B                              // eff11825
+
+// RDFFRS  <Pd>.B, <Pg>/Z
+    RDFFRS P0.Z, P0.B                               // 00f05825
+    RDFFRS P6.Z, P5.B                               // c5f05825
+    RDFFRS P15.Z, P15.B                             // eff15825
+
+// PUNPKHI <Pd>.H, <Pn>.B
+    PUNPKHI P0.B, P0.H                              // 00403105
+    PUNPKHI P6.B, P5.H                              // c5403105
+    PUNPKHI P15.B, P15.H                            // ef413105
+
+// PUNPKLO <Pd>.H, <Pn>.B
+    PUNPKLO P0.B, P0.H                              // 00403005
+    PUNPKLO P6.B, P5.H                              // c5403005
+    PUNPKLO P15.B, P15.H                            // ef413005
+
+// BRKA    <Pd>.B, <Pg>/<ZM>, <Pn>.B
+    BRKA P0.Z, P0.B, P0.B                           // 00401025
+    BRKA P6.Z, P7.B, P5.B                           // e5581025
+    BRKA P15.Z, P15.B, P15.B                        // ef7d1025
+    BRKA P0.M, P0.B, P0.B                           // 10401025
+    BRKA P6.M, P7.B, P5.B                           // f5581025
+    BRKA P15.M, P15.B, P15.B                        // ff7d1025
+
+// BRKB    <Pd>.B, <Pg>/<ZM>, <Pn>.B
+    BRKB P0.Z, P0.B, P0.B                           // 00409025
+    BRKB P6.Z, P7.B, P5.B                           // e5589025
+    BRKB P15.Z, P15.B, P15.B                        // ef7d9025
+    BRKB P0.M, P0.B, P0.B                           // 10409025
+    BRKB P6.M, P7.B, P5.B                           // f5589025
+    BRKB P15.M, P15.B, P15.B                        // ff7d9025
+
+// BRKAS   <Pd>.B, <Pg>/Z, <Pn>.B
+    BRKAS P0.Z, P0.B, P0.B                          // 00405025
+    BRKAS P6.Z, P7.B, P5.B                          // e5585025
+    BRKAS P15.Z, P15.B, P15.B                       // ef7d5025
+
+// BRKBS   <Pd>.B, <Pg>/Z, <Pn>.B
+    BRKBS P0.Z, P0.B, P0.B                          // 0040d025
+    BRKBS P6.Z, P7.B, P5.B                          // e558d025
+    BRKBS P15.Z, P15.B, P15.B                       // ef7dd025
+
+// BRKN    <Pdm>.B, <Pg>/Z, <Pn>.B, <Pdm>.B
+    BRKN P0.Z, P0.B, P0.B, P0.B                     // 00401825
+    BRKN P6.Z, P7.B, P5.B, P5.B                     // e5581825
+    BRKN P15.Z, P15.B, P15.B, P15.B                 // ef7d1825
+
+// BRKNS   <Pdm>.B, <Pg>/Z, <Pn>.B, <Pdm>.B
+    BRKNS P0.Z, P0.B, P0.B, P0.B                    // 00405825
+    BRKNS P6.Z, P7.B, P5.B, P5.B                    // e5585825
+    BRKNS P15.Z, P15.B, P15.B, P15.B                // ef7d5825
+
+// PNEXT   <Pdn>.<T>, <Pv>, <Pdn>.<T>
+    PNEXT P0, P0.B, P0.B                            // 00c41925
+    PNEXT P6, P5.B, P5.B                            // c5c41925
+    PNEXT P15, P15.B, P15.B                         // efc51925
+    PNEXT P0, P0.H, P0.H                            // 00c45925
+    PNEXT P6, P5.H, P5.H                            // c5c45925
+    PNEXT P15, P15.H, P15.H                         // efc55925
+    PNEXT P0, P0.S, P0.S                            // 00c49925
+    PNEXT P6, P5.S, P5.S                            // c5c49925
+    PNEXT P15, P15.S, P15.S                         // efc59925
+    PNEXT P0, P0.D, P0.D                            // 00c4d925
+    PNEXT P6, P5.D, P5.D                            // c5c4d925
+    PNEXT P15, P15.D, P15.D                         // efc5d925
+
+// PFIRST  <Pdn>.B, <Pg>, <Pdn>.B
+    PFIRST P0, P0.B, P0.B                           // 00c05825
+    PFIRST P6, P5.B, P5.B                           // c5c05825
+    PFIRST P15, P15.B, P15.B                        // efc15825
+
+// PTEST   <Pg>, <Pn>.B
+    PTEST P0.B, P0                                  // 00c05025
+    PTEST P6.B, P5                                  // c0d45025
+    PTEST P15.B, P15                                // e0fd5025
+
+// WRFFR   <Pn>.B
+    WRFFR P0.B                                      // 00902825
+    WRFFR P5.B                                      // a0902825
+    WRFFR P15.B                                     // e0912825
+
+// LASTA   <R><d>, <Pg>, <Zn>.<T>
+    ZLASTA P0, Z0.B, R0                              // 00a02005
+    ZLASTA P3, Z12.B, R10                            // 8aad2005
+    ZLASTA P7, Z31.B, R30                            // febf2005
+    ZLASTA P0, Z0.H, R0                              // 00a06005
+    ZLASTA P3, Z12.H, R10                            // 8aad6005
+    ZLASTA P7, Z31.H, R30                            // febf6005
+    ZLASTA P0, Z0.S, R0                              // 00a0a005
+    ZLASTA P3, Z12.S, R10                            // 8aada005
+    ZLASTA P7, Z31.S, R30                            // febfa005
+    ZLASTA P0, Z0.D, R0                              // 00a0e005
+    ZLASTA P3, Z12.D, R10                            // 8aade005
+    ZLASTA P7, Z31.D, R30                            // febfe005
+
+// LASTB   <R><d>, <Pg>, <Zn>.<T>
+    ZLASTB P0, Z0.B, R0                              // 00a02105
+    ZLASTB P3, Z12.B, R10                            // 8aad2105
+    ZLASTB P7, Z31.B, R30                            // febf2105
+    ZLASTB P0, Z0.H, R0                              // 00a06105
+    ZLASTB P3, Z12.H, R10                            // 8aad6105
+    ZLASTB P7, Z31.H, R30                            // febf6105
+    ZLASTB P0, Z0.S, R0                              // 00a0a105
+    ZLASTB P3, Z12.S, R10                            // 8aada105
+    ZLASTB P7, Z31.S, R30                            // febfa105
+    ZLASTB P0, Z0.D, R0                              // 00a0e105
+    ZLASTB P3, Z12.D, R10                            // 8aade105
+    ZLASTB P7, Z31.D, R30                            // febfe105
+
+// CLASTA  <R><dn>, <Pg>, <R><dn>, <Zm>.<T>
+    ZCLASTA P0, R0, Z0.B, R0                         // 00a03005
+    ZCLASTA P3, R10, Z12.B, R10                      // 8aad3005
+    ZCLASTA P7, R30, Z31.B, R30                      // febf3005
+    ZCLASTA P0, R0, Z0.H, R0                         // 00a07005
+    ZCLASTA P3, R10, Z12.H, R10                      // 8aad7005
+    ZCLASTA P7, R30, Z31.H, R30                      // febf7005
+    ZCLASTA P0, R0, Z0.S, R0                         // 00a0b005
+    ZCLASTA P3, R10, Z12.S, R10                      // 8aadb005
+    ZCLASTA P7, R30, Z31.S, R30                      // febfb005
+    ZCLASTA P0, R0, Z0.D, R0                         // 00a0f005
+    ZCLASTA P3, R10, Z12.D, R10                      // 8aadf005
+    ZCLASTA P7, R30, Z31.D, R30                      // febff005
+
+// CLASTB  <R><dn>, <Pg>, <R><dn>, <Zm>.<T>
+    ZCLASTB P0, R0, Z0.B, R0                         // 00a03105
+    ZCLASTB P3, R10, Z12.B, R10                      // 8aad3105
+    ZCLASTB P7, R30, Z31.B, R30                      // febf3105
+    ZCLASTB P0, R0, Z0.H, R0                         // 00a07105
+    ZCLASTB P3, R10, Z12.H, R10                      // 8aad7105
+    ZCLASTB P7, R30, Z31.H, R30                      // febf7105
+    ZCLASTB P0, R0, Z0.S, R0                         // 00a0b105
+    ZCLASTB P3, R10, Z12.S, R10                      // 8aadb105
+    ZCLASTB P7, R30, Z31.S, R30                      // febfb105
+    ZCLASTB P0, R0, Z0.D, R0                         // 00a0f105
+    ZCLASTB P3, R10, Z12.D, R10                      // 8aadf105
+    ZCLASTB P7, R30, Z31.D, R30                      // febff105
+
+// CTERMEQ <R><n>, <R><m>
+    CTERMEQW R0, R0                                  // 0020a025
+    CTERMEQW R10, R11                                // 4021ab25
+    CTERMEQW R30, R30                                // c023be25
+    CTERMEQ R0, R0                                   // 0020e025
+    CTERMEQ R10, R11                                 // 4021eb25
+    CTERMEQ R30, R30                                 // c023fe25
+
+// CTERMNE <R><n>, <R><m>
+    CTERMNEW R0, R0                                  // 1020a025
+    CTERMNEW R10, R11                                // 5021ab25
+    CTERMNEW R30, R30                                // d023be25
+    CTERMNE R0, R0                                   // 1020e025
+    CTERMNE R10, R11                                 // 5021eb25
+    CTERMNE R30, R30                                 // d023fe25
+
+// ANDV    <V><d>, <Pg>, <Zn>.<T>
+    ZANDV P0, Z0.B, V0                               // 00201a04
+    ZANDV P3, Z12.B, V10                             // 8a2d1a04
+    ZANDV P7, Z31.B, V31                             // ff3f1a04
+    ZANDV P0, Z0.H, V0                               // 00205a04
+    ZANDV P3, Z12.H, V10                             // 8a2d5a04
+    ZANDV P7, Z31.H, V31                             // ff3f5a04
+    ZANDV P0, Z0.S, V0                               // 00209a04
+    ZANDV P3, Z12.S, V10                             // 8a2d9a04
+    ZANDV P7, Z31.S, V31                             // ff3f9a04
+    ZANDV P0, Z0.D, V0                               // 0020da04
+    ZANDV P3, Z12.D, V10                             // 8a2dda04
+    ZANDV P7, Z31.D, V31                             // ff3fda04
+
+// EORV    <V><d>, <Pg>, <Zn>.<T>
+    ZEORV P0, Z0.B, V0                               // 00201904
+    ZEORV P3, Z12.B, V10                             // 8a2d1904
+    ZEORV P7, Z31.B, V31                             // ff3f1904
+    ZEORV P0, Z0.H, V0                               // 00205904
+    ZEORV P3, Z12.H, V10                             // 8a2d5904
+    ZEORV P7, Z31.H, V31                             // ff3f5904
+    ZEORV P0, Z0.S, V0                               // 00209904
+    ZEORV P3, Z12.S, V10                             // 8a2d9904
+    ZEORV P7, Z31.S, V31                             // ff3f9904
+    ZEORV P0, Z0.D, V0                               // 0020d904
+    ZEORV P3, Z12.D, V10                             // 8a2dd904
+    ZEORV P7, Z31.D, V31                             // ff3fd904
+
+// FADDV   <V><d>, <Pg>, <Zn>.<T>
+    ZFADDV P0, Z0.H, F0                              // 00204065
+    ZFADDV P3, Z12.H, F10                            // 8a2d4065
+    ZFADDV P7, Z31.H, F31                            // ff3f4065
+    ZFADDV P0, Z0.S, F0                              // 00208065
+    ZFADDV P3, Z12.S, F10                            // 8a2d8065
+    ZFADDV P7, Z31.S, F31                            // ff3f8065
+    ZFADDV P0, Z0.D, F0                              // 0020c065
+    ZFADDV P3, Z12.D, F10                            // 8a2dc065
+    ZFADDV P7, Z31.D, F31                            // ff3fc065
+
+// FMAXNMV <V><d>, <Pg>, <Zn>.<T>
+    ZFMAXNMV P0, Z0.H, F0                            // 00204465
+    ZFMAXNMV P3, Z12.H, F10                          // 8a2d4465
+    ZFMAXNMV P7, Z31.H, F31                          // ff3f4465
+    ZFMAXNMV P0, Z0.S, F0                            // 00208465
+    ZFMAXNMV P3, Z12.S, F10                          // 8a2d8465
+    ZFMAXNMV P7, Z31.S, F31                          // ff3f8465
+    ZFMAXNMV P0, Z0.D, F0                            // 0020c465
+    ZFMAXNMV P3, Z12.D, F10                          // 8a2dc465
+    ZFMAXNMV P7, Z31.D, F31                          // ff3fc465
+
+// FMAXV   <V><d>, <Pg>, <Zn>.<T>
+    ZFMAXV P0, Z0.H, F0                              // 00204665
+    ZFMAXV P3, Z12.H, F10                            // 8a2d4665
+    ZFMAXV P7, Z31.H, F31                            // ff3f4665
+    ZFMAXV P0, Z0.S, F0                              // 00208665
+    ZFMAXV P3, Z12.S, F10                            // 8a2d8665
+    ZFMAXV P7, Z31.S, F31                            // ff3f8665
+    ZFMAXV P0, Z0.D, F0                              // 0020c665
+    ZFMAXV P3, Z12.D, F10                            // 8a2dc665
+    ZFMAXV P7, Z31.D, F31                            // ff3fc665
+
+// FMINNMV <V><d>, <Pg>, <Zn>.<T>
+    ZFMINNMV P0, Z0.H, F0                            // 00204565
+    ZFMINNMV P3, Z12.H, F10                          // 8a2d4565
+    ZFMINNMV P7, Z31.H, F31                          // ff3f4565
+    ZFMINNMV P0, Z0.S, F0                            // 00208565
+    ZFMINNMV P3, Z12.S, F10                          // 8a2d8565
+    ZFMINNMV P7, Z31.S, F31                          // ff3f8565
+    ZFMINNMV P0, Z0.D, F0                            // 0020c565
+    ZFMINNMV P3, Z12.D, F10                          // 8a2dc565
+    ZFMINNMV P7, Z31.D, F31                          // ff3fc565
+
+// FMINV   <V><d>, <Pg>, <Zn>.<T>
+    ZFMINV P0, Z0.H, F0                              // 00204765
+    ZFMINV P3, Z12.H, F10                            // 8a2d4765
+    ZFMINV P7, Z31.H, F31                            // ff3f4765
+    ZFMINV P0, Z0.S, F0                              // 00208765
+    ZFMINV P3, Z12.S, F10                            // 8a2d8765
+    ZFMINV P7, Z31.S, F31                            // ff3f8765
+    ZFMINV P0, Z0.D, F0                              // 0020c765
+    ZFMINV P3, Z12.D, F10                            // 8a2dc765
+    ZFMINV P7, Z31.D, F31                            // ff3fc765
+
+// LASTA   <V><d>, <Pg>, <Zn>.<T>
+    ZLASTA P0, Z0.B, V0                              // 00802205
+    ZLASTA P3, Z12.B, V10                            // 8a8d2205
+    ZLASTA P7, Z31.B, V31                            // ff9f2205
+    ZLASTA P0, Z0.H, V0                              // 00806205
+    ZLASTA P3, Z12.H, V10                            // 8a8d6205
+    ZLASTA P7, Z31.H, V31                            // ff9f6205
+    ZLASTA P0, Z0.S, V0                              // 0080a205
+    ZLASTA P3, Z12.S, V10                            // 8a8da205
+    ZLASTA P7, Z31.S, V31                            // ff9fa205
+    ZLASTA P0, Z0.D, V0                              // 0080e205
+    ZLASTA P3, Z12.D, V10                            // 8a8de205
+    ZLASTA P7, Z31.D, V31                            // ff9fe205
+
+// LASTB   <V><d>, <Pg>, <Zn>.<T>
+    ZLASTB P0, Z0.B, V0                              // 00802305
+    ZLASTB P3, Z12.B, V10                            // 8a8d2305
+    ZLASTB P7, Z31.B, V31                            // ff9f2305
+    ZLASTB P0, Z0.H, V0                              // 00806305
+    ZLASTB P3, Z12.H, V10                            // 8a8d6305
+    ZLASTB P7, Z31.H, V31                            // ff9f6305
+    ZLASTB P0, Z0.S, V0                              // 0080a305
+    ZLASTB P3, Z12.S, V10                            // 8a8da305
+    ZLASTB P7, Z31.S, V31                            // ff9fa305
+    ZLASTB P0, Z0.D, V0                              // 0080e305
+    ZLASTB P3, Z12.D, V10                            // 8a8de305
+    ZLASTB P7, Z31.D, V31                            // ff9fe305
+
+// ORV     <V><d>, <Pg>, <Zn>.<T>
+    ZORV P0, Z0.B, V0                                // 00201804
+    ZORV P3, Z12.B, V10                              // 8a2d1804
+    ZORV P7, Z31.B, V31                              // ff3f1804
+    ZORV P0, Z0.H, V0                                // 00205804
+    ZORV P3, Z12.H, V10                              // 8a2d5804
+    ZORV P7, Z31.H, V31                              // ff3f5804
+    ZORV P0, Z0.S, V0                                // 00209804
+    ZORV P3, Z12.S, V10                              // 8a2d9804
+    ZORV P7, Z31.S, V31                              // ff3f9804
+    ZORV P0, Z0.D, V0                                // 0020d804
+    ZORV P3, Z12.D, V10                              // 8a2dd804
+    ZORV P7, Z31.D, V31                              // ff3fd804
+
+// SMAXV   <V><d>, <Pg>, <Zn>.<T>
+    ZSMAXV P0, Z0.B, V0                              // 00200804
+    ZSMAXV P3, Z12.B, V10                            // 8a2d0804
+    ZSMAXV P7, Z31.B, V31                            // ff3f0804
+    ZSMAXV P0, Z0.H, V0                              // 00204804
+    ZSMAXV P3, Z12.H, V10                            // 8a2d4804
+    ZSMAXV P7, Z31.H, V31                            // ff3f4804
+    ZSMAXV P0, Z0.S, V0                              // 00208804
+    ZSMAXV P3, Z12.S, V10                            // 8a2d8804
+    ZSMAXV P7, Z31.S, V31                            // ff3f8804
+    ZSMAXV P0, Z0.D, V0                              // 0020c804
+    ZSMAXV P3, Z12.D, V10                            // 8a2dc804
+    ZSMAXV P7, Z31.D, V31                            // ff3fc804
+
+// SMINV   <V><d>, <Pg>, <Zn>.<T>
+    ZSMINV P0, Z0.B, V0                              // 00200a04
+    ZSMINV P3, Z12.B, V10                            // 8a2d0a04
+    ZSMINV P7, Z31.B, V31                            // ff3f0a04
+    ZSMINV P0, Z0.H, V0                              // 00204a04
+    ZSMINV P3, Z12.H, V10                            // 8a2d4a04
+    ZSMINV P7, Z31.H, V31                            // ff3f4a04
+    ZSMINV P0, Z0.S, V0                              // 00208a04
+    ZSMINV P3, Z12.S, V10                            // 8a2d8a04
+    ZSMINV P7, Z31.S, V31                            // ff3f8a04
+    ZSMINV P0, Z0.D, V0                              // 0020ca04
+    ZSMINV P3, Z12.D, V10                            // 8a2dca04
+    ZSMINV P7, Z31.D, V31                            // ff3fca04
+
+// UMAXV   <V><d>, <Pg>, <Zn>.<T>
+    ZUMAXV P0, Z0.B, V0                              // 00200904
+    ZUMAXV P3, Z12.B, V10                            // 8a2d0904
+    ZUMAXV P7, Z31.B, V31                            // ff3f0904
+    ZUMAXV P0, Z0.H, V0                              // 00204904
+    ZUMAXV P3, Z12.H, V10                            // 8a2d4904
+    ZUMAXV P7, Z31.H, V31                            // ff3f4904
+    ZUMAXV P0, Z0.S, V0                              // 00208904
+    ZUMAXV P3, Z12.S, V10                            // 8a2d8904
+    ZUMAXV P7, Z31.S, V31                            // ff3f8904
+    ZUMAXV P0, Z0.D, V0                              // 0020c904
+    ZUMAXV P3, Z12.D, V10                            // 8a2dc904
+    ZUMAXV P7, Z31.D, V31                            // ff3fc904
+
+// UMINV   <V><d>, <Pg>, <Zn>.<T>
+    ZUMINV P0, Z0.B, V0                              // 00200b04
+    ZUMINV P3, Z12.B, V10                            // 8a2d0b04
+    ZUMINV P7, Z31.B, V31                            // ff3f0b04
+    ZUMINV P0, Z0.H, V0                              // 00204b04
+    ZUMINV P3, Z12.H, V10                            // 8a2d4b04
+    ZUMINV P7, Z31.H, V31                            // ff3f4b04
+    ZUMINV P0, Z0.S, V0                              // 00208b04
+    ZUMINV P3, Z12.S, V10                            // 8a2d8b04
+    ZUMINV P7, Z31.S, V31                            // ff3f8b04
+    ZUMINV P0, Z0.D, V0                              // 0020cb04
+    ZUMINV P3, Z12.D, V10                            // 8a2dcb04
+    ZUMINV P7, Z31.D, V31                            // ff3fcb04
+
+// ADD     <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZADD Z0.B, Z0.B, Z0.B                            // 00002004
+    ZADD Z11.B, Z12.B, Z10.B                         // 6a012c04
+    ZADD Z31.B, Z31.B, Z31.B                         // ff033f04
+    ZADD Z0.H, Z0.H, Z0.H                            // 00006004
+    ZADD Z11.H, Z12.H, Z10.H                         // 6a016c04
+    ZADD Z31.H, Z31.H, Z31.H                         // ff037f04
+    ZADD Z0.S, Z0.S, Z0.S                            // 0000a004
+    ZADD Z11.S, Z12.S, Z10.S                         // 6a01ac04
+    ZADD Z31.S, Z31.S, Z31.S                         // ff03bf04
+    ZADD Z0.D, Z0.D, Z0.D                            // 0000e004
+    ZADD Z11.D, Z12.D, Z10.D                         // 6a01ec04
+    ZADD Z31.D, Z31.D, Z31.D                         // ff03ff04
+
+// FADD    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZFADD Z0.H, Z0.H, Z0.H                           // 00004065
+    ZFADD Z11.H, Z12.H, Z10.H                        // 6a014c65
+    ZFADD Z31.H, Z31.H, Z31.H                        // ff035f65
+    ZFADD Z0.S, Z0.S, Z0.S                           // 00008065
+    ZFADD Z11.S, Z12.S, Z10.S                        // 6a018c65
+    ZFADD Z31.S, Z31.S, Z31.S                        // ff039f65
+    ZFADD Z0.D, Z0.D, Z0.D                           // 0000c065
+    ZFADD Z11.D, Z12.D, Z10.D                        // 6a01cc65
+    ZFADD Z31.D, Z31.D, Z31.D                        // ff03df65
+
+// FMUL    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZFMUL Z0.H, Z0.H, Z0.H                           // 00084065
+    ZFMUL Z11.H, Z12.H, Z10.H                        // 6a094c65
+    ZFMUL Z31.H, Z31.H, Z31.H                        // ff0b5f65
+    ZFMUL Z0.S, Z0.S, Z0.S                           // 00088065
+    ZFMUL Z11.S, Z12.S, Z10.S                        // 6a098c65
+    ZFMUL Z31.S, Z31.S, Z31.S                        // ff0b9f65
+    ZFMUL Z0.D, Z0.D, Z0.D                           // 0008c065
+    ZFMUL Z11.D, Z12.D, Z10.D                        // 6a09cc65
+    ZFMUL Z31.D, Z31.D, Z31.D                        // ff0bdf65
+
+// FRECPS  <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZFRECPS Z0.H, Z0.H, Z0.H                         // 00184065
+    ZFRECPS Z11.H, Z12.H, Z10.H                      // 6a194c65
+    ZFRECPS Z31.H, Z31.H, Z31.H                      // ff1b5f65
+    ZFRECPS Z0.S, Z0.S, Z0.S                         // 00188065
+    ZFRECPS Z11.S, Z12.S, Z10.S                      // 6a198c65
+    ZFRECPS Z31.S, Z31.S, Z31.S                      // ff1b9f65
+    ZFRECPS Z0.D, Z0.D, Z0.D                         // 0018c065
+    ZFRECPS Z11.D, Z12.D, Z10.D                      // 6a19cc65
+    ZFRECPS Z31.D, Z31.D, Z31.D                      // ff1bdf65
+
+// FRSQRTS <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZFRSQRTS Z0.H, Z0.H, Z0.H                        // 001c4065
+    ZFRSQRTS Z11.H, Z12.H, Z10.H                     // 6a1d4c65
+    ZFRSQRTS Z31.H, Z31.H, Z31.H                     // ff1f5f65
+    ZFRSQRTS Z0.S, Z0.S, Z0.S                        // 001c8065
+    ZFRSQRTS Z11.S, Z12.S, Z10.S                     // 6a1d8c65
+    ZFRSQRTS Z31.S, Z31.S, Z31.S                     // ff1f9f65
+    ZFRSQRTS Z0.D, Z0.D, Z0.D                        // 001cc065
+    ZFRSQRTS Z11.D, Z12.D, Z10.D                     // 6a1dcc65
+    ZFRSQRTS Z31.D, Z31.D, Z31.D                     // ff1fdf65
+
+// FSUB    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZFSUB Z0.H, Z0.H, Z0.H                           // 00044065
+    ZFSUB Z11.H, Z12.H, Z10.H                        // 6a054c65
+    ZFSUB Z31.H, Z31.H, Z31.H                        // ff075f65
+    ZFSUB Z0.S, Z0.S, Z0.S                           // 00048065
+    ZFSUB Z11.S, Z12.S, Z10.S                        // 6a058c65
+    ZFSUB Z31.S, Z31.S, Z31.S                        // ff079f65
+    ZFSUB Z0.D, Z0.D, Z0.D                           // 0004c065
+    ZFSUB Z11.D, Z12.D, Z10.D                        // 6a05cc65
+    ZFSUB Z31.D, Z31.D, Z31.D                        // ff07df65
+
+// FTSMUL  <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZFTSMUL Z0.H, Z0.H, Z0.H                         // 000c4065
+    ZFTSMUL Z11.H, Z12.H, Z10.H                      // 6a0d4c65
+    ZFTSMUL Z31.H, Z31.H, Z31.H                      // ff0f5f65
+    ZFTSMUL Z0.S, Z0.S, Z0.S                         // 000c8065
+    ZFTSMUL Z11.S, Z12.S, Z10.S                      // 6a0d8c65
+    ZFTSMUL Z31.S, Z31.S, Z31.S                      // ff0f9f65
+    ZFTSMUL Z0.D, Z0.D, Z0.D                         // 000cc065
+    ZFTSMUL Z11.D, Z12.D, Z10.D                      // 6a0dcc65
+    ZFTSMUL Z31.D, Z31.D, Z31.D                      // ff0fdf65
+
+// FTSSEL  <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZFTSSEL Z0.H, Z0.H, Z0.H                         // 00b06004
+    ZFTSSEL Z11.H, Z12.H, Z10.H                      // 6ab16c04
+    ZFTSSEL Z31.H, Z31.H, Z31.H                      // ffb37f04
+    ZFTSSEL Z0.S, Z0.S, Z0.S                         // 00b0a004
+    ZFTSSEL Z11.S, Z12.S, Z10.S                      // 6ab1ac04
+    ZFTSSEL Z31.S, Z31.S, Z31.S                      // ffb3bf04
+    ZFTSSEL Z0.D, Z0.D, Z0.D                         // 00b0e004
+    ZFTSSEL Z11.D, Z12.D, Z10.D                      // 6ab1ec04
+    ZFTSSEL Z31.D, Z31.D, Z31.D                      // ffb3ff04
+
+// SQADD   <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZSQADD Z0.B, Z0.B, Z0.B                          // 00102004
+    ZSQADD Z11.B, Z12.B, Z10.B                       // 6a112c04
+    ZSQADD Z31.B, Z31.B, Z31.B                       // ff133f04
+    ZSQADD Z0.H, Z0.H, Z0.H                          // 00106004
+    ZSQADD Z11.H, Z12.H, Z10.H                       // 6a116c04
+    ZSQADD Z31.H, Z31.H, Z31.H                       // ff137f04
+    ZSQADD Z0.S, Z0.S, Z0.S                          // 0010a004
+    ZSQADD Z11.S, Z12.S, Z10.S                       // 6a11ac04
+    ZSQADD Z31.S, Z31.S, Z31.S                       // ff13bf04
+    ZSQADD Z0.D, Z0.D, Z0.D                          // 0010e004
+    ZSQADD Z11.D, Z12.D, Z10.D                       // 6a11ec04
+    ZSQADD Z31.D, Z31.D, Z31.D                       // ff13ff04
+
+// SQSUB   <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZSQSUB Z0.B, Z0.B, Z0.B                          // 00182004
+    ZSQSUB Z11.B, Z12.B, Z10.B                       // 6a192c04
+    ZSQSUB Z31.B, Z31.B, Z31.B                       // ff1b3f04
+    ZSQSUB Z0.H, Z0.H, Z0.H                          // 00186004
+    ZSQSUB Z11.H, Z12.H, Z10.H                       // 6a196c04
+    ZSQSUB Z31.H, Z31.H, Z31.H                       // ff1b7f04
+    ZSQSUB Z0.S, Z0.S, Z0.S                          // 0018a004
+    ZSQSUB Z11.S, Z12.S, Z10.S                       // 6a19ac04
+    ZSQSUB Z31.S, Z31.S, Z31.S                       // ff1bbf04
+    ZSQSUB Z0.D, Z0.D, Z0.D                          // 0018e004
+    ZSQSUB Z11.D, Z12.D, Z10.D                       // 6a19ec04
+    ZSQSUB Z31.D, Z31.D, Z31.D                       // ff1bff04
+
+// SUB     <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZSUB Z0.B, Z0.B, Z0.B                            // 00042004
+    ZSUB Z11.B, Z12.B, Z10.B                         // 6a052c04
+    ZSUB Z31.B, Z31.B, Z31.B                         // ff073f04
+    ZSUB Z0.H, Z0.H, Z0.H                            // 00046004
+    ZSUB Z11.H, Z12.H, Z10.H                         // 6a056c04
+    ZSUB Z31.H, Z31.H, Z31.H                         // ff077f04
+    ZSUB Z0.S, Z0.S, Z0.S                            // 0004a004
+    ZSUB Z11.S, Z12.S, Z10.S                         // 6a05ac04
+    ZSUB Z31.S, Z31.S, Z31.S                         // ff07bf04
+    ZSUB Z0.D, Z0.D, Z0.D                            // 0004e004
+    ZSUB Z11.D, Z12.D, Z10.D                         // 6a05ec04
+    ZSUB Z31.D, Z31.D, Z31.D                         // ff07ff04
+
+// TRN1    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZTRN1 Z0.B, Z0.B, Z0.B                           // 00702005
+    ZTRN1 Z11.B, Z12.B, Z10.B                        // 6a712c05
+    ZTRN1 Z31.B, Z31.B, Z31.B                        // ff733f05
+    ZTRN1 Z0.H, Z0.H, Z0.H                           // 00706005
+    ZTRN1 Z11.H, Z12.H, Z10.H                        // 6a716c05
+    ZTRN1 Z31.H, Z31.H, Z31.H                        // ff737f05
+    ZTRN1 Z0.S, Z0.S, Z0.S                           // 0070a005
+    ZTRN1 Z11.S, Z12.S, Z10.S                        // 6a71ac05
+    ZTRN1 Z31.S, Z31.S, Z31.S                        // ff73bf05
+    ZTRN1 Z0.D, Z0.D, Z0.D                           // 0070e005
+    ZTRN1 Z11.D, Z12.D, Z10.D                        // 6a71ec05
+    ZTRN1 Z31.D, Z31.D, Z31.D                        // ff73ff05
+
+// TRN2    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZTRN2 Z0.B, Z0.B, Z0.B                           // 00742005
+    ZTRN2 Z11.B, Z12.B, Z10.B                        // 6a752c05
+    ZTRN2 Z31.B, Z31.B, Z31.B                        // ff773f05
+    ZTRN2 Z0.H, Z0.H, Z0.H                           // 00746005
+    ZTRN2 Z11.H, Z12.H, Z10.H                        // 6a756c05
+    ZTRN2 Z31.H, Z31.H, Z31.H                        // ff777f05
+    ZTRN2 Z0.S, Z0.S, Z0.S                           // 0074a005
+    ZTRN2 Z11.S, Z12.S, Z10.S                        // 6a75ac05
+    ZTRN2 Z31.S, Z31.S, Z31.S                        // ff77bf05
+    ZTRN2 Z0.D, Z0.D, Z0.D                           // 0074e005
+    ZTRN2 Z11.D, Z12.D, Z10.D                        // 6a75ec05
+    ZTRN2 Z31.D, Z31.D, Z31.D                        // ff77ff05
+
+// UQADD   <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZUQADD Z0.B, Z0.B, Z0.B                          // 00142004
+    ZUQADD Z11.B, Z12.B, Z10.B                       // 6a152c04
+    ZUQADD Z31.B, Z31.B, Z31.B                       // ff173f04
+    ZUQADD Z0.H, Z0.H, Z0.H                          // 00146004
+    ZUQADD Z11.H, Z12.H, Z10.H                       // 6a156c04
+    ZUQADD Z31.H, Z31.H, Z31.H                       // ff177f04
+    ZUQADD Z0.S, Z0.S, Z0.S                          // 0014a004
+    ZUQADD Z11.S, Z12.S, Z10.S                       // 6a15ac04
+    ZUQADD Z31.S, Z31.S, Z31.S                       // ff17bf04
+    ZUQADD Z0.D, Z0.D, Z0.D                          // 0014e004
+    ZUQADD Z11.D, Z12.D, Z10.D                       // 6a15ec04
+    ZUQADD Z31.D, Z31.D, Z31.D                       // ff17ff04
+
+// UQSUB   <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZUQSUB Z0.B, Z0.B, Z0.B                          // 001c2004
+    ZUQSUB Z11.B, Z12.B, Z10.B                       // 6a1d2c04
+    ZUQSUB Z31.B, Z31.B, Z31.B                       // ff1f3f04
+    ZUQSUB Z0.H, Z0.H, Z0.H                          // 001c6004
+    ZUQSUB Z11.H, Z12.H, Z10.H                       // 6a1d6c04
+    ZUQSUB Z31.H, Z31.H, Z31.H                       // ff1f7f04
+    ZUQSUB Z0.S, Z0.S, Z0.S                          // 001ca004
+    ZUQSUB Z11.S, Z12.S, Z10.S                       // 6a1dac04
+    ZUQSUB Z31.S, Z31.S, Z31.S                       // ff1fbf04
+    ZUQSUB Z0.D, Z0.D, Z0.D                          // 001ce004
+    ZUQSUB Z11.D, Z12.D, Z10.D                       // 6a1dec04
+    ZUQSUB Z31.D, Z31.D, Z31.D                       // ff1fff04
+
+// UZP1    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZUZP1 Z0.B, Z0.B, Z0.B                           // 00682005
+    ZUZP1 Z11.B, Z12.B, Z10.B                        // 6a692c05
+    ZUZP1 Z31.B, Z31.B, Z31.B                        // ff6b3f05
+    ZUZP1 Z0.H, Z0.H, Z0.H                           // 00686005
+    ZUZP1 Z11.H, Z12.H, Z10.H                        // 6a696c05
+    ZUZP1 Z31.H, Z31.H, Z31.H                        // ff6b7f05
+    ZUZP1 Z0.S, Z0.S, Z0.S                           // 0068a005
+    ZUZP1 Z11.S, Z12.S, Z10.S                        // 6a69ac05
+    ZUZP1 Z31.S, Z31.S, Z31.S                        // ff6bbf05
+    ZUZP1 Z0.D, Z0.D, Z0.D                           // 0068e005
+    ZUZP1 Z11.D, Z12.D, Z10.D                        // 6a69ec05
+    ZUZP1 Z31.D, Z31.D, Z31.D                        // ff6bff05
+
+// UZP2    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZUZP2 Z0.B, Z0.B, Z0.B                           // 006c2005
+    ZUZP2 Z11.B, Z12.B, Z10.B                        // 6a6d2c05
+    ZUZP2 Z31.B, Z31.B, Z31.B                        // ff6f3f05
+    ZUZP2 Z0.H, Z0.H, Z0.H                           // 006c6005
+    ZUZP2 Z11.H, Z12.H, Z10.H                        // 6a6d6c05
+    ZUZP2 Z31.H, Z31.H, Z31.H                        // ff6f7f05
+    ZUZP2 Z0.S, Z0.S, Z0.S                           // 006ca005
+    ZUZP2 Z11.S, Z12.S, Z10.S                        // 6a6dac05
+    ZUZP2 Z31.S, Z31.S, Z31.S                        // ff6fbf05
+    ZUZP2 Z0.D, Z0.D, Z0.D                           // 006ce005
+    ZUZP2 Z11.D, Z12.D, Z10.D                        // 6a6dec05
+    ZUZP2 Z31.D, Z31.D, Z31.D                        // ff6fff05
+
+// ZIP1    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZZIP1 Z0.B, Z0.B, Z0.B                           // 00602005
+    ZZIP1 Z11.B, Z12.B, Z10.B                        // 6a612c05
+    ZZIP1 Z31.B, Z31.B, Z31.B                        // ff633f05
+    ZZIP1 Z0.H, Z0.H, Z0.H                           // 00606005
+    ZZIP1 Z11.H, Z12.H, Z10.H                        // 6a616c05
+    ZZIP1 Z31.H, Z31.H, Z31.H                        // ff637f05
+    ZZIP1 Z0.S, Z0.S, Z0.S                           // 0060a005
+    ZZIP1 Z11.S, Z12.S, Z10.S                        // 6a61ac05
+    ZZIP1 Z31.S, Z31.S, Z31.S                        // ff63bf05
+    ZZIP1 Z0.D, Z0.D, Z0.D                           // 0060e005
+    ZZIP1 Z11.D, Z12.D, Z10.D                        // 6a61ec05
+    ZZIP1 Z31.D, Z31.D, Z31.D                        // ff63ff05
+
+// ZIP2    <Zd>.<T>, <Zn>.<T>, <Zm>.<T>
+    ZZIP2 Z0.B, Z0.B, Z0.B                           // 00642005
+    ZZIP2 Z11.B, Z12.B, Z10.B                        // 6a652c05
+    ZZIP2 Z31.B, Z31.B, Z31.B                        // ff673f05
+    ZZIP2 Z0.H, Z0.H, Z0.H                           // 00646005
+    ZZIP2 Z11.H, Z12.H, Z10.H                        // 6a656c05
+    ZZIP2 Z31.H, Z31.H, Z31.H                        // ff677f05
+    ZZIP2 Z0.S, Z0.S, Z0.S                           // 0064a005
+    ZZIP2 Z11.S, Z12.S, Z10.S                        // 6a65ac05
+    ZZIP2 Z31.S, Z31.S, Z31.S                        // ff67bf05
+    ZZIP2 Z0.D, Z0.D, Z0.D                           // 0064e005
+    ZZIP2 Z11.D, Z12.D, Z10.D                        // 6a65ec05
+    ZZIP2 Z31.D, Z31.D, Z31.D                        // ff67ff05
+
+// CLASTA  <V><dn>, <Pg>, <V><dn>, <Zm>.<T>
+    ZCLASTA P0, V0, Z0.B, V0                         // 00802a05
+    ZCLASTA P3, V10, Z12.B, V10                      // 8a8d2a05
+    ZCLASTA P7, V31, Z31.B, V31                      // ff9f2a05
+    ZCLASTA P0, V0, Z0.H, V0                         // 00806a05
+    ZCLASTA P3, V10, Z12.H, V10                      // 8a8d6a05
+    ZCLASTA P7, V31, Z31.H, V31                      // ff9f6a05
+    ZCLASTA P0, V0, Z0.S, V0                         // 0080aa05
+    ZCLASTA P3, V10, Z12.S, V10                      // 8a8daa05
+    ZCLASTA P7, V31, Z31.S, V31                      // ff9faa05
+    ZCLASTA P0, V0, Z0.D, V0                         // 0080ea05
+    ZCLASTA P3, V10, Z12.D, V10                      // 8a8dea05
+    ZCLASTA P7, V31, Z31.D, V31                      // ff9fea05
+
+// CLASTB  <V><dn>, <Pg>, <V><dn>, <Zm>.<T>
+    ZCLASTB P0, V0, Z0.B, V0                         // 00802b05
+    ZCLASTB P3, V10, Z12.B, V10                      // 8a8d2b05
+    ZCLASTB P7, V31, Z31.B, V31                      // ff9f2b05
+    ZCLASTB P0, V0, Z0.H, V0                         // 00806b05
+    ZCLASTB P3, V10, Z12.H, V10                      // 8a8d6b05
+    ZCLASTB P7, V31, Z31.H, V31                      // ff9f6b05
+    ZCLASTB P0, V0, Z0.S, V0                         // 0080ab05
+    ZCLASTB P3, V10, Z12.S, V10                      // 8a8dab05
+    ZCLASTB P7, V31, Z31.S, V31                      // ff9fab05
+    ZCLASTB P0, V0, Z0.D, V0                         // 0080eb05
+    ZCLASTB P3, V10, Z12.D, V10                      // 8a8deb05
+    ZCLASTB P7, V31, Z31.D, V31                      // ff9feb05
+
+// FADDA   <V><dn>, <Pg>, <V><dn>, <Zm>.<T>
+    ZFADDA P0, F0, Z0.H, F0                          // 00205865
+    ZFADDA P3, F10, Z12.H, F10                       // 8a2d5865
+    ZFADDA P7, F31, Z31.H, F31                       // ff3f5865
+    ZFADDA P0, F0, Z0.S, F0                          // 00209865
+    ZFADDA P3, F10, Z12.S, F10                       // 8a2d9865
+    ZFADDA P7, F31, Z31.S, F31                       // ff3f9865
+    ZFADDA P0, F0, Z0.D, F0                          // 0020d865
+    ZFADDA P3, F10, Z12.D, F10                       // 8a2dd865
+    ZFADDA P7, F31, Z31.D, F31                       // ff3fd865
+
+// AND     <Zd>.D, <Zn>.D, <Zm>.D
+    ZAND Z0.D, Z0.D, Z0.D                            // 00302004
+    ZAND Z11.D, Z12.D, Z10.D                         // 6a312c04
+    ZAND Z31.D, Z31.D, Z31.D                         // ff333f04
+
+// BIC     <Zd>.D, <Zn>.D, <Zm>.D
+    ZBIC Z0.D, Z0.D, Z0.D                            // 0030e004
+    ZBIC Z11.D, Z12.D, Z10.D                         // 6a31ec04
+    ZBIC Z31.D, Z31.D, Z31.D                         // ff33ff04
+
+// EOR     <Zd>.D, <Zn>.D, <Zm>.D
+    ZEOR Z0.D, Z0.D, Z0.D                            // 0030a004
+    ZEOR Z11.D, Z12.D, Z10.D                         // 6a31ac04
+    ZEOR Z31.D, Z31.D, Z31.D                         // ff33bf04
+
+// ORR     <Zd>.D, <Zn>.D, <Zm>.D
+    ZORR Z0.D, Z0.D, Z0.D                            // 00306004
+    ZORR Z11.D, Z12.D, Z10.D                         // 6a316c04
+    ZORR Z31.D, Z31.D, Z31.D                         // ff337f04
+
+// FCVTZS  <Zd>.D, <Pg>/M, <Zn>.D
+    ZFCVTZS P0.M, Z0.D, Z0.D                         // 00a0de65
+    ZFCVTZS P3.M, Z12.D, Z10.D                       // 8aadde65
+    ZFCVTZS P7.M, Z31.D, Z31.D                       // ffbfde65
+
+// FCVTZU  <Zd>.D, <Pg>/M, <Zn>.D
+    ZFCVTZU P0.M, Z0.D, Z0.D                         // 00a0df65
+    ZFCVTZU P3.M, Z12.D, Z10.D                       // 8aaddf65
+    ZFCVTZU P7.M, Z31.D, Z31.D                       // ffbfdf65
+
+// REVW    <Zd>.D, <Pg>/M, <Zn>.D
+    ZREVW P0.M, Z0.D, Z0.D                           // 0080e605
+    ZREVW P3.M, Z12.D, Z10.D                         // 8a8de605
+    ZREVW P7.M, Z31.D, Z31.D                         // ff9fe605
+
+// SCVTF   <Zd>.D, <Pg>/M, <Zn>.D
+    ZSCVTF P0.M, Z0.D, Z0.D                          // 00a0d665
+    ZSCVTF P3.M, Z12.D, Z10.D                        // 8aadd665
+    ZSCVTF P7.M, Z31.D, Z31.D                        // ffbfd665
+
+// SXTW    <Zd>.D, <Pg>/M, <Zn>.D
+    ZSXTW P0.M, Z0.D, Z0.D                           // 00a0d404
+    ZSXTW P3.M, Z12.D, Z10.D                         // 8aadd404
+    ZSXTW P7.M, Z31.D, Z31.D                         // ffbfd404
+
+// UCVTF   <Zd>.D, <Pg>/M, <Zn>.D
+    ZUCVTF P0.M, Z0.D, Z0.D                          // 00a0d765
+    ZUCVTF P3.M, Z12.D, Z10.D                        // 8aadd765
+    ZUCVTF P7.M, Z31.D, Z31.D                        // ffbfd765
+
+// UXTW    <Zd>.D, <Pg>/M, <Zn>.D
+    ZUXTW P0.M, Z0.D, Z0.D                           // 00a0d504
+    ZUXTW P3.M, Z12.D, Z10.D                         // 8aadd504
+    ZUXTW P7.M, Z31.D, Z31.D                         // ffbfd504
+
+// FCVT    <Zd>.D, <Pg>/M, <Zn>.H
+    ZFCVT P0.M, Z0.H, Z0.D                           // 00a0c965
+    ZFCVT P3.M, Z12.H, Z10.D                         // 8aadc965
+    ZFCVT P7.M, Z31.H, Z31.D                         // ffbfc965
+
+// FCVTZS  <Zd>.D, <Pg>/M, <Zn>.H
+    ZFCVTZS P0.M, Z0.H, Z0.D                         // 00a05e65
+    ZFCVTZS P3.M, Z12.H, Z10.D                       // 8aad5e65
+    ZFCVTZS P7.M, Z31.H, Z31.D                       // ffbf5e65
+
+// FCVTZU  <Zd>.D, <Pg>/M, <Zn>.H
+    ZFCVTZU P0.M, Z0.H, Z0.D                         // 00a05f65
+    ZFCVTZU P3.M, Z12.H, Z10.D                       // 8aad5f65
+    ZFCVTZU P7.M, Z31.H, Z31.D                       // ffbf5f65
+
+// FCVT    <Zd>.D, <Pg>/M, <Zn>.S
+    ZFCVT P0.M, Z0.S, Z0.D                           // 00a0cb65
+    ZFCVT P3.M, Z12.S, Z10.D                         // 8aadcb65
+    ZFCVT P7.M, Z31.S, Z31.D                         // ffbfcb65
+
+// FCVTZS  <Zd>.D, <Pg>/M, <Zn>.S
+    ZFCVTZS P0.M, Z0.S, Z0.D                         // 00a0dc65
+    ZFCVTZS P3.M, Z12.S, Z10.D                       // 8aaddc65
+    ZFCVTZS P7.M, Z31.S, Z31.D                       // ffbfdc65
+
+// FCVTZU  <Zd>.D, <Pg>/M, <Zn>.S
+    ZFCVTZU P0.M, Z0.S, Z0.D                         // 00a0dd65
+    ZFCVTZU P3.M, Z12.S, Z10.D                       // 8aaddd65
+    ZFCVTZU P7.M, Z31.S, Z31.D                       // ffbfdd65
+
+// SCVTF   <Zd>.D, <Pg>/M, <Zn>.S
+    ZSCVTF P0.M, Z0.S, Z0.D                          // 00a0d065
+    ZSCVTF P3.M, Z12.S, Z10.D                        // 8aadd065
+    ZSCVTF P7.M, Z31.S, Z31.D                        // ffbfd065
+
+// UCVTF   <Zd>.D, <Pg>/M, <Zn>.S
+    ZUCVTF P0.M, Z0.S, Z0.D                          // 00a0d165
+    ZUCVTF P3.M, Z12.S, Z10.D                        // 8aadd165
+    ZUCVTF P7.M, Z31.S, Z31.D                        // ffbfd165
+
+// FCVTZS  <Zd>.H, <Pg>/M, <Zn>.H
+    ZFCVTZS P0.M, Z0.H, Z0.H                         // 00a05a65
+    ZFCVTZS P3.M, Z12.H, Z10.H                       // 8aad5a65
+    ZFCVTZS P7.M, Z31.H, Z31.H                       // ffbf5a65
+
+// FCVTZU  <Zd>.H, <Pg>/M, <Zn>.H
+    ZFCVTZU P0.M, Z0.H, Z0.H                         // 00a05b65
+    ZFCVTZU P3.M, Z12.H, Z10.H                       // 8aad5b65
+    ZFCVTZU P7.M, Z31.H, Z31.H                       // ffbf5b65
+
+// SCVTF   <Zd>.H, <Pg>/M, <Zn>.H
+    ZSCVTF P0.M, Z0.H, Z0.H                          // 00a05265
+    ZSCVTF P3.M, Z12.H, Z10.H                        // 8aad5265
+    ZSCVTF P7.M, Z31.H, Z31.H                        // ffbf5265
+
+// UCVTF   <Zd>.H, <Pg>/M, <Zn>.H
+    ZUCVTF P0.M, Z0.H, Z0.H                          // 00a05365
+    ZUCVTF P3.M, Z12.H, Z10.H                        // 8aad5365
+    ZUCVTF P7.M, Z31.H, Z31.H                        // ffbf5365
+
+// FCVT    <Zd>.H, <Pg>/M, <Zn>.D
+    ZFCVT P0.M, Z0.D, Z0.H                           // 00a0c865
+    ZFCVT P3.M, Z12.D, Z10.H                         // 8aadc865
+    ZFCVT P7.M, Z31.D, Z31.H                         // ffbfc865
+
+// SCVTF   <Zd>.H, <Pg>/M, <Zn>.D
+    ZSCVTF P0.M, Z0.D, Z0.H                          // 00a05665
+    ZSCVTF P3.M, Z12.D, Z10.H                        // 8aad5665
+    ZSCVTF P7.M, Z31.D, Z31.H                        // ffbf5665
+
+// UCVTF   <Zd>.H, <Pg>/M, <Zn>.D
+    ZUCVTF P0.M, Z0.D, Z0.H                          // 00a05765
+    ZUCVTF P3.M, Z12.D, Z10.H                        // 8aad5765
+    ZUCVTF P7.M, Z31.D, Z31.H                        // ffbf5765
+
+// FCVT    <Zd>.S, <Pg>/M, <Zn>.D
+    ZFCVT P0.M, Z0.D, Z0.S                           // 00a0ca65
+    ZFCVT P3.M, Z12.D, Z10.S                         // 8aadca65
+    ZFCVT P7.M, Z31.D, Z31.S                         // ffbfca65
+
+// FCVTZS  <Zd>.S, <Pg>/M, <Zn>.D
+    ZFCVTZS P0.M, Z0.D, Z0.S                         // 00a0d865
+    ZFCVTZS P3.M, Z12.D, Z10.S                       // 8aadd865
+    ZFCVTZS P7.M, Z31.D, Z31.S                       // ffbfd865
+
+// FCVTZU  <Zd>.S, <Pg>/M, <Zn>.D
+    ZFCVTZU P0.M, Z0.D, Z0.S                         // 00a0d965
+    ZFCVTZU P3.M, Z12.D, Z10.S                       // 8aadd965
+    ZFCVTZU P7.M, Z31.D, Z31.S                       // ffbfd965
+
+// SCVTF   <Zd>.S, <Pg>/M, <Zn>.D
+    ZSCVTF P0.M, Z0.D, Z0.S                          // 00a0d465
+    ZSCVTF P3.M, Z12.D, Z10.S                        // 8aadd465
+    ZSCVTF P7.M, Z31.D, Z31.S                        // ffbfd465
+
+// UCVTF   <Zd>.S, <Pg>/M, <Zn>.D
+    ZUCVTF P0.M, Z0.D, Z0.S                          // 00a0d565
+    ZUCVTF P3.M, Z12.D, Z10.S                        // 8aadd565
+    ZUCVTF P7.M, Z31.D, Z31.S                        // ffbfd565
+
+// FCVT    <Zd>.S, <Pg>/M, <Zn>.H
+    ZFCVT P0.M, Z0.H, Z0.S                           // 00a08965
+    ZFCVT P3.M, Z12.H, Z10.S                         // 8aad8965
+    ZFCVT P7.M, Z31.H, Z31.S                         // ffbf8965
+
+// FCVTZS  <Zd>.S, <Pg>/M, <Zn>.H
+    ZFCVTZS P0.M, Z0.H, Z0.S                         // 00a05c65
+    ZFCVTZS P3.M, Z12.H, Z10.S                       // 8aad5c65
+    ZFCVTZS P7.M, Z31.H, Z31.S                       // ffbf5c65
+
+// FCVTZU  <Zd>.S, <Pg>/M, <Zn>.H
+    ZFCVTZU P0.M, Z0.H, Z0.S                         // 00a05d65
+    ZFCVTZU P3.M, Z12.H, Z10.S                       // 8aad5d65
+    ZFCVTZU P7.M, Z31.H, Z31.S                       // ffbf5d65
+
+// FCVTZS  <Zd>.S, <Pg>/M, <Zn>.S
+    ZFCVTZS P0.M, Z0.S, Z0.S                         // 00a09c65
+    ZFCVTZS P3.M, Z12.S, Z10.S                       // 8aad9c65
+    ZFCVTZS P7.M, Z31.S, Z31.S                       // ffbf9c65
+
+// FCVTZU  <Zd>.S, <Pg>/M, <Zn>.S
+    ZFCVTZU P0.M, Z0.S, Z0.S                         // 00a09d65
+    ZFCVTZU P3.M, Z12.S, Z10.S                       // 8aad9d65
+    ZFCVTZU P7.M, Z31.S, Z31.S                       // ffbf9d65
+
+// SCVTF   <Zd>.S, <Pg>/M, <Zn>.S
+    ZSCVTF P0.M, Z0.S, Z0.S                          // 00a09465
+    ZSCVTF P3.M, Z12.S, Z10.S                        // 8aad9465
+    ZSCVTF P7.M, Z31.S, Z31.S                        // ffbf9465
+
+// UCVTF   <Zd>.S, <Pg>/M, <Zn>.S
+    ZUCVTF P0.M, Z0.S, Z0.S                          // 00a09565
+    ZUCVTF P3.M, Z12.S, Z10.S                        // 8aad9565
+    ZUCVTF P7.M, Z31.S, Z31.S                        // ffbf9565
+
+// BFCVT   <Zd>.H, <Pg>/M, <Zn>.S
+    ZBFCVT P0.M, Z0.S, Z0.H                          // 00a08a65
+    ZBFCVT P3.M, Z12.S, Z10.H                        // 8aad8a65
+    ZBFCVT P7.M, Z31.S, Z31.H                        // ffbf8a65
+
+// BFCVTNT <Zd>.H, <Pg>/M, <Zn>.S
+    ZBFCVTNT P0.M, Z0.S, Z0.H                        // 00a08a64
+    ZBFCVTNT P3.M, Z12.S, Z10.H                      // 8aad8a64
+    ZBFCVTNT P7.M, Z31.S, Z31.H                      // ffbf8a64
+
+// FCVT    <Zd>.H, <Pg>/M, <Zn>.S
+    ZFCVT P0.M, Z0.S, Z0.H                           // 00a08865
+    ZFCVT P3.M, Z12.S, Z10.H                         // 8aad8865
+    ZFCVT P7.M, Z31.S, Z31.H                         // ffbf8865
+
+// SCVTF   <Zd>.H, <Pg>/M, <Zn>.S
+    ZSCVTF P0.M, Z0.S, Z0.H                          // 00a05465
+    ZSCVTF P3.M, Z12.S, Z10.H                        // 8aad5465
+    ZSCVTF P7.M, Z31.S, Z31.H                        // ffbf5465
+
+// UCVTF   <Zd>.H, <Pg>/M, <Zn>.S
+    ZUCVTF P0.M, Z0.S, Z0.H                          // 00a05565
+    ZUCVTF P3.M, Z12.S, Z10.H                        // 8aad5565
+    ZUCVTF P7.M, Z31.S, Z31.H                        // ffbf5565
 
     RET

@@ -71,20 +71,54 @@ func Rmi2(vals ...*obj.Addr) (uint32, bool) {
 	return v | u, true
 }
 
+func Rmi3(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	u, oku := pu(uint32(r.Number()), 18, 16)
+	v, okv := pu(uint32(vals[0].Index>>1&0b11), 20, 19)
+	w, okt := pu(uint32(vals[0].Index&0b1), 11, 11)
+	return u | v | w, oku && okv && okt
+}
+
 func Pd(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
 	return pu(uint32(r.Number()), 3, 0)
 }
 
-func Pg(vals ...*obj.Addr) (uint32, bool) {
+func Pn(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	return pu(uint32(r.Number()), 8, 5)
+}
+
+func Pg_12_10(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
 	return pu(uint32(r.Number()), 12, 10)
 }
 
+func Pg(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	return pu(uint32(r.Number()), 13, 10)
+}
+
+var Pg_8_5 = Pm_8_5
+
 func Pm(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
-	return pu(uint32(r.Number()), 8, 5)
+	return pu(uint32(r.Number()), 19, 16)
 }
+
+var Pm_8_5 = Pn
+
+func Pdn(vals ...*obj.Addr) (uint32, bool) {
+	r1 := AsSVERegister(vals[0].Reg)
+	r2 := AsSVERegister(vals[1].Reg)
+	if r1.Number() != r2.Number() {
+		return 0, false
+	}
+	return pu(uint32(r1.Number()), 3, 0)
+}
+
+var Pdm = Pdn
+var Pv = Pn
 
 func sveT(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
@@ -111,7 +145,7 @@ func sveT(vals ...*obj.Addr) (uint32, bool) {
 	return pu(t, 23, 22)
 }
 
-func Zdn(vals ...*obj.Addr) (uint32, bool) {
+func Rdn(vals ...*obj.Addr) (uint32, bool) {
 	r1 := AsSVERegister(vals[0].Reg)
 	r2 := AsSVERegister(vals[1].Reg)
 	if r1.Number() != r2.Number() {
@@ -119,6 +153,8 @@ func Zdn(vals ...*obj.Addr) (uint32, bool) {
 	}
 	return pu(uint32(r1.Number()), 4, 0)
 }
+
+var Zdn = Rdn
 
 func RnImm9MulVl(vals ...*obj.Addr) (uint32, bool) {
 	addr := AsAddress(vals[0])
