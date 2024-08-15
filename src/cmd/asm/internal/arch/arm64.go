@@ -390,6 +390,14 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 			r.SetExt(arm64.EXT_MERGING)
 		case ext == "Z" && isAmount:
 			r.SetExt(arm64.EXT_ZEROING)
+		case ext == "B" && isAmount:
+			r.SetExt(arm64.EXT_B)
+		case ext == "H" && isAmount:
+			r.SetExt(arm64.EXT_H)
+		case ext == "S" && isAmount:
+			r.SetExt(arm64.EXT_S)
+		case ext == "D" && isAmount:
+			r.SetExt(arm64.EXT_D)
 		default:
 			return fmt.Errorf(
 				"extension unsupported for predicate register: %s isAmount=%v isIndex=%v",

@@ -49,6 +49,11 @@ func Pg(vals ...*obj.Addr) (uint32, bool) {
 	return p(uint32(r.Number()), 12, 10)
 }
 
+func Pm(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	return p(uint32(r.Number()), 8, 5)
+}
+
 func sveT(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
 	for _, v := range vals[1:] {

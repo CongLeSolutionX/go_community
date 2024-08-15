@@ -757,4 +757,32 @@ TEXT svetest(SB),$0
     ZUXTH P3.M, Z12.D, Z10.D                         // 8aadd304
     ZUXTH P7.M, Z31.D, Z31.D                         // ffbfd304
 
+// DECP    <Xdn>, <Pm>.<T>
+    ZDECP P0.B, R0                                   // 00882d25
+    ZDECP P6.B, R10                                  // ca882d25
+    ZDECP P15.B, R30                                 // fe892d25
+    ZDECP P0.H, R0                                   // 00886d25
+    ZDECP P6.H, R10                                  // ca886d25
+    ZDECP P15.H, R30                                 // fe896d25
+    ZDECP P0.S, R0                                   // 0088ad25
+    ZDECP P6.S, R10                                  // ca88ad25
+    ZDECP P15.S, R30                                 // fe89ad25
+    ZDECP P0.D, R0                                   // 0088ed25
+    ZDECP P6.D, R10                                  // ca88ed25
+    ZDECP P15.D, R30                                 // fe89ed25
+
+// INCP    <Xdn>, <Pm>.<T>
+    ZINCP P0.B, R0                                   // 00882c25
+    ZINCP P6.B, R10                                  // ca882c25
+    ZINCP P15.B, R30                                 // fe892c25
+    ZINCP P0.H, R0                                   // 00886c25
+    ZINCP P6.H, R10                                  // ca886c25
+    ZINCP P15.H, R30                                 // fe896c25
+    ZINCP P0.S, R0                                   // 0088ac25
+    ZINCP P6.S, R10                                  // ca88ac25
+    ZINCP P15.S, R30                                 // fe89ac25
+    ZINCP P0.D, R0                                   // 0088ec25
+    ZINCP P6.D, R10                                  // ca88ec25
+    ZINCP P15.D, R30                                 // fe89ec25
+
     RET

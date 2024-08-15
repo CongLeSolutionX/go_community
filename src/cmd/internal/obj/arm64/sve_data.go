@@ -49,6 +49,9 @@ var instructionTable = map[obj.As][]encoding{
 	AZCNT: {
 		{0x041aa000, FG_ZdT_PgM_ZnT, E_size_Pg_Zn_Zd}, // CNT <Zd>.<T>, <Pg>/M, <Zn>.<T>
 	},
+	AZDECP: {
+		{0x252d8800, FG_Xdn_PmT, E_size_Pm_Rdn}, // DECP <Xdn>, <Pm>.<T>
+	},
 	AZEOR: {
 		{0x04190000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // EOR <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
 	},
@@ -123,6 +126,9 @@ var instructionTable = map[obj.As][]encoding{
 	},
 	AZFSQRT: {
 		{0x650da000, FG_ZdT_PgM_ZnT_FP, E_size_Pg_Zn_Zd}, // FSQRT <Zd>.<T>, <Pg>/M, <Zn>.<T>
+	},
+	AZINCP: {
+		{0x252c8800, FG_Xdn_PmT, E_size_Pm_Rdn}, // INCP <Xdn>, <Pm>.<T>
 	},
 	AZLSL: {
 		{0x04138000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // LSL <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
@@ -225,6 +231,10 @@ const (
 	F_ZdnH_PgM_ZdnH_ZmH
 	F_ZdnS_PgM_ZdnS_ZmS
 	F_ZdnD_PgM_ZdnD_ZmD
+	F_Xdn_PmB
+	F_Xdn_PmH
+	F_Xdn_PmS
+	F_Xdn_PmD
 )
 
 // Format groups, common patterns of associated instruction formats. E.g. expansion of the <T> generic lane size.
@@ -232,6 +242,7 @@ var FG_ZdT_PgM_ZnT = []int{F_ZdB_PgM_ZnB, F_ZdH_PgM_ZnH, F_ZdS_PgM_ZnS, F_ZdD_Pg
 var FG_ZdT_PgM_ZnT_FP = []int{F_ZdH_PgM_ZnH, F_ZdS_PgM_ZnS, F_ZdD_PgM_ZnD}
 var FG_ZdnT_PgM_ZdnT_ZmT = []int{F_ZdnB_PgM_ZdnB_ZmB, F_ZdnH_PgM_ZdnH_ZmH, F_ZdnS_PgM_ZdnS_ZmS, F_ZdnD_PgM_ZdnD_ZmD}
 var FG_ZdnT_PgM_ZdnT_ZmT_FP = []int{F_ZdnH_PgM_ZdnH_ZmH, F_ZdnS_PgM_ZdnS_ZmS, F_ZdnD_PgM_ZdnD_ZmD}
+var FG_Xdn_PmT = []int{F_Xdn_PmB, F_Xdn_PmH, F_Xdn_PmS, F_Xdn_PmD}
 
 // The format table holds a representation of the operand syntax for an instruction.
 var formats = map[int]format{
@@ -245,6 +256,10 @@ var formats = map[int]format{
 	F_ZdnH_PgM_ZdnH_ZmH: []int{REG_Z | EXT_H, REG_P | EXT_MERGING, REG_Z | EXT_H, REG_Z | EXT_H}, // <Zdn>.H, <Pg>/M, <Zdn>.H, <Zm>.H
 	F_ZdnS_PgM_ZdnS_ZmS: []int{REG_Z | EXT_S, REG_P | EXT_MERGING, REG_Z | EXT_S, REG_Z | EXT_S}, // <Zdn>.S, <Pg>/M, <Zdn>.S, <Zm>.S
 	F_ZdnD_PgM_ZdnD_ZmD: []int{REG_Z | EXT_D, REG_P | EXT_MERGING, REG_Z | EXT_D, REG_Z | EXT_D}, // <Zdn>.D, <Pg>/M, <Zdn>.D, <Zm>.D
+	F_Xdn_PmB:           []int{REG_R, REG_P | EXT_B},                                             // <Xdn>, <Pm>.B
+	F_Xdn_PmH:           []int{REG_R, REG_P | EXT_H},                                             // <Xdn>, <Pm>.H
+	F_Xdn_PmS:           []int{REG_R, REG_P | EXT_S},                                             // <Xdn>, <Pm>.S
+	F_Xdn_PmD:           []int{REG_R, REG_P | EXT_D},                                             // <Xdn>, <Pm>.D
 }
 
 // Key into the encoder table.
@@ -253,6 +268,7 @@ const (
 	E_Zda_Zn_Zm_i2
 	E_size_Pg_Zn_Zd
 	E_size_Pg_Zm_Zdn
+	E_size_Pm_Rdn
 
 	// Equivalences
 	E_size0_Pg_Zn_Zd = E_size_Pg_Zn_Zd
@@ -267,4 +283,5 @@ var encoders = map[int]encoder{
 	E_Zda_Zn_Zm_i2:   {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rmi2}}},
 	E_size_Pg_Zn_Zd:  {[]rule{{[]int{0}, Rd}, {[]int{1}, Pg}, {[]int{2}, Rn}, {[]int{0, 2}, sveT}}},
 	E_size_Pg_Zm_Zdn: {[]rule{{[]int{0, 2}, Zdn}, {[]int{1}, Pg}, {[]int{3}, Rn}, {[]int{0, 2, 3}, sveT}}},
+	E_size_Pm_Rdn:    {[]rule{{[]int{0}, Rd}, {[]int{1}, Pm}, {[]int{1}, sveT}}},
 }
