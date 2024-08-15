@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c0e662_81558659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-15T21:16:01Z",
+      "side": 1,
+      "message": "Right now this CL is just carefully written.\n\nIf someone has good ideas for how to test this while all of the writers are hard wired to currentVersion \u003d\u003d 1, I am all ears.",
+      "revId": "1e3419b36c8530647e273566e56ea75d7b88f4d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
