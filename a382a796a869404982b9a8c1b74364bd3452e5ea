@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84960146_0fcfbdbf",
+        "filename": "src/cmd/internal/obj/riscv/anames.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 3299376
+      },
+      "writtenOn": "2024-08-15T10:03:29Z",
+      "side": 1,
+      "message": "I have added them in https://go-review.googlesource.com/c/go/+/605497.",
+      "parentUuid": "003c7026_b2b5548c",
+      "revId": "a382a796a869404982b9a8c1b74364bd3452e5ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a770552_96db9d49",
         "filename": "src/cmd/internal/obj/riscv/cpu.go",
         "patchSetId": 1
