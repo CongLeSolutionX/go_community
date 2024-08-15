@@ -156,6 +156,24 @@
       "parentUuid": "ade5b532_4ec74a74",
       "revId": "0a249659d6270789cb7afc7bdb61cff3289b2200",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d7e0878_fa524503",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-08-15T23:37:00Z",
+      "side": 1,
+      "message": "I believe []byte(\"\") should return []byte{}, not nil. But my thoughts on the matter aren\u0027t really relevant - this CL needs to replicate whatever the current behavior is. We have a promise of backwards compatibility.\n\nThe tests in codegen are not intended to cover semantic changes. They are only for testing performance-only changes, because there\u0027s no other way to do them. Semantic changes should use regular Go tests. We have a bunch in cmd/compile/internal/test.",
+      "parentUuid": "f4f5ad73_b25c3323",
+      "revId": "0a249659d6270789cb7afc7bdb61cff3289b2200",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
