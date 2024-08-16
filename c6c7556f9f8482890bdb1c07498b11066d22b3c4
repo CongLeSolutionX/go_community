@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "273fd7e1_8f2bf9ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-08-16T07:48:30Z",
+      "side": 1,
+      "message": "\u003e One option for keeping them would be to make a script that downloads the go.mod file from a known version of kubernetes and strips it\n\nWhat would be a proper place for such scripts?",
+      "parentUuid": "4a77e629_1fe3a4f8",
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7452fdd0_965df6a8",
         "filename": "src/cmd/go/internal/modload/list.go",
         "patchSetId": 10
@@ -49,6 +67,30 @@
       "writtenOn": "2024-07-29T15:35:22Z",
       "side": 1,
       "message": "restore these imports to the section below?",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f043e0f2_94d9ae71",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-08-16T07:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7452fdd0_965df6a8",
       "range": {
         "startLine": 9,
         "startChar": 9,
@@ -82,6 +124,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25f9ecc_fcf53f11",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-08-16T07:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "332029a3_4470fb7f",
+      "range": {
+        "startLine": 285,
+        "startChar": 6,
+        "endLine": 285,
+        "endChar": 7
+      },
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "609d6cb0_cd3f5b0b",
@@ -95,6 +161,30 @@
       "writtenOn": "2024-07-29T15:35:22Z",
       "side": 1,
       "message": "we can move this up to after the loop where matches is filled.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 3
+      },
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2e54b10_c8369c76",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-08-16T07:48:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "609d6cb0_cd3f5b0b",
       "range": {
         "startLine": 301,
         "startChar": 0,
