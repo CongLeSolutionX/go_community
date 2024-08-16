@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b7d60c6_4027063d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2024-08-16T14:14:22Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand this change. Why does the compiler need an indexed importer? I thought we were deleting all but the unified import / export.",
+      "revId": "2fc727e75dd2acaa7d8997315ba9d2f870439d89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
