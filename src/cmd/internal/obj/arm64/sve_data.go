@@ -130,6 +130,10 @@ var instructionTable = map[obj.As][]encoding{
 	AZINCP: {
 		{0x252c8800, FG_Xdn_PmT, E_size_Pm_Rdn}, // INCP <Xdn>, <Pm>.<T>
 	},
+	AZLDR: {
+		{0x85804000, []int{F_Zt_AddrXSP, F_Zt_AddrXSPImmMulVl}, E_imm9h_imm9l_Rn_Zt}, // LDR <Zt>, [<Xn|SP>{, #<imm>, MUL VL}]
+		{0x85800000, []int{F_Pt_AddrXSP, F_Pt_AddrXSPImmMulVl}, E_imm9h_imm9l_Rn_Zt}, // LDR <Pt>, [<Xn|SP>{, #<imm>, MUL VL}]
+	},
 	AZLSL: {
 		{0x04138000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // LSL <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
 	},
@@ -180,6 +184,10 @@ var instructionTable = map[obj.As][]encoding{
 	},
 	AZSMULH: {
 		{0x04120000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // SMULH <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
+	},
+	AZSTR: {
+		{0xe5804000, []int{F_Zt_AddrXSP, F_Zt_AddrXSPImmMulVl}, E_imm9h_imm9l_Rn_Zt}, // STR <Zt>, [<Xn|SP>{, #<imm>, MUL VL}]
+		{0xe5800000, []int{F_Pt_AddrXSP, F_Pt_AddrXSPImmMulVl}, E_imm9h_imm9l_Rn_Zt}, // STR <Pt>, [<Xn|SP>{, #<imm>, MUL VL}]
 	},
 	AZSUB: {
 		{0x04010000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // SUB <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
@@ -235,6 +243,10 @@ const (
 	F_Xdn_PmH
 	F_Xdn_PmS
 	F_Xdn_PmD
+	F_Zt_AddrXSP
+	F_Zt_AddrXSPImmMulVl
+	F_Pt_AddrXSP
+	F_Pt_AddrXSPImmMulVl
 )
 
 // Format groups, common patterns of associated instruction formats. E.g. expansion of the <T> generic lane size.
@@ -246,20 +258,24 @@ var FG_Xdn_PmT = []int{F_Xdn_PmB, F_Xdn_PmH, F_Xdn_PmS, F_Xdn_PmD}
 
 // The format table holds a representation of the operand syntax for an instruction.
 var formats = map[int]format{
-	F_ZdaS_ZnH_ZmH:      []int{REG_Z | EXT_S, REG_Z | EXT_H, REG_Z | EXT_H},                      // <Zd>.S, <Zn>.H, <Zm>.H
-	F_ZdaS_ZnH_ZmHidx:   []int{REG_Z | EXT_S, REG_Z | EXT_H, REG_Z_INDEXED | EXT_H},              // <Zd>.S, <Zn>.H, <Zm>.H[<imm>]
-	F_ZdB_PgM_ZnB:       []int{REG_Z | EXT_B, REG_P | EXT_MERGING, REG_Z | EXT_B},                // <Zd>.B, <Pg>/M, <Zn>.B
-	F_ZdH_PgM_ZnH:       []int{REG_Z | EXT_H, REG_P | EXT_MERGING, REG_Z | EXT_H},                // <Zd>.H, <Pg>/M, <Zn>.H
-	F_ZdS_PgM_ZnS:       []int{REG_Z | EXT_S, REG_P | EXT_MERGING, REG_Z | EXT_S},                // <Zd>.S, <Pg>/M, <Zn>.S
-	F_ZdD_PgM_ZnD:       []int{REG_Z | EXT_D, REG_P | EXT_MERGING, REG_Z | EXT_D},                // <Zd>.D, <Pg>/M, <Zn>.D
-	F_ZdnB_PgM_ZdnB_ZmB: []int{REG_Z | EXT_B, REG_P | EXT_MERGING, REG_Z | EXT_B, REG_Z | EXT_B}, // <Zdn>.B, <Pg>/M, <Zdn>.B, <Zm>.B
-	F_ZdnH_PgM_ZdnH_ZmH: []int{REG_Z | EXT_H, REG_P | EXT_MERGING, REG_Z | EXT_H, REG_Z | EXT_H}, // <Zdn>.H, <Pg>/M, <Zdn>.H, <Zm>.H
-	F_ZdnS_PgM_ZdnS_ZmS: []int{REG_Z | EXT_S, REG_P | EXT_MERGING, REG_Z | EXT_S, REG_Z | EXT_S}, // <Zdn>.S, <Pg>/M, <Zdn>.S, <Zm>.S
-	F_ZdnD_PgM_ZdnD_ZmD: []int{REG_Z | EXT_D, REG_P | EXT_MERGING, REG_Z | EXT_D, REG_Z | EXT_D}, // <Zdn>.D, <Pg>/M, <Zdn>.D, <Zm>.D
-	F_Xdn_PmB:           []int{REG_R, REG_P | EXT_B},                                             // <Xdn>, <Pm>.B
-	F_Xdn_PmH:           []int{REG_R, REG_P | EXT_H},                                             // <Xdn>, <Pm>.H
-	F_Xdn_PmS:           []int{REG_R, REG_P | EXT_S},                                             // <Xdn>, <Pm>.S
-	F_Xdn_PmD:           []int{REG_R, REG_P | EXT_D},                                             // <Xdn>, <Pm>.D
+	F_ZdaS_ZnH_ZmH:       []int{REG_Z | EXT_S, REG_Z | EXT_H, REG_Z | EXT_H},                      // <Zd>.S, <Zn>.H, <Zm>.H
+	F_ZdaS_ZnH_ZmHidx:    []int{REG_Z | EXT_S, REG_Z | EXT_H, REG_Z_INDEXED | EXT_H},              // <Zd>.S, <Zn>.H, <Zm>.H[<imm>]
+	F_ZdB_PgM_ZnB:        []int{REG_Z | EXT_B, REG_P | EXT_MERGING, REG_Z | EXT_B},                // <Zd>.B, <Pg>/M, <Zn>.B
+	F_ZdH_PgM_ZnH:        []int{REG_Z | EXT_H, REG_P | EXT_MERGING, REG_Z | EXT_H},                // <Zd>.H, <Pg>/M, <Zn>.H
+	F_ZdS_PgM_ZnS:        []int{REG_Z | EXT_S, REG_P | EXT_MERGING, REG_Z | EXT_S},                // <Zd>.S, <Pg>/M, <Zn>.S
+	F_ZdD_PgM_ZnD:        []int{REG_Z | EXT_D, REG_P | EXT_MERGING, REG_Z | EXT_D},                // <Zd>.D, <Pg>/M, <Zn>.D
+	F_ZdnB_PgM_ZdnB_ZmB:  []int{REG_Z | EXT_B, REG_P | EXT_MERGING, REG_Z | EXT_B, REG_Z | EXT_B}, // <Zdn>.B, <Pg>/M, <Zdn>.B, <Zm>.B
+	F_ZdnH_PgM_ZdnH_ZmH:  []int{REG_Z | EXT_H, REG_P | EXT_MERGING, REG_Z | EXT_H, REG_Z | EXT_H}, // <Zdn>.H, <Pg>/M, <Zdn>.H, <Zm>.H
+	F_ZdnS_PgM_ZdnS_ZmS:  []int{REG_Z | EXT_S, REG_P | EXT_MERGING, REG_Z | EXT_S, REG_Z | EXT_S}, // <Zdn>.S, <Pg>/M, <Zdn>.S, <Zm>.S
+	F_ZdnD_PgM_ZdnD_ZmD:  []int{REG_Z | EXT_D, REG_P | EXT_MERGING, REG_Z | EXT_D, REG_Z | EXT_D}, // <Zdn>.D, <Pg>/M, <Zdn>.D, <Zm>.D
+	F_Xdn_PmB:            []int{REG_R, REG_P | EXT_B},                                             // <Xdn>, <Pm>.B
+	F_Xdn_PmH:            []int{REG_R, REG_P | EXT_H},                                             // <Xdn>, <Pm>.H
+	F_Xdn_PmS:            []int{REG_R, REG_P | EXT_S},                                             // <Xdn>, <Pm>.S
+	F_Xdn_PmD:            []int{REG_R, REG_P | EXT_D},                                             // <Xdn>, <Pm>.D
+	F_Zt_AddrXSP:         []int{REG_Z, MEM_ADDR | MEM_BASE},                                       // <Zt>, [<Xn|SP>]
+	F_Zt_AddrXSPImmMulVl: []int{REG_Z, MEM_ADDR | MEM_OFFSET_IMM},                                 // <Zt>, [<Xn|SP>{, #<imm>, MUL VL}]
+	F_Pt_AddrXSP:         []int{REG_P, MEM_ADDR | MEM_BASE},                                       // <Zt>, [<Xn|SP>]
+	F_Pt_AddrXSPImmMulVl: []int{REG_P, MEM_ADDR | MEM_OFFSET_IMM},                                 // <Zt>, [<Xn|SP>{, #<imm>, MUL VL}]
 }
 
 // Key into the encoder table.
@@ -269,6 +285,7 @@ const (
 	E_size_Pg_Zn_Zd
 	E_size_Pg_Zm_Zdn
 	E_size_Pm_Rdn
+	E_imm9h_imm9l_Rn_Zt
 
 	// Equivalences
 	E_size0_Pg_Zn_Zd = E_size_Pg_Zn_Zd
@@ -279,9 +296,10 @@ const (
 // rule. Each rule produces a 32-bit number which should be OR'd with the base to create
 // an instruction encoding.
 var encoders = map[int]encoder{
-	E_Rd_Rn_Rm:       {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rm}}},
-	E_Zda_Zn_Zm_i2:   {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rmi2}}},
-	E_size_Pg_Zn_Zd:  {[]rule{{[]int{0}, Rd}, {[]int{1}, Pg}, {[]int{2}, Rn}, {[]int{0, 2}, sveT}}},
-	E_size_Pg_Zm_Zdn: {[]rule{{[]int{0, 2}, Zdn}, {[]int{1}, Pg}, {[]int{3}, Rn}, {[]int{0, 2, 3}, sveT}}},
-	E_size_Pm_Rdn:    {[]rule{{[]int{0}, Rd}, {[]int{1}, Pm}, {[]int{1}, sveT}}},
+	E_Rd_Rn_Rm:          {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rm}}},
+	E_Zda_Zn_Zm_i2:      {[]rule{{[]int{0}, Rd}, {[]int{1}, Rn}, {[]int{2}, Rmi2}}},
+	E_size_Pg_Zn_Zd:     {[]rule{{[]int{0}, Rd}, {[]int{1}, Pg}, {[]int{2}, Rn}, {[]int{0, 2}, sveT}}},
+	E_size_Pg_Zm_Zdn:    {[]rule{{[]int{0, 2}, Zdn}, {[]int{1}, Pg}, {[]int{3}, Rn}, {[]int{0, 2, 3}, sveT}}},
+	E_size_Pm_Rdn:       {[]rule{{[]int{0}, Rd}, {[]int{1}, Pm}, {[]int{1}, sveT}}},
+	E_imm9h_imm9l_Rn_Zt: {[]rule{{[]int{0}, Rt}, {[]int{1}, RnImm9MulVl}}},
 }

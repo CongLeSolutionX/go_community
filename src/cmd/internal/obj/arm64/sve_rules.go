@@ -8,13 +8,31 @@ import (
 	"fmt"
 )
 
-func p(val uint32, hibit int, lobit int) (uint32, bool) {
+var Rt = Rd
+
+func checkBitRange(hibit int, lobit int, max int) {
 	if hibit < lobit {
 		panic("need hibit >= lobit")
 	}
+	if lobit < 0 {
+		panic("need lobit >= 0")
+	}
+	if hibit >= max {
+		panic(fmt.Sprintf("need hibit < %d", max))
+	}
+}
+
+func b(val int64, hibit int, lobit int) (int64, bool) {
+	checkBitRange(hibit, lobit, 64)
+	var mask int64 = (1 << (hibit - lobit + 1)) - 1
+	return (val >> lobit) & mask, true
+}
+
+func p(val uint32, hibit int, lobit int) (uint32, bool) {
+	checkBitRange(hibit, lobit, 32)
 	var top uint32 = 1 << (hibit - lobit + 1)
 	if val >= top {
-		panic(fmt.Sprintf("val '%x' too large for %d bit field", val, hibit-lobit))
+		panic(fmt.Sprintf("val '%d' too large for %d bit field", val, hibit-lobit+1))
 	}
 	return uint32((val & (top - 1)) << lobit), true
 }
@@ -86,4 +104,14 @@ func Zdn(vals ...*obj.Addr) (uint32, bool) {
 		return 0, false
 	}
 	return p(uint32(r1.Number()), 4, 0)
+}
+
+func RnImm9MulVl(vals ...*obj.Addr) (uint32, bool) {
+	addr := AsAddress(vals[0])
+	imm9l, oku := b(addr.Offset, 2, 0)
+	imm9h, okv := b(addr.Offset, 8, 3)
+	rn, okw := p(uint32(addr.Reg&31), 9, 5)
+	imml, okx := p(uint32(imm9l), 12, 10)
+	immh, oky := p(uint32(imm9h), 21, 16)
+	return immh | imml | rn, oku && okv && okw && okx && oky
 }

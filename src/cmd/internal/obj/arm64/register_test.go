@@ -24,9 +24,9 @@ func TestARM64SVERegister(t *testing.T) {
 		t.Fail()
 		t.Logf("incorrect format type: %b expected: %b", getType(r.Format()), REG_Z)
 	}
-	if getExt(r.Format()) != EXT_B {
+	if getSubtype(r.Format()) != EXT_B {
 		t.Fail()
-		t.Logf("incorrect format ext: %b expected: %b", getExt(r.Format()), EXT_B)
+		t.Logf("incorrect format ext: %b expected: %b", getSubtype(r.Format()), EXT_B)
 	}
 	if r.Number() != 2 {
 		t.Fail()

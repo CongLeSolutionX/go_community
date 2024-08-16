@@ -33,11 +33,11 @@ const extOffset = 3
 const extMask = 0b111111 << extOffset
 
 // Bits 0-2 hold the register type R/F/V/Z/P/...
-const typeMask = 0b111
+const groupMask = 0b111
 
 // Types of register extension, add as needed.
 const (
-	EXT_NONE    = iota << extOffset
+	EXT_NONE    = iota << subtypeOffset
 	EXT_B       // .B
 	EXT_H       // .H
 	EXT_S       // .S
@@ -46,26 +46,6 @@ const (
 	EXT_ZEROING // .Z
 	EXT_END     // End marker
 )
-
-const (
-	REG_R = iota
-	REG_F
-	REG_V
-	REG_Z
-	REG_P
-	REG_V_INDEXED
-	REG_Z_INDEXED
-	REG_P_INDEXED
-)
-
-// Bit extractors for Type and Extension from Register.Format()
-func getType(fmt int) int {
-	return int(uint(fmt) & typeMask)
-}
-
-func getExt(fmt int) int {
-	return int(uint(fmt) & extMask)
-}
 
 // Checks whether the Addr structure represents a register in this scheme.
 func IsSVERegister(data int16) bool {
@@ -89,12 +69,12 @@ func AsSVERegister(data int16) SVERegister {
 	return r
 }
 
-func (r *SVERegister) Ext() int16 {
-	return int16(r.uint16 & extMask)
+func (r *SVERegister) Ext() int {
+	return int((r.uint16 & extMask) >> extOffset) << subtypeOffset 
 }
 
 func (r *SVERegister) SetExt(ext int16) {
-	r.uint16 ^= (r.uint16 & extMask) ^ uint16(ext)
+	r.uint16 ^= (r.uint16 & extMask) ^ uint16((ext >> subtypeOffset)<<extOffset)
 }
 
 // Get the register number, between 0-31. For P registers between 0-15.
@@ -103,7 +83,7 @@ func (r *SVERegister) Number() int16 {
 }
 
 func (r *SVERegister) is(rtype uint16) bool {
-	return r.uint16&typeMask == rtype
+	return r.uint16&groupMask == rtype
 }
 
 func (r *SVERegister) IsR() bool {
@@ -194,7 +174,7 @@ func (r *SVERegister) Group() int {
 }
 
 func (r *SVERegister) Format() int {
-	return r.Group() | int(r.Ext())
+	return r.Group() | r.Ext()
 }
 
 func (r *SVERegister) ToInt16() int16 {

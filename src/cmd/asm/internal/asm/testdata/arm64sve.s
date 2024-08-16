@@ -785,4 +785,24 @@ TEXT svetest(SB),$0
     ZINCP P6.D, R10                                  // ca88ec25
     ZINCP P15.D, R30                                 // fe89ec25
 
+// LDR     <Zt>, [<Xn|SP>{, #<simm>, MUL VL}]
+    ZLDR $-256(R0), Z0                               // 0040a085
+    ZLDR $(R11), Z10                                  // 6a418085
+    ZLDR $255(RSP), Z31                              // ff5f9f85
+
+// STR     <Zt>, [<Xn|SP>{, #<simm>, MUL VL}]
+    ZSTR $-256(R0), Z0                               // 0040a0e5
+    ZSTR $(R11), Z10                                  // 6a4180e5
+    ZSTR $255(RSP), Z31                              // ff5f9fe5
+
+// LDR     <Pt>, [<Xn|SP>{, #<simm>, MUL VL}]
+    ZLDR $-256(R0), P0                               // 0000a085
+    ZLDR $(R11), P5                                   // 65018085
+    ZLDR $255(RSP), P15                              // ef1f9f85
+
+// STR     <Pt>, [<Xn|SP>{, #<simm>, MUL VL}]
+    ZSTR $-256(R0), P0                               // 0000a0e5
+    ZSTR $(R11), P5                                   // 650180e5
+    ZSTR $255(RSP), P15                              // ef1f9fe5
+
     RET
