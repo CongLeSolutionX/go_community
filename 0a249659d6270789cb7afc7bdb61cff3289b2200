@@ -192,6 +192,24 @@
       "parentUuid": "1d7e0878_fa524503",
       "revId": "0a249659d6270789cb7afc7bdb61cff3289b2200",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "983b9e83_07af6426",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2024-08-16T17:58:10Z",
+      "side": 1,
+      "message": "Enough correctness tests to cover each new line of code at least once would be good (except the throw, don\u0027t worry about that line).\nThen an allocation test that ensures []byte(s1+s2) allocates at most once (and exactly once, if len(s1+s2)\u003e0), which is the point of this exercise.",
+      "parentUuid": "b5164462_b162cc4e",
+      "revId": "0a249659d6270789cb7afc7bdb61cff3289b2200",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
