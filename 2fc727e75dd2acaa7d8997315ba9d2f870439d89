@@ -16,6 +16,24 @@
       "message": "Sorry, I don\u0027t understand this change. Why does the compiler need an indexed importer? I thought we were deleting all but the unified import / export.",
       "revId": "2fc727e75dd2acaa7d8997315ba9d2f870439d89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a28145d3_3e8177bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-16T16:55:37Z",
+      "side": 1,
+      "message": "\u003e Why does the compiler need an indexed importer?\n\ntl;dr it unblocks progress on other things.\n\nAs nice as it would be to eliminate tech debt today, it is not needed to wrap up https://go.dev/issue/68778. ATM I am racing against the next x/tools release in early September, that is in order to give ~2 week-1 month of presubmit trybot testing with type parameterized aliases always on, so that the goexperiment can switch its default during the middle of the thaw. We can clean up tech debt later.\n\nTo eliminate either we need to prove they are dead or if alive file a proposal to deprecate.\n\n`src/cmd/compile/internal/importer/iimport.go` seems dead and can probably go. \n\n`src/go/internal/gcimporter/iimport.go` requires more investigation. It may be possible to point go/types of a new tool to parse an index file created by an older compiler. So more investigation and maybe a proposal. Ongoing.\n\nSo why not delete `src/cmd/compile/internal/importer/iimport.go` today? Basically it is easier on me to keep the 3 copies in sync.",
+      "parentUuid": "8b7d60c6_4027063d",
+      "revId": "2fc727e75dd2acaa7d8997315ba9d2f870439d89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
