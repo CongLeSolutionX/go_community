@@ -1375,7 +1375,8 @@ func TestChtimes(t *testing.T) {
 	t.Parallel()
 
 	f := newFile(t)
-	// This should be an empty file (see #68687, #68663).
+
+	f.Write([]byte("hello, world\n"))
 	f.Close()
 
 	testChtimes(t, f.Name())
@@ -1393,9 +1394,12 @@ func TestChtimesOmit(t *testing.T) {
 func testChtimesOmit(t *testing.T, omitAt, omitMt bool) {
 	t.Logf("omit atime: %v, mtime: %v", omitAt, omitMt)
 	file := newFile(t)
-	// This should be an empty file (see #68687, #68663).
+	_, err := file.Write([]byte("hello, world\n"))
+	if err != nil {
+		t.Fatal(err)
+	}
 	name := file.Name()
-	err := file.Close()
+	err = file.Close()
 	if err != nil {
 		t.Error(err)
 	}
