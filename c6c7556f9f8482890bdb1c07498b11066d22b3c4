@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0670ccc1_d5747280",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-08-17T08:21:42Z",
+      "side": 1,
+      "message": "I added the code downloading the k8s module to the test itself. Please, check it out!",
+      "parentUuid": "273fd7e1_8f2bf9ad",
+      "revId": "c6c7556f9f8482890bdb1c07498b11066d22b3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7452fdd0_965df6a8",
