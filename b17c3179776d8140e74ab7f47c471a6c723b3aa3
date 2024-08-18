@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a84cd85_af77252c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3403261
+      },
+      "writtenOn": "2024-08-18T22:23:10Z",
+      "side": 1,
+      "message": "Hi Michael, I finally figured out the list_import_cycle_deps_errors test (it was because I need to add ImportStackWithPos in anonymous struct https://github.com/golang/go/pull/68337/files#diff-abdadaf0d85a2e6c8e45da716909b2697d830b0c75149b9e35accda9c38622bdR507), \nthe CL is ready for another trybot-pass, when you have time, please help me to trigger it, thank you so much!",
+      "revId": "b17c3179776d8140e74ab7f47c471a6c723b3aa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
