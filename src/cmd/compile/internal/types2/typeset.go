@@ -139,6 +139,7 @@ func (s *_TypeSet) underIs(f func(Type) bool) bool {
 		if debug {
 			assert(Identical(u, under(u)))
 		}
+		u = Unalias(u)
 		if !f(u) {
 			return false
 		}
