@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26ef2c5f_e25e08ac",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1808,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-08-19T19:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ca3e562_f8f3fbe6",
+      "range": {
+        "startLine": 1808,
+        "startChar": 48,
+        "endLine": 1808,
+        "endChar": 63
+      },
+      "revId": "91ae40b70164229fc48e51eb1de94cfc3bdc3b53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a41bdd8_c2d65af0",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-08-19T18:07:14Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 1821,
+        "startChar": 48,
+        "endLine": 1821,
+        "endChar": 63
+      },
+      "revId": "91ae40b70164229fc48e51eb1de94cfc3bdc3b53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "560a35c3_586c85bc",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1821,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-08-19T19:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a41bdd8_c2d65af0",
       "range": {
         "startLine": 1821,
         "startChar": 48,
