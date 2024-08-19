@@ -368,22 +368,53 @@ func (m *Map) getWithKey(key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bo
 	return m.directoryAt(idx).getWithKey(hash, key)
 }
 
+//go:linkname runtime_memequal128 runtime.memequal128
+func runtime_memequal128(p, q unsafe.Pointer) bool
+
 func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
 	g := groupReference{
 		typ:  m.typ,
 		data: m.dirPtr,
 	}
 
-	match := g.ctrls().matchH2(h2(hash))
+	h2 := uint8(h2(hash))
+	ctrls := *g.ctrls()
 
-	for match != 0 {
-		i := match.first()
+	//match := g.ctrls().matchH2(h2(hash))
+
+	//for match != 0 {
+	//offset := groupSlotsOffset + g.typ.SlotSize
+	//slotKey := unsafe.Pointer(uintptr(g.data) + groupSlotsOffset)
+	//for i := uint32(0); i < 8; i++ {
+	//lastOffset := groupSlotsOffset + g.typ.SlotSize * 8
+	//for slotOffset := uintptr(groupSlotsOffset); slotOffset < lastOffset; slotOffset += g.typ.SlotSize {
+	for i := uint32(0); i < 8; i++ {
+		c := uint8(ctrls)
+		ctrls >>= 8
+		if c != h2 {
+			//slotKey = unsafe.Pointer(uintptr(slotKey) + g.typ.SlotSize)
+			continue
+		}
+		//if (g.ctrls().get(i) & ctrlEmpty) == ctrlEmpty {
+		//	// Empty or deleted
+		//	slotKey = unsafe.Pointer(uintptr(slotKey) + g.typ.SlotSize)
+		//	continue
+		//}
+		//i := match.first()
 
 		slotKey := g.key(i)
-		if m.typ.Key.Equal(key, slotKey) {
+		//slotKey := unsafe.Pointer(uintptr(g.data) + slotOffset)
+		//if m.typ.Key.Size() == 16 && m.typ.Key.Kind() == abi.Struct {
+		//	//if runtime_memequal128(key, slotKey) {
+		//	if *(*[2]int64)(key) == *(*[2]int64)(slotKey) {
+		//		return slotKey, g.elem(i), true
+		//	}
+		if m.typ.Key.Equal(key, slotKey) { //&& (g.ctrls().get(i) & ctrlEmpty) != ctrlEmpty {
 			return slotKey, g.elem(i), true
+			//return slotKey, unsafe.Pointer(uintptr(slotKey) + g.typ.ElemOff), true
 		}
-		match = match.removeFirst()
+		//match = match.removeFirst()
+		//slotKey = unsafe.Pointer(uintptr(slotKey) + g.typ.SlotSize)
 	}
 
 	return nil, nil, false
