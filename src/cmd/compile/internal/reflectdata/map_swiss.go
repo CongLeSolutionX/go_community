@@ -202,7 +202,8 @@ func SwissMapIterType() *types.Type {
 	//
 	//    dirIdx int
 	//
-	//    tab *table
+	//    tab        *table
+	//    groupSmall unsafe.Pointer // actually groupReference
 	//
 	//    entryIdx uint64
 	//
@@ -220,10 +221,12 @@ func SwissMapIterType() *types.Type {
 		makefield("globalDepth", types.Types[types.TUINT32]),
 		makefield("dirIdx", types.Types[types.TINT]),
 		makefield("tab", types.NewPtr(swissTableType())),
+		makefield("groupSmall_typ", types.Types[types.TUNSAFEPTR]),
+		makefield("groupSmall_data", types.Types[types.TUNSAFEPTR]),
 		makefield("entryIdx", types.Types[types.TUINT64]),
 	}
 
-	// build iterator struct hswissing the above fields
+	// build iterator struct holding the above fields
 	n := ir.NewDeclNameAt(src.NoXPos, ir.OTYPE, ir.Pkgs.InternalMaps.Lookup("Iter"))
 	iter := types.NewNamed(n)
 	n.SetType(iter)
@@ -231,7 +234,7 @@ func SwissMapIterType() *types.Type {
 
 	iter.SetUnderlying(types.NewStruct(fields))
 	types.CalcSize(iter)
-	want := 7*types.PtrSize + 3*8 + 1*4
+	want := 9*types.PtrSize + 3*8 + 1*4
 	if types.PtrSize == 8 {
 		want += 4 // tailing padding
 	}
