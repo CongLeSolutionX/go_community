@@ -52,6 +52,24 @@
       "parentUuid": "4e6074ab_5ad6581f",
       "revId": "7cb0bb6ed105815e2c6fef2ecbcc472b1f2545d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2015d20_3311852a",
+        "filename": "test/prove.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1487,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-19T18:07:14Z",
+      "side": 1,
+      "message": "The comment reference #68857 but neither here nor the issue explains clearly the role of bits.Len64. If it is to get a certain value order, it could be mentioned more explicitly.",
+      "parentUuid": "80a3b3b7_e29fad8c",
+      "revId": "7cb0bb6ed105815e2c6fef2ecbcc472b1f2545d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
