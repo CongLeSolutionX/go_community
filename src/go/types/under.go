@@ -43,7 +43,7 @@ func coreType(t Type) Type {
 			}
 		}
 		// su == nil || match(su, u) != nil
-		su = u
+		su = Unalias(u)
 		return true
 	}) {
 		return su
