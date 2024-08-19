@@ -16,6 +16,24 @@
       "message": "I don\u0027t think this is the correct fix. underIs should not pass Alias types into the callback. CC @gri@golang.org @taking@google.com",
       "revId": "ad301ce8c6eb7f9c62d0b15d6ad6cda66c7a29d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6281d75d_3cf25d7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-08-19T17:02:36Z",
+      "side": 1,
+      "message": "That makes sense, underIs documentation states that it calls the callback with \"underlying types\" though.",
+      "parentUuid": "cce36fd8_cfaf1326",
+      "revId": "ad301ce8c6eb7f9c62d0b15d6ad6cda66c7a29d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
