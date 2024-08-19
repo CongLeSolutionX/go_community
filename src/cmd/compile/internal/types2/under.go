@@ -43,7 +43,7 @@ func coreType(t Type) Type {
 		su = u
 		return true
 	}) {
-		return su
+		return Unalias(su)
 	}
 	return nil
 }
