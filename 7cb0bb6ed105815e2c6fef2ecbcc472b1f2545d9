@@ -34,6 +34,24 @@
       "parentUuid": "2b29e113_95cb17b8",
       "revId": "7cb0bb6ed105815e2c6fef2ecbcc472b1f2545d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80a3b3b7_e29fad8c",
+        "filename": "test/prove.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1487,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2024-08-19T17:21:35Z",
+      "side": 1,
+      "message": "I am marking this one resolved because the bits.Len64 trick was introduced in https://go-review.googlesource.com/c/go/+/605156/4 and this was copy pasted over.\n\nhttps://go-review.googlesource.com/c/go/+/605156/4 makes more sense to raise this concern because it implements Modu in `flowLimit` precisely to band-aid 68857.",
+      "parentUuid": "4e6074ab_5ad6581f",
+      "revId": "7cb0bb6ed105815e2c6fef2ecbcc472b1f2545d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
