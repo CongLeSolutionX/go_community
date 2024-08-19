@@ -20,11 +20,16 @@ func NewTestMap[K comparable, V any](length uint64) *Map {
 	return NewMap(mt, length)
 }
 
-// Return a key from a group containing no empty slots, or nil if there are no
-// full groups.
+// Return a key from a group containing no empty slots.
 //
-// Also returns nil if a group is full but contains entirely deleted slots.
+// Returns nil if there are no full groups.
+// Returns nil if a group is full but contains entirely deleted slots.
+// Returns nil if the map is small.
 func (m *Map) KeyFromFullGroup() unsafe.Pointer {
+	if m.dirLen <= 0 {
+		return nil
+	}
+
 	var lastTab *table
 	for i := range m.dirLen {
 		t := m.directoryAt(uintptr(i))
@@ -53,7 +58,12 @@ func (m *Map) KeyFromFullGroup() unsafe.Pointer {
 	return nil
 }
 
+// Returns nil if the map is small.
 func (m *Map) TableFor(key unsafe.Pointer) *table {
+	if m.dirLen <= 0 {
+		return nil
+	}
+
 	hash := m.typ.Hasher(key, m.seed)
 	idx := m.directoryIndex(hash)
 	return m.directoryAt(idx)
