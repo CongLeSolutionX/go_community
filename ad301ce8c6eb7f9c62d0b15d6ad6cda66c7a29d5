@@ -52,6 +52,24 @@
       "parentUuid": "6281d75d_3cf25d7b",
       "revId": "ad301ce8c6eb7f9c62d0b15d6ad6cda66c7a29d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dd3c16a_e97d756d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2024-08-19T17:19:18Z",
+      "side": 1,
+      "message": "Thanks, probably we should update the CL with test case from this issue.\n\nI will abadon this one.",
+      "parentUuid": "bad4fbbd_28923670",
+      "revId": "ad301ce8c6eb7f9c62d0b15d6ad6cda66c7a29d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
