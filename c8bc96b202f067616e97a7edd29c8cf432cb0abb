@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9016d57_84896611",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-08-19T23:03:11Z",
+      "side": 1,
+      "message": "Note that there\u0027s no need for this without CL 601597",
+      "revId": "c8bc96b202f067616e97a7edd29c8cf432cb0abb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
