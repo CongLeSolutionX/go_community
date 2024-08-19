@@ -34,6 +34,29 @@
       "parentUuid": "7265c8ad_4998f688",
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0a2a91_9a0c9c9f",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-19T15:42:04Z",
+      "side": 1,
+      "message": "Why do we need to skip here? Is that the code above skips label symbols that are not in any section, whereas this skips ones in a section? It seems weird that a label symbol is not in any section. Also why we don\u0027t need this on other platforms? GCC on other platforms generate label symbols, too.",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
