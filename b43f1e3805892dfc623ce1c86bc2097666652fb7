@@ -16,6 +16,24 @@
       "message": "Wrong issue number.",
       "revId": "b43f1e3805892dfc623ce1c86bc2097666652fb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47d648dc_09c9039a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-20T20:29:12Z",
+      "side": 1,
+      "message": "Sorry about that mixed 66832 and 66382.",
+      "parentUuid": "e5a001ba_faccdcf4",
+      "revId": "b43f1e3805892dfc623ce1c86bc2097666652fb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
