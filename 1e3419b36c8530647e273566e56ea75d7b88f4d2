@@ -63,6 +63,24 @@
       "message": "Right now this CL is just carefully written.\n\nIf someone has good ideas for how to test this while all of the writers are hard wired to currentVersion \u003d\u003d 1, I am all ears.",
       "revId": "1e3419b36c8530647e273566e56ea75d7b88f4d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42caf697_fad3bf62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-08-20T20:53:40Z",
+      "side": 1,
+      "message": "I think the test comes in the CL that updates the writers (which may induce a preceding fixup CL if this is actually wrong).",
+      "parentUuid": "e2c0e662_81558659",
+      "revId": "1e3419b36c8530647e273566e56ea75d7b88f4d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
