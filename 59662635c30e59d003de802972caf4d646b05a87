@@ -52,6 +52,24 @@
       "parentUuid": "9c61dfce_2733bafa",
       "revId": "59662635c30e59d003de802972caf4d646b05a87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a60d96da_59a1fd22",
+        "filename": "src/internal/runtime/atomic/atomic_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-08-20T07:06:33Z",
+      "side": 1,
+      "message": "ACK. I\u0027ll hold off on the code until we receive a more definitive answer regarding the \u0027spin bit\u0027 experiment. It would be great to have access to a high-core-count ARM64 instance, such as Graviton, for benchmarking. I have access to an M3 Pro, which has 12 cores. Let me know if you need assistance with benchmark results.",
+      "parentUuid": "9c68c3e0_d87047f4",
+      "revId": "59662635c30e59d003de802972caf4d646b05a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
