@@ -5,8 +5,6 @@
 package auth
 
 import (
-	"cmd/go/internal/cfg"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -77,33 +75,37 @@ func netrcPath() (string, error) {
 	if env := os.Getenv("NETRC"); env != "" {
 		return env, nil
 	}
-	dir, err := os.UserHomeDir()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
-	base := ".netrc"
-	if runtime.GOOS == "windows" {
-		base = "_netrc"
+
+	// Prioritize the standard .netrc file.
+	var standardPathErr error
+	standardPath := filepath.Join(homeDir, ".netrc")
+	if _, standardPathErr = os.Stat(standardPath); standardPathErr == nil {
+		return standardPath, nil
 	}
-	return filepath.Join(dir, base), nil
+
+	// See https://go.dev/issue/66382
+	// Fallback to _netrc on windows for compatibility.
+	if runtime.GOOS == "windows" {
+		legacyPath := filepath.Join(homeDir, "_netrc")
+		if _, err = os.Stat(legacyPath); err == nil {
+			return legacyPath, nil
+		}
+	}
+	return "", standardPathErr
 }
 
 func readNetrc() {
 	path, err := netrcPath()
 	if err != nil {
-		if cfg.BuildX {
-			log.Printf("missing netrc path: %s", err)
-		}
 		return
 	}
 
 	data, err := os.ReadFile(path)
 	if err != nil {
-		if !os.IsNotExist(err) {
-			if cfg.BuildX {
-				log.Printf("missing netrc file: %s", err)
-			}
-		}
 		return
 	}
 	parseNetrc(string(data))
