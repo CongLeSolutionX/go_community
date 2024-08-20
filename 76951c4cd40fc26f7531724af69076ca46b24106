@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7904ad9_c7f93f0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-20T17:25:53Z",
+      "side": 1,
+      "message": "Please describe the change, something like\n\ncmd/internal/obj: don\u0027t panic reporting a redeclared symbol\n\nSee https://go.dev/wiki/CommitMessage.  Thanks.",
+      "revId": "76951c4cd40fc26f7531724af69076ca46b24106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
