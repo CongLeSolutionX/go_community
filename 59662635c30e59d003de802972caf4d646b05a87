@@ -34,6 +34,24 @@
       "parentUuid": "9c54fdce_6ea6bb2c",
       "revId": "59662635c30e59d003de802972caf4d646b05a87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c68c3e0_d87047f4",
+        "filename": "src/internal/runtime/atomic/atomic_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2024-08-20T04:02:52Z",
+      "side": 1,
+      "message": "I haven\u0027t looked into tests (aside from using it later in this CL stack). I agree that the new functions should end up with as much testing as the existing ones; I haven\u0027t surveyed how thorough those are.\n\nIn the end, arm64 support would be great, thank you! I haven\u0027t done any work on that; my main linux/arm64 test machine these days is a Raspberry Pi 5 (with 4 cores), so doesn\u0027t show the same sort of collapse we get on machines with dozens of cores. (It looks like `gotip-linux-arm64` builders have 8 cores.) But the reason to add Xchg8 is in support of the current implementation of the \"spinbit\" mutex implementation in CL 601597. If we end up with a different approach there, we might not need Xchg8 on any architecture.",
+      "parentUuid": "9c61dfce_2733bafa",
+      "revId": "59662635c30e59d003de802972caf4d646b05a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
