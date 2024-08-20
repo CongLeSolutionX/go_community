@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c54fdce_6ea6bb2c",
+        "filename": "src/internal/runtime/atomic/atomic_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 63983
+      },
+      "writtenOn": "2024-08-20T00:23:25Z",
+      "side": 1,
+      "message": "Wondering if we should add a test/benchmark for this, behind an `amd64` build tag.",
+      "revId": "59662635c30e59d003de802972caf4d646b05a87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
