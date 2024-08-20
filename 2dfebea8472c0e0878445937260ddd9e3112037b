@@ -69,6 +69,24 @@
       "parentUuid": "26598cff_125c174f",
       "revId": "2dfebea8472c0e0878445937260ddd9e3112037b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da0feb4_217b959b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-20T20:19:09Z",
+      "side": 1,
+      "message": "Fixed by CL 606658, CL 606659.",
+      "parentUuid": "842c471a_ea2bdbfa",
+      "revId": "2dfebea8472c0e0878445937260ddd9e3112037b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
