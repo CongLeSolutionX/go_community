@@ -5,6 +5,10 @@
 package auth
 
 import (
+<<<<<<< PATCH SET (b7b391 cmd/go: support both .netrc and _netrc in windows)
+	"net/http"
+=======
+>>>>>>> BASE      (b17a55 go/types, types2: move Checker.indexedElts into literals.go )
 	"os"
 	"path/filepath"
 	"runtime"
@@ -74,29 +78,49 @@ func netrcPath() (string, error) {
 	if env := os.Getenv("NETRC"); env != "" {
 		return env, nil
 	}
-	dir, err := os.UserHomeDir()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
-	base := ".netrc"
-	if runtime.GOOS == "windows" {
-		base = "_netrc"
+
+	// Prioritize the standard .netrc file.
+	var standardPathErr error
+	standardPath := filepath.Join(homeDir, ".netrc")
+	if _, standardPathErr = os.Stat(standardPath); standardPathErr == nil {
+		return standardPath, nil
 	}
-	return filepath.Join(dir, base), nil
+
+	// See https://go.dev/issue/66832
+	// Fallback to _netrc on windows for compatibility.
+	if runtime.GOOS == "windows" {
+		legacyPath := filepath.Join(homeDir, "_netrc")
+		if _, err = os.Stat(legacyPath); err == nil {
+			return legacyPath, nil
+		}
+	}
+	return "", standardPathErr
 }
 
 var readNetrc = sync.OnceValues(func() ([]netrcLine, error) {
 	path, err := netrcPath()
 	if err != nil {
+<<<<<<< PATCH SET (b7b391 cmd/go: support both .netrc and _netrc in windows)
+		return
+=======
 		return nil, err
+>>>>>>> BASE      (b17a55 go/types, types2: move Checker.indexedElts into literals.go )
 	}
 
 	data, err := os.ReadFile(path)
 	if err != nil {
+<<<<<<< PATCH SET (b7b391 cmd/go: support both .netrc and _netrc in windows)
+		return
+=======
 		if os.IsNotExist(err) {
 			err = nil
 		}
 		return nil, err
+>>>>>>> BASE      (b17a55 go/types, types2: move Checker.indexedElts into literals.go )
 	}
 
 	return parseNetrc(string(data)), nil
