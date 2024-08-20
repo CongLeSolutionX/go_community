@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34bb92a0_77d89cb4",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-08-20T11:36:02Z",
+      "side": 1,
+      "message": "One constant type can cover all requirements",
+      "revId": "b2dedc5c68d8b4c650e93ff1f9938b280cd3e859",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76d17562_b8592b75",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2293,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-08-20T11:36:02Z",
+      "side": 1,
+      "message": "```suggestion\n\t\treturn (0x3 \u003c\u003c 22) | (0x0 \u003c\u003c 15) // bstrpick.d\n```",
+      "range": {
+        "startLine": 2293,
+        "startChar": 22,
+        "endLine": 2293,
+        "endChar": 30
+      },
+      "revId": "b2dedc5c68d8b4c650e93ff1f9938b280cd3e859",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
