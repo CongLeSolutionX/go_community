@@ -16,6 +16,24 @@
       "message": "In the latest comments on https://go.dev/issue/67001, we may be backing off to 3.2.",
       "revId": "46f4e281f5b2de03b3ace666193ddab1b3e6822e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "779d2ed0_8af3495c",
+        "filename": "src/internal/poll/copy_file_range_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2024-08-20T00:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54689ec8_d2f49385",
+      "revId": "46f4e281f5b2de03b3ace666193ddab1b3e6822e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
