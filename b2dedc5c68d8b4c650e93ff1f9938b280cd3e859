@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7dabedfa_434e67ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2024-08-20T11:47:22Z",
+      "side": 1,
+      "message": "The instructions in CL 604736 are paired with the current CL\u0027s instructions, and I think the content of CL 604736 can be merged into the current CL.",
+      "revId": "b2dedc5c68d8b4c650e93ff1f9938b280cd3e859",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34bb92a0_77d89cb4",
         "filename": "src/cmd/internal/obj/loong64/asm.go",
         "patchSetId": 2
