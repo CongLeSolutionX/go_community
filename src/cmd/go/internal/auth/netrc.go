@@ -78,11 +78,23 @@ func netrcPath() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	base := ".netrc"
+
+	// Prioritize _netrc on windows for compatibility.
+	var legacyPathErr error
 	if runtime.GOOS == "windows" {
-		base = "_netrc"
+		legacyPath := filepath.Join(dir, "_netrc")
+		if _, legacyPathErr = os.Stat(legacyPath); legacyPathErr == nil {
+			return legacyPath, nil
+		}
 	}
-	return filepath.Join(dir, base), nil
+
+	// Fallback to the .netrc file. (See https://go.dev/issue/66832)
+	standardPath := filepath.Join(dir, ".netrc")
+	if _, err := os.Stat(standardPath); err == nil {
+		return standardPath, nil
+	}
+
+	return "", legacyPathErr
 }
 
 var readNetrc = sync.OnceValues(func() ([]netrcLine, error) {
