@@ -74,15 +74,27 @@ func netrcPath() (string, error) {
 	if env := os.Getenv("NETRC"); env != "" {
 		return env, nil
 	}
-	dir, err := os.UserHomeDir()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
-	base := ".netrc"
+
+	// Prioritize _netrc on windows for compatibility.
 	if runtime.GOOS == "windows" {
-		base = "_netrc"
+		legacyPath := filepath.Join(homeDir, "_netrc")
+		if _, err = os.Stat(legacyPath); err == nil {
+			return legacyPath, nil
+		}
 	}
-	return filepath.Join(dir, base), nil
+
+	// Fallback to the .netrc file. (See https://go.dev/issue/66832)
+	var standardPathErr error
+	standardPath := filepath.Join(homeDir, ".netrc")
+	if _, standardPathErr = os.Stat(standardPath); standardPathErr == nil {
+		return standardPath, nil
+	}
+
+	return "", standardPathErr
 }
 
 var readNetrc = sync.OnceValues(func() ([]netrcLine, error) {
