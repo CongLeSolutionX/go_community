@@ -50,6 +50,24 @@
       "message": "Hi Michael, I fixed all errors. For the error of list_test_cycle, I reverted some code change for this test because in the ImportStack implementation of load/test.go, The reason is because it does not have token.position for ImportStack, so that we could not find a proper golang file name for each import.\nPlease let me know if you think it makes sense or not.",
       "revId": "b17c3179776d8140e74ab7f47c471a6c723b3aa3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab7131e_694ccad2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-21T18:26:53Z",
+      "side": 1,
+      "message": "Hm, can we get the import position info from p.Internal.Build.ImportPos?",
+      "parentUuid": "192279da_ec9c4c26",
+      "revId": "b17c3179776d8140e74ab7f47c471a6c723b3aa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
