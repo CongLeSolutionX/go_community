@@ -252,10 +252,12 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		cred                      *Credential
 		ngroups, groups           uintptr
 		c                         uintptr
+		rlim                      *Rlimit
+		lim                       Rlimit
 	)
 	pidfd = -1
 
-	rlim := origRlimitNofile.Load()
+	rlim = origRlimitNofile.Load()
 
 	if sys.UidMappings != nil {
 		puid = []byte("/proc/self/uid_map\000")
@@ -632,7 +634,14 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 
 	// Restore original rlimit.
 	if rlim != nil {
-		rawSetrlimit(RLIMIT_NOFILE, rlim)
+		// Some other process may have changed our rlimit by
+		// calling prlimit. We can check for that case because
+		// our current rlimit will not be the value we set when
+		// caching the rlimit in the init function in rlimit.go.
+		err1 = rawGetrlimit(RLIMIT_NOFILE, &lim)
+		if err1 != 0 || (lim.Cur == rlim.Max && lim.Max == rlim.Max) {
+			rawSetrlimit(RLIMIT_NOFILE, rlim)
+		}
 	}
 
 	// Enable tracing if requested.

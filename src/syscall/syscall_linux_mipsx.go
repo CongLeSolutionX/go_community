@@ -153,6 +153,33 @@ func Getrlimit(resource int, rlim *Rlimit) (err error) {
 	return
 }
 
+//go:nosplit
+func rawGetrlimit(resource int, rlim *Rlimit) (errno Errno) {
+	_, _, errno = RawSyscall6(SYS_PRLIMIT64, 0, uintptr(resource), 0, uintptr(unsafe.Pointer(rlim)), 0, 0)
+	if errno != ENOSYS {
+		return errno
+	}
+
+	rl := rlimit32{}
+	_, _, errno = RawSyscall(SYS_GETRLIMIT, uintptr(resource), uintptr(unsafe.Pointer(&rl)), 0)
+	if errno != 0 {
+		return
+	}
+
+	if rl.Cur == rlimInf32 {
+		rlim.Cur = rlimInf64
+	} else {
+		rlim.Cur = uint64(rl.Cur)
+	}
+
+	if rl.Max == rlimInf32 {
+		rlim.Max = rlimInf64
+	} else {
+		rlim.Max = uint64(rl.Max)
+	}
+	return
+}
+
 //sysnb setrlimit1(resource int, rlim *rlimit32) (err error) = SYS_SETRLIMIT
 
 func setrlimit(resource int, rlim *Rlimit) (err error) {
