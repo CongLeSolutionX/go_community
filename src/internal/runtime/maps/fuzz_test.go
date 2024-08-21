@@ -183,7 +183,7 @@ func FuzzTable(f *testing.F) {
 		for _, c := range fc {
 			switch c.Op {
 			case fuzzOpGet:
-				elemPtr, ok := m.Get(unsafe.Pointer(&c.Key))
+				elemPtr, ok := m.Get(m.Type(), unsafe.Pointer(&c.Key))
 				refElem, refOK := ref[c.Key]
 
 				if ok != refOK {
