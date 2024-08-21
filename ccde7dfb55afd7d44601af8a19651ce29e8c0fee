@@ -81,6 +81,30 @@
       },
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c035b219_d2cf6e07",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-21T15:35:27Z",
+      "side": 1,
+      "message": "Interesting... Does loong64 GCC create many more such symbols than other architectures?\n\nIs the skip above still necessary? Is there any such symbol not in any section?",
+      "parentUuid": "1b8e7e3e_9ec2b80a",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
