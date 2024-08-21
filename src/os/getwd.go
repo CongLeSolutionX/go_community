@@ -5,6 +5,7 @@
 package os
 
 import (
+	"errors"
 	"runtime"
 	"sync"
 	"syscall"
@@ -31,101 +32,27 @@ func Getwd() (dir string, err error) {
 
 	// Clumsy but widespread kludge:
 	// if $PWD is set and matches ".", use it.
-	dot, err := statNolog(".")
-	if err != nil {
-		return "", err
-	}
 	dir = Getenv("PWD")
 	if len(dir) > 0 && dir[0] == '/' {
+		dot, err := statNolog(".")
+		if err != nil {
+			return "", err
+		}
 		d, err := statNolog(dir)
 		if err == nil && SameFile(dot, d) {
 			return dir, nil
 		}
 	}
 
-	// If the operating system provides a Getwd call, use it.
-	// Otherwise, we're trying to find our way back to ".".
-	if syscall.ImplementsGetwd {
-		var (
-			s string
-			e error
-		)
-		for {
-			s, e = syscall.Getwd()
-			if e != syscall.EINTR {
-				break
-			}
-		}
-		return s, NewSyscallError("getwd", e)
+	// All platforms provide syscall.Getwd, so this should never happen.
+	if !syscall.ImplementsGetwd {
+		return "", errors.New(runtime.GOOS + "/" + runtime.GOARCH + " does not implement Getwd")
 	}
-
-	// Apply same kludge but to cached dir instead of $PWD.
-	getwdCache.Lock()
-	dir = getwdCache.dir
-	getwdCache.Unlock()
-	if len(dir) > 0 {
-		d, err := statNolog(dir)
-		if err == nil && SameFile(dot, d) {
-			return dir, nil
-		}
-	}
-
-	// Root is a special case because it has no parent
-	// and ends in a slash.
-	root, err := statNolog("/")
-	if err != nil {
-		// Can't stat root - no hope.
-		return "", err
-	}
-	if SameFile(root, dot) {
-		return "/", nil
-	}
-
-	// General algorithm: find name in parent
-	// and then find name of parent. Each iteration
-	// adds /name to the beginning of dir.
-	dir = ""
-	for parent := ".."; ; parent = "../" + parent {
-		if len(parent) >= 1024 { // Sanity check
-			return "", syscall.ENAMETOOLONG
-		}
-		fd, err := openFileNolog(parent, O_RDONLY, 0)
-		if err != nil {
-			return "", err
-		}
-
-		for {
-			names, err := fd.Readdirnames(100)
-			if err != nil {
-				fd.Close()
-				return "", err
-			}
-			for _, name := range names {
-				d, _ := lstatNolog(parent + "/" + name)
-				if SameFile(d, dot) {
-					dir = "/" + name + dir
-					goto Found
-				}
-			}
-		}
-
-	Found:
-		pd, err := fd.Stat()
-		fd.Close()
-		if err != nil {
-			return "", err
-		}
-		if SameFile(pd, root) {
+	for {
+		dir, err = syscall.Getwd()
+		if err != syscall.EINTR {
 			break
 		}
-		// Set up for next round.
-		dot = pd
 	}
-
-	// Save answer as hint to avoid the expensive path next time.
-	getwdCache.Lock()
-	getwdCache.dir = dir
-	getwdCache.Unlock()
-
-	return dir, nil
+	return dir, NewSyscallError("getwd", err)
 }
