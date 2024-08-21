@@ -38,7 +38,7 @@ func TestMapPut(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		got, ok := m.Get(unsafe.Pointer(&key))
+		got, ok := m.Get(m.Type(), unsafe.Pointer(&key))
 		if !ok {
 			t.Errorf("Get(%d) got ok false want true", key)
 		}
@@ -76,7 +76,7 @@ func TestMapSplit(t *testing.T) {
 	for i := 0; i < 2*maps.MaxTableCapacity; i++ {
 		key += 1
 		elem += 1
-		got, ok := m.Get(unsafe.Pointer(&key))
+		got, ok := m.Get(m.Type(), unsafe.Pointer(&key))
 		if !ok {
 			t.Errorf("Get(%d) got ok false want true", key)
 		}
@@ -121,7 +121,7 @@ func TestMapDelete(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		_, ok := m.Get(unsafe.Pointer(&key))
+		_, ok := m.Get(m.Type(), unsafe.Pointer(&key))
 		if ok {
 			t.Errorf("Get(%d) got ok true want false", key)
 		}
@@ -156,7 +156,7 @@ func TestTableClear(t *testing.T) {
 	for i := 0; i < 31; i++ {
 		key += 1
 		elem += 1
-		_, ok := m.Get(unsafe.Pointer(&key))
+		_, ok := m.Get(m.Type(), unsafe.Pointer(&key))
 		if ok {
 			t.Errorf("Get(%d) got ok true want false", key)
 		}
@@ -600,7 +600,7 @@ func TestMapZeroSizeSlot(t *testing.T) {
 		fmt.Printf("After put %d: %v\n", key, m)
 	}
 
-	got, ok := m.Get(unsafe.Pointer(&key))
+	got, ok := m.Get(m.Type(), unsafe.Pointer(&key))
 	if !ok {
 		t.Errorf("Get(%d) got ok false want true", key)
 	}

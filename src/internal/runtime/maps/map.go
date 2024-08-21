@@ -214,10 +214,18 @@ type Map struct {
 
 	// The number of bits to use in table directory lookups.
 	globalDepth uint32
+	globalShift uint32
 
 	// clearSeq is a sequence counter of calls to Clear. It is used to
 	// detect map clears during iteration.
 	clearSeq uint64
+}
+
+func depthToShift(depth uint32) uint32 {
+	if goarch.PtrSize == 4 {
+		return 32 - depth
+	}
+	return 64 - depth
 }
 
 func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
@@ -241,6 +249,7 @@ func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 		//directory: make([]*table, dirSize),
 
 		globalDepth: globalDepth,
+		globalShift: depthToShift(globalDepth),
 	}
 
 	if capacity > abi.SwissMapGroupSlots {
@@ -278,19 +287,20 @@ func (m *Map) directoryIndex(hash uintptr) uintptr {
 	if m.dirLen == 1 {
 		return 0
 	}
+	return hash >> m.globalShift
 	// TODO(prattmic): Store the shift as globalShift, as we need that more
 	// often than globalDepth.
-	if goarch.PtrSize == 4 {
-		return hash >> (32 - m.globalDepth)
-	}
-	return hash >> (64 - m.globalDepth)
+	//if goarch.PtrSize == 4 {
+	//	return hash >> (32 - m.globalDepth)
+	//}
+	//return hash >> (64 - m.globalDepth)
 }
 
 func (m *Map) directoryAt(i uintptr) *table {
-	if i == 0 {
-		// XXX: doesn't make a difference
-		return *(**table)(unsafe.Pointer(uintptr(m.dirPtr)))
-	}
+	//if i == 0 {
+	//	// XXX: doesn't make a difference
+	//	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr)))
+	//}
 	return *(**table)(unsafe.Pointer(uintptr(m.dirPtr) + goarch.PtrSize*i))
 }
 
@@ -327,6 +337,7 @@ func (m *Map) installTableSplit(old, left, right *table) {
 			}
 		}
 		m.globalDepth++
+		m.globalShift--
 		//m.directory = newDir
 		m.dirPtr = unsafe.Pointer(&newDir[0])
 		m.dirLen = len(newDir)
@@ -349,20 +360,31 @@ func (m *Map) Used() uint64 {
 
 // Get performs a lookup of the key that key points to. It returns a pointer to
 // the element, or false if the key doesn't exist.
-func (m *Map) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
-	_, elem, ok := m.getWithKey(key)
-	return elem, ok
+func (m *Map) Get(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.Pointer, bool) {
+	return mapGetWithoutKey(typ, m, key)
 }
 
-func (m *Map) getWithKey(key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
-	hash := m.typ.Hasher(key, m.seed)
+func (m *Map) getWithKey(typ *abi.SwissMapType, key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
+	hash := typ.Hasher(key, m.seed)
 
 	if m.dirLen <= 0 {
 		return m.getWithKeySmall(hash, key)
 	}
 
 	idx := m.directoryIndex(hash)
-	return m.directoryAt(idx).getWithKey(hash, key)
+	return m.directoryAt(idx).getWithKey(typ, hash, key)
+}
+
+func mapGetWithoutKey(typ *abi.SwissMapType, m *Map, key unsafe.Pointer) (unsafe.Pointer, bool) {
+	hash := typ.Hasher(key, m.seed)
+
+	if m.dirLen <= 0 {
+		_, elem, ok := m.getWithKeySmall(hash, key)
+		return elem, ok
+	}
+
+	idx := m.directoryIndex(hash)
+	return m.directoryAt(idx).getWithoutKey(typ, hash, key)
 }
 
 //go:linkname runtime_memequal128 runtime.memequal128
