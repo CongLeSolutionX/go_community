@@ -16,6 +16,24 @@
       "message": "I\u0027m puzzled by this.  The implementations of syscall.Getwd don\u0027t work in deep directory trees.  But I have to admit that this code seems to be a correct translation of the existing code.  How is this working in general?  Is it just relying on the PWD environment variable?",
       "revId": "cf178f58a5846142d78a3b9ea11bf23a1f30d99b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56936b23_8961ba87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2024-08-21T23:53:18Z",
+      "side": 1,
+      "message": "Looking at the comments on the other CL, I think a good intermediate step is to fall back to the existing general algorithm if syscall.Getwd fails because the name is too long.",
+      "parentUuid": "5fec1e90_fc543e82",
+      "revId": "cf178f58a5846142d78a3b9ea11bf23a1f30d99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
