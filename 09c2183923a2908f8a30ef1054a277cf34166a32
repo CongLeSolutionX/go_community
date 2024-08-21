@@ -22,6 +22,30 @@
       },
       "revId": "09c2183923a2908f8a30ef1054a277cf34166a32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef2ab27_b62ec9e4",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-21T15:36:02Z",
+      "side": 1,
+      "message": "I suppose it depends on what we want to encourage. I think preferring the unix-standard .netrc aligns with the broader ecosystem better.\n\n_netrc was only used because older Windows couldn\u0027t use \u0027.\u0027 in filenames but that\u0027s no longer the case.",
+      "parentUuid": "bff95b95_cac4485e",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "09c2183923a2908f8a30ef1054a277cf34166a32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
