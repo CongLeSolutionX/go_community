@@ -122,7 +122,7 @@ func mapaccess1(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) unsafe.Poi
 		return unsafe.Pointer(&zeroVal[0])
 	}
 
-	elem, ok := m.Get(key)
+	elem, ok := m.Get(t, key)
 	if !ok {
 		return unsafe.Pointer(&zeroVal[0])
 	}
@@ -151,7 +151,7 @@ func mapaccess2(t *abi.SwissMapType, m *maps.Map, key unsafe.Pointer) (unsafe.Po
 		return unsafe.Pointer(&zeroVal[0]), false
 	}
 
-	elem, ok := m.Get(key)
+	elem, ok := m.Get(t, key)
 	if !ok {
 		return unsafe.Pointer(&zeroVal[0]), false
 	}
