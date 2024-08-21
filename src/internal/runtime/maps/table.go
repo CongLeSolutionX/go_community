@@ -165,7 +165,7 @@ func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
 	//   without hashing.
 	// - String keys could do quick checks of a few bytes before hashing.
 	hash := t.typ.Hasher(key, t.seed)
-	_, elem, ok := t.getWithKey(hash, key)
+	_, elem, ok := t.getWithKey(t.typ, hash, key)
 	return elem, ok
 }
 
@@ -178,7 +178,7 @@ func (t *table) Get(key unsafe.Pointer) (unsafe.Pointer, bool) {
 // expose updated elements. For NeedsKeyUpdate keys, iteration also must return
 // the new key value, not the old key value.
 // hash must be the hash of the key.
-func (t *table) getWithKey(hash uintptr, key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
+func (t *table) getWithKey(typ *abi.SwissMapType, hash uintptr, key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
 	// To find the location of a key in the table, we compute hash(key). From
 	// h1(hash(key)) and the capacity, we construct a probeSeq that visits
 	// every group of slots in some interesting order. See [probeSeq].
@@ -216,7 +216,11 @@ func (t *table) getWithKey(hash uintptr, key unsafe.Pointer) (unsafe.Pointer, un
 			i := match.first()
 
 			slotKey := g.key(i)
-			if t.typ.Key.Equal(key, slotKey) {
+			if typ.Key.Kind() == abi.Int32 {
+				if *(*int32)(key) == *(*int32)(slotKey) {
+					return slotKey, g.elem(i), true
+				}
+			} else if typ.Key.Equal(key, slotKey) {
 				return slotKey, g.elem(i), true
 			}
 			match = match.removeFirst()
@@ -227,6 +231,36 @@ func (t *table) getWithKey(hash uintptr, key unsafe.Pointer) (unsafe.Pointer, un
 			// Finding an empty slot means we've reached the end of
 			// the probe sequence.
 			return nil, nil, false
+		}
+	}
+}
+
+func (t *table) getWithoutKey(typ *abi.SwissMapType, hash uintptr, key unsafe.Pointer) (unsafe.Pointer, bool) {
+	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
+	for ; ; seq = seq.next() {
+		g := t.groups.group(seq.offset)
+
+		match := g.ctrls().matchH2(h2(hash))
+
+		for match != 0 {
+			i := match.first()
+
+			slotKey := g.key(i)
+			if typ.Key.Kind() == abi.Int32 {
+				if *(*int32)(key) == *(*int32)(slotKey) {
+					return g.elem(i), true
+				}
+			} else if typ.Key.Equal(key, slotKey) {
+				return g.elem(i), true
+			}
+			match = match.removeFirst()
+		}
+
+		match = g.ctrls().matchEmpty()
+		if match != 0 {
+			// Finding an empty slot means we've reached the end of
+			// the probe sequence.
+			return nil, false
 		}
 	}
 }
@@ -559,7 +593,7 @@ func (it *Iter) Next() {
 			var elem unsafe.Pointer
 			if grown {
 				var ok bool
-				newKey, newElem, ok := it.m.getWithKey(key)
+				newKey, newElem, ok := it.m.getWithKey(it.m.typ, key)
 				if !ok {
 					// See comment below.
 					if it.clearSeq == it.m.clearSeq && !it.m.typ.Key.Equal(key, key) {
@@ -697,7 +731,7 @@ func (it *Iter) Next() {
 			var elem unsafe.Pointer
 			if grown {
 				var ok bool
-				newKey, newElem, ok := it.m.getWithKey(key)
+				newKey, newElem, ok := it.m.getWithKey(it.m.typ, key)
 				if !ok {
 					// Key has likely been deleted, and
 					// should be skipped.
