@@ -34,6 +34,24 @@
       "parentUuid": "b7904ad9_c7f93f0a",
       "revId": "76951c4cd40fc26f7531724af69076ca46b24106",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c945392e_73ff3402",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-21T03:13:01Z",
+      "side": 1,
+      "message": "Looks like you did it.  In general you can edit the commit message by editing the title and first comment of the GitHub pull request.  See https://go.dev/wiki/CommitMessage.",
+      "parentUuid": "c7fb4f23_e5b1c5bd",
+      "revId": "76951c4cd40fc26f7531724af69076ca46b24106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
