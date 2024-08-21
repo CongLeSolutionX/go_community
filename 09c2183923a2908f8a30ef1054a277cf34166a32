@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bff95b95_cac4485e",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-21T15:17:22Z",
+      "side": 1,
+      "message": "I think we should prioritize the _netrc file on windows since that\u0027s what we\u0027ve been using as the default for Windows historically, and fall back to .netrc if _netrc isn\u0027t present?\n\nWhat do you think?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "09c2183923a2908f8a30ef1054a277cf34166a32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
