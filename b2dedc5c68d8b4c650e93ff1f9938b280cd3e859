@@ -74,6 +74,30 @@
       },
       "revId": "b2dedc5c68d8b4c650e93ff1f9938b280cd3e859",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85009d53_284c2691",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2293,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2024-08-21T02:05:29Z",
+      "side": 1,
+      "message": "The format here refers to the following code block:\n\n2223         case ABFPT:\n2224                 return 0x12\u003c\u003c26 | 0x1\u003c\u003c8\n2225         case ABFPF:\n2226                 return 0x12\u003c\u003c26 | 0x0\u003c\u003c8\n\nSimilarly, there are definitions of instructions such as CMPEQF.\n\nDo I need to modify all of them?",
+      "parentUuid": "76d17562_b8592b75",
+      "range": {
+        "startLine": 2293,
+        "startChar": 22,
+        "endLine": 2293,
+        "endChar": 30
+      },
+      "revId": "b2dedc5c68d8b4c650e93ff1f9938b280cd3e859",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
