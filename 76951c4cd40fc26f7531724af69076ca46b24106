@@ -16,6 +16,24 @@
       "message": "Please describe the change, something like\n\ncmd/internal/obj: don\u0027t panic reporting a redeclared symbol\n\nSee https://go.dev/wiki/CommitMessage.  Thanks.",
       "revId": "76951c4cd40fc26f7531724af69076ca46b24106",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7fb4f23_e5b1c5bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 61858
+      },
+      "writtenOn": "2024-08-21T01:29:19Z",
+      "side": 1,
+      "message": "\u003e Please describe the change, something like\n\u003e \n\u003e cmd/internal/obj: don\u0027t panic reporting a redeclared symbol\n\u003e \n\u003e See https://go.dev/wiki/CommitMessage.  Thanks.\n\nSorry but I can\u0027t edit commit message, maybe I\u0027m not the owner of this CL. Can you please help edit it:\n\n ```\n cmd/internal/obj: don\u0027t panic reporting redeclared symbol error message\n ```\n \n Or should I amend commit \u0026\u0026 push forcely?",
+      "parentUuid": "b7904ad9_c7f93f0a",
+      "revId": "76951c4cd40fc26f7531724af69076ca46b24106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
