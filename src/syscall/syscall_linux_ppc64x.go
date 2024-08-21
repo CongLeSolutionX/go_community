@@ -74,6 +74,12 @@ const (
 //sys	utimes(path string, times *[2]Timeval) (err error)
 
 //go:nosplit
+func rawGetrlimit(resource int, rlim *Rlimit) Errno {
+	_, _, errno := RawSyscall(SYS_GETRLIMIT, uintptr(resource), uintptr(unsafe.Pointer(rlim)), 0)
+	return errno
+}
+
+//go:nosplit
 func rawSetrlimit(resource int, rlim *Rlimit) Errno {
 	_, _, errno := RawSyscall(SYS_SETRLIMIT, uintptr(resource), uintptr(unsafe.Pointer(rlim)), 0)
 	return errno
