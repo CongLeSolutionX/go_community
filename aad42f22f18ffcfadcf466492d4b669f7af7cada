@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b2874ec_05cd0e5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-08-21T15:03:22Z",
+      "side": 1,
+      "message": "Consider also adding \u0027For #61180\u0027 here, so this change shows up in the timeline of that issue.",
+      "revId": "aad42f22f18ffcfadcf466492d4b669f7af7cada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c87ae21b_e251c729",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-08-21T15:03:22Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "aad42f22f18ffcfadcf466492d4b669f7af7cada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
