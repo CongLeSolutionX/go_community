@@ -147,6 +147,7 @@ func SwissMapType() *types.Type {
 	//     directory []*table
 	//
 	//     globalDepth uint8
+	//     globalShift uint8
 	//     // N.B Padding
 	//
 	//     clearSeq uint64
@@ -158,6 +159,7 @@ func SwissMapType() *types.Type {
 		makefield("seed", types.Types[types.TUINTPTR]),
 		makefield("directory", types.NewSlice(types.NewPtr(swissTableType()))),
 		makefield("globalDepth", types.Types[types.TUINT8]),
+		makefield("globalShift", types.Types[types.TUINT8]),
 		makefield("clearSeq", types.Types[types.TUINT64]),
 	}
 
