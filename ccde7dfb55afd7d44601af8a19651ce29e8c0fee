@@ -57,6 +57,30 @@
       },
       "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b8e7e3e_9ec2b80a",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 54318
+      },
+      "writtenOn": "2024-08-21T08:27:31Z",
+      "side": 1,
+      "message": "Thank you. We skip here because there are too many of these label symbols starting with L0 or .L, and they make ctxt.Textp too big, which will cause an error when generating findfunctab: too many functions in a findfunc bucket!",
+      "parentUuid": "cf0a2a91_9a0c9c9f",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 5
+      },
+      "revId": "ccde7dfb55afd7d44601af8a19651ce29e8c0fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
