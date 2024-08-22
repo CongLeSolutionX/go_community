@@ -33,6 +33,29 @@
       "message": "s/does/appends/",
       "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7df7cae_0608aad9",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2024-08-22T17:37:24Z",
+      "side": 1,
+      "message": "```suggestion\n\tb, err :\u003d ip.AppendText(nil)\n```",
+      "range": {
+        "startLine": 345,
+        "startChar": 25,
+        "endLine": 345,
+        "endChar": 35
+      },
+      "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
