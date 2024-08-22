@@ -52,6 +52,24 @@
       "parentUuid": "56936b23_8961ba87",
       "revId": "cf178f58a5846142d78a3b9ea11bf23a1f30d99b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15f232df_9624dcef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-22T02:43:16Z",
+      "side": 1,
+      "message": "I\u0027ve implemented the fallback and it works (see below). But I still don\u0027t think it makes sense to return a value which is\n - expensive to obtain;\n - error prone to obtain (some stat calls may fail due to permissions);\n - mostly useless.\n\nHere\u0027s the fallback diff:\n\n```diff\ndiff --git a/src/os/getwd.go b/src/os/getwd.go\nindex 732ece7b09..1e4b0a109a 100644\n--- a/src/os/getwd.go\n+++ b/src/os/getwd.go\n@@ -56,9 +56,13 @@ func Getwd() (dir string, err error) {\n                                break\n                        }\n                }\n+               if e \u003d\u003d syscall.ENAMETOOLONG {\n+                       goto slow\n+               }\n                return s, NewSyscallError(\"getwd\", e)\n        }\n \n+slow:\n        // Apply same kludge but to cached dir instead of $PWD.\n        getwdCache.Lock()\n        dir \u003d getwdCache.dir\n```\n\nHere\u0027s the test:\n\n```\n  func TestGetwdDeep(t *testing.T) {\n          dir :\u003d t.TempDir()\n          t.Chdir(dir)\n          \n          name :\u003d strings.Repeat(\"a\", 200)\n          for {\n                  if err :\u003d os.Mkdir(name, 0o700); err !\u003d nil {\n                          t.Fatal(err)\n                  }\n                  if err :\u003d os.Chdir(name); err !\u003d nil {\n                          t.Fatal(err)\n                  }\n  \n                  wd, err :\u003d os.Getwd()\n                  t.Logf(\"     os.Getwd len \u003d %d, err \u003d %v\", len(wd), err)\n                  if err !\u003d nil {\n                          t.Fatal(err)\n                  }\n                  if len(wd) \u003e syscall.PathMax {\n                          break\n                  }\n          }\n  }\n```\n\nHere\u0027s the result:\n\n```\n[kir@kir-tp1 src]$ go test -run GetwdDeep -v os \n\u003d\u003d\u003d RUN   TestGetwdDeep\n    getwd_test.go:69:      os.Getwd len \u003d 233, err \u003d \u003cnil\u003e\n    getwd_test.go:69:      os.Getwd len \u003d 434, err \u003d \u003cnil\u003e\n\u003c...skipped for clarity...\u003e\n    getwd_test.go:69:      os.Getwd len \u003d 4052, err \u003d \u003cnil\u003e\n    getwd_test.go:69:      os.Getwd len \u003d 4253, err \u003d \u003cnil\u003e\n--- PASS: TestGetwdDeep (0.00s)\n```",
+      "parentUuid": "82c1cf4a_deaba970",
+      "revId": "cf178f58a5846142d78a3b9ea11bf23a1f30d99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
