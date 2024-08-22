@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50974a37_53ea8f5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2024-08-22T15:05:13Z",
+      "side": 1,
+      "message": "While the script test is simple, it may still be good to add this to the os/user package as a regular test, as this doesn\u0027t seem to relate to cmd/go.",
+      "revId": "97e2f4f13803c98f8e613534d38b5e0d8fb20b42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
