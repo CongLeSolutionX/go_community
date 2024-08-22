@@ -325,17 +325,28 @@ func ipEmptyString(ip IP) string {
 	return ip.String()
 }
 
+// AppendText implements the [encoding.TextAppender] interface.
+// The encoding is the same as returned by [IP.String], with one exception:
+// When len(ip) is zero, it does nothing.
+func (ip IP) AppendText(b []byte) ([]byte, error) {
+	if len(ip) == 0 {
+		return b, nil
+	}
+	if len(ip) != IPv4len && len(ip) != IPv6len {
+		return b, &AddrError{Err: "invalid IP address", Addr: hexString(ip)}
+	}
+	return append(b, ip.String()...), nil
+}
+
 // MarshalText implements the [encoding.TextMarshaler] interface.
 // The encoding is the same as returned by [IP.String], with one exception:
 // When len(ip) is zero, it returns an empty slice.
 func (ip IP) MarshalText() ([]byte, error) {
-	if len(ip) == 0 {
-		return []byte(""), nil
+	b, err := ip.AppendText([]byte(""))
+	if err != nil {
+		return nil, err
 	}
-	if len(ip) != IPv4len && len(ip) != IPv6len {
-		return nil, &AddrError{Err: "invalid IP address", Addr: hexString(ip)}
-	}
-	return []byte(ip.String()), nil
+	return b, nil
 }
 
 // UnmarshalText implements the [encoding.TextUnmarshaler] interface.
