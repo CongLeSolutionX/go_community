@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e06a1686_624d316f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-08-22T23:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e97d087_cae753bc",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4587127b_4e25b95e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91a10256_6f70ab6a",
+        "filename": "src/net/ip.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-08-22T23:11:37Z",
+      "side": 1,
+      "message": "AppendText can be alloc-free, except when it returns an error.\nBecause AppendText and String have different logic for handling empty values and invalid values, I\u0027ve put the append logic into the new helper function appendTo.",
+      "parentUuid": "ffa2e0b3_bb2764cb",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "316a891d_ae88ee1b",
         "filename": "src/net/ip_test.go",
         "patchSetId": 3
@@ -65,6 +101,24 @@
       "writtenOn": "2024-08-22T20:25:15Z",
       "side": 1,
       "message": "I think we should either have a BenchmarkIPAppendText benchmark, or a test that verifies that AppendText does not allocate.",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c1c0011_b6860e1b",
+        "filename": "src/net/ip_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-08-22T23:11:37Z",
+      "side": 1,
+      "message": "I added a test to check if AppendText does not allocate.",
+      "parentUuid": "316a891d_ae88ee1b",
       "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
