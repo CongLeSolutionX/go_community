@@ -966,27 +966,28 @@ func (ip Addr) StringExpanded() string {
 	return string(ret)
 }
 
+// AppendText implements the [encoding.TextAppender] interface,
+// It is the same as [Addr.AppendTo].
+func (ip Addr) AppendText(b []byte) ([]byte, error) {
+	return ip.AppendTo(b), nil
+}
+
 // MarshalText implements the [encoding.TextMarshaler] interface,
 // The encoding is the same as returned by [Addr.String], with one exception:
 // If ip is the zero [Addr], the encoding is the empty string.
 func (ip Addr) MarshalText() ([]byte, error) {
+	var maxCap int
 	switch ip.z {
 	case z0:
-		return []byte(""), nil
 	case z4:
-		max := len("255.255.255.255")
-		b := make([]byte, 0, max)
-		return ip.appendTo4(b), nil
+		maxCap = len("255.255.255.255")
 	default:
+		maxCap = len("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff%enp5s0")
 		if ip.Is4In6() {
-			max := len("::ffff:255.255.255.255%enp5s0")
-			b := make([]byte, 0, max)
-			return ip.appendTo4In6(b), nil
+			maxCap = len("::ffff:255.255.255.255%enp5s0")
 		}
-		max := len("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff%enp5s0")
-		b := make([]byte, 0, max)
-		return ip.appendTo6(b), nil
 	}
+	return ip.AppendText(make([]byte, 0, maxCap))
 }
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
@@ -1004,22 +1005,29 @@ func (ip *Addr) UnmarshalText(text []byte) error {
 	return err
 }
 
-func (ip Addr) marshalBinaryWithTrailingBytes(trailingBytes int) []byte {
-	var b []byte
+// AppendBinary implements the [encoding.BinaryAppender] interface.
+func (ip Addr) AppendBinary(b []byte) ([]byte, error) {
 	switch ip.z {
 	case z0:
-		b = make([]byte, trailingBytes)
 	case z4:
-		b = make([]byte, 4+trailingBytes)
-		byteorder.BePutUint32(b, uint32(ip.addr.lo))
+		b = byteorder.BeAppendUint32(b, uint32(ip.addr.lo))
 	default:
-		z := ip.Zone()
-		b = make([]byte, 16+len(z)+trailingBytes)
-		byteorder.BePutUint64(b[:8], ip.addr.hi)
-		byteorder.BePutUint64(b[8:], ip.addr.lo)
-		copy(b[16:], z)
+		b = byteorder.BeAppendUint64(b, ip.addr.hi)
+		b = byteorder.BeAppendUint64(b, ip.addr.lo)
+		b = append(b, ip.Zone()...)
 	}
-	return b
+	return b, nil
+}
+
+func (ip Addr) marshalBinarySize() int {
+	switch ip.z {
+	case z0:
+		return 0
+	case z4:
+		return 4
+	default:
+		return 16 + len(ip.Zone())
+	}
 }
 
 // MarshalBinary implements the [encoding.BinaryMarshaler] interface.
@@ -1027,7 +1035,7 @@ func (ip Addr) marshalBinaryWithTrailingBytes(trailingBytes int) []byte {
 // the 4-byte form for an IPv4 address,
 // and the 16-byte form with zone appended for an IPv6 address.
 func (ip Addr) MarshalBinary() ([]byte, error) {
-	return ip.marshalBinaryWithTrailingBytes(0), nil
+	return ip.AppendBinary(make([]byte, 0, ip.marshalBinarySize()))
 }
 
 // UnmarshalBinary implements the [encoding.BinaryUnmarshaler] interface.
@@ -1198,21 +1206,25 @@ func (p AddrPort) AppendTo(b []byte) []byte {
 	return b
 }
 
+// AppendText implements the [encoding.TextAppender] interface. The
+// encoding is the same as returned by [AddrPort.AppendTo].
+func (p AddrPort) AppendText(b []byte) ([]byte, error) {
+	return p.AppendTo(b), nil
+}
+
 // MarshalText implements the [encoding.TextMarshaler] interface. The
 // encoding is the same as returned by [AddrPort.String], with one exception: if
 // p.Addr() is the zero [Addr], the encoding is the empty string.
 func (p AddrPort) MarshalText() ([]byte, error) {
-	var max int
+	var maxCap int
 	switch p.ip.z {
 	case z0:
 	case z4:
-		max = len("255.255.255.255:65535")
+		maxCap = len("255.255.255.255:65535")
 	default:
-		max = len("[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff%enp5s0]:65535")
+		maxCap = len("[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff%enp5s0]:65535")
 	}
-	b := make([]byte, 0, max)
-	b = p.AppendTo(b)
-	return b, nil
+	return p.AppendText(make([]byte, 0, maxCap))
 }
 
 // UnmarshalText implements the encoding.TextUnmarshaler
@@ -1228,13 +1240,22 @@ func (p *AddrPort) UnmarshalText(text []byte) error {
 	return err
 }
 
+// AppendBinary implements the [encoding.BinaryAppendler] interface.
+// It returns [Addr.AppendBinary] with an additional two bytes appended
+// containing the port in little-endian.
+func (p AddrPort) AppendBinary(b []byte) ([]byte, error) {
+	b, err := p.Addr().AppendBinary(b)
+	if err != nil {
+		return nil, err
+	}
+	return byteorder.LeAppendUint16(b, p.Port()), nil
+}
+
 // MarshalBinary implements the [encoding.BinaryMarshaler] interface.
 // It returns [Addr.MarshalBinary] with an additional two bytes appended
 // containing the port in little-endian.
 func (p AddrPort) MarshalBinary() ([]byte, error) {
-	b := p.Addr().marshalBinaryWithTrailingBytes(2)
-	byteorder.LePutUint16(b[len(b)-2:], p.Port())
-	return b, nil
+	return p.AppendBinary(make([]byte, 0, p.Addr().marshalBinarySize()+2))
 }
 
 // UnmarshalBinary implements the [encoding.BinaryUnmarshaler] interface.
@@ -1487,21 +1508,25 @@ func (p Prefix) AppendTo(b []byte) []byte {
 	return b
 }
 
+// AppendText implements the [encoding.TextAppender] interface.
+// It is the same as [Prefix.AppendTo].
+func (p Prefix) AppendText(b []byte) ([]byte, error) {
+	return p.AppendTo(b), nil
+}
+
 // MarshalText implements the [encoding.TextMarshaler] interface,
 // The encoding is the same as returned by [Prefix.String], with one exception:
 // If p is the zero value, the encoding is the empty string.
 func (p Prefix) MarshalText() ([]byte, error) {
-	var max int
+	var maxCap int
 	switch p.ip.z {
 	case z0:
 	case z4:
-		max = len("255.255.255.255/32")
+		maxCap = len("255.255.255.255/32")
 	default:
-		max = len("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff%enp5s0/128")
+		maxCap = len("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff%enp5s0/128")
 	}
-	b := make([]byte, 0, max)
-	b = p.AppendTo(b)
-	return b, nil
+	return p.AppendText(make([]byte, 0, maxCap))
 }
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
@@ -1517,13 +1542,23 @@ func (p *Prefix) UnmarshalText(text []byte) error {
 	return err
 }
 
+// AppendBinary implements the [encoding.AppendMarshaler] interface.
+// It returns [Addr.AppendBinary] with an additional byte appended
+// containing the prefix bits.
+func (p Prefix) AppendBinary(b []byte) ([]byte, error) {
+	b, err := p.Addr().withoutZone().AppendBinary(b)
+	if err != nil {
+		return nil, err
+	}
+	return append(b, uint8(p.Bits())), nil
+}
+
 // MarshalBinary implements the [encoding.BinaryMarshaler] interface.
 // It returns [Addr.MarshalBinary] with an additional byte appended
 // containing the prefix bits.
 func (p Prefix) MarshalBinary() ([]byte, error) {
-	b := p.Addr().withoutZone().marshalBinaryWithTrailingBytes(1)
-	b[len(b)-1] = uint8(p.Bits())
-	return b, nil
+	// without the zone the max length is 16, plus an additional byte is 17
+	return p.AppendBinary(make([]byte, 0, p.Addr().withoutZone().marshalBinarySize()+1))
 }
 
 // UnmarshalBinary implements the [encoding.BinaryUnmarshaler] interface.

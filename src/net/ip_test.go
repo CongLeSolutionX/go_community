@@ -149,6 +149,15 @@ func TestMarshalEmptyIP(t *testing.T) {
 	if !reflect.DeepEqual(got, []byte("")) {
 		t.Errorf(`got %#v, want []byte("")`, got)
 	}
+
+	buf := make([]byte, 4)
+	got, err = ip.AppendText(buf)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(got, []byte("\x00\x00\x00\x00")) {
+		t.Errorf(`got %#v, want []byte("\x00\x00\x00\x00")`, got)
+	}
 }
 
 var ipStringTests = []*struct {
@@ -265,6 +274,10 @@ func TestIPString(t *testing.T) {
 		}
 		if out, err := tt.in.MarshalText(); !bytes.Equal(out, tt.byt) || !reflect.DeepEqual(err, tt.error) {
 			t.Errorf("IP.MarshalText(%v) = %v, %v, want %v, %v", tt.in, out, err, tt.byt, tt.error)
+		}
+		buf := make([]byte, 4, 32)
+		if out, err := tt.in.AppendText(buf); !bytes.Equal(out[4:], tt.byt) || !reflect.DeepEqual(err, tt.error) {
+			t.Errorf("IP.AppendText(%v) = %v, %v, want %v, %v", tt.in, out[4:], err, tt.byt, tt.error)
 		}
 	}
 }
