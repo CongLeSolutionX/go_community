@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef5fc6ad_9ee13e9f",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-22T17:42:18Z",
+      "side": 1,
+      "message": "Above it says \"For an integer valued flag x\".  So the listed type is int.",
+      "revId": "11f1cfac6206f8e5ca38455de22502839adfbeb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
