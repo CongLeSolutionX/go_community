@@ -805,4 +805,26 @@ TEXT svetest(SB),$0
     ZSTR $(R11), P5                                   // 650180e5
     ZSTR $255(RSP), P15                              // ef1f9fe5
 
+// SADDV   <Dd>, <Pg>, <Zn>.<T>
+    ZSADDV P0, Z0.B, F0                              // 00200004
+    ZSADDV P3, Z12.B, F10                            // 8a2d0004
+    ZSADDV P7, Z31.B, F31                            // ff3f0004
+    ZSADDV P0, Z0.H, F0                              // 00204004
+    ZSADDV P3, Z12.H, F10                            // 8a2d4004
+    ZSADDV P7, Z31.H, F31                            // ff3f4004
+    ZSADDV P0, Z0.S, F0                              // 00208004
+    ZSADDV P3, Z12.S, F10                            // 8a2d8004
+    ZSADDV P7, Z31.S, F31                            // ff3f8004
+
+// SADDV   <Dd>, <Pg>, <Zn>.<T>
+    ZSADDV P0, Z0.B, F0                              // 00200004
+    ZSADDV P3, Z12.B, F10                            // 8a2d0004
+    ZSADDV P7, Z31.B, F31                            // ff3f0004
+    ZSADDV P0, Z0.H, F0                              // 00204004
+    ZSADDV P3, Z12.H, F10                            // 8a2d4004
+    ZSADDV P7, Z31.H, F31                            // ff3f4004
+    ZSADDV P0, Z0.S, F0                              // 00208004
+    ZSADDV P3, Z12.S, F10                            // 8a2d8004
+    ZSADDV P7, Z31.S, F31                            // ff3f8004
+
     RET

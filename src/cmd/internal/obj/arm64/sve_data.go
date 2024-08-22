@@ -170,6 +170,9 @@ var instructionTable = map[obj.As][]encoding{
 	AZSABD: {
 		{0x040c0000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // SABD <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
 	},
+	AZSADDV: {
+		{0x04002000, []int{F_Dd_Pg_ZnB, F_Dd_Pg_ZnH, F_Dd_Pg_ZnS}, E_size_Pg_Zn_Vd}, // SADDV <Dd>, <Pg>, <Zn>.<T>
+	},
 	AZSDIV: {
 		{0x04140000, FG_ZdnT_PgM_ZdnT_ZmT, E_size_Pg_Zm_Zdn}, // SDIV <Zdn>.<T>, <Pg>/M, <Zdn>.<T>, <Zm>.<T>
 	},
@@ -247,6 +250,9 @@ const (
 	F_Zt_AddrXSPImmMulVl
 	F_Pt_AddrXSP
 	F_Pt_AddrXSPImmMulVl
+	F_Dd_Pg_ZnB
+	F_Dd_Pg_ZnH
+	F_Dd_Pg_ZnS
 )
 
 // Format groups, common patterns of associated instruction formats. E.g. expansion of the <T> generic lane size.
@@ -276,6 +282,9 @@ var formats = map[int]format{
 	F_Zt_AddrXSPImmMulVl: []int{REG_Z, MEM_ADDR | MEM_OFFSET_IMM},                                 // <Zt>, [<Xn|SP>{, #<imm>, MUL VL}]
 	F_Pt_AddrXSP:         []int{REG_P, MEM_ADDR | MEM_BASE},                                       // <Zt>, [<Xn|SP>]
 	F_Pt_AddrXSPImmMulVl: []int{REG_P, MEM_ADDR | MEM_OFFSET_IMM},                                 // <Zt>, [<Xn|SP>{, #<imm>, MUL VL}]
+	F_Dd_Pg_ZnB:          []int{REG_F, REG_P, REG_Z | EXT_B},                                      // <Dd>, <Pg>, <Zn>.B
+	F_Dd_Pg_ZnH:          []int{REG_F, REG_P, REG_Z | EXT_H},                                      // <Dd>, <Pg>, <Zn>.H
+	F_Dd_Pg_ZnS:          []int{REG_F, REG_P, REG_Z | EXT_S},                                      // <Dd>, <Pg>, <Zn>.S
 }
 
 // Key into the encoder table.
@@ -286,6 +295,7 @@ const (
 	E_size_Pg_Zm_Zdn
 	E_size_Pm_Rdn
 	E_imm9h_imm9l_Rn_Zt
+	E_size_Pg_Zn_Vd
 
 	// Equivalences
 	E_size0_Pg_Zn_Zd = E_size_Pg_Zn_Zd
@@ -302,4 +312,5 @@ var encoders = map[int]encoder{
 	E_size_Pg_Zm_Zdn:    {[]rule{{[]int{0, 2}, Zdn}, {[]int{1}, Pg}, {[]int{3}, Rn}, {[]int{0, 2, 3}, sveT}}},
 	E_size_Pm_Rdn:       {[]rule{{[]int{0}, Rd}, {[]int{1}, Pm}, {[]int{1}, sveT}}},
 	E_imm9h_imm9l_Rn_Zt: {[]rule{{[]int{0}, Rt}, {[]int{1}, RnImm9MulVl}}},
+	E_size_Pg_Zn_Vd:     {[]rule{{[]int{0}, Rd}, {[]int{1}, Pg}, {[]int{2}, Rn}, {[]int{2}, sveT}}},
 }

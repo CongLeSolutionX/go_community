@@ -70,11 +70,11 @@ func AsSVERegister(data int16) SVERegister {
 }
 
 func (r *SVERegister) Ext() int {
-	return int((r.uint16 & extMask) >> extOffset) << subtypeOffset 
+	return int((r.uint16&extMask)>>extOffset) << subtypeOffset
 }
 
 func (r *SVERegister) SetExt(ext int16) {
-	r.uint16 ^= (r.uint16 & extMask) ^ uint16((ext >> subtypeOffset)<<extOffset)
+	r.uint16 ^= (r.uint16 & extMask) ^ uint16((ext>>subtypeOffset)<<extOffset)
 }
 
 // Get the register number, between 0-31. For P registers between 0-15.

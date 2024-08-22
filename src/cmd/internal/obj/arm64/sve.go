@@ -133,7 +133,7 @@ func (e *encoding) getFormattedArgs(prog *obj.Prog) ([]*obj.Addr, bool) {
 
 func validateArg(arg *obj.Addr, format int) bool {
 	switch getType(format) {
-	case REG_R, REG_V, REG_Z, REG_P:
+	case REG_R, REG_F, REG_V, REG_Z, REG_P:
 		if arg.Type != obj.TYPE_REG {
 			return false
 		}
