@@ -47,6 +47,7 @@ func (e *encoding) assemble(p *obj.Prog) (uint32, bool) {
 		}
 		enc, ok := r.encode(selectedArgs...)
 		if !ok {
+			fmt.Println("encoder failed")
 			return 0, false
 		}
 		result |= enc
@@ -169,11 +170,22 @@ func validateArg(arg *obj.Addr, format int) bool {
 			return false
 		}
 
-        addr := AsAddress(arg)
+		addr := AsAddress(arg)
 
-        if addr.Format() != format {
+		if addr.Format() != format {
 			return false
 		}
+		return true
+	case IMM:
+		immFormat := IMM
+		if arg.Type == obj.TYPE_CONST {
+			immFormat |= IMM_INT
+		} else if arg.Type == obj.TYPE_FCONST {
+			immFormat |= IMM_FLOAT
+		} else {
+			return false
+		}
+		return immFormat == format
 	default:
 		return false
 	}

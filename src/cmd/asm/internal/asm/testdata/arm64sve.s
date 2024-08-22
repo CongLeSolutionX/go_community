@@ -827,4 +827,492 @@ TEXT svetest(SB),$0
     ZSADDV P3, Z12.S, F10                            // 8a2d8004
     ZSADDV P7, Z31.S, F31                            // ff3f8004
 
+// FCMEQ   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #0.0
+    ZFCMEQ P0.Z, Z0.H, $(0.0), P0.H                  // 00205265
+    ZFCMEQ P3.Z, Z12.H, $(0.0), P5.H                 // 852d5265
+    ZFCMEQ P7.Z, Z31.H, $(0.0), P15.H                // ef3f5265
+    ZFCMEQ P0.Z, Z0.S, $(0.0), P0.S                  // 00209265
+    ZFCMEQ P3.Z, Z12.S, $(0.0), P5.S                 // 852d9265
+    ZFCMEQ P7.Z, Z31.S, $(0.0), P15.S                // ef3f9265
+    ZFCMEQ P0.Z, Z0.D, $(0.0), P0.D                  // 0020d265
+    ZFCMEQ P3.Z, Z12.D, $(0.0), P5.D                 // 852dd265
+    ZFCMEQ P7.Z, Z31.D, $(0.0), P15.D                // ef3fd265
+
+// FCMGE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #0.0
+    ZFCMGE P0.Z, Z0.H, $(0.0), P0.H                    // 00205065
+    ZFCMGE P3.Z, Z12.H, $(0.0), P5.H                   // 852d5065
+    ZFCMGE P7.Z, Z31.H, $(0.0), P15.H                  // ef3f5065
+    ZFCMGE P0.Z, Z0.S, $(0.0), P0.S                    // 00209065
+    ZFCMGE P3.Z, Z12.S, $(0.0), P5.S                   // 852d9065
+    ZFCMGE P7.Z, Z31.S, $(0.0), P15.S                  // ef3f9065
+    ZFCMGE P0.Z, Z0.D, $(0.0), P0.D                    // 0020d065
+    ZFCMGE P3.Z, Z12.D, $(0.0), P5.D                   // 852dd065
+    ZFCMGE P7.Z, Z31.D, $(0.0), P15.D                  // ef3fd065
+
+// FCMGT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #0.0
+    ZFCMGT P0.Z, Z0.H, $(0.0), P0.H                    // 10205065
+    ZFCMGT P3.Z, Z12.H, $(0.0), P5.H                   // 952d5065
+    ZFCMGT P7.Z, Z31.H, $(0.0), P15.H                  // ff3f5065
+    ZFCMGT P0.Z, Z0.S, $(0.0), P0.S                    // 10209065
+    ZFCMGT P3.Z, Z12.S, $(0.0), P5.S                   // 952d9065
+    ZFCMGT P7.Z, Z31.S, $(0.0), P15.S                  // ff3f9065
+    ZFCMGT P0.Z, Z0.D, $(0.0), P0.D                    // 1020d065
+    ZFCMGT P3.Z, Z12.D, $(0.0), P5.D                   // 952dd065
+    ZFCMGT P7.Z, Z31.D, $(0.0), P15.D                  // ff3fd065
+
+// FCMLE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #0.0
+    ZFCMLE P0.Z, Z0.H, $(0.0), P0.H                    // 10205165
+    ZFCMLE P3.Z, Z12.H, $(0.0), P5.H                   // 952d5165
+    ZFCMLE P7.Z, Z31.H, $(0.0), P15.H                  // ff3f5165
+    ZFCMLE P0.Z, Z0.S, $(0.0), P0.S                    // 10209165
+    ZFCMLE P3.Z, Z12.S, $(0.0), P5.S                   // 952d9165
+    ZFCMLE P7.Z, Z31.S, $(0.0), P15.S                  // ff3f9165
+    ZFCMLE P0.Z, Z0.D, $(0.0), P0.D                    // 1020d165
+    ZFCMLE P3.Z, Z12.D, $(0.0), P5.D                   // 952dd165
+    ZFCMLE P7.Z, Z31.D, $(0.0), P15.D                  // ff3fd165
+
+// FCMLT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #0.0
+    ZFCMLT P0.Z, Z0.H, $(0.0), P0.H                    // 00205165
+    ZFCMLT P3.Z, Z12.H, $(0.0), P5.H                   // 852d5165
+    ZFCMLT P7.Z, Z31.H, $(0.0), P15.H                  // ef3f5165
+    ZFCMLT P0.Z, Z0.S, $(0.0), P0.S                    // 00209165
+    ZFCMLT P3.Z, Z12.S, $(0.0), P5.S                   // 852d9165
+    ZFCMLT P7.Z, Z31.S, $(0.0), P15.S                  // ef3f9165
+    ZFCMLT P0.Z, Z0.D, $(0.0), P0.D                    // 0020d165
+    ZFCMLT P3.Z, Z12.D, $(0.0), P5.D                   // 852dd165
+    ZFCMLT P7.Z, Z31.D, $(0.0), P15.D                  // ef3fd165
+
+// FCMNE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #0.0
+    ZFCMNE P0.Z, Z0.H, $(0.0), P0.H                    // 00205365
+    ZFCMNE P3.Z, Z12.H, $(0.0), P5.H                   // 852d5365
+    ZFCMNE P7.Z, Z31.H, $(0.0), P15.H                  // ef3f5365
+    ZFCMNE P0.Z, Z0.S, $(0.0), P0.S                    // 00209365
+    ZFCMNE P3.Z, Z12.S, $(0.0), P5.S                   // 852d9365
+    ZFCMNE P7.Z, Z31.S, $(0.0), P15.S                  // ef3f9365
+    ZFCMNE P0.Z, Z0.D, $(0.0), P0.D                    // 0020d365
+    ZFCMNE P3.Z, Z12.D, $(0.0), P5.D                   // 852dd365
+    ZFCMNE P7.Z, Z31.D, $(0.0), P15.D                  // ef3fd365
+
+// CMPEQ   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPEQ P0.Z, Z0.B, $-16, P0.B                  // 00801025
+    ZCMPEQ P3.Z, Z12.B, $-6, P5.B                  // 858d1a25
+    ZCMPEQ P7.Z, Z31.B, $15, P15.B                  // ef9f0f25
+    ZCMPEQ P0.Z, Z0.H, $-16, P0.H                  // 00805025
+    ZCMPEQ P3.Z, Z12.H, $-6, P5.H                  // 858d5a25
+    ZCMPEQ P7.Z, Z31.H, $15, P15.H                  // ef9f4f25
+    ZCMPEQ P0.Z, Z0.S, $-16, P0.S                  // 00809025
+    ZCMPEQ P3.Z, Z12.S, $-6, P5.S                  // 858d9a25
+    ZCMPEQ P7.Z, Z31.S, $15, P15.S                  // ef9f8f25
+    ZCMPEQ P0.Z, Z0.D, $-16, P0.D                  // 0080d025
+    ZCMPEQ P3.Z, Z12.D, $-6, P5.D                  // 858dda25
+    ZCMPEQ P7.Z, Z31.D, $15, P15.D                  // ef9fcf25
+
+// CMPGE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPGE P0.Z, Z0.B, $-16, P0.B                  // 00001025
+    ZCMPGE P3.Z, Z12.B, $-6, P5.B                  // 850d1a25
+    ZCMPGE P7.Z, Z31.B, $15, P15.B                  // ef1f0f25
+    ZCMPGE P0.Z, Z0.H, $-16, P0.H                  // 00005025
+    ZCMPGE P3.Z, Z12.H, $-6, P5.H                  // 850d5a25
+    ZCMPGE P7.Z, Z31.H, $15, P15.H                  // ef1f4f25
+    ZCMPGE P0.Z, Z0.S, $-16, P0.S                  // 00009025
+    ZCMPGE P3.Z, Z12.S, $-6, P5.S                  // 850d9a25
+    ZCMPGE P7.Z, Z31.S, $15, P15.S                  // ef1f8f25
+    ZCMPGE P0.Z, Z0.D, $-16, P0.D                  // 0000d025
+    ZCMPGE P3.Z, Z12.D, $-6, P5.D                  // 850dda25
+    ZCMPGE P7.Z, Z31.D, $15, P15.D                  // ef1fcf25
+
+// CMPGT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPGT P0.Z, Z0.B, $-16, P0.B                  // 10001025
+    ZCMPGT P3.Z, Z12.B, $-6, P5.B                  // 950d1a25
+    ZCMPGT P7.Z, Z31.B, $15, P15.B                  // ff1f0f25
+    ZCMPGT P0.Z, Z0.H, $-16, P0.H                  // 10005025
+    ZCMPGT P3.Z, Z12.H, $-6, P5.H                  // 950d5a25
+    ZCMPGT P7.Z, Z31.H, $15, P15.H                  // ff1f4f25
+    ZCMPGT P0.Z, Z0.S, $-16, P0.S                  // 10009025
+    ZCMPGT P3.Z, Z12.S, $-6, P5.S                  // 950d9a25
+    ZCMPGT P7.Z, Z31.S, $15, P15.S                  // ff1f8f25
+    ZCMPGT P0.Z, Z0.D, $-16, P0.D                  // 1000d025
+    ZCMPGT P3.Z, Z12.D, $-6, P5.D                  // 950dda25
+    ZCMPGT P7.Z, Z31.D, $15, P15.D                  // ff1fcf25
+
+// CMPHI   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPHI P0.Z, Z0.B, $0, P0.B                    // 10002024
+    ZCMPHI P3.Z, Z12.B, $42, P5.B                  // 958d2a24
+    ZCMPHI P7.Z, Z31.B, $127, P15.B                 // ffdf3f24
+    ZCMPHI P0.Z, Z0.H, $0, P0.H                    // 10006024
+    ZCMPHI P3.Z, Z12.H, $42, P5.H                  // 958d6a24
+    ZCMPHI P7.Z, Z31.H, $127, P15.H                 // ffdf7f24
+    ZCMPHI P0.Z, Z0.S, $0, P0.S                    // 1000a024
+    ZCMPHI P3.Z, Z12.S, $42, P5.S                  // 958daa24
+    ZCMPHI P7.Z, Z31.S, $127, P15.S                 // ffdfbf24
+    ZCMPHI P0.Z, Z0.D, $0, P0.D                    // 1000e024
+    ZCMPHI P3.Z, Z12.D, $42, P5.D                  // 958dea24
+    ZCMPHI P7.Z, Z31.D, $127, P15.D                 // ffdfff24
+
+// CMPHS   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPHS P0.Z, Z0.B, $0, P0.B                    // 00002024
+    ZCMPHS P3.Z, Z12.B, $42, P5.B                  // 858d2a24
+    ZCMPHS P7.Z, Z31.B, $127, P15.B                 // efdf3f24
+    ZCMPHS P0.Z, Z0.H, $0, P0.H                    // 00006024
+    ZCMPHS P3.Z, Z12.H, $42, P5.H                  // 858d6a24
+    ZCMPHS P7.Z, Z31.H, $127, P15.H                 // efdf7f24
+    ZCMPHS P0.Z, Z0.S, $0, P0.S                    // 0000a024
+    ZCMPHS P3.Z, Z12.S, $42, P5.S                  // 858daa24
+    ZCMPHS P7.Z, Z31.S, $127, P15.S                 // efdfbf24
+    ZCMPHS P0.Z, Z0.D, $0, P0.D                    // 0000e024
+    ZCMPHS P3.Z, Z12.D, $42, P5.D                  // 858dea24
+    ZCMPHS P7.Z, Z31.D, $127, P15.D                 // efdfff24
+
+// CMPLE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPLE P0.Z, Z0.B, $-16, P0.B                  // 10201025
+    ZCMPLE P3.Z, Z12.B, $-6, P5.B                  // 952d1a25
+    ZCMPLE P7.Z, Z31.B, $15, P15.B                  // ff3f0f25
+    ZCMPLE P0.Z, Z0.H, $-16, P0.H                  // 10205025
+    ZCMPLE P3.Z, Z12.H, $-6, P5.H                  // 952d5a25
+    ZCMPLE P7.Z, Z31.H, $15, P15.H                  // ff3f4f25
+    ZCMPLE P0.Z, Z0.S, $-16, P0.S                  // 10209025
+    ZCMPLE P3.Z, Z12.S, $-6, P5.S                  // 952d9a25
+    ZCMPLE P7.Z, Z31.S, $15, P15.S                  // ff3f8f25
+    ZCMPLE P0.Z, Z0.D, $-16, P0.D                  // 1020d025
+    ZCMPLE P3.Z, Z12.D, $-6, P5.D                  // 952dda25
+    ZCMPLE P7.Z, Z31.D, $15, P15.D                  // ff3fcf25
+
+// CMPLO   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPLO P0.Z, Z0.B, $0, P0.B                    // 00202024
+    ZCMPLO P3.Z, Z12.B, $42, P5.B                  // 85ad2a24
+    ZCMPLO P7.Z, Z31.B, $127, P15.B                 // efff3f24
+    ZCMPLO P0.Z, Z0.H, $0, P0.H                    // 00206024
+    ZCMPLO P3.Z, Z12.H, $42, P5.H                  // 85ad6a24
+    ZCMPLO P7.Z, Z31.H, $127, P15.H                 // efff7f24
+    ZCMPLO P0.Z, Z0.S, $0, P0.S                    // 0020a024
+    ZCMPLO P3.Z, Z12.S, $42, P5.S                  // 85adaa24
+    ZCMPLO P7.Z, Z31.S, $127, P15.S                 // efffbf24
+    ZCMPLO P0.Z, Z0.D, $0, P0.D                    // 0020e024
+    ZCMPLO P3.Z, Z12.D, $42, P5.D                  // 85adea24
+    ZCMPLO P7.Z, Z31.D, $127, P15.D                 // efffff24
+
+// CMPLS   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPLS P0.Z, Z0.B, $0, P0.B                    // 10202024
+    ZCMPLS P3.Z, Z12.B, $42, P5.B                  // 95ad2a24
+    ZCMPLS P7.Z, Z31.B, $127, P15.B                 // ffff3f24
+    ZCMPLS P0.Z, Z0.H, $0, P0.H                    // 10206024
+    ZCMPLS P3.Z, Z12.H, $42, P5.H                  // 95ad6a24
+    ZCMPLS P7.Z, Z31.H, $127, P15.H                 // ffff7f24
+    ZCMPLS P0.Z, Z0.S, $0, P0.S                    // 1020a024
+    ZCMPLS P3.Z, Z12.S, $42, P5.S                  // 95adaa24
+    ZCMPLS P7.Z, Z31.S, $127, P15.S                 // ffffbf24
+    ZCMPLS P0.Z, Z0.D, $0, P0.D                    // 1020e024
+    ZCMPLS P3.Z, Z12.D, $42, P5.D                  // 95adea24
+    ZCMPLS P7.Z, Z31.D, $127, P15.D                 // ffffff24
+
+// CMPLT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPLT P0.Z, Z0.B, $-16, P0.B                  // 00201025
+    ZCMPLT P3.Z, Z12.B, $-6, P5.B                  // 852d1a25
+    ZCMPLT P7.Z, Z31.B, $15, P15.B                  // ef3f0f25
+    ZCMPLT P0.Z, Z0.H, $-16, P0.H                  // 00205025
+    ZCMPLT P3.Z, Z12.H, $-6, P5.H                  // 852d5a25
+    ZCMPLT P7.Z, Z31.H, $15, P15.H                  // ef3f4f25
+    ZCMPLT P0.Z, Z0.S, $-16, P0.S                  // 00209025
+    ZCMPLT P3.Z, Z12.S, $-6, P5.S                  // 852d9a25
+    ZCMPLT P7.Z, Z31.S, $15, P15.S                  // ef3f8f25
+    ZCMPLT P0.Z, Z0.D, $-16, P0.D                  // 0020d025
+    ZCMPLT P3.Z, Z12.D, $-6, P5.D                  // 852dda25
+    ZCMPLT P7.Z, Z31.D, $15, P15.D                  // ef3fcf25
+
+// CMPNE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, #<imm>
+    ZCMPNE P0.Z, Z0.B, $-16, P0.B                  // 10801025
+    ZCMPNE P3.Z, Z12.B, $-6, P5.B                  // 958d1a25
+    ZCMPNE P7.Z, Z31.B, $15, P15.B                  // ff9f0f25
+    ZCMPNE P0.Z, Z0.H, $-16, P0.H                  // 10805025
+    ZCMPNE P3.Z, Z12.H, $-6, P5.H                  // 958d5a25
+    ZCMPNE P7.Z, Z31.H, $15, P15.H                  // ff9f4f25
+    ZCMPNE P0.Z, Z0.S, $-16, P0.S                  // 10809025
+    ZCMPNE P3.Z, Z12.S, $-6, P5.S                  // 958d9a25
+    ZCMPNE P7.Z, Z31.S, $15, P15.S                  // ff9f8f25
+    ZCMPNE P0.Z, Z0.D, $-16, P0.D                  // 1080d025
+    ZCMPNE P3.Z, Z12.D, $-6, P5.D                  // 958dda25
+    ZCMPNE P7.Z, Z31.D, $15, P15.D                  // ff9fcf25
+
+// CMPEQ   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZCMPEQ P0.Z, Z0.B, Z0.B, P0.B                    // 00a00024
+    ZCMPEQ P3.Z, Z12.B, Z13.B, P5.B                  // 85ad0d24
+    ZCMPEQ P7.Z, Z31.B, Z31.B, P15.B                 // efbf1f24
+    ZCMPEQ P0.Z, Z0.H, Z0.H, P0.H                    // 00a04024
+    ZCMPEQ P3.Z, Z12.H, Z13.H, P5.H                  // 85ad4d24
+    ZCMPEQ P7.Z, Z31.H, Z31.H, P15.H                 // efbf5f24
+    ZCMPEQ P0.Z, Z0.S, Z0.S, P0.S                    // 00a08024
+    ZCMPEQ P3.Z, Z12.S, Z13.S, P5.S                  // 85ad8d24
+    ZCMPEQ P7.Z, Z31.S, Z31.S, P15.S                 // efbf9f24
+    ZCMPEQ P0.Z, Z0.D, Z0.D, P0.D                    // 00a0c024
+    ZCMPEQ P3.Z, Z12.D, Z13.D, P5.D                  // 85adcd24
+    ZCMPEQ P7.Z, Z31.D, Z31.D, P15.D                 // efbfdf24
+
+// CMPGE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZCMPGE P0.Z, Z0.B, Z0.B, P0.B                    // 00800024
+    ZCMPGE P3.Z, Z12.B, Z13.B, P5.B                  // 858d0d24
+    ZCMPGE P7.Z, Z31.B, Z31.B, P15.B                 // ef9f1f24
+    ZCMPGE P0.Z, Z0.H, Z0.H, P0.H                    // 00804024
+    ZCMPGE P3.Z, Z12.H, Z13.H, P5.H                  // 858d4d24
+    ZCMPGE P7.Z, Z31.H, Z31.H, P15.H                 // ef9f5f24
+    ZCMPGE P0.Z, Z0.S, Z0.S, P0.S                    // 00808024
+    ZCMPGE P3.Z, Z12.S, Z13.S, P5.S                  // 858d8d24
+    ZCMPGE P7.Z, Z31.S, Z31.S, P15.S                 // ef9f9f24
+    ZCMPGE P0.Z, Z0.D, Z0.D, P0.D                    // 0080c024
+    ZCMPGE P3.Z, Z12.D, Z13.D, P5.D                  // 858dcd24
+    ZCMPGE P7.Z, Z31.D, Z31.D, P15.D                 // ef9fdf24
+
+// CMPGT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZCMPGT P0.Z, Z0.B, Z0.B, P0.B                    // 10800024
+    ZCMPGT P3.Z, Z12.B, Z13.B, P5.B                  // 958d0d24
+    ZCMPGT P7.Z, Z31.B, Z31.B, P15.B                 // ff9f1f24
+    ZCMPGT P0.Z, Z0.H, Z0.H, P0.H                    // 10804024
+    ZCMPGT P3.Z, Z12.H, Z13.H, P5.H                  // 958d4d24
+    ZCMPGT P7.Z, Z31.H, Z31.H, P15.H                 // ff9f5f24
+    ZCMPGT P0.Z, Z0.S, Z0.S, P0.S                    // 10808024
+    ZCMPGT P3.Z, Z12.S, Z13.S, P5.S                  // 958d8d24
+    ZCMPGT P7.Z, Z31.S, Z31.S, P15.S                 // ff9f9f24
+    ZCMPGT P0.Z, Z0.D, Z0.D, P0.D                    // 1080c024
+    ZCMPGT P3.Z, Z12.D, Z13.D, P5.D                  // 958dcd24
+    ZCMPGT P7.Z, Z31.D, Z31.D, P15.D                 // ff9fdf24
+
+// CMPHI   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZCMPHI P0.Z, Z0.B, Z0.B, P0.B                    // 10000024
+    ZCMPHI P3.Z, Z12.B, Z13.B, P5.B                  // 950d0d24
+    ZCMPHI P7.Z, Z31.B, Z31.B, P15.B                 // ff1f1f24
+    ZCMPHI P0.Z, Z0.H, Z0.H, P0.H                    // 10004024
+    ZCMPHI P3.Z, Z12.H, Z13.H, P5.H                  // 950d4d24
+    ZCMPHI P7.Z, Z31.H, Z31.H, P15.H                 // ff1f5f24
+    ZCMPHI P0.Z, Z0.S, Z0.S, P0.S                    // 10008024
+    ZCMPHI P3.Z, Z12.S, Z13.S, P5.S                  // 950d8d24
+    ZCMPHI P7.Z, Z31.S, Z31.S, P15.S                 // ff1f9f24
+    ZCMPHI P0.Z, Z0.D, Z0.D, P0.D                    // 1000c024
+    ZCMPHI P3.Z, Z12.D, Z13.D, P5.D                  // 950dcd24
+    ZCMPHI P7.Z, Z31.D, Z31.D, P15.D                 // ff1fdf24
+
+// CMPHS   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZCMPHS P0.Z, Z0.B, Z0.B, P0.B                    // 00000024
+    ZCMPHS P3.Z, Z12.B, Z13.B, P5.B                  // 850d0d24
+    ZCMPHS P7.Z, Z31.B, Z31.B, P15.B                 // ef1f1f24
+    ZCMPHS P0.Z, Z0.H, Z0.H, P0.H                    // 00004024
+    ZCMPHS P3.Z, Z12.H, Z13.H, P5.H                  // 850d4d24
+    ZCMPHS P7.Z, Z31.H, Z31.H, P15.H                 // ef1f5f24
+    ZCMPHS P0.Z, Z0.S, Z0.S, P0.S                    // 00008024
+    ZCMPHS P3.Z, Z12.S, Z13.S, P5.S                  // 850d8d24
+    ZCMPHS P7.Z, Z31.S, Z31.S, P15.S                 // ef1f9f24
+    ZCMPHS P0.Z, Z0.D, Z0.D, P0.D                    // 0000c024
+    ZCMPHS P3.Z, Z12.D, Z13.D, P5.D                  // 850dcd24
+    ZCMPHS P7.Z, Z31.D, Z31.D, P15.D                 // ef1fdf24
+
+// CMPNE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZCMPNE P0.Z, Z0.B, Z0.B, P0.B                    // 10a00024
+    ZCMPNE P3.Z, Z12.B, Z13.B, P5.B                  // 95ad0d24
+    ZCMPNE P7.Z, Z31.B, Z31.B, P15.B                 // ffbf1f24
+    ZCMPNE P0.Z, Z0.H, Z0.H, P0.H                    // 10a04024
+    ZCMPNE P3.Z, Z12.H, Z13.H, P5.H                  // 95ad4d24
+    ZCMPNE P7.Z, Z31.H, Z31.H, P15.H                 // ffbf5f24
+    ZCMPNE P0.Z, Z0.S, Z0.S, P0.S                    // 10a08024
+    ZCMPNE P3.Z, Z12.S, Z13.S, P5.S                  // 95ad8d24
+    ZCMPNE P7.Z, Z31.S, Z31.S, P15.S                 // ffbf9f24
+    ZCMPNE P0.Z, Z0.D, Z0.D, P0.D                    // 10a0c024
+    ZCMPNE P3.Z, Z12.D, Z13.D, P5.D                  // 95adcd24
+    ZCMPNE P7.Z, Z31.D, Z31.D, P15.D                 // ffbfdf24
+
+// FACGE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFACGE P0.Z, Z0.H, Z0.H, P0.H                    // 10c04065
+    ZFACGE P3.Z, Z12.H, Z13.H, P5.H                  // 95cd4d65
+    ZFACGE P7.Z, Z31.H, Z31.H, P15.H                 // ffdf5f65
+    ZFACGE P0.Z, Z0.S, Z0.S, P0.S                    // 10c08065
+    ZFACGE P3.Z, Z12.S, Z13.S, P5.S                  // 95cd8d65
+    ZFACGE P7.Z, Z31.S, Z31.S, P15.S                 // ffdf9f65
+    ZFACGE P0.Z, Z0.D, Z0.D, P0.D                    // 10c0c065
+    ZFACGE P3.Z, Z12.D, Z13.D, P5.D                  // 95cdcd65
+    ZFACGE P7.Z, Z31.D, Z31.D, P15.D                 // ffdfdf65
+
+// FACGT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFACGT P0.Z, Z0.H, Z0.H, P0.H                    // 10e04065
+    ZFACGT P3.Z, Z12.H, Z13.H, P5.H                  // 95ed4d65
+    ZFACGT P7.Z, Z31.H, Z31.H, P15.H                 // ffff5f65
+    ZFACGT P0.Z, Z0.S, Z0.S, P0.S                    // 10e08065
+    ZFACGT P3.Z, Z12.S, Z13.S, P5.S                  // 95ed8d65
+    ZFACGT P7.Z, Z31.S, Z31.S, P15.S                 // ffff9f65
+    ZFACGT P0.Z, Z0.D, Z0.D, P0.D                    // 10e0c065
+    ZFACGT P3.Z, Z12.D, Z13.D, P5.D                  // 95edcd65
+    ZFACGT P7.Z, Z31.D, Z31.D, P15.D                 // ffffdf65
+
+// FCMUO   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFCMUO P0.Z, Z0.H, Z0.H, P0.H                    // 00c04065
+    ZFCMUO P3.Z, Z12.H, Z13.H, P5.H                  // 85cd4d65
+    ZFCMUO P7.Z, Z31.H, Z31.H, P15.H                 // efdf5f65
+    ZFCMUO P0.Z, Z0.S, Z0.S, P0.S                    // 00c08065
+    ZFCMUO P3.Z, Z12.S, Z13.S, P5.S                  // 85cd8d65
+    ZFCMUO P7.Z, Z31.S, Z31.S, P15.S                 // efdf9f65
+    ZFCMUO P0.Z, Z0.D, Z0.D, P0.D                    // 00c0c065
+    ZFCMUO P3.Z, Z12.D, Z13.D, P5.D                  // 85cdcd65
+    ZFCMUO P7.Z, Z31.D, Z31.D, P15.D                 // efdfdf65
+
+// FCMEQ   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFCMEQ P0.Z, Z0.H, Z0.H, P0.H                    // 00604065
+    ZFCMEQ P3.Z, Z12.H, Z13.H, P5.H                  // 856d4d65
+    ZFCMEQ P7.Z, Z31.H, Z31.H, P15.H                 // ef7f5f65
+    ZFCMEQ P0.Z, Z0.S, Z0.S, P0.S                    // 00608065
+    ZFCMEQ P3.Z, Z12.S, Z13.S, P5.S                  // 856d8d65
+    ZFCMEQ P7.Z, Z31.S, Z31.S, P15.S                 // ef7f9f65
+    ZFCMEQ P0.Z, Z0.D, Z0.D, P0.D                    // 0060c065
+    ZFCMEQ P3.Z, Z12.D, Z13.D, P5.D                  // 856dcd65
+    ZFCMEQ P7.Z, Z31.D, Z31.D, P15.D                 // ef7fdf65
+
+// FCMGE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFCMGE P0.Z, Z0.H, Z0.H, P0.H                    // 00404065
+    ZFCMGE P3.Z, Z12.H, Z13.H, P5.H                  // 854d4d65
+    ZFCMGE P7.Z, Z31.H, Z31.H, P15.H                 // ef5f5f65
+    ZFCMGE P0.Z, Z0.S, Z0.S, P0.S                    // 00408065
+    ZFCMGE P3.Z, Z12.S, Z13.S, P5.S                  // 854d8d65
+    ZFCMGE P7.Z, Z31.S, Z31.S, P15.S                 // ef5f9f65
+    ZFCMGE P0.Z, Z0.D, Z0.D, P0.D                    // 0040c065
+    ZFCMGE P3.Z, Z12.D, Z13.D, P5.D                  // 854dcd65
+    ZFCMGE P7.Z, Z31.D, Z31.D, P15.D                 // ef5fdf65
+
+// FCMGT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFCMGT P0.Z, Z0.H, Z0.H, P0.H                    // 10404065
+    ZFCMGT P3.Z, Z12.H, Z13.H, P5.H                  // 954d4d65
+    ZFCMGT P7.Z, Z31.H, Z31.H, P15.H                 // ff5f5f65
+    ZFCMGT P0.Z, Z0.S, Z0.S, P0.S                    // 10408065
+    ZFCMGT P3.Z, Z12.S, Z13.S, P5.S                  // 954d8d65
+    ZFCMGT P7.Z, Z31.S, Z31.S, P15.S                 // ff5f9f65
+    ZFCMGT P0.Z, Z0.D, Z0.D, P0.D                    // 1040c065
+    ZFCMGT P3.Z, Z12.D, Z13.D, P5.D                  // 954dcd65
+    ZFCMGT P7.Z, Z31.D, Z31.D, P15.D                 // ff5fdf65
+
+// FCMNE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFCMNE P0.Z, Z0.H, Z0.H, P0.H                    // 10604065
+    ZFCMNE P3.Z, Z12.H, Z13.H, P5.H                  // 956d4d65
+    ZFCMNE P7.Z, Z31.H, Z31.H, P15.H                 // ff7f5f65
+    ZFCMNE P0.Z, Z0.S, Z0.S, P0.S                    // 10608065
+    ZFCMNE P3.Z, Z12.S, Z13.S, P5.S                  // 956d8d65
+    ZFCMNE P7.Z, Z31.S, Z31.S, P15.S                 // ff7f9f65
+    ZFCMNE P0.Z, Z0.D, Z0.D, P0.D                    // 1060c065
+    ZFCMNE P3.Z, Z12.D, Z13.D, P5.D                  // 956dcd65
+    ZFCMNE P7.Z, Z31.D, Z31.D, P15.D                 // ff7fdf65
+
+// FCMUO   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.<T>
+    ZFCMUO P0.Z, Z0.H, Z0.H, P0.H                    // 00c04065
+    ZFCMUO P3.Z, Z12.H, Z13.H, P5.H                  // 85cd4d65
+    ZFCMUO P7.Z, Z31.H, Z31.H, P15.H                 // efdf5f65
+    ZFCMUO P0.Z, Z0.S, Z0.S, P0.S                    // 00c08065
+    ZFCMUO P3.Z, Z12.S, Z13.S, P5.S                  // 85cd8d65
+    ZFCMUO P7.Z, Z31.S, Z31.S, P15.S                 // efdf9f65
+    ZFCMUO P0.Z, Z0.D, Z0.D, P0.D                    // 00c0c065
+    ZFCMUO P3.Z, Z12.D, Z13.D, P5.D                  // 85cdcd65
+    ZFCMUO P7.Z, Z31.D, Z31.D, P15.D                 // efdfdf65
+
+// CMPEQ   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPEQ P0.Z, Z0.B, Z0.D, P0.B                    // 00200024
+    ZCMPEQ P3.Z, Z12.B, Z13.D, P5.B                  // 852d0d24
+    ZCMPEQ P7.Z, Z31.B, Z31.D, P15.B                 // ef3f1f24
+    ZCMPEQ P0.Z, Z0.H, Z0.D, P0.H                    // 00204024
+    ZCMPEQ P3.Z, Z12.H, Z13.D, P5.H                  // 852d4d24
+    ZCMPEQ P7.Z, Z31.H, Z31.D, P15.H                 // ef3f5f24
+    ZCMPEQ P0.Z, Z0.S, Z0.D, P0.S                    // 00208024
+    ZCMPEQ P3.Z, Z12.S, Z13.D, P5.S                  // 852d8d24
+    ZCMPEQ P7.Z, Z31.S, Z31.D, P15.S                 // ef3f9f24
+
+// CMPGE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPGE P0.Z, Z0.B, Z0.D, P0.B                    // 00400024
+    ZCMPGE P3.Z, Z12.B, Z13.D, P5.B                  // 854d0d24
+    ZCMPGE P7.Z, Z31.B, Z31.D, P15.B                 // ef5f1f24
+    ZCMPGE P0.Z, Z0.H, Z0.D, P0.H                    // 00404024
+    ZCMPGE P3.Z, Z12.H, Z13.D, P5.H                  // 854d4d24
+    ZCMPGE P7.Z, Z31.H, Z31.D, P15.H                 // ef5f5f24
+    ZCMPGE P0.Z, Z0.S, Z0.D, P0.S                    // 00408024
+    ZCMPGE P3.Z, Z12.S, Z13.D, P5.S                  // 854d8d24
+    ZCMPGE P7.Z, Z31.S, Z31.D, P15.S                 // ef5f9f24
+
+// CMPGT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPGT P0.Z, Z0.B, Z0.D, P0.B                    // 10400024
+    ZCMPGT P3.Z, Z12.B, Z13.D, P5.B                  // 954d0d24
+    ZCMPGT P7.Z, Z31.B, Z31.D, P15.B                 // ff5f1f24
+    ZCMPGT P0.Z, Z0.H, Z0.D, P0.H                    // 10404024
+    ZCMPGT P3.Z, Z12.H, Z13.D, P5.H                  // 954d4d24
+    ZCMPGT P7.Z, Z31.H, Z31.D, P15.H                 // ff5f5f24
+    ZCMPGT P0.Z, Z0.S, Z0.D, P0.S                    // 10408024
+    ZCMPGT P3.Z, Z12.S, Z13.D, P5.S                  // 954d8d24
+    ZCMPGT P7.Z, Z31.S, Z31.D, P15.S                 // ff5f9f24
+
+// CMPHI   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPHI P0.Z, Z0.B, Z0.D, P0.B                    // 10c00024
+    ZCMPHI P3.Z, Z12.B, Z13.D, P5.B                  // 95cd0d24
+    ZCMPHI P7.Z, Z31.B, Z31.D, P15.B                 // ffdf1f24
+    ZCMPHI P0.Z, Z0.H, Z0.D, P0.H                    // 10c04024
+    ZCMPHI P3.Z, Z12.H, Z13.D, P5.H                  // 95cd4d24
+    ZCMPHI P7.Z, Z31.H, Z31.D, P15.H                 // ffdf5f24
+    ZCMPHI P0.Z, Z0.S, Z0.D, P0.S                    // 10c08024
+    ZCMPHI P3.Z, Z12.S, Z13.D, P5.S                  // 95cd8d24
+    ZCMPHI P7.Z, Z31.S, Z31.D, P15.S                 // ffdf9f24
+
+// CMPHS   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPHS P0.Z, Z0.B, Z0.D, P0.B                    // 00c00024
+    ZCMPHS P3.Z, Z12.B, Z13.D, P5.B                  // 85cd0d24
+    ZCMPHS P7.Z, Z31.B, Z31.D, P15.B                 // efdf1f24
+    ZCMPHS P0.Z, Z0.H, Z0.D, P0.H                    // 00c04024
+    ZCMPHS P3.Z, Z12.H, Z13.D, P5.H                  // 85cd4d24
+    ZCMPHS P7.Z, Z31.H, Z31.D, P15.H                 // efdf5f24
+    ZCMPHS P0.Z, Z0.S, Z0.D, P0.S                    // 00c08024
+    ZCMPHS P3.Z, Z12.S, Z13.D, P5.S                  // 85cd8d24
+    ZCMPHS P7.Z, Z31.S, Z31.D, P15.S                 // efdf9f24
+
+// CMPLE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPLE P0.Z, Z0.B, Z0.D, P0.B                    // 10600024
+    ZCMPLE P3.Z, Z12.B, Z13.D, P5.B                  // 956d0d24
+    ZCMPLE P7.Z, Z31.B, Z31.D, P15.B                 // ff7f1f24
+    ZCMPLE P0.Z, Z0.H, Z0.D, P0.H                    // 10604024
+    ZCMPLE P3.Z, Z12.H, Z13.D, P5.H                  // 956d4d24
+    ZCMPLE P7.Z, Z31.H, Z31.D, P15.H                 // ff7f5f24
+    ZCMPLE P0.Z, Z0.S, Z0.D, P0.S                    // 10608024
+    ZCMPLE P3.Z, Z12.S, Z13.D, P5.S                  // 956d8d24
+    ZCMPLE P7.Z, Z31.S, Z31.D, P15.S                 // ff7f9f24
+
+// CMPLO   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPLO P0.Z, Z0.B, Z0.D, P0.B                    // 00e00024
+    ZCMPLO P3.Z, Z12.B, Z13.D, P5.B                  // 85ed0d24
+    ZCMPLO P7.Z, Z31.B, Z31.D, P15.B                 // efff1f24
+    ZCMPLO P0.Z, Z0.H, Z0.D, P0.H                    // 00e04024
+    ZCMPLO P3.Z, Z12.H, Z13.D, P5.H                  // 85ed4d24
+    ZCMPLO P7.Z, Z31.H, Z31.D, P15.H                 // efff5f24
+    ZCMPLO P0.Z, Z0.S, Z0.D, P0.S                    // 00e08024
+    ZCMPLO P3.Z, Z12.S, Z13.D, P5.S                  // 85ed8d24
+    ZCMPLO P7.Z, Z31.S, Z31.D, P15.S                 // efff9f24
+
+// CMPLS   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPLS P0.Z, Z0.B, Z0.D, P0.B                    // 10e00024
+    ZCMPLS P3.Z, Z12.B, Z13.D, P5.B                  // 95ed0d24
+    ZCMPLS P7.Z, Z31.B, Z31.D, P15.B                 // ffff1f24
+    ZCMPLS P0.Z, Z0.H, Z0.D, P0.H                    // 10e04024
+    ZCMPLS P3.Z, Z12.H, Z13.D, P5.H                  // 95ed4d24
+    ZCMPLS P7.Z, Z31.H, Z31.D, P15.H                 // ffff5f24
+    ZCMPLS P0.Z, Z0.S, Z0.D, P0.S                    // 10e08024
+    ZCMPLS P3.Z, Z12.S, Z13.D, P5.S                  // 95ed8d24
+    ZCMPLS P7.Z, Z31.S, Z31.D, P15.S                 // ffff9f24
+
+// CMPLT   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPLT P0.Z, Z0.B, Z0.D, P0.B                    // 00600024
+    ZCMPLT P3.Z, Z12.B, Z13.D, P5.B                  // 856d0d24
+    ZCMPLT P7.Z, Z31.B, Z31.D, P15.B                 // ef7f1f24
+    ZCMPLT P0.Z, Z0.H, Z0.D, P0.H                    // 00604024
+    ZCMPLT P3.Z, Z12.H, Z13.D, P5.H                  // 856d4d24
+    ZCMPLT P7.Z, Z31.H, Z31.D, P15.H                 // ef7f5f24
+    ZCMPLT P0.Z, Z0.S, Z0.D, P0.S                    // 00608024
+    ZCMPLT P3.Z, Z12.S, Z13.D, P5.S                  // 856d8d24
+    ZCMPLT P7.Z, Z31.S, Z31.D, P15.S                 // ef7f9f24
+
+// CMPNE   <Pd>.<T>, <Pg>/Z, <Zn>.<T>, <Zm>.D
+    ZCMPNE P0.Z, Z0.B, Z0.D, P0.B                    // 10200024
+    ZCMPNE P3.Z, Z12.B, Z13.D, P5.B                  // 952d0d24
+    ZCMPNE P7.Z, Z31.B, Z31.D, P15.B                 // ff3f1f24
+    ZCMPNE P0.Z, Z0.H, Z0.D, P0.H                    // 10204024
+    ZCMPNE P3.Z, Z12.H, Z13.D, P5.H                  // 952d4d24
+    ZCMPNE P7.Z, Z31.H, Z31.D, P15.H                 // ff3f5f24
+    ZCMPNE P0.Z, Z0.S, Z0.D, P0.S                    // 10208024
+    ZCMPNE P3.Z, Z12.S, Z13.D, P5.S                  // 952d8d24
+    ZCMPNE P7.Z, Z31.S, Z31.D, P15.S                 // ff3f9f24
+
     RET

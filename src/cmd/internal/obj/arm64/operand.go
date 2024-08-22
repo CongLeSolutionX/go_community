@@ -13,6 +13,7 @@ const (
 	REG_Z_INDEXED
 	REG_P_INDEXED
 	MEM_ADDR
+	IMM
 )
 const typeMask = (1 << 7) - 1
 const subtypeOffset = 8
@@ -26,3 +27,9 @@ func getType(fmt int) int {
 func getSubtype(fmt int) int {
 	return int(uint(fmt) & subtypeMask)
 }
+
+// Supported immediate types
+const (
+	IMM_INT = iota << subtypeOffset
+	IMM_FLOAT
+)

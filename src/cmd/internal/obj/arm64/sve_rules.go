@@ -22,13 +22,14 @@ func checkBitRange(hibit int, lobit int, max int) {
 	}
 }
 
-func b(val int64, hibit int, lobit int) (int64, bool) {
+func ex(val int64, hibit int, lobit int) (int64, bool) {
 	checkBitRange(hibit, lobit, 64)
 	var mask int64 = (1 << (hibit - lobit + 1)) - 1
 	return (val >> lobit) & mask, true
 }
 
-func p(val uint32, hibit int, lobit int) (uint32, bool) {
+// Pack unsigned integer
+func pu(val uint32, hibit int, lobit int) (uint32, bool) {
 	checkBitRange(hibit, lobit, 32)
 	var top uint32 = 1 << (hibit - lobit + 1)
 	if val >= top {
@@ -37,39 +38,51 @@ func p(val uint32, hibit int, lobit int) (uint32, bool) {
 	return uint32((val & (top - 1)) << lobit), true
 }
 
+// Pack signed integer
+func ps(val int32, hibit int, lobit int) (uint32, bool) {
+	checkBitRange(hibit, lobit, 32)
+	masked := uint32(val & ((1 << (hibit - lobit + 1)) - 1))
+	return pu(masked, hibit, lobit)
+}
+
 func Rd(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
-	return p(uint32(r.Number()), 4, 0)
+	return pu(uint32(r.Number()), 4, 0)
 }
 
 func Rn(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
-	return p(uint32(r.Number()), 9, 5)
+	return pu(uint32(r.Number()), 9, 5)
 }
 
 func Rm(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
-	return p(uint32(r.Number()), 20, 16)
+	return pu(uint32(r.Number()), 20, 16)
 }
 
 func Rmi2(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
-	v, okv := p(uint32(r.Number()), 18, 16)
-	u, oku := p(uint32(vals[0].Index), 20, 19)
+	v, okv := pu(uint32(r.Number()), 18, 16)
+	u, oku := pu(uint32(vals[0].Index), 20, 19)
 	if !okv || !oku {
 		return 0, false
 	}
 	return v | u, true
 }
 
+func Pd(vals ...*obj.Addr) (uint32, bool) {
+	r := AsSVERegister(vals[0].Reg)
+	return pu(uint32(r.Number()), 3, 0)
+}
+
 func Pg(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
-	return p(uint32(r.Number()), 12, 10)
+	return pu(uint32(r.Number()), 12, 10)
 }
 
 func Pm(vals ...*obj.Addr) (uint32, bool) {
 	r := AsSVERegister(vals[0].Reg)
-	return p(uint32(r.Number()), 8, 5)
+	return pu(uint32(r.Number()), 8, 5)
 }
 
 func sveT(vals ...*obj.Addr) (uint32, bool) {
@@ -94,7 +107,7 @@ func sveT(vals ...*obj.Addr) (uint32, bool) {
 	default:
 		panic("unreachable")
 	}
-	return p(t, 23, 22)
+	return pu(t, 23, 22)
 }
 
 func Zdn(vals ...*obj.Addr) (uint32, bool) {
@@ -103,15 +116,34 @@ func Zdn(vals ...*obj.Addr) (uint32, bool) {
 	if r1.Number() != r2.Number() {
 		return 0, false
 	}
-	return p(uint32(r1.Number()), 4, 0)
+	return pu(uint32(r1.Number()), 4, 0)
 }
 
 func RnImm9MulVl(vals ...*obj.Addr) (uint32, bool) {
 	addr := AsAddress(vals[0])
-	imm9l, oku := b(addr.Offset, 2, 0)
-	imm9h, okv := b(addr.Offset, 8, 3)
-	rn, okw := p(uint32(addr.Reg&31), 9, 5)
-	imml, okx := p(uint32(imm9l), 12, 10)
-	immh, oky := p(uint32(imm9h), 21, 16)
+	imm9l, oku := ex(addr.Offset, 2, 0)
+	imm9h, okv := ex(addr.Offset, 8, 3)
+	rn, okw := pu(uint32(addr.Reg&31), 9, 5)
+	imml, okx := pu(uint32(imm9l), 12, 10)
+	immh, oky := pu(uint32(imm9h), 21, 16)
 	return immh | imml | rn, oku && okv && okw && okx && oky
+}
+
+func ImmFP0(vals ...*obj.Addr) (uint32, bool) {
+	if vals[0].Val.(float64) == 0.0 {
+		return 0, true
+	}
+	return 0, false
+}
+
+func Imm5(vals ...*obj.Addr) (uint32, bool) {
+	return ps(int32(vals[0].Offset), 20, 16)
+}
+
+func Uimm7(vals ...*obj.Addr) (uint32, bool) {
+	imm7 := vals[0].Offset
+	if imm7 < 0 {
+		return 0, false
+	}
+	return pu(uint32(imm7), 20, 14)
 }
