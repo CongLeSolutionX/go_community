@@ -104,6 +104,30 @@
       },
       "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddf602b3_ae077aa3",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-22T17:50:10Z",
+      "side": 1,
+      "message": "Sure, but maybe in a different CL.",
+      "parentUuid": "cf6f137f_e333ca08",
+      "range": {
+        "startLine": 345,
+        "startChar": 25,
+        "endLine": 345,
+        "endChar": 35
+      },
+      "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
