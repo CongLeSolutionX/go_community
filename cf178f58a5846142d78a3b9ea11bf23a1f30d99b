@@ -70,6 +70,24 @@
       "parentUuid": "82c1cf4a_deaba970",
       "revId": "cf178f58a5846142d78a3b9ea11bf23a1f30d99b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e53c7f8a_16c0d579",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-22T16:59:11Z",
+      "side": 1,
+      "message": "My thinking is that os.Getwd should work.  It shouldn\u0027t be limited so that it doesn\u0027t work in directories with long names.  That restriction is just weird.\n\nIf we start from that assumption, then we already have the code we need to make it work (the stat problem we can handle in some other way).  I agree that we aren\u0027t using that code today.  But let\u0027s not discard it.  Instead, let\u0027s use it.",
+      "parentUuid": "15f232df_9624dcef",
+      "revId": "cf178f58a5846142d78a3b9ea11bf23a1f30d99b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
