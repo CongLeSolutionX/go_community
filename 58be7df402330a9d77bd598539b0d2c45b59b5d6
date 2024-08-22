@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6c7adfd_28cfa122",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2024-08-22T14:56:11Z",
+      "side": 1,
+      "message": "@Filippo, does this need backported too?",
+      "revId": "58be7df402330a9d77bd598539b0d2c45b59b5d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
