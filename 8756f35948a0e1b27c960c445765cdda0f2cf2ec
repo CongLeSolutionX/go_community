@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e97d087_cae753bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-08-22T20:25:15Z",
+      "side": 1,
+      "message": "typo: Implement",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4587127b_4e25b95e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-08-22T20:25:15Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa2e0b3_bb2764cb",
+        "filename": "src/net/ip.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-08-22T20:25:15Z",
+      "side": 1,
+      "message": "I\u0027d expect AppendText to make no allocations, but there are many allocations in ip.String.\n\nAppendText should contain the core implementation of stringifying, and should be zero-allocation. MarshalText and String can then be implemented in terms of AppendText.",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "316a891d_ae88ee1b",
+        "filename": "src/net/ip_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-08-22T20:25:15Z",
+      "side": 1,
+      "message": "I think we should either have a BenchmarkIPAppendText benchmark, or a test that verifies that AppendText does not allocate.",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
