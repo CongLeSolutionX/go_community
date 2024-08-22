@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65942559_d6a27848",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-08-22T17:29:49Z",
+      "side": 1,
+      "message": "This needs to refer to the backport issue and say Fixed.\nNo need to refer to the original issue.",
+      "range": {
+        "startLine": 16,
+        "startChar": 9,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "36148a96f9b000a4282a6f392a3a9dd9a6f1767d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
