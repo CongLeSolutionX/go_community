@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "322d6a17_63d590c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-08-22T18:34:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5c0e73c_df995b1f",
+      "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f13243b_2ba528b0",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-08-22T17:24:07Z",
       "side": 1,
       "message": "s/does/appends/",
+      "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "015d6fd5_0d2be59c",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-08-22T18:34:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f13243b_2ba528b0",
       "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +156,30 @@
       "side": 1,
       "message": "Sure, but maybe in a different CL.",
       "parentUuid": "cf6f137f_e333ca08",
+      "range": {
+        "startLine": 345,
+        "startChar": 25,
+        "endLine": 345,
+        "endChar": 35
+      },
+      "revId": "50e84b9561ce7e9be522be8dfa6ccb4a421b54a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29a2b092_71cc668b",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-08-22T18:34:06Z",
+      "side": 1,
+      "message": "The test has already checked if the return value is an empty slice by using `reflect.DeepEqual(ret, []byte(\"\"))`. If ret is nil deepequal will return false.",
+      "parentUuid": "ddf602b3_ae077aa3",
       "range": {
         "startLine": 345,
         "startChar": 25,
