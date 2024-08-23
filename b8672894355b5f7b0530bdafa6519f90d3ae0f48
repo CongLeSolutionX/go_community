@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "38163450_6af4d6b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-23T18:55:31Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e969400d_39c0610f",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "b8672894355b5f7b0530bdafa6519f90d3ae0f48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "17a05582_2619514f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -106,6 +130,24 @@
       "writtenOn": "2024-08-23T18:46:24Z",
       "side": 1,
       "message": "any problem with just uncommenting it?",
+      "revId": "b8672894355b5f7b0530bdafa6519f90d3ae0f48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2e0255_735b0c98",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-23T18:55:31Z",
+      "side": 1,
+      "message": "AFAIK no. I am just being cautious will this is a no-op. This will be uncommented in the next CL.",
+      "parentUuid": "bf56bcfc_c56aa5e7",
       "revId": "b8672894355b5f7b0530bdafa6519f90d3ae0f48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
