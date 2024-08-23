@@ -92,7 +92,6 @@ func swissTableType() *types.Type {
 	//     index int
 	//
 	//     // From groups.
-	//     groups_typ        unsafe.Pointer // *abi.SwissMapType
 	//     groups_data       unsafe.Pointer
 	//     groups_lengthMask uint64
 	//     groups_entryMask  uint64
@@ -106,7 +105,6 @@ func swissTableType() *types.Type {
 		makefield("typ", types.Types[types.TUNSAFEPTR]),
 		makefield("seed", types.Types[types.TUINTPTR]),
 		makefield("index", types.Types[types.TINT]),
-		makefield("groups_typ", types.Types[types.TUNSAFEPTR]),
 		makefield("groups_data", types.Types[types.TUNSAFEPTR]),
 		makefield("groups_lengthMask", types.Types[types.TUINT64]),
 		makefield("groups_entryMask", types.Types[types.TUINT64]),
@@ -120,9 +118,9 @@ func swissTableType() *types.Type {
 	table.SetUnderlying(types.NewStruct(fields))
 	types.CalcSize(table)
 
-	// The size of table should be 64 bytes on 64 bit
-	// and 40 bytes on 32 bit platforms.
-	if size := int64(3*2 + 2*1 /* one extra for padding */ + 1*8 + 6*types.PtrSize); table.Size() != size {
+	// The size of table should be 56 bytes on 64 bit
+	// and 36 bytes on 32 bit platforms.
+	if size := int64(3*2 + 2*1 /* one extra for padding */ + 1*8 + 5*types.PtrSize); table.Size() != size {
 		base.Fatalf("internal/runtime/maps.table size not correct: got %d, want %d", table.Size(), size)
 	}
 
@@ -225,8 +223,7 @@ func SwissMapIterType() *types.Type {
 		makefield("globalDepth", types.Types[types.TUINT8]),
 		makefield("dirIdx", types.Types[types.TINT]),
 		makefield("tab", types.NewPtr(swissTableType())),
-		makefield("groupSmall_typ", types.Types[types.TUNSAFEPTR]),
-		makefield("groupSmall_data", types.Types[types.TUNSAFEPTR]),
+		makefield("groupSmall", types.Types[types.TUNSAFEPTR]),
 		makefield("entryIdx", types.Types[types.TUINT64]),
 	}
 
@@ -238,7 +235,7 @@ func SwissMapIterType() *types.Type {
 
 	iter.SetUnderlying(types.NewStruct(fields))
 	types.CalcSize(iter)
-	want := 9*types.PtrSize + 3*8 + 1*4
+	want := 8*types.PtrSize + 3*8 + 1*4
 	if types.PtrSize == 8 {
 		want += 4 // tailing padding
 	}
