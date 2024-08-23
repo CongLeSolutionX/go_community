@@ -122,7 +122,7 @@ func (t *table) reset(capacity uint64) {
 	t.resetGrowthLeft()
 
 	for i := uint64(0); i <= t.groups.lengthMask; i++ {
-		g := t.groups.group(i)
+		g := t.groups.group(t.typ, i)
 		g.ctrls().setEmpty()
 	}
 }
@@ -209,20 +209,20 @@ func (t *table) getWithKey(typ *abi.SwissMapType, hash uintptr, key unsafe.Point
 	// positive comparisons we must perform is less than 1/8 per find.
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
-		g := t.groups.group(seq.offset)
+		g := t.groups.group(typ, seq.offset)
 
 		match := g.ctrls().matchH2(h2(hash))
 
 		for match != 0 {
 			i := match.first()
 
-			slotKey := g.key(i)
+			slotKey := g.key(typ, i)
 			if typ.Key.Kind() == abi.Int32 {
 				if *(*int32)(key) == *(*int32)(slotKey) {
-					return slotKey, g.elem(i), true
+					return slotKey, g.elem(typ, i), true
 				}
 			} else if typ.Key.Equal(key, slotKey) {
-				return slotKey, g.elem(i), true
+				return slotKey, g.elem(typ, i), true
 			}
 			match = match.removeFirst()
 		}
@@ -239,20 +239,20 @@ func (t *table) getWithKey(typ *abi.SwissMapType, hash uintptr, key unsafe.Point
 func (t *table) getWithoutKey(typ *abi.SwissMapType, hash uintptr, key unsafe.Pointer) (unsafe.Pointer, bool) {
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
-		g := t.groups.group(seq.offset)
+		g := t.groups.group(typ, seq.offset)
 
 		match := g.ctrls().matchH2(h2(hash))
 
 		for match != 0 {
 			i := match.first()
 
-			slotKey := g.key(i)
+			slotKey := g.key(typ, i)
 			if typ.Key.Kind() == abi.Int32 {
 				if *(*int32)(key) == *(*int32)(slotKey) {
-					return g.elem(i), true
+					return g.elem(typ, i), true
 				}
 			} else if typ.Key.Equal(key, slotKey) {
-				return g.elem(i), true
+				return g.elem(typ, i), true
 			}
 			match = match.removeFirst()
 		}
@@ -282,20 +282,20 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 	var firstDeletedSlot uint32
 
 	for ; ; seq = seq.next() {
-		g := t.groups.group(seq.offset)
+		g := t.groups.group(m.typ, seq.offset)
 		match := g.ctrls().matchH2(h2(hash))
 
 		// Look for an existing slot containing this key.
 		for match != 0 {
 			i := match.first()
 
-			slotKey := g.key(i)
+			slotKey := g.key(m.typ, i)
 			if t.typ.Key.Equal(key, slotKey) {
 				if t.typ.NeedKeyUpdate() {
 					typedmemmove(t.typ.Key, slotKey, key)
 				}
 
-				slotElem := g.elem(i)
+				slotElem := g.elem(m.typ, i)
 
 				t.checkInvariants()
 				return slotElem, true
@@ -339,9 +339,9 @@ func (t *table) PutSlot(m *Map, hash uintptr, key unsafe.Pointer) (unsafe.Pointe
 
 			// If there is room left to grow, just insert the new entry.
 			if t.growthLeft > 0 {
-				slotKey := g.key(i)
+				slotKey := g.key(m.typ, i)
 				typedmemmove(t.typ.Key, slotKey, key)
-				slotElem := g.elem(i)
+				slotElem := g.elem(m.typ, i)
 
 				g.ctrls().set(i, ctrl(h2(hash)))
 				t.growthLeft--
@@ -380,15 +380,15 @@ func (t *table) uncheckedPutSlot(hash uintptr, key unsafe.Pointer) unsafe.Pointe
 	// the group and mark it as full with key's H2.
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
-		g := t.groups.group(seq.offset)
+		g := t.groups.group(t.typ, seq.offset)
 
 		match := g.ctrls().matchEmpty()
 		if match != 0 {
 			i := match.first()
 
-			slotKey := g.key(i)
+			slotKey := g.key(t.typ, i)
 			typedmemmove(t.typ.Key, slotKey, key)
-			slotElem := g.elem(i)
+			slotElem := g.elem(t.typ, i)
 
 			if g.ctrls().get(i) == ctrlEmpty {
 				t.growthLeft--
@@ -404,18 +404,18 @@ func (t *table) Delete(m *Map, key unsafe.Pointer) {
 
 	seq := makeProbeSeq(h1(hash), t.groups.lengthMask)
 	for ; ; seq = seq.next() {
-		g := t.groups.group(seq.offset)
+		g := t.groups.group(t.typ, seq.offset)
 		match := g.ctrls().matchH2(h2(hash))
 
 		for match != 0 {
 			i := match.first()
-			slotKey := g.key(i)
+			slotKey := g.key(t.typ, i)
 			if t.typ.Key.Equal(key, slotKey) {
 				t.used--
 				m.used--
 
 				typedmemclr(t.typ.Key, slotKey)
-				typedmemclr(t.typ.Elem, g.elem(i))
+				typedmemclr(t.typ.Elem, g.elem(t.typ, i))
 
 				// Only a full group can appear in the middle
 				// of a probe sequence (a group with at least
@@ -457,7 +457,7 @@ func (t *table) tombstones() uint64 {
 // Clear deletes all entries from the map resulting in an empty map.
 func (t *table) Clear() {
 	for i := uint64(0); i <= t.groups.lengthMask; i++ {
-		g := t.groups.group(i)
+		g := t.groups.group(t.typ, i)
 		typedmemclr(t.typ.Group, g.data)
 		g.ctrls().setEmpty()
 	}
@@ -521,7 +521,6 @@ func (it *Iter) Init(typ *abi.SwissMapType, m *Map) {
 		// Use dirIdx == -1 as sentinal for small maps.
 		dirIdx = -1
 		groupSmall.data = m.dirPtr
-		groupSmall.typ = typ
 	}
 
 	it.typ = m.typ
@@ -584,7 +583,7 @@ func (it *Iter) Next() {
 				continue
 			}
 
-			key := g.key(k)
+			key := g.key(it.m.typ, k)
 
 			// As below, if we have grown to a full map since Init,
 			// we continue to use the old group to decide the keys
@@ -598,7 +597,7 @@ func (it *Iter) Next() {
 				if !ok {
 					// See comment below.
 					if it.clearSeq == it.m.clearSeq && !it.m.typ.Key.Equal(key, key) {
-						elem = g.elem(k)
+						elem = g.elem(it.m.typ, k)
 					} else {
 						continue
 					}
@@ -607,7 +606,7 @@ func (it *Iter) Next() {
 					elem = newElem
 				}
 			} else {
-				elem = g.elem(k)
+				elem = g.elem(it.m.typ, k)
 			}
 
 			it.entryIdx++
@@ -687,7 +686,7 @@ func (it *Iter) Next() {
 				// Only compute the group on the first
 				// iteration and when we switch groups.
 				groupIdx := entryIdx >> abi.SwissMapGroupSlotsBits
-				g = it.tab.groups.group(groupIdx)
+				g = it.tab.groups.group(it.m.typ, groupIdx)
 			}
 
 			// TODO(prattmic): Skip over groups that are composed of only empty
@@ -699,7 +698,7 @@ func (it *Iter) Next() {
 				continue
 			}
 
-			key := g.key(slotIdx)
+			key := g.key(it.m.typ, slotIdx)
 
 			// If the table has changed since the last
 			// call, then it has grown or split. In this
@@ -742,7 +741,7 @@ func (it *Iter) Next() {
 					// need to return anything added after
 					// clear.
 					if it.clearSeq == it.m.clearSeq && !it.m.typ.Key.Equal(key, key) {
-						elem = g.elem(slotIdx)
+						elem = g.elem(it.m.typ, slotIdx)
 					} else {
 						continue
 					}
@@ -751,7 +750,7 @@ func (it *Iter) Next() {
 					elem = newElem
 				}
 			} else {
-				elem = g.elem(slotIdx)
+				elem = g.elem(it.m.typ, slotIdx)
 			}
 
 			it.entryIdx++
@@ -830,14 +829,14 @@ func (t *table) split(m *Map) {
 	mask := localDepthMask(localDepth)
 
 	for i := uint64(0); i <= t.groups.lengthMask; i++ {
-		g := t.groups.group(i)
+		g := t.groups.group(t.typ, i)
 		for j := uint32(0); j < abi.SwissMapGroupSlots; j++ {
 			if (g.ctrls().get(j) & ctrlEmpty) == ctrlEmpty {
 				// Empty or deleted
 				continue
 			}
-			key := g.key(j)
-			elem := g.elem(j)
+			key := g.key(t.typ, j)
+			elem := g.elem(t.typ, j)
 			hash := t.typ.Hasher(key, t.seed)
 			var newTable *table
 			if hash&mask == 0 {
@@ -863,14 +862,14 @@ func (t *table) grow(m *Map, newCapacity uint64) {
 
 	if t.capacity > 0 {
 		for i := uint64(0); i <= t.groups.lengthMask; i++ {
-			g := t.groups.group(i)
+			g := t.groups.group(t.typ, i)
 			for j := uint32(0); j < abi.SwissMapGroupSlots; j++ {
 				if (g.ctrls().get(j) & ctrlEmpty) == ctrlEmpty {
 					// Empty or deleted
 					continue
 				}
-				key := g.key(j)
-				elem := g.elem(j)
+				key := g.key(t.typ, j)
+				elem := g.elem(t.typ, j)
 				hash := newTable.typ.Hasher(key, t.seed)
 				slotElem := newTable.uncheckedPutSlot(hash, key)
 				typedmemmove(newTable.typ.Elem, slotElem, elem)
