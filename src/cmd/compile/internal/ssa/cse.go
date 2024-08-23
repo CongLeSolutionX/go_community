@@ -82,11 +82,17 @@ func cse(f *Func) {
 		pNum++
 	}
 
+	// Keep a table to remap memory operand of any memory user which does not have a memory result (such as a regular load),
+	// to some dominating memory operation, skipping the memory defs that do not alias with it.
+	memTable := f.Cache.allocInt32Slice(f.NumValues())
+	defer f.Cache.freeInt32Slice(memTable)
+
 	// Split equivalence classes at points where they have
 	// non-equivalent arguments.  Repeat until we can't find any
 	// more splits.
 	var splitPoints []int
 	byArgClass := new(partitionByArgClass) // reusable partitionByArgClass to reduce allocations
+	byArgClass.memTable = memTable
 	for {
 		changed := false
 
@@ -115,9 +121,20 @@ func cse(f *Func) {
 				v, w := e[j-1], e[j]
 				// Note: commutative args already correctly ordered by byArgClass.
 				eqArgs := true
+				_, idxMem, _ := isMemUser(v)
 				for k, a := range v.Args {
-					b := w.Args[k]
-					if valueEqClass[a.ID] != valueEqClass[b.ID] {
+					var aId, bId ID
+					if k != idxMem {
+						b := w.Args[k]
+						aId = a.ID
+						bId = b.ID
+					} else {
+						// A memory user's mem argument may be remapped to allow matching
+						// identical load-like instructions across disjoint stores.
+						aId, _ = getMemId(memTable, v)
+						bId, _ = getMemId(memTable, w)
+					}
+					if valueEqClass[aId] != valueEqClass[bId] {
 						eqArgs = false
 						break
 					}
@@ -165,6 +182,7 @@ func cse(f *Func) {
 	rewrite := f.Cache.allocValueSlice(f.NumValues())
 	defer f.Cache.freeValueSlice(rewrite)
 	byDom := new(partitionByDom) // reusable partitionByDom to reduce allocs
+	byDom.memTable = memTable
 	for _, e := range partition {
 		byDom.a = e
 		byDom.sdom = sdom
@@ -343,8 +361,9 @@ func (sv sortvalues) Less(i, j int) bool {
 }
 
 type partitionByDom struct {
-	a    []*Value // array of values
-	sdom SparseTree
+	a        []*Value // array of values
+	sdom     SparseTree
+	memTable []int32 // mem argument remapping
 }
 
 func (sv partitionByDom) Len() int      { return len(sv.a) }
@@ -352,12 +371,22 @@ func (sv partitionByDom) Swap(i, j int) { sv.a[i], sv.a[j] = sv.a[j], sv.a[i] }
 func (sv partitionByDom) Less(i, j int) bool {
 	v := sv.a[i]
 	w := sv.a[j]
+	if v.Block == w.Block {
+		if _, _, ok := isMemUser(v); ok {
+			// If a memory user's mem argument is remapped, preserve
+			// original memory order within block.
+			_, vSkips := getMemId(sv.memTable, v)
+			_, wSkips := getMemId(sv.memTable, w)
+			return vSkips < wSkips
+		}
+	}
 	return sv.sdom.domorder(v.Block) < sv.sdom.domorder(w.Block)
 }
 
 type partitionByArgClass struct {
-	a       []*Value // array of values
-	eqClass []ID     // equivalence class IDs of values
+	a        []*Value // array of values
+	eqClass  []ID     // equivalence class IDs of values
+	memTable []int32  // mem argument remapping
 }
 
 func (sv partitionByArgClass) Len() int      { return len(sv.a) }
@@ -365,14 +394,101 @@ func (sv partitionByArgClass) Swap(i, j int) { sv.a[i], sv.a[j] = sv.a[j], sv.a[
 func (sv partitionByArgClass) Less(i, j int) bool {
 	v := sv.a[i]
 	w := sv.a[j]
+	_, idxMem, _ := isMemUser(v)
 	for i, a := range v.Args {
-		b := w.Args[i]
-		if sv.eqClass[a.ID] < sv.eqClass[b.ID] {
+		var aId, bId ID
+		if i != idxMem {
+			b := w.Args[i]
+			aId = a.ID
+			bId = b.ID
+		} else {
+			// A memory user's mem argument may be remapped to allow matching
+			// identical load-like instructions across disjoint stores.
+			aId, _ = getMemId(sv.memTable, v)
+			bId, _ = getMemId(sv.memTable, w)
+		}
+		if sv.eqClass[aId] < sv.eqClass[bId] {
 			return true
 		}
-		if sv.eqClass[a.ID] > sv.eqClass[b.ID] {
+		if sv.eqClass[aId] > sv.eqClass[bId] {
 			return false
 		}
 	}
 	return false
+}
+
+// Query if the given instruction only uses "memory" argument and we may try to skip some memory "defs" if they do not alias with its address.
+// Return index of pointer argument, index of "memory" argument and true on such instructions, otherwise return (0, 0, false).
+func isMemUser(v *Value) (int, int, bool) {
+	switch v.Op {
+	case OpLoad, OpNilCheck:
+		return 0, 1, true
+	default:
+		return -1, -1, false
+	}
+}
+
+// Query if the given "memory"-defining instruction's memory destination can be analyzed for aliasing with a memory "user" instructions.
+// Return index of pointer argument, index of "memory" argument and true on such instructions, otherwise return (0, 0, false).
+func isMemDef(v *Value) (int, int, bool) {
+	switch v.Op {
+	case OpStore:
+		return 0, 2, true
+	default:
+		return -1, -1, false
+	}
+}
+
+func disjointAccess(ptrA *Value, tyA *types.Type, ptrB *Value, tyB *types.Type) bool {
+	return disjoint(ptrA, tyA.Size(), ptrB, tyB.Size())
+}
+
+// Mem table keeps memTableSkipBits lower bits to store the number of skips of "memory" operand
+// and the rest to store the ID of the destination "memory"-producing instruction.
+const memTableSkipBits = 8
+
+// The maximum ID value we are able to store in the memTable, otherwise fall back to v.ID
+const maxId = ID(1<<(32-memTableSkipBits)) - 1
+
+// Remap the given memory user's "memory" operand, return the destination and the number of skips.
+func getMemId(memTable []int32, v *Value) (ID, uint32) {
+	if code := uint32(memTable[v.ID]); code != 0 {
+		return ID(code >> memTableSkipBits), code & ((1 << memTableSkipBits) - 1)
+	}
+	if idxPtr, idxMem, ok := isMemUser(v); ok {
+		memId := v.Args[idxMem].ID
+		if memId > maxId {
+			return memId, 0
+		}
+		mem, skips := skipDisjointMemDefs(v, idxPtr, v.Args[idxMem])
+		if mem.ID <= maxId {
+			memId = mem.ID
+		} else {
+			skips = 0 // avoid the skip
+		}
+		memTable[v.ID] = int32(memId<<memTableSkipBits) | int32(skips)
+		return memId, skips
+	}
+	return 0, 0
+}
+
+// Find a memory def that's not trivially disjoint with the user instruction, count the number
+// of "skips" along the path.
+func skipDisjointMemDefs(user *Value, idxUserPtr int, origMem *Value) (*Value, uint32) {
+	usePtr := user.Args[idxUserPtr]
+	mem := origMem
+	const maxSkips = (1 << memTableSkipBits) - 1
+	var skips uint32
+	for skips = 0; skips < maxSkips; skips++ {
+		if idxPtr, idxMem, ok := isMemDef(mem); ok {
+			defPtr := mem.Args[idxPtr]
+			defTy := auxToType(mem.Aux)
+			if disjointAccess(defPtr, defTy, usePtr, user.Type) {
+				mem = mem.Args[idxMem]
+				continue
+			}
+		}
+		break
+	}
+	return mem, skips
 }
