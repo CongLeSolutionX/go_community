@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2e01e17_e7a1144d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2024-08-23T17:21:56Z",
+      "side": 1,
+      "message": "Left a note on this at https://go-review.googlesource.com/c/go/+/370274/comment/9f20677a_f0d6b72a/.",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "a749daf8bf06a966ddcec6f0a922b65ee7fae2ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
