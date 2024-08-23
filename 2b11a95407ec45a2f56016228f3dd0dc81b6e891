@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8380a964_1a898a9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-23T07:18:17Z",
+      "side": 1,
+      "message": "It is indeed the case, instead of doing an all-or-nothing on MPTCP, this patch use a more step-by-step approach by enabling it only on server-side, where the potential negative impacts are very limited (as we always have to possibility to fallback to a \"plain\" TCP socket)",
+      "parentUuid": "df40a4bb_b2c0e9c0",
+      "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e30054_a211b3f3",
@@ -66,6 +84,24 @@
       "writtenOn": "2024-08-22T18:10:09Z",
       "side": 1,
       "message": "In general we want every GODEBUG to have a way to \"set the old behavior\".  Over in internal/godebugs/table.go this is recorded in the Old field.  Before this change, we could set the entry in table.go to something like {Changed: 24; Old: \"0\"}.  But if we split the GODEBUG handling in this way, we don\u0027t have a valid value for Changed.",
+      "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "891e8ece_6618b920",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-23T07:18:17Z",
+      "side": 1,
+      "message": "If we simply set the \"multipathtcp\" setting with an old value of \"0\", wouldn\u0027t \nthat represent the previous behaviour ? (Where MPTCP was disabled by default for\nboth clients and servers ?",
+      "parentUuid": "47e30054_a211b3f3",
       "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
