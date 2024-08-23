@@ -981,6 +981,10 @@ func TestErrors(t *testing.T) {
 			"",
 		},
 		{
+			"{{range .Items}}{{if .X}}{{break}}{{end}}<a{{if .Y}}{{continue}}{{end}}>{{if .Z}}{{continue}}{{end}}{{end}}",
+			"",
+		},
+		{
 			"{{range .Items}}<a{{if .X}}{{end}}>{{break}}{{end}}",
 			"",
 		},
