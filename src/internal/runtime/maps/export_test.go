@@ -41,7 +41,7 @@ func (m *Map) KeyFromFullGroup() unsafe.Pointer {
 		lastTab = t
 
 		for i := uint64(0); i <= t.groups.lengthMask; i++ {
-			g := t.groups.group(i)
+			g := t.groups.group(m.typ, i)
 			match := g.ctrls().matchEmpty()
 			if match != 0 {
 				continue
@@ -52,7 +52,7 @@ func (m *Map) KeyFromFullGroup() unsafe.Pointer {
 				if g.ctrls().get(j) == ctrlDeleted {
 					continue
 				}
-				return g.key(j)
+				return g.key(m.typ, j)
 			}
 		}
 	}
