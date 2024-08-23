@@ -287,7 +287,7 @@ func (m *Map) directoryIndex(hash uintptr) uintptr {
 	if m.dirLen == 1 {
 		return 0
 	}
-	return hash >> m.globalShift
+	return hash >> (m.globalShift & 63)
 	// TODO(prattmic): Store the shift as globalShift, as we need that more
 	// often than globalDepth.
 	//if goarch.PtrSize == 4 {
