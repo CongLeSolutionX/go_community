@@ -37,6 +37,7 @@ func cse(f *Func) {
 	if f.auxmap == nil {
 		f.auxmap = auxmap{}
 	}
+	numMemUsers := 0
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if v.Type.IsMemory() {
@@ -44,6 +45,9 @@ func cse(f *Func) {
 			}
 			if f.auxmap[v.Aux] == 0 {
 				f.auxmap[v.Aux] = int32(len(f.auxmap)) + 1
+			}
+			if _, _, ok := isMemUser(v); ok {
+				numMemUsers++
 			}
 			a = append(a, v)
 		}
@@ -80,6 +84,13 @@ func cse(f *Func) {
 			fmt.Printf("\n")
 		}
 		pNum++
+	}
+
+	// Redirect memory operand of any memory user which does not have a memory result (such as a regular load),
+	// to some dominating memory operation, skipping the memory defs that do not alias with it.
+	memUsers := make([]memUser, 0, numMemUsers)
+	if numMemUsers != 0 {
+		memUsers = redirectMemUsers(f, memUsers)
 	}
 
 	// Split equivalence classes at points where they have
@@ -158,6 +169,11 @@ func cse(f *Func) {
 		}
 	}
 
+	// Partitioning into equivalence classes by arguments is done, put the original memory arguments back
+	// into memory users, also remember the order of memory users within one basic block to select the
+	// earliest in case of they are otherwise equivalent.
+	updateMemUsers(memUsers)
+
 	sdom := f.Sdom()
 
 	// Compute substitutions we would like to do. We substitute v for w
@@ -193,6 +209,9 @@ func cse(f *Func) {
 			}
 		}
 	}
+
+	// Substitutions are computed, restore the memory users as they were originally.
+	restoreMemUsers(memUsers)
 
 	rewrites := int64(0)
 
@@ -352,6 +371,11 @@ func (sv partitionByDom) Swap(i, j int) { sv.a[i], sv.a[j] = sv.a[j], sv.a[i] }
 func (sv partitionByDom) Less(i, j int) bool {
 	v := sv.a[i]
 	w := sv.a[j]
+	if v.Block == w.Block {
+		if _, _, ok := isMemUser(v); ok {
+			return v.AuxInt < w.AuxInt
+		}
+	}
 	return sv.sdom.domorder(v.Block) < sv.sdom.domorder(w.Block)
 }
 
@@ -375,4 +399,98 @@ func (sv partitionByArgClass) Less(i, j int) bool {
 		}
 	}
 	return false
+}
+
+// Some state for each modified memory user instruction, to restore it later.
+type memUser struct {
+	Ins   *Value // the instruction
+	Mem   *Value // original "memory" argument of the instruction
+	Skips int64  // number of memory chain skips, to preserve order between memory users in one basic block
+}
+
+// Query if the given instruction only uses "memory" argument and we may try to skip some memory "defs" if they do not alias with its address.
+// Return index of pointer argument, index of "memory" argument and true on such instructions, otherwise return (0, 0, false).
+func isMemUser(v *Value) (int, int, bool) {
+	switch v.Op {
+	case OpLoad, OpNilCheck:
+		return 0, 1, true
+	default:
+		return 0, 0, false
+	}
+}
+
+// Query if the given "memory"-defining instruction's memory destination can be analyzed for aliasing with a memory "user" instructions.
+// Return index of pointer argument, index of "memory" argument and true on such instructions, otherwise return (0, 0, false).
+func isMemDef(v *Value) (int, int, bool) {
+	switch v.Op {
+	case OpStore:
+		return 0, 2, true
+	default:
+		return 0, 0, false
+	}
+}
+
+func disjointAccess(ptrA *Value, tyA *types.Type, ptrB *Value, tyB *types.Type) bool {
+	return disjoint(ptrA, tyA.Size(), ptrB, tyB.Size())
+}
+
+// Find a memory def that's not trivially disjoint with the user instruction, count the number
+// of "skips" along the path.
+func skipDisjointMemDefs(user *Value, idxUserPtr int, origMem *Value) (skips int, mem *Value) {
+	usePtr := user.Args[idxUserPtr]
+	mem = origMem
+	changed := true
+	for changed {
+		changed = false
+		if idxPtr, idxMem, ok := isMemDef(mem); ok {
+			defPtr := mem.Args[idxPtr]
+			defTy := auxToType(mem.Aux)
+			if disjointAccess(defPtr, defTy, usePtr, user.Type) {
+				mem = mem.Args[idxMem]
+				skips++
+				changed = true
+			}
+		}
+	}
+	return skips, mem
+}
+
+// Collect memory users and temporarily change their "memory" argument, to skip disjoint memory defs
+// before they will be partitioned by arguments.
+func redirectMemUsers(f *Func, memUsers []memUser) []memUser {
+	for _, b := range f.Blocks {
+		for _, v := range b.Values {
+			if idxPtr, idxMem, ok := isMemUser(v); ok {
+				skips, mem := skipDisjointMemDefs(v, idxPtr, v.Args[idxMem])
+				if mem != v.Args[idxMem] {
+					memUsers = append(memUsers, memUser{v, v.Args[idxMem], int64(skips)})
+					v.Args[idxMem] = mem
+				}
+			}
+		}
+	}
+	return memUsers
+}
+
+// Temporarily set each memory user's AuxInt field to a rank for preserving order within one basic block.
+// Also, restore the original "memory" argument, as the partitioning by arguments is already done at this point.
+func updateMemUsers(memUsers []memUser) {
+	for _, mu := range memUsers {
+		_, idxMem, ok := isMemUser(mu.Ins)
+		if !ok {
+			panic("unknown mem user")
+		}
+		if mu.Ins.AuxInt != 0 {
+			panic("unexpected aux int in mem user")
+		}
+		mu.Ins.Args[idxMem] = mu.Mem
+		mu.Ins.AuxInt = mu.Skips
+	}
+}
+
+// Restore the original AuxInt field, thus restoring original state of each memory user.
+func restoreMemUsers(memUsers []memUser) {
+	for _, mu := range memUsers {
+		mu.Ins.AuxInt = 0
+	}
 }

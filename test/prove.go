@@ -455,6 +455,16 @@ func f14(p, q *int, a []int) {
 	useInt(a[i2+j]) // ERROR "Proved IsInBounds$"
 }
 
+func f14mem(q *int, a []int) (r int) {
+	p := &r
+	i1 := *p
+	*q = 1 // CSE of the "p" pointer load across disjoint store to "q"
+	i2 := *p
+	useInt(a[i1])
+	useInt(a[i2]) // ERROR "Proved IsInBounds$"
+	return r
+}
+
 func f15(s []int, x int) {
 	useSlice(s[x:])
 	useSlice(s[:x]) // ERROR "Proved IsSliceInBounds$"
