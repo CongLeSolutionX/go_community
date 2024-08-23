@@ -270,7 +270,6 @@ func NewMap(mt *abi.SwissMapType, capacity uint64) *Map {
 		m.dirCap = 0
 
 		g := groupReference{
-			typ:  m.typ,
 			data: m.dirPtr,
 		}
 		g.ctrls().setEmpty()
@@ -392,7 +391,6 @@ func runtime_memequal128(p, q unsafe.Pointer) bool
 
 func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer, unsafe.Pointer, bool) {
 	g := groupReference{
-		typ:  m.typ,
 		data: m.dirPtr,
 	}
 
@@ -421,7 +419,7 @@ func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer,
 		//}
 		//i := match.first()
 
-		slotKey := g.key(i)
+		slotKey := g.key(m.typ, i)
 		//slotKey := unsafe.Pointer(uintptr(g.data) + slotOffset)
 //		if m.typ.Key.Size() == 16 && m.typ.Key.Kind() == abi.Struct {
 //			//if runtime_memequal128(key, slotKey) {
@@ -429,7 +427,7 @@ func (m *Map) getWithKeySmall(hash uintptr, key unsafe.Pointer) (unsafe.Pointer,
 //				return slotKey, g.elem(i), true
 //			}
 		if m.typ.Key.Equal(key, slotKey) {//&& (g.ctrls().get(i) & ctrlEmpty) != ctrlEmpty {
-			return slotKey, g.elem(i), true
+			return slotKey, g.elem(m.typ, i), true
 			//return slotKey, unsafe.Pointer(uintptr(slotKey) + g.typ.ElemOff), true
 		}
 		//match = match.removeFirst()
@@ -469,7 +467,6 @@ func (m *Map) PutSlot(key unsafe.Pointer) unsafe.Pointer {
 
 func (m *Map) putSlotSmall(hash uintptr, key unsafe.Pointer) unsafe.Pointer {
 	g := groupReference{
-		typ:  m.typ,
 		data: m.dirPtr,
 	}
 
@@ -479,13 +476,13 @@ func (m *Map) putSlotSmall(hash uintptr, key unsafe.Pointer) unsafe.Pointer {
 	for match != 0 {
 		i := match.first()
 
-		slotKey := g.key(i)
+		slotKey := g.key(m.typ, i)
 		if m.typ.Key.Equal(key, slotKey) {
 			if m.typ.NeedKeyUpdate() {
 				typedmemmove(m.typ.Key, slotKey, key)
 			}
 
-			slotElem := g.elem(i)
+			slotElem := g.elem(m.typ, i)
 
 			return slotElem
 		}
@@ -498,9 +495,9 @@ func (m *Map) putSlotSmall(hash uintptr, key unsafe.Pointer) unsafe.Pointer {
 	if match != 0 {
 		i := match.first()
 
-		slotKey := g.key(i)
+		slotKey := g.key(m.typ, i)
 		typedmemmove(m.typ.Key, slotKey, key)
-		slotElem := g.elem(i)
+		slotElem := g.elem(m.typ, i)
 
 		g.ctrls().set(i, ctrl(h2(hash)))
 		m.dirLen++
@@ -516,7 +513,6 @@ func (m *Map) growToTable() {
 	tab := newTable(m.typ, 2*abi.SwissMapGroupSlots, 0, 0)
 
 	g := groupReference{
-		typ:  m.typ,
 		data: m.dirPtr,
 	}
 
@@ -525,8 +521,8 @@ func (m *Map) growToTable() {
 			// Empty or deleted
 			continue
 		}
-		key := g.key(i)
-		elem := g.elem(i)
+		key := g.key(m.typ, i)
+		elem := g.elem(m.typ, i)
 		hash := tab.typ.Hasher(key, m.seed)
 		slotElem := tab.uncheckedPutSlot(hash, key)
 		typedmemmove(tab.typ.Elem, slotElem, elem)
@@ -556,7 +552,6 @@ func (m *Map) Delete(key unsafe.Pointer) {
 
 func (m *Map) deleteSmall(hash uintptr, key unsafe.Pointer) {
 	g := groupReference{
-		typ:  m.typ,
 		data: m.dirPtr,
 	}
 
@@ -564,12 +559,12 @@ func (m *Map) deleteSmall(hash uintptr, key unsafe.Pointer) {
 
 	for match != 0 {
 		i := match.first()
-		slotKey := g.key(i)
+		slotKey := g.key(m.typ, i)
 		if m.typ.Key.Equal(key, slotKey) {
 			m.used--
 
 			typedmemclr(m.typ.Key, slotKey)
-			typedmemclr(m.typ.Elem, g.elem(i))
+			typedmemclr(m.typ.Elem, g.elem(m.typ, i))
 
 			// We only have 1 group, so it is OK to immediately
 			// reuse deleted slots.
@@ -604,7 +599,6 @@ func (m *Map) Clear() {
 
 func (m *Map) clearSmall() {
 	g := groupReference{
-		typ:  m.typ,
 		data: m.dirPtr,
 	}
 

@@ -23,7 +23,7 @@ func (t *table) checkInvariants() {
 	var deleted uint64
 	var empty uint64
 	for i := uint64(0); i <= t.groups.lengthMask; i++ {
-		g := t.groups.group(i)
+		g := t.groups.group(t.typ, i)
 		for j := uint32(0); j < abi.SwissMapGroupSlots; j++ {
 			c := g.ctrls().get(j)
 			switch {
@@ -34,7 +34,7 @@ func (t *table) checkInvariants() {
 			default:
 				used++
 
-				key := g.key(j)
+				key := g.key(t.typ, j)
 
 				// Can't lookup NaN.
 				if isNaN(t.typ.Key, key) {
