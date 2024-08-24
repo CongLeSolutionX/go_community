@@ -107,6 +107,24 @@
       "parentUuid": "25c49cb7_e0e42475",
       "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e03b707_70d3c3d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2024-08-24T06:11:13Z",
+      "side": 1,
+      "message": "If we run this use case with the current Go, it will pass. But if the go binary file compiled from my modified code is used to perform this test, the following error will be reported:\n\n```\n\u003d\u003d\u003d RUN   TestErrors\nescape_test.go:1185: input\u003d\"{{range .Items}}{{if .X}}{{break}}{{end}}\u003ca{{if .Y}}{{continue}}{{end}}\u003e{{if .Z}}{{continue}}{{end}}{{end}}\": unexpected error \"html/template:z:1:54: at range loop continue: {{range}} branches end in different contexts: {stateText delimNone urlPartNone jsCtxRegexp attrNone elementNone \u003cnil\u003e}, {stateTag delimNone urlPartNone jsCtxRegexp attrNone elementNone \u003cnil\u003e}\"\n--- FAIL: TestErrors (0.00s)\n```\n\n\n(So I think adding this use case can avoid my erroneous changes.)\n\n\nI constructed a demo that looks like the execution result in the playground, and it won\u0027t generate any errors.  https://go.dev/play/p/sglp6P5kiV6\n\nBut if we use the go compiled from my modified source code to execute this code, it will throw an error:\n\n```\nhave an error: html/template:test:1:54: at range loop continue: {{range}} branches end in different contexts: {stateText delimNone urlPartNone jsCtxRegexp attrNone elementNone \u003cnil\u003e}, {stateTag delimNone urlPartNone jsCtxRegexp attrNone elementNone \u003cnil\u003e}\n```",
+      "parentUuid": "6bb4a543_b7da5fa1",
+      "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
