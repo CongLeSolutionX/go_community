@@ -34,6 +34,23 @@
       "parentUuid": "daf0206f_2fb25762",
       "revId": "bc09c076b6381a946c4d1ad465de955d2be62a51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b6524ac_3bee8f0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-08-24T08:20:33Z",
+      "side": 1,
+      "message": "The CL contains a benchmark extracted from https://go-review.googlesource.com/c/go/+/530037",
+      "revId": "bc09c076b6381a946c4d1ad465de955d2be62a51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
