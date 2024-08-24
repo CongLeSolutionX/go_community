@@ -104,6 +104,24 @@
       "parentUuid": "47e30054_a211b3f3",
       "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e755dc8_f7762511",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-24T00:46:25Z",
+      "side": 1,
+      "message": "Yes, for now.  But later we will want to change the default for clients.  And then there won\u0027t be a way to go back to the state of \"on for servers, off for clients.\"  Perhaps I am missing something.",
+      "parentUuid": "891e8ece_6618b920",
+      "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
