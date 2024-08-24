@@ -22,6 +22,30 @@
       },
       "revId": "dcd4980605d42d551d71e438cb3830912aa4feb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b38d9be_b42bf0dd",
+        "filename": "src/cmd/go/list_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2024-08-24T08:16:41Z",
+      "side": 1,
+      "message": "Thank you for noticing it! I\u0027ve extracted the benchmark to a separate CL and fixed the problem there: https://go-review.googlesource.com/c/go/+/608135",
+      "parentUuid": "db56bdfe_3dcded82",
+      "range": {
+        "startLine": 172,
+        "startChar": 5,
+        "endLine": 172,
+        "endChar": 14
+      },
+      "revId": "dcd4980605d42d551d71e438cb3830912aa4feb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
