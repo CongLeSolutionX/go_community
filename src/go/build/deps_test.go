@@ -646,6 +646,9 @@ var depsRules = `
 	CRYPTO-MATH, testing
 	< crypto/internal/cryptotest;
 
+	CGO, FMT
+	< crypto/rand/internal/seccomp;
+
 	# v2 execution trace parser.
 	FMT
 	< internal/trace/event;
