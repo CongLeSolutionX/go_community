@@ -16,6 +16,57 @@
       "message": "Thanks.",
       "revId": "b04148ded8ac7be5ccec092f70f6b04af6fc0631",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d621090e_1d09020e",
+        "filename": "src/os/user/user_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-24T05:42:29Z",
+      "side": 1,
+      "message": "You cannot use t.Fatal() in the child process to signal to parent that the test has failed. Use `os.Exit(9)` or similar. Also add `fmt.Fprintf(os.Stderr, \"error: %s\\n\", err.Error())` to display the error message`.",
+      "revId": "b04148ded8ac7be5ccec092f70f6b04af6fc0631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "425f6ba3_27ce0b7a",
+        "filename": "src/os/user/user_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-24T05:42:29Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "b04148ded8ac7be5ccec092f70f6b04af6fc0631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04838c6e_e5d1bf55",
+        "filename": "src/os/user/user_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2024-08-24T05:42:29Z",
+      "side": 1,
+      "message": "Call `os.Exit(0)` before the return to signal child process success. Otherwise the child will continue with whatever code remains.",
+      "revId": "b04148ded8ac7be5ccec092f70f6b04af6fc0631",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
