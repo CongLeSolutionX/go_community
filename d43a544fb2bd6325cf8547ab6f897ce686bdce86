@@ -197,6 +197,24 @@
       "parentUuid": "f36812fa_eb92ac7a",
       "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8fdc58_9161ca88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2024-08-25T06:45:17Z",
+      "side": 1,
+      "message": "This is my current opinion after consideration: the template you provided  doesn\u0027t trigger an error, but the output result is not a complete and correct HTML.  So in fact, it should report an error. \n\nThat is to say, my previous changes were correct, and the current \u0027append\u0027 appears to be problematic.\n\nIf my understanding is correct, I am very willing to report the issue on GitHub, fix the code, and add the testcase. (Of course, it should be added in the Error cases part :-) )",
+      "parentUuid": "e66d74ce_87351508",
+      "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
