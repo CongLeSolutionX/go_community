@@ -56,6 +56,10 @@ const (
 	// ObjAlias has a list of TypeParamNames.
 	AliasTypeParamNames
 
+	// Deprecated: DerivedInfoNeeded was a bool indicating
+	// whether a type was a derived type.
+	DerivedInfoNeeded
+
 	numFields = iota
 )
 
@@ -71,6 +75,7 @@ var introduced = [numFields]Version{
 var removed = [numFields]Version{
 	HasInit:             V2,
 	DerivedFuncInstance: V2,
+	DerivedInfoNeeded:   V2,
 }
 
 // Has reports whether field f is present in a bitstream at version v.
