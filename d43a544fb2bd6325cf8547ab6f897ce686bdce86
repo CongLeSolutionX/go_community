@@ -161,6 +161,24 @@
       "parentUuid": "0660c27c_e2909666",
       "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f36812fa_eb92ac7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2024-08-25T04:54:17Z",
+      "side": 1,
+      "message": "I think I understand what you are saying. \n\nHere is my question: do you think that the test case I posted should return an error?  I understand that it does not return an error today.  I understand that with your earlier patch it does return an error.  My question is: do you think it should return an error?  Do you think there is a problem that should be reported?  Why or why not?  Thanks.",
+      "parentUuid": "5e1208b8_bcff229d",
+      "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
