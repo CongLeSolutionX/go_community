@@ -2282,7 +2282,16 @@ func (m *M) before() {
 		// Could save f so after can call f.Close; not worth the effort.
 	}
 	if *traceFile != "" {
-		f, err := os.Create(toOutputDir(*traceFile))
+		tracePath := toOutputDir(*traceFile)
+		f, err := os.Create(tracePath)
+		if err != nil {
+			// os.Create will fail if tracePath is a file descriptor path, e.g.
+			// "/dev/fd/63" when using using bash process substitution. Handle
+			// this case by simply making another attempt to open the file for
+			// writing.
+			// Example: go test -trace=>(wc -c) io
+			f, err = os.OpenFile(tracePath, os.O_WRONLY, 0666)
+		}
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "testing: %s\n", err)
 			return
