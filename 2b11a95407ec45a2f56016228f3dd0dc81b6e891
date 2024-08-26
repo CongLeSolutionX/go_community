@@ -140,6 +140,24 @@
       "parentUuid": "7e755dc8_f7762511",
       "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dec55af3_82eaadf2",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-26T09:25:15Z",
+      "side": 1,
+      "message": "That would be an easy fix indeed, if it is fine with you, I don\u0027t mind adding those checks with multipathtcp now.",
+      "parentUuid": "956a6dce_53f8392a",
+      "revId": "2b11a95407ec45a2f56016228f3dd0dc81b6e891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
