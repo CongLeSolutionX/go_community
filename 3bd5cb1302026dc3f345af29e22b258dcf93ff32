@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf8701b2_a149a52a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-08-26T16:34:57Z",
+      "side": 1,
+      "message": "s/un-used/unused/",
+      "revId": "3bd5cb1302026dc3f345af29e22b258dcf93ff32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db370dad_d0b3070d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-08-26T16:34:57Z",
+      "side": 1,
+      "message": "s/used //",
+      "revId": "3bd5cb1302026dc3f345af29e22b258dcf93ff32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e76f7f1_4c7ac761",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2024-08-26T16:34:57Z",
+      "side": 1,
+      "message": "This sentence is a bit confusing as is (it\u0027s not the same). Maybe:\n\nThis CL follows the pattern used in CL 606035.",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 31
+      },
+      "revId": "3bd5cb1302026dc3f345af29e22b258dcf93ff32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
