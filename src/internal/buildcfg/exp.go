@@ -73,6 +73,7 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 		CoverageRedesign: true,
 		AliasTypeParams:  true,
 		SwissMap:         true,
+		SyncHashTrieMap:  true,
 	}
 
 	// Start with the statically enabled set of experiments.
