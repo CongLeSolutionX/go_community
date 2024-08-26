@@ -74,6 +74,30 @@
       },
       "revId": "bf69170b6edd53e1861fc750bb38c179dae17521",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af8bf6c_35750406",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-26T19:26:05Z",
+      "side": 1,
+      "message": "Also change \"cmd/go/internal/par\" to \"cmd/internal/par\"",
+      "parentUuid": "9c7364b3_e3451e44",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 21
+      },
+      "revId": "bf69170b6edd53e1861fc750bb38c179dae17521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
