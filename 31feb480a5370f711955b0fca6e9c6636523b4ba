@@ -34,6 +34,24 @@
       "parentUuid": "0d1493e3_c704cab8",
       "revId": "31feb480a5370f711955b0fca6e9c6636523b4ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb8ab820_5b2706af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62943
+      },
+      "writtenOn": "2024-08-26T09:23:55Z",
+      "side": 1,
+      "message": "I\u0027ve rebased and updated the patch (to use zbb where possible) and re-run the benchmarks.  There have been some compiler changes that alter the results.  However, the B/s geomean improvement is 19% with the rva20u64 profile selected and 30% when building with rva22u64.  The best b/S improvement is about 47% with the Hash1M benchmark when building with rva22u64.  I also note that a handcoded assembly language version of MD5 for the Loongson architecture was recently merged, with a similar, although slightly larger, performance boost.",
+      "parentUuid": "0d1493e3_c704cab8",
+      "revId": "31feb480a5370f711955b0fca6e9c6636523b4ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
