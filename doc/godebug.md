@@ -157,6 +157,11 @@ no-op. This setting is controlled by the `randseednop` setting.
 For Go 1.24 it defaults to `randseednop=1`.
 Using `randseednop=0` reverts to the pre-Go 1.24 behavior.
 
+Go 1.24 changed [`crypto/rand.Read`](/pkg/crypto/rand/#Read) to crash the
+program on any error. This setting is controlled by the `randcrash` setting.
+For Go 1.24 it defaults to `randcrash=1`.
+Using `randcrash=0` reverts to the pre-Go 1.24 behavior.
+
 ### Go 1.23
 
 Go 1.23 changed the channels created by package time to be unbuffered
