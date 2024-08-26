@@ -46,6 +46,30 @@
       },
       "revId": "09c2183923a2908f8a30ef1054a277cf34166a32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d64852d4_a772697f",
+        "filename": "src/cmd/go/internal/auth/netrc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2024-08-26T21:14:01Z",
+      "side": 1,
+      "message": "This is tricky because there\u0027s no standard for netrc files as I understand it. Even though curl uses `.netrc` as the primary name for the file, there are still other tools that only understand `_netrc` and we\u0027ve given Windows users the expectation that `_netrc` is the name on Windows.\n\nI do think the code looks a little clearer this way than it might if we fell back from `_netrc` to `.netrc`, though.",
+      "parentUuid": "9ef2ab27_b62ec9e4",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "09c2183923a2908f8a30ef1054a277cf34166a32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
