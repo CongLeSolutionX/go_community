@@ -122,6 +122,30 @@
       },
       "revId": "bf69170b6edd53e1861fc750bb38c179dae17521",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34e17814_6b247930",
+        "filename": "src/cmd/go/internal/modload/list.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3267006
+      },
+      "writtenOn": "2024-08-26T19:31:10Z",
+      "side": 1,
+      "message": "No worries",
+      "parentUuid": "106a4bdc_f4feef96",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 21
+      },
+      "revId": "bf69170b6edd53e1861fc750bb38c179dae17521",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
