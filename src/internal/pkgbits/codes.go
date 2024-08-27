@@ -16,11 +16,20 @@ type Code interface {
 	Value() int
 }
 
+// A MutableCode is a Code whose value can be set.
+type MutableCode interface {
+	Code
+
+	Set(int)
+}
+
 // A CodeVal distinguishes among go/constant.Value encodings.
 type CodeVal int
 
 func (c CodeVal) Marker() SyncMarker { return SyncVal }
 func (c CodeVal) Value() int         { return int(c) }
+
+func (c *CodeVal) Set(v int) { *c = CodeVal(v) }
 
 // Note: These values are public and cannot be changed without
 // updating the go/types importers.
@@ -39,6 +48,8 @@ type CodeType int
 
 func (c CodeType) Marker() SyncMarker { return SyncType }
 func (c CodeType) Value() int         { return int(c) }
+
+func (c *CodeType) Set(v int) { *c = CodeType(v) }
 
 // Note: These values are public and cannot be changed without
 // updating the go/types importers.
@@ -63,6 +74,8 @@ type CodeObj int
 
 func (c CodeObj) Marker() SyncMarker { return SyncCodeObj }
 func (c CodeObj) Value() int         { return int(c) }
+
+func (c *CodeObj) Set(v int) { *c = CodeObj(v) }
 
 // Note: These values are public and cannot be changed without
 // updating the go/types importers.
