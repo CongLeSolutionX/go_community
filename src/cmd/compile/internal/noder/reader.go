@@ -491,7 +491,9 @@ func (pr *pkgReader) typIdx(info typeInfo, dict *readerDict, wrapped bool) *type
 }
 
 func (r *reader) doTyp() *types.Type {
-	switch tag := pkgbits.CodeType(r.Code(pkgbits.SyncType)); tag {
+	var tag pkgbits.CodeType
+	r.Code(&tag)
+	switch tag {
 	default:
 		panic(fmt.Sprintf("unexpected type: %v", tag))
 
@@ -687,7 +689,8 @@ func (pr *pkgReader) objIdx(idx index, implicits, explicits []*types.Type, shape
 func (pr *pkgReader) objIdxMayFail(idx index, implicits, explicits []*types.Type, shaped bool) (ir.Node, error) {
 	rname := pr.newReader(pkgbits.RelocName, idx, pkgbits.SyncObject1)
 	_, sym := rname.qualifiedIdent()
-	tag := pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
+	var tag pkgbits.CodeObj
+	rname.Code(&tag)
 
 	if tag == pkgbits.ObjStub {
 		assert(!sym.IsBlank())
@@ -1654,7 +1657,8 @@ func (r *reader) stmts() ir.Nodes {
 
 	r.Sync(pkgbits.SyncStmts)
 	for {
-		tag := codeStmt(r.Code(pkgbits.SyncStmt1))
+		var tag codeStmt
+		r.Code(&tag)
 		if tag == stmtEnd {
 			r.Sync(pkgbits.SyncStmtsEnd)
 			return res
@@ -1791,7 +1795,9 @@ func (r *reader) assignList() ([]*ir.Name, []ir.Node) {
 // assign returns an assignee expression. It also reports whether the
 // returned expression is a newly declared variable.
 func (r *reader) assign() (ir.Node, bool) {
-	switch tag := codeAssign(r.Code(pkgbits.SyncAssign)); tag {
+	var tag codeAssign
+	r.Code(&tag)
+	switch tag {
 	default:
 		panic("unhandled assignee expression")
 
@@ -2106,7 +2112,9 @@ func (r *reader) expr() (res ir.Node) {
 		}
 	}()
 
-	switch tag := codeExpr(r.Code(pkgbits.SyncExpr)); tag {
+	var tag codeExpr
+	r.Code(&tag)
+	switch tag {
 	default:
 		panic("unhandled expression")
 
@@ -2590,7 +2598,8 @@ func (r *reader) funcInst(pos src.XPos) (wrapperFn, baseFn, dictPtr ir.Node) {
 func (pr *pkgReader) objDictName(idx index, implicits, explicits []*types.Type) *ir.Name {
 	rname := pr.newReader(pkgbits.RelocName, idx, pkgbits.SyncObject1)
 	_, sym := rname.qualifiedIdent()
-	tag := pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
+	var tag pkgbits.CodeObj
+	rname.Code(&tag)
 
 	if tag == pkgbits.ObjStub {
 		assert(!sym.IsBlank())
@@ -3319,7 +3328,9 @@ func (r *reader) pkgInitOrder(target *ir.Package) {
 func (r *reader) pkgDecls(target *ir.Package) {
 	r.Sync(pkgbits.SyncDecls)
 	for {
-		switch code := codeDecl(r.Code(pkgbits.SyncDecl)); code {
+		var code codeDecl
+		r.Code(&code)
+		switch code {
 		default:
 			panic(fmt.Sprintf("unhandled decl: %v", code))
 

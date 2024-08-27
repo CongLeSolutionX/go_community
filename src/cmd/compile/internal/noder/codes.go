@@ -12,6 +12,8 @@ type codeStmt int
 func (c codeStmt) Marker() pkgbits.SyncMarker { return pkgbits.SyncStmt1 }
 func (c codeStmt) Value() int                 { return int(c) }
 
+func (c *codeStmt) Set(v int) { *c = codeStmt(v) }
+
 const (
 	stmtEnd codeStmt = iota
 	stmtLabel
@@ -35,6 +37,8 @@ type codeExpr int
 
 func (c codeExpr) Marker() pkgbits.SyncMarker { return pkgbits.SyncExpr }
 func (c codeExpr) Value() int                 { return int(c) }
+
+func (c *codeExpr) Set(v int) { *c = codeExpr(v) }
 
 // TODO(mdempsky): Split expr into addr, for lvalues.
 const (
@@ -70,6 +74,8 @@ type codeAssign int
 func (c codeAssign) Marker() pkgbits.SyncMarker { return pkgbits.SyncAssign }
 func (c codeAssign) Value() int                 { return int(c) }
 
+func (c *codeAssign) Set(v int) { *c = codeAssign(v) }
+
 const (
 	assignBlank codeAssign = iota
 	assignDef
@@ -81,6 +87,8 @@ type codeDecl int
 
 func (c codeDecl) Marker() pkgbits.SyncMarker { return pkgbits.SyncDecl }
 func (c codeDecl) Value() int                 { return int(c) }
+
+func (c *codeDecl) Set(v int) { *c = codeDecl(v) }
 
 const (
 	declEnd codeDecl = iota
