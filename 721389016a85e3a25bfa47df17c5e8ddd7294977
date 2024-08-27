@@ -16,6 +16,24 @@
       "message": "Thanks for this CL. While this looks like a valid solution to the problem mentioned in the comment in the code (of writing to a named pipe created by Bash\u0027s \u003e(cmd) syntax), I am concerned that there are a great many places in the Go project where os.Create is used without a similar fallback to open(WRONLY), and in principal all of them have a similar problem. Rather than spend the effort to fix them either piecemeal or systematically, I am tempted to say that named pipes are just not similar enough to regular files for us to support them as such in all our command-line interfaces.\n\nDamien, what do you think?",
       "revId": "721389016a85e3a25bfa47df17c5e8ddd7294977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61c538f6_b210250c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62559
+      },
+      "writtenOn": "2024-08-27T18:41:01Z",
+      "side": 1,
+      "message": "Your concerns make sense, but perhaps I can share a bit more context.\n\nI\u0027m currently working on a new viewer for execution traces. One feature it supports is visualizing go execution traces in real time. This allows you to invoke a long running `go test` and watch what each of the involved goroutines is doing. It also works for server programs that offer an [http endpoint](https://pkg.go.dev/net/http/pprof#Trace) serving execution traces.\n\nSo from my PoV the `-trace` option is special in the sense that it produces a stream of data that is useful, even if incomplete (as long as 1 generation, i.e. 1 second of data, is captured). Many other file-writing flags do not share this property.",
+      "parentUuid": "cbf5b6d7_a82b42e3",
+      "revId": "721389016a85e3a25bfa47df17c5e8ddd7294977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
