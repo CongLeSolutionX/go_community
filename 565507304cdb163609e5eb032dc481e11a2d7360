@@ -255,6 +255,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ae3900d_d9958c0a",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3300238
+      },
+      "writtenOn": "2024-08-27T08:50:35Z",
+      "side": 1,
+      "message": "I don\u0027t know what is usually being done here. We can find the link to the PR at the end of #56539, maybe enough? Also, once this patch will be merged, there will be a link to the Gerrit change.\n\nBut yes, a link to the PR would work I suppose. I really don\u0027t know what are the \"standards\" here :)",
+      "parentUuid": "07d4a4f0_a1826979",
+      "range": {
+        "startLine": 1,
+        "startChar": 46,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2003a71d_43f36edb",
         "filename": "src/net/dial.go",
         "patchSetId": 5
