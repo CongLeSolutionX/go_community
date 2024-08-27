@@ -31,34 +31,44 @@ func Getwd() (dir string, err error) {
 
 	// Clumsy but widespread kludge:
 	// if $PWD is set and matches ".", use it.
-	dot, err := statNolog(".")
-	if err != nil {
-		return "", err
-	}
+	var dot FileInfo
 	dir = Getenv("PWD")
 	if len(dir) > 0 && dir[0] == '/' {
+		dot, err = statNolog(".")
+		if err != nil {
+			return "", err
+		}
 		d, err := statNolog(dir)
 		if err == nil && SameFile(dot, d) {
 			return dir, nil
 		}
+		// If err is ENAMETOOLONG here, the syscall.Getwd below will
+		// fail with the same error, too, but let's give it a try
+		// anyway as the fallback code is much slower.
 	}
 
 	// If the operating system provides a Getwd call, use it.
 	// Otherwise, we're trying to find our way back to ".".
 	if syscall.ImplementsGetwd {
-		var (
-			s string
-			e error
-		)
 		for {
-			s, e = syscall.Getwd()
-			if e != syscall.EINTR {
+			dir, err = syscall.Getwd()
+			if err != syscall.EINTR {
 				break
 			}
 		}
-		return s, NewSyscallError("getwd", e)
+		if err == syscall.ENAMETOOLONG {
+			goto Fallback
+		}
+		return dir, NewSyscallError("getwd", err)
 	}
 
+Fallback:
+	if dot == nil {
+		dot, err = statNolog(".")
+		if err != nil {
+			return "", err
+		}
+	}
 	// Apply same kludge but to cached dir instead of $PWD.
 	getwdCache.Lock()
 	dir = getwdCache.dir
@@ -87,9 +97,9 @@ func Getwd() (dir string, err error) {
 	dir = ""
 	for parent := ".."; ; parent = "../" + parent {
 		if len(parent) >= 1024 { // Sanity check
-			return "", syscall.ENAMETOOLONG
+			return "", NewSyscallError("getwd", syscall.ENAMETOOLONG)
 		}
-		fd, err := openFileNolog(parent, O_RDONLY, 0)
+		fd, err := openDirNolog(parent)
 		if err != nil {
 			return "", err
 		}
@@ -98,7 +108,14 @@ func Getwd() (dir string, err error) {
 			names, err := fd.Readdirnames(100)
 			if err != nil {
 				fd.Close()
-				return "", err
+				// Readdirnames can return io.EOF or other error.
+				// In any case, we're here because syscall.Getwd
+				// is not implemented or failed with ENAMETOOLONG,
+				// so return the most sensible error.
+				if syscall.ImplementsGetwd {
+					return "", NewSyscallError("getwd", syscall.ENAMETOOLONG)
+				}
+				return "", NewSyscallError("getwd", syscall.ENOSYS)
 			}
 			for _, name := range names {
 				d, _ := lstatNolog(parent + "/" + name)
