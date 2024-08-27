@@ -784,6 +784,17 @@ func TestMemoryLimitNoGCPercent(t *testing.T) {
 	}
 }
 
+func TestGCCheckmarkSmoke(t *testing.T) {
+	if testing.Short() {
+		t.Skip("stress test that takes time to run")
+	}
+	got := runTestProg(t, "testprog", "GCMemoryLimit", "GODEBUG=gccheckmark=1")
+	want := "OK\n"
+	if got != want {
+		t.Fatalf("expected %q, but got %q", want, got)
+	}
+}
+
 func TestMyGenericFunc(t *testing.T) {
 	runtime.MyGenericFunc[int]()
 }

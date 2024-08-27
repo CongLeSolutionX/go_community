@@ -1616,13 +1616,13 @@ func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintp
 		if arena.pageMarks[pageIdx]&pageMask == 0 {
 			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
 		}
+	}
 
-		// If this is a noscan object, fast-track it to black
-		// instead of greying it.
-		if span.spanclass.noscan() {
-			gcw.bytesMarked += uint64(span.elemsize)
-			return
-		}
+	// If this is a noscan object, fast-track it to black
+	// instead of greying it.
+	if span.spanclass.noscan() {
+		gcw.bytesMarked += uint64(span.elemsize)
+		return
 	}
 
 	// We're adding obj to P's local workbuf, so it's likely
