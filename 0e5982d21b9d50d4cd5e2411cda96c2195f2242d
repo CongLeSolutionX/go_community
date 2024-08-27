@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af6f2a5d_bfe14f10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 23565
+      },
+      "writtenOn": "2024-08-27T07:44:59Z",
+      "side": 1,
+      "message": "Seems reasonable to me. Thanks!\nAdding Kirill to Cc so he can also take a look.",
+      "revId": "0e5982d21b9d50d4cd5e2411cda96c2195f2242d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
