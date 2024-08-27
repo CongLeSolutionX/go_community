@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf5b6d7_a82b42e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2024-08-27T14:10:50Z",
+      "side": 1,
+      "message": "Thanks for this CL. While this looks like a valid solution to the problem mentioned in the comment in the code (of writing to a named pipe created by Bash\u0027s \u003e(cmd) syntax), I am concerned that there are a great many places in the Go project where os.Create is used without a similar fallback to open(WRONLY), and in principal all of them have a similar problem. Rather than spend the effort to fix them either piecemeal or systematically, I am tempted to say that named pipes are just not similar enough to regular files for us to support them as such in all our command-line interfaces.\n\nDamien, what do you think?",
+      "revId": "721389016a85e3a25bfa47df17c5e8ddd7294977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
