@@ -233,6 +233,24 @@
       "parentUuid": "ac8fdc58_9161ca88",
       "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2eac169_bc18c319",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2024-08-27T03:42:02Z",
+      "side": 1,
+      "message": "It\u0027s my pleasure. \n\nRelated issue: https://github.com/golang/go/issues/69076",
+      "parentUuid": "97114855_97ac467b",
+      "revId": "d43a544fb2bd6325cf8547ab6f897ce686bdce86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
