@@ -279,6 +279,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80e7153e_c80a7863",
+        "filename": "doc/next/6-stdlib/99-minor/net/56539.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3594541
+      },
+      "writtenOn": "2024-08-27T08:59:03Z",
+      "side": 1,
+      "message": "If there is a link in the issue to this PR, seems like we can then drop the reference (as there is already a link to the issue in the filename) I guess",
+      "parentUuid": "0ae3900d_d9958c0a",
+      "range": {
+        "startLine": 1,
+        "startChar": 46,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "565507304cdb163609e5eb032dc481e11a2d7360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2003a71d_43f36edb",
         "filename": "src/net/dial.go",
         "patchSetId": 5
