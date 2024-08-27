@@ -3108,10 +3108,11 @@ func (c *typeConv) Struct(dt *dwarf.StructType, pos token.Pos) (expr *ast.Struct
 		}
 
 		// Round off up to talign, assumed to be a power of 2.
+		origOff := off
 		off = (off + talign - 1) &^ (talign - 1)
 
 		if f.ByteOffset > off {
-			fld, sizes = c.pad(fld, sizes, f.ByteOffset-off)
+			fld, sizes = c.pad(fld, sizes, f.ByteOffset-origOff)
 			off = f.ByteOffset
 		}
 		if f.ByteOffset < off {
