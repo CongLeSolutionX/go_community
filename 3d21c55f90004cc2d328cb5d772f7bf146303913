@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "726174ce_301f3f16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2024-08-27T04:12:04Z",
+      "side": 1,
+      "message": "Possible alternative to https://go.dev/cl/607078 ?",
+      "revId": "3d21c55f90004cc2d328cb5d772f7bf146303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
