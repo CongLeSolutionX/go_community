@@ -491,7 +491,9 @@ func (pr *pkgReader) typIdx(info typeInfo, dict *readerDict, wrapped bool) *type
 }
 
 func (r *reader) doTyp() *types.Type {
-	switch tag := pkgbits.CodeType(r.Code(pkgbits.SyncType)); tag {
+	var tag pkgbits.CodeType
+	r.Code(&tag)
+	switch tag {
 	default:
 		panic(fmt.Sprintf("unexpected type: %v", tag))
 
@@ -1654,7 +1656,8 @@ func (r *reader) stmts() ir.Nodes {
 
 	r.Sync(pkgbits.SyncStmts)
 	for {
-		tag := codeStmt(r.Code(pkgbits.SyncStmt1))
+		var tag codeStmt
+		r.Code(&tag)
 		if tag == stmtEnd {
 			r.Sync(pkgbits.SyncStmtsEnd)
 			return res
