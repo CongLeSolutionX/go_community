@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6efc1928_c444f060",
+        "filename": "src/net/ip.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 64373
+      },
+      "writtenOn": "2024-08-27T13:37:48Z",
+      "side": 1,
+      "message": "I analyzed the memory profile of `IP.String` and almost all memory allocations come from `return string(buf)`. I think there\u0027s no way to optimize it further at the moment.",
+      "parentUuid": "45721da6_edc9fb1d",
+      "revId": "8756f35948a0e1b27c960c445765cdda0f2cf2ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "316a891d_ae88ee1b",
         "filename": "src/net/ip_test.go",
         "patchSetId": 3
