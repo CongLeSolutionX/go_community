@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5b50ff7_554e0280",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2024-08-27T06:46:47Z",
+      "side": 1,
+      "message": "It probably makes sense to document it in the release notes and in the docstring.\n\nFor docstring, something like this:\n\n\u003e This function might use an alternative method to get the current directory for the case when the path is longer than [syscall.PathMax]. Note that the method is slower, and such a path could not be used for any filesystem-related operations. Use [syscall.Getwd] if this is a concern.\n\nSomething similar for release notes.",
+      "revId": "08481c0d1a27e22ce787a2fe6560f40279b32912",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
