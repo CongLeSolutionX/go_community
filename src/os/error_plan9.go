@@ -7,3 +7,5 @@ package os
 import "syscall"
 
 type syscallErrorType = syscall.ErrorString
+
+const enosys = -1
