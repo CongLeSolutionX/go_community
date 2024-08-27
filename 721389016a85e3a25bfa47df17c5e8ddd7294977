@@ -34,6 +34,24 @@
       "parentUuid": "cbf5b6d7_a82b42e3",
       "revId": "721389016a85e3a25bfa47df17c5e8ddd7294977",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "386152ba_637a6746",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2024-08-27T22:06:55Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be a problem on Linux. On my Linux machine, `go test -trace \u003e(wc)` pipes the trace to wc.\n\nThis does seem to be a problem on macOS.\n\nThe issue on macOS is that /dev/fd/XX is read-only in this case. os.Create opens files with O_RDWR, so the open fails.\n\nIf we were to make a change here, I think it should be to use `os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)` instead of os.Create. This is identical to Create, except for opening the file write-only rather than read-write.\n\nThe testing package currently uses `os.Create` for:\n\n- `-coverprofile`\n- `-cpuprofile`\n- `-trace`\n- `-testlogfile`\n- `-memprofile`\n- `-blockprofile`\n- `-mutexprofile`\n\nI think that if we change any of these, we should change all of them.\n\nConsidering just the behavior, opening output-only files with O_WRONLY seems reasonable; we\u0027re not going to read the file, so why should we require that the file be readable?\n\nOn the other hand, eschewing os.Create every time we want to create a file isn\u0027t appealing.\n\nI think I lean slightly towards saying that that, at least in the testing package, we should pick user convenience over our own convenience and consistently open output files O_WRONLY. That probably means introducing a new function (openOutputFile? openFileForWriting? createWriteOnly?) and using it instead of os.Create.",
+      "parentUuid": "61c538f6_b210250c",
+      "revId": "721389016a85e3a25bfa47df17c5e8ddd7294977",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
